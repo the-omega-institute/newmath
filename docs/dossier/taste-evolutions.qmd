@@ -20,21 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-25T06:27:18Z
+> 最后刷新: 2026-06-26T17:40:53Z
 
-**Daemon 状态**: monitor (monitor cycle 173, adjust_since_research 2, round_counter 21522, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 192, adjust_since_research 2, round_counter 27932, last_adjust rule_evolution_completed)
 
-**待处理 queue** (653 条 finding):
-- isolated_theorem: 471 条; 代表样本 `derived`, `derived`, `derived`
-- unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 54 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+**待处理 queue** (737 条 finding):
+- isolated_theorem: 488 条; 代表样本 `derived`, `derived`, `derived`
+- unauthorized_capstone: 193 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
+- low_entropy_template: 56 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=low_entropy_template: 34 次
-- TASTE ALERT category=isolated_theorem: 20 次
-- TASTE ALERT category=cycle_exception: 1 次
-- TASTE ALERT category=resolution_failed: 1 次
-- TASTE ALERT category=resolution_json_parse_failed: 1 次
+- TASTE ALERT category=unauthorized_capstone: 20 次
+- TASTE ALERT category=isolated_theorem: 6 次
+- TASTE ALERT category=cycle_exception: 5 次
+- TASTE ALERT category=sync_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -417,6 +416,18 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-25T00:32:12Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route` (flag `isolated_theorem`, finding `isolated_theorem:locatedrealinterval:BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route:b4cfb73e`). Rationale: The theorem is not a vacuous wrapper: it composes the located-real-interval endpoint/radius route with CauchyQuotientBoundaryCarrier_refusal_factorization and matches the paper's quotient-boundary route claim. Source grep found no Lean downstream consumer beyond the declaration, while paper usage is the expected primary marker. I attempted add_downstream_user in the ExactnessRoute sibling, but the required lake build failed on the new theorem with a syntax/unsolved-goal error in BEDC.Derived.LocatedRealIntervalUp.ExactnessRoute, so the change was reverted per instruction and this is left as staging-only for a future clean consumer. Gate results: lake_build=failed: BEDC/Derived/LocatedRealIntervalUp/ExactnessRoute.lean:218:47 unexpected identifier; expected '}'; unsolved goals in added downstream theorem; build target BEDC.Derived.LocatedRealIntervalUp.ExactnessRoute failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-25T02:55:01Z: `resolved` `add_downstream_user` for `BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route` (flag `isolated_theorem`, finding `isolated_theorem:locatedrealinterval:BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route:b4cfb73e`). Rationale: The theorem carries meaningful quotient-boundary content for the located real interval construction rather than merely restating an existing result. It was isolated because no Lean sibling consumed it, so I added a downstream exactness/namecert surface theorem in the same LocatedRealIntervalUp family that uses this target together with the existing exactness route to connect the bracket SemanticNameCert surface to the Cauchy quotient boundary seal and provenance package. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T06:26:03Z: `resolved` `leave_with_rationale` for `BEDC.Derived.SubdifferentialUp.SubdifferentialTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:subdifferential:BEDC.Derived.SubdifferentialUp.SubdifferentialTasteGate_single_carrier_alignment:aa85bdaa`). Rationale: The target has no current Lean downstream references beyond its declaration and the paper marker, but it is not a vacuous wrapper: it packages the SubdifferentialUp BHist encode/decode round trip, the BHistCarrier instance, the ChapterTasteGate instance, and the empty-history encoding anchor used by the chapter's finite certificate surface. The paper explicitly positions the subdifferential carrier as feeding KKT stationarity through cone-boundary rows, so removing it would discard useful staging content. A KKT downstream consumer was attempted, but local lake build failed at BEDC.Derived.KKTUp.StationarityTransport, so the edit was reverted per instruction and the theorem is left with rationale for daemon grace. Gate results: lake_build=failed after attempted downstream consumer: Some required targets logged failures: - BEDC.Derived.KKTUp.StationarityTransport; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-26T09:11:19Z: `resolved` `delete_theorem` for `BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_window_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_window_transport:be28d6e1`). Rationale: The declaration had no downstream Lean users: exact-name grep found only its own declaration and the paper verification marker. Its content is a weaker projection of the carrier and continuation closure, while the same file already carries Real-seal, decision-budget, and public-export theorems that cover the meaningful BEDC route. I removed the unconsumed Lean theorem and its paper \leanchecked marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T11:03:26Z: `resolved` `delete_theorem` for `BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:hostprimitiveleakage:BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageTasteGate_single_carrier_alignment:8d8dc35c`). Rationale: The theorem was an isolated packaging wrapper over existing local instances and helper facts for the HostPrimitiveLeakage carrier; exact repo grep found no Lean or paper consumers beyond its own declaration and the removable paper marker. The chapter's substantive checked rows are already carried by HostPrimitiveLeakageNonescape, HostPrimitiveLeakagePublicExport, HostPrimitiveLeakageReportRowRefusal, and taste_gate, so keeping this alignment theorem would preserve no additional downstream BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T12:50:05Z: `resolved` `delete_theorem` for `BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_real_seal_non_escape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_real_seal_non_escape:be28d6e1`). Rationale: The target was an unconsumed thin wrapper around BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape: it invoked the existing theorem, repackaged the seal unary fact, and returned the provenance package assumption it had already received. Grep confirmed no Lean downstream usage and only the removable paper marker referenced it, while the paper theorem remains covered by the adjacent canonical LocatednessModulusRealSeal_nonescape marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T14:41:47Z: `resolved` `delete_theorem` for `BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape:b3f12732`). Rationale: The target had no Lean downstream users: exact-name search found only its own declaration plus a historical dossier mention, not a code dependency. The paper marker was removable, and the same chapter/file already retains the stronger LocatednessModulusObligationWindowDecisionBudget and LocatednessModulusCarrier_public_export theorems, which cover the meaningful Real-seal and public route content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T17:40:27Z: `resolved` `add_downstream_user` for `BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_nonescape:8d8dc35c`). Rationale: The target is not a trivial wrapper: it constructs the SemanticNameCert non-escape boundary for completion-facing quasi-metric reads. Repository search found no Lean downstream consumer, only the existing paper marker, so I added a substantive sibling consumer theorem that invokes QuasiMetricCarrier_nonescape and then exports a named completion-consumer certificate through a further Cont route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

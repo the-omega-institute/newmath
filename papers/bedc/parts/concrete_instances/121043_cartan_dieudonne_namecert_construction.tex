@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CartanDieudonneUp$}
+\label{ch:concrete-instances-cartan-dieudonne-namecert}
+\origin{human}
+
+Following Cartan and Dieudonne's finite-dimensional reflection theorem for nondegenerate quadratic spaces, the $\CartanDieudonneUp$ packet records the finite reflection factorization boundary as BEDC NameCert data. It sits beside the bilinear-form source of \autoref{ch:concrete-instances-bilinform-namecert}, the Clifford word package of \autoref{ch:concrete-instances-clifford-namecert}, the even reflection route of \autoref{ch:concrete-instances-spingroup-namecert}, the full parity route of \autoref{ch:concrete-instances-pingroup-namecert}, and the finite reflection tuple of \autoref{ch:concrete-instances-finitereflectiontuple-namecert}. These siblings expose quadratic-pairing rows, Clifford products, Spin and Pin parity rows, and tuple-image readback; this chapter binds them into a seed certificate for a finite reflection ledger and its orthogonal-action boundary.
+
+\begin{definition}[Cartan--Dieudonne carrier]
+\label{def:cartan-dieudonne-carrier}
+A $\CartanDieudonneUp$ carrier is a finite $\BHist$ packet
+$$
+C=(V,Q,B,R,W,O,S,P,H,T,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the displayed vector-space or module source row whose finite-dimensional boundary is being inspected.
+\item $Q$ is the quadratic-form row read through the diagonal and symmetry data of $\BilinFormUp$.
+\item $B$ is the nondegenerate bilinear-pairing row that keeps radical and orthogonality tests visible.
+\item $R$ is the finite reflection tuple, listing the reflection rows that generate the inspected isometry.
+\item $W$ is the Clifford word row that types the same reflection product inside $\CliffordUp$.
+\item $O$ is the orthogonal-action boundary row, recording that the reflected endpoints preserve the displayed quadratic row $Q$.
+\item $S$ records the Spin and Pin sibling reads needed to distinguish even reflection products from the full reflection-parity surface.
+\item $P$ is the $\Pkg$ provenance over $\BilinFormUp$, $\CliffordUp$, $\SpinGroupUp$, $\PinGroupUp$, $\FiniteReflectionTupleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $H$ records componentwise $\hsame$ transport for the vector source, quadratic row, bilinear row, reflection tuple, Clifford word, orthogonal boundary, parity row, provenance, replay, and local naming.
+\item $T$ records displayed $\Cont$ replay from an orthogonal-action request through $V,Q,B,R,W,O,S,P,H$.
+\item $N$ is the local $\NameCert_{\CartanDieudonneUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient orthogonal group, a host matrix representation, a selected basis, a quotient Clifford algebra, infinite reflection products, or analytic spectral diagonalization.
+\end{definition}
+
+\begin{theorem}[Cartan--Dieudonne NameCert obligations]
+\label{thm:cartan-dieudonne-namecert-obligations}
+For every accepted $\CartanDieudonneUp$ packet $C=(V,Q,B,R,W,O,S,P,H,T,N)$, the local $\NameCert_{\CartanDieudonneUp}$ surface consists exactly of carrier admission for the vector source $V$, quadratic row $Q$, nondegenerate bilinear row $B$, finite reflection tuple $R$, Clifford word row $W$, orthogonal-action boundary $O$, Spin--Pin parity row $S$, package provenance $P$, componentwise transport $H$, displayed replay $T$, and local naming row $N$. Any consumer that reads a finite reflection factorization must keep all of these rows visible before treating the action as an orthogonal boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cartan-dieudonne-carrier}. The source geometry is displayed by $V,Q,B$: the vector or module row is named, the quadratic row is read through the bilinear-form sibling, and the nondegenerate pairing row records the orthogonality tests used by each reflection.
+
+Next read the factorization rows $R,W,O,S$. The tuple row $R$ lists the finite reflection factors, the Clifford word row $W$ places their product in the Clifford sibling, the orthogonal-action row $O$ records preservation of $Q$, and the parity row $S$ keeps the Spin and Pin readings separate.
+
+Finally inspect $P,H,T,N$. Provenance, transport, replay, and local naming preserve the same finite reflection ledger. Since the carrier has no coordinate for an ambient orthogonal group, selected basis, host matrix action, quotient Clifford algebra, infinite product, or analytic diagonalization, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CartanDieudonneUp$ reflection read exposes a vector source row, quadratic row, nondegenerate bilinear row, finite reflection tuple, Clifford word row, orthogonal-action boundary, Spin--Pin parity row, package provenance, componentwise hsame transport, displayed Cont replay, and local naming before any orthogonal-facing consumer can inspect the factorization.}
+
+\independenceWitness{bilinform, clifford, spingroup, pingroup, finitereflectiontuple: $\BilinFormUp$ supplies pairing rows without a reflection ledger; $\CliffordUp$ supplies word and quadratic-boundary rows without an orthogonal factorization boundary; $\SpinGroupUp$ and $\PinGroupUp$ supply parity-specific reflection surfaces without the Cartan--Dieudonne finite factorization ledger; $\FiniteReflectionTupleUp$ supplies tuple image and readback without the bilinear, Clifford, and parity obligations bound into one carrier. None is bijective to $\CartanDieudonneUp$.}
+
+\closureat{CartanDieudonneUp}{seedStr}
+
+\begin{closurestatus}{\CartanDieudonneUp}
+  \constructivestory{A $\CartanDieudonneUp$ packet is generated from a finite vector or module source row, quadratic row, nondegenerate bilinear row, finite reflection tuple, Clifford word row, orthogonal-action boundary, Spin--Pin parity row, package provenance, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cartan-dieudonne-carrier} and \autoref{thm:cartan-dieudonne-namecert-obligations} seed the finite reflection-factorization packet over BilinFormUp, CliffordUp, SpinGroupUp, PinGroupUp, FiniteReflectionTupleUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, an ambient orthogonal group, a selected basis, host matrix representation, quotient Clifford algebra, infinite reflection products, or analytic spectral diagonalization.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite reflection tuple exactness, bilinear nondegeneracy visibility, Clifford word compatibility, Spin--Pin parity separation, orthogonal-action preservation, transport, replay, provenance, and local naming for BEDC.Derived.CartanDieudonneUp.}
+\end{closurestatus}

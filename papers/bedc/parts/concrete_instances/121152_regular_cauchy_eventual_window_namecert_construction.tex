@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEventualWindowUp$}
+\label{ch:concrete-instances-regular-cauchy-eventual-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences and explicit moduli, the $\RegularCauchyEventualWindowUp$ packet records the finite eventual-window route by which a regular Cauchy request exposes a StreamName window, a DyadicRatCore tolerance row, a RegSeqRat readback, a Real seal, and a DiagonalLimitRepresentative handoff. It sits beside the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real carrier of \autoref{ch:concrete-instances-real-namecert}, and the diagonal-limit representative packet of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}. The packet is a choice-free finite tail-window interface; it is not quotient stream equality, a selected host limit, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy eventual-window carrier]
+\label{def:regular-cauchy-eventual-window-carrier}
+A $\RegularCauchyEventualWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,D,R,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ eventual-window request row naming the finite tail stage and the precision at which the window is read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic comparison bound used inside the tail window.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream window and tolerance data.
+\item $E$ is the $\RealUp$ seal row reached only after $S,D,R$ have been displayed.
+\item $L$ is the $\DiagonalLimitRepresentativeUp$ handoff row that consumes the same finite window before any diagonal-limit consumer reads a representative.
+\item $H$ records componentwise $\hsame$ transport for the window, tolerance, readback, seal, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a regular Cauchy precision request through the eventual window, dyadic tolerance, RegSeqRat readback, Real seal, and diagonal-limit handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEventualWindowUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\DiagonalLimitRepresentativeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyEventualWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,E,L,H,C,P,N$. It stores no coordinate for a quotient of streams, a chosen limit object, a countable-choice selector, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy eventual-window NameCert obligations]
+\label{thm:regular-cauchy-eventual-window-namecert-obligations}
+For every accepted $\RegularCauchyEventualWindowUp$ carrier $W=(S,D,R,E,L,H,C,P,N)$, the local $\NameCert_{\RegularCauchyEventualWindowUp}$ surface consists exactly of carrier admission, eventual-window exposure, dyadic tolerance compatibility, RegSeqRat readback, Real seal handoff, diagonal-limit representative handoff, componentwise transport, displayed replay, provenance, and local naming. A consumer must read the tail stage through $S$, the tolerance through $D$, and the regular rational row through $R$ before the $\RealUp$ seal $E$ or the diagonal-limit row $L$ is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-eventual-window-carrier}. The rows $S,D,R,E,L$ are the only analytic rows available before the structural support rows are read.
+
+The eventual-window exposure starts with $S$. A downstream consumer receives a displayed finite tail stage and precision request, not a global quotient of streams or a selected limit.
+
+Next read the dyadic tolerance row $D$ and the regular rational readback row $R$. Compatibility means that the tolerance data belongs to the same tail window and that the RegSeqRat row is obtained from that displayed window.
+
+Finally read $E$ and $L$. The Real seal and diagonal-limit representative handoff are both downstream of the same finite window. The rows $H,C,P,N$ transport, replay, source, and name only this displayed packet, so the NameCert surface cannot import countable choice or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy eventual-window tail handoff]
+\label{thm:regular-cauchy-eventual-window-tail-handoff}
+Every diagonal-limit or Real-completion consumer of an accepted $\RegularCauchyEventualWindowUp$ packet reads through the finite tail-window route
+$$
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\RealUp,\quad
+\DiagonalLimitRepresentativeUp .
+$$
+In carrier notation, the consumer must expose $S,D,R,E,L$ before it treats the packet as a limit-facing handoff, while $H,C,P,N$ only transport, replay, source, and name the same finite route.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-eventual-window-namecert-obligations}. They place every Real-facing or diagonal-limit-facing read downstream of the same displayed tail window and dyadic tolerance row.
+
+Read the StreamName and DyadicRatCore rows together. The tail stage is usable only with its tolerance witness, so the route cannot jump directly from a regular Cauchy request to a completed real or a diagonal representative.
+
+The RegSeqRat readback, Real seal, and diagonal-limit handoff close the finite route. Since the support rows $H,C,P,N$ preserve the same packet, no consumer can replace the handoff by quotient stream equality, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{RegularCauchyEventualWindowUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEventualWindowUp}
+  \constructivestory{A $\RegularCauchyEventualWindowUp$ packet is generated from an eventual StreamName window, dyadic tolerance row, RegSeqRat readback, RealUp seal, diagonal-limit handoff, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-eventual-window-carrier}, \autoref{thm:regular-cauchy-eventual-window-namecert-obligations}, and \autoref{thm:regular-cauchy-eventual-window-tail-handoff} seed the finite tail-window interface from regular Cauchy requests to diagonal-limit and Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, eventual-window exposure, dyadic tolerance compatibility, RegSeqRat readback, Real seal handoff, diagonal-limit handoff, and structural non-escape for the same finite packet.}
+\end{closurestatus}

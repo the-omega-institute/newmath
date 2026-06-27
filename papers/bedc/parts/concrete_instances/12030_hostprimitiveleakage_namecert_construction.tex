@@ -35,6 +35,7 @@ L=(S,Q,E,D,F,G,H,C,P,N),
 $$
 public-site exposure through $S$, requested-host-primitive exposure through $Q$, BEDC replacement exposure through $E$, diagnostic readback through $D$, failed-gate witness exposure through $F$, audit-boundary verdict exposure through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:host-primitive-leakage-carrier}. The rows $S,Q,E,D,F,G,H,C,P,N$ account for the public site, requested host primitive, BEDC replacement, diagnostic readback, failed-gate witness, audit boundary, transport, replay, provenance, and local naming surface.
 
@@ -42,7 +43,6 @@ The failed-gate and audit rows are consumed from the sibling certificates \autor
 
 The kernel witness sibling \autoref{ch:concrete-instances-kernel-audit-witness-namecert} supplies the accepted-declaration readback surface, not a permission to import host primitives. Repacking these rows gives the local naming certificate, and every public consumer route is forced to display the requested host feature before the route can be refused or replaced.
 \end{proof}
-\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[HostPrimitiveLeakage non-escape]
 \label{thm:host-primitive-leakage-nonescape}
@@ -74,6 +74,7 @@ Apply \autoref{thm:host-primitive-leakage-namecert-obligations} and \autoref{thm
 
 The falsifiable prediction records the observable failure condition, while the independence witness separates this packet from the audit-gate and boundary siblings. Together with the displayed \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate} marker, these rows expose the refusal or replacement route before any public consumer may use it.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakagePublicExport}
 
 \begin{theorem}[HostPrimitiveLeakage report-row refusal]
 \label{thm:host-primitive-leakage-report-row-refusal}
@@ -86,6 +87,7 @@ Apply \autoref{thm:host-primitive-leakage-nonescape}. It keeps every accepted pu
 
 Finally use \autoref{thm:host-primitive-leakage-public-export}. The public export must display all ten rows before a consumer can use the refusal or replacement route, so a report that omits $D,F,G,H,C,P,N$ cannot be an accepted $\HostPrimitiveLeakageUp$ export.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageReportRowRefusal}
 
 \begin{theorem}[HostPrimitiveLeakage quotient-soundness non-escape]
 \label{thm:host-primitive-leakage-quot-soundness-nonescape}
@@ -98,6 +100,7 @@ Apply \autoref{thm:host-primitive-leakage-namecert-obligations}. The local NameC
 
 Now apply \autoref{thm:host-primitive-leakage-nonescape}. Since quotient soundness is listed among the host primitives that cannot be accepted as BEDC-internal content, the only accepted read is the refusal route, with any BEDC replacement separated into $E,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageQuotSoundnessNonescape}
 
 \begin{theorem}[HostPrimitiveLeakage audit-gate factorization]
 \label{thm:host-primitive-leakage-audit-gate-factorization}
@@ -110,6 +113,7 @@ The NameCert obligations of \autoref{thm:host-primitive-leakage-namecert-obligat
 
 Finally apply \autoref{thm:host-primitive-leakage-nonescape}. Reading $Q$ alone would expose only a refused request, and reading $E$ alone would expose only a replacement row; neither read can bypass the displayed audit-gate factorization through $F,G,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageAuditGateFactorization}
 
 \begin{theorem}[HostPrimitiveLeakage formal-axis boundary]
 \label{thm:host-primitive-leakage-formal-axis-boundary}
@@ -121,6 +125,21 @@ The carrier and paper theorems bind the public-site row, requested-host-primitiv
 The two checked Lean rows witness different formal components: the TasteGate marker records the refusal packet's taste surface, and HostPrimitiveLeakageNonescape records the checked non-escape boundary. Neither marker is stated as the single combined closure theorem named above.
 
 Therefore the closurestatus block continues to report the formal axis as unformalized for the combined chapter theorem, while preserving the mature paper closure already witnessed by the displayed refusal route.
+\end{proof}
+
+\begin{theorem}[HostPrimitiveLeakage formal target]
+\label{thm:host-primitive-leakage-formal-target}
+For an accepted $\HostPrimitiveLeakageUp$ packet, the displayed carrier of \autoref{def:host-primitive-leakage-carrier}, the NameCert obligations of \autoref{thm:host-primitive-leakage-namecert-obligations}, the non-escape route of \autoref{thm:host-primitive-leakage-nonescape}, the public-export route of \autoref{thm:host-primitive-leakage-public-export}, the report-row refusal of \autoref{thm:host-primitive-leakage-report-row-refusal}, the quotient-soundness non-escape route of \autoref{thm:host-primitive-leakage-quot-soundness-nonescape}, the audit-gate factorization of \autoref{thm:host-primitive-leakage-audit-gate-factorization}, the displayed TasteGate row \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate}, and the checked non-escape row \texttt{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageNonescape} together form the formal target for future Lean packaging as \texttt{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageFormalTarget}.
+\end{theorem}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageFormalTarget}
+\begin{proof}
+The carrier projection supplies the ten displayed rows $S,Q,E,D,F,G,H,C,P,N$. Apply \autoref{thm:host-primitive-leakage-namecert-obligations} to identify those rows as the complete local certificate surface.
+
+The refusal side is fixed by \autoref{thm:host-primitive-leakage-nonescape}, \autoref{thm:host-primitive-leakage-report-row-refusal}, and \autoref{thm:host-primitive-leakage-quot-soundness-nonescape}. These theorems keep host equality, host numerals, host lists, host function spaces, quotient soundness, choice, and propositional extensionality on the requested-primitive and diagnostic rows rather than as accepted BEDC content.
+
+The export side is fixed by \autoref{thm:host-primitive-leakage-public-export} and \autoref{thm:host-primitive-leakage-audit-gate-factorization}. They force every public route through the failed-gate and audit-boundary rows before transport, replay, provenance, and local naming can export either the refusal route or the replacement route.
+
+Finally the displayed TasteGate row and checked non-escape row are exactly the Lean-visible rows already named in the chapter. Packaging these paper and Lean-visible components as one theorem is the combined formal target, with no additional marker asserted here.
 \end{proof}
 
 \closureat{HostPrimitiveLeakageUp}{matureStr}[BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate]

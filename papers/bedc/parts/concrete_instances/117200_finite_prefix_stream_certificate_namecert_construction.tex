@@ -70,6 +70,31 @@ For the successor step, extend the already-read finite route by one displayed ob
 Thus every index $i \leq k$ is read by finite induction on the displayed spine. Since no excluded object is a carrier coordinate or a product of the induction, the observation proof remains a finite StreamName-to-RegSeqRat handoff.
 \end{proof}
 
+\begin{definition}[Finite prefix stream observation cut]
+\label{def:finite-prefix-stream-certificate-observation-cut}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier and let $j \leq k$ be a displayed unary cut. The observation cut is the restricted packet
+$$
+F_{\leq j}=(j,W_{\leq j},D_{\leq j},R_{\leq j},H,C,P,N)
+$$
+where $W_{\leq j}$ is the first $j$ StreamName window row segment, $D_{\leq j}$ is the first $j$ DyadicRatCore tolerance row segment, and $R_{\leq j}$ is the first $j$ RegSeqRat handoff row segment read from the same finite prefix carrier. The cut preserves only the displayed unary prefix, not any omitted tail coordinate.
+\end{definition}
+
+\begin{theorem}[Finite prefix stream observation cut stability]
+\label{thm:finite-prefix-stream-certificate-observation-cut}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier and let $j \leq k$ be a displayed unary cut. Then the cut packet $F_{\leq j}$ of \autoref{def:finite-prefix-stream-certificate-observation-cut} is again an accepted $\FinitePrefixStreamUp$ carrier, and every RegSeqRat or Real-facing consumer of $F_{\leq j}$ factors through the same route
+$$
+j \longmapsto W_{\leq j} \longmapsto D_{\leq j} \longmapsto R_{\leq j} \longmapsto H,C,P,N .
+$$
+The cut exposes only the displayed finite prefix route; it does not export a selected tail, quotient stream equality, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-prefix-stream-certificate-carrier}. The unary cut $j \leq k$ simply shortens the displayed prefix window, dyadic tolerance, and RegSeqRat handoff rows to the visible initial segment.
+
+Now apply \autoref{thm:finite-prefix-stream-certificate-observation-induction}. The proof already reads each displayed index by induction on the successor spine of $k$, so the same finite induction reruns on the truncated prefix without exposing any omitted tail coordinate.
+
+Finally replay \autoref{thm:finite-prefix-stream-certificate-window-readback}. The RegSeqRat and Real-facing consumers still see the same finite route through $W_{\leq j},D_{\leq j},R_{\leq j}$ before the structural rows $H,C,P,N$ can be read. Since the omitted tail is not a carrier coordinate, the cut remains a finite observation prefix and nothing more.
+\end{proof}
+
 \begin{theorem}[Finite prefix stream certificate prefix concatenation]
 \label{thm:finite-prefix-stream-certificate-prefix-concatenation}
 Let
@@ -141,6 +166,26 @@ Project the accepted carrier by \autoref{def:finite-prefix-stream-certificate-ca
 Apply \autoref{thm:finite-prefix-stream-certificate-window-readback} to force every stream observation used by the section through $k,W,D,R$. Then apply \autoref{thm:finite-prefix-stream-certificate-observation-induction} to see that each displayed index is obtained by finite induction on the successor spine of $k$, with no appeal to an infinite representative or selected tail.
 
 Finally use \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-route}. The real and completion-facing read is therefore pulled back to the same finite budget route before any $\RealUp$ seal is consumed. Since quotient stream equality, countable choice, host real equality, ambient Real completeness, and bridge checking are absent from the carrier coordinates and from the cited finite route, none of them is exported by the section.
+\end{proof}
+
+\begin{theorem}[Finite prefix stream L10 exit observation route]
+\label{thm:finite-prefix-stream-l10-exit-observation-route}
+Every accepted Real-and-Completion observation route served by a $\FinitePrefixStreamUp$ packet factors through the displayed finite prefix rows
+$$
+k,W,D,R,H,C,P,N .
+$$
+The four analytic faces of the route are $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$: the StreamName prefix is read from $W$, the dyadic tolerance budget is read from $D$, the regular rational handoff is read from $R$, and the Real-facing seal remains downstream of those finite rows.
+
+The exit observation route exports no quotient stream equality, selected tail, countable-choice schedule, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Apply finite prefix window readback, \autoref{thm:finite-prefix-stream-certificate-window-readback}. Any RegSeqRat-facing consumer first reads the displayed route through $k,W,D,R$ and only then uses the structural rows $H,C,P,N$.
+
+Use observation induction, \autoref{thm:finite-prefix-stream-certificate-observation-induction}, to identify each displayed prefix index with the corresponding StreamName row, dyadic tolerance row, and regular rational handoff row. This supplies the finite observation route for the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ faces.
+
+Next apply the real-completion budget route, \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-route}, and the completion-section pullback, \autoref{thm:finite-prefix-stream-completion-section-pullback}. Together they force every Real or Completion-facing use to pass through the same finite prefix budget before a $\RealUp$ seal can be consumed.
+
+All cited routes use only the displayed rows $k,W,D,R,H,C,P,N$. Since none of those rows stores quotient stream equality, a selected tail, countable choice, host real equality, ambient Real completeness, or bridge checking, the L10 exit route exports none of those objects.
 \end{proof}
 
 \closureat{FinitePrefixStreamUp}{seedStr}

@@ -1,0 +1,38 @@
+\begin{theorem}[ZetaContinuationWitness critical-strip input refusal]
+\label{thm:zeta-continuation-witness-critical-strip-input-refusal}
+An accepted $\ZetaContinuationWitnessUp$ packet contains no RH predicate, no non-trivial-zero locator, no global zero classifier, and no completed Gamma certificate. Consequently a critical-strip consumer receives only the displayed finite witness rows $B,E,A,P,F,T,G,H,C,R,N$ and cannot read any of those excluded objects as packet input.
+\end{theorem}
+\leanchecked{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_critical\_strip\_input\_refusal}
+\begin{proof}
+Project $W=(B,E,A,P,F,T,G,H,C,R,N)$. Each coordinate is one of the displayed continuation, ledger, boundary, transport, route, provenance, or naming rows.
+
+Apply the carrier definition and the NameCert obligation surface. They account for all admitted rows and list the analytic-continuation exactness, pole and trivial-zero ledger exactness, and Gamma-horizon non-escape clauses, but none of their coordinates is an RH predicate, non-trivial-zero locator, global zero classifier, or completed Gamma certificate.
+
+The conclusion follows by coordinate exhaustion. Since the critical-strip route is a $\Cont$ read from the same packet, it receives only the displayed rows and has no input slot for the excluded data.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness bridged-boundary mature route]
+\label{thm:zetacontinuationwitness-bridged-boundary-mature-route}
+Every bridge-facing consumer of an accepted $\ZetaContinuationWitnessUp$ packet factors through the public export, source lock, pole-Gamma boundary, critical-strip route separation, dependency ledger, and critical-strip input refusal before reading the packet as a standard bridge boundary. The bridge-facing read exports no RH predicate, non-trivial-zero locator, completed Gamma certificate, or global zero classifier.
+\end{theorem}
+\begin{proof}
+Start with the public export and source lock. The accepted packet is already exposed as the finite witness rows $B,E,A,P,F,T,G,H,C,R,N$, together with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next use the pole-Gamma boundary and critical-strip route separation. These rows keep Gamma-facing reads inside $P,F,G,H,C,R,N$ and keep critical-strip reads inside the same displayed finite packet.
+
+Then apply the dependency ledger and critical-strip input refusal. The dependency ledger binds the source, continuation, analytic, holomorphic, complex, history, transport, route, package, and naming rows to the same witness packet, while the refusal theorem removes RH predicates, zero locators, completed Gamma certificates, and global zero classifiers from the input surface.
+
+Finally combine the same public export with the displayed bridge-facing boundary. Any bridge-facing consumer therefore factors through the same finite witness packet before reaching the standard bridge boundary, so no excluded object can be exported as bridge input.
+\end{proof}
+
+\begin{closurestatus}{\ZetaContinuationWitnessUp}
+  \constructivestory{A $\ZetaContinuationWitnessUp$ packet is generated from a $\ZetaBasicUp$ source row, an eta-continuation route, an analytic-continuation row, a pole ledger, a functional-equation route, a trivial-zero ledger, a Gamma-horizon boundary, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:zeta-continuation-witness-carrier}, \autoref{thm:zeta-continuation-witness-namecert-obligation-surface}, \autoref{thm:zeta-continuation-witness-route-carrier-admission}, \autoref{thm:zeta-continuation-witness-classifier-stability}, \autoref{thm:zeta-continuation-witness-pole-ledger-exactness}, \autoref{thm:zeta-continuation-witness-continuation-handoff}, \autoref{thm:zeta-continuation-witness-trivial-zero-ledger-nonescape}, \autoref{thm:zeta-continuation-witness-gamma-horizon-consumer-boundary}, \autoref{thm:zeta-continuation-witness-critical-strip-handoff}, and \autoref{thm:zeta-continuation-witness-package-provenance-exactness} define the local witness carrier, obligation surface, route-carrier admission, classifier stability, pole-ledger exactness, continuation handoff, trivial-zero ledger, Gamma-horizon boundary, critical-strip handoff, and local package and naming rows. Bridge-facing access is then routed through the public export, source lock, pole-Gamma boundary, critical-strip route separation, dependency ledger, and critical-strip input refusal, so the chapter closes the bridge boundary on the displayed packet only.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_public\_export}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove RH, locate non-trivial zeros, close the Gamma chapter, decide global branch behaviour, complete quotient-of-germs construction, or provide bridge checking.}
+  \upgradepath{Bridge checking remains a later step if a standard bridge is added for the same finite witness packet without introducing RH or zero-location data.}
+\end{closurestatus}

@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ClarkeSubdifferentialUp$}
+\label{ch:concrete-instances-clarke-subdifferential-namecert}
+\origin{human}
+
+Following Clarke's nonsmooth analysis and Rockafellar's convex-analysis presentation of generalized gradients, the $\ClarkeSubdifferentialUp$ packet records the finite locally Lipschitz slope surface needed to expose a convexified generalized-gradient read inside BEDC. It sits beside the subgradient support surface of \autoref{ch:concrete-instances-subdifferential-namecert}, the feasible-direction surface of \autoref{ch:concrete-instances-tangent-cone-namecert}, the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the terminal real and norm rows of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-norm-namecert}, and the stationarity and duality consumers of \autoref{ch:concrete-instances-kkt-namecert} and \autoref{ch:concrete-instances-fenchelduality-namecert}. The packet names a finite Clarke-style generalized-gradient certificate; it does not assert a host differentiability theorem, selected limiting gradient, measurable selection, ambient compactness, or quotient dual-space equality.
+
+\section{ClarkeSubdifferential Carrier}
+\label{sec:clarke-subdifferential-carrier}
+
+\begin{definition}[ClarkeSubdifferential carrier]
+\label{def:clarke-subdifferential-carrier}
+A $\ClarkeSubdifferentialUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,F,x,W,D,T,S,V,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the displayed $\VecSpaceUp$, $\MetricUp$, $\NormUp$, and $\RealUp$ ambient row in which base points, direction rows, and slope comparisons are read.
+\item $F$ is the locally Lipschitz functional row, including the finite $\LipschitzModulusUp$ windows and value-comparison rows actually inspected by the packet.
+\item $x$ is the base-point row admitted by the displayed $\ConvexSetUp$ domain of $F$.
+\item $W$ is the finite locally Lipschitz window ledger around $x$, listing the inspected radii, norm bounds, and Real-valued comparison budgets.
+\item $D$ is the directional-slope ledger. It records the displayed direction rows and the upper finite slope comparisons read from the rows $F(x+h v)-F(x)$ over the windows in $W$.
+\item $T$ is the $\mathsf{TangentCone}^{\uparrow}$ row exposing the feasible-direction surface used by constrained consumers.
+\item $S$ is the $\SubdifferentialUp$ support row, read only as a sibling support ledger and not as an ambient choice of subgradient.
+\item $V$ is the convex-hull and provenance row for the finite slope witnesses, recording which displayed direction and support rows contribute to each generalized-gradient candidate.
+\item $R$ is the stationarity and duality readback row consumed by $\KKTUp$ and $\FenchelDualityUp$ only after $D,T,S,V$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the ambient, functional, base point, Lipschitz windows, directional slopes, tangent-cone row, support row, convex-hull provenance, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a generalized-gradient request through $X,F,x,W,D,T,S,V,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\ClarkeSubdifferentialUp$, $\SubdifferentialUp$, $\mathsf{TangentCone}^{\uparrow}$, $\ConvexSetUp$, $\RealUp$, $\NormUp$, $\LipschitzModulusUp$, $\KKTUp$, $\FenchelDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClarkeSubdifferentialUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $X,F,x,W,D,T,S,V,R,H,C,P,N$. It has no coordinate for a selected differentiability point, a host limiting-gradient closure, measurable selection, quotient dual-space equality, ambient compactness, or a global nonsmooth chain rule.
+\end{definition}
+\leandef{BEDC.Derived.ClarkeSubdifferentialUp.ClarkeSubdifferentialUp}
+
+\section{ClarkeSubdifferential Certificate}
+\label{sec:clarke-subdifferential-certificate}
+
+\begin{theorem}[ClarkeSubdifferential NameCert obligations]
+\label{thm:clarke-subdifferential-namecert-obligations}
+For every accepted $\ClarkeSubdifferentialUp$ carrier $G=(X,F,x,W,D,T,S,V,R,H,C,P,N)$, the local $\NameCert_{\ClarkeSubdifferentialUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the ambient vector, metric, norm, and real rows; the locally Lipschitz functional row; the base point; the finite window ledger; the directional-slope ledger; the tangent-cone row; the sibling support row; the convex-hull provenance row; the stationarity and duality readback row; transport; replay; provenance; and local naming;
+\item Lipschitz-window exactness, requiring every exported slope comparison to pass through the displayed windows $W$ and the value-comparison rows of $F$;
+\item directional-slope exposure, requiring every generalized-gradient read to display the direction row and the finite upper-slope comparison stored in $D$;
+\item tangent and support compatibility, requiring constrained reads to pass through $T$ and support-facing reads to pass through $S$ before the convex-hull row $V$ may be inspected;
+\item convex-hull provenance, requiring each generalized-gradient candidate to list the displayed slope and support rows used by its finite convex combination;
+\item non-escape from selected limiting gradients, quotient dual spaces, measurable selections, host differentiability theorems, ambient compactness, and global nonsmooth calculus rules.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:clarke-subdifferential-carrier}. The analytic rows are $X,F,x,W,D,T,S,V,R$, and the structural rows are $H,C,P,N$.
+
+Lipschitz-window exactness is read first. A slope comparison can be exported only when the relevant norm, real, and value-comparison rows are visible through $X,F,W$.
+
+The directional row then passes through $D$. Constrained consumers also expose the tangent-cone row $T$, and support-facing consumers expose the subdifferential row $S$, before the convex-hull provenance row $V$ may name a generalized-gradient candidate.
+
+Finally $R$ hands the same finite route to KKT and Fenchel-duality consumers, while $H,C,P,N$ transport, replay, source, and name the packet. Since no coordinate of $G$ stores a selected limiting gradient, quotient dual space, measurable selection, host differentiability theorem, compactness theorem, or global nonsmooth calculus rule, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[ClarkeSubdifferential Lipschitz-gradient route]
+\label{thm:clarke-subdifferential-lipschitz-gradient-route}
+Every $\KKTUp$, $\FenchelDualityUp$, or $\SubdifferentialUp$ consumer of an accepted $\ClarkeSubdifferentialUp$ packet must factor through the displayed route
+$$
+X,F,x,W,D,T,S,V,R \longmapsto H,C,P,N .
+$$
+In particular, a generalized-gradient read is public only after the locally Lipschitz window ledger, the finite directional-slope rows, the tangent-cone row, the sibling support row, and the convex-hull provenance row have all been displayed. The route supplies no selected limiting gradient, no host differentiability theorem, no quotient dual-space equality, no measurable selection, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:clarke-subdifferential-namecert-obligations}. They force every generalized-gradient read to expose the locally Lipschitz window row $W$ and the directional-slope ledger $D$ before any candidate gradient row is available.
+
+The constrained and support-facing boundaries are then read through $T$ and $S$. These rows keep the Clarke packet attached to the tangent-cone and subdifferential siblings rather than to a host limiting-gradient construction.
+
+The convex-hull row $V$ records only the displayed finite provenance, and $R$ hands that same provenance to KKT or Fenchel-duality consumers. Transport, replay, package provenance, and local naming preserve the route through $H,C,P,N$, so the consumer cannot bypass the finite Lipschitz, slope, tangent, support, and convex-hull rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ClarkeSubdifferentialUp$ read exposes VecSpaceUp, MetricUp, NormUp, RealUp, locally Lipschitz window rows, finite directional-slope rows, TangentCone rows, SubdifferentialUp support rows, convex-hull provenance rows, KKTUp or FenchelDualityUp readback rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert before any generalized-gradient output is visible.}
+
+\independenceWitness{subdifferential, tangent-cone, convexset, real, norm, kkt, fenchelduality: $\ClarkeSubdifferentialUp$ is not bijective to any listed sibling because it jointly binds locally Lipschitz windows, directional-slope ledgers, feasible-direction rows, support rows, convex-hull provenance, stationarity and duality readback, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{ClarkeSubdifferentialUp}{seedStr}
+
+\begin{closurestatus}{\ClarkeSubdifferentialUp}
+  \constructivestory{A $\ClarkeSubdifferentialUp$ packet is generated from vector, metric, norm, Real, locally Lipschitz, base-point, directional-slope, TangentCone, SubdifferentialUp support, convex-hull provenance, KKTUp or FenchelDualityUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:clarke-subdifferential-carrier}, \autoref{thm:clarke-subdifferential-namecert-obligations}, and \autoref{thm:clarke-subdifferential-lipschitz-gradient-route} seed the finite nonsmooth generalized-gradient certificate surface over locally Lipschitz windows, directional slopes, tangent cones, support rows, convex hulls, and optimization consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host limiting-gradient theorem, selected differentiability points, measurable selection, quotient dual-space equality, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Lipschitz-window exactness, directional-slope exposure, tangent and support compatibility, convex-hull provenance, KKT and Fenchel readback, replay stability, and local naming for BEDC.Derived.ClarkeSubdifferentialUp.}
+\end{closurestatus}

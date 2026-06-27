@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FrechetUrysohnSpaceUp$}
+\label{ch:concrete-instances-frechet-urysohn-space-namecert}
+\origin{human}
+
+Following Frechet, Urysohn, Kelley, and Engelking, the $\FrechetUrysohnSpaceUp$ packet records the classical sequential closure criterion as finite BEDC naming data. It sits after the indexed-open topology surface of \autoref{ch:concrete-instances-topology-namecert}, the sequence-indexed convergence interface of \autoref{ch:concrete-instances-sequential-space-namecert}, and the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}. Completion-facing consumers read its numeric convergence rows through $\RegSeqRatUp$ and the terminal $\RealUp$ seal; the packet does not assert quotient sequence spaces, selected subsequences, countable choice, open-cover compactness, or ambient completeness.
+
+\begin{definition}[Frechet--Urysohn space carrier]\label{def:frechet-urysohn-space-carrier}
+A $\FrechetUrysohnSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,S,W,R,E,A,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, carrying indexed open rows, closed-row vocabulary, point membership reads, and neighbourhood tests.
+\item $S$ is the $\SequentialSpaceUp$ source row, exposing the sequence-indexed convergence interface over the same topology surface.
+\item $W$ is the $\StreamNameUp$ observation-window row for the sequence names used by a closure request.
+\item $R$ is the $\RegSeqRatUp$ convergence-readback row for numeric or completion-facing sequence observations.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $T,S,W,R$ have been displayed.
+\item $A$ is the sequential-closure admission row: for each displayed closed-row request and point-window request, it records the finite route by which a topological closure read may be witnessed by a displayed sequence window.
+\item $H$ records componentwise $\hsame$ transport for $T,S,W,R,E,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T,S,W,R \longmapsto E,A,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FrechetUrysohnSpaceUp$, $\TopologyUp$, $\SequentialSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetUrysohnSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,W,R,E,A,H,C,P,N$. It has no coordinate for quotient sequence equality, a host-selected subsequence, countable choice, arbitrary filters, open-cover compactness, host point equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Frechet--Urysohn space NameCert obligations]\label{thm:frechet-urysohn-space-namecert-obligations}
+For every accepted $\FrechetUrysohnSpaceUp$ carrier
+$$
+F=(T,S,W,R,E,A,H,C,P,N),
+$$
+the local $\NameCert_{\FrechetUrysohnSpaceUp}$ surface consists exactly of topology-source admission through $T$, sequential-source admission through $S$, finite stream-window exposure through $W$, regular rational convergence readback through $R$, terminal Real-seal ordering through $E$, sequential-closure admission through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:frechet-urysohn-space-carrier}. The topology source, sequential source, stream windows, regular rational readback, Real seal, and closure-admission row are the only data visible before transport and provenance are read.
+
+Read the closure request in dependency order. The topology row supplies the open and closed vocabulary; the sequential row supplies the sequence-indexed convergence interface; the stream and regular-rational rows expose finite windows and convergence readback before the terminal Real seal can be consumed.
+
+Finally replay $A,H,C,P,N$. The admission row binds topological closure reads to displayed sequence windows, while transport, continuation, provenance, and local naming preserve the same route. Since no excluded quotient, selector, choice, filter, compactness, host equality, or completeness row is present, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Frechet--Urysohn sequential-closure route]\label{thm:frechet-urysohn-space-sequential-closure-route}
+Every topological closure read exported by an accepted $\FrechetUrysohnSpaceUp$ carrier must pass through
+$$
+T,S,W,R \longmapsto E,A,H,C,P,N .
+$$
+Thus a $\TopologyUp$ consumer may use the packet as a sequential-closure route only after the $\SequentialSpaceUp$ source, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal rows have been displayed. The route is not a quotient sequence space, not a host subsequence selector, not countable choice, and not ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with a closure-facing consumer. The carrier exposes only the topology row $T$ for open and closed vocabulary, so the closure request cannot bypass the displayed topology source.
+
+Next inspect $S,W,R,E$. The sequential-space row supplies the convergence interface, the stream row supplies finite observation windows, and the regular-rational row supplies the convergence readback used by completion-facing readers before the Real seal is reached.
+
+Finally apply $A,H,C,P,N$. The sequential-closure admission row names the route from topological closure to sequence windows, and the structural rows preserve that route componentwise. Since the carrier has no coordinate for quotient sequence spaces, selected subsequences, countable choice, filters, compactness, or ambient Real completeness, none is exported by the handoff.
+\end{proof}
+
+\closureat{FrechetUrysohnSpaceUp}{seedStr}
+
+\begin{closurestatus}{\FrechetUrysohnSpaceUp}
+  \constructivestory{A $\FrechetUrysohnSpaceUp$ packet is generated from a Topology source row, a SequentialSpace source row, StreamName observation windows, RegSeqRat convergence readback, a Real seal, sequential-closure admission, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-urysohn-space-carrier}, \autoref{thm:frechet-urysohn-space-namecert-obligations}, and \autoref{thm:frechet-urysohn-space-sequential-closure-route} seed the Frechet--Urysohn carrier over topology, sequential-space, StreamName, RegSeqRat, Real-seal, admission, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence spaces, selected subsequences, countable choice, arbitrary filters, open-cover compactness, host point equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology-source routing, sequential-source routing, StreamName window coverage, RegSeqRat convergence readback, Real-seal ordering, sequential-closure admission, provenance, and local naming for BEDC.Derived.FrechetUrysohnSpaceUp.}
+\end{closurestatus}

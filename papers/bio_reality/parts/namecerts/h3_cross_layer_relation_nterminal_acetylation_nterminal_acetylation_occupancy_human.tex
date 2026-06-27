@@ -1,28 +1,58 @@
-\subsection{Human N-terminal acetylation occupancy as a bounded cross-layer record}\label{sec:bioreality-nterminal-acetylation-occupancy-human}
 \origin{ai}
+\subsection{Human N-terminal acetylation occupancy as a bounded cross-layer row test}
+\label{sec:bioreality-human-nterminal-acetylation-occupancy}
 
-\paragraph{Finite row.} The human N-terminal acetylation occupancy record is a finite cross-layer entry whose admissible content is the row-indexed relation between an N-terminal rule inherited from the yeast-side screen and a human occupancy panel. The verified row reports experiment run $90ea6b5f7fc7$, sample size $n=1426$, runtime $5.372$ seconds, and the categorical outcome that the frozen yeast rule transfers to human under preregistered gates. The same row explicitly records $\mathrm{abundance\_controlled}=\mathrm{false}$, so the chapter is not allowed to read the result as a protein-abundance-adjusted statement. A separate linked cross-layer record, protein hydrophobic clustering versus E. coli solubility, supplies experiment run $8742a224b538$ with $n=3198$ and runtime $60.0$ seconds; it is cited here only as an independently verified finite biological panel in the same audit bundle, not as evidence for acetylation occupancy.
+\paragraph{Finite row object.}
+This record concerns the BioReality claim with identifier \texttt{h3.cross\_layer\_relation.nterminal\_acetylation.nterminal\_acetylation\_occupancy\_human}.  The finite object is not a general statement about protein fate.  It is a table of human protein or coding-sequence rows on which an N-terminal acetylation occupancy rule is tested under preregistered gates.  The verified run identifier is \texttt{90ea6b5f7fc7}; it reports $n=1426$ admissible human rows and a runtime of $5.372$ seconds.  The recorded conservation verdict is that a frozen yeast rule transfers to human under the declared gates.  The same run also records \texttt{abundance\_controlled=false}, so the row statistic must not be read as a protein-abundance-adjusted result.
 
-\paragraph{Admissible mathematical reading.} The row may be represented as a finite table $H$ with entries indexed by proteins or coding sequences for which the N-terminal state can be matched to the human occupancy readout. The only positive assertion licensed by the verified row is that a preregistered yeast-derived N-terminal rule survives as a human occupancy classifier on the reported finite panel. In symbols, the chapter uses a bounded predicate $S_{\mathrm{Nat}}$ whose domain is the verified human panel:
+\paragraph{Observed claim and bounded statistic.}
+Let $i$ range over the retained human rows after identifier matching, N-terminal rule evaluation, and preregistered filtering.  The finite readout may be summarized as
 $$
 \begin{aligned}
-H &= \{h_i : 1 \leq i \leq 1426\},\\
-S_{\mathrm{Nat}}(H) &= \text{the preregistered yeast-derived rule is accepted on the human occupancy panel},\\
-\mathrm{runtime}(H) &= 5.372\ \text{seconds},\\
-\mathrm{abundance\_controlled}(H) &= \mathrm{false}.
+  D_{\mathrm{NTA}} &= \{(p_i, a_i, y_i, b_i) : 1 \leq i \leq 1426\},\\
+  a_i &\in \{\text{rule-admissible},\text{rule-excluded}\},\\
+  y_i &\in \{\text{occupancy-supported},\text{not-supported}\},\\
+  b_i &= \text{declared break-condition and row-quality status}.
 \end{aligned}
 $$
-This is a finite survival statement, not a claim that N-terminal acetylation determines abundance, translation rate, folding, localization, or organismal state. The phrase ``transfers to human'' is therefore read narrowly: the frozen rule passed the preregistered human occupancy gates on $1426$ rows. No continuous population parameter, evolutionary universality, or mechanistic causal law is inferred from the finite table.
+Here $p_i$ is the human protein or matched coding-sequence identifier, $a_i$ is the N-terminal acetylation rule state inherited from the frozen yeast rule, $y_i$ is the human occupancy readout supplied by the finite run, and $b_i$ records whether the row remains inside the admitted panel.  The mathematical content is therefore a finite cross-layer relation between an N-terminal rule and a matched human occupancy readout.  It is not a claim that the N-terminal rule explains abundance, folding, localization, stability, activity, phenotype, or mechanism.
 
-\paragraph{Boundary against over-reading.} The verified row is cross-layer because it compares a rule originating in one biological layer with a human occupancy readout. It is not, by itself, a translation experiment. It does not contain position-resolved ribosome-footprint rows, matched mRNA abundance, codon-window statistics, wobble-weight surfaces, or a same-row translation residual. Therefore no statement about translation realization follows from this chapter. Likewise, the absence of abundance control blocks any interpretation in which the occupancy result is promoted to a protein-abundance effect. The row also gives no folded-structure measurement, physical-admissibility assay, localization readout, function assay, perturbation experiment, or phenotype panel.
-
-\paragraph{Control status.} The recorded scalar $\mathrm{abundance\_controlled}=\mathrm{false}$ is treated as an active limitation, not a minor annotation. Any downstream model that needs to distinguish N-terminal acetylation occupancy from protein abundance must attach an additional abundance-matched contact and recompute the statistic under that control. Until such a row exists, the finite statement remains:
+\paragraph{Conservation interpretation.}
+The phrase ``frozen yeast rule transfers to human under preregistered gates'' is used here only as a finite-row comparison statement.  It says that the rule, once fixed before the human evaluation, survives the human occupancy gate on the $1426$ retained rows.  The run does not license post hoc movement of the rule boundary, nor does it make a population-universal assertion outside the admitted table.  In formula form, the admissible reading is
 $$
 \begin{aligned}
-\text{verified content} &= \text{human occupancy survival of the frozen yeast rule on }1426\text{ rows},\\
-\text{not verified} &= \text{abundance-adjusted occupancy, translation output, folding, function, mechanism, or universality}.
+  \operatorname{Survives}(R_{\mathrm{yeast}},D_{\mathrm{human}})
+  &= \operatorname{GatePass}(R_{\mathrm{yeast}},D_{\mathrm{human}}),\\
+  D_{\mathrm{human}} &= D_{\mathrm{NTA}},\\
+  |D_{\mathrm{human}}| &= 1426.
 \end{aligned}
 $$
-The linked solubility panel with $3198$ rows is not merged into this statistic; it only shows that another finite cross-layer contact in the bundle has an independently recorded row count and runtime. Keeping the two panels separate prevents a solubility, folding, or abundance interpretation from leaking into the N-terminal acetylation occupancy statement.
+The equality $|D_{\mathrm{human}}|=1426$ is part of the finite audit surface.  No additional $R$-list, $M$-list, $\lambda$ value, or $p$-value is present in the supplied row data, so no such scalar is introduced in this chapter.
 
-\paragraph{Local verdict.} The chapter is ready as a bounded BioReality record because it has a concrete finite row, a named run identifier, a row count, a runtime, and an explicit negative control flag. Its claim is intentionally small: on the verified human panel, the preregistered yeast-derived N-terminal occupancy rule survived the declared gates. Nothing in the row licenses claims about translation, protein folding, physical admissibility, biological function, molecular mechanism, phenotype, or universal biological law without a separate layer-matched contact that directly measures the relevant target.
+\paragraph{Abundance boundary.}
+The row \texttt{abundance\_controlled=false} is a binding limitation.  A positive human occupancy transfer may be discussed as an occupancy-gated N-terminal acetylation relation, but it cannot be reported as independent of protein abundance.  In particular, the allowed conclusion has the shape
+$$
+\begin{aligned}
+  \text{admissible} &: R_{\mathrm{yeast}} \longrightarrow Y_{\mathrm{human\ occupancy}} \quad \text{on the admitted finite panel},\\
+  \text{not admitted} &: R_{\mathrm{yeast}} \longrightarrow Y_{\mathrm{human\ occupancy}} \mid \text{protein abundance control}.
+\end{aligned}
+$$
+The second line is deliberately not asserted, because the finite run explicitly says that abundance control was not included.  Any future abundance-adjusted statement would require a matched protein-abundance contact on the same or a declared compatible row set, followed by a new statistic.
+
+\paragraph{Neighbor evidence is not substitutional evidence.}
+The linked protein-solubility row, \texttt{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}, has a separate verified run \texttt{8742a224b538}, with $n=3198$ and runtime $60.0$ seconds.  It is useful only as a nearby example that another BioReality cross-layer packet can possess its own finite row count and runtime.  It is not evidence for N-terminal acetylation occupancy.  The two finite surfaces remain typed separately:
+$$
+\begin{aligned}
+  D_{\mathrm{NTA}} &: n=1426,\quad \text{human N-terminal acetylation occupancy},\\
+  D_{\mathrm{sol}} &: n=3198,\quad \text{hydrophobic clustering and solubility},\\
+  D_{\mathrm{sol}} &
+Rightarrow D_{\mathrm{NTA}}.
+\end{aligned}
+$$
+Thus the solubility run may be cited only to document the existence of a distinct neighboring finite audit surface, not to strengthen, weaken, or complete the acetylation claim.
+
+\paragraph{Relation to translation-window material.}
+The surrounding finite-row packet also names f$_3$-stress, wobble asymmetry, matched mRNA control, tAI or stAI weights, and position-resolved ribosome-occupancy contacts.  Those contacts describe a different translation-window boundary.  They do not supply a measured N-terminal acetylation occupancy statistic, and they do not turn codon-window geometry into translation realization.  Conversely, the human N-terminal acetylation occupancy run does not supply ribosome-footprint rows, translation-efficiency rows, f$_3$-stress residuals, or a wobble-asymmetry survival statistic.  The safe relation between the two surfaces is separation: the acetylation occupancy result remains a finite human occupancy test, while the f$_3$-stress translation-window material remains blocked until same-organism, same-CDS, same-window codon, wobble-weight, mRNA, and ribosome-footprint rows are actually joined and evaluated.
+
+\paragraph{Local non-promotion rule.}
+The chapter-level limitation is strict.  From the $n=1426$ human N-terminal acetylation occupancy panel one may report only the bounded cross-layer occupancy relation specified above.  No translation realization, folding state, physical admissibility, molecular function, mechanism, system phenotype, or universality follows from this run.  No protein-abundance conclusion follows either, because the verified field \texttt{abundance\_controlled=false} is present.  A downstream claim would need its own layer-matched contact: ribosome profiling for translation, proteomics for abundance, structural or stability assays for folding and physical state, localization or functional assays for cellular role, and perturbation data for mechanism.  Without those contacts, the finite result remains exactly a preregistered human occupancy transfer of a frozen N-terminal acetylation rule on $1426$ rows.

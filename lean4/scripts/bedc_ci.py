@@ -99,8 +99,24 @@ PREAMBLE_COMMAND_RE = re.compile(
     r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
 )
 CONCRETE_REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
+NAMECERT_HORIZON_FILE_RE = re.compile(
+    r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$"
+)
 CONCRETE_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
 CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
+NAMECERT_INPUT_RE = re.compile(r"\\input\s*\{\s*([^}]+?)\s*\}")
+# Keep this carrier grammar synchronized with critical_path.py:
+# CLOSURESTATUS_BEGIN_RE indexes only critical_path-visible horizons.
+NAMECERT_CLOSURESTATUS_CARRIER_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
+)
+# Carrier grammar must match critical_path.CLOSUREAT_RE ([A-Z][A-Za-z]*Up): the
+# closureat fallback may only accept carriers critical_path can actually index,
+# else a closureat-only digit/underscore carrier (e.g. Rule110Up) passes the gate
+# while critical_path still ignores the horizon.
+NAMECERT_CLOSUREAT_CARRIER_RE = re.compile(
+    r"\\closureat\s*\{\s*\\?\s*([A-Z][A-Za-z]*Up)\s*\}"
+)
 CONCRETE_BODY_ENV_RE = re.compile(
     r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
 )
@@ -2048,6 +2064,153 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
                 "kind": kind,
             })
     return sorted(missing, key=lambda item: str(item["file"]))
+
+
+def _strip_tex_comments(text: str) -> str:
+    return "\n".join(
+        re.split(r"(?<!\\)%", line, 1)[0]
+        for line in text.splitlines()
+    )
+
+
+def _resolve_namecert_input(current_file: Path, raw_input: str) -> Path | None:
+    raw_input = raw_input.strip()
+    if not raw_input:
+        return None
+    raw_path = Path(raw_input)
+    if raw_path.is_absolute():
+        candidate = raw_path
+    else:
+        candidate = PAPER_ROOT / raw_path
+    if candidate.suffix == "":
+        candidate = candidate.with_suffix(".tex")
+    if candidate.is_file():
+        return candidate.resolve()
+    return None
+
+
+def _namecert_input_closure(root: Path) -> list[tuple[Path, str]]:
+    seen: set[Path] = set()
+    out: list[tuple[Path, str]] = []
+
+    def visit(path: Path) -> None:
+        resolved = path.resolve()
+        if resolved in seen or not resolved.is_file():
+            return
+        seen.add(resolved)
+        text = read_text(resolved)
+        uncommented = _strip_tex_comments(text)
+        out.append((resolved, uncommented))
+        for match in NAMECERT_INPUT_RE.finditer(uncommented):
+            child = _resolve_namecert_input(resolved, match.group(1))
+            if child is not None:
+                visit(child)
+
+    visit(root)
+    return out
+
+
+def _namecert_norm(raw: str, *, strip_up_suffix: bool = False) -> str:
+    normalized = re.sub(r"[^a-z0-9]", "", raw.lower())
+    if strip_up_suffix and normalized.endswith("up"):
+        normalized = normalized[:-2]
+    return normalized
+
+
+def _camel_to_snake(raw: str) -> str:
+    return re.sub(r"(?<!^)([A-Z])", r"_\1", raw).lower()
+
+
+def _gap_contract_horizon_slugs() -> set[str]:
+    contracts = REPO_ROOT / "papers" / "bedc_mathlib_bridge" / "gap_contracts"
+    slugs: set[str] = set()
+    if not contracts.is_dir():
+        return slugs
+    for path in sorted(contracts.glob("*.yaml")):
+        text = read_text(path)
+        for match in re.finditer(r"^\s*bedc_home\s*:\s*(\S+)\s*$", text, re.MULTILINE):
+            target = match.group(1).strip().strip("'\"")
+            name = target.rsplit(".", 1)[-1]
+            if name.endswith("Up"):
+                slugs.add(_camel_to_snake(name[:-2]))
+        for match in re.finditer(
+            r"papers/bedc/parts/concrete_instances/([0-9A-Za-z]+_)?"
+            r"([a-z][a-z0-9_]*?)_namecert_construction\.tex",
+            text,
+        ):
+            slugs.add(match.group(2))
+    return slugs
+
+
+def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.is_dir():
+        return []
+
+    gap_contract_slugs = _gap_contract_horizon_slugs()
+    findings: list[dict[str, object]] = []
+    for path in sorted(instances.glob("*_namecert_construction.tex")):
+        match = NAMECERT_HORIZON_FILE_RE.match(path.name)
+        if not match:
+            continue
+        slug = match.group(1)
+        expected = _namecert_norm(slug)
+        closure = _namecert_input_closure(path)
+        is_gap = "% BEDC-GAP:" in read_text(path) or slug in gap_contract_slugs
+        closurestatus_carriers: list[str] = []
+        closureat_carriers: list[str] = []
+        closurestatus_present = False
+        closureat_present = False
+        for _source_path, text in closure:
+            if r"\begin{closurestatus}" in text:
+                closurestatus_present = True
+            if r"\closureat" in text:
+                closureat_present = True
+            closurestatus_carriers.extend(
+                match.group(1)
+                for match in NAMECERT_CLOSURESTATUS_CARRIER_RE.finditer(text)
+            )
+            closureat_carriers.extend(
+                match.group(1)
+                for match in NAMECERT_CLOSUREAT_CARRIER_RE.finditer(text)
+            )
+        # Track the closureat token (not just valid carriers) so a horizon
+        # declared only via a critical_path-invisible closureat carrier (e.g.
+        # \closureat{\Rule110Up}{...}) is flagged rather than silently skipped.
+        if not closurestatus_present and not closureat_present:
+            continue
+
+        distinct_registered = sorted({
+            carrier
+            for carrier in closurestatus_carriers
+            if _namecert_norm(carrier, strip_up_suffix=True) != expected
+        })
+        has_expected = any(
+            _namecert_norm(carrier, strip_up_suffix=True) == expected
+            for carrier in (
+                closurestatus_carriers if closurestatus_present else closureat_carriers
+            )
+        )
+        has_foreign_closurestatus = bool(distinct_registered)
+        mismatch = not has_expected or (is_gap and has_foreign_closurestatus)
+        if not mismatch:
+            continue
+        findings.append({
+            "file": display_path(path),
+            "slug": slug,
+            "expected_norm": expected,
+            "closurestatus_carriers": sorted(set(closurestatus_carriers)),
+            "closureat_carriers": sorted(set(closureat_carriers)),
+            "foreign_closurestatus_carriers": distinct_registered,
+            "is_bedc_gap": is_gap,
+            "severity": "hard" if is_gap else "warning",
+            "reason": (
+                "foreign closurestatus carrier in BEDC-GAP chapter"
+                if is_gap and has_expected and has_foreign_closurestatus
+                else "no carrier matches namecert slug"
+            ),
+        })
+    return findings
 
 
 def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
@@ -11314,6 +11477,15 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     marker_uniqueness_failures, marker_uniqueness_output = run_marker_uniqueness_check()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
+    namecert_horizon_carrier_mismatches = detect_namecert_horizon_carrier_mismatch()
+    namecert_horizon_carrier_hard = [
+        item for item in namecert_horizon_carrier_mismatches
+        if item.get("severity") == "hard"
+    ]
+    namecert_horizon_carrier_warnings = [
+        item for item in namecert_horizon_carrier_mismatches
+        if item.get("severity") != "hard"
+    ]
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
     paper_gate_policy_drift = detect_paper_gate_policy_drift()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
@@ -11419,6 +11591,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
+        "namecert_horizon_carrier_mismatches": namecert_horizon_carrier_mismatches,
+        "namecert_horizon_carrier_mismatch_count": len(namecert_horizon_carrier_mismatches),
+        "namecert_horizon_carrier_hard_failures": namecert_horizon_carrier_hard,
+        "namecert_horizon_carrier_hard_failure_count": len(namecert_horizon_carrier_hard),
+        "namecert_horizon_carrier_warnings": namecert_horizon_carrier_warnings,
+        "namecert_horizon_carrier_warning_count": len(namecert_horizon_carrier_warnings),
         "paper_gate_policy_drift": paper_gate_policy_drift,
         "paper_gate_policy_drift_count": len(paper_gate_policy_drift),
         "paper_gate_policy_drift_blocking_count": sum(
@@ -11645,6 +11823,24 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["concrete_missing_origin"][:50]:
                 print(f"  {item['file']}: {item['kind']}")
+        if payload["namecert_horizon_carrier_mismatches"]:
+            print(
+                "[bedc-ci] namecert horizon carrier visibility: "
+                f"{payload['namecert_horizon_carrier_hard_failure_count']} BEDC-GAP hard failure(s), "
+                f"{payload['namecert_horizon_carrier_warning_count']} global warning(s)"
+            )
+            for item in payload["namecert_horizon_carrier_hard_failures"][:50]:
+                carriers = ", ".join(item["closurestatus_carriers"]) or ", ".join(item["closureat_carriers"])
+                print(
+                    f"  HARD {item['file']}: slug={item['slug']} "
+                    f"carriers=[{carriers}] reason={item['reason']}"
+                )
+            for item in payload["namecert_horizon_carrier_warnings"][:50]:
+                carriers = ", ".join(item["closurestatus_carriers"]) or ", ".join(item["closureat_carriers"])
+                print(
+                    f"  WARN {item['file']}: slug={item['slug']} "
+                    f"carriers=[{carriers}] reason={item['reason']}"
+                )
         if payload["paper_chapter_origin_tags"]:
             print(
                 "[bedc-ci] paper_chapter_origin_tags: "
@@ -11908,6 +12104,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["preamble_duplicate_commands_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
+        + payload["namecert_horizon_carrier_hard_failure_count"]
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["paper_gate_policy_drift_blocking_count"]
         + payload["closurestatus_diagnostics_new_count"]

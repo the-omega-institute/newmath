@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\PuncturedIntervalUp$}
+\label{ch:concrete-instances-punctured-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges on deleted neighborhoods, the $\PuncturedIntervalUp$ packet records a finite interval read around a displayed center while retaining a positive deleted-radius row. It sits after the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the real interval surface of \autoref{ch:concrete-instances-realinterval-namecert}, and the dyadic-to-real spine of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names deleted-neighborhood finite interval reads for later limit and derivative consumers; it is not full calculus, a host topology on real numbers, a selected real representative, or ambient order completeness.
+
+\begin{definition}[PuncturedInterval carrier]\label{def:punctured-interval-carrier}
+A $\PuncturedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,X,R,D,W,Q,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealIntervalUp$ source interval row, already carrying endpoint-and-enclosure data.
+\item $X$ is the center row, read as a $\RealUp$ name inside the interval surface.
+\item $R$ is the deleted-radius row, carrying a positive dyadic or regular rational radius around $X$.
+\item $D$ is the dyadic comparison row, comparing endpoint windows, the center row, and the deleted radius at a displayed tolerance.
+\item $W$ is the $\StreamNameUp$ window row for interval endpoints, center reads, and radius reads.
+\item $Q$ is the $\RegSeqRatUp$ readback row that turns the windows and dyadic comparison budget into finite rational observations.
+\item $S$ is the terminal $\RealUp$ seal row for interval, center, and deleted-neighborhood consumers.
+\item $H$ records componentwise $\hsame$ transport for source interval, center, radius, dyadic comparison, windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a deleted-neighborhood request through $I,X,R,D,W,Q,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PuncturedIntervalUp$, $\LocatedIntervalUp$, $\RealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PuncturedIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host deleted-neighborhood topology, selected real representatives, derivative data, limit laws, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.PuncturedIntervalUp}
+
+\begin{theorem}[PuncturedInterval NameCert obligations]\label{thm:punctured-interval-namecert-obligations}
+For every accepted $\PuncturedIntervalUp$ carrier $J=(I,X,R,D,W,Q,S,H,C,P,N)$, the local $\NameCert_{\PuncturedIntervalUp}$ surface consists exactly of carrier admission, interval-source readback, center readback, deleted-radius positivity, dyadic comparison exactness, StreamName window exposure, RegSeqRat finite readback, Real seal nonescape, componentwise transport, displayed replay, package provenance, and local naming. No obligation is stored outside the displayed packet rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:punctured-interval-carrier}. The projection exposes the interval source row $I$, center row $X$, positive deleted-radius row $R$, dyadic comparison row $D$, and the finite window, readback, and seal rows $W,Q,S$.
+
+The deleted-neighborhood condition is read through $R$ and $D$. The radius row supplies the positive exclusion around the center, while the dyadic comparison row is the only place where endpoint windows, center windows, and the deleted radius are compared.
+
+The finite real-name route is $D\mapsto W\mapsto Q\mapsto S$. A consumer first fixes a displayed tolerance, then reads finite stream windows, then obtains regular rational readback, and only then reaches the Real seal.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the same route. Since the carrier contains no topology object, derivative object, limit law, selected representative, trichotomy decision, choice schedule, compactness theorem, or completeness principle, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[PuncturedInterval deleted-neighborhood scope]\label{thm:punctured-interval-deleted-neighborhood-scope}
+Every deleted-neighborhood read of an accepted $\PuncturedIntervalUp$ carrier reaches an interval or $\RealUp$ consumer only through the displayed route
+$$
+I,X,R \longmapsto D,W,Q \longmapsto S,H,C,P,N .
+$$
+Thus the read exposes the source interval, center, positive deleted radius, dyadic comparison budget, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert before any downstream limit or derivative consumer can inspect the interval. The scope does not include full calculus, host real topology, quotient real equality, selected endpoint representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $J=(I,X,R,D,W,Q,S,H,C,P,N)$. The interval row $I$ and center row $X$ identify the displayed source and center, while $R$ is the only coordinate that records the deleted positive radius.
+
+Read the dyadic comparison route next. The comparison row $D$ attaches the radius exclusion to finite endpoint and center windows; the window row $W$ and readback row $Q$ keep this comparison inside StreamName and RegSeqRat data.
+
+Only after this finite comparison route may the Real seal $S$ be consumed. The structural rows $H,C,P,N$ preserve the same deleted-neighborhood read through transport, replay, provenance, and local naming.
+
+Because the carrier has no coordinate for calculus rules, a host topology, quotient equality, selected real representatives, or completeness, any later limit or derivative consumer receives only the scoped deleted-neighborhood packet described above.
+\end{proof}
+
+\closureat{PuncturedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\PuncturedIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:punctured-interval-carrier}, \autoref{thm:punctured-interval-namecert-obligations}, and \autoref{thm:punctured-interval-deleted-neighborhood-scope} seed the finite deleted-neighborhood interval surface over $\LocatedIntervalUp$, $\RealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \constructivestory{A $\PuncturedIntervalUp$ packet is generated from a RealInterval source row, a RealUp center row, a positive deleted-radius row, a dyadic comparison row, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full calculus, host real topology, derivative rules, limit laws, quotient real equality, selected real representatives, trichotomy, countable choice, compactness, ambient RealUp completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, center readback, deleted-radius positivity, dyadic comparison exactness, StreamName window exposure, RegSeqRat readback, Real seal nonescape, transport, provenance, and local naming for BEDC.Derived.PuncturedIntervalUp.}
+\end{closurestatus}

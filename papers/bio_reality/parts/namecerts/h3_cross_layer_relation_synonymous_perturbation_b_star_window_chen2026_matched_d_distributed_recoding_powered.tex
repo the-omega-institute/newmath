@@ -1,30 +1,45 @@
-\subsection{Chen matched distributed recoding boundary}\label{subsec:chen-matched-distributed-recoding-boundary}
 \origin{ai}
 
-\paragraph{Finite row under audit.}
-This record concerns the Chen matched distributed-recoding panel as a bounded test of whether a $B^{\ast}_{Q6}$ window coordinate can be promoted from synonymous residual geometry to a downstream protein-output interpretation.  The run used the nine-dimensional window surface named $\mathrm{B\_star\_window\_Q6\_9D\_Ecoli\_CAI\_spatial\_windows\_full\_nt60\_531\_and\_middle3\_drop\_first\_60\_codons}$.  The finite table contained $47$ AmpR rows, $53$ GmR rows, and $19$ multi-row $D$ strata.  The codon-adaptation weights were the E. coli genome CAI weights used by the local analysis file $\mathrm{ecoli\_genome\_cai\_weights.json}$.  The dataset was not reconstructed during the run; it was read as an already built analysis object.  The computation finished in $465.144$ seconds.
+\subsection{Matched distributed recoding window for the Chen 2026 perturbation panel}
+\label{sec:chen2026-matched-d-distributed-recoding-window}
 
-\paragraph{Observed statistic.}
-The decisive finite-row readout is null.  In the AmpR-independent check the fitted slope was exactly $0.0$, and the independent $p$-value was $1.0$.  In this row, therefore, the tested window coordinate did not produce an independent AmpR signal after the matched distributed-recoding stratification was respected.  Written as the local decision surface, the observed relation is
+\paragraph{Finite panel.}
+The Chen 2026 distributed-recoding record is treated here as a finite perturbation table rather than as a general law about synonymous sequence.  The operative coordinate family is
+$B^{\ast}_{Q6}$ on a nine-dimensional coding-window residual basis, evaluated in an Escherichia coli codon-adaptation setting.  The concrete basis used by the run is recorded as
+$B_{\mathrm{run}}=\texttt{B\_star\_window\_Q6\_9D\_Ecoli\_CAI\_spatial\_windows\_full\_nt60\_531\_and\_middle3\_drop\_first\_60\_codons}$.
+Thus the fitted rows are not whole-gene codon counts alone: they are spatial coding-window residual rows after excluding the first $60$ codons and after retaining the full nucleotide interval $60$--$531$ together with a middle-three-window component.  The finite audit contains $47$ AmpR rows, $53$ GmR rows, and $19$ multi-row $D$ strata.  The codon-adaptation weights were read from the E. coli genome CAI weight table at \texttt{tools/bio\_reality/data/ecoli\_genome\_cai\_weights.json}; the dataset was not rebuilt during the registered run, so the numerical verdict is tied to the existing local finite table rather than to a fresh data-construction event.
+
+\paragraph{Controlled readback surface.}
+Let $Q$ denote the finite matrix whose columns are the nine $B^{\ast}_{Q6}$ residual coordinates restricted to the recorded spatial windows.  Let $D$ denote the matched distributed-recoding stratum index, and let $Y_{\mathrm{AmpR}}$ and $Y_{\mathrm{GmR}}$ denote the two finite readout blocks represented by the $47$ AmpR and $53$ GmR rows.  The admissible readback is a matched perturbation regression question on this finite surface:
 $$
 \begin{aligned}
- n_{\mathrm{AmpR}} &= 47,\\
- n_{\mathrm{GmR}} &= 53,\\
- n_{D\text{-strata}} &= 19,\\
- \widehat\beta_{\mathrm{AmpR}} &= 0.0,\\
- p_{\mathrm{AmpR,independent}} &= 1.0.
+Q &= \{q_1,\ldots,q_9\},\\
+D &= \{d_1,\ldots,d_{19}\},\\
+Y &= Y_{\mathrm{AmpR}} \sqcup Y_{\mathrm{GmR}},\\
+|Y_{\mathrm{AmpR}}| &= 47,\qquad |Y_{\mathrm{GmR}}|=53.
 \end{aligned}
 $$
-The result is not a weak positive, a sign-unstable positive, or a rank-limited positive.  It is a direct refusal for the specific AmpR-independent distributed-recoding contrast supplied in this finite row.
+The run asks whether the $B^{\ast}_{Q6}$ window residuals carry an independent AmpR signal once the matched distributed-recoding design and the E. coli CAI baseline have been imposed.  The observed AmpR coefficient is exactly zero at the registered precision, $\widehat{\beta}_{\mathrm{AmpR}}=0.0$, and the independent-tail probability is $p_{\mathrm{AmpR}}=1.0$.  On this panel, therefore, the finite row set supplies no positive AmpR-specific residual effect for the chosen window basis.
 
-\paragraph{Coordinate interpretation.}
-The carrier for this chapter is the finite mediation surface whose rows may be read only as triples $(q_i,t_j,p_k)$ when all three slots are present: a $B^{\ast}_{Q6}$ residual coordinate $q_i$, a translation readout $t_j$, and a matched protein-abundance or protein-output readout $p_k$.  The Chen row supplies a synonymous perturbation and resistance-associated output boundary, but it does not by itself supply a surviving same-row translation readout.  Consequently the finite statistic remains at the perturbation boundary: it tests whether this particular recoding surface has an AmpR-independent output signal, and the answer for this run is negative.
+\paragraph{Numerical verdict.}
+The supported conclusion is a bounded null for the AmpR independent component, not a negative statement about all synonymous perturbations.  In the notation of an incremental residual test, the recorded finite surface has
+$$
+\begin{aligned}
+\Delta_{\mathrm{AmpR}} &= 0.0,\\
+p_{\mathrm{AmpR}} &= 1.0,\\
+N_{\mathrm{AmpR}} &= 47,\\
+N_{\mathrm{GmR}} &= 53,\\
+N_D &= 19.
+\end{aligned}
+$$
+The values say that, for this matched distributed-recoding table and this E. coli CAI-weighted nine-coordinate window basis, the AmpR block is not separated by an independent $B^{\ast}_{Q6}$ residual slope.  The $D$ stratification is still scientifically useful: it prevents the record from being read as a free association between a synonymous coordinate and a readout.  What is certified is the failure of this particular residual window to produce an AmpR increment under the registered finite design.
 
-\paragraph{Relation to the broader protein-output surface.}
-A separate E. coli mRFP perturbation panel had $1459$ variants and gave a positive bounded protein-output result, with base $R^2=0.12648386762689323$, full $R^2=0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta\mathrm{DL}=19.089327473282296$ bits, and matched and within null probabilities both equal to $0.004975124378109453$.  That comparison is useful only as calibration of what a finite positive perturbation row looks like.  It does not transfer positivity to the Chen distributed-recoding row.  The Chen row has its own finite counts and its own statistic, and its statistic is $\widehat\beta_{\mathrm{AmpR}}=0.0$ with $p=1.0$.
+\paragraph{Relation to translation-mediated protein abundance.}
+A separate cross-organism protein-abundance audit used the same nine-coordinate $B^{\ast}_{Q6}$ family in a different setting: a per-protein modeled-tAI mediation decomposition over $12$ organisms.  That audit had, for example, $3{,}739$ joined E. coli K-12 MG1655 proteins, $5{,}815$ joined Saccharomyces cerevisiae proteins, $19{,}053$ joined human proteins, and $19{,}395$ joined mouse proteins.  Its E. coli entry reported a total residual-to-protein association $c=0.10767526677985896$, a translation-conditioned direct component $c'=0.04167869969498872$, and an indirect difference $c-c'=0.06599656708487024$, with mediated fraction $0.612922252793667$.  Those numbers justify keeping a $Q\to T\to P$ mediation route in the broader research program, but they do not rescue the present Chen 2026 AmpR result.  The Chen 2026 panel has its own finite rows and its own recorded null: $p_{\mathrm{AmpR}}=1.0$ and $\widehat{\beta}_{\mathrm{AmpR}}=0.0$.
 
-\paragraph{Mediation gate.}
-The cross-organism $Q\to T\to P$ mediation analysis supplies a useful guardrail for interpretation.  In that separate surface, E. coli K12 MG1655 had $3739$ joined proteins, a total $Q\to P$ coefficient of determination $c=0.10767526677985896$, a direct value after modeled translation conditioning $c'=0.04167869969498872$, and an indirect component $c-c'=0.06599656708487024$, giving $M^{QTP}=0.612922252793667$.  Those numbers show how a mediated protein-abundance claim is supposed to be carried: the translation slot must be present and the downstream protein slot must be matched.  The Chen row does not report such a surviving $Q_i\to T_j$ step.  Therefore the row cannot be read as protein-realization evidence even though it is biologically adjacent to recoding and antibiotic-resistance output.
+\paragraph{Translation-readout boundary.}
+The modeled translation-survival audit computed the nine residual coordinates
+$\texttt{Arg\_AGR}$, $\texttt{Ile\_AUA}$, $\texttt{K\_AAA}$, $\texttt{Leu\_CUN\_vs\_UUR}$, $\texttt{Leu\_UUA\_vs\_UUG}$, $\texttt{Ser\_UCA\_vs\_UCG}$, $\texttt{Ser\_UCR\_vs\_AGY}$, $\texttt{Thr\_ACR\_vs\_ACY}$, and $\texttt{f3\_stress}$.  In that separate modeled-tAI contact, $81$ entries exceeded the bounded coupling threshold $0.01$, but the organism count was only $3$, so the result was explicitly not a powered ribosome-profiling or proteomics validation.  This matters for the Chen 2026 record because the CAI-weighted window basis is a bounded coding-sequence readout, not direct evidence of ribosome occupancy, translation efficiency, mature protein abundance, folding, molecular function, phenotype, mechanism, or universality.  A direct $Q\to P$ or $Q\to Y$ association would not be admissible as protein realization unless a same-row translation step $Q\to T$ first survived under the declared controls.
 
-\paragraph{Local cannot-claim boundary.}
-The finite outcome here supports only a bounded negative conclusion for this matched distributed-recoding packet.  It does not establish translation realization, ribosome occupancy, folding, physical admissibility, molecular function, mechanism, selection, or a universal biological rule.  A direct $Q_i\to P_k$ association would still be inadmissible as a protein-realization claim unless the same coordinate first survived a controlled $Q_i\to T_j$ translation-readout step.  Likewise, no CUN/UUR direction, organism-specific sign, or CAI-weighted contrast may be promoted into a population law from this row.  The correct local reading is that the Chen distributed-recoding finite row stays below the protein-realization gate: the AmpR-independent signal is absent on the supplied statistic, and any stronger biological claim requires a separate layer-matched contact and a new finite statistic on joined rows.
+\paragraph{No-promotion rule for this chapter.}
+The finite Chen 2026 result remains at the perturbation-window boundary.  It can say that the registered AmpR component is null on $47$ AmpR rows against $19$ matched $D$ strata, with $53$ GmR rows present in the same finite record.  It cannot say that $B^{\ast}_{Q6}$ has or lacks translation realization in general; it cannot infer protein folding, physical admissibility, molecular function, organismal phenotype, causal mechanism, selection, or a universal biological rule.  Any such claim would require a separate layer-matched contact: measured translation readout for translation, matched protein abundance for protein-level mediation, structure or physical assays for folding and admissibility, functional assays for molecular function, and phenotype or perturbation assays for organismal consequences.  Without that separate contact, the present row set is best read as a disciplined null result: the chosen $B^{\ast}_{Q6}$ E. coli CAI spatial-window basis does not produce an independent AmpR slope in the matched Chen 2026 distributed-recoding table.

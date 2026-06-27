@@ -243,6 +243,132 @@ every compatible source witness has the same $B$-readout, so the
 determination claim follows.
 \end{proof}
 
+\begin{definition}[Self-similar readout diagram]
+\label{def:self-similar-readout-diagram}
+A self-similar readout diagram over an interface--constraint packet is a
+displayed index family $I$ whose $i$th row is a packet
+$$
+\mathcal S_i=(R_i,\sim_i,P_i,C_i,\alpha_i,\Lambda_i,\mathsf{Cert}_i,A_i).
+$$
+Here $R_i$ is the visible record carrier, $\sim_i$ is its classifier,
+$P_i:X\to R_i$ is its source readout, $C_i$ is its admissibility row,
+$\alpha_i:R_i\to R_i$ is its self-similar continuation operation,
+$\Lambda_i$ is the provenance and gap ledger, $\mathsf{Cert}_i$ is the
+name, stability, transport, and replay certificate surface, and $A_i$ is
+the audit row. For each displayed edge $j\to i$ the diagram contains a
+projection row
+$$
+\rho_{ji}:R_j\to R_i
+$$
+such that source readout and continuation are compatible:
+$$
+\begin{gathered}
+\rho_{ji}(P_j(x))\sim_i P_i(x),\\
+\rho_{ji}(\alpha_j(r))\sim_i \alpha_i(\rho_{ji}(r)).
+\end{gathered}
+$$
+The family $I$ is part of the displayed packet; it is not an untyped
+quantification over all possible self-similar systems.
+\end{definition}
+
+\begin{definition}[Compatibility-limit carrier]
+\label{def:compatibility-limit-carrier}
+For a self-similar readout diagram $\mathcal D$, the compatibility-limit
+carrier is
+$$
+T_{\mathcal D}
+:=
+\left\{(r_i)_{i\in I}\in\prod_{i\in I}R_i:
+\begin{gathered}
+C_i(r_i)\text{ for every displayed }i,\\
+\rho_{ji}(r_j)\sim_i r_i\text{ for every displayed edge }j\to i
+\end{gathered}
+\right\}.
+$$
+Its public packet includes the coordinate projections
+$\pi_i:T_{\mathcal D}\to R_i$, the induced ledger
+$\Lambda_{\mathcal D}$, and the audit row $A_{\mathcal D}$ recording all
+readout, projection, classifier, constraint, certificate, and gap
+compatibilities. Thus $T_{\mathcal D}$ is a ledgered packet carrier, not a
+bare product set.
+\end{definition}
+
+\begin{definition}[Compatibility-limit operation]
+\label{def:compatibility-limit-operation}
+Assume the displayed self-similar operations preserve the
+compatibility-limit carrier: whenever $(r_i)_{i\in I}\in T_{\mathcal D}$,
+the family $(\alpha_i(r_i))_{i\in I}$ again lies in $T_{\mathcal D}$. The
+compatibility-limit operation is the packet operation
+$$
+\Omega_{\mathcal D}:T_{\mathcal D}\to T_{\mathcal D},
+\qquad
+\Omega_{\mathcal D}((r_i)_i):=(\alpha_i(r_i))_i.
+$$
+It is the common operation only at the level of the full packet carrying
+readout, classifier, constraint, ledger, certificate, and audit rows.
+\end{definition}
+
+\begin{theorem}[Self-similar operations are coordinate projections]
+\label{thm:self-similar-operations-coordinate-projections}
+For every displayed $i\in I$,
+$$
+\pi_i\circ\Omega_{\mathcal D}
+\sim_i
+\alpha_i\circ\pi_i.
+$$
+\end{theorem}
+
+\begin{proof}
+Let $r=(r_j)_{j\in I}\in T_{\mathcal D}$. By definition of
+$\Omega_{\mathcal D}$,
+$$
+\Omega_{\mathcal D}(r)=(\alpha_j(r_j))_{j\in I}.
+$$
+Applying the $i$th coordinate projection gives
+$$
+\pi_i(\Omega_{\mathcal D}(r))=\alpha_i(r_i).
+$$
+Since $\pi_i(r)=r_i$, the right-hand side is also
+$$
+(\alpha_i\circ\pi_i)(r).
+$$
+The two readouts therefore agree at classifier resolution $\sim_i$.
+\end{proof}
+
+\begin{corollary}[Binary observation as projected operation]
+\label{cor:binary-observation-projected-operation}
+Suppose the diagram contains a binary observation row
+$R_B=\{B_0,B_1\}$ with projection $\pi_B:T_{\mathcal D}\to R_B$. If
+$b_0\in T_{\mathcal D}$ satisfies $\pi_B(b_0)=B_0$ and
+$$
+\pi_B(\Omega_{\mathcal D}(b_0))=B_1,
+$$
+then $B_1$ is the binary-layer readout of the full packet operation at
+$b_0$. The informal notation $B_1=\Omega_{\mathcal D}(B_0)$ abbreviates
+this projected statement; the typed packet statement applies
+$\Omega_{\mathcal D}$ to $b_0$ and reads the result through $\pi_B$.
+\end{corollary}
+
+\begin{proof}
+The operation $\Omega_{\mathcal D}$ has domain $T_{\mathcal D}$, while
+$B_0$ and $B_1$ are records in the binary observation carrier. Therefore
+the operation cannot be applied to $B_0$ as a bare record. The displayed
+source point is $b_0$, and the binary observation after one packet
+operation is exactly $\pi_B(\Omega_{\mathcal D}(b_0))$. The assumed
+equality identifies that readout with $B_1$.
+\end{proof}
+
+\begin{principle}[Packet-level reading of common self-similarity]
+\label{prin:packet-level-common-self-similarity}
+Prime-coordinate generation, Zeckendorf carry normalization, window
+constraint continuation, analytic readout, and recovered-zeta carrier
+formation may be compared as projections of one compatibility-limit
+operation only after their carrier, classifier, projection, constraint,
+ledger, certificate, and audit rows are all displayed. Without those rows,
+the comparison is merely an analogy between operations and not a
+reality-constrained packet claim.
+\end{principle}
+
 \begin{definition}[Constraint geometry surface]
 \label{def:interface-constraint-geometry-surface}
 Let

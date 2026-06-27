@@ -1,32 +1,44 @@
-\subsection{Cross-ortholog selection-imprint audit for $B^*_{Q6}$ residuals}\label{sec:biorality-q6-cross-ortholog-selection-imprint}\origin{ai}
+\origin{ai}
+\subsection{Cross-Ortholog Selection-Imprint Boundary for $B^{\ast}_{Q6}$ Residual Coordinates}
+\label{sec:bioreality-cross-ortholog-selection-imprint-bstar-q6}
 
-\paragraph{Finite surface.}
-The selection-imprint test is posed on a finite cross-ortholog surface whose rows join fungal single-copy orthogroups, coding sequences, residual codon coordinates, and integrated protein-abundance readouts. The evaluated panel contains $80$ orthogroups, $3$ species, and $240$ joined rows. The source declaration is OrthoDB v12 at Fungi level $4751$ for single-copy orthogroups, Ensembl Fungi release $63$ for coding sequences, and PaxDb v6 integrated ppm for abundance. The coordinate side is the nine-dimensional $B^*_{Q6}$ residual list
+\paragraph{Finite question.}
+This record asks whether the $B^{\ast}_{Q6}$ synonymous residual coordinates, already defined at the coding-sequence coordinate level, leave a cross-ortholog imprint strong enough to be read as an evolutionary selection signal rather than as a bounded codon-bias and expression association. The finite surface consists of triples $(q_i,t_j,p_k)$ only after the first coordinate has passed through a translation-facing readout. In this audit the evolutionary panel is smaller and coarser than the translation-mediated protein-abundance panel: it contains $80$ single-copy fungal orthogroups, $3$ species, and $240$ orthogroup--species rows. The data source is OrthoDB v12 at Fungi level $4751$ for single-copy orthogroups, Ensembl Fungi release $63$ for CDS rows, and PaxDb v6 integrated ppm for protein abundance.
+
+\paragraph{Admissible readback.}
+The readback is not a direct claim that a synonymously defined coordinate is under selection. It is a controlled finite comparison in which the candidate imprint must improve a model beyond simpler codon-bias and expression structure and must survive a clade-withholding stress test. The evaluated positive-imprint gate reported
 $$
 \begin{aligned}
-Q=\{&\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{K\_AAA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
-&\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Thr\_ACR\_vs\_ACY}, f_3\text{-}\mathrm{stress}\}.
+ n_{\mathrm{OG}} &= 80,\\
+ n_{\mathrm{species}} &= 3,\\
+ n_{\mathrm{rows}} &= 240,\\
+ \Delta R^2 &= 0.03250515015613468,\\
+ \Delta L_{\mathrm{bits}} &= -258.6010084301837,\\
+ \Delta R^2_{\mathrm{leave\mbox{-}clade\mbox{-}out}} &= -0.0021477729853302424,\\
+ \max \Delta R^2_{\mathrm{null},95} &= 0.05427157066522958.
 \end{aligned}
 $$
-The biological question is not whether a codon-bias residual can correlate with expression. It is whether the residual carries a cross-ortholog imprint strong enough to pass the positive selection-imprint gate after the simpler baselines and clade-holdout check have had a chance to absorb the signal.
+The within-panel fit is therefore positive in ordinary residual variance terms, but it does not exceed the registered null envelope and it reverses under the leave-clade-out diagnostic. The finite verdict is consequently not a positive evolutionary selection-imprint result. The registered conclusion is the weaker statement that the data show a codon-bias/expression correlation on this panel.
 
-\paragraph{Gate calculation.}
-The registered offline run completed with status \emph{passed}, where passing means that the finite audit ran to a bounded verdict rather than that the biological claim was supported. The fitted signal gave
+\paragraph{Negative gate.}
+The decisive inequality is the comparison between the observed improvement and the null threshold:
 $$
 \begin{aligned}
-\Delta R^2 &= 0.03250515015613468,\\
-\Delta L_{\mathrm{bits}} &= -258.6010084301837,\\
-\Delta R^2_{\mathrm{leave\mbox{-}clade\mbox{-}out}} &= -0.0021477729853302424,\\
-\max \Delta R^2_{\mathrm{null},95} &= 0.05427157066522958.
+ \Delta R^2_{\mathrm{observed}} &= 0.03250515015613468,\\
+ \max \Delta R^2_{\mathrm{null},95} &= 0.05427157066522958,\\
+ \Delta R^2_{\mathrm{observed}} - \max \Delta R^2_{\mathrm{null},95} &= -0.02176642050809490.
 \end{aligned}
 $$
-The positive-imprint predicate is therefore false: $0.03250515015613468$ is below the reported null $95\%$ ceiling $0.05427157066522958$, and the leave-clade-out value is slightly negative. The finite row set is large enough to report a codon-bias/expression correlation, but it is not large enough to support the stronger evolutionary selection-imprint reading. The run records the honest bounded verdict as \emph{codon\_bias\_expression\_correlation}, not as cross-ortholog selection.
+Thus the finite-row statistic is below the required positive-imprint threshold. The leave-clade-out value, $-0.0021477729853302424$, also rules out treating the signal as a stable cross-clade improvement. The experiment status is reported as passed only in the procedural sense: the registered offline computation ran to completion and returned a bounded verdict. Its biological support flag is false for the strong selection-imprint claim.
 
-\paragraph{Relation to translation and protein-abundance contacts.}
-The same residual family has separate translation-facing and protein-facing audits, and those do not license promotion of this ortholog result. In the modeled-tAI survival calculation, only $3$ organisms were used for the initial bounded readout; the matrix had $81$ entries above threshold $0.01$ and maximum absolute score $3801961.031607896$, but the run itself states that $3$ organisms are insufficient for powered survival and that at least $40$ matched species would be needed for a powered survival request. In a distinct cross-organism protein-abundance mediation run, the joined protein counts included $5815$ rows for \emph{Saccharomyces cerevisiae}, $3739$ for \emph{Escherichia coli} K12 MG1655, $19053$ for human, and $19395$ for mouse; the yeast statistical mediation fraction was $0.9491551041216973$, while the human fraction was $0.27206289160119157$. Those numbers show that the residual coordinates can be evaluated against translation-weighted abundance surfaces, but they do not turn the $80$-orthogroup fungal imprint audit into evidence for selection. The structural-order axis audit likewise singled out $f_3$-stress with sign-flip $p=0.03125$ and weighted held-out increment $0.0031744502294756994$, but that is an axis-identity result, not a population-genetic mechanism.
+\paragraph{Relation to translation contacts.}
+The negative selection-imprint result should not be confused with the separate translation-layer contacts. A modeled tAI contact exists for $3$ organisms, with $81$ modeled coupling entries above threshold $0.01$ and maximum absolute modeled coupling $3801961.031607896$ under dos Reis wobble weights. That contact was explicitly marked as underpowered for a powered survival claim because $3$ organisms are insufficient where at least $40$ matched species would be needed. A broader protein-abundance mediation computation also exists on $12$ organism panels, with examples such as $5815$ joined yeast proteins, $19053$ joined human proteins, and $3739$ joined Escherichia coli K-12 MG1655 proteins. In that separate matrix, the yeast statistical mediation fraction was $0.9491551041216973$, the human fraction was $0.27206289160119157$, and the Escherichia coli K-12 MG1655 fraction was $0.612922252793667$. These numbers show that bounded translation-facing and protein-abundance decompositions can be computed on larger matched panels, but they do not repair the cross-ortholog evolutionary gate above, whose own finite panel remains $80$ orthogroups and $240$ rows.
+
+\paragraph{Execution context.}
+The surrounding BioReality register also contains an observable execution result in Saccharomyces cerevisiae with $3289$ genes, where at least one observed rate-proxy slot passed both effective null classes. The earlier confirmatory genetic-code table contact used $40$ independent trials with $40$ successes in each of two exact one-sided binomial checks, giving $p=9.094947017729282\times 10^{-13}$ in both cases, while $20$ negative controls and $20$ critical ablation controls had $0$ unexpected successes. Those records justify that finite biological contacts can be attached and tested without promoting the residual geometry itself into a higher biological layer. They do not change the present cross-ortholog conclusion: the strong selection-imprint claim is not supported on this finite surface.
 
 \paragraph{Local interpretation.}
-The admissible reading is narrow. On this finite panel, $B^*_{Q6}$ residuals retain a measurable codon-bias/expression relation, and the description-length statistic is favorable in-sample. The stronger claim fails because the effect does not clear the null envelope and does not persist under leave-clade-out evaluation. The chapter therefore records a negative result for the proposed evolutionary selection imprint while preserving the weaker empirical contact: residual codon structure can covary with integrated abundance in the assembled fungal ortholog table.
+The allowed conclusion is narrow. The panel supports a bounded codon-bias/expression correlation, not a direct proof that $B^{\ast}_{Q6}$ residuals are selected molecular targets. PaxDb integrated ppm values aggregate across studies and species, so they are not matched-condition absolute per-cell protein measurements. Failed or missing cross-reference reconciliation can remove proteins non-randomly. Most importantly, a positive residual association, even when present, is only an imprint criterion unless the registered selection gate is passed. Here the gate is not passed.
 
-\paragraph{No-promotion boundary.}
-No translation mechanism, ribosome occupancy, folding fact, physical admissibility statement, molecular function, organismal phenotype, causal selection mechanism, or universal biological rule follows from this audit. PaxDb ppm are integrated across studies and species rather than matched-condition absolute per-cell protein measurements; failed or missing cross-reference reconciliation may remove proteins non-randomly; and a positive statistical residual would at most be an imprint criterion, not direct proof of the molecular process. Here the positive criterion is not met. Any later claim about translation, folding, physical admissibility, function, mechanism, or universality must be supplied by a separate layer-matched measurement and its own finite statistic.
+\paragraph{Layer boundary.}
+No translation-level realization, folding statement, physical-admissibility statement, molecular-function statement, mechanistic selection claim, organismal-phenotype claim, or universal biological law follows from this result. Any such assertion would require a separate layer-matched contact and its own finite statistic. In particular, a direct $q_i\to p_k$ association cannot be used as evidence of protein realization unless the same coordinate first survives a controlled $q_i\to t_j$ translation-readout step, with amino-acid composition, organism, GC3, CDS length, M-density baseline, and matched mRNA abundance kept in the control set. For this chapter the finite conclusion remains: the registered computation completed, but the powered cross-ortholog evolutionary selection-imprint claim is false on the available rows.

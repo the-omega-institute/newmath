@@ -291,13 +291,25 @@ Next apply \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. The s
 Finally the terminal row $E$ seals the same route as a $\RealUp$ read. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the route and do not add any of the refused host-level data.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence bridge scope]
+\label{thm:fast-cauchy-subsequence-bridge-scope}
+The bridge-facing public route of an accepted $\FastCauchySubsequenceUp$ packet is exhausted by the displayed $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\FastCauchyUp$, $\RegularCauchySubsequenceUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows, together with componentwise transport, replay, provenance, and local $\NameCert$ rows. No bridge-facing read can enter through host subsequence equality, a countable-choice selector, a quotient Cauchy class, a selected limit, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the regular route of \autoref{thm:fast-cauchy-subsequence-regular-route}. It orders every public read through the inspected modulus row, cofinal selector row, fast-rate row, regular-subsequence handoff, regular rational readback, and terminal real seal.
+
+Use the cofinal tail obligation of \autoref{thm:fast-cauchy-subsequence-cofinal-tail-obligation} and the selector-window coverage of \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. These theorems keep the selected windows inside the displayed modulus and selector ledgers before the fast-rate and regular-subsequence rows are consumed.
+
+Finally apply the RegSeqRat and Real route of \autoref{thm:fast-cauchy-subsequence-regseqrat-real-route}. The dyadic support, regular rational readback, and real seal are read through the same finite packet, while $H,C,P,N$ only transport, replay, source, and name the route. Since none of the displayed rows stores host equality, countable choice, quotient classes, selected limits, trichotomy, or ambient completeness, those endpoints cannot enter the bridge-facing read.
+\end{proof}
+
 \begin{closurestatus}{\FastCauchySubsequenceUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:fast-cauchy-subsequence-carrier}, \autoref{thm:fast-cauchy-subsequence-namecert-obligations}, \autoref{thm:fast-cauchy-subsequence-regular-route}, \autoref{thm:fast-cauchy-subsequence-cofinal-tail-obligation}, and \autoref{thm:fast-cauchy-subsequence-regseqrat-real-route} export the public FastCauchySubsequence NameCert route through the existing $\RegSeqRatUp$ and $\RealUp$ handoff rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-subsequence-carrier}, \autoref{thm:fast-cauchy-subsequence-namecert-obligations}, \autoref{thm:fast-cauchy-subsequence-regular-route}, \autoref{thm:fast-cauchy-subsequence-cofinal-tail-obligation}, \autoref{thm:fast-cauchy-subsequence-regseqrat-real-route}, and \autoref{thm:fast-cauchy-subsequence-bridge-scope} bind the bridge-facing FastCauchySubsequence route through the displayed $\RegSeqRatUp$ and $\RealUp$ handoff rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.FastCauchySubsequenceUp.FastCauchySubsequenceNamecertObligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host subsequence equality, arbitrary countable choice, quotient Cauchy classes, selected limits, trichotomy, $\RealUp$ completeness, or a standard bridge.}
-  \upgradepath{Bridge closure requires a standard bridge for the public FastCauchySubsequence route without adding host choice, selected limits, or quotient equality.}
+  \upgradepath{The finite fast-Cauchy subsequence route is mature on the paper axis; remaining work is limited to Lean-side cleanliness and bridge synchronization when a standard bridge theorem is supplied.}
   \constructivestory{A $\FastCauchySubsequenceUp$ packet is generated from inspected source windows, a CauchyModulus row, a CofinalSubsequence selector, a FastCauchy rate row, a RegularCauchySubsequence handoff, a RegSeqRat readback, a RealUp seal, componentwise transports, replay routes, provenance, and a local NameCert row.}
 \end{closurestatus}

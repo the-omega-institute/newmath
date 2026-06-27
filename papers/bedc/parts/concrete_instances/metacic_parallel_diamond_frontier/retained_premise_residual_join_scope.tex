@@ -1,0 +1,19 @@
+\begin{theorem}[MetaCIC retained-premise residual-join scope]
+\label{thm:metacic-parallel-diamond-retained-premise-residual-join-scope}
+Every candidate-mediated residual join read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet remains inside the typed local-join scope when the retained premise window is exposed before the normalization and confluence handoff rows. Equivalently, the read must keep the finite carrier-local route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+visible with $P$ as the retained premise, $K$ as the critical-pair row, $J$ as the candidate-normalization row, $R,S,C,B$ as the residual witness, local-join, closed-checker, and bounded-checker rows, $O$ as the obstruction row, and $H,T,G,N$ as transport, replay, provenance, and local naming.
+
+The resulting scope is a retained-premise residual-join surface. It does not export premise-free residual substitution, global confluence, subject reduction, evaluator equality, quotient term equality, unrestricted normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First apply retained-premise scope, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-scope}. It requires every premise used by a frontier read to appear as one of the displayed residual-pair, candidate-normalization, local-join, closed-checker, obstruction, transport, replay, provenance, or naming rows.
+
+Next use candidate-mediated residual-join scope, \autoref{thm:metacic-parallel-diamond-candidate-mediated-residual-join-scope}. The candidate row and residual rows are consumed only after the critical-pair envelope and residual-substitution dependency route have made the retained premise visible.
+
+Now read the window-budget scope and residual-join obligation surface, \autoref{thm:metacic-parallel-diamond-frontier-window-budget-scope} and \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligations}. These theorems keep the bounded checker, local join, obstruction, transport, replay, provenance, and local naming rows on the same carrier-local route.
+
+Therefore a candidate-mediated residual join can be exported only as the displayed retained-premise surface $P,K,J,R,S,C,B,O,H,T,G,N$. Since no cited row contains a premise-free residual-substitution discharge or any global kernel endpoint, the conclusion remains inside the typed local-join scope.
+\end{proof}

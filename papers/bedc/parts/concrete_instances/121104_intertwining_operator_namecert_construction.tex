@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\IntertwiningOperatorUp$}
+\label{ch:concrete-instances-intertwining-operator-namecert}
+\origin{human}
+
+Following Fulton and Harris on intertwiners between finite-dimensional representation spaces, the $\IntertwiningOperatorUp$ packet records an equivariant linear map between two displayed finite representation rows as NameCert data. It consumes the finite representation carrier of \autoref{ch:concrete-instances-finite-group-representation-namecert}, the linear-map source of \autoref{ch:concrete-instances-linearmap-namecert}, the Schur-facing Hom boundary of \autoref{ch:concrete-instances-schur-lemma-namecert}, and the direct-sum and tensor ledger of \autoref{ch:concrete-instances-representationring-namecert}. The packet names only the displayed morphism surface; it does not assert irreducibility, Schur scalarity, quotient representation equality, or a host category of representations.
+
+\begin{definition}[IntertwiningOperator carrier]
+\label{def:intertwining-operator-carrier}
+An $\IntertwiningOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,U,V,L,E,S,C,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the common finite group source row read through the two representation packets.
+\item $U$ is the source $\FiniteGroupRepresentationUp$ row.
+\item $V$ is the target $\FiniteGroupRepresentationUp$ row over the same group source.
+\item $L$ is the consumed $\LinearMapUp$ row naming the underlying linear map from the source vector-space row of $U$ to the target vector-space row of $V$.
+\item $E$ is the equivariance ledger, recording for each displayed group row that applying the target action after $L$ and applying $L$ after the source action replay to the same named row.
+\item $S$ is the Schur-facing Hom boundary consumed by $\SchurLemmaUp$ and $\SchurOrthogonalityUp$ readers.
+\item $C$ is the $\RepresentationRingUp$ composition and operation ledger boundary, exposing only the rows needed by direct-sum, tensor, and composable-morphism consumers.
+\item $H$ records componentwise $\hsame$ transport for $G,U,V,L,E,S,C$.
+\item $T$ records displayed $\Cont$ replay for action compatibility, Schur-facing reads, and representation-ring operation reads.
+\item $P$ is the $\Pkg$ provenance over $\FiniteGroupRepresentationUp$, $\LinearMapUp$, $\SchurLemmaUp$, $\RepresentationRingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\IntertwiningOperatorUp}$ row.
+\end{enumerate}
+No carrier coordinate stores all host linear maps, a quotient Hom space, a chosen basis, an irreducible decomposition, or a global representation category.
+\end{definition}
+
+\begin{theorem}[IntertwiningOperator NameCert obligations]
+\label{thm:intertwining-operator-namecert-obligations}
+For every accepted $\IntertwiningOperatorUp$ carrier $I=(G,U,V,L,E,S,C,H,T,P,N)$, the local $\NameCert_{\IntertwiningOperatorUp}$ surface consists exactly of carrier admission for the displayed tuple, common-group exposure through $G$, source and target representation exposure through $U,V$, underlying linear-map exposure through $L$, equivariance exactness through $E$, Schur-facing Hom boundary through $S$, representation-ring consumer boundary through $C$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$.
+
+The obligation surface is local to the finite representation rows. It does not claim Schur scalarity, nonzero Hom classification, representation-ring equality, quotient Hom computation, complete reducibility, or a host category of representations.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:intertwining-operator-carrier}. The tuple $G,U,V,L,E,S,C,H,T,P,N$ is the whole public surface, so carrier admission cannot introduce a second Hom object or a private linear-map equality.
+
+Read $U$ and $V$ through the finite representation chapter and $L$ through the linear-map chapter. The equivariance ledger $E$ is then a finite row-by-row replay over the same group source $G$, comparing target action after $L$ with $L$ after source action only through displayed continuation rows.
+
+Finally route downstream consumers through $S$ and $C$. Schur-facing readers may inspect only the Hom boundary already named by the packet, and representation-ring readers may inspect only the displayed composition or operation rows. Repacking those rows with $H,T,P,N$ gives the stated local NameCert surface and none of the refused global endpoints.
+\end{proof}
+
+\begin{theorem}[IntertwiningOperator composition stability]
+\label{thm:intertwining-operator-composition-stability}
+Let $I=(G,U,V,L,E,S,C,H,T,P,N)$ and $J=(G,V,W,M,F,R,D,K,Q,B,O)$ be accepted $\IntertwiningOperatorUp$ packets sharing the middle representation row $V$ and the same finite group source $G$. If the representation-ring composition boundary exposes the composable rows of $C$ and $D$, then the displayed composite linear row $M\circ L$ carries a finite equivariance ledger obtained by replaying $E$ and $F$ in sequence. The resulting composite remains an $\IntertwiningOperatorUp$ packet over $U$ and $W$ after componentwise transport, continuation replay, provenance, and local naming.
+
+This stability claim is only about the finite displayed composition surface. It does not identify a quotient Hom class, prove associativity for a host category, select bases, or derive Schur scalarity.
+\end{theorem}
+\begin{proof}
+Begin with the source packet $I$. Its equivariance ledger $E$ says that each displayed group action on $U$ can be moved across the linear-map row $L$ to the matching action on $V$ by displayed continuation replay.
+
+Next use the target packet $J$. Its ledger $F$ moves the same displayed group action on $V$ across $M$ to the matching action on $W$.
+
+Compose the two replays along the middle representation row. The representation-ring boundary rows $C$ and $D$ certify that the requested composition is a displayed finite operation row, while the structural rows $H,T,P,N$ and $K,Q,B,O$ transport, replay, source, and name the composite data.
+
+The constructed carrier therefore has the same row shape as \autoref{def:intertwining-operator-carrier}, with the composite linear row replacing $L$ and the sequential replay replacing $E$. Since every step stays inside the displayed rows, the theorem exports only composition stability for finite intertwiners and none of the refused host-level endpoints.
+\end{proof}
+
+\closureat{IntertwiningOperatorUp}{seedStr}
+
+\begin{closurestatus}{\IntertwiningOperatorUp}
+  \constructivestory{An $\IntertwiningOperatorUp$ packet is generated from a common finite group source, source and target FiniteGroupRepresentationUp rows, a LinearMapUp row, a finite equivariance ledger, SchurLemmaUp and RepresentationRingUp consumer boundaries, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:intertwining-operator-carrier}, \autoref{thm:intertwining-operator-namecert-obligations}, and \autoref{thm:intertwining-operator-composition-stability} seed the finite equivariant-linear-map carrier, its NameCert obligation surface, and composition stability over displayed representation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Schur scalarity, irreducibility, quotient Hom computation, host representation categories, chosen bases, Lean verification, or bridge checking for $\IntertwiningOperatorUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-group exposure, source and target representation exposure, linear-map exactness, equivariance replay, Schur-facing boundary, representation-ring composition stability, transport, replay, provenance, and local naming for BEDC.Derived.IntertwiningOperatorUp.}
+\end{closurestatus}

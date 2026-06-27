@@ -40,6 +40,82 @@ Transport and replay are then read through $H$ and $C$. These rows preserve the 
 Finally, $P$ and $N$ account for the finite provenance and local name. Hence the listed rows exhaust the NameCert obligations for the route-choice packet.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteChoice obligation surface]
+\label{thm:subject-reduction-route-choice-obligation-surface}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, the obligation surface exposes the explicit bundle row $B$, the bundle-consumption row $V$, the obstruction-boundary row $O$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the package provenance row $P$, and the local naming row $N$. The same finite route is read through the discharge bundle surface, the socket boundary, and the downstream subject-reduction consumer of the sibling chapters.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The bundle row, bundle-consumption row, obstruction row, transport row, replay row, provenance row, and local name are all visible coordinates of one finite packet.
+
+The discharge bundle and socket boundary are not hidden behind the packet: they are the sibling surfaces that motivate the route-choice rows already displayed in $B,V,O$. The accepted carrier therefore exposes the same finite route before any downstream consumer can read it.
+
+Since the carrier has no coordinate for closed-CIC discharge, hidden route choice, or host proof search, the displayed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice MetaCIC scope]
+\label{thm:subject-reduction-route-choice-metacic-scope}
+Every accepted $\SubjectReductionRouteChoiceUp$ read remains inside the MetaCIC route of the discharge bundle, socket boundary, substitution/type-preservation rows, and the downstream subject-reduction consumer. The route may cite the sibling surfaces of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert}, but it does not claim closed-CIC discharge or host proof search.
+\end{theorem}
+\begin{proof}
+Use the obligation surface theorem above. It identifies the displayed rows and binds them to the finite route-choice packet before any consumer may proceed.
+
+The sibling discharge and socket chapters provide the finite MetaCIC support surface, while the subject-reduction consumer chapter names the downstream use site. Because the packet has no coordinate for closed-CIC discharge or host proof search, those claims remain outside the scope.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice nonescape]
+\label{thm:subject-reduction-route-choice-nonescape}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, no consumer can extract closed-CIC discharge, hidden route choice, or host proof search from the packet. The accepted route-choice data remain exactly the displayed bundle, consumption, obstruction, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The route-choice packet consists exactly of the displayed rows $B,V,O,H,C,P,N$.
+
+Apply the MetaCIC scope theorem of \autoref{thm:subject-reduction-route-choice-metacic-scope}. It keeps the route inside the sibling discharge, socket, substitution, and consumer surfaces.
+
+Since no extra coordinate is present, the packet cannot export closed-CIC discharge, hidden route choice, or host proof search.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice substitution stability]
+\label{thm:subject-reduction-route-choice-substitution-stability}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, a MetaCIC worker may read substitution stability only as a finite route-choice obligation over the displayed $\BHist$ packet. The obligation exposes the bundle row $B$, the bundle-consumption row $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, and the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ row $N$.
+
+It states that substitution-facing reads must preserve the same route-choice rows before any subject-reduction discharge is consumed. It does not assert unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The only rows available to a substitution-facing consumer are the explicit bundle row $B$, the consumption row $V$, the obstruction boundary $O$, transport $H$, continuation $C$, provenance $P$, and naming $N$.
+
+Apply the NameCert obligations of \autoref{thm:subject-reduction-route-choice-obligations}. They require every read to keep route visibility for $B,V$, obstruction visibility for $O$, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+Thus substitution stability is an obligation to preserve the displayed route-choice surface. Since the carrier has no quotient syntax-equality row, no host evaluator row, and no closed-consistency coordinate, no global MetaCIC theorem follows from this packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice type-preservation window]
+\label{thm:subject-reduction-route-choice-type-preservation-window}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, every bounded type-preservation window exposed to a MetaCIC worker is a finite $\BHist$ read through $B,V,H,C,P,N$ with the obstruction row $O$ still visible. The window records which discharge bundle route may be consumed and how $\hsame$ and $\Cont$ replay preserve that route inside the local $\NameCert$ surface.
+
+The window is not a proof of full subject reduction. It exports no unrestricted reduction theorem, quotient syntax equality, host evaluator soundness, or closed consistency claim.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier. The route rows $B,V$ identify the discharge bundle surface and its consumption route, while $O$ records the boundary where the present substrate has not supplied the missing closed-CIC discharge.
+
+The transport and continuation rows $H,C$ keep the bounded read inside the same finite packet. The provenance and naming rows $P,N$ then record that the worker is using the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ surface rather than a detached evaluator theorem.
+
+Consequently the type-preservation window is bounded by the displayed rows. It can tell a worker where a discharge bundle would be consumed, but it cannot export full subject reduction or any of the refused host-side principles.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice blocked-edge nonescape]
+\label{thm:subject-reduction-route-choice-blocked-edge-nonescape}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, every blocked subject-reduction edge remains inside the obstruction row $O$ and the finite replay rows $H,C,P,N$. A downstream MetaCIC worker may cite the edge only as a visible blocked route in the same $\BHist$ packet and must keep the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ row attached.
+
+No blocked edge escapes as unrestricted subject reduction, quotient syntax equality, host evaluator soundness, closed consistency, or an inhabited discharge bundle.
+\end{theorem}
+\begin{proof}
+Inspect the obstruction boundary in \autoref{def:subject-reduction-route-choice-carrier}. The row $O$ is separate from the route rows $B,V$, so a blocked edge cannot be reclassified as an inhabited discharge route.
+
+The NameCert obligations of \autoref{thm:subject-reduction-route-choice-obligations} keep every read under componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. These rows preserve the blocked-edge status instead of creating a new discharge coordinate.
+
+Therefore a downstream worker can use the blocked edge as finite route-choice information only. The refused global subject-reduction, quotient-equality, evaluator-soundness, and closed-consistency claims remain outside the packet.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteChoice bundle-route exhaustion]
 \label{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}
 Every consumer read of an accepted $\SubjectReductionRouteChoiceUp$ packet reaches exactly one public route surface: the explicit bundle surface $B,V$. That surface exposes the four discharge coordinates named by the subject-reduction discharge interface, and no second route, hidden instance, or host conversion rule is exported by the packet.
@@ -77,7 +153,7 @@ The route-choice packet also records $O$, so the handoff is not read as a closed
 \begin{closurestatus}{\SubjectReductionRouteChoiceUp}
   \constructivestory{A $\SubjectReductionRouteChoiceUp$ packet is generated from explicit bundle, bundle-consumption, obstruction-boundary, transport, continuation, provenance, and local naming rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:subject-reduction-route-choice-carrier}, \autoref{thm:subject-reduction-route-choice-obligations}, \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, \autoref{thm:subject-reduction-route-choice-obstruction-boundary}, and \autoref{thm:subject-reduction-route-choice-vision-handoff} bind the finite route-choice packet for bundle discharge access.}
+  \scopeclosed{\autoref{def:subject-reduction-route-choice-carrier}, \autoref{thm:subject-reduction-route-choice-obligations}, \autoref{thm:subject-reduction-route-choice-substitution-stability}, \autoref{thm:subject-reduction-route-choice-type-preservation-window}, \autoref{thm:subject-reduction-route-choice-blocked-edge-nonescape}, \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, \autoref{thm:subject-reduction-route-choice-obstruction-boundary}, and \autoref{thm:subject-reduction-route-choice-vision-handoff} bind the finite route-choice packet for bundle discharge access.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

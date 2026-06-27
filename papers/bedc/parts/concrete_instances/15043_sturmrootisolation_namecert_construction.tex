@@ -42,7 +42,7 @@ For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N
 \end{enumerate}
 No further analytic or algebraic obligation is part of the packet.
 \end{theorem}
-\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:sturm-root-isolation-carrier}. The polynomial row supplies only the displayed coefficient, derivative, and pseudo-remainder inputs, while the rational and dyadic interval rows supply only the inspected cells and endpoint windows.
 
@@ -66,6 +66,75 @@ Consequently any downstream interval consumer receives the retained cell togethe
 \end{proof}
 \leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_sign\_variation\_handoff}
 
+\begin{theorem}[Sturm root-isolation squarefree route]
+\label{thm:sturm-root-isolation-squarefree-route}
+Every accepted $\SturmRootIsolationUp$ carrier reads the squarefree polynomial route before a sign-variation count can be consumed. Concretely, the polynomial source row $P$ and Sturm ledger $V$ must display the squarefree factor row, the pseudo-remainder or resultant compatibility row, the endpoint sign rows, and the retained interval rows from $I,D$ before the branch row $B$ is available. The interval-refinement certificate may cite \autoref{ch:concrete-instances-sturm-sequence-namecert}, \autoref{ch:concrete-instances-polynomial-resultant-namecert}, \autoref{ch:concrete-instances-rationalinterval-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-streamname-namecert} only through these displayed $\BHist$ and $\NameCert$ rows, and it exports no host squarefree factorization theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_squarefree\_route}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-root-isolation-carrier}. The polynomial source row $P$ contains the coefficient, derivative, pseudo-remainder, and squarefree-route data from which the finite Sturm sequence is read.
+
+Use the sign-variation handoff of \autoref{thm:sturm-root-isolation-sign-variation-handoff}. It places every branch consumer downstream of $P,I,D,V,B$ and therefore downstream of the displayed squarefree and endpoint-sign rows that feed $V$.
+
+The sibling chapters supply only their finite certificate surfaces: \autoref{ch:concrete-instances-sturm-sequence-namecert} supplies the chain rows, \autoref{ch:concrete-instances-polynomial-resultant-namecert} supplies compatibility data, and the rational, stream, regular-rational, and Real siblings supply interval and completion rows. Since no carrier coordinate stores a host factorization theorem, the squarefree route is exactly the displayed packet route.
+\end{proof}
+
+\begin{theorem}[Sturm root-isolation subresultant sign-variation route]
+\label{thm:sturm-root-isolation-subresultant-sign-variation}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, the sign-variation count used by $B$ is downstream of the subresultant or pseudo-remainder compatibility rows displayed in $P$ and $V$. The interval-refinement certificate cannot bypass those rows: any refinement that reaches $W,R,S$ must first replay the polynomial resultant route, the Sturm sequence route, the endpoint sign rows, and the rational or dyadic interval rows through $H,C,Q_0,N$.
+\end{theorem}
+\begin{proof}
+Read the Sturm ledger $V$. Its variation-count entries are tied to displayed chain entries and endpoint signs, so a count cannot be consumed before the subresultant or pseudo-remainder compatibility rows for those chain entries have been displayed.
+
+Apply the squarefree route theorem \autoref{thm:sturm-root-isolation-squarefree-route}. It places the branch row $B$ downstream of the squarefree polynomial route and the resultant compatibility rows, while \autoref{ch:concrete-instances-sturm-sequence-namecert} and \autoref{ch:concrete-instances-polynomial-resultant-namecert} provide only named finite sibling surfaces.
+
+Finally use interval refinement and Real seal nonescape, \autoref{thm:sturm-root-isolation-interval-refinement} and \autoref{thm:sturm-root-isolation-real-seal-nonescape}. The retained interval cannot reach $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ rows before the same polynomial, resultant, sign-variation, and interval rows have been replayed through $H,C,Q_0,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_subresultant\_sign\_variation}
+
+\begin{theorem}[Sturm root-isolation sign-variation scope]
+\label{thm:sturm-root-isolation-sign-variation-scope}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, every accepted branch selection reads the polynomial chain rows in $P$ and the endpoint sign rows in $V$ before the branch row $B$ is available. The branch classifier therefore acts only on displayed polynomial, endpoint-sign, and variation-count data, and it exports no root object or external sign oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-root-isolation-carrier}. The polynomial source row $P$ stores the displayed coefficient, derivative, and pseudo-remainder inputs from which the finite Sturm chain is read.
+
+Use the sign-variation handoff of \autoref{thm:sturm-root-isolation-sign-variation-handoff}. It places the selected branch downstream of the Sturm ledger $V$, so the endpoint sign rows and variation-count difference are already visible before $B$ can be consumed.
+
+The structural rows $H,C,Q_0,N$ replay and name the same finite rows. Since the carrier has no coordinate for a host root, algebraic closure, or independent sign oracle, branch selection is scoped to the displayed polynomial chain and endpoint sign ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_sign\_variation\_scope}
+
+\begin{theorem}[Sturm root-isolation interval refinement]
+\label{thm:sturm-root-isolation-interval-refinement}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, rational interval cells from $I$ refine through the $\DyadicIntervalUp$ row $D$ before any $\StreamNameUp$ window $W$ or $\RegSeqRatUp$ readback $R$ is exposed. Thus a completion-facing consumer sees stream and regular-rational windows only after the retained rational cell has passed through the displayed dyadic refinement ledger.
+\end{theorem}
+\begin{proof}
+Read the interval coordinates of \autoref{def:sturm-root-isolation-carrier}. The rational interval row $I$ carries the inspected cells, while $D$ records the dyadic refinement ledger used for finite subdivision and endpoint-window export.
+
+Apply the branch handoff of \autoref{thm:sturm-root-isolation-sign-variation-handoff}. It keeps the retained cell attached to the rational and dyadic interval rows before the branch is handed to downstream interval consumers.
+
+The Real seal nonescape theorem \autoref{thm:sturm-root-isolation-real-seal-nonescape} then places the $\StreamNameUp$ window $W$ and $\RegSeqRatUp$ readback $R$ downstream of that selected interval route. Hence no stream or regular-rational window is exposed before dyadic refinement has been displayed.
+\end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_interval\_refinement}
+
+\begin{theorem}[Sturm root-isolation certificate ledger]
+\label{thm:sturm-root-isolation-certificate-ledger}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, the local certificate ledger is exhausted by the rows
+$$
+P,I,D,V,B,W,R,S,H,C,Q_0,N .
+$$
+It exports polynomial source data, rational and dyadic interval rows, sign-variation rows, a selected branch, stream windows, regular rational readback, a Real-facing seal, transport, replay, provenance, and local naming, but no host root, algebraic closure, quotient equality, real trichotomy, or completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_certificate\_ledger}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:sturm-root-isolation-namecert-obligations}. They list exactly the carrier, polynomial, interval, Sturm-ledger, branch, retained-window, transport, replay, provenance, and naming obligations.
+
+The sign-variation scope theorem shows that branch selection consumes only $P,V,B$ together with the interval route. The interval refinement theorem shows that $I,D$ precede the stream and regular-rational rows $W,R$.
+
+Finally use the Real seal nonescape theorem. It places the seal row $S$ downstream of $I,D,V,W,R,H,C,Q_0,N$ and excludes algebraic roots, host root existence, quotient real equality, trichotomy, and ambient completeness. The displayed tuple therefore exhausts the certificate ledger.
+\end{proof}
+
 \begin{theorem}[Sturm root-isolation Real seal nonescape]
 \label{thm:sturm-root-isolation-real-seal-nonescape}
 Every $\RealUp$ seal read exported by an accepted $\SturmRootIsolationUp$ carrier is reached only after the selected rational or dyadic interval row, the displayed Sturm-chain sign-variation ledger, the $\StreamNameUp$ window surface, the $\RegSeqRatUp$ readback row, and the transport, replay, provenance, and local naming rows have been read. The seal exposes the finite isolating window and exports no algebraic root object, host root existence theorem, quotient real equality, real trichotomy, or $\RealUp$ completeness principle.
@@ -77,16 +146,99 @@ First the selected branch is fixed by \autoref{thm:sturm-root-isolation-sign-var
 
 Only after that route is fixed can the $\RealUp$ seal be read. Thus the seal records the same finite isolating window and cannot export an algebraic root object, host root existence, quotient real equality, trichotomy data, or an ambient completeness principle.
 \end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_real\_seal\_nonescape}
+
+\begin{theorem}[Sturm root-isolation obligation closure route]
+\label{thm:sturm-root-isolation-obligation-closure-route}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, the polynomial source row, rational and dyadic interval rows, Sturm sign-variation ledger, selected branch, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exhaust the local obligation surface. The packet has no remaining obligation for a host root object, algebraic closure theorem, quotient real equality, real trichotomy, selected real root, or $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_obligation\_closure\_route}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:sturm-root-isolation-namecert-obligations}. They list carrier admission, polynomial-source admission, rational and dyadic interval admission, the Sturm ledger, branch isolation, retained-window handoff, transport, replay, provenance, and local naming.
+
+Use the sign-variation handoff and scope rows, \autoref{thm:sturm-root-isolation-sign-variation-handoff} and \autoref{thm:sturm-root-isolation-sign-variation-scope}. They place every accepted branch downstream of the displayed polynomial chain rows, endpoint sign rows, and variation-count differences rather than a host root selector.
+
+Apply interval refinement and certificate ledger exhaustion, \autoref{thm:sturm-root-isolation-interval-refinement} and \autoref{thm:sturm-root-isolation-certificate-ledger}. These force rational cells through the dyadic refinement ledger before any stream window, regular-rational readback, or real-facing seal is exposed.
+
+Finally apply Real seal nonescape, \autoref{thm:sturm-root-isolation-real-seal-nonescape}. Since the seal is downstream of the selected interval, Sturm ledger, stream windows, regular-rational readback, transport, replay, provenance, and naming rows, no algebraic root object, host root theorem, quotient equality, trichotomy datum, selected root, or completeness principle remains.
+\end{proof}
+
+\begin{theorem}[Sturm root-isolation scoped kernel binding]
+\label{thm:sturm-root-isolation-scoped-kernel-binding}
+Every accepted $\SturmRootIsolationUp$ carrier
+$$
+Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)
+$$
+is scoped exactly by the displayed $\PolynomialUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\BisectionRootIsolationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any branch consumer or Real-seal consumer reads it. The scoped packet exposes no algebraic root object, host factorization theorem, quotient real equality, real trichotomy, selected real root, or $\RealUp$ completeness principle outside those rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:sturm-root-isolation-namecert-obligations}. They bind carrier admission to the displayed polynomial source, rational and dyadic interval ledgers, Sturm sign-variation ledger, selected branch, stream window, regular-rational readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Use the sign-variation handoff of \autoref{thm:sturm-root-isolation-sign-variation-handoff}. It places the branch row downstream of the polynomial, interval, and sign-variation data, with the adjacent $\BisectionRootIsolationUp$ consumer receiving only the retained finite cell and its variation-count evidence.
+
+Apply interval refinement, \autoref{thm:sturm-root-isolation-interval-refinement}. It forces rational cells through the dyadic interval ledger before stream windows or regular-rational readback become visible.
+
+Finally apply Real seal nonescape, \autoref{thm:sturm-root-isolation-real-seal-nonescape}. The seal remains downstream of the same displayed rows and cannot expose host algebraic roots, quotient equality, trichotomy, selected roots, or ambient completeness. Hence every branch or Real-seal consumer reads exactly the listed kernel rows before it can consume the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_scoped\_kernel\_binding}
+
+\begin{theorem}[Sturm root-isolation scoped interval and Real-seal route]
+\label{thm:sturm-root-isolation-scoped-interval-real-seal-route}
+Every accepted $\SturmRootIsolationUp$ branch-selection consumer must pass
+through the $\PolynomialUp$ source row, $\RationalIntervalUp$ cell ledger,
+$\DyadicIntervalUp$ refinement ledger, Sturm sign-variation ledger,
+$\BisectionRootIsolationUp$ branch handoff, $\StreamNameUp$ windows,
+$\RegSeqRatUp$ readbacks, and $\RealUp$ seal rows before it can be used as a
+scoped interval or real-facing root-isolation route. The route does not claim
+algebraic root existence, factorization completeness, real trichotomy, quotient
+equality, selected real roots, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of
+\autoref{thm:sturm-root-isolation-namecert-obligations}. They expose the
+polynomial source row, rational and dyadic interval rows, Sturm ledger, branch
+row, stream windows, regular-rational readback, Real seal, transport, replay,
+provenance, and local naming as the finite carrier surface.
+
+Use the sign-variation handoff and sign-variation scope,
+\autoref{thm:sturm-root-isolation-sign-variation-handoff} and
+\autoref{thm:sturm-root-isolation-sign-variation-scope}. These place every
+accepted branch downstream of the polynomial chain rows, endpoint sign rows,
+variation-count differences, and the retained $\BisectionRootIsolationUp$
+branch handoff.
+
+Apply interval refinement and certificate ledger exhaustion,
+\autoref{thm:sturm-root-isolation-interval-refinement} and
+\autoref{thm:sturm-root-isolation-certificate-ledger}. The rational cell ledger
+and dyadic refinement ledger therefore remain visible before any
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, or real-facing consumer is
+available.
+
+Finally use Real seal nonescape, the obligation-closure route, and scoped
+kernel binding:
+\autoref{thm:sturm-root-isolation-real-seal-nonescape},
+\autoref{thm:sturm-root-isolation-obligation-closure-route}, and
+\autoref{thm:sturm-root-isolation-scoped-kernel-binding}. Together they keep
+the branch and seal consumers inside the displayed polynomial, interval,
+Sturm-ledger, bisection, stream, regular-rational, and real-seal rows. Since
+the carrier has no coordinate for algebraic root existence, factorization
+completeness, trichotomy, quotient equality, selected real roots, or Real
+completeness, the consumer route is exactly the scoped interval and Real-seal
+route stated above.
+\end{proof}
+\leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_scoped\_interval\_real\_seal\_route}
 
 \closureat{SturmRootIsolationUp}{seedStr}
+\closureat{SturmRootIsolationUp}{obligationStr}
+\closureat{SturmRootIsolationUp}{scopedStr}
 
 \begin{closurestatus}{\SturmRootIsolationUp}
   \constructivestory{A $\SturmRootIsolationUp$ packet is generated from a $\PolynomialUp$ source row, $\RationalIntervalUp$ and $\DyadicIntervalUp$ interval rows, a finite Sturm-chain division and sign-variation ledger, a selected isolating branch, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal rows, componentwise transport, continuation replay, provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sturm-root-isolation-carrier}, \autoref{thm:sturm-root-isolation-namecert-obligations}, \autoref{thm:sturm-root-isolation-sign-variation-handoff}, and \autoref{thm:sturm-root-isolation-real-seal-nonescape} bind finite Sturm-chain root isolation to the displayed polynomial, interval, stream, regular-rational, and real-seal packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:sturm-root-isolation-carrier}, \autoref{thm:sturm-root-isolation-namecert-obligations}, \autoref{thm:sturm-root-isolation-sign-variation-handoff}, \autoref{thm:sturm-root-isolation-real-seal-nonescape}, and \autoref{thm:sturm-root-isolation-scoped-kernel-binding} bind finite Sturm-chain root isolation to the displayed polynomial, rational interval, dyadic interval, stream, regular-rational, real-seal, transport, replay, provenance, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close algebraic root existence, a host factorization theorem, quotient real equality, real trichotomy, or $\RealUp$ completeness.}
-  \upgradepath{Lean closure requires a BEDC.Derived.SturmRootIsolationUp carrier and theorem surface matching the displayed finite Sturm-chain packet.}
+  \upgradepath{Scoped kernel binding is the next paper-theory step, tying the finite Sturm-chain obligation package to a public interval and real-seal consumer boundary.}
 \end{closurestatus}

@@ -67,6 +67,40 @@ The carrier of \autoref{def:cofinal-stream-tail-selector-carrier} supplies the f
 Any Lean instance for the taste gate must therefore be local to the same carrier surface. Adding quotient streams, host limits, ambient completeness, countable choice, or hidden selector rows would create data not present in $Q$ and would fail the NameCert obligation surface of \autoref{thm:cofinal-stream-tail-selector-namecert-obligations}.
 \end{proof}
 
+\begin{theorem}[Cofinal StreamName tail selector obligation surface]
+\label{thm:cofinal-stream-tail-selector-obligation-surface}
+For an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the obligation surface exposes the precision request $\epsilon$, the displayed $\StreamNameUp$ tail window $W$, the $\RegSeqRatUp$ handoff $R$, the $\DyadicRatCoreUp$ readback $D$, the $\RealUp$ seal $A$, the selector provenance row $\sigma$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the package provenance $P$, and the local naming row $N$ in one finite packet. The surface is read through the sibling routes of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, \autoref{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert}, \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-stream-tail-selector-carrier}. The request, tail window, regular handoff, dyadic readback, seal, provenance, transport, replay, package, and name are all visible coordinates of one finite packet.
+
+The proof-route order is already fixed by the carrier: the precision request opens the displayed StreamName tail window, the RegSeqRat and DyadicRatCore rows follow from that finite window, and the Real seal is downstream of the same route.
+
+The sibling citations identify the shared tail surface, while $H,C,P,N$ preserve the same route componentwise. Since the carrier has no coordinate for quotient streams, host-selected limits, countable choice, hidden tail selection, or ambient completeness, the displayed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Cofinal StreamName tail selector stream route]
+\label{thm:cofinal-stream-tail-selector-stream-route}
+For every accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the stream route factors through $W,R,D,\sigma$ before the $\RealUp$ seal row $A$ is public. A consumer may cite the route only after the shared sibling surfaces of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, \autoref{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert}, \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}, and \autoref{ch:concrete-instances-real-namecert} have already displayed the same finite route.
+\end{theorem}
+\begin{proof}
+Use the obligation surface theorem above. It fixes the displayed rows and places the Real seal downstream of the cofinal StreamName tail window, the regular handoff, and the dyadic readback.
+
+The sibling routes supply the same cofinal-window role in different presentations. Since $H,C,P,N$ only transport, replay, package, and name that route, a consumer cannot bypass the shared finite packet before reading $A$.
+\end{proof}
+
+\begin{theorem}[Cofinal StreamName tail selector real seal nonescape]
+\label{thm:cofinal-stream-tail-selector-real-seal-nonescape}
+For an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the $\RealUp$ seal row $A$ does not export quotient stream identity, host real equality, host-selected limits, countable-choice selection, hidden family limits, or an ambient completeness principle. The seal remains a finite boundary for the same cofinal StreamName route displayed in the sibling tail-selector chapters.
+\end{theorem}
+\begin{proof}
+Project the carrier. The seal row $A$ is downstream of the finite cofinal tail window $W$, the regular handoff $R$, the dyadic readback $D$, and the selector provenance row $\sigma$.
+
+Apply the seal-order theorem of \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every Real-facing read through the same finite cofinal route before $A$ is available.
+
+Since no extra coordinate is present in the carrier, the seal row cannot export quotient stream identity, host equality, selected limits, countable choice, hidden family limits, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Cofinal StreamName tail selector non-escape]
 \label{thm:cofinal-stream-tail-selector-nonescape}
 An accepted $\CofinalStreamTailSelectorUp$ carrier cannot be used to recover data outside the displayed tuple $\epsilon,W,R,D,A,\sigma,H,C,P,N$. In particular, it exports no quotient stream identity, host real equality, host-selected limit, unbounded tail search, countable-choice selector, hidden family limit, or ambient RealUp completeness principle.
@@ -77,6 +111,22 @@ The NameCert obligations identify every row available to a downstream consumer. 
 Apply \autoref{thm:cofinal-stream-tail-selector-seal-order} to any real-facing read. It forces the read through the finite cofinal window, regular handoff, dyadic readback, and selector provenance before the seal row can be consumed.
 
 Since no additional coordinate is present, the packet has no source for quotient stream identity, host real equality, host-selected limits, unbounded tail search, countable choice, hidden family limits, or an ambient RealUp completeness principle.
+\end{proof}
+
+\begin{theorem}[Cofinal StreamName tail selector obligation package]
+\label{thm:cofinal-stream-tail-selector-obligation-package}
+The $\CofinalStreamTailSelectorUp$ carrier, local $\NameCert$ obligations, seal-order theorem, TasteGate obligation, and non-escape theorem assemble the L10 handoff surface over
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+Every completion-facing seal read is therefore routed through the displayed cofinal tail window, regular-sequence handoff, dyadic readback, selector provenance, componentwise transport, continuation route, package provenance, and local naming row. The assembled package gives no bypass through quotient stream equality, host real equality, host-selected limits, countable choice, hidden tail selection, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:cofinal-stream-tail-selector-carrier} and the obligations of \autoref{thm:cofinal-stream-tail-selector-namecert-obligations}. These identify the finite rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and bind them over the StreamName, RegSeqRat, DyadicRatCore, RealUp, history, transport, continuation, package, and naming surfaces.
+
+Apply \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every $\RealUp$ seal read through $W,R,D,\sigma$ before $A$ is available, so the handoff is a finite cofinal-window route rather than a direct host-limit read.
+
+Finally combine the TasteGate obligation of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} with non-escape from \autoref{thm:cofinal-stream-tail-selector-nonescape}. The taste gate may only read the displayed carrier rows, and the non-escape theorem excludes quotient stream equality, countable choice, hidden selectors, and ambient completeness from the exported surface.
 \end{proof}
 
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}

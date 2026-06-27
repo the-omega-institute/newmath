@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSeriesPermutationUp$}
+\label{ch:concrete-instances-finite-series-permutation-namecert}
+\origin{human}
+
+Following Hardy, Courant, and Bishop and Bridges on finite series and constructive finite sums, the $\FiniteSeriesPermutationUp$ packet records the finite invariance route by which a displayed summand list may be reindexed without changing the BEDC sum read. It sits after the permutation carrier of \autoref{ch:concrete-instances-permutation-namecert}, the finite list spine of \autoref{ch:concrete-instances-list-namecert}, the addition row of \autoref{ch:concrete-instances-add-namecert}, the unary index discipline of \autoref{ch:concrete-instances-nat-namecert}, and the folded regular Cauchy sum surface of \autoref{ch:concrete-instances-regular-cauchy-finite-sum-namecert}. The packet is finite certificate data; it does not expose an infinite rearrangement principle or a host summation operator.
+
+\begin{definition}[Finite series permutation carrier]
+\label{def:finite-series-permutation-carrier}
+A $\FiniteSeriesPermutationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,L,\Pi,A,W,F,T,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $I$ is the $\NatUp$ index-window row naming the finite interval of summand slots.
+\item $L$ is the $\ListUp$ summand spine, with one displayed summand row for each slot named by $I$.
+\item $\Pi$ is the $\PermutationUp$ witness row on the same finite index window.
+\item $A$ is the $\AddUp$ finite-fold route, recording the adjacent binary additions used by the source order and by the permuted order.
+\item $W$ is the window ledger that pairs each source summand slot with its permuted slot and records the finite reads used by both folds.
+\item $F$ is the folded-sum comparison row, read either as a bare finite $\AddUp$ route or through a $\RegularCauchyFiniteSumUp$ consumer when the summands are regular Cauchy names.
+\item $T$ is the terminal transport row saying that the two displayed fold outputs are classified by the same downstream sum classifier.
+\item $H$ records componentwise $\hsame$ transport for the index window, list spine, permutation witness, addition rows, comparison row, terminal transport, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSeriesPermutationUp$, $\PermutationUp$, $\ListUp$, $\AddUp$, $\NatUp$, $\RegularCauchyFiniteSumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSeriesPermutationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. There is no coordinate for an infinite series, a conditionally convergent rearrangement, a host finite-sum function, a quotient sequence, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteSeriesPermutationUp.FiniteSeriesPermutationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite series permutation NameCert obligations]
+\label{thm:finite-series-permutation-namecert-obligations}
+For every accepted $\FiniteSeriesPermutationUp$ carrier
+$$
+S=(I,L,\Pi,A,W,F,T,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteSeriesPermutationUp}$ surface consists exactly of carrier admission, finite index-window coverage, list-slot coverage, permutation-witness coverage, addition-fold compatibility, folded-sum comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. These obligations are exhausted by the finite rows of \autoref{def:finite-series-permutation-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $I,L,\Pi,A,W,F,T,H,C,P,N$ are the whole visible packet, so carrier admission is just admission of those rows and of their local naming row.
+
+The finite coverage obligations are read in order. The $\NatUp$ row $I$ fixes the inspected slots, the $\ListUp$ row $L$ supplies exactly one summand row at each slot, and the $\PermutationUp$ row $\Pi$ supplies the source-to-target slot matching together with its inverse witness.
+
+The compatibility obligation then reads $A,W,F,T$. The addition route $A$ lists the two displayed folds, $W$ records which summand reads are paired by $\Pi$, $F$ compares the two folded outputs, and $T$ transports that comparison to the downstream classifier that the consumer is allowed to inspect.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite route. Since none of the excluded objects is a carrier coordinate, no further NameCert obligation is available outside the listed rows.
+\end{proof}
+
+\begin{theorem}[Finite series permutation sum invariance]
+\label{thm:finite-series-permutation-sum-invariance}
+Let
+$$
+S=(I,L,\Pi,A,W,F,T,H,C,P,N)
+$$
+be an accepted $\FiniteSeriesPermutationUp$ carrier. Every consumer that reads the source-order finite fold and the $\Pi$-permuted finite fold must factor through
+$$
+I,L,\Pi \longmapsto W,A \longmapsto F,T \longmapsto H,C,P,N .
+$$
+Hence the two finite sums are classified together by the displayed folded-sum comparison row, and the conclusion is a BEDC certificate over finite data rather than a host equality of summation functions.
+\end{theorem}
+\begin{proof}
+Begin with the finite source order. The requested slots are exactly the slots displayed by $I$, and the summands are exactly the entries of $L$ at those slots. No consumer can name an additional summand because the list-slot coverage row is bounded by $I$.
+
+Read the permutation witness $\Pi$ next. Its forward and inverse rows pair the source slots with the permuted slots in the same finite window, so each permuted fold input is already a displayed entry of $L$.
+
+The two folds are then read through $A$. The source-order fold and the permuted fold may use different adjacent binary addition traces, but both traces consume only the slot reads named by $W$ and the addition rows named by $A$.
+
+The comparison row $F$ is therefore a finite folded-sum comparison over the same multiset of displayed summand rows. The terminal row $T$ transports this comparison to the permitted downstream sum classifier, including the $\RegularCauchyFiniteSumUp$ classifier when the summands are regular Cauchy names.
+
+The remaining rows $H,C,P,N$ keep the route stable under componentwise transport, replay the same finite read, record provenance, and supply the local name. Thus the invariant exported by the packet is exactly finite permutation invariance for the displayed fold route, with no appeal to infinite rearrangement, quotient sequence equality, host finite sums, or $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteSeriesPermutationUp$ sum-invariance read exposes a NatUp index window, a ListUp summand spine, a PermutationUp witness, AddUp fold rows, a paired read window, folded-sum comparison, terminal classifier transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence before the permuted sum is consumed.}
+
+\independenceWitness{permutation, list, add, nat, regular-cauchy-finite-sum: $\FiniteSeriesPermutationUp$ is not bijective to any listed sibling because it jointly carries the finite index window, summand spine, permutation witness, paired fold routes, folded-sum comparison, terminal transport, replay, provenance, and local naming required for sum-invariance reads.}
+
+\closureat{FiniteSeriesPermutationUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSeriesPermutationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-series-permutation-carrier}, \autoref{thm:finite-series-permutation-namecert-obligations}, and \autoref{thm:finite-series-permutation-sum-invariance} seed the finite permutation-invariance route from displayed index windows and summand lists through permutation witnesses, addition folds, folded-sum comparison, terminal transport, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite rearrangements, conditionally convergent series, host finite sums, quotient sequences, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite index coverage, list-slot coverage, permutation-witness coverage, fold compatibility, folded-sum comparison, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSeriesPermutationUp.}
+  \constructivestory{A $\FiniteSeriesPermutationUp$ packet is generated from a NatUp finite index window, a ListUp summand spine, a PermutationUp witness, AddUp finite-fold rows, paired fold windows, folded-sum comparison, terminal classifier transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

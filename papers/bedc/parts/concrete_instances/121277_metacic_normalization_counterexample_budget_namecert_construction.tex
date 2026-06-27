@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationCounterexampleBudgetUp$}
+\label{ch:concrete-instances-metacic-normalization-counterexample-budget-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationCounterexampleBudgetUp$ packet realizes the finite obstruction row of the MetaCIC normalization audit map of \autoref{ch:metacic-normalization-audit-map}. It packages a bounded counterexample budget for candidate-mediated normalization checks: a consumer may inspect typed terms, candidate evidence, bounded residual traces, normal-form consistency seals, and obstruction rows, but it cannot promote the packet into global strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency. The Lean follow-up supplies Nontrivial and FieldFaithful instances for the finite packet interface.
+
+The bounded counterexample budget consumes the candidate surface of \autoref{ch:concrete-instances-normalization-candidate-frontier-namecert} and the local-join surface of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}; its budget row refines those sibling frontier packets by adding residual-checker, obstruction, and normal-form-seal rows.
+
+It is also a consumer of the normalization-frontier packet of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} and the MetaCIC critical-path route: the candidate evidence, residual checker, join envelope, and obstruction row refine the frontier budget before any read reaches kernel primitives.
+
+\begin{definition}[MetaCIC normalization counterexample budget carrier]
+\label{def:metacic-normalization-counterexample-budget-carrier}
+A $\MetaCICNormalizationCounterexampleBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,K,B,R,J,F,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC typed-term source row, exposing the closed fragment and typing boundary under audit.
+\item $K$ is the candidate-evidence row used to mediate strong-normalization reads.
+\item $B$ is the bounded counterexample budget row, recording the finite number of residual traces, redex windows, or obstruction candidates inspected by the audit.
+\item $R$ is the residual-checker row, carrying the bounded redex and residual observations.
+\item $J$ is the local join-envelope row, recording the finite confluence-facing data visible to the counterexample search.
+\item $F$ is the normal-form consistency seal row, available only after the candidate, budget, residual, and join rows have been read.
+\item $O$ is the obstruction row, recording failed budget discharge without turning it into a global normalization theorem.
+\item $H$ records componentwise $\hsame$ transport for the typed-term, candidate, budget, residual, join, seal, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same bounded audit route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationCounterexampleBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationCounterexampleBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,B,R,J,F,O,H,C,P,N$. It has no coordinate for global strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization counterexample budget obligations]
+\label{thm:metacic-normalization-counterexample-budget-obligations}
+For every accepted $\MetaCICNormalizationCounterexampleBudgetUp$ carrier $M=(T,K,B,R,J,F,O,H,C,P,N)$, the local $\NameCert_{\MetaCICNormalizationCounterexampleBudgetUp}$ surface consists exactly of carrier admission for the typed-term source, candidate evidence, bounded counterexample budget, residual checker, local join envelope, normal-form consistency seal, obstruction row, componentwise transport, displayed replay, provenance, and local naming. Every normalization-audit consumer must read candidate evidence and bounded obstruction data before the seal $F$ is visible, and every failed budget discharge remains confined to the obstruction row $O$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-counterexample-budget-carrier}. Its rows are exactly $T,K,B,R,J,F,O,H,C,P,N$, so accepted packets expose no normalization evidence outside the displayed inventory.
+
+The candidate-mediated route is finite. The typed-term row $T$ and candidate row $K$ must be read before the bounded budget row $B$ can expose residual observations through $R$ and local join data through $J$.
+
+The normal-form consistency seal $F$ is downstream of those finite rows. A failed bounded search is recorded in $O$, but $O$ is an obstruction row rather than a proof of subject reduction, evaluator equality, quotient term equality, or global strong normalization.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same audit packet. Since no carrier coordinate names kernel consistency or an ambient evaluator equality, the obligations cannot escape the bounded counterexample budget.
+\end{proof}
+
+\falsifiablePrediction{Every $\MetaCICNormalizationCounterexampleBudgetUp$ normalization-audit read factors through typed-term source, candidate evidence, bounded counterexample budget, residual-checker, local join-envelope, normal-form consistency seal, obstruction, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any bounded obstruction result is exported.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, normalization-candidate-frontier, normal-form-consistency-seal, metacic-residual-join-envelope: $\MetaCICNormalizationCounterexampleBudgetUp$ is not bijective to any listed sibling because it jointly carries a bounded counterexample budget, residual-checker route, local join envelope, normal-form consistency seal, obstruction row, transport, replay, provenance, and local naming while refusing global strong normalization, subject reduction, evaluator equality, quotient term equality, and kernel consistency.}
+
+\closureat{MetaCICNormalizationCounterexampleBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationCounterexampleBudgetUp}
+  \constructivestory{A $\MetaCICNormalizationCounterexampleBudgetUp$ packet is generated from a typed-term source row, candidate evidence, a bounded counterexample budget, residual-checker data, a local join envelope, a normal-form consistency seal, an obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-counterexample-budget-carrier} and \autoref{thm:metacic-normalization-counterexample-budget-obligations} seed the bounded obstruction route for the MetaCIC normalization audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, subject reduction, evaluator equality, quotient term equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-mediated budget exposure, residual-checker readback, local join-envelope routing, normal-form seal nonescape, obstruction confinement, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalizationCounterexampleBudgetUp.}
+\end{closurestatus}
