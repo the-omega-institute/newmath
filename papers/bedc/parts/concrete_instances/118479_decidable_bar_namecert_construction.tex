@@ -104,18 +104,6 @@ preserve the same finite route. They do not add a selector for an infinite
 binary branch or a countable family of choices.
 \end{proof}
 
-\begin{theorem}[Decidable bar Cantor-space forward route]
-\label{thm:decidable-bar-cantor-space-forward-route}
-Every bar-hit read from an accepted $\DecidableBarUp$ packet first exposes the finite $\CantorSpaceUp$ prefix row of \autoref{ch:concrete-instances-cantorspace-namecert} and the $\StreamNameUp$ window row of \autoref{ch:concrete-instances-streamname-namecert}. Only after this prefix-window route is public may the decidable bar ledger $R$, unary depth ledger $D$, transport, replay, provenance, and local naming rows be consumed.
-\end{theorem}
-\begin{proof}
-Project the carrier of \autoref{def:decidable-bar-carrier}. The bar-hit row $R$ is downstream of the Cantor prefix row $C$, the StreamName observation row $S$, and the finite prefix-window ledger $W$.
-
-Apply the stream-window route of \autoref{thm:decidable-bar-stream-window-route}. It displays the path from $\CantorSpaceUp$ to $\StreamNameUp$ before $W,R,D$ are read by the consumer.
-
-The structural rows $H,T,P,N$ preserve that same sibling route. Therefore the decidable bar ledger is consumed as finite prefix-window data connected to the Cantor-space and StreamName chapters, not as an isolated kernel row or an infinite branch selector.
-\end{proof}
-
 \begin{theorem}[Decidable bar real-completion boundary]
 \label{thm:decidable-bar-real-completion-boundary}
 If a $\RealUp$ or completion-facing consumer cites an accepted
