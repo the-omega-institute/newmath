@@ -3282,6 +3282,7 @@ import BEDC.Derived.CommRingUp.StdBridge
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
+import BEDC.Derived.CommonCarrierProjectionUp
 import BEDC.Derived.CommutativeCStarUp.TasteGate
 import BEDC.Derived.CompactApartnessProfileUp.TasteGate
 import BEDC.Derived.CompactBaireUp.TasteGate
