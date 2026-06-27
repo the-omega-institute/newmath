@@ -1,44 +1,44 @@
-\subsection{Chen 2017 GFP synonymous perturbation and the bounded protein-escape window}\label{subsec:chen2017-gfp-synonymous-protein-escape}
+\subsection{Chen GFP synonymous-window protein escape record}\label{sec:bioreality-chen-gfp-synonymous-protein-escape}
 \origin{ai}
 
-\paragraph{Finite perturbation surface.}
-This chapter records a bounded synonymous-perturbation contact for the GFP window used in the Chen 2017 setting. The finite carrier is not a free biological conclusion; it is the measured table of synonymous coding variants after the $B^{\ast}_{Q6}$ window coordinates have been attached to an observed reporter surface. The run contains $3556$ synonymous variants split across two finite regions, with $1124$ rows in region 1 and $2432$ rows in region 2. The resampling budget is $B=200$, so every reported contrast is a finite-row computation rather than an asymptotic population statement. The recorded scalar linking protein output to out-of-frame mRNA is
+\paragraph{Finite surface.}
+This record concerns a finite synonymous-perturbation surface in which the coordinate side is the B$^{\ast}_{Q6}$ residual window geometry and the readout side is a GFP protein-output measurement with an out-of-frame mRNA control.  The verified run contains $3556$ synonymous variant rows, split into $1124$ rows in the first assayed region and $2432$ rows in the second assayed region.  The run used $200$ resampling or null draws, recorded as $B=200$, and completed in $447.6606512069702$ seconds.  The observed scalar retained for the local protein-output boundary is the regression slope from protein output onto the out-of-frame mRNA control,
 $$
 \begin{aligned}
-\widehat{\beta}_{P\mid \mathrm{oof\ mRNA}} &= 0.016523671594873352,\\
-N_{\mathrm{var}} &= 3556,\\
-N_{\mathrm{region\ 1}} &= 1124,\\
-N_{\mathrm{region\ 2}} &= 2432.
+  n_{\mathrm{region1}} &= 1124,\\
+  n_{\mathrm{region2}} &= 2432,\\
+  n_{\mathrm{variants}} &= 3556,\\
+  B &= 200,\\
+  \widehat\beta_{P\mid \mathrm{oof\ mRNA}} &= 0.016523671594873352.
 \end{aligned}
 $$
-The runtime for the registered computation was $447.6606512069702$ seconds. These numbers identify the observed perturbation table and its finite computational envelope; they do not by themselves identify a folding pathway, a molecular function, or a general law for synonymous substitutions.
+The small positive control slope is not read as a mechanism.  It is used only to mark that the assayed protein signal is not being treated as independent of the matched mRNA channel by definition; the finite row table keeps the mRNA control visible while asking whether synonymous windows carry residual protein-output information after the permitted controls.
 
-\paragraph{Coordinate role.}
-The $B^{\ast}_{Q6}$ coordinates enter here as residual synonymous-window coordinates, not as biological observations. The relevant coordinate list is the same nine-dimensional residual basis used by the translation-survival and mediation packets:
+\paragraph{Coordinate and readout separation.}
+The admissible object is a controlled matrix of finite rows, not a direct biological law from codon geometry to protein state.  A B$^{\ast}_{Q6}$ coordinate may enter this chapter only as a residual coordinate attached to a synonymous coding-window perturbation.  The protein readout may enter only as the measured GFP output for the same finite variant row.  The out-of-frame mRNA channel remains a matched transcript-control readout rather than a translation or protein-realization certificate.  In local notation the permitted finite row has the shape
 $$
 \begin{aligned}
-Q = \{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+  x_r &= (q_r, w_r, m_r, p_r, z_r),\\
+  q_r &\in B^{\ast}_{Q6},\\
+  m_r &= \hbox{matched out\hbox{-}of\hbox{-}frame mRNA control},\\
+  p_r &= \hbox{GFP protein-output readout},\\
+  z_r &= \hbox{amino-acid, window, baseline, and assay controls}.
 \end{aligned}
 $$
-The role of this basis is to sort synonymous variants into controlled residual directions after amino-acid identity and simpler codon-count baselines have been separated. In the present GFP perturbation table, the finite row counts say that there is enough observed synonymous variation to ask whether a protein-output readout changes across those residual directions. They do not say that any one coordinate is a universal directional rule. In particular, a CUN/UUR sign, a single organism sign, or a reporter-specific escape sign cannot be read as a population law without a multi-organism and simpler-baseline audit.
+Here $w_r$ denotes the synonymous window context.  The chapter therefore tests a bounded perturbation readback: whether a finite collection of synonymous variants has residual protein-output structure compatible with the B$^{\ast}_{Q6}$ window coordinates after the mRNA channel is kept in the control surface.  It does not identify folding, mature physical admissibility, protein function, organismal phenotype, or evolutionary selection.
 
-\paragraph{Translation gate.}
-The same project memory contains a modeled translation-readout surface for the nine $B^{\ast}_{Q6}$ coordinates. That modeled contact used three organisms and found $81$ modeled-tAI coupling entries above threshold $0.01$, with maximum absolute entry $3801961.031607896$. The organism count was only $3$, and the record explicitly keeps it in a modeled, underpowered translation-readout class rather than a measured ribosome-profiling validation. This matters for the GFP perturbation table because a direct association between a residual coordinate and protein output is not enough to assert protein realization. The admissible route is a mediated one:
+\paragraph{Relation to the translation-mediated background.}
+The larger translation-mediated protein-abundance audit supplies the surrounding discipline for this record.  In that audit the B$^{\ast}_{Q6}$ coordinate list has nine entries,
 $$
 \begin{aligned}
-q_i &\longrightarrow T_j \longrightarrow P_k,\\
-T_j &\in \{\mathrm{tAI},\ \mathrm{stAI},\ \mathrm{ribosome\ occupancy},\ \mathrm{translation\ efficiency}\},\\
-P_k &= \mathrm{matched\ protein\ abundance\ or\ reporter\ protein\ output}.
+  Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+      &Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
 \end{aligned}
 $$
-For this chapter, the GFP protein-output table supplies a perturbation-side protein readout, while the modeled-tAI record supplies only a bounded translation annotation from a different finite contact. The two should therefore be read together as a disciplined boundary: protein output may be analyzed against synonymous residual coordinates, but translation mediation is not established unless the same-coordinate translation step is present and survives the declared controls.
+The modeled translation-survival contact also computed the same nine residual coordinates across three organisms, with $61$ sense codons and $81$ modeled-tAI coupling entries above the $0.01$ bounded-contact threshold; its maximal absolute modeled coupling was $3801961.031607896$.  That background is useful because it fixes the coordinate vocabulary, but it does not by itself certify the Chen GFP perturbation as a translation mechanism.  In the multi-organism protein-abundance mediation audit, the readout $T$ was per-protein modeled tAI and the readout $Y$ was $\log_{10}$ PAXdb abundance; that audit reported organism-level mediated fractions such as $0.612922252793667$ for \emph{Escherichia coli} K12 MG1655 and $0.9491551041216973$ for \emph{Saccharomyces cerevisiae}.  Those quantities stay in the background as a separate cross-sectional mediation surface.  They are not imported as evidence that any particular GFP synonymous edit realizes a causal translational pathway.
 
-\paragraph{Relation to the larger mediation matrix.}
-A separate finite mediation computation over matched CDS and PAXdb abundance rows gives context for what a completed $Q\to T\to P$ table looks like. In that matrix, the same nine-coordinate $Q$ basis was joined to per-protein modeled tAI and log-scaled protein abundance across twelve organisms. The joined row counts included $3739$ proteins for \textit{Escherichia coli} K-12 MG1655, $5815$ for \textit{Saccharomyces cerevisiae}, $19053$ for human, and $19395$ for mouse. The mediation fractions were finite and organism-specific: for example, $M^{QTP}=0.612922252793667$ in \textit{E. coli} K-12 MG1655, $0.9491551041216973$ in yeast, $0.27206289160119157$ in human, and $0.15488799907323988$ in mouse. These values show the intended statistical shape of the matrix, not a causal mechanism. The Chen 2017 GFP table is narrower: it gives $3556$ synonymous reporter variants and the small protein-on-out-of-frame-mRNA slope above, but the supplied finite row does not include a same-row ribosome footprint, measured translation efficiency, or matched mRNA denominator for each variant.
+\paragraph{Local verdict.}
+The Chen GFP record is therefore accepted only as a finite protein-output perturbation contact with a visible mRNA-control channel.  The finite row count is large enough for a bounded chapter-level readback: $3556$ variants, $1124$ in the first region and $2432$ in the second, with a recorded control slope $0.016523671594873352$ and $B=200$ null or resampling units.  The correct mathematical reading is not $q_i\to p_k$ as an unmediated protein-realization law.  The permitted reading is that a synonymous-window residual coordinate can be compared against protein output on a finite matched table while transcript leakage or abundance coupling remains part of the control geometry.
 
-\paragraph{Local admissible statement.}
-The admissible conclusion is therefore bounded. The Chen 2017 GFP synonymous perturbation surface is a finite reporter-protein contact with $3556$ rows, two recorded regions, $B=200$ resampling, and a measured protein-to-out-of-frame-mRNA slope of $0.016523671594873352$. It is suitable for asking whether the $B^{\ast}_{Q6}$ synonymous-window coordinates carry protein-output variation in this reporter context after the declared controls are applied. It is not, by itself, a translation-realization proof. It also does not supply folding, physical admissibility, molecular function, organismal phenotype, mechanism, selection, or universality. Those stronger readings require separate layer-matched contacts: measured translation readouts for $q_i\to T_j$, matched protein or reporter output for $T_j\to P_k$, and controls for amino-acid sequence, organism, GC3, coding-sequence length, $M$-density baseline, and matched mRNA abundance where the design calls for it.
-
-\paragraph{Break condition.}
-The chapter remains inside the protein-perturbation window unless a same-row mediation table is supplied. If every controlled improvement from $Q$ through a translation readout to protein output is nonpositive, then the GFP synonymous-window record stays at bounded perturbation status. If a positive protein association appears without a surviving $q_i\to T_j$ translation step, it is only a direct reporter association and must not be promoted to translation-mediated protein realization. Conversely, a positive modeled-tAI contact without variant-level measured translation or matched mRNA rows cannot be used as ribosome occupancy. The finite data here support a precise question about synonymous residuals and reporter protein output; they do not license a biological layer jump beyond that question.
+\paragraph{Local non-promotion rule.}
+No translation-realization statement follows from this chapter unless a separate translation readout supplies the intermediate step $q_i\to t_j$ on the same or appropriately matched rows.  No folding, physical admissibility, molecular function, organismal phenotype, mechanism, selection, or universal biological rule follows from the GFP protein-output scalar.  A positive residual association, if present in the underlying assay analysis, would remain a bounded synonymous-perturbation readback until the missing layer-specific contacts are attached.  Conversely, if all controlled protein-output improvements vanish under the mRNA and baseline controls, the B$^{\ast}_{Q6}$ contribution remains confined to codon-window residual status for this assay rather than being promoted to protein realization.
