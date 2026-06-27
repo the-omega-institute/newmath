@@ -835,6 +835,129 @@ def compute_nc1(
     }
 
 
+def _chromosome_windows_for_host(host: str, context: dict[str, Any], target_bp: int) -> list[str]:
+    return non_prophage_windows(
+        dict(context["contigs"]),
+        list(context["target_regions"]),
+        target_bp,
+        EXPERIMENT_ID + f".{host}.NC1",
+    )
+
+
+def _d_for_carrier(seqs: list[str], motifs: list[str], null_n: int, seed: str) -> float | None:
+    if not seqs or not motifs:
+        return None
+    observed = float(count_motif_set(seqs, motifs))
+    expected, _ = expected_under_null_a(seqs, motifs, max(1, min(null_n, 40)), seed)
+    return log2_depletion(observed, expected)
+
+
+def compute_within_host_w(
+    host_rows: list[dict[str, Any]],
+    context_by_host: dict[str, dict[str, Any]],
+    carriers_by_host: dict[str, list[dict[str, Any]]],
+    decoy_pools: dict[tuple[int, int, bool], dict[str, list[str]]],
+    null_n: int,
+    decoy_k: int,
+) -> dict[str, Any]:
+    """Within-host differenced estimator (oracle Q1): turn NC1 chromosome background
+    into the denominator instead of a failed control.
+
+    W(h)  = D(prophage,own) - D(chromosome,own)            extra avoidance vs same-host background
+    Wd(h) = median_decoy[D(prophage,decoy) - D(chromosome,decoy)]   decoy within-host difference
+    E(h)  = W(h) - Wd(h)                                    decoy-corrected within-host avoidance
+    Xcross(h) = W using a same-family OTHER host's carrier (own-host targets)
+    S(h)  = E(h) - (Xcross(h) - Wd(h))                      own carrier minus same-family cross carrier
+    Support direction: E(h) < 0 (own-motif prophage-specific extra avoidance) AND S(h) < 0
+    (own host carrier beats same-family cross-host carrier). If E collapses to ~0 the raw
+    avoidance was family-level composition, not host-restriction escape.
+    """
+    by_family: dict[str, list[str]] = defaultdict(list)
+    for row in host_rows:
+        by_family[str(row.get("gtdb_family") or "unknown")].append(str(row["host_accession"]))
+    rows: list[dict[str, Any]] = []
+    for row in host_rows:
+        host = str(row["host_accession"])
+        context = context_by_host.get(host)
+        carriers = carriers_by_host.get(host, [])
+        if not context or not carriers:
+            continue
+        target_bp = int(row.get("target_bp") or 0)
+        windows = _chromosome_windows_for_host(host, context, target_bp)
+        if not windows:
+            continue
+        proph_seqs = [str(r["sequence"]) for r in context["target_regions"]]
+        motifs = unique_motifs(carriers)
+        d_proph_own = row.get("D_null_a")
+        d_chrom_own = _d_for_carrier(windows, motifs, null_n, EXPERIMENT_ID + f".{host}.W.chromOwn")
+        if d_proph_own is None or d_chrom_own is None:
+            continue
+        w_own = d_proph_own - d_chrom_own
+        # decoy within-host difference: same matched decoy carriers on prophage and chromosome
+        d_decoy_proph, _ = decoy_scores(host, carriers, proph_seqs, decoy_pools, decoy_k, null_n, EXPERIMENT_ID + f".{host}.W.decoyP")
+        d_decoy_chrom, _ = decoy_scores(host, carriers, windows, decoy_pools, decoy_k, null_n, EXPERIMENT_ID + f".{host}.W.decoyC")
+        m_decoy_proph = median(d_decoy_proph)
+        m_decoy_chrom = median(d_decoy_chrom)
+        w_decoy = (m_decoy_proph - m_decoy_chrom) if (m_decoy_proph is not None and m_decoy_chrom is not None) else None
+        e_h = (w_own - w_decoy) if w_decoy is not None else None
+        # same-family cross-host carrier on own-host targets (bounded: one other host)
+        family = str(row.get("gtdb_family") or "unknown")
+        candidates = [g for g in by_family.get(family, []) if g != host and g in carriers_by_host]
+        s_h = None
+        x_cross = None
+        if candidates:
+            rng = random.Random(stable_seed(EXPERIMENT_ID + f".{host}.W.cross"))
+            other = rng.choice(sorted(candidates))
+            other_motifs = unique_motifs(carriers_by_host.get(other, []))
+            d_proph_cross = _d_for_carrier(proph_seqs, other_motifs, null_n, EXPERIMENT_ID + f".{host}.W.crossP")
+            d_chrom_cross = _d_for_carrier(windows, other_motifs, null_n, EXPERIMENT_ID + f".{host}.W.crossC")
+            if d_proph_cross is not None and d_chrom_cross is not None:
+                w_cross = d_proph_cross - d_chrom_cross
+                x_cross = (w_cross - w_decoy) if w_decoy is not None else None
+                if e_h is not None and x_cross is not None:
+                    s_h = e_h - x_cross
+        rows.append({
+            "host_accession": host,
+            "gtdb_family": row.get("gtdb_family"),
+            "D_proph_own": round_float(d_proph_own),
+            "D_chrom_own": round_float(d_chrom_own),
+            "W_own": round_float(w_own),
+            "W_decoy": round_float(w_decoy),
+            "E_h": round_float(e_h),
+            "X_cross": round_float(x_cross),
+            "S_h": round_float(s_h),
+        })
+    e_rows = [r for r in rows if r.get("E_h") is not None]
+    s_rows = [r for r in rows if r.get("S_h") is not None]
+    med_w = family_weighted_median([{**r, "_v": r["W_own"]} for r in rows if r.get("W_own") is not None], "_v")
+    med_e = family_weighted_median([{**r, "_v": r["E_h"]} for r in e_rows], "_v")
+    med_s = family_weighted_median([{**r, "_v": r["S_h"]} for r in s_rows], "_v")
+    n_e_neg = sum(1 for r in e_rows if r["E_h"] < 0)
+    n_s_neg = sum(1 for r in s_rows if r["S_h"] < 0)
+    e_supportive = bool(med_e is not None and med_e <= -0.15)
+    s_supportive = bool(med_s is not None and med_s < 0)
+    if med_e is None:
+        gate = "data_gate_failed"
+    elif e_supportive and s_supportive:
+        gate = "within_host_supportive"
+    elif med_e > -0.05:
+        gate = "composition_dominated"
+    else:
+        gate = "ambiguous_underpowered"
+    return {
+        "description": "within-host differenced estimator: prophage avoidance minus matched same-host chromosome background, decoy-corrected, own-vs-same-family-cross carrier",
+        "n_hosts_E": len(e_rows),
+        "n_hosts_S": len(s_rows),
+        "median_W_own_family_weighted": round_float(med_w),
+        "median_E_family_weighted": round_float(med_e),
+        "median_S_family_weighted": round_float(med_s),
+        "frac_E_negative": round_float(n_e_neg / len(e_rows)) if e_rows else None,
+        "frac_S_negative": round_float(n_s_neg / len(s_rows)) if s_rows else None,
+        "gate": gate,
+        "preview": rows[:20],
+    }
+
+
 def compute_nc2(host_rows: list[dict[str, Any]], context_by_host: dict[str, dict[str, Any]], carriers_by_host: dict[str, list[dict[str, Any]]], null_n: int) -> dict[str, Any]:
     by_family: dict[str, list[str]] = defaultdict(list)
     for row in host_rows:
@@ -1045,7 +1168,12 @@ def main() -> int:
     median_d_c = family_weighted_median(host_rows, "D_null_c_decoy_median")
     boot = family_block_bootstrap_rank_shift(host_rows, bootstrap_n, EXPERIMENT_ID + ".rank_shift")
     nc1 = compute_nc1(host_rows, context_by_host, carriers_by_host, null_n)
-    nc2 = compute_nc2(host_rows, context_by_host, carriers_by_host, null_n)
+    within_host_w = compute_within_host_w(host_rows, context_by_host, carriers_by_host, decoy_pools, null_n, decoy_k)
+    skip_nc2 = os.environ.get("RM_SKIP_NC2", "").strip() not in ("", "0", "false", "False")
+    if skip_nc2:
+        nc2 = {"description": "within-family cross-host target swap", "skipped": True, "n_hosts": 0, "expected_signal_loss": None}
+    else:
+        nc2 = compute_nc2(host_rows, context_by_host, carriers_by_host, null_n)
     nc3 = compute_nc3(host_rows, context_by_host, orphan_by_host, null_n)
     nulls_all_negative = bool(
         median_d_a is not None
@@ -1068,6 +1196,9 @@ def main() -> int:
         "NC1_expected": bool(nc1.get("expected_no_strong_depletion")),
         "NC2_expected": bool(nc2.get("expected_signal_loss")),
         "NC3_n_hosts": nc3.get("n_hosts"),
+        "within_host_gate": within_host_w.get("gate"),
+        "within_host_median_E": within_host_w.get("median_E_family_weighted"),
+        "within_host_median_S": within_host_w.get("median_S_family_weighted"),
     }
     verdict, status_note, exit_code = verdict_for(summary)
     summary["verdict"] = verdict
@@ -1121,6 +1252,7 @@ def main() -> int:
             "family_rank_shift": round_float(family_rank_shift),
             "directional_negative": bool(median_d_c is not None and median_d_c < 0),
         },
+        "within_host_w": within_host_w,
         "negative_controls": {
             "NC1_same_host_nonprophage_windows": nc1,
             "NC2_cross_host_target_swap_same_family": nc2,
