@@ -67,12 +67,28 @@ Read the finite-net dependency through $B,L,E,R,S$. The tree is finite because i
 The structural rows $H,C,P,N$ preserve the same dependency route. Therefore the sibling chapters are load-bearing sources of rows, and the exported certificate remains finite ProbeBundle cover-tree data.
 \end{proof}
 
+\begin{theorem}[Finite cover tree compact Cauchy cover handoff]
+\label{thm:finite-cover-tree-compact-cauchy-cover-handoff}
+Let $T=(K,M,B,L,E,R,S,H,C,P,N)$ be an accepted $\FiniteCoverTreeUp$ packet. If a $\CompactCauchyCoverUp$ packet consumes a branch read exported by $T$, then the consumer must first expose the finite $\mathsf{ProbeBundle}$ branch rows $B,L,E,R,S$ from \autoref{def:finite-cover-tree-carrier}. Only after those rows have displayed the finite probes, branch levels, refinement edges, residual coverage, and stopping leaves may the $\CompactCauchyCoverUp$ rows $W,D,S,R,E$ be read as Cauchy-facing cover windows.
+
+Thus the handoff from finite cover refinements to \autoref{ch:concrete-instances-compact-cauchy-cover-namecert} factors through the branch stability of \autoref{thm:finite-cover-tree-branch-stability} and the sibling dependency route of \autoref{thm:finite-cover-tree-sibling-dependency}. It exports no arbitrary open-cover compactness, selected subcovers, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:finite-cover-tree-carrier}. The only branch rows available to a downstream cover consumer are $B,L,E,R,S$, together with the structural transport, replay, provenance, and local name rows.
+
+Apply \autoref{thm:finite-cover-tree-branch-stability} to the branch read. Preserving the finite $\mathsf{ProbeBundle}$ row and refinement-edge row also preserves residual coverage and stopping leaves, so the exported branch cannot be reinterpreted as a hidden open cover or as a selected finite subcover.
+
+Apply \autoref{thm:finite-cover-tree-sibling-dependency}. The compact, metric, and total-bounded sources are consumed before the finite tree rows are exported, and \autoref{ch:concrete-instances-compact-cauchy-cover-namecert} can then read its $W,D,S,R,E$ window route only from this displayed finite branch data.
+
+The excluded principles are absent from both packet inventories. Since neither the finite cover tree nor the compact Cauchy cover stores arbitrary open-cover compactness, selected subcovers, quotient stream equality, countable choice, or ambient $\RealUp$ completeness, the handoff cannot export any of them.
+\end{proof}
+
 \closureat{FiniteCoverTreeUp}{seedStr}
 
 \begin{closurestatus}{\FiniteCoverTreeUp}
   \constructivestory{A $\FiniteCoverTreeUp$ packet is generated from compact-source rows, metric-observation rows, finite ProbeBundle rows, branch-level rows, refinement-edge rows, residual-coverage rows, stopping-leaf rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-cover-tree-carrier}, \autoref{thm:finite-cover-tree-namecert-obligations}, \autoref{thm:finite-cover-tree-branch-stability}, and \autoref{thm:finite-cover-tree-sibling-dependency} seed the finite compact-source, metric-observation, ProbeBundle, refinement-edge, residual-coverage, stopping-leaf, transport, replay, provenance, and local naming surface.}
+  \scopeclosed{\autoref{def:finite-cover-tree-carrier}, \autoref{thm:finite-cover-tree-namecert-obligations}, \autoref{thm:finite-cover-tree-branch-stability}, \autoref{thm:finite-cover-tree-sibling-dependency}, and \autoref{thm:finite-cover-tree-compact-cauchy-cover-handoff} seed the finite compact-source, metric-observation, ProbeBundle, refinement-edge, residual-coverage, stopping-leaf, CompactCauchyCover handoff, transport, replay, provenance, and local naming surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close arbitrary open-cover compactness, selected subcovers, host powersets, quotient equality of covers, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
