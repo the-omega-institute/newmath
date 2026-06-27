@@ -127,6 +127,33 @@ $$
 $$
 \end{definition}
 
+\begin{definition}[Even defect energy]
+\label{def:unified-reality-even-defect-energy}
+For a nonempty finite prime window $S$, the \emph{defect energy} and
+normalized defect energy are
+$$
+E_S(s):=D_S(s)^2,
+\qquad
+\overline E_S(s):=\left(\overline D_S(s)\right)^2.
+$$
+The corresponding refusal row is
+$$
+\mathsf{NoEvenDefectEnergy}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\bigl(\overline E_S(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+\end{definition}
+
 \begin{theorem}[Prime-defect is mirror-odd]
 \label{thm:unified-reality-prime-defect-mirror-odd}
 For $s=1/2+\delta+i\tau$ and $J(s)=1-\overline{s}$,
@@ -162,6 +189,32 @@ $$
 The vector statement is obtained componentwise.
 \end{proof}
 
+\begin{theorem}[Defect energy is mirror-even]
+\label{thm:unified-reality-defect-energy-mirror-even}
+For every nonempty finite prime window $S$,
+$$
+E_S(J(s))=E_S(s),
+\qquad
+\overline E_S(J(s))=\overline E_S(s).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:unified-reality-prime-defect-mirror-odd},
+$$
+D_S(J(s))=-D_S(s).
+$$
+Squaring gives
+$$
+E_S(J(s))=D_S(J(s))^2=D_S(s)^2=E_S(s).
+$$
+The normalized statement follows in the same way from
+$$
+\overline D_S(J(s))=-\overline D_S(s),
+$$
+which is the normalized form of the same computation.
+\end{proof}
+
 \begin{theorem}[Prime-window defect measures the odd normal read]
 \label{thm:unified-reality-prime-window-defect-measures-odd-normal-read}
 For $s=1/2+\delta+i\tau$ and every nonempty finite prime window $S$,
@@ -182,6 +235,23 @@ $$
 \overline D_S(s)=-\delta.
 $$
 Therefore $\overline D_S(s)=-\delta_{\mathrm{odd}}$.
+\end{proof}
+
+\begin{corollary}[Normalized defect energy measures squared odd normal read]
+\label{cor:unified-reality-normalized-defect-energy-squared-odd-read}
+For $s=1/2+\delta+i\tau$ and every nonempty finite prime window $S$,
+$$
+\overline E_S(s)=\delta_{\mathrm{odd}}^2.
+$$
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-prime-window-defect-measures-odd-normal-read},
+$$
+\overline D_S(s)=-\delta_{\mathrm{odd}}.
+$$
+Squaring gives $\overline E_S(s)=\delta_{\mathrm{odd}}^2$.
 \end{proof}
 
 \begin{corollary}[Finite windows separate nonfixed mirror orbits]
@@ -311,6 +381,57 @@ defect $D_S(s)\#0$.  This is exactly the antecedent excluded by
 \autoref{def:unified-reality-prime-sieve-odd-exactness}.  The two names
 therefore describe the same carrier refusal: no completed zeta zero may
 carry a nonzero mirror-odd finite prime-window defect.
+\end{proof}
+
+\begin{theorem}[Odd defect refusal is even energy refusal]
+\label{thm:unified-reality-odd-defect-refusal-even-energy-refusal}
+For the completed zeta carrier,
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+\quad\Longleftrightarrow\quad
+\mathsf{NoEvenDefectEnergy}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+For every nonempty finite prime window $S$, the normalization row
+$L_S\#0$ of
+\autoref{def:unified-reality-prime-window-logarithmic-weight} identifies
+nonzero $D_S(s)$ with nonzero $\overline D_S(s)$.  Squaring over the
+located real readout identifies nonzero $\overline D_S(s)$ with nonzero
+$$
+\overline E_S(s)=\overline D_S(s)^2.
+$$
+Therefore the positive data excluded by
+\autoref{def:unified-reality-odd-zero-defect} are equivalent to the
+positive data excluded by
+\autoref{def:unified-reality-even-defect-energy}.  The two refusal rows
+are the same obstruction, written once as signed odd defect and once as
+mirror-even energy.
+\end{proof}
+
+\begin{corollary}[Mirror pairs do not cancel defect energy]
+\label{cor:unified-reality-mirror-pairs-do-not-cancel-defect-energy}
+If $s$ and $J(s)$ are mirror-paired zero-source rows in one time fibre
+and $\delta(s)\#0$, then every nonempty finite prime window carries
+nonzero mirror-even defect energy.
+\end{corollary}
+
+\begin{proof}
+The signed defects cancel:
+$$
+D_S(s)+D_S(J(s))=0,
+$$
+by \autoref{thm:unified-reality-prime-defect-mirror-odd}.  However,
+\autoref{thm:unified-reality-defect-energy-mirror-even} gives
+$$
+E_S(s)+E_S(J(s))=2E_S(s).
+$$
+By
+\autoref{cor:unified-reality-normalized-defect-energy-squared-odd-read},
+the normalized energy is $\delta(s)^2$, hence nonzero when
+$\delta(s)\#0$.  Thus a mirror pair can cancel the sign of the odd
+defect but not its even energy.
 \end{proof}
 
 \begin{theorem}[Prime-sieve odd exactness is defect-zero incompatibility]
