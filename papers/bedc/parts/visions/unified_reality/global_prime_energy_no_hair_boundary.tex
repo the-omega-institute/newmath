@@ -1,0 +1,220 @@
+\section{Global Prime Energy and the No-Hair Boundary}
+\label{sec:unified-reality-global-prime-energy-no-hair-boundary}
+
+The finite prime-window defect row is a first-order signed readout.  As a
+signed row it can reverse under the mirror and can participate in global
+phase cancellation.  The square of the same radial readout has a
+different status.  It is a positive normal energy on each prime
+dimension.  Positive energy has no opposite sign that could cancel it by
+mirror pairing, parity rearrangement, or movement of terms across a
+global equation.
+
+\begin{definition}[Prime normal square energy]
+\label{def:unified-reality-prime-normal-square-energy}
+For the centered prime channel
+$$
+U_p(s):=p^{1/2-s},
+$$
+define the prime normal defect and its square energy by
+$$
+d_p(s):=\log |U_p(s)|,
+\qquad
+e_p(s):=d_p(s)^2.
+$$
+For a nonempty finite prime window $S$, define the unnormalized square
+energy
+$$
+\mathcal E_S(s):=\sum_{p\in S}e_p(s).
+$$
+The global prime normal energy is the monotone extended readout
+$$
+\mathcal E_{\Prime}(s)
+:=
+\sum_{p\in\PrimeUp}e_p(s),
+$$
+understood as the supremum of the finite-window sums.
+\end{definition}
+
+\begin{theorem}[Prime square energy is mirror-even]
+\label{thm:unified-reality-prime-square-energy-mirror-even}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+each displayed prime satisfies
+$$
+d_p(s)=-\delta\log p,
+\qquad
+e_p(s)=\delta^2(\log p)^2.
+$$
+Moreover
+$$
+d_p(J(s))=-d_p(s),
+\qquad
+e_p(J(s))=e_p(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The first equality is the prime-coordinate calculation of
+\autoref{thm:unified-reality-prime-defect-mirror-odd}.  Squaring gives
+$$
+e_p(s)=d_p(s)^2=\delta^2(\log p)^2.
+$$
+The mirror sends the normal coordinate $\delta$ to $-\delta$, hence
+changes the sign of $d_p$ and leaves $e_p$ unchanged.
+\end{proof}
+
+\begin{theorem}[Finite prime square energy is strictly positive off half]
+\label{thm:unified-reality-finite-prime-square-energy-positive-off-half}
+If $s=1/2+\delta+i\tau$, $\delta\#0$, and $S$ is a nonempty finite prime
+window, then
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2
+\#0.
+$$
+\end{theorem}
+
+\begin{proof}
+Summing \autoref{thm:unified-reality-prime-square-energy-mirror-even}
+over $S$ gives
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2.
+$$
+The window is nonempty and every displayed prime has positive logarithm,
+so the finite sum of squares is positive.  Apartness of $\delta$ from
+zero gives apartness of $\delta^2$ from zero in the located real readout,
+hence the displayed energy is nonzero.
+\end{proof}
+
+\begin{theorem}[Global prime square energy diverges off half]
+\label{thm:unified-reality-global-prime-square-energy-diverges-off-half}
+If $s=1/2+\delta+i\tau$ and $\delta\#0$, then the global prime normal
+energy is unbounded:
+$$
+\mathcal E_{\Prime}(s)=\infty
+$$
+as an extended finite-window supremum.
+\end{theorem}
+
+\begin{proof}
+For every nonempty finite window $S$,
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2.
+$$
+There are infinitely many displayed prime dimensions, and each
+$(\log p)^2$ is positive.  As the finite window ranges over larger and
+larger prime sets, the partial sums
+$$
+\sum_{p\in S}(\log p)^2
+$$
+are unbounded.  Multiplication by the positive row $\delta^2$ preserves
+unboundedness.  Therefore the extended supremum
+$\mathcal E_{\Prime}(s)$ is infinite.
+\end{proof}
+
+\begin{definition}[Composite rows add no cancellation direction]
+\label{def:unified-reality-composite-rows-add-no-cancellation-direction}
+The \emph{no composite cancellation direction} row says that a composite
+integer contributes no independent normal coordinate beyond the prime
+coordinates.  If
+$$
+n=\prod_{p}p^{v_p(n)},
+$$
+then
+$$
+\log n=\sum_{p}v_p(n)\log p.
+$$
+Thus composite logarithmic rows are finite linear combinations of prime
+logarithmic rows and do not add a further sign in which the positive
+prime square energy could cancel.
+\end{definition}
+
+\begin{theorem}[Prime logarithmic directions are independent]
+\label{thm:unified-reality-prime-logarithmic-directions-independent}
+For distinct displayed primes $p_1,\ldots,p_m$, a rational relation
+$$
+\sum_{i=1}^{m}q_i\log p_i=0
+$$
+forces $q_i=0$ for every $i$.
+\end{theorem}
+
+\begin{proof}
+Clear denominators to obtain integers $a_i$ with
+$$
+\sum_{i=1}^{m}a_i\log p_i=0.
+$$
+Exponentiating gives
+$$
+\prod_{i=1}^{m}p_i^{a_i}=1.
+$$
+By unique factorization, all exponents $a_i$ are zero.  Hence every
+rational coefficient $q_i$ is zero.
+\end{proof}
+
+\begin{definition}[Zeta no-hair boundary]
+\label{def:unified-reality-zeta-no-hair-boundary}
+The \emph{zeta no-hair boundary} row is the assertion
+$$
+\mathsf{ZetaNoHair}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathcal E_{\Prime}(s)=0
+\right).
+$$
+A weaker finite-energy version replaces the conclusion by
+$$
+\mathcal E_{\Prime}(s)<\infty.
+$$
+Both rows say that a zero boundary state cannot carry infinite normal
+prime energy.
+\end{definition}
+
+\begin{theorem}[No-hair boundary is conditionally sufficient]
+\label{thm:unified-reality-no-hair-boundary-conditionally-sufficient}
+Together with the located fixed-half collapse row, either zeta no-hair
+boundary row is sufficient for the RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Suppose $\delta\#0$.  By
+\autoref{thm:unified-reality-global-prime-square-energy-diverges-off-half},
+the global prime normal energy is infinite.  This contradicts either the
+zero-energy conclusion $\mathcal E_{\Prime}(s)=0$ or the weaker
+finite-energy conclusion $\mathcal E_{\Prime}(s)<\infty$.  Hence
+$\neg(\delta\#0)$.  The located fixed-half collapse row yields
+$\delta=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+this as the RH fixed-half section.
+\end{proof}
+
+\begin{corollary}[Positive energy strengthens finite defect visibility]
+\label{cor:unified-reality-positive-energy-strengthens-defect-visibility}
+The global square-energy route strengthens the finite defect route by
+replacing a visible signed defect with a monotone positive obstruction.
+\end{corollary}
+
+\begin{proof}
+The finite defect route shows that $\delta\#0$ is visible in every finite
+prime window by a signed row such as $D_S(s)\#0$.  The square-energy row
+shows more: the same off-half displacement contributes positive energy
+on every prime dimension and yields an unbounded global extended energy.
+Thus the remaining RH-facing issue is no longer detection of the defect,
+but the no-hair boundary claim that a completed zero row cannot carry
+that infinite normal energy.
+\end{proof}
