@@ -900,6 +900,7 @@ import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
 import BEDC.Derived.BernoulliPolyUp
 import BEDC.Derived.BernoulliPolynomialUp
 import BEDC.Derived.BernoulliSecondKindUp
+import BEDC.Derived.BernoulliUmbralUp
 import BEDC.Derived.BernoulliUp
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
 import BEDC.Derived.BertrandSeriesTestUp.TasteGate
