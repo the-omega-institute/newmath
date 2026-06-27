@@ -9741,6 +9741,7 @@ import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
 import BEDC.Derived.PuncturedIntervalUp
 import BEDC.Derived.PushdownAutomatonUp.TasteGate
 import BEDC.Derived.PythagoreanUp
+import BEDC.Derived.QBinomialUp
 import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
