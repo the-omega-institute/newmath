@@ -54,9 +54,23 @@ def main():
             d = e.get("bedc_decl")
             if d and decl_exists(d) is False:
                 drift.append(f"{e['object']}::{d} ({e['traditional_theorem']})")
+    by_level = {}
+    by_object = {}
+    counts_toward_real = 0
+    for e in entries:
+        lvl = e.get("bridge_level", "?")
+        by_level[lvl] = by_level.get(lvl, 0) + 1
+        obj = e.get("object", "?")
+        by_object.setdefault(obj, []).append(e.get("status"))
+        if e.get("counts_toward_real_maturity"):
+            counts_toward_real += 1
     out = {
         "total_benchmark_theorems": len(entries),
         "by_state": tally,
+        "by_bridge_level": dict(sorted(by_level.items())),
+        "per_object_status": {k: v for k, v in sorted(by_object.items())},
+        "entries_counting_toward_real_maturity": counts_toward_real,
+        "anti_aggregation_rule": "NEVER report a single stdEquivChecked %; the only Real-maturity entries are the blocked Real rows above — finite/discrete replays (Nat/Rat/...) explicitly do NOT count toward Real.",
         "replayed_decl_drift": drift,
         "interop_summary": {
             "transferred_to_std": tally["transferred_to_std"],
