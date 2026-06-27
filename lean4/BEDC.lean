@@ -12302,6 +12302,7 @@ import BEDC.Derived.TraditionLandingLedgerUp.TasteGate
 import BEDC.Derived.TraditionRegistryUp.TasteGate
 import BEDC.Derived.TraditionScienceRegistryBridgeUp.TasteGate
 import BEDC.Derived.TranscendenceUp
+import BEDC.Derived.TranscendentalFarEndUp
 import BEDC.Derived.TranscendentalInductionSocketUp
 import BEDC.Derived.TranscendentalInductionSocketUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
