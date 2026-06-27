@@ -1,31 +1,44 @@
-\subsection{Protein-Solubility ESOL Boundary for a Translation-Window Residual}\label{sec:bioreality-protein-solubility-esol-f3-stress-boundary}
 \origin{ai}
 
-\paragraph{Finite row under review.}
-The finite record considered here is the BioReality row
-$h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol$.
-Its verified execution record is $8742a224b538$, checked at
-$2026$-$06$-$26T21{:}16{:}55{+}00{:}00$, with $n=3198$ ESOL rows and a recorded runtime of $60.0$ seconds.  These are the only numerical row facts supplied for this chapter: no finite list of residual coordinates, no list of molecular controls, no fitted coefficient table, no $\lambda$ path, no $p$-value table, no module-classification scalar, and no hit-rate statistic is present in the row.  Consequently the chapter is not allowed to report a positive solubility association, a translation-survival result, or a hydrophobic-clustering mechanism.  It records instead the exact finite surface on which such a test would have to be made.
+\subsection{Protein-Solubility Contact and the Position-Resolved Translation Boundary}
+\label{sec:bioreality-protein-solubility-f3-translation-boundary}
 
-\paragraph{Object being tested.}
-The proposed coordinate is an $f_3$-stress residual on finite coding-sequence windows.  A row is admissible only when it contains, on the same keyed surface, the organism, the CDS or protein identifier, an ordered codon-position bin, the synonymous-residual $f_3$ coordinate, amino-acid-composition controls, a wobble-weight asymmetry indicator, matched mRNA abundance, and a position-resolved ribosome-occupancy readout.  The intended comparison is not protein solubility by itself.  The first admissible question is whether the synonymous residual improves a bounded translation-window readout after amino-acid bin or position controls, GC3, CDS length, M-density, codon-count controls, matched mRNA abundance, coverage, mappability, rank sufficiency, and simpler-baseline ablation have been applied.
+\paragraph{Finite row scope.}
+This record is attached to the BioReality claim identifier
+$\mathrm{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}$, but the finite data supplied here do not yet form a same-window translation table.  The realized protein-solubility run is the ESOL-oriented contact with run identifier $8742a224b538$, row count $n=3198$, and recorded runtime $60.0$ seconds.  A second verified cross-layer record is present for human N-terminal acetylation, with run identifier $90ea6b5f7fc7$, row count $n=1426$, runtime $5.372$ seconds, and the explicit flag $\mathrm{abundance\_controlled}=\mathrm{false}$.  The acetylation record also carries the finite qualitative readout that a frozen yeast rule transfers to human under preregistered gates.  These two finite contacts are usable as evidence that the BioReality table can store bounded biological readbacks with explicit row counts and run metadata; they are not, by themselves, a joined codon-window, ribosome-occupancy, and mRNA-control matrix for the present $f_3$-stress question.
 
-\paragraph{Finite statistical shape.}
-On a completed panel, the local statistic would have the form
+\paragraph{Object being certified.}
+The object certified in this subsection is a boundary-level cross-layer record for an $f_3$-stress synonymous residual coordinate in coding-sequence windows.  The intended finite row, once externally supplied, has the form
 $$
 \begin{aligned}
-T_{o,c,b} &= \text{position-resolved ribosome occupancy residual for organism } o,\text{ CDS } c,\text{ bin } b,\\
-Q_{o,c,b} &= \text{same-window } f_3\text{-stress residual after amino-acid projection},\\
-Z_{o,c,b} &= \text{amino-acid, GC3, length, M-density, codon-count, mRNA, coverage, and position controls}.
+( &\mathrm{organism},\ \mathrm{CDS},\ \mathrm{window},\ s_{f_3},\ a_{\mathrm{wobble}},\ Z_{\mathrm{aa}},\ Z_{\mathrm{GC3}},\ Z_{\mathrm{len}},\\
+& Z_{M},\ Z_{\mathrm{mRNA}},\ T_{\mathrm{RPF}},\ b_{\mathrm{rank}},\ b_{\mathrm{break}} ).
 \end{aligned}
 $$
-The admissible survival check is therefore a finite comparison between a controlled baseline using $Z_{o,c,b}$ and a second controlled model using $(Z_{o,c,b},Q_{o,c,b})$, restricted to wobble-asymmetric contexts where $w_c \neq w_{c^{f_3}}$.  Wobble-symmetric contexts are not positive tests of the coordinate; they are negative or boundary strata unless a separate readout demonstrates otherwise.  If the joined matrix is rank deficient, if the matched mRNA denominator is absent, or if footprint occupancy is not keyed to the same CDS windows, the statistic is undefined for BioReality purposes even when the sequence geometry itself is computable.
+Here $s_{f_3}$ is the third-position residual coordinate after amino-acid projection, $a_{\mathrm{wobble}}$ marks whether the attached wobble-weight surface distinguishes a codon from its $f_3$ partner, and $T_{\mathrm{RPF}}$ is a position-resolved ribosome-footprint or local-window translation readout.  The control block is not optional: amino-acid bin or position, GC3, coding-sequence length, methionine-density baseline, codon-count controls, matched mRNA abundance, coverage, mappability, and rank sufficiency are part of the admissible finite row.
 
-\paragraph{Relation to the ESOL solubility row.}
-The ESOL contact named in the claim title supplies a protein-level solubility setting, and the verified finite row count $n=3198$ fixes the size of the available protein table for this record.  It does not by itself supply codon-indexed ribosome footprints, translation efficiency, mRNA abundance, wobble-weight asymmetry, or synonymous-window residuals.  Therefore the ESOL row can serve only as a downstream table that might later be joined after the translation-readout step has survived.  The present finite facts do not justify moving from $f_3$-stress to protein solubility, from solubility to folding, or from hydrophobic clustering to any physical mechanism.  The biological layer order is strict: first the same-window translation readout must exist and survive the declared controls; only then may a separate protein-level readout be considered.
+\paragraph{Relation tested.}
+The scientific question is whether the $f_3$ residual coordinate improves a bounded translation-window readout only where wobble asymmetry is present.  In finite-row notation, the permitted comparison is a controlled residual improvement statement, not an unrestricted biological explanation:
+$$
+\begin{aligned}
+\Delta_{f_3}
+&= L(T_{\mathrm{RPF}} \mid Z,\ s_{f_3},\ a_{\mathrm{wobble}})
+   - L(T_{\mathrm{RPF}} \mid Z),\\
+Z
+&= (Z_{\mathrm{aa}}, Z_{\mathrm{GC3}}, Z_{\mathrm{len}}, Z_M, Z_{\mathrm{mRNA}},
+    Z_{\mathrm{coverage}}, Z_{\mathrm{mappability}}).
+\end{aligned}
+$$
+A positive local result would require $\Delta_{f_3}$ to survive the controls, to fail in wobble-symmetric or projection-compressed windows, and to remain nondegenerate after simpler-baseline ablation.  The present finite packet does not supply $\Delta_{f_3}$, a p-value, a fitted coefficient, an $R$ list, an $M$ list, a $\lambda$ value, a module classification, or a hit rate for this translation-window relation.  Consequently, the row is certified as a precise request for the missing statistic rather than as a positive translation result.
 
-\paragraph{Local boundary.}
-The current chapter therefore has a null boundary rather than a positive claim.  The run record establishes that a protein-solubility ESOL surface with $3198$ rows was handled in $60.0$ seconds under run id $8742a224b538$, but it does not establish a same-window translation statistic.  A contact name for ribosome occupancy is not the same thing as joined footprint rows, and modeled tAI or stAI weights are not observed ribosome dynamics.  Likewise, synonymous codon topology and wobble-weight asymmetry do not become translation realization unless an external readout row supplies the translation measurement.
+\paragraph{Why the ESOL row does not promote the translation claim.}
+The ESOL contact is relevant because it is a concrete protein-level readout with $3198$ finite rows, but it lives downstream of translation and folding-related biology.  The $f_3$ packet described here is deliberately narrower: it asks first whether a synonymous-window coordinate survives against a matched position-resolved translation surface.  The ESOL run therefore cannot be used as a substitute for ribosome-footprint occupancy, translation efficiency, local pausing, protein abundance, folding, solubility mechanism, or physical admissibility.  It records that a protein-solubility table exists in the broader BioReality memory; it does not attach the same-CDS, same-window codon-count, wobble-weight, mRNA, and ribosome-footprint rows demanded by this $f_3$-stress boundary.
 
-\paragraph{Cannot-claim statement.}
-From the finite data supplied here, no translation realization, protein abundance effect, folding statement, structural-order statement, physical-admissibility statement, localization statement, biological-function statement, system-phenotype statement, mechanism, adaptation claim, causal claim, or universal biological law follows.  Any such statement would require a separate matched contact at that layer, with its own finite rows and its own controlled statistic.  The only admissible conclusion is that the ESOL-sized protein table and the proposed $f_3$-stress translation-window coordinate define a boundary-seeking BioReality record: it is numerically anchored by $n=3198$ and runtime $60.0$, but it remains blocked until same-organism, same-CDS, same-window codon, wobble-weight, matched mRNA, and position-resolved ribosome-footprint rows are supplied.
+\paragraph{Control example from a separate biological layer.}
+The human N-terminal acetylation contact supplies a useful contrast.  Its finite row count is $1426$, the runtime is $5.372$ seconds, and the abundance-control flag is false.  That record is allowed to say that the frozen yeast rule transfers to human under its preregistered gates, but it is not allowed to certify abundance-controlled translation behavior because the finite flag says otherwise.  The same discipline applies here: a contact name, a review event, or a modeled codon-adaptation weight does not become a translation readout unless the required row is present and the declared statistic is computed.
+
+\paragraph{Local non-claim boundary.}
+This subsection makes no claim that $f_3$-stress is protein abundance, protein solubility, folding state, structural order, localization, stability, physical admissibility, function, phenotype, mechanism, adaptation, causation, or a universal biological law.  It also makes no claim that modeled tAI or stAI weights observe ribosome dynamics.  Wobble-weight asymmetry can mark where the synonymous coordinate is worth testing, but it is not itself a measured translation event.  A ribosome-occupancy claim would require the matched footprint surface; a protein-output claim would require a protein-level contact; a folding or physical-state claim would require a separate structure, stability, accessibility, or perturbation contact.
+
+\paragraph{Admissible finite verdict.}
+The present BioReality entry is therefore a bounded name certificate for the translation-window test shape.  It keeps the protein-solubility ESOL fact $n=3198$ and the human acetylation fact $n=1426$ as concrete finite contacts, while refusing to merge them into an unobserved same-window ribosome statistic.  The admissible next row is a same-organism and same-CDS table joining ordered coding windows, codon counts, bounded wobble weights, matched mRNA abundance, and codon-indexed or window-indexed ribosome-footprint occupancy.  Only after that table exists may the $f_3$ residual be tested under amino-acid-bin or position controls, GC3, length, methionine-density baseline, codon-count controls, matched mRNA, coverage, mappability, rank sufficiency, and simpler-baseline ablation.
