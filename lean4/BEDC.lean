@@ -7152,6 +7152,7 @@ import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KroneckerSymbolUp
+import BEDC.Derived.KummerCongruenceUp
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KummerTheoremUp
 import BEDC.Derived.KuratowskiClosureComplementUp.FourteenRoute
