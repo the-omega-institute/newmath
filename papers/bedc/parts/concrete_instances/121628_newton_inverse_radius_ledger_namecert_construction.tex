@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\NewtonInverseRadiusLedgerUp$}
+\label{ch:concrete-instances-newton-inverse-radius-ledger-namecert}
+\origin{human}
+
+Following Kantorovich and the finite-dimensional inverse-function theorem, the $\NewtonInverseRadiusLedgerUp$ packet records the finite radius budget that lets a Newton consumer open an inverse window without invoking a global inverse theorem. It sits beside the Newton-Kantorovich route of \autoref{ch:concrete-instances-newton-kantorovich-namecert}, the inverse-function carrier of \autoref{ch:concrete-instances-inverse-function-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the terminal Real surface of \autoref{ch:concrete-instances-real-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the continuous-map route of \autoref{ch:concrete-instances-continuousmap-namecert}. The chapter names a local ledger for contraction, inverse-window, and Real-facing handoff rows; it does not assert selected limits, host differentiability, quotient representatives, global inverse functions, or Lean verification.
+
+\begin{definition}[Newton inverse-radius ledger carrier]
+\label{def:newton-inverse-radius-ledger-carrier}
+A $\NewtonInverseRadiusLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,R,F,D,I,A,W,Q,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, naming the domain and codomain distance windows used by the local inverse read.
+\item $R$ is the $\RealUp$ radius row, carrying the positive radius, tolerance budget, and endpoint comparisons used by the inverse window.
+\item $F$ is the $\ContinuousMapUp$ source map row, displayed before any derivative or Newton read is consumed.
+\item $D$ is the local derivative or finite-difference control row read by the inverse-window calculation.
+\item $I$ is the inverse-witness row for the derivative control displayed by $D$ at the centre of the window.
+\item $A$ is the approximation ledger, storing the finite residual and Lipschitz or majorant comparisons that bound the Newton correction inside the radius row $R$.
+\item $W$ is the inverse-window row, recording the accepted ball, target ball, and nonescape side condition.
+\item $Q$ is the contraction-obligation row, recording that the Newton transform determined by $F,D,I,A,W$ is contractive on the displayed radius window.
+\item $K$ is the $\NewtonKantorovichUp$ handoff row, opened only after $M,R,F,D,I,A,W,Q$ have been displayed.
+\item $E$ is the $\CompleteMetricUp$ handoff row that accepts the contraction ledger as a local completion route for the window.
+\item $H$ records componentwise $\hsame$ transport for the metric source, radius budget, map row, derivative control, inverse witness, approximation ledger, inverse window, contraction row, Newton-Kantorovich handoff, complete-metric handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the map row through the radius ledger, inverse witness, contraction obligation, and local handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\NewtonInverseRadiusLedgerUp$, $\NewtonKantorovichUp$, $\InverseFunctionUp$, $\CompleteMetricUp$, $\RealUp$, $\MetricUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NewtonInverseRadiusLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,R,F,D,I,A,W,Q,K,E,H,C,P,N$. It has no coordinate for selected limits, host differentiability, quotient representatives, global inverse functions, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Newton inverse-radius ledger contraction obligation]
+\label{thm:newton-inverse-radius-ledger-contraction-obligation}
+For every accepted $\NewtonInverseRadiusLedgerUp$ carrier
+$$
+L=(M,R,F,D,I,A,W,Q,K,E,H,C,P,N),
+$$
+the contraction row $Q$ is readable only after the metric source $M$, radius budget $R$, continuous-map row $F$, derivative-control row $D$, inverse-witness row $I$, approximation ledger $A$, and inverse-window row $W$ are displayed. Thus every contraction claim exported by the packet is a local radius-budget claim about the displayed Newton transform, not a global inverse-function claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:newton-inverse-radius-ledger-carrier}. The only rows upstream of $Q$ are $M,R,F,D,I,A,W$, so the contraction obligation has no separate source from which it can read a global inverse theorem.
+
+The metric and radius rows determine the window. The map row and derivative-control row determine the local Newton transform, while the inverse witness and approximation ledger record the finite bounds used by that transform.
+
+Only after those rows are visible can $W$ expose the nonescape window and $Q$ record contraction inside it. Since the carrier lacks global inverse-function and selected-limit coordinates, the exported contraction claim remains confined to the displayed radius ledger.
+\end{proof}
+
+\begin{theorem}[Newton inverse-radius ledger inverse-window obligation]
+\label{thm:newton-inverse-radius-ledger-inverse-window-obligation}
+Every accepted $\NewtonInverseRadiusLedgerUp$ read of an inverse window factors through
+$$
+M,R,F,D,I,A \longmapsto W \longmapsto Q \longmapsto K,E,H,C,P,N .
+$$
+The row $W$ names only the local ball, target ball, and nonescape side condition carried by the radius ledger; it does not select a host limit, choose a quotient representative, assert host differentiability, or export a global inverse function.
+\end{theorem}
+\begin{proof}
+The inverse-window row is $W$. By carrier admission, it is downstream of the metric source, radius row, map row, derivative-control row, inverse witness, and approximation ledger.
+
+The contraction row $Q$ can consume $W$ only as a finite local window. It then hands the data to the Newton-Kantorovich row $K$ and the complete-metric row $E$ for local completion-facing use.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same displayed route. None of them adds selected limits, quotient representatives, host differentiability, or a global inverse function, so the inverse-window read remains local to $W$.
+\end{proof}
+
+\begin{theorem}[Newton inverse-radius ledger NameCert ledger]
+\label{thm:newton-inverse-radius-ledger-namecert-ledger}
+For every accepted $\NewtonInverseRadiusLedgerUp$ carrier, the local $\NameCert_{\NewtonInverseRadiusLedgerUp}$ surface is exhausted by carrier admission, metric-source visibility, radius-budget exactness, continuous-map source visibility, derivative-control compatibility, inverse-witness stability, approximation-ledger exactness, inverse-window nonescape, contraction-row exactness, Newton-Kantorovich handoff, complete-metric handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission gives exactly the tuple $M,R,F,D,I,A,W,Q,K,E,H,C,P,N$. The source rows $M,R,F,D,I,A$ describe the local metric, radius, map, derivative-control, inverse-witness, and approximation data.
+
+The window and contraction obligations are the rows $W$ and $Q$. They bind the source data to one local inverse window and one contraction claim inside that window.
+
+The handoff rows $K$ and $E$ route the same data through the Newton-Kantorovich and complete-metric surfaces. The structural rows $H,C,P,N$ add only transport, replay, provenance, and local naming, so no additional obligation lies outside the displayed ledger.
+\end{proof}
+
+\begin{theorem}[Newton inverse-radius ledger local handoff]
+\label{thm:newton-inverse-radius-ledger-local-handoff}
+Any consumer of an accepted $\NewtonInverseRadiusLedgerUp$ packet may export only the local handoff through $\NewtonKantorovichUp$ and $\CompleteMetricUp$ named by $K$ and $E$. The consumer may cite the finite radius budget, inverse-window row, and contraction row, but it may not export selected limits, host differentiability, quotient representatives, global inverse functions, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+The downstream analytic rows are $K$ and $E$. They are downstream of the radius ledger, inverse-window row, and contraction row, so they cannot be read before the local finite budget is displayed.
+
+The packet contains no selected-limit row, host differentiability row, quotient-representative row, global inverse-function row, Lean marker, or bridge row. A consumer therefore has no coordinate from which to export those claims.
+
+The only public handoff left is the finite local route through $M,R,F,D,I,A,W,Q,K,E,H,C,P,N$, with $K$ and $E$ naming the Newton-Kantorovich and complete-metric consumers of that route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NewtonInverseRadiusLedgerUp$ packet displays MetricUp source data, a RealUp radius row, ContinuousMapUp source data, derivative control, inverse-witness data, an approximation ledger, an inverse-window row, a contraction row, NewtonKantorovichUp handoff, CompleteMetricUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data before any inverse-window consumer is accepted.}
+
+\independenceWitness{newtonkantorovich, inversefunction, completemetric, real, metric, continuousmap: $\NewtonInverseRadiusLedgerUp$ is not bijective to any listed sibling because it jointly carries the radius budget, inverse-window nonescape row, contraction obligation, Newton-Kantorovich handoff, complete-metric handoff, transport, replay, provenance, and local naming in one finite ledger.}
+
+\closureat{NewtonInverseRadiusLedgerUp}{seedStr}
+
+\begin{closurestatus}{\NewtonInverseRadiusLedgerUp}
+  \constructivestory{A $\NewtonInverseRadiusLedgerUp$ packet is generated from MetricUp source data, a RealUp radius row, ContinuousMapUp source data, derivative control, inverse-witness data, an approximation ledger, an inverse-window row, a contraction row, NewtonKantorovichUp handoff, CompleteMetricUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-inverse-radius-ledger-carrier}, \autoref{thm:newton-inverse-radius-ledger-contraction-obligation}, \autoref{thm:newton-inverse-radius-ledger-inverse-window-obligation}, \autoref{thm:newton-inverse-radius-ledger-namecert-ledger}, and \autoref{thm:newton-inverse-radius-ledger-local-handoff} seed the finite inverse-radius ledger for local Newton inverse-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, host differentiability, quotient representatives, global inverse functions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source visibility, radius-budget exactness, continuous-map source visibility, derivative-control compatibility, inverse-witness stability, approximation-ledger exactness, inverse-window nonescape, contraction-row exactness, Newton-Kantorovich handoff, complete-metric handoff, transport, replay, provenance, and local naming for BEDC.Derived.NewtonInverseRadiusLedgerUp.}
+\end{closurestatus}

@@ -12393,6 +12393,7 @@ import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
 import BEDC.Derived.TruthTotalReflectionUp.RootRouteTotality
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TruthCertHandoff
+import BEDC.Derived.TubeLemmaFiniteProductUp
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
