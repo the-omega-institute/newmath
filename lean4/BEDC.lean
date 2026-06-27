@@ -4605,6 +4605,7 @@ import BEDC.Derived.DedekindMacNeilleCompletionUp.RealSealNonescape
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindPsiUp
 import BEDC.Derived.DedekindRealUp.TasteGate
+import BEDC.Derived.DedekindSumUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefectFlowPartitionSkeletonUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
