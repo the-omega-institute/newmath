@@ -9857,6 +9857,7 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RHRoute.AltConvergence
 import BEDC.Derived.RHRoute.AlternatingTailBound
 import BEDC.Derived.RHRoute.BoxKernelConcrete
+import BEDC.Derived.RHRoute.CertifiedFirstZero
 import BEDC.Derived.RHRoute.ChannelNormalForm
 import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ConstructiveZeta
