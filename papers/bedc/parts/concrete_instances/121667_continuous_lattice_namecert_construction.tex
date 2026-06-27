@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ContinuousLatticeUp$}
+\label{ch:concrete-instances-continuous-lattice-namecert}
+\origin{human}
+
+Following Gierz--Hofmann--Keimel--Lawson--Mislove--Scott, the $\ContinuousLatticeUp$ packet records the domain-theoretic carrier in which every displayed element has a finite approximation row and every directed read remains tied to a complete-lattice substrate. It sits between the directed-supremum surface of \autoref{ch:concrete-instances-dcpo-namecert}, the complete meet--join surface of \autoref{ch:concrete-instances-complete-lattice-namecert}, the Scott-open consumer of \autoref{ch:concrete-instances-scott-topology-namecert}, and the point-free open comparison route of \autoref{ch:concrete-instances-locale-space-namecert}. The packet names finite way-below, directed-join, and Scott-handoff rows for L10 approximation consumers; it is not a host powerset lattice, not an unrestricted frame theorem, not a selected basis theorem, and not an ambient spatiality claim.
+
+\begin{definition}[Continuous lattice carrier]
+\label{def:continuous-lattice-carrier}
+A $\ContinuousLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,C,W,A,S,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DcpoUp$ source row, exposing finite order, directed-family, supremum, and lower-bound exactness data.
+\item $C$ is the $\CompleteLatticeUp$ source row, exposing displayed certified-family joins and meets.
+\item $W$ is the way-below ledger: every approximant named by the packet is tied to a finite directed-window witness.
+\item $A$ is the approximation row, recording that each listed element is read through directed joins of its visible way-below approximants.
+\item $S$ is the $\ScottTopologyUp$ handoff row for upper-set and directed-inaccessibility reads.
+\item $L$ is the $\LocaleSpaceUp$ comparison row for point-free finite-open and cover-refinement observations.
+\item $H$ records componentwise $\hsame$ transport for all visible continuous-lattice rows.
+\item $R$ records displayed $\Cont$ replay from directed reads to approximation rows and Scott-facing handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\ContinuousLatticeUp$, $\DcpoUp$, $\CompleteLatticeUp$, $\ScottTopologyUp$, $\LocaleSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContinuousLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,C,W,A,S,L,H,R,P,N$. It has no coordinate for host powersets, arbitrary joins outside the displayed complete-lattice row, selected bases, quotient opens, global spatiality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Continuous lattice NameCert obligations]
+\label{thm:continuous-lattice-namecert-obligations}
+For every accepted $\ContinuousLatticeUp$ carrier $Q=(D,C,W,A,S,L,H,R,P,N)$, the local $\NameCert_{\ContinuousLatticeUp}$ surface consists exactly of DCPO source admission, complete-lattice source admission, way-below ledger exposure, approximation-row exposure, Scott-topology handoff, locale comparison, componentwise transport, continuation replay, provenance, and local naming. Every approximation consumer must read $D,C,W,A$ before using $S$ or $L$ as a topology-facing observation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuous-lattice-carrier}. The order-theoretic substrate is split into the directed-complete row $D$ and the complete-lattice row $C$, so no consumer can read approximation data before both source rows are visible.
+
+The finite approximation evidence is stored in $W$ and $A$. The way-below ledger $W$ names the displayed approximants, while $A$ records the directed-join read by which each listed element is approximated.
+
+The topology-facing rows are downstream. The Scott handoff $S$ may be read only after the directed-supremum and approximation rows have been inspected, and the locale comparison $L$ may be read only as point-free finite-open data tied to the same packet.
+
+Finally $H,R,P,N$ preserve the displayed rows as certificate data. Thus the local surface is finite NameCert evidence over the listed rows, not a host complete lattice or unrestricted frame construction.
+\end{proof}
+
+\begin{theorem}[Continuous lattice Scott handoff]
+\label{thm:continuous-lattice-scott-handoff}
+Every $\ScottTopologyUp$ or $\LocaleSpaceUp$ consumer of an accepted $\ContinuousLatticeUp$ packet must factor its read through
+$$
+\DcpoUp,\quad \CompleteLatticeUp,\quad W,\quad A
+$$
+before it treats $S$ or $L$ as public open data. The handoff exports the finite approximation route needed by Scott-open and locale-facing consumers, but it does not claim spatiality, a selected basis, a host frame of all opens, or equality with an unrestricted continuous-domain construction.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuous-lattice-namecert-obligations}. It requires every accepted packet to expose the DCPO row, complete-lattice row, way-below ledger, and approximation row before topology-facing observations are public.
+
+The $\ScottTopologyUp$ consumer reads $S$ only as an upper-set and directed-inaccessibility handoff tied to $D,W,A$. The $\LocaleSpaceUp$ consumer reads $L$ only as a point-free comparison row tied to the same finite approximation packet.
+
+Since neither $S$ nor $L$ contains a coordinate for selected bases, host powersets, quotient opens, or spatiality, the handoff remains the displayed finite route from order and approximation rows to topology-facing observations.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ContinuousLatticeUp$ consumer that exports Scott-open or locale-facing data while omitting the $\DcpoUp$ row $D$, $\CompleteLatticeUp$ row $C$, way-below ledger $W$, or approximation row $A$ refutes the packet.}
+
+\independenceWitness{dcpo, complete-lattice, scott-topology, locale-space: none is bijective to $\ContinuousLatticeUp$ because this packet jointly carries directed completeness, complete-lattice family joins and meets, finite way-below approximation, Scott handoff, locale comparison, transport, replay, provenance, and local naming as one certificate surface.}
+
+\closureat{ContinuousLatticeUp}{seedStr}
+
+\begin{closurestatus}{\ContinuousLatticeUp}
+  \constructivestory{A $\ContinuousLatticeUp$ packet is generated from a DCPO source row, CompleteLattice source row, finite way-below ledger, approximation row, ScottTopology handoff, LocaleSpace comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuous-lattice-carrier}, \autoref{thm:continuous-lattice-namecert-obligations}, and \autoref{thm:continuous-lattice-scott-handoff} seed the finite continuous-lattice approximation route over DCPO, CompleteLattice, ScottTopology, LocaleSpace, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected bases, host powerset lattices, arbitrary frame completeness, spatiality, quotient-open equality, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, way-below ledger exactness, approximation-row exactness, ScottTopology handoff, LocaleSpace comparison, transport, replay, provenance, and local naming for BEDC.Derived.ContinuousLatticeUp.}
+\end{closurestatus}
+\leanstmt{BEDC.Derived.ContinuousLatticeUp}

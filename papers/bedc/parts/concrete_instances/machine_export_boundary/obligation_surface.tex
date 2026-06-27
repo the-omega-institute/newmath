@@ -21,3 +21,15 @@ The structural rows $H,C,P,N$ keep that data inside the accepted packet. Transpo
 
 Therefore a $\MetaCICBoundedDiamondWindowUp$ consumer cannot export bounded diamond evidence from a bare machine read. It first factors through the displayed MachineExportBoundary obligation surface, with every row of $E$ still visible.
 \end{proof}
+
+\begin{theorem}[Machine export boundary bounded diamond packet route]
+\label{thm:machine-export-boundary-bounded-diamond-packet-route}
+Every bounded-diamond consumer route from $\MachineExportBoundaryUp$ to $\MetaCICBoundedDiamondWindowUp$ must cite \autoref{ch:concrete-instances-metacic-bounded-diamond-window-namecert} through the full accepted machine-export packet $E=(R,T,A,F,H,C,P,N)$. The bounded diamond evidence cannot be read from a bare export row, a detached registry row, or an audit-only machine read; it becomes public only after the registry status, machine target, audit readback, refusal preservation, componentwise transport, displayed replay, package provenance, and local NameCert rows remain visible together.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:machine-export-boundary-bounded-diamond-consumer}. It already forces bounded-window consumers to inspect all eight rows of $E$ before machine export can serve bounded diamond evidence.
+
+The chapter route to \autoref{ch:concrete-instances-metacic-bounded-diamond-window-namecert} is therefore a packet route, not a single-row export. Reading only the registry row, only the target row, or only an audit row would omit the refusal, transport, replay, provenance, or naming data required by the accepted MachineExportBoundary surface.
+
+Thus the bounded-diamond dependency edge is carried by the whole packet $E=(R,T,A,F,H,C,P,N)$. A bare export row is not enough to expose bounded diamond evidence to a $\MetaCICBoundedDiamondWindowUp$ consumer.
+\end{proof}

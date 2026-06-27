@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RhFreeZeroInitialityUp$}
+\label{ch:concrete-instances-rh-free-zero-initiality-namecert}
+\origin{ai}
+
+The $\RhFreeZeroInitialityUp$ packet realizes the RH-free zero-generation initiality route of \autoref{ch:visions-rh-free-zero-generation-initiality} as finite NameCert data. It records a generated zero signature, a no-circularity audit, initial-algebra rows, exactness obligations, and fixed-half refusal boundaries without asserting the Riemann Hypothesis, analytic continuation, zero completeness, or a fixed-half section. The packet is a BEDC-native audit surface for the route; it is not a zero generator and not a proof of the analytic claim.
+
+\begin{definition}[RH-free zero initiality NameCert]
+\label{def:rh-free-zero-initiality-namecert}
+A $\RhFreeZeroInitialityUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(F,A,G,I,E,K,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the RH-free zero signature row, listing constructor kinds for the zero-generation endofunctor.
+\item $A$ is the $\mathsf{NoRHCirc}$ audit row, refusing any constructor input that consumes an $\mathsf{OnCritLine}$ witness, a fixed-half section witness, the proposition $\mathsf{RH}$, or an unfactored zero-source oracle.
+\item $G$ is the generated zero carrier row, naming the displayed initial algebra over $F$.
+\item $I$ is the initiality row, recording the fold and uniqueness surface available for generated zero rows.
+\item $E$ is the zero-presentation exactness obligation row: soundness, faithfulness, and essential coverage are stored as separate finite obligations.
+\item $K$ is the fixed-half closure obligation row, recording constructor-by-constructor preservation requirements without supplying a fixed-half witness as input.
+\item $X$ is the no-circularity refusal ledger, retaining failed rows whose constructor reads $\mathsf{OnCritLine}$ or a fixed-half section before generation.
+\item $H$ records componentwise $\hsame$ transport for signature, audit, generated carrier, initiality, exactness, fixed-half closure, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a zero-generation constructor request through $F,A,G,I,E,K,X,H$.
+\item $P$ is the $\Pkg$ provenance over $\RhFreeZeroInitialityUp$, the RH-free zero-generation vision route, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RhFreeZeroInitialityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,A,G,I,E,K,X,H,C,P,N$. It has no coordinate for an analytic zero source, a proof that all zeta zeros are generated, an $\mathsf{OnCritLine}$ witness, a fixed-half section, or an RH theorem.
+\end{definition}
+
+\begin{theorem}[RH-free zero initiality no fixed-half circularity]
+\label{thm:rh-free-zero-initiality-no-fixed-half-circularity}
+For every accepted $\RhFreeZeroInitialityUp$ carrier
+$$
+Z=(F,A,G,I,E,K,X,H,C,P,N),
+$$
+the local $\NameCert_{\RhFreeZeroInitialityUp}$ obligation surface has exactly five mathematical rows:
+\begin{enumerate}
+\item RH-free signature admission through $F$;
+\item no-circularity audit through $A$ and refusal ledger $X$;
+\item generated zero carrier and initiality exposure through $G,I$;
+\item zero-presentation exactness obligations through $E$;
+\item fixed-half closure obligations through $K$.
+\end{enumerate}
+The structural rows $H,C,P,N$ transport, replay, source, and name those five rows. No accepted constructor row may consume an $\mathsf{OnCritLine}$ witness or fixed-half section witness before the generated carrier, exactness obligations, and fixed-half closure obligations have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rh-free-zero-initiality-namecert}. The visible mathematical rows are $F,A,G,I,E,K,X$, followed by the structural rows $H,C,P,N$.
+
+The no-circularity rows are read before initiality is used. If a constructor consumes $\mathsf{OnCritLine}$, a fixed-half section, $\mathsf{RH}$, or an unfactored zero-source oracle, the row is stored in $X$ as a refusal rather than in the accepted constructor surface.
+
+Initiality then applies only to the generated carrier $G$ over the admitted signature $F$. The exactness row $E$ and fixed-half closure row $K$ remain obligations displayed beside the initiality row; neither is supplied by initiality alone.
+
+Transport and replay preserve the same route. Since $P$ and $N$ contain no analytic zero source, fixed-half witness, section witness, or RH theorem coordinate, the packet records the no-circularity audit without proving the analytic conclusion.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\RhFreeZeroInitialityUp$ zero-generation constructor row fails if it consumes an $\mathsf{OnCritLine}$ witness, a fixed-half section witness, the proposition $\mathsf{RH}$, or an unfactored zero-source oracle before the no-circularity audit, generated carrier, exactness obligations, fixed-half closure obligations, transport, replay, provenance, and local $\NameCert$ rows are displayed.}
+
+\independenceWitness{\texttt{rh\_layered\_translation}, \texttt{zeta\_self\_similar\_recovered\_carrier}, \texttt{prime\_fingerprint\_separation}, \texttt{zero\_skew\_eventflow\_target}: $\RhFreeZeroInitialityUp$ is not bijective to any listed sibling because the $\mathsf{NoRHCirc}$ row and the separated initiality, exactness, and fixed-half closure obligations jointly form a no-circularity audit surface rather than a zero carrier, a prime fingerprint classifier, an event-flow target, or a fixed-half section.}
+
+\closureat{RhFreeZeroInitialityUp}{seedStr}
+
+\begin{closurestatus}{\RhFreeZeroInitialityUp}
+  \constructivestory{A $\RhFreeZeroInitialityUp$ packet is generated from an RH-free zero signature, a NoRHCirc audit row, generated zero carrier rows, initiality rows, exactness obligations, fixed-half closure obligations, refusal ledger rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rh-free-zero-initiality-namecert} and \autoref{thm:rh-free-zero-initiality-no-fixed-half-circularity} seed the finite no-circularity audit surface for RH-free zero-generation initiality.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic continuation, zero completeness, an RH proof, fixed-half section existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked signature admission, NoRHCirc refusal, generated-carrier initiality, zero-presentation exactness, fixed-half closure, transport, replay, provenance, and local naming for BEDC.Derived.RhFreeZeroInitialityUp.}
+\end{closurestatus}
