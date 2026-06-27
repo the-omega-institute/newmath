@@ -1881,6 +1881,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube family Gamma_m, the distance-2 overlap-sparse pair count J_m=#{(x,y) in V(Gamma_m)^2 : (x_i y_i)(x_{i+2} y_{i+2})=0 for all 1<=i<=m-2} (ordered pairs of vertices whose common-one mask x AND y avoids the pattern 101, i.e. no two overlap positions are separated by exactly one coordinate; overlaps x_i=y_i=1 are permitted, so the statistic is not a disjoint-pair relation) satisfies the forced order-four recurrence J_m=2J_{m-1}+J_{m-2}+J_{m-3}+J_{m-4} with characteristic polynomial t^4-2t^3-t^2-t-1 (coprime to t^2-t-1), realized by a nonnegative non-companion four-state transfer with all-ones readout; values 1,4,9,24,62,161,417,1081,2802,7263,18826,... verified to m=11. An overlap-pattern incidence statistic whose minimal quartic is coprime to t^2-t-1 and distinct from the additive-energy/Theta-sparse/gated-face/Walsh/mask/quartet/efficient-open-domination/right-skew-disjoint anchors, and (overlaps permitted) distinct from the disjoint right-skew pair count; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "window.fibonacci-cube.two-buffered-xor-pair.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-window-two-buffered-xor-pair",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "window.fibonacci-cube.two-buffered-xor-pair",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Fibonacci cube family Gamma_m, the two-buffered XOR-pair count X_m=#{(x,y) in V(Gamma_m)^2 : Delta=x XOR y has no two 1s at distance 1 or 2} (ordered pairs whose XOR difference avoids both the patterns 11 and 101, so any two 1-positions of the difference are at least three coordinates apart) satisfies the forced order-four recurrence X_m=X_{m-1}+X_{m-2}+2X_{m-3}+2X_{m-4} with characteristic polynomial t^4-t^3-t^2-2t-2 (coprime to t^2-t-1, Hankel rank 4), realized by a nonnegative non-companion five-state transfer with all-ones readout; values 1,4,7,15,32,69,145,308,655,1391,... verified to m=11. An XOR-difference pattern incidence statistic whose minimal quartic differs from the efficient-open-domination quartic only in the constant term yet whose sequence diverges immediately (X_1=4 vs Q_1=2), and is distinct from the additive-energy/Theta-sparse/gated-face/Walsh/mask/quartet/right-skew-disjoint/distance-2-overlap-sparse anchors; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
