@@ -322,3 +322,196 @@ factorization row of
 \autoref{def:unified-reality-zero-observable-factorization}.  Without
 it, a mirror companion may be a paired zero rather than the same zero.
 \end{proof}
+
+\begin{principle}[Expression is not construction]
+\label{prin:unified-reality-expression-not-construction}
+Expressing the RH target in the language of observation-time,
+distinction-atom, and symmetry-transport does not by itself construct an
+RH witness.  The constructive target remains a total section
+$$
+\Phi:
+\mathcal Z_{\zeta}
+\to
+\mathcal H_{\zeta},
+$$
+or equivalently a function sending each row
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+$$
+to an explicit $\mathsf{OnCritLine}(s)$ witness.  A vocabulary for the
+target is therefore weaker than an inhabitant of the target.
+\end{principle}
+
+\begin{definition}[Zero ontic completeness]
+\label{def:unified-reality-zero-ontic-completeness}
+The zero source has \emph{zero ontic completeness} when the displayed
+ontic signature is not only mirror-even but observable-complete for the
+zero carrier:
+$$
+\mathsf{ZeroOnticComplete}_{\zeta}
+:=
+\prod_F
+\sum_f
+\prod_{s:\mathcal Z_{\zeta}}
+F(s)=f(\Sigma_Z(s)),
+$$
+where $F$ ranges over the zero observables admitted by the displayed
+zero carrier.  This is the factorization form of the claim that no
+additional zero-observable coordinate is available beyond the zero
+ontic signature.
+\end{definition}
+
+\begin{definition}[No-fourth-ledger row]
+\label{def:unified-reality-no-fourth-ledger-row}
+The \emph{no-fourth-ledger row} for the zeta zero carrier is the refusal
+of an off-critical observable ledger independent of
+$$
+\Sigma_Z(s)
+=
+(\mathsf{AtomType}_Z(s),\mathsf{SpecTime}_Z(s),
+\mathsf{MirrorSlot}_Z(s)).
+$$
+Equivalently, any displayed normal displacement row
+$$
+\delta(s)=\Re(s)-\frac12
+$$
+must factor through the zero signature if it is admitted as a zero
+observable.
+\end{definition}
+
+\begin{theorem}[Zero ontic completeness implies zero-fixedness]
+\label{thm:unified-reality-zero-ontic-completeness-implies-zero-fixedness}
+Assume mirror closure, mirror-even zero signature, zero ontic
+completeness, and that the normal displacement $\delta(s)$ is a displayed
+zero observable.  Then every critical-strip zero source is fixed by the
+mirror:
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+s=J(s).
+$$
+\end{theorem}
+
+\begin{proof}
+By zero ontic completeness, the normal displacement factors through the
+zero signature:
+$$
+\delta(s)=f(\Sigma_Z(s)).
+$$
+For the mirror companion,
+$$
+\delta(J(s))
+=
+f(\Sigma_Z(J(s))).
+$$
+Mirror-evenness gives
+$$
+\Sigma_Z(J(s))=\Sigma_Z(s),
+$$
+hence
+$$
+\delta(J(s))=\delta(s).
+$$
+The mirror calculation of
+\autoref{def:unified-reality-mirror-odd-observable} also gives
+$$
+\delta(J(s))=-\delta(s).
+$$
+Therefore $\delta(s)=-\delta(s)$, and the characteristic-zero real
+readout gives $\delta(s)=0$.  By
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}, this
+is equivalent to $s=J(s)$.
+\end{proof}
+
+\begin{corollary}[Zero ontic completeness gives the RH target]
+\label{cor:unified-reality-zero-ontic-completeness-gives-rh-target}
+Under the hypotheses of
+\autoref{thm:unified-reality-zero-ontic-completeness-implies-zero-fixedness},
+the BEDC RH fixed-half section is obtained.
+\end{corollary}
+
+\begin{proof}
+The theorem gives zero-fixedness for every critical-strip zero source.
+The fixed-surface calculation converts zero-fixedness into
+$\mathsf{OnCritLine}(s)$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}
+identifies this with the RH section target.
+\end{proof}
+
+\begin{definition}[Ontic-expression package]
+\label{def:unified-reality-ontic-expression-package}
+The \emph{ontic-expression package} for RH is the data
+$$
+(\mathsf{OnticCore},
+\mathsf{ZetaOnticProjection},
+\mathsf{OnticBalance},
+\mathsf{ZeroFibreTarget}).
+$$
+It presents the RH target as a statement about zero rows landing in the
+atom-time-symmetry balance surface.  It does not include
+$\mathsf{ZeroOnticComplete}_{\zeta}$, signature faithfulness, or the
+defect-zero incompatibility bridge.
+\end{definition}
+
+\begin{theorem}[Ontic expression is weaker than RH construction]
+\label{thm:unified-reality-ontic-expression-weaker-than-rh-construction}
+The ontic-expression package is a correct presentation of the RH target
+but not an RH proof object.
+\end{theorem}
+
+\begin{proof}
+The package contains the target row
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{OnticBalance}(s),
+$$
+as in
+\autoref{def:unified-reality-ontic-rigidity-form-rh}.  To be a proof
+object it would need to produce this output for every zero-source input.
+That production is exactly the section $\Phi$ of
+\autoref{prin:unified-reality-expression-not-construction}.  The
+ontic-expression package names the codomain and explains the balance
+surface; it does not supply the total function.
+\end{proof}
+
+\begin{theorem}[No-fourth-ledger is a signature form of defect-zero incompatibility]
+\label{thm:unified-reality-no-fourth-ledger-defect-zero-incompatibility}
+For the zeta zero carrier, the no-fourth-ledger row is the signature
+form of the same missing bridge isolated as ontic defect-zero
+incompatibility.
+\end{theorem}
+
+\begin{proof}
+If a critical-strip zero carried an off-critical displacement
+$\delta(s)\#0$, then
+\autoref{thm:unified-reality-split-mirror-zero-prime-defect} gives a
+finite prime-window defect.  Such a defect is an additional observable
+row unless it is excluded by the zero carrier.  The no-fourth-ledger row
+expresses this exclusion as signature completeness: the zero signature
+has no independent coordinate capable of recording the off-critical
+displacement.  The defect-zero route of
+\autoref{def:unified-reality-reality-induction-hard-point} expresses the
+same exclusion as incompatibility between a zero row and an ontic
+defect.  Both formulations assign the remaining analytic load to the
+same zero-relevant rigidity claim.
+\end{proof}
+
+\begin{corollary}[Exact boundary of the signature route]
+\label{cor:unified-reality-exact-boundary-signature-route}
+The signature route proves RH exactly when the zeta zero carrier is
+shown to be complete and faithful for the displayed ontic signature.
+\end{corollary}
+
+\begin{proof}
+If completeness and faithfulness hold, then
+\autoref{thm:unified-reality-zero-ontic-completeness-implies-zero-fixedness}
+and
+\autoref{cor:unified-reality-zero-ontic-completeness-gives-rh-target}
+give the RH section.  Conversely, without completeness or faithfulness,
+the mirror may preserve the zero set while allowing paired zero atoms in
+one mirror orbit.  Such a paired orbit uses the same three formal roles
+but does not collapse to the fixed surface.  Thus the boundary is not
+the availability of the three ontic words, but the completeness and
+faithfulness of their zero-source signature.
+\end{proof}
