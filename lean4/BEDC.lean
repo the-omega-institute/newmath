@@ -90,6 +90,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AlgebraicExtensionDimensionUp
 import BEDC.Derived.AlgebraicRealUp.TasteGate
+import BEDC.Derived.AliquotSequenceUp
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
@@ -2863,6 +2864,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.StrictObstructionLocality
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CellularWindowTraceUp.TasteGate
+import BEDC.Derived.CenteredPolygonalUp
 import BEDC.Derived.CentralFactorialUp
 import BEDC.Derived.CentralLimitFiniteWindowUp.TasteGate
 import BEDC.Derived.CertificateAuditGateUp
@@ -9648,6 +9650,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
 import BEDC.Derived.PolyRootBoundUp
+import BEDC.Derived.PolygonalNumberUp
 import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolylogarithmUp
 import BEDC.Derived.PolynomialResultantUp
@@ -10045,6 +10048,7 @@ import BEDC.Derived.RationalOpenIntervalBasisUp.NameCertObligations
 import BEDC.Derived.RationalOpenIntervalBasisUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
+import BEDC.Derived.RationalSquareOrderUp
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RationalUp
@@ -11968,8 +11972,10 @@ import BEDC.Derived.SplitComplexUp
 import BEDC.Derived.SplitIntervalUp
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SpreadSpaceUp.TasteGate
+import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
 import BEDC.Derived.Sqrt2IrrationalUp
+import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
 import BEDC.Derived.SqueezeTheoremUp.TasteGate
