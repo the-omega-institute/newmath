@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-28T08:29:23Z
+> 最后刷新: 2026-06-28T10:06:11Z
 
-**Daemon 状态**: monitor (monitor cycle 203, adjust_since_research 2, round_counter 29339, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 204, adjust_since_research 2, round_counter 29457, last_adjust rule_evolution_completed)
 
-**待处理 queue** (816 条 finding):
-- isolated_theorem: 538 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (858 条 finding):
+- isolated_theorem: 580 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 221 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 57 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=unauthorized_capstone: 41 次
-- TASTE ALERT category=isolated_theorem: 32 次
-- TASTE ALERT category=cycle_exception: 7 次
+- TASTE ALERT category=isolated_theorem: 35 次
+- TASTE ALERT category=cycle_exception: 5 次
 - TASTE ALERT category=low_entropy_template: 3 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 - TASTE ALERT category=sync_failed: 1 次
@@ -440,6 +440,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-28T06:10:46Z: `resolved` `add_downstream_user` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_public_export` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_public_export:93ddb164`). Rationale: The target was only referenced by the paper marker and had no Lean downstream user, but it carries real BEDC content: it derives the publicRead unary row plus the carrier route and package obligations from the BaireOneFunction carrier. I added a sibling locality-boundary theorem that invokes this export and builds a SemanticNameCert public-read boundary, so the theorem is now consumed by a related BaireOneFunctionUp locality structure rather than remaining isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-28T08:28:54Z: `resolved` `add_downstream_user` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_schedule_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_schedule_obligations:93ddb164`). Rationale: The target carries real BEDC content: it exports the H-row schedule SemanticNameCert plus the visible pointwise schedule ledger, and the paper explicitly uses it to justify oscillation locality. I added a sibling theorem in OscillationLocality that directly consumes the target and combines its schedule certificate with the existing oscillation locality certificate, so the theorem now has a substantive Lean downstream user in the same BHist row family. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-28T10:05:41Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_limit_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_limit_ledger:93ddb164`). Rationale: The target is not a vacuous wrapper: it packages the Real value-seal row R as a SemanticNameCert with the displayed X,F,S,Q,R pattern and exports UnaryHistory R plus Cont S Q R. The paper chapter uses it as the checked pointwise-limit ledger claim, and downstream prose depends on that claim, but Lean has no current downstream reference. I attempted an add_downstream_user consumer in the OscillationLocality sibling tying the limit ledger to the oscillation boundary; however the required lake build gate failed on BEDC.Derived.BaireOneFunctionUp.OscillationLocality with Unknown identifier `carrier`, so the attempted edit was reverted per daemon instructions. Gate results: lake_build=error: BEDC/Derived/BaireOneFunctionUp/OscillationLocality.lean:194:38: Unknown identifier `carrier`; error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 

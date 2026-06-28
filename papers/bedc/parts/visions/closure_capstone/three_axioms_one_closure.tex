@@ -1,10 +1,10 @@
-\chapter{Three Axioms, One Meta Closure}
+\chapter{Three Axiom Families, One Meta-Closure Taxonomy}
 \label{ch:visions-three-axioms-one-closure}
 \origin{human}
 
-The three axioms classical mathematics needs but BEDC rejects -- the axiom of choice, quotient soundness, and propositional extensionality -- are not three independent disciplinary commitments but three syntactic variants of a single underlying move: accepting an unwitnessed existential as legitimate input to a subsequent argument. Choice closes at the term level by supplying an unwitnessed selection function across an arbitrary index family; quotient soundness closes at the type level by supplying an unwitnessed canonical representative for an equivalence class; propositional extensionality closes at the proposition level by supplying an unwitnessed identification of equivalent propositions. Each is the meta-level closure of the open meta loop in \autoref{ch:visions-reflection-and-limits}'s two-loops structure, phrased at a different syntactic stratum, in the same family as the halting closure of \autoref{ch:visions-halting-as-form-of-distinction-limit}. This chapter (i) reformulates each of the three axioms as the schematic move ``accept an unwitnessed $\exists$ as argument input'', (ii) states the unification theorem that the three are syntactic variants of one meta-closure operation, (iii) pairs each axiom with its BEDC effective replacement -- countable and dependent choice plus the finite case via explicit recursion for choice, the typed naming certificate framework of \autoref{ch:core-typed-naming-certificates} with classifier-respecting transport for quotient soundness, and explicit $\hsame$ / $\psame$ transport for propositional extensionality -- and (iv) records that the project's axiom-purity gate is therefore a refusal of meta closure rather than a rejection of the application content the three axioms serve.
+This chapter gives a taxonomy for three axiom families that BEDC refuses to internalise: the axiom of choice, quotient soundness, and propositional extensionality. The taxonomy normalizes them as three shapes of unwitnessed closure rather than proving a metatheorem that the host axioms are equivalent to three ontic collapses. Choice is read as term-level acceptance of an unwitnessed selection function; quotient soundness is read through a quotient-facing classifier-to-equality shape; propositional extensionality is read as proposition-level acceptance of equality from bidirectional implication. These readings are interpretive specifications for the axiom-purity gate, not Lean-checked equivalences with $\mathsf{Classical.choice}$, core $\mathsf{Quot.sound}$, or $\mathsf{propext}$. This chapter (i) records the three schematic readings as ``accept an unwitnessed $\exists$ as argument input'', (ii) states the taxonomy that places them under one meta-closure heading, (iii) pairs each reading with its BEDC effective replacement -- countable and dependent choice plus the finite case via explicit recursion for choice, the typed naming certificate framework of \autoref{ch:core-typed-naming-certificates} with classifier-respecting transport for quotient soundness, and explicit $\hsame$ / $\psame$ transport for propositional extensionality -- and (iv) records that the project's axiom-purity gate is therefore a refusal of hidden closure rather than a rejection of the application content the three axiom families serve.
 
-\section{The three axioms as syntactic variants of meta closure}
+\section{The three axiom families as taxonomy entries}
 \label{sec:three-axioms-one-closure-variants}
 
 \begin{definition}[Meta-closure operation]
@@ -14,29 +14,29 @@ A \emph{meta-closure operation} at a syntactic stratum $S \in \{\text{term}, \te
 
 \begin{example}[Choice as term-level meta closure]
 \label{ex:three-axioms-choice}
-The axiom of choice asserts: from $\forall i \in I, \exists x_i \in A_i$, conclude $\exists f \colon I \to \bigsqcup A_i$ with $f\,i \in A_i$. Read at the term stratum, the conclusion is a term $f$ of function type whose body is not constructed from the existential witnesses. The axiom supplies $f$ as an oracle; the body is unwitnessed and therefore inaccessible to kernel-level computation. This is the term-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+The axiom of choice asserts: from $\forall i \in I, \exists x_i \in A_i$, conclude $\exists f \colon I \to \bigsqcup A_i$ with $f\,i \in A_i$. Read at the term stratum, the conclusion is a term $f$ of function type whose body is not constructed from the existential witnesses. The axiom supplies $f$ as an oracle; the body is unwitnessed and therefore inaccessible to kernel-level computation. In this taxonomy it is the term-level entry for \autoref{def:three-axioms-meta-closure-operation}.
 \end{example}
 
 \begin{example}[Quotient soundness as type-level meta closure]
 \label{ex:three-axioms-quot-sound}
-$\Quot$-soundness asserts: from an equivalence relation $R$ on a type $A$, conclude that there exists a type $A / R$ together with a section $A / R \to A$ choosing a canonical representative. Read at the type stratum, the section is a type-level oracle: it returns a representative without exhibiting one. This is the type-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+The quotient-soundness reading used here is a quotient-facing specification shape: from a relation $R$ on a type $A$, a consumer receives equality or representative behavior at the class level without displaying the classifier transport that produced it. This is not a formal account of Lean core $\mathsf{Quot.sound}$, and it is not a proof that Lean quotients supply canonical representative selectors. It is the type-level entry in the taxonomy of \autoref{def:three-axioms-meta-closure-operation}.
 \end{example}
 
 \begin{example}[Propositional extensionality as proposition-level meta closure]
 \label{ex:three-axioms-propext}
-$\mathsf{propext}$ asserts: from $P \Leftrightarrow Q$, conclude $P = Q$ at the proposition level. The conclusion identifies two propositions whose only relation is bidirectional implication; reading the identification at the proposition stratum, $\mathsf{propext}$ supplies an unwitnessed equality of propositions. This is the proposition-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+$\mathsf{propext}$ asserts: from $P \Leftrightarrow Q$, conclude $P = Q$ at the proposition level. The conclusion identifies two propositions whose only relation is bidirectional implication; reading the identification at the proposition stratum, $\mathsf{propext}$ supplies an unwitnessed equality of propositions. In this taxonomy it is the proposition-level entry for \autoref{def:three-axioms-meta-closure-operation}.
 \end{example}
 
-\section{The unification theorem}
+\section{The unification taxonomy}
 \label{sec:three-axioms-unification}
 
-\begin{theorem}[The three axioms instantiate one meta-closure schema]
+\begin{principle}[The three axiom families share one taxonomy]
 \label{thm:three-axioms-unification}
-Choice (\autoref{ex:three-axioms-choice}), $\Quot$-soundness (\autoref{ex:three-axioms-quot-sound}), and $\mathsf{propext}$ (\autoref{ex:three-axioms-propext}) are instances of the same meta-closure schema of \autoref{def:three-axioms-meta-closure-operation}, differing only in the syntactic stratum at which the unwitnessed existential is accepted. Accepting any one of the three closes the open meta loop of \autoref{ch:visions-reflection-and-limits} at the corresponding stratum.
-\end{theorem}
+Choice (\autoref{ex:three-axioms-choice}), the quotient-facing soundness shape (\autoref{ex:three-axioms-quot-sound}), and $\mathsf{propext}$ (\autoref{ex:three-axioms-propext}) are classified under the meta-closure schema of \autoref{def:three-axioms-meta-closure-operation}. The classification is by syntactic stratum: term, type or classifier, and proposition. It licenses the refusal ledger's organization; it does not assert that a Lean metatheory has proved the three host constants equivalent to three BEDC collapse modes.
+\end{principle}
 
-\begin{proof}[Sketch]
-The three examples display the schema directly: an unwitnessed positive existential is accepted, and the accepted value is fed into the subsequent kernel construction. The differences across choice, $\Quot$-soundness, and $\mathsf{propext}$ are exactly which stratum the existential lives at -- term, type, proposition. Closure at any one stratum supplies a $\NameCert$-level decision for a predicate that the open meta loop refuses to settle, so the unified statement of \autoref{thm:reasoning-forbidden-implements-meta-closure} applies stratum by stratum.
+\begin{proof}[Explanation]
+The three examples display a common specification pattern: an unavailable witness, equality token, or class-level bridge is treated as ordinary input to later construction. The differences across choice, the quotient-facing soundness shape, and $\mathsf{propext}$ are the strata at which that pattern is requested. This is enough to sort the refusal ledger stratum by stratum. The argument is not a metatheoretic equivalence proof for Lean's forbidden constants.
 \end{proof}
 \concretizedIn{ch:concrete-instances-unwitnessedexistenceclosure-namecert}{Unwitnessed-existence closure is realized as a finite NameCert packet over term, type, and proposition strata, with explicit replacement and axiom-purity ledger rows.}
 \concretizedIn{ch:concrete-instances-propexttransportboundary-namecert}{Propext transport boundaries realize the proposition-stratum replacement as finite direction, transport, replay, and non-escape NameCert rows.}
@@ -77,13 +77,13 @@ The replacements are themselves kernel-level constructions on closed inductive c
 
 \begin{remark}[The gate's structural meaning]
 \label{rem:three-axioms-gate-meaning}
-The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4/scripts/bedc\_ci.py}) refuses every kernel-level theorem whose transitive dependencies include $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Read through \autoref{thm:three-axioms-unification}, the gate is a single refusal at three strata: it forbids meta-closure at the term, type, and proposition layers. The gate is therefore not a rejection of the application content the three axioms serve; it is a refusal of the syntactic shortcut that supplies that content without constructive witnesses.
+The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4/scripts/bedc\_ci.py}) refuses every kernel-level theorem whose transitive dependencies include $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Read through the taxonomy of \autoref{thm:three-axioms-unification}, the gate is organized as a refusal at three strata: term, type or classifier, and proposition. The gate is therefore not a rejection of the application content the three axiom families serve; it is a refusal of unledgered shortcuts that supply that content without constructive witnesses or displayed transport.
 \end{remark}
 
 \section{Assumed bridges and derived bridges}
 \label{sec:three-axioms-assumed-derived-bridges}
 
-The unification above should not be read as a claim that the classical axioms
+The taxonomy above should not be read as a claim that the classical axioms
 are syntactically ill-typed in their host theories. They are well-typed
 constants there. The BEDC diagnosis is sharper: each constant inhabits a
 bridge type whose source and target belong to different audit strata, but the
@@ -113,11 +113,11 @@ kernel input, and no constructor, definition, classifier, transport row,
 ledger, setup field, or \NameCert{} row derives $c$ from displayed data.
 \end{definition}
 
-\begin{theorem}[The three axioms are well-typed assumed bridges]
+\begin{principle}[The three axiom families are read as assumed bridges]
 \label{thm:three-axioms-well-typed-assumed-bridges}
 In their host theories, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$,
 and $\mathsf{propext}$ are not type errors. In BEDC's audit reading they are
-well-typed assumed bridges:
+treated as assumed bridge shapes:
 $$
 \begin{aligned}
 \mathsf{Classical.choice} &:\mathsf{ExistsProp}(A,P)\to\mathsf{SigmaData}(A,P),\\
@@ -127,9 +127,9 @@ $$
 $$
 Each bridge turns source-side relation or existence data into a
 kernel-consumable object without displaying the derivation of that object.
-\end{theorem}
+\end{principle}
 
-\begin{proof}
+\begin{proof}[Explanation]
 The three displayed types are meaningful in the host environment that admits
 the corresponding constants. Thus the issue is not syntactic well-typedness.
 For choice, the bridge turns a proposition-level existential into a
@@ -157,15 +157,15 @@ refuses any socket-to-element bridge of the form $\mathsf{T}:X$ or
 $\mathsf{T}\in X$.
 \end{definition}
 
-\begin{corollary}[Axiom-purity as type honesty]
+\begin{principle}[Axiom-purity as type honesty]
 \label{cor:three-axioms-axiom-purity-as-type-honesty}
 The axiom-purity gate for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$,
-and $\mathsf{propext}$ is exactly the mechanical face of
+and $\mathsf{propext}$ is the mechanical face of the type-honesty taxonomy in
 \autoref{def:three-axioms-type-honest-fragment}. It rejects assumed bridges
 where the manuscript requires derived bridges.
-\end{corollary}
+\end{principle}
 
-\begin{proof}
+\begin{proof}[Explanation]
 By \autoref{thm:three-axioms-well-typed-assumed-bridges}, the three forbidden
 constants inhabit the three unledgered bridge shapes. By
 \autoref{def:three-axioms-type-honest-fragment}, a type-honest fragment
@@ -187,7 +187,7 @@ object must consume them.
 
 \begin{remark}[Sibling instance: halting and reasoning by contradiction]
 \label{rem:three-axioms-siblings}
-The chapter's unification theorem (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:visions-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:visions-reasoning-by-contradiction-boundary}): all three identify a different face of the same refusal of meta closure. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
+The chapter's taxonomy (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:visions-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:visions-reasoning-by-contradiction-boundary}): all three identify a different audit face of meta-closure refusal. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
 \end{remark}
 
 \begin{definition}[Term-stratum choice closure]
@@ -199,21 +199,21 @@ $$
 with no displayed constructor-level selection of such terms, introduce a term $o_H:I\to U$ and membership evidence $o_H(i)\in A_i$ for each $i$. The term $o_H(i)$ is then available as an oracle input to later term-level constructions.
 \end{definition}
 
-\begin{theorem}[Choice is term-stratum meta closure]
+\begin{principle}[Choice as term-stratum meta-closure reading]
 \label{thm:choice-term-stratum-meta-closure}
-For arbitrary indexed families $A_i$, the term-stratum choice closure schema of \autoref{def:term-stratum-choice-closure} is equivalent to the axiom-of-choice principle of \autoref{ex:three-axioms-choice}:
+For arbitrary indexed families $A_i$, the term-stratum choice closure schema of \autoref{def:term-stratum-choice-closure} is the specification shape used here to read the axiom-of-choice principle of \autoref{ex:three-axioms-choice}:
 $$
 \left(\forall i \in I,\; \exists x_i,\; x_i \in A_i\right)
 \Longrightarrow
 \exists f:I\to\bigsqcup_{i\in I} A_i,\; \forall i\in I,\; f(i)\in A_i.
 $$
 Here $f(i)\in A_i$ abbreviates that the value of $f$ lies over the $i$-fiber of the displayed coproduct.
-\end{theorem}
+\end{principle}
 
-\begin{proof}
-Assume the term-stratum choice closure schema. Given $H:\forall i\in I,\exists x_i, x_i\in A_i$, the schema supplies an oracle term $o_H:I\to U$ with evidence $o_H(i)\in A_i$ for every $i$. Define $f(i)=(i,o_H(i))$ as an element of the displayed coproduct $\bigsqcup_{i\in I}A_i$. The fiber evidence supplied with $o_H$ proves $f(i)\in A_i$ for each $i$, so $f$ is the choice function required by the displayed axiom-of-choice principle.
+\begin{proof}[Explanation]
+Assume the term-stratum closure schema. Given $H:\forall i\in I,\exists x_i, x_i\in A_i$, the schema supplies an oracle term $o_H:I\to U$ with evidence $o_H(i)\in A_i$ for every $i$. Define $f(i)=(i,o_H(i))$ as an element of the displayed coproduct $\bigsqcup_{i\in I}A_i$. The fiber evidence supplied with $o_H$ proves $f(i)\in A_i$ for each $i$, so $f$ has the displayed choice-function shape.
 
-Conversely, assume the displayed axiom-of-choice principle. Given a term-stratum closure datum $H:\forall i\in I,\exists x_i,x_i\in A_i$, apply choice to the family $A_i$. It produces a function $f:I\to\bigsqcup_{i\in I}A_i$ with $f(i)\in A_i$ for every $i$. Let $o_H(i)$ be the component of $f(i)$ in the $i$-fiber. The accompanying fiber proof is exactly the evidence required to use $o_H(i)$ as the accepted value of the existential at $i$. Any later term-level construction that consumes the accepted existential can therefore be fed $o_H(i)$ and its membership evidence. For a single positive term-existential, take $I$ to be the singleton carrier; for an indexed family, keep the given $I$. Thus the axiom-of-choice principle realizes exactly the term-stratum instance of \autoref{def:three-axioms-meta-closure-operation}, and the two principles are equivalent.
+Conversely, if the displayed axiom-of-choice principle is admitted, then for a term-stratum closure datum $H:\forall i\in I,\exists x_i,x_i\in A_i$ it produces a function $f:I\to\bigsqcup_{i\in I}A_i$ with $f(i)\in A_i$ for every $i$. Let $o_H(i)$ be the component of $f(i)$ in the $i$-fiber. The accompanying fiber proof is the evidence required to use $o_H(i)$ as the accepted value of the existential at $i$. Thus the schema records the same consumer-facing shape as the choice principle. The point is the audit shape, not an independent Lean theorem equating all formulations of choice.
 \end{proof}
 
 \begin{definition}[Quotient representative package]
@@ -257,17 +257,15 @@ $$
 with no displayed constructor-level witness for $Q$, $\pi$, or $\rho$, introduce such a triple as accepted type-level data. The accepted type is read as $A/R$, and the accepted selector is available as an oracle input to later type-level constructions.
 \end{definition}
 
-\begin{theorem}[Quot-soundness as type-stratum meta closure]
+\begin{principle}[Quotient-facing soundness as type-stratum reading]
 \label{thm:quot-sound-type-stratum-meta-closure}
-At the schema level, the type-stratum quotient closure schema of \autoref{def:type-stratum-quotient-closure} is equivalent to the quotient-representative $\Quot$-soundness principle of \autoref{ex:three-axioms-quot-sound}: for every type $A$ and equivalence relation $R$ on $A$, accepting one supplies exactly a type $A/R$ with a section $A/R\to A$ choosing a canonical representative, and accepting the other supplies exactly the accepted type-level witness required by \autoref{def:three-axioms-meta-closure-operation}.
-\end{theorem}
+At the schema level, the type-stratum quotient closure schema of \autoref{def:type-stratum-quotient-closure} is the paper's quotient-facing proxy for the $\Quot$-soundness refusal of \autoref{ex:three-axioms-quot-sound}. It packages the consumer-facing data as a type $Q$, a projection, and a representative section. This proxy is a specification device for BEDC's refusal ledger, not a statement that Lean core $\mathsf{Quot.sound}$ supplies such a selector or that the proxy has been proved equivalent to Lean's quotient implementation.
+\end{principle}
 
-\begin{proof}
-Assume the type-stratum quotient closure schema. Given $A$ and $R$, instantiate the positive existential in \autoref{def:type-stratum-quotient-closure}. The schema supplies $Q$, $\pi$, and $\rho$ satisfying $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$. By \autoref{lem:quotient-representative-package-exact}, equality in $Q$ is exactly the classifier $R$ on representatives, so $Q$ is read as the quotient type $A/R$. The section and representative-adequacy fields make $\rho$ the canonical-representative selector. This is precisely the quotient-representative $\Quot$-soundness principle stated in \autoref{ex:three-axioms-quot-sound}.
+\begin{proof}[Explanation]
+Assume the type-stratum quotient closure schema. Given $A$ and $R$, instantiate the positive existential in \autoref{def:type-stratum-quotient-closure}. The schema supplies $Q$, $\pi$, and $\rho$ satisfying $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$. By \autoref{lem:quotient-representative-package-exact}, equality in $Q$ tracks the classifier $R$ on representatives inside this proxy package, so $Q$ may be read as quotient-facing data for the local schema. The section and representative-adequacy fields make $\rho$ the selected representative row of the proxy package.
 
-Conversely, assume the quotient-representative $\Quot$-soundness principle of \autoref{ex:three-axioms-quot-sound}. For any equivalence relation $R$ on $A$, that principle supplies a quotient type $A/R$ together with a section $A/R\to A$ choosing a representative for each class. Let $Q$ be that type, let $\pi:A\to Q$ be the quotient projection, and let $\rho:Q\to A$ be the representative section. The quotient soundness clause gives $R(a,b)\Longrightarrow \pi(a)=\pi(b)$; the section clause gives $\pi(\rho(u))=u$; and the representative clause gives $R(\rho(\pi(a)),a)$. Hence $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$ holds, which is exactly the existential datum accepted by the type-stratum closure schema.
-
-The two directions only rename the same accepted data: a quotient type, a projection, and a representative selector. Thus the type-stratum instance of meta closure and the quotient-representative $\Quot$-soundness principle are the same schematic move. The BEDC replacement in \autoref{def:three-axioms-replacement-quot} refuses the selector $\rho$ and keeps classifier-respecting $\psame$-transport instead.
+Conversely, if a host-side quotient-facing package supplies a type, projection, and representative section with the displayed properties, then it fills the existential datum accepted by \autoref{def:type-stratum-quotient-closure}. The two readings therefore align at the level of this paper schema. The BEDC replacement in \autoref{def:three-axioms-replacement-quot} refuses the selector $\rho$ and keeps classifier-respecting $\psame$-transport instead.
 \end{proof}
 
 \begin{definition}[Proposition-stratum propext closure]
@@ -283,19 +281,19 @@ $$
 The token is then available as input to later proposition-stratum constructions by rewrite transport in every proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$.
 \end{definition}
 
-\begin{theorem}[Propext is proposition-stratum meta closure]
+\begin{principle}[Propext as proposition-stratum meta-closure reading]
 \label{thm:propext-proposition-stratum-meta-closure}
-The proposition-stratum propext closure schema of \autoref{def:proposition-stratum-propext-closure} is equivalent to the propositional extensionality principle of \autoref{ex:three-axioms-propext}:
+The proposition-stratum propext closure schema of \autoref{def:proposition-stratum-propext-closure} is the specification shape used here to read propositional extensionality:
 $$
 \forall P,Q:\mathsf{Prop},\; (P\Leftrightarrow Q)\Rightarrow P=Q.
 $$
-Under this equivalence, the accepted oracle value in \autoref{def:three-axioms-meta-closure-operation} is exactly the equality token $\varepsilon_{P,Q}$.
-\end{theorem}
+In this reading, the accepted oracle value in \autoref{def:three-axioms-meta-closure-operation} is the equality token $\varepsilon_{P,Q}$. This is a specification-level identification of shape, not a separate metatheoretic proof about every formulation of propositional extensionality.
+\end{principle}
 
-\begin{proof}
-Assume the proposition-stratum propext closure schema. Let $P,Q:\mathsf{Prop}$ and let $h:P\Leftrightarrow Q$. The datum $h$ is precisely a pair of implications $P\Rightarrow Q$ and $Q\Rightarrow P$. Applying the schema to this datum supplies an equality token $\varepsilon_{P,Q}:P=Q$. This is the conclusion of propositional extensionality.
+\begin{proof}[Explanation]
+Assume the proposition-stratum propext closure schema. Let $P,Q:\mathsf{Prop}$ and let $h:P\Leftrightarrow Q$. The datum $h$ is a pair of implications $P\Rightarrow Q$ and $Q\Rightarrow P$. Applying the schema to this datum supplies an equality token $\varepsilon_{P,Q}:P=Q$, which has the consumer-facing shape of propositional extensionality.
 
-Conversely, assume propositional extensionality. Given a proposition-stratum closure datum $b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P)$, apply propositional extensionality to $b_{P,Q}$ and set $\varepsilon_{P,Q}$ to the resulting equality $P=Q$. For any proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$, equality elimination along $\varepsilon_{P,Q}$ transports a witness of $C(P)$ to a witness of $C(Q)$, and equality elimination along the symmetric equality transports in the reverse direction. Thus propositional extensionality supplies exactly the equality token and contextual rewrite behavior required by \autoref{def:proposition-stratum-propext-closure}. The two principles therefore coincide at the proposition stratum.
+Conversely, if propositional extensionality is admitted, then a proposition-stratum closure datum $b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P)$ can be sent to an equality $P=Q$. Equality elimination along that token supplies contextual rewrite behavior for proposition-valued contexts. Thus the schema records the same consumer-facing route as the extensionality principle. The claim remains a taxonomy of route shape.
 \end{proof}
 
 \begin{definition}[Primitive-recursive countable witness map]
@@ -479,7 +477,7 @@ then the underlying $U$-components of their exposed choice outputs agree pointwi
 \begin{proof}
 Unfold the exposed output map $\Phi$ of \autoref{def:term-stratum-presented-witness-family}. For each index $i\in I$, the underlying $U$-component of $f_r(i)$ is $\epsilon_i(r(i))$, and the underlying $U$-component of $f_{r'}(i)$ is $\epsilon'_i(r'(i))$. The displayed pointwise equality therefore gives equality of the exposed term components at every index.
 
-Now inspect the term-stratum closure interface. By \autoref{def:term-stratum-choice-closure} and its equivalence with choice in \autoref{thm:choice-term-stratum-meta-closure}, the closure output has the form
+Now inspect the term-stratum closure interface. By \autoref{def:term-stratum-choice-closure} and the choice-facing reading of \autoref{thm:choice-term-stratum-meta-closure}, the closure output has the form
 $$
 f:I\to\bigsqcup_{i\in I}A_i,
 \qquad
@@ -535,11 +533,11 @@ which is not a field of \autoref{def:quotient-representative-package}, \autoref{
 \begin{proof}
 The presented input has three visible pieces: the endpoint $a$, the endpoint $b$, and the derivation tree $d:a\sim_R b$. The last piece is an inductive tree. It can be eliminated by cases on whether it is reflexive, a base edge, a symmetric reversal, or a transitive composite.
 
-Applying quotient soundness consumes that tree and returns the equality token $\theta_\pi(d):\pi(a)=\pi(b)$. The codomain of this token mentions only the quotient projection and the two endpoint classes. It does not contain a dependent-pair component of type $a\sim_R b$, nor a field recording which constructor of the equivalence-derivation carrier was used.
+Within the quotient-facing proxy, applying the displayed soundness field consumes that tree and returns the equality token $\theta_\pi(d):\pi(a)=\pi(b)$. The codomain of this token mentions only the projection and the two endpoint classes. It does not contain a dependent-pair component of type $a\sim_R b$, nor a field recording which constructor of the equivalence-derivation carrier was used.
 
 Thus a later context whose quotient input is only $e:\pi(a)=\pi(b)$ has the equality eliminator for $e$ as its type-level tool. Equality elimination transports constructions from the class of $a$ to the class of $b$; it does not expose the proof tree that was consumed to create $e$. If \autoref{lem:quotient-representative-package-exact} is also used, it applies to $e$ and the representative fields of the quotient package to produce an endpoint relation witness. That witness is obtained from the equality and the package fields, not by projecting the original tree $d$, since $d$ is no longer present in the context.
 
-A uniform recovery of the original tree would therefore be extra structure: precisely a selector $\delta_{a,b}$ with $\delta_{a,b}(\theta_\pi(d))=d$ for every input derivation. None of the cited quotient interfaces contains such a selector. The type-stratum closure step identified in \autoref{thm:quot-sound-type-stratum-meta-closure} therefore exposes equality at $A/R$ while dropping the kernel-level equivalence derivation that supplied it.
+A uniform recovery of the original tree would therefore be extra structure: precisely a selector $\delta_{a,b}$ with $\delta_{a,b}(\theta_\pi(d))=d$ for every input derivation. None of the cited quotient interfaces contains such a selector. The type-stratum closure step read in \autoref{thm:quot-sound-type-stratum-meta-closure} therefore exposes equality at $A/R$ while dropping the kernel-level equivalence derivation that supplied it.
 \end{proof}
 
 \begin{definition}[Presented proposition-equivalence datum]
@@ -587,5 +585,5 @@ Unfold the proposition-stratum closure interface of \autoref{def:proposition-str
 
 The arguments of these transports are $C$, the equality token, and the displayed proof being transported. The implication maps $\pi^{\rightarrow}_D$ and $\pi^{\leftarrow}_D$ are not arguments of the transport term, and the recipe witnesses $r^{\rightarrow}$ and $r^{\leftarrow}$ are still further upstream. Equality elimination can inspect only the equality constructor pattern of $\varepsilon_D$; it has no eliminator for the pre-closure presentation that produced $\varepsilon_D$. Even in the special context $C(X)=X$, the maps $P\Rightarrow Q$ and $Q\Rightarrow P$ obtained from $\varepsilon_D$ are equality-derived transports, not projections of $\pi^{\rightarrow}_D$ or $\pi^{\leftarrow}_D$.
 
-To recover the original direction at a later application site one would need extra fields selecting $\pi^{\rightarrow}_D$ or $\pi^{\leftarrow}_D$ from the exposed value. To recover internal proof structure one would need extra fields returning $r^{\rightarrow}$, $r^{\leftarrow}$, or their recipe carriers from the exposed value. None of these fields is present in \autoref{def:proposition-stratum-propext-closure} or in the propext equivalence of \autoref{thm:propext-proposition-stratum-meta-closure}. This is precisely why the effective replacement of \autoref{def:three-axioms-replacement-propext} and \autoref{thm:hsame-proposition-transport-bypasses-propext} keeps the bidirectional implication datum and the chosen direction as explicit parameters instead of identifying $P$ and $Q$.
+To recover the original direction at a later application site one would need extra fields selecting $\pi^{\rightarrow}_D$ or $\pi^{\leftarrow}_D$ from the exposed value. To recover internal proof structure one would need extra fields returning $r^{\rightarrow}$, $r^{\leftarrow}$, or their recipe carriers from the exposed value. None of these fields is present in \autoref{def:proposition-stratum-propext-closure} or in the propext-facing reading of \autoref{thm:propext-proposition-stratum-meta-closure}. This is why the effective replacement of \autoref{def:three-axioms-replacement-propext} and \autoref{thm:hsame-proposition-transport-bypasses-propext} keeps the bidirectional implication datum and the chosen direction as explicit parameters instead of identifying $P$ and $Q$.
 \end{proof}
