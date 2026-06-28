@@ -749,6 +749,7 @@ import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistHexaSequenceNameCertUp
 import BEDC.Derived.BHistHexaTupleNameCertUp
+import BEDC.Derived.BHistNatBridge
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
@@ -825,6 +826,7 @@ import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireOneModulusUp.TasteGate
 import BEDC.Derived.BairePointwiseOscillationUp.TasteGate
+import BEDC.Derived.BairePrefixCompletionUp.TasteGate
 import BEDC.Derived.BaireSpaceCompactOpenUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
@@ -5691,6 +5693,7 @@ import BEDC.Derived.FareySequenceUp.StreamWindowAdjacencyScope
 import BEDC.Derived.FareySequenceUp.StreamWindowDenominatorLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
+import BEDC.Derived.FarkasLemmaUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.FiniteInduction
 import BEDC.Derived.FastCauchyCompletionUp.ModulusRealSeal
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
@@ -11094,6 +11097,7 @@ import BEDC.Derived.RegularCauchySquareRootUp.TasteGate
 import BEDC.Derived.RegularCauchySquareUp.TasteGate
 import BEDC.Derived.RegularCauchySqueezeUp.TasteGate
 import BEDC.Derived.RegularCauchyStreamReflectorUp
+import BEDC.Derived.RegularCauchySubnetSelectorUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceLimitUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceModulusUp.TasteGate
