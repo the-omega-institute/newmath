@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedIntervalRefinementChainUp$}
+\label{ch:concrete-instances-bishop-located-interval-refinement-chain-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located intervals, regular Cauchy names, and constructive real completion, the $\BishopLocatedIntervalRefinementChainUp$ packet records a finite chain of located interval refinements before a Real or Completion consumer may read a terminal real-name seal. It sits between the located-interval source of \autoref{ch:concrete-instances-locatedinterval-namecert}, the real-interval endpoint surface of \autoref{ch:concrete-instances-realinterval-namecert}, the dyadic tolerance descent of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate gives the L10 Real and Completion route a displayed refinement-chain object; it does not assert compactness, trichotomy, selected representatives, countable choice, quotient equality of names, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop located interval refinement-chain carrier]
+\label{def:bishop-located-interval-refinement-chain-carrier}
+A $\BishopLocatedIntervalRefinementChainUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,I,D,W,Q,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalUp$ source row naming the initial located interval and its apartness-facing boundary data.
+\item $I$ is the $\RealIntervalUp$ endpoint and enclosure row, displaying lower and upper real-interval endpoints together with the enclosure relation consumed by the chain.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-descent row, recording a finite decreasing dyadic budget for the refinement steps.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected at each displayed tolerance stage.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same finite windows and dyadic tolerances.
+\item $S$ is the $\RealUp$ seal row reached only after the located interval source, endpoint-enclosure row, tolerance descent, windows, and readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located source, endpoint-enclosure row, dyadic descent, finite windows, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through $L,I,D,W,Q,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedIntervalRefinementChainUp$, $\LocatedIntervalUp$, $\RealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedIntervalRefinementChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,I,D,W,Q,S,H,C,P,N$. It has no coordinate for interval compactness, trichotomy of reals, a selected representative of a completion class, countable choice, quotient equality of interval names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located interval refinement-chain NameCert obligations]
+\label{thm:bishop-located-interval-refinement-chain-namecert-obligations}
+For every accepted $\BishopLocatedIntervalRefinementChainUp$ carrier
+$$
+R=(L,I,D,W,Q,S,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedIntervalRefinementChainUp}$ surface consists exactly of carrier admission for the located interval source, RealInterval endpoint and enclosure row, DyadicRatCore tolerance descent, StreamName finite windows, RegSeqRat readback, RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-interval-refinement-chain-carrier}. The tuple displays the located source $L$, the endpoint-enclosure row $I$, the tolerance descent $D$, the finite windows $W$, the regular readback $Q$, and the terminal seal $S$ before any structural row is consumed.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name only those displayed rows. They do not add a hidden interval compactness theorem, a selected completion representative, or an ambient completeness principle.
+
+Thus the local NameCert surface is exhausted by the ten displayed rows, and every accepted consumer must read the refinement chain through that finite packet.
+\end{proof}
+
+\begin{theorem}[Bishop located interval refinement-chain sibling route]
+\label{thm:bishop-located-interval-refinement-chain-sibling-route}
+The $\BishopLocatedIntervalRefinementChainUp$ carrier is not bijective to the located interval, real interval, dyadic rational core, stream-name, regular rational readback, or real-name sibling packets. It binds all six sibling surfaces into one ordered refinement-chain packet whose endpoint, tolerance, window, readback, and seal rows are consumed together.
+\end{theorem}
+\begin{proof}
+Compare row inventories. The located interval sibling supplies $L$, but it does not include the endpoint-enclosure row, dyadic tolerance descent, finite window schedule, regular readback, or terminal Real seal.
+
+The real interval and dyadic rational siblings supply $I$ and $D$ respectively. Neither one records the StreamName windows, RegSeqRat readback, Real seal, and structural rows as a single chain.
+
+The stream-name, regular-rational, and real-name siblings supply $W,Q,S$ as downstream readings. They do not contain the located source and endpoint-enclosure data that make those readings a refinement chain. Therefore no listed sibling preserves the accepted packet $R=(L,I,D,W,Q,S,H,C,P,N)$ component by component.
+\end{proof}
+
+\begin{theorem}[Bishop located interval refinement-chain Real-seal boundary]
+\label{thm:bishop-located-interval-refinement-chain-real-seal-boundary}
+Every $\RealUp$-facing read from an accepted $\BishopLocatedIntervalRefinementChainUp$ packet reaches the seal row $S$ only through the displayed route
+$$
+L,I,D,W,Q,S,H,C,P,N .
+$$
+The read does not select a representative, decide trichotomy, infer compactness, or import ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:bishop-located-interval-refinement-chain-namecert-obligations}. They force the located source, endpoint-enclosure row, dyadic tolerance descent, finite windows, and regular readback to be present before the seal row is public.
+
+The sibling-route theorem \autoref{thm:bishop-located-interval-refinement-chain-sibling-route} prevents a consumer from replacing this packet by any one sibling surface. Transport and replay keep the same displayed rows.
+
+The classifier of \autoref{def:bishop-located-interval-refinement-chain-carrier} has no coordinate for selected representatives, trichotomy, compactness, countable choice, quotient equality, or ambient completeness. Hence the Real-facing read is confined to the finite refinement-chain route.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\BishopLocatedIntervalRefinementChainUp$ consumer that reaches a $\RealUp$ seal without displaying the located interval source, RealInterval endpoint-enclosure row, DyadicRatCore tolerance descent, StreamName finite windows, RegSeqRat readback, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{locatedinterval, realinterval, dyadicratcore, streamname, regseqrat, real: no listed sibling is bijective to $\BishopLocatedIntervalRefinementChainUp$, because each sibling supplies one source, endpoint, tolerance, window, readback, or seal surface while this packet stores their ordered refinement-chain dependency in one NameCert row.}
+
+\closureat{BishopLocatedIntervalRefinementChainUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedIntervalRefinementChainUp}
+  \constructivestory{A $\BishopLocatedIntervalRefinementChainUp$ packet is generated from a LocatedInterval source row, a RealInterval endpoint-enclosure row, a DyadicRatCore tolerance descent, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-interval-refinement-chain-carrier}, \autoref{thm:bishop-located-interval-refinement-chain-namecert-obligations}, \autoref{thm:bishop-located-interval-refinement-chain-sibling-route}, and \autoref{thm:bishop-located-interval-refinement-chain-real-seal-boundary} seed the finite refinement-chain packet over located interval source, endpoint enclosure, dyadic tolerance descent, finite windows, regular readback, terminal sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close compactness, trichotomy, countable choice, selected representatives, quotient equality of interval names, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sibling-route separation, Real-seal boundary, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedIntervalRefinementChainUp.}
+\end{closurestatus}
