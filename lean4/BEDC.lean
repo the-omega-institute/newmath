@@ -7229,6 +7229,7 @@ import BEDC.Derived.KleeneBrouwerOrderUp.TasteGate
 import BEDC.Derived.KleeneKreiselContinuousFunctionalUp.TasteGate
 import BEDC.Derived.KleeneKreiselSpaceUp
 import BEDC.Derived.KleeneRealizabilityUp.TasteGate
+import BEDC.Derived.KleeneTreeBoundaryUp.TasteGate
 import BEDC.Derived.KleeneTreeUp.CantorFanDependencyRoute
 import BEDC.Derived.KleeneTreeUp.CantorSpaceFanBoundary
 import BEDC.Derived.KleeneTreeUp.NameCertObligations
@@ -10332,8 +10333,10 @@ import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.RealIntervalUp.BridgedNameCertRoute
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
+import BEDC.Derived.RealIntervalUp.EndpointEnclosureTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.EndpointRefinementStability
+import BEDC.Derived.RealIntervalUp.FiniteEndpointEnvelopeRoute
 import BEDC.Derived.RealIntervalUp.FiniteNetConsumer
 import BEDC.Derived.RealIntervalUp.ObligationClosureRoute
 import BEDC.Derived.RealIntervalUp.PublicNameCertExport
