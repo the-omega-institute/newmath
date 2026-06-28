@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\HypercoverUp$}
+\label{ch:concrete-instances-hypercover-namecert}
+\origin{human}
+
+Following Grothendieck and Verdier on hypercovers, the $\HypercoverUp$ packet records the finite BEDC surface by which a displayed Grothendieck topology is refined into a simplicial cover diagram and then consumed by sheaf-descent data. It sits after the site carrier of \autoref{ch:concrete-instances-grothendieck-topology-namecert}, the cover-to-simplicial inventory of \autoref{ch:concrete-instances-cech-nerve-namecert}, the sheaf-facing refinement route of \autoref{ch:concrete-instances-sheafification-namecert}, and the cocycle-effectivity surface of \autoref{ch:concrete-instances-descent-data-namecert}. The packet names levelwise cover rows, matching-object comparison rows, Cech truncation rows, descent handoff rows, transport, replay, provenance, and local naming; it is not a host simplicial presheaf, a selected coskeleton, a model-structure fibrancy theorem, a quotient stack, or global choice of refinements.
+
+\begin{definition}[Hypercover carrier]
+\label{def:hypercover-carrier}
+A $\HypercoverUp$ carrier is a finite $\BHist$ packet
+$$
+H=(J,U,M,C,S,D,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J$ is the $\GrothendieckTopologyUp$ site row, carrying the covering-sieve, pullback-stability, and transitivity data over which all levels are read.
+\item $U$ is the levelwise cover row, listing the displayed cover data for each finite simplicial level used by the packet.
+\item $M$ is the matching-object comparison row, recording the finite boundary request that each level must cover before the next level is public.
+\item $C$ is the $\CechNerveUp$ truncation row, identifying the ordinary cover nerve recovered at the initial levels.
+\item $S$ is the $\SheafificationUp$ compatibility row, requiring locality and gluing reads to remain attached to the same site and levelwise cover data.
+\item $D$ is the $\DescentDataUp$ handoff row, exposing cocycle and effectivity requests only after the levelwise and matching rows have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the site, levelwise cover, matching-object, Cech, sheafification, descent, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a sheaf-descent request through $J,U,M,C,S,D,T$.
+\item $P$ is the $\Pkg$ provenance over $\HypercoverUp$, $\GrothendieckTopologyUp$, $\CechNerveUp$, $\SheafificationUp$, $\DescentDataUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HypercoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $J,U,M,C,S,D,T,R,P,N$. It has no coordinate for host simplicial presheaves, selected coskeleta, model structures, quotient stacks, global refinement choice, ambient sheaf equality, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Hypercover NameCert obligations]
+\label{thm:hypercover-namecert-obligations}
+For every accepted $\HypercoverUp$ carrier $H=(J,U,M,C,S,D,T,R,P,N)$, the local $\NameCert_{\HypercoverUp}$ surface consists exactly of site exposure through $J$, levelwise cover admission through $U$, matching-object comparison through $M$, Cech truncation through $C$, sheafification compatibility through $S$, descent handoff through $D$, componentwise transport through $T$, displayed replay through $R$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hypercover-carrier}. The site, levelwise cover, matching-object, Cech, sheafification, and descent rows are exactly $J,U,M,C,S,D$.
+
+The site row is read first. It supplies the covering-sieve and pullback-stability data that make every finite levelwise cover meaningful inside the same $\GrothendieckTopologyUp$ packet.
+
+The levelwise and matching rows then control the simplicial cover request. The row $U$ displays the cover data at each finite level, while $M$ records the boundary or matching comparison that must be covered before a higher-level read is exported.
+
+Finally $T,R,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for a host simplicial presheaf, selected coskeleton, model structure, quotient stack, global refinement choice, ambient sheaf equality, or bridge credential, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hypercover Cech nerve route]
+\label{thm:hypercover-cech-nerve-route}
+Every accepted $\HypercoverUp$ packet exposes its $\CechNerveUp$ row before any sheaf-descent consumer may read a higher matching level. The route from an ordinary covering family to a hypercover factors through $J,U,M,C,T,R,P,N$, so the initial Cech data remain visible while the packet adds levelwise matching coverage.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:hypercover-carrier}. The Cech truncation row $C$ is a displayed coordinate, not a derived host object.
+
+Read the ordinary cover surface through \autoref{ch:concrete-instances-cech-nerve-namecert}. Its cover-member, intersection-witness, nerve-face, stability, replay, provenance, and local naming rows supply the initial finite simplicial data consumed by $C$.
+
+Now expose $U$ and $M$. They extend the initial Cech route level by level, but every matching comparison still reads the same site row $J$ and the same Cech truncation row $C$ before a higher-level cover is public.
+
+The rows $T,R,P,N$ preserve this route componentwise. Therefore the hypercover packet refines the Cech nerve surface without exporting selected intersection points, host realizations, quotient simplicial equality, or ambient homology data.
+\end{proof}
+
+\begin{theorem}[Hypercover sheaf descent handoff]
+\label{thm:hypercover-sheaf-descent-handoff}
+Every sheaf-facing read of an accepted $\HypercoverUp$ carrier must expose the $\GrothendieckTopologyUp$ site row, the $\SheafificationUp$ compatibility row, and the $\DescentDataUp$ handoff row before consuming descent information. The exported route is
+$$
+\GrothendieckTopologyUp \longmapsto \CechNerveUp \longmapsto \SheafificationUp \longmapsto \DescentDataUp
+$$
+together with $J,U,M,C,S,D,T,R,P,N$.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation surface of \autoref{thm:hypercover-namecert-obligations}. It places $J,U,M,C,S,D$ before replay, provenance, and local naming.
+
+The sheafification row $S$ reads locality and gluing only over the displayed site and levelwise cover rows. Thus a sheaf consumer cannot bypass $J,U,M,C$ to obtain an external reflector or quotient of compatible families.
+
+The descent row $D$ is downstream of $S$. It exposes cocycle and effectivity requests after the levelwise matching route is visible, so descent data remain a finite handoff rather than a host quotient stack or selected global gluing.
+
+Finally $T,R,P,N$ preserve the same route. The displayed chain through $\GrothendieckTopologyUp$, $\CechNerveUp$, $\SheafificationUp$, and $\DescentDataUp$ is therefore the whole sheaf-descent handoff carried by $\HypercoverUp$.
+\end{proof}
+
+\begin{theorem}[Hypercover covering-family nonescape]
+\label{thm:hypercover-covering-family-nonescape}
+No accepted $\HypercoverUp$ read can export a covering family without also displaying the source site row $J$, the levelwise cover row $U$, the matching-object row $M$, the Cech row $C$, the sheafification row $S$, the descent row $D$, transport $T$, replay $R$, provenance $P$, and local naming $N$. In particular, hypercover consumers obtain no selected refinement schedule, host simplicial presheaf, coskeleton operator, quotient stack, ambient sheaf equality, or global cover choice from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the classifier coordinates. Covering-family information appears only in $J,U,M,C,S,D$ and is preserved only by $T,R,P,N$.
+
+Suppose a consumer reaches a displayed covering family. The site row $J$ provides the ambient coverage discipline, $U$ provides the finite levelwise cover, and $M$ records the matching comparison that justifies the level. The Cech row $C$ keeps the initial cover nerve visible.
+
+For sheaf or descent reads, $S$ and $D$ must also be exposed. They route locality, gluing, cocycle, and effectivity through the same finite levelwise data rather than through a selected external construction.
+
+Since the excluded objects are not carrier coordinates, componentwise transport, replay, provenance, and local naming cannot create them. Thus every covering-family read remains inside the displayed hypercover packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HypercoverUp$ consumer that reads descent along a hypercover without displaying the Grothendieck topology, Cech nerve, sheafification, descent-data, transport, replay, provenance, and local NameCert rows refutes the carrier surface.}
+
+\independenceWitness{grothendieck topology, cech nerve, sheafification, descent data: $\HypercoverUp$ is not bijective to any listed sibling because it binds levelwise cover rows and matching-object comparisons between the site, Cech truncation, sheafification compatibility, descent handoff, transport, replay, provenance, and local naming rows.}
+
+\closureat{HypercoverUp}{seedStr}
+
+\begin{closurestatus}{\HypercoverUp}
+  \constructivestory{A $\HypercoverUp$ packet is generated from a GrothendieckTopologyUp site row, levelwise cover rows, matching-object comparison rows, a CechNerveUp truncation row, a SheafificationUp compatibility row, a DescentDataUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hypercover-carrier}, \autoref{thm:hypercover-namecert-obligations}, \autoref{thm:hypercover-cech-nerve-route}, \autoref{thm:hypercover-sheaf-descent-handoff}, and \autoref{thm:hypercover-covering-family-nonescape} seed the finite hypercover route from site coverage through Cech truncation to sheaf-descent consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host simplicial presheaves, selected coskeleta, model-structure fibrancy, quotient stacks, selected refinement schedules, global cover choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, levelwise cover exposure, matching-object comparison, Cech nerve routing, sheafification compatibility, descent handoff, transport, replay, provenance, and local naming for BEDC.Derived.HypercoverUp.}
+\end{closurestatus}
