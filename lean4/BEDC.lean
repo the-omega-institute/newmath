@@ -1826,9 +1826,11 @@ import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.BridgeBoundary
+import BEDC.Derived.CauchyCompletionMinimalityUp.DenseExtensionUniqueness
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
 import BEDC.Derived.CauchyCompletionMinimalityUp.LedgerExactness
 import BEDC.Derived.CauchyCompletionMinimalityUp.ObligationExport
+import BEDC.Derived.CauchyCompletionMinimalityUp.PublicExportedPackage
 import BEDC.Derived.CauchyCompletionMinimalityUp.RouteInduction
 import BEDC.Derived.CauchyCompletionMinimalityUp.SeparatedReflectionRoute
 import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
@@ -1920,6 +1922,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.CompletionConsumerScope
+import BEDC.Derived.CauchyContinuousMapUp.L10SiblingRoute
 import BEDC.Derived.CauchyContinuousMapUp.RealCompletionScope
 import BEDC.Derived.CauchyContinuousMapUp.ScopedSurface
 import BEDC.Derived.CauchyContinuousMapUp.SeparatedCompletionFactorization
