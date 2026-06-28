@@ -1,0 +1,399 @@
+\section{From Spectral-Curve Laboratory to the RH Rigidity Route}
+\label{sec:unified-reality-rh-spectral-rigidity-route}
+
+\autoref{sec:unified-reality-quartic-spectral-common-carrier} provides a
+finite spectral laboratory: one fixed quartic carrier supports
+recurrence algebra, companion matrices, spectral polynomials, elliptic
+normalization, real projection, dominance, and endpoint-zero reads. The
+lesson for the RH route is not that the quartic proves anything about
+the zeta function. The lesson is structural. A zero-relevant boundary is
+not identified by a branch or defect read alone; it is identified only
+after the dominance, source-compatibility, and noncollapse ledgers have
+been displayed.
+
+The RH-facing analogue is the route
+$$
+\text{finite spectral defect}
+\Rightarrow
+\text{zero incompatibility}
+\Rightarrow
+\text{fixed-half rigidity}.
+$$
+The target predicate itself is already stated in
+\autoref{def:number-theory-spine-rh}:
+$$
+\mathsf{RH}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{InCritStrip}(s)\times\mathsf{ZetaZero}(s)
+\to
+\mathsf{OnCritLine}(s)
+\right).
+$$
+This section records the unified-reality reading of the remaining
+obligation surface. It does not claim the missing analytic bridge.
+
+\begin{definition}[RH zero source and fixed-half fiber]
+\label{def:unified-reality-rh-zero-source-fixed-half-fiber}
+The \emph{RH zero source carrier} is the packet
+$$
+\mathcal Z_{\zeta}
+:=
+\sum_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\right).
+$$
+For a row $z=(s;Z_s;C_s)$, the fixed-half fiber adds the critical-line
+row:
+$$
+\mathcal H_{\zeta}
+:=
+\sum_{z:\mathcal Z_{\zeta}}
+\mathsf{OnCritLine}(\pi_s(z)).
+$$
+This is the same constructive target as the RH witness function of
+\autoref{def:rh-proof-obligation-witness-function}, expressed as a
+section over the zero source.
+\end{definition}
+
+\begin{definition}[RH fixed-half section]
+\label{def:unified-reality-rh-fixed-half-section}
+The \emph{RH fixed-half section} is a displayed section
+$$
+\sigma:\mathcal Z_{\zeta}\to\mathcal H_{\zeta}
+$$
+whose projection back to $\mathcal Z_{\zeta}$ is classifier-equal to the
+identity. Equivalently, it assigns to every
+$$
+s:\ComplexUp,\qquad
+\mathsf{ZetaZero}(s),\qquad
+\mathsf{InCritStrip}(s)
+$$
+a displayed $\mathsf{OnCritLine}(s)$ row.
+\end{definition}
+
+\begin{theorem}[Fixed-half section reads the RH target]
+\label{thm:unified-reality-rh-fixed-half-section-equivalence}
+The fixed-half section of
+\autoref{def:unified-reality-rh-fixed-half-section} is the
+unified-reality section form of the BEDC RH target.
+\end{theorem}
+
+\begin{proof}
+Given $\mathsf{RH}$, send a zero-source row
+$z=(s;Z_s;C_s)$ to $(z,\mathsf{RH}(s)(C_s,Z_s))$ in
+$\mathcal H_{\zeta}$. The projection is visibly the original row. In the
+other direction, a section applied to the row $(s;Z_s;C_s)$ supplies the
+missing $\mathsf{OnCritLine}(s)$ witness. This is the section form
+already used in
+\autoref{def:rh-proof-obligation-witness-function}.
+\end{proof}
+
+\begin{definition}[Off-half and prime-window defect rows]
+\label{def:unified-reality-rh-off-half-prime-window-defect}
+For $s:\ComplexUp$, write
+$$
+\delta(s):=\Re(s)-\frac12.
+$$
+The off-half row is the apartness witness
+$$
+\mathsf{OffHalf}(s):=\delta(s)\#0.
+$$
+For a nonempty finite prime window $S$, the prime-window defect is the
+finite readout
+$$
+D_S(s):=\sum_{p\in S}\log |p^{1/2-s}|,
+$$
+as in \autoref{def:number-theory-spine-prime-window-defect}. The
+existential defect row $\mathsf{PrimeDefect}(s)$ asserts that some
+nonempty finite prime window has nonzero defect.
+\end{definition}
+
+\begin{theorem}[Off-half rows create finite prime defects]
+\label{thm:unified-reality-rh-off-half-creates-prime-defect}
+If $\mathsf{OffHalf}(s)$ holds and $S$ is a nonempty finite prime
+window, then $D_S(s)\#0$.
+\end{theorem}
+
+\begin{proof}
+Write $s=1/2+\delta+i\tau$. Then
+$$
+p^{1/2-s}=p^{-\delta}p^{-i\tau},
+\qquad
+|p^{1/2-s}|=p^{-\delta}.
+$$
+Thus
+$$
+D_S(s)
+=
+-\delta\sum_{p\in S}\log p.
+$$
+Since $S$ is nonempty and every displayed prime has positive logarithm,
+the sum is positive. Apartness of $\delta$ from zero therefore gives
+apartness of $D_S(s)$ from zero.
+\end{proof}
+
+\begin{definition}[Defect-zero incompatibility route]
+\label{def:unified-reality-rh-defect-zero-incompatibility-route}
+The \emph{defect-zero incompatibility route} is the zeta-specific bridge
+$$
+\mathsf{DefectZeroIncompatibility}
+$$
+from prime-window defect inside the completed zeta carrier to apartness
+of the zeta value from zero. It is the same analytic obligation named in
+\autoref{prin:number-theory-spine-defect-zero-incompatibility} and
+\autoref{def:rh-defect-zero-incompatibility}. It is not supplied by the
+definition of $\mathsf{ZetaZero}$.
+\end{definition}
+
+\begin{theorem}[Defect-zero incompatibility rules out off-line zeros]
+\label{thm:unified-reality-rh-defect-incompatibility-rules-out-offline}
+Assume the defect-zero incompatibility route, zero-ledger soundness, and
+the same-source compatibility rows needed to compare the zero ledger
+with the prime-window read. Then no row can simultaneously carry
+$$
+\mathsf{ZetaZero}(s),\qquad
+\mathsf{InCritStrip}(s),\qquad
+\mathsf{OffHalf}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+An off-half row gives a nonzero finite prime-window defect by
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect}. The
+same-source compatibility row places that prime-window defect and the
+zero ledger in the same completed zeta carrier. Defect-zero
+incompatibility gives apartness of $\zeta(s)$ from zero, while
+zero-ledger soundness gives the zero value. This is a contradiction in
+the shared classifier.
+\end{proof}
+
+\begin{definition}[Located fixed-half collapse]
+\label{def:unified-reality-rh-located-fixed-half-collapse}
+The \emph{located fixed-half collapse row} is the classifier transport
+$$
+\neg\mathsf{OffHalf}(s)\to\mathsf{OnCritLine}(s).
+$$
+It is a located-real row for the specific real part comparison with
+$1/2$; it is not a general classical trichotomy principle.
+\end{definition}
+
+\begin{theorem}[Rigidity package implies the RH section]
+\label{thm:unified-reality-rh-rigidity-package-implies-section}
+Assume defect-zero incompatibility, zero-ledger soundness, same-source
+compatibility, and located fixed-half collapse. Then the RH fixed-half
+section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z=(s;Z_s;C_s):\mathcal Z_{\zeta}$. If
+$\mathsf{OffHalf}(s)$ held, then
+\autoref{thm:unified-reality-rh-defect-incompatibility-rules-out-offline}
+would give a contradiction. Hence $\neg\mathsf{OffHalf}(s)$. Located
+fixed-half collapse supplies $\mathsf{OnCritLine}(s)$, so $z$ lifts to
+$\mathcal H_{\zeta}$. This lift is a section because it preserves the
+underlying zero-source row.
+\end{proof}
+
+\begin{corollary}[The analytic content is zero-defect rigidity]
+\label{cor:unified-reality-rh-analytic-content-zero-defect-rigidity}
+Within the displayed structural rows, the remaining RH-facing analytic
+content is the incompatibility between zero rows and prime-window
+defect rows in the completed zeta carrier.
+\end{corollary}
+
+\begin{proof}
+The section target is structural by
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}. The
+finite off-half defect read is
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect}. The
+step from defect to zero exclusion is exactly
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}.
+Thus the analytic load is not the definition of the zero predicate but
+the rigidity row excluding zero and prime-window defect from the same
+completed source.
+\end{proof}
+
+\begin{definition}[Spectral laboratory pattern]
+\label{def:unified-reality-spectral-laboratory-pattern}
+A \emph{spectral laboratory pattern} is a packet
+$$
+(\mathcal O,\mathsf{Branch},\mathsf{Dominance},
+\mathsf{LocalExpansion},\mathsf{Interference},
+\mathsf{ZeroLaw},\mathsf{Boundary})
+$$
+where $\mathcal O$ is a common spectral carrier, $\mathsf{Branch}$
+records ramification, $\mathsf{Dominance}$ records the zero-relevant
+active sheets, $\mathsf{LocalExpansion}$ records local branches,
+$\mathsf{Interference}$ records cancellation of active contributions,
+$\mathsf{ZeroLaw}$ records the resulting zero readout, and
+$\mathsf{Boundary}$ records the scope of the zero law.
+\end{definition}
+
+\begin{definition}[RH spectral-rigidity pattern]
+\label{def:unified-reality-rh-spectral-rigidity-pattern}
+The \emph{RH spectral-rigidity pattern} is the packet
+$$
+(\mathcal Z_{\zeta},\mathsf{PrimeWindow},\mathsf{PrimeDefect},
+\mathsf{DefectZeroIncompatibility},
+\mathsf{FixedHalfSection},\mathsf{Boundary})
+$$
+where $\mathcal Z_{\zeta}$ is the zero source carrier, finite prime
+windows provide defect readouts, defect-zero incompatibility is the
+zeta-specific rigidity row, the fixed-half section is the RH witness
+target, and the boundary records that the rigidity row is an obligation,
+not a closed theorem in this vision section.
+\end{definition}
+
+\begin{theorem}[The quartic laboratory is an architecture model, not an RH proof]
+\label{thm:unified-reality-quartic-laboratory-not-rh-proof}
+The quartic spectral carrier of
+\autoref{sec:unified-reality-quartic-spectral-common-carrier} realizes a
+finite spectral laboratory pattern that models the architecture of the RH
+spectral-rigidity route, but it does not imply RH.
+\end{theorem}
+
+\begin{proof}
+The quartic carrier supplies a fixed recurrence source, companion matrix,
+spectral polynomial, elliptic normalization, real projection, dominance
+ledger, and endpoint-zero law. Its dominance ledger separates the
+zero-relevant endpoint from other branch collisions, as stated in
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}.
+This is structurally analogous to the RH need to separate prime-visible
+defect rows that are zero-incompatible from finite reads that are merely
+visible. But the quartic carrier is fixed and finite, and its endpoint
+law is scoped by fixed-window restrictions through
+\autoref{thm:unified-reality-quartic-finite-certificate-common-carrier}.
+RH requires a zeta-specific all-zero-source section. Therefore the
+quartic laboratory supplies proof architecture only.
+\end{proof}
+
+\begin{corollary}[The quartic carrier supplies no zeta bridge]
+\label{cor:unified-reality-quartic-supplies-no-zeta-bridge}
+The quartic worked example proves the value of a dominance-controlled
+spectral carrier. It does not prove defect-zero incompatibility for the
+completed zeta carrier.
+\end{corollary}
+
+\begin{proof}
+The quartic carrier contains the rows
+$(N,D,T(y),\Pi,E,y:E\to\mathbb P^1)$ and local endpoint branch data. The
+RH carrier contains zero-ledger, critical-strip, completed-zeta,
+prime-window, and fixed-half rows. Transport between these carriers is
+not supplied. The zeta-specific bridge remains the obligation named in
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}.
+\end{proof}
+
+\begin{definition}[Zeta bridge obligations]
+\label{def:unified-reality-rh-zeta-bridge-obligations}
+The \emph{zeta bridge obligations} are the following rows:
+$$
+\mathsf{ZetaCarrierClosure},\quad
+\mathsf{PrimeWindowExtraction},\quad
+\mathsf{OffHalfDefectFormula},\quad
+\mathsf{DefectZeroIncompatibility},\quad
+\mathsf{LocatedFixedHalfCollapse}.
+$$
+They respectively provide completed zeta value rows, finite prime-window
+readouts, the off-half defect formula, zero-defect rigidity, and the
+located read from absence of off-half apartness to the critical line.
+\end{definition}
+
+\begin{theorem}[Zeta bridge obligations close the section target]
+\label{thm:unified-reality-rh-zeta-bridge-obligations-close-section}
+If the zeta bridge obligations are all displayed, then the RH
+fixed-half section exists, hence the RH predicate of
+\autoref{def:number-theory-spine-rh} holds.
+\end{theorem}
+
+\begin{proof}
+The first two obligations place zero rows and finite prime-window rows in
+one completed zeta carrier. The off-half defect formula supplies prime
+defect from off-half apartness. Defect-zero incompatibility excludes a
+zero row with such a defect. Located fixed-half collapse turns absence of
+off-half apartness into $\mathsf{OnCritLine}$. This is exactly the
+construction of
+\autoref{thm:unified-reality-rh-rigidity-package-implies-section},
+followed by
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{definition}[Finite-window to global boundary]
+\label{def:unified-reality-rh-finite-window-global-boundary}
+The \emph{finite-window to global boundary} is the obligation that
+finite prime-window readouts remain source-compatible with the completed
+zeta zero ledger and cannot be absorbed by tail, continuation, branch,
+or classifier transport when the route is lifted to the full zero source.
+\end{definition}
+
+\begin{theorem}[Finite-window facts alone do not imply RH]
+\label{thm:unified-reality-rh-finite-window-facts-not-rh}
+The finite prime-window defect formula alone does not imply RH.
+\end{theorem}
+
+\begin{proof}
+The formula says that off-half apartness is visible in a nonempty finite
+prime window. RH requires a witness that a zeta-zero row in the critical
+strip lies on the fixed-half fiber. The missing step is the
+zero-defect incompatibility bridge in the completed zeta carrier,
+together with the finite-window to global boundary of
+\autoref{def:unified-reality-rh-finite-window-global-boundary}. Without
+those rows, finite-window defect is only a visible shadow, not a global
+zero-exclusion theorem.
+\end{proof}
+
+\begin{corollary}[Fixed-window discipline transfers as a warning]
+\label{cor:unified-reality-rh-fixed-window-discipline-warning}
+The fixed-window boundary in the quartic laboratory warns against
+flattening finite prime-window facts into all-height zeta rigidity.
+\end{corollary}
+
+\begin{proof}
+The quartic endpoint law is explicitly scoped to fixed endpoint windows
+and fixed index sets. Enlarging that scope would require additional
+uniformity rows. Likewise, RH is a dependent statement over all
+nontrivial zeta-zero source rows. It requires the global compatibility
+and zero-defect rigidity ledgers, not only finite-window defect reads.
+\end{proof}
+
+\begin{theorem}[Spectral-laboratory-to-RH principle]
+\label{thm:unified-reality-spectral-laboratory-to-rh-principle}
+The unified-reality route from the quartic spectral laboratory to the RH
+surface is a proof-architecture transfer:
+$$
+\text{finite carrier}
++
+\text{dominance ledger}
++
+\text{local interference}
+\Rightarrow
+\text{zero law}
+$$
+models the RH obligation shape
+$$
+\text{zeta carrier}
++
+\text{prime-window defect}
++
+\text{defect-zero incompatibility}
+\Rightarrow
+\text{fixed-half section}.
+$$
+The transfer identifies required ledgers; it is not a zeta theorem.
+\end{theorem}
+
+\begin{proof}
+The finite laboratory side is
+\autoref{thm:unified-reality-quartic-laboratory-not-rh-proof}. The
+section target is
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}. The
+required zeta-specific obligations are
+\autoref{def:unified-reality-rh-zeta-bridge-obligations}. The reason
+finite-window facts do not suffice is
+\autoref{thm:unified-reality-rh-finite-window-facts-not-rh}. Therefore
+the correct conclusion is an obligation map from the spectral laboratory
+to the RH route, with defect-zero incompatibility as the central
+unclosed analytic bridge.
+\end{proof}

@@ -92,12 +92,28 @@ Finally apply the non-escape boundary. Since every obligation is read from the d
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyAbsUp.RegularCauchyAbsCarrier\_obligation\_closure}
 
+\begin{theorem}[RegularCauchyAbs public export surface]
+\label{thm:regular-cauchy-abs-public-export-surface}
+The public export of an accepted $\RegularCauchyAbsUp$ packet is exactly the finite route from the $\RegSeqRatUp$ source row through scheduled $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint observations, $\DyadicAbsoluteValueUp$ tolerance rows, the $\RegSeqRatUp$ absolute-value handoff, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyAbsUp}$ row. Every public consumer must read the route as
+$$
+X,W,D,V,R,E,H,C,P,N .
+$$
+It exports no trichotomy, quotient-stream equality, host real absolute value, selected limit, ambient completeness principle, or public bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-abs-carrier}. The displayed public rows are the source regular name $X$, windows $W$, dyadic endpoints $D$, dyadic absolute-value tolerance rows $V$, regular readback $R$, real seal $E$, transport $H$, replay $C$, provenance $P$, and local name $N$.
+
+Apply the obligation closure package of \autoref{thm:regularcauchyabs-obligation-closure}. It identifies the NameCert obligations, RegSeqRat handoff, Real seal boundary, and non-escape theorem as one finite route over the same displayed rows.
+
+Therefore a public consumer can reuse the packet only through $X,W,D,V,R,E,H,C,P,N$. The excluded analytic and bridge objects have no carrier coordinate and no obligation row, so they cannot be exported by the public surface.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyAbsUp}
   \constructivestory{A $\RegularCauchyAbsUp$ packet is generated from one RegSeqRat source row, scheduled StreamName windows, DyadicRatCore endpoint observations, DyadicAbsoluteValue endpoint-and-tolerance rows, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, \autoref{thm:regular-cauchy-abs-non-escape}, and \autoref{thm:regularcauchyabs-obligation-closure} close the scoped finite absolute-value route through carrier admission, NameCert obligations, RegSeqRat handoff, Real seal boundary, nonescape, and the obligation-closure package.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, \autoref{thm:regular-cauchy-abs-non-escape}, \autoref{thm:regularcauchyabs-obligation-closure}, and \autoref{thm:regular-cauchy-abs-public-export-surface} close the public finite absolute-value route through carrier admission, NameCert obligations, RegSeqRat handoff, Real seal boundary, nonescape, obligation closure, and the public export surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, trichotomy, quotient-stream equality, host real absolute value, selected limits, ambient completeness, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, window exposure, dyadic absolute-value tolerance, RegSeqRat handoff, RealUp seal boundary, transport stability, provenance, and non-escape for the same finite packet.}
+  \upgradepath{Lean verification requires checked carrier admission, window exposure, dyadic absolute-value tolerance, RegSeqRat handoff, RealUp seal boundary, public export surface, transport stability, provenance, and non-escape for the same finite packet.}
 \end{closurestatus}

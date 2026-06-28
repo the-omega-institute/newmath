@@ -1,0 +1,278 @@
+\section{Solenoid Lee--Yang Resonance Boundary}
+\label{sec:unified-reality-solenoid-lee-yang-resonance-boundary}
+
+The prime-torus and prime-adic slicing pictures can be joined by a
+solenoid carrier.  A solenoid is a compact phase object whose visible
+face is a unit circle and whose hidden fibres record the admitted
+prime-adic directions.  This is the natural place to state the
+Lee--Yang-like zeta target: if the zero-relevant resonance data of a
+completed zeta zero is really realized inside such a compact solenoid
+phase carrier, then there is no room for an additional real positive
+normal scale.
+
+\begin{definition}[$S$-localization]
+\label{def:unified-reality-s-localization}
+For a displayed prime family $S\subseteq\PrimeUp$, the
+\emph{$S$-localization} of the integers is
+$$
+\mathbb Z[S^{-1}]
+:=
+\left\{
+\frac{a}{b}\in\mathbb Q:
+a\in\mathbb Z,\ b\in\mathbb N,\ \mathsf{PrimeDiv}(b)\subseteq S
+\right\}.
+$$
+The inclusion
+$$
+\iota:\mathbb Z\hookrightarrow\mathbb Z[S^{-1}]
+$$
+records the ordinary integer phase row, while primes in $S$ are declared
+invertible gates in the localized carrier.
+\end{definition}
+
+\begin{definition}[$S$-solenoid over the unit circle]
+\label{def:unified-reality-s-solenoid-over-unit-circle}
+The \emph{$S$-solenoid} is the compact abelian phase carrier
+$$
+\Sigma_S:=\widehat{\mathbb Z[S^{-1}]},
+$$
+the Pontryagin dual of the localized integer carrier.  Dualizing
+$\iota$ gives the visible unit-circle projection
+$$
+\pi_S:\Sigma_S\twoheadrightarrow\widehat{\mathbb Z}\cong\mathbb T.
+$$
+Its invisible fibre is
+$$
+K_S:=\ker(\pi_S).
+$$
+For finite $S$ with $N=\prod_{p\in S}p$, the same carrier may be read as
+the inverse-limit solenoid
+$$
+\Sigma_S
+\cong
+\varprojlim
+\left(
+\mathbb T
+\xleftarrow{z\mapsto z^N}
+\mathbb T
+\xleftarrow{z\mapsto z^N}
+\mathbb T
+\xleftarrow{z\mapsto z^N}
+\cdots
+\right).
+$$
+Thus $\Sigma_S$ packages the visible unit phase together with the
+$S$-prime fibre registers behind that phase.
+\end{definition}
+
+\begin{definition}[Solenoid-compatible resonance lift]
+\label{def:unified-reality-solenoid-compatible-resonance-lift}
+Let $s=1/2+\delta+i\tau$.  A stable zero-relevant resonance family
+$\rho:\mathsf{StableResFam}_{\zeta}(s)$ has a
+\emph{solenoid-compatible resonance lift} when there is a nonempty prime
+family $S_{\rho}$, a compact phase carrier $\Sigma_{S_{\rho}}$, and a
+factorization of the zero-relevant phase data through
+$$
+\Sigma_{S_{\rho}}\twoheadrightarrow\mathbb T
+$$
+such that every displayed node
+$$
+a=(p,j),
+\qquad
+p\in S_{\rho},
+$$
+has local coordinate
+$$
+U_a(s)
+=
+p^{2^j(1/2-s)}
+=
+e^{-\delta h_a}e^{-i\tau h_a},
+\qquad
+h_a:=2^j\log p,
+$$
+and the real positive modulus row
+$$
+|U_a(s)|=e^{-\delta h_a}
+$$
+is required to come from a continuous real positive character of the
+compact solenoid phase carrier, rather than from an additional noncompact
+scale coordinate.
+Write $\mathsf{SolenoidCompatible}(\rho,s)$ for the existence of such a
+lift.
+\end{definition}
+
+\begin{lemma}[Compact phase carriers have no nontrivial positive scale character]
+\label{lem:unified-reality-compact-phase-no-positive-scale-character}
+Let $G$ be a compact group.  Every continuous group homomorphism
+$$
+\rho:G\to\RealUp_{>0}
+$$
+is trivial:
+$$
+\rho(g)=1
+\qquad
+(g\in G).
+$$
+\end{lemma}
+
+\begin{proof}
+The image $\rho(G)$ is a compact subgroup of $\RealUp_{>0}$.  Applying
+the logarithm gives a compact subgroup
+$$
+\log\rho(G)\subseteq(\RealUp,+).
+$$
+The additive real line has no nontrivial compact subgroup: if a nonzero
+element $x$ were present, then the infinite set $\{nx:n\in\mathbb Z\}$
+would be an unbounded subgroup.  Hence $\log\rho(G)=\{0\}$, so
+$\rho(G)=\{1\}$.
+\end{proof}
+
+\begin{theorem}[Solenoid-compatible resonance has no normal scale]
+\label{thm:unified-reality-solenoid-compatible-resonance-no-normal-scale}
+Let $s=1/2+\delta+i\tau$ and suppose a stable zero-relevant resonance
+family for $s$ has a solenoid-compatible resonance lift.  Then
+$$
+\delta=0.
+$$
+\end{theorem}
+
+\begin{proof}
+For each displayed node $a=(p,j)$ in the lift,
+$$
+|U_a(s)|
+=
+e^{-\delta h_a}
+=
+p^{-2^j\delta}.
+$$
+By the solenoid-compatibility hypothesis, this modulus row comes from a
+continuous real positive character of the compact solenoid carrier.
+By
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character},
+the character is trivial, so $|U_a(s)|=1$.  Thus
+$$
+p^{-2^j\delta}=1.
+$$
+Since $2^j\log p>0$, taking logarithms gives
+$$
+-2^j\delta\log p=0,
+$$
+hence $\delta=0$.
+\end{proof}
+
+\begin{definition}[Zeta solenoid Lee--Yang row]
+\label{def:unified-reality-zeta-solenoid-lee-yang-row}
+The \emph{zeta solenoid Lee--Yang row} is the assertion
+$$
+\mathsf{ZetaSolenoidLeeYang}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\sum_{\rho:\mathsf{StableResFam}_{\zeta}(s)}
+\mathsf{SolenoidCompatible}(\rho,s)
+\right).
+$$
+It says that every completed critical-strip zero is carried by some
+stable zero-relevant resonance family whose phase data factors through a
+compact $S$-solenoid and has no extra noncompact real positive scale
+coordinate.
+\end{definition}
+
+\begin{theorem}[Solenoid Lee--Yang is conditionally sufficient]
+\label{thm:unified-reality-solenoid-lee-yang-conditionally-sufficient}
+If
+$$
+\mathsf{ZetaSolenoidLeeYang}_{\zeta}
+$$
+holds, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+The zeta solenoid Lee--Yang row supplies a stable resonance family
+$\rho$ with a solenoid-compatible lift.  By
+\autoref{thm:unified-reality-solenoid-compatible-resonance-no-normal-scale},
+$$
+\delta=0.
+$$
+Therefore $\Re(s)=1/2$, and the fixed-half section is obtained through
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[Solenoid compatibility is a compact-form no-hair row]
+\label{cor:unified-reality-solenoid-compatibility-compact-no-hair-row}
+The solenoid-compatible form of the RH-facing obstruction is the
+disappearance of the noncompact real positive component in
+$$
+U_{p,j}(s)
+=
+e^{-\delta h_{p,j}}e^{-i\tau h_{p,j}}.
+$$
+\end{corollary}
+
+\begin{proof}
+The phase factor $e^{-i\tau h_{p,j}}$ belongs to the visible unit-circle
+projection of the solenoid.  The hidden $p$-adic fibre records compact
+local phase data behind that projection.  The factor
+$e^{-\delta h_{p,j}}$ is different: it is a real positive scale row.  By
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character},
+such a row cannot be supplied nontrivially by a compact phase carrier.
+Thus solenoid compatibility is exactly the compact-carrier version of
+the no-hair condition.
+\end{proof}
+
+\begin{corollary}[The unclosed part is the zeta-specific dominance theorem]
+\label{cor:unified-reality-solenoid-route-unclosed-dominance-theorem}
+The compact solenoid argument does not by itself prove the zeta
+solenoid Lee--Yang row.  The unclosed content is the zeta-specific
+dominance theorem constructing, for each completed zero, a stable
+zero-relevant resonance family whose phase data is solenoid-compatible.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-solenoid-compatible-resonance-no-normal-scale}
+is conditional on the existence of a solenoid-compatible lift.  It does
+not construct the lift from the completed zero ledger.  The construction
+requires the same proof-role ingredients isolated in
+\autoref{def:unified-reality-lee-yang-type-resonance-stability-certificate}:
+dominance of the active resonance family, exclusion of strict local
+dominance, a tail bound, and far-end energy control.  Thus the remaining
+claim is not another algebraic restatement of $\delta=0$; it is the
+zeta-specific Lee--Yang or dominance theorem which produces the compact
+solenoid-compatible carrier for the zero-relevant data.
+\end{proof}
+
+\begin{corollary}[Representation-theoretic analogy]
+\label{cor:unified-reality-solenoid-representation-theoretic-analogy}
+The solenoid route has the same proof-role shape as a compactness
+criterion for a semisimple representation row: a decomposition into a
+compact unitary component and a noncompact real component is forced onto
+the compact side once the zero-relevant data are known to lie on the
+unit-circle boundary.
+\end{corollary}
+
+\begin{proof}
+In a representation-theoretic Lee--Yang row one reads
+$$
+g=\exp(\mu)u,
+$$
+with $u$ in a compact direction and $\mu$ in a noncompact direction.
+Unit-circle zero data forces the fundamental weights to vanish on
+$\mu$, hence $\mu=0$.  In the zeta solenoid row the corresponding
+decomposition is
+$$
+U_{p,j}(s)=e^{-\delta h_{p,j}}e^{-i\tau h_{p,j}},
+$$
+where the second factor is compact phase and the first is real positive
+scale.  Solenoid compatibility and
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character}
+force the scale component to be trivial, hence $\delta=0$.
+\end{proof}

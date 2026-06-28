@@ -162,6 +162,25 @@ Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-orde
 Use the scoped-route theorem \autoref{thm:cofinal-stream-tail-selector-scoped-route} to keep the same ordering inside the BEDC row classes. The rows $H,C,P,N$ only preserve the already displayed route and cannot move the seal ahead of the cofinal window or readback rows.
 \end{proof}
 
+\begin{theorem}[Cofinal StreamName tail selector public certificate]
+\label{thm:cofinal-stream-tail-selector-public-certificate}
+The carrier of \autoref{def:cofinal-stream-tail-selector-carrier}, the obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}, the seal order of \autoref{thm:cofinal-stream-tail-selector-seal-order}, the scoped route of \autoref{thm:cofinal-stream-tail-selector-scoped-route}, and the window readback scope of \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} export a public certificate for the cofinal-window route over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The certificate exposes only the displayed rows
+$$
+\epsilon,W,R,D,A,\sigma,H,C,P,N
+$$
+and exports no quotient stream identity, host-selected limit, countable-choice selector, hidden tail oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation package. They identify the accepted packet as the finite row tuple $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and bind those rows to StreamName, RegSeqRat, DyadicRatCore, RealUp, history, transport, continuation, package, and naming surfaces.
+
+Apply the seal-order theorem to the Real-facing boundary. It places $A$ downstream of the finite cofinal window $W$, the regular handoff $R$, the dyadic readback $D$, and selector provenance $\sigma$.
+
+Use the scoped-route theorem and the window-readback scope theorem to make the same ordering public. These results keep the route inside $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ and prevent the seal from moving ahead of the displayed readback rows.
+
+The carrier has no coordinate for quotient stream identity, host-selected limits, countable choice, hidden tail oracles, or ambient Real completeness. Therefore the assembled route is exactly the stated public certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicCertificate}
+
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 

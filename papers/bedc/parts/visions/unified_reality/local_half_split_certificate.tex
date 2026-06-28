@@ -1,0 +1,219 @@
+\section{Local Half-Split Certificate}
+\label{sec:unified-reality-local-half-split-certificate}
+
+The resonance picture should not be read as if an entire infinite prime
+spiral suddenly collapses to zero.  A zero-relevant event is local: after
+dominance and normalization have been displayed, the completed read is
+cut by a finite two-branch interference island.  The RH-facing content is
+that a stable local cut must be a half-split.  The real coordinate
+controls length balance; the imaginary coordinate records the remaining
+phase quantization.
+
+\begin{theorem}[Two-vector silence is equal length and opposite phase]
+\label{thm:unified-reality-two-vector-silence-equal-length-opposite-phase}
+For nonzero complex vectors $A,B\in\ComplexUp$, the row
+$$
+A+B=0
+$$
+is equivalent to
+$$
+|A|=|B|
+$$
+and
+$$
+\arg(A)-\arg(B)\equiv\pi\pmod{2\pi}.
+$$
+\end{theorem}
+
+\begin{proof}
+If $A+B=0$, then $A=-B$, so the two vectors have equal modulus and
+opposite phase.  Conversely, equal modulus and phase difference $\pi$
+give $A=-B$, hence $A+B=0$.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-local-half-split-certificate-namecert}{Finite NameCert carrier for the local two-branch half-split certificate.}
+
+\begin{definition}[Local two-branch zero island]
+\label{def:unified-reality-local-two-branch-zero-island}
+A \emph{local two-branch zero island} for a critical-strip row $s$ is a
+local decomposition
+$$
+\Xi(u)=A_n(u)+B_n(u)+R_n(u)
+$$
+on a disk $D_n$ around $s$, together with rows saying that $A_n$ and
+$B_n$ are the two dominant branches and that the remainder satisfies the
+Rouch\'e boundary discipline required to preserve the local zero count.
+The row is zero-relevant only after these dominance and tail rows are
+displayed; a visible two-term split without them is merely a projection
+model.
+\end{definition}
+
+\begin{definition}[Half-split coordinate]
+\label{def:unified-reality-half-split-coordinate}
+For a local two-branch zero island, the \emph{half-split coordinate} at
+$s$ is the length-balance row
+$$
+|A_n(s)|=|B_n(s)|.
+$$
+Equivalently, the zero cuts the normalized local segment into two equal
+halves.  The complementary phase row is
+$$
+\arg(A_n(s)/B_n(s))\equiv(2k_n-1)\pi
+\pmod{2\pi}.
+$$
+The half-split row records the real-length constraint, while the phase
+row records the height or time quantization.
+\end{definition}
+
+\begin{definition}[Real-defect split formula]
+\label{def:unified-reality-real-defect-split-formula}
+A local two-branch zero island has a \emph{real-defect split formula}
+when there is a positive branch-separation scale $H_n$ and a bounded
+correction row $\varepsilon_n$ such that
+$$
+\log\frac{|A_n(s)|}{|B_n(s)|}
+=
+-2\delta H_n+\varepsilon_n
+$$
+for
+$$
+s=\frac12+\delta+i\tau.
+$$
+The term $-2\delta H_n$ is the normal length bias.  The correction
+$\varepsilon_n$ belongs to amplitude normalization, finite-window tail
+control, or coordinate choice; it is not allowed to encode a hidden
+noncompact real scale along a cofinal tower.
+\end{definition}
+
+\begin{definition}[Zeta local half-split certificate]
+\label{def:unified-reality-zeta-local-half-split-certificate}
+For a critical-strip zeta zero $s$, a \emph{zeta local half-split
+certificate} consists of a cofinal family of local two-branch zero
+islands with:
+$$
+\mathsf{DominantTwoBranch}(A_n,B_n),
+\qquad
+\mathsf{RoucheTailControl}(R_n),
+$$
+$$
+\mathsf{HalfSplit}(A_n,B_n,s),
+\qquad
+\mathsf{RealDefectSplitFormula}(H_n,\varepsilon_n),
+$$
+and a no-hidden-real-correction row saying that $\varepsilon_n$ cannot
+cofinally cancel $-2\delta H_n$ when $\delta\#0$ and the displayed
+branch-separation scales remain unbounded or otherwise non-negligible.
+\end{definition}
+
+\begin{theorem}[Local half-split certificates are conditionally sufficient]
+\label{thm:unified-reality-local-half-split-certificates-conditionally-sufficient}
+If every critical-strip zeta zero carries a zeta local half-split
+certificate, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+s=\frac12+\delta+i\tau.
+$$
+The certificate supplies local islands with
+$$
+|A_n(s)|=|B_n(s)|.
+$$
+Thus
+$$
+\log\frac{|A_n(s)|}{|B_n(s)|}=0.
+$$
+The real-defect split formula gives
+$$
+0=-2\delta H_n+\varepsilon_n.
+$$
+If $\delta\#0$, the normal term cannot be cofinally cancelled by
+$\varepsilon_n$ by the no-hidden-real-correction row.  This contradicts
+the half-split equation.  Hence $\neg(\delta\#0)$, and located
+fixed-half collapse gives $\delta=0$.  Therefore $\Re(s)=1/2$, and the
+fixed-half section follows from
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[Phase carries the remaining zero data]
+\label{cor:unified-reality-phase-carries-remaining-zero-data}
+Once a zero-relevant local island has been normalized to a half-split,
+the remaining zero-location data are phase data.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-two-vector-silence-equal-length-opposite-phase},
+the local zero condition for the dominant pair is equal length together
+with opposite phase.  The half-split certificate supplies the equal
+length row.  The remaining equation is therefore
+$$
+\arg(A_n(s)/B_n(s))\equiv(2k_n-1)\pi
+\pmod{2\pi}.
+$$
+If the active branches have phase factors of the form
+$$
+A_n(s)\sim C_+e^{-i\tau H_+},
+\qquad
+B_n(s)\sim C_-e^{-i\tau H_-},
+$$
+then the height coordinate $\tau$ is determined by the corresponding
+phase congruence.  The real part supplies length balance; the imaginary
+part records phase quantization.
+\end{proof}
+
+\begin{corollary}[Quartic endpoint zeros supply the finite template]
+\label{cor:unified-reality-quartic-endpoint-half-split-template}
+The fixed quartic endpoint-zero law is the finite model for the local
+half-split certificate.
+\end{corollary}
+
+\begin{proof}
+In the quartic carrier, endpoint zeros are obtained only after the
+positive-axis dominant branches, local Puiseux expansions,
+partial-fraction amplitudes, and Rouch\'e tail control are displayed, as
+recorded in
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}.
+The active two-branch sum is transported to a shifted cosine model, whose
+zeros occur at odd half-periods.  This is precisely the finite
+half-split pattern: equal dominant lengths with phase difference an odd
+multiple of $\pi$.  The quartic result remains a fixed-window finite
+template, not a global zeta theorem.
+\end{proof}
+
+\begin{corollary}[Local half-split refines resonance no-hair]
+\label{cor:unified-reality-local-half-split-refines-resonance-no-hair}
+The local half-split certificate refines the resonance no-hair boundary
+by identifying the finite zero island on which the normal-energy
+condition is zero-relevant.
+\end{corollary}
+
+\begin{proof}
+The resonance no-hair boundary of
+\autoref{def:unified-reality-resonance-no-hair-boundary} states that a
+stable zero-relevant resonance family has zero normalized detuning.  The
+local half-split certificate explains what makes the family
+zero-relevant: a two-branch dominant island, Rouch\'e tail control,
+length equality, and a real-defect split formula.  Thus the certificate
+prevents projected silence from being mistaken for a proof object; it
+requires the local segment on which the zero actually acts.
+\end{proof}
+
+\begin{corollary}[Relation to solenoid and selector routes]
+\label{cor:unified-reality-local-half-split-relation-to-solenoid-selector-routes}
+The split-prime, Dedekind, and Zeckendorf solenoid routes supply possible
+source mechanisms for the branch-separation scale $H_n$ in a local
+half-split certificate.
+\end{corollary}
+
+\begin{proof}
+In the fixed split-prime route, $H_n$ is supplied by the repeated local
+rows above a rational prime $q$.  In the Dedekind route, it is supplied
+by the prime-ideal rows in the lifted tower.  In the Zeckendorf selector
+route, it is supplied by the golden-cofinal prime family selected by the
+no-adjacent grammar.  Each route contributes a source for the length
+ledger; solenoid compatibility and Lee--Yang stability are then the
+candidate mechanisms preventing a hidden real correction from absorbing
+a nonzero $\delta$.
+\end{proof}

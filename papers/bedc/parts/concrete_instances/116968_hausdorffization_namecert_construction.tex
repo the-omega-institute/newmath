@@ -147,6 +147,7 @@ Use the separated-reflection scope of \autoref{thm:hausdorffization-separated-re
 
 Finally apply the ledger non-quotient boundary of \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Since there is no quotient-equality or representative-selection coordinate, two reads sharing $P,W,R,E$ have no alternate boundary data to distinguish them before $M,C$ are opened.
 \end{proof}
+\leanchecked{BEDC.Derived.HausdorffizationUp.HausdorffizationCarrier\_zero\_distance\_window\_determinacy}
 
 \begin{theorem}[Hausdorffization zero-distance exactness]
 \label{thm:hausdorffization-zero-distance-exactness}
@@ -277,6 +278,7 @@ $$
 $$
 before any separated-completion conclusion is read. In carrier notation, the consumer may project only $P,S,M,C,W,R,E,T,K,G,N$, with $S$ fixed by zero-distance evidence, $C$ stable under the displayed route, and $W,R,E$ supplying the finite observation, readback, and Real seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.HausdorffizationUp.HausdorffizationRealCompletionConsumerFactorization}
 \begin{proof}
 Start with zero-distance exactness from \autoref{thm:hausdorffization-zero-distance-exactness}. It fixes the separated-reflection row $S$ from the pseudometric source $P$ and the finite $W,R,E$ evidence before either the separated metric row $M$ or the completion row $C$ can be consumed.
 
@@ -407,6 +409,23 @@ Use separated-reflection scope, \autoref{thm:hausdorffization-separated-reflecti
 Apply the metric-completion handoff theorem \autoref{thm:hausdorffization-metriccompletion-handoff}. The handoff to completion passes through $M,C$ and remains authenticated by transport, replay, provenance, and local naming rows $T,K,G,N$.
 
 Finally apply completion-consumer nonescape, \autoref{thm:hausdorffization-completion-consumer-nonescape}, together with the non-quotient ledger boundary \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Quotient equality, host equality, selected representatives, and ambient Real completeness are not carrier coordinates, so no separated completion consumer can read them through the scoped route.
+\end{proof}
+\leanchecked{BEDC.Derived.HausdorffizationUp.HausdorffizationCarrier\_scoped\_completion\_readback}
+
+\begin{theorem}[Hausdorffization public export]
+\label{thm:hausdorffization-public-export}
+The public $\NameCert_{\HausdorffizationUp}$ export is exactly the composed route
+$$
+P,S,M,C,W,R,E,T,K,G,N
+$$
+from $\PseudometricUp$ zero-distance evidence through $\SeparatedReflectionUp$ into separated $\MetricCompletionUp$ consumption. A separated-metric or completion reader may consume that route as the public certificate surface, but the export excludes quotient equality, selected representatives, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the completion consumer route of \autoref{thm:hausdorffization-completion-consumer-route}. It forces completion-facing reads to pass through $P \longmapsto S \longmapsto M \longmapsto C$ and then authenticate the same route through $W,R,E,T,K,G,N$.
+
+Use the NameCert scope package of \autoref{thm:hausdorffization-namecert-scope-package}. It identifies the local certificate with precisely the finite rows $P,S,M,C,W,R,E,T,K,G,N$, so the public export has no additional coordinate beyond the displayed route.
+
+Finally apply separated-reflection nonescape and scoped completion readback, \autoref{thm:hausdorffization-separated-reflection-nonescape} and \autoref{thm:hausdorffization-scoped-completion-readback}. These theorems rule out quotient equality, selected representatives, countable choice, and ambient $\RealUp$ completeness as readable data, leaving exactly the stated public certificate surface.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\HausdorffizationUp$ read exposes a Pseudometric source row, SeparatedReflection boundary, SeparatedMetric target row, MetricCompletion handoff, StreamName windows, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any separated metric or completion consumer reads it.}
