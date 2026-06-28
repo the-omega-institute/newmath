@@ -145,6 +145,48 @@ private theorem nat_le_pair_transport {p n q m p' n' q' m' : Nat} :
                   rw [Nat.add_comm q n]
             _ = (q' + n') + (n + q) := Nat.add_comm (n + q) (q' + n')
 
+private theorem nat_lt_cancel_add_right {a b c : Nat} :
+    a + c < b + c -> a < b := by
+  induction c with
+  | zero =>
+      intro h
+      rw [Nat.add_zero] at h
+      rw [Nat.add_zero] at h
+      exact h
+  | succ c ih =>
+      intro h
+      rw [Nat.add_succ] at h
+      rw [Nat.add_succ] at h
+      exact ih (Nat.lt_of_succ_lt_succ h)
+
+private theorem nat_lt_pair_transport {p n q m p' n' q' m' : Nat} :
+    p + n' = p' + n ->
+      q + m' = q' + m ->
+        p + m < q + n ->
+          p' + m' < q' + n' := by
+  intro sameLeft sameRight lt
+  apply nat_lt_cancel_add_right (c := n + q)
+  calc
+    (p' + m') + (n + q)
+        = (p' + n) + (m' + q) :=
+          nat_add_four_swap p' m' n q
+    _ = (p + n') + (q' + m) := by
+          have rightPart : m' + q = q' + m := by
+            calc
+              m' + q = q + m' := Nat.add_comm m' q
+              _ = q' + m := sameRight
+          rw [sameLeft.symm, rightPart]
+    _ = (p + m) + (q' + n') :=
+          nat_add_four_last_swap p n' q' m
+    _ < (q + n) + (q' + n') :=
+          Nat.add_lt_add_right lt (q' + n')
+    _ = (q' + n') + (n + q) := by
+          calc
+            (q + n) + (q' + n') =
+                (n + q) + (q' + n') := by
+                  rw [Nat.add_comm q n]
+            _ = (q' + n') + (n + q) := Nat.add_comm (n + q) (q' + n')
+
 theorem intLe_trans {x y z : RatInt} :
     intLe x y -> intLe y z -> intLe x z := by
   intro xy yz
@@ -216,6 +258,24 @@ theorem intLe_respects {x x' y y' : RatInt} :
   have xyLen := (pairLe_iff_length_order hx hy).mp xy
   apply pairLe_of_length_order hx' hy'
   exact nat_le_pair_transport xxLen yyLen xyLen
+
+theorem intLt_respects {x x' y y' : RatInt} :
+    IntEq x x' -> IntEq y y' -> intLtUp x y -> intLtUp x' y' := by
+  intro xx' yy' xy
+  unfold intLtUp intLt at xy ⊢
+  have xxLen := IntPairClassifier_length_eq xx'
+  have yyLen := IntPairClassifier_length_eq yy'
+  exact nat_lt_pair_transport xxLen yyLen xy
+
+private theorem intLt_not_intLe_reverse {x y : RatInt} :
+    intLtUp x y -> intLe y x -> False := by
+  intro hlt hle
+  unfold intLtUp at hlt
+  unfold intLe at hle
+  have hleLen :=
+    (BEDC.Derived.IntUp.pairLe_iff_length_order
+      (intToPair_carrier y) (intToPair_carrier x)).mp hle
+  exact Nat.lt_irrefl _ (Nat.lt_of_lt_of_le hlt hleLen)
 
 private theorem pairLe_respects_classifier {x x' y y' : BHist × BHist} :
     IntPairClassifier x x' -> IntPairClassifier y y' ->
@@ -624,6 +684,97 @@ theorem ratLt_to_ratLe {x y : RatNum} :
   change intLtUp (IntMul x.num (ratDenInt y)) (IntMul y.num (ratDenInt x)) at h
   exact intLt_to_intLe h
 
+theorem ratLt_not_ratLe_reverse {x y : RatNum} :
+    ratLt x y -> ratLe y x -> False := by
+  intro hlt hle
+  unfold ratLt at hlt
+  unfold ratLe at hle
+  exact intLt_not_intLe_reverse hlt hle
+
+theorem ratLe_not_le_to_ratLt {x y : RatNum} :
+    ratLe x y -> (ratLe y x -> False) -> ratLt x y := by
+  intro xy notYX
+  unfold ratLe intLe at xy
+  unfold ratLt intLtUp intLt
+  have xCarrier := intToPair_carrier (IntMul x.num (ratDenInt y))
+  have yCarrier := intToPair_carrier (IntMul y.num (ratDenInt x))
+  have xyLen :
+      bwordLength (intToPair (IntMul x.num (ratDenInt y))).1 +
+          bwordLength (intToPair (IntMul y.num (ratDenInt x))).2 ≤
+        bwordLength (intToPair (IntMul y.num (ratDenInt x))).1 +
+          bwordLength (intToPair (IntMul x.num (ratDenInt y))).2 :=
+    (pairLe_iff_length_order xCarrier yCarrier).mp xy
+  have notYXLen :
+      ¬
+        bwordLength (intToPair (IntMul y.num (ratDenInt x))).1 +
+            bwordLength (intToPair (IntMul x.num (ratDenInt y))).2 ≤
+          bwordLength (intToPair (IntMul x.num (ratDenInt y))).1 +
+            bwordLength (intToPair (IntMul y.num (ratDenInt x))).2 := by
+    intro yxLen
+    exact notYX ((pairLe_iff_length_order yCarrier xCarrier).mpr yxLen)
+  exact Nat.lt_of_le_of_ne xyLen (fun sameLen => notYXLen (Nat.le_of_eq sameLen.symm))
+
+theorem ratLe_lt_trans {x y z : RatNum} :
+    ratLe x y -> ratLt y z -> ratLt x z := by
+  intro xy yz
+  apply ratLe_not_le_to_ratLt
+  · exact ratLe_trans xy (ratLt_to_ratLe yz)
+  · intro zx
+    exact ratLt_not_ratLe_reverse yz (ratLe_trans zx xy)
+
+private theorem intApart0_of_length_pos {x : RatInt} :
+    0 < bwordLength x.magnitude -> IntNonzero x := by
+  intro hpos
+  change intApart0 x
+  by_cases unitLength : bwordLength x.magnitude = 1
+  · exact Or.inr
+      ((BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.right.right.left
+        x.carrier.right (unary_e1_closed unary_empty)).mpr unitLength)
+  · have oneLe : 1 ≤ bwordLength x.magnitude := Nat.succ_le_of_lt hpos
+    have oneLt : 1 < bwordLength x.magnitude :=
+      Nat.lt_of_le_of_ne oneLe (fun same => unitLength same.symm)
+    exact Or.inl
+      (BEDC.Derived.PadicUp.NatUnaryStrictPrefix_of_length_lt
+        (unary_e1_closed unary_empty) x.carrier.right oneLt)
+
+private theorem intLt_zero_to_intApart0 {x : RatInt} :
+    intLtUp intZero x -> IntNonzero x := by
+  intro hlt
+  cases x with
+  | mk sign magnitude carrier =>
+      cases sign with
+      | b0 =>
+          apply intApart0_of_length_pos
+          unfold intLtUp intLt intZero intOfNat intToPair at hlt
+          change bwordLength BHist.Empty + bwordLength BHist.Empty <
+            bwordLength magnitude + bwordLength BHist.Empty at hlt
+          rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left] at hlt
+          rw [Nat.zero_add, Nat.add_zero] at hlt
+          exact hlt
+      | b1 =>
+          unfold intLtUp intLt intZero intOfNat intToPair at hlt
+          change bwordLength BHist.Empty + bwordLength magnitude <
+            bwordLength BHist.Empty + bwordLength BHist.Empty at hlt
+          rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left] at hlt
+          rw [Nat.zero_add, Nat.add_zero] at hlt
+          exact False.elim (Nat.not_lt_zero _ hlt)
+
+theorem ratPositive_num_nonzero {x : RatNum} :
+    ratLt ratZero x -> IntNonzero x.num := by
+  intro hlt
+  unfold ratLt ratZero intToRat at hlt
+  change
+    intLtUp (IntMul intZero (ratDenInt x))
+      (IntMul x.num (ratDenInt ratZero)) at hlt
+  have leftZero :
+      IntEq (IntMul intZero (ratDenInt x)) intZero :=
+    intMul_zero_left (ratDenInt x)
+  have rightNum :
+      IntEq (IntMul x.num (ratDenInt ratZero)) x.num :=
+    IntEq_trans (intMul_left_congr (c := x.num) ratDenInt_zero)
+      (intMul_one_right x.num)
+  exact intLt_zero_to_intApart0 (intLt_respects leftZero rightNum hlt)
+
 theorem ratLe_antisymm {x y : RatNum} :
     ratLe x y -> ratLe y x -> RatEq x y := by
   intro xy yx
@@ -696,6 +847,139 @@ theorem intMagnitude_eq_self_of_nonneg {x : RatInt} :
         · exact ⟨unary_empty, carrier.right⟩
         rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
         rw [magLenZero]
+
+theorem intLe_mul_nonneg_right {a b c : RatInt} :
+    intLe intZero c -> intLe a b ->
+      intLe (IntMul a c) (IntMul b c) := by
+  intro cNonneg hle
+  have cMagEq : IntEq (intOfNat c.magnitude c.carrier.right) c :=
+    intMagnitude_eq_self_of_nonneg cNonneg
+  have scaled :
+      intLe (IntMul a (intOfNat c.magnitude c.carrier.right))
+        (IntMul b (intOfNat c.magnitude c.carrier.right)) :=
+    intLe_mul_nonneg_right_of_nat c.magnitude c.carrier.right hle
+  exact intLe_respects
+    (intMul_left_congr (c := a) cMagEq)
+    (intMul_left_congr (c := b) cMagEq)
+    scaled
+
+theorem intLe_mul_cancel_right_nonneg {a b c : RatInt} :
+    intLe intZero c -> IntNonzero c ->
+      intLe (IntMul a c) (IntMul b c) -> intLe a b := by
+  intro cNonneg cNonzero hle
+  have cMagEq : IntEq (intOfNat c.magnitude c.carrier.right) c :=
+    intMagnitude_eq_self_of_nonneg cNonneg
+  have hleMag :
+      intLe (IntMul a (intOfNat c.magnitude c.carrier.right))
+        (IntMul b (intOfNat c.magnitude c.carrier.right)) :=
+    intLe_respects
+      (intMul_left_congr (c := a) (IntEq_symm cMagEq))
+      (intMul_left_congr (c := b) (IntEq_symm cMagEq))
+      hle
+  exact intLe_mul_cancel_right_of_nat c.magnitude c.carrier.right
+    (intApart0_length_pos cNonzero) hleMag
+
+private theorem ratMul_right_order_left_cross (a b c : RatNum) :
+    IntEq
+      (IntMul (ratMul a c).num (ratDenInt (ratMul b c)))
+      (IntMul (IntMul a.num (ratDenInt b)) (IntMul c.num (ratDenInt c))) := by
+  change
+    IntEq
+      (IntMul (IntMul a.num c.num) (ratDenInt (ratMul b c)))
+      (IntMul (IntMul a.num (ratDenInt b)) (IntMul c.num (ratDenInt c)))
+  exact IntEq_trans
+    (intMul_left_congr (c := IntMul a.num c.num) (ratDenInt_mul b c))
+    (intMul_two_by_two_swap a.num c.num (ratDenInt b) (ratDenInt c))
+
+private theorem ratMul_right_order_right_cross (a b c : RatNum) :
+    IntEq
+      (IntMul (ratMul b c).num (ratDenInt (ratMul a c)))
+      (IntMul (IntMul b.num (ratDenInt a)) (IntMul c.num (ratDenInt c))) := by
+  change
+    IntEq
+      (IntMul (IntMul b.num c.num) (ratDenInt (ratMul a c)))
+      (IntMul (IntMul b.num (ratDenInt a)) (IntMul c.num (ratDenInt c)))
+  exact IntEq_trans
+    (intMul_left_congr (c := IntMul b.num c.num) (ratDenInt_mul a c))
+    (intMul_two_by_two_swap b.num c.num (ratDenInt a) (ratDenInt c))
+
+theorem ratMul_le_mul_right {a b c : RatNum} :
+    ratLe a b -> ratLe ratZero c ->
+      ratLe (ratMul a c) (ratMul b c) := by
+  intro hle cNonneg
+  unfold ratLe at hle ⊢
+  have factorNonneg : intLe intZero (IntMul c.num (ratDenInt c)) :=
+    intLe_mul_ratDen_right_nonneg c (ratNonneg_num cNonneg)
+  have scaled :
+      intLe
+        (IntMul (IntMul a.num (ratDenInt b)) (IntMul c.num (ratDenInt c)))
+        (IntMul (IntMul b.num (ratDenInt a)) (IntMul c.num (ratDenInt c))) :=
+    intLe_mul_nonneg_right factorNonneg hle
+  exact intLe_respects
+    (IntEq_symm (ratMul_right_order_left_cross a b c))
+    (IntEq_symm (ratMul_right_order_right_cross a b c))
+    scaled
+
+theorem ratMul_le_cancel_right {a b c : RatNum} :
+    ratLt ratZero c -> ratLe (ratMul a c) (ratMul b c) -> ratLe a b := by
+  intro cPositive hle
+  unfold ratLe at hle ⊢
+  have structured :
+      intLe
+        (IntMul (IntMul a.num (ratDenInt b)) (IntMul c.num (ratDenInt c)))
+        (IntMul (IntMul b.num (ratDenInt a)) (IntMul c.num (ratDenInt c))) :=
+    intLe_respects
+      (ratMul_right_order_left_cross a b c)
+      (ratMul_right_order_right_cross a b c)
+      hle
+  have assoced :
+      intLe
+        (IntMul (IntMul (IntMul a.num (ratDenInt b)) c.num) (ratDenInt c))
+        (IntMul (IntMul (IntMul b.num (ratDenInt a)) c.num) (ratDenInt c)) :=
+    intLe_respects
+      (IntEq_symm (intMul_assoc (IntMul a.num (ratDenInt b)) c.num (ratDenInt c)))
+      (IntEq_symm (intMul_assoc (IntMul b.num (ratDenInt a)) c.num (ratDenInt c)))
+      structured
+  have denCanceled :
+      intLe
+        (IntMul (IntMul a.num (ratDenInt b)) c.num)
+        (IntMul (IntMul b.num (ratDenInt a)) c.num) :=
+    intLe_mul_ratDen_cancel_right c assoced
+  exact intLe_mul_cancel_right_nonneg
+    (ratNonneg_num (ratLt_to_ratLe cPositive))
+    (ratPositive_num_nonzero cPositive)
+    denCanceled
+
+theorem ratMul_lt_mul_right {a b c : RatNum} :
+    ratLt a b -> ratLt ratZero c ->
+      ratLt (ratMul a c) (ratMul b c) := by
+  intro hlt cPositive
+  apply ratLe_not_le_to_ratLt
+  · exact ratMul_le_mul_right (ratLt_to_ratLe hlt) (ratLt_to_ratLe cPositive)
+  · intro reverse
+    exact ratLt_not_ratLe_reverse hlt
+      (ratMul_le_cancel_right cPositive reverse)
+
+theorem ratMul_le_mul_left {a b c : RatNum} :
+    ratLe a b -> ratLe ratZero c ->
+      ratLe (ratMul c a) (ratMul c b) := by
+  intro hle cNonneg
+  exact ratLe_respects (ratMul_comm a c)
+    (ratMul_comm b c)
+    (ratMul_le_mul_right hle cNonneg)
+
+theorem ratMul_lt_mul_left {a b c : RatNum} :
+    ratLt a b -> ratLt ratZero c ->
+      ratLt (ratMul c a) (ratMul c b) := by
+  intro hlt cPositive
+  apply ratLe_not_le_to_ratLt
+  · exact ratMul_le_mul_left (ratLt_to_ratLe hlt) (ratLt_to_ratLe cPositive)
+  · intro reverse
+    have rightReverse :
+        ratLe (ratMul b c) (ratMul a c) :=
+      ratLe_respects (ratMul_comm c b) (ratMul_comm c a) reverse
+    exact ratLt_not_ratLe_reverse hlt
+      (ratMul_le_cancel_right cPositive rightReverse)
 
 theorem ratMagnitude_eq_self_of_nonneg {x : RatNum} :
     ratLe ratZero x -> RatEq (ratMagnitude x) x := by
