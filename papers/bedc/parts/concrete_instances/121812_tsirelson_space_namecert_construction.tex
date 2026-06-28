@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\TsirelsonSpaceUp$}
+\label{ch:concrete-instances-tsirelson-space-namecert}
+\origin{human}
+
+Following Tsirelson's construction of the first Banach space containing no isomorphic copy of $\ell_p$ or $c_0$, the $\TsirelsonSpaceUp$ packet records the finite BEDC surface on which the classical recursive norm can be inspected before any separation theorem is claimed. It sits after the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the normed-space surface of \autoref{ch:concrete-instances-normedspace-namecert}, the Banach handoff of \autoref{ch:concrete-instances-banach-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is adjacent to the Banach--Saks route of \autoref{ch:concrete-instances-banach-saks-namecert}, but it does not prove reflexivity separation, an infinite basis theorem, or exclusion of classical sequence spaces.
+
+\begin{definition}[TsirelsonSpace carrier]
+\label{def:tsirelson-space-carrier}
+A $\TsirelsonSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,N,V,R,Q,A,S,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is a finite basis-block window, carrying inspected block supports, admissible block order, and the finite coefficient rows used in the recursive norm read.
+\item $N$ is the recursive norm-budget window, recording the visible stage, the admissible averaging budget, and the remaining tolerance after each block read.
+\item $V$ is the $\VecSpaceUp$ handoff row for the finitely supported vector operations exposed by $B$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational coefficient and tolerance schedules consumed by the norm budget.
+\item $Q$ is the $\NormedSpaceUp$ handoff row, exposing the displayed norm value, triangle-budget row, scalar-budget row, and zero-vector row.
+\item $A$ is the $\BanachUp$ handoff row, recording the completion-facing Cauchy budget that may be read only after $B,N,V,R,Q$ are present.
+\item $S$ is the $\RealUp$ seal row for the norm values and Cauchy-budget endpoints.
+\item $H$ records componentwise $\hsame$ transport for $B,N,V,R,Q,A,S$ and for the structural rows of the packet.
+\item $C$ records displayed $\Cont$ replay for basis-window inspection, recursive norm-budget replay, vector-space handoff, normed-space handoff, Banach handoff, and Real seal delivery.
+\item $P$ is the $\Pkg$ provenance over $\TsirelsonSpaceUp$, $\VecSpaceUp$, $\NormedSpaceUp$, $\BanachUp$, $\RegSeqRatUp$, $\RealUp$, $\BanachSaksUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\TsirelsonSpaceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $B,N,V,R,Q,A,S,H,C,P,L$.
+\end{definition}
+
+\begin{theorem}[TsirelsonSpace NameCert obligation surface]
+\label{thm:tsirelson-space-namecert-obligation-surface}
+For every accepted $\TsirelsonSpaceUp$ carrier
+$$
+T=(B,N,V,R,Q,A,S,H,C,P,L),
+$$
+the local $\NameCert_{\TsirelsonSpaceUp}$ surface consists exactly of finite basis-block admission through $B$, recursive norm-budget admission through $N$, $\VecSpaceUp$ handoff through $V$, $\RegSeqRatUp$ readback through $R$, $\NormedSpaceUp$ handoff through $Q$, $\BanachUp$ handoff through $A$, $\RealUp$ seal delivery through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $L$. It exports no reflexivity separation theorem, no infinite basis theorem, no copy-exclusion theorem for $\ell_p$ or $c_0$, no host completion, no selected infinite block branch, and no ambient compactness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:tsirelson-space-carrier}. The finite basis-block row $B$ and recursive norm-budget row $N$ are the only rows carrying the Tsirelson-specific norm inspection.
+
+Read the algebraic and analytic handoffs in order. The vector-space operations pass through $V$, the rational schedules pass through $R$, and the normed-space obligations pass through $Q$ before any Banach-facing row $A$ or Real seal $S$ is available.
+
+The structural rows $H,C,P,L$ transport, replay, source, and name the same finite packet. Since no coordinate contains reflexivity separation, an infinite basis theorem, copy-exclusion data for $\ell_p$ or $c_0$, a selected infinite branch, or a host completion object, none is exported by the local NameCert.
+\end{proof}
+
+\begin{closurestatus}{\TsirelsonSpaceUp}
+  \constructivestory{A $\TsirelsonSpaceUp$ packet is generated from finite basis-block windows, recursive norm-budget windows, VecSpace, RegSeqRat, NormedSpace, Banach, and Real handoff rows, componentwise hsame transport, displayed Cont replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tsirelson-space-carrier} and \autoref{thm:tsirelson-space-namecert-obligation-surface} bind the finite basis-block, recursive norm-budget, vector-space, normed-space, Banach, regular-rational, Real-seal, transport, replay, provenance, and local naming rows of the TsirelsonSpace packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim reflexivity separation, an infinite basis theorem, exclusion of $\ell_p$ or $c_0$, Lean verification, bridge checking, host completion, selected infinite branches, or ambient compactness.}
+  \upgradepath{A higher closure grade requires Lean definitions for the displayed rows and checked obligations for the recursive norm-budget handoff without importing host Banach-space theorems.}
+\end{closurestatus}

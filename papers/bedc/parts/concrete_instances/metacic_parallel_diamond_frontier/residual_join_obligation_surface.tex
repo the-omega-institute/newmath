@@ -105,6 +105,38 @@ For the normalization and budget segment, apply \autoref{thm:metacic-parallel-di
 The structural rows $H,T,G,N$ then repack the transported list as the same local diamond surface. Since each induction step uses only displayed rows and continuation replay, no quotient term equality, global confluence theorem, unbounded normalization theorem, subject-reduction theorem, evaluator equality, or kernel-consistency certificate is introduced.
 \end{proof}
 
+\begin{theorem}[MetaCIC retained-premise discharge boundary]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-discharge}
+Every candidate-mediated local join exported by an accepted $\MetaCICParallelDiamondFrontierUp$ packet must preserve the retained residual-substitution premise row $P$ through the full visible route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+The candidate rows $K,J,R,S,C,B$ may transport a bounded local join, and the structural rows $H,T,G,N$ may replay and name it, but none of those rows discharges $P$. The boundary therefore exports only a local residual-join read with $P$ retained; it refuses global confluence, subject reduction, evaluator equality, quotient term equality, unrestricted normalization, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-join transport induction, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-transport-induction}. Its base row is $P$, so every transported local join begins with the retained residual-substitution premise still visible.
+
+For the candidate-mediated segment, use residual critical-pair coverage and the residual-normalization envelope. These results keep $K,J,R,S,C,B$ attached to the same finite frontier packet and prevent the candidate handoff from becoming a premise-free join theorem.
+
+Finally apply retained-premise budget scope and the candidate strong-normalization handoff. They permit a bounded local join only while $P,O,H,T,G,N$ remain in the route. Hence the exported join preserves the retained premise and reaches none of the refused global endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC obstruction-preservation route]
+\label{thm:metacic-parallel-diamond-frontier-obstruction-preservation-route}
+Every candidate-mediated local join transported through an accepted $\MetaCICParallelDiamondFrontierUp$ packet preserves the obstruction row $O$ along the same finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+The obstruction remains visible before and after the local join is replayed by $T$ and named by $N$. Thus the packet records obstruction-preserving local residual-join transport only; it does not assert global confluence, subject reduction, evaluator equality, quotient term equality, unrestricted normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First read the residual-normalization envelope and residual-premise budget scope. Together they place $O$ beside the bounded checker and candidate rows, so the obstruction is not an external side condition that can be erased after the join is found.
+
+Next use residual-join transport induction. The transport row $H$ and replay row $T$ act componentwise on the visible route, so the obstruction component is carried with $P,K,J,R,S,C,B$ rather than replaced by evaluator equality or quotient term equality.
+
+Finally repack through $G$ and $N$. Provenance and local naming certify the same obstruction-preserving frontier packet, and because no coordinate provides unrestricted normalization, subject reduction, global confluence, or kernel consistency, the route remains exactly the local obstruction-preservation route.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget diamond obligation]
 \label{thm:metacic-parallel-diamond-residual-budget-obligation}
 Every local diamond-join read exposed by an accepted $\MetaCICParallelDiamondFrontierUp$ packet must display the critical-pair envelope, retained residual-substitution window, candidate-normalization scope, finite residual-diamond ledger, and residual-join locality rows before the frontier package can expose a candidate-mediated confluence handoff. Equivalently, the handoff remains inside the carrier-local route
