@@ -1,0 +1,277 @@
+\section{Zeta Resonance Bound Stability}
+\label{sec:unified-reality-zeta-resonance-bound-stability}
+
+The resonance no-hair boundary names the obstruction, but the route out
+of circularity is an upper-bound theorem.  The desired zeta analogue of a
+Lee--Yang location theorem is not another restatement of the critical
+line.  It is a stability row saying that any resonance family which is
+actually zero-relevant for the completed zeta ledger has bounded normal
+energy along its finite prime-adic windows.  Off the fixed-half surface,
+the same finite-window energy is forced to diverge; therefore a genuine
+upper-bound theorem would place stable completed zeros on the unitary
+boundary.
+
+\begin{definition}[Resonance window square energy]
+\label{def:unified-reality-resonance-window-square-energy}
+For a finite prime-adic parity window
+$$
+B\subset\PrimeUp\times\NatUp,
+$$
+the \emph{resonance window square energy} is
+$$
+\mathcal N_B(s)
+:=
+\sum_{(p,j)\in B}
+\left(
+\log |U_{p,j}^{\mathrm{pad}}(s)|
+\right)^2.
+$$
+This is the unnormalized positive normal energy of the displayed
+Hamiltonian levels in the resonance family.
+\end{definition}
+
+\begin{theorem}[Finite resonance energy reads the off-half displacement]
+\label{thm:unified-reality-finite-resonance-energy-reads-off-half-displacement}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+every finite prime-adic parity window $B$ satisfies
+$$
+\mathcal N_B(s)
+=
+\delta^2
+\sum_{(p,j)\in B}(2^j\log p)^2.
+$$
+\end{theorem}
+
+\begin{proof}
+By the prime-adic parity channel definition,
+$$
+U_{p,j}^{\mathrm{pad}}(s)
+=
+p^{2^j(1/2-s)}
+=
+p^{-2^j\delta}e^{-i2^j\tau\log p}.
+$$
+Thus
+$$
+\log |U_{p,j}^{\mathrm{pad}}(s)|
+=
+-2^j\delta\log p.
+$$
+Squaring and summing over $B$ gives the displayed formula.
+\end{proof}
+
+\begin{definition}[Cofinal resonance support]
+\label{def:unified-reality-cofinal-resonance-support}
+A stable zero-relevant resonance family $\rho$ has \emph{cofinal
+prime-adic support} when its finite windows contain a cofinal subsystem
+of prime-adic parity windows whose square weights
+$$
+\sum_{(p,j)\in B}(2^j\log p)^2
+$$
+are unbounded.
+\end{definition}
+
+\begin{theorem}[Off-half cofinal resonance energy is unbounded]
+\label{thm:unified-reality-off-half-cofinal-resonance-energy-unbounded}
+Let $\rho$ have cofinal prime-adic support.  If
+$$
+s=\frac12+\delta+i\tau
+$$
+and $\delta\#0$, then
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)=\infty,
+$$
+where $B\preceq\rho$ ranges over the finite windows displayed by the
+family.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-finite-resonance-energy-reads-off-half-displacement},
+each finite displayed window satisfies
+$$
+\mathcal N_B(s)
+=
+\delta^2
+\sum_{(p,j)\in B}(2^j\log p)^2.
+$$
+The cofinal support hypothesis says that the square-weight sums are
+unbounded along the family.  Since $\delta\#0$, multiplication by
+$\delta^2$ preserves unboundedness in the located positive readout.
+\end{proof}
+
+\begin{definition}[Zeta resonance bound]
+\label{def:unified-reality-zeta-resonance-bound}
+The \emph{zeta resonance bound} is the row
+$$
+\mathsf{ZetaResonanceBound}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\prod_{\rho:\mathsf{StableResFam}_{\zeta}(s)}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\sup_{B\preceq\rho}\mathcal N_B(s)<\infty
+\right).
+$$
+It says that every stable resonance family actually used by a completed
+zero proof has a uniform finite normal-energy bound.  The row is
+zero-relevance data: it does not require all visible finite chords to be
+controlled by one common window, and it allows different zero rows to
+use different stable resonance families.
+\end{definition}
+
+\begin{theorem}[The zeta resonance bound is conditionally sufficient]
+\label{thm:unified-reality-zeta-resonance-bound-conditionally-sufficient}
+Assume every critical-strip completed zero carries a stable
+zero-relevant resonance family with cofinal prime-adic support.  If
+$$
+\mathsf{ZetaResonanceBound}_{\zeta}
+$$
+holds for those families, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Let $\rho$ be the stable zero-relevant resonance family attached to the
+completed zero row.  The zeta resonance bound gives
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)<\infty.
+$$
+If $\delta\#0$, then
+\autoref{thm:unified-reality-off-half-cofinal-resonance-energy-unbounded}
+gives the contradictory extended readout
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)=\infty.
+$$
+Thus $\neg(\delta\#0)$.  Located collapse gives $\delta=0$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} supplies
+the fixed-half section.
+\end{proof}
+
+\begin{theorem}[Strict non-archimedean dominance prevents finite silence]
+\label{thm:unified-reality-nonarchimedean-dominance-prevents-finite-silence}
+Let $|\cdot|_{\nu}$ be a non-archimedean absolute value on a finite
+field of coefficients.  For a finite family $(x_a)_{a\in A}$, if one
+term strictly dominates,
+$$
+|x_{a_0}|_{\nu}
+>
+\max_{a\ne a_0}|x_a|_{\nu},
+$$
+then
+$$
+\sum_{a\in A}x_a\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+The strong triangle inequality gives
+$$
+\left|\sum_{a\ne a_0}x_a\right|_{\nu}
+\le
+\max_{a\ne a_0}|x_a|_{\nu}
+<
+|x_{a_0}|_{\nu}.
+$$
+Hence the sum of the remaining terms cannot equal $-x_{a_0}$.  Therefore
+the full finite sum is nonzero.
+\end{proof}
+
+\begin{definition}[Lee--Yang type resonance stability certificate]
+\label{def:unified-reality-lee-yang-type-resonance-stability-certificate}
+A \emph{Lee--Yang type resonance stability certificate} for a stable
+resonance family $\rho$ consists of four displayed rows:
+$$
+\mathsf{DominantFamily}(\rho),
+\qquad
+\mathsf{NoStrictLocalDominance}(\rho),
+$$
+$$
+\mathsf{TailBound}(\rho),
+\qquad
+\mathsf{FarEndEnergyBound}(\rho).
+$$
+The dominance row identifies which finite spectral or prime-adic levels
+are zero-relevant.  The no-strict-local-dominance row is the
+non-archimedean or tropical analogue of the preceding theorem: a finite
+zero can occur only where dominant levels tie rather than where one
+level strictly dominates.  The tail-bound row prevents non-dominant
+levels from changing the zero ledger.  The far-end energy-bound row is
+the uniform bound consumed by
+\autoref{def:unified-reality-zeta-resonance-bound}.
+\end{definition}
+
+\begin{theorem}[Lee--Yang type stability supplies the resonance bound]
+\label{thm:unified-reality-lee-yang-stability-supplies-resonance-bound}
+If every stable zero-relevant resonance family for a completed
+critical-strip zero carries a Lee--Yang type resonance stability
+certificate, then
+$$
+\mathsf{ZetaResonanceBound}_{\zeta}
+$$
+holds for those families.
+\end{theorem}
+
+\begin{proof}
+The certificate explicitly contains the row
+$$
+\mathsf{FarEndEnergyBound}(\rho),
+$$
+which is the finite uniform bound on
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s).
+$$
+The other rows explain why this bound is zero-relevant rather than a
+bound on an arbitrary visible chord: dominance selects the active family,
+local non-archimedean or tropical stability prevents strict-dominance
+zeros, and the tail bound preserves the finite zero ledger through the
+far-end passage.  Therefore the bound row is exactly
+\autoref{def:unified-reality-zeta-resonance-bound}.
+\end{proof}
+
+\begin{corollary}[The quartic carrier is the finite stability template]
+\label{cor:unified-reality-quartic-carrier-finite-stability-template}
+The fixed quartic spectral carrier supplies the finite template for the
+zeta resonance-bound target: zero location is controlled by dominance,
+local branch interference, and a tail estimate, not by a bare projection
+zero.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}
+separates the zero-relevant dominant branch from other visible branch
+data.
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}
+then uses active amplitudes, local interference, and Rouch\'e isolation
+to locate endpoint zeros.  Thus the quartic row has the same proof-role
+shape as
+\autoref{def:unified-reality-lee-yang-type-resonance-stability-certificate}:
+dominance, stability of the active family, and a remainder bound precede
+the zero-location conclusion.
+\end{proof}
+
+\begin{corollary}[The bound target avoids a fixed-window assumption]
+\label{cor:unified-reality-bound-target-avoids-fixed-window-assumption}
+The zeta resonance-bound route does not assert that all completed zeros
+are controlled by one finite prime window.  It quantifies over the
+stable resonance family attached to each zero row.
+\end{corollary}
+
+\begin{proof}
+The quantified family $\rho:\mathsf{StableResFam}_{\zeta}(s)$ in
+\autoref{def:unified-reality-zeta-resonance-bound} is indexed by the
+zero coordinate $s$.  Different completed zero rows may therefore expose
+different finite windows, different prime-adic depths, and different
+dominant resonance islands.  The common assertion is only the stability
+bound: whichever family becomes zero-relevant must have finite normal
+energy at the completed far end.
+\end{proof}

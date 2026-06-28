@@ -202,6 +202,7 @@ Use the NameCert obligations and public export, \autoref{thm:real-interval-namec
 
 Finally apply the finite-net consumer route of \autoref{thm:real-interval-finite-net-consumer}. It shows that downstream interval data reaches finite cell and density consumers only through the dyadic, located-enclosure, StreamName, RegSeqRat, and Real-seal route. Hence the bridge-facing NameCert route is the displayed packet above.
 \end{proof}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalBridgedNameCertRoute}
 
 \begin{theorem}[RealInterval finite endpoint-envelope route]
 \label{thm:realinterval-finite-endpoint-envelope-route}
@@ -218,6 +219,7 @@ no quotient stream equality, selected endpoints, host interval equality,
 ambient $\RealUp$ completeness, trichotomy, compactness, or countable-choice
 schedule.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalFiniteEndpointEnvelopeRoute}
 \begin{proof}
 Start with the endpoint-order obligation of
 \autoref{thm:real-interval-endpoint-order-obligation}. It keeps the enclosure
@@ -247,6 +249,7 @@ ambient completeness, trichotomy, compactness, or countable choice.
 \label{thm:realinterval-endpoint-enclosure-transport}
 For accepted $\RealIntervalUp$ carriers $I=(L,U,E,D,W,R,S,H,C,P,N)$ and $I'=(L',U',E',D',W',R',S',H',C',P',N')$, componentwise $\hsame$ transport preserves both endpoint enclosure rows before interval membership is public. In particular, a consumer that transports $L$ to $L'$ and $U$ to $U'$ must also transport the enclosure-and-order row $E$ to $E'$ and the dyadic-window-readback route $D,W,R$ to $D',W',R'$ before it may read the terminal seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalEndpointEnclosureTransport}
 \begin{proof}
 Start with classifier transport, \autoref{thm:real-interval-classifier-transport}. It allows carrier admission to move only through the displayed endpoint, enclosure, dyadic-window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 
@@ -273,18 +276,18 @@ The finite-net consumer theorem \autoref{thm:real-interval-finite-net-consumer} 
 
 \begin{theorem}[RealInterval bridge scope]
 \label{thm:real-interval-bridge-scope}
-Every bridge-facing $\RealIntervalUp$ read is exhausted by the displayed rows
+Every bridge-facing $\RealIntervalUp$ read factors through the finite endpoint-and-enclosure rows
 $$
 L,U,E,D,W,R,S,H,C,P,N
 $$
-and by the sibling surfaces $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The bridge-scope packet exports no host interval equality, selected endpoint representative, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+and by the sibling surfaces $\LocatedIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ only as endpoint-enclosure readback. The bridge-scope packet cannot be read as host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
 \begin{proof}
 Start from the public export of \autoref{thm:realinterval-public-namecert}. It binds public interval reads to the endpoint, enclosure, tolerance, window, readback, seal, transport, replay, provenance, and local naming rows of the displayed carrier.
 
-Next use the bridged route and endpoint-enclosure transport, \autoref{thm:realinterval-bridged-namecert-route} and \autoref{thm:realinterval-endpoint-enclosure-transport}. These results keep the bridge-facing read on the $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ sibling surfaces before any interval membership is public.
+Next use the bridged route and endpoint-enclosure transport, \autoref{thm:realinterval-bridged-namecert-route} and \autoref{thm:realinterval-endpoint-enclosure-transport}. These results keep the bridge-facing read on the located endpoint row, dyadic interval envelope, finite stream windows, regular rational readback, and terminal Real seal before any interval membership is public.
 
-Finally apply the StreamName Real-seal nonescape theorem, \autoref{thm:realinterval-stream-real-seal-nonescape}. The seal row $S$ remains downstream of $L,U,E,D,W,R$ and upstream of no additional host principle, so the bridge scope is exactly the displayed packet and none of the excluded objects is exported.
+Finally apply the StreamName Real-seal nonescape theorem, \autoref{thm:realinterval-stream-real-seal-nonescape}. The seal row $S$ remains downstream of $L,U,E,D,W,R$ and upstream of no additional host principle, so the bridge scope is exactly the displayed endpoint-enclosure packet. Compactness, selected endpoint representatives, trichotomy, countable choice, and ambient completeness have no row in this factorization.
 \end{proof}
 
 \begin{theorem}[RealInterval formal target handoff]

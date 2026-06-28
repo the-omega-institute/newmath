@@ -1,0 +1,294 @@
+\section{Irreducible Information Layers and Spectral Factors}
+\label{sec:unified-reality-irreducible-information-spectral-factor}
+
+The recursive spectral hierarchy should not be read as the claim that an
+extra dimension mechanically contributes an extra zero.  The precise
+reading is that an irreducible information layer contributes a spectral
+factor, and the spectral factor contributes zero or pole rows according
+to its sign in the zeta-like fold.  Dimension enters only through the
+rank of the information layer being observed.
+
+\begin{definition}[Irreducible spectral information layer]
+\label{def:unified-reality-irreducible-spectral-information-layer}
+An \emph{irreducible spectral information layer} of an object $X$ is a
+carrier row
+$$
+\mathcal I_i(X)
+$$
+whose finite observation-time readouts cannot be reconstructed from the
+other displayed layers without an explicit reconstruction ledger.  Its
+rank is the number of independent spectral atoms required to read that
+layer in the selected spectral carrier.
+\end{definition}
+
+\begin{definition}[Layer spectral factor]
+\label{def:unified-reality-layer-spectral-factor}
+Let $\mathcal I_i(X)$ be an irreducible spectral information layer with
+spectral atoms
+$$
+\alpha_{i,1},\ldots,\alpha_{i,b_i}.
+$$
+Its \emph{layer spectral factor} is
+$$
+P_i(T)
+:=
+\prod_{j=1}^{b_i}(1-\alpha_{i,j}T).
+$$
+The integer $b_i$ is the spectral rank of the layer.  It is the
+layer-level analogue of a Betti number or independent Frobenius-root
+count when such a reading is available.
+\end{definition}
+
+\begin{definition}[Alternating zeta-like factorization]
+\label{def:unified-reality-alternating-zeta-like-factorization}
+A zeta-like fold with irreducible information layers has the schematic
+factorization
+$$
+Z_X(T)
+=
+\prod_i P_i(T)^{(-1)^{i+1}}.
+$$
+Positive exponents contribute zero rows of $Z_X$, while negative
+exponents contribute pole rows.  The sign is part of the layer ledger,
+not a numerical dimension count.
+\end{definition}
+
+\begin{theorem}[Spectral factors come from information layers]
+\label{thm:unified-reality-spectral-factors-from-information-layers}
+In a zeta-like recursive fold, zero and pole candidates arise from
+layer spectral factors, not from dimension labels by themselves.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-recursive-spectral-fold}, finite
+observations are first folded into a generating object and then read
+through spectral factors.  By
+\autoref{def:unified-reality-layer-spectral-factor}, a layer contributes
+one factor $P_i(T)$ whose degree is the number of independent spectral
+atoms of that layer.  By
+\autoref{def:unified-reality-alternating-zeta-like-factorization}, the
+same factor appears with a sign determining whether its roots are zero
+or pole rows.  Therefore the proof-relevant datum is the irreducible
+layer and its factor, not the informal statement that a dimension has
+been added.
+\end{proof}
+
+\begin{definition}[Observation-to-spectrum exponential fold]
+\label{def:unified-reality-observation-spectrum-exponential-fold}
+For an object $X$ with finite observation numbers $N_r(X)$, the
+observation-to-spectrum fold is
+$$
+Z_X(T)
+:=
+\exp\left(
+\sum_{r\ge1} N_r(X)\frac{T^r}{r}
+\right).
+$$
+If the observations split as
+$$
+N_r(X)=\sum_j \varepsilon_j\alpha_j^r,
+$$
+then the fold reads as
+$$
+Z_X(T)=\prod_j(1-\alpha_jT)^{-\varepsilon_j}.
+$$
+\end{definition}
+
+\begin{theorem}[Exponential folding converts spectral atoms into factors]
+\label{thm:unified-reality-exponential-fold-spectral-atoms-factors}
+The observation-to-spectrum fold converts each spectral atom
+$\alpha_j$ with sign $\varepsilon_j$ into the factor
+$(1-\alpha_jT)^{-\varepsilon_j}$.
+\end{theorem}
+
+\begin{proof}
+The logarithmic identity
+$$
+-\log(1-\alpha T)
+=
+\sum_{r\ge1}\alpha^r\frac{T^r}{r}
+$$
+shows that a contribution $\varepsilon_j\alpha_j^r$ to all observation
+levels contributes
+$$
+-\varepsilon_j\log(1-\alpha_jT)
+$$
+to the logarithm of $Z_X(T)$.  Exponentiating gives the displayed factor
+$(1-\alpha_jT)^{-\varepsilon_j}$.  Thus spectral atoms are exactly the
+factor-producing information carried by the observation sequence.
+\end{proof}
+
+\begin{definition}[Elliptic finite-field middle layer]
+\label{def:unified-reality-elliptic-finite-field-middle-layer}
+For an elliptic curve $E/\mathbb F_q$, the middle information layer has
+two spectral atoms $\alpha,\beta$ and factor
+$$
+P_1(T)=1-aT+qT^2=(1-\alpha T)(1-\beta T).
+$$
+The two denominator factors
+$$
+1-T,
+\qquad
+1-qT
+$$
+belong to the boundary layers.  The zeta fold is
+$$
+Z(E/\mathbb F_q,T)
+=
+\frac{P_1(T)}{(1-T)(1-qT)}.
+$$
+\end{definition}
+
+\begin{theorem}[Elliptic curves have two middle spectral atoms]
+\label{thm:unified-reality-elliptic-two-middle-spectral-atoms}
+The finite-field elliptic curve does not acquire zeros because it has an
+extra geometric dimension.  Its zeta numerator has two roots because its
+middle irreducible information layer has spectral rank two.
+\end{theorem}
+
+\begin{proof}
+The finite-field elliptic zeta level of
+\autoref{def:unified-reality-finite-field-elliptic-zeta-level} has
+numerator
+$$
+1-aT+qT^2=(1-\alpha T)(1-\beta T).
+$$
+The two roots are the Frobenius spectral atoms of the middle layer.  The
+normalization row of
+\autoref{def:unified-reality-finite-field-elliptic-rh-normalization}
+then places them on the unit circle after division by $\sqrt q$.  The
+count two is the spectral rank of the middle layer, not the result of
+counting geometric dimensions as zeros.
+\end{proof}
+
+\begin{definition}[Higher curve layer pattern]
+\label{def:unified-reality-higher-curve-layer-pattern}
+For a smooth curve of genus $g$ over a finite field, the middle spectral
+factor has schematic form
+$$
+P_1(T)=\prod_{j=1}^{2g}(1-\alpha_jT).
+$$
+The rank $2g$ records the independent middle-layer spectral atoms.  The
+corresponding zeta-like fold has boundary factors from the lower and
+upper layers together with this middle factor.
+\end{definition}
+
+\begin{theorem}[Layer rank determines factor degree]
+\label{thm:unified-reality-layer-rank-determines-factor-degree}
+For curve zeta-like folds, the degree of the middle spectral factor is
+the rank of the middle information layer.
+\end{theorem}
+
+\begin{proof}
+In the elliptic case the rank is two and the factor is quadratic by
+\autoref{def:unified-reality-elliptic-finite-field-middle-layer}.  The
+higher-curve pattern of
+\autoref{def:unified-reality-higher-curve-layer-pattern} displays the
+same rule with rank $2g$.  The factor degree is therefore controlled by
+the number of independent spectral atoms in the layer.  The dimension of
+the underlying geometric object matters only through this layer-rank
+ledger.
+\end{proof}
+
+\begin{definition}[Layer recursion rather than iterated ellipses]
+\label{def:unified-reality-layer-recursion-not-iterated-ellipses}
+The phrase \emph{layer recursion} denotes the process
+$$
+\text{finite observations}
+\to
+\text{generating function}
+\to
+\text{spectral factor}
+\to
+\text{normalized zero constraint}
+\to
+\text{higher-level observation law}.
+$$
+It does not denote a literal nesting of elliptic curves or ellipses.  A
+spectral factor may itself become data for a higher carrier only when a
+bridge ledger displays the new observation interface.
+\end{definition}
+
+\begin{theorem}[Spectral factors become observation laws only by ledger]
+\label{thm:unified-reality-spectral-factors-observation-laws-by-ledger}
+A spectral factor can control later observation rows, but it becomes a
+higher-level object only through an explicit bridge ledger.
+\end{theorem}
+
+\begin{proof}
+For the finite-field elliptic level,
+\autoref{thm:unified-reality-frobenius-roots-control-point-counts}
+shows that $\alpha,\beta$ determine the future point counts by
+$$
+\#E(\mathbb F_{q^r})=q^r+1-\alpha^r-\beta^r.
+$$
+This is a readback law from spectral atoms to observation time.  The
+quartic carrier similarly moves from recurrence observations through
+spectral branches to endpoint-zero laws by the ledgers of
+\autoref{thm:unified-reality-quartic-spectral-common-carrier-principle}.
+In both cases, the spectral data become observation laws only because a
+readback or dominance ledger has been displayed.
+\end{proof}
+
+\begin{definition}[Global arithmetic spectral layer]
+\label{def:unified-reality-global-arithmetic-spectral-layer}
+The Riemann zeta carrier is the global arithmetic instance of the layer
+recursion pattern.  Its local observation atoms are prime channels
+$$
+p^{-s},
+$$
+its centered normalization channels are
+$$
+p^{1/2-s},
+$$
+and the completed carrier adds the non-point archimedean completion row
+of
+\autoref{def:unified-reality-archimedean-completion-row}.
+\end{definition}
+
+\begin{theorem}[RH is the global arithmetic normalized-zero constraint]
+\label{thm:unified-reality-rh-global-arithmetic-normalized-zero-constraint}
+In the global arithmetic layer, the RH fixed-half condition is the
+statement that zeta zero rows land on the simultaneous unit surface of
+all centered prime channels.
+\end{theorem}
+
+\begin{proof}
+For $s=1/2+\delta+i\tau$,
+$$
+p^{1/2-s}=p^{-\delta}e^{-i\tau\log p}.
+$$
+Thus
+$$
+|p^{1/2-s}|=1
+$$
+for every displayed prime row exactly when $\delta=0$, equivalently
+$\Re(s)=1/2$, by
+\autoref{thm:unified-reality-prime-laplace-detect-same-fixed-surface}.
+The remaining RH-facing problem is not this equivalence, but the
+zero-ledger statement that every nontrivial zeta zero lands on that
+surface.  That missing bridge is the prime-sieve odd exactness or
+no-far-end absorption boundary of
+\autoref{def:unified-reality-prime-sieve-odd-exactness} and
+\autoref{def:unified-reality-no-far-end-absorption}.
+\end{proof}
+
+\begin{corollary}[Information layers explain the spectral hierarchy]
+\label{cor:unified-reality-information-layers-explain-spectral-hierarchy}
+The zeta-like hierarchy is a hierarchy of irreducible information layers
+and their spectral factors, not a hierarchy of mechanically added zero
+coordinates.
+\end{corollary}
+
+\begin{proof}
+\autoref{def:unified-reality-information-layer-tower} and
+\autoref{def:unified-reality-information-dimension} provide the general
+language of layer and noncollapse.  The present section specializes that
+language to spectral factors.  Each irreducible layer contributes the
+spectral atoms needed for its observation-time readout; the resulting
+factors then contribute zero or pole rows according to the zeta-like
+factorization ledger.  This is the precise content behind the recursive
+spectral hierarchy of
+\autoref{thm:unified-reality-recursive-spectral-zero-hierarchy-principle}.
+\end{proof}
