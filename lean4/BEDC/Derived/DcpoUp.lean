@@ -277,6 +277,26 @@ theorem DcpoCarrier_continuity_scope_obligations
   }
   exact ⟨cert, continuityUnary, replayUnary⟩
 
+private theorem DcpoCarrier_directed_window_coverage_unary_route
+    {O I W S M F Q L H C P N directedRead supremumRead handoffRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N ->
+      Cont O I directedRead ->
+        Cont S L supremumRead ->
+          Cont supremumRead Q handoffRead ->
+            UnaryHistory W ∧ UnaryHistory directedRead ∧ UnaryHistory supremumRead ∧
+              UnaryHistory handoffRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier directedRoute supremumRoute handoffRoute
+  obtain ⟨oUnary, iUnary, wUnary, sUnary, _mUnary, _fUnary, qUnary, lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed oUnary iUnary directedRoute
+  have supremumUnary : UnaryHistory supremumRead :=
+    unary_cont_closed sUnary lUnary supremumRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed supremumUnary qUnary handoffRoute
+  exact ⟨wUnary, directedUnary, supremumUnary, handoffUnary⟩
+
 theorem DcpoCarrier_directed_window_coverage
     {O I W S M F Q L H C P N directedRead supremumRead handoffRead : BHist} :
     DcpoCarrier O I W S M F Q L H C P N ->
@@ -300,14 +320,10 @@ theorem DcpoCarrier_directed_window_coverage
                 UnaryHistory handoffRead := by
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
   intro carrier directedRoute supremumRoute handoffRoute
-  obtain ⟨oUnary, iUnary, wUnary, sUnary, _mUnary, _fUnary, qUnary, lUnary,
-    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
-  have directedUnary : UnaryHistory directedRead :=
-    unary_cont_closed oUnary iUnary directedRoute
-  have supremumUnary : UnaryHistory supremumRead :=
-    unary_cont_closed sUnary lUnary supremumRoute
-  have handoffUnary : UnaryHistory handoffRead :=
-    unary_cont_closed supremumUnary qUnary handoffRoute
+  have unaryRoute :=
+    DcpoCarrier_directed_window_coverage_unary_route
+      carrier directedRoute supremumRoute handoffRoute
+  obtain ⟨wUnary, directedUnary, supremumUnary, handoffUnary⟩ := unaryRoute
   have cert :
       SemanticNameCert
           (fun row : BHist =>
