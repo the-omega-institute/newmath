@@ -8500,6 +8500,7 @@ import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TypedSubstitution
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
+import BEDC.Derived.MetaCICSubjectReductionObstructionWitnessUp
 import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
 import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
