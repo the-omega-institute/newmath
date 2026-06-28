@@ -5513,6 +5513,7 @@ import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTheoremUp
 import BEDC.Derived.EulerTransformUp.TasteGate
 import BEDC.Derived.EulerianNumberUp
+import BEDC.Derived.EulerianPolynomialUp
 import BEDC.Derived.EulerianSecondOrderUp
 import BEDC.Derived.EvenOddCauchyCriterionUp.CrossParityHandoffNonEscape
 import BEDC.Derived.EvenOddCauchyCriterionUp.InductionLock
@@ -5627,6 +5628,7 @@ import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FarEndDiagramUp.TasteGate
 import BEDC.Derived.FarEndDiagrammaticsUp.TasteGate
+import BEDC.Derived.FareySequenceUp
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -7826,6 +7828,7 @@ import BEDC.Derived.LucasSequenceGeneralUp
 import BEDC.Derived.LucasSequenceUp
 import BEDC.Derived.LucasTheoremBinomUp
 import BEDC.Derived.LucasTheoremUp
+import BEDC.Derived.LucasUVSequenceUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
@@ -12048,9 +12051,11 @@ import BEDC.Derived.SternBrocotUp
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.SternDiatomicUp
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
+import BEDC.Derived.StirlingCycleUp
 import BEDC.Derived.StirlingFirstUp
 import BEDC.Derived.StirlingInversionUp
 import BEDC.Derived.StirlingUp
+import BEDC.Derived.SuperperfectUp
 import BEDC.Derived.StokesTheoremUp.TasteGate
 import BEDC.Derived.StolzCesaroCauchyTailCompressionUp.TasteGate
 import BEDC.Derived.StolzCesaroTheoremUp.TasteGate
