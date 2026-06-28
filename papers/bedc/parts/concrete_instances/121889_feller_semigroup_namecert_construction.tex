@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FellerSemigroupUp$}
+\label{ch:concrete-instances-feller-semigroup-namecert}
+\origin{human}
+
+Following Feller and Ethier--Kurtz on Markov transition semigroups, the $\FellerSemigroupUp$ packet records the finite route by which a displayed transition family preserves continuous observables on a compact metric state surface before any process-level or generator-facing consumer reads it. It sits after the compact state boundary of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous observable route of \autoref{ch:concrete-instances-continuousmap-namecert}, the Markov transition row of \autoref{ch:concrete-instances-markovchain-namecert}, and the terminal real-value seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite Markov-continuity carrier; it is not a host semigroup theorem, a selected stochastic process, a measure-space completion, quotient equality of kernels, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[FellerSemigroup carrier]
+\label{def:feller-semigroup-carrier}
+A $\FellerSemigroupUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,T,K,A,O,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\CompactMetricUp$ state row, exposing only the finite metric and compact-window data used by transition reads.
+\item $T$ is the finite time-window row, listing the semigroup times and composition comparisons inspected by the packet.
+\item $K$ is the $\MarkovChainUp$ transition-kernel row, recording the displayed Markov transition data available at the times in $T$.
+\item $A$ is the algebraic semigroup ledger for identity time, displayed composition, and compatibility of the transition rows in $K$.
+\item $O$ is the finite list of $\ContinuousMapUp$ observable rows on the compact state surface.
+\item $V$ is the $\RealUp$ value-read row for the observable evaluations before and after transition.
+\item $R$ is the Markov-continuity row saying that transition reads carry the displayed observables in $O$ to displayed continuous observable rows over the same compact state surface.
+\item $H$ records componentwise $\hsame$ transport for the state, time, transition, semigroup, observable, value, and Markov-continuity rows.
+\item $C$ records displayed $\Cont$ replay from a transition request through observable readback and Markov-continuity exposure.
+\item $P$ is the $\Pkg$ provenance over $\FellerSemigroupUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\MarkovChainUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FellerSemigroupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,T,K,A,O,V,R,H,C,P,N$. It has no coordinate for a host probability space, selected sample paths, measure completion, quotient equality of kernels, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FellerSemigroup NameCert obligations]
+\label{thm:feller-semigroup-namecert-obligations}
+For every accepted $\FellerSemigroupUp$ carrier $F=(X,T,K,A,O,V,R,H,C,P,N)$, the local $\NameCert_{\FellerSemigroupUp}$ surface consists exactly of carrier admission for the compact metric state row, finite time-window row, Markov transition row, semigroup ledger, continuous observable rows, real-value readback, Markov-continuity row, componentwise transport, displayed replay, provenance, and local naming. Every semigroup-facing consumer must read the finite route
+$$
+\CompactMetricUp,\ \ContinuousMapUp,\ \MarkovChainUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through those carrier rows before any Feller-continuity conclusion is available. The exported boundary is finite NameCert data for Markov-continuity, not a host stochastic-process construction, measure-space completion, selected path law, quotient kernel equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:feller-semigroup-carrier}. The displayed analytic rows are $X,T,K,A,O,V,R$, and the structural rows are $H,C,P,N$.
+
+The compact state and transition rows are read first. The row $X$ supplies the finite compact-metric state surface, $T$ names the inspected time windows, and $K$ supplies only the displayed Markov transition data at those times.
+
+The semigroup and observable rows then bind the transition route. The ledger $A$ records identity and composition checks, while $O,V,R$ expose continuous observable rows, their real-value reads, and the Markov-continuity handoff.
+
+Transport, replay, provenance, and local naming preserve that same route. Since the carrier has no host probability-space, selected-path, measure-completion, quotient-kernel, choice, trichotomy, or ambient-completeness coordinate, no local NameCert obligation can export one.
+\end{proof}
+
+\begin{theorem}[FellerSemigroup Markov-continuity handoff]
+\label{thm:feller-semigroup-markov-continuity-handoff}
+Every Feller-continuity read exported by an accepted $\FellerSemigroupUp$ packet factors through the displayed route
+$$
+X,T,K,A \longmapsto O,V,R \longmapsto H,C,P,N .
+$$
+In particular, the $\MarkovChainUp$ transition row is consumed only together with the $\CompactMetricUp$ state row, the $\ContinuousMapUp$ observable rows, and the $\RealUp$ value-read row. A downstream consumer cannot bypass those sibling rows by appealing to host kernel equality, a selected process realization, measure completion, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The only transition-facing row is $K$, and it is indexed by the finite time-window row $T$ over the compact state surface $X$.
+
+Use the NameCert obligations of \autoref{thm:feller-semigroup-namecert-obligations}. They require any semigroup-facing consumer to expose the semigroup ledger $A$, observable rows $O$, and value-read row $V$ before the Markov-continuity row $R$ can be inspected.
+
+The row $R$ is therefore a handoff from displayed Markov transition data to displayed continuous observables. The componentwise transport $H$ and replay $C$ preserve the same compact state, transition, observable, and value rows, while $P,N$ record the provenance and local certificate.
+
+Because no excluded coordinate appears in the carrier, the handoff is exactly the finite Markov-continuity route through $\CompactMetricUp$, $\ContinuousMapUp$, $\MarkovChainUp$, and $\RealUp$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FellerSemigroupUp$ consumer that reaches the Markov-continuity row without first reading the CompactMetricUp state row, ContinuousMapUp observable rows, MarkovChainUp transition row, RealUp value row, transport, replay, provenance, and local NameCert row refutes the carrier surface.}
+
+\independenceWitness{compactmetric, continuousmap, markovchain, real: $\FellerSemigroupUp$ is not bijective to any listed sibling because it jointly binds finite time windows, Markov transition rows, semigroup composition, continuous observable rows, real-value readback, Markov-continuity handoff, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{FellerSemigroupUp}{seedStr}
+
+\begin{closurestatus}{\FellerSemigroupUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:feller-semigroup-carrier}, \autoref{thm:feller-semigroup-namecert-obligations}, and \autoref{thm:feller-semigroup-markov-continuity-handoff} seed the finite Markov-continuity certificate over compact state rows, continuous observable rows, Markov transition rows, Real value reads, transport, replay, provenance, and local naming.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host stochastic-process construction, measure completion, selected sample paths, quotient equality of kernels, countable choice, trichotomy, ambient Real completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite time-window exposure, semigroup ledger exactness, observable-row handoff, Markov-continuity exposure, transport, replay, provenance, and local naming for BEDC.Derived.FellerSemigroupUp.}
+  \constructivestory{A $\FellerSemigroupUp$ packet is generated from a CompactMetric state row, finite time-window row, MarkovChain transition row, semigroup ledger, ContinuousMap observable rows, RealUp value-read rows, Markov-continuity row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
