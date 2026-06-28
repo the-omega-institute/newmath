@@ -12,6 +12,9 @@ open BEDC.Derived.IntUp (natToUnary natToUnary_unary natToUnary_length)
 abbrev C (n k : Nat) : Nat :=
   BEDC.Derived.BinomialIdentitiesUp.C n k
 
+abbrev triangularNumber (n : Nat) : Nat :=
+  BEDC.Derived.PolygonalUp.triangularNumber n
+
 private theorem C_pascal (n k : Nat) :
     C (Nat.succ n) (Nat.succ k) = C n k + C n (Nat.succ k) :=
   BEDC.Derived.BinomialIdentitiesUp.binomial_pascal n k
@@ -27,10 +30,16 @@ private theorem C_above (n extra : Nat) :
 def tetrahedralNumber (n : Nat) : Nat :=
   C (n + 2) 3
 
+abbrev T (n : Nat) : Nat :=
+  triangularNumber n
+
+abbrev Te (n : Nat) : Nat :=
+  tetrahedralNumber n
+
 def triangularPrefix : Nat -> Nat
-  | 0 => BEDC.Derived.PolygonalUp.triangularNumber 0
+  | 0 => triangularNumber 0
   | Nat.succ n =>
-      triangularPrefix n + BEDC.Derived.PolygonalUp.triangularNumber (Nat.succ n)
+      triangularPrefix n + triangularNumber (Nat.succ n)
 
 def squarePyramidalNumber : Nat -> Nat
   | 0 => 0
@@ -209,11 +218,16 @@ theorem tetrahedral_succ (n : Nat) :
 
 theorem tetrahedral_sum_triangular (n : Nat) :
     triangularPrefix n = tetrahedralNumber n := by
-  induction n with
-  | zero =>
-      rfl
-  | succ n ih =>
-      rw [triangularPrefix_succ, tetrahedral_succ, ih]
+  exact
+    Nat.strongRecOn (motive := fun n => triangularPrefix n = tetrahedralNumber n) n
+      (fun n ih => by
+        cases n with
+        | zero =>
+            rfl
+        | succ n =>
+            have prev : triangularPrefix n = tetrahedralNumber n :=
+              ih n (Nat.lt_succ_self n)
+            rw [triangularPrefix_succ, tetrahedral_succ, prev])
 
 theorem squarePyramidal_sum_square (n : Nat) :
     squarePrefix n = squarePyramidalNumber n :=
@@ -264,6 +278,47 @@ theorem tetrahedral_six_mul_closed (n : Nat) :
         (n + 1) * (n + 2) * (n + 3)
       exact tetrahedral_closed_step n
 
+theorem Te_eq_binomial (n : Nat) :
+    Te n = C (n + 2) 3 :=
+  tetrahedral_eq_binomial n
+
+theorem T_eq_binomial (n : Nat) :
+    T n = C (n + 1) 2 :=
+  triangular_eq_binomial_row n
+
+theorem Te_succ (n : Nat) :
+    Te (Nat.succ n) = Te n + T (Nat.succ n) :=
+  tetrahedral_succ n
+
+theorem Te_sum_T (n : Nat) :
+    triangularPrefix n = Te n :=
+  tetrahedral_sum_triangular n
+
+theorem Te_six_mul_closed (n : Nat) :
+    6 * Te n = n * (n + 1) * (n + 2) :=
+  tetrahedral_six_mul_closed n
+
+theorem TetrahedralUp_formula_and_sum_export :
+    (∀ n : Nat, Te n = C (n + 2) 3) ∧
+      (∀ n : Nat, T n = C (n + 1) 2) ∧
+      (∀ n : Nat, Te (Nat.succ n) = Te n + T (Nat.succ n)) ∧
+      (∀ n : Nat, triangularPrefix n = Te n) ∧
+      (∀ n : Nat, 6 * Te n = n * (n + 1) * (n + 2)) := by
+  constructor
+  · intro n
+    exact Te_eq_binomial n
+  · constructor
+    · intro n
+      exact T_eq_binomial n
+    · constructor
+      · intro n
+        exact Te_succ n
+      · constructor
+        · intro n
+          exact Te_sum_T n
+        · intro n
+          exact Te_six_mul_closed n
+
 theorem squarePyramidal_six_mul_closed (n : Nat) :
     6 * squarePyramidalNumber n = n * (n + 1) * (2 * n + 1) := by
   rw [squarePyramidal_eq_powerSum]
@@ -285,6 +340,11 @@ theorem TetrahedralUp_constructive_export :
           BEDC.Derived.PolygonalUp.squareNumber n) ∧
       (∀ n : Nat,
         6 * tetrahedralNumber n = n * (n + 1) * (n + 2)) ∧
+      (∀ n : Nat, Te n = C (n + 2) 3) ∧
+      (∀ n : Nat, T n = C (n + 1) 2) ∧
+      (∀ n : Nat, Te (Nat.succ n) = Te n + T (Nat.succ n)) ∧
+      (∀ n : Nat, triangularPrefix n = Te n) ∧
+      (∀ n : Nat, 6 * Te n = n * (n + 1) * (n + 2)) ∧
       (∀ n : Nat,
         6 * squarePyramidalNumber n = n * (n + 1) * (2 * n + 1)) := by
   constructor
@@ -313,7 +373,22 @@ theorem TetrahedralUp_constructive_export :
                   · constructor
                     · intro n
                       exact tetrahedral_six_mul_closed n
-                    · intro n
-                      exact squarePyramidal_six_mul_closed n
+                    · constructor
+                      · intro n
+                        exact Te_eq_binomial n
+                      · constructor
+                        · intro n
+                          exact T_eq_binomial n
+                        · constructor
+                          · intro n
+                            exact Te_succ n
+                          · constructor
+                            · intro n
+                              exact Te_sum_T n
+                            · constructor
+                              · intro n
+                                exact Te_six_mul_closed n
+                              · intro n
+                                exact squarePyramidal_six_mul_closed n
 
 end BEDC.Derived.TetrahedralUp
