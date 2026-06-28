@@ -9980,6 +9980,7 @@ import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ConstructiveZeta
 import BEDC.Derived.RHRoute.CounterexampleSafety
 import BEDC.Derived.RHRoute.DedekindSplitTowerLift
+import BEDC.Derived.RHRoute.EndpointBisectionCertificate
 import BEDC.Derived.RHRoute.EtaInteger
 import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
@@ -10014,6 +10015,7 @@ import BEDC.Derived.RHRoute.RouteClosureSeparation
 import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.UnitaryBalance
+import BEDC.Derived.RHRoute.ZeckendorfSolenoidSelector
 import BEDC.Derived.RHRoute.ZeroFibreNormalSheet
 import BEDC.Derived.RHRoute.ZeroGenerationInitiality
 import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
@@ -10021,7 +10023,6 @@ import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants
 import BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy
 import BEDC.Derived.RHRoute.ZetaResonanceBoundStability
-import BEDC.Derived.RHRoute.ZeckendorfSolenoidSelector
 import BEDC.Derived.RHRoute.ZetaSolenoidBound
 import BEDC.Derived.RHRoute.ZetaZeroLocated
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
