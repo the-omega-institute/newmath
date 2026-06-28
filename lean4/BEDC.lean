@@ -25,7 +25,6 @@ import BEDC.BaseReflection.GeneratedSameSig
 import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
-import BEDC.Boundary.ArgumentPrincipleConstructive
 import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.ForgetGroupCertificate
@@ -10037,7 +10036,6 @@ import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
 import BEDC.Derived.RHRoute.LagariasCriterion
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
 import BEDC.Derived.RHRoute.LocalHalfSplitCertificate
-import BEDC.Derived.RHRoute.LocatedZetaZero
 import BEDC.Derived.RHRoute.NonfixedOrbit
 import BEDC.Derived.RHRoute.ObjectRealityInductionRoute
 import BEDC.Derived.RHRoute.OddZeroDefect
@@ -10048,7 +10046,6 @@ import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
-import BEDC.Derived.RHRoute.RationalPolygonWinding
 import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
@@ -11001,8 +10998,6 @@ import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
-import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
-import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
@@ -12095,10 +12090,8 @@ import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SpreadSpaceUp.TasteGate
 import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
-import BEDC.Derived.Sqrt2ConvergenceComplete
 import BEDC.Derived.Sqrt2IrrationalUp
 import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
-import BEDC.Derived.Sqrt2RatBridge
 import BEDC.Derived.SquarePyramidalUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate

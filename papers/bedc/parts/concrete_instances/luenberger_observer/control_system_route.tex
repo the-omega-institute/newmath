@@ -1,0 +1,11 @@
+\begin{theorem}[Luenberger observer control-system route]
+\label{thm:luenberger-observer-control-system-route}
+Every accepted $\LuenbergerObserverUp$ read that exposes observer-error feedback data first consumes the control-system state-transition row through $\DynSystemUp$, the finite observation row through $\ControlObservabilityUp$, and the state-space carrier through $\StateSpaceModelUp$. The public route is the displayed plant dynamics, observation map, state carrier, measured-output comparison, observer gain, residual row, deterministic error-propagation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\LuenbergerObserverUp}$; it exports no hidden trajectory semantics, stochastic covariance recursion, pole-placement theorem, or convergence claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:luenberger-observer-carrier}. The plant-dynamics row $A$, output row $C$, comparison row $Y$, observer-gain row $G$, residual row $R$, and error-propagation row $E$ are displayed before transport, replay, provenance, and local naming are read.
+
+The state-transition part of $A$ is a control-system read through $\DynSystemUp$, while the state carrier is routed through $\StateSpaceModelUp$. The output row $C$ and the observation-facing part of the residual ledger are routed through $\ControlObservabilityUp$ before any observer-error feedback is public.
+
+The structural rows $H,T,P,N$ preserve exactly those displayed dependencies. Since no carrier coordinate stores a host trajectory, covariance update, pole-placement theorem, or convergence result, every observer-error feedback read factors through the stated control-system route.
+\end{proof}
