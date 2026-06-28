@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxSumRefinementUp$}
+\label{ch:concrete-instances-darboux-sum-refinement-namecert}
+\origin{human}
+
+Following Darboux and Riemann integration, the $\DarbouxSumRefinementUp$ packet records the finite refinement surface that compares Darboux sums over a displayed partition with Darboux sums over a displayed refinement before any Real-facing Cauchy handoff is read. It sits between the finite Darboux-sum boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the lower-sum side of \autoref{ch:concrete-instances-lower-darboux-sum-namecert}, the dyadic partition ledger of \autoref{ch:concrete-instances-dyadic-partition-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers a finite refinement certificate for integration estimates; it does not import host suprema, selected mesh limits, quotient equality of functions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux-sum refinement carrier]
+\label{def:darboux-sum-refinement-carrier}
+A $\DarbouxSumRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,P,Q,L,U,M,D,C,E,H,K,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval and bounded-integrand observation row visible to the Darboux-sum consumer.
+\item $P$ is the source $\DyadicPartitionUp$ row.
+\item $Q$ is the refined $\DyadicPartitionUp$ row together with the finite cell-incidence map from $Q$ to $P$.
+\item $L$ is the $\LowerDarbouxSumUp$ row over the source partition $P$.
+\item $U$ is the upper finite Darboux-sum row over the same source partition $P$.
+\item $M$ is the refinement monotonicity ledger comparing the lower and upper rows on $P$ with the corresponding finite rows on $Q$.
+\item $D$ is the $\DarbouxSumUp$ handoff row carrying the paired lower and upper finite sums through the common refinement route.
+\item $C$ is the Cauchy-readiness row that turns the displayed upper-minus-lower refinement gap into a regular rational window for a Real-facing consumer.
+\item $E$ is the terminal $\RealUp$ seal reached only after $I,P,Q,L,U,M,D,C$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for interval, partition, refinement, sum, gap, readiness, seal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from Darboux, Riemann, Real, or Completion requests through the same finite rows.
+\item $G$ records $\Pkg$ provenance over $\DarbouxSumRefinementUp$, $\DarbouxSumUp$, $\LowerDarbouxSumUp$, $\DyadicPartitionUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxSumRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,P,Q,L,U,M,D,C,E,H,K,G,N$. It has no coordinate for a host supremum or infimum, selected limiting mesh, quotient equality of functions, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.DarbouxSumRefinementUp}
+
+\begin{theorem}[Darboux-sum refinement NameCert obligations]
+\label{thm:darboux-sum-refinement-namecert-obligations}
+For every accepted $\DarbouxSumRefinementUp$ carrier $R=(I,P,Q,L,U,M,D,C,E,H,K,G,N)$, the local $\NameCert_{\DarbouxSumRefinementUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the interval row, source partition, refined partition, lower-sum row, upper-sum row, refinement monotonicity ledger, Darboux-sum handoff, Cauchy-readiness row, Real seal, transport, replay, provenance, and local name;
+\item partition refinement coherence, requiring $Q$ to refine $P$ through a displayed finite cell-incidence map before any sum comparison is consumed;
+\item lower and upper sum stability, requiring the source lower and upper rows $L,U$ and their refined counterparts to be compared only through the ledger $M$;
+\item Darboux handoff confinement, requiring the $\DarbouxSumUp$ row $D$ to expose the paired lower and upper finite sums through the same refinement route;
+\item Real-facing Cauchy readiness, requiring the row $C$ and terminal seal $E$ to be reached only after the finite refinement gap has been displayed;
+\item transport, replay, provenance, and naming, requiring $H,K,G,N$ to preserve and name exactly the same packet.
+\end{enumerate}
+No local obligation stores host suprema, selected mesh limits, quotient equality of functions, countable choice, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:darboux-sum-refinement-carrier}. The admitted packet exposes the interval row, source and refined partitions, lower and upper finite sums, the refinement ledger, the Darboux handoff, the Cauchy-readiness row, the Real seal, and the structural rows.
+
+Partition refinement coherence is read from $P,Q,M$. The row $Q$ is not a second unrelated partition; it is tied to $P$ by the displayed finite cell-incidence map, and $M$ is the only row that compares sum data across that map.
+
+The Darboux handoff is then read through $D$. Since $D$ sees only the paired finite lower and upper sums over the displayed refinement route, it cannot supply a host supremum, selected mesh limit, or quotient-function comparison.
+
+Finally $C,E,H,K,G,N$ carry the same finite route into a Real-facing Cauchy readback, transport it componentwise, replay the route, record provenance, and name the packet. The excluded host objects have no carrier coordinate, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Darboux-sum refinement Cauchy handoff]
+\label{thm:darboux-sum-refinement-cauchy-handoff}
+Every Real or Completion consumer of an accepted $\DarbouxSumRefinementUp$ carrier reaches its Cauchy-facing read only through the finite route
+$$
+\DyadicPartitionUp \longmapsto \DarbouxSumUp \longmapsto \LowerDarbouxSumUp \longmapsto \DarbouxSumRefinementUp \longmapsto \RealUp .
+$$
+The consumer first reads the source partition $P$, the refined partition $Q$, the paired finite lower and upper rows $L,U$, the refinement monotonicity ledger $M$, and the Darboux handoff $D$; only then may it consume the Cauchy-readiness row $C$ and terminal seal $E$. It receives no selected limiting partition, no host integral value, no quotient equality of functions, no countable-choice schedule, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $R=(I,P,Q,L,U,M,D,C,E,H,K,G,N)$. The carrier definition makes $P$ the source dyadic partition and $Q$ the displayed finite refinement of $P$.
+
+Read the lower and upper finite rows through $L,U$ and compare them only through $M$. Thus any refinement claim is a finite ledger over the displayed partition route, not a limiting mesh assertion.
+
+Apply the Darboux handoff row $D$. It packages the paired finite sums over the common refinement route before a Real-facing consumer can reach the Cauchy-readiness row $C$.
+
+Finally the terminal seal $E$ is downstream of that route, and $H,K,G,N$ only transport, replay, source, and name the same finite packet. Since the carrier omits selected limiting partitions, host integral values, quotient function equality, countable choice, and ambient completeness, the consumer cannot extract any of those endpoints.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DarbouxSumRefinementUp$ read used by a Real or Completion consumer displays one source DyadicPartitionUp row, one refined DyadicPartitionUp row, lower and upper finite Darboux-sum rows, one refinement monotonicity ledger, one DarbouxSumUp handoff, one Cauchy-readiness row, one RealUp seal, and the structural rows $H,K,G,N$ before it is treated as a Cauchy-facing refinement certificate.}
+
+\independenceWitness{darboux-sum, lower-darboux-sum, dyadic-partition, real: $\DarbouxSumRefinementUp$ is not bijective with any listed sibling because it jointly carries a source partition, a refined partition, the finite cell-incidence map, lower and upper Darboux-sum rows, a refinement monotonicity ledger, Cauchy-readiness data, terminal Real sealing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{DarbouxSumRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxSumRefinementUp}
+  \constructivestory{A $\DarbouxSumRefinementUp$ packet is generated from a RealUp interval row, a source DyadicPartitionUp row, a refined DyadicPartitionUp row with finite cell incidence, lower and upper Darboux-sum rows, a refinement monotonicity ledger, a DarbouxSumUp handoff, Cauchy-readiness data, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-sum-refinement-carrier}, \autoref{thm:darboux-sum-refinement-namecert-obligations}, and \autoref{thm:darboux-sum-refinement-cauchy-handoff} seed the finite refinement route from Darboux sums over dyadic partitions to Real-facing Cauchy handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host suprema or infima, selected limiting meshes, host integral values, quotient equality of functions, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition refinement coherence, lower and upper sum stability, Darboux handoff confinement, Real-facing Cauchy readiness, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.DarbouxSumRefinementUp.}
+\end{closurestatus}
