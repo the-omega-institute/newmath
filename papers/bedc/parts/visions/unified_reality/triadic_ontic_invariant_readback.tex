@@ -1,0 +1,173 @@
+\section{Triadic Ontic Invariant Readback}
+\label{sec:unified-reality-triadic-ontic-invariant-readback}
+
+The fixed-half invariant of
+\autoref{sec:unified-reality-generation-invariant-exclusion-route} is
+the zeta-facing readout of a higher BEDC invariant.  It should not be
+taken as the primitive invariant itself.  The primitive row is the
+closure preservation of the ontic triad: distinction is not lost,
+boundary transport remains legal, and recursive generation keeps a
+unique auditable interpretation.
+
+\begin{definition}[Triadic ontic invariant]
+\label{def:unified-reality-triadic-ontic-invariant}
+The \emph{triadic ontic invariant} is the packet
+$$
+\mathcal I_{\mathrm{BEDC}}
+:=
+\left(
+\mathcal I_{\mathsf P},
+\mathcal I_{\mathsf U},
+\mathcal I_{\mathsf T}
+\right),
+$$
+where:
+$$
+\mathcal I_{\mathsf P}
+=
+\text{distinction, prime charge, and ledger provenance are preserved},
+$$
+$$
+\mathcal I_{\mathsf U}
+=
+\text{symmetry, unit boundary, and legal gauge are preserved},
+$$
+and
+$$
+\mathcal I_{\mathsf T}
+=
+\text{recursion, finite-window closure, and unique readback are preserved}.
+$$
+The invariant is not one of these rows in isolation.  It is the closure
+condition that the three rows remain compatible under generation.
+\end{definition}
+
+\begin{definition}[Triadic closed generation rule]
+\label{def:unified-reality-triadic-closed-generation-rule}
+Let $R$ be a legal generation rule on RHRoute packets.  The rule is
+\emph{triadic closed} when it sends packets satisfying
+$\mathcal I_{\mathrm{BEDC}}$ to packets satisfying
+$\mathcal I_{\mathrm{BEDC}}$, and the output ledger records how the
+three components are transported:
+$$
+\mathsf{PrimeLedgerOK},
+\qquad
+\mathsf{BoundaryGaugeOK},
+\qquad
+\mathsf{RecursiveClosureOK}.
+$$
+The first row records source provenance, prime-window data, and refusal
+of unlicensed collapse.  The second row records mirror, unit-boundary,
+and compact gauge discipline.  The third row records the recursive
+construction and its unique finite readback.
+\end{definition}
+
+\begin{theorem}[Triadic closure is preserved by generated packets]
+\label{thm:unified-reality-triadic-closure-preserved-by-generated-packets}
+If the source packets satisfy $\mathcal I_{\mathrm{BEDC}}$ and every
+legal generation rule is triadic closed, then every generated packet
+satisfies $\mathcal I_{\mathrm{BEDC}}$.
+\end{theorem}
+
+\begin{proof}
+This is structural induction on the generated packet.  A source packet
+satisfies the invariant by hypothesis.  For an inductive step, assume
+the input packets satisfy $\mathcal I_{\mathrm{BEDC}}$.  Since the
+applied rule is triadic closed, its output carries the three transported
+rows $\mathsf{PrimeLedgerOK}$, $\mathsf{BoundaryGaugeOK}$, and
+$\mathsf{RecursiveClosureOK}$.  Hence the output satisfies
+$\mathcal I_{\mathrm{BEDC}}$.  Repeating the argument along the finite
+generation tree gives the claim.
+\end{proof}
+
+\begin{definition}[Zeta readback of the triadic invariant]
+\label{def:unified-reality-zeta-readback-triadic-invariant}
+For a zeta-facing packet over
+$$
+s=\frac12+r+i\gamma,
+$$
+the local channel at a displayed node of height $h_a>0$ is
+$$
+U_a(s)=e^{-(s-1/2)h_a}
+=
+e^{-r h_a}e^{-i\gamma h_a}.
+$$
+The zeta readback of $\mathcal I_{\mathrm{BEDC}}$ is:
+$$
+\mathcal I_{\mathsf P}
+\leadsto
+\text{the prime charge fixes }h_a,
+$$
+$$
+\mathcal I_{\mathsf U}
+\leadsto
+\text{the allowed gauge contains unit phase and compact prime fibres},
+$$
+$$
+\mathcal I_{\mathsf T}
+\leadsto
+\text{the packet is read through a finite or cofinal recursive tower}.
+$$
+Under this readback, the real positive factor $e^{-r h_a}$ is legal only
+when it is trivial.
+\end{definition}
+
+\begin{theorem}[Triadic ontic readback gives fixed-half closure]
+\label{thm:unified-reality-triadic-ontic-readback-gives-fixed-half}
+For a zeta-facing generated packet, preservation of
+$\mathcal I_{\mathrm{BEDC}}$ implies the fixed-half readout
+$$
+r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The prime-ledger component supplies a positive height $h_a>0$ for every
+active node.  The recursive component supplies the finite or cofinal
+readback in which the same node is part of the generated packet.  The
+boundary-gauge component allows the unit phase
+$e^{-i\gamma h_a}$ and compact prime-register fibres, but it does not
+allow an unledgered noncompact real positive scale.  Therefore the
+factor
+$$
+e^{-r h_a}
+$$
+must be trivial on every zero-relevant generated packet.  Since $h_a>0$,
+this gives $r=0$.
+\end{proof}
+
+\begin{corollary}[Fixed-half is a projection, not the primitive invariant]
+\label{cor:unified-reality-fixed-half-projection-not-primitive-invariant}
+The fixed-half row used by RHRoute is the zeta projection of the triadic
+ontic invariant, not the primitive invariant of BEDC.
+\end{corollary}
+
+\begin{proof}
+The primitive invariant is the preservation of distinction provenance,
+legal boundary gauge, and recursive readback.  In the zeta projection,
+these rows respectively determine the active heights, restrict the
+hidden carrier to unit phase and compact prime-register data, and make
+the finite or cofinal tower auditable.  Their combined readback excludes
+the nontrivial real positive factor $e^{-r h_a}$.  This exclusion is
+then read as $r=0$, equivalently as the fixed-half row.  Thus fixed-half
+is the output surface of the invariant under the zeta projection.
+\end{proof}
+
+\begin{corollary}[Generated-zero coverage remains the missing zeta row]
+\label{cor:unified-reality-triadic-invariant-coverage-remains-missing}
+Even if every generated RHRoute packet preserves
+$\mathcal I_{\mathrm{BEDC}}$, the RH fixed-half section still requires
+generated-zero coverage for the completed zeta zero ledger.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-triadic-ontic-readback-gives-fixed-half},
+a generated zeta-facing packet satisfying the triadic ontic invariant
+has fixed-half readout.  To obtain a section over all completed
+critical-strip zero rows, each such zero must first be covered by a
+generated packet with the same zero readout.  This is precisely the
+source row isolated in
+\autoref{def:unified-reality-generated-zero-coverage-row}; it is not
+supplied by the invariant itself.
+\end{proof}
