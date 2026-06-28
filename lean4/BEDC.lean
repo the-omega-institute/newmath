@@ -6656,6 +6656,7 @@ import BEDC.Derived.HardyLittlewoodTauberianUp.TasteGate
 import BEDC.Derived.HardySpaceUp.TasteGate
 import BEDC.Derived.HarmonicUp
 import BEDC.Derived.HarnackInequalityUp
+import BEDC.Derived.HarshadNumberUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
