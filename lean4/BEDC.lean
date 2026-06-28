@@ -2961,6 +2961,7 @@ import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChebyshevBoundUp
 import BEDC.Derived.ChebyshevCenterUp.TasteGate
 import BEDC.Derived.ChebyshevEquioscillationUp.TasteGate
+import BEDC.Derived.ChebyshevPolynomialUp
 import BEDC.Derived.ChebyshevPolynomialUp.TasteGate
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
@@ -5061,6 +5062,7 @@ import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
+import BEDC.Derived.DirichletCharacterUp
 import BEDC.Derived.DirichletRingUp
 import BEDC.Derived.DirichletSeriesTestUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
@@ -6792,6 +6794,7 @@ import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
 import BEDC.Derived.HermitePolyUp
+import BEDC.Derived.HermitePolynomialUp
 import BEDC.Derived.HigmanLemmaUp
 import BEDC.Derived.HigmanLemmaUp.TasteGate
 import BEDC.Derived.HigsonCompactificationUp
@@ -7292,6 +7295,7 @@ import BEDC.Derived.LagrangeInversionUp.TasteGate
 import BEDC.Derived.LagrangianMechanicsUp
 import BEDC.Derived.LagrangianMechanicsUp.TasteGate
 import BEDC.Derived.LaguerrePolyaUp.TasteGate
+import BEDC.Derived.LaguerrePolynomialUp
 import BEDC.Derived.LahNumberUp
 import BEDC.Derived.LahUp
 import BEDC.Derived.LambdaCalcUp
@@ -7376,6 +7380,7 @@ import BEDC.Derived.LebesgueNumberFiniteCoverUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LebesgueStieltjesMeasureUp.TasteGate
 import BEDC.Derived.LegendreDichotomyUp
+import BEDC.Derived.LegendrePolynomialUp
 import BEDC.Derived.LegendrePolynomialUp.TasteGate
 import BEDC.Derived.LegendreSymbolBridge
 import BEDC.Derived.LegendreUp
@@ -13020,6 +13025,7 @@ import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
+import BEDC.Derived.VonMangoldtUp
 import BEDC.Derived.VonStaudtClausenUp
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
