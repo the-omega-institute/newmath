@@ -107,6 +107,38 @@ for quotient streams, selected limits, countable choice, host real equality, or
 ambient completeness, none of those objects is exported by the handoff.
 \end{proof}
 
+\begin{theorem}[Real seal nonescape for real modulus spaces]
+\label{thm:real-modulus-space-real-seal-nonescape}
+For every accepted $\RealModulusSpaceUp$ carrier
+$$
+M=(I,W,R,L,E,H,C,P,N),
+$$
+any Real or Completion consumer that reaches the terminal $\RealUp$ seal row
+$E$ must first expose the finite index row $I$, the $\StreamNameUp$ window row
+$W$, the $\RegSeqRatUp$ readback row $R$, the
+$\RealModulusOfConvergenceUp$ ledger row $L$, and the structural rows
+$H,C,P,N$. Consequently the seal exports no quotient stream equality, selected
+limit, countable-choice threshold, host real equality, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-space-carrier}. The only
+route to $E$ in an accepted packet passes through $I,W,R,L$ and then through
+the structural rows $H,C,P,N$ that transport, replay, source, and name the same
+finite history.
+
+The row exhaustion statement in
+\autoref{thm:real-modulus-space-namecert-obligations} leaves no additional
+coordinate beyond those rows. The Real and Completion handoff of
+\autoref{thm:real-modulus-space-l10-handoff} then forces every consumer of the
+space-level modulus data to read that finite route before the terminal
+$\RealUp$ seal can be consumed.
+
+Since quotient stream equality, selected limits, countable-choice thresholds,
+host real equality, and ambient completeness are absent from the projected
+carrier, none of them can escape through the seal row.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RealModulusSpaceUp$ consumer that reads
 space-level modulus data exposes $I,W,R,L,E,H,C,P,N$ before reaching a Real or
 Completion handoff.}
@@ -122,9 +154,9 @@ local naming in one carrier packet.}
 \begin{closurestatus}{\RealModulusSpaceUp}
   \constructivestory{A $\RealModulusSpaceUp$ packet is generated from finite index rows for Real-facing modulus schedules, StreamName windows, RegSeqRat readback, RealModulusOfConvergence ledgers, a terminal RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-modulus-space-carrier}, \autoref{thm:real-modulus-space-namecert-obligations}, and \autoref{thm:real-modulus-space-l10-handoff} seed the space-level modulus-family carrier for Real and Completion consumers.}
+  \scopeclosed{\autoref{def:real-modulus-space-carrier}, \autoref{thm:real-modulus-space-namecert-obligations}, \autoref{thm:real-modulus-space-l10-handoff}, and \autoref{thm:real-modulus-space-real-seal-nonescape} seed the space-level modulus-family carrier and Real-seal nonescape route for Real and Completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, quotient equality of streams, selected limits, countable choice over thresholds, host real equality, or ambient Real completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, regular-readback compatibility, convergence-ledger compatibility, Real-seal nonescape, and local naming for BEDC.Derived.RealModulusSpaceUp.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, regular-readback compatibility, convergence-ledger compatibility, and local naming for BEDC.Derived.RealModulusSpaceUp.}
 \end{closurestatus}

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\OmegaRigidityLedgerUp$}
+\label{ch:concrete-instances-omega-rigidity-ledger-namecert}
+\origin{ai}
+
+The $\OmegaRigidityLedgerUp$ packet realizes the mature bridge and $\Omega$-rigidity spine of \autoref{ch:visions-mature-bridge-omega-rigidity-spine} as finite NameCert data. It sits after the licensed generation body of \autoref{ch:concrete-instances-omega-generation-body-namecert} and the no-host-leak audit surface of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}. The packet records bridge reports, standard readouts, lower-layer NameCert dependencies, compatibility checks, audit rows, and no-replacement rows for an $\Omega$-tower rigidity claim; it does not import an external standard model as a BEDC proof term, close RH, select a zero witness, or replace any lower-layer certificate.
+
+\begin{definition}[Omega rigidity ledger carrier]
+\label{def:omega-rigidity-ledger-carrier}
+An $\OmegaRigidityLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,B,S,N,K,A,R,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OmegaGenerationBodyUp$ row, exposing the compatible tower body and its readback arrows.
+\item $B$ is the bridge-report row, listing the mature bridge packets read only after internal tower rows are present.
+\item $S$ is the standard-readout row, recording external interpretations as readouts rather than as BEDC constructors.
+\item $N$ is the lower-layer $\NameCert$ dependency row, naming the internal certificates that must already be present before the ledger is consumed.
+\item $K$ is the compatibility row, recording agreement between tower projections, bridge reports, standard readouts, and lower-layer NameCert rows.
+\item $A$ is the audit row, tracking unsupported fields, host leakage checks, axiom-use checks, and marker resolution for the finite ledger.
+\item $R$ is the no-replacement row, recording that no bridge report or standard readout substitutes for a missing internal carrier, classifier, stability, ledger, or naming obligation.
+\item $H$ records componentwise $\hsame$ transport for tower body, bridge report, standard readout, lower-layer NameCert, compatibility, audit, no-replacement, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an $\Omega$-rigidity ledger request through $O,B,S,N,K,A,R,H,P,Q$.
+\item $P$ is the $\Pkg$ provenance over $\OmegaRigidityLedgerUp$, $\OmegaGenerationBodyUp$, $\StandardBridgeAuditPacketUp$, the mature bridge spine of \autoref{ch:visions-mature-bridge-omega-rigidity-spine}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\OmegaRigidityLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,B,S,N,K,A,R,H,C,P,Q$. It has no coordinate for an external model as proof term, a host RH theorem, a selected zero witness, a hidden bridge replacement, or a detached standard readout.
+\end{definition}
+
+\begin{theorem}[Omega rigidity ledger NameCert obligations]
+\label{thm:omega-rigidity-ledger-namecert-obligations}
+For every accepted $\OmegaRigidityLedgerUp$ carrier $L=(O,B,S,N,K,A,R,H,C,P,Q)$, the local $\NameCert_{\OmegaRigidityLedgerUp}$ surface consists exactly of tower-body exposure, bridge-report exposure, standard-readout exposure, lower-layer NameCert dependency exposure, compatibility checking, audit checking, no-replacement checking, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every rigidity-ledger consumer must read
+$$
+O,B,S,N,K,A,R,H,C,P,Q
+$$
+before it can consume the $\Omega$-rigidity ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:omega-rigidity-ledger-carrier}. The tower body is visible only as $O$, and the bridge and standard rows are visible only as $B$ and $S$.
+
+Read the dependency and compatibility rows next. The row $N$ lists the lower-layer NameCert packets already required by the ledger, while $K$ checks that bridge reports and standard readouts agree with those internal rows.
+
+Finally use $A,R,H,C,P,Q$. The audit row records leakage and axiom-use checks, the no-replacement row blocks external substitution for internal obligations, and the structural rows transport, replay, source, and name the same finite ledger. Since no carrier coordinate stores an external model as proof term, host RH theorem, selected zero witness, hidden bridge replacement, or detached standard readout, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Omega rigidity ledger no-replacement boundary]
+\label{thm:omega-rigidity-ledger-no-replacement-boundary}
+Every accepted $\OmegaRigidityLedgerUp$ consumer that reads a bridge report or standard readout must also read the lower-layer NameCert row $N$, compatibility row $K$, audit row $A$, and no-replacement row $R$. Thus the bridge side can interpret the already displayed tower body, but it cannot generate a missing internal carrier, classifier, stability field, ledger row, naming row, RH proof, or selected zero witness.
+\end{theorem}
+\begin{proof}
+Start from the bridge-facing rows $B$ and $S$. By carrier projection, they occur in the same packet as the lower-layer dependency row $N$ and cannot be consumed as detached bridge data.
+
+Use the compatibility row $K$. It compares bridge reports and standard readouts against the internal tower body $O$ and the already named lower-layer certificates.
+
+Apply the audit and no-replacement rows. The row $A$ records host-leakage and axiom-use checks, while $R$ states that bridge and standard rows do not replace internal obligations. Transport, replay, provenance, and local naming then preserve the same finite ledger, so no external readout becomes a BEDC proof term.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\OmegaRigidityLedgerUp$ read that exports a bridge report or standard readout without exposing OmegaGenerationBodyUp, lower-layer NameCert rows, compatibility checks, audit checks, no-replacement rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows is outside the carrier surface.}
+
+\independenceWitness{omega-generation-body, standardbridgeauditpacket, mature-bridge-omega-rigidity-spine: $\OmegaRigidityLedgerUp$ is not bijective to any listed sibling because this packet jointly carries tower body, bridge report, standard readout, lower-layer NameCert dependency, compatibility, audit, no-replacement, transport, replay, provenance, and local naming rows.}
+
+\closureat{OmegaRigidityLedgerUp}{seedStr}
+
+\begin{closurestatus}{\OmegaRigidityLedgerUp}
+  \constructivestory{An $\OmegaRigidityLedgerUp$ packet is generated from an OmegaGenerationBodyUp tower-body row, bridge-report rows, standard-readout rows, lower-layer NameCert dependency rows, compatibility rows, audit rows, no-replacement rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:omega-rigidity-ledger-carrier}, \autoref{thm:omega-rigidity-ledger-namecert-obligations}, and \autoref{thm:omega-rigidity-ledger-no-replacement-boundary} seed the finite Omega-rigidity ledger over tower body, bridge report, standard readout, lower-layer NameCert, compatibility, audit, no-replacement, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RH, zero rigidity, external standard-model soundness as an internal proof term, selected zero witnesses, missing lower-layer NameCert obligations, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tower-body exposure, bridge-report exposure, standard-readout exposure, lower-layer NameCert dependency exposure, compatibility exactness, audit exactness, no-replacement checking, transport, replay, provenance, and local naming for BEDC.Derived.OmegaRigidityLedgerUp.}
+\end{closurestatus}
