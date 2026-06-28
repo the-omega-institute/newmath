@@ -1044,6 +1044,7 @@ import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
 import BEDC.Derived.BishopCutUp
 import BEDC.Derived.BishopDiagonalCauchySequenceUp.TasteGate
 import BEDC.Derived.BishopDiagonalRegularizationUp
+import BEDC.Derived.BishopDiagonalRegularizationUp.TasteGate
 import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
@@ -4595,6 +4596,7 @@ import BEDC.Derived.DavenportConstantUp.TasteGate
 import BEDC.Derived.DcpoUp
 import BEDC.Derived.DcpoUp.CompletionFacingHandoff
 import BEDC.Derived.DcpoUp.DcpoLocalNameCertSurface
+import BEDC.Derived.DcpoUp.DirectedSupremumScope
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
@@ -5182,6 +5184,7 @@ import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
 import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
 import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
+import BEDC.Derived.DyadicCompletionFunctorUp.TasteGate
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
