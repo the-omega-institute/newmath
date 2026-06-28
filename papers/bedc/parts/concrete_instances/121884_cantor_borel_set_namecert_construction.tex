@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CantorBorelSetUp$}
+\label{ch:concrete-instances-cantor-borel-set-namecert}
+\origin{human}
+
+Following Cantor and Kechris, the $\CantorBorelSetUp$ packet records the finite cylinder-window surface used when countable-name real routes inspect Borel-style subsets of Cantor space. It sits after the Cantor prefix carrier of \autoref{ch:concrete-instances-cantorspace-namecert}, the cylinder basis of \autoref{ch:concrete-instances-cantor-cylinder-basis-namecert}, the nested interval route of \autoref{ch:concrete-instances-nestedinterval-namecert}, and the L10 real-name chain through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite cylinder rows and countable-name windows; it is not a completed sigma-algebra object, quotient set equality, selected infinite branch, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[CantorBorelSet carrier]
+\label{def:cantor-borel-set-carrier}
+A $\CantorBorelSetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,C,W,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\CantorSpaceUp$ address row naming the finite binary prefixes currently inspected.
+\item $C$ is the cylinder-window row supplied through $\CantorCylinderBasisUp$.
+\item $W$ is the $\StreamNameUp$ finite-window row selecting the countable-name observations visible to the Borel-window request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows when the request feeds a countable real-name route.
+\item $E$ is the terminal $\RealUp$ seal row, readable only after $A,C,W,R$ have remained visible.
+\item $H$ records componentwise $\hsame$ transport for the Cantor address, cylinder window, stream window, regular readback, Real seal, replay, provenance, and local name.
+\item $K$ records displayed $\Cont$ replay from a cylinder-membership or countable-name request through $A,C,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CantorBorelSetUp$, $\CantorSpaceUp$, $\CantorCylinderBasisUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorBorelSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host Borel sigma-algebra, quotient equality of subsets, selected infinite branches, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CantorBorelSet obligation surface]
+\label{thm:cantor-borel-set-obligation-surface}
+For every accepted $\CantorBorelSetUp$ carrier $B=(A,C,W,R,E,H,K,P,N)$, the local $\NameCert_{\CantorBorelSetUp}$ surface consists exactly of carrier admission for the Cantor address row, cylinder-window row, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, terminal $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The surface contains no hidden obligation for a completed Borel sigma algebra, quotient set equality, selected branch, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-borel-set-carrier}. The accepted packet exposes $A,C,W,R,E,H,K,P,N$ as separate finite rows, so every local obligation must be read from one of those coordinates.
+
+The cylinder data is supplied by $A$ and $C$. These rows point to Cantor-space prefixes and the cylinder basis, not to a completed host set of all Borel subsets.
+
+The countable-name route is supplied by $W,R,E$. A request first reads finite $\StreamNameUp$ windows, then $\RegSeqRatUp$ readback, and only then the terminal $\RealUp$ seal.
+
+Finally $H,K,P,N$ transport, replay, package, and name the same finite rows. Since no carrier coordinate contains a sigma-algebra completion, quotient equality, selected branch, countable-choice schedule, or ambient completeness principle, the obligation surface is exactly the displayed packet.
+\end{proof}
+
+\begin{theorem}[CantorBorelSet cylinder generation]
+\label{thm:cantor-borel-set-cylinder-generation}
+Every public cylinder read exported by an accepted $\CantorBorelSetUp$ carrier factors through the finite route
+$$
+\CantorSpaceUp \longmapsto \CantorCylinderBasisUp \longmapsto \StreamNameUp .
+$$
+The route exposes the Cantor prefix row $A$, the cylinder-window row $C$, and the finite stream-window row $W$ before any $\RegSeqRatUp$ readback or $\RealUp$ seal is public. Thus cylinder generation remains a finite NameCert route, not a host powerset, completed sigma algebra, quotient subset equality, selected infinite branch, or countable-choice enumeration.
+\end{theorem}
+\begin{proof}
+Start from the Cantor address row $A$. It names only the finite binary prefixes currently visible in the accepted carrier.
+
+Use the cylinder-window row $C$ next. By construction, $C$ is read through the cylinder basis of \autoref{ch:concrete-instances-cantor-cylinder-basis-namecert}, so generation is by displayed finite cylinder windows.
+
+Finally expose the stream window $W$. The $\StreamNameUp$ row records exactly the bounded countable-name observations used by downstream consumers. Since $R$ and $E$ are downstream and no carrier coordinate names a host powerset or completed sigma algebra, the public cylinder generation route is exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[CantorBorelSet real route]
+\label{thm:cantor-borel-set-real-route}
+Every countable-name real consumer of an accepted $\CantorBorelSetUp$ packet must read the route
+$$
+\CantorCylinderBasisUp \longmapsto \StreamNameUp \longmapsto
+\RegSeqRatUp \longmapsto \RealUp
+$$
+before using the packet as a real-facing Borel-window input. The consumer receives $C,W,R,E,H,K,P,N$ as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it receives no quotient stream equality, selected representative, selected branch, host Borel set equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the cylinder-generation theorem \autoref{thm:cantor-borel-set-cylinder-generation}. It forces the read through the Cantor address, cylinder basis, and finite StreamName window before real-facing data is available.
+
+Next read the regular rational row $R$. This is the only $\RegSeqRatUp$ coordinate in the carrier, so any countable-name real consumer must pass through the displayed readback rather than a quotient stream or selected representative.
+
+Finally consume the terminal seal $E$ and structural rows $H,K,P,N$. The seal is downstream of $C,W,R$, and the structural rows preserve the same displayed route. Therefore the real-facing Borel-window input is exactly the finite path through cylinder, stream, regular readback, and Real rows, with no hidden host Borel equality, branch selection, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{CantorBorelSetUp}{seedStr}
+
+\begin{closurestatus}{\CantorBorelSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-borel-set-carrier}, \autoref{thm:cantor-borel-set-obligation-surface}, \autoref{thm:cantor-borel-set-cylinder-generation}, and \autoref{thm:cantor-borel-set-real-route} seed the finite cylinder-window route from Cantor prefixes through StreamName, RegSeqRat, and Real rows for later countable-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed Borel sigma algebras, quotient set equality, selected infinite branches, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cylinder-window exactness, countable-name window discipline, regular readback, Real sealing, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.CantorBorelSetUp.}
+  \constructivestory{A $\CantorBorelSetUp$ packet is generated from a CantorSpace address row, CantorCylinderBasis window row, StreamName finite-window row, RegSeqRat readback row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
