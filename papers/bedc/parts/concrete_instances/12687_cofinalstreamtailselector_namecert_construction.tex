@@ -48,6 +48,7 @@ Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N),
 $$
 every completion-facing read of the $\RealUp$ seal row $A$ first passes through the finite cofinal $\StreamNameUp$ tail window $W$, the $\RegSeqRatUp$ handoff row $R$, the $\DyadicRatCoreUp$ readback row $D$, and the selector provenance row $\sigma$. The seal route cannot skip directly from the precision request to a host-selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorSealOrder}
 \begin{proof}
 Project the carrier. The seal row $A$ appears only after the window, handoff, dyadic readback, and selector provenance rows in the displayed tuple.
 
@@ -71,6 +72,7 @@ Any Lean instance for the taste gate must therefore be local to the same carrier
 \label{thm:cofinal-stream-tail-selector-obligation-surface}
 For an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the obligation surface exposes the precision request $\epsilon$, the displayed $\StreamNameUp$ tail window $W$, the $\RegSeqRatUp$ handoff $R$, the $\DyadicRatCoreUp$ readback $D$, the $\RealUp$ seal $A$, the selector provenance row $\sigma$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the package provenance $P$, and the local naming row $N$ in one finite packet. The surface is read through the sibling routes of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, \autoref{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert}, \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorObligationSurface}
 \begin{proof}
 Project the carrier of \autoref{def:cofinal-stream-tail-selector-carrier}. The request, tail window, regular handoff, dyadic readback, seal, provenance, transport, replay, package, and name are all visible coordinates of one finite packet.
 
@@ -129,18 +131,48 @@ Apply \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every $\R
 Finally combine the TasteGate obligation of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} with non-escape from \autoref{thm:cofinal-stream-tail-selector-nonescape}. The taste gate may only read the displayed carrier rows, and the non-escape theorem excludes quotient stream equality, countable choice, hidden selectors, and ambient completeness from the exported surface.
 \end{proof}
 
+\begin{theorem}[Cofinal StreamName tail selector scoped route]
+\label{thm:cofinal-stream-tail-selector-scoped-route}
+For every accepted $\CofinalStreamTailSelectorUp$ carrier
+$$
+Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N),
+$$
+the route
+$$
+\epsilon,W,R,D,A,\sigma,H,C,P,N
+$$
+is scoped over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The precision request $\epsilon$ opens only the displayed StreamName tail window $W$; $R$ and $D$ read regular-sequence and dyadic rows from that window; $A$ is the terminal Real seal; $\sigma,H,C,P,N$ record selector provenance, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start from the carrier and obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}. They expose exactly the rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and list the BEDC surfaces on which those rows may be read.
+
+The carrier order fixes the scope. The request row opens the finite $\StreamNameUp$ window; the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows are read from that same displayed window; and the $\RealUp$ seal is reached only after these rows and selector provenance are present.
+
+The remaining rows do not introduce new analytic data. They transport, replay, source, and name the same finite route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so the accepted packet is scoped by the listed kernel rows.
+\end{proof}
+
+\begin{theorem}[Cofinal StreamName tail selector window readback scope]
+\label{thm:cofinal-stream-tail-selector-window-readback-scope}
+In an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the cofinal window row $W$ and readback rows $R,D,\sigma$ remain ordered before any consumer read of the $\RealUp$ seal row $A$. No accepted route can inspect $A$ before the finite window, regular handoff, dyadic readback, and selector provenance have been displayed.
+\end{theorem}
+\begin{proof}
+Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-order}. It places the Real seal downstream of $W,R,D,\sigma$ for every completion-facing read.
+
+Use the scoped-route theorem \autoref{thm:cofinal-stream-tail-selector-scoped-route} to keep the same ordering inside the BEDC row classes. The rows $H,C,P,N$ only preserve the already displayed route and cannot move the seal ahead of the cofinal window or readback rows.
+\end{proof}
+
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 
-\closureat{CofinalStreamTailSelectorUp}{obligationStr}
+\closureat{CofinalStreamTailSelectorUp}{scopedStr}
 
 \begin{closurestatus}{\CofinalStreamTailSelectorUp}
   \constructivestory{A $\CofinalStreamTailSelectorUp$ packet is generated from a precision request, a displayed cofinal StreamName tail window, RegSeqRat handoff, DyadicRatCore readback, RealUp seal delivery, selector provenance, componentwise hsame transports, displayed Cont routes, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cofinal-stream-tail-selector-carrier}, \autoref{thm:cofinal-stream-tail-selector-namecert-obligations}, \autoref{thm:cofinal-stream-tail-selector-seal-order}, \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation}, and \autoref{thm:cofinal-stream-tail-selector-nonescape} bind the finite CofinalStreamTailSelectorUp carrier and its local NameCert obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:cofinal-stream-tail-selector-scoped-route} and \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} scope the finite route over StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows before any Real seal read.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real limits, countable choice, hidden tail selection, or a public standard bridge.}
-  \upgradepath{Scoped closure requires explicit scoping of the carrier, StreamName cofinal-window exposure, RegSeqRat handoff, DyadicRatCore readback, RealUp seal delivery, selector provenance, hsame transport, Cont replay, Pkg provenance, TasteGate instance, and non-escape rows against the cited sibling surfaces.}
+  \upgradepath{Public closure requires a downstream public-object surface for the scoped cofinal-window route without quotient streams, host limits, countable choice, hidden selectors, or ambient RealUp completeness.}
 \end{closurestatus}
