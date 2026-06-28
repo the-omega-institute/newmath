@@ -1044,6 +1044,7 @@ import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
 import BEDC.Derived.BishopCutUp
 import BEDC.Derived.BishopDiagonalCauchySequenceUp.TasteGate
 import BEDC.Derived.BishopDiagonalRegularizationUp
+import BEDC.Derived.BishopDiagonalRegularizationUp.TasteGate
 import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
@@ -2568,6 +2569,7 @@ import BEDC.Derived.CauchyRateBudgetUp.RegularTailEstimateHandoff
 import BEDC.Derived.CauchyRateBudgetUp.StreamNameRegSeqHandoff
 import BEDC.Derived.CauchyRateBudgetUp.TailMonotonicity
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
+import BEDC.Derived.CauchyRateBudgetUp.WindowConcatenation
 import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
@@ -3295,6 +3297,7 @@ import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.WindowReadbackScope
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalSubsequenceUp.TasteGate
 import BEDC.Derived.CofinalTailAgreementUp.TasteGate
@@ -4593,6 +4596,7 @@ import BEDC.Derived.DavenportConstantUp.TasteGate
 import BEDC.Derived.DcpoUp
 import BEDC.Derived.DcpoUp.CompletionFacingHandoff
 import BEDC.Derived.DcpoUp.DcpoLocalNameCertSurface
+import BEDC.Derived.DcpoUp.DirectedSupremumScope
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
@@ -5180,6 +5184,7 @@ import BEDC.Derived.DyadicComparisonPrincipleUp.TasteGate
 import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
 import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
+import BEDC.Derived.DyadicCompletionFunctorUp.TasteGate
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -6759,10 +6764,12 @@ import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
+import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
 import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
+import BEDC.Derived.HausdorffizationUp.SeparatedReflectionObligation
 import BEDC.Derived.HausdorffizationUp.ZeroDistanceWindowDeterminacy
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
@@ -8584,6 +8591,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FrontierNor
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBudget
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ObligationStability
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelDiamondForwardLink
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelFrontierConsumption
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
@@ -8594,6 +8602,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualPro
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualStripLocalJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.RetainedPremiseInversion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedStatus
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.ConditionalBoundary
