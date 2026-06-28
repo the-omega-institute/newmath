@@ -63,6 +63,24 @@ The finite join table $J$ and meet table $M$ are indexed by the cells already li
 If that endpoint-order evidence is hidden, the carrier still contains symbols named $J$ and $M$, but they no longer certify meet or join operations for the visible interval cells. Hence L10 Real and Completion consumers must read $D$ and $I$ before using the meet and join tables.
 \end{proof}
 
+\begin{theorem}[Finite interval lattice Real-completion route]
+\label{thm:finite-interval-lattice-real-completion-route}
+Let $Q=(D,I,L,J,M,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntervalLatticeUp$ carrier. Every $\RealUp$ or $\CompletionUp$ consumer of a meet or join read from $M$ or $J$ must pass through the finite route
+$$
+D,I,L,J,M,S,R,E,H,C,P,N .
+$$
+Thus the consumer first reads dyadic endpoint rows, finite interval-cell rows, the located interval source, the meet and join tables, StreamName windows, RegSeqRat readback, the Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before reading completion-facing data.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-interval-lattice-carrier}. The tuple exposes the dyadic endpoint ledger $D$, finite interval cells $I$, located source row $L$, meet and join tables $M,J$, stream windows $S$, regular readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Apply the endpoint-order theorem \autoref{thm:finite-interval-lattice-endpoint-order}. It forces every meet or join table entry to read the lower and upper endpoint comparisons from $D$ through the listed cells $I$ before the entry can serve as a lattice operation.
+
+The located source and analytic handoff then remain downstream of the same finite route. The row $L$ supplies the located interval source, $S$ records the inspected endpoint windows, $R$ supplies the $\RegSeqRatUp$ readback, and $E$ exposes the terminal $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name only those displayed rows. Therefore a $\RealUp$ or $\CompletionUp$ consumer cannot read completion-facing data from the lattice unless the dyadic endpoints, interval cells, located source, stream windows, regular readback, Real seal, transport, replay, provenance, and local NameCert rows have already been exposed.
+\end{proof}
+
 \closureat{FiniteIntervalLatticeUp}{seedStr}
 
 \begin{closurestatus}{\FiniteIntervalLatticeUp}
