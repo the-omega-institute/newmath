@@ -213,6 +213,24 @@ Apply \autoref{thm:dcpo-directed-supremum-handoff}. The Moore--Smith row $M$, di
 Finally inspect $H,C,P,N$. Componentwise transport, displayed replay, provenance, and local naming preserve the same route and cannot add arbitrary joins, quotient-order equality, selected lub functions, global choice, host powersets, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DCPO obligation-closure package]
+\label{thm:dcpo-obligation-closure-package}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the directed-window coverage, supremum ledger, continuity scope, and completion-facing handoff obligations jointly exhaust the $\obligationClosure$ surface over $\PosetUp$, $\DirectedSetUp$, $\MooreSmithNetUp$, $\DirectedFilterUp$, $\CauchyNetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package consists exactly of the order row $O$, directed-index row $I$, finite directed-window row $W$, supremum row $S$, lower-bound exactness row $L$, Moore--Smith handoff $M$, directed-filter handoff $F$, CauchyNet handoff $Q$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$; it exports no selected lub operator, host powerset, quotient order, global directed-choice schedule, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and directed coverage. Theorems~\ref{thm:dcpo-carrier-directed-obligations} and \ref{thm:dcpo-directed-window-coverage} identify $O,I,W$ as the whole order, directed-index, and finite directed-window surface available before any supremum consumer is public.
+
+Next read the supremum ledger. Theorems~\ref{thm:dcpo-supremum-ledger-obligations} and \ref{thm:dcpo-lower-bound-exactness} place $S$ and $L$ over the same $O,I,W$ rows, so leastness remains a displayed order-row obligation rather than a selected least-upper-bound function or an ambient completeness theorem.
+
+Now pass to the continuity and completion rows. The continuity scope theorem \autoref{thm:dcpo-continuity-scope-obligations} and the completion-facing handoff theorem \autoref{thm:dcpo-completion-facing-handoff} force $M,F,Q$ to consume the route $O,I,W,S,L$ before any Moore--Smith, directed-filter, or CauchyNet read is public.
+
+Finally use $H,C,P,N$. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the same finite route and add no new carrier coordinate. Therefore the listed rows jointly exhaust the obligation-closure surface, while selected lubs, host powersets, quotient orders, directed-choice schedules, and ambient completeness remain outside the package.
+\end{proof}
+
 \closureat{DcpoUp}{seedStr}
 
 \begin{closurestatus}{\DcpoUp}

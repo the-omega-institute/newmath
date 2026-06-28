@@ -183,6 +183,50 @@ Now use Real-seal nonescape and the public NameCert export, \autoref{thm:real-in
 Finally route the displayed interval data to the dyadic interval-net and finite density-net sibling chapters. Since \autoref{def:real-interval-carrier} contains no coordinate for host interval equality, selected endpoint representatives, compactness, countable choice, or ambient completeness, those siblings receive only the finite displayed route stated above.
 \end{proof}
 
+\begin{theorem}[RealInterval bridged NameCert route]
+\label{thm:realinterval-bridged-namecert-route}
+Every bridge-facing $\RealIntervalUp$ consumer routes through the displayed endpoint-and-enclosure packet
+$$
+L,U,E,D,W,R,S,H,C,P,N.
+$$
+The route first reads the $\DyadicRatCoreUp$ endpoint ledger $D$, then the $\LocatedIntervalUp$ and $\RealIntervalEnclosureUp$ rows carried by $E$, then the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $R$, and finally the $\RealUp$ seal $S$ with transport, replay, provenance, and local naming still visible.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-interval-carrier}. The endpoint rows, enclosure row, tolerance ledger, windows, readback, seal, and structural rows are all coordinates of one packet.
+
+Use the NameCert obligations and public export, \autoref{thm:real-interval-namecert-obligations} and \autoref{thm:realinterval-public-namecert}. They keep endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, transport, replay, provenance, and local naming attached to the displayed rows.
+
+Finally apply the finite-net consumer route of \autoref{thm:real-interval-finite-net-consumer}. It shows that downstream interval data reaches finite cell and density consumers only through the dyadic, located-enclosure, StreamName, RegSeqRat, and Real-seal route. Hence the bridge-facing NameCert route is the displayed packet above.
+\end{proof}
+
+\begin{theorem}[RealInterval endpoint enclosure transport]
+\label{thm:realinterval-endpoint-enclosure-transport}
+For accepted $\RealIntervalUp$ carriers $I=(L,U,E,D,W,R,S,H,C,P,N)$ and $I'=(L',U',E',D',W',R',S',H',C',P',N')$, componentwise $\hsame$ transport preserves both endpoint enclosure rows before interval membership is public. In particular, a consumer that transports $L$ to $L'$ and $U$ to $U'$ must also transport the enclosure-and-order row $E$ to $E'$ and the dyadic-window-readback route $D,W,R$ to $D',W',R'$ before it may read the terminal seal.
+\end{theorem}
+\begin{proof}
+Start with classifier transport, \autoref{thm:real-interval-classifier-transport}. It allows carrier admission to move only through the displayed endpoint, enclosure, dyadic-window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Endpoint order then fixes the enclosure boundary. By \autoref{thm:real-interval-endpoint-order-obligation}, the two endpoint rows alone do not authorize interval membership; the row $E$ must remain visible as the ordered enclosure.
+
+Finally use endpoint-refinement stability and the dyadic-window handoff, \autoref{thm:real-interval-endpoint-refinement-stability} and \autoref{thm:real-interval-dyadic-window-handoff}. These rows keep $D,W,R$ attached to the transported enclosure before $S$ is consumed, so componentwise transport preserves both endpoint enclosure rows before membership becomes public.
+\end{proof}
+
+\begin{theorem}[RealInterval StreamName Real-seal nonescape]
+\label{thm:realinterval-stream-real-seal-nonescape}
+No $\RealIntervalUp$ read that passes through $\StreamNameUp$ windows and a $\RealUp$ seal exports open-cover compactness, quotient real equality, choice-selected endpoints, trichotomy, or $\RealUp$ completeness. The only public route is
+$$
+L,U,E,D,W,R,S,H,C,P,N,
+$$
+with $W$ and $R$ displayed before $S$ and with the refusal boundary preserved by the local NameCert rows.
+\end{theorem}
+\begin{proof}
+Read the Real-seal nonescape theorem \autoref{thm:real-interval-real-seal-nonescape}. It places the seal row $S$ strictly after the endpoint, order, tolerance, window, and readback rows $L,U,E,D,W,R$.
+
+Use the obligation-closure route and public NameCert export, \autoref{thm:real-interval-obligation-closure-route} and \autoref{thm:realinterval-public-namecert}. They state that $H,C,P,N$ only transport, replay, package, and name the same displayed packet.
+
+The finite-net consumer theorem \autoref{thm:real-interval-finite-net-consumer} keeps downstream interval reads inside the same route. Since none of the carrier coordinates names open-cover compactness, quotient equality, selected endpoints, trichotomy, or ambient completeness, the StreamName-to-Real-seal read cannot export those objects.
+\end{proof}
+
 \closureat{RealIntervalUp}{seedStr}
 \closureat{RealIntervalUp}{obligationStr}
 

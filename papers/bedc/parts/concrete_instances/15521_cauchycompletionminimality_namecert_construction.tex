@@ -258,6 +258,20 @@ Finally use ledger exactness, \autoref{thm:cauchy-completion-minimality-ledger-e
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCompletionMinimalityUp.CauchyCompletionMinimalityBridgeBoundary}
 
+\begin{theorem}[CauchyCompletionMinimality formal-target contract]
+\label{thm:cauchy-completion-minimality-formal-target-contract}
+Any later Lean-facing formal target for the public $\CauchyCompletionMinimalityUp$ package must expose exactly the source metric row $X$, displayed completion row $C$, dense embedding row $E$, universal-property row $U$, uniformly continuous handoff row $F$, separated uniqueness row $S$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $R$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CauchyCompletionMinimalityUp}$ row $N$ before it claims dense-image coverage, universal factorization, separated reflection, or the bridge boundary of this chapter. A target that omits one of these rows, merges two rows into a host completion object, or adds quotient completion, selected representatives, host equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness is not the formal target for the public minimality package.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations}. They list carrier admission, dense-image coverage, universal factorization, separated uniqueness, and ledger non-escape for the tuple $M=(X,C,E,U,F,S,H,R,P,N)$.
+
+The public exported package of \autoref{thm:cauchy-completion-minimality-public-exported-package} is read through the same displayed rows. Finite-row induction in \autoref{thm:cauchy-completion-minimality-finite-row-induction} prevents a later consumer from skipping from $X$ to a completed value without traversing $C,E,U,F,S,H,R,P,N$.
+
+Use ledger exactness, \autoref{thm:cauchy-completion-minimality-ledger-exactness}. The replay, provenance, and local naming rows record the same service boundary and do not add a quotient completion, selected representative, host equality, choice, compactness, or ambient real-completeness coordinate.
+
+Finally apply the bridge boundary theorem \autoref{thm:cauchy-completion-minimality-bridge-boundary}. Since its bridge route preserves dense-image coverage, universal factorization, separated uniqueness, uniformly continuous transport, replay, provenance, and local naming along the displayed finite route, any Lean-facing target claiming those public conclusions must expose precisely the listed rows first.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionMinimalityUp}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:cauchy-completion-minimality-public-exported-package} exports the public package over source metrics, displayed completion rows, dense embeddings, universal extension, uniformly continuous handoff, separated uniqueness, transport, replay, provenance, and local naming.}
