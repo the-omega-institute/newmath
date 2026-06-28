@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealIntervalTotalBoundednessUp
+namespace BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +11,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealIntervalTotalBoundednessUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (I L epsilon M E F H C P N : BHist) : RealIntervalTotalBoundednessUp
   deriving DecidableEq
 
@@ -26,7 +26,7 @@ def realIntervalTotalBoundednessDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realIntervalTotalBoundednessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realIntervalTotalBoundednessDecodeBHist tail)
 
-private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode :
+private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       realIntervalTotalBoundednessDecodeBHist
           (realIntervalTotalBoundednessEncodeBHist h) =
@@ -43,36 +43,38 @@ def realIntervalTotalBoundednessFields : RealIntervalTotalBoundednessUp → List
   | RealIntervalTotalBoundednessUp.mk I L epsilon M E F H C P N =>
       [I, L, epsilon, M, E, F, H, C, P, N]
 
-def realIntervalTotalBoundednessToEventFlow :
-    RealIntervalTotalBoundednessUp → EventFlow
+def realIntervalTotalBoundednessToEventFlow : RealIntervalTotalBoundednessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (realIntervalTotalBoundednessFields x).map realIntervalTotalBoundednessEncodeBHist
 
-def realIntervalTotalBoundednessFromEventFlow :
-    EventFlow → Option RealIntervalTotalBoundednessUp
+private def realIntervalTotalBoundednessEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | I :: L :: epsilon :: M :: E :: F :: H :: C :: P :: N :: [] =>
-      some
-        (RealIntervalTotalBoundednessUp.mk
-          (realIntervalTotalBoundednessDecodeBHist I)
-          (realIntervalTotalBoundednessDecodeBHist L)
-          (realIntervalTotalBoundednessDecodeBHist epsilon)
-          (realIntervalTotalBoundednessDecodeBHist M)
-          (realIntervalTotalBoundednessDecodeBHist E)
-          (realIntervalTotalBoundednessDecodeBHist F)
-          (realIntervalTotalBoundednessDecodeBHist H)
-          (realIntervalTotalBoundednessDecodeBHist C)
-          (realIntervalTotalBoundednessDecodeBHist P)
-          (realIntervalTotalBoundednessDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => realIntervalTotalBoundednessEventAt index rest
 
-private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : RealIntervalTotalBoundednessUp,
-      realIntervalTotalBoundednessFromEventFlow
-          (realIntervalTotalBoundednessToEventFlow x) =
-        some x := by
+def realIntervalTotalBoundednessFromEventFlow
+    (ef : EventFlow) : Option RealIntervalTotalBoundednessUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (RealIntervalTotalBoundednessUp.mk
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 0 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 1 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 2 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 3 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 4 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 5 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 6 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 7 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 8 ef))
+      (realIntervalTotalBoundednessDecodeBHist (realIntervalTotalBoundednessEventAt 9 ef)))
+
+private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip
+    (x : RealIntervalTotalBoundednessUp) :
+    realIntervalTotalBoundednessFromEventFlow (realIntervalTotalBoundednessToEventFlow x) =
+      some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk I L epsilon M E F H C P N =>
       change
@@ -99,24 +101,29 @@ private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_r
             (realIntervalTotalBoundednessDecodeBHist
               (realIntervalTotalBoundednessEncodeBHist N))) =
           some (RealIntervalTotalBoundednessUp.mk I L epsilon M E F H C P N)
-      simp only [RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode]
+      rw [RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode I,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode L,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode epsilon,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode M,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode E,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode F,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode H,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode C,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode P,
+        RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_injective
     {x y : RealIntervalTotalBoundednessUp} :
-    realIntervalTotalBoundednessToEventFlow x =
-        realIntervalTotalBoundednessToEventFlow y →
+    realIntervalTotalBoundednessToEventFlow x = realIntervalTotalBoundednessToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      realIntervalTotalBoundednessFromEventFlow
-          (realIntervalTotalBoundednessToEventFlow x) =
-        realIntervalTotalBoundednessFromEventFlow
-          (realIntervalTotalBoundednessToEventFlow y) :=
+      realIntervalTotalBoundednessFromEventFlow (realIntervalTotalBoundednessToEventFlow x) =
+        realIntervalTotalBoundednessFromEventFlow (realIntervalTotalBoundednessToEventFlow y) :=
     congrArg realIntervalTotalBoundednessFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans (RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip y)))
 
@@ -132,20 +139,40 @@ instance realIntervalTotalBoundednessChapterTasteGate :
   round_trip := by
     intro x
     change
-      realIntervalTotalBoundednessFromEventFlow
-          (realIntervalTotalBoundednessToEventFlow x) =
+      realIntervalTotalBoundednessFromEventFlow (realIntervalTotalBoundednessToEventFlow x) =
         some x
     exact RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_injective heq)
 
+def RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate RealIntervalTotalBoundednessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realIntervalTotalBoundednessChapterTasteGate
+
 theorem RealIntervalTotalBoundednessTasteGate_single_carrier_alignment :
-    ∀ h : BHist,
+    (∀ h : BHist,
       realIntervalTotalBoundednessDecodeBHist
           (realIntervalTotalBoundednessEncodeBHist h) =
-        h := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode
+        h) ∧
+      (∀ x : RealIntervalTotalBoundednessUp,
+        realIntervalTotalBoundednessFromEventFlow
+            (realIntervalTotalBoundednessToEventFlow x) =
+          some x) ∧
+        (∀ x y : RealIntervalTotalBoundednessUp,
+          realIntervalTotalBoundednessToEventFlow x =
+              realIntervalTotalBoundednessToEventFlow y →
+            x = y) ∧
+          realIntervalTotalBoundednessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact RealIntervalTotalBoundednessTasteGate_single_carrier_alignment_injective heq
+  · rfl
 
-end BEDC.Derived.RealIntervalTotalBoundednessUp
+end BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate

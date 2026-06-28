@@ -38,6 +38,8 @@ inductive BoundaryReason where
   | coverBoundary
   | noHairBoundary
   | hamiltonianResonanceBoundary
+  | leeYangClassicalBoundary
+  | sourceGapBoundary
 
 /--
 集中 ledger 条目只保存陈述形状和原因。`statement` 是未证明命题,
@@ -343,14 +345,181 @@ def hamiltonianResonanceIslandBoundary
   reason := BoundaryReason.hamiltonianResonanceBoundary
   statement := HamiltonianResonanceIslandBoundary_statement rows
 
+/--
+Solenoid Lee-Yang resonance 边界的行数据。`partitionRead` 与
+`resonanceRead` 只保存有限窗口上的有理读回; `leeYangCircleTheorem`
+明确命名外部 Lee-Yang circle 定理行。该定理依赖经典复分析中的
+零点定位、圆周几何和解析配分函数语义, 本 ledger 不把这些内容伪装成
+0-axiom Lean 证明。
+-/
+structure SolenoidLeeYangResonanceRows where
+  solenoidWindow : PrimeWindow -> Prop
+  partitionRead : PrimeWindow -> RatComplex -> RatNum
+  resonanceRead : PrimeWindow -> RatComplex -> RatNum
+  finiteResonanceCompatibility : PrimeWindow -> RatComplex -> Prop
+  leeYangCircleTheorem : RatComplex -> Prop
+  circleReadbackToCriticalLine : RatComplex -> Prop
+
+def SolenoidLeeYangResonance_finiteSurface
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  ∀ W : PrimeWindow,
+    rows.solenoidWindow W ->
+      ∀ s : RatComplex,
+        NontrivialZetaZero s ->
+          rows.finiteResonanceCompatibility W s ∧
+            BEDC.Derived.RationalUp.RatEq
+              (rows.partitionRead W s)
+              (rows.resonanceRead W s)
+
+def SolenoidLeeYangResonance_windowExists
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  ∃ W : PrimeWindow, rows.solenoidWindow W
+
+def SolenoidLeeYangResonance_classicalCircleBoundary
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  ∀ s : RatComplex,
+    NontrivialZetaZero s ->
+      rows.leeYangCircleTheorem s
+
+def SolenoidLeeYangResonance_circleLanding
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  ∀ W : PrimeWindow,
+    rows.solenoidWindow W ->
+      ∀ s : RatComplex,
+        NontrivialZetaZero s ->
+          rows.finiteResonanceCompatibility W s ->
+            rows.leeYangCircleTheorem s ->
+              rows.circleReadbackToCriticalLine s
+
+def SolenoidLeeYangResonance_circleReadback
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  ∀ s : RatComplex,
+    NontrivialZetaZero s ->
+      rows.leeYangCircleTheorem s ->
+        rows.circleReadbackToCriticalLine s ->
+          OnCriticalLine s
+
+/--
+boundary/Lee-Yang-classical: 该陈述只登记 solenoid resonance 读回若要导向
+RH 形状, 必须同时供应有限兼容表面、外部 Lee-Yang circle 定理行以及
+circle-to-critical-line 读回。这里不证明 Lee-Yang 定理, 也不引入复分析、
+圆周零点定位或配分函数解析语义。
+-/
+def SolenoidLeeYangResonanceBoundary_statement
+    (rows : SolenoidLeeYangResonanceRows) : Prop :=
+  SolenoidLeeYangResonance_windowExists rows ->
+    SolenoidLeeYangResonance_finiteSurface rows ->
+    SolenoidLeeYangResonance_classicalCircleBoundary rows ->
+      SolenoidLeeYangResonance_circleLanding rows ->
+        SolenoidLeeYangResonance_circleReadback rows ->
+          ConstructiveRH
+
+def solenoidLeeYangResonanceBoundary
+    (rows : SolenoidLeeYangResonanceRows) : BoundaryLedgerEntry where
+  reason := BoundaryReason.leeYangClassicalBoundary
+  statement := SolenoidLeeYangResonanceBoundary_statement rows
+
+theorem solenoidLeeYangResonanceBoundary_records_reason
+    (rows : SolenoidLeeYangResonanceRows) :
+    (solenoidLeeYangResonanceBoundary rows).reason =
+      BoundaryReason.leeYangClassicalBoundary := by
+  rfl
+
+theorem solenoidLeeYangResonanceBoundary_records_statement
+    (rows : SolenoidLeeYangResonanceRows) :
+    (solenoidLeeYangResonanceBoundary rows).statement =
+      SolenoidLeeYangResonanceBoundary_statement rows := by
+  rfl
+
+/--
+Solenoid Lee--Yang source gap 边界的行数据。`sourceMechanism` 是 vision 中
+剩余的源构造行: 从已完成 zeta 零点 ledger 产生 dominant source packet。
+这里不构造该行, 也不把 Lee--Yang 复分析边界注册成已证 theorem。
+-/
+structure SolenoidLeeYangSourceGapRows where
+  sourceMechanism : RatComplex -> Prop
+  dominantFamily : RatComplex -> PrimeResonanceFamily -> Prop
+  tailIsolatedLocalIsland : RatComplex -> PrimeResonanceFamily -> Prop
+  roucheGap : RatComplex -> PrimeResonanceFamily -> Prop
+  compactSolenoidLift : RatComplex -> PrimeResonanceFamily -> Prop
+  farEndEnergyBound : RatComplex -> PrimeResonanceFamily -> Prop
+
+def SolenoidLeeYangSourceGap_sourceExists
+    (rows : SolenoidLeeYangSourceGapRows) : Prop :=
+  ∀ s : RatComplex,
+    NontrivialZetaZero s ->
+      rows.sourceMechanism s
+
+def SolenoidLeeYangSourceGap_sourceRefines
+    (rows : SolenoidLeeYangSourceGapRows) : Prop :=
+  ∀ s : RatComplex,
+    NontrivialZetaZero s ->
+      rows.sourceMechanism s ->
+        ∃ family : PrimeResonanceFamily,
+          rows.dominantFamily s family ∧
+            rows.tailIsolatedLocalIsland s family ∧
+              rows.roucheGap s family ∧
+                rows.compactSolenoidLift s family ∧
+                  rows.farEndEnergyBound s family
+
+def SolenoidLeeYangSourceGapBoundary_statement
+    (rows : SolenoidLeeYangSourceGapRows) : Prop :=
+  SolenoidLeeYangSourceGap_sourceExists rows ->
+    SolenoidLeeYangSourceGap_sourceRefines rows ->
+      ∀ s : RatComplex,
+        NontrivialZetaZero s ->
+          ∃ family : PrimeResonanceFamily,
+            rows.dominantFamily s family ∧
+              rows.tailIsolatedLocalIsland s family ∧
+                rows.roucheGap s family ∧
+                  rows.compactSolenoidLift s family ∧
+                    rows.farEndEnergyBound s family
+
+def solenoidLeeYangSourceGapBoundary
+    (rows : SolenoidLeeYangSourceGapRows) : BoundaryLedgerEntry where
+  reason := BoundaryReason.sourceGapBoundary
+  statement := SolenoidLeeYangSourceGapBoundary_statement rows
+
+theorem solenoidLeeYangSourceGapBoundary_records_reason
+    (rows : SolenoidLeeYangSourceGapRows) :
+    (solenoidLeeYangSourceGapBoundary rows).reason =
+      BoundaryReason.sourceGapBoundary := by
+  rfl
+
+theorem solenoidLeeYangSourceGapBoundary_records_statement
+    (rows : SolenoidLeeYangSourceGapRows) :
+    (solenoidLeeYangSourceGapBoundary rows).statement =
+      SolenoidLeeYangSourceGapBoundary_statement rows := by
+  rfl
+
+theorem sourceGapBoundary_refines_zero
+    (rows : SolenoidLeeYangSourceGapRows)
+    (existsSource : SolenoidLeeYangSourceGap_sourceExists rows)
+    (refinesSource : SolenoidLeeYangSourceGap_sourceRefines rows)
+    (s : RatComplex) (zero : NontrivialZetaZero s) :
+    ∃ family : PrimeResonanceFamily,
+      rows.dominantFamily s family ∧
+        rows.tailIsolatedLocalIsland s family ∧
+          rows.roucheGap s family ∧
+            rows.compactSolenoidLift s family ∧
+              rows.farEndEnergyBound s family := by
+  exact refinesSource s zero (existsSource s zero)
+
 def resonanceBoundaryLedger
     (farEndIdentityRows : FarEndIdentityBoundaryRows)
     (primeResonanceRows : PrimeResonanceChordNoHairRows)
-    (hamiltonianRows : HamiltonianResonanceIslandRows) :
+    (hamiltonianRows : HamiltonianResonanceIslandRows)
+    (solenoidLeeYangRows : SolenoidLeeYangResonanceRows) :
     List BoundaryLedgerEntry :=
   [ farEndIdentityBoundary farEndIdentityRows,
     primeResonanceChordNoHairBoundary primeResonanceRows,
-    hamiltonianResonanceIslandBoundary hamiltonianRows ]
+    hamiltonianResonanceIslandBoundary hamiltonianRows,
+    solenoidLeeYangResonanceBoundary solenoidLeeYangRows ]
+
+def sourceGapBoundaryLedger
+    (sourceGapRows : SolenoidLeeYangSourceGapRows) :
+    List BoundaryLedgerEntry :=
+  [solenoidLeeYangSourceGapBoundary sourceGapRows]
 
 def boundaryLedger
     (conditionalRows : ConditionalRHSufficiencyRows)
@@ -370,9 +539,26 @@ def boundaryLedgerWithResonance
     (coverRows : ZeroRecursorCoverRows)
     (farEndIdentityRows : FarEndIdentityBoundaryRows)
     (primeResonanceRows : PrimeResonanceChordNoHairRows)
-    (hamiltonianRows : HamiltonianResonanceIslandRows) :
+    (hamiltonianRows : HamiltonianResonanceIslandRows)
+    (solenoidLeeYangRows : SolenoidLeeYangResonanceRows) :
     List BoundaryLedgerEntry :=
   boundaryLedger conditionalRows completionRows farEndRows coverRows ++
     resonanceBoundaryLedger farEndIdentityRows primeResonanceRows hamiltonianRows
+      solenoidLeeYangRows
+
+def boundaryLedgerWithSourceGap
+    (conditionalRows : ConditionalRHSufficiencyRows)
+    (completionRows : CoreCommonalityCompletionRows)
+    (farEndRows : NoFarEndAbsorptionRows)
+    (coverRows : ZeroRecursorCoverRows)
+    (farEndIdentityRows : FarEndIdentityBoundaryRows)
+    (primeResonanceRows : PrimeResonanceChordNoHairRows)
+    (hamiltonianRows : HamiltonianResonanceIslandRows)
+    (solenoidLeeYangRows : SolenoidLeeYangResonanceRows)
+    (sourceGapRows : SolenoidLeeYangSourceGapRows) :
+    List BoundaryLedgerEntry :=
+  boundaryLedgerWithResonance conditionalRows completionRows farEndRows coverRows
+      farEndIdentityRows primeResonanceRows hamiltonianRows solenoidLeeYangRows ++
+    sourceGapBoundaryLedger sourceGapRows
 
 end BEDC.Derived.RHRoute.OnticBoundaryLedger

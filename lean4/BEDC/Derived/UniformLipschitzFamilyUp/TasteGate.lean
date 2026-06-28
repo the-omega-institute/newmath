@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UniformLipschitzFamilyUp
+namespace BEDC.Derived.UniformLipschitzFamilyUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +11,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformLipschitzFamilyUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (X Y I F L V H C P N : BHist) : UniformLipschitzFamilyUp
   deriving DecidableEq
 
@@ -26,7 +26,7 @@ def uniformLipschitzFamilyDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformLipschitzFamilyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformLipschitzFamilyDecodeBHist tail)
 
-private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode :
+private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -44,29 +44,32 @@ def uniformLipschitzFamilyToEventFlow : UniformLipschitzFamilyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (uniformLipschitzFamilyFields x).map uniformLipschitzFamilyEncodeBHist
 
-def uniformLipschitzFamilyFromEventFlow :
-    EventFlow → Option UniformLipschitzFamilyUp
+private def uniformLipschitzFamilyEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | X :: Y :: I :: F :: L :: V :: H :: C :: P :: N :: [] =>
-      some
-        (UniformLipschitzFamilyUp.mk
-          (uniformLipschitzFamilyDecodeBHist X)
-          (uniformLipschitzFamilyDecodeBHist Y)
-          (uniformLipschitzFamilyDecodeBHist I)
-          (uniformLipschitzFamilyDecodeBHist F)
-          (uniformLipschitzFamilyDecodeBHist L)
-          (uniformLipschitzFamilyDecodeBHist V)
-          (uniformLipschitzFamilyDecodeBHist H)
-          (uniformLipschitzFamilyDecodeBHist C)
-          (uniformLipschitzFamilyDecodeBHist P)
-          (uniformLipschitzFamilyDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => uniformLipschitzFamilyEventAt index rest
 
-private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : UniformLipschitzFamilyUp,
-      uniformLipschitzFamilyFromEventFlow (uniformLipschitzFamilyToEventFlow x) = some x := by
+def uniformLipschitzFamilyFromEventFlow (ef : EventFlow) : Option UniformLipschitzFamilyUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (UniformLipschitzFamilyUp.mk
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 0 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 1 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 2 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 3 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 4 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 5 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 6 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 7 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 8 ef))
+      (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEventAt 9 ef)))
+
+private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip
+    (x : UniformLipschitzFamilyUp) :
+    uniformLipschitzFamilyFromEventFlow (uniformLipschitzFamilyToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk X Y I F L V H C P N =>
       change
@@ -83,7 +86,16 @@ private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_t
             (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEncodeBHist P))
             (uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEncodeBHist N))) =
           some (UniformLipschitzFamilyUp.mk X Y I F L V H C P N)
-      simp only [UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode]
+      rw [UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode X,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode Y,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode I,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode F,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode L,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode V,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode H,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode C,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode P,
+        UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_injective
     {x y : UniformLipschitzFamilyUp} :
@@ -96,16 +108,14 @@ private theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment_injecti
     congrArg uniformLipschitzFamilyFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip y)))
+      (Eq.trans hread (UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip y)))
 
 instance uniformLipschitzFamilyBHistCarrier : BHistCarrier UniformLipschitzFamilyUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := uniformLipschitzFamilyToEventFlow
   fromEventFlow := uniformLipschitzFamilyFromEventFlow
 
-instance uniformLipschitzFamilyChapterTasteGate :
-    ChapterTasteGate UniformLipschitzFamilyUp where
+instance uniformLipschitzFamilyChapterTasteGate : ChapterTasteGate UniformLipschitzFamilyUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -115,10 +125,26 @@ instance uniformLipschitzFamilyChapterTasteGate :
     intro x y hxy heq
     exact hxy (UniformLipschitzFamilyTasteGate_single_carrier_alignment_injective heq)
 
-theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment :
-    ∀ h : BHist,
-      uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEncodeBHist h) = h := by
+def UniformLipschitzFamilyTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate UniformLipschitzFamilyUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  exact UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode
+  uniformLipschitzFamilyChapterTasteGate
 
-end BEDC.Derived.UniformLipschitzFamilyUp
+theorem UniformLipschitzFamilyTasteGate_single_carrier_alignment :
+    (∀ h : BHist, uniformLipschitzFamilyDecodeBHist (uniformLipschitzFamilyEncodeBHist h) = h) ∧
+      (∀ x : UniformLipschitzFamilyUp,
+        uniformLipschitzFamilyFromEventFlow (uniformLipschitzFamilyToEventFlow x) = some x) ∧
+        (∀ x y : UniformLipschitzFamilyUp,
+          uniformLipschitzFamilyToEventFlow x = uniformLipschitzFamilyToEventFlow y → x = y) ∧
+          uniformLipschitzFamilyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact UniformLipschitzFamilyTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact UniformLipschitzFamilyTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact UniformLipschitzFamilyTasteGate_single_carrier_alignment_injective heq
+  · rfl
+
+end BEDC.Derived.UniformLipschitzFamilyUp.TasteGate

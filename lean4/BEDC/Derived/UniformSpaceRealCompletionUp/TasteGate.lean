@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UniformSpaceRealCompletionUp
+namespace BEDC.Derived.UniformSpaceRealCompletionUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +11,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformSpaceRealCompletionUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (R U F B S Q E H C P N : BHist) : UniformSpaceRealCompletionUp
   deriving DecidableEq
 
@@ -26,11 +26,9 @@ def uniformSpaceRealCompletionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformSpaceRealCompletionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformSpaceRealCompletionDecodeBHist tail)
 
-private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode :
+private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
-      uniformSpaceRealCompletionDecodeBHist
-          (uniformSpaceRealCompletionEncodeBHist h) =
-        h := by
+      uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,73 +38,73 @@ private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_dec
 
 def uniformSpaceRealCompletionFields : UniformSpaceRealCompletionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformSpaceRealCompletionUp.mk R U F B S Q E H C P N =>
-      [R, U, F, B, S, Q, E, H, C, P, N]
+  | UniformSpaceRealCompletionUp.mk R U F B S Q E H C P N => [R, U, F, B, S, Q, E, H, C, P, N]
 
 def uniformSpaceRealCompletionToEventFlow : UniformSpaceRealCompletionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (uniformSpaceRealCompletionFields x).map uniformSpaceRealCompletionEncodeBHist
 
-def uniformSpaceRealCompletionFromEventFlow :
-    EventFlow → Option UniformSpaceRealCompletionUp
+private def uniformSpaceRealCompletionEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | R :: U :: F :: B :: S :: Q :: E :: H :: C :: P :: N :: [] =>
-      some
-        (UniformSpaceRealCompletionUp.mk
-          (uniformSpaceRealCompletionDecodeBHist R)
-          (uniformSpaceRealCompletionDecodeBHist U)
-          (uniformSpaceRealCompletionDecodeBHist F)
-          (uniformSpaceRealCompletionDecodeBHist B)
-          (uniformSpaceRealCompletionDecodeBHist S)
-          (uniformSpaceRealCompletionDecodeBHist Q)
-          (uniformSpaceRealCompletionDecodeBHist E)
-          (uniformSpaceRealCompletionDecodeBHist H)
-          (uniformSpaceRealCompletionDecodeBHist C)
-          (uniformSpaceRealCompletionDecodeBHist P)
-          (uniformSpaceRealCompletionDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => uniformSpaceRealCompletionEventAt index rest
 
-private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : UniformSpaceRealCompletionUp,
-      uniformSpaceRealCompletionFromEventFlow
-          (uniformSpaceRealCompletionToEventFlow x) =
-        some x := by
+def uniformSpaceRealCompletionFromEventFlow
+    (ef : EventFlow) : Option UniformSpaceRealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (UniformSpaceRealCompletionUp.mk
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 0 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 1 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 2 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 3 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 4 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 5 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 6 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 7 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 8 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 9 ef))
+      (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEventAt 10 ef)))
+
+private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip
+    (x : UniformSpaceRealCompletionUp) :
+    uniformSpaceRealCompletionFromEventFlow (uniformSpaceRealCompletionToEventFlow x) =
+      some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk R U F B S Q E H C P N =>
       change
         some
           (UniformSpaceRealCompletionUp.mk
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist R))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist U))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist F))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist B))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist S))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist Q))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist E))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist H))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist C))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist P))
-            (uniformSpaceRealCompletionDecodeBHist
-              (uniformSpaceRealCompletionEncodeBHist N))) =
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist R))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist U))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist F))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist B))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist S))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist Q))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist E))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist H))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist C))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist P))
+            (uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist N))) =
           some (UniformSpaceRealCompletionUp.mk R U F B S Q E H C P N)
-      simp only [UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode]
+      rw [UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode R,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode U,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode F,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode B,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode S,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode Q,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode E,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode H,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode C,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode P,
+        UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_injective
     {x y : UniformSpaceRealCompletionUp} :
-    uniformSpaceRealCompletionToEventFlow x = uniformSpaceRealCompletionToEventFlow y →
-      x = y := by
+    uniformSpaceRealCompletionToEventFlow x = uniformSpaceRealCompletionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -114,13 +112,10 @@ private theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment_inj
         uniformSpaceRealCompletionFromEventFlow (uniformSpaceRealCompletionToEventFlow y) :=
     congrArg uniformSpaceRealCompletionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip y)))
 
-instance uniformSpaceRealCompletionBHistCarrier :
-    BHistCarrier UniformSpaceRealCompletionUp where
+instance uniformSpaceRealCompletionBHistCarrier : BHistCarrier UniformSpaceRealCompletionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := uniformSpaceRealCompletionToEventFlow
   fromEventFlow := uniformSpaceRealCompletionFromEventFlow
@@ -130,20 +125,37 @@ instance uniformSpaceRealCompletionChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      uniformSpaceRealCompletionFromEventFlow (uniformSpaceRealCompletionToEventFlow x) =
-        some x
+    change uniformSpaceRealCompletionFromEventFlow (uniformSpaceRealCompletionToEventFlow x) =
+      some x
     exact UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (UniformSpaceRealCompletionTasteGate_single_carrier_alignment_injective heq)
 
-theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment :
-    ∀ h : BHist,
-      uniformSpaceRealCompletionDecodeBHist
-          (uniformSpaceRealCompletionEncodeBHist h) =
-        h := by
+def UniformSpaceRealCompletionTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate UniformSpaceRealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  exact UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode
+  uniformSpaceRealCompletionChapterTasteGate
 
-end BEDC.Derived.UniformSpaceRealCompletionUp
+theorem UniformSpaceRealCompletionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      uniformSpaceRealCompletionDecodeBHist (uniformSpaceRealCompletionEncodeBHist h) = h) ∧
+      (∀ x : UniformSpaceRealCompletionUp,
+        uniformSpaceRealCompletionFromEventFlow (uniformSpaceRealCompletionToEventFlow x) =
+          some x) ∧
+        (∀ x y : UniformSpaceRealCompletionUp,
+          uniformSpaceRealCompletionToEventFlow x =
+              uniformSpaceRealCompletionToEventFlow y →
+            x = y) ∧
+          uniformSpaceRealCompletionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact UniformSpaceRealCompletionTasteGate_single_carrier_alignment_decode_encode
+  constructor
+  · exact UniformSpaceRealCompletionTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact UniformSpaceRealCompletionTasteGate_single_carrier_alignment_injective heq
+  · rfl
+
+end BEDC.Derived.UniformSpaceRealCompletionUp.TasteGate

@@ -140,6 +140,33 @@ Apply value-seal exhaustion, \autoref{thm:regular-sequence-space-value-seal-exha
 Now invoke the obligation scope route of \autoref{thm:regular-sequence-space-obligation-scope-route}. The remaining structural rows $H,C,P,N$ preserve the same finite packet, so endpoint reads cannot pass through quotient streams, ambient completeness, or an unrecorded completion principle before the RegSeqRat classifier and Real seal route is displayed.
 \end{proof}
 
+\begin{definition}[RegularSequenceSpace Cauchy window]
+\label{def:regular-sequence-space-cauchy-window}
+For an accepted $\RegularSequenceSpaceUp$ carrier
+$$
+S=(X,T,Q,D,R,H,C,P,N),
+$$
+the Cauchy-window row is the displayed subpacket
+$$
+\mathrm{Win}_{\RegularSequenceSpaceUp}(S)=(T,Q,D,R,H,C,P,N).
+$$
+It records the $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, terminal $\RealUp$ seal, componentwise transport, continuation replay, provenance, and local naming rows while omitting only the source family row $X$.
+\end{definition}
+
+\begin{theorem}[RegularSequenceSpace Cauchy-window NameCert route]
+\label{thm:regular-sequence-space-cauchy-window-namecert-route}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Every completion-facing read of $S$ factors through the Cauchy-window subpacket $\mathrm{Win}_{\RegularSequenceSpaceUp}(S)=(T,Q,D,R,H,C,P,N)$ before the $\RealUp$ seal is public. The route joins the displayed $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, and terminal $\RealUp$ seal in one finite NameCert obligation and exports no quotient stream, selected representative, ambient completeness principle, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They expose $X,T,Q,D,R,H,C,P,N$ as the finite accepted carrier and place the schedule, readback, tolerance row, and Real seal in the same local certificate surface.
+
+Apply the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It routes completion-facing reads through the displayed schedule $T$, regular rational readback $Q$, and dyadic tolerance row $D$ before the Real-facing row can be consumed.
+
+Use tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. Once the completion read has entered the displayed window, the later rows $R,H,C,P,N$ remain attached to the same finite route rather than becoming external representatives.
+
+Finally apply the RegSeqRat Real seal route of \autoref{thm:regular-sequence-space-regseqrat-real-seal-route}. The terminal $\RealUp$ seal is public only after the $\RegSeqRatUp$ readback and the visible structural rows have been read, so the Cauchy-window obligation is exhausted by $(T,Q,D,R,H,C,P,N)$ and has no coordinate for quotient streams, selected representatives, ambient completeness, or host real equality.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace RegSeqRat forward route]
 \label{thm:regular-sequence-space-regseqrat-forward-route}
 Every forward dependency from an accepted $\RegularSequenceSpaceUp$ carrier to a regular rational or real-facing consumer factors through the displayed route
@@ -303,13 +330,14 @@ Finally replay the RegularSequenceSpace structural rows $H,C,P,N$. Transport, co
 \end{proof}
 
 \closureat{RegularSequenceSpaceUp}{seedStr}
+\closureat{RegularSequenceSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}
   \constructivestory{A $\RegularSequenceSpaceUp$ packet is generated from a displayed source family of regular sequence names, stream schedules, regular rational readbacks, dyadic tolerance core rows, a real-facing value seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:regular-sequence-space-carrier} and \autoref{thm:regular-sequence-space-namecert-obligations} seed the finite space-level regular sequence carrier between stream names, rational regular readbacks, dyadic tolerance cores, and Real-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim an ambient complete metric space, quotient equality of real names, arbitrary choice of representatives, unrestricted sequence space, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, schedule routing, regular rational readback, dyadic tolerance exposure, real-facing sealing, and structural nonescape for BEDC.Derived.RegularSequenceSpaceUp.}
+  \upgradepath{Scoped closure requires explicit kernel scope for StreamName, RegSeqRat, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
 \end{closurestatus}
