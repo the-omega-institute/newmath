@@ -11045,6 +11045,7 @@ import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
 import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
 import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
+import BEDC.Derived.RegularCauchyMinUp.PublicNameCert
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.RegularCauchyMinKernelScopeRoute
@@ -12862,6 +12863,7 @@ import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
 import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.BridgeRoute
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSchema
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeTargetInterface
