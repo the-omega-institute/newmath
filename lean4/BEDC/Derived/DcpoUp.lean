@@ -90,4 +90,114 @@ theorem DcpoCarrier_directed_supremum_handoff
     }
   exact ⟨cert, handoffUnary, completionUnary, supremumRoute, completionRoute⟩
 
+theorem DcpoCarrier_carrier_directed_obligations
+    {O I W S M F Q L H C P N directedRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N →
+      Cont O I directedRead →
+        SemanticNameCert
+            (fun row : BHist => hsame row directedRead ∧ UnaryHistory row)
+            (fun row : BHist => hsame row O ∨ hsame row I ∨ hsame row W ∨
+              hsame row directedRead)
+            (fun row : BHist => UnaryHistory row ∧ Cont O I directedRead)
+            hsame ∧
+          UnaryHistory O ∧ UnaryHistory I ∧ UnaryHistory W ∧
+            UnaryHistory directedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
+  intro carrier directedRoute
+  obtain ⟨oUnary, iUnary, wUnary, _sUnary, _mUnary, _fUnary, _qUnary, _lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed oUnary iUnary directedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row directedRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row O ∨ hsame row I ∨ hsame row W ∨
+            hsame row directedRead)
+          (fun row : BHist => UnaryHistory row ∧ Cont O I directedRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro directedRead ⟨hsame_refl directedRead, directedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, directedRoute⟩
+  }
+  exact ⟨cert, oUnary, iUnary, wUnary, directedUnary⟩
+
+theorem DcpoCarrier_supremum_ledger_obligations
+    {O I W S M F Q L H C P N directedRead supremumRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N →
+      Cont O I directedRead →
+        Cont S L supremumRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row supremumRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+                  hsame row L ∨ hsame row supremumRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont O I directedRead ∧ Cont S L supremumRead)
+              hsame ∧
+            UnaryHistory directedRead ∧ UnaryHistory supremumRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
+  intro carrier directedRoute supremumRoute
+  obtain ⟨oUnary, iUnary, _wUnary, sUnary, _mUnary, _fUnary, _qUnary, lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed oUnary iUnary directedRoute
+  have supremumUnary : UnaryHistory supremumRead :=
+    unary_cont_closed sUnary lUnary supremumRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row supremumRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+              hsame row L ∨ hsame row supremumRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont O I directedRead ∧ Cont S L supremumRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro supremumRead ⟨hsame_refl supremumRead, supremumUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, directedRoute, supremumRoute⟩
+  }
+  exact ⟨cert, directedUnary, supremumUnary⟩
+
 end BEDC.Derived.DcpoUp

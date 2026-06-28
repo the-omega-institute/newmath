@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BolzanoWeierstrassRateUp$}
+\label{ch:concrete-instances-bolzano-weierstrass-rate-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BolzanoWeierstrassRateUp$ packet records the finite-window rate boundary by which bounded real sequence data may be read by Bolzano--Weierstrass-style compactness consumers. It sits after the bounded real sequence carrier of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the finite-subsequence packet of \autoref{ch:concrete-instances-bolzano-weierstrass-finite-subsequence-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite read budget available to a compactness-facing route; it does not select a subsequence, invoke countable choice, decide real trichotomy, identify quotient streams, or assert ambient completeness for $\RealUp$.
+
+\begin{definition}[Bolzano--Weierstrass rate carrier]
+\label{def:bolzano-weierstrass-rate-carrier}
+A $\BolzanoWeierstrassRateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,F,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded $\RealUp$ sequence source row, read through $\BoundedRealSequenceUp$ before any rate request is accepted.
+\item $F$ is the finite-subsequence window row, read through $\BolzanoWeierstrassFiniteSubsequenceUp$ as a finite compactness-facing consumer rather than as an infinite selected subsequence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger assigning each inspected window a displayed dyadic comparison budget.
+\item $W$ is the $\StreamNameUp$ window row listing the finite source positions and observations that the rate certificate may inspect.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerances.
+\item $E$ is the terminal $\RealUp$ seal row available only after $B,F,D,W,Q$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the source, finite-subsequence window, tolerance ledger, stream windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through $B,F,D,W,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BolzanoWeierstrassRateUp$, $\BoundedRealSequenceUp$, $\BolzanoWeierstrassFiniteSubsequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BolzanoWeierstrassRateUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $B,F,D,W,Q,E,H,C,P,N$. It has no coordinate for a selected infinite subsequence, countable-choice schedule, trichotomy decision, quotient stream representative, or completeness proof for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bolzano--Weierstrass rate NameCert obligations]
+\label{thm:bolzano-weierstrass-rate-namecert-obligations}
+For every accepted $\BolzanoWeierstrassRateUp$ carrier
+$$
+R=(B,F,D,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\BolzanoWeierstrassRateUp}$ surface consists exactly of carrier admission for the bounded source $B$, finite-subsequence window $F$, dyadic tolerance ledger $D$, stream windows $W$, regular rational readback $Q$, terminal real seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming row $N$. No NameCert obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bolzano-weierstrass-rate-carrier}. The bounded source row $B$ is visible only as the $\BoundedRealSequenceUp$ surface, while $F$ is visible only as the finite-window face of $\BolzanoWeierstrassFiniteSubsequenceUp$.
+
+Read the rate rows next. The dyadic ledger $D$ assigns the tolerance budget for the inspected window, the stream row $W$ lists the finite observations, and the regular readback row $Q$ consumes exactly those observations.
+
+Finally inspect $E,H,C,P,N$. The real seal, transport, replay, provenance, and local naming rows preserve the same finite route. Since the carrier has no coordinate for countable choice, real trichotomy, quotient stream equality, selected infinite subsequences, or ambient $\RealUp$ completeness, those principles cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass rate window handoff]
+\label{thm:bolzano-weierstrass-rate-window-handoff}
+Every Real or Completion consumer of an accepted $\BolzanoWeierstrassRateUp$ packet must read the route
+$$
+\BoundedRealSequenceUp
+\longmapsto
+\BolzanoWeierstrassFiniteSubsequenceUp
+\longmapsto
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp
+\longmapsto
+\RealUp
+$$
+through $B,F,D,W,Q,E,H,C,P,N$ before treating the packet as Bolzano--Weierstrass-style rate data. The handoff exposes a bounded real sequence source, a finite subsequence-window consumer, dyadic tolerance comparisons, finite stream windows, regular rational readback, and a terminal real seal. It exports no selected subsequence, no countable choice, no trichotomy, no quotient stream equality, and no ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the bounded source. The row $B$ is admitted only through the $\BoundedRealSequenceUp$ carrier, so a consumer first receives finite stream windows, regular readback, the closed-bounded interval-net bound row, and the real-name seal already exposed by that source packet.
+
+Next read the finite-subsequence window. The row $F$ is downstream of $\BolzanoWeierstrassFiniteSubsequenceUp$, so it presents a finite compactness-facing window rather than a selected infinite subsequence.
+
+The dyadic, stream, and regular readback rows $D,W,Q$ then form the rate budget inspected by the consumer. The terminal row $E$ seals only that displayed readback as $\RealUp$ data.
+
+Transport, replay, provenance, and local naming preserve the same finite-window route. Because no additional row carries choice, trichotomy, quotient equality, or completeness, the public handoff is exactly the rate boundary displayed in the theorem.
+\end{proof}
+
+\closureat{BolzanoWeierstrassRateUp}{seedStr}
+
+\begin{closurestatus}{\BolzanoWeierstrassRateUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bolzano-weierstrass-rate-carrier}, \autoref{thm:bolzano-weierstrass-rate-namecert-obligations}, and \autoref{thm:bolzano-weierstrass-rate-window-handoff} seed the finite-window rate boundary over bounded Real sequence, finite Bolzano--Weierstrass subsequence-window, DyadicRatCore, StreamName, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subsequences, countable choice, real trichotomy, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window rate exactness, source-row stability, dyadic tolerance readback, terminal Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BolzanoWeierstrassRateUp.}
+  \constructivestory{A $\BolzanoWeierstrassRateUp$ packet is generated from a bounded Real sequence source, a finite Bolzano--Weierstrass subsequence-window row, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
