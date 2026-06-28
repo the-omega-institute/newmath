@@ -228,4 +228,25 @@ theorem CauchyCompletionMinimalityCarrier_namecert_obligations [AskSetup] [Packa
     ⟨sourceUnary, completionUnary, embeddingUnary, universalUnary, extensionUnary,
       separatedUnary, denseUnary, comparedUnary, denseRoute, comparedRoute, provenancePkg⟩
 
+theorem CauchyCompletionMinimalityCarrier_admission [AskSetup] [PackageSetup]
+    {source completion embedding universal extension separated transport replay provenance
+      name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMinimalityCarrier source completion embedding universal extension separated
+        transport replay provenance name bundle pkg →
+      UnaryHistory source ∧ UnaryHistory completion ∧ UnaryHistory embedding ∧
+        UnaryHistory universal ∧ UnaryHistory extension ∧ UnaryHistory separated ∧
+          UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+            UnaryHistory name ∧ Cont completion embedding universal ∧
+              Cont universal extension separated ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier
+  obtain ⟨sourceUnary, completionUnary, embeddingUnary, universalUnary, extensionUnary,
+    separatedUnary, transportUnary, replayUnary, provenanceUnary, nameUnary, universalRoute,
+    separatedRoute, provenancePkg⟩ := carrier
+  exact
+    ⟨sourceUnary, completionUnary, embeddingUnary, universalUnary, extensionUnary,
+      separatedUnary, transportUnary, replayUnary, provenanceUnary, nameUnary, universalRoute,
+      separatedRoute, provenancePkg⟩
+
 end BEDC.Derived.CauchyCompletionMinimalityUp

@@ -9475,6 +9475,7 @@ import BEDC.Derived.PhaseTransformLadderUp
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
+import BEDC.Derived.PhillipsLemmaUp.TasteGate
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.GateInduction
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.ObligationBoundary
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
