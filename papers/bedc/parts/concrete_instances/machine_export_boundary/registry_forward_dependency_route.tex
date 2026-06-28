@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary registry-forward dependency]
+\label{thm:machine-export-boundary-registry-forward-route}
+Every $\MachineExportBoundaryUp$ export that is read by a standard-bridge consumer factors first through the machine interface route of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, then through the registry rows of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and finally through the same local $\NameCert$ provenance row displayed in \autoref{def:machine-export-boundary-carrier}. No standard-bridge consumer may read a bare export row detached from $\MachineInterfaceBoundaryUp$, registry status, or NameCert provenance.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(R,T,A,F,H,C,P,N)$ from \autoref{def:machine-export-boundary-carrier}. The target row $T$ places the export inside the machine-facing interface, while the registry row $R$ fixes its registry status before the export can be consumed.
+
+Apply the machine-interface dependency route of \autoref{thm:machine-export-boundary-machine-interface-dependency} and the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}. Together they force any downstream read through $\MachineInterfaceBoundaryUp$, $\RegistryExportSurfaceUp$, audit readback, refusal preservation, and certificate-preserving provenance before the local name is used.
+
+The standard bridge route of \autoref{thm:machine-export-boundary-standard-bridge-route} only reads the already displayed packet. Since $H,C,P,N$ transport, replay, package, and name the same accepted carrier, the bridge cannot bypass the machine interface row, registry rows, or local NameCert provenance.
+\end{proof}
