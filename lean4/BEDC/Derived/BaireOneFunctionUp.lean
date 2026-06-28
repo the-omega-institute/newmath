@@ -313,4 +313,129 @@ theorem BaireOneFunctionCarrier_public_export [AskSetup] [PackageSetup]
       sourceApproxSchedule, scheduleReadbackReal, realHandoffTransport, publicRoute,
       provenancePkg, namePkg, publicPkg⟩
 
+theorem BaireOneFunctionCarrier_finite_schedule_nonescape [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead lscRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg →
+      Cont S Q pointwiseRead →
+        Cont R L lscRead →
+          Cont L C publicRead →
+            PkgSig bundle publicRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row pointwiseRead ∨ hsame row lscRead ∨ hsame row publicRead) ∧
+                      UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                      hsame row R ∨ hsame row L ∨ hsame row H ∨ hsame row C ∨
+                        hsame row P ∨ hsame row N ∨ hsame row pointwiseRead ∨
+                          hsame row lscRead ∨ hsame row publicRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont S Q pointwiseRead ∧ Cont R L lscRead ∧
+                      Cont L C publicRead ∧ PkgSig bundle publicRead pkg)
+                  hsame ∧ UnaryHistory pointwiseRead ∧ UnaryHistory lscRead ∧
+                UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier pointwiseRoute lscRoute publicRoute publicPkg
+  obtain ⟨_xUnary, _fUnary, sUnary, qUnary, rUnary, lUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, _sourceApproxSchedule, _scheduleReadbackReal,
+    _realHandoffTransport, _transportContinuationProvenance, _provenancePkg,
+    _namePkg⟩ := carrier
+  have pointwiseUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed sUnary qUnary pointwiseRoute
+  have lscUnary : UnaryHistory lscRead :=
+    unary_cont_closed rUnary lUnary lscRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed lUnary cUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row pointwiseRead ∨ hsame row lscRead ∨ hsame row publicRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+              hsame row R ∨ hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row pointwiseRead ∨ hsame row lscRead ∨
+                  hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S Q pointwiseRead ∧ Cont R L lscRead ∧
+              Cont L C publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro pointwiseRead
+          ⟨Or.inl (hsame_refl pointwiseRead), pointwiseUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        have lift : ∀ {target : BHist}, hsame _row target → hsame _other target := by
+          intro _target sameTarget
+          exact hsame_trans (hsame_symm sameRows) sameTarget
+        constructor
+        · cases source.left with
+          | inl samePointwise =>
+              exact Or.inl (lift samePointwise)
+          | inr tail =>
+              cases tail with
+              | inl sameLsc =>
+                  exact Or.inr (Or.inl (lift sameLsc))
+              | inr samePublic =>
+                  exact Or.inr (Or.inr (lift samePublic))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl samePointwise =>
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl samePointwise))))))))))
+      | inr tail =>
+          cases tail with
+          | inl sameLsc =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (Or.inr (Or.inl sameLsc)))))))))))
+          | inr samePublic =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (Or.inr (Or.inr samePublic)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, pointwiseRoute, lscRoute, publicRoute, publicPkg⟩
+  }
+  exact ⟨cert, pointwiseUnary, lscUnary, publicUnary⟩
+
 end BEDC.Derived.BaireOneFunctionUp
