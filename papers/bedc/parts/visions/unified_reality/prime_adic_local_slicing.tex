@@ -1,0 +1,227 @@
+\section{Prime-Adic Local Slicing}
+\label{sec:unified-reality-prime-adic-local-slicing}
+
+The prime-window and recursive-parity routes may be sharpened by reading
+each prime factor as a local slice.  This is not a claim that the zeros of
+the Riemann zeta function are zeros of a $p$-adic zeta interpolation.
+The role of the $p$-adic language is local decomposition: each prime
+coordinate supplies a valuation direction and a unit direction, and the
+completed complex readout compresses all such local coordinates into the
+single complex parameter $s$.
+
+\begin{definition}[Prime-adic slice]
+\label{def:unified-reality-prime-adic-slice}
+For a displayed prime $p$, the \emph{prime-adic slice} is the local
+coordinate that records the $p$-valuation direction separately from the
+unit direction.  Arithmetic factorization writes a nonzero rational row as
+$$
+x=\prod_{p}p^{v_p(x)}\cdot u,
+$$
+with only finitely many nonzero valuation coordinates.  In the $p$-local
+readout this becomes
+$$
+x=p^{v_p(x)}u_p,
+\qquad
+u_p\in\mathbb Z_p^{\times}.
+$$
+Thus the valuation $v_p(x)$ is the radial depth coordinate, while
+$u_p$ is the unit coordinate.  The word ``slice'' means this local
+valuation/unit separation; it does not introduce an additional global
+zero predicate.
+\end{definition}
+
+\begin{definition}[Prime-adic Euler local coordinate]
+\label{def:unified-reality-prime-adic-euler-local-coordinate}
+The Euler local factor at $p$ is
+$$
+Z_p(s):=(1-p^{-s})^{-1}.
+$$
+On its convergence readout,
+$$
+Z_p(s)=1+p^{-s}+p^{-2s}+p^{-3s}+\cdots.
+$$
+The exponent $k$ in $p^{-ks}$ is the valuation depth in the $p$-slice.
+The centered local coordinate is
+$$
+U_p(s):=p^{1/2-s}.
+$$
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+it decomposes as
+$$
+U_p(s)=p^{-\delta}e^{-i\tau\log p}.
+$$
+The factor $p^{-\delta}$ is the radial valuation readout and
+$e^{-i\tau\log p}$ is the unit-phase readout.
+\end{definition}
+
+\begin{theorem}[The prime-adic unit surface is the fixed-half surface]
+\label{thm:unified-reality-prime-adic-unit-surface-fixed-half}
+For any displayed prime $p$ and any complex row $s=\sigma+i\tau$,
+$$
+|U_p(s)|=1
+\quad\Longleftrightarrow\quad
+\sigma=\frac12.
+$$
+Consequently
+$$
+\left(\prod_{p:\PrimeUp}|U_p(s)|=1\right)
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:unified-reality-prime-adic-euler-local-coordinate},
+$$
+|U_p(s)|=|p^{1/2-s}|=p^{1/2-\sigma}.
+$$
+Since $p>1$, the equality $p^{1/2-\sigma}=1$ holds exactly when
+$1/2-\sigma=0$.  This is $\sigma=1/2$.  The product statement follows
+because any displayed prime already detects the same exponent, and all
+prime slices read the same centered real displacement.
+\end{proof}
+
+\begin{definition}[Prime-adic finite-window defect]
+\label{def:unified-reality-prime-adic-finite-window-defect}
+For a nonempty finite prime window $S$, the prime-adic finite-window
+defect is
+$$
+D_S^{\mathrm{loc}}(s)
+:=
+\sum_{p\in S}\log |U_p(s)|.
+$$
+Its normalized readout is
+$$
+\overline D_S^{\mathrm{loc}}(s)
+:=
+\frac{D_S^{\mathrm{loc}}(s)}{\sum_{p\in S}\log p}.
+$$
+This is the same local slice data as the normalized prime-window defect
+of \autoref{def:unified-reality-normalized-prime-window-defect}, written
+with the valuation/unit terminology exposed.
+\end{definition}
+
+\begin{theorem}[Local slices read the same normal defect]
+\label{thm:unified-reality-prime-adic-slices-read-same-normal-defect}
+If
+$$
+s=\frac12+\delta+i\tau,
+$$
+then for every nonempty finite prime window $S$,
+$$
+\overline D_S^{\mathrm{loc}}(s)=-\delta.
+$$
+\end{theorem}
+
+\begin{proof}
+For each $p\in S$,
+$$
+\log |U_p(s)|
+=
+\log |p^{1/2-s}|
+=
+-\delta\log p.
+$$
+Therefore
+$$
+D_S^{\mathrm{loc}}(s)
+=
+-\delta\sum_{p\in S}\log p.
+$$
+The denominator is positive because $S$ is nonempty and every displayed
+prime has positive logarithm.  Dividing gives the displayed formula.  This
+is the local-slice form of
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}.
+\end{proof}
+
+\begin{corollary}[Off-half rows are locally nonunit in every slice]
+\label{cor:unified-reality-off-half-locally-nonunit-every-slice}
+If $\delta(s)\#0$, then every displayed prime slice is nonunit in the
+centered radial readout:
+$$
+|U_p(s)|\#1.
+$$
+Equivalently, every nonempty finite prime window carries nonzero
+normalized local defect.
+\end{corollary}
+
+\begin{proof}
+If $\delta(s)\#0$, then the formula
+$$
+|U_p(s)|=p^{-\delta(s)}
+$$
+is apart from $1$ in the located radial readout.  The finite-window
+statement follows from
+\autoref{thm:unified-reality-prime-adic-slices-read-same-normal-defect}.
+\end{proof}
+
+\begin{definition}[Prime-adic local-global defect incompatibility]
+\label{def:unified-reality-prime-adic-local-global-defect-incompatibility}
+The prime-adic local-global defect incompatibility row is
+$$
+\mathsf{PrimeAdicLocalGlobalDefectIncompatibility}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\bigl(\overline D_S^{\mathrm{loc}}(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+It states that a completed zeta zero cannot coexist with a nonunit local
+radial defect visible in any finite family of prime-adic slices.
+\end{definition}
+
+\begin{theorem}[Prime-adic local-global incompatibility is conditionally sufficient]
+\label{thm:unified-reality-prime-adic-local-global-incompatibility-conditionally-sufficient}
+Together with the located fixed-half collapse row, prime-adic local-global
+defect incompatibility is sufficient for the RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Suppose $\delta\#0$.  Choose any nonempty finite prime window $S$.  By
+\autoref{thm:unified-reality-prime-adic-slices-read-same-normal-defect},
+$$
+\overline D_S^{\mathrm{loc}}(s)=-\delta,
+$$
+hence $\overline D_S^{\mathrm{loc}}(s)\#0$.  This supplies the positive
+data excluded by
+\autoref{def:unified-reality-prime-adic-local-global-defect-incompatibility}.
+Therefore $\neg(\delta\#0)$.  The located fixed-half collapse row gives
+$\delta=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+this as the fixed-half section.
+\end{proof}
+
+\begin{corollary}[Prime-adic slicing isolates the remaining local-global gap]
+\label{cor:unified-reality-prime-adic-slicing-local-global-gap}
+Prime-adic slicing does not replace the zero problem by a theorem about
+$p$-adic zeta zeros.  It identifies the remaining RH-facing gap as the
+local-global row asserting that nonunit local radial data cannot be
+classified as a completed global zeta zero.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-prime-adic-unit-surface-fixed-half} identifies
+the fixed-half surface with simultaneous local unit readout.
+\autoref{thm:unified-reality-prime-adic-slices-read-same-normal-defect}
+shows that off-half displacement is visible in every finite family of
+prime slices.  What is not supplied by either calculation is the
+zero-relevance bridge from visible local defect to exclusion of the
+completed zero ledger.  That bridge is precisely
+\autoref{def:unified-reality-prime-adic-local-global-defect-incompatibility},
+the local-slice form of the prime-sieve obstruction isolated in
+\autoref{cor:unified-reality-prime-sieve-obstruction-analytic-exactness}.
+\end{proof}
