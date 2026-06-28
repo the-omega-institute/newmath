@@ -6758,6 +6758,7 @@ import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
+import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
