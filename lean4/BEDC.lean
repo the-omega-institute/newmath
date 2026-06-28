@@ -630,6 +630,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
+import BEDC.Derived.AutomorphicNumberUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
@@ -5770,7 +5771,6 @@ import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
 import BEDC.Derived.FibonacciUp
-import BEDC.Derived.PadovanUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -9335,6 +9335,7 @@ import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PadicUp.Valuation
 import BEDC.Derived.PadicValuationUp
+import BEDC.Derived.PadovanUp
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditIndexReadiness
