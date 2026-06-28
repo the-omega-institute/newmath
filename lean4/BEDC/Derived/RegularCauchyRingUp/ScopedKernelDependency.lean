@@ -94,4 +94,85 @@ theorem RegularCauchyRingScopedKernelDependency [AskSetup] [PackageSetup]
   }
   exact ⟨cert, additiveUnary, multiplicativeUnary, scopedUnary⟩
 
+theorem RegularCauchyRingCarrier_scoped_kernel_dependency [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+      sourceSurface operationSurface sealSurface kernelSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont A WA sourceSurface →
+        Cont S M operationSurface →
+          Cont RS RL sealSurface →
+            Cont operationSurface sealSurface kernelSurface →
+              PkgSig bundle N pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row kernelSurface ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row A ∨ hsame row WA ∨ hsame row S ∨ hsame row M ∨
+                        hsame row RS ∨ hsame row RL ∨ hsame row sourceSurface ∨
+                          hsame row operationSurface ∨ hsame row sealSurface ∨
+                            hsame row kernelSurface ∨ hsame row N)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont A WA sourceSurface ∧
+                        Cont S M operationSurface ∧ Cont RS RL sealSurface ∧
+                          Cont operationSurface sealSurface kernelSurface ∧
+                            PkgSig bundle N pkg)
+                    hsame ∧
+                  UnaryHistory sourceSurface ∧ UnaryHistory operationSurface ∧
+                    UnaryHistory sealSurface ∧ UnaryHistory kernelSurface := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier sourceRoute operationRoute sealRoute kernelRoute namePkg
+  obtain ⟨unaryA, _unaryB, unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS, _unaryG,
+    unaryM, _unaryL, unaryRS, _unaryRG, _unaryRM, unaryRL, _unaryES, _unaryEG,
+    _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN, _sourceWindowA,
+    _sourceWindowB, _transportReplay, _provenancePkg, _carrierNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceSurface :=
+    unary_cont_closed unaryA unaryWA sourceRoute
+  have operationUnary : UnaryHistory operationSurface :=
+    unary_cont_closed unaryS unaryM operationRoute
+  have sealUnary : UnaryHistory sealSurface :=
+    unary_cont_closed unaryRS unaryRL sealRoute
+  have kernelUnary : UnaryHistory kernelSurface :=
+    unary_cont_closed operationUnary sealUnary kernelRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro kernelSurface ⟨hsame_refl kernelSurface, kernelUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inl sourceRow.left)))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceRow.right, sourceRoute, operationRoute, sealRoute, kernelRoute, namePkg⟩
+    }
+  · exact ⟨sourceUnary, operationUnary, sealUnary, kernelUnary⟩
+
 end BEDC.Derived.RegularCauchyRingUp
