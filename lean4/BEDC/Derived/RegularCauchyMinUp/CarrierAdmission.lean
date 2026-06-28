@@ -368,4 +368,86 @@ theorem RegularCauchyMinSelector_stability_scope
     ⟨cert, leftLedgerUnary, rightLedgerUnary, selectedUnary, readbackUnary, sealUnary,
       transportUnary, replayUnary⟩
 
+theorem RegularCauchyMinCarrier_shared_window_scope
+    {A B W DA DB J S R E H C P N selectorRead readbackRead sealRead : BHist} :
+    RegularCauchyMinCarrier A B W DA DB J S R E H C P N →
+      Cont W DA selectorRead →
+        Cont selectorRead R readbackRead →
+          Cont readbackRead E sealRead →
+            SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row A ∨ hsame row B ∨ hsame row W ∨ hsame row DA ∨
+                    hsame row DB ∨ hsame row J ∨ hsame row S ∨ hsame row R ∨
+                      hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                        hsame row N ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ RegularCauchyMinCarrier A B W DA DB J S R E H C P N ∧
+                    Cont W DA selectorRead ∧ Cont selectorRead R readbackRead ∧
+                      Cont readbackRead E sealRead)
+                hsame ∧ UnaryHistory selectorRead ∧ UnaryHistory readbackRead ∧
+              UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: RegularCauchyMinUp BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier selectorRoute readbackRoute sealRoute
+  have carrierOriginal : RegularCauchyMinCarrier A B W DA DB J S R E H C P N := carrier
+  obtain ⟨_aUnary, _bUnary, wUnary, daUnary, _dbUnary, _jUnary, _sUnary, rUnary,
+    eUnary, _hUnary, _cUnary, _pUnary, _nUnary⟩ := carrier
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed wUnary daUnary selectorRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed selectorUnary rUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary eUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row B ∨ hsame row W ∨ hsame row DA ∨
+              hsame row DB ∨ hsame row J ∨ hsame row S ∨ hsame row R ∨
+                hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                  hsame row N ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ RegularCauchyMinCarrier A B W DA DB J S R E H C P N ∧
+              Cont W DA selectorRead ∧ Cont selectorRead R readbackRead ∧
+                Cont readbackRead E sealRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr source.left))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, carrierOriginal, selectorRoute, readbackRoute, sealRoute⟩
+  }
+  exact ⟨cert, selectorUnary, readbackUnary, sealUnary⟩
+
 end BEDC.Derived.RegularCauchyMinUp
