@@ -184,6 +184,25 @@ Finally use seal nonescape and the dyadic upper ladder, \autoref{thm:archimedean
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_kernel\_scope}
 
+\begin{theorem}[ArchimedeanApproximation public finite export]
+\label{thm:archimedean-approximation-public-finite-export}
+Every accepted $\ArchimedeanApproximationUp$ packet exports its public approximation read only through the displayed route
+$$
+\NatUp,\ \RatUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The public read may expose a natural bound, rational bounds, a dyadic tolerance ledger, a finite stream window, a regular rational readback, and a terminal real-name seal, but it cannot read quotient real equality, a selected host limit, countable choice, trichotomy, or ambient completeness outside that route.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.PublicFiniteExport.ArchimedeanApproximationCarrier\_public\_finite\_export}
+\begin{proof}
+Start with the carrier of \autoref{def:archimedean-approximation-carrier} and the NameCert obligations of \autoref{thm:archimedean-approximation-namecert-obligations}. They list $N,Q,D,\epsilon,S,R,E,H,C,P,M$ as the whole accepted packet and require each public read to preserve the same local naming surface.
+
+Apply the real-seal handoff of \autoref{thm:archimedean-approximation-real-seal-handoff}. A Real-facing consumer reaches $E$ only after the $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows have been displayed.
+
+The dyadic cofinal window and dyadic readback theorems, \autoref{thm:archimedean-approximation-dyadic-cofinal-window} and \autoref{thm:archimedean-approximation-dyadic-readback}, keep later bounds, smaller dyadic tolerances, rational bounds, finite windows, and regular readbacks on that same route. The seal nonescape theorem \autoref{thm:archimedean-approximation-real-seal-nonescape} prevents the terminal $\RealUp$ row from exporting any hidden real-equality or limit principle.
+
+Finally use the dyadic upper ladder and kernel scope, \autoref{thm:archimedean-approximation-dyadic-upper-ladder} and \autoref{thm:archimedean-approximation-kernel-scope}. They keep the public approximation read inside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so the exported object is exactly the finite BEDC route named in the statement.
+\end{proof}
+
 \closureat{ArchimedeanApproximationUp}{obligationStr}
 
 \begin{closurestatus}{\ArchimedeanApproximationUp}
