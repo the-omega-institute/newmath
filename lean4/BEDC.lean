@@ -10814,6 +10814,7 @@ import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
+import BEDC.Derived.RegularCauchyAbsUp
 import BEDC.Derived.RegularCauchyAbsUp.NameCert
 import BEDC.Derived.RegularCauchyAbsUp.NonEscape
 import BEDC.Derived.RegularCauchyAbsUp.ObligationClosure
@@ -11270,6 +11271,7 @@ import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularCauchyTailShiftUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
+import BEDC.Derived.RegularCauchyTelescopingBudgetUp
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.NonEscape
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.PrimitiveScopeBinding
