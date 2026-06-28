@@ -10257,7 +10257,9 @@ import BEDC.Derived.RealCompletionReflectionUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
+import BEDC.Derived.RealCompletionSelectorSealUp.RegSeqReadbackExactness
 import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
+import BEDC.Derived.RealCompletionSelectorSealUp.SelectorBudgetTotality
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionWindowFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
@@ -11009,6 +11011,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate
 import BEDC.Derived.RegularCauchyNameNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyNameUp.DyadicRadiusObligations
 import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal

@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FiniteNormalizationDiamondUp$}
+\label{ch:concrete-instances-finite-normalization-diamond-namecert}
+\origin{human}
+
+Following Newman and Takahashi-style finite diamond reasoning for terminating rewrite systems, the $\FiniteNormalizationDiamondUp$ packet records the candidate-mediated local-join budget used by the MetaCIC normalization audit route. It sits beside the normalization budget of \autoref{ch:concrete-instances-metacicnormalizationbudget-namecert}, the candidate-mediated strong-normalization handoff of \autoref{ch:concrete-instances-candidate-mediated-sn-namecert}, and the candidate diamond budget of \autoref{ch:concrete-instances-metacic-candidate-diamond-budget-namecert}. The packet names only finite candidate evidence, local two-front reductions, join budget, no-infinite-reduction readback, transport, replay, provenance, and local naming rows; it does not assert full confluence, unconditional normalization, or subject-reduction closure.
+
+\begin{definition}[Finite normalization diamond carrier]
+\label{def:finite-normalization-diamond-carrier}
+A $\FiniteNormalizationDiamondUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,E,S,A,P_i,A_p,L,J,Z,T,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the candidate-evidence row, carrying the reducibility-candidate data used by the closed term under inspection.
+\item $E$ is the closed-candidate row, recording closedness of the type and term together with the candidate evidence consumed by the normalization route.
+\item $S$ is the candidate-set membership row, exposing membership, soundness, and beta-closure evidence when the route is read through a candidate set.
+\item $A$ is the Pi-adequacy row for binder and function evidence.
+\item $P_i$ is the application-adequacy row for applying a Pi-side candidate to a displayed argument candidate.
+\item $A_p$ is the local two-front reduction row, recording the two finite one-step or bounded-step frontiers whose endpoints must be compared.
+\item $L$ is the local join-budget row, listing the bounded join witnesses and the residual rows inspected by the local diamond check.
+\item $J$ is the accepted join row, present only when the two-front endpoints are joined inside the displayed budget.
+\item $Z$ is the no-infinite-reduction readback row exported from the candidate-mediated strong-normalization surface.
+\item $T$ records componentwise $\hsame$ transport for the candidate, closed-candidate, candidate-set, adequacy, two-front, join-budget, accepted-join, no-infinite-reduction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the same candidate-mediated diamond route.
+\item $G$ is the $\Pkg$ provenance over $\FiniteNormalizationDiamondUp$, the MetaCIC candidate and adequacy rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteNormalizationDiamondUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for global Church--Rosser confluence, unconditional normalization of every closed typed term, erased candidate evidence, subject-reduction closure, quotient syntax equality, oracle reduction, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Finite normalization diamond NameCert obligations]
+\label{thm:finite-normalization-diamond-namecert-obligations}
+For every accepted $\FiniteNormalizationDiamondUp$ carrier
+$$
+F=(K,E,S,A,P_i,A_p,L,J,Z,T,C,G,N),
+$$
+the local $\NameCert_{\FiniteNormalizationDiamondUp}$ surface consists exactly of candidate evidence, closed-candidate rows, candidate-set membership, Pi adequacy, application adequacy, local two-front reductions, join budget, accepted local join, no-infinite-reduction readback, componentwise transport, displayed replay, provenance, and local naming. Every normalization-diamond read must keep the candidate rows visible and must expose the join as a bounded local witness rather than as full confluence or unconditional normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. Candidate evidence $K$, closed-candidate evidence $E$, and candidate-set membership $S$ are the only sources from which strong-normalization and no-infinite-reduction reads may be obtained.
+
+Read the adequacy rows $A$ and $P_i$ before inspecting any application frontier. They ensure that the local route remains candidate-mediated through Pi and application cases instead of becoming componentwise termination of unrelated parts.
+
+The two-front row $A_p$, join budget $L$, and accepted join row $J$ then record the finite diamond check. The no-infinite-reduction row $Z$ is read from the same candidate-mediated surface, and the structural rows $T,C,G,N$ transport, replay, source, and name exactly that finite packet.
+
+Since the carrier has no row for global confluence, unconditional normalization, erased candidate evidence, subject-reduction closure, quotient syntax equality, oracle reduction, Lean verification, or bridge checking, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\closureat{FiniteNormalizationDiamondUp}{seedStr}
+
+\begin{closurestatus}{\FiniteNormalizationDiamondUp}
+  \constructivestory{A $\FiniteNormalizationDiamondUp$ packet is generated from candidate evidence, closed-candidate evidence, candidate-set membership, Pi and application adequacy rows, a local two-front reduction row, a bounded join row, a no-infinite-reduction readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-normalization-diamond-carrier} and \autoref{thm:finite-normalization-diamond-namecert-obligations} seed the finite candidate-mediated local-join route for the MetaCIC normalization audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full confluence, unconditional normalization, erased candidate evidence, subject-reduction transport, quotient syntax equality, oracle reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked candidate evidence, closed-candidate rows, candidate-set membership, Pi and application adequacy, local two-front reductions, join budget, no-infinite-reduction readback, transport, replay, provenance, and local naming for BEDC.Derived.FiniteNormalizationDiamondUp.}
+\end{closurestatus}
