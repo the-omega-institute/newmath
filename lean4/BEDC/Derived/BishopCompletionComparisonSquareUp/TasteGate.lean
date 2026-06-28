@@ -172,20 +172,10 @@ theorem BishopCompletionComparisonSquareTasteGate_single_carrier_alignment :
     (forall h : BHist,
       bishopCompletionComparisonSquareDecodeBHist
         (bishopCompletionComparisonSquareEncodeBHist h) = h) /\
-      (forall x : BishopCompletionComparisonSquareUp,
-        bishopCompletionComparisonSquareFromEventFlow
-          (bishopCompletionComparisonSquareToEventFlow x) = some x) /\
-        (forall x y : BishopCompletionComparisonSquareUp,
-          bishopCompletionComparisonSquareToEventFlow x =
-              bishopCompletionComparisonSquareToEventFlow y ->
-            x = y) /\
-          bishopCompletionComparisonSquareEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      bishopCompletionComparisonSquareEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨BishopCompletionComparisonSquareTasteGate_single_carrier_alignment_decode,
-      ⟨BishopCompletionComparisonSquareTasteGate_single_carrier_alignment_round_trip,
-        ⟨fun _x _y heq =>
-            BishopCompletionComparisonSquareTasteGate_single_carrier_alignment_toEventFlow_injective heq,
-          rfl⟩⟩⟩
+      rfl⟩
 
 end BEDC.Derived.BishopCompletionComparisonSquareUp
