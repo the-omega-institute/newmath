@@ -5155,6 +5155,7 @@ import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicDensityRealEmbeddingComparisonUp.TasteGate
 import BEDC.Derived.DyadicDifferentiationBasisUp.TasteGate
+import BEDC.Derived.DyadicDistanceUp
 import BEDC.Derived.DyadicDivisionUp
 import BEDC.Derived.DyadicDivisionUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
@@ -6706,6 +6707,7 @@ import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
+import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
@@ -8497,6 +8499,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.BoundedJoinWindow
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateResidualJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBoundary
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DecidableNormalFormComparison
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderRowExhaustion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpointComparison
@@ -9977,6 +9980,7 @@ import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RaabeTestUp.TasteGate
 import BEDC.Derived.RademacherUp
 import BEDC.Derived.RademacherUp.DifferenceWindowObligation
+import BEDC.Derived.RademacherUp.KernelScope
 import BEDC.Derived.RademacherUp.TasteGate
 import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadicalUp
@@ -10147,6 +10151,7 @@ import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
+import BEDC.Derived.RealClassifierUp.TailReplacementStability
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp

@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyReflectiveEmbeddingUp
+namespace BEDC.Derived.CauchyReflectiveEmbeddingUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +26,10 @@ def cauchyReflectiveEmbeddingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyReflectiveEmbeddingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyReflectiveEmbeddingDecodeBHist tail)
 
-private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode :
+private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist h) = h := by
+      cauchyReflectiveEmbeddingDecodeBHist
+        (cauchyReflectiveEmbeddingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,106 +37,122 @@ private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_deco
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cauchyReflectiveEmbeddingFields : CauchyReflectiveEmbeddingUp → List BHist
+def cauchyReflectiveEmbeddingFields :
+    CauchyReflectiveEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyReflectiveEmbeddingUp.mk C S Q D E J H T P N => [C, S, Q, D, E, J, H, T, P, N]
+  | CauchyReflectiveEmbeddingUp.mk C S Q D E J H T P N =>
+      [C, S, Q, D, E, J, H, T, P, N]
 
-def cauchyReflectiveEmbeddingToEventFlow : CauchyReflectiveEmbeddingUp → EventFlow
+def cauchyReflectiveEmbeddingToEventFlow :
+    CauchyReflectiveEmbeddingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyReflectiveEmbeddingFields x).map cauchyReflectiveEmbeddingEncodeBHist
+  fun x =>
+    (cauchyReflectiveEmbeddingFields x).map cauchyReflectiveEmbeddingEncodeBHist
 
-private def CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt :
+private def cauchyReflectiveEmbeddingEventAtDefault :
     Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest =>
-      CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt index rest
+      cauchyReflectiveEmbeddingEventAtDefault index rest
 
-def cauchyReflectiveEmbeddingFromEventFlow (ef : EventFlow) :
-    Option CauchyReflectiveEmbeddingUp :=
+def cauchyReflectiveEmbeddingFromEventFlow
+    (ef : EventFlow) : Option CauchyReflectiveEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyReflectiveEmbeddingUp.mk
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 0 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 0 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 1 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 1 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 2 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 2 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 3 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 3 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 4 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 4 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 5 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 5 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 6 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 6 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 7 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 7 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 8 ef))
+        (cauchyReflectiveEmbeddingEventAtDefault 8 ef))
       (cauchyReflectiveEmbeddingDecodeBHist
-        (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_eventAt 9 ef)))
+        (cauchyReflectiveEmbeddingEventAtDefault 9 ef)))
 
-private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : CauchyReflectiveEmbeddingUp,
-      cauchyReflectiveEmbeddingFromEventFlow (cauchyReflectiveEmbeddingToEventFlow x) =
-        some x := by
+private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip
+    (x : CauchyReflectiveEmbeddingUp) :
+    cauchyReflectiveEmbeddingFromEventFlow
+      (cauchyReflectiveEmbeddingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk C S Q D E J H T P N =>
       change
         some
           (CauchyReflectiveEmbeddingUp.mk
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist C))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist S))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist Q))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist D))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist E))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist J))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist H))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist T))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist P))
-            (cauchyReflectiveEmbeddingDecodeBHist (cauchyReflectiveEmbeddingEncodeBHist N))) =
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist C))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist S))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist Q))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist D))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist E))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist J))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist H))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist T))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist P))
+            (cauchyReflectiveEmbeddingDecodeBHist
+              (cauchyReflectiveEmbeddingEncodeBHist N))) =
           some (CauchyReflectiveEmbeddingUp.mk C S Q D E J H T P N)
-      rw [CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode S,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode Q,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode E,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode J,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode T,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode N]
+      rw [CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode C,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode S,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode Q,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode D,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode E,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode J,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode H,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode T,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode P,
+        CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode N]
 
 private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyReflectiveEmbeddingUp} :
-    cauchyReflectiveEmbeddingToEventFlow x = cauchyReflectiveEmbeddingToEventFlow y →
-      x = y := by
+    cauchyReflectiveEmbeddingToEventFlow x =
+      cauchyReflectiveEmbeddingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      cauchyReflectiveEmbeddingFromEventFlow (cauchyReflectiveEmbeddingToEventFlow x) =
-        cauchyReflectiveEmbeddingFromEventFlow (cauchyReflectiveEmbeddingToEventFlow y) :=
+      cauchyReflectiveEmbeddingFromEventFlow
+          (cauchyReflectiveEmbeddingToEventFlow x) =
+        cauchyReflectiveEmbeddingFromEventFlow
+          (cauchyReflectiveEmbeddingToEventFlow y) :=
     congrArg cauchyReflectiveEmbeddingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_fields_faithful :
+private theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_fields :
     ∀ x y : CauchyReflectiveEmbeddingUp,
       cauchyReflectiveEmbeddingFields x = cauchyReflectiveEmbeddingFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk C₁ S₁ Q₁ D₁ E₁ J₁ H₁ T₁ P₁ N₁ =>
+  | mk C1 S1 Q1 D1 E1 J1 H1 T1 P1 N1 =>
       cases y with
-      | mk C₂ S₂ Q₂ D₂ E₂ J₂ H₂ T₂ P₂ N₂ =>
+      | mk C2 S2 Q2 D2 E2 J2 H2 T2 P2 N2 =>
           cases hfields
           rfl
 
@@ -149,8 +167,9 @@ instance cauchyReflectiveEmbeddingChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change cauchyReflectiveEmbeddingFromEventFlow (cauchyReflectiveEmbeddingToEventFlow x) =
-      some x
+    change
+      cauchyReflectiveEmbeddingFromEventFlow
+        (cauchyReflectiveEmbeddingToEventFlow x) = some x
     exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -161,8 +180,7 @@ instance cauchyReflectiveEmbeddingFieldFaithful :
     FieldFaithful CauchyReflectiveEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyReflectiveEmbeddingFields
-  field_faithful :=
-    CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_fields
 
 instance cauchyReflectiveEmbeddingNontrivial :
     BEDC.Meta.TasteGate.Nontrivial CauchyReflectiveEmbeddingUp where
@@ -171,7 +189,8 @@ instance cauchyReflectiveEmbeddingNontrivial :
     ⟨CauchyReflectiveEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       CauchyReflectiveEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -199,7 +218,7 @@ theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment :
     · constructor
       · exact Nonempty.intro cauchyReflectiveEmbeddingNontrivial
       · constructor
-        · exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode_encode
+        · exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode
         · constructor
           · exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip
           · constructor
@@ -209,4 +228,4 @@ theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment :
                   heq
             · rfl
 
-end BEDC.Derived.CauchyReflectiveEmbeddingUp
+end BEDC.Derived.CauchyReflectiveEmbeddingUp.TasteGate
