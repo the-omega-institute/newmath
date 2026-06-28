@@ -4564,6 +4564,7 @@ import BEDC.Derived.DarbouxOscillationCriterionUp.PartitionRoute
 import BEDC.Derived.DarbouxOscillationCriterionUp.TasteGate
 import BEDC.Derived.DarbouxOscillationUp
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
+import BEDC.Derived.DarbouxSumRefinementUp
 import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
 import BEDC.Derived.DavenportConstantUp.TasteGate
@@ -7844,6 +7845,7 @@ import BEDC.Derived.LucasTheoremBinomUp
 import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LucasUVSequenceUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
+import BEDC.Derived.LusinFiniteContinuityWindowUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
@@ -10264,6 +10266,7 @@ import BEDC.Derived.RealIntervalApartnessUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
+import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
@@ -12836,6 +12839,7 @@ import BEDC.Derived.UniformLimitMetricUp.TasteGate
 import BEDC.Derived.UniformLimitTheoremUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformLipschitzCompactVisionUp.TasteGate
+import BEDC.Derived.UniformLipschitzFamilyUp.TasteGate
 import BEDC.Derived.UniformModulusCompositionUp.TasteGate
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
@@ -12856,6 +12860,7 @@ import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
 import BEDC.Derived.UniformSequentialLimitUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionFilterUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
+import BEDC.Derived.UniformSpaceRealCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniformlyCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
