@@ -749,6 +749,7 @@ import BEDC.Derived.BHistHeptaSequenceNameCertUp
 import BEDC.Derived.BHistHeptaTupleNameCertUp
 import BEDC.Derived.BHistHexaSequenceNameCertUp
 import BEDC.Derived.BHistHexaTupleNameCertUp
+import BEDC.Derived.BHistNatBridge
 import BEDC.Derived.BHistNonaSequenceNameCertUp
 import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
