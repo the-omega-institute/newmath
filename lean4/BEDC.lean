@@ -25,6 +25,7 @@ import BEDC.BaseReflection.GeneratedSameSig
 import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
+import BEDC.Boundary.AnalyticProjectionGenerability
 import BEDC.Boundary.ArgumentPrincipleConstructive
 import BEDC.Boundary.OrientedTriadicCertificate
 import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
