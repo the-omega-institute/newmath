@@ -5043,6 +5043,7 @@ import BEDC.Derived.DiniUniformLimitModulusUp.TasteGate
 import BEDC.Derived.DiracPointMassUp
 import BEDC.Derived.DiracPointMassUp.TasteGate
 import BEDC.Derived.DiracSequenceUp
+import BEDC.Derived.DirectMethodMinimizerUp
 import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
