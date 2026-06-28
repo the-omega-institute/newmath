@@ -261,4 +261,57 @@ theorem RealCompletionSelectorSealCarrier_nonescape [AskSetup] [PackageSetup]
       bWindowReadback, readbackLimitEndpoint, endpointStructural, structuralTerminal,
       provenancePkg, terminalPkg, hName⟩
 
+theorem RealCompletionSelectorSealCarrier_l10_handoff_scope [AskSetup] [PackageSetup]
+    {b w r l e h c p n structuralRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletionSelectorSealCarrier b w r l e h c p n bundle pkg ->
+      Cont e h structuralRead ->
+        Cont structuralRead c terminalRead ->
+          PkgSig bundle terminalRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row b ∨ hsame row w ∨ hsame row r ∨ hsame row l ∨
+                    hsame row e ∨ hsame row h ∨ hsame row c ∨ hsame row p ∨
+                      hsame row n ∨ hsame row structuralRead ∨ hsame row terminalRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont b w r ∧ Cont r l e ∧
+                    Cont e h structuralRead ∧ Cont structuralRead c terminalRead ∧
+                      PkgSig bundle terminalRead pkg)
+                hsame ∧ UnaryHistory structuralRead ∧ UnaryHistory terminalRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier endpointStructural structuralTerminal terminalPkg
+  rcases carrier with
+    ⟨bUnary, wUnary, rUnary, lUnary, eUnary, hUnary, cUnary, _pUnary, _nUnary,
+      bWindowReadback, readbackLimitEndpoint, _provenancePkg, _hName⟩
+  have structuralUnary : UnaryHistory structuralRead :=
+    unary_cont_closed eUnary hUnary endpointStructural
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed structuralUnary cUnary structuralTerminal
+  refine ⟨?_, structuralUnary, terminalUnary⟩
+  refine
+    { core :=
+        { carrier_inhabited := ⟨terminalRead, hsame_refl terminalRead, terminalUnary⟩
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other sameRows sourceRow
+    exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+      unary_transport sourceRow.right sameRows⟩
+  · intro _row sourceRow
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr sourceRow.left)))))))))
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, bWindowReadback, readbackLimitEndpoint, endpointStructural,
+      structuralTerminal, terminalPkg⟩
+
 end BEDC.Derived.RealCompletionSelectorSealUp
