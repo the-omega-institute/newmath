@@ -3567,6 +3567,7 @@ import BEDC.Derived.CompletionComparisonUp.TasteGate
 import BEDC.Derived.CompletionDenseExtensionModulusUp
 import BEDC.Derived.CompletionDenseExtensionUp.TasteGate
 import BEDC.Derived.CompletionDenseRangeUp
+import BEDC.Derived.CompletionDenseRangeUp.NameCertObligations
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
@@ -5390,6 +5391,7 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
+import BEDC.Derived.DyadicTotallyBoundedIntervalUp.NameCertObligations
 import BEDC.Derived.DyadicUp.CauchyTailEnvelope
 import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.CommonExponentTotality
@@ -6756,6 +6758,7 @@ import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
+import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
@@ -7662,6 +7665,7 @@ import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.WindowScheduleExactness
 import BEDC.Derived.LocatedLimsupUp
 import BEDC.Derived.LocatedLowerBoundUp
+import BEDC.Derived.LocatedLowerBoundUp.NameCertObligations
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricSpaceUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
