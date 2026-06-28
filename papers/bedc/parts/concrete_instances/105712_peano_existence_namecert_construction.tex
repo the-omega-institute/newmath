@@ -62,6 +62,29 @@ The Euler polygon ledger $E$ gives the finite approximants. The compact-containm
 Rows $H,C,G,N$ do not add another analytic source. They transport, replay, record provenance, and name the same interval trap. Therefore every accepted local-existence read must expose $I,V,W,E,Q,M$ before the solution row is public.
 \end{proof}
 
+\begin{theorem}[Peano existence scoped primitive route]\label{thm:peano-existence-scoped-primitive-route}
+Every accepted local-existence read of a $\PeanoExistenceUp$ carrier factors through the exact primitive route
+$$
+\OdeUp\ \hbox{interval source}
+\to \ContinuousMapUp\ \hbox{vector-field row}
+\to \RealUp\ \hbox{closed window}
+\to \hbox{Euler polygon ledger}
+\to \hbox{compact-containment row}
+\to \hbox{modulus handoff}
+\to \hsame,\Cont,\Pkg,\NameCert .
+$$
+Thus the scoped read exposes precisely the interval source, vector-field, closed-window, polygon, containment, modulus, transport, replay, provenance, and local naming rows of \autoref{def:peano-existence-carrier}. It exports no Lipschitz uniqueness, selected maximal solution, host compactness, countable choice, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $P=(I,V,W,E,Q,M,H,C,G,N)$ of \autoref{def:peano-existence-carrier}. The only analytic entrance rows are the $\OdeUp$ interval source $I$, the $\ContinuousMapUp$ vector-field row $V$, and the closed $\RealUp$ window $W$.
+
+Apply \autoref{thm:peano-existence-namecert-obligations}. It identifies the local $\NameCert_{\PeanoExistenceUp}$ surface with the displayed carrier rows and records that every local-existence read is routed through $I,V,W,E,Q,M,H,C,G,N$.
+
+Apply \autoref{thm:peano-interval-trap-obligations}. The finite solution-producing part of the route is exactly the Euler polygon ledger $E$, compact-containment row $Q$, and modulus handoff $M$ before transport, replay, provenance, and local naming are consumed.
+
+Since the carrier definition has no coordinate for Lipschitz uniqueness, a selected maximal solution, host compactness, countable choice, or ambient Real completeness, none of those objects can be exported by the scoped primitive route.
+\end{proof}
+
 \closureat{PeanoExistenceUp}{obligationStr}
 
 \begin{closurestatus}{\PeanoExistenceUp}
