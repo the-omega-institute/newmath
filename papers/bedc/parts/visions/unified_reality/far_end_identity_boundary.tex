@@ -1,0 +1,187 @@
+\section{Far-End Identity Boundary}
+\label{sec:unified-reality-far-end-identity-boundary}
+
+The non-point far end can be sharpened once the circular analogy is read
+correctly.  A circular closure is not a reservoir that absorbs an
+unwanted term.  It is an identity action on the displayed boundary
+coordinate.  The equality
+$$
+e^{i(\theta+2\pi)}=e^{i\theta}
+$$
+does not add a compensating correction; it says that the full turn acts
+as the identity on phase.  If a point has radius $r\#1$, the same full
+turn returns the same radius.  Closure does not repair the radius.
+
+\begin{definition}[Circular identity closure]
+\label{def:unified-reality-circular-identity-closure}
+A \emph{circular identity closure} is a closure row whose monodromy acts
+as the identity on the displayed closed coordinate:
+$$
+\mathsf{Close}_{S^1}(\theta)=\theta
+$$
+in the quotient readout, or equivalently
+$$
+e^{i(\theta+2\pi)}=e^{i\theta}.
+$$
+It is not a row of the form
+$$
+x\longmapsto x+C_{\infty}
+$$
+for an undisplayed correction term $C_{\infty}$.
+\end{definition}
+
+\begin{definition}[Far-end identity]
+\label{def:unified-reality-far-end-identity}
+The \emph{far-end identity} row for the zeta prime-torus carrier is
+$$
+\mathsf{FarEndIdentity}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{FarEndClosed}_{\zeta}(s)
+\to
+\prod_{A:\mathsf{PAdicParityWindow}_{\ne\varnothing}}
+\bigl(
+E_A^{\mathrm{pad}}(s)
+=
+E_A^{\mathrm{pad}}(\mathsf{Close}_{\mathrm{far}}(s))
+\bigr)
+\right).
+$$
+It says that far-end closure preserves the finite-window normal energy
+readouts.  The far end may identify compatible phase data, but it does
+not introduce a normal correction row.
+\end{definition}
+
+\begin{definition}[Far-end identity boundary for zeros]
+\label{def:unified-reality-far-end-identity-boundary-zeros}
+The \emph{far-end identity boundary} for completed zeta zeros is
+$$
+\mathsf{FarEndIdentityBoundary}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathsf{FarEndEnergyUnity}_{\zeta}(s)
+\right).
+$$
+It asserts that a completed zero row reaches the far end through identity
+closure of the finite energy readouts, not through a hidden boundary
+reservoir.  This is the zero-facing form of
+\autoref{def:unified-reality-far-end-energy-unity}.
+\end{definition}
+
+\begin{theorem}[Circular identity does not repair radial displacement]
+\label{thm:unified-reality-circular-identity-does-not-repair-radius}
+For $r>0$ and $r\#1$, circular identity closure preserves the off-unit
+radius:
+$$
+r e^{i(\theta+2\pi)}=r e^{i\theta}.
+$$
+Thus circular closure can identify phase after a full turn, but it does
+not turn an off-unit radius into a unit radius.
+\end{theorem}
+
+\begin{proof}
+The identity row gives
+$$
+e^{i(\theta+2\pi)}=e^{i\theta}.
+$$
+Multiplying by the displayed positive radius $r$ gives
+$$
+r e^{i(\theta+2\pi)}=r e^{i\theta}.
+$$
+No term in this equality changes $r$.  Therefore the apartness row
+$r\#1$ is preserved by the phase closure.
+\end{proof}
+
+\begin{theorem}[Far-end identity preserves normal energy]
+\label{thm:unified-reality-far-end-identity-preserves-normal-energy}
+Assume $\mathsf{FarEndIdentity}_{\zeta}$.  If
+$$
+s=\frac12+\delta+i\tau
+$$
+and $\delta^2\#0$, then no far-end closure of $s$ can have all finite
+prime-adic parity energies equal to zero.
+\end{theorem}
+
+\begin{proof}
+For every nonempty prime-adic parity window $A$,
+\autoref{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate}
+gives
+$$
+E_A^{\mathrm{pad}}(s)=\delta^2.
+$$
+If $\delta^2\#0$, this finite-window energy is nonzero.  The far-end
+identity row preserves each finite energy readout under the closure
+operation.  Hence the closed far-end readout still has
+$$
+E_A^{\mathrm{pad}}=\delta^2\#0
+$$
+for every finite window.  It therefore cannot satisfy the cofinal
+zero-energy condition of
+\autoref{def:unified-reality-far-end-energy-unity}.
+\end{proof}
+
+\begin{corollary}[Far-end identity excludes hidden energy absorption]
+\label{cor:unified-reality-far-end-identity-excludes-hidden-energy-absorption}
+Far-end identity is the geometric form of no hidden energy correction:
+a stable positive finite-window energy cannot be removed by passing to
+the compatibility far end.
+\end{corollary}
+
+\begin{proof}
+The hidden correction pattern of
+\autoref{def:unified-reality-no-hidden-energy-correction-far-end} would
+replace a displayed finite-window energy by an altered boundary value.
+Far-end identity instead preserves the displayed finite-window energy
+under closure.  Therefore the far end acts like the identity closure of
+\autoref{def:unified-reality-circular-identity-closure}, not like a
+reservoir for the nonzero row.
+\end{proof}
+
+\begin{theorem}[Far-end identity boundary is conditionally sufficient]
+\label{thm:unified-reality-far-end-identity-boundary-conditionally-sufficient}
+If $\mathsf{FarEndIdentityBoundary}_{\zeta}$ holds, then the RH
+fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$.  The zero row and
+critical-strip row of $z$ give
+$$
+\mathsf{FarEndEnergyUnity}_{\zeta}(s)
+$$
+by
+\autoref{def:unified-reality-far-end-identity-boundary-zeros}.  By
+\autoref{thm:unified-reality-far-end-energy-unity-fixed-half-energy},
+this gives $\delta^2=0$, hence $\delta=0$ in the located real readout.
+Thus
+$$
+\Re(s)=\frac12.
+$$
+The section equivalence of
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} supplies
+the RH fixed-half section.
+\end{proof}
+
+\begin{corollary}[The proof load is identity closure for zero rows]
+\label{cor:unified-reality-proof-load-identity-closure-zero-rows}
+The RH-facing proof load may be stated as the claim that completed zeta
+zero rows use the far end as identity closure of compatible finite
+readouts, not as a hidden correction mechanism.
+\end{corollary}
+
+\begin{proof}
+\autoref{cor:unified-reality-zeta-far-end-not-hidden-defect-absorber}
+shows that the infinite prime-torus far end is a compatibility interface.
+\autoref{thm:unified-reality-far-end-identity-preserves-normal-energy}
+shows that identity closure cannot remove a positive normal energy row.
+Therefore the remaining zero-specific assertion is that zeta zero rows
+indeed satisfy the identity-boundary condition of
+\autoref{def:unified-reality-far-end-identity-boundary-zeros}.  Once that
+row is supplied, the preceding theorem gives the fixed-half section.
+\end{proof}
