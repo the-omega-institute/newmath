@@ -9769,6 +9769,7 @@ import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProjectiveVarUp.TasteGate
 import BEDC.Derived.ProkhorovTightProbabilityUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
+import BEDC.Derived.PronicNumberUp
 import BEDC.Derived.ProofObligationGapUp.TasteGate
 import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProofTermErasureAuditRouteUp
