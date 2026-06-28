@@ -636,6 +636,53 @@ def family_weighted_median(items: list[tuple[float, str]]) -> float:
     return float(weighted[-1][0])
 
 
+def genus_capped_weighted_median(items: list[tuple[float, str]], cap: float = 0.10) -> float:
+    if not items:
+        return 0.0
+    by_group: dict[str, list[float]] = {}
+    for value, group in items:
+        by_group.setdefault(group or "unmapped", []).append(value)
+    groups = sorted(by_group)
+    if not groups:
+        return 0.0
+    effective_cap = max(0.0, min(1.0, cap))
+    if effective_cap <= 0.0 or len(groups) * effective_cap < 1.0:
+        effective_cap = 1.0 / len(groups)
+    total_count = sum(len(values) for values in by_group.values())
+    base = {group: len(by_group[group]) / total_count for group in groups}
+    remaining = set(groups)
+    remaining_mass = 1.0
+    group_weights: dict[str, float] = {}
+    while remaining:
+        base_mass = sum(base[group] for group in remaining)
+        capped = [
+            group
+            for group in remaining
+            if base_mass > 0.0 and remaining_mass * base[group] / base_mass > effective_cap
+        ]
+        if not capped:
+            for group in remaining:
+                group_weights[group] = remaining_mass * base[group] / base_mass if base_mass > 0.0 else remaining_mass / len(remaining)
+            break
+        for group in capped:
+            group_weights[group] = effective_cap
+            remaining_mass -= effective_cap
+            remaining.remove(group)
+    weighted: list[tuple[float, float]] = []
+    for group, values in by_group.items():
+        weight = group_weights.get(group, 0.0) / max(1, len(values))
+        for value in values:
+            weighted.append((value, weight))
+    weighted.sort(key=lambda item: item[0])
+    total = sum(weight for _value, weight in weighted)
+    cursor = 0.0
+    for value, weight in weighted:
+        cursor += weight
+        if cursor >= total / 2.0:
+            return float(value)
+    return float(weighted[-1][0])
+
+
 def bootstrap_weighted_median(rows: list[dict[str, object]], key: str, n: int, seed: int = 104729) -> dict[str, object]:
     values = [(float(row.get(key) or 0.0), str(row.get("genus") or "unmapped")) for row in rows]
     observed = family_weighted_median(values)
@@ -969,6 +1016,101 @@ def preflight_gates(
     }
 
 
+def closure_preflight_gates(
+    n_ok_hosts: int,
+    n_exposure_events: int,
+    matched_genus_counts: dict[str, int],
+) -> dict[str, object]:
+    matched_genera_ge1 = sum(1 for count in matched_genus_counts.values() if count >= 1)
+    matched_genera_ge3 = sum(1 for count in matched_genus_counts.values() if count >= 3)
+    checks = {
+        "hosts_with_spacer_and_prophage_ge_500": n_ok_hosts >= 500,
+        "exposure_events_ge_100": n_exposure_events >= 100,
+        "matched_genera_ge1_ge_20": matched_genera_ge1 >= 20,
+        "matched_genera_ge3_ge_10": matched_genera_ge3 >= 10,
+    }
+    return {
+        "passed": all(checks.values()),
+        "checks": checks,
+        "counts": {
+            "n_ok_hosts": n_ok_hosts,
+            "n_exposure_events": n_exposure_events,
+            "matched_genera_ge1": matched_genera_ge1,
+            "matched_genera_ge3": matched_genera_ge3,
+            "matched_genus_counts": dict(sorted(matched_genus_counts.items())),
+        },
+    }
+
+
+def sign(value: float) -> int:
+    if value > 0.0:
+        return 1
+    if value < 0.0:
+        return -1
+    return 0
+
+
+def signs_not_reversed(reference: float, candidate: float) -> bool:
+    ref_sign = sign(reference)
+    candidate_sign = sign(candidate)
+    return bool(ref_sign == 0 or candidate_sign == 0 or ref_sign == candidate_sign)
+
+
+def closure_diagnostics(
+    own_rows: list[dict[str, object]],
+    n_ok_hosts: int,
+    n_exposure_events: int,
+    cap: float = 0.10,
+) -> dict[str, object]:
+    r_items = [(float(row.get("R") or 0.0), str(row.get("genus") or "unmapped")) for row in own_rows]
+    b_items = [(float(row.get("B") or 0.0), str(row.get("genus") or "unmapped")) for row in own_rows]
+    matched_genus_counts: dict[str, int] = {}
+    for row in own_rows:
+        genus = str(row.get("genus") or "unmapped")
+        matched_genus_counts[genus] = matched_genus_counts.get(genus, 0) + 1
+    median_r = genus_capped_weighted_median(r_items, cap)
+    median_b = genus_capped_weighted_median(b_items, cap)
+    full_sign = sign(median_r)
+    dropped: dict[str, float] = {}
+    for genus in sorted(matched_genus_counts):
+        dropped_items = [(value, group) for value, group in r_items if group != genus]
+        dropped[genus] = genus_capped_weighted_median(dropped_items, cap)
+    leave_one_stable = bool(dropped) and all(sign(value) == full_sign for value in dropped.values())
+    non_klebsiella_rows = [
+        row
+        for row in own_rows
+        if "klebsiella" not in str(row.get("genus") or "unmapped").lower()
+    ]
+    klebsiella_r = genus_capped_weighted_median(
+        [(float(row.get("R") or 0.0), str(row.get("genus") or "unmapped")) for row in non_klebsiella_rows],
+        cap,
+    )
+    klebsiella_b = genus_capped_weighted_median(
+        [(float(row.get("B") or 0.0), str(row.get("genus") or "unmapped")) for row in non_klebsiella_rows],
+        cap,
+    )
+    klebsiella_not_reversed = bool(
+        non_klebsiella_rows
+        and signs_not_reversed(median_r, klebsiella_r)
+        and signs_not_reversed(median_b, klebsiella_b)
+    )
+    preflight = closure_preflight_gates(n_ok_hosts, n_exposure_events, matched_genus_counts)
+    return {
+        "genus_cap": cap,
+        "genus_capped_median_R": median_r,
+        "genus_capped_median_B": median_b,
+        "matched_genera_ge1": preflight["counts"]["matched_genera_ge1"],  # type: ignore[index]
+        "matched_genera_ge3": preflight["counts"]["matched_genera_ge3"],  # type: ignore[index]
+        "matched_genus_counts": dict(sorted(matched_genus_counts.items())),
+        "leave_one_genus_out_stable": leave_one_stable,
+        "per_genus_dropped_median_R": dropped,
+        "klebsiella_excluded_median_R": klebsiella_r,
+        "klebsiella_excluded_median_B": klebsiella_b,
+        "klebsiella_excluded_not_reversed": klebsiella_not_reversed,
+        "closure_preflight": preflight,
+    }
+
+
 def verdict_from_summary(summary: dict[str, object]) -> str:
     preflight = dict(summary.get("preflight") or {})
     if not preflight.get("passed"):
@@ -987,6 +1129,10 @@ def verdict_from_summary(summary: dict[str, object]) -> str:
     if n3_retains or (median_r > 0.0 and median_b < 0.0 and not n3_own_beats):
         return "ecology_dominated"
     if median_r > 0.0 and median_b < 0.0 and n2_beats and n3_own_beats and n5_clean:
+        if summary.get("closure_mode"):
+            closure = dict(summary.get("closure") or {})
+            if not (closure.get("leave_one_genus_out_stable") and closure.get("klebsiella_excluded_not_reversed")):
+                return "refuted"
         return "supportive"
     return "refuted"
 
@@ -1003,6 +1149,7 @@ def summarize(
     cross_summary: dict[str, object],
     n_self_events: int,
     bootstrap_n: int,
+    closure_mode: bool = False,
 ) -> dict[str, object]:
     n_exposure_events = sum(int(row.get("n_exposure_events") or 0) for row in per_host)
     n_ok_hosts = sum(1 for row in per_host if row.get("has_spacer_and_prophage"))
@@ -1016,11 +1163,17 @@ def summarize(
         genus_event_counts[genus] = genus_event_counts.get(genus, 0) + count
     median_r = family_weighted_median([(float(row.get("R") or 0.0), str(row.get("genus") or "unmapped")) for row in own_rows])
     median_b = family_weighted_median([(float(row.get("B") or 0.0), str(row.get("genus") or "unmapped")) for row in own_rows])
+    closure = closure_diagnostics(own_rows, n_ok_hosts, n_exposure_events) if closure_mode else None
+    if closure_mode and closure is not None:
+        median_r = float(closure.get("genus_capped_median_R") or 0.0)
+        median_b = float(closure.get("genus_capped_median_B") or 0.0)
     shuffled_r = float(shuffled_summary.get("median_R") or 0.0)
     cross_r = float(cross_summary.get("median_R") or 0.0)
     cross_b = float(cross_summary.get("median_B") or 0.0)
     n5_ratio = n_self_events / max(1, n_exposure_events)
     preflight = preflight_gates(n_ok_hosts, n_hosts_with_exposure, n_exposure_events, len(own_rows), genus_event_counts)
+    if closure_mode and closure is not None:
+        preflight = dict(closure.get("closure_preflight") or {})
     summary: dict[str, object] = {
         "n_hosts": len(per_host),
         "n_ok_hosts": n_ok_hosts,
@@ -1056,6 +1209,9 @@ def summarize(
             "B": bootstrap_weighted_median(own_rows, "B", bootstrap_n),
         },
     }
+    if closure_mode and closure is not None:
+        summary["closure_mode"] = True
+        summary["closure"] = closure
     summary["verdict"] = verdict_from_summary(summary)
     return summary
 
@@ -1064,6 +1220,7 @@ def run_pipeline() -> dict[str, object]:
     host_limit = parse_host_limit()
     min_match = env_int("CC_MIN_SPACER_MATCH", 28)
     bootstrap_n = env_int("CC_BOOTSTRAP_N", 2000)
+    closure_mode = os.environ.get("CC_CLOSURE_MODE", "").strip() == "1"
     manifest_path = env_path("CC_MANIFEST", DEFAULT_MANIFEST)
     spacer_path = env_path("CC_SPACER_FSA", DEFAULT_SPACER_FSA)
     flinders_path = env_path("CC_FLINDERS_BULK", DEFAULT_FLINDERS_BULK)
@@ -1110,6 +1267,7 @@ def run_pipeline() -> dict[str, object]:
         cross_summary,
         len(self_events),
         bootstrap_n,
+        closure_mode,
     )
     return {
         "summary": summary,
@@ -1185,6 +1343,47 @@ def run_selftest() -> dict[str, object]:
     dominated["N3_same_genus_cross_host"] = {"own_beats_cross_host": False, "cross_host_retains_signal": True}
     if verdict_from_summary(dominated) != "ecology_dominated":
         raise AssertionError("ecology verdict failed")
+    capped_items = [(0.0, "Dominant") for _idx in range(90)] + [(10.0, f"G{idx}") for idx in range(10)]
+    assert_close(genus_capped_weighted_median(capped_items), 10.0)
+    closure_rows: list[dict[str, object]] = []
+    for idx in range(20):
+        count = 3 if idx < 10 else 1
+        genus = "Klebsiella" if idx == 0 else f"CG{idx}"
+        for slot in range(count):
+            closure_rows.append({"genus": genus, "R": 1.0 + idx / 100.0 + slot / 1000.0, "B": -1.0})
+    closure = closure_diagnostics(closure_rows, 500, 100)
+    closure_summary = {
+        "closure_mode": True,
+        "closure": closure,
+        "preflight": closure["closure_preflight"],
+        "median_R": closure["genus_capped_median_R"],
+        "median_B": closure["genus_capped_median_B"],
+        "N2_shuffled_spacer": {"true_spacers_beat_shuffled": True},
+        "N3_same_genus_cross_host": {"own_beats_cross_host": True, "cross_host_retains_signal": False},
+        "N5_nonprophage_self_target": {"clean": True},
+    }
+    if verdict_from_summary(closure_summary) != "supportive":
+        raise AssertionError("closure supportive verdict failed")
+    klebsiella_reversal = dict(closure)
+    klebsiella_reversal["klebsiella_excluded_median_R"] = -1.0
+    klebsiella_reversal["klebsiella_excluded_not_reversed"] = False
+    reversal_summary = dict(closure_summary)
+    reversal_summary["closure"] = klebsiella_reversal
+    if verdict_from_summary(reversal_summary) == "supportive":
+        raise AssertionError("closure Klebsiella reversal guard failed")
+    sparse_rows: list[dict[str, object]] = []
+    for idx in range(20):
+        count = 3 if idx < 9 else 1
+        for _slot in range(count):
+            sparse_rows.append({"genus": f"SG{idx}", "R": 1.0, "B": -1.0})
+    sparse_closure = closure_diagnostics(sparse_rows, 500, 100)
+    sparse_summary = dict(closure_summary)
+    sparse_summary["closure"] = sparse_closure
+    sparse_summary["preflight"] = sparse_closure["closure_preflight"]
+    sparse_summary["median_R"] = sparse_closure["genus_capped_median_R"]
+    sparse_summary["median_B"] = sparse_closure["genus_capped_median_B"]
+    if verdict_from_summary(sparse_summary) != "data_gate_failed":
+        raise AssertionError("closure matched ge3 data gate failed")
     return {
         "ok": True,
         "tested": [
@@ -1194,6 +1393,7 @@ def run_selftest() -> dict[str, object]:
             "R_B_estimator",
             "preflight_gate",
             "verdict",
+            "closure_mode",
         ],
     }
 
