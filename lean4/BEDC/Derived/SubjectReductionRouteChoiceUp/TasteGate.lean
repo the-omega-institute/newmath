@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
@@ -8,6 +9,7 @@ namespace BEDC.Derived.SubjectReductionRouteChoiceUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -376,5 +378,55 @@ theorem SubjectReductionRouteChoiceObligations (B V O H C P N : BHist) :
       intro _h source
       exact source
   }
+
+theorem SubjectReductionRouteChoiceSubstitutionStability
+    {B V O H C P N row row' replay : BHist}
+    (route : Cont B V replay)
+    (source : SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row)
+    (same : hsame row' row) :
+    SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row' ∧
+      Cont B V replay := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  constructor
+  · cases source with
+    | inl sameB =>
+        exact Or.inl (hsame_trans same sameB)
+    | inr rest =>
+        cases rest with
+        | inl sameV =>
+            exact Or.inr (Or.inl (hsame_trans same sameV))
+        | inr rest =>
+            cases rest with
+            | inl sameO =>
+                exact Or.inr (Or.inr (Or.inl (hsame_trans same sameO)))
+            | inr rest =>
+                cases rest with
+                | inl sameH =>
+                    exact Or.inr (Or.inr (Or.inr (Or.inl (hsame_trans same sameH))))
+                | inr rest =>
+                    cases rest with
+                    | inl sameC =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr (Or.inl (hsame_trans same sameC)))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameP =>
+                            exact
+                              Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr (Or.inl (hsame_trans same sameP))))))
+                        | inr sameN =>
+                            exact
+                              Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr (Or.inr (hsame_trans same sameN))))))
+  · exact route
 
 end BEDC.Derived.SubjectReductionRouteChoiceUp
