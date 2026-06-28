@@ -332,4 +332,24 @@ theorem CofinalStreamTailSelectorTasteGate_single_carrier_alignment :
             · exact ⟨cofinalStreamTailSelectorNontrivial⟩
             · rfl
 
+theorem CofinalStreamTailSelectorObligationSurface (x : CofinalStreamTailSelectorUp) :
+    ∃ precision window regseqHandoff dyadicReadback realSeal selectorProvenance
+        hsameTransport contReplay pkgProvenance localName : BHist,
+      x =
+          CofinalStreamTailSelectorUp.mk precision window regseqHandoff dyadicReadback
+            realSeal selectorProvenance hsameTransport contReplay pkgProvenance
+            localName ∧
+        BHistCarrier.toEventFlow x = cofinalStreamTailSelectorToEventFlow x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk precision window regseqHandoff dyadicReadback realSeal selectorProvenance
+      hsameTransport contReplay pkgProvenance localName =>
+      refine
+        ⟨precision, window, regseqHandoff, dyadicReadback, realSeal,
+          selectorProvenance, hsameTransport, contReplay, pkgProvenance,
+          localName, ?_⟩
+      constructor
+      · rfl
+      · rfl
+
 end BEDC.Derived.CofinalStreamTailSelectorUp
