@@ -248,15 +248,27 @@ Next use the public route theorems. The NameCert obligations of \autoref{thm:zec
 Finally apply the value ledger and boundary transport theorems, \autoref{thm:zeckendorf-carry-normalization-value-ledger} and \autoref{thm:zeckendorf-carry-normalization-boundary-transport}. They keep public value preservation inside $V$ and keep transport from creating $\hsame(h,k)$ or a rewrite coordinate. Thus the bridge-facing surface is exactly the finite Nat/carry route already displayed by the chapter.
 \end{proof}
 
-\closureat{ZeckendorfCarryNormalizationUp}{publicStr}
+\begin{theorem}[Zeckendorf carry-normalization mature package]
+\label{thm:zeckendorf-carry-normalization-mature-package}
+The $\ZeckendorfCarryNormalizationUp$ carrier, NameCert obligations, value ledger, Nat/carry dependency route, source-target totality, boundary transport, local naming exhaustion, and bridged export assemble one mature finite Nat/carry package. The package exposes the displayed source row $h$, target row $k$, carry witness $W$, value ledger $V$, boundary row $H$, continuation row $C$, provenance row $P$, and local name $N$ as the complete public surface. It still exports no source-target $\hsame$, global normalization theorem, ambient arithmetic model, or kernel rewrite rule.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation rows of \autoref{def:zeckendorf-carry-normalization-carrier} and \autoref{thm:zeckendorf-carry-normalization-namecert-obligations}. They admit exactly the finite packet $Z=(h,k,W,V,H,C,P,N)$ and bind source-target normality, value exactness, boundary preservation, and local naming to that packet.
+
+Next use the value ledger, Nat/carry dependency, and source-target totality rows. Theorems~\ref{thm:zeckendorf-carry-normalization-value-ledger}, \ref{thm:zeckendorf-carry-normalization-axis-nat-dependency}, and \ref{thm:zeckendorf-carry-normalization-source-target-totality} keep value preservation downstream of the displayed carry row, Nat indexing discipline, and visible source-target windows.
+
+Finally apply boundary transport, local naming exhaustion, and bridged export. Theorems~\ref{thm:zeckendorf-carry-normalization-boundary-transport}, \ref{thm:zeckendorf-carry-normalization-local-naming-exhaustion}, and \ref{thm:zeckendorf-carry-normalization-bridged-export} preserve the non-$\hsame$ boundary and expose only the finite Nat/carry route. Hence the assembled package is mature on the paper theory axis without adding the excluded global or kernel-level objects.
+\end{proof}
+
+\closureat{ZeckendorfCarryNormalizationUp}{matureStr}
 
 \begin{closurestatus}{\ZeckendorfCarryNormalizationUp}
   \constructivestory{A $\ZeckendorfCarryNormalizationUp$ packet is generated from a source non-normal row, target normal row, carry witness row, Fibonacci-value ledger row, non-$\hsame$ boundary row, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:zeckendorf-carry-normalization-carrier}, \autoref{thm:zeckendorf-carry-normalization-namecert-obligations}, \autoref{thm:zeckendorf-carry-normalization-value-ledger}, \autoref{thm:zeckendorf-carry-normalization-axis-nat-dependency}, and \autoref{thm:zeckendorf-carry-normalization-source-target-totality} bind the displayed carrier, NameCert obligations, value ledger, and Nat/carry sibling dependency route as the scoped finite carry-normalization surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close source-target $\hsame$, global normalization, kernel rewrite rules, or a checked Lean certificate.}
-  \upgradepath{Public closure requires a reusable consumer-facing carry-normalization interface and bridge coverage for the same finite Nat/carry route.}
+  \upgradepath{No further theory-axis upgrade is claimed; only Lean bridge verification remains outside the paper package.}
 \end{closurestatus}
