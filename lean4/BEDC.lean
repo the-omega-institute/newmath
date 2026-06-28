@@ -10030,6 +10030,7 @@ import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
+import BEDC.Derived.RHRoute.RationalPolygonWinding
 import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
