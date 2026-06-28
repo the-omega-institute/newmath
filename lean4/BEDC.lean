@@ -6768,6 +6768,7 @@ import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.CompletionHandoffExactness
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
+import BEDC.Derived.HausdorffizationUp.NameCertObligationSurface
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
 import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
@@ -10976,6 +10977,7 @@ import BEDC.Derived.RegularCauchyFilterComparisonUp
 import BEDC.Derived.RegularCauchyFilterComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterFunctorUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterRealUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
