@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RHBoundaryKindSeparationUp$}
+\label{ch:concrete-instances-rh-boundary-kind-separation-namecert}
+\origin{ai}
+
+The $\RHBoundaryKindSeparationUp$ packet realizes the three-boundary separation of \autoref{ch:visions-rh-three-boundary-separation} as finite NameCert data. It sits after the complex carrier of \autoref{ch:concrete-instances-complex-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the zeta-zero witness surface of \autoref{ch:concrete-instances-zeta-zeros-namecert}, and the finite prime-window gluing route of \autoref{ch:concrete-instances-finite-prime-window-gluing-namecert}. The packet keeps the geometric critical-line surface, certified zero predicate, and RH rigidity boundary in separate rows before any consumer may ask about a total zero decider.
+
+\begin{definition}[RH boundary-kind separation carrier]\label{def:rh-boundary-kind-separation-carrier}
+An $\RHBoundaryKindSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,Z,R,D,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the geometric critical-line row, storing the mirror-fixed surface and its $\RealUp$ readback.
+\item $Z$ is the certified zeta-zero predicate row, read through the displayed $\ZetaZerosUp$ witness surface and the inspected $\ComplexUp$ point.
+\item $R$ is the RH rigidity row, recording only the conditional route from certified critical-strip zero evidence to a critical-line witness.
+\item $D$ is the decider-boundary row, recording whether a total zero-decider row is explicitly displayed; absence of this row blocks any total-decision read.
+\item $F$ is the finite prime-window gluing row, exposing prime-window data only as a sibling dependency of the certified zero route, not as a replacement for $G,Z,R,D$.
+\item $H$ records componentwise $\hsame$ transport for the geometric row, zero-predicate row, rigidity row, decider-boundary row, gluing row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an RH-facing boundary request through $G,Z,R,D,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RHBoundaryKindSeparationUp$, $\ComplexUp$, $\RealUp$, $\ZetaZerosUp$, $\PrimeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RHBoundaryKindSeparationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,Z,R,D,F,H,C,P,N$. It has no coordinate for an RH proof, an RH refutation, a hidden total zero decider, a quotient zero set, host complex equality, or a collapse of geometric, predicate, and rigidity data into one row.
+\end{definition}
+
+\begin{theorem}[RH boundary-kind separation NameCert obligations]\label{thm:rh-boundary-kind-separation-namecert-obligations}
+For every accepted $\RHBoundaryKindSeparationUp$ carrier
+$$
+B=(G,Z,R,D,F,H,C,P,N),
+$$
+the local $\NameCert_{\RHBoundaryKindSeparationUp}$ surface consists exactly of carrier admission for the geometric critical-line row, certified zero-predicate row, RH rigidity row, displayed decider-boundary row, finite prime-window gluing row, componentwise transport, displayed replay, provenance, and local naming. A consumer may use the packet only after it keeps $G$, $Z$, and $R$ as distinct rows and treats $D$ as the sole place where a total zero decider could be displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rh-boundary-kind-separation-carrier}. The rows $G,Z,R,D,F$ are listed separately before the structural rows $H,C,P,N$.
+
+The geometric row $G$ is read from the mirror-fixed surface and real readback. The zero-predicate row $Z$ is read from certified zeta-zero evidence at a complex point. The rigidity row $R$ consumes zero and strip evidence conditionally; it does not decide whether such evidence exists.
+
+The decider-boundary row $D$ is the only coordinate in which a total zero decider can be displayed. Since the classifier has no hidden coordinate outside $G,Z,R,D,F,H,C,P,N$, omitting $D$ blocks a total-decision read.
+\end{proof}
+
+\begin{theorem}[RH boundary-kind decider nonescape]\label{thm:rh-boundary-kind-separation-decider-nonescape}
+Any accepted $\RHBoundaryKindSeparationUp$ packet has no row for a total zero decider unless the decider-boundary row $D$ explicitly displays one. In particular, the geometric critical-line row $G$, certified zero-predicate row $Z$, rigidity row $R$, and finite prime-window gluing row $F$ cannot be reclassified as a total decision procedure.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The rows $G,Z,R,F$ record a fixed surface, a supplied zero predicate, a conditional rigidity route, and finite prime-window gluing data.
+
+None of those rows has the shape of a total decision procedure over all complex histories. The row $D$ is the only row assigned to the zero-decider boundary.
+
+Transport through $H$ and replay through $C$ preserve the same row inventory. Provenance and local naming through $P,N$ do not add a missing decider coordinate. Therefore a total zero-decider read is accepted only when it is displayed in $D$.
+\end{proof}
+
+\begin{theorem}[RH boundary-kind sibling separation]\label{thm:rh-boundary-kind-separation-sibling-separation}
+The $\RHBoundaryKindSeparationUp$ carrier is not bijective to the sibling packets for real names, complex names, zeta-zero witnesses, or finite prime-window gluing. It jointly binds geometric critical-line, certified zero-predicate, rigidity, decider-boundary, and gluing rows, while each listed sibling supplies only one component surface or one dependency route.
+\end{theorem}
+\begin{proof}
+Compare row inventories. The real and complex siblings supply the scalar and point carriers used by $G$ and $Z$, but they do not contain a zeta-zero predicate or RH rigidity row.
+
+The zeta-zero sibling supplies certified zero evidence, but it does not by itself display the mirror-fixed geometric surface, the rigidity boundary, or the decider-boundary row.
+
+The finite prime-window gluing sibling supplies the gluing route consumed by $F$. It does not carry the three-way boundary ledger $G,Z,R,D$.
+
+Thus no listed sibling has the same accepted carrier surface as $B=(G,Z,R,D,F,H,C,P,N)$, and no bijection can preserve the local NameCert rows component by component.
+\end{proof}
+
+\falsifiablePrediction{Any accepted RHBoundaryKindSeparationUp packet has no row for a total zero decider unless the zero-decider row is explicitly displayed.}
+
+\independenceWitness{real, complex, zeta, finite\_prime\_window\_gluing: the packet is not bijective to these siblings because it carries boundary-kind separation rows linking all of them while none of the listed siblings carries the three-way separation ledger.}
+
+\closureat{RHBoundaryKindSeparationUp}{seedStr}
+
+\begin{closurestatus}{\RHBoundaryKindSeparationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rh-boundary-kind-separation-carrier}, \autoref{thm:rh-boundary-kind-separation-namecert-obligations}, \autoref{thm:rh-boundary-kind-separation-decider-nonescape}, and \autoref{thm:rh-boundary-kind-separation-sibling-separation} seed the finite three-boundary ledger separating geometric critical-line, certified zero-predicate, RH rigidity, decider-boundary, and finite prime-window gluing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove RH, refute RH, decide all zeta zeros, enumerate all zeros, collapse the critical-line surface into the zero predicate, supply Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, geometric-row exactness, certified zero-predicate routing, rigidity-row separation, decider-boundary nonescape, finite prime-window gluing handoff, transport, replay, provenance, local naming, and the future Nontrivial and FieldFaithful taste gates for BEDC.Derived.RHBoundaryKindSeparationUp.}
+  \constructivestory{An $\RHBoundaryKindSeparationUp$ packet is generated from geometric critical-line rows, certified zeta-zero predicate rows, RH rigidity rows, decider-boundary rows, finite prime-window gluing rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
