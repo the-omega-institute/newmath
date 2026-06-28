@@ -305,6 +305,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanApproximationUp.DyadicCofinalWindow
+import BEDC.Derived.ArchimedeanApproximationUp.DyadicUpperLadder
 import BEDC.Derived.ArchimedeanApproximationUp.TasteGate
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
@@ -4579,6 +4580,7 @@ import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
 import BEDC.Derived.DavenportConstantUp.TasteGate
 import BEDC.Derived.DcpoUp
+import BEDC.Derived.DcpoUp.CompletionFacingHandoff
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
@@ -10257,7 +10259,9 @@ import BEDC.Derived.RealCompletionReflectionUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
+import BEDC.Derived.RealCompletionSelectorSealUp.RegSeqReadbackExactness
 import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
+import BEDC.Derived.RealCompletionSelectorSealUp.SelectorBudgetTotality
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionWindowFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
@@ -11009,6 +11013,7 @@ import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate
 import BEDC.Derived.RegularCauchyNameNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyNameUp.DyadicRadiusObligations
 import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
@@ -11581,6 +11586,7 @@ import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.FilterToSequenceRoute
 import BEDC.Derived.SequenceFilterBridgeUp.SequenceToFilterRoute
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentCalculusUp.TasteGate
 import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
 import BEDC.Derived.SequentialArchimedeanWindowUp.TasteGate
 import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
