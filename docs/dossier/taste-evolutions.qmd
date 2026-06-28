@@ -20,18 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-28T12:08:32Z
+> 最后刷新: 2026-06-28T14:21:00Z
 
-**Daemon 状态**: monitor (monitor cycle 205, adjust_since_research 2, round_counter 29560, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 206, adjust_since_research 2, round_counter 29673, last_adjust rule_evolution_completed)
 
-**待处理 queue** (891 条 finding):
-- isolated_theorem: 612 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (896 条 finding):
+- isolated_theorem: 616 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 221 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 58 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 59 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 42 次
-- TASTE ALERT category=unauthorized_capstone: 41 次
+- TASTE ALERT category=isolated_theorem: 44 次
 - TASTE ALERT category=cycle_exception: 4 次
 - TASTE ALERT category=low_entropy_template: 3 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
@@ -443,6 +442,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-28T10:05:41Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_limit_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_pointwise_limit_ledger:93ddb164`). Rationale: The target is not a vacuous wrapper: it packages the Real value-seal row R as a SemanticNameCert with the displayed X,F,S,Q,R pattern and exports UnaryHistory R plus Cont S Q R. The paper chapter uses it as the checked pointwise-limit ledger claim, and downstream prose depends on that claim, but Lean has no current downstream reference. I attempted an add_downstream_user consumer in the OscillationLocality sibling tying the limit ledger to the oscillation boundary; however the required lake build gate failed on BEDC.Derived.BaireOneFunctionUp.OscillationLocality with Unknown identifier `carrier`, so the attempted edit was reverted per daemon instructions. Gate results: lake_build=error: BEDC/Derived/BaireOneFunctionUp/OscillationLocality.lean:194:38: Unknown identifier `carrier`; error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-28T12:07:41Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_namecert_obligation_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_namecert_obligation_surface:93ddb164`). Rationale: 该定理不是空壳包装：它从 BaireOneFunctionCarrier、Cont S Q endpoint 与 PkgSig bundle endpoint pkg 构造实际 SemanticNameCert，并推出 UnaryHistory endpoint，paper 中也作为 NameCert obligation surface 的 primary marker 使用；当前检索显示没有 Lean 下游消费者。曾尝试在 OscillationLocality sibling 中加入 downstream user，但必跑 gate `cd lean4 && lake build` 失败，错误为新增 theorem 内 destructuring 后继续使用已消耗的 `carrier`，因此按任务规则撤回改动并转为 leave_with_rationale。 Gate results: lake_build=failed: BEDC.Derived.BaireOneFunctionUp.OscillationLocality; Unknown identifier carrier at OscillationLocality.lean:204:38, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-28T14:20:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_lowersemicontinuous_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_lowersemicontinuous_handoff:93ddb164`). Rationale: The target is not a disposable wrapper: it constructs the lower-semicontinuous handoff SemanticNameCert from the BaireOneFunction carrier, matching the chapter's core handoff theorem. It had no exact Lean consumer, so I added a sibling theorem that uses it directly and connects that handoff to the existing public export locality boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
