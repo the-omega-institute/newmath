@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DyadicDistanceUp$}
+\label{ch:concrete-instances-dyadic-distance-namecert}
+\origin{human}
+
+Following Bishop and Bridges, read dyadic distance as the finite absolute-difference certificate needed before regular Cauchy real names. The $\DyadicDistanceUp$ packet sits after the dyadic rational source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the absolute-value normalization of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert}, and the metric handoff of \autoref{ch:concrete-instances-dyadic-metric-namecert}. It is consumed by the regular Cauchy row discipline of \autoref{ch:concrete-instances-regseqrat-namecert} and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite endpoint, scale, sign, absolute-value, transport, replay, provenance, and local certificate rows; it does not import a host real distance, quotient rational equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic distance carrier]
+\label{def:dyadic-distance-carrier}
+A $\DyadicDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,R,E,S,A,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two $\DyadicRatCoreUp$ endpoint histories.
+\item $E$ is the common positive unary scale row refining the endpoint denominators.
+\item $S$ is the signed common-scale difference row, including the transported mantissas.
+\item $A$ is the $\DyadicAbsoluteValueUp$ absolute-value normalization row for $S$.
+\item $Z$ is the zero-distance and triangle ledger, storing the equal-endpoint row and the common-scale comparison rows used by later tolerance consumers.
+\item $H$ records componentwise $\hsame$ transport for endpoints, scale, signed difference, absolute value, ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an endpoint-pair request through the common-scale and absolute-value rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicDistanceUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicDistanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets by equality of the displayed distance witnesses after common-scale refinement. It has no coordinate for a quotient rational representative, a host real metric, a selected real endpoint, trichotomy, or a completion principle.
+\end{definition}
+\leanstmt{BEDC.Derived.DyadicDistanceUp}
+
+\begin{theorem}[Dyadic distance NameCert obligations]
+\label{thm:dyadic-distance-namecert-obligations}
+For every accepted $\DyadicDistanceUp$ carrier $D=(L,R,E,S,A,Z,H,C,P,N)$, the local naming surface has exactly five mathematical obligation rows:
+\begin{enumerate}
+\item carrier admission for the pair of $\DyadicRatCoreUp$ endpoints plus the absolute common-scale witness;
+\item classifier comparison by equality of distance witnesses under common-scale refinement;
+\item stability under dyadic equality, componentwise $\hsame$ transport, and displayed $\Cont$ replay;
+\item exactness for zero-distance exposure and the common-scale triangle rows recorded in $Z$;
+\item ledger visibility for hidden scale choices and sign-normalization data.
+\end{enumerate}
+The structural rows $H,C,P,N$ transport, replay, source, and name these obligations without adding host real distance, quotient equality, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-distance-carrier}. The endpoint rows $L,R$, the common scale row $E$, the signed difference row $S$, the absolute-value row $A$, and the ledger row $Z$ are the only mathematical coordinates available to a distance consumer.
+
+The classifier row is read through the common-scale witness. Refining two accepted distance packets to a further displayed scale transports the same endpoint and mantissa rows through $\DyadicRatCoreUp$ and compares the resulting absolute witnesses through $\DyadicAbsoluteValueUp$.
+
+Stability is therefore componentwise. The $H$ row transports endpoints, scale, signed-difference, absolute-value, and ledger data, while $C$ replays the same finite route for the transported packet.
+
+Exactness is confined to $Z$. The zero-distance row is the equal-endpoint common-scale case, and the triangle row is the finite comparison of three displayed common-scale absolute differences. Since no host real, quotient, trichotomy, or completion row is present in the carrier, the five listed obligations exhaust the naming surface.
+\end{proof}
+
+\begin{theorem}[Dyadic distance triangle envelope]
+\label{thm:dyadic-distance-triangle-envelope}
+Let $D_{01}$, $D_{12}$, and $D_{02}$ be accepted $\DyadicDistanceUp$ packets for three accepted $\DyadicRatCoreUp$ endpoint histories. If their common-scale rows are refined to one displayed positive unary scale and their sign-normalization ledgers are transported to that scale, then the triangle envelope is read entirely from the three absolute common-scale witnesses and the ledger row $Z$. The read exposes no host metric inequality, quotient rational equality, selected real endpoint, trichotomy, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Refine the three packet scales to one displayed positive unary scale. The $\DyadicRatCoreUp$ classifier supplies the endpoint transports, and the $\DyadicAbsoluteValueUp$ rows normalize the three signed common-scale differences at that same scale.
+
+Read the envelope from the ledger row $Z$ of each accepted packet. These rows contain the zero-distance and common-scale triangle data that later $\RegSeqRatUp$ and $\RealUp$ consumers need for finite tolerance comparison.
+
+The conclusion is a boundary statement about available rows. Because the carrier of \autoref{def:dyadic-distance-carrier} contains only endpoint, scale, signed-difference, absolute-value, ledger, transport, replay, provenance, and local naming data, the triangle envelope cannot be reinterpreted as a host metric theorem or as any completed real-distance principle.
+\end{proof}
+
+\closureat{DyadicDistanceUp}{seedStr}
+
+\begin{closurestatus}{\DyadicDistanceUp}
+  \constructivestory{A $\DyadicDistanceUp$ packet is generated from two DyadicRatCore endpoint rows, a common positive unary scale, a signed common-scale difference row, a DyadicAbs normalization row, a zero-distance and triangle ledger, componentwise transport, displayed replay, provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-distance-carrier}, \autoref{thm:dyadic-distance-namecert-obligations}, and \autoref{thm:dyadic-distance-triangle-envelope} seed the finite dyadic distance substrate consumed by regular Cauchy and real-name tolerance rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, metric-space completion, quotient rational equality, trichotomy, or any host real-distance theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, zero-distance exactness, triangle-envelope exactness, hidden-scale ledger visibility, transport, replay, provenance, and local naming for BEDC.Derived.DyadicDistanceUp.}
+\end{closurestatus}
