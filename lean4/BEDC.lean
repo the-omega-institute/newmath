@@ -3836,6 +3836,7 @@ import BEDC.Derived.ContinuousFunctionCarrierUp.TasteGate
 import BEDC.Derived.ContinuousFunctionUp.TasteGate
 import BEDC.Derived.ContinuousImageCompactUp.TasteGate
 import BEDC.Derived.ContinuousIntervalImageUp.TasteGate
+import BEDC.Derived.ContinuousLatticeUp
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
@@ -6698,6 +6699,7 @@ import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
+import BEDC.Derived.HeatKernelUp.TasteGate
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
 import BEDC.Derived.HeineBorelIntervalUp.BridgedFiniteNetInterface
 import BEDC.Derived.HeineBorelIntervalUp.ClosedIntervalNetExtraction
@@ -9682,6 +9684,9 @@ import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.PriestleyDualityUp.TasteGate
+import BEDC.Derived.PrimeAdicLocalSlicing
+import BEDC.Derived.PrimeAdicParityEnergyWindow
+import BEDC.Derived.PrimeAdicParitySphere
 import BEDC.Derived.PrimeNumberTheoremChebyshevWindowUp.TasteGate
 import BEDC.Derived.PrimeSieveOddExactnessUp
 import BEDC.Derived.PrimeUp
@@ -9916,8 +9921,10 @@ import BEDC.Derived.RHRoute.CounterexampleSafety
 import BEDC.Derived.RHRoute.EtaInteger
 import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
+import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
+import BEDC.Derived.RHRoute.FarEndEnergySocket
 import BEDC.Derived.RHRoute.FarEndUnityNormalization
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
@@ -9930,9 +9937,11 @@ import BEDC.Derived.RHRoute.LagariasCriterion
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
 import BEDC.Derived.RHRoute.NonfixedOrbit
 import BEDC.Derived.RHRoute.ObjectRealityInductionRoute
+import BEDC.Derived.RHRoute.OddZeroDefect
 import BEDC.Derived.RHRoute.OnticBoundaryLedger
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
+import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
@@ -9943,6 +9952,7 @@ import BEDC.Derived.RHRoute.ZeroGenerationInitiality
 import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
 import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants
+import BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy
 import BEDC.Derived.RHRoute.ZetaZeroLocated
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
@@ -10188,6 +10198,7 @@ import BEDC.Derived.RealIntervalApartnessUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
+import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
@@ -11230,6 +11241,7 @@ import BEDC.Derived.RiemannIntegrabilityModulusUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
 import BEDC.Derived.RiemannIntegralCauchyUp.TasteGate
+import BEDC.Derived.RiemannIntegralCompletionModulusUp.TasteGate
 import BEDC.Derived.RiemannIntegralUp
 import BEDC.Derived.RiemannIntegralUp.DarbouxGapExactness
 import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
