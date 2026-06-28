@@ -8,6 +8,16 @@ This chapter consumes the no-subject observer-history surface of \autoref{ch:con
 
 The licensed observer comparison packet of \autoref{ch:concrete-instances-observerlicensedcomparison-namecert} consumes this pairwise $\mathsf{ProbeBundle}$/$\mathsf{SigRel}$ comparison row as its observer-facing observation lattice input.
 
+\begin{theorem}[ObserverHistoryIdentity consumes ObserverHistIdentity]
+\label{thm:observer-history-identity-observerhist-dependency}
+Every accepted $\ObserverHistoryIdentityUp$ packet consumes the no-subject $\ObserverHistIdentityUp$ packet of \autoref{ch:concrete-instances-observerhistidentity-namecert} before pairwise $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ comparison is read. The dependency projects the displayed rows $H,K,B,S,R,L,C,P,N$ through the no-subject observer-history boundary first, and only then exposes the pairwise probe and signature ledgers.
+\end{theorem}
+\begin{proof}
+Project the rows $H,K,B,S,R,L,C,P,N$ named by the carrier below. The history rows $H$ and $K$ are observed histories before they are compared, so their no-subject boundary is inherited from \autoref{ch:concrete-instances-observerhistidentity-namecert}.
+
+After that boundary is visible, the pairwise rows $B$ and $S$ may be read as licensed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ comparisons. The rows $R,L,C,P,N$ then record sameness, ledger, replay, provenance, and local naming for the same dependency route.
+\end{proof}
+
 \begin{definition}[Observer history identity carrier]
 \label{def:observer-history-identity-carrier}
 An $\ObserverHistoryIdentityUp$ carrier is a finite $\mathsf{BHist}$ packet
