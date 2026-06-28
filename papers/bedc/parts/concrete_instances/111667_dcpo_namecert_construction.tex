@@ -159,6 +159,58 @@ same finite route, so the continuity-facing scope remains exactly the displayed
 carrier route.
 \end{proof}
 
+\begin{theorem}[DCPO directed-window coverage]
+\label{thm:dcpo-directed-window-coverage}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the finite directed-window row $W$ is the only coverage surface available to a directed-supremum consumer. A consumer must read $O,I,W$ before reading $S,L$ and before using the handoff of \autoref{thm:dcpo-directed-supremum-handoff}; no arbitrary join family, host powerset of directed subsets, global choice over indices, quotient-order equality, selected least-upper-bound function, or ambient completeness coordinate is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dcpo-carrier}. The rows $O$ and $I$ expose the order and directed-index data, while $W$ is the finite window row attached to those data.
+
+Apply \autoref{thm:dcpo-directed-supremum-handoff}. Its displayed route places $O,I,W$ before $S,L$ and before the Moore--Smith, directed-filter, and CauchyNet rows $M,F,Q$.
+
+The remaining rows $H,C,P,N$ only transport, replay, source, and name that same carrier. Since the carrier has no coordinate for arbitrary joins, host powersets, quotient-order equality, global directed choice, selected lub functions, or ambient completeness, directed-window coverage is exactly the displayed row $W$ over $O,I$.
+\end{proof}
+
+\begin{theorem}[DCPO lower-bound exactness]
+\label{thm:dcpo-lower-bound-exactness}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the lower-bound exactness row $L$ is read only after the order row $O$, directed-index row $I$, finite-window row $W$, and supremum row $S$ have been displayed. It records leastness through the same order row used by \autoref{thm:dcpo-directed-supremum-handoff}, and it does not introduce arbitrary joins, quotient-order equality, selected lub functions, global choice, host powersets, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the public supremum ledger of \autoref{thm:dcpo-supremum-ledger-obligations}. It identifies $S,L$ as the supremum and lower-bound exactness rows read over $O,I,W$.
+
+The exactness row $L$ therefore cannot be detached from the displayed order row. It sends lower-bound comparisons back through $O$ after the directed windows in $W$ and the named supremum in $S$ have been exposed.
+
+Apply \autoref{thm:dcpo-directed-supremum-handoff}. The downstream rows $M,F,Q,H,C,P,N$ consume this exactness route; they do not supply a selected least-upper-bound function, quotient-order equality, arbitrary join operation, global choice schedule, host powerset, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[DCPO completion-facing handoff]
+\label{thm:dcpo-completion-facing-handoff}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the completion-facing route is exactly the finite handoff
+$$
+O,I,W,S,L \longmapsto M,F,Q \longmapsto H,C,P,N .
+$$
+The CauchyNet row $Q$ is public only after the Moore--Smith row $M$ and directed-filter row $F$ have consumed the displayed directed-window and lower-bound exactness rows named in \autoref{thm:dcpo-directed-supremum-handoff}. The route exports no arbitrary joins, quotient-order equality, selected lub functions, global choice, host powersets, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read $O,I,W,S,L$ first. By \autoref{thm:dcpo-directed-window-coverage} and \autoref{thm:dcpo-lower-bound-exactness}, these rows provide the order, directed index, finite windows, named supremum, and leastness comparisons.
+
+Apply \autoref{thm:dcpo-directed-supremum-handoff}. The Moore--Smith row $M$, directed-filter row $F$, and CauchyNet row $Q$ are downstream consumers of that displayed directed-complete order surface.
+
+Finally inspect $H,C,P,N$. Componentwise transport, displayed replay, provenance, and local naming preserve the same route and cannot add arbitrary joins, quotient-order equality, selected lub functions, global choice, host powersets, or ambient completeness.
+\end{proof}
+
 \closureat{DcpoUp}{seedStr}
 
 \begin{closurestatus}{\DcpoUp}
