@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDependentFamilyUp$}
+\label{ch:concrete-instances-finite-dependent-family-namecert}
+\origin{human}
+
+Following dependent type theory and finite product constructions, the $\FiniteDependentFamilyUp$ packet records the finite BEDC surface for a family of displayed fibres indexed by a finite row. It sits after the finite-data interface of \autoref{ch:visions-finite-data-interface-spine}, the ordered spine discipline of \autoref{ch:concrete-instances-list-namecert}, the component envelope of \autoref{ch:concrete-instances-prod-namecert}, the branch-tag boundary of \autoref{ch:concrete-instances-sum-namecert}, and the function-object substrate of \autoref{ch:concrete-instances-funcobj-namecert}. The packet also aligns with the continuous-map interface of \autoref{ch:concrete-instances-continuousmap-namecert} when a downstream consumer reads a displayed fibre assignment as a finite family of maps. It names finite dependent family data only; it does not import an ambient dependent function space, quotient equality of fibres, a selected global section, countable choice, or host-side product extensionality.
+
+\begin{definition}[Finite dependent family carrier]
+\label{def:finite-dependent-family-carrier}
+A $\FiniteDependentFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row. It is read as a displayed $\ListUp$ spine of index names, with endpoint and branch discipline inherited from the $\BoolUp$, $\OptionUp$, and $\SumUp$ finite-data surfaces.
+\item $F$ is the fibre row. For each displayed index of $I$, it stores one fibre NameCert row and the local classifier by which that fibre is inspected.
+\item $H$ records componentwise $\hsame$ transport for the index row, each fibre row, each pointwise classifier, the replay row, the provenance row, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from finite index inspection through the matching fibre row and then through the pointwise classifier for that fibre.
+\item $P$ is the $\Pkg$ provenance over $\FiniteDependentFamilyUp$, $\ListUp$, $\ProdUp$, $\SumUp$, $\FuncUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteDependentFamilyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient dependent product, quotient fibre equality, selected section, countable-choice schedule, or host-side extensionality principle.
+\end{definition}
+
+\begin{theorem}[Finite dependent family NameCert obligations]
+\label{thm:finite-dependent-family-namecert-obligations}
+For every accepted $\FiniteDependentFamilyUp$ carrier
+$$
+D=(I,F,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteDependentFamilyUp}$ surface consists exactly of carrier admission for $D$, finite index exposure through $I$, fibre exposure through $F$, pointwise classifier stability for each displayed fibre, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. A consumer therefore reads a finite dependent family only through the displayed route
+$$
+I,F \longmapsto H,C,P,N
+$$
+and not through an ambient dependent function space, quotient equality of fibres, selected global section, countable choice, or host product extensionality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The finite index row $I$ is the only source of fibre positions, so every consumer first reads the displayed list spine and its finite-data branch discipline.
+
+For each exposed index, the fibre row $F$ supplies the corresponding fibre NameCert row and its local classifier. Pointwise classifier stability is therefore checked inside the displayed fibre row rather than by comparing all fibres in an ambient dependent product.
+
+Finally the structural rows preserve the same packet. Componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$ exhaust the available route, leaving no coordinate for quotient fibre equality, selected sections, countable choice, or host extensionality.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteDependentFamilyUp$ consumer that reads a fibre without the finite index row $I$, the displayed fibre row $F$, and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the carrier surface.}
+
+\independenceWitness{finite-data-interface, list, product, sum, function-object: no listed sibling jointly carries the finite index row, displayed fibre NameCert rows, pointwise classifier stability, componentwise transport, replay, provenance, and local naming rows of $D=(I,F,H,C,P,N)$.}
+
+\closureat{FiniteDependentFamilyUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDependentFamilyUp}
+  \constructivestory{A $\FiniteDependentFamilyUp$ packet is generated from a finite index row, displayed fibre NameCert rows, pointwise classifier stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dependent-family-carrier} and \autoref{thm:finite-dependent-family-namecert-obligations} seed the finite dependent-family carrier and its displayed NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient dependent products, quotient fibre equality, selected sections, countable choice, host product extensionality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, index exposure, fibre exposure, pointwise classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.FiniteDependentFamilyUp.}
+\end{closurestatus}
