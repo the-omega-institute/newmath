@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PhenomenologyScienceInterfaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -229,5 +231,166 @@ instance phenomenologyScienceInterfaceNontrivial :
 def taste_gate : ChapterTasteGate PhenomenologyScienceInterfaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   phenomenologyScienceInterfaceChapterTasteGate
+
+def PhenomenologyScienceInterfaceObligationRowSpec
+    (R U O L S J B G H C P N row : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  hsame row R ∨ hsame row U ∨ hsame row O ∨ hsame row L ∨ hsame row S ∨
+    hsame row J ∨ hsame row B ∨ hsame row G ∨ hsame row H ∨ hsame row C ∨
+      hsame row P ∨ hsame row N
+
+theorem PhenomenologyScienceInterfaceNameCertObligations
+    (R U O L S J B G H C P N : BHist) :
+    SemanticNameCert
+      (PhenomenologyScienceInterfaceObligationRowSpec R U O L S J B G H C P N)
+      (PhenomenologyScienceInterfaceObligationRowSpec R U O L S J B G H C P N)
+      (PhenomenologyScienceInterfaceObligationRowSpec R U O L S J B G H C P N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro R (Or.inl (hsame_refl R))
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro _h _k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro _h _k _r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        have sameKH : hsame k h := hsame_symm sameHK
+        cases sourceH with
+        | inl sameR =>
+            exact Or.inl (hsame_trans sameKH sameR)
+        | inr rest =>
+            cases rest with
+            | inl sameU =>
+                exact Or.inr (Or.inl (hsame_trans sameKH sameU))
+            | inr rest =>
+                cases rest with
+                | inl sameO =>
+                    exact Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameO)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameL =>
+                        exact Or.inr (Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameL))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameS =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr (Or.inl (hsame_trans sameKH sameS)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameJ =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr (Or.inl (hsame_trans sameKH sameJ))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl sameB =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl (hsame_trans sameKH sameB)))))))
+                                | inr rest =>
+                                    cases rest with
+                                    | inl sameG =>
+                                        exact
+                                          Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inl
+                                                          (hsame_trans sameKH sameG))))))))
+                                    | inr rest =>
+                                        cases rest with
+                                        | inl sameH =>
+                                            exact
+                                              Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inl
+                                                                (hsame_trans sameKH
+                                                                  sameH)))))))))
+                                        | inr rest =>
+                                            cases rest with
+                                            | inl sameC =>
+                                                exact
+                                                  Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inl
+                                                                      (hsame_trans sameKH
+                                                                        sameC))))))))))
+                                            | inr rest =>
+                                                cases rest with
+                                                | inl sameP =>
+                                                    exact
+                                                      Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inr
+                                                                      (Or.inr
+                                                                        (Or.inr
+                                                                          (Or.inl
+                                                                            (hsame_trans
+                                                                              sameKH
+                                                                              sameP)))))))))))
+                                                | inr sameN =>
+                                                    exact
+                                                      Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inr
+                                                                      (Or.inr
+                                                                        (Or.inr
+                                                                          (Or.inr
+                                                                            (hsame_trans
+                                                                              sameKH
+                                                                              sameN)))))))))))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.PhenomenologyScienceInterfaceUp

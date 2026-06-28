@@ -5,7 +5,8 @@ namespace BEDC.Derived.ObservationTimeOrderUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
-theorem ObservationTimeOrderNameCertObligations (O0 O1 R C G H P N : BHist) :
+theorem observation_time_order_name_cert_obligations_field_package
+    (O0 O1 R C G H P N : BHist) :
     SemanticNameCert
         (fun row : BHist =>
           hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨ hsame row G ∨
