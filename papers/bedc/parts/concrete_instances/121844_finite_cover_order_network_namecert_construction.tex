@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverOrderNetworkUp$}
+\label{ch:concrete-instances-finite-cover-order-network-namecert}
+\origin{human}
+
+Following Munkres and Engelking on finite refinements of covers, the $\FiniteCoverOrderNetworkUp$ packet records the finite refinement-order surface through which compact metric cover data are routed to dyadic radii and uniform-modulus consumers. It sits beside the compact metric certificate of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the dyadic interval net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite Lebesgue-number route of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, the uniform modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite cover nodes, refinement arrows, incidence witnesses, dyadic radius ledgers, transport, replay, provenance, and local naming; it does not import open-cover compactness, a choice-selected subcover, quotient equality of covers, ambient completeness, or an independent $\RealUp$ carrier.
+
+\begin{definition}[FiniteCoverOrderNetwork carrier]
+\label{def:finite-cover-order-network-carrier}
+A $\FiniteCoverOrderNetworkUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(V,O,I,D,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the cover-node row, listing the accepted finite cover names, the parent $\CompactMetricUp$ source, and the local $\MetricUp$ probes visible at each node.
+\item $O$ is the refinement-order row, recording the finite preorder of displayed refinements and the named source and target cover nodes of each refinement arrow.
+\item $I$ is the incidence row, storing the pointwise cover-membership and refinement-containment witnesses used by order consumers.
+\item $D$ is the dyadic radius ledger, binding each cover node to its $\DyadicIntervalNetUp$ radius data and to the finite $\FiniteLebesgueNumberUp$ lower-bound checks that justify refinement steps.
+\item $U$ is the uniform-modulus handoff row, available only after $V,O,I,D$ have been displayed and only for consumers of the named $\UniformModulusUp$ route.
+\item $R$ is the $\RealUp$ seal row, exposing only the real-valued radius readbacks displayed by $D$ and $U$.
+\item $H$ stores componentwise $\hsame$ transport for cover nodes, refinement arrows, incidence witnesses, dyadic ledgers, uniform-modulus handoff, real seals, provenance, and local naming.
+\item $C$ stores the displayed $\Cont$ replay for the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverOrderNetworkUp$, $\CompactMetricUp$, $\MetricUp$, $\DyadicIntervalNetUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCoverOrderNetworkUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,O,I,D,U,R,H,C,P,N$. It has no coordinate for arbitrary open covers, selected subcovers, quotient equality of cover families, countable choice, ambient metric completeness, or an independent real carrier.
+\end{definition}
+
+\begin{theorem}[FiniteCoverOrderNetwork NameCert obligations]
+\label{thm:finite-cover-order-network-namecert-obligations}
+For every accepted $\FiniteCoverOrderNetworkUp$ carrier
+$$
+Q=(V,O,I,D,U,R,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteCoverOrderNetworkUp}$ surface consists exactly of carrier admission for the cover-node row $V$, refinement-order row $O$, incidence row $I$, dyadic radius ledger $D$, uniform-modulus handoff $U$, $\RealUp$ seal $R$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cover-order-network-carrier}. The finite data visible to the classifier are precisely the cover nodes $V$, refinement order $O$, incidence witnesses $I$, dyadic ledger $D$, uniform-modulus handoff $U$, and real seal $R$.
+
+The order obligation is forced through $V,O,I$. A consumer cannot compare two cover nodes until both the displayed refinement arrow and the incidence witnesses justifying its containment reading have been exposed.
+
+The radius obligation is separate. The row $D$ supplies the dyadic interval-net and finite Lebesgue-number entries used by refinement steps, while $U$ and $R$ make only the named uniform-modulus and real-valued radius readbacks available downstream.
+
+Finally read $H,C,P,N$. These rows transport, replay, prove provenance, and name the same finite packet. Since no arbitrary open cover, selected subcover, quotient cover equality, countable choice, ambient completeness, or independent real carrier is a coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteCoverOrderNetwork order readback]
+\label{thm:finite-cover-order-network-order-readback}
+Every compact-metric or uniform-modulus consumer of an accepted $\FiniteCoverOrderNetworkUp$ packet must read the refinement network through the ordered rows
+$$
+V,O,I,D,U,R,H,C,P,N
+$$
+before treating a cover refinement as a radius-controlled finite route. The readback supplies a finite refinement order with dyadic and real radius seals; it does not supply open-cover compactness, a chosen subcover, quotient equality of covers, countable choice, ambient completeness, or an independent $\RealUp$ carrier.
+\end{theorem}
+\begin{proof}
+Start with the cover comparison. The rows $V,O,I$ display the finite cover nodes, the refinement arrows, and the incidence witnesses, so the order readback has no access to an unnamed cover relation.
+
+Next read the radius evidence. The dyadic ledger $D$ records the interval-net and finite Lebesgue-number checks attached to the refinement arrows, and the rows $U,R$ expose the uniform-modulus handoff and terminal real radius seals only after that ledger is visible.
+
+It remains to package the route. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same displayed rows and add no global compactness theorem or selected subcover. Thus every accepted consumer reads exactly the finite refinement-order surface named by the carrier.
+\end{proof}
+
+\closureat{FiniteCoverOrderNetworkUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverOrderNetworkUp}
+  \constructivestory{A $\FiniteCoverOrderNetworkUp$ packet is generated from finite cover nodes, a refinement-order row, incidence witnesses, a dyadic radius ledger, a uniform-modulus handoff, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-order-network-carrier}, \autoref{thm:finite-cover-order-network-namecert-obligations}, and \autoref{thm:finite-cover-order-network-order-readback} seed the finite cover refinement-order carrier through compact metric cover nodes, metric incidence, dyadic interval nets, finite Lebesgue-number rows, uniform-modulus handoff, and Real radius readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, selected subcovers, quotient equality of cover families, countable choice, ambient metric completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement-order exactness, incidence coverage, dyadic radius-ledger exposure, uniform-modulus routing, Real seal readback, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCoverOrderNetworkUp.}
+\end{closurestatus}
