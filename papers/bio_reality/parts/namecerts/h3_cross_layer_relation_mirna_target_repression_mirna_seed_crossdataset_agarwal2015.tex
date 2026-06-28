@@ -1,33 +1,33 @@
-\subsection{miRNA seed repression as a finite RNA-layer relation}\label{subsec:bioreality-mirna-seed-crossdataset-agarwal2015}
 \origin{ai}
 
-\paragraph{Finite panel.}
-The record is a finite cross-dataset panel for miRNA target repression, keyed by the claim identifier \texttt{h3.cross\_layer\_relation.mirna\_target\_repression.mirna\_seed\_crossdataset\_agarwal2015}.  Its biological object is not a free-standing law about coding sequence or protein realization.  It is a row-indexed RNA-layer comparison in which seed-defined target status, transcript-level readouts, abundance controls, and covariates are kept on the same finite table before any biological interpretation is allowed.  The verified run \texttt{50f22b191476} reports $n=55170$ joined rows, a median aggregate per-miRNA partial Spearman coefficient of $-0.224966$, and $7$ replicated gradient strata, with a recorded runtime of $400.408$ seconds.  The sign is the expected repression direction: stronger seed-associated target signal is associated with lower expression or stability-type readback after the stated controls, but the magnitude is deliberately reported as a bounded finite statistic rather than as a universal repression constant.
+\subsection{Finite miRNA seed repression as a bounded RNA-layer readout}
+\label{sec:bioreality-mirna-seed-crossdataset-agarwal2015}
 
-\paragraph{Measured statistic.}
-For the audited miRNA panel, let $i$ range over joined transcript or target-site rows, let $S_i$ denote the prespecified miRNA seed-target coordinate, let $Y_i$ denote the RNA-layer repression readout, and let $Z_i$ collect the matched controls available in the finite table.  The reported scalar can be read as the median over per-miRNA controlled monotone associations:
+\paragraph{Finite panel.}
+The record concerns a finite matched panel of coding or transcript-associated RNA rows in which a synonymous or near-synonymous coordinate label is not allowed to stand by itself.  Each admissible row must carry a declared RNA-side readout and the covariates needed to keep the interpretation local: transcript abundance, batch, local composition, motif density, isoform state when available, and any matched translation readout that is needed before statements are made across layers.  In this chapter the realized finite statistic is the miRNA seed repression contact indexed by the Agarwal-style cross-dataset rows, not a direct assay of protein output, folding, phenotype, adaptation, or a decay-factor RBP mechanism.
+
+\paragraph{Observed finite statistic.}
+The verified miRNA entry used here is
+$h3.cross_layer_relation.mirna_target_repression.mirna_seed_crossdataset_agarwal2015$.  Its run identifier is $50f22b191476$.  The finite table contains $n=55170$ joined rows and reports an aggregate per-miRNA partial Spearman median
+$\rho=-0.224966$ after the declared controls.  The sign is the biologically expected repression direction: higher seed-target signal is associated with lower target readout in the bounded RNA repression surface.  The same run records $7$ replicated gradient instances and a runtime of $400.408$ seconds.  The chapter therefore treats the miRNA seed relation as a finite negative-gradient readout, not as an unbounded law over all transcripts or conditions.
+
+\paragraph{Local mathematical form.}
+Let $W$ be the finite set of joined rows.  For each $w\in W$, let $q(w)$ be the coordinate or seed-label summary, let $Y(w)$ be the measured repression-side RNA readout, and let $Z(w)$ collect abundance, batch, sequence-composition, local-context, and isoform controls that are present in the finite table.  The licensed statement is only that the residual association computed on this table has the observed negative median direction:
 $$
 \begin{aligned}
-\rho_{\mathrm{med}}
-  &= \operatorname{median}_{m}\,\rho_{\mathrm{partial}}(S_i,Y_i\mid Z_i,m),\\
-\rho_{\mathrm{med}}
-  &= -0.224966,\\
-N_{\mathrm{rows}}
-  &= 55170,\\
-N_{\mathrm{replicated\ gradients}}
-  &= 7.
+|W|&=55170,\\
+\operatorname{median}_{\mu}\,\rho_{\mu}(q,Y\mid Z)&=-0.224966,\\
+\#\{\text{replicated gradient instances}\}&=7.
 \end{aligned}
 $$
-This is enough to license a local cross-layer RNA relation from seed-labelled target coordinates to an RNA-level repression surface.  It is not enough to license translation output, protein abundance, folded state, physical admissibility, organismal function, adaptation, causation, or a general biological law.  Those interpretations would require separate layer-matched contacts with the corresponding measurement carried on the same rows or on an explicitly joined finite panel.
+This is a row-bounded relation between a seed-coordinate summary and an RNA repression readout.  It does not identify the molecular route by which every row is repressed, and it does not promote the coordinate into a protein-layer or organism-layer claim.
 
-\paragraph{Relation to RNA half-life contacts.}
-The same dossier also contains RNA half-life boundary facts, and these are useful only as scope comparators.  In the m6A half-life boundary run \texttt{7cd189f15c4b}, $5837$ genes are retained; the static Spearman association between m6A load and DMSO log half-life is $-0.388929$, the length-partial association with half-life change is $0.227683$, the causal Spearman value is $0.245804$, and the two-sided partial permutation value is $0.000999001$.  In the endogenous $3'$ UTR ARE transfer run \texttt{e96bf26e626b}, $14933$ genes are retained, the ARE coefficient is $-0.0607953$, the baseline $R^2$ is $0.0657771$, the test $R^2$ is $0.0827561$, and the increment is $0.016979$ with $p_{\mathrm{perm}}=0.00049975$ over $2000$ permutations.  These numbers show that the surrounding finite-row program can register RNA-stability associations with explicit signs, row counts, and permutation calibration.  They do not add an RBP mechanism to the miRNA seed panel by themselves.
+\paragraph{Comparison contact.}
+A second RNA-layer boundary statistic is useful for calibrating the scope of this kind of claim.  The verified m6A half-life entry
+$h3.cross_layer_relation.rna_modification.m6a_site_load_mrna_halflife_boundary_gse163500$ has run identifier $7cd189f15c4b$ and $n=5837$ genes under the stated coverage rule.  It reports static Spearman association $-0.388929$ for m6A load versus DMSO log half-life, a causal Spearman value $0.245804$ for m6A-load change versus log half-life change, a length-partial Spearman value $0.227683$, and a two-sided partial-permutation value $p=0.000999001$.  That comparison is not evidence for miRNA repression; it is cited here only to show the shared discipline of finite RNA-layer contacts: a scalar RNA statistic may cross a declared boundary while still refusing protein, function, phenotype, or mechanism unless those layers are directly measured.
 
-\paragraph{Bridge test.}
-The proposed stronger reading would require a synonymously editable coding-RNA window panel with same-row translation readout, RNA half-life, measured occupancy of a prespecified decay-factor RBP, target-RBP loss, wild-type rescue, binding-defective rescue, non-target controls, transcription-rate controls, local RNA-structure controls, motif-density controls, composition controls, codon-pair context, isoform state, transcript abundance, batch, and a declared break condition.  The present miRNA seed statistic supplies a finite RNA-layer repression association; it does not supply measured local decay-factor RBP occupancy, coordinate--occupancy decoupling, perturbation collapse, wild-type restoration, or failure of binding-defective and non-target controls.  Therefore the RBP-mediated RNA-half-life mechanism remains outside the licensed interpretation of this row set.
+\paragraph{Mechanism boundary.}
+The present miRNA seed result is compatible with a bounded target-repression reading, but it is not a decay-factor RBP bridge.  No row in the cited finite statistic supplies same-window measured decay-factor RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue, or non-target rescue behavior.  Consequently a half-life or repression association may not be re-described as an RBP-mediated RNA-decay mechanism.  A positive RBP bridge would require the same finite rows to carry local RBP occupancy, perturbation loss, rescue return, and control arms that separate RNA structure, motif density, transcription rate, isoform state, transcript abundance, codon-pair context, and batch.
 
-\paragraph{Local refusal conditions.}
-The claim fails upward promotion under any of the following finite-row outcomes.  If high- and low-coordinate synonymous labels are exchangeable for RNA half-life after transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, and batch are controlled, then the coordinate is only a descriptor.  If RNA half-life changes but measured decay-factor RBP occupancy is absent or unchanged, the result is at most an RNA-stability association.  If target-RBP loss, wild-type rescue, binding-defective rescue, non-target controls, RNA-structure controls, motif-density controls, transcription controls, isoform controls, or batch reproduce the pattern, the RBP mechanism reading is refused.  If a translation readout is missing from the same finite row family, no RNA half-life difference may be reinterpreted as translation realization.
-
-\paragraph{Allowed conclusion.}
-The audited result supports a bounded statement: in $55170$ joined rows from the Agarwal-style miRNA seed repression panel, the controlled per-miRNA association has median sign and magnitude $\rho_{\mathrm{med}}=-0.224966$, with $7$ replicated gradient strata.  The admissible conclusion is a finite RNA-layer seed-repression relation.  The chapter does not claim translation, protein output, protein folding, physical admissibility, biological function, phenotype, mechanism, adaptation, causation, or universality.  Any one of those claims would require an additional contact that directly measures that layer and preserves the relevant row matching, controls, perturbations, and break conditions.
+\paragraph{Translation and higher-layer refusal.}
+The chapter also refuses promotion from RNA repression to translation realization.  A same-row translation readout may be used as a boundary or control when present, but RNA half-life, miRNA seed association, or transcript abundance alone does not measure ribosome occupancy, translation efficiency, protein abundance, folding, localization, physical admissibility, biological function, phenotype, adaptation, causation, or universality.  Any such statement would need a separate layer-matched contact with its own finite rows and its own declared statistic.  The accepted content here is therefore narrow: the Agarwal-style cross-dataset finite panel supports a negative miRNA seed repression association over $55170$ rows with $7$ replicated gradient instances, while all protein-layer, mechanism-layer, and universal claims remain outside the licensed conclusion.
