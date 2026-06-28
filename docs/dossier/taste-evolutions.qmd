@@ -447,6 +447,10 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-28T15:25:22Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_oscillation_locality` (flag `isolated_theorem`, finding `isolated_theorem:baireonefunction:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_oscillation_locality:bf03bc22`). Rationale: No file changes were made because the finding is stale in this worktree: the theorem is not isolated. The exact full-name grep requested returned no matches because the paper marker escapes underscores and the Lean file uses the local namespace, but direct repo search for the declaration name shows a substantive Lean downstream consumer at lean4/BEDC/Derived/BaireOneFunctionUp/OscillationLocality.lean:244. That consumer, BaireOneFunctionCarrier_oscillation_schedule_boundary, combines the oscillation locality certificate with the pointwise schedule obligations in the same BHist row family, so deleting or staging the target would remove active BEDC structure. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
+- 2026-06-28T17:16:37Z: `resolved` `leave_with_rationale` for `BEDC.Derived.DcpoUp.DcpoCarrier_directed_supremum_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DcpoUp.DcpoCarrier_directed_supremum_handoff:93ddb164`). Rationale: The surrounding DCPO chapter treats the theorem as a real directed-supremum-to-completion handoff, not a pure wrapper, and the exact fully qualified grep found no downstream Lean consumer. I attempted to add a local downstream use by routing the directed-window coverage helper through this handoff theorem, but the required `cd lean4 && lake build` gate failed on `BEDC.Derived.DcpoUp`; per instruction, I reverted the edit and leave the theorem unchanged with this rationale. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.DcpoUp
+error: build failed, audit=skipped, phase_d_lint=skipped.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
