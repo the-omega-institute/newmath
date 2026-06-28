@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\UpwindFluxUp$}
+\label{ch:concrete-instances-upwind-flux-namecert}
+\origin{human}
+
+Following LeVeque and Eymard--Gallouet--Herbin, the $\UpwindFluxUp$ packet records finite-volume flux orientation as BEDC-visible NameCert data. It sits over the conservative balance packet of \autoref{ch:concrete-instances-finite-volume-namecert}, the dyadic mesh interface of \autoref{ch:concrete-instances-dyadicmesh-namecert}, the PDE relation surface of \autoref{ch:concrete-instances-pde-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite upstream orientation rows used by a numerical flux; it does not import a host PDE solution, unrestricted convergence theorem, quotient weak-solution object, selected trace, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Upwind-flux carrier]
+\label{def:upwind-flux-carrier}
+An $\UpwindFluxUp$ carrier is a finite $\BHist$ packet
+$$
+U=(V,M,Q,A,O,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\FiniteVolumeUp$ carrier row whose face-incidence and balance ledgers supply the finite-volume context.
+\item $M$ is the $\DyadicMeshUp$ row naming the inspected cell, face, and neighbour windows at dyadic precision.
+\item $Q$ is the $\PdeUp$ relation row whose local derivative or conservation relation supplies the direction-sensitive PDE side.
+\item $A$ is the advection or sign classifier row, read only as a finite orientation comparison on each displayed face.
+\item $O$ is the upstream-choice row, selecting for each oriented face the left, right, or boundary value row licensed by $V,M,Q,A$.
+\item $W$ is the numerical-flux window row, recording the finite stencil values consumed after the upstream side has been selected.
+\item $R$ is the $\RegSeqRatUp$ readback row for the inspected flux values and residual windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row comparing paired orientation and residual budgets.
+\item $E$ is the terminal $\RealUp$ seal reached only after $V,M,Q,A,O,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the finite-volume, mesh, PDE, orientation, upstream-choice, flux-window, readback, tolerance, real-seal, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay from an upwind flux request through $V,M,Q,A,O,W,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\UpwindFluxUp$, $\FiniteVolumeUp$, $\DyadicMeshUp$, $\PdeUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UpwindFluxUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for a host PDE solution, unrestricted convergence of a scheme, quotient weak solution, selected trace, hidden solver state, or ambient real completeness theorem.
+\end{definition}
+
+\begin{theorem}[Upwind-flux NameCert obligations]
+\label{thm:upwind-flux-namecert-obligations}
+For every accepted $\UpwindFluxUp$ carrier
+$$
+U=(V,M,Q,A,O,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\UpwindFluxUp}$ surface consists exactly of finite-volume admission through $V$, dyadic mesh admission through $M$, PDE relation admission through $Q$, orientation classifier admission through $A$, upstream-choice exactness through $O$, flux-window exposure through $W$, regular rational readback through $R$, dyadic tolerance exposure through $D$, real-seal handoff through $E$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:upwind-flux-carrier}. The rows $V,M,Q$ expose the finite-volume balance packet, dyadic mesh window, and PDE relation before any orientation-sensitive flux read is public.
+
+The row $A$ is the only source of direction information. The upstream-choice row $O$ is therefore exact only when it selects a displayed left, right, or boundary value from the finite rows already licensed by $V,M,Q,A$.
+
+The flux-window row $W$ consumes the selected side from $O$ before the readback and tolerance rows are inspected. Thus $R,D,E$ certify only the resulting finite flux and residual windows, not a host solution or a scheme-wide convergence theorem.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since no excluded host solution, unrestricted convergence proof, quotient weak-solution object, selected trace, solver state, or ambient completeness coordinate occurs in the carrier, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Upwind-flux ledger stability]
+\label{thm:upwind-flux-ledger-stability}
+Let $U=(V,M,Q,A,O,W,R,D,E,H,C,P,N)$ be an accepted $\UpwindFluxUp$ carrier. Any componentwise $\hsame$ transport that preserves the displayed finite-volume incidence in $V$, the dyadic mesh window in $M$, the PDE relation row in $Q$, and the orientation classifier row in $A$ also preserves the upstream-choice ledger $O$ and the numerical-flux window $W$ as $\UpwindFluxUp$ data. The transported packet remains inside the same finite ledger boundary and exposes no host PDE solution, unrestricted convergence theorem, quotient weak solution, selected trace, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the componentwise transport rows in $H$. They move the finite-volume incidence row, dyadic mesh window, PDE relation row, and orientation classifier row without adding any coordinate outside the displayed packet.
+
+Because $O$ is defined only as the upstream side selected from $V,M,Q,A$, preserving those four rows preserves the source of every selection in $O$. Boundary faces remain boundary reads, left-facing interior choices remain left reads, and right-facing interior choices remain right reads.
+
+The numerical-flux window $W$ is downstream of $O$. Once the selected side is transported with the same classifier data, the regular readback $R$, dyadic tolerance row $D$, and real seal $E$ replay the same finite flux route.
+
+The continuation, provenance, and local name rows $C,P,N$ then repack the transported data as an $\UpwindFluxUp$ carrier. No excluded analytic or quotient object can enter, since none is a field of \autoref{def:upwind-flux-carrier}.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UpwindFluxUp$ consumer must expose the $\FiniteVolumeUp$ face-incidence row, $\DyadicMeshUp$ inspected window, $\PdeUp$ relation row, orientation classifier, upstream-choice ledger, numerical-flux window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before it may read an upwind flux.}
+
+\independenceWitness{finite-volume, dyadicmesh, pde, regseqrat, dyadicratcore, real: no listed sibling supplies the whole packet $U=(V,M,Q,A,O,W,R,D,E,H,C,P,N)$, because each sibling contributes only a conservative balance, mesh window, PDE relation, regular rational readback, dyadic tolerance row, or terminal real seal, while this chapter binds them into one orientation-sensitive finite flux route.}
+
+\closureat{UpwindFluxUp}{seedStr}
+
+\begin{closurestatus}{\UpwindFluxUp}
+  \constructivestory{An $\UpwindFluxUp$ packet is generated from a FiniteVolumeUp balance row, DyadicMeshUp inspected window, PdeUp relation row, finite orientation classifier, upstream-choice row, numerical-flux window, RegSeqRat readback, DyadicRatCore tolerance, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:upwind-flux-carrier}, \autoref{thm:upwind-flux-namecert-obligations}, and \autoref{thm:upwind-flux-ledger-stability} seed the finite upwind flux-orientation route over $\FiniteVolumeUp$, $\DyadicMeshUp$, $\PdeUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host PDE solutions, unrestricted convergence, quotient weak solutions, selected traces, ambient $\RealUp$ completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-volume incidence routing, mesh-window routing, PDE relation routing, orientation classifier exactness, upstream-choice stability, flux-window readback, dyadic tolerance, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.UpwindFluxUp.}
+\end{closurestatus}
