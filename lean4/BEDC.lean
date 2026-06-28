@@ -8810,6 +8810,7 @@ import BEDC.Derived.MilnorFibrationUp
 import BEDC.Derived.MinimalCauchyFilterUp.NameCertObligations
 import BEDC.Derived.MinimalCauchyFilterUp.RegularHandoff
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
+import BEDC.Derived.MinimalDfaUp.TasteGate
 import BEDC.Derived.MinimalRealizationUp.TasteGate
 import BEDC.Derived.MinimalTriggerHomologyCoreUp.NameCertObligations
 import BEDC.Derived.MinimalTriggerHomologyCoreUp.TasteGate
