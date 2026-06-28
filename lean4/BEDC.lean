@@ -5770,7 +5770,6 @@ import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
 import BEDC.Derived.FibonacciUp
-import BEDC.Derived.PadovanUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -6656,6 +6655,7 @@ import BEDC.Derived.HardyLittlewoodTauberianUp.TasteGate
 import BEDC.Derived.HardySpaceUp.TasteGate
 import BEDC.Derived.HarmonicUp
 import BEDC.Derived.HarnackInequalityUp
+import BEDC.Derived.HarshadNumberUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
@@ -9335,6 +9335,7 @@ import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PadicUp.Valuation
 import BEDC.Derived.PadicValuationUp
+import BEDC.Derived.PadovanUp
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditIndexReadiness
