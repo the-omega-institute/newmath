@@ -132,6 +132,20 @@ Apply \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every $\R
 Finally combine the TasteGate obligation of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} with non-escape from \autoref{thm:cofinal-stream-tail-selector-nonescape}. The taste gate may only read the displayed carrier rows, and the non-escape theorem excludes quotient stream equality, countable choice, hidden selectors, and ambient completeness from the exported surface.
 \end{proof}
 
+\begin{theorem}[Cofinal StreamName tail selector public export]
+\label{thm:cofinal-stream-tail-selector-public-export}
+Every accepted $\CofinalStreamTailSelectorUp$ public consumer receives only the precision request, displayed $\StreamNameUp$ tail window, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ readback, $\RealUp$ seal, selector provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of the carrier. The public export is routed through the obligation package, seal order, and non-escape boundary, and it uses the TasteGate site of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} only as the local finite-carrier discipline.
+\end{theorem}
+\begin{proof}
+Start with the obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}. It assembles the carrier, local NameCert obligations, seal-order theorem, TasteGate obligation, and non-escape theorem over the finite rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$.
+
+Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every public read of the $\RealUp$ seal through the precision request, StreamName tail window, RegSeqRat handoff, DyadicRatCore readback, and selector provenance before the seal is visible.
+
+Apply the non-escape theorem \autoref{thm:cofinal-stream-tail-selector-nonescape}. It removes quotient stream identity, host real equality, host-selected limits, unbounded tail search, countable choice, hidden family limits, and ambient RealUp completeness from the public surface.
+
+The TasteGate obligation, already recorded at \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation}, supplies only the local finite-carrier discipline for the same rows. Therefore the accepted public consumer receives exactly the listed BEDC rows and no additional tail-selection or completion principle.
+\end{proof}
+
 \begin{theorem}[Cofinal StreamName tail selector scoped route]
 \label{thm:cofinal-stream-tail-selector-scoped-route}
 For every accepted $\CofinalStreamTailSelectorUp$ carrier
@@ -156,6 +170,7 @@ The remaining rows do not introduce new analytic data. They transport, replay, s
 \label{thm:cofinal-stream-tail-selector-window-readback-scope}
 In an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the cofinal window row $W$ and readback rows $R,D,\sigma$ remain ordered before any consumer read of the $\RealUp$ seal row $A$. No accepted route can inspect $A$ before the finite window, regular handoff, dyadic readback, and selector provenance have been displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorWindowReadbackScope}
 \begin{proof}
 Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-order}. It places the Real seal downstream of $W,R,D,\sigma$ for every completion-facing read.
 
@@ -179,6 +194,7 @@ Use the scoped-route theorem and the window-readback scope theorem to make the s
 
 The carrier has no coordinate for quotient stream identity, host-selected limits, countable choice, hidden tail oracles, or ambient Real completeness. Therefore the assembled route is exactly the stated public certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicCertificate}
 
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
