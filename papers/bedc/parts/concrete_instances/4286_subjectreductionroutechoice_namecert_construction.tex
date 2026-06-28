@@ -45,6 +45,7 @@ Finally, $P$ and $N$ account for the finite provenance and local name. Hence the
 \label{thm:subject-reduction-route-choice-obligation-surface}
 For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, the obligation surface exposes the explicit bundle row $B$, the bundle-consumption row $V$, the obstruction-boundary row $O$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the package provenance row $P$, and the local naming row $N$. The same finite route is read through the discharge bundle surface, the socket boundary, and the downstream subject-reduction consumer of the sibling chapters.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceObligationSurface}
 \begin{proof}
 Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The bundle row, bundle-consumption row, obstruction row, transport row, replay row, provenance row, and local name are all visible coordinates of one finite packet.
 
@@ -164,6 +165,18 @@ Apply \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}. 
 Apply \autoref{thm:subject-reduction-route-choice-obstruction-boundary}. Any consumer that does not receive an inhabited bundle route remains at the obstruction row $O$, where the closed-CIC discharge and closed subject-reduction theorem are not supplied.
 
 Finally use \autoref{thm:subject-reduction-route-choice-nonescape}. The structural rows $H,C,P,N$ preserve only the displayed bundle and obstruction coordinates, so quotient syntax equality, evaluator soundness, closed consistency, and any third route remain outside the packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice confluence nonescape]
+\label{thm:subject-reduction-route-choice-confluence-nonescape}
+Any confluence or subject-reduction consumer reading an accepted $\SubjectReductionRouteChoiceUp$ packet must keep the explicit bundle rows $B,V$, the obstruction row $O$, and the structural rows $H,C,P,N$ visible. Thus local confluence, closed subject reduction, quotient syntax equality, evaluator soundness, and closed consistency cannot escape the route-choice boundary.
+\end{theorem}
+\begin{proof}
+Start with the bundle route. By \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, any consumer that reaches the displayed discharge route sees only the explicit rows $B,V$ and no hidden instance or host conversion rule.
+
+Next read the obstruction boundary. By \autoref{thm:subject-reduction-route-choice-obstruction-boundary} and \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}, a consumer that lacks an inhabited bundle remains at the row $O$, while the structural rows $H,C,P,N$ only transport and replay the same finite choice.
+
+Finally apply \autoref{thm:subject-reduction-route-choice-nonescape}. Since every route is exhausted by $B,V,O,H,C,P,N$, no confluence, closed subject-reduction, quotient-equality, evaluator-soundness, or closed-consistency claim is exported from the packet.
 \end{proof}
 
 \begin{theorem}[SubjectReductionRouteChoice vision handoff]

@@ -1,0 +1,79 @@
+\chapter{RieszInterpolationRealUp NameCert Construction}
+\label{ch:concrete-instances-riesz-interpolation-real-namecert}
+\origin{human}
+
+Following Riesz's interpolation property for ordered groups and vector lattices, the $\RieszInterpolationRealUp$ packet records a finite interpolation witness for two displayed lower real names and two displayed upper real names inside the constructive Real algebraic-order surface. It sits between the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Real algebraic-order boundary of \autoref{ch:concrete-instances-real-alg-order-namecert}, and the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names the dyadic comparison route that witnesses one interpolant $w$ with $a_{0},a_{1}\leq w\leq b_{0},b_{1}$; it does not assert trichotomy, quotient real equality, selected representatives, order completion, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RieszInterpolationReal carrier]
+\label{def:riesz-interpolation-real-carrier}
+A $\RieszInterpolationRealUp$ carrier is a finite $\BHist$ packet
+$$
+I=(R,A,D,L,U,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ seal row naming the four endpoint real names and the candidate interpolant real name.
+\item $A$ is the $\RealAlgOrderUp$ operation-and-order row exposing the constructive nonnegative-difference comparisons used by the packet.
+\item $D$ is the $\DyadicRatCoreUp$ comparison ledger recording the finite dyadic radii, slack rows, and lower-upper comparison budget.
+\item $L$ is the lower-pair row, displaying the two lower endpoints $a_{0},a_{1}$ and their dyadic comparison requests against the upper endpoints.
+\item $U$ is the upper-pair row, displaying the two upper endpoints $b_{0},b_{1}$ and the finite evidence that each lower endpoint is below each upper endpoint through $A$ and $D$.
+\item $W$ is the interpolation-witness row, naming a displayed real name $w$ together with the four comparison reads $a_{0}\leq w$, $a_{1}\leq w$, $w\leq b_{0}$, and $w\leq b_{1}$ through the same RealAlgOrder and dyadic ledger rows.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, RealAlgOrder row, dyadic ledger, lower pair, upper pair, witness row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a real-order interpolation request through $R,A,D,L,U,W,H$ back to the same finite comparison surface.
+\item $P$ is the $\Pkg$ provenance over $\RieszInterpolationRealUp$, $\RealUp$, $\RealAlgOrderUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RieszInterpolationRealUp}$ row binding the interpolation packet.
+\end{enumerate}
+The classifier compares accepted packets only through $R,A,D,L,U,W,H,C,P,N$. It has no coordinate for host real order, trichotomy, quotient representatives, a selected order-completion element, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RieszInterpolationReal dyadic witness]
+\label{thm:riesz-interpolation-real-dyadic-witness}
+For every accepted $\RieszInterpolationRealUp$ carrier
+$$
+I=(R,A,D,L,U,W,H,C,P,N),
+$$
+every real-order interpolation consumer must read the finite route
+$$
+R,A,D,L,U \longrightarrow W \longrightarrow H,C,P,N
+$$
+before using the interpolant. The route supplies the four endpoint real seals, the RealAlgOrder comparison row, the shared dyadic comparison ledger, the lower-pair row, the upper-pair row, and the displayed witness row; it supplies no trichotomy branch, quotient equality of real names, selected representative, order-completion principle, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:riesz-interpolation-real-carrier}. Its analytic rows are exactly the Real seal row $R$, the RealAlgOrder row $A$, the dyadic comparison ledger $D$, the lower-pair row $L$, the upper-pair row $U$, and the interpolation witness row $W$.
+
+The comparison premises are finite. The lower and upper rows are accepted only through the displayed RealAlgOrder comparisons and the dyadic ledger, so the request cannot switch to a host order relation or to a quotient equality of real names.
+
+The witness row is read after those premises. Its four comparisons reuse the same $A$ and $D$ rows, and the structural rows $H,C,P,N$ transport, replay, source, and name this same packet. Since none of the excluded order-completion or choice principles appears as a carrier coordinate, the listed route exhausts the consumer-facing witness surface.
+\end{proof}
+
+\begin{theorem}[RieszInterpolationReal ledger stability]
+\label{thm:riesz-interpolation-real-ledger-stability}
+Let $I=(R,A,D,L,U,W,H,C,P,N)$ be an accepted $\RieszInterpolationRealUp$ carrier. If a downstream $\RealAlgOrderUp$ consumer refines the dyadic tolerance rows inside the same ledger $D$ while preserving the displayed lower-pair, upper-pair, and witness comparisons, then the accepted interpolation read still factors through
+$$
+R,A,D,L,U,W,H,C,P,N .
+$$
+The refinement may narrow the comparison radii, but it cannot add a new host real-order coordinate, a trichotomy selector, quotient real equality, countable choice, a selected completion point, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the dyadic witness route of \autoref{thm:riesz-interpolation-real-dyadic-witness}. It identifies the only rows available to any real-order interpolation consumer.
+
+A refinement inside $D$ changes only the displayed dyadic radius and slack entries carried by the same ledger. The lower-pair row $L$, upper-pair row $U$, and witness row $W$ remain tied to the same Real seal $R$ and RealAlgOrder row $A$.
+
+Transport and replay are already recorded by $H$ and $C$, while $P$ and $N$ keep the provenance and local naming fixed. Therefore the refined read is still the same finite NameCert route, with no additional analytic or choice-dependent coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RieszInterpolationRealUp$ witness read exposes the Real seal row, RealAlgOrder comparison row, dyadic comparison ledger, lower-pair row, upper-pair row, witness row, componentwise transport, displayed replay, provenance, and local NameCert row before using the interpolant.}
+
+\independenceWitness{real, real-alg-order, dyadicratcore: $\RieszInterpolationRealUp$ is not bijective to any listed sibling because it jointly binds four real endpoints, one witness real name, a RealAlgOrder comparison surface, a dyadic comparison ledger, lower and upper pair rows, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{RieszInterpolationRealUp}{seedStr}
+
+\begin{closurestatus}{\RieszInterpolationRealUp}
+  \constructivestory{A $\RieszInterpolationRealUp$ packet is generated from Real endpoint and witness seals, a RealAlgOrder comparison row, a DyadicRatCore comparison ledger, displayed lower and upper pairs, an interpolation witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-interpolation-real-carrier}, \autoref{thm:riesz-interpolation-real-dyadic-witness}, and \autoref{thm:riesz-interpolation-real-ledger-stability} seed the finite real-order interpolation witness route over displayed $\RealUp$, $\RealAlgOrderUp$, and $\DyadicRatCoreUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient real equality, selected representatives, order completion, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Real seal exposure, RealAlgOrder comparison exactness, dyadic ledger stability, lower-pair and upper-pair display, witness display, transport, replay, provenance, and local naming for BEDC.Derived.RieszInterpolationRealUp.}
+\end{closurestatus}
