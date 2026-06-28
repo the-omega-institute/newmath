@@ -194,6 +194,172 @@ Thus $|U_a(s)|=1$ for each zero-relevant displayed node.  Since
 $h_a>0$, the equality $e^{-\delta h_a}=1$ gives $\delta=0$.
 \end{proof}
 
+\begin{definition}[Resonance counting lower row]
+\label{def:unified-reality-resonance-counting-lower-row}
+For a fixed split-prime tower and resonance windows $(A_n)$, the
+\emph{resonance counting function} is
+$$
+N_{\rho}(n):=|A_n|.
+$$
+In the pure split-prime case at a fixed depth, the tower count is
+$$
+N_q(n):=f_n=[K_n:\mathbb Q],
+$$
+because complete splitting gives one displayed local prime row
+$\mathfrak q_{n,i}$ for each embedding degree slot.  A resonance family
+has a \emph{counting lower row} when there are constants $c>0$ and
+$j_0:\NatUp$ such that
+$$
+N_{\rho}(n)\ge cN_q(n)
+$$
+along the displayed fixed-depth split nodes for all sufficiently large
+$n$.
+\end{definition}
+
+\begin{theorem}[Counting lower rows force off-half energy growth]
+\label{thm:unified-reality-counting-lower-rows-force-off-half-energy-growth}
+Let a $q$-split resonance family have a counting lower row.  If
+$$
+s=\frac12+\delta+i\tau
+$$
+and $\delta\#0$, then there is a constant $c_q>0$ such that, for all
+sufficiently large $n$,
+$$
+\mathcal E_{A_n}^{(q)}(s)\ge c_q\,N_q(n).
+$$
+In particular, if $N_q(n)\to\infty$, then
+$$
+\mathcal E_{A_n}^{(q)}(s)\to\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+The counting lower row supplies a fixed depth $j_0$ and a positive
+density constant $c$.  Each displayed split node at that depth has
+$$
+h_a=2^{j_0}\log q,
+$$
+so
+$$
+d_a(s)^2=\delta^2(2^{j_0}\log q)^2.
+$$
+Thus the contribution of the counted split nodes is at least
+$$
+cN_q(n)\delta^2(2^{j_0}\log q)^2.
+$$
+Set
+$$
+c_q:=c\delta^2(2^{j_0}\log q)^2.
+$$
+Since $q$ is prime and $\delta\#0$, this constant is positive.  The
+displayed lower bound follows, and divergence follows when
+$N_q(n)\to\infty$.
+\end{proof}
+
+\begin{definition}[Solenoid upper row]
+\label{def:unified-reality-solenoid-upper-row}
+For a zero-relevant $q$-split resonance family, a \emph{solenoid upper
+row} is a packet consisting of:
+$$
+\mathsf{QSolenoidCompatible}(\rho,s),
+\qquad
+\mathsf{TailBound}(\rho),
+\qquad
+\mathsf{RoucheGap}(\rho),
+$$
+and a finite constant $B_s$ with
+$$
+\forall n,\qquad
+\mathcal E_{A_n}^{(q)}(s)\le B_s.
+$$
+The compatibility row places the hidden registers in the compact
+$q$-adic fibre of $\Sigma_q$.  The tail and Rouch\'e rows ensure that
+the same resonance family is zero-relevant for the completed readout,
+rather than merely visible in a finite projection.
+\end{definition}
+
+\begin{definition}[Zeta prime-count solenoid bound]
+\label{def:unified-reality-zeta-prime-count-solenoid-bound}
+The \emph{zeta prime-count solenoid bound} is the source row
+$$
+\mathsf{ZetaPrimeCountSolenoidBound}_{\zeta}
+$$
+asserting that every critical-strip zero coordinate $s$ carries a
+zero-relevant fixed-prime resonance packet consisting of a rational prime
+$q$, a fixed split-prime tower for $q$, a stable dominant resonance
+family $(A_n)$, a counting lower row, and a solenoid upper row.
+\end{definition}
+
+\begin{theorem}[Prime-count lower and solenoid upper rows are conditionally sufficient]
+\label{thm:unified-reality-prime-count-solenoid-bound-conditionally-sufficient}
+If
+$$
+\mathsf{ZetaPrimeCountSolenoidBound}_{\zeta}
+$$
+holds, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+s=\frac12+\delta+i\tau.
+$$
+The prime-count solenoid bound supplies a fixed rational prime $q$, a
+split tower, a zero-relevant resonance family, a counting lower row, and
+a solenoid upper row.  The upper row gives a finite constant $B_s$ with
+$$
+\mathcal E_{A_n}^{(q)}(s)\le B_s
+$$
+for all $n$.  Suppose $\delta\#0$.  By
+\autoref{thm:unified-reality-counting-lower-rows-force-off-half-energy-growth},
+the counting lower row gives
+$$
+\mathcal E_{A_n}^{(q)}(s)\to\infty,
+$$
+because the split-prime tower has $N_q(n)\to\infty$.  This contradicts
+the uniform upper bound.  Hence $\neg(\delta\#0)$, and located
+fixed-half collapse gives $\delta=0$.  Therefore $\Re(s)=1/2$, and the
+fixed-half section follows from
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[The prime-count solenoid row is a source theorem]
+\label{cor:unified-reality-prime-count-solenoid-row-source-theorem}
+The zeta prime-count solenoid bound is not a fixed-half alias row.
+\end{corollary}
+
+\begin{proof}
+The row does not assert directly that a zero has $\delta=0$, zero normal
+energy, or no normal hair.  It asserts the existence of a zero-relevant
+source packet with two independent pieces of structure: a counting lower
+row supplied by split-prime growth, and a solenoid upper row supplied by
+compact fibre compatibility together with tail and Rouch\'e control.
+Only after these two rows are combined does off-half displacement become
+impossible.  Thus the row has the noncircular source shape isolated in
+\autoref{thm:unified-reality-source-mechanisms-are-noncircular-content}.
+\end{proof}
+
+\begin{corollary}[Strong-triangle dominance explains the upper row]
+\label{cor:unified-reality-strong-triangle-dominance-explains-upper-row}
+The $p$-adic strong triangle inequality supplies the finite dominance
+template behind the solenoid upper row.
+\end{corollary}
+
+\begin{proof}
+For a non-archimedean absolute value, if one term is strictly larger
+than all others, then the finite sum cannot vanish, as recorded in
+\autoref{thm:unified-reality-nonarchimedean-dominance-prevents-finite-silence}.
+Thus zero-relevant finite cancellation must occur at a boundary where
+dominant levels tie rather than at an arbitrary projected cancellation.
+This is the same proof-role shape as the quartic maximal-modulus
+boundary in
+\autoref{cor:unified-reality-quartic-carrier-finite-stability-template}.
+The solenoid upper row imports this dominance discipline into the
+fixed-prime tower setting: the compact $q$-adic fibre supplies legal
+hidden registers, while the Rouch\'e and tail rows certify that the
+dominant finite family controls the completed zero island.
+\end{proof}
+
 \begin{definition}[Zeta fixed-prime tower Lee--Yang bound]
 \label{def:unified-reality-zeta-fixed-prime-tower-lee-yang-bound}
 The \emph{zeta fixed-prime tower Lee--Yang bound} is the source row
