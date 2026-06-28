@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.KleeneTreeBoundaryUp.TasteGate
+namespace BEDC.Derived.KleeneTreeBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +26,7 @@ def kleeneTreeBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (kleeneTreeBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kleeneTreeBoundaryDecodeBHist tail)
 
-private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode :
+private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -34,61 +35,37 @@ private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def kleeneTreeBoundaryToEventFlow : KleeneTreeBoundaryUp → EventFlow
+def kleeneTreeBoundaryFields : KleeneTreeBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | KleeneTreeBoundaryUp.mk K F S R E O H C P N =>
-      [[BMark.b0],
-        kleeneTreeBoundaryEncodeBHist K,
-        [BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist F,
-        [BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist O,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        kleeneTreeBoundaryEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        kleeneTreeBoundaryEncodeBHist N]
+  | KleeneTreeBoundaryUp.mk K F S R E O H C P N => [K, F, S, R, E, O, H, C, P, N]
 
-def kleeneTreeBoundaryFromEventFlow : EventFlow → Option KleeneTreeBoundaryUp
+def kleeneTreeBoundaryToEventFlow : KleeneTreeBoundaryUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [[BMark.b0], K, [BMark.b1, BMark.b0], F, [BMark.b1, BMark.b1, BMark.b0], S,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], R,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], E,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], O,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], H,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0], C,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0], P,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b1, BMark.b0], N] =>
-      some
-        (KleeneTreeBoundaryUp.mk
-          (kleeneTreeBoundaryDecodeBHist K)
-          (kleeneTreeBoundaryDecodeBHist F)
-          (kleeneTreeBoundaryDecodeBHist S)
-          (kleeneTreeBoundaryDecodeBHist R)
-          (kleeneTreeBoundaryDecodeBHist E)
-          (kleeneTreeBoundaryDecodeBHist O)
-          (kleeneTreeBoundaryDecodeBHist H)
-          (kleeneTreeBoundaryDecodeBHist C)
-          (kleeneTreeBoundaryDecodeBHist P)
-          (kleeneTreeBoundaryDecodeBHist N))
-  | _ => none
+  fun x => (kleeneTreeBoundaryFields x).map kleeneTreeBoundaryEncodeBHist
 
-private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip :
+private def kleeneTreeBoundaryEventAtDefault : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => kleeneTreeBoundaryEventAtDefault index rest
+
+def kleeneTreeBoundaryFromEventFlow (ef : EventFlow) : Option KleeneTreeBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (KleeneTreeBoundaryUp.mk
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 0 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 1 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 2 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 3 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 4 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 5 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 6 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 7 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 8 ef))
+      (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEventAtDefault 9 ef)))
+
+private theorem kleeneTreeBoundary_round_trip :
     ∀ x : KleeneTreeBoundaryUp,
       kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -109,18 +86,18 @@ private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip 
             (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist P))
             (kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist N))) =
           some (KleeneTreeBoundaryUp.mk K F S R E O H C P N)
-      rw [KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode K,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode F,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode S,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode R,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode E,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode O,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode H,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode C,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode P,
-        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode N]
+      rw [KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode K,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode F,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode S,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode R,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode E,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode O,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode H,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode C,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode P,
+        KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_injective
+private theorem kleeneTreeBoundaryToEventFlow_injective
     {x y : KleeneTreeBoundaryUp} :
     kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -130,24 +107,40 @@ private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_injective
         kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow y) :=
     congrArg kleeneTreeBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (kleeneTreeBoundary_round_trip x).symm
+      (Eq.trans hread (kleeneTreeBoundary_round_trip y)))
 
-private def kleeneTreeBoundaryFields : KleeneTreeBoundaryUp → List BHist
+private theorem kleeneTreeBoundary_field_faithful :
+    ∀ x y : KleeneTreeBoundaryUp,
+      kleeneTreeBoundaryFields x = kleeneTreeBoundaryFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  | KleeneTreeBoundaryUp.mk K F S R E O H C P N => [K, F, S, R, E, O, H, C, P, N]
-
-private theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment_fields :
-    ∀ x y : KleeneTreeBoundaryUp, kleeneTreeBoundaryFields x = kleeneTreeBoundaryFields y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk K1 F1 S1 R1 E1 O1 H1 C1 P1 N1 =>
+  | mk K₁ F₁ S₁ R₁ E₁ O₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk K2 F2 S2 R2 E2 O2 H2 C2 P2 N2 =>
-          cases hfields
+      | mk K₂ F₂ S₂ R₂ E₂ O₂ H₂ C₂ P₂ N₂ =>
+          change [K₁, F₁, S₁, R₁, E₁, O₁, H₁, C₁, P₁, N₁] =
+            [K₂, F₂, S₂, R₂, E₂, O₂, H₂, C₂, P₂, N₂] at h
+          injection h with hK t1
+          injection t1 with hF t2
+          injection t2 with hS t3
+          injection t3 with hR t4
+          injection t4 with hE t5
+          injection t5 with hO t6
+          injection t6 with hH t7
+          injection t7 with hC t8
+          injection t8 with hP t9
+          injection t9 with hN _
+          cases hK
+          cases hF
+          cases hS
+          cases hR
+          cases hE
+          cases hO
+          cases hH
+          cases hC
+          cases hP
+          cases hN
           rfl
 
 instance kleeneTreeBoundaryBHistCarrier : BHistCarrier KleeneTreeBoundaryUp where
@@ -160,17 +153,18 @@ instance kleeneTreeBoundaryChapterTasteGate : ChapterTasteGate KleeneTreeBoundar
   round_trip := by
     intro x
     change kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x
-    exact KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip x
+    exact kleeneTreeBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (KleeneTreeBoundaryTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (kleeneTreeBoundaryToEventFlow_injective heq)
 
 instance kleeneTreeBoundaryFieldFaithful : FieldFaithful KleeneTreeBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := kleeneTreeBoundaryFields
-  field_faithful := KleeneTreeBoundaryTasteGate_single_carrier_alignment_fields
+  field_faithful := kleeneTreeBoundary_field_faithful
 
-instance kleeneTreeBoundaryNontrivial : Nontrivial KleeneTreeBoundaryUp where
+instance kleeneTreeBoundaryNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial KleeneTreeBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨KleeneTreeBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -181,30 +175,52 @@ instance kleeneTreeBoundaryNontrivial : Nontrivial KleeneTreeBoundaryUp where
         intro h
         cases h⟩
 
-theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist, kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist h) = h) ∧
-      (∀ x : KleeneTreeBoundaryUp,
-        kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x) ∧
-        (∀ x y : KleeneTreeBoundaryUp,
-          kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y) ∧
-          Nonempty (ChapterTasteGate KleeneTreeBoundaryUp) ∧
-            Nonempty (FieldFaithful KleeneTreeBoundaryUp) ∧
-              Nonempty (Nontrivial KleeneTreeBoundaryUp) ∧
-                kleeneTreeBoundaryEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+def taste_gate : ChapterTasteGate KleeneTreeBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact KleeneTreeBoundaryTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact KleeneTreeBoundaryTasteGate_single_carrier_alignment_injective heq
+  kleeneTreeBoundaryChapterTasteGate
+
+theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate KleeneTreeBoundaryUp) ∧
+      Nonempty (FieldFaithful KleeneTreeBoundaryUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial KleeneTreeBoundaryUp) ∧
+          (∀ h : BHist,
+            kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist h) = h) ∧
+            (∀ x : KleeneTreeBoundaryUp,
+              kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x) ∧
+              (∀ x y : KleeneTreeBoundaryUp,
+                kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y) ∧
+                kleeneTreeBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
   · exact ⟨kleeneTreeBoundaryChapterTasteGate⟩
-  constructor
-  · exact ⟨kleeneTreeBoundaryFieldFaithful⟩
-  constructor
-  · exact ⟨kleeneTreeBoundaryNontrivial⟩
-  · rfl
+  · constructor
+    · exact ⟨kleeneTreeBoundaryFieldFaithful⟩
+    · constructor
+      · exact ⟨kleeneTreeBoundaryNontrivial⟩
+      · constructor
+        · exact KleeneTreeBoundaryTasteGate_single_carrier_alignment_decode_encode
+        · constructor
+          · exact kleeneTreeBoundary_round_trip
+          · constructor
+            · intro x y heq
+              exact kleeneTreeBoundaryToEventFlow_injective heq
+            · rfl
 
-end BEDC.Derived.KleeneTreeBoundaryUp.TasteGate
+namespace TasteGate
+
+theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate KleeneTreeBoundaryUp) ∧
+      Nonempty (FieldFaithful KleeneTreeBoundaryUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial KleeneTreeBoundaryUp) ∧
+          (∀ h : BHist,
+            kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist h) = h) ∧
+            (∀ x : KleeneTreeBoundaryUp,
+              kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x) ∧
+              (∀ x y : KleeneTreeBoundaryUp,
+                kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y) ∧
+                kleeneTreeBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) :=
+  BEDC.Derived.KleeneTreeBoundaryUp.KleeneTreeBoundaryTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.KleeneTreeBoundaryUp

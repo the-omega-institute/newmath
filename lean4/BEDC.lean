@@ -6760,6 +6760,7 @@ import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
+import BEDC.Derived.HausdorffizationUp.ZeroDistanceWindowDeterminacy
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
@@ -10333,8 +10334,10 @@ import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.RealIntervalUp.BridgedNameCertRoute
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
+import BEDC.Derived.RealIntervalUp.EndpointEnclosureTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.EndpointRefinementStability
+import BEDC.Derived.RealIntervalUp.FiniteEndpointEnvelopeRoute
 import BEDC.Derived.RealIntervalUp.FiniteNetConsumer
 import BEDC.Derived.RealIntervalUp.ObligationClosureRoute
 import BEDC.Derived.RealIntervalUp.PublicNameCertExport
@@ -11015,6 +11018,7 @@ import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
 import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
+import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
