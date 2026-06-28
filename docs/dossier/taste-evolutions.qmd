@@ -451,6 +451,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - BEDC.Derived.DcpoUp
 error: build failed, audit=skipped, phase_d_lint=skipped.
 
+- 2026-06-28T19:11:38Z: `resolved` `delete_theorem` for `BEDC.Derived.DcpoUp.DcpoCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:dcpo:BEDC.Derived.DcpoUp.DcpoCarrier_namecert_obligations:5c831012`). Rationale: The target had no Lean downstream consumers and only one removable paper marker. Its statement was a weaker standalone NameCert wrapper over loose UnaryHistory/PkgSig premises, while the same chapter now carries the structurally aligned DcpoCarrier-based obligation record and related downstream DCPO obligation theorems. Deleting it removes an isolated stale surface without losing the current Dcpo carrier content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
