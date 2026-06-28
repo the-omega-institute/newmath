@@ -9916,6 +9916,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.TwoSurfaceExhaustion
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
+import BEDC.Derived.RHRoute.AllPrimePhaseClosure
 import BEDC.Derived.RHRoute.AltConvergence
 import BEDC.Derived.RHRoute.AlternatingTailBound
 import BEDC.Derived.RHRoute.ArgumentPrincipleUp
@@ -9935,9 +9936,11 @@ import BEDC.Derived.RHRoute.FarEndEnergySocket
 import BEDC.Derived.RHRoute.FarEndUnityNormalization
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
+import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GroundedAltConvergence
 import BEDC.Derived.RHRoute.HaltingBoundary
+import BEDC.Derived.RHRoute.InfinitePrimeTorusCompatibility
 import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
 import BEDC.Derived.RHRoute.LagariasCriterion
@@ -9948,6 +9951,7 @@ import BEDC.Derived.RHRoute.OddZeroDefect
 import BEDC.Derived.RHRoute.OnticBoundaryLedger
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
+import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
 import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
@@ -9960,6 +9964,7 @@ import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
 import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants
 import BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy
+import BEDC.Derived.RHRoute.ZetaResonanceBoundStability
 import BEDC.Derived.RHRoute.ZetaZeroLocated
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
