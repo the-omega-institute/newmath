@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\JordanCanonicalFormUp$}
+\label{ch:concrete-instances-jordan-canonical-form-namecert}
+\origin{human}
+
+Following the classical Jordan canonical form over algebraically closed fields, the $\JordanCanonicalFormUp$ packet records the finite certificate by which a displayed endomorphism is read as a block diagonal matrix with eigenvalue labels and nilpotent successor rows. It sits after the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the polynomial ledger of \autoref{ch:concrete-instances-polynomial-namecert}, and the scalar field carrier of \autoref{ch:concrete-instances-field-namecert}. It also records the finite spectral comparison surface shared with \autoref{ch:concrete-instances-singular-value-decomposition-namecert} and \autoref{ch:concrete-instances-polar-decomposition-namecert}. The packet names only displayed finite rows; it is not an algebraic-closure theorem, a selected host eigenbasis, quotient eigenspace equality, or an ambient spectral theorem.
+
+\begin{definition}[Jordan canonical form carrier]
+\label{def:jordan-canonical-form-carrier}
+A $\JordanCanonicalFormUp$ carrier is a finite $\BHist$ packet
+$$
+J=(M,V,F,Q,E,B,K,S,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ row, recording the finite matrix entries, multiplication windows, and row-column indices of the source endomorphism.
+\item $V$ is the $\VecSpaceUp$ row, recording the finite-dimensional vector-space presentation and the displayed basis windows used by the matrix read.
+\item $F$ is the $\FieldUp$ row, recording the scalar carrier over which the eigenvalue names and polynomial coefficients are interpreted.
+\item $Q$ is the $\PolynomialUp$ row, recording the characteristic-polynomial, minimal-polynomial, and annihilator ledgers visible to the block scheduler.
+\item $E$ is the eigenvalue-name row, listing the displayed roots that label the Jordan blocks inside the accepted packet.
+\item $B$ is the block-layout row, a finite ledger of block sizes, block order, diagonal eigenvalue labels, and superdiagonal successor positions.
+\item $K$ is the chain-stability row, recording the finite nilpotent-chain checks attached to each block size and eigenvalue label.
+\item $S$ is the similarity-transport row, recording the displayed source presentation, block presentation, and change-of-presentation rows.
+\item $D$ is the comparison row to $\SingularValueDecompositionUp$ and $\PolarDecompositionUp$, recording that those sibling packets may read the matrix-facing spectral boundary only through the displayed finite matrix and transport rows.
+\item $H$ records componentwise $\hsame$ transport for $M,V,F,Q,E,B,K,S,D$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay along the route
+$$
+M,V,F,Q,E,B,K,S,D \longmapsto H,C,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\JordanCanonicalFormUp$, $\MatrixUp$, $\VecSpaceUp$, $\PolynomialUp$, $\FieldUp$, $\SingularValueDecompositionUp$, $\PolarDecompositionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\JordanCanonicalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,V,F,Q,E,B,K,S,D,H,C,P,N$. It has no coordinate for a host proof that the field is algebraically closed, an unrecorded eigenvector choice, quotient equality of generalized eigenspaces, uniqueness of block order, or a global spectral theorem.
+\end{definition}
+
+\begin{theorem}[Jordan canonical form NameCert obligations]
+\label{thm:jordan-canonical-form-namecert-obligations}
+For every accepted $\JordanCanonicalFormUp$ carrier $J=(M,V,F,Q,E,B,K,S,D,H,C,P,N)$, the local $\NameCert_{\JordanCanonicalFormUp}$ surface consists exactly of carrier admission, matrix exposure through $M$, vector-space exposure through $V$, scalar-field exposure through $F$, polynomial-ledger exposure through $Q$, eigenvalue-name exposure through $E$, block-layout exposure through $B$, nilpotent-chain stability through $K$, similarity transport through $S$, spectral sibling comparison through $D$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jordan-canonical-form-carrier}. The rows $M,V,F,Q,E,B,K,S,D$ are the mathematical data, while $H,C,P,N$ transport, replay, source, and name that finite packet.
+
+The eigenvalue and block rows are read only through the matrix, vector-space, field, and polynomial rows. The packet therefore displays the finite block layout and its scalar labels before a local NameCert row can certify the Jordan canonical form surface.
+
+The comparison row $D$ does not import a singular-value or polar-decomposition theorem. It only records the matrix-facing route by which those siblings may inspect the same finite spectral boundary. Thus the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Jordan canonical finite chain stability]
+\label{thm:jordan-canonical-form-chain-stability}
+Every accepted $\JordanCanonicalFormUp$ read that consumes a Jordan block must pass through the finite chain route
+$$
+M,V,F,Q,E,B,K,S,H,C,P,N .
+$$
+The row $K$ records the nilpotent successor checks attached to the displayed block sizes in $B$ and eigenvalue names in $E$; it is stable only under the componentwise transport row $H$ and replay row $C$ of the same carrier. A downstream consumer receives no quotient generalized-eigenspace equality, no selected host eigenbasis, no proof of algebraic closure, and no ambient spectral theorem from this route.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:jordan-canonical-form-namecert-obligations}. Any block read must expose the source matrix, vector-space presentation, scalar field row, polynomial ledger, eigenvalue-name row, block-layout row, and chain-stability row before the structural rows are consumed.
+
+Transport by $H$ preserves the same displayed rows componentwise, and replay by $C$ follows the same finite route. Since neither row adds a host eigenspace object or a spectral theorem, the nilpotent-chain check remains a finite carrier row.
+\end{proof}
+
+\begin{theorem}[Jordan canonical sibling noncollapse]
+\label{thm:jordan-canonical-form-sibling-noncollapse}
+The $\JordanCanonicalFormUp$ packet is not bijective to $\MatrixUp$, $\VecSpaceUp$, $\PolynomialUp$, $\FieldUp$, $\SingularValueDecompositionUp$, or $\PolarDecompositionUp$. It jointly carries matrix entries, vector-space presentation data, scalar-field rows, polynomial ledgers, eigenvalue-name rows, finite block layout, nilpotent-chain stability, similarity transport, spectral sibling comparison, structural transport, replay, provenance, and local naming, while each listed sibling omits at least one of those displayed rows.
+\end{theorem}
+\begin{proof}
+Compare the carrier coordinates in \autoref{def:jordan-canonical-form-carrier}. The linear-algebra source siblings provide matrix, vector-space, polynomial, or field rows, but none of them alone carries the eigenvalue-name, block-layout, chain-stability, and similarity-transport rows together with local naming.
+
+The spectral siblings $\SingularValueDecompositionUp$ and $\PolarDecompositionUp$ read through their own factorization surfaces. Row $D$ lets them inspect a matrix-facing boundary, but it does not identify their packets with the Jordan canonical block ledger. Hence no listed sibling is bijective to the full carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\JordanCanonicalFormUp$ consumer must display Matrix, VecSpace, Field, Polynomial, eigenvalue-name, block-layout, nilpotent-chain, similarity-transport, sibling-comparison, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before reading a Jordan canonical form certificate.}
+
+\independenceWitness{matrix, vecspace, polynomial, field, singular-value-decomposition, polar-decomposition: $\JordanCanonicalFormUp$ is not bijective to any listed sibling because this packet alone binds source matrix rows, vector-space presentation, scalar-field data, polynomial ledgers, eigenvalue labels, finite Jordan blocks, nilpotent-chain stability, similarity transport, spectral sibling comparison, replay, provenance, and local naming.}
+
+\closureat{JordanCanonicalFormUp}{seedStr}
+
+\begin{closurestatus}{\JordanCanonicalFormUp}
+  \constructivestory{A $\JordanCanonicalFormUp$ packet is generated from Matrix rows, VecSpace basis windows, Field scalar rows, Polynomial ledgers, displayed eigenvalue-name rows, finite Jordan-block layout, nilpotent-chain stability, similarity transport, spectral sibling comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-canonical-form-carrier}, \autoref{thm:jordan-canonical-form-namecert-obligations}, \autoref{thm:jordan-canonical-form-chain-stability}, and \autoref{thm:jordan-canonical-form-sibling-noncollapse} seed the finite Jordan canonical form certificate over matrix, vector-space, field, polynomial, eigenvalue, block, nilpotent-chain, similarity, sibling-comparison, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim algebraic closure, quotient generalized-eigenspace equality, selected host eigenvectors, canonical uniqueness of block order, ambient spectral theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, eigenvalue-name admission, block-ledger exactness, nilpotent-chain stability, similarity-transport nonescape, spectral sibling comparison, provenance, and local NameCert exactness for BEDC.Derived.JordanCanonicalFormUp.}
+\end{closurestatus}
