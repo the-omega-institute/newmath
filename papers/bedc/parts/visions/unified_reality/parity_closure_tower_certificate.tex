@@ -1,0 +1,289 @@
+\section{Parity Closure Tower Certificate}
+\label{sec:unified-reality-parity-closure-tower-certificate}
+
+The recursive parity tower displays the normal defect at every finite
+prime-adic depth, but that visibility is not yet a zero-exclusion
+theorem.  The missing statement can be sharpened by separating two
+notions that the functional equation tends to blur.  Mirror symmetry
+gives paired zero packets; it does not by itself identify a packet with
+its mirror inside the same routing closure.  A parity closure tower is
+the stronger object: the mirror packet lies in the same recursive
+routing closure, while the normal defect is routing-invariant and
+parity-odd.
+
+\begin{definition}[Abstract parity-routing packet]
+\label{def:unified-reality-abstract-parity-routing-packet}
+An \emph{abstract parity-routing packet} consists of a topological
+space $X$, a homeomorphism
+$$
+\mathcal R:X\to X,
+$$
+an involution
+$$
+P:X\to X,
+\qquad
+P^2=\operatorname{id},
+$$
+and a continuous real readout
+$$
+\Delta:X\to\RealUp
+$$
+such that
+$$
+P\mathcal R P=\mathcal R^{-1},
+$$
+$$
+\Delta(\mathcal R x)=\Delta(x),
+$$
+and
+$$
+\Delta(Px)=-\Delta(x).
+$$
+The map $\mathcal R$ is the packet-routing step, $P$ is parity
+reflection, and $\Delta$ is the signed normal defect read by the packet.
+\end{definition}
+
+\begin{theorem}[Parity closure kills odd defect]
+\label{thm:unified-reality-parity-closure-kills-odd-defect}
+Let $(X,\mathcal R,P,\Delta)$ be an abstract parity-routing packet.  If
+$$
+Px\in\overline{\{\mathcal R^m x:m\in\mathbb Z\}},
+$$
+then
+$$
+\Delta(x)=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The closure hypothesis gives a sequence of integers $m_j$ such that
+$$
+\mathcal R^{m_j}x\to Px.
+$$
+By continuity of $\Delta$,
+$$
+\Delta(Px)=\lim_j\Delta(\mathcal R^{m_j}x).
+$$
+Routing invariance gives
+$$
+\Delta(\mathcal R^{m_j}x)=\Delta(x)
+$$
+for every $j$, hence
+$$
+\Delta(Px)=\Delta(x).
+$$
+Parity oddness gives
+$$
+\Delta(Px)=-\Delta(x).
+$$
+Thus $\Delta(x)=-\Delta(x)$, and the located real readout gives
+$\Delta(x)=0$.
+\end{proof}
+
+\begin{definition}[Eta return loop and cut coordinate]
+\label{def:unified-reality-eta-return-loop-cut-coordinate}
+For
+$$
+\eta(s)=\sum_{n\ge1}(-1)^{n-1}n^{-s},
+$$
+write
+$$
+v_N(s):=(-1)^{N-1}N^{-s},
+\qquad
+P_N(s):=\sum_{n\le N}v_n(s),
+\qquad
+R_N(s):=\sum_{n>N}v_n(s).
+$$
+On a zero row $\eta(s)=0$,
+$$
+P_N(s)+R_N(s)=0.
+$$
+The local cut coordinate at the $N$th segment is the row
+$$
+P_{N-1}(s)+\theta_N(s)v_N(s)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Eta cut coordinates satisfy exact routing recursion]
+\label{thm:unified-reality-eta-cut-coordinates-exact-routing-recursion}
+On an eta zero row, the cut coordinates satisfy
+$$
+\theta_N(s)
+=
+1-
+\left(\frac{N}{N+1}\right)^s
+\theta_{N+1}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-eta-return-loop-cut-coordinate},
+$$
+\theta_N(s)=-\frac{P_{N-1}(s)}{v_N(s)}.
+$$
+Since $P_{N-1}+v_N+R_N=0$,
+$$
+P_{N-1}=-v_N-R_N,
+$$
+so
+$$
+\theta_N(s)=1+\frac{R_N(s)}{v_N(s)}.
+$$
+Also $R_N=v_{N+1}+R_{N+1}$, and the definition of
+$\theta_{N+1}$ gives
+$$
+R_N=v_{N+1}\theta_{N+1}.
+$$
+Finally
+$$
+\frac{v_{N+1}}{v_N}
+=
+-\left(\frac{N}{N+1}\right)^s.
+$$
+Substitution gives the displayed recursion.
+\end{proof}
+
+\begin{definition}[Parity closure tower certificate]
+\label{def:unified-reality-zeta-parity-closure-tower-certificate}
+For a critical-strip zeta zero $s=1/2+\delta+i\tau$, a
+\emph{zeta parity closure tower certificate} consists of a canonical
+zero-relevant packet $x_s$ in an abstract parity-routing packet
+$(X,\mathcal R,P,\Delta)$, together with rows:
+$$
+\mathsf{ActiveCapture}(x_s,s),
+\qquad
+\Delta(x_s)=\delta,
+$$
+$$
+P x_s\in\overline{\{\mathcal R^m x_s:m\in\mathbb Z\}},
+$$
+and a zero-relevance ledger saying that $x_s$ is the packet whose
+dominance, endpoint, tail, or solenoid rows control the completed zero.
+The equality $\Delta(x_s)=\delta$ is the defect-invariance row; the
+closure row is stronger than the statement that $s$ and $1-\overline{s}$
+are both zeros.
+\end{definition}
+
+\begin{theorem}[Parity closure tower certificates are conditionally sufficient]
+\label{thm:unified-reality-parity-closure-tower-certificates-conditionally-sufficient}
+If every critical-strip zeta zero carries a zeta parity closure tower
+certificate, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+s=\frac12+\delta+i\tau.
+$$
+The certificate supplies $x_s$ with
+$$
+\Delta(x_s)=\delta
+$$
+and
+$$
+P x_s\in\overline{\{\mathcal R^m x_s:m\in\mathbb Z\}}.
+$$
+By
+\autoref{thm:unified-reality-parity-closure-kills-odd-defect},
+$$
+\Delta(x_s)=0.
+$$
+Hence $\delta=0$, so $\Re(s)=1/2$.  Since $z$ was arbitrary,
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} supplies
+the RH fixed-half section.
+\end{proof}
+
+\begin{corollary}[Functional equation pairing is not packet closure]
+\label{cor:unified-reality-functional-equation-pairing-not-packet-closure}
+The completed zeta functional equation supplies mirror pairing of zero
+coordinates, but the parity closure tower certificate requires a
+stronger packet-level identification.
+\end{corollary}
+
+\begin{proof}
+The mirror
+$$
+J(s):=1-\overline{s}
+$$
+sends
+$$
+\frac12+\delta+i\tau
+\quad\text{to}\quad
+\frac12-\delta+i\tau.
+$$
+The completed functional equation and conjugation symmetry place zeros
+in mirror-related positions.  This gives a paired-zero row
+$$
+s\longmapsto J(s).
+$$
+It does not by itself give
+$$
+P x_s\in\overline{\{\mathcal R^m x_s:m\in\mathbb Z\}},
+$$
+nor does it identify the active endpoint, Rouch\'e, solenoid, or
+dominance packet for $s$ with its mirror inside one recursive closure.
+Thus the parity closure certificate isolates the noncircular bridge
+left after ordinary functional-equation symmetry has been accounted for.
+\end{proof}
+
+\begin{corollary}[Relation to endpoint and solenoid certificates]
+\label{cor:unified-reality-parity-closure-relation-endpoint-solenoid}
+Endpoint bisection and solenoid Lee--Yang rows are candidate mechanisms
+for producing the active capture and zero-compatible routing closure
+required by a parity closure tower certificate.
+\end{corollary}
+
+\begin{proof}
+The endpoint bisection certificate of
+\autoref{def:unified-reality-zeta-endpoint-bisection-certificate}
+identifies a finite endpoint window, a distinguished segment, and a
+Rouch\'e ledger.  These are possible sources for
+$\mathsf{ActiveCapture}(x_s,s)$.  The solenoid-compatible resonance lift
+of
+\autoref{def:unified-reality-solenoid-compatible-resonance-lift}
+identifies a compact phase carrier and forbids hidden noncompact real
+scale.  This is a possible source for the zero-compatible routing
+closure.  The parity closure tower certificate records the abstract
+consequence common to these mechanisms: once the signed defect is both
+routing-invariant and parity-odd inside the same closure, it must vanish.
+\end{proof}
+
+\begin{definition}[Parity closure bridge obligations]
+\label{def:unified-reality-parity-closure-bridge-obligations}
+The parity closure route leaves four bridge obligations:
+$$
+\mathsf{ActiveCapture},
+\qquad
+\mathsf{DefectInvariant},
+\qquad
+\mathsf{ParityClosure},
+\qquad
+\mathsf{ZeroCompatibleBound}.
+$$
+Active capture constructs the zero-relevant packet from the completed
+zero ledger.  Defect invariance proves that its signed readout is
+$\Re(s)-1/2$.  Parity closure places the mirror packet in the same
+routing closure.  Zero-compatible bound or compactness prevents the
+closure from using a hidden noncompact real scale.
+\end{definition}
+
+\begin{corollary}[The bridge obligations are the proof load]
+\label{cor:unified-reality-parity-closure-bridge-obligations-proof-load}
+The parity closure route proves a conditional RH theorem, but the
+zeta-specific proof load is the construction of the four bridge
+obligations in
+\autoref{def:unified-reality-parity-closure-bridge-obligations}.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-parity-closure-kills-odd-defect} is an
+abstract topological theorem, and
+\autoref{thm:unified-reality-parity-closure-tower-certificates-conditionally-sufficient}
+is its zeta-facing conditional use.  Neither theorem constructs the
+canonical packet space, its routing, its dominance ledger, or its compact
+zero-compatible carrier from the completed zeta row.  Those tasks are
+exactly the four bridge obligations.  Consequently the remaining work is
+not another restatement of the fixed-half surface, but the construction
+of a zero-relevant recursive packet tower satisfying those obligations.
+\end{proof}

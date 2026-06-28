@@ -1,0 +1,235 @@
+\section{Recursive Parity Tower}
+\label{sec:unified-reality-recursive-parity-tower}
+
+Prime-sieve odd exactness separates the signed mirror-odd defect from
+its mirror-even energy.  The same separation persists after the Euler
+local factor is resolved by repeated parity splitting.  A prime supplies
+the dimension; the exponent-depth inside that prime dimension supplies a
+binary recursion tree.  The normalized radial defect read by every finite
+part of this tree is the same normal displacement from the fixed-half
+surface.
+
+\begin{definition}[Local parity recursion]
+\label{def:unified-reality-local-parity-recursion}
+For a formal variable $x$, the finite parity recursion packet is
+$$
+P_m(x):=\prod_{j=0}^{m}(1+x^{2^j}).
+$$
+It satisfies
+$$
+(1-x)P_m(x)=1-x^{2^{m+1}},
+$$
+and hence
+$$
+P_m(x)=\frac{1-x^{2^{m+1}}}{1-x}
+$$
+whenever $1-x$ is invertible.  On a convergent analytic readout with
+$|x|<1$, the limiting row is
+$$
+\frac1{1-x}=\prod_{j\ge0}(1+x^{2^j}).
+$$
+\end{definition}
+
+\begin{proof}
+The identity follows by the telescoping chain
+$$
+(1-x)(1+x)=1-x^2,
+\qquad
+(1-x^2)(1+x^2)=1-x^4,
+$$
+and so on through the factor $1+x^{2^m}$.  Multiplying these rows gives
+$(1-x)P_m(x)=1-x^{2^{m+1}}$.  If $|x|<1$, the terminal term
+$x^{2^{m+1}}$ tends to zero in the displayed analytic readout.
+\end{proof}
+
+\begin{theorem}[Euler local factors are recursive parity trees]
+\label{thm:unified-reality-euler-local-factor-recursive-parity-tree}
+On the local convergence region $\Re(s)>0$, each Euler local factor
+admits the recursive parity expansion
+$$
+(1-p^{-s})^{-1}
+=
+\prod_{j\ge0}\left(1+p^{-2^j s}\right).
+$$
+On the Euler-product convergence region $\Re(s)>1$ this gives the
+two-indexed readout
+$$
+\zeta(s)
+=
+\prod_{p\in\PrimeUp}
+\prod_{j\ge0}
+\left(1+p^{-2^j s}\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{def:unified-reality-local-parity-recursion} with
+$x=p^{-s}$.  The local condition $\Re(s)>0$ gives $|p^{-s}|<1$.  The
+global statement is the same local identity inserted into the ordinary
+Euler-product row on $\Re(s)>1$.
+\end{proof}
+
+\begin{definition}[Recursive parity tower]
+\label{def:unified-reality-recursive-parity-tower}
+The recursive parity tower of the zeta Euler face is the two-indexed
+node family
+$$
+\mathsf{ParityTower}_{\zeta}:=\PrimeUp\times\NatUp,
+$$
+where $(p,j)$ records the prime dimension $p$ and the binary depth $j$
+inside that dimension.  Its centered node channel is
+$$
+U_{p,j}(s):=p^{2^j(1/2-s)}.
+$$
+For a nonempty finite node family
+$A\subset\mathsf{ParityTower}_{\zeta}$, define
+$$
+D_A^{\mathrm{rec}}(s)
+:=
+\sum_{(p,j)\in A}\log |U_{p,j}(s)|,
+$$
+and its positive weight
+$$
+W_A
+:=
+\sum_{(p,j)\in A}2^j\log p.
+$$
+The normalized recursive defect and recursive defect energy are
+$$
+\overline D_A^{\mathrm{rec}}(s)
+:=
+\frac{D_A^{\mathrm{rec}}(s)}{W_A},
+\qquad
+\overline E_A^{\mathrm{rec}}(s)
+:=
+\left(\overline D_A^{\mathrm{rec}}(s)\right)^2.
+$$
+\end{definition}
+
+\begin{theorem}[Recursive normalized defects are depth-invariant]
+\label{thm:unified-reality-recursive-normalized-defects-depth-invariant}
+If
+$$
+s=\frac12+\delta+i\tau,
+$$
+then for every nonempty finite node family
+$A\subset\mathsf{ParityTower}_{\zeta}$,
+$$
+\overline D_A^{\mathrm{rec}}(s)=-\delta.
+$$
+\end{theorem}
+
+\begin{proof}
+For a node $(p,j)$,
+$$
+U_{p,j}(s)
+=
+p^{2^j(1/2-s)}
+=
+p^{-2^j\delta}e^{-i2^j\tau\log p}.
+$$
+Thus
+$$
+\log |U_{p,j}(s)|=-2^j\delta\log p.
+$$
+Summing over $A$ gives
+$$
+D_A^{\mathrm{rec}}(s)
+=
+-\delta\sum_{(p,j)\in A}2^j\log p
+=
+-\delta W_A.
+$$
+Since $A$ is nonempty and every displayed prime logarithm is positive,
+$W_A$ is a positive normalization row.  Dividing by $W_A$ gives the
+claim.
+\end{proof}
+
+\begin{corollary}[Recursive defect energy is depth-invariant]
+\label{cor:unified-reality-recursive-defect-energy-depth-invariant}
+For $s=1/2+\delta+i\tau$ and every nonempty finite node family
+$A\subset\mathsf{ParityTower}_{\zeta}$,
+$$
+\overline E_A^{\mathrm{rec}}(s)=\delta^2.
+$$
+Consequently the signed recursive defect is mirror-odd, while the
+recursive defect energy is mirror-even.
+\end{corollary}
+
+\begin{proof}
+The first statement is the square of
+\autoref{thm:unified-reality-recursive-normalized-defects-depth-invariant}.
+Under the mirror $J(s)=1-\overline{s}$, the normal displacement changes
+from $\delta$ to $-\delta$.  Hence
+$\overline D_A^{\mathrm{rec}}$ changes sign, while
+$\overline E_A^{\mathrm{rec}}$ is unchanged.
+\end{proof}
+
+\begin{definition}[Recursive odd energy refusal]
+\label{def:unified-reality-recursive-odd-energy-refusal}
+The recursive odd energy refusal row is
+$$
+\mathsf{NoRecursiveOddEnergyZero}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{A:\mathsf{FiniteParitySubtree}_{\ne\varnothing}}
+\bigl(\overline E_A^{\mathrm{rec}}(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+Here $\mathsf{FiniteParitySubtree}_{\ne\varnothing}$ denotes a nonempty
+finite node family in
+$\mathsf{ParityTower}_{\zeta}$.  The row says that no completed zeta
+zero may carry nonzero mirror-even energy anywhere in the recursive
+parity tower.
+\end{definition}
+
+\begin{theorem}[Recursive odd energy refusal is conditionally sufficient]
+\label{thm:unified-reality-recursive-odd-energy-refusal-conditionally-sufficient}
+Together with the located fixed-half collapse row, the recursive odd
+energy refusal row is sufficient for the RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Suppose $\delta\#0$.  Choose any nonempty finite node family
+$A\subset\mathsf{ParityTower}_{\zeta}$.  By
+\autoref{cor:unified-reality-recursive-defect-energy-depth-invariant},
+$$
+\overline E_A^{\mathrm{rec}}(s)=\delta^2,
+$$
+which is nonzero in the located real readout when $\delta\#0$.  This
+supplies the positive data excluded by
+\autoref{def:unified-reality-recursive-odd-energy-refusal}.  Therefore
+$\neg(\delta\#0)$.  The located fixed-half collapse row converts this
+into $\delta=0$, hence $\Re(s)=1/2$ by the fixed-surface calculation of
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}.
+\end{proof}
+
+\begin{corollary}[Recursive parity does not hide an off-half defect]
+\label{cor:unified-reality-recursive-parity-does-not-hide-off-half-defect}
+Within the recursive parity tower, an off-half normal displacement is not
+a defect of one depth layer only.  Every nonempty finite subtree reads
+the same normalized odd defect and the same mirror-even defect energy.
+\end{corollary}
+
+\begin{proof}
+The normalized odd defect is depth-invariant by
+\autoref{thm:unified-reality-recursive-normalized-defects-depth-invariant},
+and the energy is depth-invariant by
+\autoref{cor:unified-reality-recursive-defect-energy-depth-invariant}.
+Thus recursion through parity depth cannot cancel, dilute, or relocate
+the normal displacement.  Any remaining obstruction is the same
+zero-relevance obstruction isolated in
+\autoref{cor:unified-reality-prime-sieve-obstruction-analytic-exactness},
+now read across the full recursive parity tower.
+\end{proof}

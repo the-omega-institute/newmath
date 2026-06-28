@@ -1,0 +1,239 @@
+\section{Zeta Solenoid Lee--Yang Bound}
+\label{sec:unified-reality-zeta-solenoid-lee-yang-bound}
+
+The solenoid boundary and the resonance-bound boundary describe two
+faces of the same RH-facing proof role.  The solenoid face says that a
+zero-relevant phase state realized in a compact $S$-solenoid cannot
+carry an additional real positive scale.  The bound face says that a
+zero-relevant resonance family must have uniformly bounded normal energy
+along its finite prime-adic windows.  The combined target is therefore a
+zeta-specific Lee--Yang theorem with both parts displayed: each completed
+zero must be captured by a stable dominant resonance tower whose phase
+data is solenoid-compatible and whose normal energy is bounded at the
+far end.
+
+\begin{definition}[Zero-specific cofinal resonance tower]
+\label{def:unified-reality-zero-specific-cofinal-resonance-tower}
+For a critical-strip row $s$, a \emph{zero-specific cofinal resonance
+tower} is a stable zero-relevant resonance family
+$$
+\rho:\mathsf{StableResFam}_{\zeta}(s)
+$$
+whose finite windows
+$$
+B\preceq\rho,
+\qquad
+B\subset\PrimeUp\times\NatUp,
+$$
+form a cofinal prime-adic support in the sense of
+\autoref{def:unified-reality-cofinal-resonance-support}.  The tower is
+indexed by the zero row $s$; different completed zero rows may have
+different displayed windows, depths, and dominant resonance islands.
+\end{definition}
+
+\begin{definition}[Solenoid Lee--Yang bound witness]
+\label{def:unified-reality-solenoid-lee-yang-bound-witness}
+For a critical-strip row $s$, a \emph{solenoid Lee--Yang bound witness}
+is a stable zero-relevant resonance family $\rho$ together with the rows
+$$
+\mathsf{SolenoidCompatible}(\rho,s),
+$$
+$$
+\mathsf{CofinalPAdicSupport}(\rho),
+$$
+and
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)<\infty.
+$$
+The first row is the compact solenoid phase condition of
+\autoref{def:unified-reality-solenoid-compatible-resonance-lift}.  The
+second row says that the finite windows of $\rho$ are cofinal in the
+prime-adic resonance sense.  The third row is the uniform normal-energy
+bound of \autoref{def:unified-reality-zeta-resonance-bound}.
+Write $\mathsf{SolenoidLeeYangBoundWitness}(\rho,s)$ for this displayed
+packet.
+\end{definition}
+
+\begin{definition}[Zeta solenoid Lee--Yang bound]
+\label{def:unified-reality-zeta-solenoid-lee-yang-bound}
+The \emph{zeta solenoid Lee--Yang bound} is the row
+$$
+\mathsf{ZetaSolenoidLeeYangBound}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\sum_{\rho:\mathsf{StableResFam}_{\zeta}(s)}
+\mathsf{SolenoidLeeYangBoundWitness}(\rho,s)
+\right).
+$$
+It asserts that every completed critical-strip zero is carried by some
+zero-specific stable dominant resonance tower whose phase data lies in a
+compact solenoid and whose normal energy remains bounded along its
+cofinal finite windows.
+\end{definition}
+
+\begin{theorem}[The solenoid Lee--Yang bound is conditionally sufficient]
+\label{thm:unified-reality-zeta-solenoid-lee-yang-bound-conditionally-sufficient}
+If
+$$
+\mathsf{ZetaSolenoidLeeYangBound}_{\zeta}
+$$
+holds, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+The zeta solenoid Lee--Yang bound supplies a witness $\rho$ for the zero
+row of $s$.  In particular it supplies
+$$
+\mathsf{SolenoidCompatible}(\rho,s).
+$$
+By
+\autoref{thm:unified-reality-solenoid-compatible-resonance-no-normal-scale},
+this gives $\delta=0$.  Hence $\Re(s)=1/2$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} supplies
+the fixed-half section.
+\end{proof}
+
+\begin{theorem}[The bound component gives the same exclusion]
+\label{thm:unified-reality-solenoid-bound-component-same-exclusion}
+Let a completed critical-strip zero carry a solenoid Lee--Yang bound
+witness $\rho$.  Then the normal-energy component alone excludes
+$\delta\#0$.
+\end{theorem}
+
+\begin{proof}
+The witness includes cofinal prime-adic support and the bound
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)<\infty.
+$$
+If $\delta\#0$, then
+\autoref{thm:unified-reality-off-half-cofinal-resonance-energy-unbounded}
+gives
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)=\infty,
+$$
+contradicting the bound.  Thus $\neg(\delta\#0)$, and the located
+fixed-half collapse row gives $\delta=0$.
+\end{proof}
+
+\begin{corollary}[Two noncircular readings of the same target]
+\label{cor:unified-reality-two-noncircular-readings-same-target}
+The zeta solenoid Lee--Yang bound can be attacked either as a compact
+phase theorem or as a finite-to-infinite energy theorem.
+\end{corollary}
+
+\begin{proof}
+The compact phase reading uses
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character}:
+a compact solenoid phase carrier has no nontrivial real positive
+character, so a solenoid-compatible zero-relevant state cannot retain the
+factor $e^{-\delta h_{p,j}}$.  The energy reading uses
+\autoref{thm:unified-reality-finite-resonance-energy-reads-off-half-displacement}
+and
+\autoref{thm:unified-reality-off-half-cofinal-resonance-energy-unbounded}:
+off-half displacement forces unbounded positive normal energy along any
+cofinal prime-adic resonance tower.  Both readings are proof roles for
+the same zero-relevance claim rather than restatements of the target
+surface.
+\end{proof}
+
+\begin{definition}[Dominant solenoid resonance certificate]
+\label{def:unified-reality-dominant-solenoid-resonance-certificate}
+A \emph{dominant solenoid resonance certificate} for a completed zero
+row consists of the following displayed data:
+$$
+\mathsf{StableResFam}_{\zeta}(s),
+\qquad
+\mathsf{DominantFamily}(\rho),
+$$
+$$
+\mathsf{SolenoidCompatible}(\rho,s),
+\qquad
+\mathsf{FarEndEnergyBound}(\rho).
+$$
+The stable-family row says which resonance tower is zero-relevant.  The
+dominance row separates that tower from visible but irrelevant resonance
+data.  The solenoid row supplies the compact phase carrier.  The bound
+row supplies the finite-to-infinite normal-energy control.
+Write $\mathsf{DominantSolenoidResonanceCertificate}(\rho,s)$ for this
+certificate packet.
+\end{definition}
+
+\begin{theorem}[Dominant solenoid certificates supply the combined bound]
+\label{thm:unified-reality-dominant-solenoid-certificates-supply-combined-bound}
+If every completed critical-strip zero carries a dominant solenoid
+resonance certificate with cofinal prime-adic support, then
+$$
+\mathsf{ZetaSolenoidLeeYangBound}_{\zeta}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+For a zero row $s$, the certificate supplies the stable family $\rho$,
+its dominance row, its solenoid compatibility row, and its far-end energy
+bound.  Cofinal prime-adic support supplies the tower condition in
+\autoref{def:unified-reality-zero-specific-cofinal-resonance-tower}.
+The far-end energy bound is exactly the inequality
+$$
+\sup_{B\preceq\rho}\mathcal N_B(s)<\infty.
+$$
+Thus the displayed data are precisely a solenoid Lee--Yang bound witness
+for $s$.
+\end{proof}
+
+\begin{corollary}[Finite spectral and tower-splitting templates]
+\label{cor:unified-reality-finite-spectral-tower-splitting-templates}
+The combined target keeps the roles of the finite templates distinct:
+quartic spectral geometry models dominance and local zero isolation,
+while prime-splitting tower patterns model why a zero-specific
+resonance family may expose many local prime rows without being a single
+fixed finite window.
+\end{corollary}
+
+\begin{proof}
+The quartic carrier is used only as a finite dominance template, as in
+\autoref{cor:unified-reality-quartic-carrier-finite-stability-template}:
+zero location follows after the zero-relevant dominant family and its
+remainder bound are displayed.  A prime-splitting tower is a different
+template: one displayed rational prime can generate many local prime
+rows in higher layers, so the resonance family attached to a zero should
+be allowed to grow through a tower.  Neither template proves the zeta
+claim by itself.  Together they explain why
+\autoref{def:unified-reality-zeta-solenoid-lee-yang-bound} quantifies
+over a zero-specific cofinal resonance tower rather than over one
+universal finite prime window.
+\end{proof}
+
+\begin{theorem}[The remaining proof load is zeta-specific dominance]
+\label{thm:unified-reality-solenoid-bound-remaining-proof-load}
+The unclosed content of the combined route is the implication
+$$
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\sum_{\rho:\mathsf{StableResFam}_{\zeta}(s)}
+\mathsf{DominantSolenoidResonanceCertificate}(\rho,s).
+$$
+\end{theorem}
+
+\begin{proof}
+All subsequent consequences are already displayed.  A dominant solenoid
+resonance certificate gives the combined bound by
+\autoref{thm:unified-reality-dominant-solenoid-certificates-supply-combined-bound}.
+The combined bound gives the RH fixed-half section by
+\autoref{thm:unified-reality-zeta-solenoid-lee-yang-bound-conditionally-sufficient}.
+What is not supplied by the zero predicate itself is the construction of
+the stable dominant resonance family, its solenoid-compatible phase
+carrier, and its far-end energy bound.  That construction is the
+zeta-specific Lee--Yang theorem targeted by this route.
+\end{proof}

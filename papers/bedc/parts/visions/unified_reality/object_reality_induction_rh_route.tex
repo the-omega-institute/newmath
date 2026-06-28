@@ -1,0 +1,415 @@
+\section{Object Induction and the RH Reality Route}
+\label{sec:unified-reality-object-reality-induction-rh-route}
+
+The RH route can be organized as an induction over licensed
+mathematical interfaces rather than as an induction over natural-number
+indices.  The induction variable is a BEDC object admitted through the
+dependency tower
+$$
+\text{kernel}
+\to
+\text{finite data}
+\to
+\text{arithmetic}
+\to
+\text{algebra}
+\to
+\text{analysis}
+\to
+\text{spectral and zeta carriers}.
+$$
+The invariant carried by this induction is the ontic core of
+\autoref{sec:unified-reality-ontic-core-minimal-closure}:
+$$
+\mathsf{OnticCore}
+:=
+(\mathsf{ObsTime},\mathsf{DistAtom},\mathsf{SymTransport}).
+$$
+The point of this organization is twofold.  First, it explains why zeta
+inherits observation-time, distinction-atom, and symmetry-transport rows.
+Second, it isolates the part that does not follow from inheritance: the
+zeta-specific incompatibility between zero rows and ontic defect.
+
+\begin{definition}[Licensed object tower]
+\label{def:unified-reality-licensed-object-tower}
+The \emph{licensed object tower} is the directed dependency presentation
+whose objects are mature interfaces
+$$
+X^{\uparrow}
+$$
+admitted by a displayed naming certificate
+$$
+\NameCert(X)
+=
+(\SourceSpec_X,\PatternSpec_X,\ClassifierSpec_X,\StabilityCert_X,
+\LedgerPolicy_X),
+$$
+and whose arrows are generalized continuation, projection, transport, or
+bridge rows between such interfaces.  The dependency direction always
+runs from lower licensed interfaces to the interface that consumes them.
+\end{definition}
+
+\begin{definition}[Ontic readiness predicate]
+\label{def:unified-reality-ontic-readiness-predicate}
+For a licensed interface $X^{\uparrow}$, the predicate
+$$
+\mathsf{OnticReady}(X)
+$$
+means that $X$ carries rows
+$$
+\mathsf{ObsTime}_X,\qquad
+\mathsf{DistAtom}_X,\qquad
+\mathsf{SymTransport}_X
+$$
+with a ledger showing how they are projected from dependencies, how their
+classifier is preserved under transport, and how unaudited collapse of
+observation-time, distinction provenance, or symmetry fibers is refused.
+\end{definition}
+
+\begin{principle}[Object-induction rule]
+\label{prin:unified-reality-object-induction-rule}
+Let $X^{\uparrow}$ be a licensed interface.  If every displayed
+dependency $Y\in\mathrm{Deps}(X)$ satisfies $\mathsf{OnticReady}(Y)$,
+and if $\NameCert(X)$ supplies source, pattern, classifier, stability,
+and ledger rows transporting those ontic rows into $X$, then
+$$
+\mathsf{OnticReady}(X)
+$$
+holds.  The base case is the kernel spine
+$$
+\Mark\to\Hist\to\Ext,\Cont\to\Ask,\Sig\to\Pkg,\Gap\to\NameCert,
+$$
+read as in
+\autoref{cor:unified-reality-kernel-reading-ontic-core}.
+\end{principle}
+
+\begin{theorem}[NameCert transports the ontic core]
+\label{thm:unified-reality-namecert-transports-ontic-core}
+Within the licensed object tower, a $\NameCert(X)$ packet transports the
+ontic core from the dependencies of $X$ into the public interface of
+$X$.
+\end{theorem}
+
+\begin{proof}
+The source and pattern rows of $\NameCert(X)$ record the generated data
+and therefore the observation-time surface.  The classifier row records
+sameness, apartness, and generated distinction.  The stability row
+records preservation of the classifier under permitted transports.  The
+ledger policy records the boundary of what is hidden, scoped, refused,
+or still missing.  These are exactly the rows isolated in
+\autoref{thm:unified-reality-stable-interfaces-require-ontic-core}.
+\end{proof}
+
+\begin{theorem}[Object induction yields an ontic section]
+\label{thm:unified-reality-object-induction-yields-ontic-section}
+The object-induction rule yields a schematic section
+$$
+\mathsf{OnticCoreSection}:
+\mathcal C_{\mathrm{BEDC}}
+\to
+\mathcal E_{\mathrm{Ontic}}
+$$
+from the licensed BEDC dependency presentation to the indexed packet of
+ontic-core readouts.
+\end{theorem}
+
+\begin{proof}
+At the kernel base, the rows $\Hist$, $\Cont$, $\hsame$, $\Gap$,
+$\Pkg$, and $\NameCert$ supply observation-time, distinction-atom, and
+symmetry-transport by
+\autoref{cor:unified-reality-kernel-reading-ontic-core}.  For the
+inductive step, apply
+\autoref{thm:unified-reality-namecert-transports-ontic-core} to a
+licensed interface $X$.  The dependency hypothesis supplies the ontic
+rows on the inputs of $X$, and $\NameCert(X)$ supplies the transport and
+ledger rows needed to read them at $X$.  Thus the ontic-core assignment
+is stable along the dependency direction.
+\end{proof}
+
+\begin{corollary}[Axiom-purity is part of the induction invariant]
+\label{cor:unified-reality-axiom-purity-object-induction-invariant}
+The object-induction invariant is not merely the presence of three
+rows; it also includes refusal of unaudited collapse of those rows.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-three-excluded-axioms-collapse-ontic-core}
+identifies $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and
+$\mathsf{propext}$ as collapses of observation-time provenance,
+symmetry-transport fibers, and distinction provenance.  Therefore a
+transport that preserved only the visible outputs but not the collapse
+ledger would fail to preserve $\mathsf{OnticReady}$.
+\end{proof}
+
+\begin{definition}[Reality-indexed ontic fibre]
+\label{def:unified-reality-reality-indexed-ontic-fibre}
+For a licensed object $X^{\uparrow}$, its \emph{reality-indexed ontic
+fibre} is the packet
+$$
+\mathcal E_X
+:=
+(\mathsf{Readouts}_X,\mathsf{Classifier}_X,
+\mathsf{Transport}_X,\mathsf{Ledger}_X,\mathsf{Boundary}_X).
+$$
+Projection maps
+$$
+\pi_i:X^{\uparrow}\to R_i
+$$
+select the reality readouts of $X$.  In this language,
+$\mathsf{OnticCoreSection}$ assigns to each licensed object its
+observation-time, distinction-atom, and symmetry-transport rows inside
+the fibre $\mathcal E_X$.
+\end{definition}
+
+\begin{theorem}[Zeta is the arithmetic-spectral fibre of the ontic section]
+\label{thm:unified-reality-zeta-arithmetic-spectral-ontic-fibre}
+At the zeta object, the ontic section specializes to the arithmetic
+spectral packet
+$$
+\mathcal O_{\zeta}^{\mathrm{ontic}}
+=
+(
+\mathsf{PrimeAtoms},
+\mathsf{LogTime},
+\mathsf{LaplaceReadout},
+\mathsf{EulerProduct},
+\mathsf{FunctionalSymmetry},
+\mathsf{ZeroLedger}
+).
+$$
+Its three core rows are prime atoms, logarithmic time, and functional
+symmetry.
+\end{theorem}
+
+\begin{proof}
+This is the specialization of
+\autoref{thm:unified-reality-zeta-carries-ontic-triple}.  The atom row is
+the Euler-product face
+$$
+\prod_p(1-p^{-s})^{-1}.
+$$
+The time row is the logarithmic Laplace readout
+$$
+n^{-s}=e^{-s\log n}.
+$$
+The symmetry row is the mirror
+$$
+J(s)=1-\overline{s}.
+$$
+The zero ledger is an additional spectral readout over the same carrier,
+not a replacement for the three core rows.
+\end{proof}
+
+\begin{definition}[Reality-induction RH package]
+\label{def:unified-reality-reality-induction-rh-package}
+The \emph{reality-induction RH package} is the sequence of rows
+$$
+\mathsf{ObjInd}_{\mathrm{Ontic}},
+\quad
+\mathsf{ZetaOnticProjection},
+\quad
+\mathsf{OnticBalance},
+\quad
+\mathsf{ZeroFibreTarget},
+\quad
+\mathsf{DefectVisibility},
+\quad
+\mathsf{DefectZeroIncompatibility}.
+$$
+The first row is supplied by object induction.  The last row is the
+zeta-specific rigidity obligation.
+\end{definition}
+
+\begin{theorem}[Balance is the zeta fixed-half classifier]
+\label{thm:unified-reality-balance-zeta-fixed-half-classifier}
+For the zeta fibre, ontic balance is the fixed-half classifier:
+$$
+\mathsf{OnticBalance}(s)
+\Longleftrightarrow
+\Re(s)=\frac12
+\Longleftrightarrow
+s=J(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The equivalence between $\mathsf{OnticBalance}(s)$ and
+$\Re(s)=1/2$ is
+\autoref{thm:unified-reality-ontic-balance-critical-line}.  The
+equivalence between $\Re(s)=1/2$ and $s=J(s)$ is
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}.  Thus
+the same classifier can be read through prime-local balance or through
+the functional mirror.
+\end{proof}
+
+\begin{definition}[Ontic rigidity form of RH]
+\label{def:unified-reality-ontic-rigidity-form-rh}
+The \emph{ontic rigidity form} of the RH target is the section
+$$
+\mathsf{OnticRigidity}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{OnticBalance}(s)
+\right).
+$$
+It is the ontic-balance reading of the zero-fibre fixedness target of
+\autoref{def:unified-reality-zero-fiber-fixedness}.
+\end{definition}
+
+\begin{theorem}[Ontic rigidity is the RH section target]
+\label{thm:unified-reality-ontic-rigidity-rh-section-target}
+The ontic rigidity form is equivalent, as a target, to the BEDC RH
+fixed-half section.
+\end{theorem}
+
+\begin{proof}
+The fixed-half section is the section form of RH by
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.  By
+\autoref{thm:unified-reality-balance-zeta-fixed-half-classifier}, the
+conclusion $\mathsf{OnCritLine}(s)$ may be read as
+$\mathsf{OnticBalance}(s)$.  Substituting this target row gives
+\autoref{def:unified-reality-ontic-rigidity-form-rh}.
+\end{proof}
+
+\begin{theorem}[Defect visibility is the finite-window read of imbalance]
+\label{thm:unified-reality-defect-visibility-finite-window-read}
+If the zeta fibre carries an ontic defect at $s$, then every nonempty
+finite prime window reads a nonzero defect
+$$
+D_S(s)
+=
+\sum_{p\in S}\log|p^{1/2-s}|.
+$$
+\end{theorem}
+
+\begin{proof}
+This is the finite-window defect calculation of
+\autoref{thm:unified-reality-ontic-defect-visible-prime-window}.  Writing
+$s=1/2+\delta+i\tau$ gives
+$$
+D_S(s)
+=
+-\delta\sum_{p\in S}\log p.
+$$
+If $\delta\#0$ and $S$ is nonempty, the displayed sum is apart from
+zero.
+\end{proof}
+
+\begin{definition}[Reality-induction hard point]
+\label{def:unified-reality-reality-induction-hard-point}
+The hard point of the reality-induction RH route is the zeta-specific
+row
+$$
+\mathsf{OnticDefectZeroIncompatibility}
+:=
+\prod_s
+\left(
+\mathsf{ZetaZero}(s)\times
+\mathsf{InCritStrip}(s)\times
+\mathsf{OnticDefect}(s)
+\to
+\bot
+\right).
+$$
+Equivalently, after finite-window extraction, it is the bridge from
+prime-window defect in the completed zeta carrier to exclusion of a
+zero row at the same source.
+\end{definition}
+
+\begin{theorem}[The hard point closes the RH route]
+\label{thm:unified-reality-hard-point-closes-rh-route}
+Assume ontic defect-zero incompatibility and the located row converting
+absence of ontic defect into ontic balance.  Then the ontic rigidity
+form of RH is obtained.
+\end{theorem}
+
+\begin{proof}
+Given rows
+$$
+\mathsf{ZetaZero}(s),
+\qquad
+\mathsf{InCritStrip}(s),
+$$
+the incompatibility row of
+\autoref{def:unified-reality-reality-induction-hard-point} rules out
+$\mathsf{OnticDefect}(s)$.  The located row converts the absence of
+that defect into $\mathsf{OnticBalance}(s)$.  This is precisely the
+argument of
+\autoref{thm:unified-reality-ontic-incompatibility-closes-section-target}
+expressed as the reality-induction route.
+\end{proof}
+
+\begin{corollary}[Object induction does not itself prove RH]
+\label{cor:unified-reality-object-induction-does-not-prove-rh}
+Object induction supplies the ontic rows that zeta must carry, but it
+does not supply the zeta-specific zero-defect incompatibility row.
+\end{corollary}
+
+\begin{proof}
+Object induction yields the section of
+\autoref{thm:unified-reality-object-induction-yields-ontic-section} and
+the zeta specialization of
+\autoref{thm:unified-reality-zeta-arithmetic-spectral-ontic-fibre}.  It
+therefore explains the presence of prime atoms, log-time, and mirror
+symmetry in the zeta carrier.  The RH section still needs the
+incompatibility row of
+\autoref{def:unified-reality-reality-induction-hard-point}.  That row is
+zeta-specific and is not produced by the general object-induction
+principle.
+\end{proof}
+
+\begin{theorem}[Reality-induction normal form of the RH route]
+\label{thm:unified-reality-reality-induction-normal-form-rh-route}
+The unified-reality RH route has the normal form
+$$
+\text{object induction}
+\Rightarrow
+\text{zeta ontic projection}
+\Rightarrow
+\text{fixed-half balance classifier}
+\Rightarrow
+\text{zero-fibre section target},
+$$
+with finite-window defect visibility as the observable off-balance row
+and ontic defect-zero incompatibility as the remaining rigidity
+obligation.
+\end{theorem}
+
+\begin{proof}
+Object induction is
+\autoref{thm:unified-reality-object-induction-yields-ontic-section}.  The
+zeta specialization is
+\autoref{thm:unified-reality-zeta-arithmetic-spectral-ontic-fibre}.  The
+fixed-half balance classifier is
+\autoref{thm:unified-reality-balance-zeta-fixed-half-classifier}.  The
+zero-fibre section target is
+\autoref{thm:unified-reality-ontic-rigidity-rh-section-target}.  The
+finite-window read of off-balance data is
+\autoref{thm:unified-reality-defect-visibility-finite-window-read}.  The
+unclosed rigidity row is
+\autoref{def:unified-reality-reality-induction-hard-point}.  These rows
+give the proof-chain architecture without claiming the missing analytic
+bridge.
+\end{proof}
+
+\begin{corollary}[Categorical reading]
+\label{cor:unified-reality-categorical-reading-object-induction-rh}
+In categorical language, the route says that
+$\mathsf{OnticCoreSection}$ is a section over the licensed BEDC object
+presentation, while RH is the assertion that the zeta-zero fibre admits
+a section into the fixed-half subfibre.
+\end{corollary}
+
+\begin{proof}
+The first statement is
+\autoref{thm:unified-reality-object-induction-yields-ontic-section}.  The
+second is the fixed-half section form of
+\autoref{def:unified-reality-rh-fixed-half-section} and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.  The
+two statements have different logical roles: the first supplies the
+ambient ontic rows for licensed objects, while the second is the
+zeta-specific zero-fibre rigidity target.
+\end{proof}

@@ -1,0 +1,434 @@
+\section{Pythagorean Carrier, Scale Fibers, and Unit-Circle Projection}
+\label{sec:unified-reality-pythagorean-common-carrier}
+
+The common-carrier discipline becomes concrete in the elementary
+Pythagorean surface. The equation
+$$
+a^2+b^2=c^2
+$$
+and the normalized unit-circle equation
+$$
+(a/c)^2+(b/c)^2=1
+$$
+are not two unrelated facts. They are two reality readouts of one
+carrier: an algebraic cone readout, a normalized shape readout, and a
+scale readout whose loss is precisely the fiber of the shape projection.
+
+\begin{definition}[Field-like reality interface]
+\label{def:unified-reality-field-like-interface}
+A \emph{field-like reality interface} is a stable reality interface with
+a carrier $K$, classifier $\sim_K$, operations
+$$
++,\ -,\ \cdot,\ 0,\ 1,
+$$
+and an apartness predicate $x\#0$. Its ledger licenses an inverse
+$x^{-1}$ only from an apartness witness $x\#0$, and division is the
+derived operation
+$$
+a/x:=a\cdot x^{-1}.
+$$
+Thus division is not a total primitive operation; it consumes an
+apartness row.
+\end{definition}
+
+\begin{definition}[Nonzero scale carrier]
+\label{def:unified-reality-nonzero-scale-carrier}
+The nonzero scale carrier of $K$ is
+$$
+K^\#:=\sum_{c:K}(c\#0).
+$$
+An element is written $(c,\nu_c)$, where $\nu_c:c\#0$ is the displayed
+apartness witness.
+\end{definition}
+
+\begin{definition}[Pythagorean carrier]
+\label{def:unified-reality-pythagorean-carrier}
+The \emph{Pythagorean carrier} over $K$ is
+$$
+\mathsf{Pyth}_K
+:=
+\sum_{a,b,c:K}
+\bigl((c\#0)\times(a^2+b^2\sim_K c^2)\bigr).
+$$
+An element is written
+$$
+P=(a,b,c;\nu_c;h_P),
+$$
+where $\nu_c:c\#0$ licenses the divisions by $c$, and
+$h_P:a^2+b^2\sim_K c^2$ is the square-sum certificate. The carrier is
+therefore a packet with a scale-apartness row and an equation row, not a
+bare triple.
+\end{definition}
+
+\begin{definition}[Algebraic unit-circle carrier]
+\label{def:unified-reality-unit-circle-carrier}
+The algebraic unit-circle carrier over $K$ is
+$$
+S^1_K
+:=
+\sum_{x,y:K}
+\bigl(x^2+y^2\sim_K1\bigr).
+$$
+An element is written $Q=(x,y;h_Q)$. This is an algebraic circle
+carrier. Topology, metric structure, arc length, and measure enter only
+through additional reality interfaces.
+\end{definition}
+
+\begin{definition}[Pythagorean projections]
+\label{def:unified-reality-pythagorean-projections}
+The Pythagorean carrier has the following paper-side projections:
+$$
+\pi_{\mathrm{alg}}(a,b,c;\nu_c;h_P):=(a,b,c;h_P),
+$$
+$$
+\pi_{\mathrm{scale}}(a,b,c;\nu_c;h_P):=(c,\nu_c),
+$$
+and
+$$
+\pi_{\mathrm{shape}}(a,b,c;\nu_c;h_P)
+:=
+\bigl(a/c,\ b/c;\ h_{\mathrm{shape}}\bigr).
+$$
+The proof row $h_{\mathrm{shape}}$ is supplied by
+\autoref{thm:unified-reality-pythagorean-normalization}.
+\end{definition}
+
+\begin{theorem}[Pythagorean normalization]
+\label{thm:unified-reality-pythagorean-normalization}
+Let
+$$
+P=(a,b,c;\nu_c;h_P):\mathsf{Pyth}_K.
+$$
+Set
+$$
+x:=a/c,\qquad y:=b/c.
+$$
+Then
+$$
+x^2+y^2\sim_K1.
+$$
+Consequently $\pi_{\mathrm{shape}}$ is a well-defined projection from
+$\mathsf{Pyth}_K$ to $S^1_K$.
+\end{theorem}
+
+\begin{proof}
+By definition of division, $x=a\cdot c^{-1}$ and
+$y=b\cdot c^{-1}$. The field-like ledger gives the usual distributive
+and inverse laws under $\sim_K$, so
+$$
+x^2+y^2
+\sim_K
+a^2c^{-2}+b^2c^{-2}
+\sim_K
+(a^2+b^2)c^{-2}.
+$$
+Using $h_P:a^2+b^2\sim_Kc^2$, this becomes
+$$
+(a^2+b^2)c^{-2}
+\sim_K
+c^2c^{-2}
+\sim_K
+1,
+$$
+where the final step uses the apartness witness $\nu_c$.
+\end{proof}
+
+\begin{definition}[Scale reconstruction]
+\label{def:unified-reality-pythagorean-scale-reconstruction}
+Let $Q=(x,y;h_Q):S^1_K$ and let $(c,\nu_c):K^\#$. The
+\emph{scale reconstruction} is
+$$
+\mathsf{Recon}(Q,c)
+:=
+(cx,cy,c;\nu_c;h_{\mathrm{recon}})
+\in\mathsf{Pyth}_K,
+$$
+where $h_{\mathrm{recon}}$ is the square-sum certificate
+$$
+(cx)^2+(cy)^2\sim_Kc^2.
+$$
+\end{definition}
+
+\begin{theorem}[Scale reconstruction]
+\label{thm:unified-reality-pythagorean-scale-reconstruction}
+For every $Q=(x,y;h_Q):S^1_K$ and $(c,\nu_c):K^\#$,
+$$
+(cx)^2+(cy)^2\sim_Kc^2.
+$$
+\end{theorem}
+
+\begin{proof}
+From $h_Q$ we have $x^2+y^2\sim_K1$. Therefore
+$$
+(cx)^2+(cy)^2
+\sim_K
+c^2x^2+c^2y^2
+\sim_K
+c^2(x^2+y^2)
+\sim_K
+c^2\cdot1
+\sim_K
+c^2.
+$$
+\end{proof}
+
+\begin{theorem}[Shape-scale decomposition]
+\label{thm:unified-reality-pythagorean-shape-scale-decomposition}
+There is a classifier-respecting equivalence
+$$
+\mathsf{Pyth}_K\simeq S^1_K\times K^\#.
+$$
+The forward map is
+$$
+\Phi(P):=(\pi_{\mathrm{shape}}(P),\pi_{\mathrm{scale}}(P)),
+$$
+and the reverse map is
+$$
+\Psi(Q,c):=\mathsf{Recon}(Q,c).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $P=(a,b,c;\nu_c;h_P)$. Applying $\Phi$ gives the shape-scale pair
+$$
+\left((a/c,b/c),\ (c,\nu_c)\right).
+$$
+Applying $\Psi$ returns
+$$
+(c(a/c),c(b/c),c;\nu_c;-).
+$$
+The inverse laws licensed by $\nu_c$ identify $c(a/c)\sim_Ka$ and
+$c(b/c)\sim_Kb$, and the square-sum row transports along those
+classifier witnesses. Hence $\Psi(\Phi(P))\sim_{\mathsf{Pyth}}P$.
+
+Conversely, for $Q=(x,y;h_Q)$ and $(c,\nu_c):K^\#$, applying $\Psi$
+gives $(cx,cy,c;\nu_c;-)$. Applying $\Phi$ returns
+$$
+\left(((cx)/c,(cy)/c;-),\ (c,\nu_c)\right).
+$$
+The same inverse laws identify $(cx)/c\sim_Kx$ and $(cy)/c\sim_Ky$, so
+the shape row and scale row are classified together with $(Q,c)$.
+\end{proof}
+
+\begin{corollary}[Unit-circle readout is not the complete carrier]
+\label{cor:unified-reality-unit-circle-readout-not-complete}
+The shape carrier $S^1_K$ is not the complete Pythagorean carrier. The
+complete carrier is classified by the shape together with the nonzero
+scale:
+$$
+\mathsf{Pyth}_K\simeq S^1_K\times K^\#.
+$$
+\end{corollary}
+
+\begin{proof}
+This is exactly the decomposition of
+\autoref{thm:unified-reality-pythagorean-shape-scale-decomposition}.
+The projection to $S^1_K$ forgets the $K^\#$ coordinate.
+\end{proof}
+
+\begin{definition}[Scale fiber of a shape]
+\label{def:unified-reality-pythagorean-scale-fiber}
+For $Q:S^1_K$, the \emph{scale fiber} of the shape projection is
+$$
+\mathsf{ScaleFib}(Q)
+:=
+\sum_{P:\mathsf{Pyth}_K}
+\bigl(\pi_{\mathrm{shape}}(P)\sim_{S^1_K}Q\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Scale fiber classification]
+\label{thm:unified-reality-pythagorean-scale-fiber-classification}
+For every $Q:S^1_K$,
+$$
+\mathsf{ScaleFib}(Q)\simeq K^\#.
+$$
+\end{theorem}
+
+\begin{proof}
+Map $(P,\epsilon):\mathsf{ScaleFib}(Q)$ to
+$\pi_{\mathrm{scale}}(P):K^\#$. Conversely, map $(c,\nu_c):K^\#$ to
+the reconstructed packet $\mathsf{Recon}(Q,c)$ together with the
+shape-classifier witness supplied by the inverse laws in the proof of
+\autoref{thm:unified-reality-pythagorean-shape-scale-decomposition}.
+The two composites are classified as identities by that same
+shape-scale decomposition.
+\end{proof}
+
+\begin{corollary}[Shape projection is lossy when scales differ]
+\label{cor:unified-reality-pythagorean-shape-projection-lossy}
+If $Q:S^1_K$ is a displayed shape and $K^\#$ contains two scales $c,d$
+with $c\not\sim_K d$, then the fiber of
+$\pi_{\mathrm{shape}}:\mathsf{Pyth}_K\to S^1_K$ over $Q$ is
+nontrivial. Consequently the shape projection satisfies the noncollapse
+pattern of \autoref{def:unified-reality-projection-fiber} at every such
+displayed shape.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:unified-reality-pythagorean-scale-fiber-classification},
+the fiber over the displayed $Q$ is classified by $K^\#$. Distinct
+scales therefore give distinct Pythagorean packets with the same shape
+readout.
+\end{proof}
+
+\begin{definition}[Pythagorean extension lift]
+\label{def:unified-reality-pythagorean-extension-lift}
+Let $F\subset E$ be a field-extension reality with a displayed
+extension ledger. If $a,b\in F$ and
+$$
+c\in E,\qquad c^2\sim_Ea^2+b^2,\qquad c\notin F,
+$$
+then $(a,b,c)$ is a \emph{Pythagorean extension lift} of the
+$F$-data into $E$.
+\end{definition}
+
+\begin{theorem}[Extension lift reaches normalized coordinates]
+\label{thm:unified-reality-pythagorean-extension-lift-shape}
+Let $F\subset E$ be a field-extension reality. Suppose
+$a,b\in F$ and
+$$
+c\in E,\qquad c\#0,\qquad c^2\sim_Ea^2+b^2,\qquad c\notin F.
+$$
+If $a\#0$, then $a/c\notin F$. If $b\#0$, then $b/c\notin F$.
+Thus, in the nondegenerate case $a\#0$ and $b\#0$, the normalized shape
+point $(a/c,b/c)$ belongs to the extension-facing carrier $E^2$ and not
+to $F^2$.
+\end{theorem}
+
+\begin{proof}
+Assume $a\#0$ and suppose $a/c\in F$. Write $r:=a/c$. Since $a\#0$
+and $c\#0$, the field-like ledger gives $r\#0$. Then
+$$
+c\sim_E a/r.
+$$
+Because $a\in F$, $r\in F$, and $r\#0$, closure of the field-like
+interface $F$ under licensed division gives $a/r\in F$, hence
+$c\in F$, contradicting the extension-lift hypothesis. The argument for
+$b/c$ is identical.
+\end{proof}
+
+\begin{example}[The \texorpdfstring{$(1,1,\sqrt{2})$}{(1,1,sqrt2)} carrier]
+\label{ex:unified-reality-pythagorean-sqrt-two}
+Let $F=\mathbb Q$ and $E=\mathbb Q(\sqrt{2})$. The packet
+$$
+(1,1,\sqrt{2})
+$$
+satisfies $1^2+1^2=(\sqrt{2})^2$. Its normalized shape is
+$$
+\left(1/\sqrt{2},1/\sqrt{2}\right).
+$$
+Since $1/\sqrt{2}=\sqrt{2}/2\notin\mathbb Q$, the scale readout and the
+unit-circle readout both consume the same extension ledger
+$\mathbb Q\subset\mathbb Q(\sqrt{2})$.
+\end{example}
+
+\begin{definition}[Pythagorean measure readouts]
+\label{def:unified-reality-pythagorean-measure-readouts}
+The triangle-area readout is the algebraic projection
+$$
+A_{\triangle}(a,b,c;\nu_c;h_P):=\frac{1}{2}ab.
+$$
+It is an oriented algebraic area row unless positivity and orientation
+ledgers are added. If $K$ is embedded in an analytic reality $A$ whose
+ledger supplies a circle constant, the disk-area readout is
+$$
+A_{\circ}(a,b,c;\nu_c;h_P):=\pi c^2
+$$
+inside $A$. The constant $\pi$ is not supplied by the field-like
+interface $K$; it belongs to the analytic reality that certifies it.
+\end{definition}
+
+\begin{theorem}[Area readout through shape and scale]
+\label{thm:unified-reality-pythagorean-area-shape-scale}
+Let $P=(a,b,c;\nu_c;h_P):\mathsf{Pyth}_K$, and let
+$x=a/c$ and $y=b/c$. Then
+$$
+\frac{1}{2}ab\sim_K\frac{1}{2}c^2xy.
+$$
+\end{theorem}
+
+\begin{proof}
+The inverse laws give $a\sim_Kcx$ and $b\sim_Kcy$. Therefore
+$$
+ab\sim_K(cx)(cy)\sim_Kc^2xy.
+$$
+Multiplying by $\frac{1}{2}$ gives the stated area readout.
+\end{proof}
+
+\begin{corollary}[Measure may require an analytic layer]
+\label{cor:unified-reality-pythagorean-measure-analytic-layer}
+Even when the scale belongs to an algebraic extension $E$, the disk-area
+readout $\pi c^2$ may require an analytic reality strictly beyond $E$.
+\end{corollary}
+
+\begin{proof}
+The algebraic extension ledger accounts for $c$ and hence for $c^2$.
+It does not by itself account for the circle constant $\pi$. If the
+active analytic reality supplies $\pi$ only through a separate process
+or transcendental ledger, the disk-area readout factors through that
+higher interface.
+\end{proof}
+
+\begin{definition}[Pythagorean generalized continuation]
+\label{def:unified-reality-pythagorean-generalized-continuation}
+The Pythagorean algebra-to-shape continuation packet is
+$$
+\mathsf{GenCont}_{\mathrm{alg}\to\mathrm{shape}}
+:=
+(\mathsf{Pyth}_K,\pi_{\mathrm{alg}},\pi_{\mathrm{shape}},
+\mathsf{Tr}_{\mathrm{alg},\mathrm{shape}},
+\mathsf{Led}_{\mathrm{alg},\mathrm{shape}}),
+$$
+where the transport row is
+\autoref{thm:unified-reality-pythagorean-normalization}. The reverse
+shape-scale-to-algebra packet uses
+\autoref{thm:unified-reality-pythagorean-scale-reconstruction}.
+\end{definition}
+
+\begin{theorem}[Pythagorean algebra-geometry transport]
+\label{thm:unified-reality-pythagorean-algebra-geometry-transport}
+On the common carrier $\mathsf{Pyth}_K$, the algebraic equation
+$a^2+b^2\sim_Kc^2$ and the normalized shape equation
+$(a/c)^2+(b/c)^2\sim_K1$ are transport-equivalent only with the scale
+fiber retained. The unit-circle point alone does not reconstruct the
+Pythagorean packet.
+\end{theorem}
+
+\begin{proof}
+The algebra-to-shape direction is
+\autoref{thm:unified-reality-pythagorean-normalization}. The reverse
+direction is
+\autoref{thm:unified-reality-pythagorean-scale-reconstruction}, whose
+input is not a bare point of $S^1_K$ but a pair in $S^1_K\times K^\#$.
+By \autoref{cor:unified-reality-unit-circle-readout-not-complete}, the
+scale fiber is required for the full carrier read.
+\end{proof}
+
+\begin{theorem}[Pythagorean common-carrier principle]
+\label{thm:unified-reality-pythagorean-common-carrier-principle}
+The carrier $\mathsf{Pyth}_K$ binds algebraic equation, normalized
+shape, nonzero scale, triangle area, and disk area as projections of one
+packet. It satisfies
+$$
+\mathsf{Pyth}_K\simeq S^1_K\times K^\#,
+$$
+and the projection to $S^1_K$ has scale fiber $K^\#$. If the scale is
+read only through a field extension, the normalized shape coordinates
+consume the same extension ledger in the nondegenerate case; if disk
+area is read, a further analytic ledger may be required.
+\end{theorem}
+
+\begin{proof}
+The equivalence is
+\autoref{thm:unified-reality-pythagorean-shape-scale-decomposition}, and
+the fiber computation is
+\autoref{thm:unified-reality-pythagorean-scale-fiber-classification}.
+The field-extension statement is
+\autoref{thm:unified-reality-pythagorean-extension-lift-shape}. The
+measure statement is
+\autoref{cor:unified-reality-pythagorean-measure-analytic-layer}. All
+five readouts use the same source row
+$(a,b,c;\nu_c;h_P)$, so they are reality projections of one common
+carrier rather than independent objects.
+\end{proof}
