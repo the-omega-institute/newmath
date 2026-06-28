@@ -23,50 +23,10 @@ theorem ratLt_irrefl (x : RatNum) :
   intro hlt
   exact ratLt_not_RatEq hlt (RatEq_refl x)
 
-private theorem intLt_not_intLe_reverse {x y : RatInt} :
-    intLtUp x y -> intLe y x -> False := by
-  intro hlt hle
-  unfold intLtUp at hlt
-  unfold intLe at hle
-  have hleLen :=
-    (BEDC.Derived.IntUp.pairLe_iff_length_order
-      (intToPair_carrier y) (intToPair_carrier x)).mp hle
-  exact Nat.lt_irrefl _ (Nat.lt_of_lt_of_le hlt hleLen)
-
-theorem ratLt_not_ratLe_reverse {x y : RatNum} :
-    ratLt x y -> ratLe y x -> False := by
-  intro hlt hle
-  unfold ratLt at hlt
-  unfold ratLe at hle
-  exact intLt_not_intLe_reverse hlt hle
-
 theorem ratLt_asymm {x y : RatNum} :
     ratLt x y -> ratLt y x -> False := by
   intro xy yx
   exact ratLt_not_ratLe_reverse xy (ratLt_to_ratLe yx)
-
-theorem ratLe_not_le_to_ratLt {x y : RatNum} :
-    ratLe x y -> (ratLe y x -> False) -> ratLt x y := by
-  intro xy notYX
-  unfold ratLe intLe at xy
-  unfold ratLt intLtUp intLt
-  have xCarrier := intToPair_carrier (IntMul x.num (ratDenInt y))
-  have yCarrier := intToPair_carrier (IntMul y.num (ratDenInt x))
-  have xyLen :
-      bwordLength (intToPair (IntMul x.num (ratDenInt y))).1 +
-          bwordLength (intToPair (IntMul y.num (ratDenInt x))).2 ≤
-        bwordLength (intToPair (IntMul y.num (ratDenInt x))).1 +
-          bwordLength (intToPair (IntMul x.num (ratDenInt y))).2 :=
-    (pairLe_iff_length_order xCarrier yCarrier).mp xy
-  have notYXLen :
-      ¬
-        bwordLength (intToPair (IntMul y.num (ratDenInt x))).1 +
-            bwordLength (intToPair (IntMul x.num (ratDenInt y))).2 ≤
-          bwordLength (intToPair (IntMul x.num (ratDenInt y))).1 +
-            bwordLength (intToPair (IntMul y.num (ratDenInt x))).2 := by
-    intro yxLen
-    exact notYX ((pairLe_iff_length_order yCarrier xCarrier).mpr yxLen)
-  exact Nat.lt_of_le_of_ne xyLen (fun sameLen => notYXLen (Nat.le_of_eq sameLen.symm))
 
 theorem ratLt_trans {x y z : RatNum} :
     ratLt x y -> ratLt y z -> ratLt x z := by
@@ -99,6 +59,20 @@ theorem rat_sq_trichotomy (q : RatNum) :
       RatEq (ratMul q q) ratTwo ∨
         ratLt ratTwo (ratMul q q) :=
   rat_order_trichotomy (ratMul q q) ratTwo
+
+theorem rat_sq_strictMono {a b : RatNum} :
+    ratLe ratZero a -> ratLt a b ->
+      ratLt (ratMul a a) (ratMul b b) := by
+  intro aNonneg hlt
+  have aLeB : ratLe a b := ratLt_to_ratLe hlt
+  have bPositive : ratLt ratZero b :=
+    ratLe_lt_trans aNonneg hlt
+  have aaLeAB : ratLe (ratMul a a) (ratMul a b) :=
+    ratLe_respects (RatEq_refl (ratMul a a)) (ratMul_comm b a)
+      (ratMul_le_mul_right aLeB aNonneg)
+  have abLtBB : ratLt (ratMul a b) (ratMul b b) :=
+    ratMul_lt_mul_right hlt bPositive
+  exact ratLe_lt_trans aaLeAB abLtBB
 
 theorem rat_sq_not_eq_two_of_lt {q : RatNum} :
     ratLt (ratMul q q) ratTwo -> RatEq (ratMul q q) ratTwo -> False :=
