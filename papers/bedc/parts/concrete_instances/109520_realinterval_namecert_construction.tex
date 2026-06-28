@@ -203,6 +203,46 @@ Use the NameCert obligations and public export, \autoref{thm:real-interval-namec
 Finally apply the finite-net consumer route of \autoref{thm:real-interval-finite-net-consumer}. It shows that downstream interval data reaches finite cell and density consumers only through the dyadic, located-enclosure, StreamName, RegSeqRat, and Real-seal route. Hence the bridge-facing NameCert route is the displayed packet above.
 \end{proof}
 
+\begin{theorem}[RealInterval finite endpoint-envelope route]
+\label{thm:realinterval-finite-endpoint-envelope-route}
+Every $\RealIntervalUp$ endpoint consumer that exports interval membership must
+first factor through the displayed finite endpoint envelope
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto
+\RegSeqRatUp \longmapsto \RealIntervalEnclosureUp \longmapsto \RealUp .
+$$
+The dyadic endpoint arithmetic is read from $D$, the finite endpoint windows
+from $W$, the regular readback from $R$, the enclosure row from $E$, and the
+terminal value seal from $S$ before membership is public. The envelope exports
+no quotient stream equality, selected endpoints, host interval equality,
+ambient $\RealUp$ completeness, trichotomy, compactness, or countable-choice
+schedule.
+\end{theorem}
+\begin{proof}
+Start with the endpoint-order obligation of
+\autoref{thm:real-interval-endpoint-order-obligation}. It keeps the enclosure
+and order row $E$ visible whenever a consumer treats $L$ and $U$ as interval
+endpoints.
+
+Next apply the dyadic-window handoff
+\autoref{thm:real-interval-dyadic-window-handoff}. The endpoint arithmetic
+enters through the displayed $\DyadicRatCoreUp$ row $D$, then exposes only
+finite $\StreamNameUp$ windows $W$, and only then produces the $\RegSeqRatUp$
+readback row $R$.
+
+Use the bridged NameCert route
+\autoref{thm:realinterval-bridged-namecert-route}. It inserts the
+$\LocatedIntervalUp$ and $\RealIntervalEnclosureUp$ rows carried by $E$ between
+the endpoint ledger and the terminal $\RealUp$ seal $S$, while $H,C,P,N$
+transport, replay, package, and name the same displayed route.
+
+Finally read Real-seal nonescape from
+\autoref{thm:real-interval-real-seal-nonescape}. Since $S$ is available only
+after $L,U,E,D,W,R$ have been displayed, interval membership cannot be exported
+from quotient stream equality, selected endpoints, host interval equality,
+ambient completeness, trichotomy, compactness, or countable choice.
+\end{proof}
+
 \begin{theorem}[RealInterval endpoint enclosure transport]
 \label{thm:realinterval-endpoint-enclosure-transport}
 For accepted $\RealIntervalUp$ carriers $I=(L,U,E,D,W,R,S,H,C,P,N)$ and $I'=(L',U',E',D',W',R',S',H',C',P',N')$, componentwise $\hsame$ transport preserves both endpoint enclosure rows before interval membership is public. In particular, a consumer that transports $L$ to $L'$ and $U$ to $U'$ must also transport the enclosure-and-order row $E$ to $E'$ and the dyadic-window-readback route $D,W,R$ to $D',W',R'$ before it may read the terminal seal.
