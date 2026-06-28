@@ -9507,6 +9507,7 @@ import BEDC.Derived.PartitionCoreIncidenceCertificateUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
 import BEDC.Derived.PartitionIdentitiesUp
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
+import BEDC.Derived.PartitionRankUp
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
 import BEDC.Derived.PdeUp
