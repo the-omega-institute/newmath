@@ -1,0 +1,273 @@
+\section{Conditional RH Sufficiency Boundary}
+\label{sec:unified-reality-conditional-rh-sufficiency-boundary}
+
+The preceding sections isolate two equivalent proof roles.  The first is
+signature-theoretic: the zeta zero source has no independent
+mirror-odd observable beyond its atom, spectral-time, and symmetry-slot
+signature.  The second is prime-sieve analytic: a finite prime-window
+mirror-odd defect cannot coexist with a completed zeta zero ledger.  Each
+role is sufficient for the RH fixed-half section.  Neither role is
+supplied by the definition of the zero predicate itself.
+
+\begin{definition}[Zeta zero source as the RH input carrier]
+\label{def:unified-reality-rh-input-zero-source}
+The RH input carrier is the critical-strip zero source
+$$
+\mathcal Z_{\zeta}
+:=
+\sum_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\right).
+$$
+The RH output carrier is the fixed-half lift
+$$
+\mathcal H_{\zeta}
+:=
+\sum_{z:\mathcal Z_{\zeta}}
+\mathsf{OnCritLine}(\pi_s z),
+$$
+where $\pi_s z$ is the complex coordinate of the zero-source row.
+\end{definition}
+
+\begin{definition}[Conditional sufficiency row]
+\label{def:unified-reality-conditional-sufficiency-row}
+A row $P_{\zeta}$ is \emph{conditionally sufficient for the RH section}
+when, together with the structural zero-ledger, mirror, same-source, and
+located fixed-half rows already displayed in the RH route, it gives a
+section
+$$
+\Phi_{P}:
+\mathcal Z_{\zeta}\to\mathcal H_{\zeta}.
+$$
+This is a proof-role classification.  It does not assert that
+$P_{\zeta}$ has been proved without further zeta-specific input.
+\end{definition}
+
+\begin{definition}[Core-completeness sufficiency row]
+\label{def:unified-reality-core-completeness-sufficiency-row}
+The \emph{core-completeness sufficiency row} is the packet
+$$
+\mathsf{CoreComplete}(\mathcal Z_{\zeta})
++
+\mathsf{MirrorEven}(\Sigma_Z)
++
+\mathsf{MirrorOdd}(\delta)
++
+\mathsf{ZeroObservable}(\delta),
+$$
+where $\Sigma_Z$ is the zero ontic signature and
+$$
+\delta(s):=\Re(s)-\frac12.
+$$
+The first component means that every public zero observable in the
+displayed class factors through $\Sigma_Z$.
+\end{definition}
+
+\begin{theorem}[Core completeness and mirror oddness are sufficient]
+\label{thm:unified-reality-core-completeness-mirror-odd-sufficient}
+The core-completeness sufficiency row is conditionally sufficient for the
+RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$.  Core
+completeness applied to the public zero observable $\delta$ gives a
+factorization
+$$
+\delta(s)=f(\Sigma_Z(s)).
+$$
+Mirror closure supplies the companion zero-source row at $J(s)$.  The
+mirror-even signature row gives
+$$
+\Sigma_Z(J(s))=\Sigma_Z(s),
+$$
+and therefore
+$$
+\delta(J(s))
+=
+f(\Sigma_Z(J(s)))
+=
+f(\Sigma_Z(s))
+=
+\delta(s).
+$$
+The direct mirror calculation gives
+$$
+\delta(J(s))=-\delta(s).
+$$
+Thus $\delta(s)=-\delta(s)$, hence $\delta(s)=0$ in the
+characteristic-zero real readout.  By
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}, this is
+the fixed-half row for $s$.  The construction is exactly the section
+shape of
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[Core completeness implies the RH predicate conditionally]
+\label{cor:unified-reality-core-completeness-conditionally-rh}
+Under the structural rows of
+\autoref{thm:unified-reality-core-completeness-mirror-odd-sufficient},
+core completeness of the zeta zero source implies the BEDC RH predicate.
+\end{corollary}
+
+\begin{proof}
+The theorem supplies a lift
+$$
+\Phi:
+\mathcal Z_{\zeta}\to\mathcal H_{\zeta}.
+$$
+Unfolding \autoref{def:unified-reality-rh-input-zero-source}, this is a
+total assignment sending each row
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+$$
+to $\mathsf{OnCritLine}(s)$.  This is the RH predicate as identified by
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{definition}[Prime-sieve sufficiency row]
+\label{def:unified-reality-prime-sieve-sufficiency-row}
+The \emph{prime-sieve sufficiency row} is
+$$
+\mathsf{PrimeSieveOddExactness}_{\zeta},
+$$
+the finite-sieve exactness target of
+\autoref{def:unified-reality-prime-sieve-odd-exactness}.  It asserts that
+a nonzero finite prime-window mirror-odd defect cannot coexist with a
+critical-strip zero row in the completed zeta carrier.
+\end{definition}
+
+\begin{theorem}[Prime-sieve odd exactness is sufficient]
+\label{thm:unified-reality-prime-sieve-odd-exactness-sufficient}
+Assume prime-sieve odd exactness and the located fixed-half collapse row
+$$
+\neg(\delta(s)\#0)\to\delta(s)=0.
+$$
+Then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$.  It suffices to
+exclude $\delta(s)\#0$.  Suppose $\delta(s)\#0$.  Choose any nonempty
+finite prime window $S$.  By
+\autoref{cor:unified-reality-prime-sieve-windows-separate-nonfixed},
+$$
+D_S(s)\#0.
+$$
+Hence the finite-window existential defect row in
+\autoref{def:unified-reality-prime-sieve-odd-exactness} holds.  Applying
+$\mathsf{PrimeSieveOddExactness}_{\zeta}$ to the zero row, the
+critical-strip row, and this finite defect gives $\bot$.  Therefore
+$$
+\neg(\delta(s)\#0).
+$$
+The located fixed-half collapse row gives $\delta(s)=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} turns
+this into $\mathsf{OnCritLine}(s)$.  Varying $z$ gives the desired
+section.
+\end{proof}
+
+\begin{corollary}[Prime-sieve exactness implies the RH predicate conditionally]
+\label{cor:unified-reality-prime-sieve-exactness-conditionally-rh}
+Under located fixed-half collapse, prime-sieve odd exactness implies the
+BEDC RH predicate.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-prime-sieve-odd-exactness-sufficient}
+constructs the fixed-half section.  The equivalence with the BEDC RH
+predicate is
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{theorem}[The conditional rows are the unclosed content]
+\label{thm:unified-reality-conditional-rows-unclosed-content}
+The preceding sufficiency theorems do not prove the unconditional RH
+predicate.  Their unclosed content is the zeta-specific row
+$$
+\mathsf{CoreComplete}(\mathcal Z_{\zeta})
+$$
+or, in finite-sieve analytic form,
+$$
+\mathsf{PrimeSieveOddExactness}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+The zero predicate supplies a zero ledger and the critical-strip row
+supplies the input domain.  The fixed-surface readout equivalences of
+\autoref{thm:unified-reality-fixed-surface-cycle-readout-equivalence}
+identify the target surface, but they do not place zero rows on that
+surface.  Core completeness would place every public zero observable,
+including $\delta$, behind the mirror-even zero signature.  Prime-sieve
+odd exactness would exclude the finite prime-window defect generated by
+any nonzero $\delta$.  These are exactly the remaining rows identified by
+\autoref{cor:unified-reality-defect-zero-incompatibility-analytic-form}
+and
+\autoref{cor:unified-reality-prime-sieve-obstruction-analytic-exactness}.
+\end{proof}
+
+\begin{definition}[Hidden normal-coordinate counterform]
+\label{def:unified-reality-hidden-normal-coordinate-counterform}
+The \emph{hidden normal-coordinate counterform} is a hypothetical
+zero-source pair
+$$
+s=\frac12+\delta+i\gamma,
+\qquad
+J(s)=\frac12-\delta+i\gamma,
+\qquad
+\delta\#0,
+$$
+such that
+$$
+\Sigma_Z(J(s))=\Sigma_Z(s)
+$$
+but $\delta$ does not factor through $\Sigma_Z$.  It is the form of a
+fourth observable ledger separating mirror companions after the displayed
+zero signature has already agreed.
+\end{definition}
+
+\begin{theorem}[The hidden normal coordinate is the circularity boundary]
+\label{thm:unified-reality-hidden-normal-coordinate-circularity-boundary}
+Any route that only rewrites the fixed-half surface in mirror, prime, or
+Laplace coordinates leaves the hidden normal-coordinate counterform
+unexcluded.
+\end{theorem}
+
+\begin{proof}
+The equalities
+$$
+\Re(s)=\frac12,
+\qquad
+|p^{1/2-s}|=1,
+\qquad
+J(s)=s
+$$
+describe the fixed surface.  For the counterform, these rows fail
+precisely because $\delta\#0$.  Rewriting their equivalence does not
+contradict the zero ledger, since the zero ledger has not yet been linked
+to the absence of $\delta$.  The contradiction appears only after either
+core completeness forces $\delta$ to factor through the mirror-even
+signature, or prime-sieve odd exactness makes the finite prime-window
+defect zero-incompatible.
+\end{proof}
+
+\begin{corollary}[Zero relevance is the proof load]
+\label{cor:unified-reality-zero-relevance-proof-load}
+The proof load of the RH route is zero relevance of the mirror-odd
+defect, not visibility of that defect.
+\end{corollary}
+
+\begin{proof}
+Visibility is supplied by finite prime windows through
+\autoref{cor:unified-reality-prime-sieve-windows-separate-nonfixed}.  The
+quartic spectral carrier shows the same distinction: branch visibility
+requires a dominance and interference ledger before it becomes an endpoint
+zero law, as recorded in
+\autoref{thm:unified-reality-quartic-marks-zero-relevance-boundary}.  For
+zeta, the corresponding zero-relevance row is prime-sieve odd exactness,
+equivalently the no-fourth-ledger or defect-zero incompatibility boundary.
+\end{proof}

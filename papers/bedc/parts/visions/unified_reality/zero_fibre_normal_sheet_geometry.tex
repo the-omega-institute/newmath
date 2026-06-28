@@ -1,0 +1,211 @@
+\section{Zero-Fibre Normal Sheet Geometry}
+\label{sec:unified-reality-zero-fibre-normal-sheet-geometry}
+
+The geometric reading of the RH route must distinguish ordinary
+holomorphic regularity from zero-fibre rigidity.  An off-fixed zero does
+not, by itself, say that the completed zeta readout is nonsmooth or
+nonconformal at that point.  It says that the zero fibre has a normal
+sheet away from the fixed line.  The RH-facing statement is therefore a
+zero-fibre support claim, not a failure of local complex analyticity.
+
+\begin{definition}[Completed zeta body]
+\label{def:unified-reality-completed-zeta-body}
+Write
+$$
+s=\frac12+\delta+i\tau
+$$
+and set
+$$
+F(\delta,\tau):=\xi\!\left(\frac12+\delta+i\tau\right).
+$$
+The \emph{completed zeta body} is the graph packet
+$$
+\mathcal B_{\zeta}
+:=
+\{(\delta,\tau,z):z=F(\delta,\tau)\}.
+$$
+Its \emph{zero fibre} is
+$$
+\mathcal Z_{\zeta}^{\mathrm{geom}}
+:=
+\{(\delta,\tau):F(\delta,\tau)=0\},
+$$
+and the fixed line is
+$$
+\mathcal C_{\zeta}
+:=
+\{(\delta,\tau):\delta=0\}.
+$$
+The RH section asks for $\mathcal Z_{\zeta}^{\mathrm{geom}}$ to be
+supported on $\mathcal C_{\zeta}$ inside the critical strip.
+\end{definition}
+
+\begin{definition}[Mirror coordinates]
+\label{def:unified-reality-mirror-coordinates}
+The functional-equation mirror
+$$
+J(s)=1-\overline{s}
+$$
+acts in $(\delta,\tau)$ coordinates by
+$$
+J(\delta,\tau)=(-\delta,\tau).
+$$
+For the completed readout, the mirror row has the form
+$$
+F(-\delta,\tau)=\overline{F(\delta,\tau)}.
+$$
+If $F=A+iB$, then $A$ is mirror-even and $B$ is mirror-odd:
+$$
+A(-\delta,\tau)=A(\delta,\tau),
+\qquad
+B(-\delta,\tau)=-B(\delta,\tau).
+$$
+\end{definition}
+
+\begin{theorem}[Mirror symmetry gives paired zeros, not RH]
+\label{thm:unified-reality-mirror-symmetry-gives-paired-zeros-not-rh}
+If $F(\delta_0,\tau_0)=0$, then $F(-\delta_0,\tau_0)=0$.
+This mirror closure does not imply $\delta_0=0$.
+\end{theorem}
+
+\begin{proof}
+By the mirror row of
+\autoref{def:unified-reality-mirror-coordinates},
+$$
+F(-\delta_0,\tau_0)
+=
+\overline{F(\delta_0,\tau_0)}.
+$$
+If the right side is $\overline{0}$, it is zero.  The conclusion gives a
+mirror companion, not equality of the two coordinates.  The missing
+statement is exactly the zero-fixedness target of
+\autoref{def:unified-reality-zero-fixedness-target}.
+\end{proof}
+
+\begin{definition}[Normal zero sheet]
+\label{def:unified-reality-normal-zero-sheet}
+A \emph{normal zero sheet} for the completed zeta body is a zero-fibre
+row with nonzero normal coordinate:
+$$
+\mathsf{NormalZeroSheet}_{\zeta}
+:=
+\sum_{\delta,\tau}
+\left(
+\delta\#0
+\times
+F(\delta,\tau)=0
+\right).
+$$
+The \emph{no-extra-zero-sheet} row is
+$$
+\mathsf{NoExtraZeroSheet}_{\zeta}
+:=
+\neg\mathsf{NormalZeroSheet}_{\zeta}.
+$$
+\end{definition}
+
+\begin{theorem}[No extra zero sheet is the RH support form]
+\label{thm:unified-reality-no-extra-zero-sheet-rh-support-form}
+The no-extra-zero-sheet row is the geometric support form of the RH
+fixed-half section.
+\end{theorem}
+
+\begin{proof}
+In $(\delta,\tau)$ coordinates, the RH conclusion for a zero row is
+$$
+F(\delta,\tau)=0\to\delta=0.
+$$
+This is precisely the exclusion of a zero row with $\delta\#0$, together
+with the located fixed-half collapse that converts absence of normal
+apartness into the fixed-half row.  The section form is
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{principle}[Local conformality is not zero-fibre rigidity]
+\label{prin:unified-reality-local-conformality-not-zero-fibre-rigidity}
+Holomorphic smoothness, mirror symmetry, and local conformality at a
+simple zero do not imply no-extra-zero-sheet.
+\end{principle}
+
+\begin{proof}
+Let $w=s-1/2$ and take
+$$
+G(w)=w^2-a^2
+$$
+with $a$ real and $a\#0$.  Then
+$$
+G(-\overline w)=\overline{G(w)},
+$$
+so the same mirror symmetry is present.  The zeros $w=a$ and $w=-a$
+are off the fixed line, and
+$$
+G'(w)=2w
+$$
+is nonzero at both zeros.  Thus the local readout is conformal at those
+zeros while the zero fibre still has off-fixed normal sheets.  Therefore
+the RH-facing task is not ordinary conformality but exclusion of those
+normal sheets for the completed zeta carrier.
+\end{proof}
+
+\begin{definition}[Zero-fibre faithfulness]
+\label{def:unified-reality-zero-fibre-faithfulness}
+The completed zeta zero fibre is \emph{faithful} when a zero row cannot
+coexist with a normal prime-window defect:
+$$
+\mathsf{ZeroFibreFaithful}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\bigl(D_S(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+This is the zero-fibre geometric form of defect-zero incompatibility.
+\end{definition}
+
+\begin{theorem}[Zero-fibre faithfulness gives the RH section]
+\label{thm:unified-reality-zero-fibre-faithfulness-gives-rh-section}
+Assume zero-fibre faithfulness and located fixed-half collapse.  Then the
+RH fixed-half section is obtained.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry critical-strip and zeta-zero rows.  If
+$\delta(s)\#0$, then
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect} gives
+$D_S(s)\#0$ for every nonempty finite prime window $S$.  This supplies
+the existential defect row excluded by
+\autoref{def:unified-reality-zero-fibre-faithfulness}.  Hence
+$\neg(\delta(s)\#0)$.  Located fixed-half collapse gives
+$\delta(s)=0$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} gives
+the RH section.
+\end{proof}
+
+\begin{theorem}[Zero-fibre faithfulness is the normal-sheet reading of defect rigidity]
+\label{thm:unified-reality-zero-fibre-faithfulness-normal-sheet-defect-rigidity}
+Zero-fibre faithfulness, no-extra-zero-sheet, and defect-zero
+incompatibility are three readings of the same RH-facing rigidity
+boundary.
+\end{theorem}
+
+\begin{proof}
+An off-fixed zero sheet has $\delta(s)\#0$.  By the prime-window defect
+calculation of
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect}, it
+therefore carries a finite prime-window defect.  Excluding coexistence
+of that defect with a zero row is
+\autoref{def:unified-reality-zero-fibre-faithfulness}.  The same
+exclusion is named as defect-zero incompatibility in
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route} and
+as no far-end absorption in
+\autoref{def:unified-reality-no-far-end-absorption}.  Thus the geometric
+normal-sheet language identifies the same unclosed analytic boundary;
+it does not replace it with a local conformality claim.
+\end{proof}

@@ -1,0 +1,227 @@
+\section{Prime-Adic Parity Energy Window}
+\label{sec:unified-reality-prime-adic-parity-energy-window}
+
+Prime-adic local slicing and recursive parity decomposition describe the
+same high-dimensional zeta carrier from two complementary directions.
+Prime-adic slicing separates the prime dimensions.  Recursive parity
+decomposition separates the binary depth inside each prime dimension.
+The finite object inspected by the RH-facing defect route is therefore a
+finite window in $\PrimeUp\times\NatUp$, equipped with a normalized
+mirror-odd defect and its mirror-even second-order energy.
+
+\begin{definition}[Prime-adic parity window]
+\label{def:unified-reality-prime-adic-parity-window}
+The \emph{prime-adic parity tower} is the node carrier
+$$
+\mathsf{PAdicParityTower}_{\zeta}:=\PrimeUp\times\NatUp.
+$$
+For a node $(p,j)$, the centered local-parity channel is
+$$
+U_{p,j}^{\mathrm{pad}}(s):=p^{2^j(1/2-s)}.
+$$
+A \emph{prime-adic parity window} is a nonempty finite node family
+$$
+A\subset\mathsf{PAdicParityTower}_{\zeta}.
+$$
+Its weight, signed defect, normalized signed defect, and second-order
+energy are
+$$
+W_A^{\mathrm{pad}}
+:=
+\sum_{(p,j)\in A}2^j\log p,
+$$
+$$
+D_A^{\mathrm{pad}}(s)
+:=
+\sum_{(p,j)\in A}\log |U_{p,j}^{\mathrm{pad}}(s)|,
+$$
+$$
+\overline D_A^{\mathrm{pad}}(s)
+:=
+\frac{D_A^{\mathrm{pad}}(s)}{W_A^{\mathrm{pad}}},
+\qquad
+E_A^{\mathrm{pad}}(s)
+:=
+\left(\overline D_A^{\mathrm{pad}}(s)\right)^2.
+$$
+\end{definition}
+
+\begin{theorem}[Prime-adic parity windows read one normal coordinate]
+\label{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate}
+If
+$$
+s=\frac12+\delta+i\tau,
+$$
+then every prime-adic parity window $A$ satisfies
+$$
+\overline D_A^{\mathrm{pad}}(s)=-\delta,
+\qquad
+E_A^{\mathrm{pad}}(s)=\delta^2.
+$$
+\end{theorem}
+
+\begin{proof}
+For each node $(p,j)$,
+$$
+U_{p,j}^{\mathrm{pad}}(s)
+=
+p^{2^j(1/2-s)}
+=
+p^{-2^j\delta}e^{-i2^j\tau\log p}.
+$$
+Thus
+$$
+\log |U_{p,j}^{\mathrm{pad}}(s)|=-2^j\delta\log p.
+$$
+Summing over $A$ gives
+$$
+D_A^{\mathrm{pad}}(s)
+=
+-\delta\sum_{(p,j)\in A}2^j\log p
+=
+-\delta W_A^{\mathrm{pad}}.
+$$
+Since $A$ is nonempty, $W_A^{\mathrm{pad}}$ is a positive normalization
+row.  Dividing gives $\overline D_A^{\mathrm{pad}}(s)=-\delta$, and
+squaring gives $E_A^{\mathrm{pad}}(s)=\delta^2$.
+\end{proof}
+
+\begin{corollary}[First-order defect is odd and second-order energy is even]
+\label{cor:unified-reality-prime-adic-parity-energy-odd-even}
+For the mirror $J(s)=1-\overline{s}$,
+$$
+\overline D_A^{\mathrm{pad}}(J(s))
+=
+-\overline D_A^{\mathrm{pad}}(s),
+\qquad
+E_A^{\mathrm{pad}}(J(s))=E_A^{\mathrm{pad}}(s).
+$$
+\end{corollary}
+
+\begin{proof}
+The mirror changes the normal coordinate from $\delta$ to $-\delta$ and
+keeps the time coordinate $\tau$ fixed.  Apply
+\autoref{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate}
+to $s$ and $J(s)$.  The normalized defect changes sign, while its square
+is unchanged.
+\end{proof}
+
+\begin{theorem}[Noncentrality is finite-window energy]
+\label{thm:unified-reality-noncentrality-finite-window-energy}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+the following rows are equivalent as defect readouts:
+$$
+\delta(s)\#0,
+\qquad
+\sum_{A:\mathsf{PAdicParityWindow}_{\ne\varnothing}}
+\bigl(E_A^{\mathrm{pad}}(s)\#0\bigr).
+$$
+Moreover, if $\delta(s)\#0$, then every prime-adic parity window carries
+the same nonzero energy $\delta(s)^2$.
+\end{theorem}
+
+\begin{proof}
+For every nonempty finite window $A$,
+\autoref{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate}
+gives
+$$
+E_A^{\mathrm{pad}}(s)=\delta(s)^2.
+$$
+Thus apartness of $\delta(s)$ from zero supplies nonzero energy in every
+window.  Conversely, a nonzero energy row in some window is a nonzero
+square of the normalized defect, hence an apartness witness for
+$\delta(s)$ in the located real readout.
+\end{proof}
+
+\begin{definition}[No prime-adic parity energy zero]
+\label{def:unified-reality-no-prime-adic-parity-energy-zero}
+The \emph{no prime-adic parity energy zero} row is
+$$
+\mathsf{NoPAdicParityEnergyZero}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{A:\mathsf{PAdicParityWindow}_{\ne\varnothing}}
+\bigl(E_A^{\mathrm{pad}}(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+It says that a completed zeta zero cannot carry nonzero second-order
+mirror-even energy on any finite prime-adic parity window.
+\end{definition}
+
+\begin{theorem}[Prime-adic parity energy refusal is conditionally sufficient]
+\label{thm:unified-reality-prime-adic-parity-energy-refusal-conditionally-sufficient}
+Together with the located fixed-half collapse row,
+$$
+\mathsf{NoPAdicParityEnergyZero}_{\zeta}
+$$
+is sufficient for the RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Suppose $\delta\#0$.  Choose any prime-adic parity window $A$.  By
+\autoref{thm:unified-reality-noncentrality-finite-window-energy},
+$$
+E_A^{\mathrm{pad}}(s)\#0.
+$$
+Together with the zero row and critical-strip row, this is the positive
+data excluded by
+\autoref{def:unified-reality-no-prime-adic-parity-energy-zero}.  Hence
+$\neg(\delta\#0)$.  The located fixed-half collapse row yields
+$\delta=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+this as the fixed-half section.
+\end{proof}
+
+\begin{corollary}[Mirror balance does not remove prime-adic parity energy]
+\label{cor:unified-reality-mirror-balance-does-not-remove-prime-adic-parity-energy}
+If a mirror pair $s,J(s)$ has $\delta(s)\#0$, then signed
+prime-adic parity defects cancel in each finite window, but the
+second-order window energy remains nonzero on both sides.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{cor:unified-reality-prime-adic-parity-energy-odd-even},
+the normalized defects of $s$ and $J(s)$ have opposite signs.  Their
+sum is therefore zero.  The same corollary also gives equal energies, and
+\autoref{thm:unified-reality-noncentrality-finite-window-energy} gives
+nonzero energy when $\delta(s)\#0$.  Thus mirror symmetry can balance the
+first-order sign, but not the second-order distance from the fixed-half
+surface.
+\end{proof}
+
+\begin{corollary}[Combined local window isolates the remaining obstruction]
+\label{cor:unified-reality-combined-local-window-isolates-obstruction}
+The combined prime-adic parity window does not prove the zero exclusion by
+itself.  It isolates the exact zero-relevance row still required: a
+completed zeta zero must be incompatible with nonzero second-order
+prime-adic parity energy.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate}
+and
+\autoref{cor:unified-reality-prime-adic-parity-energy-odd-even}
+are readout calculations.  They identify the finite local observable and
+its mirror parity.  The remaining claim is the incompatibility between
+that observable and the completed zero ledger, stated in
+\autoref{def:unified-reality-no-prime-adic-parity-energy-zero}.  This is
+the second-order local-window form of the prime-sieve obstruction in
+\autoref{cor:unified-reality-prime-sieve-obstruction-analytic-exactness}
+and the local-global gap isolated in
+\autoref{cor:unified-reality-prime-adic-slicing-local-global-gap}.
+\end{proof}
