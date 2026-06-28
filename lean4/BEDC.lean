@@ -11577,6 +11577,7 @@ import BEDC.Derived.SeparableMetricUp.RegularHandoffObligation
 import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparableRealUp.TasteGate
 import BEDC.Derived.SeparableUltrametricSpaceUp.TasteGate
+import BEDC.Derived.SeparatedCauchyCompletionLimitUp
 import BEDC.Derived.SeparatedCauchyNetCompletionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionFunctorUp
 import BEDC.Derived.SeparatedCompletionFunctorUp.TasteGate
