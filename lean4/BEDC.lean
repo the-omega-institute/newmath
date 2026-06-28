@@ -9102,6 +9102,7 @@ import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationResidualFitUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
 import BEDC.Derived.ObservationScheduleEnvelopeUp.TasteGate
+import BEDC.Derived.ObservationTimeOrderUp.NameCertObligations
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.Observer
 import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
@@ -10223,6 +10224,7 @@ import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
+import BEDC.Derived.RealIntervalUp.ClassifierTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
