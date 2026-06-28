@@ -171,6 +171,44 @@ Apply \autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} to the led
 The remaining coordinates are the finite $\StreamNameUp$ schedule and the same source provenance rows. Since the carrier ledger hides only unrequested suffix and tail data, no completed intersection point, hidden tail, quotient interval, or host-completeness witness can be projected by the regular rational consumer.
 \end{proof}
 
+\begin{theorem}[NestedDyadicInterval finite prefix-induction derivation]
+\label{thm:nested-dyadic-interval-prefix-induction-derivation}
+For every accepted $\NestedDyadicIntervalUp$ packet and every displayed unary
+prefix length, induction on that prefix reconstructs exactly the endpoint rows,
+adjacent-refinement rows, containment ledger, $\StreamNameUp$ schedule,
+$\RegSeqRatUp$ handoff, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ row visible in the prefix.
+
+The derivation preserves the chapter's refusal of completed intersection
+points, quotient intervals, hidden infinite tails, selected limits, and host
+completeness. No induction step adds a row outside the displayed finite
+$\mathsf{BHist}$ window.
+\end{theorem}
+\begin{proof}
+For the base prefix, project the first interval row from
+\autoref{def:nesteddyadicinterval-carrier}. The singleton-chain vacuity theorem
+\autoref{thm:nesteddyadicinterval-singleton-chain-vacuity} gives an empty
+adjacent-refinement surface, while the displayed schedule, provenance,
+transport, replay, and local naming rows are already part of the same packet.
+
+For the induction step, append one displayed refinement row. Apply
+\autoref{thm:nesteddyadicinterval-prefix-truncation-stability} to keep the
+extended prefix inside the accepted classifier, and then use
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} to identify the
+new adjacent pair with its containment ledger, $\Cont$ route, endpointwise
+$\hsame$ rows, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+The $\RegSeqRatUp$ and $\RealUp$ consumer boundary is then exhausted by
+\autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. It reads only
+prefix endpoint packets, adjacent-refinement rows, finite schedules, and source
+provenance, so the induction produces exactly the listed finite rows.
+
+Finally apply ledger nonescape: the carrier ledger hides unrequested suffix and
+tail data rather than completing it. Hence the prefix induction cannot project a
+completed intersection point, quotient interval, hidden infinite tail, selected
+limit, or host-completeness witness.
+\end{proof}
+
 \begin{theorem}[NestedDyadicInterval shared-prefix handoff]
 \label{thm:nesteddyadicinterval-shared-prefix-handoff}
 Let $K=(I_0,\ldots,I_n,S,R,P,L)$ and
