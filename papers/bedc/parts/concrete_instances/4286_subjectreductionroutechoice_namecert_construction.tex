@@ -167,6 +167,18 @@ Apply \autoref{thm:subject-reduction-route-choice-obstruction-boundary}. Any con
 Finally use \autoref{thm:subject-reduction-route-choice-nonescape}. The structural rows $H,C,P,N$ preserve only the displayed bundle and obstruction coordinates, so quotient syntax equality, evaluator soundness, closed consistency, and any third route remain outside the packet.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteChoice confluence nonescape]
+\label{thm:subject-reduction-route-choice-confluence-nonescape}
+Any confluence or subject-reduction consumer reading an accepted $\SubjectReductionRouteChoiceUp$ packet must keep the explicit bundle rows $B,V$, the obstruction row $O$, and the structural rows $H,C,P,N$ visible. Thus local confluence, closed subject reduction, quotient syntax equality, evaluator soundness, and closed consistency cannot escape the route-choice boundary.
+\end{theorem}
+\begin{proof}
+Start with the bundle route. By \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, any consumer that reaches the displayed discharge route sees only the explicit rows $B,V$ and no hidden instance or host conversion rule.
+
+Next read the obstruction boundary. By \autoref{thm:subject-reduction-route-choice-obstruction-boundary} and \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}, a consumer that lacks an inhabited bundle remains at the row $O$, while the structural rows $H,C,P,N$ only transport and replay the same finite choice.
+
+Finally apply \autoref{thm:subject-reduction-route-choice-nonescape}. Since every route is exhausted by $B,V,O,H,C,P,N$, no confluence, closed subject-reduction, quotient-equality, evaluator-soundness, or closed-consistency claim is exported from the packet.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteChoice vision handoff]
 \label{thm:subject-reduction-route-choice-vision-handoff}
 The formal route of \autoref{ch:sr-discharge-routes} is realized as the finite $\SubjectReductionRouteChoiceUp$ carrier of \autoref{def:subject-reduction-route-choice-carrier}. The handoff consists of the explicit bundle row, the consumption row, the obstruction-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
