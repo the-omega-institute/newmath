@@ -254,6 +254,22 @@ Apply machine-audit totality. The target metadata can be exposed to a machine re
 There is no carrier coordinate for a checked theorem or checked bridge in $E$. The public bridge route is explicitly paper-level, and the closurestatus leaves bridge checking outside the chapter. Therefore the formal-target export boundary is metadata plus audit route, not theorem or bridge evidence.
 \end{proof}
 
+\begin{theorem}[Registry export surface public discharge]
+\label{thm:registry-export-surface-public-discharge}
+For every accepted $\RegistryExportSurfaceUp$ packet
+$$
+E=(R,B,S,M,A,U,H,C,P,N),
+$$
+the public registry-export route is unique: it is the route through the displayed $\BHist$ packet, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegistryExportSurfaceUp}$ row that keeps the status row $S$, machine-target row $M$, blocking row $B$, audit row $A$, and non-smuggling row $U$ together. Any putative public route that deletes one of $S,M,B,A,U$ or bypasses $H,C,P,N$ is outside the accepted carrier rather than a second registry-export discharge.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. By \autoref{def:registry-export-surface-carrier}, the only public coordinates available to an export are $R,B,S,M,A,U,H,C,P,N$, with $N$ naming the local $\NameCert_{\RegistryExportSurfaceUp}$ row.
+
+Apply status-blocking exhaustion and machine-audit totality. The status row $S$ decides the public registry status, while the machine reader can inspect $M,A,H,C,P,N$ only with the blocking and non-smuggling rows $B,U$ still attached.
+
+Finally use the formal-target boundary together with ledger nonescape. A route that claims public export while dropping $B$, $U$, or the structural rows $H,C,P,N$ is a prose-only or hidden-registry-state route, not an accepted export from $E$. Hence the displayed path through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is the single public discharge route.
+\end{proof}
+
 \closureat{RegistryExportSurfaceUp}{seedStr}
 \closureat{RegistryExportSurfaceUp}{obligationStr}
 \closureat{RegistryExportSurfaceUp}{scopedStr}

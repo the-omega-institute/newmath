@@ -151,4 +151,83 @@ theorem MetacicCandidateNormalizationConfluenceHandoffObligationRows [AskSetup] 
   · intro _row sourceRow
     exact ⟨sourceRow.right, frontierPkg, auditCandidateRoute, consumerFrontierRoute⟩
 
+theorem MetacicCandidateNormalizationConfluenceBoundary [AskSetup] [PackageSetup]
+    {audit candidate normalEndpoint frontier confluence decidability blocked transport replay
+      provenance localName confluenceRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicCandidateNormalizationConfluenceHandoffCarrier audit candidate normalEndpoint
+        frontier confluence decidability blocked transport replay provenance localName bundle pkg →
+      Cont candidate confluence confluenceRead →
+        Cont confluenceRead blocked boundaryRead →
+          PkgSig bundle boundaryRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row candidate ∨ hsame row frontier ∨ hsame row confluence ∨
+                    hsame row decidability ∨ hsame row blocked ∨ hsame row transport ∨
+                      hsame row replay ∨ hsame row provenance ∨ hsame row localName ∨
+                        hsame row confluenceRead ∨ hsame row boundaryRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont candidate confluence confluenceRead ∧
+                    Cont confluenceRead blocked boundaryRead ∧
+                      PkgSig bundle boundaryRead pkg)
+                hsame ∧ UnaryHistory confluenceRead ∧ UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: MetacicCandidateNormalizationConfluenceHandoffCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier confluenceRoute boundaryRoute boundaryPkg
+  obtain ⟨_auditUnary, candidateUnary, _normalEndpointUnary, _frontierUnary,
+    confluenceUnary, _decidabilityUnary, blockedUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _provenancePkg⟩ := carrier
+  have confluenceReadUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed candidateUnary confluenceUnary confluenceRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed confluenceReadUnary blockedUnary boundaryRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidate ∨ hsame row frontier ∨ hsame row confluence ∨
+              hsame row decidability ∨ hsame row blocked ∨ hsame row transport ∨
+                hsame row replay ∨ hsame row provenance ∨ hsame row localName ∨
+                  hsame row confluenceRead ∨ hsame row boundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont candidate confluence confluenceRead ∧
+              Cont confluenceRead blocked boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro boundaryRead ⟨hsame_refl boundaryRead, boundaryReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, confluenceRoute, boundaryRoute, boundaryPkg⟩
+  }
+  exact ⟨cert, confluenceReadUnary, boundaryReadUnary⟩
+
 end BEDC.Derived
