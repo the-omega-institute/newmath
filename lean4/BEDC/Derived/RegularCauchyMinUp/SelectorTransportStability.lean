@@ -1,10 +1,14 @@
 import BEDC.Derived.RegularCauchyMinUp.SelectorLedger
+import BEDC.FKernel.Package.Core
 
 namespace BEDC.Derived.RegularCauchyMinUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem RegularCauchyMinCarrier_selector_transport_stability
@@ -115,5 +119,94 @@ theorem RegularCauchyMinCarrier_selector_transport_stability
           transportRoute, replayRoute⟩
   }
   exact ⟨cert, selectedUnary, readbackUnary, sealUnary, transportUnary, replayUnary⟩
+
+theorem RegularCauchyMinCarrier_selector_monotonicity
+    [AskSetup] [PackageSetup]
+    {A B W DA DB J S R E H C P N selectedRead orderRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory A →
+      UnaryHistory B →
+        UnaryHistory W →
+          UnaryHistory DA →
+            UnaryHistory DB →
+              UnaryHistory J →
+                UnaryHistory S →
+                  UnaryHistory R →
+                    UnaryHistory E →
+                      Cont J S selectedRead →
+                        Cont selectedRead R orderRead →
+                          PkgSig bundle P pkg →
+                            PkgSig bundle N pkg →
+                              SemanticNameCert
+                                  (fun row : BHist =>
+                                    hsame row orderRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row A ∨ hsame row B ∨ hsame row W ∨
+                                      hsame row DA ∨ hsame row DB ∨ hsame row J ∨
+                                        hsame row S ∨ hsame row R ∨ hsame row E ∨
+                                          hsame row H ∨ hsame row C ∨ hsame row P ∨
+                                            hsame row N ∨ hsame row orderRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont J S selectedRead ∧
+                                      Cont selectedRead R orderRead ∧
+                                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                  hsame ∧
+                                UnaryHistory selectedRead ∧ UnaryHistory orderRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory PkgSig
+  intro _aUnary _bUnary _wUnary _daUnary _dbUnary jUnary _sUnary rUnary _eUnary
+    selectorRoute orderRoute pSig nSig
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed jUnary _sUnary selectorRoute
+  have orderUnary : UnaryHistory orderRead :=
+    unary_cont_closed selectedUnary rUnary orderRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row orderRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row B ∨ hsame row W ∨ hsame row DA ∨ hsame row DB ∨
+              hsame row J ∨ hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row H ∨
+                hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row orderRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont J S selectedRead ∧ Cont selectedRead R orderRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro orderRead ⟨hsame_refl orderRead, orderUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr source.left))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, selectorRoute, orderRoute, pSig, nSig⟩
+  }
+  exact ⟨cert, selectedUnary, orderUnary⟩
 
 end BEDC.Derived.RegularCauchyMinUp
