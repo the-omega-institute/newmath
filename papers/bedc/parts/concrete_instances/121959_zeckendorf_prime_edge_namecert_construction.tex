@@ -1,0 +1,62 @@
+\chapter{ZeckendorfPrimeEdge NameCert Construction}
+\label{ch:concrete-instances-zeckendorf-prime-edge-namecert}
+\origin{human}
+
+Following Zeckendorf's finite Fibonacci-word normal form and the standard irreducible-edge language of finite directed combinatorics, the $\ZeckendorfPrimeEdgeUp$ packet records an atomic recursive prime edge as NameCert data. It sits beside the normal-window surface of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, the carry route of \autoref{ch:concrete-instances-zeckendorfcarry-namecert}, the carry-classifier boundary of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert}, the phase-shell window of \autoref{ch:concrete-instances-zeckendorf-phase-shell-namecert}, and the classifier-channel ledger of \autoref{ch:concrete-instances-classifier-channel-shift-ledger-namecert}. The packet turns the atomic recursive prime-edge vision into a finite carrier over displayed operations, not into a theorem about ordinary integer primes.
+
+\begin{definition}[Zeckendorf prime-edge carrier]
+\label{def:zeckendorf-prime-edge-carrier}
+A $\ZeckendorfPrimeEdgeUp$ carrier is a finite $\BHist$ packet
+$$
+P=(B_0,B_1,O,\alpha,E,N_D,I,Q,L,H,C,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B_0$ is the source Zeckendorf window row, read through the finite no-adjacent-$11$ classifier.
+\item $B_1$ is the target Zeckendorf window row, read through the same finite classifier after the displayed operation fires.
+\item $O$ is the recursive-operation carrier row: it exposes an operation identity, composition, equivalence, and action on displayed window records.
+\item $\alpha$ is the atomic operation row acting from $B_0$ toward $B_1$.
+\item $E$ is the edge row witnessing that $\alpha(B_0)$ classifies as $B_1$.
+\item $N_D$ is the nondegeneracy row, keeping $B_0$ and $B_1$ classifier-distinct before the edge is consumed.
+\item $I$ is the irreducibility row: every displayed factorization of $\alpha$ has a unit factor.
+\item $Q$ is the prime-divisibility row for the chosen operation divisibility classifier.
+\item $L$ is the finite ledger exposing source, target, operation, edge, nondegeneracy, irreducibility, and primeness rows.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from source window through operation action, edge readback, and prime-edge ledger.
+\item $R$ is the $\Pkg$ provenance over $\ZeckendorfPrimeEdgeUp$, $\ZeckendorfNormalUp$, $\ZCarryUp$, $\ZeckendorfCarryClassifierUp$, $\ZeckendorfPhaseShellUp$, $\ClassifierChannelShiftLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ZeckendorfPrimeEdgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for ordinary integer primality, hidden factorization search, quotient equality of histories, selected normalizer, or a global rewrite system.
+\end{definition}
+
+\begin{theorem}[Zeckendorf prime-edge NameCert obligations]
+\label{thm:zeckendorf-prime-edge-namecert-obligations}
+For every accepted $\ZeckendorfPrimeEdgeUp$ carrier
+$$
+P=(B_0,B_1,O,\alpha,E,N_D,I,Q,L,H,C,R,N),
+$$
+the local $\NameCert_{\ZeckendorfPrimeEdgeUp}$ obligations are exactly carrier admission for the displayed thirteen-row packet, source and target Zeckendorf-window admission, recursive-operation admission, edge exactness, nondegeneracy, irreducibility, operation-prime divisibility, ledger exactness, componentwise transport, continuation replay, provenance, and local naming. These rows realize the atomic recursive prime-edge carrier as finite NameCert data and do not assert ordinary integer primality, quotient history equality, a selected normal form representative, or a global confluence theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:zeckendorf-prime-edge-carrier}. The source window, target window, recursive-operation carrier, atomic operation, edge row, nondegeneracy row, irreducibility row, prime-divisibility row, ledger, transport, replay, provenance, and local name are all explicit coordinates of $P$.
+
+The source and target obligations read the Zeckendorf siblings. The no-adjacent-$11$ classifier and carry-classifier boundary supply the finite window discipline, while the phase-shell and channel-shift ledgers explain which visible window and classifier-channel rows are being consumed.
+
+Recursive-operation admission is row-local. The carrier reads identity, composition, operation equivalence, and action from $O$, then reads $\alpha$ as a displayed operation rather than as a hidden evaluator.
+
+Edge exactness, nondegeneracy, irreducibility, and primeness are then read from $E,N_D,I,Q$. The irreducibility row handles factorization by requiring a unit side in every displayed decomposition of $\alpha$, and the prime row is relative to operation divisibility, not ordinary integer primality.
+
+Finally $L,H,C,R,N$ expose the finite ledger, transport the same rows, replay the same route, record provenance, and name the packet. Since the carrier has no quotient-history, selected-normalizer, hidden search, or global confluence coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\closureat{ZeckendorfPrimeEdgeUp}{seedStr}
+
+\begin{closurestatus}{\ZeckendorfPrimeEdgeUp}
+  \constructivestory{A $\ZeckendorfPrimeEdgeUp$ packet is generated from source and target Zeckendorf window rows, a recursive-operation carrier, an atomic operation, edge exactness, nondegeneracy, irreducibility, operation-prime divisibility, a finite ledger, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeckendorf-prime-edge-carrier} and \autoref{thm:zeckendorf-prime-edge-namecert-obligations} seed the finite atomic recursive prime-edge surface over Zeckendorf normal windows, carry/classifier rows, phase-shell rows, classifier-channel ledger rows, recursive operations, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ordinary integer primality, quotient history equality, selected normal representatives, global carry confluence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source/target window admission, recursive-operation admission, edge exactness, nondegeneracy, irreducibility, operation-prime divisibility, ledger exactness, transport stability, and non-escape for BEDC.Derived.ZeckendorfPrimeEdgeUp.}
+\end{closurestatus}
