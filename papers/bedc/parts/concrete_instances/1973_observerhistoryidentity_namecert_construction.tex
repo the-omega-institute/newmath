@@ -77,6 +77,18 @@ Thus every classifier-relevant observation is ledgered before it is compared. Th
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_ledger\_exactness}
 
+\begin{theorem}[Observer history identity BHist induction coverage]
+\label{thm:observer-history-identity-bhist-induction}
+Every classifier-relevant read of an accepted $\ObserverHistoryIdentityUp$ carrier $O=(H,K,B,S,R,L,C,P,N)$ is obtained by induction over the displayed finite packet rows: the history rows $H,K$, then the $\mathsf{ProbeBundle}$ rows $B$, the $\mathsf{SigRel}$ rows $S$, the $\hsame$ comparison rows $R$, the local ledger $L$, the displayed $\Cont$ replay $C$, the provenance row $P$, and the naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:observer-history-identity-carrier}. The base read sees only the two finite history rows $H,K$ and therefore has no observer-substance, host equality, quotient identity, or global subject parameter available.
+
+For the observation step, induct over the finite local ledger $L$ together with the displayed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ rows. Each added ledger entry names its source history row, licensed probe, signature relation, and kernel $\hsame$ comparison before the classifier may consume it.
+
+Finally use \autoref{thm:observer-history-identity-classifier-stability} and \autoref{thm:observer-history-identity-ledger-exactness}. Stability keeps the classifier on the displayed observation and comparison rows, while ledger exactness rules out any unrecorded read channel. The replay, provenance, and naming rows only preserve this route, so the induction exhausts all classifier-relevant reads.
+\end{proof}
+
 \begin{theorem}[Observer history identity non-escape boundary]
 \label{thm:observer-history-identity-non-escape-boundary}
 The public boundary of an accepted $\ObserverHistoryIdentityUp$ packet exports only the displayed $\mathsf{BHist}$ histories, finite $\mathsf{ProbeBundle}$ observations, finite $\mathsf{SigRel}$ rows, kernel $\hsame$ comparisons, local observation ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no observer-substance, no host equality of histories, no quotient identity, and no global subject parameter.
