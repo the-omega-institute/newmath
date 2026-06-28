@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVisionMarkerAuditUp$}
+\label{ch:concrete-instances-finite-vision-marker-audit-namecert}
+\origin{ai}
+
+The $\FiniteVisionMarkerAuditUp$ packet turns the marker-ledger discipline of \autoref{ch:capstones} into finite NameCert data. It reads the visions index as a source-label surface, points to concrete-instance targets through displayed chapter labels, records the marker ledger, replays the audit readback, and carries provenance for the route that connects inspiration-only vision material to mature concrete packets. It is a finite audit object for the existing marker surface, not a replacement for the target chapters it names.
+
+\begin{definition}[Finite vision marker audit carrier]
+\label{def:finite-vision-marker-audit-carrier}
+A $\FiniteVisionMarkerAuditUp$ carrier is a finite $\BHist$ packet
+$$
+V=(S,T,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-label row naming the vision chapter or vision index site being audited.
+\item $T$ is the concrete-target row naming the concrete-instance chapter label claimed by the marker.
+\item $L$ is the finite marker-ledger row recording the source label, target label, marker text, and local position.
+\item $A$ is the audit-readback row that checks source-label agreement, target-label agreement, and marker-ledger agreement in one finite pass.
+\item $H$ records componentwise $\hsame$ transport for the source label, target label, ledger, audit readback, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay that reads $S$, then $T$, then $L$, and finally the readback row $A$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteVisionMarkerAuditUp$, the visions index, the concrete-instance target chapter, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteVisionMarkerAuditUp}$ row.
+\end{enumerate}
+The carrier stores only finite marker data and route readback. It does not import the mathematical content of the target chapter, rewrite a vision file, or certify any theorem beyond the marker route itself.
+\end{definition}
+
+\begin{theorem}[Finite vision marker audit NameCert obligations]
+\label{thm:finite-vision-marker-audit-namecert-obligations}
+For every accepted $\FiniteVisionMarkerAuditUp$ carrier $V=(S,T,L,A,H,C,P,N)$, the local $\NameCert_{\FiniteVisionMarkerAuditUp}$ surface consists of source-label exposure through $S$, concrete-target exposure through $T$, marker-ledger exposure through $L$, audit-readback exactness through $A$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-vision-marker-audit-carrier}. The source label, target label, marker ledger, audit readback, transport, replay, provenance, and name are the only rows available to an accepted consumer.
+
+The readback row $A$ is downstream of $S,T,L$ and checks exactly those labels and the marker ledger. The continuation row $C$ fixes the same order, while $H$ transports the rows componentwise.
+
+The package row $P$ names the visions index and the concrete target without importing the target chapter's theorem content. Therefore the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite vision marker audit readback failure]
+\label{thm:finite-vision-marker-audit-readback-failure}
+An accepted $\FiniteVisionMarkerAuditUp$ carrier rejects any marker read whose source label or concrete-target label differs from the displayed rows $S$ and $T$. The marker ledger row $L$ and audit-readback row $A$ must agree on the same pair of labels before the route can be consumed.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:finite-vision-marker-audit-namecert-obligations}. They make $S,T,L,A$ visible and force the audit readback to occur only after the source and target rows are displayed.
+
+If a candidate read changes the source label, it no longer transports componentwise through the $S$ row. If it changes the target label, it no longer transports componentwise through the $T$ row.
+
+The ledger and readback rows therefore agree only for the displayed pair. A mismatched source or target label leaves the accepted carrier surface.
+\end{proof}
+
+\begin{theorem}[Finite vision marker audit TasteGate obligations]
+\label{thm:finite-vision-marker-audit-tastegate-obligations}
+The TasteGate surface for $\FiniteVisionMarkerAuditUp$ requires Lean to provide local $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the same carrier rows $S,T,L,A,H,C,P,N$. Nontriviality separates a marker with matching source and target labels from a candidate with a mismatched label, and field faithfulness preserves the source-label, target-label, ledger, and audit-readback order.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:finite-vision-marker-audit-carrier} supplies the only rows on which the taste gate may act. A nontrivial boundary is visible because a matched marker read and a mismatched marker read differ at $S$ or $T$ before any audit readback is accepted.
+
+Field faithfulness is the requirement that every faithful read preserve $S,T,L,A$ and the structural rows $H,C,P,N$ in the displayed order. Dropping the ledger or replacing the audit readback by a detached target theorem would create data outside the carrier.
+\end{proof}
+
+\falsifiablePrediction{A FiniteVisionMarkerAuditUp packet whose source or target labels differ between the marker ledger and audit-readback rows fails marker-readback.}
+\independenceWitness{vision-coverage-index, vision-coverage-ledger, affine-filter-hull, vision-ledger-route: these siblings expose coverage, ledger, affine-filter, or routing rows separately, while FiniteVisionMarkerAuditUp binds source label, concrete target, marker ledger, audit readback, transport, replay, provenance, and local naming in one finite marker audit carrier.}
+
+\closureat{FiniteVisionMarkerAuditUp}{seedStr}
+
+\begin{closurestatus}{\FiniteVisionMarkerAuditUp}
+  \constructivestory{A $\FiniteVisionMarkerAuditUp$ packet is generated from a source-label row, a concrete-target row, a finite marker-ledger row, an audit-readback row, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-vision-marker-audit-carrier}, \autoref{thm:finite-vision-marker-audit-namecert-obligations}, \autoref{thm:finite-vision-marker-audit-readback-failure}, and \autoref{thm:finite-vision-marker-audit-tastegate-obligations} seed the finite marker-audit route for the visions index and its concrete-instance markers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not certify target-chapter mathematics, rewrite vision prose, close Lean verification, or provide a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-label exactness, concrete-target exactness, marker-ledger readback, route stability, provenance, TasteGate nontriviality, and field faithfulness for the same finite marker audit packet.}
+\end{closurestatus}
