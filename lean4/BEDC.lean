@@ -1090,6 +1090,7 @@ import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedRealFilterUp.TasteGate
 import BEDC.Derived.BishopLocatedRealFunctionUp
 import BEDC.Derived.BishopLocatedRealSequenceCalibrationUp
+import BEDC.Derived.BishopLocatedRealUp.TasteGate
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedSequenceUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
@@ -7551,6 +7552,7 @@ import BEDC.Derived.LocatedClosedBallUp.TasteGate
 import BEDC.Derived.LocatedClosedIntervalFiniteNetUp.TasteGate
 import BEDC.Derived.LocatedClosedSetDistanceUp
 import BEDC.Derived.LocatedCompactCompletionUp
+import BEDC.Derived.LocatedCompactCompletionUp.TasteGate
 import BEDC.Derived.LocatedCompactIntervalOscillationBoundUp.TasteGate
 import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
@@ -12969,6 +12971,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.WieferichPrimeUp
+import BEDC.Derived.WijsmanTopologyUp.TasteGate
 import BEDC.Derived.WilsonQuotientUp
 import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
