@@ -159,9 +159,4 @@ def taste_gate : ChapterTasteGate KleeneKreiselContinuousFunctionalUp :=
   -- BEDC touchpoint anchor: BHist BMark
   kleeneKreiselContinuousFunctionalChapterTasteGate
 
-theorem KleeneKreiselContinuousFunctionalTasteGate_single_carrier_alignment :
-    ChapterTasteGate KleeneKreiselContinuousFunctionalUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact taste_gate
-
 end BEDC.Derived.KleeneKreiselContinuousFunctionalUp

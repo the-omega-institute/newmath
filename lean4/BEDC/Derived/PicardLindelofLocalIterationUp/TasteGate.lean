@@ -165,9 +165,4 @@ def taste_gate : ChapterTasteGate PicardLindelofLocalIterationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   picardLindelofLocalIterationChapterTasteGate
 
-theorem PicardLindelofLocalIterationTasteGate_single_carrier_alignment :
-    ChapterTasteGate PicardLindelofLocalIterationUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact taste_gate
-
 end BEDC.Derived.PicardLindelofLocalIterationUp

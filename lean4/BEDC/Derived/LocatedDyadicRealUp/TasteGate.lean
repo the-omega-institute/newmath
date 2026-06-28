@@ -144,9 +144,4 @@ def taste_gate : ChapterTasteGate LocatedDyadicRealUp :=
   -- BEDC touchpoint anchor: BHist BMark
   locatedDyadicRealChapterTasteGate
 
-theorem LocatedDyadicRealTasteGate_single_carrier_alignment :
-    ChapterTasteGate LocatedDyadicRealUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact taste_gate
-
 end BEDC.Derived.LocatedDyadicRealUp
