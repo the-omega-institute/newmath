@@ -1,50 +1,53 @@
 \origin{ai}
-\subsection{Fourth-Mechanism Accuracy Refusal for the $B^{*}_{Q6}$ $f_3$ Surface}
-\label{sec:bioreality-q6-f3-translation-accuracy-refusal}
 
-\paragraph{Finite carrier.}
-This record concerns the finite CDS-by-organism residual coordinate surface obtained after amino-acid projection, restricted to the $B^{*}_{Q6}$ coordinate that tests $f_3$-paired synonymous imbalance.  The carrier is not a protein-level object.  Its rows are coding-sequence residual rows, organism labels, codon-usage summaries, tRNA or wobble-weight annotations, and bounded translation readout candidates.  The relevant third-position saturation calculation fixes the codon support before any biological interpretation is attempted.  The finite set $M = \operatorname{Med}(R) \cup \{\mathrm{ACA}\}$ is
+\subsection{Translation-accuracy refusal for the fourth residual mechanism}
+\label{sec:bioreality-q6-translation-accuracy-refusal}
+
+\paragraph{Finite coordinate surface.}
+The record concerns the $B^{\ast}_{Q6}$ synonymous residual coordinate after amino-acid projection, restricted to the $f_3$-stress direction and to translation-layer readouts that can be paired with codon usage, tRNA or wobble weights, and matched organism controls. The finite codon boundary used by the row is anchored by the $f_3$ saturation calculation. The ambient marked set is
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-The computed $f_3$ saturation deletes exactly $\mathrm{ACA}$ and $\mathrm{ACG}$ from this carrier, leaving
+and the $f_3$-saturated part of the relevant residual set is
 $$
 \begin{aligned}
-\operatorname{Sat}_{f_3}(R) = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\operatorname{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-and the recorded $f_3$ boundary is empty.  Thus the chapter begins with a closed finite codon surface: the putative signal must be carried by residual imbalance and by organism-scoped readout rows, not by an unaccounted boundary codon.
+Thus the explicit $f_3$ boundary is empty in this finite surface: $\partial_{f_3}=\varnothing$. The only codons present in $M$ and absent from $\operatorname{Sat}_{f_3}(R)$ are $ACA$ and $ACG$, so the row is not a free genome-wide codon-usage claim. It is a constrained test of whether the surviving $f_3$-paired synonymous imbalance can be assigned to translation accuracy after the declared amino-acid and organism controls have been imposed.
 
-\paragraph{Question tested.}
-The biological question is whether the fourth residual mechanism in the powered $B^{*}_{Q6}$ panel is translation accuracy.  The tested object is narrower than generic translation.  It asks whether the $f_3$-stress coordinate, after amino-acid composition, organism, GC3, coding-sequence length, $M$-density, and simpler codon baselines are controlled, aligns with an accuracy-like translation-readout surface.  The finite assay used $41$ synonymous design columns, $5$ folds, and an organism panel with $11$ computed organisms out of $16$ requested organisms.  The translation-accuracy discriminant used $200$ permutations and returned status passed with conclusion \emph{not\_accuracy}.  In formula form, the assayed refusal is the claim that the accuracy candidate is not the surviving fourth-mechanism identity:
+\paragraph{Powered translation-accuracy row.}
+The powered translation-accuracy experiment was run under identifier $0dc44df59ba7$ and verified at $2026$-$06$-$27T23{:}34{:}34+00{:}00$. It requested $16$ organisms and computed $11$ organism rows. The synonymous design had $41$ columns, used $5$ folds, and used $200$ permutations under seed $\texttt{sha256:97e0f836e1a0e4fb71a81bc6201b6e67d532adce9d7fa9c348b5df160e3ae2e1}$. The finite call was
 $$
 \begin{aligned}
-\operatorname{FourthMechanism}(B^{*}_{Q6}, f_3\text{-stress}) \neq \operatorname{TranslationAccuracy}
+\operatorname{status}&=\operatorname{passed},\\
+\operatorname{conclusion}&=\operatorname{not\_accuracy},\\
+N_{\mathrm{requested}}&=16,\qquad N_{\mathrm{computed}}=11,\\
+K_{\mathrm{design}}&=41,\qquad K_{\mathrm{perm}}=200,\qquad K_{\mathrm{fold}}=5.
 \end{aligned}
 $$
-under the stated finite controls and the powered panel actually computed.
+This is a negative mechanism-identification result, not a negative coordinate-existence result. The assay says that, on the computed finite panel and under its permutation and cross-validation design, the fourth $B^{\ast}_{Q6}$ residual mechanism is not identified with translation accuracy. The row therefore removes one candidate interpretation from the mechanism list while leaving the residual coordinate and the translation-readout boundary as separate mathematical objects.
 
-\paragraph{Relation to the residual-axis spectrum.}
-The refusal is not a refusal of the fourth axis itself.  A separate powered sufficiency run on the same design scale reported \emph{fourth\_mechanism\_present}, again with $5$ folds, $41$ synonymous design columns, and $11$ computed organisms out of $16$ requested organisms.  The axis-strength spectrum places the fourth residual direction at the head of the captured spectrum: the descriptive dominant count is $\{\mathrm{d\_resid4}:11\}$ across the $11$ computed organisms.  That same spectrum records the domain imbalance as $n=\{\mathrm{archaea}:1,\mathrm{bacteria}:2,\mathrm{eukaryote}:8\}$ and therefore treats domain means as descriptive rather than universal.  The largest reported GC3 rank effect is $\rho = 0.136$ on $\mathrm{d\_usage}$, which is too small and too differently located to identify the fourth residual direction with a GC3 artifact by itself.
+\paragraph{Relation to the surrounding finite rows.}
+The same finite memory contains a positive sufficiency warning: the three-axis optimality test concluded $\operatorname{fourth\_mechanism\_present}$ on $11$ computed organisms out of $16$ requested, again with $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns. The axis-strength spectrum also computed $11$ organisms out of $16$ requested with $5$ folds and $41$ synonymous design columns; within that panel, the captured spectra were led by $d_{\mathrm{resid4}}$ on average, with per-organism dominance count $11$ for $d_{\mathrm{resid4}}$, followed by $d_{\mathrm{tRNA}}$, while domain means were only descriptive because the domain counts were $1$ archaeal, $2$ bacterial, and $8$ eukaryotic rows. The largest reported GC3 rank effect in that spectrum was $\rho=0.136$ for $d_{\mathrm{usage}}$.
 
-\paragraph{Nearby negative and partial identifications.}
-The accuracy refusal sits inside a finite elimination pattern.  The codon-pair powered test concluded \emph{not\_codon\_pair} on $5$ folds with $41$ synonymous design columns and $50$ shuffle-null replicates.  The mRNA-stability powered test concluded \emph{fourth\_axis\_not\_mrna\_stability}; its recorded reason is that the yeast $d_{\mathrm{opt\_halflife}}$ direction has low alignment with abundance $d_{\mathrm{resid4}}$ under the fixed gates.  The elongation-dwell test returned \emph{partial} for \emph{Saccharomyces cerevisiae}.  The combined finite reading is therefore asymmetric: the fourth mechanism is present, accuracy is rejected as its identity in the powered assay, codon-pair and mRNA-stability explanations are also rejected under their stated tests, and elongation-dwell remains only partial rather than decisive.
+The local conclusion is therefore sharpened by comparison rather than weakened. The fourth residual axis is present in the powered design, but the powered translation-accuracy candidate is rejected. Other candidate rows give different finite calls: the mRNA-stability row concluded $\operatorname{fourth\_axis\_not\_mrna\_stability}$ on the fixed gates; the elongation-dwell row in \textit{Saccharomyces cerevisiae} concluded $\operatorname{partial}$; and the codon-pair row concluded $\operatorname{not\_codon\_pair}$ with $50$ shuffle nulls, $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns. These comparisons keep the translation-accuracy refusal narrow: it does not collapse the fourth axis, and it does not identify the fourth axis with any remaining mechanism by elimination alone.
 
-\paragraph{What survives mathematically.}
-The residual geometry remains informative at the coordinate level.  The non-tRNA residual optimality run identifies its dominant axis as $f_3\_translation\_selection$, while the third-axis identity run reports alignment to usage frequency within family with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  The third-axis mechanism run records \emph{selection-not-GC; not-wobble-clustered; CSC/positional identity needs\_external}, with the reason that the GC-orthogonalized $d_{\perp}$ direction keeps significant cross-species alignment and held-out $R^2$.  These facts justify keeping the $f_3$ residual coordinate in the finite biological agenda.  They do not identify the fourth residual component with translation accuracy.
-
-\paragraph{Bounded readout rule.}
-The only permitted translation-layer readback for this chapter is a controlled survival entry $S_{f_3\text{-stress},T_j}$ for a bounded translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency, and even that entry must be organism-matched and nondegenerate.  A three-organism all-$1.0$ rank surface is a saturation boundary, not evidence of survival.  A modelled tAI or stAI row is a codon-adaptation readout, not an observed ribosome-occupancy row.  Matched mRNA abundance is a control covariate for translation-efficiency residualization, not a translation output.  The local support condition is therefore strict:
+\paragraph{Controlled survival interpretation.}
+The admissible readback for this chapter is a bounded translation-row statistic of the form $S_{f_3\text{-}\mathrm{stress},T_j}$, where $T_j$ may be a modeled tAI or stAI surface, a ribosome-occupancy surface, or a translation-efficiency surface when the rows are organism-matched and controlled. The finite conjectural support condition is that at least one controlled entry is strictly positive after the declared covariates and simpler-baseline ablations:
 $$
 \begin{aligned}
-S_{f_3\text{-stress},T_j} > 0
+S_{f_3\text{-}\mathrm{stress},T_j} > 0
 \end{aligned}
 $$
-only after amino-acid composition, organism, GC3, length, $M$-density, matched mRNA controls where relevant, rank checks, and simpler-baseline ablation.  The current accuracy packet does not supply such a positive measured translation-survival row; it supplies a powered negative identity call for the accuracy candidate.
+for some admissible $T_j$. The break condition is the opposite finite statement: all such entries remain non-positive after amino-acid composition, organism, GC3, CDS length, $M$-density, and matched mRNA controls, or the fitted matrix is rank-degenerate. The three-organism all-$1.0$ surface is therefore not treated as survival; it is a saturation boundary.
 
-\paragraph{Cannot-claim boundary.}
-This chapter does not claim that the $B^{*}_{Q6}$ $f_3$ coordinate causes translation, alters protein abundance, changes folded structure, establishes physical admissibility, realizes molecular function, determines localization or stability, explains phenotype, or states a universal biological law.  None of those conclusions follows from codon topology, residual coordinates, wobble-weight asymmetry, tAI or stAI modeling, or the powered \emph{not\_accuracy} outcome.  Each higher layer requires its own matched contact and its own finite statistic.  The chapter's positive content is narrower: within the powered fourth-mechanism identity screen, the fourth residual component remains present, but translation accuracy is not the supported identity.
+\paragraph{Local non-promotion rule.}
+The translation-accuracy row supplies only a mechanism refusal inside the translation-readout layer. It does not establish translation realization by itself, because the mandatory measured or explicitly bounded translation row must be present before any downstream interpretation is allowed. It also does not establish protein abundance, folded structure, localization, stability, physical admissibility, molecular function, phenotype, causation, or a universal biological law. Each of those would require a separate layer-matched contact and its own controlled finite statistic. In particular, modeled tAI or stAI weights may serve as bounded codon-adaptation readouts, but they are not observed ribosome footprints; matched mRNA abundance is a control covariate, not a translation output; and codon-window geometry is not biological evidence unless paired with the appropriate measured or explicitly bounded contact row.
+
+\paragraph{Chapter verdict.}
+The finite verdict is a ready negative identification statement. The powered row passes its own audit and reports $\operatorname{not\_accuracy}$ for the fourth mechanism identity on $11$ computed organisms, $41$ synonymous design columns, $5$ folds, and $200$ permutations. The result should be cited as a translation-accuracy refusal for the fourth $B^{\ast}_{Q6}$ residual mechanism, while preserving the open requirement for a non-vacuous controlled translation-readout survival entry before any higher-layer claim is made.
