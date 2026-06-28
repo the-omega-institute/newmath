@@ -5778,6 +5778,7 @@ import BEDC.Derived.FellTopologyUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FermatLittleUp
 import BEDC.Derived.FermatNumberUp
+import BEDC.Derived.FermatPseudoprimeUp
 import BEDC.Derived.FermatWilsonUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
@@ -12013,6 +12014,7 @@ import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
 import BEDC.Derived.Sqrt2IrrationalUp
 import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
+import BEDC.Derived.SquarePyramidalUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
 import BEDC.Derived.SqueezeTheoremUp.TasteGate
@@ -12060,7 +12062,6 @@ import BEDC.Derived.StirlingCycleUp
 import BEDC.Derived.StirlingFirstUp
 import BEDC.Derived.StirlingInversionUp
 import BEDC.Derived.StirlingUp
-import BEDC.Derived.SuperperfectUp
 import BEDC.Derived.StokesTheoremUp.TasteGate
 import BEDC.Derived.StolzCesaroCauchyTailCompressionUp.TasteGate
 import BEDC.Derived.StolzCesaroTheoremUp.TasteGate
@@ -12225,6 +12226,7 @@ import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.SummableSequenceUp.TasteGate
 import BEDC.Derived.SummableTailModulusUp.TasteGate
 import BEDC.Derived.SummationByPartsUp.TasteGate
+import BEDC.Derived.SuperperfectUp
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SupportFunctionUp.TasteGate
@@ -12947,6 +12949,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.WieferichPrimeUp
 import BEDC.Derived.WilsonQuotientUp
 import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
