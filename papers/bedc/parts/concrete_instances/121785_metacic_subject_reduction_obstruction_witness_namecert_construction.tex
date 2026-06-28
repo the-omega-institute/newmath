@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionObstructionWitnessUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-obstruction-witness-namecert}
+\origin{ai}
+
+The $\MetaCICSubjectReductionObstructionWitnessUp$ packet realizes the simultaneous obstruction surface of \autoref{ch:metacic-open-problems} as finite NameCert data. It sits after the checked boundary packet of \autoref{ch:concrete-instances-metacic-subject-reduction-boundary-namecert}, the four-row discharge matrix of \autoref{ch:concrete-instances-metacic-subject-reduction-discharge-matrix-namecert}, the proof-obligation gap of \autoref{ch:concrete-instances-proof-obligation-gap-namecert}, and the discharge-inversion boundary of \autoref{ch:concrete-instances-metacic-discharge-inversion-boundary-namecert}. The witness records that the beta-substitution, application-argument, lambda-domain, and Pi-domain rows must be inspected together before a subject-reduction consumer may read the parameterised theorem; it does not close subject reduction.
+
+\begin{definition}[MetaCIC subject-reduction obstruction witness carrier]
+\label{def:metacic-subject-reduction-obstruction-witness-carrier}
+A $\MetaCICSubjectReductionObstructionWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,A,L,D,M,Q,O,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\mathrm{BetaSubstitutionPreservation}$ obligation row.
+\item $A$ is the $\mathrm{AppArgTypeStable}$ obligation row.
+\item $L$ is the $\mathrm{LamDomainSubjectReduction}$ obligation row.
+\item $D$ is the $\mathrm{PiDomainSubjectReduction}$ obligation row.
+\item $M$ is the $\MetaCICSubjectReductionDischargeMatrixUp$ row, retaining simultaneous four-row coverage.
+\item $Q$ is the $\ProofObligationGapUp$ row, recording named missing discharge rather than positive preservation evidence.
+\item $O$ is the obstruction row imported from the $\MetaCICSubjectReductionBoundaryUp$ packet.
+\item $S$ is the $\MetaCICDischargeInversionBoundaryUp$ socket row, preventing transport, replay, provenance, or local naming from filling one of the four discharge fields.
+\item $H$ records componentwise $\hsame$ transport for the four obligation rows, matrix, gap, obstruction, socket, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same obstruction witness route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICSubjectReductionObstructionWitnessUp$, $\MetaCICSubjectReductionBoundaryUp$, $\MetaCICSubjectReductionDischargeMatrixUp$, $\ProofObligationGapUp$, $\MetaCICDischargeInversionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionObstructionWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,A,L,D,M,Q,O,S,H,C,P,N$. It has no coordinate for a closed subject-reduction theorem, host conversion, erased derivation semantics, quotient equality of terms, global normalization, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction obstruction witness obligations]
+\label{thm:metacic-subject-reduction-obstruction-witness-obligations}
+For every accepted $\MetaCICSubjectReductionObstructionWitnessUp$ carrier
+$$
+W=(B,A,L,D,M,Q,O,S,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICSubjectReductionObstructionWitnessUp}$ surface consists exactly of simultaneous beta-substitution, application-argument, lambda-domain, and Pi-domain obligation exposure through $B,A,L,D$, matrix coverage through $M$, proof-obligation-gap polarity through $Q$, checked obstruction retention through $O$, socket-preserving discharge inversion through $S$, componentwise transport and displayed replay through $H,C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The four subject-reduction obligations are displayed as separate rows $B,A,L,D$, and no one of them contains the data of another.
+
+The matrix row $M$ records simultaneous coverage. It therefore prevents a consumer from treating a single positive row as a closed subject-reduction proof.
+
+The gap and obstruction rows $Q,O$ fix the polarity of the packet. They record named missing discharge and the retained subject-reduction boundary rather than positive preservation evidence.
+
+Finally the socket row $S$ and the structural rows $H,C,P,N$ preserve the same route. Since none of those rows has a coordinate for host conversion, erased derivation semantics, quotient equality, global normalization, or kernel consistency, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction obstruction witness non-escape]
+\label{thm:metacic-subject-reduction-obstruction-witness-nonescape}
+Every subject-reduction-facing consumer of an accepted $\MetaCICSubjectReductionObstructionWitnessUp$ packet must read the route
+$$
+B,A,L,D,M,Q,O,S,H,C,P,N.
+$$
+If any one of $B,A,L,D$ is absent, the consumer remains at the obstruction witness and cannot export the parameterised subject-reduction theorem as a closed theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-subject-reduction-obstruction-witness-obligations}. A consumer reaches the matrix row $M$ only after the four displayed obligation rows are visible.
+
+If one of $B,A,L,D$ is absent, the proof-obligation gap $Q$ and obstruction row $O$ are the only available answer for that branch. The socket row $S$ keeps transport, replay, provenance, and local naming from replacing the missing discharge row.
+
+Thus the public read remains on the displayed route $B,A,L,D,M,Q,O,S,H,C,P,N$. The packet exports no closed subject-reduction theorem, no host conversion rule, no erased derivation semantics, no quotient term equality, no global normalization theorem, and no kernel-consistency theorem.
+\end{proof}
+\leanstmt{BEDC.Derived.MetaCICSubjectReductionObstructionWitnessUp}
+
+\falsifiablePrediction{A MetaCIC subject-reduction consumer that reads the witness as a closed theorem while any one of $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, or $\mathrm{PiDomainSubjectReduction}$ is absent refutes the $\MetaCICSubjectReductionObstructionWitnessUp$ carrier surface.}
+
+\independenceWitness{metacic-subject-reduction-boundary, metacic-subject-reduction-discharge-matrix, proof-obligation-gap, metacic-discharge-inversion-boundary: none is bijective to $\MetaCICSubjectReductionObstructionWitnessUp$ because this packet binds the simultaneous four-row obstruction, matrix coverage, named gap polarity, retained obstruction, socket-preserving inversion, transport, replay, provenance, and local naming as one witness surface.}
+
+Lean follow-up must provide \texttt{Nontrivial MetaCICSubjectReductionObstructionWitnessUp} and \texttt{FieldFaithful MetaCICSubjectReductionObstructionWitnessUp} instances in \texttt{BEDC.Derived.MetaCICSubjectReductionObstructionWitnessUp}. The instances must keep $B,A,L,D,M,Q,O,S,H,C,P,N$ field-faithful, so the four discharge rows, matrix row, proof-obligation gap, obstruction row, and inversion socket cannot collapse into one carrier coordinate.
+
+\closureat{MetaCICSubjectReductionObstructionWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionObstructionWitnessUp}
+  \constructivestory{A $\MetaCICSubjectReductionObstructionWitnessUp$ packet is generated from beta-substitution, application-argument, lambda-domain, Pi-domain, discharge-matrix, proof-obligation-gap, obstruction, discharge-inversion socket, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-obstruction-witness-carrier}, \autoref{thm:metacic-subject-reduction-obstruction-witness-obligations}, and \autoref{thm:metacic-subject-reduction-obstruction-witness-nonescape} seed the simultaneous four-row subject-reduction obstruction witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, host conversion, quotient term equality, global normalization, kernel consistency, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-row exposure, matrix coverage, proof-obligation-gap polarity, obstruction retention, socket-preserving inversion, transport, replay, provenance, local naming, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.MetaCICSubjectReductionObstructionWitnessUp.}
+\end{closurestatus}
