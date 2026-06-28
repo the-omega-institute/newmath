@@ -454,6 +454,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-28T21:00:10Z: `resolved` `delete_theorem` for `BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier_real_seal_handoff` (flag `isolated_theorem`, finding `isolated_theorem:archimedeanapproximation:BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier_real_seal_handoff:93ddb164`). Rationale: The target had no downstream Lean references: exact grep only found the declaration, while the paper reference was only a removable \leanchecked marker. Its content was a projection-style handoff tuple already subsumed by the stronger ArchimedeanApproximation NameCert obligations and later window/readback/nonescape/kernel/public export theorems, so keeping it as an isolated Lean theorem added no separate BEDC structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-28T22:45:54Z: `resolved` `add_downstream_user` for `BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package:203407cd`). Rationale: The target has real BEDC content: it builds a localName SemanticNameCert from the ApartnessSpace carrier, positive-gap route, zero-distance route, and package signatures. It had no downstream Lean consumer, so I added a sibling theorem in TransportAndReplay that consumes this package theorem together with the transport/replay certificate, tying the local naming package to the replay boundary surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
