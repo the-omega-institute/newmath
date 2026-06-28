@@ -1004,6 +1004,7 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompleteRealUp.NameCertObligations
 import BEDC.Derived.BishopCompleteRealUp.TasteGate
+import BEDC.Derived.BishopCompletionComparisonSquareUp.TasteGate
 import BEDC.Derived.BishopCompletionComparisonUp
 import BEDC.Derived.BishopCompletionComparisonUp.BoundaryTransport
 import BEDC.Derived.BishopCompletionComparisonUp.RealRoute
@@ -1828,6 +1829,7 @@ import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.BridgeBoundary
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseExtensionUniqueness
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
+import BEDC.Derived.CauchyCompletionMinimalityUp.FormalTargetContract
 import BEDC.Derived.CauchyCompletionMinimalityUp.LedgerExactness
 import BEDC.Derived.CauchyCompletionMinimalityUp.ObligationExport
 import BEDC.Derived.CauchyCompletionMinimalityUp.PublicExportedPackage
@@ -10025,6 +10027,7 @@ import BEDC.Derived.RaabeTestUp.TasteGate
 import BEDC.Derived.RademacherUp
 import BEDC.Derived.RademacherUp.DifferenceWindowObligation
 import BEDC.Derived.RademacherUp.KernelScope
+import BEDC.Derived.RademacherUp.ScopeClosurePackage
 import BEDC.Derived.RademacherUp.TasteGate
 import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadicalUp
