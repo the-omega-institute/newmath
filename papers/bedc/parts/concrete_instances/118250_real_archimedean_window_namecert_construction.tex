@@ -53,6 +53,18 @@ The exclusion follows by coordinate inspection. A completeness theorem, trichoto
 \end{proof}
 \leanchecked{BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier\_dyadic\_bracket\_handoff}
 
+\begin{theorem}[RealArchimedeanWindow bound consumer exactness]
+\label{thm:real-archimedean-window-bound-consumer-exactness}
+Every order-facing or completion-facing consumer of an accepted $\RealArchimedeanWindowUp$ packet must read the $\PositiveRealUp$ radius provenance and the $\RealArchimedeanPropertyUp$ bound route together with the displayed rows $R,S,Q,D,L,U,H,C,P,N$ before treating the bracket as a bound. The consumer route factors through the positive-radius sibling of \autoref{ch:concrete-instances-positivereal-namecert}, the Archimedean-property sibling of \autoref{ch:concrete-instances-real-archimedean-property-namecert}, the local carrier of \autoref{def:real-archimedean-window-carrier}, the NameCert obligations of \autoref{thm:real-archimedean-window-namecert-obligations}, and the dyadic-bracket handoff of \autoref{thm:real-archimedean-window-dyadic-bracket}.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(R,S,Q,D,L,U,H,C,P,N)$ from \autoref{def:real-archimedean-window-carrier}. The only radius-facing entry available to a consumer is the provenance row $P$, where the $\PositiveRealUp$ dependency is recorded together with the local $\NameCert_{\RealArchimedeanWindowUp}$ row.
+
+Use the NameCert obligations from \autoref{thm:real-archimedean-window-namecert-obligations}. They force the order-facing read to keep $R,S,Q,D,L,U,H,C,P,N$ in the same finite packet, so the lower and upper endpoints cannot be separated from their stream schedule, regular readback, dyadic core, transport, replay, provenance, or local name.
+
+Apply the dyadic-bracket handoff of \autoref{thm:real-archimedean-window-dyadic-bracket}. The bracket is consumed only after $D,S,Q,L,U$ and the positive-radius provenance have been displayed. Therefore an order or completion consumer that treats the bracket as a bound must also carry the sibling $\RealArchimedeanPropertyUp$ route named in the chapter interface, rather than projecting a host order axiom, trichotomy decision, quotient-real equality test, selected-limit operator, or ambient completeness witness from the window alone.
+\end{proof}
+
 \closureat{RealArchimedeanWindowUp}{seedStr}
 
 \begin{closurestatus}{\RealArchimedeanWindowUp}
