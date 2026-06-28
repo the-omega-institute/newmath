@@ -20,20 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-28T17:17:47Z
+> 最后刷新: 2026-06-28T19:12:00Z
 
-**Daemon 状态**: monitor (monitor cycle 208, adjust_since_research 2, round_counter 29846, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 209, adjust_since_research 2, round_counter 29963, last_adjust rule_evolution_completed)
 
-**待处理 queue** (910 条 finding):
-- isolated_theorem: 629 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (909 条 finding):
+- isolated_theorem: 628 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 221 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 60 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 40 次
+- TASTE ALERT category=isolated_theorem: 39 次
 - TASTE ALERT category=low_entropy_template: 4 次
 - TASTE ALERT category=cycle_exception: 3 次
-- TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -450,6 +449,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-28T17:16:37Z: `resolved` `leave_with_rationale` for `BEDC.Derived.DcpoUp.DcpoCarrier_directed_supremum_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DcpoUp.DcpoCarrier_directed_supremum_handoff:93ddb164`). Rationale: The surrounding DCPO chapter treats the theorem as a real directed-supremum-to-completion handoff, not a pure wrapper, and the exact fully qualified grep found no downstream Lean consumer. I attempted to add a local downstream use by routing the directed-window coverage helper through this handoff theorem, but the required `cd lean4 && lake build` gate failed on `BEDC.Derived.DcpoUp`; per instruction, I reverted the edit and leave the theorem unchanged with this rationale. Gate results: lake_build=Some required targets logged failures:
 - BEDC.Derived.DcpoUp
 error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-28T19:11:38Z: `resolved` `delete_theorem` for `BEDC.Derived.DcpoUp.DcpoCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:dcpo:BEDC.Derived.DcpoUp.DcpoCarrier_namecert_obligations:5c831012`). Rationale: The target had no Lean downstream consumers and only one removable paper marker. Its statement was a weaker standalone NameCert wrapper over loose UnaryHistory/PkgSig premises, while the same chapter now carries the structurally aligned DcpoCarrier-based obligation record and related downstream DCPO obligation theorems. Deleting it removes an isolated stale surface without losing the current Dcpo carrier content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

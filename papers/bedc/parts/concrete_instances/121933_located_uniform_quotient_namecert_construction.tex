@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformQuotientUp$}
+\label{ch:concrete-instances-located-uniform-quotient-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley-style uniform-space quotient constructions, the $\LocatedUniformQuotientUp$ packet records the finite BEDC surface where a displayed equivalence relation on a located uniform source descends the uniformity only through saturated entourage evidence. It sits after the uniform-space carrier of \autoref{ch:concrete-instances-uniformspace-namecert}, the Real-uniform source of \autoref{ch:concrete-instances-real-uniform-structure-namecert}, and the metric witness discipline of \autoref{ch:concrete-instances-metric-namecert}. The packet is a constructive quotient-uniformity object: it names source rows, relation rows, saturation rows, representative-change transport, replay, provenance, and local naming without forming host quotient types, selecting representatives, or importing ambient completeness.
+
+\begin{definition}[Located uniform quotient carrier]
+\label{def:located-uniform-quotient-carrier}
+A $\LocatedUniformQuotientUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,R,S,W,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source uniform carrier, read through $\UniformSpaceUp$ and, when the source is metric or Real-facing, through the sibling rows of $\MetricUp$ and $\RealUniformStructureUp$.
+\item $R$ is the displayed equivalence relation on the source carrier; it is stored as finite relation data and not as a host quotient type.
+\item $S$ is the saturated entourage row: each quotient-facing entourage request is accepted only after a source entourage of $X$ has been shown stable under $R$ on both coordinates.
+\item $W$ is the representative-change witness, recording that changing either displayed representative along $R$ preserves the accepted saturated entourage request.
+\item $T$ is the transport row that carries accepted saturated-entourage reads through componentwise source-uniform, relation, and representative-change data.
+\item $H$ records componentwise $\hsame$ transport for $X,R,S,W,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the same quotient-uniformity route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformQuotientUp$, $\UniformSpaceUp$, $\RealUniformStructureUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUniformQuotientUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,R,S,W,T,H,C,P,N$. It has no coordinate for host quotient types, selected representatives, quotient-set equality, hidden choice of section, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Located uniform quotient NameCert obligations]
+\label{thm:located-uniform-quotient-namecert-obligations}
+For every accepted $\LocatedUniformQuotientUp$ carrier $Q=(X,R,S,W,T,H,C,P,N)$, the local $\NameCert_{\LocatedUniformQuotientUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item source-uniform admission through $X$;
+\item displayed equivalence-relation admission through $R$;
+\item saturated-entourage admission through $S$, requiring every quotient-facing entourage request to come from a source entourage stable under $R$ on both coordinates;
+\item representative-change exactness through $W$, requiring each permitted representative change to preserve the same saturated-entourage read;
+\item transport, replay, provenance, and local naming through $T,H,C,P,N$.
+\end{enumerate}
+No NameCert obligation is stored in a host quotient type, a selected representative, a quotient equality principle, a hidden section, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-uniform-quotient-carrier}. The accepted packet exposes exactly the source uniform row, the displayed relation row, the saturated entourage row, the representative-change witness, and the structural rows.
+
+The source and relation obligations are immediate projections. A quotient-facing request has no data except the source uniform carrier $X$ and the displayed equivalence relation $R$.
+
+The saturated-entourage obligation is the only route from source uniformity to quotient uniformity. The row $S$ records that the source entourage is stable under $R$ in both coordinates before any quotient-facing consumer can read it.
+
+Representative change is then local to $W$. It preserves the same saturated-entourage read and does not choose a canonical representative.
+
+Finally $T,H,C,P,N$ transport, replay, source, and name the displayed route. Since none of the excluded objects is a row of the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Saturated-entourage descent]
+\label{thm:located-uniform-quotient-saturated-entourage-descent}
+Let $Q=(X,R,S,W,T,H,C,P,N)$ be an accepted $\LocatedUniformQuotientUp$ carrier. Every quotient-facing entourage read exported by $Q$ descends from a displayed source-uniform entourage of $X$ whose saturation is witnessed by $S$ and whose representative changes are witnessed by $W$. The descent exports no host quotient type, selected representative, quotient-set equality, hidden section, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with an accepted quotient-facing entourage read. Carrier admission gives access only to $X,R,S,W,T,H,C,P,N$.
+
+The source of the read is therefore the source uniform row $X$. The relation row $R$ supplies the only comparison data between representatives.
+
+The row $S$ supplies descent: it states that the source entourage is saturated with respect to $R$ on both coordinates. Hence the quotient-facing read is not a new entourage generated by a host quotient object; it is the displayed saturated source entourage.
+
+The row $W$ verifies that changing representatives along $R$ leaves the same saturated read available. The remaining structural rows preserve and name that route, so none of the excluded quotient or completeness data can be exported.
+\end{proof}
+
+\begin{theorem}[Representative-change transport]
+\label{thm:located-uniform-quotient-representative-change-transport}
+For every accepted $\LocatedUniformQuotientUp$ carrier $Q=(X,R,S,W,T,H,C,P,N)$, any two accepted reads that differ only by displayed $R$-equivalent representatives are transported by the same rows $W,T,H,C,P,N$. The transported read remains attached to the original source uniform carrier $X$, the relation row $R$, and the saturated-entourage row $S$, and it does not create a selected representative, a quotient type, an equality service on quotient classes, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Take two accepted reads differing only by displayed $R$-equivalent representatives. Projection of the carrier shows that both reads share the same source uniform row $X$, relation row $R$, and saturated-entourage row $S$.
+
+Representative change is handled by $W$. This row witnesses that the same saturated-entourage request remains accepted after changing either representative along $R$.
+
+The transport row $T$ and the structural rows $H,C,P,N$ then carry the accepted read through componentwise transport, displayed replay, provenance, and local naming. These rows preserve the displayed source and saturation data; they do not add a representative selector or quotient-class equality coordinate.
+
+Thus representative-change transport stays inside the finite carrier surface and cannot export any of the excluded host quotient, selection, completeness, Lean, or bridge data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedUniformQuotientUp$ consumer read that claims quotient-uniformity data must expose one source uniform carrier row, one displayed equivalence-relation row, one saturated-entourage row, one representative-change witness row, transport, componentwise hsame, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{uniformspace, real-uniform-structure, metric: $\LocatedUniformQuotientUp$ is not bijective to any listed sibling because it binds a displayed equivalence relation and saturated-entourage descent surface over a source uniform carrier, while those siblings name the source uniform, Real-uniform, or metric rows alone.}
+
+\closureat{LocatedUniformQuotientUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformQuotientUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-quotient-carrier}, \autoref{thm:located-uniform-quotient-namecert-obligations}, \autoref{thm:located-uniform-quotient-saturated-entourage-descent}, and \autoref{thm:located-uniform-quotient-representative-change-transport} seed the finite quotient-uniformity route through a source uniform carrier, displayed equivalence relation, saturated entourage row, representative-change witness, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host quotient types, selected representatives, quotient-set equality, hidden sections, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, saturated-entourage descent, representative-change transport, nonescape, replay, provenance, and local naming for BEDC.Derived.LocatedUniformQuotientUp.}
+  \constructivestory{A $\LocatedUniformQuotientUp$ packet is generated from a source UniformSpace row, a displayed equivalence-relation row, a saturated-entourage row, a representative-change witness, transport, componentwise hsame, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
