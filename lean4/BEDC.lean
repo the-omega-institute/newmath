@@ -7648,6 +7648,7 @@ import BEDC.Derived.LocatedIntervalHalvingUp.TasteGate
 import BEDC.Derived.LocatedIntervalMidpointUp.Handoff
 import BEDC.Derived.LocatedIntervalMidpointUp.NameCertObligations
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
+import BEDC.Derived.LocatedIntervalRefinementUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
