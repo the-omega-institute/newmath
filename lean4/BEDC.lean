@@ -2568,6 +2568,7 @@ import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
+import BEDC.Derived.CauchyReflectiveEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyRegularComparisonSealUp.TasteGate
 import BEDC.Derived.CauchyRegularCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyRegularExtractionUp
@@ -6704,6 +6705,7 @@ import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
+import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
@@ -9975,6 +9977,7 @@ import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RaabeTestUp.TasteGate
 import BEDC.Derived.RademacherUp
 import BEDC.Derived.RademacherUp.DifferenceWindowObligation
+import BEDC.Derived.RademacherUp.KernelScope
 import BEDC.Derived.RademacherUp.TasteGate
 import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadicalUp
