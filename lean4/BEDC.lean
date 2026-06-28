@@ -5509,6 +5509,7 @@ import BEDC.Derived.EudoxusRealUp.TasteGate
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
+import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerPhiUp
 import BEDC.Derived.EulerPolyUp
 import BEDC.Derived.EulerPolygonUp.TasteGate
@@ -7458,6 +7459,7 @@ import BEDC.Derived.ListUp.SourceRefinement
 import BEDC.Derived.ListUp.SourceWeakening
 import BEDC.Derived.ListUp.SpineBridge
 import BEDC.Derived.ListUp.SpineCoherence
+import BEDC.Derived.ListUp.SpineCoverage
 import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.StdBridge
@@ -7499,6 +7501,7 @@ import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyConnectedUp.TasteGate
 import BEDC.Derived.LocallyConvexCompletionUp.TasteGate
+import BEDC.Derived.LocallyConvexSpaceUp
 import BEDC.Derived.LocallyFiniteCoverUp
 import BEDC.Derived.LocallyUniformConvergenceUp.TasteGate
 import BEDC.Derived.LocatedApartnessCompletionUp.TasteGate
@@ -8505,6 +8508,7 @@ import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TypedSubstitution
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
+import BEDC.Derived.MetaCICSubjectReductionObstructionWitnessUp
 import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
 import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
@@ -9121,6 +9125,7 @@ import BEDC.Derived.ObservationReflectionPacketUp.TasteGate
 import BEDC.Derived.ObservationResidualFitUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
 import BEDC.Derived.ObservationScheduleEnvelopeUp.TasteGate
+import BEDC.Derived.ObservationTimeOrderUp.HistTimeStreamDependency
 import BEDC.Derived.ObservationTimeOrderUp.NameCertObligations
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.Observer
