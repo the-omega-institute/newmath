@@ -13590,4 +13590,5 @@ import BEDC.MetaCIC.Typing.ClosedBinderDomains
 import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
+import BEDC.Real.DyadicIntervalStream
 import BEDC.Reflection
