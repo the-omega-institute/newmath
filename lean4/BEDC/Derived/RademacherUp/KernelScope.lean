@@ -8,63 +8,65 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem RademacherCarrier_kernel_scope
-    {L E D M A H C P N dyadicMetricRead lipschitzControlRead realRead replayRead
-      nameRead : BHist} :
+    {L E D M A H C P N metricRead lipschitzRead derivativeRead sealedRead
+      replayRead : BHist} :
     RademacherCarrier L E D M A H C P N →
-      Cont D M dyadicMetricRead →
-        Cont L A lipschitzControlRead →
-          Cont dyadicMetricRead lipschitzControlRead realRead →
-            Cont realRead C replayRead →
-              Cont P N nameRead →
+      Cont L M metricRead →
+        Cont metricRead A lipschitzRead →
+          Cont D lipschitzRead derivativeRead →
+            Cont derivativeRead E sealedRead →
+              Cont sealedRead H replayRead →
                 SemanticNameCert
                     (fun row : BHist =>
-                      (hsame row realRead ∨ hsame row replayRead ∨ hsame row nameRead) ∧
+                      (hsame row derivativeRead ∨ hsame row sealedRead ∨
+                          hsame row replayRead) ∧
                         UnaryHistory row)
                     (fun row : BHist =>
-                      hsame row D ∨ hsame row M ∨ hsame row L ∨ hsame row A ∨
-                        hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row realRead ∨
-                          hsame row replayRead ∨ hsame row nameRead)
+                      hsame row L ∨ hsame row D ∨ hsame row M ∨ hsame row A ∨
+                        hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                          hsame row N ∨ hsame row derivativeRead ∨
+                            hsame row sealedRead ∨ hsame row replayRead)
                     (fun row : BHist =>
-                      UnaryHistory row ∧ RademacherCarrier L E D M A H C P N ∧
-                        Cont D M dyadicMetricRead ∧ Cont L A lipschitzControlRead ∧
-                          Cont dyadicMetricRead lipschitzControlRead realRead ∧
-                            Cont realRead C replayRead ∧ Cont P N nameRead)
+                      UnaryHistory row ∧ Cont L M metricRead ∧
+                        Cont metricRead A lipschitzRead ∧
+                          Cont D lipschitzRead derivativeRead ∧
+                            Cont derivativeRead E sealedRead ∧
+                              Cont sealedRead H replayRead)
                     hsame ∧
-                  UnaryHistory realRead ∧ UnaryHistory replayRead ∧
-                    UnaryHistory nameRead := by
+                  UnaryHistory metricRead ∧ UnaryHistory lipschitzRead ∧
+                    UnaryHistory derivativeRead ∧ UnaryHistory sealedRead ∧
+                      UnaryHistory replayRead := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
-  intro carrierData dyadicMetricRoute lipschitzControlRoute realRoute replayRoute nameRoute
-  have carrierOriginal : RademacherCarrier L E D M A H C P N := carrierData
-  obtain ⟨lUnary, _eUnary, dUnary, mUnary, aUnary, _hUnary, cUnary, pUnary,
-    nUnary, _packetWitness⟩ := carrierData
-  have dyadicMetricUnary : UnaryHistory dyadicMetricRead :=
-    unary_cont_closed dUnary mUnary dyadicMetricRoute
-  have lipschitzControlUnary : UnaryHistory lipschitzControlRead :=
-    unary_cont_closed lUnary aUnary lipschitzControlRoute
-  have realUnary : UnaryHistory realRead :=
-    unary_cont_closed dyadicMetricUnary lipschitzControlUnary realRoute
+  intro carrier metricRoute lipschitzRoute derivativeRoute sealedRoute replayRoute
+  obtain ⟨lUnary, eUnary, dUnary, mUnary, aUnary, hUnary, _cUnary, _pUnary,
+    _nUnary, _packetWitness⟩ := carrier
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed lUnary mUnary metricRoute
+  have lipschitzUnary : UnaryHistory lipschitzRead :=
+    unary_cont_closed metricUnary aUnary lipschitzRoute
+  have derivativeUnary : UnaryHistory derivativeRead :=
+    unary_cont_closed dUnary lipschitzUnary derivativeRoute
+  have sealedUnary : UnaryHistory sealedRead :=
+    unary_cont_closed derivativeUnary eUnary sealedRoute
   have replayUnary : UnaryHistory replayRead :=
-    unary_cont_closed realUnary cUnary replayRoute
-  have nameUnary : UnaryHistory nameRead :=
-    unary_cont_closed pUnary nUnary nameRoute
+    unary_cont_closed sealedUnary hUnary replayRoute
   have cert :
       SemanticNameCert
           (fun row : BHist =>
-            (hsame row realRead ∨ hsame row replayRead ∨ hsame row nameRead) ∧
+            (hsame row derivativeRead ∨ hsame row sealedRead ∨ hsame row replayRead) ∧
               UnaryHistory row)
           (fun row : BHist =>
-            hsame row D ∨ hsame row M ∨ hsame row L ∨ hsame row A ∨
-              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row realRead ∨
-                hsame row replayRead ∨ hsame row nameRead)
+            hsame row L ∨ hsame row D ∨ hsame row M ∨ hsame row A ∨ hsame row E ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row derivativeRead ∨ hsame row sealedRead ∨ hsame row replayRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ RademacherCarrier L E D M A H C P N ∧
-              Cont D M dyadicMetricRead ∧ Cont L A lipschitzControlRead ∧
-                Cont dyadicMetricRead lipschitzControlRead realRead ∧
-                  Cont realRead C replayRead ∧ Cont P N nameRead)
+            UnaryHistory row ∧ Cont L M metricRead ∧ Cont metricRead A lipschitzRead ∧
+              Cont D lipschitzRead derivativeRead ∧ Cont derivativeRead E sealedRead ∧
+                Cont sealedRead H replayRead)
           hsame := {
     core := {
       carrier_inhabited :=
-        Exists.intro replayRead ⟨Or.inr (Or.inl (hsame_refl replayRead)), replayUnary⟩
+        Exists.intro derivativeRead ⟨Or.inl (hsame_refl derivativeRead), derivativeUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -81,20 +83,20 @@ theorem RademacherCarrier_kernel_scope
           exact hsame_trans (hsame_symm sameRows) sameTarget
         constructor
         · cases sourceRow.left with
-          | inl sameReal =>
-              exact Or.inl (lift sameReal)
+          | inl sameDerivative =>
+              exact Or.inl (lift sameDerivative)
           | inr rest =>
               cases rest with
-              | inl sameReplay =>
-                  exact Or.inr (Or.inl (lift sameReplay))
-              | inr sameName =>
-                  exact Or.inr (Or.inr (lift sameName))
+              | inl sameSealed =>
+                  exact Or.inr (Or.inl (lift sameSealed))
+              | inr sameReplay =>
+                  exact Or.inr (Or.inr (lift sameReplay))
         · exact unary_transport sourceRow.right sameRows
     }
     pattern_sound := by
       intro _row sourceRow
       cases sourceRow.left with
-      | inl sameReal =>
+      | inl sameDerivative =>
           exact
             Or.inr
               (Or.inr
@@ -102,10 +104,12 @@ theorem RademacherCarrier_kernel_scope
                   (Or.inr
                     (Or.inr
                       (Or.inr
-                        (Or.inr (Or.inl sameReal)))))))
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr (Or.inl sameDerivative)))))))))
       | inr rest =>
           cases rest with
-          | inl sameReplay =>
+          | inl sameSealed =>
               exact
                 Or.inr
                   (Or.inr
@@ -113,8 +117,11 @@ theorem RademacherCarrier_kernel_scope
                       (Or.inr
                         (Or.inr
                           (Or.inr
-                            (Or.inr (Or.inr (Or.inl sameReplay))))))))
-          | inr sameName =>
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (Or.inl sameSealed))))))))))
+          | inr sameReplay =>
               exact
                 Or.inr
                   (Or.inr
@@ -122,13 +129,16 @@ theorem RademacherCarrier_kernel_scope
                       (Or.inr
                         (Or.inr
                           (Or.inr
-                            (Or.inr (Or.inr (Or.inr sameName))))))))
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (Or.inr sameReplay))))))))))
     ledger_sound := by
       intro _row sourceRow
       exact
-        ⟨sourceRow.right, carrierOriginal, dyadicMetricRoute, lipschitzControlRoute,
-          realRoute, replayRoute, nameRoute⟩
+        ⟨sourceRow.right, metricRoute, lipschitzRoute, derivativeRoute, sealedRoute,
+          replayRoute⟩
   }
-  exact ⟨cert, realUnary, replayUnary, nameUnary⟩
+  exact ⟨cert, metricUnary, lipschitzUnary, derivativeUnary, sealedUnary, replayUnary⟩
 
 end BEDC.Derived.RademacherUp
