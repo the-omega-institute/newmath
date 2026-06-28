@@ -130,6 +130,20 @@ Use obstruction exactness, \autoref{thm:normalization-candidate-frontier-obstruc
 Finally use the local confluence scope of \autoref{thm:normalization-candidate-frontier-local-confluence-scope}. It permits only a closed-window, candidate-mediated join scope transported and replayed by $H,C,P,N$. Therefore the composed read remains local frontier evidence and cannot become a global normalization or confluence theorem.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier nontrivial witness]
+\label{thm:normalization-candidate-frontier-nontrivial-witness}
+Let $F=(T,E,B,S,I,O,H,C,P,N)$ be an accepted $\NormalizationCandidateFrontierUp$ carrier. Any accepted read exposing a normalization candidate must preserve whether the exposed row came from the positive candidate-evidence route $E,B,S,I$ or from the retained obstruction boundary $O$. The local classifier cannot identify these rows under $\hsame$ transport or $\Cont$ replay; bounded-route evidence and obstruction retention remain distinct carrier coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-frontier-carrier}. The positive candidate route is carried by $E,B,S,I$, while the retained obstruction boundary is the separate row $O$.
+
+Use stability and audit handoff, \autoref{thm:normalization-candidate-frontier-stability} and \autoref{thm:normalization-candidate-frontier-audit-handoff}. They require candidate evidence and bounded-route rows to stay visible before a public normalization projection may be read.
+
+Apply obstruction exactness, \autoref{thm:normalization-candidate-frontier-obstruction-exactness}. A read that drops $E$ or $B$ reaches $O$ instead of exporting $S$ or $I$, so the obstruction row cannot be identified with the positive route.
+
+Finally use candidate-mediated confluence, \autoref{thm:normalization-candidate-frontier-candidate-mediated-confluence}. It composes only reads that preserve $E,B,O,H,C,P,N$ as visible coordinates of the same packet. Componentwise $\hsame$ transport and displayed $\Cont$ replay therefore carry the distinction between bounded-route evidence and obstruction retention rather than collapsing the two rows.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
