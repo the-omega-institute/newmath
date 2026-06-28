@@ -4592,6 +4592,7 @@ import BEDC.Derived.DarbouxTheoremUp.TasteGate
 import BEDC.Derived.DavenportConstantUp.TasteGate
 import BEDC.Derived.DcpoUp
 import BEDC.Derived.DcpoUp.CompletionFacingHandoff
+import BEDC.Derived.DcpoUp.DcpoLocalNameCertSurface
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
@@ -10263,6 +10264,7 @@ import BEDC.Derived.RealClassifierUp.AuditDensityCoherence
 import BEDC.Derived.RealClassifierUp.AuditRoute
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
+import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
@@ -11032,6 +11034,7 @@ import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
+import BEDC.Derived.RegularCauchyMinUp.RegularCauchyMinKernelScopeRoute
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
 import BEDC.Derived.RegularCauchyMinUp.SelectorLedger
 import BEDC.Derived.RegularCauchyMinUp.SelectorTransportStability
