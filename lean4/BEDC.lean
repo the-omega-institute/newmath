@@ -3567,6 +3567,7 @@ import BEDC.Derived.CompleteTotallyBoundedCompactMetricUp.TasteGate
 import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
+import BEDC.Derived.CompletelyRegularSpaceUp
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
 import BEDC.Derived.CompletionDenseExtensionModulusUp
@@ -6765,7 +6766,9 @@ import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
+import BEDC.Derived.HausdorffizationUp.CompletionHandoffExactness
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
+import BEDC.Derived.HausdorffizationUp.NameCertObligationSurface
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
 import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
@@ -10363,6 +10366,7 @@ import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
+import BEDC.Derived.RealIntervalUp.BridgeScope
 import BEDC.Derived.RealIntervalUp.BridgedNameCertRoute
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
 import BEDC.Derived.RealIntervalUp.EndpointEnclosureTransport
@@ -10973,6 +10977,7 @@ import BEDC.Derived.RegularCauchyFilterComparisonUp
 import BEDC.Derived.RegularCauchyFilterComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterFunctorUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterRealUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
