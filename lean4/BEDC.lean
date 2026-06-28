@@ -9518,6 +9518,7 @@ import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellUp
+import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
