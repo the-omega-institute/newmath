@@ -154,4 +154,96 @@ theorem ScientificModelBridgeCarrier_namecert_obligations [AskSetup] [PackageSet
   }
   exact ⟨cert, ledgerUnary, predictionUnary, predictionReadUnary⟩
 
+theorem ScientificModelBridgeCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+    {object audit bridge modelAudit openFit ledger prediction transport hsameRow contRow
+      provenance name objectBridgeRead auditOpenFitRead predictionRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ScientificModelBridgeCarrier object audit bridge modelAudit openFit ledger prediction
+        transport hsameRow contRow provenance name bundle pkg →
+      Cont object bridge objectBridgeRead →
+        Cont audit openFit auditOpenFitRead →
+          Cont ledger prediction predictionRead →
+            Cont predictionRead name scopedRead →
+              PkgSig bundle scopedRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row object ∨ hsame row audit ∨ hsame row bridge ∨
+                        hsame row modelAudit ∨ hsame row openFit ∨ hsame row ledger ∨
+                          hsame row prediction ∨ hsame row transport ∨ hsame row hsameRow ∨
+                            hsame row contRow ∨ hsame row provenance ∨ hsame row name ∨
+                              hsame row objectBridgeRead ∨ hsame row auditOpenFitRead ∨
+                                hsame row predictionRead ∨ hsame row scopedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont object bridge objectBridgeRead ∧
+                        Cont audit openFit auditOpenFitRead ∧
+                          Cont ledger prediction predictionRead ∧
+                            Cont predictionRead name scopedRead ∧
+                              PkgSig bundle scopedRead pkg)
+                    hsame ∧
+                  UnaryHistory objectBridgeRead ∧ UnaryHistory auditOpenFitRead ∧
+                    UnaryHistory predictionRead ∧ UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier objectBridgeRoute auditOpenFitRoute ledgerPredictionRoute predictionNameRoute
+    scopedPkg
+  obtain ⟨objectUnary, auditUnary, bridgeUnary, _modelAuditUnary, openFitUnary, ledgerUnary,
+    predictionUnary, _transportUnary, _hsameRowUnary, _contRowUnary, _provenanceUnary,
+    nameUnary, _objectAuditBridge, _bridgeModelAuditOpenFit, _ledgerPredictionTransport,
+    _hsameContProvenance, _provenancePkg, _namePkg⟩ := carrier
+  have objectBridgeReadUnary : UnaryHistory objectBridgeRead :=
+    unary_cont_closed objectUnary bridgeUnary objectBridgeRoute
+  have auditOpenFitReadUnary : UnaryHistory auditOpenFitRead :=
+    unary_cont_closed auditUnary openFitUnary auditOpenFitRoute
+  have predictionReadUnary : UnaryHistory predictionRead :=
+    unary_cont_closed ledgerUnary predictionUnary ledgerPredictionRoute
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed predictionReadUnary nameUnary predictionNameRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row object ∨ hsame row audit ∨ hsame row bridge ∨
+              hsame row modelAudit ∨ hsame row openFit ∨ hsame row ledger ∨
+                hsame row prediction ∨ hsame row transport ∨ hsame row hsameRow ∨
+                  hsame row contRow ∨ hsame row provenance ∨ hsame row name ∨
+                    hsame row objectBridgeRead ∨ hsame row auditOpenFitRead ∨
+                      hsame row predictionRead ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont object bridge objectBridgeRead ∧
+              Cont audit openFit auditOpenFitRead ∧ Cont ledger prediction predictionRead ∧
+                Cont predictionRead name scopedRead ∧ PkgSig bundle scopedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro scopedRead ⟨hsame_refl scopedRead, scopedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr source.left))))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, objectBridgeRoute, auditOpenFitRoute, ledgerPredictionRoute,
+          predictionNameRoute, scopedPkg⟩
+  }
+  exact
+    ⟨cert, objectBridgeReadUnary, auditOpenFitReadUnary, predictionReadUnary,
+      scopedReadUnary⟩
+
 end BEDC.Derived.ScientificModelBridgeUp
