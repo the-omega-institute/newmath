@@ -65,6 +65,22 @@ The real-valued observations are then stored in $D$ and organized by $T$. Becaus
 Finally apply the isometric route row $I$. The structural rows $H,C,P,N$ keep the same route under transport and replay, so the only exported embedding data are the displayed metric, basepoint or family, real-distance, target, and isometric rows.
 \end{proof}
 
+\begin{theorem}[Kuratowski embedding distance readback exactness]
+\label{thm:kuratowski-embedding-distance-readback}
+Every accepted $\KuratowskiEmbeddingUp$ packet reads source metric distance exactly through the displayed route
+$$
+M \to D \to T \to I.
+$$
+The $\MetricUp$ row $M$ supplies the source distance query, the $\RealUp$ row $D$ supplies the distance witnesses used by the distance-function target $T$, and the $\IsometricEmbeddingUp$ row $I$ is the first row from which a completion, hyperspace, or distance-function consumer may inspect the resulting target comparison. No consumer may read a distance-function target as exact before the metric source, real-distance witnesses, and isometric handoff have all been displayed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(M,B,D,T,I,H,C,P,N)$ from \autoref{def:kuratowski-embedding-carrier}. The source-distance query starts in $M$, while the basepoint or displayed family row $B$ fixes the finite comparison context.
+
+Apply the NameCert obligations of \autoref{thm:kuratowski-embedding-namecert-obligations}. They force every source-distance read through $M$ and every real-valued distance observation through $D$ before the target row $T$ can be inspected.
+
+Finally use the source-distance route of \autoref{thm:kuratowski-embedding-distance-route}. The isometric handoff $I$ is downstream of $M,B,D,T$, and the structural rows $H,C,P,N$ only preserve that route. Thus completion, hyperspace, and distance-function consumers receive exactness through the displayed isometric readback rather than from an ambient function space.
+\end{proof}
+
 \closureat{KuratowskiEmbeddingUp}{seedStr}
 
 \begin{closurestatus}{\KuratowskiEmbeddingUp}
