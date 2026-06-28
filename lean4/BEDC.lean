@@ -12069,6 +12069,7 @@ import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
 import BEDC.Derived.Sqrt2ConvergenceComplete
 import BEDC.Derived.Sqrt2IrrationalUp
+import BEDC.Derived.Sqrt2RatBridge
 import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
 import BEDC.Derived.SquarePyramidalUp
 import BEDC.Derived.SqueezeRealUp
