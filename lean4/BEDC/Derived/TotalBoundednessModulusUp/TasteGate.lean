@@ -13,25 +13,26 @@ inductive TotalBoundednessModulusUp : Type where
   | mk (M N D R E H C P L : BHist) : TotalBoundednessModulusUp
   deriving DecidableEq
 
-def totalBoundednessModulusFields : TotalBoundednessModulusUp -> List BHist
+def totalBoundednessModulusFields : TotalBoundednessModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | TotalBoundednessModulusUp.mk M N D R E H C P L =>
       [M, N, D, R, E, H, C, P, L]
 
-def totalBoundednessModulusEncodeBHist : BHist -> RawEvent
+def totalBoundednessModulusEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: totalBoundednessModulusEncodeBHist h
   | BHist.e1 h => BMark.b1 :: totalBoundednessModulusEncodeBHist h
 
-def totalBoundednessModulusDecodeBHist : RawEvent -> BHist
+def totalBoundednessModulusDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (totalBoundednessModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (totalBoundednessModulusDecodeBHist tail)
 
 theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_decode_encode_bhist :
-    forall h : BHist, totalBoundednessModulusDecodeBHist (totalBoundednessModulusEncodeBHist h) = h := by
+    ∀ h : BHist,
+      totalBoundednessModulusDecodeBHist (totalBoundednessModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -58,7 +59,7 @@ theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_mk_congr
   cases hL
   rfl
 
-def totalBoundednessModulusToEventFlow : TotalBoundednessModulusUp -> EventFlow
+def totalBoundednessModulusToEventFlow : TotalBoundednessModulusUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | TotalBoundednessModulusUp.mk M N D R E H C P L =>
       [totalBoundednessModulusEncodeBHist M, totalBoundednessModulusEncodeBHist N,
@@ -67,7 +68,7 @@ def totalBoundednessModulusToEventFlow : TotalBoundednessModulusUp -> EventFlow
         totalBoundednessModulusEncodeBHist C, totalBoundednessModulusEncodeBHist P,
         totalBoundednessModulusEncodeBHist L]
 
-private def totalBoundednessModulusEventAtDefault : Nat -> EventFlow -> RawEvent
+private def totalBoundednessModulusEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -89,7 +90,7 @@ def totalBoundednessModulusFromEventFlow (ef : EventFlow) : Option TotalBoundedn
       (totalBoundednessModulusDecodeBHist (totalBoundednessModulusEventAtDefault 8 ef)))
 
 theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_round_trip :
-    forall x : TotalBoundednessModulusUp,
+    ∀ x : TotalBoundednessModulusUp,
       totalBoundednessModulusFromEventFlow (totalBoundednessModulusToEventFlow x) = some x
   -- BEDC touchpoint anchor: BHist BMark
   | TotalBoundednessModulusUp.mk M N D R E H C P L =>
@@ -105,8 +106,9 @@ theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_round_trip :
           (TotalBoundednessModulusTasteGate_single_carrier_alignment_decode_encode_bhist P)
           (TotalBoundednessModulusTasteGate_single_carrier_alignment_decode_encode_bhist L))
 
-theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_injective {x y : TotalBoundednessModulusUp} :
-    totalBoundednessModulusToEventFlow x = totalBoundednessModulusToEventFlow y -> x = y := by
+theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : TotalBoundednessModulusUp} :
+    totalBoundednessModulusToEventFlow x = totalBoundednessModulusToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -119,12 +121,44 @@ theorem TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_in
   cases hsome
   rfl
 
+private theorem totalBoundednessModulus_field_faithful :
+    ∀ x y : TotalBoundednessModulusUp,
+      totalBoundednessModulusFields x = totalBoundednessModulusFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk M₁ N₁ D₁ R₁ E₁ H₁ C₁ P₁ L₁ =>
+      cases y with
+      | mk M₂ N₂ D₂ R₂ E₂ H₂ C₂ P₂ L₂ =>
+          change [M₁, N₁, D₁, R₁, E₁, H₁, C₁, P₁, L₁] =
+            [M₂, N₂, D₂, R₂, E₂, H₂, C₂, P₂, L₂] at h
+          injection h with hM t1
+          injection t1 with hN t2
+          injection t2 with hD t3
+          injection t3 with hR t4
+          injection t4 with hE t5
+          injection t5 with hH t6
+          injection t6 with hC t7
+          injection t7 with hP t8
+          injection t8 with hL _
+          cases hM
+          cases hN
+          cases hD
+          cases hR
+          cases hE
+          cases hH
+          cases hC
+          cases hP
+          cases hL
+          rfl
+
 instance totalBoundednessModulusBHistCarrier : BHistCarrier TotalBoundednessModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := totalBoundednessModulusToEventFlow
   fromEventFlow := totalBoundednessModulusFromEventFlow
 
-instance totalBoundednessModulusChapterTasteGate : ChapterTasteGate TotalBoundednessModulusUp where
+instance totalBoundednessModulusChapterTasteGate :
+    ChapterTasteGate TotalBoundednessModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -134,25 +168,74 @@ instance totalBoundednessModulusChapterTasteGate : ChapterTasteGate TotalBounded
     intro x y hxy heq
     exact hxy (TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance totalBoundednessModulusFieldFaithful :
+    FieldFaithful TotalBoundednessModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := totalBoundednessModulusFields
+  field_faithful := totalBoundednessModulus_field_faithful
+
+instance totalBoundednessModulusNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial TotalBoundednessModulusUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨TotalBoundednessModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      TotalBoundednessModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate TotalBoundednessModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   totalBoundednessModulusChapterTasteGate
 
 theorem TotalBoundednessModulusTasteGate_single_carrier_alignment :
-    (forall h : BHist, totalBoundednessModulusDecodeBHist (totalBoundednessModulusEncodeBHist h) = h) ∧
-      (forall x : TotalBoundednessModulusUp,
-        totalBoundednessModulusFromEventFlow (totalBoundednessModulusToEventFlow x) = some x) ∧
-      (forall x y : TotalBoundednessModulusUp,
-        totalBoundednessModulusToEventFlow x = totalBoundednessModulusToEventFlow y -> x = y) ∧
-      totalBoundednessModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+    Nonempty (ChapterTasteGate TotalBoundednessModulusUp) ∧
+      Nonempty (FieldFaithful TotalBoundednessModulusUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial TotalBoundednessModulusUp) ∧
+          (∀ h : BHist,
+            totalBoundednessModulusDecodeBHist (totalBoundednessModulusEncodeBHist h) = h) ∧
+            (∀ x : TotalBoundednessModulusUp,
+              totalBoundednessModulusFromEventFlow (totalBoundednessModulusToEventFlow x) =
+                some x) ∧
+              (∀ x y : TotalBoundednessModulusUp,
+                totalBoundednessModulusToEventFlow x = totalBoundednessModulusToEventFlow y →
+                  x = y) ∧
+                totalBoundednessModulusEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   constructor
-  · exact TotalBoundednessModulusTasteGate_single_carrier_alignment_decode_encode_bhist
+  · exact ⟨totalBoundednessModulusChapterTasteGate⟩
   · constructor
-    · exact TotalBoundednessModulusTasteGate_single_carrier_alignment_round_trip
+    · exact ⟨totalBoundednessModulusFieldFaithful⟩
     · constructor
-      · intro x y heq
-        exact TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq
-      · rfl
+      · exact ⟨totalBoundednessModulusNontrivial⟩
+      · constructor
+        · exact TotalBoundednessModulusTasteGate_single_carrier_alignment_decode_encode_bhist
+        · constructor
+          · exact TotalBoundednessModulusTasteGate_single_carrier_alignment_round_trip
+          · constructor
+            · intro x y heq
+              exact TotalBoundednessModulusTasteGate_single_carrier_alignment_toEventFlow_injective heq
+            · rfl
+
+namespace TasteGate
+
+theorem TotalBoundednessModulusTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate TotalBoundednessModulusUp) ∧
+      Nonempty (FieldFaithful TotalBoundednessModulusUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial TotalBoundednessModulusUp) ∧
+          (∀ h : BHist,
+            totalBoundednessModulusDecodeBHist (totalBoundednessModulusEncodeBHist h) = h) ∧
+            (∀ x : TotalBoundednessModulusUp,
+              totalBoundednessModulusFromEventFlow (totalBoundednessModulusToEventFlow x) =
+                some x) ∧
+              (∀ x y : TotalBoundednessModulusUp,
+                totalBoundednessModulusToEventFlow x = totalBoundednessModulusToEventFlow y →
+                  x = y) ∧
+                totalBoundednessModulusEncodeBHist BHist.Empty = ([] : RawEvent) :=
+  BEDC.Derived.TotalBoundednessModulusUp.TotalBoundednessModulusTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.TotalBoundednessModulusUp
