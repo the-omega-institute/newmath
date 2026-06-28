@@ -271,6 +271,130 @@ induction.  Therefore the invariant proof and the coverage proof are
 logically distinct.
 \end{proof}
 
+\begin{definition}[Finite zero box]
+\label{def:unified-reality-finite-zero-box}
+A \emph{finite zero box} is a bounded rational rectangle
+$$
+\mathcal B\subseteq
+\left\{s:\ComplexUp:0\le\Re(s)\le1\right\}
+$$
+whose boundary is separated from the completed zeta zero ledger.  Its
+zero row is the finite packet
+$$
+\mathcal Z_{\zeta}(\mathcal B)
+:=
+\left\{
+s\in\mathcal B:
+\mathsf{CritZero}(s)
+\right\},
+$$
+with multiplicity, conjugation, and boundary-separation data carried in
+the ledger.
+\end{definition}
+
+\begin{definition}[Box cover]
+\label{def:unified-reality-box-cover}
+For a finite zero box $\mathcal B$, the row
+$$
+\mathsf{BoxCover}(\mathcal B)
+$$
+means that every zero row in $\mathcal Z_{\zeta}(\mathcal B)$ is covered
+by a generated RHRoute packet:
+$$
+\prod_{s:\mathcal Z_{\zeta}(\mathcal B)}
+\sum_{P:\mathcal T_{\zeta}}
+\mathsf{SameZeroReadout}(P,s).
+$$
+This is a localized form of
+$\mathsf{GeneratedZeroCoverage}_{\zeta}$.
+\end{definition}
+
+\begin{definition}[Box-cover induction row]
+\label{def:unified-reality-box-cover-induction-row}
+A \emph{box-cover induction row} consists of an increasing exhaustion
+$$
+\mathcal B_0\subseteq\mathcal B_1\subseteq\mathcal B_2\subseteq\cdots
+$$
+of the critical-strip zero ledger together with:
+$$
+\mathsf{BoxCover}(\mathcal B_0),
+$$
+$$
+\prod_{N:\NatUp}
+\left(
+\mathsf{BoxCover}(\mathcal B_N)
+\to
+\mathsf{BoxCover}(\mathcal B_{N+1})
+\right),
+$$
+and the exhaustion row
+$$
+\prod_{s:\mathcal Z_{\zeta}}
+\sum_{N:\NatUp}
+s\in\mathcal B_N.
+$$
+The successor row is not a numerical-zero enumeration.  It is a
+localized coverage step for all zero islands entering the next box.
+\end{definition}
+
+\begin{theorem}[Box-cover induction gives generated coverage]
+\label{thm:unified-reality-box-cover-induction-gives-generated-coverage}
+A box-cover induction row implies
+$$
+\mathsf{GeneratedZeroCoverage}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+By induction on $N$, the base row and successor row give
+$$
+\mathsf{BoxCover}(\mathcal B_N)
+$$
+for every $N:\NatUp$.  Let $s:\mathcal Z_{\zeta}$ be a completed
+critical-strip zero row.  The exhaustion row supplies some $N$ with
+$s\in\mathcal B_N$.  Applying $\mathsf{BoxCover}(\mathcal B_N)$ to the
+corresponding localized zero row gives a generated packet
+$P:\mathcal T_{\zeta}$ with the same zero readout as $s$.  Since $s$ was
+arbitrary, generated-zero coverage follows.
+\end{proof}
+
+\begin{definition}[Active capture step]
+\label{def:unified-reality-active-capture-step}
+The \emph{active capture step} for
+$\mathcal B_N\subseteq\mathcal B_{N+1}$ is the source row that covers
+each zero island in
+$$
+\mathcal B_{N+1}\setminus\mathcal B_N
+$$
+by a canonical finite packet.  For each such island $D$, it supplies
+$$
+\Xi=F_D+T_D
+$$
+on a boundary-separated disk around the island and the Rouch\'e gap
+$$
+|T_D|<|F_D|
+\qquad\text{on }\partial D.
+$$
+It also supplies the interpretation of each zero of $F_D$ as a generated
+RHRoute packet.
+\end{definition}
+
+\begin{corollary}[Active capture steps are the coverage content]
+\label{cor:unified-reality-active-capture-steps-coverage-content}
+The box-cover induction row reduces generated-zero coverage to active
+capture steps for the boundary-separated zero islands of the exhaustion.
+\end{corollary}
+
+\begin{proof}
+The base box supplies the initial localized cover.  For the transition
+from $\mathcal B_N$ to $\mathcal B_{N+1}$, all previously covered zero
+rows remain covered by restriction.  The only uncovered rows lie in the
+added zero islands.  An active capture step supplies Rouch\'e capture
+and generated-packet interpretation for exactly those islands, hence
+constructs $\mathsf{BoxCover}(\mathcal B_{N+1})$ from
+$\mathsf{BoxCover}(\mathcal B_N)$.
+\end{proof}
+
 \begin{corollary}[Full RH requires coverage after invariant preservation]
 \label{cor:unified-reality-full-rh-requires-coverage-after-invariant}
 The route from the triadic ontic invariant to the RH fixed-half section
