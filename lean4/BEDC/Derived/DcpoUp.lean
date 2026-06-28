@@ -200,6 +200,71 @@ theorem DcpoCarrier_supremum_ledger_obligations
   }
   exact ⟨cert, directedUnary, supremumUnary⟩
 
+theorem DcpoCarrier_lower_bound_exactness
+    {O I W S M F Q L H C P N directedRead supremumRead exactnessRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N ->
+      Cont O I directedRead ->
+        Cont S L supremumRead ->
+          Cont supremumRead L exactnessRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row exactnessRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+                    hsame row L ∨ hsame row exactnessRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ DcpoCarrier O I W S M F Q L H C P N ∧
+                    Cont O I directedRead ∧ Cont S L supremumRead ∧
+                      Cont supremumRead L exactnessRead)
+                hsame ∧
+              UnaryHistory exactnessRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
+  intro carrier directedRoute supremumRoute exactnessRoute
+  have carrierWitness : DcpoCarrier O I W S M F Q L H C P N := carrier
+  obtain ⟨_oUnary, _iUnary, _wUnary, sUnary, _mUnary, _fUnary, _qUnary, lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have supremumUnary : UnaryHistory supremumRead :=
+    unary_cont_closed sUnary lUnary supremumRoute
+  have exactnessUnary : UnaryHistory exactnessRead :=
+    unary_cont_closed supremumUnary lUnary exactnessRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exactnessRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+              hsame row L ∨ hsame row exactnessRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ DcpoCarrier O I W S M F Q L H C P N ∧
+              Cont O I directedRead ∧ Cont S L supremumRead ∧
+                Cont supremumRead L exactnessRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exactnessRead ⟨hsame_refl exactnessRead, exactnessUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrierWitness, directedRoute, supremumRoute, exactnessRoute⟩
+  }
+  exact ⟨cert, exactnessUnary⟩
+
 theorem DcpoCarrier_continuity_scope_obligations
     {O I W S M F Q L H C P N continuityRead replayRead : BHist} :
     DcpoCarrier O I W S M F Q L H C P N →
