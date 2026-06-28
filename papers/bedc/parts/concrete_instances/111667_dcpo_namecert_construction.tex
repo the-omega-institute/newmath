@@ -76,6 +76,89 @@ The Scott-domain packet of \autoref{ch:concrete-instances-scott-domain-namecert}
 Apply \autoref{thm:dcpo-directed-supremum-handoff}. Transport, replay, provenance, and local naming remain componentwise, so the Scott-facing route cannot turn the DCPO packet into a host domain, quotient order, selected basis enumeration, or ambient semantic-completeness claim.
 \end{proof}
 
+\begin{theorem}[DCPO carrier directed obligations]
+\label{thm:dcpo-carrier-directed-obligations}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the carrier-admission and directed-window obligations are exactly the displayed
+rows $O,I,W$. A directed-supremum consumer must first read the $\PosetUp$ order
+row $O$, the $\DirectedSetUp$ index row $I$, and the finite directed-window row
+$W$ before any supremum, net, filter, or completion-facing row is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dcpo-carrier}. The row $O$ is the only
+order-admission coordinate, and the row $I$ is the only directed-index
+coordinate.
+
+The finite windows are stored in $W$. Since the carrier has no coordinate for a
+host directed family, global choice over indices, quotient-order equality, or
+ambient powerset lattice, a consumer cannot bypass $I$ and $W$ when asking for
+directed coverage.
+
+The later rows $S,M,F,Q,L,H,C,P,N$ are therefore downstream of $O,I,W$. They
+may consume the directed-window surface, but they cannot supply carrier
+admission or directed-window coverage in place of those rows.
+\end{proof}
+
+\begin{theorem}[DCPO supremum ledger obligations]
+\label{thm:dcpo-supremum-ledger-obligations}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the public supremum ledger is the row pair $S,L$ read over the order and
+directed-window rows $O,I,W$. The row $S$ supplies the named directed-supremum
+read, and $L$ supplies lower-bound exactness for every displayed upper-bound
+comparison exposed through $O$.
+\end{theorem}
+\begin{proof}
+Begin with the directed rows $O,I,W$ from
+\autoref{thm:dcpo-carrier-directed-obligations}. These rows determine which
+order and directed-window data are visible to the supremum reader.
+
+Read $S$ next. It records the named supremum endpoint attached to the displayed
+directed windows, so the supremum is public only as a row of the finite carrier.
+
+Finally read $L$. This lower-bound exactness row sends every displayed
+upper-bound comparison back through $O$, forcing leastness to remain an
+order-row obligation rather than a selected least-upper-bound operator or an
+ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[DCPO continuity scope obligations]
+\label{thm:dcpo-continuity-scope-obligations}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+the Moore--Smith, directed-filter, and CauchyNet consumers can read the
+directed-complete order surface only through the finite handoff route
+$$
+O,I,W,S,L \longmapsto M,F,Q \longmapsto H,C,P,N .
+$$
+The rows $H,C,P,N$ preserve componentwise transport, displayed replay,
+provenance, and local naming for this route; they do not add ambient continuity,
+host completion, arbitrary joins, or selected suprema.
+\end{theorem}
+\begin{proof}
+First read the directed-supremum ledger of
+\autoref{thm:dcpo-supremum-ledger-obligations}. It exposes the order row,
+directed-index row, finite windows, named supremum, and lower-bound exactness
+as the only public directed-complete substrate.
+
+Next pass to $M,F,Q$. The Moore--Smith row, directed-filter row, and CauchyNet
+row consume that substrate in sequence; none of them can introduce a new
+directed family, quotient equality, host powerset, arbitrary join operation, or
+ambient completion witness.
+
+Finally use $H,C,P,N$. Componentwise $\hsame$ transport, displayed $\Cont$
+replay, $\Pkg$ provenance, and the local $\NameCert_{\DcpoUp}$ row preserve the
+same finite route, so the continuity-facing scope remains exactly the displayed
+carrier route.
+\end{proof}
+
 \closureat{DcpoUp}{seedStr}
 
 \begin{closurestatus}{\DcpoUp}
