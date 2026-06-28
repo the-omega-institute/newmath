@@ -8892,6 +8892,8 @@ import BEDC.Derived.ModulusOfTotalBoundednessUp.TasteGate
 import BEDC.Derived.ModulusOfUniformContinuityUp.TasteGate
 import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
 import BEDC.Derived.MollifierUp.TasteGate
+import BEDC.Derived.MomentProblemUp.FiniteHankelWindow
+import BEDC.Derived.MomentProblemUp.TasteGate
 import BEDC.Derived.MonadUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
