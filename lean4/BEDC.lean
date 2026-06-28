@@ -6543,6 +6543,7 @@ import BEDC.Derived.GaugeLebesgueNumberUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussSumUp
 import BEDC.Derived.GaussTestUp.TasteGate
+import BEDC.Derived.GaussianBinomialUp
 import BEDC.Derived.GaussianPrimeUp
 import BEDC.Derived.GaussianUp
 import BEDC.Derived.GcdUp
