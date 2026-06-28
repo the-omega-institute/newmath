@@ -10301,6 +10301,8 @@ import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
+import BEDC.Derived.RealIntervalUp.EndpointRefinementStability
+import BEDC.Derived.RealIntervalUp.FiniteNetConsumer
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
@@ -10492,6 +10494,7 @@ import BEDC.Derived.RealUp.ConstantStream
 import BEDC.Derived.RealUp.ConstantStreamBridge
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RealUp.DyadicRatCore
+import BEDC.Derived.RealUp.DyadicStreamRegseqRoute
 import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.FinitePrefixEndpointPackage
@@ -12334,7 +12337,6 @@ import BEDC.Derived.TailCofinalityScheduleUp.StdBridge
 import BEDC.Derived.TailCofinalityScheduleUp.StreamNameRegSeqRatRealWindowDeterminacy
 import BEDC.Derived.TailCofinalityScheduleUp.WindowSealFactorization
 import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
-import BEDC.Derived.TailDiameterCriterionUp
 import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.TailModulusLimitHandoffUp.TasteGate
 import BEDC.Derived.TangentNumberUp
