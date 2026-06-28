@@ -147,6 +147,8 @@ Rm Motif Escape Necessity & RM motif escape necessity (oracle-proposed fresh ind
 Cognate Anti Defense Enrichment & Cognate anti-defense payload necessity (oracle Q2 pivot off RM-motif numerology to a protein-family/HMM target). Hypothesis: resident prophages carry anti-defense genes that are COGNATE to the host's own defense systems -- i.e. anti-defense against class c is enriched specifically in hosts that CARRY chromosomal defense class c, beyond same-family / load / phylogeny confounds. Independent carrier = host chromosomal defense-system class (PADS Arsenal \{RM,BREX,GABIJA,THOERIS,TA\}, NOT estimated from target). Target = resident-prophage proteins (Flinders PhiSpy coords + NCBI assembly FAA/GFF, CDS-prophage overlap >=80\%). Anti-defense calls = dbAPIS HMMs via hmmsearch; cognate map = dbAPIS seed\_family\_mapping family->inhibited\_defense\_system. Necessity (primary, falsifiable): anti-c enriched only in c+ hosts vs c- same-GTDB-family hosts. Anti-numerology: matched same-family necessity null + non-cognate decoy + cross-host carrier swap + same-host chromosome-protein control. Verdict 5-way: supportive / refuted / composition\_ecology\_dominated / anti / data\_gate\_failed. & \texttt{data\_gate\_failed} \\
 % CLAIM_STATUS claim_id=bridge.host_defense.cognate_anti_defense_virjendb status=data_gate_failed
 Cognate Anti Defense Virjendb & Cognate anti-defense payload necessity, VirJenDB exact-host rescue (oracle Q3) of the data-gated Flinders run. Hypothesis: resident prophages carry anti-defense genes COGNATE to the host's own defense systems (anti-c enriched in hosts that carry complete chromosomal defense class c, beyond same-genus/load/phylogeny). Independent carrier = DefenseFinder COMPLETE-system calls on the host proteome (not PADS single-gene). Target = resident-prophage proteins from VirJenDB exact-host-linked records (/v2/sequence -> pyrodigal). Anti-defense = dbAPIS HMMs (hmmsearch); cognate = seed\_family\_mapping. Necessity (primary): anti-c enriched only in c+ vs c- same-genus hosts. Nulls: same-genus necessity, non-cognate decoy, cross-host carrier swap, same-host chromosome control. Hard preflight power gates before statistics. Verdict 5-way. & \texttt{data\_gate\_failed} \\
+% CLAIM_STATUS claim_id=bridge.host_defense.crispr_spacer_prophage_crypticness status=data_gate_failed
+Crispr Spacer Prophage Crypticness & CRISPR spacer-exposure predicts resident-prophage crypticness/defectiveness (oracle Q5, anti-CRISPR-database-free). Hypothesis: if an active host CRISPR spacer targets a resident prophage, that prophage should be structurally more defective (missing phage modules) than matched same-host UNEXPOSED prophages -- unless it has an escape mechanism. Independent carrier = host CRISPR spacers (CRISPRCasdb precomputed, keyed by genome accession; no CCTyper). Target = resident prophages (Flinders PhiSpy Kept regions). Exposure E(h,p)=exact >=28nt spacer match to prophage nt (both strands). Phenotype = 5-module CrypticScore/IntactLike (packaging/head/tail/lysis/lysogeny from NCBI CDS product strings). Estimator R(h,p)=CrypticScore(exposed) - median CrypticScore(same-host UNEXPOSED prophages matched by length/GC/ORF); B=IntactLike diff. Nulls: N1 same-host-unexposed (primary), N2 shuffled-spacer, N3 same-genus cross-host swap, N5 chromosome self-target. Hard preflight before stats. Verdict 5-way. & \texttt{data\_gate\_failed} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1714,3 +1716,24 @@ GCA-assembly->NCBI-FTP protein.faa.gz proteome, DefenseFinder type normalizer RM
 sequence sanitization, ordered\_replicon, dir creation).
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_cognate\_anti\_defense\_virjendb.py
+
+\subsection{Crispr Spacer Prophage Crypticness}\label{sec:bridge-crispr-spacer-prophage-crypticness}
+% CLAIM_DETAIL claim_id=bridge.host_defense.crispr_spacer_prophage_crypticness status=data_gate_failed
+\textbf{Statement.} CRISPR spacer-exposure predicts resident-prophage crypticness/defectiveness (oracle Q5,
+anti-CRISPR-database-free). Hypothesis: if an active host CRISPR spacer targets a resident prophage,
+that prophage should be structurally more defective (missing phage modules) than matched same-host
+UNEXPOSED prophages -- unless it has an escape mechanism. Independent carrier = host CRISPR spacers
+(CRISPRCasdb precomputed, keyed by genome accession; no CCTyper). Target = resident prophages
+(Flinders PhiSpy Kept regions). Exposure E(h,p)=exact >=28nt spacer match to prophage nt (both
+strands). Phenotype = 5-module CrypticScore/IntactLike (packaging/head/tail/lysis/lysogeny from NCBI
+CDS product strings). Estimator R(h,p)=CrypticScore(exposed) - median CrypticScore(same-host
+UNEXPOSED prophages matched by length/GC/ORF); B=IntactLike diff. Nulls: N1 same-host-unexposed
+(primary), N2 shuffled-spacer, N3 same-genus cross-host swap, N5 chromosome self-target. Hard
+preflight before stats. Verdict 5-way.
+
+\textbf{Verdict.} \texttt{data\_gate\_failed}.
+
+\textbf{Why.} Built end-to-end (CRISPRCasdb spacer carrier, NO CCTyper -- CCTyper proved fragile on macOS so
+bypassed via the precomputed spacer DB; Flinders prophage target; NCBI host genomes).
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_crispr\_prophage\_crypticness.py
