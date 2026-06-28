@@ -5059,10 +5059,10 @@ import BEDC.Derived.DirectedSubnetUp.TasteGate
 import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
+import BEDC.Derived.DirichletCharacterUp
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
-import BEDC.Derived.DirichletCharacterUp
 import BEDC.Derived.DirichletRingUp
 import BEDC.Derived.DirichletSeriesTestUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
@@ -9516,6 +9516,7 @@ import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellUp
+import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
