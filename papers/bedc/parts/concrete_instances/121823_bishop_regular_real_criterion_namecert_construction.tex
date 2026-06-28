@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularRealCriterionUp$}
+\label{ch:concrete-instances-bishop-regular-real-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRegularRealCriterionUp$ packet records the finite admission criterion by which a regular rational sequence is allowed to serve as a constructive real name. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The criterion is an admission route for Real-facing consumers; it is not a quotient construction of real numbers, a trichotomy principle, a selected limit operator, countable choice, or a proof of ambient Real completeness.
+
+\begin{definition}[Bishop regular real criterion carrier]
+\label{def:bishop-regular-real-criterion-carrier}
+A $\BishopRegularRealCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,Q,D,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing only bounded windows of the candidate approximation stream.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the visible dyadic radii and comparison budget used by the regularity test.
+\item $R$ is the $\RealUp$ seal row, available only after $W,Q,D$ have been displayed.
+\item $A$ is the admission ledger row saying that the finite windows, regular readbacks, and dyadic tolerances match as one regular-real criterion packet.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular readbacks, dyadic tolerance rows, Real seal, admission ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a criterion request through finite-window read, regular readback, dyadic tolerance comparison, admission, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularRealCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularRealCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,Q,D,R,A,H,C,P,N$. It has no coordinate for quotient reals, trichotomy, selected limits, countable choice, host convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop regular real criterion derivation]
+\label{thm:bishop-regular-real-criterion-human-derivation}
+Every accepted $\BishopRegularRealCriterionUp$ carrier exposes exactly $\StreamNameUp$ finite windows, $\RegSeqRatUp$ regular readbacks, $\DyadicRatCoreUp$ tolerance rows, and a $\RealUp$ seal before any Real-facing read. More precisely, any Real-facing consumer of
+$$
+K=(W,Q,D,R,A,H,C,P,N)
+$$
+must read $W$, then $Q$, then $D$, then the admission ledger $A$, and only then the seal row $R$ together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-regular-real-criterion-carrier}. Its public admission route begins with the finite-window row $W$ and contains no completed real or host convergence row.
+
+Read the regularity evidence next. The row $Q$ is the regular rational readback attached to the displayed windows, and $D$ records the dyadic tolerance comparisons used by the criterion.
+
+The admission ledger $A$ binds those rows before the Real seal is visible. Transport, replay, provenance, and local naming preserve the same order, so a consumer cannot detach $R$ from $W,Q,D,A$.
+
+Because the carrier has no coordinate for quotient reals, trichotomy, selected limits, countable choice, host convergence, or ambient completeness, the displayed StreamName, RegSeqRat, DyadicRatCore, and Real rows exhaust the Real-facing criterion.
+\end{proof}
+
+\falsifiablePrediction{A Real-facing consumer that accepts a $\BishopRegularRealCriterionUp$ packet without first displaying the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance row, and the admission ledger refutes the carrier.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\BishopRegularRealCriterionUp$ is not bijective to any listed sibling because it binds finite stream windows, regular rational readbacks, dyadic tolerance comparison, an admission ledger, Real seal ordering, transport, replay, provenance, and local naming into one criterion packet.}
+
+\closureat{BishopRegularRealCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularRealCriterionUp}
+  \constructivestory{A $\BishopRegularRealCriterionUp$ packet is generated from StreamName finite windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, a RealUp seal, an admission ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-real-criterion-carrier} and \autoref{thm:bishop-regular-real-criterion-human-derivation} seed the finite Bishop regular-real criterion route over StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, quotient reals, trichotomy, selected limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window admission, regular readback ordering, dyadic tolerance exactness, admission-ledger routing, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularRealCriterionUp.}
+\end{closurestatus}

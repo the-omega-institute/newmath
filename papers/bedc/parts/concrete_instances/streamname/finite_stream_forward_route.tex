@@ -23,3 +23,19 @@ The DyadicRatCore handoff reads the same terminal tolerance surface through thos
 
 Thus all three downstream packets consume the same finite support supplied by the original finite-stream packet. Since the route and its finite observation refinements never add infinite stream equality, quotient stream equality, selected limits, countable choice, or ambient Real completeness, preservation holds at the handoff surface.
 \end{proof}
+
+\begin{theorem}[StreamName finite-stream forward composition]
+\label{thm:streamname-finite-stream-forward-composition}
+Two consecutive finite-stream-to-$\StreamNameUp$ forward routes compose into one finite observation section. The composite section preserves the finite request lists, displayed observation windows, componentwise $\hsame$ rows, finite $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows from the two input sections, and it remains the finite $\StreamNameUp$ window surface consumed by downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ packets.
+
+The composed route exports no infinite stream equality, quotient stream equality, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-stream-forward-route} to the first finite-stream packet. It repacks the initial request list, observation window, transport, replay, provenance, and local naming rows as a pointwise $\StreamNameUp$ observation section.
+
+Apply the same route to the second finite-stream packet, whose source begins at the terminal finite section displayed by the first route. The shared endpoint is identified by componentwise $\hsame$ transport and replayed by the displayed $\Cont$ rows, so the two sections meet inside finite observation data.
+
+Use finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, to concatenate the consecutive request windows into a single finite $\StreamNameUp$ section over the same certified source. The $\Pkg$ and $\NameCert$ rows are inherited from the two input packets as provenance and local naming for the composed section.
+
+Finally apply preservation, \autoref{thm:streamname-finite-stream-forward-preservation}. Downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers therefore see the composite as one finite-window route and receive no infinite stream equality, quotient stream equality, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
