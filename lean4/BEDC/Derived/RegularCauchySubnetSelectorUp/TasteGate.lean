@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchySubnetSelectorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -151,5 +163,87 @@ theorem RegularCauchySubnetSelectorTasteGate_single_carrier_alignment :
   exact
     ⟨(fun _ _ _ _ _ _ _ _ _ _ _ => rfl),
       RegularCauchySubnetSelectorTasteGate_single_carrier_alignment_decode_encode, rfl⟩
+
+def RegularCauchySubnetSelectorCarrier [AskSetup] [PackageSetup]
+    (source index window readback dyadic realSeal tailWitness transportRow replayRow
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory source ∧ UnaryHistory index ∧ UnaryHistory window ∧
+    UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory realSeal ∧
+      UnaryHistory tailWitness ∧ UnaryHistory transportRow ∧ UnaryHistory replayRow ∧
+        UnaryHistory provenance ∧ UnaryHistory localName ∧ Cont index window readback ∧
+          Cont readback realSeal tailWitness ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle localName pkg
+
+theorem RegularCauchySubnetSelectorCarrier_handoff [AskSetup] [PackageSetup]
+    {source index window readback dyadic realSeal tailWitness transportRow replayRow
+      provenance localName selectedRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubnetSelectorCarrier source index window readback dyadic realSeal
+        tailWitness transportRow replayRow provenance localName bundle pkg →
+      Cont index window selectedRead →
+        Cont selectedRead readback sealRead →
+          PkgSig bundle provenance pkg →
+            PkgSig bundle localName pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row source ∨ hsame row index ∨ hsame row window ∨
+                      hsame row readback ∨ hsame row dyadic ∨ hsame row realSeal ∨
+                        hsame row tailWitness ∨ hsame row sealRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont index window selectedRead ∧
+                      Cont selectedRead readback sealRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle localName pkg)
+                  hsame ∧ UnaryHistory selectedRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier indexWindow selectedReadback provenancePkg namePkg
+  obtain ⟨_sourceUnary, indexUnary, windowUnary, readbackUnary, _dyadicUnary,
+    _realSealUnary, _tailWitnessUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _carrierIndexWindow, _carrierReadbackSeal, _carrierProvenancePkg,
+    _carrierNamePkg⟩ := carrier
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed indexUnary windowUnary indexWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectedReadUnary readbackUnary selectedReadback
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row index ∨ hsame row window ∨
+              hsame row readback ∨ hsame row dyadic ∨ hsame row realSeal ∨
+                hsame row tailWitness ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont index window selectedRead ∧
+              Cont selectedRead readback sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead ⟨hsame_refl sealRead, sealReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, indexWindow, selectedReadback, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, selectedReadUnary, sealReadUnary⟩
 
 end BEDC.Derived.RegularCauchySubnetSelectorUp
