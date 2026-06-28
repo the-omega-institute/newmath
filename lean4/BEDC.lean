@@ -5506,6 +5506,7 @@ import BEDC.Derived.EudoxusRealUp.TasteGate
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
+import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerPhiUp
 import BEDC.Derived.EulerPolyUp
 import BEDC.Derived.EulerPolygonUp.TasteGate
@@ -8514,6 +8515,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DecidableNo
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderRowExhaustion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpointComparison
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FrontierNormalEndpointRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBudget
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
