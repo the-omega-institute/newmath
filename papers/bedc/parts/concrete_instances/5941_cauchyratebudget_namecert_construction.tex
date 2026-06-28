@@ -170,6 +170,26 @@ Tightening $R$ changes only the displayed rate row inside that packet. The Strea
 Now apply Real seal routing and the regular-tail-estimate handoff, \autoref{thm:cauchy-rate-budget-real-seal-routing} and \autoref{thm:cauchy-rate-budget-regular-tail-estimate-handoff}. They bind every later Real or tail-envelope read to the route $R \to W \to Q \to D \to E$ already recorded in the same $\BHist$ rows. Therefore a stricter displayed tail rate preserves the handoff and seal route rather than creating a new host-level modulus or a detached convergence proof.
 \end{proof}
 
+\begin{theorem}[Cauchy rate-budget window concatenation]
+\label{thm:cauchy-rate-budget-window-concatenation}
+Let
+$$
+B_0=(R_0,W_0,Q_0,D_0,E_0,H_0,C_0,P_0,N_0),
+\qquad
+B_1=(R_1,W_1,Q_1,D_1,E_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\CauchyRateBudgetUp$ packets. If their $\StreamNameUp$ finite-window rows are compatible and the first displayed window of $B_1$ begins after the regular-tail threshold exposed by $R_0,W_0,Q_0,D_0$, then the displayed dyadic tolerance ledgers concatenate to one accepted finite budget route. The concatenated route reads its $\RealUp$ seal only after both $\RegSeqRatUp$ readbacks and the shared $\DyadicRatCoreUp$ ledger are visible, and it introduces no quotient stream, selected limit, countable choice, host convergence proof, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the two displayed carriers. The first packet supplies $R_0,W_0,Q_0,D_0,E_0,H_0,C_0,P_0,N_0$, and the second supplies $R_1,W_1,Q_1,D_1,E_1,H_1,C_1,P_1,N_1$; compatibility identifies the end of $W_0$ with the beginning discipline of $W_1$ inside the finite StreamName window surface.
+
+Use the StreamName--RegSeq handoff on each packet. It forces $Q_0$ to be read from $W_0$ and $Q_1$ to be read from $W_1$, with each readback still governed by its displayed rate row.
+
+Next apply dyadic tolerance exactness and tail monotonicity. The second window begins after the first regular-tail threshold, so the two tolerance displays can be read as one ordered ledger rather than as a detached radius choice.
+
+Finally apply Real seal routing to the concatenated surface. The seal-facing consumer must traverse the combined route through both readbacks and the shared dyadic ledger before any $\RealUp$ seal is exposed. Since every coordinate used in the construction is projected from the two finite carriers and their $H,C,P,N$ rows, no quotient stream, selected limit, countable choice, host convergence proof, or ambient completeness principle is added.
+\end{proof}
+
 \falsifiablePrediction{A Real-completion seal consumer that consumes a CauchyRateBudgetUp packet cannot read a RealUp seal unless the displayed rate row, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance ledger have all been displayed.}
 
 \independenceWitness{Compare observationbudgetlimiter, regularcauchytailbudget, finiteprefixlimitbudget, cauchydiagonalbudget, and budgetedrealsealroute: CauchyRateBudgetUp has a first-class convergence-rate row tied to a single finite-window schedule, while those siblings respectively cap requests, tail thresholds, prefix depth, diagonal budget, or a composite seal route; no bijection preserves both the rate coordinate and the seal-readback order.}
