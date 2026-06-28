@@ -1,0 +1,523 @@
+\section{Inherited Invariants of the Zeta Endpoint}
+\label{sec:unified-reality-zeta-inherited-invariants}
+
+\autoref{sec:unified-reality-generalized-continuation-chain} separates
+the generalized continuation chain from ordinary holomorphic
+continuation. The present section records the carrier-level invariants
+that reach the zeta endpoint through that chain. The point is not that
+zeta contains a literal triangle, circle, Euclidean ellipse, Fourier
+series, or Laplace transform as a visible subobject. The point is that
+normalization, unit phase, frequency, damping, local-to-global assembly,
+symmetry, cancellation, and defect-rigidity have transported zeta-side
+readouts.
+
+\begin{definition}[Zeta construction chain]
+\label{def:unified-reality-zeta-construction-chain}
+The \emph{zeta construction chain} is the reality-continuation chain
+$$
+\mathsf{Pyth}
+\to
+\mathsf{Circle}
+\to
+\mathsf{Phase}
+\to
+\mathsf{Fourier}
+\to
+\mathsf{Laplace/Mellin}
+\to
+\mathsf{Zeta}.
+$$
+Its basic displayed rows are
+$$
+a^2+b^2=c^2,
+\qquad
+x^2+y^2=1,
+\qquad
+x+iy=e^{i\theta},
+$$
+$$
+e^{in\theta},
+\qquad
+e^{-st},
+\qquad
+\zeta(s)=\sum_{n\ge1}n^{-s}
+=\sum_{n\ge1}e^{-s\log n}.
+$$
+The final equality is the arithmetic Laplace readout of
+\autoref{thm:unified-reality-zeta-arithmetic-laplace-readout}.
+\end{definition}
+
+\begin{definition}[Shared invariant along the zeta chain]
+\label{def:unified-reality-zeta-chain-shared-invariant}
+A \emph{shared invariant} of the zeta construction chain is a family of
+rows
+$$
+I_{\mathrm{Pyth}},
+I_{\mathrm{Circle}},
+I_{\mathrm{Fourier}},
+I_{\mathrm{Laplace}},
+I_{\mathrm{Zeta}}
+$$
+together with transport ledgers between adjacent realities. The
+transported zeta row may change formula. It must remain the certified
+target-side read of the same carrier-level constraint in the sense of
+\autoref{def:unified-reality-transported-invariant}.
+\end{definition}
+
+\begin{definition}[Zeta inherited invariant packet]
+\label{def:unified-reality-zeta-inherited-invariant-packet}
+The \emph{zeta inherited invariant packet} is
+$$
+\mathsf{ZetaInv}(s)
+:=
+(
+\mathsf{Center},
+\mathsf{Unitary},
+\mathsf{Phase},
+\mathsf{Bias},
+\mathsf{LocalGlobal},
+\mathsf{Symmetry},
+\mathsf{Cancellation},
+\mathsf{Defect}
+).
+$$
+For $s=1/2+\delta+i\tau$, its prime-channel readout is
+$$
+p^{1/2-s}=p^{-\delta}e^{-i\tau\log p}.
+$$
+The eight rows are:
+$$
+\begin{array}{c|c}
+\text{invariant} & \text{zeta-side read}\\
+\hline
+\mathsf{Center} & \frac12\\
+\mathsf{Unitary} & |p^{1/2-s}|=1\\
+\mathsf{Phase} & e^{-i\tau\log p}\\
+\mathsf{Bias} & p^{-\delta}\\
+\mathsf{LocalGlobal} & \sum n^{-s}\leftrightarrow\prod_p(1-p^{-s})^{-1}\\
+\mathsf{Symmetry} & J(s)=1-\overline{s}\\
+\mathsf{Cancellation} & \zeta(s)=0\\
+\mathsf{Defect} & D_S(s)
+\end{array}
+$$
+where $D_S(s)$ is the finite prime-window defect of
+\autoref{def:number-theory-spine-prime-window-defect}.
+\end{definition}
+
+\begin{theorem}[Scale normalization transports to centered prime channels]
+\label{thm:unified-reality-zeta-centered-prime-channel}
+The Pythagorean scale-normalization row transports to the zeta centered
+prime channel
+$$
+p^{-s}\mapsto p^{1/2-s}.
+$$
+\end{theorem}
+
+\begin{proof}
+In the Pythagorean carrier, a nonzero scale $c$ licenses the normalized
+shape read
+$$
+(a,b,c)\mapsto(a/c,b/c),
+$$
+as in
+\autoref{thm:unified-reality-triangle-circle-scale-fiber}. In the zeta
+prime-local carrier, the raw channel is $p^{-s}$ and the fixed-half
+center is $1/2$. Centering by that normalization produces
+$$
+p^{1/2}p^{-s}=p^{1/2-s}.
+$$
+This is a transported normalization row, not a literal Pythagorean
+equation inside zeta.
+\end{proof}
+
+\begin{corollary}[Zeta has a centered-channel read]
+\label{cor:unified-reality-zeta-centered-channel-read}
+When zeta is read as the arithmetic endpoint of the construction chain,
+its prime-local face must expose the centered channel
+$$
+U_p(s):=p^{1/2-s}
+$$
+whenever critical-line and prime-channel comparisons are being made.
+\end{corollary}
+
+\begin{proof}
+The centered channel is the zeta-side read of the normalization
+invariant by
+\autoref{thm:unified-reality-zeta-centered-prime-channel}. It is the
+same channel used by
+\autoref{def:rh-prime-local-channels}.
+\end{proof}
+
+\begin{definition}[Zeta unitary balance]
+\label{def:unified-reality-zeta-unitary-balance}
+The \emph{zeta unitary balance} row is the prime-channel predicate
+$$
+\mathsf{UnitaryZeta}(s)
+:\Longleftrightarrow
+\forall p\in\PrimeUp,\ |p^{1/2-s}|\sim1.
+$$
+It is the unified-reality reading of
+\autoref{def:rh-prime-unitary-balance}.
+\end{definition}
+
+\begin{theorem}[Unit norm transports to the critical line]
+\label{thm:unified-reality-zeta-unitary-critical-line}
+For a displayed prime row $p>1$,
+$$
+|p^{1/2-s}|=1
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+Consequently, $\mathsf{UnitaryZeta}(s)$ is the prime-channel read of the
+critical line.
+\end{theorem}
+
+\begin{proof}
+This is the transported unit-phase theorem
+\autoref{thm:unified-reality-prime-unitary-transported-unit-phase},
+equivalently the prime-unitary balance theorem
+\autoref{thm:rh-prime-unitary-balance-critical-line}. If
+$s=1/2+\delta+i\tau$, then
+$$
+p^{1/2-s}=p^{-\delta}e^{-i\tau\log p}
+$$
+and hence $|p^{1/2-s}|=p^{-\delta}$. For $p>1$, this has modulus $1$
+exactly when $\delta=0$.
+\end{proof}
+
+\begin{definition}[Prime phase clock and centered bias]
+\label{def:unified-reality-zeta-phase-clock-centered-bias}
+For $s=\sigma+i\tau$, the \emph{prime phase clock} is
+$$
+\theta_p(s):=-\tau\log p.
+$$
+The raw and centered prime channels decompose as
+$$
+p^{-s}=p^{-\sigma}e^{i\theta_p(s)},
+\qquad
+p^{1/2-s}=p^{1/2-\sigma}e^{i\theta_p(s)}.
+$$
+If $\sigma=1/2+\delta$, the centered amplitude bias is
+$$
+p^{1/2-\sigma}=p^{-\delta}.
+$$
+\end{definition}
+
+\begin{theorem}[Fourier frequency transports to logarithmic prime clocks]
+\label{thm:unified-reality-zeta-log-prime-frequency}
+The Fourier phase row transports to the zeta prime-channel phase
+$$
+e^{-i\tau\log p},
+$$
+so the prime-local frequency is read through $\log p$.
+\end{theorem}
+
+\begin{proof}
+The Fourier kernel has phase form $e^{-i\omega t}$. A prime-local zeta
+term satisfies
+$$
+p^{-s}=e^{-s\log p}.
+$$
+Writing $s=\sigma+i\tau$ gives
+$$
+e^{-s\log p}=e^{-\sigma\log p}e^{-i\tau\log p}.
+$$
+The second factor is the Fourier phase row with clock $\log p$.
+\end{proof}
+
+\begin{theorem}[Laplace damping transports to off-critical bias]
+\label{thm:unified-reality-zeta-off-critical-bias}
+The Laplace damping factor transports to the zeta amplitude read
+$$
+n^{-\sigma}=e^{-\sigma\log n},
+$$
+and the centered prime bias is
+$$
+p^{-\delta}
+$$
+for $s=1/2+\delta+i\tau$.
+\end{theorem}
+
+\begin{proof}
+Put $t=\log n$ in the Laplace kernel. Then
+$$
+e^{-st}=e^{-s\log n}=n^{-s}.
+$$
+For $s=\sigma+i\tau$,
+$$
+n^{-s}=e^{-\sigma\log n}e^{-i\tau\log n}.
+$$
+The first factor is the damping or growth read. After centering at
+$1/2$, the prime-channel form is
+$$
+p^{1/2-s}=p^{-\delta}e^{-i\tau\log p}.
+$$
+\end{proof}
+
+\begin{corollary}[The critical line is the zero-bias surface]
+\label{cor:unified-reality-zeta-critical-line-zero-bias}
+The critical line is the surface on which the centered prime-channel
+amplitude bias disappears:
+$$
+\delta=0
+\quad\Longleftrightarrow\quad
+p^{-\delta}=1.
+$$
+\end{corollary}
+
+\begin{proof}
+This follows immediately from
+\autoref{thm:unified-reality-zeta-off-critical-bias}.
+\end{proof}
+
+\begin{definition}[Local-global zeta factorization]
+\label{def:unified-reality-zeta-local-global-factorization}
+The \emph{local-global zeta factorization} is the pair of readouts
+$$
+\zeta(s)=\sum_{n\ge1}n^{-s}
+$$
+and
+$$
+\zeta(s)\sim\prod_p(1-p^{-s})^{-1}
+$$
+on the displayed window where convergence, coefficient, and
+factorization ledgers license the comparison. The first is the global
+Dirichlet-sum face. The second is the prime-local Euler-product face.
+\end{definition}
+
+\begin{theorem}[Frequency decomposition transports to prime-local factorization]
+\label{thm:unified-reality-zeta-prime-local-factorization}
+The local frequency-decomposition invariant transports to the zeta
+Euler-product face:
+$$
+\zeta(s)\sim\prod_p(1-p^{-s})^{-1}.
+$$
+\end{theorem}
+
+\begin{proof}
+Fourier analysis decomposes a global readout into character modes. In
+the arithmetic reality, unique prime factorization organizes integer
+terms into prime-local channels. On the window where absolute
+convergence and regrouping are licensed, the Dirichlet sum becomes
+$$
+\sum_{n\ge1}n^{-s}
+\sim
+\prod_p(1+p^{-s}+p^{-2s}+\cdots)
+=
+\prod_p(1-p^{-s})^{-1}.
+$$
+Thus the zeta carrier has both the global sum face and the prime-local
+product face.
+\end{proof}
+
+\begin{definition}[Functional symmetry fixed surface]
+\label{def:unified-reality-zeta-functional-symmetry-fixed-surface}
+The \emph{functional symmetry fixed surface} is the fixed set of
+$$
+J(s):=1-\overline{s}.
+$$
+It satisfies
+$$
+J(s)=s
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+\end{definition}
+
+\begin{theorem}[Fourier symmetry transports to the zeta mirror]
+\label{thm:unified-reality-zeta-functional-mirror}
+The circle/Fourier symmetry row transports to the zeta functional-equation
+mirror, whose conjugate-fixed form has fixed surface
+$$
+\Re(s)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+Circle phase has conjugation symmetry
+$$
+e^{i\theta}\mapsto e^{-i\theta},
+$$
+and Fourier modes carry positive and negative frequency symmetry. The
+completed zeta carrier has the functional-equation mirror relating
+$s$ and $1-s$. In conjugate-fixed form this is
+$$
+J(s)=1-\overline{s}.
+$$
+Writing $s=\sigma+i\tau$, the fixed condition gives
+$$
+\sigma+i\tau=1-\sigma+i\tau,
+$$
+and therefore $\sigma=1/2$.
+\end{proof}
+
+\begin{theorem}[Zeta zeros are global cancellation rows]
+\label{thm:unified-reality-zeta-zero-global-cancellation-row}
+A zeta zero row records global cancellation of the assembled zeta
+readout. It does not assert that the local terms $n^{-s}$ or the
+prime-local channels $p^{-s}$ vanish.
+\end{theorem}
+
+\begin{proof}
+For every $n\ge1$,
+$$
+n^{-s}=e^{-s\log n}.
+$$
+The local exponential term is nonzero wherever the exponential carrier is
+defined. Thus a zero row
+$$
+\zeta(s)=0
+$$
+must be read as cancellation in the globally assembled
+Dirichlet/Euler/continued carrier, as already isolated in
+\autoref{def:unified-reality-zeta-zero-global-cancellation}.
+\end{proof}
+
+\begin{theorem}[Off-critical bias produces finite prime-window defect]
+\label{thm:unified-reality-zeta-off-critical-defect}
+If $s=1/2+\delta+i\tau$, $\delta\#0$, and $S$ is a nonempty finite prime
+window, then the prime-window defect
+$$
+D_S(s):=\sum_{p\in S}\log|p^{1/2-s}|
+$$
+is apart from zero.
+\end{theorem}
+
+\begin{proof}
+For every $p\in S$,
+$$
+|p^{1/2-s}|=p^{-\delta}.
+$$
+Therefore
+$$
+D_S(s)
+=
+\sum_{p\in S}\log(p^{-\delta})
+=
+-\delta\sum_{p\in S}\log p.
+$$
+Since $S$ is nonempty and each displayed prime satisfies $p>1$, the sum
+of logarithms is positive. Apartness of $\delta$ from zero gives
+apartness of $D_S(s)$ from zero. This is the unified-reality read of
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect}.
+\end{proof}
+
+\begin{theorem}[Zeta carries the inherited invariant packet]
+\label{thm:unified-reality-zeta-carries-inherited-invariant-packet}
+When zeta is read as the endpoint of the zeta construction chain, its
+carrier carries the invariant packet $\mathsf{ZetaInv}(s)$ wherever the
+corresponding source, projection, convergence, and boundary ledgers are
+displayed.
+\end{theorem}
+
+\begin{proof}
+The center row is
+\autoref{thm:unified-reality-zeta-centered-prime-channel}. The unitary
+row is
+\autoref{thm:unified-reality-zeta-unitary-critical-line}. The phase row
+is
+\autoref{thm:unified-reality-zeta-log-prime-frequency}. The bias row is
+\autoref{thm:unified-reality-zeta-off-critical-bias}. The local-global
+row is
+\autoref{thm:unified-reality-zeta-prime-local-factorization}. The
+symmetry row is
+\autoref{thm:unified-reality-zeta-functional-mirror}. The cancellation
+row is
+\autoref{thm:unified-reality-zeta-zero-global-cancellation-row}. The
+defect row is
+\autoref{thm:unified-reality-zeta-off-critical-defect}. These are the
+eight components of
+\autoref{def:unified-reality-zeta-inherited-invariant-packet}.
+\end{proof}
+
+\begin{definition}[RH closure of inherited invariants]
+\label{def:unified-reality-rh-closure-inherited-invariants}
+The \emph{RH closure of inherited invariants} is the section target
+$$
+\prod_s
+\left(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{UnitaryZeta}(s)
+\right).
+$$
+Using the critical-line equivalence of
+\autoref{thm:unified-reality-zeta-unitary-critical-line}, this is the
+unitary-balance form of the BEDC RH target
+\autoref{def:number-theory-spine-rh}.
+\end{definition}
+
+\begin{theorem}[RH reads as closure of inherited unitary balance]
+\label{thm:unified-reality-rh-closure-inherited-unitary-balance}
+The RH section target admits a unitary-balance section form: a critical
+strip zero row is required to supply the inherited unitary-balance row.
+\end{theorem}
+
+\begin{proof}
+The BEDC RH target is the section form of
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}. By
+\autoref{thm:unified-reality-zeta-unitary-critical-line}, the
+prime-unitary balance row is equivalent to $\mathsf{OnCritLine}(s)$ on
+the displayed prime-channel packet. Therefore the RH section can be read
+as
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{UnitaryZeta}(s).
+$$
+This is only a section-form reading of the target. It does not supply
+the missing defect-zero incompatibility route.
+\end{proof}
+
+\begin{theorem}[Inherited-invariant principle for zeta]
+\label{thm:unified-reality-zeta-inherited-invariant-principle}
+The common structure carried by triangles, circles, Fourier modes,
+Laplace/Mellin kernels, elliptic spectral carriers, and zeta reaches the
+zeta endpoint as transported invariant data:
+$$
+\text{normalization},
+\quad
+\text{unitarity},
+\quad
+\text{phase},
+\quad
+\text{damping},
+\quad
+\text{local-global},
+\quad
+\text{symmetry},
+\quad
+\text{cancellation},
+\quad
+\text{defect-rigidity}.
+$$
+The zeta-side forms are
+$$
+p^{1/2-s},
+\quad
+|p^{1/2-s}|=1,
+\quad
+e^{-i\tau\log p},
+\quad
+p^{-\delta},
+\quad
+\sum n^{-s}\leftrightarrow\prod_p(1-p^{-s})^{-1},
+\quad
+J(s)=1-\overline{s},
+\quad
+\zeta(s)=0,
+\quad
+D_S(s).
+$$
+\end{theorem}
+
+\begin{proof}
+This is the assembled content of
+\autoref{thm:unified-reality-zeta-carries-inherited-invariant-packet}.
+The quartic spectral row adds the boundary warning: visible
+branch/defect data is not enough without a zero-relevant boundary
+ledger, as recorded in
+\autoref{def:unified-reality-defect-boundary-transport}. Thus the
+invariant package is a disciplined transport ledger, not an analogy and
+not a completed RH proof.
+\end{proof}

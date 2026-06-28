@@ -1,0 +1,274 @@
+\section{Zeckendorf Solenoid Selector}
+\label{sec:unified-reality-zeckendorf-solenoid-selector}
+
+The fixed-prime and Dedekind split-tower routes choose a resonance source
+by selecting one rational prime and amplifying it through a tower.  A
+different discrete source mechanism is available from the
+Axis-Zeckendorf side: use the no-adjacent Fibonacci grammar as a legal
+prime-family selector, read the selected primes as a prime-register
+ledger, and then ask whether the resulting family admits a solenoid
+phase lift and a Lee--Yang stability certificate.  This is a selector
+route, not a direct proof of RH.
+
+\begin{definition}[Prime ledger read]
+\label{def:unified-reality-prime-ledger-read}
+The \emph{prime ledger} is the free integer register
+$$
+\mathcal L_{\mathbb P}:=\bigoplus_{p\in\PrimeUp}\mathbb Z e_p.
+$$
+A positive integer
+$$
+n=\prod_p p^{v_p(n)}
+$$
+has ledger row
+$$
+\nu(n):=\sum_p v_p(n)e_p.
+$$
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+the centered zeta channel on this ledger is
+$$
+n^{1/2-s}
+=
+\exp\left(-\delta\sum_p v_p(n)\log p\right)
+\exp\left(-i\tau\sum_p v_p(n)\log p\right).
+$$
+\end{definition}
+
+\begin{definition}[FRACTRAN ledger transition]
+\label{def:unified-reality-fractran-ledger-transition}
+A FRACTRAN instruction $a/b$ acts on the prime ledger by the affine
+translation
+$$
+x\mapsto x+\nu(a)-\nu(b)
+$$
+whenever the displayed state admits the instruction.  Thus FRACTRAN
+supplies a finite, auditable dynamics on the same prime-exponent ledger
+used by Euler factors.  It does not choose the zero-relevant resonance
+family; it supplies the ledger language in which such a choice can be
+tracked.
+\end{definition}
+
+\begin{definition}[Zeckendorf--Godel prime selector]
+\label{def:unified-reality-zeckendorf-godel-prime-selector}
+Let
+$$
+X_m:=\{z\in\{0,1\}^m:\ z_kz_{k+1}=0\}
+$$
+be the no-adjacent Zeckendorf window of length $m$, and let
+$$
+X_{\varphi}:=\{z\in\{0,1\}^{\mathbb N}:\ z_kz_{k+1}=0\}
+$$
+be the golden-mean selector space.  The Zeckendorf--Godel selector sends
+$$
+z\mapsto S_z:=\{p_k:z_k=1\},
+\qquad
+g_z:=\prod_k p_k^{z_k}.
+$$
+For finite $m$, the window cardinality is
+$$
+|X_m|=F_{m+2}
+$$
+as in \autoref{prop:axiszeckendorf-golden-growth-finite-windows}.  The
+selector is legal because the no-adjacent word is recoverable from the
+squarefree non-adjacent prime code by unique Zeckendorf expansion and
+unique prime factorization.
+\end{definition}
+
+\begin{definition}[Golden-cofinal selector]
+\label{def:unified-reality-golden-cofinal-selector}
+A selector $z\in X_{\varphi}$ is \emph{golden-cofinal} when
+$$
+\sum_k z_k(\log p_k)^2=\infty.
+$$
+This is the cofinality row consumed by the zeta energy argument.  It is
+independent of the zero predicate and belongs to the selector's
+prime-ledger growth.
+\end{definition}
+
+\begin{definition}[Zeckendorf zeta normal energy]
+\label{def:unified-reality-zeckendorf-zeta-normal-energy}
+For $z\in X_{\varphi}$, define the Zeckendorf zeta normal energy by
+$$
+\mathcal E_z(s)
+:=
+\sum_k z_k
+\left(
+\log |p_k^{1/2-s}|
+\right)^2.
+$$
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+this reads
+$$
+\mathcal E_z(s)
+=
+\delta^2\sum_k z_k(\log p_k)^2.
+$$
+\end{definition}
+
+\begin{theorem}[Golden-cofinal selectors detect off-half energy]
+\label{thm:unified-reality-golden-cofinal-selectors-detect-off-half-energy}
+If $z$ is golden-cofinal and
+$$
+s=\frac12+\delta+i\tau
+$$
+with $\delta\#0$, then
+$$
+\mathcal E_z(s)=\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-zeckendorf-zeta-normal-energy},
+$$
+\mathcal E_z(s)
+=
+\delta^2\sum_k z_k(\log p_k)^2.
+$$
+The selector is golden-cofinal, so the sum diverges.  Since
+$\delta\#0$, multiplication by the positive factor $\delta^2$ preserves
+divergence.
+\end{proof}
+
+\begin{definition}[Euler-log solenoid factorization]
+\label{def:unified-reality-euler-log-solenoid-factorization}
+Let $S_z$ be a Zeckendorf--Godel prime family.  An
+\emph{Euler-log solenoid factorization} for $S_z$ is a weight map
+$$
+w:\mathcal L_{S_z}\to\mathbb Z[S_z^{-1}]
+$$
+and a solenoid phase character
+$$
+\sigma:\mathbb Z[S_z^{-1}]\to\mathbb T
+$$
+such that the zeta phase read
+$$
+e_p\mapsto e^{-i\tau\log p}
+$$
+factors as
+$$
+\mathcal L_{S_z}
+\xrightarrow{w}
+\mathbb Z[S_z^{-1}]
+\xrightarrow{\sigma}
+\mathbb T
+$$
+on the zero-relevant family.  This is an explicit bridge requirement:
+the multiplicative Euler-log phase does not automatically equal the
+additive localization phase of
+$$
+\Sigma_{S_z}:=\widehat{\mathbb Z[S_z^{-1}]}.
+$$
+\end{definition}
+
+\begin{definition}[Zeckendorf solenoid Lee--Yang certificate]
+\label{def:unified-reality-zeckendorf-solenoid-lee-yang-certificate}
+For a critical-strip zero coordinate $s$, a \emph{Zeckendorf solenoid
+Lee--Yang certificate} consists of:
+$$
+z\in X_{\varphi},
+\qquad
+\mathsf{GoldenCofinal}(z),
+\qquad
+\mathsf{Captures}(z,s),
+$$
+$$
+\mathsf{EulerLogSolenoidFactorization}(z,s),
+\qquad
+\mathsf{ZeckendorfLeeYangStability}(z,s),
+$$
+and a finite bound
+$$
+\mathcal E_z(s)\le B_s<\infty.
+$$
+The capture row says that the selected prime family is the stable
+zero-relevant resonance family.  The factorization row places the zeta
+phase into the solenoid carrier.  The stability row is the finite
+Lee--Yang or hard-core path-model input inherited from the no-adjacent
+Fibonacci grammar, after the prime weights and the zeta phase have been
+accounted for.
+\end{definition}
+
+\begin{definition}[Zeta Zeckendorf solenoid bound]
+\label{def:unified-reality-zeta-zeckendorf-solenoid-bound}
+The \emph{zeta Zeckendorf solenoid bound} is the source row
+$$
+\mathsf{ZetaZeckendorfSolenoidBound}_{\zeta}
+$$
+asserting that every critical-strip zeta zero $s$ carries a Zeckendorf
+solenoid Lee--Yang certificate.
+\end{definition}
+
+\begin{theorem}[The Zeckendorf solenoid bound is conditionally sufficient]
+\label{thm:unified-reality-zeckendorf-solenoid-bound-conditionally-sufficient}
+If
+$$
+\mathsf{ZetaZeckendorfSolenoidBound}_{\zeta}
+$$
+holds, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z_0:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+s=\frac12+\delta+i\tau.
+$$
+The Zeckendorf solenoid bound supplies a certificate with selector
+$z\in X_{\varphi}$, golden cofinality, and a finite bound
+$$
+\mathcal E_z(s)\le B_s.
+$$
+If $\delta\#0$, then
+\autoref{thm:unified-reality-golden-cofinal-selectors-detect-off-half-energy}
+gives
+$$
+\mathcal E_z(s)=\infty,
+$$
+contradicting the bound.  Hence $\neg(\delta\#0)$, so located fixed-half
+collapse gives $\delta=0$.  Therefore $\Re(s)=1/2$, and the fixed-half
+section follows from
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[Selector and split-tower routes are complementary]
+\label{cor:unified-reality-selector-and-split-tower-routes-complementary}
+The Zeckendorf selector route and the fixed split-prime tower route are
+different source mechanisms for the same solenoid Lee--Yang proof role.
+\end{corollary}
+
+\begin{proof}
+The split-tower route fixes one rational prime $q$ and obtains cofinal
+growth from its splitting into many prime-ideal rows, as in
+\autoref{thm:unified-reality-dedekind-split-counts-amplify-off-half-energy}.
+The Zeckendorf route instead chooses a legal prime family $S_z$ by the
+golden-mean grammar and obtains cofinal growth from
+\autoref{def:unified-reality-golden-cofinal-selector}.  In both cases
+the downstream proof role is the same: a counting or cofinality lower
+row makes off-half normal energy unbounded, while solenoid compatibility
+and Lee--Yang stability are expected to supply the zero-relevant upper
+row.
+\end{proof}
+
+\begin{corollary}[The three open rows]
+\label{cor:unified-reality-zeckendorf-solenoid-three-open-rows}
+The Zeckendorf solenoid route leaves three source rows open:
+capture, Euler-log solenoid factorization, and prime-weighted
+Zeckendorf Lee--Yang stability.
+\end{corollary}
+
+\begin{proof}
+Golden cofinality is a selector-growth row, and the energy divergence
+calculation is
+\autoref{thm:unified-reality-golden-cofinal-selectors-detect-off-half-energy}.
+What is not supplied by the zero predicate is the construction of a
+selector that actually captures the completed zero, the factorization of
+the Euler-log phase through a solenoid-compatible weight map, and the
+Lee--Yang stability theorem for the prime-weighted no-adjacent family.
+These are source claims, not aliases for $\delta=0$.
+\end{proof}

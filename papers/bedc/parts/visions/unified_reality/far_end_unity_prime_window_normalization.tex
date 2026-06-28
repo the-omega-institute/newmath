@@ -1,0 +1,230 @@
+\section{Far-End Unity and Prime-Window Normalization}
+\label{sec:unified-reality-far-end-unity-prime-window-normalization}
+
+No far-end absorption can be sharpened by normalizing finite
+prime-window defects.  The normalized readout removes the scale of the
+window and leaves only the stable normal displacement from the critical
+surface.  Thus far-end unity is not convergence to a point at infinity;
+it is cofinal compatibility of all finite readouts with no hidden
+boundary term.
+
+\begin{definition}[Prime-window logarithmic weight]
+\label{def:unified-reality-prime-window-logarithmic-weight}
+For a nonempty finite prime window $S$, define its logarithmic weight by
+$$
+L_S:=\sum_{p\in S}\log p.
+$$
+The window is nonempty and every displayed prime has positive logarithm,
+so $L_S$ is a positive normalization row.
+\end{definition}
+
+\begin{definition}[Normalized prime-window defect]
+\label{def:unified-reality-normalized-prime-window-defect}
+For a nonempty finite prime window $S$, the \emph{normalized
+prime-window defect} is
+$$
+\overline D_S(s)
+:=
+\frac{D_S(s)}{L_S}.
+$$
+Here $D_S(s)$ is the finite prime-window defect of
+\autoref{def:unified-reality-rh-off-half-prime-window-defect}.
+\end{definition}
+
+\begin{theorem}[Normalized defects are constant over finite windows]
+\label{thm:unified-reality-normalized-defects-constant-over-windows}
+If
+$$
+s=\frac12+\delta+i\tau,
+$$
+then for every nonempty finite prime window $S$,
+$$
+\overline D_S(s)=-\delta.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect}, the
+finite-window defect has the explicit form
+$$
+D_S(s)
+=
+-\delta\sum_{p\in S}\log p.
+$$
+The denominator in
+\autoref{def:unified-reality-normalized-prime-window-defect} is exactly
+$$
+L_S=\sum_{p\in S}\log p.
+$$
+Since $S$ is nonempty, this denominator is positive.  Dividing gives
+$$
+\overline D_S(s)=-\delta.
+$$
+\end{proof}
+
+\begin{corollary}[Off-half displacement is cofinally visible]
+\label{cor:unified-reality-off-half-displacement-cofinally-visible}
+If $\delta(s)\#0$, then every nonempty finite prime window carries the
+same nonzero normalized defect.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}
+gives $\overline D_S(s)=-\delta(s)$ for every nonempty finite window.
+Thus apartness of $\delta(s)$ from zero is read in every normalized
+window.  The defect is therefore not a finite-window artifact, an Euler
+tail error, or a scale effect of the growing window.
+\end{proof}
+
+\begin{definition}[Far-end unity for zeta prime windows]
+\label{def:unified-reality-far-end-unity-zeta-prime-windows}
+The \emph{far-end unity} row for a zeta packet $s$ is the cofinal
+compatibility condition
+$$
+\mathsf{FarEndUnity}_{\zeta}(s)
+:=
+\prod_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\left(
+\overline D_S(s)=0
+\right).
+$$
+It says that every finite prime-window normalization reads no radial
+defect.  It is not a claim that the prime tower converges to an
+additional point.
+\end{definition}
+
+\begin{theorem}[Far-end unity is the fixed-half surface]
+\label{thm:unified-reality-far-end-unity-fixed-half-surface}
+For the zeta prime-window readout,
+$$
+\mathsf{FarEndUnity}_{\zeta}(s)
+\quad\Longleftrightarrow\quad
+\delta(s)=0.
+$$
+Consequently it is equivalent to
+$$
+\Re(s)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+If $\mathsf{FarEndUnity}_{\zeta}(s)$ holds, choose any nonempty finite
+prime window $S$.  The unity row gives $\overline D_S(s)=0$.  By
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows},
+the same term is $-\delta(s)$, hence $\delta(s)=0$.  Conversely, if
+$\delta(s)=0$, the same theorem gives $\overline D_S(s)=0$ for every
+nonempty finite window.  The equivalence with $\Re(s)=1/2$ is the
+definition of $\delta$ and the fixed-surface calculation of
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}.
+\end{proof}
+
+\begin{definition}[Cofinal compatibility without hidden boundary term]
+\label{def:unified-reality-cofinal-compatibility-no-hidden-boundary}
+A finite-readout tower has \emph{cofinal compatibility without hidden
+boundary term} when every cofinal finite family has compatible normalized
+readouts and no additional far-end correction row is admitted unless it
+is displayed as a positive carrier row.  For zeta prime windows this
+means that the family
+$$
+\bigl(\overline D_S(s)\bigr)_S
+$$
+cannot be altered at the apophatic far end by an undisplayed term.
+\end{definition}
+
+\begin{theorem}[Far-end unity is cofinal compatibility]
+\label{thm:unified-reality-far-end-unity-cofinal-compatibility}
+For the zeta prime-window tower, far-end unity is exactly cofinal
+compatibility of normalized finite defects with zero boundary defect.
+\end{theorem}
+
+\begin{proof}
+The normalized defect row removes the window scale by
+\autoref{def:unified-reality-normalized-prime-window-defect}.  The
+constant-window theorem
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}
+then shows that all cofinal windows read the same normal displacement
+$-\delta(s)$.  Far-end unity requires that common readout to be zero.
+No point at infinity is used; the row is a compatibility condition on
+all finite windows together with refusal of a hidden boundary correction.
+\end{proof}
+
+\begin{definition}[Zero far-end unity target]
+\label{def:unified-reality-zero-far-end-unity-target}
+The \emph{zero far-end unity target} is
+$$
+\mathsf{ZeroFarEndUnity}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathsf{FarEndUnity}_{\zeta}(s)
+\right).
+$$
+It says that every critical-strip zero source row has cofinally unified
+prime-window normalizations.
+\end{definition}
+
+\begin{theorem}[Zero far-end unity implies the RH section]
+\label{thm:unified-reality-zero-far-end-unity-implies-rh-section}
+If $\mathsf{ZeroFarEndUnity}_{\zeta}$ holds, then the RH fixed-half
+section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$.  The zero and
+critical-strip rows of $z$ give
+$$
+\mathsf{FarEndUnity}_{\zeta}(s)
+$$
+by \autoref{def:unified-reality-zero-far-end-unity-target}.  By
+\autoref{thm:unified-reality-far-end-unity-fixed-half-surface},
+$\delta(s)=0$, hence $\Re(s)=1/2$.  The fixed-half section equivalence
+of \autoref{thm:unified-reality-rh-fixed-half-section-equivalence}
+therefore supplies the RH section.
+\end{proof}
+
+\begin{theorem}[No far-end absorption is the zero-facing exactness form]
+\label{thm:unified-reality-no-far-end-absorption-zero-facing-exactness}
+No far-end absorption is the zero-facing exactness form of far-end unity:
+a zero row cannot carry a stable nonzero normalized prime-window defect.
+\end{theorem}
+
+\begin{proof}
+If a zero row carried $\delta(s)\#0$, then
+\autoref{cor:unified-reality-off-half-displacement-cofinally-visible}
+would give a nonzero normalized defect in every nonempty finite prime
+window, and in particular a finite prime-window defect.  The no-far-end
+absorption row of
+\autoref{def:unified-reality-no-far-end-absorption} excludes coexistence
+of that finite defect with the completed zero ledger.  Conversely, the
+zero far-end unity target of
+\autoref{def:unified-reality-zero-far-end-unity-target} asserts directly
+that zero rows have no such stable normalized defect.  Thus the two
+formulations name the same zero-facing exactness requirement from
+opposite sides: absorption refusal and cofinal unity.
+\end{proof}
+
+\begin{corollary}[Far-end unity is not ordinary point convergence]
+\label{cor:unified-reality-far-end-unity-not-point-convergence}
+The BEDC reading of far-end convergence in the zeta route is cofinal
+compatibility plus no hidden boundary term, not convergence to an
+infinite point.
+\end{corollary}
+
+\begin{proof}
+\autoref{def:unified-reality-far-end-unity-zeta-prime-windows} defines
+far-end unity entirely through finite prime windows.  The far end enters
+only as the boundary role that forbids hidden correction terms, as in
+\autoref{def:unified-reality-cofinal-compatibility-no-hidden-boundary}
+and
+\autoref{def:unified-reality-recursive-spectral-apophatic-far-end}.  This
+is the same discipline enforced by
+\autoref{thm:unified-reality-completion-not-point-reification}: the
+completed zeta carrier may use positive completion rows, but it does not
+turn $\infty$, $\mathsf{T}$, or $\Omega$ into a point that absorbs
+differences.
+\end{proof}

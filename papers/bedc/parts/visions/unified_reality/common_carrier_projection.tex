@@ -1,0 +1,458 @@
+\chapter{Common Carriers and Reality Projections}
+\label{ch:visions-unified-reality-common-carrier-projection}
+\origin{ai}
+
+The unified-reality reading does not treat algebra, geometry, analysis,
+number theory, spectral theory, and physical modelling as unrelated
+object domains. It reads them as projection surfaces of a common
+generating carrier, each surface equipped with its own admissible
+classifier, operation laws, transport policy, and ledger. This does not
+postulate a completed universe of mathematical objects. It fixes an
+auditable interface through which multiple mature readings can be
+compared without importing an unlicensed ambient ontology.
+
+The guiding constraint is the ordinary BEDC naming discipline: a mature
+object is admitted only through source, pattern, classifier, stability,
+and ledger data. Thus $\NatUp$, $\RealUp$, $\CircleUp$, metric spaces,
+categories, spectra, physical-signature models, and analytic
+continuation interfaces are not primitive inputs. They are stable
+readout surfaces over generated behaviour. A unified object is therefore
+not a bare element of a universal set; it is a common carrier together
+with reality projections, classifier-respecting transport, and a
+boundary ledger refusing reverse readings that have not been certified.
+
+\section{Reality Interfaces}
+\label{sec:unified-reality-interfaces}
+
+\begin{definition}[Reality interface]
+\label{def:unified-reality-interface}
+A \emph{reality interface} is a tuple
+$$
+\mathcal R
+:=
+(R,\sim_R,\mathsf{Car}_R,\mathsf{Obs}_R,\mathsf{Law}_R,\mathsf{Led}_R)
+$$
+where $R$ is the carrier or carrier predicate for the interface,
+$\sim_R$ is its classifier,
+$\mathsf{Car}_R$ records admissible carrier conditions,
+$\mathsf{Obs}_R$ records the finite observations readable at that
+interface, $\mathsf{Law}_R$ records the operations and structural laws
+licensed inside the interface, and $\mathsf{Led}_R$ records provenance,
+stability, transport, and boundary information.
+\end{definition}
+
+\begin{definition}[Stable reality interface]
+\label{def:unified-reality-stable-interface}
+A reality interface $\mathcal R$ is \emph{stable} when $\sim_R$ is
+reflexive, symmetric, and transitive on the admitted carrier, and every
+operation listed in $\mathsf{Law}_R$ respects $\sim_R$ in each argument
+and output coordinate on which it is read.
+\end{definition}
+
+\begin{principle}[Interface before domain]
+\label{prin:unified-reality-interface-before-domain}
+BEDC does not accept a domain name as a source-free primitive. A domain
+name may be consumed only after its carrier, classifier, admissible
+observations, operation laws, and ledger policy have been displayed as a
+reality interface.
+\end{principle}
+
+\section{Common Carriers}
+\label{sec:unified-reality-common-carriers}
+
+\begin{definition}[Common carrier]
+\label{def:unified-reality-common-carrier}
+Let $(\mathcal R_i)_{i\in I}$ be a family of reality interfaces with
+carriers $R_i$ and classifiers $\sim_{R_i}$. A \emph{common carrier} for
+this family is data
+$$
+\mathcal O
+:=
+(O,\sim_O,(\pi_i)_{i\in I},\mathsf{Tr},\mathsf{Led},\mathsf{Bnd})
+$$
+where $O$ is the shared carrier, $\sim_O$ is its classifier,
+$\pi_i:O\to R_i$ are reality projections, $\mathsf{Tr}$ records
+transport data between projection surfaces, $\mathsf{Led}$ records
+projection and compatibility provenance, and $\mathsf{Bnd}$ records
+refused reverse readings, collapses, external bridges, and unreviewed
+coercions.
+\end{definition}
+
+\begin{definition}[Classifier-respecting projection]
+\label{def:unified-reality-classifier-respecting-projection}
+A projection $\pi_i:O\to R_i$ from a common carrier is
+\emph{classifier-respecting} when
+$$
+x\sim_O y
+\Longrightarrow
+\pi_i(x)\sim_{R_i}\pi_i(y)
+$$
+for all admitted rows $x,y:O$.
+\end{definition}
+
+\begin{definition}[Reality projection]
+\label{def:unified-reality-projection}
+If $\pi_i:O\to R_i$ is a projection from a common carrier, then
+$\pi_i(x)$ is the \emph{reality readout} of $x$ at the interface
+$\mathcal R_i$. For a predicate $P_i:R_i\to\mathsf{Prop}$, the composite
+claim $P_i(\pi_i(x))$ is a \emph{projection property} of $x$ at
+$\mathcal R_i$.
+\end{definition}
+
+\begin{theorem}[Projection preserves classified identity]
+\label{thm:unified-reality-projection-preserves-classifier}
+Let $\mathcal O$ be a common carrier and let $\pi_i$ be
+classifier-respecting. If $x\sim_O y$, then the two reality readouts are
+classified together:
+$$
+\pi_i(x)\sim_{R_i}\pi_i(y).
+$$
+\end{theorem}
+
+\begin{proof}
+This is exactly the classifier-respect clause in
+\autoref{def:unified-reality-classifier-respecting-projection}.
+\end{proof}
+
+\section{Ledgered Transport}
+\label{sec:unified-reality-ledgered-transport}
+
+\begin{definition}[Reality transport]
+\label{def:unified-reality-transport}
+Given interfaces $\mathcal R_i$ and $\mathcal R_j$ over a common carrier
+$\mathcal O$, a \emph{reality transport} from a predicate
+$P_i:R_i\to\mathsf{Prop}$ to a predicate $P_j:R_j\to\mathsf{Prop}$ is a
+ledgered rule
+$$
+\mathsf{Tr}_{ij}(P_i,P_j)
+$$
+whose exported consequence is
+$$
+\forall x:O,\quad
+P_i(\pi_i(x))
+\Longrightarrow
+P_j(\pi_j(x)).
+$$
+The transport row records the source predicate, target predicate,
+projection maps, classifier compatibility, stability basis, and boundary
+conditions under which the implication may be consumed.
+\end{definition}
+
+\begin{definition}[Transport-equivalent projection properties]
+\label{def:unified-reality-transport-equivalent}
+Projection properties $P_i$ and $P_j$ are
+\emph{$\mathcal O$-transport-equivalent} when the ledger contains
+transport rows in both directions:
+$$
+\mathsf{Tr}_{ij}(P_i,P_j)
+\qquad\text{and}\qquad
+\mathsf{Tr}_{ji}(P_j,P_i).
+$$
+In that case one may write
+$$
+P_i\equiv_{\mathcal O} P_j
+$$
+as an abbreviation for the displayed bidirectional transport data, not
+as an unqualified equality of predicates in an ambient universe.
+\end{definition}
+
+\begin{theorem}[Bidirectional transport gives projection equivalence]
+\label{thm:unified-reality-bidirectional-transport}
+If $P_i$ and $P_j$ are $\mathcal O$-transport-equivalent, then for every
+$x:O$ the two projection properties imply each other:
+$$
+P_i(\pi_i(x))
+\Longrightarrow
+P_j(\pi_j(x))
+$$
+and
+$$
+P_j(\pi_j(x))
+\Longrightarrow
+P_i(\pi_i(x)).
+$$
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{def:unified-reality-transport-equivalent}. The first
+transport row is exactly the first displayed implication for each
+$x:O$, and the second transport row is exactly the reverse implication.
+\end{proof}
+
+\begin{corollary}[Projection equivalence is ledger relative]
+\label{cor:unified-reality-projection-equivalence-ledger-relative}
+The notation $P_i\equiv_{\mathcal O}P_j$ exports no equality stronger
+than the two ledgered transport rows that define it.
+\end{corollary}
+
+\begin{proof}
+By \autoref{def:unified-reality-transport-equivalent}, the notation is
+only an abbreviation for the two displayed transport rows. Therefore any
+consumer of the equivalence must read the corresponding source,
+classifier, stability, and boundary entries from the transport ledger.
+\end{proof}
+
+\section{Generalized Continuation}
+\label{sec:unified-reality-generalized-continuation}
+
+\begin{definition}[Generalized analytic continuation]
+\label{def:unified-reality-generalized-analytic-continuation}
+Let $\mathcal O$ be a common carrier with projections
+$\pi_i:O\to R_i$ and $\pi_j:O\to R_j$. A \emph{generalized analytic
+continuation} from $\mathcal R_i$ to $\mathcal R_j$ is a packet
+$$
+\mathsf{GenCont}_{i\to j}
+:=
+(\mathcal O,\pi_i,\pi_j,\mathsf{Tr}_{ij},\mathsf{Led}_{ij})
+$$
+where $\mathsf{Tr}_{ij}$ transports certified properties from the
+$i$-interface to the $j$-interface and $\mathsf{Led}_{ij}$ records the
+source, classifier, stability, provenance, and boundary conditions of
+that transport. The packet is admissible only when it introduces no
+uncertified primitive and makes every hidden premise visible in the
+ledger.
+\end{definition}
+
+\begin{remark}[Ordinary analytic continuation as a special case]
+\label{rem:unified-reality-ordinary-analytic-continuation-special-case}
+Ordinary analytic continuation fits the schema when the interfaces are
+holomorphic-domain readouts, the shared carrier is the continuation
+packet, the projections read local holomorphic representatives, and the
+transport ledger is the overlap, identity-theorem, uniqueness, and
+branch-boundary record. The generalized form allows the same discipline
+to relate algebraic, geometric, spectral, measure-theoretic, arithmetic,
+analytic, and physical-signature readouts when the corresponding
+projection and transport rows are displayed.
+\end{remark}
+
+\begin{theorem}[Generalized continuation is transport, not creation]
+\label{thm:unified-reality-generalized-continuation-no-new-primitive}
+An admissible $\mathsf{GenCont}_{i\to j}$ packet cannot create a target
+property outside the displayed common carrier, projection maps, transport
+row, and ledger.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:unified-reality-generalized-analytic-continuation}, the
+packet consists only of the common carrier, the two projections, the
+transport row, and the ledger. The admissibility condition forbids the
+introduction of an uncertified primitive. Therefore every exported
+target-side property must be read through the source-side certified
+property, the displayed projection maps, and the transport ledger.
+\end{proof}
+
+\begin{principle}[Boundary refusal]
+\label{prin:unified-reality-boundary-refusal}
+A projection cannot be reversed, collapsed into another projection, or
+exported across a bridge unless the relevant reverse map, collapse
+certificate, or bridge packet is present in the ledger. The common
+carrier licenses comparison and transport; it does not license
+unreviewed identification.
+\end{principle}
+
+\section{Noncollapse and Information Dimension}
+\label{sec:unified-reality-noncollapse-information-dimension}
+
+The boundary refusal principle has a sharper invariant form. A higher
+interface may have lower-level shadows, but the presence of those shadows
+does not by itself give a lossless reconstruction of the higher
+interface. This is the noncollapse discipline: projection may make an
+object visible at a lower layer, while the missing fibers, moduli,
+regularity rows, classifiers, and provenance remain part of the object
+being read.
+
+The located-real surface is the guiding L10 instance. In
+\autoref{def:located-real-carrier}, a $\LocatedRealUp$ packet is not a
+host real point. It is the finite route
+$$
+L=(S,R,D,E,Q,H,C,P,N)
+$$
+through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback,
+$\DyadicRatCoreUp$ endpoint and radius ledgers, a located enclosure row,
+a terminal $\RealUp$ seal, transport, replay, provenance, and local
+NameCert data. The carrier explicitly lacks Dedekind cuts, quotient
+real equality, host real equality, trichotomy, countable-choice
+selectors, compactness witnesses, metric-completion objects, and bridge
+credentials. Thus a rational or dyadic observation may be a shadow of a
+located real, but it is not the located real itself.
+
+\begin{definition}[Information layer tower]
+\label{def:unified-reality-information-layer-tower}
+An \emph{information layer tower} is a sequence of carriers
+$$
+L_0,L_1,L_2,\ldots
+$$
+together with finite readout families
+$$
+\pi^{n+1,n}_k:L_{n+1}\to L_n,
+\qquad
+k:\NatUp.
+$$
+The carrier $L_0$ is the value-facing layer: typical examples include
+$\RatUp$, $\DyadicRatCoreUp$, finite histories, or other displayed
+finite observation surfaces. The carrier $L_1$ is the process-facing
+layer: typical rows contain schedules, streams, moduli, regularity
+witnesses, classifiers, and ledgers. A row of $L_{n+1}$ may be observed
+through $L_n$ at finite precision $k$, but that observation is only a
+shadow unless a reconstruction certificate is displayed.
+\end{definition}
+
+\begin{definition}[Finite shadow]
+\label{def:unified-reality-finite-shadow}
+Let $x:L_{n+1}$ be a higher-layer row in an information layer tower. Its
+\emph{$k$-shadow} on the lower layer is
+$$
+\operatorname{Sh}^{n+1,n}_k(x)
+:=
+\pi^{n+1,n}_k(x).
+$$
+For a process row whose observable component is a stream
+$x_{\mathsf{seq}}$ and whose precision policy is $x_{\mathsf{mod}}$, the
+typical value-facing shadow has the form
+$$
+\operatorname{Sh}_k(x)
+=
+x_{\mathsf{seq}}(x_{\mathsf{mod}}(k)).
+$$
+The equation records the inspected value at the displayed precision; it
+does not identify the inspected value with the process row.
+\end{definition}
+
+\begin{definition}[Degenerate embedding]
+\label{def:unified-reality-degenerate-embedding}
+Given a value-facing carrier $L_0$ and a process-facing carrier $L_1$, a
+\emph{degenerate embedding} is a displayed map
+$$
+\eta:L_0\to L_1
+$$
+whose image consists of process rows with constant observations and
+trivial precision residue. For a rational-facing instance this has the
+schematic form
+$$
+\eta(q)_{\mathsf{seq}}(n)=q,
+\qquad
+\eta(q)_{\mathsf{mod}}(k)=0.
+$$
+The map is part of the tower data only when its carrier, classifier,
+constant-observation law, precision policy, and ledger are displayed.
+\end{definition}
+
+\begin{definition}[Local noncollapse]
+\label{def:unified-reality-local-noncollapse}
+Let $x:L_1$ be a process-facing row and let
+$\eta:L_0\to L_1$ be a displayed degenerate embedding. The row $x$ is
+\emph{locally noncollapsed over $L_0$} when
+$$
+\mathsf{NonCollapse}_{L_0}(x)
+:=
+\neg\exists q:L_0,\ x\sim_{L_1}\eta(q).
+$$
+Thus $x$ cannot be consumed as a lossless value-layer point without a
+classifier witness identifying it with a displayed degenerate process.
+\end{definition}
+
+\begin{definition}[Structural noncollapse]
+\label{def:unified-reality-structural-noncollapse}
+Let $L_1$ be a process-facing carrier over a value-facing carrier $L_0$.
+The pair $(L_1,L_0)$ satisfies \emph{structural noncollapse} when there
+is no pair of displayed maps
+$$
+c:L_1\to L_0,
+\qquad
+\rho:L_0\to L_1
+$$
+such that
+$$
+\forall x:L_1,\quad
+\rho(c(x))\sim_{L_1}x.
+$$
+The map $c$ would choose a lower-layer readout, and $\rho$ would
+reinflate that readout into a process row. Structural noncollapse says
+that no such retraction is available from the displayed tower data.
+\end{definition}
+
+\begin{definition}[Projection fiber]
+\label{def:unified-reality-projection-fiber}
+For a projection $\pi:L_1\to L_0$ and a lower-layer row $q:L_0$, the
+\emph{projection fiber} over $q$ is
+$$
+\operatorname{Fib}_{\pi}(q)
+:=
+\sum_{x:L_1}
+\bigl(\pi(x)\sim_{L_0}q\bigr).
+$$
+The projection has a \emph{nontrivial fiber} when there are rows
+$x,y:L_1$ such that
+$$
+\pi(x)\sim_{L_0}\pi(y)
+$$
+but
+$$
+\neg(x\sim_{L_1}y).
+$$
+\end{definition}
+
+\begin{theorem}[Nontrivial fibers obstruct collapse]
+\label{thm:unified-reality-nontrivial-fiber-obstructs-collapse}
+If $\pi:L_1\to L_0$ has a nontrivial fiber, then $\pi$ cannot be the
+first component of a classifier-respecting lossless retraction
+$$
+\rho:L_0\to L_1
+$$
+satisfying
+$$
+\forall x:L_1,\quad \rho(\pi(x))\sim_{L_1}x.
+$$
+Here classifier-respecting means that
+$$
+u\sim_{L_0}v
+\Longrightarrow
+\rho(u)\sim_{L_1}\rho(v).
+$$
+\end{theorem}
+
+\begin{proof}
+Assume such a $\rho$ exists, and choose $x,y:L_1$ witnessing a
+nontrivial fiber. Since $\pi(x)\sim_{L_0}\pi(y)$, classifier-respect for
+the displayed reconstruction gives
+$$
+\rho(\pi(x))\sim_{L_1}\rho(\pi(y)).
+$$
+The retraction hypothesis gives
+$$
+\rho(\pi(x))\sim_{L_1}x
+\qquad\text{and}\qquad
+\rho(\pi(y))\sim_{L_1}y.
+$$
+Symmetry and transitivity of $\sim_{L_1}$ therefore imply
+$x\sim_{L_1}y$, contradicting the nontrivial-fiber witness.
+\end{proof}
+
+\begin{definition}[Information dimension]
+\label{def:unified-reality-information-dimension}
+For an information layer tower, the \emph{information dimension} of a
+row is the least layer index at which the row can be represented without
+loss by the displayed carriers, classifiers, and ledgers. A row
+$x:L_m$ has information dimension at most $n\leq m$ when there are
+displayed maps
+$$
+c:L_m\to L_n,
+\qquad
+\rho:L_n\to L_m
+$$
+with
+$$
+\rho(c(x))\sim_{L_m}x.
+$$
+It has information dimension exactly $n$ when $n$ is minimal among the
+layers for which such data are displayed.
+\end{definition}
+
+\begin{principle}[No shadow replacement]
+\label{prin:unified-reality-no-shadow-replacement}
+A lower-layer shadow may be used as an observation, approximation, or
+comparison coordinate, but it may not replace the higher-layer row unless
+the tower supplies an explicit reconstruction map, classifier-respect
+witness, and ledger. Without those data, the omitted fiber is part of
+the object.
+\end{principle}

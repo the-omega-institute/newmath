@@ -1,0 +1,214 @@
+\section{Prime-Adic Parity Sphere Invariant}
+\label{sec:unified-reality-prime-adic-parity-sphere-invariant}
+
+The prime-adic parity energy window has the same geometric role as the
+unit circle in the Pythagorean carrier: it turns a normalization row into
+a unit-boundary equation.  For a finite window
+$A\subset\PrimeUp\times\NatUp$, the centered coordinates
+$U_{p,j}^{\mathrm{pad}}(s)$ define a weighted sphere.  The fixed-half
+surface is exactly the boundary of this finite sphere, while off-half
+rows lie strictly on one side of the boundary in the located radial
+readout.
+
+\begin{definition}[Prime-adic parity radius]
+\label{def:unified-reality-prime-adic-parity-radius}
+For a prime-adic parity window $A$, define the node weight
+$$
+h_{p,j}:=2^j\log p
+$$
+and the normalized node weight
+$$
+\omega_{p,j}^{A}:=\frac{h_{p,j}}{W_A^{\mathrm{pad}}}.
+$$
+The \emph{prime-adic parity radius square} is
+$$
+R_A^2(s)
+:=
+\sum_{(p,j)\in A}
+\omega_{p,j}^{A}
+\left|U_{p,j}^{\mathrm{pad}}(s)\right|^2.
+$$
+Writing $U_{p,j}^{\mathrm{pad}}(s)=x_{p,j}(s)+iy_{p,j}(s)$, this is the
+weighted sphere equation
+$$
+R_A^2(s)
+=
+\sum_{(p,j)\in A}
+\omega_{p,j}^{A}
+\left(x_{p,j}(s)^2+y_{p,j}(s)^2\right).
+$$
+\end{definition}
+
+\begin{theorem}[The weighted sphere boundary is the fixed-half surface]
+\label{thm:unified-reality-prime-adic-parity-sphere-fixed-half}
+For every prime-adic parity window $A$,
+$$
+R_A^2(s)=1
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+Write
+$$
+s=\frac12+\delta+i\tau.
+$$
+By
+\autoref{def:unified-reality-prime-adic-parity-window},
+$$
+\left|U_{p,j}^{\mathrm{pad}}(s)\right|^2
+=
+\left|p^{2^j(1/2-s)}\right|^2
+=
+p^{-2^{j+1}\delta}.
+$$
+If $\delta=0$, every term is $1$, and the normalized weights satisfy
+$$
+\sum_{(p,j)\in A}\omega_{p,j}^{A}=1.
+$$
+Thus $R_A^2(s)=1$.
+
+Conversely, if $\delta>0$, then every term $p^{-2^{j+1}\delta}$ is
+strictly smaller than $1$, so the weighted average $R_A^2(s)$ is
+strictly smaller than $1$.  If $\delta<0$, every term is strictly larger
+than $1$, so $R_A^2(s)$ is strictly larger than $1$.  Hence equality
+with $1$ is possible only when $\delta=0$, equivalently
+$\Re(s)=1/2$.
+\end{proof}
+
+\begin{corollary}[Sphere radius and normal energy define the same boundary]
+\label{cor:unified-reality-sphere-radius-normal-energy-same-boundary}
+For every prime-adic parity window $A$, the rows
+$$
+R_A^2(s)=1
+\qquad\text{and}\qquad
+E_A^{\mathrm{pad}}(s)=0
+$$
+define the same fixed-half boundary.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-prime-adic-parity-sphere-fixed-half}
+identifies $R_A^2(s)=1$ with $\Re(s)=1/2$.  By
+\autoref{thm:unified-reality-prime-adic-parity-windows-read-one-normal-coordinate},
+$$
+E_A^{\mathrm{pad}}(s)=\delta(s)^2.
+$$
+Thus $E_A^{\mathrm{pad}}(s)=0$ is the same row as $\delta(s)=0$, hence
+the same fixed-half boundary.
+\end{proof}
+
+\begin{definition}[Finite Hamiltonian sphere state]
+\label{def:unified-reality-finite-hamiltonian-sphere-state}
+For a prime-adic parity window $A$, let $\mathcal H_A$ be the finite
+Hilbert readout with displayed basis $|p,j\rangle$ for $(p,j)\in A$.
+Define
+$$
+H_A|p,j\rangle=h_{p,j}|p,j\rangle
+$$
+and the normalized reference vector
+$$
+|\mathbf 1_A\rangle
+:=
+\sum_{(p,j)\in A}
+\sqrt{\omega_{p,j}^{A}}\,|p,j\rangle.
+$$
+The centered finite Hamiltonian state is
+$$
+|\psi_A(s)\rangle
+:=
+e^{-(s-1/2)H_A}|\mathbf 1_A\rangle.
+$$
+\end{definition}
+
+\begin{theorem}[Finite Hamiltonian norm is the sphere radius]
+\label{thm:unified-reality-finite-hamiltonian-norm-sphere-radius}
+For every prime-adic parity window $A$,
+$$
+\|\psi_A(s)\|^2=R_A^2(s).
+$$
+Consequently the fixed-half surface is the finite Hamiltonian unitary
+surface.
+\end{theorem}
+
+\begin{proof}
+The operator $H_A$ is diagonal on the displayed basis, so
+$$
+e^{-(s-1/2)H_A}|p,j\rangle
+=
+p^{2^j(1/2-s)}|p,j\rangle
+=
+U_{p,j}^{\mathrm{pad}}(s)|p,j\rangle.
+$$
+Therefore
+$$
+\|\psi_A(s)\|^2
+=
+\sum_{(p,j)\in A}
+\omega_{p,j}^{A}
+\left|U_{p,j}^{\mathrm{pad}}(s)\right|^2
+=
+R_A^2(s).
+$$
+If $\Re(s)=1/2$, then $s-1/2=i\tau$ and
+$e^{-(s-1/2)H_A}=e^{-i\tau H_A}$ is unitary.  Conversely,
+\autoref{thm:unified-reality-prime-adic-parity-sphere-fixed-half}
+identifies preservation of the unit norm of this displayed reference
+state with the fixed-half surface.
+\end{proof}
+
+\begin{definition}[Zero boundary sphere row]
+\label{def:unified-reality-zero-boundary-sphere-row}
+The \emph{zero boundary sphere row} is
+$$
+\mathsf{ZeroBoundarySphere}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\prod_{A:\mathsf{PAdicParityWindow}_{\ne\varnothing}}
+\bigl(R_A^2(s)=1\bigr)
+\right).
+$$
+It says that a completed zeta zero lies on the unit-boundary sphere of
+every finite prime-adic parity window.
+\end{definition}
+
+\begin{theorem}[Zero boundary sphere is conditionally sufficient]
+\label{thm:unified-reality-zero-boundary-sphere-conditionally-sufficient}
+Together with the located fixed-half collapse row,
+$$
+\mathsf{ZeroBoundarySphere}_{\zeta}
+$$
+is sufficient for the RH fixed-half section.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row.  The zero boundary sphere row
+gives $R_A^2(s)=1$ for every prime-adic parity window $A$.  Choose one
+such window.  By
+\autoref{thm:unified-reality-prime-adic-parity-sphere-fixed-half},
+this gives $\Re(s)=1/2$.  Equivalently, $\delta(s)=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+the row as the RH fixed-half section.
+\end{proof}
+
+\begin{corollary}[Sphere boundary is the geometric form of energy refusal]
+\label{cor:unified-reality-sphere-boundary-geometric-energy-refusal}
+The zero boundary sphere row and the no prime-adic parity energy zero row
+are two geometric presentations of the same RH-facing obstruction.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{cor:unified-reality-sphere-radius-normal-energy-same-boundary},
+$R_A^2(s)=1$ and $E_A^{\mathrm{pad}}(s)=0$ identify the same fixed-half
+boundary on each finite window.  Therefore requiring zeta zero rows to
+land on all sphere boundaries is the boundary-surface form of excluding
+nonzero second-order prime-adic parity energy, as stated in
+\autoref{def:unified-reality-no-prime-adic-parity-energy-zero}.
+\end{proof}
