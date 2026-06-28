@@ -330,6 +330,7 @@ import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticFnUp
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
+import BEDC.Derived.ArithmeticalHierarchyUp.TasteGate
 import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
@@ -2558,7 +2559,9 @@ import BEDC.Derived.CauchyRealArchimedeanUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealEqualityUp.TasteGate
 import BEDC.Derived.CauchyRealEquivalenceModulusUp
+import BEDC.Derived.CauchyRealFieldUp.NameCertObligations
 import BEDC.Derived.CauchyRealFieldUp.OperationComposition
+import BEDC.Derived.CauchyRealFieldUp.ReciprocalBoundary
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealLimitUp.TasteGate
 import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
@@ -3319,6 +3322,7 @@ import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
 import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactDiniModulusUp.TasteGate
+import BEDC.Derived.CompactFilterDiniMonotoneUp.TasteGate
 import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactImageClosedUp.TasteGate
@@ -7623,6 +7627,7 @@ import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
 import BEDC.Derived.LocatedRealChoiceSequenceUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonModulusUp.TasteGate
+import BEDC.Derived.LocatedRealComparisonUp.NameCertObligations
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealCompletionUniversalUp.TasteGate
 import BEDC.Derived.LocatedRealContinuityUp.TasteGate
@@ -8503,6 +8508,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DecidableNo
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderRowExhaustion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpointComparison
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FrontierNormalEndpointRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBudget
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
