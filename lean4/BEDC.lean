@@ -7221,6 +7221,7 @@ import BEDC.Derived.KirchhoffMatrixTreeUp.KernelCarrier
 import BEDC.Derived.KirchhoffMatrixTreeUp.TasteGate
 import BEDC.Derived.KirszbraunExtensionUp.TasteGate
 import BEDC.Derived.KleeneBrouwerOrderUp.TasteGate
+import BEDC.Derived.KleeneKreiselContinuousFunctionalUp.TasteGate
 import BEDC.Derived.KleeneKreiselSpaceUp
 import BEDC.Derived.KleeneRealizabilityUp.TasteGate
 import BEDC.Derived.KleeneTreeUp.CantorFanDependencyRoute
@@ -7607,6 +7608,7 @@ import BEDC.Derived.LocatedCutUp.RegularCauchyBridgeSource
 import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp
@@ -9599,6 +9601,7 @@ import BEDC.Derived.PicardErrorEstimateUp.TasteGate
 import BEDC.Derived.PicardFixedPointModulusUp.TasteGate
 import BEDC.Derived.PicardIterationUp.TasteGate
 import BEDC.Derived.PicardLindelofLocalFlowUp.TasteGate
+import BEDC.Derived.PicardLindelofLocalIterationUp.TasteGate
 import BEDC.Derived.PicardLindelofUp.TasteGate
 import BEDC.Derived.PicardThresholdCauchyHandoffUp.TasteGate
 import BEDC.Derived.PiecewiseLinearApproximationUp.TasteGate
