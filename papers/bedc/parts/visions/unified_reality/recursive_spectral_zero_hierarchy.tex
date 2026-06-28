@@ -1,0 +1,324 @@
+\section{Recursive Spectral Zero Hierarchy}
+\label{sec:unified-reality-recursive-spectral-zero-hierarchy}
+
+The quartic spectral carrier, finite-field elliptic zeta functions, and
+global zeta or $L$-functions share a recursive spectral mechanism.  They
+do not share one literal zero set.  The commonality is structural:
+finite observations are folded into a generating object, the generating
+object exposes spectral factors, normalization identifies the balanced
+surface, and zero constraints are read only through the ledgers available
+at that level.
+
+\begin{definition}[Zeta-like spectral hierarchy]
+\label{def:unified-reality-zeta-like-spectral-hierarchy}
+The \emph{zeta-like spectral hierarchy} separates three levels:
+$$
+\mathsf{RecurrenceSpectralZeros}
+\longrightarrow
+\mathsf{CurveZetaZeros}
+\longrightarrow
+\mathsf{GlobalZetaLFunctionZeros}.
+$$
+The first level contains zeros such as the endpoint zeros of the fixed
+quartic recurrence carrier.  The second level contains zeta zeros of
+geometric objects over finite fields, such as numerator roots of
+elliptic Hasse--Weil zeta functions.  The third level contains zeros of
+global arithmetic zeta and $L$-functions, including the Riemann zeta
+zero ledger.  The arrows are carrier-role refinements, not inclusions of
+one point set into another.
+\end{definition}
+
+\begin{definition}[Recursive spectral fold]
+\label{def:unified-reality-recursive-spectral-fold}
+A \emph{recursive spectral fold} is a packet
+$$
+\mathsf{ObsTime}
+\to
+\mathsf{GenFunction}
+\to
+\mathsf{SpectralFactors}
+\to
+\mathsf{Normalization}
+\to
+\mathsf{ZeroConstraint},
+$$
+where finite observations indexed by an observation-time parameter are
+compressed into a generating function or Euler product; spectral factors
+read the compressed carrier; normalization identifies the balanced
+surface; and zero constraints are derived only after the required
+dominance, symmetry, exactness, or continuation ledgers have been
+displayed.
+\end{definition}
+
+\begin{theorem}[Recursive spectral folds are not self-reference]
+\label{thm:unified-reality-recursive-spectral-fold-not-self-reference}
+A recursive spectral fold is a hierarchical compression of finite
+observation rows, not a circular definition of its own zero set.
+\end{theorem}
+
+\begin{proof}
+The input rows are finite observations such as recurrence coefficients,
+point counts over finite extensions, or prime-local Euler factors.  The
+generating object is constructed from those rows.  Spectral factors are
+then read from the generated object, and zero constraints are read from
+the spectral factors plus the relevant ledgers.  Each stage consumes the
+previous stage as data; no stage assumes the zero constraint that it is
+supposed to produce.
+\end{proof}
+
+\begin{definition}[Quartic recurrence zero level]
+\label{def:unified-reality-quartic-recurrence-zero-level}
+The quartic recurrence zero level is the recursive spectral fold
+$$
+(Z_m(y))_{m\ge0}
+\to
+Z(t,y)=\frac{N(t,y)}{D(t,y)}
+\to
+\Pi(\lambda,y)
+\to
+E:\ Y^2=4\lambda^3-4\lambda+1
+\to
+\mathsf{EndpointZeros}.
+$$
+Its zeros are zeros of the finite recurrence polynomials $Z_m(y)$ under
+the endpoint scaling and fixed-window ledgers of
+\autoref{def:unified-reality-quartic-endpoint-zero-reality}.
+\end{definition}
+
+\begin{theorem}[Quartic endpoint zeros are recurrence-spectral zeros]
+\label{thm:unified-reality-quartic-endpoint-zeros-recurrence-spectral}
+The endpoint zeros in the fixed quartic carrier are recurrence-spectral
+zeros.  They are zeta-like by recursive spectral form, but they are not
+zeros of the Riemann zeta function or of an elliptic Hasse--Weil zeta
+function.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-quartic-spectral-common-carrier-principle},
+the fixed quartic carrier transports recurrence algebra through the
+spectral polynomial, elliptic normalization, real projection, dominance,
+and endpoint-zero ledgers.  The endpoint zeros are obtained by local
+branch interference and Rouch\'e isolation in
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}.
+No Euler product, finite-field point-count zeta function, or completed
+Riemann zeta zero ledger is part of this carrier.  Thus the analogy is
+structural rather than an identification of zero sets.
+\end{proof}
+
+\begin{definition}[Finite-field elliptic zeta level]
+\label{def:unified-reality-finite-field-elliptic-zeta-level}
+For an elliptic curve $E/\mathbb F_q$, the finite-field elliptic zeta
+level folds the point-count time series
+$$
+r\longmapsto \#E(\mathbb F_{q^r})
+$$
+into
+$$
+Z(E/\mathbb F_q,T)
+:=
+\exp\left(
+\sum_{r\ge1}
+\#E(\mathbb F_{q^r})\frac{T^r}{r}
+\right).
+$$
+For an elliptic curve this has the rational form
+$$
+Z(E/\mathbb F_q,T)
+=
+\frac{1-aT+qT^2}{(1-T)(1-qT)}
+=
+\frac{(1-\alpha T)(1-\beta T)}{(1-T)(1-qT)}.
+$$
+The spectral roots $\alpha,\beta$ are the Frobenius readouts of the
+point-count fold.
+\end{definition}
+
+\begin{theorem}[Frobenius roots recursively control point counts]
+\label{thm:unified-reality-frobenius-roots-control-point-counts}
+In the finite-field elliptic zeta level, the spectral roots determine
+the point-count observations by
+$$
+\#E(\mathbb F_{q^r})
+=
+q^r+1-\alpha^r-\beta^r.
+$$
+Thus the point-count time series and the Frobenius spectral roots are
+two readouts of the same recursive fold.
+\end{theorem}
+
+\begin{proof}
+The exponential generating definition records all point-count rows.  The
+rational form of the elliptic zeta function packages the same data into
+the numerator factors $(1-\alpha T)(1-\beta T)$ together with the two
+denominator rows $(1-T)$ and $(1-qT)$.  Expanding the logarithmic
+derivative of the displayed rational expression recovers the displayed
+point-count formula.  Hence the spectral roots compress and read back
+the observation-time sequence.
+\end{proof}
+
+\begin{definition}[Finite-field elliptic RH-type normalization]
+\label{def:unified-reality-finite-field-elliptic-rh-normalization}
+The finite-field elliptic RH-type normalization is the row
+$$
+|\alpha|=|\beta|=\sqrt q,
+$$
+equivalently
+$$
+\left|\frac{\alpha}{\sqrt q}\right|
+=
+\left|\frac{\beta}{\sqrt q}\right|
+=1.
+$$
+It is the finite geometric form of a normalized spectral-root constraint.
+\end{definition}
+
+\begin{theorem}[Finite-field elliptic zeros give a closed local model]
+\label{thm:unified-reality-finite-field-elliptic-zeros-closed-model}
+The finite-field elliptic zeta level is a closed local geometric model of
+RH-type normalization, not a proof of the Riemann zeta zero constraint.
+\end{theorem}
+
+\begin{proof}
+The normalization row of
+\autoref{def:unified-reality-finite-field-elliptic-rh-normalization}
+places the Frobenius spectral roots on the unit circle after division by
+$\sqrt q$.  This is a theorem at the finite-field elliptic level.  The
+Riemann zeta zero ledger instead concerns complex zero rows $s$ of the
+completed zeta carrier and the fixed-half condition $\Re(s)=1/2$.
+Transport from the finite-field elliptic carrier to the completed
+Riemann zeta carrier is not supplied by the finite-field theorem.  The
+remaining global bridge is the zero-defect rigidity route isolated in
+\autoref{sec:unified-reality-rh-spectral-rigidity-route}.
+\end{proof}
+
+\begin{definition}[Global elliptic and zeta zero level]
+\label{def:unified-reality-global-elliptic-zeta-zero-level}
+For an elliptic curve over $\mathbb Q$, the global elliptic $L$-function
+level is assembled from local Euler factors.  At a good prime $p$ the
+local factor has the form
+$$
+1-a_p p^{-s}+p^{1-2s}.
+$$
+The global readout is an Euler product
+$$
+L(E,s)=\prod_p L_p(E,p^{-s})^{-1}.
+$$
+The Riemann zeta readout is the simpler global Euler product
+$$
+\zeta(s)=\prod_p(1-p^{-s})^{-1}.
+$$
+Both are global arithmetic spectral carriers, with different local
+factor data and different proof obligations.
+\end{definition}
+
+\begin{theorem}[Global elliptic L-functions are higher arithmetic siblings]
+\label{thm:unified-reality-global-elliptic-lfunctions-higher-siblings}
+Global elliptic $L$-functions and the Riemann zeta function share the
+Euler-product, Mellin, functional-equation, and zero-ledger pattern, but
+their zero ledgers are not the same object.
+\end{theorem}
+
+\begin{proof}
+\autoref{def:unified-reality-elliptic-modular-lfunction-row} records the
+elliptic, modular, and $L$-function bridge shape when the required
+bridge rows are displayed.  The Riemann zeta carrier has its own
+prime-local factors and completed zero ledger, as used in
+\autoref{sec:unified-reality-zeta-ontic-projection}.  The two carriers
+share the global arithmetic spectral pattern, but a zero of one carrier
+is not automatically a zero of the other.  Any transport between their
+zero statements requires its own bridge ledger.
+\end{proof}
+
+\begin{definition}[Normalized spectral-root analogy]
+\label{def:unified-reality-normalized-spectral-root-analogy}
+The normalized spectral-root analogy compares the finite-field elliptic
+readout
+$$
+\frac{\alpha}{\sqrt q}
+$$
+with the centered prime-channel readout
+$$
+p^{1/2-s}.
+$$
+Both are unit-circle constraints after normalization:
+$$
+\left|\frac{\alpha}{\sqrt q}\right|=1,
+\qquad
+|p^{1/2-s}|=1.
+$$
+The first is a Frobenius-root statement in a finite-field curve carrier.
+The second is a prime-channel reading of the fixed-half surface in the
+zeta carrier.
+\end{definition}
+
+\begin{theorem}[Unit-circle analogies require carrier separation]
+\label{thm:unified-reality-unit-circle-analogies-carrier-separation}
+The analogy between $\alpha/\sqrt q$ and $p^{1/2-s}$ identifies a common
+normalization pattern, not a common theorem or a common zero set.
+\end{theorem}
+
+\begin{proof}
+In the finite-field elliptic carrier, the unit-circle statement is the
+Frobenius-root normalization row.  In the Riemann zeta carrier,
+$|p^{1/2-s}|=1$ is equivalent to the fixed-half surface by
+\autoref{thm:unified-reality-prime-laplace-detect-same-fixed-surface}.
+The latter is still only a surface readout until a zero row is shown to
+land on that surface.  That additional step is the defect-zero
+incompatibility or prime-sieve odd exactness boundary of
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route} and
+\autoref{def:unified-reality-prime-sieve-odd-exactness}.
+\end{proof}
+
+\begin{definition}[Apophatic far end of recursive spectral towers]
+\label{def:unified-reality-recursive-spectral-apophatic-far-end}
+The far end of a recursive spectral tower is not an internal point of the
+tower.  It is the boundary role named by the continuing availability of
+finite observation layers:
+$$
+r=1,2,3,\ldots
+$$
+or by unbounded prime windows, recurrence lengths, or extension degrees.
+In BEDC notation this is an apophatic far-end role, not a term to be
+substituted into the carrier as a value.
+\end{definition}
+
+\begin{theorem}[Infinite observation time is not a spectral point]
+\label{thm:unified-reality-infinite-observation-time-not-spectral-point}
+The infinite direction in a zeta-like recursive spectral fold is a
+boundary role for all finite readouts, not a point of the generated
+spectral carrier.
+\end{theorem}
+
+\begin{proof}
+For finite-field elliptic zeta functions, each $r$ supplies the finite
+observation $\#E(\mathbb F_{q^r})$.  The zeta function folds the entire
+finite observation family into a spectral object.  It does not require a
+point $\mathbb F_{q^\infty}$ inside the carrier.  The same discipline is
+the apophatic separation of
+\autoref{def:unified-reality-cataphatic-process-apophatic-far-end} and
+\autoref{prin:apophatic-fixed-point-T-not-kernel}: the far end may be
+named as a boundary role, but it is not consumed as a kernel object or
+as an additional spectral point.
+\end{proof}
+
+\begin{theorem}[Recursive spectral zero hierarchy principle]
+\label{thm:unified-reality-recursive-spectral-zero-hierarchy-principle}
+Quartic endpoint zeros, finite-field elliptic zeta zeros, global elliptic
+$L$-function zeros, and Riemann zeta zeros are projections of a common
+recursive spectral pattern only after their carrier boundaries are kept
+distinct.
+\end{theorem}
+
+\begin{proof}
+The quartic carrier uses recurrence data, a rational generating
+function, a spectral polynomial, elliptic normalization, dominance, and
+endpoint-zero ledgers.  The finite-field elliptic carrier uses point
+counts over finite extensions, a Hasse--Weil zeta function, Frobenius
+spectral roots, and unit-circle normalization.  The global elliptic and
+Riemann zeta carriers use Euler products, completion, functional
+equations, and zero ledgers.  These are instances of
+\autoref{def:unified-reality-recursive-spectral-fold}.  Their shared
+pattern licenses comparison of roles, while their separate ledgers
+forbid collapsing one zero reality into another.
+\end{proof}

@@ -1,0 +1,421 @@
+\section{Far-End Correction Obligation}
+\label{sec:unified-reality-far-end-correction-obligation}
+
+The normalized prime-window route isolates a useful proof boundary.  The
+formula
+$$
+\overline D_S(s)=-\delta(s)
+$$
+shows that off-half displacement is cofinally stable across all nonempty
+finite prime windows.  The no-far-end-absorption row says that such a
+stable finite defect cannot coexist with a completed zeta zero row.  What
+remains is to justify, inside the completed zeta carrier, that coexistence
+of zero and cofinally stable defect would require a hidden far-end
+correction.  That implication is the exactness obligation.
+
+\begin{definition}[Cofinal stable prime defect]
+\label{def:unified-reality-cofinal-stable-prime-defect}
+A zeta packet $s$ carries a \emph{cofinal stable prime defect} when some
+nonempty finite prime window has nonzero normalized defect:
+$$
+\mathsf{CofStablePrimeDefect}(s)
+:=
+\sum_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\left(
+\overline D_S(s)\#0
+\right).
+$$
+By
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows},
+this is equivalent to $\delta(s)\#0$ for the centered prime-window
+readout.
+\end{definition}
+
+\begin{definition}[Hidden far-end correction]
+\label{def:unified-reality-hidden-far-end-correction}
+A \emph{hidden far-end correction} for a zeta packet $s$ is an
+undisplayed correction row
+$$
+C_{\mathsf{T}}(s)
+$$
+whose only role is to cancel a cofinal stable finite prime defect at the
+completed carrier boundary while preserving the zero classifier.  It is
+not the archimedean completion row of
+\autoref{def:unified-reality-archimedean-completion-row}; it is an
+additional, unlicensed absorber placed at the apophatic far end.
+\end{definition}
+
+\begin{definition}[Far-end correction necessity]
+\label{def:unified-reality-far-end-correction-necessity}
+The \emph{far-end correction necessity} row is the zeta-specific
+exactness implication
+$$
+\mathsf{FarEndCorrectionNecessity}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{CofStablePrimeDefect}(s)
+\to
+\mathsf{HiddenFarEndCorrection}(s)
+\right).
+$$
+It says that if a completed zero row and a cofinally stable finite prime
+defect were to coexist, the completed carrier would have to contain an
+extra far-end correction row explaining the cancellation.
+\end{definition}
+
+\begin{definition}[No hidden far-end correction]
+\label{def:unified-reality-no-hidden-far-end-correction}
+The \emph{no hidden far-end correction} row is
+$$
+\mathsf{NoHiddenFarEndCorrection}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{HiddenFarEndCorrection}(s)\to\bot
+\right).
+$$
+It is the zeta-carrier instance of the apophatic far-end discipline:
+$\mathsf{T}$, $\Omega$, or the far-end boundary cannot be consumed as an
+internal correction object.
+\end{definition}
+
+\begin{theorem}[Correction necessity plus refusal gives no absorption]
+\label{thm:unified-reality-correction-necessity-refusal-gives-no-absorption}
+Assume far-end correction necessity and no hidden far-end correction.
+Then no far-end absorption holds in normalized prime-window form:
+$$
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{CofStablePrimeDefect}(s)
+\to
+\bot
+\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a zero row, a critical-strip row, and a cofinal stable
+prime defect.  Far-end correction necessity supplies
+$$
+\mathsf{HiddenFarEndCorrection}(s).
+$$
+No hidden far-end correction sends this row to $\bot$.  Hence the three
+input rows cannot coexist.
+\end{proof}
+
+\begin{corollary}[No absorption gives the RH section]
+\label{cor:unified-reality-no-absorption-gives-rh-section-normalized}
+Under located fixed-half collapse, the normalized no-absorption row of
+\autoref{thm:unified-reality-correction-necessity-refusal-gives-no-absorption}
+implies the RH fixed-half section.
+\end{corollary}
+
+\begin{proof}
+If a critical-strip zero row had $\delta(s)\#0$, then
+\autoref{cor:unified-reality-off-half-displacement-cofinally-visible}
+would give $\mathsf{CofStablePrimeDefect}(s)$.  The normalized
+no-absorption row excludes this.  Therefore $\neg(\delta(s)\#0)$ for
+every zero-source row.  Located fixed-half collapse gives
+$\delta(s)=0$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} reads
+the result as the RH section.
+\end{proof}
+
+\begin{theorem}[Correction necessity is the unclosed exactness step]
+\label{thm:unified-reality-correction-necessity-unclosed-exactness-step}
+The no-hidden-far-end row is part of BEDC's apophatic discipline.  The
+unclosed zeta-specific content is far-end correction necessity.
+\end{theorem}
+
+\begin{proof}
+\autoref{def:unified-reality-no-hidden-far-end-correction} is a direct
+application of the non-internalization rule for apophatic far ends,
+already used in
+\autoref{thm:unified-reality-completion-not-point-reification} and
+\autoref{cor:unified-reality-far-end-unity-not-point-convergence}.  It
+refuses to treat $\mathsf{T}$ or $\Omega$ as a hidden internal object.
+By contrast,
+\autoref{def:unified-reality-far-end-correction-necessity} is an
+analytic exactness claim about the completed zeta carrier: it must show
+that zero plus cofinally stable finite defect cannot be reconciled
+without an unlicensed absorber.  That claim is not supplied by
+$\mathsf{ZetaZero}(s)$ and remains the same hard point as
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}.
+\end{proof}
+
+\begin{definition}[Finite sieve residual tail]
+\label{def:unified-reality-finite-sieve-residual-tail}
+For a finite prime window $S$, the \emph{finite sieve residual tail} is
+the completed zeta readout after the displayed Euler factors in $S$ have
+been removed:
+$$
+R_S(s)
+:=
+\zeta(s)\prod_{p\in S}(1-p^{-s}).
+$$
+Equivalently, in the Euler-product region the finite Euler fold
+$$
+E_S(s):=\prod_{p\in S}(1-p^{-s})^{-1}
+$$
+is separated from the residual readout by
+$$
+\zeta(s)=E_S(s)R_S(s).
+$$
+The finite sieve tower is the family $\bigl(R_S(s)\bigr)_S$ over finite
+prime windows.
+\end{definition}
+
+\begin{definition}[Finite sieve tail-zero tower]
+\label{def:unified-reality-finite-sieve-tail-zero-tower}
+The \emph{finite sieve tail-zero tower} for a zeta packet $s$ is
+$$
+\mathsf{FiniteSieveTailZero}_{\zeta}(s)
+:=
+\prod_{S:\mathsf{FinitePrimeWindow}}
+\left(
+R_S(s)=0
+\right).
+$$
+It says that every finite residual tail inherits the zero row after the
+displayed finite Euler factors have been removed.
+\end{definition}
+
+\begin{theorem}[Zero rows enter finite sieve tails]
+\label{thm:unified-reality-zero-rows-enter-finite-sieve-tails}
+Every critical-strip zeta zero row enters the finite sieve tail-zero
+tower:
+$$
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathsf{FiniteSieveTailZero}_{\zeta}(s)
+\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $S$ be a finite prime window.  By
+\autoref{def:unified-reality-finite-sieve-residual-tail},
+$R_S(s)$ is obtained by multiplying the zeta value row by the displayed
+finite product
+$$
+\prod_{p\in S}(1-p^{-s}).
+$$
+A zero row is preserved under this finite multiplication.  The
+critical-strip row also ensures that each displayed factor is a legitimate
+finite sieve factor: if $0<\Re(s)<1$, then $|p^{-s}|<1$, hence
+$1-p^{-s}$ is not the zero denominator of a finite Euler factor.  Thus
+every finite $S$ has $R_S(s)=0$.
+\end{proof}
+
+\begin{definition}[No off-balanced tail zero]
+\label{def:unified-reality-no-off-balanced-tail-zero}
+The \emph{no off-balanced tail zero} row is
+$$
+\mathsf{NoOffBalancedTailZero}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{FiniteSieveTailZero}_{\zeta}(s)
+\times
+\mathsf{CofStablePrimeDefect}(s)
+\to
+\bot
+\right).
+$$
+It rules out a packet in which every finite residual tail is zero while
+the normalized prime-window defect remains cofinally stable and nonzero.
+\end{definition}
+
+\begin{theorem}[No off-balanced tail zero gives no absorption]
+\label{thm:unified-reality-no-off-balanced-tail-zero-gives-no-absorption}
+Assume no off-balanced tail zero.  Then no far-end absorption holds in
+normalized prime-window form:
+$$
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{CofStablePrimeDefect}(s)
+\to
+\bot
+\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a zeta zero row, a critical-strip row, and a cofinal stable
+prime defect.  By
+\autoref{thm:unified-reality-zero-rows-enter-finite-sieve-tails}, the
+first two rows supply $\mathsf{FiniteSieveTailZero}_{\zeta}(s)$.  These
+three rows are exactly the input of
+\autoref{def:unified-reality-no-off-balanced-tail-zero}.  Therefore they
+cannot coexist.
+\end{proof}
+
+\begin{corollary}[No off-balanced tail zero gives the RH section]
+\label{cor:unified-reality-no-off-balanced-tail-zero-gives-rh-section}
+Under located fixed-half collapse, no off-balanced tail zero implies the
+RH fixed-half section.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-no-off-balanced-tail-zero-gives-no-absorption},
+no off-balanced tail zero gives the normalized no-absorption row.  The RH
+section then follows from
+\autoref{cor:unified-reality-no-absorption-gives-rh-section-normalized}.
+\end{proof}
+
+\begin{definition}[Tail-zero stable-defect correction necessity]
+\label{def:unified-reality-tail-zero-stable-defect-correction-necessity}
+The \emph{tail-zero stable-defect correction necessity} row is
+$$
+\mathsf{TailZeroWithStableDefectRequiresFarEndCorrection}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{FiniteSieveTailZero}_{\zeta}(s)
+\times
+\mathsf{CofStablePrimeDefect}(s)
+\to
+\mathsf{HiddenFarEndCorrection}(s)
+\right).
+$$
+It isolates the sieve-tower exactness claim: if zero is pushed to every
+finite residual tail while a normalized finite prime defect remains
+cofinally nonzero, then the reconciliation would require a hidden
+far-end correction row.
+\end{definition}
+
+\begin{theorem}[Tail-zero correction plus refusal gives no off-balanced tail zero]
+\label{thm:unified-reality-tail-zero-correction-refusal-gives-no-off-balanced-tail-zero}
+Assume tail-zero stable-defect correction necessity and no hidden far-end
+correction.  Then no off-balanced tail zero holds.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip row, a finite sieve tail-zero tower, and a
+cofinal stable prime defect.  Tail-zero stable-defect correction
+necessity supplies
+$$
+\mathsf{HiddenFarEndCorrection}(s).
+$$
+No hidden far-end correction sends this row to $\bot$.
+\end{proof}
+
+\begin{theorem}[Sieve-tail correction refines far-end correction necessity]
+\label{thm:unified-reality-sieve-tail-correction-refines-far-end-correction}
+Tail-zero stable-defect correction necessity implies far-end correction
+necessity.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a zero row, a critical-strip row, and a cofinal stable prime
+defect.  The zero and critical-strip rows give
+$$
+\mathsf{FiniteSieveTailZero}_{\zeta}(s)
+$$
+by \autoref{thm:unified-reality-zero-rows-enter-finite-sieve-tails}.
+Tail-zero stable-defect correction necessity then supplies
+$\mathsf{HiddenFarEndCorrection}(s)$, which is precisely the conclusion
+required by
+\autoref{def:unified-reality-far-end-correction-necessity}.
+\end{proof}
+
+\begin{definition}[Sieve-tower exactness subpackage]
+\label{def:unified-reality-sieve-tower-exactness-subpackage}
+The \emph{sieve-tower exactness subpackage} is
+$$
+(
+\mathsf{FiniteSieveTailZero}_{\zeta},
+\mathsf{TailZeroWithStableDefectRequiresFarEndCorrection}_{\zeta},
+\mathsf{NoHiddenFarEndCorrection}_{\zeta}
+).
+$$
+It separates the finite multiplication row, the zeta-specific tail
+exactness row, and the apophatic refusal row.  The finite multiplication
+row alone carries no fixed-half conclusion; the fixed-half output appears
+only after the stable-defect incompatibility row is supplied.
+\end{definition}
+
+\begin{definition}[No-far-end proof obligation package]
+\label{def:unified-reality-no-far-end-proof-obligation-package}
+The \emph{no-far-end proof obligation package} is
+$$
+(
+\mathsf{CofStablePrimeDefect},
+\mathsf{FarEndCorrectionNecessity}_{\zeta},
+\mathsf{NoHiddenFarEndCorrection}_{\zeta},
+\mathsf{LocatedFixedHalfCollapse}
+).
+$$
+The first row is the finite prime-window calculation.  The second row is
+the zeta-specific completed-carrier exactness step.  The third row is
+the apophatic refusal.  The fourth row converts absence of off-half
+apartness into the fixed-half output row.  The sieve-tower exactness
+subpackage of
+\autoref{def:unified-reality-sieve-tower-exactness-subpackage} is the
+finite-residual normal form of the second row.
+\end{definition}
+
+\begin{theorem}[No-far-end package normal form]
+\label{thm:unified-reality-no-far-end-package-normal-form}
+The no-far-end proof obligation package is a normal form for the
+far-end version of the RH route.
+\end{theorem}
+
+\begin{proof}
+The cofinal stable defect row is obtained from finite prime-window
+normalization by
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}
+and
+\autoref{cor:unified-reality-off-half-displacement-cofinally-visible}.
+Correction necessity and no-hidden correction compose by
+\autoref{thm:unified-reality-correction-necessity-refusal-gives-no-absorption}
+to give no absorption.  Located fixed-half collapse then yields the RH
+section by
+\autoref{cor:unified-reality-no-absorption-gives-rh-section-normalized}.
+The correction-necessity row may also be supplied through the sieve-tail
+normal form of
+\autoref{thm:unified-reality-sieve-tail-correction-refines-far-end-correction}.
+Thus the package separates the finite calculation, the unclosed analytic
+exactness step, the apophatic refusal, and the final located-real read.
+\end{proof}
+
+\begin{corollary}[Defect-zero incompatibility as correction refusal]
+\label{cor:unified-reality-defect-zero-incompatibility-correction-refusal}
+Defect-zero incompatibility can be read as the claim that completed zeta
+zero rows do not admit hidden far-end corrections for cofinally stable
+prime defects.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-no-far-end-absorption-prime-sieve-exactness},
+no far-end absorption is the completion-boundary form of prime-sieve odd
+exactness.  By
+\autoref{thm:unified-reality-prime-sieve-odd-exactness-defect-zero},
+prime-sieve odd exactness is defect-zero incompatibility.  The present
+section refines the same row into correction necessity plus refusal of
+hidden correction.  These are not separate RH routes; they are three
+readings of the same zeta-specific exactness obligation.
+\end{proof}
