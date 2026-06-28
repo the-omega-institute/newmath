@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyReflectiveEmbeddingUp.TasteGate
@@ -194,16 +195,37 @@ instance cauchyReflectiveEmbeddingNontrivial :
         intro h
         cases h⟩
 
-theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment
-    (x : CauchyReflectiveEmbeddingUp) :
-    BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
-      ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x := by
+theorem CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate CauchyReflectiveEmbeddingUp) ∧
+      Nonempty (FieldFaithful CauchyReflectiveEmbeddingUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyReflectiveEmbeddingUp) ∧
+      (∀ h : BHist,
+        cauchyReflectiveEmbeddingDecodeBHist
+            (cauchyReflectiveEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : CauchyReflectiveEmbeddingUp,
+        cauchyReflectiveEmbeddingFromEventFlow
+            (cauchyReflectiveEmbeddingToEventFlow x) = some x) ∧
+      (∀ x y : CauchyReflectiveEmbeddingUp,
+        cauchyReflectiveEmbeddingToEventFlow x =
+            cauchyReflectiveEmbeddingToEventFlow y →
+          x = y) ∧
+      cauchyReflectiveEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
-  · change
-      cauchyReflectiveEmbeddingFromEventFlow
-        (cauchyReflectiveEmbeddingToEventFlow x) = some x
-    exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip x
-  · exact ⟨BHistCarrier.toEventFlow x, ChapterTasteGate.round_trip x⟩
+  · exact Nonempty.intro cauchyReflectiveEmbeddingChapterTasteGate
+  · constructor
+    · exact Nonempty.intro cauchyReflectiveEmbeddingFieldFaithful
+    · constructor
+      · exact Nonempty.intro cauchyReflectiveEmbeddingNontrivial
+      · constructor
+        · exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_decode
+        · constructor
+          · exact CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_round_trip
+          · constructor
+            · intro x y heq
+              exact
+                CauchyReflectiveEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
+                  heq
+            · rfl
 
 end BEDC.Derived.CauchyReflectiveEmbeddingUp.TasteGate
