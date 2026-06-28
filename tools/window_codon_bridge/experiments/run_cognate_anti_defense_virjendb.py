@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 import math
 import os
@@ -481,16 +482,71 @@ def prepare_prophage_faa(host: str, vjids: list[str], df_venv: str, deadline: fl
     return faa_path, {"on_disk_cache_hit": False, "n_sequences": len(sequences), "contacts": contacts, "translation": translation}
 
 
+def normalize_df_type(raw: str) -> str | None:
+    """Map a DefenseFinder `type` (e.g. RM_Type_I, BREX, Gabija, Thoeris) to a canonical
+    class label aligned with the dbAPIS cognate map {RM, BREX, GABIJA, THOERIS, TA}.
+    DefenseFinder's vocabulary differs from the dbAPIS inhibited_defense_system strings,
+    so the carrier needs its own normalizer."""
+    t = raw.strip().lower()
+    if not t:
+        return None
+    if t.startswith("rm") or "restriction" in t:
+        return "RM"
+    if t.startswith("brex"):
+        return "BREX"
+    if "gabija" in t:
+        return "GABIJA"
+    if "thoeris" in t:
+        return "THOERIS"
+    return None
+
+
+def fetch_assembly_protein_ftp(accession: str, deadline: float | None) -> tuple[str, dict[str, object]]:
+    """For a GCA_/GCF_ assembly accession, fetch the annotated proteome from NCBI FTP
+    (<ASM>_protein.faa.gz). efetch db=nuccore cannot resolve assembly accessions."""
+    m = re.match(r"(GC[AF])_(\d{3})(\d{3})(\d{3})", accession)
+    if not m:
+        raise RuntimeError("not an assembly accession: " + accession)
+    gc, a, b, c = m.groups()
+    base = f"https://ftp.ncbi.nlm.nih.gov/genomes/all/{gc}/{a}/{b}/{c}/"
+    listing, contact = fetch_bytes(base, deadline=deadline, attempts=4, timeout=120)
+    if not listing:
+        raise RuntimeError("assembly FTP dir listing failed: " + base)
+    text = listing.decode("utf-8", "replace")
+    asm = None
+    for token in re.findall(re.escape(accession) + r"_[^\"/<>]+", text):
+        asm = token
+        break
+    if not asm:
+        raise RuntimeError("assembly dir not found under " + base)
+    url = f"{base}{asm}/{asm}_protein.faa.gz"
+    payload, c2 = fetch_bytes(url, deadline=deadline, attempts=4, timeout=180)
+    if not payload:
+        raise RuntimeError("assembly protein.faa.gz fetch failed: " + url)
+    try:
+        raw = gzip.decompress(payload).decode("utf-8", "replace")
+    except OSError as exc:
+        raise RuntimeError("protein.faa.gz decompress failed: " + str(exc))
+    meta = dict(c2)
+    meta["assembly_dir"] = asm
+    meta["source"] = "ncbi_ftp_protein_faa"
+    return raw, meta
+
+
 def prepare_host_faa(host: str, deadline: float | None) -> tuple[str, dict[str, object]]:
     faa_path = os.path.join(CACHE_DIR, "host_faa", safe_name(host) + ".faa")
     if os.path.exists(faa_path) and os.path.getsize(faa_path) > 0:
         return faa_path, {"on_disk_cache_hit": True, "protein_count": count_fasta_records(faa_path)}
-    query = urllib.parse.urlencode({"db": "nuccore", "id": host, "rettype": "fasta_cds_aa", "retmode": "text"})
-    url = NCBI_EFETCH_URL + "?" + query
-    payload, contact = fetch_bytes(url, deadline=deadline, attempts=4, timeout=180)
-    if not payload:
-        raise RuntimeError("NCBI efetch fasta_cds_aa failed")
-    clean, sanitize_meta = sanitize_fasta_text(payload.decode("utf-8", "replace"))
+    if re.match(r"GC[AF]_\d+\.\d+", host):
+        raw_text, contact = fetch_assembly_protein_ftp(host, deadline=deadline)
+    else:
+        query = urllib.parse.urlencode({"db": "nuccore", "id": host, "rettype": "fasta_cds_aa", "retmode": "text"})
+        url = NCBI_EFETCH_URL + "?" + query
+        payload, contact = fetch_bytes(url, deadline=deadline, attempts=4, timeout=180)
+        if not payload:
+            raise RuntimeError("NCBI efetch fasta_cds_aa failed")
+        raw_text = payload.decode("utf-8", "replace")
+    clean, sanitize_meta = sanitize_fasta_text(raw_text)
     ensure_dir(os.path.dirname(faa_path))
     with open(faa_path, "w", encoding="utf-8") as handle:
         handle.write(clean)
@@ -521,7 +577,7 @@ def run_defense_finder(host_faa: str, host: str, df_venv: str) -> tuple[set[str]
             for row in reader:
                 raw = str(row.get("type") or "").strip()
                 raw_types.append(raw)
-                label = normalize_class(raw)
+                label = normalize_df_type(raw)
                 if label:
                     classes.add(label)
     contact.update({"systems_files": systems_files, "raw_types": sorted(set(raw_types)), "carrier_classes": sorted(classes)})
