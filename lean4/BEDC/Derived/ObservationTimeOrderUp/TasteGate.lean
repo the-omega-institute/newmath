@@ -403,4 +403,94 @@ theorem ObservationTimeOrderNo_host_time_nonescape (O0 O1 R C G H P N : BHist) :
     }
   · rfl
 
+def ObservationTimeOrderObligationRowSpec
+    (O0 O1 R C G H P N row : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨ hsame row G ∨
+    hsame row H ∨ hsame row P ∨ hsame row N
+
+theorem ObservationTimeOrderNameCertObligations (O0 O1 R C G H P N : BHist) :
+    SemanticNameCert
+      (ObservationTimeOrderObligationRowSpec O0 O1 R C G H P N)
+      (ObservationTimeOrderObligationRowSpec O0 O1 R C G H P N)
+      (ObservationTimeOrderObligationRowSpec O0 O1 R C G H P N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro O0 (Or.inl (hsame_refl O0))
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro _h _k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro _h _k _r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        have sameKH : hsame k h := hsame_symm sameHK
+        cases sourceH with
+        | inl sameO0 =>
+            exact Or.inl (hsame_trans sameKH sameO0)
+        | inr rest =>
+            cases rest with
+            | inl sameO1 =>
+                exact Or.inr (Or.inl (hsame_trans sameKH sameO1))
+            | inr rest =>
+                cases rest with
+                | inl sameR =>
+                    exact Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameR)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameC =>
+                        exact Or.inr (Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameC))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameG =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr (Or.inl (hsame_trans sameKH sameG)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameH =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr (Or.inl (hsame_trans sameKH sameH))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl sameP =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl (hsame_trans sameKH sameP)))))))
+                                | inr sameN =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr (hsame_trans sameKH sameN)))))))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 end BEDC.Derived.ObservationTimeOrderUp
