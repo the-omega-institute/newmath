@@ -70,3 +70,29 @@ Read the tail-window row $T$. It is the only RegSeqRat row exported by the packe
 
 Finally transport and replay through $H$ and $C$, with $P,N$ recording provenance and local naming. These rows preserve the finite handoff and do not add host real equality, completion points, or ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-refinement composition]
+\label{thm:regseqrat-tail-refinement-composition}
+Let
+$$
+Q_0=(S_0,D_0,T_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+Q_1=(S_1,D_1,T_1,H_1,C_1,P_1,N_1)
+$$
+be adjacent accepted finite $\RegSeqRatUp$ tail-refinement packets. If the retained $\StreamNameUp$ request row of $Q_0$ is the source request row of $Q_1$ by componentwise $\hsame$ transport, and the terminal $\DyadicRatCoreUp$ tolerance row of $Q_0$ is the tolerance row read by $Q_1$, then the two packets compose into one accepted finite tail-refinement packet preserving the $T,H,C,P,N$ rows and the Real handoff surface.
+
+The composite packet exposes only finite $\StreamNameUp$ request data, displayed $\DyadicRatCoreUp$ tolerance rows, finite $\RegSeqRatUp$ tail windows, transport, replay, provenance, and local naming; it adds no selected subsequence, quotient stream equality, selected limit, host real equality, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the two carriers using \autoref{def:regseqrat-tail-refinement-carrier}. Their public rows are exactly the finite request rows $S_i$, tolerance rows $D_i$, tail-window rows $T_i$, transport rows $H_i$, replay rows $C_i$, provenance rows $P_i$, and local naming rows $N_i$.
+
+Identify the shared retained request. The hypothesis says that the retained $\StreamNameUp$ request from $Q_0$ is transported by $\hsame$ to the source request of $Q_1$, so the two packets meet on a displayed finite request row rather than on a quotient stream.
+
+Compose the displayed $\Cont$ replay. First replay the retained request through $C_0$, then replay the second tail refinement through $C_1$; the shared request row and shared tolerance row keep the composite inside the same finite DyadicRatCore and RegSeqRat support.
+
+Package the result as the tail window obtained by following $T_0$ into $T_1$, with the inherited transport, replay, provenance, and local naming rows. Stability, \autoref{thm:regseqrat-tail-refinement-stability}, shows that every retained request remains represented by those displayed rows.
+
+Finally apply the Real handoff theorem, \autoref{thm:regseqrat-tail-refinement-real-handoff}, to the composite packet. A Real-facing consumer therefore reads only the composed finite tail window, the shared dyadic tolerance route, and the supporting StreamName request row, with no selected subsequence, quotient stream equality, selected limit, host equality, completion point, or ambient Real completeness.
+\end{proof}
