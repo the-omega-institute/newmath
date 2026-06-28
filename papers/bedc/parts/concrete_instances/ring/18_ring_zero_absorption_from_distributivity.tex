@@ -34,3 +34,31 @@ v+0_R\sim_Rv+v.
 $$
 Additive left cancellation of the common summand $v$ gives $0_R\sim_Rv$, and symmetry gives $0_R\cdot x\sim_R0_R$.
 \end{proof}
+
+\begin{theorem}[Ring finite expression ledger induction]
+\label{thm:ring-finite-expression-ledger-induction}
+Let $R$ carry a history-level $\RingUp$ certificate with carrier $C_R$, classifier $\sim_R$, addition $+$, multiplication $\cdot$, zero endpoint $0_R$, negation $-$, stability rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. Every finite $\RingUp$ expression ledger whose entries are generated from displayed endpoints by the additive rows, multiplicative rows, zero row, negation row, stability rows, and local $\NameCert$ row admits a constructor-by-constructor BEDC induction. Each induction branch reads only the visible ledger entry and the earlier finite subledgers named by its constructor.
+
+Consequently any equality, absorption, distributivity, or normal-form read over such a ledger is justified by finite $\BHist$ inspection of the same rows, not by an ambient quotient-ring induction principle or a host algebraic normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the generating rows. Endpoint entries, the zero endpoint, and named $\NameCert$ rows are already visible as finite $\BHist$ data, so the base cases require no quotient carrier or ambient equality class.
+
+For the additive, multiplicative, and negation constructors, inspect the displayed operation row that produced the ledger entry. The induction hypotheses are attached to the finite input subledgers, and the stability rows transport the corresponding classifier reads through $+$, $\cdot$, and $-$.
+
+Finally read componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance. These structural rows repack the same finite ledger without adding a host quotient coordinate. Thus the induction remains a BEDC induction over the recorded expression ledger, and every algebraic read stays inside the displayed $\RingUp$ certificate surface.
+\end{proof}
+
+\begin{theorem}[Ring quotient-free normal-form route]
+\label{thm:ring-quotient-free-normal-form-route}
+For the same history-level $\RingUp$ certificate, any normal-form read produced from the finite expression ledger of \autoref{thm:ring-finite-expression-ledger-induction} remains a quotient-free route through $\BHist$, $\Cont$, $\Pkg$, classifier stability, and local $\NameCert$ data. A normal form may cite additive associativity, additive inverse, zero absorption, multiplication stability, and distributivity only as displayed certificate rows over $\sim_R$.
+
+It cannot be reread as equality in a host quotient ring, equality of quotient representatives, a selected canonical representative, a polynomial normalization algorithm outside the packet, or an ambient algebra theorem over an unrecorded carrier.
+\end{theorem}
+\begin{proof}
+Use the finite expression-ledger induction. Each normal-form step is one of the ledger constructors or one of the displayed stability rows, so its inputs and output are still named histories connected by the carrier classifier.
+
+The zero-absorption theorem above supplies the only multiplication-by-zero simplification used here, and it was derived from distributivity plus additive cancellation inside the same classifier. Additive inverse, associativity, and multiplication stability are read in the same way: as rows of the $\RingUp$ certificate, not as quotient-ring facts.
+
+The structural rows $\Cont$ and $\Pkg$ preserve provenance of the normal-form read. Since no row stores a quotient carrier, selected representative, external polynomial normalizer, or ambient ring object, the normal-form route is exactly the finite BEDC route described in the statement.
+\end{proof}
