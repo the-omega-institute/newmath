@@ -1,0 +1,13 @@
+\begin{theorem}[Luenberger observer state-space dependency route]
+\label{thm:luenberger-observer-state-space-dependency-route}
+Every accepted $\LuenbergerObserverUp$ packet consumes the finite state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the linear-map evolution row of \autoref{ch:concrete-instances-linearmap-namecert}, the observability row routed through \autoref{thm:luenberger-observer-observability-dependency-route}, the Kalman-filter boundary route of \autoref{ch:concrete-instances-kalman-filter-namecert}, and the observer-controller forward route of \autoref{thm:luenberger-observer-controller-forward-route} before exporting estimator-error dynamics. The exported read is the displayed tuple of plant dynamics, output map, measured/predicted output comparison, observer gain, residual, deterministic error propagation, transport, replay, provenance, and local naming rows; it is not a hidden analytic state trajectory, stochastic covariance recursion, pole-placement theorem, or host convergence claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:luenberger-observer-carrier}. The plant row $A$ and output row $C$ are meaningful only after the state-space and linear-map substrates have been displayed.
+
+Next read the observability dependency route. It exposes the output-map, residual, observer-gain, and error-ledger rows through the accepted observability and Gramian surfaces before the deterministic observer interface is public.
+
+Finally compose the Kalman-filter boundary route and the observer-controller forward route. These sibling routes keep stochastic covariance and controller synthesis outside the observer carrier while allowing the estimator-error ledger $E$ to be consumed as deterministic state-space data.
+
+The structural rows $H,T,P,N$ transport, replay, source, and name exactly this route. Since the carrier has no coordinate for hidden state trajectories, covariance recursion, pole placement, or host convergence, every estimator-error export factors through the displayed state-space dependency route.
+\end{proof}
