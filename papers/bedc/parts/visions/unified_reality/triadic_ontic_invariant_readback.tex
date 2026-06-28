@@ -1,0 +1,423 @@
+\section{Triadic Ontic Invariant Readback}
+\label{sec:unified-reality-triadic-ontic-invariant-readback}
+
+The fixed-half invariant of
+\autoref{sec:unified-reality-generation-invariant-exclusion-route} is
+the zeta-facing readout of a higher BEDC invariant.  It should not be
+taken as the primitive invariant itself.  The primitive row is the
+closure preservation of the ontic triad: distinction is not lost,
+boundary transport remains legal, and recursive generation keeps a
+unique auditable interpretation.
+
+\begin{definition}[Triadic ontic invariant]
+\label{def:unified-reality-triadic-ontic-invariant}
+The \emph{triadic ontic invariant} is the packet
+$$
+\mathcal I_{\mathrm{BEDC}}
+:=
+\left(
+\mathcal I_{\mathsf P},
+\mathcal I_{\mathsf U},
+\mathcal I_{\mathsf T}
+\right),
+$$
+where:
+$$
+\mathcal I_{\mathsf P}
+=
+\text{distinction, prime charge, and ledger provenance are preserved},
+$$
+$$
+\mathcal I_{\mathsf U}
+=
+\text{symmetry, unit boundary, and legal gauge are preserved},
+$$
+and
+$$
+\mathcal I_{\mathsf T}
+=
+\text{recursion, finite-window closure, and unique readback are preserved}.
+$$
+The invariant is not one of these rows in isolation.  It is the closure
+condition that the three rows remain compatible under generation.
+\end{definition}
+
+\begin{definition}[Triadic closed generation rule]
+\label{def:unified-reality-triadic-closed-generation-rule}
+Let $R$ be a legal generation rule on RHRoute packets.  The rule is
+\emph{triadic closed} when it sends packets satisfying
+$\mathcal I_{\mathrm{BEDC}}$ to packets satisfying
+$\mathcal I_{\mathrm{BEDC}}$, and the output ledger records how the
+three components are transported:
+$$
+\mathsf{PrimeLedgerOK},
+\qquad
+\mathsf{BoundaryGaugeOK},
+\qquad
+\mathsf{RecursiveClosureOK}.
+$$
+The first row records source provenance, prime-window data, and refusal
+of unlicensed collapse.  The second row records mirror, unit-boundary,
+and compact gauge discipline.  The third row records the recursive
+construction and its unique finite readback.
+\end{definition}
+
+\begin{theorem}[Triadic closure is preserved by generated packets]
+\label{thm:unified-reality-triadic-closure-preserved-by-generated-packets}
+If the source packets satisfy $\mathcal I_{\mathrm{BEDC}}$ and every
+legal generation rule is triadic closed, then every generated packet
+satisfies $\mathcal I_{\mathrm{BEDC}}$.
+\end{theorem}
+
+\begin{proof}
+This is structural induction on the generated packet.  A source packet
+satisfies the invariant by hypothesis.  For an inductive step, assume
+the input packets satisfy $\mathcal I_{\mathrm{BEDC}}$.  Since the
+applied rule is triadic closed, its output carries the three transported
+rows $\mathsf{PrimeLedgerOK}$, $\mathsf{BoundaryGaugeOK}$, and
+$\mathsf{RecursiveClosureOK}$.  Hence the output satisfies
+$\mathcal I_{\mathrm{BEDC}}$.  Repeating the argument along the finite
+generation tree gives the claim.
+\end{proof}
+
+\begin{definition}[Zeta readback of the triadic invariant]
+\label{def:unified-reality-zeta-readback-triadic-invariant}
+For a zeta-facing packet over
+$$
+s=\frac12+r+i\gamma,
+$$
+the local channel at a displayed node of height $h_a>0$ is
+$$
+U_a(s)=e^{-(s-1/2)h_a}
+=
+e^{-r h_a}e^{-i\gamma h_a}.
+$$
+The zeta readback of $\mathcal I_{\mathrm{BEDC}}$ is:
+$$
+\mathcal I_{\mathsf P}
+\leadsto
+\text{the prime charge fixes }h_a,
+$$
+$$
+\mathcal I_{\mathsf U}
+\leadsto
+\text{the allowed gauge contains unit phase and compact prime fibres},
+$$
+$$
+\mathcal I_{\mathsf T}
+\leadsto
+\text{the packet is read through a finite or cofinal recursive tower}.
+$$
+Under this readback, the real positive factor $e^{-r h_a}$ is legal only
+when it is trivial.
+\end{definition}
+
+\begin{theorem}[Triadic ontic readback gives fixed-half closure]
+\label{thm:unified-reality-triadic-ontic-readback-gives-fixed-half}
+For a zeta-facing generated packet, preservation of
+$\mathcal I_{\mathrm{BEDC}}$ implies the fixed-half readout
+$$
+r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The prime-ledger component supplies a positive height $h_a>0$ for every
+active node.  The recursive component supplies the finite or cofinal
+readback in which the same node is part of the generated packet.  The
+boundary-gauge component allows the unit phase
+$e^{-i\gamma h_a}$ and compact prime-register fibres, but it does not
+allow an unledgered noncompact real positive scale.  Therefore the
+factor
+$$
+e^{-r h_a}
+$$
+must be trivial on every zero-relevant generated packet.  Since $h_a>0$,
+this gives $r=0$.
+\end{proof}
+
+\begin{corollary}[Fixed-half is a projection, not the primitive invariant]
+\label{cor:unified-reality-fixed-half-projection-not-primitive-invariant}
+The fixed-half row used by RHRoute is the zeta projection of the triadic
+ontic invariant, not the primitive invariant of BEDC.
+\end{corollary}
+
+\begin{proof}
+The primitive invariant is the preservation of distinction provenance,
+legal boundary gauge, and recursive readback.  In the zeta projection,
+these rows respectively determine the active heights, restrict the
+hidden carrier to unit phase and compact prime-register data, and make
+the finite or cofinal tower auditable.  Their combined readback excludes
+the nontrivial real positive factor $e^{-r h_a}$.  This exclusion is
+then read as $r=0$, equivalently as the fixed-half row.  Thus fixed-half
+is the output surface of the invariant under the zeta projection.
+\end{proof}
+
+\begin{corollary}[Generated-zero coverage remains the missing zeta row]
+\label{cor:unified-reality-triadic-invariant-coverage-remains-missing}
+Even if every generated RHRoute packet preserves
+$\mathcal I_{\mathrm{BEDC}}$, the RH fixed-half section still requires
+generated-zero coverage for the completed zeta zero ledger.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-triadic-ontic-readback-gives-fixed-half},
+a generated zeta-facing packet satisfying the triadic ontic invariant
+has fixed-half readout.  To obtain a section over all completed
+critical-strip zero rows, each such zero must first be covered by a
+generated packet with the same zero readout.  This is precisely the
+source row isolated in
+\autoref{def:unified-reality-generated-zero-coverage-row}; it is not
+supplied by the invariant itself.
+\end{proof}
+
+\begin{definition}[Generated-zero internal section]
+\label{def:unified-reality-generated-zero-internal-section}
+The \emph{generated-zero internal section} is the section over the
+generated RHRoute carrier
+$$
+\Phi_{\mathrm{gen}}:
+\mathcal T_{\zeta}
+\to
+\sum_{P:\mathcal T_{\zeta}}\mathsf{OnCritLine}(\mathsf{Read}(P)).
+$$
+It asserts that every BEDC-generated zeta-facing packet has fixed-half
+readout.  It is weaker than the RH fixed-half section, whose domain is
+the completed critical-strip zero carrier $\mathcal Z_{\zeta}$.
+\end{definition}
+
+\begin{theorem}[Triadic closure gives only the generated section]
+\label{thm:unified-reality-triadic-closure-only-generated-section}
+If generated RHRoute packets preserve
+$\mathcal I_{\mathrm{BEDC}}$, then the generated-zero internal section
+exists.
+\end{theorem}
+
+\begin{proof}
+Let $P:\mathcal T_{\zeta}$ be a generated packet with zeta readout
+$s=1/2+r+i\gamma$.  By preservation of
+$\mathcal I_{\mathrm{BEDC}}$ and
+\autoref{thm:unified-reality-triadic-ontic-readback-gives-fixed-half},
+the noncompact real positive factor in the local channel is trivial.
+Thus $r=0$, and the mirror-fixed readback gives
+$\mathsf{OnCritLine}(s)$.  Assigning this witness to every generated
+packet gives $\Phi_{\mathrm{gen}}$.
+\end{proof}
+
+\begin{definition}[Coverage gap]
+\label{def:unified-reality-coverage-gap}
+The \emph{coverage gap} is the difference between the generated carrier
+and the completed zero carrier:
+$$
+\mathcal T_{\zeta}
+\quad\text{versus}\quad
+\mathcal Z_{\zeta}.
+$$
+It is closed only by a row of the form
+$$
+\mathsf{GeneratedZeroCoverage}_{\zeta}
+:
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{CritZero}(s)
+\to
+\sum_{P:\mathcal T_{\zeta}}
+\mathsf{SameZeroReadout}(P,s)
+\right).
+$$
+This row is the same proof role as zero presentation completeness and
+active capture.
+\end{definition}
+
+\begin{theorem}[Many generated zeros do not close the coverage gap]
+\label{thm:unified-reality-many-generated-zeros-do-not-close-coverage-gap}
+A displayed family of generated zero packets, even an infinite one, does
+not by itself imply $\mathsf{GeneratedZeroCoverage}_{\zeta}$.
+\end{theorem}
+
+\begin{proof}
+A displayed family gives a map from some index carrier $I$ into
+$\mathcal T_{\zeta}$, hence a subset of completed zero readouts after
+projection.  Coverage requires the opposite direction: every completed
+critical-strip zero row must admit a generated packet with the same
+readout.  To derive that direction from an indexed family one must also
+prove that the indexing map is complete for the zero ledger, handles
+multiplicity and conjugation, and neither omits nor duplicates the
+zero rows in a way that loses the section target.  These requirements
+are exactly a coverage theorem, not a consequence of having many
+generated examples.
+\end{proof}
+
+\begin{corollary}[Ordinary successor induction is not the coverage proof]
+\label{cor:unified-reality-successor-induction-not-coverage-proof}
+The structural induction proving preservation of
+$\mathcal I_{\mathrm{BEDC}}$ is an induction on generated packets, not
+an induction over the completed zeta zero set.
+\end{corollary}
+
+\begin{proof}
+Structural induction consumes the constructors of $\mathcal T_{\zeta}$.
+It proves that every object already generated by those constructors
+preserves the triadic invariant.  An induction over completed zeros
+would require a separately defined enumeration
+$$
+\rho:\NatUp\to\mathcal Z_{\zeta}
+$$
+together with a proof that every completed zero occurs in that
+enumeration and that generated coverage passes from $\rho(n)$ to
+$\rho(n+1)$.  Such data are not supplied by the generated-packet
+induction.  Therefore the invariant proof and the coverage proof are
+logically distinct.
+\end{proof}
+
+\begin{definition}[Finite zero box]
+\label{def:unified-reality-finite-zero-box}
+A \emph{finite zero box} is a bounded rational rectangle
+$$
+\mathcal B\subseteq
+\left\{s:\ComplexUp:0\le\Re(s)\le1\right\}
+$$
+whose boundary is separated from the completed zeta zero ledger.  Its
+zero row is the finite packet
+$$
+\mathcal Z_{\zeta}(\mathcal B)
+:=
+\left\{
+s\in\mathcal B:
+\mathsf{CritZero}(s)
+\right\},
+$$
+with multiplicity, conjugation, and boundary-separation data carried in
+the ledger.
+\end{definition}
+
+\begin{definition}[Box cover]
+\label{def:unified-reality-box-cover}
+For a finite zero box $\mathcal B$, the row
+$$
+\mathsf{BoxCover}(\mathcal B)
+$$
+means that every zero row in $\mathcal Z_{\zeta}(\mathcal B)$ is covered
+by a generated RHRoute packet:
+$$
+\prod_{s:\mathcal Z_{\zeta}(\mathcal B)}
+\sum_{P:\mathcal T_{\zeta}}
+\mathsf{SameZeroReadout}(P,s).
+$$
+This is a localized form of
+$\mathsf{GeneratedZeroCoverage}_{\zeta}$.
+\end{definition}
+
+\begin{definition}[Box-cover induction row]
+\label{def:unified-reality-box-cover-induction-row}
+A \emph{box-cover induction row} consists of an increasing exhaustion
+$$
+\mathcal B_0\subseteq\mathcal B_1\subseteq\mathcal B_2\subseteq\cdots
+$$
+of the critical-strip zero ledger together with:
+$$
+\mathsf{BoxCover}(\mathcal B_0),
+$$
+$$
+\prod_{N:\NatUp}
+\left(
+\mathsf{BoxCover}(\mathcal B_N)
+\to
+\mathsf{BoxCover}(\mathcal B_{N+1})
+\right),
+$$
+and the exhaustion row
+$$
+\prod_{s:\mathcal Z_{\zeta}}
+\sum_{N:\NatUp}
+s\in\mathcal B_N.
+$$
+The successor row is not a numerical-zero enumeration.  It is a
+localized coverage step for all zero islands entering the next box.
+\end{definition}
+
+\begin{theorem}[Box-cover induction gives generated coverage]
+\label{thm:unified-reality-box-cover-induction-gives-generated-coverage}
+A box-cover induction row implies
+$$
+\mathsf{GeneratedZeroCoverage}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+By induction on $N$, the base row and successor row give
+$$
+\mathsf{BoxCover}(\mathcal B_N)
+$$
+for every $N:\NatUp$.  Let $s:\mathcal Z_{\zeta}$ be a completed
+critical-strip zero row.  The exhaustion row supplies some $N$ with
+$s\in\mathcal B_N$.  Applying $\mathsf{BoxCover}(\mathcal B_N)$ to the
+corresponding localized zero row gives a generated packet
+$P:\mathcal T_{\zeta}$ with the same zero readout as $s$.  Since $s$ was
+arbitrary, generated-zero coverage follows.
+\end{proof}
+
+\begin{definition}[Active capture step]
+\label{def:unified-reality-active-capture-step}
+The \emph{active capture step} for
+$\mathcal B_N\subseteq\mathcal B_{N+1}$ is the source row that covers
+each zero island in
+$$
+\mathcal B_{N+1}\setminus\mathcal B_N
+$$
+by a canonical finite packet.  For each such island $D$, it supplies
+$$
+\Xi=F_D+T_D
+$$
+on a boundary-separated disk around the island and the Rouch\'e gap
+$$
+|T_D|<|F_D|
+\qquad\text{on }\partial D.
+$$
+It also supplies the interpretation of each zero of $F_D$ as a generated
+RHRoute packet.
+\end{definition}
+
+\begin{corollary}[Active capture steps are the coverage content]
+\label{cor:unified-reality-active-capture-steps-coverage-content}
+The box-cover induction row reduces generated-zero coverage to active
+capture steps for the boundary-separated zero islands of the exhaustion.
+\end{corollary}
+
+\begin{proof}
+The base box supplies the initial localized cover.  For the transition
+from $\mathcal B_N$ to $\mathcal B_{N+1}$, all previously covered zero
+rows remain covered by restriction.  The only uncovered rows lie in the
+added zero islands.  An active capture step supplies Rouch\'e capture
+and generated-packet interpretation for exactly those islands, hence
+constructs $\mathsf{BoxCover}(\mathcal B_{N+1})$ from
+$\mathsf{BoxCover}(\mathcal B_N)$.
+\end{proof}
+
+\begin{corollary}[Full RH requires coverage after invariant preservation]
+\label{cor:unified-reality-full-rh-requires-coverage-after-invariant}
+The route from the triadic ontic invariant to the RH fixed-half section
+has two independent stages:
+$$
+\mathcal I_{\mathrm{BEDC}}\text{ is preserved on }\mathcal T_{\zeta}
+\quad\Longrightarrow\quad
+\Phi_{\mathrm{gen}},
+$$
+and
+$$
+\mathsf{GeneratedZeroCoverage}_{\zeta}
+\quad\Longrightarrow\quad
+\Phi:\mathcal Z_{\zeta}\to\mathcal H_{\zeta}.
+$$
+\end{corollary}
+
+\begin{proof}
+The first implication is
+\autoref{thm:unified-reality-triadic-closure-only-generated-section}.
+The second consumes the coverage row: for a completed zero $s$, choose a
+generated packet $P$ with the same readout, use $\Phi_{\mathrm{gen}}$ on
+$P$, and transport the fixed-half witness along the same-readout row.
+Without the coverage row, the generated section has the wrong domain for
+the RH fixed-half section.
+\end{proof}
