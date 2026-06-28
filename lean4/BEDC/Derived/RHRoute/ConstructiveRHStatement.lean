@@ -30,6 +30,10 @@ def InCriticalStrip (s : RatComplex) : Prop :=
 def TrivialZero (s : RatComplex) : Prop :=
   ∃ n : Nat, RatComplexEq s (negativeEvenIntegerOnRealAxis n)
 
+-- `NontrivialZetaZero` is scoped to the located `RatComplex` box surface:
+-- `ZetaZeroLocated` reads the concrete zeta boxes built from rational input
+-- data.  That surface is partial-computational; it does not consume the
+-- functional equation, analytic continuation, or Euler product as proof data.
 def NontrivialZetaZero (s : RatComplex) : Prop :=
   ZetaZeroLocated s ∧ InCriticalStrip s ∧ Not (TrivialZero s) ∧
     Not (RatComplexEq s zetaPolePoint)
@@ -78,9 +82,13 @@ theorem generatedFixedHalf_reads_criticalLine
   BEDC.Derived.RHRoute.ZeroGenerationInitiality.generatedFixedHalf_criticalLine
     closed z
 
--- `ConstructiveRH` 是 RH 的构造性可陈述 surrogate: located 零点谓词接几何临界线。
--- `ConstructiveRH ↔ 经典 RH` 属于经典等价边界, 本文件只给出良构陈述与读回。
--- 这里绝不证明 `ConstructiveRH`; 该命题本身仍按开放问题处理。
+-- `ConstructiveRH` is a located, `RatComplex`-coded RH-shaped proposition:
+-- the quantifier ranges over rational complex points, not over the
+-- regular-Cauchy `ComplexUp` histories used by the classical BEDC RH
+-- predicate.  The bridge from `RatComplex` located zeros to `ComplexUp` zeros,
+-- and from located equality to the classical reading, is boundary work shared
+-- with the located-real convergence foundation.  This definition does not
+-- claim classical RH, and it does not claim a proof of RH.
 def ConstructiveRH : Prop :=
   ∀ s : RatComplex, NontrivialZetaZero s -> OnCriticalLine s
 
