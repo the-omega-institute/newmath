@@ -730,6 +730,8 @@ def prepare_host_payloads(
         prophage_ids, chromosome_ids, partition_meta = partition_cds_by_prophage(cds, regions, overlap_min)
         subset_dir = os.path.join(CACHE_DIR, "fasta_subsets")
         tblout_dir = os.path.join(CACHE_DIR, "hmm_tblout")
+        os.makedirs(subset_dir, exist_ok=True)
+        os.makedirs(tblout_dir, exist_ok=True)
         prophage_fasta = os.path.join(subset_dir, safe_name(host) + "_prophage.faa")
         chromosome_fasta = os.path.join(subset_dir, safe_name(host) + "_chromosome.faa")
         prophage_written = write_subset_fasta(proteins, prophage_ids, prophage_fasta)
