@@ -6711,6 +6711,7 @@ import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
+import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
@@ -9683,6 +9684,7 @@ import BEDC.Derived.PolynomialUp.RawMulDistributivity
 import BEDC.Derived.PolynomialUp.StdBridge
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
+import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp.TasteGate
 import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.PorousSetUp.TasteGate
 import BEDC.Derived.PortmanteauUp.TasteGate
