@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyNetSelectorUp$}
+\label{ch:concrete-instances-located-cauchy-net-selector-namecert}
+\origin{human}
+
+Following Moore and Smith, Kelley, and Bishop, the $\LocatedCauchyNetSelectorUp$ packet records the finite selector surface needed when a located Cauchy net is read through a regular-Cauchy window before reaching a $\RealUp$ seal. It sits after the located net packet of \autoref{ch:concrete-instances-located-cauchy-net-namecert}, the Moore--Smith source of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the regular subnet selector of \autoref{ch:concrete-instances-regular-cauchy-subnet-selector-namecert}, the stream naming row of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet selects only a finite located window and its regular readback route; it does not assert a global choice function on all nets, a quotient of directed indices, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Located Cauchy net selector carrier]
+\label{def:located-cauchy-net-selector-carrier}
+A $\LocatedCauchyNetSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,L,T,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the directed index data: finite index names, comparison rows, and upper-bound witnesses used by the local Moore--Smith window.
+\item $W$ is the selected finite window, storing the inspected indices and the located net values admitted by the $\LocatedCauchyNetUp$ source.
+\item $L$ is the located radius row, recording the dyadic precision request and the located comparison data that make the window inspectable.
+\item $T$ is the tail witness row, showing that the selected window lies past the displayed directed threshold for the requested radius.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W,L,T$.
+\item $A$ is the $\RealUp$ admission seal reached only after the directed data, selected window, located radius, tail witness, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,L,T,R,A$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a located Cauchy-net request through the same finite window, radius, tail, readback, and real-seal route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCauchyNetSelectorUp$, $\LocatedCauchyNetUp$, $\MooreSmithNetUp$, $\RegularCauchySubnetSelectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCauchyNetSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,L,T,R,A,H,C,P,N$. It has no coordinate for a global selector, countable choice, quotient net equality, host real equality, or an unbounded family of selected tails.
+\end{definition}
+
+\begin{theorem}[Located Cauchy net selector NameCert obligations]
+\label{thm:located-cauchy-net-selector-namecert-obligations}
+For an accepted $\LocatedCauchyNetSelectorUp$ carrier $S=(D,W,L,T,R,A,H,C,P,N)$, the local $\NameCert_{\LocatedCauchyNetSelectorUp}$ surface consists exactly of directed index admission, selected finite-window admission, located radius readback, tail-witness exposure, $\RegSeqRatUp$ readback, $\RealUp$ seal admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. Every completion-facing consumer must read $D,W,L,T$ before it reads $R$ or $A$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-cauchy-net-selector-carrier}. The rows $D,W,L,T$ display the directed substrate, finite window, located radius, and tail witness before any numerical readback is available.
+
+The regular readback is downstream of those rows. The $\RegSeqRatUp$ coordinate $R$ is read from the selected window and located tail data, while the $\RealUp$ seal $A$ is reached only after that regular readback has been displayed.
+
+Transport, replay, provenance, and local naming are componentwise. Since the tuple contains no global selector, countable-choice schedule, quotient of net indices, host real equality, or unbounded family of tails, the NameCert surface is exactly the finite selector route listed above.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\LocatedCauchyNetSelectorUp$ packet fails if a $\RealUp$ seal is read before the directed data, selected window, located radius row, tail witness, $\RegSeqRatUp$ readback, transport, replay, provenance, and local $\NameCert$ rows are displayed.}
+
+\closureat{LocatedCauchyNetSelectorUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyNetSelectorUp}
+  \constructivestory{A $\LocatedCauchyNetSelectorUp$ packet is generated from directed index data, a selected finite window, a located radius row, a tail witness, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-net-selector-carrier} and \autoref{thm:located-cauchy-net-selector-namecert-obligations} seed the finite located-window selector surface for L10 completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global selector on all located Cauchy nets, countable choice, quotient net equality, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked directed-index admission, finite-window selection, located-radius readback, tail-witness exposure, RegSeqRat readback, Real-seal admission, transport, replay, provenance, and local naming for BEDC.Derived.LocatedCauchyNetSelectorUp.}
+\end{closurestatus}
