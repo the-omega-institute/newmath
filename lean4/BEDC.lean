@@ -10831,6 +10831,7 @@ import BEDC.Derived.RegularCauchyAbsUp
 import BEDC.Derived.RegularCauchyAbsUp.NameCert
 import BEDC.Derived.RegularCauchyAbsUp.NonEscape
 import BEDC.Derived.RegularCauchyAbsUp.ObligationClosure
+import BEDC.Derived.RegularCauchyAbsUp.PublicExportSurface
 import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
