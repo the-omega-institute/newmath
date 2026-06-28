@@ -175,6 +175,10 @@ instance kleeneTreeBoundaryNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate KleeneTreeBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  kleeneTreeBoundaryChapterTasteGate
+
 theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate KleeneTreeBoundaryUp) ∧
       Nonempty (FieldFaithful KleeneTreeBoundaryUp) ∧
@@ -184,7 +188,7 @@ theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
             (∀ x : KleeneTreeBoundaryUp,
               kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x) ∧
               (∀ x y : KleeneTreeBoundaryUp,
-                kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y -> x = y) ∧
+                kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y) ∧
                 kleeneTreeBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
@@ -201,5 +205,22 @@ theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
             · intro x y heq
               exact kleeneTreeBoundaryToEventFlow_injective heq
             · rfl
+
+namespace TasteGate
+
+theorem KleeneTreeBoundaryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate KleeneTreeBoundaryUp) ∧
+      Nonempty (FieldFaithful KleeneTreeBoundaryUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial KleeneTreeBoundaryUp) ∧
+          (∀ h : BHist,
+            kleeneTreeBoundaryDecodeBHist (kleeneTreeBoundaryEncodeBHist h) = h) ∧
+            (∀ x : KleeneTreeBoundaryUp,
+              kleeneTreeBoundaryFromEventFlow (kleeneTreeBoundaryToEventFlow x) = some x) ∧
+              (∀ x y : KleeneTreeBoundaryUp,
+                kleeneTreeBoundaryToEventFlow x = kleeneTreeBoundaryToEventFlow y → x = y) ∧
+                kleeneTreeBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) :=
+  BEDC.Derived.KleeneTreeBoundaryUp.KleeneTreeBoundaryTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.KleeneTreeBoundaryUp

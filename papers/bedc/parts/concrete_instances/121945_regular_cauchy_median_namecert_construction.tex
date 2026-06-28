@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMedianUp$}
+\label{ch:concrete-instances-regular-cauchy-median-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyMedianUp$ packet records the median of three regular Cauchy real-facing names by finite comparison windows. It reads the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic comparison budgets of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the sibling minimum and maximum routes of \autoref{ch:concrete-instances-regularcauchymin-namecert} and \autoref{ch:concrete-instances-regularcauchymax-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the middle window by displayed finite data; it does not import trichotomy, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy median carrier]
+\label{def:regular-cauchy-median-carrier}
+A $\RegularCauchyMedianUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,C,W_A,W_B,W_C,D,m_{AB},j_{AB},u,v,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A,B,C$ are the three source $\RegSeqRatUp$ regular rational Cauchy name rows.
+\item $W_A,W_B,W_C$ are the $\StreamNameUp$ schedules used to inspect the three source names on the same finite precision request.
+\item $D$ is the $\DyadicRatCoreUp$ comparison-budget row, recording the endpoint tolerances, overlap slack, and dyadic cells consumed by the displayed pairwise comparisons.
+\item $m_{AB}$ is the $\RegularCauchyMinUp$ sibling route for the lower row of $A$ and $B$ over the inspected windows.
+\item $j_{AB}$ is the $\RegularCauchyMaxUp$ sibling route for the upper row of $A$ and $B$ over the same inspected windows.
+\item $u$ is the $\RegularCauchyMaxUp$ row for the displayed maximum of $m_{AB}$ and $C$.
+\item $v$ is the $\RegularCauchyMinUp$ row for the displayed minimum of $u$ and $j_{AB}$; it is the median row.
+\item $R$ is the $\RegSeqRatUp$ readback row exported by $v$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the readback row $R$ has been exposed.
+\item $H$ records componentwise $\hsame$ transport for the three source rows, schedules, dyadic budget, sibling min and max rows, median row, readback, seal, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from a median request through $W_A,W_B,W_C,D,m_{AB},j_{AB},u,v,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyMedianUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyMinUp$, $\RegularCauchyMaxUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMedianUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host trichotomy, quotient stream equality, selected limits, countable-choice schedules, ambient $\RealUp$ completeness, or an unbounded comparison procedure.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy median NameCert obligations]
+\label{thm:regular-cauchy-median-namecert-obligations}
+For every accepted $\RegularCauchyMedianUp$ carrier
+$$
+M=(A,B,C,W_A,W_B,W_C,D,m_{AB},j_{AB},u,v,R,E,H,K,P,N),
+$$
+the local $\NameCert_{\RegularCauchyMedianUp}$ surface consists exactly of three-source $\RegSeqRatUp$ admission, synchronized $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ comparison-budget accounting, the displayed $\RegularCauchyMinUp$ and $\RegularCauchyMaxUp$ sibling routes, median readback, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-median-carrier}. The source rows are $A,B,C$, the finite observation schedules are $W_A,W_B,W_C$, and the common comparison budget is $D$.
+
+The operation rows are the sibling routes already named in the carrier. The rows $m_{AB}$ and $j_{AB}$ expose the lower and upper pairwise bounds for $A$ and $B$; the row $u$ then places $C$ against the lower bound, and the row $v$ places the result against the upper bound. Thus the median read is assembled from min and max rows over the same finite windows.
+
+The readback and seal rows add no comparison principle. The row $R$ is downstream of $v$, and the terminal seal $E$ is downstream of $R$.
+
+Finally $H,K,P,N$ transport, replay, source, and name this displayed route. Since the carrier contains no other coordinate, the local NameCert exports no host trichotomy, quotient stream equality, selected representative, countable-choice schedule, ambient completeness, or unbounded comparison datum.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy median finite-window route]
+\label{thm:regular-cauchy-median-finite-window-route}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyMedianUp$ carrier reaches the median row only through the finite route
+$$
+(A,B,C,W_A,W_B,W_C,D)
+\longrightarrow
+(m_{AB},j_{AB})
+\longrightarrow
+(u,v)
+\longrightarrow
+R
+\longrightarrow
+E .
+$$
+The route is a displayed finite-window median operation over regular Cauchy names. It is not a trichotomy on completed reals, not a quotient-real equality principle, not a selected limit, and not an ambient completeness argument.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the accepted carrier. By \autoref{thm:regular-cauchy-median-namecert-obligations}, it must first expose the three regular rational sources, the three finite stream schedules, and the common dyadic comparison budget.
+
+Next read the sibling operation rows. The first pair of rows, $m_{AB}$ and $j_{AB}$, is supplied by the finite $\RegularCauchyMinUp$ and $\RegularCauchyMaxUp$ chapters over $A$ and $B$. The second pair, $u$ and $v$, uses the same sibling routes to compare $C$ with the displayed lower and upper rows.
+
+The median row is therefore $v$, and the readback row $R$ is downstream of that displayed operation packet. The terminal $\RealUp$ seal $E$ is reached only after $R$ has been exposed.
+
+Transport through $H$ and replay through $K$ preserve exactly the same finite route. The provenance and local naming rows source the route but do not add a host comparison, quotient stream, selected representative, countable choice, or completeness coordinate.
+\end{proof}
+
+\closureat{RegularCauchyMedianUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMedianUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-median-carrier}, \autoref{thm:regular-cauchy-median-namecert-obligations}, and \autoref{thm:regular-cauchy-median-finite-window-route} seed the finite median route for three regular Cauchy names through RegSeqRat, StreamName, DyadicRatCore, RegularCauchyMin, RegularCauchyMax, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, or unbounded comparison schedules.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window exposure, dyadic budget accounting, min and max sibling-route compatibility, median readback stability, Real seal handoff, transport, replay, provenance, local naming, and non-escape proofs for BEDC.Derived.RegularCauchyMedianUp.}
+  \constructivestory{A $\RegularCauchyMedianUp$ packet is generated from three RegSeqRat source rows, three StreamName schedules, a DyadicRatCore comparison budget, RegularCauchyMin and RegularCauchyMax sibling routes, a median readback row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
