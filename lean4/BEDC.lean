@@ -5021,6 +5021,7 @@ import BEDC.Derived.DiffFormUp.ZeroDegreeConsumerNeutrality
 import BEDC.Derived.DiffFormUp.ZeroDegreeEmptyProbe
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DifferenceQuotientUp.TasteGate
+import BEDC.Derived.DifferentialPrivacyUp.TasteGate
 import BEDC.Derived.DigestFiberLedgerUp.Nonescape
 import BEDC.Derived.DigestFiberLedgerUp.PublicExport
 import BEDC.Derived.DigestFiberLedgerUp.TasteGate
@@ -7620,6 +7621,7 @@ import BEDC.Derived.LocatedCutUp.PublicNameCertExport
 import BEDC.Derived.LocatedCutUp.RealSealBridgeExactness
 import BEDC.Derived.LocatedCutUp.RegularCauchyBridgeSource
 import BEDC.Derived.LocatedCutUp.TasteGate
+import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
@@ -12844,6 +12846,7 @@ import BEDC.Derived.UniformCauchySequenceSpaceUp
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TailThreshold
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCauchySubnetUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformCauchyWindowExhaustionUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
