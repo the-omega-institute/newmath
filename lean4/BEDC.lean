@@ -304,7 +304,6 @@ import BEDC.Derived.ApproximationTowerResidueUp.ScopeLock
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
-import BEDC.Derived.ArchimedeanApproximationUp.DyadicCofinalWindow
 import BEDC.Derived.ArchimedeanApproximationUp.TasteGate
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
