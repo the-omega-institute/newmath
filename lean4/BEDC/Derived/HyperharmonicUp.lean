@@ -1,145 +1,145 @@
 import BEDC.Derived.HarmonicUp
 import BEDC.Derived.BinomialIdentitiesUp
-import BEDC.Derived.RationalUp
-import BEDC.Algebra.FiniteFold
 
 namespace BEDC.Derived.HyperharmonicUp
 
-open BEDC.FKernel.ExternalBinary (bwordLength)
-open BEDC.Derived.HarmonicUp
 open BEDC.Derived.RationalUp
+open BEDC.Derived.HarmonicUp
 
-abbrev C (n k : Nat) : Nat :=
-  BEDC.Derived.BinomialIdentitiesUp.C n k
-
-def hyperharmonicPrefix (f : Nat -> RatNum) : Nat -> RatNum
+def hyperharmonicBase : Nat -> RatNum
   | 0 => ratZero
-  | Nat.succ n => ratAdd (hyperharmonicPrefix f n) (f (Nat.succ n))
+  | Nat.succ n => oneOverNatSucc n
+
+def ratPrefixSumFromOne (f : Nat -> RatNum) : Nat -> RatNum
+  | 0 => ratZero
+  | Nat.succ n => ratAdd (ratPrefixSumFromOne f n) (f (Nat.succ n))
 
 def hyperharmonic : Nat -> Nat -> RatNum
-  | 0 => fun _ => ratZero
-  | Nat.succ r =>
-      match r with
-      | 0 => harmonic
-      | Nat.succ r' =>
-          fun n => hyperharmonicPrefix (fun k => hyperharmonic (Nat.succ r') k) n
+  | n, 0 => hyperharmonicBase n
+  | n, Nat.succ r => ratPrefixSumFromOne (fun k => hyperharmonic k r) n
 
-def hyperharmonicTerms (r : Nat) : Nat -> List RatNum
-  | 0 => []
-  | Nat.succ n => hyperharmonic r (Nat.succ n) :: hyperharmonicTerms r n
+def natRat : Nat -> RatNum
+  | 0 => ratZero
+  | Nat.succ 0 => ratOne
+  | Nat.succ (Nat.succ n) =>
+      BEDC.Derived.BernoulliUp.ratOfIntOverNat
+        (Int.ofNat (Nat.succ (Nat.succ n))) 0
 
-def hyperharmonicListSum : List RatNum -> RatNum
-  | [] => ratZero
-  | x :: xs => ratAdd (hyperharmonicListSum xs) x
+def hyperharmonicClosed (n r : Nat) : RatNum :=
+  match r with
+  | 0 => hyperharmonicBase n
+  | Nat.succ r0 =>
+      ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C (n + r0) r0))
+        (ratSub (harmonic (n + r0)) (harmonic r0))
 
-theorem hyperharmonicPrefix_terms (r n : Nat) :
-    hyperharmonicPrefix (fun k => hyperharmonic r k) n =
-      hyperharmonicListSum (hyperharmonicTerms r n) := by
+theorem hyperharmonic_zero_order_zero :
+    RatEq (hyperharmonic 0 0) ratZero := by
+  exact RatEq_refl ratZero
+
+theorem hyperharmonic_zero_order_succ (n : Nat) :
+    RatEq (hyperharmonic (Nat.succ n) 0) (oneOverNatSucc n) := by
+  exact RatEq_refl (oneOverNatSucc n)
+
+theorem ratPrefixSumFromOne_zero (f : Nat -> RatNum) :
+    RatEq (ratPrefixSumFromOne f 0) ratZero := by
+  exact RatEq_refl ratZero
+
+theorem ratPrefixSumFromOne_succ (f : Nat -> RatNum) (n : Nat) :
+    RatEq (ratPrefixSumFromOne f (Nat.succ n))
+      (ratAdd (ratPrefixSumFromOne f n) (f (Nat.succ n))) := by
+  exact RatEq_refl _
+
+theorem hyperharmonic_succ (n r : Nat) :
+    RatEq (hyperharmonic n (Nat.succ r))
+      (ratPrefixSumFromOne (fun k => hyperharmonic k r) n) := by
+  exact RatEq_refl _
+
+theorem hyperharmonic_one_eq_harmonic (n : Nat) :
+    hyperharmonic n 1 = harmonic n := by
   induction n with
   | zero =>
       rfl
   | succ n ih =>
-      change ratAdd (hyperharmonicPrefix (fun k => hyperharmonic r k) n)
-          (hyperharmonic r (Nat.succ n)) =
-        ratAdd (hyperharmonicListSum (hyperharmonicTerms r n))
-          (hyperharmonic r (Nat.succ n))
-      exact congrArg (fun x => ratAdd x (hyperharmonic r (Nat.succ n))) ih
+      change ratAdd (hyperharmonic n 1) (oneOverNatSucc n) =
+        ratAdd (harmonic n) (oneOverNatSucc n)
+      exact congrArg (fun h => ratAdd h (oneOverNatSucc n)) ih
 
-theorem hyperharmonic_order_one (n : Nat) :
-    RatEq (hyperharmonic 1 n) (harmonic n) := by
-  change RatEq (harmonic n) (harmonic n)
-  exact RatEq_refl _
+theorem hyperharmonic_one_ratEq_harmonic (n : Nat) :
+    RatEq (hyperharmonic n 1) (harmonic n) := by
+  rw [hyperharmonic_one_eq_harmonic n]
+  exact RatEq_refl (harmonic n)
 
-theorem hyperharmonic_recursive (r n : Nat) :
-    RatEq (hyperharmonic (Nat.succ (Nat.succ r)) (Nat.succ n))
-      (ratAdd (hyperharmonic (Nat.succ (Nat.succ r)) n)
-        (hyperharmonic (Nat.succ r) (Nat.succ n))) := by
-  change RatEq
-    (ratAdd (hyperharmonicPrefix (fun k => hyperharmonic (Nat.succ r) k) n)
-      (hyperharmonic (Nat.succ r) (Nat.succ n)))
-    (ratAdd (hyperharmonicPrefix (fun k => hyperharmonic (Nat.succ r) k) n)
-      (hyperharmonic (Nat.succ r) (Nat.succ n)))
-  exact RatEq_refl _
+theorem natRat_choose_zero (n : Nat) :
+    RatEq (natRat (BEDC.Derived.BinomialIdentitiesUp.C n 0)) ratOne := by
+  rw [BEDC.Derived.BinomialIdentitiesUp.binomial_zero_right n]
+  exact RatEq_refl ratOne
 
-theorem hyperharmonic_as_list_sum (r n : Nat) :
-    hyperharmonic (Nat.succ (Nat.succ r)) n =
-      hyperharmonicListSum (hyperharmonicTerms (Nat.succ r) n) := by
-  change hyperharmonicPrefix (fun k => hyperharmonic (Nat.succ r) k) n =
-    hyperharmonicListSum (hyperharmonicTerms (Nat.succ r) n)
-  exact hyperharmonicPrefix_terms (Nat.succ r) n
+theorem ratNeg_zero :
+    RatEq (ratNeg ratZero) ratZero := by
+  apply ratEq_of_num_den_intEq
+  · unfold ratNeg ratZero intToRat
+    exact BEDC.Algebra.Rel.IntegerUp_RelCommRing.neg_zero
+  · unfold ratDenInt ratNeg ratZero intToRat
+    exact IntEq_refl _
 
-def ratOfNat (n : Nat) : RatNum :=
-  BEDC.Derived.BernoulliUp.ratOfIntOverNat (Int.ofNat n) 0
+theorem ratSub_zero_right (x : RatNum) :
+    RatEq (ratSub x ratZero) x := by
+  unfold ratSub
+  exact RatEq_trans (ratAdd x (ratNeg ratZero)) (ratAdd x ratZero) x
+    (ratAdd_respects (RatEq_refl x) ratNeg_zero)
+    (ratAdd_zero_right x)
 
-def binomialRat (n k : Nat) : RatNum :=
-  ratOfNat (C n k)
+theorem ratSub_right_respects {x y y' : RatNum} :
+    RatEq y y' -> RatEq (ratSub x y) (ratSub x y') := by
+  intro same
+  unfold ratSub
+  exact ratAdd_respects (RatEq_refl x) (ratNeg_respects same)
 
-def hyperharmonicClosedForm (r n : Nat) : RatNum :=
-  ratMul (binomialRat (n + r - 1) (r - 1))
-    (ratSub (harmonic (n + r - 1)) (harmonic (r - 1)))
+theorem harmonic_gap_zero_right (n : Nat) :
+    RatEq (ratSub (harmonic n) (harmonic 0)) (harmonic n) := by
+  exact RatEq_trans
+    (ratSub (harmonic n) (harmonic 0))
+    (ratSub (harmonic n) ratZero)
+    (harmonic n)
+    (ratSub_right_respects (x := harmonic n) harmonic_zero)
+    (ratSub_zero_right (harmonic n))
 
-def hyperharmonicTwoTwo : RatNum :=
-  harmonicRat 5 1
+theorem hyperharmonic_binomial_harmonic_first_order (n : Nat) :
+    RatEq (hyperharmonic n 1)
+      (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C (n + 0) 0))
+        (ratSub (harmonic (n + 0)) (harmonic 0))) := by
+  rw [Nat.add_zero]
+  have scaleGap :
+      RatEq
+        (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C n 0))
+          (ratSub (harmonic n) (harmonic 0)))
+        (ratMul ratOne (harmonic n)) :=
+    ratMul_respects (natRat_choose_zero n) (harmonic_gap_zero_right n)
+  have closedToHarmonic :
+      RatEq
+        (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C n 0))
+          (ratSub (harmonic n) (harmonic 0)))
+        (harmonic n) :=
+    RatEq_trans
+      (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C n 0))
+        (ratSub (harmonic n) (harmonic 0)))
+      (ratMul ratOne (harmonic n))
+      (harmonic n)
+      scaleGap
+      (ratOne_mul_left (harmonic n))
+  exact RatEq_trans
+    (hyperharmonic n 1)
+    (harmonic n)
+    (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C n 0))
+      (ratSub (harmonic n) (harmonic 0)))
+    (hyperharmonic_one_ratEq_harmonic n)
+    (RatEq_symm closedToHarmonic)
 
-def hyperharmonicTwoThree : RatNum :=
-  harmonicRat 13 2
-
-set_option maxRecDepth 4096 in
-private theorem ratEq_of_cross_length_eq (x y : RatNum) :
-    bwordLength
-        (intToPair (intMul x.num (intOfNat y.den (ratDenCarrier y)))).1 +
-      bwordLength
-        (intToPair (intMul y.num (intOfNat x.den (ratDenCarrier x)))).2 =
-      bwordLength
-        (intToPair (intMul y.num (intOfNat x.den (ratDenCarrier x)))).1 +
-      bwordLength
-        (intToPair (intMul x.num (intOfNat y.den (ratDenCarrier y)))).2 ->
-    RatEq x y := by
-  intro lengthEq
-  unfold RatEq
-  exact IntPairClassifier_of_length_eq
-    (RatEq_cross_carrier_left x y) (RatEq_cross_carrier_right x y) lengthEq
-
-theorem hyperharmonic_two_two_value :
-    RatEq (hyperharmonic 2 2) hyperharmonicTwoTwo := by
-  apply ratEq_of_cross_length_eq
-  decide
-
-theorem hyperharmonic_two_three_value :
-    RatEq (hyperharmonic 2 3) hyperharmonicTwoThree := by
-  set_option maxRecDepth 4096 in
-  apply ratEq_of_cross_length_eq
-  decide
-
-theorem hyperharmonic_closed_one_one :
-    RatEq (hyperharmonic 1 1) (hyperharmonicClosedForm 1 1) := by
-  apply ratEq_of_cross_length_eq
-  decide
-
-theorem hyperharmonic_closed_one_two :
-    RatEq (hyperharmonic 1 2) (hyperharmonicClosedForm 1 2) := by
-  apply ratEq_of_cross_length_eq
-  decide
-
-theorem hyperharmonic_closed_two_two :
-    RatEq (hyperharmonic 2 2) (hyperharmonicClosedForm 2 2) := by
-  set_option maxRecDepth 4096 in
-  apply ratEq_of_cross_length_eq
-  decide
-
-theorem HyperharmonicUp_constructive_export :
-    (∀ n : Nat, RatEq (hyperharmonic 1 n) (harmonic n)) ∧
-      (∀ r n : Nat,
-        RatEq (hyperharmonic (Nat.succ (Nat.succ r)) (Nat.succ n))
-          (ratAdd (hyperharmonic (Nat.succ (Nat.succ r)) n)
-            (hyperharmonic (Nat.succ r) (Nat.succ n)))) ∧
-      RatEq (hyperharmonic 2 2) (hyperharmonicClosedForm 2 2) := by
-  constructor
-  · intro n
-    exact hyperharmonic_order_one n
-  · constructor
-    · intro r n
-      exact hyperharmonic_recursive r n
-    · exact hyperharmonic_closed_two_two
+theorem hyperharmonic_closed_first_order (n : Nat) :
+    RatEq (hyperharmonic n 1) (hyperharmonicClosed n 1) := by
+  change RatEq (hyperharmonic n 1)
+    (ratMul (natRat (BEDC.Derived.BinomialIdentitiesUp.C (n + 0) 0))
+      (ratSub (harmonic (n + 0)) (harmonic 0)))
+  exact hyperharmonic_binomial_harmonic_first_order n
 
 end BEDC.Derived.HyperharmonicUp
