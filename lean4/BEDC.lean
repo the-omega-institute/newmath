@@ -12035,6 +12035,7 @@ import BEDC.Derived.SternBrocotUp
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.SternDiatomicUp
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
+import BEDC.Derived.StirlingCycleUp
 import BEDC.Derived.StirlingFirstUp
 import BEDC.Derived.StirlingInversionUp
 import BEDC.Derived.StirlingUp
