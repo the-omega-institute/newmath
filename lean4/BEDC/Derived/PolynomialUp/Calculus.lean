@@ -101,9 +101,11 @@ private theorem coeffOfNat_succ (n : Nat) :
     succPair
     (BEDC.Derived.IntUp.IntPairClassifier_equivalence_fields.right.right.right.left addPair)
 
-private theorem coeffOfNat_succ_mul (n : Nat) (a : IntegerUp) :
-    zEq (zMul (coeffOfNat (Nat.succ n)) a)
-      (zAdd a (zMul (coeffOfNat n) a)) :=
+theorem coeffOfNat_succ_mul (n : Nat) (a : IntegerUp) :
+    BEDC.Derived.RationalUp.IntEq
+      (BEDC.Derived.RationalUp.IntMul (coeffOfNat (Nat.succ n)) a)
+      (BEDC.Derived.RationalUp.IntAdd a
+        (BEDC.Derived.RationalUp.IntMul (coeffOfNat n) a)) :=
   zLaws.eq_trans
     (zLaws.mul_respects (coeffOfNat_succ n) (zLaws.eq_refl a))
     (zLaws.eq_trans
