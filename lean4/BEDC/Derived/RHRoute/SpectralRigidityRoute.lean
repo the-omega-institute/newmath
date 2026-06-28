@@ -15,11 +15,16 @@ universe u v
 abbrev CriticalStripPoint : Type :=
   BEDC.Derived.RHRoute.ConstructiveRHStatement.RatComplex
 
+-- `FixedHalfSection` is definitionally the `ConstructiveRH` target with a
+-- route-local name for the source point.  It is a renamed projection surface,
+-- not an independent derivation of an RH conclusion.
 def FixedHalfSection : Prop :=
   ∀ point : CriticalStripPoint,
     BEDC.Derived.RHRoute.ConstructiveRHStatement.NontrivialZetaZero point ->
       BEDC.Derived.RHRoute.ConstructiveRHStatement.OnCriticalLine point
 
+-- This theorem unfolds the two definitions and projects the same field data.
+-- It should be read as a renaming/readback lemma, not as a spectral proof.
 theorem fixedHalfSection_reads_constructiveRH :
     FixedHalfSection ↔
       BEDC.Derived.RHRoute.ConstructiveRHStatement.ConstructiveRH := by
@@ -70,6 +75,10 @@ theorem recursiveSpectralThread_readback
     forgetToGeneratedZero thread.layer = thread.generated :=
   thread.layer_readback
 
+-- Honest condition interface: `GlobalSpectralRigidity` records the two
+-- assumptions needed for the prime-defect exclusion route.  It is not itself
+-- the fixed-half conclusion, and the route's RH readback below comes from the
+-- separate `fixed_half_section` field.
 structure GlobalSpectralRigidity
     (I : PrimeSkewDefectInterface) where
   boundary_faithfulness : BoundaryFaithfulness I
@@ -117,6 +126,8 @@ theorem spectralRigidityRoute_thread_readback
     forgetToGeneratedZero route.thread.layer = route.thread.generated :=
   route.thread.layer_readback
 
+-- Field projection through `FixedHalfSection`; the global rigidity assumptions
+-- are not used to derive this `ConstructiveRH` readback.
 theorem spectralRigidityRoute_reads_constructiveRH
     {I : PrimeSkewDefectInterface}
     (route : SpectralRigidityRoute I) :
