@@ -91,11 +91,11 @@ import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AlgebraicExtensionDimensionUp
 import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AliquotSequenceUp
-import BEDC.Derived.AmicableNumberUp
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AmicableNumberUp
 import BEDC.Derived.AnalogyCertificateGateUp.IndependenceWitness
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.ObligationRowScope
@@ -3083,7 +3083,6 @@ import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
-import BEDC.Derived.CollatzTrajectoryUp
 import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
 import BEDC.Derived.ClosedIntervalBisectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCompletionUp.TasteGate
@@ -3308,6 +3307,7 @@ import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
 import BEDC.Derived.CofinalityFilterUp
 import BEDC.Derived.CohomologyUp
+import BEDC.Derived.CollatzTrajectoryUp
 import BEDC.Derived.CollectionwiseNormalUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CollisionKernelUp
@@ -10022,6 +10022,7 @@ import BEDC.Derived.RHRoute.NonfixedOrbit
 import BEDC.Derived.RHRoute.ObjectRealityInductionRoute
 import BEDC.Derived.RHRoute.OddZeroDefect
 import BEDC.Derived.RHRoute.OnticBoundaryLedger
+import BEDC.Derived.RHRoute.PrimeChargeParityPhaseDictionary
 import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
