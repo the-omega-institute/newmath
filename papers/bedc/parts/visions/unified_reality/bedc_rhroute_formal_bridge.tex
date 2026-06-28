@@ -1,0 +1,201 @@
+\section{BEDC RHRoute Formal Bridge}
+\label{sec:unified-reality-bedc-rhroute-formal-bridge}
+
+The preceding taxonomy identifies the analytic source theorem that would
+feed the RH fixed-half section.  The Lean-side RHRoute layer should be
+read in the same way: it supplies a finite formal route discipline and
+several checked algebraic carriers, but it does not by itself construct
+the zeta-specific source family for every completed critical-strip zero.
+The bridge point is therefore not the fixed-half conclusion itself, but
+the map from completed zero rows to zero-relevant finite certificates.
+
+\begin{definition}[RHRoute formal layer]
+\label{def:unified-reality-rhroute-formal-layer}
+The \emph{RHRoute formal layer} is the collection of finite BEDC
+carriers that record:
+$$
+\mathsf{ConstructiveZetaEval},
+\qquad
+\mathsf{MirrorFixedAlgebra},
+\qquad
+\mathsf{FinitePrimeWindow},
+$$
+$$
+\mathsf{PrimeSkewDefect},
+\qquad
+\mathsf{LocalGlobalExclusion},
+\qquad
+\mathsf{RouteClosureSeparation}.
+$$
+The first row gives rational-complex evaluation packets for the
+eta-to-zeta readout.  The mirror row proves the finite algebraic
+equivalence between $J$-fixedness and the critical-line readout.  The
+prime-window rows record finite prime supports, unitary-balance packets,
+and skew-defect certificates.  The route-separation row records that a
+finite route closure certificate is not uniformly the same thing as an
+arbitrary fixed statement.
+\end{definition}
+
+\begin{definition}[Formal bridge packet]
+\label{def:unified-reality-rhroute-formal-bridge-packet}
+For a critical-strip zero coordinate $s$, an \emph{RHRoute formal bridge
+packet} consists of:
+$$
+\mathsf{CritZero}(s),
+\qquad
+\mathsf{EvalPacket}(s),
+\qquad
+\mathsf{MirrorOrbit}(s),
+$$
+$$
+\mathsf{PrimeWindowSource}(s),
+\qquad
+\mathsf{SkewOrUnitaryBoundary}(s),
+\qquad
+\mathsf{RouteSeparationAudit}(s).
+$$
+The packet is a formal carrier for the downstream proof route.  It is
+not yet a source theorem unless the prime-window source is produced from
+the completed zero ledger by active capture, dominance, tail control,
+and solenoid or Lee--Yang stability.
+\end{definition}
+
+\begin{definition}[RHRoute source bridge]
+\label{def:unified-reality-rhroute-source-bridge}
+The \emph{RHRoute source bridge} is the zeta-specific row
+$$
+\mathsf{RHRouteSourceBridge}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{CritZero}(s)
+\to
+\sum_{P:\mathsf{RHRouteFormalBridgePacket}(s)}
+\mathsf{ZeroRelevant}(P,s)
+\right).
+$$
+Here $\mathsf{ZeroRelevant}(P,s)$ means that the finite prime-window or
+resonance data in $P$ controls a local zero island of the completed
+zeta readout, rather than merely displaying a visible defect or a
+compatible finite route.
+\end{definition}
+
+\begin{theorem}[The formal layer is not the source bridge]
+\label{thm:unified-reality-formal-layer-not-source-bridge}
+The RHRoute formal layer does not by itself imply
+$$
+\mathsf{RHRouteSourceBridge}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+The formal layer contains finite algebraic and route-theoretic carriers:
+evaluation packets, mirror-fixed readbacks, prime-window supports,
+unitary-balance surfaces, skew-defect certificates, and finite route
+closure decisions.  Each of these is a legal finite BEDC object.
+However, none of them asserts that every completed critical-strip zero
+has a zero-relevant dominant source packet.  In particular, route
+closure and fixed-statement transport are separated by the route
+separation row: a closed finite route is not a uniform proof of an
+arbitrary fixed statement, and a fixed statement is not uniformly a
+finite route closure certificate.  Therefore the missing row is still
+the source bridge from the zero ledger to zero-relevant finite data.
+\end{proof}
+
+\begin{definition}[BEDC RHRoute certificate]
+\label{def:unified-reality-bedc-rhroute-certificate}
+A \emph{BEDC RHRoute certificate} for $s$ is an RHRoute formal bridge
+packet $P$ together with the following additional rows:
+$$
+\mathsf{ActiveCapture}(P,s),
+\qquad
+\mathsf{DominantSource}(P,s),
+\qquad
+\mathsf{BoundaryStability}(P,s),
+$$
+$$
+\mathsf{DefectExtraction}(P,s),
+\qquad
+\mathsf{FixedHalfReadback}(P,s).
+$$
+Active capture and dominance make $P$ zero-relevant for the completed
+zeta readout.  Boundary stability prevents the packet from carrying a
+noncompact real scale.  Defect extraction identifies the normal
+coordinate read by the prime-window or resonance channel.  Fixed-half
+readback transports the resulting $J$-fixed row to
+$\mathsf{OnCritLine}(s)$.
+\end{definition}
+
+\begin{theorem}[BEDC RHRoute certificates are sufficient]
+\label{thm:unified-reality-bedc-rhroute-certificates-sufficient}
+If every completed critical-strip zero carries a BEDC RHRoute
+certificate, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have coordinate $s$.  By hypothesis, $s$
+carries a BEDC RHRoute certificate $P$.  The active-capture and
+dominance rows say that $P$ is zero-relevant for the completed zeta
+readout.  The defect-extraction row reads the normal coordinate
+$$
+\delta(s)=\Re(s)-\frac12
+$$
+through the finite prime-window or resonance channel.  The boundary
+stability row excludes a nonzero value of that normal coordinate on a
+zero-relevant packet; otherwise the same packet would carry a visible
+prime skew or an unbounded normal energy incompatible with the boundary
+row.  Hence $\delta(s)=0$.  The mirror-fixed algebra then reads this as
+$J$-fixedness, and the fixed-half readback gives
+$$
+\mathsf{OnCritLine}(s).
+$$
+Varying $z$ gives the fixed-half section.
+\end{proof}
+
+\begin{corollary}[The remaining theorem is source construction]
+\label{cor:unified-reality-bedc-rhroute-remaining-source-construction}
+The unclosed content of the RHRoute route is the implication
+$$
+\mathsf{CritZero}(s)
+\to
+\sum_{P:\mathsf{RHRouteFormalBridgePacket}(s)}
+\left(
+\mathsf{ActiveCapture}(P,s)
+\times
+\mathsf{DominantSource}(P,s)
+\times
+\mathsf{BoundaryStability}(P,s)
+\right).
+$$
+\end{corollary}
+
+\begin{proof}
+All rows after source construction are structural.  Mirror-fixed
+readback is the algebraic equivalence between $J$-fixedness and the
+critical-line coordinate.  Prime-window skew and normal-energy rows
+detect nonzero off-half displacement once a zero-relevant packet has
+been supplied.  Route separation prevents these finite certificates from
+being confused with the target statement itself.  Thus the proof load is
+the zeta-specific construction of $P$: active capture, dominance, tail
+control, and boundary stability for the completed zero ledger.
+\end{proof}
+
+\begin{corollary}[Compatibility with the triadic route taxonomy]
+\label{cor:unified-reality-rhroute-compatible-with-triadic-taxonomy}
+The RHRoute formal bridge is a finite certificate interface for the same
+proof target named by the no-ghost, stable-packet, and triadic-closure
+rows of \autoref{sec:unified-reality-triadic-route-taxonomy}.
+\end{corollary}
+
+\begin{proof}
+The no-ghost row asks that every completed zero enter the closed
+generability carrier.  The stable-packet row asks for a canonical local
+zero island with Rouch\'e capture and Lee--Yang stability.  The
+triadic-closure row asks for an inverse-limit packet whose parity or
+energy certificate kills the normal coordinate.  An RHRoute certificate
+is the finite formal interface through which these rows can be audited:
+it displays the evaluation packet, the mirror algebra, the finite
+prime-window source, the skew or unitary boundary, and the route
+separation audit.  It therefore refines the taxonomy without replacing
+the remaining source theorem.
+\end{proof}

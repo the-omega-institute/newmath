@@ -1,0 +1,253 @@
+\section{Zero Packet Refinement Category}
+\label{sec:unified-reality-zero-packet-refinement-category}
+
+The coverage row can be organized categorically, but the categorical
+language must be used with a precise proof role.  A category of finite
+zero packets supplies objects, refinement morphisms, and compatible
+towers.  It does not by itself supply induction.  Induction enters only
+after the generated carrier has an initial-algebra or structural
+recursion principle, and after the finite packet tower has a
+well-founded level structure whose refinement steps are explicitly
+audited.
+
+\begin{definition}[Finite BEDC zero packet]
+\label{def:unified-reality-finite-bedc-zero-packet}
+A \emph{finite BEDC zero packet} is a tuple
+$$
+P
+:=
+(n,W,F,T,D,\mathcal L,\mathcal B,\Omega)
+$$
+where $n$ is a level or precision index, $W$ is a finite prime or
+resonance window, $F$ is a dominant finite packet, $T$ is a tail packet,
+$D\subseteq\ComplexUp$ is a rational zero box or zero island,
+$\mathcal L$ is the source, tail, phase, prime-register, and defect
+ledger, $\mathcal B$ is the boundary certificate, and $\Omega$ is the
+normal-defect readout attached to the packet.
+\end{definition}
+
+\begin{definition}[Refinement morphism]
+\label{def:unified-reality-zero-packet-refinement-morphism}
+For two finite zero packets $P_m$ and $P_n$ with $m\ge n$, a
+\emph{refinement morphism}
+$$
+\phi_{m,n}:P_m\to P_n
+$$
+is a projection from the finer packet to the coarser packet satisfying:
+$$
+D_m\subseteq D_n,
+\qquad
+W_n\subseteq W_m,
+$$
+$$
+\phi_{m,n}^{\ast}\mathcal L_n=\mathcal L_m|_n,
+\qquad
+\phi_{m,n}^{\ast}\mathcal B_n=\mathcal B_m|_n,
+$$
+and
+$$
+\Omega_m|_n=\Omega_n+\varepsilon_{m,n}
+$$
+with an explicitly ledgered refinement error $\varepsilon_{m,n}$.  The
+morphism says that $P_m$ is a higher-resolution audit of $P_n$, not an
+independent replacement for it.
+\end{definition}
+
+\begin{definition}[Zero packet refinement category]
+\label{def:unified-reality-zero-packet-refinement-category}
+The \emph{zero packet refinement category}
+$$
+\mathsf Z_{\mathrm{BEDC}}
+$$
+has finite BEDC zero packets as objects and refinement morphisms as
+arrows.  It is required to satisfy:
+$$
+\phi_{n,n}=\operatorname{id}_{P_n},
+$$
+and
+$$
+\phi_{k,n}=\phi_{m,n}\circ\phi_{k,m}
+\qquad
+(k\ge m\ge n).
+$$
+\end{definition}
+
+\begin{theorem}[Refinement packets form a category]
+\label{thm:unified-reality-refinement-packets-form-category}
+If the refinement projections preserve zero boxes, windows, ledger
+data, boundary data, and defect readouts, and if they satisfy the
+identity and composition laws of
+\autoref{def:unified-reality-zero-packet-refinement-category}, then the
+finite zero packets form the category $\mathsf Z_{\mathrm{BEDC}}$.
+\end{theorem}
+
+\begin{proof}
+The objects and arrows are given by
+\autoref{def:unified-reality-finite-bedc-zero-packet} and
+\autoref{def:unified-reality-zero-packet-refinement-morphism}.  The
+identity arrow on $P_n$ preserves every component by definitional
+readback.  For composable refinements
+$$
+P_k\xrightarrow{\phi_{k,m}}P_m\xrightarrow{\phi_{m,n}}P_n,
+$$
+the inclusions of boxes and windows compose, and the pullback equations
+for ledger, boundary, and defect rows compose.  The stipulated
+composition law identifies this composite with $\phi_{k,n}$.  Thus the
+category axioms hold.
+\end{proof}
+
+\begin{definition}[BEDC zero tower]
+\label{def:unified-reality-bedc-zero-tower}
+A \emph{BEDC zero tower} is a functor
+$$
+P_{\bullet}:{\NatUp}^{op}\to\mathsf Z_{\mathrm{BEDC}}.
+$$
+Equivalently, it is a compatible tower
+$$
+P_0\leftarrow P_1\leftarrow P_2\leftarrow\cdots
+$$
+with refinement morphisms
+$$
+\phi_{n+1,n}:P_{n+1}\to P_n.
+$$
+\end{definition}
+
+\begin{definition}[Convergent zero tower]
+\label{def:unified-reality-convergent-zero-tower}
+Let $D_n$ be the zero box of $P_n$.  A BEDC zero tower is
+\emph{convergent} when
+$$
+D_{n+1}\subseteq D_n
+$$
+and
+$$
+\operatorname{diam}(D_n)\to0.
+$$
+When the boxes are nonempty and located-compact, the unique point in
+$$
+\bigcap_n D_n
+$$
+is denoted $s_{\infty}$ and called the limit readout of the tower.
+\end{definition}
+
+\begin{theorem}[Nested zero boxes have a unique limit readout]
+\label{thm:unified-reality-nested-zero-boxes-unique-limit-readout}
+If the zero boxes of a BEDC zero tower are nonempty located-compact
+sets, satisfy $D_{n+1}\subseteq D_n$, and have diameter tending to zero,
+then the tower has a unique limit readout
+$$
+s_{\infty}\in\bigcap_nD_n.
+$$
+\end{theorem}
+
+\begin{proof}
+The nested located-compact intersection supplies a point in the
+intersection.  If $x$ and $y$ are both in every $D_n$, then
+$$
+|x-y|\le\operatorname{diam}(D_n)
+$$
+for every $n$.  Since the diameters tend to zero, $|x-y|=0$, hence
+$x=y$.  Thus the intersection has a unique point.
+\end{proof}
+
+\begin{definition}[Active-capture zero tower]
+\label{def:unified-reality-active-capture-zero-tower}
+A convergent BEDC zero tower is an \emph{active-capture zero tower} when
+each level carries a decomposition
+$$
+\Xi=F_n+T_n
+$$
+on a neighbourhood of $D_n$ and a Rouch\'e boundary gap
+$$
+|T_n|<|F_n|
+\qquad
+\text{on }\partial D_n,
+$$
+and the winding or local-degree row is preserved by the refinement
+morphisms.
+\end{definition}
+
+\begin{theorem}[Active-capture convergence gives a completed zero]
+\label{thm:unified-reality-active-capture-convergence-gives-completed-zero}
+Let $P_{\bullet}$ be a convergent active-capture zero tower.  If each
+$D_n$ contains the same single completed-zero island of $\Xi$, then its
+limit readout satisfies
+$$
+\Xi(s_{\infty})=0.
+$$
+\end{theorem}
+
+\begin{proof}
+By the Rouch\'e boundary gap, $F_n$ and $\Xi$ have the same local zero
+count in $D_n$.  The refinement maps preserve the local-degree row, and
+the boxes are nested, so the captured island is the same at each level.
+By \autoref{thm:unified-reality-nested-zero-boxes-unique-limit-readout},
+the boxes converge to $s_{\infty}$.  Since each box contains the same
+completed-zero island and the diameters tend to zero, the island readout
+is $s_{\infty}$, hence $\Xi(s_{\infty})=0$.
+\end{proof}
+
+\begin{definition}[Boundary-stable zero tower]
+\label{def:unified-reality-boundary-stable-zero-tower}
+Let $s_{\infty}=1/2+r+i\gamma$ be the limit readout of a zero tower.  A
+convergent active-capture tower is \emph{boundary-stable} when it
+carries defect extraction
+$$
+|\Omega_n(s_{\infty})|^2
+=
+r^2W_n+o(W_n),
+$$
+cofinal growth
+$$
+W_n\to\infty,
+$$
+and a zero-compatible bound
+$$
+|\Omega_n(s_{\infty})|^2\le B
+$$
+for a finite $B$ independent of $n$.
+\end{definition}
+
+\begin{theorem}[Boundary-stable zero towers have fixed-half limits]
+\label{thm:unified-reality-boundary-stable-zero-towers-fixed-half-limits}
+The limit readout of a boundary-stable zero tower satisfies
+$$
+r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+If $r\#0$, then $r^2>0$.  Cofinal growth gives
+$$
+r^2W_n\to\infty.
+$$
+The defect extraction row gives
+$$
+|\Omega_n(s_{\infty})|^2=r^2W_n+o(W_n),
+$$
+so the defect energy is unbounded.  This contradicts the
+zero-compatible bound
+$$
+|\Omega_n(s_{\infty})|^2\le B.
+$$
+Hence $\neg(r\#0)$, and located fixed-half collapse gives $r=0$.
+\end{proof}
+
+\begin{corollary}[Tower route separates convergence from coverage]
+\label{cor:unified-reality-tower-route-separates-convergence-from-coverage}
+A boundary-stable active-capture zero tower converges to a completed
+zero on the fixed-half surface.  The remaining global row is that every
+completed critical-strip zero is the limit readout of such a tower.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-active-capture-convergence-gives-completed-zero}
+gives the completed-zero row for the limit readout, while
+\autoref{thm:unified-reality-boundary-stable-zero-towers-fixed-half-limits}
+gives the fixed-half row.  This proves the statement for a tower once
+the tower is supplied.  It does not construct a tower for every
+completed zero.  That construction is the tower form of
+$\mathsf{GeneratedZeroCoverage}_{\zeta}$ and the active-capture source
+obligation of
+\autoref{def:unified-reality-active-capture-step}.
+\end{proof}
