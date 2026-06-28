@@ -1,30 +1,70 @@
-\subsection{Translation-conditioned four-case discrimination for $B^{\ast}_{Q6}$ residuals}\label{subsec:bioreality-q6-four-case-discriminant}
+\subsection{Translation-conditioned four-case discriminant for $B^{\ast}_{Q6}$ residuals}
+\label{sec:bioreality-q6-fourcase-discriminant}
 \origin{ai}
 
-\paragraph{Finite panel.}
-This record evaluates a two-readout finite matrix whose rows are coding sequences and whose columns are the nine $B^{\ast}_{Q6}$ residual coordinates
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The experiment identifier is $f37bd98e0739$, verified on 2026-06-27.  The translation-side readout is a per-protein modeled tAI average,
-$$\begin{aligned}
-T &= \frac{\sum_{c} n_c\,w_c}{\sum_c n_c},
-\end{aligned}$$
-where $n_c$ is the CDS codon count and $w_c$ is the GtRNAdb all-tRNA, dos-Reis-wobble tAI weight.  The protein-side readout is $P=\log_{10}(\mathrm{abundance\_ppm})$ from measured PAXdb abundance joined to real CDS codon counts.  The two organism panels are $E.\ coli$ K12 MG1655 with $3739$ joined CDS/protein rows and yeast with $5815$ joined rows.  In $E.\ coli$, the CDS organism key is $escherichia\_coli\_k12\_mg1655$ while the tRNA organism key is $escherichia\_coli$; in yeast both the CDS and tRNA organism keys are $saccharomyces\_cerevisiae$.
+\paragraph{Finite surface and readouts.}
+The finite record considered here is a two-organism, same-CDS matrix over nine $B^{\ast}_{Q6}$ synonymous residual coordinates, a translation readout $T$, and a protein-abundance readout $P$.  The nine residual coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The translation variable in the four-case run is a per-protein modeled tAI average,
+$$
+\begin{aligned}
+T(g) &= \frac{\sum_c n_c(g)\,w_c}{\sum_c n_c(g)},
+\end{aligned}
+$$
+where $n_c(g)$ is the codon count for CDS $g$ and $w_c$ is the GtRNAdb/dos-Reis tAI weight.  The abundance variable is $P(g)=\log_{10}(\mathrm{abundance\_ppm}(g))$ from matched PAXdb protein abundance.  The two realized rows are \textit{Escherichia coli} K12 MG1655, with $3739$ joined CDS/protein rows and tRNA organism label \textit{Escherichia coli}, and \textit{Saccharomyces cerevisiae}, with $5815$ joined CDS/protein rows and tRNA organism label \textit{Saccharomyces cerevisiae}.  In the larger direct protein-abundance panel, the same protein-abundance contact has high CDS joins across many organisms, including $3739$ joined rows for \textit{E. coli} at hit rate $0.9978649586335735$ and $5815$ joined rows for yeast at hit rate $0.9156038419146592$.
 
-\paragraph{Residualization and rank.}
-Both $T$ and $P$ are residualized against the same finite control surface: intercept, CDS length, amino-acid composition, GC3, and the $M$-density baseline.  The control column count is $24$ in both organisms and the residualized control rank is $23$.  The residualized $Q$ design has full rank for both target readouts: in $E.\ coli$, $rank(\widetilde X_Q\,\mathrm{for}\,P)=9$ and $rank(\widetilde X_Q\,\mathrm{for}\,T)=9$ with residual degrees of freedom $3716$; in yeast, the corresponding ranks are also $9$ and $9$ with residual degrees of freedom $5792$.  The degenerate-fit cutoff is $0.999999$, and both organisms are marked rank-sufficient rather than rank-saturated.  The finite residual energies are materially different across readouts: in $E.\ coli$, $Q$ explains $432.89050065533684$ units of $P$ energy but only $0.256128714706293$ units of $T$ energy, with residual energies $4020.333671802061$ for $P$ and $0.4728468725814029$ for $T$.  In yeast, $Q$ explains $882.6526210803958$ units of $P$ energy and $5.671703404506426$ units of $T$ energy, with residual energies $2958.1865890925337$ for $P$ and $6.90537888244409$ for $T$.
+\paragraph{Residualization and rank condition.}
+Both $T$ and $P$ are residualized against a control design $Z$ containing an intercept, CDS length, the twenty amino-acid composition proportions, GC3, and an $M$-density baseline.  For the four-case run the control-column count is $24$, the numerical degeneracy threshold is $0.999999$, and the effective control rank is $23$ in both organisms.  The residual coordinate design has full rank for both readouts:
+$$
+\begin{aligned}
+\operatorname{rank}(\widetilde X_T) &= 9, & \operatorname{rank}(\widetilde X_P) &= 9.
+\end{aligned}
+$$
+The residual degrees of freedom are $3716$ for \textit{E. coli} and $5792$ for yeast.  The residual energy of $T$ is $0.4728468725814029$ for \textit{E. coli} and $6.90537888244409$ for yeast, while the residual energy of $P$ is $4020.333671802061$ for \textit{E. coli} and $2958.1865890925337$ for yeast.  The coordinate block explains $0.256128714706293$ energy on $T$ and $432.89050065533684$ energy on $P$ in \textit{E. coli}; in yeast it explains $5.671703404506426$ on $T$ and $882.6526210803958$ on $P$.  Thus the four-case table is not a rank-saturated $n=3$ artifact: each organism has thousands of rows after control projection, $9$ residual-coordinate directions, and an explicit nondegenerate control rank.
 
 \paragraph{Four-case rule.}
-The classification threshold is $10^{-12}$.  Each coordinate is assigned by the signs of the translation-side survival $S^{QT}$, the protein-abundance survival $S^{QP}$, and the attenuation test obtained after conditioning the direct $q_i \to P$ fit on the matched translation readout.  The aggregate readout strengths are
-$$\begin{aligned}
-E.\ coli: \quad R^2_{QT} &= 0.5416736993691318, & R^2_{QP} &= 0.10767526677985896,\\
-S.\ cerevisiae: \quad R^2_{QT} &= 0.8213457220900503, & R^2_{QP} &= 0.29837624994140827.
-\end{aligned}$$
-The case table is fully classified with no unassigned coordinate.  For $E.\ coli$, the counts are $A=0$, $B=0$, $C=0$, $D=7$, with $2$ additional coordinates positive for both $S^{QT}$ and $S^{QP}$ but not showing the mediation drop required for the $D$ call.  For yeast, the counts are $A=0$, $B=0$, $C=0$, $D=9$, and there are no positive-positive coordinates lacking the mediation drop.  Thus the finite modeled-tAI discriminant reports a strong translation-conditioned pattern in yeast and a mostly translation-conditioned pattern in $E.\ coli$, while explicitly separating two $E.\ coli$ positive-positive direct associations from the stricter mediated class.
+For each coordinate $q_i$, define $S^{QT}_i$ as survival against the translation readout after projection away from $Z$, and define $S^{QP}_i$ as survival against protein abundance after the same control projection.  The decision threshold is $10^{-12}$.  The classification is a finite sign-and-attenuation readback:
+$$
+\begin{aligned}
+A &: S^{QT}_i \leq 10^{-12},\; S^{QP}_i \leq 10^{-12},\\
+B &: S^{QT}_i > 10^{-12},\; S^{QP}_i \leq 10^{-12},\\
+C &: S^{QT}_i \leq 10^{-12},\; S^{QP}_i > 10^{-12},\\
+D &: S^{QT}_i > 10^{-12},\; S^{QP}_i > 10^{-12}\;\text{with the registered mediation-condition drop}.
+\end{aligned}
+$$
+A separate counter records positive-positive coordinates for which both marginal survivals are positive but the mediation-condition drop is absent.  In \textit{E. coli}, the classified counts are $A=0$, $B=0$, $C=0$, $D=7$, with $2$ positive-positive coordinates lacking the mediation drop and no unclassified coordinates.  In yeast, the counts are $A=0$, $B=0$, $C=0$, $D=9$, with $0$ positive-positive coordinates lacking the mediation drop and no unclassified coordinates.  At the joint level, the residual-coordinate block gives
+$$
+\begin{aligned}
+R^2_{QT}(\textit{E. coli}) &= 0.5416736993691318, & R^2_{QP}(\textit{E. coli}) &= 0.10767526677985896,\\
+R^2_{QT}(\textit{yeast}) &= 0.8213457220900503, & R^2_{QP}(\textit{yeast}) &= 0.29837624994140827.
+\end{aligned}
+$$
+This is the chapter-specific module classification: the modeled-tAI translation surface and measured-protein abundance surface are both positive in the powered rows, and yeast has a complete $D$ assignment for all nine residual coordinates under this finite rule.
 
-\paragraph{Relation to measured translation readouts.}
-The four-case run uses modeled tAI, not ribosome profiling.  A separate measured-TE survival run over ribosome footprint divided by matched mRNA reports $R^2_{QT,meas}=0.009394266754822262$ for $E.\ coli$, $0.13681931343730436$ for yeast, $0.018837911344127926$ for human, and $0.04034217614654355$ for zebrafish, each with all nine coordinates surviving by the same positive threshold.  A further measured-TE protein-abundance decomposition reports measured mediated fractions $0.04091158340950673$ for $E.\ coli$, $0.4793069656345167$ for yeast, $0.0027966485036786744$ for human, and $0$ for zebrafish.  These companion finite rows make the interpretation sharper: the modeled-tAI four-case table is a discriminant over an explicitly bounded translation proxy, while measured-TE rows are the stricter contact for ribosome-based mediation.
+\paragraph{Measured-TE comparison.}
+The modeled-tAI four-case table must be read beside the measured ribosome-TE contact, because modeled tAI is not ribosome profiling.  In the measured-TE survival run, same-organism ribosome-derived $TE=RPF/mRNA$ rows give join hit rates $0.9133458143888741$ for \textit{E. coli}, $0.8818572656921754$ for yeast, $0.6064136881331024$ for human, and $0.9118667591950035$ for zebrafish.  The measured $S^{QT}$ block has
+$$
+\begin{aligned}
+R^2_{QT,\mathrm{meas}}(\textit{E. coli}) &= 0.009394266754822262,\\
+R^2_{QT,\mathrm{meas}}(\textit{yeast}) &= 0.13681931343730436,\\
+R^2_{QT,\mathrm{meas}}(\textit{human}) &= 0.018837911344127926,\\
+R^2_{QT,\mathrm{meas}}(\textit{zebrafish}) &= 0.04034217614654355.
+\end{aligned}
+$$
+The measured mediation run reports corresponding measured fractions
+$$
+\begin{aligned}
+M^{QTP}_{\mathrm{meas}}(\textit{E. coli}) &= 0.04091158340950673,\\
+M^{QTP}_{\mathrm{meas}}(\textit{yeast}) &= 0.4793069656345167,\\
+M^{QTP}_{\mathrm{meas}}(\textit{human}) &= 0.0027966485036786744,\\
+M^{QTP}_{\mathrm{meas}}(\textit{zebrafish}) &= 0.
+\end{aligned}
+$$
+Thus the modeled-tAI four-case surface is strongest in yeast and present in \textit{E. coli}, but the measured-ribosome channel is more uneven: yeast carries a large measured mediation fraction, \textit{E. coli} carries a small one, human is nearly null on this scalar, and zebrafish is clamped to zero after the raw suppressive value is truncated into the unit interval.
 
-\paragraph{Local verdict.}
-The claim is supported at the level of a finite, controlled, rank-sufficient readout table: the $B^{\ast}_{Q6}$ residual coordinates are not merely direct protein-abundance predictors in this panel; for yeast all nine coordinates and for $E.\ coli$ seven coordinates pass the modeled-translation-conditioned $D$ condition.  The two remaining $E.\ coli$ positive-positive entries are retained as direct or insufficiently attenuated associations rather than being promoted to mediation.  This record therefore certifies a four-case readback over matched CDS, modeled tAI, and PAXdb abundance rows, under the stated controls and threshold.
+\paragraph{Direct abundance and readout decomposition.}
+The direct $Q\to P$ protein-omics survival is real as a controlled association, but it is not by itself a translation mechanism.  In the broader PAXdb abundance panel every organism retains all nine coordinates at the $10^{-12}$ positivity threshold.  Representative direct $R^2_{QP}$ values are $0.10767526677985896$ in \textit{E. coli}, $0.29837624994140827$ in yeast, $0.04454565118019448$ in human, $0.049827984062539195$ in mouse, $0.04613529807085213$ in zebrafish, and $0.061906245886660105$ in \textit{Bacillus subtilis}.  A joint TE-plus-stability decomposition on three organisms further separates the protein-abundance association: the joint mediation fractions are $0.2404669586626661$ for \textit{E. coli}, $0.5195182225621592$ for yeast, and $0.16890712099923358$ for human, each with right-tail permutation value $0.000999000999000999$.  The yeast single-mediator split is especially asymmetric, with TE-only fraction $0.4697188319693239$ and stability-only fraction $0.0626618595344251$.  A separate partial-readout dictionary in yeast, using $n=1800$, $5$ folds, $\lambda_{DL}=0.01$, and $120$ permutations, covers $0.24538211439730545$ of the target signal with the selected readouts measured-TE, mRNA stability, and turnover; the remaining fraction is $0.7546178856026946$.  The selection-aware null $95$th percentile is $0.029149007242956115$, whereas the naive fixed-subset null $95$th percentile is $0.00598374993486675$.
 
-\paragraph{Boundary.}
-No translation mechanism, ribosome-occupancy mechanism, folding claim, physical-admissibility claim, molecular-function claim, phenotype claim, causal pathway, or universal biological law follows from this table alone.  Modeled tAI is a bounded translation-layer annotation, not a direct ribosome measurement.  PAXdb abundance is a steady-state protein-omics readout and is not isolated from mRNA abundance, turnover, localization, post-translational modification, folding, or pathway context.  Any stronger claim requires a separate layer-matched contact and a finite statistic on the same rows or on an explicitly justified matched panel.
+\paragraph{Layer-local side evidence.}
+The $f_3$-stress coordinate has a further yeast dwell readout.  On $n_{join}=1257$ joined rows, with $n=1800$ base sampling, $5$ folds, and $120$ deterministic permutations, dwell alone gives $R^2=0.034336580953121976$, the base model gives $R^2=0.1855578757644517$, and the full model gives $R^2=0.20412261520502883$.  The held-out increment is $0.01856473944057712$, exceeding the fixed-readout permutation null $95$th percentile $0.0013115362189692937$; the $f_3$--dwell correlation is $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$.  The positional dwell run localizes the leading segment to the $5'$ window, with $5'$ passed and $3'$ not passed.  Its weighted $5'$ ramp increment is $0.0011165640103326878$, its body increment is $-0.00026157313923957926$, and the paired ramp-minus-body increment is $0.001378137149572267$ with sign-flip probability $0.05859375$.  This side evidence supports a bounded dwell-linked readout for one coordinate, not a broad structural or functional statement.
+
+\paragraph{Higher-layer boundary.}
+The finite discriminant is a controlled readout classification over codon residuals, modeled tAI or measured TE, mRNA-aware controls where available, and protein abundance.  It does not imply causation.  It also does not imply ribosome occupancy when the translation readout is modeled tAI; it does not imply folding, physical admissibility, molecular function, phenotype, perturbation rescue, or a universal biological law.  Protein abundance is a steady-state omics measurement and may reflect mRNA level, translation, turnover, localization, degradation, post-translational modification, pathway membership, and platform effects.  The human turnover side test illustrates the boundary: although the human modeled-tAI complement residual has $d_{modeled}=0.9208949355679455$ on the full human join, turnover absorbs only $3.5740764900116538\times 10^{-6}$ with $R^2_{Q,Tturn}=0.004615408769189838$, below a one-dimensional null $95$th percentile $0.0004342285066808464$.  The localization side test is likewise descriptive: residualized multi-label localization absorbs $0.009254913329269913$ in human, $0.011225105608516642$ in yeast, and $0.009508864544725801$ in zebrafish, to be compared with dof-matched null $95$th percentiles $0.0013758521256775384$, $0.004958116973149795$, and $0.011321328712802819$, respectively.  Consequently, the admissible conclusion is narrow: the powered four-case table separates positive translation-associated and protein-abundance-associated $B^{\ast}_{Q6}$ residual coordinates on the available finite rows, with yeast showing the strongest modeled and measured mediation behavior.  Any claim beyond this readout-level separation requires a separate layer-matched contact and its own controlled finite statistic.
