@@ -681,6 +681,7 @@ import BEDC.Derived.AxisNatReplacementRefusalUp.TasteGate
 import BEDC.Derived.AxisNatUp.TasteGate
 import BEDC.Derived.AxisUnarySpineNormalizerUp.Carrier
 import BEDC.Derived.AxisUnarySpineNormalizerUp.NameCertObligations
+import BEDC.Derived.AxisUnarySpineNormalizerUp.ScopeBinding
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.AxisZeckendorf.AtomicPrimeEdge
@@ -2020,6 +2021,7 @@ import BEDC.Derived.CauchyDifferenceCriterionUp.KernelScope
 import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
 import BEDC.Derived.CauchyDifferenceCriterionUp.ObligationExport
 import BEDC.Derived.CauchyDifferenceCriterionUp.PublicExactness
+import BEDC.Derived.CauchyDifferenceCriterionUp.PublicExportRoute
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.ScopePackage
 import BEDC.Derived.CauchyDifferenceCriterionUp.ScopedKernelBinding
@@ -6717,6 +6719,7 @@ import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
+import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
@@ -6760,6 +6763,7 @@ import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
+import BEDC.Derived.HilbertCurveUp.TasteGate
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
@@ -10919,6 +10923,7 @@ import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
+import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
 import BEDC.Derived.RegularCauchyMinUp.SelectorLedger
