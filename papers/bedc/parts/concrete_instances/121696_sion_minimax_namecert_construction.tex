@@ -1,0 +1,158 @@
+\chapter{A Concrete Naming Certificate for $\SionMinimaxUp$}
+\label{ch:concrete-instances-sion-minimax-namecert}
+\origin{human}
+
+Following Sion's minimax theorem and Bishop--Bridges constructive analysis,
+the $\SionMinimaxUp$ packet records finite compact-convex minimax data as
+NameCert rows rather than as a host saddle-point selection principle. It sits
+between the finite payoff-table route of
+\autoref{ch:concrete-instances-finite-game-minimax-namecert}, the KKM-facing
+convex route of \autoref{ch:concrete-instances-ky-fan-minimax-namecert}, the
+primal-dual convex packet of
+\autoref{ch:concrete-instances-fenchelduality-namecert}, and the compact
+interval source of
+\autoref{ch:concrete-instances-convex-compact-interval-namecert}. Its scalar
+readback is routed through \autoref{ch:concrete-instances-real-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[SionMinimax finite compact-convex carrier]
+\label{def:sion-minimax-carrier}
+A $\SionMinimaxUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,Y,F,A,T,R,W,D,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact convex source row, read through displayed
+finite-window membership and finite convex-combination checks rather than
+through an ambient compactness theorem.
+\item $Y$ is the opposite convex source row, with the same finite-window
+membership and convex-combination discipline for the second variable.
+\item $F$ is the convex-concave payoff row, recording only displayed
+two-variable payoff comparisons and the finite slice checks needed by
+downstream minimax consumers.
+\item $A$ is the finite affine-spine ledger for the inspected convex
+combinations in $X$ and $Y$.
+\item $T$ is the finite saddle-window approximant row, listing paired lower
+and upper comparison windows before any scalar value is sealed.
+\item $R$ is the dyadic tolerance ledger, recording the requested comparison
+precision through the $\DyadicRatCoreUp$ route.
+\item $W$ is the $\RegSeqRatUp$ readback row that turns the finite tolerance
+ledger into regular rational comparison data.
+\item $D$ is the $\StreamNameUp$ window schedule that orders the finite
+inspection windows consumed by $T,R,W$.
+\item $Q$ is the terminal $\RealUp$ seal, available only after the finite
+saddle-window, tolerance, rational-readback, and stream-schedule rows are
+displayed.
+\item $H$ records componentwise $\hsame$ transport for compact-convex source
+rows, payoff rows, affine-spine rows, saddle-window approximants, tolerance
+ledgers, readback rows, schedule rows, value seals, replay, provenance, and
+local naming.
+\item $C$ records displayed $\Cont$ replay for the same finite compact-convex
+minimax route.
+\item $P$ is the $\Pkg$ provenance over $\SionMinimaxUp$,
+$\FiniteGameMinimaxUp$, $\KyFanMinimaxUp$, $\FenchelDualityUp$,
+$\ConvexCompactIntervalUp$, $\RealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+$\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SionMinimaxUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$X,Y,F,A,T,R,W,D,Q,H,C,P,N$. It has no coordinate for host suprema or infima,
+choice-selected saddle points, quotient equality, full compactness, or ambient
+real completeness.
+\end{definition}
+
+\begin{theorem}[SionMinimax NameCert obligations]
+\label{thm:sion-minimax-namecert-obligations}
+For every accepted $\SionMinimaxUp$ carrier
+$$
+S=(X,Y,F,A,T,R,W,D,Q,H,C,P,N),
+$$
+the local $\NameCert_{\SionMinimaxUp}$ surface consists exactly of carrier
+admission, classifier comparison, saddle-window exactness, dyadic tolerance
+ledger readback, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A minimax
+equality read is admitted only after the compact-convex source rows, payoff
+row, affine-spine ledger, finite saddle-window approximants, tolerance ledger,
+rational readback, stream schedule, value seal, transport, replay,
+provenance, and local certificate are visible in the same packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of
+\autoref{def:sion-minimax-carrier}. The source rows $X,Y$, the payoff row
+$F$, and the affine-spine ledger $A$ display the compact-convex minimax
+surface before any scalar comparison is read.
+
+The finite approximation route is $T,R,W,D$. The row $T$ supplies the lower
+and upper saddle windows, $R$ records their dyadic tolerance budget, $W$
+exports regular rational readback, and $D$ fixes the stream-window schedule
+that orders those finite reads.
+
+The value seal $Q$ is downstream of that route. Componentwise transport,
+replay, provenance, and local naming are then supplied by $H,C,P,N$.
+
+Since no row stores host suprema, host infima, a selected saddle pair, quotient
+equality, full compactness, or ambient real completeness, the listed rows
+exhaust the local naming obligations.
+\end{proof}
+
+\begin{theorem}[SionMinimax finite saddle-window route]
+\label{thm:sion-minimax-finite-saddle-window}
+Every minimax equality consumer of an accepted $\SionMinimaxUp$ packet must
+pass through the finite saddle-window row $T$ before the $\RealUp$ seal $Q$ is
+public. Thus the scalar equality exported by the packet is read only after the
+displayed compact-convex rows, convex-concave payoff row, affine-spine ledger,
+dyadic tolerance ledger, $\RegSeqRatUp$ readback, and $\StreamNameUp$ schedule
+have all been inspected.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:sion-minimax-namecert-obligations}. It orders the accepted
+packet so that the source, payoff, and affine-spine rows are displayed before
+the finite saddle-window approximants are read.
+
+The only path from those approximants to a scalar equality is through
+$R,W,D,Q$. The dyadic tolerance ledger $R$, regular rational readback $W$, and
+stream schedule $D$ are all visible before the $\RealUp$ seal $Q$ can serve a
+consumer.
+
+Therefore a minimax equality read cannot skip directly to an ambient scalar
+principle. It factors through the finite saddle-window route carried by the
+same packet.
+\end{proof}
+
+\begin{theorem}[SionMinimax nonescape boundary]
+\label{thm:sion-minimax-nonescape}
+An accepted $\SionMinimaxUp$ packet exports no host supremum, host infimum,
+choice-selected saddle point, quotient equality of points or functions, full
+compactness theorem, or ambient $\RealUp$ completeness principle. Every public
+minimax read is confined to the displayed rows
+$X,Y,F,A,T,R,W,D,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. Its coordinates are exactly
+$X,Y,F,A,T,R,W,D,Q,H,C,P,N$, and the classifier compares packets only through
+those rows.
+
+The obligation theorem identifies the same rows as the complete local
+NameCert surface. The finite saddle-window theorem then forces every scalar
+equality read through $T,R,W,D$ before the value seal $Q$.
+
+Because none of these rows contains a host extremum operator, a selected
+saddle pair, a quotient-equality witness, full compactness data, or ambient
+real-completeness data, no consumer can extract such a principle from the
+packet.
+\end{proof}
+
+\closureat{SionMinimaxUp}{seedStr}
+
+\begin{closurestatus}{\SionMinimaxUp}
+  \constructivestory{A $\SionMinimaxUp$ packet is generated from compact convex source rows, opposite convex source rows, convex-concave payoff rows, finite affine-spine ledgers, saddle-window approximants, dyadic tolerance ledgers, RegSeqRat readback rows, StreamName schedules, a RealUp value seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sion-minimax-carrier}, \autoref{thm:sion-minimax-namecert-obligations}, \autoref{thm:sion-minimax-finite-saddle-window}, and \autoref{thm:sion-minimax-nonescape} seed the finite compact-convex Sion minimax route over displayed source, payoff, saddle-window, tolerance, rational-readback, stream-schedule, RealUp seal, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host suprema or infima, choice-selected saddle points, quotient equality, full compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier comparison, saddle-window exactness, dyadic tolerance readback, RegSeqRat readback, StreamName scheduling, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.SionMinimaxUp.}
+\end{closurestatus}

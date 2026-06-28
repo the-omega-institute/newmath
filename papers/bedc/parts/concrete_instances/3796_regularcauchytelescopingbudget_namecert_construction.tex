@@ -216,6 +216,26 @@ Now apply the Real seal handoff and primitive scope binding. The Real seal hando
 Thus a $\RealUp$ consumer cannot consume the telescoping budget merely as an isolated public row. It must first read the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, window-chain, and Real-seal route.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTelescopingBudget window concatenation route]
+\label{thm:regular-cauchy-telescoping-budget-window-concatenation-route}
+Suppose two accepted $\RegularCauchyTelescopingBudgetUp$ packets share the terminal $\RegSeqRatUp$ and $\RealUp$ seal row of the first packet as the precision-facing source row of the second packet through displayed $\hsame$ transport. Then their concatenated finite $\StreamNameUp$ window chain exports the ordered composite budget route
+$$
+E,W,D,T,R,S,H,C,P,N.
+$$
+The dyadic error ledgers are appended in the displayed window order, the shared boundary is read through $H$ before repacking, and the composite route introduces no quotient stream equality, selected host limit, countable choice, hidden comparison, ambient completeness, or independent $\RealUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:regular-cauchy-telescoping-budget-carrier}. The first packet supplies rows $E_0,W_0,D_0,T_0,R_0,S_0,H_0,C_0,P_0,N_0$, and the second supplies rows $E_1,W_1,D_1,T_1,R_1,S_1,H_1,C_1,P_1,N_1$.
+
+Use the window-chain theorem and telescoping-composition theorem for both packets. The first route reads $W_0,D_0,T_0$ before $R_0,S_0$, and the second route reads $W_1,D_1,T_1$ before $R_1,S_1$.
+
+Now read the shared boundary. The assumed displayed $\hsame$ transport identifies the terminal $R_0,S_0$ rows with the precision-facing source row of the second packet only through $H_0$ and $H_1$, so the handoff is visible before any composite public route is named.
+
+Repack the composite route by appending the dyadic ledger lists and the finite window chains in that order. The RegSeqRat handoff order and Real seal handoff theorems place the resulting route in the order $E,W,D,T,R,S,H,C,P,N$.
+
+Finally apply non-escape. Since neither input packet contains quotient stream equality, selected host limits, countable choice, hidden comparisons, ambient completeness, or an independent Real carrier, and since the shared boundary is read only through displayed transport, the concatenated route exports none of those objects.
+\end{proof}
+
 \closureat{RegularCauchyTelescopingBudgetUp}{seedStr}
 \closureat{RegularCauchyTelescopingBudgetUp}{obligationStr}[BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetTasteGate\_single\_carrier\_alignment]
 

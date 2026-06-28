@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\MooreSmithCauchyNetUp$}
+\label{ch:concrete-instances-moore-smith-cauchy-net-namecert}
+\origin{human}
+
+Following Moore, Smith, Kelley, and Bishop--Bridges, the $\MooreSmithCauchyNetUp$ packet records the standard directed Cauchy-net source as finite BEDC NameCert data. It sits after the directed substrate of \autoref{ch:concrete-instances-directedset-namecert}, the Cauchy-net completion surface of \autoref{ch:concrete-instances-cauchynetcompletion-namecert}, the Moore--Smith completion route of \autoref{ch:concrete-instances-moore-smith-completion-namecert}, and the diagonal handoff of \autoref{ch:concrete-instances-cauchy-net-diagonal-namecert}. Its numerical readback is routed through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the source object consumed by L10 completion routes; it does not select a Moore--Smith limit, quotient nets, choose a subnet, invoke countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Moore--Smith Cauchy net carrier]
+\label{def:moore-smith-cauchy-net-carrier}
+A $\MooreSmithCauchyNetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,N,T,W,R,Q,E,H,C,P,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ substrate, including the finite directed vertices, comparison rows, and common upper-window witnesses used by the net route.
+\item $N$ is the displayed net-source row, recording the observed Moore--Smith values and the finite tail reads over $D$.
+\item $T$ is the Cauchy-tail ledger, listing the precision requests and the directed tail thresholds that answer them.
+\item $W$ is the finite window row, naming the directed windows inspected before any readback or completion-facing consumer receives the packet.
+\item $R$ is the $\RegSeqRatUp$ regular readback obtained from the displayed windows.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger used by the Cauchy-tail comparisons and by the regular readback.
+\item $E$ is the terminal $\RealUp$ seal reached only after the directed substrate, net source, Cauchy-tail ledger, finite windows, readback, and dyadic tolerance rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for $D,N,T,W,R,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a directed Cauchy-net read through the same tail, window, readback, tolerance, and Real-seal route.
+\item $P$ is the $\Pkg$ provenance over $\MooreSmithCauchyNetUp$, $\DirectedSetUp$, $\CauchyNetUp$, $\MooreSmithNetUp$, $\CauchyNetCompletionUp$, $\MooreSmithCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MooreSmithCauchyNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for selected limits, quotient nets, selected subnets, countable-choice schedules, host real equality, ambient completeness, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Moore--Smith Cauchy net NameCert obligations]
+\label{thm:moore-smith-cauchy-net-namecert-obligations}
+For an accepted $\MooreSmithCauchyNetUp$ carrier $M=(D,N,T,W,R,Q,E,H,C,P,L)$, the local $\NameCert_{\MooreSmithCauchyNetUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the directed substrate, net source, Cauchy-tail ledger, finite windows, regular readback, dyadic tolerance row, Real seal, transport, replay, provenance, and local naming rows;
+\item directed-window exposure, requiring every completion-facing or readback-facing request to begin with $D,N,W$ before the Cauchy-tail ledger is consumed;
+\item Cauchy-tail stability, requiring $T$ and $Q$ to display the precision request, tail threshold, and dyadic comparison rows used by the same directed windows;
+\item $\RegSeqRatUp/\DyadicRatCoreUp$ readback, requiring $R$ to be read only after $W,T,Q$ have fixed the finite Cauchy route;
+\item Real-seal nonescape, requiring $E$ to be downstream of the displayed directed, tail, window, regular, and dyadic rows rather than an ambient completeness theorem;
+\item transport, replay, and provenance preservation, requiring $H,C,P,L$ to preserve and name only the displayed source packet.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:moore-smith-cauchy-net-carrier}. The tuple exposes the directed substrate, net source, Cauchy-tail ledger, finite windows, regular readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows.
+
+Directed-window exposure reads $D,N,W$ before any consumer reaches a numerical or completion-facing boundary. The Cauchy-tail row $T$ then binds each precision request to a displayed tail threshold on that same directed surface.
+
+The readback step uses $Q$ and $R$ together. The dyadic ledger records the tolerance comparisons, while the regular rational row reads only the windows already admitted by $W$ and stabilized by $T$.
+
+Finally $E$ is a terminal seal on the displayed route, and $H,C,P,L$ transport, replay, source, and name only the listed coordinates. Since selected limits, quotient nets, selected subnets, countable choice, host equality, and ambient completeness have no carrier coordinate, none of them can mediate the local NameCert obligations.
+\end{proof}
+
+\closureat{MooreSmithCauchyNetUp}{seedStr}
+
+\begin{closurestatus}{\MooreSmithCauchyNetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-smith-cauchy-net-carrier} and \autoref{thm:moore-smith-cauchy-net-namecert-obligations} seed the finite Moore--Smith Cauchy-net source packet over DirectedSet, StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected Moore--Smith limits, quotient nets, selected subnets, countable choice, host real equality, ambient completeness, completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-window exposure, Cauchy-tail stability, RegSeqRat and DyadicRatCore readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MooreSmithCauchyNetUp.}
+  \constructivestory{A $\MooreSmithCauchyNetUp$ packet is generated from a DirectedSet substrate, a Moore--Smith net source row, Cauchy-tail thresholds, finite directed windows, RegSeqRat readback, DyadicRatCore tolerances, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
