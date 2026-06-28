@@ -205,6 +205,24 @@ Finally combine ledger exhaustion from \autoref{thm:real-classifier-ledger-exhau
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierSourceScope}
 
+\begin{theorem}[RealClassifier tail-replacement stability]
+\label{thm:realclassifier-tail-replacement-stability}
+Let
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N)
+$$
+be an accepted $\RealClassifierUp$ carrier. Suppose a second displayed readback replaces $R_X$ or $R_Y$ by a $\RegSeqRatUp$ row with the same terminal $\RealUp$ seal, the same common $\StreamNameUp$ window $W$, the same $\DyadicRatCoreUp$ ledger $D$, the same $\RealNameClassifierUp$ row $C$, and a $\RegularCauchyEquivalenceUp$ tail-equivalence row matching $E$. Then the replacement preserves the public $\RealClassifierUp$ decision surface seen by completion-selector and completion-density consumers.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff}. It forces both the original and replacement readback to reach the classifier only through the displayed regular-rational rows, the common window $W$, the dyadic ledger $D$, the classifier row $C$, and the regular-Cauchy boundary $E$.
+
+Use the regular-real tail-equivalence readback theorem \autoref{thm:real-classifier-regular-real-tail-equivalence-readback}. The replacement is admitted only as a tail-equivalent regular rational readback before the terminal Real seals are consumed, so it cannot introduce quotient stream equality or host real equality.
+
+Apply window scope and public exactness, \autoref{thm:real-classifier-window-scope} and \autoref{thm:realclassifier-public-exactness-surface}. Since the terminal seals, common window, dyadic ledger, classifier row, equivalence row, transport, replay, provenance, and local naming rows are shared, the public decision route remains the same finite route.
+
+Finally read the downstream consumers through \autoref{thm:realclassifier-completion-selector-seal-readback} and \autoref{thm:realclassifier-completion-density-consumer}. These consumers inspect only the already exported classifier route, so replacing either regular rational readback by a tail-equivalent readback preserves the surface they see.
+\end{proof}
+
 \begin{theorem}[RealClassifier public exactness surface]
 \label{thm:realclassifier-public-exactness-surface}
 Every accepted $\RealClassifierUp$ public classifier read is exactly the finite route through the two $\RealUp$ seals, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance data, the $\RealNameClassifierUp$ row, the $\RegularCauchyEquivalenceUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealClassifierUp}$ row. No accepted public read exports host real equality, quotient stream equality, a selected limit, trichotomy, or a completeness coordinate.
