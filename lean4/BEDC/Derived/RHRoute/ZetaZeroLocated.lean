@@ -117,6 +117,10 @@ theorem criticalHalfConcreteZetaBox_readback (precision : Nat) :
       BEDC.Derived.RHRoute.BoxKernelConcrete.concreteZetaBox precision := by
   rfl
 
+-- `ZetaZeroLocated` is a concrete zeta-box predicate over rational box input:
+-- each precision requires the displayed box to contain zero.  It is a
+-- partial-computational interface to `concreteZetaBox`; no functional
+-- equation, analytic continuation, or Euler product theorem is consumed here.
 def ZetaZeroLocated (s : RatComplex) : Prop :=
   ∃ input : ConcreteZetaLocatedInput,
     input.point = s ∧
