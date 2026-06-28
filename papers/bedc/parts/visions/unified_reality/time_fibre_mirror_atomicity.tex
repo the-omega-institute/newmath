@@ -1,0 +1,261 @@
+\section{Time-Fibre Mirror Atomicity}
+\label{sec:unified-reality-time-fibre-mirror-atomicity}
+
+The mirror row in the completed zeta carrier is not a reversal of
+observation time.  It is a normal reflection inside one time fibre.
+This distinction sharpens the zero-fibre geometry of
+\autoref{sec:unified-reality-zero-fibre-normal-sheet-geometry}: an
+off-fixed zero would not be a zero at another time; it would be a second
+normal read in the same time slot.
+
+\begin{definition}[Directed zeta time]
+\label{def:unified-reality-directed-zeta-time}
+The \emph{directed zeta time} object is the observation-frequency row
+$$
+\mathbb T_{\zeta}:=\{\tau:\RealUp_{\ge 0}\}.
+$$
+In critical-strip coordinates
+$$
+s=\frac12+\delta+i\tau,
+$$
+write
+$$
+\pi_T(\delta,\tau):=\tau,
+\qquad
+\pi_N(\delta,\tau):=\delta.
+$$
+The order row $\tau_1\le \tau_2$ records continuation or observation
+order.  It does not supply a default reverse morphism
+$\tau_2\to\tau_1$.
+\end{definition}
+
+\begin{definition}[Deterministic observation update]
+\label{def:unified-reality-deterministic-observation-update}
+A directed observation carrier has deterministic update when every
+displayed state admits at most one authorized successor row.  Writing
+$X_t$ for the state fibre at time $t$, $t^+$ for the displayed successor
+time, and $\mathsf{Step}_t(x,y)$ for the update relation, this row is
+$$
+\mathsf{DetStep}
+:=
+\prod_t
+\prod_{x:X_t}
+\prod_{y_1,y_2:X_{t^+}}
+\left(
+\mathsf{Step}_t(x,y_1)\times\mathsf{Step}_t(x,y_2)
+\to
+y_1=y_2
+\right).
+$$
+Thus one time slot carries at most one generation step or observation
+update.
+\end{definition}
+
+\begin{principle}[Deterministic update is weaker than zero-fibre atomicity]
+\label{prin:unified-reality-deterministic-update-weaker-than-zero-fibre-atomicity}
+Deterministic update is a generation-side property.  It does not imply
+that every readout inside the generated object is singleton-valued:
+$$
+\mathsf{DetStep}
+\;\not\Rightarrow\;
+\mathsf{TimeFibreAtom}_{\zeta}.
+$$
+A deterministic stage may produce one polynomial, spectral packet, or
+zero carrier whose internal zero ledger has several rows.  In the
+quartic spectral carrier, for example, one recurrence stage generates
+one displayed polynomial while the fixed endpoint window may carry an
+indexed zero family.  Hence the RH-facing mirror argument requires a
+separate zero-reality condition: the normal zero read in each directed
+zeta time fibre must itself be single-valued.
+\end{principle}
+
+\begin{definition}[Time-fibre mirror]
+\label{def:unified-reality-time-fibre-mirror}
+The zeta mirror
+$$
+J(s)=1-\overline{s}
+$$
+acts on $(\delta,\tau)$ coordinates by
+$$
+J(\delta,\tau)=(-\delta,\tau).
+$$
+Thus it preserves the time projection and reverses only the normal
+projection:
+$$
+\pi_T(J(\delta,\tau))=\pi_T(\delta,\tau),
+\qquad
+\pi_N(J(\delta,\tau))=-\pi_N(\delta,\tau).
+$$
+\end{definition}
+
+\begin{theorem}[The zeta mirror is fibrewise in time]
+\label{thm:unified-reality-zeta-mirror-fibrewise-in-time}
+The functional-equation mirror is a time-fibre symmetry, not a time
+reversal.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:unified-reality-time-fibre-mirror}, the mirror sends
+$(\delta,\tau)$ to $(-\delta,\tau)$.  The time coordinate is unchanged,
+while the normal coordinate changes sign.  Hence the companion row
+supplied by mirror closure lies in the same time fibre.
+\end{proof}
+
+\begin{definition}[Zero time fibre]
+\label{def:unified-reality-zero-time-fibre}
+For a directed time row $\tau:\mathbb T_{\zeta}$, the \emph{zero time
+fibre} is
+$$
+Z_{\zeta,\tau}
+:=
+\{\delta:(\delta,\tau)\in\mathcal Z_{\zeta}^{\mathrm{geom}}\},
+$$
+where $\mathcal Z_{\zeta}^{\mathrm{geom}}$ is the completed zeta
+zero fibre of
+\autoref{def:unified-reality-completed-zeta-body}.  In this notation,
+the RH support form says
+$$
+\prod_{\tau:\mathbb T_{\zeta}}
+\prod_{\delta\in Z_{\zeta,\tau}}
+(\delta=0).
+$$
+\end{definition}
+
+\begin{definition}[Time-fibre atomicity]
+\label{def:unified-reality-time-fibre-atomicity}
+The zero fibre satisfies \emph{time-fibre atomicity} when each directed
+time fibre carries at most one normal zero read:
+$$
+\mathsf{TimeFibreAtom}_{\zeta}
+:=
+\prod_{\tau:\mathbb T_{\zeta}}
+\prod_{\delta_1,\delta_2}
+\left(
+\delta_1\in Z_{\zeta,\tau}
+\times
+\delta_2\in Z_{\zeta,\tau}
+\to
+\delta_1=\delta_2
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Mirror closure plus time-fibre atomicity gives no extra zero sheet]
+\label{thm:unified-reality-mirror-time-fibre-atomicity-no-extra-sheet}
+Assume mirror closure for the completed zeta zero fibre and
+time-fibre atomicity.  Then the no-extra-zero-sheet row holds.
+\end{theorem}
+
+\begin{proof}
+Suppose a normal zero sheet were present.  Then for some $\delta,\tau$
+there are rows
+$$
+\delta\#0,
+\qquad
+(\delta,\tau)\in\mathcal Z_{\zeta}^{\mathrm{geom}}.
+$$
+Mirror closure and
+\autoref{thm:unified-reality-zeta-mirror-fibrewise-in-time} put
+$(-\delta,\tau)$ in the same zero time fibre.  Time-fibre atomicity gives
+$$
+\delta=-\delta.
+$$
+In the characteristic-zero real readout this implies $\delta=0$,
+contradicting $\delta\#0$.  Hence no normal zero sheet is present.
+\end{proof}
+
+\begin{corollary}[Time-fibre atomicity gives the RH section]
+\label{cor:unified-reality-time-fibre-atomicity-gives-rh-section}
+Under mirror closure and located fixed-half collapse, time-fibre
+atomicity gives the RH fixed-half section.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-mirror-time-fibre-atomicity-no-extra-sheet},
+there is no off-fixed normal zero sheet.  By
+\autoref{thm:unified-reality-no-extra-zero-sheet-rh-support-form}, this
+is the geometric support form of the RH section.
+\end{proof}
+
+\begin{definition}[Zero graph form]
+\label{def:unified-reality-zero-graph-form}
+The zero fibre has \emph{zero graph form} when there is a normal readout
+function
+$$
+\delta_Z:\mathbb T_{\zeta}\to\RealUp
+$$
+such that every zero in a time fibre has that normal coordinate:
+$$
+\mathsf{ZeroGraph}_{\zeta}
+:=
+\sum_{\delta_Z:\mathbb T_{\zeta}\to\RealUp}
+\prod_{\tau:\mathbb T_{\zeta}}
+\prod_{\delta\in Z_{\zeta,\tau}}
+\left(
+\delta=\delta_Z(\tau)
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Zero graph form implies time-fibre atomicity]
+\label{thm:unified-reality-zero-graph-form-implies-time-fibre-atomicity}
+Zero graph form implies time-fibre atomicity.
+\end{theorem}
+
+\begin{proof}
+Let $\delta_1$ and $\delta_2$ be two zero reads in the same time fibre
+$Z_{\zeta,\tau}$.  By zero graph form, both are equal to the displayed
+value $\delta_Z(\tau)$.  Therefore $\delta_1=\delta_2$.
+\end{proof}
+
+\begin{corollary}[Zero graph form gives the fixed surface under mirror closure]
+\label{cor:unified-reality-zero-graph-form-fixed-surface}
+If the zero fibre has zero graph form and is mirror-closed, then every
+zero-source row lies on the fixed surface.
+\end{corollary}
+
+\begin{proof}
+Zero graph form gives time-fibre atomicity by
+\autoref{thm:unified-reality-zero-graph-form-implies-time-fibre-atomicity}.
+The fixed-surface conclusion then follows from
+\autoref{cor:unified-reality-time-fibre-atomicity-gives-rh-section}.
+\end{proof}
+
+\begin{corollary}[Off-fixed zeros are double normal reads]
+\label{cor:unified-reality-off-fixed-zeros-double-normal-reads}
+An off-fixed zero, together with mirror closure, produces two distinct
+normal reads in one time fibre.
+\end{corollary}
+
+\begin{proof}
+If $(\delta,\tau)$ is a zero and $\delta\#0$, mirror closure gives
+$(-\delta,\tau)$ as another zero in the same time fibre.  Since
+$\delta\#0$, the two normal coordinates are distinct.  Thus off-fixed
+zerohood, under mirror closure, witnesses failure of time-fibre
+atomicity.
+\end{proof}
+
+\begin{theorem}[Time-fibre atomicity is the slot form of defect rigidity]
+\label{thm:unified-reality-time-fibre-atomicity-slot-form-defect-rigidity}
+Time-fibre atomicity, zero graph form, zero-fibre faithfulness, and
+defect-zero incompatibility are equivalent readings of the same
+zero-source rigidity boundary.
+\end{theorem}
+
+\begin{proof}
+The time-fibre reading says that mirror companions must occupy one
+normal slot at fixed $\tau$.  The zero graph reading expresses the same
+condition as a single-valued normal coordinate over directed time.  If
+that condition fails, then by
+\autoref{cor:unified-reality-off-fixed-zeros-double-normal-reads} there
+is an off-fixed zero, and by
+\autoref{thm:unified-reality-rh-off-half-creates-prime-defect} every
+nonempty finite prime window detects a nonzero defect.  Excluding that
+defect from a zero row is
+\autoref{def:unified-reality-zero-fibre-faithfulness}, which is the
+normal-sheet reading of
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}.  The
+four formulations therefore place the same unclosed analytic load in
+different coordinates.
+\end{proof}

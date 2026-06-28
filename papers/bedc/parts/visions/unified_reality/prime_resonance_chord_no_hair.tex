@@ -1,0 +1,476 @@
+\section{Prime Resonance Chord and No-Hair Boundary}
+\label{sec:unified-reality-prime-resonance-chord-no-hair}
+
+The prime spiral projection is better read as a resonance problem than
+as a common-period problem.  Prime logarithms supply distinct frequencies.
+At a given time, a finite family of prime-adic parity nodes can interfere
+in the completed complex projection.  A zero row is therefore analogous
+to a projected resonance silence: the first-order complex sum can vanish.
+The RH-facing obstruction is that this silence must not be produced by a
+resonance family carrying nonzero normal energy.
+
+\begin{definition}[Prime resonance family]
+\label{def:unified-reality-prime-resonance-family}
+A \emph{prime resonance family} is a nonempty finite window
+$$
+A\subset\PrimeUp\times\NatUp
+$$
+together with complex weights
+$$
+a_{p,j}\in\ComplexUp
+\qquad
+((p,j)\in A).
+$$
+The node frequency is
+$$
+\omega_{p,j}:=2^j\log p,
+$$
+and the node channel is
+$$
+U_{p,j}^{\mathrm{pad}}(s)
+=
+p^{-2^j\delta}e^{-i2^j\tau\log p}
+$$
+when $s=1/2+\delta+i\tau$.
+\end{definition}
+
+\begin{definition}[Finite resonance chord]
+\label{def:unified-reality-finite-resonance-chord}
+For a prime resonance family $(A,a)$, the \emph{finite resonance chord}
+is
+$$
+C_A(s)
+:=
+\sum_{(p,j)\in A}
+a_{p,j}U_{p,j}^{\mathrm{pad}}(s).
+$$
+The row
+$$
+C_A(s)=0
+$$
+is a finite projected silence row: the displayed complex chord closes in
+the projection, while the individual node channels remain nonzero.
+\end{definition}
+
+\begin{definition}[Hamiltonian resonance island]
+\label{def:unified-reality-hamiltonian-resonance-island}
+For a prime resonance family $(A,a)$, the \emph{Hamiltonian resonance
+island} is the finite diagonal carrier
+$$
+\mathcal H_A
+:=
+\operatorname{span}\{|p,j\rangle:(p,j)\in A\}
+$$
+with Hamiltonian
+$$
+H_A|p,j\rangle
+=
+h_{p,j}|p,j\rangle,
+\qquad
+h_{p,j}:=2^j\log p.
+$$
+For
+$$
+|\psi_A\rangle
+:=
+\sum_{(p,j)\in A}a_{p,j}|p,j\rangle,
+\qquad
+\langle\mathbf 1_A|p,j\rangle:=1,
+$$
+the finite resonance chord is equivalently
+$$
+C_A(s)
+=
+\langle\mathbf 1_A|
+e^{-(s-1/2)H_A}
+|\psi_A\rangle.
+$$
+Thus a projected silence row is a finite Hamiltonian interference row
+seen through the displayed evaluation covector.
+\end{definition}
+
+\begin{theorem}[The critical line is the unitary resonance surface]
+\label{thm:unified-reality-critical-line-unitary-resonance-surface}
+For a Hamiltonian resonance island and
+$$
+s=\frac12+\delta+i\tau,
+$$
+the finite evolution decomposes as
+$$
+e^{-(s-1/2)H_A}
+=
+e^{-\delta H_A}e^{-i\tau H_A}.
+$$
+It is unitary exactly on the fixed-half surface $\delta=0$.
+\end{theorem}
+
+\begin{proof}
+The Hamiltonian $H_A$ is diagonal with real eigenvalues $h_{p,j}$.  Since
+$s-1/2=\delta+i\tau$, exponentiating each displayed eigenrow gives the
+stated factorization.  If $\delta=0$, the evolution is
+$e^{-i\tau H_A}$, hence every node contributes only a phase.  If
+$\delta\#0$, the factor $e^{-\delta H_A}$ is a real amplitude-bias row,
+with eigenvalue $e^{-\delta h_{p,j}}=p^{-2^j\delta}$ on node $(p,j)$.
+This is exactly the nonunitary radial detuning read in
+\autoref{def:unified-reality-detuned-resonance-energy}.
+\end{proof}
+
+\begin{theorem}[Chord silence is a Pythagorean interference identity]
+\label{thm:unified-reality-chord-silence-pythagorean-interference}
+Let
+$$
+v_{p,j}:=a_{p,j}U_{p,j}^{\mathrm{pad}}(s).
+$$
+If $C_A(s)=0$, then
+$$
+0
+=
+\sum_{(p,j)\in A}|v_{p,j}|^2
++
+2\sum_{(p,j)<(q,k)}
+\operatorname{Re}\left(v_{p,j}\overline{v_{q,k}}\right),
+$$
+where the second sum ranges over unordered distinct node pairs in $A$.
+\end{theorem}
+
+\begin{proof}
+The square of the projected chord is
+$$
+\left|\sum_{(p,j)\in A}v_{p,j}\right|^2.
+$$
+Expanding the Hermitian square gives
+$$
+\left|\sum_{(p,j)\in A}v_{p,j}\right|^2
+=
+\sum_{(p,j)\in A}|v_{p,j}|^2
++
+2\sum_{(p,j)<(q,k)}
+\operatorname{Re}\left(v_{p,j}\overline{v_{q,k}}\right).
+$$
+When $C_A(s)=\sum v_{p,j}=0$, the left side is zero, giving the stated
+identity.  Thus projected silence is an exact balance between positive
+node magnitudes and phase interference terms.
+\end{proof}
+
+\begin{definition}[Detuned resonance energy]
+\label{def:unified-reality-detuned-resonance-energy}
+The \emph{normal detuning} of a node is
+$$
+d_{p,j}(s)
+:=
+\log |U_{p,j}^{\mathrm{pad}}(s)|
+=
+-2^j\delta\log p.
+$$
+The unnormalized normal energy of a resonance family is
+$$
+\mathcal E_A^{\mathrm{res}}(s)
+:=
+\sum_{(p,j)\in A}d_{p,j}(s)^2.
+$$
+The normalized normal energy is
+$$
+E_A^{\mathrm{res}}(s)
+:=
+\left(
+\frac{\sum_{(p,j)\in A}d_{p,j}(s)}
+{\sum_{(p,j)\in A}2^j\log p}
+\right)^2.
+$$
+\end{definition}
+
+\begin{theorem}[Detuned resonance reads the normal coordinate]
+\label{thm:unified-reality-detuned-resonance-reads-normal-coordinate}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+every prime resonance family satisfies
+$$
+E_A^{\mathrm{res}}(s)=\delta^2.
+$$
+If $\delta\#0$, then every nonempty resonance family has positive
+normalized normal energy.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-detuned-resonance-energy},
+$$
+\sum_{(p,j)\in A}d_{p,j}(s)
+=
+-\delta
+\sum_{(p,j)\in A}2^j\log p.
+$$
+The denominator is the positive prime-adic parity weight of
+\autoref{def:unified-reality-prime-adic-parity-window}.  Dividing gives
+$-\delta$, and squaring gives $E_A^{\mathrm{res}}(s)=\delta^2$.  Hence
+apartness of $\delta$ from zero gives positive normalized normal energy
+for every nonempty family.
+\end{proof}
+
+\begin{definition}[Centered Hamiltonian variance energy]
+\label{def:unified-reality-centered-hamiltonian-variance-energy}
+Assume the coefficient vector of a prime resonance family is nonzero.
+Set
+$$
+P_{p,j}
+:=
+\frac{|a_{p,j}|^2}
+{\sum_{(q,k)\in A}|a_{q,k}|^2}.
+$$
+The weighted Hamiltonian mean and variance are
+$$
+\langle H_A\rangle_{\psi}
+:=
+\sum_{(p,j)\in A}P_{p,j}h_{p,j},
+$$
+$$
+\operatorname{Var}_{\psi}(H_A)
+:=
+\sum_{(p,j)\in A}
+P_{p,j}
+\left(h_{p,j}-\langle H_A\rangle_{\psi}\right)^2.
+$$
+The centered Hamiltonian detuning energy is
+$$
+\mathcal Q_A^{\psi}(s)
+:=
+\delta^2\operatorname{Var}_{\psi}(H_A).
+$$
+\end{definition}
+
+\begin{theorem}[Prime Hamiltonian levels are separated]
+\label{thm:unified-reality-prime-hamiltonian-levels-separated}
+If $(p,j)\ne(q,k)$, then
+$$
+2^j\log p\ne2^k\log q.
+$$
+\end{theorem}
+
+\begin{proof}
+If $p=q$, positivity of $\log p$ gives $2^j=2^k$, hence $j=k$.  If
+$p\ne q$, equality would give the nontrivial rational linear relation
+$$
+2^j\log p-2^k\log q=0,
+$$
+contradicting
+\autoref{thm:unified-reality-prime-logarithmic-directions-independent}.
+Thus distinct prime-adic parity nodes have distinct Hamiltonian levels.
+\end{proof}
+
+\begin{theorem}[Centered nonunitary cost is variance energy]
+\label{thm:unified-reality-centered-nonunitary-cost-variance-energy}
+For a nonzero coefficient vector, define
+$$
+N_A^{\circ}(\delta,\psi)
+:=
+\sum_{(p,j)\in A}
+P_{p,j}
+e^{-2\delta(h_{p,j}-\langle H_A\rangle_{\psi})}.
+$$
+Then
+$$
+N_A^{\circ}(0,\psi)=1,
+\qquad
+\frac{d}{d\delta}N_A^{\circ}(0,\psi)=0,
+$$
+and
+$$
+\frac{1}{2}
+\frac{d^2}{d\delta^2}N_A^{\circ}(0,\psi)
+=
+2\operatorname{Var}_{\psi}(H_A).
+$$
+Consequently the first nonzero centered nonunitary cost is the positive
+quadratic variance row.
+\end{theorem}
+
+\begin{proof}
+At $\delta=0$, all exponential factors are $1$, and the weights
+$P_{p,j}$ sum to $1$.  The first derivative is
+$$
+-2\sum_{(p,j)\in A}
+P_{p,j}
+\left(h_{p,j}-\langle H_A\rangle_{\psi}\right),
+$$
+which is zero by the definition of the weighted mean.  The second
+derivative at zero is
+$$
+4\sum_{(p,j)\in A}
+P_{p,j}
+\left(h_{p,j}-\langle H_A\rangle_{\psi}\right)^2
+=
+4\operatorname{Var}_{\psi}(H_A).
+$$
+Taking one half gives the stated coefficient.  Thus centering removes
+the signed first-order bias, while the second-order Hamiltonian spread
+remains.
+\end{proof}
+
+\begin{corollary}[Nontrivial resonance support has positive variance]
+\label{cor:unified-reality-nontrivial-resonance-support-positive-variance}
+If the nonzero coefficients of a prime resonance family include two
+distinct nodes, then
+$$
+\operatorname{Var}_{\psi}(H_A)>0.
+$$
+Hence $\delta\#0$ gives
+$$
+\mathcal Q_A^{\psi}(s)>0.
+$$
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-prime-hamiltonian-levels-separated},
+the two displayed nonzero nodes have distinct Hamiltonian levels.  A
+weighted finite distribution supported on at least two distinct real
+levels has positive variance.  Multiplying by $\delta^2$ gives positive
+centered Hamiltonian detuning energy whenever $\delta\#0$.
+\end{proof}
+
+\begin{theorem}[Projected silence does not cancel detuning energy]
+\label{thm:unified-reality-projected-silence-does-not-cancel-detuning-energy}
+The chord silence row
+$$
+C_A(s)=0
+$$
+does not imply
+$$
+E_A^{\mathrm{res}}(s)=0.
+$$
+It only states first-order complex projection cancellation.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:unified-reality-chord-silence-pythagorean-interference}
+shows that projected silence balances positive complex magnitudes against
+phase-interference cross terms.  The detuning energy of
+\autoref{def:unified-reality-detuned-resonance-energy} is instead the
+square of the normal logarithmic radial readout.  By
+\autoref{thm:unified-reality-detuned-resonance-reads-normal-coordinate},
+that normalized energy is $\delta^2$ independently of the phase
+interference.  Therefore projected silence does not remove normal
+detuning.
+Equivalently, after centering the Hamiltonian island,
+\autoref{thm:unified-reality-centered-nonunitary-cost-variance-energy}
+shows that the first surviving nonunitary cost is the variance row.
+\end{proof}
+
+\begin{definition}[Stable zero-relevant resonance family]
+\label{def:unified-reality-stable-zero-relevant-resonance-family}
+A \emph{stable zero-relevant resonance family} for a critical-strip row
+$s$ is a cofinal family of finite resonance chords whose projected
+silence rows are compatible with the completed zero ledger
+$$
+\mathsf{ZetaZero}(s).
+$$
+The definition is a proof-role placeholder: it names the resonance
+families that a completed zero proof actually uses, and it does not
+assert that every visible finite chord is zero-relevant.
+For such a witness $\rho$, write $E_{\rho}^{\mathrm{res}}(s)$ for the
+normalized normal energy inherited from the finite resonance chords in
+that family.
+\end{definition}
+
+\begin{definition}[Resonance no-hair boundary]
+\label{def:unified-reality-resonance-no-hair-boundary}
+The \emph{resonance no-hair boundary} is
+$$
+\mathsf{ResonanceNoHair}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\prod_{\rho:\mathsf{StableResFam}_{\zeta}(s)}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+E_{\rho}^{\mathrm{res}}(s)=0
+\right).
+$$
+It says that any resonance family that is genuinely zero-relevant for
+the completed zeta ledger must carry zero normalized normal detuning.
+\end{definition}
+
+\begin{corollary}[Resonance no-hair is stable unitarity]
+\label{cor:unified-reality-resonance-no-hair-stable-unitarity}
+Under $\mathsf{ResonanceNoHair}_{\zeta}$, every stable zero-relevant
+resonance family for a critical-strip zero is forced onto the unitary
+resonance surface.
+\end{corollary}
+
+\begin{proof}
+For a stable zero-relevant family $\rho$, resonance no-hair gives
+$E_{\rho}^{\mathrm{res}}(s)=0$.  The finite readout inherited by $\rho$
+is the normalized detuning readout of
+\autoref{thm:unified-reality-detuned-resonance-reads-normal-coordinate},
+so $E_{\rho}^{\mathrm{res}}(s)=\delta^2$.  Hence $\delta=0$ by located
+collapse.  By
+\autoref{thm:unified-reality-critical-line-unitary-resonance-surface},
+the associated Hamiltonian evolution is unitary.
+\end{proof}
+
+\begin{theorem}[Resonance no-hair is conditionally sufficient]
+\label{thm:unified-reality-resonance-no-hair-conditionally-sufficient}
+If every critical-strip zero row carries a stable zero-relevant resonance
+family and $\mathsf{ResonanceNoHair}_{\zeta}$ holds for those families,
+then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+By the stable-family hypothesis, let $\rho$ be a stable zero-relevant
+resonance family associated to the completed zero row of $z$.  The
+resonance no-hair boundary gives
+$$
+E_{\rho}^{\mathrm{res}}(s)=0.
+$$
+By
+\autoref{thm:unified-reality-detuned-resonance-reads-normal-coordinate},
+the same energy is $\delta^2$.  Hence $\delta^2=0$, and located collapse
+gives $\delta=0$.  Therefore $\Re(s)=1/2$, and the fixed-half section is
+obtained by
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[Quartic endpoint zeros are finite resonance guidance]
+\label{cor:unified-reality-quartic-endpoint-zeros-finite-resonance-guidance}
+The fixed quartic endpoint-zero law is a finite model for the
+zero-relevant resonance distinction: branch interference produces zeros
+only after the active dominant family has been identified.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}
+states that the endpoint-zero law is obtained from active local branches,
+amplitudes, a cosine interference model, and Rouch\'e isolation.
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}
+shows that not every branch collision is zero-relevant; dominance is the
+additional ledger.  The resonance no-hair boundary plays the analogous
+role for zeta: not every projected chord is the proof object, and a
+stable zero-relevant resonance family must satisfy the normal-energy
+boundary.
+\end{proof}
+
+\begin{corollary}[The resonance formulation refines the projection-kernel gap]
+\label{cor:unified-reality-resonance-refines-projection-kernel-gap}
+The projection-kernel ambiguity of
+\autoref{def:unified-reality-projection-kernel-ambiguity} can be read as
+a detuned resonance family whose projected chord is silent while its
+normal energy remains nonzero.
+\end{corollary}
+
+\begin{proof}
+The projection-kernel ambiguity combines completed projection zero with
+nonzero normal height.  A finite resonance chord models the same pattern
+locally: $C_A(s)=0$ is projected silence, while
+\autoref{thm:unified-reality-detuned-resonance-reads-normal-coordinate}
+reads the hidden normal height as $E_A^{\mathrm{res}}(s)=\delta^2$.
+Thus the resonance formulation does not replace the no-hair target; it
+expresses the same target at the level of zero-relevant chord families.
+\end{proof}
