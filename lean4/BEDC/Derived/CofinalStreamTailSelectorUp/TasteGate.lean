@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CofinalStreamTailSelectorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -395,5 +407,67 @@ theorem CofinalStreamTailSelectorSealOrder (x : CofinalStreamTailSelectorUp) :
       constructor
       · rfl
       · rfl
+
+def CofinalStreamTailSelectorCarrier [AskSetup] [PackageSetup]
+    (epsilon W R D A sigma H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory epsilon ∧
+    UnaryHistory W ∧
+      UnaryHistory R ∧
+        UnaryHistory D ∧
+          UnaryHistory A ∧
+            UnaryHistory sigma ∧
+              UnaryHistory H ∧
+                UnaryHistory C ∧
+                  UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg
+
+theorem CofinalStreamTailSelectorPublicCertificate [AskSetup] [PackageSetup]
+    {epsilon W R D A sigma H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalStreamTailSelectorCarrier epsilon W R D A sigma H C P N bundle pkg →
+      Cont W R sealRead →
+        PkgSig bundle P pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row epsilon ∨ hsame row W ∨ hsame row R ∨ hsame row D ∨
+                  hsame row A ∨ hsame row sigma ∨ hsame row H ∨ hsame row C ∨
+                    hsame row P ∨ hsame row N ∨ hsame row sealRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle P pkg ∧ Cont W R sealRead)
+              hsame ∧
+            UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier windowRegularRoute packageProof
+  obtain ⟨_epsilonUnary, windowUnary, regularUnary, _dyadicUnary, _approxUnary,
+    _selectorUnary, _handoffUnary, _contReplayUnary, _pkgUnary, _localUnary,
+    _carrierPkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary regularUnary windowRegularRoute
+  refine ⟨?_, sealUnary⟩
+  refine
+    { core :=
+        { carrier_inhabited := ⟨sealRead, hsame_refl sealRead, sealUnary⟩
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other sameRows sourceRow
+    exact
+      ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+        unary_transport sourceRow.right sameRows⟩
+  · intro _row sourceRow
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr sourceRow.left)))))))))
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, packageProof, windowRegularRoute⟩
 
 end BEDC.Derived.CofinalStreamTailSelectorUp
