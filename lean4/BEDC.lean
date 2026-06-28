@@ -95,6 +95,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AmicableNumberUp
 import BEDC.Derived.AnalogyCertificateGateUp.IndependenceWitness
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.ObligationRowScope
@@ -1680,6 +1681,7 @@ import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
+import BEDC.Derived.CarmichaelLambdaUp
 import BEDC.Derived.CarmichaelNumberUp
 import BEDC.Derived.CarmichaelUp
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
@@ -3307,6 +3309,7 @@ import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
 import BEDC.Derived.CofinalityFilterUp
 import BEDC.Derived.CohomologyUp
+import BEDC.Derived.CollatzTrajectoryUp
 import BEDC.Derived.CollectionwiseNormalUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CollisionKernelUp
@@ -7145,6 +7148,7 @@ import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
 import BEDC.Derived.KaprekarUp
+import BEDC.Derived.KeithNumberUp
 import BEDC.Derived.KelleyficationUp
 import BEDC.Derived.KelleyficationUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
@@ -9739,6 +9743,7 @@ import BEDC.Derived.PositiveRealUp.ObligationClosure
 import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PostMedianGateShellUp.TasteGate
 import BEDC.Derived.PowerSeriesUp
+import BEDC.Derived.PracticalNumberUp
 import BEDC.Derived.PrattCertificateUp
 import BEDC.Derived.PreRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
