@@ -10322,6 +10322,7 @@ import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalTotalBoundednessUp.TasteGate
 import BEDC.Derived.RealIntervalUniformContinuityUp.TasteGate
+import BEDC.Derived.RealIntervalUp.BridgedNameCertRoute
 import BEDC.Derived.RealIntervalUp.ClassifierTransport
 import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.EndpointRefinementStability

@@ -1,0 +1,555 @@
+\section{Prime-Sieve Odd Exactness}
+\label{sec:unified-reality-prime-sieve-odd-exactness}
+
+The fixed-half surface admits several equivalent readouts: mirror
+fixedness, unit centered prime amplitude, absence of real Laplace bias,
+and vanishing normal displacement.  These equivalences identify the
+classifier surface.  They do not, by themselves, prove that the zeta
+zero ledger lands on that surface.  The RH-facing bridge is the exactness
+claim that a prime-visible mirror-odd defect cannot survive as a zero row
+inside the completed zeta carrier.
+
+\begin{definition}[Fixed-surface readout cycle]
+\label{def:unified-reality-fixed-surface-readout-cycle}
+For the zeta mirror
+$$
+J(s):=1-\overline{s}
+$$
+and the normal displacement
+$$
+\delta(s):=\Re(s)-\frac12,
+$$
+the \emph{fixed-surface readout cycle} is the package of equivalent
+surface predicates
+$$
+\Re(s)=\frac12,
+\qquad
+|p^{1/2-s}|=1\ \text{for every displayed prime }p,
+$$
+$$
+e^{-\delta(s)x}=1\ \text{for logarithmic time }x>0,
+\qquad
+J(s)=s.
+$$
+It is a classifier package for the half surface, not a zero-exclusion
+principle.
+\end{definition}
+
+\begin{theorem}[The fixed-surface cycle is a readout equivalence]
+\label{thm:unified-reality-fixed-surface-cycle-readout-equivalence}
+The fixed-surface readout cycle expresses the same centered surface read
+in prime, Laplace, and mirror coordinates.  It does not imply
+$$
+\mathsf{ZetaZero}(s)\to \Re(s)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface}
+identifies $\Re(s)=1/2$ with $J(s)=s$.
+\autoref{thm:unified-reality-prime-laplace-detect-same-fixed-surface}
+identifies the same surface with the prime-unit and no-Laplace-bias
+readouts.  None of these equivalences contains the hypothesis
+$\mathsf{ZetaZero}(s)$ or a bridge from the zero ledger to the fixed
+surface.  That bridge is the defect-zero incompatibility obligation of
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}.
+\end{proof}
+
+\begin{definition}[Mirror-odd prime-defect vector]
+\label{def:unified-reality-mirror-odd-prime-defect-vector}
+The \emph{mirror-odd prime-defect vector} is the prime-indexed readout
+$$
+\mathcal D(s)
+:=
+\bigl(d_p(s)\bigr)_{p\in\PrimeUp},
+\qquad
+d_p(s):=\log |p^{1/2-s}|.
+$$
+For a finite prime window $S$, its finite shadow is
+$$
+D_S(s):=\sum_{p\in S} d_p(s).
+$$
+Thus $D_S$ is the window defect row of
+\autoref{def:unified-reality-rh-off-half-prime-window-defect}.
+\end{definition}
+
+\begin{definition}[Time-fibre even and odd normal reads]
+\label{def:unified-reality-time-fibre-even-odd-normal-reads}
+For a fixed directed time coordinate $\tau$, the mirror pair of normal
+reads is
+$$
+\delta,
+\qquad
+-\delta.
+$$
+Its even and odd normal components are
+$$
+\delta_{\mathrm{even}}
+:=
+\frac{\delta+(-\delta)}2
+=0,
+$$
+and
+$$
+\delta_{\mathrm{odd}}
+:=
+\frac{\delta-(-\delta)}2
+=\delta.
+$$
+Thus the mirror-even component of a two-read time fibre is already on
+the fixed surface; the RH-facing issue is whether the mirror-odd
+component can remain nonzero on a zero row.
+\end{definition}
+
+\begin{definition}[Odd zero defect]
+\label{def:unified-reality-odd-zero-defect}
+An \emph{odd zero defect} for the completed zeta carrier is the
+coexistence of a critical-strip zero row with a nonzero finite
+prime-window mirror-odd defect:
+$$
+\mathsf{OddZeroDefect}_{\zeta}
+:=
+\sum_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}}
+\bigl(D_S(s)\#0\bigr)
+\right).
+$$
+The corresponding refusal row is
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+:=
+\neg\mathsf{OddZeroDefect}_{\zeta}.
+$$
+\end{definition}
+
+\begin{definition}[Even defect energy]
+\label{def:unified-reality-even-defect-energy}
+For a nonempty finite prime window $S$, the \emph{defect energy} and
+normalized defect energy are
+$$
+E_S(s):=D_S(s)^2,
+\qquad
+\overline E_S(s):=\left(\overline D_S(s)\right)^2.
+$$
+The corresponding refusal row is
+$$
+\mathsf{NoEvenDefectEnergy}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\bigl(\overline E_S(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Prime-defect is mirror-odd]
+\label{thm:unified-reality-prime-defect-mirror-odd}
+For $s=1/2+\delta+i\tau$ and $J(s)=1-\overline{s}$,
+$$
+d_p(s)=-\delta\log p,
+\qquad
+d_p(J(s))=-d_p(s).
+$$
+Consequently
+$$
+\mathcal D(J(s))=-\mathcal D(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The centered prime amplitude is
+$$
+p^{1/2-s}=p^{-\delta}p^{-i\tau},
+$$
+so
+$$
+d_p(s)=\log |p^{1/2-s}|=-\delta\log p.
+$$
+Since
+$$
+J(s)=\frac12-\delta+i\tau,
+$$
+the normal displacement of $J(s)$ is $-\delta$.  Substituting this into
+the same formula gives
+$$
+d_p(J(s))=\delta\log p=-d_p(s).
+$$
+The vector statement is obtained componentwise.
+\end{proof}
+
+\begin{theorem}[Defect energy is mirror-even]
+\label{thm:unified-reality-defect-energy-mirror-even}
+For every nonempty finite prime window $S$,
+$$
+E_S(J(s))=E_S(s),
+\qquad
+\overline E_S(J(s))=\overline E_S(s).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:unified-reality-prime-defect-mirror-odd},
+$$
+D_S(J(s))=-D_S(s).
+$$
+Squaring gives
+$$
+E_S(J(s))=D_S(J(s))^2=D_S(s)^2=E_S(s).
+$$
+The normalized statement follows in the same way from
+$$
+\overline D_S(J(s))=-\overline D_S(s),
+$$
+which is the normalized form of the same computation.
+\end{proof}
+
+\begin{theorem}[Prime-window defect measures the odd normal read]
+\label{thm:unified-reality-prime-window-defect-measures-odd-normal-read}
+For $s=1/2+\delta+i\tau$ and every nonempty finite prime window $S$,
+the normalized prime-window defect is the negative odd normal component:
+$$
+\overline D_S(s)=-\delta_{\mathrm{odd}}.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-time-fibre-even-odd-normal-reads}, the odd
+normal component is $\delta_{\mathrm{odd}}=\delta$.  The normalized
+defect computation of
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}
+gives
+$$
+\overline D_S(s)=-\delta.
+$$
+Therefore $\overline D_S(s)=-\delta_{\mathrm{odd}}$.
+\end{proof}
+
+\begin{corollary}[Normalized defect energy measures squared odd normal read]
+\label{cor:unified-reality-normalized-defect-energy-squared-odd-read}
+For $s=1/2+\delta+i\tau$ and every nonempty finite prime window $S$,
+$$
+\overline E_S(s)=\delta_{\mathrm{odd}}^2.
+$$
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-prime-window-defect-measures-odd-normal-read},
+$$
+\overline D_S(s)=-\delta_{\mathrm{odd}}.
+$$
+Squaring gives $\overline E_S(s)=\delta_{\mathrm{odd}}^2$.
+\end{proof}
+
+\begin{corollary}[Finite windows separate nonfixed mirror orbits]
+\label{cor:unified-reality-prime-sieve-windows-separate-nonfixed}
+If $\delta(s)\#0$ and $S$ is a nonempty finite prime window, then
+$$
+D_S(s)\#0.
+$$
+\end{corollary}
+
+\begin{proof}
+Summing the formula of
+\autoref{thm:unified-reality-prime-defect-mirror-odd} over $S$ gives
+$$
+D_S(s)
+=
+-\delta(s)\sum_{p\in S}\log p.
+$$
+The displayed prime rows have positive logarithm, and $S$ is nonempty.
+Thus the finite sum is positive, so apartness of $\delta(s)$ from zero
+gives apartness of $D_S(s)$ from zero.  This is the same visibility row
+as \autoref{thm:unified-reality-rh-off-half-creates-prime-defect} and
+\autoref{thm:unified-reality-prime-windows-observe-split-orbits}.
+\end{proof}
+
+\begin{definition}[Parity row as a finite prime sieve]
+\label{def:unified-reality-parity-row-finite-prime-sieve}
+The parity split of the ordinary Dirichlet series is the finite
+prime-window sieve associated with the prime $2$:
+$$
+\sum_{n\ge 1} n^{-s}
+=
+\sum_{\substack{n\ge 1\\2\nmid n}} n^{-s}
++
+\sum_{\substack{n\ge 1\\2\mid n}} n^{-s}.
+$$
+The even part is $2^{-s}\zeta(s)$, and the alternating row is
+$$
+\eta(s)
+=
+\sum_{n\ge 1}(-1)^{n-1}n^{-s}
+=
+(1-2^{1-s})\zeta(s).
+$$
+Thus parity is the $v_2$ face of the prime-factorization ledger.
+\end{definition}
+
+\begin{definition}[Finite prime-sieve tower]
+\label{def:unified-reality-finite-prime-sieve-tower}
+For a finite prime window $S$, the \emph{$S$-sieved zeta readout} is
+$$
+\zeta_S(s)
+:=
+\zeta(s)\prod_{p\in S}(1-p^{-s}).
+$$
+On the half-plane where the Euler and Dirichlet expansions are absolutely
+convergent, this readout is
+$$
+\zeta_S(s)
+=
+\sum_{\gcd(n,\prod_{p\in S}p)=1}n^{-s}.
+$$
+The finite prime-sieve tower is the family of these readouts as $S$ ranges
+over finite prime windows.
+\end{definition}
+
+\begin{theorem}[Parity is the first finite sieve shadow]
+\label{thm:unified-reality-parity-first-finite-sieve-shadow}
+The parity construction of
+\autoref{def:unified-reality-parity-row-finite-prime-sieve} is the
+$S=\{2\}$ instance of the finite prime-sieve tower.
+\end{theorem}
+
+\begin{proof}
+For $S=\{2\}$,
+$$
+\zeta_S(s)=\zeta(s)(1-2^{-s})
+$$
+removes the terms divisible by $2$ in the absolutely convergent
+Dirichlet region.  The alternating eta row instead applies the signed
+parity combination
+$$
+(1-2^{1-s})\zeta(s).
+$$
+Both rows are finite manipulations of the same $v_2$ coordinate.  Hence
+parity is not separate from prime sieving; it is the lowest finite
+prime-window face of the same distinction ledger.
+\end{proof}
+
+\begin{definition}[Prime-sieve odd exactness]
+\label{def:unified-reality-prime-sieve-odd-exactness}
+The \emph{prime-sieve odd exactness} target for the completed zeta carrier
+is the row
+$$
+\mathsf{PrimeSieveOddExactness}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}}
+\bigl(D_S(s)\#0\bigr)
+\to
+\bot
+\right).
+$$
+It says that a mirror-odd prime-window defect visible at a finite sieve
+level cannot coexist with the completed zero ledger.
+\end{definition}
+
+\begin{theorem}[No odd zero defect is prime-sieve odd exactness]
+\label{thm:unified-reality-no-odd-zero-defect-prime-sieve-odd-exactness}
+For the completed zeta carrier,
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+$$
+is the same refusal row as prime-sieve odd exactness.
+\end{theorem}
+
+\begin{proof}
+Unfold
+\autoref{def:unified-reality-odd-zero-defect}.  Its positive data are a
+zero row, a critical-strip row, and an existential finite prime-window
+defect $D_S(s)\#0$.  This is exactly the antecedent excluded by
+\autoref{def:unified-reality-prime-sieve-odd-exactness}.  The two names
+therefore describe the same carrier refusal: no completed zeta zero may
+carry a nonzero mirror-odd finite prime-window defect.
+\end{proof}
+
+\begin{theorem}[Odd defect refusal is even energy refusal]
+\label{thm:unified-reality-odd-defect-refusal-even-energy-refusal}
+For the completed zeta carrier,
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+\quad\Longleftrightarrow\quad
+\mathsf{NoEvenDefectEnergy}_{\zeta}.
+$$
+\end{theorem}
+
+\begin{proof}
+For every nonempty finite prime window $S$, the normalization row
+$L_S\#0$ of
+\autoref{def:unified-reality-prime-window-logarithmic-weight} identifies
+nonzero $D_S(s)$ with nonzero $\overline D_S(s)$.  Squaring over the
+located real readout identifies nonzero $\overline D_S(s)$ with nonzero
+$$
+\overline E_S(s)=\overline D_S(s)^2.
+$$
+Therefore the positive data excluded by
+\autoref{def:unified-reality-odd-zero-defect} are equivalent to the
+positive data excluded by
+\autoref{def:unified-reality-even-defect-energy}.  The two refusal rows
+are the same obstruction, written once as signed odd defect and once as
+mirror-even energy.
+\end{proof}
+
+\begin{corollary}[Mirror pairs do not cancel defect energy]
+\label{cor:unified-reality-mirror-pairs-do-not-cancel-defect-energy}
+If $s$ and $J(s)$ are mirror-paired zero-source rows in one time fibre
+and $\delta(s)\#0$, then every nonempty finite prime window carries
+nonzero mirror-even defect energy.
+\end{corollary}
+
+\begin{proof}
+The signed defects cancel:
+$$
+D_S(s)+D_S(J(s))=0,
+$$
+by \autoref{thm:unified-reality-prime-defect-mirror-odd}.  However,
+\autoref{thm:unified-reality-defect-energy-mirror-even} gives
+$$
+E_S(s)+E_S(J(s))=2E_S(s).
+$$
+By
+\autoref{cor:unified-reality-normalized-defect-energy-squared-odd-read},
+the normalized energy is $\delta(s)^2$, hence nonzero when
+$\delta(s)\#0$.  Thus a mirror pair can cancel the sign of the odd
+defect but not its even energy.
+\end{proof}
+
+\begin{theorem}[Prime-sieve odd exactness is defect-zero incompatibility]
+\label{thm:unified-reality-prime-sieve-odd-exactness-defect-zero}
+Prime-sieve odd exactness is the finite-sieve, mirror-odd form of the
+defect-zero incompatibility route.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-no-odd-zero-defect-prime-sieve-odd-exactness},
+prime-sieve odd exactness may be read as
+$\mathsf{NoOddZeroDefect}_{\zeta}$.
+The existential finite-window component in
+\autoref{def:unified-reality-prime-sieve-odd-exactness} is precisely the
+prime-defect row of
+\autoref{def:unified-reality-rh-off-half-prime-window-defect}.  The
+remaining hypotheses place that defect in the same completed source as a
+critical-strip zero row.  Excluding this coexistence is exactly the
+content of
+\autoref{def:unified-reality-rh-defect-zero-incompatibility-route}, also
+identified as the hard point in
+\autoref{def:unified-reality-reality-induction-hard-point} and as the
+analytic form of core completion in
+\autoref{cor:unified-reality-defect-zero-incompatibility-analytic-form}.
+\end{proof}
+
+\begin{definition}[Odd-exactness proof packet]
+\label{def:unified-reality-odd-exactness-proof-packet}
+An \emph{odd-exactness proof packet} for the zeta route consists of the
+rows
+$$
+\mathsf{MirrorOddDecomposition},
+\quad
+\mathsf{FiniteWindowSeparation},
+\quad
+\mathsf{SieveContinuationExactness},
+\quad
+\mathsf{ZeroIncompatibility}.
+$$
+The first row records $\mathcal D(J(s))=-\mathcal D(s)$.  The second row
+records that nonzero normal displacement is visible in a finite prime
+window.  The third row records that a finite sieve defect remains a
+source-compatible defect after passage through the completed zeta carrier.
+The fourth row records that such a defect is incompatible with a zero
+ledger.
+\end{definition}
+
+\begin{theorem}[Odd-exactness packets close the RH section route]
+\label{thm:unified-reality-odd-exactness-packet-closes-rh-section}
+Assume an odd-exactness proof packet, zero-ledger soundness, and the
+located fixed-half collapse row.  Then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry a critical-strip zero row.  If $\delta(s)\#0$, finite-window
+separation supplies a nonempty finite prime window $S$ with
+$D_S(s)\#0$.  Sieve-continuation exactness keeps this finite defect
+source-compatible with the completed zeta carrier.  Zero incompatibility
+then contradicts the zero ledger.  Hence the off-half apartness row is
+excluded.  The located fixed-half collapse row turns this exclusion into
+$\mathsf{OnCritLine}(s)$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} reads the
+result as the RH section.
+\end{proof}
+
+\begin{corollary}[The obstruction is analytic exactness]
+\label{cor:unified-reality-prime-sieve-obstruction-analytic-exactness}
+Within the prime-sieve route, the obstruction is not the equivalence of
+the fixed-surface readouts and not the finite-window defect formula.  It is
+the exactness of finite prime-sieve defect through the completed zeta
+carrier.
+\end{corollary}
+
+\begin{proof}
+The readout equivalences are supplied by
+\autoref{thm:unified-reality-fixed-surface-cycle-readout-equivalence}.
+The finite-window visibility row is supplied by
+\autoref{cor:unified-reality-prime-sieve-windows-separate-nonfixed}.  What
+remains is the passage from a visible finite prime-window defect to
+zero-ledger exclusion in the completed zeta carrier.  This is the
+$\mathsf{SieveContinuationExactness}$ and $\mathsf{ZeroIncompatibility}$
+part of
+\autoref{def:unified-reality-odd-exactness-proof-packet}.
+\end{proof}
+
+\begin{theorem}[The quartic laboratory marks the zero-relevance boundary]
+\label{thm:unified-reality-quartic-marks-zero-relevance-boundary}
+The quartic spectral carrier shows why visibility of a defect must be
+strengthened to zero relevance before it can serve as an RH bridge.
+\end{theorem}
+
+\begin{proof}
+In the quartic carrier, branch data alone do not yield the endpoint zero
+law.  The zero law also uses the dominance and local-interference ledgers,
+as isolated in
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}
+and scoped by
+\autoref{thm:unified-reality-quartic-laboratory-not-rh-proof}.  The zeta
+analogue is that finite prime-window defect is visible but not yet
+zero-relevant.  Prime-sieve odd exactness is the missing zero-relevance
+row for the completed zeta carrier.
+\end{proof}
+
+\begin{corollary}[Prime-sieve exactness is the no-fourth-ledger test]
+\label{cor:unified-reality-prime-sieve-exactness-no-fourth-ledger-test}
+For the zeta zero source, prime-sieve odd exactness is the analytic test
+that the normal displacement is not an independent fourth observable.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-core-commonality-completion-principle}
+identifies the RH-facing completion problem as the claim that the zeta
+zero source is complete and faithful for the core basis.  The normal
+displacement is the candidate fourth observable of
+\autoref{def:unified-reality-normal-displacement-candidate-fourth}.  By
+\autoref{cor:unified-reality-prime-sieve-obstruction-analytic-exactness},
+the only remaining prime-sieve obstruction is whether finite odd defect
+can coexist with a zero ledger.  Therefore prime-sieve odd exactness is
+the analytic no-fourth-ledger test for this observable.
+\end{proof}
