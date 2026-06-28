@@ -1,5 +1,8 @@
+import BEDC.Algebra.FiniteFold
 import BEDC.Algebra.Rel.IntegerUp
+import BEDC.Derived.BinomialIdentitiesUp
 import BEDC.Derived.FactorialUp
+import BEDC.Derived.IntUp.Arithmetic
 import BEDC.Derived.IntUp.CommRing
 import BEDC.Derived.PochhammerUp
 
@@ -11,11 +14,22 @@ open BEDC.FKernel.ExternalBinary (bwordLength)
 open BEDC.Derived.FactorialUp
 open BEDC.Derived.IntUp
 
+abbrev IntegerUp := BEDC.Algebra.Rel.IntegerUp
+abbrev IntEq := BEDC.Algebra.Rel.IntEq
 abbrev Z : Type := BEDC.Algebra.Rel.IntegerUp
 abbrev Zeq : Z -> Z -> Prop := BEDC.Algebra.Rel.IntEq
 
-def integerRing : BEDC.Algebra.Rel.RelCommRing Z Zeq :=
+def integerRing : BEDC.Algebra.Rel.RelCommRing IntegerUp IntEq :=
   BEDC.Algebra.Rel.IntegerUp_RelCommRing
+
+def positiveIntegerUpOfNat (n : Nat) : IntegerUp :=
+  BEDC.Derived.RationalUp.intOfNat (natToUnary n) (natToUnary_unary n)
+
+def factorialNat : Nat -> Nat :=
+  BEDC.Derived.PochhammerUp.natFactorialCount
+
+def binomialCoeff (n k : Nat) : Nat :=
+  BEDC.Derived.BinomialIdentitiesUp.C n k
 
 def multinomialWeight : List Nat -> Nat
   | [] => 0
@@ -442,5 +456,211 @@ theorem MultinomialUp_constructive_export :
             exact multinomialFactorialDivisibility n ks h
           · intro ks
             exact multinomialIntegral_witness ks
+
+def multinomialDenominator : List Nat -> Nat :=
+  multinomialFactorialDenominator
+
+def multinomialTotal : List Nat -> Nat :=
+  multinomialWeight
+
+def multinomialNatCore : Nat -> List Nat -> Nat
+  | n, [] => if n = 0 then 1 else 0
+  | n, k :: ks =>
+      binomialCoeff n k * multinomialNatCore (n - k) ks
+
+def multinomialNat (ks : List Nat) : Nat :=
+  multinomialNatCore (multinomialTotal ks) ks
+
+def multinomialInteger (ks : List Nat) : IntegerUp :=
+  positiveIntegerUpOfNat (multinomialNat ks)
+
+def factorialQuotientNumerator (ks : List Nat) : Nat :=
+  multinomialFactorialNumerator ks
+
+def factorialQuotientDenominator (ks : List Nat) : Nat :=
+  multinomialFactorialDenominator ks
+
+def multinomialExactFactorialQuotient (ks : List Nat) (q : Nat) : Prop :=
+  factorialQuotientNumerator ks = q * factorialQuotientDenominator ks
+
+def multinomialFactorialQuotientNat (ks : List Nat) : Nat :=
+  factorialQuotientNumerator ks / factorialQuotientDenominator ks
+
+def binomialFactorListCore : Nat -> List Nat -> List Nat
+  | _n, [] => []
+  | n, k :: ks =>
+      binomialCoeff n k :: binomialFactorListCore (n - k) ks
+
+def binomialFactorList (ks : List Nat) : List Nat :=
+  binomialFactorListCore (multinomialTotal ks) ks
+
+def natListProduct : List Nat -> Nat
+  | [] => 1
+  | x :: xs => x * natListProduct xs
+
+def binomialProductExpansion (ks : List Nat) : Nat :=
+  natListProduct (binomialFactorList ks)
+
+theorem multinomialDenominator_nil :
+    multinomialDenominator [] = 1 := by
+  rfl
+
+theorem multinomialDenominator_cons (k : Nat) (ks : List Nat) :
+    multinomialDenominator (k :: ks) =
+      factorialNat k * multinomialDenominator ks := by
+  rfl
+
+theorem multinomialTotal_nil :
+    multinomialTotal [] = 0 := by
+  rfl
+
+theorem multinomialTotal_cons (k : Nat) (ks : List Nat) :
+    multinomialTotal (k :: ks) = k + multinomialTotal ks := by
+  rfl
+
+theorem multinomialNatCore_nil_zero :
+    multinomialNatCore 0 [] = 1 := by
+  rfl
+
+theorem multinomialNatCore_nil_succ (n : Nat) :
+    multinomialNatCore (Nat.succ n) [] = 0 := by
+  rfl
+
+theorem multinomialNatCore_cons (n k : Nat) (ks : List Nat) :
+    multinomialNatCore n (k :: ks) =
+      binomialCoeff n k * multinomialNatCore (n - k) ks := by
+  rfl
+
+theorem multinomialNat_nil :
+    multinomialNat [] = 1 := by
+  rfl
+
+theorem multinomialNat_singleton (k : Nat) :
+    multinomialNat [k] = 1 := by
+  unfold multinomialNat multinomialTotal multinomialNatCore multinomialWeight
+  rw [multinomialWeight_nil]
+  rw [Nat.add_zero]
+  rw [Nat.sub_self]
+  unfold binomialCoeff
+  rw [BEDC.Derived.BinomialIdentitiesUp.binomial_self]
+  rfl
+
+theorem natListProduct_nil :
+    natListProduct [] = 1 := by
+  rfl
+
+theorem natListProduct_cons (x : Nat) (xs : List Nat) :
+    natListProduct (x :: xs) = x * natListProduct xs := by
+  rfl
+
+theorem binomialFactorListCore_nil (n : Nat) :
+    binomialFactorListCore n [] = [] := by
+  rfl
+
+theorem binomialFactorListCore_cons (n k : Nat) (ks : List Nat) :
+    binomialFactorListCore n (k :: ks) =
+      binomialCoeff n k :: binomialFactorListCore (n - k) ks := by
+  rfl
+
+theorem binomialProductExpansion_nil :
+    binomialProductExpansion [] = 1 := by
+  rfl
+
+theorem factorialNat_pos :
+    ∀ n : Nat, 0 < factorialNat n
+  | 0 => by
+      unfold factorialNat
+      rw [BEDC.Derived.PochhammerUp.natFactorialCount_zero]
+      exact Nat.zero_lt_succ 0
+  | Nat.succ n => by
+      unfold factorialNat
+      rw [BEDC.Derived.PochhammerUp.natFactorialCount_succ]
+      exact Nat.mul_pos (factorialNat_pos n) (Nat.succ_pos n)
+
+theorem multinomialNatCore_eq_binomialProductCore :
+    ∀ ks : List Nat,
+      multinomialNatCore (multinomialTotal ks) ks =
+        natListProduct (binomialFactorListCore (multinomialTotal ks) ks)
+  | [] => by
+      rfl
+  | k :: ks => by
+      change
+        binomialCoeff (k + multinomialTotal ks) k *
+            multinomialNatCore (k + multinomialTotal ks - k) ks =
+          binomialCoeff (k + multinomialTotal ks) k *
+            natListProduct
+              (binomialFactorListCore (k + multinomialTotal ks - k) ks)
+      rw [nat_self_add_tail]
+      rw [multinomialNatCore_eq_binomialProductCore ks]
+
+theorem multinomialNat_eq_binomialProductExpansion (ks : List Nat) :
+    multinomialNat ks = binomialProductExpansion ks := by
+  unfold multinomialNat binomialProductExpansion binomialFactorList
+  exact multinomialNatCore_eq_binomialProductCore ks
+
+theorem multinomialNat_cons_formula (k : Nat) (ks : List Nat) :
+    multinomialNat (k :: ks) =
+      binomialCoeff (k + multinomialTotal ks) k * multinomialNat ks := by
+  unfold multinomialNat
+  change
+    multinomialNatCore (k + multinomialTotal ks) (k :: ks) =
+      binomialCoeff (k + multinomialTotal ks) k *
+        multinomialNatCore (multinomialTotal ks) ks
+  rw [multinomialNatCore_cons]
+  rw [nat_self_add_tail]
+
+theorem multinomialNat_eq_multinomialCount :
+    ∀ ks : List Nat, multinomialNat ks = multinomialCount ks
+  | [] => by
+      rfl
+  | k :: ks => by
+      rw [multinomialNat_cons_formula]
+      rw [multinomialNat_eq_multinomialCount ks]
+      unfold binomialCoeff
+      rfl
+
+theorem multinomialNat_factorial_quotient_identity (ks : List Nat) :
+    multinomialNat ks * factorialQuotientDenominator ks =
+      factorialQuotientNumerator ks := by
+  unfold factorialQuotientNumerator factorialQuotientDenominator
+  rw [multinomialNat_eq_multinomialCount]
+  exact multinomialFactorialQuotient_identity ks
+
+theorem multinomialNat_factorial_quotient_total
+    (n : Nat) (ks : List Nat) (h : multinomialTotal ks = n) :
+    multinomialNat ks * factorialQuotientDenominator ks =
+      factorialNat n := by
+  unfold factorialNat
+  unfold multinomialTotal at h
+  unfold factorialQuotientDenominator
+  rw [multinomialNat_eq_multinomialCount]
+  exact multinomialFactorialQuotient_total n ks h
+
+theorem binomialProductExpansion_cons_formula (k : Nat) (ks : List Nat) :
+    binomialProductExpansion (k :: ks) =
+      binomialCoeff (k + multinomialTotal ks) k *
+        binomialProductExpansion ks := by
+  rw [← multinomialNat_eq_binomialProductExpansion]
+  rw [← multinomialNat_eq_binomialProductExpansion]
+  exact multinomialNat_cons_formula k ks
+
+theorem multinomialInteger_self (ks : List Nat) :
+    IntEq (multinomialInteger ks)
+      (positiveIntegerUpOfNat (binomialProductExpansion ks)) := by
+  unfold multinomialInteger
+  rw [multinomialNat_eq_binomialProductExpansion]
+  exact BEDC.Derived.RationalUp.IntEq_refl _
+
+theorem multinomialExactFactorialQuotient_self (k : Nat) :
+    multinomialExactFactorialQuotient [k] 1 := by
+  unfold multinomialExactFactorialQuotient
+  unfold factorialQuotientNumerator factorialQuotientDenominator
+  unfold multinomialFactorialNumerator multinomialFactorialDenominator
+  unfold multinomialWeight
+  rw [multinomialWeight_nil]
+  rw [Nat.add_zero]
+  rw [Nat.one_mul]
+  rw [multinomialFactorialDenominator_nil]
+  rw [Nat.mul_one]
 
 end BEDC.Derived.MultinomialUp
