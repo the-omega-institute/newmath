@@ -9728,6 +9728,7 @@ import BEDC.Derived.PositiveRealUp.ObligationClosure
 import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PostMedianGateShellUp.TasteGate
 import BEDC.Derived.PowerSeriesUp
+import BEDC.Derived.PracticalNumberUp
 import BEDC.Derived.PrattCertificateUp
 import BEDC.Derived.PreRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
