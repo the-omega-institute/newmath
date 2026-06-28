@@ -541,6 +541,12 @@ private def natEqBool : Nat -> Nat -> Bool
   | Nat.succ _, 0 => false
   | Nat.succ a, Nat.succ b => natEqBool a b
 
+private def natListEqBool : List Nat -> List Nat -> Bool
+  | [], [] => true
+  | [], _ :: _ => false
+  | _ :: _, [] => false
+  | x :: xs, y :: ys => if natEqBool x y then natListEqBool xs ys else false
+
 private def natLeBool : Nat -> Nat -> Bool
   | 0, _ => true
   | Nat.succ _, 0 => false
@@ -581,11 +587,14 @@ private def natLexLeBool : List Nat -> List Nat -> Bool
       if natEqBool a b then natLexLeBool as bs else natLeBool a b
 
 private def zTermLeBool (a b : ZTerm) : Bool :=
-  match a.neg, b.neg with
-  | false, false => natLexLeBool a.vars b.vars
-  | false, true => true
-  | true, false => false
-  | true, true => natLexLeBool a.vars b.vars
+  if natListEqBool a.vars b.vars then
+    match a.neg, b.neg with
+    | false, false => true
+    | false, true => true
+    | true, false => false
+    | true, true => true
+  else
+    natLexLeBool a.vars b.vars
 
 private def zTermInsert (t : ZTerm) : List ZTerm -> List ZTerm
   | [] => [t]
@@ -596,8 +605,27 @@ private def zTermSort : List ZTerm -> List ZTerm
   | [] => []
   | t :: ts => zTermInsert t (zTermSort ts)
 
+private def zTermOppositeSame (a b : ZTerm) : Bool :=
+  match a.neg, b.neg with
+  | false, false => false
+  | false, true => natListEqBool a.vars b.vars
+  | true, false => natListEqBool a.vars b.vars
+  | true, true => false
+
+private def zCancelStep : List ZTerm -> ZTerm -> List ZTerm
+  | [], t => [t]
+  | u :: us, t =>
+      if zTermOppositeSame t u then us else t :: u :: us
+
+private def zCancelGo : List ZTerm -> List ZTerm -> List ZTerm
+  | acc, [] => acc
+  | acc, t :: ts => zCancelGo (zCancelStep acc t) ts
+
+private def zCancelTerms (terms : List ZTerm) : List ZTerm :=
+  zTermSort (zCancelGo [] terms)
+
 private def zExprNorm (e : ZExpr) : List ZTerm :=
-  zTermSort (List.map zTermCanonical (zExprTerms e))
+  zCancelTerms (zTermSort (List.map zTermCanonical (zExprTerms e)))
 
 private def zSumTerms (vars : Nat -> IntegerUp) : List ZTerm -> IntegerUp
   | [] => intZero
@@ -710,6 +738,110 @@ private theorem zSum_perm (vars : Nat -> IntegerUp) :
 private theorem zSum_sort (vars : Nat -> IntegerUp) (terms : List ZTerm) :
     zSumTerms vars (zTermSort terms) ≈z zSumTerms vars terms := by
   exact zSum_perm vars (zTermSort_perm terms)
+
+private theorem natEqBool_eq_true :
+    ∀ a b : Nat, natEqBool a b = true -> a = b
+  | 0, 0, _ => rfl
+  | 0, Nat.succ _, h => by cases h
+  | Nat.succ _, 0, h => by cases h
+  | Nat.succ a, Nat.succ b, h => by
+      exact congrArg Nat.succ (natEqBool_eq_true a b h)
+
+private theorem natListEqBool_eq_true :
+    ∀ xs ys : List Nat, natListEqBool xs ys = true -> xs = ys
+  | [], [], _ => rfl
+  | [], _ :: _, h => by cases h
+  | _ :: _, [], h => by cases h
+  | x :: xs, y :: ys, h => by
+      unfold natListEqBool at h
+      cases heq : natEqBool x y
+      · rw [heq] at h
+        cases h
+      · rw [heq] at h
+        have headEq : x = y := natEqBool_eq_true x y heq
+        have tailEq : xs = ys := natListEqBool_eq_true xs ys h
+        cases headEq
+        cases tailEq
+        rfl
+
+private theorem zTermOppositeSame_eval_zero
+    (vars : Nat -> IntegerUp) (t u : ZTerm) :
+    zTermOppositeSame t u = true ->
+      IntAdd (zTermEval vars t) (zTermEval vars u) ≈z intZero := by
+  intro h
+  cases t with
+  | mk tNeg tVars =>
+      cases u with
+      | mk uNeg uVars =>
+          cases tNeg <;> cases uNeg
+          · cases h
+          · unfold zTermOppositeSame at h
+            have sameVars := natListEqBool_eq_true tVars uVars h
+            rw [sameVars]
+            change IntAdd (zMonoEval vars uVars) (IntNeg (zMonoEval vars uVars)) ≈z intZero
+            exact zAdd_neg (zMonoEval vars uVars)
+          · unfold zTermOppositeSame at h
+            have sameVars := natListEqBool_eq_true tVars uVars h
+            rw [sameVars]
+            change IntAdd (IntNeg (zMonoEval vars uVars)) (zMonoEval vars uVars) ≈z intZero
+            exact zNeg_add (zMonoEval vars uVars)
+          · cases h
+
+private theorem zCancelStep_sound (vars : Nat -> IntegerUp) :
+    ∀ acc : List ZTerm, ∀ t : ZTerm,
+      zSumTerms vars (zCancelStep acc t) ≈z
+        IntAdd (zTermEval vars t) (zSumTerms vars acc)
+  | [], t => by
+      exact zring.refl (IntAdd (zTermEval vars t) intZero)
+  | u :: us, t => by
+      cases h : zTermOppositeSame t u
+      · change zSumTerms vars
+          (if zTermOppositeSame t u then us else t :: u :: us) ≈z
+          IntAdd (zTermEval vars t) (IntAdd (zTermEval vars u) (zSumTerms vars us))
+        rw [h]
+        exact zring.refl
+          (IntAdd (zTermEval vars t) (IntAdd (zTermEval vars u) (zSumTerms vars us)))
+      · change zSumTerms vars
+          (if zTermOppositeSame t u then us else t :: u :: us) ≈z
+          IntAdd (zTermEval vars t) (IntAdd (zTermEval vars u) (zSumTerms vars us))
+        rw [h]
+        exact zring.symm
+          (zring.trans
+            (zring.symm (zring.add_assoc (zTermEval vars t)
+              (zTermEval vars u) (zSumTerms vars us)))
+            (zring.trans
+              (zring.add_congr (zTermOppositeSame_eval_zero vars t u h)
+                (zring.refl (zSumTerms vars us)))
+              (zring.zero_add (zSumTerms vars us))))
+
+private theorem zCancelGo_sound (vars : Nat -> IntegerUp) :
+    ∀ acc terms : List ZTerm,
+      zSumTerms vars (zCancelGo acc terms) ≈z
+        IntAdd (zSumTerms vars terms) (zSumTerms vars acc)
+  | acc, [] => by
+      exact zring.symm (zring.zero_add (zSumTerms vars acc))
+  | acc, t :: ts => by
+      have tail := zCancelGo_sound vars (zCancelStep acc t) ts
+      exact zring.trans tail
+        (zring.trans
+          (zring.add_congr (zring.refl (zSumTerms vars ts))
+            (zCancelStep_sound vars acc t))
+          (zring.trans
+            (zring.symm (zring.add_assoc (zSumTerms vars ts)
+              (zTermEval vars t) (zSumTerms vars acc)))
+            (zring.add_congr
+              (zring.add_comm (zSumTerms vars ts) (zTermEval vars t))
+              (zring.refl (zSumTerms vars acc)))))
+
+private theorem zCancelTerms_sound (vars : Nat -> IntegerUp) (terms : List ZTerm) :
+    zSumTerms vars (zCancelTerms terms) ≈z zSumTerms vars terms := by
+  unfold zCancelTerms
+  exact zring.trans (zSum_sort vars (zCancelGo [] terms))
+    (zring.trans (zCancelGo_sound vars [] terms)
+      (zring.trans
+        (zring.add_congr (zring.refl (zSumTerms vars terms))
+          (zring.refl intZero))
+        (zring.add_zero (zSumTerms vars terms))))
 
 private theorem zSum_append (vars : Nat -> IntegerUp) (xs ys : List ZTerm) :
     zSumTerms vars (xs ++ ys) ≈z IntAdd (zSumTerms vars xs) (zSumTerms vars ys) := by
@@ -828,7 +960,11 @@ private theorem zExprNorm_sound (vars : Nat -> IntegerUp) (e : ZExpr) :
   exact zring.trans (zExprTerms_sound vars e)
     (zring.trans
       (zring.symm (zSum_canonical vars (zExprTerms e)))
-      (zring.symm (zSum_sort vars (List.map zTermCanonical (zExprTerms e)))))
+      (zring.trans
+        (zring.symm (zSum_sort vars (List.map zTermCanonical (zExprTerms e))))
+        (zring.symm
+          (zCancelTerms_sound vars
+            (zTermSort (List.map zTermCanonical (zExprTerms e)))))))
 
 private theorem zExpr_same_norm (vars : Nat -> IntegerUp) (a b : ZExpr)
     (h : zExprNorm a = zExprNorm b) :
@@ -869,6 +1005,10 @@ private def qExprMul (x y : QuatExpr) : QuatExpr :=
     imK := ZExpr.add (ZExpr.add (ZExpr.mul x.re y.imK) (ZExpr.mul x.imI y.imJ))
       (eSub (ZExpr.mul x.imK y.re) (ZExpr.mul x.imJ y.imI)) }
 
+private def qExprNorm (x : QuatExpr) : ZExpr :=
+  ZExpr.add (ZExpr.add (ZExpr.mul x.re x.re) (ZExpr.mul x.imI x.imI))
+    (ZExpr.add (ZExpr.mul x.imJ x.imJ) (ZExpr.mul x.imK x.imK))
+
 private def quatExprVars (x y z : Quat) : Nat -> IntegerUp
   | 0 => x.re
   | 1 => x.imI
@@ -883,6 +1023,13 @@ private def quatExprVars (x y z : Quat) : Nat -> IntegerUp
   | 10 => z.imJ
   | 11 => z.imK
   | _ => intZero
+
+theorem quatNorm_mul (x y : Quat) :
+    quatNorm (quatMul x y) ≈z IntMul (quatNorm x) (quatNorm y) := by
+  let vars := quatExprVars x y quatZero
+  change zExprEval vars (qExprNorm (qExprMul qExprX qExprY)) ≈z
+    zExprEval vars (ZExpr.mul (qExprNorm qExprX) (qExprNorm qExprY))
+  exact zExpr_same_norm vars _ _ rfl
 
 private theorem quatMul_assoc_re (x y z : Quat) :
     (quatMul (quatMul x y) z).re ≈z (quatMul x (quatMul y z)).re := by
