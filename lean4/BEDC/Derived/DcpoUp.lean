@@ -200,4 +200,81 @@ theorem DcpoCarrier_supremum_ledger_obligations
   }
   exact ⟨cert, directedUnary, supremumUnary⟩
 
+theorem DcpoCarrier_continuity_scope_obligations
+    {O I W S M F Q L H C P N continuityRead replayRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N →
+      Cont S L continuityRead →
+        Cont continuityRead C replayRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+                  hsame row L ∨ hsame row M ∨ hsame row F ∨ hsame row Q ∨
+                    hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                      hsame row replayRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ DcpoCarrier O I W S M F Q L H C P N ∧
+                  Cont S L continuityRead ∧ Cont continuityRead C replayRead)
+              hsame ∧
+            UnaryHistory continuityRead ∧ UnaryHistory replayRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
+  intro carrier continuityRoute replayRoute
+  have carrierWitness : DcpoCarrier O I W S M F Q L H C P N := carrier
+  obtain ⟨_oUnary, _iUnary, _wUnary, sUnary, _mUnary, _fUnary, _qUnary, lUnary,
+    _hUnary, cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have continuityUnary : UnaryHistory continuityRead :=
+    unary_cont_closed sUnary lUnary continuityRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed continuityUnary cUnary replayRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+              hsame row L ∨ hsame row M ∨ hsame row F ∨ hsame row Q ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                  hsame row replayRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ DcpoCarrier O I W S M F Q L H C P N ∧
+              Cont S L continuityRead ∧ Cont continuityRead C replayRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro replayRead ⟨hsame_refl replayRead, replayUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, carrierWitness, continuityRoute, replayRoute⟩
+  }
+  exact ⟨cert, continuityUnary, replayUnary⟩
+
 end BEDC.Derived.DcpoUp

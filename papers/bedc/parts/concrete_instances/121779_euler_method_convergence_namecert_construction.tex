@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\EulerMethodConvergenceUp$}
+\label{ch:concrete-instances-euler-method-convergence-namecert}
+\origin{human}
+
+Following Euler and Cauchy, and the Bishop--Bridges constructive treatment of numerical approximation, the $\EulerMethodConvergenceUp$ packet records the finite route by which explicit Euler meshes are compared, budgeted, and handed to a regular real readback. It consumes the finite forward-step packet of \autoref{ch:concrete-instances-euler-method-finite-step-namecert}, the finite ODE bound of \autoref{ch:concrete-instances-gronwall-finite-ode-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names constructive explicit-Euler mesh convergence as finite NameCert data; it is not a host ODE existence theorem, a selected solution curve, quotient equality of paths, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Euler method convergence carrier]
+\label{def:euler-method-convergence-carrier}
+An $\EulerMethodConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,G,W,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\EulerMethodFiniteStepUp$ step packet, exposing the local ODE row, vector-field read, finite step ledger, endpoint update row, and dyadic arithmetic row.
+\item $G$ is the $\GronwallFiniteOdeUp$ bound packet, carrying the finite Lipschitz, comparison, dyadic majorant, and ODE estimate rows used to compare meshes.
+\item $W$ is the $\StreamNameUp$ observation-window row, recording which mesh refinements and endpoint reads are inspected.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the displayed endpoint approximations and error budgets.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for mesh widths, local truncation bounds, Gronwall accumulation, and target precision requests.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $S,G,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for step, bound, window, readback, dyadic, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite step route through the Gronwall budget and regular readback.
+\item $P$ is the $\Pkg$ provenance over $\EulerMethodConvergenceUp$, $\EulerMethodFiniteStepUp$, $\GronwallFiniteOdeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerMethodConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,G,W,R,D,L,H,C,P,N$. It has no coordinate for an exact solution curve, host convergence theorem, selected limiting path, quotient equality of functions, countable-choice schedule, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Euler method convergence NameCert obligations]
+\label{thm:euler-method-convergence-namecert-obligations}
+For every accepted $\EulerMethodConvergenceUp$ carrier
+$$
+E=(S,G,W,R,D,L,H,C,P,N),
+$$
+the local $\NameCert_{\EulerMethodConvergenceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item finite-step admission through $S$, including the displayed ODE source, vector-field read, step ledger, endpoint update row, and dyadic arithmetic row;
+\item Gronwall comparison admission through $G$, including the finite Lipschitz and accumulated-error majorant used to compare mesh refinements;
+\item observation and regular-readback admission through $W$ and $R$, so every endpoint approximation is read as a finite window before any real seal is exposed;
+\item dyadic error-budget admission through $D$, stable under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item provenance and local naming through $P,N$, with the terminal $\RealUp$ seal $L$ available only after the previous four rows are visible.
+\end{enumerate}
+No local obligation may read exact ODE solution existence, global continuation, selected limiting paths, quotient path equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(S,G,W,R,D,L,H,C,P,N)$. The finite-step packet $S$ gives the only endpoint-update source, while the Gronwall packet $G$ gives the only accumulated-error comparison row.
+
+The observation route is then forced through $W$ and $R$. A convergence consumer can inspect only the displayed mesh windows and the regular rational readback attached to those windows, so it cannot invoke a host limiting path.
+
+The dyadic ledger $D$ records the mesh-width, local-error, accumulated-error, and target-precision budgets. Transport and replay through $H$ and $C$ preserve those displayed rows componentwise.
+
+Finally $P,N$ source and name the same packet, and the terminal seal $L$ is exposed only after $S,G,W,R,D$ have been read. Since no carrier coordinate names exact ODE solution existence, global continuation, selected limits, quotient paths, choice, or ambient completeness, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Euler method convergence error-budget route]
+\label{thm:euler-method-convergence-error-budget-route}
+Every accepted $\EulerMethodConvergenceUp$ consumer that exports a completed real endpoint must read the error budget through
+$$
+S,G,W,R,D,L,H,C,P,N.
+$$
+The route first exposes finite Euler steps, then the Gronwall comparison budget, then finite observation windows and regular rational readback, then the dyadic tolerance ledger, and only then the terminal real seal. It exports no exact solution object, selected limiting path, quotient path equality, countable-choice schedule, or ambient-completeness principle.
+\end{theorem}
+\leanstmt{BEDC.Derived.EulerMethodConvergenceUp}
+\begin{proof}
+Start with an accepted carrier $E=(S,G,W,R,D,L,H,C,P,N)$. The finite-step data $S$ and comparison data $G$ determine which mesh endpoints and accumulated bounds are available.
+
+Read the observation row $W$ and the regular rational row $R$ next. These rows make endpoint comparison a finite-window and regular-readback operation rather than a direct appeal to a completed curve.
+
+The dyadic ledger $D$ is then the only tolerance source for the target precision. The terminal row $L$ may be exposed only after that ledger has been displayed, and $H,C,P,N$ preserve, replay, source, and name the same route.
+
+Thus any completed real endpoint exported by the packet factors through the displayed ten rows. No remaining row can supply a hidden solution object, selected limit, quotient equality, choice schedule, or ambient-completeness claim.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EulerMethodConvergenceUp$ consumer that reaches a $\RealUp$ seal without reading the displayed finite-step row, Gronwall comparison row, StreamName window row, RegSeqRat readback row, DyadicRatCore error ledger, transport, replay, provenance, and local $\NameCert$ rows refutes the carrier surface.}
+
+\independenceWitness{euler-method-finite-step, gronwall-finite-ode, streamname, regseqrat, dyadicratcore, real: none is bijective to $\EulerMethodConvergenceUp$ because this packet binds finite Euler steps, Gronwall mesh comparison, finite observation windows, regular rational readback, dyadic error budgets, terminal real sealing, transport, replay, provenance, and local naming into one convergence route.}
+
+\closureat{EulerMethodConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\EulerMethodConvergenceUp}
+  \constructivestory{An $\EulerMethodConvergenceUp$ packet is generated from an EulerMethodFiniteStep row, a GronwallFiniteOde comparison row, StreamName observation windows, RegSeqRat readback, a DyadicRatCore error ledger, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-method-convergence-carrier}, \autoref{thm:euler-method-convergence-namecert-obligations}, and \autoref{thm:euler-method-convergence-error-budget-route} seed the constructive explicit-Euler mesh convergence route over finite-step, Gronwall, stream-window, regular-readback, dyadic-budget, real-seal, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close exact ODE solution existence, global continuation, selected limiting paths, quotient path equality, countable choice, ambient $\RealUp$ completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-step visibility, Gronwall comparison, windowed readback, dyadic error budgets, real sealing, transport, replay, provenance, and local naming for BEDC.Derived.EulerMethodConvergenceUp.}
+\end{closurestatus}
