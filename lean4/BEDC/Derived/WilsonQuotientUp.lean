@@ -1,11 +1,16 @@
 import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.PadicUp.ExactDivision
+import BEDC.Derived.PrimeSieveOddExactnessUp
+import BEDC.Derived.StirlingFirstUp
+
+set_option maxRecDepth 20000
 
 namespace BEDC.Derived.WilsonQuotientUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.ExternalBinary (bwordLength)
 open BEDC.Derived.FactorialUp
 open BEDC.Derived.IntUp
 open BEDC.Derived.NatUp
@@ -29,6 +34,32 @@ def wilsonQuotient (p : BHist) : BHist :=
 def WilsonCongruence (p : BHist) (prime : NatPrime p) : Prop :=
   zmodEq (wilsonFactorialResidue prime) (zmodMinusOne prime)
 
+def WilsonPrime (p : BHist) : Prop :=
+  NatPrime p ∧ hsame (natModFn p (wilsonQuotient p)) BHist.Empty
+
+def wilsonQuotientNat (p : Nat) : Nat :=
+  (BEDC.Derived.StirlingFirstUp.factorialNat (p - 1) + 1) / p
+
+def factorialResidueModNat (modulus : Nat) : Nat -> Nat
+  | 0 => 1 % modulus
+  | n + 1 => ((n + 1) * factorialResidueModNat modulus n) % modulus
+
+def wilsonNumeratorResidueModPrimeSquareNat (p : Nat) : Nat :=
+  (factorialResidueModNat (p * p) (p - 1) + 1) % (p * p)
+
+def wilsonQuotientNatVanishesBool (p : Nat) : Bool :=
+  Nat.beq (wilsonNumeratorResidueModPrimeSquareNat p) 0
+
+def WilsonQuotientNatVanishes (p : Nat) : Prop :=
+  wilsonQuotientNatVanishesBool p = true
+
+instance wilsonQuotientNatVanishesDecidable (p : Nat) :
+    Decidable (WilsonQuotientNatVanishes p) :=
+  inferInstanceAs (Decidable (wilsonQuotientNatVanishesBool p = true))
+
+def KnownWilsonQuotientResidueNat (p : Nat) : Prop :=
+  WilsonQuotientNatVanishes p
+
 private theorem natOne_unary : UnaryHistory NatOne :=
   unary_e1_closed unary_empty
 
@@ -38,6 +69,12 @@ theorem wilsonNumerator_unary {p : BHist} (prime : NatPrime p) :
   exact unary_append_closed
     (natFactorialFn_unary (primePred_unary prime))
     natOne_unary
+
+theorem wilsonQuotient_unary {p : BHist} (prime : NatPrime p) :
+    UnaryHistory (wilsonQuotient p) := by
+  unfold wilsonQuotient
+  exact natQuotFn_unary prime.left (wilsonNumerator_unary prime)
+    (NatPrime_empty_absurd prime)
 
 private theorem neg_one_add_one_mod_zero {p : BHist} (prime : NatPrime p) :
     hsame
@@ -124,6 +161,18 @@ theorem wilsonQuotient_integer {p : BHist} (prime : NatPrime p) :
       NatDivides p (wilsonNumerator p) :=
   wilsonCongruence_divides_numerator prime
 
+theorem wilsonQuotient_nat_surface (p : Nat) :
+    wilsonQuotientNat p =
+      (BEDC.Derived.StirlingFirstUp.factorialNat (p - 1) + 1) / p := by
+  rfl
+
+theorem KnownWilsonQuotientResidueNat.unfold_mod {p : Nat} :
+    KnownWilsonQuotientResidueNat p -> wilsonNumeratorResidueModPrimeSquareNat p = 0 := by
+  intro vanishes
+  unfold KnownWilsonQuotientResidueNat WilsonQuotientNatVanishes
+    wilsonQuotientNatVanishesBool at vanishes
+  exact Nat.eq_of_beq_eq_true vanishes
+
 theorem wilsonQuotient_exact_from_standard_pairing_data {p : BHist}
     (prime : NatPrime p) (data : WilsonStandardPairingData p prime) :
     hsame (natMulFn p (wilsonQuotient p)) (wilsonNumerator p) := by
@@ -167,5 +216,57 @@ theorem wilsonQuotient_five_value :
   unfold wilsonQuotient wilsonNumerator NatFive NatFour NatThree NatTwo NatOne
     primePred natFactorialFn natQuotFn
   rfl
+
+theorem wilsonQuotient_five_wilsonPrime :
+    WilsonPrime NatFive := by
+  constructor
+  · change NatPrime (natToUnary 5)
+    exact BEDC.Derived.PrimeSieveOddExactnessUp.NatFive_prime
+  · unfold wilsonQuotient wilsonNumerator NatFive NatFour NatThree NatTwo NatOne
+      primePred natFactorialFn natQuotFn natModFn
+    rfl
+
+theorem wilsonQuotientNatVanishes_five :
+    WilsonQuotientNatVanishes 5 := by
+  decide
+
+theorem wilsonQuotientNatVanishes_thirteen :
+    WilsonQuotientNatVanishes 13 := by
+  decide
+
+theorem wilsonQuotientNatVanishes_fiveHundredSixtyThree :
+    WilsonQuotientNatVanishes 563 := by
+  decide
+
+theorem wilsonQuotientNat_five_value :
+    wilsonQuotientNat 5 = 5 := by
+  rfl
+
+theorem wilsonQuotientResidueNat_five :
+    KnownWilsonQuotientResidueNat 5 := by
+  exact wilsonQuotientNatVanishes_five
+
+theorem wilsonQuotientResidueNat_thirteen :
+    KnownWilsonQuotientResidueNat 13 := by
+  exact wilsonQuotientNatVanishes_thirteen
+
+theorem wilsonQuotientResidueNat_fiveHundredSixtyThree :
+    KnownWilsonQuotientResidueNat 563 := by
+  exact wilsonQuotientNatVanishes_fiveHundredSixtyThree
+
+theorem wilsonQuotientNat_thirteen_mod_zero :
+    wilsonNumeratorResidueModPrimeSquareNat 13 = 0 := by
+  exact KnownWilsonQuotientResidueNat.unfold_mod wilsonQuotientResidueNat_thirteen
+
+theorem wilsonQuotientNat_fiveHundredSixtyThree_mod_zero :
+    wilsonNumeratorResidueModPrimeSquareNat 563 = 0 := by
+  exact KnownWilsonQuotientResidueNat.unfold_mod
+    wilsonQuotientResidueNat_fiveHundredSixtyThree
+
+theorem KnownWilsonQuotientResidueNat_small_export :
+    KnownWilsonQuotientResidueNat 5 ∧ KnownWilsonQuotientResidueNat 13 ∧
+      KnownWilsonQuotientResidueNat 563 := by
+  exact ⟨wilsonQuotientResidueNat_five, wilsonQuotientResidueNat_thirteen,
+    wilsonQuotientResidueNat_fiveHundredSixtyThree⟩
 
 end BEDC.Derived.WilsonQuotientUp

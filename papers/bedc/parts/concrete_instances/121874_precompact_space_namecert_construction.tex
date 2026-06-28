@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\PrecompactSpaceUp$}
+\label{ch:concrete-instances-precompact-space-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley-style finite-net readings of precompactness, the $\PrecompactSpaceUp$ packet records the finite route by which a metric space supplies total-bounded data to completion-facing consumers. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the finite-net surface of \autoref{ch:concrete-instances-totallybounded-namecert}, and the compact-metric consumer boundary of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet is a displayed NameCert interface for finite $\varepsilon$-net handoff; it is not an open-cover compactness theorem, a selected dense subset, a quotient completion, or a host choice principle.
+
+\begin{definition}[PrecompactSpace carrier]
+\label{def:precompact-space-carrier}
+A $\PrecompactSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(M,T,K,S,Q,R,N,H,C,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ carrier row, including the accepted point histories, point classifier, and metric-distance witness surface;
+\item $T$ is the $\TotallyBoundedUp$ finite-net row, assigning each positive tolerance request to a closed finite net surface;
+\item $K$ is the $\CompactMetricUp$ consumer boundary row, recording the completion-facing interface that may later combine total boundedness with complete-metric data;
+\item $S$ is the $\StreamNameUp$ observation schedule for the finite windows consumed by completion-facing reads;
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback attached to the same stream windows;
+\item $R$ is the $\RealUp$ tolerance and distance-readback seal used by dyadic or rational comparison consumers;
+\item $N$ records the closed finite net data: center histories, $\mathsf{ProbeBundle}$ membership rows, displayed distance witnesses, and radius comparison ledgers;
+\item $H$ records componentwise $\hsame$ transport for $M,T,K,S,Q,R,N$ and for every center, stream window, readback, distance, and radius row exposed by them;
+\item $C$ records the displayed $\Cont$ replay route from a tolerance request through the finite net rows and then to any completion-facing consumer;
+\item $G$ is the $\Pkg$ provenance and local $\NameCert_{\PrecompactSpaceUp}$ row naming $\PrecompactSpaceUp$, $\MetricSpaceUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+The classifier on such packets is componentwise transport through $H$ together with the route replay in $C$. No coordinate stores an open cover, a choice-selected dense sequence, a completed quotient point, or an ambient compactness witness.
+\end{definition}
+
+\begin{theorem}[PrecompactSpace NameCert obligations]
+\label{thm:precompact-space-namecert-obligations}
+For an accepted $\PrecompactSpaceUp$ carrier $P=(M,T,K,S,Q,R,N,H,C,G)$, the local $\NameCert_{\PrecompactSpaceUp}$ surface consists exactly of carrier admission, metric source exposure, total-bounded finite-net exposure, compact-metric consumer boundary exposure, stream-window scheduling, regular rational readback, real tolerance sealing, closed finite-net ledger visibility, componentwise transport, displayed replay, package provenance, and local naming. These obligations make precompactness available as finite NameCert data over $M,T,K,S,Q,R,N,H,C,G$, without adding open-cover compactness, choice-selected dense subsets, quotient completions, selected limit points, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:precompact-space-carrier}. The accepted packet exposes only the rows $M,T,K,S,Q,R,N,H,C,G$ and the finite subrows named by those coordinates.
+
+The metric and total-bounded obligations are read before any completion-facing consumer is reached. The row $M$ supplies the point histories, classifier, and distance witnesses, while $T$ and $N$ expose the finite net centers, $\mathsf{ProbeBundle}$ membership rows, distance witnesses, and radius comparison ledgers.
+
+The consumer boundary is then routed through $K,S,Q,R,H,C,G$. These rows say which compact-metric, stream, regular-readback, real-tolerance, transport, replay, provenance, and local naming data may be inspected. Since no open-cover, dense-choice, quotient-completion, selected-limit, or ambient-completeness coordinate is present, no such principle can be projected from the local certificate.
+\end{proof}
+
+\begin{theorem}[PrecompactSpace total-bounded handoff]
+\label{thm:precompact-space-total-bounded-handoff}
+Every completion-facing consumer of an accepted $\PrecompactSpaceUp$ packet must read total-boundedness through the displayed finite-net rows $T$ and $N$ before using the compact-metric boundary row $K$. In particular, a consumer may pass from a tolerance request to the stream and regular-readback rows $S,Q,R$ only along the replay route $C$ and the componentwise transport ledger $H$; it cannot replace the finite net by an open-cover argument, a choice-selected dense subset, a host compactness theorem, or a quotient completion.
+\end{theorem}
+\begin{proof}
+Open the carrier $P=(M,T,K,S,Q,R,N,H,C,G)$. The only total-bounded data in the packet is the displayed finite-net surface in $T$ together with the closed net ledger $N$.
+
+Use the NameCert obligations above. They order the read so that a tolerance request reaches the metric source $M$, the total-bounded finite-net row $T$, and the net ledger $N$ before any compact-metric consumer boundary in $K$ can be used.
+
+Finally transport and replay are explicit. The rows $H$ and $C$ preserve the same center histories, membership constructors, distance witnesses, radius comparisons, stream windows, regular readbacks, and real tolerance seals when the consumer moves toward completion-facing data. Thus the handoff remains a finite NameCert route rather than an appeal to open-cover compactness, selected dense subsets, host choice, or quotient completion.
+\end{proof}
+
+\closureat{PrecompactSpaceUp}{seedStr}
+
+\begin{closurestatus}{\PrecompactSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:precompact-space-carrier}, \autoref{thm:precompact-space-namecert-obligations}, and \autoref{thm:precompact-space-total-bounded-handoff} seed the finite-net handoff from MetricSpace and TotallyBounded rows to CompactMetric-facing consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, choice-selected dense subsets, quotient completions, selected limit points, ambient Real completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net exactness, total-bounded handoff, transport stability, replay stability, and local naming for BEDC.Derived.PrecompactSpaceUp.}
+  \constructivestory{A $\PrecompactSpaceUp$ packet is generated from a MetricSpace carrier, TotallyBounded finite-net row, CompactMetric consumer boundary, StreamName windows, RegSeqRat readback, Real tolerance seal, closed finite net ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
