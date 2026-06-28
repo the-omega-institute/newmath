@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMeshSelectionUp$}
+\label{ch:concrete-instances-finite-mesh-selection-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\FiniteMeshSelectionUp$ packet records the finite mesh choice used when a displayed real interval or dyadic interval net is inspected at one explicit tolerance. It sits after the dyadic arithmetic spine of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the endpoint-and-enclosure packet of \autoref{ch:concrete-instances-realinterval-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic interval-net surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The chapter names a finite selection row only; it is not compactness, an infinite mesh sequence, selected real representatives, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite mesh selection carrier]
+\label{def:finite-mesh-selection-carrier}
+A $\FiniteMeshSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,I,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the positive dyadic precision request, mesh denominator, outward rounding budget, and endpoint comparison bounds.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the tolerance request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerance.
+\item $I$ is the $\RealIntervalUp$ endpoint-and-enclosure row being inspected.
+\item $E$ is the $\DyadicIntervalNetUp$ selected finite cell row, listing exactly the dyadic interval cells retained by the mesh selection at tolerance $D$.
+\item $H$ records componentwise $\hsame$ transport for tolerance, windows, readback, interval enclosure, selected cells, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite mesh request through $D,W,R,I,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMeshSelectionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealIntervalUp$, $\RealUp$, $\DyadicIntervalNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMeshSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,I,E,H,C,P,N$. The carrier has no coordinate for open-cover compactness, an infinite mesh sequence, arbitrary subcover selection, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.FiniteMeshSelectionUp}
+
+\begin{theorem}[Finite mesh selection NameCert obligations]
+\label{thm:finite-mesh-selection-namecert-obligations}
+For every accepted $\FiniteMeshSelectionUp$ carrier $S=(D,W,R,I,E,H,C,P,N)$, the local $\NameCert_{\FiniteMeshSelectionUp}$ surface consists exactly of carrier admission, dyadic tolerance admission, finite window exposure, regular rational readback, interval endpoint-and-enclosure exposure, selected dyadic interval-net cells, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No finite mesh selection obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-mesh-selection-carrier}. The rows $D,W,R,I,E$ are the whole selection surface: a dyadic tolerance, finite stream windows, regular readback, one interval enclosure, and the retained dyadic interval-net cells.
+
+Read the finite route in order. The tolerance row $D$ opens $W$, the window row gives $R$, and the interval row $I$ is inspected only through those finite observations before the selected cells $E$ are named.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since none of the refused compactness, infinite mesh, quotient, choice, or completeness principles is a carrier coordinate, the local obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Finite mesh selection Real completion route]
+\label{thm:finite-mesh-selection-real-completion-route}
+Every completion-facing read of an accepted $\FiniteMeshSelectionUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealIntervalUp \longrightarrow \DyadicIntervalNetUp \longrightarrow \RealUp .
+$$
+Consequently a Real or Completion consumer receives finite dyadic cells selected at an explicit tolerance before any terminal real-name seal is used.
+\end{theorem}
+\begin{proof}
+Start with the dyadic tolerance row $D$. It is the only row that records the requested mesh precision and outward rounding budget.
+
+Next read $W$ and $R$. These rows expose finite stream windows and regular rational readback before the endpoint-and-enclosure packet $I$ can be inspected at the chosen tolerance.
+
+Finally route the selected cells through $E$ and the structural rows. The selected dyadic interval-net cells are therefore finite data already tied to $D,W,R,I$, and the terminal $\RealUp$ seal is downstream of that route. The carrier contains no compactness, infinite mesh, choice, quotient, or ambient completeness coordinate that could supply an alternate completion route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted FiniteMeshSelectionUp read displays a DyadicRatCoreUp tolerance row, StreamNameUp finite windows, RegSeqRatUp readback, a RealIntervalUp endpoint-and-enclosure row, DyadicIntervalNetUp selected cells, componentwise hsame transport, Cont replay, Pkg provenance, and local naming before any RealUp-facing completion consumer receives mesh data.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, realinterval, real, dyadicintervalnet: $\FiniteMeshSelectionUp$ is not bijective to any listed sibling because it binds one finite mesh-selection row to a displayed tolerance, finite windows, regular readback, interval enclosure, dyadic cell retention, transport, replay, provenance, and local naming as one certificate.}
+
+\closureat{FiniteMeshSelectionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMeshSelectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-mesh-selection-carrier}, \autoref{thm:finite-mesh-selection-namecert-obligations}, and \autoref{thm:finite-mesh-selection-real-completion-route} seed the finite mesh-selection route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealIntervalUp$, $\RealUp$, and $\DyadicIntervalNetUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FiniteMeshSelectionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, infinite mesh limits, arbitrary subcover selection, quotient real equality, countable choice, ambient RealUp completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exactness, finite-window exposure, regular readback, selected-cell retention, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMeshSelectionUp.}
+  \constructivestory{A $\FiniteMeshSelectionUp$ packet is generated from a DyadicRatCore tolerance row, StreamName finite windows, RegSeqRat readback, a RealInterval endpoint-and-enclosure row, selected DyadicIntervalNet cells, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
