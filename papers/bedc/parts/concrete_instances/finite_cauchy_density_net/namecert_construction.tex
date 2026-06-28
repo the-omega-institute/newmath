@@ -103,6 +103,20 @@ Then apply \autoref{thm:finite-cauchy-density-net-sibling-route}. That theorem k
 Finally use \autoref{thm:finite-cauchy-density-net-window-comparison}. The comparison theorem factors the completion-facing read through the same finite packet data, and \autoref{def:finite-cauchy-density-net-packet} lists exactly the rows $D,W,R,E,M,T,C,P,L$ with no coordinate for quotient streams, chosen representatives, or ambient completeness. Row exhaustion gives the claim.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy density-net regular-sequence handoff]
+\label{thm:finite-cauchy-density-net-regular-sequence-handoff}
+Every handoff from an accepted $\FiniteCauchyDensityNetUp$ packet $N=(D,W,R,E,M,T,C,P,L)$ to $\RegularSequenceSpaceUp$ exposes the finite dyadic net rows $D$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $E$, the finite modulus row $M$, and the structural rows $T,C,P,L$ before any regular-sequence consumer reads it. The handoff is therefore finite BEDC evidence only: it does not export a quotient stream, a selected representative, a completed Real limit, countable choice, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with finite density-net extraction, \autoref{thm:finite-cauchy-density-net-extraction}. It displays the dyadic net ledger $D$, the stream window $W$, the regular rational readback $R$, the Real seal $E$, and the modulus row $M$ from the accepted packet.
+
+Use the stream route of \autoref{thm:finite-cauchy-density-net-stream-route}. A regular-sequence consumer can read the handoff only after the finite $\StreamNameUp$ window and the $\RegSeqRatUp$ readback have been exposed.
+
+Now apply tail extraction, \autoref{thm:finite-cauchy-density-net-tail-extraction}. It keeps the same rows visible for completion-facing tail reads, including the structural rows $T,C,P,L$.
+
+Finally use the sibling route of \autoref{thm:finite-cauchy-density-net-sibling-route}. The handoff to $\RegularSequenceSpaceUp$ remains a displayed route through $D,W,R,E,M,T,C,P,L$, so no quotient stream, selected representative, completed limit, choice schedule, trichotomy, host equality, or ambient completeness is introduced.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy density-net diagonal tightening]
 \label{thm:finite-cauchy-density-net-diagonal-tightening}
 For every accepted $\FiniteCauchyDensityNetUp$ packet $N=(D,W,R,E,M,T,C,P,L)$, any two completion-facing tail reads of $N$ can be tightened to a shared finite $\StreamNameUp$ window row and a shared dyadic tolerance row before either $\RegSeqRatUp$ readback or $\RealUp$ sealing is consumed. The tightening remains inside the displayed route $D,W,R,E,M,T,C,P,L$ and exports no quotient representatives, selected limits, countable choice, trichotomy, host equality, or ambient $\RealUp$ completeness.
