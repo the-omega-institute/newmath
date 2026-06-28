@@ -18,11 +18,28 @@ abbrev ZetaDerivativeBoxEvaluator
     (I : ZetaAnalyticInterface) (c : RatComplex) (r : Rat) : Type :=
   BEDC.Derived.RHRoute.ZetaDerivativeBox.ZetaDerivativeBoxEvaluator I c r
 
+abbrev ZetaDerivativeBoxCandidate
+    (I : ZetaAnalyticInterface) (c : RatComplex) (r : Rat) : Type :=
+  BEDC.Derived.RHRoute.ZetaDerivativeBox.ZetaDerivativeBoxCandidate I c r
+
+abbrev ZetaDerivativeBoxCandidateSound
+    {I : ZetaAnalyticInterface} {c : RatComplex} {r : Rat}
+    (C : ZetaDerivativeBoxCandidate I c r) : Prop :=
+  BEDC.Derived.RHRoute.ZetaDerivativeBox.ZetaDerivativeBoxCandidate.Sound C
+
 abbrev derivativeBox_to_krawczyk_bound
     {I : ZetaAnalyticInterface} {c : RatComplex} {r : Rat}
     (E : ZetaDerivativeBoxEvaluator I c r) :
     ZetaDerivativeBoxBound I c r :=
   BEDC.Derived.RHRoute.ZetaDerivativeBox.derivativeBox_to_krawczyk_bound E
+
+def derivativeCandidate_to_krawczyk_bound
+    {I : ZetaAnalyticInterface} {c : RatComplex} {r : Rat}
+    (C : ZetaDerivativeBoxCandidate I c r)
+    (sound : ZetaDerivativeBoxCandidateSound C) :
+    ZetaDerivativeBoxBound I c r :=
+  BEDC.Derived.RHRoute.ZetaDerivativeBox.ZetaDerivativeBoxCandidate.toKrawczykBound
+    C sound
 
 def q (num : Int) (den : Nat) : Rat :=
   BEDC.Derived.RHRoute.ZetaDerivativeBox.ratOfIntOverNat num den
@@ -139,6 +156,20 @@ theorem zetaNear_14_1347_newton_map_readback
     zetaNewtonMap I zetaNear_14_1347_inverseDerivative =
       zetaNewtonMap I zetaNear_14_1347_inverseDerivative := by
   rfl
+
+theorem derivativeCandidate_to_krawczyk_bound_readback
+    {I : ZetaAnalyticInterface}
+    (C :
+      ZetaDerivativeBoxCandidate I zetaNear_14_1347_center
+        zetaNear_14_1347_radius)
+    (sound : ZetaDerivativeBoxCandidateSound C) :
+    (derivativeCandidate_to_krawczyk_bound C sound).derivativeBox =
+      C.derivativeBox ∧
+      (derivativeCandidate_to_krawczyk_bound C sound).precision =
+        C.etaPrimeEvaluator.cutoff := by
+  exact
+    BEDC.Derived.RHRoute.ZetaDerivativeBox.zetaDerivativeBoxCandidate_bound_readback
+      C sound
 
 theorem located_zeta_zero_near_14_1347_of_verified_certificate
     {I : ZetaAnalyticInterface}
