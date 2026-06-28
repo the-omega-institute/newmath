@@ -1,49 +1,55 @@
+\subsection{A powered residual-primitivity audit for $B^{\ast}_{Q6}$}
+\label{sec:bioreality-b-star-q6-residual-primitive-powered}
 \origin{ai}
 
-\subsection{A powered residual-primitive test for the $B^{*}_{Q6}$ protein-abundance signal}
-\label{sec:b-star-q6-residual-primitive-powered}
+\paragraph{Finite matrix being audited.}
+The record tests whether the nine-dimensional synonymous residual surface denoted $B^{\ast}_{Q6}$ should be treated as primitive after it has already survived ordinary coding-sequence controls. The source design consists of the nine residual coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3\_stress$, residualized against the sibling control basis. The target is residualized $\log_{10}$ protein abundance on the unified yeast context join. The active row universe is Saccharomyces cerevisiae, with $4759$ base rows, $4758$ rows available after the context join, and $1800$ rows used by the powered audit. The fitted audit uses $5$ folds, $120$ deterministic permutations, description-length penalty $\lambda_{DL}=0.01$, join tolerance $\rho_{join}=0.05$, and a control-basis rank of $24$.
 
-\paragraph{Finite surface.}
-The tested object is a finite yeast matrix whose source side is the nine-dimensional synonymous residual design $B^{*}_{Q6}$ and whose target side is log-scaled measured protein abundance after the sibling control block has been removed.  The source design consists of the coordinates $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3\_stress$.  The controls used throughout the related protein-abundance tests are the intercept, coding-sequence length, the twenty amino-acid composition proportions, $GC3$, and the $M$-density baseline.  In the yeast context the abundance join reported $5815$ CDS rows in the direct protein-omics surface with a join hit rate $0.9156038419146592$, and the measured translation-efficiency join used $5128$ genes with a ribosome-TE join hit rate $0.8818572656921754$.  The irreducibility test itself used the unified yeast context with $n_{join\_available}=4758$, sampled $n_{join}=1800$ rows against a base panel size $4759$, and kept the residual control rank at $z_{rank}=24$.
+\paragraph{Primitive claim and finite decision rule.}
+Let $X_Q$ be the residualized $9$-column $B^{\ast}_{Q6}$ design and let $Y_P$ be the sibling-control residual of $\log_{10}$ protein abundance on the same yeast rows. A strict primitive reading would say that the predictive part of $X_Q \to Y_P$ remains outside the listed lower-dimensional or biologically named reduction families. The audit did not return that reading. Its registered status says that the source signal is real, but at least one listed reduction family refutes the original irreducibility hypothesis. Thus the local module classification is not ``irreducible residual primitive''. The appropriate finite-row classification is a real residual signal with a demonstrated reducible component.
 
-\paragraph{Registered primitive question.}
-The hypothesis under audit is not whether the $B^{*}_{Q6}$ surface has any protein-abundance association.  Direct survival was already visible in the yeast protein-omics surface: the yeast value was $R^{2}_{QP}=0.29837624994140827$ with all nine coordinates surviving under the positive partial-$R^{2}$ threshold $10^{-12}$.  The harder question is whether that residual signal must be treated as primitive after measured readouts are allowed to compress it.  The powered certificate therefore uses a fixed finite protocol with five folds, $120$ deterministic row-label permutations, $\lambda_{DL}=0.01$, and $\rho_{join}=0.05$.  Its target is the vector of $\log_{10}$ protein abundance residuals after the same $Z$ controls.  The registered status is passed in the following restricted sense: the source signal is real, and at least one listed reduction family refutes the original irreducibility hypothesis.  It is therefore a reducibility certificate, not an irreducibility certificate in the strong biological sense.
-
-\paragraph{Numerical certificate.}
-The finite certificate is anchored by the companion partial-mediation run on the same yeast context.  That run used the same $base\_n=4759$, $n_{join\_available}=4758$, $n_{join}=1800$, $fold\_count=5$, $permutation\_count=120$, $\lambda_{DL}=0.01$, and $\rho_{join}=0.05$.  The best selected readout dictionary from the family containing measured translation efficiency, mRNA stability, and turnover reached selection-aware coverage
 $$
 \begin{aligned}
-C^{*} &= 0.24538211439730545,\\
-1-C^{*} &= 0.7546178856026946.
+ n_{base} &= 4759,\\
+ n_{available} &= 4758,\\
+ n_{join} &= 1800,\\
+ \operatorname{rank}(Z) &= 24,\\
+ \lambda_{DL} &= 0.01,\\
+ \rho_{join} &= 0.05,\\
+ N_{perm} &= 120.
 \end{aligned}
 $$
-The raw best coverage over the candidate family was $0.2745002077400602$, while the selection-aware null $95\%$ level was $0.029149007242956115$ and the naive fixed-subset null $95\%$ level was $0.00598374993486675$.  Thus the finite rows show a nontrivial reducible component, but they also leave most of the abundance residual unexplained by this small readout dictionary.
 
-\paragraph{Measured translation and protein-abundance coordinates.}
-The measured ribosome-TE surface gives the translation-side readout against which any protein-mediation statement must be bounded.  In yeast, the measured TE survival statistic was $R^{2}_{QT,meas}=0.13681931343730436$ with all nine coordinates surviving; the corresponding controls had $rank(X_{\widetilde{}})=9$, $rank(Z)=23$, residual degrees of freedom $5105$, translation residual energy $753.5781168800304$, and explained energy $103.10404057290246$.  For the measured protein-abundance mediation run, yeast had
+These numbers matter because the certificate is not a visual association and not a rank-degenerate small-organism surface. It is a held-out, row-subsampled finite statistic on a rank-powered yeast context. The all-positive direct protein-omics screens establish that the $B^{\ast}_{Q6}$ coordinates carry protein-abundance information after basic controls, but this audit asks the sharper question of whether the surviving information is still primitive once named reductions are allowed.
+
+\paragraph{Direct survival background.}
+The direct protein-omics survival run gives a strong finite background for the audit. Across $15$ organism panels, all nine coordinates survive the positive partial-$R^2$ threshold in every listed organism. The yeast entry has $R^2_{QP}=0.29837624994140827$ with $9$ surviving coordinates and $5815$ joined CDS-protein rows; the yeast control regression has $23$ effective control rank, $5792$ residual degrees of freedom after controls, and residual protein-abundance energy $2958.1865890925337$. Other direct $R^2_{QP}$ values include $0.10767526677985896$ in Escherichia coli K12 MG1655, $0.04454565118019448$ in human, $0.049827984062539195$ in mouse, and $0.06397514251295629$ in Sulfolobus solfataricus. This background supports the premise that the signal is not numerically empty.
+
+\paragraph{Measured translation and protein-abundance decomposition.}
+The same coordinate family also survives measured translation-efficiency readout in the organisms where ribosome-derived TE rows are joined. The measured TE entries are $R^2_{QT}=0.13681931343730436$ in yeast, $0.009394266754822262$ in E. coli, $0.018837911344127926$ in human, and $0.04034217614654355$ in Danio rerio, with all $9$ coordinates surviving in each case. The measured protein-abundance mediation decomposition then shows that conditioning on measured TE absorbs a large fraction in yeast but only weakly in the other three panels: the measured mediated fractions are $0.4793069656345167$ in yeast, $0.04091158340950673$ in E. coli, $0.0027966485036786744$ in human, and $0.0$ in Danio rerio after clipping the suppressive raw value $-0.04801486048721136$ to the unit interval. For yeast, the measured mediation row reports $S_{QP}=0.3146818503437042$ and $S_{QT}=0.13681931343730436$ on a three-way join of $5128$ rows. These values explain why the primitive reading cannot be inferred merely from direct $Q\to P$ survival: a large measured-TE component is present in the same organism where the irreducibility audit is run.
+
+\paragraph{Reduction-family evidence.}
+The partial-mediation certificate makes the nonprimitive conclusion explicit. On the same yeast organism key, with $4759$ base rows, $4758$ available rows, $1800$ joined rows, $5$ folds, $120$ permutations, $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, and control rank $24$, the best selected readout dictionary from the family $\{\mathrm{measured\_te},\mathrm{mrna\_stability},\mathrm{turnover}\}$ covers
 $$
 \begin{aligned}
-S_{QP} &= 0.3146818503437042,\\
-S_{QT,meas} &= 0.13681931343730436,\\
-M^{QTP}_{meas} &= 0.4793069656345167.
+ C^{\ast} &= 0.24538211439730545,\\
+ 1-C^{\ast} &= 0.7546178856026946,\\
+ C_{raw} &= 0.2745002077400602,\\
+ Null_{95}^{selection} &= 0.029149007242956115,\\
+ Null_{95}^{fixed} &= 0.00598374993486675.
 \end{aligned}
 $$
-The same run reported $X$-explained energy on abundance $675.3275481062249$, direct $X$ improvement after conditioning on measured TE $351.63835021403213$, and TE incremental improvement after $X$ equal to $269.89558844115504$.  These numbers identify a measured translation-conditioned component, but they do not exhaust the residual abundance signal.
+Because the observed selected coverage is far above the selection-aware null threshold, the named readout family explains a real part of the residual signal. Because the unexplained fraction remains about $0.7546$, the result is not a collapse to a single ordinary covariate. The local certificate is therefore a split statement: $B^{\ast}_{Q6}$ is neither vacuous nor certified primitive; it is partially reducible by finite measured readouts while retaining a larger residual component.
 
-\paragraph{Reduction families and residual remainder.}
-The joint TE--mRNA-stability decomposition gives a second finite reduction route.  In yeast it reported
-$$
-\begin{aligned}
-R^{2}_{QP} &= 0.2715520808117803,\\
-R^{2}_{QP\mid T} &= 0.1439989545940314,\\
-R^{2}_{QP\mid M} &= 0.25453612246767165,\\
-R^{2}_{QP\mid T,M} &= 0.13047582645538838.
-\end{aligned}
-$$
-The joint mediation fraction was $0.5195182225621592$, with a right-tail permutation value $0.000999000999000999$.  The single-mediator fractions were $0.4697188319693239$ for TE alone and $0.0626618595344251$ for mRNA stability alone; their sum was close to the joint fraction within the declared descriptive tolerance $0.05$.  Separately, the $f3\_stress$ dwell readout carried a positive held-out increment: base $R^{2}=0.1855578757644517$, dwell-alone $R^{2}=0.034336580953121976$, full $R^{2}=0.20412261520502883$, and held-out $\Delta R^{2}=0.01856473944057712$, above a permutation null $95\%$ level $0.0013115362189692937$ with approximate $f3$--dwell correlation $0.1615441450901653$ and $p\approx 7.873916057196935\cdot 10^{-9}$.  The positional dwell split localized the leading increment to the $5'$ segment: $five\_prime\_ramp\_passed=true$, $three\_prime\_body\_passed=false$, and $dominant\_segment=5prime$.
+\paragraph{Joint TE and stability context.}
+The joint TE-stability decomposition gives a second check on the same interpretation. In yeast, $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid T}=0.1439989545940314$, $R^2_{QP\mid M}=0.25453612246767165$, and $R^2_{QP\mid T,M}=0.13047582645538838$. The resulting joint mediation fraction is $0.5195182225621592$, with TE-only fraction $0.4697188319693239$, stability-only fraction $0.0626618595344251$, and right-tail permutation value $0.000999000999000999$. The single-mediator sum is $0.532380691503749$, and the joint-minus-single-sum diagnostic is $-0.012862468941589822$, within the fixed descriptive tolerance $0.05$. E. coli and human show smaller but positive joint fractions, $0.2404669586626661$ and $0.16890712099923358$, respectively, again with right-tail permutation value $0.000999000999000999$. This places the yeast primitive audit inside a broader finite pattern: reduction through measured translation and RNA-stability readouts is real, but not total.
 
-\paragraph{Four-case readback.}
-The four-case discriminant supplies a finite label audit rather than a mechanism proof.  In the modeled-tAI abundance surface, yeast placed all nine coordinates in case $D$, while the E. coli surface placed seven coordinates in case $D$ and recorded two positive-positive entries without a mediation drop.  For yeast, the modeled-tAI readout had $R^{2}_{QT}=0.8213457220900503$ and $R^{2}_{QP}=0.29837624994140827$; for E. coli, the corresponding values were $R^{2}_{QT}=0.5416736993691318$ and $R^{2}_{QP}=0.10767526677985896$.  These classifications show that the same residual source can be read through translation and protein-abundance surfaces, but the labels remain finite statistical labels: they do not by themselves identify causality or molecular mechanism.
+\paragraph{The $f3\_stress$ residual is not erased.}
+The $f3\_stress$ coordinate supplies a useful local stress test. On the yeast active join, the dwell-mediation run reports $n_{join}=1257$, $P_{f3}$ norm squared $44.20095750389323$, $P_{f3}$ fraction of target $0.1999063916718794$, base held-out $R^2=0.1855578757644517$, dwell-alone $R^2=0.034336580953121976$, full $R^2=0.20412261520502883$, and held-out $\Delta R^2=0.01856473944057712$. The permutation null has mean $-0.0032911642620130563$, maximum $0.005001350039772926$, and $95$th percentile $0.0013115362189692937$, while the $f3$--dwell correlation is $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$. Positional dwell further localizes the increment to the $5'$ window: the $5'$ segment passes, the $3'$ body segment does not, and the leading segment is $5prime$. These rows show that part of the residual can be attached to a measured dwell readout, again contradicting a primitive-only reading.
 
-\paragraph{Local verdict.}
-The finite-row result is ready as a bounded reducibility statement.  The $B^{*}_{Q6}$ residual protein-abundance signal is not adequately described as an irreducible primitive on the current powered yeast panel, because measured readout families explain a statistically nontrivial part of the signal.  At the same time, the certificate leaves a large remainder, $0.7546178856026946$, outside the selected dictionary, so the correct mathematical conclusion is partial reducibility rather than closure.  The related structural-order ramp test also keeps the boundary narrow: its primary ramp signal was positive, with weighted ramp held-out $\Delta R^{2}=0.0011165640103326878$ and $p=0.0478515625$, but the paired ramp-minus-body localization gate did not pass, with $p=0.05859375$ and conclusion $ramp\_positive\_but\_not\_localized$.  Consequently no translation realization beyond the measured readouts, no folding claim, no physical-admissibility claim, no protein function claim, no causal mechanism, and no universal biological law follows from this chapter.  Each such assertion would require its own layer-matched contact and its own finite statistic.
+\paragraph{Boundary against over-promotion.}
+The certificate does not prove translation causality, folded structure, physical admissibility, molecular function, phenotype, or a universal biological rule. Protein abundance is a steady-state omics readout; measured TE is condition-specific and cross-sectional; mRNA stability, turnover, localization, and dwell summaries are observational reductions unless an independent perturbation or layer-specific contact supplies stronger evidence. The human turnover row is especially cautionary: despite a large human modeled complement residual, the turnover absorption is only $3.5740764900116538\times 10^{-6}$ with $R^2_{Q,Tturn}=0.004615408769189838$, below the dof-matched null $95$th percentile $0.0004342285066808464$ for the absorption statistic. Localization is also descriptive: yeast localization absorption is $0.011225105608516642$ against a dof-matched null $95$th percentile $0.004958116973149795$, while human has $0.009254913329269913$ against $0.0013758521256775384$ and Danio has $0.009508864544725801$ against $0.011321328712802819$. These contacts can carry residual signal where they pass their own finite tests, but none of them turns the codon residual geometry into folding, mechanism, function, or universality.
+
+\paragraph{Chapter verdict.}
+The finite-row conclusion is ready. The powered irreducibility audit should be read as a residual-primitivity refusal with preserved signal: the $B^{\ast}_{Q6}$ yeast protein-abundance residual is real on the finite joined panel, but the original irreducibility hypothesis is refuted by at least one allowed reduction family. The strongest local numerical support for that reading is the partial-mediation coverage $0.24538211439730545$ above the selection-aware null $0.029149007242956115$, together with the remaining unexplained mass $0.7546178856026946$. The chapter therefore records a nonprimitive, partially reducible residual module rather than an irreducible biological primitive.

@@ -1,0 +1,11 @@
+\begin{theorem}[LuenbergerObserverUp control-observability forward route]
+\label{thm:luenberger-observer-control-observability-forward-route}
+Every accepted $\LuenbergerObserverUp$ deterministic correction read consumes the finite observer rows supplied by \autoref{ch:concrete-instances-controlobservability-namecert} and the estimator boundary of \autoref{ch:concrete-instances-kalman-filter-namecert} before the residual and error-propagation rows are public. The route keeps the output-map, measured/predicted comparison, gain, residual, and deterministic error ledger attached to the carrier of \autoref{def:luenberger-observer-carrier}; it exports no covariance recursion, stochastic innovation law, pole-placement theorem, or hidden trajectory semantics.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(A,C,Y,G,R,E,H,T,P,N)$ from \autoref{def:luenberger-observer-carrier}. The public correction read depends on the output row $C$, comparison row $Y$, gain row $G$, residual row $R$, and error-propagation row $E$.
+
+The observability sibling supplies the finite row by which $C,Y,R,E$ are inspected as observer-facing data. The Kalman-filter boundary sibling supplies only estimator comparison data, so the deterministic rows remain $A,C,Y,G,R,E$ rather than covariance or innovation coordinates.
+
+The structural rows $H,T,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. Thus the observer packet is routed through control and observability siblings before its correction interface is public, without becoming a stochastic filter or analytic convergence theorem.
+\end{proof}
