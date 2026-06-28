@@ -5622,6 +5622,7 @@ import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FarEndDiagramUp.TasteGate
 import BEDC.Derived.FarEndDiagrammaticsUp.TasteGate
+import BEDC.Derived.FareySequenceUp
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
