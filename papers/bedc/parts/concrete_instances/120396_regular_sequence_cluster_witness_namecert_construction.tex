@@ -75,6 +75,25 @@ The sibling routes provide the stated handoff surface. The regular-sequence spac
 The dyadic and regular-rational rows then determine the finite comparison read. Transport, replay, provenance, and local naming preserve that route, so the completion-facing consumer receives only the displayed cluster-witness packet and none of the excluded endpoints.
 \end{proof}
 
+\begin{theorem}[Regular-sequence cluster-witness monotone extraction]
+\label{thm:regular-sequence-cluster-witness-monotone-extraction}
+For every accepted $\RegularSequenceClusterWitnessUp$ carrier
+$$
+W=(S,F,E,D,R,Q,H,C,P,N),
+$$
+each cluster-facing read exposes the cofinal extractor row $E$ as a monotone finite-window schedule over the $\FiniteStreamUp$ ledger $F$ before any $\RegSeqRatUp$ readback $R$ or terminal $\RealUp$ seal $Q$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-cluster-witness-carrier}. Its displayed row order is $S,F,E,D,R,Q,H,C,P,N$, and the replay row records the route
+$$
+S,F,E,D,R\longmapsto Q .
+$$
+
+Apply \autoref{thm:regular-sequence-cluster-witness-namecert-obligations}. The source-window exposure row places every cluster observation over the same source row $S$ and finite-window row $F$, while the cofinal extraction exposure row requires the selected windows to pass through $E$ before any readback is used.
+
+The regular-readback and Real-seal clauses are downstream of that projection. Thus $R$ can only read rational observations after the monotone finite-window schedule has been displayed over $F$, and $Q$ can only be consumed after the source, finite windows, extractor, tolerance, and readback rows have already appeared.
+\end{proof}
+
 \falsifiablePrediction{A $\RegularSequenceClusterWitnessUp$ consumer that reaches a Real or Completion cluster read without displaying the regular-sequence source, finite stream windows, cofinal extractor, dyadic tolerance row, regular rational readback, transport, replay, provenance, and local naming exits the accepted carrier.}
 
 \independenceWitness{regular-sequence-space, finite-stream, cauchy-subsequence-extractor, dyadicratcore, regseqrat, real: no listed sibling is bijective with $\RegularSequenceClusterWitnessUp$ because this packet jointly binds source regularity, finite windows, cofinal extraction, dyadic tolerance, rational readback, terminal seal, transport, replay, provenance, and local naming.}

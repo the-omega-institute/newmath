@@ -277,4 +277,124 @@ theorem DcpoCarrier_continuity_scope_obligations
   }
   exact ⟨cert, continuityUnary, replayUnary⟩
 
+theorem DcpoCarrier_directed_window_coverage
+    {O I W S M F Q L H C P N directedRead supremumRead handoffRead : BHist} :
+    DcpoCarrier O I W S M F Q L H C P N ->
+      Cont O I directedRead ->
+        Cont S L supremumRead ->
+          Cont supremumRead Q handoffRead ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row W ∨ hsame row directedRead ∨ hsame row supremumRead ∨
+                      hsame row handoffRead) ∧
+                    UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨
+                    hsame row L ∨ hsame row Q ∨ hsame row directedRead ∨
+                      hsame row supremumRead ∨ hsame row handoffRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont O I directedRead ∧ Cont S L supremumRead ∧
+                    Cont supremumRead Q handoffRead)
+                hsame ∧
+              UnaryHistory W ∧ UnaryHistory directedRead ∧ UnaryHistory supremumRead ∧
+                UnaryHistory handoffRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory SemanticNameCert hsame
+  intro carrier directedRoute supremumRoute handoffRoute
+  obtain ⟨oUnary, iUnary, wUnary, sUnary, _mUnary, _fUnary, qUnary, lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _orderWindow, _filterCompletion⟩ := carrier
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed oUnary iUnary directedRoute
+  have supremumUnary : UnaryHistory supremumRead :=
+    unary_cont_closed sUnary lUnary supremumRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed supremumUnary qUnary handoffRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row W ∨ hsame row directedRead ∨ hsame row supremumRead ∨
+                hsame row handoffRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row I ∨ hsame row W ∨ hsame row S ∨ hsame row L ∨
+              hsame row Q ∨ hsame row directedRead ∨ hsame row supremumRead ∨
+                hsame row handoffRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont O I directedRead ∧ Cont S L supremumRead ∧
+              Cont supremumRead Q handoffRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro W ⟨Or.inl (hsame_refl W), wUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        have lift : ∀ {target : BHist}, hsame row target -> hsame other target := by
+          intro target sameTarget
+          exact hsame_trans (hsame_symm sameRows) sameTarget
+        constructor
+        · cases source.left with
+          | inl sameWindow =>
+              exact Or.inl (lift sameWindow)
+          | inr rest =>
+              cases rest with
+              | inl sameDirected =>
+                  exact Or.inr (Or.inl (lift sameDirected))
+              | inr restTail =>
+                  cases restTail with
+                  | inl sameSupremum =>
+                      exact Or.inr (Or.inr (Or.inl (lift sameSupremum)))
+                  | inr sameHandoff =>
+                      exact Or.inr (Or.inr (Or.inr (lift sameHandoff)))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameWindow =>
+          exact Or.inr (Or.inr (Or.inl sameWindow))
+      | inr rest =>
+          cases rest with
+          | inl sameDirected =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr (Or.inl sameDirected))))))
+          | inr restTail =>
+              cases restTail with
+              | inl sameSupremum =>
+                  exact
+                    Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr (Or.inl sameSupremum)))))))
+              | inr sameHandoff =>
+                  exact
+                    Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr sameHandoff)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, directedRoute, supremumRoute, handoffRoute⟩
+  }
+  exact ⟨cert, wUnary, directedUnary, supremumUnary, handoffUnary⟩
+
 end BEDC.Derived.DcpoUp
