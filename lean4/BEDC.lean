@@ -307,6 +307,7 @@ import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanApproximationUp.DyadicCofinalWindow
 import BEDC.Derived.ArchimedeanApproximationUp.DyadicUpperLadder
+import BEDC.Derived.ArchimedeanApproximationUp.KernelScope
 import BEDC.Derived.ArchimedeanApproximationUp.TasteGate
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
@@ -3288,6 +3289,7 @@ import BEDC.Derived.CofinalModulusSealUp.WindowBudgetExactness
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.CofinalSubsequenceUp.TasteGate
@@ -5041,6 +5043,7 @@ import BEDC.Derived.DiniUniformLimitModulusUp.TasteGate
 import BEDC.Derived.DiracPointMassUp
 import BEDC.Derived.DiracPointMassUp.TasteGate
 import BEDC.Derived.DiracSequenceUp
+import BEDC.Derived.DirectMethodMinimizerUp
 import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
@@ -8555,6 +8558,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBou
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DecidableNormalFormComparison
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderRowExhaustion
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteConversionCertificateBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpointComparison
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FrontierNormalEndpointRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBudget
@@ -8567,6 +8571,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.Rectangle
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDeciderInversion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDiamondRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualProgress
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.RetainedPremiseInversion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
