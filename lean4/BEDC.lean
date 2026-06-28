@@ -25,6 +25,7 @@ import BEDC.BaseReflection.GeneratedSameSig
 import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
+import BEDC.Boundary.AnalyticProjectionGenerability
 import BEDC.Boundary.ArgumentPrincipleConstructive
 import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
 import BEDC.Derived.AbGroupUp
@@ -12080,8 +12081,8 @@ import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
 import BEDC.Derived.Sqrt2ConvergenceComplete
 import BEDC.Derived.Sqrt2IrrationalUp
-import BEDC.Derived.Sqrt2RatBridge
 import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
+import BEDC.Derived.Sqrt2RatBridge
 import BEDC.Derived.SquarePyramidalUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
