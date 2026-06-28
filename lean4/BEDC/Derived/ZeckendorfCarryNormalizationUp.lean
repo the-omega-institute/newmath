@@ -241,4 +241,24 @@ theorem ZeckendorfCarryNormalizationCarrier_local_naming_exhaustion [AskSetup] [
       sourceTargetRoute, carryLedgerRoute, provenanceNameRead, provenancePkg, namePkg,
       nameReadPkg⟩
 
+theorem ZeckendorfCarryNormalizationCarrier_bridged_export [AskSetup] [PackageSetup]
+    {source target carryRoute valueLedger boundary routes provenance name bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryNormalizationCarrier source target carryRoute valueLedger boundary routes
+        provenance name bundle pkg ->
+      Cont routes boundary bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          ZCarry source target ∧ ZNormal target ∧ ¬ ZNormal source ∧
+            ¬ hsame source target ∧ Cont source target carryRoute ∧
+              Cont carryRoute valueLedger routes ∧ Cont routes boundary bridgeRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig ZCarry ZNormal
+  intro carrier bridgeRoute bridgePkg
+  obtain ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget,
+    sourceTargetRoute, carryLedgerRoute, provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨sourceTargetCarry, targetNormal, sourceNotNormal, sourceNotTarget, sourceTargetRoute,
+      carryLedgerRoute, bridgeRoute, provenancePkg, namePkg, bridgePkg⟩
+
 end BEDC.Derived.ZeckendorfCarryNormalizationUp
