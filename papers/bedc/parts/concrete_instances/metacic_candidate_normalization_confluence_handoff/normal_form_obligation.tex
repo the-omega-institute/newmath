@@ -132,6 +132,39 @@ equality, evaluator equality, or consistency, the endpoint remains the retained
 finite budget surface stated above.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization normal-form obligation route]
+\label{thm:metacic-candidate-normalization-normal-form-obligation-route}
+Every normal-form endpoint read exported by a
+$\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier must pass through
+the candidate gate, residual-diamond retention, cut-height budget,
+parallel-diamond frontier route, sibling confluence route, and local
+$\NameCert$ rows before it can be used as confluence-facing evidence. The route
+retains the residual and frontier evidence attached to the endpoint; it does not
+export subject reduction, unrestricted Church--Rosser, evaluator equality,
+quotient syntax equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}.
+It places every endpoint downstream of the candidate gate, residual-diamond row,
+and sibling confluence route before any consumer can read it.
+
+Apply obstruction retention,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-obstruction-retention}.
+The retained residual-substitution premise, candidate diamond dependency,
+cut-height budget, and parallel frontier route remain attached to the endpoint
+instead of being discharged by the normal-form read.
+
+Finally use the normal-form budget theorem
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-budget}.
+It keeps the cut-height budget, parallel-diamond frontier surface, sibling
+confluence route, and local naming rows visible before the endpoint is treated
+as confluence-facing evidence. Since none of the cited rows contains subject
+reduction, unrestricted Church--Rosser, evaluator equality, quotient syntax
+equality, global normalization, or kernel consistency, the read exports only
+the retained finite obligation route.
+\end{proof}
+
 \begin{theorem}[MetaCIC retained-premise normal-form handoff]
 \label{thm:metacic-candidate-normalization-confluence-retained-premise-normal-form}
 Every strong-normalization-facing consumer of the normal-form endpoint exported
