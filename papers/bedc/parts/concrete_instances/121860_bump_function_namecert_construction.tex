@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BumpFunctionUp$}
+\label{ch:concrete-instances-bump-function-namecert}
+\origin{human}
+
+Following Urysohn's lemma, Tietze extension, and the partition-of-unity tradition, the $\BumpFunctionUp$ packet records the finite certificate surface for a locally supported nonzero continuous real-valued function without importing host function equality, choice-selected supports, or ambient $\RealUp$ completeness. It sits beside the separating-function route of \autoref{ch:concrete-instances-urysohn-lemma-namecert}, the extension route of \autoref{ch:concrete-instances-tietze-extension-namecert}, the locally finite gluing route of \autoref{ch:concrete-instances-partition-of-unity-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the pointwise continuity carrier of \autoref{ch:concrete-instances-continuousmap-namecert}.
+
+\begin{definition}[Bump-function carrier]
+\label{def:bump-function-carrier}
+A $\BumpFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,S,V,Z,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the local source row, naming the displayed neighborhood, closed core, or finite localization data on which the bump is requested.
+\item $S$ is the support row, recording the finite support boundary and its inclusion in the chosen local region.
+\item $V$ is the vanishing-boundary row, stating that reads outside the displayed support boundary return the zero real-name seal.
+\item $Z$ is the nonzero local witness, displayed inside the source row before any downstream support consumer may use the bump.
+\item $F$ is the $\ContinuousMapUp$ row for the named real-valued map.
+\item $R$ is the $\RealUp$ seal row through which zero, nonzero, and boundary values are read.
+\item $H$ records componentwise $\hsame$ transport for the source, support, vanishing-boundary, nonzero witness, continuous-map, real-seal, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from local source data through support control and pointwise continuous-map reads into the real-value seal.
+\item $P$ is the $\Pkg$ provenance over $\BumpFunctionUp$, $\UrysohnLemmaUp$, $\TietzeExtensionUp$, $\PartitionOfUnityUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BumpFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,S,V,Z,F,R,H,C,P,N$. It has no coordinate for host equality of functions, a choice-selected support, a global support oracle, quotient real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bump-function NameCert obligations]
+\label{thm:bump-function-namecert-obligations}
+For an accepted $\BumpFunctionUp$ carrier
+$$
+B=(L,S,V,Z,F,R,H,C,P,N),
+$$
+the local $\NameCert_{\BumpFunctionUp}$ surface consists of carrier admission, local source exposure through $L$, support exposure through $S$, vanishing-boundary exposure through $V$, nonzero local witness exposure through $Z$, continuous-map exposure through $F$, real-name reads through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bump-function-carrier}. The local source, support, vanishing boundary, nonzero witness, continuous-map row, real seal, transport, replay, provenance, and local name are all visible coordinates of one finite packet.
+
+Read the analytic obligations in order. The source row $L$ fixes the local region, $S$ records the support boundary inside that region, $V$ records the zero behavior at the boundary, and $Z$ records the local nonzero witness before the downstream consumer treats the map as a bump.
+
+Finally $F,R,H,C,P,N$ preserve the same displayed route as continuous real-valued data. The sibling routes through $\UrysohnLemmaUp$, $\TietzeExtensionUp$, and $\PartitionOfUnityUp$ explain the traditional sources of such packets, while the carrier itself exports only the listed finite rows.
+\end{proof}
+
+\begin{theorem}[Bump-function support non-escape]
+\label{thm:bump-function-support-nonescape}
+Every $\BumpFunctionUp$ consumer reading an accepted carrier
+$$
+B=(L,S,V,Z,F,R,H,C,P,N)
+$$
+must expose the local source row $L$, support row $S$, vanishing-boundary row $V$, nonzero witness $Z$, $\ContinuousMapUp$ row $F$, and $\RealUp$ seal $R$ before it can use the bump as locally supported real-valued data. The packet exports no host function equality, selected support set, global support oracle, quotient real equality, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+The NameCert obligations of \autoref{thm:bump-function-namecert-obligations} enumerate every row available to a downstream consumer. In particular, support control is not separate from the displayed packet: it is the row $S$ together with the vanishing-boundary row $V$ and the local witness $Z$.
+
+The continuous-map and real-value reads are also downstream of the same packet. A consumer reaches $F$ and $R$ only through $L,S,V,Z$ and then through the transport, replay, provenance, and naming rows.
+
+Since the carrier has no coordinate for host function equality, selected supports, global support oracles, quotient equality, countable choice, or ambient completeness, none of these can be recovered from an accepted $\BumpFunctionUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed bump-function packet with no displayed support row, no vanishing-boundary row, or no nonzero local witness is not an accepted BumpFunctionUp carrier.}
+\independenceWitness{urysohnlemma, tietzeextension, partitionofunity, continuousmap, real: these sibling chapters supply separating, extending, gluing, continuity, and real-value rows, while BumpFunctionUp binds them around a local support and nonzero witness, so no row-preserving bijection exists.}
+
+\closureat{BumpFunctionUp}{obligationStr}
+
+\begin{closurestatus}{\BumpFunctionUp}
+  \constructivestory{A $\BumpFunctionUp$ packet is generated from a local source row, a displayed support row, vanishing-boundary data, a nonzero local witness, a ContinuousMap row, a Real seal, componentwise hsame transport, Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bump-function-carrier}, \autoref{thm:bump-function-namecert-obligations}, and \autoref{thm:bump-function-support-nonescape} bind the finite bump-function carrier and its local support boundary over source, support, vanishing, witness, ContinuousMap, Real, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, choice-selected supports, global support oracles, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires explicit routing of local source, support, vanishing-boundary, nonzero witness, ContinuousMap, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows against the cited sibling surfaces.}
+\end{closurestatus}
