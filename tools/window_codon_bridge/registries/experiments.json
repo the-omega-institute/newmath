@@ -576,6 +576,14 @@
       "status": "terminal",
       "timeout_seconds": 7200,
       "note": "Cognate anti-defense payload necessity (oracle Q2). NON-daemon terminal experiment: needs external binary hmmsearch (HMMER) and _q2ref/seed_family_mapping.tsv (dbAPIS cognate map) present at repo root; daemon never runs it (orchestrator-run, like the numpy-path precedent). Pure-stdlib fetch (PADS Arsenal CSV carrier + NCBI Flinders-prophage FAA/GFF target + dbAPIS.hmm), CDS-prophage overlap>=80%, hmmsearch --cut_ga|-E, cognate via seed_family_mapping, necessity null + non-cognate decoy + cross-host swap + chromosome control, 5-way verdict. Env: CAD_CLASSES/CAD_HOST_LIMIT/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_OVERLAP_MIN/CAD_BOOTSTRAP_N. Full 40-host run: verdict=data_gate_failed, n_matched_pairs=0 (resident-prophage cognate hits ~0 + PADS over-calls defense [4/5 classes 39+/1-] + only 7/31 GTDB families have >=2 hosts). Upgrade: DefenseFinder binary calls + larger denser host set + anti-defense-richer phage target. data_gate_failed != refuted; necessity claim untested."
+    },
+    {
+      "experiment_id": "cognate_anti_defense_virjendb",
+      "claim_id": "bridge.host_defense.cognate_anti_defense_virjendb",
+      "script_path": "tools/window_codon_bridge/experiments/run_cognate_anti_defense_virjendb.py",
+      "status": "terminal",
+      "timeout_seconds": 86400,
+      "note": "VirJenDB exact-host cognate anti-defense (oracle Q3 rescue). NON-daemon terminal experiment: needs a venv with DefenseFinder (mdmparis-defense-finder) + pyrodigal (CAD_DF_VENV), hmmsearch (HMMER), _q2ref/seed_family_mapping.tsv, and _q2ref/virjendb_sample.tsv host manifest. Pipeline: VirJenDB /v2/sequence (prophage nucleotides by vj id) -> pyrodigal proteins (target); NCBI FTP protein.faa.gz for GCA/GCF host assemblies (efetch for WGS contigs) -> DefenseFinder complete-system carrier; hmmsearch dbAPIS -> cognate via seed_family_mapping; oracle Y/N/D/S estimator + same-genus necessity / non-cognate decoy / cross-host swap / chromosome nulls + hard preflight power gate + 5-way verdict. Env CAD_HOST_LIMIT/CAD_CLASSES/CAD_DF_VENV/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_BOOTSTRAP_N/CAD_MANIFEST. Exploratory 150-host (n_ok=85) -> data_gate_failed: c+/c- structure exists (RM 64/21, BREX 5/80, GABIJA 13/72, THOERIS 8/77) but below the >=100/>=100 gate; cognate payload RM-only (non-RM 0 hits); median_D=+0.024, prophage>chromosome, median_S=0. Scale path: GCF-filtered manifest (cut 45% FTP attrition) + larger host set. data_gate_failed != refuted."
     }
   ]
 }
