@@ -3,8 +3,29 @@ import BEDC.Derived.NonCollapseInvariantUp
 namespace BEDC.Derived.OnticCollapseModes
 
 /-!
-本文件只编码三种 collapse 的类型形状与本体三轴路由。
-它只记录可由本地假设推出的结论形状，不注册外部逻辑原则。
+本文件编码禁用原则的 taxonomy 与规格化形状，不证明
+「三公理等价于三种本体 collapse」这样的元理论定理。
+
+`TimeCollapse`, `SymCollapse`, and `DistCollapse` are BEDC-internal
+Prop shapes for the three routes
+
+* existential-to-data: `∃ -> Σ`;
+* relation-to-class token equality: `~ -> [=]`;
+* bidirectional implication to equality: `<-> -> =`.
+
+The module records that BEDC refuses these shapes once they appear as
+unledgered assumptions. It does not prove equivalence with Lean's
+`Classical.choice`, core `Quot.sound`, or `propext`; that comparison would
+require metatheory outside these declarations.
+
+The axis theorems, including `collapse_modes_are_axis_distinct`, are
+constructor facts about a three-element inductive taxonomy. Their value is
+organizational: they keep the refusal ledger sorted by ontic axis rather than
+providing deep mathematical content.
+
+`FiberClassToken` and `FiberClassEq` are a toy setoid-shaped internal surface.
+Their relation to Lean core quotients is explanatory analogy only, not a
+formalized quotient-collapse theorem about `Quot`.
 -/
 
 universe u
