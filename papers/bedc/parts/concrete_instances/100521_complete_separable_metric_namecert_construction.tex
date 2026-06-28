@@ -84,10 +84,29 @@ Apply \autoref{thm:complete-separable-metric-density-completion-handoff}. The do
 Finally inspect the role of $E$. The carrier assigns $E$ only to terminal distance or limit-boundary readings, while $K$ carries the complete-metric seal. Thus $E$ cannot be read as ambient $\RealUp$ completeness or as a substitute for $K$.
 \end{proof}
 
+\begin{theorem}[Complete separable metric finite-density induction]\label{thm:complete-separable-metric-finite-density-induction}
+For every accepted $\CompleteSeparableMetricUp$ carrier $Q=(M,K,D,W,T,R,E,H,C,P,N)$ and every displayed finite dense-prefix schedule inside the $\StreamNameUp$ window row $W$, the prefix is consumed by induction through the same displayed rows. The empty prefix exposes only the metric source $M$, dense schedule $D$, and finite window $W$. If a prefix has already been consumed through $M,D,W,T,R$, then extending it by one dense index adds exactly that index from $D$, its dyadic or $\RealUp$ tolerance row in $T$, and its $\RegSeqRatUp$ readback in $R$ before the same complete-metric seal $K$ and terminal $\RealUp$ boundary row $E$ are read. Thus every finite dense schedule prefix reaches completion-facing consumers through the route
+$$
+M,D,W \longmapsto T \longmapsto R \longmapsto K \longmapsto E
+$$
+and not through quotient completion equality, selected dense points, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection in \autoref{def:complete-separable-metric-carrier}. The displayed rows identify the only visible metric source, dense schedule, finite window, tolerance ledger, regular readback, complete-metric seal, and Real boundary rows.
+
+The base case is the empty finite prefix. It makes no dense request, so \autoref{thm:complete-separable-metric-namecert-obligations} leaves visible only the source rows $M,D$ and the finite window row $W$.
+
+For the induction step, assume a finite prefix has already been consumed through $M,D,W,T,R$. Extending the prefix by one dense index opens one more displayed request in $D$ through the same $\StreamNameUp$ window $W$, then reads the attached dyadic or $\RealUp$ tolerance row in $T$ and the matching $\RegSeqRatUp$ readback in $R$.
+
+The completion-facing part does not change with the prefix length. By \autoref{thm:complete-separable-metric-density-completion-handoff}, the extended prefix still reaches the complete-metric seal through $K$ and the terminal Real boundary through $E$ before any public packet is exposed.
+
+Apply \autoref{thm:complete-separable-metric-finite-window-density-seal}. Since every finite-window read already has the route $M,D,W,T,R,K,E,H,C,P,N$, the induction consumes each finite dense schedule prefix through those rows and through no quotient completion equality, selected dense point, countable-choice selector, open-cover compactness argument, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
 \closureat{CompleteSeparableMetricUp}{seedStr}
 \begin{closurestatus}{\CompleteSeparableMetricUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:complete-separable-metric-carrier}, \autoref{thm:complete-separable-metric-namecert-obligations}, and \autoref{thm:complete-separable-metric-density-completion-handoff} seed the finite complete-separable route through metric source data, complete-metric seals, dense schedules, finite windows, tolerance ledgers, regular readbacks, and Real boundary rows.}
+  \scopeclosed{\autoref{def:complete-separable-metric-carrier}, \autoref{thm:complete-separable-metric-namecert-obligations}, \autoref{thm:complete-separable-metric-density-completion-handoff}, and \autoref{thm:complete-separable-metric-finite-density-induction} seed the finite complete-separable route through metric source data, complete-metric seals, dense schedules, finite windows, tolerance ledgers, regular readbacks, finite-prefix induction, and Real boundary rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected dense points, countable choice, open-cover compactness, hidden completion equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
