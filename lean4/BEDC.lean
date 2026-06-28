@@ -2534,6 +2534,7 @@ import BEDC.Derived.CauchyRateBudgetUp.DyadicToleranceExactness
 import BEDC.Derived.CauchyRateBudgetUp.NameCertObligations
 import BEDC.Derived.CauchyRateBudgetUp.PublicExport
 import BEDC.Derived.CauchyRateBudgetUp.RateNonescape
+import BEDC.Derived.CauchyRateBudgetUp.RealSealRouting
 import BEDC.Derived.CauchyRateBudgetUp.StreamNameRegSeqHandoff
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
@@ -6696,6 +6697,7 @@ import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
+import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
@@ -10197,6 +10199,7 @@ import BEDC.Derived.RealIntervalApartnessUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
+import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
