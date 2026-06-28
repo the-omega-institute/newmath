@@ -7845,6 +7845,7 @@ import BEDC.Derived.LucasTheoremBinomUp
 import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LucasUVSequenceUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
+import BEDC.Derived.LusinFiniteContinuityWindowUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
