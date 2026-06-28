@@ -231,3 +231,88 @@ theorem MetacicCandidateNormalizationConfluenceBoundary [AskSetup] [PackageSetup
   exact ⟨cert, confluenceReadUnary, boundaryReadUnary⟩
 
 end BEDC.Derived
+
+namespace BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem MetacicCandidateNormalizationConfluenceHandoffRetainedEdge [AskSetup] [PackageSetup]
+    {audit candidate normalEndpoint frontier confluence decidability blocked transport replay
+      provenance localName retainedRead edgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffCarrier audit candidate
+        normalEndpoint frontier confluence decidability blocked transport replay provenance
+        localName bundle pkg →
+      Cont candidate frontier retainedRead →
+        Cont retainedRead blocked edgeRead →
+          PkgSig bundle edgeRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row edgeRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row candidate ∨ hsame row frontier ∨ hsame row normalEndpoint ∨
+                    hsame row confluence ∨ hsame row decidability ∨ hsame row blocked ∨
+                      hsame row retainedRead ∨ hsame row edgeRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont candidate frontier retainedRead ∧
+                    Cont retainedRead blocked edgeRead ∧ PkgSig bundle edgeRead pkg)
+                hsame ∧ UnaryHistory retainedRead ∧ UnaryHistory edgeRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier candidateFrontierRoute retainedBlockedRoute edgePkg
+  obtain ⟨_auditUnary, candidateUnary, _normalEndpointUnary, frontierUnary,
+    _confluenceUnary, _decidabilityUnary, blockedUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _provenancePkg⟩ := carrier
+  have retainedUnary : UnaryHistory retainedRead :=
+    unary_cont_closed candidateUnary frontierUnary candidateFrontierRoute
+  have edgeUnary : UnaryHistory edgeRead :=
+    unary_cont_closed retainedUnary blockedUnary retainedBlockedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row edgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidate ∨ hsame row frontier ∨ hsame row normalEndpoint ∨
+              hsame row confluence ∨ hsame row decidability ∨ hsame row blocked ∨
+                hsame row retainedRead ∨ hsame row edgeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont candidate frontier retainedRead ∧
+              Cont retainedRead blocked edgeRead ∧ PkgSig bundle edgeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro edgeRead ⟨hsame_refl edgeRead, edgeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, candidateFrontierRoute, retainedBlockedRoute, edgePkg⟩
+  }
+  exact ⟨cert, retainedUnary, edgeUnary⟩
+
+end BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
