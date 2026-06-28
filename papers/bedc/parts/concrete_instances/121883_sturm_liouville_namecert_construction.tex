@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\SturmLiouvilleUp$}
+\label{ch:concrete-instances-sturm-liouville-namecert}
+\origin{human}
+
+Following Sturm and Liouville, the $\SturmLiouvilleUp$ packet records the regular-endpoint spectral ODE surface as finite BEDC NameCert data. It sits over the ODE carrier of \autoref{ch:concrete-instances-ode-namecert}, the Wronskian determinant boundary of \autoref{ch:concrete-instances-wronskian-namecert}, the Hilbert-space source of \autoref{ch:concrete-instances-hilbert-namecert}, the spectral-data package of \autoref{ch:concrete-instances-spectraltheorem-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed coefficient, boundary, Wronskian, Hilbert, and spectral-row handoff; it does not import host differential operators, quotient function spaces, selected eigenfunction bases, classical completeness, or an ambient $\RealUp$ spectral theorem.
+
+\begin{definition}[Sturm--Liouville carrier]
+\label{def:sturm-liouville-carrier}
+A $\SturmLiouvilleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,B,W,H,T,R,E,K,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ coefficient-and-equation row for the inspected second-order scalar equation on the displayed interval.
+\item $B$ is the regular-endpoint boundary row, naming the two endpoint cells, boundary forms, separated or coupled boundary clauses, and the finite compatibility checks attached to $O$.
+\item $W$ is the $\WronskianUp$ row used to compare endpoint solutions and boundary-admissible solution pairs.
+\item $H$ is the $\HilbertUp$ row carrying the inner-product and norm surface on which boundary-admissible solution rows may be compared.
+\item $T$ is the $\SpectralTheoremUp$ spectral-data row read only after the ODE, boundary, Wronskian, and Hilbert rows have been displayed.
+\item $R$ is the regular-endpoint resolvent packet, recording the finite Green-kernel, endpoint, and inhomogeneous-source reads that remain inside the same boundary surface.
+\item $E$ is the terminal $\RealUp$ seal row for eigenvalue, norm, and endpoint scalar reads.
+\item $K$ records componentwise $\hsame$ transport for the ODE, boundary, Wronskian, Hilbert, spectral, resolvent, and Real-seal rows.
+\item $C$ records displayed $\Cont$ replay from coefficient requests through boundary admission, Wronskian comparison, Hilbert comparison, spectral-data exposure, resolvent readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SturmLiouvilleUp$, $\OdeUp$, $\WronskianUp$, $\HilbertUp$, $\SpectralTheoremUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SturmLiouvilleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host unbounded operator, quotient function equality, selected eigenbasis, endpoint distribution, classical compact-resolvent theorem, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Sturm--Liouville NameCert obligations]
+\label{thm:sturm-liouville-namecert-obligations}
+For every accepted $\SturmLiouvilleUp$ carrier
+$$
+S=(O,B,W,H,T,R,E,K,C,P,N),
+$$
+the local $\NameCert_{\SturmLiouvilleUp}$ surface consists exactly of ODE coefficient admission through $O$, regular-endpoint boundary admission through $B$, Wronskian comparison through $W$, Hilbert comparison through $H$, spectral-data exposure through $T$, regular-endpoint resolvent readback through $R$, terminal real sealing through $E$, componentwise $\hsame$ transport through $K$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-liouville-carrier}. The ODE, boundary, Wronskian, Hilbert, spectral, resolvent, and Real-seal rows are the only mathematical rows available before the structural support is read.
+
+The ODE and boundary rows supply the regular-endpoint source. The Wronskian row compares endpoint solutions inside the same displayed boundary surface, and the Hilbert row supplies only the carried inner-product and norm comparison data.
+
+The spectral row is downstream of those displays. It is consumed as a $\SpectralTheoremUp$ data packet over the same Hilbert-facing source, while the resolvent row records only finite Green-kernel and source reads attached to the boundary packet.
+
+Finally, $K,C,P,N$ transport, replay, source, and locally name the same route. Since no carrier coordinate stores a host differential operator, quotient function equality, selected eigenbasis, endpoint distribution, compact-resolvent theorem, or ambient completeness principle, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sturm--Liouville regular-endpoint handoff]
+\label{thm:sturm-liouville-regular-endpoint-handoff}
+Every regular-endpoint read exported by an accepted $\SturmLiouvilleUp$ packet factors through
+$$
+\OdeUp,\ B,\ \WronskianUp,\ \HilbertUp,\ \SpectralTheoremUp,\ R,\ \RealUp .
+$$
+The endpoint clauses are read before Wronskian comparison, the Wronskian row is read before Hilbert and spectral comparison, and the terminal $\RealUp$ seal is exposed only after the displayed spectral or resolvent row is visible.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:sturm-liouville-namecert-obligations}. It fixes $O$ and $B$ as the source of coefficient and endpoint data, so an endpoint consumer cannot begin from an unrecorded host operator.
+
+Apply the carrier definition. The Wronskian row $W$ is attached to the same ODE and boundary rows, and the Hilbert row $H$ is available only as the comparison surface for those displayed solution rows.
+
+The spectral-data row $T$ and resolvent row $R$ are downstream of $O,B,W,H$. Therefore every endpoint-facing scalar read reaches $E$ through the displayed spectral or resolvent packet, not through a host eigenfunction argument or quotient function space.
+\end{proof}
+
+\begin{theorem}[Sturm--Liouville spectral packet nonescape]
+\label{thm:sturm-liouville-spectral-packet-nonescape}
+No accepted $\SturmLiouvilleUp$ spectral packet can escape the displayed rows
+$$
+O,B,W,H,T,R,E,K,C,P,N .
+$$
+In particular, a consumer may read eigenvalue, orthogonality, normalization, or resolvent scalar data only through the $\OdeUp$, $\WronskianUp$, $\HilbertUp$, $\SpectralTheoremUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route named by the carrier.
+\end{theorem}
+\begin{proof}
+Read the carrier and the NameCert obligations. The rows $O,B,W,H,T,R,E,K,C,P,N$ are the complete accepted packet, and each spectral read must preserve the same ODE, boundary, Wronskian, Hilbert, spectral, resolvent, and Real-seal order.
+
+Use \autoref{thm:sturm-liouville-regular-endpoint-handoff}. It places endpoint reads before Wronskian comparison and Wronskian comparison before Hilbert and spectral consumption, so a later spectral packet cannot bypass the regular-endpoint route.
+
+The structural rows then close the nonescape claim. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row keep eigenvalue, orthogonality, normalization, and resolvent scalar reads inside the finite packet, excluding host operators, quotient function spaces, selected eigenbases, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Sturm--Liouville Wronskian boundary]
+\label{thm:sturm-liouville-wronskian-boundary}
+Every boundary-admissible solution comparison in an accepted $\SturmLiouvilleUp$ packet factors through the $\WronskianUp$ row $W$ over the same ODE row $O$ and regular-endpoint row $B$. A consumer that compares endpoint solutions through Hilbert or spectral data without first displaying $W$ is outside the local certificate.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:sturm-liouville-carrier} places $W$ between the regular-endpoint source $O,B$ and the Hilbert and spectral rows $H,T$. Thus boundary-admissible solution comparison has a displayed Wronskian coordinate before any Hilbert-facing read is available.
+
+Apply \autoref{thm:sturm-liouville-namecert-obligations}. Wronskian comparison is a separate obligation row, not a consequence of host equality or a hidden classical zero theorem.
+
+Finally use \autoref{thm:sturm-liouville-spectral-packet-nonescape}. Since every spectral or resolvent scalar read remains inside $O,B,W,H,T,R,E,K,C,P,N$, omitting $W$ leaves the accepted certificate rather than producing another valid boundary comparison.
+\end{proof}
+
+\falsifiablePrediction{A Sturm--Liouville spectral read that reaches Hilbert or spectral rows without first displaying ODE coefficient data, regular-endpoint boundary data, and the Wronskian comparison row refutes the local carrier.}
+
+\independenceWitness{ode, wronskian, hilbert, spectraltheorem, real: $\SturmLiouvilleUp$ is not bijective to any listed sibling because it jointly binds ODE coefficients, regular endpoint boundary data, Wronskian comparison, Hilbert comparison, spectral-data exposure, resolvent readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{SturmLiouvilleUp}{seedStr}
+
+\begin{closurestatus}{\SturmLiouvilleUp}
+  \constructivestory{A $\SturmLiouvilleUp$ packet is generated from an ODE coefficient row, a regular-endpoint boundary row, a Wronskian comparison row, a Hilbert comparison row, a spectral-data row, a regular-endpoint resolvent packet, a terminal Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sturm-liouville-carrier}, \autoref{thm:sturm-liouville-namecert-obligations}, \autoref{thm:sturm-liouville-regular-endpoint-handoff}, \autoref{thm:sturm-liouville-spectral-packet-nonescape}, and \autoref{thm:sturm-liouville-wronskian-boundary} seed the regular-endpoint spectral ODE carrier, obligation, handoff, nonescape, and Wronskian-boundary surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host unbounded operators, quotient function spaces, selected eigenfunction bases, classical compact-resolvent completeness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-row exactness, Wronskian comparison stability, Hilbert and spectral packet routing, resolvent readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SturmLiouvilleUp.}
+\end{closurestatus}

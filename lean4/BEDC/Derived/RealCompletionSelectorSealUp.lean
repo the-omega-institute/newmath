@@ -314,4 +314,53 @@ theorem RealCompletionSelectorSealCarrier_l10_handoff_scope [AskSetup] [PackageS
     exact ⟨sourceRow.right, bWindowReadback, readbackLimitEndpoint, endpointStructural,
       structuralTerminal, terminalPkg⟩
 
+theorem RealCompletionSelectorSealObserverBudgetHandoff [AskSetup] [PackageSetup]
+    {b w r l e h c p n observerRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletionSelectorSealCarrier b w r l e h c p n bundle pkg ->
+      Cont c b observerRead ->
+        Cont observerRead e publicRead ->
+          PkgSig bundle publicRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row c ∨ hsame row b ∨ hsame row e ∨ hsame row observerRead ∨
+                    hsame row publicRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont c b observerRead ∧
+                    Cont observerRead e publicRead ∧ PkgSig bundle publicRead pkg)
+                hsame ∧ UnaryHistory observerRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier observerRoute publicRoute publicPkg
+  rcases carrier with
+    ⟨bUnary, _wUnary, _rUnary, _lUnary, eUnary, _hUnary, cUnary, _pUnary, _nUnary,
+      _bWindowReadback, _readbackLimitEndpoint, _provenancePkg, _hName⟩
+  have observerUnary : UnaryHistory observerRead :=
+    unary_cont_closed cUnary bUnary observerRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed observerUnary eUnary publicRoute
+  refine ⟨?_, observerUnary, publicUnary⟩
+  refine
+    { core :=
+        { carrier_inhabited := ⟨publicRead, hsame_refl publicRead, publicUnary⟩
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other sameRows sourceRow
+    exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+      unary_transport sourceRow.right sameRows⟩
+  · intro _row sourceRow
+    exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, observerRoute, publicRoute, publicPkg⟩
+
 end BEDC.Derived.RealCompletionSelectorSealUp
