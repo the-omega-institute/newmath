@@ -8540,6 +8540,7 @@ import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CandidateSnHandoff
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualJoinLocality
+import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualSubstitutionDependencyRoute
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.Route
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondSelectorUp
@@ -10364,6 +10365,7 @@ import BEDC.Derived.RealIntervalUp.FiniteEndpointEnvelopeRoute
 import BEDC.Derived.RealIntervalUp.FiniteNetConsumer
 import BEDC.Derived.RealIntervalUp.ObligationClosureRoute
 import BEDC.Derived.RealIntervalUp.PublicNameCertExport
+import BEDC.Derived.RealIntervalUp.StreamRealSealNonescape
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
@@ -11152,6 +11154,7 @@ import BEDC.Derived.RegularCauchyRingUp
 import BEDC.Derived.RegularCauchyRingUp.FiniteOperationInduction
 import BEDC.Derived.RegularCauchyRingUp.ObligationSurface
 import BEDC.Derived.RegularCauchyRingUp.ObligationUpgrade
+import BEDC.Derived.RegularCauchyRingUp.ScopedKernelDependency
 import BEDC.Derived.RegularCauchyRingUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp.TerminalSealDiscipline
 import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
