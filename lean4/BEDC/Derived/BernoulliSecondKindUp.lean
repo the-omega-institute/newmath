@@ -1,4 +1,7 @@
+import BEDC.Algebra.FiniteFold
+import BEDC.Derived.RationalUp
 import BEDC.Derived.BernoulliUp
+import BEDC.Derived.StirlingUp
 import BEDC.Derived.StirlingFirstUp
 
 namespace BEDC.Derived.BernoulliSecondKindUp
@@ -20,19 +23,28 @@ def signedGap : Nat -> Int
 def signedStirlingFirst (n k : Nat) : Int :=
   signedGap (n - k) * Int.ofNat (stirlingFirst n k)
 
-def rawStirlingFirstGregoryTerm (n k : Nat) : RawRat :=
+def rawCauchyBinomialIntegralTerm (n k : Nat) : RawRat :=
   rawNormalize
     { num := signedStirlingFirst n k
       denMinusOne := factorialNat n * Nat.succ k - 1 }
 
-def rawStirlingFirstGregorySum (n : Nat) : Nat -> Nat -> RawRat
+def rawCauchyBinomialIntegralSum (n : Nat) : Nat -> Nat -> RawRat
   | 0, _ => rawZero
   | Nat.succ fuel, k =>
-      rawAdd (rawStirlingFirstGregoryTerm n k)
-        (rawStirlingFirstGregorySum n fuel (Nat.succ k))
+      rawAdd (rawCauchyBinomialIntegralTerm n k)
+        (rawCauchyBinomialIntegralSum n fuel (Nat.succ k))
+
+def rawCauchyBinomialIntegralValue (n : Nat) : RawRat :=
+  rawCauchyBinomialIntegralSum n (Nat.succ n) 0
+
+def rawStirlingFirstGregoryTerm (n k : Nat) : RawRat :=
+  rawCauchyBinomialIntegralTerm n k
+
+def rawStirlingFirstGregorySum (n : Nat) : Nat -> Nat -> RawRat :=
+  rawCauchyBinomialIntegralSum n
 
 def rawBernoulliSecondKind (n : Nat) : RawRat :=
-  rawStirlingFirstGregorySum n (Nat.succ n) 0
+  rawCauchyBinomialIntegralValue n
 
 def bernoulliSecondKind (n : Nat) : RatNum :=
   rawRatToRat (rawBernoulliSecondKind n)
@@ -68,6 +80,28 @@ theorem signedStirlingFirst_definition (n k : Nat) :
       signedGap (n - k) * Int.ofNat (stirlingFirst n k) := by
   rfl
 
+theorem rawCauchyBinomialIntegralTerm_definition (n k : Nat) :
+    rawCauchyBinomialIntegralTerm n k =
+      rawNormalize
+        { num := signedStirlingFirst n k
+          denMinusOne := factorialNat n * Nat.succ k - 1 } := by
+  rfl
+
+theorem rawCauchyBinomialIntegralSum_zero_fuel (n k : Nat) :
+    rawCauchyBinomialIntegralSum n 0 k = rawZero := by
+  rfl
+
+theorem rawCauchyBinomialIntegralSum_succ_fuel (n fuel k : Nat) :
+    rawCauchyBinomialIntegralSum n (Nat.succ fuel) k =
+      rawAdd (rawCauchyBinomialIntegralTerm n k)
+        (rawCauchyBinomialIntegralSum n fuel (Nat.succ k)) := by
+  rfl
+
+theorem rawCauchyBinomialIntegralValue_definition (n : Nat) :
+    rawCauchyBinomialIntegralValue n =
+      rawCauchyBinomialIntegralSum n (Nat.succ n) 0 := by
+  rfl
+
 theorem rawStirlingFirstGregoryTerm_definition (n k : Nat) :
     rawStirlingFirstGregoryTerm n k =
       rawNormalize
@@ -89,6 +123,26 @@ theorem rawBernoulliSecondKind_stirlingFirst_formula (n : Nat) :
     rawBernoulliSecondKind n =
       rawStirlingFirstGregorySum n (Nat.succ n) 0 := by
   rfl
+
+theorem rawBernoulliSecondKind_cauchy_integral_value (n : Nat) :
+    rawBernoulliSecondKind n = rawCauchyBinomialIntegralValue n := by
+  rfl
+
+theorem rawBernoulliSecondKind_integral_recursion (n : Nat) :
+    rawBernoulliSecondKind n =
+      rawAdd (rawCauchyBinomialIntegralTerm n 0)
+        (rawCauchyBinomialIntegralSum n n 1) := by
+  rfl
+
+theorem rawCauchyBinomialIntegralValue_stirling_relation (n : Nat) :
+    rawCauchyBinomialIntegralValue n =
+      rawStirlingFirstGregorySum n (Nat.succ n) 0 := by
+  rfl
+
+theorem bernoulliSecondKind_cauchy_integral_value (n : Nat) :
+    RatEq (bernoulliSecondKind n)
+      (rawRatToRat (rawCauchyBinomialIntegralValue n)) := by
+  exact RatEq_refl (rawRatToRat (rawCauchyBinomialIntegralValue n))
 
 theorem rawBernoulliSecondKind_zero_value :
     rawBernoulliSecondKind 0 = { num := 1, denMinusOne := 0 } := by

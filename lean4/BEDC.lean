@@ -902,6 +902,7 @@ import BEDC.Derived.BeliefUp.FiniteEvidenceConsumerCompleteness
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BellNumberUp
+import BEDC.Derived.BellPolynomialUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
 import BEDC.Derived.BernoulliPolyUp
@@ -1679,6 +1680,7 @@ import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatalanConvolutionUp
+import BEDC.Derived.CatalanIdentitiesUp
 import BEDC.Derived.CatalanUp
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.CategoryUp
@@ -10011,6 +10013,7 @@ import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
+import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.UnitaryBalance
 import BEDC.Derived.RHRoute.ZeroFibreNormalSheet
@@ -10020,6 +10023,7 @@ import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants
 import BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy
 import BEDC.Derived.RHRoute.ZetaResonanceBoundStability
+import BEDC.Derived.RHRoute.ZetaSolenoidBound
 import BEDC.Derived.RHRoute.ZetaZeroLocated
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
