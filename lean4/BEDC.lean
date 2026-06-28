@@ -887,6 +887,7 @@ import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
+import BEDC.Derived.BeattySequenceUp
 import BEDC.Derived.BeattyUp
 import BEDC.Derived.BedcPhilosophyPackageUp.NameCertObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.ScopedObligations
@@ -6713,6 +6714,7 @@ import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
+import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
@@ -6756,6 +6758,7 @@ import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
+import BEDC.Derived.HilbertCurveUp.TasteGate
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
@@ -6879,6 +6882,7 @@ import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
+import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
 import BEDC.Derived.HypergeometricUp
@@ -9354,6 +9358,7 @@ import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PadicUp.Valuation
 import BEDC.Derived.PadicValuationUp
+import BEDC.Derived.PadovanUp
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditIndexReadiness
@@ -9445,6 +9450,7 @@ import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PermutationUp.TasteGate
+import BEDC.Derived.PerrinUp
 import BEDC.Derived.PerronFrobeniusUp.TasteGate
 import BEDC.Derived.PerronIntegralUp.MajorMinorRoute
 import BEDC.Derived.PerronIntegralUp.TasteGate
@@ -9754,6 +9760,7 @@ import BEDC.Derived.PrimitiveRootCyclic
 import BEDC.Derived.PrimitiveRootExistence
 import BEDC.Derived.PrimitiveRootFinal
 import BEDC.Derived.PrimitiveRootUp
+import BEDC.Derived.PrimorialUp
 import BEDC.Derived.PrincipalFilterUp.TasteGate
 import BEDC.Derived.PringsheimDoubleSequenceUp.TasteGate
 import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
@@ -9792,6 +9799,7 @@ import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.ProjectiveVarUp.TasteGate
 import BEDC.Derived.ProkhorovTightProbabilityUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
+import BEDC.Derived.PronicNumberUp
 import BEDC.Derived.ProofObligationGapUp.TasteGate
 import BEDC.Derived.ProofPatternClassifierUp.TasteGate
 import BEDC.Derived.ProofTermErasureAuditRouteUp
