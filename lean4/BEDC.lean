@@ -630,6 +630,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadbackTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
+import BEDC.Derived.AutomorphicNumberUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
@@ -5776,7 +5777,6 @@ import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
 import BEDC.Derived.FibonacciUp
-import BEDC.Derived.PadovanUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -6655,6 +6655,7 @@ import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
+import BEDC.Derived.HappyNumberUp
 import BEDC.Derived.HardProblemClosureUp.TasteGate
 import BEDC.Derived.HardyCesaroMeanUp.TasteGate
 import BEDC.Derived.HardyInequalityUp.TasteGate
@@ -6663,6 +6664,7 @@ import BEDC.Derived.HardyLittlewoodTauberianUp.TasteGate
 import BEDC.Derived.HardySpaceUp.TasteGate
 import BEDC.Derived.HarmonicUp
 import BEDC.Derived.HarnackInequalityUp
+import BEDC.Derived.HarshadNumberUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
@@ -7106,6 +7108,7 @@ import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
+import BEDC.Derived.KaprekarUp
 import BEDC.Derived.KelleyficationUp
 import BEDC.Derived.KelleyficationUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
@@ -8901,6 +8904,7 @@ import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
 import BEDC.Derived.NarayanaUp
+import BEDC.Derived.NarcissisticNumberUp
 import BEDC.Derived.NashEquilibriumUp.TasteGate
 import BEDC.Derived.NatRealEmbeddingUp.TasteGate
 import BEDC.Derived.NatTransUp
@@ -9347,6 +9351,7 @@ import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PadicUp.Valuation
 import BEDC.Derived.PadicValuationUp
+import BEDC.Derived.PadovanUp
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditIndexReadiness
@@ -11250,6 +11255,7 @@ import BEDC.Derived.RepresentedSpaceUp.StreamnameRealHandoff
 import BEDC.Derived.RepresentedSpaceUp.TargetSealLedgerPackage
 import BEDC.Derived.RepresentedSpaceUp.TasteGate
 import BEDC.Derived.RepresentedSpaceUp.TranslationNonescape
+import BEDC.Derived.RepunitUp
 import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
