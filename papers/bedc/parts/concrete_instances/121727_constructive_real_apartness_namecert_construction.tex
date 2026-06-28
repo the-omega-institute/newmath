@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRealApartnessUp$}
+\label{ch:concrete-instances-constructive-real-apartness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveRealApartnessUp$ packet records strict real separation as finite positive witness data rather than as a trichotomy principle. It sits over the Real carrier of \autoref{ch:concrete-instances-real-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the positive real boundary of \autoref{ch:concrete-instances-positivereal-namecert}. Its role is to make the constructive constraint of \autoref{sec:roadmap-l10-constructive-constraints} usable by later order and completion consumers without importing quotient real equality, host equality, selected limits, countable choice, trichotomy, or ambient completeness for $\RealUp$.
+
+\begin{definition}[ConstructiveRealApartness carrier]
+\label{def:constructive-real-apartness-carrier}
+A $\ConstructiveRealApartnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,Y,R_X,R_Y,S_X,S_Y,D,\delta,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RealUp$ seal rows being separated.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows used to inspect the two real names.
+\item $S_X$ and $S_Y$ are the $\StreamNameUp$ finite-window rows from which the readbacks are taken.
+\item $D$ is the $\DyadicRatCoreUp$ ledger that records the finite dyadic comparison scale.
+\item $\delta$ is the $\PositiveRealUp$ lower-bound witness for the displayed separation.
+\item $W$ is the finite apartness window asserting that the rational readbacks at the displayed scale are separated by the positive lower bound named by $\delta$.
+\item $H$ records componentwise $\hsame$ transport for the real seals, regular readbacks, stream windows, dyadic ledger, positive witness, apartness window, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay that opens the two StreamName windows, reads the RegSeqRat rows, checks the dyadic comparison ledger, and hands the positive witness to the Real-facing apartness surface.
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\PositiveRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveRealApartnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient real equality, host real equality, a selected representative limit, countable choice, trichotomy, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[ConstructiveRealApartness NameCert obligations]
+\label{thm:constructive-real-apartness-namecert-obligations}
+For every accepted $\ConstructiveRealApartnessUp$ carrier
+$$
+A=(X,Y,R_X,R_Y,S_X,S_Y,D,\delta,W,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveRealApartnessUp}$ surface consists of carrier admission for the displayed rows, paired RealUp seal exposure through $X,Y$, regular readback exposure through $R_X,R_Y$, finite StreamName window exposure through $S_X,S_Y$, dyadic comparison exactness through $D$, positive lower-bound exposure through $\delta$, apartness-window readback through $W$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-real-apartness-carrier}. The Real-facing rows are exactly $X,Y$, and the only inspection rows are the regular readbacks, stream windows, dyadic comparison ledger, positive witness, and apartness window displayed in the tuple.
+
+The certificate reads separation constructively. The witness $\delta$ is a positive lower-bound row, while $W$ ties that row to the finite rational readbacks obtained from $S_X,S_Y$ through $R_X,R_Y$ and checked against $D$.
+
+The transport, replay, provenance, and local name rows preserve the same finite route. Since no further carrier coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ConstructiveRealApartness finite readback]
+\label{thm:constructive-real-apartness-finite-readback}
+Every accepted $\ConstructiveRealApartnessUp$ read is witnessed by the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \PositiveRealUp,\ \RealUp .
+$$
+The two Real-facing rows become apart only through the displayed StreamName windows, regular rational readbacks, dyadic comparison ledger, positive lower-bound row, and apartness window.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:constructive-real-apartness-namecert-obligations}. They force each accepted read to expose $S_X,S_Y$ before $R_X,R_Y$, then the dyadic ledger $D$, the positive witness $\delta$, and the apartness window $W$.
+
+Only after those rows have been displayed can the Real-facing rows $X,Y$ be read as apart. The continuation row $C$ records the same order, and the package row $P$ adds provenance rather than a new comparison principle.
+\end{proof}
+
+\begin{theorem}[ConstructiveRealApartness non-trichotomy boundary]
+\label{thm:constructive-real-apartness-nontrichotomy-boundary}
+An accepted $\ConstructiveRealApartnessUp$ carrier exports a positive finite apartness witness and does not export quotient real equality, host real equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness. In particular, the packet cannot be read as a decision procedure for arbitrary comparison of the two RealUp rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its content rows are the two RealUp seals, regular readbacks, finite StreamName windows, dyadic ledger, positive witness, and apartness window.
+
+The finite readback theorem \autoref{thm:constructive-real-apartness-finite-readback} identifies the only route from these rows to an apartness claim. That route supplies a displayed positive witness, not a three-way case split and not a host equality test.
+
+Since the tuple contains no row for quotient equality, selected representatives, choice, trichotomy, or completeness, no accepted consumer can recover those principles from the packet.
+\end{proof}
+
+\falsifiablePrediction{A packet that claims ConstructiveRealApartnessUp while omitting either the positive lower-bound row or the finite apartness window is not an accepted carrier.}
+\independenceWitness{real, regseqrat, streamname, dyadicratcore, positivereal: each sibling supplies one surface of the readback route, while ConstructiveRealApartnessUp binds two RealUp seals, two regular readbacks, two StreamName windows, one dyadic comparison ledger, one positive witness, transport, replay, provenance, and a local NameCert row in one carrier.}
+
+\closureat{ConstructiveRealApartnessUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRealApartnessUp}
+  \constructivestory{A $\ConstructiveRealApartnessUp$ packet is generated from two RealUp seal rows, paired RegSeqRat readbacks, paired StreamName finite windows, a DyadicRatCore comparison ledger, a PositiveReal lower-bound witness, an apartness window, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-real-apartness-carrier}, \autoref{thm:constructive-real-apartness-namecert-obligations}, \autoref{thm:constructive-real-apartness-finite-readback}, and \autoref{thm:constructive-real-apartness-nontrichotomy-boundary} seed the finite constructive apartness surface for RealUp rows through regular readback, StreamName windows, dyadic comparison, and positive witnesses.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, quotient real equality, host equality, selected limits, countable choice, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired readback exposure, finite apartness-window exactness, positive-witness stability, route replay, provenance, and non-trichotomy nonescape for the same packet.}
+\end{closurestatus}
