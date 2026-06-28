@@ -112,6 +112,22 @@ Use the NameCert obligations of \autoref{thm:archimedean-approximation-namecert-
 The handoff theorem \autoref{thm:archimedean-approximation-real-seal-handoff} then keeps every Real-facing read downstream of the same finite window. Thus a packet that opens $S$ without first displaying $N,D,\epsilon$ leaves the accepted ArchimedeanApproximation surface.
 \end{proof}
 
+\begin{theorem}[ArchimedeanApproximation dyadic cofinal window]
+\label{thm:archimedean-approximation-dyadic-cofinal-window}
+For every accepted $\ArchimedeanApproximationUp$ carrier
+$$
+A=(N,Q,D,\epsilon,S,R,E,H,C,P,M),
+$$
+any later unary bound refining $N$ and any smaller displayed dyadic tolerance refining $D$ open a $\StreamNameUp$ window whose $\RegSeqRatUp$ readback remains on the same $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and the NameCert obligations. The rows $N,D,\epsilon$ control the window row $S$, and the obligation surface keeps the bound-compatibility, dyadic tolerance exactness, and window-readback compatibility rows in the same finite packet.
+
+Apply \autoref{thm:archimedean-approximation-window-obligations}. A later unary bound and a smaller dyadic tolerance refine the displayed gate for opening a StreamName window; they do not create a separate host approximation source.
+
+The readback then uses the same $R$ row named by \autoref{thm:archimedean-approximation-dyadic-readback}, and the real-seal handoff of \autoref{thm:archimedean-approximation-real-seal-handoff} keeps the resulting read downstream of $E$. Thus the cofinal window remains a refinement of the accepted $\NatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route.
+\end{proof}
+
 \begin{theorem}[ArchimedeanApproximation dyadic readback]
 \label{thm:archimedean-approximation-dyadic-readback}
 For every accepted $\ArchimedeanApproximationUp$ carrier $A=(N,Q,D,\epsilon,S,R,E,H,C,P,M)$, rational bounds from the $\RatUp$ row $Q$ become Real-facing only through the $\DyadicRatCoreUp$ row $D$ and the $\RegSeqRatUp$ readback row $R$. No consumer may expose the rational bounds directly as a $\RealUp$ observation.
@@ -142,7 +158,7 @@ Since no coordinate stores quotient equality, a selected host limit, a choice sc
 \begin{closurestatus}{\ArchimedeanApproximationUp}
   \constructivestory{An $\ArchimedeanApproximationUp$ packet is generated from a natural-number bound, rational bounding rows, a DyadicRatCore tolerance ledger, a StreamName finite window, a RegSeqRat readback, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:archimedean-approximation-carrier}, \autoref{thm:archimedean-approximation-namecert-obligations}, \autoref{thm:archimedean-approximation-real-seal-handoff}, \autoref{thm:archimedean-approximation-window-obligations}, \autoref{thm:archimedean-approximation-dyadic-readback}, and \autoref{thm:archimedean-approximation-real-seal-nonescape} close the carrier, NameCert obligation, real-seal handoff, window, dyadic readback, and seal-nonescape surface for the displayed packet.}
+  \scopeclosed{\autoref{def:archimedean-approximation-carrier}, \autoref{thm:archimedean-approximation-namecert-obligations}, \autoref{thm:archimedean-approximation-real-seal-handoff}, \autoref{thm:archimedean-approximation-window-obligations}, \autoref{thm:archimedean-approximation-dyadic-cofinal-window}, \autoref{thm:archimedean-approximation-dyadic-readback}, and \autoref{thm:archimedean-approximation-real-seal-nonescape} close the carrier, NameCert obligation, real-seal handoff, window, dyadic cofinal-window, dyadic readback, and seal-nonescape surface for the displayed packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, selected host limits, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
