@@ -12334,6 +12334,7 @@ import BEDC.Derived.TailCofinalityScheduleUp.StdBridge
 import BEDC.Derived.TailCofinalityScheduleUp.StreamNameRegSeqRatRealWindowDeterminacy
 import BEDC.Derived.TailCofinalityScheduleUp.WindowSealFactorization
 import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
+import BEDC.Derived.TailDiameterCriterionUp
 import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.TailModulusLimitHandoffUp.TasteGate
 import BEDC.Derived.TangentNumberUp
