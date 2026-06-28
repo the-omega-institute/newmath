@@ -2557,6 +2557,7 @@ import BEDC.Derived.CauchyRateBudgetUp.RateNonescape
 import BEDC.Derived.CauchyRateBudgetUp.RealSealRouting
 import BEDC.Derived.CauchyRateBudgetUp.RegularTailEstimateHandoff
 import BEDC.Derived.CauchyRateBudgetUp.StreamNameRegSeqHandoff
+import BEDC.Derived.CauchyRateBudgetUp.TailMonotonicity
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
@@ -9990,6 +9991,8 @@ import BEDC.Derived.RHRoute.ChannelNormalForm
 import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ConstructiveZeta
 import BEDC.Derived.RHRoute.CounterexampleSafety
+import BEDC.Derived.RHRoute.DedekindSplitTowerLift
+import BEDC.Derived.RHRoute.EndpointBisectionCertificate
 import BEDC.Derived.RHRoute.EtaInteger
 import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
@@ -10009,10 +10012,12 @@ import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
 import BEDC.Derived.RHRoute.LagariasCriterion
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
+import BEDC.Derived.RHRoute.LocalHalfSplitCertificate
 import BEDC.Derived.RHRoute.NonfixedOrbit
 import BEDC.Derived.RHRoute.ObjectRealityInductionRoute
 import BEDC.Derived.RHRoute.OddZeroDefect
 import BEDC.Derived.RHRoute.OnticBoundaryLedger
+import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
@@ -10023,6 +10028,7 @@ import BEDC.Derived.RHRoute.RouteClosureSeparation
 import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.UnitaryBalance
+import BEDC.Derived.RHRoute.ZeckendorfSolenoidSelector
 import BEDC.Derived.RHRoute.ZeroFibreNormalSheet
 import BEDC.Derived.RHRoute.ZeroGenerationInitiality
 import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
@@ -10958,6 +10964,7 @@ import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
+import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
@@ -11883,6 +11890,7 @@ import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.GluingLedgerScope
 import BEDC.Derived.SheafificationUp.LocalGluingInduction
 import BEDC.Derived.SheafificationUp.LocalGluingObligation
+import BEDC.Derived.SheafificationUp.LocalNameCertNonescape
 import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
@@ -12096,6 +12104,7 @@ import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
 import BEDC.Derived.StirlingCycleUp
 import BEDC.Derived.StirlingFirstUp
 import BEDC.Derived.StirlingInversionUp
+import BEDC.Derived.StirlingSecondCompleteUp
 import BEDC.Derived.StirlingUp
 import BEDC.Derived.StokesTheoremUp.TasteGate
 import BEDC.Derived.StolzCesaroCauchyTailCompressionUp.TasteGate
