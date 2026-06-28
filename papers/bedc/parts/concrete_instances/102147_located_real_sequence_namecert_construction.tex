@@ -67,6 +67,32 @@ The regular rational and real-facing exits are then fixed. The row $R$ is the on
 The remaining rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport, replay, source, and name the same finite route. They add no coordinate for quotient streams, selected limits, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking.
 \end{proof}
 
+\begin{theorem}[Located real sequence null-tail handoff]
+\label{thm:located-real-sequence-null-tail-handoff}
+Let
+$$
+X=(S,L,M,D,R,E,H,C,P,N)
+$$
+and
+$$
+X'=(S',L',M',D',R',E',H',C',P',N')
+$$
+be accepted $\LocatedRealSequenceUp$ reads. Any zero-tail comparison between them that is consumed by a $\RealUp$ equality-facing route must first factor through the displayed sequence route
+$$
+S,L,M,D,R,E,H,C,P,N
+$$
+and its primed counterpart, and then through a displayed $\NullSequenceUp$ packet. The handoff exposes finite StreamName windows, located-real component rows, sequence moduli, dyadic tolerances, regular readbacks, Real seals, transport, replay, provenance, and local names before any equality-facing consumer can read the zero-tail evidence.
+\end{theorem}
+\begin{proof}
+Project both accepted sources by \autoref{def:located-real-sequence-source}. The only component rows available before the Real seal are the finite stream windows, located-real windows, sequence moduli, dyadic tolerances, regular readbacks, and structural rows.
+
+Apply \autoref{thm:located-real-sequence-kernel-scope} to each source. Every consumer route out of either source must pass through the chain from $\StreamNameUp$ to $\LocatedRealUp$, $\LocatedSequenceModulusUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed structural rows.
+
+A zero-tail comparison is therefore an additional displayed consumer row rather than a replacement for either source route. It may be read as a $\NullSequenceUp$ packet only after the two $S,L,M,D,R,E,H,C,P,N$ routes have been exposed.
+
+Since neither carrier has a coordinate for quotient streams, selected limits, countable choice, trichotomy, ambient completeness, Lean verification, or checked bridge data, the equality-facing consumer receives only the displayed null-tail handoff and no hidden Real equality principle.
+\end{proof}
+
 \closureat{LocatedRealSequenceUp}{seedStr}
 
 \begin{closurestatus}{\LocatedRealSequenceUp}
