@@ -96,6 +96,46 @@ finite route and cannot obtain any of the excluded principles.
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_real\_seal\_handoff}
 
+\begin{theorem}[ArchimedeanApproximation window obligations]
+\label{thm:archimedean-approximation-window-obligations}
+For every accepted $\ArchimedeanApproximationUp$ carrier
+$$
+A=(N,Q,D,\epsilon,S,R,E,H,C,P,M),
+$$
+the $\StreamNameUp$ window row $S$ opens only after the natural bound row $N$, dyadic tolerance row $D$, and tolerance request $\epsilon$ have been displayed. A consumer that reads $S$ before those rows is not reading the accepted packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:archimedean-approximation-carrier}. The definition places $S$ as the finite-window row opened at the bound and tolerance named by $N,D,\epsilon$.
+
+Use the NameCert obligations of \autoref{thm:archimedean-approximation-namecert-obligations}. Their bound-compatibility and window-readback compatibility clauses require the same $N,D,\epsilon$ rows before $S$ can be consumed.
+
+The handoff theorem \autoref{thm:archimedean-approximation-real-seal-handoff} then keeps every Real-facing read downstream of the same finite window. Thus a packet that opens $S$ without first displaying $N,D,\epsilon$ leaves the accepted ArchimedeanApproximation surface.
+\end{proof}
+
+\begin{theorem}[ArchimedeanApproximation dyadic readback]
+\label{thm:archimedean-approximation-dyadic-readback}
+For every accepted $\ArchimedeanApproximationUp$ carrier $A=(N,Q,D,\epsilon,S,R,E,H,C,P,M)$, rational bounds from the $\RatUp$ row $Q$ become Real-facing only through the $\DyadicRatCoreUp$ row $D$ and the $\RegSeqRatUp$ readback row $R$. No consumer may expose the rational bounds directly as a $\RealUp$ observation.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The rational source row $Q$ is a displayed source of lower and upper rational bounds, while $D$ records dyadic tolerance exactness and $R$ records the regular rational readback from the finite window.
+
+Apply the NameCert obligations. Rational-bound exposure, dyadic tolerance exactness, and window-readback compatibility are separate rows of the same certificate, so the rational data in $Q$ must pass through $D$ and $R$ before the real seal row is available.
+
+Finally use \autoref{thm:archimedean-approximation-real-seal-handoff}. The Real-facing route runs through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ before $\RealUp$, excluding any direct host read of rational bounds as real observations.
+\end{proof}
+
+\begin{theorem}[ArchimedeanApproximation real seal nonescape]
+\label{thm:archimedean-approximation-real-seal-nonescape}
+For every accepted $\ArchimedeanApproximationUp$ carrier $A=(N,Q,D,\epsilon,S,R,E,H,C,P,M)$, the $\RealUp$ seal row $E$ exports no quotient equality, selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness. The seal is only the terminal boundary of the displayed bound, dyadic, window, and readback route.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the only coordinates available to a consumer: the natural bound, rational source, dyadic tolerance, tolerance request, StreamName window, RegSeqRat readback, Real seal, transport, continuation, provenance, and local naming rows.
+
+The NameCert obligations identify non-escape as part of the local surface, and \autoref{thm:archimedean-approximation-real-seal-handoff} fixes the route into $E$ through the displayed finite rows.
+
+Since no coordinate stores quotient equality, a selected host limit, a choice schedule, trichotomy, or completeness data, the seal row cannot export any of those principles.
+\end{proof}
+
 \begin{closurestatus}{\ArchimedeanApproximationUp}
   \constructivestory{An $\ArchimedeanApproximationUp$ packet is generated from a natural-number bound, rational bounding rows, a DyadicRatCore tolerance ledger, a StreamName finite window, a RegSeqRat readback, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}

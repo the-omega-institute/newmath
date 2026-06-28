@@ -97,4 +97,58 @@ theorem MetacicCandidateNormalizationConfluenceHandoffBoundary [AskSetup] [Packa
       exact ⟨source.right, frontierPkg⟩
   exact ⟨cert, consumerUnary, frontierReadUnary⟩
 
+theorem MetacicCandidateNormalizationConfluenceHandoffObligationRows [AskSetup] [PackageSetup]
+    {audit candidate normalEndpoint frontier confluence decidability blocked transport replay
+      provenance localName consumerRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicCandidateNormalizationConfluenceHandoffCarrier audit candidate normalEndpoint
+        frontier confluence decidability blocked transport replay provenance localName bundle pkg →
+      Cont audit candidate consumerRead →
+        Cont consumerRead frontier frontierRead →
+          PkgSig bundle frontierRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row audit ∨ hsame row candidate ∨ hsame row normalEndpoint ∨
+                    hsame row frontier ∨ hsame row confluence ∨ hsame row decidability ∨
+                      hsame row blocked ∨ hsame row transport ∨ hsame row replay ∨
+                        hsame row provenance ∨ hsame row localName ∨ hsame row frontierRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle frontierRead pkg ∧
+                    Cont audit candidate consumerRead ∧ Cont consumerRead frontier frontierRead)
+                hsame ∧ UnaryHistory consumerRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier auditCandidateRoute consumerFrontierRoute frontierPkg
+  have auditUnary : UnaryHistory audit := carrier.left
+  have candidateUnary : UnaryHistory candidate := carrier.right.left
+  have frontierUnary : UnaryHistory frontier := carrier.right.right.right.left
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed auditUnary candidateUnary auditCandidateRoute
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed consumerUnary frontierUnary consumerFrontierRoute
+  refine ⟨?_, consumerUnary, frontierReadUnary⟩
+  refine
+    { core :=
+        { carrier_inhabited := ⟨frontierRead, hsame_refl frontierRead, frontierReadUnary⟩
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other sameRows sourceRow
+    exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+      unary_transport sourceRow.right sameRows⟩
+  · intro _row sourceRow
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr (Or.inr sourceRow.left))))))))))
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, frontierPkg, auditCandidateRoute, consumerFrontierRoute⟩
+
 end BEDC.Derived
