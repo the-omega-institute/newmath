@@ -6748,6 +6748,7 @@ import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
 import BEDC.Derived.HausdorffizationUp.CompletionBoundary
+import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
@@ -7514,6 +7515,7 @@ import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocalizedCauchyRateUp.TasteGate
 import BEDC.Derived.LocalizedCauchySubsequenceUp.TasteGate
+import BEDC.Derived.LocalizedDarbouxIntermediateUp.TasteGate
 import BEDC.Derived.LocallyCompactHausdorffUp.TasteGate
 import BEDC.Derived.LocallyCompactMetricUp.TasteGate
 import BEDC.Derived.LocallyCompactPolishUp.TasteGate
@@ -10996,8 +10998,6 @@ import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
-import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
-import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
@@ -12930,6 +12930,7 @@ import BEDC.Derived.UniformlyLocatedFiniteCoverUp.TasteGate
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
 import BEDC.Derived.UniqueChoicePrincipleUp.NameCertObligations
 import BEDC.Derived.UniqueChoicePrincipleUp.TasteGate
+import BEDC.Derived.UnitCalibrationLedgerUp.LawCertificateHandoff
 import BEDC.Derived.UnitCalibrationLedgerUp.NameCertObligations
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.UnitDiskUp
