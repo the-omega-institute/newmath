@@ -1,0 +1,13 @@
+\begin{theorem}[LuenbergerObserverUp Kalman filter dependency route]
+\label{thm:luenberger-observer-kalman-filter-dependency-route}
+Every $\KalmanFilterUp$ or observer-controller consumer of an accepted $\LuenbergerObserverUp$ carrier must first expose the state-space row, observability row, output-error row, observer-gain row, replay row, provenance row, and local $\NameCert_{\LuenbergerObserverUp}$ row of the displayed packet. The Kalman-filter side is read only through \autoref{ch:concrete-instances-kalman-filter-namecert}, and the observation side is read only through the $\ControlObservabilityUp$ and $\ObservabilityGramianUp$ rows already named by \autoref{ch:concrete-instances-controlobservability-namecert} and \autoref{ch:concrete-instances-observability-gramian-namecert}. Thus no consumer may treat the deterministic observer correction as a hidden covariance update, stochastic innovation law, selected state trajectory, or host convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(A,C,Y,G,R,E,H,T,P,N)$ of \autoref{def:luenberger-observer-carrier}. The plant and state-space information is carried by $A$, the observability and output rows by $C$ and $Y$, the gain and output-error data by $G,R,E$, and the structural replay by $H,T,P,N$.
+
+Apply the Kalman boundary route of \autoref{thm:luenberger-observer-kalman-filter-route}. It keeps every Kalman-filter citation outside the deterministic carrier coordinates that generate the observer read.
+
+Apply the observability dependency route and observer-controller forward route, \autoref{thm:luenberger-observer-observability-dependency-route} and \autoref{thm:luenberger-observer-controller-forward-route}. These routes force the consumer to display the observation, residual, gain, error-propagation, replay, provenance, and naming rows before any controller or estimator handoff is public.
+
+Since the carrier has no covariance recursion, stochastic innovation, selected trajectory, or host convergence coordinate, the Kalman-filter and observer-controller consumers can read only the displayed deterministic dependency route.
+\end{proof}
