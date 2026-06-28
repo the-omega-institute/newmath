@@ -90,6 +90,24 @@ Apply \autoref{thm:apophatic-fixed-point-fiber-namecert-obligations}. The NameCe
 Apply \autoref{thm:apophatic-fixed-point-fiber-nonescape}. Since the only route from $D$ to $T$ passes through $G$, the GAP fiber is not optional boundary prose but a carrier row. Finally use \autoref{thm:apophatic-fixed-point-fiber-independence}: forgetting any of the sibling-dependent rows changes the packet rather than preserving an accepted scoped read.
 \end{proof}
 
+\begin{theorem}[Apophatic fixed-point fiber public export surface]
+\label{thm:apophatic-fixed-point-fiber-public-export-surface}
+Every accepted $\ApophaticFixedPointFiberUp$ packet exports exactly the public read surface
+$$
+D,S,G,T,I,H,C,P,N
+$$
+with GAP-first ordering. The sibling dependency rows are read through $\ExternalityGateUp$, $\SupplySocketLedgerUp$, $\GeneratorFixedPointUp$, and $\HashUp$, and every digest-facing public read must pass through the GAP fiber before the apophatic far-end boundary is exposed. This is the public object surface of the packet, not a bridge credential.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-fixed-point-fiber-carrier}. The displayed rows are precisely $D,S,G,T,I,H,C,P,N$, and the carrier has no coordinate for a direct digest-to-far-end identification.
+
+Apply the NameCert obligations of \autoref{thm:apophatic-fixed-point-fiber-namecert-obligations}. They bind the digest/socket row, external-supply socket, GAP fiber, far-end boundary, local inscription, transport, replay, provenance, and local naming as the only exported rows.
+
+Use the non-escape theorem \autoref{thm:apophatic-fixed-point-fiber-nonescape} and the sibling-independence theorem \autoref{thm:apophatic-fixed-point-fiber-independence}. These keep $\ExternalityGateUp$, $\SupplySocketLedgerUp$, $\GeneratorFixedPointUp$, and $\HashUp$ as visible dependencies rather than hidden bridge credentials.
+
+Finally apply the scoped-route theorem \autoref{thm:apophatic-fixed-point-fiber-scoped-route}. It forces the GAP-first public read order, so the theorem exports a public object surface only and does not certify an acceptance bridge.
+\end{proof}
+
 \closureat{ApophaticFixedPointFiberUp}{obligationStr}[BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiberTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ApophaticFixedPointFiberUp}

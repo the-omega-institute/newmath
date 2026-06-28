@@ -54,6 +54,22 @@ The discharge bundle and socket boundary are not hidden behind the packet: they 
 Since the carrier has no coordinate for closed-CIC discharge, hidden route choice, or host proof search, the displayed rows exhaust the obligation surface.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteChoice route-obligation surface]
+\label{thm:subject-reduction-route-choice-route-obligation-surface}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, every route-obligation read exposes exactly the bundle row $B$ and the bundle-consumption row $V$ while retaining the obstruction row $O$ as a visible boundary. The transport, replay, provenance, and naming rows $H,C,P,N$ may preserve and replay only those displayed rows.
+
+Thus the route-obligation surface exports no closed subject-reduction theorem, quotient syntax equality, host evaluator soundness, hidden typeclass route, or third discharge path.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The route-facing rows are $B,V$, the obstruction-facing row is $O$, and the structural rows are $H,C,P,N$.
+
+Apply the obligation-surface theorem \autoref{thm:subject-reduction-route-choice-obligation-surface}. It exhausts the visible rows of the packet before any downstream consumer reads the route choice.
+
+Use the obstruction-boundary theorem \autoref{thm:subject-reduction-route-choice-obstruction-boundary}. It keeps $O$ separate from the bundle-consumption route, so an uninhabited obstruction cannot be reclassified as a closed subject-reduction proof.
+
+Finally apply nonescape \autoref{thm:subject-reduction-route-choice-nonescape} and obstruction-route exhaustion \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}. These rule out a hidden typeclass route, quotient syntax equality, host evaluator soundness, closed consistency, and any third discharge path.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteChoice MetaCIC scope]
 \label{thm:subject-reduction-route-choice-metacic-scope}
 Every accepted $\SubjectReductionRouteChoiceUp$ read remains inside the MetaCIC route of the discharge bundle, socket boundary, substitution/type-preservation rows, and the downstream subject-reduction consumer. The route may cite the sibling surfaces of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert}, but it does not claim closed-CIC discharge or host proof search.
