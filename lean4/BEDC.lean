@@ -10028,6 +10028,7 @@ import BEDC.Derived.RationalOpenIntervalBasisUp.NameCertObligations
 import BEDC.Derived.RationalOpenIntervalBasisUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
+import BEDC.Derived.RationalSquareOrderUp
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RationalUp
@@ -11944,6 +11945,7 @@ import BEDC.Derived.SplitComplexUp
 import BEDC.Derived.SplitIntervalUp
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SpreadSpaceUp.TasteGate
+import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
 import BEDC.Derived.Sqrt2IrrationalUp
 import BEDC.Derived.Sqrt2NonCollapseWitnessFinal
