@@ -1,0 +1,252 @@
+\section{Zero-Knowledge Triadic Certificate Layer}
+\label{sec:unified-reality-zero-knowledge-triadic-certificate-layer}
+
+The zero-knowledge proof idea enters this route only as a certificate
+wrapper.  It is not an RH proof and it is not a substitute for the
+zeta-specific source theorems.  Its role is to separate public
+verification from full disclosure of the prime-routing table, zero
+ordering, solenoid fibre data, and resonance selector choices.  The
+public surface checks finite consistency, active capture, defect
+extraction, cofinal growth, and unit-boundary stability; the hidden
+witness contains the detailed tower data.
+
+\begin{definition}[Triadic witness for a completed zero]
+\label{def:unified-reality-triadic-witness-completed-zero}
+For a critical-strip coordinate
+$$
+s=\frac12+\delta+i\tau,
+$$
+a \emph{triadic witness} for $s$ is a packet
+$$
+\mathcal W_s
+:=
+(D_n,F_n,T_n,X_n,\mathscr R_n,\pi_{n+1,n},
+S_n,\Sigma_{S_n},A_n,h_a,\Omega_n,W_n,B_s)_n
+$$
+equipped with the following rows:
+$$
+\mathsf{ActiveCapture},
+\qquad
+\mathsf{RoutingCompatibility},
+\qquad
+\mathsf{SolenoidCompatibility},
+$$
+$$
+\mathsf{TriadicClosure},
+\qquad
+\mathsf{DefectExtraction},
+\qquad
+\mathsf{CofinalGrowth},
+\qquad
+\mathsf{BoundaryStability}.
+$$
+The packet is allowed to contain detailed finite routing tables and
+selector data.  The public verifier consumes only the displayed rows and
+does not require the full inverse-limit routing table as public data.
+\end{definition}
+
+\begin{definition}[Public triadic verifier]
+\label{def:unified-reality-public-triadic-verifier}
+The \emph{public triadic verifier} is the relation
+$$
+\mathsf{VerifyTriadic}(s,\mathcal W_s)=1
+$$
+which checks the following finite-layer obligations:
+$$
+\mathsf{RoucheCapture}(D_n,F_n,T_n),
+\qquad
+\mathsf{Permutation}(\mathscr R_n),
+$$
+$$
+\pi_{n+1,n}\circ\mathscr R_{n+1}
+=
+\mathscr R_n\circ\pi_{n+1,n},
+$$
+$$
+\mathsf{SolenoidPhaseCarrier}(\Sigma_{S_n}),
+\qquad
+\mathsf{TriadicTwoOutOfThree},
+$$
+$$
+\Omega_n(s)=(-\delta h_a)_{a\in A_n},
+\qquad
+W_n=\sum_{a\in A_n}h_a^2,
+$$
+and the paired growth and bound rows
+$$
+W_n\to\infty,
+\qquad
+|\Omega_n(s)|^2\le B_s<\infty.
+$$
+Here $\mathsf{RoucheCapture}$ may be replaced by any equivalent
+local-degree or winding capture row that proves the finite packet counts
+the completed zero.
+\end{definition}
+
+\begin{definition}[Completeness, soundness, and opacity readings]
+\label{def:unified-reality-triadic-verifier-three-readings}
+The certificate layer has three proof-system readings.
+\emph{Completeness} means that a genuine zero-relevant source packet
+can be presented as a witness accepted by
+$\mathsf{VerifyTriadic}$.  \emph{Soundness} means that acceptance implies
+the fixed-half row.  \emph{Opacity} means that the verifier need not
+receive the full routing table, the full zero ordering, or the full
+selector ledger as public data.  No cryptographic commitment scheme is
+asserted here; the point is the mathematical separation between hidden
+witness data and public finite checks.
+\end{definition}
+
+\begin{theorem}[Public triadic verification is sound for the fixed-half row]
+\label{thm:unified-reality-public-triadic-verification-sound-fixed-half}
+If
+$$
+\mathsf{VerifyTriadic}(s,\mathcal W_s)=1
+$$
+for
+$$
+s=\frac12+\delta+i\tau,
+$$
+then
+$$
+\delta=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The verifier accepts only when the defect extraction row gives
+$$
+\Omega_n(s)=(-\delta h_a)_{a\in A_n}
+$$
+and hence
+$$
+|\Omega_n(s)|^2=\delta^2W_n.
+$$
+It also accepts only when $W_n\to\infty$ and
+$$
+|\Omega_n(s)|^2\le B_s<\infty
+$$
+for the same displayed windows.  If $\delta\#0$, then
+$\delta^2W_n\to\infty$, contradicting the finite bound.  Hence
+$\neg(\delta\#0)$.  Located fixed-half collapse gives $\delta=0$.
+\end{proof}
+
+\begin{corollary}[Verified triadic witnesses are conditionally sufficient]
+\label{cor:unified-reality-verified-triadic-witnesses-conditionally-sufficient}
+If every completed critical-strip zero has a triadic witness accepted by
+the public triadic verifier, then the RH fixed-half section exists.
+\end{corollary}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have coordinate $s$.  By hypothesis, there is
+a witness $\mathcal W_s$ with
+$$
+\mathsf{VerifyTriadic}(s,\mathcal W_s)=1.
+$$
+By
+\autoref{thm:unified-reality-public-triadic-verification-sound-fixed-half},
+the coordinate has $\delta=0$, hence $\Re(s)=1/2$.  The fixed-half
+section is therefore obtained through
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{definition}[Hidden prime-collision row]
+\label{def:unified-reality-hidden-prime-collision-row}
+For a finite prime ledger $L_n\subset\mathbb Z^{(S_n)}$, a
+\emph{hidden prime-collision row} consists of hidden rows
+$$
+x_n,y_n\in L_n,
+\qquad
+x_n\ne y_n,
+\qquad
+\pi_n(x_n)=\pi_n(y_n),
+$$
+together with the frequency functional
+$$
+H(x):=\sum_{p\in S_n}x_p\log p.
+$$
+The row is valid only when the gap
+$$
+g_n:=x_n-y_n
+$$
+satisfies
+$$
+H(g_n)\ne0.
+$$
+The verifier may consume the equality and non-equality obligations as
+committed finite rows without exposing the full ledger pair as public
+data.
+\end{definition}
+
+\begin{lemma}[Prime collisions expose a nonzero frequency gap]
+\label{lem:unified-reality-prime-collisions-expose-nonzero-frequency-gap}
+In a hidden prime-collision row, the condition $x_n\ne y_n$ forces
+$$
+H(x_n-y_n)\ne0.
+$$
+\end{lemma}
+
+\begin{proof}
+If $H(x_n-y_n)=0$, then
+$$
+\sum_{p\in S_n}(x_{n,p}-y_{n,p})\log p=0.
+$$
+This is a rational, indeed integral, linear relation among the displayed
+prime logarithms.  By
+\autoref{thm:unified-reality-prime-logarithmic-directions-independent},
+all coefficients vanish, so $x_n=y_n$, contradicting the collision
+apartness row.
+\end{proof}
+
+\begin{theorem}[Hidden collision plus unit boundary kills real scale]
+\label{thm:unified-reality-hidden-collision-unit-boundary-kills-real-scale}
+Let a hidden prime-collision row provide a gap $g_n$ with $H(g_n)\ne0$.
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+the channel ratio
+$$
+R_{g_n}(s):=e^{-(s-1/2)H(g_n)}
+$$
+satisfies
+$$
+|R_{g_n}(s)|=e^{-\delta H(g_n)}.
+$$
+If the unit-boundary row gives $|R_{g_n}(s)|=1$, then $\delta=0$.
+\end{theorem}
+
+\begin{proof}
+The displayed factorization gives
+$$
+R_{g_n}(s)
+=
+e^{-\delta H(g_n)}e^{-i\tau H(g_n)}.
+$$
+Taking moduli yields the first formula.  If the unit-boundary row gives
+$|R_{g_n}(s)|=1$, then
+$$
+e^{-\delta H(g_n)}=1.
+$$
+Taking logarithms in the positive real readout gives
+$$
+-\delta H(g_n)=0.
+$$
+Since $H(g_n)\ne0$, it follows that $\delta=0$.
+\end{proof}
+
+\begin{corollary}[The zero-knowledge layer does not create the witness]
+\label{cor:unified-reality-zero-knowledge-layer-does-not-create-witness}
+The certificate layer packages the route; it does not discharge
+$\mathsf{ActiveCapture}$ or $\mathsf{BoundaryStability}$.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-public-triadic-verification-sound-fixed-half}
+uses the rows accepted by the verifier.  It does not construct the
+Rouch\'e island, the dominant resonance family, the solenoid-compatible
+phase carrier, or the Lee--Yang-type bound.  Those remain source rows in
+the sense of
+\autoref{thm:unified-reality-source-mechanisms-are-noncircular-content}.
+Thus the zero-knowledge layer is a certificate wrapper around source
+data, not a source theorem.
+\end{proof}
