@@ -446,6 +446,58 @@ theorem HausdorffizationZeroDistanceExactness
       exact ⟨source, boundaryRoute, realRoute, completionRoute⟩
   }
 
+theorem HausdorffizationCarrier_separated_completion_factorization
+    {P S M C W R E T K G N boundaryRead completionRead nameRead : BHist} :
+    HausdorffizationCarrier P S M C W R E T K G N →
+      Cont P S boundaryRead →
+        Cont M C completionRead →
+          Cont G N nameRead →
+            SemanticNameCert
+                (fun row : BHist => hsame row nameRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row P ∨ hsame row S ∨ hsame row M ∨ hsame row C ∨
+                    hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row T ∨
+                      hsame row K ∨ hsame row G ∨ hsame row N ∨ hsame row nameRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ HausdorffizationCarrier P S M C W R E T K G N ∧
+                    Cont P S boundaryRead ∧ Cont M C completionRead ∧ Cont G N nameRead)
+                hsame ∧ UnaryHistory boundaryRead ∧ UnaryHistory completionRead ∧
+                  UnaryHistory nameRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrierData boundaryRoute completionRoute nameRoute
+  have carrierOriginal : HausdorffizationCarrier P S M C W R E T K G N := carrierData
+  obtain ⟨pUnary, sUnary, mUnary, cUnary, _wUnary, _rUnary, _eUnary, _tUnary,
+    _kUnary, gUnary, nUnary, _sourceRoute, _handoffRoute⟩ := carrierData
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed pUnary sUnary boundaryRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed mUnary cUnary completionRoute
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed gUnary nUnary nameRoute
+  refine ⟨?_, boundaryUnary, completionUnary, nameUnary⟩
+  refine
+    { core :=
+        { carrier_inhabited := ⟨nameRead, hsame_refl nameRead, nameUnary⟩
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other sameRows sourceRow
+    exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, unary_transport sourceRow.right sameRows⟩
+  · intro _row sourceRow
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr (Or.inr sourceRow.left))))))))))
+  · intro _row sourceRow
+    exact ⟨sourceRow.right, carrierOriginal, boundaryRoute, completionRoute, nameRoute⟩
+
 end HausdorffizationUp
 
 open BEDC.FKernel.Hist
