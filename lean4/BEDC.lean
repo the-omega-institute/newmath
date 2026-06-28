@@ -3560,6 +3560,7 @@ import BEDC.Derived.CompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteOrderedFieldUp.TasteGate
+import BEDC.Derived.CompleteSeparableMetricUp.DensityCompletionHandoff
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
@@ -3568,6 +3569,7 @@ import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletelyRegularSpaceUp
+import BEDC.Derived.CompletelyRegularSpaceUp.RealValuedSeparationWindow
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
 import BEDC.Derived.CompletionDenseExtensionModulusUp
@@ -6768,6 +6770,7 @@ import BEDC.Derived.HausdorffizationUp.CompletionBoundary
 import BEDC.Derived.HausdorffizationUp.CompletionConsumerNonescape
 import BEDC.Derived.HausdorffizationUp.CompletionHandoffExactness
 import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
+import BEDC.Derived.HausdorffizationUp.NameCertObligationSurface
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
 import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
@@ -10195,6 +10198,7 @@ import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSquareOrderUp
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
+import BEDC.Derived.RationalStreamUp.NameCertSeedObligations
 import BEDC.Derived.RationalUp
 import BEDC.Derived.RationalUp.Core
 import BEDC.Derived.RationalUp.FieldLaws
@@ -10976,6 +10980,7 @@ import BEDC.Derived.RegularCauchyFilterComparisonUp
 import BEDC.Derived.RegularCauchyFilterComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterFunctorUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterRealUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
