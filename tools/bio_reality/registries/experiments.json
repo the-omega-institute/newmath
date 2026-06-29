@@ -2991,6 +2991,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.proteostasis_mismatch.b_star_q6_pq_proteostasis_mismatch_absorption_powered",
+   "experiment_id": "b_star_q6_pq_proteostasis_mismatch_absorption_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (methods step 3): proteostasis mismatch absorption of U. Reconstruct U = P_Q - Pi_D P_Q (minimal_dictionary machinery, yeast, base R^2_QP approx 0.298). Build a translation/folding-burden mismatch subspace Delta from log(TE) (riboseq_translation_efficiency) + folding burden (structural_order disorder + uniprot domain_count/tm_count/complex_member/ptm_density; ids normalized by stripping the 4932. STRING prefix to join). Test A_prot = |Pi_Delta U|^2/|U|^2 (held-out 5-fold) vs a matched-strata (abundance-decile x length) permutation null (B>=200). Verdict crosses_boundary (A_prot > null95 AND held-out Delta-R^2 >= 0.01) / bounded_descriptor_only / composition_artifact / needs_data. BURDEN-ONLY (no chaperone capacity term -- chaperone-client data unavailable). Deterministic, pure stdlib, reconstruction-validated.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_proteostasis_mismatch_absorption_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T13:07:10+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.chaperone_client.b_star_q6_pq_chaperone_client_absorption_powered",
+   "experiment_id": "b_star_q6_pq_chaperone_client_absorption_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (methods step 5): chaperone-client absorption of U. Reconstruct U = P_Q - Pi_D P_Q (minimal_dictionary machinery, yeast, base R^2_QP approx 0.298). Build a 64-dim binary chaperone-membership feature per client gene from the Gong 2009 atlas (tools/bio_reality/data/chaperone_client_gong2009_saccharomyces_cerevisiae.json). Test A_chap = |Pi_C U|^2/|U|^2 with held-out 5-fold cross-fit (mandatory for the 64-dim feature) + a matched-strata (abundance-decile x length) permutation null (B>=200). Verdict crosses_boundary (cross-fitted A_chap > null95 AND held-out dR^2 >= 0.01) / bounded_descriptor_only / composition_artifact (held-out collapses / overfit) / needs_data. Deterministic, pure stdlib, reconstruction-validated.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_chaperone_client_absorption_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T13:59:57+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
