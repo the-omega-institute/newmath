@@ -3302,6 +3302,7 @@ import BEDC.Derived.CofinalModulusSealUp.WindowBudgetExactness
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealNonescape
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.WindowReadbackScope
@@ -9004,6 +9005,7 @@ import BEDC.Derived.MooreSmithConvergenceUp
 import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
+import BEDC.Derived.MooreSmithLTenCompletionNetUp.TasteGate
 import BEDC.Derived.MooreSmithNetUp.TasteGate
 import BEDC.Derived.MooreSmithSubnetUp.TasteGate
 import BEDC.Derived.MooreSpaceUp.TasteGate
@@ -12039,6 +12041,7 @@ import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
+import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
