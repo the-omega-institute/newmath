@@ -3430,6 +3430,7 @@ import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
 import BEDC.Derived.CompactMetricUp.UniformWindowConsumerRoute
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
+import BEDC.Derived.CompactModulusMeshHandoffUp
 import BEDC.Derived.CompactModulusOscillationRouterUp.TasteGate
 import BEDC.Derived.CompactModulusRealizerUp.TasteGate
 import BEDC.Derived.CompactModulusSelectorUp.TasteGate
@@ -7690,6 +7691,7 @@ import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
+import BEDC.Derived.LocatedDyadicUniformMeshUp
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp
