@@ -65,6 +65,22 @@ A $\MetricSubspaceUp$ consumer supplies a compatible admission row and an inheri
 Thus the packet is the common neighbour of the ambient topology and metric-subspace surfaces: it restricts opens by admission, names the induced topology, and does not add an independent metric or host subset coordinate.
 \end{proof}
 
+\begin{theorem}[SubspaceTopology continuity restriction]
+\label{thm:subspace-topology-continuity-restriction}
+Let $S=(X,A,O,R,B,H,C,P,N)$ be an accepted $\SubspaceTopologyUp$ carrier. Any $\ContinuousMapUp$ route whose source is the ambient $\TopologyUp$ row $X$ restricts to admitted subspace points only after the consumer reads $X,A,O,R,B,H,C,P,N$ in order: ambient opens from $X$, admission from $A$, relative opens from $O$, restriction exactness from $R$, inherited boundary and closure rows from $B$, transport from $H$, replay from $C$, provenance from $P$, and local naming from $N$.
+
+The restricted continuity read is therefore a relative-open route through the displayed subspace packet. It introduces no metric rows, host subset equality, selected ambient representatives, independent open selectors, or replacement topology.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subspace-topology-carrier}. A subspace point is available only when the ambient point classifier in $X$ and the admission row $A$ have both been displayed.
+
+Apply the neighbour compatibility theorem \autoref{thm:subspace-topology-neighbour-compatibility}. It factors every relative-open read through $X,A$ before $O,R,B$, so the preimage test for a restricted continuous route can inspect only admitted points and ambient open rows.
+
+The restriction-exactness row $R$ supplies the needed membership reading: a point belongs to a relative open exactly through the displayed admission row and the corresponding ambient open-membership row. Thus continuity on the subspace is checked by pulling the ambient open request back through the same relative-open route.
+
+Finally $H,C,P,N$ preserve, replay, source, and name that route. Since no metric distance row, host subset equality, selected representative, independent selector, or replacement topology is present in the carrier, none can be exported by the restricted continuity read.
+\end{proof}
+
 \begin{theorem}[SubspaceTopology downstream Kelleyfication route]
 \label{thm:subspace-topology-downstream-kelleyfication-route}
 Let $S=(X,A,O,R,B,H,C,P,N)$ be an accepted $\SubspaceTopologyUp$ carrier. Any $\KelleyficationUp$ or compactly generated reflection consumer that reads the topology induced on the displayed subspace must first pass through the ambient $\TopologyUp$ row $X$, the admission row $A$, the relative-open row $O$, the restriction-exactness row $R$, and the transport and replay rows $H,C$ before the compact-window tests of \autoref{ch:concrete-instances-kelleyfication-namecert} may consume the result.
