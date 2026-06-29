@@ -386,6 +386,7 @@ import BEDC.Derived.AuditGateBoundaryUp.LedgerExactness
 import BEDC.Derived.AuditGateBoundaryUp.StdBridge
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateBoundaryUp.TasteGate
+import BEDC.Derived.AuditGateCompositionUp
 import BEDC.Derived.AuditGateCompositionUp.BoundaryObligation
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
@@ -1642,6 +1643,7 @@ import BEDC.Derived.CandidateSNConfluenceBoundaryUp.TasteGate
 import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
+import BEDC.Derived.CanonicalTailChoiceUp.CofinalChoiceBoundary
 import BEDC.Derived.CanonicalTailChoiceUp.CofinalityStability
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
@@ -10197,7 +10199,6 @@ import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
 import BEDC.Derived.RHRoute.RationalPolygonWinding
-import BEDC.Derived.RHRoute.RationalPolygonWindingReversal
 import BEDC.Derived.RHRoute.RationalPolygonWindingRotation
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
 import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
