@@ -355,6 +355,20 @@ Now pass to the BishopRealInterval carrier and its regular seal route, \autoref{
 Finally replay the RegularSequenceSpace structural rows $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same tail window and endpoint packet, so the resulting enclosure is a Real-readable L10 completion route rather than a quotient-real, selected-limit, classical-interval, countable-choice, or ambient-completeness assertion.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace BishopSequence forward link]
+\label{thm:regular-sequence-space-bishop-sequence-forward-link}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any downstream $\BishopSequenceUp$ consumer of $S$ must keep the $\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal route $R,H,C,P,N$ visible before the Bishop sequence read is public. The resulting forward link feeds the carrier of \autoref{ch:concrete-instances-bishop-sequence-namecert} through the same tail window and regular readback used by \autoref{thm:regular-sequence-space-tail-filter-handoff}, \autoref{thm:regular-sequence-space-cauchy-window-namecert-route}, and \autoref{thm:regular-sequence-space-bishop-real-interval-route}; it exports no quotient stream equality, selected sequence representative, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It places every completion-facing read behind the displayed $\StreamNameUp$ schedule $T$, $\RegSeqRatUp$ readback $Q$, and $\DyadicRatCoreUp$ tolerance row $D$ before the terminal seal is public.
+
+Apply the Cauchy-window route of \autoref{thm:regular-sequence-space-cauchy-window-namecert-route}. The window subpacket keeps $T,Q,D,R,H,C,P,N$ together as one finite NameCert route rather than as detachable sequence representatives.
+
+Now pass to the $\BishopSequenceUp$ carrier of \autoref{ch:concrete-instances-bishop-sequence-namecert}. A Bishop sequence consumer may read the displayed regular sequence space only through the same stream window, regular rational readback, tolerance ledger, and Real seal rows.
+
+Finally use the BishopRealInterval route of \autoref{thm:regular-sequence-space-bishop-real-interval-route} as the endpoint model. Since interval-facing reads already preserve the same tail window before public consumption, BishopSequence-facing reads inherit the same finite L10 boundary and cannot add quotient streams, selected representatives, countable choice, or ambient completeness.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 \closureat{RegularSequenceSpaceUp}{obligationStr}
 
