@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NontrivialZeroClassifierUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -218,6 +220,26 @@ private theorem nontrivialZeroClassifierToEventFlow_injective
     (Eq.trans (nontrivialZeroClassifierRoundTrip x).symm
       (Eq.trans hread (nontrivialZeroClassifierRoundTrip y)))
 
+def nontrivialZeroClassifierFields : NontrivialZeroClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | NontrivialZeroClassifierUp.mk zero strip witness trivial realPart comparison transport route
+      provenance name =>
+      [zero, strip, witness, trivial, realPart, comparison, transport, route, provenance,
+        name]
+
+private theorem nontrivialZeroClassifier_field_faithful :
+    ∀ x y : NontrivialZeroClassifierUp,
+      nontrivialZeroClassifierFields x = nontrivialZeroClassifierFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk zero strip witness trivial realPart comparison transport route provenance name =>
+      cases y with
+      | mk zero' strip' witness' trivial' realPart' comparison' transport' route'
+          provenance' name' =>
+          cases hfields
+          rfl
+
 instance nontrivialZeroClassifierBHistCarrier : BHistCarrier NontrivialZeroClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := nontrivialZeroClassifierToEventFlow
@@ -235,6 +257,27 @@ instance nontrivialZeroClassifierChapterTasteGate :
     intro x y hxy heq
     exact hxy (nontrivialZeroClassifierToEventFlow_injective heq)
 
+instance nontrivialZeroClassifierFieldFaithful :
+    FieldFaithful NontrivialZeroClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := nontrivialZeroClassifierFields
+  field_faithful := nontrivialZeroClassifier_field_faithful
+
+instance nontrivialZeroClassifierNontrivial : Nontrivial NontrivialZeroClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨NontrivialZeroClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      NontrivialZeroClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate NontrivialZeroClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  nontrivialZeroClassifierChapterTasteGate
+
 theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
     (∀ h : BHist, nontrivialZeroClassifierDecodeBHist
         (nontrivialZeroClassifierEncodeBHist h) = h) ∧
@@ -244,7 +287,10 @@ theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
         (∀ x y : NontrivialZeroClassifierUp,
           nontrivialZeroClassifierToEventFlow x = nontrivialZeroClassifierToEventFlow y →
             x = y) ∧
-          nontrivialZeroClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+          nontrivialZeroClassifierEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : NontrivialZeroClassifierUp,
+              nontrivialZeroClassifierFields x = nontrivialZeroClassifierFields y → x = y) ∧
+              (∃ x y : NontrivialZeroClassifierUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact nontrivialZeroClassifierDecodeEncodeBHist
@@ -254,6 +300,96 @@ theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact nontrivialZeroClassifierToEventFlow_injective heq
-      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · exact nontrivialZeroClassifier_field_faithful
+          · exact
+              ⟨NontrivialZeroClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty,
+                NontrivialZeroClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
+
+theorem NontrivialZeroClassifierCarrier_critical_strip_handoff
+    {zero strip witness route provenance name : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row route ∨
+          hsame row provenance ∨ hsame row name)
+      (fun row : BHist =>
+        hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row route ∨
+          hsame row provenance ∨ hsame row name)
+      (fun row : BHist =>
+        hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row route ∨
+          hsame row provenance ∨ hsame row name)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame
+  have sourceZero :
+      (fun row : BHist =>
+        hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row route ∨
+          hsame row provenance ∨ hsame row name) zero := by
+    exact Or.inl (hsame_refl zero)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro zero sourceZero
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _mid _col sameRowMid sameMidCol
+        exact hsame_trans sameRowMid sameMidCol
+      carrier_respects_equiv := by
+        intro row col same source
+        cases source with
+        | inl rowZero =>
+            exact Or.inl (hsame_trans (hsame_symm same) rowZero)
+        | inr rest =>
+            cases rest with
+            | inl rowStrip =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) rowStrip))
+            | inr rest =>
+                cases rest with
+                | inl rowWitness =>
+                    exact Or.inr (Or.inr (Or.inl (hsame_trans (hsame_symm same) rowWitness)))
+                | inr rest =>
+                    cases rest with
+                    | inl rowRoute =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl (hsame_trans (hsame_symm same) rowRoute))))
+                    | inr rest =>
+                        cases rest with
+                        | inl rowProvenance =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm same) rowProvenance)))))
+                        | inr rowName =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr (hsame_trans (hsame_symm same) rowName)))))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.NontrivialZeroClassifierUp

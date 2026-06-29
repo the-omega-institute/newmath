@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICAuditMatrixUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -277,5 +279,52 @@ theorem MetaCICAuditMatrixUp_obligation_surface :
   · constructor
     · exact ⟨metaCICAuditMatrixChapterTasteGate⟩
     · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
+theorem MetaCICAuditMatrixCarrier_critical_path_route
+    {blocked synthesis nonescape : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row blocked ∨ hsame row synthesis ∨ hsame row nonescape)
+      (fun row : BHist =>
+        hsame row blocked ∨ hsame row synthesis ∨ hsame row nonescape)
+      (fun row : BHist =>
+        hsame row blocked ∨ hsame row synthesis ∨ hsame row nonescape)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame
+  have sourceBlocked :
+      (fun row : BHist =>
+        hsame row blocked ∨ hsame row synthesis ∨ hsame row nonescape) blocked := by
+    exact Or.inl (hsame_refl blocked)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro blocked sourceBlocked
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _mid _col sameRowMid sameMidCol
+        exact hsame_trans sameRowMid sameMidCol
+      carrier_respects_equiv := by
+        intro row col same source
+        cases source with
+        | inl rowBlocked =>
+            exact Or.inl (hsame_trans (hsame_symm same) rowBlocked)
+        | inr rest =>
+            cases rest with
+            | inl rowSynthesis =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) rowSynthesis))
+            | inr rowNonescape =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm same) rowNonescape))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.MetaCICAuditMatrixUp

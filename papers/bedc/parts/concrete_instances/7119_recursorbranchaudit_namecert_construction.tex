@@ -32,6 +32,7 @@ The carrier contains no branch-index row outside $S$, no branch omission route, 
 \label{thm:recursor-branch-audit-namecert-obligations}
 For every accepted $\RecursorBranchAuditUp$ carrier $A=(I,S,R,M,B,D,O,H,C,P,N)$, the local $\NameCert_{\RecursorBranchAuditUp}$ surface consists exactly of the accepted inductive name, closed constructor signature, emitted recursor, motive boundary, constructor-indexed branch matrix, structural descent ledger, generated output, componentwise transports, continuation routes, package provenance, and local naming row displayed in \autoref{def:recursor-branch-audit-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAudit\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:recursor-branch-audit-carrier}. Its displayed rows are precisely $I,S,R,M,B,D,O,H,C,P,N$.
 
@@ -51,11 +52,13 @@ Read the branch matrix $B$ through the same recursor boundary. Each row of $B$ i
 
 Transport and continuation access through $H$ and $C$ preserve the same indexing. Because the carrier has no coordinate for a second branch index, branch coverage is exactly the finite matrix displayed by $S$ and $B$.
 \end{proof}
+\leanchecked{BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier\_branch\_coverage}
 
 \begin{theorem}[RecursorBranchAudit motive boundary]
 \label{thm:recursor-branch-audit-motive-boundary}
 Every branch-output read in an accepted $\RecursorBranchAuditUp$ packet factors through the motive-boundary row $M$ and the constructor-indexed branch matrix $B$. The packet exposes no route by which a branch can select a target family, output type, or scrutinee dependency not recorded in $M$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier\_motive\_boundary}
 \begin{proof}
 Project the motive row $M$ and branch matrix $B$. The motive row records the target family and branch-local output requirements, while the matrix stores the branch rows that must meet those requirements.
 
