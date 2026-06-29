@@ -128,6 +128,20 @@ Apply the tail-filter handoff and tail coherence results, \autoref{thm:regular-s
 Finally use value-seal exhaustion, pointwise stream projection, and finite-window comparison, \autoref{thm:regular-sequence-space-value-seal-exhaustion}, \autoref{thm:regular-sequence-space-pointwise-stream-projection}, and \autoref{thm:regular-sequence-space-window-comparison}. These rows exhaust the value-facing and comparison obligations, so the scoped route has no coordinate for quotient streams, selected limits, arbitrary representatives, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace obligation public interface]
+\label{thm:regular-sequence-space-obligation-public-interface}
+For every accepted $\RegularSequenceSpaceUp$ carrier $S=(X,T,Q,D,R,H,C,P,N)$, the carrier admission, tail-filter handoff, tail coherence, value-seal exhaustion, pointwise stream projection, and obligation scope route form the public obligation interface for completion-facing consumers. Every such consumer must pass through the displayed $\StreamNameUp$ schedule $T$, $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and terminal $\RealUp$ seal route $R,H,C,P,N$. The interface has no quotient stream, selected limit, ambient completeness coordinate, unrestricted sequence-space row, or host representative choice.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and the NameCert obligations of \autoref{def:regular-sequence-space-carrier} and \autoref{thm:regular-sequence-space-namecert-obligations}. They expose $X,T,Q,D,R,H,C,P,N$ as the finite public packet and place the stream, readback, dyadic, seal, transport, replay, provenance, and local naming rows in one route.
+
+Use the tail-filter handoff and tail coherence rows, \autoref{thm:regular-sequence-space-tail-filter-handoff} and \autoref{thm:regular-sequence-space-tail-coherence}. These keep completion-facing reads downstream of the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ data before any Real-facing read is public.
+
+Next apply value-seal exhaustion and pointwise stream projection, \autoref{thm:regular-sequence-space-value-seal-exhaustion} and \autoref{thm:regular-sequence-space-pointwise-stream-projection}. The terminal seal and every pointwise projection remain attached to the displayed finite window rather than to a quotient stream or chosen representative.
+
+Finally invoke the obligation scope route of \autoref{thm:regular-sequence-space-obligation-scope-route}. The six named obligations therefore form exactly the public interface seen by completion-facing consumers through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, with no ambient completeness or unrestricted sequence-space coordinate.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace RegSeqRat Real seal route]
 \label{thm:regular-sequence-space-regseqrat-real-seal-route}
 Every endpoint read from an accepted $\RegularSequenceSpaceUp$ carrier factors first through the $\RegSeqRatUp$ classifier row $Q$ and then through the $\RealUp$ seal row $R$, with the stream schedule $T$, dyadic tolerance row $D$, transport $H$, replay $C$, provenance $P$, and local naming $N$ still visible. No endpoint read uses a quotient stream, an ambient complete sequence space, or an unrecorded completeness principle.
