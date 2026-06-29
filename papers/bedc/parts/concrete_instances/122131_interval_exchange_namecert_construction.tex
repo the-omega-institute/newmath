@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\IntervalExchangeUp$}
+\label{ch:concrete-instances-interval-exchange-namecert}
+\origin{human}
+
+Following Keane and Veech on interval exchange transformations, the $\IntervalExchangeUp$ packet records the finite interval-map surface used when a displayed partition of a real interval is rearranged by finitely many translations. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite cell net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite partition, permutation, and translation ledger by which later symbolic-dynamics or interval-map certificates may inspect an interval exchange; it does not assert invariant measures, minimality, unique ergodicity, host interval functions, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[IntervalExchange carrier]
+\label{def:interval-exchange-carrier}
+An $\IntervalExchangeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,I,B,\Pi,T,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ row containing the located interval endpoints, dyadic cut points, endpoint comparisons, and translation budgets.
+\item $I$ is the $\DyadicIntervalNetUp$ row listing the finite source cells and target cells of the partition.
+\item $B$ is the boundary-incidence row recording which neighboring source cells share displayed endpoints and which target cells share displayed endpoints.
+\item $\Pi$ is the finite permutation row matching each source cell to exactly one target cell.
+\item $T$ is the finite translation row; for each displayed source cell it records the dyadic displacement that carries the source endpoints to the corresponding target endpoints.
+\item $W$ is the $\StreamNameUp$ window row used whenever a source endpoint, target endpoint, or translated endpoint is inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row turning the displayed endpoint and translation windows into regular rational comparisons.
+\item $R$ is the terminal $\RealUp$ seal row, available only after $D,I,B,\Pi,T,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,I,B,\Pi,T,W,Q,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from partition cells through permutation, translation, StreamName windows, RegSeqRat readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance row over $\IntervalExchangeUp$, $\DyadicRatCoreUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\IntervalExchangeUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed endpoint, cell, incidence, permutation, translation, window, readback, seal, transport, continuation, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[IntervalExchange NameCert obligations]
+\label{thm:interval-exchange-namecert-obligations}
+For every accepted $\IntervalExchangeUp$ carrier $E=(D,I,B,\Pi,T,W,Q,R,H,C,P,N)$, the local NameCert surface consists exactly of carrier admission for those rows; classifier stability under common dyadic refinement of the source and target cells; interval-cell transport through $I,B,\Pi,T$; finite orbit replay by iterating only the displayed permutation and translation rows for a displayed number of steps; $\StreamNameUp$ window exposure through $W$; $\RegSeqRatUp$ readback through $Q$; terminal $\RealUp$ sealing through $R$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and ledger nonescape through the local certificate $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:interval-exchange-carrier}. It fixes the finite row inventory and makes the local classifier a comparison of displayed endpoint, cell, permutation, translation, window, readback, seal, transport, replay, provenance, and naming data.
+
+Common refinement is finite. A refined carrier replaces listed cells in $I$ by displayed dyadic subcells whose endpoint arithmetic is still read in $D$, whose incidences are still read in $B$, and whose source-to-target matching is still read through $\Pi,T$.
+
+Finite orbit replay is also a row operation. A displayed number of steps iterates the permutation and translation ledgers already present in $\Pi,T$, opening StreamName windows through $W$ and rational readback through $Q$ before the Real seal $R$ is visible.
+
+Finally replay $H,C,P,N$. Transport, continuation, provenance, and local naming preserve the same finite ledger, so the packet cannot export invariant measures, minimality, unique ergodicity, host interval functions, quotient real equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[IntervalExchange L10 handoff]
+\label{thm:interval-exchange-l10-handoff}
+Every downstream consumer of an accepted $\IntervalExchangeUp$ carrier must read the $\DyadicIntervalNetUp$ cell row, the $\StreamNameUp$ endpoint windows, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal before treating the packet as an interval map. The handoff order is
+$$
+\DyadicRatCoreUp,\DyadicIntervalNetUp \longmapsto \StreamNameUp,\RegSeqRatUp \longmapsto \RealUp,
+$$
+with the permutation and translation rows displayed between the interval-net read and the terminal seal.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(D,I,B,\Pi,T,W,Q,R,H,C,P,N)$. The dyadic endpoint arithmetic and interval-cell rows $D,I,B$ are the only partition data visible at the start of an interval-map read.
+
+The consumer then opens $\Pi,T$. These rows give a finite source-to-target matching and a finite translation ledger, so no host interval function or quotient real equality is used to interpret the rearrangement.
+
+The L10 numeric route remains downstream. Endpoint observations pass through $W$, tolerance and regular rational comparisons pass through $Q$, and the Real-facing boundary is exposed only by $R$.
+
+Finally replay $H,C,P,N$. The same finite dependency order is preserved under transport, continuation, provenance, and naming, so the handoff reaches an interval-map surface without importing invariant measures, minimality, unique ergodicity, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\IntervalExchangeUp$ consumer that treats the packet as an interval map before reading $\DyadicRatCoreUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, dyadic-interval-net, streamname, regseqrat, real: no listed sibling supplies the whole interval-exchange packet $E=(D,I,B,\Pi,T,W,Q,R,H,C,P,N)$, because the sibling chapters supply arithmetic, cells, windows, readback, and seal rows while this chapter binds the finite permutation and translation ledger that turns those rows into an interval exchange surface.}
+
+\begin{closurestatus}{\IntervalExchangeUp}
+  \constructivestory{An $\IntervalExchangeUp$ packet is generated from located dyadic endpoints, dyadic interval cells, endpoint incidence, a finite permutation row, finite translation rows, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-exchange-carrier}, \autoref{thm:interval-exchange-namecert-obligations}, and \autoref{thm:interval-exchange-l10-handoff} seed the finite interval-map NameCert boundary over dyadic interval partitions, permutation rows, translation rows, StreamName windows, RegSeqRat readback, and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim invariant measures, minimality, unique ergodicity, host interval functions, quotient real equality, countable choice, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability under common refinement, interval-cell transport, finite orbit replay, L10 handoff order, ledger nonescape, provenance, and local naming for BEDC.Derived.IntervalExchangeUp.}
+\end{closurestatus}
