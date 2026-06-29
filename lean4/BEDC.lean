@@ -9165,6 +9165,7 @@ import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NeumannSeriesUp.TasteGate
+import BEDC.Derived.NewtonForwardSeriesUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
