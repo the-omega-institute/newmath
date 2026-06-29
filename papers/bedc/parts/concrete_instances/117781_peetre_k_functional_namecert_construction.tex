@@ -62,6 +62,24 @@ The value route is completion-facing but finite. The rows $V,Q,W,D,E$ carry the 
 The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Therefore the consumer receives only the finite $K$-functional handoff and none of the excluded host interpolation claims.
 \end{proof}
 
+\begin{theorem}[Peetre $K$-functional decomposition-window route]
+\label{thm:peetre-k-functional-decomposition-window-route}
+For every accepted $\PeetreKFunctionalUp$ carrier
+$$
+K=(S,X,T,B,V,Q,W,D,E,H,C,P,N),
+$$
+any read of a $K$-functional value routes through the displayed $\NormedSpaceUp$ pair row $X$, the positive tolerance row $T$, the finite decomposition-budget row $B$, the value-readback row $V$, the $\RegSeqRatUp$ readback row $Q$, the $\StreamNameUp$ finite-window row $W$, the $\DyadicRatCoreUp$ radius ledger $D$, the terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\PeetreKFunctionalUp}$ row $N$. The route exports only this finite decomposition window; it exports no selected infimum, quotient interpolation space, countable-choice schedule, host norm equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:peetre-k-functional-carrier}. The value read has no independent coordinate outside $S,X,T,B,V,Q,W,D,E,H,C,P,N$, so the normed pair, tolerance, decomposition budget, readback, window, radius, and Real-seal rows are visible before the structural rows are consumed.
+
+Apply the obligation surface of \autoref{thm:peetre-k-functional-namecert-obligations}. It identifies the local NameCert rows as source admission, $\NormedSpaceUp$ pair exposure, positive tolerance exposure, finite budget display, value-readback routing, regular rational readback, finite-window inspection, dyadic-radius control, Real sealing, transport, replay, provenance, and local naming.
+
+Apply the interpolation handoff of \autoref{thm:peetre-k-functional-interpolation-handoff}. It ensures that any regularity-scale consumer reads the same rows before routing data to $\BesovSpaceUp$, $\TriebelLizorkinSpaceUp$, or $\RieszThorinInterpolationUp$.
+
+The carrier contains no coordinate for an extremal split, quotient interpolation object, countable-choice schedule, host norm equality, or ambient completeness principle. Thus the decomposition-window route is exactly the finite route displayed by the carrier and its NameCert surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\PeetreKFunctionalUp$ read is refuted if a Besov, Triebel--Lizorkin, or real-interpolation consumer reaches the $\RealUp$ value seal without first displaying the $\NormedSpaceUp$ pair, positive tolerance, finite decomposition budget, $\RegSeqRatUp$ readback, $\StreamNameUp$ window, and $\DyadicRatCoreUp$ radius ledger.}
 
 \independenceWitness{normedspace, real, regseqrat, streamname, dyadicratcore, besovspace, triebel-lizorkin-space, riesz-thorin-interpolation: none is bijective with $\PeetreKFunctionalUp$ because this packet jointly carries a normed-pair source, tolerance request, decomposition budget, value readback, regular rational stream, dyadic radius ledger, Real seal, interpolation-scale handoff, transport, replay, provenance, and local NameCert rows.}

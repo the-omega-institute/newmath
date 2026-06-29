@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SchreierSimsUp$}
+\label{ch:concrete-instances-schreier-sims-namecert}
+\origin{human}
+
+Following Sims' stabilizer-chain method and the computational group theory treatments of Seress, the $\SchreierSimsUp$ packet records a finite permutation-group certificate as BEDC NameCert data. It consumes the permutation source of \autoref{ch:concrete-instances-permutation-namecert}, the group source of \autoref{ch:concrete-instances-group-namecert}, the orbit and stabilizer rows of \autoref{ch:concrete-instances-orbit-stabilizer-namecert}, and the finite action rows of \autoref{ch:concrete-instances-finite-group-representation-namecert}. The packet names a displayed stabilizer chain, transversal ledger, Schreier generator rows, sift trace, transport, replay, provenance, and local naming; it does not implement a host permutation-group algorithm or claim a complete constructive base-change strategy.
+
+\begin{definition}[Schreier-Sims carrier]
+\label{def:schreier-sims-carrier}
+A $\SchreierSimsUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,G,O,R,B,T,W,F,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the consumed $\PermutationUp$ source row, exposing the finite moved-set and graph data used by the action.
+\item $G$ is the consumed $\GroupUp$ source row, exposing multiplication, unit, inverse, and finite support rows for the generated permutation group.
+\item $O$ is the consumed $\OrbitStabilizerUp$ row, used to read each orbit and stabilizer boundary before a chain level is accepted.
+\item $R$ is the consumed $\FiniteGroupRepresentationUp$ action row, used only as the finite action interface through which permutation rows act on the displayed base points.
+\item $B$ is the finite base row, listing the inspected base points and the order in which stabilizer levels are read.
+\item $T$ is the transversal ledger, recording for each displayed orbit level the chosen finite transversal rows and their source in $P,G,O,R$.
+\item $W$ is the Schreier-generator row, recording the finite generator words obtained from the displayed transversal rows and group generators.
+\item $F$ is the sift-trace row, recording the finite reduction route of a displayed permutation through the stabilizer chain.
+\item $H$ is componentwise $\hsame$ transport for $P,G,O,R,B,T,W,F$.
+\item $C$ is displayed $\Cont$ replay of the stabilizer-chain read from permutation, group, orbit-stabilizer, and representation rows into the local certificate.
+\item $Q$ is the $\Pkg$ provenance over $\PermutationUp$, $\GroupUp$, $\OrbitStabilizerUp$, $\FiniteGroupRepresentationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchreierSimsUp}$ row.
+\end{enumerate}
+No coordinate stores a host permutation-group procedure, ambient coset table, quotient action category, selected global base-change oracle, or proof that a particular implementation terminates.
+\end{definition}
+\leanstmt{BEDC.Derived.SchreierSimsUp}
+
+\begin{theorem}[Schreier-Sims NameCert obligations]
+\label{thm:schreier-sims-namecert-obligations}
+For every accepted $\SchreierSimsUp$ carrier
+$$
+S=(P,G,O,R,B,T,W,F,H,C,Q,N),
+$$
+the local $\NameCert_{\SchreierSimsUp}$ surface consists exactly of carrier admission for the displayed permutation source, group source, orbit-stabilizer rows, finite action row, base row, transversal ledger, Schreier-generator row, sift-trace row, componentwise transport, displayed replay, package provenance, and local naming. Each obligation is read from the displayed finite rows before any consumer may treat the packet as a stabilizer-chain certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schreier-sims-carrier}. The first four rows expose the consumed permutation, group, orbit-stabilizer, and finite-action sources; the next four rows expose the base, transversals, Schreier generators, and sift trace.
+
+The local naming obligations are then componentwise. The transversal ledger must cite the displayed orbit-stabilizer row, the generator ledger must cite the same transversal and group rows, and the sift trace must move through the displayed stabilizer levels in base order.
+
+Finally $H,C,Q,N$ transport, replay, source, and name only those finite rows. Since the packet has no host algorithm, quotient action category, or global base-change coordinate, the NameCert surface is exactly the displayed stabilizer-chain data.
+\end{proof}
+
+\begin{theorem}[Schreier-Sims stabilizer-chain handoff]
+\label{thm:schreier-sims-stabilizer-chain-handoff}
+Every $\SchreierSimsUp$ consumer that reads a stabilizer chain must first expose the base row $B$, the orbit-stabilizer row $O$, the transversal ledger $T$, the Schreier-generator row $W$, and the sift-trace row $F$ over the consumed $\PermutationUp$, $\GroupUp$, and $\FiniteGroupRepresentationUp$ sources. The handoff is a finite BEDC certificate for the displayed chain; it is not a host membership algorithm, a coset-enumeration primitive, or a complete permutation-group computation engine.
+\end{theorem}
+\begin{proof}
+Begin with the base row $B$. It fixes the level order in which stabilizers can be read, so a consumer cannot inspect a later sift endpoint before the earlier orbit and stabilizer rows are displayed.
+
+Next use the orbit-stabilizer and action sources $O$ and $R$. They provide the finite orbit and stabilizer boundaries used by the transversal ledger $T$, with the permutation and group rows $P,G$ still visible.
+
+Then read the Schreier-generator row $W$ and sift-trace row $F$. These rows record the finite generator and reduction data for the displayed chain, while $H,C,Q,N$ preserve and name the same packet. Thus the exported handoff is exactly a finite stabilizer-chain certificate.
+\end{proof}
+
+\closureat{SchreierSimsUp}{seedStr}
+
+\begin{closurestatus}{\SchreierSimsUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schreier-sims-carrier}, \autoref{thm:schreier-sims-namecert-obligations}, and \autoref{thm:schreier-sims-stabilizer-chain-handoff} seed the finite permutation-group stabilizer-chain carrier over displayed permutation, group, orbit-stabilizer, finite-action, base, transversal, Schreier-generator, and sift-trace rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.SchreierSimsUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host permutation-group algorithms, complete coset enumeration, global base-change selection, implementation termination, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transversal exactness, Schreier-generator stability, sift-trace replay, stabilizer-chain handoff, transport, provenance, and local naming for the same finite packet.}
+  \constructivestory{A $\SchreierSimsUp$ packet is generated from displayed PermutationUp, GroupUp, OrbitStabilizerUp, and FiniteGroupRepresentationUp source rows, a finite base row, transversal ledger, Schreier-generator row, sift-trace row, componentwise transport, displayed replay, provenance, and local naming.}
+\end{closurestatus}
