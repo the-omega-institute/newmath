@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CauchyApartnessModulusUp$}
+\label{ch:concrete-instances-cauchy-apartness-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\CauchyApartnessModulusUp$ packet records the finite witness by which two regular Cauchy real names are read as apart before any order, quotient, or trichotomy principle is available. It sits between the stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the apartness surface of \autoref{ch:concrete-instances-cauchy-real-apartness-namecert}. The packet names a displayed positive separation window for regular Cauchy names; it does not assert trichotomy, quotient-real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy apartness modulus carrier]
+\label{def:cauchy-apartness-modulus-carrier}
+A $\CauchyApartnessModulusUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,Q,D,R,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row naming the two inspected Cauchy streams and the finite precision request at which they are compared.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the two regular rational names on that window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row carrying the dyadic positive gap and the comparison budget used to read it.
+\item $R$ is the $\RealUp$ seal row reached only after the stream window, regular rational readback, and dyadic gap budget have been displayed.
+\item $J$ is the $\CauchyRealApartnessUp$ apartness row witnessing that the displayed dyadic gap is the public apartness evidence for the two Cauchy real names.
+\item $H$ records componentwise $\hsame$ transport for the StreamName, RegSeqRat, DyadicRatCore, Real, apartness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy-apartness request through the stream window, regular rational readback, dyadic gap budget, Real seal, and apartness row.
+\item $P$ records $\Pkg$ provenance over $\CauchyApartnessModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyRealApartnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyApartnessModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,Q,D,R,J,H,C,P,N$. It has no coordinate for total order trichotomy, quotient representatives, selected moduli, countable-choice schedules, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy apartness modulus NameCert obligations]
+\label{thm:cauchy-apartness-modulus-namecert-obligations}
+For every accepted $\CauchyApartnessModulusUp$ carrier
+$$
+A=(S,Q,D,R,J,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyApartnessModulusUp}$ surface consists exactly of StreamName window admission, RegSeqRat readback, DyadicRatCore positive-gap budgeting, Real-seal visibility, CauchyRealApartness witness alignment, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The surface supplies apartness evidence only through the displayed finite window and exports no trichotomy, quotient-real equality, selected Cauchy limit, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-apartness-modulus-carrier}. The rows $S,Q,D$ expose the inspected stream window, regular rational readback, and dyadic gap budget before the Real seal or apartness row can be consumed.
+
+The apartness witness is then read through $J$. Since $J$ is downstream of the same $S,Q,D,R$ route, a consumer sees a positive separation window rather than a detached order decision or quotient representative.
+
+Finally $H,C,P,N$ preserve and name that displayed route. The carrier has no coordinate for trichotomy, chosen representatives, selected limits, countable choice, or ambient completeness, so none is exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy apartness modulus regular window]
+\label{thm:cauchy-apartness-modulus-regular-window}
+Every $\CauchyApartnessModulusUp$ read that reaches the apartness row $J$ must first display the $\StreamNameUp$ window $S$, the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal $R$. Thus the apartness modulus is a regular-window route
+$$
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\DyadicRatCoreUp,\quad
+\RealUp,\quad
+\CauchyRealApartnessUp
+$$
+and not an external order oracle or quotient-real comparison.
+\end{theorem}
+\begin{proof}
+Start from a consumer read of $J$. By \autoref{def:cauchy-apartness-modulus-carrier}, the apartness row is attached to the displayed StreamName, RegSeqRat, DyadicRatCore, and Real rows.
+
+The regular rational readback and dyadic tolerance budget determine the public positive gap. The terminal Real seal is visible only after those rows have been opened, so the apartness row is a finite regular-window witness.
+
+Replay through $H,C,P,N$ preserves the same route. A consumer that omits any of $S,Q,D,R$ has not reached the named apartness modulus and cannot read $J$ as public evidence.
+\end{proof}
+
+\begin{theorem}[Cauchy apartness modulus ledger refusal]
+\label{thm:cauchy-apartness-modulus-ledger-refusal}
+An accepted $\CauchyApartnessModulusUp$ packet refuses every attempted ledger read that omits one of $S,Q,D,R,J,H,C,P,N$. In particular, a route that supplies only a Real seal, only a dyadic inequality, or only an apartness label is boundary evidence, not a public apartness modulus for $\CauchyRealApartnessUp$.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:cauchy-apartness-modulus-namecert-obligations}. It lists all rows that the local certificate admits, including the stream window, regular rational readback, dyadic tolerance budget, Real seal, and apartness witness.
+
+Apply the regular-window route of \autoref{thm:cauchy-apartness-modulus-regular-window}. Any public apartness read reaches $J$ only through $S,Q,D,R$ and then through the structural rows $H,C,P,N$.
+
+Therefore a ledger read missing one of these rows lies outside the accepted carrier. Such a read may be boundary evidence for a later consumer, but it is not a $\CauchyApartnessModulusUp$ certificate and cannot be exported as a public apartness modulus.
+\end{proof}
+
+\falsifiablePrediction{A consumer that exports $\CauchyRealApartnessUp$ evidence while omitting the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ positive-gap row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local naming row has left the $\CauchyApartnessModulusUp$ packet.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchyrealapartness: $\CauchyApartnessModulusUp$ is not bijective to any listed sibling because it joins a StreamName comparison window, RegSeqRat readback, DyadicRatCore positive-gap budget, Real seal, CauchyRealApartness witness, transport, replay, provenance, and local NameCert as one finite apartness-modulus packet.}
+
+\closureat{CauchyApartnessModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyApartnessModulusUp}
+  \constructivestory{A $\CauchyApartnessModulusUp$ packet is generated from a StreamName comparison window, RegSeqRat readback, DyadicRatCore positive-gap budget, a Real seal, a CauchyRealApartness witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-apartness-modulus-carrier}, \autoref{thm:cauchy-apartness-modulus-namecert-obligations}, \autoref{thm:cauchy-apartness-modulus-regular-window}, and \autoref{thm:cauchy-apartness-modulus-ledger-refusal} seed the finite Cauchy apartness modulus route over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyRealApartnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total order trichotomy, quotient-real equality, selected Cauchy limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-window readback, dyadic positive-gap budgeting, Real-seal visibility, apartness witness alignment, transport, replay, provenance, and local naming for BEDC.Derived.CauchyApartnessModulusUp.}
+\end{closurestatus}
