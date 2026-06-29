@@ -54,6 +54,7 @@ The rows $H,C,P,N$ transport, replay, source, and name the same packet. Since th
 \label{thm:wronskian-determinant-ledger-exactness}
 Every determinant or linear-dependence read of an accepted $\WronskianUp$ packet must expose the derivative row $D$, continuous-map family row $F$, finite jet table $J$, determinant ledger $\Omega$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ tolerance route, and terminal $\RealUp$ seal $E$. The read is exact only as the displayed dependency route through \autoref{ch:concrete-instances-derivative-namecert}, \autoref{ch:concrete-instances-continuousmap-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}; it exports no host function equality, selected differentiability witness, or quotient Real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.WronskianUp.WronskianCarrier\_determinant\_ledger\_exactness}
 \begin{proof}
 Project the carrier of \autoref{def:wronskian-carrier}. The determinant-facing rows are $F,D,J,\Omega$, so determinant assembly can only inspect the displayed continuous-map family, derivative admission, jet table, and alternating ledger.
 
@@ -83,6 +84,7 @@ Use \autoref{thm:wronskian-linear-dependence-boundary} for the linear-dependence
 
 Finally apply \autoref{thm:wronskian-real-seal-nonescape}. The terminal Real seal is reached only after the displayed route has been read. Host function equality, selected differentiability witnesses, quotient real equality, and ambient completeness are absent from both carriers, so transport cannot introduce them.
 \end{proof}
+\leanchecked{BEDC.Derived.WronskianUp.WronskianCarrier\_determinant\_route\_stability}
 
 \begin{theorem}[Wronskian linear-dependence boundary]
 \label{thm:wronskian-linear-dependence-boundary}
@@ -130,6 +132,34 @@ Apply \autoref{thm:wronskian-namecert-obligations}. It states that these rows, t
 Use \autoref{thm:wronskian-linear-dependence-boundary} for the consumer boundary. Any downstream read that wants a Wronskian value or a linear-dependence verdict must pass through the same finite route before it can inspect the Real seal.
 
 The excluded objects are not carrier coordinates and are not supplied by the sibling rows. Hence the terminal $\RealUp$ seal cannot be reached through quotient streams, host equality, selected limits, selected differentiability witnesses, countable choice, ambient completeness, or bridge data.
+\end{proof}
+
+\begin{theorem}[Wronskian obligation closure scope]
+\label{thm:wronskian-obligation-closure-scope}
+The carrier, NameCert obligations, determinant ledger, determinant-route stability, linear-dependence boundary, witness route, and Real-seal nonescape theorems form the visible $\WronskianUp$ obligation surface over the $\ContinuousMapUp$, $\DerivativeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Every accepted read of
+$$
+W=(F,D,J,\Omega,S,R,E,H,C,P,N)
+$$
+therefore remains inside the finite route through continuous-map admission, derivative admission, jet display, determinant assembly, dyadic tolerance, finite request windows, regular rational readback, terminal Real sealing, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:wronskian-carrier} and \autoref{thm:wronskian-namecert-obligations}. They expose exactly the rows $F,D,J,\Omega,S,R,E,H,C,P,N$ and no additional analytic coordinate.
+
+Use determinant-ledger exactness and determinant-route stability, \autoref{thm:wronskian-determinant-ledger-exactness} and \autoref{thm:wronskian-determinant-route-stability}. These results keep determinant reads on the route through $\ContinuousMapUp$, $\DerivativeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+Finally apply the linear-dependence boundary, witness route, and Real-seal nonescape theorems, \autoref{thm:wronskian-linear-dependence-boundary}, \autoref{thm:wronskian-linear-dependence-witness}, and \autoref{thm:wronskian-real-seal-nonescape}. They show that every consumer-facing read remains within the displayed obligation surface and exports none of the excluded host or quotient principles.
+\end{proof}
+
+\begin{theorem}[Wronskian differential-equation consumer handoff]
+\label{thm:wronskian-differential-equation-consumer-handoff}
+Every ODE, Sturm--Liouville, or linear-dependence consumer of an accepted $\WronskianUp$ packet must enter through the determinant-ledger route of \autoref{thm:wronskian-obligation-closure-scope} before reading any $\RealUp$-seal conclusion. In particular, the consumer must expose $F,D,J,\Omega,S,R,E,H,C,P,N$ and the sibling rows $\ContinuousMapUp$, $\DerivativeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before it may use a Wronskian value or a linear-dependence verdict.
+\end{theorem}
+\begin{proof}
+Apply the obligation closure scope of \autoref{thm:wronskian-obligation-closure-scope}. It identifies the determinant-ledger route as the visible surface for every accepted read.
+
+Use the linear-dependence boundary and witness route, \autoref{thm:wronskian-linear-dependence-boundary} and \autoref{thm:wronskian-linear-dependence-witness}. These force ODE-facing and linear-dependence-facing consumers to read the derivative jets, determinant ledger, dyadic tolerance route, StreamName window, and RegSeqRat readback before any verdict is available.
+
+Finally use Real-seal nonescape from \autoref{thm:wronskian-real-seal-nonescape}. The terminal seal row is downstream of the same determinant-ledger route, so no consumer can reach a Real-seal conclusion through host function equality, selected bases, classical zero theorems, quotient real equality, countable choice, or ambient completeness.
 \end{proof}
 
 \closureat{WronskianUp}{seedStr}
