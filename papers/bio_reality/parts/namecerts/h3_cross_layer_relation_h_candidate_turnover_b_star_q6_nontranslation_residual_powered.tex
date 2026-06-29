@@ -1,40 +1,41 @@
+\subsection{Yeast turnover as a bounded candidate for the residual $B^{*}_{Q6}$ complement}\label{sec:bioreality-q6-turnover-candidate}
 \origin{ai}
-\subsection{Yeast protein half-life as a bounded H-candidate for the B*$_{Q6}$ residual}
-\label{sec:bioreality-q6-turnover-h-candidate}
 
-\paragraph{Finite readout surface.}
-This record tests whether a measured protein-turnover coordinate accounts for any part of the yeast B*$_{Q6}$ non-translation residual that remains after the modeled translation-adaptation component has already been separated.  The finite surface is the joined \emph{Saccharomyces cerevisiae} panel with CDS codon counts, integrated protein abundance, ribosome-profiling translation-efficiency availability, and SGD protein half-life values.  The turnover contact contributes $n=3640$ proteins with positive half-life values, mapped from SGD systematic locus names to STRING identifiers by prefixing $4932.$.  The same join reports $5815$ CDS-abundance rows, $6351$ valid abundance proteins, $5128$ valid measured-TE proteins, and $3537$ rows on the stricter measured-TE--turnover--abundance--CDS intersection.  The CDS join hit rate is $0.9156038419146592$, while the turnover join hit rate is $0.8818572656921754$.  Missingness is explicit: among CDS records, $2175$ have no turnover match and $103$ have no optional measured-TE match; missing protein identifiers, invalid lengths, nonpositive abundance records, nonpositive TE records, and nonpositive half-life records are all reported as zero in the joined data.
+\paragraph{Finite surface.}
+This record tests whether a measured protein half-life coordinate accounts for any part of the $B^{*}_{Q6}$ abundance component that remains after the modeled translation-adaptation projection has already been removed.  The finite carrier is the yeast joined table on coding-sequence counts, whole-organism protein abundance, the Ingolia rich-medium ribosome-profiling translation-efficiency readout, and the SGD protein half-life readout attributed to Christiano et al. 2014.  The turnover row is not a new universal statement about codons.  It is a single-organism, single steady-state half-life contact for Saccharomyces cerevisiae, evaluated after the same residual basis and control surface used by the $Q6$ candidate panel.
 
-\paragraph{Coordinate basis and controls.}
-The residual side uses nine B*$_{Q6}$ coordinates:
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control matrix has $24$ columns and rank $23$.  Its covariates are the intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions computed from the real CDS codon counts, GC3, and the M-density baseline defined as the fraction of sense codons lying on the union support of the nine projected B*$_{Q6}$ vectors.  Thus the half-life test is not a raw codon-to-turnover association: it asks only whether residualized $\log_{10}$ half-life absorbs part of the previously isolated modeled-tAI-complement abundance residual under the stated finite controls.
+\paragraph{Controlled residual basis.}
+The residual coordinate block has nine coordinates,
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control matrix has $24$ named columns: an intercept, $\log(cds\_len\_nt)$, the $20$ amino-acid composition proportions computed from real CDS codon counts, $GC3$, and the $M$-density baseline on the union support of the nine projected $B^{*}_{Q6}$ vectors.  Its reported rank is $23$, so the fitted surface has one less independent control direction than the raw column count.  This rank statement is important because the half-life contact is judged only after the amino-acid, length, $GC3$, and $M$-support boundaries have already been imposed.
 
-\paragraph{Modeled-complement consistency.}
-On the turnover join, the B*$_{Q6}$ modeled-complement norm calculation gives
-$$
-\begin{aligned}
-\|P_Q\|^2 &= 457.02479128996873,\\
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2 &= 102.04013124265222,\\
-d_{\mathrm{modeled}} &= 0.2232704509412724.
-\end{aligned}
-$$
-The same quantity on the full abundance-CDS complement reference is $0.21173219572706703$, with reference join size $5815$.  The absolute difference is $0.011538255214205373$, below the declared $0.02$ tolerance.  This matters because sparse or shifted joins can change the residual target; here the turnover join remains close enough to the full abundance-CDS complement reference to support a bounded yeast-only turnover readback.
+\paragraph{Joined rows.}
+The yeast CDS-abundance join reports $5815$ CDS rows, with $6351$ valid protein-abundance identifiers and $5128$ valid translation-efficiency identifiers available in the companion measured-TE contact.  The turnover contact contributes $3640$ valid half-life proteins and yields $3640$ joined turnover-abundance-CDS rows.  The optional all-readout join containing measured TE, turnover, abundance, and CDS rows has $3537$ rows, because $103$ CDS rows lack the optional measured-TE match and $2175$ CDS rows lack a turnover match.  The reported CDS join hit rate is $0.9156038419146592$, and the turnover join hit rate is $0.8818572656921754$.  The half-life identifier map is explicit: the SGD locus systematic name is mapped to the STRING protein identifier by prefixing $4932.$ to the ORF.  No turnover records were skipped for duplicate identifiers, missing identifiers, or nonpositive half-life values.
 
-\paragraph{Turnover absorption.}
-After residualizing the Christiano 2014 per-locus half-life values against the same control boundary, the turnover coordinate accounts for only a very small fraction of the modeled-complement residual:
-$$
-\begin{aligned}
-\mathrm{absorbed\_by\_turnover} &= 0.0009086031889966327,\\
-d_{\mathrm{combined}} &= 0.22306503721327192.
-\end{aligned}
-$$
-The result is therefore a computed negative-style readback for this H-candidate: protein half-life is present as an organism-matched finite contact and the projection is well defined, but the observed absorption is too small to explain the B*$_{Q6}$ residual left after transcription, abundance, and modeled translation-adaptation separation.  The finite conclusion is not that turnover is biologically irrelevant; it is that this single steady-state yeast half-life surface does not materially reduce the residual under the declared controls.
+\paragraph{Reference complement check.}
+Before asking whether turnover explains the residual component, the run checks that the modeled-translation-complement residual on the turnover join is close to the full yeast abundance-CDS complement reference.  The full reference has $5815$ rows and $d_{modeled}=0.21173219572706703$.  The turnover join has $3640$ rows and gives $d_{modeled}=0.2232704509412724$.  The absolute difference is $0.011538255214205373$, which is inside the declared $0.02$ tolerance.  Thus the turnover contact is not rejected merely because the joined row set moves the modeled-complement target too far away from the full yeast reference.
 
-\paragraph{Relation to measured TE availability.}
-The same yeast corpus has a measured translation-efficiency panel from Ingolia et al. 2009 rich-medium ribosome-footprint and mRNA files.  In the measured-TE H-candidate run, yeast contributes $5128$ valid TE rows, $5815$ CDS-abundance rows, control rank $23$, and $24$ control columns.  The measured-TE projection reports $d_{\mathrm{modeled}}=0.22386566043976477$, $\mathrm{absorbed\_by\_measTE}=0.0002762783754375593$, and $d_{\mathrm{combined}}=0.2237928123367028$.  These numbers place the turnover result in context: both measured TE and protein half-life are finite cross-layer contacts for yeast, and both leave nearly all of the small upstream yeast modeled-complement residual in place.  The turnover contact absorbs somewhat more than measured TE on this panel, but the magnitude remains below one tenth of one percent of the residual target.
+$$\begin{aligned}
+ d_{full} &= 0.21173219572706703,\\
+ d_{turnover} &= 0.2232704509412724,\\
+ |d_{turnover}-d_{full}| &= 0.011538255214205373 < 0.02.
+\end{aligned}$$
 
-\paragraph{Local interpretation.}
-The source for turnover is the SGD backend protein-experiment-details half-life field, identified as Christiano et al. 2014 per-locus protein half-life and recorded with payload hash $05077d4d73f9dc3f16f331a4ae0c4a4d482e65f17a94de3522b3c0c485335690$.  The protein-abundance surface is the integrated PaxDb whole-organism yeast panel, and the measured-TE definition is the mean footprint normalized read density across two rich-medium replicates divided by the mean mRNA normalized read density across two matched replicates.  These contacts are adequate for the bounded projection described above, but they do not establish a causal mediator.  The half-life value is a single steady-state yeast readout, the absorbed fraction is descriptive, and the upstream yeast residual is already modest with $d_{\mathrm{modeled}}\approx 0.22$.
+\paragraph{Turnover projection.}
+On the turnover join, the projected $Q6$ residual norm is $P\_Q\_norm2=457.02479128996873$, and the modeled-translation-complement norm is $P\_{Q\perp Tmod}\_norm2=102.04013124265222$.  The corresponding modeled complement fraction is $0.2232704509412724$.  The half-life candidate is then the residualized $\log_{10}$ protein half-life coordinate, tested as an additional one-dimensional readout against that modeled complement.  The absorbed fraction is small: $absorbed\_by\_turnover=0.0009086031889966327$, with $d_{combined}=0.22306503721327192$ after adding the turnover coordinate.
 
-\paragraph{Boundary.}
-The allowed claim is narrow: on a finite yeast panel of $3640$ turnover-joined proteins, residualized protein half-life was tested as an H-candidate for the B*$_{Q6}$ modeled-tAI-complement abundance residual, and it absorbed $0.0009086031889966327$ of that residual while preserving a modeled-complement distance close to the full abundance-CDS reference.  This does not license a claim of translation realization, protein folding, physical admissibility, molecular function, organismal phenotype, mechanism, causation, or universality.  Any such higher-layer statement would require its own layer-matched contact and its own controlled statistic.  The present chapter only records that, for this yeast half-life surface, turnover is a measured but weak explanatory coordinate for the remaining B*$_{Q6}$ non-translation residual.
+$$\begin{aligned}
+ \|P_Q\|^2 &= 457.02479128996873,\\
+ \|P_{Q\perp Tmod}\|^2 &= 102.04013124265222,\\
+ d_{modeled} &= 0.2232704509412724,\\
+ A_{turnover} &= 0.0009086031889966327,\\
+ d_{combined} &= 0.22306503721327192.
+\end{aligned}$$
+
+\paragraph{Readout.}
+The finite result is therefore a bounded negative-to-weak readout for turnover as an explanatory candidate.  The join is admissible for this yeast contact, because the modeled-complement target remains within tolerance of the full yeast complement reference.  However, the actual half-life absorption is only about $9.09\times 10^{-4}$ of the modeled-translation-complement residual.  In practical terms, the $B^{*}_{Q6}$ component that remains after modeled translation adaptation is not materially accounted for by this single yeast steady-state half-life coordinate.  The residual remains mostly open after transcription, modeled translation adaptation, measured translation-efficiency availability, and this turnover candidate.
+
+\paragraph{Relation to the measured translation-efficiency contact.}
+The companion measured-TE finite row gives the same nine-coordinate $B^{*}_{Q6}$ basis and the same $24$-column control recipe, with yeast $n=5128$ valid TE-by-protein rows and rank $23$.  In that contact, yeast has $d_{modeled}=0.22386566043976477$ on the all-readout join, measured-TE absorption $0.0002762783754375593$, and $d_{combined}=0.2237928123367028$.  The turnover test is therefore not replacing the translation-efficiency boundary; it is a downstream candidate asked whether protein half-life accounts for residual abundance structure left after the modeled translation-adaptation component has been separated.  The turnover absorption is larger than the measured-TE absorption on their respective yeast joins, but both are small in absolute terms, and neither supplies a mechanism by itself.
+
+\paragraph{Local interpretation boundary.}
+This chapter licenses only the following finite statement: in the yeast joined panel, the turnover contact is computable, row coverage is recorded, the modeled-complement target remains stable within $0.02$, and residualized protein half-life absorbs only $0.0009086031889966327$ of the modeled-translation-complement abundance residual.  No independent translation realization, folding statement, physical-admissibility statement, molecular-function statement, causal mechanism, phenotype statement, or universal biological law follows from this projection.  Any such stronger assertion would need its own layer-matched measurement and its own controlled statistic.  In particular, the half-life coordinate is a descriptive projection on one yeast steady-state dataset, not a causal mediator test and not a proof that the residual is biologically irrelevant.
