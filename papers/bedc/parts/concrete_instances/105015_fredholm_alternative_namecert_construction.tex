@@ -67,6 +67,24 @@ If a consumer follows the kernel side, the only available kernel-facing row is $
 Thus the two readings are not detached alternatives living over different carriers. They are the two witness exits of one finite route over $S,T,B,K,L,V,H,C,P,N$. The excluded inverse, quotient, index, basis, complement, and spectral objects are absent from the carrier and therefore cannot be exported by the handoff.
 \end{proof}
 
+\begin{theorem}[Fredholm alternative compact obstruction scope]
+\label{thm:fredholm-alternative-compact-obstruction-scope}
+Let
+$$
+F=(S,T,B,K,L,V,R,A,H,C,P,N)
+$$
+be an accepted $\FredholmAlternativeUp$ packet. Every compact-obstruction read exposed by $F$ factors through the endpoint rows $S,T$, the bounded-action row $B$, the compact row $K$, the Riesz separation row $V$, the Lax--Milgram handoff row $L$, and exactly one displayed witness exit, either $R$ or $A$. The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve that route. The read exports no host inverse, quotient index, selected complement, or ambient spectral theorem.
+\end{theorem}
+\begin{proof}
+Project the finite carrier rows of $F$. The only analytic rows available to a compact-obstruction consumer are the endpoints $S,T$, the bounded action $B$, the compact witness $K$, the separation row $V$, and the variational handoff $L$.
+
+Apply the local NameCert obligations of \autoref{thm:fredholm-alternative-namecert-obligations}. They force any obstruction witness to be read from the displayed alternative-witness clause, so the consumer must use one of the two witness exits already present in the packet.
+
+Use the kernel--cokernel handoff of \autoref{thm:fredholm-alternative-kernel-cokernel-handoff}. The kernel-facing route exits through $R$, while the range-obstruction route exits through $A$ together with the same compact, separation, and variational rows. In both cases $H,C,P,N$ transport and replay only the displayed finite route.
+
+Since the carrier contains no row for a host inverse, quotient index, selected complement, or ambient spectral theorem, none of these objects can be exported by the compact-obstruction scope.
+\end{proof}
+
 \closureat{FredholmAlternativeUp}{seedStr}
 
 \begin{closurestatus}{\FredholmAlternativeUp}
