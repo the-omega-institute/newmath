@@ -1,37 +1,40 @@
-\subsection{Mitochondrial-localization boundary for the $B^{*}_{Q6}$ residual surface}\label{sec:bioreality-q6-mts-localization-boundary-itzhak2016}
 \origin{ai}
 
-\paragraph{Finite localization surface.}
-The localization contact considered here is deliberately narrower than a protein-output or trafficking-mechanism claim.  Its row object is a finite joined table whose rows are coding sequences or protein identifiers for which three pieces of information are simultaneously present: a $B^{*}_{Q6}$ residual-coordinate readout computed from the coding sequence, the covariate surface used to remove amino-acid composition and elementary sequence composition effects, and a binary mitochondrial-localization readback derived from the Itzhak-style subcellular-localization boundary.  The verified row count for this contact is $n=8696$, with $657$ rows falling on the mitochondrial side of the localization boundary.  Thus the observed mitochondrial fraction on the joined surface is
+\subsection{Mitochondrial-localization boundary for the $B^{\ast}_{Q6}$ residual surface}
+\label{sec:bioreality-q6-mts-localization-boundary-itzhak2016}
+
+\paragraph{Finite surface.}
+The localization contact considered here is a finite human protein panel in which coding-sequence residual coordinates are joined to a binary mitochondrial-localization readout.  The realized join contains $8696$ proteins, of which $657$ are mitochondrial positives.  The computation used $2000$ deterministic permutation draws and completed in $11.034382$ seconds.  Thus the finite object is not a general statement about compartments; it is a row-indexed surface
 $$
 \begin{aligned}
-  \widehat{\pi}_{\mathrm{mito}}
-    &= \frac{657}{8696}
-     \approx 0.07555.
+  \mathcal{L}_{\mathrm{Itzhak}} &= \{(p, q(p), z(p), \ell(p)) : p \in P_{8696}\},\\
+  |P_{8696}| &= 8696,\\
+  \sum_{p\in P_{8696}} \ell(p) &= 657,
 \end{aligned}
 $$
-The permutation budget recorded for the finite computation is $2000$ permutations, and the recorded runtime is $11.034382$ seconds.  These numbers certify that the packet reached an explicit finite-row localization contact, not merely a named route to a localization database.
-
-\paragraph{What is tested.}
-The object tested by this boundary is not whether a synonymous residual coordinate causes mitochondrial targeting.  It is only whether the residual-coordinate surface has a detectable finite-row contact with a mitochondrial-localization label after the ordinary sequence controls have been placed in the background.  In the notation used locally in this chapter, let $Q_i$ range over the nine $B^{*}_{Q6}$ residual coordinates used elsewhere in the same finite program,
+where $q(p)$ denotes the available $B^{\ast}_{Q6}$ residual-coordinate vector, $z(p)$ denotes the matched control row, and $\ell(p)\in\{0,1\}$ records mitochondrial assignment on this localization surface.  The positive-class fraction is therefore
 $$
 \begin{aligned}
-  Q_i \in \{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-            &Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+  \widehat{\pi}_{\mathrm{mito}} = {657 \over 8696} \simeq 0.07555 .
 \end{aligned}
 $$
-For each joined row, the localization response is a finite label $L\in\{0,1\}$, where $L=1$ denotes membership in the mitochondrial-localization side of the Itzhak boundary.  The local question is whether any residual coordinate retains information about $L$ after the sequence-background controls are accounted for.  Equivalently, the chapter asks whether the localization readback is wholly compressed by the ordinary controls, or whether some residual coordinate remains visible on the localization surface.
+This class imbalance is part of the mathematical object: a localization score must be read against a sparse-positive boundary, not against a balanced two-class toy model.
 
-\paragraph{Relation to the translation and feature contacts.}
-The same residual-coordinate family has already been evaluated against several neighboring finite contacts, and those contacts fix the scale of the present boundary.  In the measured translation-efficiency contact, the per-organism joined row counts were $13140$ for \textit{Danio rerio}, $3415$ for \textit{Escherichia coli} K-12 MG1655, $11554$ for \textit{Homo sapiens}, and $5128$ for \textit{Saccharomyces cerevisiae}, each with rank $23$ in the control matrix.  The measured-TE absorption values were small: $0.01759429001506974$ for \textit{Danio rerio}, $0.0010982956489726373$ for \textit{E. coli}, $0.0028947149257963897$ for human, and $0.0002762783754375593$ for yeast.  The localization surface is therefore not being promoted from a translation-efficiency result; it is a separate readout layer.
+\paragraph{Boundary statistic.}
+For each residual coordinate $q_i$, the admissible localization question is whether the coordinate contributes finite predictive information for $\ell$ after the declared controls have been accounted for.  The chapter records the contact as a boundary surface rather than as a mechanistic conclusion.  In schematic notation, an admissible entry has the form
+$$
+\begin{aligned}
+  S^{QL}_{i,\mathrm{mito}}
+    &= \Delta\operatorname{Score}\bigl(\ell; q_i \mid Z, \mathrm{baseline}\bigr),
+\end{aligned}
+$$
+with the empirical null obtained by the $2000$ recorded permutations.  The run metadata supplied for this packet gives the joined row count, the mitochondrial-positive count, the permutation count, and the runtime; it does not supply a coordinate-wise table of $S^{QL}_{i,\mathrm{mito}}$, permutation $p$-values, fitted coefficients, or thresholded coordinate calls.  Consequently this chapter can state the finite localization boundary and the admissible statistic, but it cannot assert that any particular $B^{\ast}_{Q6}$ coordinate survives the localization test.
 
-The reviewed-feature contact gives a second scale check.  On that surface, the joined feature counts were $2242$ for \textit{Danio rerio}, $18335$ for human, and $5682$ for yeast.  Several protein-feature absorptions exceeded their degree-of-freedom matched Bonferroni nulls in some organisms, for example human complex membership with absorbed value $0.0075271999877804495$ against a Bonferroni threshold $0.0006605662314432479$, human PTM density with $0.014884825920540636$ against $0.00042094892238120357$, and human transmembrane count with $0.0015569064882873212$ against $0.0002697448894057371$.  Those finite feature contacts remain descriptive projections.  They do not make the present mitochondrial-localization label a mechanism, a trafficking model, or a protein-function result.
+\paragraph{Relation to measured translation efficiency.}
+The localization boundary is downstream of a separate measured-translation-efficiency contact.  On the human measured-TE surface, the joined row count is $11554$ with control rank $23$, and the modeled-complement fraction is $d_{\mathrm{modeled}}=0.8566190269974241$.  Residualizing against measured TE changes that value only to $d_{\mathrm{combined}}=0.854133502300174$, giving a descriptive absorbed fraction $0.0028947149257963897$.  These numbers are useful only as a guardrail: they show that the human translation-efficiency contact is a small descriptive absorber of the modeled complement on its own finite join.  They do not turn the localization panel into a translation mechanism, and they do not license a claim that mitochondrial localization is mediated by ribosome occupancy.
 
-\paragraph{Finite null boundary.}
-The localization computation uses $2000$ permutations as its finite null reference.  The natural null class is the row-preserving randomization in which the mitochondrial label is detached from the $B^{*}_{Q6}$ residual coordinates while keeping the joined row surface fixed.  Because the joined surface contains $8696$ rows and only $657$ positives, the class imbalance is part of the contact and must remain visible in the interpretation.  A positive localization readback would mean only this: within this finite joined table, at least one residual coordinate has more localization information than the permutation null assigns to it under the declared row boundary.  A null or weak readback would mean only that this localization contact does not currently expose the residual coordinate after the selected controls and row join.
+\paragraph{Relation to fetchable protein features.}
+A separate human protein-feature surface gives a larger all-feature join of $18335$ rows with control rank $23$.  On that surface, the descriptive absorbed fractions are $0.0075271999877804495$ for complex membership, $1.1405527940317433\times 10^{-5}$ for domain count, $0.014884825920540636$ for PTM density, and $0.0015569064882873212$ for transmembrane count.  These feature contacts are not equivalent to a mitochondrial-localization assay.  They provide nearby protein-level context showing that some coarse annotations can absorb small fractions of the residual surface, but they cannot substitute for the $8696$-row localization panel or for a coordinate-wise localization statistic.
 
-\paragraph{Cross-organism caution.}
-The broader organism-specific meta contact remains exploratory and does not supply a universal localization law.  Its complete-feature meta table had $12$ organisms, with a domain-by-dominant-coordinate permutation value $p=0.5814185814185814$ from $1000$ trials, a GC3 correlation for $M\_QTP$ fraction of $r=-0.3062616500469447$ with two-sided permutation value $p=0.35264735264735264$, and a domain variance-ratio test with right-tail permutation value $p=0.4155844155844156$.  Those finite values argue for caution: the localization boundary should be read as a row-level contact in the Itzhak-style surface, not as a phylogenetically corrected rule about synonymous residual geometry across organisms.
-
-\paragraph{Local cannot-claim boundary.}
-The contact licenses only a bounded statement about the finite localization table.  It does not by itself establish translation realization, ribosome occupancy, protein abundance, folding, physical admissibility, molecular function, trafficking mechanism, compartment-identity mechanism, phenotype, adaptation, causation, or universality.  A separate translation contact is required before any $Q_i\to T_j$ interpretation is made.  A separate protein-abundance contact is required before any abundance interpretation is made.  A separate perturbation, imaging, fractionation, rescue, or mechanistic contact is required before any claim about targeting, import, localization mechanism, or biological function is made.  The present finite result is therefore a localization-boundary readback only: $8696$ joined rows, $657$ mitochondrial positives, and a $2000$-permutation null surface.
+\paragraph{Local no-promotion rule.}
+The admissible conclusion is therefore narrow.  The Itzhak-style localization contact supplies a finite protein-localization readout with $8696$ joined rows and $657$ mitochondrial positives, together with a $2000$-permutation audit envelope.  From these rows alone one may discuss whether a controlled coordinate-to-localization statistic has been computed and whether it is positive under the declared null.  In the supplied finite record, the coordinate-wise statistic itself is not present.  No translation claim follows from this localization contact; no folding, physical-admissibility, molecular-function, trafficking-mechanism, phenotype, or universality claim follows either.  Each of those statements would require its own layer-matched measurement surface and its own recorded statistic.
