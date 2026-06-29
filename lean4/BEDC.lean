@@ -12082,6 +12082,7 @@ import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.Window6AdditiveEnergyRecurrence
 import BEDC.Derived.Window6BetweennessOrderFour
 import BEDC.Derived.Window6CyclicCount
+import BEDC.Derived.Window6CyclicOrthogonalityQuartetRecurrence
 import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6DistanceTwoOverlapSparseRecurrence
 import BEDC.Derived.Window6Doubling
