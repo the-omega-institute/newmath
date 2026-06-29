@@ -1695,6 +1695,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CarmichaelLambdaUp
@@ -6973,6 +6974,7 @@ import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HypercoverUp.CechNerveRoute
+import BEDC.Derived.HypercoverUp.CoveringFamilyNonescape
 import BEDC.Derived.HypercoverUp.NameCertObligations
 import BEDC.Derived.HypercoverUp.SheafDescentHandoff
 import BEDC.Derived.HypercoverUp.TasteGate
