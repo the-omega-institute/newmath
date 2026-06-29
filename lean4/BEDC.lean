@@ -9173,6 +9173,7 @@ import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NeumannSeriesUp.TasteGate
+import BEDC.Derived.NewtonForwardSeriesUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
@@ -10196,6 +10197,7 @@ import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
 import BEDC.Derived.RHRoute.RationalPolygonWinding
+import BEDC.Derived.RHRoute.RationalPolygonWindingReversal
 import BEDC.Derived.RHRoute.RationalPolygonWindingRotation
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
 import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
