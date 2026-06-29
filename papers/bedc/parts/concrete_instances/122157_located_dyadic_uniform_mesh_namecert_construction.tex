@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\LocatedDyadicUniformMeshUp$}
+\label{ch:concrete-instances-located-dyadic-uniform-mesh-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\LocatedDyadicUniformMeshUp$ packet records the finite mesh object used when a Real or Completion consumer needs dyadic interval cells with located endpoints and regular readback. It sits after the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the interval-cell surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The packet supplies a finite L10 mesh handoff without quotient representatives, choice-selected limits, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located dyadic uniform mesh carrier]
+\label{def:located-dyadic-uniform-mesh-carrier}
+A $\LocatedDyadicUniformMeshUp$ carrier is a finite $\BHist$ packet $M=(I,L,Q,S,R,H,C,P,N)$ with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\DyadicIntervalNetUp$ row carrying a finite dyadic interval net and its cell-incidence ledger.
+\item $L$ is the located endpoint evidence row, recording left and right dyadic endpoint comparisons for each visible cell.
+\item $Q$ is the $\RegSeqRatUp$ tolerance readback row that exposes the mesh width and requested precision as regular rational data.
+\item $S$ is the $\StreamNameUp$ observation row that schedules the finite windows inspected by the mesh consumer.
+\item $R$ is the terminal $\RealUp$ seal read only after $I,L,Q,S$ have been displayed.
+\item $H,C,P,N$ are respectively componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\LocatedDyadicUniformMeshUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[LocatedDyadicUniformMesh NameCert obligations]
+\label{thm:located-dyadic-uniform-mesh-namecert-obligations}
+For every accepted $\LocatedDyadicUniformMeshUp$ carrier $M=(I,L,Q,S,R,H,C,P,N)$, the local $\NameCert_{\LocatedDyadicUniformMeshUp}$ surface consists exactly of dyadic interval-net admission, located endpoint evidence, RegSeqRat tolerance readback, StreamName observation rows, terminal Real seal, componentwise transport, continuation replay, provenance, and local naming. A consumer can therefore inspect the mesh only through the finite route
+$$
+\DyadicIntervalNetUp\longmapsto\DyadicRatCoreUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp .
+$$
+The obligation surface exports no quotient representative, selected limit, host real equality, countable-choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:located-dyadic-uniform-mesh-carrier}. The dyadic interval-net row supplies finite cells, the endpoint row supplies located comparisons, and the tolerance and observation rows keep width and inspection data visible before the Real seal is read.
+
+Replay the structural rows $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same finite route under classifier transport and do not add a coordinate for quotient equality, selected limits, choice schedules, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[LocatedDyadicUniformMesh refinement stability]
+\label{thm:located-dyadic-uniform-mesh-refinement-stability}
+Let $M=(I,L,Q,S,R,H,C,P,N)$ and $M'=(I',L',Q',S',R',H',C',P',N')$ be accepted $\LocatedDyadicUniformMeshUp$ carriers. If $M'$ refines the dyadic interval net of $M$ and the endpoint, tolerance, StreamName, RegSeqRat, Real-seal, and structural rows are transported by componentwise $\hsame$, then every classifier accepted by $M$ is accepted by $M'$ through the same displayed finite route. The refinement exports only smaller dyadic cells with the same located endpoint and readback surface.
+\end{theorem}
+\begin{proof}
+Read the interval-net row $I$ and its refined row $I'$ through the dyadic interval-net carrier. Refinement replaces each visible cell by displayed dyadic subcells while preserving the endpoint order and incidence ledger.
+
+Transport the endpoint evidence, tolerance readback, StreamName windows, RegSeqRat row, and Real seal along the stated $\hsame$ witnesses. Since the carrier exposes no coordinate outside these rows, classifier acceptance is stable under the refinement and remains tied to the same finite mesh route.
+\end{proof}
+
+\begin{theorem}[LocatedDyadicUniformMesh L10 handoff]
+\label{thm:located-dyadic-uniform-mesh-l10-handoff}
+Every L10 Real and Completion consumer of a $\LocatedDyadicUniformMeshUp$ packet must read the dyadic interval net $I$, located endpoint evidence $L$, RegSeqRat tolerance row $Q$, StreamName observation row $S$, and Real seal $R$ before it treats the packet as a mesh for approximation, comparison, or completion-facing readback. The handoff supplies finite dyadic cells and located endpoint data only; it does not supply quotient real representatives, selected Cauchy limits, host real equality, choice schedules, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations above. They force the consumer to read the interval net, endpoint evidence, tolerance readback, observation schedule, and Real seal in the displayed order before any completion-facing use is public.
+
+Now use refinement stability. Any later mesh refinement remains inside the same finite route and therefore cannot introduce an external representative, selected limit, choice schedule, host equality, or ambient completeness endpoint.
+\end{proof}
+
+\begin{closurestatus}{\LocatedDyadicUniformMeshUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:located-dyadic-uniform-mesh-namecert-obligations} records the seed carrier and finite L10 mesh route over dyadic interval nets, located endpoints, RegSeqRat tolerance readback, StreamName observations, and Real seals.}
+  \constructivestory{A $\LocatedDyadicUniformMeshUp$ packet is generated from dyadic interval-net cells, located endpoint evidence, RegSeqRat tolerance readback, StreamName observation windows, a terminal Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.LocatedDyadicUniformMeshUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a public completion theorem, quotient-free Real equality, compactness theorem, or checked standard bridge.}
+  \upgradepath{A scoped closure requires Lean-checked carrier obligations and refinement stability for the displayed mesh route.}
+\end{closurestatus}
