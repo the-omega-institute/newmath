@@ -1,0 +1,34 @@
+\subsection{Rank-admissible execution selection for the $B^*_{Q6}$ residual panel}\label{sec:biorality-q6-rank-admissible-execution-selection}
+\origin{ai}
+
+\paragraph{Finite-row question.}
+This record asks whether a synonymous residual coordinate in the $B^*_{Q6}$ panel may be promoted from a codon-topology descriptor to a translation-survival entry. The carrier is a finite residualized design: rows are organism-indexed or CDS-indexed readout rows, columns contain $B^*_{Q6}$ residual coordinates, and the control block $Z$ contains amino-acid composition, organism terms where applicable, GC3, CDS length, and M-density. The admissibility rule is deliberately prior to biological interpretation. A proposed entry $S^{QT}_{ij}$ is not a survival claim unless the residualized coordinate $q_i \perp Z$ and the residualized translation readout $T_j \perp Z$ still leave enough independent rank for held-out falsification. If the post-control row space is saturated, or if an in-sample score is forced to $1.0$ by too few rows, the entry is recorded as coupling-only or as requiring more data.
+
+\paragraph{Observed execution-selection surface.}
+The finite execution-selection run used Saccharomyces cerevisiae and returned status passed for computation, with verdict composition\_artifact. The active joined gene set had $n=5684$ rows, while the base input had $5815$ rows and the ordered CDS join had $5810$ rows. The occupancy-dwell join also had $5684$ rows. The cross-validation surface used $5$ folds and a deterministic target-permutation null with $240$ permutations. The protein-projection reconciliation gave
+$$\begin{aligned}
+R^2_{QP,\mathrm{active}} &= 0.30732228260918726,\\
+R^2_{QP,\mathrm{full}} &= 0.29837624994140827,\\
+\lVert P_Q\rVert^2_{\mathrm{active}} &= 864.0124192674945,\\
+\lVert P_{\mathrm{residual}}\rVert^2_{\mathrm{active}} &= 2811.4213259512776.
+\end{aligned}$$
+The predeclared decision rule placed the active anchor inside the admissible reconciliation band $0.25 \leq R^2_{QP,\mathrm{active}} \leq 0.34$, but required a held-out joint delta to exceed the target-permutation $95\%$ null level, clear twice the description-length penalty, and satisfy $\Delta \geq 0.01$ before crossing the boundary. The recorded finite-row outcome did not cross that boundary; it classified the signal as a composition artifact rather than a translation or protein-realization survival result.
+
+\paragraph{Residual coordinates present at the boundary.}
+The available $B^*_{Q6}$ synonymous residual list contains nine computed coordinate surfaces: Arg\_AGR, Ile\_AUA, K\_AAA, Leu\_CUN\_vs\_UUR, Leu\_UUA\_vs\_UUG, Ser\_UCA\_vs\_UCG, Ser\_UCR\_vs\_AGY, Thr\_ACR\_vs\_ACY, and $f_3$-stress. In the earlier three-organism coupling readout, all nine coordinates had nonzero proxy contact against the tRNA-Leu CUN-vs-UUR log-copy spectrum, with maximum absolute coupling $1882464.1106377328$ and $9$ nonzero entries above the $0.01$ threshold. That contact is not a survival entry. It is a bounded proxy contact over Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12, and its own break condition was not met because not all nine $|A_{ij}|$ values were below $0.01$. The rank-admissible gate therefore treats this as evidence that the coordinate system can touch a translation-adjacent readout, not as evidence that any $S^{QT}_{ij}$ survived under controls.
+
+\paragraph{Rank gate.}
+For each proposed coordinate-readout pair, let $Q_Z$ denote the residualized $B^*_{Q6}$ design and let $T_Z$ denote the residualized translation readout after removing $Z$. The admissible entry condition is the finite-row condition
+$$\begin{aligned}
+\operatorname{rank}(Q_Z,T_Z) &< n_Z,\\
+\operatorname{df}(Q_Z,T_Z) &> 0,\\
+\widehat{S}^{QT}_{ij,\mathrm{heldout}} &> 0
+\quad\text{only after the held-out null and baseline ablations clear.}
+\end{aligned}$$
+Here $n_Z$ is the number of post-control rows available to the fitted comparison. A saturated design fails before biological interpretation begins. In particular, an all-$1.0$ fitted surface in a three-organism panel is a rank warning, not a discovery. The present finite execution-selection run avoids that specific $n=3$ degeneracy by using $5684$ active rows, but its final readback still refuses promotion because the decision rule returned composition\_artifact.
+
+\paragraph{Cross-organism residual context.}
+The residual-basis extraction run gives useful negative context. Homo sapiens had $16008$ joined common rows and $6$ candidate blocks, with final residual ratio $0.9723341658092314$. Saccharomyces cerevisiae had $3046$ joined common rows and $9$ candidate blocks, with residual ratio sequence ending at $0.9798667977250413$. Escherichia coli K12 MG1655 had $3415$ joined common rows and $2$ candidate blocks, ending at $0.9979478314995476$. Danio rerio had $14410$ joined common rows and $1$ candidate block, ending at $0.9791828971490305$. Gallus gallus and Mycobacterium smegmatis str. MC2 155 were marked needs\_data. Across the computed organisms, the minimum final residual ratio was $0.9723341658092314$, so the residual geometry remained persistent rather than compressible. This supports the local rank discipline: persistence of residual energy is a warning that more layer-matched readouts are needed, not a license to infer translation survival.
+
+\paragraph{Local conclusion.}
+The chapter records a negative but informative finite-row result. The execution-selection computation is large enough to check the yeast projection anchor and to reject the rank-saturated three-row style of evidence, but the observed classification is composition\_artifact. The correct readback is therefore: the $B^*_{Q6}$ residual coordinates and the execution/protein projection share a controlled finite-row surface, yet the available statistic does not establish $S^{QT}_{ij}>0$ for any coordinate-readout pair. No translation realization, ribosome occupancy, protein abundance mediation, folding, structural order, physical admissibility, molecular function, mechanism, phenotype, or universal biological law follows from this record. Each of those claims would require its own layer-matched contact and its own non-saturated held-out statistic under the declared controls.
