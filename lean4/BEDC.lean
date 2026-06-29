@@ -91,6 +91,7 @@ import BEDC.Derived.AlexandroffCompactificationUp.TasteGate
 import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
+import BEDC.Derived.AlgebraicExpressionLedgerUp
 import BEDC.Derived.AlgebraicExtensionDimensionUp
 import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AliquotSequenceUp
