@@ -826,15 +826,34 @@ def ensure_acr_diamond_db(acr_faa: str, diamond: str) -> tuple[str, dict[str, ob
     ensure_dir(os.path.dirname(db_prefix))
     if os.path.exists(dmnd_path) and os.path.getsize(dmnd_path) > 0:
         return db_prefix, {"db_prefix": db_prefix, "dmnd_path": dmnd_path, "made": False}
-    result = subprocess.run(
-        [diamond, "makedb", "--in", acr_faa, "-d", db_prefix, "--quiet"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
+    # diamond makedb hangs on whitespace/invalid chars inside sequences (the AcrDB
+    # Known_Acr.faa carries embedded spaces). Build the db from a sanitized copy.
+    with open(acr_faa, "r", encoding="utf-8", errors="replace") as handle:
+        records = parse_fasta_records(handle.read())
+    clean_faa = db_prefix + ".clean.faa"
+    n_clean = 0
+    with open(clean_faa, "w", encoding="utf-8") as handle:
+        for header, seq in records:
+            aa = sanitize_aa(seq)
+            if not aa:
+                continue
+            handle.write(">" + header.split()[0] + "\n")
+            for offset in range(0, len(aa), 80):
+                handle.write(aa[offset : offset + 80] + "\n")
+            n_clean += 1
+    try:
+        result = subprocess.run(
+            [diamond, "makedb", "--in", clean_faa, "-d", db_prefix, "--quiet"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=300,
+        )
+    except subprocess.TimeoutExpired:
+        raise RuntimeError("diamond makedb timed out (>300s)")
     if result.returncode != 0:
         raise RuntimeError(f"diamond makedb failed: {result.stderr.strip() or result.stdout.strip()}")
-    return db_prefix, {"db_prefix": db_prefix, "dmnd_path": dmnd_path, "made": True}
+    return db_prefix, {"db_prefix": db_prefix, "dmnd_path": dmnd_path, "made": True, "n_clean_refs": n_clean}
 
 
 def low_complexity_fraction(seq: str) -> float:
@@ -920,7 +939,10 @@ def run_diamond_blastp(
         "5",
         "--quiet",
     ]
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=180)
+    except subprocess.TimeoutExpired:
+        return [], {"query_faa": query_faa, "n_raw_hits": 0, "cache_hit": False, "timed_out": True}
     if result.returncode != 0:
         raise RuntimeError(f"diamond blastp failed for {query_faa}: {result.stderr.strip() or result.stdout.strip()}")
     with open(out_path, "w", encoding="utf-8") as handle:
