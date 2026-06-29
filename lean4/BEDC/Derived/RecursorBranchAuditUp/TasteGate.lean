@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorBranchAuditUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -314,5 +318,34 @@ theorem RecursorBranchAuditTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem RecursorBranchAuditCarrier_branch_coverage (x : RecursorBranchAuditUp) :
+    exists I S R M B D O H C P N branchReplay : BHist,
+      x = RecursorBranchAuditUp.mk I S R M B D O H C P N ∧
+        hsame B B ∧
+          Cont S B branchReplay ∧ NameCert (fun h : BHist => hsame h B) hsame := by
+  -- BEDC touchpoint anchor: BHist BMark Cont NameCert hsame
+  cases x with
+  | mk I S R M B D O H C P N =>
+      refine
+        ⟨I, S, R, M, B, D, O, H, C, P, N, append S B, ?_, ?_, ?_, ?_⟩
+      · rfl
+      · exact hsame_refl B
+      · exact cont_intro rfl
+      · exact {
+          carrier_inhabited := Exists.intro B (hsame_refl B)
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact hsame_trans (hsame_symm sameRows) source
+        }
 
 end BEDC.Derived.RecursorBranchAuditUp
