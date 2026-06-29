@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SolvableGroupUp$}
+\label{ch:concrete-instances-solvable-group-namecert}
+\origin{human}
+
+Following Rotman and Hall on finite group theory, the $\SolvableGroupUp$ packet records solvability by a finite normal derived-series certificate rather than by an ambient classification theorem. It sits over the $\GroupUp$ carrier of \autoref{ch:concrete-instances-group-namecert}, the subgroup and normal-subgroup rows of \autoref{ch:concrete-instances-subgroup-namecert}, the quotient rows of \autoref{ch:concrete-instances-quotientgroup-namecert}, and the abelian quotient surface of \autoref{ch:concrete-instances-abgroup-namecert}. The downstream consumers are the Galois obstruction in \autoref{ch:concrete-instances-abelruffini-namecert} and the radical-tower interface in \autoref{ch:concrete-instances-solvableradicals-namecert}.
+
+\begin{definition}[Solvable group carrier]
+\label{def:solvable-group-carrier}
+A $\SolvableGroupUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,D,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is a $\GroupUp$ source row: carrier, multiplication, unit, inverse, classifier, and local group NameCert data.
+\item $D$ is a finite derived-series row
+$$
+G=D_0 \rhd D_1 \rhd \cdots \rhd D_m=\{e\},
+$$
+where each $D_{i+1}$ is the commutator subgroup row of $D_i$ and each inclusion is recorded as a $\NormalSubgroupUp$ witness over the same $\GroupUp$ carrier.
+\item $Q$ lists the quotient-group rows $D_i/D_{i+1}$ with their $\QuotientGroupUp$ source, classifier, transport, and ledger coordinates.
+\item $A$ lists the $\AbGroupUp$ witnesses showing that every quotient row $D_i/D_{i+1}$ is abelian.
+\item $H$ records componentwise $\hsame$ transport for the group row, derived-series rows, normal-subgroup inclusions, quotient rows, and abelian quotient witnesses.
+\item $C$ records displayed $\Cont$ replay from the group source row through derived-series construction, normality checking, quotient formation, abelian quotient witnessing, and terminal trivial-subgroup exposure.
+\item $P$ is the $\Pkg$ provenance over $\SolvableGroupUp$, $\GroupUp$, $\SubgroupUp$, $\NormalSubgroupUp$, $\QuotientGroupUp$, $\AbGroupUp$, derived-series rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SolvableGroupUp}$ row.
+\end{enumerate}
+The classifier compares solvable-group packets only through $G,D,Q,A,H,C,P,N$. It has no coordinate for a classification of all finite groups, Galois correspondence, radical solvability, polynomial roots, or an unstored simplicity theorem.
+\end{definition}
+
+\begin{theorem}[Solvable group NameCert obligations]
+\label{thm:solvable-group-namecert-obligations}
+For every $\SolvableGroupUp$ packet
+$$
+S=(G,D,Q,A,H,C,P,N),
+$$
+the local $\NameCert_{\SolvableGroupUp}$ surface consists exactly of group-source exposure, finite derived-series display, normal-subgroup inclusion rows, quotient-group rows, abelian quotient witnesses, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream BEDC consumer may cite solvability only through those finite rows, and may not replace them by a general classification of finite groups, a Galois correspondence theorem, radical-tower adequacy, or a polynomial solution claim.
+\end{theorem}
+\begin{proof}
+Project the coordinates of \autoref{def:solvable-group-carrier}. The group row $G$, derived-series row $D$, quotient row list $Q$, and abelian witness list $A$ are displayed coordinates of the same finite packet.
+
+The certificate obligations are inherited rowwise. The $\GroupUp$ source supplies the ambient group carrier; the $\SubgroupUp$ and $\NormalSubgroupUp$ rows expose the series inclusions; the $\QuotientGroupUp$ rows expose each quotient; and the $\AbGroupUp$ rows witness the abelian quotient condition.
+
+Transport, replay, provenance, and naming are supplied by $H,C,P,N$. Since no coordinate stores a finite-group classification, a Galois correspondence, radical-tower adequacy, or a polynomial solution claim, the local NameCert obligations stop at the displayed solvable-group packet.
+\end{proof}
+
+\begin{theorem}[Solvable group derived-series handoff]
+\label{thm:solvable-group-derived-series-handoff}
+The derived-series row $D$ of a $\SolvableGroupUp$ packet supplies the exact finite handoff needed by $\AbelRuffiniUp$ and $\SolvableRadicalsUp$: it exposes a normal series, the quotient rows $D_i/D_{i+1}$, abelian quotient witnesses, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. The handoff does not assert that a Galois group has been computed, that a radical tower exists, or that a polynomial is solvable by radicals.
+\end{theorem}
+\begin{proof}
+Read the finite series from $D$ and the quotient list from $Q$. For each adjacent pair, the packet records normality of $D_{i+1}$ in $D_i$ and a quotient row $D_i/D_{i+1}$.
+
+Read the abelian witness list $A$. These rows are the only solvability witnesses exported by the packet: they say that the displayed quotients are abelian in the sense of the local $\AbGroupUp$ surface.
+
+The handoff to $\AbelRuffiniUp$ and $\SolvableRadicalsUp$ is therefore a finite carrier route, not a semantic theorem about polynomials or field towers. The transport, replay, provenance, and naming rows $H,C,P,N$ keep the downstream read confined to the displayed derived-series data.
+\end{proof}
+
+\closureat{SolvableGroupUp}{seedStr}
+\closureat{SolvableGroupUp}{obligationStr}
+
+\begin{closurestatus}{\SolvableGroupUp}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:solvable-group-carrier}, \autoref{thm:solvable-group-namecert-obligations}, and \autoref{thm:solvable-group-derived-series-handoff} bind the finite derived-series carrier, normal quotient rows, abelian quotient witnesses, transport, replay, provenance, and local naming surface for solvable groups.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a classification of finite groups, Galois correspondence, radical-tower adequacy, polynomial root extraction, or Lean verification.}
+  \upgradepath{Formal closure requires carrier admission, quotient-row exactness, abelian quotient witness replay, and downstream handoff proofs for BEDC.Derived.SolvableGroupUp.}
+  \constructivestory{A $\SolvableGroupUp$ packet is generated from a $\GroupUp$ source row, a finite normal derived series, quotient rows, abelian quotient witnesses, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
