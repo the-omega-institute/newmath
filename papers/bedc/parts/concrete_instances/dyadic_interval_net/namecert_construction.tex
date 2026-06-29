@@ -4,7 +4,7 @@
 
 Following Bishop and Bridges, the $\DyadicIntervalNetUp$ packet records finite dyadic interval nets as the displayed cover primitive used by Real and Completion arguments before any consumer may invoke compactness language. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. As a consumer route, the finite interval-cell row consumes dyadic endpoint arithmetic from \autoref{ch:concrete-instances-dyadicratcore-namecert}, exposes endpoint observations through \autoref{ch:concrete-instances-streamname-namecert}, reads tolerances through \autoref{ch:concrete-instances-regseqrat-namecert}, and seals only through \autoref{ch:concrete-instances-real-namecert}. The packet gives compact-interval, completion, and uniform-modulus consumers a finite cover surface; it does not assert open-cover compactness, selected subcovers, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
 
-The same finite dyadic cell data is consumed by \autoref{ch:concrete-instances-closedboundedintervalnet-namecert} and by the compact-interval uniform-modulus route as displayed finite cells, not as open-cover compactness.
+The same finite dyadic cell data is consumed by \autoref{ch:concrete-instances-closedboundedintervalnet-namecert} and by the compact-interval uniform-modulus route as displayed finite cells, not as open-cover compactness. The finite Cauchy density-net route of \autoref{ch:concrete-instances-finite-cauchy-density-net-namecert} consumes these dyadic cell rows as finite density witnesses for L10 completion reads.
 
 \begin{definition}[Dyadic interval net carrier]\label{def:dyadic-interval-net-carrier}
 A $\DyadicIntervalNetUp$ carrier is a finite $\BHist$ packet
@@ -37,6 +37,7 @@ D,J,E \longmapsto S,R \longmapsto Q .
 $$
 The interval-cell row $J$ and endpoint-incidence row $E$ refine any displayed dyadic cover request into listed dyadic cells whose endpoints and radii are checked in $D$, whose inspected name coordinates are exposed in $S$, whose tolerance schedule is read in $R$, and whose Real boundary is sealed in $Q$. No open-cover compactness, selected subcover, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness is available along this route.
 \end{theorem}
+\leanchecked{BEDC.Derived.Dyadic\_interval\_netUp.DyadicIntervalNetCoverRefinement}
 \begin{proof}
 Project the accepted carrier of \autoref{def:dyadic-interval-net-carrier}. The rows $D,J,E$ are the only cover-facing data: $D$ supplies dyadic endpoint arithmetic, $J$ supplies the finite list of cells, and $E$ supplies endpoint incidence and bracketing.
 
@@ -80,6 +81,28 @@ For the step, apply \autoref{thm:dyadic-interval-net-cover-refinement} to the cu
 The consumer-facing rows remain downstream. Endpoint observations pass through $S$, tolerance schedules and regular rational reads pass through $R$, and the terminal real-name boundary remains $Q$.
 
 Finally transport, replay, provenance, and local naming preserve the refined route componentwise. Since every induction step displays its finite cells before $Q$, no open-cover compactness, selected subcover, quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness principle enters the induction.
+\end{proof}
+
+\begin{theorem}[Dyadic interval net finite-bisection induction route]
+\label{thm:dyadic-interval-net-finite-bisection-induction-route}
+For every accepted $\DyadicIntervalNetUp$ carrier
+$$
+I=(D,J,E,S,R,Q,H,C,P,N)
+$$
+and every displayed finite bisection depth $n$, the row inventory
+$$
+D,J,E,S,R,Q,H,C,P,N
+$$
+is preserved by induction on $n$. Each bisection step replaces a listed parent cell in $J$ by finitely displayed child cells whose endpoints, incidences, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming remain routed through the same rows. Thus Real, Completion, closed-bounded interval, compact-interval, and uniform-modulus consumers receive a finite bisection route, not open-cover compactness, selected subcovers, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed bisection depth $n$. At depth zero, the carrier of \autoref{def:dyadic-interval-net-carrier} already displays the endpoint arithmetic row $D$, finite cell row $J$, endpoint incidence row $E$, window row $S$, readback row $R$, Real seal row $Q$, and structural rows $H,C,P,N$.
+
+For the successor step, apply the cover refinement theorem \autoref{thm:dyadic-interval-net-cover-refinement}. The parent cell is replaced by finitely many listed child cells, and their endpoints, radii, and adjacency checks are still read through $D,J,E$ before any Real-facing boundary is visible.
+
+Now use mesh-refinement induction from \autoref{thm:dyadic-interval-net-mesh-refinement-induction}. It transports the refined finite-cell packet across the displayed bisection step and keeps the endpoint windows, tolerance schedule, and terminal Real seal downstream of the child cells.
+
+Finally replay $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve the same row inventory at the new depth, so the induction never imports open-cover compactness, selected subcovers, quotient equality, choice, trichotomy, host equality, or ambient completeness.
 \end{proof}
 
 \begin{theorem}[Dyadic interval net subdivision-depth coverage]

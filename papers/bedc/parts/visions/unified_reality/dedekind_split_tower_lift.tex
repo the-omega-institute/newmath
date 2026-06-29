@@ -1,0 +1,252 @@
+\section{Dedekind Split-Tower Lift}
+\label{sec:unified-reality-dedekind-split-tower-lift}
+
+The fixed-prime tower mechanism becomes more concrete when the
+zero-relevant carrier is not an abstract resonance tower but a tower of
+Dedekind zeta reads.  The intended source theorem is then not a bare
+finite-energy assertion.  It says that a Riemann zero can be lifted
+through a controlled Galois tower, that the fixed rational prime $q$
+splits into many local prime-ideal rows in that tower, and that the
+Dedekind zero islands are captured by solenoid-compatible Lee--Yang
+dominance data.
+
+\begin{definition}[Admissible $q$-split Dedekind tower]
+\label{def:unified-reality-admissible-q-split-dedekind-tower}
+An \emph{admissible $q$-split Dedekind tower} is a fixed split-prime
+tower of \autoref{def:unified-reality-fixed-split-prime-tower} together
+with the additional rows
+$$
+\mathsf{Galois}(K_n/\mathbb Q)
+\qquad
+(n\in\NatUp),
+$$
+and
+$$
+\mathsf{DedekindRead}(K_n,\zeta_{K_n},\Lambda_{K_n}),
+$$
+where $\zeta_{K_n}$ is the Dedekind zeta read and $\Lambda_{K_n}$ is the
+completed Dedekind read.  The Galois row is part of the source data: it
+places the tower in the range where the Riemann zeta factor is a visible
+factor of the Dedekind read and where quotient-entireness is supplied by
+the displayed tower ledger rather than by a non-Galois quotient
+assumption.
+\end{definition}
+
+\begin{definition}[Dedekind quotient lift row]
+\label{def:unified-reality-dedekind-quotient-lift-row}
+Let $\rho$ be a critical-strip coordinate.  A tower level $K_n$ carries
+a \emph{Dedekind quotient lift row at $\rho$} when there is a
+holomorphic local quotient row $\Psi_n$ on a neighbourhood of $\rho$
+such that
+$$
+\zeta_{K_n}(s)=\zeta(s)\Psi_n(s)
+$$
+on that neighbourhood.  Write
+$$
+\mathsf{DedekindLift}_{K_n}(\rho)
+$$
+for the resulting row
+$$
+\mathsf{ZetaZero}(\rho)\to\zeta_{K_n}(\rho)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Dedekind quotient rows lift Riemann zeros]
+\label{thm:unified-reality-dedekind-quotient-rows-lift-riemann-zeros}
+If $K_n$ carries a Dedekind quotient lift row at $\rho$, then
+$$
+\mathsf{ZetaZero}(\rho)
+\to
+\zeta_{K_n}(\rho)=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The quotient row gives a local factorization
+$$
+\zeta_{K_n}(s)=\zeta(s)\Psi_n(s)
+$$
+with $\Psi_n$ holomorphic at $\rho$.  If $\zeta(\rho)=0$, then
+substitution gives
+$$
+\zeta_{K_n}(\rho)=\zeta(\rho)\Psi_n(\rho)=0.
+$$
+\end{proof}
+
+\begin{definition}[$q$-split Dedekind normal energy]
+\label{def:unified-reality-q-split-dedekind-normal-energy}
+Let
+$$
+\rho=\frac12+\delta+i\gamma
+$$
+and let $q$ split completely in $K_n$:
+$$
+q\mathcal O_{K_n}
+=
+\mathfrak q_{n,1}\cdots \mathfrak q_{n,f_n}.
+$$
+For each split prime-ideal row set
+$$
+U_{n,i}(\rho):=q^{1/2-\rho}.
+$$
+The normal defect is
+$$
+d_{n,i}(\rho):=\log |U_{n,i}(\rho)|=-\delta\log q,
+$$
+and the $q$-split Dedekind normal energy is
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)
+:=
+\sum_{i=1}^{f_n}d_{n,i}(\rho)^2.
+$$
+\end{definition}
+
+\begin{theorem}[Dedekind split counts amplify off-half energy]
+\label{thm:unified-reality-dedekind-split-counts-amplify-off-half-energy}
+Let $(K_n)$ be an admissible $q$-split Dedekind tower.  If
+$$
+\rho=\frac12+\delta+i\gamma
+$$
+and $\delta\#0$, then
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)
+=
+[K_n:\mathbb Q]\delta^2(\log q)^2
+$$
+and therefore
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)\to\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+Complete splitting gives exactly
+$$
+f_n=[K_n:\mathbb Q]
+$$
+split prime-ideal rows above $q$, each with norm $q$.  For each such row,
+$$
+d_{n,i}(\rho)^2=\delta^2(\log q)^2.
+$$
+Summing over $i=1,\ldots,f_n$ gives
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)
+=
+f_n\delta^2(\log q)^2
+=
+[K_n:\mathbb Q]\delta^2(\log q)^2.
+$$
+The tower degree tends to infinity, while the coefficient is positive
+when $\delta\#0$ and $q$ is prime.  Hence the energy diverges.
+\end{proof}
+
+\begin{definition}[$q$-tower Lee--Yang dominance certificate]
+\label{def:unified-reality-q-tower-lee-yang-dominance-certificate}
+Let $\rho$ be a Riemann critical-strip zero.  A \emph{$q$-tower
+Lee--Yang dominance certificate} for $\rho$ consists of an admissible
+$q$-split Dedekind tower and, for each level $n$, a local zero island
+$D_n$ around $\rho$ with a decomposition
+$$
+\Lambda_{K_n}(s)=F_n(s)+T_n(s)
+$$
+on a neighbourhood of $D_n$, together with the rows
+$$
+\mathsf{DedekindLift}_{K_n}(\rho),
+\qquad
+\mathsf{DominantFamily}(F_n),
+\qquad
+\mathsf{RoucheGap}(F_n,T_n,D_n),
+$$
+$$
+\mathsf{QSolenoidCompatible}(F_n,\rho),
+\qquad
+\exists B_{\rho}<\infty,\ \forall n,\
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)\le B_{\rho}.
+$$
+The certificate states that the lifted Dedekind zero is not merely a
+projection zero: it is captured by a dominant local piece, protected by
+a Rouch\'e gap, carried by the $q$-solenoid phase register, and bounded
+in normal energy along the same split-prime tower.
+\end{definition}
+
+\begin{definition}[Dedekind $q$-tower Lee--Yang bound]
+\label{def:unified-reality-dedekind-q-tower-lee-yang-bound}
+The \emph{Dedekind $q$-tower Lee--Yang bound} is the source row
+$$
+\mathsf{DedekindQTowerLeeYangBound}_{\zeta}
+$$
+asserting that every Riemann critical-strip zero $\rho$ admits a
+rational prime $q$, an admissible $q$-split Dedekind tower, and a
+$q$-tower Lee--Yang dominance certificate for $\rho$.
+\end{definition}
+
+\begin{theorem}[Dedekind tower Lee--Yang bound is conditionally sufficient]
+\label{thm:unified-reality-dedekind-tower-lee-yang-bound-conditionally-sufficient}
+If
+$$
+\mathsf{DedekindQTowerLeeYangBound}_{\zeta}
+$$
+holds, then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+\rho=\frac12+\delta+i\gamma.
+$$
+The Dedekind tower Lee--Yang bound supplies $q$, an admissible
+$q$-split Dedekind tower, and a certificate with a finite bound
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)\le B_{\rho}
+$$
+for all $n$.  Suppose $\delta\#0$.  By
+\autoref{thm:unified-reality-dedekind-split-counts-amplify-off-half-energy},
+the same tower satisfies
+$$
+\mathcal E^{\mathrm{Ded}}_{q,n}(\rho)\to\infty,
+$$
+contradicting the bound.  Thus $\neg(\delta\#0)$, and located
+fixed-half collapse gives $\delta=0$.  Hence $\Re(\rho)=1/2$, and the
+fixed-half section follows from
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence}.
+\end{proof}
+
+\begin{corollary}[The Dedekind lift is the zero-source bridge]
+\label{cor:unified-reality-dedekind-lift-zero-source-bridge}
+The Dedekind tower route refines
+\autoref{def:unified-reality-zeta-prime-count-solenoid-bound} by making
+the zero-relevant source carrier explicit.
+\end{corollary}
+
+\begin{proof}
+The fixed-prime route already separates the counting lower row from the
+solenoid upper row.  The Dedekind lift adds the missing zero-source
+bridge: the Riemann zero is carried into each Dedekind read by the
+Galois quotient factorization, and the split prime $q$ supplies
+$[K_n:\mathbb Q]$ local prime-ideal rows at level $n$.  The remaining
+work is precisely the certificate data in
+\autoref{def:unified-reality-q-tower-lee-yang-dominance-certificate}:
+dominant local capture, Rouch\'e isolation, solenoid compatibility, and
+the uniform normal-energy bound.
+\end{proof}
+
+\begin{corollary}[Explicit formula search direction]
+\label{cor:unified-reality-explicit-formula-search-direction}
+The natural analytic search surface for the Dedekind tower route is an
+explicit-formula comparison in which split-prime contributions,
+Dedekind zeros, discriminant terms, and archimedean factors appear in
+one ledger.
+\end{corollary}
+
+\begin{proof}
+The split-prime side supplies a lower row through
+\autoref{thm:unified-reality-dedekind-split-counts-amplify-off-half-energy}.
+The admissibility side supplies global control through bounded root
+discriminant and the completed Dedekind read.  An explicit formula is
+the standard analytic surface on which zeros, prime ideals,
+discriminant, and gamma factors can be compared in the same equation.
+Thus it is the appropriate place to try to prove the dominance and
+bounded-energy rows required by
+\autoref{def:unified-reality-q-tower-lee-yang-dominance-certificate},
+rather than another reformulation of the fixed-half surface.
+\end{proof}

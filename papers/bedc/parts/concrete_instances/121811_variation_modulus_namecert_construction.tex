@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\VariationModulusUp$}
+\label{ch:concrete-instances-variation-modulus-namecert}
+\origin{human}
+
+Following Jordan and Bishop--Bridges on bounded variation and regulated functions, the $\VariationModulusUp$ packet records a finite partition-modulus ledger for oscillation and Darboux-sum control. It sits after the bounded-variation surface of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regulated-function carrier of \autoref{ch:concrete-instances-regulated-function-namecert}, the Darboux refinement packet of \autoref{ch:concrete-instances-darboux-sum-refinement-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite partitions, oscillation budgets, variation bounds, refinement reads, transport, replay, provenance, and local naming rows; it does not import host supremum variation, measure theory, quotient equality of functions, selected mesh limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[VariationModulus carrier]
+\label{def:variation-modulus-carrier}
+A $\VariationModulusUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,F,P,O,B,D,Q,R,E,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval-source row, sealed as a displayed $\RealUp$ interval endpoint ledger.
+\item $F$ is the $\RegulatedFunctionUp$ source row whose inspected values are read through finite windows.
+\item $P$ is the finite partition row, listing ordered subinterval cells with dyadic endpoint data supplied by $\DyadicRatCoreUp$.
+\item $O$ is the oscillation-bound row, assigning a regular-rational bound to each displayed partition cell.
+\item $B$ is the $\BoundedVariationUp$ control row, recording the finite variation budget used by the same cells.
+\item $D$ is the $\DarbouxSumRefinementUp$ handoff row, naming how the partition and oscillation rows are consumed by upper/lower Darboux-sum refinement.
+\item $Q$ is the partition-modulus row, recording the finite rule that refines a requested tolerance into a displayed partition and cellwise oscillation budget.
+\item $R$ is the $\RegSeqRatUp$ readback row for the tolerance, oscillation, variation, and Darboux comparison data.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $I,F,P,O,B,D,Q,R$ have remained visible.
+\item $H$ records componentwise $\hsame$ transport for the interval, function, partition, oscillation, variation, Darboux, modulus, readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a regulated-function or Darboux consumer request through the same finite route.
+\item $S$ is the $\Pkg$ provenance over $\VariationModulusUp$, $\BoundedVariationUp$, $\RegulatedFunctionUp$, $\DarbouxSumRefinementUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VariationModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,F,P,O,B,D,Q,R,E,H,C,S,N$. It has no coordinate for host total variation as a supremum, measure-theoretic variation, selected limiting partitions, quotient equality of functions, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[VariationModulus NameCert obligations]
+\label{thm:variation-modulus-namecert-obligations}
+For every accepted $\VariationModulusUp$ carrier
+$$
+V=(I,F,P,O,B,D,Q,R,E,H,C,S,N),
+$$
+the local $\NameCert_{\VariationModulusUp}$ surface consists exactly of carrier admission, finite partition exposure, cellwise oscillation-bound exposure, regulated-function source visibility, bounded-variation budget visibility, Darboux-sum refinement handoff, dyadic endpoint exactness, regular-rational readback, terminal $\RealUp$ sealing, componentwise transport, displayed replay, package provenance, and local naming. Every Darboux or regulated-function consumer must read the finite route
+$$
+I,F,P,O,B,D,Q,R \longmapsto E,H,C,S,N
+$$
+before treating a partition-modulus estimate as public.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:variation-modulus-carrier}. The interval, regulated-function, partition, oscillation, variation, Darboux, modulus, and readback rows are displayed before the structural rows can be consumed.
+
+The partition and endpoint data are finite. The row $P$ lists the cells and reads their dyadic endpoints through $\DyadicRatCoreUp$, while $Q$ records how a requested tolerance selects the displayed partition-modulus row without selecting a limiting mesh.
+
+The analytic estimates are also finite rows. The oscillation row $O$ and bounded-variation row $B$ provide the cellwise control, and the Darboux row $D$ is the only route by which upper/lower refinement consumers may use those controls.
+
+Finally $R,E,H,C,S,N$ read back, seal, transport, replay, source, and name exactly the displayed route. Since the carrier has no coordinate for host supremum variation, measure-theoretic variation, quotient function equality, selected limits, countable choice, or ambient completeness, those principles are not exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[VariationModulus Darboux-regulated handoff]
+\label{thm:variation-modulus-darboux-regulated-handoff}
+Every $\DarbouxSumRefinementUp$ or $\RegulatedFunctionUp$ consumer of an accepted $\VariationModulusUp$ packet receives only the displayed partition row, oscillation-bound row, bounded-variation row, partition-modulus row, dyadic endpoint row, regular-rational readback row, terminal $\RealUp$ seal, transport, replay, provenance, and local naming data. The handoff may refine Darboux sums and regulated-function windows through those rows, but it exports no host supremum variation, measure-completion object, selected limiting partition, quotient equality of functions, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:variation-modulus-namecert-obligations}. A Darboux-facing consumer must read $P,O,B,D,Q$ before a refinement estimate is available, while a regulated-function consumer must also keep the source row $F$ visible.
+
+The dyadic and regular-rational rows fix the arithmetic boundary of the packet. Endpoint and tolerance data pass through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ before the terminal $\RealUp$ seal is read.
+
+The structural rows $H,C,S,N$ preserve this same finite route under transport, replay, provenance, and local naming. No excluded host principle appears among the carrier coordinates, so every public handoff remains a finite partition-modulus handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\VariationModulusUp$ consumer is refuted if it reaches a Darboux or regulated-function estimate without displaying the finite partition row, oscillation-bound row, bounded-variation row, partition-modulus row, dyadic endpoint row, regular-rational readback row, terminal RealUp seal, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{boundedvariation, regulated-function, darboux-sum-refinement, dyadicratcore, regseqrat, real: none is bijective to $\VariationModulusUp$ because this packet jointly carries a finite partition-modulus ledger, oscillation budgets, bounded-variation control, Darboux refinement, dyadic endpoint arithmetic, regular-rational readback, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{VariationModulusUp}{seedStr}
+
+\begin{closurestatus}{\VariationModulusUp}
+  \constructivestory{A $\VariationModulusUp$ packet is generated from displayed Real interval rows, RegulatedFunction source rows, finite partition rows, oscillation-bound rows, BoundedVariation budget rows, DarbouxSumRefinement handoff rows, DyadicRatCore endpoint rows, RegSeqRat readback rows, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:variation-modulus-carrier}, \autoref{thm:variation-modulus-namecert-obligations}, and \autoref{thm:variation-modulus-darboux-regulated-handoff} seed the finite partition-modulus route for Darboux and regulated-function consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host supremum variation, measure-theoretic variation, selected limiting partitions, quotient equality of functions, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition exactness, oscillation-bound exposure, regulated-function source visibility, bounded-variation budget visibility, Darboux refinement handoff, dyadic endpoint exactness, regular-rational readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.VariationModulusUp.}
+\end{closurestatus}

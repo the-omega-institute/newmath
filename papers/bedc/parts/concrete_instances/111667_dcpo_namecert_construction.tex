@@ -33,7 +33,6 @@ The classifier compares accepted packets only through $O,I,W,S,M,F,Q,L,H,C,P,N$.
 \label{thm:dcpo-namecert-obligations}
 For every accepted $\DcpoUp$ carrier $D=(O,I,W,S,M,F,Q,L,H,C,P,N)$, the local $\NameCert_{\DcpoUp}$ surface consists exactly of order admission, directed-index admission, finite directed-window coverage, directed-supremum readability, Moore--Smith net handoff, directed-filter handoff, CauchyNet and completion-facing handoff, lower-bound exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every directed-supremum consumer must read the rows $O,I,W,S,L$ before treating the supremum as public, and no obligation is stored outside $O,I,W,S,M,F,Q,L,H,C,P,N$.
 \end{theorem}
-\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:dcpo-carrier}. The order and directed-family rows are $O,I,W,S,L$, while the completion-facing handoff rows are $M,F,Q$ and the structural rows are $H,C,P,N$.
 
@@ -43,6 +42,7 @@ The supremum row $S$ supplies the named upper-bound endpoint, and the exactness 
 
 The sibling rows $M,F,Q$ expose the same directed family to Moore--Smith nets, directed filters, and Cauchy-net completion routes. Transport and replay through $H$ and $C$ preserve the displayed rows, while $P,N$ source and name the same finite carrier. Since none of the excluded host objects appears as a coordinate, the listed rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_local\_namecert\_surface}
 
 \begin{theorem}[DCPO directed-supremum handoff]
 \label{thm:dcpo-directed-supremum-handoff}
@@ -177,6 +177,7 @@ Apply \autoref{thm:dcpo-directed-supremum-handoff}. Its displayed route places $
 
 The remaining rows $H,C,P,N$ only transport, replay, source, and name that same carrier. Since the carrier has no coordinate for arbitrary joins, host powersets, quotient-order equality, global directed choice, selected lub functions, or ambient completeness, directed-window coverage is exactly the displayed row $W$ over $O,I$.
 \end{proof}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_directed\_window\_coverage}
 
 \begin{theorem}[DCPO lower-bound exactness]
 \label{thm:dcpo-lower-bound-exactness}
@@ -193,6 +194,7 @@ The exactness row $L$ therefore cannot be detached from the displayed order row.
 
 Apply \autoref{thm:dcpo-directed-supremum-handoff}. The downstream rows $M,F,Q,H,C,P,N$ consume this exactness route; they do not supply a selected least-upper-bound function, quotient-order equality, arbitrary join operation, global choice schedule, host powerset, or ambient completeness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_lower\_bound\_exactness}
 
 \begin{theorem}[DCPO completion-facing handoff]
 \label{thm:dcpo-completion-facing-handoff}
@@ -213,6 +215,27 @@ Apply \autoref{thm:dcpo-directed-supremum-handoff}. The Moore--Smith row $M$, di
 
 Finally inspect $H,C,P,N$. Componentwise transport, displayed replay, provenance, and local naming preserve the same route and cannot add arbitrary joins, quotient-order equality, selected lub functions, global choice, host powersets, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_completion\_facing\_handoff}
+
+\begin{theorem}[DCPO directed-supremum scope]
+\label{thm:dcpo-directed-supremum-scope}
+For every accepted $\DcpoUp$ carrier
+$$
+D=(O,I,W,S,M,F,Q,L,H,C,P,N),
+$$
+every scoped directed-supremum read factors through the route
+$$
+O,I,W,S,L \longmapsto M,F,Q \longmapsto H,C,P,N .
+$$
+The read first exposes the $\PosetUp$ order row, $\DirectedSetUp$ index row, finite directed-window row, named supremum row, and lower-bound exactness row; only then may it reach the Moore--Smith, directed-filter, and CauchyNet handoff rows, followed by componentwise transport, displayed replay, provenance, and local naming. The scope exports no arbitrary joins, quotient equality, host powersets, selected lub operator, global directed choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dcpo-carrier}. The only rows available to a directed-supremum reader before handoff are $O,I,W,S,L$.
+
+Apply \autoref{thm:dcpo-directed-window-coverage} and \autoref{thm:dcpo-lower-bound-exactness}. The first theorem forces every directed read to pass through the finite window row $W$ over $O,I$, and the second attaches leastness to $S,L$ over the same order row.
+
+Finally apply \autoref{thm:dcpo-completion-facing-handoff}. It places $M,F,Q$ after the displayed directed-supremum route and leaves $H,C,P,N$ as transport, replay, provenance, and naming rows. Since the carrier has no coordinate for arbitrary joins, quotient equality, host powersets, selected lubs, global directed choice, or ambient completeness, the displayed route is the whole scoped directed-supremum surface.
+\end{proof}
 
 \begin{theorem}[DCPO obligation-closure package]
 \label{thm:dcpo-obligation-closure-package}
@@ -222,6 +245,7 @@ D=(O,I,W,S,M,F,Q,L,H,C,P,N),
 $$
 the directed-window coverage, supremum ledger, continuity scope, and completion-facing handoff obligations jointly exhaust the $\obligationClosure$ surface over $\PosetUp$, $\DirectedSetUp$, $\MooreSmithNetUp$, $\DirectedFilterUp$, $\CauchyNetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package consists exactly of the order row $O$, directed-index row $I$, finite directed-window row $W$, supremum row $S$, lower-bound exactness row $L$, Moore--Smith handoff $M$, directed-filter handoff $F$, CauchyNet handoff $Q$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$; it exports no selected lub operator, host powerset, quotient order, global directed-choice schedule, or ambient completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_obligation\_closure\_package}
 \begin{proof}
 Start with carrier admission and directed coverage. Theorems~\ref{thm:dcpo-carrier-directed-obligations} and \ref{thm:dcpo-directed-window-coverage} identify $O,I,W$ as the whole order, directed-index, and finite directed-window surface available before any supremum consumer is public.
 
@@ -232,14 +256,27 @@ Now pass to the continuity and completion rows. The continuity scope theorem \au
 Finally use $H,C,P,N$. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the same finite route and add no new carrier coordinate. Therefore the listed rows jointly exhaust the obligation-closure surface, while selected lubs, host powersets, quotient orders, directed-choice schedules, and ambient completeness remain outside the package.
 \end{proof}
 
+\begin{theorem}[DCPO obligation-closure record]
+\label{thm:dcpo-obligation-closure-record}
+For every accepted $\DcpoUp$ carrier $D=(O,I,W,S,M,F,Q,L,H,C,P,N)$, the displayed rows $O,I,W,S,L,M,F,Q,H,C,P,N$ form the complete obligation record consumed by $\ScottDomainUp$, $\MooreSmithNetUp$, $\DirectedFilterUp$, and $\CauchyNetUp$. The record exposes order admission, directed-index admission, finite directed-window coverage, directed-supremum readability, lower-bound exactness, Moore--Smith handoff, directed-filter handoff, CauchyNet handoff, transport, replay, provenance, and local naming, and it exports no arbitrary joins or selected least-upper-bound functions.
+\end{theorem}
+\leanchecked{BEDC.Derived.DcpoUp.DcpoCarrier\_obligation\_closure\_record}
+\begin{proof}
+Start with directed-window coverage and the supremum ledger, \autoref{thm:dcpo-directed-window-coverage} and \autoref{thm:dcpo-supremum-ledger-obligations}. They identify $O,I,W,S$ as the visible order, directed-index, finite-window, and supremum rows that every downstream order consumer must read.
+
+Next apply lower-bound exactness, \autoref{thm:dcpo-lower-bound-exactness}. It attaches $L$ to the same $O,I,W,S$ route, so leastness remains a displayed order-row obligation rather than a selected lub operation.
+
+Finally use continuity scope and completion-facing handoff, \autoref{thm:dcpo-continuity-scope-obligations} and \autoref{thm:dcpo-completion-facing-handoff}. These theorems force $\ScottDomainUp$, $\MooreSmithNetUp$, $\DirectedFilterUp$, and $\CauchyNetUp$ consumers to receive the same finite route through $M,F,Q,H,C,P,N$. Since the carrier contains no rows for arbitrary joins, host powersets, quotient-order equality, global directed choice, or selected lubs, the listed rows are the complete obligation record.
+\end{proof}
+
 \closureat{DcpoUp}{seedStr}
 
 \begin{closurestatus}{\DcpoUp}
   \constructivestory{A $\DcpoUp$ packet is generated from a Poset order row, DirectedSet index row, finite directed windows, a directed-supremum row, MooreSmithNet and DirectedFilter handoffs, a CauchyNet completion-facing row, lower-bound exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dcpo-carrier}, \autoref{thm:dcpo-namecert-obligations}, \autoref{thm:dcpo-directed-supremum-handoff}, and \autoref{thm:dcpo-scott-domain-compatibility} seed the finite directed-complete order substrate for completion and domain-theoretic consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:dcpo-carrier}, \autoref{thm:dcpo-namecert-obligations}, \autoref{thm:dcpo-directed-supremum-handoff}, \autoref{thm:dcpo-scott-domain-compatibility}, \autoref{thm:dcpo-carrier-directed-obligations}, \autoref{thm:dcpo-supremum-ledger-obligations}, \autoref{thm:dcpo-continuity-scope-obligations}, and \autoref{thm:dcpo-directed-window-coverage} bind the finite carrier, NameCert obligations, directed-supremum handoff, Scott-domain compatibility, carrier-directed obligations, supremum-ledger obligations, continuity-scope obligations, and directed-window coverage required by completion and domain-theoretic consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close arbitrary joins, quotient-order equality, selected least-upper-bound functions, global choice over directed families, host powersets, ambient order completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, directed-window coverage, supremum readability, lower-bound exactness, MooreSmithNet handoff, DirectedFilter handoff, CauchyNet handoff, transport, replay, provenance, and local naming for BEDC.Derived.DcpoUp.}
+  \upgradepath{Scoped closure requires binding the displayed obligation record to a checked kernel route for carrier admission, directed-window coverage, supremum readability, lower-bound exactness, MooreSmithNet handoff, DirectedFilter handoff, CauchyNet handoff, transport, replay, provenance, and local naming.}
 \end{closurestatus}
