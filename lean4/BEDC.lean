@@ -13799,5 +13799,6 @@ import BEDC.Real.LocatedNatPowerEnclosure
 import BEDC.Real.RatInterval
 import BEDC.Real.RatLogEnclosure
 import BEDC.Real.RatNumKernel
+import BEDC.Real.RatNumLogEnclosure
 import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
