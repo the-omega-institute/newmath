@@ -1650,6 +1650,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.RealCompletionHandoff
 import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
+import BEDC.Derived.CanonicalTailChoiceUp.ScopedFiniteChoiceRoute
 import BEDC.Derived.CanonicalTailChoiceUp.ScopedSourceDiscipline
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TailCofinality
@@ -6323,6 +6324,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
+import BEDC.Derived.FinitePrefixStreamUp.CofinalReindexStability
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
 import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
@@ -9171,6 +9173,7 @@ import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NeumannSeriesUp.TasteGate
+import BEDC.Derived.NewtonForwardSeriesUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
@@ -10194,6 +10197,7 @@ import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
 import BEDC.Derived.RHRoute.RationalPolygonWinding
+import BEDC.Derived.RHRoute.RationalPolygonWindingRotation
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
 import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
 import BEDC.Derived.RHRoute.RecursiveParityTower
@@ -10210,6 +10214,7 @@ import BEDC.Derived.RHRoute.ZeroGenerationInitiality
 import BEDC.Derived.RHRoute.ZeroPacketRefinementCategory
 import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
 import BEDC.Derived.RHRoute.ZetaBoxEvaluator
+import BEDC.Derived.RHRoute.ZetaBoxKrawczyk
 import BEDC.Derived.RHRoute.ZetaBoxOnBall
 import BEDC.Derived.RHRoute.ZetaDerivativeBox
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants

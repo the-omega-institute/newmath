@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ContinuationTerminationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -134,5 +144,46 @@ theorem ContinuationTerminationTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         ContinuationTerminationTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem ContinuationTerminationCarrier_behavior_transport [AskSetup] [PackageSetup]
+    {source step terminal transportRow replay provenance localName sourceStep stepTerminal
+      transported replayed publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory step →
+        UnaryHistory terminal →
+          UnaryHistory transportRow →
+            UnaryHistory replay →
+              UnaryHistory provenance →
+                UnaryHistory localName →
+                  Cont source step sourceStep →
+                    Cont step terminal stepTerminal →
+                      Cont sourceStep transportRow transported →
+                        Cont transported replay replayed →
+                          Cont replayed provenance publicRead →
+                            PkgSig bundle publicRead pkg →
+                              UnaryHistory sourceStep ∧
+                                UnaryHistory stepTerminal ∧
+                                  UnaryHistory transported ∧
+                                    UnaryHistory replayed ∧
+                                      UnaryHistory publicRead ∧
+                                        PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro sourceUnary stepUnary terminalUnary transportUnary replayUnary provenanceUnary
+    _localNameUnary sourceStepRoute stepTerminalRoute transportedRoute replayedRoute
+    publicRoute publicPkg
+  have sourceStepUnary : UnaryHistory sourceStep :=
+    unary_cont_closed sourceUnary stepUnary sourceStepRoute
+  have stepTerminalUnary : UnaryHistory stepTerminal :=
+    unary_cont_closed stepUnary terminalUnary stepTerminalRoute
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed sourceStepUnary transportUnary transportedRoute
+  have replayedUnary : UnaryHistory replayed :=
+    unary_cont_closed transportedUnary replayUnary replayedRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayedUnary provenanceUnary publicRoute
+  exact
+    ⟨sourceStepUnary, stepTerminalUnary, transportedUnary, replayedUnary, publicReadUnary,
+      publicPkg⟩
 
 end BEDC.Derived.ContinuationTerminationUp
