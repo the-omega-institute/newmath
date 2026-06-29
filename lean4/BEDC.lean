@@ -1643,8 +1643,10 @@ import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
 import BEDC.Derived.CanonicalTailChoiceUp.ObligationSurface
 import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
+import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
+import BEDC.Derived.CanonicalTailChoiceUp.TailInhabitation
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.WindowStability
 import BEDC.Derived.CantorBendixsonUp.TasteGate
@@ -12111,6 +12113,7 @@ import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PlusSeparationObligation
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.PresheafSheafRoute
+import BEDC.Derived.SheafificationUp.ProvenanceNamingObligation
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
@@ -12501,6 +12504,7 @@ import BEDC.Derived.SummableTailModulusUp.TasteGate
 import BEDC.Derived.SummationByPartsUp.TasteGate
 import BEDC.Derived.SuperperfectUp
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
+import BEDC.Derived.SupplySocketLedgerUp.Bridge
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SupportFunctionUp.TasteGate
 import BEDC.Derived.SupportNerveCensusLiftedBettiUp.TasteGate
