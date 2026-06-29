@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FenchelMoreauBiconjugationUp$}
+\label{ch:concrete-instances-fenchel-moreau-biconjugation-namecert}
+\origin{human}
+
+Following Rockafellar convex analysis and Boyd--Vandenberghe, the $\FenchelMoreauBiconjugationUp$ packet names the biconjugation boundary by finite primal functional rows, conjugate rows, biconjugate comparison rows, lower-semicontinuity witnesses, convex epigraph rows, real-order seals, transport, replay, provenance, and local naming. It consumes the conjugacy surface of \autoref{ch:concrete-instances-convex-conjugate-namecert}, the primal-dual route of \autoref{ch:concrete-instances-fenchelduality-namecert}, the local subgradient boundary of \autoref{ch:concrete-instances-subdifferential-namecert}, the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet records only displayed BEDC rows; it does not import host suprema, quotient function spaces, ambient locally convex completions, or an external Fenchel--Moreau theorem.
+
+\begin{definition}[Fenchel--Moreau biconjugation carrier]
+\label{def:fenchel-moreau-biconjugation-carrier}
+A $\FenchelMoreauBiconjugationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,V,K,D,E,L,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the primal proper convex functional row read through $\ConvexSetUp$, $\VecSpaceUp$, and $\RealUp$;
+\item $V$ is the vector-space source row naming the primal and dual-facing carrier interfaces;
+\item $K$ is the consumed $\ConvexConjugateUp$ row, including the pairing and displayed supremum-budget coordinates;
+\item $D$ is the $\FenchelDualityUp$ dependency row that records the primal-dual handoff through the same finite conjugacy packet;
+\item $E$ is the biconjugate comparison row, exposing only finite real-order and epigraph comparisons between the original functional and its displayed biconjugate read;
+\item $L$ is the lower-semicontinuity and closed-epigraph ledger row used to decide when the comparison row is public;
+\item $S$ is the $\SubdifferentialUp$ handoff row, available to consumers that read supporting-functional evidence from the same conjugacy surface;
+\item $H$ records componentwise $\hsame$ transport for the primal functional, vector-space source, conjugate row, duality row, comparison row, closed-epigraph ledger, subdifferential handoff, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from primal reads to conjugate reads, from conjugate reads to biconjugate comparisons, and from those comparisons to the closed-epigraph ledger;
+\item $P$ is the $\Pkg$ provenance over $\FenchelMoreauBiconjugationUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\SubdifferentialUp$, $\ConvexSetUp$, $\VecSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FenchelMoreauBiconjugationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,V,K,D,E,L,S,H,C,P,N$. It has no coordinate for a host supremum operator, quotient function equality, selected support functional, ambient dual completion, or external biconjugation theorem.
+\end{definition}
+\leanstmt{BEDC.Derived.FenchelMoreauBiconjugationUp}
+
+\begin{theorem}[Fenchel--Moreau biconjugation NameCert obligations]
+\label{thm:fenchel-moreau-biconjugation-namecert-obligations}
+For every accepted $\FenchelMoreauBiconjugationUp$ carrier $B=(F,V,K,D,E,L,S,H,C,P,N)$, the local $\NameCert_{\FenchelMoreauBiconjugationUp}$ surface consists exactly of carrier admission for the displayed rows, conjugate-row exposure through $K$, primal-dual handoff through $D$, biconjugate comparison through $E$, closed-epigraph ledger visibility through $L$, optional subdifferential handoff through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fenchel-moreau-biconjugation-carrier}. The visible rows are exactly $F,V,K,D,E,L,S,H,C,P,N$, so every local admission and classifier read is componentwise on those rows.
+
+The conjugacy and duality rows are consumed before the biconjugate comparison is public. The row $K$ supplies the displayed $\ConvexConjugateUp$ pairing and budget data, while $D$ records that the same finite packet is available to the $\FenchelDualityUp$ route.
+
+The comparison row $E$ is then guarded by the lower-semicontinuity ledger $L$ and by the real-order and convex-epigraph dependencies named in $P$. Transport and replay preserve only that displayed route.
+
+Since host suprema, quotient function equality, selected support functionals, ambient completions, and external biconjugation theorems are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fenchel--Moreau conjugate handoff]
+\label{thm:fenchel-moreau-biconjugation-conjugate-handoff}
+Every $\ConvexConjugateUp$, $\FenchelDualityUp$, or $\SubdifferentialUp$ consumer that reads an accepted $\FenchelMoreauBiconjugationUp$ packet receives the displayed route
+$$
+F,V,K,D,E,L,S\longmapsto H,C,P,N.
+$$
+The consumer may inspect primal functional rows, vector-space source rows, conjugate rows, duality rows, biconjugate comparison rows, lower-semicontinuity ledger rows, subdifferential handoff rows, transport, replay, provenance, and local naming. It receives no host supremum, quotient function space, selected subgradient, ambient dual completion, or external Fenchel--Moreau theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:fenchel-moreau-biconjugation-namecert-obligations}. It forces every biconjugation-facing read through the displayed rows before any structural replay or provenance row can source the answer.
+
+For a conjugate consumer, the row $K$ is the only path to $\ConvexConjugateUp$. For a duality consumer, the row $D$ records the compatible $\FenchelDualityUp$ handoff. For a subdifferential consumer, the row $S$ exposes supporting-functional evidence only after the same conjugacy and comparison rows have been displayed.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name that route. Because the excluded host objects are not coordinates of the carrier, the handoff supplies exactly the finite BEDC packet and no ambient analytic theorem.
+\end{proof}
+
+\closureat{FenchelMoreauBiconjugationUp}{seedStr}
+
+\begin{closurestatus}{\FenchelMoreauBiconjugationUp}
+  \constructivestory{A $\FenchelMoreauBiconjugationUp$ packet is generated from primal functional rows, vector-space source rows, conjugate and duality rows, biconjugate comparison rows, lower-semicontinuity ledger rows, subdifferential handoff rows, transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fenchel-moreau-biconjugation-carrier}, \autoref{thm:fenchel-moreau-biconjugation-namecert-obligations}, and \autoref{thm:fenchel-moreau-biconjugation-conjugate-handoff} seed the finite biconjugation NameCert surface over the existing convex-analysis siblings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Fenchel--Moreau equality, selected suprema, quotient function equality, ambient dual completion, global separation theorems, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, conjugate-row exposure, duality handoff, biconjugate comparison, closed-epigraph ledger visibility, subdifferential handoff, transport, replay, provenance, and local naming for BEDC.Derived.FenchelMoreauBiconjugationUp.}
+\end{closurestatus}
