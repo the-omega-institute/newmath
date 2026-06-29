@@ -4672,6 +4672,7 @@ import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindEtaCompletionUp.TasteGate
+import BEDC.Derived.DedekindEtaUp
 import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindLocatedIntervalUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
@@ -5458,6 +5459,7 @@ import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
 import BEDC.Derived.EilenbergSteenrodAxiomsUp.TasteGate
 import BEDC.Derived.EilenbergZilberUp
+import BEDC.Derived.EisensteinSeriesUp
 import BEDC.Derived.EisensteinUp
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
@@ -9552,6 +9554,7 @@ import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
+import BEDC.Derived.PeriodicContinuedFractionUp
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PermutationUp.TasteGate
@@ -9560,6 +9563,7 @@ import BEDC.Derived.PerronFrobeniusUp.TasteGate
 import BEDC.Derived.PerronIntegralUp.MajorMinorRoute
 import BEDC.Derived.PerronIntegralUp.TasteGate
 import BEDC.Derived.PersistentHomUp
+import BEDC.Derived.PettisMeasurabilityUp
 import BEDC.Derived.PhaseGovernedCertificateRouteUp.TasteGate
 import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
@@ -12483,6 +12487,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
+import BEDC.Derived.ThetaIdentitiesUp
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
@@ -13676,4 +13681,5 @@ import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
 import BEDC.Real.DyadicIntervalStream
+import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
