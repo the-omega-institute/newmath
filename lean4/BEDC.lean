@@ -1640,7 +1640,6 @@ import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
-import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
@@ -7718,6 +7717,7 @@ import BEDC.Derived.LocatedIntervalMidpointUp.Handoff
 import BEDC.Derived.LocatedIntervalMidpointUp.NameCertObligations
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalRefinementUp.TasteGate
+import BEDC.Derived.LocatedIntervalSupremumUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
@@ -10372,7 +10372,6 @@ import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
 import BEDC.Derived.RealClassifierUp.TailReplacementStability
-import BEDC.Derived.RealClassifierUp.TheoremCheckTargetHandoff
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp
@@ -12080,7 +12079,6 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverLocalGluingObligation
-import BEDC.Derived.SheafificationUp.CoverLocalGluingReplay
 import BEDC.Derived.SheafificationUp.CoverRefinementFiniteInduction
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
@@ -12098,6 +12096,7 @@ import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
+import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
