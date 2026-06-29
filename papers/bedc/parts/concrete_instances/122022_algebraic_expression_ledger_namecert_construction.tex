@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\AlgebraicExpressionLedgerUp$}
+\label{ch:concrete-instances-algebraic-expression-ledger-namecert}
+\origin{human}
+
+Following standard universal-algebra expression provenance, the $\AlgebraicExpressionLedgerUp$ packet realizes the operation-ledger row of \autoref{ch:visions-algebra-interface-spine} as finite BEDC data. It sits after the binary-operation carrier of \autoref{ch:concrete-instances-magma-namecert}, the associativity surface of \autoref{ch:concrete-instances-semigroup-namecert}, and the unit-bearing surface of \autoref{ch:concrete-instances-monoid-namecert}. The packet records how an algebra consumer reads expression trees and law rows without replacing them by host algebraic equality, quotient classes of terms, or abstract parameter transport.
+
+\begin{definition}[Algebraic expression ledger carrier]
+\label{def:algebraic-expression-ledger-carrier}
+An $\AlgebraicExpressionLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(E,O,A,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the expression-tree row, recording variables, constants, unary operation nodes, binary operation nodes, and the parenthesization route as finite $\BHist$ data.
+\item $O$ is the operation-source row, exposing the $\MagmaUp$ binary operation row and any named unary or nullary operation rows consumed by the expression tree.
+\item $A$ is the associativity-law provenance row, read only when a $\SemigroupUp$ source supplies the displayed rebracketing witness used by the ledger.
+\item $U$ is the unit-law provenance row, read only when a $\MonoidUp$ source supplies the displayed left-unit or right-unit witness used by the ledger.
+\item $S$ is the classifier-stability row, recording that expression evaluation is transported through the carrier classifier by the operation congruence rows already present in the source certificate.
+\item $H$ records componentwise $\hsame$ transport for $E,O,A,U,S$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay of expression-tree formation, operation-source lookup, law-row replay, and classifier-stability transport.
+\item $P$ is the $\Pkg$ provenance over $\AlgebraicExpressionLedgerUp$, $\MagmaUp$, $\SemigroupUp$, $\MonoidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AlgebraicExpressionLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host algebraic equality, quotient term equality, invisible normalization, detached operation symbols, or abstract transport between unrelated carriers.
+\end{definition}
+\leanstmt{BEDC.Derived.AlgebraicExpressionLedgerUp}
+
+\begin{theorem}[Algebraic expression ledger NameCert obligations]
+\label{thm:algebraic-expression-ledger-namecert-obligations}
+For every accepted $\AlgebraicExpressionLedgerUp$ carrier $L=(E,O,A,U,S,H,C,P,N)$, the local $\NameCert_{\AlgebraicExpressionLedgerUp}$ surface consists exactly of expression-tree exposure through $E$, operation-source exposure through $O$, associativity provenance through $A$ when a semigroup row is consumed, unit-law provenance through $U$ when a monoid row is consumed, classifier-stability exposure through $S$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape of host equality, quotient term equality, invisible normalization, detached operation symbols, and abstract carrier transport.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:algebraic-expression-ledger-carrier}. The rows $E,O,A,U,S$ are the only rows from which an algebraic expression read can be assembled.
+
+The expression tree is first read through $E$ and $O$. This exposes the actual operation source before any term is evaluated, so the public operation symbol cannot be detached from the $\MagmaUp$ row that licenses it.
+
+The law rows are then conditional on their sources. Associativity may be replayed only through $A$ after the $\SemigroupUp$ source has been displayed, and unit laws may be replayed only through $U$ after the $\MonoidUp$ source has been displayed.
+
+Finally $S,H,C,P,N$ keep classifier transport, continuation replay, provenance, and local naming attached to the same expression tree. Since the packet has no further coordinate, host equality, quotient term equality, invisible normalization, detached operation symbols, and abstract carrier transport cannot replace the displayed ledger.
+\end{proof}
+
+\begin{theorem}[Algebraic expression ledger nonescape]
+\label{thm:algebraic-expression-ledger-nonescape}
+Every algebra consumer that reads an accepted $\AlgebraicExpressionLedgerUp$ packet must retain the displayed expression tree, operation-source row, law provenance rows, classifier-stability row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before using an expression result. In particular, the consumer cannot replace the displayed expression provenance by host algebraic equality, quotient syntax equality, a normalization oracle, or abstract parameter transport between carriers.
+\end{theorem}
+\begin{proof}
+Begin with the accepted packet $L=(E,O,A,U,S,H,C,P,N)$. The expression result is reachable only through the tree row $E$ and the operation-source row $O$.
+
+If the consumer uses associativity or unit laws, the source rows $A$ and $U$ must remain visible. These rows point back to the $\SemigroupUp$ and $\MonoidUp$ certificates, so the law read is a displayed ledger replay rather than a host rewrite.
+
+Classifier movement is confined to $S$ and then preserved by $H$ and $C$. Package provenance and local naming through $P,N$ bind the same route to the public algebraic expression ledger.
+
+Thus no accepted read can discard the expression tree and keep only an algebraic equation. The packet exports finite provenance, not host equality, quotient syntax equality, normalization by an external oracle, or carrier transport unrelated to the displayed source.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AlgebraicExpressionLedgerUp$ consumer exposes expression tree, operation-source row, associativity provenance when used, unit-law provenance when used, classifier stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before an expression result is public.}
+
+\independenceWitness{magma, semigroup, monoid: none is bijective to $\AlgebraicExpressionLedgerUp$ because the ledger jointly carries expression-tree provenance, operation-source rows, optional associativity and unit-law provenance, classifier stability, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{AlgebraicExpressionLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AlgebraicExpressionLedgerUp}
+  \constructivestory{An $\AlgebraicExpressionLedgerUp$ packet is generated from expression-tree rows, operation-source rows, associativity-law provenance, unit-law provenance, classifier-stability rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:algebraic-expression-ledger-carrier}, \autoref{thm:algebraic-expression-ledger-namecert-obligations}, and \autoref{thm:algebraic-expression-ledger-nonescape} seed the finite operation-provenance packet for the algebra interface spine.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.AlgebraicExpressionLedgerUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host algebraic equality, quotient term equality, global normalization, abstract algebra transport, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, expression-tree exposure, operation-source exactness, associativity and unit-law provenance, classifier-stability transport, replay stability, provenance non-escape, and field faithfulness for BEDC.Derived.AlgebraicExpressionLedgerUp.}
+\end{closurestatus}
