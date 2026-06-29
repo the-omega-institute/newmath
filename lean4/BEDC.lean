@@ -386,7 +386,9 @@ import BEDC.Derived.AuditGateBoundaryUp.LedgerExactness
 import BEDC.Derived.AuditGateBoundaryUp.StdBridge
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateBoundaryUp.TasteGate
+import BEDC.Derived.AuditGateCompositionUp
 import BEDC.Derived.AuditGateCompositionUp.BoundaryObligation
+import BEDC.Derived.AuditGateCompositionUp.StdBridge
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
@@ -1642,6 +1644,7 @@ import BEDC.Derived.CandidateSNConfluenceBoundaryUp.TasteGate
 import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
+import BEDC.Derived.CanonicalTailChoiceUp.CofinalChoiceBoundary
 import BEDC.Derived.CanonicalTailChoiceUp.CofinalityStability
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
@@ -1650,6 +1653,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.RealCompletionHandoff
 import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
+import BEDC.Derived.CanonicalTailChoiceUp.ScopedFiniteChoiceRoute
 import BEDC.Derived.CanonicalTailChoiceUp.ScopedSourceDiscipline
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TailCofinality
@@ -3167,6 +3171,7 @@ import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicConsumerSurface
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
+import BEDC.Derived.ClosedSubstitutionSealUp.Boundary
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermContextSealUp
@@ -5604,6 +5609,7 @@ import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerMethodConvergenceUp
+import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
 import BEDC.Derived.EulerPhiUp
 import BEDC.Derived.EulerPolyUp
 import BEDC.Derived.EulerPolygonUp.TasteGate
@@ -6323,6 +6329,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
 import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
+import BEDC.Derived.FinitePrefixStreamUp.CofinalReindexStability
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
 import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
@@ -10195,6 +10202,7 @@ import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
 import BEDC.Derived.RHRoute.RationalPolygonWinding
+import BEDC.Derived.RHRoute.RationalPolygonWindingReversal
 import BEDC.Derived.RHRoute.RationalPolygonWindingRotation
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
 import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
