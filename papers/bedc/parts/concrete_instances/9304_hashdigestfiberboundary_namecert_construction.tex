@@ -59,19 +59,63 @@ Apply the NameCert obligations of \autoref{thm:hash-digest-fiber-boundary-namece
 If $F$ and $G$ are removed while $E$ remains, the remaining carrier does not record which source-side fiber is being compared. The packet therefore has no displayed way to separate digest equality from source equality. Since source-equality reflection, selected preimage recovery, quotient collapse, global digest, hidden source payload, and unledgered source reads have no carrier coordinate, none can escape the displayed packet.
 \end{proof}
 
+\begin{theorem}[HashDigestFiberBoundary field-faithful obligation]
+\label{thm:hash-digest-fiber-boundary-field-faithful-obligation}
+For an accepted $\HashDigestFiberBoundaryUp$ packet
+$$
+B=(D,E,F,G,R,H,C,P,N),
+$$
+the field-faithful obligation surface is visible in the displayed rows. The digest row $D$, digest-sameness row $E$, fiber row $F$, GAP row $G$, refusal row $R$, transport row $H$, continuation row $C$, provenance row $P$, and naming row $N$ are the fields whose carrier alignment is cited by the checked TasteGate marker attached to \autoref{thm:hash-digest-fiber-boundary-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:hash-digest-fiber-boundary-carrier}. Each field named in the obligation is one coordinate of $B$, and no row is supplied by ambient digest theory or by a hidden source read.
+
+The checked TasteGate marker attached to \autoref{thm:hash-digest-fiber-boundary-namecert-obligations} records the same single-carrier alignment. Hence field-faithfulness is a paper obligation over the concrete rows $D,E,F,G,R,H,C,P,N$, not a prose property outside the packet.
+\end{proof}
+
+\begin{theorem}[HashDigestFiberBoundary nontrivial obligation]
+\label{thm:hash-digest-fiber-boundary-nontrivial-obligation}
+The nontriviality obligation for $\HashDigestFiberBoundaryUp$ is the joint presence of
+$$
+D,E,F,G,R,H,C,P,N.
+$$
+A consumer may not retain only digest sameness $E$: the visible digest $D$, fiber membership $F$, GAP provenance $G$, refusal $R$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and local naming $N$ are the concrete rows that make the TasteGate carrier nontrivial.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:hash-digest-fiber-boundary-nonescape}. It already shows that a read of $E$ must keep the visible digest, fiber, GAP, refusal, transport, continuation, provenance, and naming rows.
+
+The TasteGate marker attached to the NameCert obligations therefore has a visible nontrivial carrier to check: it is precisely the row tuple $D,E,F,G,R,H,C,P,N$. Removing any of $F,G,R$ would collapse the boundary into digest-sameness prose, while removing $H,C,P,N$ would leave no transported, replayable, packaged, and named certificate.
+\end{proof}
+
+\begin{theorem}[HashDigestFiberBoundary obligation scope]
+\label{thm:hash-digest-fiber-boundary-obligation-scope}
+The scoped carrier obligations of $\HashDigestFiberBoundaryUp$ are exactly the obligations carried by
+$$
+B=(D,E,F,G,R,H,C,P,N).
+$$
+They include field-faithful visibility of the displayed rows, nontrivial joint presence of digest, fiber, GAP, and refusal data, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; they do not include source-equality reflection, preimage selection, quotient collapse, a global digest, or an unledgered source read.
+\end{theorem}
+\begin{proof}
+Combine the row projection in \autoref{thm:hash-digest-fiber-boundary-field-faithful-obligation} with the nontriviality projection in \autoref{thm:hash-digest-fiber-boundary-nontrivial-obligation}. Both are statements about the same accepted carrier $B$.
+
+The checked TasteGate marker cited at the NameCert obligation site aligns the single carrier with those rows. The scope is therefore the finite digest/fiber boundary packet itself, and the excluded readings remain outside the obligation surface because no coordinate of $B$ names them.
+\end{proof}
+
 \falsifiablePrediction{Removing the fiber and GAP provenance rows while keeping digest sameness collapses the chapter's ability to distinguish digest equality from source equality.}
 
 \independenceWitness{Nearest siblings: hashapophaticseal, digestfiberledger, hashlikefiberboundary, hash, and apophaticfixedpoint. No bijection exists because each sibling omits at least one row among explicit digest-sameness exposure, fiber membership, GAP provenance, source-equality refusal, and local NameCert packaging for the digest/fiber boundary.}
 
 The Lean boundary \texttt{lean4/BEDC/Derived/HashDigestFiberBoundaryUp/TasteGate.lean} must provide \texttt{Nontrivial HashDigestFiberBoundaryUp} and \texttt{FieldFaithful HashDigestFiberBoundaryUp} instances for the displayed digest, digest-sameness, fiber, GAP, refusal, transport, continuation, provenance, and naming carrier.
 
+\closureat{HashDigestFiberBoundaryUp}{obligationStr}
+
 \begin{closurestatus}{\HashDigestFiberBoundaryUp}
   \constructivestory{A $\HashDigestFiberBoundaryUp$ packet is generated from visible digest exposure, digest-sameness comparison, source-side fiber membership, $\mathsf{GAP}$ provenance, source-equality refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The carrier first reads digest equality as a visible comparison, then keeps the source-side fiber and gap rows attached so that equality of digest rows is not confused with equality of sources. The classifier accepts the boundary only when digest, fiber, gap, and refusal data remain present as one finite NameCert packet.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the hash digest fiber boundary carrier, non-escape argument, prediction, and independence witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim source-equality reflection, selected preimage recovery, quotient collapse, global digest universes, hidden source payloads, or unledgered source reads.}
-  \upgradepath{To reach obligationClosure, formalize the digest-sameness, fiber, gap, and refusal rows as a checked field-faithful boundary.}
+  \upgradepath{To reach scopedClosure, formalize the digest-sameness, fiber, gap, refusal, field-faithful, nontriviality, and scoped obligation rows as a checked boundary.}
 \end{closurestatus}

@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealCofinalBracketUp$}
+\label{ch:concrete-instances-located-real-cofinal-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located real numbers and regular rational approximations, the $\LocatedRealCofinalBracketUp$ packet records the finite cofinal-bracket surface by which a located real read is inspected through nested dyadic windows. It sits after the located-real carrier of \autoref{ch:concrete-instances-locatedreal-namecert}, the located-interval carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite bracket windows and their cofinal refinement ledger; it does not assert quotient real equality, trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedReal cofinal bracket carrier]
+\label{def:located-real-cofinal-bracket-carrier}
+A $\LocatedRealCofinalBracketUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,I,S,Q,D,W,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedRealUp$ source row whose locatedness requests are being bracketed.
+\item $I$ is the $\LocatedIntervalUp$ row recording the current rational interval face around the inspected read.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the observed prefixes used by the bracket.
+\item $Q$ is the $\RegSeqRatUp$ regular rational readback row extracted from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and endpoint-comparison row.
+\item $W$ is the cofinal bracket-window ledger, recording displayed pairs $q^-_k \leq q^+_k$ and the finite refinement relation between consecutive windows.
+\item $E$ is the endpoint-exposure row, recording that each displayed bracket endpoint is read through $I,S,Q,D$ before any real-facing seal is consumed.
+\item $R$ is the terminal $\RealUp$ seal row, available only after $L,I,S,Q,D,W,E$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for located-real, located-interval, stream, regular-rational, dyadic, bracket, endpoint, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for each bracket read from locatedness requests through stream windows, rational readback, dyadic comparison, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealCofinalBracketUp$, $\LocatedRealUp$, $\LocatedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedRealCofinalBracketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,I,S,Q,D,W,E,R,H,C,P,N$. It has no coordinate for quotient real equality, trichotomy, a selected limiting real, countable choice, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[LocatedReal cofinal bracket NameCert obligations]
+\label{thm:located-real-cofinal-bracket-namecert-obligations}
+For every accepted $\LocatedRealCofinalBracketUp$ carrier
+$$
+B=(L,I,S,Q,D,W,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealCofinalBracketUp}$ surface consists exactly of located-real source exposure through $L$, located-interval exposure through $I$, finite stream-window exposure through $S$, regular rational readback through $Q$, dyadic tolerance and endpoint comparison through $D$, cofinal bracket-window accounting through $W$, endpoint exposure through $E$, terminal real sealing through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-cofinal-bracket-carrier}. The located source row $L$ supplies the displayed locatedness request, while $I$ supplies the interval face in which the current bracket is read.
+
+The finite readback rows are $S,Q,D,W,E$. Stream windows expose inspected prefixes, regular rational readback turns those windows into rational data, the dyadic row records endpoint comparison and tolerance, the bracket ledger records cofinal refinement, and the endpoint row records that endpoints are consumed only through those displayed rows.
+
+The real seal $R$ is downstream of the bracket data, and $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since the carrier has no coordinate for quotient equality, trichotomy, selected limits, countable choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocatedReal cofinal bracket nested readback]
+\label{thm:located-real-cofinal-bracket-nested-readback}
+Every accepted $\LocatedRealCofinalBracketUp$ read factors through a nested finite route
+$$
+\LocatedRealUp \longmapsto \LocatedIntervalUp \longmapsto
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto
+\DyadicRatCoreUp \longmapsto W \longmapsto \RealUp .
+$$
+The route exposes each requested bracket window and its refinement relation before the terminal real seal may be used. It exports no quotient real equality, trichotomy, selected limiting representative, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with $L$ and $I$. A located-real request is visible only as a displayed source row together with a located interval face, so no real-facing consumer can skip directly to the terminal seal.
+
+Next read $S,Q,D$. The stream row supplies finite observations, the regular rational row supplies the corresponding rational readback, and the dyadic row supplies tolerance and endpoint comparison data.
+
+Then read $W$ and $E$. The bracket ledger records the nested cofinal windows, and the endpoint row records that the endpoints used by the bracket were produced by the displayed finite route.
+
+Finally consume $R,H,C,P,N$. These rows seal, transport, replay, source, and name the same packet without adding any quotient, trichotomy, selection, choice, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[LocatedReal cofinal bracket nonescape]
+\label{thm:located-real-cofinal-bracket-nonescape}
+The public information exported by an accepted $\LocatedRealCofinalBracketUp$ carrier is exactly
+$$
+L,I,S,Q,D,W,E,R,H,C,P,N .
+$$
+Thus a consumer may inspect finite cofinal bracket windows and their nested readback route, but cannot extract quotient real equality, trichotomy, a selected limit, countable choice, or ambient $\RealUp$ completeness from the packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The rows $L,I,S,Q,D,W,E,R$ are the only mathematical data rows, and the rows $H,C,P,N$ are the structural transport, replay, provenance, and naming rows.
+
+\autoref{thm:located-real-cofinal-bracket-namecert-obligations} fixes the NameCert obligations to exactly those rows. \autoref{thm:located-real-cofinal-bracket-nested-readback} fixes the order in which real-facing reads may consume them.
+
+Any quotient equality, trichotomy decision, selected limiting representative, countable-choice schedule, or completeness theorem would require a coordinate outside the displayed packet. Since no such coordinate is present, accepted exports remain inside the finite cofinal-bracket surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocatedRealCofinalBracketUp$ read is refuted whenever it reaches the terminal $\RealUp$ seal without first displaying the located-real source, located-interval face, stream window, regular rational readback, dyadic tolerance row, cofinal bracket-window ledger, endpoint row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{locatedreal, locatedinterval, regseqrat, streamname, dyadicratcore, real: no listed sibling is bijective to $\LocatedRealCofinalBracketUp$ because this packet jointly binds located reads, interval faces, finite stream windows, regular rational readback, dyadic endpoint comparison, cofinal bracket refinement, real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedRealCofinalBracketUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealCofinalBracketUp}
+  \constructivestory{A $\LocatedRealCofinalBracketUp$ packet is generated from LocatedReal source rows, LocatedInterval faces, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance and endpoint comparisons, cofinal bracket-window ledgers, endpoint-exposure rows, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-cofinal-bracket-carrier}, \autoref{thm:located-real-cofinal-bracket-namecert-obligations}, \autoref{thm:located-real-cofinal-bracket-nested-readback}, and \autoref{thm:located-real-cofinal-bracket-nonescape} seed the finite cofinal-bracket packet for located real reads through nested dyadic windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located source exposure, interval-face exactness, stream-window readback, regular rational readback, dyadic endpoint comparison, cofinal bracket refinement, endpoint exposure, real-seal nonescape, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.LocatedRealCofinalBracketUp.}
+\end{closurestatus}
