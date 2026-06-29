@@ -2356,6 +2356,7 @@ import BEDC.Derived.CauchyModulusThinningUp
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNameTruncationUp
 import BEDC.Derived.CauchyNameUniformityUp
 import BEDC.Derived.CauchyNameUniformityUp.TasteGate
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
