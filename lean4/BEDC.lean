@@ -387,6 +387,7 @@ import BEDC.Derived.AuditGateBoundaryUp.StdBridge
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateBoundaryUp.TasteGate
 import BEDC.Derived.AuditGateCompositionUp.BoundaryObligation
+import BEDC.Derived.AuditGateCompositionUp.StdBridge
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
@@ -3168,6 +3169,7 @@ import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicConsumerSurface
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
+import BEDC.Derived.ClosedSubstitutionSealUp.Boundary
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermContextSealUp
@@ -5605,6 +5607,7 @@ import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerMethodConvergenceUp
+import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
 import BEDC.Derived.EulerPhiUp
 import BEDC.Derived.EulerPolyUp
 import BEDC.Derived.EulerPolygonUp.TasteGate
@@ -9173,6 +9176,7 @@ import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NeumannSeriesUp.TasteGate
+import BEDC.Derived.NewtonForwardSeriesUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
