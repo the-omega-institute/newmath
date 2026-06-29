@@ -915,6 +915,7 @@ import BEDC.Derived.BellNumberUp
 import BEDC.Derived.BellPolynomialUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
+import BEDC.Derived.BernoulliModPUp
 import BEDC.Derived.BernoulliPolyUp
 import BEDC.Derived.BernoulliPolynomialUp
 import BEDC.Derived.BernoulliSecondKindUp
