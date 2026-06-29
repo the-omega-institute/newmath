@@ -35,6 +35,8 @@ stdout suitable for inclusion in a codex recovery prompt.
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import re
 import subprocess
 import sys
@@ -57,6 +59,27 @@ LIST_RANGE_NUM_RE = re.compile(r"\bList\.range\s*\(?\s*([0-9]+)\b")
 FOLDL_ACC_APPEND_RE = re.compile(
     r"(?:\bfoldl\b[\s\S]{0,2000}\bacc\s*\+\+|\bacc\s*\+\+[\s\S]{0,2000}\bfoldl\b)"
 )
+PUBLIC_THEOREM_HEADER_RE = re.compile(
+    r"^\s*(?:@\[[^\]]+\]\s*)*(?:(?:noncomputable|unsafe)\s+)*"
+    r"(?:protected\s+)?(?:theorem|lemma)\s+([A-Za-z_][\w']*)\b"
+)
+PRIVATE_THEOREM_HEADER_RE = re.compile(
+    r"^\s*(?:@\[[^\]]+\]\s*)*private\s+(?:(?:noncomputable|unsafe)\s+)*"
+    r"(?:protected\s+)?(?:theorem|lemma)\b"
+)
+LEAN_COMMAND_START_RE = re.compile(
+    r"^\s*(?:@\[[^\]]+\]\s*)*"
+    r"(?:private\s+|protected\s+|noncomputable\s+|unsafe\s+|partial\s+)?"
+    r"(?:namespace|section|end|theorem|lemma|def|inductive|structure|class|"
+    r"instance|abbrev|opaque|example|mutual|open|variable|universe)\b"
+)
+NAMESPACE_RE = re.compile(r"^\s*namespace\s+([A-Za-z_][\w']*(?:\.[A-Za-z_][\w']*)*)\b")
+SECTION_RE = re.compile(r"^\s*section(?:\s+[A-Za-z_][\w']*)?\s*$")
+END_RE = re.compile(r"^\s*end(?:\s+[A-Za-z_][\w']*(?:\.[A-Za-z_][\w']*)*)?\s*$")
+THIN_WRAPPER_BODY_RE = re.compile(
+    r"^(?:by\s+exact\s+|exact\s+)?[A-Za-z_][\w'.]*(?:\s+[^:=;|{}]+)?$"
+)
+PROBE_TIMEOUT_SECONDS = 90
 
 
 def _strip_hsame_tokens(text: str) -> str:
@@ -102,6 +125,271 @@ BHIST_CONSTRUCTOR_RE = re.compile(
 )
 DERIVED_PATH_PREFIX = "lean4/BEDC/Derived"
 SIGNATURE_BLOCK_LIMIT = 40
+
+
+def _strip_lean_comments(text: str) -> str:
+    out: list[str] = []
+    i = 0
+    block_depth = 0
+    while i < len(text):
+        if block_depth:
+            if text.startswith("/-", i):
+                block_depth += 1
+                i += 2
+            elif text.startswith("-/", i):
+                block_depth -= 1
+                i += 2
+            else:
+                if text[i] == "\n":
+                    out.append("\n")
+                i += 1
+            continue
+        if text.startswith("--", i):
+            while i < len(text) and text[i] != "\n":
+                i += 1
+            continue
+        if text.startswith("/-", i):
+            block_depth = 1
+            i += 2
+            continue
+        out.append(text[i])
+        i += 1
+    return "".join(out)
+
+
+def _is_public_thin_wrapper_source(block: str) -> bool:
+    cleaned = _strip_lean_comments(block)
+    lines = cleaned.splitlines()
+    saw_public_header = False
+    for line in lines:
+        if not line.strip():
+            continue
+        if PRIVATE_THEOREM_HEADER_RE.match(line):
+            return False
+        if PUBLIC_THEOREM_HEADER_RE.match(line):
+            saw_public_header = True
+            break
+    if not saw_public_header or ":=" not in cleaned:
+        return False
+
+    body = cleaned.split(":=", 1)[1]
+    body_lines = [line.strip() for line in body.splitlines() if line.strip()]
+    if not body_lines or len(body_lines) > 2:
+        return False
+
+    flat = " ".join(body_lines)
+    flat = re.sub(r"\s+", " ", flat).strip()
+    if flat.startswith("by ") and not re.match(r"^by\s+exact\s+", flat):
+        return False
+    if re.search(r"(?:<;>|=>|[;|{}])", flat):
+        return False
+    if re.search(
+        r"\b(?:apply|constructor|cases|induction|have|simpa|simp|rw|"
+        r"unfold|change|calc|show|refine|first|repeat)\b",
+        flat,
+    ):
+        return False
+    return bool(THIN_WRAPPER_BODY_RE.fullmatch(flat))
+
+
+def _added_line_numbers_by_file(worktree: Path, base_branch: str) -> dict[str, set[int]]:
+    res = subprocess.run(
+        [
+            "git", "diff", "--unified=0", "--no-color",
+            f"{base_branch}..HEAD", "--", "lean4/BEDC/",
+        ],
+        cwd=worktree, capture_output=True, text=True, check=False,
+    )
+    if res.returncode != 0:
+        return {}
+    added: dict[str, set[int]] = {}
+    current_file: str | None = None
+    new_line: int | None = None
+    for raw in res.stdout.splitlines():
+        if raw.startswith("+++ b/"):
+            current_file = raw[len("+++ b/"):]
+            new_line = None
+            continue
+        if raw.startswith("@@"):
+            m = re.search(r"\+(\d+)(?:,(\d+))?", raw)
+            new_line = int(m.group(1)) if m else None
+            continue
+        if current_file is None or new_line is None:
+            continue
+        if raw.startswith("+") and not raw.startswith("+++"):
+            added.setdefault(current_file, set()).add(new_line)
+            new_line += 1
+        elif raw.startswith("-") and not raw.startswith("---"):
+            continue
+        elif raw.startswith(" "):
+            new_line += 1
+    return added
+
+
+def _lean_module_from_rel_path(rel_path: str) -> str:
+    path = rel_path
+    if path.startswith("lean4/"):
+        path = path[len("lean4/"):]
+    if path.endswith(".lean"):
+        path = path[:-len(".lean")]
+    return path.replace("/", ".")
+
+
+def _parse_public_theorem_blocks(text: str) -> list[tuple[str, str, int]]:
+    original_lines = text.splitlines()
+    clean_lines = _strip_lean_comments(text).splitlines()
+    scopes: list[tuple[str, str]] = []
+    blocks: list[tuple[str, str, int]] = []
+    i = 0
+    while i < len(clean_lines):
+        line = clean_lines[i]
+        ns_match = NAMESPACE_RE.match(line)
+        if ns_match:
+            scopes.append(("namespace", ns_match.group(1)))
+            i += 1
+            continue
+        if SECTION_RE.match(line):
+            scopes.append(("section", ""))
+            i += 1
+            continue
+        if END_RE.match(line):
+            if scopes:
+                scopes.pop()
+            i += 1
+            continue
+
+        private_header = PRIVATE_THEOREM_HEADER_RE.match(line)
+        public_header = PUBLIC_THEOREM_HEADER_RE.match(line)
+        if private_header or public_header:
+            start = i
+            j = i + 1
+            while j < len(clean_lines):
+                if LEAN_COMMAND_START_RE.match(clean_lines[j]):
+                    break
+                j += 1
+            if public_header:
+                namespaces = [name for kind, name in scopes if kind == "namespace"]
+                leaf = public_header.group(1)
+                qualified = ".".join([*namespaces, leaf]) if namespaces else leaf
+                block = "\n".join(original_lines[start:j])
+                blocks.append((qualified, block, start + 1))
+            i = j
+            continue
+        i += 1
+    return blocks
+
+
+def _base_public_theorem_names(worktree: Path, base_branch: str, rel_path: str) -> set[str]:
+    res = subprocess.run(
+        ["git", "show", f"{base_branch}:{rel_path}"],
+        cwd=worktree, capture_output=True, text=True, check=False,
+    )
+    if res.returncode != 0:
+        return set()
+    return {name for name, _block, _line in _parse_public_theorem_blocks(res.stdout)}
+
+
+def collect_added_public_theorem_blocks(
+    worktree: Path,
+    base_branch: str,
+) -> list[tuple[str, str, str]]:
+    added_lines_by_file = _added_line_numbers_by_file(worktree, base_branch)
+    out: list[tuple[str, str, str]] = []
+    for rel_path, added_lines in sorted(added_lines_by_file.items()):
+        if not rel_path.startswith("lean4/BEDC/") or not rel_path.endswith(".lean"):
+            continue
+        path = worktree / rel_path
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        base_names = _base_public_theorem_names(worktree, base_branch, rel_path)
+        for qualified, block, start_line in _parse_public_theorem_blocks(text):
+            if start_line not in added_lines:
+                continue
+            if qualified in base_names:
+                continue
+            out.append((qualified, rel_path, block))
+    return out
+
+
+def _probe_payload(stdout: str) -> dict | None:
+    try:
+        payload = json.loads(stdout)
+    except json.JSONDecodeError:
+        start = stdout.find("{")
+        if start < 0:
+            return None
+        try:
+            decoder = json.JSONDecoder()
+            payload, _end = decoder.raw_decode(stdout[start:])
+        except json.JSONDecodeError:
+            return None
+    return payload if isinstance(payload, dict) else None
+
+
+def detect_one_step_wrapper_probe_hits(worktree: Path, base_branch: str) -> list[str]:
+    added_blocks = collect_added_public_theorem_blocks(worktree, base_branch)
+    thin_blocks = [
+        (qualified, rel_path)
+        for qualified, rel_path, block in added_blocks
+        if _is_public_thin_wrapper_source(block)
+    ]
+    if not thin_blocks:
+        return []
+
+    rel_by_name = {qualified: rel_path for qualified, rel_path in thin_blocks}
+    targets = ",".join(
+        f"{_lean_module_from_rel_path(rel_path)}:{qualified}"
+        for qualified, rel_path in thin_blocks
+    )
+    try:
+        res = subprocess.run(
+            [
+                "python3", "lean4/scripts/theorem_wrapper_probe.py",
+                "--targets", targets,
+            ],
+            cwd=worktree,
+            capture_output=True,
+            text=True,
+            check=False,
+            timeout=PROBE_TIMEOUT_SECONDS,
+        )
+    except (subprocess.TimeoutExpired, OSError):
+        return []
+    if res.returncode != 0:
+        return []
+
+    payload = _probe_payload(res.stdout or "")
+    if payload is None:
+        return []
+
+    hits: list[str] = []
+    seen: set[str] = set()
+    results = payload.get("results", [])
+    if not isinstance(results, list):
+        return []
+    for row in results:
+        if not isinstance(row, dict):
+            continue
+        if row.get("candidate") is not True or row.get("confidence") != "high":
+            continue
+        requested = str(row.get("requested_name") or "")
+        actual = str(row.get("name") or requested)
+        qualified = requested if requested in rel_by_name else actual
+        rel_path = rel_by_name.get(qualified)
+        if rel_path is None:
+            continue
+        head = str(row.get("head_constant") or "")
+        key = f"{actual}:{head}:{rel_path}"
+        if key in seen:
+            continue
+        seen.add(key)
+        hits.append(
+            "ONE-STEP THEOREM WRAPPER (proof-term confirmed): "
+            f"{actual} forwards to {head} @ {rel_path}"
+        )
+    return hits
 
 
 def diff_added_decls(worktree: Path, base_branch: str) -> list[tuple[str, str]]:
@@ -298,7 +586,21 @@ def main() -> int:
 
     decls = diff_added_decls(args.worktree, args.base_branch)
     large_decide_hits = detect_large_decide_enumerations(args.worktree, args.base_branch)
-    if not decls and not args.include_shallow and not large_decide_hits:
+    wrapper_hits: list[str] = []
+    wrapper_gate_enabled = os.environ.get("BEDC_ENABLE_WRAPPER_GATE", "1") != "0"
+    wrapper_gate_shadow = os.environ.get("BEDC_WRAPPER_GATE_SHADOW", "0") == "1"
+    if wrapper_gate_enabled:
+        wrapper_hits = detect_one_step_wrapper_probe_hits(args.worktree, args.base_branch)
+        if wrapper_gate_shadow:
+            for hit in wrapper_hits:
+                print(f"[shadow] would-reject: {hit}")
+            wrapper_hits = []
+    if (
+        not decls
+        and not args.include_shallow
+        and not large_decide_hits
+        and not wrapper_hits
+    ):
         return 0
 
     arity_hits: list[str] = []
@@ -332,7 +634,14 @@ def main() -> int:
     if args.include_shallow:
         shallow_hits = detect_shallow_growth_dups(args.worktree, args.base_branch)
 
-    if not (arity_hits or echo_hits or anchor_hits or shallow_hits or large_decide_hits):
+    if not (
+        arity_hits
+        or echo_hits
+        or anchor_hits
+        or shallow_hits
+        or large_decide_hits
+        or wrapper_hits
+    ):
         return 0
 
     msgs: list[str] = []
@@ -364,6 +673,8 @@ def main() -> int:
             "Large enumeration behind `by decide` in added Lean file(s):\n  "
             + "\n  ".join(large_decide_hits[:8])
         )
+    if wrapper_hits:
+        msgs.append("\n".join(wrapper_hits[:8]))
     print("\n".join(msgs))
     return 1
 
