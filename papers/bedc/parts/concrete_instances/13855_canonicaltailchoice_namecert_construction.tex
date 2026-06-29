@@ -47,6 +47,42 @@ Read the rows in order. The modulus row $M$ and tolerance-budget row $E$ determi
 Finally inspect the structural rows. The rows $H,C_0,P,N$ transport, replay, record provenance for, and name the same finite packet. Since no further coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice source obligations]
+\label{thm:canonical-tail-choice-source-obligations}
+Every accepted $\CanonicalTailChoiceUp$ read exposes source rows over $\CauchyChoiceBoundaryUp$, $\FinitePrefixLimitBudgetUp$, $\RealUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, and $\TailCofinalityScheduleUp$ before the canonical finite index row $I$ or the tail-window witness $T$ can be consumed. These source rows are finite $\BHist$ entries in the same packet, not references to a selected subsequence, quotient Cauchy name, countable choice row, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:canonical-tail-choice-carrier}. The modulus row $M$ and tolerance-budget row $E$ are read before the canonical finite index row $I$, so the finite-prefix budget and regular-rational source are already visible when the tail window is formed.
+
+Read the sibling boundary rows next. The no-choice boundary of \autoref{ch:concrete-instances-cauchy-choice-boundary-namecert}, the exact completion boundary of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}, and the cofinal schedule of \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert} attach to the displayed route before the Real seal route $S$ is admitted.
+
+The refusal row $R$ then excludes the non-source objects. Since $H,C_0,P,N$ only transport, replay, source, and name the same finite packet, no selected limit, quotient Cauchy name, countable choice row, or ambient $\RealUp$ completeness row is exported by the accepted read.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice window stability]
+\label{thm:canonical-tail-choice-window-stability}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ and $C'=(M',E',I',T',S',R',H',C'_0,P',N')$ be accepted $\CanonicalTailChoiceUp$ carriers. If the displayed rows are transported componentwise by the $\hsame$ data recorded in $H$ and $H'$, then the finite tail-window route $M,E,I,T$ and $M',E',I',T'$ remain on the same canonical tail-choice surface before either packet reaches its $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Induct over the finite route $M,E,I,T$. The base rows $M,E$ expose the same modulus and tolerance-budget roles under componentwise $\hsame$ transport, so both packets compute their canonical index inside the displayed source surface.
+
+At the index step, the rows $I$ and $I'$ are reached only after those transported source rows. The tail rows $T$ and $T'$ are therefore compared as finite window witnesses attached to the transported index rows, not as host-selected subsequences.
+
+The remaining rows preserve the comparison. The seal rows $S,S'$ are downstream from the tail windows, the refusal rows $R,R'$ exclude quotient names and choice schedules, and $C_0,C'_0,P,P',N,N'$ replay, source, and name the same componentwise transport. Thus finite tail-window stability is exactly the displayed $\hsame$ transport of the packet rows.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice nonescape]
+\label{thm:canonical-tail-choice-nonescape}
+No selected limit, quotient Cauchy name, countable choice row, or ambient $\RealUp$ completeness principle is exported by an accepted $\CanonicalTailChoiceUp$ packet. Any consumer that claims one of these objects has left the displayed rows $M,E,I,T,S,R,H,C_0,P,N$ and therefore cannot be reading the local $\NameCert_{\CanonicalTailChoiceUp}$ surface.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The tuple exposes the modulus, tolerance budget, canonical index, tail window, Real seal route, refusal ledger, transport, replay, provenance, and local name; it contains no coordinate for a selected limit, quotient Cauchy name, countable choice row, or ambient completeness principle.
+
+Apply the source-obligation theorem above. Every accepted read reaches $I$ and $T$ only after the finite source rows over the no-choice boundary, prefix budget, regular-rational source, cofinal schedule, and exact Real-completion boundary have been displayed.
+
+Finally use the refusal coordinate $R$. It blocks replacing the finite rows by the excluded objects, while $H,C_0,P,N$ keep all downstream consumption inside the same packet. Hence any consumer that exports an excluded object is outside the accepted $\CanonicalTailChoiceUp$ surface.
+\end{proof}
+
 \begin{theorem}[Canonical tail-choice obligation surface]
 \label{thm:canonical-tail-choice-obligation-surface}
 For every accepted $\CanonicalTailChoiceUp$ carrier
