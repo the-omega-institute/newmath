@@ -1,0 +1,13 @@
+\begin{theorem}[Machine export boundary orphan interface route]
+\label{thm:machine-export-boundary-orphan-interface-route}
+Every $\MachineExportBoundaryUp$ packet is read as a downstream specialization of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} only after registry status, audit readback, refusal preservation, componentwise transport, displayed replay, package provenance, and local $\NameCert$ rows remain visible. Concretely, an accepted export packet $E=(R,T,A,F,H,C,P,N)$ reaches the machine-interface boundary through the registry route of \autoref{thm:machine-export-boundary-registry-route}, the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}, and the interface dependency of \autoref{thm:machine-export-boundary-machine-interface-dependency}; it cannot be consumed as a bare machine target row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The displayed rows $R,T,A,F,H,C,P,N$ are the only rows available to a machine export consumer.
+
+Read the registry and audit surfaces first. The registry route and registry export dependency force $R$ to expose status before $T$ is consumed, while $A$ and $F$ preserve audit readback and refusal visibility inside the same packet.
+
+Now apply the machine-interface dependency and the forward interface route, \autoref{thm:machine-export-boundary-machine-interface-dependency} and \autoref{thm:machine-export-boundary-machine-interface-export-forward-link}. They route the target row through $\MachineInterfaceBoundaryUp$ only after $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ provenance are displayed.
+
+Finally use $H,C,P,N$. Transport and replay keep the same registry-audit-refusal route visible, provenance records the certificate-preserving handoff, and the local name closes the packet. Hence the orphan edge is a child route through $\MachineInterfaceBoundaryUp$ with all export-boundary rows still present.
+\end{proof}

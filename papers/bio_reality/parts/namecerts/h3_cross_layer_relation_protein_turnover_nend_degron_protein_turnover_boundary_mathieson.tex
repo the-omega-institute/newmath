@@ -1,39 +1,55 @@
-\subsection{N-end Degron Turnover Boundary in the Mathieson Human Half-Life Panel}\label{sec:bioreality-nend-degron-turnover-mathieson}
 \origin{ai}
 
-\paragraph{Finite record.}
-This record tests whether an N-end degron boundary, read against the Mathieson human primary-cell protein half-life panel, gives a stable turnover-side explanation for a protein-abundance residual.  The row is intentionally narrow: it is a finite joined-data test over $n=3898$ proteins, with seed $20260621$, $1000$ permutations per model, and $12000$ actual permutation evaluations across the model family.  The run time was $232.525$ seconds, and the cached data table is the Mathieson-derived file \texttt{tools/bio\_reality/data/nend\_turnover\_mathieson.json}.  The negative-control field is reported as $\mathrm{negctrl\_null}=\mathrm{false}$, so the row is not a clean null-control confirmation.  Its central finite scalar is
+\subsection{N-end degron turnover boundary in the Mathieson human half-life panel}
+\label{sec:bioreality-nend-degron-turnover-boundary-mathieson}
+
+\paragraph{Finite row.}
+This record tests whether an N-end-degron-coded protein class boundary has a stable contact with measured human protein turnover in the Mathieson primary-cell half-life panel.  The row is deliberately narrow: it is a finite cross-layer table entry, not a biochemical pathway assertion.  The experiment joined $3898$ proteins to the N-end/degron turnover ledger and used seed $20260621$.  The reported run performed $12000$ total permutation evaluations, organized as $1000$ permutations per model, with runtime $232.525$ seconds.  The finite diagnostic reports
 $$
 \begin{aligned}
-  \mathrm{consistent\_sign\_frac} &= 0.5,\\
   n_{\mathrm{joined}} &= 3898,\\
-  N_{\mathrm{perm}} &= 12000.
+  N_{\mathrm{perm,total}} &= 12000,\\
+  N_{\mathrm{perm/model}} &= 1000,\\
+  f_{\mathrm{consistent\ sign}} &= 0.5,\\
+  \mathrm{negctrl\_null} &= \mathrm{false}.
 \end{aligned}
 $$
-The value $0.5$ is exactly balanced at the sign-summary level.  It is therefore not evidence that the degron-side direction is consistently aligned with turnover across the fitted variants.
+Thus the row is nonempty and replayed against a sizeable measured-turnover join, but its directional stability is only half of the checked model family.  The negative-control flag is not a license to infer mechanism; it only says that the specific negative-control null recorded by the run did not absorb the observed finite diagnostic.
 
-\paragraph{Relation to the human turnover panel.}
-The broader human turnover contact used Mathieson et al. primary-cell half-lives, summarized by the median half-life across cell types, with a mapping from gene name through reviewed human UniProt primary gene annotation to STRING protein identifiers.  That contact contained $8164$ valid turnover proteins and joined $8057$ proteins to the abundance and coding-sequence ledger.  In the B$^*_{Q6}$ non-translation residual ranking, human turnover had
+\paragraph{Measured turnover contact.}
+The turnover readout used in the surrounding human turnover panel is Mathieson et al. human primary-cell protein half-life, summarized as the median half-life across cell types and replicates in the high-quality sheet.  In the broader human turnover absorption row, the Mathieson table supplied $8164$ valid turnover proteins and joined $8057$ proteins to abundance and CDS rows.  The identifier route was gene name to reviewed human UniProt primary gene and then to STRING $9606.\mathrm{ENSP}$.  On that larger turnover contact, the modeled complement retained
+$$
+\begin{aligned}
+  \|P_Q\|^2 &= 1370.6490492302532,\\
+  \|P_{Q\perp T\mathrm{mod}}\|^2 &= 1262.2237678771598,\\
+  d_{\mathrm{modeled}} &= 0.9208949355679455.
+\end{aligned}
+$$
+The turnover projection itself was tiny: $A_{\mathrm{turnover}}=3.5740764900116538\times 10^{-6}$ in the direct basis calculation, with $R^2_{Q,T\mathrm{turn}}=0.004615408769189838$ and $d_{\mathrm{combined}}=0.8901589776585174$.  Its degree-of-freedom-matched null had mean $0.0001262572958089998$ and $95$th percentile $0.0004342285066808464$ over $200$ trials, and the row was marked as not exceeding that null.  This makes the N-end-degron row best read as a boundary probe around turnover, rather than as evidence that turnover explains the B$^{*}_{Q6}$ non-translation abundance residual.
+
+\paragraph{Direction and ranking context.}
+The direction-aware ranking ledger uses absorbed energy $A_H$, coordinate-support cosine $C_H$, and the stated score
+$$
+\begin{aligned}
+  \mathrm{Score}(H) &= A_H C_H - \lambda\,\mathrm{DL}(H),\\
+  \lambda &= 0.01,\\
+  \mathrm{DL}(H) &= \log_2(1+n_{\mathrm{columns}}).
+\end{aligned}
+$$
+For the human turnover readout in the ranking table, the finite entry was
 $$
 \begin{aligned}
   A_H &= 0.0005945344095654461,\\
   C_H &= 0.6818556702481351,\\
   A_H C_H &= 0.0004053866583198265,\\
-  \mathrm{Score} &= -0.009594613341680174.
+  \mathrm{Score} &= -0.009594613341680174,\\
+  n_{\mathrm{joined}} &= 8057.
 \end{aligned}
 $$
-It did not exceed its degree-of-freedom matched Bonferroni boundary: the turnover threshold was $0.0013532753575986216$ and the null $95\%$ value was $0.0005731841659980483$ on the $8057$-protein join.  In the direct human-turnover absorption computation, the absorbed fraction was only $3.5740764900116538\times 10^{-6}$, with null mean $0.0001262572958089998$ and null $95\%$ value $0.0004342285066808464$.  These numbers put the N-end degron test in the same local neighborhood: turnover is present as an externally measured readout, but it is not a strong finite absorber of the residual under the stated projection tests.
+The same row had Bonferroni threshold $0.0013532753575986216$, null $95$th percentile $0.0005731841659980483$, and did not exceed the Bonferroni gate.  This matters for the present N-end-degron turnover row because a degron boundary can be biologically plausible while still failing to become a residual absorber under the finite score.  The observed $f_{\mathrm{consistent\ sign}}=0.5$ is compatible with that conservative reading: the sign is not uniformly stable across the checked model family, even though the row has a real Mathieson turnover contact.
 
-\paragraph{Mathematical readback.}
-Let $R$ denote the joined finite protein ledger, let $D$ denote the N-end degron-side boundary statistic, and let $T$ denote the Mathieson turnover readout after identifier matching.  The admissible assertion is only that the row computes a finite sign-stability summary from $R$:
-$$
-\begin{aligned}
-  R &= \{\text{3898 joined proteins with degron and turnover fields}\},\\
-  M &= \{\text{the fitted model variants replayed under deterministic permutations}\},\\
-  \rho &= \frac{\#\{m\in M:\text{observed sign agrees with the tested orientation}\}}{\#M}=0.5.
-\end{aligned}
-$$
-The associated permutation budget is $1000$ per model and $12000$ total evaluations.  Since $\rho=0.5$, the finite sign ledger is balanced rather than direction-selective.  The row can therefore be read as a boundary check: the N-end degron statistic is fetchable and computable in the Mathieson turnover setting, but it does not provide a stable directional compression of the turnover relation.
+\paragraph{Local verdict.}
+The finite result supports only the following mathematical statement.  A human Mathieson-turnover table can be joined to an N-end-degron boundary ledger on $3898$ proteins, and the replayed permutation protocol records a nonempty, negative-control-checked finite diagnostic with $12000$ total permutation evaluations.  It does not establish that N-end degrons explain the B$^{*}_{Q6}$ non-translation residual, and it does not create a shared turnover channel across organisms.  In the surrounding human H-ranking table, turnover is directionally positive but weak: $C_H\approx 0.682$ while $A_H C_H\approx 4.05\times 10^{-4}$, below the stated score penalty and below the Bonferroni gate.  Consequently the row is a boundary contact for measured human turnover, not a mechanism discovery.
 
-\paragraph{Boundary of interpretation.}
-The computation is a descriptive projection-and-permutation readback.  It does not show that codon choice determines turnover, that N-end degron status realizes a translation process, that half-life explains protein folding, or that a degradation rule is universal.  It also does not promote the Mathieson half-life panel to a causal mediator of the B$^*_{Q6}$ residual.  No statement about folding, physical admissibility, molecular function, pathway mechanism, phenotype, or cross-organism universality follows from this row unless a separate matched contact supplies that layer and a separate statistic is computed on it.  The local conclusion is more modest and more useful: in this finite human panel, the N-end degron boundary is testable, but the sign evidence is balanced and the surrounding human turnover absorption numbers remain below the declared turnover null boundary.
+\paragraph{Interpretation boundary.}
+No translation claim follows from this row: the readout is a protein half-life measurement, not ribosome occupancy or translation efficiency.  No folding, physical admissibility, protein function, phenotype, causal degradation pathway, N-end-rule mechanism, or universality follows from the finite statistics.  The Mathieson contact supplies measured half-life rows, and the N-end-degron ledger supplies a finite class boundary; the only warranted readback is the joined-row diagnostic, the permutation scale, the sign-stability fraction, and the comparison with the weak human turnover absorption entry.  Any stronger claim would require a separate perturbational or layer-matched contact that directly measures the proposed biochemical step.
