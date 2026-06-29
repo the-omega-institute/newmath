@@ -140,6 +140,24 @@ Now pass to the frontier through \autoref{thm:normalization-candidate-frontier-s
 Finally use obstruction exactness and local confluence scope for the frontier, \autoref{thm:normalization-candidate-frontier-obstruction-exactness} and \autoref{thm:normalization-candidate-frontier-local-confluence-scope}. These rows keep obstruction, transport, replay, provenance, and local naming in the handoff, so erased candidate evidence or erased residual data reaches the obstruction route instead of exporting global Church--Rosser, subject reduction, evaluator equality, quotient conversion equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence MetaCIC frontier forward route]
+\label{thm:finite-window-confluence-metacic-frontier-forward-route}
+Every $\MetaCICParallelDiamondFrontierUp$ consumer of an accepted $\FiniteWindowConfluenceUp$ carrier must keep the bounded beta-window row, redex-frontier row, local-join ledger, residual-substitution boundary, closed-normal endpoint row, normal-fragment row, componentwise transport, displayed replay, provenance, and local $\NameCert$ row visible before any frontier handoff. In carrier notation, the forward route is
+$$
+B,R,J,S,N,W,H,C,P,K ,
+$$
+read first through the finite-window obligations, residual-boundary inversion, and normalization-frontier handoff, then through the row discipline of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The route supplies bounded-window evidence to the parallel-diamond frontier only; it does not claim global confluence, unrestricted subject reduction, quotient term equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:finite-window-confluence-namecert-obligations}. They expose the bounded beta-window, redex-frontier, local-join, residual-substitution, closed-normal endpoint, and normal-fragment rows together with transport, replay, provenance, and local naming.
+
+Next apply the residual-boundary inversion of \autoref{thm:finite-window-confluence-residual-boundary-inversion}. Any read that reaches the local join ledger $J$ still carries $S$ as residual-substitution boundary data, so the route cannot be recast as a residual-free local join.
+
+Now use the normalization-frontier handoff of \autoref{thm:finite-window-confluence-normalization-frontier-handoff}. It already transports the finite diamond read through candidate evidence, bounded-route, obstruction, transport, replay, provenance, and local NameCert rows before a frontier consumer may inspect it.
+
+Finally compare with the $\MetaCICParallelDiamondFrontierUp$ row discipline of \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-handoff}. That frontier requires retained residual-substitution, critical-pair, candidate-join, residual-frontier, checker, obstruction, transport, replay, provenance, and local naming rows. The finite-window packet can therefore feed only its displayed bounded route into the frontier, with no route to global confluence, unrestricted subject reduction, quotient term equality, evaluator equality, or kernel consistency.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}
