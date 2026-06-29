@@ -297,4 +297,34 @@ theorem SubmartingaleCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, comparisonReadUnary⟩
 
+theorem SubmartingaleCarrier_doob_upcrossing_handoff [AskSetup] [PackageSetup]
+    {omega randomVar condExp filtration endpoint expectation comparison time transport replay
+      provenance localName comparisonRead stoppedWindow crossingLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubmartingaleCarrier omega randomVar condExp filtration endpoint expectation comparison time
+        transport replay provenance localName bundle pkg →
+      Cont endpoint expectation comparisonRead →
+        Cont comparisonRead time stoppedWindow →
+          Cont stoppedWindow comparison crossingLedger →
+            PkgSig bundle crossingLedger pkg →
+              UnaryHistory comparisonRead ∧ UnaryHistory stoppedWindow ∧
+                UnaryHistory crossingLedger ∧ Cont endpoint expectation comparisonRead ∧
+                  Cont comparisonRead time stoppedWindow ∧
+                    Cont stoppedWindow comparison crossingLedger ∧
+                      PkgSig bundle crossingLedger pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier comparisonRoute stoppedRoute crossingRoute crossingPkg
+  obtain ⟨_omegaUnary, _randomVarUnary, _condExpUnary, _filtrationUnary, endpointUnary,
+    expectationUnary, comparisonUnary, timeUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _localNamePkg⟩ := carrier
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed endpointUnary expectationUnary comparisonRoute
+  have stoppedWindowUnary : UnaryHistory stoppedWindow :=
+    unary_cont_closed comparisonReadUnary timeUnary stoppedRoute
+  have crossingLedgerUnary : UnaryHistory crossingLedger :=
+    unary_cont_closed stoppedWindowUnary comparisonUnary crossingRoute
+  exact
+    ⟨comparisonReadUnary, stoppedWindowUnary, crossingLedgerUnary, comparisonRoute,
+      stoppedRoute, crossingRoute, crossingPkg⟩
+
 end BEDC.Derived.SubmartingaleUp
