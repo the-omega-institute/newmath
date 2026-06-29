@@ -10168,6 +10168,7 @@ import BEDC.Derived.RHRoute.EtaInteger
 import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EulerHasseEta
+import BEDC.Derived.RHRoute.EulerHasseRegroup
 import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
@@ -13859,4 +13860,5 @@ import BEDC.Real.RatNumPhaseBox
 import BEDC.Real.RatNumSinCos
 import BEDC.Real.RatNumTrig
 import BEDC.Real.Sqrt2Apart
+import BEDC.Real.ZetaCertDy
 import BEDC.Reflection
