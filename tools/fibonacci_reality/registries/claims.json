@@ -1971,6 +1971,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube family Gamma_m, the cyclic-orthogonality quartet count Z_m=#{(a,b,c,d) in V(Gamma_m)^4 : a_i b_i = b_i c_i = c_i d_i = d_i a_i = 0 for all i} (at each coordinate the active tuple slots form an independent set of the 4-cycle C_4 on a-b-c-d-a; opposite overlaps a_i=c_i=1 and b_i=d_i=1 are permitted, adjacent tuple-slot overlaps forbidden) satisfies the forced recurrence Z_m = 5 Z_{m-1} + Z_{m-2} - Z_{m-3} (all-positive Nat reindex Z_m + Z_{m-3} = 5 Z_{m-1} + Z_{m-2}) with minimal polynomial t^3-5t^2-t+1 (coprime to t^2-t-1, Hankel rank 3), realized by a nonnegative non-companion three-state transfer lumped by previous-column type (empty/singleton/opposite) with all-ones readout; values 1,7,35,181,933,4811,24807,127913,659561,3400911,17536203,... verified to m=11. A cyclic C_4 orthogonality construction on quartets, distinct from the singleton-mask quartet B and every other anchor; not a lag/Walsh/arity/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "window.fibonacci-cube.rising-column-triple.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-window-rising-column-triple",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "window.fibonacci-cube.rising-column-triple",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Fibonacci cube family Gamma_m, the rising-column triple count A_m=#{(a,b,c) in V(Gamma_m)^3 : for all i, s_i>0 and s_{i+1}>0 implies s_i<s_{i+1}, where s_i=a_i+b_i+c_i is the column weight} (every adjacent pair of nonzero columns has strictly increasing weight; since each of a,b,c is a Fibonacci word, adjacent column supports are disjoint so the only nonzero adjacency is a singleton followed by a complementary doubleton) satisfies the forced all-positive recurrence A_m = A_{m-1} + 7 A_{m-2} + 3 A_{m-3} with minimal polynomial t^3-t^2-7t-3 (coprime to t^2-t-1, Hankel rank 3), realized by a nonnegative non-companion three-state transfer lumped by previous-column type (empty/singleton/heavy) with all-ones readout; values 1,8,18,77,227,820,2640,9061,30001,101348,338538,... verified to m=11. A directed weight-rise construction distinct from the no-pair-only / incidence-orthogonality / median-zero / betweenness triples and every other anchor; not a lag/Walsh/arity/C_k-orthogonality/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
