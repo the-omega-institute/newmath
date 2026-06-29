@@ -74,6 +74,41 @@ theorem AxisCarryConfluenceCarrier_local_diamond [AskSetup] [PackageSetup]
     ⟨nUnary, leftHandoffUnary, rightHandoffUnary, publicReadUnary, leftRoute,
       rightRoute, publicRoute, publicPkg⟩
 
+theorem AxisCarryConfluenceCarrier_normalization_handoff [AskSetup] [PackageSetup]
+    {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow
+      leftHandoff rightHandoff publicRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisCarryConfluenceCarrier u v w n routeLeft routeRight valueLedger boundary
+        continuation provenance nameRow bundle pkg →
+      Cont routeLeft n leftHandoff →
+        Cont routeRight n rightHandoff →
+          Cont leftHandoff rightHandoff publicRead →
+            Cont boundary publicRead boundaryRead →
+              PkgSig bundle boundaryRead pkg →
+                UnaryHistory boundaryRead ∧
+                  Cont routeLeft n leftHandoff ∧
+                    Cont routeRight n rightHandoff ∧
+                      Cont leftHandoff rightHandoff publicRead ∧
+                        Cont boundary publicRead boundaryRead ∧
+                          PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier leftRoute rightRoute publicRoute boundaryRoute boundaryPkg
+  have nUnary : UnaryHistory n := carrier.left
+  have routeLeftUnary : UnaryHistory routeLeft := carrier.right.left
+  have routeRightUnary : UnaryHistory routeRight := carrier.right.right.left
+  have boundaryUnary : UnaryHistory boundary :=
+    carrier.right.right.right.right.right.right.right.left
+  have leftHandoffUnary : UnaryHistory leftHandoff :=
+    unary_cont_closed routeLeftUnary nUnary leftRoute
+  have rightHandoffUnary : UnaryHistory rightHandoff :=
+    unary_cont_closed routeRightUnary nUnary rightRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed leftHandoffUnary rightHandoffUnary publicRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed boundaryUnary publicReadUnary boundaryRoute
+  exact
+    ⟨boundaryReadUnary, leftRoute, rightRoute, publicRoute, boundaryRoute, boundaryPkg⟩
+
 theorem AxisCarryConfluenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow :
       BHist}
