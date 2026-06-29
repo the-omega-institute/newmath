@@ -16,6 +16,16 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def SeparableCompletionCarrier [AskSetup] [PackageSetup]
+    (metric dense completion windows tolerance readback sealRow transport provenance
+      localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig UnaryHistory
+  UnaryHistory metric ∧ UnaryHistory dense ∧ UnaryHistory completion ∧
+    UnaryHistory windows ∧ UnaryHistory tolerance ∧ UnaryHistory readback ∧
+      UnaryHistory sealRow ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
 theorem SeparableCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {metric dense completion windows tolerance readback sealRow transport provenance localName
       windowRead toleranceRead completionRead : BHist}
@@ -49,7 +59,7 @@ theorem SeparableCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup
                                             PkgSig bundle provenance pkg ∧
                                               PkgSig bundle localName pkg)
                                     hsame ∧
-                                  UnaryHistory windowRead ∧ UnaryHistory toleranceRead ∧
+                                    UnaryHistory windowRead ∧ UnaryHistory toleranceRead ∧
                                     UnaryHistory completionRead := by
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
   intro _metricUnary denseUnary completionUnary windowsUnary toleranceUnary _readbackUnary
