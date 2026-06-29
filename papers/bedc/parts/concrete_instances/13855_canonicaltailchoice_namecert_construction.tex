@@ -312,6 +312,20 @@ Now attach the Real-completion side. The Real-completion handoff theorem, \autor
 Finally apply no-choice non-escape, \autoref{thm:canonical-tail-choice-no-choice-nonescape}. The refusal row $R$ excludes host-selected subsequences, quotient stream equality, countable choice, hidden tail oracles, metric completeness, ambient completeness, and detached Real-completion seals; the structural rows $H,C_0,P,N$ keep transport, replay, provenance, and naming inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice scoped source discipline]
+\label{thm:canonical-tail-choice-scoped-source-discipline}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ be an accepted $\CanonicalTailChoiceUp$ packet. Before the seal row $S$ is consumed by any Real-completion read, the source route must pass through $\CauchyChoiceBoundaryUp$, $\TailCofinalityScheduleUp$, $\FinitePrefixLimitBudgetUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ using only the displayed rows $M,E,I,T,S,R,H,C_0,P,N$. The route exposes no host-selected tail, quotient stream equality, hidden choice oracle, detached Real seal, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $M,E,I,T,S,R,H,C_0,P,N$. The modulus row $M$, finite budget row $E$, canonical index row $I$, and tail window row $T$ are the only local source rows available before the seal route $S$ is read.
+
+Apply schedule factorization, no-choice non-escape, and the Real-completion handoff, namely \autoref{thm:canonical-tail-choice-schedule-factorization}, \autoref{thm:canonical-tail-choice-no-choice-nonescape}, and \autoref{thm:canonical-tail-choice-real-completion-handoff}. These place the $\TailCofinalityScheduleUp$, $\FinitePrefixLimitBudgetUp$, and $\CauchyChoiceBoundaryUp$ surfaces before the tail window and keep the refusal row visible before any completion-facing seal is consumed.
+
+Use $\RegSeqRatUp$ consumption and scope grounding, \autoref{thm:canonical-tail-choice-regseqrat-consumption} and \autoref{thm:canonical-tail-choice-scope-grounding}. The regular-rational read reaches $\RealCompletionExactBoundaryUp$ only through the sibling $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ faces named by that exact-boundary route, while $H,C_0,P,N$ preserve transport, replay, provenance, and local naming.
+
+Thus every seal-facing consumer reads the same finite source discipline before $S$. The excluded tail selector, quotient equality, hidden oracle, detached seal, and ambient completeness coordinates are absent from the carrier and from the cited boundary routes.
+\end{proof}
+
 The Lean follow-up namespace is \texttt{BEDC.Derived.CanonicalTailChoiceUp}. Its \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:canonical-tail-choice-carrier}.
 
 \closureat{CanonicalTailChoiceUp}{obligationStr}
