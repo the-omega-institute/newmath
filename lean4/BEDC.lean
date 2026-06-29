@@ -7717,6 +7717,7 @@ import BEDC.Derived.LocatedIntervalMidpointUp.Handoff
 import BEDC.Derived.LocatedIntervalMidpointUp.NameCertObligations
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalRefinementUp.TasteGate
+import BEDC.Derived.LocatedIntervalSupremumUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
@@ -12090,14 +12091,17 @@ import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
+import BEDC.Derived.SheafificationUp.PlusGluingTransport
 import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
+import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
 import BEDC.Derived.SheafificationUp.SheafHandoffLedgerObligation
+import BEDC.Derived.SheafificationUp.SiteSourceExposure
 import BEDC.Derived.SheafificationUp.SourceCoverLocality
 import BEDC.Derived.SheafificationUp.SourceExposureObligation
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
