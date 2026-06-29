@@ -7336,6 +7336,7 @@ import BEDC.Derived.KoopmanOperatorUp.TasteGate
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KraftPrefixCodeUp.TasteGate
 import BEDC.Derived.KreinMilmanFiniteExtremeUp.TasteGate
+import BEDC.Derived.KreinMilmanUp
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
@@ -9906,6 +9907,7 @@ import BEDC.Derived.PriestleyDualityUp.TasteGate
 import BEDC.Derived.PrimeAdicLocalSlicing
 import BEDC.Derived.PrimeAdicParityEnergyWindow
 import BEDC.Derived.PrimeAdicParitySphere
+import BEDC.Derived.PrimeChargeParityPhaseUp
 import BEDC.Derived.PrimeNumberTheoremChebyshevWindowUp.TasteGate
 import BEDC.Derived.PrimeSieveOddExactnessUp
 import BEDC.Derived.PrimeUp
@@ -10385,6 +10387,7 @@ import BEDC.Derived.RealClassifierUp.AuditRoute
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
 import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
+import BEDC.Derived.RealClassifierUp.FiniteWindowExactnessTarget
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
@@ -12231,6 +12234,7 @@ import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SocketReportUp.MinimalClassification
 import BEDC.Derived.SocketReportUp.NameCertObligations
+import BEDC.Derived.SocketReportUp.PublicExportSurface
 import BEDC.Derived.SocketReportUp.ScopedReportRoute
 import BEDC.Derived.SocketReportUp.SiblingSeparation
 import BEDC.Derived.SocketReportUp.TasteGate
