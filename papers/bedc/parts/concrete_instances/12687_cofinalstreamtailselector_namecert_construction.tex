@@ -163,6 +163,7 @@ $$
 $$
 is scoped over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The precision request $\epsilon$ opens only the displayed StreamName tail window $W$; $R$ and $D$ read regular-sequence and dyadic rows from that window; $A$ is the terminal Real seal; $\sigma,H,C,P,N$ record selector provenance, componentwise transport, continuation replay, package provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorScopedRoute}
 \begin{proof}
 Start from the carrier and obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}. They expose exactly the rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and list the BEDC surfaces on which those rows may be read.
 
@@ -222,6 +223,7 @@ Use the window readback scope of \autoref{thm:cofinal-stream-tail-selector-windo
 
 The remaining rows $H,C,P,N$ have only transport, replay, source, and naming roles in the same finite packet. They therefore preserve the already displayed route rather than selecting a new tail, adding a limit, or appealing to a completeness principle outside the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicWindowTransport}
 
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
