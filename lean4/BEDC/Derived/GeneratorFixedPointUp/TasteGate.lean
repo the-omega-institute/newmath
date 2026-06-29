@@ -284,6 +284,88 @@ def GeneratorFixedPointCarrier [AskSetup] [PackageSetup]
         Cont generator list classifier ∧ Cont classifier witness output ∧
           Cont transport route provenance ∧ PkgSig bundle provenance pkg
 
+theorem GeneratorFixedPointUp_StdBridge [AskSetup] [PackageSetup]
+    {generator list classifier witness output transport route provenance name publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorFixedPointCarrier generator list classifier witness output transport route provenance
+        name bundle pkg →
+      Cont witness output publicRead →
+        PkgSig bundle publicRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row generator ∨ hsame row list ∨ hsame row classifier ∨
+                  hsame row witness ∨ hsame row output ∨ hsame row transport ∨
+                    hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                      hsame row publicRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont generator list classifier ∧
+                  Cont classifier witness output ∧ Cont transport route provenance ∧
+                    Cont witness output publicRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle publicRead pkg)
+              hsame ∧
+            UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier publicRoute publicPkg
+  obtain ⟨_generatorUnary, _listUnary, _classifierUnary, witnessUnary, outputUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, generatorListClassifier,
+    classifierWitnessOutput, transportRouteProvenance, provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed witnessUnary outputUnary publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row generator ∨ hsame row list ∨ hsame row classifier ∨
+              hsame row witness ∨ hsame row output ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                  hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont generator list classifier ∧
+              Cont classifier witness output ∧ Cont transport route provenance ∧
+                Cont witness output publicRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, generatorListClassifier, classifierWitnessOutput,
+          transportRouteProvenance, publicRoute, provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
 theorem GeneratorFixedPointCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {generator list classifier witness output transport route provenance name consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

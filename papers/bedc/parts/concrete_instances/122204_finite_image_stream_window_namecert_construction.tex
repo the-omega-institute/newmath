@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\FiniteImageStreamWindowUp$}
+\label{ch:concrete-instances-finite-image-stream-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite means in constructive analysis, the $\FiniteImageStreamWindowUp$ packet records the finite image of a displayed $\StreamNameUp$ observation window before any Real or Completion consumer reads it as a completed set of values. It sits after the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the continuous-map interface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite source rows, finite image rows, readback ledgers, classifier transport, replay, provenance, and local naming; it does not select a limit, form a host image set, quotient stream equality, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite image stream-window carrier]
+\label{def:finite-image-stream-window-carrier}
+A $\FiniteImageStreamWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,J,F,I,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row whose inspected entries are named by the packet;
+\item $J$ is the finite window-index row, recording the displayed positions of $S$ that are inspected;
+\item $F$ is the $\ContinuousMapUp$ or certified readback row applied to the inspected source entries;
+\item $I$ is the finite image ledger, listing the image endpoints obtained from the entries indexed by $J$;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the finite rational approximants attached to the image ledger;
+\item $R$ is the $\RealUp$ seal row visible only after the stream window and regular rational rows have been read;
+\item $H$ stores componentwise $\hsame$ transport for the source, index, map, image, readback, and seal rows;
+\item $C$ stores displayed $\Cont$ continuation from the finite source window through the image ledger and real seal;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteImageStreamWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite image set, a selected limiting image, a quotient of streams, or a completed compactness object.
+\end{definition}
+
+\begin{theorem}[Finite image stream-window NameCert obligations]
+\label{thm:finite-image-stream-window-namecert-obligations}
+For the carrier of \autoref{def:finite-image-stream-window-carrier}, the local $\NameCert_{\FiniteImageStreamWindowUp}$ surface consists exactly of carrier exposure for
+$$
+W=(S,J,F,I,Q,R,H,C,P,N),
+$$
+finite source-window exposure through $S$ and $J$, certified map exposure through $F$, finite image ledger exposure through $I$, regular rational readback through $Q$, Real-facing seal visibility through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $S,J,F,I$ expose the finite source window and its image before any rational readback or Real-facing seal is available.
+
+The rows $Q$ and $R$ are read only as handoff rows. They do not create new image endpoints; they record the regular rational and Real-facing surfaces attached to the finite ledger already displayed by $I$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no row contains an infinite image set or selected limit, the NameCert obligations are exactly the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Finite image stream-window classifier stability]
+\label{thm:finite-image-stream-window-classifier-stability}
+If two accepted $\FiniteImageStreamWindowUp$ packets are related by the displayed classifier, then their source window rows, certified map rows, finite image ledgers, regular rational readbacks, Real-facing seals, transport rows, replay rows, provenance rows, and local names are matched componentwise. In particular, classifier transport cannot replace a finite image ledger by an ambient host image set.
+\end{theorem}
+\begin{proof}
+Read the classifier through the carrier rows of \autoref{def:finite-image-stream-window-carrier}. A classified replacement must preserve the entries named by $S$ and $J$, the applied readback row $F$, and the finite image ledger $I$.
+
+The readback and seal rows $Q$ and $R$ are downstream of that same finite ledger, so they transport only with the displayed image entries. The structural rows $H,C,P,N$ then repack the transported packet as another finite image window, not as a host image object.
+\end{proof}
+
+\begin{theorem}[Finite image stream-window RegSeqRat handoff]
+\label{thm:finite-image-stream-window-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of a $\FiniteImageStreamWindowUp$ packet must first read the finite source window $S,J$, the certified map row $F$, and the finite image ledger $I$. The consumer may then read $Q$ as the regular rational handoff for those displayed image entries, but it cannot infer a stream quotient or a selected limit from the handoff alone.
+\end{theorem}
+\begin{proof}
+The carrier places $Q$ after the source window, certified map row, and finite image ledger. A regular rational consumer therefore receives $Q$ only together with the displayed finite image rows that generated it.
+
+Since $Q$ records readback for the entries of $I$, it does not identify all future stream entries, select a convergent image, or quotient two streams. Those conclusions would require rows absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Finite image stream-window Real seal nonescape]
+\label{thm:finite-image-stream-window-real-seal-nonescape}
+Every Real-facing read of an accepted $\FiniteImageStreamWindowUp$ packet factors through
+$$
+S,J,F,I,Q,R,H,C,P,N
+$$
+before the $\RealUp$ seal row is visible. The seal exports only the finite image-window readback already certified by the packet; it does not broaden the packet to ambient Real completeness or selected image limits.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:finite-image-stream-window-namecert-obligations}, the Real-facing row $R$ is part of one packet with the source window, image ledger, and regular rational readback rows.
+
+A Real-facing consumer must therefore read $S,J,F,I,Q$ before $R$ can be interpreted. The classifier stability theorem prevents replacing $I$ by a host image set during transport, so the seal remains attached to the displayed finite image window.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteImageStreamWindowUp$ packet is refuted by any Real or Completion consumer that reads the $\RealUp$ seal while skipping the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback, or finite image ledger.}
+
+\independenceWitness{streamname, regseqrat, continuousmap, real: StreamNameUp supplies source observations but not image ledgers; RegSeqRatUp supplies rational readback but not a finite image surface; ContinuousMapUp supplies certified map rows but not the inspected window; RealUp supplies a terminal seal without recording the finite source-to-image ledger. None is bijective to the full $\FiniteImageStreamWindowUp$ carrier under NameCert-row preservation.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/FiniteImageStreamWindowUp.lean} must provide the concrete carrier, the NameCert obligation theorem, classifier stability, the regular-rational handoff, and the Real-seal nonescape theorem without adding any host image-set primitive.
+
+\closureat{FiniteImageStreamWindowUp}{seedStr}
+
+\begin{closurestatus}{\FiniteImageStreamWindowUp}
+  \constructivestory{A $\FiniteImageStreamWindowUp$ packet is generated from a StreamName source row, a finite window-index row, a certified ContinuousMap or readback row, a finite image ledger, RegSeqRat readback, a terminal Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-image-stream-window-carrier}, \autoref{thm:finite-image-stream-window-namecert-obligations}, \autoref{thm:finite-image-stream-window-classifier-stability}, \autoref{thm:finite-image-stream-window-regseqrat-handoff}, and \autoref{thm:finite-image-stream-window-real-seal-nonescape} seed the finite image-window carrier and its Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host image sets, selected image limits, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, classifier stability, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteImageStreamWindowUp.}
+\end{closurestatus}
