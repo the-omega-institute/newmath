@@ -218,6 +218,26 @@ private theorem nontrivialZeroClassifierToEventFlow_injective
     (Eq.trans (nontrivialZeroClassifierRoundTrip x).symm
       (Eq.trans hread (nontrivialZeroClassifierRoundTrip y)))
 
+def nontrivialZeroClassifierFields : NontrivialZeroClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | NontrivialZeroClassifierUp.mk zero strip witness trivial realPart comparison transport route
+      provenance name =>
+      [zero, strip, witness, trivial, realPart, comparison, transport, route, provenance,
+        name]
+
+private theorem nontrivialZeroClassifier_field_faithful :
+    ∀ x y : NontrivialZeroClassifierUp,
+      nontrivialZeroClassifierFields x = nontrivialZeroClassifierFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk zero strip witness trivial realPart comparison transport route provenance name =>
+      cases y with
+      | mk zero' strip' witness' trivial' realPart' comparison' transport' route'
+          provenance' name' =>
+          cases hfields
+          rfl
+
 instance nontrivialZeroClassifierBHistCarrier : BHistCarrier NontrivialZeroClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := nontrivialZeroClassifierToEventFlow
@@ -235,6 +255,27 @@ instance nontrivialZeroClassifierChapterTasteGate :
     intro x y hxy heq
     exact hxy (nontrivialZeroClassifierToEventFlow_injective heq)
 
+instance nontrivialZeroClassifierFieldFaithful :
+    FieldFaithful NontrivialZeroClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := nontrivialZeroClassifierFields
+  field_faithful := nontrivialZeroClassifier_field_faithful
+
+instance nontrivialZeroClassifierNontrivial : Nontrivial NontrivialZeroClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨NontrivialZeroClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      NontrivialZeroClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate NontrivialZeroClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  nontrivialZeroClassifierChapterTasteGate
+
 theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
     (∀ h : BHist, nontrivialZeroClassifierDecodeBHist
         (nontrivialZeroClassifierEncodeBHist h) = h) ∧
@@ -244,7 +285,10 @@ theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
         (∀ x y : NontrivialZeroClassifierUp,
           nontrivialZeroClassifierToEventFlow x = nontrivialZeroClassifierToEventFlow y →
             x = y) ∧
-          nontrivialZeroClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+          nontrivialZeroClassifierEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : NontrivialZeroClassifierUp,
+              nontrivialZeroClassifierFields x = nontrivialZeroClassifierFields y → x = y) ∧
+              (∃ x y : NontrivialZeroClassifierUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact nontrivialZeroClassifierDecodeEncodeBHist
@@ -254,6 +298,19 @@ theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact nontrivialZeroClassifierToEventFlow_injective heq
-      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · exact nontrivialZeroClassifier_field_faithful
+          · exact
+              ⟨NontrivialZeroClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty,
+                NontrivialZeroClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
 
 end BEDC.Derived.NontrivialZeroClassifierUp

@@ -9200,6 +9200,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
@@ -10199,6 +10200,7 @@ import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
 import BEDC.Derived.RHRoute.RationalPolygonWinding
+import BEDC.Derived.RHRoute.RationalPolygonWindingReversal
 import BEDC.Derived.RHRoute.RationalPolygonWindingRotation
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
 import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
@@ -10873,6 +10875,7 @@ import BEDC.Derived.RecursionAuthorizationLedgerUp.OutputAuditBoundary
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorAuthorizationUp.TasteGate
+import BEDC.Derived.RecursorBranchAuditUp.NamecertObligations
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
 import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
