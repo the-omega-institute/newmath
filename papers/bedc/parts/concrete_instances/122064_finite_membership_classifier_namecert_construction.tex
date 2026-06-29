@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMembershipClassifierUp$}
+\label{ch:concrete-instances-finite-membership-classifier-namecert}
+\origin{human}
+
+The $\FiniteMembershipClassifierUp$ packet realizes the order--set--type interface of \autoref{ch:visions-order-set-type-interface-spine} as finite membership-classifier data over displayed source, member, witness, stability, ledger, transport, replay, provenance, and local naming rows. It sits beside the finite interface spine of \autoref{ch:concrete-instances-finite-interface-spine-namecert}, the public finite-data rows of \autoref{ch:concrete-instances-list-namecert}, \autoref{ch:concrete-instances-option-namecert}, and \autoref{ch:concrete-instances-bool-namecert}, and the set/type interface intent of $\SetLikeUp$ and $\TypeLikeUp$. The packet names finite membership inspection only; it does not introduce ambient subset semantics, a host finite-type universe, quotient equality, unrestricted comprehension, or excluded-middle membership.
+
+\begin{definition}[Finite membership classifier carrier]
+\label{def:finite-membership-classifier-carrier}
+A $\FiniteMembershipClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,A,F,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row naming the finite displayed collection being inspected.
+\item $A$ is the member row naming the candidate displayed element.
+\item $F$ is the finite witness row, exposing the bounded inspection window and the finite evidence considered by the classifier.
+\item $Q$ is the classifier row, recording the membership read as finite certificate data rather than as ambient elementhood.
+\item $L$ is the stability and ledger row, recording source stability, member stability, witness stability, and the consumed comparison evidence.
+\item $H$ records componentwise $\hsame$ transport for the source, member, witness, classifier, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a membership request through $S,A,F,Q,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMembershipClassifierUp$, $\FiniteInterfaceSpineUp$, $\ListUp$, $\OptionUp$, $\BoolUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMembershipClassifierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for ambient subset semantics, an unrestricted type universe, quotient equality of members, hidden comprehension, or excluded-middle membership.
+\end{definition}
+
+\begin{theorem}[Finite membership classifier NameCert obligations]
+\label{thm:finite-membership-classifier-namecert-obligations}
+For every accepted $\FiniteMembershipClassifierUp$ carrier
+$$
+M=(S,A,F,Q,L,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteMembershipClassifierUp}$ surface consists exactly of carrier admission for the source row, member row, finite witness row, classifier row, stability and ledger row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-membership-classifier-carrier}. The source, member, witness, classifier, and ledger rows are the only membership-facing rows available to an accepted packet.
+
+The finite witness row $F$ bounds the inspection before $Q$ records the classifier read. The ledger row $L$ records which source, member, witness, and stability data have been consumed.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no ambient subset, host type universe, quotient member equality, hidden comprehension, or excluded-middle row occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite membership classifier stability]
+\label{thm:finite-membership-classifier-stability}
+Let $M=(S,A,F,Q,L,H,C,P,N)$ and $M'=(S',A',F',Q',L',H',C',P',N')$ be accepted $\FiniteMembershipClassifierUp$ carriers. If the source, member, finite witness, and ledger rows are transported componentwise by the displayed $\hsame$ data in $H$ and $H'$, then the classifier rows $Q$ and $Q'$ remain on the same finite membership surface. The transported read exports no ambient subset relation, quotient member equality, hidden comprehension, or excluded-middle membership principle.
+\end{theorem}
+\begin{proof}
+Start with the source and member rows. Componentwise $\hsame$ transport identifies the displayed collection and candidate element before the classifier row is read.
+
+Transport the finite witness rows next. The classifier rows are read after the same bounded evidence is displayed, and the ledger rows record the same consumed comparison data.
+
+The replay, provenance, and local naming rows keep the transported packet inside the same surface. Therefore classifier stability is a property of the displayed finite rows, not an ambient membership principle.
+\end{proof}
+
+\begin{theorem}[Finite membership classifier interface handoff]
+\label{thm:finite-membership-classifier-interface-handoff}
+Every order--set--type interface consumer that reads a $\FiniteMembershipClassifierUp$ packet must consume the route
+$$
+S,A,F,Q,L,H,C,P,N
+$$
+before treating membership as public classifier data. The handoff realizes finite source, member, witness, stability, ledger, transport, replay, provenance, and NameCert rows, and supplies no host finite-type universe, unrestricted comprehension, quotient equality, or hidden decidability principle.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:finite-membership-classifier-namecert-obligations}. They force the source, member, witness, classifier, and ledger rows to be displayed before the interface consumer can read membership.
+
+The stability theorem \autoref{thm:finite-membership-classifier-stability} shows that transported reads remain on the same finite membership surface. Thus a consumer can move membership data across displayed sameness only by preserving the packet rows.
+
+The carrier lacks coordinates for the excluded objects. Hence the order--set--type handoff is exactly the finite classifier route listed above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteMembershipClassifierUp$ consumer displays source, member, finite witness, classifier, stability ledger, transport, replay, provenance, and local NameCert rows before reading membership as order--set--type interface data.}
+
+\independenceWitness{finite-interface-spine, list, option, bool, setlike, typelike: no listed sibling is bijective to $\FiniteMembershipClassifierUp$ because this packet jointly binds finite source, member, witness, classifier, stability, ledger, transport, replay, provenance, and local naming rows.}
+
+\closureat{FiniteMembershipClassifierUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMembershipClassifierUp}
+  \constructivestory{A $\FiniteMembershipClassifierUp$ packet is generated from a displayed finite source, a displayed member, a finite witness row, a membership classifier row, a stability and ledger row, componentwise transport, displayed continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-membership-classifier-carrier}, \autoref{thm:finite-membership-classifier-namecert-obligations}, \autoref{thm:finite-membership-classifier-stability}, and \autoref{thm:finite-membership-classifier-interface-handoff} seed the finite membership-classifier packet over source, member, witness, classifier, stability, ledger, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient subset semantics, a host finite-type universe, quotient member equality, unrestricted comprehension, excluded-middle membership, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite witness exactness, classifier stability, interface handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMembershipClassifierUp.}
+\end{closurestatus}

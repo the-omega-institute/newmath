@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNameTruncationUp$}
+\label{ch:concrete-instances-cauchy-name-truncation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy names, the $\CauchyNameTruncationUp$ packet records the finite prefix and tail-budget certificate visible before a regular rational name is handed toward a Real or Completion consumer. It sits over the StreamName finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed truncation budget for one regular Cauchy read; it is not quotient stream equality, a selected limit, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyNameTruncation carrier]
+\label{def:cauchy-name-truncation-carrier}
+A $\CauchyNameTruncationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,Q,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite prefix schedule naming the inspected source windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the displayed error radii.
+\item $T$ is the truncation-index and tail-budget row saying which prefix is sufficient for the named tolerance.
+\item $E$ is the optional $\RealUp$ seal row, available only after $S,Q,D,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for prefix schedule, readback, tolerance, truncation budget, optional seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite truncation route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyNameTruncationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyNameTruncationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,D,T,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, open-cover compactness, or ambient Real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyNameTruncationUp}
+
+\begin{theorem}[CauchyNameTruncation NameCert obligations]
+\label{thm:cauchy-name-truncation-namecert-obligations}
+For every accepted $\CauchyNameTruncationUp$ carrier $K=(S,Q,D,T,E,H,C,P,N)$, the local $\NameCert_{\CauchyNameTruncationUp}$ surface consists exactly of carrier admission, finite StreamName prefix exposure, RegSeqRat readback, DyadicRatCore tolerance accounting, truncation-index and tail-budget admission, optional RealUp sealing, componentwise transport, displayed replay, provenance, and local naming. No accepted local read may export quotient stream equality, selected limits, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-name-truncation-carrier}. The rows $S,Q,D,T$ are the finite prefix schedule, regular rational readback, dyadic tolerance ledger, and truncation budget inspected before any terminal seal is available.
+
+The optional seal row $E$ is downstream of that displayed route. Transport, replay, provenance, and local naming are exactly the rows $H,C,P,N$, so the local NameCert surface is exhausted by the nine-row packet.
+
+The excluded outputs have no carrier coordinates. Since the packet contains no quotient row, selected-limit row, countable-choice schedule, open-cover compactness witness, or ambient-completeness certificate, an accepted local read cannot produce one.
+\end{proof}
+
+\begin{theorem}[CauchyNameTruncation tail-budget route]
+\label{thm:cauchy-name-truncation-tail-budget-route}
+Every Real or Completion consumer of an accepted $\CauchyNameTruncationUp$ carrier must read the $\StreamNameUp$ prefix row $S$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the truncation budget row $T$ before consuming the optional $\RealUp$ seal row $E$. The route may be transported and replayed through $H$ and $C$, but it cannot be replaced by quotient stream equality, a selected limit, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-name-truncation-namecert-obligations}. They place $S,Q,D,T$ before the optional seal row $E$, with $T$ naming the inspected truncation index and the tail budget associated to the displayed tolerance.
+
+The sibling chapters supply the four external rows in order: finite prefix schedules from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance accounting from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal boundary from \autoref{ch:concrete-instances-real-namecert}. Thus a downstream read sees a finite prefix and its tail budget, not a completed quotient object.
+
+Finally, $H$ and $C$ preserve the displayed route under transport and replay, while $P$ and $N$ keep the provenance and local NameCert rows explicit. No omitted output is recovered by this preservation, because none is represented inside the accepted carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyNameTruncationUp$ read that reaches Real or Completion data without displaying StreamName prefix schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, truncation budget, optional seal, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\CauchyNameTruncationUp$ is not bijective with any listed sibling because it binds finite prefix schedule, regular rational readback, dyadic tolerance, truncation index, optional Real seal, transport, replay, provenance, and local naming as one tail-budget packet.}
+
+\closureat{CauchyNameTruncationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNameTruncationUp}
+  \constructivestory{A $\CauchyNameTruncationUp$ packet is generated from StreamName finite prefix schedules, RegSeqRat readback rows, DyadicRatCore tolerance ledgers, truncation-index and tail-budget rows, optional RealUp sealing, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-name-truncation-carrier}, \autoref{thm:cauchy-name-truncation-namecert-obligations}, and \autoref{thm:cauchy-name-truncation-tail-budget-route} seed the finite regular Cauchy truncation surface.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, ambient Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix exposure, regular readback, dyadic tolerance accounting, truncation-budget routing, optional Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyNameTruncationUp.}
+\end{closurestatus}

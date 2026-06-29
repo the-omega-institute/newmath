@@ -39,12 +39,51 @@ C=(M,E,I,T,S,R,H,C_0,P,N),
 $$
 the local $\NameCert_{\CanonicalTailChoiceUp}$ surface consists exactly of carrier exposure for $C$, modulus exposure through $M$, tolerance-budget exposure through $E$, canonical finite-index exposure through $I$, tail-window witness exposure through $T$, $\RealUp$ seal-route exposure through $S$, no-choice refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C_0$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CanonicalTailChoiceUp.CanonicalTailChoiceCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:canonical-tail-choice-carrier}. Its displayed rows list the modulus, tolerance budget, canonical finite index, tail-window witness, seal route, refusal ledger, and structural support.
 
 Read the rows in order. The modulus row $M$ and tolerance-budget row $E$ determine the finite index row $I$ before the tail-window witness $T$ can be consumed. The Real seal route $S$ is therefore downstream from a displayed finite choice, not from a hidden selector.
 
 Finally inspect the structural rows. The rows $H,C_0,P,N$ transport, replay, record provenance for, and name the same finite packet. Since no further coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice source obligations]
+\label{thm:canonical-tail-choice-source-obligations}
+Every accepted $\CanonicalTailChoiceUp$ read exposes source rows over $\CauchyChoiceBoundaryUp$, $\FinitePrefixLimitBudgetUp$, $\RealUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, and $\TailCofinalityScheduleUp$ before the canonical finite index row $I$ or the tail-window witness $T$ can be consumed. These source rows are finite $\BHist$ entries in the same packet, not references to a selected subsequence, quotient Cauchy name, countable choice row, or ambient completion principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CanonicalTailChoiceUp.CanonicalTailChoiceCarrier\_source\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:canonical-tail-choice-carrier}. The modulus row $M$ and tolerance-budget row $E$ are read before the canonical finite index row $I$, so the finite-prefix budget and regular-rational source are already visible when the tail window is formed.
+
+Read the sibling boundary rows next. The no-choice boundary of \autoref{ch:concrete-instances-cauchy-choice-boundary-namecert}, the exact completion boundary of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}, and the cofinal schedule of \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert} attach to the displayed route before the Real seal route $S$ is admitted.
+
+The refusal row $R$ then excludes the non-source objects. Since $H,C_0,P,N$ only transport, replay, source, and name the same finite packet, no selected limit, quotient Cauchy name, countable choice row, or ambient $\RealUp$ completeness row is exported by the accepted read.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice window stability]
+\label{thm:canonical-tail-choice-window-stability}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ and $C'=(M',E',I',T',S',R',H',C'_0,P',N')$ be accepted $\CanonicalTailChoiceUp$ carriers. If the displayed rows are transported componentwise by the $\hsame$ data recorded in $H$ and $H'$, then the finite tail-window route $M,E,I,T$ and $M',E',I',T'$ remain on the same canonical tail-choice surface before either packet reaches its $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Induct over the finite route $M,E,I,T$. The base rows $M,E$ expose the same modulus and tolerance-budget roles under componentwise $\hsame$ transport, so both packets compute their canonical index inside the displayed source surface.
+
+At the index step, the rows $I$ and $I'$ are reached only after those transported source rows. The tail rows $T$ and $T'$ are therefore compared as finite window witnesses attached to the transported index rows, not as host-selected subsequences.
+
+The remaining rows preserve the comparison. The seal rows $S,S'$ are downstream from the tail windows, the refusal rows $R,R'$ exclude quotient names and choice schedules, and $C_0,C'_0,P,P',N,N'$ replay, source, and name the same componentwise transport. Thus finite tail-window stability is exactly the displayed $\hsame$ transport of the packet rows.
+\end{proof}
+\leanchecked{BEDC.Derived.CanonicalTailChoiceUp.CanonicalTailChoiceCarrier\_window\_stability}
+
+\begin{theorem}[Canonical tail-choice nonescape]
+\label{thm:canonical-tail-choice-nonescape}
+No selected limit, quotient Cauchy name, countable choice row, or ambient $\RealUp$ completeness principle is exported by an accepted $\CanonicalTailChoiceUp$ packet. Any consumer that claims one of these objects has left the displayed rows $M,E,I,T,S,R,H,C_0,P,N$ and therefore cannot be reading the local $\NameCert_{\CanonicalTailChoiceUp}$ surface.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The tuple exposes the modulus, tolerance budget, canonical index, tail window, Real seal route, refusal ledger, transport, replay, provenance, and local name; it contains no coordinate for a selected limit, quotient Cauchy name, countable choice row, or ambient completeness principle.
+
+Apply the source-obligation theorem above. Every accepted read reaches $I$ and $T$ only after the finite source rows over the no-choice boundary, prefix budget, regular-rational source, cofinal schedule, and exact Real-completion boundary have been displayed.
+
+Finally use the refusal coordinate $R$. It blocks replacing the finite rows by the excluded objects, while $H,C_0,P,N$ keep all downstream consumption inside the same packet. Hence any consumer that exports an excluded object is outside the accepted $\CanonicalTailChoiceUp$ surface.
 \end{proof}
 
 \begin{theorem}[Canonical tail-choice obligation surface]
@@ -109,17 +148,127 @@ Next apply the local obligations and schedule factorization. The $\CanonicalTail
 Finally read the exact boundary. The $\RealCompletionExactBoundaryUp$ packet admits terminal completion reads only through its displayed StreamName, RegSeqRat, DyadicRatCore, and RealUp faces. Since the present packet exports only $M,E,I,T,S,R,H,C_0,P,N$ and the sibling boundary exports no hidden selector, the diagonal seal handoff remains a finite no-choice route.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice tail cofinality]
+\label{thm:canonical-tail-choice-tail-cofinality}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ be an accepted $\CanonicalTailChoiceUp$ carrier. The canonical finite index row $I$ remains cofinal with the displayed $\TailCofinalityScheduleUp$ and $\FinitePrefixLimitBudgetUp$ rows before any tail-window consumer reads the $\RealUp$ seal route $S$. Thus every later finite tolerance request transported through $H$ and replayed through $C_0$ is served inside the same tail-window row $T$, without a host-selected subsequence, quotient stream equality, hidden tail oracle, countable-choice row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with schedule factorization, \autoref{thm:canonical-tail-choice-schedule-factorization}. It places the cofinal schedule and prefix-budget rows before the tail-window witness $T$ and before the Real seal route $S$.
+
+Read the carrier rows $M,E,I,T,S,R,H,C_0,P,N$. The index row $I$ is displayed after the modulus and budget rows, so a later tolerance request can be transported only by reusing the same finite route through $H$ and replaying it through $C_0$.
+
+The refusal row $R$ blocks replacing that finite route by a selected subsequence, quotient equality, hidden tail oracle, choice row, or ambient completeness principle. Hence the cofinality assertion is internal to the displayed packet before any consumer reaches the seal.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice Real-completion boundary]
+\label{thm:canonical-tail-choice-real-completion-boundary}
+The Real-completion exact-boundary handoff for an accepted $\CanonicalTailChoiceUp$ carrier consumes only the rows
+$$
+M,E,I,T,S,R,H,C_0,P,N.
+$$
+It cannot read quotient stream equality, countable choice, hidden tail oracles, ambient completeness, or any detached completion seal outside the displayed carrier and its $\NameCert_{\CanonicalTailChoiceUp}$ surface.
+\end{theorem}
+\begin{proof}
+Apply the Real-completion handoff theorem \autoref{thm:canonical-tail-choice-real-completion-handoff}. The diagonal seal route is reached only through the displayed packet rows $M,E,I,T,S,R,H,C_0,P,N$.
+
+Use the no-choice non-escape theorem \autoref{thm:canonical-tail-choice-no-choice-nonescape}. It identifies quotient stream equality, countable choice, hidden tail oracles, ambient completeness, and detached seals as absent from the carrier.
+
+The structural rows $H,C_0,P,N$ transport, replay, source, and name the same finite packet. They do not add a new completion coordinate, so the exact-boundary handoff remains confined to the listed rows.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice tail inhabitation]
+\label{thm:canonical-tail-choice-tail-inhabitation}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ be an accepted $\CanonicalTailChoiceUp$ carrier. For every finite Real-completion request admitted by the displayed rows $M,E,I,T,S,R,H,C_0,P,N$, the tail-window row $T$ is inhabited by a finite $\BHist$ witness after the canonical index row $I$ is read. The witness is produced inside the same packet and is not a host-selected subsequence, hidden tail oracle, quotient stream equality, or countable-choice row.
+\end{theorem}
+\begin{proof}
+Induct over the displayed route $M,E,I,T,S,R,H,C_0,P,N$. The base rows $M,E$ expose the regular-Cauchy modulus and tolerance budget, so the request has a finite precision scale before any tail is inspected.
+
+At the index step, use the carrier obligation of \autoref{thm:canonical-tail-choice-namecert-obligations}. The canonical index row $I$ is a displayed coordinate computed from $M,E$, and the next row $T$ is the packet's own tail-window witness row.
+
+The remaining rows preserve that witness. The seal row $S$ consumes the tail only after $T$ is present; the refusal row $R$ excludes hidden selectors; and $H,C_0,P,N$ transport, replay, source, and name the same finite packet. Hence tail inhabitation is a finite row induction, not an external choice principle.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice cofinality stability]
+\label{thm:canonical-tail-choice-cofinality-stability}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ be an accepted $\CanonicalTailChoiceUp$ carrier. If the sibling cofinal schedule of \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert} is read before $I$, then every later finite tolerance request transported through $H$ remains on the same tail-window route $M,E,I,T,S,R,H,C_0,P,N$. In particular, cofinality is stable under componentwise $\hsame$ transport and displayed $\Cont$ replay, and no host-selected subsequence or quotient equality is exported.
+\end{theorem}
+\begin{proof}
+Start with the schedule factorization of \autoref{thm:canonical-tail-choice-schedule-factorization}. It places the cofinal schedule and prefix-budget rows before $T$ and before the Real seal route $S$.
+
+Now perform induction over later finite tolerance requests. The base request is the one served by $E$ and $I$, and the induction step appends one displayed request by transporting the same modulus, budget, index, and tail rows through $H$.
+
+The replay row $C_0$ records that this appended request follows the same route, while $R$ refuses any move to a selected subsequence, quotient stream equality, hidden tail oracle, or ambient completeness row. Therefore cofinality stability is exactly stability of the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice RegSeqRat consumption]
+\label{thm:canonical-tail-choice-regseqrat-consumption}
+Every $\RegSeqRatUp$ consumer that reads an accepted $\CanonicalTailChoiceUp$ packet for a Real-completion handoff must consume the rows
+$$
+M,E,I,T,S,R,H,C_0,P,N
+$$
+in that order before the terminal $\RealUp$ seal is treated as available. The consumer receives a finite regular-rational tail route through $M,E,I,T$ and the structural rows, but no quotient stream equality, selected limit, countable choice, hidden tail oracle, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the Real-completion handoff theorem \autoref{thm:canonical-tail-choice-real-completion-handoff}. It makes the diagonal seal read pass through the displayed route $M,E,I,T,S,R,H,C_0,P,N$.
+
+For the regular-rational read, use the exact-boundary sibling cited there. A $\RegSeqRatUp$ consumer can inspect a regular-rational tail only after the modulus row $M$, tolerance budget $E$, canonical index $I$, and tail-window witness $T$ have been displayed.
+
+Finally use no-choice non-escape, \autoref{thm:canonical-tail-choice-no-choice-nonescape}. The refusal row and structural rows keep the read inside the finite packet, so consuming the regular-rational tail cannot produce quotient equality, a selected limit, countable choice, a hidden tail oracle, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice scoped finite-choice route]
+\label{thm:canonical-tail-choice-scoped-finite-choice-route}
+Let $C=(M,E,I,T,S,R,H,C_0,P,N)$ be an accepted
+$\CanonicalTailChoiceUp$ packet. Every completion-facing finite choice in $C$
+is scoped through $\CauchyChoiceBoundaryUp$, $\TailCofinalityScheduleUp$,
+$\FinitePrefixLimitBudgetUp$, $\RegSeqRatUp$, and
+$\RealCompletionExactBoundaryUp$ by the displayed route
+$$
+M,E,I,T,S,R,H,C_0,P,N.
+$$
+The route computes the finite index row $I$ from the modulus and budget rows,
+inhabits the tail window $T$, reads the regular-rational tail through
+$\RegSeqRatUp$, and hands the result to the exact completion boundary only
+after the refusal and structural rows have been displayed. It exports no
+quotient stream equality, hidden tail oracle, selected subsequence, countable
+choice, selected limit, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the schedule factorization theorem,
+\autoref{thm:canonical-tail-choice-schedule-factorization}. It places the
+$\TailCofinalityScheduleUp$ and $\FinitePrefixLimitBudgetUp$ rows before the
+tail-window witness, so the finite index is read from the displayed packet
+rather than from an external choice function.
+
+Next apply no-choice non-escape,
+\autoref{thm:canonical-tail-choice-no-choice-nonescape}. The refusal row
+blocks quotient stream equality, hidden tail oracles, selected subsequences,
+countable choice, selected limits, and ambient completeness before the
+completion-facing handoff is available.
+
+The Real-completion handoff,
+\autoref{thm:canonical-tail-choice-real-completion-handoff}, moves the packet
+from the tail window to the exact boundary through the same rows
+$M,E,I,T,S,R,H,C_0,P,N$. Tail cofinality stability and
+\autoref{thm:canonical-tail-choice-regseqrat-consumption} then identify the
+$\RegSeqRatUp$ consumer as a downstream read of that finite route.
+
+The transport, replay, provenance, and naming rows $H,C_0,P,N$ repackage the
+same finite packet for consumers. Thus the only completion-facing choice made
+by the chapter is the displayed finite index choice, scoped through the listed
+L10 completion route and not through countable choice.
+\end{proof}
+
 The Lean follow-up namespace is \texttt{BEDC.Derived.CanonicalTailChoiceUp}. Its \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:canonical-tail-choice-carrier}.
 
-\closureat{CanonicalTailChoiceUp}{seedStr}
+\closureat{CanonicalTailChoiceUp}{obligationStr}
 
 \begin{closurestatus}{\CanonicalTailChoiceUp}
   \constructivestory{A $\CanonicalTailChoiceUp$ packet is generated from a regular-Cauchy modulus row, a finite tolerance-budget row, a canonical finite-index row, a tail-window witness row, a Real seal route, a no-choice refusal row, componentwise transports, continuation replay, provenance, and local naming.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:canonical-tail-choice-carrier}, \autoref{thm:canonical-tail-choice-namecert-obligations}, \autoref{thm:canonical-tail-choice-schedule-factorization}, \autoref{thm:canonical-tail-choice-no-choice-nonescape}, and \autoref{thm:canonical-tail-choice-real-completion-handoff} declare the finite tail-choice packet and its Real-completion handoff surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close RealUp completeness, quotient-stream equality, host real equality, countable choice, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, canonical-index exactness, schedule factorization, no-choice refusal, Real-completion handoff, and TasteGate carrier support for the same packet.}
 \end{closurestatus}
