@@ -126,14 +126,34 @@ Now use the regular seal theorem \autoref{thm:bishopcompletioncomparison-regular
 Finally apply the seal non-escape theorem \autoref{thm:bishop-completion-comparison-seal-nonescape}. Since the carrier has no coordinate for quotient filters, selected limits, countable-choice schedules, or ambient completeness, none of those rows can replace the located-filter route.
 \end{proof}
 
-\closureat{BishopCompletionComparisonUp}{seedStr}
+\begin{theorem}[BishopCompletionComparison public L10 route]
+\label{thm:bishop-completion-comparison-l10-scope}
+Every completion-facing comparison read accepted by $\BishopCompletionComparisonUp$ factors through $\RegularLocatedCauchyRealUp$, $\BishopLocatedCompletionBoundaryUp$, $\LocatedCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal before any public comparison boundary is exported. The exported boundary is therefore the displayed finite L10 route
+$$
+R\longmapsto B\longmapsto L\longmapsto E\longmapsto T
+$$
+together with the located-filter comparison handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it is not a quotient completion, a selected limit, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bishop-completion-comparison-namecert-obligations}. They expose the carrier rows $R,B,L,E,T,H,K,P,N$ as the whole local obligation surface.
+
+Apply the regular located route of \autoref{thm:bishop-completion-comparison-regular-located-route}. It places the $\RegularLocatedCauchyRealUp$ source before the boundary row and keeps the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ data inside the displayed source route.
+
+Next apply the Real route of \autoref{thm:bishop-completion-comparison-real-route} and the regular seal theorem \autoref{thm:bishopcompletioncomparison-regular-seal}. These force the terminal $\RealUp$ read to occur only after the source, boundary, located-limit, located-real, transport, replay, provenance, and local naming rows have been exposed.
+
+Now use the boundary transport theorem \autoref{thm:bishop-completion-comparison-boundary-transport}. It preserves the same route under componentwise $\hsame$ transport and displayed $\Cont$ replay, so the boundary cannot be bypassed by a transported seal read.
+
+Finally use the located-filter comparison theorem \autoref{thm:bishop-completion-comparison-located-filter-comparison} and the seal non-escape theorem \autoref{thm:bishop-completion-comparison-seal-nonescape}. The $\LocatedCauchyFilterUp$ handoff is consumed through the same finite rows, and none of the excluded quotient, selection, choice, compactness, trichotomy, or completeness principles is a carrier coordinate.
+\end{proof}
+
+\closureat{BishopCompletionComparisonUp}{scopedStr}
 
 \begin{closurestatus}{\BishopCompletionComparisonUp}
   \constructivestory{A $\BishopCompletionComparisonUp$ packet is generated from a regular located Cauchy source row, a Bishop located completion boundary row, a located-limit row, a located-real enclosure row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:bishop-completion-comparison-carrier}, \autoref{thm:bishop-completion-comparison-namecert-obligations}, \autoref{thm:bishop-completion-comparison-regular-located-route}, \autoref{thm:bishop-completion-comparison-seal-nonescape}, \autoref{thm:bishop-completion-comparison-real-route}, \autoref{thm:bishopcompletioncomparison-regular-seal}, \autoref{thm:bishop-completion-comparison-boundary-transport}, and \autoref{thm:bishop-completion-comparison-located-filter-comparison} bind the complete obligation surface for the finite comparison route from $\RegularLocatedCauchyRealUp$ and $\BishopLocatedCompletionBoundaryUp$ to the terminal $\RealUp$ seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:bishop-completion-comparison-l10-scope} binds the public L10 comparison route through $\RegularLocatedCauchyRealUp$, $\BishopLocatedCompletionBoundaryUp$, $\LocatedCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal before any comparison boundary is exported.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim $\RealUp$ completeness, quotient equality of Cauchy names, real trichotomy, countable choice, open-cover compactness, host-selected limits, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires a single public route theorem that packages the existing obligation rows into one downstream comparison boundary.}
+  \upgradepath{A checked Lean theorem for \autoref{thm:bishop-completion-comparison-l10-scope} upgrades the verification axis without changing the paper closure scope.}
 \end{closurestatus}
