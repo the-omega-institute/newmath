@@ -7117,6 +7117,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.IntUp.UnaryIntBridge
 import BEDC.Derived.IntUp.UnaryIntMulBridge
+import BEDC.Derived.IntUp.UnaryIntOrderBridge
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.IntegralUp.TasteGate
@@ -7831,6 +7832,7 @@ import BEDC.Derived.LocatedSupremumUp.WindowTransport
 import BEDC.Derived.LocatedTranscendental
 import BEDC.Derived.LocatedUniformCauchyLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
+import BEDC.Derived.LocatedUniformCompletionComparisonUp
 import BEDC.Derived.LocatedUniformCompletionUp.DensityRoute
 import BEDC.Derived.LocatedUniformCompletionUp.RealBoundary
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
