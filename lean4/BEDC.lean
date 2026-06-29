@@ -6791,6 +6791,7 @@ import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
 import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
 import BEDC.Derived.HausdorffizationUp.SeparatedQuotientRow
+import BEDC.Derived.HausdorffizationUp.SeparatedRealCompletionScope
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionNonescape
 import BEDC.Derived.HausdorffizationUp.SeparatedReflectionObligation
 import BEDC.Derived.HausdorffizationUp.ZeroDistanceWindowDeterminacy
@@ -6963,6 +6964,7 @@ import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HypercoverUp.NameCertObligations
+import BEDC.Derived.HypercoverUp.SheafDescentHandoff
 import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
