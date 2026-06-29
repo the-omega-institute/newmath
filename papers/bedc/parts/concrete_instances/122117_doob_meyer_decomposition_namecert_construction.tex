@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DoobMeyerDecompositionUp$}
+\label{ch:concrete-instances-doob-meyer-decomposition-namecert}
+\origin{human}
+
+Following Doob and Meyer, the $\DoobMeyerDecompositionUp$ packet records the finite BEDC surface of a submartingale split into a martingale row and an increasing compensator row. It consumes the one-sided adapted carrier of \autoref{ch:concrete-instances-submartingale-namecert}, the equality-direction martingale rows of \autoref{ch:concrete-instances-martingale-namecert}, the singleton conditional-expectation surface of \autoref{ch:concrete-instances-condexp-namecert}, the bounded stopped-window route of \autoref{ch:concrete-instances-optionalstopping-namecert}, and the crossing ledger of \autoref{ch:concrete-instances-upcrossing-namecert}. The chapter names only finite martingale-compensator rows and their local certificate obligations; it does not import measure completion, optional projection, predictable host $\sigma$-algebras, almost-sure quotient equality, or an ambient stochastic-process theorem.
+
+\begin{definition}[Doob-Meyer decomposition carrier]
+\label{def:doob-meyer-decomposition-carrier}
+A $\DoobMeyerDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,M,A,E,O,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\SubmartingaleUp$ source row whose finite one-sided conditional-expectation comparisons are to be split.
+\item $M$ is the $\MartingaleUp$ row carrying the equality-direction adapted sequence read from the same displayed finite window.
+\item $A$ is the compensator ledger, a finite increasing row whose successor gaps record the displayed difference between the $\SubmartingaleUp$ inequality and the $\MartingaleUp$ equality row.
+\item $E$ is the family of $\CondExpUp$ faces that reads the successor endpoint before the compensator step row is exposed.
+\item $O$ is the bounded $\OptionalStoppingUp$ window used to compare stopped reads of $S$, $M$, and $A$.
+\item $U$ is the $\UpcrossingUp$ ledger that keeps the same finite lower-to-upper crossing window visible to decomposition consumers.
+\item $H$ records componentwise $\hsame$ transport for the submartingale, martingale, conditional-expectation, stopped-window, upcrossing, and compensator rows.
+\item $C$ records displayed $\Cont$ replay from a decomposition request through $S,M,A,E,O,U$.
+\item $P$ is the $\Pkg$ provenance over $\SubmartingaleUp$, $\MartingaleUp$, $\CondExpUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DoobMeyerDecompositionUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these ten rows. It has no coordinate for measure completion, optional projection, a predictable host $\sigma$-algebra, selected almost-sure versions, quotient equality of stochastic processes, or an external decomposition theorem.
+\end{definition}
+
+\begin{theorem}[Doob-Meyer decomposition NameCert obligations]
+\label{thm:doob-meyer-decomposition-namecert-obligations}
+For every accepted $\DoobMeyerDecompositionUp$ carrier $D=(S,M,A,E,O,U,H,C,P,N)$, the local $\NameCert_{\DoobMeyerDecompositionUp}$ surface consists exactly of carrier admission, exposure of the source $\SubmartingaleUp$ row, exposure of the $\MartingaleUp$ row, compensator-ledger exactness for $A$, conditional-expectation exposure through $E$, bounded stopped-window routing through $O$, finite upcrossing control through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every decomposition consumer must read
+$$
+\SubmartingaleUp,\ \MartingaleUp,\ \CondExpUp,\ \OptionalStoppingUp,\ \UpcrossingUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through the displayed packet before a martingale-compensator conclusion is visible. The obligation surface is finite NameCert data; it is not measure completion, optional projection, predictable host measurability, almost-sure quotient equality, or an ambient Doob--Meyer theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:doob-meyer-decomposition-carrier}. The analytic rows are $S,M,A,E,O,U$, and the structural rows are $H,C,P,N$.
+
+The source row $S$ supplies the one-sided $\SubmartingaleUp$ inequality, while $M$ supplies the equality-direction $\MartingaleUp$ read on the same finite window. The conditional-expectation faces $E$ expose the successor comparisons before any compensator step row in $A$ can be inspected.
+
+The bounded stopping and upcrossing rows $O,U$ keep the finite window stable for downstream consumers. Transport, replay, provenance, and local naming preserve the same route, so no consumer can bypass the displayed packet to obtain a host optional projection or a completed ambient decomposition theorem.
+\end{proof}
+
+\begin{theorem}[Doob-Meyer compensator handoff]
+\label{thm:doob-meyer-decomposition-compensator-handoff}
+Every compensator read exported by an accepted $\DoobMeyerDecompositionUp$ packet factors through the route
+$$
+S,E \longmapsto M,A \longmapsto O,U,H,C,P,N .
+$$
+The row $A$ is visible only as the finite ledger that records the gap between the $\SubmartingaleUp$ source comparisons and the $\MartingaleUp$ equality-direction row. A downstream martingale or upcrossing consumer receives that ledger together with the bounded $\OptionalStoppingUp$ and $\UpcrossingUp$ windows; it does not receive a host predictable projection, measure completion, selected almost-sure version, quotient process equality, or external compensator existence proof.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:doob-meyer-decomposition-namecert-obligations}. They require the submartingale source, martingale row, conditional-expectation faces, compensator ledger, stopped-window row, and upcrossing row to be displayed before the local certificate can be consumed.
+
+The compensator row is therefore not an independent host process. It is read only after the $\CondExpUp$ faces expose the one-step gap between the source $\SubmartingaleUp$ inequality and the $\MartingaleUp$ equality row.
+
+Finally, bounded stopping and upcrossing preserve the same finite window. Since $A$ is carried only with $O,U,H,C,P,N$, every handoff remains inside the finite packet and cannot be reread as optional projection, predictable host measurability, measure completion, quotient equality, or an ambient decomposition theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DoobMeyerDecompositionUp$ consumer that reaches a compensator row without first reading the displayed $\SubmartingaleUp$, $\MartingaleUp$, $\CondExpUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the carrier surface.}
+
+\independenceWitness{submartingale, martingale, condexp, optionalstopping, upcrossing: no listed sibling supplies the whole packet $D=(S,M,A,E,O,U,H,C,P,N)$, because the source one-sided row, equality-direction martingale row, compensator ledger, stopped-window route, crossing ledger, transport, replay, provenance, and local naming are jointly bound only here.}
+
+\closureat{DoobMeyerDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\DoobMeyerDecompositionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:doob-meyer-decomposition-carrier}, \autoref{thm:doob-meyer-decomposition-namecert-obligations}, and \autoref{thm:doob-meyer-decomposition-compensator-handoff} seed the finite martingale-compensator certificate over submartingale, martingale, conditional-expectation, bounded stopping, upcrossing, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, optional projection, predictable host sigma-algebras, selected almost-sure versions, quotient equality of stochastic processes, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source submartingale exposure, martingale row exposure, compensator-ledger exactness, conditional-expectation exposure, stopped-window routing, finite upcrossing control, transport, replay, provenance, and local naming for BEDC.Derived.DoobMeyerDecompositionUp.}
+  \constructivestory{A $\DoobMeyerDecompositionUp$ packet is generated from a SubmartingaleUp source row, MartingaleUp equality row, finite compensator ledger, CondExpUp faces, OptionalStoppingUp bounded window, UpcrossingUp ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
