@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailFunctionalUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-functional-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailFunctionalUp$ packet records the finite functional that reads regular Cauchy tail data through displayed windows and dyadic tolerance rows before a Real-facing consumer reaches a seal. It sits over the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite choice boundary of \autoref{ch:concrete-instances-canonical-tail-choice-namecert}. The packet names a tail-functional read only; it does not assert completeness, quotient names, selected limits, countable choice, or a global choice of tails.
+
+\begin{definition}[Regular Cauchy tail-functional carrier]
+\label{def:regular-cauchy-tail-functional-carrier}
+A $\RegularCauchyTailFunctionalUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,W,D,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RegSeqRatUp$ source row whose regular rational tail is inspected.
+\item $W$ is the $\StreamNameUp$ finite-window row through which tail requests are exposed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the inspected window.
+\item $T$ is the tail-functional row, recording the finite read from a tolerance request to a displayed tail window.
+\item $R$ is the $\RealUp$ seal row, available only after $S,W,D,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the analytic rows and the structural rows.
+\item $C$ records displayed $\Cont$ replay from regular rational source data through the window, tolerance ledger, tail functional, seal, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailFunctionalUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CanonicalTailChoiceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailFunctionalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient Cauchy classes, a selected limit, a host sequence equality test, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-functional NameCert obligations]
+\label{thm:regular-cauchy-tail-functional-namecert-obligations}
+For every accepted $\RegularCauchyTailFunctionalUp$ carrier
+$$
+F=(S,W,D,T,R,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTailFunctionalUp}$ surface consists exactly of carrier admission for the regular rational source, finite stream window, dyadic tolerance ledger, tail-functional row, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-functional-carrier}. Its rows list the regular rational source $S$, stream window $W$, dyadic tolerance ledger $D$, tail-functional row $T$, seal row $R$, and structural support $H,C,P,N$.
+
+The tail read is ordered by the carrier. A consumer must expose $S,W,D$ before the tail-functional row can be read, and the seal row $R$ is downstream from that finite tail read.
+
+The structural rows do not add analytic content. Transport, replay, provenance, and local naming keep the same packet visible, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-functional window stability]
+\label{thm:regular-cauchy-tail-functional-window-stability}
+Let $F=(S,W,D,T,R,H,C,P,N)$ and $F'=(S',W',D',T',R',H',C',P',N')$ be accepted $\RegularCauchyTailFunctionalUp$ carriers. If the source, window, and dyadic rows are transported componentwise by the displayed $\hsame$ data in $H$ and $H'$, then the tail-functional rows $T$ and $T'$ remain on the same local $\NameCert_{\RegularCauchyTailFunctionalUp}$ surface before either packet reaches its $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Read the transported source rows first. Componentwise $\hsame$ identifies the regular rational sources and their finite stream windows before the tail-functional row is consumed.
+
+The dyadic tolerance ledgers are transported along the same displayed route. Hence the tail-functional rows compare finite requests inside the same window-and-tolerance surface rather than through a host equality test.
+
+The seal rows and structural rows are downstream. Since $R,H,C,P,N$ and $R',H',C',P',N'$ only seal, transport, replay, source, and name the transported packet, window stability is exactly stability of the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-functional Real-seal nonescape]
+\label{thm:regular-cauchy-tail-functional-real-seal-nonescape}
+No accepted $\RegularCauchyTailFunctionalUp$ packet exports quotient Cauchy names, selected limits, host sequence equality, countable choice, trichotomy, or ambient $\RealUp$ completeness. A Real-facing consumer reaches the seal row $R$ only through the displayed route
+$$
+S,W,D,T,R,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The only analytic rows are the regular rational source, finite window, dyadic tolerance ledger, tail-functional row, and Real seal.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-functional-namecert-obligations}. They force the consumer through $S,W,D,T$ before $R$ is available.
+
+The excluded principles are not coordinates of the packet. The transport, replay, provenance, and local naming rows preserve the finite route, so any read of a quotient name, selected limit, host equality, choice row, trichotomy row, or completeness principle leaves the accepted surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyTailFunctionalUp$ consumer displays the regular rational source, stream window, dyadic tolerance ledger, tail-functional row, Real seal, transport, replay, provenance, and local NameCert rows before reading a Real-facing tail result.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, canonicaltailchoice: no listed sibling is bijective to $\RegularCauchyTailFunctionalUp$ because this packet jointly binds a regular rational source, finite stream window, dyadic tolerance ledger, tail-functional read, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyTailFunctionalUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailFunctionalUp}
+  \constructivestory{A $\RegularCauchyTailFunctionalUp$ packet is generated from a regular rational source, a finite stream window, a dyadic tolerance ledger, a tail-functional row, a Real seal, componentwise transport, displayed continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-functional-carrier}, \autoref{thm:regular-cauchy-tail-functional-namecert-obligations}, \autoref{thm:regular-cauchy-tail-functional-window-stability}, and \autoref{thm:regular-cauchy-tail-functional-real-seal-nonescape} seed the finite tail-functional packet over regular rational source rows, stream windows, dyadic tolerances, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy names, selected limits, host sequence equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-functional exactness, window stability, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailFunctionalUp.}
+\end{closurestatus}
