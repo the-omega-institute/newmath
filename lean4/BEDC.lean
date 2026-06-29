@@ -11632,6 +11632,7 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SeminormedSpaceUp.TasteGate
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SemiringUp.TasteGate
+import BEDC.Derived.SeparableCompletionUp.DensityHandoff
 import BEDC.Derived.SeparableCompletionUp.NameCertObligations
 import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
