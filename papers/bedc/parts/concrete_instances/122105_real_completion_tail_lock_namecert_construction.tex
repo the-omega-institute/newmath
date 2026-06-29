@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionTailLockUp$}
+\label{ch:concrete-instances-real-completion-tail-lock-namecert}
+\origin{ai}
+
+The $\RealCompletionTailLockUp$ packet realizes the Real and Completion branch of \autoref{ch:visions-real-completeness} as a finite tail-lock object: a completion-facing read may inspect a finite stream window, regular rational readback, dyadic tolerance ledger, and terminal Real seal only in that order. It sits over the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a lock on the visible tail route; it does not assert quotient Cauchy equality, choose a completed limit, import trichotomy, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Real completion tail-lock carrier]
+\label{def:real-completion-tail-lock-carrier}
+A $\RealCompletionTailLockUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected tail requests.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row locking the inspected radii and endpoint budgets.
+\item $E$ is the $\RealUp$ seal row available only after $S,R,D$ have been displayed.
+\item $L$ is the tail-lock row recording that completion-facing reads preserve the same $S,R,D,E$ route.
+\item $H$ records componentwise $\hsame$ transport for the stream, readback, dyadic, seal, lock, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the stream window, regular readback, dyadic tolerance, Real seal, and tail lock.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionTailLockUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealCompletionTailLockUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,E,L,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, or ambient Real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RealCompletionTailLockUp}
+
+\begin{theorem}[Real completion tail-lock NameCert obligations]
+\label{thm:real-completion-tail-lock-namecert-obligations}
+For every accepted $\RealCompletionTailLockUp$ carrier $T=(S,R,D,E,L,H,C,P,N)$, the local $\NameCert_{\RealCompletionTailLockUp}$ surface consists exactly of finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance locking, $\RealUp$ sealing, tail-lock preservation, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A completion-facing consumer therefore reads the route only through
+$$
+S,R,D \longmapsto E,L,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-completion-tail-lock-carrier}. The stream, regular-rational, and dyadic rows $S,R,D$ are displayed before the terminal seal $E$ and before the lock row $L$ can be consumed.
+
+The rows $H,C,P,N$ preserve exactly that finite route by transport, replay, provenance, and local naming. Since no quotient stream, selected limit, countable-choice schedule, trichotomy row, or ambient completeness row appears in the carrier, the NameCert obligations are exhausted by the displayed tail-lock surface.
+\end{proof}
+
+\begin{theorem}[Real completion tail-lock L10 handoff]
+\label{thm:real-completion-tail-lock-l10-handoff}
+Every L10 Real or Completion consumer of an accepted $\RealCompletionTailLockUp$ carrier must read the $\StreamNameUp$ finite-window row $S$, the $\RegSeqRatUp$ readback row $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before consuming the $\RealUp$ seal row $E$ or the lock row $L$. The handoff may transport and replay this finite route, but it cannot replace it by quotient equality of Cauchy names, a selected completed limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:real-completion-tail-lock-namecert-obligations}. They place the stream window, regular-rational readback, and dyadic tolerance rows before the Real seal and tail-lock rows.
+
+The vision source \autoref{ch:visions-real-completeness} asks for completion-facing reads to remain explicit about their finite regular-Cauchy route. This carrier supplies exactly that finite route through the sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Finally $H,C,P,N$ preserve the same displayed route. Since the accepted carrier contains no quotient, selected-limit, choice, trichotomy, or ambient-completeness coordinate, the L10 handoff remains a finite tail-lock handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RealCompletionTailLockUp$ read that reaches Real or Completion data without displaying StreamName, RegSeqRat, DyadicRatCore, Real seal, tail-lock, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: no listed sibling is bijective with $\RealCompletionTailLockUp$ because this packet binds finite windows, regular rational readback, dyadic tolerance locking, Real sealing, tail-lock preservation, transport, replay, provenance, and local naming as one completion-facing route.}
+
+\closureat{RealCompletionTailLockUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionTailLockUp}
+  \constructivestory{A $\RealCompletionTailLockUp$ packet is generated from StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerances, a RealUp seal, tail-lock preservation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-tail-lock-carrier}, \autoref{thm:real-completion-tail-lock-namecert-obligations}, and \autoref{thm:real-completion-tail-lock-l10-handoff} seed the finite L10 Real and Completion tail-lock route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient Cauchy equality, selected completed limits, countable choice, trichotomy, ambient Real completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName exposure, RegSeqRat readback, DyadicRatCore tolerance locking, Real-seal nonescape, tail-lock exactness, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionTailLockUp.}
+\end{closurestatus}
