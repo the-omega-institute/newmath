@@ -4666,6 +4666,7 @@ import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindEtaCompletionUp.TasteGate
+import BEDC.Derived.DedekindEtaUp
 import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindLocatedIntervalUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
