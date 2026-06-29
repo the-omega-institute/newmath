@@ -39,6 +39,7 @@ W=(F,D,J,\Omega,S,R,E,H,C,P,N),
 $$
 the local $\NameCert_{\WronskianUp}$ surface consists exactly of continuous-family admission through $F$, derivative-row admission through $D$, finite jet exposure through $J$, determinant-ledger exposure through $\Omega$, finite-window exposure through $S$, regular rational readback through $R$, terminal real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.WronskianUp.WronskianNameCertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:wronskian-carrier}. The family row, derivative row, jet table, determinant ledger, window row, readback row, and Real seal row are visible before the structural rows are read.
 
@@ -101,6 +102,18 @@ The value route is fixed by $S,R,E$. The finite window is read by $\StreamNameUp
 Therefore a linear-dependence consumer cannot replace the packet by host function equality, a selected basis relation, a classical zero theorem, quotient real equality, countable choice, or ambient completeness. Those objects are absent from the carrier and from the local classifier.
 \end{proof}
 
+\begin{theorem}[Wronskian linear-dependence witness route]
+\label{thm:wronskian-linear-dependence-witness}
+A linear-dependence witness read for an accepted $\WronskianUp$ packet is admitted only when the finite jet table $J$, determinant ledger $\Omega$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ tolerance route named by $P$, and terminal $\RealUp$ seal $E$ are all displayed. The witness is therefore a finite Wronskian readback route through the packet rows, not a host zero theorem, selected basis relation, quotient real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:wronskian-carrier}. A witness-facing read can inspect only the displayed family, derivative, jet, determinant, window, readback, seal, transport, replay, provenance, and local naming rows.
+
+Invoke determinant-ledger exactness and determinant-route stability, \autoref{thm:wronskian-determinant-ledger-exactness} and \autoref{thm:wronskian-determinant-route-stability}. Exactness forces the read through $J,\Omega,S,R,E$ and the named dyadic tolerance route, while stability keeps that route fixed under componentwise transport.
+
+The linear-dependence boundary then applies through \autoref{thm:wronskian-linear-dependence-boundary}. Since host zero theorems and selected basis relations are not carrier coordinates and are not supplied by the sibling rows, the admitted witness is only the displayed finite readback route.
+\end{proof}
+
 \begin{theorem}[Wronskian Real-seal nonescape]
 \label{thm:wronskian-real-seal-nonescape}
 Every Real-facing consumer of an accepted $\WronskianUp$ packet reaches the terminal $\RealUp$ seal only through the displayed route
@@ -124,7 +137,7 @@ The excluded objects are not carrier coordinates and are not supplied by the sib
 \begin{closurestatus}{\WronskianUp}
   \constructivestory{A $\WronskianUp$ packet is generated from a finite continuous-map family row, derivative-admission rows, a displayed jet table, an alternating determinant ledger, finite StreamName requests, regular rational readback, a terminal Real seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:wronskian-carrier}, \autoref{thm:wronskian-namecert-obligations}, \autoref{thm:wronskian-determinant-ledger-exactness}, \autoref{thm:wronskian-determinant-route-stability}, \autoref{thm:wronskian-linear-dependence-boundary}, and \autoref{thm:wronskian-real-seal-nonescape} bind the finite Wronskian carrier, determinant-ledger route, transport stability, linear-dependence boundary, and Real-seal nonescape surface.}
+  \scopeclosed{\autoref{def:wronskian-carrier}, \autoref{thm:wronskian-namecert-obligations}, \autoref{thm:wronskian-determinant-ledger-exactness}, \autoref{thm:wronskian-determinant-route-stability}, \autoref{thm:wronskian-linear-dependence-boundary}, \autoref{thm:wronskian-linear-dependence-witness}, and \autoref{thm:wronskian-real-seal-nonescape} bind the finite Wronskian carrier, determinant-ledger route, transport stability, linear-dependence boundary, witness route, and Real-seal nonescape surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function equality, classical zero theorems, selected bases, selected differentiability witnesses, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
