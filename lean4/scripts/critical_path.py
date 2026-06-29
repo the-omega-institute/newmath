@@ -258,9 +258,10 @@ RETIREMENT_CLOSURE_THRESHOLD = "scopedClosure"
 RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
 
 _LEAN_BASE_WEIGHTS = {
-    "top": 0.50,
-    "formal_axis_top": 0.25,
-    "unformalized_top": 0.15,
+    "top": 0.40,
+    "bridge_mature_advance": 0.30,
+    "unformalized_top": 0.20,
+    "formal_axis_top": 0.10,
 }
 _PAPER_BASE_WEIGHTS = {
     "top": 0.40,
@@ -303,6 +304,7 @@ def _compute_consumption_60min() -> dict[str, int]:
     """Parse recent codex-auto-dev commits and infer target source counts."""
     sources = {
         "top": 0,
+        "bridge_mature_advance": 0,
         "formal_axis_top": 0,
         "unformalized_top": 0,
         "top_root_unblocks": 0,
@@ -335,7 +337,9 @@ def _compute_consumption_60min() -> dict[str, int]:
             sources["closure_mark"] += 1
         elif re.search(r"root[-_ ]?unblock|root_unblocks", s):
             sources["top_root_unblocks"] += 1
-        elif re.search(r"formal[-_ ]?axis|tastegate|bridge .*schema|axiomclean->bridgecheck", s):
+        elif re.search(r"bridge .*schema|axiomclean->bridgecheck|StdBridge|bridge_mature", subject, re.IGNORECASE):
+            sources["bridge_mature_advance"] += 1
+        elif re.search(r"formal[-_ ]?axis|tastegate", s):
             sources["formal_axis_top"] += 1
         elif re.search(r"unformalized|paper theorem|missing theorem|prove .*label", s):
             sources["unformalized_top"] += 1
@@ -390,6 +394,36 @@ def _dispatch_advice(side: str, weights: dict[str, float], supply: dict[str, int
     return ". ".join(parts) + "."
 
 
+def _preserve_top_base_share(
+    weights: dict[str, float],
+    base: dict[str, float],
+    supply: dict[str, int],
+) -> dict[str, float]:
+    """Keep supplied `top` from being demoted below its base active share."""
+    active_keys = [
+        key for key, value in base.items()
+        if supply.get(key, 0) > 0 and value > 0
+    ]
+    if "top" not in active_keys or len(active_keys) <= 1:
+        return weights
+    active_base_total = sum(base[key] for key in active_keys)
+    if active_base_total <= 0:
+        return weights
+    top_floor = base["top"] / active_base_total
+    if weights.get("top", 0.0) >= top_floor:
+        return weights
+    other_keys = [key for key in active_keys if key != "top"]
+    other_weight_total = sum(weights.get(key, 0.0) for key in other_keys)
+    if other_weight_total <= 0:
+        return weights
+    remainder = max(0.0, 1.0 - top_floor)
+    adjusted = {key: 0.0 for key in base}
+    adjusted["top"] = top_floor
+    for key in other_keys:
+        adjusted[key] = weights.get(key, 0.0) / other_weight_total * remainder
+    return {key: round(adjusted.get(key, 0.0), 4) for key in base}
+
+
 def _compute_dispatch_weights(
     supply_lean: dict[str, int],
     supply_paper: dict[str, int],
@@ -400,6 +434,9 @@ def _compute_dispatch_weights(
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
     lean_weights = _adjust_dispatch_weights(base_weights_lean, supply_lean, consumption)
+    lean_weights = _preserve_top_base_share(
+        lean_weights, base_weights_lean, supply_lean
+    )
     priority_config = paper_priority_config or {
         "paper_priority_mode": "free",
         "paper_priority_strength": 0.0,
@@ -2328,10 +2365,12 @@ def main(argv: list[str] | None = None) -> int:
             stdbridge_lean_chapters.add(m.group(1).lower())
 
     bridge_candidates_full = []
+    bridge_mature_advance_full = []
     bridge_sync_pending_full = []
     for info in horizons.values():
         tg = info.get("theory_grade")
         obj = info.get("objective_formal_grade")
+        fg = info.get("formal_grade")
         br = info.get("bridge_token")
         n = info["name"]
         if tg != "matureClosure":
@@ -2339,13 +2378,31 @@ def main(argv: list[str] | None = None) -> int:
         # Already fully done on both sides.
         if br in ("bridgeChecked", "bridgeCheckedV"):
             continue
+        ready_by_objective = obj == "axiomCleanV"
+        ready_by_paper_token = fg == "axiomCleanV"
+        if not (ready_by_objective or ready_by_paper_token):
+            continue
         entry = {
             "name": n,
             "file_paper": info["file_paper"],
             "file_lean": info["file_lean"],
             "lean_target": info.get("lean_target"),
+            "downstream": downstream.get(n, 0),
+            "theory_grade": tg,
+            "formal_grade": fg,
+            "formal_grade_token": fg,
+            "objective_formal_grade": obj,
+            "formalstatus_drift": info.get("formalstatus_drift", False),
             "bridge_token": br,
             "thms": info.get("thms", 0),
+            "labels": info.get("labels", 0),
+            "bridge_readiness": (
+                "paper_and_objective_axiomCleanV"
+                if ready_by_objective and ready_by_paper_token
+                else "paper_axiomCleanV"
+                if ready_by_paper_token
+                else "objective_axiomCleanV"
+            ),
         }
         if n in stdbridge_lean_chapters:
             # Lean side already has <X>Up_StdBridge. Paper just needs to
@@ -2354,12 +2411,14 @@ def main(argv: list[str] | None = None) -> int:
             # the verification that work is done.
             entry["lean_stdbridge_present"] = True
             bridge_sync_pending_full.append(entry)
-        elif obj == "axiomCleanV":
-            # Lean target is already axiomCleanV but no StdBridge yet —
-            # this is real lean work to do (write the StdBridge theorem).
-            bridge_candidates_full.append(entry)
-        # else: lean target below axiomCleanV AND no StdBridge — not a
-        # bridge candidate yet (drift sync / formal_axis_top first).
+        else:
+            # Mature and axiom-clean by paper token or objective inventory,
+            # but no StdBridge theorem exists: this is real Lean bridge work.
+            bridge_mature_advance_full.append(entry)
+            if ready_by_objective:
+                # Back-compat surface for older bridge consumers that
+                # intentionally require objective-inventory axiomCleanV.
+                bridge_candidates_full.append(entry)
     # Same lesson as bridge_sync_pending: do NOT inflight-filter
     # bridge_candidates. With ~40 mature/axiomClean chapters and
     # 12+ concurrent lean rounds, the filter empties the surface
@@ -2375,6 +2434,12 @@ def main(argv: list[str] | None = None) -> int:
     _surface_bc = bridge_candidates_full[:10]
     _rand_bc.Random().shuffle(_surface_bc)
     bridge_candidates = _surface_bc
+    bridge_mature_advance_full.sort(
+        key=lambda c: (-c.get("downstream", 0), -c.get("thms", 0), c.get("name", ""))
+    )
+    _surface_bma = bridge_mature_advance_full[:10]
+    _rand_bc.Random().shuffle(_surface_bma)
+    bridge_mature_advance = _surface_bma
 
     # NOTE: do NOT inflight-filter bridge_sync_pending. With only ~5
     # candidates total, the inflight filter empties the surface within
@@ -2453,6 +2518,7 @@ def main(argv: list[str] | None = None) -> int:
         "metacic_priority": paper_priority["metacic_priority"][:25],
         "drift_chapters_total": len(drift_chapters_full),
         "bridge_candidates_total": len(bridge_candidates_full),
+        "bridge_mature_advance_total": len(bridge_mature_advance_full),
         "bridge_sync_pending_total": len(bridge_sync_pending_full),
         "bridge_sync_pending": bridge_sync_pending,
         "formal_axis_top_total": len(formal_axis_top_full),
@@ -2468,6 +2534,7 @@ def main(argv: list[str] | None = None) -> int:
         "top_transitions": top_transitions,
         "drift_chapters": drift_chapters,
         "bridge_candidates": bridge_candidates,
+        "bridge_mature_advance": bridge_mature_advance,
         "formal_axis_top": formal_axis_top,
     }
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
@@ -2481,6 +2548,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         supply_lean = {
             "top": len(rolled),
+            "bridge_mature_advance": len(bridge_mature_advance_full),
             "formal_axis_top": len(formal_axis_top_full),
             "unformalized_top": len(payload.get("unformalized_top", [])),
         }
