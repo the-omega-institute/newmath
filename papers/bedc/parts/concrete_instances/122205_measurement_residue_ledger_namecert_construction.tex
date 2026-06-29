@@ -78,3 +78,15 @@ The audit row $A$ records replay and public-export boundaries for that section. 
 \independenceWitness{quantumstate, observable, densitymatrix, quantumchannel: QuantumStateUp supplies source-state rows without measurement residue sections; ObservableUp supplies readout operators without residual-fiber ledgers; DensityMatrixUp supplies mixed-state trace ledgers without projection-specific residue rows; QuantumChannelUp supplies state-transform rows without the measurement-interface projection and section-update certificate. The non-bijection is witnessed by the missing residue-section rows.}
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/MeasurementResidueLedgerUp.lean} must provide explicit $\Nontrivial\ \MeasurementResidueLedgerUp$ and $\FieldFaithful\ \MeasurementResidueLedgerUp$ instances, together with the projection, non-hidden-variable boundary, and section-update handoff theorems.
+
+\closureat{MeasurementResidueLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MeasurementResidueLedgerUp}
+  \constructivestory{A $\MeasurementResidueLedgerUp$ packet is generated from a quantum source row, a measurement-context row, a MeasurementInterface projection row, a visible outcome row, a residual-fiber row, a section-update certificate, an audit ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:measurement-residue-ledger-carrier}, \autoref{thm:measurement-residue-ledger-namecert-obligations}, \autoref{thm:measurement-residue-ledger-interface-projection}, \autoref{thm:measurement-residue-ledger-non-hidden-variable-boundary}, and \autoref{thm:measurement-residue-ledger-section-update-handoff} seed the finite measurement-residue ledger and its projection, residue, section-update, and audit boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Born rule, Hilbert-space dynamics, hidden-variable assignments, global common refinements, unlicensed collapse operations, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, projection exactness, non-hidden-variable boundary, section-update handoff, transport, replay, provenance, and local naming for BEDC.Derived.MeasurementResidueLedgerUp.}
+\end{closurestatus}
