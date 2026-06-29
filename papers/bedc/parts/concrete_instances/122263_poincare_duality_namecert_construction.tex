@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\PoincareDualityUp$}
+\label{ch:concrete-instances-poincare-duality-namecert}
+\origin{human}
+
+Following Hatcher and Spanier, the $\PoincareDualityUp$ packet records the finite BEDC route by which an oriented compact manifold fundamental-class row pairs cohomology and homology through the cap-product surface. It sits beside the manifold source of \autoref{ch:concrete-instances-manifold-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the cohomology carrier of \autoref{ch:concrete-instances-cohomology-namecert}, and the chain-cochain action route of \autoref{ch:concrete-instances-cap-product-namecert}. The packet names only displayed orientation, degree-window, cap-product, homology, cohomology, transport, replay, provenance, and local naming rows; it does not import host triangulation choice, quotient chain equality, excision, universal coefficients, or an ambient duality theorem.
+
+\begin{definition}[Poincare duality carrier]
+\label{def:poincare-duality-carrier}
+A $\PoincareDualityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,O,H,G,C,Q,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\ManifoldUp$ source row, exposing the compact oriented manifold data only through the registered manifold NameCert surface.
+\item $O$ is the orientation and fundamental-class row, recording the displayed top-dimensional homology class used by the packet.
+\item $H$ is the $\HomologyUp$ row that carries the target homology degree and the fundamental-class endpoint.
+\item $G$ is the $\CohomologyUp$ row that carries the source cohomology degree inspected by the duality read.
+\item $C$ is the $\CapProductUp$ action row, tying the cohomology read and the fundamental-class row to the resulting homology read.
+\item $Q$ is the degree-window row, naming the manifold dimension, cohomology degree, and complementary homology degree used by the displayed action.
+\item $T$ records componentwise $\hsame$ transport for manifold, orientation, homology, cohomology, cap-product, degree-window, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a Poincare-duality request through $M,O,H,G,C,Q,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDualityUp$, $\ManifoldUp$, $\HomologyUp$, $\CohomologyUp$, $\CapProductUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareDualityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,O,H,G,C,Q,T,R,P,N$. It has no coordinate for a selected triangulation, quotient chain equality, a host manifold theorem, universal coefficient data, excision, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Poincare duality NameCert obligations]
+\label{thm:poincare-duality-namecert-obligations}
+For every accepted $\PoincareDualityUp$ carrier
+$$
+D=(M,O,H,G,C,Q,T,R,P,N),
+$$
+the local $\NameCert_{\PoincareDualityUp}$ surface consists exactly of manifold-source admission through $M$, orientation and fundamental-class exposure through $O$, homology exposure through $H$, cohomology exposure through $G$, cap-product action exposure through $C$, degree-window exposure through $Q$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-duality-carrier}. The displayed packet contains the manifold source, orientation row, homology row, cohomology row, cap-product row, degree window, and structural rows.
+
+Read the algebraic-topology route in order. The manifold row $M$ supplies only the registered finite manifold surface, while $O$ displays the orientation and fundamental class. The rows $G$ and $H$ expose the cohomology and homology sides to be paired.
+
+The cap-product row $C$ is the only action coordinate. It consumes the cohomology and fundamental-class rows at the degree window $Q$ before any homology-facing output is read.
+
+Finally $T,R,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no selected triangulation, quotient chain equality, universal coefficient data, excision, host theorem, or bridge row, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Poincare duality scope boundary]
+\label{thm:poincare-duality-scope-boundary}
+Every duality read exported by an accepted $\PoincareDualityUp$ packet factors through
+$$
+M,O,H,G,C,Q,T,R,P,N .
+$$
+A consumer may read the displayed manifold source, orientation and fundamental-class row, cohomology row, cap-product action, complementary homology row, degree window, transport, replay, provenance, and local name. The consumer may not read a selected triangulation, chain-level quotient equality, universal coefficient theorem, excision theorem, ambient manifold theorem, or bridge-checked standard schema from the packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem. It identifies the complete visible row inventory for the local certificate and gives no coordinate outside $M,O,H,G,C,Q,T,R,P,N$.
+
+Use the sibling route. The manifold chapter supplies $M$, homology supplies $H$ and the fundamental-class endpoint named by $O$, cohomology supplies $G$, and cap product supplies the displayed action row $C$ at the degree window $Q$.
+
+The structural rows preserve this route under $\hsame$ transport and $\Cont$ replay. Because the excluded host principles are absent from the carrier and from the local classifier, any consumer claiming them has left the $\PoincareDualityUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PoincareDualityUp$ read exposes ManifoldUp, HomologyUp, CohomologyUp, CapProductUp, orientation, degree-window, transport, replay, provenance, and local NameCert rows before a duality-facing consumer reads a complementary homology output.}
+
+\independenceWitness{manifold, homology, cohomology, cap-product: none is bijective to $\PoincareDualityUp$ because this packet alone binds an oriented manifold fundamental-class row to the cohomology-to-homology cap-product route in one finite NameCert surface.}
+
+\closureat{PoincareDualityUp}{seedStr}
+
+\begin{closurestatus}{\PoincareDualityUp}
+  \constructivestory{A $\PoincareDualityUp$ packet is generated from a ManifoldUp source row, orientation and fundamental-class rows, HomologyUp and CohomologyUp rows, a CapProductUp action row, a complementary degree-window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-duality-carrier}, \autoref{thm:poincare-duality-namecert-obligations}, and \autoref{thm:poincare-duality-scope-boundary} seed the finite oriented-manifold cap-product route from displayed cohomology rows to complementary homology rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected triangulations, quotient chain equality, universal coefficient data, excision, ambient manifold duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, orientation and fundamental-class exposure, homology and cohomology row exposure, cap-product action exactness, degree-window exactness, transport, replay, provenance, and local naming for BEDC.Derived.PoincareDualityUp.}
+\end{closurestatus}
