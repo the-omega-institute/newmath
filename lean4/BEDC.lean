@@ -5583,6 +5583,7 @@ import BEDC.Derived.EuclideanAlgorithmUp.NameCertObligations
 import BEDC.Derived.EuclideanAlgorithmUp.TasteGate
 import BEDC.Derived.EudoxusRealUp
 import BEDC.Derived.EudoxusRealUp.TasteGate
+import BEDC.Derived.EulerBooleSummation
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
