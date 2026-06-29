@@ -97,12 +97,26 @@ The TasteGate carrier alignment supplies the Lean-side public handoff for the sa
 The Lean TasteGate surface for this packet is `lean4/BEDC/Derived/RelationalObjectivityUp/TasteGate.lean`, where the handoff provides `Nontrivial RelationalObjectivityUp` and `FieldFaithful RelationalObjectivityUp` instances over the displayed carrier and classifier rows.
 \leanchecked{BEDC.Derived.RelationalObjectivityUp.RelationalObjectivityTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[RelationalObjectivity invariant-packet bridge surface]
+\label{thm:relational-objectivity-invariant-packet-bridge-surface}
+The public observer-family export of \autoref{thm:relational-objectivity-public-namecert-export} is bridged to the invariant-packet carrier of \autoref{def:relational-objectivity-invariant-packet-carrier} by the displayed observer-family row $F$, classifier row $I$, anchor-stability row $A$, invariant ledger $L$, componentwise transport row $T$, $\Pkg$ provenance row $P$, and local $\NameCert_{\RelationalObjectivityUp}$ row $N$. The bridge-facing surface is therefore the finite route through $F,I,A,L,T,P,N$ and exports no privileged observer, global synchronization frame, hidden observer substance, unledgered invariant, or anchor-free claim.
+\end{theorem}
+\begin{proof}
+Project the public export theorem. Its observer-family source, local classifier, anchor-stability row, invariant-ledger exactness row, no-privileged-anchor certificate, componentwise transport, provenance, and local naming are exactly the displayed rows of the carrier.
+
+Use the classifier and anchor-stability obligations. The classifier reads only $F,I,A,L,T,P,N$, while anchor stability keeps the invariant claim tied to $I$ and $A$ under the same transport row.
+
+Apply invariant-ledger exactness and the no-privileged-anchor certificate. The ledger accounts for the observer-history identity, multi-Hist configuration, locality-cell, other-minds, cross-perspective alignment, continuation, and transport evidence, and the certificate refuses a distinguished observer anchor.
+
+Thus the public export is bridged to the invariant-packet carrier by the displayed rows themselves. Since the carrier has no coordinate for a privileged observer, global synchronization, hidden observer substance, unledgered invariant, or anchor-free claim, the bridge-facing surface exports none of those objects.
+\end{proof}
+
 \closureat{RelationalObjectivityUp}{seedStr}
 \closureat{RelationalObjectivityUp}{scopedStr}
 
 \begin{closurestatus}{\RelationalObjectivityUp}
   \constructivestory{A $\RelationalObjectivityUp$ packet is generated from a finite observer-family source, invariant-packet row, anchor-stability row, invariant ledger, componentwise transport row, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:relational-objectivity-invariant-packet-carrier}, \autoref{def:relational-objectivity-observer-family-source}, \autoref{def:relational-objectivity-namecert-classifier}, \autoref{thm:relational-objectivity-anchor-stability-obligation}, \autoref{thm:relational-objectivity-invariant-ledger-exactness}, \autoref{thm:relational-objectivity-no-privileged-anchor-certificate}, and \autoref{thm:relational-objectivity-public-namecert-export} bind the public carrier, observer-family source, classifier, anchor-stability, ledger exactness, no-privileged-anchor certificate, TasteGate handoff, and NameCert export surface over $\MultiHistConfigUp$, $\ObserverHistIdentityUp$, $\OtherMindsCommitmentUp$, $\LocalityCellUp$, and $\CrossPerspectiveAlignmentUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
