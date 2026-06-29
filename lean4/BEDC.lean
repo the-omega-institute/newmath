@@ -7342,6 +7342,7 @@ import BEDC.Derived.KoopmanOperatorUp.TasteGate
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KraftPrefixCodeUp.TasteGate
 import BEDC.Derived.KreinMilmanFiniteExtremeUp.TasteGate
+import BEDC.Derived.KreinMilmanUp
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
