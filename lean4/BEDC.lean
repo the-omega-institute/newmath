@@ -12116,6 +12116,7 @@ import BEDC.Derived.Window6RisingColumnTripleRecurrence
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
+import BEDC.Derived.Window6StaircaseDominoTripleRecurrence
 import BEDC.Derived.Window6ThetaSparseRecurrence
 import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6TraceLucas
