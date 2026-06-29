@@ -132,6 +132,22 @@ Apply \autoref{thm:canonical-tail-choice-schedule-factorization}. Every accepted
 The finite index row $I$ is not a host-selected limit or a countable-choice schedule; it is the canonical row displayed after $M$ and $E$. The witness row $T$ and seal row $S$ are likewise route coordinates, not quotient equalities or completeness principles. Hence any read of an excluded object leaves the accepted packet.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice refusal exhaustion]
+\label{thm:canonical-tail-choice-refusal-exhaustion}
+Every accepted Real-completion consumer of a $\CanonicalTailChoiceUp$ packet either factors through the displayed rows
+$$
+M,E,I,T,S,R,H,C_0,P,N
+$$
+or leaves the local $\NameCert_{\CanonicalTailChoiceUp}$ surface. In particular, the host-selected limit, quotient stream equality, countable choice, hidden tail oracle, metric completeness, ambient completeness, and detached seal alternatives are exactly the refused alternatives recorded by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:canonical-tail-choice-carrier}. Its only consumer-facing coordinates are the rows $M,E,I,T,S,R,H,C_0,P,N$.
+
+Apply schedule factorization, \autoref{thm:canonical-tail-choice-schedule-factorization}. A Real-completion consumer must pass through the modulus and budget rows before the canonical index, then through the tail-window witness before the seal route is consumed.
+
+Use no-choice non-escape, \autoref{thm:canonical-tail-choice-no-choice-nonescape}, together with the Real-completion handoff of \autoref{thm:canonical-tail-choice-real-completion-handoff}. The refusal row $R$ names exactly the excluded alternatives, while $H,C_0,P,N$ only transport, replay, source, and name the same finite route. Thus any consumer not factoring through the displayed rows has left the local surface.
+\end{proof}
+
 \begin{theorem}[Canonical tail-choice Real-completion handoff]
 \label{thm:canonical-tail-choice-real-completion-handoff}
 The Real-completion diagonal seal handoff may consume an accepted $\CanonicalTailChoiceUp$ packet only through the displayed route
