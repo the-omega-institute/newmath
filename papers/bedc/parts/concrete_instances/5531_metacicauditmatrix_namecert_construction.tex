@@ -140,6 +140,22 @@ Finally, the TasteGate field-faithfulness clause is read as a requirement on the
 
 The Lean follow-up target is \texttt{lean4/BEDC/Derived/MetaCICAuditMatrixUp/TasteGate.lean}, with explicit \texttt{Nontrivial MetaCICAuditMatrixUp} and \texttt{FieldFaithful MetaCICAuditMatrixUp} instances.
 
+\begin{theorem}[MetaCIC audit matrix obligation rows]
+\label{thm:metacic-audit-matrix-obligation-rows}
+Every accepted $\MetaCICAuditMatrixUp$ carrier exposes only finite obligation rows for the local candidate matrix, blocker-edge matrix, residual-obligation matrix, routing-witness matrix, TasteGate field-faithful projection, and non-escape ledger. In carrier notation, these rows are read through the displayed packet
+$$
+A,N,B,S,E,H,C,P,L
+$$
+from \autoref{def:metacic-audit-matrix-carrier}; no row asserts closed subject reduction, closed confluence, full consistency, or an escape route through host MetaCIC semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:metacic-audit-matrix-carrier}. The available matrix $A$ supplies the local candidate rows, the non-claim matrix $N$ supplies residual obligations, the blocked-edge matrix $B$ supplies blocker edges, and the synthesis-consumer row $S$ supplies routing witnesses.
+
+Use the obligation surface and closure package, \autoref{thm:metacic-audit-matrix-obligation-surface} and \autoref{thm:metacic-audit-matrix-obligation-closure-package}. They bind matrix-row exactness and TasteGate field faithfulness to the same carrier rather than to a detached audit table.
+
+Finally apply the non-escape and closure-ledger theorems, \autoref{thm:metacic-audit-matrix-nonescape} and \autoref{thm:metacic-audit-matrix-closure-ledger}. The non-escape ledger $E$ and the structural rows $H,C,P,L$ preserve the finite packet while refusing closed subject reduction, closed confluence, full consistency, and host semantic escape.
+\end{proof}
+
 \closureat{MetaCICAuditMatrixUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICAuditMatrixUp}
