@@ -1,0 +1,32 @@
+\origin{ai}
+
+\subsection{Chaperone-client absorption after the $B^*_{Q6}$ protein-abundance contact}
+\label{sec:bioreality-chaperone-client-bstar-q6-absorption}
+
+\paragraph{Finite surface.}
+This record tests whether the yeast chaperone-client dictionary absorbs the remaining $B^*_{Q6}$ protein-abundance residual after the residual coordinates have already been kept on a translation-mediated route.  The finite rows are Saccharomyces cerevisiae coding sequences with three attached blocks: the nine $B^*_{Q6}$ synonymous residual coordinates, matched protein abundance, and a 64-dimensional chaperone-client membership matrix $C$.  The nine residual coordinates are
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The design therefore does not ask whether a direct synonymous coordinate is a chaperone mechanism.  It asks a narrower finite-row question: after a controlled $Q \to P$ protein-abundance surface has been fitted, is the residual component $U$ predictably organized by known chaperone-client memberships?
+
+\paragraph{Preceding protein-abundance contact.}
+The upstream $Q \to T \to P$ analysis used modeled per-protein tAI as the translation readout and log$_{10}$ PAXdb abundance as the protein readout.  In yeast it had $n=5815$ joined proteins, residual degrees of freedom $5792$ after controls, and a 9-dimensional residual coordinate block.  The total residual-to-protein association was $c=0.29837624994140827$, the direct association after conditioning on modeled tAI was $c'=0.0151709093608293$, and the mediated difference was $c-c'=0.28320534058057895$, giving $M^{QTP}=0.9491551041216973$.  The same row set had $T$ residual energy $6.90537888244409$, protein residual energy $2958.1865890925337$, and the rank diagnostics $\operatorname{rank}(\widetilde X)=9$, $\operatorname{rank}(\widetilde T)=1$, $\operatorname{rank}(\widetilde X,\widetilde T)=10$.  These numbers justify treating the later chaperone analysis as a downstream residual-audit, not as an independent proof of translation.
+
+\paragraph{Chaperone-client statistic.}
+The chaperone-client run began from $4759$ yeast rows before dictionary joining and retained $2697$ rows in the direct dictionary join; the held-out analysis itself used $3290$ genes after projecting the residual target $U$ onto the active gene set.  The dictionary passed the minimum join gate $n_{join}\geq 800$.  The chaperone feature block had rank $64$.  The baseline $Q \to P$ fit on the same biological object had $R^2_{QP}=0.2931070447887822$.  The tested quantity was the 5-fold cross-fitted held-out increment
+$$
+\begin{aligned}
+A_{\mathrm{chap}}
+  &= R^2_{\mathrm{heldout}}(U\mid C)-R^2_{\mathrm{heldout}}(U\mid \text{fold mean}) \\
+  &= -0.02634843222859251-(-0.0012543882346045532) \\
+  &= -0.025094043993987934 .
+\end{aligned}
+$$
+The corresponding cross-fitted prediction-energy ratio was $0.02352540147610332$.  An in-sample projection was present but weak: projected energy $2.3996329887946217$ and projection coefficient $0.018912012456170624$.  The held-out sign is the decisive part of the test: the fitted chaperone-client matrix did not improve prediction of the residual component on withheld folds.
+
+\paragraph{Null comparison and verdict.}
+The permutation or null envelope was centered below zero, with null mean $-0.02069844694751184$, null 95-percent reference value $-0.011919241878822474$, and null maximum $-0.007175546466548351$.  The observed $A_{\mathrm{chap}}=-0.025094043993987934$ lies below this reference surface rather than above it, with $p_{\mathrm{chap}}=0.8059701492537313$.  The registered verdict is therefore composition-artifact: the chaperone-client membership matrix has enough finite rank to project a small in-sample component, but it does not provide held-out absorption power for the residual $U$.
+
+\paragraph{Relation to structure and translation controls.}
+A separate yeast structure-mediation surface reported $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid S}=0.2706601505000995$, $R^2_{QP\mid T,M}=0.13773967696311287$, and $R^2_{QP\mid T,M,S}=0.13759011208318542$.  Its structure-only fraction was $0.003284564452662019$, with $S_Q$ structure $R^2=0.003774248455422586$ and permutation $p=0.027972027972027972$ for that narrow structure association.  These figures are compatible with the chaperone result: small sequence-derived or client-dictionary projections can exist, but the present chaperone-client dictionary does not earn a held-out downstream absorption claim.  The modeled-tAI contact also remains bounded: it used only three organisms in the earlier survival matrix, with $81$ entries above threshold $0.01$ and maximum absolute modeled coupling $3801961.031607896$, while explicitly refusing powered survival from only three organisms.  Thus the current chaperone record is downstream of a bounded translation-readout route and does not convert that route into a chaperone mechanism.
+
+\paragraph{Local boundary.}
+The allowed conclusion is only this finite negative one: in the Saccharomyces cerevisiae rows tested here, a 64-dimensional chaperone-client membership matrix fails to give cross-fitted held-out absorption of the $B^*_{Q6}$ protein-abundance residual.  No translation mechanism, folding pathway, physical admissibility, molecular function, organismal phenotype, adaptive law, or universal biological rule follows from this statistic.  A direct $Q_i\to P_k$ association is not promoted unless the $Q_i\to T_j$ translation-readout step is present and controlled; even then, a separate layer-matched contact is required before claims about folding, chaperone action, function, mechanism, phenotype, or universality are admissible.
