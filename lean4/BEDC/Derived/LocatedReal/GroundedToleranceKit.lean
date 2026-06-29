@@ -138,7 +138,7 @@ private theorem intRatAddAssocNum
       (R.symm (R.right_distrib (IntMul yn zd) (IntMul zn yd) xd))
   exact R.trans expandLeft (R.trans regroup foldRight)
 
-private theorem ratAdd_assoc_local (x y z : Rat) :
+theorem ratAdd_assoc_local (x y z : Rat) :
     RatEq (ratAdd (ratAdd x y) z) (ratAdd x (ratAdd y z)) := by
   apply ratEq_of_num_den_intEq
   · have leftToStructured :
@@ -211,7 +211,7 @@ private theorem ratAdd_assoc_local (x y z : Rat) :
       (IntEq_trans (IntMul_assoc (ratDenInt x) (ratDenInt y) (ratDenInt z))
         (IntEq_symm rightDen))
 
-private theorem ratAdd_neg_local (x : Rat) :
+theorem ratAdd_neg_local (x : Rat) :
     RatEq (ratAdd x (ratNeg x)) ratZero := by
   apply ratEq_zero_of_num_zero
   unfold ratAdd ratNeg
@@ -230,13 +230,13 @@ private theorem ratAdd_neg_local (x : Rat) :
   exact IntEq_trans (IntAdd_respects leftDen rightNeg)
     (IntAdd_neg (IntMul x.num (ratDenInt x)))
 
-private theorem ratNeg_add_local (x : Rat) :
+theorem ratNeg_add_local (x : Rat) :
     RatEq (ratAdd (ratNeg x) x) ratZero := by
   exact RatEq_trans _ _ _
     (ratAdd_comm (ratNeg x) x)
     (ratAdd_neg_local x)
 
-private theorem ratNeg_neg_local (x : Rat) :
+theorem ratNeg_neg_local (x : Rat) :
     RatEq (ratNeg (ratNeg x)) x := by
   apply ratEq_of_num_den_intEq
   · unfold ratNeg
@@ -244,7 +244,7 @@ private theorem ratNeg_neg_local (x : Rat) :
   · unfold ratNeg ratDenInt
     exact IntEq_refl (intOfNat x.den (ratDenCarrier (ratNeg (ratNeg x))))
 
-private theorem ratNeg_add_dist_local (x y : Rat) :
+theorem ratNeg_add_dist_local (x y : Rat) :
     RatEq (ratNeg (ratAdd x y)) (ratAdd (ratNeg x) (ratNeg y)) := by
   apply ratEq_of_num_den_intEq
   · unfold ratNeg ratAdd
@@ -410,12 +410,12 @@ theorem dyadic_monotone {lo hi : Nat} :
     (IntEq_symm (intMul_one_left (ratDenInt (dyadicRat hi))))
     base
 
-private theorem ratZero_sub_eq_neg (x : Rat) :
+theorem ratZero_sub_eq_neg (x : Rat) :
     RatEq (ratSub ratZero x) (ratNeg x) := by
   unfold ratSub
   exact ratZero_add_left (ratNeg x)
 
-private theorem ratSub_add_sub_left_cancel (x x' y : Rat) :
+theorem ratSub_add_sub_left_cancel (x x' y : Rat) :
     RatEq (ratSub (ratAdd x' y) (ratSub x' x)) (ratAdd x y) := by
   unfold ratSub
   have negExpand :
@@ -545,7 +545,7 @@ theorem ratAbs_triangle (a b : Rat) :
         (RatEq_refl _)
         negUpper
 
-private theorem ratSub_add_decomp (x y z : Rat) :
+theorem ratSub_add_decomp (x y z : Rat) :
     RatEq (ratSub x z) (ratAdd (ratSub x y) (ratSub y z)) := by
   unfold ratSub
   have step1 :
