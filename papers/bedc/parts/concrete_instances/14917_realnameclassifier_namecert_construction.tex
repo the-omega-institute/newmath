@@ -232,10 +232,35 @@ The source names remain the regular Cauchy rows supplied by \autoref{ch:concrete
 No carrier coordinate supplies quotient real equality, host equality, a selected representative, trichotomy, or ambient completeness. The refinement read therefore factors through the stated finite scope rather than through any external real-number principle.
 \end{proof}
 
+\begin{theorem}[RealNameClassifier kernel-scope determinacy]
+\label{thm:realnameclassifier-kernel-scope}
+Let
+$$
+C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)
+$$
+and
+$$
+C'=(A',B',W,D'_A,D'_B,T',R'_A,R'_B,H',K',P',S',N')
+$$
+be accepted $\RealNameClassifierUp$ reads whose classifier queries use the same common $\StreamNameUp$ window $W$. Suppose the dyadic tolerance rows $D_A,D_B,D'_A,D'_B$ are matched at the displayed precision requests, the $\RegSeqRatUp$ readbacks $R_A,R_B,R'_A,R'_B$ are matched by componentwise $\hsame$ transport, the two $\Cont$ replays $K,K'$ follow the same window route, the $\Pkg$ provenance rows $P,P'$ source the same classifier packet surface, and the $\RealUp$ seals $S,S'$ are reached after the same finite tolerance and readback rows. Then $C$ and $C'$ expose the same classifier decision route inside the $\RealNameClassifierUp$ kernel scope. The route cannot branch through quotient Cauchy classes, host sequence equality, selected representatives, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. Both accepted reads must pass through the shared window $W$, the displayed dyadic tolerance rows, and the finite classifier row before any readback or seal row is visible.
+
+Use finite window coverage, \autoref{thm:real-name-classifier-window-coverage}. Since the window is common and the dyadic rows are matched at the displayed precision requests, neither read can introduce a second precision schedule or an external equality oracle.
+
+Next apply refinement stability, \autoref{thm:real-name-classifier-refinement-stability}. The componentwise $\hsame$ matches on $R_A,R_B,R'_A,R'_B$ and the $\Cont$ replays $K,K'$ transport the same regular readback surface through the same window route.
+
+The seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}, account for the Real seals, provenance rows, and local names. The seals are downstream of the finite classifier data, and the ledger has no coordinate for quotient Cauchy classes, host sequence equality, selected representatives, trichotomy, or completeness.
+
+Finally apply the refinement scope factorization of \autoref{thm:real-name-classifier-refinement-scope-factorization}. With the same common window, matched tolerance rows, matched regular readbacks, transported replay, shared provenance surface, and downstream Real seal, both accepted reads expose the same classifier decision route inside the displayed kernel scope.
+\end{proof}
+
 \begin{theorem}[RealNameClassifier bridge route]
 \label{thm:real-name-classifier-bridge-route}
 The public classifier surface of \autoref{thm:real-name-classifier-refinement-scope-factorization} bridges the concrete $\RealNameClassifierUp$ packet to the abstract real-name equality-inspection interface through the displayed $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The route exposes the common-window classifier and terminal seal as public packet data, without quotient equality, selected limits, trichotomy, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierBridgeRoute}
 
 \closureat{RealNameClassifierUp}{bridgedStr}
 
