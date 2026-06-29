@@ -90,6 +90,50 @@ histories in the same rational-observation class, so the e-one tail witnesses
 are the common tail witnesses recorded by the finite probe window.
 \end{proof}
 
+\begin{theorem}[Real terminal seal tail-section coherence]
+\label{thm:real-terminal-seal-tail-section-coherence}
+Let $x,y:\mathbb{N}\to\Hist$ be rational-observation streams, let
+$\mathcal P$ be a finite certified $\mathsf{ProbeBundle}$ endpoint window, and
+let $\mathcal T$ be the same $\StreamNameUp$ tail-section package consumed by a
+finite $\RealUp$ stream prefix handoff. Suppose two finite endpoint reads pass
+through the same prefix row $\mathsf{RealStreamPrefixClassifier}(x,y,n)$, the
+same displayed $\mathsf{InBundle}$ endpoint rows of $\mathcal P$, and the same
+tail-section package $\mathcal T$. Then the two endpoint reads determine the
+same terminal $\RealUp$ seal route up to the displayed $\hsame$ transports.
+
+The seal route is the finite route through the prefix endpoint projection,
+truncated common e-one tail readback, probe endpoint determinacy, and the
+certified $\StreamNameUp$ tail-section induction bridge. It does not export
+quotient stream equality, host sequence equality, selected limits, countable
+choice, ambient $\RealUp$ completeness, metric-completeness data, or standard
+bridge rows.
+\end{theorem}
+\begin{proof}
+First apply endpoint projection,
+\autoref{thm:real-stream-prefix-tail-endpoint-projection}. Both reads use the
+same prefix row and the same finite tail rows selected by $\mathcal P$, so the
+endpoint $\mathsf{RatHistoryClassifier}$ readback is taken from the same
+finite endpoint surface.
+
+Next apply truncated endpoint common e-one tail readback,
+\autoref{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback}.
+The endpoint histories therefore expose common e-one tail witnesses, and the
+displayed $\hsame$ rows transport those witnesses along the same prefix
+package.
+
+Now use probe endpoint determinacy,
+\autoref{thm:real-stream-prefix-probe-endpoint-determinacy}. It identifies the
+endpoint readback supplied by $\mathcal P$ as the unique finite readback for
+that endpoint inside the certified probe window.
+
+Finally apply the StreamName tail-section induction bridge
+\autoref{thm:streamname-pointwise-window-induction-tail-section}. Since both
+reads consume the same $\StreamNameUp$ tail-section package, the terminal seal
+route is carried over the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ support rows. No remaining coordinate can distinguish two
+terminal $\RealUp$ seal routes.
+\end{proof}
+
 \begin{theorem}[Real stream prefix two-probe endpoint coherence]
 \label{thm:real-stream-prefix-two-probe-endpoint-coherence}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
