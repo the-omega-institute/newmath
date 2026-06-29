@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionCantorSieveUp$}
+\label{ch:concrete-instances-real-completion-cantor-sieve-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Cantor nested intervals, the $\RealCompletionCantorSieveUp$ packet records a finite nested-window route into the open Real and Completion phase. It consumes the dyadic arithmetic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the observation stream of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the fast Cauchy control of \autoref{ch:concrete-instances-fastcauchy-namecert}. The packet names one finite Cantor-style sieve for one displayed budget; it is not a proof of full $\RealUp$ completeness, a quotient-real equality theorem, or a choice principle for infinite interval selections.
+
+\begin{definition}[Real completion Cantor sieve carrier]
+\label{def:real-completion-cantor-sieve-carrier}
+A $\RealCompletionCantorSieveUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,B,O,Q,R,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row, carrying the dyadic endpoints, midpoint operations, order checks, and radius comparisons used by the displayed windows.
+\item $W$ is the finite nested-window table
+$$
+I_0 \supseteq I_1 \supseteq \cdots \supseteq I_m,
+$$
+where each $I_i=[a_i,b_i]$ has dyadic endpoints and the inclusion proof is recorded as a finite row in $D$.
+\item $B$ is the diameter descent budget. It records a finite schedule $\epsilon_0,\ldots,\epsilon_m$ and witnesses that the displayed diameter of $I_i$ is bounded by $\epsilon_i$.
+\item $O$ is the $\StreamNameUp$ observation row. It lists only the stream entries inspected to decide the next nested window.
+\item $Q$ is the $\RegSeqRatUp$ handoff row, translating the observed stream windows into regular rational approximation rows for the same displayed budget.
+\item $R$ is the $\RealUp$ seal row attached to the terminal window and the regular rational handoff. It exposes a real-name boundary only after $D,W,B,O,Q$ have been read.
+\item $F$ is the $\FastCauchyUp$ control row. It records the finite modulus entries that certify the terminal window is compatible with the requested fast Cauchy tolerance.
+\item $E$ is the excluded-principle ledger: no ambient completeness theorem, quotient-real equality, located trichotomy, countable choice selector, or infinite nested-window choice may be read from the carrier.
+\item $H$ records componentwise $\hsame$ transport for the dyadic arithmetic, nested-window table, descent budget, stream observations, regular-rational handoff, real seal, fast Cauchy row, excluded-principle ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D,W,B,O \longmapsto Q,F \longmapsto R,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionCantorSieveUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FastCauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionCantorSieveUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through $D,W,B,O,Q,R,F,E,H,C,P,N$. It has no coordinate for an infinite interval selector, a completed quotient of Cauchy names, global real completeness, or an order-trichotomy oracle.
+\end{definition}
+
+\begin{theorem}[RealCompletionCantorSieveUp NameCert obligations]
+\label{thm:real-completion-cantor-sieve-namecert-obligations}
+For every accepted $\RealCompletionCantorSieveUp$ carrier
+$$
+S=(D,W,B,O,Q,R,F,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealCompletionCantorSieveUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet of \autoref{def:real-completion-cantor-sieve-carrier};
+\item dyadic endpoint exactness, requiring every endpoint, midpoint, comparison, and diameter computation to be read from $D$;
+\item nested-window exactness, requiring $W$ to expose only the finite chain $I_0,\ldots,I_m$ and its displayed inclusion witnesses;
+\item descent-budget exactness, requiring $B$ to bind each exposed diameter bound to the corresponding finite tolerance row;
+\item observation and regularization compatibility, requiring $O$ and $Q$ to show that every stream observation used by the sieve has a matching $\RegSeqRatUp$ handoff row;
+\item terminal real and fast Cauchy compatibility, requiring $R$ and $F$ to seal only the terminal finite window and its displayed tolerance;
+\item excluded-principle nonescape through $E$, requiring consumers to refuse ambient $\RealUp$ completeness, quotient-real equality, located trichotomy, countable choice, and infinite nested-window selection;
+\item transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No Cantor-sieve obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-completion-cantor-sieve-carrier}. The projection exposes the dyadic arithmetic row, the finite nested-window table, the descent budget, the observation stream row, the regular rational handoff, the terminal real seal, the fast Cauchy row, the refusal ledger, and the structural rows.
+
+The dyadic and nested-window obligations are finite. Each endpoint and comparison is read from $D$, while $W$ lists only the windows $I_0,\ldots,I_m$ and the inclusion witnesses between consecutive rows. Thus a consumer cannot replace the finite table by an infinite interval selector.
+
+The descent budget is tied to the same table. The row $B$ records one tolerance row for each displayed window, so every diameter claim is checked against a row already present in $W$ and computed through $D$.
+
+The observation handoff then passes through $O$ and $Q$. Every inspected stream entry is named in $O$, and the corresponding regular rational approximation is stored in $Q$ before the terminal real seal is visible.
+
+The endpoint of the route is local. The rows $R$ and $F$ seal the final window and the requested fast Cauchy tolerance, while $E$ blocks the host principles that are not part of the packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same rows. Since the carrier has no further coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite Cantor sieve handoff]
+\label{thm:real-completion-cantor-sieve-finite-handoff}
+Every accepted $\RealCompletionCantorSieveUp$ real-name read factors through the finite route
+$$
+\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\FastCauchyUp,\RealUp .
+$$
+Concretely, the read first opens dyadic endpoint arithmetic and a finite nested-window table, then checks the diameter descent budget, then reads the inspected stream observations and regular rational handoff rows, then exposes the terminal real seal and fast Cauchy control through transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the terminal real row $R$. By carrier admission, $R$ is downstream from $D,W,B,O,Q,F$, so it cannot be inspected independently of the finite sieve data.
+
+The first part of the route is dyadic. The rows $D$ and $W$ expose the endpoint arithmetic and the nested finite table, while $B$ supplies the diameter schedule attached to those same windows.
+
+The second part is observational. The stream row $O$ records the finite observations that selected the displayed windows, and $Q$ repackages those observations as regular rational rows for the same budget.
+
+The final part is the terminal seal. The fast Cauchy row $F$ checks the requested tolerance, and $H,C,P,N$ preserve, replay, source, and name the same route. Therefore the public read is the displayed finite handoff and not a global completeness or choice claim.
+\end{proof}
+
+\closureat{RealCompletionCantorSieveUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionCantorSieveUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-cantor-sieve-carrier}, \autoref{thm:real-completion-cantor-sieve-namecert-obligations}, and \autoref{thm:real-completion-cantor-sieve-finite-handoff} seed the finite Cantor-style nested-window route through DyadicRatCore, StreamName, RegSeqRat, FastCauchy, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full $\RealUp$ completeness, quotient-real equality, located trichotomy, countable choice, infinite nested-window selection, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked dyadic endpoint exactness, nested-window exactness, descent-budget exactness, observation and regularization compatibility, terminal real and fast Cauchy compatibility, excluded-principle nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionCantorSieveUp.}
+  \constructivestory{A $\RealCompletionCantorSieveUp$ packet is generated from DyadicRatCore endpoint arithmetic, a finite nested-window table, a diameter descent budget, StreamName observations, RegSeqRat handoff rows, a terminal RealUp seal, FastCauchy tolerance control, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
