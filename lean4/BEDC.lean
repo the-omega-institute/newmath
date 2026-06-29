@@ -93,6 +93,7 @@ import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AlgebraicExpressionLedgerUp
+import BEDC.Derived.AlgebraicExpressionLedgerUp.TasteGate
 import BEDC.Derived.AlgebraicExtensionDimensionUp
 import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AliquotSequenceUp
@@ -385,6 +386,7 @@ import BEDC.Derived.AuditGateBoundaryUp.LedgerExactness
 import BEDC.Derived.AuditGateBoundaryUp.StdBridge
 import BEDC.Derived.AuditGateBoundaryUp.StrictAxiomPurityReplay
 import BEDC.Derived.AuditGateBoundaryUp.TasteGate
+import BEDC.Derived.AuditGateCompositionUp.BoundaryObligation
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
 import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
@@ -3325,6 +3327,7 @@ import BEDC.Derived.CofinalStreamTailSelectorUp.NameCertObligations
 import BEDC.Derived.CofinalStreamTailSelectorUp.ObligationPackage
 import BEDC.Derived.CofinalStreamTailSelectorUp.PublicExport
 import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealNonescape
+import BEDC.Derived.CofinalStreamTailSelectorUp.ScopedRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.WindowReadbackScope
@@ -10180,6 +10183,7 @@ import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
 import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonWinding
 import BEDC.Derived.RHRoute.RationalPolygonWindingStability
+import BEDC.Derived.RHRoute.RationalPolygonWindingSubdivision
 import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
@@ -10381,6 +10385,7 @@ import BEDC.Derived.RealClassifierUp.AuditRoute
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
 import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
+import BEDC.Derived.RealClassifierUp.FiniteWindowExactnessTarget
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
@@ -12227,6 +12232,7 @@ import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SocketReportUp.MinimalClassification
 import BEDC.Derived.SocketReportUp.NameCertObligations
+import BEDC.Derived.SocketReportUp.PublicExportSurface
 import BEDC.Derived.SocketReportUp.ScopedReportRoute
 import BEDC.Derived.SocketReportUp.SiblingSeparation
 import BEDC.Derived.SocketReportUp.TasteGate
@@ -12461,8 +12467,10 @@ import BEDC.Derived.SubjectReductionRouteUp.BundleCorrespondence
 import BEDC.Derived.SubjectReductionRouteUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
+import BEDC.Derived.SubmartingaleUp.OneSidedComparisonStability
 import BEDC.Derived.SubmartingaleUp.OneSidedComparisonTransport
 import BEDC.Derived.SubmartingaleUp.TasteGate
+import BEDC.Derived.SubmartingaleUp.UpcrossingLedgerExactness
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
 import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
@@ -12802,6 +12810,7 @@ import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.RefusalDiscipline
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.TasteGate
 import BEDC.Derived.TwinSubstrateBridgeUp.CarrierAdmission
+import BEDC.Derived.TwinSubstrateBridgeUp.LedgerExactness
 import BEDC.Derived.TwinSubstrateBridgeUp.NameCertObligations
 import BEDC.Derived.TwinSubstrateBridgeUp.TasteGate
 import BEDC.Derived.TypeCheckingClassifierMembershipUp.TasteGate
