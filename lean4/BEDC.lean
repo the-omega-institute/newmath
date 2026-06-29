@@ -1641,6 +1641,7 @@ import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
+import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
@@ -12101,6 +12102,7 @@ import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.PlusGluingTransport
 import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
+import BEDC.Derived.SheafificationUp.PresheafSheafRoute
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
