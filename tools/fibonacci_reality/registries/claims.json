@@ -1935,6 +1935,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube family Gamma_m, viewing each vertex as an independent subset of [m], the incidence-orthogonality triple count Y_m=#{(a,b,c) in V(Gamma_m)^3 : a<=b coordinatewise and a disjoint from c} (a_i<=b_i and a_i c_i=0 for all i; the overlap b_i=c_i=1 is permitted, a Horn-type incidence plus orthogonality relation, not a disjoint or no-pair-only construction) satisfies the forced recurrence Y_m = Y_{m-1} + 6 Y_{m-2} + 2 Y_{m-3} - 2 Y_{m-4} (all-positive Nat reindex Y_m + 2 Y_{m-4} = Y_{m-1} + 6 Y_{m-2} + 2 Y_{m-3}) with minimal polynomial t^4-t^3-6t^2-2t+2 = (t+1)(t^3-2t^2-4t+2) (coprime to t^2-t-1, Hankel rank 4), realized by a nonnegative non-companion five-state column transfer over admissible columns {000,001,010,011,110} with all-ones readout; values 1,5,13,43,129,403,1237,3827,11797,36427,112389,... verified to m=11. A mixed order/orthogonality column-language statistic distinct from the median-zero/pairwise-disjoint and no-pair-only triple counts (which coincide only by accident at small m) and from all pair/quartet anchors; not a lag/Walsh/arity/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "window.fibonacci-cube.even-hole-pair.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-window-even-hole-pair",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "window.fibonacci-cube.even-hole-pair",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Fibonacci cube family Gamma_m, calling coordinate i a hole of the ordered pair (a,b) when a_i=b_i=0, the even-hole pair count U_m=#{(a,b) in V(Gamma_m)^2 : every maximal consecutive run of holes (including initial and terminal runs) has even length} -- equivalently the zero-set of a OR b is tileable by adjacent dominoes along the path -- satisfies the forced recurrence U_m = U_{m-1} + U_{m-2} + 2 U_{m-3} - U_{m-4} (all-positive Nat reindex U_m + U_{m-4} = U_{m-1} + U_{m-2} + 2 U_{m-3}) with minimal polynomial t^4-t^3-t^2-2t+1 (coprime to t^2-t-1, Hankel rank 4), realized by a nonnegative non-companion five-state transfer (hole-run parity x last-column state) with a four-component readout; values 1,3,3,8,16,27,56,107,201,393,752,... verified to m=11. A hole-run parity statistic with a non-monotonic signature (U_1=U_2=3, single holes forbidden) distinct from every pair/triple/quartet anchor; not a lag/Walsh/arity/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
