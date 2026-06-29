@@ -1,0 +1,42 @@
+\origin{ai}
+
+\subsection{Proteostasis mismatch absorption across the yeast residual dictionary}
+\label{sec:bioreality-proteostasis-mismatch-absorption}
+
+\paragraph{Finite carrier.}
+The finite object considered here is a per-gene and per-readout ledger for \textit{Saccharomyces cerevisiae}.  Its base abundance component is the $B^{*}_{Q6}$ projection of protein abundance after the stated codon-composition, amino-acid-composition, length, GC3, and $M$-density controls.  The proteostasis readout is then tested only as an absorber of the remaining $P_Q$-side signal, not as a mechanistic explanation.  The finite row reports $4759$ genes before the dictionary join, $3290$ active rows after the dictionary is attached, and $3277$ genes used by the held-out regression.  The base abundance association is $R^2_{QP}=0.2931070448$, while the unexplained-energy ratio is $0.7438098661$ on the full active dictionary and $0.7403673638$ on the proteostasis join.
+
+\paragraph{Absorption statistic.}
+The recorded proteostasis absorption is
+$$
+\begin{aligned}
+A_{\mathrm{prot}} &= 0.0216342288,\\
+E_{\mathrm{prot}} &= 2.7214668091,\\
+\Delta_{\mathrm{rank}} &= 6.
+\end{aligned}
+$$
+The deterministic null distribution gives mean $0.0110499134$, $95\%$ cutoff $0.0155643708$, and maximum $0.0214646682$.  Thus the observed statistic is above the declared $95\%$ null boundary and also slightly above the largest null draw in the finite run.  The reported finite-row probability is $p_{\mathrm{prot}}=0.0049751244$, and the module-level verdict is \texttt{crosses\_boundary}.  This is the precise sense in which the row is positive: it is a boundary crossing for a descriptive absorber in a declared finite panel.
+
+\paragraph{Held-out check.}
+The same row records a held-out baseline $R^2=-0.0012623853$, a held-out model $R^2=0.0167388432$, and a held-out increment $\Delta R^2=0.0180012284$.  The sign of the held-out increment is therefore consistent with the absorption call, but its magnitude is small.  The observation is best read as a weak but finite out-of-sample signal: the proteostasis variables carry some information about the yeast residual ledger, yet they do not compress most of the residual energy.
+
+\paragraph{Relation to the yeast residual table.}
+The broader direction-aware yeast dictionary already marked the residual as only partly reachable by available low-dimensional readouts.  In the ordered table, measured translation contributes $T=0.1127139450$, the stability or transcript-side component contributes $S=0.0196274205$, and the remaining unexplained component is $U=0.8676586345$.  The minimal-compilation row reports yeast compressibility $0.1323413655$ with $D_o$ length $2$, raw baseline dictionary length $19$, and permutation probability $0.0009990010$.  These numbers say that the measured panel is not random with respect to the residual, but also that it leaves most of the signal outside the measured dictionary.
+
+\paragraph{Comparison with earlier H-candidates.}
+The earlier finite ranking panel did not supply a shared universal absorber.  For yeast, the top direction-aware raw ranking entry was mRNA with $A_H=0.0018976055$, $C_H=0.6040571891$, and $A_H C_H=0.0011462622$; its penalized score was $-0.0088537378$.  The same yeast panel gave measured tRNA-copy tAI $A_H=0.0015818531$, $C_H=0.5296141421$, and score $-0.0091622282$; turnover gave $A_H=0.0009086032$, $C_H=0.5513015841$, and score $-0.0094990856$; localization had larger absorption $A_H=0.0112251056$ but paid a twelve-column description cost, giving score $-0.0322360731$.  Separately, the direct yeast turnover probe joined $3640$ rows and absorbed only $0.0009086032$, while the measured tRNA-copy tAI probe absorbed $0.0015307477$ on the full $5815$-row yeast join.  Against that background, the proteostasis mismatch row is not a universal solution, but it is a stronger finite absorber than the single earlier yeast turnover and tRNA-copy candidates.
+
+\paragraph{Local mathematical readback.}
+The finite statement can be summarized as a bounded inequality inside the declared row ledger:
+$$
+\begin{aligned}
+A_{\mathrm{prot}} &= 0.0216342288 \\ 
+&> 0.0155643708 = \mathrm{Null}_{0.95},\\
+p_{\mathrm{prot}} &= 0.0049751244,\\
+\Delta R^2_{\mathrm{heldout}} &= 0.0180012284.
+\end{aligned}
+$$
+The row therefore supports the narrow assertion that a proteostasis-mismatch readout has finite descriptive absorption of the yeast $B^{*}_{Q6}$ abundance residual under the recorded join, dictionary, and null policy.  It does not assert that the residual is solved.  The post-dictionary unexplained energy remains about $74\%$ on the active dictionary scale, and the ordered yeast decomposition still leaves $U=0.8676586345$ under the earlier finite decomposition rule.
+
+\paragraph{Negative boundary.}
+No translation claim follows from this row: translation was represented elsewhere by measured TE and tAI-style readouts, and the present statistic is downstream of that separation.  No folding, physical admissibility, protein function, cellular mechanism, pathway identity, phenotype, or universal biological law follows from the absorption value.  The cosine, score, rank, null comparison, and held-out increment are statistical coordinates of a finite panel.  A stronger biological statement would require an additional same-row contact that directly measures the relevant layer and a statistic designed for that layer.  In particular, the proteostasis row does not convert $B^{*}_{Q6}$ codon geometry into a causal proteostasis mechanism, nor does it establish a shared absorber across organisms.

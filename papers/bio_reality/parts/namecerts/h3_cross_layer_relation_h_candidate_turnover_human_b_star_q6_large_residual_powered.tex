@@ -1,50 +1,44 @@
+\subsection{Human Turnover as a Low-Absorption Candidate for the Large Residual}
+\label{sec:bioreality-human-turnover-large-residual}
 \origin{ai}
 
-\subsection{Human turnover as a candidate absorber for the large $B^{*}_{Q6}$ protein-abundance residual}
-\label{sec:bioreality-human-turnover-large-q6-residual}
+\paragraph{Finite panel.}
+The human turnover test asks whether a protein half-life readout accounts for the part of the human $B^{\ast}_{Q6}$ protein-abundance signal that remains after the modeled translation readout has already been removed.  The finite carrier is the joined table of human coding sequences, measured whole-organism protein abundance, Mathieson et al. primary-cell protein half-lives, the nine $B^{\ast}_{Q6}$ residual coordinates, and the shared control design.  The nine coordinates are $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control block has $24$ columns, rank $23$, and consists of an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions, GC3, and the $M$-density baseline defined on the union support of the nine projected coordinates.  The full human CDS--abundance join reports $19053$ joined coding units with a CDS join hit rate $0.9779294769799313$; the turnover-specific all-readout join contains $8057$ rows, while $10996$ CDS records have no turnover match.  The turnover source contributes $8164$ valid protein half-life records, with the median half-life across cell types selected as the scalar readout and a gene-name to reviewed-UniProt to STRING mapping.
 
-\paragraph{Finite surface.}
-This record tests whether human protein half-life can account for the large protein-abundance component left after the $B^{*}_{Q6}$ synonymous residual surface is projected through a modeled translation readout.  The finite rows are human coding sequences with joined codon counts, PAXdb protein abundance, and Mathieson et al. primary-cell protein half-life.  The $Q$ side has nine residual coordinates,
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3\_stress$.  The control block has $24$ columns: intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions, GC3, and the $M$-density baseline on the union support of the nine projected coordinates.  The realized control rank is $23$.
-
-\paragraph{Joined human rows.}
-The full human abundance--CDS join contains $19053$ coding-sequence rows, with a reported CDS hit rate of $0.9779294769799313$ against the abundance table.  The turnover contact reports $8164$ valid human turnover proteins, and the three-way turnover--abundance--CDS join contains $8057$ rows.  The abundance source is the H. sapiens whole-organism integrated PAXdb table, reported with $19483$ valid abundance proteins.  The turnover readout is the median half-life across Mathieson primary-cell measurements, mapped by gene name through reviewed UniProt primary gene names to STRING identifiers.  The turnover payload has SHA256 $5e19833b82a7e31c05565f2a4c1797d52fcb477fccd0d13a856b58267a5ca54e$, and the source workbook has SHA256 $e0503f49230680cbf86fbc86db145ba439c03382e584fde8f0d83241c9826515$.
-
-\paragraph{Residual geometry before the turnover test.}
-On the full human abundance--CDS surface, the $B^{*}_{Q6}$ protein-abundance projection has squared norm
-$P_Q^2=1370.6490492302532$.  After removing the modeled translation component, the complement remains large:
+\paragraph{Residual target.}
+The tested target is not raw abundance.  First, human protein abundance is residualized against the shared controls and projected onto the nine-coordinate $B^{\ast}_{Q6}$ block, giving
 $$
 \begin{aligned}
-\lVert P_Q\rVert^2 &= 1370.6490492302532,\\
-\lVert P_{Q\perp T_{mod}}\rVert^2 &= 1262.2237678771598,\\
-d_{mod} &= 0.9208949355679455.
+\|P_Q\|^2 &= 1370.6490492302532,\\
+\|P_{Q\perp T_{\mathrm{mod}}}\|^2 &= 1262.2237678771598,\\
+d_{\mathrm{modeled}} &= 0.9208949355679455.
 \end{aligned}
 $$
-The same value $d_{mod}=0.9208949355679455$ is recovered on the current human turnover join against the full human complement reference, with absolute difference $0.0$.  A coverage diagnostic recomputes $d_{mod}$ as $0.7820306826175398$ on the smaller overlap, so the chapter treats the exact-match check as a reference-projection consistency statement, not as proof that the turnover-overlap rows preserve every abundance-surface feature.
+Thus the modeled translation readout removes only part of the human $Q\to P$ component; the remaining target is still large.  The turnover chapter then asks whether residualized $\log_{10}$ half-life absorbs this remaining vector.  The recomputed human-complement diagnostic agrees with the full abundance-CDS reference: the current full-human value is $0.9208949355679455$, the reference value is $0.9208949355679455$, and the absolute difference is $0.0$.  A coverage recomputation on the turnover join gives the separate diagnostic value $0.7820306826175398$, which records that the smaller turnover table samples a restricted slice of the full human abundance surface.
 
-\paragraph{Turnover absorption statistic.}
-The tested candidate readout is residualized $\log_{10}$ half-life.  Projecting the large modeled-translation complement $P_{Q\perp T_{mod}}$ onto this one-dimensional turnover readout gives
+\paragraph{Turnover projection.}
+On the $8057$-row all-readout join, residualized human protein half-life has a measurable but very small alignment with the large modeled-translation-complement abundance residual.  The fitted quantities are
 $$
 \begin{aligned}
-R^2_{Q,T_{turn}} &= 0.004615408769189838,\\
-a_{turn} &= 0.0000035740764900116538,\\
-a_{turn}^{basis} &= 0.0000035740764900125626,\\
-d_{combined} &= 0.8901589776585174.
+R^2_{Q,T_{\mathrm{turn}}} &= 0.004615408769189838,\\
+\mathrm{Absorb}_{\mathrm{turn}} &= 3.5740764900116538\times 10^{-6},\\
+\mathrm{Absorb}_{\mathrm{turn,basis}} &= 3.5740764900125626\times 10^{-6},\\
+d_{\mathrm{combined}} &= 0.8901589776585174.
 \end{aligned}
 $$
-The basis check agrees to numerical precision.  The absorbed fraction is therefore positive as a descriptive projection, but extremely small on the scale of the remaining human complement.  Against a $200$-trial degree-of-freedom matched null with rank values restricted to $1$, the null mean is $0.0001262572958089998$ and the null $95$th percentile is $0.0004342285066808464$.  Since
-$$
-\begin{aligned}
-0.0000035740764900116538 &< 0.0004342285066808464,
-\end{aligned}
-$$
-the turnover projection does not clear the finite-row null gate.
+The basis check agrees to numerical precision, so the projection itself is stable.  The substantive result is negative for turnover-as-explanation: the absorbed fraction is far below the degree-of-freedom matched null boundary.  The null calculation used $200$ trials, rank list $\{1\}$, null mean $0.0001262572958089998$, and null $95$th percentile $0.0004342285066808464$; the observed turnover absorption does not exceed that boundary.  In finite-row terms, human half-life is a computed candidate readout, but it does not explain the large residual component at the declared null standard.
 
-\paragraph{Relation to the wider $Q6$ protein surface.}
-The negative turnover result sits inside a protein-abundance surface that is not empty.  Direct $B^{*}_{Q6}$ to protein-abundance survival is positive across the reported organism panel, including $R^2_{QP}=0.04454565118019448$ in human and $R^2_{QP}=0.29837624994140827$ in yeast, with all nine coordinates surviving under the stated positive partial-$R^2$ threshold.  Measured translation mediation is also organism-specific rather than uniform: the measured $Q\to T\to P$ mediated fraction is $0.0027966485036786744$ in human, $0.04091158340950673$ in E. coli, $0.4793069656345167$ in yeast, and clipped to $0.0$ in danio from a raw suppressive value $-0.04801486048721136$.  In a separate yeast readout-dictionary certificate, the best selected family using at most three measured readouts covers $0.24538211439730545$ of the residual, with $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, $n=1800$, five folds, and a selection-aware null $95$th percentile of $0.029149007242956115$.  These companion rows show that the protein-abundance residual is a real empirical target, but they do not rescue the human turnover candidate: this chapter's half-life projection remains below its own null threshold.
+\paragraph{Relation to the protein-abundance surface.}
+The same human abundance surface is not empty.  In the direct protein-omics survival run, all nine residual coordinates survive against measured PAXdb abundance for human, with $R^2_{QP}=0.04454565118019448$ and $9$ surviving coordinates on the $19053$-row human CDS join.  Across the full direct protein panel, the largest reported $R^2_{QP}$ is yeast at $0.29837624994140827$, while human sits in the moderate range; every listed organism has rank $9$ for the residualized coordinate block and rank $23$ for the controls.  This establishes that the human turnover result is not a failure to form the $Q\to P$ abundance surface.  Instead, it is a failed absorption attempt for one proposed post-abundance explanatory readout.
 
-\paragraph{Readback verdict.}
-The finite-row verdict is that human protein turnover, as measured by Mathieson median primary-cell half-life and joined to $8057$ human coding-sequence rows, is not a sufficient absorber for the large human $B^{*}_{Q6}$ modeled-translation complement.  The correct readback is a bounded negative H-candidate result: turnover can be recorded as a measured post-translational covariate with a tiny positive projection, but not as an explanatory layer for the human residual under this test.  The remaining signal should be treated as open to other condition-specific, compartmental, stability, localization, complex-membership, transcript-state, or assay-specific surfaces, subject to their own finite joins and null gates.
+\paragraph{Translation and mediation context.}
+The measured-TE mediation check gives the human three-way join $11554$ rows, $S_{QP}=0.04288464996165745$, $S_{QT}^{\mathrm{meas}}=0.018837911344127926$, and measured mediated fraction $0.0027966485036786744$.  The same run reports the human control ranks $\mathrm{rank}(X)=9$, $\mathrm{rank}(T)=1$, $\mathrm{rank}(X,T)=10$, and $\mathrm{rank}(Z)=23$.  In the joint TE--mRNA-stability variance partition, human has $R^2_{QP}=0.04274178488511215$, $R^2_{QP\mid T}=0.04250692268197657$, $R^2_{QP\mid M}=0.036196017359154814$, and $R^2_{QP\mid T,M}=0.0355223930537993$, giving joint mediation fraction $0.16890712099923358$, TE-only fraction $0.00549490864190343$, stability-only fraction $0.15314679870183337$, and right-tail permutation probability $0.000999000999000999$.  These numbers place human turnover in a wider map: direct abundance association exists, measured TE absorbs very little in human, mRNA-stability absorbs more than TE in the available joint table, and protein half-life, as tested here, absorbs essentially none of the modeled-translation-complement residual.
 
-\paragraph{Scope boundary.}
-Nothing in this turnover projection establishes translation, folding, physical admissibility, molecular function, perturbative mechanism, phenotype, evolutionary direction, or universality.  Protein abundance is a steady-state omics readout, half-life is a descriptive stability-related readout, and the tested projection is observational.  A stronger biological statement would require a separate layer-matched contact, same-row controls, and a statistic showing that the proposed layer absorbs or attenuates the relevant $Q$ association beyond its null surface.
+\paragraph{Dictionary and positional controls.}
+The yeast dictionary and dwell runs provide comparison points for what a positive absorption-style result looks like under the same finite-row discipline.  The partial mediation certificate on yeast used $n_{\mathrm{join}}=1800$ from $4758$ available rows, $5$ folds, $120$ permutations, $\lambda_{\mathrm{DL}}=0.01$, and $\rho_{\mathrm{join}}=0.05$; its best selected readout family covered $C^{\ast}=0.24538211439730545$ above a selection-aware null $95$th percentile $0.029149007242956115$, leaving unexplained fraction $0.7546178856026946$.  The $f3\_stress$ dwell check used the same $1800$ base size and $5$ folds, joined $1257$ rows, and found held-out $\Delta R^2=0.01856473944057712$ against a permutation null $95$th percentile $0.0013115362189692937$, with $f3$--dwell correlation $0.1615441450901653$ and approximate $p=7.873916057196935\times 10^{-9}$.  Those companion finite checks show that the pipeline can detect nontrivial readout absorption when it is present; the human turnover result remains a specific low-absorption outcome rather than a general limitation of the test design.
+
+\paragraph{Four-case readback.}
+For this chapter, the finite readback is case $C$-like for the turnover candidate: a direct $Q\to P$ abundance surface exists, but the tested half-life readout does not provide a successful explanatory absorption of the large modeled-translation-complement residual.  It is not case $D$, because no measured translation-readout chain $q_i\to T_j\to P_k$ is established here and the turnover projection does not pass its degree-of-freedom matched boundary.  It is also not a null statement about all post-translational variables; it only says that the Mathieson human half-life scalar, joined and residualized as specified, does not account for the residual at the registered threshold.
+
+\paragraph{Local boundary.}
+The result is a finite statistical projection statement, not a causal or mechanistic claim.  The chapter does not infer translation, folding, physical admissibility, molecular function, phenotype, or universality from the $B^{\ast}_{Q6}$ coordinates, from the PAXdb abundance surface, or from the half-life projection.  Protein turnover here is a descriptive scalar readout from human primary-cell data, summarized across cell types, and the observed absorption is below the null boundary.  Any stronger statement about translation mechanism, degradation machinery, folded state, compartmental context, function, perturbational rescue, or a general biological law would require a separate layer-matched contact and a new finite statistic on the same units.
