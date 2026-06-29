@@ -2191,6 +2191,7 @@ import BEDC.Derived.CauchyModulusCertificateUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
+import BEDC.Derived.CauchyModulusCompletenessUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
 import BEDC.Derived.CauchyModulusEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
@@ -12073,6 +12074,7 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverLocalGluingObligation
+import BEDC.Derived.SheafificationUp.CoverRefinementFiniteInduction
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.GluingLedgerScope
@@ -12428,6 +12430,7 @@ import BEDC.Derived.SubjectReductionRouteUp.BundleCorrespondence
 import BEDC.Derived.SubjectReductionRouteUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
+import BEDC.Derived.SubmartingaleUp.TasteGate
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
 import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
