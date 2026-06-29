@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionIdempotenceUp$}
+\label{ch:concrete-instances-real-completion-idempotence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completions, the $\RealCompletionIdempotenceUp$ packet records that a $\RealUp$ seal already obtained from $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ data is stable under re-entering the same completion route. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a face-local Real and Completion boundary; it does not construct quotient streams, choose representatives, select limits, invoke countable choice, or assert ambient completeness for $\RealUp$.
+
+\begin{definition}[Real completion idempotence carrier]
+\label{def:real-completion-idempotence-carrier}
+A $\RealCompletionIdempotenceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(R,S,Q,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the sealed $\RealUp$ row already obtained from the first completion-facing route.
+\item $S$ is the $\StreamNameUp$ window row that exposes the same finite observations used to read the name.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row governing the displayed regularity comparisons.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, windows, readback, tolerance ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any second completion request back through $D,Q,S$ and into the already sealed $R$ row.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionIdempotenceUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionIdempotenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,Q,D,H,C,P,N$. No coordinate stores a quotient stream equality, representative selector, selected limit, countable-choice schedule, metric-completeness theorem, or ambient completeness assertion for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Real completion idempotence NameCert obligations]
+\label{thm:real-completion-idempotence-namecert-obligations}
+For every accepted $\RealCompletionIdempotenceUp$ carrier
+$$
+I=(R,S,Q,D,H,C,P,N),
+$$
+the local $\NameCert_{\RealCompletionIdempotenceUp}$ surface consists exactly of carrier admission, sealed $\RealUp$ exposure, finite $\StreamNameUp$ window readback, $\RegSeqRatUp$ regular-rational readback, $\DyadicRatCoreUp$ tolerance accounting, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-idempotence-carrier}. Its visible data are the sealed Real row $R$, the window row $S$, the regular rational readback $Q$, the dyadic tolerance ledger $D$, and the structural rows $H,C,P,N$.
+
+The second completion request is read by replaying the same finite route. It first exposes $D$, then $Q$, then $S$, and only then reaches the already sealed $\RealUp$ row $R$.
+
+The remaining rows preserve the boundary. Componentwise $\hsame$ in $H$ transports the displayed coordinates, $\Cont$ in $C$ replays the same dependency order, and $P,N$ record provenance and local naming. Since the carrier has no excluded coordinate, the NameCert surface exports no quotient stream equality, selected representative, selected limit, countable choice, metric completeness, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Real completion idempotence nonescape]
+\label{thm:real-completion-idempotence-nonescape}
+Every second completion-facing read of an accepted $\RealCompletionIdempotenceUp$ carrier reuses the same displayed face rows
+$$
+R,S,Q,D,H,C,P,N .
+$$
+Consequently re-entering the completion route cannot add quotient stream equality, selected limits, countable choice, metric completeness, or an ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Let a second completion-facing consumer read an accepted carrier $I=(R,S,Q,D,H,C,P,N)$. Carrier projection gives no data outside these eight rows.
+
+The replay row $C$ directs the request through the dyadic tolerance ledger $D$, the regular rational readback $Q$, and the finite observation windows $S$ before the terminal seal row $R$ is inspected. Thus the second read has the same face-local route as the first read.
+
+Transport and provenance do not enlarge the route. The componentwise $\hsame$ row $H$ compares only the displayed coordinates, while $P$ and $N$ record the package and local name for the same carrier. With no quotient, choice, selected-limit, metric-completeness, or ambient-completeness coordinate present, there is no escape path from the idempotence packet to any of those claims.
+\end{proof}
+
+\closureat{RealCompletionIdempotenceUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionIdempotenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-idempotence-carrier}, \autoref{thm:real-completion-idempotence-namecert-obligations}, and \autoref{thm:real-completion-idempotence-nonescape} seed the face-local idempotence carrier over Real, StreamName, RegSeqRat, DyadicRatCore, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, selected limits, countable choice, metric completeness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window reuse, RegSeqRat readback reuse, DyadicRatCore tolerance accounting, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionIdempotenceUp.}
+  \constructivestory{A $\RealCompletionIdempotenceUp$ packet is generated from an already sealed Real row, StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance accounting, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
