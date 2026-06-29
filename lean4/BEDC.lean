@@ -9083,6 +9083,7 @@ import BEDC.Derived.NatUp.NatAdd
 import BEDC.Derived.NatUp.TasteGate
 import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
 import BEDC.Derived.NatUp.UnaryNatBridge
+import BEDC.Derived.NatUp.UnaryNatMulBridge
 import BEDC.Derived.NaturalDeductionUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
