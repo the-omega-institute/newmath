@@ -345,4 +345,57 @@ theorem SubjectReductionRouteChoiceObstructionRouteExhaustion
   }
   exact ⟨cert, bundleRoute, obstructionRoute, publicRoute⟩
 
+theorem SubjectReductionRouteChoiceBundleRouteExhaustion
+    {B V O H C P N replay : BHist}
+    (route : Cont B V replay) :
+    SubjectReductionRouteChoiceObligationRowSpec B V O H C P N B ∧
+      SubjectReductionRouteChoiceObligationRowSpec B V O H C P N V ∧
+        Cont B V replay ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row replay)
+            (fun row : BHist =>
+              hsame row B ∨ hsame row V ∨ hsame row O ∨ hsame row H ∨
+                hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row replay)
+            (fun row : BHist => hsame row replay ∧ Cont B V replay)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert NameCert
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row replay)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row V ∨ hsame row O ∨ hsame row H ∨
+            hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row replay)
+        (fun row : BHist => hsame row replay ∧ Cont B V replay)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro replay (hsame_refl replay)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, route⟩
+  }
+  exact ⟨Or.inl (hsame_refl B), Or.inr (Or.inl (hsame_refl V)), route, cert⟩
+
 end BEDC.Derived.SubjectReductionRouteChoiceUp
