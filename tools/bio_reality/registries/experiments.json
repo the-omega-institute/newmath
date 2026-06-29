@@ -2889,6 +2889,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_folding_stability.structure_burial_contact_order_folding_ddg_tsuboyama2023",
+   "experiment_id": "protein_structure_burial_folding_ddg_tsuboyama2023",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment: does 3D-structure local geometry (Cα burial; contact-order) cross to measured per-site folding ΔΔG beyond the substitution's own property change? Source Tsuboyama 2023 (Zenodo 7992926) dG_site_feature_Fig3.csv + AlphaFold_model_PDBs; tools/bio_reality/data/protein_structure_burial_folding_ddg_tsuboyama2023.json (sites = pdb/pos/wt/ddg-to-20-targets; ca_coords = per-domain Cα). Features from coordinates (pure stdlib): burial = #Cα within 10A; contact-order = mean |Δresseq| of <=8A non-local Cα contacts / L. Primary statistic = within-fixed-substitution pooled Spearman(burial, ΔΔG) (substitution constant within block => pure structural context, anti-disguised-e_in); decisive null = within-domain feature permutation (B=1000, non-degenerate). Frontier sub-test = contact-order incremental held-out R^2 beyond burial (target-demeaned site-held-out ridge) + partial-Spearman. Positive control = anchor burial<->mean-ΔΔG. Verdict crosses_boundary (|rho_within|>=0.10 AND within-perm p<0.01 AND anchor reproduced) / bounded_descriptor_only / composition_artifact / needs_data; frontier verdict (crosses/bounded/null) reported separately, does not gate the main verdict. Deterministic, fixed seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_structure_burial_folding_ddg_tsuboyama2023.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T06:29:54+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }

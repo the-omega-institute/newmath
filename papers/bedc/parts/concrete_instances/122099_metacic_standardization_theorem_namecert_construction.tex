@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICStandardizationTheoremUp$}
+\label{ch:concrete-instances-metacic-standardization-theorem-namecert}
+\origin{human}
+
+Following Barendregt on standardization for lambda calculus, the $\MetaCICStandardizationTheoremUp$ packet records the finite route by which a residual-aware MetaCIC reduction read may be rearranged into a leftmost-facing route before any normalization or kernel-consistency conclusion is public. It sits after the lambda-calculus syntax carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}, the parallel-reduction packet of \autoref{ch:concrete-instances-parallel-reduction-namecert}, the Church--Rosser packet of \autoref{ch:concrete-instances-church-rosser-namecert}, and the candidate-normalization confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}. The packet names standardization only as displayed NameCert data; it does not assert full normalization, subject reduction, quotient syntax equality, evaluator equality, or kernel consistency.
+
+\begin{definition}[MetaCIC standardization theorem carrier]
+\label{def:metacic-standardization-theorem-carrier}
+A $\MetaCICStandardizationTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,R,P,C,L,J,H,Q,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\LambdaCalcUp$ term row supplying the source syntax and binder ledger.
+\item $R$ is the one-step reduction route whose redex observations are still displayed.
+\item $P$ is the $\ParallelReductionUp$ residual row recording the simultaneous-contraction and residual bookkeeping surface.
+\item $C$ is the $\ChurchRosserUp$ confluence-facing row, read only as a sibling join route.
+\item $L$ is the leftmost schedule row naming the standardization order for the displayed reduction observations.
+\item $J$ is the candidate-normalization handoff row read through $\MetacicCandidateNormalizationConfluenceHandoffUp$.
+\item $H$ records componentwise $\hsame$ transport for the term, reduction, residual, confluence, leftmost schedule, handoff, replay, provenance, and naming rows.
+\item $Q$ records displayed $\Cont$ replay along the same rows.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICStandardizationTheoremUp$, $\LambdaCalcUp$, $\ParallelReductionUp$, $\ChurchRosserUp$, $\MetacicCandidateNormalizationConfluenceHandoffUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICStandardizationTheoremUp}$ evidence row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,P,C,L,J,H,Q,G,N$. It has no coordinate for global strong normalization, unrestricted Church--Rosser, subject reduction, quotient equality of terms, host evaluator equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC standardization NameCert obligations]
+\label{thm:metacic-standardization-theorem-namecert-obligations}
+For every accepted $\MetaCICStandardizationTheoremUp$ carrier $S=(T,R,P,C,L,J,H,Q,G,N)$, the local $\NameCert_{\MetaCICStandardizationTheoremUp}$ surface consists exactly of term-row admission, displayed reduction-route visibility, parallel residual bookkeeping, sibling Church--Rosser route exposure, leftmost schedule admission, candidate-normalization handoff exposure, componentwise transport, displayed replay, provenance, and local naming. A MetaCIC confluence or normalization consumer may read the packet only as a standardization boundary between residual data and a leftmost route; it cannot read the packet as full normalization, unrestricted confluence, subject reduction, quotient syntax equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-standardization-theorem-carrier}. The term row $T$, reduction route $R$, parallel residual row $P$, Church--Rosser sibling row $C$, leftmost schedule $L$, and candidate-normalization handoff $J$ are the whole mathematical surface available to the certificate.
+
+The standardization read first exposes $T,R,P$. This fixes the source syntax, the observed reduction route, and the residual bookkeeping before any leftmost schedule can be consumed.
+
+Next it exposes $C,L,J$. The Church--Rosser row supplies only a sibling join route, the leftmost row names the standardization order, and the candidate-normalization handoff remains a guarded downstream boundary rather than a normalization theorem.
+
+Finally $H,Q,G,N$ preserve the same displayed route by transport, replay, provenance, and local naming. Since the carrier contains no coordinate for the excluded global endpoints, none of those endpoints can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC standardization leftmost route]
+\label{thm:metacic-standardization-theorem-leftmost-route}
+Every accepted $\MetaCICStandardizationTheoremUp$ read that is handed to a MetaCIC confluence or candidate-normalization consumer must expose the finite route
+$$
+\LambdaCalcUp \longmapsto \ParallelReductionUp \longmapsto \ChurchRosserUp \longmapsto \MetacicCandidateNormalizationConfluenceHandoffUp
+$$
+through the displayed rows $T,R,P,C,L,J,H,Q,G,N$ before any leftmost-facing endpoint is public. The leftmost route is a residual standardization handoff only; it does not claim global strong normalization, full Church--Rosser, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-standardization-theorem-namecert-obligations}. It forces the term row, reduction route, parallel residual bookkeeping, Church--Rosser sibling row, leftmost schedule, and candidate-normalization handoff to be displayed together.
+
+Read the sibling dependencies in order. The lambda-calculus row supplies syntax, $\ParallelReductionUp$ supplies residual bookkeeping, $\ChurchRosserUp$ supplies the confluence-facing sibling route, and $\MetacicCandidateNormalizationConfluenceHandoffUp$ supplies the guarded downstream boundary.
+
+The structural rows $H,Q,G,N$ then transport, replay, source, and name the same finite path. Hence the public endpoint is only a residual standardization handoff to a leftmost route, with no coordinate for the refused global MetaCIC claims.
+\end{proof}
+
+\closureat{MetaCICStandardizationTheoremUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICStandardizationTheoremUp}
+  \constructivestory{A $\MetaCICStandardizationTheoremUp$ packet is generated from lambda-term syntax, displayed reduction observations, parallel residual bookkeeping, a Church--Rosser sibling route, a leftmost schedule, candidate-normalization handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-standardization-theorem-carrier}, \autoref{thm:metacic-standardization-theorem-namecert-obligations}, and \autoref{thm:metacic-standardization-theorem-leftmost-route} seed the finite residual standardization route from lambda syntax and parallel residual data to a guarded MetaCIC candidate-normalization handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full normalization, unrestricted Church--Rosser, subject reduction, quotient syntax equality, host evaluator equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual bookkeeping, sibling Church--Rosser exposure, leftmost-schedule exactness, candidate-normalization handoff discipline, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICStandardizationTheoremUp.}
+\end{closurestatus}
