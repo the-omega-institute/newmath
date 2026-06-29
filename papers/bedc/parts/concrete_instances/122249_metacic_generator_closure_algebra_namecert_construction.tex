@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICGeneratorClosureAlgebraUp$}
+\label{ch:concrete-instances-metacic-generator-closure-algebra-namecert}
+\origin{ai}
+
+The $\MetaCICGeneratorClosureAlgebraUp$ packet realizes the generator-closure classifier algebra of \autoref{prin:certificate-closure-classifier-algebra} and \autoref{prin:certificate-closure-classifier-product} as finite MetaCIC NameCert rows. It sits beside the generator-closure certificate of \autoref{ch:concrete-instances-generatorclosure-namecert}, the MetaCIC closure-preservation packet of \autoref{ch:concrete-instances-metacicclosurepreservation-namecert}, the MetaCIC audit matrix of \autoref{ch:concrete-instances-metacic-audit-matrix-namecert}, and the MetaCIC identity packet of \autoref{ch:concrete-instances-metacicidentity-namecert}. The packet names identity, composition, alternation, restriction, finite iteration, product, and sum closure rows for classifier-preserving generators; it does not assert unrestricted induction, arbitrary higher-order closure, proof irrelevance, quotient syntax equality, or host evaluator soundness.
+
+\begin{definition}[MetaCIC generator-closure algebra carrier]
+\label{def:metacic-generator-closure-algebra-carrier}
+A $\MetaCICGeneratorClosureAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(U,K,R,C,O,W,T,P,S,L,H,Q,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the carrier row naming the fixed MetaCIC object family on which classifiers are read.
+\item $K$ is the classifier row, recording the displayed predicate preserved by the generator rows.
+\item $R$ is the identity generator row corresponding to \texttt{GeneratorClosureClassifier.refl}.
+\item $C$ is the composition row corresponding to \texttt{GeneratorClosureClassifier.comp}.
+\item $O$ is the alternation row corresponding to \texttt{GeneratorClosureClassifier.union}.
+\item $W$ is the restriction row corresponding to \texttt{GeneratorClosureClassifier.weaken}.
+\item $T$ is the finite-iteration row corresponding to \texttt{GeneratorClosureClassifier.iterate}.
+\item $P$ is the product row corresponding to \texttt{GeneratorClosureClassifier.product}.
+\item $S$ is the sum row corresponding to \texttt{GeneratorClosureClassifier.sum}.
+\item $L$ is the algebra ledger, recording that the seven closure rows are consumed only as classifier-preserving generator operations.
+\item $H$ records componentwise $\hsame$ transport for carrier, classifier, algebra-operation, ledger, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay through the identity, composition, alternation, restriction, finite-iteration, product, and sum rows.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICGeneratorClosureAlgebraUp$, $\GeneratorClosureUp$, $\MetaCICClosurePreservationUp$, $\MetaCICAuditMatrixUp$, $\MetaCICIdentityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICGeneratorClosureAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,K,R,C,O,W,T,P,S,L,H,Q,G,N$. It has no coordinate for unrestricted induction, arbitrary higher-order generator closure, proof irrelevance, quotient syntax equality, or host evaluator soundness.
+\end{definition}
+
+\begin{theorem}[MetaCIC generator-closure algebra NameCert obligations]
+\label{thm:metacic-generator-closure-algebra-namecert-obligations}
+For every accepted $\MetaCICGeneratorClosureAlgebraUp$ carrier
+$$
+A=(U,K,R,C,O,W,T,P,S,L,H,Q,G,N),
+$$
+the local $\NameCert_{\MetaCICGeneratorClosureAlgebraUp}$ surface consists exactly of carrier admission through $U$, classifier exposure through $K$, identity closure through $R$, composition closure through $C$, alternation closure through $O$, restriction closure through $W$, finite-iteration closure through $T$, product closure through $P$, sum closure through $S$, algebra-ledger exactness through $L$, componentwise transport through $H$, displayed replay through $Q$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-generator-closure-algebra-carrier}. The rows $U$ and $K$ fix the carrier and classifier whose preservation is being certified.
+
+Read the seven algebra rows next. Identity, composition, alternation, restriction, finite iteration, product, and sum are each displayed as a classifier-preserving generator operation, and none is read as a free-standing induction principle.
+
+The ledger $L$ records that all seven rows are consumed only through that generator-closure interpretation. Finally $H,Q,G,N$ transport, replay, source, and name the same packet. Since the carrier contains no unrestricted induction, higher-order closure, proof-irrelevance, quotient-syntax, or host-evaluator coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC generator-closure algebra operation readback]
+\label{thm:metacic-generator-closure-algebra-operation-readback}
+Every accepted $\MetaCICGeneratorClosureAlgebraUp$ read of a compound generator must factor through the finite operation route
+$$
+U,K \longmapsto R,C,O,W,T,P,S \longmapsto L,H,Q,G,N .
+$$
+The route may certify identity, composition, alternation, restriction, finite iteration, product, and sum preservation for displayed classifiers, but it cannot be read as unrestricted induction or as closure under arbitrary generator formation.
+\end{theorem}
+\begin{proof}
+Begin with $U,K$. A generator-closure operation has no public meaning until the carrier and classifier rows are fixed.
+
+Next read the operation rows $R,C,O,W,T,P,S$. Each row records one finite algebra operation from the classifier principle and preserves the displayed classifier by the corresponding generator rule.
+
+Then read the ledger and structural rows. The ledger keeps the operation inside the seven displayed cases, while $H,Q,G,N$ transport, replay, source, and name the packet. No step adds a row for arbitrary generator formation or unrestricted induction.
+\end{proof}
+
+\begin{theorem}[MetaCIC generator-closure algebra nonescape]
+\label{thm:metacic-generator-closure-algebra-nonescape}
+The public information exported by an accepted $\MetaCICGeneratorClosureAlgebraUp$ carrier is exactly
+$$
+U,K,R,C,O,W,T,P,S,L,H,Q,G,N .
+$$
+Thus downstream MetaCIC consumers may cite the displayed generator-closure algebra rows, but must separately supply any typing, conversion, confluence, normalization, quotient-syntax, or host-evaluator evidence they consume.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only operation rows are identity, composition, alternation, restriction, finite iteration, product, and sum, all tied to the displayed carrier and classifier.
+
+\autoref{thm:metacic-generator-closure-algebra-namecert-obligations} fixes the NameCert surface to those rows. \autoref{thm:metacic-generator-closure-algebra-operation-readback} fixes the route by which compound generators may be consumed.
+
+Typing, conversion, confluence, normalization, quotient syntax, and host evaluator soundness are not coordinates of $A$. Any downstream use of those facts must cite a separate packet, so this algebra surface does not escape beyond classifier-preserving generator closure.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\MetaCICGeneratorClosureAlgebraUp$ read that treats identity, composition, alternation, restriction, finite iteration, product, or sum closure as unrestricted induction or arbitrary generator formation violates the algebra ledger.}
+
+\independenceWitness{generatorclosure, metacicclosurepreservation, metacic-audit-matrix, metacicidentity: no listed sibling is bijective to $\MetaCICGeneratorClosureAlgebraUp$ because this packet jointly carries carrier and classifier rows, seven algebra-operation rows, ledger exactness, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate expectation for this packet is explicit: a checked realization must provide a non-smoke $\mathsf{Nontrivial}\ \MetaCICGeneratorClosureAlgebraUp$ witness, a $\mathsf{FieldFaithful}\ \MetaCICGeneratorClosureAlgebraUp$ witness for the displayed rows $U,K,R,C,O,W,T,P,S,L,H,Q,G,N$, and a carrier-alignment theorem for the same fields before public TasteGate use.
+
+\closureat{MetaCICGeneratorClosureAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICGeneratorClosureAlgebraUp}
+  \constructivestory{A $\MetaCICGeneratorClosureAlgebraUp$ packet is generated from a MetaCIC carrier row, a classifier row, identity, composition, alternation, restriction, finite-iteration, product, and sum generator-closure rows, an algebra ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-generator-closure-algebra-carrier}, \autoref{thm:metacic-generator-closure-algebra-namecert-obligations}, \autoref{thm:metacic-generator-closure-algebra-operation-readback}, \autoref{thm:metacic-generator-closure-algebra-nonescape}, the falsifiable prediction, the independence witness, and the TasteGate expectation seed the finite MetaCIC generator-closure algebra packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted induction, arbitrary higher-order generator closure, proof irrelevance, quotient syntax equality, host evaluator soundness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, identity closure, composition closure, alternation closure, restriction closure, finite-iteration closure, product closure, sum closure, algebra-ledger exactness, TasteGate nontriviality, field faithfulness, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.MetaCICGeneratorClosureAlgebraUp.}
+\end{closurestatus}
