@@ -9,6 +9,7 @@ import BEDC.Algebra.Rel.EisensteinUp
 import BEDC.Algebra.Rel.GaussianUp
 import BEDC.Algebra.Rel.IntegerUp
 import BEDC.Algebra.Rel.InterfaceSpine
+import BEDC.Algebra.Rel.PellTowerUp
 import BEDC.Algebra.Rel.QuadIntUp
 import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
@@ -9538,6 +9539,7 @@ import BEDC.Derived.PeanoExistenceUp.TasteGate
 import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
+import BEDC.Derived.PellTowerUp
 import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
