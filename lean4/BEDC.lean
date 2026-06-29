@@ -10145,6 +10145,7 @@ import BEDC.Derived.RHRoute.EtaInteger
 import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EulerHasseEta
+import BEDC.Derived.RHRoute.EulerHasseRegroup
 import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
