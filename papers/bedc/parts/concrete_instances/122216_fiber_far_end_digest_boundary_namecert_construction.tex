@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FiberFarEndDigestBoundaryUp$}
+\label{ch:concrete-instances-fiber-far-end-digest-boundary-namecert}
+\origin{ai}
+
+The $\FiberFarEndDigestBoundaryUp$ packet realizes the hash-like apophatic fixed-point distinction of \autoref{prin:hash-like-fiber-fixedness}: the visible digest value is a local token, while the fiber far end is an apophatic boundary role behind the token. It sits beside the digest-fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, the apophatic fixed-point packet of \autoref{ch:concrete-instances-apophaticfixedpoint-namecert}, the hash-apophatic seal of \autoref{ch:concrete-instances-hashapophaticseal-namecert}, and the hash digest-fiber boundary of \autoref{ch:concrete-instances-hash-digest-fiber-boundary-namecert}. Its distinguishing role is narrower: it records the refusal boundary that prevents a consumer from identifying the visible digest value with the apophatic far end of the fiber.
+
+\begin{definition}[FiberFarEndDigestBoundary carrier]
+\label{def:fiber-far-end-digest-boundary-carrier}
+A $\FiberFarEndDigestBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,T,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest-value row;
+\item $F$ is the source-fiber row behind $D$;
+\item $T$ is the apophatic fiber far-end row, read as boundary role rather than digest value;
+\item $G$ is the $\mathsf{GAP}$ provenance row keeping the source side and far-end boundary auditable;
+\item $R$ is the refusal row blocking any accepted read from equating $D$ with $T$;
+\item $H$ records componentwise $\hsame$ transport for digest, fiber, far-end, GAP, refusal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through the same digest, fiber, far-end, GAP, and refusal route;
+\item $P$ is the $\Pkg$ provenance over $\FiberFarEndDigestBoundaryUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointUp$, $\HashApophaticSealUp$, $\HashDigestFiberBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiberFarEndDigestBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global universe digest, source equality from digest equality, selected preimage, internal $\mathsf{T}$ object, or quotient collapse of fiber membership.
+\end{definition}
+
+\begin{theorem}[FiberFarEndDigestBoundary NameCert obligations]
+\label{thm:fiber-far-end-digest-boundary-namecert-obligations}
+For every accepted $\FiberFarEndDigestBoundaryUp$ carrier
+$$
+B=(D,F,T,G,R,H,C,P,N),
+$$
+the local $\NameCert_{\FiberFarEndDigestBoundaryUp}$ surface consists exactly of visible digest exposure through $D$, source-fiber exposure through $F$, apophatic far-end boundary exposure through $T$, GAP provenance through $G$, digest/far-end equality refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:fiber-far-end-digest-boundary-carrier}. The visible row $D$ and the source-fiber row $F$ are distinct coordinates, and the far-end row $T$ is exposed only as an apophatic boundary role.
+
+Read the refusal route through $G$ and $R$. The GAP provenance row keeps the fiber and far-end boundary attached to the digest, while the refusal row blocks the digest value from being read as the far-end identity.
+
+The transport, replay, provenance, and local naming rows preserve the same boundary. Since no carrier coordinate stores source equality from digest equality, a selected preimage, an internal far-end object, a global digest, or quotient collapse, those readings are absent from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fiber far-end digest nonescape]
+\label{thm:fiber-far-end-digest-boundary-nonescape}
+Every accepted $\FiberFarEndDigestBoundaryUp$ consumer that reads the visible digest row $D$ must keep the source-fiber row $F$, apophatic far-end row $T$, GAP provenance row $G$, refusal row $R$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and local naming $N$ in the same packet. Therefore digest equality cannot be used as fiber far-end identity, source equality, selected preimage, internal $\mathsf{T}$ object, global universe digest, or quotient fiber collapse.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:fiber-far-end-digest-boundary-namecert-obligations}. It makes $D,F,T,G,R,H,C,P,N$ the complete inventory for any accepted read.
+
+The nonescape claim follows by inspecting that inventory. The digest row is only the visible value; the far-end row is only the apophatic boundary role; and the refusal row keeps those readings apart for every transported or replayed consumer.
+
+No additional coordinate remains from which a consumer could construct source equality, a selected preimage, an internal far-end object, a global digest, or a quotient collapse. The packet therefore preserves the digest/fiber/far-end distinction of \autoref{prin:hash-like-fiber-fixedness}.
+\end{proof}
+
+\falsifiablePrediction{Any accepted read equating the visible digest value with fiber far-end identity refutes the $\FiberFarEndDigestBoundaryUp$ packet.}
+
+\independenceWitness{apophaticfixedpoint, apophaticfixedpointfiber, hashapophaticseal, gap, namecert: $\FiberFarEndDigestBoundaryUp$ is not bijective to any listed sibling because it jointly carries visible digest value, source fiber, apophatic far-end boundary, GAP provenance, digest/far-end refusal, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/FiberFarEndDigestBoundaryUp/TasteGate.lean}. It must provide \texttt{Nontrivial FiberFarEndDigestBoundaryUp} and \texttt{FieldFaithful FiberFarEndDigestBoundaryUp} for the displayed digest, fiber, far-end, GAP, refusal, transport, replay, provenance, and naming carrier.
+
+\closureat{FiberFarEndDigestBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\FiberFarEndDigestBoundaryUp}
+  \constructivestory{A $\FiberFarEndDigestBoundaryUp$ packet is generated from a visible digest value, source-fiber row, apophatic far-end boundary row, GAP provenance, digest/far-end refusal, componentwise transport, displayed replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fiber-far-end-digest-boundary-carrier}, \autoref{thm:fiber-far-end-digest-boundary-namecert-obligations}, \autoref{thm:fiber-far-end-digest-boundary-nonescape}, the falsifiable prediction, the independence witness, and the TasteGate boundary line seed the visible-digest versus fiber-far-end distinction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close source equality from digest equality, selected preimages, internal far-end objects, global universe digests, quotient fiber collapse, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, digest exposure, fiber exposure, apophatic far-end boundary exposure, GAP provenance, digest/far-end refusal, transport, replay, provenance, local naming, and TasteGate instances for BEDC.Derived.FiberFarEndDigestBoundaryUp.}
+\end{closurestatus}
