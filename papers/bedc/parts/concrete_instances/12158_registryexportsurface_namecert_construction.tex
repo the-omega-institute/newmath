@@ -141,6 +141,42 @@ Use \autoref{thm:registry-export-surface-nonescape}, \autoref{thm:registry-expor
 Finally apply \autoref{thm:registry-export-surface-nonsmuggling-ledger-exhaustion}. The non-smuggling row connects the public route to the cannot-claim, large-model-output-verifier, focused-ledger, GroundCompiler-recognition, and physical NameCert audit sibling surfaces named in the chapter introduction. Since no checked $\StdBridge$ row is displayed, the result is a bridged paper route while the bridge verification axis remains unchanged.
 \end{proof}
 
+\begin{theorem}[Registry export surface index coverage]
+\label{thm:registryexportsurface-index-coverage}
+For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, the registry index visible to a downstream consumer is covered exactly by the $\BHist$ registration row $R$, the blocking row $B$, the status row $S$, the machine-target row $M$, the audit route row $A$, the non-smuggling row $U$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$. In particular, no BHist registry row may be exported unless the matching blocking, status, machine-target, audit, provenance, and naming rows are present in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:registry-export-surface-carrier}. The visible registry coordinates are $R,B,S,M,A,U,H,C,P,N$, with $R$ naming the BHist registry row and $N$ naming the local NameCert row.
+
+Apply the NameCert obligations of \autoref{thm:registry-export-surface-namecert-obligations}. They place registration and blocking coverage in $R,B$, status exactness in $S$, machine-target and audit exposure in $M,A$, and non-smuggling accountability in $U$.
+
+Finally use \autoref{thm:registry-export-surface-public-bridge-route}. The public route reads those same rows before any downstream export, so the index has no hidden entry outside the displayed $\BHist$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Registry export surface export determinacy]
+\label{thm:registryexportsurface-export-determinacy}
+For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, the exported registry reading is determined by the displayed status row $S$ together with the blocking row $B$, the machine-target row $M$, the audit route row $A$, the non-smuggling row $U$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$. Two consumers that preserve these rows cannot produce two different export outcomes from the same BHist registry row $R$.
+\end{theorem}
+\begin{proof}
+Start with status exactness, \autoref{thm:registry-export-surface-status-exactness}. It keeps exported, blocked, horizon-facing, and formalization-target readings separate while preserving $R,B,M,A,U,H,C,P,N$.
+
+Now read the machine-target audit route of \autoref{thm:registry-export-surface-machine-target-audit-route}. The machine target $M$ receives only the displayed audit row $A$ and cannot bypass the blocking row $B$.
+
+It remains to rule out a second export by hidden state. Apply nonescape, \autoref{thm:registry-export-surface-nonescape}, and the non-smuggling ledger exhaustion theorem. Since prose synthesis, model output, hidden registry state, and detached machine targets are refused by $U,H,C,P,N$, the preserved rows determine the public export outcome.
+\end{proof}
+
+\begin{theorem}[Registry export surface consumer provenance]
+\label{thm:registryexportsurface-consumer-provenance}
+Every downstream consumer of an accepted $\RegistryExportSurfaceUp$ packet must carry the $\Pkg$ provenance row $P$ and the local $\NameCert_{\RegistryExportSurfaceUp}$ row $N$ together with the BHist registry row $R$, blocking row $B$, status row $S$, machine-target row $M$, audit route row $A$, and non-smuggling row $U$. A consumer that drops $P$ or $N$ is no longer a registry-export consumer of the packet.
+\end{theorem}
+\begin{proof}
+Read the structural rows in \autoref{def:registry-export-surface-carrier}. The row $P$ records provenance over $\RegistryExportSurfaceUp$ and its sibling export surfaces, while $N$ records local NameCert naming for the same finite packet.
+
+Apply \autoref{thm:registry-export-surface-namecert-obligations}. Its final obligation row binds transport, replay, provenance, and local naming to $H,C,P,N$, so the consumer cannot detach the registration, blocking, status, machine-target, audit, or non-smuggling rows from their package and certificate.
+
+Finally use the public bridge route. Downstream export passes through the sibling cannot-claim, verifier, focused-ledger, recognition, and audit surfaces only with the same displayed rows. Therefore a consumer without $P$ or $N$ is a hidden or prose-only route, not a $\RegistryExportSurfaceUp$ consumer.
+\end{proof}
+
 \begin{theorem}[Registry export surface obligation rows]
 \label{thm:registry-export-surface-obligation-rows}
 For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, the registration row $R$, blocking row $B$, status row $S$, machine-target row $M$, audit row $A$, and non-smuggling row $U$, together with $H,C,P,N$, exhaust the public obligation surface. No registry export obligation remains outside registration, blocking, status exactness, machine-target exposure, audit replay, non-smuggling accountability, componentwise transport, continuation replay, provenance, and local naming.
