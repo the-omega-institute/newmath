@@ -289,6 +289,148 @@ together with the functional-equation symmetry
 $\rho\mapsto 1-\overline{\rho}$; uniqueness in the symmetric box then forces
 $\rho=1-\overline{\rho}$.
 
+\section{A constructive 0-axiom winding-certificate layer}
+
+There is a second way to organize the same finite-height verification
+program.  Around a rectangle $R$, sample $\zetaR$ on the boundary
+$\partial R$, replace the sampled boundary trace by a rational polygon, and
+compute the winding number of that polygon about the origin.  Together with a
+Krawczyk or interval-Newton enclosure, this is the usual argument-principle
+shape of a certificate: the boundary winding supplies the zero count, while
+the local fixed-point box supplies the location of the zero.
+
+This route has two logically separate halves.  The first half is topological
+and combinatorial: define the winding number of an oriented rational polygon
+as a signed crossing count, and prove that the count is well defined under
+the elementary changes a certificate generator must make.  The second half is
+analytic: prove that the rational polygon faithfully tracks
+$\zetaR(\partial R)$, and prove the constructive argument-principle theorem
+which identifies the boundary winding with the number of zeros inside $R$.
+Only the first half is complete at present.
+
+The completed BEDC layer lives in the mathlib-free namespace
+$$
+  \texttt{BEDC.Derived.RHRoute.RationalPolygonWinding}
+$$
+and its sibling modules.  It is Lean-kernel verified with no project axioms,
+no \texttt{sorry}, and no forbidden Lean standard-library axioms such as
+\texttt{Classical.choice}, \texttt{Quot.sound}, or \texttt{propext} in the
+strict axiom-purity audit.  The core definitions are
+\texttt{computedWinding} and \texttt{computedWindingUp}.  The first is the
+ordinary integer-valued signed count of crossings of the positive real ray by
+the directed edges of a rational polygon.  The second is the same count in
+the BEDC integer carrier \texttt{IntegerUp}, so that the certificate layer
+can stay inside the propext-free algebraic development.
+
+The verified properties are exactly the structural properties needed by the
+topological side of an argument-principle certificate.
+
+\begin{itemize}
+\item Stability under certified perturbation is proved by
+\begin{quote}
+\small\path|computedWinding_stable_of_edgewiseMarginPreserving|
+\end{quote}
+If each edge has rational margin from the Boolean crossing discriminants,
+then a vertexwise rational perturbation preserving those margins leaves
+\texttt{computedWinding} unchanged.
+
+\item The zero-enclosure base case is proved by
+\begin{quote}
+\small
+\path|computedWinding_zero_of_all_im_pos|\par
+\path|computedWinding_zero_of_all_im_neg|
+\end{quote}
+A polygon whose vertices all lie in the open upper half-plane, or all lie in
+the open lower half-plane, has winding count $0$ for this ray-crossing
+definition.
+
+\item Boundary refinement is supported by
+\begin{quote}
+\small
+\path|edgeCrossing_collinear_split|\par
+\path|sumEdgeCrossingsUp_subdivide_one|
+\end{quote}
+Inserting a rational point on an edge, with the appropriate collinearity and
+between-endpoint witnesses, does not change the crossing contribution.  This
+is the formal permission to refine a sampled boundary polygon without
+changing the certificate's topological value.
+
+\item The choice of starting vertex is irrelevant by
+\begin{quote}
+\small\path|computedWindingUp_cyclic_rotate_one|
+\end{quote}
+Rotating a nonempty vertex list by one step preserves the \texttt{IntegerUp}
+winding count.
+
+\item Orientation behaves as expected by
+\begin{quote}
+\small
+\path|edgeCrossingUp_reverse|\par
+\path|edgeCrossingUp_reverse_cancel|
+\end{quote}
+Reversing one directed edge negates its crossing contribution, and traversing
+the same edge in both directions has net contribution $0$.
+
+\item Box-cover additivity is represented in the current BEDC checkout by
+\begin{quote}
+\small
+\path|cover_winding_additive_from_edge_decomposition|\par
+\path|pair_cover_winding_additive_from_edge_decomposition|\par
+\path|split_parent_winding_eq_child_sum|
+\end{quote}
+Once a parent boundary is decomposed into the oriented cell boundaries of a
+finite rational cover, the parent winding is the sum of the cell windings.
+For a binary split this is the algebraic skeleton behind recursive
+subdivision: shared interior edges are traversed in opposite directions and
+cancel.
+\end{itemize}
+
+In short, for rational boundary polygons the winding number is defined as a
+finite combinatorial object, is stable under certified rational
+perturbations, vanishes in the half-plane base cases, is invariant under edge
+subdivision and cyclic rotation, is antisymmetric under orientation reversal,
+and is additive under box subdivision.  That is the topological half of the
+argument-principle certificate layer.  It is not, by itself, a zero-counting
+theorem for $\zetaR$.
+
+Two analytic bridges remain open before this can become a finite-height
+zeta-zero certificate.
+
+First, one needs a located interval evaluator for $\zetaR$ on the boundary
+$\partial R$.  The intended evaluator goes through
+$$
+  \eta(s)=\sum_{n\geq1}(-1)^{n-1}n^{-s},
+  \qquad
+  n^{-s}=\exp(-s\log n),
+$$
+with
+$$
+  n^{-it}=\cos(t\log n)-i\sin(t\log n),
+$$
+and with a strict Euler--Boole complex tail bound in the critical strip, of
+the kind isolated in Obligation~\ref{obl:eta-tail}.  The BEDC/Loning rational
+analysis base already contains 0-axiom material for rational series
+enclosures of the relevant elementary functions, such as the rational
+atanh/log, exponential, and trigonometric power-series bounds.  The missing
+bridge is to connect those rational enclosures to located values of the real
+transcendental functions by constructive continuity moduli for
+$\exp$, $\log$, $\sin$, and $\cos$.
+
+Second, one still needs the argument principle itself in the same
+mathlib-free constructive setting.  The required theorem is not a slogan that
+``winding equals zeros.''  It must be a discrete Rouche or Brouwer-degree
+argument, plus an error theorem saying that a rational polygon with a
+certified tube around $\zetaR(\partial R)$ has the same winding as the true
+boundary trace and therefore counts the zeros in $R$.
+
+These two bridges are the exact bottleneck for turning the present topology
+layer into a Box14 certificate for the first zeta zero in
+$[0,1]\times[14,15]$.  They are multi-week constructive analysis work, not a
+completed finite-height verification and not progress on RH.  The winding
+certificate layer and the located-zero Krawczyk route are complementary legs
+of the same program: both are already reduced to the same located-$\zetaR$
+analytic bridge.
+
 \section{The open analytic obligation}
 
 The missing piece is not philosophical.  It is a concrete analytic estimate.
