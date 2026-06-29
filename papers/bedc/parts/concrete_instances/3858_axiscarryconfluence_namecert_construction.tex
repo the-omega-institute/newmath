@@ -48,6 +48,46 @@ The value and boundary clauses are separate projections. The row $t$ records the
 Finally $C,P,N$ route, package, and name the same finite surface. Since the carrier has no coordinate for a kernel rewrite, host quotient, or unbounded normalizer, the listed obligations exhaust the local certificate.
 \end{proof}
 
+\begin{theorem}[Axis carry-confluence carrier obligation]
+\label{thm:axis-carry-confluence-carrier-obligation}
+The carrier-admission obligation for $\AxisCarryConfluenceUp$ is the admission of the concrete tuple
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N).
+$$
+Here $u$ is the overlapping source window, $v$ and $w$ are the two intermediate carry windows, $n$ is the shared normal target, $r_0$ and $r_1$ are the two $\ZCarryUp$-then-$\ZeckendorfCarryNormalizationUp$ route rows, $t$ is the value ledger, $H$ records the non-$\hsame$ boundary and componentwise transports, $C$ records displayed continuations, $P$ records provenance, and $N$ records the local NameCert row.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:axis-carry-confluence-carrier}. Its displayed tuple is already the full carrier-admission surface.
+
+The sibling references to $\ZCarryUp$ and $\ZeckendorfCarryNormalizationUp$ determine the route type of $r_0$ and $r_1$: each route begins with one carry edge and ends with a normalization handoff. The remaining rows $t,H,C,P,N$ are the ledger, boundary, replay, provenance, and naming supports needed for the same admitted tuple.
+\end{proof}
+
+\begin{theorem}[Axis carry-confluence local-join obligation]
+\label{thm:axis-carry-confluence-local-join-obligation}
+For an accepted $\AxisCarryConfluenceUp$ carrier
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+the local-join obligation is that $r_0$ and $r_1$ share the target $n$ while preserving the value ledger $t$. Thus the left route from $u$ through $v$ and the right route from $u$ through $w$ are consumer-visible only as two $\ZCarryUp$ edges with $\ZeckendorfCarryNormalizationUp$ handoffs into the same normal row.
+\end{theorem}
+\begin{proof}
+Project the two route rows. The row $r_0$ names the left carry edge and its handoff into $n$, while $r_1$ names the right carry edge and its handoff into the same $n$.
+
+Project the ledger row $t$ separately. It records the common finite Fibonacci value across $u,v,w,n$, so the local join is value-preserving without adding an $\hsame$ identification between source and intermediate rows.
+\end{proof}
+
+\begin{theorem}[Axis carry-confluence normal-form obligation]
+\label{thm:axis-carry-confluence-normal-form-obligation}
+Every consumer of the shared target $n$ in an accepted $\AxisCarryConfluenceUp$ packet must pass through the displayed $\ZeckendorfCarryNormalizationUp$ handoffs and the non-$\hsame$ boundary rows. The packet permits reads of $n$ only together with $r_0,r_1,t,H,C,P,N$; it does not export a direct normal-form oracle, a kernel rewrite, a host quotient, or source-target $\hsame$ for either carry edge.
+\end{theorem}
+\begin{proof}
+Read $n$ through the route rows. By the carrier definition, the only routes to $n$ inside the packet are the two handoffs named by $r_0$ and $r_1$, each supported by the $\ZeckendorfCarryNormalizationUp$ sibling.
+
+The boundary row $H$ remains attached to those handoffs. It records that the carry edges are not source-target $\hsame$ identifications, while $C,P,N$ replay, package, and name the same finite normal-target read.
+
+Since no carrier coordinate names a direct normal-form oracle, kernel rewrite, host quotient, or source-target $\hsame$, a consumer of $n$ must stay inside the displayed handoff and boundary surface.
+\end{proof}
+
 \begin{theorem}[Axis carry-confluence local diamond]
 \label{thm:axis-carry-confluence-local-diamond}
 For an accepted $\AxisCarryConfluenceUp$ carrier
