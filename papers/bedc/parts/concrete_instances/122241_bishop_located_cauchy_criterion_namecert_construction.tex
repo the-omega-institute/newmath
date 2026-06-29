@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedCauchyCriterionUp$}
+\label{ch:concrete-instances-bishop-located-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopLocatedCauchyCriterionUp$ packet records the finite located Cauchy test that lets the L10 Real and Completion chain read a rational stream as a real-name candidate without quotient streams, ambient completeness, trichotomy, or a selected limit. It sits after the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchy-sequence-modulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. Its role is to name the located comparison criterion that later $\RealSequenceLimitUp$ and Bishop sequence-limit packets can consume before any completion theorem is available.
+
+\begin{definition}[Bishop located Cauchy criterion carrier]
+\label{def:bishop-located-cauchy-criterion-carrier}
+A $\BishopLocatedCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,L,D,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence-source row, recording the rational stream only through a named $\StreamNameUp$ observation route.
+\item $L$ is the located-comparison row, recording the finite comparison by which two observed rational values are witnessed to be within or apart from a requested dyadic tolerance.
+\item $D$ is the dyadic tolerance-request row, read through $\DyadicRatCoreUp$ and aligned with the modulus scale of $\CauchySequenceModulusUp$.
+\item $W$ is the finite $\StreamNameUp$ window row requested by $D$.
+\item $Q$ is the $\RegSeqRatUp$ readback row produced from the displayed windows and dyadic tolerance request.
+\item $R$ is the $\RealUp$ seal row reached only after $S,L,D,W,Q$ have been displayed together.
+\item $H$ records componentwise $\hsame$ transport for the source, located comparison, tolerance request, windows, readback, real seal, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through source observation, located comparison, dyadic tolerance, stream windows, regular readback, real sealing, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedCauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchySequenceModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedCauchyCriterionUp}$ row.
+\end{enumerate}
+The carrier contains no quotient-stream equality, no countable choice schedule, no hidden tail selector, no ambient completeness principle, no trichotomy on reals, and no selected host limit.
+\end{definition}
+
+\begin{theorem}[Bishop located Cauchy criterion NameCert obligations]
+\label{thm:bishop-located-cauchy-criterion-namecert-obligations}
+For every accepted $\BishopLocatedCauchyCriterionUp$ carrier
+$$
+B=(S,L,D,W,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedCauchyCriterionUp}$ surface consists exactly of source admission through $S$, located comparison through $L$, dyadic tolerance request through $D$, finite window observation through $W$, regular rational readback through $Q$, real sealing through $R$, componentwise transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$.
+
+These rows are the complete finite criterion surface. A consumer may read the Cauchy test only by displaying the tolerance request, the windows answering it, the regular rational readback, and the located comparison that keeps the test apart from quotient-stream equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-cauchy-criterion-carrier}. Its object rows are $S,L,D,W,Q,R$, and its structural rows are $H,C,P,N$.
+
+The dyadic and stream rows form the finite request boundary. Row $D$ names the tolerance scale, row $W$ names the finite windows requested at that scale, and row $Q$ is the only rational readback exported from those observations.
+
+The located comparison row $L$ is the criterion row. It relates the two readback values to the dyadic request without adding quotient-stream equality, a selected tail, or a total order on real names.
+
+Finally $R,H,C,P,N$ seal, transport, replay, source, and name the same finite packet. Since no coordinate names quotient equality, countable choice, hidden tail selection, ambient completeness, real trichotomy, or a host limit, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy criterion real handoff]
+\label{thm:bishop-located-cauchy-criterion-real-handoff}
+Every accepted Real and Completion consumer of a $\BishopLocatedCauchyCriterionUp$ packet reaches the $\RealUp$ seal only through the displayed handoff
+$$
+\DyadicRatCoreUp \longmapsto
+\StreamNameUp \longmapsto
+\RegSeqRatUp \longmapsto
+\CauchySequenceModulusUp \longmapsto
+\RealUp .
+$$
+The handoff keeps the located comparison row $L$ attached to the tolerance request $D$, window row $W$, readback row $Q$, and support rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the finite tolerance request. The row $D$ supplies the dyadic scale, and the row $W$ records the finite stream windows requested at that scale.
+
+Read back the rational data next. The row $Q$ is served through $\RegSeqRatUp$, so the criterion sees regular rational values rather than a quotient stream or a host sequence.
+
+Attach the located comparison. The row $L$ compares the readback values at the requested dyadic tolerance, while the modulus sibling $\CauchySequenceModulusUp$ records why that comparison is the Cauchy criterion visible to the packet.
+
+Only after those rows are present may the consumer read the real seal $R$. The structural rows $H,C,P,N$ carry the same handoff under transport, replay, provenance, and local naming, so no ambient completeness theorem or selected host limit enters the route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopLocatedCauchyCriterionUp$ consumer displays source, located comparison, dyadic tolerance, finite window, regular readback, Real seal, transport, replay, provenance, and local naming rows before treating the rational stream as a real-name candidate.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchysequencemodulus, real: $\BishopLocatedCauchyCriterionUp$ is not bijective to any listed sibling because it carries the located comparison row and the Real handoff row together with the tolerance, window, readback, transport, replay, provenance, and local naming rows in one packet.}
+
+\closureat{BishopLocatedCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedCauchyCriterionUp}
+  \constructivestory{A $\BishopLocatedCauchyCriterionUp$ packet is generated from sequence source, located comparison, dyadic tolerance request, StreamName window, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-cauchy-criterion-carrier}, \autoref{thm:bishop-located-cauchy-criterion-namecert-obligations}, \autoref{thm:bishop-located-cauchy-criterion-real-handoff}, the falsifiable prediction, and the independence witness seed the finite located Cauchy criterion route for the L10 Real and Completion chain.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, countable choice, hidden tail selection, ambient completeness, real trichotomy, selected host limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-comparison exactness, dyadic tolerance request stability, StreamName window coverage, RegSeqRat readback stability, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedCauchyCriterionUp.}
+\end{closurestatus}
