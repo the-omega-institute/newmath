@@ -1,47 +1,50 @@
-\subsection{Modeled tAI survival surface for $B^{\ast}_{Q6}$ residual coordinates}\label{sec:biorality-q6-modeled-tai-survival}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite surface.}
-The record fixes a finite mediation surface whose left coordinates are the nine synonymous residual axes
-$\{\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{K\_AAA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Thr\_ACR\_vs\_ACY},f3\_\mathrm{stress}\}$.
-The codon-count ambient space has $61$ sense-codon coordinates, while amino-acid sequence, organism identity, GC3, CDS length, and the $M$-density baseline are kept as controls rather than promoted to new biological coordinates.  The readout used here is not a measured ribosome-footprint or protein-output assay.  It is a modeled codon-adaptation readout: for each codon, a tAI weight $w_{\mathrm{codon}}$ is computed from GtRNAdb tRNA gene-copy counts together with the dos Reis wobble $s$-values.  Thus the finite row has the form
+\subsection{Modeled tAI survival boundary for $B^*_{Q6}$ residual coordinates}
+\label{subsec:bioreality-bstar-q6-modeled-tai-survival-boundary}
+
+\paragraph{Finite row surface.}
+The finite surface considered here has triples $(q_i,t_j,p_k)$, where $q_i$ ranges over nine synonymous residual coordinates, $t_j$ is a translation-layer readout, and $p_k$ is a matched protein-abundance readout when such a downstream row is explicitly joined.  The modeled-tAI survival run used the coordinate list
 $$
 \begin{aligned}
-q_i &\in B^{\ast}_{Q6},\\
-T_j &= \text{modeled tAI codon-weight readout},\\
-S_{ij} &= \text{bounded coupling entry after the declared control boundary}.
+Q = \{&\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{K\_AAA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
+&\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Thr\_ACR\_vs\_ACY},\mathrm{f3\_stress}\}.
 \end{aligned}
 $$
-The computation is therefore a bounded translation-readout contact, not a direct biological assertion about elongation dynamics, ribosome occupancy, protein folding, physical admissibility, function, mechanism, or universality.
+The codon-count ambient space had $61$ sense codons.  The readout $t_j$ was not a ribosome-footprint measurement: it was a modeled codon weight $w_c$ computed from GtRNAdb tRNA gene-copy counts and the dos Reis wobble $s$-values.  The organism panel had only $3$ organisms, namely \textit{Escherichia coli} K12, \textit{Homo sapiens}, and \textit{Saccharomyces cerevisiae}.  Their local tRNA payloads covered all $20$ standard amino-acid families; the FASTA header summaries were $89$ total and $87$ matched for \textit{E. coli} K12, $432$ matched out of $432$ for human, and $275$ matched out of $275$ for yeast.  The modeled-tAI computation produced $61$ sense-codon weights in each organism, with zero raw-$W$ fallback count equal to $0$ in all three organisms.
 
-\paragraph{Organism rows and tRNA payload.}
-The modeled-tAI surface was computed on $3$ organisms: \emph{Escherichia coli} K-12, \emph{Homo sapiens}, and \emph{Saccharomyces cerevisiae}.  The local GtRNAdb payload contained all $20$ standard amino-acid families for each of these organisms.  For \emph{E. coli} K-12, the payload had $89$ FASTA headers, $87$ matched headers, and $2$ unmatched headers.  For human, it had $432$ FASTA headers and all $432$ were matched.  For yeast, it had $275$ FASTA headers and all $275$ were matched.  In each of the three organism rows the modeled tAI calculation covered $61$ sense codons, and the zero-raw-$W$ fallback count was $0$.  This matters because the row is not merely a symbolic coordinate construction: the codon weights were instantiated across the full sense-codon table for every organism in the finite panel.
-
-\paragraph{Bounded coupling result.}
-With coupling threshold $0.01$, the modeled matrix contained $81$ entries above threshold.  The maximum absolute entry was
+\paragraph{Observed bounded coupling.}
+The modeled matrix was nonzero in the bounded-contact sense.  With coupling threshold $0.01$, there were $81$ entries above threshold, and the largest absolute entry was
 $$
 \begin{aligned}
-\max_{i,j}|S_{ij}| &= 3801961.031607896,
+\max_{i,j} |S_{ij}| = 3801961.031607896.
 \end{aligned}
 $$
-and the maximum absolute diagonal entry was the same value,
+The maximum absolute diagonal entry had the same value, $3801961.031607896$.  These numbers show that the finite modeled-tAI surface is not empty: the residual coordinates can be numerically coupled to the modeled codon-adaptation readout.  The important qualification is that this is a bounded modeled readout.  It is not yet an observed ribosome-occupancy statistic, not a translation-efficiency statistic derived from $\mathrm{TE}=\mathrm{RPF}/\mathrm{mRNA}$, and not a protein-output experiment.
+
+\paragraph{Rank and power boundary.}
+The run did not satisfy the powered survival condition.  The recorded break condition says that additional data are needed if the finite modeled-tAI matrix has no $|S_{ij}|$ above the bounded-contact threshold, or if powered survival is requested without at least $40$ matched species.  The first alternative is not met, since $81$ entries exceed $0.01$.  The second limitation remains binding: the organism count is
 $$
 \begin{aligned}
-\max_i |S_i| &= 3801961.031607896.
+n_{\mathrm{organism}} = 3 < 40.
 \end{aligned}
 $$
-The finite row therefore supports the narrower statement that $B^{\ast}_{Q6}$ residual axes have nonzero bounded coupling to modeled tAI weights on the three-organism panel.  The break condition recorded for this row is not met at the bounded-contact level: the finite modeled-tAI matrix does contain entries with $|S_{ij}|$ above the threshold.  The same row also records a stronger limitation: $3$ organisms are insufficient for powered survival, and powered survival would require at least $40$ matched species.  Consequently the claimed layer is best read as modeled translation realization underpowered for population survival, not as ribosome-seq validation and not as proteomics validation.
+Thus the correct mathematical status is modeled translation-layer contact under insufficient organism power.  The row supports a finite $Q_i \to T_j$ modeled-coupling statement, but it does not support a population-level translation-survival law.
 
-\paragraph{Mediation boundary.}
-The admissible readback is ordered.  A residual-to-protein association is not promoted unless the same residual first survives a translation-readout step.  In symbols, the permitted direction is
+\paragraph{Downstream protein-abundance comparison.}
+A separate per-protein modeled-tAI/protein-abundance analysis joined codon counts, modeled tAI, and PAXdb protein abundance across $12$ organisms.  Its joined row counts were $4042$ for \textit{Bacillus subtilis} 168, $11661$ for \textit{Caenorhabditis elegans}, $14410$ for zebrafish, $13295$ for fruit fly, $3739$ for \textit{E. coli} K12 MG1655, $12418$ for chicken, $19053$ for human, $19395$ for mouse, $4129$ for \textit{Mycobacterium smegmatis}, $13322$ for rat, $5815$ for yeast, and $1656$ for \textit{Sulfolobus solfataricus}.  In that analysis the joint nine-dimensional $Q$ block was decomposed against a modeled per-protein tAI readout $T$ and log protein abundance $Y$.  The reported mediated fractions included $0.9491551041216973$ in yeast, $0.612922252793667$ in \textit{E. coli} K12 MG1655, $0.6084594553474505$ in \textit{Bacillus subtilis}, $0.27206289160119157$ in human, and $0.01850668564589326$ in \textit{Sulfolobus solfataricus}.  Those numbers are useful as a downstream matrix audit, but their own source states that the decomposition is statistical and that modeled tAI from gene-copy counts is not ribosome profiling.  Consequently they do not repair the three-organism power deficit of the modeled-tAI survival row.
+
+\paragraph{Matched controls.}
+The control set stays outside the residual coordinate carrier.  Amino-acid composition, organism identity, GC3, CDS length, and the $M$-density baseline are controls, not promoted coordinates.  In the yeast structure-mediation row, the five-way join had $4759$ joined genes and used $24$ control columns including an intercept, $\log(\mathrm{CDS\ length})$, $20$ amino-acid composition proportions, GC3, and the $M$-density baseline.  That row reported
 $$
 \begin{aligned}
-Q_i &\longrightarrow T_j \longrightarrow P_k,
+R^2_{QP} &= 0.2715520808117803,\\
+R^2_{QP\mid S} &= 0.2706601505000995,\\
+R^2_{QP\mid T,M} &= 0.13773967696311287,\\
+R^2_{QP\mid T,M,S} &= 0.13759011208318542.
 \end{aligned}
 $$
-where $T_j$ may be modeled tAI, stAI, ribosome occupancy, or translation efficiency, and $P_k$ is a matched protein-abundance readout.  A direct $Q_i\to P_k$ association is therefore only a downstream statistical association unless a prior $Q_i\to T_j$ entry has survived under the relevant controls.  The matched mRNA abundance contact is a transcription-layer control for separating expression from translation efficiency; it is not itself a translation readout.
-
-\paragraph{Downstream powered matrix as a separate row.}
-A linked protein-abundance mediation row gives useful scale for the later, broader surface, but it does not retroactively turn this modeled-tAI row into measured ribosome evidence.  In that later matrix, the same nine $B^{\ast}_{Q6}$ coordinates were used, with per-protein modeled tAI and PAXdb abundance joined across $12$ organisms.  The joined protein counts included $4042$ rows for \emph{Bacillus subtilis} 168, $11661$ for \emph{Caenorhabditis elegans}, $14410$ for zebrafish, $13295$ for fly, $3739$ for \emph{E. coli} K-12 MG1655, $12418$ for chicken, $19053$ for human, $19395$ for mouse, $4129$ for \emph{Mycobacterium smegmatis}, $13322$ for rat, $5815$ for yeast, and $1656$ for \emph{Sulfolobus solfataricus}.  Its mediation fractions ranged from a very small value in \emph{Sulfolobus solfataricus}, $M^{QTP}=0.01850668564589326$, to a large yeast value, $M^{QTP}=0.9491551041216973$.  Intermediate examples include $0.612922252793667$ for \emph{E. coli} K-12 MG1655, $0.27206289160119157$ for human, and $0.15488799907323988$ for mouse.  These numbers show that the downstream statistical mediation surface is nontrivial when protein abundance is attached, but the row itself states that modeled per-protein tAI from tRNA gene-copy and wobble weights is not ribosome profiling, and that conditioning on modeled tAI in cross-sectional CDS/protein-abundance rows is not a proven translation mechanism.
+These values reinforce the same discipline: conditioning variables may attenuate or partition residual association, but they do not transform modeled codon-adaptation weights into a measured mechanism.
 
 \paragraph{Local conclusion.}
-The finite result is positive only at the bounded modeled-readout level.  The coordinates are real finite residual axes; the tRNA payload covers the standard amino-acid families; the modeled tAI weights cover all $61$ sense codons in each organism; and the modeled coupling matrix has $81$ threshold-exceeding entries with maximum absolute magnitude $3801961.031607896$.  The same evidence blocks stronger language.  It does not establish measured translation survival, ribosome occupancy, protein realization, folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection, or a universal biological rule.  Those claims require separate layer-matched contacts and their own controlled statistics.  Until a rank-powered measured translation panel is joined, this chapter remains a modeled tAI coupling record with an explicit no-promotion boundary.
+The supported statement is therefore narrow.  The nine $B^*_{Q6}$ residual coordinates have a nonempty finite modeled-tAI coupling surface over three organisms, with $81$ threshold-exceeding entries and complete standard amino-acid-family coverage in the local tRNA payloads.  The same record refuses powered translation survival because $3$ organisms are far below the declared $40$-species threshold.  No translation realization, folding claim, physical-admissibility claim, molecular-function claim, mechanism claim, organismal phenotype, or universal biological rule follows from this chapter.  Any such stronger assertion requires its own layer-matched contact: observed ribosome profiling or measured TE for translation, matched proteomics for abundance, and separate structure, physical, functional, perturbational, or phenotype assays for higher layers.

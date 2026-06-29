@@ -1,71 +1,56 @@
+\subsection{Nieuwkoop five-prime boundary audit for a synonymous B-star window}
+\label{sec:bioreality-nieuwkoop-five-prime-boundary-audit}
 \origin{ai}
 
-\subsection{Nieuwkoop five-prime boundary audit for the $B^*$ synonymous window}
-\label{sec:bioreality-nieuwkoop-five-prime-boundary-audit}
+\paragraph{Finite row surface.}
+The audit is a finite perturbation readback on the Nieuwkoop \emph{E. coli} mRFP synonymous-variant panel.  The row set contains $1459$ variants and is read as a boundary test for whether the B-star window signal is confined to the five-prime start-proximal region or remains after the start segment is separated from the downstream coding sequence.  The registered statistic uses $B=200$ finite null or block resampling replicates.  Its rows carry measured protein output and synonymous coding-window coordinates, but the audit does not by itself create a translation mechanism, folding readout, physical-admissibility assay, molecular-function assay, or organism-level law.
 
-\paragraph{Finite row.}
-The finite surface for this record is the Nieuwkoop \emph{E. coli} mRFP synonymous-variant panel restricted to the same windowed $B^*$ coordinate family used in the protein-output run.  The row count is $n=1459$ variants, and the permutation budget is $B=200$.  The audit separates three questions.  First, it asks whether the leading coding boundary alone carries the apparent signal.  Second, it asks whether the main fitted non-synonymous-control and expression-scale surface explains most of the measurable protein-output variation.  Third, it asks whether the downstream $B^*$ window contributes positive held-out information after the earlier terms have already been admitted.
-
-\paragraph{Controlled likelihood ledger.}
-The registered row reports a first-stage coefficient-of-determination value
+\paragraph{Nested finite models.}
+Let $Y$ denote the measured protein-output readout on the $1459$ variants.  The audit compares three finite regressions.  The first model uses the lower-level control surface and has
 $$
 \begin{aligned}
-R^2_1 &= 0.06748192482378434 .
+R^2_{1} &= 0.06748192482378434 .
 \end{aligned}
 $$
-After the second-stage surface is added, the fit rises to
+Adding the start-proximal explanatory block gives a large finite improvement,
 $$
 \begin{aligned}
-R^2_2 &= 0.6060702157093043,\\
+R^2_{2} &= 0.6060702157093043,\\
 \Delta \ell_{2:1} &= 628.6217154500001 .
 \end{aligned}
 $$
-Thus the assay contains a strong finite protein-output signal, but the signal is not automatically a $B^*$ downstream-window signal.  The third stage, which tests the downstream $B^*$ contribution after the earlier surface, moves in the wrong direction:
+Adding the downstream B-star block after the start-proximal block does not improve the held surface:
 $$
 \begin{aligned}
-R^2_3 &= 0.6049438075310105,\\
-\Delta R^2_{3:2} &= -0.001126409133973234,\\
+R^2_{3} &= 0.6049438075310105,\\
 \Delta \ell_{3:2} &= -2.082965600280344 .
 \end{aligned}
 $$
-The same downstream term is recorded directly as
+Thus the finite comparison assigns the explanatory jump to the start-proximal slot and rejects promotion of the downstream block as an additional protein-output coordinate in this panel.
+
+\paragraph{Start and downstream B-star contrasts.}
+The direct start-block B-star increment is numerically present only at numerical-noise scale,
 $$
 \begin{aligned}
-\Delta \ell_{B,\mathrm{downstream}} &= -2.082967365015851,\\
+\Delta R^2_{B,\mathrm{start}} &= 1.7624020537495221 \times 10^{-9},\\
+\Delta \ell_{B,\mathrm{start}} &= 3.26370933437133 \times 10^{-6} .
+\end{aligned}
+$$
+The downstream B-star contrast is negative:
+$$
+\begin{aligned}
 \Delta R^2_{B,\mathrm{downstream}} &= -0.001126409133973234,\\
-p_{\mathrm{block}} &= 0.1691542288557214,\\
-\mathrm{null}_{0.95} &= 0.5254770343527547 .
+\Delta \ell_{B,\mathrm{downstream}} &= -2.082967365015851,\\
+\Delta \ell_{B,\mathrm{downstream},16+} &= -2.1989730953428164 .
 \end{aligned}
 $$
-The downstream-after-position-sixteen audit is also negative, with
-$$
-\begin{aligned}
-\Delta \ell_{B,\mathrm{downstream}\,16+} &= -2.1989730953428164 .
-\end{aligned}
-$$
-The five-prime start term is numerically negligible:
-$$
-\begin{aligned}
-\Delta \ell_{B,\mathrm{start}} &= 0.00000326370933437133,\\
-\Delta R^2_{B,\mathrm{start}} &= 0.0000000017624020537495221 .
-\end{aligned}
-$$
-The sign-stability flag is false.  This is the decisive finite-row fact for the chapter: the protein-output assay is real enough to be fitted, but the audited $B^*$ downstream window does not survive as a positive, sign-stable improvement once the boundary and earlier explanatory surface are present.
+The block-null calibration gives $\mathrm{null}_{95}=0.5254770343527547$ and $p_{\mathrm{block}}=0.1691542288557214$.  The sign-stability flag is false.  Consequently the correct finite conclusion is not that the B-star downstream window mediates protein output in this audit, but that the measured protein-output association in the Nieuwkoop panel is start-boundary dominated after the declared controls and null comparisons.
 
-\paragraph{Relation to the paired mRFP output row.}
-The companion mRFP protein-output run on the same $n=1459$ variants reported a positive controlled increment before this boundary audit: $R^2_{\mathrm{controls}}=0.12648386762689323$, $R^2_{\mathrm{controls}+B_\perp}=0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta \mathrm{DL}=19.089327473282296$ bits, and matched-null and within-null values both equal to $0.004975124378109453$.  The boundary audit therefore does not erase the existence of a perturbational protein-output association in the broader row.  It narrows the scientific readback: the association may not be promoted to a stable downstream-window law for $B^*$ in this assay, because the explicit downstream term is nonpositive after the audit split.
+\paragraph{Relation to the positive Nieuwkoop mRFP protein-output fit.}
+A separate Nieuwkoop mRFP fit on the same $1459$-variant scale reports a positive B-window increment when the full B-perpendicular block is compared against controls: $R^2_{L2}=0.12648386762689323$, $R^2_{L3}=0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta \mathrm{DL}=19.089327473282296$ bits, with matched and within-panel permutation probabilities both $0.004975124378109453$.  That result says that a B-window coordinate can carry protein-output information in this perturbation panel.  The present five-prime audit refines the location of that information: after the start-proximal block is admitted, the downstream B-star addition has negative likelihood gain and negative $\Delta R^2$.  The two finite records are therefore compatible only under a boundary reading: the panel supports a protein-output association for the B-window surface, while the downstream-after-start residual is not separately supported.
 
-\paragraph{Translation-mediated interpretation.}
-The larger $Q\to T\to P$ program requires a controlled translation-readout step before a residual coordinate is treated as protein-realization evidence.  In the multi-organism modeled-tAI mediation surface, the protein-abundance row uses nine $B^*_{Q6}$ coordinates and per-protein modeled tAI as $T$, with organism-specific mediated fractions such as $0.612922252793667$ for \emph{E. coli} K-12 MG1655, $0.9491551041216973$ for \emph{S. cerevisiae}, and $0.27206289160119157$ for human.  Those values belong to a cross-sectional modeled-readout mediation surface, not to the Nieuwkoop perturbation boundary audit.  The modeled-tAI survival record itself is also bounded: it used only three organisms in the initial modeled-contact calculation, with $81$ entries above the $0.01$ coupling threshold and a maximum absolute entry $3801961.031607896$, while explicitly recording that three organisms are insufficient for powered survival.  Consequently, the present chapter reads the Nieuwkoop row only as a finite synonymous-perturbation boundary test on protein output, not as a direct observation of ribosome motion or translation mechanism.
+\paragraph{Cross-layer mediation boundary.}
+Across a broader finite protein-abundance mediation matrix, the B-star Q6 coordinate family has nine coordinates, and the modeled translation-mediated protein-abundance study reports positive statistical mediation fractions in several organisms, for example $M^{QTP}=0.9491551041216973$ in \emph{Saccharomyces cerevisiae}, $0.612922252793667$ in \emph{Escherichia coli} K12 MG1655, $0.6165167748739756$ in \emph{Drosophila melanogaster}, and $0.27206289160119157$ in \emph{Homo sapiens}.  Those cross-sectional mediation fractions use modeled per-protein tAI and PAXdb abundance and are not ribosome-footprint measurements.  They justify treating $Q \to T \to P$ as a bounded finite mediation surface when its rows are present, but they do not license a shortcut from a synonymous residual coordinate directly to protein realization.
 
-\paragraph{Local conclusion.}
-For this finite row, the admissible statement is negative and bounded.  The experiment supports a completed audit of the five-prime and downstream-window alternatives, and the downstream $B^*$ window fails the positive-improvement requirement under the registered likelihood and block-null checks.  The correct readback is therefore
-$$
-\begin{aligned}
-\Delta R^2_{B,\mathrm{downstream}} &< 0,\\
-\Delta \ell_{B,\mathrm{downstream}} &< 0,\\
-p_{\mathrm{block}} &= 0.1691542288557214,\\
-\mathrm{sign\ stable} &= \mathrm{false} .
-\end{aligned}
-$$
-This keeps the row inside a controlled perturbational protein-output audit rather than a positive downstream-window realization claim.  No translation dynamics, folding, physical admissibility, molecular function, mechanism, organism-level phenotype, selection law, or universality follows from this record.  Any such higher-layer statement would need its own layer-matched contact and a fresh finite statistic showing the appropriate readout after amino-acid sequence, organism, GC3, length, codon-density baseline, and matched abundance controls have been applied.
+\paragraph{Local verdict.}
+The Nieuwkoop five-prime boundary audit is therefore a ready negative-boundary chapter for downstream promotion.  The admissible statement is that, on $1459$ finite variants with $200$ null replicates, the start-proximal model accounts for the large protein-output gain, while the downstream B-star block after that start boundary has $\Delta R^2=-0.001126409133973234$, $\Delta \ell=-2.082967365015851$, $p_{\mathrm{block}}=0.1691542288557214$, and no stable sign.  No translation-realization claim follows from these rows alone; no folding, physical admissibility, biochemical function, causal mechanism, phenotype, selection claim, or universal biological law follows unless a separate layer-matched contact supplies the corresponding measurement and the same-coordinate translation step survives its own controlled readout.

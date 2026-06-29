@@ -1,31 +1,36 @@
-\subsection{Nieuwkoop \textit{E. coli} mRFP Synonymous-Window Protein Output}\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}\origin{ai}
+\subsection{Nieuwkoop mRFP synonymous windows in \textit{E. coli}}
+\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}
+\origin{ai}
 
-\paragraph{Finite row surface.}  This record concerns a finite synonymous-perturbation panel for an \textit{E. coli} mRFP coding sequence.  The observable rows are synonymous coding variants with a protein-output readout, a real-CAI control surface, and a projected $B^{\ast}_{Q6}$ window coordinate.  The registered run contains $1459$ variants and $200$ matched null draws.  The coordinate used here is not treated as a free biological cause; it is a finite regressor tested after the simpler codon-adaptation baseline and the declared controls have already been fitted.
-
-\paragraph{Controlled increment.}  Let $L_2$ denote the controlled baseline using the available lower-order covariates and real-CAI information, and let $L_3$ denote the same design with the residual $B^{\ast}_{Q6}$ window coordinate added orthogonally to those controls.  The observed finite-row comparison is
+\paragraph{Finite row surface.}
+This record concerns the finite table of synonymous mRFP variants in \textit{E. coli} measured through protein output.  The readout is not a free association between a coding-sequence coordinate and an arbitrary phenotype.  The admissible surface is the controlled row system in which each variant contributes a synonymous coding-window perturbation, the $B^\ast_{Q6}$ window coordinates, the declared baseline controls, and the measured protein-output response.  The target run contains $1459$ variants and uses $B=200$ resampling or null draws.  The controlled comparison is the move from the level-$2$ control model to the level-$3$ model in which the orthogonalized $B^\ast$ window component is admitted.  In finite-row terms the observed values are
 $$
 \begin{aligned}
-R^2(L_2) &= 0.12648386762689323,\\
-R^2(L_3) &= 0.1798829276988051,\\
+R^2_{L2} &= 0.12648386762689323,\\
+R^2_{L3} &= 0.1798829276988051,\\
 \Delta R^2 &= 0.05339906007191191,\\
 \Delta \mathrm{DL} &= 19.089327473282296\ \mathrm{bits}.
 \end{aligned}
 $$
-The within-design and matched-null tail probabilities are both $0.004975124378109453$.  The real-CAI check does not absorb the signal: $\mathrm{real\_cai\_absorbs}=\mathrm{false}$, $\mathrm{real\_cai\_robust}=\mathrm{true}$, and the real-CAI versus proxy correlation is $0.17884920449487354$.  Thus the admissible local conclusion is a bounded protein-output association for this synonymous mRFP perturbation panel after the named baseline, not a general law about synonymous coding sequence.
+The two reported null comparisons agree: $p_{\mathrm{matched}}=0.004975124378109453$ and $p_{\mathrm{within}}=0.004975124378109453$.  The real-CAI robustness audit is also finite and local: the real CAI readout does not absorb the signal, with \texttt{real\_cai\_absorbs=false}, \texttt{real\_cai\_robust=true}, and real-CAI versus proxy correlation $0.17884920449487354$.
 
-\paragraph{Five-prime boundary audit.}  The companion boundary audit uses the same $1459$ variants and checks whether the effect can be reduced to a trivial start-proximal or downstream-window artifact.  Its first-stage model has $R^2=0.06748192482378434$, the second-stage fit rises to $R^2=0.6060702157093043$ with $\Delta\ell=628.6217154500001$ relative to the first stage, while the downstream $B$ addition has $\Delta R^2=-0.001126409133973234$ and $\Delta\ell=-2.082967365015851$.  The downstream matched null has $95\%$ reference value $0.5254770343527547$ and block probability $0.1691542288557214$, while the start-window contribution is numerically negligible, $\Delta R^2=1.7624020537495221\times 10^{-9}$ and $\Delta\ell=3.26370933437133\times 10^{-6}$.  The sign-stability flag is false.  These values support a narrow readback: the positive mRFP result is not licensed as a generic five-prime directionality rule, and the downstream audit does not provide a second positive window.
+\paragraph{Protein-output interpretation.}
+The positive entry is therefore a protein-output perturbation result for this specific mRFP synonymous-window panel.  The result says that, after the declared controls, the $B^\ast$ window component improves held-out or null-checked protein-output fit by about $5.34$ percentage points of $R^2$ and by $19.09$ description-length bits.  The row count is large enough for a finite perturbation claim within the panel, and the matched and within-panel null probabilities are both below $0.005$.  The appropriate readback is consequently narrow: these synonymous windows carry a measurable residual component for mRFP protein output in this experiment.  The result is not a population law over organisms, not a universal codon rule, and not a statement that any one coordinate direction such as CUN/UUR has a fixed biological sign outside the assayed table.
 
-\paragraph{Relation to the broader mediation matrix.}  A separate organism-scale $Q\to T\to P$ calibration provides context for why the protein-output readout is kept behind a translation gate.  In the \textit{E. coli} K12 MG1655 row of the matched CDS/protein-abundance analysis, $3739$ proteins are joined.  The finite decomposition reports
+\paragraph{Relation to the translation-mediated matrix.}
+The broader protein-abundance mediation audit supplies the background discipline for interpreting this result.  In the multi-organism $Q\to T\to P$ decomposition, the \textit{E. coli} matched CDS/protein table contains $3739$ joined proteins.  For \textit{E. coli} K-12 MG1655, the modeled translation-readout decomposition reports
 $$
 \begin{aligned}
-R^2_{QP} &= 0.10767526677985896,\\
-R^2_{QP\mid T} &= 0.04167869969498872,\\
-R^2_{\mathrm{indirect}} &= 0.06599656708487024,\\
+c_{QP} &= 0.10767526677985896,\\
+c'_{QP\mid T} &= 0.04167869969498872,\\
+c-c' &= 0.06599656708487024,\\
 M^{QTP} &= 0.612922252793667.
 \end{aligned}
 $$
-The corresponding controlled-rank diagnostics for this \textit{E. coli} row have residual degrees of freedom $3716$, $9$ $Q$ coordinates, $23$ control-rank columns, and a powered-rank-sufficient flag equal to true.  These numbers do not prove that the mRFP perturbation effect is mediated by ribosomes in the local experiment; they only show that the project has a separate finite surface on which translation-conditioned protein-abundance decompositions can be computed.  The mRFP result therefore remains a perturbation-level protein-output association unless the same-row translation readout is attached for that panel.
+The same audit records rank sufficiency for the residualized design, with $9$ $Q$ coordinates, rank $9$ for the $Q$ block after controls, rank $1$ for the modeled $T$ readout, rank $10$ jointly, and residual degrees of freedom $3716$.  These numbers do not prove that the mRFP perturbation effect is mechanistically mediated by translation in the Nieuwkoop panel.  They do, however, show why the controlled protein-output result belongs on the cross-layer route rather than being read as an unconditioned codon-count association: protein output is only promoted when the finite table separates residual coordinates, translation readouts or translation proxies, protein abundance, and mRNA or expression controls.
 
-\paragraph{Allowed claim.}  The admissible claim is the following finite statement.  In the Nieuwkoop \textit{E. coli} mRFP synonymous-window panel, adding the projected $B^{\ast}_{Q6}$ residual coordinate to the controlled real-CAI baseline improves held-out protein-output fit by $\Delta R^2=0.05339906007191191$ and $19.089327473282296$ description-length bits over $1459$ variants, with matched and within-design probabilities equal to $0.004975124378109453$.  The effect survives the real-CAI absorption check but is not promoted beyond this measured panel.
+\paragraph{Translation-contact boundary.}
+The modeled translation-contact packet remains bounded.  Across the three-organism modeled-tAI construction, the available organisms are \textit{E. coli} K-12, human, and yeast, with $61$ sense codons represented and no zero raw $W$ fallback in those three modeled-tAI readouts.  The modeled coupling matrix has $81$ entries above threshold $0.01$ and maximum absolute entry $3801961.031607896$, but the same record explicitly states that $3$ organisms are insufficient for powered survival.  Thus the mRFP protein-output result cannot by itself be read as observed ribosome occupancy or as a completed measured translation-survival matrix.  It is a finite perturbation contact with protein output, supported by its own null checks, and it remains separate from any direct claim about ribosome dynamics.
 
-\paragraph{Local no-promotion boundary.}  No statement about translation dynamics, folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection, or universality follows from this chapter alone.  A direct $Q_i\to P_k$ association is not enough to claim protein realization in the mediation sense unless a same-row $Q_i\to T_j$ translation readout first survives the declared controls.  The present chapter records a finite synonymous-perturbation protein-output result and its bounded controls; each higher layer requires its own matched contact and statistic.
+\paragraph{Local no-promotion rule.}
+The chapter therefore admits the following statement and no stronger one.  In the Nieuwkoop \textit{E. coli} mRFP synonymous-window table, the controlled $B^\ast$ window component improves protein-output prediction relative to the declared controls, with $n=1459$, $\Delta R^2=0.05339906007191191$, $\Delta \mathrm{DL}=19.089327473282296$ bits, and matched and within-panel $p$-values both equal to $0.004975124378109453$.  This supports a bounded cross-layer protein-output readout for this panel.  It does not establish translation realization, folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection, or universality.  Any such higher-layer statement would require a separate layer-matched contact and its own finite controlled statistic.
