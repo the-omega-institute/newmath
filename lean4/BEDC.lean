@@ -6600,6 +6600,7 @@ import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.ExportNonEscape
 import BEDC.Derived.GroundCompilerAuditPacketUp.NameCertObligations
+import BEDC.Derived.GroundCompilerAuditPacketUp.QueryReplay
 import BEDC.Derived.GroundCompilerAuditPacketUp.RefusalSeparation
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditRouteUp.TasteGate
@@ -6950,6 +6951,7 @@ import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
+import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
@@ -7160,6 +7162,7 @@ import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IsometricEmbeddingUp.TasteGate
 import BEDC.Derived.IteratedFunctionSystemUp
+import BEDC.Derived.ItoIntegralUp.TasteGate
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JacksonFiniteApproximationUp.TasteGate
 import BEDC.Derived.JacobiIterationUp.TasteGate
@@ -8886,6 +8889,7 @@ import BEDC.Derived.MinkowskiRateGeometryUp.LedgerExactness
 import BEDC.Derived.MinkowskiRateGeometryUp.PublicCertificate
 import BEDC.Derived.MinkowskiRateGeometryUp.PublicExport
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
+import BEDC.Derived.MintyBrowderMonotoneOperatorUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MirskyTheoremUp
 import BEDC.Derived.MittagLefflerBishopUp
@@ -11280,6 +11284,7 @@ import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
+import BEDC.Derived.RegularCauchyTailGaugeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMajorantUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
@@ -12673,6 +12678,7 @@ import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
+import BEDC.Derived.TwinSubstrateAuditCouplingUp.NameCertObligations
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
