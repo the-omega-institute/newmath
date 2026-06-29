@@ -1,44 +1,30 @@
+\subsection{Pri-miRNA motif anchoring as a bounded processing readout}
+\label{sec:bioreality-primirna-motif-drosha-processing-fang2015}
 \origin{ai}
 
-\subsection{A pri-miRNA processing contact does not promote the $f_3$-stress translation boundary}
-\label{sec:bioreality-primirna-processing-f3-stress-boundary}
+\paragraph{Finite row object.}
+This record isolates the Fang-style pri-miRNA processing surface as a finite table of sequence-scaffold rows, motif-window coordinates, and Drosha-processing readouts.  The verified run attached to this chapter is \texttt{9cfc036ef9a5}.  Its finite audit reports runtime $409.285$ seconds and a main GC association $r_{\mathrm{GC}}=-0.0479934$.  The row construction is not a free RNA-structure search: the wild-type consensus is obtained from input-count-weighted bases, mature $5p$ and $3p$ sequences are matched exactly inside each fixed scaffold, and motif windows are then placed relative to scaffold landmarks.  The basal flank is anchored at the $5p$ Drosha end, the downstream basal flank is anchored after the $3p$ Drosha end, and the apical-loop window is anchored between the mature arms.  Thus the mathematical carrier for this chapter is a finite scaffold-indexed table with columns for landmark identity, local motif coordinates, input-weighted consensus bases, processing readout, and nuisance controls such as GC content.
 
-\paragraph{Finite row type.}
-The finite table considered here has rows keyed by a coding-sequence window and by the biological assay surface that would be needed to make an $f_3$-stress translation statement.  A row is admissible for the $f_3$-stress question only when it contains, in the same finite record, an $f_3$-stress residual coordinate after amino-acid quotienting, local synonymous codon counts, a bounded wobble-weight context, a matched position-resolved ribosome-occupancy or translation-efficiency readout, a matched mRNA control, and amino-acid or position-bin controls.  The coordinate part alone is not a translation measurement.  The wobble-weight part alone is not a ribosome measurement.  The mRNA part alone is only a transcription-layer control.  Thus the intended survival entry has the local form
+\paragraph{Local statistic.}
+Let $x$ range over scaffold-window rows.  Write $Y(x)$ for the processing readout, $M_{\ell}(x)$ for the motif coordinates in landmark class $\ell$, and $Z(x)$ for the attached control vector, including the GC component whose main finite-run association is $-0.0479934$.  The chapter-level claim is only that the landmarked motif coordinates are admissible as a controlled pri-miRNA-processing readout surface.  In symbolic form the admissible statistic has the shape
 $$
 \begin{aligned}
-S_{f_3}(T_{\mathrm{position}} \mid Z) > 0,
+S_{\mathrm{Drosha}}(\ell)
+  &= \operatorname{Score}\bigl(Y; M_{\ell} \mid Z,\mathrm{scaffold}\bigr),\\
+\ell
+  &\in \{\mathrm{basal\ at\ }5p\mathrm{\ Drosha\ end},\mathrm{downstream\ basal\ after\ }3p\mathrm{\ end},\mathrm{apical\ loop}\}.
 \end{aligned}
 $$
-where $Z$ includes amino-acid composition or amino-acid-bin controls, position-bin controls when the window is position-resolved, GC3, CDS length, $M$-density, codon-count baselines, matched mRNA abundance, coverage and mappability restrictions, rank checks, and simpler-baseline ablations.
+The point of the anchoring rule is that $M_{\ell}$ is read from fixed mature-arm landmarks before the statistic is computed.  The record therefore concerns processing grammar in a defined pri-miRNA scaffold, not a de novo structural fold, not a global RNA law, and not a translation-layer measurement.
 
-\paragraph{Observed pri-miRNA processing row.}
-The verified Fang2015 pri-miRNA processing contact is a real finite assay row, but it is not a coding-window translation row.  In the recorded run \texttt{9cfc036ef9a5}, the wild-type consensus was obtained from input-count-weighted bases.  Mature 5p and 3p sequences were matched exactly inside each fixed scaffold.  Motif windows were anchored to scaffold landmarks: the basal flank at the 5p Drosha end, the downstream basal flank after the 3p Drosha end, and the apical loop between mature arms.  No de-novo RNA-structure inference was used.  The scalar control association recorded for the main GC term was
-$$
-\begin{aligned}
- r_{\mathrm{GC,main}} &= -0.0479934,
-\end{aligned}
-$$
-with runtime $409.285$ seconds.  This is a bounded processing-contact statement about motif placement and Drosha-related pri-miRNA processing in fixed scaffolds.  It does not supply codon-indexed CDS windows, synonymous codon counts, wobble weights, matched mRNA abundance for translation-efficiency residualization, or ribosome-footprint occupancy at codon or local-window resolution.
+\paragraph{Reality contact.}
+The observed finite contact is a pri-miRNA motif-processing table: the rows are sequence-scaffold rows with matched mature-arm landmarks and measured processing behavior.  The run makes a bounded contact with biological reality because the motif windows are tied to experimentally meaningful Drosha landmarks rather than to an abstract coordinate invented after model fitting.  The GC scalar $r_{\mathrm{GC}}=-0.0479934$ is included as a local covariate diagnostic; its small negative value does not by itself establish a motif mechanism, but it records that the run carried a concrete composition check rather than leaving composition outside the finite table.
 
-\paragraph{What the row can certify.}
-The Fang2015 row can certify that a finite motif-processing analysis was anchored to explicit pri-miRNA scaffold landmarks and that the reported GC-control scalar was small and negative in that run.  The row is therefore admissible as evidence for a pri-miRNA processing contact, not as evidence for $f_3$-stress survival.  Its assay coordinates live on pri-miRNA scaffold landmarks, while the $f_3$-stress translation question lives on ordered coding-sequence windows.  These carriers are not interchangeable: a basal-flank or apical-loop motif row cannot be retyped as a synonymous-codon window without an explicit join that creates the coding-window fields.
+\paragraph{Comparison surface.}
+A separate finite-row record in the same evidence ledger, \texttt{8d1d1ac78ab7}, gives a useful scale check for high-throughput regulatory tables: the random-promoter expression boundary used $75111$ designed sequences, $8027$ high-quality rows, an analysis subsample of $2500$ high-quality rows, seed $20260239$, $200$ actual permutations, and runtime $530.4038379192352$ seconds.  This comparison is not imported as evidence for Drosha processing.  It is used only to mark the difference between two finite regulatory contacts: promoter-expression rows test cis-regulatory expression grammar, whereas the Fang-style table here tests motif placement relative to pri-miRNA processing landmarks.  No survival or mechanism can be transferred between those tables merely because both are finite sequence-to-readout surfaces.
 
-\paragraph{Cross-layer comparison.}
-A separate translation-conditioned structural-order analysis shows what a powered cross-layer row looks like when the necessary finite joins are actually present.  In run \texttt{1b97387835f7}, the structural-order joined counts were $3412$ for \textit{Escherichia coli} K-12 MG1655 and $5119$ for \textit{Saccharomyces cerevisiae}, with $5$ folds and a minimum joined threshold of $300$.  Its weighted full-control $\Delta R^2$ was $0.004764742175882462$, the aggregate full-control $\Delta R^2$ ranged from $0.002688284523492457$ to $0.007880037229394898$ across $n=2$ organisms, and the full-control sign-flip probability for being greater than zero was $0.0029296875$.  Those numbers are not imported into the present pri-miRNA row as support for $f_3$-stress translation; they only illustrate the kind of same-panel, controlled readback that is missing here.
+\paragraph{Admissible conclusion.}
+The chapter may state the following bounded conclusion.  A pri-miRNA motif coordinate can be evaluated as a controlled Drosha-processing coordinate when each row carries fixed scaffold landmarks, exact mature-arm matching, landmark-anchored motif windows, a measured processing readout, and composition controls.  The verified run supplies the concrete anchor note, the GC scalar $-0.0479934$, and the runtime $409.285$ seconds for that finite construction.  The result is a processing-readout boundary, not a general principle about RNA structure or expression.
 
-\paragraph{Local survival condition.}
-For the present $f_3$-stress packet, a positive claim would require a finite matrix whose rows contain the same organism, the same CDS, the same local window, ordered codon positions, synonymous codon counts, bounded tAI or stAI wobble weights, matched mRNA abundance, and position-resolved ribosome-footprint occupancy or an explicitly bounded translation-efficiency readout.  Only after those fields are present may the statistic be evaluated as
-$$
-\begin{aligned}
-\Delta_{f_3}
-  &= \operatorname{score}(T_{\mathrm{position}} \mid Z, f_3)
-   - \operatorname{score}(T_{\mathrm{position}} \mid Z),\\
-S_{f_3}(T_{\mathrm{position}} \mid Z)
-  &> 0.
-\end{aligned}
-$$
-The required break condition is failure to improve held-out prediction after amino-acid or position-bin controls, GC3, length, $M$-density, matched mRNA, codon-count controls, rank sufficiency, coverage and mappability limits, and simpler-baseline ablations.  If $\Delta_{f_3} \leq 0$ under those controls, the coordinate remains a bounded internal covariate for the tested panel and does not survive as a translation-readout entry.
-
-\paragraph{Boundary of interpretation.}
-The present chapter therefore records a non-promotion boundary.  Review eligibility, a pri-miRNA processing assay, a modeled wobble-weight surface, or $S_{f_3}(T_{\mathrm{position}} \mid Z)$ notation does not create measured ribosome occupancy.  A position-resolved ribosome-occupancy contact name names the needed assay surface; it is not itself the joined footprint table.  No translation realization, protein abundance, folding claim, physical-admissibility claim, biological function claim, mechanism claim, phenotype claim, or universal rule follows from the $f_3$-stress coordinate unless a separate layer-matched contact supplies the corresponding finite rows and the controlled statistic survives there.
+\paragraph{Non-promotion boundary.}
+Nothing in this record supplies translation, ribosome occupancy, protein abundance, folding, physical admissibility, molecular function, phenotype, mechanism, or universality.  A same-row pri-miRNA processing statistic does not become a translation statistic, and a landmarked motif window does not become a structure or function certificate.  Any downstream claim at another layer would need its own layer-matched table and its own controlled statistic.  In particular, modeled codon-adaptation weights, ribosome-footprint contacts, protein-abundance contacts, or residual codon-window geometry are not consequences of the Fang-style pri-miRNA motif table.  They would have to be attached as separate rows with their own controls before any cross-layer statement could be made.

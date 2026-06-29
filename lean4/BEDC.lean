@@ -2884,6 +2884,7 @@ import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
 import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
 import BEDC.Derived.CellularCarrierBHistEquivalenceUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
+import BEDC.Derived.CellularCarrierSwitchCostUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularOrbitSynchronizationUp.TasteGate
@@ -7963,6 +7964,7 @@ import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
+import BEDC.Derived.MarkovTriggerDynamicsUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
 import BEDC.Derived.MartingaleFiltrationUp.TasteGate
 import BEDC.Derived.MartingaleStoppingConvergenceUp
@@ -10332,6 +10334,7 @@ import BEDC.Derived.RealCompletenessDiagonalSelectorUp.NameCertObligations
 import BEDC.Derived.RealCompletenessDiagonalSelectorUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
+import BEDC.Derived.RealCompletenessWitnessUp.TasteGate
 import BEDC.Derived.RealCompletionBoundaryWitnessUp.TasteGate
 import BEDC.Derived.RealCompletionExactBoundaryUp.AllRowsNecessary
 import BEDC.Derived.RealCompletionExactBoundaryUp.CofinalTerminalDeterminacy
@@ -10407,6 +10410,8 @@ import BEDC.Derived.RealIntervalUp.EndpointOrderObligation
 import BEDC.Derived.RealIntervalUp.EndpointRefinementStability
 import BEDC.Derived.RealIntervalUp.FiniteEndpointEnvelopeRoute
 import BEDC.Derived.RealIntervalUp.FiniteNetConsumer
+import BEDC.Derived.RealIntervalUp.FormalTargetHandoff
+import BEDC.Derived.RealIntervalUp.MatureConsumerRoute
 import BEDC.Derived.RealIntervalUp.ObligationClosureRoute
 import BEDC.Derived.RealIntervalUp.PublicNameCertExport
 import BEDC.Derived.RealIntervalUp.StreamRealSealNonescape
