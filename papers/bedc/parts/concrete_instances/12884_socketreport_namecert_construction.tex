@@ -84,8 +84,12 @@ The minimal classification theorem \autoref{thm:socket-report-minimal-classifica
 \leanchecked{BEDC.Derived.SocketReportUp.SocketReportScopedReportRoute}
 
 \begin{theorem}[Socket report public export surface]
-\label{thm:socket-report-public-export-surface}
-Every public consumer of an accepted $\SocketReportUp$ packet may export exactly the typed request row $U$, the socket-kind classifier row $K$, the supply-ledger provenance encoded by $P$, the audit-gate row $G$, the closed-observation continuation encoded by $C$, the componentwise transport row $H$, and the local naming row $N$. The exported report surface remains narrow: it does not broaden $K$, discharge $U$, move $G$ away from the displayed site $S$, or absorb the packet into any sibling socket interface.
+\label{thm:socket-report-public-export}
+The public export of an accepted $\SocketReportUp$ packet is exactly the visible tuple
+$$
+S,U,K,G,H,C,P,N
+$$
+from \autoref{def:socket-report-carrier}. The export preserves the narrow classifier row $K$ and the non-discharge ledger attached to $U$; it does not broaden $K$, discharge $U$, move $G$ away from the displayed site $S$, or absorb the packet into any sibling socket interface.
 \end{theorem}
 \begin{proof}
 Start with the scoped report route of \autoref{thm:socket-report-scoped-report-route}. It forces every accepted read to pass through $S,U,K,G,H,C,P,N$ before any consumer can inspect the report.
@@ -94,6 +98,7 @@ The public export forgets no displayed report row. The typed request is $U$, the
 
 Minimal classification from \autoref{thm:socket-report-minimal-classification} prevents replacing $K$ by a broader gap family, while sibling separation from \autoref{thm:socket-report-sibling-separation} prevents absorbing the joint packet into any listed socket sibling. Thus the public surface exports the scoped rows without widening the socket kind.
 \end{proof}
+\leanchecked{BEDC.Derived.SocketReportUp.SocketReportPublicExportSurface}
 
 \falsifiablePrediction{An accepted $\SocketReportUp$ packet is refuted by any audit consumer that replaces the displayed narrow socket kind with a broader gap label while preserving the same requested-supply row.}
 
@@ -105,7 +110,7 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/SocketReportUp/TasteGate.lean
 
 \begin{closurestatus}{\SocketReportUp}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:socket-report-carrier}, \autoref{thm:socket-report-namecert-obligations}, \autoref{thm:socket-report-minimal-classification}, \autoref{thm:socket-report-sibling-separation}, \autoref{thm:socket-report-scoped-report-route}, \autoref{thm:socket-report-public-export-surface}, the falsifiable prediction, the independence witness, and the TasteGate marker bind the public typed request, socket-kind classifier, supply-ledger provenance, audit gate, closed-observation replay, transport, and local naming rows of the displayed report packet without broadening the socket kind.}
+  \scopeclosed{\autoref{def:socket-report-carrier}, \autoref{thm:socket-report-namecert-obligations}, \autoref{thm:socket-report-minimal-classification}, \autoref{thm:socket-report-sibling-separation}, \autoref{thm:socket-report-scoped-report-route}, \autoref{thm:socket-report-public-export}, the falsifiable prediction, the independence witness, and the TasteGate marker bind the public typed request, socket-kind classifier, supply-ledger provenance, audit gate, closed-observation replay, transport, and local naming rows of the displayed report packet without broadening the socket kind.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
