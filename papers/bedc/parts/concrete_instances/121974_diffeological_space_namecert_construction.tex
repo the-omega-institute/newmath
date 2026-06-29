@@ -1,0 +1,71 @@
+\chapter{Diffeological Space NameCert Construction}
+\label{ch:concrete-instances-diffeological-space-namecert}
+\origin{human}
+
+Following Souriau and Iglesias-Zemmour, the $\DiffeologicalSpaceUp$ packet reconstructs a diffeological-space interface as finite plot-observation data. The carrier records point rows, plot rows, domain-window rows, locality and gluing checks, pullback stability, transport, replay, provenance, and local naming; it gives topology and manifold consumers a visible smooth-space neighbour without quotienting all plots into a global smooth object.
+
+The packet sits between the open-set reading of \autoref{ch:concrete-instances-topology-namecert}, the chart-facing manifold surface of \autoref{ch:concrete-instances-manifold-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, and the $\BHist$ and $\NameCert$ surfaces used throughout the concrete-instance ledger. It does not claim quotient smooth spaces, selected atlases, global colimits, or full manifold reconstruction.
+
+\begin{definition}[Diffeological-space carrier]
+\label{def:diffeological-space-carrier}
+A $\DiffeologicalSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,P,U,L,G,S,T,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point row, listing the observed points whose plot memberships are named by the packet.
+\item $P$ is the finite plot row, storing selected parameterized observations into $X$.
+\item $U$ is the domain-window row, recording the open-domain fragments on which the displayed plots are inspected.
+\item $L$ is the locality row, stating that plot admission is checked on the named domain windows.
+\item $G$ is the gluing row, recording compatible finite local plots before a glued plot is read.
+\item $S$ is the pullback-stability row, showing that a displayed smooth reparameterization keeps the read inside the same plot surface.
+\item $T$ records componentwise transports for point, plot, domain, locality, gluing, and pullback rows.
+\item $R$ is the replay ledger that exposes only $X,P,U,L,G,S,T$ to downstream consumers.
+\item $Q$ is the $\Pkg$ provenance over $\DiffeologicalSpaceUp$, $\TopologyUp$, $\ManifoldUp$, $\StreamNameUp$, $\BHist$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DiffeologicalSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient smooth-space construction, global colimits, selected atlases, full manifold reconstruction, or host smoothness semantics.
+\end{definition}
+
+\begin{theorem}[Diffeological-space NameCert obligations]
+\label{thm:diffeological-space-namecert-obligations}
+For an accepted $\DiffeologicalSpaceUp$ carrier
+$$
+D=(X,P,U,L,G,S,T,R,Q,N),
+$$
+the local $\NameCert_{\DiffeologicalSpaceUp}$ surface consists exactly of point-row admission, finite plot-row admission, domain-window visibility, locality checking, gluing checking, pullback stability, componentwise transport, replay exactness, provenance, and local naming. Every topology, manifold, or stream-name consumer of the packet must read the same rows before using a plot observation.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:diffeological-space-carrier}. The rows $X,P,U$ give the observed points, the selected plots, and the domain windows on which those plots are inspected.
+
+Next read the diffeological closure data. The locality row $L$ keeps plot admission local to the displayed windows, the gluing row $G$ records finite compatible local plots, and the pullback row $S$ keeps smooth reparameterization inside the observed plot surface.
+
+Transport and replay are then structural. The row $T$ preserves each displayed coordinate componentwise, while $R$ exposes only the finite plot-observation inventory to downstream reads.
+
+Finally, provenance and naming are $Q$ and $N$. Since no quotient smooth space, selected atlas, global colimit, full manifold reconstruction, or host smoothness object appears as a carrier coordinate, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Diffeological-space plot-observation nonescape]
+\label{thm:diffeological-space-plot-observation-nonescape}
+Every public read exported from an accepted $\DiffeologicalSpaceUp$ packet factors through $X,P,U,L,G,S,T,R,Q,N$. The read may be consumed by $\TopologyUp$, $\ManifoldUp$, and $\StreamNameUp$ only as finite plot-observation data; it is not a quotient smooth space, a selected atlas, a global colimit, or a proof of full manifold reconstruction.
+\end{theorem}
+\begin{proof}
+Use the NameCert-obligation inventory of \autoref{thm:diffeological-space-namecert-obligations}. It requires every accepted read to expose the point, plot, domain-window, locality, gluing, pullback, transport, replay, provenance, and naming rows.
+
+The topology, manifold, and stream-name consumers therefore receive a finite observation interface. The packet can say which displayed plot rows are available and how they survive locality, gluing, and pullback checks.
+
+No refused global object is present in the carrier. Hence quotient smooth spaces, selected atlases, global colimits, host smoothness semantics, and full manifold reconstruction cannot be extracted from the $\DiffeologicalSpaceUp$ packet.
+\end{proof}
+
+\closureat{DiffeologicalSpaceUp}{seedStr}
+
+\begin{closurestatus}{\DiffeologicalSpaceUp}
+  \constructivestory{A $\DiffeologicalSpaceUp$ packet is generated from finite point, plot, domain-window, locality, gluing, pullback, transport, replay, provenance, and naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:diffeological-space-carrier}, \autoref{thm:diffeological-space-namecert-obligations}, and \autoref{thm:diffeological-space-plot-observation-nonescape} bind the finite plot-observation seed surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not construct quotient smooth spaces, selected atlases, global colimits, host smoothness semantics, or full manifold reconstruction.}
+  \upgradepath{Obligation closure requires checked carrier admission, locality and gluing rows, pullback stability, replay exactness, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
