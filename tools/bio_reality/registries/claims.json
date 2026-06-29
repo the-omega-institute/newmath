@@ -16749,6 +16749,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-29T11:39:43+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T11:39:43+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "67647dcf1734",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -28421,6 +28438,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-29T11:39:43+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T11:40:08+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "50ad67850df1",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -28654,14 +28688,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Execution-vs-selection joint decomposition of the B*_Q6 protein-abundance residual P_Q (doc 7.5). P_Q (reconstructed faithfully: yeast base R^2_QP=0.298, dictionary anchor C*=0.256) is jointly regressed on (a) k_tl^local = per-gene local-dwell execution rate from the order-2 finite-state transducer over {K_AAA, Arg_AGR, f3_stress} on yeast riboseq occupancy, and (b) E_sel = per-gene selection potential Sum_t -log P_o(c_t|a_t) from yeast codon usage; n=5684 genes, base controls = aa-composition/length/GC. Decomposition: execution_fraction=0.044, selection_fraction=0.016, unresolved_fraction=0.940 (dominant=unresolved). Held-out joint Delta-R^2=0.0140 beats the target-permutation null 50x (null95=0.00026) and partial-Spearman(exec|base)=-0.125, partial-Spearman(sel|base)=-0.137 both clear the 0.10 effect floor -- but the joint lift FAILS the description-length complexity penalty (net lift after DL = -0.006), so verdict composition_artifact (the two channels do not justify their model complexity). Critically, k_tl^local is NOT disguised measured-TE (Spearman=-0.015) -- a genuinely independent execution channel. Finding: local execution (transducer dwell) and codon-preference selection each carry a real-but-tiny, complexity-failing signal; ~94% of P_Q stays unresolved by these two channels. Per the methods upgrade, this 94% is NOT yet attributable to hidden biology -- it requires the observation-noise ceiling and proteostasis/PTM/chaperone subtraction (subsequent modules) before interpretation. Cannot-claim: observational, not causal; transducer is weak order-2; E_sel partly co-defined with B*_Q6 (both synonymous-preference residuals, aa-composition-residualized but boundary not sharp); occupancy covers a gene subset; unresolved-dominant is the doc 7.1 source-definition, not a failure.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "b_star_q6_residual_exec_selection_joint_powered",
       "history": [
         {
           "ts": "2026-06-29T10:45:46+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-29T11:42:14+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0315e4585095",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "00c9ed402c2e33e6"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.rank-admissible.translation-survival-gate.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.target_noise_ceiling.b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
@@ -28669,11 +28716,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Target-side permutation noise ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade decisive gate, doc step 1): is the measured-readout dictionary's compressibility of P_Q genuine biological structure, or an artifact of the model class compressing any same-marginal target? The existing dictionary null is READOUT-side (permutes the readout basis); this adds the missing TARGET-side null. Yeast (n=3290, base R^2_QP=0.293 = reconstruction-validated): the best complexity-penalized dictionary coverage C*_obs=0.2086; permuting P_Q within MATCHED STRATA (abundance-decile x CDS-length-bin x GC3-bin) and re-running the full dictionary selection B=200 times yields target-null N_target_95=0.0095 (null mean 0.0044, max 0.0164), so C*_obs exceeds the matched ceiling by ~22x with p_target=0.005. Verdict crosses_boundary: the B*_Q6->protein-abundance dictionary compressibility is GENUINE structure, NOT a model-class artifact -- the model class achieves only ~0.4% coverage on a stratum-shuffled P_Q. This VALIDATES continuing the source-side decomposition program. Cannot-claim: observational, not causal; matched strata control only abundance/length/GC3 (not finer join/platform structure -- possibly still lenient); C* uses the minimal_dictionary lambda-DL/join/null penalties; passing this gate does NOT mean the unexplained U is all hidden biology -- U still must clear the observation-noise ceiling and have proteostasis/PTM/chaperone contacts subtracted before attribution.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
       "history": [
         {
           "ts": "2026-06-29T10:45:46+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-29T11:49:36+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "b86a0df89d63",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "43544a4d8753c326"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-window.ribosome-occupancy.translation-boundary"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.observation_ceiling.b_star_q6_pq_cross_condition_observation_ceiling_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-condition observation ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade step 2): is the unexplained residual U hidden biology or observation/condition noise? Reconstructing P_Q under two yeast growth conditions (SD vs YEPD proteomics abundance, n=2209 shared genes; base R^2_QP reconstruction-validated) and measuring the split-half reproducibility Ceil_Q=corr(P_Q^SD, P_Q^YEPD)=0.998 (1-Ceil_Q=0.0023): the dictionary's penalized coverage C*=0.209 trails Ceil_Q by ~0.79 (C*/Ceil_Q=0.21), so ~74% of P_Q is reproducible-yet-undictionaried. Directionally, U is NOT dominated by condition/measurement noise -- it reproduces across conditions -- which SUPPORTS continuing the source-side / proteostasis decomposition (consistent with the target-side noise-ceiling gate showing the 24.5% is real structure). Verdict crosses_boundary. CRITICAL caveats (this is a confounded proxy, not a clean technical-replicate ceiling): (1) Ceil_Q approximately 1 is PARTLY TAUTOLOGICAL -- B*_Q6 is a CDS-intrinsic predictor (codon usage does not change with growth condition), so its abundance projection is condition-stable almost by construction; the cross-condition design therefore cannot cleanly detect observation noise for a CDS-intrinsic predictor and the magnitude 0.998 OVERSTATES true reproducibility. (2) cross-condition (SD vs YEPD) != technical replicate; the two conditions are only 0.93-correlated at the abundance level, so condition-regulation is folded in. (3) the inverse-variance weighted robustness check collapsed (n_eff=51.8 of 2209), so the weighted coverage is underpowered. A definitive observation ceiling needs same-condition technical replicates (unavailable in-repo). Observational, not causal.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "b_star_q6_pq_cross_condition_observation_ceiling_powered",
+      "history": [
+        {
+          "ts": "2026-06-29T12:10:19+00:00",
           "status": "open"
         }
       ]
