@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PhenomenologyScienceInterfaceUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.PhenomenologyScienceInterfaceUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -392,5 +394,59 @@ theorem PhenomenologyScienceInterfaceNameCertObligations
       intro _h source
       exact source
   }
+
+theorem PhenomenologyScienceInterfaceConservativeBridgeObligations
+    {S J B G H C P N bridgeReplay : BHist}
+    (route : Cont J B bridgeReplay) :
+    SemanticNameCert
+        (fun row : BHist => hsame row bridgeReplay)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row J ∨ hsame row B ∨ hsame row G ∨
+            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+              hsame row bridgeReplay)
+        (fun row : BHist => hsame row bridgeReplay ∧ Cont J B bridgeReplay)
+        hsame ∧
+      Cont J B bridgeReplay := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert NameCert
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row bridgeReplay)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row J ∨ hsame row B ∨ hsame row G ∨
+            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+              hsame row bridgeReplay)
+        (fun row : BHist => hsame row bridgeReplay ∧ Cont J B bridgeReplay)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeReplay (hsame_refl bridgeReplay)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, route⟩
+  }
+  exact ⟨cert, route⟩
 
 end BEDC.Derived.PhenomenologyScienceInterfaceUp

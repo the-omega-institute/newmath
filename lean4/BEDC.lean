@@ -13280,6 +13280,7 @@ import BEDC.Derived.WritingItemAuditUp
 import BEDC.Derived.WritingItemAuditUp.BridgeSchemaRoute
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
+import BEDC.Derived.WronskianUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
 import BEDC.Derived.WythoffUp
 import BEDC.Derived.YonedaCompletionUp.TasteGate
