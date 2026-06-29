@@ -16766,6 +16766,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-29T13:14:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T13:14:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a717e033629a",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -28455,6 +28472,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-29T13:14:08+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T13:29:17+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0016b441d061",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -28744,14 +28778,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Cross-condition observation ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade step 2): is the unexplained residual U hidden biology or observation/condition noise? Reconstructing P_Q under two yeast growth conditions (SD vs YEPD proteomics abundance, n=2209 shared genes; base R^2_QP reconstruction-validated) and measuring the split-half reproducibility Ceil_Q=corr(P_Q^SD, P_Q^YEPD)=0.998 (1-Ceil_Q=0.0023): the dictionary's penalized coverage C*=0.209 trails Ceil_Q by ~0.79 (C*/Ceil_Q=0.21), so ~74% of P_Q is reproducible-yet-undictionaried. Directionally, U is NOT dominated by condition/measurement noise -- it reproduces across conditions -- which SUPPORTS continuing the source-side / proteostasis decomposition (consistent with the target-side noise-ceiling gate showing the 24.5% is real structure). Verdict crosses_boundary. CRITICAL caveats (this is a confounded proxy, not a clean technical-replicate ceiling): (1) Ceil_Q approximately 1 is PARTLY TAUTOLOGICAL -- B*_Q6 is a CDS-intrinsic predictor (codon usage does not change with growth condition), so its abundance projection is condition-stable almost by construction; the cross-condition design therefore cannot cleanly detect observation noise for a CDS-intrinsic predictor and the magnitude 0.998 OVERSTATES true reproducibility. (2) cross-condition (SD vs YEPD) != technical replicate; the two conditions are only 0.93-correlated at the abundance level, so condition-regulation is folded in. (3) the inverse-variance weighted robustness check collapsed (n_eff=51.8 of 2209), so the weighted coverage is underpowered. A definitive observation ceiling needs same-condition technical replicates (unavailable in-repo). Observational, not causal.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "b_star_q6_pq_cross_condition_observation_ceiling_powered",
       "history": [
         {
           "ts": "2026-06-29T12:10:19+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-29T13:37:42+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "8f258b58b625",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "fb29f414772a88a4"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.decay-rbp.rna-half-life.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.proteostasis_mismatch.b_star_q6_pq_proteostasis_mismatch_absorption_powered",
@@ -28759,11 +28806,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Proteostasis mismatch absorption of the B*_Q6 abundance residual U (methods step 3, BURDEN-ONLY): does the translation/folding-burden mismatch direction Delta absorb the unexplained U = P_Q - Pi_D P_Q? Reconstructing U (yeast, n=3277, base R^2_QP=0.293 validated; U is 74% of P_Q), the proteostasis-mismatch subspace Delta = [log(TE) k_syn proxy; folding burden: disorder(100-pLDDT), domain_count, tm_count, complex_member, ptm_density] absorbs A_prot=0.0216 of U's energy, beating a matched-strata permutation null (null95=0.0156, p_prot=0.005) with held-out Delta-R^2=0.018 (>=1% floor). Verdict crosses_boundary (WEAK): burden-only proteostasis mismatch absorbs a small (~2%) but real, held-out-validated part of U; the dominant component is complex_member (partial-Spearman rho=-0.073, BELOW the 0.10 floor), so the crossing rests on the held-out Delta-R^2 gate, and ~98% of U remains unexplained by burden-only proteostasis. CRITICAL caveat: this is BURDEN-ONLY -- the chaperone capacity C term is ABSENT (no chaperone-client data in-repo), so it is a partial proteostasis proxy and the large unabsorbed remainder does NOT rule out chaperone-mediated proteostasis. Other caveats: structural_order is AlphaFold-predicted mean pLDDT (not measured folding rate/aggregation); domain/TM/complex/PTM are annotation counts (not dynamic state); log(TE) is partly collinear with the dictionary D (held-out + matched null control but boundary not sharp); observational, not causal. Decision-sequence status: noise-ceiling (real structure) + observation-ceiling (U reproducible, not noise) + proteostasis (absorbs ~2%) all cleared; U is still predominantly an unresolved residual source (doc 7.1).",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "b_star_q6_pq_proteostasis_mismatch_absorption_powered",
       "history": [
         {
           "ts": "2026-06-29T13:07:10+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-29T13:40:33+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d4a9d73f7388",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "6bc3ca09cfb35561"
+        }
+      ],
+      "linked_conjecture_id": "q6.h-ranking-table.direction-aware.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.chaperone_client.b_star_q6_pq_chaperone_client_absorption_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Chaperone-client absorption of the B*_Q6 abundance residual U (methods step 5): does chaperone-client membership absorb the unexplained U = P_Q - Pi_D P_Q? Using the Gong 2009 yeast chaperone atlas (Mol Syst Biol 5:275, PMC2710862; 64 chaperones x 4259 client ORFs, 21772 interactions, 99.2% name-mapped via SGD), the 64-dim binary chaperone-membership feature does NOT absorb U: cross-fitted held-out A_chap = -0.025 (NEGATIVE, worse than the matched-strata null95 = -0.012), p_chap = 0.806 (not significant), n_join=2697 (base R^2_QP=0.293 validated). Verdict composition_artifact: chaperone-client membership does NOT explain U -- the 64-dim feature overfits in-sample but the cross-fit/held-out projection collapses to negative and the matched permutation null is not beaten; the cross-fit + null discipline correctly rejected the high-dim overfitting. So U is NOT chaperone-client-mediated (within Gong2009's affinity-capture atlas). Cannot-claim: Gong2009 is affinity-capture (bait/prey, includes indirect/co-complex, not direct folding-clients); covers 4345 clients (not full proteome; atlas biased to soluble/abundant proteins); chaperone interaction != folding dependency; observational, not causal. Decision-sequence status: U is now confirmed NOT explained by observation-noise (reproducible), only ~2% by proteostasis-burden, DL-failing by exec/selection, and NOT by chaperone-client membership -- it remains a real, reproducible, predominantly-unresolved DNA->protein residual source (doc 11).",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "b_star_q6_pq_chaperone_client_absorption_powered",
+      "history": [
+        {
+          "ts": "2026-06-29T13:59:57+00:00",
           "status": "open"
         }
       ]
