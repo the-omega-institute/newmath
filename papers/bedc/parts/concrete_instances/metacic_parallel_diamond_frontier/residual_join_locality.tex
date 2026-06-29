@@ -232,6 +232,24 @@ Now consume the finite witness and checker rows using \autoref{thm:metacic-paral
 Finally apply residual-join witness locality, \autoref{thm:metacic-parallel-diamond-residual-join-witness-locality}. It keeps $J$ carrier-local, retains $P$ and $O$ through $H,T,G,N$, and prevents the bounded handoff from becoming global confluence, strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond candidate-mediated strong-normalization extension]
+\label{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-extension}
+Let an accepted $\MetaCICParallelDiamondFrontierUp$ packet expose the residual rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+Suppose a finite candidate packet reads its residual-premise row through \autoref{thm:metacic-parallel-diamond-frontier-residual-premise-exhaustion} and its residual-join row through \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. Then the packet extends along the candidate-mediated frontier without leaving the same finite residual budget. A strong-normalization-facing handoff may consume the local diamond row $J$ together with $P,K,R,S,C,B,O,H,T,G,N$ rather than selecting global normal forms.
+\end{theorem}
+\begin{proof}
+First read residual-premise exhaustion. It keeps $P$ as a retained premise row inside the displayed residual grid, so the candidate packet cannot erase the premise before the strong-normalization-facing handoff is formed.
+
+Next apply residual-join locality and residual-premise transport exhaustion. These rows keep the candidate join $J$, residual frontier rows, checker rows, and obstruction row inside the same packet after transport through $H,T,G,N$.
+
+Now consume the finite residual witness using \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. The witness exposes the bounded residual data and checker rows before the local diamond can be exported.
+
+Finally apply residual local confluence, \autoref{thm:metacic-parallel-diamond-frontier-residual-local-confluence}. The local diamond row is already a carrier-local handoff over the finite residual budget, so a strong-normalization-facing consumer receives that displayed row rather than a selected global normal form.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-join witness locality]
 \label{thm:metacic-parallel-diamond-residual-join-witness-locality}
 Every accepted residual-join witness for
