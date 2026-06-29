@@ -344,6 +344,7 @@ Apply the NameCert obligations of \autoref{thm:sheafification-namecert-obligatio
 
 The exactness and replay rows then identify the admission boundary. Coverage exactness from \autoref{thm:sheafification-coverage-exactness} forces source exposure before locality is consumed, plus gluing replay from \autoref{thm:sheafification-plus-gluing-replay} keeps the plus-style route inside $L,G,S,H,R$, and local non-escape from \autoref{thm:sheafification-local-namecert-nonescape} excludes host reflectors and quotient family objects.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafificationUp.SheafificationSeparatedPlusCarrierObligation}
 
 \begin{theorem}[Sheafification cover-local gluing obligation]
 \label{thm:sheafification-cover-local-gluing-obligation}
@@ -356,11 +357,13 @@ Next apply \autoref{thm:sheafification-plus-gluing-replay}. A plus-style gluing 
 
 Finally use \autoref{thm:sheafification-namecert-obligations} and \autoref{thm:sheafification-local-namecert-nonescape}. The local certificate names only the displayed route, and the non-escape theorem rules out a shortcut through host quotients, selected covers, or topos-level reflectors.
 \end{proof}
+\leanchecked{BEDC.Derived.SheafificationUp.SheafificationCoverLocalGluingObligation}
 
 \begin{theorem}[Sheafification sheaf handoff ledger obligation]
 \label{thm:sheafification-sheaf-handoff-ledger-obligation}
 For every accepted $\SheafificationUp$ carrier, the sheaf handoff ledger records the non-escape boundary from the displayed source rows to the target row $S$: compatible-family quotients and topos reflectors are excluded, while the only exported handoff is the finite route through \autoref{def:sheafification-carrier}, \autoref{thm:sheafification-namecert-obligations}, \autoref{thm:sheafification-coverage-exactness}, \autoref{thm:sheafification-plus-gluing-replay}, and \autoref{thm:sheafification-local-namecert-nonescape}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafificationUp.SheafificationSheafHandoffLedgerObligation}
 \begin{proof}
 Read the carrier definition first. The handoff ledger has no coordinate for host quotients of compatible families and no coordinate for a topos reflector; it has only the source, locality, gluing, target, transport, replay, provenance, and naming rows.
 
@@ -373,6 +376,7 @@ The plus gluing replay theorem supplies the target side, routing through $L,G,S,
 \label{thm:sheafification-plus-localization-carrier-admission}
 Every accepted plus-localization read of a $\SheafificationUp$ packet exposes the separated-refinement rows, cover-local matching rows, plus-style gluing rows, componentwise transport row, displayed replay row, provenance row, and local $\NameCert_{\SheafificationUp}$ row as finite $\BHist$ data. The exposed rows are exactly the rows admitted by \autoref{def:sheafification-carrier} and sourced through the category, topology, Grothendieck topology, presheaf, and sheaf chapters named in the chapter introduction.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafificationUp.SheafificationPlusLocalizationCarrierAdmission}
 \begin{proof}
 Project the carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$ from \autoref{def:sheafification-carrier}. The separated-refinement and cover-local matching rows are the locality entries in $L$, and the plus-style gluing rows are the accepted glued-section entries in $G$.
 
@@ -573,6 +577,7 @@ The package rows $Q,N$ then source and name that transported route. By local non
 \label{thm:sheafification-restriction-compatibility-obligation}
 Every restriction-compatibility read of an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$ keeps each plus and locality row downstream of the displayed $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, and $\PreSheafUp$ source rows. In particular, no read may consume $L$, $G$, or $S$ before $C,T,J,P$ have exposed the category source, topology or site windows, Grothendieck coverage, and presheaf restriction comparisons.
 \end{theorem}
+\leanchecked{BEDC.Derived.SheafificationUp.SheafificationRestrictionCompatibilityObligation}
 \begin{proof}
 Project the carrier of \autoref{def:sheafification-carrier}. The only restriction source rows are $C,T,J,P$, while $L,G,S$ are locality, gluing, and sheaf-target rows downstream of that source.
 
@@ -740,8 +745,8 @@ Finally use cover-refinement finite induction, \autoref{thm:sheafification-cover
 
 \begin{closurestatus}{\SheafificationUp}
   \constructivestory{A $\SheafificationUp$ packet is generated from CategoryUp source rows, TopologyUp or GrothendieckTopologyUp cover rows, a PreSheafUp restriction row, locality-refinement rows, gluing rows, a SheafUp target row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sheafification-carrier}, \autoref{thm:sheafification-namecert-obligations}, and \autoref{thm:sheafification-sheaf-handoff} seed the finite sheafification route from presheaf restrictions to sheaf-facing gluing data.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:sheafification-carrier}, \autoref{thm:sheafification-namecert-obligations}, \autoref{thm:sheafification-sheaf-handoff}, and \autoref{thm:sheafification-cover-refinement-budget} bind the finite sheafification route from presheaf restrictions through locality, gluing, transport, replay, provenance, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a host sheafification functor, quotient of compatible families, global choice of covers, topos objects, ambient powerset equality, Lean verification, or bridge checking.}
