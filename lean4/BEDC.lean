@@ -5449,6 +5449,7 @@ import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
 import BEDC.Derived.EilenbergSteenrodAxiomsUp.TasteGate
 import BEDC.Derived.EilenbergZilberUp
+import BEDC.Derived.EisensteinSeriesUp
 import BEDC.Derived.EisensteinUp
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
