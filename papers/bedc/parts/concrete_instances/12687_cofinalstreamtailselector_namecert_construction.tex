@@ -226,15 +226,15 @@ The remaining rows $H,C,P,N$ have only transport, replay, source, and naming rol
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 
-\closureat{CofinalStreamTailSelectorUp}{scopedStr}
+\closureat{CofinalStreamTailSelectorUp}{publicStr}
 
 \begin{closurestatus}{\CofinalStreamTailSelectorUp}
   \constructivestory{A $\CofinalStreamTailSelectorUp$ packet is generated from a precision request, a displayed cofinal StreamName tail window, RegSeqRat handoff, DyadicRatCore readback, RealUp seal delivery, selector provenance, componentwise hsame transports, displayed Cont routes, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:cofinal-stream-tail-selector-scoped-route} and \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} scope the finite route over StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows before any Real seal read.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:cofinal-stream-tail-selector-public-export} exports the accepted cofinal-window selector packet as a public Real-completion surface over the displayed StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real limits, countable choice, hidden tail selection, or a public standard bridge.}
-  \upgradepath{Public closure requires a downstream public-object surface for the scoped cofinal-window route without quotient streams, host limits, countable choice, hidden selectors, or ambient RealUp completeness.}
+  \upgradepath{Bridged closure requires a standard bridge for the public cofinal-window selector surface without quotient streams, host limits, countable choice, hidden selectors, or ambient RealUp completeness.}
 \end{closurestatus}
