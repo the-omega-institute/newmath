@@ -9082,6 +9082,8 @@ import BEDC.Derived.NatUp.AddSourceSpineForwardLink
 import BEDC.Derived.NatUp.NatAdd
 import BEDC.Derived.NatUp.TasteGate
 import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
+import BEDC.Derived.NatUp.UnaryNatBridge
+import BEDC.Derived.NatUp.UnaryNatMulBridge
 import BEDC.Derived.NaturalDeductionUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
@@ -10195,6 +10197,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RaneyNumberUp
 import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
+import BEDC.Derived.RapidCauchySubsequenceUp
 import BEDC.Derived.RapidlyCauchySequenceUp
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
 import BEDC.Derived.RatCauchyGapWitnessUp.NameCertObligations
@@ -11448,6 +11451,7 @@ import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
 import BEDC.Derived.RegulatedMeasureUp.TasteGate
+import BEDC.Derived.RegulatedMeshModulusUp.TasteGate
 import BEDC.Derived.RegulatedPrimitiveUp.TasteGate
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
@@ -12198,6 +12202,7 @@ import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpecializationTopologyUp
+import BEDC.Derived.SpeckerMonotoneBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
@@ -13046,6 +13051,7 @@ import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
 import BEDC.Derived.UniformHomeomorphismUp.PublicExport
 import BEDC.Derived.UniformHomeomorphismUp.ScopedRoute
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
+import BEDC.Derived.UniformIntegrabilityUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformInverseModulusUp.TasteGate
 import BEDC.Derived.UniformLebesgueNumberUp.TasteGate
@@ -13750,5 +13756,7 @@ import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
 import BEDC.Real.DyadicIntervalStream
+import BEDC.Real.RatInterval
+import BEDC.Real.RatLogEnclosure
 import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
