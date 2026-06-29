@@ -16579,6 +16579,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-29T08:19:59+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T08:19:59+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f45c72e10693",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -28081,6 +28098,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-29T08:19:59+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T08:20:26+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "b5bdd7c69b99",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -28258,14 +28292,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Sequence-intrinsic local disorder/low-complexity is a REAL but BOUNDED descriptor of measured per-position FUNCTIONAL mutational tolerance -- mostly explained by position-in-protein, NOT an independent crossing. First contact with the functional-fitness readout layer via deep mutational scanning (ProteinGym v0.1, 27 functional selection assays [growth/activity/drug-resistance/FACS] across human/E.coli/virus/yeast; stability assays excluded so this is orthogonal to the folding-ΔΔG claim; n=122493 single missense variants / 6820 deep-coverage positions). Readout = per-position tolerance = assay-internal z-scored mean DMS_score over substitutions (higher=more fit/tolerant). Upstream = sequence-intrinsic FLANKING-window (±7, center residue EXCLUDED) disorder-promoting fraction + Shannon complexity. Positive control reproduced (position->tolerance: termini more tolerant, Spearman(dist-to-center, tolerance)=-0.268). Raw flanking-disorder->tolerance Spearman=+0.132, BUT controlling position-in-protein it falls to partial-Spearman=+0.091 (BELOW the 0.10 effect floor) and adds only incremental held-out R^2=0.0063 (BELOW the 1% floor) beyond [position + center-residue hydropathy/charge/disorder] controls -- though BOTH beat a within-assay position-permutation null (B=1000, p=0.001). So local disorder carries a genuine but sub-threshold INDEPENDENT signal: most of the apparent disorder->tolerance association is the confound that disorder-promoting residues cluster near tolerant termini/loops. Center-residue disorder (Spearman=0.21) is the stronger driver and was correctly controlled out by excluding the center. Verdict bounded_descriptor_only (real, position-confounded, sub-threshold-independent). Cannot-claim: observational (not causal); stdlib flanking-composition disorder proxy (not IUPred; no MSA conservation); heterogeneous functional assays (z-score-aligned but readout meanings differ; a few GOF/resistance assays may invert fitness sign); residual-after-position not free of secondary-structure / solvent-accessibility covariates.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "protein_local_disorder_dms_functional_tolerance_proteingym",
       "history": [
         {
           "ts": "2026-06-29T08:17:49+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-29T08:25:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2a3e452f7503",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "84778b6eb764d499"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
     }
   ]
 }
