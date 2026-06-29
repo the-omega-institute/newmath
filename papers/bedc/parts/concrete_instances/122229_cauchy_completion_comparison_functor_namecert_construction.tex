@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionComparisonFunctorUp$}
+\label{ch:concrete-instances-cauchy-completion-comparison-functor-namecert}
+\origin{human}
+
+Following Mac Lane on comparison functors and Bishop--Bridges/Kelley on constructive completion, the $\CauchyCompletionComparisonFunctorUp$ packet records the finite BEDC route from the Kleisli presentation of Cauchy completion to the Eilenberg--Moore algebra presentation. It sits after the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli category of \autoref{ch:concrete-instances-cauchy-completion-kleisli-category-namecert}, the Eilenberg--Moore category of \autoref{ch:concrete-instances-eilenberg-moore-category-namecert}, the categorical source rows of \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-nattrans-namecert}, and the L10 completion readback route of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet compares the two category-level completion interfaces through displayed finite rows; it is not a quotient completion, a selected representative construction, host equality of completed objects, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy completion comparison functor carrier]
+\label{def:cauchy-completion-comparison-functor-carrier}
+A $\CauchyCompletionComparisonFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+J=(M,K,E,B,F,A,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyCompletionMonadUp$ row, exposing the unit, bind, finite windows, regular-rational readback, dyadic tolerance ledger, and terminal $\RealUp$ seal route.
+\item $K$ is the $\CauchyCompletionKleisliCategoryUp$ source row, displaying completion objects, unit arrows, Kleisli arrows, bind composition, and its real-completion handoff.
+\item $E$ is the $\EilenbergMooreCategoryUp$ target row, displaying algebra objects, structure maps, law rows, homomorphisms, and composition ledgers.
+\item $B$ is the base $\CategoryUp$ row shared by the Kleisli source and the Eilenberg--Moore target.
+\item $F$ is the displayed $\FunctorUp$ comparison row from $K$ to $E$.
+\item $A$ is the $\NatTransUp$ action row, recording the unit and multiplication compatibility of the comparison functor with the completion monad.
+\item $T$ is the L10 readback row through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before any completion-facing consumer reads the comparison.
+\item $L$ is the comparison ledger, recording that objects, arrows, unit routes, bind routes, and algebra law routes are compared only through $M,K,E,B,F,A,T$.
+\item $H$ records componentwise $\hsame$ transport for monad, Kleisli, Eilenberg--Moore, base-category, functor, naturality, readback, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for each comparison read from the monad route through the source and target category rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionComparisonFunctorUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionKleisliCategoryUp$, $\EilenbergMooreCategoryUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionComparisonFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,K,E,B,F,A,T,L,H,C,P,N$. It has no coordinate for quotient completion, host equality of completed objects, choice-selected representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completion comparison functor NameCert obligations]
+\label{thm:cauchy-completion-comparison-functor-namecert-obligations}
+For every accepted $\CauchyCompletionComparisonFunctorUp$ carrier
+$$
+J=(M,K,E,B,F,A,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionComparisonFunctorUp}$ surface consists exactly of carrier exposure, completion-monad exposure, Kleisli source exposure, Eilenberg--Moore target exposure, base-category exposure, comparison-functor exposure, naturality and monad-compatibility exposure, L10 readback exposure, comparison-ledger exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-comparison-functor-carrier}. The monad row $M$, the Kleisli row $K$, the Eilenberg--Moore row $E$, and the base row $B$ are displayed before any comparison can be consumed.
+
+The functor row $F$ and naturality row $A$ then record the comparison itself. They read the unit and bind schedules from $M$, the source composition route from $K$, and the algebra-law route from $E$.
+
+The L10 readback row $T$ keeps every completion-facing request on the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route. The ledger $L$ records that object, arrow, unit, bind, and algebra-law comparisons are all made through those visible rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no quotient-completion, host-equality, representative-choice, or ambient-completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy completion comparison functor handoff]
+\label{thm:cauchy-completion-comparison-functor-handoff}
+Every completion-facing consumer of an accepted $\CauchyCompletionComparisonFunctorUp$ packet receives the comparison functor only through the route
+$$
+\CauchyCompletionMonadUp,\ \CauchyCompletionKleisliCategoryUp,\ \EilenbergMooreCategoryUp,\ \CategoryUp,\ \FunctorUp,\ \NatTransUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp .
+$$
+The consumer may inspect the displayed unit, bind, Kleisli composition, algebra structure, functorial action, and naturality rows, but it cannot read a quotient completion, host equality, choice-selected representative, or ambient $\RealUp$ completeness theorem from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the completion monad row $M$. It supplies the unit and bind schedules together with finite stream windows, regular-rational readback, dyadic tolerance rows, and the terminal Real seal route.
+
+Read the source and target category rows next. The Kleisli row $K$ exposes objects, arrows, and bind composition, while the Eilenberg--Moore row $E$ exposes algebra objects, structure maps, law rows, homomorphisms, and composition ledgers over the same base row $B$.
+
+The comparison rows $F$ and $A$ are then available as displayed functor and naturality data. Their consumer route is recorded by $L$ and must pass through the L10 readback row $T$ before any Real-facing seal is consumed.
+
+The structural rows $H,C,P,N$ keep the handoff inside the displayed packet. Because the excluded objects are absent from the carrier inventory, no consumer can obtain them from the comparison functor route.
+\end{proof}
+
+\begin{theorem}[Cauchy completion comparison functor nonescape]
+\label{thm:cauchy-completion-comparison-functor-nonescape}
+No consumer of an accepted $\CauchyCompletionComparisonFunctorUp$ carrier may export quotient completion equality, host equality of completed objects, a choice-selected representative, an ambient $\RealUp$ completeness theorem, or an external comparison between the Kleisli and Eilenberg--Moore presentations. The consumer may export only the displayed comparison surface on $M,K,E,B,F,A,T,L,H,C,P,N$ and the local $\NameCert_{\CauchyCompletionComparisonFunctorUp}$ evidence attached to those rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:cauchy-completion-comparison-functor-carrier}. The tuple contains only the completion monad, Kleisli source, Eilenberg--Moore target, base category, functor, naturality, L10 readback, comparison ledger, and structural naming rows.
+
+\autoref{thm:cauchy-completion-comparison-functor-namecert-obligations} exhausts the local obligation surface. Every allowed read is tied to one of the displayed rows, and no excluded coordinate is introduced by the obligation theorem.
+
+\autoref{thm:cauchy-completion-comparison-functor-handoff} fixes the completion-facing route through the monad, categorical, functorial, naturality, stream, regular-rational, dyadic, and Real rows. Hence any accepted export remains inside the finite comparison packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyCompletionComparisonFunctorUp$ read is refuted whenever it compares Kleisli and Eilenberg--Moore completion presentations without displaying the completion monad, both category rows, the comparison functor row, the naturality row, the L10 stream, regular-rational, dyadic, and Real readback rows, and the local transport, replay, provenance, and naming rows.}
+
+\independenceWitness{cauchycompletionmonad, cauchy-completion-kleisli-category, eilenberg-moore-category, category, functor, nattrans, streamname, regseqrat, dyadicratcore, real: none is bijective to $\CauchyCompletionComparisonFunctorUp$ because this packet jointly binds the completion monad, Kleisli source, Eilenberg--Moore target, base category, functor action, naturality, L10 readback, comparison ledger, transport, replay, provenance, and local naming rows.}
+
+\closureat{CauchyCompletionComparisonFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionComparisonFunctorUp}
+  \constructivestory{A $\CauchyCompletionComparisonFunctorUp$ packet is generated from a CauchyCompletionMonad row, a CauchyCompletionKleisliCategory source row, an EilenbergMooreCategory target row, a Category base row, Functor and NatTrans comparison rows, StreamName, RegSeqRat, DyadicRatCore, and Real readback rows, a comparison ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-comparison-functor-carrier}, \autoref{thm:cauchy-completion-comparison-functor-namecert-obligations}, \autoref{thm:cauchy-completion-comparison-functor-handoff}, and \autoref{thm:cauchy-completion-comparison-functor-nonescape} seed the finite L10 comparison-functor packet from the Kleisli completion presentation to the Eilenberg--Moore algebra presentation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, host equality of completed objects, choice-selected representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monad exposure, Kleisli source exposure, Eilenberg--Moore target exposure, functorial action, naturality, L10 readback, comparison-ledger exactness, transport stability, replay stability, provenance exhaustion, and non-escape for BEDC.Derived.CauchyCompletionComparisonFunctorUp.}
+\end{closurestatus}
