@@ -1641,6 +1641,7 @@ import BEDC.Derived.CandidateSNConfluenceBoundaryUp.TasteGate
 import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
+import BEDC.Derived.CanonicalTailChoiceUp.CofinalityStability
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
 import BEDC.Derived.CanonicalTailChoiceUp.ObligationSurface
@@ -3327,7 +3328,6 @@ import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
 import BEDC.Derived.CofinalStreamTailSelectorUp.NameCertObligations
 import BEDC.Derived.CofinalStreamTailSelectorUp.ObligationPackage
 import BEDC.Derived.CofinalStreamTailSelectorUp.PublicExport
-import BEDC.Derived.CofinalStreamTailSelectorUp.PublicWindowTransport
 import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealNonescape
 import BEDC.Derived.CofinalStreamTailSelectorUp.ScopedRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
@@ -9641,7 +9641,6 @@ import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhaseTransformLadderUp
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
-import BEDC.Derived.PhenomenologyScienceInterfaceUp.GapLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
@@ -13308,7 +13307,8 @@ import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.WronskianUp.DeterminantLedgerExactness
 import BEDC.Derived.WronskianUp.DeterminantRouteStability
-import BEDC.Derived.WronskianUp.LinearDependenceBoundary
+import BEDC.Derived.WronskianUp.LinearDependenceWitness
+import BEDC.Derived.WronskianUp.RealSealNonescape
 import BEDC.Derived.WronskianUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
 import BEDC.Derived.WythoffUp
