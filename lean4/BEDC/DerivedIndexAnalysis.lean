@@ -223,6 +223,8 @@ import BEDC.Derived.ContinuousMapUp.CompositionTargetDeterminacy
 import BEDC.Derived.ContinuousMapUp.DistanceBoundary
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.SemanticCertificate
+import BEDC.Derived.CompactModulusMeshHandoffUp
+import BEDC.Derived.LocatedDyadicUniformMeshUp
 import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.ContinuousMapUp.EmptyIdentityDistance
 import BEDC.Derived.CompactUp
