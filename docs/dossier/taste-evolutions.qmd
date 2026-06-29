@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-28T22:46:40Z
+> 最后刷新: 2026-06-29T05:59:03Z
 
-**Daemon 状态**: monitor (monitor cycle 211, adjust_since_research 2, round_counter 30191, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 212, adjust_since_research 2, round_counter 30417, last_adjust rule_evolution_completed)
 
-**待处理 queue** (917 条 finding):
-- isolated_theorem: 635 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (919 条 finding):
+- isolated_theorem: 637 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 221 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 61 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 42 次
-- TASTE ALERT category=low_entropy_template: 5 次
-- TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=isolated_theorem: 39 次
+- TASTE ALERT category=low_entropy_template: 11 次
+- TASTE ALERT category=cycle_exception: 4 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -455,6 +455,10 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-28T21:00:10Z: `resolved` `delete_theorem` for `BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier_real_seal_handoff` (flag `isolated_theorem`, finding `isolated_theorem:archimedeanapproximation:BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier_real_seal_handoff:93ddb164`). Rationale: The target had no downstream Lean references: exact grep only found the declaration, while the paper reference was only a removable \leanchecked marker. Its content was a projection-style handoff tuple already subsumed by the stronger ArchimedeanApproximation NameCert obligations and later window/readback/nonescape/kernel/public export theorems, so keeping it as an isolated Lean theorem added no separate BEDC structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-28T22:45:54Z: `resolved` `add_downstream_user` for `BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package:203407cd`). Rationale: The target has real BEDC content: it builds a localName SemanticNameCert from the ApartnessSpace carrier, positive-gap route, zero-distance route, and package signatures. It had no downstream Lean consumer, so I added a sibling theorem in TransportAndReplay that consumes this package theorem together with the transport/replay certificate, tying the local naming package to the replay boundary surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-29T05:57:55Z: `resolved` `leave_with_rationale` for `BEDC.Derived.SeparableCompletionUp.SeparableCompletionCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:separablecompletion:BEDC.Derived.SeparableCompletionUp.SeparableCompletionCarrier_namecert_obligations:6d04d132`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert from the separable-completion Cont route and PkgSig provenance/local-name rows, and derives UnaryHistory for the intermediate read rows. It is currently only represented as the Lean declaration plus the paper marker, so I attempted add_downstream_user by adding a sibling consumer in DensityHandoff.lean that combined the NameCert obligations with SeparableCompletionDensityHandoff, but the required lake build gate failed on BEDC.Derived.SeparableCompletionUp.DensityHandoff. Per the task rule, I reverted the attempted edit and switched to leave_with_rationale with the gate failure recorded. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.SeparableCompletionUp.DensityHandoff
+error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
