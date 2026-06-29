@@ -5880,6 +5880,7 @@ import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FellTopologyUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FenchelMoreauBiconjugationUp
 import BEDC.Derived.FermatLittleUp
 import BEDC.Derived.FermatNumberUp
 import BEDC.Derived.FermatPseudoprimeUp
@@ -13863,4 +13864,6 @@ import BEDC.Real.RatNumSinCos
 import BEDC.Real.RatNumTrig
 import BEDC.Real.Sqrt2Apart
 import BEDC.Real.ZetaCertDy
+import BEDC.Real.ZetaCertDySound
+import BEDC.Real.ZetaCertHasse24
 import BEDC.Reflection
