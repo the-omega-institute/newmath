@@ -1640,6 +1640,7 @@ import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
+import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.WindowStability
@@ -2358,6 +2359,7 @@ import BEDC.Derived.CauchyModulusThinningUp
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNameTruncationUp
 import BEDC.Derived.CauchyNameUniformityUp
 import BEDC.Derived.CauchyNameUniformityUp.TasteGate
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
@@ -3311,7 +3313,9 @@ import BEDC.Derived.CofinalModulusSealUp.WindowBudgetExactness
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.NameCertObligations
 import BEDC.Derived.CofinalStreamTailSelectorUp.ObligationPackage
+import BEDC.Derived.CofinalStreamTailSelectorUp.PublicExport
 import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealNonescape
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
@@ -3596,6 +3600,7 @@ import BEDC.Derived.CompletionDenseExtensionModulusUp
 import BEDC.Derived.CompletionDenseExtensionUp.TasteGate
 import BEDC.Derived.CompletionDenseRangeUp
 import BEDC.Derived.CompletionDenseRangeUp.NameCertObligations
+import BEDC.Derived.CompletionDenseRangeUp.TasteGate
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
@@ -9870,6 +9875,7 @@ import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
+import BEDC.Derived.PreuniformityUp.EntourageStability
 import BEDC.Derived.PreuniformityUp.FilterBaseRoute
 import BEDC.Derived.PreuniformityUp.NameCertObligations
 import BEDC.Derived.PreuniformityUp.TasteGate
