@@ -51,6 +51,20 @@ Inspect the new residual through its norm-squared row $R$. If the packet carries
 Orthogonality is the invariant preserved by the same finite replay. Earlier output rows are orthogonal by the induction hypothesis, and the new residual subtracts exactly the displayed projection components against those rows. Componentwise $\hsame$ transport in $H$, $\Cont$ replay in $C$, $\Pkg$ provenance in $P$, and local naming in $N$ then move only the rows listed in the carrier.
 \end{proof}
 
+\begin{theorem}[Gram-Schmidt projection orthogonality induction]
+\label{thm:gram-schmidt-projection-orthogonality-induction}
+Let $G=(S,O,Z,A,R,T,H,C,P,N)$ be an accepted $\GramSchmidtUp$ carrier. Finite prefix induction on the source row $S$ preserves the following invariant: every promoted output row in $O$ is orthogonal, through the displayed $\InnerProductUp$ form row, to every earlier promoted output row; every projection coefficient used in $A$ is read only from that $\InnerProductUp$ form row together with the relevant nonzero pivot witness in $Z$; and any residual whose pivot witness is absent is recorded by $Z$ as a refusal row and is not promoted into $O$. The invariant is transported only through the rows exposed in \autoref{def:gram-schmidt-carrier} and the obligation surface of \autoref{thm:gram-schmidt-namecert-obligation-surface}.
+\end{theorem}
+\begin{proof}
+Induct on the finite prefix of $S$. The empty prefix has no promoted output rows, no projection coefficients, and no pivot to inspect, so the invariant is the empty route through $O,Z,A,R,T,H,C,P,N$.
+
+For the step, assume the invariant for the earlier prefix. The triangular replay row $T$ forms the next residual by subtracting only projection components along earlier promoted output rows. Each coefficient in that subtraction is read from the displayed $\InnerProductUp$ form value and the corresponding nonzero pivot witness in $Z$, exactly as required by the coefficient row of \autoref{thm:gram-schmidt-namecert-obligation-surface}.
+
+The induction hypothesis gives orthogonality among the earlier promoted rows. The new residual is compared against each earlier promoted row by the same replay: its projection component was chosen from the displayed inner-product value and the pivot witness for that earlier row, so the remaining inner-product read is the zero row certified by $T$ and $A$.
+
+It remains to inspect the new pivot. If $Z$ displays a nonzero norm-square witness, the residual is promoted into $O$ and becomes available to later prefixes with the orthogonality just established. If the witness is absent, $Z$ records the refusal row, and the residual is not promoted; later projection coefficients therefore cannot read it as a pivot row. The transport, continuation, provenance, and naming rows $H,C,P,N$ preserve this finite route without adding a host basis, replacement choice, or quotient equality.
+\end{proof}
+
 \closureat{GramSchmidtUp}{seedStr}
 
 \begin{closurestatus}{\GramSchmidtUp}

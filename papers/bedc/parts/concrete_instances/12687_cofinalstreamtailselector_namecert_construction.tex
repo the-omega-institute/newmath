@@ -39,6 +39,7 @@ The selector obligations are read in order. The precision request $\epsilon$ ope
 
 The RealUp seal row $A$ is downstream of $W,R,D,\sigma$, while $H,C,P,N$ provide transport, route replay, provenance, and local naming. Since the carrier has no coordinate for quotient streams, host-selected limits, countable choice, hidden tail selection, or ambient completeness, these rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorCarrier\_namecert\_obligations}
 
 \begin{theorem}[Cofinal StreamName tail selector seal order]
 \label{thm:cofinal-stream-tail-selector-seal-order}
@@ -148,6 +149,7 @@ Apply the non-escape theorem \autoref{thm:cofinal-stream-tail-selector-nonescape
 
 The TasteGate obligation, already recorded at \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation}, supplies only the local finite-carrier discipline for the same rows. Therefore the accepted public consumer receives exactly the listed BEDC rows and no additional tail-selection or completion principle.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorCarrier\_public\_export}
 
 \begin{theorem}[Cofinal StreamName tail selector scoped route]
 \label{thm:cofinal-stream-tail-selector-scoped-route}
@@ -198,6 +200,28 @@ Use the scoped-route theorem and the window-readback scope theorem to make the s
 The carrier has no coordinate for quotient stream identity, host-selected limits, countable choice, hidden tail oracles, or ambient Real completeness. Therefore the assembled route is exactly the stated public certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicCertificate}
+
+\begin{theorem}[Cofinal StreamName tail selector public window transport]
+\label{thm:cofinal-stream-tail-selector-public-window-transport}
+For every accepted $\CofinalStreamTailSelectorUp$ carrier
+$$
+Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N),
+$$
+any public transport of the cofinal selector window preserves the order
+$$
+\epsilon \to W \to R \to D \to \sigma \to A
+$$
+through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The rows $H,C,P,N$ only transport, replay, source, and name the same finite route. Such a transport cannot replace the window by quotient stream identity, a host-selected limit, countable choice, a hidden selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the public certificate of \autoref{thm:cofinal-stream-tail-selector-public-certificate}. It exposes exactly the displayed packet rows and already refuses quotient stream identity, host-selected limits, countable-choice selectors, hidden tail oracles, and ambient Real completeness.
+
+Apply the scoped route of \autoref{thm:cofinal-stream-tail-selector-scoped-route}. The precision request opens the $\StreamNameUp$ window $W$, the regular and dyadic rows $R,D$ read that window, selector provenance $\sigma$ remains part of the displayed route, and the $\RealUp$ seal $A$ is reached only afterward.
+
+Use the window readback scope of \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} together with the seal-order theorem of \autoref{thm:cofinal-stream-tail-selector-seal-order}. These keep every public transport from moving $A$ ahead of $\epsilon,W,R,D,\sigma$.
+
+The remaining rows $H,C,P,N$ have only transport, replay, source, and naming roles in the same finite packet. They therefore preserve the already displayed route rather than selecting a new tail, adding a limit, or appealing to a completeness principle outside the carrier.
+\end{proof}
 
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
