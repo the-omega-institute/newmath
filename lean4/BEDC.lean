@@ -3560,6 +3560,7 @@ import BEDC.Derived.CompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteOrderedFieldUp.TasteGate
+import BEDC.Derived.CompleteSeparableMetricUp.DensityCompletionHandoff
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
@@ -3568,6 +3569,7 @@ import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletelyRegularSpaceUp
+import BEDC.Derived.CompletelyRegularSpaceUp.RealValuedSeparationWindow
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
 import BEDC.Derived.CompletionDenseExtensionModulusUp
@@ -6555,6 +6557,7 @@ import BEDC.Derived.GaugeLebesgueNumberUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussSumUp
 import BEDC.Derived.GaussTestUp.TasteGate
+import BEDC.Derived.GaussianBinomialUp
 import BEDC.Derived.GaussianPrimeUp
 import BEDC.Derived.GaussianUp
 import BEDC.Derived.GcdUp
@@ -7160,6 +7163,7 @@ import BEDC.Derived.IteratedFunctionSystemUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JacksonFiniteApproximationUp.TasteGate
 import BEDC.Derived.JacobiIterationUp.TasteGate
+import BEDC.Derived.JacobiSymbolUp
 import BEDC.Derived.JacobiThetaFiniteUp
 import BEDC.Derived.JacobiUp
 import BEDC.Derived.JacobsthalUp
@@ -9531,6 +9535,7 @@ import BEDC.Derived.PartitionCoreIncidenceCertificateUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
 import BEDC.Derived.PartitionIdentitiesUp
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
+import BEDC.Derived.PartitionRankUp
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
 import BEDC.Derived.PdeUp
@@ -9542,6 +9547,7 @@ import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellUp
+import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
@@ -9955,6 +9961,7 @@ import BEDC.Derived.PushdownAutomatonUp.TasteGate
 import BEDC.Derived.PythagoreanCarrierUp
 import BEDC.Derived.PythagoreanUp
 import BEDC.Derived.QBinomialUp
+import BEDC.Derived.QFactorialUp
 import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
@@ -10197,6 +10204,7 @@ import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSquareOrderUp
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
+import BEDC.Derived.RationalStreamUp.NameCertSeedObligations
 import BEDC.Derived.RationalUp
 import BEDC.Derived.RationalUp.Core
 import BEDC.Derived.RationalUp.FieldLaws
@@ -12363,6 +12371,7 @@ import BEDC.Derived.SubstrateTraceInvariantUp.TasteGate
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SubtypeUp.TasteGate
 import BEDC.Derived.SuccessiveApproximationUp.TasteGate
+import BEDC.Derived.SumOfSquaresUp
 import BEDC.Derived.SumTwoSquaresUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
