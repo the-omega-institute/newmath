@@ -1,12 +1,16 @@
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SubjectReductionRouteChoiceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem SubjectReductionRouteChoiceObligationSurface (B V O H C P N : BHist) :
@@ -397,5 +401,59 @@ theorem SubjectReductionRouteChoiceBundleRouteExhaustion
       exact ⟨source, route⟩
   }
   exact ⟨Or.inl (hsame_refl B), Or.inr (Or.inl (hsame_refl V)), route, cert⟩
+
+def SubjectReductionRouteChoiceCarrier [AskSetup] [PackageSetup]
+    (typedTerm sourceType targetType routeLeft routeRight subjectTrace reductionTrace
+      substitutionTrace obstruction boundary continuation provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  UnaryHistory typedTerm ∧
+    UnaryHistory sourceType ∧
+      UnaryHistory targetType ∧
+        UnaryHistory routeLeft ∧
+          UnaryHistory routeRight ∧
+            UnaryHistory subjectTrace ∧
+              UnaryHistory reductionTrace ∧
+                UnaryHistory substitutionTrace ∧
+                  UnaryHistory obstruction ∧
+                    UnaryHistory boundary ∧
+                      UnaryHistory continuation ∧
+                        UnaryHistory provenance ∧
+                          UnaryHistory nameRow ∧
+                            Cont typedTerm sourceType routeLeft ∧
+                              Cont routeLeft targetType routeRight ∧
+                                Cont subjectTrace reductionTrace substitutionTrace ∧
+                                  Cont obstruction boundary continuation ∧
+                                    PkgSig bundle nameRow pkg
+
+theorem SubjectReductionRouteChoiceCarrier_metacic_scope [AskSetup] [PackageSetup]
+    {typedTerm sourceType targetType routeLeft routeRight subjectTrace reductionTrace
+      substitutionTrace obstruction boundary continuation provenance nameRow metacicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionRouteChoiceCarrier typedTerm sourceType targetType routeLeft routeRight
+        subjectTrace reductionTrace substitutionTrace obstruction boundary continuation provenance
+        nameRow bundle pkg →
+      Cont typedTerm sourceType routeLeft →
+        Cont routeLeft targetType metacicRead →
+          PkgSig bundle metacicRead pkg →
+            UnaryHistory typedTerm ∧
+              UnaryHistory sourceType ∧
+                UnaryHistory targetType ∧
+                  UnaryHistory routeLeft ∧
+                    UnaryHistory metacicRead ∧
+                      Cont typedTerm sourceType routeLeft ∧
+                        Cont routeLeft targetType metacicRead ∧
+                          PkgSig bundle metacicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier firstRoute secondRoute publicPkg
+  have typedUnary : UnaryHistory typedTerm := carrier.left
+  have sourceUnary : UnaryHistory sourceType := carrier.right.left
+  have targetUnary : UnaryHistory targetType := carrier.right.right.left
+  have routeUnary : UnaryHistory routeLeft := carrier.right.right.right.left
+  have readUnary : UnaryHistory metacicRead :=
+    unary_cont_closed routeUnary targetUnary secondRoute
+  exact
+    ⟨typedUnary, sourceUnary, targetUnary, routeUnary, readUnary, firstRoute,
+      secondRoute, publicPkg⟩
 
 end BEDC.Derived.SubjectReductionRouteChoiceUp
