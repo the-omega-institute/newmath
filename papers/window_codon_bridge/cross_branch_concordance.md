@@ -4,7 +4,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 ## Counts by bridge_class
 
-- bio_only: 57
+- bio_only: 58
 - duplicate_bio_program: 34
 - math_stub: 8
 - needs_derivation: 27
@@ -12,9 +12,9 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 ## B*_Q6 crosswalk summary
 
 - fibonacci B*_Q6 scripts: 35
-- bio B*_Q6 registered claims: 86
+- bio B*_Q6 registered claims: 87
 - duplicate/path-fork/parameter-divergence rows: 34
-- bio_only: 52
+- bio_only: 53
 - duplicate: 9
 - fibonacci_only: 1
 - namecert_watchlist: 35
@@ -88,6 +88,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_boundary_set_trna_poverty_powered.py | h3.cross_layer_relation.boundary_set_trna_poverty.b_star_q6_window6_R_mechanism_powered | bio_only | Mechanism for why Window6 boundary set R is biologically avoided (Route L): the 10 R sense-codons are systematically tRN |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_rate_slot_bridge_powered.py | h3.cross_layer_relation.observable_execution_decomposition.b_star_q6_rate_slot_bridge_powered | bio_only | Route AB (cross-fitted observable-execution decomposition of P_Q): of the protein-abundance signal that B*_Q6 explains ( |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_pq_target_permutation_dictionary_ceiling_powered.py | h3.cross_layer_relation.target_noise_ceiling.b_star_q6_pq_target_permutation_dictionary_ceiling_powered | bio_only | Target-side permutation noise ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade decisive gate, doc s |
+| bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_pq_cross_condition_observation_ceiling_powered.py | h3.cross_layer_relation.observation_ceiling.b_star_q6_pq_cross_condition_observation_ceiling_powered | bio_only | Cross-condition observation ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade step 2): is the unexpl |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_irreducibility_certificate_powered.py | h3.cross_layer_relation.irreducibility_certificate.b_star_q6_residual_primitive_powered | bio_only | Hypothesis (tested, falsified): the B*_Q6 synonymous-codon residual on yeast protein abundance is an irreducible primiti |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_partial_mediation_certificate_powered.py | h3.cross_layer_relation.partial_mediation.b_star_q6_readout_dictionary_powered | bio_only | The B*_Q6 synonymous-codon residual association with yeast protein abundance is real (held-out 5-fold R^2 ~0.19 vs permu |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_window_chen2017_gfp_synonymous_protein_escape_powered.py | h3.cross_layer_relation.synonymous_perturbation.b_star_window_chen2017_gfp_synonymous_protein_escape_powered | bio_only | Independent yeast reporter replication of the Shen escape, at the PROTEIN readout (does B_window predict protein beyond  |
