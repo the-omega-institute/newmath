@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRadiusContractionUp$}
+\label{ch:concrete-instances-finite-radius-contraction-namecert}
+\origin{human}
+
+Following Banach and Picard, the $\FiniteRadiusContractionUp$ packet records the local contraction-budget data needed to run a displayed Picard window inside a fixed metric radius. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite local budget: it does not assert a global fixed-point theorem, a complete ambient space, a selected limit outside the displayed window, quotient equality of real names, countable choice, or a host contraction principle.
+
+\begin{definition}[Finite-radius contraction carrier]
+\label{def:finite-radius-contraction-carrier}
+A $\FiniteRadiusContractionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,r,q,W,B,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row naming the carried metric and the finite distance reads used by the local argument.
+\item $r$ is the positive radius row for the local ball being inspected.
+\item $q$ is the contraction-constant row, displayed as a rational bound with $0\le q<1$ in the packet's rational readback.
+\item $W$ is the Picard window row, listing the finitely many iterates and distance requests opened from the chosen seed.
+\item $B$ is the Cauchy-tail budget row, recording the finite geometric tail estimates consumed inside the radius $r$.
+\item $S$ is the $\StreamNameUp$ row naming the displayed iterate stream window.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational error bounds attached to $W$ and $B$.
+\item $R$ is the $\RealUp$ seal row available only after the stream and regular-rational rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, radius, contraction constant, Picard window, Cauchy-tail budget, StreamName, RegSeqRat, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the metric and radius rows through the Picard window, tail budget, StreamName, RegSeqRat, and Real seal rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteRadiusContractionUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteRadiusContractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,r,q,W,B,S,Q,R,H,C,P,N$. It has no coordinate for a global fixed point, a complete ambient metric space, a selected host limit, quotient equality of real names, countable choice, or an unbounded Picard iteration.
+\end{definition}
+
+\begin{theorem}[Finite-radius contraction NameCert obligations]
+\label{thm:finite-radius-contraction-namecert-obligations}
+For every accepted $\FiniteRadiusContractionUp$ carrier
+$$
+F=(M,r,q,W,B,S,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteRadiusContractionUp}$ surface consists exactly of metric-source exposure through $M$, radius exposure through $r$, contraction-constant exposure through $q$, Picard-window exposure through $W$, Cauchy-tail budget exposure through $B$, StreamName exposure through $S$, RegSeqRat readback through $Q$, Real seal delivery through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its analytic rows are exactly the metric source, radius, contraction constant, Picard window, tail budget, stream window, rational readback, and Real seal.
+
+The local contraction data are read before any Picard consumer can act. The row $M$ supplies only displayed metric distances, $r$ fixes the ball in which the argument is allowed to run, and $q$ supplies the finite rational contraction bound.
+
+The iterative route is then confined to $W,B,S,Q,R$. The Picard window $W$ lists only finitely many iterates, the budget row $B$ records only the displayed geometric tail estimates, the stream row $S$ names the visible window, the regular rational row $Q$ reads the finite error bounds, and the Real row $R$ seals only that displayed readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no excluded global object is a coordinate of the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite-radius contraction Picard budget]
+\label{thm:finite-radius-contraction-picard-budget}
+Every Picard consumer of an accepted $\FiniteRadiusContractionUp$ packet must read the finite route
+$$
+M,r,q,W,B,S,Q,R,H,C,P,N
+$$
+before using a contraction estimate. The route supplies a local radius, a displayed contraction constant, a finite Picard window, and a Cauchy-tail budget for the visible iterates; it supplies no global fixed point, no ambient completeness theorem, no selected limit outside the window, no quotient equality of real names, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:finite-radius-contraction-namecert-obligations}. They place the metric source, radius, contraction constant, window, and tail-budget rows before any Real-facing read.
+
+Read the Picard route inside the fixed radius. The displayed constant $q$ is consumed only together with the ball row $r$ and the finite window row $W$, so a consumer cannot extend the estimate to an unbounded iteration or to a different metric source.
+
+The tail estimate remains finite. The budget row $B$ records the geometric tail data visible to the packet, while $S,Q,R$ turn that window into StreamName, RegSeqRat, and Real-facing rows without selecting a host limit.
+
+Transport, replay, provenance, and local naming preserve this same route. Thus the packet exports exactly a local Picard budget, and any global fixed-point conclusion must be supplied by a separate downstream certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteRadiusContractionUp$ Picard read exposes the metric source, radius row, contraction constant, finite Picard window, Cauchy-tail budget, StreamName row, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert row before using the contraction estimate.}
+
+\independenceWitness{metric, streamname, regseqrat, real: $\FiniteRadiusContractionUp$ is not bijective to any listed sibling because it jointly binds a local radius, contraction constant, Picard window, Cauchy-tail budget, stream readback, regular rational readback, Real seal, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{FiniteRadiusContractionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRadiusContractionUp}
+  \constructivestory{A $\FiniteRadiusContractionUp$ packet is generated from a Metric source row, local radius row, contraction-constant row, finite Picard window, Cauchy-tail budget, StreamName row, RegSeqRat readback, RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-radius-contraction-carrier}, \autoref{thm:finite-radius-contraction-namecert-obligations}, and \autoref{thm:finite-radius-contraction-picard-budget} seed the finite local contraction-budget route for Picard-window and Cauchy-tail consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global fixed-point theorem, ambient metric completeness, selected host limits, quotient equality of real names, countable choice, unbounded Picard iteration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source exposure, radius exactness, contraction-constant exactness, Picard-window exposure, Cauchy-tail budget exactness, StreamName and RegSeqRat readback, Real seal delivery, transport, replay, provenance, and local naming for BEDC.Derived.FiniteRadiusContractionUp.}
+\end{closurestatus}

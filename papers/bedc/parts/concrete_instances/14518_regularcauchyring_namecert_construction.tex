@@ -251,12 +251,25 @@ Finally apply the obligation surface and inversion theorems, \autoref{thm:regula
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingObligationUpgrade}
 
+\begin{theorem}[Regular Cauchy ring scoped kernel dependency]
+\label{thm:regular-cauchy-ring-scoped-kernel-dependency}
+The scoped kernel of an accepted $\RegularCauchyRingUp$ carrier consists only of the carrier coordinates of \autoref{def:regular-cauchy-ring-carrier}, the four operation rows $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, and $\RegularCauchyScaleUp$, their distributivity and operation-inversion obligations, the terminal $\RealUp$ seal rows, componentwise $\Cont$ and $\hsame$ transport, and the source surfaces $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$. No part of the carrier, operation admission rows, distributivity route, Real seal boundary, or operation inversion depends on host real algebra, quotient real equality, selected completed limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingScopedKernelDependency}
+\begin{proof}
+Project the carrier and operation-row admission theorems, \autoref{def:regular-cauchy-ring-carrier} and \autoref{thm:regular-cauchy-ring-operation-row-admission}. They name exactly the source rows, aligned stream windows, dyadic ledgers, four sibling operation rows, finite budget rows, structural transport, replay, provenance, and local naming data.
+
+For algebraic use, apply operation closure, componentwise distributivity, finite operation induction, and operation inversion: \autoref{thm:regular-cauchy-ring-operation-closure}, \autoref{thm:regular-cauchy-ring-componentwise-distributivity}, \autoref{thm:regular-cauchy-ring-finite-operation-induction}, and \autoref{thm:regular-cauchy-ring-operation-inversion}. These theorems reduce every ring consumer to the four displayed sibling rows and their source data.
+
+Finally apply terminal-seal discipline and Real seal non-escape, \autoref{thm:regular-cauchy-ring-terminal-seal-discipline} and \autoref{thm:regular-cauchy-ring-real-seal-nonescape}. The terminal rows stay behind the same operation and budget ledgers, so the scoped kernel is precisely the displayed BEDC dependency list and has no residual host-real branch.
+\end{proof}
+
 \closureat{RegularCauchyRingUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyRingUp}
   \constructivestory{A $\RegularCauchyRingUp$ packet is generated from two RegSeqRat source rows, aligned StreamName windows, DyadicRatCore endpoint ledgers, RegularCauchySum, RegularCauchyNegation, RegularCauchyProduct, and RegularCauchyScale operation rows, terminal RealUp seal rows, finite budget ledgers, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-ring-carrier}, \autoref{thm:regular-cauchy-ring-namecert-obligations}, \autoref{thm:regular-cauchy-ring-operation-closure}, \autoref{thm:regular-cauchy-ring-real-seal-nonescape}, and \autoref{thm:regular-cauchy-ring-obligation-upgrade} declare the finite algebraic operation packet, its four operation routes, and its full obligationClosure surface over regular Cauchy names.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-ring-carrier}, \autoref{thm:regular-cauchy-ring-namecert-obligations}, \autoref{thm:regular-cauchy-ring-operation-closure}, \autoref{thm:regular-cauchy-ring-real-seal-nonescape}, \autoref{thm:regular-cauchy-ring-obligation-upgrade}, and \autoref{thm:regular-cauchy-ring-scoped-kernel-dependency} bind the carrier, operation rows, distributivity, terminal Real seal, operation inversion, DyadicRatCore, StreamName, RegSeqRat, RegularCauchySum, RegularCauchyNegation, RegularCauchyProduct, RegularCauchyScale, Cont/hsame transport, and RealUp sealing as the chapter's exact kernel scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, host real arithmetic laws, trichotomy, countable choice, selected completed limits, RealUp completeness, Lean verification, or bridge checking.}

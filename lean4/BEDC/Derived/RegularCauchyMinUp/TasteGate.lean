@@ -150,6 +150,44 @@ instance regularCauchyMinChapterTasteGate : ChapterTasteGate RegularCauchyMinUp 
     intro x y hxy heq
     exact hxy (RegularCauchyMinTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance regularCauchyMinFieldFaithful : FieldFaithful RegularCauchyMinUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyMinFields
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y hfields
+    cases x with
+    | mk A₁ B₁ W₁ DA₁ DB₁ J₁ S₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk A₂ B₂ W₂ DA₂ DB₂ J₂ S₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+            injection hfields with hA t0
+            injection t0 with hB t1
+            injection t1 with hW t2
+            injection t2 with hDA t3
+            injection t3 with hDB t4
+            injection t4 with hJ t5
+            injection t5 with hS t6
+            injection t6 with hR t7
+            injection t7 with hE t8
+            injection t8 with hH t9
+            injection t9 with hC t10
+            injection t10 with hP t11
+            injection t11 with hN _
+            subst hA
+            subst hB
+            subst hW
+            subst hDA
+            subst hDB
+            subst hJ
+            subst hS
+            subst hR
+            subst hE
+            subst hH
+            subst hC
+            subst hP
+            subst hN
+            rfl
+
 def taste_gate : ChapterTasteGate RegularCauchyMinUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyMinChapterTasteGate

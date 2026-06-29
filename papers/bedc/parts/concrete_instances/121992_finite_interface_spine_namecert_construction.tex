@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FiniteInterfaceSpineUp$}
+\label{ch:concrete-instances-finite-interface-spine-namecert}
+\origin{human}
+
+The $\FiniteInterfaceSpineUp$ packet realizes the finite data layer of \autoref{ch:visions-finite-data-interface-spine} as one L6 NameCert interface over the existing $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, and $\ListUp$ rows. It reconstructs the ordinary finite-data toolkit as displayed BEDC certificate data rather than as kernel input: truth tags, nullable alternatives, disjoint branch tags, ordered pairs, and finite lists are all read through histories, history sameness, continuation replay, package provenance, gap discipline, and local naming. The packet sits after \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-sum-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-list-namecert}; it exports no host datatype primitive, unrestricted recursion scheme, quotient equality of finite objects, or hidden kernel constructor.
+
+\begin{definition}[Finite interface spine carrier]
+\label{def:finite-interface-spine-carrier}
+A $\FiniteInterfaceSpineUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,O,S,P,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoolUp$ endpoint row, naming the two visible truth tags.
+\item $O$ is the $\OptionUp$ nullable row, naming absence and displayed presence over the admitted carrier.
+\item $S$ is the $\SumUp$ branch row, naming left and right injections with their branch tags.
+\item $P$ is the $\ProdUp$ pair row, naming first and second projections as displayed components.
+\item $L$ is the $\ListUp$ finite sequence row, naming nil, cons, length, and component readback ledgers.
+\item $H$ records componentwise $\hsame$ transport for all five finite-data rows and the structural rows.
+\item $C$ records displayed $\Cont$ replay from finite-data requests through $B,O,S,P,L$.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteInterfaceSpineUp$, $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteInterfaceSpineUp}$ row.
+\end{enumerate}
+The carrier is an interface spine only. It has no coordinate for a host finite-type universe, an external eliminator, quotient equality of displayed finite objects, or a new BEDC kernel constructor.
+\end{definition}
+
+\begin{theorem}[Finite interface spine NameCert obligations]
+\label{thm:finite-interface-spine-namecert-obligations}
+For every accepted $\FiniteInterfaceSpineUp$ carrier $F=(B,O,S,P,L,H,C,Q,N)$, the local $\NameCert_{\FiniteInterfaceSpineUp}$ surface consists exactly of carrier admission for the displayed five finite-data rows, constructor exposure for the Boolean, option, sum, product, and list interfaces, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interface-spine-carrier}. The rows $B,O,S,P,L$ are the only finite-data rows available to an accepted packet.
+
+Each constructor surface is inherited from its displayed sibling row. Boolean reads use the endpoint row $B$; option reads use the absent-or-present row $O$; sum reads use the branch row $S$; product reads use the projection row $P$; and list reads use the nil, cons, length, and component ledgers in $L$.
+
+The structural rows $H,C,Q,N$ transport, replay, source, and name only those displayed rows. Since the carrier has no host finite-type universe, external eliminator, quotient equality, or kernel constructor coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite interface spine L6 handoff]
+\label{thm:finite-interface-spine-lsix-handoff}
+Every L6 consumer of $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, or $\ListUp$ through a $\FiniteInterfaceSpineUp$ packet must display the finite route
+$$
+\BoolUp,\OptionUp,\SumUp,\ProdUp,\ListUp,\BHist,\hsame,\Cont,\Pkg,\NameCert
+\longmapsto
+\FiniteInterfaceSpineUp .
+$$
+The handoff exports the common finite-data interface packet and no host datatype primitive, hidden recursion principle, quotient equality, or kernel extension.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:finite-interface-spine-namecert-obligations}. It forces every consumer to read the five sibling finite-data rows before any common interface name is public.
+
+The replay row $C$ orders the route through the displayed Boolean, option, sum, product, and list certificates. The transport row $H$ keeps the same five-row packet stable under $\hsame$, while $Q$ and $N$ attach provenance and local naming.
+
+Thus the L6 handoff is exactly the displayed finite-data packet. No additional coordinate can supply a host datatype primitive, hidden recursion principle, quotient equality, or kernel extension.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteInterfaceSpineUp$ consumer displays BoolUp, OptionUp, SumUp, ProdUp, ListUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before reading the common L6 finite-data interface.}
+
+\independenceWitness{bool, option, sum, prod, list: $\FiniteInterfaceSpineUp$ is not bijective to any listed sibling because it binds the five finite-data rows into one common L6 interface packet with shared transport, replay, provenance, and local naming.}
+
+\closureat{FiniteInterfaceSpineUp}{seedStr}
+
+\begin{closurestatus}{\FiniteInterfaceSpineUp}
+  \constructivestory{A $\FiniteInterfaceSpineUp$ packet is generated from BoolUp endpoints, OptionUp nullable rows, SumUp branch tags, ProdUp projection rows, ListUp finite-sequence ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-interface-spine-carrier}, \autoref{thm:finite-interface-spine-namecert-obligations}, and \autoref{thm:finite-interface-spine-lsix-handoff} seed the common L6 finite-data interface over BoolUp, OptionUp, SumUp, ProdUp, and ListUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted recursion, quotient equality of finite objects, host datatype primitives, or a new BEDC kernel constructor.}
+  \upgradepath{Obligation closure requires checked carrier admission, constructor exposure, L6 handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteInterfaceSpineUp.}
+\end{closurestatus}
