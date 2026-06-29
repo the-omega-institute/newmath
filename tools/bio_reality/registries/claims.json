@@ -28647,6 +28647,36 @@
         }
       ],
       "linked_conjecture_id": "q6.h-ranking-table.direction-aware.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.execution_selection_decomposition.b_star_q6_residual_exec_selection_joint_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Execution-vs-selection joint decomposition of the B*_Q6 protein-abundance residual P_Q (doc 7.5). P_Q (reconstructed faithfully: yeast base R^2_QP=0.298, dictionary anchor C*=0.256) is jointly regressed on (a) k_tl^local = per-gene local-dwell execution rate from the order-2 finite-state transducer over {K_AAA, Arg_AGR, f3_stress} on yeast riboseq occupancy, and (b) E_sel = per-gene selection potential Sum_t -log P_o(c_t|a_t) from yeast codon usage; n=5684 genes, base controls = aa-composition/length/GC. Decomposition: execution_fraction=0.044, selection_fraction=0.016, unresolved_fraction=0.940 (dominant=unresolved). Held-out joint Delta-R^2=0.0140 beats the target-permutation null 50x (null95=0.00026) and partial-Spearman(exec|base)=-0.125, partial-Spearman(sel|base)=-0.137 both clear the 0.10 effect floor -- but the joint lift FAILS the description-length complexity penalty (net lift after DL = -0.006), so verdict composition_artifact (the two channels do not justify their model complexity). Critically, k_tl^local is NOT disguised measured-TE (Spearman=-0.015) -- a genuinely independent execution channel. Finding: local execution (transducer dwell) and codon-preference selection each carry a real-but-tiny, complexity-failing signal; ~94% of P_Q stays unresolved by these two channels. Per the methods upgrade, this 94% is NOT yet attributable to hidden biology -- it requires the observation-noise ceiling and proteostasis/PTM/chaperone subtraction (subsequent modules) before interpretation. Cannot-claim: observational, not causal; transducer is weak order-2; E_sel partly co-defined with B*_Q6 (both synonymous-preference residuals, aa-composition-residualized but boundary not sharp); occupancy covers a gene subset; unresolved-dominant is the doc 7.1 source-definition, not a failure.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "b_star_q6_residual_exec_selection_joint_powered",
+      "history": [
+        {
+          "ts": "2026-06-29T10:45:46+00:00",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.target_noise_ceiling.b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Target-side permutation noise ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade decisive gate, doc step 1): is the measured-readout dictionary's compressibility of P_Q genuine biological structure, or an artifact of the model class compressing any same-marginal target? The existing dictionary null is READOUT-side (permutes the readout basis); this adds the missing TARGET-side null. Yeast (n=3290, base R^2_QP=0.293 = reconstruction-validated): the best complexity-penalized dictionary coverage C*_obs=0.2086; permuting P_Q within MATCHED STRATA (abundance-decile x CDS-length-bin x GC3-bin) and re-running the full dictionary selection B=200 times yields target-null N_target_95=0.0095 (null mean 0.0044, max 0.0164), so C*_obs exceeds the matched ceiling by ~22x with p_target=0.005. Verdict crosses_boundary: the B*_Q6->protein-abundance dictionary compressibility is GENUINE structure, NOT a model-class artifact -- the model class achieves only ~0.4% coverage on a stratum-shuffled P_Q. This VALIDATES continuing the source-side decomposition program. Cannot-claim: observational, not causal; matched strata control only abundance/length/GC3 (not finer join/platform structure -- possibly still lenient); C* uses the minimal_dictionary lambda-DL/join/null penalties; passing this gate does NOT mean the unexplained U is all hidden biology -- U still must clear the observation-noise ceiling and have proteostasis/PTM/chaperone contacts subtracted before attribution.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
+      "history": [
+        {
+          "ts": "2026-06-29T10:45:46+00:00",
+          "status": "open"
+        }
+      ]
     }
   ]
 }
