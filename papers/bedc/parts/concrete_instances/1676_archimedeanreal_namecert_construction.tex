@@ -225,13 +225,15 @@ $$
 is produced by finite induction over the displayed $\StreamNameUp$ window rows $S$ and the $\DyadicArchimedeanUp$ scale rows supplied through $D,B$. The induction starts from the public bound surface $Q,D,S,G,B,H,C,P,N$, advances one displayed window request at a time, records the resulting dyadic threshold row, and then hands the completed regular-Cauchy readback to $\RealUp$ through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no supremum, trichotomy, quotient stream equality, selected limit, countable-choice schedule, or ambient completeness coordinate.
 \end{theorem}
 \begin{proof}
-Begin with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies the only Archimedean bound surface available to the induction as the rows $Q,D,S,G,B,H,C,P,N$.
+Induct on the displayed finite list of $\StreamNameUp$ window requests supplied by the $\RealObservationBudgetUp$ row. In the empty-window case, the public bound export of \autoref{thm:archimedean-real-public-bound-export} already identifies the available Archimedean surface as $Q,D,S,G,B,H,C,P,N$, and the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff} says that the consumer has displayed the finite budget rows before any regular-Cauchy read is attempted. Thus the base read has no hidden observation coordinate to discharge.
 
-Next use the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. Each induction step reads a finite observation request through the displayed $\StreamNameUp$ windows before it consumes the Archimedean rational and dyadic rows.
+For the induction step, append one displayed window request to the already-read finite prefix. The $\RealObservationBudgetUp$ window-coverage row makes this added request a named $\StreamNameUp$ row, and the finite-route coverage row keeps the request inside the displayed precision, dyadic observation, regular handoff, $\RealUp$ seal, transport, replay, provenance, and local naming rows.
 
-Apply dyadic threshold totality, \autoref{thm:archimedean-real-dyadic-threshold-totality}, at the displayed step. The scale row is sourced from $D,B$, transported componentwise by $H$, and replayed through $C$ without adding a hidden selector or quotient-stream coordinate.
+Apply dyadic threshold totality, \autoref{thm:archimedean-real-dyadic-threshold-totality}, to that single added request. The threshold row is sourced from the rational and dyadic bound rows $Q,D$, checked against the finite ledger $B$, transported componentwise by $H$, and replayed through $C$ without adding a hidden selector, countable-choice schedule, or quotient-stream coordinate.
 
-Finally compose the stepwise construction with the Cauchy threshold forward route of \autoref{thm:archimedean-real-cauchy-threshold-forward-route}. The completed finite induction therefore reaches the $\RegSeqRatUp$ readback and the downstream $\RealUp$ seal only through $G,H,C,P,N$.
+The step then hands the obtained threshold row to the $\RegSeqRatUp$ readback row $G$. Composing with the Cauchy threshold forward route of \autoref{thm:archimedean-real-cauchy-threshold-forward-route} sends the finite prefix, together with the newly added request, to the downstream $\RealUp$ seal only through $G,H,C,P,N$.
+
+Since the input window family is finite, repeated use of this step exhausts exactly the displayed requests in $S$. The induction therefore produces the stated regular-Cauchy readback from the budget rows and dyadic threshold rows alone.
 \end{proof}
 
 \begin{theorem}[ArchimedeanReal located-threshold handoff]
