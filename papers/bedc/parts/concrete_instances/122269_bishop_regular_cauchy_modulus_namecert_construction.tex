@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCauchyModulusUp$}
+\label{ch:concrete-instances-bishop-regular-cauchy-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRegularCauchyModulusUp$ packet records the explicit dyadic modulus budget carried by a regular Cauchy rational name before the L10 Real and Completion route reads it as a value-facing object. It sits over the finite scheduling surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the sequence-space route of \autoref{ch:concrete-instances-regular-sequence-space-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed modulus rows; it does not add quotient stream equality, selected representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop regular Cauchy modulus carrier]
+\label{def:bishop-regular-cauchy-modulus-carrier}
+A $\BishopRegularCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,D,M,S,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the regular Cauchy row, read through the $\RegSeqRatUp$ surface.
+\item $D$ is the dyadic budget row, read through $\DyadicRatCoreUp$ and attached to each requested precision scale.
+\item $M$ is the modulus row, assigning to every displayed dyadic request the finite observation window that witnesses the regular Cauchy bound.
+\item $S$ is the shift row, recording the $\StreamNameUp$ reindexing by which a tail or translated name is read with the same displayed budget.
+\item $H$ records componentwise $\hsame$ transport for the regular Cauchy row, dyadic budget row, modulus row, shift row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay through regular readback, dyadic request, modulus lookup, StreamName reindexing, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCauchyModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularSequenceSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\BishopRegularCauchyModulusUp}$ ledger row.
+\end{enumerate}
+The carrier contains no coordinate for a host choice function, quotient real equality, selected representative stream, hidden infinite tail choice, real trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop regular Cauchy modulus NameCert obligations]
+\label{thm:bishop-regular-cauchy-modulus-namecert-obligations}
+For every accepted $\BishopRegularCauchyModulusUp$ carrier
+$$
+B=(R,D,M,S,H,C,P,L),
+$$
+the local $\NameCert_{\BishopRegularCauchyModulusUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed finite packet;
+\item regular Cauchy readback through $R$ and dyadic budget admission through $D$;
+\item modulus lookup through $M$ and StreamName reindexing through $S$;
+\item componentwise $\hsame$ transport and displayed $\Cont$ replay through $H$ and $C$;
+\item $\Pkg$ provenance and local NameCert ledgering through $P$ and $L$.
+\end{enumerate}
+No obligation row may replace this surface by quotient stream equality, selected representatives, countable choice, trichotomy, hidden tail choice, host completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-regular-cauchy-modulus-carrier}. The rows $R,D,M,S$ are the object-facing data, and the rows $H,C,P,L$ are the structural data.
+
+The regular Cauchy and dyadic rows form the budget boundary. Row $R$ supplies the regular rational readback, while row $D$ names the dyadic request scale against which the Cauchy estimate is checked.
+
+The modulus and shift rows keep the boundary finite. Row $M$ records the requested observation window, and row $S$ records how the same request is read after a StreamName reindexing. These rows do not store a selected infinite tail.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same displayed packet. Since no carrier coordinate names quotient equality, selected representatives, choice, trichotomy, hidden tail choice, host completion, or ambient completeness, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy modulus shift stability]
+\label{thm:bishop-regular-cauchy-modulus-shift-stability}
+Let
+$$
+B=(R,D,M,S,H,C,P,L)
+$$
+be an accepted $\BishopRegularCauchyModulusUp$ carrier. If a consumer shifts the regular Cauchy name by the displayed $\StreamNameUp$ reindexing row $S$, then the dyadic budget displayed by $D$ and the modulus lookup displayed by $M$ remain the budget read by the shifted name. Equivalently, the shifted read factors through the same $\RegSeqRatUp$ row $R$, the same dyadic budget row $D$, and the same modulus row $M$, with only the StreamName indices readdressed by $S$.
+\end{theorem}
+\begin{proof}
+Start with the regular Cauchy row $R$. Its consumer-facing observations are read only through the finite StreamName windows named in the packet, not through a host sequence or a quotient representative.
+
+Apply the shift row $S$. The row reindexes the displayed StreamName addresses, so the same observation request is read at the shifted addresses while preserving the packet's dyadic request row $D$.
+
+Use the modulus row $M$ after reindexing. Because $M$ is attached to the dyadic request row and not to an external choice of representative, the shifted consumer obtains the same displayed budget for the shifted regular name.
+
+The transport and replay rows $H$ and $C$ then carry the reindexed read through provenance $P$ and local ledger $L$. Thus shifting changes only the visible StreamName addresses; it does not introduce a new modulus, a hidden tail selector, quotient equality, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopRegularCauchyModulusUp$ shifted read displays the same dyadic budget and modulus rows after applying its StreamName reindexing row.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regularsequencespace, real: $\BishopRegularCauchyModulusUp$ is not bijective to any listed sibling because it carries the regular Cauchy row, dyadic budget row, explicit modulus row, StreamName shift row, transport, replay, provenance, and NameCert ledger in one packet.}
+
+\closureat{BishopRegularCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCauchyModulusUp}
+  \constructivestory{A $\BishopRegularCauchyModulusUp$ packet is generated from regular Cauchy readback, dyadic budget, explicit modulus, StreamName shift, hsame transport, Cont replay, Pkg provenance, and local NameCert ledger rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-modulus-carrier}, \autoref{thm:bishop-regular-cauchy-modulus-namecert-obligations}, \autoref{thm:bishop-regular-cauchy-modulus-shift-stability}, the falsifiable prediction, and the independence witness seed the finite explicit-modulus route for regular Cauchy rational names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected representatives, countable choice, trichotomy, hidden tail choice, host completion, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular Cauchy row exactness, dyadic budget stability, modulus lookup determinacy, shift stability, transport, replay, provenance, and local ledgering for BEDC.Derived.BishopRegularCauchyModulusUp.}
+\end{closurestatus}
