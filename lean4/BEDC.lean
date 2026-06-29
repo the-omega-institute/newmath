@@ -11603,6 +11603,7 @@ import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
+import BEDC.Derived.SchreierSimsUp
 import BEDC.Derived.SchroderUp
 import BEDC.Derived.SchurDecompositionUp
 import BEDC.Derived.SchurLemmaUp
