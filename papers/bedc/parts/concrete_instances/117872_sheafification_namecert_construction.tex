@@ -742,6 +742,22 @@ Finally use cover-refinement finite induction, \autoref{thm:sheafification-cover
 
 \independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}
 
+\begin{theorem}[Sheafification locality scope addendum]
+\label{thm:sheafification-locality-scope-addendum}
+The presheaf restriction rows, cover-refinement rows, locality witnesses, gluing witnesses, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of an accepted $\SheafificationUp$ carrier form one scoped BEDC route
+$$
+C,T,J,P,L,G,S,H,R,Q,N.
+$$
+Thus locality and gluing are consumed only through the displayed finite packet, not through a host reflector, quotient compatible-family object, selected cover system, or ambient topos construction.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:sheafification-carrier}. The rows $C,T,J,P$ expose the category, cover, topology, and presheaf restriction data before locality or gluing can be used.
+
+Apply cover-refinement finite induction, \autoref{thm:sheafification-cover-refinement-finite-induction}, and the cover-refinement budget of \autoref{thm:sheafification-cover-refinement-budget}. They keep locality rows $L$ and gluing rows $G$ attached to the same finite refinement route.
+
+The structural rows $H,R,Q,N$ transport, replay, source, and name that route. Since the refused host objects are absent from the carrier, every accepted locality or gluing read remains inside the displayed BEDC packet.
+\end{proof}
+
 \closureat{SheafificationUp}{seedStr}
 
 \begin{closurestatus}{\SheafificationUp}
