@@ -4672,6 +4672,7 @@ import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindEtaCompletionUp.TasteGate
+import BEDC.Derived.DedekindEtaUp
 import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindLocatedIntervalUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
@@ -5458,6 +5459,7 @@ import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
 import BEDC.Derived.EilenbergSteenrodAxiomsUp.TasteGate
 import BEDC.Derived.EilenbergZilberUp
+import BEDC.Derived.EisensteinSeriesUp
 import BEDC.Derived.EisensteinUp
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
@@ -6600,6 +6602,7 @@ import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.ExportNonEscape
 import BEDC.Derived.GroundCompilerAuditPacketUp.NameCertObligations
+import BEDC.Derived.GroundCompilerAuditPacketUp.QueryReplay
 import BEDC.Derived.GroundCompilerAuditPacketUp.RefusalSeparation
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditRouteUp.TasteGate
@@ -6950,6 +6953,7 @@ import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
+import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
@@ -9550,6 +9554,7 @@ import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
+import BEDC.Derived.PeriodicContinuedFractionUp
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PermutationUp.TasteGate
@@ -12482,6 +12487,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
+import BEDC.Derived.ThetaIdentitiesUp
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
@@ -12673,6 +12679,7 @@ import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
+import BEDC.Derived.TwinSubstrateAuditCouplingUp.NameCertObligations
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
@@ -13674,4 +13681,5 @@ import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
 import BEDC.Real.DyadicIntervalStream
+import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
