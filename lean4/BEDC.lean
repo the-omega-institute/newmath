@@ -7677,6 +7677,7 @@ import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
