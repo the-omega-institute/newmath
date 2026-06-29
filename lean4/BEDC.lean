@@ -1640,6 +1640,7 @@ import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
+import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
@@ -7112,6 +7113,7 @@ import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.IntUp.UnaryIntBridge
+import BEDC.Derived.IntUp.UnaryIntMulBridge
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.IntegralUp.TasteGate
@@ -10370,6 +10372,7 @@ import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
 import BEDC.Derived.RealClassifierUp.TailReplacementStability
+import BEDC.Derived.RealClassifierUp.TheoremCheckTargetHandoff
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp
@@ -12077,6 +12080,7 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverLocalGluingObligation
+import BEDC.Derived.SheafificationUp.CoverLocalGluingReplay
 import BEDC.Derived.SheafificationUp.CoverRefinementFiniteInduction
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
