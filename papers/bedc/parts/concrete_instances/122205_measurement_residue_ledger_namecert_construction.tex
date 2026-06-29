@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MeasurementResidueLedgerUp$}
+\label{ch:concrete-instances-measurement-residue-ledger-namecert}
+\origin{ai}
+
+The $\MeasurementResidueLedgerUp$ packet realizes the measurement-residue grammar of \autoref{sec:quantum-measurement-generation-interface} as finite NameCert data. It sits beside the quantum-state source of \autoref{ch:concrete-instances-quantumstate-namecert}, the observable readout surface of \autoref{ch:concrete-instances-observable-namecert}, and the mixed-state ledger of \autoref{ch:concrete-instances-densitymatrix-namecert}. Those siblings name state, observable, and density rows separately; this packet binds a source row, measurement-interface projection row, visible outcome, residual fiber, section-update certificate, and audit ledger into one finite boundary object.
+
+\begin{definition}[Measurement residue ledger carrier]
+\label{def:measurement-residue-ledger-carrier}
+A $\MeasurementResidueLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,M,P,O,F,U,A,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the source row, such as a $\QuantumStateUp$ or $\DensityMatrixUp$ input surface;
+\item $M$ is the measurement-context row, recording preparation, observable or probe family, instrument data, and public ledger scope;
+\item $P$ is the $\mathsf{MeasurementInterface}$ projection row from the source surface to the outcome carrier;
+\item $O$ is the visible outcome row produced by the projection;
+\item $F$ is the residual-fiber row, recording the source distinctions not separated by the chosen interface;
+\item $U$ is the section-update certificate row, recording when a post-outcome section into the residual fiber is licensed;
+\item $A$ is the audit ledger, recording replay, acceptance, refusal, and public-export boundaries;
+\item $H$ stores componentwise $\hsame$ transport for the source, context, projection, outcome, residue, update, and audit rows;
+\item $C$ stores displayed $\Cont$ continuation through the measurement projection, residual fiber, and section-update rows;
+\item $G$ is the $\Pkg$ provenance over $\QuantumStateUp$, $\ObservableUp$, $\DensityMatrixUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MeasurementResidueLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden classical assignment, a global common refinement of all measurements, a Born-weight law, or an unlicensed collapse operation.
+\end{definition}
+
+\begin{theorem}[Measurement residue ledger NameCert obligations]
+\label{thm:measurement-residue-ledger-namecert-obligations}
+For the carrier of \autoref{def:measurement-residue-ledger-carrier}, the local $\NameCert_{\MeasurementResidueLedgerUp}$ surface consists exactly of carrier exposure for
+$$
+L=(T,M,P,O,F,U,A,H,C,G,N),
+$$
+source exposure through $T$, measurement-context exposure through $M$, interface projection through $P$, visible outcome exposure through $O$, residual-fiber exposure through $F$, section-update certification through $U$, audit-ledger exposure through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The rows $T,M,P,O$ expose the source, measurement context, projection, and visible outcome before the residue or section rows are interpreted.
+
+The residual row $F$ records source distinctions retained by that chosen interface, while $U$ records only licensed section-style updates into the displayed residual fiber. The audit row $A$ records replay and refusal boundaries for that same packet.
+
+The structural rows $H,C,G,N$ transport, replay, source, and name the displayed ledger. Since no row supplies a hidden classical assignment or global common refinement, the NameCert obligations are exactly the listed finite rows.
+\end{proof}
+
+\begin{theorem}[Measurement residue ledger interface projection]
+\label{thm:measurement-residue-ledger-interface-projection}
+Every public outcome exported by an accepted $\MeasurementResidueLedgerUp$ packet factors through the displayed $\mathsf{MeasurementInterface}$ projection row $P$. A ledger row that carries a visible outcome $O$ without the matching source row $T$, context row $M$, and projection row $P$ is not an accepted public outcome ledger for this packet.
+\end{theorem}
+\begin{proof}
+The carrier places $O$ after the source, context, and projection rows. Therefore a public read of $O$ must preserve the source row $T$, the measurement context $M$, and the interface projection $P$.
+
+If an alleged ledger row keeps $O$ while dropping $P$, it no longer displays the map from the source surface to the outcome carrier. The NameCert obligations then fail at the projection row, so the row cannot export a public outcome ledger as $\MeasurementResidueLedgerUp$.
+\end{proof}
+
+\begin{theorem}[Measurement residue ledger non-hidden-variable boundary]
+\label{thm:measurement-residue-ledger-non-hidden-variable-boundary}
+The residual-fiber row $F$ of an accepted $\MeasurementResidueLedgerUp$ packet is not a hidden-variable assignment. It records exactly the source distinctions not separated by the displayed projection row $P$, and it cannot be read as a simultaneous visible outcome for measurement contexts not displayed by $M$.
+\end{theorem}
+\begin{proof}
+Read $F$ together with $T,M,P,O$. The fiber is attached to one source surface, one measurement context, one projection row, and one visible outcome.
+
+A hidden-variable assignment would have to provide visible outcomes across contexts not named by $M$ or a common classicalizing refinement not present in the carrier. Since neither row exists in $L$, the residual fiber remains a ledger of unseparated source structure for the chosen projection only.
+\end{proof}
+
+\begin{theorem}[Measurement residue ledger section-update handoff]
+\label{thm:measurement-residue-ledger-section-update-handoff}
+Every section-style update exported by an accepted $\MeasurementResidueLedgerUp$ packet must read the visible outcome $O$, the residual-fiber row $F$, the section-update certificate $U$, and the audit ledger $A$. Without those rows, a post-outcome state selection is not licensed by this NameCert packet.
+\end{theorem}
+\begin{proof}
+The section row $U$ is displayed only after the source, context, projection, outcome, and residual-fiber rows have been fixed. It therefore licenses a section into the residual fiber of the accepted outcome rather than a primitive state change.
+
+The audit row $A$ records replay and public-export boundaries for that section. If $O,F,U,A$ are not all present, the packet lacks either the outcome, the target fiber, the section license, or the audit replay needed for the handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MeasurementResidueLedgerUp$ row without a matching $\mathsf{MeasurementInterface}$ projection row cannot export a public outcome ledger.}
+
+\independenceWitness{quantumstate, observable, densitymatrix, quantumchannel: QuantumStateUp supplies source-state rows without measurement residue sections; ObservableUp supplies readout operators without residual-fiber ledgers; DensityMatrixUp supplies mixed-state trace ledgers without projection-specific residue rows; QuantumChannelUp supplies state-transform rows without the measurement-interface projection and section-update certificate. The non-bijection is witnessed by the missing residue-section rows.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/MeasurementResidueLedgerUp.lean} must provide explicit $\Nontrivial\ \MeasurementResidueLedgerUp$ and $\FieldFaithful\ \MeasurementResidueLedgerUp$ instances, together with the projection, non-hidden-variable boundary, and section-update handoff theorems.
