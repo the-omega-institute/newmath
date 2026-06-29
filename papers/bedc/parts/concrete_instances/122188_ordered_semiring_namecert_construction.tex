@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\OrderedSemiringUp$}
+\label{ch:concrete-instances-ordered-semiring-namecert}
+\origin{human}
+
+Following Bourbaki on ordered algebraic structures and Golan on semirings, the packet records a semiring carrier whose additive and multiplicative rows are compatible with a stable order classifier; it consumes \autoref{ch:concrete-instances-semiring-namecert}, \autoref{ch:concrete-instances-order-namecert}, \autoref{ch:concrete-instances-rat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet gives order-sensitive L10 arithmetic handoffs one named BEDC surface for monotone addition and positive-row multiplication, while keeping ordered rings, field order, quotient order, classical trichotomy, and any standard bridge outside the carrier.
+
+\begin{definition}[Ordered semiring finite-history carrier]
+\label{def:ordered-semiring-bhist-carrier}
+An $\OrderedSemiringUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,Q,R,D,E,A,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SemiringUp$ source row naming the shared carrier, addition, multiplication, distributivity, zero-annihilation ledger, transport, replay, provenance, and local $\NameCert$ surface.
+\item $Q$ is the $\OrderUp$ comparison row naming the stable order classifier attached to the same displayed carrier entries read by $S$.
+\item $R$ is the $\RatUp$ arithmetic readback row used by rational order-facing consumers without importing field order.
+\item $D$ is the $\DyadicRatCoreUp$ handoff row used by dyadic interval and sign-ledger consumers.
+\item $E$ is the $\RealUp$ terminal read row reached only after the semiring and order rows remain visible.
+\item $A$ records addition monotonicity rows: whenever two displayed input comparisons are accepted by $Q$, the corresponding sum comparison is replayed through the addition route of $S$.
+\item $M$ records multiplication monotonicity by positive rows: whenever $Q$ displays a nonnegative or positive multiplier row admitted by the rational or dyadic handoff, the product comparison is replayed through the multiplication route of $S$.
+\item $H$ records componentwise $\hsame$ transport for the semiring row, order row, rational readback, dyadic handoff, Real read, monotonicity ledgers, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from each order-aware arithmetic request through $S,Q,R,D,E,A,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\OrderedSemiringUp$, $\SemiringUp$, $\OrderUp$, $\RatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OrderedSemiringUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite order-compatible semiring packet. It has no coordinate for subtraction, additive inverses, field order, quotient order, trichotomy, ambient Real completeness, or a standard bridge.
+\end{definition}
+
+\begin{definition}[Ordered semiring classifier]
+\label{def:ordered-semiring-classifier}
+Two accepted $\OrderedSemiringUp$ carriers
+$$
+O=(S,Q,R,D,E,A,M,H,C,P,N)
+\quad\text{and}\quad
+O'=(S',Q',R',D',E',A',M',H',C',P',N')
+$$
+are classified together when the semiring rows classify through the displayed $\SemiringUp$ classifier, the order rows classify through the displayed $\OrderUp$ endpoint transport, the rational, dyadic, and Real handoff rows transport componentwise by $\hsame$, and the addition and multiplication monotonicity ledgers replay the same $\Cont$ routes after that transport. The classifier compares no host ordered algebra and no quotient relation.
+\end{definition}
+
+\begin{theorem}[Ordered semiring NameCert obligations]
+\label{thm:ordered-semiring-namecert-obligations}
+For every accepted $\OrderedSemiringUp$ carrier $O=(S,Q,R,D,E,A,M,H,C,P,N)$, the local $\NameCert_{\OrderedSemiringUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item carrier habitation: the displayed $\BHist$ packet of \autoref{def:ordered-semiring-bhist-carrier} is inhabited by a semiring row, an order row, rational and dyadic readback rows, a Real read row, monotonicity ledgers, transport, replay, provenance, and local naming;
+\item classifier transport: the classifier of \autoref{def:ordered-semiring-classifier} transports semiring, order, rational, dyadic, Real, monotonicity, replay, provenance, and local name rows componentwise;
+\item addition monotonicity: the ledger $A$ records only the comparison of sums obtained by replaying the addition route of $S$ after input comparisons supplied by $Q$;
+\item multiplication monotonicity by positive rows: the ledger $M$ records only product comparisons whose multiplier positivity is already displayed by $Q$ together with the $R$ or $D$ handoff row;
+\item ledger nonescape: the rows $H,C,P,N$ preserve and replay only the displayed finite inventory and export no ordered ring, field order, classical trichotomy, quotient order, or standard bridge.
+\end{enumerate}
+No ordered semiring obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ordered-semiring-bhist-carrier}. It exposes the $\SemiringUp$ operation row $S$, the $\OrderUp$ comparison row $Q$, the rational, dyadic, and Real handoff rows $R,D,E$, and the two monotonicity ledgers $A,M$.
+
+The classifier of \autoref{def:ordered-semiring-classifier} then fixes the only allowed transport. It moves semiring, order, rational, dyadic, Real, monotonicity, replay, provenance, and local naming rows componentwise, so an accepted comparison after transport is still a comparison of the same displayed packet.
+
+The addition and multiplication clauses are read from $A$ and $M$. The addition row allows only monotone sum replay through $S$ after input order rows from $Q$; the multiplication row allows only product replay when the multiplier's positivity has already been displayed by $Q$ and by the rational or dyadic handoff.
+
+Finally $H,C,P,N$ exhaust the ledger. Since the packet has no row for additive inverses, ordered rings, field order, quotient order, classical trichotomy, or a standard bridge, the five listed rows are the whole local $\NameCert_{\OrderedSemiringUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Ordered semiring addition and multiplication order compatibility]
+\label{thm:ordered-semiring-add-mul-order-compatibility}
+Every order-aware arithmetic consumer of an accepted $\OrderedSemiringUp$ carrier reads addition monotonicity and positive-row multiplication monotonicity only through
+$$
+S,Q,R,D \longmapsto A,M,H,C,P,N .
+$$
+In particular, a $\RatUp$, $\DyadicRatCoreUp$, or $\RealUp$ handoff may use the displayed semiring operations and stable order classifier, but it cannot extract an ordered ring, a field order, a quotient order, classical trichotomy, or any standard bridge from the packet.
+\end{theorem}
+\begin{proof}
+Begin with an order-aware arithmetic request. By \autoref{def:ordered-semiring-bhist-carrier}, the available operation row is $S$ and the available comparison row is $Q$; the rational and dyadic handoff rows $R,D$ only record the finite readback needed by their own consumers.
+
+Addition monotonicity is therefore forced through $A$. The ledger reads the two input comparisons from $Q$, applies the addition route of $S$, and records the sum comparison as a finite replay row.
+
+Positive-row multiplication monotonicity is forced through $M$. The multiplier condition is not a host positivity predicate; it is the displayed positivity row already visible through $Q$ and the $R$ or $D$ handoff. Only then may the multiplication route of $S$ be replayed to produce the product comparison.
+
+The Real-facing row $E$ is downstream of these checks. Since the structural rows $H,C,P,N$ preserve only the displayed route, no consumer can replace the route by ordered-ring structure, field order, quotient order, trichotomy, or a standard bridge.
+\end{proof}
+
+\begin{theorem}[Ordered semiring kernel scope]
+\label{thm:ordered-semiring-kernel-scope}
+The $\OrderedSemiringUp$ kernel scope is exactly the finite BEDC packet consisting of the semiring carrier row, stable order classifier, rational readback, dyadic handoff, Real read boundary, addition monotonicity, positive-row multiplication monotonicity, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. Every L10 arithmetic handoff that claims this scope factors through those rows and through no stronger ordered-algebraic structure.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the rows that form the packet, and the classifier definition states the only transport relation between accepted packets. Hence a kernel consumer receives exactly those named components.
+
+The NameCert obligation theorem identifies the five finite rows that make the packet usable: habitation, classifier transport, addition monotonicity, multiplication monotonicity by positive rows, and ledger nonescape.
+
+The compatibility theorem then identifies the allowed handoff route for $\RatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers. Combining these three readings leaves no remaining coordinate for ordered rings, field order, quotient order, trichotomy, or a standard bridge, so the displayed finite packet is exactly the kernel scope.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\OrderedSemiringUp$ read that produces addition or multiplication order compatibility while bypassing the displayed semiring row, order classifier, rational or dyadic handoff, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{semiring, order, rat, dyadicratcore, real: no listed sibling is bijective with $\OrderedSemiringUp$ because this packet binds semiring operations, stable order classification, rational and dyadic positivity handoffs, Real-facing read boundaries, monotonicity ledgers, transport, replay, provenance, and local naming as one order-aware arithmetic interface.}
+
+\closureat{OrderedSemiringUp}{seedStr}
+
+\begin{closurestatus}{\OrderedSemiringUp}
+  \constructivestory{An $\OrderedSemiringUp$ packet is generated from a SemiringUp source row, an OrderUp classifier row, RatUp and DyadicRatCoreUp handoff rows, a RealUp read boundary, addition monotonicity, positive-row multiplication monotonicity, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ordered-semiring-bhist-carrier}, \autoref{def:ordered-semiring-classifier}, \autoref{thm:ordered-semiring-namecert-obligations}, \autoref{thm:ordered-semiring-add-mul-order-compatibility}, and \autoref{thm:ordered-semiring-kernel-scope} seed the finite order-aware semiring handoff surface for L10 arithmetic consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly excludes ordered rings, field order, classical trichotomy, quotient order, and any standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier habitation, classifier transport, addition monotonicity, multiplication monotonicity by positive rows, ledger nonescape, and handoff scope for BEDC.Derived.OrderedSemiringUp.}
+\end{closurestatus}
