@@ -1640,6 +1640,7 @@ import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
+import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.WindowStability
@@ -9874,6 +9875,7 @@ import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
+import BEDC.Derived.PreuniformityUp.EntourageStability
 import BEDC.Derived.PreuniformityUp.FilterBaseRoute
 import BEDC.Derived.PreuniformityUp.NameCertObligations
 import BEDC.Derived.PreuniformityUp.TasteGate
