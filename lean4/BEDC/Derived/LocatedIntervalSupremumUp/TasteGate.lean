@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocatedIntervalSupremumUp.TasteGate
+namespace BEDC.Derived.LocatedIntervalSupremumUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -27,8 +27,9 @@ def locatedIntervalSupremumDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (locatedIntervalSupremumDecodeBHist tail)
 
 private theorem locatedIntervalSupremumDecode_encode :
-    ∀ h : BHist, locatedIntervalSupremumDecodeBHist
-      (locatedIntervalSupremumEncodeBHist h) = h := by
+    ∀ h : BHist,
+      locatedIntervalSupremumDecodeBHist
+        (locatedIntervalSupremumEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -123,8 +124,9 @@ instance locatedIntervalSupremumChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change locatedIntervalSupremumFromEventFlow
-      (locatedIntervalSupremumToEventFlow x) = some x
+    change
+      locatedIntervalSupremumFromEventFlow
+        (locatedIntervalSupremumToEventFlow x) = some x
     exact locatedIntervalSupremum_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -134,17 +136,45 @@ theorem LocatedIntervalSupremumTasteGate_single_carrier_alignment :
     Nonempty (BHistCarrier LocatedIntervalSupremumUp) ∧
       Nonempty (ChapterTasteGate LocatedIntervalSupremumUp) ∧
         (∀ h : BHist,
-          locatedIntervalSupremumDecodeBHist (locatedIntervalSupremumEncodeBHist h) = h) ∧
+          locatedIntervalSupremumDecodeBHist
+            (locatedIntervalSupremumEncodeBHist h) = h) ∧
           (∀ x : LocatedIntervalSupremumUp,
             locatedIntervalSupremumFromEventFlow
               (locatedIntervalSupremumToEventFlow x) = some x) ∧
-            locatedIntervalSupremumEncodeBHist BHist.Empty = ([] : RawEvent) := by
+            (∀ x y : LocatedIntervalSupremumUp,
+              locatedIntervalSupremumToEventFlow x =
+                  locatedIntervalSupremumToEventFlow y →
+                x = y) ∧
+              locatedIntervalSupremumEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨⟨locatedIntervalSupremumBHistCarrier⟩,
       ⟨locatedIntervalSupremumChapterTasteGate⟩,
       locatedIntervalSupremumDecode_encode,
       locatedIntervalSupremum_round_trip,
+      (fun _ _ heq => locatedIntervalSupremumToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.LocatedIntervalSupremumUp.TasteGate
+namespace TasteGate
+
+theorem LocatedIntervalSupremumTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier LocatedIntervalSupremumUp) ∧
+      Nonempty (ChapterTasteGate LocatedIntervalSupremumUp) ∧
+        (∀ h : BHist,
+          locatedIntervalSupremumDecodeBHist
+            (locatedIntervalSupremumEncodeBHist h) = h) ∧
+          (∀ x : LocatedIntervalSupremumUp,
+            locatedIntervalSupremumFromEventFlow
+              (locatedIntervalSupremumToEventFlow x) = some x) ∧
+            (∀ x y : LocatedIntervalSupremumUp,
+              locatedIntervalSupremumToEventFlow x =
+                  locatedIntervalSupremumToEventFlow y →
+                x = y) ∧
+              locatedIntervalSupremumEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    _root_.BEDC.Derived.LocatedIntervalSupremumUp.LocatedIntervalSupremumTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.LocatedIntervalSupremumUp
