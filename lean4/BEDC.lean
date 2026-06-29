@@ -9206,6 +9206,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
@@ -10882,6 +10883,7 @@ import BEDC.Derived.RecursionAuthorizationLedgerUp.OutputAuditBoundary
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorAuthorizationUp.TasteGate
+import BEDC.Derived.RecursorBranchAuditUp.NamecertObligations
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
 import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
@@ -13862,4 +13864,6 @@ import BEDC.Real.RatNumSinCos
 import BEDC.Real.RatNumTrig
 import BEDC.Real.Sqrt2Apart
 import BEDC.Real.ZetaCertDy
+import BEDC.Real.ZetaCertDySound
+import BEDC.Real.ZetaCertHasse24
 import BEDC.Reflection
