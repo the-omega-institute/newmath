@@ -9633,6 +9633,7 @@ import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhaseTransformLadderUp
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
@@ -13795,6 +13796,7 @@ import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
 import BEDC.Real.DyadicIntervalStream
+import BEDC.Real.LocatedNatPowerEnclosure
 import BEDC.Real.RatInterval
 import BEDC.Real.RatLogEnclosure
 import BEDC.Real.RatNumKernel
