@@ -95,6 +95,7 @@ C=(M,E,I,T,S,R,H,C_0,P,N),
 $$
 the finite tail-choice obligation surface is the simultaneous exposure of the modulus row $M$, tolerance-budget row $E$, canonical finite index row $I$, tail-window witness $T$, $\RealUp$ seal route $S$, no-choice refusal $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C_0$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The surface admits no host-selected subsequence, quotient stream equality, countable-choice schedule, hidden tail oracle, detached completion seal, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CanonicalTailChoiceUp.CanonicalTailChoiceCarrier\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:canonical-tail-choice-carrier}. The ten displayed rows are exactly $M,E,I,T,S,R,H,C_0,P,N$, so an accepted packet exposes the modulus, tolerance budget, canonical finite index, tail window, seal route, refusal ledger, transport, replay, provenance, and local naming as one finite surface.
 
@@ -290,6 +291,24 @@ Compose the existing schedule and boundary routes. The schedule factorization th
 Read the regular and terminal faces last. The $\RegSeqRatUp$ consumption theorem identifies the regular-rational tail read as a downstream consumer of $M,E,I,T$, and the terminal $\RealUp$ seal is reached only through the exact-boundary handoff.
 
 Finally apply the no-choice non-escape theorem. The refusal row $R$ and the structural rows $H,C_0,P,N$ preserve the finite route and leave no coordinate for countable choice, quotient stream equality, ambient completeness, or a host tail function.
+\end{proof}
+
+\begin{theorem}[Canonical tail-choice scope grounding]
+\label{thm:canonical-tail-choice-scope-grounding}
+Every accepted $\CanonicalTailChoiceUp$ consumer route factors through the displayed rows
+$$
+M,E,I,T,S,R,H,C_0,P,N
+$$
+and through the sibling surfaces $\CauchyChoiceBoundaryUp$, $\FinitePrefixLimitBudgetUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, $\RealUp$, and $\TailCofinalityScheduleUp$. All transport and replay are read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The scope contains no host-selected subsequence, quotient stream equality, countable choice, hidden tail oracle, metric completeness, ambient completeness, or detached Real-completion seal.
+\end{theorem}
+\begin{proof}
+Begin with source obligations, \autoref{thm:canonical-tail-choice-source-obligations}. They place the no-choice boundary, prefix budget, Real seal, exact boundary, regular-rational source, and cofinal schedule before the canonical finite index row $I$ or tail-window witness $T$ can be consumed.
+
+Next apply schedule factorization and tail cofinality, \autoref{thm:canonical-tail-choice-schedule-factorization} and \autoref{thm:canonical-tail-choice-tail-cofinality}. These results force the route through the finite rows $M,E,I,T,S,R,H,C_0,P,N$, with $\TailCofinalityScheduleUp$ and $\FinitePrefixLimitBudgetUp$ read before the tail-window witness.
+
+Now attach the Real-completion side. The Real-completion handoff theorem, \autoref{thm:canonical-tail-choice-real-completion-handoff}, routes the packet from the finite tail window to $\RealCompletionExactBoundaryUp$ and the terminal $\RealUp$ seal, while \autoref{thm:canonical-tail-choice-tail-inhabitation} supplies the finite $\BHist$ witness for $T$ after $I$ is read.
+
+Finally apply no-choice non-escape, \autoref{thm:canonical-tail-choice-no-choice-nonescape}. The refusal row $R$ excludes host-selected subsequences, quotient stream equality, countable choice, hidden tail oracles, metric completeness, ambient completeness, and detached Real-completion seals; the structural rows $H,C_0,P,N$ keep transport, replay, provenance, and naming inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
 The Lean follow-up namespace is \texttt{BEDC.Derived.CanonicalTailChoiceUp}. Its \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:canonical-tail-choice-carrier}.
