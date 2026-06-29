@@ -12091,6 +12091,7 @@ import BEDC.Derived.Window6EdgeFluxModP3
 import BEDC.Derived.Window6EfficientOpenDominationRecurrence
 import BEDC.Derived.Window6EvenHolePairRecurrence
 import BEDC.Derived.Window6FactorImageCount
+import BEDC.Derived.Window6FibCubeMinDegree
 import BEDC.Derived.Window6FibEntryPointCongruence
 import BEDC.Derived.Window6FibGcdStrongDivisibility
 import BEDC.Derived.Window6FibonacciCount
