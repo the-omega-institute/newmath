@@ -16392,6 +16392,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-29T06:32:19+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T06:32:19+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "90991a9dc57c",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -27707,6 +27724,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-29T06:32:20+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T06:32:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "ab018d99b934",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -27856,14 +27890,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "3D protein-structure local geometry (Cα burial) crosses the readback boundary to predict measured per-site folding ΔΔG, INDEPENDENT of the substitution's own physicochemical change -- the first time the engine reaches 3D structure as an UPSTREAM feature (AlphaFold-derived; pLDDT previously appeared only as a downstream readout) and the first contact with the folding-stability readout (Tsuboyama et al. 2023 Nature mega-scale cDNA-display proteolysis K50->dG, Zenodo 7992926; n=12922 sites / 297 domains / 245518 measured ΔΔG values, 6765 distinct). Anti-disguised-e_in design: within each fixed wt->target substitution block (20 alanine-scan-style blocks), the mutation identity is CONSTANT, so within-block Spearman(burial, ΔΔG) is pure 3D structural context and cannot be the substitution's own property change; sample-size-weighted pooled rho_within=-0.388 (per-target -0.094..-0.603, all 20 negative) and beats a within-domain feature-permutation null (B=1000, p=0.001; the permutation shuffles burial/contact-order across positions within each domain, preserving each domain's burial+ΔΔG marginals while destroying the structure<->position map -- non-degenerate). Positive control reproduced (anchor burial<->mean-ΔΔG Spearman=-0.492 = textbook buried-core destabilization; more buried => more negative ΔΔG => more destabilizing). FRONTIER (explicit NEGATIVE result): global fold topology (contact-order = mean sequence-separation of a residue's spatial Cα contacts, normalized by domain length) adds NOTHING beyond local burial -- target-demeaned site-held-out incremental R^2=9.6e-5 (~0), partial-Spearman(contact-order | burial)=-0.007, within-domain perm-p=0.56 => frontier verdict null. Per-site mutational ΔΔG sensitivity is governed by LOCAL packing density, not long-range topology. Cannot-claim: observational (not causal); AlphaFold predicted (not experimental crystal/NMR) structures; Cα-only coarse burial/contact-order proxy (not all-atom SASA / true contact-order); ΔΔG from high-throughput cDNA-display proteolysis (not calorimetry); mixed designed+natural domains; within-domain permutation controls domain confounds but not residue-level covariates (e.g. secondary-structure type). Verdict crosses_boundary (structural burial, small-to-moderate) with the topology-beyond-burial frontier NULL.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "protein_structure_burial_folding_ddg_tsuboyama2023",
       "history": [
         {
           "ts": "2026-06-29T06:29:54+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-29T06:41:07+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0c9a009bfa5e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "46955600da16f5a7"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary"
     }
   ]
 }
