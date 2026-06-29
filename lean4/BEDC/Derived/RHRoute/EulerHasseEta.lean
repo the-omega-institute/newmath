@@ -397,32 +397,81 @@ structure ZetaCenterBoxObligation where
   etaTail : EtaTailM96Obligation
   denominator : DenominatorCenterObligation
 
+def zeta_center_box_from_eta_invD_obligation : Prop :=
+  ∀ {eta invD : RatComplex},
+    InRect eta EtaCBox ->
+      InRect invD InvDBoxC ->
+        InRect (ratComplexMul eta invD) ZetaCBox
+
+def onePowerNegSCenterBox : RectQ :=
+  rectQ ratOne ratOne ratZero ratZero
+
+def PowNegSAtCenter (n : Nat) (box : RectQ) : Prop :=
+  n = 1 ∧ box = onePowerNegSCenterBox
+
+structure PowNegSCert where
+  n : Nat
+  box : RectQ
+  sound : PowNegSAtCenter n box
+
+def powerNegSCenterOneCert : PowNegSCert :=
+  { n := 1
+    box := onePowerNegSCenterBox
+    sound := And.intro rfl rfl }
+
+def powerNegSCenterTable : List PowNegSCert :=
+  [ powerNegSCenterOneCert ]
+
+theorem powerNegSCenterTable_domain :
+    powerNegSCenterTable.map (fun cert => cert.n) = [1] := by
+  rfl
+
+def hasseIndexList (M : Nat) : List (Nat × Nat) :=
+  List.flatMap
+    (fun m => (List.range (Nat.succ m)).map fun k => (m, k))
+    (List.range M)
+
+theorem hasseIndexList_depth_one_readback :
+    hasseIndexList 1 = [(0, 0)] := by
+  rfl
+
+def powerNegSCenterLookup : Nat -> List PowNegSCert -> Option PowNegSCert
+  | _, [] => none
+  | n, cert :: rest =>
+      if n = cert.n then some cert else powerNegSCenterLookup n rest
+
+theorem powerNegSCenterLookup_one :
+    powerNegSCenterLookup 1 powerNegSCenterTable =
+      some powerNegSCenterOneCert := by
+  rfl
+
+def etaM_sum : Option RatComplex :=
+  none
+
+theorem etaM_sum_current_absent :
+    etaM_sum = none := by
+  rfl
+
 inductive EulerHasseRemainingObligation where
   | elementaryTermPhaseTable
   | hasseTailRadius
   | denominatorPhaseTable
   | denominatorInverseProduct
+  | zetaCenterBoxFromEtaInvD
+  | powerNegSCenterTableCoverage
+  | etaMSumExactLinearCombination
 
 def remainingObligations : List EulerHasseRemainingObligation :=
   [ EulerHasseRemainingObligation.elementaryTermPhaseTable,
     EulerHasseRemainingObligation.hasseTailRadius,
     EulerHasseRemainingObligation.denominatorPhaseTable,
-    EulerHasseRemainingObligation.denominatorInverseProduct ]
+    EulerHasseRemainingObligation.denominatorInverseProduct,
+    EulerHasseRemainingObligation.zetaCenterBoxFromEtaInvD,
+    EulerHasseRemainingObligation.powerNegSCenterTableCoverage,
+    EulerHasseRemainingObligation.etaMSumExactLinearCombination ]
 
 theorem remainingObligations_readback :
-    remainingObligations.length = 4 := by
-  rfl
-
-theorem no_hollow_zeta_center_box :
-    (∀ obligation : ZetaCenterBoxObligation,
-      InRect
-        (ratComplexMul
-          (hassePartialBoxValue
-            obligation.etaFinite.evaluator.elementaryTerms)
-          obligation.denominator.inverse)
-        ZetaCBox) ->
-    remainingObligations.length = 4 := by
-  intro _
+    remainingObligations.length = 7 := by
   rfl
 
 end BEDC.Derived.RHRoute.EulerHasseEta
