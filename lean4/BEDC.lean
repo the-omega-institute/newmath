@@ -9631,6 +9631,7 @@ import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhaseTransformLadderUp
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
