@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization worker <WORKER_ID>.
 
 ## Prompts version
-v5.57 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.58 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -15,22 +15,23 @@ Allocate your 3 targets approximately matching these weights:
 
 Source meanings:
 - top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.lean` (existing primary)
-- formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
+- bridge_mature_advance: `critical_path.bridge_mature_advance` (matureClosure + axiomCleanV by paper token or objective inventory, bridge not yet checked)
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
+- formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
 
 The existing HARD GATEs (1 of 3 from `top[0..critical_path.dispatch_window.lean)`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 The mandatory top window follows `.pipeline_parallel.json`'s `lean` concurrency value via `critical_path.dispatch_window.lean`, preventing high-concurrency workers from being forced onto the same one or two hot chapters when a 71-line single-file chapter has no sibling surface to disperse claims.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
-If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rounds is almost always an error: it means you gave up before reading `critical_path.py`'s `formal_axis_top` and `bridge_candidates` lists. These lists exist precisely for the case when `top[0..dispatch_window.lean)` chapters have `labels=0` (all labels already marked) — they surface chapters where the paper IS ahead of lean.
+If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rounds is almost always an error: it means you gave up before reading `critical_path.py`'s `bridge_mature_advance`, `formal_axis_top`, and `bridge_candidates` lists. These lists exist precisely for the case when `top[0..dispatch_window.lean)` chapters have `labels=0` (all labels already marked) — they surface chapters where the paper IS ahead of lean.
 
 **Mandatory selection waterfall** (try each step until you have ≥1 valid target):
 
 1. **`top[0..dispatch_window.lean)` with `labels > 0`**: pick paper labels in those chapters that grep shows have NO `\leanchecked{X}` marker. This is the original gate scaled to the active lean concurrency. Concurrent rounds should choose DISTINCT entries inside this window: cooldown rotates sorting on each call, and the wider window exposes enough different fronts so N workers do not collide on the same 1-2 chapters.
 2. **If `top[0..dispatch_window.lean)` all have `labels = 0`**: skip them — those chapters are saturated, lean already wrote everything. Move to step 3.
 3. **`unformalized_top[0..9]` (HIGH PRIORITY when present)**: `critical_path.py` emits a JSON field `unformalized_top` listing the top-50 unwritten paper theorems/definitions ranked by `score = downstream_refs × zone_weight`. Each entry already carries: `chapter`, `file` (paper path), `line`, `label`, `kind` ('theorem' / 'definition' / 'lemma' / 'corollary' / 'proposition'), and **`anchor_suggested`** (the full Lean target name like `BEDC.Derived.FieldUp.RatupFieldupConcreteExitObject`). Pick entries with `has_kernel_object=true` and `zone='horizon'` first — these are paper theorems already phrased in BEDC kernel vocabulary that just lack a Lean witness. The `target_file` is derived from `anchor_suggested` by splitting at the last namespace dot: `BEDC.Derived.FieldUp.<X>` → `lean4/BEDC/Derived/FieldUp/<X>.lean` (or `lean4/BEDC/Derived/FieldUp.lean` if the parent module is preferred and not size-blocked by the 800-line cap). After your Phase C implementation, the paper gets a `\leanchecked{<anchor_suggested>}` marker pointing at the new theorem. Score=162 entries trump score=1 closure_mark fluff every round — emit at least one `unformalized_top` target whenever the list is non-empty AND no `top[0..dispatch_window.lean)` candidate has a higher real-throughput score. Skip entries where `zone` starts with `narrative.` (those are intentional motivational text, not Lean-bound).
-4. **`bridge_candidates[0..2]`**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject prefix: `<COMMIT_PREFIX> bridge <X>Up to schema (axiomClean->bridgeCheck)`.
+4. **`bridge_mature_advance[0..2]` (or legacy `bridge_candidates[0..2]`)**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject prefix: `<COMMIT_PREFIX> bridge <X>Up to schema (axiomClean->bridgeCheck)`.
 5. **`formal_axis_top[0..4]`**: these are chapters where the paper has a `closurestatus` block (theory_grade non-null) but `formal_grade < theoremCheckedV`. Each entry has a `labels` count of unmarked paper theorems waiting for lean. Open `entry.file_paper`, find any `\begin{theorem}` block without a preceding `\leanchecked{...}`, and add a `\leanchecked{<X>}` marker pointing to a NEW Lean theorem in `lean4/BEDC/Derived/<X>Up.lean` (create the file if missing). The new Lean theorem's body uses BEDC kernel; restating the paper theorem with kernel-anchored proof is fine.
 6. **Last resort — any unmarked paper label anywhere under `papers/bedc/parts/concrete_instances/`**: scan the namecert files for `\label{thm:...}` blocks lacking `\leanchecked{...}`. There are typically 1500-2000 such labels at any time; pick 3 from chapters NOT already in another worktree's in-flight diff.
 
@@ -38,8 +39,9 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 
 ## TOP-LEVEL HARD GATE — formal axis advancement (1 of N targets)
 
-`critical_path.py` now exposes two top-level lean-relevant lists:
+`critical_path.py` now exposes three top-level lean-relevant lists:
 
+- `bridge_mature_advance[*]`: chapters at theory `matureClosure`, not yet bridge-checked, whose Lean target is axiom-clean by the written paper token, the objective inventory, or both. This source exists so a slow objective-grade cache cannot hide already-closed real-math chapters from Lean dispatch.
 - `bridge_candidates[*]`: chapters at theory `matureClosure` whose Lean target is already `axiomCleanV` (in axiom-purity --strict pure set), but whose `closurestatus.\bridgestatus` is `none` or `paperBridge` — bridge work not yet done. Lean R-rounds advance these from `axiomCleanV → bridgeCheckedV` by writing a `StdBridge` theorem connecting the chapter's concrete BHist instance to its abstract `<X>Up` schema.
 - `formal_axis_top[*]`: chapters whose paper closurestatus block records a non-trivial `theory_grade` but whose `formal_grade` token is below `theoremCheckedV` (i.e. paper is ahead, lean needs to catch up). Surface in priority order: `matureClosure` first, then `bridgedClosure`, etc.
 
@@ -52,7 +54,9 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 
    `target_file` is always `lean4/BEDC/Derived/<X>Up/TasteGate.lean` (create the directory + file). The Phase-C implementation follows the single-carrier hard schema (phase_c.txt §"AI chapter single-carrier alignment", which also applies to human chapters): `inductive <X>Up : Type` with constructors carrying the chapter's BHist rows + `instance : BHistCarrier <X>Up` + `instance taste_gate : ChapterTasteGate <X>Up`. Rationale: human chapters now form ≥50% of the corpus and growing (gate 7b in paper phase_review.txt); they need parallel TasteGate priority to keep their formal axis closing. Without human-first priority, ai bucket dominates lean dispatch and humans accumulate `formalTargetV` lag. After commit, paper P-round detects the new TasteGate and advances the chapter from `seedClosure` to `obligationClosure` + `formalstatus` from `formalTargetV` to `theoremCheckedV`.
 
-1. **`bridge_candidates[0..2]`**: highest leverage. The chapter has done all the lower-grade work; the bridge theorem is the last upgrade. The target's `target_file` is the entry's `file_lean`; the new declaration name should be `<X>Up_StdBridge` or `<X>Up_concrete_to_schema` (verify via grep + LSP that the name is unused). The theorem's statement should be `<existing concrete proposition> ↔ <abstract schema predicate applied to the witness>` or a constructive `<concrete> → <abstract>` map. Use existing kernel theorems (`NameCert.transport`, `BHist`, `hsame`) — no Classical.choice / Quot.sound / propext. After commit, paper P-round will detect the bridge and advance `\bridgestatus{none}` to `\bridgestatus{bridgeChecked}` + `\formalstatus{\bridgeCheckedV}`.
+1. **`bridge_mature_advance[0..2]` first, then legacy `bridge_candidates[0..2]`**: highest leverage. The chapter has done all the lower-grade work; the bridge theorem is the last upgrade. The target's `target_file` is the entry's `file_lean`; the new declaration name should be `<X>Up_StdBridge` or `<X>Up_concrete_to_schema` (verify via grep + LSP that the name is unused). The theorem's statement should be `<existing concrete proposition> ↔ <abstract schema predicate applied to the witness>` or a constructive `<concrete> → <abstract>` map. Use existing kernel theorems (`NameCert.transport`, `BHist`, `hsame`) — no Classical.choice / Quot.sound / propext. After commit, paper P-round will detect the bridge and advance `\bridgestatus{none}` to `\bridgestatus{bridgeChecked}` + `\formalstatus{\bridgeCheckedV}`.
+
+   Anti-bookkeeping rule: a `bridge_mature_advance` target MUST produce real Lean payload, normally a `<X>Up_StdBridge` theorem proving readback, no-host-leak, definition-alignment, or `SemanticNameCert` bridge content. It is a BEDC-internal bridge to `bridgeCheckedV`, not an external traditional-mathematics equivalence claim. If the only possible work is flipping `\bridgestatus` / `\formalstatus` or adding a 1-3 line marker sync, do not select that target.
 
 2. **first three `formal_axis_top` entries**: chapters where lean is behind paper. Use the formal-axis transition table below to pick the right marker shape (typically `\leandef{X}` for `(unformalizedV → formalTargetV → encodedDefV)` or `\leanchecked{X}` for `(encodedDefV → scaffoldChecked → theoremChecked)`).
 
@@ -60,7 +64,7 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 
 This gate composes with the existing critical_path top[0..dispatch_window.lean) HARD GATE: a 3-target round can satisfy both with 1 formal-axis target + 1 top-window target + 1 free slot.
 
-A bridge_candidates worker commit message subject MUST be: `<COMMIT_PREFIX> bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
+A bridge_mature_advance or bridge_candidates worker commit message subject MUST be: `<COMMIT_PREFIX> bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
 
 Paper-side `parts/visions/` chapters MAY be cited via `\autoref` in
 concrete-instance chapters that Lean rounds back. Mature realizations

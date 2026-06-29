@@ -79,4 +79,66 @@ theorem KuratowskiEmbeddingCarrier_namecert_obligations [AskSetup] [PackageSetup
   }
   exact ⟨cert, distanceUnary, targetUnary, routeUnary⟩
 
+theorem KuratowskiEmbedding_distance_readback_exactness [AskSetup] [PackageSetup]
+    {M B D T I _H _C _P _N metricRead realRead _targetRead isoRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M ->
+      UnaryHistory B ->
+        UnaryHistory D ->
+          UnaryHistory T ->
+            UnaryHistory I ->
+              Cont M D metricRead ->
+                Cont metricRead T realRead ->
+                  Cont realRead I isoRead ->
+                    PkgSig bundle isoRead pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row isoRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row M ∨ hsame row D ∨ hsame row T ∨ hsame row I ∨
+                              hsame row isoRead)
+                          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle isoRead pkg)
+                          hsame ∧
+                        UnaryHistory metricRead ∧ UnaryHistory realRead ∧
+                          UnaryHistory isoRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro mUnary _bUnary dUnary tUnary iUnary metricRoute realRoute isoRoute isoPkg
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed mUnary dUnary metricRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed metricUnary tUnary realRoute
+  have isoUnary : UnaryHistory isoRead :=
+    unary_cont_closed realUnary iUnary isoRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row isoRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row D ∨ hsame row T ∨ hsame row I ∨ hsame row isoRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle isoRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro isoRead ⟨hsame_refl isoRead, isoUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, isoPkg⟩
+  }
+  exact ⟨cert, metricUnary, realUnary, isoUnary⟩
+
 end BEDC.Derived.KuratowskiEmbeddingUp

@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDataAssemblyUp$}
+\label{ch:concrete-instances-finite-data-assembly-namecert}
+\origin{human}
+
+The $\FiniteDataAssemblyUp$ packet realizes the finite data interface spine of \autoref{ch:visions-finite-data-interface-spine} as a single NameCert assembly over the existing Boolean, option, sum, product, and list chapters. It consumes $\BoolUp$ from \autoref{ch:concrete-instances-bool-namecert}, $\OptionUp$ from \autoref{ch:concrete-instances-option-namecert}, $\SumUp$ from \autoref{ch:concrete-instances-sum-namecert}, $\ProdUp$ from \autoref{ch:concrete-instances-prod-namecert}, and $\ListUp$ from \autoref{ch:concrete-instances-list-namecert}. The packet names the finite constructor, eliminator, stability, and ledger rows shared by those interfaces; it is not a new kernel input, a host finite-set universe, quotient equality, or a choice principle.
+
+\begin{definition}[Finite data assembly carrier]
+\label{def:finite-data-assembly-carrier}
+A $\FiniteDataAssemblyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,O,S,Pd,L,K,E,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoolUp$ row exposing the two endpoint constructors and Boolean case analysis.
+\item $O$ is the $\OptionUp$ row exposing absent and present branches.
+\item $S$ is the $\SumUp$ row exposing left and right tagged injections.
+\item $Pd$ is the $\ProdUp$ row exposing paired component projections.
+\item $L$ is the $\ListUp$ row exposing empty and cons constructors together with finite induction.
+\item $K$ is the shared constructor ledger, recording how the five interfaces build admitted histories from displayed rows.
+\item $E$ is the shared eliminator ledger, recording the allowed case-analysis, projection, and finite-induction reads.
+\item $T$ records classifier stability and componentwise $\hsame$ transport for all five finite-data interfaces.
+\item $C$ records displayed $\Cont$ replay from a finite-data request back through $B,O,S,Pd,L,K,E,T$.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteDataAssemblyUp$, $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDataAssemblyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,O,S,Pd,L,K,E,T,C,Q,N$. It has no coordinate for a host finite-set universe, unbounded case split, quotient equality, choice-selected branch, or extra kernel primitive.
+\end{definition}
+
+\begin{theorem}[Finite data assembly seed obligation]
+\label{thm:finite-data-assembly-seed-obligation}
+Every public finite-data read that uses the Bool, Option, Sum, Prod, and List interface layer factors through an accepted $\FiniteDataAssemblyUp$ packet. The packet displays the five sibling rows
+$$
+\BoolUp,\ \OptionUp,\ \SumUp,\ \ProdUp,\ \ListUp
+$$
+together with shared constructor, eliminator, classifier-stability, transport, replay, provenance, and local naming rows before any finite-data consumer may use the interface layer as a single public surface.
+\end{theorem}
+\begin{proof}
+Project the sibling rows. Boolean reads consume $B$, option reads consume $O$, sum reads consume $S$, product reads consume $Pd$, and list reads consume $L$; none of these rows is replaced by host finite data.
+
+Read the shared constructor and eliminator ledgers. The constructor ledger $K$ records how admitted histories are built, while the eliminator ledger $E$ records the allowed case-analysis, projection, and finite-induction paths for the same displayed rows.
+
+Apply classifier stability and transport through $T$. The five interfaces remain comparable only by their displayed classifiers and componentwise $\hsame$ routes.
+
+Finally attach replay, provenance, and local naming through $C,Q,N$. The resulting assembly is a finite NameCert packet over existing sibling interfaces, so it supplies no host finite-set universe, quotient equality, unbounded branch selector, choice principle, or additional kernel input.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteDataAssemblyUp$ consumer that uses the finite data layer without displaying Bool, Option, Sum, Prod, List, constructor, eliminator, stability, replay, provenance, and local NameCert rows refutes the assembly surface.}
+
+\independenceWitness{bool, option, sum, prod, list: $\FiniteDataAssemblyUp$ is not bijective to any listed sibling because it jointly binds five finite-data interfaces, one constructor ledger, one eliminator ledger, shared stability, transport, replay, provenance, and local naming in a single assembly packet.}
+
+\closureat{FiniteDataAssemblyUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDataAssemblyUp}
+  \constructivestory{A $\FiniteDataAssemblyUp$ packet is generated from Bool, Option, Sum, Prod, and List rows, shared constructor and eliminator ledgers, classifier stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-data-assembly-carrier} and \autoref{thm:finite-data-assembly-seed-obligation} seed the finite assembly NameCert route for the Bool/Option/Sum/Prod/List interface spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host finite-set universe, quotient equality, unbounded branch selection, choice, extra kernel primitives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sibling row exposure, constructor ledger exactness, eliminator ledger exactness, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.FiniteDataAssemblyUp.}
+\end{closurestatus}

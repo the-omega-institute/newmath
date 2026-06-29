@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\EulerMaclaurinFiniteSumUp$}
+\label{ch:concrete-instances-euler-maclaurin-finite-sum-namecert}
+\origin{human}
+
+Following Euler and Maclaurin, and in the Bishop--Bridges constructive reading of finite summation formulae, the $\EulerMaclaurinFiniteSumUp$ packet records only the finite summation budget needed to read a bounded Euler--Maclaurin correction as BEDC data. It refines the broader summation-remainder route of \autoref{ch:concrete-instances-euler-maclaurin-namecert}, keeps the terminal value on the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, reads rational approximants through \autoref{ch:concrete-instances-regseqrat-namecert}, and sends every tolerance request through the $\DyadicRatCoreUp$ surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The chapter names a finite summation-window object; it does not assert a host asymptotic expansion, an infinite series theorem, an integral theorem, a chosen limiting process, quotient equality, countable choice, trichotomy, or ambient real completeness.
+
+\begin{definition}[Euler--Maclaurin finite-sum carrier]
+\label{def:euler-maclaurin-finite-sum-carrier}
+An $\EulerMaclaurinFiniteSumUp$ carrier is a finite $\BHist$ packet
+$$
+F=(W,L,U,B,D,Q,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite summation-window row. It contains the lower and upper indices, the inspected term rows, and the finite partial-sum observations allowed to enter the budget.
+\item $L$ and $U$ are endpoint rows for the boundary evaluations, including the $\RealUp$ names read at the lower and upper edges of the window.
+\item $B$ is the Bernoulli-correction row. It records the finite correction order, the coefficient rows requested at that order, and the boundary slots to which those coefficients are applied.
+\item $D$ is the derivative-window row. It lists only the derivative observations and interval windows used by the finite correction and remainder rows.
+\item $Q$ is the $\DyadicRatCoreUp$ remainder-budget row, carrying the positive tolerance, split budget, and refinement data for the displayed finite window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the summation window, endpoint rows, Bernoulli-correction row, derivative-window row, and dyadic remainder budget.
+\item $Z$ is the terminal $\RealUp$ seal reached after $W,L,U,B,D,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the summation window, endpoint rows, Bernoulli-correction row, derivative-window row, dyadic budget, regular rational readback, terminal seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay through
+$$
+W,L,U,B,D,Q,R \longmapsto Z \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EulerMaclaurinFiniteSumUp$, $\EulerMaclaurinUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerMaclaurinFiniteSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,L,U,B,D,Q,R,Z,H,C,P,N$. It has no coordinate for an unbounded series, a host integral, a hidden asymptotic remainder, a selected limit, quotient equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Euler--Maclaurin finite-sum NameCert obligations]
+\label{thm:euler-maclaurin-finite-sum-namecert-obligations}
+For every accepted $\EulerMaclaurinFiniteSumUp$ carrier
+$$
+F=(W,L,U,B,D,Q,R,Z,H,C,P,N),
+$$
+the local $\NameCert_{\EulerMaclaurinFiniteSumUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item finite-window admission, requiring the indices, inspected term rows, and partial-sum observations in $W$ to be displayed before any correction row is read;
+\item endpoint readiness, requiring both endpoint rows $L,U$ to be opened before boundary corrections or terminal seals are named;
+\item Bernoulli-correction readiness, requiring the finite coefficient ledger $B$ to expose its order and boundary slots before it contributes to the budget;
+\item derivative-window readiness, requiring $D$ to list the derivative observations and interval windows used by the correction and remainder rows;
+\item dyadic remainder budgeting, requiring every final error request to factor through the positivity, split-budget, and refinement data in $Q$;
+\item regular rational readback, requiring $R$ to expose rational approximants for $W,L,U,B,D,Q$ before the terminal $\RealUp$ seal $Z$ is opened;
+\item classifier transport, requiring $H$ and $C$ to preserve the same $W,L,U,B,D,Q,R,Z$ inventory under $\hsame$ and displayed $\Cont$ replay;
+\item provenance and local naming, requiring $P,N$ to source and name only the finite packet above, with no host asymptotic expansion, unbounded summation, host integral, selected limit, quotient equality, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:euler-maclaurin-finite-sum-carrier}. The accepted packet displays $W,L,U,B,D,Q,R,Z,H,C,P,N$, so every obligation must be read from one of those rows.
+
+The finite-window and endpoint obligations come first. A consumer cannot reach the correction row until the summation bounds and inspected term rows in $W$ are visible, and it cannot form boundary corrections until both endpoint rows $L,U$ have been opened.
+
+The correction and derivative obligations are rowwise. The Bernoulli-correction row $B$ supplies only the finite coefficient ledger requested by the order of the packet, while $D$ supplies the derivative observations and interval windows used by that same finite order.
+
+The remainder obligation is forced by $Q$. Positivity, split-budget data, and refinements are displayed there before the regular rational readback $R$ can name approximants for the whole budget and before the terminal real seal $Z$ can be opened.
+
+Finally, $H$ and $C$ replay the same inventory under transport, and $P,N$ source and name only that replayed packet. Since the carrier has no additional coordinate, none of the excluded host-analytic or choice-based data can be read from an accepted packet.
+\end{proof}
+
+\begin{theorem}[Euler--Maclaurin finite-sum budget handoff]
+\label{thm:euler-maclaurin-finite-sum-budget-handoff}
+Every downstream quadrature, summation, or real-series consumer of an accepted $\EulerMaclaurinFiniteSumUp$ packet must read the finite summation window $W$, endpoint rows $L,U$, Bernoulli-correction row $B$, derivative-window row $D$, dyadic remainder budget $Q$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $Z$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before treating the packet as an Euler--Maclaurin budget. The handoff is therefore a finite BEDC budget route, not an invocation of the broader Euler--Maclaurin theorem as a host asymptotic principle.
+\end{theorem}
+\begin{proof}
+Let $F=(W,L,U,B,D,Q,R,Z,H,C,P,N)$ be accepted. By \autoref{def:euler-maclaurin-finite-sum-carrier}, these are exactly the rows available to any consumer.
+
+The consumer first opens $W$ for the finite summation interval and inspected terms, then opens $L,U$ for endpoint data. It may then read $B$ and $D$ for the finite correction and derivative windows requested by the packet.
+
+The error route passes through $Q$ and then through $R$, so every tolerance and rational approximation is tied to the displayed dyadic budget and regular readback. Only after this route is visible may the terminal seal $Z$ be consumed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Thus the handoff exports exactly the finite budget surface and gives later consumers no route to a host asymptotic theorem.
+\end{proof}
+
+\closureat{EulerMaclaurinFiniteSumUp}{seedStr}
+
+\begin{closurestatus}{\EulerMaclaurinFiniteSumUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-maclaurin-finite-sum-carrier}, \autoref{thm:euler-maclaurin-finite-sum-namecert-obligations}, and \autoref{thm:euler-maclaurin-finite-sum-budget-handoff} seed the finite summation-window, endpoint, Bernoulli-correction, derivative-window, dyadic remainder, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host asymptotic expansion, unbounded summation theorem, host integral theorem, selected limiting process, quotient equality, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, endpoint readiness, Bernoulli-correction readiness, derivative-window readiness, dyadic remainder budgeting, RegSeqRat readback, Real seal handoff, classifier transport, and non-escape for BEDC.Derived.EulerMaclaurinFiniteSumUp.}
+  \constructivestory{An $\EulerMaclaurinFiniteSumUp$ packet is generated from a finite summation-window row, endpoint RealUp rows, Bernoulli-correction row, derivative-window row, DyadicRatCore remainder budget, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}
