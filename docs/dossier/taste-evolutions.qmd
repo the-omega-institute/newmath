@@ -456,6 +456,10 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-28T22:45:54Z: `resolved` `add_downstream_user` for `BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ApartnessSpaceUp.ApartnessSpaceCarrier_namecert_obligation_package:203407cd`). Rationale: The target has real BEDC content: it builds a localName SemanticNameCert from the ApartnessSpace carrier, positive-gap route, zero-distance route, and package signatures. It had no downstream Lean consumer, so I added a sibling theorem in TransportAndReplay that consumes this package theorem together with the transport/replay certificate, tying the local naming package to the replay boundary surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-29T05:57:55Z: `resolved` `leave_with_rationale` for `BEDC.Derived.SeparableCompletionUp.SeparableCompletionCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:separablecompletion:BEDC.Derived.SeparableCompletionUp.SeparableCompletionCarrier_namecert_obligations:6d04d132`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert from the separable-completion Cont route and PkgSig provenance/local-name rows, and derives UnaryHistory for the intermediate read rows. It is currently only represented as the Lean declaration plus the paper marker, so I attempted add_downstream_user by adding a sibling consumer in DensityHandoff.lean that combined the NameCert obligations with SeparableCompletionDensityHandoff, but the required lake build gate failed on BEDC.Derived.SeparableCompletionUp.DensityHandoff. Per the task rule, I reverted the attempted edit and switched to leave_with_rationale with the gate failure recorded. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.SeparableCompletionUp.DensityHandoff
+error: build failed, audit=skipped, phase_d_lint=skipped.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
