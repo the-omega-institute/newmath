@@ -4,7 +4,7 @@ Deterministic per-cycle report for the compact bridge intake surface.
 
 | Branch | Claims intaken/total | Experiments intaken/registered | Namecerts intaken/total | Data files intaken/total |
 | --- | ---: | ---: | ---: | ---: |
-| bio | 161/161 | 161/161 | 148/148 | 286/286 |
+| bio | 161/161 | 161/161 | 149/149 | 286/286 |
 | fibonacci | 69/69 | 69/69 | 37/37 | 221/221 |
 
 ## Omitted Claims By Domain
