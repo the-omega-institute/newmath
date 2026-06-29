@@ -2079,6 +2079,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Lucas cube family Lambda_m (cyclic no-adjacent-1 words, |V|=L_m), the cyclic Fibonacci necklace count N_m (rotation classes of Lambda_m vertices under the Z/mZ action) satisfies the Burnside orbit-counting identity N_m = (1/m) sum_{d|m} phi(d) L_{m/d}, equivalently the integrality identity m * N_m = sum_{d|m} phi(d) L_{m/d} (phi = Euler totient, L = Lucas number L_0=2,L_1=1); the divisor sum is divisible by m (Burnside's lemma content). Values N_1..N_15 = 1,2,2,3,3,5,5,8,10,15,19,31,41,64,94, verified by direct rotation-orbit enumeration against the divisor-sum formula for m=1..12 and by the integrality identity for m=1..15. This is an Euler-totient + Lucas divisor-sum orbit/quotient structure (N_m ~ phi^m/m, NOT a fixed-order C-finite recurrence), a new primitive distinct from the disjoint-pair trace D_m and every Fibonacci-cube transfer/trace anchor. The axiom-free Lean theorem records the witness integrality identities m*N_m = sum_{d|m} phi(d) L(m/d) over m=1..15 with computable Euler totient, divisor, and Lucas definitions; the universal Burnside orbit-counting lemma is the external obligation. No alpha claim"
+    },
+    {
+      "claim_id": "pell-graph.cube-polynomial.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-pell-cube-polynomial",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "pell-graph.cube-polynomial",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Pell graph Pi_n (vertices = Pell strings of length n, words over {0,1,2} with every maximal block of 2's of even length, |V|=P_n with P_{n+2}=2P_{n+1}+P_n; edges = single 0<->1 flip or 11<->22 block swap), the cube polynomial Q_n(x)=sum_{k>=0} q_{n,k} x^k (q_{n,k} = number of induced k-dimensional subhypercubes Q_k; q_{n,0}=vertices, q_{n,1}=edges, q_{n,2}=induced 4-cycles) satisfies the forced bivariate decomposition recurrence Q_{n+2}(x)=(2+x)Q_{n+1}(x)+(1+x)Q_n(x) with Q_0=1, Q_1=2+x, equivalently the rational generating function sum_n Q_n(x) t^n = 1/(1-(2+x)t-(1+x)t^2) and moving characteristic T^2-(2+x)T-(1+x). The x=0 specialization Q_n(0)=P_n is the old Pell vertex count (silver-ratio bump, not the anchor); the dimension-refined polynomial is the new object. The total subcube count C_n=Q_n(1)=1,3,11,39,139,495,1763,6279 satisfies C_{n+2}=3C_{n+1}+2C_n (characteristic T^2-3T-2, coprime to t^2-t-1; neither silver ratio nor Fibonacci). The recurrence was verified to reproduce the true induced-subcube counts by direct Pell-graph construction (vertices, edges, induced 4-cycles) for n=1..4 and the coefficient table for n=0..7. The axiom-free Lean theorem proves the bivariate recurrence in evaluated form eval(Q(n+2)) t = (2+t) eval(Q(n+1)) t + (1+t) eval(Q n) t universally in n and the evaluation point t (so it holds at every t, capturing the full bivariate content), with the total-subcube (t=1) and Pell-vertex (t=0) recurrences as universal corollaries and the coefficient tables as witnesses. A new substrate (Pell graph) and a new bivariate dimension-refined object distinct from every Fibonacci-cube and Lucas-cube anchor; not a silver-ratio or parametric bump. No alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
