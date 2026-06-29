@@ -1642,6 +1642,7 @@ import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.NameCertObligations
 import BEDC.Derived.CanonicalTailChoiceUp.Nonescape
 import BEDC.Derived.CanonicalTailChoiceUp.ObligationSurface
+import BEDC.Derived.CanonicalTailChoiceUp.RealCompletionHandoff
 import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
@@ -13286,6 +13287,7 @@ import BEDC.Derived.WritingItemAuditUp
 import BEDC.Derived.WritingItemAuditUp.BridgeSchemaRoute
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
+import BEDC.Derived.WronskianUp.DeterminantRouteStability
 import BEDC.Derived.WronskianUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
 import BEDC.Derived.WythoffUp
@@ -13800,5 +13802,6 @@ import BEDC.Real.LocatedNatPowerEnclosure
 import BEDC.Real.RatInterval
 import BEDC.Real.RatLogEnclosure
 import BEDC.Real.RatNumKernel
+import BEDC.Real.RatNumLogEnclosure
 import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
