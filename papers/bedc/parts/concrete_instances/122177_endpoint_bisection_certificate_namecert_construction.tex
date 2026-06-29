@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\EndpointBisectionCertificateUp$}
+\label{ch:concrete-instances-endpoint-bisection-certificate-namecert}
+\origin{ai}
+
+The $\EndpointBisectionCertificateUp$ packet realizes the endpoint-bisection certificate of \autoref{sec:unified-reality-endpoint-bisection-certificate} as finite NameCert data over RHRoute endpoint intervals, branch choices, preservation rows, and local half-split handoff. It reads the endpoint interval and branch replay surface encoded by $\mathsf{BEDC.Derived.RHRoute.EndpointBisectionCertificate}$, hands the local split boundary to \autoref{ch:concrete-instances-local-half-split-certificate-namecert}, and keeps the endpoint route separate from parity tower, oriented triadic, and zero-recursor cover routes. The packet names a finite endpoint bisection surface; it is not an RH proof, not a zero selector, and not a quotient over all endpoint models.
+
+\begin{definition}[Endpoint bisection certificate carrier]
+\label{def:endpoint-bisection-certificate-carrier}
+An $\EndpointBisectionCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,\beta,R,S,L,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the RHRoute endpoint-interval row, carrying an endpoint dyadic interval and its finite diameter data.
+\item $\beta$ is the branch-choice row, listing the finite lower/upper decisions used by endpoint replay.
+\item $R$ is the replay row, computing the endpoint interval reached by the displayed branch list.
+\item $S$ is the preservation row, recording the depth, width, and endpoint-location invariants kept by replay.
+\item $L$ is the local half-split handoff row, available only after $I,\beta,R,S$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the endpoint interval, branch list, preservation row, local half-split row, provenance, and local name.
+\item $K$ stores displayed $\Cont$ replay from endpoint reads through the branch and preservation rows before any RHRoute conclusion is consumed.
+\item $P$ records $\Pkg$ provenance over $\EndpointBisectionCertificateUp$, RHRoute endpoint intervals, branch choices, preservation rows, $\LocalHalfSplitCertificateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EndpointBisectionCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global RH conclusion, a selected zero, a quotient over endpoint models, parity tower equality, oriented triadic equivalence, or zero-recursor cover boundary replacement.
+\end{definition}
+
+\begin{theorem}[Endpoint bisection certificate NameCert surface]
+\label{thm:endpoint-bisection-certificate-namecert-surface}
+For every accepted $\EndpointBisectionCertificateUp$ carrier $B=(I,\beta,R,S,L,H,K,P,N)$, the local $\NameCert_{\EndpointBisectionCertificateUp}$ surface consists exactly of endpoint interval admission, branch-choice admission, replay determinacy, preservation visibility, local half-split handoff, componentwise transport, displayed continuation replay, provenance, and local naming. Any endpoint-bisection read that omits one of $I,\beta,R,S,L,H,K,P,N$ is outside the carrier surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:endpoint-bisection-certificate-carrier}. The analytic rows are the endpoint interval $I$, branch list $\beta$, replay row $R$, preservation row $S$, and local half-split handoff $L$.
+
+Read the rows in dependency order. Replay depends on the displayed branch list, preservation is recorded only for the replayed interval, and the local half-split handoff is available only after replay and preservation have both been displayed.
+
+The structural rows $H,K,P,N$ transport, replay, source, and name the same packet. Since no coordinate carries a global RH conclusion, selected zero, quotient endpoint model, parity tower equality, oriented triadic equivalence, or zero-recursor cover boundary replacement, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Endpoint bisection certificate RHRoute handoff]
+\label{thm:endpoint-bisection-certificate-rhroute-handoff}
+Every RHRoute consumer of an accepted $\EndpointBisectionCertificateUp$ packet reaches an endpoint-facing conclusion only through endpoint interval, branch, preservation, local half-split, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. In carrier notation the route is
+$$
+I,\beta,R,S,L,H,K,P,N .
+$$
+Thus the packet can hand endpoint-bisection data to RHRoute readers, but it does not by itself assert the Riemann hypothesis, select a zero, identify all endpoint models, or collapse the local half-split route into parity, triadic, or recursor-cover siblings.
+\end{theorem}
+\begin{proof}
+Start with the NameCert surface of \autoref{thm:endpoint-bisection-certificate-namecert-surface}. It forces any accepted endpoint read to expose $I,\beta,R,S,L$ before a route consumer can read the packet.
+
+Next use the structural rows. Transport and replay keep the endpoint interval, branch list, preservation row, and local half-split row together as one finite packet, while provenance and local naming prevent the handoff from detaching into an untracked RHRoute conclusion.
+
+The carrier omits global RH conclusions, zero selectors, quotient endpoint models, parity tower equality, oriented triadic equivalence, and zero-recursor cover replacement. Therefore every accepted RHRoute handoff remains the displayed finite endpoint-bisection route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted endpoint-bisection read factors through endpoint interval, branch, preservation, local half-split, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any RHRoute conclusion is consumed.}
+
+\independenceWitness{local-half-split-certificate, parity-closure-tower-certificate, oriented-triadic-certificate, zero-recursor-cover-boundary: none is bijective to $\EndpointBisectionCertificateUp$ because the local half-split sibling supplies only the split handoff, the parity tower route supplies parity closure data, the oriented triadic route supplies triadic orientation rows, and the zero-recursor cover boundary supplies recursor-cover rows, while this packet binds endpoint interval replay, branch choices, preservation, local half-split handoff, transport, replay, provenance, and local naming in one carrier.}
+
+The future TasteGate surface for $\EndpointBisectionCertificateUp$ must supply nontrivial endpoint-branch variation and field-faithful visibility for $I,\beta,R,S,L,H,K,P,N$ before the chapter can be promoted beyond this paper-side NameCert target.
+
+\closureat{EndpointBisectionCertificateUp}{seedStr}
+
+\begin{closurestatus}{\EndpointBisectionCertificateUp}
+  \constructivestory{An $\EndpointBisectionCertificateUp$ packet is generated from RHRoute endpoint interval rows, branch-choice rows, endpoint replay, preservation rows, a local half-split handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:endpoint-bisection-certificate-carrier}, \autoref{thm:endpoint-bisection-certificate-namecert-surface}, and \autoref{thm:endpoint-bisection-certificate-rhroute-handoff} seed the endpoint-bisection NameCert route over RHRoute endpoint intervals and local half-split handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Riemann hypothesis, zero selection, quotient endpoint-model equality, parity tower equivalence, oriented triadic equivalence, zero-recursor cover replacement, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint interval admission, branch replay, preservation visibility, local half-split handoff, nontrivial endpoint variation, field-faithful row visibility, transport, replay, provenance, and local naming for BEDC.Derived.RHRoute.EndpointBisectionCertificate.}
+\end{closurestatus}
