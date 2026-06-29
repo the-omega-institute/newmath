@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\NewtonForwardSeriesUp$}
+\label{ch:concrete-instances-newton-forward-series-namecert}
+\origin{human}
+
+Following Boole and Whittaker--Robinson, the $\NewtonForwardSeriesUp$ packet records the finite forward-difference series route by which a displayed table is repacked as a Newton coefficient row and then handed to polynomial and regular-Cauchy consumers. It sits after the finite-difference surface of \autoref{ch:concrete-instances-finite-difference-namecert}, the finite-difference table of \autoref{ch:concrete-instances-finite-difference-table-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet supplies a finite-calculus interface for L10 Real and Completion estimates; it does not claim analytic convergence, quotient real equality, selected limits, host function extensionality, or ambient completeness.
+
+\begin{definition}[Newton forward series carrier]
+\label{def:newton-forward-series-carrier}
+A $\NewtonForwardSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,D,C,P,R,W,H,T,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ records the basepoint row, step row, and finite source-window observations used by the forward table.
+\item $D$ is the forward-difference table row, read through the finite-difference and finite-difference-table siblings before any coefficient is exposed.
+\item $C$ is the Newton coefficient row, storing the finite binomial-basis coefficients determined by $D$.
+\item $P$ is the polynomial reconstruction row, reading $C$ as a finite polynomial or finite Newton-series section through $\PolynomialUp$.
+\item $R$ is the $\RegSeqRatUp$ regular readback row for window estimates derived from the displayed finite section.
+\item $W$ is the regular-Cauchy window compatibility row used by L10 Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for the basepoint, step, table, coefficient, reconstruction, readback, window, provenance, and local naming rows.
+\item $T$ is the displayed $\Cont$ route
+$$
+X,D \longmapsto C \longmapsto P \longmapsto R \longmapsto W .
+$$
+\item $G$ is the $\Pkg$ provenance over $\NewtonForwardSeriesUp$, $\FiniteDifferenceUp$, $\FiniteDifferenceTableUp$, $\PolynomialUp$, $\RegSeqRatUp$, regular-Cauchy window rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NewtonForwardSeriesUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite analytic series, a host function graph, quotient real equality, selected convergence, Taylor remainder completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Newton forward series NameCert obligations]
+\label{thm:newton-forward-series-namecert-obligations}
+For the carrier of \autoref{def:newton-forward-series-carrier}, the local $\NameCert_{\NewtonForwardSeriesUp}$ surface consists exactly of the finite obligation rows for basepoint and step admission through $X$, forward-difference table admission through $D$, Newton coefficient exposure through $C$, polynomial or finite-series reconstruction through $P$, regular readback and window compatibility through $R,W$, componentwise transport through $H$, displayed continuation through $T$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\leanstmt{BEDC.Derived.NewtonForwardSeriesUp}
+\begin{proof}
+Project the carrier rows of \autoref{def:newton-forward-series-carrier}. The basepoint, step, and source-window data are displayed in $X$, and the finite forward-difference table is displayed in $D$ before any coefficient row can be read.
+
+The coefficient row $C$ is then the only route to the polynomial or finite-series reconstruction row $P$. A polynomial consumer therefore receives a finite Newton section rather than an ambient function graph or an infinite analytic series.
+
+The regular readback row $R$ and the window row $W$ are downstream of the same finite table and coefficient rows. Componentwise transport, continuation replay, provenance, and local naming preserve this displayed route and do not add quotient real equality, selected convergence, or completeness data.
+\end{proof}
+
+\begin{closurestatus}{\NewtonForwardSeriesUp}
+  \constructivestory{A $\NewtonForwardSeriesUp$ packet is generated from a basepoint and step row, a finite forward-difference table, a Newton coefficient row, a polynomial or finite-series reconstruction row, RegSeqRat readback, regular-Cauchy window compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-forward-series-carrier} and \autoref{thm:newton-forward-series-namecert-obligations} seed the finite Newton forward-series packet over finite-difference, polynomial, regular readback, regular-Cauchy window, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic convergence, infinite series completeness, quotient real equality, selected limits, host function extensionality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked basepoint and step admission, forward-difference table admission, Newton coefficient exposure, polynomial reconstruction, regular readback, regular-Cauchy window compatibility, transport, provenance, and local naming for BEDC.Derived.NewtonForwardSeriesUp.}
+\end{closurestatus}
