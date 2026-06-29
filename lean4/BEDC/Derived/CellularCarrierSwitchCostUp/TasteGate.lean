@@ -176,29 +176,25 @@ def taste_gate : ChapterTasteGate CellularCarrierSwitchCostUp :=
   cellularCarrierSwitchCostChapterTasteGate
 
 theorem CellularCarrierSwitchCostTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CellularCarrierSwitchCostUp) ∧
-      Nonempty (FieldFaithful CellularCarrierSwitchCostUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial CellularCarrierSwitchCostUp) ∧
-          (∀ h : BHist,
-            cellularCarrierSwitchCostDecodeBHist
-              (cellularCarrierSwitchCostEncodeBHist h) = h) ∧
-            (∀ x : CellularCarrierSwitchCostUp,
-              cellularCarrierSwitchCostFromEventFlow
-                (cellularCarrierSwitchCostToEventFlow x) = some x) ∧
-              (∀ x y : CellularCarrierSwitchCostUp,
-                cellularCarrierSwitchCostToEventFlow x =
-                  cellularCarrierSwitchCostToEventFlow y -> x = y) ∧
-                cellularCarrierSwitchCostEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      cellularCarrierSwitchCostDecodeBHist
+        (cellularCarrierSwitchCostEncodeBHist h) = h) ∧
+      (∀ x y : CellularCarrierSwitchCostUp,
+        cellularCarrierSwitchCostFields x =
+          cellularCarrierSwitchCostFields y -> x = y) ∧
+        (∃ x y : CellularCarrierSwitchCostUp, x ≠ y) ∧
+          cellularCarrierSwitchCostEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨⟨cellularCarrierSwitchCostChapterTasteGate⟩,
-      ⟨cellularCarrierSwitchCostFieldFaithful⟩,
-      ⟨cellularCarrierSwitchCostNontrivial⟩,
-      cellularCarrierSwitchCost_decode_encode_bhist,
-      cellularCarrierSwitchCost_round_trip,
-      by
-        intro x y heq
-        exact cellularCarrierSwitchCostToEventFlow_injective heq,
+    ⟨cellularCarrierSwitchCost_decode_encode_bhist,
+      cellularCarrierSwitchCost_field_faithful,
+      ⟨CellularCarrierSwitchCostUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        CellularCarrierSwitchCostUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
       rfl⟩
 
 end BEDC.Derived.CellularCarrierSwitchCostUp

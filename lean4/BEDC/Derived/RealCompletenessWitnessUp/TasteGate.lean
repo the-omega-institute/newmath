@@ -166,29 +166,25 @@ def taste_gate : ChapterTasteGate RealCompletenessWitnessUp :=
   realCompletenessWitnessChapterTasteGate
 
 theorem RealCompletenessWitnessTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RealCompletenessWitnessUp) ∧
-      Nonempty (FieldFaithful RealCompletenessWitnessUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial RealCompletenessWitnessUp) ∧
-          (∀ h : BHist,
-            realCompletenessWitnessDecodeBHist
-              (realCompletenessWitnessEncodeBHist h) = h) ∧
-            (∀ x : RealCompletenessWitnessUp,
-              realCompletenessWitnessFromEventFlow
-                (realCompletenessWitnessToEventFlow x) = some x) ∧
-              (∀ x y : RealCompletenessWitnessUp,
-                realCompletenessWitnessToEventFlow x =
-                  realCompletenessWitnessToEventFlow y -> x = y) ∧
-                realCompletenessWitnessEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      realCompletenessWitnessDecodeBHist
+        (realCompletenessWitnessEncodeBHist h) = h) ∧
+      (∀ x y : RealCompletenessWitnessUp,
+        realCompletenessWitnessFields x =
+          realCompletenessWitnessFields y -> x = y) ∧
+        (∃ x y : RealCompletenessWitnessUp, x ≠ y) ∧
+          realCompletenessWitnessEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨⟨realCompletenessWitnessChapterTasteGate⟩,
-      ⟨realCompletenessWitnessFieldFaithful⟩,
-      ⟨realCompletenessWitnessNontrivial⟩,
-      realCompletenessWitness_decode_encode_bhist,
-      realCompletenessWitness_round_trip,
-      by
-        intro x y heq
-        exact realCompletenessWitnessToEventFlow_injective heq,
+    ⟨realCompletenessWitness_decode_encode_bhist,
+      realCompletenessWitness_field_faithful,
+      ⟨RealCompletenessWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        RealCompletenessWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
       rfl⟩
 
 end BEDC.Derived.RealCompletenessWitnessUp

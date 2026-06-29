@@ -6782,6 +6782,7 @@ import BEDC.Derived.HausdorffizationUp.MetricCompletionHandoff
 import BEDC.Derived.HausdorffizationUp.NameCertObligationSurface
 import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HausdorffizationUp.NonquotientNonescapeObligation
+import BEDC.Derived.HausdorffizationUp.PublicExport
 import BEDC.Derived.HausdorffizationUp.RealCompletionConsumerFactorization
 import BEDC.Derived.HausdorffizationUp.ScopedCompletionReadback
 import BEDC.Derived.HausdorffizationUp.SeparatedCompletionObligation
@@ -6957,6 +6958,7 @@ import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
+import BEDC.Derived.HypercoverUp.NameCertObligations
 import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
@@ -9836,6 +9838,7 @@ import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
+import BEDC.Derived.PreuniformityUp.TasteGate
 import BEDC.Derived.PriestleyDualityUp.TasteGate
 import BEDC.Derived.PrimeAdicLocalSlicing
 import BEDC.Derived.PrimeAdicParityEnergyWindow
@@ -10873,6 +10876,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeSurface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.FieldHandoff
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.FormalAxisTarget
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.InverseWindowConsumption
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
@@ -11086,6 +11090,7 @@ import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
 import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.PublicNameCert
+import BEDC.Derived.RegularCauchyMinUp.PublicSelectorExport
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.RegularCauchyMinKernelScopeRoute

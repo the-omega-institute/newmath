@@ -81,6 +81,26 @@ The located source and analytic handoff then remain downstream of the same finit
 Finally $H,C,P,N$ transport, replay, source, and name only those displayed rows. Therefore a $\RealUp$ or $\CompletionUp$ consumer cannot read completion-facing data from the lattice unless the dyadic endpoints, interval cells, located source, stream windows, regular readback, Real seal, transport, replay, provenance, and local NameCert rows have already been exposed.
 \end{proof}
 
+\begin{theorem}[Finite interval lattice refinement induction]
+\label{thm:finite-interval-lattice-refinement-induction}
+Let $Q=(D,I,L,J,M,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntervalLatticeUp$ carrier. Suppose a displayed subdivision-depth row refines each listed cell of $I$ by finitely many dyadic subcells whose endpoint comparisons are read through the same $\DyadicRatCoreUp$ row $D$. Then the meet and join tables refine by induction over the displayed depth: at every finite stage the refined tables remain indexed by dyadic endpoint rows from $D$, expose only $\StreamNameUp$ windows from $S$, preserve $\RegSeqRatUp$ readback through $R$, and pass the terminal $\RealUp$ seal only through $E$.
+
+Consequently a $\RealUp$ or $\CompletionUp$ consumer of the refined lattice must still read the route
+$$
+D,I,L,J,M,S,R,E,H,C,P,N
+$$
+before using any refined meet, refined join, or refined endpoint cell.
+\end{theorem}
+\begin{proof}
+Induct on the displayed subdivision-depth row. At depth zero the refined table is the original finite table of \autoref{thm:finite-interval-lattice-real-completion-route}, so all meet and join reads already pass through $D,I,L,J,M,S,R,E,H,C,P,N$.
+
+For the successor step, split each currently displayed cell into its finitely listed dyadic subcells. The endpoint-order theorem \autoref{thm:finite-interval-lattice-endpoint-order} forces the lower and upper endpoint comparisons of every subcell to be read through $D$ before a table entry can be interpreted.
+
+The finite meet and join rows are then rebuilt table-entry by table-entry. Each entry either displays the least containing refined cell, displays the greatest common refined subcell, or records the corresponding refusal row already governed by $J$ and $M$.
+
+Finally the analytic readback is unchanged. The stream windows remain the finite windows in $S$, the rational readback remains the row $R$, and the terminal real-name exposure is still sealed by $E$. Transport, replay, provenance, and local naming in $H,C,P,N$ preserve the same route, so the induction cannot introduce an infinite lattice, selected limit, quotient equality, or ambient completion principle.
+\end{proof}
+
 \closureat{FiniteIntervalLatticeUp}{seedStr}
 
 \begin{closurestatus}{\FiniteIntervalLatticeUp}

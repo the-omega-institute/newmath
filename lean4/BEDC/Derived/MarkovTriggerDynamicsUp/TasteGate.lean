@@ -168,29 +168,25 @@ def taste_gate : ChapterTasteGate MarkovTriggerDynamicsUp :=
   markovTriggerDynamicsChapterTasteGate
 
 theorem MarkovTriggerDynamicsTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate MarkovTriggerDynamicsUp) ∧
-      Nonempty (FieldFaithful MarkovTriggerDynamicsUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial MarkovTriggerDynamicsUp) ∧
-          (∀ h : BHist,
-            markovTriggerDynamicsDecodeBHist
-              (markovTriggerDynamicsEncodeBHist h) = h) ∧
-            (∀ x : MarkovTriggerDynamicsUp,
-              markovTriggerDynamicsFromEventFlow
-                (markovTriggerDynamicsToEventFlow x) = some x) ∧
-              (∀ x y : MarkovTriggerDynamicsUp,
-                markovTriggerDynamicsToEventFlow x =
-                  markovTriggerDynamicsToEventFlow y -> x = y) ∧
-                markovTriggerDynamicsEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      markovTriggerDynamicsDecodeBHist
+        (markovTriggerDynamicsEncodeBHist h) = h) ∧
+      (∀ x y : MarkovTriggerDynamicsUp,
+        markovTriggerDynamicsFields x =
+          markovTriggerDynamicsFields y -> x = y) ∧
+        (∃ x y : MarkovTriggerDynamicsUp, x ≠ y) ∧
+          markovTriggerDynamicsEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨⟨markovTriggerDynamicsChapterTasteGate⟩,
-      ⟨markovTriggerDynamicsFieldFaithful⟩,
-      ⟨markovTriggerDynamicsNontrivial⟩,
-      markovTriggerDynamics_decode_encode_bhist,
-      markovTriggerDynamics_round_trip,
-      by
-        intro x y heq
-        exact markovTriggerDynamicsToEventFlow_injective heq,
+    ⟨markovTriggerDynamics_decode_encode_bhist,
+      markovTriggerDynamics_field_faithful,
+      ⟨MarkovTriggerDynamicsUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        MarkovTriggerDynamicsUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩,
       rfl⟩
 
 end BEDC.Derived.MarkovTriggerDynamicsUp
