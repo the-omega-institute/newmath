@@ -91,6 +91,7 @@ import BEDC.Derived.AlexandroffCompactificationUp.TasteGate
 import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
+import BEDC.Derived.AlgebraicExpressionLedgerUp
 import BEDC.Derived.AlgebraicExtensionDimensionUp
 import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AliquotSequenceUp
@@ -6956,7 +6957,6 @@ import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
-import BEDC.Derived.HypercoverUp.NameCertObligations
 import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
@@ -7163,6 +7163,7 @@ import BEDC.Derived.IshiharaTrickUp.BranchStability
 import BEDC.Derived.IshiharaTrickUp.FiniteTestBoundary
 import BEDC.Derived.IshiharaTrickUp.SpeckerBoundaryHandoff
 import BEDC.Derived.IshiharaTrickUp.TasteGate
+import BEDC.Derived.IsometricCompletionExtensionUp
 import BEDC.Derived.IsometricCompletionUp
 import BEDC.Derived.IsometricCompletionUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
@@ -9835,7 +9836,6 @@ import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
-import BEDC.Derived.PreuniformityUp.TasteGate
 import BEDC.Derived.PriestleyDualityUp.TasteGate
 import BEDC.Derived.PrimeAdicLocalSlicing
 import BEDC.Derived.PrimeAdicParityEnergyWindow
@@ -11085,7 +11085,6 @@ import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
 import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.PublicNameCert
-import BEDC.Derived.RegularCauchyMinUp.PublicSelectorExport
 import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyMinUp.RegularCauchyMinKernelScopeRoute
