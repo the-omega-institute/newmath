@@ -686,6 +686,7 @@ import BEDC.Derived.AxisAddUp.TasteGate
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.Nonescape
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.TasteGate
 import BEDC.Derived.AxisCarryConfluenceUp
+import BEDC.Derived.AxisCarryConfluenceUp.TasteGate
 import BEDC.Derived.AxisCarryDiamondRouteUp.Nonescape
 import BEDC.Derived.AxisCarryDiamondRouteUp.RouteConfluence
 import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
@@ -3912,6 +3913,8 @@ import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
 import BEDC.Derived.ContinuationReplayUp
 import BEDC.Derived.ContinuationReplayUp.TasteGate
+import BEDC.Derived.ContinuationTerminationUp.NameCertObligations
+import BEDC.Derived.ContinuationTerminationUp.NonEscape
 import BEDC.Derived.ContinuationTerminationUp.TasteGate
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
