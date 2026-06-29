@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverIncidenceRealizerUp$}
+\label{ch:concrete-instances-finite-cover-incidence-realizer-namecert}
+\origin{human}
+
+Following the classical nerve construction for finite covers and the finite-incidence reading of simplicial chains, the $\FiniteCoverIncidenceRealizerUp$ packet records the BEDC rows that turn displayed cover membership and overlap data into a simplicial and homology-facing handoff. It sits after the topological source of \autoref{ch:concrete-instances-topology-namecert}, the finite cover nerve of \autoref{ch:concrete-instances-finite-cover-nerve-namecert}, the simplicial complex interface of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the homology rows of \autoref{ch:concrete-instances-homology-namecert}, and the categorical carrier of \autoref{ch:concrete-instances-category-namecert}. The packet names finite incidence data; it does not import a host cover, selected refinements, ambient chain complexes, or quotient homology.
+
+\begin{definition}[Finite cover incidence realizer carrier]
+\label{def:finite-cover-incidence-realizer-carrier}
+A $\FiniteCoverIncidenceRealizerUp$ carrier is a finite $\BHist$ packet
+$$
+I=(T,K,M,O,F,S,A,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row for the covered object.
+\item $K$ is the $\FiniteCoverNerveUp$ cover row, including the finite cover index list and cover-member exposure.
+\item $M$ is the finite membership-incidence ledger pairing displayed source rows with displayed cover-index rows.
+\item $O$ is the overlap-incidence ledger for nonempty finite intersections.
+\item $F$ is the simplicial face ledger induced by $M$ and $O$.
+\item $S$ is the $\SimplicialComplexUp$ handoff row that reads the finite face ledger as a simplicial carrier.
+\item $A$ is the $\HomologyUp$ handoff row for finite chains generated from the accepted simplicial faces.
+\item $G$ is the $\CategoryUp$ provenance row for functorial comparison of cover maps, face maps, and homology consumers.
+\item $H$ records componentwise $\hsame$ transport for topology, cover, membership, overlap, face, simplicial, homology, category, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cover-incidence request through $T,K,M,O,F,S,A,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverIncidenceRealizerUp$, $\TopologyUp$, $\FiniteCoverNerveUp$, $\SimplicialComplexUp$, $\HomologyUp$, $\CategoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCoverIncidenceRealizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,M,O,F,S,A,G,H,C,P,N$. It has no coordinate for host open covers, selected refinements, ambient simplicial sets, quotient chain complexes, or global homology representatives.
+\end{definition}
+
+\begin{theorem}[Finite cover incidence realizer NameCert obligations]
+\label{thm:finite-cover-incidence-realizer-namecert-obligations}
+For every accepted $\FiniteCoverIncidenceRealizerUp$ carrier
+$$
+I=(T,K,M,O,F,S,A,G,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteCoverIncidenceRealizerUp}$ surface consists exactly of carrier admission for topology source rows, finite cover rows, membership incidence, overlap incidence, simplicial face admission, simplicial-complex handoff, homology handoff, categorical provenance, componentwise transport, displayed replay, package provenance, and local naming. Every simplicial or homology consumer must expose the route
+$$
+\TopologyUp \to \FiniteCoverNerveUp \to \mathsf{IncidenceLedger} \to \SimplicialComplexUp \to \HomologyUp
+$$
+with the $\CategoryUp$ provenance row displayed before functorial comparison is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cover-incidence-realizer-carrier}. The topology and finite-cover inputs are $T,K$, the incidence ledgers are $M,O,F$, the downstream handoff rows are $S,A,G$, and the structural rows are $H,C,P,N$.
+
+The finite membership and overlap rows determine exactly which finite faces are admitted. The simplicial-complex row consumes that face ledger, and the homology row consumes the finite-chain data generated from the same accepted faces.
+
+The category provenance row records how cover maps, face maps, and homology-facing consumers compare without adding a host category of covers. The transport, replay, provenance, and local naming rows preserve this finite packet, so the NameCert obligations are exhausted by the displayed carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteCoverIncidenceRealizerUp$ read displays Topology source rows, FiniteCoverNerve cover rows, membership incidence, overlap incidence, simplicial face rows, SimplicialComplex handoff, Homology handoff, Category provenance, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before a simplicial or homology consumer can inspect the incidence interface.}
+
+\independenceWitness{topology, finite-cover-nerve, simplicialcomplex, homology, category: $\FiniteCoverIncidenceRealizerUp$ is not bijective to any listed sibling because it jointly binds cover membership, overlap incidence, simplicial faces, homology handoff, categorical provenance, transport, replay, provenance, and local naming as one finite incidence packet.}
+
+\closureat{FiniteCoverIncidenceRealizerUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverIncidenceRealizerUp}
+  \constructivestory{A $\FiniteCoverIncidenceRealizerUp$ packet is generated from Topology source rows, FiniteCoverNerve cover rows, finite membership and overlap incidence ledgers, simplicial face rows, SimplicialComplex handoff rows, Homology handoff rows, Category provenance rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-incidence-realizer-carrier} and \autoref{thm:finite-cover-incidence-realizer-namecert-obligations} seed the finite cover-incidence interface for simplicial, homology, and categorical consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host open covers, selected refinements, ambient simplicial sets, quotient chain complexes, global homology representatives, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, membership-incidence exactness, overlap-incidence exactness, simplicial face handoff, homology handoff, categorical provenance, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCoverIncidenceRealizerUp.}
+\end{closurestatus}

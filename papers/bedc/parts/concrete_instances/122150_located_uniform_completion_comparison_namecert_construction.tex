@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformCompletionComparisonUp$}
+\label{ch:concrete-instances-located-uniform-completion-comparison-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and Kelley's uniform-space terminology, the $\LocatedUniformCompletionComparisonUp$ packet records the finite comparison route by which a located uniform-completion presentation is read beside a plain uniform-completion presentation before Real and Completion consumers inspect either endpoint. It sits after the located uniform-completion packet of \autoref{ch:concrete-instances-located-uniform-completion-namecert}, the uniform completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the finite stream-name observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed comparison route; it is not quotient completion equality, selected representative equality, host uniform-space equality, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Located uniform completion comparison carrier]
+\label{def:located-uniform-completion-comparison-carrier}
+A $\LocatedUniformCompletionComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,U,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedUniformCompletionUp$ source row, exposing the located Cauchy-filter and completion route under comparison;
+\item $U$ is the $\UniformCompletionUp$ source row, exposing the corresponding uniform-completion route without adding a quotient comparison object;
+\item $S$ is the $\StreamNameUp$ finite-window row through which both presentations expose inspected observations;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from those displayed windows and tolerance data;
+\item $E$ is the terminal $\RealUp$ seal row, readable only after $L,U,S,R$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the two completion sources, finite windows, regular readback, Real seal, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay of the ordered route from the two completion sources through the finite readback and terminal seal;
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformCompletionComparisonUp$, $\LocatedUniformCompletionUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedUniformCompletionComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their structural transport and replay data. It has no coordinate for quotient completion equality, selected representatives, host equality of completed objects, countable-choice schedules, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located uniform completion comparison NameCert obligations]
+\label{thm:located-uniform-completion-comparison-namecert-obligations}
+For every accepted $\LocatedUniformCompletionComparisonUp$ carrier $K=(L,U,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedUniformCompletionComparisonUp}$ surface consists exactly of carrier admission for the displayed tuple, located uniform-completion source exposure through $L$, uniform-completion source exposure through $U$, StreamName finite-window exposure through $S$, RegSeqRat readback through $R$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-uniform-completion-comparison-carrier}. Its coordinates display the located completion source, the plain uniform-completion source, finite stream windows, regular rational readback, Real seal, transport, replay, provenance, and local name.
+
+Read the two completion sources first. The row $L$ supplies the located uniform-completion presentation, while $U$ supplies the companion uniform-completion presentation; neither row adds quotient equality between completed objects.
+
+Read the finite observation stack next. The row $S$ supplies the inspected StreamName windows, $R$ supplies the corresponding RegSeqRat readback, and $E$ is downstream of those rows as the terminal Real seal.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name the same route. Therefore the NameCert surface has no local obligation outside the displayed comparison packet.
+\end{proof}
+
+\begin{theorem}[Located uniform completion comparison finite route]
+\label{thm:located-uniform-completion-comparison-finite-route}
+Every Real or Completion consumer of an accepted $\LocatedUniformCompletionComparisonUp$ packet factors through the finite displayed route
+$$
+\LocatedUniformCompletionUp \longmapsto \UniformCompletionUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The structural rows $H,C,P,N$ preserve that order under transport, replay, provenance, and local naming, so the comparison is a route between displayed completion presentations rather than an ambient equivalence of completions.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:located-uniform-completion-comparison-namecert-obligations}. It forces any accepted consumer read to expose $L,U,S,R,E$ before the local name is consumed.
+
+The comparison source is the pair $L,U$. Since both rows are part of the same finite packet, a consumer may compare their displayed routes only by reading the carrier rows, not by importing host equality of completed objects.
+
+The readback stack is $S,R,E$. StreamName windows are inspected before regular rational readback, and the Real seal is readable only after that finite observation stack has been displayed.
+
+Rows $H,C,P,N$ transport, replay, source, and name this same dependency order. Thus the consumer receives a finite comparison route and no selected representative, quotient completion equality, countable-choice schedule, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedUniformCompletionComparisonUp$ consumer read displays one $\LocatedUniformCompletionUp$ source row, one $\UniformCompletionUp$ source row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any Real or Completion handoff is consumed.}
+
+\independenceWitness{located-uniform-completion, uniformcompletion, streamname, regseqrat, real: $\LocatedUniformCompletionComparisonUp$ is not bijective to any listed sibling because it jointly carries the located completion source, plain uniform-completion source, finite windows, regular readback, Real seal, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\leanstmt{BEDC.Derived.LocatedUniformCompletionComparisonUp}
+
+\closureat{LocatedUniformCompletionComparisonUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformCompletionComparisonUp}
+  \constructivestory{A $\LocatedUniformCompletionComparisonUp$ packet is generated from a LocatedUniformCompletionUp source row, a UniformCompletionUp source row, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-completion-comparison-carrier}, \autoref{thm:located-uniform-completion-comparison-namecert-obligations}, and \autoref{thm:located-uniform-completion-comparison-finite-route} seed the finite comparison route through located completion, uniform completion, finite stream windows, regular rational readback, Real sealing, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected representatives, host equality of completed objects, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located completion source exposure, uniform completion source exposure, StreamName finite-window exposure, RegSeqRat readback, Real-seal handoff, transport stability, replay stability, provenance non-escape, and local naming for BEDC.Derived.LocatedUniformCompletionComparisonUp.}
+\end{closurestatus}

@@ -141,15 +141,31 @@ The cited sibling chapters supply observer-history identity, local time streams,
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteHistLocalityPacketUp.FiniteHistLocalityPacketCarrier\_scoped\_kernel\_scope}
 
-\closureat{FiniteHistLocalityPacketUp}{publicStr}
+\begin{theorem}[Finite Hist locality packet bridge surface]
+\label{thm:finite-hist-locality-packet-bridge-surface}
+Every standard cross-Hist locality reading of an accepted $\FiniteHistLocalityPacketUp$ public packet factors through the displayed rows
+$$
+H_0,H_1,L,I,S,T,C,Q,N
+$$
+and through the sibling routes for observer-history identity, inter-Hist invariants, and no-global-synchronization. The bridge surface is therefore the finite two-history packet exposed by the chapter, not a global clock, privileged observer frame, ambient metric tensor, or host-valued equality of histories.
+\end{theorem}
+\begin{proof}
+Start with the consumer handoff of \autoref{thm:finite-hist-locality-packet-consumer-handoff}. It exposes exactly the two displayed Hist rows, the locality witness, the invariant row, observer symmetry, transport, replay, provenance, and local naming to cross-Hist causal, maximum-rate, and observer-locality consumers.
+
+Use the scoped kernel scope theorem \autoref{thm:finitehist-locality-scoped-kernel-scope}. It keeps those same rows inside the cited sibling routes for observer-history identity, local time streams, inter-Hist invariants, cross-Hist causal dependence, and the no-global-synchronization boundary.
+
+Finally apply the no-global-sync refusal of \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal}. Since the packet has no global synchronization row, shared host clock, privileged observer frame, ambient metric tensor, or host-valued equality coordinate, every standard locality reading factors through the displayed finite bridge surface.
+\end{proof}
+
+\closureat{FiniteHistLocalityPacketUp}{bridgedStr}
 
 \begin{closurestatus}{\FiniteHistLocalityPacketUp}
   \constructivestory{A $\FiniteHistLocalityPacketUp$ packet is generated from two displayed Hist rows, a locality witness, inter-Hist invariant row, observer-symmetry row, componentwise transport, displayed replay, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:finite-hist-locality-packet-consumer-handoff} exposes the public two-history handoff for cross-Hist causal, maximum-rate, observer-locality, and TasteGate consumers over the displayed packet rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:finite-hist-locality-packet-bridge-surface} factors standard cross-Hist locality readings through the displayed public packet rows and the sibling observer-history, inter-Hist invariant, and no-global-synchronization routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close global synchronization, a host clock, a privileged observer frame, an ambient metric tensor, host-valued equality, or checked Lean carrier instances.}
-  \upgradepath{Bridged closure requires a checked bridge from the public two-history locality packet to the standard cross-Hist locality interface.}
+  \upgradepath{A checked standard bridge requires Lean verification of the displayed cross-Hist locality bridge surface.}
 \end{closurestatus}

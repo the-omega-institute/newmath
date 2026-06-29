@@ -1,0 +1,15 @@
+\begin{lemma}[MetaCIC parallel-diamond canonical closurestatus reader]
+\label{lem:metacic-parallel-diamond-frontier-canonical-closurestatus-reader}
+The canonical paper status for $\MetaCICParallelDiamondFrontierUp$ is the bridge-checked closurestatus block in \texttt{closurestatus\_current.tex}. Any seed or top-transition reader that enters through the hub must discharge its status read through the child obligation surface
+$
+\mathsf{BEDC.Derived.MetaCICParallelDiamondFrontierUp.MetacicParallelDiamondFrontierObligations}
+$
+and then through that closurestatus block.
+\end{lemma}
+\begin{proof}
+The hub displays the seed, bridged, and mature route markers, but its body is only a routing list. Therefore a status consumer must leave the hub and read the child files that carry the frontier evidence.
+
+First read the checked obligation surface recorded in \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It exposes the retained residual-substitution premise, critical-pair row, candidate-join row, residual-frontier row, closed-checker row, closed-normal fragment row, bounded-check row, obstruction row, transport, replay, provenance, and local naming before any status marker is consumed.
+
+Then read the closurestatus child. Its block records $\matureClosure$, $\bridgeCheckedV$, and \texttt{bridgeChecked} for the same Lean obligation target, so the seed and top-transition routes point to that canonical child record rather than to a second hub-level status body.
+\end{proof}

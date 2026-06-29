@@ -10,6 +10,24 @@ Use seed closure and premise exposure from \autoref{thm:metacic-candidate-normal
 Finally apply decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. The structural rows $T,R,P,L$ preserve the same finite packet, so the bounded endpoint is consumed only after the seed-obligation rows have been exposed.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate handoff induction]
+\label{thm:metacic-candidate-normalization-handoff-induction}
+Induction over the displayed row order
+$$
+K,F,C,D,B,T,R,P,L
+$$
+preserves candidate evidence, residual-envelope visibility, and decidable-boundary exposure before any endpoint row $N$ is consumed. Hence the handoff remains finite-row evidence for the accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet and exports no unconditional strong normalization, Church--Rosser theorem, subject reduction theorem, quotient syntax equality, evaluator soundness theorem, or closed consistency principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through the handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. The row order starts with candidate evidence $K$ and normalization frontier $F$, so the induction base already exposes the candidate surface before any residual or endpoint-facing read.
+
+For the residual step, use premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. Adding $C,D,B$ keeps the residual envelope, decidable boundary, and blocked edge as displayed rows rather than hidden assumptions, and decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion} keeps $D$ finite before endpoint consumption.
+
+For the structural step, apply the seed obligations of \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-obligations}. The rows $T,R,P,L$ only transport, replay, package, and locally name the same displayed packet, so they preserve the candidate evidence and the residual-envelope boundary already exposed by the earlier rows.
+
+Thus every prefix of $K,F,C,D,B,T,R,P,L$ keeps the relevant evidence visible before $N$. Since the endpoint row is not consumed during the induction, none of the excluded global metatheorems or host evaluator conclusions is exported.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate residual handoff scope]
 \label{thm:metacic-candidate-normalization-residual-handoff-scope}
 Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet routes residual-envelope data $C$ and blocked-edge data $B$ through candidate evidence $K$, normalization frontier $F$, decidable boundary $D$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local $\NameCert$ row $L$ before any bounded endpoint consumption. The route remains a residual handoff scope and does not assert full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
