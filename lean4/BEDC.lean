@@ -1646,6 +1646,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
+import BEDC.Derived.CanonicalTailChoiceUp.TailInhabitation
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.WindowStability
 import BEDC.Derived.CantorBendixsonUp.TasteGate
@@ -12502,6 +12503,7 @@ import BEDC.Derived.SummableTailModulusUp.TasteGate
 import BEDC.Derived.SummationByPartsUp.TasteGate
 import BEDC.Derived.SuperperfectUp
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
+import BEDC.Derived.SupplySocketLedgerUp.Bridge
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SupportFunctionUp.TasteGate
 import BEDC.Derived.SupportNerveCensusLiftedBettiUp.TasteGate
@@ -13800,5 +13802,6 @@ import BEDC.Real.LocatedNatPowerEnclosure
 import BEDC.Real.RatInterval
 import BEDC.Real.RatLogEnclosure
 import BEDC.Real.RatNumKernel
+import BEDC.Real.RatNumLogEnclosure
 import BEDC.Real.Sqrt2Apart
 import BEDC.Reflection
