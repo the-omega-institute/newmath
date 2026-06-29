@@ -81,7 +81,10 @@ def run_script(script: Path) -> int:
 
 
 def main() -> int:
-    scripts = [ROOT / "codon_window_spectra.py"]
+    scripts = [
+        ROOT / "codon_window_spectra.py",
+        ROOT / "dyadic_truncation_lp_refutation.py",
+    ]
     for script in scripts:
         returncode = run_script(script)
         if returncode != 0:
