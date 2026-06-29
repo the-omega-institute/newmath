@@ -178,6 +178,393 @@ theorem ratAdd_le_add {a b c d : Rat} :
   intro ab cd
   exact BEDC.Derived.LocatedReal.ratLe_add_mono ab cd
 
+private def intProd7 (a b c d e f g : RatInt) : RatInt :=
+  IntMul a (IntMul b (IntMul c (IntMul d (IntMul e (IntMul f g)))))
+
+private theorem intMul_swap_right_assoc (a b t : RatInt) :
+    IntEq (IntMul a (IntMul b t)) (IntMul b (IntMul a t)) := by
+  let R := BEDC.Algebra.Rel.IntegerUp_RelCommRing
+  exact R.trans (R.symm (R.mul_assoc a b t))
+    (R.trans (R.mul_congr (R.mul_comm a b) (R.refl t))
+      (R.mul_assoc b a t))
+
+private theorem intProd7_swap_3_4 (a b c d e f g : RatInt) :
+    IntEq (intProd7 a b c d e f g) (intProd7 a b d c e f g) := by
+  unfold intProd7
+  exact intMul_left_congr (c := a)
+    (intMul_left_congr (c := b)
+      (intMul_swap_right_assoc c d (IntMul e (IntMul f g))))
+
+private theorem intProd7_swap_5_6 (a b c d e f g : RatInt) :
+    IntEq (intProd7 a b c d e f g) (intProd7 a b c d f e g) := by
+  unfold intProd7
+  exact intMul_left_congr (c := a)
+    (intMul_left_congr (c := b)
+      (intMul_left_congr (c := c)
+        (intMul_left_congr (c := d)
+          (intMul_swap_right_assoc e f g))))
+
+private theorem intProd7_tail_perm (a b y p q r : RatInt) :
+    IntEq (intProd7 a b y p q p r) (intProd7 a b p y p q r) := by
+  exact IntEq_trans (intProd7_swap_3_4 a b y p q p r)
+    (intProd7_swap_5_6 a b p y q p r)
+
+private theorem intMul_left_expanded_term_to_prod7
+    (an x y ad bd cd : RatInt) :
+    IntEq
+      (IntMul (IntMul an (IntMul x y))
+        (IntMul (IntMul ad bd) (IntMul ad cd)))
+      (intProd7 an x y ad bd ad cd) := by
+  let dLeft := IntMul (IntMul ad bd) (IntMul ad cd)
+  have h1 :
+      IntEq
+        (IntMul (IntMul an (IntMul x y)) dLeft)
+        (IntMul an (IntMul (IntMul x y) dLeft)) :=
+    intMul_assoc an (IntMul x y) dLeft
+  have h2 :
+      IntEq (IntMul (IntMul x y) dLeft)
+        (IntMul x (IntMul y dLeft)) :=
+    intMul_assoc x y dLeft
+  have hD :
+      IntEq dLeft (IntMul ad (IntMul bd (IntMul ad cd))) :=
+    intMul_assoc ad bd (IntMul ad cd)
+  have h3 :
+      IntEq (IntMul an (IntMul (IntMul x y) dLeft))
+        (intProd7 an x y ad bd ad cd) := by
+    unfold intProd7
+    exact intMul_left_congr (c := an)
+      (IntEq_trans h2
+        (intMul_left_congr (c := x)
+          (intMul_left_congr (c := y) hD)))
+  exact IntEq_trans h1 h3
+
+private theorem intMul_right_expanded_term_to_prod7
+    (an x y ad bd cd : RatInt) :
+    IntEq
+      (IntMul (IntMul (IntMul an x) (IntMul ad y))
+        (IntMul ad (IntMul bd cd)))
+      (intProd7 an x ad y ad bd cd) := by
+  let dRight := IntMul ad (IntMul bd cd)
+  have h1 :
+      IntEq
+        (IntMul (IntMul (IntMul an x) (IntMul ad y)) dRight)
+        (IntMul (IntMul an x) (IntMul (IntMul ad y) dRight)) :=
+    intMul_assoc (IntMul an x) (IntMul ad y) dRight
+  have h2 :
+      IntEq (IntMul (IntMul an x) (IntMul (IntMul ad y) dRight))
+        (IntMul an (IntMul x (IntMul (IntMul ad y) dRight))) :=
+    intMul_assoc an x (IntMul (IntMul ad y) dRight)
+  have h3 :
+      IntEq (IntMul (IntMul ad y) dRight)
+        (IntMul ad (IntMul y dRight)) :=
+    intMul_assoc ad y dRight
+  have h4 :
+      IntEq (IntMul an (IntMul x (IntMul (IntMul ad y) dRight)))
+        (intProd7 an x ad y ad bd cd) := by
+    unfold intProd7
+    exact intMul_left_congr (c := an)
+      (intMul_left_congr (c := x) h3)
+  exact IntEq_trans h1 (IntEq_trans h2 h4)
+
+theorem ratMul_add_left (a b c : Rat) :
+    RatEq (ratMul a (ratAdd b c))
+      (ratAdd (ratMul a b) (ratMul a c)) := by
+  unfold RatEq
+  change IntEq
+    (IntMul (IntMul a.num (ratAdd b c).num)
+      (ratDenInt (ratAdd (ratMul a b) (ratMul a c))))
+    (IntMul (ratAdd (ratMul a b) (ratMul a c)).num
+      (ratDenInt (ratMul a (ratAdd b c))))
+  let ad := ratDenInt a
+  let bd := ratDenInt b
+  let cd := ratDenInt c
+  let bn := b.num
+  let cn := c.num
+  let an := a.num
+  have hAddNum : IntEq (ratAdd b c).num (IntAdd (IntMul bn cd) (IntMul cn bd)) := by
+    unfold bn cn bd cd ratAdd ratDenInt
+    exact IntEq_refl _
+  have hDenLeft :
+      IntEq (ratDenInt (ratAdd (ratMul a b) (ratMul a c)))
+        (IntMul (IntMul ad bd) (IntMul ad cd)) := by
+    exact IntEq_trans (ratDenInt_add (ratMul a b) (ratMul a c))
+      (BEDC.Derived.RationalUp.IntMul_respects
+        (ratDenInt_mul a b) (ratDenInt_mul a c))
+  have hDenRight :
+      IntEq (ratDenInt (ratMul a (ratAdd b c)))
+        (IntMul ad (IntMul bd cd)) := by
+    exact IntEq_trans (ratDenInt_mul a (ratAdd b c))
+      (BEDC.Derived.RationalUp.IntMul_respects
+        (IntEq_refl ad) (ratDenInt_add b c))
+  have hNumRight :
+      IntEq (ratAdd (ratMul a b) (ratMul a c)).num
+        (IntAdd
+          (IntMul (IntMul an bn) (IntMul ad cd))
+          (IntMul (IntMul an cn) (IntMul ad bd))) := by
+    unfold an bn cn ad bd cd
+    change IntEq
+      (IntAdd
+        (IntMul (IntMul a.num b.num) (ratDenInt (ratMul a c)))
+        (IntMul (IntMul a.num c.num) (ratDenInt (ratMul a b))))
+      (IntAdd
+        (IntMul (IntMul a.num b.num) (IntMul (ratDenInt a) (ratDenInt c)))
+        (IntMul (IntMul a.num c.num) (IntMul (ratDenInt a) (ratDenInt b))))
+    exact BEDC.Derived.RationalUp.IntAdd_respects
+      (BEDC.Derived.RationalUp.IntMul_respects (IntEq_refl _) (ratDenInt_mul a c))
+      (BEDC.Derived.RationalUp.IntMul_respects (IntEq_refl _) (ratDenInt_mul a b))
+  have leftStructured :
+      IntEq
+        (IntMul (IntMul an (ratAdd b c).num)
+          (ratDenInt (ratAdd (ratMul a b) (ratMul a c))))
+        (IntMul (IntMul an (IntAdd (IntMul bn cd) (IntMul cn bd)))
+          (IntMul (IntMul ad bd) (IntMul ad cd))) := by
+    exact BEDC.Derived.RationalUp.IntMul_respects
+      (BEDC.Derived.RationalUp.IntMul_respects (IntEq_refl an) hAddNum)
+      hDenLeft
+  have rightStructured :
+      IntEq
+        (IntMul (ratAdd (ratMul a b) (ratMul a c)).num
+          (ratDenInt (ratMul a (ratAdd b c))))
+        (IntMul
+          (IntAdd
+            (IntMul (IntMul an bn) (IntMul ad cd))
+            (IntMul (IntMul an cn) (IntMul ad bd)))
+          (IntMul ad (IntMul bd cd))) := by
+    exact BEDC.Derived.RationalUp.IntMul_respects hNumRight hDenRight
+  have core :
+      IntEq
+        (IntMul (IntMul an (IntAdd (IntMul bn cd) (IntMul cn bd)))
+          (IntMul (IntMul ad bd) (IntMul ad cd)))
+        (IntMul
+          (IntAdd
+            (IntMul (IntMul an bn) (IntMul ad cd))
+            (IntMul (IntMul an cn) (IntMul ad bd)))
+          (IntMul ad (IntMul bd cd))) := by
+    let R := BEDC.Algebra.Rel.IntegerUp_RelCommRing
+    let dLeft := IntMul (IntMul ad bd) (IntMul ad cd)
+    let dRight := IntMul ad (IntMul bd cd)
+    have expandLeftA :
+        IntEq (IntMul an (IntAdd (IntMul bn cd) (IntMul cn bd)))
+          (IntAdd (IntMul an (IntMul bn cd)) (IntMul an (IntMul cn bd))) :=
+      R.left_distrib an (IntMul bn cd) (IntMul cn bd)
+    have expandLeft :
+        IntEq
+          (IntMul (IntMul an (IntAdd (IntMul bn cd) (IntMul cn bd))) dLeft)
+          (IntAdd
+            (IntMul (IntMul an (IntMul bn cd)) dLeft)
+            (IntMul (IntMul an (IntMul cn bd)) dLeft)) :=
+      IntEq_trans
+        (BEDC.Derived.RationalUp.IntMul_respects expandLeftA (IntEq_refl dLeft))
+        (R.right_distrib (IntMul an (IntMul bn cd)) (IntMul an (IntMul cn bd)) dLeft)
+    have expandRight :
+        IntEq
+          (IntMul
+            (IntAdd
+              (IntMul (IntMul an bn) (IntMul ad cd))
+              (IntMul (IntMul an cn) (IntMul ad bd))) dRight)
+          (IntAdd
+            (IntMul (IntMul (IntMul an bn) (IntMul ad cd)) dRight)
+            (IntMul (IntMul (IntMul an cn) (IntMul ad bd)) dRight)) :=
+      R.right_distrib
+        (IntMul (IntMul an bn) (IntMul ad cd))
+        (IntMul (IntMul an cn) (IntMul ad bd)) dRight
+    have term1 :
+        IntEq
+          (IntMul (IntMul an (IntMul bn cd)) dLeft)
+          (IntMul (IntMul (IntMul an bn) (IntMul ad cd)) dRight) := by
+      exact IntEq_trans (intMul_left_expanded_term_to_prod7 an bn cd ad bd cd)
+        (IntEq_trans (intProd7_tail_perm an bn cd ad bd cd)
+          (IntEq_symm (intMul_right_expanded_term_to_prod7 an bn cd ad bd cd)))
+    have term2 :
+        IntEq
+          (IntMul (IntMul an (IntMul cn bd)) dLeft)
+          (IntMul (IntMul (IntMul an cn) (IntMul ad bd)) dRight) := by
+      exact IntEq_trans (intMul_left_expanded_term_to_prod7 an cn bd ad bd cd)
+        (IntEq_trans (intProd7_tail_perm an cn bd ad bd cd)
+          (IntEq_symm (intMul_right_expanded_term_to_prod7 an cn bd ad bd cd)))
+    exact IntEq_trans expandLeft
+      (IntEq_trans (BEDC.Derived.RationalUp.IntAdd_respects term1 term2)
+        (IntEq_symm expandRight))
+  exact IntEq_trans leftStructured
+    (IntEq_trans core (IntEq_symm rightStructured))
+
+theorem ratMul_add_right (a b c : Rat) :
+    RatEq (ratMul (ratAdd a b) c)
+      (ratAdd (ratMul a c) (ratMul b c)) := by
+  exact RatEq_trans _ _ _
+    (ratMul_comm (ratAdd a b) c)
+    (RatEq_trans _ _ _
+      (ratMul_add_left c a b)
+      (ratAdd_respects (ratMul_comm c a) (ratMul_comm c b)))
+
+private theorem ratMul_zero_left_local (x : Rat) :
+    RatEq (ratMul ratZero x) ratZero := by
+  apply ratNum_zero_to_RatEq_zero_local
+  unfold ratMul ratZero intToRat
+  change IntEq (IntMul intZero x.num) intZero
+  exact intMul_zero_left x.num
+
+private theorem ratMul_zero_right_local (x : Rat) :
+    RatEq (ratMul x ratZero) ratZero := by
+  exact RatEq_trans _ _ _
+    (ratMul_comm x ratZero)
+    (ratMul_zero_left_local x)
+
+private theorem ratSub_add_cancel_right_local (x y : Rat) :
+    RatEq (ratAdd (ratSub x y) y) x := by
+  unfold ratSub
+  exact RatEq_trans _ _ _
+    (BEDC.Derived.LocatedReal.ratAdd_assoc_local x (ratNeg y) y)
+    (RatEq_trans _ _ _
+      (ratAdd_respects (RatEq_refl x) (BEDC.Derived.LocatedReal.ratNeg_add_local y))
+      (ratAdd_zero_right x))
+
+private theorem ratMul_neg_right_local (x y : Rat) :
+    RatEq (ratMul x (ratNeg y)) (ratNeg (ratMul x y)) := by
+  apply ratEq_of_num_den_intEq
+  · unfold ratMul ratNeg
+    exact BEDC.Algebra.Rel.IntegerUp_mul_neg x.num y.num
+  · unfold ratMul ratNeg ratDenInt
+    exact IntEq_refl _
+
+private theorem gap_mul_add_cancel (q p : Rat) :
+    RatEq (ratAdd (ratMul (ratSub ratOne q) p) (ratMul p q)) p := by
+  have commuteGap :
+      RatEq (ratMul (ratSub ratOne q) p)
+        (ratMul p (ratSub ratOne q)) :=
+    ratMul_comm (ratSub ratOne q) p
+  have expandGap :
+      RatEq (ratMul p (ratSub ratOne q))
+        (ratSub p (ratMul p q)) := by
+    unfold ratSub
+    have dist :
+        RatEq (ratMul p (ratAdd ratOne (ratNeg q)))
+          (ratAdd (ratMul p ratOne) (ratMul p (ratNeg q))) :=
+      ratMul_add_left p ratOne (ratNeg q)
+    exact RatEq_trans _ _ _ dist
+      (ratAdd_respects (ratMul_one_right p) (ratMul_neg_right_local p q))
+  exact RatEq_trans _ _ _
+    (ratAdd_respects
+      (RatEq_trans _ _ _ commuteGap expandGap)
+      (RatEq_refl (ratMul p q)))
+    (ratSub_add_cancel_right_local p (ratMul p q))
+
+theorem ratPow_add (x : Rat) (m n : Nat) :
+    RatEq (ratPow x (m + n)) (ratMul (ratPow x m) (ratPow x n)) := by
+  induction n with
+  | zero =>
+      rw [Nat.add_zero]
+      change RatEq (ratPow x m) (ratMul (ratPow x m) ratOne)
+      exact RatEq_symm (ratMul_one_right (ratPow x m))
+  | succ n ih =>
+      rw [Nat.add_succ]
+      change RatEq (ratMul (ratPow x (m + n)) x)
+        (ratMul (ratPow x m) (ratMul (ratPow x n) x))
+      exact RatEq_trans _ _ _
+        (ratMul_respects ih (RatEq_refl x))
+        (ratMul_assoc (ratPow x m) (ratPow x n) x)
+
+private theorem ratPow_two (z : Rat) :
+    RatEq (ratPow z 2) (ratMul z z) := by
+  change RatEq (ratMul (ratMul ratOne z) z) (ratMul z z)
+  exact ratMul_respects (ratOne_mul_left z) (RatEq_refl z)
+
+theorem ratPow_sq_base (z : Rat) (j : Nat) :
+    RatEq (ratPow z (2 * j)) (ratPow (ratMul z z) j) := by
+  induction j with
+  | zero =>
+      change RatEq ratOne ratOne
+      exact RatEq_refl ratOne
+  | succ j ih =>
+      rw [Nat.mul_succ]
+      change RatEq (ratPow z (2 * j + 2))
+        (ratMul (ratPow (ratMul z z) j) (ratMul z z))
+      have split :
+          RatEq (ratPow z (2 * j + 2))
+            (ratMul (ratPow z (2 * j)) (ratPow z 2)) :=
+        ratPow_add z (2 * j) 2
+      exact RatEq_trans _ _ _ split
+        (ratMul_respects ih (ratPow_two z))
+
+private theorem odd_index_split_nat (M j : Nat) :
+    2 * (M + j) + 1 = 2 * M + 1 + 2 * j := by
+  calc
+    2 * (M + j) + 1 = (2 * M + 2 * j) + 1 := by
+      rw [Nat.mul_add]
+    _ = 2 * M + (2 * j + 1) := Nat.add_assoc (2 * M) (2 * j) 1
+    _ = 2 * M + (1 + 2 * j) :=
+      congrArg (fun t => 2 * M + t) (Nat.add_comm (2 * j) 1)
+    _ = 2 * M + 1 + 2 * j := (Nat.add_assoc (2 * M) 1 (2 * j)).symm
+
+theorem oddPow_split (z : Rat) (M j : Nat) :
+    RatEq (ratPow z (2 * (M + j) + 1))
+      (ratMul (ratPow z (2 * M + 1)) (ratPow (ratMul z z) j)) := by
+  rw [odd_index_split_nat M j]
+  exact RatEq_trans _ _ _
+    (ratPow_add z (2 * M + 1) (2 * j))
+    (ratMul_respects (RatEq_refl (ratPow z (2 * M + 1)))
+      (ratPow_sq_base z j))
+
+theorem ratMul_sum_left (a : Rat) (K : Nat) (f : Nat -> Rat) :
+    RatEq (ratMul a (ratSum K f)) (ratSum K (fun j => ratMul a (f j))) := by
+  induction K with
+  | zero =>
+      change RatEq (ratMul a ratZero) ratZero
+      exact ratMul_zero_right_local a
+  | succ K ih =>
+      change RatEq (ratMul a (ratAdd (ratSum K f) (f K)))
+        (ratAdd (ratSum K (fun j => ratMul a (f j))) (ratMul a (f K)))
+      exact RatEq_trans _ _ _
+        (ratMul_add_left a (ratSum K f) (f K))
+        (ratAdd_respects ih (RatEq_refl (ratMul a (f K))))
+
+private theorem geom_telescopes (q : Rat) (K : Nat) :
+    RatEq
+      (ratAdd (ratMul (ratSub ratOne q) (geomSum q K)) (ratPow q K))
+      ratOne := by
+  induction K with
+  | zero =>
+      change RatEq (ratAdd (ratMul (ratSub ratOne q) ratZero) ratOne) ratOne
+      exact RatEq_trans _ _ _
+        (ratAdd_respects (ratMul_zero_right_local (ratSub ratOne q)) (RatEq_refl ratOne))
+        (ratZero_add_left ratOne)
+  | succ K ih =>
+      change RatEq
+        (ratAdd
+          (ratMul (ratSub ratOne q)
+            (ratAdd (geomSum q K) (ratPow q K)))
+          (ratMul (ratPow q K) q)) ratOne
+      let gap := ratSub ratOne q
+      let s := geomSum q K
+      let p := ratPow q K
+      have distribute :
+          RatEq (ratMul gap (ratAdd s p))
+            (ratAdd (ratMul gap s) (ratMul gap p)) :=
+        ratMul_add_left gap s p
+      have regroup :
+          RatEq
+            (ratAdd (ratAdd (ratMul gap s) (ratMul gap p)) (ratMul p q))
+            (ratAdd (ratMul gap s) (ratAdd (ratMul gap p) (ratMul p q))) :=
+        BEDC.Derived.LocatedReal.ratAdd_assoc_local
+          (ratMul gap s) (ratMul gap p) (ratMul p q)
+      have inner :
+          RatEq (ratAdd (ratMul gap p) (ratMul p q)) p := by
+        unfold gap
+        exact gap_mul_add_cancel q p
+      have toPrevious :
+          RatEq
+            (ratAdd
+              (ratMul (ratSub ratOne q)
+                (ratAdd (geomSum q K) (ratPow q K)))
+              (ratMul (ratPow q K) q))
+            (ratAdd (ratMul gap s) p) := by
+        exact RatEq_trans _ _ _
+          (ratAdd_respects distribute (RatEq_refl (ratMul p q)))
+          (RatEq_trans _ _ _
+            regroup
+            (ratAdd_respects (RatEq_refl (ratMul gap s)) inner))
+      exact RatEq_trans _ _ _ toPrevious ih
+
 theorem ratSum_le_sum {K : Nat} {f g : Nat -> Rat} :
     (∀ j : Nat, j < K -> ratLe (f j) (g j)) ->
       ratLe (ratSum K f) (ratSum K g) := by
@@ -443,6 +830,82 @@ theorem ratPow_nonneg {z : Rat} :
       exact intLe_zero_of_nat NatOne (unary_e1_closed unary_empty)
   | hz0, Nat.succ n => ratMul_nonneg (ratPow_nonneg hz0 n) hz0
 
+theorem geomSum_le_inv_one_sub
+    (q : Rat)
+    (hq0 : ratLe ratZero q)
+    (hq1 : ratLt q ratOne)
+    (K : Nat)
+    (hgap : ratApart0 (ratSub ratOne q)) :
+    ratLe (geomSum q K)
+      (ratDivApart ratOne (ratSub ratOne q) hgap) := by
+  let gap := ratSub ratOne q
+  let s := geomSum q K
+  let p := ratPow q K
+  have telescopes :
+      RatEq (ratAdd (ratMul gap s) p) ratOne := by
+    unfold gap s p
+    exact geom_telescopes q K
+  have pNonneg : ratLe ratZero p := by
+    unfold p
+    exact ratPow_nonneg hq0 K
+  have gapTimesSumLeWithTail :
+      ratLe (ratMul gap s) (ratAdd (ratMul gap s) p) := by
+    have shifted :
+        ratLe (ratAdd (ratMul gap s) ratZero)
+          (ratAdd (ratMul gap s) p) :=
+      BEDC.Derived.LocatedReal.ratLe_add_left_mono
+        (x := ratMul gap s) pNonneg
+    exact ratLe_of_RatEq_left
+      (RatEq_symm (ratAdd_zero_right (ratMul gap s)))
+      shifted
+  have gapTimesSumLeOne : ratLe (ratMul gap s) ratOne :=
+    ratLe_of_RatEq_right gapTimesSumLeWithTail telescopes
+  have gapPos : ratLt ratZero gap := by
+    unfold gap
+    exact sub_pos_of_lt hq1
+  have multipliedTarget :
+      RatEq
+        (ratMul (ratDivApart ratOne gap hgap) gap)
+        ratOne :=
+    ratDivApart_mul_cancel_right hgap
+  have productLe :
+      ratLe (ratMul s gap)
+        (ratMul (ratDivApart ratOne gap hgap) gap) := by
+    exact ratLe_of_RatEq_right
+      (ratLe_of_RatEq_left (ratMul_comm s gap) gapTimesSumLeOne)
+      (RatEq_symm multipliedTarget)
+  exact ratMul_le_cancel_right gapPos productLe
+
+private theorem ratDivApart_antitone_den_pos {x a b : Rat}
+    (hx : ratLe ratZero x)
+    (ha : ratLt ratZero a)
+    (hb : ratLt ratZero b)
+    (haApart : ratApart0 a)
+    (hbApart : ratApart0 b)
+    (hab : ratLe a b) :
+    ratLe (ratDivApart x b hbApart) (ratDivApart x a haApart) := by
+  have leftCancel :
+      RatEq (ratMul (ratDivApart x b hbApart) b) x :=
+    ratDivApart_mul_cancel_right hbApart
+  have rightCancel :
+      RatEq (ratMul (ratDivApart x a haApart) a) x :=
+    ratDivApart_mul_cancel_right haApart
+  have divBNonneg :
+      ratLe ratZero (ratDivApart x b hbApart) :=
+    ratDivApart_nonneg_of_nonneg_pos hx hb hbApart
+  have step :
+      ratLe (ratMul (ratDivApart x b hbApart) a)
+        (ratMul (ratDivApart x b hbApart) b) := by
+    exact ratMul_le_mul_nonneg_left hab divBNonneg
+  have toX :
+      ratLe (ratMul (ratDivApart x b hbApart) a) x :=
+    ratLe_of_RatEq_right step leftCancel
+  have targetMul :
+      ratLe (ratMul (ratDivApart x b hbApart) a)
+        (ratMul (ratDivApart x a haApart) a) :=
+    ratLe_of_RatEq_right toX (RatEq_symm rightCancel)
+  exact ratMul_le_cancel_right ha targetMul
+
 def oddTerm (z : Rat) (M : Nat) : Rat :=
   ratDivApart (ratPow z (2 * M + 1)) (oddDen M) (oddDen_apart M)
 
@@ -456,6 +919,92 @@ theorem oddTerm_nonneg {z : Rat} (hz0 : ratLe ratZero z) (M : Nat) :
 
 def oddTail (z : Rat) (M K : Nat) : Rat :=
   ratSum K (fun j => oddTerm z (M + j))
+
+private theorem oddTerm_le_scaled_geom_term
+    (z : Rat)
+    (hz0 : ratLe ratZero z)
+    (M j : Nat) :
+    ratLe (oddTerm z (M + j))
+      (ratMul
+        (ratDivApart (ratPow z (2 * M + 1)) (oddDen M) (oddDen_apart M))
+        (ratPow (ratMul z z) j)) := by
+  unfold oddTerm
+  let x := ratPow z (2 * (M + j) + 1)
+  let y := ratMul (ratPow z (2 * M + 1)) (ratPow (ratMul z z) j)
+  have xy : RatEq x y := by
+    unfold x y
+    exact oddPow_split z M j
+  have yNonneg : ratLe ratZero y := by
+    unfold y
+    exact ratMul_nonneg
+      (ratPow_nonneg hz0 (2 * M + 1))
+      (ratPow_nonneg (ratMul_nonneg hz0 hz0) j)
+  have divLe :
+      ratLe
+        (ratDivApart y (oddDen (M + j)) (oddDen_apart (M + j)))
+        (ratDivApart y (oddDen M) (oddDen_apart M)) := by
+    exact ratDivApart_antitone_den_pos yNonneg
+      (oddDen_pos M)
+      (oddDen_pos (M + j))
+      (oddDen_apart M)
+      (oddDen_apart (M + j))
+      (oddDen_le_add M j)
+  have leftEq :
+      RatEq
+        (ratDivApart x (oddDen (M + j)) (oddDen_apart (M + j)))
+        (ratDivApart y (oddDen (M + j)) (oddDen_apart (M + j))) := by
+    unfold ratDivApart
+    exact ratMul_respects xy (RatEq_refl _)
+  have rightEq :
+      RatEq
+        (ratDivApart y (oddDen M) (oddDen_apart M))
+        (ratMul
+          (ratDivApart (ratPow z (2 * M + 1)) (oddDen M) (oddDen_apart M))
+          (ratPow (ratMul z z) j)) := by
+    unfold y ratDivApart
+    exact RatEq_trans _ _ _
+      (ratMul_assoc
+        (ratPow z (2 * M + 1))
+        (ratPow (ratMul z z) j)
+        (ratInvApart (oddDen M) (oddDen_apart M)))
+      (RatEq_trans _ _ _
+        (ratMul_respects (RatEq_refl (ratPow z (2 * M + 1)))
+          (ratMul_comm
+            (ratPow (ratMul z z) j)
+            (ratInvApart (oddDen M) (oddDen_apart M))))
+        (RatEq_symm
+          (ratMul_assoc
+            (ratPow z (2 * M + 1))
+            (ratInvApart (oddDen M) (oddDen_apart M))
+            (ratPow (ratMul z z) j))))
+  exact ratLe_of_RatEq_right (ratLe_of_RatEq_left leftEq divLe) rightEq
+
+theorem oddTail_le_scaled_geom
+    (z : Rat)
+    (hz0 : ratLe ratZero z)
+    (M K : Nat)
+    (_hd : ratApart0 (oddDen M)) :
+    ratLe (oddTail z M K)
+      (ratMul
+        (ratDivApart (ratPow z (2 * M + 1)) (oddDen M) (oddDen_apart M))
+        (geomSum (ratMul z z) K)) := by
+  unfold oddTail geomSum
+  let scale := ratDivApart (ratPow z (2 * M + 1)) (oddDen M) (oddDen_apart M)
+  let q := ratMul z z
+  have termwise :
+      ratLe
+        (ratSum K (fun j => oddTerm z (M + j)))
+        (ratSum K (fun j => ratMul scale (ratPow q j))) := by
+    apply ratSum_le_sum
+    intro j _hj
+    unfold scale q
+    exact oddTerm_le_scaled_geom_term z hz0 M j
+  have sumEq :
+      RatEq
+        (ratSum K (fun j => ratMul scale (ratPow q j)))
+        (ratMul scale (ratSum K (fun j => ratPow q j))) :=
+    RatEq_symm (ratMul_sum_left scale K (fun j => ratPow q j))
+  exact ratLe_of_RatEq_right termwise sumEq
 
 theorem oddTailDen_apart
     (z : Rat)
@@ -491,5 +1040,75 @@ def atanhTailBound
     (hz1 : ratLt z ratOne)
     (M : Nat) : Rat :=
   oddTailBound z hz0 hz1 M
+
+theorem geom_odd_tail_kernel_raw
+    (z : Rat)
+    (hz0 : ratLe ratZero z)
+    (hz1 : ratLt z ratOne)
+    (M K : Nat) :
+    ratLe (oddTail z M K) (oddTailBound z hz0 hz1 M) := by
+  let q := ratMul z z
+  let A := ratPow z (2 * M + 1)
+  let d := oddDen M
+  let gap := ratSub ratOne q
+  let hd : ratApart0 d := oddDen_apart M
+  let hgap : ratApart0 gap := one_sub_sq_apart z hz0 hz1
+  let hden : ratApart0 (ratMul d gap) := oddTailDen_apart z hz0 hz1 M
+  let scale := ratDivApart A d hd
+  have hTailToGeom :
+      ratLe (oddTail z M K)
+        (ratMul scale (geomSum q K)) := by
+    unfold scale q A d hd
+    exact oddTail_le_scaled_geom z hz0 M K (oddDen_apart M)
+  have hA_nonneg : ratLe ratZero A := by
+    unfold A
+    exact ratPow_nonneg hz0 (2 * M + 1)
+  have hScaleNonneg : ratLe ratZero scale := by
+    unfold scale A d hd
+    exact ratDivApart_nonneg_of_nonneg_pos
+      hA_nonneg
+      (oddDen_pos M)
+      (oddDen_apart M)
+  have hqNonneg : ratLe ratZero q := by
+    unfold q
+    exact ratMul_nonneg hz0 hz0
+  have hqLtOne : ratLt q ratOne := by
+    unfold q
+    exact sq_lt_one_of_nonneg_lt_one hz0 hz1
+  have hGeom :
+      ratLe (geomSum q K) (ratDivApart ratOne gap hgap) := by
+    unfold gap hgap
+    exact geomSum_le_inv_one_sub q hqNonneg hqLtOne K
+      (one_sub_sq_apart z hz0 hz1)
+  have hScaled :
+      ratLe
+        (ratMul scale (geomSum q K))
+        (ratMul scale (ratDivApart ratOne gap hgap)) :=
+    ratMul_le_mul_nonneg_left hGeom hScaleNonneg
+  have hCollapse :
+      RatEq
+        (ratMul scale (ratDivApart ratOne gap hgap))
+        (ratDivApart A (ratMul d gap) hden) := by
+    unfold scale
+    exact ratDivApart_scaled_geom_collapse A d gap hd hgap hden
+  exact ratLe_of_RatEq_right
+    (ratLe_trans hTailToGeom hScaled)
+    hCollapse
+
+theorem geom_odd_tail_kernel_raw_forall
+    (z : Rat)
+    (hz0 : ratLe ratZero z)
+    (hz1 : ratLt z ratOne) :
+    ∀ M K : Nat, ratLe (oddTail z M K) (oddTailBound z hz0 hz1 M) := by
+  intro M K
+  exact geom_odd_tail_kernel_raw z hz0 hz1 M K
+
+theorem atanh_tail_kernel
+    (z : Rat)
+    (hz0 : ratLe ratZero z)
+    (hz1 : ratLt z ratOne)
+    (M K : Nat) :
+    ratLe (atanhTail z M K) (atanhTailBound z hz0 hz1 M) := by
+  exact geom_odd_tail_kernel_raw z hz0 hz1 M K
 
 end BEDC.Real.RatNumKernel
