@@ -248,6 +248,38 @@ instance closedSubstitutionSealChapterTasteGate : ChapterTasteGate ClosedSubstit
     intro x y hxy heq
     exact hxy (closedSubstitutionSealToEventFlow_injective heq)
 
+instance closedSubstitutionSealFieldFaithful : FieldFaithful ClosedSubstitutionSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ClosedSubstitutionSealUp.mk term depth payload closedness substitution shift audit handoff
+        transport continuation provenance name =>
+        [term, depth, payload, closedness, substitution, shift, audit, handoff, transport,
+          continuation, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk term1 depth1 payload1 closedness1 substitution1 shift1 audit1 handoff1 transport1
+        continuation1 provenance1 name1 =>
+        cases y with
+        | mk term2 depth2 payload2 closedness2 substitution2 shift2 audit2 handoff2 transport2
+            continuation2 provenance2 name2 =>
+            cases h
+            rfl
+
+instance closedSubstitutionSealNontrivial : Nontrivial ClosedSubstitutionSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ClosedSubstitutionSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      ClosedSubstitutionSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem ClosedSubstitutionSealTasteGate_single_carrier_alignment :
     (forall h : BHist, closedSubstitutionSealDecodeBHist
       (closedSubstitutionSealEncodeBHist h) = h) /\
