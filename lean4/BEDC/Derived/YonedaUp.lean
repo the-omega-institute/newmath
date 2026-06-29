@@ -210,4 +210,65 @@ theorem YonedaRepresentable_prefix_empty_component_full_faithfulness {p q eta th
   · intro etaFamily thetaFamily
     exact YonedaRepresentable_component_family_displayed_deterministic etaFamily thetaFamily
 
+theorem YonedaUp_StdBridge {p q : BHist} (prefixCarrier : UnaryHistory p)
+    (targetCarrier : UnaryHistory q) :
+    (((forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier p q a BHist.Empty) <-> hsame p q) ∧
+      SemanticNameCert
+        (fun r : BHist => forall {a : BHist}, UnaryHistory a ->
+          NatTransPrefixComponentCarrier p r a BHist.Empty)
+        (fun r : BHist => forall {a : BHist}, UnaryHistory a ->
+          NatTransPrefixComponentCarrier p r a BHist.Empty)
+        (fun r : BHist => hsame p r) hsame) := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame
+  constructor
+  · constructor
+    · intro family
+      have data := YonedaRepresentable_empty_component_family_iff.mp family
+      exact data.right.right
+    · intro samePQ
+      exact YonedaRepresentable_empty_component_family_iff.mpr
+        (And.intro prefixCarrier (And.intro targetCarrier samePQ))
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro p
+          (by
+            intro a objectCarrier
+            exact
+              (NatTransPrefixComponentCarrier_empty_identity_iff
+                (p := p) (q := p) (a := a)).mpr
+                (And.intro prefixCarrier
+                  (And.intro prefixCarrier
+                    (And.intro objectCarrier (hsame_refl p)))))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other sameRows source
+          have sourceData := YonedaRepresentable_empty_component_family_iff.mp source
+          have transported :
+              forall {a : BHist}, UnaryHistory a ->
+                NatTransPrefixComponentCarrier p other a BHist.Empty :=
+            YonedaRepresentable_empty_component_family_iff.mpr
+              (And.intro sourceData.left
+                (And.intro (unary_transport sourceData.right.left sameRows)
+                  (hsame_trans sourceData.right.right sameRows)))
+          intro a objectCarrier
+          exact transported objectCarrier
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro row source
+        have sourceData := YonedaRepresentable_empty_component_family_iff.mp source
+        exact sourceData.right.right
+    }
+
 end BEDC.Derived.YonedaUp

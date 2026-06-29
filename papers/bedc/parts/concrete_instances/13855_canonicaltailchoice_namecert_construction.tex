@@ -336,13 +336,27 @@ Use $\RegSeqRatUp$ consumption and scope grounding, \autoref{thm:canonical-tail-
 Thus every seal-facing consumer reads the same finite source discipline before $S$. The excluded tail selector, quotient equality, hidden oracle, detached seal, and ambient completeness coordinates are absent from the carrier and from the cited boundary routes.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice public export]
+\label{thm:canonical-tail-choice-public-export}
+The public export of an accepted $\CanonicalTailChoiceUp$ packet consists exactly of the displayed rows $M,E,I,T,S,R,H,C_0,P,N$ of \autoref{def:canonical-tail-choice-carrier} together with the sibling routes $\CauchyChoiceBoundaryUp$, $\TailCofinalityScheduleUp$, $\FinitePrefixLimitBudgetUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$. It exports no selected tail, quotient stream equality, countable choice, hidden oracle, detached Real seal, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:canonical-tail-choice-namecert-obligations}. They expose exactly the rows $M,E,I,T,S,R,H,C_0,P,N$ and give no coordinate for a selected tail, quotient equality, hidden oracle, or ambient completeness theorem.
+
+Next compose the schedule and boundary routes. The schedule factorization of \autoref{thm:canonical-tail-choice-schedule-factorization} places $\TailCofinalityScheduleUp$ and $\FinitePrefixLimitBudgetUp$ before the tail window, while the Real-completion handoff of \autoref{thm:canonical-tail-choice-real-completion-handoff} routes the seal through $\RealCompletionExactBoundaryUp$ and $\RealUp$.
+
+Now add the scoped source discipline of \autoref{thm:canonical-tail-choice-scoped-source-discipline}. It forces the same source route through $\CauchyChoiceBoundaryUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ before any completion-facing consumer can read the seal row.
+
+The structural rows $H,C_0,P,N$ preserve, replay, source, and name that exact route. Therefore the listed rows and sibling routes are the whole public export, and the excluded objects remain absent from every public consumer surface.
+\end{proof}
+
 The Lean follow-up namespace is \texttt{BEDC.Derived.CanonicalTailChoiceUp}. Its \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier of \autoref{def:canonical-tail-choice-carrier}.
 
-\closureat{CanonicalTailChoiceUp}{scopedStr}
+\closureat{CanonicalTailChoiceUp}{publicStr}
 
 \begin{closurestatus}{\CanonicalTailChoiceUp}
   \constructivestory{A $\CanonicalTailChoiceUp$ packet is generated from a regular-Cauchy modulus row, a finite tolerance-budget row, a canonical finite-index row, a tail-window witness row, a Real seal route, a no-choice refusal row, componentwise transports, continuation replay, provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The scoped source discipline binds exactly $\CauchyChoiceBoundaryUp$, $\FinitePrefixLimitBudgetUp$, $\RealCompletionExactBoundaryUp$, $\RegSeqRatUp$, $\TailCofinalityScheduleUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the finite tail-choice packet and its Real-completion handoff surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
