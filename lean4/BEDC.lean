@@ -12615,6 +12615,7 @@ import BEDC.Derived.TreeUp.GraphSourceObligationRows
 import BEDC.Derived.TreeUp.ObligationSurface
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.TriangulatedCatUp
+import BEDC.Derived.TribonacciMatrixUp
 import BEDC.Derived.TribonacciUp
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.DisplayedPrefixSubledger
