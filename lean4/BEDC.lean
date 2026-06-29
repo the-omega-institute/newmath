@@ -339,6 +339,7 @@ import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticFnUp
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArithmeticalHierarchyUp.TasteGate
+import BEDC.Derived.ArithmeticoGeometricSequenceUp.TasteGate
 import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
@@ -10297,6 +10298,7 @@ import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
 import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
+import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
@@ -12006,6 +12008,7 @@ import BEDC.Derived.SheafificationUp.LocalityRefinement
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
+import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
