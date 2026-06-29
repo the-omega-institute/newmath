@@ -1646,6 +1646,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.RealCompletionHandoff
 import BEDC.Derived.CanonicalTailChoiceUp.RefusalExhaustion
 import BEDC.Derived.CanonicalTailChoiceUp.RegSeqRatConsumption
 import BEDC.Derived.CanonicalTailChoiceUp.ScheduleFactorization
+import BEDC.Derived.CanonicalTailChoiceUp.ScopedSourceDiscipline
 import BEDC.Derived.CanonicalTailChoiceUp.SourceObligations
 import BEDC.Derived.CanonicalTailChoiceUp.TailInhabitation
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
@@ -12121,6 +12122,7 @@ import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
+import BEDC.Derived.SheafificationUp.SeparatedRefinementTransport
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
 import BEDC.Derived.SheafificationUp.SheafHandoffLedgerObligation
@@ -12464,6 +12466,7 @@ import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubmartingaleUp.OneSidedComparisonStability
 import BEDC.Derived.SubmartingaleUp.OneSidedComparisonTransport
+import BEDC.Derived.SubmartingaleUp.StoppingWindowHandoff
 import BEDC.Derived.SubmartingaleUp.TasteGate
 import BEDC.Derived.SubmartingaleUp.UpcrossingLedgerExactness
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
