@@ -2043,6 +2043,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube family Gamma_m, the adjacent staircase-domino triple count B_m=#{(x,y,z) in V(Gamma_m)^3 : no adjacent column pair (c_i,c_{i+1}) is one of 110<->001 or 011<->100 (a column carrying a vertical adjacent domino through the middle row may not sit beside the singleton in the opposite outer row)} satisfies the forced order-five recurrence B_m = 2 B_{m-1} + 9 B_{m-2} - 3 B_{m-3} - 10 B_{m-4} + 3 B_{m-5} (all-positive Nat reindex B_m + 3 B_{m-3} + 10 B_{m-4} = 2 B_{m-1} + 9 B_{m-2} + 3 B_{m-5}) with minimal polynomial t^5-2t^4-9t^3+3t^2+10t-3 = (t-1)(t^4-t^3-10t^2-7t+3) (coprime to t^2-t-1 with explicit Bezout certificate, Hankel rank 5), realized by a nonnegative non-companion five-state transfer lumped by column shape-class (E=000 / O={100,001} / M=010 / D={110,011,111} / P=101); values 1,8,23,105,386,1571,6095,24190,94977,374827,1475640,5816177 verified to m=11. A genuinely ternary adjacent 3x2-window shape obstruction (110->001 is forbidden while pairwise 100->001 and 010->001 stay allowed, so it is not pairwise-expressible, and 101 is allowed so it is not vertical convexity) distinct from every other anchor; not a lag/Walsh/arity/C_k/weight/parametric bump. The axiom-free Lean theorem is stated on the offset transfer sequence B'(n)=sum(c(n))=B_{n+1} with explicit nonnegative start c(0)=(1,2,1,3,1) (a single-sentinel five-state realization would require a sixth state); the combinatorial count keeps B_0=1. No alpha claim"
+    },
+    {
+      "claim_id": "lucas-cube.disjoint-pair-trace.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-lucas-disjoint-pair-trace",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "lucas-cube.disjoint-pair-trace",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Lucas cube family Lambda_m (cyclic no-adjacent-1 words of length m, |V|=L_m Lucas number), the disjoint ordered-pair count D_m = #{(x,y) in V(Lambda_m)^2 : x_i*y_i=0 for every i} equals the trace tr(M^m) of the 3x3 nonnegative transfer M=[[1,1,1],[1,0,1],[1,1,0]] (states 0/X/Y, cyclic closed walks), and satisfies the forced all-positive order-three recurrence D_m = D_{m-1} + 3 D_{m-2} + D_{m-3} with minimal polynomial t^3-t^2-3t-1 = (t+1)(t^2-2t-1) (coprime to t^2-t-1, so NOT a Lucas-number shift; the cyclic trace exposes the Pell-type spectrum t^2-2t-1 with eigenvalues 1+/-sqrt2 and -1); values (trace convention D_0=3) 3,1,7,13,35,81,199,477,1155,2785,6727,16237, the nonempty combinatorial cube reading D_1..=1,7,13,35,81,.... The axiom-free Lean theorem encodes D_m as an integer 3x3 matrix-power trace and proves the recurrence from the Cayley-Hamilton identity M^3=M^2+3M+I together with trace linearity. This is the first Lucas-cube (cyclic-boundary) transfer anchor, a substrate distinct from every Fibonacci-cube anchor; not a Lucas-shift or parametric bump. No alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
