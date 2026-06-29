@@ -7832,6 +7832,7 @@ import BEDC.Derived.LocatedSupremumUp.WindowTransport
 import BEDC.Derived.LocatedTranscendental
 import BEDC.Derived.LocatedUniformCauchyLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
+import BEDC.Derived.LocatedUniformCompletionComparisonUp
 import BEDC.Derived.LocatedUniformCompletionUp.DensityRoute
 import BEDC.Derived.LocatedUniformCompletionUp.RealBoundary
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
