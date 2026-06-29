@@ -3402,6 +3402,7 @@ import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
 import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactDiniModulusUp.TasteGate
+import BEDC.Derived.CompactEquicontinuousFamilyModulusUp.TasteGate
 import BEDC.Derived.CompactFilterDiniMonotoneUp.TasteGate
 import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
@@ -12132,6 +12133,7 @@ import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
+import BEDC.Derived.SheafificationUp.CoverBasisStability
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverLocalGluingObligation
 import BEDC.Derived.SheafificationUp.CoverLocalGluingReplay
