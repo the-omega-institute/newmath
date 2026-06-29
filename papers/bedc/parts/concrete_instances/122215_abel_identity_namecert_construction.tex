@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\AbelIdentityUp$}
+\label{ch:concrete-instances-abel-identity-namecert}
+\origin{human}
+
+Following Coddington--Levinson and the Sturm--Liouville tradition, the $\AbelIdentityUp$ packet records the finite boundary at which the Wronskian route may read an Abel identity without importing a host ODE theorem. It sits beside the Wronskian certificate of \autoref{ch:concrete-instances-wronskian-namecert}, the derivative rows of \autoref{ch:concrete-instances-derivative-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the coefficient, derivative-admission, Wronskian, and integrating-factor ledgers as BEDC rows; it does not identify them with host solutions of a differential equation.
+
+\begin{definition}[AbelIdentity carrier]
+\label{def:abel-identity-carrier}
+An $\AbelIdentityUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,D,W,I,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the coefficient row for the displayed first-order trace term in the Abel identity route;
+\item $D$ is the $\DerivativeUp$ derivative-admission row for the coefficient and Wronskian reads;
+\item $W$ is the $\WronskianUp$ row supplied by the sibling packet of \autoref{ch:concrete-instances-wronskian-namecert};
+\item $I$ is the integrating-factor ledger, including the exponential readback route used to compare adjacent Wronskian windows;
+\item $S$ is the $\StreamNameUp$ finite-window row for the inspected coefficient and Wronskian requests;
+\item $R$ is the $\RegSeqRatUp$ readback row for coefficient, integral-ledger, and Wronskian values;
+\item $E$ is the terminal $\RealUp$ seal for the displayed Abel-identity readback;
+\item $H$ records componentwise $\hsame$ transport of coefficient, derivative, Wronskian, integrating-factor, window, readback, and seal rows;
+\item $C$ records displayed $\Cont$ replay from coefficient requests through derivative admission, Wronskian rows, integrating-factor ledger, StreamName windows, RegSeqRat readback, and the Real seal;
+\item $P$ is the $\Pkg$ provenance over $\AbelIdentityUp$, $\WronskianUp$, $\DerivativeUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AbelIdentityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these finite rows. It has no coordinate for host ODE equality, selected fundamental systems, classical exponential uniqueness, quotient real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[AbelIdentity NameCert obligations]
+\label{thm:abel-identity-namecert-obligations}
+For every accepted $\AbelIdentityUp$ carrier
+$$
+A=(Q,D,W,I,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\AbelIdentityUp}$ surface consists exactly of coefficient exposure through $Q$, derivative admission through $D$, Wronskian exposure through $W$, integrating-factor and exponential-ledger exposure through $I$, finite-window exposure through $S$, regular rational readback through $R$, terminal real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:abel-identity-carrier}. The coefficient row, derivative-admission row, Wronskian row, integrating-factor ledger, finite windows, readback row, and Real seal are visible before any structural transport or replay is read.
+
+Read the dependency route in order. The coefficient row $Q$ and derivative-admission row $D$ supply the finite ODE-facing data, while $W$ imports only the already displayed Wronskian packet surface from \autoref{ch:concrete-instances-wronskian-namecert}. The ledger $I$ records the integrating-factor and exponential comparison as finite data, not as an ambient uniqueness theorem.
+
+The value-facing route then passes through $S,R,E$. The $\StreamNameUp$ row fixes inspected requests, $\RegSeqRatUp$ reads coefficient and Wronskian values with $\DyadicRatCoreUp$ tolerance arithmetic, and $\RealUp$ seals only that displayed readback.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no coordinate for host ODE equality, selected bases, quotient Real equality, countable choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted Abel-identity read that uses host solution equality, a selected fundamental system, or an unledgered exponential uniqueness theorem refutes the $\AbelIdentityUp$ packet.}
+
+\independenceWitness{wronskian, derivative, continuousmap, streamname, regseqrat, dyadicratcore, real: $\AbelIdentityUp$ is not bijective to any listed sibling because it jointly carries coefficient rows, derivative admission, Wronskian rows, integrating-factor and exponential ledgers, rational readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{AbelIdentityUp}{seedStr}
+
+\begin{closurestatus}{\AbelIdentityUp}
+  \constructivestory{An $\AbelIdentityUp$ packet is generated from coefficient rows, derivative-admission rows, a Wronskian row, an integrating-factor and exponential ledger, finite StreamName requests, RegSeqRat readback, a RealUp seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-identity-carrier}, \autoref{thm:abel-identity-namecert-obligations}, the falsifiable prediction, and the independence witness seed the Abel identity boundary packet for Wronskian and ODE-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host ODE equality, selected fundamental systems, classical exponential uniqueness, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient exposure, derivative-route admission, Wronskian handoff, integrating-factor ledger exactness, StreamName coverage, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.AbelIdentityUp.}
+\end{closurestatus}
