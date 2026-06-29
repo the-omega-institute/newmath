@@ -54,6 +54,30 @@ The condensation packet and theorem siblings consume only that finite witness ro
 Finally the structural rows $H,C,P,N$ preserve the same finite route by transport, replay, provenance, and local naming. Since the accepted carrier contains no coordinate for host summability, quotient equality of infinite series, selected sums, countable choice, or ambient completeness, the Real handoff remains a finite block-witness handoff.
 \end{proof}
 
+\begin{theorem}[Cauchy condensation dyadic block witness scoped route]
+\label{thm:cauchy-condensation-dyadic-block-witness-scope}
+Every accepted $\CauchyCondensationDyadicBlockWitnessUp$ packet reads the CauchyCondensationTest, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any Real-facing handoff is public. Equivalently, the handoff route is scoped by the displayed source-series row $A$, dyadic endpoint row $D$, finite witness ledger $W$, monotone comparison row $M$, regular rational readback row $R$, Real seal row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:cauchy-condensation-dyadic-block-witness-carrier}. It lists $A,D,W,M,R,E,H,C,P,N$ as the whole packet surface and gives the Cauchy-condensation consumer no independent row beyond those displayed coordinates.
+
+Use the NameCert obligations of \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}. They force the source-series, dyadic endpoint, witness ledger, monotone comparison, and regular readback rows to remain visible before the Real seal is consumed.
+
+Finally apply the Real handoff theorem \autoref{thm:cauchy-condensation-dyadic-block-witness-real-handoff}. It routes every Real-facing or completion-facing read through the same finite block-witness rows, while $H,C,P,N$ provide transport, replay, provenance, and local naming rather than a second summability surface.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation dyadic block witness public certificate]
+\label{thm:cauchy-condensation-dyadic-block-witness-public-certificate}
+The public $\NameCert_{\CauchyCondensationDyadicBlockWitnessUp}$ surface is the package consisting of \autoref{def:cauchy-condensation-dyadic-block-witness-carrier}, \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}, \autoref{thm:cauchy-condensation-dyadic-block-witness-real-handoff}, and \autoref{thm:cauchy-condensation-dyadic-block-witness-scope}. Any public read of the dyadic block witness therefore factors through the displayed carrier rows $A,D,W,M,R,E,H,C,P,N$ and through no host summability theorem, equality of infinite series, selected sum, countable-choice schedule, or ambient Real-completeness datum.
+\end{theorem}
+\begin{proof}
+Package the carrier and the NameCert obligations first. The carrier names the rows $A,D,W,M,R,E,H,C,P,N$, and the obligations identify those rows as the local admission, readback, seal, transport, replay, provenance, and naming surface.
+
+Next use the Real handoff theorem. It shows that a Real-facing or completion-facing consumer cannot inspect the seal row $E$ before the source, dyadic endpoint, block witness, monotone comparison, and regular rational readback rows have been displayed.
+
+Finally use the scoped-route theorem. It makes the dependency boundary public: every accepted read has already passed through the CauchyCondensationTest-facing route, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The package therefore exports exactly the finite dyadic block-witness certificate and nothing from the excluded host or completeness surfaces.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CauchyCondensationDyadicBlockWitnessUp$ read that exports a Real-facing block estimate without displaying the positive decreasing source, dyadic endpoints, finite witness ledger, monotone comparison, RegSeqRat readback, transport, replay, provenance, and local naming is outside the carrier surface.}
 
 \independenceWitness{cauchy-condensation-packet, cauchy-condensation-theorem, realseries, dyadicratcore, regseqrat: none is bijective to $\CauchyCondensationDyadicBlockWitnessUp$ because this packet jointly carries one finite dyadic block witness ledger, its positive decreasing source row, endpoint core, monotone comparison, rational readback, Real seal, transport, replay, provenance, and local naming while refusing theorem-level summability.}
@@ -62,8 +86,8 @@ Finally the structural rows $H,C,P,N$ preserve the same finite route by transpor
 
 \begin{closurestatus}{\CauchyCondensationDyadicBlockWitnessUp}
   \constructivestory{A $\CauchyCondensationDyadicBlockWitnessUp$ packet is generated from a positive decreasing RealSeries source row, a DyadicRatCore endpoint row, a finite block witness ledger, a monotone endpoint comparison row, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-condensation-dyadic-block-witness-carrier}, \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}, and \autoref{thm:cauchy-condensation-dyadic-block-witness-real-handoff} seed the finite dyadic block-witness route consumed by condensation packets and theorem-level Real handoffs.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-dyadic-block-witness-carrier}, \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}, \autoref{thm:cauchy-condensation-dyadic-block-witness-real-handoff}, \autoref{thm:cauchy-condensation-dyadic-block-witness-scope}, and \autoref{thm:cauchy-condensation-dyadic-block-witness-public-certificate} scope the finite dyadic block-witness route consumed by condensation packets and theorem-level Real handoffs.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host summability, equality of infinite series, selected sums, countable choice, Lean verification, bridge checking, or ambient Real completeness.}
