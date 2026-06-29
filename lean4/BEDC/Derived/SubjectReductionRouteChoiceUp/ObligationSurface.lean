@@ -177,6 +177,52 @@ theorem SubjectReductionRouteChoiceObstructionBoundary
   exact
     ⟨cert, Or.inr (Or.inr (Or.inl (hsame_refl O))), obstructionRoute⟩
 
+theorem SubjectReductionRouteChoiceBlockedEdgeNonescape
+    {B V O H C P N blockedRead : BHist}
+    (obstructionRoute : Cont O H blockedRead) :
+    SemanticNameCert
+        (fun row : BHist => hsame row blockedRead)
+        (fun row : BHist =>
+          SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row ∨
+            hsame row blockedRead)
+        (fun row : BHist => hsame row blockedRead ∧ Cont O H blockedRead)
+        hsame ∧
+      SubjectReductionRouteChoiceObligationRowSpec B V O H C P N O ∧
+        Cont O H blockedRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row blockedRead)
+          (fun row : BHist =>
+            SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row ∨
+              hsame row blockedRead)
+          (fun row : BHist => hsame row blockedRead ∧ Cont O H blockedRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro blockedRead (hsame_refl blockedRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr source
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, obstructionRoute⟩
+  }
+  exact
+    ⟨cert, Or.inr (Or.inr (Or.inl (hsame_refl O))), obstructionRoute⟩
+
 theorem SubjectReductionRouteChoiceCarrier_blocked_edge_nonescape
     {B V O H C P N blocked replayed : BHist} :
     UnaryHistory O →
@@ -246,5 +292,57 @@ theorem SubjectReductionRouteChoiceCarrier_blocked_edge_nonescape
       exact ⟨source.left, blockedRoute, replayRoute⟩
   }
   exact ⟨cert, blockedUnary, replayedUnary⟩
+
+theorem SubjectReductionRouteChoiceObstructionRouteExhaustion
+    {B V O H C P N bundleRead obstructionRead publicRead : BHist}
+    (bundleRoute : Cont B V bundleRead)
+    (obstructionRoute : Cont O H obstructionRead)
+    (publicRoute : Cont bundleRead obstructionRead publicRead) :
+    SemanticNameCert
+        (fun row : BHist => hsame row publicRead)
+        (fun row : BHist =>
+          SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row ∨
+            hsame row bundleRead ∨ hsame row obstructionRead ∨ hsame row publicRead)
+        (fun row : BHist =>
+          hsame row publicRead ∧ Cont B V bundleRead ∧ Cont O H obstructionRead ∧
+            Cont bundleRead obstructionRead publicRead)
+        hsame ∧
+      Cont B V bundleRead ∧
+        Cont O H obstructionRead ∧
+          Cont bundleRead obstructionRead publicRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead)
+          (fun row : BHist =>
+            SubjectReductionRouteChoiceObligationRowSpec B V O H C P N row ∨
+              hsame row bundleRead ∨ hsame row obstructionRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            hsame row publicRead ∧ Cont B V bundleRead ∧ Cont O H obstructionRead ∧
+              Cont bundleRead obstructionRead publicRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead (hsame_refl publicRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, bundleRoute, obstructionRoute, publicRoute⟩
+  }
+  exact ⟨cert, bundleRoute, obstructionRoute, publicRoute⟩
 
 end BEDC.Derived.SubjectReductionRouteChoiceUp
