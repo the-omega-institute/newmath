@@ -1,0 +1,30 @@
+\subsection{Chaperone-Client Absorption Test for the B$^\ast_{Q6}$ Protein-Abundance Residual}\label{subsec:b-star-q6-chaperone-client-absorption}
+\origin{ai}
+
+\paragraph{Finite surface.}
+The tested object is a finite yeast panel in which B$^\ast_{Q6}$ synonymous residual coordinates are compared with matched protein abundance after the usual coding-sequence controls have already been imposed.  The coordinate list used by the surrounding Q6 residual packet is
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The present test asks whether the remaining protein-abundance residual can be explained as a chaperone-client membership effect rather than as a translation-conditioned Q6 signal.  The chaperone-client design matrix has rank $64$, and the yeast analysis contains $3290$ rows after the dictionary join, with $2697$ rows entering the chaperone dictionary intersection and a declared join gate of $800$ rows.  Before the chaperone-client projection is applied, the base residual association between the Q6 coordinate block and protein abundance is $R^2_{QP}=0.2931070447887822$ on the yeast surface.
+
+\paragraph{Statistic.}
+Let $U$ denote the residual left after the Q6-to-protein-abundance fit and its declared controls, and let $C$ denote the $64$-dimensional chaperone-client membership matrix.  The absorption statistic is the five-fold cross-fitted held-out increment in $R^2$ obtained by predicting $U$ from $C$ relative to fold training-mean baselines.  In the recorded run,
+$$
+\begin{aligned}
+A_{\mathrm{chap}} &= -0.025094043993987934,\\
+R^2_{\mathrm{baseline,heldout}} &= -0.0012543882346045532,\\
+R^2_{\mathrm{model,heldout}} &= -0.02634843222859251,\\
+p_{\mathrm{chap}} &= 0.8059701492537313.
+\end{aligned}
+$$
+The sign is therefore opposite to an absorption interpretation: the chaperone-client matrix worsens held-out prediction of $U$ by about $0.0251$ in $R^2$ units.  The null comparison is also not favorable to a positive chaperone-client explanation: the recorded null mean is $-0.02069844694751184$, the null $95$th percentile is $-0.011919241878822474$, and the null maximum is $-0.007175546466548351$.  The observed statistic lies in the ordinary negative region of this null surface rather than above it.
+
+\paragraph{Energy accounting.}
+The in-sample projection is small but nonzero: the in-sample projected energy is $2.3996329887946217$, and the corresponding in-sample projection fraction is $0.018912012456170624$.  Cross-fitting removes the apparent utility of that projection.  The cross-fitted prediction-energy ratio is only $0.02352540147610332$, while the active residual energy ratio on the analysis rows is $0.7438098660685635$ for $3290$ genes.  Thus the finite-row result is not that chaperone membership is absent from yeast biology; it is narrower.  In this controlled surface, the particular $64$-rank chaperone-client membership matrix does not absorb the Q6-associated protein-abundance residual out of sample.
+
+\paragraph{Relation to the translation-mediated protein-abundance surface.}
+The broader Q6 protein-abundance packet contains a yeast mediation entry in which modeled per-protein tAI is used as the translation readout.  In that yeast row, the joined protein panel has $5815$ proteins, the residual degrees of freedom after controls are $5792$, the total Q6-to-protein-abundance value is $c=0.29837624994140827$, the direct value after conditioning on the translation readout is $c'=0.0151709093608293$, and the reported mediated fraction is $M^{QTP}=0.9491551041216973$.  The present chaperone-client test is deliberately downstream of that surface: it asks whether a chaperone-client dictionary can explain the remaining residual structure.  The answer recorded here is negative for held-out absorption, with the verdict field equal to \emph{composition artifact}.  The phrase means that the chaperone-client matrix behaves like a finite dictionary whose in-sample projection does not generalize; it does not warrant a chaperone-client mechanism.
+
+\paragraph{Local interpretation.}
+The admissible conclusion is therefore a bounded refusal: yeast chaperone-client membership, represented by the finite $64$-rank matrix used here, does not provide a powered held-out explanation of the Q6 protein-abundance residual on this row set.  The result supports keeping the chaperone-client route below mechanism status.  It also protects the stronger Q6 statement from a misleading shortcut: a direct $Q_i \to P_k$ association cannot be read as chaperone realization merely because a chaperone dictionary exists, and a negative held-out $A_{\mathrm{chap}}$ does not prove that chaperones are irrelevant to translation or proteostasis in general.
+
+\paragraph{Boundary.}
+This chapter makes no claim that the Q6 residuals establish translation, folding, physical admissibility, molecular function, a mechanistic chaperone pathway, organismal phenotype, selection, or universality.  Translation remains available only through a separate translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency; protein abundance remains a separate downstream readout; chaperone-client membership is only the finite dictionary tested above.  Any stronger statement would require a layer-matched contact with its own controls, held-out statistic, and null comparison.

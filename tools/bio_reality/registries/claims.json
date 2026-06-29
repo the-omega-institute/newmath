@@ -16783,6 +16783,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-29T14:25:15+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T14:25:15+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f080b50a346e",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -28489,6 +28506,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-29T14:25:16+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-29T14:25:43+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "2f22c1c30caa",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -28834,14 +28868,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Chaperone-client absorption of the B*_Q6 abundance residual U (methods step 5): does chaperone-client membership absorb the unexplained U = P_Q - Pi_D P_Q? Using the Gong 2009 yeast chaperone atlas (Mol Syst Biol 5:275, PMC2710862; 64 chaperones x 4259 client ORFs, 21772 interactions, 99.2% name-mapped via SGD), the 64-dim binary chaperone-membership feature does NOT absorb U: cross-fitted held-out A_chap = -0.025 (NEGATIVE, worse than the matched-strata null95 = -0.012), p_chap = 0.806 (not significant), n_join=2697 (base R^2_QP=0.293 validated). Verdict composition_artifact: chaperone-client membership does NOT explain U -- the 64-dim feature overfits in-sample but the cross-fit/held-out projection collapses to negative and the matched permutation null is not beaten; the cross-fit + null discipline correctly rejected the high-dim overfitting. So U is NOT chaperone-client-mediated (within Gong2009's affinity-capture atlas). Cannot-claim: Gong2009 is affinity-capture (bait/prey, includes indirect/co-complex, not direct folding-clients); covers 4345 clients (not full proteome; atlas biased to soluble/abundant proteins); chaperone interaction != folding dependency; observational, not causal. Decision-sequence status: U is now confirmed NOT explained by observation-noise (reproducible), only ~2% by proteostasis-burden, DL-failing by exec/selection, and NOT by chaperone-client membership -- it remains a real, reproducible, predominantly-unresolved DNA->protein residual source (doc 11).",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "b_star_q6_pq_chaperone_client_absorption_powered",
       "history": [
         {
           "ts": "2026-06-29T13:59:57+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-29T14:29:38+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a0849e811dfb",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "3657e801f614c17f"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
     }
   ]
 }

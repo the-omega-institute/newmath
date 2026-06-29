@@ -1,33 +1,51 @@
-\subsection{Yeast structure-conditioned abundance residual for $B^*_{Q6}$}\label{subsec:bioreality-q6-yeast-structure-mediated-abundance}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite surface.} The finite surface for this record consists of matched yeast rows carrying nine $B^*_{Q6}$ residual coordinates, a measured translation-efficiency coordinate, an mRNA half-life coordinate, a coding-region structure proxy, and a matched protein-abundance response. The residual coordinates are
-$$\begin{aligned}
-Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
-\end{aligned}$$
-The control block contains an intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline defined by the fraction of sense codons lying on the union support of the nine projected $B^*_{Q6}$ vectors. After these controls, the joined panel has $4759$ genes, residual degrees of freedom $4736$, control rank $23$, residual $Q$ rank $9$, residual structure rank $1$, residual measured-TE plus mRNA-stability rank $2$, and joint residual $Q,T,M,S$ rank $12$. The five-way join is nontrivial rather than symbolic: $5815$ CDS rows were joined before filtering, the final join hit rate was $0.8818572656921754$, the CDS join hit rate was $0.9156038419146592$, $5128$ genes carried valid TE-by-protein keys, $6027$ genes carried valid 5-prime CDS MFE values, and $5379$ valid mRNA half-life records were available by systematic ORF.
+\subsection{Yeast abundance residual mediation by translation, mRNA stability, and 5-prime CDS folding energy}
+\label{sec:bioreality-q6-yeast-abundance-structure-mediation}
 
-\paragraph{Readout definitions.} The protein response $P$ is matched abundance, residualized against the control block. The translation coordinate $T$ is measured translation efficiency from the Ingolia yeast rich-medium footprint and mRNA quantification files, computed as mean footprint normalized read density divided by mean mRNA normalized read density across the two rich-medium replicates. The mRNA-stability coordinate $M$ is the matched half-life readout. The structure coordinate $S$ is a sequence-derived 5-prime coding-region minimum-free-energy proxy from the first $39$ nt of the CDS. It is a CDS-only MFE statistic; it is not a 5-prime UTR measurement, not an ensemble folding summary, and not a measured initiation-rate assay.
+\paragraph{Finite panel.}
+This record tests whether the nine-dimensional $B^{*}_{Q6}$ residual coordinate surface retains a protein-abundance association in yeast after ordinary sequence composition has been removed, and whether that association is materially carried by a 5-prime coding-region RNA-folding proxy beyond translation efficiency and mRNA stability. The finite panel is a five-way join over real yeast CDS codon counts, measured protein abundance, measured translation efficiency, measured mRNA half-life, and a CDS-local structure proxy. The join contains $4759$ genes, with a reported global join hit rate of $0.8818572656921754$ and a CDS join hit rate of $0.9156038419146592$. The TE table contributes $5128$ protein-keyed entries, the mRNA half-life table contributes $5379$ valid systematic-ORF entries, and the structure table contributes $6027$ valid MFE entries. CDS exclusions were finite and explicit: $369$ records missed the mRNA half-life match and $687$ missed the TE match, while duplicate stable identifiers, invalid lengths, empty sense-codon counts, missing protein identifiers, nonpositive abundance, nonpositive mRNA half-life, nonpositive TE, and unparseable yeast ORFs were all recorded as $0$.
 
-\paragraph{Variance partition.} Let $Q_e,T_e,M_e,S_e,P_e$ denote residualized versions of the nine-dimensional residual coordinate matrix, the measured translation-efficiency readout, mRNA stability, the structure proxy, and protein abundance after the control block. The registered decomposition is
-$$\begin{aligned}
-R^2_{QP} &= R^2(P_e\sim Q_e)=0.2715520808117803,\\
-R^2_{QP\mid S} &= 0.2706601505000995,\\
-R^2_{QP\mid T,M} &= 0.13773967696311287,\\
-R^2_{QP\mid T,M,S} &= 0.13759011208318542.
-\end{aligned}$$
-Thus conditioning on the measured-TE and mRNA-stability block removes far more of the $Q$-to-protein residual association than conditioning on the 5-prime CDS MFE proxy alone. The structure-only fraction is
-$$\begin{aligned}
-\frac{R^2_{QP}-R^2_{QP\mid S}}{R^2_{QP}}=0.003284564452662019,
-\end{aligned}$$
-whereas the structure-incremental fraction beyond measured TE and mRNA stability is
-$$\begin{aligned}
-\frac{R^2_{QP\mid T,M}-R^2_{QP\mid T,M,S}}{R^2_{QP}}=0.0005507778820193332.
-\end{aligned}$$
-The direct $Q$-to-structure residual fit is small but detectable in the registered statistic, with $S_Q$ structure $R^2=0.003774248455422586$ and right-tail permutation value $p=0.027972027972027972$. The additional structure-incremental fraction after $T,M$ does not pass the same level of evidence, with right-tail permutation value $p=0.1258741258741259$.
+\paragraph{Coordinates and controls.}
+The tested residual coordinates are
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+The control matrix contains an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 computed from the same real CDS codon counts, and the $M$-density baseline given by the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors. After residualization the rank diagnostics are nondegenerate for the intended comparison: $\operatorname{rank}(Z)=23$, $\operatorname{rank}(\widetilde X)=9$, $\operatorname{rank}(\widetilde T\widetilde M)=2$, $\operatorname{rank}(\widetilde S)=1$, $\operatorname{rank}(\widetilde X\widetilde T\widetilde M)=11$, $\operatorname{rank}(\widetilde X\widetilde S)=10$, and $\operatorname{rank}(\widetilde X\widetilde T\widetilde M\widetilde S)=12$, with residual degrees of freedom $4736$. The residual energies used by the decomposition are $1724.6664873071313$ for protein abundance, $645.3764418081507$ for translation efficiency, $871992.3819246667$ for mRNA stability, and $28554.997251412347$ for the structure proxy.
 
-\paragraph{Rank and energy audit.} The rank diagnostics rule out a purely verbal mediation claim. The residual energies were $871992.3819246667$ for $M$, $28554.997251412347$ for $S$, $645.3764418081507$ for $T$, and $1724.6664873071313$ for $P$. The explained energy of $Q$ on $P$ was $468.33677333459536$, while the explained energy of $Q$ on $S$ was $107.77365427073924$. The direct $Q$ improvement energy after conditioning on $S$ was $466.79849101702615$; after conditioning on $T,M$ it was $237.5550048307909$; after conditioning on $T,M,S$ it was $237.29705529470186$. This is the quantitative reason for the chapter verdict: the yeast surface supports a controlled statistical decomposition of the abundance residual, but the structure proxy contributes only a very small additional component once the measured translation and mRNA-stability coordinates are present.
+\paragraph{Structure readout.}
+The structure coordinate $S$ is not a folded-protein or physical-state measurement. It is the ViennaRNA RNAfold minimum free energy of the first $39$ nucleotides of the coding sequence, keyed by systematic ORF through the same yeast protein and transcript records. Thus the readout is a 5-prime CDS-local RNA proxy, not a 5-prime UTR structure, not an ensemble folding statistic, and not a measured initiation rate. This distinction matters because a sequence-derived MFE can share variance with GC and codon composition even after the declared controls are included.
 
-\paragraph{Relation to the broader protein-abundance mediation surface.} A separate multi-organism protein-abundance mediation computation used the same nine $B^*_{Q6}$ residual coordinates and a modeled per-protein tAI readout. In that broader surface, the yeast row had $5815$ joined proteins, residual degrees of freedom $5792$, residual $Q$ rank $9$, residual $T$ rank $1$, and a mediation fraction $M^{QTP}=0.9491551041216973$ with $R^2_{QP}=0.29837624994140827$, $R^2_{QP\mid T}=0.0151709093608293$, and indirect increment $0.28320534058057895$. This supports the use of translation-conditioned abundance decompositions as finite statistical objects, but it does not replace the yeast structure-conditioned calculation above: the present record uses measured TE, matched mRNA stability, matched abundance, and a 5-prime CDS MFE proxy on the same yeast panel.
+\paragraph{Variance partition.}
+Let $Q$ denote the residualized nine-coordinate $B^{*}_{Q6}$ block, $P$ the residualized matched protein-abundance readout, $T$ the residualized measured TE readout, $M$ the residualized mRNA-stability readout, and $S$ the residualized 5-prime CDS MFE readout. The computed protein-abundance association before the mediation blocks is
+$$
+\begin{aligned}
+R^2(Q \to P) &= 0.2715520808117803.
+\end{aligned}
+$$
+Conditioning on the structure proxy alone gives
+$$
+\begin{aligned}
+R^2(Q \to P \mid S) &= 0.2706601505000995,
+\end{aligned}
+$$
+so the structure-only fraction is only $0.003284564452662019$. Conditioning on measured TE together with mRNA stability gives a much larger attenuation,
+$$
+\begin{aligned}
+R^2(Q \to P \mid T,M) &= 0.13773967696311287,
+\end{aligned}
+$$
+and adding the structure proxy after $T,M$ changes the value only to
+$$
+\begin{aligned}
+R^2(Q \to P \mid T,M,S) &= 0.13759011208318542.
+\end{aligned}
+$$
+The corresponding incremental structure fraction beyond $T,M$ is $0.0005507778820193332$.
 
-\paragraph{Boundary of interpretation.} The admissible conclusion is a controlled variance partition on a finite yeast matrix. A direct $Q_i\to P_k$ association is not read as protein realization unless the corresponding translation-readout step is present and evaluated under the declared controls. A structure proxy association is not a folding claim, and the MFE coordinate is not a physical-state assay. The chapter therefore does not assert molecular mechanism, folded structure, physical admissibility, function, phenotype, selection, or universality. Any such assertion would require a separate layer-matched contact and its own finite statistic. The current result keeps $B^*_{Q6}$ at cross-layer abundance-residual decomposition scope: measured TE and mRNA stability account for a large part of the residual protein-abundance association, while the 5-prime CDS MFE component is small, statistically visible for $Q\to S$, and not sufficient for a causal or structural promotion.
+\paragraph{Permutation and finite-row verdict.}
+The direct relation from the $B^{*}_{Q6}$ block to the 5-prime CDS MFE proxy is small but detectable in the finite panel: $R^2(S \sim Q)=0.003774248455422586$ with right-tail permutation $p=0.027972027972027972$. By contrast, the structure increment in the abundance residual after measured TE and mRNA stability is not supported at the same level: its right-tail permutation value is $p=0.1258741258741259$. The fitted energies agree with that reading. The $Q$ block explains $468.33677333459536$ units of residual protein-abundance energy and $107.77365427073924$ units of residual structure-proxy energy, but the improvement attributable to adding $Q$ after $T,M,S$ is $237.29705529470186$, essentially unchanged from $237.5550048307909$ after $T,M$ alone. In the related cross-organism protein-abundance mediation surface, the yeast entry has $M^{QTP}=0.9491551041216973$, $R^2_{QP}=0.29837624994140827$, $R^2_{QP\mid T}=0.0151709093608293$, and indirect difference $0.28320534058057895$, which is consistent with the present yeast panel assigning the large attenuation to translation-associated and transcript-stability covariates rather than to the 5-prime CDS MFE proxy.
+
+\paragraph{Local interpretation.}
+The finite result is therefore a bounded statistical statement. In yeast, on $4759$ joined rows, the $B^{*}_{Q6}$ residual block has a substantial protein-abundance association after amino-acid composition, CDS length, GC3, and $M$-density controls. Measured TE plus mRNA stability absorbs a large share of that association, while the 5-prime CDS MFE proxy contributes only a very small abundance-residual decrement beyond those readouts and does not pass the recorded permutation test for incremental structure mediation. The positive $Q \to S$ contact is best read as a weak sequence-to-local-MFE association under controls, not as evidence that the protein-abundance relation is structurally mediated.
+
+\paragraph{Boundary of the claim.}
+This chapter does not infer translation realization from codon geometry alone, does not infer protein folding from abundance, and does not infer physical admissibility, molecular function, mechanism, selection, phenotype, or universality from the variance partition. The allowed conclusion is confined to the finite yeast matrix and its declared controls: a controlled abundance association exists, its attenuation is mainly aligned with measured TE and mRNA stability, and the tested 5-prime CDS MFE proxy is not a supported downstream mediator beyond that block. Any stronger biological conclusion would require a separate layer-specific measurement and a new finite statistic tied to that layer.
