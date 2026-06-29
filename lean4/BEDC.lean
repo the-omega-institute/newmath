@@ -1697,6 +1697,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CarmichaelLambdaUp
@@ -6976,6 +6977,7 @@ import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HypercoverUp.CechNerveRoute
+import BEDC.Derived.HypercoverUp.CoveringFamilyNonescape
 import BEDC.Derived.HypercoverUp.NameCertObligations
 import BEDC.Derived.HypercoverUp.SheafDescentHandoff
 import BEDC.Derived.HypercoverUp.TasteGate
@@ -9080,6 +9082,7 @@ import BEDC.Derived.NatUp.AddSourceSpineForwardLink
 import BEDC.Derived.NatUp.NatAdd
 import BEDC.Derived.NatUp.TasteGate
 import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
+import BEDC.Derived.NatUp.UnaryNatBridge
 import BEDC.Derived.NaturalDeductionUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
@@ -10193,6 +10196,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RaneyNumberUp
 import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
+import BEDC.Derived.RapidCauchySubsequenceUp
 import BEDC.Derived.RapidlyCauchySequenceUp
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
 import BEDC.Derived.RatCauchyGapWitnessUp.NameCertObligations
