@@ -4,7 +4,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 ## Counts by bridge_class
 
-- bio_only: 55
+- bio_only: 57
 - duplicate_bio_program: 34
 - math_stub: 8
 - needs_derivation: 27
@@ -12,9 +12,9 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 ## B*_Q6 crosswalk summary
 
 - fibonacci B*_Q6 scripts: 35
-- bio B*_Q6 registered claims: 84
+- bio B*_Q6 registered claims: 86
 - duplicate/path-fork/parameter-divergence rows: 34
-- bio_only: 50
+- bio_only: 52
 - duplicate: 9
 - fibonacci_only: 1
 - namecert_watchlist: 35
@@ -87,6 +87,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_positional_boundary_response_powered.py | h3.cross_layer_relation.positional_boundary_response.b_star_q6_translation_efficiency_powered | bio_only | Descriptive position projection: fit B*_Q6 synonymous residual coordinates along normalized CDS position and compare hig |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_boundary_set_trna_poverty_powered.py | h3.cross_layer_relation.boundary_set_trna_poverty.b_star_q6_window6_R_mechanism_powered | bio_only | Mechanism for why Window6 boundary set R is biologically avoided (Route L): the 10 R sense-codons are systematically tRN |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_rate_slot_bridge_powered.py | h3.cross_layer_relation.observable_execution_decomposition.b_star_q6_rate_slot_bridge_powered | bio_only | Route AB (cross-fitted observable-execution decomposition of P_Q): of the protein-abundance signal that B*_Q6 explains ( |
+| bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_pq_target_permutation_dictionary_ceiling_powered.py | h3.cross_layer_relation.target_noise_ceiling.b_star_q6_pq_target_permutation_dictionary_ceiling_powered | bio_only | Target-side permutation noise ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade decisive gate, doc s |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_irreducibility_certificate_powered.py | h3.cross_layer_relation.irreducibility_certificate.b_star_q6_residual_primitive_powered | bio_only | Hypothesis (tested, falsified): the B*_Q6 synonymous-codon residual on yeast protein abundance is an irreducible primiti |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_partial_mediation_certificate_powered.py | h3.cross_layer_relation.partial_mediation.b_star_q6_readout_dictionary_powered | bio_only | The B*_Q6 synonymous-codon residual association with yeast protein abundance is real (held-out 5-fold R^2 ~0.19 vs permu |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_window_chen2017_gfp_synonymous_protein_escape_powered.py | h3.cross_layer_relation.synonymous_perturbation.b_star_window_chen2017_gfp_synonymous_protein_escape_powered | bio_only | Independent yeast reporter replication of the Shen escape, at the PROTEIN readout (does B_window predict protein beyond  |
@@ -105,6 +106,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_finite_state_dwell_transducer_powered.py | h3.cross_layer_relation.order_memory_execution_signal.b_star_q6_finite_state_dwell_transducer_powered | bio_only | Route Z (sequence-order execution signal): a minimal variable-order (order-2) finite-state transducer over the {K_AAA, A |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_window_human_prime_editor_fitness_powered.py | h3.cross_layer_relation.synonymous_perturbation.b_star_window_human_prime_editor_fitness_powered | bio_only | Cross-species perturbation boundary (does the yeast B_window->fitness escape replicate in human?): on the Niu prime-edit |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_window_yang_ecoli_endogenous_fitness_powered.py | h3.cross_layer_relation.synonymous_perturbation.b_star_window_yang_ecoli_endogenous_fitness_powered | bio_only | New-domain perturbation test (E.coli ENDOGENOUS synonymous-edit fitness, not a reporter): on Yang 2024 PNAS genome-edit  |
+| bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_residual_exec_selection_joint_powered.py | h3.cross_layer_relation.execution_selection_decomposition.b_star_q6_residual_exec_selection_joint_powered | bio_only | Execution-vs-selection joint decomposition of the B*_Q6 protein-abundance residual P_Q (doc 7.5). P_Q (reconstructed fai |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_f3_ramp_ortholog_portability_powered.py | h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered | bio_only | Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cro |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_f3_stress_readout_reach_powered.py | h3.cross_layer_relation.f3_stress_readout_reach.b_star_q6_dominant_coordinate_powered | bio_only | The dominant B*_Q6 coordinate f3_stress (a global synonymous first-vs-last-codon direction across all 21 families) carry |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_f3_stress_cross_organism_powered.py | h3.cross_layer_relation.f3_stress_cross_organism.b_star_q6_generality_powered | bio_only | Cross-organism f3_stress->protein-abundance: the association DIRECTION generalizes near-universally (15/15 organisms hel |
