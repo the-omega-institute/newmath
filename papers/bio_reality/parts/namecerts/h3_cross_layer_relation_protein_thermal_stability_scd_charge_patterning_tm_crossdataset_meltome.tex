@@ -1,51 +1,61 @@
-\subsection{Position-resolved translation boundary for the protein thermal-stability surface}\label{subsec:bioreality-f3-position-resolved-translation-boundary}\origin{ai}
+\subsection{Thermal-stability rows and the $f_3$ translation boundary}
+\label{subsec:bioreality-h3-cross-layer-relation-protein-thermal-stability-scd-charge-patterning-tm-crossdataset-meltome}
+\origin{ai}
 
-\paragraph{Finite row being certified.}
-This record fixes the finite-row status of claim \texttt{h3.cross\_layer\_relation.protein\_thermal\_stability.scd\_charge\_patterning\_tm\_crossdataset\_meltome} as a boundary statement, not as a downstream biological mechanism. The observed protein-stability contact available for this row is the cross-dataset Meltome surface with $n=8092$ joined entries, runtime $512.940125$ seconds, and UniProt sequence match rate $0.963104$. Those numbers certify that a substantial protein-level table exists for the SCD charge-patterning/Tm surface. They do not, by themselves, certify that an $f_3$-stress codon-window coordinate has passed through a measured translation readout, nor that a translation effect explains thermal stability.
-
-\paragraph{Coordinate actually under test.}
-The admissible coordinate is a local synonymous-codon residual computed only after quotienting away amino-acid composition. Its finite carrier is a CDS-window table indexed by organism, coding sequence, codon position modulo $3$, local $f_3$-paired codon counts, a bounded wobble-weight surface, matched mRNA abundance, and a position-resolved ribosome-occupancy or translation-efficiency readout. The required statistic is not protein abundance, protein folding, thermal stability, or structural order. It is a window-level survival entry of the form
+\paragraph{Finite contact.}
+The finite row surface for this record is the protein thermal-stability table keyed by matched sequence identifiers and a charge-patterning statistic, with the readout taken from cross-dataset melting-temperature entries.  The realized table contains $8092$ usable rows, was computed in $512.940125$ seconds, and has UniProt sequence agreement rate $0.963104$.  Thus the table is large enough to support a bounded thermal-stability contact about sequence-level charge patterning against melting temperature, but it is not, by itself, a position-resolved translation experiment.  Its admissible observable is a finite association of the form
 $$
 \begin{aligned}
-S_{f_3}(T_{\mathrm{pos}}\mid Z) &> 0,\\
-Z &= \{\mathrm{organism},\mathrm{AA\ composition},\mathrm{GC3},\mathrm{length},M\text{-}\mathrm{density},\mathrm{mRNA},\mathrm{position\ or\ AA\ bin}\}.
+  (\mathrm{protein\ id},\ \mathrm{sequence},\ \mathrm{SCD},\ T_m,\ Z_{\mathrm{thermal}})
+  \longmapsto
+  \mathrm{residual\ thermal\ stability},
 \end{aligned}
 $$
-A positive downstream interpretation is allowed only after this translation-layer entry is non-vacuous, rank-admissible, and resistant to simpler codon-count and composition baselines.
+where $Z_{\mathrm{thermal}}$ denotes the finite controls available inside the thermal-stability panel.  This row type differs from a codon-indexed ribosome-footprint panel: it has proteins and melting temperatures, not same-CDS codon windows, matched mRNA abundance, wobble-weight rows, and codon-indexed ribosome occupancy.
 
-\paragraph{Closed codon geometry available before biology.}
-The internal finite codon surface is explicit. The verified $M=\mathrm{Med}_R\cup\{ACA,ACG\}$ list is
+\paragraph{Coordinate background.}
+The $f_3$ coordinate used elsewhere in the packet remains a coding-sequence residual coordinate, not a thermal-stability measurement.  In the recorded $f_3$ saturation computation, the set $M=\mathrm{Med}_{R}\cup\mathrm{ACA}$ contains
 $$
 \begin{aligned}
-M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
-& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}.
 \end{aligned}
 $$
-The verified $f_3$ saturation of $R$ is the same list with $ACA$ and $ACG$ removed:
+The saturated $f_3$ set deletes $\mathrm{ACA}$ and $\mathrm{ACG}$ and retains
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-& UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}.
 \end{aligned}
 $$
-The recorded $f_3$ boundary is empty. This is a statement about the finite codon-coordinate construction. It is not a measurement of ribosome motion, translation efficiency, protein thermal stability, or folding.
+The recorded boundary set for $f_3$ is empty.  This supports a closed finite coordinate statement about which codon symbols participate in the residual construction.  It does not convert codon geometry into translation, protein folding, thermal stability, physical admissibility, biological function, mechanism, or universality.
 
-\paragraph{Quotient checks.}
-The quotient geometry supplies a second finite check on the coordinate. The verified $M$ face vector is $(20,38,26,8,1)$, the quotient face vector is $(10,14,6,1)$, and the quotient has size $10$. The recorded quotient representatives are
+\paragraph{Quotient scale.}
+The quotient-geometry audit gives a second finite scale check.  The $M$ vector is $(20,38,26,8,1)$, the quotient vector is $(10,14,6,1)$, and $|\pi_M|=10$.  The ten quotient rows are
 $$
 \begin{aligned}
-&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
-&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
-&(1,0,1,0,1),(1,0,1,1,1).
+&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
+&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
 \end{aligned}
 $$
-These rows justify speaking about an amino-acid-quotient-surviving residual coordinate. They do not justify promoting the coordinate into a biological law. The required readout remains a same-organism, same-CDS, same-window translation statistic.
+These rows give a compact finite quotient on the codon-coordinate side.  They are useful for checking that later translation or stability claims do not confuse a quotient coordinate with a measured biological layer.  In the present chapter, the thermal-stability contact is observed through $T_m$ rows, while the $f_3$ translation-readout claim would require a different finite table.
 
-\paragraph{Nearby finite biological surfaces.}
-Several external row sets show that the broader BioReality ledger is not empty, but they sit on different biological surfaces. The alternative-polyadenylation PAS table has $24740$ genes and $296950$ PAS entries. The ESE hexamer exon-inclusion surface has $n=1037$ and a recorded collinearity $-0.008429245619$ between $\Delta ESEseq$ and $\Delta MaxEnt$. The splice MaxEnt mouse VastDB surface has $n=50633$ and records all tissue signs as positive. These entries support the existence of finite external tables elsewhere in the system; none supplies the joined position-resolved ribosome-occupancy windows required for the present $f_3$-stress claim.
+\paragraph{Cross-layer comparison.}
+The row counts in neighboring biological contacts show why the distinction matters.  The thermal-stability table has $8092$ rows.  A separate folding-stability contact has $245518$ rows with $6765$ distinct entries and runtime $506.14230823516846$ seconds.  A splice MaxEnt cross-organism contact has $50633$ rows and reports all tissue directions positive after $410.672546$ seconds.  An ESE hexamer exon-inclusion contact has $1037$ rows with collinearity $-0.008429245619$ between $\Delta\mathrm{ESEseq}$ and $\Delta\mathrm{MaxEnt}$.  An alternative-polyadenylation contact lists $24740$ genes and $296950$ PAS rows.  These finite surfaces are real biological readouts, but each readout belongs to its own layer.  A melting-temperature association cannot be used as a ribosome-occupancy readout, and a splice or polyadenylation row cannot be used as a protein thermal-stability row.
 
-\paragraph{Structural-order comparison row.}
-A related B-star/Q6 structural-order experiment records five folds, minimum joined count $300$, and primary ramp length $50$. Its primary ramp result is positive but not localized: the weighted ramp held-out $\Delta R^2$ is $0.0011165640103326878$, the body held-out $\Delta R^2$ is $-0.00026157313923957926$, and the ramp-minus-body value is $0.001378137149572267$. The sign-flip probabilities are $0.0478515625$ for the ramp, $0.54296875$ for the body, and $0.05859375$ for the paired ramp-minus-body contrast. This supplies a useful warning for the present row: even a positive finite signal at one layer does not automatically localize, mediate, or propagate to another layer.
+\paragraph{Translation-readout gate.}
+For the $f_3$ position-resolved translation boundary, the required finite row would instead have the form
+$$
+\begin{aligned}
+&(\mathrm{organism},\mathrm{CDS},\mathrm{codon\ index},\mathrm{local\ window},f_3\text{-}\mathrm{stress},\mathrm{wobble\ weight},\\
+&\qquad \mathrm{mRNA\ control},\mathrm{position\ resolved\ RPF\ or\ TE},Z)
+  \longmapsto S_{f_3}(T_{\mathrm{position}}\mid Z).
+\end{aligned}
+$$
+The control set must include amino-acid composition or amino-acid-bin structure, organism, GC3, length, $M$-density, matched mRNA abundance, codon-count baselines, position or coverage constraints, mappability limits, rank sufficiency, and simpler-baseline ablations.  The present memory names the needed contact route for position-resolved ribosome occupancy, codon usage, modeled adaptation weights, and matched mRNA abundance, but it does not contain the joined same-organism, same-CDS, same-window matrix.  Consequently the translation statistic remains uncomputed here.
 
-\paragraph{Boundary verdict.}
-The finite claim is therefore admissible as a translation-readout boundary for the protein thermal-stability surface. The Meltome table contributes a real protein-level row count and match-rate anchor, while the codon and quotient rows define the $f_3$ residual coordinate. What is still missing is the single panel that joins, for the same organism, CDS, and local window, ordered codons, bounded wobble weights, matched mRNA abundance, and position-resolved ribosome footprints or a bounded translation-efficiency residual. Until that panel exists and the statistic $S_{f_3}(T_{\mathrm{pos}}\mid Z)$ is positive after rank checks and baseline ablation, the row cannot claim translation realization. It also cannot claim protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality. A downstream thermal-stability interpretation would require this translation-readout step first, followed by a separately matched protein-level test.
+\paragraph{Structural-order comparison.}
+The available structural-order ramp record illustrates the correct finite-row discipline.  At primary ramp length $50$, the weighted ramp held-out increment is $0.0011165640103326878$, the weighted body increment is $-0.00026157313923957926$, and the weighted ramp-minus-body increment is $0.001378137149572267$.  The sign-flip probability for the ramp being greater than zero is $0.0478515625$, while the paired ramp-minus-body probability is $0.05859375$; the recorded conclusion is therefore ramp-positive but not localized.  This is a bounded finite verdict: a positive component is allowed, but a stronger localization interpretation is withheld.  The same discipline applies here.  The thermal-stability row surface may be reported as a protein-layer contact, while $f_3$ translation survival is withheld until the appropriate ribosome-window rows exist.
+
+\paragraph{Local verdict.}
+This chapter therefore certifies a finite protein thermal-stability contact with $n=8092$ and UniProt sequence match rate $0.963104$, and it records the surrounding $f_3$ coordinate data as codon-side context.  It does not assert that $f_3$ stress predicts position-resolved ribosome occupancy, translation efficiency, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or a universal biological law.  Such a promotion would require a separate layer-matched contact and a non-vacuous controlled statistic on the joined finite matrix.  Until that matrix is present, the admissible statement is only that the thermal-stability table is a valid protein-layer contact and that the $f_3$ translation-readout conjecture remains blocked at the source-row join.
