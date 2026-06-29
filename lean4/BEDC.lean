@@ -1826,6 +1826,7 @@ import BEDC.Derived.CauchyCompletionApartnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
 import BEDC.Derived.CauchyCompletionAssociativityUp.FlatteningRoute
 import BEDC.Derived.CauchyCompletionAssociativityUp.NameCertObligations
+import BEDC.Derived.CauchyCompletionAssociativityUp.RouteCoherence
 import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
 import BEDC.Derived.CauchyCompletionBindUp.TasteGate
 import BEDC.Derived.CauchyCompletionBoundaryUp.TasteGate
@@ -7111,6 +7112,7 @@ import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.IntUp.UnaryIntBridge
+import BEDC.Derived.IntUp.UnaryIntMulBridge
 import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.IntegralUp.TasteGate
@@ -7685,6 +7687,7 @@ import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
