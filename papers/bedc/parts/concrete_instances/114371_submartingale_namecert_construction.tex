@@ -30,6 +30,7 @@ for every displayed successor $n<T$, with the order comparison read through the 
 \end{enumerate}
 The local classifier compares accepted carriers only through the displayed probability, random-variable, conditional-expectation, filtration, endpoint, one-sided comparison, transport, continuation, package, and local certificate rows.
 \end{definition}
+\leanchecked{BEDC.Derived.SubmartingaleUp.TasteGate.SubmartingaleTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Submartingale NameCert obligations]
 \label{thm:submartingale-namecert-obligations}
@@ -43,6 +44,22 @@ The analytic rows are $R,C,F,X,E,I$. The endpoint rows are read through $\Random
 The downstream rows are bounded and finite. Optional stopping can inspect only the displayed time window, the upcrossing ledger can count only lower-to-upper passages inside that window, and the Doob-upcrossing packet receives only the crossing count and expectation-bound rows.
 
 The structural rows $H,K,P,N$ transport, replay, source, and name the same finite packet. Since no row contains an almost-sure quotient, an unbounded stopping index, a limiting event, or a completed measure carrier, the listed obligations exhaust the seed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Submartingale one-sided comparison transport]
+\label{thm:submartingale-one-sided-comparison-transport}
+Componentwise $\hsame$ transport of the displayed probability, $\RandomVarUp$, $\CondExpUp$, filtration, endpoint, conditional-expectation, and Real-order rows preserves the one-sided comparison ledger $I$ of an accepted $\SubmartingaleUp$ carrier. After transport, each successor window still routes through
+$$
+X_n\leq_R E_{n+1|n}
+$$
+before any $\OptionalStoppingUp$ or $\UpcrossingUp$ consumer may read the bounded stopped-window or crossing data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:submartingale-carrier}. The rows $R,C,F,X,E,I$ are displayed components of the finite adapted packet, and $H$ records componentwise transport for the same probability, endpoint, conditional-expectation, filtration, comparison, continuation, package, and naming rows.
+
+Transport therefore carries the one-sided comparison row together with its endpoints. The transported ledger still reads the transported $X_n$, the transported $E_{n+1|n}$, and the transported $\RealUp$ order classifier before exposing any successor window.
+
+Replay the bounded window through $K$ and the downstream route of \autoref{thm:submartingale-doob-upcrossing-handoff}. Optional-stopping and upcrossing consumers receive only the transported finite comparison ledger and the displayed bounded window, not an unbounded stopping rule or an ambient process equality.
 \end{proof}
 
 \begin{theorem}[Submartingale Doob upcrossing handoff]
@@ -108,7 +125,7 @@ Ledger exactness follows because the package and naming rows $P,N$ expose no sec
 \begin{closurestatus}{\SubmartingaleUp}
   \constructivestory{A $\SubmartingaleUp$ packet is generated from a displayed probability row, random-variable endpoint rows, conditional-expectation rows, a finite filtration and adaptedness ledger, one-sided comparison rows, bounded stopping-window routes, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:submartingale-carrier}, \autoref{thm:submartingale-namecert-obligations}, \autoref{thm:submartingale-doob-upcrossing-handoff}, \autoref{thm:submartingale-one-sided-comparison-stability}, \autoref{thm:submartingale-stopping-window-handoff}, and \autoref{thm:submartingale-upcrossing-ledger-exactness} seed the finite one-sided martingale NameCert boundary and its Doob-style upcrossing handoff.}
+  \scopeclosed{\autoref{def:submartingale-carrier}, \autoref{thm:submartingale-namecert-obligations}, \autoref{thm:submartingale-one-sided-comparison-transport}, \autoref{thm:submartingale-doob-upcrossing-handoff}, \autoref{thm:submartingale-one-sided-comparison-stability}, \autoref{thm:submartingale-stopping-window-handoff}, and \autoref{thm:submartingale-upcrossing-ledger-exactness} seed the finite one-sided martingale NameCert boundary and its Doob-style upcrossing handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim martingale convergence, almost-sure quotient equality, unbounded stopping, measure completion, or a standard bridge.}

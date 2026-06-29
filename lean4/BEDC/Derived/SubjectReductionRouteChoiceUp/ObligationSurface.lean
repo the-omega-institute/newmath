@@ -79,4 +79,100 @@ theorem SubjectReductionRouteChoiceRouteObligationSurface
     ⟨Or.inl (hsame_refl B), Or.inr (Or.inl (hsame_refl V)),
       Or.inr (Or.inr (Or.inl (hsame_refl O))), route, transported⟩
 
+theorem SubjectReductionRouteChoiceTypePreservationWindow
+    {B V O H C P N replay typeWindow : BHist}
+    (route : Cont B V replay)
+    (window : Cont replay O typeWindow) :
+    SemanticNameCert
+        (fun row : BHist => hsame row typeWindow)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row V ∨ hsame row O ∨ hsame row H ∨
+            hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row typeWindow)
+        (fun row : BHist =>
+          hsame row typeWindow ∧ Cont B V replay ∧ Cont replay O typeWindow)
+        hsame ∧
+      Cont B V replay ∧ Cont replay O typeWindow := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row typeWindow)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row V ∨ hsame row O ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row typeWindow)
+          (fun row : BHist =>
+            hsame row typeWindow ∧ Cont B V replay ∧ Cont replay O typeWindow)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro typeWindow (hsame_refl typeWindow)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, route, window⟩
+  }
+  exact ⟨cert, route, window⟩
+
+theorem SubjectReductionRouteChoiceObstructionBoundary
+    {B V O H C P N blocked : BHist}
+    (obstructionRoute : Cont O H blocked) :
+    SemanticNameCert
+        (fun row : BHist => hsame row O)
+        (SubjectReductionRouteChoiceObligationRowSpec B V O H C P N)
+        (fun row : BHist => hsame row O ∨ hsame row H ∨ Cont O H blocked)
+        hsame ∧
+      SubjectReductionRouteChoiceObligationRowSpec B V O H C P N O ∧
+        Cont O H blocked := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row O)
+          (SubjectReductionRouteChoiceObligationRowSpec B V O H C P N)
+          (fun row : BHist => hsame row O ∨ hsame row H ∨ Cont O H blocked)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro O (hsame_refl O)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source))
+    ledger_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr obstructionRoute)
+  }
+  exact
+    ⟨cert, Or.inr (Or.inr (Or.inl (hsame_refl O))), obstructionRoute⟩
+
 end BEDC.Derived.SubjectReductionRouteChoiceUp
