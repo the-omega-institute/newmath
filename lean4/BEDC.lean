@@ -7769,6 +7769,7 @@ import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedReal.GroundedDyadic
 import BEDC.Derived.LocatedReal.GroundedToleranceKit
 import BEDC.Derived.LocatedReal.RatMetricKit
+import BEDC.Derived.LocatedReal.RatMetricKitApprox
 import BEDC.Derived.LocatedReal.ToleranceClose
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
