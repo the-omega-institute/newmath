@@ -610,6 +610,26 @@ The nonescape clauses are therefore inherited from the same three routes. Since 
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.MetacicCandidateNormalizationConfluenceHandoffResidualStripLocalJoin}
 
+\begin{theorem}[MetaCIC candidate-normalization local diamond handoff]
+\label{thm:metacic-normalization-confluence-local-diamond}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If two one-step candidate-normalization residual reads share the audit anchor $A$, candidate evidence $K$, normalization frontier $F$, residual-envelope row $C$, decidable-boundary row $D$, blocked-edge row $B$, and the structural rows $T,R,P,L$, then any displayed join between their bounded endpoint reads is available only as a local diamond handoff through the residual-window row, candidate-join row, relation-scope row, and transport rows already carried by $C,D,B,T,R,P,L$.
+
+The handoff preserves the same boundary rows on both sides of the diamond. It exports no full Church--Rosser theorem, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, closed consistency, or unrestricted normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier and boundary rows. The carrier displays $A,K,N,F,C,D,B,T,R,P,L$, and \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary} requires every confluence-facing read to keep candidate evidence, frontier data, residual envelope, decidable boundary, and blocked-edge retention visible.
+
+Read the two one-step residuals through the same boundary data. Premise exposure and residual-diamond retention, \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}, prevent either branch from treating the bounded endpoint row as detached joinability data.
+
+Use residual-diamond totality and residual-strip local join, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-totality} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-strip-local-join}. They provide only the finite join route inside $A,K,N,F,C,D,B,T,R,P,L$, so the residual-window, candidate-join, and relation-scope rows remain displayed during the handoff.
+
+Finally transport both sides through $T,R,P,L$. These rows preserve, replay, source, and name the same local diamond route; they do not create a coordinate for the refused global MetaCIC endpoints. Hence the displayed diamond is a local handoff over the retained residual and candidate rows, not a global confluence or normalization theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-normalization confluence handoff seed status]
 \label{thm:metacic-candidate-normalization-confluence-handoff-seed-status}
 A seed-status reader of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must expose candidate evidence $K$, normalization frontier $F$, residual confluence envelope $C$, decidable boundary $D$, blocked-edge row $B$, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert$ row $L$ before it consumes any bounded normal endpoint row $N$. The seed status is the finite retained-premise boundary of the handoff; it does not claim full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, residual-substitution discharge, or kernel consistency.
