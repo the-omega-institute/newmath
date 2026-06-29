@@ -672,6 +672,52 @@ modulus-normalized window, so the package over $U$ is precisely the finite union
 of the two restricted packages with their overlap already identified.
 \end{proof}
 
+\begin{theorem}[FastCauchy Bishop regular window induction]
+\label{thm:fastcauchy-bishop-regular-induction}
+Let $F$ be an accepted $\FastCauchyUp$ packet, and let
+$D_{0},\ldots,D_{k-1}$ be a finite list of accepted $\DyadicPrecisionUp$
+schedules for $F$. Suppose their selected $\StreamNameUp$ windows admit
+displayed finite successive union windows, so that each step unions the next
+selected precision window with the accumulated displayed window. Then the
+consumer package of $F$ over the final displayed window is exactly the iterated
+union of the $\RegSeqRatUp$ and $\RealUp$ rows obtained from the individual
+precision restrictions.
+
+The package contains precisely the selected $\StreamNameUp$ observations,
+$\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ endpoint rows, late-pair
+radius ledger entries, displayed $\hsame$ rows, displayed $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows contributed by the
+finite list. It introduces no hidden tail, selected limit, quotient stream,
+host real equality, ambient completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite list of displayed precision schedules. For
+the empty list, the selected window is empty, so the consumer package has no
+selected $\RegSeqRatUp$ or $\RealUp$ row and is the empty finite union.
+
+For a singleton list, apply
+\autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to identify the
+selected schedule window. Then use
+\autoref{thm:fastcauchy-shared-window-regseqrat-handoff} to read the
+$\RegSeqRatUp$ handoff and the corresponding $\RealUp$ rows from that same
+finite precision restriction.
+
+For the induction step, assume the accumulated displayed window already
+realizes the iterated union for the first schedules. Union the accumulated
+window with the next selected precision window and apply
+\autoref{thm:fastcauchy-tail-window-union-lock}. This identifies the new
+consumer package as the finite union of the accumulated package and the next
+restriction, with their overlap already matched by the shared-window handoff.
+
+Finally apply
+\autoref{thm:fastcauchy-modulus-synchronization-common-regseqrat-window} to
+normalize the displayed union window to the common modulus surface. The
+normalized package is therefore exactly the iterated union of the individual
+$\RegSeqRatUp$ and $\RealUp$ restrictions, and the excluded tail, limit,
+quotient, equality, completeness, and bridge coordinates remain absent at every
+finite step.
+\end{proof}
+
 \closureat{FastCauchyUp}{obligationStr}
 \closureat{FastCauchyUp}{scopedStr}
 \closureat{FastCauchyUp}{publicStr}
