@@ -2183,6 +2183,7 @@ import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
+import BEDC.Derived.CauchyModulusEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
@@ -10264,6 +10265,7 @@ import BEDC.Derived.RealArchimedeanFloorUp.TasteGate
 import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
 import BEDC.Derived.RealArchimedeanWindowUp
 import BEDC.Derived.RealArchimedeanWindowUp.TasteGate
+import BEDC.Derived.RealArctangentUp.TasteGate
 import BEDC.Derived.RealArithmeticProgressionUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.NameCertObligations
 import BEDC.Derived.RealBaireCylinderUp.StreamRealHandoff
@@ -11096,6 +11098,7 @@ import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.CarrierAdmission
 import BEDC.Derived.RegularCauchyMinUp.ClassifierScope
 import BEDC.Derived.RegularCauchyMinUp.DyadicOrderScope
+import BEDC.Derived.RegularCauchyMinUp.FormalTargetHandoff
 import BEDC.Derived.RegularCauchyMinUp.ObligationClosureRoute
 import BEDC.Derived.RegularCauchyMinUp.ProvenanceScope
 import BEDC.Derived.RegularCauchyMinUp.PublicNameCert
