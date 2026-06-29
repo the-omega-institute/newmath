@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\DyadicLocatedModulusUp$}
+\label{ch:concrete-instances-dyadic-located-modulus-namecert}
+\origin{ai}
+
+The $\DyadicLocatedModulusUp$ packet realizes the finite tolerance-to-window branch of the countable completion spine as BEDC NameCert data. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the Bishop located-modulus interface of \autoref{ch:concrete-instances-bishop-located-modulus-namecert}, and the RegSeqRat located-modulus route of \autoref{ch:concrete-instances-regseqrat-located-modulus-namecert}. The packet names a dyadic finite modulus; it does not quotient streams, select limits, decide total order, or import mature $\RealUp$ completeness.
+
+\begin{definition}[Dyadic located-modulus carrier]
+\label{def:dyadic-located-modulus-carrier}
+A $\DyadicLocatedModulusUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,W,R,E,B,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic precision request and slack comparison rows.
+\item $W$ is the $\StreamNameUp$ finite-window row selected for that dyadic precision.
+\item $R$ is the $\RegSeqRatUp$ readback row induced by $D$ and $W$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the dyadic tolerance and regular readback rows are displayed.
+\item $B$ is the $\BishopLocatedModulusUp$ interface row, naming the locatedness request that the dyadic window answers.
+\item $G$ is the $\RegSeqRatLocatedModulusUp$ handoff row, binding the regular-rational readback to the located-modulus consumer.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerance data, stream windows, regular readbacks, Real seals, located-modulus interfaces, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $D,W,R,E,B,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicLocatedModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopLocatedModulusUp$, $\RegSeqRatLocatedModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicLocatedModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,E,B,G,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic located-modulus NameCert obligations]
+\label{thm:dyadic-located-modulus-namecert-obligations}
+For every accepted $\DyadicLocatedModulusUp$ carrier
+$$
+L=(D,W,R,E,B,G,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicLocatedModulusUp}$ surface consists exactly of carrier admission for dyadic tolerance rows, finite StreamName windows, RegSeqRat readback, Real sealing, Bishop located-modulus interface, RegSeqRat located-modulus handoff, componentwise transport, displayed replay, provenance, and local naming. Every countable-completion read must expose the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+before the located-modulus rows $B$ and $G$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-located-modulus-carrier}. The dyadic tolerance row is $D$, the finite observation row is $W$, the regular readback row is $R$, and the Real seal row is $E$.
+
+The located-modulus interface is downstream of those rows. The Bishop-facing row $B$ names the locatedness request, while $G$ records the RegSeqRat located-modulus handoff that answers it through the displayed regular readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no quotient stream, selected limit, trichotomy, countable-choice, host-equality, or ambient-completeness coordinate, the NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Dyadic located-modulus RegSeqRat route]
+\label{thm:dyadic-located-modulus-regseqrat-route}
+Every $\RegSeqRatUp$, $\RealUp$, $\BishopLocatedModulusUp$, or $\RegSeqRatLocatedModulusUp$ consumer of an accepted $\DyadicLocatedModulusUp$ packet must read the finite route through $\DyadicRatCoreUp$ tolerances, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seals, the Bishop located-modulus interface, the RegSeqRat located-modulus handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The route is a finite tolerance-to-window object for the countable completion spine, not a quotient stream or selected-limit construction.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $L=(D,W,R,E,B,G,H,C,P,N)$. The tolerance request enters through $D$, so no consumer can obtain a located-modulus answer without first displaying the dyadic precision row.
+
+The selected finite window $W$ and regular readback $R$ bind that dyadic request to the countable completion corridor. The Real seal $E$ is downstream of the same readback and does not supply an independent completeness theorem.
+
+The located rows $B$ and $G$ consume the displayed readback as a finite modulus answer. The structural rows $H,C,P,N$ preserve and name this route, so the consumer receives only the dyadic tolerance-to-window packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicLocatedModulusUp$ read displays DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, RealUp seals, BishopLocatedModulus rows, RegSeqRatLocatedModulus rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before a countable-completion consumer can inspect the located modulus.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, bishop-located-modulus, regseqrat-located-modulus: $\DyadicLocatedModulusUp$ is not bijective to any listed sibling because it jointly binds dyadic precision, finite window selection, regular rational readback, Real sealing, Bishop located-modulus interface, RegSeqRat located-modulus handoff, transport, replay, provenance, and local naming as one finite modulus packet.}
+
+\closureat{DyadicLocatedModulusUp}{seedStr}
+
+\begin{closurestatus}{\DyadicLocatedModulusUp}
+  \constructivestory{A $\DyadicLocatedModulusUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a RealUp seal, BishopLocatedModulus interface rows, RegSeqRatLocatedModulus handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-located-modulus-carrier}, \autoref{thm:dyadic-located-modulus-namecert-obligations}, and \autoref{thm:dyadic-located-modulus-regseqrat-route} seed the finite dyadic located-modulus object for the countable completion spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, trichotomy, countable choice, host real equality, ambient completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, finite-window selection, RegSeqRat readback, Real sealing, located-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicLocatedModulusUp.}
+\end{closurestatus}
