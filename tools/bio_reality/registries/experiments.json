@@ -2906,6 +2906,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.functional_mutational_tolerance.local_disorder_dms_tolerance_proteingym",
+   "experiment_id": "protein_local_disorder_dms_functional_tolerance_proteingym",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment: does sequence-intrinsic local disorder/low-complexity predict measured per-position functional mutational tolerance beyond position-in-protein + center-residue identity? Source ProteinGym v0.1 substitution DMS (HuggingFace OATML-Markslab/ProteinGym), 27 functional assays (stability excluded); tools/bio_reality/data/protein_local_disorder_dms_functional_tolerance_proteingym.json (per assay: WT seq + [pos,mut,dms_score]). Readout = assay-internal z-scored per-position tolerance (mean DMS over >=5 substitutions). Feature = FLANKING ±7 (center excluded) disorder-promoting fraction + Shannon complexity. Controls = pos_term (dist-to-nearest-terminus) + center-residue hydropathy/charge/disorder. Primary = held-out incremental R^2 (controls+disorder vs controls) + partial-Spearman(disorder|pos); decisive null = within-assay position-permutation (B=1000, non-degenerate). Positive control = pos_term->tolerance. Verdict crosses_boundary (partial|rho|>=0.10 AND incr-R^2>=0.01 AND perm p<0.01 AND anchor) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, fixed seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_local_disorder_dms_functional_tolerance_proteingym.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T08:17:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
