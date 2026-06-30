@@ -4,7 +4,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 ## Counts by bridge_class
 
-- bio_only: 60
+- bio_only: 61
 - duplicate_bio_program: 34
 - math_stub: 8
 - needs_derivation: 27
@@ -12,9 +12,9 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 ## B*_Q6 crosswalk summary
 
 - fibonacci B*_Q6 scripts: 35
-- bio B*_Q6 registered claims: 89
+- bio B*_Q6 registered claims: 90
 - duplicate/path-fork/parameter-divergence rows: 34
-- bio_only: 55
+- bio_only: 56
 - duplicate: 9
 - fibonacci_only: 1
 - namecert_watchlist: 35
@@ -71,6 +71,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_window_nieuwkoop_5prime_boundary_audit_powered.py | h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_5prime_boundary_audit_powered | bio_only | 5'-initiation boundary audit of the Nieuwkoop E.coli B_window positive (oracle-mandated): splits B_window into B_start ( |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_pq_chaperone_client_absorption_powered.py | h3.cross_layer_relation.chaperone_client.b_star_q6_pq_chaperone_client_absorption_powered | bio_only | Chaperone-client absorption of the B*_Q6 abundance residual U (methods step 5): does chaperone-client membership absorb  |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_pq_proteostasis_mismatch_absorption_powered.py | h3.cross_layer_relation.proteostasis_mismatch.b_star_q6_pq_proteostasis_mismatch_absorption_powered | bio_only | Proteostasis mismatch absorption of the B*_Q6 abundance residual U (methods step 3, BURDEN-ONLY): does the translation/f |
+| bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_codon_abundance_crossing_strength_growth_rate_scaling.py | h3.cross_layer_relation.translational_selection_growth_scaling.codon_abundance_strength_doubling_time | bio_only | Cross-organism scaling of codon->protein-abundance crossing STRENGTH with an independent growth-rate trait (translationa |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_translation_accuracy_powered.py | h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_translation_accuracy_powered | bio_only | Route Y (4th-mechanism candidate: translation accuracy): the dominant unidentified 4th codon-optimality axis is NOT tran |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_universal_core_is_trna_adaptation_powered.py | h3.cross_layer_relation.universal_core_trna_adaptation.b_star_q6_optimal_direction_powered | bio_only | Route N: the cross-organism universal optimal synonymous-codon direction (the weak universal core of Route K) is substan |
 | bio | bio_bstarq6 | bio_only | tools/bio_reality/experiments/run_b_star_q6_turnover_residual_audit_powered.py | h3.cross_layer_relation.proteostasis_turnover_residual.b_star_q6_turnover_residual_audit_powered | bio_only | Final post-translational proteostasis audit (current-data domain closure): with experimentally-MEASURED protein half-lif |
