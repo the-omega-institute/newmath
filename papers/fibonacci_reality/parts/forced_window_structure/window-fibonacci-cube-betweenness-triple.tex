@@ -1,0 +1,84 @@
+\origin{ai}
+\subsection{Forced windows in the Fibonacci cube}
+\label{sec:window-fibonacci-cube-betweenness-triple}
+
+\paragraph{Carrier.}
+For each integer $m \geq 0$, let $X_m$ be the finite set of binary words of length $m$ with no adjacent entries equal to $1$:
+$$
+\begin{aligned}
+X_m=\{w \in \{0,1\}^m : \text{there is no } i \text{ with } w_i=1 \text{ and } w_{i+1}=1\}.
+\end{aligned}
+$$
+The graph $\Gamma_m$ has vertex set $X_m$. Two vertices are adjacent when they differ in exactly one coordinate. The metric $d$ is the shortest-path metric in this graph. Thus $d(u,v)$ is the least number of Hamming-distance-one moves through allowed words needed to pass from $u$ to $v$. The vertex-count check for this carrier is
+$$
+\begin{aligned}
+|X_m|=F_{m+2}
+\end{aligned}
+$$
+for the tested range $0 \leq m \leq 10$.
+
+\paragraph{Interval predicate and triple count.}
+For $u,v \in X_m$, define the geodesic interval between them by
+$$
+\begin{aligned}
+I(u,v)=\{x \in X_m : d(u,x)+d(x,v)=d(u,v)\}.
+\end{aligned}
+$$
+A point $x$ lies in $I(u,v)$ exactly when it can occur on a shortest path from $u$ to $v$. The forced-window statistic is the ordered triple count
+$$
+\begin{aligned}
+A_m
+&=\#\{(u,x,v) \in X_m^3 : d(u,x)+d(x,v)=d(u,v)\} \\
+&=\sum_{u,v \in X_m}|I(u,v)|.
+\end{aligned}
+$$
+This is a betweenness count, not a distance sum. In particular, the finite check at $m=6$ gives $A_6=2491$, while the ordered Wiener distance sum in the same graph is $1096$.
+
+\paragraph{Four-state transfer certificate.}
+The finite recurrence witness is the four-state weighted transition matrix
+$$
+\begin{aligned}
+Q=
+\begin{pmatrix}
+1&2&2&1\\
+1&1&1&0\\
+1&1&0&0\\
+1&0&0&0
+\end{pmatrix}.
+\end{aligned}
+$$
+With the row vector $(1,2,2,1)$ and the column vector $(1,0,0,0)^T$, the certified finite-row formula is
+$$
+\begin{aligned}
+A_m=(1,2,2,1)Q^m(1,0,0,0)^T.
+\end{aligned}
+$$
+For $0 \leq m \leq 10$, this matrix extraction gives
+$$
+\begin{aligned}
+A_0,A_1,A_2,A_3,A_4,A_5,A_6,A_7,A_8,A_9,A_{10}
+=1,6,17,63,210,729,2491,8564,29373,100837,346048.
+\end{aligned}
+$$
+Direct breadth-first search on the finite graphs agrees with these values for $0 \leq m \leq 6$. The transfer matrix also matches the same sequence through $m=10$.
+
+\paragraph{Forced recurrence.}
+The characteristic polynomial of $Q$ is
+$$
+\begin{aligned}
+\det(xI-Q)=x^4-2x^3-5x^2+1.
+\end{aligned}
+$$
+The associated order-four recurrence is
+$$
+\begin{aligned}
+A_m=2A_{m-1}+5A_{m-2}-A_{m-4}.
+\end{aligned}
+$$
+The displayed recurrence is checked against the finite values for $4 \leq m \leq 10$. The local mathematical content is therefore a finite graph family, an interval predicate inside its graph metric, an ordered geodesic-betweenness count, and a four-state linear transfer rule whose characteristic polynomial forces the observed order-four relation in the checked range.
+
+\paragraph{Witness extraction.}
+For a fixed $m$, the data needed to recompute the statistic are finite. First list all words in $\{0,1\}^m$ with no adjacent $1$s. Second, place an edge between two listed words exactly when their Hamming distance is one. Third, compute shortest-path distances in this finite graph. Fourth, count all ordered triples $(u,x,v)$ satisfying $d(u,x)+d(x,v)=d(u,v)$. The same row can also be extracted from the four-state kernel by multiplying $(1,2,2,1)Q^m(1,0,0,0)^T$. Agreement of these two finite procedures is part of the stated checked evidence.
+
+\paragraph{Boundary.}
+This construction asserts only the finite Fibonacci-cube betweenness statistic and its transfer-matrix recurrence evidence. It does not identify the statistic with a physical constant, does not use $\alpha$ or $1/137$ as input or target, does not claim a global flow law, does not import an external interpretation, and does not make a metrological comparison. Any later physical reading would require a separate certificate specifying the measurement convention, the mapping from the finite graph statistic to the measured quantity, and the error model used for comparison.

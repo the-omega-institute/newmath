@@ -1,0 +1,99 @@
+\origin{ai}
+
+\subsection{Forced-window geodesic counts in Fibonacci cubes}
+\label{sec:window-fibonacci-cube-geodesic-run-factorization}
+
+\paragraph{Finite carrier.}
+For each integer $m$ with $2 \leq m \leq 7$, let
+$$
+\begin{aligned}
+X_m=\{w\in \{0,1\}^m : \text{there is no } i \text{ with } 1\leq i<m \text{ such that } w_i=w_{i+1}=1\}.
+\end{aligned}
+$$
+The graph $\Gamma_m$ has vertex set $X_m$. Two vertices $x,y\in X_m$ are adjacent exactly when they differ in one coordinate. Equivalently, the edge relation is the symmetric finite relation
+$$
+\begin{aligned}
+E_m=\{(x,y)\in X_m\times X_m : \#\{i: x_i\neq y_i\}=1\}.
+\end{aligned}
+$$
+The associated adjacency matrix is the $X_m\times X_m$ matrix $M_m$ with
+$$
+\begin{aligned}
+M_m(x,y)=
+\begin{cases}
+1, & (x,y)\in E_m,\\
+0, & (x,y)\notin E_m.
+\end{cases}
+\end{aligned}
+$$
+The finite enumeration used here gives $|X_m|=F_{m+2}$ for $m=2,3,4,5,6,7$. Thus the ordered endpoint set checked in this window is
+$$
+\begin{aligned}
+\bigcup_{m=2}^7 \{m\}\times X_m\times X_m,
+\end{aligned}
+$$
+and its cardinality is $1864$.
+
+\paragraph{Difference runs and local factors.}
+For endpoints $u,v\in X_m$, define the differing-coordinate set
+$$
+\begin{aligned}
+D(u,v)=\{i:1\leq i\leq m \text{ and } u_i\neq v_i\}.
+\end{aligned}
+$$
+Write $D(u,v)$ as the disjoint union of its maximal consecutive intervals. If these intervals have lengths $\ell_1,\ldots,\ell_r$, set
+$$
+\begin{aligned}
+d=\ell_1+\cdots+\ell_r.
+\end{aligned}
+$$
+The coefficient sequence used by the finite rule is the explicitly listed row
+$$
+\begin{aligned}
+A_0=1,\quad A_1=1,\quad A_2=1,\quad A_3=2,\quad A_4=5,\quad A_5=16,\quad A_6=61,\quad A_7=272.
+\end{aligned}
+$$
+For the checked forced-window range, the geodesic count between ordered endpoints is the finite product law
+$$
+\begin{aligned}
+N(u,v)=\frac{d!}{\ell_1!\cdots \ell_r!}\prod_{j=1}^{r} A_{\ell_j}.
+\end{aligned}
+$$
+Here $N(u,v)$ denotes the number of shortest paths from $u$ to $v$ in $\Gamma_m$. The multinomial factor records the possible interleavings of independent consecutive difference blocks, while the product records the internal count assigned to each block length.
+
+\paragraph{Shortest-path kernel.}
+The verification is finite and graph-internal. For each $m$, breadth-first search in $\Gamma_m$ gives a distance value $\delta_m(u,v)$ and a shortest-path count $B_m(u,v)$ for every ordered pair $u,v\in X_m$. The checked equality is
+$$
+\begin{aligned}
+B_m(u,v)=\frac{d!}{\ell_1!\cdots \ell_r!}\prod_{j=1}^{r} A_{\ell_j}
+\end{aligned}
+$$
+for every ordered endpoint pair with $2\leq m\leq 7$, where $\ell_1,
+\ldots,\ell_r$ are extracted from $D(u,v)$ as above. Thus the witness is not a sampled statistic: it is the complete finite table of ordered endpoints in the six graph sizes $m=2,3,4,5,6,7$.
+
+\paragraph{Concrete endpoint witnesses.}
+In $\Gamma_4$, take $u=0101$ and $v=1000$. The differing coordinates split into consecutive run lengths $(2,1)$. Hence $d=3$, and the formula gives
+$$
+\begin{aligned}
+N(0101,1000)=\frac{3!}{2!1!}A_2A_1=3.
+\end{aligned}
+$$
+In $\Gamma_6$, take the opposite alternating endpoints $010101$ and $101010$. Their differing set is one consecutive interval of length $6$, so the distance is $6$ and
+$$
+\begin{aligned}
+N(010101,101010)=A_6=61.
+\end{aligned}
+$$
+These two endpoint checks display both mechanisms in the rule: interleaving across separated runs and internal multiplicity inside one forced run.
+
+\paragraph{Window-six aggregate.}
+The per-pair law also determines the complete distance profile for $m=6$ after summing over all ordered endpoint pairs in $X_6\times X_6$. Since $|X_6|=21$, there are $441$ ordered endpoint pairs. Grouping by shortest-path distance gives
+$$
+\begin{aligned}
+[21,76,216,448,602,424,122].
+\end{aligned}
+$$
+The entries are listed in increasing distance order from $0$ through $6$. This profile is an aggregate consequence of the same endpoint-level law; it is not an additional fitting condition.
+
+\paragraph{Certificate content and boundary.}
+The construction consists only of the finite sets $X_m$, the finite relations $E_m$, the adjacency matrices $M_m$, the breadth-first search kernels $(\delta_m,B_m)$, the run partition of $D(u,v)$, and the explicit coefficient row $A_0,\ldots,A_7$. Within the stated window, the exhaustive equality between $B_m(u,v)$ and the run-factor formula is the claimed mathematical content. No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from the window computation unless a separate certificate supplies the additional premises.

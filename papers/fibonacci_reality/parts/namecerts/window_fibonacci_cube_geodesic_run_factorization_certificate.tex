@@ -1,15 +1,164 @@
-\subsection{NameCert: Window Fibonacci Cube Geodesic Run Factorization}
-\label{sec:namecert-window_fibonacci_cube_geodesic_run_factorization_certificate}
 \origin{ai}
+\subsection{Window Fibonacci Cube Geodesic Run Factorization Certificate}
+\label{sec:window-fibonacci-cube-geodesic-run-factorization-certificate}
 
-\paragraph{Statement.} The packet records a finite forced-window mathematical construction.
+\paragraph{Finite carrier.}
+The finite window is the ordered set of six positions $\{1,2,3,4,5,6\}$. A word is a function $x:\{1,2,3,4,5,6\}\to\{0,1\}$, written as $x=(x_1,x_2,x_3,x_4,x_5,x_6)$. The carrier is the finite set
+$$
+\begin{aligned}
+X=\{x\in\{0,1\}^6: x_i x_{i+1}=0\text{ for every }i\in\{1,2,3,4,5\}\}.
+\end{aligned}
+$$
+Equivalently, no adjacent pair may both be equal to $1$. Direct enumeration gives
+$$
+\begin{aligned}
+X=\{&000000,000001,000010,000100,000101,001000,001001,001010,\\
+&010000,010001,010010,010100,010101,100000,100001,100010,\\
+&100100,100101,101000,101001,101010\}.
+\end{aligned}
+$$
+Thus $|X|=21$. The weight layers, where $|x|=x_1+x_2+x_3+x_4+x_5+x_6$, have sizes
+$$
+\begin{aligned}
+|\{x\in X:|x|=0\}|&=1,\\
+|\{x\in X:|x|=1\}|&=6,\\
+|\{x\in X:|x|=2\}|&=10,\\
+|\{x\in X:|x|=3\}|&=4.
+\end{aligned}
+$$
+No other weights occur. This is the whole carrier used below; every relation, matrix entry, and witness is evaluated inside this list.
 
-\paragraph{Carrier.} A finite forced-window carrier is required before a stronger chapter can be authored.
+\paragraph{Single-step relation and adjacency kernel.}
+For $x,y\in X$, put
+$$
+\begin{aligned}
+d(x,y)=|\{i\in\{1,2,3,4,5,6\}:x_i\ne y_i\}|.
+\end{aligned}
+$$
+The edge relation is the symmetric finite relation
+$$
+\begin{aligned}
+E=\{\{x,y\}:x,y\in X,\ x\ne y,\ d(x,y)=1\}.
+\end{aligned}
+$$
+It has $38$ unordered edges. If the elements of $X$ are ordered exactly as displayed above, the adjacency matrix $A\in\{0,1\}^{21\times 21}$ is defined by
+$$
+\begin{aligned}
+A_{uv}=\begin{cases}
+1,&\text{if }d(x^{(u)},x^{(v)})=1,\\
+0,&\text{otherwise,}
+\end{cases}
+\end{aligned}
+$$
+where $x^{(u)}$ denotes the $u$-th displayed word. The degree distribution is
+$$
+\begin{aligned}
+|\{x\in X:\deg(x)=2\}|&=1,\\
+|\{x\in X:\deg(x)=3\}|&=10,\\
+|\{x\in X:\deg(x)=4\}|&=7,\\
+|\{x\in X:\deg(x)=5\}|&=2,\\
+|\{x\in X:\deg(x)=6\}|&=1,
+\end{aligned}
+$$
+and therefore $2|E|=76$. The characteristic polynomial of $A$ is the exact finite identity
+$$
+\begin{aligned}
+\det(\lambda I-A)=\lambda^3(\lambda^2-2)
+(\lambda^8-23\lambda^6+132\lambda^4-211\lambda^2+83)
+(\lambda^8-13\lambda^6+48\lambda^4-51\lambda^2+7).
+\end{aligned}
+$$
+This polynomial is used only as a finite spectral certificate for the matrix just defined.
 
-\paragraph{Relations.} No relation beyond the local finite construction is asserted.
+\paragraph{Distance counts.}
+The graph distance in this carrier is equal to the Hamming distance $d(x,y)$. The reason is constructive: changing each differing coordinate once gives a path of length at least $d(x,y)$, and the forced ordering rule below gives a legal path of length exactly $d(x,y)$. The unordered pair counts by distance are
+$$
+\begin{aligned}
+N_1&=38,\\
+N_2&=64,\\
+N_3&=62,\\
+N_4&=35,\\
+N_5&=10,\\
+N_6&=1.
+\end{aligned}
+$$
+For directed pairs, including equal pairs, the distance kernel is
+$$
+\begin{aligned}
+K(t)=\sum_{x,y\in X}t^{d(x,y)}=21+76t+128t^2+124t^3+70t^4+20t^5+2t^6.
+\end{aligned}
+$$
+The coefficient sum is $441=21^2$, so every ordered pair of carrier points is accounted for once.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Forced coordinates and run relation.}
+Fix $x,y\in X$. The differing coordinate set is
+$$
+\begin{aligned}
+D(x,y)=\{i\in\{1,2,3,4,5,6\}:x_i\ne y_i\}.
+\end{aligned}
+$$
+A coordinate $i\in D(x,y)$ is a deletion when $x_i=1$ and $y_i=0$, and an insertion when $x_i=0$ and $y_i=1$. The finite forcing relation on $D(x,y)$ is
+$$
+\begin{aligned}
+R(x,y)=\{(i,j)\in D(x,y)^2: |i-j|=1,\ x_i=1,\ y_i=0,\ x_j=0,\ y_j=1\}.
+\end{aligned}
+$$
+The meaning is local and exact: if a $1$ at coordinate $i$ must be deleted and an adjacent $1$ at coordinate $j$ must be inserted, then the deletion at $i$ must occur before the insertion at $j$. No other precedence constraint is imposed.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Geodesic factorization.}
+A run from $x$ to $y$ is a permutation $(i_1,\ldots,i_m)$ of $D(x,y)$, where $m=|D(x,y)|$, together with the successive words obtained by replacing $x_{i_r}$ by $y_{i_r}$ at stage $r$. The run is legal when every intermediate word remains in $X$. The run is geodesic because it changes exactly one differing coordinate at each step and uses exactly $m=d(x,y)$ steps.
 
-\paragraph{Not claimed.} No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed.
+The certificate is the following finite equivalence. A permutation $(i_1,\ldots,i_m)$ gives a legal geodesic from $x$ to $y$ if and only if it is a linear extension of the finite relation $R(x,y)$, namely
+$$
+\begin{aligned}
+(i,j)\in R(x,y)\quad\Longrightarrow\quad i\text{ occurs before }j\text{ in }(i_1,\ldots,i_m).
+\end{aligned}
+$$
+Indeed, the only possible violation of the carrier condition during a one-coordinate run is the temporary creation of two adjacent $1$ entries. Such a violation can occur only when an insertion is made next to a still-undeleted adjacent $1$. This is exactly the forbidden ordering recorded by $R(x,y)$. Conversely, if every adjacent deletion required by $R(x,y)$ has already occurred before the corresponding insertion, then no intermediate adjacent pair of $1$ entries can be created.
+
+Let $G(x,y)$ be the number of legal geodesic runs from $x$ to $y$. It is therefore the number of linear extensions of $R(x,y)$. The directed distribution by distance and geodesic count is
+$$
+\begin{aligned}
+&|(d,G)^{-1}(0,1)|=21,\\
+&|(d,G)^{-1}(1,1)|=76,\\
+&|(d,G)^{-1}(2,1)|=40,\quad |(d,G)^{-1}(2,2)|=88,\\
+&|(d,G)^{-1}(3,2)|=20,\quad |(d,G)^{-1}(3,3)|=72,\quad |(d,G)^{-1}(3,6)|=32,\\
+&|(d,G)^{-1}(4,5)|=10,\quad |(d,G)^{-1}(4,6)|=12,\quad |(d,G)^{-1}(4,8)|=24,\quad |(d,G)^{-1}(4,12)|=24,\\
+&|(d,G)^{-1}(5,16)|=4,\quad |(d,G)^{-1}(5,20)|=8,\quad |(d,G)^{-1}(5,25)|=8,\\
+&|(d,G)^{-1}(6,61)|=2.
+\end{aligned}
+$$
+Summing the geodesic counts over all directed pairs at fixed distance gives
+$$
+\begin{aligned}
+\sum_{d(x,y)=0}G(x,y)&=21,\\
+\sum_{d(x,y)=1}G(x,y)&=76,\\
+\sum_{d(x,y)=2}G(x,y)&=216,\\
+\sum_{d(x,y)=3}G(x,y)&=448,\\
+\sum_{d(x,y)=4}G(x,y)&=602,\\
+\sum_{d(x,y)=5}G(x,y)&=424,\\
+\sum_{d(x,y)=6}G(x,y)&=122.
+\end{aligned}
+$$
+These identities are finite consequences of the displayed carrier and the displayed precedence relation.
+
+\paragraph{Partition by forced components.}
+The undirected support graph of $R(x,y)$ has vertex set $D(x,y)$ and an undirected edge between $i$ and $j$ whenever either $(i,j)\in R(x,y)$ or $(j,i)\in R(x,y)$. Its connected component sizes form a partition of $D(x,y)$. Over all directed pairs $(x,y)\in X^2$, the component-size partition counts are
+$$
+\begin{aligned}
+|\{(x,y):()\}|&=21,\\
+|\{(x,y):(1)\}|&=76,\\
+|\{(x,y):(1,1)\}|&=88,\quad |\{(x,y):(2)\}|=40,\\
+|\{(x,y):(1,1,1)\}|&=32,\quad |\{(x,y):(1,2)\}|=72,\quad |\{(x,y):(3)\}|=20,\\
+|\{(x,y):(1,1,2)\}|&=24,\quad |\{(x,y):(1,3)\}|=24,\quad |\{(x,y):(2,2)\}|=12,\quad |\{(x,y):(4)\}|=10,\\
+|\{(x,y):(1,4)\}|&=8,\quad |\{(x,y):(2,3)\}|=8,\quad |\{(x,y):(5)\}|=4,\\
+|\{(x,y):(6)\}|&=2.
+\end{aligned}
+$$
+The empty partition occurs exactly on equal pairs. These partitions explain why the run counts need not be factorials of the Hamming distance: each forced component removes precisely those orders that would create a temporary adjacent pair of $1$ entries.
+
+\paragraph{Witness extraction.}
+A witness for a chosen pair $(x,y)$ is extracted by the following finite procedure. First compute $D(x,y)$. Second compute $R(x,y)$ from adjacent deletion-insertion pairs. Third list the permutations of $D(x,y)$ that respect all ordered pairs in $R(x,y)$. Fourth, for any listed permutation, apply the coordinate changes in that order and record the successive words. The equivalence above guarantees that every recorded word lies in $X$, that the path has length $d(x,y)$, and that every legal geodesic appears exactly once in this list. Thus the construction supplies both a verifier and an enumerator for all geodesic runs.
+
+\paragraph{Local boundary.}
+This section proves only the finite statements displayed here: the carrier size, edge count, distance kernel, adjacency characteristic polynomial, forced-run equivalence, run-count table, component partition table, and witness extraction procedure. It does not identify any physical constant, does not impose a global dynamics beyond the six-position carrier, does not compare the numbers with measurements, and does not attach an interpretation outside this finite construction unless an independent certificate supplies the additional data.
