@@ -156,6 +156,86 @@ $\ell(\rho)=0$, and
 readout.
 \end{proof}
 
+\begin{definition}[Zeta BEDC embedding row]
+\label{def:rh-zeta-bedc-embedding-row}
+The source row
+$$
+\mathsf{ZetaBEDCEmbedding}
+$$
+asserts that every represented critical-strip completed zero row
+$\rho$ is presented by a BEDC legal observation certificate
+$$
+\mathcal O_\rho.
+$$
+The certificate carries a carrier coordinate, a classifier coordinate,
+a ledger coordinate, the zero-row provenance, and the boundary rows
+needed to compare its Li, Weil, Nyman, and Pick projections.  This row
+is stronger than a statement-level encoding of the RH predicate: it
+asserts that the analytic zero object has entered the BEDC observation
+system with the source data required by
+\autoref{def:rh-global-zeta-observation-triangle}.
+\end{definition}
+
+\begin{definition}[Zeta scale-leg coverage obstruction]
+\label{def:rh-zeta-scale-leg-coverage-obstruction}
+The source row
+$$
+\mathsf{ZetaScaleLegCoverageObstruction}
+$$
+asserts the following.  Let $\rho$ be a represented critical-strip
+completed zero row with
+$$
+\ell(\rho)=\log\left|1-\frac1\rho\right|\ne0.
+$$
+Then the associated radial scale leg cannot be covered by any of the
+three BEDC observation coordinates of
+\autoref{def:rh-zeta-bedc-embedding-row}: it is not a legal carrier
+coordinate, not a legal classifier coordinate, and not a legal ledger
+endpoint coordinate.  It must therefore appear as an explicit defect
+row in the global observation triangle, rather than as hidden source
+structure.
+\end{definition}
+
+\begin{theorem}[Embedding plus scale obstruction gives fixed-half readout]
+\label{thm:rh-embedding-scale-obstruction-fixed-half-readout}
+Assume $\mathsf{ZetaBEDCEmbedding}$,
+$$
+\mathsf{ZetaScaleLegCoverageObstruction},
+$$
+and the global observation triangle hypotheses of
+\autoref{thm:rh-global-observation-triangle-fixed-half-readout}.  Then
+every represented critical-strip completed zero row in the embedding has
+fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be a represented critical-strip completed zero row.  The
+embedding row supplies the BEDC legal observation certificate
+$\mathcal O_\rho$ and its carrier, classifier, ledger, and boundary
+coordinates.  If $\ell(\rho)\ne0$, the scale-leg obstruction row says
+that this radial coordinate cannot be absorbed by any of the three BEDC
+observation coordinates.  Hence it remains an explicit defect row of
+the global observation triangle.  Applying
+\autoref{thm:rh-global-observation-triangle-fixed-half-readout} to
+$\mathcal O_\rho$ rules out that explicit defect.  Thus
+$\ell(\rho)=0$, and
+\autoref{thm:rh-radial-scale-fixed-half-surface} gives the fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Boundary of the BEDC route]
+\label{prin:rh-boundary-bedc-route}
+The BEDC route does not consist merely of writing the RH statement in
+BEDC syntax.  It requires the embedding row
+$\mathsf{ZetaBEDCEmbedding}$ and the obstruction row
+$\mathsf{ZetaScaleLegCoverageObstruction}$.  Only then can the abstract
+kernel discipline of observation, distinction, time, carrier,
+classifier, and ledger be consumed by the analytic zeta object.  The
+non-circular source burden is to prove that a nonzero radial scale leg
+cannot be one of the legal BEDC coordinates, rather than to assume
+fixed-half readout in advance.
+\end{principle}
+
 \begin{principle}[Global observation source load]
 \label{prin:rh-global-observation-source-load}
 The mathematical load is concentrated in the construction of the source
