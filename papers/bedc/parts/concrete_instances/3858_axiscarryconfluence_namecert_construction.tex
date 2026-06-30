@@ -76,6 +76,7 @@ Project the two route rows. The row $r_0$ names the left carry edge and its hand
 
 Project the ledger row $t$ separately. It records the common finite Fibonacci value across $u,v,w,n$, so the local join is value-preserving without adding an $\hsame$ identification between source and intermediate rows.
 \end{proof}
+\leanchecked{BEDC.Derived.AxisCarryConfluenceUp.AxisCarryConfluenceCarrier\_local\_join\_obligation}
 
 \begin{theorem}[Axis carry-confluence normal-form obligation]
 \label{thm:axis-carry-confluence-normal-form-obligation}
@@ -105,6 +106,22 @@ Read the common target and value ledger next. The coordinate $n$ is shared by bo
 The support rows then delimit the consumer read. Transport through $H$, routing through $C$, provenance through $P$, and naming through $N$ expose exactly this finite diamond and do not turn it into a theorem about all carry overlaps.
 \end{proof}
 \leanchecked{BEDC.Derived.AxisCarryConfluenceUp.AxisCarryConfluenceCarrier\_local\_diamond}
+
+\begin{theorem}[Axis carry-confluence value-ledger exhaustion]
+\label{thm:axis-carry-confluence-value-ledger-exhaustion}
+For an accepted $\AxisCarryConfluenceUp$ carrier
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+any consumer-visible comparison between the two carry-normalization routes must factor through the common target row $n$, the value ledger $t$, the non-$\hsame$ boundary $H$, the route replay row $C$, provenance $P$, and the local name $N$. No additional equality row, quotient row, host arithmetic row, or global normalizer row is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The route rows $r_0$ and $r_1$ are the only displayed routes, and both route rows end at the same normal target coordinate $n$.
+
+Read the value ledger separately. The row $t$ is the sole public record that the two routes preserve the same finite Fibonacci value across $u,v,w,n$; it is not replaced by an $\hsame$ proof or by a host quotient.
+
+The boundary row $H$ blocks a source-target $\hsame$ reading for the carry edges, while $C,P,N$ keep every comparison inside the displayed continuation, provenance, and local NameCert rows. Since the carrier has no further coordinate, a consumer-visible agreement has no route outside $n,t,H,C,P,N$.
+\end{proof}
 
 \begin{theorem}[Axis carry-confluence non-escape]
 \label{thm:axis-carry-confluence-nonescape}
