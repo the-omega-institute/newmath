@@ -82,6 +82,22 @@ Now apply the terminal handoff of \autoref{thm:real-zero-terminal-seal-handoff}.
 The structural rows $H,C,P,N$ are part of the same carrier. Thus $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row are visible at the stationary source boundary, while excluded host and quotient principles have no coordinate in the packet.
 \end{proof}
 
+\begin{theorem}[RealZero constant-window uniqueness]
+\label{thm:real-zero-constant-window-uniqueness}
+Let $Z=(q,S,Z_0,D,R,H,C,P,N)$ and $Z'=(q',S',Z'_0,D',R',H',C',P',N')$ be accepted $\RealZeroUp$ packets. If the rational zero seed rows are the same displayed $\RatUp$ zero row and the constant $\StreamNameUp$ windows are related componentwise by the displayed $\hsame$ support, then every terminal $\RealUp$ seal read by a downstream consumer follows the same route through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the local $\NameCert_{\RealZeroUp}$ row.
+
+Thus constant-window agreement determines the terminal zero-real seal route as a finite packet route, not as host zero equality, quotient real equality, selected-limit equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:real-zero-carrier}. The only source row is the rational zero seed $q$, and the only stream-facing source is the constant window $S$.
+
+Use the stationary-source obligation of \autoref{thm:real-zero-stationary-source-obligation}. It forces every downstream consumer to read the zero seed through $S$, the rows of $Z_0$, the structural support $H,C,P,N$, and the local $\NameCert_{\RealZeroUp}$ row before the terminal seal is seen.
+
+Apply the terminal seal handoff of \autoref{thm:real-zero-terminal-seal-handoff}. It fixes the public route through the constant window, the $\RegSeqRatUp$ zero row inside $Z_0$, the $\DyadicRatCoreUp$ zero ledger $D$, and the terminal $\RealUp$ seal $R$.
+
+Finally read the dyadic ledger obligation of \autoref{thm:real-zero-dyadic-ledger-obligation}. Since the two packets share the displayed zero seed and the constant-window rows componentwise, the downstream seal route must pass through the same RegSeqRat, DyadicRatCore, and local NameCert rows. The carrier has no coordinate for host equality, quotient equality, selected limits, trichotomy, or ambient completeness, so the uniqueness is exactly the displayed finite route.
+\end{proof}
+
 \begin{theorem}[RealZero dyadic ledger obligation]
 \label{thm:real-zero-dyadic-ledger-obligation}
 Every accepted $\RealZeroUp$ packet $Z=(q,S,Z_0,D,R,H,C,P,N)$ displays a dyadic zero-ledger obligation: the $\DyadicRatCoreUp$ row $D$ is the unique public tolerance ledger between the stationary source route $Z_0$ and the downstream $\RealUp$ seal $R$, and its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support is read before any consumer may use the seal.
