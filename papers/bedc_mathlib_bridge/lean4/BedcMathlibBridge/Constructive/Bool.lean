@@ -1,4 +1,4 @@
-import BEDC.FKernel.Mark
+import BEDC.Derived.BoolUp.StdBridge
 import BedcMathlibBridge.Adapter.MathlibEquiv
 
 namespace BedcMathlibBridge.Constructive.Bool
@@ -79,3 +79,88 @@ def bmarkBoolEquiv : BMark ≃ Bool :=
   bmarkBoolRelEquiv.toEquiv
 
 end BedcMathlibBridge.Constructive.Bool
+
+namespace BedcMathlibBridge.Constructive.Bool.BoolUp
+
+open BEDC.Derived.BoolUp
+open BEDC.FKernel.Mark
+
+abbrev CBool : Type :=
+  BoolCarrier
+
+def toBool : CBool → Bool
+  | BMark.b0 => false
+  | BMark.b1 => true
+
+def ofBool : Bool → CBool
+  | false => BMark.b0
+  | true => BMark.b1
+
+theorem toBool_b0 : toBool BMark.b0 = false := by
+  rfl
+
+theorem toBool_b1 : toBool BMark.b1 = true := by
+  rfl
+
+theorem ofBool_toBool (b : CBool) : ofBool (toBool b) = b := by
+  cases b with
+  | b0 =>
+      rfl
+  | b1 =>
+      rfl
+
+theorem toBool_ofBool (b : Bool) : toBool (ofBool b) = b := by
+  cases b with
+  | false =>
+      rfl
+  | true =>
+      rfl
+
+theorem classifier_iff_toBool_eq (b c : CBool) :
+    BoolClassifierSpec b c ↔ toBool b = toBool c := by
+  cases b with
+  | b0 =>
+      cases c with
+      | b0 =>
+          constructor
+          · intro _
+            rfl
+          · intro _
+            exact msame_refl BMark.b0
+      | b1 =>
+          constructor
+          · intro h
+            exact False.elim (not_msame_b0_b1 h)
+          · intro h
+            exact False.elim (Bool.noConfusion h)
+  | b1 =>
+      cases c with
+      | b0 =>
+          constructor
+          · intro h
+            exact False.elim (not_msame_b1_b0 h)
+          · intro h
+            exact False.elim (Bool.noConfusion h)
+      | b1 =>
+          constructor
+          · intro _
+            rfl
+          · intro _
+            exact msame_refl BMark.b1
+
+theorem classifier_iff_endpoint_hsame_via_stdBridge (b c : CBool) :
+    BoolClassifierSpec b c ↔
+      BEDC.FKernel.Hist.hsame (BoolEndpoint b) (BoolEndpoint c) := by
+  exact BEDC.Derived.BoolUp.BoolUp_StdBridge.right.left b c
+
+def boolUpRelEquiv : BedcMathlibBridge.RelEquiv CBool BoolClassifierSpec Bool where
+  toM := toBool
+  ofM := ofBool
+  leftInv := ofBool_toBool
+  rightInv := toBool_ofBool
+  relIff := classifier_iff_toBool_eq
+
+def boolUpEquiv : CBool ≃ Bool :=
+  boolUpRelEquiv.toEquiv
+
+end BedcMathlibBridge.Constructive.Bool.BoolUp
