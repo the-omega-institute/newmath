@@ -71,7 +71,7 @@ def test_designated_file_overrides_script_constant() -> None:
         assert triangle_coverage.read_designated(path) == ["BEDC.Test.Target"]
 
 
-def test_designated_accepts_local_triangle_without_tgs_by_default() -> None:
+def test_designated_rejects_local_triangle_without_kernel_gate_by_default() -> None:
     target = triangle_coverage.LeanDeclaration(
         kind="structure",
         name="Target",
@@ -87,6 +87,113 @@ def test_designated_accepts_local_triangle_without_tgs_by_default() -> None:
         ["BEDC.Test.Target"],
         strict_designated=False,
     )
+    violations = triangle_coverage.designated_violations(results, strict_designated=False)
+    assert violations
+    assert "no Lean kernel" in violations[0].reason
+
+
+def test_designated_rejects_target_sorry_even_with_kernel_gate() -> None:
+    target = triangle_coverage.LeanDeclaration(
+        kind="theorem",
+        name="Target",
+        qualified_name="BEDC.Test.Target",
+        file="lean4/BEDC/Test.lean",
+        line=1,
+        header="theorem Target : True",
+        body="theorem Target : True := by\n  sorry",
+    )
+    gate = triangle_coverage.LeanDeclaration(
+        kind="instance",
+        name="targetTriAxisProjected",
+        qualified_name="BEDC.Test.targetTriAxisProjected",
+        file="lean4/BEDC/TestGate.lean",
+        line=4,
+        header="instance targetTriAxisProjected : TriAxisProjected BEDC.Test.Target",
+        body=(
+            "instance targetTriAxisProjected : TriAxisProjected BEDC.Test.Target where\n"
+            "  code := TriAxisObjCode.distinctionGen TriAxisObjCode.base\n"
+            "  projection_forced := triAxisProjection_forced_unique _\n"
+            "  demanded_axes := AxisDemand.distinctionOnly\n"
+            "  covers_some := CoversDistinction.here _"
+        ),
+    )
+    results = triangle_coverage.designated_results(
+        [target, gate],
+        [],
+        ["BEDC.Test.Target"],
+        strict_designated=False,
+    )
+    violations = triangle_coverage.designated_violations(results, strict_designated=False)
+    assert violations
+    assert "sorry" in violations[0].reason
+
+
+def test_designated_accepts_triaxis_projected_kernel_gate() -> None:
+    target = triangle_coverage.LeanDeclaration(
+        kind="structure",
+        name="Target",
+        qualified_name="BEDC.Test.Target",
+        file="lean4/BEDC/Test.lean",
+        line=1,
+        header="structure Target where",
+        body="structure Target where\n  orbitProjection : Nat",
+    )
+    gate = triangle_coverage.LeanDeclaration(
+        kind="instance",
+        name="targetTriAxisProjected",
+        qualified_name="BEDC.Test.targetTriAxisProjected",
+        file="lean4/BEDC/TestGate.lean",
+        line=4,
+        header="instance targetTriAxisProjected : TriAxisProjected BEDC.Test.Target",
+        body=(
+            "instance targetTriAxisProjected : TriAxisProjected BEDC.Test.Target where\n"
+            "  code := TriAxisObjCode.distinctionGen TriAxisObjCode.base\n"
+            "  projection_forced := triAxisProjection_forced_unique _\n"
+            "  demanded_axes := AxisDemand.distinctionOnly\n"
+            "  covers_some := CoversDistinction.here"
+        ),
+    )
+    results = triangle_coverage.designated_results(
+        [target, gate],
+        [],
+        ["BEDC.Test.Target"],
+        strict_designated=False,
+    )
+    assert triangle_coverage.designated_violations(results, strict_designated=False) == []
+    assert triangle_coverage.designated_violations(results, strict_designated=True) == []
+
+
+def test_designated_accepts_binding_obligation_by_default_only() -> None:
+    target = triangle_coverage.LeanDeclaration(
+        kind="structure",
+        name="Target",
+        qualified_name="BEDC.Test.Target",
+        file="lean4/BEDC/Test.lean",
+        line=1,
+        header="structure Target where",
+        body="structure Target where\n  orbitProjection : Nat",
+    )
+    gate = triangle_coverage.LeanDeclaration(
+        kind="def",
+        name="targetTriAxisObligation",
+        qualified_name="BEDC.Test.targetTriAxisObligation",
+        file="lean4/BEDC/TestGate.lean",
+        line=4,
+        header="def targetTriAxisObligation : TriAxisBindingObligation BEDC.Test.Target",
+        body=(
+            "def targetTriAxisObligation : TriAxisBindingObligation BEDC.Test.Target where\n"
+            "  proposed_code := TriAxisObjCode.distinctionGen TriAxisObjCode.base\n"
+            "  projection_forced := triAxisProjection_forced_unique _\n"
+            "  demanded_axes := AxisDemand.distinctionOnly\n"
+            "  covers_some := CoversDistinction.here _"
+        ),
+    )
+    results = triangle_coverage.designated_results(
+        [target, gate],
+        [],
+        ["BEDC.Test.Target"],
+        strict_designated=False,
+    )
     assert triangle_coverage.designated_violations(results, strict_designated=False) == []
     assert triangle_coverage.designated_violations(results, strict_designated=True)
 
@@ -98,7 +205,10 @@ if __name__ == "__main__":
         test_recursive_projection_is_accepted,
         test_non_tgs_declaration_is_not_chaff_enforced,
         test_designated_file_overrides_script_constant,
-        test_designated_accepts_local_triangle_without_tgs_by_default,
+        test_designated_rejects_local_triangle_without_kernel_gate_by_default,
+        test_designated_rejects_target_sorry_even_with_kernel_gate,
+        test_designated_accepts_triaxis_projected_kernel_gate,
+        test_designated_accepts_binding_obligation_by_default_only,
     ]
     for test in tests:
         test()

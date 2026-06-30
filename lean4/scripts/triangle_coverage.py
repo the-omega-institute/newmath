@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
 """BEDC Triangle Coverage Harness.
 
-This host-owned CI gate reads Lean sources and reports whether the formalized
-triangle relation is real where the project claims it.
+This host-owned CI gate reads Lean sources and checks that advertised triangle
+coverage is routed through Lean declarations.
 
 The harness has three layers:
 
 * Layer 1 is an informational survey.  It finds the TGS universe by scanning
   for files that import ``TriangleGenerationSystem`` or use the concrete TGS
   API: ``triAxisProjection`` / ``IsProjectionOf`` / ``TriAxisObjCode`` /
-  ``TriAxisProfile``.  This layer always exits 0.
-* Layer 2 is a hard anti-vacuity gate.  Once a Lean declaration states a TGS
-  projection/profile relation, the body must not be a hollow ``True.intro``,
-  ``sorry`` placeholder, or all-zero/default profile.  It also requires
-  projections to be tied to the recursive ``triAxisProjection``/``IsProjectionOf``
-  API rather than an unrelated constant profile.
-* Layer 3 checks a host-owned designated list.  The designated list is limited
-  to RH-route and TGS objects that the maintainer wants tracked.  It does not
-  enforce a universal "every object must have a triangle label" slogan.
+  ``TriAxisProfile`` plus the coverage gate API.  This layer always exits 0.
+* Layer 2 is a source-level chaff check.  Once a Lean declaration states a TGS
+  projection/profile relation or coverage gate, the body must not be a hollow
+  ``True.intro``, ``sorry`` placeholder, or all-zero/default profile.
+* Layer 3 checks a host-owned designated list.  A designated target passes only
+  when Lean declares a ``TriAxisProjected`` instance for it or a
+  ``TriAxisBindingObligation`` for a target whose object-code binding is still
+  outside the file.  Local triangle-shaped names are reported as context, not
+  accepted as semantic evidence.
 
-The anti-vacuity layer is the core: it prevents chaff.  A universal triangle
-slogan is not mechanically enforced here; this script only enforces honest TGS
-claims inside the TGS universe plus the designated class.
+The semantic anti-vacuity authority is the Lean kernel: ``CoversDistinction``,
+``CoversTime``, and ``CoversSymmetry`` are inductive predicates over
+``TriAxisObjCode``.  This script is an index and anti-cheating check; it verifies
+that the Lean gate exists and that source-level placeholders are absent.
 """
 
 from __future__ import annotations
@@ -46,16 +47,35 @@ FALLBACK_DESIGNATED = (
     "BEDC.Derived.RHRoute.CausalReflectionPositiveCone.CausalReflectionPositiveCone",
     "BEDC.Derived.RHRoute.PrimeCausalTower.PrimeCausalTower",
     "BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse.ThreeAxisOrbitCollapseKernel",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection",
+    "BEDC.Foundations.TriangleGenerationSystem.IsProjectionOf",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection_is_projection",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection_relation_forced",
+    "BEDC.Foundations.TriangleGenerationSystem.ExistsUniqueProjection",
+    "BEDC.Foundations.TriangleGenerationSystem.ExistsUniqueProjectionSigma",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection_forced_unique",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection_forced_unique_sigma",
+    "BEDC.Foundations.TriangleGenerationSystem.triAxisProjection_forced_unique_pair",
+    "BEDC.Foundations.TriangleGenerationSystem.nat_profile_zero",
+    "BEDC.Foundations.TriangleGenerationSystem.nat_profile_succ",
+    "BEDC.Foundations.TriangleGenerationSystem.nat_profile",
+    "BEDC.Foundations.TriangleGenerationSystem.int_profile_zero",
+    "BEDC.Foundations.TriangleGenerationSystem.int_profile_pos",
+    "BEDC.Foundations.TriangleGenerationSystem.int_profile_neg",
+    "BEDC.Foundations.TriangleGenerationSystem.int_negative_has_symmetry",
 )
 
 TGS_MODULE = "BEDC.Foundations.TriangleGenerationSystem"
 TGS_API_RE = re.compile(
     r"\b(?:triAxisProjection|IsProjectionOf|TriAxisObjCode|TriAxisProfile|"
-    r"ExistsUniqueProjection|ExistsUniqueProjectionSigma)\b"
+    r"ExistsUniqueProjection|ExistsUniqueProjectionSigma|CoversDistinction|"
+    r"CoversTime|CoversSymmetry|AxisDemand|TriAxisProjected|"
+    r"TriAxisBindingObligation)\b"
 )
 TGS_CLAIM_RE = re.compile(
     r"\b(?:triAxisProjection|IsProjectionOf|ExistsUniqueProjection|"
-    r"ExistsUniqueProjectionSigma)\b"
+    r"ExistsUniqueProjectionSigma|CoversDistinction|CoversTime|"
+    r"CoversSymmetry|TriAxisProjected|TriAxisBindingObligation)\b"
 )
 TGS_IMPORT_RE = re.compile(
     r"^\s*import\s+BEDC\.Foundations\.TriangleGenerationSystem\b",
@@ -137,7 +157,10 @@ class DesignatedResult:
     file: str | None
     line: int | None
     present: bool
+    target_has_sorry: bool
     has_tgs_structure: bool
+    has_triaxis_projected_gate: bool
+    has_binding_obligation_gate: bool
     has_local_triangle_structure: bool
     enforceable: bool
     informational: bool
@@ -488,6 +511,36 @@ def declaration_has_tgs_structure(target: str, declarations: Iterable[LeanDeclar
     return False
 
 
+def _gate_mentions_target(target: str, decl: LeanDeclaration) -> bool:
+    return target in decl.body or target in decl.header
+
+
+def declaration_has_triaxis_projected_gate(
+    target: str,
+    declarations: Iterable[LeanDeclaration],
+) -> bool:
+    for decl in declarations:
+        if decl.kind != "instance":
+            continue
+        if "TriAxisProjected" not in decl.body and "TriAxisProjected" not in decl.header:
+            continue
+        if _gate_mentions_target(target, decl) and not SORRY_RE.search(decl.body):
+            return True
+    return False
+
+
+def declaration_has_binding_obligation_gate(
+    target: str,
+    declarations: Iterable[LeanDeclaration],
+) -> bool:
+    for decl in declarations:
+        if "TriAxisBindingObligation" not in decl.body and "TriAxisBindingObligation" not in decl.header:
+            continue
+        if _gate_mentions_target(target, decl) and not SORRY_RE.search(decl.body):
+            return True
+    return False
+
+
 def declaration_has_local_triangle_structure(
     target: str,
     declarations: Iterable[LeanDeclaration],
@@ -523,7 +576,8 @@ def effective_designated_targets(
 ) -> list[str]:
     seen: set[str] = set()
     targets: list[str] = []
-    for target in list(configured) + [record.declaration for record in registrations]:
+    _ = registrations
+    for target in configured:
         if target in seen:
             continue
         seen.add(target)
@@ -543,6 +597,9 @@ def designated_results(
     for target in designated:
         decl = by_name.get(target)
         has_tgs = declaration_has_tgs_structure(target, declarations, fields)
+        has_projected_gate = declaration_has_triaxis_projected_gate(target, declarations)
+        has_obligation_gate = declaration_has_binding_obligation_gate(target, declarations)
+        target_has_sorry = bool(decl and SORRY_RE.search(decl.body))
         has_local = declaration_has_local_triangle_structure(
             target,
             declarations,
@@ -553,19 +610,31 @@ def designated_results(
         informational = False
         if not present:
             reason = "designated declaration is missing"
+        elif target_has_sorry:
+            reason = "designated declaration contains sorry/sorryAx"
+        elif has_projected_gate:
+            reason = "designated target has Lean kernel TriAxisProjected gate"
+        elif has_obligation_gate:
+            reason = "designated target has honest Lean binding obligation gate"
         elif has_tgs:
             reason = "designated target has TGS-bound structure"
         elif has_local:
-            reason = "designated target has local triangle/projection structure but no TGS binding"
+            reason = (
+                "designated target has local triangle/projection structure but "
+                "no Lean kernel gate"
+            )
         else:
-            reason = "designated target has no detected triangle structure"
+            reason = "designated target has no detected Lean kernel gate"
         results.append(
             DesignatedResult(
                 target=target,
                 file=decl.file if decl else None,
                 line=decl.line if decl else None,
                 present=present,
+                target_has_sorry=target_has_sorry,
                 has_tgs_structure=has_tgs,
+                has_triaxis_projected_gate=has_projected_gate,
+                has_binding_obligation_gate=has_obligation_gate,
                 has_local_triangle_structure=has_local,
                 enforceable=enforceable,
                 informational=informational,
@@ -587,12 +656,14 @@ def designated_violations(
             result.enforceable
             and (
                 not result.present
+                or result.target_has_sorry
                 or (
-                    not result.has_tgs_structure
+                    not result.has_triaxis_projected_gate
                     if strict_designated
                     else not (
-                        result.has_tgs_structure
-                        or result.has_local_triangle_structure
+                        result.has_triaxis_projected_gate
+                        or result.has_binding_obligation_gate
+                        or result.has_tgs_structure
                     )
                 )
             )
@@ -675,9 +746,9 @@ def full_payload(
         "repo_root": str(REPO_ROOT),
         "no_chaff_design": True,
         "scope": (
-            "This harness enforces TGS-registered declarations and a host-owned "
-            "designated list; it does not require every Lean declaration to carry "
-            "a triangle label."
+            "Lean kernel coverage predicates are the semantic authority.  This "
+            "harness indexes TGS-registered declarations and checks that "
+            "designated targets expose a Lean gate."
         ),
         "tgs_api": {
             "module": TGS_MODULE,
@@ -686,6 +757,13 @@ def full_payload(
             "projection": "triAxisProjection",
             "relation": "IsProjectionOf",
             "forced_unique": "triAxisProjection_forced_unique",
+            "coverage_predicates": [
+                "CoversDistinction",
+                "CoversTime",
+                "CoversSymmetry",
+            ],
+            "kernel_gate": "TriAxisProjected",
+            "binding_obligation_gate": "TriAxisBindingObligation",
         },
         "designated_source": designated_source(args.designated),
         "strict_designated": args.strict_designated,
@@ -776,9 +854,8 @@ def build_parser() -> argparse.ArgumentParser:
         "--strict-designated",
         action="store_true",
         help=(
-            "Fail designated targets that lack TGS-bound structure.  The default "
-            "keeps non-TGS RH-route targets informational until the Lean side "
-            "binds them into TriangleGenerationSystem."
+            "Fail designated targets that lack a TriAxisProjected instance.  "
+            "The default also accepts an honest TriAxisBindingObligation."
         ),
     )
     sub = parser.add_subparsers(dest="command")

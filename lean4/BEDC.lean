@@ -10286,6 +10286,8 @@ import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
 import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
+import BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse
+import BEDC.Derived.RHRoute.TriAxisCoverage
 import BEDC.Derived.RHRoute.TriadicClosureTower
 import BEDC.Derived.RHRoute.UnitaryBalance
 import BEDC.Derived.RHRoute.WeilGramRoute
@@ -13851,6 +13853,7 @@ import BEDC.FKernel.Unary.Domain
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary.Repetition
 import BEDC.FKernel.Unary.ResultCases
+import BEDC.Foundations.TriAxisCoverage
 import BEDC.Foundations.TriangleGenerationSystem
 import BEDC.GroundCompiler
 import BEDC.GroundCompiler.AnalysisPipeline
