@@ -44,4 +44,33 @@ theorem CofinalStreamTailSelectorPublicWindowTransport [AskSetup] [PackageSetup]
     ⟨epsilonWindowUnary, windowRegularUnary, regularDyadicUnary, dyadicSelectorUnary,
       selectorSealUnary, packageProof⟩
 
+theorem CofinalStreamTailSelectorBridgeSurface [AskSetup] [PackageSetup]
+    {epsilon W R D A sigma H C P N epsilonWindow windowRegular regularDyadic
+      dyadicSelector selectorSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalStreamTailSelectorCarrier epsilon W R D A sigma H C P N bundle pkg →
+      Cont epsilon W epsilonWindow →
+        Cont epsilonWindow R windowRegular →
+          Cont windowRegular D regularDyadic →
+            Cont regularDyadic sigma dyadicSelector →
+              Cont dyadicSelector A selectorSeal →
+                PkgSig bundle P pkg ∧ UnaryHistory epsilonWindow ∧
+                  UnaryHistory windowRegular ∧ UnaryHistory regularDyadic ∧
+                    UnaryHistory dyadicSelector ∧ UnaryHistory selectorSeal ∧
+                      Cont epsilon W epsilonWindow ∧ Cont dyadicSelector A selectorSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier epsilonRoute regularRoute dyadicRoute selectorRoute sealRoute
+  have transported :=
+    CofinalStreamTailSelectorPublicWindowTransport
+      (epsilon := epsilon) (W := W) (R := R) (D := D) (A := A) (sigma := sigma)
+      (H := H) (C := C) (P := P) (N := N) (epsilonWindow := epsilonWindow)
+      (windowRegular := windowRegular) (regularDyadic := regularDyadic)
+      (dyadicSelector := dyadicSelector) (selectorSeal := selectorSeal) (bundle := bundle)
+      (pkg := pkg) carrier epsilonRoute regularRoute dyadicRoute selectorRoute sealRoute
+  obtain ⟨epsilonWindowUnary, windowRegularUnary, regularDyadicUnary, dyadicSelectorUnary,
+    selectorSealUnary, publicPkg⟩ := transported
+  exact
+    ⟨publicPkg, epsilonWindowUnary, windowRegularUnary, regularDyadicUnary,
+      dyadicSelectorUnary, selectorSealUnary, epsilonRoute, sealRoute⟩
+
 end BEDC.Derived.CofinalStreamTailSelectorUp
