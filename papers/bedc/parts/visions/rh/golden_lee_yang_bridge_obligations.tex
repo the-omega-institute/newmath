@@ -102,6 +102,176 @@ purity prevents the transfer from hiding a real positive scale factor.
 Dominance makes the lifted packet canonical rather than interpolatory.
 \end{principle}
 
+\begin{definition}[Dominant branch packet]
+\label{def:rh-golden-dominant-branch-packet}
+Let a finite analytic packet on a zero island $\Omega_m$ have a spectral
+expansion
+$$
+P_m(z)=\sum_{j=1}^{d}C_j(z)\lambda_j(z)^m.
+$$
+A pair $\lambda_+,\lambda_-$ is a dominant branch pair on $\Omega_m$ if
+there is $\kappa>0$ such that every remaining branch satisfies
+$$
+|\lambda_j(z)|
+\le
+(1-\kappa)
+\max\{|\lambda_+(z)|,|\lambda_-(z)|\}
+$$
+on $\Omega_m$.  The dominant and subdominant parts are
+$$
+P_m^{\mathrm{dom}}(z)
+:=
+C_+(z)\lambda_+(z)^m+C_-(z)\lambda_-(z)^m
+$$
+and
+$$
+P_m^{\mathrm{sub}}(z)
+:=
+\sum_{j\neq +,-}C_j(z)\lambda_j(z)^m.
+$$
+\end{definition}
+
+\begin{theorem}[Dominant gap gives Rouch\'e control]
+\label{thm:rh-dominant-gap-gives-rouche-control}
+If a dominant branch packet satisfies
+$$
+|P_m^{\mathrm{sub}}(z)|<|P_m^{\mathrm{dom}}(z)|
+\qquad
+z\in\partial\Omega_m,
+$$
+then $P_m$ and $P_m^{\mathrm{dom}}$ have the same number of zeros in
+$\Omega_m$, counted with multiplicity.
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+P_m=P_m^{\mathrm{dom}}+P_m^{\mathrm{sub}}.
+$$
+The displayed strict boundary inequality is precisely the Rouch\'e
+hypothesis for the pair $(P_m^{\mathrm{dom}},P_m^{\mathrm{sub}})$ on
+$\partial\Omega_m$.  Rouch\'e's theorem gives equality of the zero
+counts in $\Omega_m$.
+\end{proof}
+
+\begin{principle}[Quartic endpoint finite model]
+\label{prin:rh-quartic-endpoint-finite-model}
+\autoref{sec:unified-reality-quartic-spectral-common-carrier} gives a
+finite-certificate model for the dominant-branch row.  The fixed quartic
+carrier records recurrence algebra, companion-matrix spectrum, elliptic
+normalization, real projection, dominant branch, and endpoint-zero
+ledgers inside one packet.  Its dominance row is separated from its
+ramification row by
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification},
+and its local endpoint-zero row is supplied by
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}.
+The scope boundary of
+\autoref{thm:unified-reality-quartic-finite-certificate-common-carrier}
+is essential: the model proves a fixed finite spectral pattern, not a
+zeta golden spectral expansion or a growing-window theorem.
+\end{principle}
+
+\begin{definition}[Stable golden Rouch\'e homotopy]
+\label{def:rh-golden-stable-rouche-homotopy}
+Let $P_m$ be the zero-relevant golden packet on $\Omega_m$, and let
+$\mathcal L_m$ be a Fibonacci Lee--Yang lift packet in the same local
+coordinate $u$.  A stable golden Rouch\'e homotopy from $P_m$ to
+$\mathcal L_m$ is a ledgered family $H_{\tau}$, $0\le\tau\le1$, such
+that
+$$
+H_0=P_m,
+\qquad
+H_1=\mathcal L_m,
+$$
+the boundary of the zero island is never crossed,
+$$
+0\notin H_{\tau}(\partial\Omega_m)
+\qquad
+0\le\tau\le1,
+$$
+and the Lee--Yang stable regions remain zero-free:
+$$
+H_{\tau}(u)\neq0
+\qquad
+0<|u|<1,
+$$
+$$
+H_{\tau}(u)\neq0
+\qquad
+|u|>1.
+$$
+The homotopy ledger may use phase, finite source, prime-register, and
+Zeckendorf rows, but it may not introduce an unrecorded
+$\mathbb R_{>0}$ scale coordinate.
+\end{definition}
+
+\begin{theorem}[Stable Rouch\'e transport preserves the unit boundary]
+\label{thm:rh-stable-rouche-transport-preserves-unit-boundary}
+If $P_m$ admits a stable golden Rouch\'e homotopy to a Fibonacci
+Lee--Yang lift packet, then every zero of $P_m$ in the zero-relevant
+local coordinate lies on the unit boundary.
+\end{theorem}
+
+\begin{proof}
+The stable-region rows in
+\autoref{def:rh-golden-stable-rouche-homotopy} apply at $\tau=0$.
+Hence
+$$
+P_m(u)\neq0
+\qquad
+0<|u|<1,
+$$
+and
+$$
+P_m(u)\neq0
+\qquad
+|u|>1.
+$$
+Thus a zero of $P_m$ in the zero-relevant coordinate cannot lie in the
+strict inside or strict outside region.  The remaining boundary is
+$|u|=1$.
+\end{proof}
+
+\begin{principle}[Ordinary Rouch\'e transport is insufficient]
+\label{prin:rh-ordinary-rouche-transport-insufficient}
+Boundary nonvanishing alone transports winding number and zero count; it
+does not transport the Lee--Yang unit-boundary property.  The polynomial
+$u-1$ has its zero on $|u|=1$, while $u-(1+\varepsilon)$ has the same
+zero count in any sufficiently large island and its zero lies outside
+the unit circle.  Therefore the source row needed for zeta golden
+boundary stability is
+$$
+\mathsf{GoldenStableRoucheHomotopy},
+$$
+not merely a zero-count homotopy.  The stable homotopy row must include
+strict inside and strict outside zero-free ledgers together with radial
+purity.
+\end{principle}
+
+\begin{definition}[Golden bridge analytic source rows]
+\label{def:rh-golden-bridge-analytic-source-rows}
+The analytic source content of
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+splits into three rows:
+$$
+\mathsf{GoldenSpectralExpansion},
+\qquad
+\mathsf{GoldenSpectralGap},
+\qquad
+\mathsf{GoldenStableRoucheHomotopy}.
+$$
+The first row supplies a spectral or exponential-sum expansion for the
+golden packet on the displayed island.  The second row identifies the
+dominant pair and proves the uniform gap needed by
+\autoref{thm:rh-dominant-gap-gives-rouche-control}.  The third row
+transports the selected dominant packet to the Fibonacci Lee--Yang lift
+while preserving the strict inside and strict outside zero-free regions.
+Together these rows upgrade weak eta capture to a boundary-stable
+golden packet.
+\end{definition}
+
 \begin{theorem}[A golden bridge witness supplies boundary stability]
 \label{thm:rh-golden-bridge-witness-supplies-boundary-stability}
 Let a completed zero island be captured by a golden eta packet
@@ -198,4 +368,18 @@ stable path packet and a weak eta capture packet remain two unrelated
 finite objects.  With it, the same island is controlled by a
 unit-boundary packet, and the radial scale coordinate has no legal
 place to close.
+\end{principle}
+
+\begin{principle}[Stable bridge proof boundary]
+\label{prin:rh-stable-bridge-proof-boundary}
+\autoref{thm:rh-dominant-gap-gives-rouche-control} is an abstract
+finite theorem, and
+\autoref{prin:rh-quartic-endpoint-finite-model} records a finite model
+where the corresponding dominance and endpoint-isolation rows are
+present.  The zeta golden route still requires the three analytic source
+rows of \autoref{def:rh-golden-bridge-analytic-source-rows}.  Without
+the spectral expansion, spectral gap, and stable Rouch\'e homotopy rows,
+the bridge remains a conditional source package; with them, the
+Lee--Yang unit-boundary certificate can be transported to the same
+zero island without introducing a radial scale anomaly.
 \end{principle}
