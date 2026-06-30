@@ -13,6 +13,110 @@ an off-fixed-half readout must appear simultaneously as an illegal
 prime-ledger scale, a finite-time witness, and a violation of the
 positive spectral row.
 
+\begin{definition}[Observation ledger]
+\label{def:rh-observation-ledger}
+An observation ledger is an increasing family of finite records
+$$
+\Lambda_0\subseteq\Lambda_1\subseteq\Lambda_2\subseteq\cdots,
+$$
+where each record in $\Lambda_m$ has the form
+$$
+o=(p,r,\varepsilon)
+$$
+for a displayed probe $p$, a displayed result $r$, and a tolerance or
+error row $\varepsilon$.  The ledger is append-only: later levels may
+refine or extend the record, but they may not erase an earlier source row
+without a displayed transport ledger.
+\end{definition}
+
+\begin{principle}[Observation order as internal time]
+\label{prin:rh-observation-order-internal-time}
+The order carried by \autoref{def:rh-observation-ledger} is the
+observation-side form of internal time.  The relation
+$$
+\Lambda_m\subseteq\Lambda_{m+1}
+$$
+is not an external clock parameter; it is the generated order of
+recorded distinctions.  If the inclusion is strict along a level, no
+forward append operation returns the ledger to the earlier finite record.
+\end{principle}
+
+\begin{definition}[Observation vector decomposition]
+\label{def:rh-observation-vector-decomposition}
+Let an active zero packet at level $m$ have active set $A_m$ and heights
+$h_a>0$.  For a centered readout
+$$
+s=\frac12+r+it,
+$$
+define the observation vector in the real Hilbert row
+$$
+\mathbb R^{A_m}\oplus\mathbb R^{A_m}
+$$
+by
+$$
+V_m(s)
+:=
+\bigl((-r h_a)_{a\in A_m},\,(-t h_a)_{a\in A_m}\bigr).
+$$
+Its scale and phase components are
+$$
+V_{m,\mathrm{scale}}(s):=(-r h_a)_{a\in A_m},
+\qquad
+V_{m,\mathrm{phase}}(s):=(-t h_a)_{a\in A_m}.
+$$
+The two summands are orthogonal coordinate rows: the first records
+radial scale and the second records phase lift.
+\end{definition}
+
+\begin{theorem}[Observation vector Pythagorean identity]
+\label{thm:rh-observation-vector-pythagorean-identity}
+For the observation vector of
+\autoref{def:rh-observation-vector-decomposition}, if
+$$
+W_m:=\sum_{a\in A_m}h_a^2,
+$$
+then
+$$
+\|V_m(s)\|^2
+=
+r^2W_m+t^2W_m,
+$$
+and its scale component satisfies
+$$
+\|V_{m,\mathrm{scale}}(s)\|^2=r^2W_m.
+$$
+\end{theorem}
+
+\begin{proof}
+The two coordinate summands of
+$\mathbb R^{A_m}\oplus\mathbb R^{A_m}$ are orthogonal.  Therefore
+$$
+\|V_m(s)\|^2
+=
+\sum_{a\in A_m}r^2h_a^2
++
+\sum_{a\in A_m}t^2h_a^2
+=
+r^2W_m+t^2W_m.
+$$
+The displayed formula for the scale component is the first summand.
+\end{proof}
+
+\begin{principle}[Observation, orthogonality, invariant]
+\label{prin:rh-observation-orthogonality-invariant}
+The observation ledger supplies the internal order, orthogonal
+decomposition supplies independent coordinates, and the Pythagorean
+identity supplies the quadratic invariant.  In the zeta packet the phase
+coordinate is a legal unit-circle row, while the scale coordinate is a
+real-positive row.  Thus the closed-packet obstruction is not the total
+length of $V_m(s)$, but the scale energy
+$$
+\|V_{m,\mathrm{scale}}(s)\|^2=r^2W_m.
+$$
+This is the observation-vector form of the defect energy later recorded
+in \autoref{def:rh-triadic-scale-defect-energy}.
+\end{principle}
+
 \begin{definition}[Triadic obstruction coordinates]
 \label{def:rh-triadic-obstruction-coordinates}
 A triadic obstruction coordinate system for an active zero packet
