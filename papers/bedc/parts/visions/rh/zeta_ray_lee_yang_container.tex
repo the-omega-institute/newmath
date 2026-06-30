@@ -143,3 +143,105 @@ these rows are sufficient for the no-scale readout of
 \autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
 \end{principle}
 
+\begin{principle}[Path Joukowsky obstruction]
+\label{prin:rh-path-joukowsky-obstruction}
+The path Joukowsky lift is not, by itself, a multivariate Lee--Yang
+container.  For $m=2$ the path independent-set polynomial is
+$$
+I_2(x_1,x_2)=1+x_1+x_2.
+$$
+The coordinatewise Joukowsky lift has the form
+$$
+\mathcal L_2(u_1,u_2)
+=
+(1+u_1)^2(1+u_2)^2
+-u_1(1+u_2)^2
+-u_2(1+u_1)^2.
+$$
+After fixing $u_1=i/2$, this becomes
+$$
+\left(\frac34+\frac i2\right)u_2^2
++\frac34u_2
++\left(\frac34+\frac i2\right)=0.
+$$
+Equivalently,
+$$
+u_2^2+
+\left(\frac9{13}-\frac6{13}i\right)u_2+1=0.
+$$
+The product of the two roots is $1$, but their sum is not real.  Hence
+the two roots cannot both lie on the unit circle.  Since their product
+has modulus $1$, one root lies inside the unit disk.  Thus the
+coordinatewise path Joukowsky lift has a zero with both variables inside
+the unit disk, and the unrestricted multivariate stability claim is not
+available.
+\end{principle}
+
+\begin{definition}[Golden--Ising container bridge]
+\label{def:rh-golden-ising-container-bridge}
+The source row
+$$
+\mathsf{GoldenIsingContainerBridge}
+$$
+asserts the following data on a zero-relevant golden island.  First,
+there is a finite ferromagnetic Ising, Asano-stable, or
+matching-stable container $Z_{G_m}(\mathbf z)$ with a Lee--Yang
+nonvanishing ledger on the required zeta logarithmic ray.  Second, the
+Zeckendorf or Fibonacci path packet is present only as an auditable
+skeleton inside that container.  Third, the zeta golden packet and
+$Z_{G_m}(\mathbf z(s))$ have the same island winding, either through a
+Rouch\'e gap or through a stable homotopy.  Fourth, the bridge has no
+unledgered $\mathbb R_{>0}$ scale coordinate.
+\end{definition}
+
+\begin{definition}[Dominant container and Ising homotopy rows]
+\label{def:rh-dominant-container-ising-homotopy-rows}
+The Golden--Ising bridge separates into two source rows.  The row
+$$
+\mathsf{GoldenDominantContainerTheorem}
+$$
+selects the zero-relevant Lee--Yang container branch and proves the
+boundary gap between that branch and every subdominant contribution.
+The row
+$$
+\mathsf{IsingRoucheHomotopy}
+$$
+transports the zeta golden packet to the selected container without
+crossing zero on the boundary and without losing the Lee--Yang
+nonvanishing ledger on the zeta logarithmic ray.
+\end{definition}
+
+\begin{theorem}[Golden--Ising bridge gives zeta-ray stability]
+\label{thm:rh-golden-ising-bridge-gives-zeta-ray-stability}
+If a zero-relevant golden packet has a Golden--Ising container bridge,
+then it satisfies the hypotheses of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{theorem}
+
+\begin{proof}
+The bridge supplies a Lee--Yang container $Z_{G_m}$ with nonvanishing on
+the off-boundary part of the zeta logarithmic ray.  It also supplies a
+same-island Rouch\'e gap or stable homotopy between the zeta golden
+packet and $Z_{G_m}(\mathbf z(s))$.  Thus the captured zero count is read
+through a zeta-ray Lee--Yang stable packet with the same active heights.
+These are precisely the hypotheses of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Skeleton and container separation]
+\label{prin:rh-skeleton-container-separation}
+The Zeckendorf path data supplies ledger uniqueness, finite
+refinement, and the no-adjacent grammar.  It does not supply the full
+thermodynamic stability row.  The Lee--Yang container supplies the
+unit-boundary or ray-nonvanishing row.  The bridge between them is
+therefore a stability-preserving transport, not a coordinatewise
+Joukowsky substitution.  This separation is the working form of the
+golden bridge:
+$$
+\text{Zeckendorf skeleton}
+\quad+\quad
+\text{Lee--Yang container}
+\quad+\quad
+\text{same-island Rouch\'e transport}.
+$$
+\end{principle}
