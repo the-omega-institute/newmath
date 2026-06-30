@@ -380,3 +380,112 @@ burden is not a separate search along Li, Weil, and Nyman lines; it is
 the construction of a source-side Hilbert factorization whose finite
 positive kernels converge to the Xi Pick kernel.
 \end{principle}
+
+\begin{definition}[Zeta positive triangular observation system]
+\label{def:rh-zeta-positive-triangular-observation-system}
+The source row
+$$
+\mathsf{ZetaPositiveTriangle}_{\xi}
+$$
+is a finite-to-limit observation system consisting of source-side
+Hilbert kernels
+$$
+K_m(z,w)=\langle\Phi_m(z),\Phi_m(w)\rangle_{\mathcal H_m},
+\qquad
+m\ge1,
+$$
+finite-matrix convergence to $K_{\xi}$, and projection readout rows
+$$
+\pi_{\mathsf T},
+\qquad
+\pi_{\mathsf W},
+\qquad
+\pi_{\mathsf N}.
+$$
+The projections read, respectively, the Li-time, Weil-energy, and
+Nyman-container observations.  The row requires that every
+zero-relevant accepted observation used by the fixed-half route factors
+through this positive triangular system or through one of its finite
+source kernels before any zero-divisor conclusion is consumed.
+\end{definition}
+
+\begin{definition}[Same-leg compatibility]
+\label{def:rh-same-leg-compatibility}
+Let $\rho$ be a represented completed zero row and put
+$$
+z(\rho)=1-\frac1\rho=e^{\ell(\rho)+i\theta(\rho)}.
+$$
+The projections of
+\autoref{def:rh-zeta-positive-triangular-observation-system} are
+same-leg compatible at $\rho$ when the time, energy, and container
+readouts all use the same scalar
+$$
+\ell(\rho)=\log\left|1-\frac1\rho\right|
+$$
+as their radial defect.  Equivalently, a nonzero radial readout may not
+disappear under a change of projection: it must be visible as a
+Li-time finite witness, a Weil negative direction, a Nyman residual
+separator, or a displayed positive-kernel obstruction row.
+\end{definition}
+
+\begin{definition}[Triangular residual exhaustion]
+\label{def:rh-triangular-residual-exhaustion}
+Let
+$$
+\mathcal H_1\subseteq\mathcal H_2\subseteq\cdots
+$$
+be the Hilbert tower underlying
+\autoref{def:rh-zeta-positive-triangular-observation-system}.  For an
+observation vector $v$, write
+$$
+\eta_m(v):=(I-P_m)v
+$$
+for the residual after projection to $\mathcal H_m$.  The tower has
+triangular residual exhaustion for $v$ when
+$$
+\|\eta_m(v)\|^2\to0.
+$$
+If this limit is not zero, the system must display a separating
+functional for the residual.  In the Nyman projection this separating
+functional is the Mellin row of
+\autoref{lem:rh-off-half-zero-nyman-separator}.
+\end{definition}
+
+\begin{theorem}[Positive triangle controls represented observations]
+\label{thm:rh-positive-triangle-controls-represented-observations}
+Assume $\mathsf{ZetaPositiveTriangle}_{\xi}$, same-leg compatibility for
+represented completed zero rows, triangular residual exhaustion for the
+accepted observation tower, and the usual reflection consumption row.
+Then every represented completed zero ledger that factors through this
+system has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be such a represented completed zero row.  Suppose
+$$
+\ell(\rho)\ne0.
+$$
+By same-leg compatibility, this same radial scalar must be visible in
+the Li-time, Weil-energy, and Nyman-container projections, or as a
+positive-kernel obstruction row.  A finite Pick obstruction contradicts
+the positive definiteness of the kernels in
+\autoref{def:rh-zeta-positive-triangular-observation-system}.  A
+Li-time or Weil-energy negative witness contradicts the corresponding
+positive side of the same Hilbert square ledger.  A residual Nyman
+separator contradicts triangular residual exhaustion.  Thus
+$\ell(\rho)\ne0$ is impossible.  Hence $\ell(\rho)=0$, and
+\autoref{thm:rh-radial-scale-fixed-half-surface} gives the fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Single positive triangle burden]
+\label{prin:rh-single-positive-triangle-burden}
+The Li, Weil, Nyman, Lee--Yang, and finite endpoint rows are acceptable
+in the fixed-half route only as projections or finite models of one
+positive triangular observation system.  The common burden is not to
+produce another isolated criterion, but to construct source kernels,
+same-leg projection readouts, and residual exhaustion in one package.
+When such a package is displayed, a nonzero radial scale cannot be
+hidden in prime fibres, cancelled by phase motion, or postponed to an
+unread infinite residual.
+\end{principle}
