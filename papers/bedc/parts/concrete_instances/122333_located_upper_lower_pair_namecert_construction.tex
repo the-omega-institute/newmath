@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUpperLowerPairUp$}
+\label{ch:concrete-instances-located-upper-lower-pair-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedUpperLowerPairUp$ packet records a located real by paired lower and upper rational enclosures whose gap is visible at each requested tolerance. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the located real interface of \autoref{ch:concrete-instances-located-real-namecert}. The packet supplies a finite L10 Real and Completion interface only; it does not assert quotient-cut equality, a chosen completed representative, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located upper-lower pair carrier]
+\label{def:located-upper-lower-pair-carrier}
+A $\LocatedUpperLowerPairUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ enclosure row, carrying the displayed lower endpoint, upper endpoint, dyadic tolerance, and gap comparison for the requested precision.
+\item $S$ is the $\StreamNameUp$ finite-window row through which the consumer requests and observes the enclosure stage.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the same finite window into regular rational lower and upper observations.
+\item $E$ is the terminal $\RealUp$ seal row, reached only after $D,S,R$ have exposed the finite enclosure data.
+\item $H$ records componentwise $\hsame$ transport for enclosure, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested tolerance to the matching enclosure window and then to the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUpperLowerPairUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUpperLowerPairUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient cut, selected host real, omniscient comparison oracle, countable choice schedule, or ambient completeness principle.
+\end{definition}
+\leanstmt{BEDC.Derived.LocatedUpperLowerPairUp}
+
+\begin{theorem}[Located upper-lower pair NameCert obligations]
+\label{thm:located-upper-lower-pair-namecert-obligations}
+For every accepted $\LocatedUpperLowerPairUp$ carrier $L=(D,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedUpperLowerPairUp}$ surface consists exactly of carrier admission, dyadic enclosure admission, StreamName window visibility, RegSeqRat lower-upper readback, Real seal nonescape, componentwise transport, displayed continuation replay, package provenance, and local naming. No NameCert obligation may replace these rows by quotient-cut equality, selected representative equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-upper-lower-pair-carrier}. The rows $D,S,R,E$ expose the dyadic enclosure, finite window, regular rational readback, and terminal seal in that order, while $H,C,P,N$ expose the transport, replay, provenance, and local naming rows.
+
+The classifier is stable because every accepted comparison reads the same tolerance window through $D$ and the same finite observation window through $S$. Componentwise $\hsame$ transport in $H$ preserves the displayed lower endpoint, upper endpoint, tolerance, and gap comparison before the readback reaches $R$.
+
+Finally, the terminal seal $E$ is downstream of $D,S,R$. Thus the NameCert surface exports only the finite located enclosure route and cannot supply quotient-cut equality, selected host representatives, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located upper-lower pair completion handoff]
+\label{thm:located-upper-lower-pair-completion-handoff}
+Every completion-facing consumer of an accepted $\LocatedUpperLowerPairUp$ carrier must read
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through the displayed rows $D,S,R,E$ before treating the pair as a Real-facing located name.
+\end{theorem}
+\begin{proof}
+Start with the dyadic row $D$. It is the only row that displays the lower endpoint, upper endpoint, tolerance, and gap comparison for the request.
+
+Open the finite observation row $S$ and the regular rational readback row $R$. These rows bind the same request window to the lower-upper rational observations available to the consumer.
+
+The Real-facing read then reaches $E$ only after $D,S,R$ have been displayed. Componentwise transport, continuation replay, package provenance, and local naming keep the handoff inside the accepted packet, so no quotient cut, selected representative, trichotomy, countable choice, or ambient completeness is introduced.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocatedUpperLowerPairUp$ consumer that reaches the terminal RealUp seal without reading a DyadicRatCore enclosure row, a StreamName finite window, and a RegSeqRat lower-upper readback row refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, located-real: no listed sibling is bijective with $\LocatedUpperLowerPairUp$ because this packet jointly binds lower and upper enclosure rows, tolerance windows, regular readback, a terminal Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedUpperLowerPairUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUpperLowerPairUp}
+  \constructivestory{A $\LocatedUpperLowerPairUp$ packet is generated from a DyadicRatCore lower-upper enclosure row, a StreamName finite-window row, a RegSeqRat readback row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-upper-lower-pair-carrier}, the NameCert obligation sketch, completion handoff, falsifiability, and independence rows seed the finite Bishop-style located upper-lower pair route over DyadicRatCore, StreamName, RegSeqRat, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-cut equality, selected representatives, trichotomy, countable choice, ambient RealUp completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, enclosure exactness, window visibility, regular readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedUpperLowerPairUp.}
+\end{closurestatus}
