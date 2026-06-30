@@ -22,8 +22,8 @@ NEW ENGINE boundary-map contact (sequence-structure -> ribozyme activity quantif
 composition), NOT a new mechanism. Pure stdlib."""
 import json, math, random, pathlib, sys, zlib
 
-EXPERIMENT_ID="run_twister_ribozyme_selfcleavage_sequence_code_chita"
-CLAIM_ID="twister_ribozyme_selfcleavage_sequence_code_beyond_composition"
+EXPERIMENT_ID="twister_ribozyme_selfcleavage_sequence_code_chita"
+CLAIM_ID="h3.cross_layer_relation.ribozyme_self_cleavage.twister_activity_sequence_structure_beyond_composition_chita"
 DATA_PATH=pathlib.Path.cwd()/("tools/bio_reality/data/"+EXPERIMENT_ID+".json")
 SEED=20260701
 RIDGE=1.0           # z-scored features (XtX feature-diagonal ~ n); stabilizes dinuc collinearity
