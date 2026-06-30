@@ -1,15 +1,124 @@
-\subsection{NameCert: Window Six Fibonacci Cube Geodesic Enumerator}
-\label{sec:namecert-window6_fibonacci_cube_geodesic_enumerator_certificate}
 \origin{ai}
 
-\paragraph{Statement.} The packet records a finite forced-window mathematical construction.
+\subsection{Forced-window carrier and geodesic enumerator}
+\label{sec:window6-fibonacci-cube-geodesic-enumerator-certificate}
 
-\paragraph{Carrier.} A finite forced-window carrier is required before a stronger chapter can be authored.
+\paragraph{Carrier.}
+The finite window is the set of all binary words of length six in which two adjacent coordinates are never simultaneously equal to one. Thus the carrier is
+$$
+\begin{aligned}
+S=\{x\in\{0,1\}^{6}: x_i x_{i+1}=0\text{ for every }1\leq i<6\}.
+\end{aligned}
+$$
+The constraint is local and contains no limiting process. Direct enumeration gives the twenty-one words
+$$
+\begin{aligned}
+S=\{&000000,000001,000010,000100,000101,001000,001001,001010,\\
+&010000,010001,010010,010100,010101,100000,100001,100010,\\
+&100100,100101,101000,101001,101010\}.
+\end{aligned}
+$$
+The weight partition is obtained by counting the number of ones in each word:
+$$
+\begin{aligned}
+|S_0|=1,\qquad |S_1|=6,\qquad |S_2|=10,\qquad |S_3|=4,
+\end{aligned}
+$$
+where $S_k=\{x\in S:\sum_{i=1}^{6}x_i=k\}$. These four numbers sum to $21$, so the list above is complete.
 
-\paragraph{Relations.} No relation beyond the local finite construction is asserted.
+\paragraph{Finite edge relation.}
+Put an undirected edge between two words when they differ in exactly one coordinate. Equivalently,
+$$
+\begin{aligned}
+E=\{\{x,y\}:x,y\in S,\ x\neq y,\ \sum_{i=1}^{6}|x_i-y_i|=1\}.
+\end{aligned}
+$$
+The induced graph has $38$ undirected edges. The corresponding symmetric adjacency matrix $A:S\times S\to\{0,1\}$ is
+$$
+\begin{aligned}
+A(x,y)=
+\begin{cases}
+1,&\sum_{i=1}^{6}|x_i-y_i|=1,\\
+0,&\text{otherwise.}
+\end{cases}
+\end{aligned}
+$$
+This is a completely finite matrix: after the displayed ordering of $S$ is fixed, $A$ is a $21\times 21$ matrix with $76$ nonzero ordered off-diagonal entries, counted twice from the $38$ undirected edges.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Distance partition.}
+For ordered pairs $(x,y)\in S\times S$, let
+$$
+\begin{aligned}
+d(x,y)=\sum_{i=1}^{6}|x_i-y_i|.
+\end{aligned}
+$$
+The ordered distance enumerator is
+$$
+\begin{aligned}
+\sum_{x,y\in S}t^{d(x,y)}=21+76t+128t^2+124t^3+70t^4+20t^5+2t^6.
+\end{aligned}
+$$
+Equivalently, the ordered pair counts at Hamming distances $0,1,2,3,4,5,6$ are
+$$
+\begin{aligned}
+(21,76,128,124,70,20,2).
+\end{aligned}
+$$
+The sum is $441=21^2$, which checks that every ordered pair has been assigned to exactly one distance class. The unordered counts, including the diagonal at distance zero, are
+$$
+\begin{aligned}
+(21,38,64,62,35,10,1).
+\end{aligned}
+$$
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Geodesic enumeration kernel.}
+For $x,y\in S$, let $D(x,y)=\{i:x_i\neq y_i\}$. A coordinate order is a bijection from $\{1,\ldots,d(x,y)\}$ to $D(x,y)$. Starting at $x$, flip the coordinates in that order, replacing the current coordinate value by the corresponding coordinate value of $y$. The order is admissible if every intermediate word remains in $S$. Define the kernel
+$$
+\begin{aligned}
+K(x,y)=|\{\sigma:\sigma\text{ is an admissible coordinate order from }x\text{ to }y\}|.
+\end{aligned}
+$$
+Each accepted order gives a path of length $d(x,y)$ in the edge relation, and no shorter path can exist because every edge changes only one coordinate. Hence each accepted order is a geodesic. Conversely, any monotone geodesic from $x$ to $y$ changes exactly the coordinates in $D(x,y)$ once each and therefore determines an accepted order. Thus $K(x,y)$ is the exact number of monotone shortest paths between $x$ and $y$ in the induced finite graph.
 
-\paragraph{Not claimed.} No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed.
+\paragraph{Kernel counts.}
+The kernel is everywhere positive on $S\times S$, so every pair is connected by at least one shortest path that never leaves the forced-window carrier. Its ordered distribution is
+$$
+\begin{aligned}
+&|\{(x,y):K(x,y)=1\}|=137,\qquad |\{(x,y):K(x,y)=2\}|=108,\\
+&|\{(x,y):K(x,y)=3\}|=72,\qquad |\{(x,y):K(x,y)=5\}|=10,\\
+&|\{(x,y):K(x,y)=6\}|=44,\qquad |\{(x,y):K(x,y)=8\}|=24,\\
+&|\{(x,y):K(x,y)=12\}|=24,\qquad |\{(x,y):K(x,y)=16\}|=4,\\
+&|\{(x,y):K(x,y)=20\}|=8,\qquad |\{(x,y):K(x,y)=25\}|=8,\\
+&|\{(x,y):K(x,y)=61\}|=2.
+\end{aligned}
+$$
+The distance-refined distribution is
+$$
+\begin{aligned}
+&d=0:\ 21\text{ pairs with }K=1,\\
+&d=1:\ 76\text{ pairs with }K=1,\\
+&d=2:\ 40\text{ pairs with }K=1\text{ and }88\text{ pairs with }K=2,\\
+&d=3:\ 20\text{ pairs with }K=2,\ 72\text{ pairs with }K=3,\ 32\text{ pairs with }K=6,\\
+&d=4:\ 10\text{ pairs with }K=5,\ 12\text{ pairs with }K=6,\ 24\text{ pairs with }K=8,\ 24\text{ pairs with }K=12,\\
+&d=5:\ 4\text{ pairs with }K=16,\ 8\text{ pairs with }K=20,\ 8\text{ pairs with }K=25,\\
+&d=6:\ 2\text{ pairs with }K=61.
+\end{aligned}
+$$
+Summing the number of geodesics rather than merely the number of endpoints gives
+$$
+\begin{aligned}
+\sum_{d(x,y)=0}K(x,y)&=21,\\
+\sum_{d(x,y)=1}K(x,y)&=76,\\
+\sum_{d(x,y)=2}K(x,y)&=216,\\
+\sum_{d(x,y)=3}K(x,y)&=448,\\
+\sum_{d(x,y)=4}K(x,y)&=602,\\
+\sum_{d(x,y)=5}K(x,y)&=424,\\
+\sum_{d(x,y)=6}K(x,y)&=122.
+\end{aligned}
+$$
+
+\paragraph{Witness extraction.}
+A witness for a particular ordered pair $(x,y)$ is extracted by the following finite procedure. First compute $D(x,y)$. Next list all $d(x,y)!$ orders of that finite set. For each order, start from $x$ and flip one listed coordinate at a time toward $y$. Reject the order at the first intermediate word containing adjacent ones; otherwise retain it. The retained list has length $K(x,y)$. If only one witness is required, take the lexicographically first retained coordinate order. Because the kernel is positive for every ordered pair in the twenty-one element carrier, this procedure always returns at least one geodesic witness.
+
+\paragraph{Local scope.}
+The certificate is only the finite construction described here: the twenty-one admissible words, the edge relation, the distance partition, the adjacency matrix, and the geodesic-counting kernel. It proves the exact enumerations displayed above and the existence of an internal shortest-path witness for every ordered pair of admissible words. It does not assert any physical-constant identification, any global evolution rule, any dependency outside this finite carrier, any measurement comparison, or any interpretation beyond the stated forced-window graph unless an additional finite certificate supplies that extra structure.
