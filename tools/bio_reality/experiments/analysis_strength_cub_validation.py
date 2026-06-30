@@ -54,6 +54,31 @@ def agg_codon_counts(organism):
             agg[c] = agg.get(c, 0) + n
     return agg
 
+def delta_enc(organism):
+    """ENC(low-abundance tertile) - ENC(high-abundance tertile): translational
+    selection makes high-abundance genes MORE biased (lower ENC) => Delta > 0."""
+    p = _REPO / ("tools/bio_reality/data/cds_codon_abundance_" + organism + ".json")
+    if not p.exists(): return None
+    d = json.loads(p.read_text())
+    genes = []
+    for r in d.get("joined", []):
+        try: ab = float(r.get("abundance_ppm"))
+        except (TypeError, ValueError): continue
+        cc = r.get("codon_counts") or {}
+        if ab > 0 and cc: genes.append((ab, cc))
+    if len(genes) < 150: return None
+    genes.sort(key=lambda g: g[0])
+    t = len(genes)//3
+    def agg(gs):
+        a = {}
+        for _, cc in gs:
+            for c,n in cc.items(): a[c]=a.get(c,0)+n
+        return a
+    enc_low = enc_from_counts(agg(genes[:t]))         # lowest-abundance third
+    enc_high = enc_from_counts(agg(genes[-t:]))        # highest-abundance third
+    if enc_low is None or enc_high is None: return None
+    return enc_low - enc_high
+
 def ranks(xs):
     order = sorted(range(len(xs)), key=lambda i: xs[i]); r=[0.0]*len(xs); i=0
     while i < len(xs):
@@ -92,3 +117,17 @@ if __name__ == "__main__":
     if sub:
         print("Spearman(strength, tRNA-pool)  = %+.3f   (n=%d; POSITIVE expected: more tRNA genes = stronger selection)"%(spearman([r[1] for r in sub],[math.log(r[4]) for r in sub]),len(sub)))
         print("Spearman(ENC, tRNA-pool)       = %+.3f   (n=%d; NEGATIVE expected: more tRNA = more bias = lower ENC)"%(spearman([r[2] for r in sub],[math.log(r[4]) for r in sub]),len(sub)))
+    # PROPER validator: Delta-ENC (low-abundance minus high-abundance) = abundance-coupled codon optimization
+    drows=[(nm,s) for nm,s,e,dt,tr in rows]
+    de=[]
+    for nm,s,e,dt,tr in rows:
+        d=delta_enc(nm)
+        if d is not None: de.append((nm,s,d))
+    print("\n=== PROPER validator: Delta-ENC = ENC(low-abundance third) - ENC(high-abundance third) ===")
+    print("(translational selection => high-abundance genes more biased => Delta-ENC > 0; strength should track it)")
+    for nm,s,d in sorted(de,key=lambda r:-r[2]):
+        print("  %-44s strength=%.3f  dENC=%+.2f"%(nm,s,d))
+    if de:
+        print("\nn=%d  Spearman(strength, Delta-ENC) = %+.3f   (POSITIVE validates strength = abundance-coupled codon optimization)"%(len(de),spearman([r[1] for r in de],[r[2] for r in de])))
+        pos=sum(1 for r in de if r[2]>0)
+        print("organisms with Delta-ENC>0 (high-abundance more biased): %d/%d"%(pos,len(de)))
