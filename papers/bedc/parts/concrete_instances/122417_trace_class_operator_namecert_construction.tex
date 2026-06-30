@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\TraceClassOperatorUp$}
+\label{ch:concrete-instances-trace-class-operator-namecert}
+\origin{human}
+
+Following Reed and Simon, the $\TraceClassOperatorUp$ packet records the standard trace-class operator surface as finite BEDC naming data. It sits over the Hilbert-space carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the bounded-linear-operator row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the operator-ideal route of \autoref{ch:concrete-instances-operatorideal-namecert}, the spectral-measure window of \autoref{ch:concrete-instances-spectral-measure-namecert}, the terminal Real row of \autoref{ch:concrete-instances-real-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only the displayed trace-class route through Hilbert, bounded-operator, ideal, spectral, Real, and rational rows; it does not assert compact-operator completeness, Schatten duality, arbitrary spectral integration, choice of an eigenbasis, host Hilbert-space separability, or ambient operator-algebra completeness.
+
+\begin{definition}[TraceClassOperator carrier]
+\label{def:trace-class-operator-carrier}
+A $\TraceClassOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(H,B,I,S,R,Q,A,X,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ source row, retaining the inner-product, norm, completion, and local naming data visible to the packet.
+\item $B$ is the $\BoundedLinearOperatorUp$ row, exposing a bounded operator over the same Hilbert source.
+\item $I$ is the $\OperatorIdealUp$ row, recording the ideal-membership route through which the bounded operator is inspected.
+\item $S$ is the $\SpectralMeasureUp$ window row, available only as a finite spectral readback surface and not as unrestricted functional calculus.
+\item $R$ is the $\RealUp$ trace-value row, carrying the terminal real-number seal for trace reads.
+\item $Q$ is the $\RegSeqRatUp$ rational approximation row used to display finite trace windows before the Real seal is consumed.
+\item $A$ records the finite trace-window admission row tying $B,I,S,Q,R$ to one inspected trace-class request.
+\item $X$ records componentwise $\hsame$ transport for $H,B,I,S,R,Q,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a trace-class query through the Hilbert, bounded-operator, ideal, spectral, rational, Real, and admission rows.
+\item $P$ is the $\Pkg$ provenance over $\TraceClassOperatorUp$, $\HilbertUp$, $\BoundedLinearOperatorUp$, $\OperatorIdealUp$, $\SpectralMeasureUp$, $\RealUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TraceClassOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,B,I,S,R,Q,A,X,C,P,N$. It has no coordinate for arbitrary eigenbasis choice, full compact-operator theory, unrestricted spectral integration, Schatten duality, host trace-norm completion, or ambient operator-algebra completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.TraceClassOperatorUp}
+
+\begin{theorem}[TraceClassOperator NameCert obligations]
+\label{thm:trace-class-operator-namecert-obligations}
+For every accepted $\TraceClassOperatorUp$ carrier
+$$
+T=(H,B,I,S,R,Q,A,X,C,P,N),
+$$
+the local $\NameCert_{\TraceClassOperatorUp}$ surface consists exactly of Hilbert-source admission, bounded-operator admission, operator-ideal membership, finite spectral-window readback, rational trace approximation, terminal Real seal, finite trace-window admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:trace-class-operator-carrier}. The Hilbert row $H$ is the source for the inner-product and norm data, while $B$ is the only bounded-operator row exposed by the packet.
+
+The ideal row $I$ and spectral row $S$ are read before any trace value is consumed. They place the inspected operator inside the finite operator-ideal and spectral-window routes rather than inside an ambient compact-operator algebra.
+
+The rational trace row $Q$ supplies the finite approximation surface, and the Real row $R$ is visible only after $Q$ and the trace-window admission row $A$ have been displayed. Thus the trace read is a finite route through $H,B,I,S,Q,R,A$.
+
+Finally $X,C,P,N$ transport, replay, source, and name the same route. Since the tuple contains no coordinate for eigenbasis choice, unrestricted spectral integration, Schatten duality, trace-norm completion, or ambient operator-algebra completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[TraceClassOperator finite trace window]
+\label{thm:trace-class-operator-finite-trace-window}
+Every Real-valued trace read exported by an accepted $\TraceClassOperatorUp$ packet first exposes the $\HilbertUp$ source row, the $\BoundedLinearOperatorUp$ boundedness row, the $\OperatorIdealUp$ membership row, the $\SpectralMeasureUp$ finite-window row, and the $\RegSeqRatUp$ rational trace approximation row. The exported trace is therefore a finite NameCert window into a trace-class request, not a host theorem about arbitrary compact operators, spectral decompositions, or operator-algebra completions.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:trace-class-operator-namecert-obligations}. They place the Hilbert, bounded-operator, ideal, spectral, rational, Real, and admission rows before any public trace read.
+
+The finite trace-window row $A$ binds the bounded operator $B$ to the ideal route $I$ and the spectral readback $S$. The rational row $Q$ then exposes the finite trace approximation consumed by the Real row $R$.
+
+Componentwise transport and replay preserve that same row order. A downstream spectral, quantum-state, or operator-ideal consumer therefore receives only $H,B,I,S,Q,R,A,X,C,P,N$ and cannot read arbitrary eigenbasis choice, unrestricted spectral integration, Schatten duality, trace-norm completion, or compact-operator completeness from the packet.
+\end{proof}
+
+\closureat{TraceClassOperatorUp}{seedStr}
+
+\begin{closurestatus}{\TraceClassOperatorUp}
+  \constructivestory{A $\TraceClassOperatorUp$ packet is generated from Hilbert, bounded-linear-operator, operator-ideal, spectral-measure, Real, RegSeqRat, finite trace-window, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:trace-class-operator-carrier}, \autoref{thm:trace-class-operator-namecert-obligations}, and \autoref{thm:trace-class-operator-finite-trace-window} seed the finite trace-class operator route over HilbertUp, BoundedLinearOperatorUp, OperatorIdealUp, SpectralMeasureUp, RealUp, RegSeqRatUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim compact-operator completeness, Schatten duality, arbitrary spectral integration, eigenbasis choice, host Hilbert-space separability, Lean verification, bridge checking, or ambient operator-algebra completeness.}
+  \upgradepath{Obligation closure requires checked Hilbert-source admission, bounded-operator admission, operator-ideal membership, finite spectral-window readback, rational trace approximation, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.TraceClassOperatorUp.}
+\end{closurestatus}
