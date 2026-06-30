@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BernoulliPolynomialUp$}
+\label{ch:concrete-instances-bernoulli-polynomial-namecert}
+\origin{human}
+
+Following Bernoulli and Boole finite-difference calculus, the $\BernoulliPolynomialUp$ packet records the finite rational-coefficient polynomial route by which Bernoulli correction rows are read before finite-difference and Newton-forward-series consumers use them. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the finite-difference surface of \autoref{ch:concrete-instances-finite-difference-namecert}, the Newton forward series route of \autoref{ch:concrete-instances-newton-forward-series-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a traditional finite-calculus object as BEDC NameCert data; it does not import analytic generating functions, quotient real equality, selected limits, host polynomial functions, infinite series convergence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bernoulli polynomial carrier]
+\label{def:bernoulli-polynomial-carrier}
+A $\BernoulliPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+B=(n,C,G,P,F,N_f,Q,R,Z,H,K,S,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the finite degree row.
+\item $C$ is the rational polynomial coefficient ledger. It lists each coefficient as a finite $\RatUp$ row, records the degree bound, and gives the coefficient order used by the polynomial carrier.
+\item $G$ is the Bernoulli generating and finite-difference row. It records the finite coefficient recurrence and the displayed difference law requested at degree $n$.
+\item $P$ is the $\PolynomialUp$ reconstruction row assembled exactly from $C$ and $G$.
+\item $F$ is the $\FiniteDifferenceUp$ handoff row, naming the forward difference request that reads the displayed Bernoulli polynomial.
+\item $N_f$ is the $\NewtonForwardSeriesUp$ handoff row, naming the finite Newton coefficient route that may consume the same difference data.
+\item $Q$ is the $\DyadicRatCoreUp$ coefficient-budget row. It supplies the dyadic precision requests and split budgets for coefficient and value reads.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational coefficients, finite difference values, Newton forward coefficients, and polynomial evaluations requested by the packet.
+\item $Z$ is the terminal $\RealUp$ seal reached only after $C,G,P,F,N_f,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the degree, coefficient ledger, generating and finite-difference row, polynomial reconstruction, handoff rows, dyadic budget, readback row, terminal seal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay through
+$$
+n,C,G \longmapsto P \longmapsto F,N_f,Q,R \longmapsto Z .
+$$
+\item $S$ is the $\Pkg$ provenance over $\BernoulliPolynomialUp$, $\PolynomialUp$, $\FiniteDifferenceUp$, $\NewtonForwardSeriesUp$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\BernoulliPolynomialUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $n,C,G,P,F,N_f,Q,R,Z,H,K,S,L$. It has no coordinate for an analytic exponential generating function, quotient real equality, selected representative, host polynomial function, infinite Newton series convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bernoulli polynomial NameCert obligations]
+\label{thm:bernoulli-polynomial-namecert-obligations}
+For every accepted $\BernoulliPolynomialUp$ carrier
+$$
+B=(n,C,G,P,F,N_f,Q,R,Z,H,K,S,L),
+$$
+the local $\NameCert_{\BernoulliPolynomialUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed degree, rational coefficient ledger, Bernoulli recurrence and finite-difference row, polynomial reconstruction row, finite-difference handoff, Newton-forward-series handoff, dyadic budget, regular rational readback, Real seal, transport, replay, provenance, and local naming rows;
+\item coefficient readiness, requiring every coefficient read to pass through the finite $\RatUp$ ledger $C$ and the Bernoulli row $G$ before $\PolynomialUp$ reconstruction is opened;
+\item polynomial reconstruction exactness, requiring $P$ to assemble exactly the coefficient rows listed by $C$ and no host polynomial function;
+\item finite-difference handoff, requiring $F$ to read the displayed difference law from $G$ and $P$ before any difference-facing consumer receives the packet;
+\item Newton-forward-series handoff, requiring $N_f$ to consume only the finite forward-difference rows exposed by $F$ and the coefficient budget $Q$;
+\item readback and sealing, requiring $R$ to expose regular rational approximants before the terminal $\RealUp$ seal $Z$ is opened;
+\item structural stability, requiring $H,K,S,L$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No $\BernoulliPolynomialUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bernoulli-polynomial-carrier}. The available analytic-looking data are only the finite degree row, the coefficient ledger, the Bernoulli recurrence and finite-difference row, the polynomial reconstruction row, the two handoff rows, the dyadic budget, and the regular readback.
+
+The coefficient route is finite. Each coefficient is a displayed $\RatUp$ row in $C$, and $G$ records only the finite Bernoulli recurrence and difference request used at degree $n$. Thus a coefficient consumer cannot replace the carrier by an analytic generating function or by a host polynomial object.
+
+The reconstruction and handoff rows are downstream. The row $P$ assembles the displayed coefficients as a $\PolynomialUp$ row, $F$ exposes the corresponding $\FiniteDifferenceUp$ request, and $N_f$ gives the $\NewtonForwardSeriesUp$ consumer only the finite difference data already displayed.
+
+Finally $Q,R,Z,H,K,S,L$ account for precision, readback, sealing, transport, replay, provenance, and naming. Since the carrier has no additional coordinate, the listed rows exhaust the local NameCert surface and exclude quotient real equality, selected representatives, infinite-series convergence, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bernoulli polynomial finite-difference handoff]
+\label{thm:bernoulli-polynomial-finite-difference-handoff}
+Every $\FiniteDifferenceUp$ or $\NewtonForwardSeriesUp$ consumer of an accepted $\BernoulliPolynomialUp$ carrier must first read the finite degree row $n$, rational coefficient ledger $C$, Bernoulli generating and finite-difference row $G$, $\PolynomialUp$ reconstruction $P$, finite-difference handoff $F$, Newton-forward-series handoff $N_f$, $\DyadicRatCoreUp$ budget $Q$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $Z$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $S$, and local $\NameCert$ row $L$. The handoff is a finite BEDC route through \autoref{ch:concrete-instances-finite-difference-namecert}, \autoref{ch:concrete-instances-newton-forward-series-namecert}, and \autoref{ch:concrete-instances-polynomial-namecert}, not an appeal to a host generating function, quotient real, selected limit, infinite Newton expansion, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(n,C,G,P,F,N_f,Q,R,Z,H,K,S,L)$. By \autoref{def:bernoulli-polynomial-carrier}, every row available to a downstream finite-calculus consumer is listed in that tuple.
+
+Read $C$ and $G$ before $P$. The coefficient ledger gives only rational rows, while the Bernoulli row records the finite recurrence and finite-difference request used by the carrier. The polynomial reconstruction therefore remains a displayed $\PolynomialUp$ row assembled from finite data.
+
+Next read the two handoff rows. The $\FiniteDifferenceUp$ consumer receives the displayed forward-difference request through $F$, and the $\NewtonForwardSeriesUp$ consumer receives only the finite coefficient route exposed by $N_f$ after $F$ and $Q$ are available.
+
+The regular rational readback and Real seal are last. The rows $R,Z,H,K,S,L$ preserve and name the same finite route, so no consumer can bypass the BEDC packet by using a quotient real, selected representative, analytic generating function, infinite Newton series, or ambient completeness.
+\end{proof}
+
+\closureat{BernoulliPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\BernoulliPolynomialUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bernoulli-polynomial-carrier}, \autoref{thm:bernoulli-polynomial-namecert-obligations}, and \autoref{thm:bernoulli-polynomial-finite-difference-handoff} seed the finite Bernoulli-polynomial route through rational coefficients, Bernoulli recurrence and finite-difference rows, Polynomial reconstruction, FiniteDifference and NewtonForwardSeries handoffs, DyadicRat budgets, RegSeqRat readback, Real sealing, transport, replay, provenance, and local NameCert.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic generating functions, quotient real equality, selected limits, host polynomial functions, infinite Newton series convergence, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient readiness, polynomial reconstruction exactness, finite-difference handoff, Newton-forward-series handoff, dyadic budgeting, RegSeqRat readback, Real sealing, transport and replay stability, and nonescape for BEDC.Derived.BernoulliPolynomialUp.}
+  \constructivestory{A $\BernoulliPolynomialUp$ packet is generated from a finite degree row, rational coefficient ledger, Bernoulli recurrence and finite-difference row, PolynomialUp reconstruction, FiniteDifferenceUp and NewtonForwardSeriesUp handoffs, DyadicRatCore coefficient budget, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
