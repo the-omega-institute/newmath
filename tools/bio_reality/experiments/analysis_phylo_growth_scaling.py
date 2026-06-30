@@ -130,3 +130,40 @@ for ph,os in agg.items():
     cl_s.append(sum(x["strength"] for x in os)/len(os)); cl_d.append(math.log(sum(x["doubling"] for x in os)/len(os)))
 rs,rd=ranks(cl_s),ranks(cl_d)
 print("(d) clade-aggregated Spearman (n_clades=%d) = %.4f"%(len(agg),pearson(rs,rd)))
+
+def partial_controls(subset, controls):
+    s=[o["strength"] for o in subset]; dt=[math.log(o["doubling"]) for o in subset]
+    rs,rdt=ranks(s),ranks(dt)
+    if not controls: return pearson(rs,rdt)
+    X=[[1.0] for _ in subset]
+    if "gc3" in controls:
+        rg=ranks([o["gc3"] for o in subset])
+        for i in range(len(subset)): X[i].append(rg[i])
+    if "trna" in controls:
+        rt=ranks([math.log(o["trna"]) for o in subset])
+        for i in range(len(subset)): X[i].append(rt[i])
+    return pearson(ols_resid(rs,X), ols_resid(rdt,X))
+
+# (e) SEQUENTIAL partial (oracle overcontrol diagnostic): raw -> +GC3 -> +GC3+tRNA
+print("\n=== (e) sequential partial Spearman(strength, logDT | controls) — overcontrol test ===")
+for label,sub in [("ALL",ORGS),("Bacteria",[o for o in ORGS if TAX[o['organism']][0]=='Bacteria']),
+                  ("Eukaryote",[o for o in ORGS if TAX[o['organism']][0]=='Eukaryote'])]:
+    raw=partial_controls(sub,[]); g=partial_controls(sub,["gc3"]); gt=partial_controls(sub,["gc3","trna"])
+    print("  %-10s n=%-2d  raw=%+.3f  +GC3=%+.3f  +GC3+tRNA=%+.3f"%(label,len(sub),raw,g,gt))
+
+# (f) phylogenetic sign test: same-domain pairs with logDT ratio >=2x; faster -> higher strength?
+print("=== (f) phylogenetic sign test (same-domain pairs, doubling ratio >=2x) ===")
+for dom in ["Bacteria","Eukaryote"]:
+    sub=[o for o in ORGS if TAX[o["organism"]][0]==dom]
+    conc=0; tot=0
+    for i in range(len(sub)):
+        for j in range(i+1,len(sub)):
+            a,b=sub[i],sub[j]
+            if max(a["doubling"],b["doubling"])/min(a["doubling"],b["doubling"])<2.0: continue
+            tot+=1
+            faster, slower = (a,b) if a["doubling"]<b["doubling"] else (b,a)
+            if faster["strength"]>slower["strength"]: conc+=1
+    # two-sided binomial p (exact)
+    from math import comb
+    p=sum(comb(tot,k) for k in range(tot+1) if abs(k-tot/2)>=abs(conc-tot/2))/(2**tot) if tot>0 else 1.0
+    print("  %-10s concordant(faster=stronger) %d/%d  binomial p=%.3f"%(dom,conc,tot,p))
