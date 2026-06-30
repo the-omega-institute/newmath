@@ -12577,6 +12577,7 @@ import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SylvesterSequenceUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.SymmetricPolyUp
+import BEDC.Derived.SymmetricPolynomialUp
 import BEDC.Derived.SymmetryRestorationStabilizerUp.TasteGate
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
