@@ -336,6 +336,226 @@ $$
 Apply \autoref{thm:rh-nyman-exhaustion-fixed-half-readout}.
 \end{proof}
 
+\begin{definition}[Residue readback on reciprocal intervals]
+\label{def:rh-nyman-residue-readback}
+For $n\ge1$ and $k\ge1$, write
+$$
+r_n(k):=k-n\left\lfloor\frac{k}{n}\right\rfloor.
+$$
+Thus $0\le r_n(k)<n$ and $r_n(k)$ is the residue of $k$ modulo $n$.
+\end{definition}
+
+\begin{theorem}[Nyman generators have residue normal form]
+\label{thm:rh-nyman-generators-residue-normal-form}
+If
+$$
+\frac{1}{x}=k+t,
+\qquad
+k\in\mathbb N_{\ge1},
+\qquad
+0\le t<1,
+$$
+then
+$$
+\rho_{1/n}(x)=\frac{r_n(k)}{n}.
+$$
+\end{theorem}
+
+\begin{proof}
+Write $k=qn+r_n(k)$.  Since $0\le r_n(k)+t<n$, one has
+$$
+\left\{\frac{k+t}{n}\right\}
+=
+\frac{r_n(k)+t}{n}.
+$$
+Also $\{1/x\}=t$.  Therefore
+$$
+\rho_{1/n}(x)
+=
+\left\{\frac{k+t}{n}\right\}
+-
+\frac{1}{n}\{k+t\}
+=
+\frac{r_n(k)+t}{n}-\frac{t}{n}
+=
+\frac{r_n(k)}{n}.
+$$
+\end{proof}
+
+\begin{theorem}[Explicit Nyman Gram readback]
+\label{thm:rh-explicit-nyman-gram-readback}
+For $i,j\ge1$, the finite Nyman Gram entries and constant-vector entries
+are
+$$
+\langle \rho_{1/i},\rho_{1/j}\rangle
+=
+\frac{1}{ij}
+\sum_{k=1}^{\infty}
+r_i(k)r_j(k)
+\left(
+\frac{1}{k}-\frac{1}{k+1}
+\right),
+$$
+and
+$$
+\langle \mathbf 1,\rho_{1/j}\rangle
+=
+\frac{\log j}{j}.
+$$
+\end{theorem}
+
+\begin{proof}
+Use the change of variables $y=1/x$.  Then $dx=y^{-2}\,dy$, and the
+interval $y\in[k,k+1)$ corresponds to
+$$
+x\in\left(\frac{1}{k+1},\frac{1}{k}\right].
+$$
+By \autoref{thm:rh-nyman-generators-residue-normal-form}, the product
+$\rho_{1/i}\rho_{1/j}$ is constant on that interval with value
+$r_i(k)r_j(k)/(ij)$.  Hence
+$$
+\int_{1/(k+1)}^{1/k}\rho_{1/i}(x)\rho_{1/j}(x)\,dx
+=
+\frac{r_i(k)r_j(k)}{ij}
+\int_k^{k+1}\frac{dy}{y^2}.
+$$
+Since
+$$
+\int_k^{k+1}\frac{dy}{y^2}
+=
+\frac{1}{k}-\frac{1}{k+1},
+$$
+the Gram formula follows by summing over $k$.  The formula for
+$\langle\mathbf 1,\rho_{1/j}\rangle$ is the removable $s\to1$ limit of
+the Mellin bridge row
+$$
+\frac{(j^{-1}-j^{-s})\zeta(s)}{s},
+$$
+namely $j^{-1}\log j$.
+\end{proof}
+
+\begin{definition}[Explicit Nyman Gram exhaustion]
+\label{def:rh-explicit-nyman-gram-exhaustion}
+Let $G_N^{\mathrm{res}}$ be the matrix with entries given by
+\autoref{thm:rh-explicit-nyman-gram-readback}, and let
+$$
+u_N^{\mathrm{res}}
+:=
+\left(
+\frac{\log 1}{1},
+\frac{\log 2}{2},
+\ldots,
+\frac{\log N}{N}
+\right)^T.
+$$
+The row
+$$
+\mathsf{ExplicitNymanGramExhaustion}
+$$
+asserts
+$$
+\lim_{N\to\infty}
+\left(
+1-(u_N^{\mathrm{res}})^\ast
+(G_N^{\mathrm{res}})^+
+u_N^{\mathrm{res}}
+\right)
+=0.
+$$
+\end{definition}
+
+\begin{theorem}[Explicit Nyman Gram exhaustion gives Nyman exhaustion]
+\label{thm:rh-explicit-nyman-gram-exhaustion-gives-nyman-exhaustion}
+If $\mathsf{ExplicitNymanGramExhaustion}$ holds, then
+$$
+\mathsf{NymanBeurlingExhaustion}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-explicit-nyman-gram-readback} identifies
+$G_N^{\mathrm{res}}$ and $u_N^{\mathrm{res}}$ with the Gram matrix and
+constant-vector row of the finite space $V_N$.  The same projection
+calculation used in
+\autoref{thm:rh-golden-gram-row-distance-row} gives
+$$
+d_N^2
+=
+1-(u_N^{\mathrm{res}})^\ast
+(G_N^{\mathrm{res}})^+
+u_N^{\mathrm{res}}.
+$$
+The displayed limit is therefore exactly $d_N\to0$.
+\end{proof}
+
+\begin{definition}[Damped Mobius Nyman exhaustion]
+\label{def:rh-damped-mobius-nyman-exhaustion}
+Let $\mu$ denote the Mobius function.  A damped Mobius Nyman row is a
+finite family of weights
+$$
+\omega_m:\{1,\ldots,F_m\}\to\mathbb C
+$$
+and the associated vector
+$$
+A_m^{\varphi}(x)
+:=
+-
+\sum_{n=1}^{F_m}
+\mu(n)\omega_m(n)\rho_{1/n}(x)
+\in V_m^{\varphi}.
+$$
+The source row
+$$
+\mathsf{DampedMobiusNymanExhaustion}
+$$
+asserts that such weights can be chosen with
+$$
+\|A_m^{\varphi}-\mathbf 1\|_2\to0.
+$$
+\end{definition}
+
+\begin{theorem}[Damped Mobius exhaustion gives golden Gram exhaustion]
+\label{thm:rh-damped-mobius-exhaustion-gives-golden-gram-exhaustion}
+If $\mathsf{DampedMobiusNymanExhaustion}$ holds, then
+$$
+\mathsf{GoldenNymanGramExhaustion}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Since $A_m^{\varphi}\in V_m^{\varphi}$,
+$$
+d_m^{\varphi}
+\le
+\|A_m^{\varphi}-\mathbf 1\|_2.
+$$
+The right side tends to $0$, so $d_m^{\varphi}\to0$.  By
+\autoref{thm:rh-golden-gram-row-distance-row}, this is
+$\mathsf{GoldenNymanGramExhaustion}$.
+\end{proof}
+
+\begin{principle}[Mobius truncation as obstruction detector]
+\label{prin:rh-mobius-truncation-obstruction-detector}
+The undamped choice $\omega_m(n)=1$ exposes the arithmetic load hidden
+inside the Hilbert exhaustion row.  On intervals with $1/x\in[k,k+1)$
+and $k\le N$, the raw sum
+$$
+-
+\sum_{n=1}^{N}\mu(n)\rho_{1/n}(x)
+$$
+differs from $\mathbf 1$ by the scalar
+$$
+-
+k\sum_{n=1}^{N}\frac{\mu(n)}{n}.
+$$
+Thus the low reciprocal blocks already demand cancellation in the
+weighted Mobius average.  The damped row is therefore not an external
+shortcut; it is a finite Hilbert-space target that keeps the tail
+ledger visible.
+\end{principle}
+
 \begin{principle}[Constructive square target]
 \label{prin:rh-golden-nyman-constructive-square-target}
 The Nyman square tower relocates the non-circular part of the finite
@@ -348,6 +568,8 @@ $$
 $$
 Thus the target chain is
 $$
+\mathsf{DampedMobiusNymanExhaustion}
+\Longrightarrow
 \mathsf{GoldenNymanGramExhaustion}
 \Longrightarrow
 \mathsf{NymanBeurlingExhaustion}
