@@ -10571,6 +10571,7 @@ import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.BridgeRoute
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
 import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
+import BEDC.Derived.RealNameClassifierUp.RefinementScopeFactorization
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.ScopeRoute
