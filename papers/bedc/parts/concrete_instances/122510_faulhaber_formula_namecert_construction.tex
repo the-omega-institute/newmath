@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FaulhaberFormulaUp$}
+\label{ch:concrete-instances-faulhaber-formula-namecert}
+\origin{human}
+
+Following Faulhaber and the finite-difference treatment of sums of powers, the $\FaulhaberFormulaUp$ packet records the finite BEDC route by which a unary exponent row, a polynomial coefficient ledger, and a finite-difference telescoping row name the closed-form power-sum formula. It sits over the natural-number carrier of \autoref{ch:concrete-instances-nat-namecert}, the additive and multiplicative arithmetic rows of \autoref{ch:concrete-instances-add-namecert} and \autoref{ch:concrete-instances-mul-namecert}, the polynomial coefficient surface of \autoref{ch:concrete-instances-polynomial-namecert}, and the finite-difference row of \autoref{ch:concrete-instances-finite-difference-namecert}. The packet is a finite summation consumer: it does not import an ambient analytic series, a host polynomial identity library, quotient real equality, countable choice, or a selected infinite limit.
+
+\begin{definition}[Faulhaber formula carrier]
+\label{def:faulhaber-formula-carrier}
+A $\FaulhaberFormulaUp$ carrier is a finite $\BHist$ packet
+$$
+F=(N,A,M,P,D,S,H,C,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ exponent and summation-length row.
+\item $A$ is the $\AddUp$ accumulation row for finite partial sums.
+\item $M$ is the $\MulUp$ multiplication row used to form powers and polynomial products.
+\item $P$ is the $\PolynomialUp$ coefficient ledger whose displayed polynomial is the closed power-sum candidate.
+\item $D$ is the $\FiniteDifferenceUp$ row asserting that the forward difference of the displayed polynomial is the inspected power row.
+\item $S$ is the finite summation row comparing the accumulated power values with the polynomial endpoint difference.
+\item $H$ records componentwise $\hsame$ transport for exponent, arithmetic, polynomial, finite-difference, summation, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a unary bound through $N,A,M,P,D,S,H$.
+\item $Q$ is the $\Pkg$ provenance over $\FaulhaberFormulaUp$, $\NatUp$, $\AddUp$, $\MulUp$, $\PolynomialUp$, $\FiniteDifferenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\FaulhaberFormulaUp}$ row.
+\end{enumerate}
+The classifier accepts a Faulhaber read only through these rows. It has no coordinate for an analytic generating function, Bernoulli-number completion outside the displayed coefficient ledger, quotient equality of polynomials, ambient ordered-field automation, or an infinite summation principle.
+\end{definition}
+
+\begin{theorem}[Faulhaber formula NameCert obligations]
+\label{thm:faulhaber-formula-namecert-obligations}
+For every accepted $\FaulhaberFormulaUp$ carrier $F=(N,A,M,P,D,S,H,C,Q,L)$, the local $\NameCert_{\FaulhaberFormulaUp}$ surface consists exactly of carrier admission for the natural-number exponent and bound, additive accumulation, multiplicative power formation, polynomial coefficient ledger, finite-difference certificate, finite summation comparison, componentwise transport, displayed replay, provenance, and local naming rows. No accepted consumer may read the closed power-sum formula before those rows are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:faulhaber-formula-carrier}. The rows $N,A,M,P,D,S,H,C,Q,L$ are the only displayed data available to a local certificate.
+
+The arithmetic rows $A$ and $M$ expose finite addition and multiplication before any power row is summed. The polynomial row $P$ supplies the closed candidate as a finite coefficient ledger, not as an ambient host polynomial identity.
+
+The finite-difference row $D$ is then the exactness row: it relates the displayed polynomial ledger to the inspected power row. The summation row $S$ consumes that exactness by finite telescoping over the unary bound named by $N$.
+
+Finally $H,C,Q,L$ transport, replay, source, and name the same finite route. Since no excluded object is a carrier coordinate, the local NameCert obligations are exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[Faulhaber finite-difference route]
+\label{thm:faulhaber-formula-finite-difference-route}
+Every accepted $\FaulhaberFormulaUp$ consumer factors the closed power-sum read through the finite route
+$$
+\NatUp,\AddUp,\MulUp
+\longmapsto
+\PolynomialUp
+\longmapsto
+\FiniteDifferenceUp
+\longmapsto
+\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The route reads the polynomial coefficient ledger and its displayed finite difference before it exports the summation comparison, and it cannot be replaced by an analytic series, a host Bernoulli-coefficient table, quotient equality of polynomials, countable choice, or an infinite limit.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:faulhaber-formula-namecert-obligations}. They force every accepted read to expose the natural-number, additive, multiplicative, polynomial, finite-difference, and summation rows before provenance and local naming are consumed.
+
+The finite-difference row is the bridge from the coefficient ledger to the power row. Once the displayed forward difference is read, the finite summation row performs only the bounded telescoping comparison over the unary length from $N$.
+
+The non-escape clause follows from the carrier definition. None of analytic series data, host Bernoulli tables outside $P$, quotient polynomial equality, countable choice, or infinite limits is present in $F$, so none can serve as an intermediate factor in an accepted Faulhaber read.
+\end{proof}
+
+\falsifiablePrediction{A $\FaulhaberFormulaUp$ consumer that exports a power-sum formula while omitting the polynomial coefficient ledger $P$ or the finite-difference row $D$ is not reading an accepted packet of this chapter.}
+
+\independenceWitness{nat, add, mul, polynomial, finite-difference: $\FaulhaberFormulaUp$ is not bijective with any listed sibling because it jointly carries arithmetic power formation, a polynomial coefficient ledger, a finite-difference exactness row, a summation comparison, transport, replay, provenance, and local naming.}
+
+\closureat{FaulhaberFormulaUp}{seedStr}
+
+\begin{closurestatus}{\FaulhaberFormulaUp}
+  \constructivestory{A $\FaulhaberFormulaUp$ packet is generated from NatUp exponent and bound rows, AddUp accumulation, MulUp power formation, a PolynomialUp coefficient ledger, a FiniteDifferenceUp exactness row, a finite summation comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:faulhaber-formula-carrier}, \autoref{thm:faulhaber-formula-namecert-obligations}, and \autoref{thm:faulhaber-formula-finite-difference-route} seed the finite power-sum certificate route over arithmetic, polynomial, finite-difference, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, analytic generating functions, Bernoulli-number completion outside the displayed coefficient ledger, quotient polynomial equality, countable choice, or infinite summation.}
+  \upgradepath{Obligation closure requires checked carrier admission, arithmetic power formation, polynomial coefficient readiness, finite-difference exactness, finite summation telescoping, transport, replay, provenance, and local naming for BEDC.Derived.FaulhaberFormulaUp.}
+\end{closurestatus}
