@@ -9958,6 +9958,7 @@ import BEDC.Derived.PrefixObserverUp.TasteGate
 import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.Boundary
 import BEDC.Derived.PremetricUp.TasteGate
+import BEDC.Derived.PremetricUp.ZeroDistanceBoundary
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.PreuniformityUp.EntourageStability
@@ -12903,6 +12904,7 @@ import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.NameCertObligations
+import BEDC.Derived.TwinSubstrateAuditCouplingUp.NonCollapse
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate

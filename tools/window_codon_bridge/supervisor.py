@@ -84,6 +84,20 @@ def git_busy() -> bool:
     return subprocess.run(["pgrep", "-x", "git"], capture_output=True).returncode == 0
 
 
+def _augmented_env() -> dict:
+    """PATH augmented with Homebrew/TeX bins. launchctl's default PATH omits
+    /opt/homebrew/bin, so subprocesses needing gh / diamond / pdflatex must get
+    this env (else FileNotFoundError crashes the cycle)."""
+    env = os.environ.copy()
+    env["PATH"] = ":".join([
+        "/opt/homebrew/bin",
+        "/usr/local/bin",
+        "/Library/TeX/texbin",
+        env.get("PATH", "/usr/bin:/bin:/usr/sbin:/sbin"),
+    ])
+    return env
+
+
 def _publish_path(path: str) -> str:
     normalized = path.strip().replace(os.sep, "/")
     while normalized.startswith("./"):
@@ -760,8 +774,11 @@ def dev_rollup_lane() -> dict:
         return {"ran": False, "error": f"config_error: {exc}"}
     if not cfg.get("enabled", False):
         return {"ran": False, "skipped": "disabled"}
-    if git_busy():
-        return {"ran": False, "skipped": "git_busy"}
+    # No global git_busy() guard here: the managed-rollup script operates in its
+    # own isolated worktree and acquires the shared git common lock itself, so it
+    # is designed to run concurrently with other pipelines. Gating on the global
+    # `pgrep -x git` would starve the lane on a busy multi-daemon machine (it
+    # never clears), which is why bio-D omits it.
     if _merge_head_present():
         return {"ran": False, "skipped": "merge_in_progress"}
     remote = str(cfg.get("remote") or "origin")
@@ -777,7 +794,11 @@ def dev_rollup_lane() -> dict:
     script = REPO_ROOT / "tools" / "sync_with_auto_dev.py"
     if not script.exists():
         return {"ran": False, "error": "sync_script_missing"}
-    if subprocess.run(["gh", "--version"], capture_output=True).returncode != 0:
+    env = _augmented_env()
+    try:
+        if subprocess.run(["gh", "--version"], capture_output=True, env=env).returncode != 0:
+            return {"ran": False, "skipped": "gh_unavailable"}
+    except FileNotFoundError:
         return {"ran": False, "skipped": "gh_unavailable"}
     git("fetch", remote, source, target)
     delta = git("diff", "--name-only", f"{remote}/{target}...{remote}/{source}")
@@ -787,7 +808,7 @@ def dev_rollup_lane() -> dict:
     try:
         result = subprocess.run(
             ["python3", str(script), "--source-branch", source, "--target-branch", target],
-            cwd=str(REPO_ROOT), capture_output=True, text=True, timeout=1800,
+            cwd=str(REPO_ROOT), capture_output=True, text=True, timeout=1800, env=env,
         )
     except subprocess.TimeoutExpired:
         _write_dev_rollup_state()
