@@ -6802,6 +6802,7 @@ import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
 import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashUp
+import BEDC.Derived.HausdorffCompletionAdjointnessUp
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.ForwardLink
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.NameCertObligations
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.SeparatedMetricRoute
@@ -12190,6 +12191,7 @@ import BEDC.Derived.SheafificationUp.SeparatedRefinementTransport
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
 import BEDC.Derived.SheafificationUp.SheafHandoffLedgerObligation
+import BEDC.Derived.SheafificationUp.SheafTargetTransport
 import BEDC.Derived.SheafificationUp.SitePlusBoundaryObligations
 import BEDC.Derived.SheafificationUp.SiteSourceExposure
 import BEDC.Derived.SheafificationUp.SourceCoverLocality
@@ -12487,6 +12489,7 @@ import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.SquarefreeRoute
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
+import BEDC.Derived.SubdifferentialUp.SupportInequalityExactness
 import BEDC.Derived.SubdifferentialUp.TasteGate
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
@@ -13403,6 +13406,7 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryValueUp.ValuePublicRead
 import BEDC.Derived.ZeckendorfCarryValueUp.VisionRealization
 import BEDC.Derived.ZeckendorfNormalUp
+import BEDC.Derived.ZeckendorfPrimeEdgeUp.TasteGate
 import BEDC.Derived.ZeckendorfUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZeroSetUp.TasteGate
