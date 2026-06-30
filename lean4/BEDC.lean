@@ -12176,6 +12176,7 @@ import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.GluingLedgerScope
 import BEDC.Derived.SheafificationUp.GluingTargetObligation
 import BEDC.Derived.SheafificationUp.GrothendieckLocalityInduction
+import BEDC.Derived.SheafificationUp.KernelScopePackage
 import BEDC.Derived.SheafificationUp.LocalGluingInduction
 import BEDC.Derived.SheafificationUp.LocalGluingObligation
 import BEDC.Derived.SheafificationUp.LocalNameCertNonescape
