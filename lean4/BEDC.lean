@@ -10462,6 +10462,7 @@ import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterUp.TasteGate
 import BEDC.Derived.RealCauchyModulusRefinementUp.TasteGate
 import BEDC.Derived.RealCauchyModulusSelectorUp
+import BEDC.Derived.RealCauchyModulusSelectorUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.BoundedReadbackCoherence
 import BEDC.Derived.RealCauchyModulusUp.BoundedTailLedger
 import BEDC.Derived.RealCauchyModulusUp.Classifier
@@ -12239,6 +12240,7 @@ import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.PlusGluingTransport
 import BEDC.Derived.SheafificationUp.PlusLocalityGluingLedger
 import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
+import BEDC.Derived.SheafificationUp.PlusNonescape
 import BEDC.Derived.SheafificationUp.PlusSeparationObligation
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.PresheafSheafRoute
