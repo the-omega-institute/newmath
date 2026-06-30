@@ -787,6 +787,82 @@ def _detect_pseudo_generalization(
     return hits
 
 
+INTERNAL_STDBRIDGE_RE = re.compile(r"\b(\w+(?:Up)?_StdBridge)\b")
+EXTERNAL_TRANSFER_TOKEN_RE = re.compile(
+    r"\b(stdEquiv|Mathlib|OrderIso|RingEquiv|Equiv)\b"
+)
+REVERSE_REPLAY_BENCHMARK_REL = "lean4/scripts/reverse_replay_benchmark.json"
+
+
+def _reverse_replay_transfer_state(worktree: Path) -> tuple[int, int] | None:
+    """Return (transferred_to_std, blocked_missing_carrier) from the reverse-replay
+    benchmark, or None if unreadable. CHEAP file read — NO subprocess: the per-round
+    pre-merge gate must not spawn another full-tree audit (see the audit-contention
+    death-spiral incident; adding subprocesses here re-creates it)."""
+    try:
+        data = json.loads(
+            (worktree / REVERSE_REPLAY_BENCHMARK_REL).read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError):
+        return None
+    entries = data.get("entries", []) if isinstance(data, dict) else data
+    if not isinstance(entries, list):
+        return None
+    transferred = sum(
+        1 for e in entries if isinstance(e, dict) and e.get("status") == "transferred_to_std"
+    )
+    blocked = sum(
+        1 for e in entries if isinstance(e, dict) and e.get("status") == "blocked_missing_carrier"
+    )
+    return transferred, blocked
+
+
+def detect_traditional_export_refuge(worktree: Path, base_branch: str) -> list[str]:
+    """Advisory (round-2 stdInterop adversarial, codex-cli + gpt-pro consensus): a
+    round adds BEDC-internal `<X>Up_StdBridge` theorems (internal readback, NOT a
+    transfer to a traditional/Std object) while the reverse-replay benchmark shows
+    `transferred_to_std == 0` and an actionable `blocked_missing_carrier` frontier.
+
+    Surfaces the stdInterop refuge: the pipeline grows internal bridges (rewarded by
+    critical_path's bridge_mature_advance weight) instead of pursuing real
+    traditional-math-equivalence export, so the user-goal metric
+    (transferred_to_std) stays 0 even as internal-bridge counts climb. The mature
+    fix is the export-certificate gate (internal_proof + mature bridge + a
+    traditional-vocab export theorem, gpt-pro's `exported_claim_without_mature_traditional_equiv`)
+    plus a scheduler reweight toward the stdInterop frontier; this is the cheap
+    mechanical surface that makes the refuge visible per-round."""
+    state = _reverse_replay_transfer_state(worktree)
+    if state is None:
+        return []
+    transferred, blocked = state
+    if transferred > 0 or blocked == 0:
+        # Transfer frontier is already moving, or there is no actionable
+        # (carrier-buildable) frontier to redirect toward — nothing to flag.
+        return []
+    added = collect_added_public_theorem_blocks(worktree, base_branch)
+    internal: list[str] = []
+    for qualified, rel_path, block in added:
+        name = qualified.rsplit(".", 1)[-1]
+        if not INTERNAL_STDBRIDGE_RE.search(name):
+            continue
+        # A genuine external transfer names a traditional/Std endpoint
+        # (stdEquiv / Mathlib / *Equiv); an internal readback bridge does not —
+        # flag only the internal kind.
+        if EXTERNAL_TRANSFER_TOKEN_RE.search(block):
+            continue
+        internal.append(name)
+    if not internal:
+        return []
+    return [
+        f"STDINTEROP REFUGE — round adds {len(internal)} BEDC-internal `_StdBridge` "
+        f"theorem(s) ({', '.join(sorted(set(internal))[:6])}) while reverse-replay "
+        f"benchmark transferred_to_std=0, blocked_missing_carrier={blocked} "
+        "(actionable transfer frontier). Internal bridges are legitimate BEDC work "
+        "but do NOT advance traditional-math-equivalence export. Prioritise a real "
+        "internal->traditional transfer certificate over more internal readback."
+    ]
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--worktree", type=Path, required=True)
@@ -820,12 +896,26 @@ def main() -> int:
             for hit in value_hits:
                 print(f"[shadow] would-reject (value-instance): {hit}")
             value_hits = []
+    # Traditional-export refuge gate (round-2 stdInterop adversarial). SHADOW-first;
+    # flip BEDC_STDINTEROP_REFUGE_GATE_SHADOW=0 only after the export-certificate
+    # maturity check + critical_path stdinterop_frontier reweight land and a real
+    # transfer registers (until then the warning is persistent by design).
+    refuge_hits: list[str] = []
+    refuge_gate_enabled = os.environ.get("BEDC_ENABLE_STDINTEROP_REFUGE_GATE", "1") != "0"
+    refuge_gate_shadow = os.environ.get("BEDC_STDINTEROP_REFUGE_GATE_SHADOW", "1") == "1"
+    if refuge_gate_enabled:
+        refuge_hits = detect_traditional_export_refuge(args.worktree, args.base_branch)
+        if refuge_gate_shadow:
+            for hit in refuge_hits:
+                print(f"[shadow] would-warn (stdinterop-refuge): {hit}")
+            refuge_hits = []
     if (
         not decls
         and not args.include_shallow
         and not large_decide_hits
         and not wrapper_hits
         and not value_hits
+        and not refuge_hits
     ):
         return 0
 
@@ -868,6 +958,7 @@ def main() -> int:
         or large_decide_hits
         or wrapper_hits
         or value_hits
+        or refuge_hits
     ):
         return 0
 
@@ -904,6 +995,8 @@ def main() -> int:
         msgs.append("\n".join(wrapper_hits[:8]))
     if value_hits:
         msgs.append("\n".join(value_hits[:8]))
+    if refuge_hits:
+        msgs.append("\n".join(refuge_hits[:8]))
     print("\n".join(msgs))
     return 1
 
