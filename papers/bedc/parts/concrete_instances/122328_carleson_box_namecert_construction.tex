@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CarlesonBoxUp$}
+\label{ch:concrete-instances-carleson-box-namecert}
+\origin{human}
+
+Following Carleson and the Hardy-space boundary geometry tradition, the $\CarlesonBoxUp$ packet records the finite boundary arc and radial window data needed before a Hardy-boundary consumer can inspect a Carleson box. It sits after the Hardy-space carrier of \autoref{ch:concrete-instances-hardy-space-namecert}, the dyadic tent-function window surface of \autoref{ch:concrete-instances-dyadic-tent-function-namecert}, the finite content budget of \autoref{ch:concrete-instances-hausdorff-content-namecert}, and the measure-facing carrier of \autoref{ch:concrete-instances-measure-namecert}. The packet names only displayed arcs, dyadic radial intervals, tent windows, budget rows, Hardy handoff data, transport, replay, provenance, and local naming; it does not assert the Carleson embedding theorem, selected boundary limits, completed measure theory, quotient function equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Carleson box carrier]
+\label{def:carleson-box-carrier}
+A $\CarlesonBoxUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,R,T,M,H,E,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the boundary-arc row. It stores the named center, dyadic angular endpoints, orientation, and finite endpoint inspections of the boundary circle arc.
+\item $R$ is the radial dyadic-window row. It records the inner and outer radial cutoffs attached to the same arc, with all radial tolerances read through $\DyadicRatCoreUp$.
+\item $T$ is the $\DyadicTentFunctionUp$ window row whose tent footprint contains the displayed arc and radial window.
+\item $M$ is the finite measure or $\HausdorffContentUp$ budget row for the same window. It records only the displayed cover, mass, or content upper-bound data used by the boundary request.
+\item $H$ is the $\HardySpaceUp$ handoff row. It stores the Hardy-boundary source whose local read is allowed to inspect the box after $A,R,T,M$ are visible.
+\item $E$ is the terminal $\RealUp$ seal row for the radial, content, and Hardy-boundary scalar reads.
+\item $S$ records componentwise $\hsame$ transport for $A,R,T,M,H,E$.
+\item $C$ records displayed $\Cont$ replay from a boundary request through the arc, radial window, tent window, budget, Hardy handoff, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CarlesonBoxUp$, $\HardySpaceUp$, $\DyadicTentFunctionUp$, $\HausdorffContentUp$, $\MeasureUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CarlesonBoxUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through $A,R,T,M,H,E,S,C,P,N$. It has no coordinate for a selected nontangential boundary limit, a host Carleson measure, a completed measure algebra, quotient function equality, a global embedding constant, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Carleson box NameCert obligations]
+\label{thm:carleson-box-namecert-obligations}
+For every accepted $\CarlesonBoxUp$ carrier $B=(A,R,T,M,H,E,S,C,P,N)$, the local $\NameCert_{\CarlesonBoxUp}$ surface consists exactly of boundary-arc admission, radial dyadic-window admission, dyadic tent-window visibility, finite measure or Hausdorff-content budget visibility, Hardy-space handoff visibility, Real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. A Hardy-boundary consumer may read the box only after $A,R,T,M,H$ are all public in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:carleson-box-carrier}. The displayed tuple exposes exactly the boundary arc, radial window, tent window, budget row, Hardy handoff, Real seal, transport, replay, provenance, and local naming row.
+
+Read the geometric rows first. The arc $A$ and radial window $R$ determine the finite boundary box, while $T$ records the dyadic tent window that contains the same footprint.
+
+The budget and Hardy rows are downstream of that footprint. The row $M$ supplies only the displayed finite measure or content budget, and $H$ supplies only the Hardy-space boundary source attached to that same window.
+
+Finally the structural rows preserve the route. Since $S,C,P,N$ add only transport, replay, provenance, and naming, the packet has no coordinate for selected boundary limits, host Carleson measures, completed measure algebras, quotient function equality, embedding constants, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Carleson box Hardy-boundary route]
+\label{thm:carleson-box-hardy-boundary-route}
+Every $\HardySpaceUp$ boundary read that consumes an accepted $\CarlesonBoxUp$ packet factors through the finite route
+$$
+A,R \longmapsto \DyadicTentFunctionUp \longmapsto \HausdorffContentUp/\MeasureUp \longmapsto \HardySpaceUp \longmapsto \RealUp .
+$$
+In carrier notation, the consumer reads the boundary arc $A$, radial dyadic window $R$, tent window $T$, budget row $M$, Hardy handoff $H$, Real seal $E$, and the structural rows $S,C,P,N$. The route is a finite Hardy-boundary geometry handoff, not a Carleson embedding theorem, selected boundary limit, completed measure theory, quotient function equality, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the geometric footprint. The boundary arc row $A$ and radial window row $R$ name the box as finite dyadic data, so the packet never begins with an ambient boundary set or completed measure object.
+
+Next read the tent and budget rows. The $\DyadicTentFunctionUp$ row $T$ attaches the window to a finite tent footprint, and the row $M$ supplies only the displayed $\HausdorffContentUp$ or $\MeasureUp$ budget for that footprint.
+
+The Hardy-facing read then passes through $H$ and $E$. The Hardy handoff is visible only after the footprint and budget rows have been displayed, and the Real seal records the scalar endpoint of that same route.
+
+Transport, replay, provenance, and local naming preserve the displayed packet. Because no carrier row stores a Carleson embedding theorem, selected boundary limit, completed measure theory, quotient equality, or ambient completeness principle, no Hardy-boundary consumer can read those endpoints from the box.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CarlesonBoxUp$ packet is refuted if a Hardy-boundary consumer reads a box without displaying the boundary arc, radial dyadic window, tent-function window, finite budget, Hardy handoff, Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{hardy-space, dyadic-tent-function, hausdorff-content, measure: $\CarlesonBoxUp$ is not bijective to any listed sibling because it jointly stores the boundary arc, radial dyadic window, tent footprint, finite budget, Hardy handoff, Real seal, and structural support in one packet.}
+
+\closureat{CarlesonBoxUp}{seedStr}
+
+\begin{closurestatus}{\CarlesonBoxUp}
+  \constructivestory{A $\CarlesonBoxUp$ packet is generated from a boundary arc, radial dyadic window, dyadic tent-function window, finite Hausdorff-content or measure budget, HardySpace handoff, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:carleson-box-carrier}, \autoref{thm:carleson-box-namecert-obligations}, and \autoref{thm:carleson-box-hardy-boundary-route} seed the finite Hardy-boundary geometry packet over boundary arcs, radial windows, tent windows, content or measure budgets, Hardy handoff, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Carleson embedding theorem, selected boundary limits, completed measure theory, quotient function equality, global embedding constants, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.CarlesonBoxUp.}
+\end{closurestatus}
