@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyNetBridgeUp$}
+\label{ch:concrete-instances-uniform-cauchy-net-bridge-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Cauchy nets, the $\UniformCauchyNetBridgeUp$ packet records the finite handoff by which directed Cauchy-net data, entourage-filter data, and regular-Cauchy readback are inspected before any completion-facing consumer may read a terminal seal. It sits between the regular Cauchy net surface of \autoref{ch:concrete-instances-regular-cauchy-net-namecert}, the Cauchy entourage-filter route of \autoref{ch:concrete-instances-cauchy-entourage-filter-namecert}, the uniform-space completion packet of \autoref{ch:concrete-instances-uniform-space-completion-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a constructive bridge object, not a quotient of nets, a selected limit, a countable-choice schedule, ambient $\RealUp$ completeness, or a checked Lean bridge.
+
+\begin{definition}[Uniform Cauchy net bridge carrier]
+\label{def:uniform-cauchy-net-bridge-carrier}
+A $\UniformCauchyNetBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(N,E,F,R,S,Z,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the directed Cauchy-net source row, naming the directed index data, net observations, and displayed Cauchy-entourage requests.
+\item $E$ is the entourage row, recording finite uniform entourages and their monotone refinement route.
+\item $F$ is the filter row, recording the Cauchy filter data read from the entourage route and the compatibility witness with the net source.
+\item $R$ is the regular-Cauchy readback row, exposing the $\RegSeqRatUp$ regular rational name obtained from the displayed net/filter windows.
+\item $S$ is the $\StreamNameUp$ window row, recording the finite observations by which the directed net and regular readback are inspected.
+\item $Z$ is the completion-seal row, recording the $\UniformSpaceCompletionUp$ handoff and the terminal $\RealUp$ zero-distance or classifier row available to completion consumers.
+\item $H$ records componentwise $\hsame$ transport for $N,E,F,R,S,Z,C,P,L$.
+\item $C$ records displayed $\Cont$ replay for directed-net inspection, entourage refinement, filter compatibility, regular-Cauchy readback, stream-window inspection, completion sealing, and zero-distance or classifier consumption.
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyNetBridgeUp$, $\RegularCauchyNetUp$, $\CauchyEntourageFilterUp$, $\UniformSpaceCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\UniformCauchyNetBridgeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotienting nets, selecting a limit point, invoking countable choice, proving ambient completeness of $\RealUp$, or replacing the displayed bridge with a host uniform-completion theorem.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy net bridge NameCert obligations]
+\label{thm:uniform-cauchy-net-bridge-namecert-obligations}
+For the carrier of \autoref{def:uniform-cauchy-net-bridge-carrier}, the local $\NameCert_{\UniformCauchyNetBridgeUp}$ surface consists exactly of carrier admission for $K=(N,E,F,R,S,Z,H,C,P,L)$, directed-entourage stability through $N,E$, filter/net compatibility through $F$, regular readback through $R$, stream-window inspection through $S$, completion sealing and zero-distance or classifier exposure through $Z$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(N,E,F,R,S,Z,H,C,P,L)$. Carrier admission supplies the directed net source before any entourage or filter row is consumed.
+
+Read $E$ and $F$ together. The entourage row displays finite uniform refinements, while the filter row records that the same displayed route is compatible with the directed Cauchy-net source.
+
+Next read $R,S,Z$. The regular-Cauchy readback is inspected through finite stream windows before the completion seal and the $\RealUp$ zero-distance or classifier row can be consumed.
+
+Finally use $H,C,P,L$. Transport, replay, provenance, and local naming preserve only the displayed packet, so the listed rows exhaust the NameCert surface and add no quotient net, selected limit, countable-choice schedule, ambient Real completeness theorem, or checked bridge.
+\end{proof}
+
+\falsifiablePrediction{A completion consumer that reads a selected limit or quotient net from $\UniformCauchyNetBridgeUp$ without displaying $N,E,F,R,S,Z,H,C,P,L$ refutes this packet.}
+
+\independenceWitness{Nearest siblings: regular-cauchy-net, cauchy-entourage-filter, uniform-space-completion, regseqrat, streamname, real. None carries the combined bridge packet because each sibling exposes one route, while $\UniformCauchyNetBridgeUp$ stores directed-net source data, entourage/filter compatibility, regular-Cauchy readback, stream windows, completion seal, zero-distance or classifier exposure, transport, replay, provenance, and local naming in one finite carrier.}
+
+\begin{closurestatus}{\UniformCauchyNetBridgeUp}
+  \constructivestory{A $\UniformCauchyNetBridgeUp$ packet is generated by displaying a directed Cauchy-net source, finite entourage refinements, a compatible Cauchy-filter row, regular-Cauchy readback, stream windows, a completion seal, zero-distance or classifier exposure, componentwise transport, replay, provenance, and local naming in one finite $\BHist$ carrier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-net-bridge-carrier} and \autoref{thm:uniform-cauchy-net-bridge-namecert-obligations} bind the seed carrier and local NameCert obligations for the constructive net/filter/regular-Cauchy completion handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim quotient nets, selected limits, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{A scoped closure would require stable downstream theorems for directed-entourage compatibility, regular readback, completion sealing, and the displayed refusal boundary.}
+\end{closurestatus}

@@ -1179,6 +1179,7 @@ import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpaceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
+import BEDC.Derived.BishopTotalBoundedUp
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BishopUniformContinuityModulusUp.TasteGate
@@ -7782,6 +7783,7 @@ import BEDC.Derived.LocatedLimitUp.WindowScheduleExactness
 import BEDC.Derived.LocatedLimsupUp
 import BEDC.Derived.LocatedLowerBoundUp
 import BEDC.Derived.LocatedLowerBoundUp.NameCertObligations
+import BEDC.Derived.LocatedLowerBoundUp.TasteGate
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricSpaceUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
@@ -8044,6 +8046,7 @@ import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
 import BEDC.Derived.MarkovRealUp.TasteGate
 import BEDC.Derived.MarkovTriggerDynamicsUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
+import BEDC.Derived.MartingaleConvergenceWitnessUp
 import BEDC.Derived.MartingaleFiltrationUp.TasteGate
 import BEDC.Derived.MartingaleStoppingConvergenceUp
 import BEDC.Derived.MartingaleUp
@@ -10174,6 +10177,8 @@ import BEDC.Derived.RHRoute.BoxCoverInduction
 import BEDC.Derived.RHRoute.BoxKernelConcrete
 import BEDC.Derived.RHRoute.CertifiedFirstZero
 import BEDC.Derived.RHRoute.ChannelNormalForm
+import BEDC.Derived.RHRoute.ConcreteZetaLocatedZero
+import BEDC.Derived.RHRoute.ConcreteZetaRationalInstance
 import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ConstructiveZeta
 import BEDC.Derived.RHRoute.CounterexampleSafety
@@ -10573,6 +10578,7 @@ import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.BridgeRoute
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
 import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
+import BEDC.Derived.RealNameClassifierUp.RefinementScopeFactorization
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.ScopeRoute
