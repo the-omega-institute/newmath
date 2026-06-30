@@ -1,0 +1,248 @@
+\chapter{Xi Jensen Internal Container}
+\label{ch:visions-rh-xi-jensen-internal-container}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-ray-lee-yang-container} and
+\autoref{ch:visions-rh-squarefree-prime-polarized-bridge} formulate
+Lee--Yang containers as source-side packets to which zeta data may be
+transported.  The Jensen route records a stricter internal alternative:
+the finite containers are obtained from the completed Xi function
+itself.  The route is conditional.  It does not discharge the
+hyperbolicity obligation, but it places that obligation on an intrinsic
+finite-resolution surface rather than on an externally selected
+thermodynamic model.
+
+\begin{definition}[Xi Jensen coefficient row]
+\label{def:rh-xi-jensen-coefficient-row}
+Let $F(T)$ be the even entire readout of the completed Xi function in a
+real Taylor coordinate,
+$$
+F(T)=\sum_{k\ge0}\gamma(k)\frac{T^k}{k!}.
+$$
+The coefficient sequence $\gamma$ is the source ledger for the Jensen
+container family.  No zero island or auxiliary Lee--Yang packet is used
+to define these coefficients.
+\end{definition}
+
+\begin{definition}[Jensen section]
+\label{def:rh-jensen-section}
+For integers $d,n\ge0$, the Jensen section of degree $d$ and shift $n$
+attached to $\gamma$ is
+$$
+J_{\gamma}^{d,n}(X)
+:=
+\sum_{j=0}^{d}
+\binom{d}{j}\gamma(n+j)X^j.
+$$
+It is the finite observation at resolution $d$ and source position
+$n$.
+\end{definition}
+
+\begin{definition}[Jensen no-demon row]
+\label{def:rh-jensen-no-demon-row}
+A Jensen section is \emph{no-demon} when it is hyperbolic, i.e. when all
+of its zeros are real.  The full Jensen no-demon row is
+$$
+\mathsf{JensenNoDemon}_{\Xi}
+:=
+\forall d,n\ge0,\quad J_{\gamma}^{d,n}\text{ is hyperbolic}.
+$$
+This row is the finite-container form of the Laguerre--P\'olya
+obligation for the Xi readout.
+\end{definition}
+
+\begin{principle}[Jensen--P\'olya finite-container criterion]
+\label{prin:rh-jensen-polya-finite-container-criterion}
+The classical Jensen--P\'olya criterion identifies
+$\mathsf{JensenNoDemon}_{\Xi}$ as the finite-container route to placing
+the Xi readout in the Laguerre--P\'olya class.  For the RH vision this
+means that the zero-location burden can be expressed as hyperbolicity of
+the internally generated Jensen sections.  The criterion is used here
+only as a conditional bridge: the chapter does not assert the
+hyperbolicity row.
+\end{principle}
+
+\begin{theorem}[Jensen shift derivative identity]
+\label{thm:rh-jensen-shift-derivative-identity}
+For all $d,n\ge0$,
+$$
+\frac{d}{dX}J_{\gamma}^{d+1,n}(X)
+=
+(d+1)J_{\gamma}^{d,n+1}(X).
+$$
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+J_{\gamma}^{d+1,n}(X)
+=
+\sum_{j=0}^{d+1}
+\binom{d+1}{j}\gamma(n+j)X^j.
+$$
+Differentiating gives
+$$
+\frac{d}{dX}J_{\gamma}^{d+1,n}(X)
+=
+\sum_{j=1}^{d+1}
+j\binom{d+1}{j}\gamma(n+j)X^{j-1}.
+$$
+Set $k=j-1$.  Since
+$$
+(k+1)\binom{d+1}{k+1}
+=
+(d+1)\binom{d}{k},
+$$
+the derivative becomes
+$$
+(d+1)
+\sum_{k=0}^{d}
+\binom{d}{k}\gamma(n+1+k)X^k
+=
+(d+1)J_{\gamma}^{d,n+1}(X).
+$$
+\end{proof}
+
+\begin{corollary}[Derivative propagation of no-demon rows]
+\label{cor:rh-jensen-derivative-propagation}
+If $J_{\gamma}^{d+1,n}$ is hyperbolic, then $J_{\gamma}^{d,n+1}$ is
+hyperbolic.
+\end{corollary}
+
+\begin{proof}
+The derivative of a real-rooted polynomial is real-rooted.  By
+\autoref{thm:rh-jensen-shift-derivative-identity},
+$J_{\gamma}^{d,n+1}$ is a nonzero scalar multiple of such a derivative.
+\end{proof}
+
+\begin{definition}[Top-row Jensen no-demon]
+\label{def:rh-top-row-jensen-no-demon}
+The source row
+$$
+\mathsf{TopRowJensenNoDemon}_{\Xi}
+$$
+asserts that
+$$
+J_{\gamma}^{D,0}
+$$
+is hyperbolic for every $D\ge0$.
+\end{definition}
+
+\begin{theorem}[Top row supplies all Jensen sections]
+\label{thm:rh-top-row-supplies-all-jensen-sections}
+If $\mathsf{TopRowJensenNoDemon}_{\Xi}$ holds, then
+$\mathsf{JensenNoDemon}_{\Xi}$ holds.
+\end{theorem}
+
+\begin{proof}
+For fixed $d,n\ge0$, repeated use of
+\autoref{thm:rh-jensen-shift-derivative-identity} gives
+$$
+\frac{d^n}{dX^n}J_{\gamma}^{d+n,0}(X)
+=
+\frac{(d+n)!}{d!}J_{\gamma}^{d,n}(X).
+$$
+The top-row hypothesis gives hyperbolicity of $J_{\gamma}^{d+n,0}$.
+Repeated differentiation preserves hyperbolicity, hence
+$J_{\gamma}^{d,n}$ is hyperbolic.
+\end{proof}
+
+\begin{definition}[Cayley circularization of a Jensen section]
+\label{def:rh-cayley-circularized-jensen-section}
+For a degree $d$ Jensen section, define its Cayley circularization by
+$$
+\mathcal L_{\gamma}^{d,n}(u)
+:=
+(1-u)^d
+J_{\gamma}^{d,n}
+\left(
+i\frac{1+u}{1-u}
+\right).
+$$
+The map $u\mapsto i(1+u)/(1-u)$ sends the unit circle, away from
+$u=1$, to the real line.
+\end{definition}
+
+\begin{theorem}[Hyperbolic Jensen sections give Lee--Yang circles]
+\label{thm:rh-hyperbolic-jensen-gives-lee-yang-circle}
+If $J_{\gamma}^{d,n}$ is hyperbolic, then every zero of
+$\mathcal L_{\gamma}^{d,n}$ lies on the unit circle.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal L_{\gamma}^{d,n}(u)=0$.  If $u\ne1$, then
+$$
+X=i\frac{1+u}{1-u}
+$$
+is a zero of $J_{\gamma}^{d,n}$, hence $X\in\mathbb R$.  The inverse
+Cayley transform sends real $X$ to $|u|=1$.  If $u=1$ occurs, it is the
+point added by the circularizing factor and still lies on the unit
+circle.
+\end{proof}
+
+\begin{definition}[Polarized Jensen Lee--Yang container]
+\label{def:rh-polarized-jensen-lee-yang-container}
+Let
+$$
+\mathcal L_{\gamma}^{D,0}(u)=\sum_{k=0}^{D}a_k u^k.
+$$
+The polarized Jensen Lee--Yang container is
+$$
+\mathcal C_{\gamma}^{D}
+(z_1,\ldots,z_D)
+:=
+\sum_{k=0}^{D}
+a_k\binom{D}{k}^{-1}
+e_k(z_1,\ldots,z_D).
+$$
+It is internal because both the seed polynomial and the polarization
+degree are read from the Jensen section of Xi.
+\end{definition}
+
+\begin{principle}[Jensen containers are internal no-scale containers]
+\label{prin:rh-jensen-containers-internal-no-scale}
+If $\mathsf{TopRowJensenNoDemon}_{\Xi}$ holds, then every top-row
+Jensen section yields, by Cayley circularization and polarization, a
+multivariate Lee--Yang container with no zeros when all variables lie
+strictly inside the unit disk or strictly outside it.  Thus the
+container row is generated from Xi itself.  The remaining source
+obligation is not the construction of an external Ising approximation,
+but the hyperbolicity of the top-row Jensen sections.
+\end{principle}
+
+\begin{definition}[Golden Jensen refinement operator]
+\label{def:rh-golden-jensen-refinement-operator}
+The source row
+$$
+\mathsf{GoldenJensenRefinementOperator}
+$$
+asserts the existence of a Fibonacci-indexed family of stability
+preserving transformations
+$$
+\mathcal R_m:
+J_{\gamma}^{F_m,0}
+\rightsquigarrow
+J_{\gamma}^{F_{m+1},0}
+$$
+which are generated from the Xi coefficient ledger and the internal
+golden ruler, and which preserve hyperbolicity.  Such a row would turn
+the top-row no-demon obligation into a golden refinement induction.
+\end{definition}
+
+\begin{principle}[Top-row location of the Jensen obstruction]
+\label{prin:rh-top-row-jensen-obstruction}
+The derivative identity removes no-demon propagation from the shift
+direction: every shifted Jensen section is a normalized derivative of a
+top-row section.  The irreducible obstruction in the Jensen route is
+therefore the source row
+$$
+\mathsf{TopRowJensenNoDemon}_{\Xi},
+$$
+or, more constructively, the refinement row
+$$
+\mathsf{GoldenJensenRefinementOperator}.
+$$
+These rows are not consequences of the golden ruler alone; they require
+a stability mechanism for the Xi coefficient ledger.
+\end{principle}
+
