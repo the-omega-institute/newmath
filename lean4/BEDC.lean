@@ -1178,6 +1178,7 @@ import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
+import BEDC.Derived.BishopSeparatedRealCompletionUp
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpaceUp.TasteGate
@@ -3144,6 +3145,7 @@ import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
+import BEDC.Derived.ClosedGeneratorAuditUp
 import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
 import BEDC.Derived.ClosedIntervalBisectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCompletionUp.TasteGate
@@ -3750,6 +3752,7 @@ import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
 import BEDC.Derived.ConnectionUp
+import BEDC.Derived.ConnectionUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.ConsciousObserverStateUp.BridgeRoute
 import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
@@ -5117,6 +5120,7 @@ import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DihedralUp
 import BEDC.Derived.DilworthDecompositionUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DimLiftBoundaryUp.CannotClaimRouteExactness
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniDerivativeWindowUp.TasteGate
@@ -5575,6 +5579,7 @@ import BEDC.Derived.EpistemicWitnessUp.Carrier
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EpsilonDeltaLimitUp
 import BEDC.Derived.EpsilonDeltaLimitUp.TasteGate
+import BEDC.Derived.EqUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
@@ -7786,6 +7791,7 @@ import BEDC.Derived.LocatedIntervalMidpointUp.NameCertObligations
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalRefinementUp.TasteGate
 import BEDC.Derived.LocatedIntervalSupremumUp.TasteGate
+import BEDC.Derived.LocatedIntervalUniformCauchyUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
@@ -8909,6 +8915,7 @@ import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricReflectionSandwichUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
+import BEDC.Derived.MetricReverseTriangleInequalityUp.TasteGate
 import BEDC.Derived.MetricSeparationReflectorUp.TasteGate
 import BEDC.Derived.MetricSequentialCompletionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
@@ -10237,8 +10244,10 @@ import BEDC.Derived.RHRoute.HaltingBoundary
 import BEDC.Derived.RHRoute.InfinitePrimeTorusCompatibility
 import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
+import BEDC.Derived.RHRoute.JensenHyperbolicityRoute
 import BEDC.Derived.RHRoute.KrawczykCertificate
 import BEDC.Derived.RHRoute.LagariasCriterion
+import BEDC.Derived.RHRoute.LiCriterionRoute
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
 import BEDC.Derived.RHRoute.LocalHalfSplitCertificate
 import BEDC.Derived.RHRoute.LocatedZetaZero
@@ -10271,6 +10280,8 @@ import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.TriadicClosureTower
 import BEDC.Derived.RHRoute.UnitaryBalance
+import BEDC.Derived.RHRoute.WeilGramRoute
+import BEDC.Derived.RHRoute.WeilPositivityRoute
 import BEDC.Derived.RHRoute.ZeckendorfSolenoidSelector
 import BEDC.Derived.RHRoute.ZeroFibreNormalSheet
 import BEDC.Derived.RHRoute.ZeroGenerationInitiality
@@ -10289,6 +10300,7 @@ import BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy
 import BEDC.Derived.RHRoute.ZetaResonanceBoundStability
 import BEDC.Derived.RHRoute.ZetaSolenoidBound
 import BEDC.Derived.RHRoute.ZetaTailBounds
+import BEDC.Derived.RHRoute.ZetaUnitaryScaleClosure
 import BEDC.Derived.RHRoute.ZetaZeroLocated
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate

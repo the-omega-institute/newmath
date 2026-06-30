@@ -130,16 +130,20 @@ Transport through $H$ preserves this boundary componentwise. It can move the ref
 
 \begin{theorem}[DimLiftBoundary axis normal-address lock]
 \label{thm:dimliftboundary-axis-normal-address-lock}
-For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the rows $Z$ and $N$ are locked to AxisZeckendorf carry and normal-address evidence under the full-axis context $F$, the transport rows $H$, the consumer routes $C$, the package provenance $P$, and the local naming row $Q$. Any read of $Z$ or $N$ must preserve this axis-normal address and cannot reinterpret it as a primitive dimension carrier.
+For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the rows $Z$ and $N$ are locked to AxisZeckendorf carry and normal-address evidence only after four sibling routes are displayed: the $\RealUp$ handoff row $R$ of \autoref{thm:dimliftboundary-real-handoff-nonescape}, the $\ZeckendorfNormalUp$ scope row of \autoref{thm:dimliftboundary-zeckendorf-carrier-scope}, the $\ZCarryUp$ carry row inside the full-axis context $F$, and the $\AxisZeckendorfCannotClaimUp$ refusal route of \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. Any accepted normal-address read must preserve this route through $F,H,C,P,Q$ and cannot reinterpret $Z$ or $N$ as a primitive dimension carrier.
 
-The lock is local to the displayed packet: $Z$ supplies carry evidence, $N$ supplies normal-address evidence, $F$ supplies the full-axis context, and $H,C,P,Q$ supply only transport, route, provenance, and naming evidence.
+The lock is local to the displayed packet. It records a boundary address, not a full dimensional lift, host equality of addresses, RealUp completeness, or completeness of the axis.
 \end{theorem}
 \begin{proof}
-Project the carrier rows. The carry coordinate $Z$ and normal-address coordinate $N$ occur together with the full-axis context $F$, so each read of either row is already addressed inside the AxisZeckendorf packet.
+Project the carrier rows. The carry coordinate $Z$ and normal-address coordinate $N$ occur together with the full-axis context $F$, so each read of either row is already addressed inside the AxisZeckendorf packet rather than inside an ambient dimension object.
 
 Use the Zeckendorf carrier scope of \autoref{thm:dimliftboundary-zeckendorf-carrier-scope}. It closes the displayed packet under the $\hsame$ transports and $\Cont$ routes while keeping primitive dimension carriers outside the scope.
 
-The package row $P$ and local naming row $Q$ record the same dependency boundary. They name the axis-normal evidence already present; they do not provide a separate dimension row or classifier.
+Use the Real handoff non-escape theorem \autoref{thm:dimliftboundary-real-handoff-nonescape}. It places the row $R$ downstream of the carry, normal-address, cannot-claim, and full-axis rows, so an accepted normal-address read cannot bypass the real-facing refusal boundary.
+
+Finally apply the cannot-claim route exactness of \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. The request may expose $Z,N,F,H,C,P,Q$, but a primitive-dimension request is routed to $A$ and $R$.
+
+The package row $P$ and local naming row $Q$ therefore record the same dependency boundary. They name the axis-normal evidence already present; they do not provide a separate dimension row, host address equality, or completeness principle.
 \end{proof}
 
 \begin{theorem}[DimLiftBoundary downstream acceptance boundary]
