@@ -153,6 +153,396 @@ fixed-half section readback used by the BEDC statement $\mathsf{RH}$ of
 \autoref{prop:rh-constructive-form}.
 \end{proof}
 
+\begin{definition}[Weak eta capture packet]
+\label{def:rh-weak-eta-capture-packet}
+Let $\rho$ be a non-trivial zeta zero in the open critical strip. A
+\emph{weak eta capture packet} for $\rho$ is a tuple
+$$
+(D,N,F_N,T_N,\gamma_D)
+$$
+where $D$ is a closed disk with $\rho$ in its interior and
+$\overline D\subset\{0<\Re(s)<1\}$, the functions
+$$
+F_N(s):=\sum_{n=1}^{N}(-1)^{n-1}n^{-s},
+\qquad
+T_N(s):=\eta(s)-F_N(s)
+$$
+satisfy
+$$
+\eta(s)=F_N(s)+T_N(s),
+$$
+and the boundary gap row is
+$$
+\gamma_D:
+\prod_{s\in\partial D}
+\bigl(|T_N(s)|<|F_N(s)|\bigr).
+$$
+The packet captures the local zero count of $\eta$ by finite eta data and
+a tail ledger. It is not, by itself, a fixed-half or unit-boundary packet.
+\end{definition}
+
+\begin{theorem}[Weak eta capture gives local zero-count capture]
+\label{thm:rh-weak-eta-capture-local-zero-count}
+For every non-trivial zeta zero $\rho$ in the open critical strip there
+exists a weak eta capture packet whose finite part $F_N$ has the same
+number of zeros as $\eta$ inside the disk $D$, counted with multiplicity.
+\end{theorem}
+
+\begin{proof}
+In the open critical strip,
+$$
+\eta(s)=(1-2^{1-s})\zeta(s),
+$$
+and the factor $1-2^{1-s}$ has no zero there. Hence $\rho$ is a zero of
+$\eta$. Choose $D$ so that its boundary has no $\eta$-zero and
+$\overline D$ stays in the open strip. Then
+$$
+M:=\min_{s\in\partial D}|\eta(s)|
+$$
+is positive. The eta expansion converges uniformly on $\overline D$, so
+for some $N$ the tail satisfies
+$$
+\sup_{s\in\partial D}|T_N(s)|<M/2.
+$$
+For $s\in\partial D$,
+$$
+|F_N(s)|
+\ge
+|\eta(s)|-|T_N(s)|
+>
+M/2,
+$$
+and therefore $|T_N(s)|<|F_N(s)|$ on $\partial D$. Rouch\'e's theorem
+gives the same zero count for $F_N$ and $\eta$ inside $D$.
+\end{proof}
+
+\begin{principle}[Weak capture is not zero-presentation exactness]
+\label{prin:rh-weak-capture-not-zero-presentation-exactness}
+The weak eta capture packet is a local analytic capture row. It supplies
+finite eta data, a tail ledger, a disk, and a Rouch\'e gap around a
+given zero. It does not supply the essential coverage row of
+\autoref{def:rh-generated-zero-carrier}. In particular, it does not build
+a canonical generated carrier $Z$, a global realization
+$\varepsilon:Z\to\mathcal Z_{\zeta}$, or the equivalence
+$Z\simeq\mathcal Z_{\zeta}$. Thus weak capture may be used as evidence
+for a local presentation mechanism, but it is not
+zero-presentation exactness.
+\end{principle}
+
+\begin{principle}[Boundary stability is the strong packet gap]
+\label{prin:rh-boundary-stability-strong-packet-gap}
+The fixed-half closure hypothesis of
+\autoref{def:rh-fixed-half-closed-zero-signature} requires more than
+local zero-count capture. A strong zero packet must carry enough
+boundary data to show that the generated channel has no nontrivial real
+positive scale defect, equivalently that the active centered channels
+are unit-boundary rows:
+$$
+|e^{-(s-1/2)h_a}|=1
+$$
+for every active height $h_a>0$ in the packet. Weak eta capture records
+a Rouch\'e gap for a finite analytic approximation, but it does not
+prove this unit-boundary stability. The missing row is therefore a
+boundary-stability theorem, not a consequence of Rouch\'e capture alone.
+\end{principle}
+
+\begin{principle}[Conservative oscillator reading of the gap]
+\label{prin:rh-conservative-oscillator-reading-gap}
+The eta packet admits a physical reading as a many-oscillator phase sum.
+For
+$$
+s=\frac12+r+it,
+$$
+the $n$-th centered eta term is
+$$
+(-1)^{n-1}n^{-1/2}e^{-r\log n}e^{-it\log n}.
+$$
+The factor $e^{-it\log n}$ is a conservative phase rotation, while
+$e^{-r\log n}$ is a damping or gain factor. Thus a vanishing eta readout
+is not automatically a conservative phase closure. It may be a zero of a
+nonunitary amplitude-adjusted packet unless the packet carries
+unit-boundary stability.
+\end{principle}
+
+\begin{definition}[Conservative normal-mode packet]
+\label{def:rh-conservative-normal-mode-packet}
+A \emph{conservative normal-mode packet} for a zeta zero is a strong
+generated packet whose finite oscillator rows display:
+$$
+\text{canonical dominance or active capture},
+$$
+$$
+\text{unitary phase evolution},
+$$
+$$
+\text{no nontrivial real damping or gain factor},
+$$
+$$
+\text{far-end compatibility without hidden scale absorption},
+$$
+and
+$$
+\text{transport to the accepted zeta-zero source row}.
+$$
+This is the physical reading of the strong packet required by
+\autoref{prin:rh-boundary-stability-strong-packet-gap}: the zero is a
+normal phase cancellation of a closed conservative system, not a
+cancellation produced by adjusting amplitudes.
+\end{definition}
+
+\begin{definition}[Galperin-style inertial unfolding]
+\label{def:rh-galperin-style-inertial-unfolding}
+A \emph{Galperin-style inertial unfolding} for a generated zeta-zero
+packet is a displayed carrier
+$$
+(\mathcal M,H,\Phi_t,\Pi)
+$$
+with the following rows. The flow row is a single conservative phase flow
+$$
+\Phi_t=e^{-itH},
+\qquad
+\Phi_t^*\Phi_t=I.
+$$
+The projection row $\Pi$ reads the eta or zeta polygonal packet as a
+folded shadow of this unfolded orbit. The reflection row says that every
+folding, alternating-sign turn, functional-equation mirror, or
+prime-routing identification changes only phase direction inside the
+unfolded carrier. The unit row forbids any reflected step from changing
+radial scale. The crossing row reads a zero as a normalized cancellation
+of the projected orbit. The far-end row is a compatibility socket, not a
+reservoir for radial defect, and the coverage row transports the unfolded
+packet to the accepted zero source carrier.
+\end{definition}
+
+\begin{principle}[Unique inertial time excludes radial time]
+\label{prin:rh-unique-inertial-time-excludes-radial-time}
+In a Galperin-style inertial unfolding, the active centered channels are
+generated by one time parameter $t$ through the unitary flow
+$$
+e^{-it h_a}.
+$$
+For
+$$
+s=\frac12+r+it,
+$$
+the corresponding analytic channel is
+$$
+e^{-(s-1/2)h_a}=e^{-r h_a}e^{-it h_a}.
+$$
+The second factor belongs to the inertial phase flow. The first factor is
+a real positive scale flow. If $r\ne0$ and some active height satisfies
+$h_a>0$, this supplies a second nonunitary time direction, not a
+reflection of the unitary unfolding. Thus the unique-inertial-time row can
+hold only when the radial parameter vanishes on every active channel.
+\end{principle}
+
+\begin{principle}[ZetaGalperinInertialUnfolding target]
+\label{prin:rh-zeta-galperin-inertial-unfolding-target}
+The target
+$$
+\mathsf{ZetaGalperinInertialUnfolding}
+$$
+is the combined strong form of the conservative-packet route. It requires
+canonical active capture, unit-boundary stability, no far-end radial
+absorption, and zero-presentation coverage. In this formulation,
+\autoref{def:rh-galperin-style-inertial-unfolding} supplies the inertial
+carrier, \autoref{prin:rh-unique-inertial-time-excludes-radial-time}
+supplies the exclusion of a scale-time component, and
+\autoref{def:rh-generated-zero-carrier} supplies the coverage interface.
+The statement is a proof target: without these rows, a vanishing projected
+sum is still only a cancellation readout, not a certified conservative
+phase crossing.
+\end{principle}
+
+\begin{definition}[Zeta cosmos closure row]
+\label{def:rh-zeta-cosmos-closure-row}
+The \emph{zeta cosmos closure row} is the source-internal form of the
+strong route. It asserts that the zero, phase, tail, boundary, prime
+ledger, and generation-tower rows of the zeta sector are generated inside
+one BEDC triadic carrier:
+$$
+\mathsf{ZetaCosmosClosure}_{\zeta}.
+$$
+This row has four visible components. First, every accepted non-trivial
+zero is covered by a generated zero:
+$$
+\prod_{u:\mathcal Z_{\zeta}}
+\sum_{z:Z}\varepsilon(z)\sim u.
+$$
+Second, every zero constructor preserves the triadic invariants
+$$
+\mathsf P,\qquad \mathsf U,\qquad \mathsf T,
+$$
+read respectively as prime-ledger distinction, unit-boundary legality,
+and recursive time generation. Third, hidden coordinates are confined to
+unit phase or prime-register fibres:
+$$
+\mathbb T
+\quad\text{and}\quad
+\prod_{p\in S}\mathbb Z_p.
+$$
+Fourth, no generated row may import an independent real positive scale
+ledger
+$$
+\mathbb R_{>0}
+$$
+as a closure coordinate. Thus the zeta sector is not treated as a
+projection embedded in a larger dissipative system; the row asks for the
+completed zero presentation itself to be source-internal.
+\end{definition}
+
+\begin{definition}[Zeta Hist-flow closure row]
+\label{def:rh-zeta-hist-flow-closure-row}
+The \emph{zeta Hist-flow closure row} is the internal-time component of
+$\mathsf{ZetaCosmosClosure}_{\zeta}$. It requires the time data of a
+generated zeta-zero packet to factor through constructor-tail histories:
+$$
+B_0=\mathsf{Empty},
+\qquad
+B_{j+1}=E_{\epsilon_{j+1}}(B_j),
+\qquad
+\epsilon_{j+1}\in\{0,1\}.
+$$
+The marks $\mathsf{b0}$ and $\mathsf{b1}$ are read only as primitive
+distinction emissions; the state row is the resulting history $B_j$.
+Thus a later row contains its predecessor as constructor tail, and the
+time order is the generated history depth rather than an external clock.
+Write the closure target as
+$$
+\mathsf{ZetaHistFlowClosure}_{\zeta}.
+$$
+For zeta, this row says that every accepted zero packet receives its
+phase-time readout from such internal histories and from the unitary
+phase component
+$$
+e^{-it h_a},
+$$
+not from an independent real positive scale flow.
+\end{definition}
+
+\begin{principle}[Hist-flow closure rejects scale time]
+\label{prin:rh-hist-flow-closure-rejects-scale-time}
+Assume a generated zero packet carries
+$\mathsf{ZetaHistFlowClosure}_{\zeta}$ and has active channel
+$$
+e^{-(s-1/2)h_a}
+$$
+with
+$$
+s=\frac12+r+it,
+\qquad
+h_a>0.
+$$
+The internal Hist-flow supplies constructor extension and its phase
+readback. It supplies no independent coordinate whose readout is
+$e^{-r h_a}\in\mathbb R_{>0}$. Hence a nonzero $r$ would be a scale-time
+import rather than a Hist-generated phase row. The Hist-flow component of
+cosmos closure therefore refines the no-radial-time condition of
+\autoref{prin:rh-unique-inertial-time-excludes-radial-time}.
+\end{principle}
+
+\begin{principle}[Cosmos closure absorbs the strong route obligations]
+\label{prin:rh-cosmos-closure-absorbs-strong-route-obligations}
+The row $\mathsf{ZetaCosmosClosure}_{\zeta}$ packages the same analytic
+load as the conservative-packet route, but with the hidden-scale boundary
+made explicit. Its coverage component is zero-presentation exactness for
+\autoref{def:rh-generated-zero-carrier}. Its invariant-preservation
+component is the fixed-half constructor closure of
+\autoref{def:rh-fixed-half-closed-zero-signature}. Its phase and
+prime-register restriction is the compact hidden-fibre side of
+\autoref{prin:rh-zeta-galperin-inertial-unfolding-target}. Its refusal of
+an $\mathbb R_{>0}$ closure coordinate is the no-radial-time row of
+\autoref{prin:rh-unique-inertial-time-excludes-radial-time}.
+\end{principle}
+
+\begin{corollary}[Cosmos closure is conditionally sufficient]
+\label{cor:rh-cosmos-closure-conditionally-sufficient}
+If $\mathsf{ZetaCosmosClosure}_{\zeta}$ holds for the RH-free zero
+signature, then the hypotheses of
+\autoref{thm:rh-strong-capture-boundary-stability-initiality-route} hold.
+\end{corollary}
+
+\begin{proof}
+The coverage component supplies the essential coverage row
+$Z\simeq\mathcal Z_{\zeta}$. The triadic invariant-preservation component
+supplies constructor closure for the fixed-half subcarrier. The absence
+of an independent $\mathbb R_{>0}$ closure coordinate rules out a
+nontrivial factor $e^{-r h_a}$ on every active unit-boundary channel, so
+boundary stability is available for the strong packet. These are exactly
+the two rows used by
+\autoref{thm:rh-strong-capture-boundary-stability-initiality-route}.
+\end{proof}
+
+\begin{principle}[Physical gap inventory]
+\label{prin:rh-physical-gap-inventory}
+In the conservative-oscillator reading, the initiality route leaves five
+separate mathematical obligations. First, each zero must have a canonical
+dominant normal-mode packet, not merely an arbitrary finite truncation.
+Second, that packet must strongly capture the zeta zero, upgrading weak
+eta/Rouch\'e capture to a source-compatible generated packet. Third, the
+packet must satisfy unitary boundary stability, excluding the damping or
+gain factor $e^{-r h}$. Fourth, the infinite tail must satisfy the
+no-absorption discipline of
+\autoref{def:unified-reality-no-far-end-absorption}, so the far end does
+not act as a hidden reservoir for scale defect. Fifth, all accepted
+non-trivial zeta zeros must be covered by these generated packets, which
+is the zero-presentation exactness row of
+\autoref{def:rh-generated-zero-carrier}.
+\end{principle}
+
+\begin{corollary}[Physical form of the conditional route]
+\label{cor:rh-physical-form-conditional-route}
+If every accepted non-trivial zeta zero is represented by a conservative
+normal-mode packet, then the only admissible centered-channel closure is
+pure phase closure. Hence the hypotheses of
+\autoref{thm:rh-strong-capture-boundary-stability-initiality-route} are
+met, and the conditional initiality route supplies the RH section.
+\end{corollary}
+
+\begin{proof}
+Representation by conservative normal-mode packets supplies strong
+capture and zero-presentation coverage. The unitary phase and no
+damping-or-gain rows supply boundary stability. The far-end compatibility
+row prevents the infinite tail from absorbing a displayed real scale
+defect. These are exactly the two inputs isolated in
+\autoref{thm:rh-strong-capture-boundary-stability-initiality-route}:
+zero-presentation exactness and fixed-half closure. Applying that theorem
+gives the RH section.
+\end{proof}
+
+\begin{theorem}[Strong capture and boundary stability imply the initiality route]
+\label{thm:rh-strong-capture-boundary-stability-initiality-route}
+Assume an RH-free zero signature $F_Z$ with initial algebra $Z$ and a
+realization $\varepsilon:Z\to\mathcal Z_{\zeta}$. If every accepted
+non-trivial zeta-zero packet is represented by a strong generated packet
+and every constructor of that strong packet preserves the unit-boundary
+row of
+\autoref{prin:rh-boundary-stability-strong-packet-gap}, then the
+hypotheses of
+\autoref{thm:rh-conditional-initiality-route-section} are exactly the
+zero-presentation exactness and fixed-half closure supplied by those two
+rows.
+\end{theorem}
+
+\begin{proof}
+Strong representation of every accepted non-trivial zero supplies the
+essential coverage component of
+\autoref{def:rh-generated-zero-carrier}; together with the displayed
+soundness and faithfulness rows, this is
+$\varepsilon:Z\simeq\mathcal Z_{\zeta}$. Boundary stability states that
+each constructor preserves the unit-boundary readout, hence preserves
+the predicate
+$$
+P_{1/2}(z)=
+\mathsf{OnCritLine}\bigl(\pi_s(\varepsilon(z))\bigr)
+$$
+appearing in \autoref{def:rh-generated-fixed-half-subcarrier}. This is
+precisely the algebra structure on $H_Z$ required by
+\autoref{def:rh-fixed-half-closed-zero-signature}. Applying
+\autoref{thm:rh-conditional-initiality-route-section} then yields the
+RH section.
+\end{proof}
+
 \begin{principle}[Initiality does not give zero completeness]
 \label{prin:rh-initiality-not-zero-completeness}
 The initiality of $Z=\mu F_Z$ proves induction over the zeros generated by

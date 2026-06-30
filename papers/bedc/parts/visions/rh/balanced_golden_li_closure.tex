@@ -1,0 +1,382 @@
+\chapter{Balanced Golden Li Closure}
+\label{ch:visions-rh-balanced-golden-li-closure}
+\origin{ai}
+
+\autoref{ch:visions-rh-global-weil-positive-container-tower} records
+the Li--Weil coefficient row and the golden Li positivity limit.  The
+Lee--Yang input required for that limit is not merely a finite
+zero-location statement.  A finite container may have all displayed
+zeros on the fixed line while its logarithmic derivative still carries
+an unledgered exponential drift.  The Li--Weil route therefore requires
+a balanced source container: the critical-line divisor, the real
+structure, and the exponential normalization must be licensed by the
+same source data.
+
+\begin{definition}[Raw critical-line exponential packet]
+\label{def:rh-raw-critical-line-exponential-packet}
+For $h>0$ set
+$$
+C_h(s):=1+e^{-h(s-1/2)}.
+$$
+Its zeros satisfy
+$$
+e^{-h(s-1/2)}=-1,
+$$
+hence
+$$
+s=\frac12+\frac{(2k+1)\pi i}{h}
+\qquad
+(k\in\mathbb Z).
+$$
+Thus the zero divisor of $C_h$ lies on the fixed line.
+\end{definition}
+
+\begin{lemma}[Critical-line zeros do not force raw Li positivity]
+\label{lem:rh-critical-line-zeros-do-not-force-raw-li-positivity}
+The packet $C_h$ of
+\autoref{def:rh-raw-critical-line-exponential-packet} has fixed-line
+zeros, but its raw first logarithmic derivative at $s=1$ is negative:
+$$
+\left.
+\frac{d}{ds}\log C_h(s)
+\right|_{s=1}
+=
+\frac{-h e^{-h/2}}{1+e^{-h/2}}
+<0.
+$$
+\end{lemma}
+
+\begin{proof}
+The zero computation is part of
+\autoref{def:rh-raw-critical-line-exponential-packet}.  Differentiating
+gives
+$$
+C_h'(s)=-h e^{-h(s-1/2)}.
+$$
+Therefore
+$$
+\left.
+\frac{d}{ds}\log C_h(s)
+\right|_{s=1}
+=
+\frac{C_h'(1)}{C_h(1)}
+=
+\frac{-h e^{-h/2}}{1+e^{-h/2}},
+$$
+which is strictly negative.
+\end{proof}
+
+\begin{definition}[Balanced elementary packet]
+\label{def:rh-balanced-elementary-packet}
+The balanced normalization of $C_h$ is
+$$
+B_h(s)
+:=
+e^{h(s-1/2)/2}C_h(s)
+=
+e^{h(s-1/2)/2}+e^{-h(s-1/2)/2}.
+$$
+Equivalently,
+$$
+B_h(s)=2\cosh\left(\frac{h(s-1/2)}{2}\right).
+$$
+Writing $w=s-1/2$, it satisfies the self-dual balance row
+$$
+B_h\left(\frac12+w\right)
+=
+B_h\left(\frac12-w\right).
+$$
+\end{definition}
+
+\begin{definition}[Balanced Lee--Yang source container]
+\label{def:rh-balanced-lee-yang-source-container}
+A finite entire container $C(s)$ is a balanced Lee--Yang source
+container when it satisfies the following rows.
+
+The real row is
+$$
+C(\overline{s})=\overline{C(s)}.
+$$
+The fixed-line divisor row is
+$$
+C(\rho)=0
+\Longrightarrow
+\operatorname{Re}(\rho)=\frac12.
+$$
+The balance row says that, after the source-determined exponential
+normalization has been applied,
+$$
+C\left(\frac12+w\right)
+=
+C\left(\frac12-w\right)
+$$
+as an identity in $w$.  The no-free-exponential row says that the
+canonical product for $C$ contains no independent factor
+$$
+e^{a(s-1/2)}
+$$
+whose coefficient $a$ is chosen outside the source ledger.  The
+source row says that all divisor, height, and normalization data are
+generated before any zero box is selected.
+\end{definition}
+
+\begin{definition}[Finite balanced Li coefficient]
+\label{def:rh-finite-balanced-li-coefficient}
+Let $F$ be a finite balanced container with $F(1)\ne0$ and finite zero
+multiset $Z_F$.  Its finite Li coefficient is read from the balanced
+canonical product by
+$$
+\lambda_n(F)
+:=
+\sum_{\rho\in Z_F}
+\left[
+1-\left(1-\frac1\rho\right)^n
+\right]
+\qquad
+(n\ge1).
+$$
+The definition is tied to the no-free-exponential row of
+\autoref{def:rh-balanced-lee-yang-source-container}; adding an
+independent exponential factor would add logarithmic derivative terms
+not represented by the displayed divisor sum.
+\end{definition}
+
+\begin{theorem}[Finite balanced critical-line divisors give Li positivity]
+\label{thm:rh-finite-balanced-critical-line-divisors-li-positive}
+Let $F$ be a finite balanced container.  If $Z_F$ lies on the fixed line
+and is closed under complex conjugation, then
+$$
+\lambda_n(F)\ge0
+\qquad
+(n\ge1).
+$$
+\end{theorem}
+
+\begin{proof}
+Let
+$$
+\rho=\frac12+i\gamma
+\qquad
+\text{and}
+\qquad
+\overline{\rho}=\frac12-i\gamma
+$$
+be a conjugate pair in $Z_F$.  Then
+$$
+1-\frac1\rho
+=
+\frac{\rho-1}{\rho}
+=
+\frac{-1/2+i\gamma}{1/2+i\gamma}.
+$$
+The numerator and denominator have the same absolute value, so there is
+some real $\theta$ with
+$$
+1-\frac1\rho=e^{i\theta}.
+$$
+The conjugate zero gives
+$$
+1-\frac1{\overline{\rho}}=e^{-i\theta}.
+$$
+The pair contribution to $\lambda_n(F)$ is therefore
+$$
+\left[1-e^{in\theta}\right]
++
+\left[1-e^{-in\theta}\right]
+=
+2\left(1-\cos(n\theta)\right)
+\ge0.
+$$
+Summing over the conjugate pairs gives the claim.
+\end{proof}
+
+\begin{definition}[Balanced golden normalization row]
+\label{def:rh-balanced-golden-normalization-row}
+Let $L_m(u)$ be a finite Fibonacci or golden Lee--Yang seed and let
+$$
+\mathcal Z_m^{\mathrm{pol}}(z_1,\ldots,z_{D_m})
+$$
+be its polarized container.  Given source heights
+$$
+h_{m,1},\ldots,h_{m,D_m}>0,
+$$
+the raw zeta-mode substitution is
+$$
+C_m^{\mathrm{raw}}(s)
+:=
+\mathcal Z_m^{\mathrm{pol}}
+\left(
+e^{-(s-1/2)h_{m,1}},
+\ldots,
+e^{-(s-1/2)h_{m,D_m}}
+\right).
+$$
+A balanced golden normalization is a source-determined real number
+$A_m$ such that
+$$
+C_m(s)
+:=
+e^{A_m(s-1/2)}C_m^{\mathrm{raw}}(s)
+$$
+is a balanced Lee--Yang source container.  The row is source-determined
+only when $A_m$ is forced by the displayed degree, height, reciprocity,
+or self-duality ledger of the container.
+\end{definition}
+
+\begin{definition}[Balanced golden construction]
+\label{def:rh-balanced-golden-construction}
+The source row
+$$
+\mathsf{BalancedGoldenConstruction}
+$$
+asserts that the golden polarized Lee--Yang containers of
+\autoref{def:rh-balanced-golden-normalization-row} admit balanced
+normalizations $C_m$ whose divisor rows remain fixed-line, whose real
+rows remain conjugation-stable, and whose no-free-exponential rows are
+licensed by source data rather than by zero-specific choice.
+\end{definition}
+
+\begin{definition}[Log-derivative convergence]
+\label{def:rh-log-derivative-convergence}
+The source row
+$$
+\mathsf{LogDerivativeConvergence}
+$$
+asserts that for each fixed $n\ge1$ the balanced finite containers
+$C_m$ satisfy
+$$
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log C_m(s)
+\right]
+\right|_{s=1}
+\longrightarrow
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log \xi(s)
+\right]
+\right|_{s=1}.
+$$
+In the notation of
+\autoref{def:rh-li-weil-coefficient-row}, this is the row
+$$
+\lambda_n(C_m)\to\lambda_n.
+$$
+\end{definition}
+
+\begin{theorem}[A local analytic condition gives log-derivative convergence]
+\label{thm:rh-local-analytic-condition-log-derivative-convergence}
+Let $D$ be a closed disk centered at $s=1$ with interior containing
+$s=1$.  Assume $\xi$ is nonzero on $D$, the sequence $C_m$ converges
+uniformly to $\xi$ on $D$, the functions $C_m$ are nonzero on $D$ for
+all sufficiently large $m$, and the logarithm branches are normalized
+so that
+$$
+\log C_m(1)\to\log \xi(1).
+$$
+Then $\mathsf{LogDerivativeConvergence}$ holds for every fixed order
+whose Cauchy circle lies in the interior of $D$.
+\end{theorem}
+
+\begin{proof}
+Since $\xi$ is nonzero on $D$, there is a holomorphic branch of
+$\log\xi$ in a neighborhood of $D$.  Uniform convergence and the
+nonvanishing assumption give compatible holomorphic branches
+$\log C_m$ on the same neighborhood for all sufficiently large $m$.
+The normalization at $s=1$ fixes the additive constants, so
+$$
+\log C_m\to\log\xi
+$$
+uniformly on smaller disks.  Cauchy's integral formula then gives
+convergence of every fixed derivative of $\log C_m$ at $s=1$.  Since
+$\lambda_n(C_m)$ is a finite linear combination of derivatives of
+$\log C_m$ up to order $n$, the displayed Li--Weil coefficients
+converge.
+\end{proof}
+
+\begin{definition}[Balanced golden Lee--Yang Li closure]
+\label{def:rh-balanced-golden-lee-yang-li-closure}
+The source row
+$$
+\mathsf{BalancedGoldenLeeYangLiClosure}
+$$
+asserts the existence of balanced golden Lee--Yang containers $C_m$
+such that:
+
+\begin{itemize}
+\item each $C_m$ is supplied by
+$\mathsf{BalancedGoldenConstruction}$;
+\item each finite divisor is fixed-line and conjugation-stable;
+\item the finite coefficients $\lambda_n(C_m)$ are read through the
+balanced product row of
+\autoref{def:rh-finite-balanced-li-coefficient};
+\item $\mathsf{LogDerivativeConvergence}$ holds for the sequence
+$(C_m)$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Balanced golden closure gives global Li positivity]
+\label{thm:rh-balanced-golden-closure-gives-global-li-positivity}
+If $\mathsf{BalancedGoldenLeeYangLiClosure}$ holds, then
+$$
+\mathsf{GlobalLiWeilPositivity}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Fix $n\ge1$.  By the fixed-line and conjugation-stable divisor rows,
+\autoref{thm:rh-finite-balanced-critical-line-divisors-li-positive}
+gives
+$$
+\lambda_n(C_m)\ge0
+$$
+for every $m$.  By
+\autoref{def:rh-log-derivative-convergence},
+$$
+\lambda_n(C_m)\to\lambda_n.
+$$
+The limit of nonnegative real numbers is nonnegative, hence
+$$
+\lambda_n\ge0.
+$$
+Since $n$ was arbitrary, $\mathsf{GlobalLiWeilPositivity}$ holds.
+\end{proof}
+
+\begin{corollary}[Balanced golden closure gives fixed-half readout]
+\label{cor:rh-balanced-golden-closure-fixed-half-readout}
+Assume $\mathsf{BalancedGoldenLeeYangLiClosure}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-balanced-golden-closure-gives-global-li-positivity}
+gives $\mathsf{GlobalLiWeilPositivity}$.  The Li criterion consumption
+row then returns the fixed-half zero ledger.
+\end{proof}
+
+\begin{principle}[Balanced Li closure target]
+\label{prin:rh-balanced-li-closure-target}
+The finite Lee--Yang condition required by the Li--Weil route is a
+balanced condition.  Fixed-line zero location supplies the divisor
+part; the real row supplies conjugate pairing; the no-free-exponential
+row prevents logarithmic derivative drift; and local analytic
+convergence transfers finite positivity to the completed zeta
+coefficient row.  In source-row form the target is
+$$
+\mathsf{BalancedGoldenConstruction}
+\quad
+\text{with}
+\quad
+\mathsf{LogDerivativeConvergence},
+$$
+which is the balanced realization of
+\autoref{def:rh-golden-li-positivity-limit}.
+\end{principle}

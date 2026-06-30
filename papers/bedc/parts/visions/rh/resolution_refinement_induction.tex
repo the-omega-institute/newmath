@@ -1,0 +1,510 @@
+\chapter{Resolution Refinement Induction}
+\label{ch:visions-rh-resolution-refinement-induction}
+\origin{ai}
+
+\autoref{ch:visions-rh-pigeonhole-time-recurrence} organizes finite
+phase recurrence and zero certificates. This chapter records the
+refinement form of the same route: begin with a displayed resolution,
+refine the resolution through legal certificate steps, prove the
+triadic invariant at every level by induction, and only then take the
+limit readout. The statement is a conditional route. It identifies the
+source load required for a BEDC proof, rather than replacing that load by
+the existence of finite approximations.
+
+\begin{definition}[Resolution scale]
+\label{def:rh-resolution-scale}
+A \emph{resolution scale} is a sequence
+$$
+\varepsilon_0>\varepsilon_1>\varepsilon_2>\cdots>0
+$$
+with
+$$
+\varepsilon_n\to0.
+$$
+At level $n$, a zero box $D_n$ is displayed at this resolution when
+$$
+\operatorname{diam}(D_n)\le\varepsilon_n.
+$$
+The scale records observational precision; it is not an additional
+analytic coordinate of the zeta carrier.
+\end{definition}
+
+\begin{definition}[Resolution zero certificate]
+\label{def:rh-resolution-zero-certificate}
+A \emph{resolution zero certificate} at level $n$ is a finite zero
+certificate
+$$
+\mathcal C_n=(D_n,F_n,T_n,\Lambda_n,\Gamma_n)
+$$
+in the sense of \autoref{def:rh-finite-zero-certificate}, together with
+the scale row
+$$
+\operatorname{diam}(D_n)\le\varepsilon_n.
+$$
+Its analytic capture component is the displayed decomposition
+$$
+\Xi=F_n+T_n
+$$
+and the boundary gap
+$$
+|T_n(s)|<|F_n(s)|
+\qquad
+s\in\partial D_n.
+$$
+Its BEDC component is the ledger row $\Gamma_n$, which must record the
+source, tail, phase, prime-register, boundary, defect, and energy data
+used by the refinement step.
+\end{definition}
+
+\begin{definition}[Legal resolution refinement]
+\label{def:rh-legal-resolution-refinement}
+A refinement
+$$
+\mathcal C_n\rightsquigarrow\mathcal C_{n+1}
+$$
+is \emph{legal} when the following rows hold:
+$$
+D_{n+1}\subseteq D_n,
+\qquad
+\operatorname{diam}(D_{n+1})\le\varepsilon_{n+1},
+$$
+the Rouch\'e or winding certificate at level $n+1$ is valid, the source
+and tail ledgers refine the level-$n$ ledgers, and the triadic invariant
+of \autoref{def:rh-certificate-tower-triadic-invariant} is transported
+from level $n$ to level $n+1$. Equivalently, the refinement is not merely
+a smaller box; it is a smaller box whose analytic, source, boundary, and
+defect ledgers remain compatible.
+\end{definition}
+
+\begin{theorem}[Resolution induction]
+\label{thm:rh-resolution-induction}
+Let
+$$
+(\mathcal C_n)_{n\ge0}
+$$
+be a sequence of resolution zero certificates. If
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_0)
+$$
+holds and every step
+$$
+\mathcal C_n\rightsquigarrow\mathcal C_{n+1}
+$$
+is a legal resolution refinement, then
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_n)
+$$
+holds for every $n$.
+\end{theorem}
+
+\begin{proof}
+The proof is induction on $n$. The base case is the displayed
+hypothesis at level $0$. For the induction step, assume
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_n).
+$$
+Since $\mathcal C_n\rightsquigarrow\mathcal C_{n+1}$ is legal,
+\autoref{def:rh-legal-resolution-refinement} transports the triadic
+invariant to level $n+1$. This gives
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_{n+1}).
+$$
+Therefore the invariant holds at every finite resolution level.
+\end{proof}
+
+\begin{definition}[Resolution certificate tower]
+\label{def:rh-resolution-certificate-tower}
+A \emph{resolution certificate tower} is a sequence of resolution zero
+certificates
+$$
+(\mathcal C_n)_{n\ge0}
+$$
+such that every adjacent step is a legal resolution refinement. It is
+\emph{strong} when, in addition, it is a legal boundary-stable
+certificate tower in the sense of
+\autoref{def:rh-legal-boundary-stable-certificate-tower}. Thus strong
+resolution towers include canonical source dominance, unit-boundary
+stability, no far-end absorption, cofinal active growth, and defect
+extraction.
+\end{definition}
+
+\begin{theorem}[Resolution towers have exact completed-zero limits]
+\label{thm:rh-resolution-towers-exact-completed-zero-limits}
+If a resolution certificate tower has nonempty located-compact boxes and
+each level certifies the same completed-zero island of $\Xi$, then it
+has a unique limit readout $s_{\infty}$ and
+$$
+\Xi(s_{\infty})=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The scale row gives $\operatorname{diam}(D_n)\to0$, while legal
+refinement gives $D_{n+1}\subseteq D_n$. The Rouch\'e or winding row
+certifies the same completed-zero island through the compatible ledgers.
+Therefore \autoref{thm:rh-certificate-towers-generate-completed-zeros}
+applies.
+\end{proof}
+
+\begin{theorem}[Strong resolution towers have fixed-half limits]
+\label{thm:rh-strong-resolution-towers-fixed-half-limits}
+If a resolution certificate tower is strong and has limit readout
+$$
+s_{\infty}=\frac12+r+it,
+$$
+then $r=0$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-resolution-induction}, every finite level preserves
+the triadic invariant. Since the tower is strong, it is legal
+boundary-stable and carries defect extraction, cofinal growth, and a
+zero-compatible energy bound. Applying
+\autoref{thm:rh-no-scale-closure-legal-certificate-towers} gives $r=0$.
+\end{proof}
+
+\begin{corollary}[Resolution induction separates weak and strong refinement]
+\label{cor:rh-resolution-induction-weak-strong-separation}
+Weak eta/Rouch\'e refinement can supply smaller analytic zero boxes and
+tail bounds. It does not by itself supply the strong resolution tower
+rows: canonical source dominance, boundary stability, no far-end
+absorption, and zero-presentation coverage.
+\end{corollary}
+
+\begin{proof}
+The weak eta row supplies finite analytic capture as in
+\autoref{prin:rh-weak-capture-not-zero-presentation-exactness}. The
+strong conclusion of
+\autoref{thm:rh-strong-resolution-towers-fixed-half-limits} additionally
+uses the legal boundary-stable tower hypotheses in
+\autoref{def:rh-resolution-certificate-tower}. These rows are not
+consequences of a Rouch\'e gap alone.
+\end{proof}
+
+\begin{principle}[Resolution route proof load]
+\label{prin:rh-resolution-route-proof-load}
+The refinement-induction route reduces the RH-facing source load to the
+following assertion:
+$$
+\mathsf{StrongResolutionTowerCoverage}_{\zeta}.
+$$
+This means that every accepted non-trivial completed zeta zero is
+represented by a strong resolution certificate tower. Once such a tower
+is supplied, \autoref{thm:rh-strong-resolution-towers-fixed-half-limits}
+excludes the radial scale parameter. The unresolved content is the
+construction and boundary-stability of the strong tower, not the formal
+induction over its already legal refinement steps.
+\end{principle}
+
+\begin{definition}[Golden resolution ruler]
+\label{def:rh-golden-resolution-ruler}
+Let
+$$
+F_0=0,\qquad F_1=1,\qquad F_{n+2}=F_{n+1}+F_n,
+$$
+and let $\varphi$ be the golden self-scale of
+\autoref{def:zeckendorf-golden-self-scale}. A \emph{golden resolution
+ruler} is the resolution scale
+$$
+\delta_m:=\varphi^{-m}
+$$
+together with a Fibonacci truncation schedule
+$$
+N_m:=F_{Lm},
+$$
+where $L$ is a fixed positive integer chosen to dominate the local tail
+estimate. The spatial resolution is $\delta_m$, while the analytic
+packet resolution is $N_m$.
+\end{definition}
+
+\begin{definition}[Zeckendorf resolution ledger]
+\label{def:rh-zeckendorf-resolution-ledger}
+For a positive integer $N$, a \emph{Zeckendorf resolution ledger} is a
+finite digit row
+$$
+N=\sum_{k\ge2}z_kF_k,
+\qquad
+z_k\in\{0,1\},
+\qquad
+z_kz_{k+1}=0.
+$$
+The no-adjacent condition is the stable-window grammar of
+\autoref{def:zeckendorf-stable-window}. The ledger records the
+Fibonacci-block source of a truncation level; it is a source address and
+not a proof of boundary stability.
+\end{definition}
+
+\begin{theorem}[Zeckendorf ledgers give unique truncation addresses]
+\label{thm:rh-zeckendorf-ledgers-unique-truncation-addresses}
+Every positive truncation level $N$ has at most one Zeckendorf
+resolution ledger.
+\end{theorem}
+
+\begin{proof}
+This is the uniqueness part of the Zeckendorf normal form. If two digit
+rows with no adjacent $1$ represent the same $N$, normal-form uniqueness
+identifies their digits coefficientwise. Thus the Fibonacci-block source
+of the truncation is unique.
+\end{proof}
+
+\begin{definition}[Golden eta certificate packet]
+\label{def:rh-golden-eta-certificate-packet}
+Let $\rho$ be an eta zero in a displayed compact subdomain of
+$\Re(s)>0$. For a golden ruler and a fixed $L$, the level-$m$
+\emph{golden eta certificate packet} is
+$$
+\mathcal G_m(\rho)
+:=
+(D_m,P_m,R_m,\Gamma_m),
+$$
+where
+$$
+D_m:=\{s:\ |s-\rho|\le\varphi^{-m}\},
+$$
+$$
+P_m(s):=\sum_{n=1}^{F_{Lm}}(-1)^{n-1}n^{-s},
+\qquad
+R_m(s):=\eta(s)-P_m(s),
+$$
+and $\Gamma_m$ contains the Zeckendorf ledger of $F_{Lm}$, the tail
+bound, the phase rows, and the defect-energy rows. The packet is weak
+unless $\Gamma_m$ also supplies the strong boundary-stability and
+no-far-end rows.
+\end{definition}
+
+\begin{theorem}[Golden eta weak active capture]
+\label{thm:rh-golden-eta-weak-active-capture}
+Let $\rho$ be an eta zero of multiplicity $q$ in a compact local
+neighbourhood contained in $\Re(s)\ge\sigma_0>0$. If the golden ruler
+uses a positive integer $L$ with
+$$
+L\sigma_0>q,
+$$
+then, for all sufficiently large $m$, the golden eta packet satisfies
+$$
+|R_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m.
+$$
+Hence $P_m$ and $\eta$ have the same zero count in $D_m$.
+\end{theorem}
+
+\begin{proof}
+Write locally
+$$
+\eta(s)=(s-\rho)^qg(s)
+$$
+with $g$ analytic and $g(\rho)\ne0$. After shrinking the displayed
+neighbourhood, there is $c>0$ such that $|g(s)|\ge c$ on it. For
+$s\in\partial D_m$ this gives
+$$
+|\eta(s)|\ge c\varphi^{-qm}.
+$$
+Uniform convergence of the eta series on the displayed compact
+subdomain gives a constant $C$ such that
+$$
+|R_m(s)|\le C F_{Lm}^{-\sigma_0}.
+$$
+Since $F_{Lm}$ grows at the golden rate, there is $C'>0$ with
+$$
+|R_m(s)|\le C'\varphi^{-L\sigma_0 m}.
+$$
+The inequality $L\sigma_0>q$ implies that, for all sufficiently large
+$m$,
+$$
+C'\varphi^{-L\sigma_0 m}<\frac{c}{2}\varphi^{-qm}.
+$$
+Thus $|R_m(s)|<|\eta(s)|/2$ on $\partial D_m$. Since
+$P_m=\eta-R_m$,
+$$
+|P_m(s)|\ge|\eta(s)|-|R_m(s)|>\frac12|\eta(s)|,
+$$
+and therefore $|R_m(s)|<|P_m(s)|$ on $\partial D_m$. Rouch\'e's theorem
+then gives equality of zero counts in $D_m$.
+\end{proof}
+
+\begin{corollary}[Golden rulers supply weak resolution towers]
+\label{cor:rh-golden-rulers-supply-weak-resolution-towers}
+Every accepted non-trivial zeta zero in the open critical strip admits,
+after the eta readout is licensed, a weak golden resolution certificate
+tower.
+\end{corollary}
+
+\begin{proof}
+In the open critical strip the eta and zeta zero rows agree after the
+standard nonvanishing factor between them is ledgered. Applying
+\autoref{thm:rh-golden-eta-weak-active-capture} on a nested sequence of
+golden boxes gives Rouch\'e capture at all sufficiently fine levels.
+The boxes have diameter tending to zero, and the Zeckendorf ledgers give
+unique truncation addresses by
+\autoref{thm:rh-zeckendorf-ledgers-unique-truncation-addresses}. This is
+exactly a weak resolution certificate tower.
+\end{proof}
+
+\begin{definition}[Strong golden resolution tower]
+\label{def:rh-strong-golden-resolution-tower}
+A weak golden resolution tower is \emph{strong} when its ledgers also
+carry canonical packet dominance, unit-boundary stability, no far-end
+absorption, cofinal active-height growth, and defect extraction. The
+corresponding bridge target is
+$$
+\mathsf{ZetaGoldenLeeYangBridge}.
+$$
+It asks for the Fibonacci or Zeckendorf packet to be transported to a
+Lee--Yang type unit-boundary certificate compatible with the zeta phase
+and tail ledgers.
+\end{definition}
+
+\begin{corollary}[Strong golden coverage is conditionally sufficient]
+\label{cor:rh-strong-golden-coverage-conditionally-sufficient}
+If every accepted non-trivial completed zeta zero is represented by a
+strong golden resolution tower, then every such zero has fixed-half
+readout.
+\end{corollary}
+
+\begin{proof}
+A strong golden resolution tower is a strong resolution certificate
+tower. Therefore
+\autoref{thm:rh-strong-resolution-towers-fixed-half-limits} applies to
+its limit readout.
+\end{proof}
+
+\begin{principle}[Golden rulers do not supply boundary stability by themselves]
+\label{prin:rh-golden-rulers-not-boundary-stability}
+The golden ruler fixes a clean resolution schedule and a unique
+Zeckendorf address ledger. It supplies weak active capture for eta
+packets once the local tail estimate is dominated by the golden
+shrinking rate. It does not prove that the finite packets are
+unit-boundary stable. The remaining strong row is the
+$\mathsf{ZetaGoldenLeeYangBridge}$ of
+\autoref{def:rh-strong-golden-resolution-tower}, not another
+application of Rouch\'e capture.
+\end{principle}
+
+\begin{definition}[Zeckendorf--G\"odel path packet]
+\label{def:rh-zeckendorf-godel-path-packet}
+Let $X_m$ be the no-adjacent Zeckendorf window of
+\autoref{def:zeckendorf-stable-window}, and let $(p_k)_{1\le k\le m}$ be
+a displayed prime register. For
+$$
+z=(z_1,\ldots,z_m)\in X_m
+$$
+define the Zeckendorf--G\"odel integer
+$$
+g(z):=\prod_{k=1}^{m}p_k^{z_k}.
+$$
+For
+$$
+u_k(s):=p_k^{1/2-s},
+$$
+the corresponding path packet is
+$$
+Q_m(s):=
+\sum_{z\in X_m}w_z\prod_{k=1}^{m}u_k(s)^{z_k}.
+$$
+When the weights are the stable path weights, this is the finite
+independent-set packet attached to the no-adjacent grammar. Its
+advantage over the eta truncation is structural: the monomial support is
+already the Zeckendorf path carrier. Its missing row is zero-island
+capture for the completed zeta packet.
+\end{definition}
+
+\begin{definition}[Golden stable capture bridge]
+\label{def:rh-golden-stable-capture-bridge}
+A \emph{golden stable capture bridge} for a zero island $D_m$ consists
+of a weak analytic packet
+$$
+P_m(s)=\sum_{n=1}^{F_{Lm}}(-1)^{n-1}n^{-s},
+$$
+a Zeckendorf--G\"odel path packet $Q_m$, and bridge data satisfying:
+$$
+|R_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+the packet $Q_m$ carries a Lee--Yang type unit-boundary stability
+certificate, and the two packets have the same local zero-island
+readout, for instance by a boundary comparison
+$$
+|P_m(s)-Q_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+or by an explicitly ledgered equality of winding numbers
+$$
+\operatorname{wind}_{\partial D_m}(P_m,0)
+=
+\operatorname{wind}_{\partial D_m}(Q_m,0).
+$$
+The bridge is canonical only when the construction of $Q_m$ uses the
+Zeckendorf, prime-register, and path-stability ledgers rather than a
+post hoc interpolation to the zero island.
+\end{definition}
+
+\begin{principle}[Golden weak capture and stable capture are separate rows]
+\label{prin:rh-golden-weak-stable-separate-rows}
+The golden eta packet and the Zeckendorf--G\"odel path packet solve
+different parts of the route. The eta packet supplies analytic
+Rouch\'e capture of a completed zero island, but it does not carry
+Lee--Yang stability. The path packet is organized by the no-adjacent
+Zeckendorf grammar and is the natural candidate for a Lee--Yang stable
+finite packet, but it does not automatically capture zeta zeros. The
+source theorem must identify these two rows through
+\autoref{def:rh-golden-stable-capture-bridge}.
+\end{principle}
+
+\begin{definition}[Golden stable capture coverage]
+\label{def:rh-golden-stable-capture-coverage}
+The coverage target
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+asserts that every accepted non-trivial completed zeta zero admits, at
+some sufficiently fine golden resolution level, a golden stable capture
+bridge in the sense of
+\autoref{def:rh-golden-stable-capture-bridge}.
+\end{definition}
+
+\begin{theorem}[Golden stable capture coverage gives fixed-half readout]
+\label{thm:rh-golden-stable-capture-coverage-fixed-half}
+If
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+holds, then every accepted non-trivial completed zeta zero has fixed-half
+readout.
+\end{theorem}
+
+\begin{proof}
+Let $u$ be an accepted non-trivial completed zeta zero with local
+coordinate
+$$
+s=\frac12+r+it.
+$$
+The coverage target supplies a golden stable capture bridge. The weak
+analytic packet captures the zero island, and the bridge transfers the
+same winding row to the Zeckendorf--G\"odel path packet $Q_m$. The
+Lee--Yang type certificate for $Q_m$ excludes zero readouts with all
+active variables strictly inside the unit boundary and also excludes the
+corresponding outside region. Since
+$$
+|u_k(s)|=|p_k^{1/2-s}|=p_k^{-r},
+$$
+an $r>0$ readout places every active variable strictly inside the unit
+circle, while an $r<0$ readout places every active variable strictly
+outside it. Both cases contradict the stable packet's zero-island
+readout. Therefore $r=0$.
+\end{proof}
+
+\begin{principle}[Golden blueprint]
+\label{prin:rh-golden-blueprint}
+The BEDC--Golden route has the following compact form. The golden ruler
+and Zeckendorf ledger provide weak finite-resolution active capture; the
+only strong row is the bridge from that analytic capture packet to a
+Zeckendorf--G\"odel Lee--Yang stable packet with the same zero-island
+winding. Thus the hard source theorem is
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta},
+$$
+not the existence of the golden ruler itself.
+\end{principle}
