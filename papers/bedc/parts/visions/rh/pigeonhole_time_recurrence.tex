@@ -335,6 +335,76 @@ is represented by a legal boundary-stable certificate tower whose
 generated limit is covered by the BEDC zero carrier.
 \end{principle}
 
+\begin{principle}[No naked zero, not no zero]
+\label{prin:rh-no-naked-zero-not-no-zero}
+The certificate-tower reading does not deny the existence of completed
+zeros. It denies only the admissibility of an ungenerated bare coordinate
+as the primitive datum of the proof route. A finite zero certificate is a
+located analytic assertion with a source ledger, a tail ledger, a
+boundary or winding row, and a refinement interface. A completed zero is
+then the exact readout selected by a compatible tower of such finite
+assertions. Thus the distinction is:
+$$
+\text{no primitive naked zero}
+\qquad\text{rather than}\qquad
+\text{no zero}.
+$$
+\end{principle}
+
+\begin{theorem}[Finite certificates can determine exact zeros]
+\label{thm:rh-finite-certificates-determine-exact-zeros}
+Let
+$$
+(D_n)_{n\ge0}
+$$
+be nonempty located-compact zero boxes with
+$$
+D_{n+1}\subseteq D_n,
+\qquad
+\operatorname{diam}(D_n)\to0.
+$$
+Assume each $D_n$ carries a certificate that $D_n$ contains a completed
+zero of $\Xi$. Then the tower determines a unique point
+$$
+\rho\in\bigcap_nD_n
+$$
+and
+$$
+\Xi(\rho)=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The nesting and diameter hypotheses give a unique point in the
+intersection by
+\autoref{thm:unified-reality-nested-zero-boxes-unique-limit-readout}.
+Choose, for each $n$, a certified zero $\rho_n\in D_n$. Since the boxes
+are nested and their diameters tend to zero, the sequence $\rho_n$
+converges to the unique intersection point $\rho$. The completed zeta
+packet $\Xi$ is continuous on the displayed analytic neighbourhoods, so
+$$
+\Xi(\rho)=\lim_n\Xi(\rho_n)=0.
+$$
+\end{proof}
+
+\begin{corollary}[Approximation is not the proof object]
+\label{cor:rh-approximation-not-proof-object}
+A finite numerical or analytic box is not itself the completed zero. The
+proof object is the compatible certificate tower whose limit readout is
+exact. Consequently, the RH-facing task is not to replace exact zeros by
+approximations, but to prove that every accepted zero is represented by a
+legal boundary-stable tower.
+\end{corollary}
+
+\begin{proof}
+The first sentence is the distinction of
+\autoref{prin:rh-no-naked-zero-not-no-zero}. Exactness of the limit
+readout follows from
+\autoref{thm:rh-finite-certificates-determine-exact-zeros}. The final
+sentence is the global coverage row already isolated in
+\autoref{prin:rh-zeros-are-certificate-limits}.
+\end{proof}
+
 \begin{definition}[Certificate-tower triadic invariant]
 \label{def:rh-certificate-tower-triadic-invariant}
 For a finite zero certificate
