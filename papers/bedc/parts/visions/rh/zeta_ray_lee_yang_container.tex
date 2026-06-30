@@ -322,3 +322,116 @@ the capture row of
 load is not the existence of an internal ruler alone, but the same-island
 transport from the internally ruled golden packet to a stable container.
 \end{principle}
+
+\begin{definition}[Polarized golden Lee--Yang container]
+\label{def:rh-polarized-golden-lee-yang-container}
+Let $L_m(u)$ be the one-variable Fibonacci Lee--Yang lift supplied by
+the golden ruler, and let $D_m=\deg L_m$.  If
+$$
+L_m(u)=\sum_{k=0}^{D_m}a_k u^k,
+$$
+its polarized container is
+$$
+\mathcal Z_m^{\mathrm{pol}}(z_1,\ldots,z_{D_m})
+:=
+\sum_{k=0}^{D_m}
+a_k
+\binom{D_m}{k}^{-1}
+e_k(z_1,\ldots,z_{D_m}),
+$$
+where $e_k$ is the $k$-th elementary symmetric polynomial.  It satisfies
+the diagonal readback
+$$
+\mathcal Z_m^{\mathrm{pol}}(u,\ldots,u)=L_m(u).
+$$
+The source row
+$$
+\mathsf{GoldenPolarizedLeeYangBridge}
+$$
+asserts that this polarized packet is the Lee--Yang container supplied
+by the golden skeleton, rather than the raw multivariate hard-core path
+polynomial.
+\end{definition}
+
+\begin{principle}[Polarization supplies the container row]
+\label{prin:rh-polarization-supplies-container-row}
+If the one-variable lift $L_m$ has all nontrivial zeros on the unit
+circle, then its polarization has the Lee--Yang nonvanishing ledger:
+$$
+\mathcal Z_m^{\mathrm{pol}}(\mathbf z)\ne0
+\qquad
+\text{if } |z_j|<1\text{ for all }j,
+$$
+and
+$$
+\mathcal Z_m^{\mathrm{pol}}(\mathbf z)\ne0
+\qquad
+\text{if } |z_j|>1\text{ for all }j.
+$$
+This is the Grace--Walsh--Szegő polarization route from the reliable
+one-variable Fibonacci circle theorem to a genuine multivariate
+Lee--Yang container.  It is distinct from coordinatewise Joukowsky
+substitution into the hard-core path polynomial, which is excluded by
+\autoref{prin:rh-path-joukowsky-obstruction}.
+\end{principle}
+
+\begin{definition}[Zeta-to-polarized golden container Rouch\'e row]
+\label{def:rh-zeta-to-polarized-golden-container-rouche}
+The source row
+$$
+\mathsf{ZetaToPolarizedGoldenContainerRouche}
+$$
+asserts that, on a zero-relevant island $D_m$, the zeta golden packet
+$P_m^{\zeta}(s)$ admits active heights $h_1,\ldots,h_{D_m}>0$ and a
+polarized golden container such that
+$$
+z_j(s)=e^{-(s-1/2)h_j}
+$$
+and
+$$
+\left|
+P_m^{\zeta}(s)-
+\mathcal Z_m^{\mathrm{pol}}(z_1(s),\ldots,z_{D_m}(s))
+\right|
+<
+\left|
+\mathcal Z_m^{\mathrm{pol}}(z_1(s),\ldots,z_{D_m}(s))
+\right|
+$$
+for $s\in\partial D_m$.  The row also requires the error term to be
+subdominant in the ordinary Rouch\'e sense and not an unledgered
+real-positive scale reservoir.
+\end{definition}
+
+\begin{theorem}[Polarized golden capture gives fixed-half readout]
+\label{thm:rh-polarized-golden-capture-fixed-half-readout}
+If an accepted non-trivial completed zeta zero satisfies
+$\mathsf{ZetaToPolarizedGoldenContainerRouche}$, then its readout has
+real part $1/2$.
+\end{theorem}
+
+\begin{proof}
+The polarized container has the Lee--Yang nonvanishing ledger by
+\autoref{prin:rh-polarization-supplies-container-row}.  If a captured
+readout $s=1/2+r+it$ had $r>0$, then every active variable
+$z_j(s)=e^{-rh_j}e^{-ith_j}$ would lie inside the unit disk.  If
+$r<0$, every active variable would lie outside the unit disk.  Both
+cases are excluded by the polarized container.  The Rouch\'e row
+transports the zero count between $P_m^{\zeta}$ and the polarized
+container on the same island, so the captured zero cannot have
+$r\ne0$.
+\end{proof}
+
+\begin{definition}[Polarized golden cofinality]
+\label{def:rh-polarized-golden-cofinality}
+The source row
+$$
+\mathsf{PolarizedGoldenCofinality}
+$$
+asserts that every accepted zero-relevant zeta packet is, after passing
+to a sufficiently fine golden level, covered by
+\autoref{def:rh-zeta-to-polarized-golden-container-rouche}.  This is the
+cofinal version of the bridge: the polarized golden containers need not
+equal the zeta packet, but they must dominate the same zero islands with
+strict Rouch\'e margins.
+\end{definition}
