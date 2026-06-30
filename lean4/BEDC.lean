@@ -12176,6 +12176,7 @@ import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.GluingLedgerScope
 import BEDC.Derived.SheafificationUp.GluingTargetObligation
 import BEDC.Derived.SheafificationUp.GrothendieckLocalityInduction
+import BEDC.Derived.SheafificationUp.KernelScopePackage
 import BEDC.Derived.SheafificationUp.LocalGluingInduction
 import BEDC.Derived.SheafificationUp.LocalGluingObligation
 import BEDC.Derived.SheafificationUp.LocalNameCertNonescape
@@ -12193,6 +12194,7 @@ import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.PresheafSheafRoute
 import BEDC.Derived.SheafificationUp.ProvenanceNamingObligation
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
+import BEDC.Derived.SheafificationUp.RootObligationCarrier
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
 import BEDC.Derived.SheafificationUp.SeparatedPlusSiteRoute
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
@@ -12498,6 +12500,7 @@ import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.SquarefreeRoute
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
+import BEDC.Derived.SubdifferentialUp.KKTBoundary
 import BEDC.Derived.SubdifferentialUp.SupportInequalityExactness
 import BEDC.Derived.SubdifferentialUp.TasteGate
 import BEDC.Derived.SubgroupUp
