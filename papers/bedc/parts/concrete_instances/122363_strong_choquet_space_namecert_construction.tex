@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\StrongChoquetSpaceUp$}
+\label{ch:concrete-instances-strong-choquet-space-namecert}
+\origin{human}
+
+Following Oxtoby and Kechris on Choquet-game topology, the $\StrongChoquetSpaceUp$ packet records the finite rows by which a complete-metric or Baire-style space exposes a player-two response strategy without importing an ambient powerset of open sets. It sits beside the Baire-space carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the complete-metric surface of \autoref{ch:concrete-instances-complete-metric-space-namecert}, the Polish-space carrier of \autoref{ch:concrete-instances-polishspace-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the topology source of \autoref{ch:concrete-instances-topology-namecert}. The chapter names the finite Choquet-game certificate only; it does not assert choice-selected infinite plays, host open-set powersets, or ambient completeness.
+
+\section{Strong Choquet Carrier}
+\label{sec:strong-choquet-space-carrier}
+
+\begin{definition}[Strong Choquet space carrier]
+\label{def:strong-choquet-space-carrier}
+A $\StrongChoquetSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{Chq}(T,B,O,R,S,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, naming the finite open-neighborhood interface used by the game.
+\item $B$ is the Baire and Polish comparison row, recording the visible handoff to $\BaireSpaceUp$, $\CompleteMetricUp$, and $\PolishSpaceUp$ without asserting equality with any sibling carrier.
+\item $O$ is the open-move ledger, listing the finite initial-point, open-set, and refinement requests that the packet actually observes.
+\item $R$ is the response-strategy ledger, giving the displayed player-two response row for each listed open move.
+\item $S$ is the $\StreamNameUp$ window row, recording the finite play prefix and the observation windows through which nested moves are read.
+\item $W$ is the winning-boundary row, naming the finite nonempty-intersection and legality checks exported by the packet.
+\item $H$ records componentwise $\hsame$ transport for topology source, comparison, open moves, responses, stream windows, winning boundary, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a game request through $T,B,O,R,S,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\StrongChoquetSpaceUp$, $\TopologyUp$, $\BaireSpaceUp$, $\CompleteMetricUp$, $\PolishSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StrongChoquetSpaceUp}$ row.
+\end{enumerate}
+The carrier contains no host collection of all open sets, no chosen infinite play, no ambient complete metric, and no rule that identifies the Choquet strategy with a Baire or Polish carrier.
+\end{definition}
+
+\begin{theorem}[Strong Choquet NameCert obligations]
+\label{thm:strong-choquet-space-namecert-obligations}
+For every accepted $\StrongChoquetSpaceUp$ carrier $\mathsf{Chq}(T,B,O,R,S,W,H,C,P,N)$, the local $\NameCert_{\StrongChoquetSpaceUp}$ surface consists exactly of topology-source admission, Baire and Polish comparison, finite open-move admission, response-strategy exposure, stream-window exposure, winning-boundary exposure, componentwise transport, displayed replay, provenance, and local naming. Any accepted Choquet-game consumer must read
+$$
+T,B,O,R,S,W \longmapsto H,C,P,N
+$$
+before the strategy row is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:strong-choquet-space-carrier}. The game-facing surface is exactly $T,B,O,R,S,W$, and the structural surface is exactly $H,C,P,N$.
+
+The open-move ledger $O$ and response ledger $R$ are finite rows. They expose only the moves and replies already listed in the packet, while the stream row $S$ records the play prefix used by a consumer.
+
+The winning-boundary row $W$ is therefore read from displayed finite legality and intersection checks. Since the carrier contains no host open-set powerset, selected infinite play, or ambient complete metric, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Strong Choquet winning strategy handoff]
+\label{thm:strong-choquet-space-winning-strategy-handoff}
+Every winning-strategy read of an accepted $\StrongChoquetSpaceUp$ carrier factors through the topology source $T$, Baire and Polish comparison row $B$, open-move ledger $O$, response ledger $R$, $\StreamNameUp$ window row $S$, winning boundary $W$, transport $H$, replay $C$, provenance $P$, and local naming $N$. The handoff exports a finite strategy surface and does not choose an infinite play, a host powerset of open sets, or a complete metric outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for a strategy. The topology source $T$ supplies only the displayed open-neighborhood interface, and $O$ lists the open moves that the packet accepts.
+
+The response row $R$ then gives the corresponding player-two replies, while $S$ records the finite play windows and $W$ records the boundary checks needed for a winning read. The comparison row $B$ keeps the Baire, complete-metric, and Polish siblings available only as named dependency surfaces.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Without a coordinate for choice-selected infinite plays, host open-set powersets, or ambient completeness, the exported handoff is exactly the displayed finite strategy surface.
+\end{proof}
+
+\closureat{StrongChoquetSpaceUp}{seedStr}
+
+\begin{closurestatus}{\StrongChoquetSpaceUp}
+  \constructivestory{A $\StrongChoquetSpaceUp$ packet is generated from topology-source, Baire and Polish comparison, finite open-move, response-strategy, StreamName window, winning-boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:strong-choquet-space-carrier}, \autoref{thm:strong-choquet-space-namecert-obligations}, and \autoref{thm:strong-choquet-space-winning-strategy-handoff} seed the finite Choquet-game strategy surface over topology, Baire, complete-metric, Polish, StreamName, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close choice-selected infinite plays, host open-set powersets, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-move exactness, response-strategy handoff, StreamName window stability, winning-boundary coverage, componentwise transport, provenance, and local naming for BEDC.Derived.StrongChoquetSpaceUp.}
+\end{closurestatus}

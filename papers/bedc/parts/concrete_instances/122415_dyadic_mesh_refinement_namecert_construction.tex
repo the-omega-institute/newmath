@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMeshRefinementUp$}
+\label{ch:concrete-instances-dyadic-mesh-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive interval refinements, the $\DyadicMeshRefinementUp$ packet records the finite route by which one dyadic mesh is refined before any regular-Cauchy or Real-facing consumer reads the resulting windows. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite mesh-refinement data; it does not assert quotient interval equality, select a limiting point, prove Real completeness, supply open-cover compactness, or exhibit a standard bridge.
+
+\begin{definition}[Dyadic mesh refinement carrier]
+\label{def:dyadic-mesh-refinement-carrier}
+A $\DyadicMeshRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+M=(G,R,E,K,B,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the parent dyadic grid row, read through $\DyadicRatCoreUp$ endpoints and mesh widths.
+\item $R$ is the refinement grid row, whose cells are again dyadic and whose indexing is exposed by finite $\StreamNameUp$ windows.
+\item $E$ is the endpoint-preservation row, recording that the first and last endpoints of the refinement are the displayed parent endpoints.
+\item $K$ is the cell-containment row, assigning each refinement cell to a displayed parent cell without quotienting intervals by host equality.
+\item $B$ is the mesh-bound comparison row, comparing the refinement mesh width with the parent bound through dyadic arithmetic.
+\item $D$ is the dyadic tolerance readback row, carrying the requested tolerance to the $\RegSeqRatUp$ and $\RealUp$ consumers that inspect refined windows.
+\item $H$ records componentwise $\hsame$ transport for the parent grid, refinement grid, endpoint, containment, mesh-bound, tolerance, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through parent-grid inspection, refinement-grid inspection, endpoint preservation, cell containment, mesh-bound comparison, and dyadic tolerance readback.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMeshRefinementUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMeshRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,R,E,K,B,D,H,C,P,N$. It has no coordinate for quotient interval equality, selected limiting data, ambient real completeness, open-cover compactness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic mesh refinement NameCert obligations]
+\label{thm:dyadic-mesh-refinement-namecert-obligations}
+For every accepted $\DyadicMeshRefinementUp$ carrier $M=(G,R,E,K,B,D,H,C,P,N)$, the local $\NameCert_{\DyadicMeshRefinementUp}$ surface consists exactly of carrier admission, parent dyadic-grid exposure, refinement-grid exposure, endpoint preservation, refinement-cell containment in parent cells, mesh-bound comparison, dyadic tolerance readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+Every regular-Cauchy or Real-facing consumer must read the finite route from $\DyadicRatCoreUp$ through $\StreamNameUp$ windows and $\RegSeqRatUp$ readback before it reaches the terminal $\RealUp$ seal. The route exports no quotient interval equality, selected limit, Real completeness, open-cover compactness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple displays exactly the parent grid $G$, refinement grid $R$, endpoint row $E$, containment row $K$, mesh-bound row $B$, dyadic tolerance row $D$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Endpoint preservation and cell containment are read from $E$ and $K$. These rows compare displayed dyadic endpoints and finite cells, so the refinement is witnessed by $\DyadicRatCoreUp$ arithmetic rather than by host interval equality.
+
+The mesh-bound and tolerance rows $B,D$ are the only route to a regular rational or Real-facing read. A consumer therefore passes through the finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback before using the $\RealUp$ seal.
+
+The support rows $H,C,P,N$ transport, replay, package, and name that same finite route. Since no row carries quotient intervals, selected limiting data, Real completeness, open-cover compactness, or bridge evidence, none of those data are exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic mesh refinement sibling route]
+\label{thm:dyadic-mesh-refinement-sibling-route}
+Every accepted $\DyadicMeshRefinementUp$ read used by interval, regular-Cauchy, compact-net, or Real-facing arguments factors through the sibling chain
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The parent and refinement grids are dyadic rows, the inspected windows are $\StreamNameUp$ rows, the rational observations are $\RegSeqRatUp$ rows, and the terminal seal is a $\RealUp$ row. No consumer may bypass this chain by importing quotient interval equality, a selected limit, ambient real completeness, open-cover compactness, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:dyadic-mesh-refinement-carrier}. The parent grid, refinement grid, endpoint preservation, containment, and mesh-bound comparison are all dyadic rows, so the first sibling dependency is \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The refinement is read through finite windows before regular rational observations are consumed. Thus the next two dependencies are the $\StreamNameUp$ surface of \autoref{ch:concrete-instances-streamname-namecert} and the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+Finally the Real-facing consumer reads only the terminal seal named by \autoref{ch:concrete-instances-real-namecert}. The obligation surface of \autoref{thm:dyadic-mesh-refinement-namecert-obligations} keeps all support rows inside $H,C,P,N$, so the sibling route cannot export quotient intervals, selected limits, Real completeness, open-cover compactness, or bridge evidence.
+\end{proof}
+
+\closureat{DyadicMeshRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMeshRefinementUp}
+  \constructivestory{A $\DyadicMeshRefinementUp$ packet is generated from a parent dyadic grid, a refinement grid, endpoint preservation, refinement-cell containment, mesh-bound comparison, dyadic tolerance readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-mesh-refinement-carrier}, \autoref{thm:dyadic-mesh-refinement-namecert-obligations}, and \autoref{thm:dyadic-mesh-refinement-sibling-route} seed the finite dyadic refinement route over DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient interval equality, selected limits, Real completeness, open-cover compactness, Lean verification, bridge checking, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint preservation, cell containment, mesh-bound comparison, dyadic tolerance readback, transport/replay/provenance stability, and sibling-route non-escape for BEDC.Derived.DyadicMeshRefinementUp.}
+\end{closurestatus}

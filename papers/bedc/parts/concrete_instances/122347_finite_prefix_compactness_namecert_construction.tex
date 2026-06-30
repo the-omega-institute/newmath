@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixCompactnessUp$}
+\label{ch:concrete-instances-finite-prefix-compactness-namecert}
+\origin{human}
+
+Following Bishop and Troelstra on fan-style compactness, the $\FinitePrefixCompactnessUp$ packet records the finite prefix evidence used by compact-uniform-continuity consumers before any real-valued modulus is exported. It sits after the finite bar packet of \autoref{ch:concrete-instances-finite-fan-theorem-namecert}, the binary tree surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite prefix compactness only; it does not assert open-cover compactness, choice-selected branches, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\section{Carrier definition}
+\label{sec:finite-prefix-compactness-carrier}
+
+\begin{definition}[Finite prefix compactness carrier]\label{def:finite-prefix-compactness-carrier}
+A $\FinitePrefixCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{FinPref}(F,K,S,Q,R,E,H,C,P,N).
+$$
+The row $F$ is the $\FiniteFanTheoremUp$ bounded-bar source. The row $K$ is the $\CantorSpaceUp$ binary prefix tree read by the same fan window. The row $S$ is the $\StreamNameUp$ finite observation schedule. The row $Q$ is the finite prefix-cover ledger: it lists the retained prefixes, their depths, and the cover decision read at each retained prefix. The row $R$ is the $\RegSeqRatUp$ readback row used when the prefix packet is consumed by rational-modulus or regular-Cauchy routes. The row $E$ is the terminal $\RealUp$ seal for downstream compact-uniform-continuity consumers. The row $H$ is componentwise $\hsame$ transport for the fan, Cantor, stream, prefix-cover, regular-rational, and real-seal rows. The row $C$ is displayed $\Cont$ replay for finite prefix traversal, regular-rational readback, and real-seal handoff. The row $P$ is $\Pkg$ provenance over $\FinitePrefixCompactnessUp$, $\FiniteFanTheoremUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows. The row $N$ is the local $\NameCert_{\FinitePrefixCompactnessUp}$ row.
+\end{definition}
+
+\begin{theorem}[Finite prefix compactness NameCert obligations]\label{thm:finite-prefix-compactness-namecert-obligations}
+For every accepted $\FinitePrefixCompactnessUp$ carrier $\mathsf{FinPref}(F,K,S,Q,R,E,H,C,P,N)$, the local $\NameCert_{\FinitePrefixCompactnessUp}$ surface consists exactly of carrier admission for the ten displayed rows, source compatibility with $\FiniteFanTheoremUp$, $\CantorSpaceUp$, and $\StreamNameUp$, finite prefix-cover admission through $Q$, regular-rational readback through $R$, terminal real sealing through $E$, componentwise classifier transport through $H$, displayed continuation replay through $C$, provenance non-escape through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the ten rows of \autoref{def:finite-prefix-compactness-carrier}. The fan row $F$, Cantor row $K$, and stream row $S$ determine the branch-facing finite prefix surface before any rational or real read is available.
+
+The prefix-cover ledger $Q$ is then read over those displayed prefixes. It stores only retained prefix names, their depths, and local cover decisions, so it cannot supply an arbitrary open cover or a choice-selected branch.
+
+Rows $R$ and $E$ expose the analytic handoff. The regular-rational row $R$ is read from the finite prefix packet, and the terminal $\RealUp$ row $E$ is available only after that readback has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Since no row stores open-cover compactness, a selected branch, quotient stream equality, or ambient real completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite fan handoff]\label{thm:finite-prefix-compactness-fan-handoff}
+Let $\mathsf{FinPref}(F,K,S,Q,R,E,H,C,P,N)$ be an accepted $\FinitePrefixCompactnessUp$ carrier. Every compact-uniform finite-prefix consumer must read the $\FiniteFanTheoremUp$ row $F$, the $\CantorSpaceUp$ row $K$, and the $\StreamNameUp$ row $S$ before inspecting the finite prefix-cover ledger $Q$; it must then pass through $\RegSeqRatUp$ readback $R$ before the $\RealUp$ seal $E$ is exported. Thus the compact-uniform-continuity branch receives a finite prefix packet rather than an open-cover compactness theorem or a choice-selected branch.
+\end{theorem}
+\begin{proof}
+Start with the fan source $F$. It supplies bounded-bar evidence in the form accepted by \autoref{ch:concrete-instances-finite-fan-theorem-namecert}, and it fixes the finite prefix discipline for the packet.
+
+The Cantor and stream rows $K$ and $S$ make the actual prefix surface visible. The prefix-cover ledger $Q$ is indexed by those displayed prefixes, so a consumer cannot inspect a cover decision outside the finite branch window.
+
+The analytic handoff is ordered by $R$ and $E$. Regular-rational readback in $R$ records the finite rational data consumed by modulus routes, and the $\RealUp$ seal $E$ is downstream of that readback.
+
+Transport and replay through $H$ and $C$ preserve this order, while $P$ and $N$ expose only provenance and local naming. The handoff therefore factors through finite fan, Cantor, stream, RegSeqRat, and Real rows, with no open-cover or choice-selected branch coordinate.
+\end{proof}
+
+\closureat{FinitePrefixCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrefixCompactnessUp}
+  \constructivestory{A $\FinitePrefixCompactnessUp$ packet is generated from FiniteFanTheorem, CantorSpace, StreamName, finite prefix-cover, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-compactness-carrier}, \autoref{thm:finite-prefix-compactness-namecert-obligations}, and \autoref{thm:finite-prefix-compactness-fan-handoff} seed the finite prefix compactness route through FiniteFanTheoremUp, CantorSpaceUp, StreamNameUp, RegSeqRatUp, RealUp, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, countable choice, selected branches, quotient stream equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prefix-cover exactness, fan handoff order, RegSeqRat readback, RealUp seal non-escape, componentwise transport, provenance, and local NameCert exactness for BEDC.Derived.FinitePrefixCompactnessUp.}
+\end{closurestatus}
