@@ -924,6 +924,7 @@ import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BellNumberModUp
 import BEDC.Derived.BellNumberUp
+import BEDC.Derived.BellPolynomialSecondUp
 import BEDC.Derived.BellPolynomialUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
@@ -5668,6 +5669,7 @@ import BEDC.Derived.ExtremeValueTheoremUp.TasteGate
 import BEDC.Derived.ExtremeValueUp.RealSealBoundary
 import BEDC.Derived.ExtremeValueUp.TasteGate
 import BEDC.Derived.FSigmaSetUp
+import BEDC.Derived.FaaDiBrunoUp
 import BEDC.Derived.FaberSchauderSystemUp
 import BEDC.Derived.FableBranchWitnessUp
 import BEDC.Derived.FableBranchWitnessUp.EmptyBoundarySelectorDependency
@@ -9124,6 +9126,7 @@ import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
+import BEDC.Derived.NarayanaNumberUp
 import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NarcissisticNumberUp
 import BEDC.Derived.NashEquilibriumUp.TasteGate
@@ -12179,6 +12182,7 @@ import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.GluingLedgerScope
 import BEDC.Derived.SheafificationUp.GluingTargetObligation
 import BEDC.Derived.SheafificationUp.GrothendieckLocalityInduction
+import BEDC.Derived.SheafificationUp.KernelScopePackage
 import BEDC.Derived.SheafificationUp.LocalGluingInduction
 import BEDC.Derived.SheafificationUp.LocalGluingObligation
 import BEDC.Derived.SheafificationUp.LocalNameCertNonescape
