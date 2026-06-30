@@ -50,6 +50,21 @@ ANCHOR_PATTERNS = (
     "BHistCarrier",
     "ChapterTasteGate",
 )
+BHIST_ANCHOR_PATTERNS = (
+    "BHist",
+    "UnaryHistory",
+    "NatFactorial",
+    "NatBinom",
+    "NatGcd",
+    "NatDivides",
+    "NatDivRem",
+    "NatMul",
+    "NatAdd",
+)
+REFUGE_NAME_TERMS = (
+    "_StdBridge",
+    "StdBridge",
+)
 GENERIC_TARGET_TERMS = (
     "Repr",
     "ReprAtom",
@@ -112,6 +127,17 @@ INTERESTING_NAME_TERMS = (
     "real",
     "zeta",
 )
+TRUE_CARRIER_TERMS = (
+    "Carrier",
+    "Core",
+    "NatFactorial",
+    "NatGcd",
+    "NatBinom",
+    "ZMod",
+    "GaussInt",
+    "EisInt",
+    "BoolCarrier",
+)
 
 
 @dataclass(frozen=True)
@@ -125,7 +151,39 @@ class TargetRule:
 
 
 TARGET_RULES = (
-    TargetRule(("BoolUp_StdBridge",), "Bool", "Bool", "Bool", "rel_equiv", "bool_stdbridge"),
+    TargetRule(
+        ("BoolCarrier", "BoolClassifierSpec", "BoolEndpoint"),
+        "Bool",
+        "Bool",
+        "Bool",
+        "carrier_equiv",
+        "bool_carrier_core",
+    ),
+    TargetRule(
+        ("TaggedOptionHistoryCarrier", "TaggedOptionHistoryClassifier"),
+        "Option",
+        "Option",
+        "Option",
+        "carrier_equiv",
+        "tagged_option_history_core",
+    ),
+    TargetRule(
+        ("SumHistoryCarrier", "SumHistoryClassifier"),
+        "Sum",
+        "Sum",
+        "Sum",
+        "carrier_equiv",
+        "tagged_sum_history_core",
+    ),
+    TargetRule(
+        ("ListHistoryCarrier", "ListHistoryClassifier"),
+        "List",
+        "List",
+        "List",
+        "carrier_equiv",
+        "list_history_core",
+    ),
+    TargetRule(("BoolUp_StdBridge",), "Bool", "Bool", "Bool", "rel_equiv", "bool_stdbridge_refuge"),
     TargetRule(("fib",), "Nat.fib", "Nat.fib", "Nat.fib", "pointwise_eq", "common_name_fib"),
     TargetRule(
         ("bedcChooseNat", "chooseNat", "natChooseFn"),
@@ -136,12 +194,12 @@ TARGET_RULES = (
         "common_name_choose",
     ),
     TargetRule(
-        ("natFactorialFn", "NatFactorial", "factorialNat"),
+        ("NatFactorial", "natFactorialFn"),
         "Nat.factorial",
         "Nat.factorial",
         "Nat.factorial",
         "pointwise_eq",
-        "common_name_factorial",
+        "bhist_factorial_carrier",
     ),
     TargetRule(
         ("natGcdFn", "NatGcd"),
@@ -149,7 +207,7 @@ TARGET_RULES = (
         "Nat.gcd",
         "Nat.gcd",
         "pointwise_eq",
-        "common_name_gcd",
+        "bhist_gcd_carrier",
     ),
     TargetRule(("GaussInt",), "GaussianInt", "CommRing", "GaussianInt.instCommRing", "ring_equiv", "gaussian_int_core"),
     TargetRule(
@@ -200,13 +258,23 @@ def file_may_contain_candidate(text: str, path: Path) -> bool:
     if any(re.search(rf"\b(?:abbrev|def|theorem|lemma|structure|inductive)\s+{re.escape(name)}\b", text) for name in candidate_names):
         return True
     path_lower = path.as_posix().lower()
-    return any(term in path_lower for term in ("boolup", "factorialup", "gcdup", "gaussianup", "eisensteinup", "zmodup"))
+    return any(
+        term in path_lower
+        for term in (
+            "boolup",
+            "factorialup",
+            "gcdup",
+            "gaussianup",
+            "eisensteinup",
+            "zmodup",
+        )
+    )
 
 
 def file_features(clean_text: str) -> dict[str, bool]:
     return {
         "final_theorem": re.search(
-            r"\b(theorem|lemma)\s+[A-Za-z0-9_']*(?:spec|iff|_eq_|RingEquiv|RelEquiv|Equiv)\b",
+            r"\b(theorem|lemma)\s+[A-Za-z0-9_']*(?:spec|iff|_eq_|RingEquiv|RelEquiv|Equiv|functional|unique|recurrence)\b",
             clean_text,
         )
         is not None,
@@ -417,6 +485,68 @@ def contains_anchor(text: str) -> bool:
     return any(pattern in clean for pattern in ANCHOR_PATTERNS)
 
 
+def contains_bhist_anchor(text: str) -> bool:
+    clean = strip_line_comments(text)
+    return any(pattern in clean for pattern in BHIST_ANCHOR_PATTERNS)
+
+
+def is_refuge_decl(decl: Decl) -> bool:
+    values = (decl.terminal, decl.full_name, decl.path.as_posix())
+    return any(term in value for term in REFUGE_NAME_TERMS for value in values)
+
+
+def is_true_carrier_decl(decl: Decl) -> bool:
+    if decl.terminal in {"BoolCarrier", "BoolClassifierSpec", "BoolEndpoint"}:
+        return True
+    if any(term in decl.terminal for term in TRUE_CARRIER_TERMS) and contains_anchor(decl.block):
+        return True
+    if decl.kind in {"inductive", "structure"} and contains_bhist_anchor(decl.block):
+        return True
+    if decl.terminal in {"NatGcd", "NatDivRem", "NatLcm"} and contains_bhist_anchor(decl.block):
+        return True
+    return False
+
+
+def source_role(decl: Decl, shape: str) -> str:
+    if is_refuge_decl(decl):
+        return "stdbridge_refuge"
+    if is_true_carrier_decl(decl):
+        return "bedc_carrier"
+    if shape == "pointwise_eq" and contains_bhist_anchor(decl.block):
+        return "bhist_readback"
+    if contains_anchor(decl.block):
+        return "bedc_anchored_decl"
+    return "unanchored_decl"
+
+
+CONSUMED_DECL_HINTS: dict[str, tuple[str, ...]] = {
+    "BEDC.Derived.FactorialUp.NatFactorial": (
+        "BEDC.Derived.FactorialUp.natFactorialFn_spec",
+        "BEDC.Derived.FactorialUp.natFactorialFn_succ",
+    ),
+    "BEDC.Derived.GcdUp.NatGcd": (
+        "BEDC.Derived.GcdUp.natGcdFn_spec",
+        "BEDC.Derived.GcdUp.NatGcd_unique_hsame",
+    ),
+    "BEDC.Derived.OptionUp.TaggedOptionHistoryCarrier": (
+        "BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier_branch_exactness",
+        "BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier_stability_fields",
+    ),
+    "BEDC.Derived.SumUp.SumHistoryCarrier": (
+        "BEDC.Derived.SumUp.SumHistoryCarrier_tagged_injections",
+        "BEDC.Derived.SumUp.SumHistoryClassifier_trans",
+    ),
+    "BEDC.Derived.ListUp.ListHistoryCarrier": (
+        "BEDC.Derived.ListUp.ListHistoryCarrier_generated_cases",
+        "BEDC.Derived.ListUp.ListHistoryClassifierRec_equivalence_fields",
+    ),
+}
+
+
+def consumed_decl_hints(decl: Decl) -> list[str]:
+    return list(CONSUMED_DECL_HINTS.get(decl.full_name, ()))
+
+
 def nat_shadow_like(decl: Decl) -> bool:
     clean = strip_line_comments(decl.block)
     if contains_anchor(clean):
@@ -458,7 +588,23 @@ def has_recurrence_cluster(decl: Decl) -> bool:
 def finite_or_canonical_target(target: str | None) -> bool:
     if target is None:
         return False
-    return target in {"Bool", "Fin", "List", "ZMod", "GaussianInt", "QuadraticAlgebra", "Int"}
+    return target in {
+        "Bool",
+        "Option",
+        "Sum",
+        "Fin",
+        "List",
+        "ZMod",
+        "GaussianInt",
+        "QuadraticAlgebra",
+        "Int",
+    }
+
+
+def canonical_computable_target(target: str | None) -> bool:
+    if target is None:
+        return False
+    return target in {"Nat.factorial", "Nat.gcd"}
 
 
 def generic_target(target: str | None, cls: str | None, inst: str | None) -> bool:
@@ -484,18 +630,34 @@ def candidate_score(
     is_generic: bool,
     is_boundary: bool,
     is_nat_shadow: bool,
+    is_refuge: bool,
 ) -> tuple[int, list[str]]:
     score = 0
     reasons: list[str] = []
     if has_final_theorem(decl):
         score += 5
         reasons.append("score:+5_final_spec_iff_or_eq_theorem")
+    if is_true_carrier_decl(decl):
+        score += 4
+        reasons.append("score:+4_true_bedc_carrier_or_relation")
     if finite_or_canonical_target(target):
         score += 4
         reasons.append("score:+4_finite_inductive_or_canonical_target")
-    if shape in {"equiv", "rel_equiv", "ring_equiv", "relation_iff", "iff"}:
+    if canonical_computable_target(target):
+        score += 3
+        reasons.append("score:+3_canonical_computable_mathlib_target")
+    if shape in {"equiv", "rel_equiv", "ring_equiv", "relation_iff", "iff", "carrier_equiv"}:
         score += 3
         reasons.append("score:+3_equiv_or_iff_shape")
+    if shape == "pointwise_eq" and (has_final_theorem(decl) or has_recurrence_cluster(decl)):
+        score += 3
+        reasons.append("score:+3_pointwise_eq_with_final_or_recurrence")
+    if has_recurrence_cluster(decl):
+        score += 2
+        reasons.append("score:+2_recurrence_or_boundary_cluster")
+    if is_refuge:
+        score -= 6
+        reasons.append("score:-6_stdbridge_refuge_not_primary_carrier")
     if is_generic:
         score -= 5
         reasons.append("score:-5_generic_typeclass_or_api")
@@ -555,8 +717,15 @@ def raw_candidate(
         reasons.append("bedc_anchor:missing_in_declaration")
     if target:
         reasons.append(f"canonical_target:{target_reason}")
+        if target in {"Option", "Sum", "List"}:
+            reasons.append("canonical_target:constructor_carrier_not_generic_api")
     else:
         reasons.append("canonical_target:no_unique_mathlib_target")
+    role = source_role(decl, shape)
+    reasons.append(f"source_role:{role}")
+    refuge = is_refuge_decl(decl)
+    if refuge:
+        reasons.append("refuge:stdbridge_internal_bridge_not_primary_carrier")
     if has_recurrence_cluster(decl):
         reasons.append("bedc_cluster:recurrence_or_boundary_theorem_present")
 
@@ -570,6 +739,7 @@ def raw_candidate(
         is_generic,
         is_boundary,
         is_nat_shadow,
+        refuge,
     )
     reasons.extend(score_reasons)
 
@@ -584,7 +754,9 @@ def raw_candidate(
             exclude_reason = "boundary_or_forbidden_footprint"
         elif is_nat_shadow:
             exclude_reason = "nat_shadow"
-        elif not anchor_ok:
+        elif refuge:
+            exclude_reason = "stdbridge_refuge"
+        elif not anchor_ok and role not in {"bedc_carrier", "bhist_readback"}:
             exclude_reason = "bedc_anchor_missing"
         elif not small_scope(target, decl):
             exclude_reason = "scope_too_large"
@@ -594,6 +766,10 @@ def raw_candidate(
     return {
         "bedc_decl": decl.full_name,
         "mathlib_target_guess": target,
+        "mathlib_class_guess": cls,
+        "mathlib_instance_guess": inst,
+        "correspondence_shape_guess": shape,
+        "bedc_consumed_decl_guess": consumed_decl_hints(decl),
         "eligible": exclude_reason is None,
         "score": score,
         "reasons": reasons,
