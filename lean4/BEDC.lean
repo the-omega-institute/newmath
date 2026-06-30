@@ -4630,6 +4630,7 @@ import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclicGroupUp
 import BEDC.Derived.CyclicTagSystemUp.TasteGate
+import BEDC.Derived.CyclotomicPolynomialUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.CylinderObjectUp
