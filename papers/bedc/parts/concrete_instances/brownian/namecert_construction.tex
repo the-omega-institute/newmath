@@ -91,6 +91,18 @@ certificates into one finite packet. Repacking these projections gives the
 stated dependency surface and no uncarried probability-space or path object.
 \end{proof}
 
+\begin{theorem}[Brownian probability and martingale dependency route]
+\label{thm:brownian-probspace-martingale-dependency-route}
+Every adapted Gaussian-step read of an admitted $\BrownianUp$ process packet must expose the $\ProbSpaceUp$ measure-total rows carried by \autoref{ch:concrete-instances-probspace-namecert}, the filtration and adaptedness rows read through $\NameCert_{\MartingaleUp}$ of \autoref{ch:concrete-instances-martingale-namecert}, the finite time-index row $T$, the $\NameCert_{\ContinuousMapUp}$ path-continuity rows of \autoref{ch:concrete-instances-continuousmap-namecert}, componentwise transport, replay, provenance, and local naming before any stochastic-process consumer reads the packet. The route refuses host probability spaces, chosen sample paths, and ambient path equality.
+\end{theorem}
+\begin{proof}
+Start with the admitted packet $\mathcal{B}=(M,C,T,I,N,P,\rho,\lambda)$. The martingale dependency row $M$ is the only source for filtration, adaptedness, and measure-total reads, and those reads remain scoped by the ProbSpace and Martingale certificates named in the dependency route.
+
+The finite time row $T$ and the Gaussian-step displays $I,N$ then bind the adapted read to the visible Brownian step ledger. The path face is separately read through $C$ and the displayed continuity row $P$, so continuity comes from the ContinuousMap certificate rather than from a host path space.
+
+Finally the provenance $\rho$ and transport ledger $\lambda$ keep these dependency rows in one finite packet. Since no coordinate names a host probability space, selected sample path, or ambient path equality, the stochastic-process consumer receives only the displayed route.
+\end{proof}
+
 \begin{theorem}[Brownian classifier stability]
 \label{thm:brownian-classifier-stability}
 If two admitted $\BrownianUp$ process packets are related by the classifier of
