@@ -38,16 +38,24 @@ def shiftedNumber (shift : PrimeFactorShift) (n : BHist) : BHist :=
 def ShiftedPrimeFactorDivides (shift : PrimeFactorShift) (p n : BHist) : Prop :=
   NatDivides (shiftedPrimeFactor shift p) (shiftedNumber shift n)
 
+def ShiftedKorseltFactorList
+    (shift : PrimeFactorShift) (n : BHist) (factors : List BHist) : Prop :=
+  PrimeFactorization n factors ∧ listSquarefree factors ∧
+    ∀ p : BHist, p ∈ factors -> ShiftedPrimeFactorDivides shift p n
+
+def ShiftedKorseltCriterion
+    (shift : PrimeFactorShift) (n : BHist) (factors : List BHist) : Prop :=
+  BEDC.Derived.CarmichaelUp.NatComposite n ∧
+    ShiftedKorseltFactorList shift n factors
+
 def PrimeFactorDividesSuccessor (p n : BHist) : Prop :=
   ShiftedPrimeFactorDivides PrimeFactorShift.successor p n
 
 def LucasCarmichaelFactorList (n : BHist) (factors : List BHist) : Prop :=
-  PrimeFactorization n factors ∧ listSquarefree factors ∧
-    ∀ p : BHist, p ∈ factors -> PrimeFactorDividesSuccessor p n
+  ShiftedKorseltFactorList PrimeFactorShift.successor n factors
 
 def LucasCarmichaelViaKorselt (n : BHist) (factors : List BHist) : Prop :=
-  BEDC.Derived.CarmichaelUp.NatComposite n ∧
-    LucasCarmichaelFactorList n factors
+  ShiftedKorseltCriterion PrimeFactorShift.successor n factors
 
 def LucasCarmichaelNumber (n : BHist) : Prop :=
   ∃ factors : List BHist, LucasCarmichaelViaKorselt n factors
@@ -60,6 +68,18 @@ theorem shiftedPrimeFactorDivides_predecessor {p n : BHist} :
 theorem shiftedPrimeFactorDivides_successor {p n : BHist} :
     ShiftedPrimeFactorDivides PrimeFactorShift.successor p n ↔
       PrimeFactorDividesSuccessor p n := by
+  rfl
+
+theorem shiftedKorseltCriterion_predecessor
+    {n : BHist} {factors : List BHist} :
+    ShiftedKorseltCriterion PrimeFactorShift.predecessor n factors ↔
+      BEDC.Derived.CarmichaelNumberUp.KorseltCriterion n factors := by
+  rfl
+
+theorem shiftedKorseltCriterion_successor
+    {n : BHist} {factors : List BHist} :
+    ShiftedKorseltCriterion PrimeFactorShift.successor n factors ↔
+      LucasCarmichaelViaKorselt n factors := by
   rfl
 
 theorem lucasCarmichaelViaKorselt_iff_components {n : BHist} {factors : List BHist} :

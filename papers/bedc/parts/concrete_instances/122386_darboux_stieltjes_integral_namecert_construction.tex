@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxStieltjesIntegralUp$}
+\label{ch:concrete-instances-darboux-stieltjes-integral-namecert}
+\origin{human}
+
+Following Darboux, Stieltjes, and Bishop-style constructive analysis, the $\DarbouxStieltjesIntegralUp$ packet records the finite upper-lower integration route for a bounded integrand read against a bounded-variation integrator. It sits beside the Darboux finite-partition surface of \autoref{ch:concrete-instances-darbouxintegral-namecert}, the tagged Riemann--Stieltjes route of \autoref{ch:concrete-instances-riemannstieltjes-namecert}, the variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed finite Stieltjes mesh and gap route only; it does not import measure completion, choice-selected tags, quotient integrands, completed variation objects, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux--Stieltjes integral carrier]
+\label{def:darboux-stieltjes-integral-carrier}
+A $\DarbouxStieltjesIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,F,A,U,L,SU,SL,G,R,E,H,C,Pkg,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, carrying the displayed interval endpoints, cell order, and common-refinement ledger used by all later rows.
+\item $F$ is the bounded integrand row, exposing bounded rational or real-value windows on the cells named by $P$.
+\item $A$ is the $\BoundedVariationUp$ integrator row, carrying endpoint changes, transported jump or oscillation rows, and the finite variation budget attached to the same partition.
+\item $U$ and $L$ are upper and lower Darboux--Stieltjes envelope rows over a displayed common refinement of $P$.
+\item $SU$ and $SL$ are the finite upper and lower Darboux--Stieltjes sum rows computed from $U,L$ and the integrator changes in $A$.
+\item $G$ is the upper-lower gap and modulus row, binding the visible precision request to the finite difference between $SU$ and $SL$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the gap/modulus ledger.
+\item $E$ is the terminal $\RealUp$ seal, available only after $P,F,A,U,L,SU,SL,G,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all carrier rows.
+\item $C$ records displayed $\Cont$ replay of refinements, variation reads, sum computations, gap comparisons, regular readback, and real sealing.
+\item $Pkg$ is the $\Pkg$ provenance over $\DarbouxStieltjesIntegralUp$, $\DarbouxIntegralUp$, $\RiemannStieltjesUp$, $\BoundedVariationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxStieltjesIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,F,A,U,L,SU,SL,G,R,E,H,C,Pkg,N$. It has no coordinate for measure completion, choice-selected partition tags, host integrand equality, quotient functions, selected limiting partitions, completed variation objects, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Darboux--Stieltjes integral NameCert obligations]
+\label{thm:darboux-stieltjes-integral-namecert-obligations}
+For every accepted $\DarbouxStieltjesIntegralUp$ carrier $S=(P,F,A,U,L,SU,SL,G,R,E,H,C,Pkg,N)$, the local $\NameCert_{\DarbouxStieltjesIntegralUp}$ surface consists exactly of carrier admission for the displayed tuple, partition-refinement stability for $P,U,L$, bounded-integrand exposure through $F$, bounded-variation integrator control through $A$, finite upper/lower Darboux--Stieltjes sum exactness for $SU,SL$, gap/modulus exposure through $G$, $\RegSeqRatUp$ and $\RealUp$ sealing through $R,E$, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, local naming, and ledger refusal for measure completion, selected tags, quotient functions, selected limiting partitions, completed variation objects, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:darboux-stieltjes-integral-carrier}. The packet first displays the partition, integrand bounds, bounded-variation integrator row, upper and lower envelope rows, and finite sum rows before any gap or seal can be consumed.
+
+Refinement stability is inherited from the Darboux and Riemann--Stieltjes sibling routes. The partition and envelope rows follow the finite Darboux common-refinement discipline, while the integrator changes are read only through the bounded-variation ledger attached to the same refined cells.
+
+The sum and gap obligations are then finite ledger checks. The upper and lower Darboux--Stieltjes sums compute from the displayed envelopes and integrator changes, the gap row records the visible precision comparison, and $R,E$ seal that comparison as a regular rational and real-name handoff. Since the excluded host objects are absent from the carrier coordinates, no continuation or transport row can export them.
+\end{proof}
+
+\begin{theorem}[Darboux--Stieltjes variation handoff]
+\label{thm:darboux-stieltjes-integral-variation-handoff}
+Every $\DarbouxIntegralUp$ or $\RiemannStieltjesUp$ consumer of an accepted $\DarbouxStieltjesIntegralUp$ packet must read the finite partition row $P$, bounded integrand row $F$, $\BoundedVariationUp$ integrator row $A$, upper and lower envelope rows $U,L$, finite sum rows $SU,SL$, gap/modulus row $G$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $Pkg$, and local $\NameCert$ row $N$ before treating the packet as an integral handoff. The consumer receives a finite variation-controlled Darboux route; it receives no measure completion, selected tags, quotient integrand equality, selected limiting partition, completed variation object, or ambient real-completeness proof.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:darboux-stieltjes-integral-namecert-obligations}. They expose the carrier, partition refinement, bounded integrand, bounded-variation integrator, finite sum, gap, readback, seal, transport, replay, provenance, and local naming rows as the complete public surface.
+
+For a $\DarbouxIntegralUp$ consumer, forget only the Stieltjes-specific reading of $A$ as an integrator ledger while keeping the partition, upper and lower envelope rows, finite sum rows, gap row, regular readback, and real seal visible. This is still a finite Darboux route because the sums and gap are computed from displayed cells.
+
+For a $\RiemannStieltjesUp$ consumer, read $A$ as the bounded-variation handoff and use the same finite mesh, sum, and seal order. The tagged route is not supplied by choice-selected tags; it is constrained by the displayed Stieltjes partition and variation ledger already present in the carrier.
+
+The structural rows $H,C,Pkg,N$ preserve this order and add no analytic coordinate. Thus every downstream integration handoff remains inside the finite variation-controlled packet and cannot export the refused host data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DarbouxStieltjesIntegralUp$ read displays one finite partition row, one bounded integrand row, one BoundedVariationUp integrator row, upper and lower Darboux--Stieltjes envelope rows, upper and lower finite sum rows, one gap/modulus row, one RegSeqRatUp readback row, one RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert before any integral consumer reads the seal.}
+
+\independenceWitness{darboux-integral, riemann-stieltjes, bounded-variation, regseqrat, real: $\DarbouxStieltjesIntegralUp$ is not bijective to any listed sibling because it jointly binds finite upper/lower Darboux rows to bounded-variation integrator changes before the regular-rational and real-name seal, while refusing measure completion, selected tags, quotient function equality, selected limiting partitions, completed variation objects, and ambient real completeness.}
+
+\closureat{DarbouxStieltjesIntegralUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxStieltjesIntegralUp}
+  \constructivestory{A $\DarbouxStieltjesIntegralUp$ packet is generated from a finite partition row, bounded integrand row, BoundedVariationUp integrator row, upper and lower envelope rows, finite upper and lower Darboux--Stieltjes sum rows, a gap/modulus row, RegSeqRatUp readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-stieltjes-integral-carrier}, \autoref{thm:darboux-stieltjes-integral-namecert-obligations}, and \autoref{thm:darboux-stieltjes-integral-variation-handoff} seed the finite variation-controlled Darboux--Stieltjes handoff through $\DarbouxIntegralUp$, $\RiemannStieltjesUp$, $\BoundedVariationUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure completion, selected tags, quotient integrand equality, selected limiting partitions, completed variation objects, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite sum exactness, bounded-variation handoff, gap/modulus nonescape, RegSeqRatUp readback, and RealUp seal ordering for BEDC.Derived.DarbouxStieltjesIntegralUp.}
+\end{closurestatus}
