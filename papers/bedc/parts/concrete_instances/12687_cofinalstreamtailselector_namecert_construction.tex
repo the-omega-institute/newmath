@@ -225,6 +225,20 @@ The remaining rows $H,C,P,N$ have only transport, replay, source, and naming rol
 \end{proof}
 \leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicWindowTransport}
 
+\begin{theorem}[Cofinal StreamName tail selector bridge surface]
+\label{thm:cofinal-stream-tail-selector-bridge-surface}
+The public certificate of \autoref{thm:cofinal-stream-tail-selector-public-certificate} and the public-window transport of \autoref{thm:cofinal-stream-tail-selector-public-window-transport} determine the exact bridge surface available to any future standard bridge for $\CofinalStreamTailSelectorUp$. That surface consists of the precision request, cofinal $\StreamNameUp$ tail window, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ readback, selector provenance, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of the accepted carrier.
+
+No standard bridge may export quotient stream equality, a host-selected limit, a countable-choice selector, a hidden tail oracle, or ambient $\RealUp$ completeness from this public surface.
+\end{theorem}
+\begin{proof}
+Start with the public certificate. It exposes exactly the rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and refuses quotient stream identity, host-selected limits, countable choice, hidden tail oracles, and ambient Real completeness.
+
+Apply the scoped route, seal-order, and window-readback scope theorems. They place the precision request before the cofinal $\StreamNameUp$ window, route $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback through that window, keep selector provenance visible, and allow the $\RealUp$ seal only after those rows have been displayed.
+
+Use public-window transport to preserve the same route across any public handoff. The rows $H,C,P,N$ only transport, replay, source, and name the displayed carrier, while the non-escape theorem excludes every off-packet tail selector or completeness principle. Therefore the listed rows are the whole bridge surface available to a future standard bridge.
+\end{proof}
+
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 
