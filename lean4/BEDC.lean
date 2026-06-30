@@ -1552,6 +1552,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CRTUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
+import BEDC.Derived.CWComplexUp.TasteGate
 import BEDC.Derived.CadlagRealFunctionUp.TasteGate
 import BEDC.Derived.CalculusOfConstructionsUp.NameCertObligations
 import BEDC.Derived.CalculusOfConstructionsUp.TasteGate
@@ -1912,6 +1913,7 @@ import BEDC.Derived.CauchyCompletionOperatorUp.UniversalFactorization
 import BEDC.Derived.CauchyCompletionOperatorUp.WindowExtraction
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
+import BEDC.Derived.CauchyCompletionPushoutUp.TasteGate
 import BEDC.Derived.CauchyCompletionRecursorUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectionUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectiveLocalizationUp.TasteGate
@@ -2190,6 +2192,7 @@ import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
 import BEDC.Derived.CauchyMatrixUp.TasteGate
 import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
+import BEDC.Derived.CauchyMeshStabilityUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusArithmeticUp.DiagonalMeetRoute
