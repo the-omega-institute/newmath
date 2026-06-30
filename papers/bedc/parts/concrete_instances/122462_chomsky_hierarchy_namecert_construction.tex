@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\ChomskyHierarchyUp$}
+\label{ch:concrete-instances-chomsky-hierarchy-namecert}
+\origin{human}
+
+Following Chomsky and Hopcroft--Ullman, the $\ChomskyHierarchyUp$ packet records the standard formal-language strata as one finite BEDC carrier. It links the regular-language surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, the context-free language surface of \autoref{ch:concrete-instances-context-free-language-namecert}, the context-sensitive language surface of \autoref{ch:concrete-instances-context-sensitive-language-namecert}, the linear-bounded automaton surface of \autoref{ch:concrete-instances-linear-bounded-automaton-namecert}, and the Turing-machine surface of \autoref{ch:concrete-instances-turingmachine-namecert}. The packet names the hierarchy classifier before any consumer may treat the strata as host powersets of languages or as an unrestricted semantic inclusion theorem.
+
+\begin{definition}[Chomsky hierarchy carrier]
+\label{def:chomsky-hierarchy-carrier}
+A $\ChomskyHierarchyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,F,S,L,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the regular-language stratum, anchored by the finite automaton carrier and accepted-word classifier of \autoref{ch:concrete-instances-regularlanguage-namecert}.
+\item $F$ is the context-free language stratum, anchored by the grammar, derivation, yield, and pushdown-handoff rows of \autoref{ch:concrete-instances-context-free-language-namecert}.
+\item $S$ is the context-sensitive language stratum, anchored by the noncontracting grammar and linear-bounded acceptance rows of \autoref{ch:concrete-instances-context-sensitive-language-namecert}.
+\item $L$ is the linear-bounded automaton stratum, anchored by the bounded-tape computation rows of \autoref{ch:concrete-instances-linear-bounded-automaton-namecert}.
+\item $T$ is the unrestricted Turing-machine stratum, anchored by the finite trace, source-classifier, ledger-exactness, and public certificate rows of \autoref{ch:concrete-instances-turingmachine-namecert}.
+\item $H$ records componentwise $\hsame$ transport for the five strata and the local hierarchy name.
+\item $C$ records displayed $\Cont$ replay from a hierarchy query through $R,F,S,L,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularLanguageUp$, $\ContextFreeLanguageUp$, $\ContextSensitiveLanguageUp$, $\LinearBoundedAutomatonUp$, $\TuringMachineUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChomskyHierarchyUp}$ row.
+\end{enumerate}
+The classifier reads the hierarchy only through the ordered stratum packet $R,F,S,L,T$. It has no coordinate for a host language powerset, quotient grammar equality, selected universal machine, complement closure, strictness theorem, or ambient decidability principle.
+\end{definition}
+
+\begin{theorem}[Chomsky hierarchy NameCert obligations]
+\label{thm:chomsky-hierarchy-namecert-obligations}
+For every accepted $\ChomskyHierarchyUp$ carrier
+$$
+K=(R,F,S,L,T,H,C,P,N),
+$$
+the local $\NameCert_{\ChomskyHierarchyUp}$ surface consists exactly of regular-stratum admission through $R$, context-free admission through $F$, context-sensitive admission through $S$, linear-bounded admission through $L$, Turing-machine admission through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+The sibling anchors are the regular-language obligation surface of \autoref{thm:regularlanguage-namecert-obligation-surface}, the context-free language obligation surface of \autoref{thm:context-free-language-namecert-obligations}, the context-sensitive language obligation surface of \autoref{thm:context-sensitive-language-namecert-obligations}, the linear-bounded automaton obligation surface of \autoref{thm:linear-bounded-automaton-namecert-obligations}, and the Turing-machine obligation surface of \autoref{thm:turingmachine-namecert-surface-obligation}. The hierarchy exports this finite ordered carrier, not a host-language inclusion theorem or a strictness classification.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:chomsky-hierarchy-carrier}. The rows $R,F,S,L,T$ are the only stratum rows, and each row points to an existing finite NameCert surface.
+
+Read the sibling obligations. The regular row is grounded by deterministic finite-run data, the context-free row by grammar and derivation data, the context-sensitive row by noncontracting grammar and bounded acceptance data, the linear-bounded row by bounded-tape computation data, and the Turing-machine row by finite trace and public certificate data.
+
+The transport and continuation rows keep hierarchy queries inside the same ordered packet. Provenance and local naming then record exactly this dependency surface.
+
+Since no row stores host powersets, quotient grammar equality, a selected universal machine, complement closure, strictness, or global decidability, the local NameCert obligations close only the finite hierarchy carrier.
+\end{proof}
+
+\falsifiablePrediction{Removing any one of the five stratum rows $R,F,S,L,T$ makes the $\ChomskyHierarchyUp$ carrier unable to answer the corresponding hierarchy query without importing an external language semantics.}
+
+\independenceWitness{regularlanguage, context-free-language, context-sensitive-language, linear-bounded-automaton, turingmachine: none is bijective to $\ChomskyHierarchyUp$ because the hierarchy packet jointly carries the five ordered stratum anchors, transport, replay, provenance, and local naming as one finite classifier surface.}
+
+\closureat{ChomskyHierarchyUp}{seedStr}
+
+\begin{closurestatus}{\ChomskyHierarchyUp}
+  \constructivestory{A $\ChomskyHierarchyUp$ packet is generated from regular, context-free, context-sensitive, linear-bounded automaton, and Turing-machine stratum rows together with componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chomsky-hierarchy-carrier} and \autoref{thm:chomsky-hierarchy-namecert-obligations} seed the finite hierarchy carrier over RegularLanguageUp, ContextFreeLanguageUp, ContextSensitiveLanguageUp, LinearBoundedAutomatonUp, TuringMachineUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, strictness of the hierarchy, host language-set inclusion, complement closure, universal-machine selection, grammar quotient equality, or global decidability.}
+  \upgradepath{Obligation closure requires checked stratum admission, ordered-classifier stability, route exactness, package provenance, local naming, and non-escape from the finite hierarchy packet for BEDC.Derived.ChomskyHierarchyUp.}
+\end{closurestatus}
