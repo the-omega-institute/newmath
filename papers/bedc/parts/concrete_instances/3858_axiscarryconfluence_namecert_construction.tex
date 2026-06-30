@@ -107,6 +107,22 @@ The support rows then delimit the consumer read. Transport through $H$, routing 
 \end{proof}
 \leanchecked{BEDC.Derived.AxisCarryConfluenceUp.AxisCarryConfluenceCarrier\_local\_diamond}
 
+\begin{theorem}[Axis carry-confluence value-ledger exhaustion]
+\label{thm:axis-carry-confluence-value-ledger-exhaustion}
+For an accepted $\AxisCarryConfluenceUp$ carrier
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+any consumer-visible comparison between the two carry-normalization routes must factor through the common target row $n$, the value ledger $t$, the non-$\hsame$ boundary $H$, the route replay row $C$, provenance $P$, and the local name $N$. No additional equality row, quotient row, host arithmetic row, or global normalizer row is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The route rows $r_0$ and $r_1$ are the only displayed routes, and both route rows end at the same normal target coordinate $n$.
+
+Read the value ledger separately. The row $t$ is the sole public record that the two routes preserve the same finite Fibonacci value across $u,v,w,n$; it is not replaced by an $\hsame$ proof or by a host quotient.
+
+The boundary row $H$ blocks a source-target $\hsame$ reading for the carry edges, while $C,P,N$ keep every comparison inside the displayed continuation, provenance, and local NameCert rows. Since the carrier has no further coordinate, a consumer-visible agreement has no route outside $n,t,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[Axis carry-confluence non-escape]
 \label{thm:axis-carry-confluence-nonescape}
 For an accepted $\AxisCarryConfluenceUp$ carrier, the confluence reading cannot escape the finite packet. The rows $r_0,r_1,t,H,C,P,N$ may expose two carry-normalization routes, their shared normal target, the common value ledger, componentwise transport, route replay, provenance, and local naming, but they do not export $\hsame(u,v)$, $\hsame(u,w)$, a kernel rewrite, a host arithmetic quotient, or a global confluence principle for arbitrary carry windows.

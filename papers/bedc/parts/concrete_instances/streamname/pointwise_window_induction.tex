@@ -39,3 +39,17 @@ the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support
 rows. The predicate therefore reaches every certified tail section consumed by
 the handoff while staying inside the finite public packet.
 \end{proof}
+
+\begin{theorem}[StreamName terminal-window inhabited section]
+\label{thm:streamname-terminal-window-inhabited-section}
+Every accepted terminal $\StreamNameUp$ finite window consumed by a downstream $\RegSeqRatUp$ or $\RealUp$ handoff has an inhabited displayed UnaryHistory section. Its initial observation, successor projection, pointwise classifier rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows are all visible in the consumed finite window.
+
+The inhabited section is a finite public section of the displayed terminal window. It is not obtained from quotient stream equality, a selected tail, countable choice, host sequence equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-pointwise-window-induction} to the terminal finite window with the predicate saying that the current displayed section has a visible initial observation, successor projection interface, classifier row, and structural support. The base row is the initial displayed observation of the UnaryHistory window.
+
+For the consumed terminal tail, apply \autoref{thm:streamname-pointwise-window-induction-tail-section}. It transports the same predicate from the source window to every finite tail section read by the downstream $\RegSeqRatUp$ or $\RealUp$ handoff.
+
+The resulting section is inhabited because the initial observation survives the tail-section handoff and every successor projection is displayed as a finite UnaryHistory row. The support rows are exactly the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows named by the two induction theorems, so no quotient stream equality, selected tail, countable choice, or ambient Real completeness is introduced.
+\end{proof}
