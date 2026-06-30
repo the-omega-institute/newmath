@@ -1,0 +1,17 @@
+\begin{theorem}[Machine export boundary NameCert sibling route]
+\label{thm:machine-export-boundary-namecert-sibling-route}
+Every public machine-facing export row of an accepted $\MachineExportBoundaryUp$ packet must first consume the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} and the machine-interface boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}. Concretely, for an accepted packet
+$$
+E=(R,T,A,F,H,C,P,N),
+$$
+the registry row $R$ and target row $T$ are read before any machine-facing export row is public, while $A,F,H,C,P,N$ keep audit readback, refusal visibility, transport, replay, provenance, and local naming attached to the same finite packet. The route does not export host semantics, detached machine output, unchecked theorem evidence, or a hidden registry state.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The registry row $R$ is the displayed $\RegistryExportSurfaceUp$ input, and the target row $T$ is the displayed machine-facing input.
+
+Apply the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}. It requires the registry surface to be visible before a machine-facing export is consumed.
+
+Apply the machine-interface dependency of \autoref{thm:machine-export-boundary-machine-interface-dependency}. It keeps the target row inside the broader $\MachineInterfaceBoundaryUp$ route rather than letting the packet expose a bare machine target.
+
+Finally read the obligation surface of \autoref{thm:machine-export-boundary-obligation-surface}. The audit, refusal, transport, replay, provenance, and naming rows remain attached to $E=(R,T,A,F,H,C,P,N)$. Since the carrier has no host-semantics coordinate, detached output row, unchecked-proof row, or hidden-registry coordinate, the public route is exactly the stated sibling dependency.
+\end{proof}
