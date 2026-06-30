@@ -84,6 +84,22 @@ Use \autoref{thm:cauchy-subnet-namecert-obligations} for row exhaustion. After $
 Finally apply \autoref{thm:cauchy-subnet-filter-limit-handoff}. It identifies the only endpoint route to $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$, so no completion-facing consumer can bypass the cofinal ledger coverage.
 \end{proof}
 
+\begin{theorem}[CauchySubnet cofinal reindexing route]
+\label{thm:cauchysubnet-cofinal-reindexing-route}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Any accepted cofinal subnet request whose ledger $J$ reindexes $\StreamNameUp$ windows preserves the route
+$$
+F,J,W,R,D,L,E,H,C,P,N .
+$$
+Consequently the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and any $\RealUp$ or $\MetricCompletionUp$ seal access remain downstream of the cofinal ledger. The route exports no quotient filter equality, selected subnet, countable-choice schedule, host real equality, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the local carrier and obligation surface. \autoref{thm:cauchy-subnet-namecert-obligations} requires every accepted subnet request to read the source filter row $F$ and cofinal ledger row $J$ before any finite StreamName window is inspected.
+
+Use \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}. It gives a displayed source-filter request for each accepted cofinal ledger request, so reindexing the StreamName windows cannot detach $W$ from the preceding rows $F,J$.
+
+Finally apply \autoref{thm:cauchy-subnet-filter-limit-handoff}. The handoff theorem fixes the downstream order through $W,R,D,L,E,H,C,P,N$, so RegSeqRat readback, DyadicRatCore tolerance, MetricCompletion access, and Real seal access remain behind the cofinal ledger.
+\end{proof}
+
 \begin{theorem}[Cauchy subnet obligation-closure package]
 \label{thm:cauchy-subnet-obligation-closure-package}
 The carrier definition of \autoref{def:cauchy-subnet-carrier}, together with \autoref{thm:cauchy-subnet-namecert-obligations}, \autoref{thm:cauchy-subnet-filter-limit-handoff}, and \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}, closes the $\CauchySubnetUp$ obligation surface for carrier admission, cofinal coverage, finite-window exactness, tolerance exactness, filter-limit handoff, and ledger refusal. In particular, every accepted $\CauchySubnetUp$ consumer read is forced through
