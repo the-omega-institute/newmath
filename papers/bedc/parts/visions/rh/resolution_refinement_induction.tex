@@ -1,0 +1,197 @@
+\chapter{Resolution Refinement Induction}
+\label{ch:visions-rh-resolution-refinement-induction}
+\origin{ai}
+
+\autoref{ch:visions-rh-pigeonhole-time-recurrence} organizes finite
+phase recurrence and zero certificates. This chapter records the
+refinement form of the same route: begin with a displayed resolution,
+refine the resolution through legal certificate steps, prove the
+triadic invariant at every level by induction, and only then take the
+limit readout. The statement is a conditional route. It identifies the
+source load required for a BEDC proof, rather than replacing that load by
+the existence of finite approximations.
+
+\begin{definition}[Resolution scale]
+\label{def:rh-resolution-scale}
+A \emph{resolution scale} is a sequence
+$$
+\varepsilon_0>\varepsilon_1>\varepsilon_2>\cdots>0
+$$
+with
+$$
+\varepsilon_n\to0.
+$$
+At level $n$, a zero box $D_n$ is displayed at this resolution when
+$$
+\operatorname{diam}(D_n)\le\varepsilon_n.
+$$
+The scale records observational precision; it is not an additional
+analytic coordinate of the zeta carrier.
+\end{definition}
+
+\begin{definition}[Resolution zero certificate]
+\label{def:rh-resolution-zero-certificate}
+A \emph{resolution zero certificate} at level $n$ is a finite zero
+certificate
+$$
+\mathcal C_n=(D_n,F_n,T_n,\Lambda_n,\Gamma_n)
+$$
+in the sense of \autoref{def:rh-finite-zero-certificate}, together with
+the scale row
+$$
+\operatorname{diam}(D_n)\le\varepsilon_n.
+$$
+Its analytic capture component is the displayed decomposition
+$$
+\Xi=F_n+T_n
+$$
+and the boundary gap
+$$
+|T_n(s)|<|F_n(s)|
+\qquad
+s\in\partial D_n.
+$$
+Its BEDC component is the ledger row $\Gamma_n$, which must record the
+source, tail, phase, prime-register, boundary, defect, and energy data
+used by the refinement step.
+\end{definition}
+
+\begin{definition}[Legal resolution refinement]
+\label{def:rh-legal-resolution-refinement}
+A refinement
+$$
+\mathcal C_n\rightsquigarrow\mathcal C_{n+1}
+$$
+is \emph{legal} when the following rows hold:
+$$
+D_{n+1}\subseteq D_n,
+\qquad
+\operatorname{diam}(D_{n+1})\le\varepsilon_{n+1},
+$$
+the Rouch\'e or winding certificate at level $n+1$ is valid, the source
+and tail ledgers refine the level-$n$ ledgers, and the triadic invariant
+of \autoref{def:rh-certificate-tower-triadic-invariant} is transported
+from level $n$ to level $n+1$. Equivalently, the refinement is not merely
+a smaller box; it is a smaller box whose analytic, source, boundary, and
+defect ledgers remain compatible.
+\end{definition}
+
+\begin{theorem}[Resolution induction]
+\label{thm:rh-resolution-induction}
+Let
+$$
+(\mathcal C_n)_{n\ge0}
+$$
+be a sequence of resolution zero certificates. If
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_0)
+$$
+holds and every step
+$$
+\mathcal C_n\rightsquigarrow\mathcal C_{n+1}
+$$
+is a legal resolution refinement, then
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_n)
+$$
+holds for every $n$.
+\end{theorem}
+
+\begin{proof}
+The proof is induction on $n$. The base case is the displayed
+hypothesis at level $0$. For the induction step, assume
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_n).
+$$
+Since $\mathcal C_n\rightsquigarrow\mathcal C_{n+1}$ is legal,
+\autoref{def:rh-legal-resolution-refinement} transports the triadic
+invariant to level $n+1$. This gives
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_{n+1}).
+$$
+Therefore the invariant holds at every finite resolution level.
+\end{proof}
+
+\begin{definition}[Resolution certificate tower]
+\label{def:rh-resolution-certificate-tower}
+A \emph{resolution certificate tower} is a sequence of resolution zero
+certificates
+$$
+(\mathcal C_n)_{n\ge0}
+$$
+such that every adjacent step is a legal resolution refinement. It is
+\emph{strong} when, in addition, it is a legal boundary-stable
+certificate tower in the sense of
+\autoref{def:rh-legal-boundary-stable-certificate-tower}. Thus strong
+resolution towers include canonical source dominance, unit-boundary
+stability, no far-end absorption, cofinal active growth, and defect
+extraction.
+\end{definition}
+
+\begin{theorem}[Resolution towers have exact completed-zero limits]
+\label{thm:rh-resolution-towers-exact-completed-zero-limits}
+If a resolution certificate tower has nonempty located-compact boxes and
+each level certifies the same completed-zero island of $\Xi$, then it
+has a unique limit readout $s_{\infty}$ and
+$$
+\Xi(s_{\infty})=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The scale row gives $\operatorname{diam}(D_n)\to0$, while legal
+refinement gives $D_{n+1}\subseteq D_n$. The Rouch\'e or winding row
+certifies the same completed-zero island through the compatible ledgers.
+Therefore \autoref{thm:rh-certificate-towers-generate-completed-zeros}
+applies.
+\end{proof}
+
+\begin{theorem}[Strong resolution towers have fixed-half limits]
+\label{thm:rh-strong-resolution-towers-fixed-half-limits}
+If a resolution certificate tower is strong and has limit readout
+$$
+s_{\infty}=\frac12+r+it,
+$$
+then $r=0$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-resolution-induction}, every finite level preserves
+the triadic invariant. Since the tower is strong, it is legal
+boundary-stable and carries defect extraction, cofinal growth, and a
+zero-compatible energy bound. Applying
+\autoref{thm:rh-no-scale-closure-legal-certificate-towers} gives $r=0$.
+\end{proof}
+
+\begin{corollary}[Resolution induction separates weak and strong refinement]
+\label{cor:rh-resolution-induction-weak-strong-separation}
+Weak eta/Rouch\'e refinement can supply smaller analytic zero boxes and
+tail bounds. It does not by itself supply the strong resolution tower
+rows: canonical source dominance, boundary stability, no far-end
+absorption, and zero-presentation coverage.
+\end{corollary}
+
+\begin{proof}
+The weak eta row supplies finite analytic capture as in
+\autoref{prin:rh-weak-capture-not-zero-presentation-exactness}. The
+strong conclusion of
+\autoref{thm:rh-strong-resolution-towers-fixed-half-limits} additionally
+uses the legal boundary-stable tower hypotheses in
+\autoref{def:rh-resolution-certificate-tower}. These rows are not
+consequences of a Rouch\'e gap alone.
+\end{proof}
+
+\begin{principle}[Resolution route proof load]
+\label{prin:rh-resolution-route-proof-load}
+The refinement-induction route reduces the RH-facing source load to the
+following assertion:
+$$
+\mathsf{StrongResolutionTowerCoverage}_{\zeta}.
+$$
+This means that every accepted non-trivial completed zeta zero is
+represented by a strong resolution certificate tower. Once such a tower
+is supplied, \autoref{thm:rh-strong-resolution-towers-fixed-half-limits}
+excludes the radial scale parameter. The unresolved content is the
+construction and boundary-stability of the strong tower, not the formal
+induction over its already legal refinement steps.
+\end{principle}
