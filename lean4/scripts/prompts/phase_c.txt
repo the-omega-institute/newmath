@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.58 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.59 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## TOP-OF-PROMPT REJECT-PREVENTION CHECKLIST (read FIRST, apply before every commit)
 
@@ -264,6 +264,8 @@ For each target:
 - it is named exactly `<target_name>_<short_suffix>` where the suffix denotes a strict prerequisite (e.g. `_aux`, `_carrier`, `_packed`).
 
 Do NOT write "neighborhood" theorems: if you find yourself adding `BHistCarriesOpen_classifier_transport`, `BHistGeneratedOpen_classifier_transport`, `BHistPublicOpenTree_classifier_transport`, `TopologyPublicOpenTree_classifier_transport` all in one round when only ONE of them is a Phase B target, those four are parameter-echo of each other (different BHist witness, identical conclusion shape after substitution) and `phase_d_lint.py` will reject the round with `SHALLOW GROWTH PATTERN: duplicate theorem conclusion`. Implement only the selected target; if other BHist witnesses are obligation-relevant, leave them for later rounds. Same rule applies to `*_boundary_open_laws` vs `*_semantic_name_certificate` style pairings on the same chapter — pick one per round.
+
+**No value-instance saturation (HARD GATE — `phase_d_lint.py::detect_value_instance_saturation`)**: do NOT satisfy a classical theorem target by adding several sibling point instances that differ only by an embedded numeric value and are closed by `by decide` / `native_decide` / `rfl`. Adding `wolstenholmeBinomialResidueNat_five`, `_seven`, `_eleven`, `_thirteen` (each `:= by decide` for `WolstenholmeBinomialNat 5/7/11/13`) proves NOTHING general — it is four closed computations, not a theorem. A round that adds ≥4 such trivially-closed siblings for the same conclusion head with NO companion parameterised theorem is rejected. The beautiful form is ONE theorem that binds the mathematical parameter and proves the claim uniformly, e.g. `theorem foo_prime {p : BHist} (prime : NatPrime p) (p_ge : NatLe (natToUnary 5) p) : Foo p := …`. Finite checks are allowed ONLY as `private` examples or at most two `*_example` sanity checks AFTER the general theorem exists. If the general theorem is not currently provable mathlib-free, leave the Lean side at an encoded `def` / `inductive` or a paper-side `\leanstmt` — do NOT pad the round with value instances. (Exempt: a single `_zero`/`_one` base case; a `_zero`+`_succ` recursion defining a sequence; concrete `ZMod`/finite-carrier interface facts.)
 
 If you create a NEW Lean file under an existing namespace tree, add the necessary `import` line to the nearest existing index file if one already exists. If a brand-new top-level BEDC module is required, update `lean4/BEDC.lean` conservatively with additive imports only.
 

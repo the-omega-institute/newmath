@@ -81,6 +81,46 @@ THIN_WRAPPER_BODY_RE = re.compile(
 )
 PROBE_TIMEOUT_SECONDS = 90
 
+# Value-instance saturation: a round satisfies a classical theorem target by
+# adding several sibling point instances (e.g. `WolstenholmeBinomialNat 5/7/11/13
+# := by decide`) instead of proving one parameterised ∀-theorem. The instances
+# differ only by an embedded numeric value and carry a trivial proof, so the
+# shared theorem has no mathematical compression — only N closed computations.
+# Distinct from MECHANICAL_ARITY_RE (which is name-local on _two…_six); this
+# detects the higher-level family across a round's added declarations.
+VALUE_WORDS = (
+    "two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
+    "fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|"
+    "thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand"
+)
+VALUE_SUFFIX_RE = re.compile(
+    rf"_(?:[0-9]+|(?:{VALUE_WORDS})(?:[A-Z][A-Za-z0-9]*)*)\b"
+)
+VALUE_NAT_LITERAL_RE = re.compile(r"(?<![A-Za-z0-9_])([2-9]|[1-9][0-9]+)(?![A-Za-z0-9_])")
+# Base/step/recursion vocabulary is legitimate (defining a sequence); never a
+# value-saturation token. `_zero`/`_one` are deliberately excluded above.
+VALUE_BASE_STEP_RE = re.compile(
+    r"_(zero|one|succ|step|rec|recurrence|induction|unfold|closed_form|formula|base)\b"
+)
+# A bound mathematical parameter in the signature means the statement is already
+# parameterised (general), not a closed value instance — exempt.
+VALUE_BOUND_VAR_RE = re.compile(
+    r"\(\s*\w+\s*:\s*Nat\s*\)|[({]\s*\w+\s*:\s*BHist\s*[)}]|"
+    r"[({]\s*\w+\s*:\s*NatPrime\b|\(\s*prime\s*:\s*NatPrime\b|(?:∀|forall)\b"
+)
+# Concrete finite-field carrier facts are often legitimate interface smoke tests;
+# `zmodInvTotal`-style general theorems (parameterised over ZMod p) must remain
+# untouched — exempt any signature touching the ZMod surface.
+VALUE_ZMOD_EXEMPT_RE = re.compile(r"\bZMod\b|\bzmodEq\b|\bzmod\w*\b|\bnatToUnary\b")
+# A trivial closed proof: the instance is decided/reflexive, no real reasoning.
+VALUE_TRIVIAL_PROOF_RE = re.compile(
+    r":=\s*by\s+(?:native_decide|decide)\b"
+    r"|:=\s*(?:native_decide|decide|rfl)\b"
+    r"|:=\s*by\s*\n\s*(?:native_decide|decide|rfl)\b"
+)
+VALUE_HEAD_RE = re.compile(r"[A-Za-z_][\w'.]*")
+VALUE_INSTANCE_THRESHOLD = 4
+
 
 def _strip_hsame_tokens(text: str) -> str:
     """Drop `hsame` and the bare `BHist` type token so the residual anchor
@@ -575,6 +615,138 @@ def detect_large_decide_enumerations(worktree: Path, base_branch: str) -> list[s
     return violations
 
 
+def _has_companion_general_theorem(worktree: Path, rel_path: str, head: str) -> bool:
+    """True if the file already carries a parameterised public theorem about the
+    same conclusion head — then the value instances are sanity checks, not the
+    deliverable, and the cluster is exempt from the value-saturation gate."""
+    if not head:
+        return False
+    try:
+        text = (worktree / rel_path).read_text(encoding="utf-8")
+    except OSError:
+        return False
+    for qualified, block, _start in _parse_public_theorem_blocks(text):
+        name = qualified.rsplit(".", 1)[-1]
+        if VALUE_SUFFIX_RE.search(name):
+            continue
+        sig = block.split(":=", 1)[0]
+        if head in sig and VALUE_BOUND_VAR_RE.search(sig):
+            return True
+    return False
+
+
+def _value_instance_key(name: str, namespace: str, block: str) -> tuple[str, str] | None:
+    """Return (name_schema, conclusion_head) if `block` is a trivially-closed
+    value instance, else None. A candidate is a public theorem whose name or
+    conclusion embeds a numeric value, closed by decide/native_decide/rfl, and
+    NOT a base/step recursion, a parameterised statement, or a ZMod carrier fact."""
+    sig = block.split(":=", 1)[0]
+    conclusion = _extract_conclusion(sig)
+    if not (VALUE_SUFFIX_RE.search(name) or VALUE_NAT_LITERAL_RE.search(conclusion)):
+        return None
+    if VALUE_BASE_STEP_RE.search(name):
+        return None
+    if VALUE_BOUND_VAR_RE.search(sig):
+        return None
+    if VALUE_ZMOD_EXEMPT_RE.search(sig):
+        return None
+    if not VALUE_TRIVIAL_PROOF_RE.search(block):
+        return None
+    name_schema = VALUE_SUFFIX_RE.sub("_{V}", name)
+    concl_schema = VALUE_NAT_LITERAL_RE.sub("{N}", " ".join(conclusion.split()))
+    head_m = VALUE_HEAD_RE.search(concl_schema)
+    return (name_schema, head_m.group(0) if head_m else "")
+
+
+def detect_value_instance_saturation(worktree: Path, base_branch: str) -> list[str]:
+    """Anti-unification family gate. A round MUST NOT satisfy a classical theorem
+    target with >=THRESHOLD sibling public theorems that are identical after
+    erasing an embedded numeric value, each closed by decide/native_decide/rfl,
+    with no companion parameterised theorem.
+
+    Detection is *post-state, introduced-or-worsened* (per the gpt-pro
+    adversarial pass), not round-diff-only: a model could otherwise add 2
+    instances per round across several rounds and never trip a round-local
+    >=THRESHOLD check. We scan each touched file's full current set of public
+    theorems, but only FAIL a family that this round pushed to/over the
+    threshold (>=1 family member is a round-added decl) — historical debt that
+    the round did not worsen is left alone. The beautiful form is one
+    forall-theorem binding the mathematical parameter."""
+    added = collect_added_public_theorem_blocks(worktree, base_branch)
+    # Files this round touched with at least one added value-instance candidate.
+    added_names_by_file: dict[str, set[str]] = {}
+    for qualified, rel_path, block in added:
+        name = qualified.rsplit(".", 1)[-1]
+        namespace = qualified.rsplit(".", 1)[0] if "." in qualified else ""
+        if _value_instance_key(name, namespace, block) is not None:
+            added_names_by_file.setdefault(rel_path, set()).add(name)
+
+    hits: list[str] = []
+    for rel_path, added_value_names in sorted(added_names_by_file.items()):
+        try:
+            text = (worktree / rel_path).read_text(encoding="utf-8")
+        except OSError:
+            continue
+        # Group ALL current public theorems in the file (post-state) by family.
+        groups: dict[tuple[str, str], list[str]] = {}
+        for qualified, block, _start in _parse_public_theorem_blocks(text):
+            name = qualified.rsplit(".", 1)[-1]
+            namespace = qualified.rsplit(".", 1)[0] if "." in qualified else ""
+            key = _value_instance_key(name, namespace, block)
+            if key is None:
+                continue
+            groups.setdefault(key, []).append(name)
+        for (name_schema, head), names in sorted(groups.items()):
+            distinct = sorted(set(names))
+            if len(distinct) < VALUE_INSTANCE_THRESHOLD:
+                continue
+            # introduced-or-worsened: this round contributed >=1 family member.
+            if not (added_value_names & set(distinct)):
+                continue
+            if _has_companion_general_theorem(worktree, rel_path, head):
+                continue
+            hits.append(
+                f"{rel_path}: VALUE-INSTANCE SATURATION — {len(distinct)} sibling "
+                f"closed computations for `{head}` (schema {name_schema}): "
+                + ", ".join(distinct[:8])
+                + ". Prove ONE parameterised forall-theorem binding the parameter; "
+                "finite checks only as <=2 private examples."
+            )
+
+    hits.extend(_detect_pseudo_generalization(added))
+    return hits
+
+
+def _detect_pseudo_generalization(
+    added_blocks: list[tuple[str, str, str]],
+) -> list[str]:
+    """Catch the evasion where the instance table is wrapped in a fake forall:
+    `theorem foo (p) (hp : p = 5 ∨ p = 7 ∨ p = 11) := by rcases hp ... decide`.
+    A bound variable constrained to a disjunction of >=3 closed values, closed
+    by case-split + decide/rfl, is not a general theorem — it is the same value
+    instances behind a quantifier."""
+    hits: list[str] = []
+    for qualified, rel_path, block in added_blocks:
+        sig = block.split(":=", 1)[0]
+        body = block.split(":=", 1)[1] if ":=" in block else ""
+        # Count `_ = <closed value>` disjuncts (∨-separated) in the signature.
+        eq_values = re.findall(
+            r"=\s*(?:[0-9]+|(?:" + VALUE_WORDS + r")\b)", sig
+        )
+        n_disjuncts = sig.count("∨") + sig.count(r"\/")
+        case_split = bool(re.search(r"\brcases\b|\bmatch\b|\b\|\s*rfl\b", body))
+        trivial = bool(re.search(r"\bdecide\b|\bnative_decide\b|\brfl\b", body))
+        if len(eq_values) >= 3 and n_disjuncts >= 2 and case_split and trivial:
+            name = qualified.rsplit(".", 1)[-1]
+            hits.append(
+                f"{rel_path}: PSEUDO-GENERALIZATION — `{name}` binds a parameter "
+                f"to a disjunction of {len(eq_values)} closed values and discharges "
+                "by case-split + decide. This is a value-instance table behind a "
+                "quantifier, not a theorem. Prove the unconstrained parameter case."
+            )
+    return hits
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--worktree", type=Path, required=True)
@@ -595,11 +767,25 @@ def main() -> int:
             for hit in wrapper_hits:
                 print(f"[shadow] would-reject: {hit}")
             wrapper_hits = []
+    # Value-instance saturation gate. Ships SHADOW-first (log would-reject,
+    # do not fail) — flip BEDC_VALUE_INSTANCE_GATE_SHADOW=0 to make it a hard
+    # gate once production confirms no false positives, mirroring the wrapper
+    # gate rollout.
+    value_hits: list[str] = []
+    value_gate_enabled = os.environ.get("BEDC_ENABLE_VALUE_INSTANCE_GATE", "1") != "0"
+    value_gate_shadow = os.environ.get("BEDC_VALUE_INSTANCE_GATE_SHADOW", "1") == "1"
+    if value_gate_enabled:
+        value_hits = detect_value_instance_saturation(args.worktree, args.base_branch)
+        if value_gate_shadow:
+            for hit in value_hits:
+                print(f"[shadow] would-reject (value-instance): {hit}")
+            value_hits = []
     if (
         not decls
         and not args.include_shallow
         and not large_decide_hits
         and not wrapper_hits
+        and not value_hits
     ):
         return 0
 
@@ -641,6 +827,7 @@ def main() -> int:
         or shallow_hits
         or large_decide_hits
         or wrapper_hits
+        or value_hits
     ):
         return 0
 
@@ -675,6 +862,8 @@ def main() -> int:
         )
     if wrapper_hits:
         msgs.append("\n".join(wrapper_hits[:8]))
+    if value_hits:
+        msgs.append("\n".join(value_hits[:8]))
     print("\n".join(msgs))
     return 1
 

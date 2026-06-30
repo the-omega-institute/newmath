@@ -365,6 +365,24 @@ theorem RationalStreamPacket_standard_bridge_common_window_readback [AskSetup] [
       indexScheduleRow, windowPointRowsRow, classifierTransportRow, contProvenanceRow,
       consumerRow, consumerPkg⟩
 
+theorem RationalStreamUp_StdBridge [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window standardPrefix : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance nameRow window bundle pkg →
+      Cont window nameRow standardPrefix → PkgSig bundle standardPrefix pkg →
+        BEDC.FKernel.NameCert.SemanticNameCert (fun row : BHist => hsame row standardPrefix ∧ UnaryHistory row)
+          (fun row : BHist => hsame row window ∨ hsame row pointRows ∨ hsame row classifierRows ∨ hsame row standardPrefix)
+          (fun row : BHist => UnaryHistory row ∧ Cont window nameRow standardPrefix ∧ PkgSig bundle standardPrefix pkg)
+          hsame ∧ UnaryHistory standardPrefix ∧ PkgSig bundle nameRow pkg ∧ PkgSig bundle standardPrefix pkg := by
+  -- BEDC touchpoint anchor: RationalStreamPacket BHist Cont hsame SemanticNameCert PkgSig
+  intro packet bridgeRead bridgePkg
+  obtain ⟨indexUnary, scheduleUnary, _pointRowsUnary, classifierRowsUnary, transportRowsUnary, provenanceUnary, indexScheduleRow, _windowPointRow, classifierTransportRow, nameRowRow, namePkg⟩ := packet
+  have windowUnary : UnaryHistory window := unary_cont_closed indexUnary scheduleUnary indexScheduleRow; have contRowsUnary : UnaryHistory contRows := unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have nameRowUnary : UnaryHistory nameRow := unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have standardPrefixUnary : UnaryHistory standardPrefix := unary_cont_closed windowUnary nameRowUnary bridgeRead
+  refine ⟨?_, standardPrefixUnary, namePkg, bridgePkg⟩
+  exact { core := { carrier_inhabited := Exists.intro standardPrefix ⟨hsame_refl standardPrefix, standardPrefixUnary⟩, equiv_refl := by intro row _source; exact hsame_refl row, equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows, equiv_trans := by intro _row _middle _other sameLeft sameRight; exact hsame_trans sameLeft sameRight, carrier_respects_equiv := by intro _row _other sameRows sourceData; exact ⟨hsame_trans (hsame_symm sameRows) sourceData.left, unary_transport sourceData.right sameRows⟩ }, pattern_sound := by intro _row sourceData; exact Or.inr (Or.inr (Or.inr sourceData.left)), ledger_sound := by intro _row sourceData; exact ⟨sourceData.right, bridgeRead, bridgePkg⟩ }
+
 theorem RationalStreamSealConsumer_boundary [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window sealRow
       sealRead consumer : BHist}
