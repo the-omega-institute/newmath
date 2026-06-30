@@ -218,6 +218,59 @@ be used to make an amplitude-biased packet appear to be unit-phase
 closed.
 \end{definition}
 
+\begin{definition}[Radial compensation selector]
+\label{def:rh-radial-compensation-selector}
+Let
+$$
+s=\frac12+r+it
+$$
+and let $h_a>0$ be an active height.  A radial compensation selector for
+the centered channel
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}
+$$
+is a displayed family
+$$
+C_a(s)\in\mathbb R_{>0}
+$$
+such that
+$$
+|C_a(s)U_a(s)|=1.
+$$
+For $r\neq0$, this condition forces
+$$
+C_a(s)=e^{r h_a}.
+$$
+Thus a radial compensation selector is precisely a real-positive scale
+ledger indexed by the active heights.
+\end{definition}
+
+\begin{theorem}[No-demon scale compensation]
+\label{thm:rh-no-demon-scale-compensation}
+Assume a packet admits only compact phase rows, compact prime-register
+fibre rows, Zeckendorf ledger rows, and explicitly measured defect rows
+as legal gauges.  If $r\neq0$ and $h_a>0$, no legal gauge supplies a
+radial compensation selector for
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-radial-compensation-selector}, unit modulus after
+compensation requires
+$$
+C_a(s)=e^{r h_a}\in\mathbb R_{>0}.
+$$
+Compact phase rows change only the phase of $U_a(s)$ and do not change
+its modulus.  Compact prime-register fibre rows and Zeckendorf ledger
+rows carry discrete or compact source information; they do not supply an
+unmeasured continuous real-positive scale factor.  The remaining allowed
+case is an explicitly measured defect row, which records the radial
+defect rather than hiding it as a gauge.  Hence no legal gauge supplies
+the displayed compensation factor.
+\end{proof}
+
 \begin{principle}[No free entropy lowering]
 \label{prin:rh-no-free-entropy-lowering}
 \autoref{def:rh-no-unledgered-selector-row} is the thermodynamic reading
@@ -227,7 +280,10 @@ carried by the source, tail, prime-register, boundary, or scale-defect
 ledger, then the selector is outside the closed packet.  Thus finite
 phase recurrence may provide unit-phase return candidates, but it cannot
 provide a free entropy-lowering operation that cancels the radial
-Boltzmann tilt of \autoref{def:rh-boltzmann-tilt-active-packet}.
+Boltzmann tilt of \autoref{def:rh-boltzmann-tilt-active-packet}.  The
+local obstruction is
+\autoref{thm:rh-no-demon-scale-compensation}: the compensation factor is
+real-positive scale data, not phase or compact fibre data.
 \end{principle}
 
 \begin{definition}[Demon-free thermodynamic zero tower]
@@ -242,6 +298,21 @@ $$
 Equivalently, every information selector used by the tower is either a
 compact phase row, a compact prime-register fibre row, a Zeckendorf
 ledger row, or an explicitly measured defect row.
+\end{definition}
+
+\begin{definition}[No-demon zeta certificate]
+\label{def:rh-no-demon-zeta-certificate}
+The source row
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+asserts that every accepted non-trivial completed zeta zero is
+represented by a demon-free thermodynamic zero tower whose relative
+variance row is cofinal and whose scale-defect extraction is the
+displayed ledger of \autoref{def:rh-relative-scale-defect-energy}.  This
+row is a coverage hypothesis: it packages the no-unledgered-selector
+condition together with the analytic tower needed to apply the
+thermodynamic no-scale theorem.
 \end{definition}
 
 \begin{theorem}[Thermodynamic no-scale theorem]
@@ -293,6 +364,23 @@ part $1/2$.
 A demon-free thermodynamic zero tower is thermodynamically stable by
 \autoref{def:rh-demon-free-thermodynamic-zero-tower}.  Apply
 \autoref{cor:rh-thermodynamic-stability-fixed-half-readout}.
+\end{proof}
+
+\begin{corollary}[No-demon certificates give fixed-half readouts]
+\label{cor:rh-no-demon-certificates-fixed-half-readouts}
+If
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+holds, then every accepted non-trivial completed zeta zero has real part
+$1/2$.
+\end{corollary}
+
+\begin{proof}
+The source row of \autoref{def:rh-no-demon-zeta-certificate} supplies a
+demon-free thermodynamic zero tower for each accepted non-trivial
+completed zeta zero.  Apply
+\autoref{cor:rh-demon-free-towers-fixed-half-readout}.
 \end{proof}
 
 \begin{principle}[Thermodynamic wording preserves the proof boundary]
