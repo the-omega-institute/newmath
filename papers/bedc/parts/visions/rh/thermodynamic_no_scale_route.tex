@@ -12,6 +12,66 @@ The chapter supplies a no-scale implication under explicit stability and
 growth hypotheses; it does not supply the golden Lee--Yang bridge, strong
 active capture, or zero-presentation completeness.
 
+\begin{definition}[Phase channel with hidden prime fibre]
+\label{def:rh-phase-channel-hidden-prime-fibre}
+Fix a finite displayed prime family $S$.  A phase channel with hidden
+prime fibre is a readout
+$$
+\pi_S:\Sigma_S\to\mathbb T
+$$
+from the $S$-solenoid of
+\autoref{def:unified-reality-s-solenoid-over-unit-circle}, together with
+its invisible fibre
+$$
+K_S:=\ker(\pi_S).
+$$
+The visible output is the unit phase row in $\mathbb T$.  The hidden
+state is the compact prime-register fibre row carried by $K_S$.  A
+consumer that receives only $\pi_S(x)$ has a phase output, not the full
+solenoid state $x$.
+\end{definition}
+
+\begin{principle}[Kernel blindness of the phase channel]
+\label{prin:rh-phase-channel-kernel-blindness}
+The phase channel of
+\autoref{def:rh-phase-channel-hidden-prime-fibre} is a coarse-graining
+row.  Equality of visible outputs,
+$$
+\pi_S(x)=\pi_S(x'),
+$$
+does not recover equality of solenoid states unless the prime-register
+fibre ledger is also present.  In finite quotients this hidden part may
+be read as a fibre-size or fibre-volume entropy.  Thus the channel has a
+nontrivial conditional-information row
+$$
+\mathsf{HiddenInfo}(x\mid \pi_S(x)),
+$$
+which is ledgered by compact prime-register data, not by a real-positive
+scale coordinate.
+\end{principle}
+
+\begin{principle}[No recovery by mirror scale]
+\label{prin:rh-no-recovery-by-mirror-scale}
+For a centered active channel
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a},
+$$
+the mirror row sends $r$ to $-r$ and therefore exchanges damping with
+gain:
+$$
+e^{-r h_a}
+\longleftrightarrow
+e^{r h_a}.
+$$
+This creates the mirror amplitude row; it does not reconstruct the
+hidden solenoid fibre erased by $\pi_S$, and it does not return a single
+packet to the unit boundary.  A recovery of hidden prime-register data
+requires the compact ledger of
+\autoref{prin:rh-phase-channel-kernel-blindness}; a recovery of a radial
+factor requires an external $\mathbb R_{>0}$ ledger, which is excluded
+from closed phase packets.
+\end{principle}
+
 \begin{definition}[Finite thermodynamic mode packet]
 \label{def:rh-finite-thermodynamic-mode-packet}
 A finite thermodynamic mode packet at level $m$ consists of a finite
