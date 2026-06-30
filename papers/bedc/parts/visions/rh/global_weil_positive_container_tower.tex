@@ -359,3 +359,179 @@ This target is source-side and non-local.  It asks for a cofinal family
 of internally positive finite containers rather than a decision
 procedure over all zero boxes.
 \end{principle}
+
+\begin{definition}[Li--Weil coefficient row]
+\label{def:rh-li-weil-coefficient-row}
+Let $\xi(s)$ be the completed zeta function used by the zero ledger.  The
+$n$-th Li--Weil coefficient is the source-side scalar
+$$
+\lambda_n
+:=
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log \xi(s)
+\right]
+\right|_{s=1}.
+$$
+Equivalently, when read through the regularized zero ledger,
+$$
+\lambda_n
+=
+\sum_{\rho}
+\left[
+1-\left(1-\frac1{\rho}\right)^n
+\right].
+$$
+\end{definition}
+
+\begin{definition}[Li--Weil finite negative witness]
+\label{def:rh-li-weil-finite-negative-witness}
+A \emph{Li--Weil finite negative witness} is a positive integer $n$ with
+$$
+\lambda_n<0.
+$$
+The row is finite: it is indexed by one displayed natural number rather
+than by an open-ended search through certificate towers.
+\end{definition}
+
+\begin{definition}[Global Li--Weil positivity]
+\label{def:rh-global-li-weil-positivity}
+The source row
+$$
+\mathsf{GlobalLiWeilPositivity}
+$$
+asserts that
+$$
+\lambda_n\ge0
+\qquad
+(n\ge1).
+$$
+\end{definition}
+
+\begin{definition}[Li criterion consumption row]
+\label{def:rh-li-criterion-consumption-row}
+The source row
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}
+$$
+is the classical bridge consuming
+$\mathsf{GlobalLiWeilPositivity}$ and returning fixed-half zero readout.
+It is used here as a criterion row, not as a construction of the
+coefficients' positivity.
+\end{definition}
+
+\begin{principle}[Li--Weil reduction gives finite bad witnesses]
+\label{prin:rh-li-weil-reduction-finite-bad-witnesses}
+The Li--Weil row gives a concrete form of the diagonal negative-probe
+principle.  If the fixed-half zero readout fails, then the Li criterion
+consumption row presents a finite negative witness
+$$
+\exists n\ge1,\qquad \lambda_n<0.
+$$
+Thus an off-half defect is not allowed to remain an indefinitely delayed
+failure of an infinite tower: it must project to a finite Li--Weil
+coefficient.  This is the finite-witness refinement of
+\autoref{def:rh-no-diagonal-negative-probe}.
+\end{principle}
+
+\begin{definition}[Source-side Li positivity certificate]
+\label{def:rh-source-side-li-positivity-certificate}
+A source-side positivity certificate for $\lambda_n$ consists of
+internally generated data, such as a Hilbert space row and vector
+$$
+(\mathcal H_n,\Psi_n),
+$$
+with
+$$
+\lambda_n=\|\Psi_n\|_{\mathcal H_n}^2,
+$$
+or a finite positive-kernel decomposition whose displayed cancellation
+ledger leaves a nonnegative remainder.  The certificate must be
+generated from the prime, phase, solenoid, golden, Lee--Yang, or
+explicit-formula source rows; it may not be obtained by searching for
+negative witnesses and repairing them afterward.
+\end{definition}
+
+\begin{definition}[Source global Li positivity]
+\label{def:rh-source-global-li-positivity}
+The source row
+$$
+\mathsf{SourceGlobalLiPositivity}
+$$
+asserts that every $\lambda_n$ has a source-side positivity certificate
+in the sense of
+\autoref{def:rh-source-side-li-positivity-certificate}.
+\end{definition}
+
+\begin{theorem}[Source Li positivity gives fixed-half readout]
+\label{thm:rh-source-li-positivity-fixed-half-readout}
+Assume $\mathsf{SourceGlobalLiPositivity}$ and
+$\mathsf{LiCriterionConsumesGlobalLiPositivity}$.  Then the completed
+zeta zero ledger has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+The source-side certificates give $\lambda_n\ge0$ for every $n$, hence
+$\mathsf{GlobalLiWeilPositivity}$.  The Li criterion consumption row
+then returns the fixed-half zero ledger.
+\end{proof}
+
+\begin{definition}[Golden Li positivity limit]
+\label{def:rh-golden-li-positivity-limit}
+The source row
+$$
+\mathsf{GoldenLiPositivityLimit}
+$$
+asserts that there are source-side golden Lee--Yang containers $C_m$
+with finite Li coefficients
+$$
+\lambda_{n,m}
+:=
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log C_m(s)
+\right]
+\right|_{s=1}
+$$
+such that $\lambda_{n,m}\ge0$ for all $n,m$, and for each fixed $n$,
+$$
+\lambda_{n,m}\to\lambda_n.
+$$
+\end{definition}
+
+\begin{theorem}[Golden Li positivity limit gives global Li positivity]
+\label{thm:rh-golden-li-positivity-limit-gives-global-li-positivity}
+If $\mathsf{GoldenLiPositivityLimit}$ holds, then
+$\mathsf{GlobalLiWeilPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+Fix $n\ge1$.  The finite rows give $\lambda_{n,m}\ge0$ for every $m$.
+Taking the displayed limit in $m$ gives $\lambda_n\ge0$.  Since $n$ was
+arbitrary, $\mathsf{GlobalLiWeilPositivity}$ holds.
+\end{proof}
+
+\begin{principle}[Li route separates stability from convergence]
+\label{prin:rh-li-route-separates-stability-from-convergence}
+The Li--Weil refinement separates the remaining analytic load into two
+source rows.  The finite stability row requires the finite containers
+$C_m$ to have fixed-half zero readout, which yields
+$\lambda_{n,m}\ge0$ by the usual Li coefficient computation for
+critical-line zero multisets.  The convergence row requires enough
+log-derivative convergence to pass
+$$
+\lambda_{n,m}\to\lambda_n
+$$
+for every fixed $n$.  In named form the open source obligations are
+$$
+\mathsf{FiniteGoldenLeeYangStability}
+\qquad
+\text{and}
+\qquad
+\mathsf{LogDerivativeConvergence}.
+$$
+\end{principle}
