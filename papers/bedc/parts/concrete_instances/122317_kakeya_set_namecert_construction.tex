@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\KakeyaSetUp$}
+\label{ch:concrete-instances-kakeya-set-namecert}
+\origin{human}
+
+Following Besicovitch and Kakeya on direction-rich plane sets, the $\KakeyaSetUp$ packet records only the finite BEDC geometry needed to name a displayed direction-window and segment-incidence carrier. It sits over the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, the metric certificate of \autoref{ch:concrete-instances-metric-namecert}, the dyadic interval rows of \autoref{ch:concrete-instances-dyadic-real-interval-namecert}, and the incidence bookkeeping of \autoref{ch:concrete-instances-incidence-algebra-namecert}. The packet is a finite naming certificate for direction-window geometry; it does not claim measure zero, the Kakeya conjecture, Besicovitch set existence, ambient planar completeness, or a host set-theoretic construction.
+
+\begin{definition}[KakeyaSet carrier]
+\label{def:kakeya-set-carrier}
+A $\KakeyaSetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,S,I,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is a finite direction-window row, listing named rational or dyadic direction samples and the tolerance cells that cover the inspected direction interval.
+\item $W$ is the window ledger, recording the finite observation windows in which the direction samples and segment endpoints are read.
+\item $S$ is the segment row, assigning to each displayed direction sample one finite segment name with endpoint rows over $\RealUp$.
+\item $I$ is the segment-incidence row, recording which sampled direction, endpoint pair, and window row belong to the same displayed segment.
+\item $M$ is the $\MetricUp$ comparison row used to read endpoint distance and segment length only through displayed metric data.
+\item $R$ is the real-name handoff row, tying every endpoint coordinate and tolerance cell to the $\RealUp$ and $\DyadicRealIntervalUp$ sibling surfaces.
+\item $H$ records componentwise $\hsame$ transport for direction windows, segment rows, incidence rows, metric comparisons, real-name handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a direction request through the finite window, segment-incidence row, metric row, and real-name handoff.
+\item $P$ is the $\Pkg$ provenance over $\KakeyaSetUp$, $\RealUp$, $\MetricUp$, $\DyadicRealIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KakeyaSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,S,I,M,R,H,C,P,N$. It has no coordinate for outer measure, null sets, arbitrary direction choice, infinite unions, host subsets of the plane, or any assertion that a Besicovitch set exists.
+\end{definition}
+
+\begin{theorem}[KakeyaSet NameCert obligations]
+\label{thm:kakeya-set-namecert-obligations}
+For every accepted $\KakeyaSetUp$ carrier
+$$
+K=(D,W,S,I,M,R,H,C,P,N),
+$$
+the local $\NameCert_{\KakeyaSetUp}$ surface consists exactly of finite direction-window admission for $D$, finite observation-window display for $W$, segment-row admission for $S$, segment-incidence exactness for $I$, metric comparison display for $M$, real-name and dyadic-interval handoff for $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+No KakeyaSet obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The finite direction-window row $D$ and the observation ledger $W$ are the only rows from which directions may be read, so the packet never introduces an arbitrary direction choice.
+
+The segment data are then read through $S$ and $I$. These rows bind each sampled direction to a displayed segment endpoint pair and to the window in which that pair is observed.
+
+Finally the metric and real-name handoff rows $M$ and $R$ keep all endpoint and length comparisons inside the sibling Real, dyadic-interval, and metric surfaces. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the local certificate contains no measure-theoretic or host set-theoretic coordinate.
+\end{proof}
+
+\begin{theorem}[KakeyaSet direction-window route]
+\label{thm:kakeya-set-direction-window-route}
+Every consumer that reads a $\KakeyaSetUp$ packet as direction-rich geometry must first expose the finite route
+$$
+D,W,S,I,M,R,H,C,P,N .
+$$
+The direction-window row and segment-incidence row are public before any geometric consumer may compare directions or endpoints. The route exports finite incidence geometry only; it does not assert measure zero, the Kakeya conjecture, Besicovitch set existence, arbitrary direction selection, or a completed host subset of the plane.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:kakeya-set-carrier}. The only direction data are the finite direction samples and tolerance cells stored in $D$, with their read windows stored in $W$.
+
+Apply the NameCert obligations of \autoref{thm:kakeya-set-namecert-obligations}. They require the segment row $S$ and incidence row $I$ before any consumer can attach a segment to a direction window.
+
+The metric row $M$ and real-name handoff row $R$ then route endpoint and length reads through \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-dyadic-real-interval-namecert}. Transport, replay, provenance, and local naming preserve that same finite path, leaving no coordinate from which a measure-theoretic or completed-plane claim could be read.
+\end{proof}
+
+\closureat{KakeyaSetUp}{seedStr}
+
+\begin{closurestatus}{\KakeyaSetUp}
+  \constructivestory{A $\KakeyaSetUp$ packet is generated from finite direction-window rows, finite observation windows, segment rows, segment-incidence rows, metric comparison rows, Real and dyadic-interval handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kakeya-set-carrier}, \autoref{thm:kakeya-set-namecert-obligations}, and \autoref{thm:kakeya-set-direction-window-route} seed the finite direction-window and segment-incidence carrier for $\KakeyaSetUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure zero, the Kakeya conjecture, Besicovitch set existence, arbitrary direction choice, infinite unions, host subsets of the plane, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked direction-window admission, segment-incidence exactness, metric comparison display, Real and dyadic-interval handoff, transport stability, replay stability, and non-escape for BEDC.Derived.KakeyaSetUp.}
+\end{closurestatus}
