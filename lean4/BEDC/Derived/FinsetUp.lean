@@ -239,6 +239,22 @@ theorem FinsetEnumeration_semantic_name_certificate
       exact carrier
   }
 
+theorem FinsetEnumeration_StdBridge {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
+    (cert : NameCert A Rel) {bundle : ProbeBundle BHist} {seed : BHist} :
+    FinsetEnumerationCarrier A Rel bundle seed ->
+      SemanticNameCert (FinsetEnumerationCarrier A Rel bundle)
+        (FinsetEnumerationCarrier A Rel bundle) (FinsetEnumerationCarrier A Rel bundle)
+        Rel ∧
+        (forall z : BHist,
+          FinsetEnumerationCarrier A Rel bundle z ->
+            exists x : BHist, InBundle x bundle ∧ Rel z x) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle InBundle NameCert SemanticNameCert
+  intro seedCarrier
+  constructor
+  · exact FinsetEnumeration_semantic_name_certificate cert seedCarrier
+  · intro z carried
+    exact carried.right
+
 theorem FinsetEnumerationCarrier_bundleAppend_split
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {left right : ProbeBundle BHist} {a : BHist} :
