@@ -13463,6 +13463,7 @@ import BEDC.Derived.WronskianUp.DeterminantLedgerExactness
 import BEDC.Derived.WronskianUp.DeterminantRouteStability
 import BEDC.Derived.WronskianUp.DifferentialEquationConsumerHandoff
 import BEDC.Derived.WronskianUp.DifferentialScopeLedger
+import BEDC.Derived.WronskianUp.L10ScopeBinding
 import BEDC.Derived.WronskianUp.LedgerExactness
 import BEDC.Derived.WronskianUp.LinearDependenceBoundary
 import BEDC.Derived.WronskianUp.LinearDependenceWitness
