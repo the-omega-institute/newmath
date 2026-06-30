@@ -114,6 +114,58 @@ requires $e^{-r h_a}$ to be accounted for by the defect ledger rather
 than absorbed as gauge.
 \end{definition}
 
+\begin{definition}[Internal golden ruler]
+\label{def:rh-internal-golden-ruler}
+An \emph{internal golden ruler} at level $m$ is the row
+$$
+\mathcal R_m:=
+(\delta_m,N_m,Z_m)
+$$
+where
+$$
+\delta_m=\varphi^{-m},
+\qquad
+N_m=F_{Lm},
+$$
+and $Z_m$ is the Zeckendorf resolution ledger of
+\autoref{def:rh-zeckendorf-resolution-ledger} for $N_m$.  It is internal
+when the following three rows are generated inside the same BEDC packet.
+
+The $\mathsf P$ row is Zeckendorf source uniqueness: the Fibonacci-block
+address of $N_m$ is not replaceable by another unledgered truncation
+source.
+
+The $\mathsf U$ row is the no-adjacent path boundary: the digits of
+$Z_m$ lie in the stable Zeckendorf window, hence in the path carrier used
+by \autoref{def:rh-fibonacci-path-carrier}.  This supplies the
+unit-boundary source for the later Lee--Yang lift; it does not by itself
+prove zeta boundary stability.
+
+The $\mathsf T$ row is Fibonacci refinement:
+$$
+\mathcal R_m\rightsquigarrow\mathcal R_{m+1},
+$$
+read as another level of the same generated ruler rather than as a
+change of external measurement.
+\end{definition}
+
+\begin{definition}[Triadic ruler invariance]
+\label{def:rh-triadic-ruler-invariance}
+A family of internal golden rulers
+$$
+(\mathcal R_m)_{m\ge0}
+$$
+satisfies \emph{triadic ruler invariance} when every ruler level carries
+the $\mathsf P$, $\mathsf U$, and $\mathsf T$ rows of
+\autoref{def:rh-internal-golden-ruler}, and every refinement map
+$$
+\mathcal R_m\rightsquigarrow\mathcal R_{m+1}
+$$
+transports those rows.  The ruler is then part of the generated system:
+it is not an outside observer, and it cannot supply an outside
+$\mathbb R_{>0}$ scale ledger.
+\end{definition}
+
 \begin{principle}[Machine source order]
 \label{prin:rh-bedc-golden-zeta-machine-source-order}
 The source order of \autoref{def:rh-bedc-golden-zeta-generation-machine}
@@ -125,6 +177,18 @@ The Lee--Yang bridge supplies boundary stability for the same islands.
 The defect-energy row then turns any off-half radial coordinate into an
 unbounded normal-energy readout.  No later row may be used as an
 unledgered source for an earlier row.
+\end{principle}
+
+\begin{principle}[Internal rulers remove the measurement escape]
+\label{prin:rh-internal-rulers-remove-measurement-escape}
+If the golden ruler is external, a failure of the route could be hidden
+in the choice of resolution, truncation, or refinement schedule.  If the
+ruler is internal and satisfies
+\autoref{def:rh-triadic-ruler-invariance}, the measuring rows themselves
+are subject to the same source, boundary, and time invariants as the zero
+certificate tower.  Thus an off-half radial factor cannot be reclassified
+as a feature of measurement; it must appear in the defect ledger of the
+same closed machine.
 \end{principle}
 
 \begin{theorem}[Legal generation machines exclude radial limits]
@@ -154,6 +218,32 @@ Thus the tower is legal boundary-stable in the sense of
 \autoref{def:rh-legal-boundary-stable-certificate-tower}.  Applying
 \autoref{thm:rh-no-scale-closure-legal-certificate-towers} gives
 $r=0$.
+\end{proof}
+
+\begin{theorem}[Internal ruler invariance excludes measurement exceptions]
+\label{thm:rh-internal-ruler-invariance-excludes-measurement-exceptions}
+Let a BEDC--Golden--Zeta generation machine be legal, and assume its
+golden ruler family satisfies triadic ruler invariance.  If each zero
+certificate level is generated from the corresponding internal ruler
+level and the tower satisfies the defect extraction and boundary-bound
+rows of \autoref{thm:rh-legal-generation-machines-exclude-radial-limits},
+then its limit readout has $r=0$.
+\end{theorem}
+
+\begin{proof}
+By triadic ruler invariance, every refinement level of the ruler carries
+the $\mathsf P$, $\mathsf U$, and $\mathsf T$ rows and transports them to
+the next level.  Since each certificate level is generated from the
+corresponding ruler level, the certificate tower cannot appeal to an
+external resolution row, external truncation row, or external scale row.
+The only visible off-half component of
+$$
+e^{-(s-1/2)h_a}=e^{-rh_a}e^{-it h_a}
+$$
+is therefore the defect term $e^{-rh_a}$ recorded by the same machine.
+The hypotheses then reduce exactly to the legal generation-machine
+exclusion of \autoref{thm:rh-legal-generation-machines-exclude-radial-limits},
+which gives $r=0$.
 \end{proof}
 
 \begin{definition}[BEDC--Golden--Zeta source row]
@@ -195,10 +285,11 @@ kernel and history rows are supplied by the BEDC spine.  The golden
 resolution and weak eta capture rows are supplied by the local
 Rouch\'e construction of
 \autoref{thm:rh-golden-eta-weak-active-capture}.  The strong source
-content is the construction of compatible golden Lee--Yang bridge
-witnesses for the same zero islands, including dominance, same-island
-transfer, radial purity, and far-end energy control.  Those rows are the
-mathematical content of
+content has two coupled parts: triadic ruler invariance for the golden
+resolution row, and compatible golden Lee--Yang bridge witnesses for the
+same zero islands, including dominance, same-island transfer, radial
+purity, and far-end energy control.  Those rows are the mathematical
+content of
 $$
 \mathsf{BEDCGoldenZetaMachine}_{\zeta}.
 $$
