@@ -31,6 +31,7 @@ STOP = SCRIPT_DIR / ".stop"
 STATE_DIR = SCRIPT_DIR / "state"
 LOCK = STATE_DIR / "supervisor.lock"
 DEFAULT_INTERVAL = 600.0
+DEV_BASE_BRANCH = "dev"
 PUBLISH_CHURN_PREFIXES = (
     "papers/window_codon_bridge/intake_coverage.json",
     "papers/window_codon_bridge/intake_coverage.md",
@@ -219,6 +220,41 @@ def ls_matching(branch: str, pattern: str) -> subprocess.CompletedProcess:
     paths = sorted(p for p in (listing.stdout or "").splitlines() if p and fnmatch.fnmatch(p, pattern))
     listing.stdout = "\n".join(paths) + ("\n" if paths else "")
     return listing
+
+
+def dev_sync_lane() -> dict:
+    """Reverse sync: merge origin/dev into the bridge feat branch each cycle.
+
+    The bridge couples Window6 math to codon/bio reality; it must work on top of
+    the full repo (fibonacci_reality + bio_reality + bedc + lean4) that all
+    pipelines roll up into dev, not an isolated old snapshot. Path isolation
+    (the bridge owns only tools/window_codon_bridge/* + papers/window_codon_bridge/*)
+    makes dev->feat merges conflict-free in practice; any conflict aborts safely
+    rather than wedging the daemon. The resulting merge commit is pushed to
+    origin/<publish_branch> by the publish lane.
+    """
+    if git_busy():
+        return {"ran": False, "skipped": "git_busy"}
+    if _merge_head_present() and not _abort_merge_safely():
+        return {"ran": False, "skipped": "stale_merge"}
+    base = str(load(SYNC_MANIFEST).get("dev_base_branch") or DEV_BASE_BRANCH)
+    fetched = git("fetch", "origin", base)
+    if fetched.returncode != 0:
+        return {"ran": False, "fetch_error": ((fetched.stderr or fetched.stdout) or "").strip()[-200:]}
+    behind = git("rev-list", "--count", f"HEAD..origin/{base}")
+    if behind.returncode != 0:
+        return {"ran": False, "error": ((behind.stderr or behind.stdout) or "").strip()[-200:]}
+    n_behind = int((behind.stdout or "0").strip() or "0")
+    if n_behind <= 0:
+        return {"ran": True, "behind": 0, "merged": False}
+    merge = git("merge", "--no-edit", "--no-ff", f"origin/{base}")
+    if merge.returncode != 0:
+        conflicted = ((git("diff", "--name-only", "--diff-filter=U").stdout) or "").strip()
+        _abort_merge_safely()
+        print(f"[dev-sync] merge conflict ({n_behind} behind), aborted: {conflicted[:300]}", flush=True)
+        return {"ran": True, "behind": n_behind, "merged": False, "conflict": conflicted.splitlines()[:10]}
+    print(f"[dev-sync] merged origin/{base} ({n_behind} commits) into bridge feat", flush=True)
+    return {"ran": True, "behind": n_behind, "merged": True}
 
 
 def sync_lane() -> dict:
@@ -719,6 +755,7 @@ def main():
         lock_fh.write(str(os.getpid()))
         lock_fh.flush()
         while not should_stop():
+            dev_sync = dev_sync_lane()
             sync = sync_lane()
             coverage = {"ran": False, "reason": "disabled_by_flag"} if args.no_coverage else coverage_lane()
             concordance = {"ran": False, "reason": "disabled_by_flag"} if args.no_concordance else concordance_lane()
@@ -729,7 +766,7 @@ def main():
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} coverage={coverage} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} dev_sync={dev_sync} sync={sync} coverage={coverage} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
