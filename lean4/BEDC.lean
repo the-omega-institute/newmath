@@ -10225,6 +10225,8 @@ import BEDC.Derived.RHRoute.GroundedAltConvergence
 import BEDC.Derived.RHRoute.HaltingBoundary
 import BEDC.Derived.RHRoute.InfinitePrimeTorusCompatibility
 import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
+import BEDC.Derived.RHRoute.IntervalMatrixPSD
+import BEDC.Derived.RHRoute.IntervalMatrixPSD.AlgebraNormalize
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
 import BEDC.Derived.RHRoute.KrawczykCertificate
 import BEDC.Derived.RHRoute.LagariasCriterion
