@@ -353,6 +353,62 @@ triadic ruler invariance, and whose sufficiently fine levels carry
 compatible golden Lee--Yang bridge witnesses.
 \end{definition}
 
+\begin{definition}[Zeta constraint container]
+\label{def:rh-zeta-constraint-container}
+Let $\Lambda$ be the ledger of a compatible golden zero-certificate
+tower.  A \emph{zeta constraint container} is the specialization of
+\autoref{def:philosophy-constraint-container} to the RH-facing candidate
+class
+$$
+\mathcal G_{\zeta,\varphi}
+$$
+whose visible candidates include the critical container
+$$
+\Gamma_{\mathrm{crit}}
+:=
+\{s:\Re(s)=1/2\}
+$$
+and the radial containers
+$$
+\Gamma_r
+:=
+\{s:\Re(s)=1/2+r\},
+\qquad
+r\ne0.
+$$
+Its probe row reads zero-island capture, Rouch\'e or winding data,
+phase, prime-register fibres, Zeckendorf resolution ledgers, boundary
+stability, and defect energy.  Its gauge row may contain only compact
+phase, finite prime-register, and Zeckendorf-ledger freedoms already
+displayed by the machine.  The container is therefore a stabilized
+closure of ledger constraints, not a prior host line into which zeros
+are placed.
+\end{definition}
+
+\begin{definition}[Zeta critical-container forcing]
+\label{def:rh-zeta-critical-container-forcing}
+For the limit ledger $\Lambda_{\infty}$ of a compatible golden
+zero-certificate tower, write
+$$
+\Lambda_{\infty}
+\Vdash_{\zeta,\varphi}
+[\Gamma_{\mathrm{crit}}]
+$$
+when $\Gamma_{\mathrm{crit}}$ realizes the ledger and every candidate
+$$
+\Delta\in\mathcal G_{\zeta,\varphi}
+$$
+realizing the same ledger has the same probe readout as
+$\Gamma_{\mathrm{crit}}$ across the probe row of
+\autoref{def:rh-zeta-constraint-container}, modulo only the displayed
+compact phase, prime-register, and Zeckendorf gauge rows.  Equivalence
+at the completed-zero readout means that every presentation carried by
+$\Delta$ has $r=0$ in
+$$
+s=\frac12+r+it.
+$$
+\end{definition}
+
 \begin{theorem}[Constructive source rows imply machine source rows]
 \label{thm:rh-constructive-source-row-implies-machine-source-row}
 If
@@ -414,6 +470,56 @@ Apply
 \autoref{cor:rh-bedc-golden-zeta-machine-fixed-half-readout}.
 \end{proof}
 
+\begin{theorem}[Constructive machines force the critical container]
+\label{thm:rh-constructive-machines-force-critical-container}
+If
+$$
+\mathsf{ConstructiveBEDCGoldenZetaMachine}_{\zeta}
+$$
+holds, then the limit ledger of every accepted non-trivial completed
+zeta zero satisfies
+$$
+\Lambda_{\infty}
+\Vdash_{\zeta,\varphi}
+[\Gamma_{\mathrm{crit}}].
+$$
+\end{theorem}
+
+\begin{proof}
+Fix an accepted non-trivial completed zeta zero and its limit ledger.
+The constructive source row supplies a constructive
+BEDC--Golden--Zeta machine for this zero.  By
+\autoref{thm:rh-constructive-layer-discipline-preserves-legality}, all
+displayed layers are legal, and by
+\autoref{thm:rh-constructive-source-row-implies-machine-source-row} the
+underlying legal generation-machine source row is present.
+
+Let $\Delta\in\mathcal G_{\zeta,\varphi}$ realize the same limit ledger.
+If the readout of $\Delta$ has
+$$
+s=\frac12+r+it
+$$
+with $r\ne0$, then the defect row of the machine gives the radial
+energy extraction
+$$
+E_m(s)=r^2W_m+o(W_m),
+\qquad
+W_m\to\infty,
+$$
+while the compatible golden Lee--Yang bridge witnesses supply the
+zero-compatible boundary bound.  Since $\Delta$ realizes the same
+ledger, it must realize these rows with the same legal gauge restrictions.
+Thus the $\Delta$-readout satisfies the hypotheses of
+\autoref{thm:rh-legal-generation-machines-exclude-radial-limits}, which
+forces $r=0$, a contradiction.  Hence every surviving candidate has
+fixed-half readout.  The remaining invisible rows are exactly the
+displayed compact phase, prime-register, and Zeckendorf gauge rows, so
+all surviving candidates have the same probe readout as
+$\Gamma_{\mathrm{crit}}$ on the probes of
+\autoref{def:rh-zeta-constraint-container}.  This is the forcing
+judgment of \autoref{def:rh-zeta-critical-container-forcing}.
+\end{proof}
+
 \begin{principle}[Machine proof load]
 \label{prin:rh-bedc-golden-zeta-machine-proof-load}
 The machine formulation separates the proof load into source rows.  The
@@ -429,4 +535,13 @@ far-end energy control.  Those rows are the mathematical content of
 $$
 \mathsf{BEDCGoldenZetaMachine}_{\zeta}.
 $$
+Under those rows, the public geometric readout is the derived constraint
+container judgment
+$$
+\Lambda_{\infty}
+\Vdash_{\zeta,\varphi}
+[\Gamma_{\mathrm{crit}}],
+$$
+not an initial assumption that zero certificates already live on the
+critical line.
 \end{principle}
