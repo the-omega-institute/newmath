@@ -1,0 +1,582 @@
+\chapter{Thermodynamic No-Scale Route}
+\label{ch:visions-rh-thermodynamic-no-scale-route}
+\origin{ai}
+
+\autoref{ch:visions-rh-pigeonhole-time-recurrence} separates compact
+phase recurrence from radial scale time, while
+\autoref{ch:visions-rh-arithmetic-spectral-string-route} reads the same
+distinction as a conservative normal-mode condition.  The present chapter
+records the information-thermodynamic reading of that row.  It treats an
+off-half real part as a Boltzmann tilt of the active mode distribution.
+The chapter supplies a no-scale implication under explicit stability and
+growth hypotheses; it does not supply the golden Lee--Yang bridge, strong
+active capture, or zero-presentation completeness.
+
+\begin{definition}[Phase channel with hidden prime fibre]
+\label{def:rh-phase-channel-hidden-prime-fibre}
+Fix a finite displayed prime family $S$.  A phase channel with hidden
+prime fibre is a readout
+$$
+\pi_S:\Sigma_S\to\mathbb T
+$$
+from the $S$-solenoid of
+\autoref{def:unified-reality-s-solenoid-over-unit-circle}, together with
+its invisible fibre
+$$
+K_S:=\ker(\pi_S).
+$$
+The visible output is the unit phase row in $\mathbb T$.  The hidden
+state is the compact prime-register fibre row carried by $K_S$.  A
+consumer that receives only $\pi_S(x)$ has a phase output, not the full
+solenoid state $x$.
+\end{definition}
+
+\begin{principle}[Kernel blindness of the phase channel]
+\label{prin:rh-phase-channel-kernel-blindness}
+The phase channel of
+\autoref{def:rh-phase-channel-hidden-prime-fibre} is a coarse-graining
+row.  Equality of visible outputs,
+$$
+\pi_S(x)=\pi_S(x'),
+$$
+does not recover equality of solenoid states unless the prime-register
+fibre ledger is also present.  In finite quotients this hidden part may
+be read as a fibre-size or fibre-volume entropy.  Thus the channel has a
+nontrivial conditional-information row
+$$
+\mathsf{HiddenInfo}(x\mid \pi_S(x)),
+$$
+which is ledgered by compact prime-register data, not by a real-positive
+scale coordinate.
+\end{principle}
+
+\begin{definition}[Solenoid legal fibre row]
+\label{def:rh-solenoid-legal-fibre-row}
+For a finite prime family $S$, the legal hidden fibre of the phase
+channel is the compact row
+$$
+K_S=\ker(\pi_S)
+$$
+from \autoref{def:rh-phase-channel-hidden-prime-fibre}.  A zero-relevant
+packet is solenoid-legal when every hidden coordinate used to refine its
+phase readout factors through compact phase data or through this
+prime-register fibre.  No coordinate of type $\mathbb R_{>0}$ is part of
+the solenoid-legal fibre row.
+\end{definition}
+
+\begin{theorem}[Solenoid fibres exclude radial gauges]
+\label{thm:rh-solenoid-fibres-exclude-radial-gauges}
+Let a centered active packet be solenoid-legal in the sense of
+\autoref{def:rh-solenoid-legal-fibre-row}.  If a local channel has the
+form
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a},
+\qquad
+h_a>0,
+$$
+and its modulus row is supplied by the solenoid fibre, then $r=0$.
+\end{theorem}
+
+\begin{proof}
+The solenoid fibre is compact.  A modulus row supplied by it is therefore
+a continuous positive real character of a compact phase carrier.  By
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character},
+such a character is trivial.  Hence
+$$
+|U_a(s)|=e^{-r h_a}=1.
+$$
+Since $h_a>0$, taking logarithms gives $r=0$.
+\end{proof}
+
+\begin{principle}[Solenoid--Pick conditional route]
+\label{prin:rh-solenoid-pick-conditional-route}
+The solenoid row and the Pick row play distinct roles in the same
+triadic obstruction.  The solenoid row determines the legal fibre of the
+observation cord: it permits visible unit phase and hidden compact
+prime-register data, but not a radial $\mathbb R_{>0}$ gauge.  The Pick
+row of \autoref{def:rh-xi-pick-kernel} determines whether the same
+observation cord embeds into a Hilbert space with nonnegative squared
+length.  Consequently, an off-half zero has two incompatible readings:
+it requires a nontrivial radial factor $e^{-r h_a}$, while
+\autoref{thm:rh-solenoid-fibres-exclude-radial-gauges} refuses such a
+factor as hidden fibre and
+\autoref{thm:rh-right-side-zero-one-point-pick-witness} turns the same
+radial defect into a finite negative Pick witness.  Thus the conditional
+route is
+$$
+\mathsf{SolenoidLegalFibre}
+\times
+\mathsf{TriadicPickPositivity}_{\xi}
+\Longrightarrow
+\text{fixed-half readout}.
+$$
+\end{principle}
+
+\begin{principle}[No recovery by mirror scale]
+\label{prin:rh-no-recovery-by-mirror-scale}
+For a centered active channel
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a},
+$$
+the mirror row sends $r$ to $-r$ and therefore exchanges damping with
+gain:
+$$
+e^{-r h_a}
+\longleftrightarrow
+e^{r h_a}.
+$$
+This creates the mirror amplitude row; it does not reconstruct the
+hidden solenoid fibre erased by $\pi_S$, and it does not return a single
+packet to the unit boundary.  A recovery of hidden prime-register data
+requires the compact ledger of
+\autoref{prin:rh-phase-channel-kernel-blindness}; a recovery of a radial
+factor requires an external $\mathbb R_{>0}$ ledger, which is excluded
+from closed phase packets.
+\end{principle}
+
+\begin{definition}[Finite thermodynamic mode packet]
+\label{def:rh-finite-thermodynamic-mode-packet}
+A finite thermodynamic mode packet at level $m$ consists of a finite
+active set $A_m$, positive heights
+$$
+h_a>0
+\qquad
+(a\in A_m),
+$$
+and nonnegative weights $w_a$ whose total weight is positive.  The pure
+phase state is
+$$
+\Psi_m(t)
+:=
+\sum_{a\in A_m}c_a e^{-it h_a}e_a.
+$$
+For a readout
+$$
+s=\frac12+r+it,
+$$
+the amplitude-biased state is
+$$
+\Psi_m(r,t)
+:=
+\sum_{a\in A_m}c_a e^{-r h_a}e^{-it h_a}e_a.
+$$
+The factor $e^{-it h_a}$ is a reversible phase row.  The factor
+$e^{-r h_a}$ is a real-positive thermal tilt row.
+\end{definition}
+
+\begin{definition}[Relative scale-defect energy]
+\label{def:rh-relative-scale-defect-energy}
+For a finite thermodynamic mode packet, let
+$$
+\bar h_m
+:=
+\frac{\sum_{a\in A_m}w_a h_a}{\sum_{a\in A_m}w_a}.
+$$
+The relative log-scale defect of $s=1/2+r+it$ at $a$ is
+$$
+\widetilde d_a(r)
+:=
+-r(h_a-\bar h_m).
+$$
+The relative scale-defect energy is
+$$
+E_m^{\mathrm{rel}}(r)
+:=
+\sum_{a\in A_m}w_a\widetilde d_a(r)^2.
+$$
+Equivalently,
+$$
+E_m^{\mathrm{rel}}(r)
+=
+r^2V_m,
+\qquad
+V_m:=
+\sum_{a\in A_m}w_a(h_a-\bar h_m)^2.
+$$
+This relative form ignores a common normalization factor and records only
+mode-to-mode scale distortion.
+\end{definition}
+
+\begin{definition}[Boltzmann tilt of an active packet]
+\label{def:rh-boltzmann-tilt-active-packet}
+The normalized baseline distribution of a finite thermodynamic mode
+packet is
+$$
+p_a^{(0)}
+:=
+\frac{w_a}{\sum_{b\in A_m}w_b}.
+$$
+The off-half parameter $r$ tilts it to
+$$
+p_a^{(r)}
+:=
+\frac{w_a e^{-2r h_a}}{Z_m(r)},
+\qquad
+Z_m(r)
+:=
+\sum_{b\in A_m}w_b e^{-2r h_b}.
+$$
+Thus $r$ is not a phase coordinate.  It changes the relative distribution
+of active modes by an exponential-family row.
+\end{definition}
+
+\begin{principle}[Relative entropy detects radial tilt]
+\label{prin:rh-relative-entropy-detects-radial-tilt}
+In the packet of \autoref{def:rh-boltzmann-tilt-active-packet}, the
+free-energy row
+$$
+F_m(r):=-\log Z_m(r)
+$$
+and the relative entropy
+$$
+D_{\mathrm{KL}}(p^{(r)}\Vert p^{(0)})
+$$
+read the same radial phenomenon as the scale-defect ledger.  Near
+$r=0$, the Fisher-information row is governed by the active-height
+variance:
+$$
+I_m(0)=4\operatorname{Var}_{p^{(0)}}(h).
+$$
+Accordingly, a nonzero $r$ is a relative-information cost, not a
+bounded phase error on $\mathbb T$.
+\end{principle}
+
+\begin{definition}[Thermodynamically stable zero packet tower]
+\label{def:rh-thermodynamically-stable-zero-packet-tower}
+A zero certificate tower is thermodynamically stable when each
+sufficiently fine level carries a finite thermodynamic mode packet,
+the only legal closed dynamics are the unit phase rows
+$$
+e^{-it h_a}\in\mathbb T,
+$$
+there is no unledgered $\mathbb R_{>0}$ reservoir, the relative
+variance row is cofinal,
+$$
+V_m\to\infty,
+$$
+and the relative scale-defect energy is bounded:
+$$
+E_m^{\mathrm{rel}}(r)\le B
+$$
+for a finite $B$ independent of $m$.
+\end{definition}
+
+\begin{definition}[No unledgered selector row]
+\label{def:rh-no-unledgered-selector-row}
+The source row
+$$
+\mathsf{NoMaxwellDemonZeta}_{\zeta}
+$$
+asserts that a zeta zero packet tower has no unledgered information
+selector capable of changing active-mode weights.  Concretely, the row
+forbids an external selector of the form
+$$
+a\longmapsto e^{-r h_a}
+$$
+unless the corresponding real-positive scale ledger is displayed inside
+the tower.  Compact phase rows and compact prime-register fibres may
+carry legal hidden data; an unrecorded $\mathbb R_{>0}$ selector may not
+be used to make an amplitude-biased packet appear to be unit-phase
+closed.
+\end{definition}
+
+\begin{definition}[Radial compensation selector]
+\label{def:rh-radial-compensation-selector}
+Let
+$$
+s=\frac12+r+it
+$$
+and let $h_a>0$ be an active height.  A radial compensation selector for
+the centered channel
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}
+$$
+is a displayed family
+$$
+C_a(s)\in\mathbb R_{>0}
+$$
+such that
+$$
+|C_a(s)U_a(s)|=1.
+$$
+For $r\neq0$, this condition forces
+$$
+C_a(s)=e^{r h_a}.
+$$
+Thus a radial compensation selector is precisely a real-positive scale
+ledger indexed by the active heights.
+\end{definition}
+
+\begin{lemma}[Unit boundary local channel test]
+\label{lem:rh-unit-boundary-local-channel-test}
+Let
+$$
+s=\frac12+r+it
+$$
+and let $h_a>0$.  For the centered channel
+$$
+U_a(s)=e^{-(s-1/2)h_a},
+$$
+the unit-boundary condition
+$$
+|U_a(s)|=1
+$$
+forces $r=0$.
+\end{lemma}
+
+\begin{proof}
+The centered channel decomposes as
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}.
+$$
+Hence
+$$
+|U_a(s)|=e^{-r h_a}.
+$$
+If this modulus is one, then $e^{-r h_a}=1$.  Taking real logarithms
+gives $-r h_a=0$.  Since $h_a>0$, one has $r=0$.
+\end{proof}
+
+\begin{theorem}[No-demon scale compensation]
+\label{thm:rh-no-demon-scale-compensation}
+Assume a packet admits only compact phase rows, compact prime-register
+fibre rows, Zeckendorf ledger rows, and explicitly measured defect rows
+as legal gauges.  If $r\neq0$ and $h_a>0$, no legal gauge supplies a
+radial compensation selector for
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-radial-compensation-selector}, unit modulus after
+compensation requires
+$$
+C_a(s)=e^{r h_a}\in\mathbb R_{>0}.
+$$
+Compact phase rows change only the phase of $U_a(s)$ and do not change
+its modulus.  Compact prime-register fibre rows and Zeckendorf ledger
+rows carry discrete or compact source information; they do not supply an
+unmeasured continuous real-positive scale factor.  The remaining allowed
+case is an explicitly measured defect row, which records the radial
+defect rather than hiding it as a gauge.  Hence no legal gauge supplies
+the displayed compensation factor.
+\end{proof}
+
+\begin{principle}[No free entropy lowering]
+\label{prin:rh-no-free-entropy-lowering}
+\autoref{def:rh-no-unledgered-selector-row} is the thermodynamic reading
+of ledger discipline.  A selector that sorts, damps, or amplifies modes
+according to their heights has information cost.  If that cost is not
+carried by the source, tail, prime-register, boundary, or scale-defect
+ledger, then the selector is outside the closed packet.  Thus finite
+phase recurrence may provide unit-phase return candidates, but it cannot
+provide a free entropy-lowering operation that cancels the radial
+Boltzmann tilt of \autoref{def:rh-boltzmann-tilt-active-packet}.  The
+local obstruction is
+\autoref{thm:rh-no-demon-scale-compensation}: the compensation factor is
+real-positive scale data, not phase or compact fibre data.
+\end{principle}
+
+\begin{definition}[Demon-free thermodynamic zero tower]
+\label{def:rh-demon-free-thermodynamic-zero-tower}
+A zero packet tower is demon-free thermodynamic when it is
+thermodynamically stable in the sense of
+\autoref{def:rh-thermodynamically-stable-zero-packet-tower} and carries
+the row
+$$
+\mathsf{NoMaxwellDemonZeta}_{\zeta}.
+$$
+Equivalently, every information selector used by the tower is either a
+compact phase row, a compact prime-register fibre row, a Zeckendorf
+ledger row, or an explicitly measured defect row.
+\end{definition}
+
+\begin{definition}[No-demon zeta certificate]
+\label{def:rh-no-demon-zeta-certificate}
+The source row
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+asserts that every accepted non-trivial completed zeta zero is
+represented by a demon-free thermodynamic zero tower whose relative
+variance row is cofinal and whose scale-defect extraction is the
+displayed ledger of \autoref{def:rh-relative-scale-defect-energy}.  This
+row is a coverage hypothesis: it packages the no-unledgered-selector
+condition together with the analytic tower needed to apply the
+thermodynamic no-scale theorem.
+\end{definition}
+
+\begin{theorem}[Thermodynamic no-scale theorem]
+\label{thm:rh-thermodynamic-no-scale}
+Let a thermodynamically stable zero packet tower have limit readout
+$$
+s_{\infty}=\frac12+r+it.
+$$
+Then $r=0$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-relative-scale-defect-energy},
+$$
+E_m^{\mathrm{rel}}(r)=r^2V_m.
+$$
+If $r\neq0$, then $r^2>0$.  Since $V_m\to\infty$, the displayed energy
+is unbounded:
+$$
+E_m^{\mathrm{rel}}(r)\to\infty.
+$$
+This contradicts the thermodynamic stability bound
+$$
+E_m^{\mathrm{rel}}(r)\le B.
+$$
+Therefore $r=0$.
+\end{proof}
+
+\begin{corollary}[Thermodynamic stability gives fixed-half readout]
+\label{cor:rh-thermodynamic-stability-fixed-half-readout}
+If every accepted non-trivial completed zeta zero is represented by a
+thermodynamically stable zero packet tower, then every such readout has
+real part $1/2$.
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:rh-thermodynamic-no-scale} to the tower representing
+the accepted zero.
+\end{proof}
+
+\begin{corollary}[Demon-free towers have fixed-half readout]
+\label{cor:rh-demon-free-towers-fixed-half-readout}
+If every accepted non-trivial completed zeta zero is represented by a
+demon-free thermodynamic zero tower, then every such readout has real
+part $1/2$.
+\end{corollary}
+
+\begin{proof}
+A demon-free thermodynamic zero tower is thermodynamically stable by
+\autoref{def:rh-demon-free-thermodynamic-zero-tower}.  Apply
+\autoref{cor:rh-thermodynamic-stability-fixed-half-readout}.
+\end{proof}
+
+\begin{corollary}[No-demon certificates give fixed-half readouts]
+\label{cor:rh-no-demon-certificates-fixed-half-readouts}
+If
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+holds, then every accepted non-trivial completed zeta zero has real part
+$1/2$.
+\end{corollary}
+
+\begin{proof}
+The source row of \autoref{def:rh-no-demon-zeta-certificate} supplies a
+demon-free thermodynamic zero tower for each accepted non-trivial
+completed zeta zero.  Apply
+\autoref{cor:rh-demon-free-towers-fixed-half-readout}.
+\end{proof}
+
+\begin{definition}[No-demon internal golden zeta certificate]
+\label{def:rh-no-demon-internal-golden-zeta-certificate}
+The source row
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+asserts that every accepted non-trivial completed zeta zero is presented
+by a cofinal golden certificate tower satisfying four compatible rows.
+The internal-ruler row is
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+from \autoref{def:rh-internal-golden-ruler-zeta-certificate}.  The
+same-island boundary row is
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+from \autoref{def:rh-zeta-golden-lee-yang-bridge-source-row}.  The
+information-thermodynamic row is
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+from \autoref{def:rh-no-demon-zeta-certificate}.  The compatibility row
+requires that these three presentations use the same zero island, the
+same Zeckendorf address ledger, the same active-height refinement, and
+the same scale-defect extraction.  Thus the row is a source package, not
+an additional analytic theorem: it records that the internal golden
+ruler, the Lee--Yang bridge, and the no-unledgered-selector discipline
+are present on one certificate tower.
+\end{definition}
+
+\begin{theorem}[No-demon internal golden certificates supply thermodynamic certificates]
+\label{thm:rh-no-demon-internal-golden-certificates-supply-thermodynamic-certificates}
+If
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Fix an accepted non-trivial completed zeta zero.  The source row of
+\autoref{def:rh-no-demon-internal-golden-zeta-certificate} supplies a
+single cofinal golden certificate tower carrying the no-demon zeta row,
+with the scale-defect extraction and active-height refinement displayed
+on that same tower.  Forgetting the internal-ruler and Lee--Yang bridge
+rows leaves exactly the demon-free thermodynamic tower required by
+\autoref{def:rh-no-demon-zeta-certificate}.
+\end{proof}
+
+\begin{corollary}[No-demon internal golden certificates give fixed-half readout]
+\label{cor:rh-no-demon-internal-golden-certificates-fixed-half-readout}
+If
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then every accepted non-trivial completed zeta zero has real part
+$1/2$.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-no-demon-internal-golden-certificates-supply-thermodynamic-certificates}
+and then
+\autoref{cor:rh-no-demon-certificates-fixed-half-readouts}.
+\end{proof}
+
+\begin{principle}[No-demon internal golden source load]
+\label{prin:rh-no-demon-internal-golden-source-load}
+The row
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+does not replace the analytic bridge obligations.  Its internal golden
+ruler component still depends on the source package of
+\autoref{def:rh-internal-golden-ruler-zeta-certificate}; its boundary
+component still depends on the bridge source row of
+\autoref{def:rh-zeta-golden-lee-yang-bridge-source-row}; and the bridge
+source row still carries the dominant-branch and Rouch\'e homotopy
+obligations isolated in
+\autoref{def:rh-golden-bridge-analytic-subrows}.  The contribution of
+the no-demon row is orthogonal: once those same-island rows are supplied,
+no unledgered information selector may turn the radial factor
+$$
+e^{-r h_a}
+$$
+into a legal phase or compact prime-register gauge.
+\end{principle}
+
+\begin{principle}[Thermodynamic wording preserves the proof boundary]
+\label{prin:rh-thermodynamic-wording-proof-boundary}
+The information-thermodynamic language identifies the off-half coordinate
+with entropy production, free-energy cost, or thermal tilt only after a
+canonical packet tower has been supplied.  It does not construct that
+tower.  The remaining source load is the same as in the golden route:
+strong active capture, same-island Lee--Yang boundary stability,
+cofinal relative-variance growth, no unledgered selector, no far-end
+scale reservoir, and zero-presentation completeness.  Without those rows,
+the chapter gives a conditional no-scale implication rather than a
+zeta-zero coverage theorem.
+\end{principle}

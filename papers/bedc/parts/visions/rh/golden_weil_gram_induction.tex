@@ -1,0 +1,298 @@
+\chapter{Golden Weil Gram Induction}
+\label{ch:visions-rh-golden-weil-gram-induction}
+\origin{ai}
+
+\autoref{ch:visions-rh-global-weil-positive-container-tower} records
+the global Weil-positive tower as the non-local target of the no-scale
+route.  The present chapter records a finite Gram-matrix form of that
+target.  The aim is to replace an open-ended search through zero
+certificates by a source-side sequence of finite semidefinite tests.
+
+\begin{definition}[Golden Weil test ruler]
+\label{def:rh-golden-weil-test-ruler}
+Let $\varphi=(1+\sqrt5)/2$ and let
+$$
+\delta_m:=\varphi^{-m}.
+$$
+Choose a fixed compactly supported smooth bump $\psi$ on the logarithmic
+line.  A \emph{golden Weil test ruler} is a sequence
+$$
+\mathcal B_{\varphi}=(\psi_i)_{i\ge1}
+$$
+obtained from translated and rescaled bumps
+$$
+\psi_{m,k}(u)
+:=
+\psi\left(\frac{u-k\delta_m}{\delta_m}\right)
+$$
+by a Zeckendorf ledger ordering.  The ruler rows require that the
+source of each scale is recorded by the Fibonacci ledger, that
+$$
+\operatorname{span}\{\psi_i:i\ge1\}
+$$
+is dense in the test space of
+\autoref{def:rh-multiplicative-test-row}, and that adding a later
+$\psi_i$ refines the observation ledger without deleting earlier rows.
+\end{definition}
+
+\begin{definition}[Golden Weil Gram matrix]
+\label{def:rh-golden-weil-gram-matrix}
+For the finite test space
+$$
+\mathcal A_N:=\operatorname{span}\{\psi_1,\ldots,\psi_N\},
+$$
+define the golden Weil Gram matrix
+$$
+G_N=(g_{ij})_{1\le i,j\le N}
+$$
+by the sesquilinear Weil pairing
+$$
+g_{ij}:=\mathcal W(\psi_i,\psi_j),
+$$
+where $\mathcal W(f,g)$ denotes the polarization of the quadratic row
+of \autoref{def:rh-weil-quadratic-form-row}.  Thus, for
+$$
+f_c=\sum_{i=1}^N c_i\psi_i,
+$$
+one has
+$$
+c^\ast G_Nc=\mathcal W(f_c).
+$$
+\end{definition}
+
+\begin{theorem}[Golden Gram reduction]
+\label{thm:rh-golden-gram-reduction}
+Assume the golden Weil test ruler is dense and that the Weil quadratic
+row is continuous for the chosen test topology.  If
+$$
+G_N\succeq0
+\qquad
+\text{for every }N,
+$$
+then $\mathsf{GlobalWeilPositivity}$ holds.  Conversely,
+$\mathsf{GlobalWeilPositivity}$ implies $G_N\succeq0$ for every $N$.
+\end{theorem}
+
+\begin{proof}
+Assume first that every $G_N$ is positive semidefinite.  Let
+$f$ be a test row.  By density, choose $f_N\in\mathcal A_N$ with
+$f_N\to f$.  Since $G_N\succeq0$,
+$$
+\mathcal W(f_N)\ge0.
+$$
+Continuity gives
+$$
+\mathcal W(f)=\lim_N\mathcal W(f_N)\ge0.
+$$
+Thus $\mathsf{GlobalWeilPositivity}$ holds.
+
+Conversely, if $\mathsf{GlobalWeilPositivity}$ holds, then for every
+$c\in\mathbb C^N$,
+$$
+c^\ast G_Nc
+=
+\mathcal W\left(\sum_{i=1}^N c_i\psi_i\right)
+\ge0.
+$$
+Hence $G_N\succeq0$.
+\end{proof}
+
+\begin{principle}[Finite diagonal witness]
+\label{prin:rh-finite-diagonal-witness}
+If the global Weil form has a negative direction, then the golden ruler
+detects it at finite resolution.  Indeed, choose $f$ with
+$$
+\mathcal W(f)<0.
+$$
+By density and continuity, some $f_N\in\mathcal A_N$ still satisfies
+$$
+\mathcal W(f_N)<0.
+$$
+Writing $f_N=\sum_i c_i\psi_i$ gives
+$$
+c^\ast G_Nc<0.
+$$
+Thus a diagonal negative probe is not an infinitely postponed anomaly;
+it appears as a finite negative Gram direction.
+\end{principle}
+
+\begin{definition}[Schur residual of the golden Weil tower]
+\label{def:rh-schur-residual-golden-weil-tower}
+Write the next Gram matrix as
+$$
+G_{N+1}
+=
+\begin{pmatrix}
+G_N & b_N\\
+b_N^\ast & a_N
+\end{pmatrix},
+$$
+where
+$$
+a_N:=\mathcal W(\psi_{N+1},\psi_{N+1})
+$$
+and
+$$
+b_N:=
+\left(
+\mathcal W(\psi_1,\psi_{N+1}),
+\ldots,
+\mathcal W(\psi_N,\psi_{N+1})
+\right)^T.
+$$
+The \emph{Schur residual} is
+$$
+\Delta_N:=a_N-b_N^\ast G_N^+b_N,
+$$
+with $G_N^+$ the Moore--Penrose inverse.  The range row
+$$
+b_N\in\operatorname{Range}(G_N)
+$$
+is part of the semidefinite Schur ledger.
+\end{definition}
+
+\begin{definition}[Diagonal-safe Weil induction]
+\label{def:rh-diagonal-safe-weil-induction}
+The source row
+$$
+\mathsf{DiagonalSafeWeilInduction}
+$$
+asserts that
+$$
+G_1\succeq0,
+$$
+and for every $N$ the range row
+$$
+b_N\in\operatorname{Range}(G_N)
+$$
+and the conditional-energy row
+$$
+\Delta_N\ge0
+$$
+hold.
+\end{definition}
+
+\begin{theorem}[Schur induction gives finite Gram positivity]
+\label{thm:rh-schur-induction-gives-finite-gram-positivity}
+If $\mathsf{DiagonalSafeWeilInduction}$ holds, then
+$$
+G_N\succeq0
+\qquad
+\text{for every }N.
+$$
+\end{theorem}
+
+\begin{proof}
+Proceed by induction on $N$.  The base row is $G_1\succeq0$.  For the
+step, assume $G_N\succeq0$.  The semidefinite Schur complement criterion
+says that
+$$
+G_{N+1}
+=
+\begin{pmatrix}
+G_N & b_N\\
+b_N^\ast & a_N
+\end{pmatrix}
+\succeq0
+$$
+exactly when $b_N$ lies in the range of $G_N$ and
+$$
+a_N-b_N^\ast G_N^+b_N\ge0.
+$$
+These are precisely the range and conditional-energy rows of
+\autoref{def:rh-diagonal-safe-weil-induction}.
+\end{proof}
+
+\begin{corollary}[Diagonal-safe Weil induction gives global positivity]
+\label{cor:rh-diagonal-safe-weil-induction-global-positivity}
+Assume the density and continuity rows of
+\autoref{thm:rh-golden-gram-reduction}.  If
+$\mathsf{DiagonalSafeWeilInduction}$ holds, then
+$\mathsf{GlobalWeilPositivity}$ holds.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-schur-induction-gives-finite-gram-positivity},
+every $G_N$ is positive semidefinite.  Apply
+\autoref{thm:rh-golden-gram-reduction}.
+\end{proof}
+
+\begin{definition}[Orthogonal residual of the added test row]
+\label{def:rh-golden-weil-orthogonal-residual}
+When the range row holds, the residual of the added test row is the
+formal class
+$$
+\psi_{N+1}^{\perp}
+:=
+\psi_{N+1}-\Pi_N\psi_{N+1},
+$$
+where $\Pi_N$ is the Weil-Gram projection onto $\mathcal A_N$.  The
+Schur residual is the residual energy row
+$$
+\Delta_N=\mathcal W(\psi_{N+1}^{\perp}).
+$$
+\end{definition}
+
+\begin{definition}[Golden Weil Schur residual positivity]
+\label{def:rh-golden-weil-schur-residual-positivity}
+The source row
+$$
+\mathsf{GoldenWeilSchurResidualPositivity}
+$$
+asserts that every residual row of
+\autoref{def:rh-golden-weil-orthogonal-residual} has nonnegative Weil
+energy:
+$$
+\mathcal W(\psi_{N+1}^{\perp})\ge0.
+$$
+It is the finite conditional-information form of the no-demon
+obligation.
+\end{definition}
+
+\begin{definition}[Schur residual square representation]
+\label{def:rh-schur-residual-square-representation}
+The source row
+$$
+\mathsf{SchurResidualSquareRepresentation}
+$$
+asserts that for every $N$ there are a Hilbert space $\mathcal H_N$ and
+a source-side linear readout $T_N$ such that
+$$
+\Delta_N
+=
+\|T_N\psi_{N+1}^{\perp}\|_{\mathcal H_N}^2.
+$$
+\end{definition}
+
+\begin{theorem}[Square representation gives diagonal-safe induction]
+\label{thm:rh-square-representation-gives-diagonal-safe-induction}
+If $G_1\succeq0$, the range rows hold, and
+$\mathsf{SchurResidualSquareRepresentation}$ holds, then
+$\mathsf{DiagonalSafeWeilInduction}$ holds.
+\end{theorem}
+
+\begin{proof}
+The square representation gives
+$$
+\Delta_N
+=
+\|T_N\psi_{N+1}^{\perp}\|_{\mathcal H_N}^2
+\ge0
+$$
+for every $N$.  Together with the assumed base and range rows, this is
+exactly $\mathsf{DiagonalSafeWeilInduction}$.
+\end{proof}
+
+\begin{principle}[Finite induction target]
+\label{prin:rh-finite-induction-target}
+The finite Gram form converts the global positivity route into a
+sequence of Schur residuals.  The active source obligation is not a
+universal decider for all future tests; it is the structural
+representation
+$$
+\mathsf{SchurResidualSquareRepresentation}.
+$$
+If each added golden resolution direction has residual Weil energy
+presented as a norm square, the Gram tower is positive by finite
+induction and the global Weil positivity row follows by density.
+\end{principle}
