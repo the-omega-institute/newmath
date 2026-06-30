@@ -315,4 +315,91 @@ theorem MetacicCandidateNormalizationConfluenceHandoffRetainedEdge [AskSetup] [P
   }
   exact ⟨cert, retainedUnary, edgeUnary⟩
 
+theorem MetacicCandidateNormalizationConfluenceHandoffPublic [AskSetup] [PackageSetup]
+    {A K N F C D B T R P L endpointRead frontierRead residualRead deciderRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicCandidateNormalizationConfluenceHandoffCarrier A K N F C D B T R P L
+        bundle pkg →
+      Cont K N endpointRead →
+        Cont endpointRead F frontierRead →
+          Cont frontierRead C residualRead →
+            Cont residualRead D deciderRead →
+              Cont deciderRead B publicRead →
+                PkgSig bundle publicRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row K ∨ hsame row N ∨ hsame row F ∨ hsame row C ∨
+                          hsame row D ∨ hsame row B ∨ hsame row T ∨ hsame row R ∨
+                            hsame row P ∨ hsame row L ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont K N endpointRead ∧
+                          Cont endpointRead F frontierRead ∧
+                            Cont frontierRead C residualRead ∧
+                              Cont residualRead D deciderRead ∧
+                                Cont deciderRead B publicRead ∧
+                                  PkgSig bundle publicRead pkg)
+                      hsame ∧ UnaryHistory endpointRead ∧ UnaryHistory frontierRead ∧
+                    UnaryHistory residualRead ∧ UnaryHistory deciderRead ∧
+                      UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: MetacicCandidateNormalizationConfluenceHandoffCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier endpointRoute frontierRoute residualRoute deciderRoute publicRoute publicPkg
+  obtain ⟨_auditUnary, candidateUnary, endpointUnary, frontierUnary, residualUnary,
+    decidableUnary, blockedUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _provenancePkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed candidateUnary endpointUnary endpointRoute
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed endpointReadUnary frontierUnary frontierRoute
+  have residualReadUnary : UnaryHistory residualRead :=
+    unary_cont_closed frontierReadUnary residualUnary residualRoute
+  have deciderReadUnary : UnaryHistory deciderRead :=
+    unary_cont_closed residualReadUnary decidableUnary deciderRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed deciderReadUnary blockedUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row N ∨ hsame row F ∨ hsame row C ∨ hsame row D ∨
+              hsame row B ∨ hsame row T ∨ hsame row R ∨ hsame row P ∨ hsame row L ∨
+                hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K N endpointRead ∧ Cont endpointRead F frontierRead ∧
+              Cont frontierRead C residualRead ∧ Cont residualRead D deciderRead ∧
+                Cont deciderRead B publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr sourceRow.left)))))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, endpointRoute, frontierRoute, residualRoute, deciderRoute,
+          publicRoute, publicPkg⟩
+  }
+  exact
+    ⟨cert, endpointReadUnary, frontierReadUnary, residualReadUnary, deciderReadUnary,
+      publicReadUnary⟩
+
 end BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
