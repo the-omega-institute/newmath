@@ -319,7 +319,7 @@ The conditionally negative definite formulation strengthens pointwise Li
 positivity into a source-side kernel statement.  Finite balanced
 Lee--Yang divisors give negative type on the integer ledger; finite
 kernel limits preserve negative type; and the two-point zero-sum test
-recovers the usual coefficient inequalities.  Thus the source target is
+recovers the usual coefficient inequalities.  Thus a source target is
 $$
 \mathsf{BalancedGoldenConstruction}
 \quad
@@ -328,4 +328,256 @@ $$
 \mathsf{LiCNDConvergence},
 $$
 rather than a separate inspection of the individual coefficients.
+\end{principle}
+
+\begin{definition}[Li second-difference kernel]
+\label{def:rh-li-second-difference-kernel}
+For the two-sided Li kernel of
+\autoref{def:rh-two-sided-li-kernel-row}, define
+$$
+\beta_n
+:=
+\lambda_{n+1}+\lambda_{n-1}-2\lambda_n
+\qquad
+(n\in\mathbb Z).
+$$
+The source row
+$$
+\mathsf{LiSecondDifferencePositiveDefinite}
+$$
+asserts that $(\beta_n)_{n\in\mathbb Z}$ is a positive definite
+translation kernel on $\mathbb Z$: for every finite family
+$$
+a_1,\ldots,a_N\in\mathbb C,
+\qquad
+k_1,\ldots,k_N\in\mathbb Z,
+$$
+one has
+$$
+\sum_{i,j=1}^N
+a_i\overline{a_j}\beta_{k_i-k_j}
+\ge0.
+$$
+\end{definition}
+
+\begin{theorem}[Second-difference positivity gives Li CND]
+\label{thm:rh-second-difference-positivity-gives-li-cnd}
+If $\mathsf{LiSecondDifferencePositiveDefinite}$ holds, then
+$$
+\mathsf{LiCND}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Let $(c_k)_{k\in\mathbb Z}$ be a finitely supported family with
+$$
+\sum_k c_k=0.
+$$
+Choose a finitely supported antiderivative $(b_k)_{k\in\mathbb Z}$ with
+$$
+c_k=b_k-b_{k-1}.
+$$
+Such a $b$ is obtained by cumulative summation across an interval
+containing the support of $c$; the zero-sum condition makes the
+cumulative row return to $0$ outside that interval.  Expanding gives
+$$
+\sum_{r,s}c_r\overline{c_s}\lambda_{r-s}
+=
+\sum_{r,s}b_r\overline{b_s}
+\left(
+2\lambda_{r-s}-\lambda_{r-s+1}-\lambda_{r-s-1}
+\right).
+$$
+By the definition of $\beta$,
+$$
+2\lambda_{r-s}-\lambda_{r-s+1}-\lambda_{r-s-1}
+=
+-\beta_{r-s}.
+$$
+Therefore
+$$
+\sum_{r,s}c_r\overline{c_s}\lambda_{r-s}
+=
+-
+\sum_{r,s}b_r\overline{b_s}\beta_{r-s}
+\le0
+$$
+by positive definiteness of the $\beta$ kernel.  This is precisely
+$\mathsf{LiCND}$.
+\end{proof}
+
+\begin{corollary}[Second-difference positivity gives fixed-half readout]
+\label{cor:rh-second-difference-positivity-fixed-half-readout}
+Assume $\mathsf{LiSecondDifferencePositiveDefinite}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-second-difference-positivity-gives-li-cnd} gives
+$\mathsf{LiCND}$.  Apply \autoref{cor:rh-li-cnd-fixed-half-readout}.
+\end{proof}
+
+\begin{definition}[Finite balanced beta kernel]
+\label{def:rh-finite-balanced-beta-kernel}
+For a finite balanced Li sequence
+$(\lambda_n^Z)_{n\in\mathbb Z}$ from
+\autoref{def:rh-finite-balanced-li-cnd-sequence}, define
+$$
+\beta_n^Z
+:=
+\lambda_{n+1}^Z+\lambda_{n-1}^Z-2\lambda_n^Z.
+$$
+\end{definition}
+
+\begin{theorem}[Balanced critical divisors give beta positivity]
+\label{thm:rh-balanced-critical-divisors-give-beta-positivity}
+Let $Z$ be a finite conjugation-stable zero multiset on the fixed line.
+Then $(\beta_n^Z)_{n\in\mathbb Z}$ is positive definite.
+\end{theorem}
+
+\begin{proof}
+The proof of
+\autoref{thm:rh-balanced-critical-divisors-give-li-cnd} gives a
+positive finite measure $\mu_Z$ on the circle such that
+$$
+\lambda_n^Z
+=
+\int_{\mathbb T}(1-\cos(n\theta))\,d\mu_Z(\theta).
+$$
+Taking the second difference gives
+$$
+\beta_n^Z
+=
+\int_{\mathbb T}
+2(1-\cos\theta)\cos(n\theta)\,d\mu_Z(\theta).
+$$
+Equivalently, $\beta_n^Z$ is the $n$th Fourier coefficient of the
+positive finite measure
+$$
+d\sigma_Z(\theta):=2(1-\cos\theta)\,d\mu_Z(\theta).
+$$
+Hence for every finite family $(a_i,k_i)$,
+$$
+\sum_{i,j}a_i\overline{a_j}\beta_{k_i-k_j}^Z
+=
+\int_{\mathbb T}
+\left|
+\sum_i a_i e^{ik_i\theta}
+\right|^2
+d\sigma_Z(\theta)
+\ge0.
+$$
+\end{proof}
+
+\begin{definition}[Beta-kernel convergence]
+\label{def:rh-beta-kernel-convergence}
+Balanced finite containers $C_m$ satisfy
+$$
+\mathsf{BetaKernelConvergence}
+$$
+when, for every fixed $n\in\mathbb Z$,
+$$
+\beta_n(C_m)\to\beta_n.
+$$
+Equivalently, every finite Toeplitz matrix
+$$
+\left(\beta_{k_i-k_j}(C_m)\right)_{i,j}
+$$
+converges entrywise to the corresponding completed zeta beta-kernel
+matrix.
+\end{definition}
+
+\begin{theorem}[Positive beta kernels are closed under finite limits]
+\label{thm:rh-positive-beta-kernels-closed-under-finite-limits}
+Assume every finite beta kernel $\beta(C_m)$ is positive definite and
+that $\mathsf{BetaKernelConvergence}$ holds.  Then
+$$
+\mathsf{LiSecondDifferencePositiveDefinite}
+$$
+holds for the completed zeta Li sequence.
+\end{theorem}
+
+\begin{proof}
+Fix a finite family $(a_i,k_i)$.  For each $m$,
+$$
+\sum_{i,j}a_i\overline{a_j}\beta_{k_i-k_j}(C_m)\ge0.
+$$
+Entrywise convergence on this finite matrix gives
+$$
+\sum_{i,j}a_i\overline{a_j}\beta_{k_i-k_j}(C_m)
+\longrightarrow
+\sum_{i,j}a_i\overline{a_j}\beta_{k_i-k_j}.
+$$
+The limit of nonnegative real numbers is nonnegative, so the completed
+zeta beta kernel is positive definite.
+\end{proof}
+
+\begin{definition}[Balanced golden beta closure]
+\label{def:rh-balanced-golden-beta-closure}
+The source row
+$$
+\mathsf{BalancedGoldenBetaClosure}
+$$
+asserts the existence of balanced golden Lee--Yang containers $C_m$ such
+that:
+
+\begin{itemize}
+\item the containers are generated by
+$\mathsf{BalancedGoldenConstruction}$;
+\item each finite zero multiset is fixed-line and conjugation-stable;
+\item each finite beta kernel is read from the balanced product row;
+\item $\mathsf{BetaKernelConvergence}$ holds.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Balanced golden beta closure gives Li second-difference positivity]
+\label{thm:rh-balanced-golden-beta-closure-gives-li-second-difference-positivity}
+If $\mathsf{BalancedGoldenBetaClosure}$ holds, then
+$$
+\mathsf{LiSecondDifferencePositiveDefinite}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-balanced-critical-divisors-give-beta-positivity}, each
+finite container supplies a positive definite beta kernel.  The closure
+row supplies $\mathsf{BetaKernelConvergence}$.  Apply
+\autoref{thm:rh-positive-beta-kernels-closed-under-finite-limits}.
+\end{proof}
+
+\begin{corollary}[Balanced golden beta closure gives fixed-half readout]
+\label{cor:rh-balanced-golden-beta-closure-fixed-half-readout}
+Assume $\mathsf{BalancedGoldenBetaClosure}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-balanced-golden-beta-closure-gives-li-second-difference-positivity}
+gives $\mathsf{LiSecondDifferencePositiveDefinite}$.  Then
+\autoref{cor:rh-second-difference-positivity-fixed-half-readout}
+applies.
+\end{proof}
+
+\begin{principle}[Beta closure as Toeplitz Li--Weil positivity]
+\label{prin:rh-beta-closure-as-toeplitz-li-weil-positivity}
+The beta-kernel formulation replaces separate Li coefficient inspection
+by one Toeplitz positive-definiteness row.  Finite balanced critical
+divisors supply this row as Fourier positivity of a positive circle
+measure; finite kernel limits preserve it; and the discrete
+antiderivative identity converts it into $\mathsf{LiCND}$.  Thus
+$$
+\mathsf{BalancedGoldenBetaClosure}
+$$
+is a sharper source-side target than entrywise Li positivity, while
+its fixed-half readout still passes through the displayed Li criterion
+consumption row.
 \end{principle}
