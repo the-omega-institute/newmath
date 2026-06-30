@@ -245,3 +245,80 @@ $$
 \text{same-island Rouch\'e transport}.
 $$
 \end{principle}
+
+\begin{definition}[Prime--Asano--Ising container]
+\label{def:rh-prime-asano-ising-container}
+A \emph{prime--Asano--Ising container} for an active golden packet is a
+finite polynomial $\mathcal Z_m(\mathbf z)$ with the following rows.
+The finite-volume row says that $\mathcal Z_m$ is a ferromagnetic Ising
+partition function, or is built from Lee--Yang stable factors by
+Asano-contraction or matching-stability operations.  The active-variable
+row assigns each variable to an audited active height
+$$
+z_a(s)=e^{-(s-1/2)h_a},
+\qquad
+h_a>0.
+$$
+The stability row gives Lee--Yang nonvanishing on the required
+inside/outside regions, or the zeta-ray form of
+\autoref{def:rh-zeta-ray-lee-yang-stability}.  The ledger row requires
+the heights and active modes to be supplied by the prime or Zeckendorf
+address ledger rather than by interpolation after the zero island has
+been selected.
+The no-scale row forbids any unledgered $\mathbb R_{>0}$ gauge in the
+construction.
+\end{definition}
+
+\begin{definition}[Zeta-to-prime-Asano capture]
+\label{def:rh-zeta-to-prime-asano-capture}
+An accepted non-trivial completed zeta zero satisfies
+$$
+\mathsf{ZetaToPrimeAsanoCapture}
+$$
+when there are a golden analytic packet $P_m(s)$, a
+prime--Asano--Ising container $\mathcal Z_m(\mathbf z)$, and a zero
+island $D_m$ containing the zero such that either the Rouch\'e gap
+$$
+\left|
+P_m(s)-\mathcal Z_m(\mathbf z(s))
+\right|
+<
+|P_m(s)|
+\qquad
+s\in\partial D_m
+$$
+holds, or a boundary-nonvanishing homotopy carries $P_m$ to
+$\mathcal Z_m(\mathbf z(s))$ on the same island.  The capture row also
+requires the Zeckendorf or Fibonacci data to appear only as the internal
+ruler and source skeleton of the container.
+\end{definition}
+
+\begin{theorem}[Prime--Asano capture gives fixed-half readout]
+\label{thm:rh-prime-asano-capture-fixed-half-readout}
+If an accepted non-trivial completed zeta zero satisfies
+$\mathsf{ZetaToPrimeAsanoCapture}$, then its readout has real part
+$1/2$.
+\end{theorem}
+
+\begin{proof}
+The capture row supplies a prime--Asano--Ising container with the same
+zero-island winding as the golden analytic packet.  By
+\autoref{def:rh-prime-asano-ising-container}, this container is
+zeta-ray Lee--Yang stable for the active heights, with no unledgered
+real-positive scale gauge.  Applying
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout} gives real part
+$1/2$ for every zero captured on that island.
+\end{proof}
+
+\begin{principle}[Internal ruler is not the final container]
+\label{prin:rh-internal-ruler-not-final-container}
+The golden ruler and Zeckendorf ledger remain internal: they select
+finite modes, supply refinement, and make the source address auditable.
+They do not by themselves create the no-scale thermodynamic stability
+row.  The final stability row is carried by a prime--Asano--Ising,
+Hermite--Biehler, or de Branges container, and the bridge obligation is
+the capture row of
+\autoref{def:rh-zeta-to-prime-asano-capture}.  Thus the active proof
+load is not the existence of an internal ruler alone, but the same-island
+transport from the internally ruled golden packet to a stable container.
+\end{principle}
