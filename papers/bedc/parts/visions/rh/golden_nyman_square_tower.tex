@@ -1,0 +1,359 @@
+\chapter{Golden Nyman Square Tower}
+\label{ch:visions-rh-golden-nyman-square-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-diagonal-schur-square-target} asks for a
+source-side square presentation of the conditional Weil energy rows.
+The Nyman--Beurling Hilbert container gives a more constructive square
+tower: finite positivity is supplied by the ambient space
+$L^2(0,1)$, while the remaining obligation is cofinal exhaustion of the
+constant row.
+
+\begin{definition}[Nyman--Beurling generator]
+\label{def:rh-nyman-beurling-generator}
+For $0<\theta\le1$ and $0<x<1$, define
+$$
+\rho_\theta(x)
+:=
+\left\{\frac{\theta}{x}\right\}
+-
+\theta\left\{\frac{1}{x}\right\},
+$$
+where $\{y\}$ denotes the fractional part of $y$.  Let
+$$
+\mathcal H_{\mathrm{NB}}:=L^2(0,1),
+\qquad
+\mathbf 1(x):=1.
+$$
+\end{definition}
+
+\begin{definition}[Finite Nyman Hilbert container]
+\label{def:rh-finite-nyman-hilbert-container}
+For $N\ge1$, let
+$$
+V_N
+:=
+\operatorname{span}\{\rho_1,\rho_{1/2},\ldots,\rho_{1/N}\}
+\subset \mathcal H_{\mathrm{NB}}.
+$$
+Let $P_N$ be the orthogonal projection onto $V_N$ and define
+$$
+d_N
+:=
+\operatorname{dist}_{L^2}(\mathbf 1,V_N)
+=
+\|\mathbf 1-P_N\mathbf 1\|_2.
+$$
+\end{definition}
+
+\begin{theorem}[Finite Nyman Gram positivity]
+\label{thm:rh-finite-nyman-gram-positivity}
+Let
+$$
+B_N:=
+\left(
+\langle \rho_{1/i},\rho_{1/j}\rangle_{L^2(0,1)}
+\right)_{1\le i,j\le N}.
+$$
+Then $B_N\succeq0$ for every $N$.
+\end{theorem}
+
+\begin{proof}
+For $c=(c_1,\ldots,c_N)\in\mathbb C^N$,
+$$
+c^\ast B_Nc
+=
+\left\|
+\sum_{j=1}^N c_j\rho_{1/j}
+\right\|_2^2
+\ge0.
+$$
+Thus $B_N$ is positive semidefinite.
+\end{proof}
+
+\begin{definition}[Nyman square drop]
+\label{def:rh-nyman-square-drop}
+The $N$th Nyman square drop is
+$$
+\Delta_N^{\mathrm{NB}}
+:=
+d_N^2-d_{N+1}^2.
+$$
+\end{definition}
+
+\begin{theorem}[Nyman drops are Hilbert squares]
+\label{thm:rh-nyman-drops-hilbert-squares}
+For the nested spaces $V_N\subseteq V_{N+1}$,
+$$
+\Delta_N^{\mathrm{NB}}
+=
+\|P_{N+1}\mathbf 1-P_N\mathbf 1\|_2^2
+\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+Since $V_N\subseteq V_{N+1}$, the projection
+$P_{N+1}\mathbf 1-P_N\mathbf 1$ is orthogonal to
+$\mathbf 1-P_{N+1}\mathbf 1$.  Therefore
+$$
+\mathbf 1-P_N\mathbf 1
+=
+(\mathbf 1-P_{N+1}\mathbf 1)
++
+(P_{N+1}\mathbf 1-P_N\mathbf 1)
+$$
+is an orthogonal decomposition.  Pythagoras gives
+$$
+d_N^2
+=
+d_{N+1}^2
++
+\|P_{N+1}\mathbf 1-P_N\mathbf 1\|_2^2,
+$$
+which is the claimed square identity.
+\end{proof}
+
+\begin{definition}[Nyman exhaustion row]
+\label{def:rh-nyman-exhaustion-row}
+The source row
+$$
+\mathsf{NymanBeurlingExhaustion}
+$$
+asserts that
+$$
+\lim_{N\to\infty} d_N=0.
+$$
+Equivalently,
+$$
+\mathbf 1\in
+\overline{
+\operatorname{span}\{\rho_{1/n}:n\ge1\}
+}^{\,L^2(0,1)}.
+$$
+\end{definition}
+
+\begin{definition}[Nyman Mellin bridge row]
+\label{def:rh-nyman-mellin-bridge-row}
+The Nyman Mellin bridge row is the classical identity
+$$
+\int_0^1 \rho_\theta(x)x^{s-1}\,dx
+=
+\frac{(\theta-\theta^s)\zeta(s)}{s},
+\qquad
+0<\operatorname{Re}(s)<1.
+$$
+It is consumed only as an analytic bridge between the Hilbert container
+and the zeta zero ledger.
+\end{definition}
+
+\begin{lemma}[Off-half zero gives a Nyman separator]
+\label{lem:rh-off-half-zero-nyman-separator}
+Assume the Nyman Mellin bridge row.  If $s_0$ is a nontrivial zeta zero
+with $\operatorname{Re}(s_0)>1/2$, then the functional
+$$
+L_{s_0}(f):=
+\int_0^1 f(x)x^{s_0-1}\,dx
+$$
+is continuous on $L^2(0,1)$, vanishes on every $\rho_{1/n}$, and
+satisfies
+$$
+L_{s_0}(\mathbf 1)=\frac{1}{s_0}\ne0.
+$$
+\end{lemma}
+
+\begin{proof}
+Write $\sigma=\operatorname{Re}(s_0)$.  Since $\sigma>1/2$, the kernel
+$x^{\overline{s_0}-1}$ belongs to $L^2(0,1)$, so $L_{s_0}$ is
+continuous by Cauchy--Schwarz.  The Mellin bridge row and
+$\zeta(s_0)=0$ give
+$$
+L_{s_0}(\rho_{1/n})
+=
+\frac{(n^{-1}-n^{-s_0})\zeta(s_0)}{s_0}
+=0
+$$
+for every $n\ge1$.  Direct integration gives
+$$
+L_{s_0}(\mathbf 1)
+=
+\int_0^1 x^{s_0-1}\,dx
+=
+\frac{1}{s_0},
+$$
+which is nonzero for a nontrivial zero.
+\end{proof}
+
+\begin{theorem}[Nyman exhaustion gives fixed-half readout]
+\label{thm:rh-nyman-exhaustion-fixed-half-readout}
+Assume the Nyman Mellin bridge row and the usual reflection consumption
+row for the completed zeta zero ledger.  If
+$$
+\mathsf{NymanBeurlingExhaustion}
+$$
+holds, then the completed zeta zero ledger has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:rh-off-half-zero-nyman-separator}, any zero with
+$\operatorname{Re}(s_0)>1/2$ gives a continuous functional that
+annihilates each $\rho_{1/n}$ but does not annihilate $\mathbf 1$.
+This contradicts
+$$
+\mathbf 1\in
+\overline{
+\operatorname{span}\{\rho_{1/n}:n\ge1\}
+}^{\,L^2(0,1)}.
+$$
+The reflection consumption row then rules out the opposite open side of
+the strip by reflecting it into the side already excluded.  Thus the
+zero ledger reads through the fixed-half surface.
+\end{proof}
+
+\begin{definition}[Golden Nyman square tower]
+\label{def:rh-golden-nyman-square-tower}
+Let $(F_m)_{m\ge1}$ be the Fibonacci scale sequence used by the golden
+resolution ledger.  Define
+$$
+V_m^{\varphi}
+:=
+\operatorname{span}\{\rho_{1/n}:1\le n\le F_m\},
+\qquad
+d_m^{\varphi}:=
+\operatorname{dist}_{L^2}(\mathbf 1,V_m^{\varphi}).
+$$
+The golden Nyman square drops are
+$$
+\Delta_m^{\varphi,\mathrm{NB}}
+:=
+(d_m^{\varphi})^2-(d_{m+1}^{\varphi})^2.
+$$
+\end{definition}
+
+\begin{corollary}[Golden Nyman drops are squares]
+\label{cor:rh-golden-nyman-drops-squares}
+For every $m$,
+$$
+\Delta_m^{\varphi,\mathrm{NB}}
+=
+\|P_{m+1}^{\varphi}\mathbf 1-P_m^{\varphi}\mathbf 1\|_2^2
+\ge0,
+$$
+where $P_m^{\varphi}$ denotes orthogonal projection onto
+$V_m^{\varphi}$.
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:rh-nyman-drops-hilbert-squares} to the nested
+subspaces
+$$
+V_m^{\varphi}\subseteq V_{m+1}^{\varphi}.
+$$
+\end{proof}
+
+\begin{definition}[Golden Nyman Gram exhaustion]
+\label{def:rh-golden-nyman-gram-exhaustion}
+Let
+$$
+G_m^{\varphi}
+:=
+\left(
+\langle \rho_{1/i},\rho_{1/j}\rangle_{L^2(0,1)}
+\right)_{1\le i,j\le F_m}
+$$
+and
+$$
+u_m
+:=
+\left(
+\langle \mathbf 1,\rho_{1/i}\rangle_{L^2(0,1)}
+\right)_{1\le i\le F_m}.
+$$
+The source row
+$$
+\mathsf{GoldenNymanGramExhaustion}
+$$
+asserts the finite matrix limit
+$$
+\lim_{m\to\infty}
+\left(
+1-u_m^\ast (G_m^{\varphi})^+u_m
+\right)
+=0,
+$$
+where $(G_m^{\varphi})^+$ is the Moore--Penrose inverse.
+\end{definition}
+
+\begin{theorem}[Golden Gram row is the golden distance row]
+\label{thm:rh-golden-gram-row-distance-row}
+For every $m$,
+$$
+(d_m^{\varphi})^2
+=
+1-u_m^\ast (G_m^{\varphi})^+u_m.
+$$
+Consequently, $\mathsf{GoldenNymanGramExhaustion}$ is precisely the row
+$d_m^{\varphi}\to0$.
+\end{theorem}
+
+\begin{proof}
+The vector $u_m$ records the inner products of $\mathbf 1$ with the
+finite generator list, and $G_m^{\varphi}$ is the corresponding Gram
+matrix.  The orthogonal projection of $\mathbf 1$ onto
+$V_m^{\varphi}$ has squared norm
+$$
+\|P_m^{\varphi}\mathbf 1\|_2^2
+=
+u_m^\ast (G_m^{\varphi})^+u_m,
+$$
+with the Moore--Penrose inverse handling possible linear dependence in
+the displayed generator list.  Since $\|\mathbf 1\|_2^2=1$ and
+$\mathbf 1-P_m^{\varphi}\mathbf 1$ is orthogonal to
+$P_m^{\varphi}\mathbf 1$, the displayed distance identity follows.
+\end{proof}
+
+\begin{corollary}[Golden Nyman exhaustion gives fixed-half readout]
+\label{cor:rh-golden-nyman-exhaustion-fixed-half-readout}
+Assume the Nyman Mellin bridge row and the usual reflection consumption
+row for the completed zeta zero ledger.  If
+$$
+\mathsf{GoldenNymanGramExhaustion}
+$$
+holds, then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-golden-gram-row-distance-row},
+$\mathsf{GoldenNymanGramExhaustion}$ gives $d_m^{\varphi}\to0$.  Since
+$F_m\to\infty$, the golden spaces form a cofinal reciprocal-parameter
+subtower of the Nyman spaces.  Hence
+$$
+\mathbf 1\in
+\overline{
+\operatorname{span}\{\rho_{1/n}:n\ge1\}
+}^{\,L^2(0,1)}.
+$$
+Apply \autoref{thm:rh-nyman-exhaustion-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Constructive square target]
+\label{prin:rh-golden-nyman-constructive-square-target}
+The Nyman square tower relocates the non-circular part of the finite
+positive-container route.  Finite positive semidefiniteness is no
+longer the active burden: it is the ordinary Hilbert Gram fact
+\autoref{thm:rh-finite-nyman-gram-positivity}.  The active burden is
+the cofinality row
+$$
+\mathsf{GoldenNymanGramExhaustion}.
+$$
+Thus the target chain is
+$$
+\mathsf{GoldenNymanGramExhaustion}
+\Longrightarrow
+\mathsf{NymanBeurlingExhaustion}
+\Longrightarrow
+\text{fixed-half zero readout},
+$$
+with the Mellin bridge and reflection consumption rows displayed as
+analytic interfaces rather than hidden positivity assumptions.
+\end{principle}
