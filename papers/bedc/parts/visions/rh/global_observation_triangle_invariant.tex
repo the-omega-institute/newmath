@@ -362,6 +362,156 @@ leg appearing in
 \autoref{def:rh-zeta-scale-leg-coverage-obstruction}.
 \end{definition}
 
+\begin{definition}[Li-framed observation cylinder]
+\label{def:rh-li-framed-observation-cylinder}
+The Li-framed observation cylinder is
+$$
+\mathcal C_{\mathrm{Li}}
+:=
+S^1_{\theta}\times\mathbb R_{\ell}.
+$$
+A completed zero row with
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}
+$$
+has phase centre line $\theta$ and scale framing $\ell$.  The core
+circle is
+$$
+\mathcal U_{\mathrm{Li}}
+:=
+S^1_{\theta}\times\{0\}.
+$$
+Discrete Li time sends the framed coordinate to
+$$
+z(\rho)^n=e^{n\ell}e^{in\theta},
+$$
+so the phase coordinate winds on $S^1_{\theta}$ while the framing
+coordinate is multiplied by $n$.
+\end{definition}
+
+\begin{definition}[Framed Xi cord]
+\label{def:rh-framed-xi-cord}
+A framed Xi cord is an Xi observation cord whose enclosed completed
+zero row is equipped with the Li-framed lift of
+\autoref{def:rh-li-framed-observation-cylinder}.  It is core-framed
+when its scale framing is zero:
+$$
+\ell=0.
+$$
+It is nonunit-framed when
+$$
+\ell\ne0.
+$$
+The framing is part of the observation ledger: it may be transported
+between Li, Weil, Nyman, and Pick readouts only as the same radial
+coordinate, not as a separately chosen gauge.
+\end{definition}
+
+\begin{theorem}[Off-axis cords are nonunit-framed cords]
+\label{thm:rh-off-axis-cords-nonunit-framed}
+Among closed represented Xi cords with nonzero winding readout, an
+off-axis cord defect is exactly a framed Xi cord with nonunit scale
+framing.
+\end{theorem}
+
+\begin{proof}
+The winding condition is common to both sides of the statement.  The
+remaining distinction is the radial position of the enclosed zero row.
+An off-axis cord defect has centered coordinate
+$$
+w_0=r+it
+$$
+with $r\ne0$.  Under the Li coordinate, the same row is read by
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}.
+$$
+By \autoref{thm:rh-radial-scale-fixed-half-surface}, the condition
+$\ell=0$ is precisely fixed-half readout, and hence $r=0$ on the
+represented zero row.  Therefore $r\ne0$ is equivalent to
+$\ell\ne0$, which is the nonunit-framed condition of
+\autoref{def:rh-framed-xi-cord}.
+\end{proof}
+
+\begin{definition}[Framed Li closure defect]
+\label{def:rh-framed-li-closure-defect}
+For a framed Xi cord with Li coordinate
+$$
+z=e^{\ell+i\theta},
+$$
+the $n$th framed Li closure defect is
+$$
+\Delta_n(z):=1-z^n.
+$$
+Its squared size decomposes as
+$$
+|\Delta_n(z)|^2
+=
+(e^{n\ell}-1)^2
++
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+The first summand is the framing-energy row, and the second summand is
+the phase-winding row.
+\end{definition}
+
+\begin{principle}[Framing energy cannot be cancelled by phase winding]
+\label{prin:rh-framing-energy-no-phase-cancellation}
+The decomposition of
+\autoref{def:rh-framed-li-closure-defect} is a Pythagorean readout in
+the Li-framed cylinder.  A nonzero scale framing contributes the
+nonnegative term
+$$
+(e^{n\ell}-1)^2.
+$$
+The phase row contributes
+$$
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+Since these terms occupy orthogonal readout rows, phase winding cannot
+erase a nonzero framing-energy row.  The legal route must either
+display that energy in a projection ledger or rule out the nonunit
+framing at the source side.
+\end{principle}
+
+\begin{definition}[Zeta framed cord triviality]
+\label{def:rh-zeta-framed-cord-triviality}
+The source row
+$$
+\mathsf{ZetaFramedCordTriviality}
+$$
+asserts that every represented closed Xi observation cord legal for the
+global triangle and carrying nonzero winding readout is core-framed in
+the sense of \autoref{def:rh-framed-xi-cord}.  Equivalently, every such
+cord has
+$$
+\ell=0.
+$$
+This is a source-side triviality row for the Li framing; it does not
+assert that all analytic zero rows are already covered by the global
+triangle.
+\end{definition}
+
+\begin{theorem}[Framed cord triviality gives fixed-half readout]
+\label{thm:rh-framed-cord-triviality-fixed-half-readout}
+Assume $\mathsf{ZetaFramedCordTriviality}$ and the zero-coverage row
+that represents each completed critical-strip zero by a legal closed Xi
+observation cord with nonzero winding readout enclosing its zero row.
+each represented completed critical-strip zero has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be a represented completed critical-strip zero.  The
+zero-coverage row supplies a legal closed Xi observation cord whose
+winding readout encloses the zero row of $\rho$.  By
+$\mathsf{ZetaFramedCordTriviality}$, the associated framed cord is
+core-framed, so its Li scale coordinate satisfies
+$$
+\ell(\rho)=0.
+$$
+By \autoref{thm:rh-radial-scale-fixed-half-surface}, this is precisely
+fixed-half readout for $\rho$.
+\end{proof}
+
 \begin{principle}[Cord invariants are triadic invariants]
 \label{prin:rh-cord-invariants-triadic}
 The three sides of the global observation triangle read an off-axis cord
