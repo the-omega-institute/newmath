@@ -50,6 +50,50 @@ The regular-readback handoff is carried by $R$ and $B$. These rows bind the stre
 The extension rows $E$ and $U$ then record existence and uniqueness only over the fixed $D,S,R,B$ coordinates. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that route and provide no coordinate for the excluded principles.
 \end{proof}
 
+\begin{theorem}[Real completion universal-property carrier rows]
+\label{thm:real-completion-universal-property-carrier-rows}
+Every accepted $\RealCompletionUniversalPropertyUp$ carrier displays exactly the rows
+$$
+D,S,R,B,E,U,H,C,P,N
+$$
+of \autoref{def:real-completion-universal-property-carrier} before the NameCert obligations of \autoref{thm:real-completion-universal-property-namecert-obligations} can be read. The dense source, stream windows, regular readback, Bishop completion handoff, completion-interface extension, and universal-property rows are therefore public only as one finite route.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. It names $D,S,R,B,E,U,H,C,P,N$ as the full packet, with no coordinate for a quotient stream, selected completed point, host equality, or ambient completeness theorem.
+
+Apply the NameCert obligation theorem. Its seven obligation rows are indexed by the same carrier coordinates, so each public universal-property read must expose the dense source, finite windows, readback, completion handoff, extension row, and uniqueness route in that order.
+
+The structural rows preserve the displayed packet. They replay and name the route already present in the carrier rather than adding a second completion principle.
+\end{proof}
+
+\begin{theorem}[Real completion universal-property extension route]
+\label{thm:real-completion-universal-property-extension-route}
+Let $G=(D,S,R,B,E,U,H,C,P,N)$ be an accepted $\RealCompletionUniversalPropertyUp$ carrier. Any completion-facing extension read from $G$ must consume $\DyadicRatCoreUp$ through $D$, $\StreamNameUp$ through $S$, $\RegSeqRatUp$ through $R$, and the Bishop completion row through $B$ before the completion-interface row $E$ and universal-property row $U$ are public.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{thm:real-completion-universal-property-carrier-rows}. The dense dyadic row $D$, finite stream row $S$, regular readback row $R$, and Bishop completion row $B$ are the entrance rows of the packet.
+
+Use the obligation theorem \autoref{thm:real-completion-universal-property-namecert-obligations}. Dense-source exposure, stream-window exactness, and regular-readback handoff force an extension read to consume those sibling rows before the completion-interface row is inspected.
+
+The extension rows $E$ and $U$ then record the public extension and uniqueness route over the same $D,S,R,B$ coordinates. The structural rows $H,C,P,N$ keep the route local to the carrier.
+\end{proof}
+
+\begin{theorem}[Real completion universal-property nonescape]
+\label{thm:real-completion-universal-property-nonescape}
+Every public $\RealCompletionUniversalPropertyUp$ universal-property read factors through the carrier rows
+$$
+D,S,R,B,E,U,H,C,P,N
+$$
+and through the extension route of \autoref{thm:real-completion-universal-property-extension-route}. It cannot export quotient streams, selected limits, host equality, countable choice, ambient $\RealUp$ completeness, or a detached universal-property principle outside the displayed dense-source and completion-interface rows.
+\end{theorem}
+\begin{proof}
+Combine the carrier-row theorem with the extension route theorem. Together they force the public read through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, the Bishop completion row, the completion-interface row, and the universal-property row.
+
+Apply the non-escape obligation from \autoref{thm:real-completion-universal-property-namecert-obligations}. The only remaining rows are transport, replay, provenance, and local naming, and each preserves the displayed route.
+
+Since the carrier stores no quotient stream, selected limit, host equality, choice schedule, ambient completeness theorem, or detached adjunction datum, none can be exported by a public universal-property consumer.
+\end{proof}
+
 \begin{theorem}[Real completion universal-property obligation upgrade]
 \label{thm:real-completion-universal-property-obligation-upgrade}
 For every accepted $\RealCompletionUniversalPropertyUp$ carrier $G=(D,S,R,B,E,U,H,C,P,N)$, the seven obligation rows of \autoref{thm:real-completion-universal-property-namecert-obligations} form the obligation surface for $\RealCompletionUniversalPropertyUp$ over $D,S,R,B,E,U,H,C,P,N$. They are not merely seed prose: carrier admission, dense-source exposure, stream-window exactness, regular-readback handoff, extension existence, extension uniqueness, and non-escape together determine the public universal-property route for completion-facing consumers without quotient streams, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness.
