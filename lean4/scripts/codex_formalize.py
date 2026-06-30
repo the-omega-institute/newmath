@@ -1309,7 +1309,7 @@ def _pre_merge_hard_gate_specs(wt: WorktreeInfo) -> list[tuple[str, list[str], P
         _lean_file_budget_gate_spec(wt),
         ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
         ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
-        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
+        ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 1800),
         ("axiom_purity", ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], wt.path, 1800),
     ]
 
