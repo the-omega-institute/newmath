@@ -17565,6 +17565,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-30T14:38:04+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-30T14:38:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1ea49030a2e7",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -30053,6 +30070,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-30T14:38:05+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-30T14:38:33+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "fb4ce91c4c08",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -30426,7 +30460,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Cross-organism scaling of codon->protein-abundance crossing STRENGTH with an independent growth-rate trait (translational-selection theory test; a meta axis beyond organism_specificity_meta, which controls only domain/GC3/tRNA-pool/proteome-size and never growth rate). On a 20-organism data-complete panel (strength = 5-fold held-out R^2 of the 9-coordinate B*_Q6 synonymous-codon block over log10 abundance after length + 20-aa-composition + GC3 controls), crossing strength scales NEGATIVELY with an independent curated minimum doubling time: BARE Spearman rho = -0.578 (n=20, permutation p=0.0090, B=20000) -- faster-growing organisms have STRONGER codon->abundance crossings (Sharp/Rocha translational-selection direction). The signal SURVIVES controlling GC3 + log(tRNA-pool): PARTIAL Spearman rho = -0.545 (n=17 with tRNA data, p=0.0378) -- NOT a GC3/tRNA-pool shadow. Verdict crosses_boundary (partial p<0.05 AND |rho|>=0.10). Panel expanded from the original 16 organisms by 5 backend-built species (Campylobacter jejuni, Salmonella Typhimurium, S. aureus, M. tuberculosis [~24 h slow-grower, the slow-end anchor], K. pneumoniae) from NCBI RefSeq CDS+GFF + PaxDb; tRNA-pool for the new species from NCBI RefSeq GFF tRNA annotation (vs GtRNAdb for the original 16 -- a control-covariate source-mix, validated E. coli GFF=86 vs GtRNAdb=90). Data-driven EXCLUSIONS (transparent, not result-driven): arabidopsis_thaliana (0 usable abundance-join genes in repo data), corynebacterium_glutamicum / deinococcus_radiodurans / helicobacter_pylori (PaxDb join below the experiment's own MIN_GENES_PER_ORGANISM=500 coverage gate). CRITICAL caveats -- this is a SUGGESTIVE promotion, NOT a phylogenetically-established result: (1) PHYLOGENETIC ROBUSTNESS TESTED (companion analysis_phylo_growth_scaling.py, deterministic): the scaling SURVIVES coarse phylogenetic controls -- a DOMAIN-stratified permutation null (shuffle doubling within Bacteria/Archaea/Eukaryote blocks) gives p=0.028, the clade-aggregated correlation (one mean per phylum, n=9 clades) is -0.61, and it is robust to dropping Gammaproteobacteria (-0.46) or Actinobacteria (-0.50). BUT it is LINEAGE-DEPENDENT, NOT universal: within EUKARYOTES the partial is strong (-0.64, n=8) while within BACTERIA it FLIPS sign (+0.22, n=8) -- the negative scaling is EUKARYOTE-DRIVEN and does NOT hold within bacteria; a full PIC/PGLS tree-aware correction remains undone (stdlib); (2) the PARTIAL p=0.0378 is MARGINAL (just below 0.05) -- the BARE p=0.0090 is the more robust anchor; (3) doubling-time is a heterogeneous lab-optimal/cell-cycle proxy; (4) observational, not causal; (5) strength depends on the B*_Q6 coordinate block + control design. Promotion to a firm result needs PGLS phylogenetic correction + more non-gammaproteobacterial fast-growers.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "codon_abundance_crossing_strength_growth_rate_scaling",
       "history": [
         {
@@ -30607,8 +30641,21 @@
           "ts": "2026-06-30T14:35:40+00:00",
           "status": "open",
           "note": "phylogenetic robustness tested (analysis_phylo_growth_scaling.py): survives domain-stratified perm p=0.028 + clade-aggregate -0.61 + clade-drops, but eukaryote-driven (within-euk -0.64, within-bact +0.22 sign-flip) = lineage-dependent not universal"
+        },
+        {
+          "ts": "2026-06-30T14:40:57+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "58123b33ea7a",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "92aa2b631d7996cf"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.rank-admissible.translation-survival-gate.cross-layer"
     }
   ]
 }
