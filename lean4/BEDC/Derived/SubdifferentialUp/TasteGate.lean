@@ -213,4 +213,46 @@ theorem SubdifferentialCarrier_namecert_obligations [AskSetup] [PackageSetup]
       coneUnary, supportReadUnary, stationarityReadUnary, supportRoute, stationarityRoute,
       provenancePkg⟩
 
+theorem SubdifferentialCarrier_support_inequality_exactness [AskSetup] [PackageSetup]
+    {functional point covector pairing support epigraph cone transport replay provenance name
+      supportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubdifferentialCarrier functional point covector pairing support epigraph cone transport
+        replay provenance name bundle pkg →
+      Cont pairing support supportRead →
+        UnaryHistory pairing ∧ UnaryHistory support ∧ UnaryHistory supportRead ∧
+          Cont pairing support supportRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier supportRoute
+  obtain ⟨_functionalUnary, _pointUnary, _covectorUnary, pairingUnary, supportUnary,
+    _epigraphUnary, _coneUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _epigraphRoute, _replayRoute, provenancePkg⟩ := carrier
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed pairingUnary supportUnary supportRoute
+  exact ⟨pairingUnary, supportUnary, supportReadUnary, supportRoute, provenancePkg⟩
+
+theorem SubdifferentialCarrier_epigraph_fenchel_handoff [AskSetup] [PackageSetup]
+    {functional point covector pairing support epigraph cone transport replay provenance name
+      supportRead epigraphRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubdifferentialCarrier functional point covector pairing support epigraph cone transport
+        replay provenance name bundle pkg →
+      Cont pairing support supportRead →
+        Cont support epigraph epigraphRead →
+          UnaryHistory epigraph ∧ UnaryHistory supportRead ∧ UnaryHistory epigraphRead ∧
+            Cont pairing support supportRead ∧ Cont support epigraph epigraphRead ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier supportRoute epigraphRoute
+  obtain ⟨_functionalUnary, _pointUnary, _covectorUnary, pairingUnary, supportUnary,
+    epigraphUnary, _coneUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _storedEpigraphRoute, _storedReplayRoute, provenancePkg⟩ := carrier
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed pairingUnary supportUnary supportRoute
+  have epigraphReadUnary : UnaryHistory epigraphRead :=
+    unary_cont_closed supportUnary epigraphUnary epigraphRoute
+  exact
+    ⟨epigraphUnary, supportReadUnary, epigraphReadUnary, supportRoute, epigraphRoute,
+      provenancePkg⟩
+
 end BEDC.Derived.SubdifferentialUp
