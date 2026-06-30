@@ -1,0 +1,10 @@
+{
+  "dev_rollup": {
+    "enabled": true,
+    "head_branch": "feat/window-codon-bridge",
+    "base_branch": "dev",
+    "remote": "origin",
+    "min_seconds_between": 600,
+    "comment": "Forward feat->dev rollup. The dev_rollup_lane delegates to tools/sync_with_auto_dev.py --source-branch <head_branch> --target-branch <base_branch>: Loning's managed-rollup builds an isolated worktree from origin/dev, merges our feat branch in (codex-resolving conflicts, regenerating lean4/BEDC.lean), pushes a separate rollup-<head>-to-<base> branch, maintains one PR into dev, and auto-merges once green and mergeable. Content-delta gated on the three-dot diff to avoid the empty-PR deadlock (a feat only commit-count ahead via dev-sync merge commits has no content diff; rolling it up makes a PR that triggers no CI and never goes green, blocking the script from rebuilding). The reverse dev->feat direction is handled by dev_sync_lane."
+  }
+}
