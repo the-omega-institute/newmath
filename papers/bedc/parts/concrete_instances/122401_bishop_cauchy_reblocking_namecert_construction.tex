@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyReblockingUp$}
+\label{ch:concrete-instances-bishop-cauchy-reblocking-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\BishopCauchyReblockingUp$ packet records the finite L10 handoff by which a displayed regular rational Cauchy name is reblocked before a real-name consumer may inspect its endpoint. It sits beside the general reblocking carrier of \autoref{ch:concrete-instances-cauchy-reblocking-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite displayed rows of the Bishop-style reblocking route; it does not assert quotient equality of real names, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopCauchyReblocking carrier]
+\label{def:bishop-cauchy-reblocking-carrier}
+A $\BishopCauchyReblockingUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,W,K,T,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RegSeqRatUp$ row whose regular Cauchy readings are being reblocked.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing the source observations consumed by the reblocking schedule.
+\item $K$ is the finite block schedule row, listing the displayed block endpoints and their monotone order.
+\item $T$ is the Bishop tail-control row, assigning each L10 tolerance request to a displayed block after which all later reads remain inside the required dyadic bound.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii, comparisons, and arithmetic cells used by $T$.
+\item $L$ is the L10 handoff row, stating that a Real-facing consumer may read the reblocked name only after $R,W,K,T,D$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the source, window, schedule, tail-control, tolerance, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $R,W,K,T,D,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyReblockingUp$, $\CauchyReblockingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyReblockingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,K,T,D,L,H,C,P,N$. No coordinate stores a completed real, a quotient representative, a selected limit, a countable-choice schedule, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopCauchyReblocking NameCert obligations]
+\label{thm:bishop-cauchy-reblocking-namecert-obligations}
+For every accepted $\BishopCauchyReblockingUp$ carrier $B=(R,W,K,T,D,L,H,C,P,N)$, the local $\NameCert_{\BishopCauchyReblockingUp}$ surface consists exactly of carrier admission, regular-source preservation, finite-window exposure, block-schedule exactness, Bishop tail-control exactness, dyadic tolerance readback, L10 handoff gating, transport, replay, provenance, and local naming. A downstream $\RealUp$ consumer may inspect the reblocked name only through those rows and receives no quotient equality, selected endpoint, countable choice, trichotomy branch, or ambient real completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-cauchy-reblocking-carrier}. The rows $R,W,K,T,D,L,H,C,P,N$ display the source regular sequence, finite stream window, block schedule, tail control, dyadic tolerance ledger, L10 handoff, transport, replay, provenance, and local naming.
+
+Regular-source preservation and finite-window exposure are forced by $R$ and $W$. The reblocking schedule cannot be read until the same source observations have been displayed through the stream-name row.
+
+Block-schedule exactness and Bishop tail-control exactness are supplied by $K$ and $T$. The dyadic row $D$ records the tolerance cells used by the tail control, and the handoff row $L$ requires those displayed rows before any Real-facing read.
+
+The remaining rows transport, replay, cite, and name the same route. Since the carrier has no coordinate for a completed endpoint, quotient representative, selected limit, choice schedule, trichotomy branch, or ambient completeness theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[BishopCauchyReblocking L10 handoff]
+\label{thm:bishop-cauchy-reblocking-l10-handoff}
+Every L10-facing read exported by an accepted $\BishopCauchyReblockingUp$ carrier factors through
+$$
+R,W,K,T,D,L,H,C,P,N .
+$$
+Thus the handoff to $\RealUp$ is a finite Bishop-style reblocking of the source $\RegSeqRatUp$ row through a displayed $\StreamNameUp$ window, finite block schedule, dyadic tolerance ledger, componentwise transport, replay, provenance, and local naming. It is not a separate completion, selected host limit, quotient equality of Cauchy names, or countable-choice principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(R,W,K,T,D,L,H,C,P,N)$. The only source of rational Cauchy data is $R$, and the only displayed observations of that source are exposed by $W$.
+
+The block schedule $K$ and tail-control row $T$ choose the finite reblocking route for each L10 tolerance request. The dyadic tolerance row $D$ records the comparisons consumed by that route, and the handoff row $L$ blocks a Real-facing read until the route is visible.
+
+Transport and replay through $H$ and $C$ preserve the same rows, while $P$ and $N$ record provenance and local naming. Therefore every L10-facing read factors through the stated finite packet and cannot acquire an independent completion or selected endpoint.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BishopCauchyReblockingUp$ read is refuted if it reaches a $\RealUp$ seal without displaying the $\RegSeqRatUp$ source row, $\StreamNameUp$ finite window, finite block schedule, Bishop tail-control row, $\DyadicRatCoreUp$ tolerance ledger, L10 handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+
+\independenceWitness{cauchy-reblocking, streamname, regseqrat, dyadicratcore, real: $\BishopCauchyReblockingUp$ is not bijective to any listed sibling because it binds a regular rational source, finite stream window, block schedule, Bishop tail-control row, dyadic tolerance ledger, and L10 handoff gate into one Real-facing NameCert packet.}
+
+\closureat{BishopCauchyReblockingUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyReblockingUp}
+  \constructivestory{A $\BishopCauchyReblockingUp$ packet is generated from a RegSeqRat source row, StreamName finite window, finite block schedule, Bishop tail-control row, DyadicRatCore tolerance ledger, L10 handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-reblocking-carrier}, \autoref{thm:bishop-cauchy-reblocking-namecert-obligations}, and \autoref{thm:bishop-cauchy-reblocking-l10-handoff} seed the finite Bishop-style Cauchy reblocking handoff before any Real seal is consumed.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of Cauchy names, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-source preservation, finite-window exposure, block-schedule exactness, Bishop tail-control exactness, dyadic tolerance readback, L10 handoff gating, transport, replay, provenance, and local naming for BEDC.Derived.BishopCauchyReblockingUp.}
+\end{closurestatus}
