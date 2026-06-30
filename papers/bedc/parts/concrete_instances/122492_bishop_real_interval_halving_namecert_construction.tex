@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealIntervalHalvingUp$}
+\label{ch:concrete-instances-bishop-real-interval-halving-namecert}
+\origin{human}
+
+Following Bishop and Bridges, interval halving is a finite located-interval operation used to keep a constructive real search inside explicit rational bounds. The $\BishopRealIntervalHalvingUp$ packet isolates that operation as L10 NameCert data after the dyadic carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence packet of \autoref{ch:concrete-instances-regseqrat-namecert}, the constructive real packet of \autoref{ch:concrete-instances-real-namecert}, and the located-real surface of \autoref{ch:concrete-instances-locatedreal-namecert}.
+
+\begin{definition}[BishopRealIntervalHalving carrier]
+\label{def:bishop-real-interval-halving-carrier}
+A $\BishopRealIntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,U,M,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower dyadic endpoint row;
+\item $U$ is the upper dyadic endpoint row;
+\item $M$ is the dyadic midpoint row, read as the exact average of $L$ and $U$ inside the dyadic carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert};
+\item $S$ is the selected-half row, choosing either the lower half $[L,M]$ or the upper half $[M,U]$ from displayed located evidence;
+\item $D$ is the dyadic tolerance row recording the radius before and after one halving step;
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected endpoint sequence;
+\item $E$ is the $\RealUp$ seal row, asserting that the selected half remains inside the same constructive-real envelope;
+\item $H$ records componentwise $\hsame$ transport for endpoint, midpoint, selected-half, tolerance, readback, seal, replay, provenance, and local certificate rows;
+\item $C$ records displayed $\Cont$ routes for endpoint inspection, midpoint replay, selected-half handoff, tolerance decrease, regular-sequence readback, real-seal replay, and consumer use;
+\item $P$ is the provenance row over the cited dyadic, stream-name, regular-sequence, real, and located-real siblings;
+\item $N$ is the local $\NameCert_{\BishopRealIntervalHalvingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for trichotomy, Heine--Borel compactness, quotient-real equality, global choice of nested intervals, or countable choice. It records one finite bisection step with all endpoints, tolerance, readback, seal, transport, replay, provenance, and naming rows visible.
+\end{definition}
+
+\begin{theorem}[BishopRealIntervalHalving NameCert obligations]
+\label{thm:bishop-real-interval-halving-namecert-obligations}
+For the carrier of \autoref{def:bishop-real-interval-halving-carrier}, the local $\NameCert_{\BishopRealIntervalHalvingUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item midpoint exactness: $M$ is displayed as the dyadic midpoint of the endpoint rows $L$ and $U$;
+\item selected-half containment: the selected row $S$ names either $[L,M]$ or $[M,U]$ and remains contained in the original located interval;
+\item dyadic radius decrease: the tolerance row $D$ records the halved radius of the selected interval;
+\item Real seal nonescape: the seal row $E$ keeps the selected half inside the same $\RealUp$ envelope read through $R$;
+\item provenance exhaustion: the rows $H,C,P,N$ replay only the dyadic endpoint, StreamName, RegSeqRat, Real, LocatedReal, transport, continuation, package, and local NameCert sources displayed in $K$.
+\end{enumerate}
+The obligations produce a finite bisection certificate, not an interval-completeness theorem, trichotomy principle, Heine--Borel theorem, quotient-real construction, uniform search over arbitrary predicates, or countable-choice principle.
+\end{theorem}
+\begin{proof}
+The midpoint obligation is read directly from the $M$ row together with the dyadic endpoint rows $L$ and $U$. Since all three rows are part of the finite packet, no external real-number quotient or hidden completion operation is required to name the midpoint.
+
+The selected-half and radius obligations are the rows $S$ and $D$. The selected half is one of the two displayed dyadic subintervals, and the tolerance row records that this subinterval has the halved radius.
+
+The readback and seal obligations are the rows $R$ and $E$. The regular rational sequence readback supplies the finite endpoint data consumed by the constructive-real seal, while the seal records nonescape inside the same real envelope.
+
+Finally, $H,C,P,N$ exhaust the transport, replay, provenance, and naming rows. They cite only the dyadic, stream-name, regular-sequence, real, located-real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surfaces already displayed in the packet, so the certificate exports a single finite halving step and none of the refused global principles.
+\end{proof}
+
+\closureat{BishopRealIntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealIntervalHalvingUp}
+  \constructivestory{A $\BishopRealIntervalHalvingUp$ packet is generated from dyadic endpoints, an exact midpoint, a selected half, a dyadic tolerance row, RegSeqRat readback, a Real seal, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-interval-halving-carrier} and \autoref{thm:bishop-real-interval-halving-namecert-obligations} bind the finite interval-halving carrier and its midpoint, containment, radius, seal, and provenance obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close interval completeness, trichotomy, Heine--Borel compactness, quotient-real equality, uniform predicate search, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Formalization requires a future Lean carrier and theorem under BEDC.Derived.BishopRealIntervalHalvingUp for midpoint exactness, selected-half containment, dyadic radius decrease, Real seal nonescape, and provenance exhaustion.}
+\end{closurestatus}

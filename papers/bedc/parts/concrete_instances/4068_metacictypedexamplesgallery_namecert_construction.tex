@@ -45,6 +45,22 @@ The checker handoff is the row $K$, and every read of $K$ is replayed through th
 Finally read provenance through $P$ and local naming through $M$. Since the carrier has no coordinate for subject reduction, confluence, normalization, or conversion decidability, the gallery obligations are exhausted by the finite example rows and their checker-acceptance routes.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery obligation surface]
+\label{thm:metacic-typedexamples-gallery-obligation-surface}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the obligation surface consists exactly of the Church Bool row $B$, Church Nat row $N$, Church List row $L$, Church Sum row $S$, equality row $E$, identity row $I$, application row $A$, beta-redex row $R$, checker-acceptance row $K$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row $M$. It excludes subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, and checker completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The rows $B,N,L,S,E,I,A,R$ are the only example-family rows, and $K$ is the only checker-acceptance row attached to them.
+
+The structural support is also displayed. Componentwise transport is read through $H$, replay through $C$, provenance through $P$, and local naming through $M$.
+
+There is no carrier coordinate for subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness. Therefore the obligation surface is bounded by exactly the displayed rows.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery regression surface]
 \label{thm:metacic-typedexamples-gallery-regression-surface}
 An accepted $\MetaCICTypedExamplesGalleryUp$ packet is a finite regression surface for represented syntax and typing. Consumers may inspect the Church Bool, Nat, List, Sum, equality, identity, application, beta-redex, checker-acceptance, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, but they cannot read the packet as a subject-reduction theorem, a confluence theorem, a normalization theorem, or a decidability theorem.
