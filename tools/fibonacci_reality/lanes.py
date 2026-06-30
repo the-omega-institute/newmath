@@ -3146,7 +3146,15 @@ def run_sync_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     merge_attempted = False
     merge_status = "skipped"
     merge_sha = ""
-    if behind_before_sync > 0:
+    # divergent fork 同步契约: 默认仍允许 merge (bio_reality 引擎正常 catch-up), 但本 fork 与
+    # origin/dev 永久分叉数千 commit, 每 cycle merge 必然巨量冲突, abort 残渣把 dev 全树叠进活动
+    # 工作树并累积 orphan autostash. merge_enabled=false 时退化为 fetch + intelligence 抽取 only
+    # (intelligence 段在此块之上, 自动保留), 不再向主工作树写入, 保证 daemon 幂等.
+    merge_enabled = bool(config.get("merge_enabled", True))
+    if behind_before_sync > 0 and not merge_enabled:
+        merge_status = "skipped_read_only"
+        _append_sync_log(store, "merge_skipped_read_only", {"ref": compare_ref, "behind_before_sync": behind_before_sync, "upstream_sha": upstream_sha})
+    elif behind_before_sync > 0:
         merge_attempted = True
         # bio-S 时工作树常带 runtime drift + daemon 生成的 untracked 草稿 (尤其 papers/bedc
         # dispatch). auto-dev 常带与之重名的 tracked 新文件 → git merge 因 "untracked working
