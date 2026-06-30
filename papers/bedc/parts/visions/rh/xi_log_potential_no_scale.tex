@@ -1,0 +1,172 @@
+\chapter{Xi Log-Potential No-Scale Field}
+\label{ch:visions-rh-xi-log-potential-no-scale}
+\origin{ai}
+
+\autoref{ch:visions-rh-triadic-pythagorean-obstruction} records the
+observation-vector form of the scale defect.  The same obstruction has a
+global analytic readout through the centered completed zeta potential.
+This chapter names that readout and connects it to the Herglotz and
+Stieltjes targets of
+\autoref{ch:visions-rh-li-weil-herglotz-target}.
+
+\begin{definition}[Centered xi log-potential]
+\label{def:rh-centered-xi-log-potential}
+Let
+$$
+F_\xi(w):=\xi\left(\frac12+w\right),
+\qquad
+w=x+iy.
+$$
+On the nonzero locus of $F_\xi$, define the log-potential
+$$
+u_\xi(w):=\log|F_\xi(w)|.
+$$
+The coordinate $x$ is the centered scale direction, and $y$ is the
+centered phase-time direction.
+\end{definition}
+
+\begin{definition}[Xi log-potential gradient energy]
+\label{def:rh-xi-log-potential-gradient-energy}
+On the nonzero locus of $F_\xi$, define the observation gradient row
+$$
+\nabla u_\xi(w)
+:=
+(\partial_xu_\xi(w),\partial_yu_\xi(w)).
+$$
+Its Pythagorean energy decomposition is
+$$
+\mathcal E_\xi(w)
+:=
+|\nabla u_\xi(w)|^2
+=
+(\partial_xu_\xi(w))^2+(\partial_yu_\xi(w))^2.
+$$
+The scale component is
+$$
+\mathcal E_{\xi,\mathrm{scale}}(w)
+:=
+(\partial_xu_\xi(w))^2.
+$$
+\end{definition}
+
+\begin{principle}[Holomorphic coordinates are orthogonal]
+\label{prin:rh-holomorphic-coordinates-orthogonal}
+Where a local branch of $\log F_\xi$ exists, write
+$$
+\log F_\xi=u_\xi+iv_\xi.
+$$
+The Cauchy--Riemann equations give the orthogonality of the potential and
+phase gradients.  Thus the centered analytic carrier supplies the same
+orthogonal scale and phase coordinates as the observation-vector row of
+\autoref{def:rh-observation-vector-decomposition}.
+\end{principle}
+
+\begin{definition}[Xi no-scale-demon row]
+\label{def:rh-xi-no-scale-demon-row}
+The source row
+$$
+\mathsf{XiNoScaleDemon}
+$$
+asserts
+$$
+\partial_xu_\xi(x+iy)\ge0
+\qquad
+(x>0,\ F_\xi(x+iy)\ne0).
+$$
+Equivalently,
+$$
+\operatorname{Re}
+\frac{F_\xi'(w)}{F_\xi(w)}
+\ge0
+\qquad
+(\operatorname{Re}(w)>0).
+$$
+Under $s=1/2+w$, this is the positive-real row
+$\mathsf{XiLogDerivativeHerglotz}$ of
+\autoref{def:rh-xi-log-derivative-herglotz-row}.
+\end{definition}
+
+\begin{theorem}[Off-fixed-half zero creates negative scale flow]
+\label{thm:rh-off-fixed-half-zero-negative-scale-flow}
+Suppose $F_\xi$ has a zero $w_0=x_0+iy_0$ of multiplicity $m\ge1$ with
+$x_0>0$.  Then $\partial_xu_\xi(w)<0$ at points of the right half-plane
+arbitrarily close to $w_0$.
+\end{theorem}
+
+\begin{proof}
+Near $w_0$,
+$$
+F_\xi(w)=(w-w_0)^m g(w),
+\qquad
+g(w_0)\ne0.
+$$
+Hence
+$$
+u_\xi(w)=m\log|w-w_0|+\log|g(w)|.
+$$
+Take $w=w_0-\varepsilon$ with $\varepsilon>0$ real and sufficiently
+small.  Then $w$ remains in the right half-plane and
+$$
+\partial_xu_\xi(w)
+=
+m\frac{x-x_0}{|w-w_0|^2}+O(1)
+=
+-\frac{m}{\varepsilon}+O(1),
+$$
+which is negative for small enough $\varepsilon$.
+\end{proof}
+
+\begin{theorem}[No-scale-demon row gives fixed-half readout]
+\label{thm:rh-xi-no-scale-demon-fixed-half-readout}
+Assume $\mathsf{XiNoScaleDemon}$ and the usual reflection consumption row
+for the completed zeta zero ledger.  Then the completed zeta zero ledger
+has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+If a completed zero had centered coordinate $w_0$ with
+$\operatorname{Re}(w_0)>0$, then
+\autoref{thm:rh-off-fixed-half-zero-negative-scale-flow} would give a
+right-half-plane point where
+$$
+\partial_xu_\xi<0,
+$$
+contradicting $\mathsf{XiNoScaleDemon}$.  The reflection consumption row
+excludes the opposite open side by reflecting any such zero into the
+right half-plane.  Thus every accepted completed zero reads through the
+fixed-half surface.
+\end{proof}
+
+\begin{theorem}[Stieltjes source row supplies no-scale demon]
+\label{thm:rh-stieltjes-supplies-no-scale-demon}
+If $\mathsf{XiStieltjesLogDerivative}$ holds, then
+$$
+\mathsf{XiNoScaleDemon}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-xi-stieltjes-gives-xi-herglotz},
+$\mathsf{XiStieltjesLogDerivative}$ gives
+$\mathsf{XiLogDerivativeHerglotz}$.  Under the centered coordinate
+$s=1/2+w$, this is exactly the positive-real inequality in
+\autoref{def:rh-xi-no-scale-demon-row}.
+\end{proof}
+
+\begin{principle}[Log-potential field as the global Pythagorean target]
+\label{prin:rh-log-potential-global-pythagorean-target}
+The log-potential row is the global field version of the finite
+observation-vector identity.  A local active mode records the scale leg
+as $-r h_a$ and yields the finite energy $r^2W_m$; the centered
+potential records the same leg as $\partial_x\log|F_\xi|$.  A zero away
+from the fixed line is therefore a scale source or sink in the potential
+field.  The source-side positive spectral target is
+$$
+\mathsf{XiStieltjesLogDerivative}
+\Longrightarrow
+\mathsf{XiNoScaleDemon}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}

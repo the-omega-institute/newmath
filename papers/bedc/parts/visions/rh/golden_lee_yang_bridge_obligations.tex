@@ -1,0 +1,595 @@
+\chapter{Golden Lee--Yang Bridge Obligations}
+\label{ch:visions-rh-golden-lee-yang-bridge-obligations}
+\origin{ai}
+
+\autoref{ch:visions-rh-resolution-refinement-induction} supplies the
+golden ruler, the Zeckendorf truncation ledger, and weak eta
+Rouch\'e capture.  The present chapter isolates the source rows needed
+to turn that weak capture into a Lee--Yang type boundary-stable packet.
+The bridge is a source theorem about the same zero island; it is not a
+restatement of fixed-half readout.
+
+\begin{definition}[Fibonacci path carrier]
+\label{def:rh-fibonacci-path-carrier}
+For a width $m$, let $X_m$ be the stable Zeckendorf window of
+\autoref{def:zeckendorf-stable-window}.  A \emph{Fibonacci path carrier}
+is the finite hard-core packet
+$$
+I_m(t):=\sum_{z\in X_m} t^{|z|},
+\qquad
+|z|:=\sum_{k=1}^{m}z_k.
+$$
+Equivalently, $X_m$ is the independent-set carrier of the path graph on
+$m$ vertices.  The no-adjacent Zeckendorf grammar therefore supplies a
+finite path-model source row, but this row is only combinatorial until
+it is tied to a completed zeta zero island.
+\end{definition}
+
+\begin{definition}[Lee--Yang lift certificate]
+\label{def:rh-lee-yang-lift-certificate}
+Let $A(t)$ be a finite path-model polynomial of degree $d$.  Its
+Joukowsky lift is the polynomial
+$$
+\mathcal L_A(u)
+:=
+(1+u)^{2d}
+A\left(-\frac{u}{(1+u)^2}\right).
+$$
+A \emph{Lee--Yang lift certificate} for $A$ is a finite ledger proving
+that every nontrivial zero of $\mathcal L_A$ lies on the unit circle, or
+equivalently that the lifted zero-relevant packet has no zero branch in
+the strict inside or strict outside regions
+$$
+0<|u|<1,
+\qquad
+|u|>1.
+$$
+The certificate is a unit-boundary row for the lifted path packet.  It
+does not by itself identify that packet with an eta or zeta packet.
+\end{definition}
+
+\begin{definition}[Golden bridge witness]
+\label{def:rh-golden-lee-yang-bridge-witness}
+Let
+$$
+\mathcal G_m(\rho)=(D_m,P_m,R_m,\Gamma_m)
+$$
+be a golden eta certificate packet in the sense of
+\autoref{def:rh-golden-eta-certificate-packet}.  A
+\emph{golden Lee--Yang bridge witness} for $\mathcal G_m(\rho)$ consists
+of a Fibonacci path carrier $I_{k_m}$, a lifted packet
+$\mathcal L_m$, and a bridge ledger with the following rows:
+$$
+|R_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+a Lee--Yang lift certificate for $\mathcal L_m$, a same-island transfer
+from $P_m$ to $\mathcal L_m$, radial purity, and dominance.
+
+The same-island transfer may be given by a boundary comparison
+$$
+|P_m(s)-\mathcal L_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+or by a ledgered homotopy $H_{\tau}$ with
+$$
+H_0=P_m,
+\qquad
+H_1=\mathcal L_m,
+\qquad
+0\notin H_{\tau}(\partial D_m)
+\quad
+0\le\tau\le1.
+$$
+Radial purity means that the comparison error and homotopy rows contain
+only phase, finite source, and $p$-adic or Zeckendorf ledger data, never
+an unrecorded factor $e^{-r h}$.  Dominance means that the lifted path
+packet is selected by the source ledger as the zero-relevant branch,
+rather than chosen after the zero island is known.
+\end{definition}
+
+\begin{principle}[Bridge rows are independent]
+\label{prin:rh-golden-bridge-rows-independent}
+The rows in \autoref{def:rh-golden-lee-yang-bridge-witness} have
+separate proof roles.  The eta Rouch\'e inequality captures the
+completed zero island.  The path carrier supplies the no-adjacent
+Fibonacci grammar.  The Lee--Yang lift supplies unit-boundary stability
+for the lifted path packet.  The same-island transfer proves that the
+eta packet and the lifted packet read the same local zero event.  Radial
+purity prevents the transfer from hiding a real positive scale factor.
+Dominance makes the lifted packet canonical rather than interpolatory.
+\end{principle}
+
+\begin{definition}[Dominant branch packet]
+\label{def:rh-golden-dominant-branch-packet}
+Let a finite analytic packet on a zero island $\Omega_m$ have a spectral
+expansion
+$$
+P_m(z)=\sum_{j=1}^{d}C_j(z)\lambda_j(z)^m.
+$$
+A pair $\lambda_+,\lambda_-$ is a dominant branch pair on $\Omega_m$ if
+there is $\kappa>0$ such that every remaining branch satisfies
+$$
+|\lambda_j(z)|
+\le
+(1-\kappa)
+\max\{|\lambda_+(z)|,|\lambda_-(z)|\}
+$$
+on $\Omega_m$.  The dominant and subdominant parts are
+$$
+P_m^{\mathrm{dom}}(z)
+:=
+C_+(z)\lambda_+(z)^m+C_-(z)\lambda_-(z)^m
+$$
+and
+$$
+P_m^{\mathrm{sub}}(z)
+:=
+\sum_{j\neq +,-}C_j(z)\lambda_j(z)^m.
+$$
+\end{definition}
+
+\begin{theorem}[Dominant gap gives Rouch\'e control]
+\label{thm:rh-dominant-gap-gives-rouche-control}
+If a dominant branch packet satisfies
+$$
+|P_m^{\mathrm{sub}}(z)|<|P_m^{\mathrm{dom}}(z)|
+\qquad
+z\in\partial\Omega_m,
+$$
+then $P_m$ and $P_m^{\mathrm{dom}}$ have the same number of zeros in
+$\Omega_m$, counted with multiplicity.
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+P_m=P_m^{\mathrm{dom}}+P_m^{\mathrm{sub}}.
+$$
+The displayed strict boundary inequality is precisely the Rouch\'e
+hypothesis for the pair $(P_m^{\mathrm{dom}},P_m^{\mathrm{sub}})$ on
+$\partial\Omega_m$.  Rouch\'e's theorem gives equality of the zero
+counts in $\Omega_m$.
+\end{proof}
+
+\begin{principle}[Quartic endpoint finite model]
+\label{prin:rh-quartic-endpoint-finite-model}
+\autoref{sec:unified-reality-quartic-spectral-common-carrier} gives a
+finite-certificate model for the dominant-branch row.  The fixed quartic
+carrier records recurrence algebra, companion-matrix spectrum, elliptic
+normalization, real projection, dominant branch, and endpoint-zero
+ledgers inside one packet.  Its dominance row is separated from its
+ramification row by
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification},
+and its local endpoint-zero row is supplied by
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}.
+The scope boundary of
+\autoref{thm:unified-reality-quartic-finite-certificate-common-carrier}
+is essential: the model proves a fixed finite spectral pattern, not a
+zeta golden spectral expansion or a growing-window theorem.
+\end{principle}
+
+\begin{definition}[Stable golden Rouch\'e homotopy]
+\label{def:rh-golden-stable-rouche-homotopy}
+Let $P_m$ be the zero-relevant golden packet on $\Omega_m$, and let
+$\mathcal L_m$ be a Fibonacci Lee--Yang lift packet in the same local
+coordinate $u$.  A stable golden Rouch\'e homotopy from $P_m$ to
+$\mathcal L_m$ is a ledgered family $H_{\tau}$, $0\le\tau\le1$, such
+that
+$$
+H_0=P_m,
+\qquad
+H_1=\mathcal L_m,
+$$
+the boundary of the zero island is never crossed,
+$$
+0\notin H_{\tau}(\partial\Omega_m)
+\qquad
+0\le\tau\le1,
+$$
+and the Lee--Yang stable regions remain zero-free:
+$$
+H_{\tau}(u)\neq0
+\qquad
+0<|u|<1,
+$$
+$$
+H_{\tau}(u)\neq0
+\qquad
+|u|>1.
+$$
+The homotopy ledger may use phase, finite source, prime-register, and
+Zeckendorf rows, but it may not introduce an unrecorded
+$\mathbb R_{>0}$ scale coordinate.
+\end{definition}
+
+\begin{theorem}[Stable Rouch\'e transport preserves the unit boundary]
+\label{thm:rh-stable-rouche-transport-preserves-unit-boundary}
+If $P_m$ admits a stable golden Rouch\'e homotopy to a Fibonacci
+Lee--Yang lift packet, then every zero of $P_m$ in the zero-relevant
+local coordinate lies on the unit boundary.
+\end{theorem}
+
+\begin{proof}
+The stable-region rows in
+\autoref{def:rh-golden-stable-rouche-homotopy} apply at $\tau=0$.
+Hence
+$$
+P_m(u)\neq0
+\qquad
+0<|u|<1,
+$$
+and
+$$
+P_m(u)\neq0
+\qquad
+|u|>1.
+$$
+Thus a zero of $P_m$ in the zero-relevant coordinate cannot lie in the
+strict inside or strict outside region.  The remaining boundary is
+$|u|=1$.
+\end{proof}
+
+\begin{principle}[Ordinary Rouch\'e transport is insufficient]
+\label{prin:rh-ordinary-rouche-transport-insufficient}
+Boundary nonvanishing alone transports winding number and zero count; it
+does not transport the Lee--Yang unit-boundary property.  The polynomial
+$u-1$ has its zero on $|u|=1$, while $u-(1+\varepsilon)$ has the same
+zero count in any sufficiently large island and its zero lies outside
+the unit circle.  Therefore the source row needed for zeta golden
+boundary stability is
+$$
+\mathsf{GoldenStableRoucheHomotopy},
+$$
+not merely a zero-count homotopy.  The stable homotopy row must include
+strict inside and strict outside zero-free ledgers together with radial
+purity.
+\end{principle}
+
+\begin{definition}[Zeckendorf--Mellin path packet]
+\label{def:rh-zeckendorf-mellin-path-packet}
+Let $F_0=0$, $F_1=1$, and
+$$
+F_{j+2}=F_{j+1}+F_j.
+$$
+For the path graph on $\{1,\ldots,m\}$, let
+$$
+\operatorname{Ind}(P_m)
+:=
+\{S\subseteq\{1,\ldots,m\}: i,j\in S\Rightarrow |i-j|\neq1\}.
+$$
+For $S\in\operatorname{Ind}(P_m)$ set
+$$
+N(S):=\sum_{j\in S}F_{j+1}.
+$$
+The finite Zeckendorf ledger identifies $\operatorname{Ind}(P_m)$ with
+the integers
+$$
+0\le N<F_{m+2}.
+$$
+For a vector $\mathbf x=(x_1,\ldots,x_m)$ define the multivariable path
+partition function
+$$
+I_m(\mathbf x)
+:=
+\sum_{S\in\operatorname{Ind}(P_m)}
+\prod_{j\in S}x_j.
+$$
+For $u>0$ the Mellin fibre is
+$$
+x_j(u):=(-1)^{F_{j+1}}e^{-uF_{j+1}}.
+$$
+\end{definition}
+
+\begin{theorem}[Zeckendorf--Mellin exact projection]
+\label{thm:rh-zeckendorf-mellin-exact-projection}
+For $\Re(s)>0$,
+$$
+\sum_{n=1}^{F_{m+2}-1}(-1)^{n-1}n^{-s}
+=
+-\frac1{\Gamma(s)}
+\int_0^{\infty}
+u^{s-1}
+\left(I_m(\mathbf x(u))-1\right)\,du.
+$$
+\end{theorem}
+
+\begin{proof}
+For $n>0$ and $\Re(s)>0$, the Mellin--Laplace identity gives
+$$
+n^{-s}
+=
+\frac1{\Gamma(s)}
+\int_0^{\infty}u^{s-1}e^{-nu}\,du.
+$$
+The Zeckendorf ledger in
+\autoref{def:rh-zeckendorf-mellin-path-packet} gives a bijection from
+nonempty independent sets $S$ to the integers
+$1\le N(S)\le F_{m+2}-1$.  Thus
+$$
+\sum_{n=1}^{F_{m+2}-1}(-1)^{n-1}n^{-s}
+=
+\sum_{\varnothing\neq S\in\operatorname{Ind}(P_m)}
+(-1)^{N(S)-1}N(S)^{-s}.
+$$
+Substituting the Mellin--Laplace identity and using finiteness to
+interchange the sum and integral yields
+$$
+\frac1{\Gamma(s)}
+\int_0^{\infty}
+u^{s-1}
+\sum_{\varnothing\neq S}
+(-1)^{N(S)-1}e^{-uN(S)}\,du.
+$$
+For every independent set $S$,
+$$
+(-1)^{N(S)}e^{-uN(S)}
+=
+\prod_{j\in S}
+\left((-1)^{F_{j+1}}e^{-uF_{j+1}}\right)
+=
+\prod_{j\in S}x_j(u).
+$$
+Therefore
+$$
+\sum_{\varnothing\neq S}
+(-1)^{N(S)-1}e^{-uN(S)}
+=
+-\sum_{\varnothing\neq S}\prod_{j\in S}x_j(u)
+=
+-\left(I_m(\mathbf x(u))-1\right),
+$$
+which is the displayed identity.
+\end{proof}
+
+\begin{definition}[Zeckendorf transfer dominated splitting]
+\label{def:rh-zeckendorf-transfer-dominated-splitting}
+The source row
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+asserts that the non-autonomous path transfer product
+$$
+\begin{pmatrix}
+I_j(\mathbf x(u))\\
+I_{j-1}(\mathbf x(u))
+\end{pmatrix}
+=
+\begin{pmatrix}
+1&x_j(u)\\
+1&0
+\end{pmatrix}
+\begin{pmatrix}
+I_{j-1}(\mathbf x(u))\\
+I_{j-2}(\mathbf x(u))
+\end{pmatrix}
+$$
+has a ledgered dominated splitting on the zero island after Mellin
+projection.  Concretely, the row selects two fibre branches whose
+Mellin-integrated contributions form
+$P_m^{\mathrm{dom}}$, while all remaining transfer contributions form
+$P_m^{\mathrm{sub}}$ and satisfy
+$$
+|P_m^{\mathrm{sub}}(s)|<|P_m^{\mathrm{dom}}(s)|
+\qquad
+s\in\partial D_m.
+$$
+\end{definition}
+
+\begin{definition}[Self-dual Mellin Lee--Yang stability operator]
+\label{def:rh-mellin-lee-yang-stability-operator}
+The source row
+$$
+\mathsf{SelfDualMellinLeeYangOperator}
+$$
+asserts that the Zeckendorf--Mellin projection is used only after a
+completed self-dual packet has been supplied.  The raw one-sided Mellin
+integral of \autoref{thm:rh-zeckendorf-mellin-exact-projection} is not a
+stability-preserving operator by itself.  The self-dual row includes the
+functional-equation or Poisson-duality ledger that pairs the $u$ and
+$u^{-1}$ directions.  After the fibrewise path packet is lifted by the
+Joukowsky Lee--Yang ledger, this completed packet produces no zero
+branch in
+$$
+0<|u|<1
+$$
+and no zero branch in
+$$
+|u|>1,
+$$
+and the operator introduces no unrecorded $\mathbb R_{>0}$ scale gauge.
+\end{definition}
+
+\begin{theorem}[Mellin rows supply the stable bridge source package]
+\label{thm:rh-mellin-rows-supply-stable-bridge-source-package}
+Assume
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+and
+$$
+\mathsf{SelfDualMellinLeeYangOperator}
+$$
+for the golden eta zero island.  Then the three analytic source rows of
+\autoref{def:rh-golden-bridge-analytic-source-rows} are supplied for
+that island.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} identifies the
+golden eta truncation with a Mellin projection of the Zeckendorf path
+partition function.  The dominated-splitting row supplies the branch
+decomposition and boundary dominance estimate required for
+$\mathsf{GoldenSpectralExpansion}$ and
+$\mathsf{GoldenSpectralGap}$.  The self-dual Mellin Lee--Yang stability
+operator supplies the strict inside and strict outside zero-free
+ledgers, with no radial scale gauge.  Those are exactly the stability
+rows required by $\mathsf{GoldenStableRoucheHomotopy}$.
+\end{proof}
+
+\begin{definition}[Golden bridge analytic source rows]
+\label{def:rh-golden-bridge-analytic-source-rows}
+The analytic source content of
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+splits into three rows:
+$$
+\mathsf{GoldenSpectralExpansion},
+\qquad
+\mathsf{GoldenSpectralGap},
+\qquad
+\mathsf{GoldenStableRoucheHomotopy}.
+$$
+The first row supplies a spectral or exponential-sum expansion for the
+golden packet on the displayed island.  The second row identifies the
+dominant pair and proves the uniform gap needed by
+\autoref{thm:rh-dominant-gap-gives-rouche-control}.  The third row
+transports the selected dominant packet to the Fibonacci Lee--Yang lift
+while preserving the strict inside and strict outside zero-free regions.
+The Zeckendorf--Mellin route of
+\autoref{thm:rh-mellin-rows-supply-stable-bridge-source-package}
+offers a more structured way to supply these rows: first identify eta
+golden truncation as a Mellin projection of path independent-set data,
+then prove dominated transfer splitting and self-dual Mellin stability
+preservation.  Together these rows upgrade weak eta capture to a
+boundary-stable golden packet.
+\end{definition}
+
+\begin{theorem}[A golden bridge witness supplies boundary stability]
+\label{thm:rh-golden-bridge-witness-supplies-boundary-stability}
+Let a completed zero island be captured by a golden eta packet
+$\mathcal G_m(\rho)$ and let
+\autoref{def:rh-golden-lee-yang-bridge-witness} supply a bridge witness
+whose active lifted variables have the centered form
+$$
+u_a(s)=e^{-(s-1/2)h_a},
+\qquad
+h_a>0.
+$$
+If the island readout is
+$$
+s=\frac12+r+it,
+$$
+then the bridge witness excludes $r\ne0$ for that island.
+\end{theorem}
+
+\begin{proof}
+The same-island row transfers the local zero event from the eta packet
+to the lifted Lee--Yang packet without changing the winding ledger on
+$\partial D_m$.  Hence the lifted packet has a zero-relevant branch at
+the same readout.  For each active variable,
+$$
+|u_a(s)|
+=
+\left|e^{-(s-1/2)h_a}\right|
+=
+e^{-rh_a}.
+$$
+If $r>0$, then every active variable lies in the strict inside region
+$|u_a(s)|<1$.  If $r<0$, then every active variable lies in the strict
+outside region $|u_a(s)|>1$.  Both alternatives are forbidden by the
+Lee--Yang lift certificate, and radial purity prevents the bridge from
+absorbing the contradiction into an unledgered scale factor.  Therefore
+$r=0$.
+\end{proof}
+
+\begin{definition}[Golden Lee--Yang bridge source row]
+\label{def:rh-zeta-golden-lee-yang-bridge-source-row}
+The source row
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+asserts that every accepted non-trivial completed zeta zero has a
+cofinal golden certificate tower whose sufficiently fine levels carry
+golden Lee--Yang bridge witnesses.  The witnesses must be compatible
+under refinement: the zero island, Zeckendorf address, lifted path
+packet, same-island transfer, radial-purity row, and dominance row at
+level $m+1$ restrict to the corresponding level-$m$ rows.
+\end{definition}
+
+\begin{theorem}[The bridge source row gives golden stable capture]
+\label{thm:rh-golden-bridge-source-row-gives-stable-capture}
+If $\mathsf{ZetaGoldenLeeYangBridge}$ holds, then
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Let an accepted non-trivial completed zeta zero be given.  The bridge
+source row supplies a cofinal golden tower with bridge witnesses at
+sufficiently fine levels.  Each witness contains the weak eta capture
+row, the Zeckendorf or Fibonacci path packet, the Lee--Yang
+unit-boundary certificate, and a same-island transfer.  These are exactly
+the rows required by the golden stable capture bridge of
+\autoref{def:rh-golden-stable-capture-bridge}, with the additional
+radial-purity and dominance ledgers recording canonicity of the source.
+Thus the zero is covered by
+$\mathsf{GoldenStableCaptureBridge}_{\zeta}$.
+\end{proof}
+
+\begin{corollary}[Golden Lee--Yang bridge suffices for fixed-half readout]
+\label{cor:rh-golden-lee-yang-bridge-fixed-half-readout}
+If $\mathsf{ZetaGoldenLeeYangBridge}$ holds, then every accepted
+non-trivial completed zeta zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-golden-bridge-source-row-gives-stable-capture},
+the golden stable capture coverage target holds.  Apply
+\autoref{thm:rh-golden-stable-capture-coverage-fixed-half}.
+\end{proof}
+
+\begin{principle}[Dominant branch source load]
+\label{prin:rh-golden-dominant-branch-source-load}
+The dominant branch row is the analytic load of the bridge.  It must
+show that the lifted Fibonacci path packet is the zero-relevant finite
+source for the displayed island, with tail and comparison budgets strong
+enough to preserve the boundary gap.  Without that row, a Lee--Yang
+stable path packet and a weak eta capture packet remain two unrelated
+finite objects.  With it, the same island is controlled by a
+unit-boundary packet, and the radial scale coordinate has no legal
+place to close.
+\end{principle}
+
+\begin{principle}[Stable bridge proof boundary]
+\label{prin:rh-stable-bridge-proof-boundary}
+\autoref{thm:rh-dominant-gap-gives-rouche-control} is an abstract
+finite theorem, and
+\autoref{prin:rh-quartic-endpoint-finite-model} records a finite model
+where the corresponding dominance and endpoint-isolation rows are
+present.  The zeta golden route still requires the three analytic source
+rows of \autoref{def:rh-golden-bridge-analytic-source-rows}.  Without
+the spectral expansion, spectral gap, and stable Rouch\'e homotopy rows,
+the bridge remains a conditional source package; with them, the
+Lee--Yang unit-boundary certificate can be transported to the same
+zero island without introducing a radial scale anomaly.
+\end{principle}
+
+\begin{principle}[Mellin factorization of the bridge load]
+\label{prin:rh-mellin-factorization-bridge-load}
+The bridge need not be approached as a direct homotopy from an eta
+truncation to a Lee--Yang polynomial.  The exact projection of
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} factors the eta
+truncation through the Zeckendorf path partition function, where the
+Fibonacci transfer and Lee--Yang lift are intrinsic.  The remaining
+analytic load is therefore the pair of source rows
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+and
+$$
+\mathsf{SelfDualMellinLeeYangOperator}.
+$$
+The first row prevents the Mellin projection from selecting a
+non-Fibonacci dominant branch; the second replaces the raw one-sided
+Mellin readout by a completed self-dual readout and prevents it from
+creating a zero in the strict inside or strict outside region.  This
+factorization is still a proof obligation, but it is more local than an
+unstructured comparison between the eta packet and an unrelated
+Lee--Yang packet.
+\end{principle}

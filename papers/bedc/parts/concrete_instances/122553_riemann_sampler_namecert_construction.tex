@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSamplerUp$}
+\label{ch:concrete-instances-riemann-sampler-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RiemannSamplerUp$ packet records the finite tagged sampling data used by constructive Riemann-sum interfaces. It sits beside the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the interval-subdivision carrier of \autoref{ch:concrete-instances-riemann-partition-namecert}, the tagged-subinterval surface of \autoref{ch:concrete-instances-tagged-partition-namecert}, and the tagged-gauge sum route of \autoref{ch:concrete-instances-riemann-sum-gauge-namecert}. The packet names one finite sample row over a displayed partition; it does not assert integrability, convergence of sums, measure, open-cover compactness, host real functions, or choice.
+
+\begin{definition}[Riemann sampler carrier]
+\label{def:riemann-sampler-carrier}
+A $\RiemannSamplerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,R,P,T,F,V,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ mesh row, recording the dyadic scale, cell-width budget, and endpoint comparison data used by the sample.
+\item $R$ is the $\RealUp$ interval row, carrying the named left and right endpoint seals for the interval being sampled.
+\item $P$ is the $\RiemannPartitionUp$ partition row, exposing the ordered finite subdivision and its mesh-refinement data.
+\item $T$ is the $\TaggedPartitionUp$ tag row, assigning one displayed tag to each visible cell of $P$ together with its tag-in-cell witness.
+\item $F$ is the function-readback row, recording the displayed evaluation interface opened at the tags rather than a host function space.
+\item $V$ is the value row, listing the finite real-facing sample values read from $F$ at the tags in $T$.
+\item $H$ records componentwise $\hsame$ transport for mesh, interval, partition, tags, function readback, values, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+D\longrightarrow R\longrightarrow P\longrightarrow T\longrightarrow F\longrightarrow V .
+$$
+\item $G$ is the $\Pkg$ provenance over $\RiemannSamplerUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RiemannPartitionUp$, $\TaggedPartitionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSamplerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,R,P,T,F,V,H,C,G,N$. It has no coordinate for integrability, convergence of Riemann sums, measure, open-cover compactness, host real functions, quotient equality of partitions, selected tags outside the displayed ledger, or choice.
+\end{definition}
+
+\begin{theorem}[Riemann sampler NameCert obligations]
+\label{thm:riemann-sampler-namecert-obligations}
+For every accepted $\RiemannSamplerUp$ carrier
+$$
+S=(D,R,P,T,F,V,H,C,G,N),
+$$
+the local $\NameCert_{\RiemannSamplerUp}$ surface consists exactly of carrier admission for the dyadic mesh, Real interval, RiemannPartition row, TaggedPartition row, function-readback row, value row, transport, replay, provenance, and local name; tag-in-mesh exactness requiring every tag in $T$ to be read through the same dyadic mesh row $D$ and partition row $P$; sample readback stability requiring $F$ and $V$ to move only by the componentwise transport row $H$; mesh-refinement replay requiring any refinement consumer to reopen $D,R,P,T$ before reading $F,V$; and provenance exhaustion requiring $G,N$ to name only the displayed finite sampling route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-sampler-carrier}. The accepted packet exposes exactly the rows $D,R,P,T,F,V,H,C,G,N$, so carrier admission is the displayed finite list.
+
+The tag-in-mesh obligation is supplied by $D,P,T$. The dyadic mesh row records the comparison scale, the partition row exposes the finite cells, and the tagged-partition row attaches each displayed tag to one of those same cells. A tag that is not read through this route has no coordinate in the carrier.
+
+The sample-readback obligation is supplied by $F,V,H$. The function-readback row is opened only at the displayed tags, the value row lists the resulting finite sample values, and componentwise $\hsame$ transport is the only available stability mechanism for moving them.
+
+Mesh-refinement replay is supplied by $C$. A refinement or Riemann-sum consumer replays the route from $D$ through $T$ before reading $F,V$, so refinement cannot introduce a detached tag selector or a host mesh limit.
+
+Finally, $G$ and $N$ exhaust provenance and local naming. Since the carrier contains no rows for integrability, convergence of sums, measure, open-cover compactness, host real functions, quotient partition equality, or choice, the listed obligations are exactly the local NameCert surface.
+\end{proof}
+
+\closureat{RiemannSamplerUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSamplerUp}
+  \constructivestory{A $\RiemannSamplerUp$ packet is generated from a DyadicRatCore mesh row, Real interval row, RiemannPartition row, TaggedPartition tag row, function-readback row, finite value row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sampler-carrier} and \autoref{thm:riemann-sampler-namecert-obligations} seed the finite tagged-sample route over dyadic partitions for downstream Riemann, Darboux, and Henstock-style sum consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close integrability, convergence of sums, measure, open-cover compactness, host real functions, quotient equality of partitions, selected tag choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tag-in-mesh exactness, sample readback stability, mesh-refinement replay, provenance exhaustion, and local naming for BEDC.Derived.RiemannSamplerUp.}
+\end{closurestatus}
