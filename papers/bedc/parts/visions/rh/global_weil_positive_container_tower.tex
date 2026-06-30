@@ -228,3 +228,134 @@ The first implication is the finite-container reduction proved in this
 chapter; the second is delegated to the Weil criterion consumption row.
 \end{principle}
 
+\begin{definition}[Offline mirror pair]
+\label{def:rh-offline-mirror-pair}
+An \emph{offline mirror pair} in the completed zeta zero ledger is a pair
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+$$
+with $r\ne0$, related by
+$$
+\rho_-=1-\overline{\rho_+}.
+$$
+It is the zero-side expression of a radial scale split: the two points
+have the same phase height and opposite real scale directions.
+\end{definition}
+
+\begin{definition}[Diagonal negative probe]
+\label{def:rh-diagonal-negative-probe}
+A \emph{diagonal negative probe} for an offline mirror pair is a test
+row $f\in\mathcal A$ whose Mellin readout separates the pair by
+opposite signs,
+$$
+\widehat f(\rho_+)=1,
+\qquad
+\widehat f(\rho_-)=-1,
+$$
+while all remaining zero-side contributions are controlled by the
+regularized tail ledger of
+\autoref{def:rh-weil-quadratic-form-row}.  The row is diagonal because
+it reads precisely the mirror coordinate that a local scale selector
+would try to hide.
+\end{definition}
+
+\begin{principle}[Offline mirror pairs create negative Weil directions]
+\label{prin:rh-offline-mirror-pairs-create-negative-weil-directions}
+If an offline mirror pair admits a diagonal negative probe, then the
+pair contributes
+$$
+\widehat f(\rho_+)\overline{\widehat f(\rho_-)}
++
+\widehat f(\rho_-)\overline{\widehat f(\rho_+)}
+=
+-2
+$$
+to the zero-side Weil pairing.  With the remaining zero contributions
+made smaller by the displayed tail ledger, this gives a negative
+direction for $\mathcal W$.  Hence an off-half mirror pair is not merely
+a local radial defect; it is a global obstruction to
+$\mathsf{GlobalWeilPositivity}$.
+\end{principle}
+
+\begin{definition}[No diagonal negative probe]
+\label{def:rh-no-diagonal-negative-probe}
+The row
+$$
+\mathsf{NoDiagonalNegativeProbe}
+$$
+asserts that the Weil quadratic form has no diagonal negative direction:
+there is no test row $f\in\mathcal A$ with
+$$
+\mathcal W(f)<0.
+$$
+Thus $\mathsf{NoDiagonalNegativeProbe}$ is the same positivity surface as
+$\mathsf{GlobalWeilPositivity}$, but with emphasis on the diagonal
+obstruction created by an offline mirror pair.
+\end{definition}
+
+\begin{principle}[Halting boundary forbids universal local closure tests]
+\label{prin:rh-halting-boundary-forbids-local-closure-tests}
+\autoref{thm:no-global-theorem-route-closure-decider} and
+\autoref{thm:rh-route-decider-type-vii-socket} rule out a universal
+classifier deciding closure of all sufficiently expressive theorem
+routes.  The RH zero route must therefore not be framed as a global
+local decider that inspects every zero box and declares it legal or
+illegal.  Such a decider would be a theorem-route closure oracle at the
+certificate stratum.  The diagonal-safe alternative is a source-side
+positive tower: each finite container is positive by construction, and
+the global no-negative-probe row is read only after cofinal passage.
+\end{principle}
+
+\begin{definition}[Diagonal-safe Weil tower]
+\label{def:rh-diagonal-safe-weil-tower}
+A cofinal Weil-positive container tower is \emph{diagonal-safe} when
+each finite positivity row is supplied by internal structure, for
+example by a displayed factorization
+$$
+\mathcal W_N(f)=\|T_N f\|^2
+$$
+or by a positive kernel row
+$$
+\mathcal W_N(f)=\langle K_Nf,f\rangle,
+\qquad
+K_N\ge0,
+$$
+and not by a procedure that searches for future negative probes and
+repairs the container after they are found.  The corresponding source
+row is
+$$
+\mathsf{DiagonalSafeWeilTower}.
+$$
+\end{definition}
+
+\begin{theorem}[Diagonal-safe tower gives global positivity]
+\label{thm:rh-diagonal-safe-tower-gives-global-positivity}
+If $\mathsf{DiagonalSafeWeilTower}$ holds, then
+$\mathsf{GlobalWeilPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+A diagonal-safe tower is, in particular, a cofinal Weil-positive
+container tower.  Apply
+\autoref{thm:rh-cofinal-weil-positive-tower-gives-global-positivity}.
+\end{proof}
+
+\begin{principle}[Diagonal-safe final target]
+\label{prin:rh-diagonal-safe-final-target}
+The diagonal role of the halting boundary is negative and structural: it
+forbids a universal local legality decider.  The diagonal role of the
+Weil form is positive and global: any off-half mirror pair would expose
+a negative probe.  The compatible proof target is therefore
+$$
+\mathsf{DiagonalSafeWeilTower}
+\Longrightarrow
+\mathsf{GlobalWeilPositivity}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+This target is source-side and non-local.  It asks for a cofinal family
+of internally positive finite containers rather than a decision
+procedure over all zero boxes.
+\end{principle}
