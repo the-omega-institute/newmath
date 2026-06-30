@@ -99,6 +99,9 @@ theorem primeUnitRadius_lt_one {p : Nat} (hp : IsPrime p) :
     (ratLt_of_RatEq_left (RatEq_symm leftEq) scaled)
     rightEq
 
+-- `RatComplex` in this route is a rational box surface.  The analytic object
+-- `exp (-s * log p)` is therefore kept as a symbolic prime kernel until the
+-- located exp/log bridge supplies the promised alpha-dependent majorant.
 structure QPrimeSymbol (p : Nat) (s : RatComplex) where
   prime : Nat
   point : RatComplex
@@ -117,7 +120,7 @@ def qPrime (p : Nat) (s : RatComplex) : QPrimeSymbol p s :=
     prime_eq := rfl
     point_eq := rfl }
 
-def qPrimeEnvelope (p : Nat) (hp : IsPrime p)
+def qPrimeSymbolicUnitEnvelope (p : Nat) (hp : IsPrime p)
     (s : RatComplex) (_h : HP1WitnessRat s) :
     LocatedComplexMagnitudeEnvelope :=
   { prime := (qPrime p s).prime
@@ -125,14 +128,17 @@ def qPrimeEnvelope (p : Nat) (hp : IsPrime p)
     absUB := primeUnitRadius p hp
     abs_nonneg := ratLt_to_ratLe (primeUnitRadius_pos hp) }
 
-theorem qPrime_abs_le_unit_radius (p : Nat) (hp : IsPrime p)
+theorem qPrime_symbolicEnvelope_le_unit_radius
+    (p : Nat) (hp : IsPrime p)
     (s : RatComplex) (h : HP1WitnessRat s) :
-    ratLe (qPrimeEnvelope p hp s h).absUB (primeUnitRadius p hp) :=
+    ratLe (qPrimeSymbolicUnitEnvelope p hp s h).absUB
+      (primeUnitRadius p hp) :=
   ratLe_refl _
 
-theorem qPrime_abs_lt_one (p : Nat) (hp : IsPrime p)
+theorem qPrime_symbolicEnvelope_lt_one
+    (p : Nat) (hp : IsPrime p)
     (s : RatComplex) (h : HP1WitnessRat s) :
-    ratLt (qPrimeEnvelope p hp s h).absUB ratOne := by
+    ratLt (qPrimeSymbolicUnitEnvelope p hp s h).absUB ratOne := by
   exact primeUnitRadius_lt_one hp
 
 structure LocalSchurContractive
@@ -141,7 +147,7 @@ structure LocalSchurContractive
   radius_nonneg : ratLe ratZero radius
   radius_lt_one : ratLt radius ratOne
   q_abs_le_radius :
-    ratLe (qPrimeEnvelope p hp s h).absUB radius
+    ratLe (qPrimeSymbolicUnitEnvelope p hp s h).absUB radius
 
 def qPrime_localSchurContractive
     (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) :
@@ -149,7 +155,7 @@ def qPrime_localSchurContractive
   { radius := primeUnitRadius p hp
     radius_nonneg := ratLt_to_ratLe (primeUnitRadius_pos hp)
     radius_lt_one := primeUnitRadius_lt_one hp
-    q_abs_le_radius := qPrime_abs_le_unit_radius p hp s h }
+    q_abs_le_radius := qPrime_symbolicEnvelope_le_unit_radius p hp s h }
 
 structure EulerFactorBounded
     (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) where
