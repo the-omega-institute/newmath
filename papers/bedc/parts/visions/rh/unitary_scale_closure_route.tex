@@ -1,0 +1,138 @@
+\chapter{Unitary Scale Closure Route for RH}
+\label{ch:visions-rh-unitary-scale-closure-route}
+\origin{ai}
+
+\autoref{ch:visions-rh-free-zero-generation-initiality} isolates a
+pre-RH zero-generation route, and
+\autoref{ch:visions-rh-prime-unitary-balance-surface} identifies the
+critical line with unit-amplitude prime-channel readouts. The present
+chapter records the scale-normalized reduction suggested by the
+\autoref{ch:visions-rh-zeta-self-similar-recovered-carrier} carrier and
+the no-independent-real-scale ledger in the
+ZetaCosmosClosure route. It is a conditional reduction, not a proof of
+$\mathsf{RH}$: the mathematical load is the obligation that a certified
+critical-strip zero packet has no independent real scale ledger and
+therefore lands on a unitary scale surface.
+
+\begin{definition}[Golden scale eigenvalue]
+\label{def:rh-golden-scale-eigenvalue}
+Let
+$$
+w:=s-\frac{1}{2},
+\qquad
+\varphi:=\frac{1+\sqrt{5}}{2},
+\qquad
+q:=\varphi^{w}.
+$$
+The golden scale eigenvalue of $s$ is the centered scale readout $q$.
+It is located only as a scale-coordinate packet over the centered
+critical-strip route; it is not an independent zero generator, a branch
+choice for $\zeta$, or a replacement for the zeta zero ledger.
+\end{definition}
+
+\begin{principle}[Unitary scale closure reduction]
+\label{prin:rh-unitary-scale-closure-reduction}
+For a critical-strip zero packet $s$, write $w=s-1/2$ and
+$q=\varphi^w$. Since $\varphi>1$,
+$$
+|q|
+=
+|\varphi^w|
+=
+\varphi^{\Re(w)}.
+$$
+Therefore
+$$
+\Re(s)=\frac{1}{2}
+\quad\Longleftrightarrow\quad
+\Re(w)=0
+\quad\Longleftrightarrow\quad
+|q|=1.
+$$
+The unitary scale closure route is the conditional reduction
+$$
+\mathsf{NoIndependentRealScaleLedger}(s)
+\Longrightarrow
+\mathsf{UnitaryScale}(q)
+\Longrightarrow
+|q|=1
+\Longrightarrow
+\mathsf{OnCritLine}(s).
+$$
+If every certified non-trivial zeta zero in the critical strip satisfies
+the displayed no-scale-to-unitary obligation, then the BEDC-RH witness
+function of \autoref{def:rh-proof-obligation-witness-function} is
+inhabited.
+\end{principle}
+\leanstmt{BEDC.Derived.RHRoute.ZetaUnitaryScaleClosure.ZetaUnitaryScaleClosure}
+\leanstmt{BEDC.Derived.RHRoute.ZetaUnitaryScaleClosure.rh\_via\_unitary\_scale\_closure}
+
+\begin{principle}[Argument-principle bypass is only a route choice]
+\label{prin:rh-unitary-scale-closure-argument-principle-bypass}
+This route does not count zeros by contour integration, does not use the
+argument principle as a zero-enumeration engine, and does not require a
+classical winding-number decision over an unbounded contour family. It
+instead asks for a scale-closure certificate on already certified zero
+packets. The bypass is methodological: it avoids the constructive
+obstruction of turning global argument variation into a total zero ledger,
+but it does not remove the need to prove the scale-closure obligation.
+\end{principle}
+
+\begin{remark}[Connes--Consani half-density reading]
+\label{rem:rh-unitary-scale-closure-half-density}
+The centered coordinate $w=s-1/2$ matches the half-density normalization
+in scale-action readings of the zeta symmetry: the real half-shift is
+absorbed into the carrier before the residual scale action is inspected.
+In this language, the nontrivial part of the scale action is the phase row
+$\varphi^{it}$ when $w=it$. The BEDC route uses that analogy only as a
+scale-normalized readout of the ZetaCosmosClosure ledger; it does not
+import an external spectral triple, trace formula, or classical
+cohomology theorem as a proof object.
+\end{remark}
+
+\begin{principle}[Symmetry alone is not enough]
+\label{prin:rh-unitary-scale-closure-symmetry-no-go}
+The functional equation, conjugation symmetry, and the mirror fixed surface
+do not by themselves prove $\mathsf{RH}$. An even real polynomial can have
+a symmetric zero set with off-axis real scale, so symmetry alone cannot
+force all zeros onto a unit circle after centering. The no-independent-real
+scale ledger is the genuine extra input in this route. Without the
+obligation
+$$
+\mathsf{NoIndependentRealScaleLedger}
+\Longrightarrow
+\mathsf{UnitaryScale},
+$$
+the identity $|\varphi^w|=\varphi^{\Re(w)}$ is only a readout of the
+critical line, not a proof that zero packets land there.
+\end{principle}
+
+\begin{definition}[Route obligations]
+\label{def:rh-unitary-scale-closure-obligations}
+The unitary scale closure route has four obligations.
+
+\begin{enumerate}
+\item The centered coordinate $w=s-1/2$ must be carried by the same
+critical-strip zero packet as $s$.
+\item The golden scale eigenvalue $q=\varphi^w$ must be a located
+scale-readout with the modulus identity
+$$
+|q|=\varphi^{\Re(w)}.
+$$
+\item The ZetaCosmosClosure no-independent-real-scale ledger must imply
+unitarity of the scale readout for every certified non-trivial zero packet.
+\item The unitary readout must transport back to the ordinary
+$\mathsf{OnCritLine}(s)$ witness used by the BEDC-RH statement.
+\end{enumerate}
+\end{definition}
+
+\begin{closurestatus}{ZetaUnitaryScaleClosureUp}
+  \origin{ai}
+  \constructivestory{The route is generated from a certified zeta zero packet, the centered coordinate $w=s-1/2$, the golden scale readout $q=\varphi^w$, the no-independent-real-scale ledger, the unitary scale obligation, and transport back to the ordinary critical-line predicate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter states the conditional unitary-scale reduction and its exact proof obligations; it does not discharge the no-scale-to-unitary implication.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This route does not prove $\mathsf{RH}$, does not count zeros, and does not derive the no-independent-real-scale ledger from the functional equation or symmetry alone.}
+  \upgradepath{Scoped closure requires a checked modulus identity for $|\varphi^w|=\varphi^{\Re(w)}$, a no-independent-real-scale to unitary-scale theorem for certified zeta zero packets, and transport from unitary scale back to $\mathsf{OnCritLine}$.}
+\end{closurestatus}
