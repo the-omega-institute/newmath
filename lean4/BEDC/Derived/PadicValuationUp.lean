@@ -33,6 +33,16 @@ theorem padicValuationNat_not_succ {p n k : BHist} :
   intro valuation
   exact valuation.right
 
+theorem padicValuationNat_exact_power_iff {p n k : BHist} :
+    padicValuationNat p n k <->
+      padicPrimePowerDividesNat p k n ∧
+        (padicPrimePowerDividesNat p (BHist.e1 k) n -> False) := by
+  constructor
+  · intro valuation
+    exact valuation
+  · intro exactPower
+    exact exactPower
+
 theorem padicValuationNat_unique {p n k l : BHist} :
     padicValuationNat p n k -> padicValuationNat p n l -> hsame k l := by
   intro left right
@@ -124,6 +134,12 @@ theorem padicValuationNat_mul_additive {p j k s x y z : BHist} :
   intro prime left right add product
   exact IsPadicValNat_mul_add_exact_of_prime prime left right add product
 
+theorem padicValuationNat_multiplication_additive {p j k s x y z : BHist} :
+    NatPrime p -> padicValuationNat p x j -> padicValuationNat p y k ->
+      NatAdd j k s -> NatMul x y z -> padicValuationNat p z s := by
+  intro prime left right add product
+  exact padicValuationNat_mul_additive prime left right add product
+
 theorem padicValuationNat_natMulFn_additive {p j k s x y : BHist} :
     NatPrime p -> padicValuationNat p x j -> padicValuationNat p y k ->
       NatAdd j k s -> padicValuationNat p (BEDC.Derived.IntUp.natMulFn x y) s := by
@@ -160,6 +176,13 @@ theorem padicValuationNat_ultrametric {p j k r x y z : BHist} :
   intro left right add sumVal
   exact padicValuationNat_lower_bound_le_value sumVal
     (padicValuationNat_ultrametric_lower left right add)
+
+theorem padicValuationNat_addition_ultrametric {p j k r x y z : BHist} :
+    padicValuationNat p x j -> padicValuationNat p y k ->
+      NatAdd x y z -> padicValuationNat p z r ->
+        PreorderPrefixLE (natMin j k) r := by
+  intro left right add sumVal
+  exact padicValuationNat_ultrametric left right add sumVal
 
 theorem padicPrimePowerDividesNat_common_gcd {p k a b g : BHist} :
     padicPrimePowerDividesNat p k a -> padicPrimePowerDividesNat p k b ->
@@ -232,6 +255,13 @@ theorem factorialPadicValuationTrace_legendre_floor
       delta * valuation + digitSum = n := by
   intro trace
   exact BEDC.Derived.KummerTheoremUp.factorialPadicValuation_legendre_floor trace
+
+theorem padicValuationNat_factorial_legendre_floor_trace
+    {p delta n valuation digitSum : Nat} :
+    factorialPadicValuationTrace p delta n valuation digitSum ->
+      delta * valuation + digitSum = n := by
+  intro trace
+  exact factorialPadicValuationTrace_legendre_floor trace
 
 theorem factorialPadicValuationTrace_unary
     (p delta n valuation digitSum : Nat) :
