@@ -1,0 +1,214 @@
+\chapter{Triadic Pythagorean Obstruction}
+\label{ch:visions-rh-triadic-pythagorean-obstruction}
+\origin{ai}
+
+\autoref{def:rh-certificate-tower-triadic-invariant} records the three
+certificate rows $\mathsf P$, $\mathsf U$, and $\mathsf T$ level by
+level.  \autoref{ch:visions-rh-li-weil-herglotz-target} records the
+unit-positive analytic face, while
+\autoref{ch:visions-rh-thermodynamic-no-scale-route} records the
+no-scale energy face.  This chapter packages these rows as one
+obstruction rather than as independent routes.  The obstruction says that
+an off-fixed-half readout must appear simultaneously as an illegal
+prime-ledger scale, a finite-time witness, and a violation of the
+positive spectral row.
+
+\begin{definition}[Triadic obstruction coordinates]
+\label{def:rh-triadic-obstruction-coordinates}
+A triadic obstruction coordinate system for an active zero packet
+consists of three source rows:
+$$
+\mathsf P,\qquad \mathsf U,\qquad \mathsf T.
+$$
+The row $\mathsf P$ is the prime-ledger row: hidden coordinates may live
+in compact phase and prime-register fibres, as in
+\autoref{def:rh-phase-channel-hidden-prime-fibre}, but no independent
+real-positive scale ledger is accepted as a gauge.  The row $\mathsf U$
+is the unit-positive row: it may be presented as Lee--Yang boundary
+stability, global Weil positivity, Li CND, Herglotz positivity, or the
+Stieltjes source row of
+\autoref{def:rh-xi-stieltjes-log-derivative-row}.  The row $\mathsf T$
+is the finite-time row: any off-fixed-half defect must project to a
+finite Li--Weil witness of the kind isolated in
+\autoref{def:rh-li-weil-finite-negative-witness}, rather than to an
+open-ended search through certificate levels.
+\end{definition}
+
+\begin{definition}[Triadic closure relation]
+\label{def:rh-triadic-closure-relation}
+For a zero-relevant active packet with heights $h_a>0$, write the
+centered readout as
+$$
+s=\frac12+r+it.
+$$
+The active channel at mode $a$ is
+$$
+U_a(s):=e^{-(s-1/2)h_a}
+=
+e^{-r h_a}e^{-it h_a}.
+$$
+The triadic closure relation
+$$
+\mathcal C(\mathsf P,\mathsf U,\mathsf T;s)=0
+$$
+means that the same active packet satisfies the prime-ledger gauge row,
+the unit-positive boundary row, and the finite-time witness row without
+introducing an unledgered $\mathbb R_{>0}$ coordinate.
+\end{definition}
+
+\begin{definition}[Triadic scale defect energy]
+\label{def:rh-triadic-scale-defect-energy}
+For a finite active packet $A_m$, define the scale defect at mode $a$ by
+$$
+d_a(s):=\log|U_a(s)|=-r h_a.
+$$
+The triadic defect vector and its quadratic energy are
+$$
+\Omega_m(s):=(d_a(s))_{a\in A_m},
+$$
+and
+$$
+\mathcal E_m(s)
+:=
+\sum_{a\in A_m}d_a(s)^2.
+$$
+With
+$$
+W_m:=\sum_{a\in A_m}h_a^2,
+$$
+one has the exact finite identity
+$$
+\mathcal E_m(s)=r^2W_m.
+$$
+\end{definition}
+
+\begin{principle}[Pythagorean reading of the defect]
+\label{prin:rh-pythagorean-reading-of-defect}
+The equation of \autoref{def:rh-triadic-scale-defect-energy} is the
+quadratic obstruction behind the triadic route.  Linear phase
+cancellation may make a projected sum vanish, and reflection may exchange
+$r$ with $-r$, but the squared defect
+$$
+r^2W_m
+$$
+has no sign that can be cancelled by phase or by mirror exchange.  Thus
+an off-fixed-half readout can be hidden only by supplying an external
+scale ledger, by losing the finite witness row, or by breaking the
+unit-positive row.
+\end{principle}
+
+\begin{theorem}[Triadic Pythagorean obstruction]
+\label{thm:rh-triadic-pythagorean-obstruction}
+Let a zero-relevant certificate tower have limit readout
+$$
+s_{\infty}=\frac12+r+it.
+$$
+Assume that it satisfies the triadic closure relation of
+\autoref{def:rh-triadic-closure-relation}, has cofinal active-weight
+growth
+$$
+W_m\to\infty,
+$$
+has defect extraction
+$$
+\mathcal E_m(s_{\infty})=r^2W_m+o(W_m),
+$$
+and carries a unit-positive stability bound
+$$
+\mathcal E_m(s_{\infty})\le B
+$$
+with $B$ independent of $m$.  Then
+$$
+r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+Assume $r\ne0$.  Then $r^2>0$.  From the defect extraction row there is
+a cofinal tail on which
+$$
+|o(W_m)|\le\frac{r^2}{2}W_m.
+$$
+Hence
+$$
+\mathcal E_m(s_{\infty})
+\ge
+\frac{r^2}{2}W_m
+$$
+on that tail.  Since $W_m\to\infty$, the energies
+$\mathcal E_m(s_{\infty})$ are unbounded along the tail.  This
+contradicts the stability bound $\mathcal E_m(s_{\infty})\le B$.
+Therefore $r=0$.
+\end{proof}
+
+\begin{corollary}[Triadic obstruction gives fixed-half readout]
+\label{cor:rh-triadic-obstruction-fixed-half-readout}
+If every accepted non-trivial completed zeta zero is represented by a
+zero-relevant certificate tower satisfying the hypotheses of
+\autoref{thm:rh-triadic-pythagorean-obstruction}, then every such
+accepted zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Let $u$ be an accepted non-trivial completed zeta zero and let
+$$
+s_{\infty}=\frac12+r+it
+$$
+be its represented readout.  The tower hypotheses give $r=0$ by
+\autoref{thm:rh-triadic-pythagorean-obstruction}.  Thus
+$\operatorname{Re}(s_{\infty})=1/2$.
+\end{proof}
+
+\begin{definition}[Triadic positive-spectrum closure]
+\label{def:rh-triadic-positive-spectrum-closure}
+The source row
+$$
+\mathsf{TriadicPositiveSpectrumClosure}_{\zeta}
+$$
+asserts that the unit row $\mathsf U$ of
+\autoref{def:rh-triadic-obstruction-coordinates} is carried by one of
+the positive spectral presentations already named in the RH route:
+$$
+\mathsf{XiStieltjesLogDerivative},
+\qquad
+\mathsf{XiLogDerivativeHerglotz},
+\qquad
+\mathsf{LiSecondDifferencePositiveDefinite},
+\qquad
+\mathsf{GlobalLiWeilPositivity}.
+$$
+The row is source-side: it supplies positivity before the zero divisor is
+read, and it may not be manufactured by first assuming fixed-half
+readout and then placing a posterior spectral measure.
+\end{definition}
+
+\begin{theorem}[Positive spectrum supplies the unit side]
+\label{thm:rh-positive-spectrum-supplies-unit-side}
+If $\mathsf{TriadicPositiveSpectrumClosure}_{\zeta}$ is realized through
+$\mathsf{XiStieltjesLogDerivative}$, then the unit row $\mathsf U$ of
+the triadic obstruction is available.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-xi-stieltjes-gives-xi-herglotz} turns
+$\mathsf{XiStieltjesLogDerivative}$ into
+$\mathsf{XiLogDerivativeHerglotz}$.  The latter is the positive-real
+unit row of
+\autoref{def:rh-xi-log-derivative-herglotz-row}; equivalently, by the
+Li--Weil comparison of
+\autoref{thm:rh-li-beta-readout-xi-log-derivative}, it is the analytic
+face of the Li beta positivity row.  Hence the unit-positive component
+of the triadic closure relation is supplied.
+\end{proof}
+
+\begin{principle}[Three rows as one obstruction]
+\label{prin:rh-three-rows-one-obstruction}
+The triadic route should be consumed as a single obstruction.  The
+prime-ledger row says that $e^{-rh_a}$ cannot be hidden in the compact
+phase or prime-register fibre.  The finite-time row says that any such
+scale defect must have a finite Li--Weil witness.  The unit-positive row
+says that the relevant witness functional is nonnegative through
+Weil, Li, Herglotz, or Stieltjes positivity.  Therefore a nonzero real
+offset cannot be discharged by moving among the three rows; it is the
+same defect seen in three projections.
+\end{principle}
