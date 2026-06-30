@@ -3512,6 +3512,7 @@ import BEDC.Derived.CompactOscillationBarModulusUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
+import BEDC.Derived.CompactRealIntervalSearchBasisUp.TasteGate
 import BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
@@ -5120,7 +5121,9 @@ import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DihedralUp
 import BEDC.Derived.DilworthDecompositionUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DimLiftBoundaryUp.AxisNormalAddressLock
 import BEDC.Derived.DimLiftBoundaryUp.CannotClaimRouteExactness
+import BEDC.Derived.DimLiftBoundaryUp.DownstreamAcceptanceBoundary
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniDerivativeWindowUp.TasteGate
@@ -8742,6 +8745,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBu
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ObligationStability
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ObligationSurface
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelDiamondForwardLink
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelFrontierConsumption
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
