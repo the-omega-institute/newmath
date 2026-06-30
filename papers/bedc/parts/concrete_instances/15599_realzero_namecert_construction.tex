@@ -24,6 +24,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The carrier has no coordinate for quotient stream equality, host zero equality, selected limits, trichotomy, or ambient completeness.
 \end{definition}
+\leandef{BEDC.Derived.RealZeroUp.RealZeroCarrier}
 
 \begin{theorem}[RealZero NameCert obligations]
 \label{thm:real-zero-namecert-obligations}
@@ -37,6 +38,7 @@ For every accepted $\RealZeroUp$ carrier $Z=(q,S,Z_0,D,R,H,C,P,N)$, the local $\
 \end{enumerate}
 No NameCert obligation is stored outside these five finite rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealZeroUp.RealZeroCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:real-zero-carrier}. The only visible data are the zero seed $q$, the constant window $S$, the regular-Cauchy zero route $Z_0$, the dyadic zero ledger $D$, the terminal seal $R$, and the structural rows $H,C,P,N$.
 
@@ -46,6 +48,7 @@ The terminal seal is then read through $R$. Transport and replay are componentwi
 
 The carrier has no coordinate for quotient stream equality, host zero equality, selected limits, trichotomy, or ambient completeness. Thus the ledger cannot export any of those principles through the local $\NameCert_{\RealZeroUp}$ row.
 \end{proof}
+\leanchecked{BEDC.Derived.RealZeroUp.RealZeroNameCertObligations}
 
 \begin{theorem}[RealZero terminal seal handoff]
 \label{thm:real-zero-terminal-seal-handoff}
@@ -55,6 +58,7 @@ q \longrightarrow S \longrightarrow Z_0 \longrightarrow D \longrightarrow R
 $$
 together with $H,C,P,N$, and no consumer may replace that route by host zero equality, quotient real equality, selected limits, trichotomy, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealZeroUp.RealZeroCarrier\_terminal\_seal\_handoff}
 \begin{proof}
 Start with an accepted carrier $Z=(q,S,Z_0,D,R,H,C,P,N)$. The seed row $q$ is not exported directly; it is first read through the constant window $S$ and the regular-rational zero row supplied by $Z_0$.
 
@@ -69,6 +73,7 @@ Every accepted $\RealZeroUp$ packet $Z=(q,S,Z_0,D,R,H,C,P,N)$ displays a station
 
 This obligation exports no host zero equality, quotient stream equality, selected tail, trichotomy, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealZeroUp.RealZeroCarrier\_stationary\_source\_obligation}
 \begin{proof}
 Project the carrier coordinates from \autoref{def:real-zero-carrier}. The only source row for the zero value is the rational seed $q$, and the only public route from $q$ to a stream-facing object is the constant $\StreamNameUp$ window $S$ together with the zero route $Z_0$.
 
@@ -107,6 +112,48 @@ Start with a downstream consumer and unfold the accepted packet by \autoref{def:
 Apply \autoref{thm:real-zero-terminal-seal-handoff}. It requires the route through $S$, the RegSeqRat zero row inside $Z_0$, the DyadicRatCore ledger $D$, and the terminal RealUp seal $R$ before any downstream PositiveReal, RealAbs, order, metric, or completion-facing certificate may use the zero-real boundary.
 
 Because the carrier has no coordinate for host equality, quotient equality, selected limits, trichotomy, or ambient completeness, those objects cannot be inherited by the downstream consumer. What is inherited is exactly the displayed finite handoff through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{proof}
+
+\begin{theorem}[RealZero componentwise transport]
+\label{thm:real-zero-componentwise-transport}
+Let $Z=(q,S,Z_0,D,R,H,C,P,N)$ and $Z'=(q',S',Z'_0,D',R',H',C',P',N')$ be accepted $\RealZeroUp$ packets. If the displayed $\hsame$ rows in $H$ identify the rational seed, constant $\StreamNameUp$ window, $\RegSeqRatUp$ zero readback inside $Z_0$, $\DyadicRatCoreUp$ zero ledger, terminal $\RealUp$ seal, $\BHist$ support, replay, provenance, and local naming rows component by component, then every downstream read of $Z'$ follows the same zero-source route as a read of $Z$.
+
+The transported route remains a finite BEDC packet route; it does not become host real equality, quotient stream equality, selected-limit equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows with \autoref{def:real-zero-carrier}. The row $H$ is the only coordinate that moves accepted zero-real packets, and it is specified componentwise for the seed, window, regular-Cauchy zero route, dyadic ledger, terminal seal, provenance, and local name.
+
+Apply the terminal seal handoff of \autoref{thm:real-zero-terminal-seal-handoff}. It fixes the order
+$$
+q \longrightarrow S \longrightarrow Z_0 \longrightarrow D \longrightarrow R
+$$
+before any downstream consumer can inspect the zero-real boundary.
+
+The stationary source obligation of \autoref{thm:real-zero-stationary-source-obligation} and the dyadic ledger obligation of \autoref{thm:real-zero-dyadic-ledger-obligation} keep the transported seed and tolerance rows inside the same $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route. Since the carrier has no excluded coordinate, componentwise transport preserves the displayed packet without adding host or quotient principles.
+\end{proof}
+
+\begin{theorem}[RealZero replay stability]
+\label{thm:real-zero-replay-stability}
+Every accepted $\RealZeroUp$ replay through the $\Cont$ row $C$ repeats the same stationary zero-source route through the constant $\StreamNameUp$ window, the $\RegSeqRatUp$ zero readback supplied by $Z_0$, the $\DyadicRatCoreUp$ zero ledger $D$, and the terminal $\RealUp$ seal $R$. Replaying the packet cannot expose a shorter path to the zero-real seal and cannot introduce quotient streams, host zero equality, selected limits, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read $C$ from \autoref{def:real-zero-carrier}. It records displayed $\Cont$ replay from $q$ through $S$, from $S$ through $Z_0$ and $D$, and from those rows into the terminal seal $R$.
+
+Use \autoref{thm:real-zero-namecert-obligations} to identify replay stability as part of the local NameCert surface. The obligations do not permit a replay row outside $C$, and the terminal seal handoff forces every replayed read through the same finite route.
+
+Finally apply \autoref{thm:real-zero-downstream-consumer-obligation}. Downstream consumers inherit the displayed zero-real seal handoff through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so replay preserves the packet route rather than supplying an external equality or completeness principle.
+\end{proof}
+
+\begin{theorem}[RealZero ledger nonescape]
+\label{thm:real-zero-ledger-nonescape}
+The $\RealZeroUp$ ledger rows in an accepted packet $Z=(q,S,Z_0,D,R,H,C,P,N)$ are exhausted by the stationary source, constant $\StreamNameUp$ window, $\RegSeqRatUp$ zero readback, $\DyadicRatCoreUp$ zero ledger, terminal $\RealUp$ seal, $\BHist$ display, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RealZeroUp}$ row. No ledger read can escape from these rows to quotient stream equality, host zero equality, selected limits, trichotomy, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission in \autoref{def:real-zero-carrier} lists every ledger-bearing row. The finite packet contains $q,S,Z_0,D,R,H,C,P,N$ and no additional coordinate.
+
+The dyadic ledger obligation of \autoref{thm:real-zero-dyadic-ledger-obligation} places $D$ between the stationary source route and the terminal RealUp seal. The downstream consumer obligation of \autoref{thm:real-zero-downstream-consumer-obligation} then requires every consumer to read the same $\BHist$, transport, replay, provenance, and local naming support.
+
+Since \autoref{thm:real-zero-namecert-obligations} explicitly excludes rows for quotient streams, host zero equality, selected limits, trichotomy, and ambient completeness, the ledger has no path to those principles. Countable choice is likewise absent because the packet has only the displayed finite rows and no selector coordinate.
 \end{proof}
 
 \closureat{RealZeroUp}{seedStr}
