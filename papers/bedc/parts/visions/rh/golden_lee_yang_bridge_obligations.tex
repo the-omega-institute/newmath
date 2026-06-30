@@ -378,17 +378,20 @@ s\in\partial D_m.
 $$
 \end{definition}
 
-\begin{definition}[Mellin Lee--Yang stability operator]
+\begin{definition}[Self-dual Mellin Lee--Yang stability operator]
 \label{def:rh-mellin-lee-yang-stability-operator}
 The source row
 $$
-\mathsf{MellinLeeYangStabilityOperator}
+\mathsf{SelfDualMellinLeeYangOperator}
 $$
-asserts that the Mellin projection in
-\autoref{thm:rh-zeckendorf-mellin-exact-projection} preserves the
-Lee--Yang zero-free regions of the fibre packets.  Equivalently, after
-the fibrewise path packet is lifted by the Joukowsky Lee--Yang ledger,
-the Mellin integral produces no zero branch in
+asserts that the Zeckendorf--Mellin projection is used only after a
+completed self-dual packet has been supplied.  The raw one-sided Mellin
+integral of \autoref{thm:rh-zeckendorf-mellin-exact-projection} is not a
+stability-preserving operator by itself.  The self-dual row includes the
+functional-equation or Poisson-duality ledger that pairs the $u$ and
+$u^{-1}$ directions.  After the fibrewise path packet is lifted by the
+Joukowsky Lee--Yang ledger, this completed packet produces no zero
+branch in
 $$
 0<|u|<1
 $$
@@ -407,7 +410,7 @@ $$
 $$
 and
 $$
-\mathsf{MellinLeeYangStabilityOperator}
+\mathsf{SelfDualMellinLeeYangOperator}
 $$
 for the golden eta zero island.  Then the three analytic source rows of
 \autoref{def:rh-golden-bridge-analytic-source-rows} are supplied for
@@ -420,10 +423,10 @@ golden eta truncation with a Mellin projection of the Zeckendorf path
 partition function.  The dominated-splitting row supplies the branch
 decomposition and boundary dominance estimate required for
 $\mathsf{GoldenSpectralExpansion}$ and
-$\mathsf{GoldenSpectralGap}$.  The Mellin Lee--Yang stability operator
-supplies the strict inside and strict outside zero-free ledgers, with no
-radial scale gauge.  Those are exactly the stability rows required by
-$\mathsf{GoldenStableRoucheHomotopy}$.
+$\mathsf{GoldenSpectralGap}$.  The self-dual Mellin Lee--Yang stability
+operator supplies the strict inside and strict outside zero-free
+ledgers, with no radial scale gauge.  Those are exactly the stability
+rows required by $\mathsf{GoldenStableRoucheHomotopy}$.
 \end{proof}
 
 \begin{definition}[Golden bridge analytic source rows]
@@ -450,7 +453,7 @@ The Zeckendorf--Mellin route of
 \autoref{thm:rh-mellin-rows-supply-stable-bridge-source-package}
 offers a more structured way to supply these rows: first identify eta
 golden truncation as a Mellin projection of path independent-set data,
-then prove dominated transfer splitting and Mellin stability
+then prove dominated transfer splitting and self-dual Mellin stability
 preservation.  Together these rows upgrade weak eta capture to a
 boundary-stable golden packet.
 \end{definition}
@@ -580,11 +583,12 @@ $$
 $$
 and
 $$
-\mathsf{MellinLeeYangStabilityOperator}.
+\mathsf{SelfDualMellinLeeYangOperator}.
 $$
 The first row prevents the Mellin projection from selecting a
-non-Fibonacci dominant branch; the second prevents the Mellin operator
-from creating a zero in the strict inside or strict outside region.  This
+non-Fibonacci dominant branch; the second replaces the raw one-sided
+Mellin readout by a completed self-dual readout and prevents it from
+creating a zero in the strict inside or strict outside region.  This
 factorization is still a proof obligation, but it is more local than an
 unstructured comparison between the eta packet and an unrelated
 Lee--Yang packet.

@@ -149,7 +149,7 @@ or, through the Mellin factorization of
 $$
 \mathsf{ZeckendorfTransferDominatedSplitting}
 \qquad
-\mathsf{MellinLeeYangStabilityOperator}.
+\mathsf{SelfDualMellinLeeYangOperator}.
 $$
 Only after those rows are attached to the same golden zero island does
 the no-scale argument apply to the readout
@@ -219,16 +219,16 @@ for the normalized endpoint transfer product $\mathcal T_m(\alpha)$.
 \label{def:rh-mellin-stability-attack-surfaces}
 The source row
 $$
-\mathsf{MellinLeeYangStabilityOperator}
+\mathsf{SelfDualMellinLeeYangOperator}
 $$
 may be attacked through any of the following stability-preservation
 surfaces.
 
-The total-positivity surface proves that the Mellin kernel produces a
-P\'olya-frequency or Laguerre--P\'olya type transform compatible with
-the Lee--Yang zero-free regions.
+The total-positivity surface proves that the completed Mellin kernel
+produces a P\'olya-frequency or Laguerre--P\'olya type transform
+compatible with the Lee--Yang zero-free regions.
 
-The Hermite--Biehler surface rewrites the Mellin-projected packet as a
+The Hermite--Biehler surface rewrites the completed Mellin packet as a
 function
 $$
 E(z)=A(z)-iB(z)
@@ -236,8 +236,8 @@ $$
 whose half-plane or unit-circle stability is controlled by a
 de Branges-type ledger.
 
-The Rouch\'e-stable discretization surface approximates the Mellin
-integral by finite sums
+The Rouch\'e-stable discretization surface approximates the completed
+Mellin integral by finite sums
 $$
 \sum_{\ell}w_{\ell}(s)L_{m,u_{\ell}},
 $$
@@ -247,8 +247,8 @@ ledger strong enough to pass to the integral without crossing zero.
 
 \begin{principle}[Mellin stability as no-demon finite form]
 \label{prin:rh-mellin-stability-no-demon-finite-form}
-The Mellin stability row is the finite packet analogue of the no-demon
-constraint.  An off-half readout
+The self-dual Mellin stability row is the finite packet analogue of the
+no-demon constraint.  An off-half readout
 $$
 s=\frac12+r+it
 $$
@@ -257,10 +257,10 @@ $$
 e^{-rh_a}
 $$
 and therefore tilts any active-mode distribution by real-positive
-weights.  If Mellin projection preserves the Lee--Yang inside and
-outside zero-free regions, that tilt cannot be hidden as a phase or
-prime-register gauge.  The only remaining legal readout is the unit
-boundary readout, where
+weights.  If the completed self-dual Mellin readout preserves the
+Lee--Yang inside and outside zero-free regions, that tilt cannot be
+hidden as a phase or prime-register gauge.  The only remaining legal
+readout is the unit boundary readout, where
 $$
 |e^{-(s-1/2)h_a}|=1.
 $$
@@ -293,6 +293,98 @@ false.  Any zeta-facing use of the Mellin row must carry the additional
 ledger that transports the additive Zeckendorf height into the
 multiplicative prime height without creating a real-positive scale
 gauge.
+\end{principle}
+
+\begin{definition}[Self-dual Zeckendorf completed packet]
+\label{def:rh-self-dual-zeckendorf-completed-packet}
+Let
+$$
+K_m(u):=I_m(\mathbf x(u))-1
+=
+\sum_{n=1}^{F_{m+2}-1}(-1)^n e^{-nu}
+$$
+be the one-sided Zeckendorf--Mellin kernel.  A
+\emph{self-dual Zeckendorf completed packet} is a completed kernel in
+the logarithmic variable $y=\log u$ of the form
+$$
+\Psi_m(y)
+:=
+e^{y/2}K_m(e^y)+e^{-y/2}K_m(e^{-y}),
+$$
+or a ledger-equivalent Poisson-completed kernel with the same symmetry
+row
+$$
+\Psi_m(y)=\Psi_m(-y).
+$$
+Its completed Mellin readout is
+$$
+\mathcal X_m\left(\frac12+z\right)
+:=
+\int_{-\infty}^{\infty}\Psi_m(y)e^{zy}\,dy,
+$$
+whenever the displayed integral is replaced, if necessary, by the
+corresponding regularized finite-packet ledger.  The point of the row is
+not the particular displayed completion, but the presence of a
+functional-equation ledger pairing the $u$ and $u^{-1}$ directions before
+Lee--Yang stability is read out.
+\end{definition}
+
+\begin{definition}[Self-dual Zeckendorf Hermite--Biehler target]
+\label{def:rh-self-dual-zeckendorf-hb-target}
+The source row
+$$
+\mathsf{SelfDualZeckendorfHB}
+$$
+asserts that the completed transform of
+\autoref{def:rh-self-dual-zeckendorf-completed-packet} belongs to a
+Hermite--Biehler, de Branges, or Laguerre--P\'olya stability class strong
+enough to force every zero of
+$$
+\mathcal X_m(s)
+$$
+in the zero-relevant island to satisfy
+$$
+\Re(s)=\frac12.
+$$
+Equivalently, after writing $s=1/2+z$, the completed transform has no
+zero with $\Re(z)\ne0$ on the island covered by the certificate.
+\end{definition}
+
+\begin{theorem}[Self-dual Hermite--Biehler target gives fixed-half packet]
+\label{thm:rh-self-dual-hb-gives-fixed-half-packet}
+If a zero-relevant golden packet is captured by a self-dual Zeckendorf
+completed packet satisfying $\mathsf{SelfDualZeckendorfHB}$, and if the
+capture homotopy preserves winding on the boundary of the same island,
+then all zeros captured on that island have real part $1/2$.
+\end{theorem}
+
+\begin{proof}
+Write $s=1/2+z$.  The self-dual completed packet supplies a transform
+$$
+\mathcal X_m\left(\frac12+z\right)
+=
+\int_{-\infty}^{\infty}\Psi_m(y)e^{zy}\,dy
+$$
+with the symmetry ledger $\Psi_m(y)=\Psi_m(-y)$.  The
+$\mathsf{SelfDualZeckendorfHB}$ row excludes zeros with $\Re(z)\ne0$ on
+the zero-relevant island.  Thus any zero of the completed packet in that
+island has $z=it$ and hence real part $1/2$.  Boundary winding
+preservation transfers the same zero count from the captured golden
+packet to the completed packet on the island, so the captured packet
+zeros have the same fixed-half readout.
+\end{proof}
+
+\begin{principle}[One-sided Mellin is a source identity, not a stability row]
+\label{prin:rh-one-sided-mellin-source-not-stability-row}
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} remains the exact
+source identity connecting the eta golden truncation to the
+Zeckendorf path partition function.  Its role is to expose the finite
+path ledger and the cyclotomic unit-boundary fibre.  It does not license
+unit-boundary stability after Mellin projection.  The stability row must
+instead pass through the completed self-dual packet of
+\autoref{def:rh-self-dual-zeckendorf-completed-packet} and the
+Hermite--Biehler target of
+\autoref{def:rh-self-dual-zeckendorf-hb-target}.
 \end{principle}
 
 \begin{definition}[Zeckendorf--G\"odel prime code]
