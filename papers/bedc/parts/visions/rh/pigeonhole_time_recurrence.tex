@@ -122,6 +122,40 @@ projection cannot. Thus the recurrence row is legal only as a
 ledgered finite projection collision.
 \end{principle}
 
+\begin{principle}[Finite phase recurrence is not inverse dynamics]
+\label{prin:rh-finite-phase-recurrence-not-inverse-dynamics}
+The named row
+$$
+\mathsf{PigeonholePhaseClosureNoScaleTime}_{\zeta}
+$$
+records the boundary between finite phase recurrence and inverse
+dynamics. A finite observer can identify two projected phase readouts,
+$$
+q_n(\Phi_n(t_i))=q_n(\Phi_n(t_j)),
+$$
+but this is not an inverse evolution from the later readout to the
+earlier ledger.  Any source, tail, winding, parity, or prime-register
+data erased by the projection must have been retained as ledger data if
+it is to be recovered.
+
+For a centered active channel
+$$
+e^{-(s-1/2)h_a}
+=
+e^{-r h_a}e^{-it h_a},
+$$
+the factor $e^{-it h_a}$ belongs to the unit phase layer and may enter
+the finite recurrence row.  The factor $e^{-r h_a}$ belongs to
+$\mathbb R_{>0}$.  Mirror transport sends $r$ to $-r$, but the
+cancellation
+$$
+e^{-r h_a}e^{r h_a}=1
+$$
+uses a radial ledger carrying the value of $r$ and the active height
+$h_a$.  It is therefore not a phase recurrence produced by the finite
+observer and not a legal replacement for unit-boundary closure.
+\end{principle}
+
 \begin{definition}[Scale-time energy in a zero tower]
 \label{def:rh-scale-time-energy-zero-tower}
 Let a generated zero tower have active rows $A_n$ with heights
@@ -166,7 +200,10 @@ for all displayed tower levels. Then $r=0$.
 
 \begin{proof}
 The pigeonhole row supplies recurrence candidates only in compact finite
-phase projections. By
+phase projections.  By
+\autoref{prin:rh-finite-phase-recurrence-not-inverse-dynamics}, these
+collisions are not inverse dynamics and do not license radial-scale
+closure.  By
 \autoref{prin:rh-hist-flow-closure-rejects-scale-time}, a nonzero
 radial parameter $r$ would be a scale-time import rather than a
 Hist-generated phase row. If $r\ne0$, then $r^2>0$, and cofinal growth
