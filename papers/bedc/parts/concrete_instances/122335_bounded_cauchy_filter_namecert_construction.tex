@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\BoundedCauchyFilterUp$}
+\label{ch:concrete-instances-bounded-cauchy-filter-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges on Cauchy filters and bounded filters, the $\BoundedCauchyFilterUp$ packet records the bounded source surface used by the L10 completion corridor. It sits between the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the bounded base face of \autoref{ch:concrete-instances-filterbase-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion handoff of \autoref{ch:concrete-instances-bounded-cauchy-filter-completion-namecert}. The packet exposes bounded Cauchy-filter source data only as finite NameCert rows; it is not a selected limit, quotient filter equality, countable-choice selector, or ambient completeness principle.
+
+\begin{definition}[Bounded Cauchy filter carrier]
+\label{def:bounded-cauchy-filter-carrier}
+A $\BoundedCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+X=(F,B,D,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ source row whose requests and meets are read as displayed Cauchy-filter data.
+\item $B$ is the bounded $\FilterBaseUp$ face naming the finite base requests and the bound certificate used by every source read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to bounded filter requests.
+\item $S$ is the finite $\StreamNameUp$ window family opened from the bounded Cauchy-filter source.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the stream windows and dyadic tolerances.
+\item $R$ is the $\RealUp$ seal row exposed only after $F,B_0,D,S,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy-filter source, bounded base face, dyadic tolerance, stream window, regular rational readback, Real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay for the same bounded source route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedCauchyFilterUp$, $\CauchyFilterUp$, $\FilterBaseUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BoundedCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier exports no coordinate for selected limits, quotient filter equality, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bounded Cauchy filter NameCert obligations]
+\label{thm:bounded-cauchy-filter-namecert-obligations}
+For an accepted carrier $X=(F,B,D,S,Q,R,H,C,P,N)$ of \autoref{def:bounded-cauchy-filter-carrier}, the local $\NameCert_{\BoundedCauchyFilterUp}$ surface consists exactly of carrier admission, $\CauchyFilterUp$ source admission, bounded $\FilterBaseUp$ face admission, dyadic tolerance accounting, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The Cauchy-filter source row is $F$, the bounded base face is $B$, and the dyadic tolerance ledger is $D$.
+
+The route can open a finite window only after those source rows have been displayed. The window row $S$ then determines the regular rational readback row $Q$ available to Real-facing source consumers.
+
+The seal row $R$ is downstream of $F,B_0,D,S,Q$. Transport, replay, provenance, and local naming are exhausted by $H,C,P,N$, so the listed rows are precisely the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded Cauchy filter L10 handoff]
+\label{thm:bounded-cauchy-filter-l10-handoff}
+Every L10 completion consumer of an accepted $\BoundedCauchyFilterUp$ carrier factors through the finite route
+$$
+\CauchyFilterUp \longmapsto \FilterBaseUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto \BoundedCauchyFilterCompletionUp .
+$$
+The handoff exports only the displayed source, bounded-base, tolerance, window, readback, seal, transport, replay, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Begin with an L10 completion consumer of $X$. By \autoref{thm:bounded-cauchy-filter-namecert-obligations}, the consumer cannot reach the completion-facing source route until it has read the Cauchy-filter source $F$, the bounded base face $B$, and the dyadic tolerance ledger $D$.
+
+The finite readback is then forced through $S,Q,R$. These rows are the displayed stream schedule, regular rational readback, and Real seal, so the bounded completion packet receives only the bounded Cauchy-filter source route.
+
+The structural rows $H,C,P,N$ replay and name that same route. Since the carrier contains no selected limit, quotient-filter equality, host real equality, countable-choice selector, or ambient completeness witness, no other L10 handoff is available.
+\end{proof}
+
+\begin{closurestatus}{\BoundedCauchyFilterUp}
+  \constructivestory{A $\BoundedCauchyFilterUp$ packet is generated from a CauchyFilter source row, bounded FilterBase face, DyadicRatCore tolerances, finite StreamName windows, RegSeqRat readback, a Real seal, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-cauchy-filter-carrier}, \autoref{thm:bounded-cauchy-filter-namecert-obligations}, and \autoref{thm:bounded-cauchy-filter-l10-handoff} seed the bounded Cauchy-filter source corridor for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient filter equality, host real equality, countable choice, ambient completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-source compatibility, dyadic tolerance accounting, finite-window exposure, regular readback, Real seal nonescape, package provenance, and local naming for the displayed packet.}
+\end{closurestatus}
