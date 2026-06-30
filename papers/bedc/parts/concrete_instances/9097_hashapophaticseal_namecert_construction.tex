@@ -65,14 +65,32 @@ Now inspect the carrier inventory. If $F$ and $G$ are removed while $D$ remains,
 The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/HashApophaticSealUp/TasteGate.lean}. It provides \texttt{Nontrivial HashApophaticSealUp} and \texttt{FieldFaithful HashApophaticSealUp} instances for the displayed digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and naming carrier.
 \leanchecked{BEDC.Derived.HashApophaticSealUp.HashApophaticSealTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[HashApophaticSeal public seal export]
+\label{thm:hash-apophatic-seal-public-seal-export}
+Every accepted $\HashApophaticSealUp$ carrier
+$$
+A=(D,F,G,T,R,H,C,P,N)
+$$
+exports one public seal packet whose visible surface is the digest row $D$, fiber-ledger row $F$, GAP provenance row $G$, common far-end boundary row $T$, refusal row $R$, componentwise transport row $H$, continuation row $C$, package provenance row $P$, and local naming row $N$. The exported packet permits digest, fiber, GAP, and far-end refusal reads, but it exports no source equality from digest sameness, selected preimage, internal far-end object, global digest, hidden outside supply, or unledgered fiber route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The public rows are exactly $D,F,G,T,R,H,C,P,N$, and each row is already listed in the local NameCert surface of \autoref{thm:hash-apophatic-seal-namecert-obligations}.
+
+The digest row is public only together with the fiber ledger and GAP provenance. By \autoref{thm:hash-apophatic-seal-fiber-nonescape}, any digest read that drops $F$ or $G$ loses the information that separates digest sameness from source equality.
+
+The far-end row is public only as boundary data. The refusal row $R$, transport row $H$, continuation row $C$, provenance row $P$, and local name $N$ keep the exported packet inside the displayed seal rather than an internal object or selected preimage.
+
+Thus the seal exports one finite public packet and nothing outside it. Source equality, selected preimages, internal far-end objects, global digest readings, hidden outside supply, and unledgered fiber routes remain absent from the carrier.
+\end{proof}
+
 \begin{closurestatus}{\HashApophaticSealUp}
   \constructivestory{A $\HashApophaticSealUp$ packet is generated from a visible digest, a digest-fiber ledger, GAP provenance, a common apophatic far-end boundary, a refusal row, componentwise transport, displayed replay, provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:hash-apophatic-seal-carrier}, \autoref{thm:hash-apophatic-seal-namecert-obligations}, \autoref{thm:hash-apophatic-seal-fiber-nonescape}, the falsifiable prediction, the independence witness, and the TasteGate marker bind $D,F,G,T,R,H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling scopes $\HashUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointUp$, $\ApophaticSocketUp$, and $\ExternalSupplyBoundaryUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:hash-apophatic-seal-carrier}, \autoref{thm:hash-apophatic-seal-namecert-obligations}, \autoref{thm:hash-apophatic-seal-fiber-nonescape}, \autoref{thm:hash-apophatic-seal-public-seal-export}, the falsifiable prediction, the independence witness, and the TasteGate marker bind $D,F,G,T,R,H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling scopes $\HashUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointUp$, $\ApophaticSocketUp$, and $\ExternalSupplyBoundaryUp$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.HashApophaticSealUp.HashApophaticSealTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close source equality from digest sameness, selected preimages, internal far-end objects, a global digest, an outside-supply witness, or bridge checking.}
-  \upgradepath{Public closure requires a public seal theorem exporting the digest, fiber, GAP, and far-end refusal packet without source-equality or selected-preimage escape.}
+  \upgradepath{Bridged closure requires a standard bridge that carries the public digest, fiber, GAP, and far-end refusal packet into the acceptance-bridge schema.}
 \end{closurestatus}
