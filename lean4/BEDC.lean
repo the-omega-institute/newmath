@@ -2126,6 +2126,7 @@ import BEDC.Derived.CauchyFilterCompletenessUp
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.BasisRoute
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.TasteGate
+import BEDC.Derived.CauchyFilterCompletionUniversalUp
 import BEDC.Derived.CauchyFilterConvergenceUp.TasteGate
 import BEDC.Derived.CauchyFilterCriterionUp.TasteGate
 import BEDC.Derived.CauchyFilterLimitUp
