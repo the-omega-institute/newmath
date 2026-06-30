@@ -1,0 +1,190 @@
+\chapter{Thermodynamic No-Scale Route}
+\label{ch:visions-rh-thermodynamic-no-scale-route}
+\origin{ai}
+
+\autoref{ch:visions-rh-pigeonhole-time-recurrence} separates compact
+phase recurrence from radial scale time, while
+\autoref{ch:visions-rh-arithmetic-spectral-string-route} reads the same
+distinction as a conservative normal-mode condition.  The present chapter
+records the information-thermodynamic reading of that row.  It treats an
+off-half real part as a Boltzmann tilt of the active mode distribution.
+The chapter supplies a no-scale implication under explicit stability and
+growth hypotheses; it does not supply the golden Lee--Yang bridge, strong
+active capture, or zero-presentation completeness.
+
+\begin{definition}[Finite thermodynamic mode packet]
+\label{def:rh-finite-thermodynamic-mode-packet}
+A finite thermodynamic mode packet at level $m$ consists of a finite
+active set $A_m$, positive heights
+$$
+h_a>0
+\qquad
+(a\in A_m),
+$$
+and nonnegative weights $w_a$ whose total weight is positive.  The pure
+phase state is
+$$
+\Psi_m(t)
+:=
+\sum_{a\in A_m}c_a e^{-it h_a}e_a.
+$$
+For a readout
+$$
+s=\frac12+r+it,
+$$
+the amplitude-biased state is
+$$
+\Psi_m(r,t)
+:=
+\sum_{a\in A_m}c_a e^{-r h_a}e^{-it h_a}e_a.
+$$
+The factor $e^{-it h_a}$ is a reversible phase row.  The factor
+$e^{-r h_a}$ is a real-positive thermal tilt row.
+\end{definition}
+
+\begin{definition}[Relative scale-defect energy]
+\label{def:rh-relative-scale-defect-energy}
+For a finite thermodynamic mode packet, let
+$$
+\bar h_m
+:=
+\frac{\sum_{a\in A_m}w_a h_a}{\sum_{a\in A_m}w_a}.
+$$
+The relative log-scale defect of $s=1/2+r+it$ at $a$ is
+$$
+\widetilde d_a(r)
+:=
+-r(h_a-\bar h_m).
+$$
+The relative scale-defect energy is
+$$
+E_m^{\mathrm{rel}}(r)
+:=
+\sum_{a\in A_m}w_a\widetilde d_a(r)^2.
+$$
+Equivalently,
+$$
+E_m^{\mathrm{rel}}(r)
+=
+r^2V_m,
+\qquad
+V_m:=
+\sum_{a\in A_m}w_a(h_a-\bar h_m)^2.
+$$
+This relative form ignores a common normalization factor and records only
+mode-to-mode scale distortion.
+\end{definition}
+
+\begin{definition}[Boltzmann tilt of an active packet]
+\label{def:rh-boltzmann-tilt-active-packet}
+The normalized baseline distribution of a finite thermodynamic mode
+packet is
+$$
+p_a^{(0)}
+:=
+\frac{w_a}{\sum_{b\in A_m}w_b}.
+$$
+The off-half parameter $r$ tilts it to
+$$
+p_a^{(r)}
+:=
+\frac{w_a e^{-2r h_a}}{Z_m(r)},
+\qquad
+Z_m(r)
+:=
+\sum_{b\in A_m}w_b e^{-2r h_b}.
+$$
+Thus $r$ is not a phase coordinate.  It changes the relative distribution
+of active modes by an exponential-family row.
+\end{definition}
+
+\begin{principle}[Relative entropy detects radial tilt]
+\label{prin:rh-relative-entropy-detects-radial-tilt}
+In the packet of \autoref{def:rh-boltzmann-tilt-active-packet}, the
+free-energy row
+$$
+F_m(r):=-\log Z_m(r)
+$$
+and the relative entropy
+$$
+D_{\mathrm{KL}}(p^{(r)}\Vert p^{(0)})
+$$
+read the same radial phenomenon as the scale-defect ledger.  Near
+$r=0$, the Fisher-information row is governed by the active-height
+variance:
+$$
+I_m(0)=4\operatorname{Var}_{p^{(0)}}(h).
+$$
+Accordingly, a nonzero $r$ is a relative-information cost, not a
+bounded phase error on $\mathbb T$.
+\end{principle}
+
+\begin{definition}[Thermodynamically stable zero packet tower]
+\label{def:rh-thermodynamically-stable-zero-packet-tower}
+A zero certificate tower is thermodynamically stable when each
+sufficiently fine level carries a finite thermodynamic mode packet,
+the only legal closed dynamics are the unit phase rows
+$$
+e^{-it h_a}\in\mathbb T,
+$$
+there is no unledgered $\mathbb R_{>0}$ reservoir, the relative
+variance row is cofinal,
+$$
+V_m\to\infty,
+$$
+and the relative scale-defect energy is bounded:
+$$
+E_m^{\mathrm{rel}}(r)\le B
+$$
+for a finite $B$ independent of $m$.
+\end{definition}
+
+\begin{theorem}[Thermodynamic no-scale theorem]
+\label{thm:rh-thermodynamic-no-scale}
+Let a thermodynamically stable zero packet tower have limit readout
+$$
+s_{\infty}=\frac12+r+it.
+$$
+Then $r=0$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-relative-scale-defect-energy},
+$$
+E_m^{\mathrm{rel}}(r)=r^2V_m.
+$$
+If $r\neq0$, then $r^2>0$.  Since $V_m\to\infty$, the displayed energy
+is unbounded:
+$$
+E_m^{\mathrm{rel}}(r)\to\infty.
+$$
+This contradicts the thermodynamic stability bound
+$$
+E_m^{\mathrm{rel}}(r)\le B.
+$$
+Therefore $r=0$.
+\end{proof}
+
+\begin{corollary}[Thermodynamic stability gives fixed-half readout]
+\label{cor:rh-thermodynamic-stability-fixed-half-readout}
+If every accepted non-trivial completed zeta zero is represented by a
+thermodynamically stable zero packet tower, then every such readout has
+real part $1/2$.
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:rh-thermodynamic-no-scale} to the tower representing
+the accepted zero.
+\end{proof}
+
+\begin{principle}[Thermodynamic wording preserves the proof boundary]
+\label{prin:rh-thermodynamic-wording-proof-boundary}
+The information-thermodynamic language identifies the off-half coordinate
+with entropy production, free-energy cost, or thermal tilt only after a
+canonical packet tower has been supplied.  It does not construct that
+tower.  The remaining source load is the same as in the golden route:
+strong active capture, same-island Lee--Yang boundary stability,
+cofinal relative-variance growth, no far-end scale reservoir, and
+zero-presentation completeness.  Without those rows, the chapter gives a
+conditional no-scale implication rather than a zeta-zero coverage theorem.
+\end{principle}
