@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRateTransformerUp$}
+\label{ch:concrete-instances-regular-cauchy-rate-transformer-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyRateTransformerUp$ packet records a certified change of regular-Cauchy rate between two displayed regular-rational reading disciplines. It sits after the rate-realization route of \autoref{ch:concrete-instances-cauchy-rate-realization-namecert}, the regular rational surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the source-modulus rate transform of \autoref{ch:concrete-instances-regular-cauchy-rate-transform-namecert}. The carrier changes the displayed rate schedule before downstream $\RealUp$ consumers inspect the seal, without quotienting sequences or choosing a limit.
+
+\begin{definition}[Regular Cauchy rate transformer carrier]
+\label{def:regular-cauchy-rate-transformer-carrier}
+A $\RegularCauchyRateTransformerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,D,A,B,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window through which both regular-Cauchy rate schedules are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the requested target tolerances and the dyadic comparison budget for translating source-rate requests into target-rate requests.
+\item $A$ is the source $\RegSeqRatUp$ rate row.
+\item $B$ is the target $\RegSeqRatUp$ rate row.
+\item $R$ is the rate-change replay row. For every displayed target request it names the source request, the finite window read, and the dyadic tolerance comparison used to justify the transformed rate.
+\item $H$ stores componentwise $\hsame$ transport for $S,D,A,B,R$ and the structural rows below.
+\item $C$ stores displayed $\Cont$ replay from the source rate through the window and dyadic ledger into the transformed target rate.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyRateTransformerUp$, $\CauchyRateRealizationUp$, $\RegularCauchyRateTransformUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRateTransformerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, ambient completeness, or a detached $\RealUp$ seal.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy rate transformer NameCert obligations]
+\label{thm:regular-cauchy-rate-transformer-namecert-obligations}
+For every accepted $\RegularCauchyRateTransformerUp$ carrier $T=(S,D,A,B,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyRateTransformerUp}$ surface consists exactly of the following five finite rows:
+\begin{enumerate}
+\item carrier admission for the finite window, dyadic tolerance ledger, source rate row, target rate row, rate-change replay, componentwise transport, continuation replay, provenance, and local naming;
+\item source-rate exposure, requiring each transformed request to cite a displayed $\RegSeqRatUp$ source-rate row $A$;
+\item target-rate exposure, requiring the transformed request to land in the displayed $\RegSeqRatUp$ target-rate row $B$ through the same $\StreamNameUp$ window $S$;
+\item dyadic comparison and replay, requiring $D$ and $R$ to record the tolerance budget and the finite route from target request back to source request;
+\item structural stability and nonescape, requiring $H,C,P,N$ to transport, replay, source, and name the same packet without adding quotient streams, selected limits, countable choice, host real equality, ambient completeness, or a detached real seal.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-rate-transformer-carrier}. Its analytic rows are the window $S$, dyadic ledger $D$, source rate $A$, target rate $B$, and replay row $R$.
+
+The source-rate and target-rate obligations are read from $A$ and $B$. The finite window $S$ keeps both schedules on the same displayed observation surface, so a transformed request cannot bypass the named StreamName row.
+
+The dyadic comparison is exactly the row $D$, and the finite transformation route is exactly the row $R$. Together they record how a target tolerance is justified by a source request and a displayed comparison budget.
+
+Finally $H,C,P,N$ provide componentwise transport, continuation replay, provenance, and local naming for the same rows. Since the carrier omits quotient stream equality, selected limits, countable choice, host real equality, ambient completeness, and detached real seals, the local certificate cannot export any of those principles.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyRateTransformerUp$ read is refuted if a target $\RegSeqRatUp$ rate request reaches a $\RealUp$ consumer without displaying the source-rate row $A$, the target-rate row $B$, the finite $\StreamNameUp$ window $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the replay row $R$.}
+
+\independenceWitness{cauchy-rate-realization, regular-cauchy-rate-transform, regseqrat, streamname, dyadicratcore, real: $\RegularCauchyRateTransformerUp$ is not bijective to any listed sibling because it jointly carries two regular-Cauchy rate rows, a shared finite window, a dyadic comparison ledger, a rate-change replay row, transport, continuation replay, provenance, and local naming.}
+
+\closureat{RegularCauchyRateTransformerUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRateTransformerUp}
+  \constructivestory{A $\RegularCauchyRateTransformerUp$ packet is generated from a finite StreamName window, a DyadicRatCore tolerance ledger, source and target RegSeqRat rate rows, a rate-change replay row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-rate-transformer-carrier} and \autoref{thm:regular-cauchy-rate-transformer-namecert-obligations} seed the finite rate-change certificate consumed by regular-rational and Real-facing readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-rate exposure, target-rate exposure, dyadic comparison, replay stability, transport, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
