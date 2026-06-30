@@ -11914,6 +11914,7 @@ import BEDC.Derived.SequenceFilterBridgeUp.FilterToSequenceRoute
 import BEDC.Derived.SequenceFilterBridgeUp.SequenceToFilterRoute
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentCalculusUp.TasteGate
+import BEDC.Derived.SequentialApartnessCompletionBoundaryUp
 import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
 import BEDC.Derived.SequentialArchimedeanWindowUp.TasteGate
 import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
