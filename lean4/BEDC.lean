@@ -1178,6 +1178,7 @@ import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BishopSpaceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
+import BEDC.Derived.BishopTotalBoundedUp
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BishopUniformContinuityModulusUp.TasteGate
@@ -9206,6 +9207,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
@@ -10882,6 +10884,7 @@ import BEDC.Derived.RecursionAuthorizationLedgerUp.OutputAuditBoundary
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RecursorAuthorizationUp.TasteGate
+import BEDC.Derived.RecursorBranchAuditUp.NamecertObligations
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
 import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
