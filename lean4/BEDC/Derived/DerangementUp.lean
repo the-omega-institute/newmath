@@ -14,6 +14,9 @@ def derangementNumber : Nat -> Nat
   | 1 => 0
   | n + 2 => (n + 1) * (derangementNumber (n + 1) + derangementNumber n)
 
+abbrev subfactorialNumber (n : Nat) : Nat :=
+  derangementNumber n
+
 def alternatingPositive : Nat -> Bool
   | 0 => true
   | Nat.succ n =>
@@ -465,6 +468,17 @@ theorem derangementNumber_first_order_negative {n : Nat} :
   rw [h] at step
   exact step
 
+theorem derangementNumber_first_order_signed_recurrence (n : Nat) :
+    (alternatingPositive (Nat.succ n) = true ∧
+      derangementNumber (Nat.succ n) =
+        Nat.succ n * derangementNumber n + 1) ∨
+    (alternatingPositive (Nat.succ n) = false ∧
+      derangementNumber (Nat.succ n) + 1 =
+        Nat.succ n * derangementNumber n) := by
+  cases h : alternatingPositive (Nat.succ n)
+  · exact Or.inr ⟨rfl, derangementNumber_first_order_negative h⟩
+  · exact Or.inl ⟨rfl, derangementNumber_first_order_positive h⟩
+
 theorem derangementNumber_factorial_closed_form (n : Nat) :
     derangementNumber n + factorialClosedNegativeList n =
       factorialClosedPositiveList n := by
@@ -478,6 +492,25 @@ theorem derangementNumber_inclusion_exclusion (n : Nat) :
   rw [inclusionExclusionNegative_factorial n]
   rw [inclusionExclusionPositive_factorial n]
   exact derangementNumber_factorial_closed_form n
+
+theorem subfactorialNumber_two_step_recurrence (n : Nat) :
+    subfactorialNumber (n + 2) =
+      (n + 1) * (subfactorialNumber (n + 1) + subfactorialNumber n) := by
+  exact derangementNumber_two_step_recurrence n
+
+theorem subfactorialNumber_first_order_signed_recurrence (n : Nat) :
+    (alternatingPositive (Nat.succ n) = true ∧
+      subfactorialNumber (Nat.succ n) =
+        Nat.succ n * subfactorialNumber n + 1) ∨
+    (alternatingPositive (Nat.succ n) = false ∧
+      subfactorialNumber (Nat.succ n) + 1 =
+        Nat.succ n * subfactorialNumber n) := by
+  exact derangementNumber_first_order_signed_recurrence n
+
+theorem subfactorialNumber_inclusion_exclusion_balance (n : Nat) :
+    subfactorialNumber n + inclusionExclusionNegative n =
+      inclusionExclusionPositive n := by
+  exact derangementNumber_inclusion_exclusion n
 
 theorem derangementNumber_zero :
     derangementNumber 0 = 1 := by
@@ -502,10 +535,18 @@ theorem derangementNumber_four :
 theorem DerangementUp_constructive_export :
     derangementNumber 0 = 1 ∧
       derangementNumber 1 = 0 ∧
+      (∀ n : Nat, subfactorialNumber n = derangementNumber n) ∧
       (∀ n : Nat,
         derangementNumber (n + 2) =
           (n + 1) * (derangementNumber (n + 1) + derangementNumber n)) ∧
       (∀ n : Nat, signedStepBalance n) ∧
+      (∀ n : Nat,
+        (alternatingPositive (Nat.succ n) = true ∧
+          derangementNumber (Nat.succ n) =
+            Nat.succ n * derangementNumber n + 1) ∨
+        (alternatingPositive (Nat.succ n) = false ∧
+          derangementNumber (Nat.succ n) + 1 =
+            Nat.succ n * derangementNumber n)) ∧
       (∀ n : Nat,
         derangementNumber n + factorialClosedNegativeList n =
           factorialClosedPositiveList n) ∧
@@ -518,14 +559,20 @@ theorem DerangementUp_constructive_export :
     · exact derangementNumber_one
     · constructor
       · intro n
-        exact derangementNumber_two_step_recurrence n
+        rfl
       · constructor
         · intro n
-          exact derangementNumber_signed_recurrence_balance n
+          exact derangementNumber_two_step_recurrence n
         · constructor
           · intro n
-            exact derangementNumber_factorial_closed_form n
-          · intro n
-            exact derangementNumber_inclusion_exclusion n
+            exact derangementNumber_signed_recurrence_balance n
+          · constructor
+            · intro n
+              exact derangementNumber_first_order_signed_recurrence n
+            · constructor
+              · intro n
+                exact derangementNumber_factorial_closed_form n
+              · intro n
+                exact derangementNumber_inclusion_exclusion n
 
 end BEDC.Derived.DerangementUp
