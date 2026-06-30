@@ -1,0 +1,112 @@
+\origin{ai}
+
+\subsection{The six-window Fibonacci cube and its geodesic enumerator}
+\label{sec:window6-fibonacci-cube-geodesic-enumerator}
+
+\paragraph{Carrier.}
+The finite carrier is the set of binary words of length six with no adjacent entries equal to $1$.  Explicitly, let
+$$
+\begin{aligned}
+X_6=\{w=(w_1,w_2,w_3,w_4,w_5,w_6)\in \{0,1\}^6 : w_iw_{i+1}=0\text{ for }1\leq i<6\}.
+\end{aligned}
+$$
+The graph $\Gamma_6$ has vertex set $X_6$.  Two vertices $u,v\in X_6$ are adjacent when they differ in exactly one coordinate.  Equivalently, with
+$$
+\begin{aligned}
+\operatorname{dist}_{\{0,1\}^6}(u,v)=\#\{i: u_i\neq v_i\},
+\end{aligned}
+$$
+the edge relation is
+$$
+\begin{aligned}
+\{u,v\}\in E(\Gamma_6)\quad\Longleftrightarrow\quad u,v\in X_6,\ u\neq v,\ \operatorname{dist}_{\{0,1\}^6}(u,v)=1.
+\end{aligned}
+$$
+This gives $|X_6|=21$ and $\Gamma_6$ has exactly $38$ undirected Hamming-distance-one edges.
+
+\paragraph{Distance relation and counting kernels.}
+For $u,v\in X_6$, let $d(u,v)$ be the graph distance in $\Gamma_6$.  Let $g(u,v)$ be the number of shortest directed vertex paths from $u$ to $v$ inside $\Gamma_6$, with the convention $g(u,u)=1$.  Thus $g(u,v)$ counts ordered geodesics: the endpoints are ordered, and each path is counted according to its ordered sequence of vertices.  For each $0\leq k\leq 6$, define the ordinary ordered distance class
+$$
+\begin{aligned}
+D_k=\{(u,v)\in X_6\times X_6 : d(u,v)=k\}
+\end{aligned}
+$$
+and define the geodesic enumerator coefficient
+$$
+\begin{aligned}
+G_{6,k}=\sum_{(u,v)\in D_k} g(u,v).
+\end{aligned}
+$$
+The ordinary ordered distance distribution is
+$$
+\begin{aligned}
+(|D_0|,|D_1|,|D_2|,|D_3|,|D_4|,|D_5|,|D_6|)=(21,76,128,124,70,20,2).
+\end{aligned}
+$$
+The corresponding ordered geodesic enumerator profile is
+$$
+\begin{aligned}
+(G_{6,0},G_{6,1},G_{6,2},G_{6,3},G_{6,4},G_{6,5},G_{6,6})=(21,76,216,448,602,424,122).
+\end{aligned}
+$$
+Consequently the total ordered geodesic mass is
+$$
+\begin{aligned}
+\sum_{u\in X_6}\sum_{v\in X_6}g(u,v)=21+76+216+448+602+424+122=1909.
+\end{aligned}
+$$
+These identities are purely finite identities over the graph just defined; no limiting object or external analytic input is used.
+
+\paragraph{Unordered endpoint profile.}
+For distinct unordered endpoints, the same geodesic count can be grouped by graph distance.  The profile by distances $1$ through $6$ is
+$$
+\begin{aligned}
+(38,108,224,301,212,61),
+\end{aligned}
+$$
+with total
+$$
+\begin{aligned}
+38+108+224+301+212+61=944.
+\end{aligned}
+$$
+The first entry agrees with the $38$ undirected edges, since adjacent endpoints have a single shortest path.  The difference between this unordered profile and the ordered profile is only the endpoint convention: the ordered coefficients count both orientations, while the unordered profile counts each distinct endpoint pair once.
+
+\paragraph{Diametral witness.}
+The diameter-six part is rigid.  There is exactly one unordered pair of vertices at distance six, namely
+$$
+\begin{aligned}
+010101\longleftrightarrow 101010.
+\end{aligned}
+$$
+If binary words are read as coordinate masks with the first displayed coordinate carrying the least significant mask weight, these two words have masks $21$ and $42$.  For this pair one has
+$$
+\begin{aligned}
+d(010101,101010)=6,\qquad g(010101,101010)=61.
+\end{aligned}
+$$
+The same integer is denoted $E_6$ here: $E_6=61$, where $E_6$ is the number of linear extensions of the six-element fence order
+$$
+\begin{aligned}
+1<2>3<4>5<6.
+\end{aligned}
+$$
+Thus the extremal geodesic count of the finite graph is identified with the linear-extension count of this explicitly stated finite partial order.
+
+\paragraph{Local assertion.}
+The finite assertion is that the graph $\Gamma_6$ built from six-bit words with no adjacent $1$ has ordered geodesic profile
+$$
+\begin{aligned}
+[21,76,216,448,602,424,122],
+\end{aligned}
+$$
+total ordered geodesic mass $1909$, ordinary ordered distance distribution
+$$
+\begin{aligned}
+[21,76,128,124,70,20,2],
+\end{aligned}
+$$
+and a unique unordered diametral pair $010101\leftrightarrow 101010$ carrying $61=E_6$ shortest paths.
+
+\paragraph{Boundary of interpretation.}
+Nothing in this subsection identifies the finite integer $61$, the total $1909$, the graph $\Gamma_6$, or any derived profile with a physical constant.  No global flow law, physical-constant comparison, metrological interpretation, convention-dependent normalization, or external dependency follows from the finite construction alone.  Any such interpretation would require a separate certificate specifying the additional objects, normalization conventions, and comparison rule.
