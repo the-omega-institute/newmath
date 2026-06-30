@@ -1,0 +1,170 @@
+\chapter{Global Observation Triangle Invariant}
+\label{ch:visions-rh-global-observation-triangle-invariant}
+\origin{ai}
+
+\autoref{ch:visions-rh-pick-kernel-triadic-positivity} names the
+Pick-kernel form of the positive side, while
+\autoref{ch:visions-rh-radial-scale-projection-system} names the
+radial coordinate shared by the Li, Weil, and Nyman projections.  The
+present chapter packages these rows as one global observation invariant.
+The target is not another isolated criterion.  It is the source-side
+claim that every zero-relevant observation factors through one positive
+triangle before a fixed-half readout is consumed.
+
+\begin{definition}[Global zeta observation triangle]
+\label{def:rh-global-zeta-observation-triangle}
+The source row
+$$
+\mathsf{GlobalObservationTriangle}_{\xi}
+$$
+consists of four compatible pieces:
+$$
+\mathsf{Src}_{\xi},
+\qquad
+\mathsf{Pos}_{\xi},
+\qquad
+\mathsf{Leg}_{\xi},
+\qquad
+\mathsf{Exh}_{\xi}.
+$$
+The source piece $\mathsf{Src}_{\xi}$ constructs the kernels
+$K_m$ and maps $\Phi_m$ from prime, gamma, normalization, solenoid,
+golden, explicit-formula, or Stieltjes rows before the zero divisor is
+read.  The positive piece $\mathsf{Pos}_{\xi}$ is the finite Hilbert
+square identity
+$$
+K_m(z,w)=\langle\Phi_m(z),\Phi_m(w)\rangle_{\mathcal H_m}
+$$
+together with finite-matrix convergence to $K_{\xi}$.  The same-leg
+piece $\mathsf{Leg}_{\xi}$ says that the Li, Weil, Nyman, and Pick
+readouts use one radial scalar
+$$
+\ell(\rho)=\log\left|1-\frac1\rho\right|.
+$$
+The exhaustion piece $\mathsf{Exh}_{\xi}$ says that residual Hilbert
+energy is either exhausted by the observation tower or displayed by a
+separating functional.
+\end{definition}
+
+\begin{definition}[Legal global observation]
+\label{def:rh-legal-global-observation}
+A zero-relevant observation row $\mathcal O$ is legal for the global
+triangle when it factors through the source row of
+\autoref{def:rh-global-zeta-observation-triangle}.  Thus $\mathcal O$
+is read either as a finite positive-kernel observation, as a limit of
+such observations on a finite matrix family, or as one of the displayed
+projection readouts of the same finite-to-limit system.  A row that
+uses a completed zero divisor to define its Hilbert space, measure, or
+positive kernel is not a source-side legal observation for this
+purpose.
+\end{definition}
+
+\begin{definition}[Global triangle invariant]
+\label{def:rh-global-triangle-invariant}
+The global triangle invariant is the requirement that every legal
+zero-relevant observation satisfies the following three rows.
+
+First, the ledger row permits compact phase and compact prime-register
+fibres, as in \autoref{def:rh-phase-channel-hidden-prime-fibre}, but
+does not permit an unrecorded $\mathbb R_{>0}$ radial gauge.
+
+Second, the positive row represents observation energy by Hilbert
+squares:
+$$
+\sum_{i,j}c_i\overline{c_j}K_m(z_i,z_j)
+=
+\left\|\sum_i c_i\Phi_m(z_i)\right\|_{\mathcal H_m}^2
+\ge0.
+$$
+
+Third, the refinement row preserves finite matrix readouts and
+orthogonal residuals under passage to the limit.  If a residual remains
+nonzero, it must be read by a displayed separator rather than hidden at
+the end of the tower.
+\end{definition}
+
+\begin{principle}[Common radial leg]
+\label{prin:rh-global-common-radial-leg}
+The Li, Weil, Nyman, Pick, Lee--Yang, and endpoint rows may have
+different finite presentations, but their off-fixed-half obstruction
+must read the same radial scalar.  In Li time it appears as the radial
+factor in $z(\rho)^n$.  In the Weil row it appears as a negative
+direction for a reflected orbit.  In the Nyman row it appears as a
+Mellin separator for an unexhausted residual.  In the Pick row it
+appears as a finite matrix obstruction.  The global triangle invariant
+requires these readings to be transports of one scale leg, not separate
+defects that can be independently hidden.
+\end{principle}
+
+\begin{theorem}[Global triangle invariant gives Pick positivity]
+\label{thm:rh-global-triangle-invariant-gives-pick-positivity}
+Assume $\mathsf{GlobalObservationTriangle}_{\xi}$ and assume its finite
+matrix convergence row holds for every displayed disk family.  Then
+$$
+\mathsf{TriadicPickPositivity}_{\xi}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Fix a finite disk family $z_1,\ldots,z_N$ and coefficients
+$c_1,\ldots,c_N$.  For every finite source level $m$, the positive
+piece of \autoref{def:rh-global-zeta-observation-triangle} gives
+$$
+\sum_{i,j}c_i\overline{c_j}K_m(z_i,z_j)
+=
+\left\|\sum_i c_i\Phi_m(z_i)\right\|_{\mathcal H_m}^2
+\ge0.
+$$
+The convergence row identifies the limit of the left side with
+$$
+\sum_{i,j}c_i\overline{c_j}K_{\xi}(z_i,z_j).
+$$
+Hence this latter finite quadratic form is nonnegative.  Since the
+finite family was arbitrary, $K_{\xi}$ is positive definite.
+\end{proof}
+
+\begin{theorem}[Global observation triangle gives fixed-half readout]
+\label{thm:rh-global-observation-triangle-fixed-half-readout}
+Assume $\mathsf{GlobalObservationTriangle}_{\xi}$, the global triangle
+invariant, common radial-leg transport, triangular residual exhaustion,
+and the usual reflection consumption row for represented completed zero
+ledgers.  Then every represented completed zero ledger legal for the
+global triangle has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-global-triangle-invariant-gives-pick-positivity},
+the global observation triangle supplies
+$\mathsf{TriadicPickPositivity}_{\xi}$.  Let $\rho$ be a represented
+completed zero ledger legal for the triangle.  Suppose
+$$
+\ell(\rho)\ne0.
+$$
+By common radial-leg transport, this nonzero scale leg must appear in
+one of the displayed projection rows: as a finite Li-time witness, a
+Weil negative direction, a Nyman residual separator, or a Pick finite
+matrix obstruction.  The positive row forbids negative finite Hilbert
+energy and Pick matrix obstructions.  The residual exhaustion row
+forbids an unread Nyman residual; if such a residual remains, it is a
+displayed separator and therefore not hidden by the tower.  The ledger
+row forbids reclassifying the same radial scalar as a compact phase or
+prime-register fibre.  Thus $\ell(\rho)\ne0$ is impossible.  Hence
+$\ell(\rho)=0$, and
+\autoref{thm:rh-radial-scale-fixed-half-surface} gives the fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Global observation source load]
+\label{prin:rh-global-observation-source-load}
+The mathematical load is concentrated in the construction of the source
+piece $\mathsf{Src}_{\xi}$ and the convergence piece of
+\autoref{def:rh-global-zeta-observation-triangle}.  The positive side
+is then Hilbert-square formal, the time side is finite-matrix
+witnessability, and the ledger side is the refusal of an unrecorded
+real-positive scale gauge.  This is the global form of the triangle
+route: every legal zeta observation is constrained by one positive
+Hilbert--Pick--Herglotz system, and every nonzero radial scale must be
+read rather than hidden.
+\end{principle}
