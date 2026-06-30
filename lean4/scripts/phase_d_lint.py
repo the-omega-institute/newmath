@@ -81,6 +81,46 @@ THIN_WRAPPER_BODY_RE = re.compile(
 )
 PROBE_TIMEOUT_SECONDS = 90
 
+# Value-instance saturation: a round satisfies a classical theorem target by
+# adding several sibling point instances (e.g. `WolstenholmeBinomialNat 5/7/11/13
+# := by decide`) instead of proving one parameterised ∀-theorem. The instances
+# differ only by an embedded numeric value and carry a trivial proof, so the
+# shared theorem has no mathematical compression — only N closed computations.
+# Distinct from MECHANICAL_ARITY_RE (which is name-local on _two…_six); this
+# detects the higher-level family across a round's added declarations.
+VALUE_WORDS = (
+    "two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|"
+    "fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|"
+    "thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand"
+)
+VALUE_SUFFIX_RE = re.compile(
+    rf"_(?:[0-9]+|(?:{VALUE_WORDS})(?:[A-Z][A-Za-z0-9]*)*)\b"
+)
+VALUE_NAT_LITERAL_RE = re.compile(r"(?<![A-Za-z0-9_])([2-9]|[1-9][0-9]+)(?![A-Za-z0-9_])")
+# Base/step/recursion vocabulary is legitimate (defining a sequence); never a
+# value-saturation token. `_zero`/`_one` are deliberately excluded above.
+VALUE_BASE_STEP_RE = re.compile(
+    r"_(zero|one|succ|step|rec|recurrence|induction|unfold|closed_form|formula|base)\b"
+)
+# A bound mathematical parameter in the signature means the statement is already
+# parameterised (general), not a closed value instance — exempt.
+VALUE_BOUND_VAR_RE = re.compile(
+    r"\(\s*\w+\s*:\s*Nat\s*\)|[({]\s*\w+\s*:\s*BHist\s*[)}]|"
+    r"[({]\s*\w+\s*:\s*NatPrime\b|\(\s*prime\s*:\s*NatPrime\b|(?:∀|forall)\b"
+)
+# Concrete finite-field carrier facts are often legitimate interface smoke tests;
+# `zmodInvTotal`-style general theorems (parameterised over ZMod p) must remain
+# untouched — exempt any signature touching the ZMod surface.
+VALUE_ZMOD_EXEMPT_RE = re.compile(r"\bZMod\b|\bzmodEq\b|\bzmod\w*\b|\bnatToUnary\b")
+# A trivial closed proof: the instance is decided/reflexive, no real reasoning.
+VALUE_TRIVIAL_PROOF_RE = re.compile(
+    r":=\s*by\s+(?:native_decide|decide)\b"
+    r"|:=\s*(?:native_decide|decide|rfl)\b"
+    r"|:=\s*by\s*\n\s*(?:native_decide|decide|rfl)\b"
+)
+VALUE_HEAD_RE = re.compile(r"[A-Za-z_][\w'.]*")
+VALUE_INSTANCE_THRESHOLD = 4
+
 
 def _strip_hsame_tokens(text: str) -> str:
     """Drop `hsame` and the bare `BHist` type token so the residual anchor
@@ -575,6 +615,74 @@ def detect_large_decide_enumerations(worktree: Path, base_branch: str) -> list[s
     return violations
 
 
+def _has_companion_general_theorem(worktree: Path, rel_path: str, head: str) -> bool:
+    """True if the file already carries a parameterised public theorem about the
+    same conclusion head — then the value instances are sanity checks, not the
+    deliverable, and the cluster is exempt from the value-saturation gate."""
+    if not head:
+        return False
+    try:
+        text = (worktree / rel_path).read_text(encoding="utf-8")
+    except OSError:
+        return False
+    for qualified, block, _start in _parse_public_theorem_blocks(text):
+        name = qualified.rsplit(".", 1)[-1]
+        if VALUE_SUFFIX_RE.search(name):
+            continue
+        sig = block.split(":=", 1)[0]
+        if head in sig and VALUE_BOUND_VAR_RE.search(sig):
+            return True
+    return False
+
+
+def detect_value_instance_saturation(worktree: Path, base_branch: str) -> list[str]:
+    """Reject a round that adds >=THRESHOLD sibling public theorems differing only
+    by an embedded numeric value, each closed by a trivial decide/rfl proof, with
+    no companion parameterised theorem. The beautiful form is one ∀-theorem."""
+    blocks = collect_added_public_theorem_blocks(worktree, base_branch)
+    groups: dict[tuple[str, str, str, str], list[str]] = {}
+    for qualified, rel_path, block in blocks:
+        name = qualified.rsplit(".", 1)[-1]
+        namespace = qualified.rsplit(".", 1)[0] if "." in qualified else ""
+        sig = block.split(":=", 1)[0]
+        conclusion = _extract_conclusion(sig)
+        # Candidate only if the name or its conclusion carries a numeric value.
+        if not (VALUE_SUFFIX_RE.search(name) or VALUE_NAT_LITERAL_RE.search(conclusion)):
+            continue
+        # Exemptions: base/step vocabulary, an already-bound parameter, ZMod carrier.
+        if VALUE_BASE_STEP_RE.search(name):
+            continue
+        if VALUE_BOUND_VAR_RE.search(sig):
+            continue
+        if VALUE_ZMOD_EXEMPT_RE.search(sig):
+            continue
+        # Only flag trivially-closed instances (decide/native_decide/rfl).
+        if not VALUE_TRIVIAL_PROOF_RE.search(block):
+            continue
+        name_schema = VALUE_SUFFIX_RE.sub("_{V}", name)
+        concl_schema = VALUE_NAT_LITERAL_RE.sub("{N}", " ".join(conclusion.split()))
+        head_m = VALUE_HEAD_RE.search(concl_schema)
+        head = head_m.group(0) if head_m else ""
+        key = (rel_path, namespace, name_schema, head)
+        groups.setdefault(key, []).append(name)
+
+    hits: list[str] = []
+    for (rel_path, _namespace, name_schema, head), names in sorted(groups.items()):
+        distinct = sorted(set(names))
+        if len(distinct) < VALUE_INSTANCE_THRESHOLD:
+            continue
+        if _has_companion_general_theorem(worktree, rel_path, head):
+            continue
+        hits.append(
+            f"{rel_path}: VALUE-INSTANCE SATURATION — {len(distinct)} sibling "
+            f"closed computations for `{head}` (schema {name_schema}): "
+            + ", ".join(distinct[:8])
+            + ". Prove ONE parameterised forall-theorem binding the parameter; "
+            "finite checks only as <=2 private examples."
+        )
+    return hits
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--worktree", type=Path, required=True)
@@ -595,11 +703,25 @@ def main() -> int:
             for hit in wrapper_hits:
                 print(f"[shadow] would-reject: {hit}")
             wrapper_hits = []
+    # Value-instance saturation gate. Ships SHADOW-first (log would-reject,
+    # do not fail) — flip BEDC_VALUE_INSTANCE_GATE_SHADOW=0 to make it a hard
+    # gate once production confirms no false positives, mirroring the wrapper
+    # gate rollout.
+    value_hits: list[str] = []
+    value_gate_enabled = os.environ.get("BEDC_ENABLE_VALUE_INSTANCE_GATE", "1") != "0"
+    value_gate_shadow = os.environ.get("BEDC_VALUE_INSTANCE_GATE_SHADOW", "1") == "1"
+    if value_gate_enabled:
+        value_hits = detect_value_instance_saturation(args.worktree, args.base_branch)
+        if value_gate_shadow:
+            for hit in value_hits:
+                print(f"[shadow] would-reject (value-instance): {hit}")
+            value_hits = []
     if (
         not decls
         and not args.include_shallow
         and not large_decide_hits
         and not wrapper_hits
+        and not value_hits
     ):
         return 0
 
@@ -641,6 +763,7 @@ def main() -> int:
         or shallow_hits
         or large_decide_hits
         or wrapper_hits
+        or value_hits
     ):
         return 0
 
@@ -675,6 +798,8 @@ def main() -> int:
         )
     if wrapper_hits:
         msgs.append("\n".join(wrapper_hits[:8]))
+    if value_hits:
+        msgs.append("\n".join(value_hits[:8]))
     print("\n".join(msgs))
     return 1
 
