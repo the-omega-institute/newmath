@@ -83,15 +83,31 @@ No such coordinate is present in \autoref{def:cellular-pattern-catalog-carrier},
 \end{proof}
 \leanchecked{BEDC.Derived.CellularPatternCatalogUp.CellularPatternCatalog\_tag\_lookup\_determinacy}
 
+\begin{theorem}[CellularPatternCatalog public lookup surface]
+\label{thm:cellular-pattern-catalog-public-lookup-surface}
+Every public consumer of an accepted $\CellularPatternCatalogUp$ carrier may read the finite catalog lookup only through the rule row $R$, local-window row $W$, catalog row $G$, phase/glider/ether tag row $T$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row of \autoref{def:cellular-pattern-catalog-carrier}. The public surface is exactly the finite lookup route constrained by \autoref{thm:cellular-pattern-catalog-namecert-obligations} and \autoref{lem:cellular-pattern-catalog-tag-lookup-determinacy}; it exports no global orbit classifier, host visual recognizer, completeness theorem for all future rows, or unlisted pattern tag.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-pattern-catalog-carrier}. A public consumer receives only $R,W,T,G,H,C,P,N$, so every visible catalog question is a finite lookup against the displayed rule, local window, catalog, and tag rows.
+
+Apply the NameCert obligations of \autoref{thm:cellular-pattern-catalog-namecert-obligations}. They force the lookup route through
+$$
+R \longmapsto W \longmapsto G \longmapsto T
+$$
+with $H,C,P,N$ attached as transport, replay, provenance, and naming data.
+
+Finally use tag lookup determinacy, \autoref{lem:cellular-pattern-catalog-tag-lookup-determinacy}. Once the rule, local window, catalog, transport, replay, provenance, and local naming rows are fixed, the exposed tag row is fixed by the finite catalog surface. Since no carrier coordinate stores an infinite orbit semantics, a host visual recognizer, a complete future-row classifier, or an unlisted tag, the public surface is exactly the finite lookup interface.
+\end{proof}
+
 \closureat{CellularPatternCatalogUp}{obligationStr}
 
 \begin{closurestatus}{\CellularPatternCatalogUp}
   \constructivestory{A $\CellularPatternCatalogUp$ packet is generated from a finite cellular rule id, local window, phase/glider/ether tag row, catalog row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:cellular-pattern-catalog-carrier}, \autoref{thm:cellular-pattern-catalog-namecert-obligations}, and \autoref{lem:cellular-pattern-catalog-tag-lookup-determinacy} export the finite tag lookup determinacy theorem as the public surface over the rule, local window, catalog, transport, route, provenance, local naming rows, and existing TasteGate marker.}
+  \scopeclosed{\autoref{def:cellular-pattern-catalog-carrier}, \autoref{thm:cellular-pattern-catalog-namecert-obligations}, \autoref{lem:cellular-pattern-catalog-tag-lookup-determinacy}, and \autoref{thm:cellular-pattern-catalog-public-lookup-surface} bind the finite rule, local window, tag, catalog, transport, route, provenance, local naming rows, and existing TasteGate marker to the cellular substrate classifier, local update rule, halting trace boundary, halting finite boundary, and cellular verb realignment sources.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, a complete orbit classifier, host visual recognition, global classification of all future rows, or a public standard bridge.}
-  \upgradepath{Formal verification can encode the finite carrier, catalog lookup determinacy, substrate and update-rule dependency, halting boundary dependency, cellular verb realignment route, transport, replay, provenance, and local naming rows for BEDC.Derived.CellularPatternCatalogUp.}
+  \notclaimed{This chapter does not close a complete orbit classifier, host visual recognition, global classification of all future rows, audit-clean purity, or a public standard bridge.}
+  \upgradepath{Audit-clean closure requires purity review for the finite carrier, catalog lookup determinacy, substrate and update-rule dependency, halting boundary dependency, cellular verb realignment route, transport, replay, provenance, and local naming rows for BEDC.Derived.CellularPatternCatalogUp.}
 \end{closurestatus}

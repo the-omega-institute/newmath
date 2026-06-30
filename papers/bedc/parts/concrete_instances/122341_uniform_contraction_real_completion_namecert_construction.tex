@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\UniformContractionRealCompletionUp$}
+\label{ch:concrete-instances-uniform-contraction-real-completion-namecert}
+\origin{human}
+
+Following Banach, Picard, and Bishop--Bridges constructive completion, the $\UniformContractionRealCompletionUp$ packet records the finite route by which a uniformly contractive iteration over a displayed complete metric source is read as a regular rational completion handoff. It sits beside the Picard orbit of \autoref{ch:concrete-instances-picard-iteration-namecert}, the contraction source of \autoref{ch:concrete-instances-contractionmapping-namecert}, the Banach contraction sequence of \autoref{ch:concrete-instances-banach-contraction-sequence-namecert}, the interval contraction route of \autoref{ch:concrete-instances-bishop-interval-contraction-namecert}, the $\StreamNameUp$ and $\RegSeqRatUp$ completion rows of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite completion-facing iteration surface; it does not assert ambient $\RealUp$ completeness, a selected fixed point, quotient stream equality, host contraction equality, or countable choice.
+
+\begin{definition}[Uniform contraction real-completion carrier]
+\label{def:uniform-contraction-real-completion-carrier}
+A $\UniformContractionRealCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,L,P,W,D,R,S,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the complete metric source row, exposing the source carrier, metric comparison, and endpoint-admission boundary.
+\item $L$ is the contraction modulus row, recording one uniform shrinkage bound for the displayed self-map.
+\item $P$ is the Picard window schedule row, naming the finite iterates inspected by the consumer.
+\item $W$ is the $\StreamNameUp$ finite-window read of those iterates.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare adjacent windows and requested error bounds.
+\item $R$ is the $\RegSeqRatUp$ readback generated from $P,W,D$.
+\item $S$ is the $\RealUp$ seal boundary reached only after the regular rational readback is visible.
+\item $E$ is the endpoint handoff row for fixed-point consumers; it records the completion-facing route without selecting a fixed point.
+\item $H$ records componentwise $\hsame$ transport for $M,L,P,W,D,R,S,E$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from the contraction source through the Picard schedule, dyadic tolerance ledger, stream window, regular readback, Real seal, and endpoint handoff.
+\item $Q$ is the $\Pkg$ provenance over $\UniformContractionRealCompletionUp$, $\CompleteMetricUp$, $\ContractionMappingUp$, $\PicardIterationUp$, $\BanachContractionSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformContractionRealCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient real-completeness principle, selected limits, quotient stream equality, host fixed-point equality, function extensionality, or countable choice.
+\end{definition}
+
+\begin{theorem}[Uniform contraction real-completion NameCert obligations]
+\label{thm:uniform-contraction-real-completion-namecert-obligations}
+For every accepted $\UniformContractionRealCompletionUp$ carrier $U=(M,L,P,W,D,R,S,E,H,C,Q,N)$, the local $\NameCert_{\UniformContractionRealCompletionUp}$ surface consists exactly of complete metric source visibility, contraction modulus visibility, Picard window schedule visibility, dyadic tolerance exactness, $\StreamNameUp$ window visibility, $\RegSeqRatUp$ readback visibility, $\RealUp$ seal nonescape, endpoint handoff nonselection, componentwise transport, displayed replay, package provenance, and local naming for the finite packet of \autoref{def:uniform-contraction-real-completion-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source and iteration rows are $M,L,P$, the completion-facing rows are $W,D,R,S,E$, and the structural rows are $H,C,Q,N$.
+
+Read $M$ and $L$ first. The complete metric source supplies the admissible endpoint boundary, while the contraction modulus row supplies the uniform shrinkage budget for every displayed Picard window.
+
+Read $P,W,D,R,S$ next. The schedule names only finite windows, the dyadic ledger supplies the tolerances, the stream row records the inspected iterates, the regular rational row reads those iterates as Cauchy data, and the Real seal is downstream of that readback.
+
+Finally read $E,H,C,Q,N$. The endpoint handoff is a consumer boundary, and the structural rows preserve the same packet. Since none of the excluded ambient or choice objects is present in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform contraction real-completion Cauchy induction]
+\label{thm:uniform-contraction-real-completion-cauchy-induction}
+Every Cauchy read of an accepted $\UniformContractionRealCompletionUp$ packet is obtained by induction on the displayed Picard window schedule $P$. The base window reads the complete metric source row $M$, the successor step spends the contraction modulus row $L$ and dyadic tolerance row $D$, and the resulting finite windows pass through
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The induction exports regular rational completion data only; it does not export selected limits, quotient stream equality, countable choice, host fixed-point equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use induction over the finite schedule row $P$. In the base case the source row $M$ supplies the initial admitted metric point and the completion-facing boundary.
+
+In the successor step, apply the contraction modulus row $L$ to the displayed self-map read and spend the tolerance ledger $D$ for the next window. This keeps every residual comparison attached to the same finite schedule rather than to a hidden infinite orbit.
+
+The rows $W$ and $R$ then repack the finite windows as a stream name and regular rational readback. The Real seal $S$ is reached only through that readback, so the induction supplies Cauchy data without adding any selected endpoint or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Uniform contraction real-completion fixed-point handoff]
+\label{thm:uniform-contraction-real-completion-fixed-point-handoff}
+Every fixed-point consumer reading an accepted $\UniformContractionRealCompletionUp$ packet must first expose the route
+$$
+M,L,P,W,D,R,S,H,C,Q,N .
+$$
+Only after those rows are visible may the consumer use the endpoint handoff row $E$ as input to a separate fixed-point certificate. The handoff supplies a finite contraction-iteration completion route; it is not itself a fixed-point theorem, a uniqueness theorem, a host function equality, a selected limit, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface. It makes the complete metric source, contraction modulus, Picard schedule, dyadic tolerance ledger, stream windows, regular readback, and Real seal visible before any endpoint-facing consumer can inspect the packet.
+
+Apply the Cauchy induction theorem. It shows that $R$ and $S$ are downstream of the finite schedule and tolerance rows, so the endpoint handoff cannot be detached from the displayed contraction route.
+
+The structural rows $H,C,Q,N$ preserve the same route for consumers. Thus $E$ can be passed to a later fixed-point certificate, but it carries no fixed-point existence, uniqueness, selected-limit, quotient, choice, or ambient-completeness claim by itself.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformContractionRealCompletionUp$ consumer is refuted if it reads a RegSeqRat handoff, Real seal, or fixed-point endpoint handoff without displaying the complete metric source, contraction modulus, Picard window schedule, StreamName windows, DyadicRatCore tolerance ledger, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{contractionmapping, picard-iteration, banach-contraction-sequence, bishop-interval-contraction, streamname, regseqrat, dyadicratcore, real: no listed sibling supplies the joint packet containing complete metric source, uniform contraction modulus, Picard window schedule, dyadic tolerance ledger, StreamName readback, RegSeqRat readback, Real seal, endpoint handoff, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{UniformContractionRealCompletionUp}{seedStr}
+
+\begin{closurestatus}{\UniformContractionRealCompletionUp}
+  \constructivestory{A $\UniformContractionRealCompletionUp$ packet is generated from a complete metric source row, a uniform contraction modulus row, a Picard window schedule, StreamName finite windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real seal, endpoint handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-contraction-real-completion-carrier}, \autoref{thm:uniform-contraction-real-completion-namecert-obligations}, \autoref{thm:uniform-contraction-real-completion-cauchy-induction}, and \autoref{thm:uniform-contraction-real-completion-fixed-point-handoff} seed the finite contraction-iteration completion route without asserting a completed fixed point.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient Real completeness, selected limits, quotient stream equality, host fixed-point equality, uniqueness, function extensionality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-modulus visibility, Picard-window induction, dyadic tolerance exactness, StreamName and RegSeqRat readback, Real seal nonescape, endpoint handoff nonselection, transport, replay, provenance, and local naming for BEDC.Derived.UniformContractionRealCompletionUp.}
+\end{closurestatus}
