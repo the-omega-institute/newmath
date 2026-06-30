@@ -318,6 +318,111 @@ observation system from source data rather than from a posterior
 fixed-half zero divisor.
 \end{principle}
 
+\begin{definition}[Xi observation cord]
+\label{def:rh-xi-observation-cord}
+Let
+$$
+F(w):=\xi\left(\frac12+w\right).
+$$
+An Xi observation cord is a path
+$$
+\gamma:[0,1]\to\{w:F(w)\ne0\}
+$$
+together with its image
+$$
+F\circ\gamma:[0,1]\to\mathbb C^\times.
+$$
+The cord has a radial readout $|F(\gamma(t))|$ and a phase readout
+$\arg F(\gamma(t))$ on every branch where the argument is chosen.  For a
+closed cord, its winding readout is
+$$
+\operatorname{Wind}_{F}(\gamma)
+:=
+\frac{1}{2\pi i}\int_{\gamma}\frac{F'(w)}{F(w)}\,dw.
+$$
+\end{definition}
+
+\begin{definition}[Off-axis cord defect]
+\label{def:rh-off-axis-cord-defect}
+An off-axis cord defect is a closed Xi observation cord whose winding
+number is nonzero and whose enclosed zero row has centered coordinate
+$$
+w_0=r+it
+$$
+with $r\ne0$.  Under the Li coordinate
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta},
+$$
+the same defect is read by the radial scalar
+$$
+\ell=\log|z(\rho)|\ne0.
+$$
+Thus the off-axis cord defect is the topological form of the same scale
+leg appearing in
+\autoref{def:rh-zeta-scale-leg-coverage-obstruction}.
+\end{definition}
+
+\begin{principle}[Cord invariants are triadic invariants]
+\label{prin:rh-cord-invariants-triadic}
+The three sides of the global observation triangle read an off-axis cord
+defect as three invariants.  The ledger side reads the fibre type: a
+radial factor belongs to $\mathbb R_{>0}$ rather than to compact phase
+or prime-register fibres.  The time side reads finite detectability:
+the same defect supplies a finite Pick or Li--Weil witness.  The unit
+side reads Hilbert positivity: a source-side factorization of
+$K_{\xi}$ would make the corresponding finite quadratic form a norm
+square.  Hence an off-axis cord defect cannot be hidden as a merely
+topological loop; it must pass the same carrier, classifier, ledger,
+positivity, and refinement audits as every other legal observation.
+\end{principle}
+
+\begin{definition}[Source unknotting for xi]
+\label{def:rh-source-unknotting-xi}
+The source row
+$$
+\mathsf{SourceUnknotting}_{\xi}
+$$
+asserts that the Xi observation cords legal for the global triangle have
+a source-side Hilbert--Pick factorization:
+$$
+K_{\xi}(z,w)=\langle\Phi_{\xi}(z),\Phi_{\xi}(w)\rangle.
+$$
+The map $\Phi_{\xi}$ must be constructed from source data and must
+respect the projection readouts of
+\autoref{def:rh-global-zeta-observation-triangle}.  In this terminology,
+``unknotting'' means positive Hilbert realization plus same-leg
+transport; it is not an external topological operation on a completed
+zero set.
+\end{definition}
+
+\begin{theorem}[Source unknotting excludes off-axis cord defects]
+\label{thm:rh-source-unknotting-excludes-off-axis-cord-defects}
+Assume $\mathsf{SourceUnknotting}_{\xi}$, common radial-leg transport,
+the scale-leg obstruction row
+$$
+\mathsf{ZetaScaleLegCoverageObstruction},
+$$
+and the usual reflection consumption row.  Then no represented legal Xi
+observation cord has an off-axis cord defect.
+\end{theorem}
+
+\begin{proof}
+The source unknotting row gives
+$$
+K_{\xi}(z,w)=\langle\Phi_{\xi}(z),\Phi_{\xi}(w)\rangle,
+$$
+so every finite Pick quadratic form is a Hilbert norm square and is
+nonnegative.  If an off-axis cord defect were represented, then by
+\autoref{def:rh-off-axis-cord-defect} it would carry a nonzero radial
+scalar $\ell$.  Common radial-leg transport reads this scalar in the
+finite Pick witness row, while
+\autoref{def:rh-zeta-scale-leg-coverage-obstruction} prevents it from
+being absorbed as a legal carrier, classifier, or ledger coordinate.
+Thus the defect would have to appear as a negative finite Pick witness,
+contradicting the Hilbert norm-square representation.  Therefore no
+represented legal cord has such a defect.
+\end{proof}
+
 \begin{principle}[Global observation source load]
 \label{prin:rh-global-observation-source-load}
 The mathematical load is concentrated in the construction of the source
