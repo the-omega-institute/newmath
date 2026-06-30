@@ -1,0 +1,276 @@
+\chapter{Li--Weil Herglotz Target}
+\label{ch:visions-rh-li-weil-herglotz-target}
+\origin{ai}
+
+\autoref{ch:visions-rh-balanced-golden-li-cnd-closure} turns the
+Li--Weil route into the positive definiteness of the second-difference
+kernel $\beta$.  This chapter records the same target as a positive-real
+log-derivative row.  The purpose is not to claim the row; it is to name
+the Herglotz interface through which beta-kernel positivity, balanced
+Lee--Yang limits, and fixed-half readout can be compared.
+
+\begin{definition}[Li beta Herglotz function]
+\label{def:rh-li-beta-herglotz-function}
+Let $(\beta_n)_{n\in\mathbb Z}$ be the Li second-difference kernel of
+\autoref{def:rh-li-second-difference-kernel}.  Its Herglotz readout is
+the holomorphic disk function
+$$
+H_\beta(z)
+:=
+\beta_0+2\sum_{n\ge1}\beta_nz^n
+$$
+on every disk where the series is defined by the Li--Weil generating
+row.
+\end{definition}
+
+\begin{definition}[Xi log-derivative Herglotz row]
+\label{def:rh-xi-log-derivative-herglotz-row}
+The source row
+$$
+\mathsf{XiLogDerivativeHerglotz}
+$$
+asserts
+$$
+\operatorname{Re}
+\frac{\xi'(s)}{\xi(s)}
+\ge0
+\qquad
+\left(\operatorname{Re}(s)>\frac12\right).
+$$
+It is a positive-real row for the logarithmic derivative of the
+completed zeta function on the open half-plane to the right of the
+fixed line.
+\end{definition}
+
+\begin{theorem}[Li beta readout is the xi log-derivative readout]
+\label{thm:rh-li-beta-readout-xi-log-derivative}
+With
+$$
+s=\frac{1}{1-z},
+$$
+one has the formal identity
+$$
+H_\beta(z)
+=
+2\frac{\xi'(s)}{\xi(s)}.
+$$
+\end{theorem}
+
+\begin{proof}
+Let
+$$
+L(z):=\sum_{n\ge1}\lambda_nz^n.
+$$
+The Li generating row gives
+$$
+L(z)
+=
+z\frac{d}{dz}
+\log\xi\left(\frac{1}{1-z}\right).
+$$
+Let
+$$
+B_+(z):=\sum_{n\ge0}\beta_nz^n.
+$$
+Using $\lambda_0=0$ and $\beta_0=2\lambda_1$, the definition of
+$\beta_n$ gives
+$$
+B_+(z)
+=
+\lambda_1+(z+z^{-1}-2)L(z).
+$$
+Since $H_\beta(z)=2B_+(z)-\beta_0$, this becomes
+$$
+H_\beta(z)
+=
+2(z+z^{-1}-2)L(z).
+$$
+Now
+$$
+z+z^{-1}-2
+=
+\frac{(1-z)^2}{z}.
+$$
+Therefore
+$$
+H_\beta(z)
+=
+2(1-z)^2
+\frac{d}{dz}
+\log\xi\left(\frac{1}{1-z}\right).
+$$
+For $s=1/(1-z)$,
+$$
+\frac{ds}{dz}=\frac{1}{(1-z)^2}.
+$$
+The displayed expression reduces to
+$$
+2\frac{\xi'(s)}{\xi(s)}.
+$$
+\end{proof}
+
+\begin{theorem}[Herglotz row gives beta positivity]
+\label{thm:rh-herglotz-row-gives-beta-positivity}
+If $H_\beta$ is a Herglotz function on the unit disk, then
+$$
+\mathsf{LiSecondDifferencePositiveDefinite}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The Herglotz representation theorem gives a positive finite circle
+measure $\sigma$ such that
+$$
+H_\beta(z)
+=
+\int_{\mathbb T}\frac{\zeta+z}{\zeta-z}\,d\sigma(\zeta)
+$$
+after the standard normalization of the imaginary constant.  Comparing
+Taylor coefficients gives
+$$
+\beta_n=\int_{\mathbb T}\zeta^{-n}\,d\sigma(\zeta).
+$$
+Thus for every finite family $(a_i,k_i)$,
+$$
+\sum_{i,j}a_i\overline{a_j}\beta_{k_i-k_j}
+=
+\int_{\mathbb T}
+\left|
+\sum_i a_i\zeta^{-k_i}
+\right|^2
+d\sigma(\zeta)
+\ge0.
+$$
+\end{proof}
+
+\begin{theorem}[Xi Herglotz row gives fixed-half readout]
+\label{thm:rh-xi-herglotz-row-fixed-half-readout}
+Assume $\mathsf{XiLogDerivativeHerglotz}$ and the usual reflection
+consumption row for the completed zeta zero ledger.  Then the completed
+zeta zero ledger has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Suppose a zero $\rho$ of multiplicity $m\ge1$ satisfies
+$$
+\operatorname{Re}(\rho)>\frac12.
+$$
+Near $\rho$,
+$$
+\frac{\xi'(s)}{\xi(s)}
+=
+\frac{m}{s-\rho}+\text{holomorphic row}.
+$$
+Taking $s=\rho-\varepsilon$ with $\varepsilon>0$ real and sufficiently
+small keeps $s$ in the half-plane
+$\operatorname{Re}(s)>1/2$ while
+$$
+\operatorname{Re}\frac{m}{s-\rho}
+=
+-\frac{m}{\varepsilon}
+\to-\infty.
+$$
+The holomorphic part is bounded near $\rho$, so the real part of
+$\xi'/\xi$ is negative at such points.  This contradicts
+$\mathsf{XiLogDerivativeHerglotz}$.  The reflection consumption row
+excludes the opposite open side by reflecting any such zero into the
+side already excluded.  Hence the zero ledger reads through the
+fixed-half surface.
+\end{proof}
+
+\begin{definition}[Positive spectral measure for xi]
+\label{def:rh-positive-spectral-measure-for-xi}
+The source row
+$$
+\mathsf{PositiveSpectralMeasureForXi}
+$$
+asserts the existence of a positive measure $\nu$ on $\mathbb R$ such
+that, for $\operatorname{Re}(w)>0$,
+$$
+\frac{\xi'}{\xi}\left(\frac12+w\right)
+=
+\int_{\mathbb R}
+\frac{2w}{w^2+t^2}\,d\nu(t).
+$$
+The measure must be constructed from source rows rather than from a
+post-read zero spectrum.
+\end{definition}
+
+\begin{theorem}[Positive spectral measure gives xi Herglotz row]
+\label{thm:rh-positive-spectral-measure-gives-xi-herglotz}
+If $\mathsf{PositiveSpectralMeasureForXi}$ holds, then
+$$
+\mathsf{XiLogDerivativeHerglotz}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Write $w=x+iy$ with $x>0$.  For each real $t$,
+$$
+\operatorname{Re}
+\frac{w}{w^2+t^2}
+=
+\frac{x(|w|^2+t^2)}{|w^2+t^2|^2}
+\ge0.
+$$
+Integrating against the positive measure $\nu$ gives the claimed
+positive-real row.
+\end{proof}
+
+\begin{definition}[Balanced golden Herglotz closure]
+\label{def:rh-balanced-golden-herglotz-closure}
+The source row
+$$
+\mathsf{BalancedGoldenHerglotzClosure}
+$$
+asserts the existence of balanced golden Lee--Yang containers $C_m$
+whose logarithmic derivatives have positive spectral representations on
+the right half-plane and converge locally uniformly to $\xi'/\xi$ there.
+\end{definition}
+
+\begin{theorem}[Balanced golden Herglotz closure gives xi Herglotz row]
+\label{thm:rh-balanced-golden-herglotz-closure-gives-xi-herglotz}
+If $\mathsf{BalancedGoldenHerglotzClosure}$ holds, then
+$$
+\mathsf{XiLogDerivativeHerglotz}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Each container log-derivative has nonnegative real part by its positive
+spectral representation.  Local uniform convergence preserves
+nonnegative real part pointwise in the open half-plane.  The limit is
+$\xi'/\xi$, hence $\mathsf{XiLogDerivativeHerglotz}$ holds.
+\end{proof}
+
+\begin{corollary}[Balanced golden Herglotz closure gives fixed-half readout]
+\label{cor:rh-balanced-golden-herglotz-closure-fixed-half-readout}
+Assume $\mathsf{BalancedGoldenHerglotzClosure}$ and the usual reflection
+consumption row for the completed zeta zero ledger.  Then the completed
+zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-balanced-golden-herglotz-closure-gives-xi-herglotz}
+gives $\mathsf{XiLogDerivativeHerglotz}$.  Apply
+\autoref{thm:rh-xi-herglotz-row-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Herglotz target as Li--Weil source positivity]
+\label{prin:rh-herglotz-target-li-weil-source-positivity}
+The Herglotz row is the analytic positive-real face of the Li--Weil beta
+kernel.  The source-side target is not the posterior placement of zeros
+on the fixed line; it is a positive spectral representation, or a
+balanced golden sequence of such representations, whose log-derivative
+readout converges to that of $\xi$.  In named form the route is
+$$
+\mathsf{BalancedGoldenHerglotzClosure}
+\Longrightarrow
+\mathsf{XiLogDerivativeHerglotz}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}
