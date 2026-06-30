@@ -7020,6 +7020,7 @@ import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
+import BEDC.Derived.Hypergeometric2F1Up
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperharmonicUp
 import BEDC.Derived.HyperspaceUp.BridgedInterfaceRoute
