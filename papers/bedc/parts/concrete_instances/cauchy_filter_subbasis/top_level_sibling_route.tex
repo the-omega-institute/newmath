@@ -1,1 +1,25 @@
-The top-level $\CauchyFilterSubbasisUp$ route reads finite subbasis generation through \autoref{ch:concrete-instances-filterbase-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+The top-level $\CauchyFilterSubbasisUp$ route consumes the finite $\FilterBaseUp$ generation rows of \autoref{ch:concrete-instances-filterbase-namecert} before it reads the $\CauchyFilterUp$ packet of \autoref{ch:concrete-instances-cauchyfilter-namecert}. Only after that base-to-Cauchy handoff does the route pass through the $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. This is a finite generation route, not a quotient filter, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness claim.
+
+\begin{theorem}[CauchyFilterSubbasis Cauchy-completion sibling route]
+\label{thm:cauchy-filter-subbasis-cauchy-completion-sibling-route}
+Every accepted $\CauchyFilterSubbasisUp$ packet exported to a completion-facing consumer first reads the Cauchy-completion criterion surface of \autoref{ch:concrete-instances-cauchy-filter-completion-criterion-namecert}. The required dependency is concrete: subbasis neighborhoods are generated from the finite $\FilterBaseUp$ rows, the Cauchy filter completion criterion supplies the completion rows, $\StreamNameUp$ and $\RegSeqRatUp$ provide only finite windows and rational readback, and the terminal $\RealUp$ seal records nonescape from selected limits, quotient filters, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the top-level route described above. The subbasis neighborhood row is read before any Cauchy packet is exported, so the consumer begins with finite $\FilterBaseUp$ generation and the displayed $\CauchyFilterUp$ handoff.
+
+Next read the Cauchy-completion criterion row. It supplies the completion-facing criterion used by the sibling chapter, while the $\StreamNameUp$ and $\RegSeqRatUp$ rows restrict every read to finite stream windows and rational approximants.
+
+The final $\RealUp$ seal is only a nonescape row. It does not select a limit, identify quotient filters, introduce countable choice, or assert ambient completeness beyond the finite criterion route already displayed.
+\end{proof}
+
+\begin{theorem}[CauchyFilterSubbasis Real-uniform lattice route]
+\label{thm:cauchy-filter-subbasis-orphan-route}
+Every Real-uniform consumer of an accepted $\CauchyFilterSubbasisUp$ packet must pass through finite $\FilterBaseUp$ generation, $\CauchyFilterUp$ completion criteria, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal rows before any $\RealUniformStructureUp$ or completion-facing consumer can read it. The route exports a generated subbasis lattice edge, not quotient filters, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-filter-subbasis-cauchy-completion-sibling-route}. It forces any completion-facing consumer to read the Cauchy-completion criterion only after finite $\FilterBaseUp$ generation and the displayed $\CauchyFilterUp$ handoff.
+
+Now compose that sibling route with the generated-base and cofinality reading described in the top-level route. The subbasis row enters the Real-uniform lattice as generated filter-base data, so a $\RealUniformStructureUp$ consumer cannot bypass the finite base or treat the subbasis as an ambient quotient filter.
+
+The final handoff is through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. These rows expose only finite windows, rational readback, and a terminal seal, so no selected limit, countable-choice schedule, quotient-filter equality, or ambient completeness principle is available to the consumer.
+\end{proof}

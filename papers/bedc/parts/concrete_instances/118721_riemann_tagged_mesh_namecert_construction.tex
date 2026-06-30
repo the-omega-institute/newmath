@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RiemannTaggedMeshUp$}
+\label{ch:concrete-instances-riemann-tagged-mesh-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Riemann integration, the $\RiemannTaggedMeshUp$ packet records the finite tagged-mesh surface that sits between displayed interval partitions, tagged cells, Riemann sums, Darboux brackets, and the terminal Riemann-integral handoff. It reads the tagged real partition of \autoref{ch:concrete-instances-tagged-real-partition-namecert}, the generic tagged-partition carrier of \autoref{ch:concrete-instances-tagged-partition-namecert}, the finite Riemann-sum row of \autoref{ch:concrete-instances-riemannsum-namecert}, the Darboux bracket row of \autoref{ch:concrete-instances-darboux-sum-namecert}, the integration endpoint of \autoref{ch:concrete-instances-riemannintegral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed mesh-refinement interface; it does not select a limiting partition family, identify integrands by quotient equality, import measure integration, use countable choice, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann tagged mesh carrier]
+\label{def:riemann-tagged-mesh-carrier}
+A $\RiemannTaggedMeshUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,T,U,S,B,G,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval row, exposing the two $\RealUp$ endpoints and their displayed orientation.
+\item $T$ is the $\TaggedRealPartitionUp$ row, listing the finite cells, endpoint reads, tags, and tag-containment witnesses.
+\item $U$ is the $\TaggedPartitionUp$ refinement row, recording the finite subdivision comparison between an incoming tagged partition and the carried mesh.
+\item $S$ is the $\RiemannSumUp$ row, carrying the finite tagged-sum reads over the cells of $T$.
+\item $B$ is the $\DarbouxSumUp$ bracket row, carrying the lower and upper finite-sum comparisons over the same displayed mesh.
+\item $G$ is the gap ledger, comparing the Riemann-sum row and the Darboux bracket row against the displayed mesh refinement and tolerance request.
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite gap and sum data.
+\item $E$ is the $\RiemannIntegralUp$ handoff row, exposed only after $I,T,U,S,B,G,R$ are visible.
+\item $H$ records componentwise $\hsame$ transport for interval, tagged partition, refinement, sum, bracket, gap, readback, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+I,T,U \longmapsto S,B \longmapsto G \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RiemannTaggedMeshUp$, $\TaggedRealPartitionUp$, $\TaggedPartitionUp$, $\RiemannSumUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RiemannTaggedMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,T,U,S,B,G,R,E,H,C,P,N$. It has no coordinate for a selected refinement sequence, a host function space, quotient equality of integrands, measure integration, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann tagged mesh NameCert obligations]
+\label{thm:riemann-tagged-mesh-namecert-obligations}
+For every accepted $\RiemannTaggedMeshUp$ carrier $M=(I,T,U,S,B,G,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannTaggedMeshUp}$ surface consists exactly of carrier admission for the interval, tagged real partition, tagged refinement, finite Riemann-sum, Darboux bracket, gap ledger, regular rational readback, Riemann-integral handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Every accepted integration-facing read follows the finite route
+$$
+I,T,U \longmapsto S,B \longmapsto G \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-tagged-mesh-carrier}. Its analytic rows are exactly the interval row, tagged real partition, tagged refinement row, finite sum row, Darboux bracket row, gap ledger, regular readback, and integral handoff.
+
+The mesh row is not detached from the partition rows. The row $U$ compares the incoming tagged partition with the carried finite mesh, while $T$ supplies the cells, endpoint reads, and tags on which $S$ and $B$ are evaluated.
+
+The rows $S$ and $B$ are then read over the same displayed cells. The gap row $G$ compares those finite rows against the requested mesh tolerance before $R$ can expose regular rational readback.
+
+Finally $E,H,C,P,N$ preserve the same route toward the Riemann-integral handoff. Since no carrier coordinate stores a selected refinement sequence, host function space, quotient integrand equality, measure integral, choice principle, or ambient completeness theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Riemann tagged mesh refinement handoff]
+\label{thm:riemann-tagged-mesh-refinement-handoff}
+Every $\RiemannIntegralUp$ consumer of an accepted $\RiemannTaggedMeshUp$ packet must read the $\TaggedRealPartitionUp$ row, the $\TaggedPartitionUp$ refinement row, the $\RiemannSumUp$ finite-sum row, the $\DarbouxSumUp$ bracket row, and the $\RegSeqRatUp$ readback row before the handoff row $E$ is public. Thus mesh refinement is exposed as finite tagged data and not as a hidden sequence of partitions.
+\end{theorem}
+\begin{proof}
+Start with the obligation route of \autoref{thm:riemann-tagged-mesh-namecert-obligations}. It places the handoff row $E$ downstream from $I,T,U,S,B,G,R$.
+
+The partition data comes first. The tagged real partition $T$ provides cells, tags, and endpoint reads, while the tagged refinement row $U$ records how the carried mesh compares with the incoming finite partition.
+
+The analytic comparison is finite. The Riemann-sum row $S$ and Darboux bracket row $B$ are both read over the displayed mesh, and $G$ records their finite gap before $R$ presents the regular rational readback.
+
+Therefore any Riemann-integral consumer that reaches $E$ has already inspected the finite tagged-mesh interface. A hidden refinement sequence or selected limiting partition is not available in the carrier.
+\end{proof}
+
+\begin{theorem}[Riemann tagged mesh nonescape]
+\label{thm:riemann-tagged-mesh-nonescape}
+The $\RiemannTaggedMeshUp$ packet exports no selected partition family, host function space, quotient equality of integrands, measure-space integration, countable-choice selector, or ambient $\RealUp$ completeness. Every public read remains inside the displayed interval, tagged partition, refinement, Riemann-sum, Darboux-bracket, gap, regular-readback, integral-handoff, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Compare the refused objects with the carrier inventory of \autoref{def:riemann-tagged-mesh-carrier}. None is one of $I,T,U,S,B,G,R,E,H,C,P,N$.
+
+The positive route is supplied by \autoref{thm:riemann-tagged-mesh-refinement-handoff}. It keeps every integration-facing read behind the finite tagged partition, refinement, sum, bracket, gap, and readback rows before the handoff is consumed.
+
+Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ do not add new analytic coordinates. The packet therefore cannot escape to host partitions, quotient functions, measure integration, choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RiemannTaggedMeshUp$ read that reaches a $\RiemannIntegralUp$ handoff exposes $\TaggedRealPartitionUp$, $\TaggedPartitionUp$, $\RiemannSumUp$, $\DarbouxSumUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows before the handoff is public.}
+
+\independenceWitness{tagged-real-partition, tagged-partition, riemannsum, darboux-sum, riemannintegral, regseqrat, real: $\RiemannTaggedMeshUp$ is not bijective with any listed sibling because it jointly carries interval endpoints, tagged cells, refinement comparison, finite Riemann sums, Darboux brackets, gap readback, integral handoff, transport, replay, provenance, and local naming as one mesh-refinement packet.}
+
+\closureat{RiemannTaggedMeshUp}{seedStr}
+
+\begin{closurestatus}{\RiemannTaggedMeshUp}
+  \constructivestory{A $\RiemannTaggedMeshUp$ packet is generated from interval, TaggedRealPartition, TaggedPartition refinement, RiemannSum, DarbouxSum, gap, RegSeqRat readback, RiemannIntegral handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-tagged-mesh-carrier}, \autoref{thm:riemann-tagged-mesh-namecert-obligations}, \autoref{thm:riemann-tagged-mesh-refinement-handoff}, and \autoref{thm:riemann-tagged-mesh-nonescape} seed the finite tagged-mesh refinement route over partition, sum, bracket, readback, handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected partition sequences, host function spaces, quotient integrand equality, measure integration, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged-partition exposure, refinement exactness, Riemann-sum exposure, Darboux-bracket exposure, gap readback, Riemann-integral handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannTaggedMeshUp.}
+\end{closurestatus}

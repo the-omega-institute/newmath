@@ -192,6 +192,30 @@ private theorem regularCauchyProductBudgetUpToEventFlow_injective
     (Eq.trans (regularCauchyProductBudgetUp_round_trip x).symm
       (Eq.trans hread (regularCauchyProductBudgetUp_round_trip y)))
 
+private def regularCauchyProductBudgetUpFields :
+    RegularCauchyProductBudgetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyProductBudgetUp.mk sourceA sourceB windowA windowB dyadicA dyadicB
+      product budget readback sealRow transport routes provenance name =>
+      [sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, product, budget,
+        readback, sealRow, transport, routes, provenance, name]
+
+private theorem regularCauchyProductBudgetUpFields_faithful :
+    ∀ x y : RegularCauchyProductBudgetUp,
+      regularCauchyProductBudgetUpFields x =
+          regularCauchyProductBudgetUpFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk sourceA₁ sourceB₁ windowA₁ windowB₁ dyadicA₁ dyadicB₁ product₁ budget₁
+      readback₁ sealRow₁ transport₁ routes₁ provenance₁ name₁ =>
+      cases y with
+      | mk sourceA₂ sourceB₂ windowA₂ windowB₂ dyadicA₂ dyadicB₂ product₂ budget₂
+          readback₂ sealRow₂ transport₂ routes₂ provenance₂ name₂ =>
+          cases hfields
+          rfl
+
 instance regularCauchyProductBudgetUpBHistCarrier :
     BHistCarrier RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -210,5 +234,25 @@ instance regularCauchyProductBudgetUpChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchyProductBudgetUpToEventFlow_injective heq)
+
+instance regularCauchyProductBudgetUpFieldFaithful :
+    FieldFaithful RegularCauchyProductBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyProductBudgetUpFields
+  field_faithful := regularCauchyProductBudgetUpFields_faithful
+
+instance regularCauchyProductBudgetUpNontrivial :
+    Nontrivial RegularCauchyProductBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyProductBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyProductBudgetUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 end BEDC.Derived.RegularCauchyProductBudgetUp

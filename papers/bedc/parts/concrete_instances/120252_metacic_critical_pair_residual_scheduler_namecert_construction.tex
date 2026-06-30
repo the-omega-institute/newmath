@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCriticalPairResidualSchedulerUp$}
+\label{ch:concrete-instances-metacic-critical-pair-residual-scheduler-namecert}
+\origin{ai}
+
+The $\MetaCICCriticalPairResidualSchedulerUp$ packet realizes the confluence audit map of \autoref{ch:metacic-confluence-audit-map} as a finite scheduler for critical-pair residual reads. It sits beside the critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and the parallel-diamond residual boundary of \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. The packet is a bounded residual and local-diamond scheduler; it is not full Church--Rosser, subject reduction, evaluator equality, quotient syntax equality, or MetaCIC kernel consistency.
+
+\begin{definition}[MetaCIC critical-pair residual scheduler carrier]
+\label{def:metacic-critical-pair-residual-scheduler-carrier}
+A $\MetaCICCriticalPairResidualSchedulerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,F,A,R,J,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the critical-pair row, naming the finite local peak and the inspected binder window.
+\item $F$ is the normalization-frontier row, recording the candidate-normalization boundary available for the same peak.
+\item $A$ is the confluence-audit row, retaining the checked fragment and the named blocked premises from the audit map.
+\item $R$ is the residual-schedule row, ordering residual reads before any local diamond handoff is exposed.
+\item $J$ is the candidate local-join row produced by the schedule when the bounded residual rows agree.
+\item $B$ is the bounded residual-checker row, recording the finite budget and the local tests performed by the scheduler.
+\item $O$ is the obstruction row, retaining residual-substitution, subject-reduction, evaluator-equality, quotient-equality, and kernel-consistency boundaries when the schedule does not expose a local join.
+\item $H$ records componentwise $\hsame$ transport for the critical-pair, frontier, audit, schedule, local-join, checker, obstruction, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through the same residual-scheduler route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCriticalPairResidualSchedulerUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, $\ParallelDiamondResidualUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCriticalPairResidualSchedulerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for full Church--Rosser, unrestricted subject reduction, evaluator equality, quotient syntax equality, unbounded residual search, or MetaCIC kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC critical-pair residual scheduler obligations]
+\label{thm:metacic-critical-pair-residual-scheduler-obligations}
+For every accepted $\MetaCICCriticalPairResidualSchedulerUp$ carrier
+$$
+S=(K,F,A,R,J,B,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICCriticalPairResidualSchedulerUp}$ surface consists exactly of critical-pair exposure through $K$, normalization-frontier exposure through $F$, confluence-audit exposure through $A$, residual-schedule exposure through $R$, candidate local-join exposure through $J$, bounded-checker exposure through $B$, obstruction visibility through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. A confluence-facing consumer may inspect a local diamond handoff only after the residual schedule and bounded checker rows are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-critical-pair-residual-scheduler-carrier}. The row $K$ fixes the critical pair, $F$ fixes the normalization boundary, and $A$ fixes the confluence audit context before any residual read is scheduled.
+
+The residual-schedule row $R$ is read before the candidate join row $J$. The bounded checker row $B$ records the finite tests that justify exposing $J$; otherwise the obstruction row $O$ remains visible.
+
+Transport and replay through $H$ and $C$ preserve the same schedule, checker, local-join, and obstruction rows. Provenance and local naming through $P,N$ close only that finite packet.
+
+Since full Church--Rosser, unrestricted subject reduction, evaluator equality, quotient syntax equality, unbounded residual search, and kernel consistency have no carrier coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-pair residual scheduler diamond boundary]
+\label{thm:metacic-critical-pair-residual-scheduler-diamond-boundary}
+Every local-diamond read exported by an accepted $\MetaCICCriticalPairResidualSchedulerUp$ packet is bounded by
+$$
+\MetaCICCriticalPathUp,\ \MetaCICNormalizationFrontierUp,\ \MetaCICConfluenceAuditPacketUp,\ \ParallelDiamondResidualUp .
+$$
+The residual schedule must read the critical pair, candidate normalization frontier, confluence audit packet, bounded residual checker, and obstruction row before it can expose a candidate local join. The boundary exports no full Church--Rosser theorem, no subject-reduction theorem, no evaluator equality, no quotient syntax equality, and no kernel-consistency theorem.
+\end{theorem}
+\begin{proof}
+Start with the critical-pair and frontier rows $K,F$. They locate the local peak and the candidate normalization boundary before any residual-diamond consumer can ask for a join.
+
+Next consume $A,R,B,O$. The audit row identifies the conditional confluence map, the scheduler row orders residual reads, the bounded checker row records the finite tests, and the obstruction row remains visible when those tests do not certify the candidate join.
+
+Only after those rows are displayed may $J$ be exported as a local-diamond handoff. Transport, replay, provenance, and local naming through $H,C,P,N$ keep the handoff on the same finite packet, while the excluded global theorems remain outside the carrier.
+\end{proof}
+
+\falsifiablePrediction{If a residual read skips the scheduler row $R$ and reaches a candidate local join directly, it is not an accepted $\MetaCICCriticalPairResidualSchedulerUp$ carrier read.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-confluence-audit-packet, parallel-diamond-residual: none is bijective to $\MetaCICCriticalPairResidualSchedulerUp$ because this packet jointly carries residual scheduling, bounded checker, candidate local join, obstruction retention, transport, replay, provenance, and local naming rows.}
+
+The Lean TasteGate route is expected to provide \texttt{Nontrivial MetaCICCriticalPairResidualSchedulerUp} with an explicit witness pair and \texttt{FieldFaithful MetaCICCriticalPairResidualSchedulerUp} with \texttt{.mk}-derived fields and a match/injection proof.
+
+\closureat{MetaCICCriticalPairResidualSchedulerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCriticalPairResidualSchedulerUp}
+  \constructivestory{A $\MetaCICCriticalPairResidualSchedulerUp$ packet is generated from a critical-pair row, normalization-frontier row, confluence-audit row, residual-schedule row, candidate local-join row, bounded residual-checker row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-critical-pair-residual-scheduler-carrier}, \autoref{thm:metacic-critical-pair-residual-scheduler-obligations}, and \autoref{thm:metacic-critical-pair-residual-scheduler-diamond-boundary} seed the bounded residual scheduler over critical pairs, candidate frontiers, audit rows, local joins, obstruction rows, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Church--Rosser, unrestricted subject reduction, evaluator equality, quotient syntax equality, unbounded residual search, Lean verification, bridge checking, or MetaCIC kernel consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, critical-pair exposure, frontier exposure, audit exposure, residual-schedule exactness, bounded-checker exactness, candidate-join exposure, obstruction retention, transport, replay, provenance, local naming, and TasteGate nontriviality and field-faithfulness for BEDC.Derived.MetaCICCriticalPairResidualSchedulerUp.}
+\end{closurestatus}

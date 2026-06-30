@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorBranchAuditUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -314,5 +318,78 @@ theorem RecursorBranchAuditTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem RecursorBranchAuditCarrier_branch_coverage (x : RecursorBranchAuditUp) :
+    exists I S R M B D O H C P N branchReplay : BHist,
+      x = RecursorBranchAuditUp.mk I S R M B D O H C P N ∧
+        hsame B B ∧
+          Cont S B branchReplay ∧ NameCert (fun h : BHist => hsame h B) hsame := by
+  -- BEDC touchpoint anchor: BHist BMark Cont NameCert hsame
+  cases x with
+  | mk I S R M B D O H C P N =>
+      refine
+        ⟨I, S, R, M, B, D, O, H, C, P, N, append S B, ?_, ?_, ?_, ?_⟩
+      · rfl
+      · exact hsame_refl B
+      · exact cont_intro rfl
+      · exact {
+          carrier_inhabited := Exists.intro B (hsame_refl B)
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact hsame_trans (hsame_symm sameRows) source
+        }
+
+theorem RecursorBranchAuditCarrier_motive_boundary
+    {motive branches output : BHist} :
+    SemanticNameCert
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame
+  have sourceMotive :
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        motive := by
+    exact Or.inl (hsame_refl motive)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro motive sourceMotive
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _mid _col sameRowMid sameMidCol
+        exact hsame_trans sameRowMid sameMidCol
+      carrier_respects_equiv := by
+        intro row col same source
+        cases source with
+        | inl rowMotive =>
+            exact Or.inl (hsame_trans (hsame_symm same) rowMotive)
+        | inr rest =>
+            cases rest with
+            | inl rowBranches =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) rowBranches))
+            | inr rowOutput =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm same) rowOutput))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.RecursorBranchAuditUp

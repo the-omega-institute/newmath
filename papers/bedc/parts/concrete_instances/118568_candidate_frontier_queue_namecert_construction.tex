@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CandidateFrontierQueueUp$}
+\label{ch:concrete-instances-candidate-frontier-queue-namecert}
+\origin{ai}
+
+The $\CandidateFrontierQueueUp$ packet realizes the automated theory-discovery calculus of \autoref{ch:automated-theory-discovery-pipeline-calculus} as finite source-state, classifier-shift, score-budget, queue, ledger, replay, provenance, and NameCert rows. It sits beside the candidate frontier of \autoref{ch:concrete-instances-normalization-candidate-frontier-namecert}, the before-and-after classifier residue of \autoref{ch:concrete-instances-classifier-shift-ledger-residue-namecert}, the vision-coverage ledger of \autoref{ch:concrete-instances-vision-coverage-ledger-namecert}, and the critical-path source of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet names an admission queue for candidate theory work; it does not by itself certify positive discovery, semantic novelty, theorem soundness, or bridge checking.
+
+\begin{definition}[CandidateFrontierQueue carrier]
+\label{def:candidate-frontier-queue-carrier}
+A $\CandidateFrontierQueueUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,A,F,D,B,U,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the certified source-state row, recording the current theory state, accepted theorem rows, and active boundary conditions read from the discovery calculus.
+\item $A$ is the automation-record row, naming the generator, admissible moves, replay seed, and bounded search surface used to propose candidates.
+\item $F$ is the $\NormalizationCandidateFrontierUp$ row, supplying candidate-frontier evidence rather than an evidence-free theorem.
+\item $D$ is the $\ClassifierShiftLedgerResidueUp$ row, exposing the before-and-after classifier comparison used to decide whether the queue entry can leave record growth.
+\item $B$ is the score-budget row, recording public cost, score, and resource bounds for the queued candidate.
+\item $U$ is the queue-order row, recording the displayed priority, dependency predecessor, and admission status of each candidate.
+\item $L$ is the ledger row, recording vision coverage, classifier-shift status, score account, replay obligations, and candidate rejection reasons.
+\item $R$ is the replay row, recording the deterministic route by which the source state, automation record, frontier row, classifier-shift row, budget, and queue order are rechecked.
+\item $H$ stores componentwise $\hsame$ transport for $S,A,F,D,B,U,L,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the source state through automation, frontier, classifier-shift, score, queue, ledger, and replay rows.
+\item $P$ is the $\Pkg$ provenance over $\CandidateFrontierQueueUp$, $\NormalizationCandidateFrontierUp$, $\ClassifierShiftLedgerResidueUp$, $\VisionCoverageLedgerUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CandidateFrontierQueueUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,F,D,B,U,L,R,H,C,P,N$. It therefore records finite queue admission for candidate-frontier work, not a host search process, an unledgered discovery verdict, a hidden semantic novelty score, or unchecked theorem soundness.
+\end{definition}
+
+\begin{theorem}[CandidateFrontierQueue NameCert obligations]
+\label{thm:candidate-frontier-queue-namecert-obligations}
+For every accepted $\CandidateFrontierQueueUp$ carrier
+$$
+Q=(S,A,F,D,B,U,L,R,H,C,P,N),
+$$
+the local $\NameCert_{\CandidateFrontierQueueUp}$ surface consists exactly of source-state admission, automation-record admission, candidate-frontier exposure, classifier-shift ledger exposure, score-budget exposure, queue-order exposure, ledger exposure, replay exposure, componentwise transport, displayed continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:candidate-frontier-queue-carrier}. The accepted tuple displays the source state $S$, automation record $A$, candidate frontier $F$, classifier-shift ledger $D$, score budget $B$, queue order $U$, ledger $L$, replay row $R$, transport $H$, continuation replay $C$, provenance $P$, and local naming $N$.
+
+The queue read starts from the source state and automation record. These rows fix which candidate was proposed and which bounded search surface produced it.
+
+The frontier and classifier rows then decide admissibility. Row $F$ keeps the candidate attached to a displayed frontier, while row $D$ records the before-and-after classifier evidence required by the discovery calculus.
+
+The budget, queue, ledger, and replay rows make the admission auditable. Since the carrier contains no further coordinate for semantic novelty, theorem soundness, or positive-discovery certification, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CandidateFrontierQueue classifier-shift nonescape]
+\label{thm:candidate-frontier-queue-classifier-shift-nonescape}
+Let $Q=(S,A,F,D,B,U,L,R,H,C,P,N)$ be an accepted $\CandidateFrontierQueueUp$ carrier. A queued candidate cannot be read as discovery-class work unless the same packet exposes the $\ClassifierShiftLedgerResidueUp$ row $D$, the score-budget row $B$, the ledger row $L$, and the replay row $R$ over the source-state and automation rows $S,A$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The queue-order row $U$ only records priority and dependency placement; it does not decide claim strength.
+
+The source-state and automation rows $S,A$ fix the candidate's origin. The candidate-frontier row $F$ supplies admissible frontier evidence, but it still does not show classifier change.
+
+Classifier-shift evidence must therefore be read through $D$. The score-budget row $B$ records the public cost account, the ledger row $L$ records the coverage and rejection boundary, and the replay row $R$ records the deterministic recheck route over the same source and automation surface.
+
+If any of $D,B,L,R$ is absent, the queue entry remains record growth or candidate work inside this packet. The structural rows $H,C,P,N$ preserve that boundary and do not create a hidden discovery verdict.
+\end{proof}
+
+\falsifiablePrediction{A $\CandidateFrontierQueueUp$ packet that admits a candidate as discovery-class work while omitting the displayed $\ClassifierShiftLedgerResidueUp$ row, score-budget row, ledger row, or replay row over the same source-state and automation rows fails the carrier of \autoref{def:candidate-frontier-queue-carrier}.}
+
+\independenceWitness{normalization-candidate-frontier, classifier-shift-ledger-residue, vision-coverage-ledger, metaciccriticalpath: $\NormalizationCandidateFrontierUp$ supplies candidate evidence without queue order; $\ClassifierShiftLedgerResidueUp$ supplies before-and-after classifier residue without score-budgeted queue admission; $\VisionCoverageLedgerUp$ supplies coverage accounting without replay ordering; $\MetaCICCriticalPathUp$ supplies dependency pressure without classifier-shift queue discharge. None is bijective to $\CandidateFrontierQueueUp$ under NameCert-row preservation.}
+
+The Lean-side draft for $\CandidateFrontierQueueUp$ must include $\mathsf{Nontrivial}\ \CandidateFrontierQueueUp$ and $\mathsf{FieldFaithful}\ \CandidateFrontierQueueUp$ instances for the displayed carrier, with the field-faithful instance preserving exactly the rows $S,A,F,D,B,U,L,R,H,C,P,N$.
+
+\closureat{CandidateFrontierQueueUp}{seedStr}
+
+\begin{closurestatus}{\CandidateFrontierQueueUp}
+  \constructivestory{A $\CandidateFrontierQueueUp$ packet is generated from source-state rows, automation-record rows, candidate-frontier evidence, classifier-shift residue, score budgets, queue order, ledger rows, replay rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-frontier-queue-carrier}, \autoref{thm:candidate-frontier-queue-namecert-obligations}, and \autoref{thm:candidate-frontier-queue-classifier-shift-nonescape} seed the finite candidate-frontier queue over discovery-calculus, normalization-frontier, classifier-shift, vision-coverage, critical-path, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim positive-discovery certification, theorem soundness, semantic novelty scoring, host search completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-frontier exposure, classifier-shift nonescape, score-budget preservation, queue-order preservation, ledger replay, transport, provenance, local naming, Nontrivial, and FieldFaithful rows for BEDC.Derived.CandidateFrontierQueueUp.}
+\end{closurestatus}

@@ -222,6 +222,49 @@ instance inscribedRouteChapterTasteGate : ChapterTasteGate InscribedRouteUp wher
     intro x y hxy heq
     exact hxy (inscribedRouteToEventFlow_injective heq)
 
+instance inscribedRouteFieldFaithful : FieldFaithful InscribedRouteUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | InscribedRouteUp.mk source gap statement route acceptance consumer ledger provenance name =>
+        [source, gap, statement, route, acceptance, consumer, ledger, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk source1 gap1 statement1 route1 acceptance1 consumer1 ledger1 provenance1 name1 =>
+      cases y with
+      | mk source2 gap2 statement2 route2 acceptance2 consumer2 ledger2 provenance2 name2 =>
+        injection h with hSource t1
+        injection t1 with hGap t2
+        injection t2 with hStatement t3
+        injection t3 with hRoute t4
+        injection t4 with hAcceptance t5
+        injection t5 with hConsumer t6
+        injection t6 with hLedger t7
+        injection t7 with hProvenance t8
+        injection t8 with hName _
+        cases hSource
+        cases hGap
+        cases hStatement
+        cases hRoute
+        cases hAcceptance
+        cases hConsumer
+        cases hLedger
+        cases hProvenance
+        cases hName
+        rfl
+
+instance inscribedRouteNontrivial : Nontrivial InscribedRouteUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨InscribedRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      InscribedRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty, by
+        intro h
+        injection h with hSource
+        cases hSource⟩
+
 theorem InscribedRouteTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscribedRouteDecodeBHist (inscribedRouteEncodeBHist h) = h) ∧
       (∀ x : InscribedRouteUp,

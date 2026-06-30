@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\NormedGroupUp$}
+\label{ch:concrete-instances-normed-group-namecert}
+\origin{human}
+
+Following Bourbaki, \emph{General Topology}, the $\NormedGroupUp$ packet records the traditional normed-group interface as finite BEDC NameCert data. It consumes the algebraic operation rows of $\GroupUp$ from \autoref{ch:concrete-instances-group-namecert}, the distance row of $\MetricUp$ from \autoref{ch:concrete-instances-metric-namecert}, and the value row of $\NormUp$ from \autoref{ch:concrete-instances-norm-namecert}. The carrier binds these three siblings as one displayed packet; it does not import quotient groups, host equality, selected representatives, or choice of completions.
+
+\begin{definition}[Normed group carrier]
+\label{def:normed-group-carrier}
+A $\NormedGroupUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,M,I,E,N,D,T,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the consumed $\GroupUp$ row, including carrier admission, multiplication, unit, inverse, and group-law evidence.
+\item $M$ is the consumed $\MetricUp$ row on the same displayed carrier.
+\item $I$ is the displayed identity row inherited from the group packet.
+\item $E$ is the displayed inverse row inherited from the group packet.
+\item $N$ is the consumed $\NormUp$ value row, read only on displayed group endpoints.
+\item $D$ is the norm-distance row recording $d(x,y)=N(x^{-1}y)$ inside the packet.
+\item $T$ is the translation-stability row recording that left and right multiplication preserve the displayed distance readback.
+\item $H$ is the componentwise $\hsame$ transport row for $A,M,I,E,N,D,T$.
+\item $C$ is the displayed $\Cont$ replay row for the same fields.
+\item $P$ is the $\Pkg$ provenance over $\NormedGroupUp$, $\GroupUp$, $\MetricUp$, $\NormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\NormedGroupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,I,E,N,D,T,H,C,P,L$. It has no coordinate for host group equality, quotient completion, an ambient topological group, a chosen dense subgroup, or an external real-valued norm object outside the displayed $\NormUp$ row.
+\end{definition}
+
+\begin{theorem}[Normed group NameCert obligations]
+\label{thm:normed-group-namecert-obligations}
+For every accepted $\NormedGroupUp$ carrier $G=(A,M,I,E,N,D,T,H,C,P,L)$, the local $\NameCert_{\NormedGroupUp}$ surface consists exactly of group-source admission, metric-source admission, norm-source admission, the identity and inverse readback rows, the norm-distance equation row $D$, translation stability $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local naming $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normed-group-carrier}. The algebraic source is the consumed $\GroupUp$ row $A$, and the metric and norm sources are the consumed $\MetricUp$ and $\NormUp$ rows $M$ and $N$.
+
+The identity and inverse rows $I$ and $E$ are inherited from the same group packet. The distance row $D$ is not an additional metric carrier; it is the displayed equation reading the metric value through the norm of $x^{-1}y$.
+
+Translation stability is the row $T$. Transport, continuation, provenance, and local naming preserve exactly the displayed rows, so the obligation surface is exhausted by the listed finite packet.
+\end{proof}
+
+\begin{theorem}[Normed group metric translation stability]
+\label{thm:normed-group-metric-translation-stability}
+Every accepted $\NormedGroupUp$ consumer that reads a translated pair must expose the same $\GroupUp$ multiplication row, inverse row, $\MetricUp$ distance row, and $\NormUp$ value row before reading the translated distance. Thus left and right translation are certificate-preserving routes through $T$, not host-level isometries imported from outside the packet.
+\end{theorem}
+\begin{proof}
+Read the translated pair through the group row $A$. Multiplication and inverse endpoints are visible only as rows of the consumed $\GroupUp$ packet.
+
+Next read $M$ and $N$. The metric value and norm value are available only through those two source rows, and $D$ ties the distance comparison to the norm of the displayed group difference.
+
+The row $T$ records the translation-stability replay. Since $H,C,P,L$ preserve the same packet and no host isometry coordinate appears in the carrier, translated reads remain inside the accepted NameCert route.
+\end{proof}
+
+\begin{theorem}[Normed group norm-distance compatibility]
+\label{thm:normed-group-norm-distance-compatibility}
+For an accepted $\NormedGroupUp$ carrier, a metric read $d(x,y)$ and a norm read $N(x^{-1}y)$ are compatible only through the displayed row $D$. A consumer cannot replace $D$ by host equality of group elements, quotient equality of representatives, or an unrecorded real-valued norm while retaining the local $\NameCert_{\NormedGroupUp}$ read.
+\end{theorem}
+\begin{proof}
+Project the distance and norm rows from \autoref{def:normed-group-carrier}. The metric row $M$ supplies the displayed distance read, and the norm row $N$ supplies the displayed value read.
+
+The group row $A$ supplies the inverse and multiplication endpoints used to form the displayed difference. The compatibility assertion is exactly row $D$, so the route has no independent equality or quotient coordinate.
+
+Transport and continuation replay the same row data. Hence any replacement by host equality, quotient equality, or an unrecorded norm leaves the accepted packet.
+\end{proof}
+
+\begin{theorem}[Normed group ledger nonescape]
+\label{thm:normed-group-ledger-nonescape}
+Every downstream completion, topological-group, or Banach-facing consumer citing $\NormedGroupUp$ must first expose $A,M,I,E,N,D,T,H,C,P,L$. Dropping the group row, the metric row, the norm row, the norm-distance row, or the translation-stability row exits the accepted normed-group ledger and cannot be repaired by provenance or local naming alone.
+\end{theorem}
+\begin{proof}
+Apply the obligation surface of \autoref{thm:normed-group-namecert-obligations}. The group, metric, and norm rows are independent consumed siblings, while $D$ and $T$ are the local rows that bind them into one normed-group packet.
+
+Completion and topological consumers may inspect the metric-facing and translation-facing rows only after those local rows are displayed. Banach-facing consumers may inspect norm values only through $N$ and the compatibility row $D$.
+
+The support rows $H,C,P,L$ preserve an admitted packet. They do not synthesize a missing algebraic source, metric source, norm source, compatibility row, or translation-stability row, so dropping any of those rows leaves the accepted ledger.
+\end{proof}
+
+\falsifiablePrediction{Removing $D$ permits a metric row and norm row that no longer determine the same displayed group-difference distance.}
+
+\independenceWitness{group, metric, norm: none is bijective to $\NormedGroupUp$. The group packet lacks distance and norm values; the metric packet lacks multiplication and inverse rows; the norm packet lacks the metric translation-stability ledger and cannot by itself expose the displayed group operation route.}
+
+\closureat{NormedGroupUp}{seedStr}
+
+\begin{closurestatus}{\NormedGroupUp}
+  \constructivestory{A $\NormedGroupUp$ packet is generated from displayed GroupUp, MetricUp, NormUp, identity, inverse, norm-distance, translation-stability, transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normed-group-carrier}, \autoref{thm:normed-group-namecert-obligations}, \autoref{thm:normed-group-metric-translation-stability}, \autoref{thm:normed-group-norm-distance-compatibility}, and \autoref{thm:normed-group-ledger-nonescape} seed the finite normed-group route over displayed $\GroupUp$, $\MetricUp$, and $\NormUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient groups, group completions, Banach-space structure, topological-group bridge checking, host equality, selected representatives, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric translation stability, norm-distance compatibility, ledger nonescape, provenance, and local naming for BEDC.Derived.NormedGroupUp.}
+\end{closurestatus}

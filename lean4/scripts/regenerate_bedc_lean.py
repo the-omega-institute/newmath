@@ -15,7 +15,21 @@ HEADER = (
 )
 
 AGGREGATE_IMPORT_OMIT = {
+    "BEDC.Derived.AnalogyCertificateGateUp.FalsifiablePrediction",
+    "BEDC.Derived.AuditMapObstructionSocketUp",
+    "BEDC.Derived.AlternatingHarmonicUp.TasteGate",
+    "BEDC.Derived.BetaSubstitutionDischargeUp.TasteGate",
+    "BEDC.Derived.CauchyBoundSelectorUp.NameCertObligations",
+    "BEDC.Derived.CauchyCondensationUp.TailLockUniqueness",
+    "BEDC.Derived.CriticalLineWitnessUp.PhaseRealReadbackBoundary",
     "BEDC.Derived.DyadicIntervalCoverUp",
+    "BEDC.Derived.EgorovUp",
+    "BEDC.Derived.GeneratorAuditClosureUp.SubstitutionShiftAudit",
+    "BEDC.Derived.KockZoberleinCauchyCompletionUp",
+    "BEDC.Derived.KolmogorovComplexityUp.TasteGate",
+    "BEDC.Derived.LocatedCompletionUp.TasteGate",
+    "BEDC.Derived.RieszRepresentationUp.ScopeBinding",
+    "BEDC.Derived.UniformCompletionKleisliUp.TasteGate",
 }
 
 

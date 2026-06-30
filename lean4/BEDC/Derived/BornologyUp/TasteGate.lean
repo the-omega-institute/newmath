@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BornologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -186,5 +198,94 @@ theorem BornologyTasteGate_single_carrier_alignment :
     ⟨BornologyTasteGate_single_carrier_alignment_decode_encode,
       ⟨⟨BornologyTasteGate_single_carrier_alignment_carrier⟩,
         ⟨⟨BornologyTasteGate_single_carrier_alignment_gate⟩, rfl⟩⟩⟩
+
+theorem BornologyNameCertObligations [AskSetup] [PackageSetup]
+    {F S U E D H C P N sourceRead unionRead handoffRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory F ->
+      UnaryHistory S ->
+        UnaryHistory U ->
+          UnaryHistory E ->
+            UnaryHistory D ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont F E sourceRead ->
+                        Cont sourceRead U unionRead ->
+                          Cont unionRead D handoffRead ->
+                            Cont handoffRead N namedRead ->
+                              PkgSig bundle P pkg ->
+                                PkgSig bundle N pkg ->
+                                  SemanticNameCert
+                                      (fun row : BHist =>
+                                        hsame row namedRead ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row F ∨ hsame row S ∨ hsame row U ∨
+                                          hsame row E ∨ hsame row D ∨ hsame row H ∨
+                                            hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                              hsame row namedRead)
+                                      (fun row : BHist =>
+                                        UnaryHistory row ∧ PkgSig bundle P pkg ∧
+                                          PkgSig bundle N pkg)
+                                      hsame ∧
+                                    UnaryHistory sourceRead ∧ UnaryHistory unionRead ∧
+                                      UnaryHistory handoffRead ∧
+                                        UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro fUnary _sUnary uUnary eUnary dUnary _hUnary _cUnary _pUnary nUnary sourceRoute
+    unionRoute handoffRoute nameRoute provenancePkg namePkg
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed fUnary eUnary sourceRoute
+  have unionReadUnary : UnaryHistory unionRead :=
+    unary_cont_closed sourceReadUnary uUnary unionRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed unionReadUnary dUnary handoffRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed handoffReadUnary nUnary nameRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row S ∨ hsame row U ∨ hsame row E ∨ hsame row D ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, provenancePkg, namePkg⟩
+    }
+  exact ⟨cert, sourceReadUnary, unionReadUnary, handoffReadUnary, namedReadUnary⟩
 
 end BEDC.Derived.BornologyUp

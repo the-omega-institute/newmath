@@ -1,0 +1,11 @@
+\begin{theorem}[RegSeqRat window stability under StreamName transport]
+\label{thm:regseqrat-window-stability}
+Let two accepted $\StreamNameUp$ packets agree pointwise on every finite window inspected by a $\RegSeqRatUp$ readback. If the point certificates for those windows are transported componentwise by $\hsame$ and replayed through the displayed $\Cont$ rows of the two StreamName packets, then the $\RegSeqRatUp$ window carrier and classifier rows transported through those windows remain stable. The statement is only about the displayed finite StreamName windows and the $\RegSeqRatUp$ rows read through them; it introduces no quotient stream equality, selected limit, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite StreamName window row used by the readback. The hypothesis gives pointwise agreement exactly on the window coordinates inspected by the $\RegSeqRatUp$ carrier.
+
+Transport each displayed point certificate componentwise by $\hsame$. Replaying the corresponding $\Cont$ rows preserves the same window source, so the readback cannot switch to a hidden stream representative or to a larger tail object.
+
+Finally read the $\RegSeqRatUp$ carrier and classifier rows only through those transported windows. Since no quotient stream equality, selected limit, host real equality, or ambient completeness coordinate is present in the route, the transported window carrier and classifier rows remain stable.
+\end{proof}

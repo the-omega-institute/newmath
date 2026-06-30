@@ -213,24 +213,6 @@ def taste_gate : ChapterTasteGate HostPrimitiveLeakageUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hostPrimitiveLeakageChapterTasteGate
 
-theorem HostPrimitiveLeakageTasteGate_single_carrier_alignment :
-    ChapterTasteGate HostPrimitiveLeakageUp ∧
-      Nonempty (Nontrivial HostPrimitiveLeakageUp) ∧
-        Nonempty (FieldFaithful HostPrimitiveLeakageUp) ∧
-          (∀ h : BHist,
-            hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist h) = h) ∧
-          (∀ x : HostPrimitiveLeakageUp,
-            hostPrimitiveLeakageFromEventFlow (hostPrimitiveLeakageToEventFlow x) = some x) ∧
-          (∀ x y : HostPrimitiveLeakageUp,
-            hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y) ∧
-          hostPrimitiveLeakageEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨hostPrimitiveLeakageChapterTasteGate, ⟨hostPrimitiveLeakageNontrivial⟩,
-      ⟨hostPrimitiveLeakageFieldFaithful⟩, hostPrimitiveLeakageDecode_encode_bhist,
-      hostPrimitiveLeakage_round_trip, (fun _ _ heq => hostPrimitiveLeakageToEventFlow_injective heq),
-      rfl⟩
-
 theorem HostPrimitiveLeakageNonescape [AskSetup] [PackageSetup]
     {site request replacement diagnostic failedGate auditBoundary transport replay provenance name
       diagnosticRead replacementRead : BHist}
@@ -340,5 +322,217 @@ theorem HostPrimitiveLeakageNonescape [AskSetup] [PackageSetup]
       exact ⟨source.right, diagnosticRoute, replacementRoute, provenancePkg, namePkg⟩
   }
   exact ⟨cert, diagnosticReadUnary, replacementReadUnary⟩
+
+theorem HostPrimitiveLeakagePublicExport [AskSetup] [PackageSetup]
+    {site request replacement diagnostic failedGate auditBoundary transport replay provenance name
+      diagnosticRead replacementRead publicRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hostPrimitiveLeakageFields
+        (HostPrimitiveLeakageUp.mk site request replacement diagnostic failedGate auditBoundary
+          transport replay provenance name) =
+      [site, request, replacement, diagnostic, failedGate, auditBoundary, transport, replay,
+        provenance, name] →
+      UnaryHistory site →
+        UnaryHistory diagnostic →
+          UnaryHistory replacement →
+            UnaryHistory replay →
+              UnaryHistory name →
+                Cont site diagnostic diagnosticRead →
+                  Cont replacement replay replacementRead →
+                    Cont diagnosticRead replacementRead publicRead →
+                      Cont publicRead name exportRead →
+                        PkgSig bundle provenance pkg →
+                          PkgSig bundle name pkg →
+                            PkgSig bundle exportRead pkg →
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row site ∨ hsame row request ∨
+                                      hsame row replacement ∨ hsame row diagnostic ∨
+                                        hsame row failedGate ∨ hsame row auditBoundary ∨
+                                          hsame row transport ∨ hsame row replay ∨
+                                            hsame row provenance ∨ hsame row name ∨
+                                              hsame row diagnosticRead ∨
+                                                hsame row replacementRead ∨
+                                                  hsame row publicRead ∨ hsame row exportRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont site diagnostic diagnosticRead ∧
+                                      Cont replacement replay replacementRead ∧
+                                        Cont diagnosticRead replacementRead publicRead ∧
+                                          Cont publicRead name exportRead ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle name pkg ∧
+                                                PkgSig bundle exportRead pkg)
+                                  hsame ∧
+                                UnaryHistory diagnosticRead ∧ UnaryHistory replacementRead ∧
+                                  UnaryHistory publicRead ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro fields_eq siteUnary diagnosticUnary replacementUnary replayUnary nameUnary diagnosticRoute
+    replacementRoute publicRoute exportRoute provenancePkg namePkg exportPkg
+  cases fields_eq
+  have diagnosticReadUnary : UnaryHistory diagnosticRead :=
+    unary_cont_closed siteUnary diagnosticUnary diagnosticRoute
+  have replacementReadUnary : UnaryHistory replacementRead :=
+    unary_cont_closed replacementUnary replayUnary replacementRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed diagnosticReadUnary replacementReadUnary publicRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed publicReadUnary nameUnary exportRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row site ∨ hsame row request ∨ hsame row replacement ∨
+              hsame row diagnostic ∨ hsame row failedGate ∨ hsame row auditBoundary ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row name ∨ hsame row diagnosticRead ∨ hsame row replacementRead ∨
+                    hsame row publicRead ∨ hsame row exportRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont site diagnostic diagnosticRead ∧
+              Cont replacement replay replacementRead ∧
+                Cont diagnosticRead replacementRead publicRead ∧
+                  Cont publicRead name exportRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle exportRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, diagnosticRoute, replacementRoute, publicRoute, exportRoute,
+          provenancePkg, namePkg, exportPkg⟩
+  }
+  exact
+    ⟨cert, diagnosticReadUnary, replacementReadUnary, publicReadUnary, exportReadUnary⟩
+
+theorem HostPrimitiveLeakageReportRowRefusal [AskSetup] [PackageSetup]
+    {site request replacement diagnostic failedGate auditBoundary transport replay provenance name
+      diagnosticRead failedAuditRead reportRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hostPrimitiveLeakageFields
+        (HostPrimitiveLeakageUp.mk site request replacement diagnostic failedGate auditBoundary
+          transport replay provenance name) =
+      [site, request, replacement, diagnostic, failedGate, auditBoundary, transport, replay,
+        provenance, name] →
+      UnaryHistory site →
+        UnaryHistory diagnostic →
+          UnaryHistory failedGate →
+            UnaryHistory auditBoundary →
+              UnaryHistory name →
+                Cont site diagnostic diagnosticRead →
+                  Cont failedGate auditBoundary failedAuditRead →
+                    Cont diagnosticRead failedAuditRead reportRead →
+                      Cont reportRead name namedRead →
+                        PkgSig bundle provenance pkg →
+                          PkgSig bundle name pkg →
+                            PkgSig bundle namedRead pkg →
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row request ∨ hsame row diagnostic ∨
+                                      hsame row failedGate ∨ hsame row auditBoundary ∨
+                                        hsame row reportRead ∨ hsame row namedRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont site diagnostic diagnosticRead ∧
+                                      Cont failedGate auditBoundary failedAuditRead ∧
+                                        Cont diagnosticRead failedAuditRead reportRead ∧
+                                          Cont reportRead name namedRead ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle name pkg ∧
+                                                PkgSig bundle namedRead pkg)
+                                  hsame ∧
+                                UnaryHistory diagnosticRead ∧ UnaryHistory failedAuditRead ∧
+                                  UnaryHistory reportRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro fields_eq siteUnary diagnosticUnary failedGateUnary auditBoundaryUnary nameUnary
+    diagnosticRoute failedAuditRoute reportRoute namedRoute provenancePkg namePkg namedPkg
+  cases fields_eq
+  have diagnosticReadUnary : UnaryHistory diagnosticRead :=
+    unary_cont_closed siteUnary diagnosticUnary diagnosticRoute
+  have failedAuditReadUnary : UnaryHistory failedAuditRead :=
+    unary_cont_closed failedGateUnary auditBoundaryUnary failedAuditRoute
+  have reportReadUnary : UnaryHistory reportRead :=
+    unary_cont_closed diagnosticReadUnary failedAuditReadUnary reportRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed reportReadUnary nameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row request ∨ hsame row diagnostic ∨ hsame row failedGate ∨
+              hsame row auditBoundary ∨ hsame row reportRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont site diagnostic diagnosticRead ∧
+              Cont failedGate auditBoundary failedAuditRead ∧
+                Cont diagnosticRead failedAuditRead reportRead ∧
+                  Cont reportRead name namedRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, diagnosticRoute, failedAuditRoute, reportRoute, namedRoute,
+          provenancePkg, namePkg, namedPkg⟩
+  }
+  exact
+    ⟨cert, diagnosticReadUnary, failedAuditReadUnary, reportReadUnary, namedReadUnary⟩
 
 end BEDC.Derived.HostPrimitiveLeakageUp

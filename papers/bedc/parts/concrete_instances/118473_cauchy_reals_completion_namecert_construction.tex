@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealsCompletionUp$}
+\label{ch:concrete-instances-cauchy-reals-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealsCompletionUp$ packet records the traditional Cauchy-real completion interface as finite BEDC rows rather than as a quotient carrier or a selected representative. It reads the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed monad-multiplication boundary of \autoref{ch:concrete-instances-cauchycompletionmultiplication-namecert}. The packet is a finite completion-facing interface for the open Real and Completion phase; it does not assert quotient classes, selected representatives, countable choice, ambient completeness, or completeness of $\RealUp$.
+
+\begin{definition}[Cauchy reals completion carrier]
+\label{def:cauchy-reals-completion-carrier}
+A $\CauchyRealsCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,Q,D,M,E,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule for the regular Cauchy input.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same scheduled windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by every admitted precision request.
+\item $M$ is the modulus-readback row that sends each unary precision request to a displayed finite window and dyadic tolerance entry.
+\item $E$ is the terminal $\RealUp$ seal row reached after $S,Q,D,M$ have been displayed.
+\item $J$ is the $\CauchyCompletionMultiplicationUp$ handoff row used when a completion-of-completion consumer asks to flatten its request before reading the Real-facing seal.
+\item $H$ records componentwise $\hsame$ transport for the schedule, readback, tolerance, modulus, seal, join, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S \longmapsto Q \longmapsto D \longmapsto M \longmapsto E
+$$
+and of the join route through $J$ when a nested completion request is present.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealsCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletionMultiplicationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealsCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,D,M,E,J,H,C,P,N$. It has no coordinate for quotient classes, selected representatives, countable choice, host equality, ambient completeness, completeness of $\RealUp$, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy reals completion NameCert obligations]
+\label{thm:cauchy-reals-completion-namecert-obligations}
+For every accepted $\CauchyRealsCompletionUp$ carrier
+$$
+R=(S,Q,D,M,E,J,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealsCompletionUp}$ surface consists exactly of carrier admission for the displayed rows, finite-window scheduling through $S$, regular-rational readback through $Q$, dyadic tolerance accounting through $D$, modulus readback through $M$, Real-seal handoff through $E$, nested completion flattening through $J$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No local obligation is stored in quotient classes, selected representatives, countable-choice schedules, host equality, ambient completeness, or a completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-reals-completion-carrier}. The tuple displays exactly the StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, modulus row, Real seal, completion-multiplication handoff, transport, replay, provenance, and local name.
+
+The scheduling, readback, tolerance, and modulus obligations are read from $S,Q,D,M$. The Real-facing obligation is read from $E$ only after those rows have been displayed.
+
+The nested completion obligation is read through $J$, so a completion-of-completion consumer must use the same finite route already named by \autoref{ch:concrete-instances-cauchycompletionmultiplication-namecert}. Transport, replay, provenance, and local naming are exhausted by $H,C,P,N$.
+
+Since the carrier has no further coordinate, the excluded quotient, representative, choice, host-equality, and completeness objects cannot store a local obligation.
+\end{proof}
+
+\begin{theorem}[Cauchy reals completion modulus readback]
+\label{thm:cauchy-reals-completion-modulus-readback}
+Let $R=(S,Q,D,M,E,J,H,C,P,N)$ be an accepted $\CauchyRealsCompletionUp$ carrier. Every unary precision request is answered by the modulus row $M$ as one displayed finite route through a $\StreamNameUp$ window in $S$, a $\RegSeqRatUp$ readback in $Q$, and a $\DyadicRatCoreUp$ tolerance entry in $D$ before the terminal $\RealUp$ seal $E$ is read.
+
+The readback exports no quotient class, selected representative, countable-choice selector, host equality, ambient completeness datum, or completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with a precision request at the accepted carrier. The only public request-answering row is $M$, and it is tied in the carrier to the finite schedule $S$.
+
+Read the regular rational observation through $Q$ and the corresponding dyadic tolerance entry through $D$. These rows are the only displayed data that can justify the requested accuracy before the seal row is reached.
+
+The terminal Real-facing read is $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, while $J$ is used only when a nested completion request must first be flattened.
+
+Thus the precision request is answered by the stated finite route. The excluded quotient, representative, choice, host-equality, and completeness data have no row from which they could be read.
+\end{proof}
+
+\begin{theorem}[Cauchy reals completion classifier stability]
+\label{thm:cauchy-reals-completion-classifier-stability}
+If two accepted $\CauchyRealsCompletionUp$ carriers agree componentwise under displayed $\hsame$ transport on their $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, modulus-readback row, $\RealUp$ seal, $\CauchyCompletionMultiplicationUp$ handoff, replay, provenance, and local naming rows, then they have the same public completion classifier read.
+
+The classifier is stable only over those finite rows and cannot be altered by quotient classes, selected representatives, countable choice, host equality, ambient completeness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the componentwise transport row $H$ for the two accepted packets. It compares exactly the rows named in \autoref{def:cauchy-reals-completion-carrier}.
+
+Replay the transported rows through $C$. The finite schedule, regular readback, dyadic tolerance ledger, modulus answer, Real seal, and nested completion handoff remain on the same displayed route.
+
+The provenance row $P$ and local name $N$ do not add classifier data; they only source and name the accepted route. Since the carrier exposes no quotient, representative, choice, host-equality, or completeness coordinate, no such object can change the classifier read.
+\end{proof}
+
+\begin{theorem}[Cauchy reals completion Real seal]
+\label{thm:cauchy-reals-completion-real-seal}
+Every $\RealUp$-facing consumer of an accepted $\CauchyRealsCompletionUp$ carrier reaches the seal row $E$ only after reading the displayed $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, modulus row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. If the consumer begins with a nested completion request, it must first pass through the $\CauchyCompletionMultiplicationUp$ handoff row $J$.
+
+The seal is a terminal BEDC row for the displayed route; it is not a proof of ambient completeness and it is not a completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The Real-facing seal coordinate is $E$, and the rows upstream of it are the schedule $S$, readback $Q$, tolerance ledger $D$, and modulus row $M$.
+
+If the request is nested, the handoff row $J$ supplies the completion-multiplication route before the same Real-facing rows are consumed. This keeps the completion-of-completion case inside the displayed BEDC packet.
+
+Transport, replay, provenance, and local naming are carried by $H,C,P,N$. These rows preserve and source the same route without adding a host Real-completeness premise.
+
+Therefore every Real-facing consumer reaches $E$ only through the finite surface listed in the statement, and the terminal seal cannot be read as ambient completeness or as completeness of $\RealUp$.
+\end{proof}
+
+\closureat{CauchyRealsCompletionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealsCompletionUp}
+  \constructivestory{A $\CauchyRealsCompletionUp$ packet is generated from finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a modulus-readback row, a terminal RealUp seal, a CauchyCompletionMultiplication handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-reals-completion-carrier}, \autoref{thm:cauchy-reals-completion-namecert-obligations}, \autoref{thm:cauchy-reals-completion-modulus-readback}, \autoref{thm:cauchy-reals-completion-classifier-stability}, and \autoref{thm:cauchy-reals-completion-real-seal} seed the finite completion-facing interface for regular Cauchy names through StreamName, RegSeqRat, DyadicRatCore, RealUp, CauchyCompletionMultiplication, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient classes, selected representatives, countable choice, ambient completeness, completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus readback, classifier stability, Real-seal nonescape, nested completion handoff, and local NameCert registration for BEDC.Derived.CauchyRealsCompletionUp.}
+\end{closurestatus}

@@ -1,0 +1,13 @@
+\begin{theorem}[DyadicIntervalNet RealInterval endpoint route]
+\label{thm:dyadic-interval-net-realinterval-orphan-route}
+Every $\RealIntervalUp$ endpoint-and-enclosure consumer of an accepted $\DyadicIntervalNetUp$ packet must expose the dyadic endpoint row, finite interval-cell row, endpoint incidence row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, and terminal $\RealUp$ seal before reading the interval enclosure of \autoref{ch:concrete-instances-realinterval-namecert}. In carrier notation, the read begins with the displayed dyadic net rows $D,J,E$, passes through the window and readback rows $S,R$, reaches the seal row $Q$, and only then may a RealInterval consumer inspect its endpoint-and-enclosure packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-interval-net-carrier}. The dyadic endpoint row $D$, finite interval-cell row $J$, and endpoint-incidence row $E$ are the only rows that can provide endpoint and enclosure evidence to a downstream interval consumer.
+
+Apply the Real source link of \autoref{thm:dyadic-interval-net-real-source-link}. It requires Real-facing finite-net consumers to read $D,J,E,S,R,Q$ in displayed order before handing the packet to interval or compactness consumers.
+
+Now route the handoff to \autoref{ch:concrete-instances-realinterval-namecert}. Its endpoint-and-enclosure read consumes the same StreamName windows, RegSeqRat readback, and terminal Real seal as interval data, so the RealInterval packet receives the dyadic net only after $D,J,E,S,R,Q$ have been exposed.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same finite route, excluding selected subcovers, quotient stream equality, host endpoint equality, countable-choice schedules, trichotomy, and ambient $\RealUp$ completeness.
+\end{proof}

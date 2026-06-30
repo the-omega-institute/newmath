@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\PerronMethodFiniteBarrierUp$}
+\label{ch:concrete-instances-perron-method-finite-barrier-namecert}
+\origin{human}
+
+Following Perron and the classical barrier method for the Dirichlet problem, the $\PerronMethodFiniteBarrierUp$ packet records a finite BEDC surface for local boundary barriers used by a Perron upper-envelope route. It sits between the integral precedent of \autoref{ch:concrete-instances-perron-integral-namecert}, the endpoint and order rows of \autoref{ch:concrete-instances-real-namecert}, and the metric-facing boundary data of \autoref{ch:concrete-instances-metric-namecert}. The packet is a finite barrier ledger; it does not select a harmonic solution, solve the full Dirichlet problem, complete a measure space, quotient real equality, choose from a family of candidates, or assert ambient completeness.
+
+\begin{definition}[Perron finite barrier carrier]
+\label{def:perron-method-finite-barrier-carrier}
+A $\PerronMethodFiniteBarrierUp$ carrier is a finite tuple
+$$
+\begin{gathered}
+B=(\Omega,\partial\Omega,x_0,U,R,M,W,L,H,C,P,N)
+\end{gathered}
+$$
+whose rows have the following displayed meanings.
+\begin{enumerate}
+\item $\Omega$ is the inspected domain row, and $\partial\Omega$ is the finite boundary-window row.
+\item $x_0$ is the boundary point under inspection, with all endpoint comparisons read through $\RealUp$ rows.
+\item $U$ is a finite neighborhood ledger around $x_0$.
+\item $R$ is the ordered real-value row used for barrier inequalities.
+\item $M$ is the metric-distance row that relates $U$ and the boundary window.
+\item $W$ is the finite barrier-witness list.
+\item $L$ is the Perron ledger recording which displayed upper and lower comparison rows are available.
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\PerronMethodFiniteBarrierUp}$ rows.
+\end{enumerate}
+The carrier contains no coordinate for a selected harmonic function, no completed boundary measure, no quotient real equality, no countable choice selector, and no ambient complete metric space.
+\end{definition}
+
+\begin{theorem}[Perron finite barrier NameCert obligations]
+\label{thm:perron-method-finite-barrier-namecert-obligations}
+For an accepted $\PerronMethodFiniteBarrierUp$ packet, the local $\NameCert$ surface consists exactly of carrier admission for the domain row, boundary-window row, inspected boundary point, finite neighborhood ledger, ordered $\RealUp$ value row, $\MetricUp$ distance row, finite barrier-witness list, Perron comparison ledger, componentwise transport, displayed replay, provenance, and local naming rows. Every barrier comparison exported by the packet must read a witness from $W$, an order comparison from $R$, and a neighborhood-distance request from $M$ and $U$ before it can be used by a downstream Perron or boundary-value consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:perron-method-finite-barrier-carrier}. The available rows are precisely $\Omega,\partial\Omega,x_0,U,R,M,W,L,H,C,P,N$, so every accepted read begins with the displayed domain, boundary, point, neighborhood, real-order, metric, witness, and comparison-ledger data.
+
+The NameCert row $N$ names only those projected rows. The transport row $H$ preserves them componentwise under $\hsame$, the replay row $C$ replays the displayed comparison requests, and the provenance row $P$ records the finite source of each witness.
+
+Thus no consumer can replace the finite witness list by a selected harmonic solution, a boundary measure completion, quotient equality of real values, choice over candidate functions, or ambient completeness. The packet exports exactly the finite barrier data listed in the statement.
+\end{proof}
+
+\begin{theorem}[Perron finite barrier harmonic route]
+\label{thm:perron-method-finite-barrier-harmonic-route}
+Every boundary-value consumer that reads a $\PerronMethodFiniteBarrierUp$ packet toward a harmonic Perron route must first pass through the finite barrier NameCert obligations of \autoref{thm:perron-method-finite-barrier-namecert-obligations}. Consequently the route can expose a local barrier inequality and a Perron comparison ledger, but it cannot claim a selected harmonic solution, the full Dirichlet problem, measure completion, quotient real equality, choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They force the consumer to inspect the finite boundary window, the boundary point, the neighborhood ledger, the real-order row, the metric-distance row, the finite barrier-witness list, and the Perron comparison ledger before any harmonic-facing read is exported.
+
+The Perron comparison ledger may then be passed to downstream chapters in the same sense that \autoref{ch:concrete-instances-perron-integral-namecert} passes finite Perron data through an integration route, while the $\RealUp$ and $\MetricUp$ rows keep endpoint and distance evidence explicit. This supplies a constructive barrier route rather than a solved boundary-value problem.
+
+Because the carrier has no coordinate for a chosen harmonic function, completed measure, quotient equality, choice selector, or complete ambient space, none of those objects can be produced by this route. The exported data are exactly the local barrier inequality and its finite comparison provenance.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PerronMethodFiniteBarrierUp$ read must expose a finite boundary window, inspected boundary point, neighborhood ledger, ordered $\RealUp$ value row, $\MetricUp$ distance row, finite barrier-witness list, Perron comparison ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any harmonic-facing consumer can use it.}
+
+\independenceWitness{perron-integral, real, metric: no listed sibling jointly carries the finite boundary-window, local barrier-witness, Perron comparison-ledger, real-order, metric-distance, transport, replay, provenance, and local NameCert rows of $B=(\Omega,\partial\Omega,x_0,U,R,M,W,L,H,C,P,N)$.}
+
+\begin{closurestatus}{\PerronMethodFiniteBarrierUp}
+  \constructivestory{A $\PerronMethodFiniteBarrierUp$ packet is generated from domain and boundary-window rows, an inspected boundary point, finite neighborhood rows, Real order rows, Metric distance rows, a finite barrier-witness list, a Perron comparison ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:perron-method-finite-barrier-carrier}, \autoref{thm:perron-method-finite-barrier-namecert-obligations}, and \autoref{thm:perron-method-finite-barrier-harmonic-route} seed the finite barrier packet for Perron-method boundary consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a selected harmonic solution, the full Dirichlet problem, measure completion, quotient equality, choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a checked carrier, barrier-comparison ledger, transport and replay stability, and local NameCert rows for BEDC.Derived.PerronMethodFiniteBarrierUp.}
+\end{closurestatus}

@@ -1,3 +1,5 @@
+import BEDC.Derived.IntUp
+import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.FKernel.NameCert
 
@@ -9,6 +11,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 open BEDC.Derived.PrimeUp
+open BEDC.Derived.IntUp
 
 def PadicPrimeScale (p exponent result : BHist) : Prop :=
   NatPrime p ∧ NatMul p exponent result
@@ -597,4 +600,311 @@ theorem PadicPrimeScale_append_unit_exponents_result_not_empty {p result : BHist
   cases scale.left.right.left with
   | intro tail data => exact data.right.left (cont_empty_result_inversion
       (cont_result_hsame_transport data.right.right pEmpty)).right
+
+abbrev NatOne : BHist := BHist.e1 BHist.Empty
+
+inductive PPow (p : BHist) : BHist -> BHist -> Prop where
+  | zero (hp : UnaryHistory p) : PPow p BHist.Empty NatOne
+  | succ {n r r' : BHist} : PPow p n r -> NatMul p r r' -> PPow p (BHist.e1 n) r'
+
+theorem PPow_base {p : BHist} :
+    UnaryHistory p -> PPow p BHist.Empty NatOne := by
+  intro hp
+  exact PPow.zero hp
+
+theorem PPow_succ {p n r r' : BHist} :
+    PPow p n r -> NatMul p r r' -> PPow p (BHist.e1 n) r' := by
+  intro pow mul
+  exact PPow.succ pow mul
+
+theorem PPow_prime_unary {p n r : BHist} :
+    PPow p n r -> UnaryHistory p := by
+  intro pow
+  induction pow with
+  | zero hp =>
+      exact hp
+  | succ _pow _mul ih =>
+      exact ih
+
+theorem PPow_exponent_unary {p n r : BHist} :
+    PPow p n r -> UnaryHistory n := by
+  intro pow
+  induction pow with
+  | zero _hp =>
+      exact unary_empty
+  | succ _pow _mul ih =>
+      exact unary_e1_closed ih
+
+theorem PPow_result_unary {p n r : BHist} :
+    PPow p n r -> UnaryHistory r := by
+  intro pow
+  induction pow with
+  | zero _hp =>
+      exact unary_e1_closed unary_empty
+  | succ _pow mul ih =>
+      exact NatMul_result_unary (NatMul_left_unary mul) mul
+
+theorem PPow_total {p n : BHist} :
+    UnaryHistory p -> UnaryHistory n ->
+      ∃ r : BHist, UnaryHistory r ∧ PPow p n r := by
+  intro hp hn
+  induction n with
+  | Empty =>
+      exact ⟨NatOne, unary_e1_closed unary_empty, PPow.zero hp⟩
+  | e0 n _ih =>
+      cases hn
+  | e1 n ih =>
+      have prev := ih (unary_e1_inversion hn)
+      cases prev with
+      | intro r rData =>
+          have next := NatMul_total hp rData.left
+          cases next with
+          | intro r' nextData =>
+              exact ⟨r', nextData.left, PPow.succ rData.right nextData.right⟩
+
+theorem PPow_functional {p n r s : BHist} :
+    PPow p n r -> PPow p n s -> hsame r s := by
+  intro left
+  induction left generalizing s with
+  | zero _hp =>
+      intro right
+      cases right with
+      | zero _hpRight =>
+          rfl
+  | succ _leftPrev leftMul ih =>
+      intro right
+      cases right with
+      | succ rightPrev rightMul =>
+          have prevSame : hsame _ _ := ih rightPrev
+          cases prevSame
+          exact NatMul_functional (NatMul_left_unary leftMul) leftMul rightMul
+
+theorem PPow_one {p r : BHist} :
+    PPow p NatOne r -> hsame r p := by
+  intro pow
+  cases pow with
+  | succ previous mul =>
+      cases previous with
+      | zero _hp =>
+          exact NatMul_unit_right_hsame mul
+
+theorem PPow_one_construct {p : BHist} :
+    UnaryHistory p -> PPow p NatOne p := by
+  intro hp
+  exact PPow.succ (PPow.zero hp)
+    (NatMul.succ (NatMul.zero hp) (cont_left_unit p))
+
+theorem PPow_step_result {p n r r' : BHist} :
+    PPow p n r -> NatMul p r r' -> PPow p (BHist.e1 n) r' :=
+  PPow.succ
+
+theorem PPow_succ_inversion {p n r' : BHist} :
+    PPow p (BHist.e1 n) r' ->
+      ∃ r : BHist, PPow p n r ∧ NatMul p r r' := by
+  intro pow
+  cases pow with
+  | succ previous mul =>
+      exact ⟨_, previous, mul⟩
+
+theorem PPow_nonempty_result {p n r : BHist} :
+    (hsame p BHist.Empty -> False) -> PPow p n r -> hsame r BHist.Empty -> False := by
+  intro pNonempty pow
+  induction pow with
+  | zero _hp =>
+      intro emptyResult
+      exact not_hsame_e1_empty emptyResult
+  | succ _prev mul ih =>
+      intro emptyResult
+      cases emptyResult
+      have factorEmpty := NatMul_empty_result_factor_empty_or_multiplier_empty mul
+      cases factorEmpty with
+      | inl pEmpty =>
+          exact pNonempty pEmpty
+      | inr prevEmpty =>
+          exact ih prevEmpty
+
+def PDvdNat (p k n : BHist) : Prop :=
+  ∃ pk : BHist, PPow p k pk ∧ NatDivides pk n
+
+theorem PDvdNat_dividend_unary {p k n : BHist} :
+    PDvdNat p k n -> UnaryHistory n := by
+  intro h
+  cases h with
+  | intro _ data =>
+      exact NatDivides_result_unary data.right
+
+theorem PDvdNat_power_unary {p k n : BHist} :
+    PDvdNat p k n -> UnaryHistory p ∧ UnaryHistory k := by
+  intro h
+  cases h with
+  | intro _ data =>
+      exact ⟨PPow_prime_unary data.left, PPow_exponent_unary data.left⟩
+
+theorem PDvdNat_zero_power {p n : BHist} :
+    UnaryHistory p -> UnaryHistory n -> PDvdNat p BHist.Empty n := by
+  intro hp hn
+  exact ⟨NatOne, PPow.zero hp, NatDivides_unit_left_iff.mpr hn⟩
+
+theorem PDvdNat_succ_step {p k pk pkNext n : BHist} :
+    PPow p k pk -> NatMul p pk pkNext -> NatDivides pkNext n ->
+      PDvdNat p (BHist.e1 k) n := by
+  intro pow step divides
+  exact ⟨pkNext, PPow.succ pow step, divides⟩
+
+theorem PDvdNat_succ_implies_current {p k n : BHist} :
+    PDvdNat p (BHist.e1 k) n -> PDvdNat p k n := by
+  intro dividesSucc
+  cases dividesSucc with
+  | intro pkNext data =>
+      cases data with
+      | intro powSucc dividesNext =>
+          cases PPow_succ_inversion powSucc with
+          | intro pk stepData =>
+              have pkDividesNext : NatDivides pk pkNext :=
+                NatDivides_mul_right_closed (PPow_prime_unary stepData.left)
+                  (PPow_result_unary stepData.left) stepData.right
+              exact ⟨pk, stepData.left, NatDivides_transitive pkDividesNext dividesNext⟩
+
+theorem PDvdNat_exponent_hsame_transport {p k k' n : BHist} :
+    PDvdNat p k n -> hsame k k' -> PDvdNat p k' n := by
+  intro divides sameExponent
+  cases sameExponent
+  exact divides
+
+theorem PDvdNat_cont_prefix_down {p k tail j n : BHist} :
+    UnaryHistory tail -> Cont k tail j -> PDvdNat p j n -> PDvdNat p k n := by
+  intro tailUnary tailCont divides
+  induction tail generalizing j with
+  | Empty =>
+      exact PDvdNat_exponent_hsame_transport divides tailCont
+  | e0 _tail _ih =>
+      cases tailUnary
+  | e1 tail ih =>
+      have innerUnary : UnaryHistory tail := unary_e1_inversion tailUnary
+      have dividesPred : PDvdNat p (append k tail) n := by
+        have shifted : PDvdNat p (BHist.e1 (append k tail)) n :=
+          PDvdNat_exponent_hsame_transport divides tailCont
+        exact PDvdNat_succ_implies_current shifted
+      exact ih innerUnary (cont_intro rfl) dividesPred
+
+def IsPadicValNat (p n k : BHist) : Prop :=
+  PDvdNat p k n ∧ (PDvdNat p (BHist.e1 k) n -> False)
+
+theorem IsPadicValNat_divides {p n k : BHist} :
+    IsPadicValNat p n k -> PDvdNat p k n := by
+  intro h
+  exact h.left
+
+theorem IsPadicValNat_not_succ {p n k : BHist} :
+    IsPadicValNat p n k -> PDvdNat p (BHist.e1 k) n -> False := by
+  intro h
+  exact h.right
+
+theorem IsPadicValNat_zero_of_not_p_dvd {p n : BHist} :
+    UnaryHistory p -> UnaryHistory n -> (NatDivides p n -> False) ->
+      IsPadicValNat p n BHist.Empty := by
+  intro hp hn notDivides
+  constructor
+  · exact PDvdNat_zero_power hp hn
+  · intro succDivides
+    cases succDivides with
+    | intro pOne data =>
+        cases data with
+        | intro powOne divides =>
+            have samePower : hsame pOne p := PPow_one powOne
+            have shifted := NatDivides_divisor_hsame_transport divides samePower
+            exact notDivides shifted.right
+
+theorem IsPadicValNat_succ_unique_absurd {p n k : BHist} :
+    IsPadicValNat p n k -> IsPadicValNat p n (BHist.e1 k) -> False := by
+  intro current next
+  exact current.right next.left
+
+theorem IsPadicValNat_unique {p n k l : BHist} :
+    IsPadicValNat p n k -> IsPadicValNat p n l -> hsame k l := by
+  intro left right
+  have kUnary : UnaryHistory k := (PDvdNat_power_unary left.left).right
+  have lUnary : UnaryHistory l := (PDvdNat_power_unary right.left).right
+  have trichotomy := NatUnaryPrefix_trichotomy_hsame_strict kUnary lUnary
+  cases trichotomy with
+  | inl same =>
+      exact same
+  | inr strictCases =>
+      cases strictCases with
+      | inl strictKL =>
+          cases strictKL with
+          | intro tail tailData =>
+              cases tailData with
+              | intro tailUnary tailRest =>
+                  cases tailRest with
+                  | intro tailNonempty tailCont =>
+                      cases tail with
+                      | Empty =>
+                          exact False.elim (tailNonempty rfl)
+                      | e0 _tail =>
+                          cases tailUnary
+                      | e1 tail =>
+                          have innerUnary : UnaryHistory tail := unary_e1_inversion tailUnary
+                          have succCont : Cont (BHist.e1 k) tail l := by
+                            exact cont_intro
+                              (tailCont.trans
+                                (unary_append_e1_left (h := tail) (k := k) innerUnary).symm)
+                          have succDivides : PDvdNat p (BHist.e1 k) n :=
+                            PDvdNat_cont_prefix_down innerUnary succCont right.left
+                          exact False.elim (left.right succDivides)
+      | inr strictLK =>
+          cases strictLK with
+          | intro tail tailData =>
+              cases tailData with
+              | intro tailUnary tailRest =>
+                  cases tailRest with
+                  | intro tailNonempty tailCont =>
+                      cases tail with
+                      | Empty =>
+                          exact False.elim (tailNonempty rfl)
+                      | e0 _tail =>
+                          cases tailUnary
+                      | e1 tail =>
+                          have innerUnary : UnaryHistory tail := unary_e1_inversion tailUnary
+                          have succCont : Cont (BHist.e1 l) tail k := by
+                            exact cont_intro
+                              (tailCont.trans
+                                (unary_append_e1_left (h := tail) (k := l) innerUnary).symm)
+                          have succDivides : PDvdNat p (BHist.e1 l) n :=
+                            PDvdNat_cont_prefix_down innerUnary succCont left.left
+                          exact False.elim (right.right succDivides)
+
+def PLocalMaximalNat (p n k : BHist) : Prop :=
+  IsPadicValNat p n k
+
+theorem IsPadicValNat_to_PLocalMaximalNat {p n k : BHist} :
+    IsPadicValNat p n k -> PLocalMaximalNat p n k := by
+  intro val
+  exact val
+
+def PDvdInt (p k : BHist) (z : BEDC.FKernel.Mark.BMark × BHist) : Prop :=
+  IntCarrier z.1 z.2 ∧ PDvdNat p k z.2
+
+def IsPadicValInt (p : BHist) (z : BEDC.FKernel.Mark.BMark × BHist) (k : BHist) :
+    Prop :=
+  IntCarrier z.1 z.2 ∧ IsPadicValNat p z.2 k
+
+theorem IsPadicValInt_zero_of_not_p_dvd {p : BHist}
+    {z : BEDC.FKernel.Mark.BMark × BHist} :
+    IntCarrier z.1 z.2 -> (NatDivides p z.2 -> False) ->
+      UnaryHistory p -> IsPadicValInt p z BHist.Empty := by
+  intro carrier notDivides hp
+  exact ⟨carrier, IsPadicValNat_zero_of_not_p_dvd hp carrier.right notDivides⟩
+
+def PDvdIntPair (p k : BHist) (z : BHist × BHist) : Prop :=
+  IntPairCarrier z.1 z.2 ∧ PDvdNat p k z.1 ∧ PDvdNat p k z.2
+
+def IsPadicValIntPair (p : BHist) (z : BHist × BHist) (k : BHist) : Prop :=
+  IntPairCarrier z.1 z.2 ∧ IsPadicValNat p z.1 k ∧ IsPadicValNat p z.2 k
+
+theorem IsPadicValIntPair_components {p : BHist} {z : BHist × BHist} {k : BHist} :
+    IsPadicValIntPair p z k ->
+      IsPadicValNat p z.1 k ∧ IsPadicValNat p z.2 k := by
+  intro h
+  exact ⟨h.right.left, h.right.right⟩
 end BEDC.Derived.PadicUp

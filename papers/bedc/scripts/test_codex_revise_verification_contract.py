@@ -399,24 +399,48 @@ class CodexReviseVerificationContractTests(unittest.TestCase):
                 patches=[patch.object(cr.subprocess, "run", return_value=completed("[]"))],
             )
 
-    def test_phase_paper_gate_extra_key_schema_mismatch_fails_closed(self):
+    def test_phase_paper_gate_extra_key_runs_advisory(self):
         cr = load_codex_revise()
+        expected_sha = "e" * 40
         results = clean_gate_results(cr)
-        results["unexpected"] = []
+        results["unexpected"] = ["paper.tex:1: some violation"]
         with tempfile.TemporaryDirectory() as td:
-            temp = Path(td)
-            self.assert_phase_gate_failure_blocks_verification(
-                cr,
-                wt=make_worktree(cr, temp, 18),
-                ledger=temp / "ledger.jsonl",
-                failure_code="invalid-schema",
-                detail_substring="extra=['unexpected']",
-                patches=[patch.object(
-                    cr.subprocess,
-                    "run",
-                    return_value=completed(json.dumps(results)),
-                )],
+            ledger = Path(td) / "ledger.jsonl"
+            wt = cr.WorktreeInfo(
+                path=Path(td),
+                branch="paper-test",
+                round_number=18,
+                base_sha="a" * 40,
             )
+            original_record = cr.record
+            try:
+                cr.record = lambda **kwargs: original_record(**kwargs, ledger_path=ledger)
+                with (
+                    patch.object(
+                        cr,
+                        "run_cmd",
+                        return_value=completed("1234567 P18: verify branch\n"),
+                    ),
+                    patch.object(
+                        cr.subprocess,
+                        "run",
+                        return_value=completed(json.dumps(results)),
+                    ),
+                    patch.object(cr, "current_sha", return_value=expected_sha),
+                    patch.object(cr, "run_drift_audit", return_value=(True, "ok")) as drift_audit,
+                    patch.object(cr, "_changed_files", return_value=[]),
+                ):
+                    ok, new = cr.verify_worktree_commits(wt, pre_commits=[])
+
+                row = json.loads(ledger.read_text(encoding="utf-8").strip())
+                self.assertTrue(ok)
+                self.assertEqual(new, ["1234567 P18: verify branch"])
+                self.assertEqual(row["gate"], "paper-full-make")
+                self.assertEqual(row["status"], "deferred")
+                self.assertEqual(row["sha"], expected_sha)
+                drift_audit.assert_called_once_with(wt)
+            finally:
+                cr.record = original_record
 
     def test_phase_paper_gate_non_list_string_value_fails_closed(self):
         cr = load_codex_revise()

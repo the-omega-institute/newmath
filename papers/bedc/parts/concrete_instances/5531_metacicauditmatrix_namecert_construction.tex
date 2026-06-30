@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for removing the blocked subject-reduction edge, no hidden full-consistency theorem, no host reduction semantics, and no quotient equality of MetaCIC terms.
 \end{definition}
+\leanchecked{BEDC.Derived.MetaCICAuditMatrixUp.MetaCICAuditMatrixTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[MetaCIC audit matrix NameCert obligations]
 \label{thm:metacic-audit-matrix-namecert-obligations}
@@ -52,6 +53,7 @@ A \longrightarrow B \longrightarrow S \longrightarrow E.
 $$
 The available rows $A$ may feed the closed-normal consistency packet and audit-map dependency weave, but any consumer seeking full closed consistency must first read the blocked subject-reduction edge $B$ and the synthesis-consumer row $S$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICAuditMatrixUp.MetaCICAuditMatrixCarrier\_critical\_path\_route}
 \begin{proof}
 Project the accepted carrier and read the continuation row $C$. Its displayed route reads the available matrix rows before the blocked-edge and consumer rows.
 
@@ -76,21 +78,95 @@ The continuation and provenance rows $C$ and $P$ can only replay and package tho
 Now remove $B$ from the packet. The row $E$ is defined as the ledger that preserves $A,N,B,S$ under consumer reads, so without the blocked-edge coordinate it cannot certify refusal of the full closed-consistency route. Hence any accepted packet missing $B$ is outside the stated non-escape boundary.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit matrix obligation surface]
+\label{thm:metacic-audit-matrix-obligation-surface}
+Every accepted $\MetaCICAuditMatrixUp$ carrier exposes the matrix obligations of the rows
+$$
+A,N,B,S,E,H,C,P,L .
+$$
+The available row $A$, non-claim row $N$, blocked-edge row $B$, synthesis-consumer row $S$, and non-escape ledger $E$ are all inspectable before structural transport, route replay, package provenance, and local naming are read. No consumer may erase one of these rows and still claim to read the same audit matrix.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-audit-matrix-carrier}. The rows $A,N,B,S,E$ are the displayed audit rows, while $H,C,P,L$ are the structural rows that transport, replay, source, and name the same packet.
+
+Use the NameCert obligations of \autoref{thm:metacic-audit-matrix-namecert-obligations}. They already require carrier admission, available-row exposure, non-claim exposure, blocked-edge exposure, synthesis-consumer exposure, and non-escape ledger exposure.
+
+Finally apply the non-escape theorem. Since every consumer route factors through the whole row sequence, deleting any of $A,N,B,S,E$ changes the carrier surface rather than producing another read of $\MetaCICAuditMatrixUp$.
+\end{proof}
+
+\begin{theorem}[MetaCIC audit matrix scope route]
+\label{thm:metacic-audit-matrix-scope-route}
+Every consumer of the $\MetaCICAuditMatrixUp$ matrix routes through the normalization frontier, subject-reduction discharge ledger, closed-normal consistency packet, and audit-map dependency weave named by the provenance row $P$. The route exposes what the matrix makes available and what it refuses; it does not supply full closed consistency, arbitrary closed Church--Rosser, candidate-free normalization, unrestricted beta-conversion decidability, host substitution semantics, or quotient equality.
+\end{theorem}
+\begin{proof}
+Start with the critical-path route of \autoref{thm:metacic-audit-matrix-critical-path-route}. It sends closed MetaCIC consistency consumers from available rows to blocked edges, synthesis consumers, and the non-escape ledger.
+
+Read the sibling anchors from $P$. The normalization frontier supplies the available normalization-facing rows, the subject-reduction discharge ledger names the blocked preservation edge, the closed-normal consistency packet supplies the positive endpoint, and the audit-map dependency weave records the cross-map consumer route.
+
+The non-claim row $N$ remains visible along this route. Therefore each unavailable endpoint is refused as a matrix row rather than silently imported from a sibling chapter or a host MetaCIC semantics.
+\end{proof}
+
+\begin{theorem}[MetaCIC audit matrix closure ledger]
+\label{thm:metacic-audit-matrix-closure-ledger}
+The blocked-edge ledger of an accepted $\MetaCICAuditMatrixUp$ packet remains visible under every closure-facing read. In particular, the subject-reduction blocked edge $B$ is carried together with $A,N,S,E,H,C,P,L$ whenever a consumer reads available rows, synthesis consumers, closed-normal packets, discharge ledgers, or audit-map dependency routes from the matrix.
+\end{theorem}
+\begin{proof}
+Use the obligation surface theorem. It makes the blocked-edge row $B$ one of the displayed obligations of the carrier, not an external annotation.
+
+Apply the scope route theorem. Any closure-facing consumer reaches sibling data through the provenance and continuation rows while preserving the visible matrix order through available rows, non-claims, blocked edges, synthesis consumers, and non-escape ledgers.
+
+Finally invoke non-escape. If $B$ is removed, the ledger $E$ can no longer refuse the full closed-consistency read. Hence closure-facing reads keep the blocked-edge ledger visible as part of the finite packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC audit matrix obligation closure package]
+\label{thm:metacic-audit-matrix-obligation-closure-package}
+For the carrier of \autoref{def:metacic-audit-matrix-carrier}, the same finite $\MetaCICAuditMatrixUp$ packet closes the obligation surface consisting of carrier admission, matrix-row exactness, critical-path routing, blocked-edge preservation, non-escape, and TasteGate field faithfulness. Concretely, any accepted packet
+$$
+M=(A,N,B,S,E,H,C,P,L)
+$$
+that satisfies the local $\NameCert_{\MetaCICAuditMatrixUp}$ row exposes exactly the available-row matrix $A$, non-claim matrix $N$, blocked-edge matrix $B$, synthesis-consumer row $S$, non-escape ledger $E$, transport rows $H$, route rows $C$, provenance row $P$, and naming row $L$ before a consumer may read the MetaCIC audit surface. No route through this package erases $B$, bypasses $E$, replaces $P$ by host MetaCIC semantics, or reads TasteGate field faithfulness from a different carrier.
+\end{theorem}
+\begin{proof}
+Carrier admission is the carrier statement of \autoref{def:metacic-audit-matrix-carrier}, and the local naming obligations are the obligations listed in \autoref{thm:metacic-audit-matrix-namecert-obligations}. These give the rows $A,N,B,S,E,H,C,P,L$ as one finite packet.
+
+Matrix-row exactness and critical-path routing are supplied by \autoref{thm:metacic-audit-matrix-obligation-surface} and \autoref{thm:metacic-audit-matrix-critical-path-route}. The surface theorem fixes which rows are visible, while the route theorem fixes the order in which closed MetaCIC consistency consumers must read available rows, blocked edges, synthesis consumers, and the non-escape ledger.
+
+Blocked-edge preservation follows from \autoref{thm:metacic-audit-matrix-closure-ledger}. Non-escape follows from \autoref{thm:metacic-audit-matrix-nonescape}, and the consumer scope is the scope route of \autoref{thm:metacic-audit-matrix-scope-route}. These three results keep $B$ and $E$ inside every closure-facing read.
+
+Finally, the TasteGate field-faithfulness clause is read as a requirement on the same displayed packet, not on a sibling or host carrier. Since the package uses the carrier, route, non-escape, obligation surface, scope route, and closure ledger for the same $M$, the obligation closure surface is bound to one finite audit matrix.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\MetaCICAuditMatrixUp$ packet with the subject-reduction blocked edge removed fails \autoref{thm:metacic-audit-matrix-nonescape}.}
 \independenceWitness{metacicnormalizationfrontier, subjectreductiondischargeledger, closednormalconsistencypacket, auditmapdependencyweave: none carries all four available-row, non-claim-row, blocked-edge, and synthesis-consumer matrices as one NameCert packet.}
 
 The Lean follow-up target is \texttt{lean4/BEDC/Derived/MetaCICAuditMatrixUp/TasteGate.lean}, with explicit \texttt{Nontrivial MetaCICAuditMatrixUp} and \texttt{FieldFaithful MetaCICAuditMatrixUp} instances.
 
-\closureat{MetaCICAuditMatrixUp}{seedStr}
+\begin{theorem}[MetaCIC audit matrix scoped status]
+\label{thm:metacic-audit-matrix-scoped-status}
+Every scoped read of an accepted $\MetaCICAuditMatrixUp$ packet factors through the available-row matrix $A$, non-claim matrix $N$, blocked-edge matrix $B$, synthesis-consumer row $S$, non-escape ledger $E$, normalization frontier, subject-reduction discharge ledger, closed-normal consistency packet, and audit-map dependency weave before any closed-consistency consumer reads the matrix. The read therefore preserves the finite dependency order
+$$
+A,N,B,S,E,H,C,P,L
+$$
+and cannot erase the subject-reduction blocked edge, replace $P$ by host MetaCIC semantics, or treat a non-claim row as a closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+Start with the critical-path route of \autoref{thm:metacic-audit-matrix-critical-path-route}. It places closed MetaCIC consistency consumers after the available-row matrix, the blocked-edge matrix, the synthesis-consumer row, and the non-escape ledger.
+
+Use the obligation surface and scope route of \autoref{thm:metacic-audit-matrix-obligation-surface} and \autoref{thm:metacic-audit-matrix-scope-route}. These results expose the same rows $A,N,B,S,E,H,C,P,L$ and force the provenance row through the normalization frontier, subject-reduction discharge ledger, closed-normal consistency packet, and audit-map dependency weave.
+
+Finally apply the closure ledger and non-escape theorems. The ledger keeps $B$ visible in every closure-facing read, while non-escape refuses any route that deletes the blocked edge before reading closed-consistency consumers. Thus the accepted packet supplies scoped status exactly through the displayed MetaCIC audit matrix route.
+\end{proof}
+
+\closureat{MetaCICAuditMatrixUp}{scopedStr}
 
 \begin{closurestatus}{\MetaCICAuditMatrixUp}
   \constructivestory{A $\MetaCICAuditMatrixUp$ packet is generated from available audit rows, non-claim rows, blocked-edge rows, synthesis-consumer rows, a non-escape ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-audit-matrix-carrier}, \autoref{thm:metacic-audit-matrix-namecert-obligations}, \autoref{thm:metacic-audit-matrix-critical-path-route}, and \autoref{thm:metacic-audit-matrix-nonescape} bind the finite MetaCIC audit matrix packet and its critical-path non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-audit-matrix-carrier}, \autoref{thm:metacic-audit-matrix-namecert-obligations}, \autoref{thm:metacic-audit-matrix-critical-path-route}, \autoref{thm:metacic-audit-matrix-nonescape}, \autoref{thm:metacic-audit-matrix-obligation-surface}, \autoref{thm:metacic-audit-matrix-scope-route}, \autoref{thm:metacic-audit-matrix-closure-ledger}, \autoref{thm:metacic-audit-matrix-obligation-closure-package}, and \autoref{thm:metacic-audit-matrix-scoped-status} bind the finite MetaCIC audit matrix packet, its carrier and NameCert obligations, critical-path route, non-escape boundary, scope route, blocked-edge ledger, obligation-closure package, and scoped consumer status.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICAuditMatrixUp.MetaCICAuditMatrixTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close subject reduction, full closed consistency, arbitrary closed Church--Rosser, candidate-free normalization, unrestricted beta-conversion decidability, host substitution semantics, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, matrix-row exactness, critical-path routing, blocked-edge preservation, non-escape, and TasteGate field faithfulness for the same finite packet.}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, arbitrary closed Church--Rosser, candidate-free normalization, unrestricted beta-conversion decidability, host substitution semantics, public closure, or bridge checking.}
+  \upgradepath{Public closure requires an export theorem showing that the scoped MetaCIC audit matrix route is the public read surface for closed-consistency consumers.}
 \end{closurestatus}

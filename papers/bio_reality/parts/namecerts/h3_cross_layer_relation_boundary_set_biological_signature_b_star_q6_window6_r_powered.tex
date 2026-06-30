@@ -1,0 +1,38 @@
+\subsection{Window6 Boundary-$R$ Avoidance Signature}\label{sec:bioreality-window6-boundary-r-avoidance}
+\origin{ai}
+
+\paragraph{Finite object.}
+This record tests a fixed Window6 boundary set $R$ from the $B^*_{Q6}$ coordinate construction against organism-level abundance preference signs.  The computation is deliberately narrow: $R$ is not reselected from the abundance measurements, and the biological readout is only whether codons in the boundary set are abundance-preferred, abundance-avoided, or tied within each organism.  The finite row reports $10$ sense codons in $R$ out of $61$ sense codons, with $15$ organisms requested and $15$ organisms computed under a minimum-protein filter of $500$ proteins per organism.  The declared layer is cross-layer relation, but the layer label records a comparison between a fixed coordinate-side set and measured abundance rows; it is not a claim of translation control, protein folding, physical admissibility, function, mechanism, phylogenetic law, or universality.
+
+\paragraph{Computed sign table.}
+Across all computed organisms, the directional non-tie count is $15$.  Every computed organism is on the avoided side: $15$ avoided, $0$ preferred, and $0$ zero.  Equivalently,
+$$
+\begin{aligned}
+ n_{\mathrm{avoided}} &= 15,\\
+ n_{\mathrm{preferred}} &= 0,\\
+ n_{\mathrm{zero}} &= 0,\\
+ n_{\mathrm{directional}} &= 15,\\
+ \widehat p_{\mathrm{majority}} &= 1.0.
+\end{aligned}
+$$
+The avoided list is: \emph{Escherichia coli} K-12 MG1655, \emph{Mycobacterium smegmatis} str. MC2 155, \emph{Saccharomyces cerevisiae}, \emph{Homo sapiens}, \emph{Danio rerio}, \emph{Gallus gallus}, \emph{Pseudomonas aeruginosa} PAO1, \emph{Bacillus subtilis} subsp. subtilis str. 168, \emph{Mus musculus}, \emph{Caenorhabditis elegans}, \emph{Drosophila melanogaster}, \emph{Halobacterium salinarum}, \emph{Sulfolobus solfataricus}, \emph{Dictyostelium discoideum}, and \emph{Rattus norvegicus}.  No organism in the computed table is reported as preferred or zero.
+
+\paragraph{Significance screen.}
+The cross-organism sign test gives one-sided avoided probability $3.0517578125\times 10^{-5}$ and two-sided probability $6.103515625\times 10^{-5}$, evaluated against the directional sign table.  The finite-row threshold uses $\alpha=0.05$ two-sided.  A separate individual-permutation diagnostic used $1000$ permutations per organism, counted $6$ significant organisms out of $15$, and retained the old majority threshold $8$ only as a diagnostic number rather than as the claim-defining rule.  The six significant organisms are \emph{Homo sapiens}, \emph{Danio rerio}, \emph{Gallus gallus}, \emph{Pseudomonas aeruginosa} PAO1, \emph{Mus musculus}, and \emph{Rattus norvegicus}; within this significant subset the direction is again $6$ avoided, $0$ preferred, and $0$ zero, so the majority fraction is also $1.0$.
+
+\paragraph{Readback verdict.}
+The finite conclusion is that Window6 boundary $R$ has a cross-organism avoided abundance-preference signature in the computed panel.  This is a sign-consistency statement about a fixed boundary set and abundance measurements.  It says that the boundary set is systematically on the avoided side in the available organism rows, not that the boundary set causes abundance, encodes a translation mechanism, determines folding, realizes biological function, or defines a conserved universal biological channel.  The deterministic seed recorded for the run is \texttt{sha256:b\_star\_q6\_boundary\_set\_biological\_signature\_powered:deterministic}, and the run identifier is \texttt{2cb3298502f7}; these identify the finite table used for this chapter.
+
+\paragraph{Relation to the direction-aware $H$ ranking.}
+The neighboring $H$-ranking packet uses a separate finite ledger over absorbed energy $A_H$, coordinate-support cosine $C_H$, and a regularized score
+$$
+\begin{aligned}
+ \mathrm{Score}(H) &= A_H C_H - \lambda\,\mathrm{DL}(H),\\
+ \lambda &= 0.01,\\
+ \mathrm{DL}(H) &= \log_2(1+n_{\mathrm{columns}}).
+\end{aligned}
+$$
+That ranking remains descriptive.  For example, the ranking table reports organism-specific weak absorbers rather than a shared universal $H$: \emph{Danio rerio} has $H_o^*=\mathrm{measured\_te}$ with $A_H C_H=0.011566051846174291$ and score $0.001566051846174291$; \emph{Homo sapiens} has $H_o^*=\mathrm{complex\_member}$ with $A_H C_H=0.006566030115340095$ and score $-0.0034339698846599055$; \emph{Saccharomyces cerevisiae} has $H_o^*=\mathrm{mrna}$ with $A_H C_H=0.0011462622274400686$ and score $-0.008853737772559931$; and \emph{Gallus gallus} has $H_o^*=\mathrm{complex\_member}$ with $A_H C_H=0.004241514781443171$ and score $-0.00575848521855683$.  These values explain why the boundary-$R$ sign result must not be promoted into a mechanism: even when projection readouts are available, the strongest finite absorbers are small, organism-specific, and often penalized below zero by the stated description-length rule.
+
+\paragraph{Local boundary.}
+The admissible statement is therefore bounded to the following: a coordinate-defined Window6 boundary set with $10$ sense codons was tested against abundance-preference signs in $15$ computed organisms, and every non-tie sign was avoided, with a two-sided binomial sign-test probability of $6.103515625\times 10^{-5}$.  Nothing stronger follows from this chapter alone.  In particular, no translation realization, folded structure, physical admissibility, biological function, regulatory mechanism, shared pathway, phylogenetic explanation, or global biological law is inferred unless a separate layer-matched contact supplies an additional statistic for that stronger claim.

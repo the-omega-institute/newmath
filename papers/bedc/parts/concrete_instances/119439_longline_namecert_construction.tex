@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\LongLineUp$}
+\label{ch:concrete-instances-longline-namecert}
+\origin{human}
+
+Following Munkres and Kelley on the long line, the $\LongLineUp$ packet records the classical lexicographic order-topology boundary as finite BEDC NameCert data. It sits beside the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the order interface of \autoref{ch:concrete-instances-order-namecert}, and the total-order comparison surface of \autoref{ch:concrete-instances-totalorder-namecert}. The packet names inspected well-order prefixes, interval cells, lexicographic comparisons, order-topology neighbourhoods, transport, replay, provenance, and local naming without importing a host ordinal, uncountable choice, quotient point equality, selected representatives, or a compactness theorem.
+
+\begin{definition}[Long line carrier]
+\label{def:long-line-carrier}
+A $\LongLineUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,I,O,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the well-order-prefix schedule. Each inspected prefix is recorded as a finite named stage together with its predecessor and successor requests; the schedule is a displayed row of prefix evidence, not a host ordinal.
+\item $I$ is the interval-cell row. It records the unit-cell coordinate inside the displayed prefix stage, the left and right boundary requests, and the local interval membership tests needed by neighbourhood consumers.
+\item $O$ is the lexicographic comparison row. It compares two displayed points first by the prefix schedule $S$ and then by the interval-cell coordinate $I$, exposing the comparison only through the order rows of \autoref{ch:concrete-instances-order-namecert} and \autoref{ch:concrete-instances-totalorder-namecert}.
+\item $T$ is the order-topology neighbourhood row. It records finite open rays and finite open intervals generated from $O$ and exports them to the topology carrier of \autoref{ch:concrete-instances-topology-namecert}.
+\item $H$ records componentwise $\hsame$ transport for the prefix schedule, interval cells, lexicographic comparisons, order-topology neighbourhoods, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from a neighbourhood or comparison request through $S,I,O,T$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\LongLineUp$, $\TopologyUp$, $\OrderUp$, $\TotalOrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LongLineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,I,O,T,H,C,P,N$. It has no coordinate for a host ordinal, an uncountable choice principle, quotient point equality, selected representatives, a completed open-set lattice, or a compactness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.LongLineUp.LongLineTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LongLine NameCert obligations]
+\label{thm:long-line-namecert-obligations}
+For every accepted $\LongLineUp$ carrier $L=(S,I,O,T,H,C,P,N)$, the local $\NameCert_{\LongLineUp}$ surface consists exactly of the well-order-prefix schedule $S$, interval-cell row $I$, lexicographic comparison row $O$, order-topology neighbourhood row $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local naming $N$. Every topology- or order-facing consumer must expose these rows before reading a long-line point comparison, interval membership test, open ray, or open interval.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:long-line-carrier}. The only prefix evidence is $S$, and the only within-prefix coordinate evidence is $I$.
+
+The order-facing read is then forced through $O$. It first reads the displayed prefix schedule and then the interval-cell coordinate, so comparison data cannot be replaced by a host ordinal comparison or by quotient point equality.
+
+The topology-facing read is forced through $T$. Its open rays and intervals are generated from the displayed lexicographic comparison row and are exported only through the topology surface cited above.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no row stores uncountable choice, selected representatives, a completed open-set lattice, or compactness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[LongLine lexicographic order route]
+\label{thm:long-line-lexicographic-order-route}
+Every $\LongLineUp$ consumer that reads a point comparison or an order-topology neighbourhood factors through the finite route
+$$
+S,I \longrightarrow O \longrightarrow T \longrightarrow H,C,P,N .
+$$
+The route exposes the order comparison inherited from \autoref{ch:concrete-instances-order-namecert} and \autoref{ch:concrete-instances-totalorder-namecert} before it exposes the topology read of \autoref{ch:concrete-instances-topology-namecert}. It exports no host ordinal, no uncountable choice, no quotient point equality, no selected representatives, and no compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the displayed point data. A point read has only the prefix schedule $S$ and interval-cell row $I$, so there is no separate representative or host ordinal from which a consumer can read comparison data.
+
+Next read the lexicographic row $O$. It is the sole comparison row and therefore the only route to order-facing conclusions.
+
+Then read the order-topology row $T$. Open rays and open intervals are generated from $O$, so a topology consumer reaches the open-neighbourhood surface only after the displayed lexicographic order route is visible.
+
+The structural rows $H,C,P,N$ preserve and name that same route. They do not add uncountable choice, quotient point equality, selected representatives, a completed open-set lattice, or compactness evidence.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LongLineUp$ consumer is refuted if it reads a point comparison, open ray, open interval, topology membership, transport, replay, provenance, or local naming without first displaying the corresponding $S,I,O,T,H,C,P,N$ rows.}
+
+\independenceWitness{topology, order, totalorder: no listed sibling is bijective to $\LongLineUp$ because the packet jointly carries a displayed well-order-prefix schedule, interval-cell row, lexicographic comparison row, order-topology neighbourhood row, componentwise transport, replay, provenance, and local naming.}
+
+\closureat{LongLineUp}{seedStr}
+
+\begin{closurestatus}{\LongLineUp}
+  \constructivestory{A $\LongLineUp$ packet is generated from a well-order-prefix schedule, interval-cell row, lexicographic comparison row, order-topology neighbourhood row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:long-line-carrier}, \autoref{thm:long-line-namecert-obligations}, and \autoref{thm:long-line-lexicographic-order-route} seed the finite long-line order-topology route over displayed prefix, interval, comparison, neighbourhood, transport, replay, provenance, and naming rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LongLineUp.LongLineTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host ordinals, uncountable choice, quotient point equality, selected representatives, completed open-set lattices, compactness theorems, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-schedule exactness, interval-cell exactness, lexicographic comparison routing, order-topology neighbourhood routing, transport, replay, provenance, and local naming for BEDC.Derived.LongLineUp.}
+\end{closurestatus}

@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetricEntropyUp$}
+\label{ch:concrete-instances-metric-entropy-namecert}
+\origin{human}
+
+Following Kolmogorov--Tikhomirov metric entropy and Bishop-style finite nets, the $\MetricEntropyUp$ packet records the finite covering-number ledger attached to an inspected metric or compact metric carrier. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the totally bounded finite-net route of \autoref{ch:concrete-instances-totallybounded-namecert}, the finite net surface of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the rational tolerance boundary of \autoref{ch:concrete-instances-rat-namecert}, and the terminal real-name readback of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite cover-count carrier for later compactness, dimension, and entropy estimates; it does not import open-cover compactness, selected subcovers, quotient real equality, or ambient completeness.
+
+\begin{definition}[Metric entropy carrier]
+\label{def:metric-entropy-carrier}
+A $\MetricEntropyUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,\varepsilon,N,C,M,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row, or the $\CompactMetricUp$ source row when the entropy ledger is read over a compact carrier.
+\item $\varepsilon$ is a positive $\RatUp$ tolerance row, recording the scale at which finite covering data is inspected.
+\item $N$ is the finite $\FiniteEpsilonNetUp$ row, displaying the centers and coverage witnesses used at scale $\varepsilon$.
+\item $C$ is the cover-count ledger, recording the finite number of displayed centers and the associated covering-number bound.
+\item $M$ is the monotonicity transport row, recording how a cover at a smaller inspected tolerance supplies a cover-count upper bound at a larger inspected tolerance over the same metric source.
+\item $H$ records componentwise $\hsame$ transport for the metric source, tolerance, net, cover-count ledger, monotonicity transport, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a metric-entropy request through $X,\varepsilon,N,C,M,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetricEntropyUp$, $\MetricUp$, $\CompactMetricUp$, $\TotallyBoundedUp$, $\FiniteEpsilonNetUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetricEntropyUp}$ row naming exactly this finite cover-count ledger.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for Hausdorff measure, box dimension, selected subcovers, open-cover compactness, quotient real equality, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.MetricEntropyUp.TasteGate.MetricEntropyTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Metric entropy NameCert obligations]
+\label{thm:metric-entropy-namecert-obligations}
+For every accepted $\MetricEntropyUp$ carrier
+$$
+E=(X,\varepsilon,N,C,M,H,K,P,L),
+$$
+the local $\NameCert_{\MetricEntropyUp}$ surface consists exactly of carrier admission, metric or compact-metric source visibility, positive rational scale visibility, finite epsilon-net coverage, cover-count ledger visibility, monotonicity transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every metric-entropy consumer must pass through $X,\varepsilon,N,C,M,H,K,P,L$ before it reads a finite cover count.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-entropy-carrier}. The rows $X,\varepsilon,N,C$ expose the metric source, inspected positive scale, displayed finite net, and finite cover-count ledger.
+
+The row $M$ records the only monotonicity route supplied by the carrier. It transports cover-count bounds between inspected rational scales over the same metric source, but it does not select additional centers or invoke open-cover compactness.
+
+The rows $H,K,P,L$ preserve, replay, source, and name the same finite route. Since the carrier has no coordinate for Hausdorff measure, box dimension, selected subcovers, quotient real equality, or ambient completeness, these rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Metric entropy finite-cover monotonicity]
+\label{thm:metric-entropy-finite-cover-monotonicity}
+Let
+$$
+E=(X,\varepsilon,N,C,M,H,K,P,L)
+$$
+be an accepted $\MetricEntropyUp$ carrier. Any consumer that compares cover counts at two displayed positive rational scales over the same $\MetricUp$ or $\CompactMetricUp$ source must read the comparison through the monotonicity row $M$ after exposing the source row $X$, the inspected scale row $\varepsilon$, the finite net row $N$, and the cover-count ledger $C$. The comparison cannot be derived from an unlisted compactness selector, a quotient real equality rule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read $X$ and $\varepsilon$ first. These rows identify the metric source and the positive rational scale at which the finite cover is being counted.
+
+Read $N$ and $C$ next. The finite net row displays the centers and coverage witnesses, while the ledger row records the finite number attached to that displayed cover.
+
+The only carrier row that relates two displayed scales is $M$. Transport through $H$ and replay through $K$ preserve this same comparison, and $P,L$ source and name it. Therefore every finite-cover monotonicity read factors through the listed rows and cannot use unlisted compactness or real-equality data.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetricEntropyUp$ consumer that reads a cover count without first displaying the metric source, positive rational scale, finite epsilon-net row, cover-count ledger, and monotonicity transport refutes the carrier surface.}
+
+\independenceWitness{metric, compactmetric, totallybounded, finite-epsilon-net, rat, real: no listed sibling is bijective with $\MetricEntropyUp$ because this packet jointly carries metric or compact-metric source data, a positive rational scale, a displayed finite net, a finite cover-count ledger, monotonicity transport, replay, provenance, and a local $\NameCert$ row.}
+
+\closureat{MetricEntropyUp}{seedStr}
+
+\begin{closurestatus}{\MetricEntropyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-entropy-carrier}, \autoref{thm:metric-entropy-namecert-obligations}, and \autoref{thm:metric-entropy-finite-cover-monotonicity} seed the finite cover-count route over metric and compact metric carriers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hausdorff measure, box dimension, selected subcovers, open-cover compactness, quotient real equality, Lean verification, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, scale visibility, finite-net coverage, cover-count ledger visibility, monotonicity transport, replay, provenance, and local naming for BEDC.Derived.MetricEntropyUp.}
+  \constructivestory{A $\MetricEntropyUp$ packet is generated from MetricUp or CompactMetricUp source data, a positive RatUp scale, FiniteEpsilonNetUp coverage rows, a finite cover-count ledger, monotonicity transport, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

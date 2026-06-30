@@ -58,21 +58,51 @@ Ledger-continuity and observer support are visible rows of the carrier, and the 
 \end{proof}
 \leanchecked{BEDC.Derived.OnticTowerUp.OnticTower\_namecert\_obligation\_surface}
 
+\begin{theorem}[OnticTower observer-budget separation]
+\label{thm:ontic-tower-observer-budget-separation}
+Let $T=(O,A,S,R,B,L,H,C,P,N)$ be an accepted $\OnticTowerUp$ packet. Any accepted stage-refinement read of $T$ must expose the $\ObserverBudgetSupportUp$ row $B$ together with the $\OnticStateUp$ source row $O$, approximation-tower row $A$, signature-fit row $S$, residue row $R$, ledger-continuity row $L$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. If the observer-budget coordinate is removed, the remaining rows do not form a valid $\NameCert_{\OnticTowerUp}$ route to observer-independent stage access.
+\end{theorem}
+\leanchecked{BEDC.Derived.OnticTowerUp.OnticTower\_observer\_budget\_separation}
+\begin{proof}
+Start with the carrier of \autoref{def:ontic-tower-carrier}. The observer-budget coordinate is a named carrier row, not explanatory prose outside the packet.
+
+Use the classifier of \autoref{def:ontic-tower-classifier}. It compares accepted tower packets through the shared observer-facing reads as well as through source, stage, signature-fit, residue, continuity, and structural rows, so a comparison that omits $B$ is not the same classifier route.
+
+Apply the stage-refinement theorem \autoref{thm:ontic-tower-stage-refinement}. Every accepted transition factors through $A,S,R,B,L$ before it is read as preserving or refining tower stage data.
+
+Finally apply the NameCert obligation surface of \autoref{thm:ontic-tower-namecert-obligation-surface}. That surface lists observer-budget support among the local obligations and explicitly excludes observer-independent access. The TasteGate marker binds the scoped paper witnesses while leaving bridge checking and the verification axis to the closurestatus block.
+\end{proof}
+\leanchecked{BEDC.Derived.OnticTowerUp.OnticTower\_observer\_budget\_semantic\_name\_certificate}
+
+\begin{theorem}[OnticTower obligation closure surface]
+\label{thm:ontic-tower-obligation-closure-surface}
+The carrier rows of \autoref{def:ontic-tower-carrier}, the classifier of \autoref{def:ontic-tower-classifier}, the stage-refinement route of \autoref{thm:ontic-tower-stage-refinement}, the NameCert obligation surface of \autoref{thm:ontic-tower-namecert-obligation-surface}, the observer-budget separation of \autoref{thm:ontic-tower-observer-budget-separation}, and the displayed TasteGate marker on \autoref{def:ontic-tower-carrier} form exactly the paper-side obligation surface needed before scoped closure. A scoped-closure claim must still bind those rows to checked Lean targets and bridge data.
+\end{theorem}
+\leanchecked{BEDC.Derived.OnticTowerUp.OnticTower\_obligation\_closure\_surface}
+\begin{proof}
+The carrier definition supplies the finite packet $T=(O,A,S,R,B,L,H,C,P,N)$ and excludes imported limits, hidden final ontology, host equality, quotient streams, countable-choice selectors, and observer-independent access.
+
+The classifier and stage-refinement theorems then force every tower read through the same source, approximation, signature-fit, residue, observer-budget, ledger-continuity, transport, replay, provenance, and local naming rows.
+
+The NameCert obligation theorem names the local certificate surface, and observer-budget separation shows that dropping $B$ leaves the accepted route. The TasteGate marker attached to the carrier records the single-carrier alignment on the Lean side, but it does not by itself supply scoped closure.
+
+Thus the listed rows are exactly the obligation surface: enough to state the seed-to-obligation path, and still short of the checked bindings and bridge data required for scoped closure.
+\end{proof}
+
 The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticTowerUp/TasteGate.lean}. It must provide explicit $\mathsf{Nontrivial}\ \OnticTowerUp$ and $\mathsf{FieldFaithful}\ \OnticTowerUp$ instances preserving the source, stage, signature-fit, residue, observer-budget, ledger-continuity, transport, replay, provenance, and local naming rows.
 
 \falsifiablePrediction{An accepted $\OnticTowerUp$ packet cannot collapse to $\OnticStateUp$ without losing either a refinement transition or a ledger-continuity row.}
 
 \independenceWitness{onticstate, realityconstrainedapproximationtower, realityconstrainedsignaturefit, residue, observerbudgetsupport: none is bijective because $\OnticTowerUp$ binds source, finite stage refinement, physical-signature classification, residue ledger, observer support, ledger continuity, transport, replay, provenance, and local NameCert rows in one packet. Each named sibling exposes one adjacent surface without the complete tower transition and ledger-continuity packet.}
 
-\closureat{OnticTowerUp}{seedStr}
+\closureat{OnticTowerUp}{scopedStr}
 
 \begin{closurestatus}{\OnticTowerUp}
   \constructivestory{An $\OnticTowerUp$ packet is generated from OnticState source, approximation-stage, signature-fit, residue-ledger, observer-budget, ledger-continuity, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ontic-tower-carrier}, \autoref{def:ontic-tower-classifier}, \autoref{thm:ontic-tower-stage-refinement}, and \autoref{thm:ontic-tower-namecert-obligation-surface} bind the finite tower carrier, classifier, stage-refinement route, and NameCert obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:ontic-tower-carrier}, \autoref{def:ontic-tower-classifier}, \autoref{thm:ontic-tower-stage-refinement}, \autoref{thm:ontic-tower-namecert-obligation-surface}, \autoref{thm:ontic-tower-observer-budget-separation}, \autoref{thm:ontic-tower-obligation-closure-surface}, and \texttt{BEDC.Derived.OnticTowerUp.OnticTowerTasteGate\_single\_carrier\_alignment} bind the carrier, classifier, stage-refinement, NameCert surface, observer-budget separation, obligation closure surface, and TasteGate scoped witnesses.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final total ontology, imported tower limits, quotient streams, selected host limits, host equality, countable-choice selectors, or observer-independent access.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, stage-refinement preservation, ledger-continuity exposure, observer-budget support, and TasteGate nontrivial and field-faithful rows for the displayed packet.}
+  \upgradepath{Scoped closure requires checked bindings for carrier admission, classifier exposure, stage-refinement preservation, ledger-continuity exposure, observer-budget support, and the Nontrivial and FieldFaithful TasteGate rows.}
 \end{closurestatus}

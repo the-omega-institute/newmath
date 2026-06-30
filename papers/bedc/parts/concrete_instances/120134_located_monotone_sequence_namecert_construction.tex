@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LocatedMonotoneSequenceUp$}
+\label{ch:concrete-instances-located-monotone-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedMonotoneSequenceUp$ packet records the finite L10 route by which a bounded monotone sequence is read through a located-supremum handoff rather than through ambient completeness. It sits after the monotone convergence packet of \autoref{ch:concrete-instances-monotone-convergence-sequence-namecert}, the bounded monotone packet of \autoref{ch:concrete-instances-bounded-monotone-sequence-namecert}, the located-supremum packet of \autoref{ch:concrete-instances-locatedsupremum-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed route from monotone source data to located supremum data; it does not assert arbitrary $\RealUp$ completeness, trichotomy, quotient stream equality, or countable choice.
+
+\begin{definition}[Located monotone sequence carrier]
+\label{def:located-monotone-sequence-carrier}
+A $\LocatedMonotoneSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,B,S,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\MonotoneConvergenceSequenceUp$ source row, exposing the monotone sequence schedule and its convergence-facing finite route.
+\item $B$ is the accepted $\BoundedMonotoneSequenceUp$ row, exposing the same sequence through displayed upper-bound and lower-bound evidence.
+\item $S$ is the $\LocatedSupremumUp$ handoff row, carrying upper-bound and lower-approximation data for the source sequence.
+\item $W$ is the shared $\StreamNameUp$ precision-window row through which sequence observations and located-supremum requests are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the windowed observations and the located-supremum approximation ledger.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic precision requests, comparison radii, and tail thresholds.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,B,S,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, boundedness, located-supremum, window, readback, tolerance, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located monotone sequence request through $M,B,S,W,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedMonotoneSequenceUp$, $\MonotoneConvergenceSequenceUp$, $\BoundedMonotoneSequenceUp$, $\LocatedSupremumUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedMonotoneSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$$
+M,B,S,W,R,D,E,H,C,P,N.
+$$
+It has no coordinate for ambient real completeness, a selected limit, quotient stream equality, trichotomy, countable choice, or a host-level monotone convergence theorem.
+\end{definition}
+
+\begin{theorem}[Located monotone sequence NameCert obligations]
+\label{thm:located-monotone-sequence-namecert-obligations}
+For every accepted $\LocatedMonotoneSequenceUp$ carrier
+$$
+L=(M,B,S,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedMonotoneSequenceUp}$ surface consists exactly of carrier admission, monotone convergence source exposure, bounded monotone source exposure, located-supremum handoff, shared finite-window exposure, regular rational readback, dyadic tolerance replay, terminal Real-seal ordering, componentwise transport, displayed replay, provenance, and local naming for the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-monotone-sequence-carrier}. Carrier admission exposes exactly $M,B,S,W,R,D,E,H,C,P,N$, so the only source-facing rows are the monotone convergence source $M$ and the bounded monotone source $B$.
+
+Read the order and approximation rows next. The located-supremum handoff $S$ is the only row that can expose upper-bound and lower-approximation data, while $W,R,D$ provide the shared finite windows, regular rational readback, and dyadic tolerance accounting.
+
+The Real-facing seal is downstream of these rows. The structural rows $H,C,P,N$ can only transport, replay, source, and name the same displayed packet, so the local NameCert surface has no coordinate for a selected limit, quotient equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located monotone sequence located-supremum handoff]
+\label{thm:located-monotone-sequence-located-supremum-handoff}
+Every $\RealUp$-facing read exported by an accepted $\LocatedMonotoneSequenceUp$ carrier factors through the bounded monotone source rows $M,B$, then through the $\LocatedSupremumUp$ handoff row $S$, the shared $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$. Thus the L10 monotone-sequence-to-located-supremum route is a displayed finite handoff, not an appeal to arbitrary $\RealUp$ completeness or a choice-selected limit.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $L=(M,B,S,W,R,D,E,H,C,P,N)$. By \autoref{def:located-monotone-sequence-carrier}, the terminal real row is $E$, and it appears only after the source, boundedness, located-supremum, window, readback, and tolerance rows have been displayed.
+
+Apply \autoref{thm:located-monotone-sequence-namecert-obligations}. It forces the NameCert surface to expose the monotone convergence source $M$ and bounded monotone source $B$ before the located-supremum handoff $S$ can feed the readback rows $W,R,D$.
+
+The rows $H,C,P,N$ preserve this route under transport, replay, provenance, and naming. Since the carrier contains no ambient completeness, selected-limit, quotient-equality, or countable-choice coordinate, every Real-facing read remains a finite located-supremum handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedMonotoneSequenceUp$ Real-facing read displays a monotone convergence source, a bounded monotone source, a located-supremum handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert before any consumer may inspect it.}
+
+\independenceWitness{monotone-convergence-sequence, bounded-monotone-sequence, locatedsupremum, streamname, regseqrat, dyadicratcore, real: $\LocatedMonotoneSequenceUp$ is not bijective to any listed sibling because it jointly carries a bounded monotone source and a located-supremum handoff before the Real-facing seal is exposed.}
+
+\closureat{LocatedMonotoneSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedMonotoneSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-monotone-sequence-carrier}, \autoref{thm:located-monotone-sequence-namecert-obligations}, and \autoref{thm:located-monotone-sequence-located-supremum-handoff} seed the finite route from bounded monotone sequence data to a located-supremum Real-facing read.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary $\RealUp$ completeness, trichotomy, quotient stream equality, countable choice, a selected ambient limit, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, source exposure, bounded monotone exposure, located-supremum handoff, RegSeqRat readback, dyadic tolerance replay, and Real-seal non-escape for BEDC.Derived.LocatedMonotoneSequenceUp.}
+  \constructivestory{A $\LocatedMonotoneSequenceUp$ packet is generated from a MonotoneConvergenceSequence source, a BoundedMonotoneSequence source, a LocatedSupremum handoff, a StreamName precision window, a RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

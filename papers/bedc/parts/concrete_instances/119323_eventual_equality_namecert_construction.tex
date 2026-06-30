@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EventualEqualityUp$}
+\label{ch:concrete-instances-eventual-equality-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and the cofinite-filter discipline familiar from Kelley-style topology, the $\EventualEqualityUp$ packet records equality of two displayed streams after a finite tail cut. It reads finite observation windows through \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, the tail-comparison sibling \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the cofinite-tail equality interface used by Real and Completion consumers; it does not form a quotient of streams, choose representatives, assert ambient completeness, or expose a hidden host equality.
+
+The cofinite-tail equality packet therefore consumes the sibling route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}, and \autoref{ch:concrete-instances-real-namecert}; those chapters supply the finite stream windows, regular rational readback, tail-comparison boundary, and terminal real-name seal that this packet replays.
+
+\begin{definition}[Eventual equality carrier]
+\label{def:eventual-equality-carrier}
+An $\EventualEqualityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(L,R,T,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two finite $\StreamNameUp$ window surfaces being compared.
+\item $T$ is the finite tail-cut ledger naming the cofinite region after which comparison is admitted.
+\item $A$ is the displayed agreement row on the post-cut windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the compared windows and their tail-cut ledger.
+\item $H$ records componentwise $\hsame$ transport for the two windows, the tail cut, agreement, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the two windows and the tail cut to the agreement and readback rows.
+\item $P$ is the $\Pkg$ provenance over $\EventualEqualityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyTailEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventualEqualityUp}$ row naming exactly this cofinite-tail equality packet.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.EventualEqualityUp.TasteGate.EventualEqualityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Eventual equality NameCert obligations]
+\label{thm:eventual-equality-namecert-obligations}
+For every accepted $\EventualEqualityUp$ carrier
+$$
+E=(L,R,T,A,Q,H,C,P,N),
+$$
+the local $\NameCert_{\EventualEqualityUp}$ surface consists exactly of two stream-window admissions, one finite tail-cut ledger, one post-cut agreement row, regular rational readback, componentwise transport, displayed replay, provenance, and local naming. Every equality-facing read must pass through
+$$
+L,R,T,A,Q,H,C,P,N
+$$
+and through no quotient stream equality, selected representative, hidden host equality, countable-choice selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eventual-equality-carrier}. The rows $L,R,T,A,Q$ expose the two finite windows, the cofinite tail cut, the agreement row, and regular rational readback before any equality-facing consumer can read the packet.
+
+The structural rows $H,C,P,N$ preserve and replay the same route. Componentwise transport cannot add a quotient coordinate, replay only follows the displayed windows and cut, provenance names the same dependencies, and the local naming row registers the same finite packet.
+
+Thus the listed rows exhaust the NameCert surface. Since the carrier contains no quotient, selector, choice, host-equality, or ambient-completeness field, no downstream read can obtain such data from the $\EventualEqualityUp$ packet.
+\end{proof}
+
+\begin{theorem}[Eventual equality RegSeqRat handoff]
+\label{thm:eventual-equality-regseqrat-handoff}
+Every Real or Completion consumer of an accepted $\EventualEqualityUp$ packet receives the equality-facing route
+$$
+\StreamNameUp \times \StreamNameUp \longmapsto \EventualEqualityUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through the displayed rows $L,R,T,A,Q,H,C,P,N$. The handoff factors through the tail-comparison discipline of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}; it is not a quotient of stream names, a choice of representatives, an ambient completeness principle, or a host-level equality theorem.
+\end{theorem}
+\begin{proof}
+Begin with the two stream-window rows $L$ and $R$. The tail-cut row $T$ selects the finite boundary after which the displayed agreement row $A$ is meaningful.
+
+Next read the regular rational handoff $Q$. The handoff is downstream of the same finite windows and tail ledger, so it can be consumed by $\RegSeqRatUp$ and then by a $\RealUp$-facing seal only through the displayed route.
+
+Finally apply the structural rows $H,C,P,N$. They transport, replay, source, and locally name the same cofinite-tail equality packet. The sibling route through \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert} supplies the tail-comparison boundary, while the carrier itself supplies no quotient, representative selector, completeness, or host-equality coordinate.
+\end{proof}
+
+\leanstmt{BEDC.Derived.EventualEqualityUp}
+
+\closureat{EventualEqualityUp}{seedStr}
+
+\begin{closurestatus}{\EventualEqualityUp}
+  \constructivestory{An $\EventualEqualityUp$ packet is generated from two finite StreamName windows, one tail-cut ledger, one post-cut agreement row, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventual-equality-carrier}, \autoref{thm:eventual-equality-namecert-obligations}, and \autoref{thm:eventual-equality-regseqrat-handoff} seed the cofinite-tail equality route over stream windows, tail cuts, agreement rows, regular rational readback, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.EventualEqualityUp}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim quotient stream equality, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-cut visibility, post-cut agreement, regular rational handoff, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.EventualEqualityUp.}
+\end{closurestatus}

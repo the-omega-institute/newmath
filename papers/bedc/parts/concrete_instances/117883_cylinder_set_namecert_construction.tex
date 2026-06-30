@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CylinderSetUp$}
+\label{ch:concrete-instances-cylinder-set-namecert}
+\origin{human}
+
+Following Kolmogorov and standard product-measure constructions, the $\CylinderSetUp$ packet records the finite cylinder-event substrate used before any $\sigma$-algebra completion or product-measure existence theorem is invoked. It sits between the finite endpoint discipline of \autoref{ch:concrete-instances-bool-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the probability-facing packets of \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, and \autoref{ch:concrete-instances-distribution-namecert}.
+
+\begin{definition}[Cylinder set carrier]
+\label{def:cylinder-set-carrier}
+A $\CylinderSetUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,A,I,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite coordinate window, listing the inspected coordinates and their order of access.
+\item $A$ is the coordinate-event row, assigning to each displayed coordinate a finite $\BoolUp$-readable event decision surface.
+\item $I$ is the Boolean finite-intersection ledger, recording conjunction, empty-window top event, and pairwise merge rows for the displayed coordinate events.
+\item $S$ is the $\StreamNameUp$ source window, or the product-style source window, from which the finite coordinate reads are replayed.
+\item $H$ records componentwise $\hsame$ transport for the coordinate window, coordinate-event rows, Boolean intersection ledger, source window, replay routes, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for every finite coordinate read and every Boolean intersection read.
+\item $P$ is the $\Pkg$ provenance over $\CylinderSetUp$, $\BoolUp$, $\StreamNameUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $N$ is the local $\NameCert_{\CylinderSetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for $\sigma$-algebra completion, countable unions, product-measure existence, host set membership, selected infinite branch, quotient stream equality, or ambient probability space semantics.
+\end{definition}
+
+\begin{theorem}[Cylinder set prefix stability]
+\label{thm:cylinder-set-prefix-stability}
+Let $E=(W,A,I,S,H,C,P,N)$ and $E'=(W',A',I',S',H',C',P',N')$ be accepted $\CylinderSetUp$ packets. If $W'$ extends $W$ only by coordinates not inspected by the read, and the rows $A,I,S,H,C,P,N$ transport componentwise under $\hsame$ through the common prefix, then every consumer restricted to $W$ reads the same cylinder classifier from $E$ and $E'$.
+\end{theorem}
+\begin{proof}
+Project both packets to the carrier of \autoref{def:cylinder-set-carrier}. The consumer restricted to $W$ can inspect only the listed coordinate rows, the Boolean finite-intersection ledger over those rows, and the source replay window visible through $S$.
+
+The extension coordinates in $W'$ are outside that finite read. Componentwise $\hsame$ transport identifies the shared coordinate-event rows and the shared Boolean ledger rows on the prefix, while $C$ replays the same finite access route.
+
+Since the carrier has no host set coordinate or quotient stream equality coordinate, the classifier visible to the restricted consumer is exhausted by the shared prefix rows. Therefore the two packets determine the same prefix cylinder classifier.
+\end{proof}
+
+\begin{theorem}[Cylinder set finite-intersection ledger]
+\label{thm:cylinder-set-finite-intersection-ledger}
+For every accepted $\CylinderSetUp$ packet $E=(W,A,I,S,H,C,P,N)$, the finite intersection of displayed coordinate events is read entirely from the $\BoolUp$ ledger $I$ over the same window $W$. The empty intersection, binary merge, and finite fold rows are all local to the packet, and no countable union, complement-completion, host set operation, or product-measure row is exported by the ledger.
+\end{theorem}
+\begin{proof}
+Read the finite window $W$ and the coordinate-event row $A$. These two rows determine the finite list of Boolean event decisions available to the packet.
+
+The ledger $I$ supplies the empty-window top event, the binary merge row, and the finite fold over that displayed list. Induction over the finite $\BHist$ window gives the intersection row without asking for a countable family or an external set operation.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same finite ledger. Because the carrier excludes completion and product-measure coordinates, the finite-intersection read cannot export them.
+\end{proof}
+
+\begin{theorem}[Cylinder set probability-event readiness]
+\label{thm:cylinder-set-probability-event-readiness}
+Every $\ProbSpaceUp$, $\RandomVarUp$, or $\DistributionUp$ consumer that reads an accepted $\CylinderSetUp$ packet as an event must first expose the finite coordinate window $W$, the coordinate-event rows $A$, the Boolean finite-intersection ledger $I$, the $\StreamNameUp$ or product-style source window $S$, and the structural rows $H,C,P,N$. The handoff supplies a finite event substrate only; it exports no $\sigma$-algebra completion, countable additivity, product-measure existence proof, host set semantics, selected infinite branch, or ambient probability object.
+\end{theorem}
+\begin{proof}
+Begin with the finite source read. The rows $W$ and $S$ display exactly which stream or product coordinates are inspected before a probability-facing consumer may treat the packet as an event.
+
+Next read $A$ and $I$. The coordinate-event rows are $\BoolUp$-readable, and the finite-intersection ledger is the only event constructor present in the carrier.
+
+Finally pass through $H,C,P,N$. These rows preserve the finite read, replay the displayed route, record provenance toward $\ProbSpaceUp$, $\RandomVarUp$, and $\DistributionUp$ consumers, and name the local certificate. Since no completion, countable-additivity, product-measure, or host-set row occurs in the carrier, the handoff is event-ready only at the finite cylinder level.
+\end{proof}
+
+\falsifiablePrediction{A probability-facing consumer that reads a $\CylinderSetUp$ event without exposing the finite coordinate window, coordinate-event rows, Boolean finite-intersection ledger, $\StreamNameUp$ or product-style source window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the $\CylinderSetUp$ carrier.}
+
+\independenceWitness{bool, streamname, probspace, randomvar, distribution: $\CylinderSetUp$ binds finite coordinate windows, Boolean coordinate events, finite-intersection rows, source-window replay, and probability-facing provenance in one local NameCert packet; each named sibling lacks at least one of these rows as a local cylinder-event obligation.}
+
+\begin{closurestatus}{\CylinderSetUp}
+  \constructivestory{A $\CylinderSetUp$ packet is generated from a finite coordinate window, coordinate-event rows, a Boolean finite-intersection ledger, a StreamName or product-style source window, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Its classifier is a finite cylinder-event surface, not a completed measurable set or a product-measure theorem.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cylinder-set-carrier}, \autoref{thm:cylinder-set-prefix-stability}, \autoref{thm:cylinder-set-finite-intersection-ledger}, and \autoref{thm:cylinder-set-probability-event-readiness} seed the finite cylinder-event route over $\BoolUp$, $\StreamNameUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{It does not claim $\sigma$-algebra completion, countable additivity, product-measure existence, host set semantics, selected infinite branches, quotient stream equality, or ambient probability-space semantics.}
+  \upgradepath{To reach obligationClosure, the prefix-stability, finite-intersection, and probability-event-readiness obligations must be enumerated against a future Lean carrier under \texttt{BEDC.Derived.CylinderSetUp}.}
+\end{closurestatus}

@@ -595,6 +595,52 @@ ambient completeness.
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetUp\_StdBridge}
 
+\begin{theorem}[FiniteErrorBudget finite-row induction]
+\label{thm:finite-error-budget-finite-row-induction}
+Let $E=(n,\epsilon,b,d,t,r,e,P,N)$ be an accepted
+$\FiniteErrorBudgetUp$ packet. Every $\RealUp$,
+$\RealCauchyCompletionUp$, or $\RegSeqRatUp$ consumer of $E$ is obtained by
+finite induction over the displayed route
+$$
+n,\epsilon,b,d,t,r,e,P,N.
+$$
+The base row is the zero seed of
+\autoref{thm:finite-error-budget-zero-seed}; the step rows pass through the
+diagonal selector, tail-ledger exactness, budget-consumer boundary, readback,
+seal, package, and naming rows; and the terminal handoff is the diagonal
+handoff of \autoref{thm:finite-error-budget-diagonal-handoff}. No induction
+step may introduce a quotient stream, selected limit, host real equality,
+countable choice, or ambient completeness coordinate outside the displayed
+carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-error-budget-carrier}. The zero
+precision row is the seed supplied by
+\autoref{thm:finite-error-budget-zero-seed}, so the base case already lies
+inside the finite packet.
+
+For the induction step, read the rows in order. The tolerance and selector
+rows are controlled by
+\autoref{thm:finite-error-budget-diagonal-selector-exactness}; the tail row is
+controlled by
+\autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}; and the
+consumer boundary is the same finite boundary used in
+\autoref{thm:finite-error-budget-completion-consumer-boundary}.
+
+The classifier supplies the preservation invariant. By
+\autoref{def:finite-error-budget-classifier} and
+\autoref{thm:finite-error-budget-classifier-row-stability}, each componentwise
+$\hsame$ transport and displayed $\Cont$ replay preserves the same packet
+route, so the induction hypothesis is transported only along named rows.
+
+Finally apply \autoref{thm:finite-error-budget-diagonal-handoff}. It hands the
+readback and completion-facing rows to the public consumer after the finite
+selector and tail ledger have been displayed. The non-escape clauses in
+\autoref{thm:finite-error-budget-real-completion-seal-scope} exclude quotient
+streams, selected limits, host real equality, countable choice, and ambient
+completeness, closing the finite-row induction.
+\end{proof}
+
 \closureat{FiniteErrorBudgetUp}{seedStr}
 \closureat{FiniteErrorBudgetUp}{obligationStr}[BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations]
 \closureat{FiniteErrorBudgetUp}{scopedStr}[BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations]

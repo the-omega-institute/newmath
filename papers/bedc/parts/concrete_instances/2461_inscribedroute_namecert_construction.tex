@@ -39,6 +39,8 @@ The local $\NameCert_{\InscribedRouteUp}$ surface for the carrier of \autoref{de
 \item non-escape: the packet exports no hidden psychology, host trust predicate, or unrecorded choice of route.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations}
+\leanvariant{BEDC.Derived.InscribedRouteUp.InscribedRouteCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:inscribed-route-carrier}. The source scope, visible gap, named statement, proof route, acceptance row, downstream consumer, ledger, package provenance, and local naming row are all displayed before the route can be consumed.
 
@@ -49,15 +51,80 @@ Acceptance-ledger exactness follows because $A$ and $L$ are coordinates of the s
 The non-escape clause is immediate from the carrier inventory. No row stores hidden psychology, host trust, or an unrecorded choice, so none of these can be exported by the local $\NameCert_{\InscribedRouteUp}$ surface.
 \end{proof}
 
-\closureat{InscribedRouteUp}{seedStr}
+\begin{theorem}[InscribedRoute carrier admission]
+\label{thm:inscribed-route-carrier-admission}
+Every accepted $\InscribedRouteUp$ carrier exposes exactly the rows
+$$
+S,G,M,R,A,U,L,P,N
+$$
+before any route consumer can read it. No accepted carrier has an additional coordinate for hidden host trust, private route choice, or external proof memory.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscribed-route-carrier}. The tuple displayed there is exactly $Q=(S,G,M,R,A,U,L,P,N)$, so acceptance can expose only those nine rows.
+
+The classifier sentence following the row inventory confirms that public comparison is restricted to the same rows and their displayed $\hsame$ and $\Cont$ transports. Since the carrier lists no further coordinate, hidden host trust, private route choice, and external proof memory cannot be admitted as carrier data.
+\end{proof}
+
+\begin{theorem}[InscribedRoute continuation obligation]
+\label{thm:inscribed-route-continuation-obligation}
+For every accepted $\InscribedRouteUp$ packet, the route row $R$ reaches the named statement row $M$ through the displayed $\Cont$ path and the matching $\hsame$ rows recorded in the same carrier. The continuation obligation does not use an unrecorded route selector or a host-side proof search.
+\end{theorem}
+\begin{proof}
+Use the proof-route determinacy clause of \autoref{thm:inscribed-route-namecert-obligations}. It states that $R$ reaches $M$ from $S$ and $G$ only through the displayed $\Cont$ path and matching $\hsame$ rows.
+
+Carrier admission supplies the ambient packet $Q=(S,G,M,R,A,U,L,P,N)$. Because $R$, $M$, $P$, and the displayed transport data are all rows of the same packet, the continuation can be replayed by the recorded data before the downstream consumer $U$ reads it.
+\end{proof}
+
+\begin{theorem}[InscribedRoute NameCert ledger obligation]
+\label{thm:inscribed-route-namecert-ledger-obligation}
+For every accepted $\InscribedRouteUp$ packet, the acceptance row $A$ and the public $\mathsf{GAP}$ ledger row $L$ bind the same downstream consumer row $U$. A consumer may cite the route only when acceptance, ledger entry, named statement, and route row are displayed in the same finite packet.
+\end{theorem}
+\begin{proof}
+Apply the acceptance-ledger exactness clause of \autoref{thm:inscribed-route-namecert-obligations}. It identifies $A$ and $L$ as coordinates of the same route packet and requires them to record the admitted route and downstream consumer boundary.
+
+Now project the carrier. The rows $M,R,A,U,L$ occur together in $Q$, so the named statement, route, acceptance row, consumer row, and public ledger row are not separate host facts. The downstream consumer can therefore cite the route only through the single displayed packet.
+\end{proof}
+
+\begin{theorem}[InscribedRoute public export]
+\label{thm:inscribed-route-public-export}
+For every accepted $\InscribedRouteUp$ packet, the public reusable route exported to a downstream consumer is exactly the displayed finite route
+$$
+S,G,M,R,A,U,L,P,N.
+$$
+The export makes the source scope, visible gap, named statement, proof route, acceptance row, downstream consumer row, public ledger, provenance, and local $\NameCert$ row visible together; it exports no hidden host trust predicate, private route selector, or external proof memory.
+\end{theorem}
+\begin{proof}
+Carrier admission in \autoref{thm:inscribed-route-carrier-admission} identifies the accepted packet with the displayed tuple $S,G,M,R,A,U,L,P,N$. Thus any public export begins with exactly those rows.
+
+The NameCert obligations of \autoref{thm:inscribed-route-namecert-obligations} bind the proof-route determinacy and acceptance-ledger exactness clauses to that same tuple. The continuation obligation of \autoref{thm:inscribed-route-continuation-obligation} then replays $R$ to $M$ only through the displayed $\Cont$ path and matching $\hsame$ rows.
+
+Finally \autoref{thm:inscribed-route-namecert-ledger-obligation} ties the acceptance row $A$, downstream consumer row $U$, and public ledger row $L$ together. Therefore the public consumer can cite the route precisely as the finite BEDC packet above, and no unrecorded host-side route data are exported.
+\end{proof}
+
+\begin{theorem}[InscribedRoute standard bridge surface]
+\label{thm:inscribed-route-standard-bridge-surface}
+The public reusable route of an accepted $\InscribedRouteUp$ packet can be read as a standard bridge surface in the sense of \autoref{ch:acceptance-bridge}: the source scope row $S$ names the BEDC carrier, the visible gap row $G$ and named statement row $M$ give the encode/decode surface, the proof route row $R$ records the finite route, the acceptance row $A$ and consumer row $U$ give the public-object surface, the public ledger row $L$ records the bridge-readable export, and the provenance and naming rows $P,N$ keep the route local to the packet. This bridge is a paper-level witness only; it does not claim machine bridge checking.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem of \autoref{thm:inscribed-route-public-export}. It identifies the displayed finite route $S,G,M,R,A,U,L,P,N$ as the export surface for downstream consumers.
+
+Read the same route through the standard bridge protocol of \autoref{ch:acceptance-bridge}. The source scope, visible gap, named statement, proof route, acceptance row, downstream consumer, and public ledger provide the encode/decode and theorem-preservation shape required for a paper bridge.
+
+The bridge remains paper-level because the chapter does not add any host translation module or machine no-host-leak witness. It therefore presents the public route as a bridge surface while keeping the verification axis separate.
+\end{proof}
+
+\closureat{InscribedRouteUp}{scopedStr}[BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations]
+\closureat{InscribedRouteUp}{publicStr}
+\closureat{InscribedRouteUp}{bridgedStr}
+\closureat{InscribedRouteUp}{matureStr}[BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations]
 
 \begin{closurestatus}{\InscribedRouteUp}
   \constructivestory{An $\InscribedRouteUp$ packet is generated from a prior source scope, visible gap row, named statement, proof route, acceptance row, downstream consumer, public GAP ledger, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:inscribed-route-carrier} and \autoref{thm:inscribed-route-namecert-obligations} bind the finite carrier and local NameCert-obligation surface for reusable inscribed routes.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{human}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, complete inscription semantics, or hidden host route semantics.}
-  \upgradepath{Obligation closure requires checked carrier, classifier, route-witness, $\hsame/\Cont$ transport, and local NameCert rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, \autoref{thm:inscribed-route-namecert-ledger-obligation}, \autoref{thm:inscribed-route-public-export}, and \autoref{thm:inscribed-route-standard-bridge-surface} bind source-scope, visible-gap, route-witness, acceptance-ledger, downstream-consumer, public export, standard bridge surface, $\hsame/\Cont$ transport, local NameCert scoping, and the public export surface for reusable inscribed routes.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close machine bridge checking, complete inscription semantics, or hidden host route semantics.}
+  \upgradepath{The paper bridge surface is mature; machine bridge checking remains a separate verification-axis obligation.}
 \end{closurestatus}

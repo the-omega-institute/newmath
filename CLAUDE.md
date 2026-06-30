@@ -11,6 +11,14 @@
 - **Hub-only 索引文件**: hub-only 是结构分类, 不是 filename → role 映射. 只有自身正文只是结构性路由的 `.tex` 文件才按 hub-only 约束: 可放 1-2 句 orienting 段落、子文件 `\input{...}` 行、必要状态标注 (如 `\closureat`), 不放 `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` 等正文环境. 持有 `\chapter` 与正文环境的文件是 content chapter, 受 800 行上限与正文检查约束.
 - 二进制运算使用原生实现, 不用二进制字符串
 
+## 旁路推理通道: nyxid oracle (ChatGPT Pro)
+
+`nyxid oracle` 把推理任务路由到浏览器端 ChatGPT Pro, 可作为 codex / Claude 之外的旁路推理通道 (例: 让 ChatGPT Pro 跑一段独立推理 / 复核). 子命令、参数、输出字段清单以 `nyxid oracle --help` / `nyxid oracle ask --help` 为准, 本文档只记非显然用法:
+
+- **两步异步 (省 token, 不轮询)**: `nyxid oracle ask company-chatgpt-pro "<问题>" --no-wait --output json` 拿 `task_id` (status=queued); 再 `nyxid oracle result <task_id> --output json` 取结果. status 走 `queued → dispatched(phase=sent) → completed`, `completed` 时 `response` 字段即答案 (附 `chatgpt_url`). 单次 `result` 即可, 未完成返回中间 status, 不要 busy-loop 轮询. 省 `--no-wait` 则 `ask` 同步阻塞最多 `--wait` 秒.
+- **pool 是 org-visibility**: `company-chatgpt-pro` 限该 pool 所属 org 成员; 非成员 `ask` 返回 403 (error_code 1002 forbidden), `status` 返回 404. 先 `nyxid org join <邀请码>` 加入该 org, 再 `nyxid oracle pool list` 应能看到该 pool. 当前账号 (`aloning@gmail.com`) 已可用.
+- 长 prompt 用 `--file -` 从 stdin 喂, 附件 `--pdf`, 多轮 `--new-conversation` / `--conversation <id>`; 配额与并发 (per-user inflight、worker tab 数) 以 `nyxid oracle pool list` / `nyxid oracle status <pool>` 实时读出, 不在此缓存数字.
+
 ## 语言与格式
 
 - 工作语言默认中文, 英文版文档以 `_en.md` / `_en.tex` 结尾
@@ -220,6 +228,8 @@ python3 lean4/scripts/bedc_ci.py axiom-purity           # 传递依赖审计 (�
 
 上述命令全部 exit 0 才算 ship 标准.
 
+论文 artifact pointer gate: 发布承重的表、图、主 claim 链中出现的经验数值、release 数字、artifact-count 数字, 必须通过 paper artifact marker 绑定到 claim-artifact-consistency 的 canonical paper_surfaces 行; 行内只存 repo-local artifact pointer、声明的 transform/tolerance、claim/hardgate/not-claimed 指针, 不复制事实正文. make precheck 对缺失、重复、不可解析、数值不匹配或指向 .refactor-loop/URL/绝对路径的 pointer 直接失败. 纯数学常数、定理编号、章节编号、引用编号、label 名和构造名不在此 gate 范围内.
+
 ## `\origin{}` 标签语义
 
 每章顶部的 `\origin{}` 标记**理论 lineage**, 不是作者身份:
@@ -298,12 +308,13 @@ worker 现在 (≥ 2026-05-03) 已经有 `693fb128` / `001d0c3d` / `0cdf518c` �
 ## 命令模板 (codex 0.130+)
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox -C <worktree-path> < /tmp/prompt-X.md > /tmp/codex-log-X.log 2>&1
+codex exec --dangerously-bypass-approvals-and-sandbox -c model_reasoning_effort="xhigh" -C <worktree-path> < /tmp/prompt-X.md > /tmp/codex-log-X.log 2>&1
 ```
 
 - `exec` = non-interactive, 不带就进 TUI
 - `--dangerously-bypass-approvals-and-sandbox` 跳所有 approval + sandbox (用户授权 "所有权限" 时用); 否则每个文件写卡确认
 - `-C <dir>` 让 codex 自己 chdir, **不要** `cd <wt> && codex`
+- `-c model_reasoning_effort="xhigh"` = **默认 reasoning effort**. 经 `/sshx` (consensus-rnd) 或本节 fan-out 派发的 codex CLI worker 一律带 `-c model_reasoning_effort="xhigh"` —— thinking / review / implementation 三类 worker 都默认 xhigh; 跨模型隔离的对抗共识值得最高 effort. 只有明确的廉价机械步骤 (纯格式 / 重命名 / 单行改) 才显式降档.
 - **prompt 必须从 stdin 文件喂 (`< /tmp/prompt-X.md`), 不要当命令行 arg 传 (`"$(cat ...)"`)**. 把 prompt 当 arg 时 codex 仍会读 stdin 找 *additional* input (日志 `Reading additional input from stdin...`); 在 detached / `run_in_background` 下 stdin 是个永不 EOF 的管道, codex **永久阻塞在 stdin read**: 0% CPU、无 API 连接、无文件写、进程活着但什么都不干, 看着像超时/网络挂其实都不是. 用 `< 文件` 喂 stdin, codex 打印 `Reading prompt from stdin...`, 拿到 prompt + 干净 EOF, 连 API 正常跑. arg 形式有时碰巧 stdin EOF 能跑通, 所以是 flaky 不是必挂 — 一律用 stdin 文件形式. (诊断挂死: rust `…/vendor/…/bin/codex` 那个 pid `lsof` 看**有没有 ESTABLISHED 连接** — 没有就是卡在 stdin, 跟健康 sibling worker 对比即知. 加 timeout 兜底只是掩盖, 不治本.)
 - input/output 都走文件: stdin `< /tmp/prompt-X.md`, stdout/stderr `> /tmp/codex-log-X.log 2>&1`
 
@@ -343,7 +354,7 @@ codex session 没对话上下文, prompt 必须自洽包含:
 
 ## Bash 跨 call 陷阱
 
-`cd` 跨 Bash call **持久**. `cd lean4 && lake build` 之后下一个 Bash 还在 `lean4/`, 相对路径 `lean4/scripts/X.py` 解析成 `lean4/lean4/scripts/X.py` 出错. 复位: 绝对路径 (`/Users/auric/newmath/...`) 或 `cd /Users/auric/newmath && ...`.
+`cd` 跨 Bash call **持久**. `cd lean4 && lake build` 之后下一个 Bash 还在 `lean4/`, 相对路径 `lean4/scripts/X.py` 解析成 `lean4/lean4/scripts/X.py` 出错. 复位: 绝对路径 (`/home/aruic-wsl/newmath/...`) 或 `cd /home/aruic-wsl/newmath && ...`.
 
 ## 安静窗口
 

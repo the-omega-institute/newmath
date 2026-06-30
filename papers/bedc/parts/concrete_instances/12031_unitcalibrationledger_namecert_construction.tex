@@ -80,6 +80,25 @@ None of those roles supplies a complete empirical-value carrier by itself. A num
 
 The nonescape theorem \autoref{thm:unit-calibration-ledger-numeric-value-nonescape} blocks value-only export. Hence each consumer receives the numerical row only through the same displayed measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.UnitCalibrationLedgerUp.UnitCalibrationLedgerCarrier\_law\_certificate\_handoff}
+
+\begin{theorem}[Unit calibration ledger empirical bridge surface]
+\label{thm:unit-calibration-ledger-empirical-bridge-surface}
+Every bridge from $\UnitCalibrationLedgerUp$ to $\LawCertificateUp$, $\PhysicalModelAuditUp$, $\CertifiedPhysicalTruthUp$, or $\UnitUp$ preserves the displayed rows
+$$
+M,U,C,E,I,R,D,K,H,P,N
+$$
+of \autoref{def:unit-calibration-ledger-carrier}. No such bridge may read a bare $\RealUp$ value, unit-free magnitude, omitted calibration row, suppressed uncertainty row, anonymous instrument row, or unrecorded reproducibility row as an empirical-value packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unit-calibration-ledger-carrier}. The bridge source is the finite packet $V=(M,U,C,E,I,R,D,K,H,P,N)$, so the measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local naming rows are all visible before any target sibling is read.
+
+Apply the NameCert obligations of \autoref{thm:unit-calibration-ledger-namecert-obligations}. They force measurement admission through $M$, unit and dimension admission through $U,D$, calibration admission through $C$, uncertainty admission through $E$, instrument and reproducibility admission through $I,R$, and structural preservation through $K,H,P,N$.
+
+Next apply numeric-value nonescape from \autoref{thm:unit-calibration-ledger-numeric-value-nonescape}. A value-only export leaves the accepted empirical packet, so a bridge cannot replace the carrier by a bare $\RealUp$ value, unit-free magnitude, missing calibration, missing uncertainty, anonymous instrument, or missing reproducibility boundary.
+
+Finally route through the law-certificate handoff of \autoref{thm:unit-calibration-ledger-law-certificate-handoff}. The law-certificate, physical-model audit, certified physical-truth, and terminal unit consumers receive the numerical row only together with the same displayed empirical-value surface, so the bridge preserves $M,U,C,E,I,R,D,K,H,P,N$.
+\end{proof}
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/UnitCalibrationLedgerUp/TasteGate.lean} must provide explicit $\Nontrivial\ \UnitCalibrationLedgerUp$ and $\FieldFaithful\ \UnitCalibrationLedgerUp$ instances, with witness-pair and field-projection proofs preserving $M,U,C,E,I,R,D,K,H,P,N$ as separate displayed fields.
 
@@ -87,15 +106,14 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/UnitCalibrationLedgerUp/Taste
 
 \independenceWitness{lawcertificate, physicalmodelaudit, certifiedphysicaltruth, unit, realityconstrainedmodelerrorbudget: none is bijective because UnitCalibrationLedgerUp binds numerical measurement, unit conversion, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert rows in one carrier, while each sibling supplies only a law pattern, audit packet, truth surface, terminal unit, or error-budget component.}
 
-\closureat{UnitCalibrationLedgerUp}{seedStr}
+\closureat{UnitCalibrationLedgerUp}{matureStr}
 
 \begin{closurestatus}{\UnitCalibrationLedgerUp}
   \constructivestory{A $\UnitCalibrationLedgerUp$ packet is generated from finite measurement, unit bridge, calibration, uncertainty, instrument, reproducibility, dimension, classifier, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:unit-calibration-ledger-carrier}, \autoref{def:unit-calibration-ledger-classifier}, \autoref{thm:unit-calibration-ledger-namecert-obligations}, \autoref{thm:unit-calibration-ledger-numeric-value-nonescape}, and \autoref{thm:unit-calibration-ledger-law-certificate-handoff} bind empirical numerical values to displayed measurement, unit, calibration, uncertainty, instrument, reproducibility, dimension, classifier, transport, provenance, and local NameCert rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:unit-calibration-ledger-carrier}, \autoref{def:unit-calibration-ledger-classifier}, \autoref{thm:unit-calibration-ledger-namecert-obligations}, \autoref{thm:unit-calibration-ledger-numeric-value-nonescape}, the public export theorem \autoref{thm:unit-calibration-ledger-law-certificate-handoff}, and the empirical bridge surface \autoref{thm:unit-calibration-ledger-empirical-bridge-surface} bind $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the displayed rows $M,U,C,E,I,R,D,K,H,P,N$ as the exported empirical-value handoff and sibling bridge surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, host-level metrology, all standards bodies, exact experimental replication, or physical truth beyond the displayed empirical-value packet.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier, classifier, five-row NameCert surface, numeric-value nonescape theorem, law-certificate handoff theorem, TasteGate nontriviality, and field faithfulness for $M,U,C,E,I,R,D,K,H,P,N$.}
+  \upgradepath{The remaining work is Lean-side verification and bridge checking for the empirical bridge surface of \autoref{thm:unit-calibration-ledger-empirical-bridge-surface}.}
 \end{closurestatus}

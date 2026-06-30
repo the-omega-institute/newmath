@@ -205,4 +205,108 @@ theorem NormalFormConsistencySealObligationClosureRoute [AskSetup] [PackageSetup
   exact
     ⟨cert, candidateUnary, residualUnary, joinUnary, scheduleUnary, closureUnary⟩
 
+theorem NormalFormConsistencySealPublicExport [AskSetup] [PackageSetup]
+    {T F N K X H C P L candidateRead closedRead residualRead boundaryRead replayRead
+      namedRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    normalFormConsistencySealFields (NormalFormConsistencySealUp.mk T F N K X H C P L) =
+        [T, F, N, K, X, H, C, P, L] ->
+      UnaryHistory T ->
+        UnaryHistory F ->
+          UnaryHistory N ->
+            UnaryHistory K ->
+              UnaryHistory X ->
+                UnaryHistory H ->
+                  UnaryHistory C ->
+                    UnaryHistory P ->
+                      UnaryHistory L ->
+                        Cont T F candidateRead ->
+                          Cont N K closedRead ->
+                            Cont candidateRead closedRead residualRead ->
+                              Cont residualRead H boundaryRead ->
+                                Cont boundaryRead C replayRead ->
+                                  Cont P L namedRead ->
+                                    Cont replayRead namedRead exportRead ->
+                                      PkgSig bundle P pkg ->
+                                        PkgSig bundle L pkg ->
+                                          SemanticNameCert
+                                              (fun row : BHist =>
+                                                hsame row exportRead ∧ UnaryHistory row)
+                                              (fun row : BHist =>
+                                                hsame row T ∨ hsame row F ∨ hsame row N ∨
+                                                  hsame row K ∨ hsame row X ∨ hsame row H ∨
+                                                    hsame row C ∨ hsame row P ∨
+                                                      hsame row L ∨ hsame row exportRead)
+                                              (fun row : BHist =>
+                                                UnaryHistory row ∧
+                                                  Cont replayRead namedRead exportRead ∧
+                                                    PkgSig bundle P pkg ∧
+                                                      PkgSig bundle L pkg)
+                                              hsame ∧
+                                            UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: NormalFormConsistencySealUp BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro fieldsExact unaryT unaryF unaryN unaryK _unaryX unaryH unaryC unaryP unaryL
+    candidateRoute closedRoute residualRoute boundaryRoute replayRoute namedRoute exportRoute
+    provenancePkg localNamePkg
+  cases fieldsExact
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed unaryT unaryF candidateRoute
+  have closedUnary : UnaryHistory closedRead :=
+    unary_cont_closed unaryN unaryK closedRoute
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed candidateUnary closedUnary residualRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed residualUnary unaryH boundaryRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed boundaryUnary unaryC replayRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed unaryP unaryL namedRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed replayUnary namedUnary exportRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row F ∨ hsame row N ∨ hsame row K ∨ hsame row X ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row L ∨
+                hsame row exportRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont replayRead namedRead exportRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle L pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, exportUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, exportRoute, provenancePkg, localNamePkg⟩
+  }
+  exact ⟨cert, exportUnary⟩
+
 end BEDC.Derived.NormalFormConsistencySealUp

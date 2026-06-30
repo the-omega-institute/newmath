@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICBoundedDiamondWindowUp$}
+\label{ch:concrete-instances-metacic-bounded-diamond-window-namecert}
+\origin{ai}
+
+The $\MetaCICBoundedDiamondWindowUp$ packet realizes the bounded-window handoff between candidate-mediated normalization in \autoref{ch:metacic-normalization-audit-map} and residual confluence visibility in \autoref{ch:metacic-confluence-audit-map}. It sits beside the candidate normalization and confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the proof-trace normal-form packet of \autoref{ch:concrete-instances-proof-trace-normal-form-namecert}, the finite-window confluence packet of \autoref{ch:concrete-instances-finite-window-confluence-namecert}, and the machine export boundary of \autoref{ch:concrete-instances-machine-export-boundary-namecert}. The packet records a finite audit window for candidate evidence, normal-form readback, residual-frontier rows, local diamond visibility, transport, replay, provenance, and local naming without claiming global strong normalization, unrestricted confluence, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[MetaCIC bounded diamond window carrier]
+\label{def:metacic-bounded-diamond-window-carrier}
+A $\MetaCICBoundedDiamondWindowUp$ carrier is a finite $\BHist$ packet
+$$
+D=(W,C,N,R,J,T,M,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the bounded closed-term and redex-window row.
+\item $C$ is the candidate-evidence row consumed before any normalization handoff is read.
+\item $N$ is the normal-form readback row, compatible with the proof-trace normal-form sibling.
+\item $R$ is the residual-frontier row that records the two bounded branches and their retained obstruction surface.
+\item $J$ is the local diamond visibility row for candidate join data inside the same window.
+\item $T$ is the finite proof-trace row linking the normal-form and residual-frontier reads.
+\item $M$ is the machine export boundary row, recording which bounded evidence can be emitted without becoming a kernel oracle.
+\item $H$ records componentwise $\hsame$ transport for the window, candidate, normal-form, residual-frontier, local-join, proof-trace, and export-boundary rows.
+\item $K$ is the displayed $\Cont$ replay row for the bounded audit route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICBoundedDiamondWindowUp$, $\MetaCICCandidateNormalizationConfluenceHandoffUp$, $\MetaCICParallelDiamondFrontierUp$, $\ProofTraceNormalFormUp$, $\FiniteWindowConfluenceUp$, $\MachineExportBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\MetaCICBoundedDiamondWindowUp}$ row.
+\end{enumerate}
+
+The carrier has no coordinate for a global strong-normalization theorem, global confluence theorem, subject reduction, evaluator equality, quotient syntax equality, kernel consistency, or unbounded machine export.
+\end{definition}
+
+\begin{theorem}[MetaCIC bounded diamond window NameCert obligations]
+\label{thm:metacic-bounded-diamond-window-namecert-obligations}
+For every accepted $\MetaCICBoundedDiamondWindowUp$ carrier $D=(W,C,N,R,J,T,M,H,K,P,L)$, the local $\NameCert_{\MetaCICBoundedDiamondWindowUp}$ surface consists exactly of bounded window exposure through $W$, candidate-evidence exposure through $C$, normal-form readback through $N$, residual-frontier exposure through $R$, local diamond visibility through $J$, proof-trace linkage through $T$, machine export boundary through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-bounded-diamond-window-carrier}. The window row $W$ fixes the closed-term and redex scope before any candidate or frontier evidence can be consumed.
+
+Rows $C,N,R,J,T$ form the handoff surface. Candidate evidence precedes the normalization readback, the residual frontier keeps both bounded branches visible, and the local diamond row records only the join data inside the same window.
+
+Rows $M,H,K,P,L$ preserve the boundary. Machine export remains mediated by the export boundary, while transport, replay, provenance, and local naming carry the same finite packet. Hence the listed rows exhaust the NameCert obligations and add no global normalization, global confluence, evaluator equality, quotient syntax equality, or kernel-consistency coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC bounded diamond window nonescape]
+\label{thm:metacic-bounded-diamond-window-nonescape}
+Every $\MetaCICBoundedDiamondWindowUp$ consumer factors through
+$$
+W,C,N,R,J,T,M,H,K,P,L.
+$$
+If a bounded window omits either candidate evidence or residual-frontier rows, it cannot certify both strong-normalization handoff and local diamond visibility. In particular, the packet cannot be consumed as a global strong-normalization theorem, unrestricted confluence theorem, subject-reduction theorem, evaluator oracle, quotient syntax equality, kernel-consistency certificate, or unbounded machine-export route.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface. It makes candidate evidence $C$ and residual-frontier evidence $R$ mandatory rows before the normal-form readback $N$ and local diamond row $J$ are public.
+
+The sibling handoff and frontier chapters are consumed through the displayed packet. The candidate-normalization handoff supplies candidate-mediated normalization data, while the parallel-diamond and finite-window confluence siblings supply only bounded residual visibility.
+
+The proof-trace and machine-export rows keep the route inspectable. They record which evidence is replayed and which bounded rows can be emitted, without adding a kernel oracle or an unbounded export channel. Thus a consumer missing $C$ or $R$ leaves the carrier, and the accepted packet cannot escape to any of the listed global claims.
+\end{proof}
+
+\falsifiablePrediction{If a bounded window omits either candidate evidence or residual-frontier rows, it cannot certify both SN handoff and local diamond visibility.}
+
+\independenceWitness{metacic-candidate-normalization-confluence-handoff, metacic-parallel-diamond-frontier, proof-trace-normal-form, finite-window-confluence, machine-export-boundary: the candidate-normalization handoff omits the machine export boundary row; the parallel-diamond frontier retains residual confluence rows without the normal-form proof trace; the proof-trace normal form omits the residual-frontier join row; the finite-window confluence packet omits candidate evidence; and the machine export boundary omits the local diamond visibility row. None is row-bijective to $\MetaCICBoundedDiamondWindowUp$.}
+
+The future Lean TasteGate surface must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for \texttt{BEDC.Derived.MetaCICBoundedDiamondWindowUp}. Field faithfulness must keep $W,C,N,R,J,T,M,H,K,P,L$ distinct before any normalization or confluence consumer reads the bounded window.
+
+\closureat{MetaCICBoundedDiamondWindowUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICBoundedDiamondWindowUp}
+  \constructivestory{A $\MetaCICBoundedDiamondWindowUp$ packet is generated from a bounded closed-term redex window, candidate evidence, normal-form readback, residual-frontier rows, local diamond visibility, proof-trace linkage, machine export boundary, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-bounded-diamond-window-carrier}, \autoref{thm:metacic-bounded-diamond-window-namecert-obligations}, and \autoref{thm:metacic-bounded-diamond-window-nonescape} seed the bounded candidate-normalization and residual-diamond handoff window.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global strong normalization, unrestricted confluence, subject reduction, evaluator equality, quotient syntax equality, kernel consistency, Lean verification, axiom-clean audit, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate evidence, normal-form readback, residual-frontier exposure, local diamond visibility, proof-trace linkage, machine export boundary, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetaCICBoundedDiamondWindowUp.}
+\end{closurestatus}

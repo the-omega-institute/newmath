@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.Derived.GroundLoopBoundaryUp
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.GroundLoopBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -261,33 +263,6 @@ instance groundLoopBoundaryNontrivial : Nontrivial GroundLoopBoundaryUp where
         injection h with hMarks _ _ _ _ _ _ _
         cases hMarks⟩
 
-theorem GroundLoopBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist, groundLoopBoundaryDecodeBHist (groundLoopBoundaryEncodeBHist h) = h) ∧
-      (∀ x : GroundLoopBoundaryUp,
-        groundLoopBoundaryFromEventFlow (groundLoopBoundaryToEventFlow x) = some x) ∧
-        (∀ x y : GroundLoopBoundaryUp,
-          groundLoopBoundaryToEventFlow x = groundLoopBoundaryToEventFlow y → x = y) ∧
-          (∀ (x : GroundLoopBoundaryUp) w m,
-            List.Mem w (groundLoopBoundaryToEventFlow x) → List.Mem m w →
-              m = BMark.b0 ∨ m = BMark.b1) ∧
-            groundLoopBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact groundLoopBoundaryDecode_encode_bhist
-  · constructor
-    · exact groundLoopBoundary_round_trip
-    · constructor
-      · intro x y heq
-        exact groundLoopBoundaryToEventFlow_injective heq
-      · constructor
-        · intro x w m hw hm
-          cases m with
-          | b0 =>
-              exact Or.inl rfl
-          | b1 =>
-              exact Or.inr rfl
-        · rfl
-
 theorem GroundLoopBoundaryCarrier_meta_nonescape (x : GroundLoopBoundaryUp) :
     ∃ marks sameness cross reflection history contRoutes provenance nameCert : BHist,
       x = GroundLoopBoundaryUp.mk marks sameness cross reflection history contRoutes
@@ -307,5 +282,23 @@ theorem GroundLoopBoundaryCarrier_meta_nonescape (x : GroundLoopBoundaryUp) :
                 exact Or.inl rfl
             | b1 =>
                 exact Or.inr rfl⟩
+
+theorem GroundLoopBoundaryTasteGate_scoped_kernel_consumer
+    {M S X R H C P N : BHist}
+    (carrier : GroundLoopBoundaryCarrier M S X R H C P N) :
+    ∃ x : GroundLoopBoundaryUp,
+      FieldFaithful.fields x = [M, S, X, R, H, C, P, N] ∧
+        msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark.b1 ∧
+          Cont M (append S R) C ∧ hsame P N ∧ hsame N N ∧
+            (∀ w m, List.Mem w (groundLoopBoundaryToEventFlow x) → List.Mem m w →
+              m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame msame TasteGate
+  let x := GroundLoopBoundaryUp.mk M S X R H C P N
+  have route := GroundLoopBoundaryCarrier_scoped_kernel_route carrier
+  refine ⟨x, ?_, route.left, route.right.left, route.right.right.left,
+    route.right.right.right.left, route.right.right.right.right, ?_⟩
+  · rfl
+  · intro w m hw hm
+    exact ChapterTasteGate.conservativity x w m hw hm
 
 end BEDC.Derived.GroundLoopBoundaryUp

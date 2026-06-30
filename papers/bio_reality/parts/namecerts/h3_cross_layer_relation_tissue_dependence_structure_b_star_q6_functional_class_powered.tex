@@ -1,0 +1,41 @@
+\origin{ai}
+
+\subsection{B-star-Q6 Tissue Dependence Before Translation Promotion}
+\label{subsec:bioreality-b-star-q6-tissue-dependence-before-translation-promotion}
+
+\paragraph{Finite panel.}
+The finite row under review is the Homo sapiens adult-tissue panel in which nine $B^*_{Q6}$ residual coordinates are projected against tissue-specific draft proteome readouts from Kim et al. 2014 SEQUEST PAXdb files.  The coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3\_stress$.  Each tissue fit uses the same declared control family: an intercept, $\log(cds\_len\_nt)$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$, and an $M$-density baseline defined on the union support of the nine projected $B^*_{Q6}$ vectors.  The recorded control-column count is $24$ in each of the thirteen tissues, while the residualized $Q$ design has rank $9$ and the control design has rank $23$ in every tissue-specific fit.
+
+\paragraph{Per-tissue readout.}
+The observed readout in this chapter is $\log_{10}(abundance\_ppm)$, not ribosome profiling and not an mRNA-controlled translation-efficiency statistic.  The joined row counts are finite and tissue-specific: $9244$ for Adult B cells, $7604$ for Adult CD4 T cells, $10914$ for Adult CD8 T cells, $8787$ for Adult NK cells, $5179$ for Adult monocytes, $8664$ for Adult liver, $6726$ for Adult kidney, $9695$ for Adult pancreas, $9301$ for Adult frontal cortex, $10373$ for Adult retina, $7948$ for Adult colon, $6577$ for Adult lung, and $6468$ for Adult heart.  No tissue was skipped.  The computed $R^2_{QP}$ values remain small but nonzero:
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{Bcells}) &= 0.0362611743, & R^2_{QP}(\mathrm{CD4T}) &= 0.0335325270,\\
+R^2_{QP}(\mathrm{CD8T}) &= 0.0392854177, & R^2_{QP}(\mathrm{NK}) &= 0.0270944474,\\
+R^2_{QP}(\mathrm{Monocytes}) &= 0.0213502996, & R^2_{QP}(\mathrm{Liver}) &= 0.0261334562,\\
+R^2_{QP}(\mathrm{Kidney}) &= 0.0184999033, & R^2_{QP}(\mathrm{Pancreas}) &= 0.0276161776,\\
+R^2_{QP}(\mathrm{Frontal\ cortex}) &= 0.0258747988, & R^2_{QP}(\mathrm{Retina}) &= 0.0480573011,\\
+R^2_{QP}(\mathrm{Colon}) &= 0.0237325633, & R^2_{QP}(\mathrm{Lung}) &= 0.0232738640,\\
+R^2_{QP}(\mathrm{Heart}) &= 0.0232089632. & &
+\end{aligned}
+$$
+The largest value in this panel is the retina value $0.0480573011$; the smallest is the kidney value $0.0184999033$.  These numbers are descriptive residual-projection readouts against a draft proteome abundance surface, not evidence that the residual coordinates cause translation, folding, localization, function, or phenotype.
+
+\paragraph{Dominant coordinates.}
+The leading coordinate is not uniform across tissues.  $Arg_{AGR}$ is dominant in Adult B cells, Adult CD8 T cells, Adult colon, Adult kidney, Adult NK cells, Adult pancreas, and Adult retina.  $Ile_{AUA}$ is dominant in Adult CD4 T cells, Adult frontal cortex, Adult liver, Adult lung, and Adult monocytes.  Adult heart is the single tissue in this row where $Ser_{UCR\_vs\_AGY}$ is dominant.  Thus the finite panel records a heterogeneous tissue-facing projection rather than a single universal coordinate.  The residual degrees of freedom after controls are also explicitly finite: $9221$, $7581$, $10891$, $7925$, $9278$, $6445$, $6703$, $8641$, $6554$, $5156$, $8764$, $9672$, and $10350$ across the thirteen listed tissues.
+
+\paragraph{Class-prior check.}
+The tissue labels were grouped by a prior functional-class annotation into immune, metabolic, neural, and epithelial-or-other classes.  The cosine matrix contains $78$ tissue pairs across $13$ tissues, with $17$ within-class pairs and $61$ between-class pairs.  The observed within-class mean cosine is $0.9015393659$, while the observed between-class mean cosine is $0.8936124027$, giving
+$$
+\begin{aligned}
+\Delta_{within-between} &= 0.9015393659 - 0.8936124027 \\
+&= 0.0079269632.
+\end{aligned}
+$$
+Under $1000$ class-size-preserving permutations with deterministic seed $sha256:b\_star\_q6\_tissue\_dependence\_structure\_powered|functional\_class\_label\_null|perm\_index|index$, the one-sided probability for within-class similarity exceeding the label-shuffle null is $p=0.3006993007$.  The null deltas range from $-0.0437879629$ to $0.0885826259$, with null mean $0.0007739570$.  This does not support a strong functional-class organization of the tissue profiles.  The local conclusion is therefore idiosyncratic or not functional-class structured in this finite descriptive test.
+
+\paragraph{Relation to modeled translation weights.}
+A separate rank-powered organism sweep for modeled tAI reports $41$ organisms swept, target $40$ reached, $1000$ permutations per organism, and an $R^2_{QT}$ distribution with minimum $0.1579271837$, first quartile $0.2635395470$, median $0.3393484581$, mean $0.3846655544$, third quartile $0.5143951546$, and maximum $0.8213457221$.  That sweep records modeled codon-adaptation readbacks, while the tissue panel in this chapter records draft proteome abundance projections.  The two facts are useful together only as a boundary map: modeled tAI or stAI agreement is not measured ribosome occupancy, and tissue proteome abundance is not the same object as translation efficiency.
+
+\paragraph{Local boundary.}
+This chapter therefore admits only the following finite statement.  On the declared Homo sapiens adult-tissue PAXdb panel, the nine $B^*_{Q6}$ residual coordinates retain small tissue-specific associations with $\log_{10}(abundance\_ppm)$ after amino-acid composition, length, $GC3$, and $M$-density controls, while a class-prior permutation test gives $p=0.3006993007$ for within-class excess similarity.  No translation-realization claim follows from these rows.  No ribosome-occupancy, translation-efficiency, folding, physical-admissibility, molecular-function, mechanism, phenotype, or universal biological-law conclusion follows unless a separate layer-matched contact supplies the corresponding measured rows and a controlled statistic is computed on the same finite panel.

@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\LoewenheimSkolemUp$}
+\label{ch:concrete-instances-loewenheim-skolem-namecert}
+\origin{human}
+
+Following Skolem and Tarski, the $\LoewenheimSkolemUp$ packet records the finite certificate surface by which a first-order theory request exposes a generated Skolem submodel boundary. It sits beside the syntax-and-deduction carrier of \autoref{ch:concrete-instances-firstorder-namecert}, the satisfaction ledger of \autoref{ch:concrete-instances-modeltheory-namecert}, the displayed membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, and the typed-family route of \autoref{ch:concrete-instances-typelike-namecert}. The packet names only a finite language row, a finite formula-family row, a generated Skolem-closure row, a submodel-witness row, a satisfaction ledger, transport, replay, provenance, and local naming; it does not assert a host cardinal theorem, selected elementary chain, quotient model equality, or unrestricted choice of witnesses.
+
+\begin{definition}[Loewenheim-Skolem carrier]
+\label{def:loewenheim-skolem-carrier}
+A $\LoewenheimSkolemUp$ carrier is a finite $\BHist$ packet
+$$
+L=(G,F,S,M,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite language row, read through $\FirstOrderUp$, listing the function, relation, and constant symbols inspected by the packet.
+\item $F$ is the formula-family row, also read through $\FirstOrderUp$, exposing the formulas whose witnesses and truth values are tracked.
+\item $S$ is the generated Skolem-closure row. It records the finite closure steps that add named witness terms for the displayed formulas rather than a host-level closure operator.
+\item $M$ is the submodel-witness row, read through $\ModelTheoryUp$ and $\SetLikeUp$, displaying membership and interpretation compatibility for the generated carrier fragment.
+\item $V$ is the satisfaction ledger, read through $\ModelTheoryUp$, recording that every inspected formula family keeps the same displayed truth row when evaluated inside the generated fragment.
+\item $H$ records componentwise $\hsame$ transport for the language, formula-family, Skolem-closure, submodel, satisfaction, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a submodel request through language exposure, formula exposure, closure generation, membership inspection, satisfaction readback, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LoewenheimSkolemUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LoewenheimSkolemUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient set-theoretic universe, a selected infinite elementary chain, quotient equality of models, or a cardinal arithmetic theorem.
+\end{definition}
+
+\begin{theorem}[Loewenheim-Skolem NameCert obligations]
+\label{thm:loewenheim-skolem-namecert-obligations}
+For every accepted $\LoewenheimSkolemUp$ carrier
+$$
+L=(G,F,S,M,V,H,C,P,N),
+$$
+the local $\NameCert_{\LoewenheimSkolemUp}$ surface consists exactly of finite language exposure through $G$, formula-family exposure through $F$, generated Skolem-closure exposure through $S$, submodel-witness exposure through $M$, satisfaction-ledger exposure through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every consumer of the generated submodel boundary must read those rows before citing a Loewenheim-Skolem conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:loewenheim-skolem-carrier}. The first two rows $G,F$ fix the first-order language and the formula family whose witnesses are being generated; they are read only through the $\FirstOrderUp$ certificate surface.
+
+Next inspect the generated closure and submodel rows. The row $S$ records the finite Skolem steps, while $M$ records membership and interpretation compatibility through the $\ModelTheoryUp$ and $\SetLikeUp$ siblings. These rows supply the displayed submodel boundary without selecting an ambient chain or quotient model.
+
+Now read the satisfaction ledger $V$. It ties each inspected formula in $F$ to the same displayed truth row before and after the generated-fragment read, so the packet exports only the finite satisfaction boundary that has been named in the carrier.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the carrier has no coordinate for an external cardinal theorem, host universe, chosen elementary chain, or quotient model equality, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\LoewenheimSkolemUp$ generated submodel while omitting the finite language row, formula-family row, Skolem-closure row, submodel-witness row, satisfaction ledger, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ row refutes the carrier of \autoref{def:loewenheim-skolem-carrier}.}
+
+\independenceWitness{firstorder, modeltheory, setlike, typelike: $\LoewenheimSkolemUp$ is not bijective to any listed sibling because it jointly carries finite language, formula-family, Skolem-closure, submodel-witness, satisfaction-ledger, transport, replay, provenance, and local NameCert rows. FirstOrderUp supplies syntax and deduction without generated submodels; ModelTheoryUp supplies satisfaction rows without a Skolem-closure boundary; SetLikeUp supplies membership without first-order witness generation; TypeLikeUp supplies displayed families without the model-theoretic satisfaction ledger.}
+
+\closureat{LoewenheimSkolemUp}{seedStr}
+
+\begin{closurestatus}{\LoewenheimSkolemUp}
+  \constructivestory{A $\LoewenheimSkolemUp$ packet is generated from a finite language row, formula-family row, generated Skolem-closure row, submodel-witness row, satisfaction ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:loewenheim-skolem-carrier} and \autoref{thm:loewenheim-skolem-namecert-obligations} seed the generated-submodel carrier and obligation surface over $\FirstOrderUp$, $\ModelTheoryUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, an external cardinal theorem, selected elementary chains, quotient model equality, or unrestricted witness choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite language exposure, formula-family exposure, generated Skolem-closure exposure, submodel-witness exposure, satisfaction-ledger stability, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}

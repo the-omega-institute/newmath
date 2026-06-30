@@ -1286,7 +1286,7 @@ DOSSIER_MATHJAX_MACROS = {
     "RealityConstraint": r"\mathsf{RealityConstraint}",
 }
 TEX_INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
-MATHJAX_MACRO_RE = re.compile(r"\\(?:newcommand|providecommand)\{\\([A-Za-z]+)\}\s*\{")
+MATHJAX_MACRO_RE = re.compile(r"\\(newcommand|providecommand)\{\\([A-Za-z]+)\}\s*\{")
 
 # Drop these macro names: structural / non-math / multi-line bodies that
 # are unsafe to expose to MathJax even though they are syntactically simple
@@ -1369,7 +1369,8 @@ def extract_mathjax_macros() -> dict[str, str]:
     text = _read_tex_with_inputs(PREAMBLE_PATH)
     macros: dict[str, str] = {}
     for m in MATHJAX_MACRO_RE.finditer(text):
-        name = m.group(1)
+        kind = m.group(1)
+        name = m.group(2)
         try:
             body, _ = _extract_braced(text, m.end() - 1)
         except ValueError:
@@ -1389,6 +1390,8 @@ def extract_mathjax_macros() -> dict[str, str]:
         e = re.match(r"^\\ensuremath\{(.+)\}$", body)
         if e:
             body = e.group(1)
+        if kind == "providecommand" and name in macros:
+            continue
         macros[name] = body
     for name, body in DOSSIER_MATHJAX_MACROS.items():
         macros.setdefault(name, body)

@@ -9,9 +9,10 @@ paper unit studies a BEDC-native world-model training principle:
 world state = continuous latent state + operational distinctions + gap ledger
 ```
 
-The current lab keeps the LeJEPA-style Gaussian-OU runner as a calibration
-baseline.  The next scientific target is different: train models whose state
-contains not only `z_t`, but also distinction heads `d_t` and gap heads `g_t`.
+The lab keeps the LeJEPA-style Gaussian-OU runner as a calibration baseline.
+The scientific target is different: evaluate world-model carriers by whether
+they support operational distinctions and explicit gap ledgers, and train
+BEDC-JEPA heads when the supervision surface is declared.
 
 ## Central Claim
 
@@ -33,7 +34,7 @@ distinction with transition, intervention, or planning consequences.  `g_t`
 is an explicit failure or uncertainty ledger state, not a report written after
 training.
 
-## First World
+## Evidence Scope
 
 The first controlled world is the boundary-gated OU world:
 
@@ -49,6 +50,13 @@ The inside/outside predicate is the operational distinction.  The boundary
 band is the gap ledger.  A model can make low-gap distinction claims; it must
 not treat near-boundary cases as equally certified.
 
+The current evidence record also includes public MiniGrid-DoorKey readback,
+public MiniGrid debt decomposition and risk-success Pareto summaries,
+object-counterfactual and distractor settings, a public V-JEPA2-AC Giant
+checkpoint-scope CUDA adapter evaluation, a fixed-checkpoint V-JEPA2-AC
+MiniGrid latent-prediction evaluation, and a fixed-carrier V-JEPA2-AC LCCP
+certificate record.
+
 ## Baselines
 
 The paper should compare four systems:
@@ -63,9 +71,9 @@ The paper should compare four systems:
 Only the fourth system is the model contribution.  The third system is useful
 as an ablation that demonstrates why reporting alone is not enough.
 
-## Loss Sketch
+## Objective Terms
 
-The full BEDC-JEPA objective should be:
+The BEDC-JEPA objective is:
 
 ```text
 L = L_latent_prediction
@@ -80,6 +88,15 @@ L = L_latent_prediction
 The key term is `L_unlogged_error`: prediction or distinction errors inside a
 declared critical scope must be accompanied by an activated gap head.  The
 model may be wrong, but it must not be confidently and silently wrong.
+
+The current true retraining loss-term record is scoped to the boundary-gated
+torch objective. It contains retrained `full_s3`, `minus_l_unlogged`,
+`minus_l_gap`, `minus_l_stab`, and `minus_l_intervention` rows. In that
+setting, removing `L_gap` preserves latent recovery while collapsing gap
+ranking and certified coverage; removing `L_unlogged_error`, `L_stability`,
+or `L_intervention` does not create an independent positive effect because the
+retrained systems already have zero mean UER and the declared stability and
+intervention surfaces are narrow OU-pair surfaces.
 
 ## Metrics
 
@@ -109,18 +126,20 @@ The primary metric is `unlogged_error_rate`.  If two models have comparable
 latent recovery, the model with fewer unlogged distinction or transition
 failures has the stronger BEDC world-model quality claim.
 
-## Contact Artifact
+## External Evaluation Boundary
 
-Before contacting the LeJEPA authors, produce a one-page note and one table:
+The current external-facing record can support a bounded evidence discussion:
 
 ```text
-LeJEPA baseline: latent recovery only
-BEDC-JEPA: latent recovery + distinction accuracy + gap calibration
+BEDC-JEPA: latent recovery + operational distinction + gap ledger
+LCCP: certified singleton claim or declared coverage/source/stability debt
+V-JEPA2-AC: fixed-checkpoint MiniGrid evaluation, not official benchmark reproduction
 ```
 
-The message should not say that BEDC explains their latent.  It should say
-that LeJEPA identifies latent geometry, while BEDC-JEPA studies a complementary
-training objective for certifiable distinctions and gap-aware world states.
+The message should not say that BEDC explains another model's latent space.
+It should say that identifiability work studies latent geometry, while
+BEDC-JEPA and LCCP study which operational claims can be certified and which
+must remain ledgered as gap or source debt.
 
 ## Scope Boundary
 
@@ -135,5 +154,7 @@ natural-language semantic grounding
 ```
 
 The current branch establishes the first executable protocol and report
-surface for the boundary-gated world.  Full gradient-trained BEDC-JEPA heads
-are the next implementation unit.
+surface for the boundary-gated world, plus public MiniGrid and
+fixed-checkpoint V-JEPA2-AC evidence records. It still does not establish
+official/native V-JEPA2-AC benchmark reproduction, public benchmark
+superiority, robotics-scale control, or natural-video object interaction.

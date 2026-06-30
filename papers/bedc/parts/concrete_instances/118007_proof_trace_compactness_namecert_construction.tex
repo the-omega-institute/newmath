@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ProofTraceCompactnessUp$}
+\label{ch:concrete-instances-proof-trace-compactness-namecert}
+\origin{ai}
+
+The $\ProofTraceCompactnessUp$ packet realizes the finite proof-trace compact replay route as NameCert data. It sits after the finite proof-trace sieve of \autoref{ch:concrete-instances-finite-proof-trace-sieve-namecert}, the MetaCIC proof-search frontier of \autoref{ch:concrete-instances-metacic-proof-search-frontier-namecert}, the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the bounded endpoint checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet records compactness only as finite replay stability over displayed trace windows; it does not claim global normalization, confluence, subject reduction, quotient equality of proof traces, or hidden oracle discharge.
+
+\begin{definition}[Proof-trace compactness carrier]
+\label{def:proof-trace-compactness-carrier}
+A $\ProofTraceCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,W,E,R,O,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\FiniteProofTraceSieveUp$ source row, listing the candidate trace table, bounded endpoint requests, discharge sockets, and obstruction rows available to the compact replay.
+\item $W$ is the finite trace-window cover row, naming the displayed subwindows whose replay suffices for the present consumer read.
+\item $E$ is the bounded endpoint row, read through $\BoundedNormalEqualityCheckerUp$ and the MetaCIC normalization frontier.
+\item $R$ is the replay compactness row, recording that every accepted consumer read factors through one of the displayed trace windows before it reaches endpoint or discharge data.
+\item $O$ is the obstruction retention row, preserving missing endpoint, subject-reduction, closedness, and closure-preservation sockets as visible frontier data.
+\item $H$ records componentwise $\hsame$ transport for the sieve source, trace-window cover, endpoint row, compact replay row, obstruction row, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from proof-search request through $S,W,E,R,O,H$.
+\item $P$ is the $\Pkg$ provenance over $\ProofTraceCompactnessUp$, $\FiniteProofTraceSieveUp$, $\MetaCICCriticalPathUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProofTraceCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an infinite proof-search tree, a global normalizer, unrestricted confluence, closed subject reduction, quotient equality of traces, host equality of terms, or oracle discharge.
+\end{definition}
+
+\begin{theorem}[Proof-trace compactness NameCert obligations]
+\label{thm:proof-trace-compactness-namecert-obligations}
+For every accepted $\ProofTraceCompactnessUp$ carrier $C=(S,W,E,R,O,H,Q,P,N)$, the local $\NameCert_{\ProofTraceCompactnessUp}$ surface consists exactly of sieve-source admission, finite trace-window cover exposure, bounded endpoint readback, compact replay routing, obstruction retention, componentwise transport, displayed continuation replay, package provenance, and local naming. A consumer may treat a proof-trace read as compact only by displaying the finite window through which that read is replayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-trace-compactness-carrier}. The rows $S,W,E,R,O,H,Q,P,N$ are the only rows exposed by an accepted packet.
+
+Read the sieve source and trace-window cover first. The source row $S$ lists the candidate traces and sockets, while $W$ names the finite windows that may cover the present replay request.
+
+The endpoint and replay rows $E,R$ are downstream of that cover. A consumer reaches bounded endpoint data only after selecting a displayed trace window, and compactness means that this finite replay route is visible in the packet.
+
+The obstruction row $O$ remains part of the same read. Missing endpoint, subject-reduction, closedness, or closure-preservation data is retained as frontier information rather than converted into success.
+
+Finally $H,Q,P,N$ transport, replay, source, and name the same finite surface. Since the carrier contains no global normalizer, confluence oracle, subject-reduction theorem, quotient trace equality, host term equality, or hidden discharge coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Proof-trace compact replay route]
+\label{thm:proof-trace-compactness-replay-route}
+Every accepted $\ProofTraceCompactnessUp$ consumer read factors through the route
+$$
+\FiniteProofTraceSieveUp,\ \MetaCICCriticalPathUp,\ \BoundedNormalEqualityCheckerUp,\ \MetaCICNormalizationFrontierUp,\ W,E,R,O,H,Q,P,N.
+$$
+The route exports a finite trace-window replay surface and an obstruction-retaining endpoint read. It does not export global normalization, unrestricted confluence, closed subject reduction, quotient equality of proof traces, host equality of MetaCIC terms, or hidden oracle discharge.
+\end{theorem}
+\begin{proof}
+Begin with the proof-trace sieve source. The accepted read is confined to candidate traces and discharge sockets already displayed by $\FiniteProofTraceSieveUp$.
+
+Next inspect the finite window cover $W$. The compact replay row $R$ can be read only after the consumer identifies the displayed trace window whose replay carries the present request.
+
+Endpoint data is then read through $E$ and the bounded normal-equality checker. Any missing endpoint or discharge row is exported through $O$ as an obstruction, not as a completed proof.
+
+Transport through $H$, replay through $Q$, and attach $P,N$. Thus the consumer receives a finite compact replay route over the displayed trace windows, with all refused global endpoints still outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProofTraceCompactnessUp$ read displays a $\FiniteProofTraceSieveUp$ source row, a finite trace-window cover, bounded endpoint readback, compact replay routing, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a proof-search consumer may treat the read as compact.}
+
+\independenceWitness{finite-proof-trace-sieve, metacic-proof-search-frontier, metaciccriticalpath, bounded-normal-equality-checker, metacicnormalizationfrontier: $\ProofTraceCompactnessUp$ is not bijective to any listed sibling because it jointly carries finite trace-window cover data, compact replay routing, endpoint readback, obstruction retention, transport, replay, provenance, and local naming as one packet.}
+
+Future TasteGate discharge for $\ProofTraceCompactnessUp$ must provide explicit $\mathsf{Nontrivial}\ \ProofTraceCompactnessUp$ and $\mathsf{FieldFaithful}\ \ProofTraceCompactnessUp$ instances. The field-faithfulness witness must preserve $S,W,E,R,O,H,Q,P,N$ as distinct rows before any checked carrier-alignment theorem can serve as a public gate.
+
+\closureat{ProofTraceCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\ProofTraceCompactnessUp}
+  \constructivestory{A $\ProofTraceCompactnessUp$ packet is generated from a $\FiniteProofTraceSieveUp$ source row, finite trace-window cover rows, bounded endpoint readbacks, compact replay routing, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-trace-compactness-carrier}, \autoref{thm:proof-trace-compactness-namecert-obligations}, and \autoref{thm:proof-trace-compactness-replay-route} seed the finite proof-trace compact replay surface over displayed trace windows, endpoint rows, obstruction retention, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global normalization, unrestricted confluence, closed subject reduction, quotient trace equality, host term equality, hidden oracle discharge, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite trace-window cover exactness, compact replay routing, obstruction retention, and TasteGate nontriviality with field faithfulness for $S,W,E,R,O,H,Q,P,N$.}
+\end{closurestatus}

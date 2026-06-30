@@ -25,6 +25,7 @@ with the following visible coordinates:
 \end{enumerate}
 The carrier predicate accepts exactly those packets whose signed-digit windows normalize to the displayed dyadic endpoints, whose threshold row is monotone in the requested precision, and whose regular readback and real seal consume that same threshold row through the recorded $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data.
 \end{definition}
+\leanchecked{BEDC.Derived.SignedDigitCauchyModulusUp.SignedDigitCauchyModulusTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[SignedDigitCauchyModulus NameCert obligations]
 \label{thm:signed-digit-cauchy-modulus-namecert-obligations}
@@ -60,6 +61,20 @@ Read any two scheduled windows past that threshold through $W$. The signed-digit
 The regular readback row $R$ consumes exactly those endpoint rows together with the threshold row $T$. Thus the late-pair tolerance required by the regular Cauchy readback is witnessed inside the finite packet.
 
 The real seal row $L$ is downstream of $R$ in the recorded $\Cont$ replay. Componentwise $\hsame$ transport can move the displayed rows, but it cannot introduce a second modulus, an unobserved endpoint, or a host real limit. Therefore the public readback is the explicit-modulus regular Cauchy readback named by $T$ and $R$.
+\end{proof}
+
+\begin{theorem}[SignedDigitCauchyModulus prefix induction]
+\label{thm:signed-digit-cauchy-modulus-prefix-induction}
+Let $M=(S,W,E,T,R,L,H,C,P,N)$ be an accepted $\SignedDigitCauchyModulusUp$ carrier. Each accepted signed-digit prefix normalizes by finite induction on the displayed prefix and carry ledger before it can contribute to the monotone threshold row $T$ and the $\RegSeqRatUp$ readback row $R$: the base case reads the empty prefix, the successor case appends one signed digit and normalizes the carried endpoint, and the handoff proceeds through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ without introducing quotient streams, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier rows of \autoref{def:signed-digit-cauchy-modulus-carrier}. The rows $S,W,E$ provide the finite prefix schedule and endpoint normalization ledger, while $T,R,L,H,C,P,N$ record threshold replay, regular readback, Real sealing, transport, replay, provenance, and local naming.
+
+In the base case, the empty prefix is read from the scheduled window row $W$. Its endpoint row in $E$ is the displayed $\DyadicRatCoreUp$ normalization for that empty window, so the threshold row $T$ receives a finite starting datum.
+
+In the successor case, extend the visible prefix by one signed digit. The signed-digit row $S$ supplies the digit and carry ledger, and $E$ normalizes the carried endpoint to the next displayed dyadic row. Componentwise $\hsame$ transport and $\Cont$ replay preserve the same prefix ledger rather than choosing a representative of an infinite stream.
+
+After the prefix ledger has been normalized, \autoref{thm:signed-digit-cauchy-modulus-regular-readback} hands the row to $T$ and $R$. The terminal seal $L$ can then be read only through the resulting $\RegSeqRatUp$ route and the $\RealUp$ boundary. Thus every accepted prefix contribution is produced by the displayed finite induction.
 \end{proof}
 
 \begin{theorem}[SignedDigitCauchyModulus non-escape]

@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CubicSplineUp$}
+\label{ch:concrete-instances-cubic-spline-namecert}
+\origin{human}
+
+Following de Boor and Bishop-style constructive approximation, the $\CubicSplineUp$ packet records the finite Real-window route for a piecewise cubic spline over displayed knot windows. It refines the finite spline-space carrier of \autoref{ch:concrete-instances-bishop-spline-space-namecert}, the dyadic spline route of \autoref{ch:concrete-instances-dyadicspline-namecert}, and the endpoint-jet surface of \autoref{ch:concrete-instances-hermite-interpolation-namecert}. Its readback boundary is routed through \autoref{ch:concrete-instances-regseqrat-namecert}, its stream-facing windows through \autoref{ch:concrete-instances-streamname-namecert}, and its terminal Real seal through \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Cubic spline Real-window carrier]
+\label{def:cubic-spline-real-window-carrier}
+A $\CubicSplineUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,C,J,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the knot-window row. It stores a finite increasing dyadic knot list, adjacent window membership tests, endpoint order evidence, and the displayed source window read by each consumer.
+\item $C$ is the dyadic cubic coefficient row. For every adjacent knot window it stores the four displayed dyadic coefficients of the local cubic polynomial, together with the cell index that selects that tuple.
+\item $J$ is the Hermite endpoint data row. It records the left and right value and first-derivative reads attached to each local cubic piece, and it identifies the shared endpoint data used by neighboring cells.
+\item $R$ is the $\RegSeqRatUp$ readback row. It turns each requested finite window and its selected cubic coefficient tuple into the regular rational observation used by downstream Real-window consumers.
+\item $E$ is the $\RealUp$ seal row. It records the tolerance tokens and Real-name boundary obtained from the same readback row $R$.
+\item $H$ records componentwise $\hsame$ transport for knot windows, coefficient tuples, Hermite endpoint data, regular rational readbacks, Real seals, displayed replay, package provenance, and the local naming row.
+\item $T$ records displayed $\Cont$ replay of the route
+$$
+W,C,J \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CubicSplineUp$, $\BishopSplineSpaceUp$, $\DyadicSplineUp$, $\HermiteInterpolationUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CubicSplineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed knot windows, dyadic cubic coefficients, Hermite endpoint data, regular rational readback, Real seal, componentwise transport, displayed replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Cubic spline Real-window NameCert obligations]
+\label{thm:cubic-spline-real-window-namecert-obligations}
+For every accepted $\CubicSplineUp$ carrier
+$$
+S=(W,C,J,R,E,H,T,P,N),
+$$
+the local $\NameCert_{\CubicSplineUp}$ surface consists exactly of knot-window admission, dyadic cubic coefficient admission, Hermite endpoint-data admission, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every public cubic-spline Real-window read must pass through the finite rows $W,C,J,R,E,H,T,P,N$ before it names a cell value, endpoint jet, or Real-sealed observation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cubic-spline-real-window-carrier}. The analytic rows are $W,C,J,R,E$: the displayed knot windows, dyadic cubic coefficients, Hermite endpoint data, regular rational readback, and Real seal.
+
+The structural rows keep that route finite. The transport row $H$ moves the selected window, coefficient tuple, endpoint jet, readback, and seal together, while $T$ replays the displayed route from local cubic data to Real-sealed observations.
+
+Finally the provenance and local naming rows $P,N$ certify that the public object is exactly this packet. Since the classifier has no coordinate for a host spline function, quotient graph equality, global smoothness oracle, selected limit, or ambient completion, those objects cannot be read from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cubic spline piecewise-cubic handoff]
+\label{thm:cubic-spline-real-window-piecewise-cubic-handoff}
+For every accepted $\CubicSplineUp$ carrier $S=(W,C,J,R,E,H,T,P,N)$ and every displayed consumer window in $W$, the Real-facing read is obtained by selecting the adjacent knot cell, reading its dyadic cubic coefficient tuple from $C$, checking the corresponding Hermite endpoint row in $J$, routing the resulting finite cubic observation through $R$, and sealing that same observation in $E$. Neighboring cells meet only through their shared displayed endpoint data and the componentwise transports in $H$.
+\end{theorem}
+\begin{proof}
+Start with the requested displayed window. The finite knot-window row $W$ either selects one adjacent cell or moves by finite inspection to the next displayed edge, using only the stored dyadic order evidence.
+
+Once the cell is selected, project its coefficient tuple from $C$ and its endpoint values and first-derivative reads from $J$. The shared endpoint entries in $J$ are the only handoff data between neighboring cubic pieces.
+
+Route the local cubic observation through the $\RegSeqRatUp$ readback row $R$ and then through the $\RealUp$ seal row $E$. Transport along $H$ and replay through $T$ preserve the same selected cell, coefficient tuple, endpoint data, readback, and seal.
+
+Repack the result through $P,N$. The handoff therefore exports a finite piecewise-cubic Real-window reading and does not export a host spline function, quotient graph, global differentiability oracle, infinite knot row, selected limit, or ambient completion datum.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CubicSplineUp$ read is refuted if a consumer obtains a Real-window cubic-spline value, endpoint jet, or piecewise-cubic handoff without first displaying the knot-window, coefficient, Hermite endpoint, $\RegSeqRatUp$, $\RealUp$, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{bishop-spline-space, dyadicspline, hermite-interpolation, regseqrat, streamname, real: $\CubicSplineUp$ is not bijective to any listed sibling because it jointly carries finite knot windows, dyadic cubic coefficient rows, Hermite endpoint data, regular rational readback, Real sealing, stream-facing window provenance, transport, replay, package provenance, and local naming.}
+
+\closureat{CubicSplineUp}{seedStr}
+
+\begin{closurestatus}{\CubicSplineUp}
+  \constructivestory{A $\CubicSplineUp$ packet is generated from finite knot-window rows, dyadic cubic coefficient rows, Hermite endpoint-data rows, RegSeqRat readback rows, Real seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cubic-spline-real-window-carrier}, \autoref{thm:cubic-spline-real-window-namecert-obligations}, and \autoref{thm:cubic-spline-real-window-piecewise-cubic-handoff} seed the constructive Real-window cubic-spline route over displayed knot windows, dyadic cubic pieces, Hermite endpoint data, regular rational readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host spline functions, quotient graph equality, global differentiability, selected limits, infinite knot rows, or ambient completion.}
+  \upgradepath{Obligation closure requires checked carrier admission, knot-window selection, dyadic cubic coefficient readback, Hermite endpoint handoff, Real sealing, transport stability, replay stability, provenance, and local naming for BEDC.Derived.CubicSplineUp.}
+\end{closurestatus}

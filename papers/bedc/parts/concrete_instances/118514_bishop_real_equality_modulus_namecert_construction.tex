@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealEqualityModulusUp$}
+\label{ch:concrete-instances-bishop-real-equality-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real equality, the $\BishopRealEqualityModulusUp$ packet records the finite equality-modulus route by which two regular real names are compared before a terminal $\RealUp$ consumer reads an equality boundary. It sits between the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It refines the criterion surface of \autoref{ch:concrete-instances-regular-cauchy-equality-criterion-namecert} and the equality packet of \autoref{ch:concrete-instances-cauchy-real-equality-namecert} by naming the displayed modulus row that every equality read must traverse.
+
+\begin{definition}[Bishop real equality-modulus carrier]
+\label{def:bishop-real-equality-modulus-carrier}
+A $\BishopRealEqualityModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S_0,S_1,R_0,R_1,D,\mu,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0,S_1$ are paired finite $\StreamNameUp$ windows for the two regular real names being compared.
+\item $R_0,R_1$ are the $\RegSeqRatUp$ readback rows obtained from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested radii, split dyadic budgets, endpoint observations, and comparison cells used by the equality read.
+\item $\mu$ is the displayed equality-modulus row. For every admitted tolerance request $\varepsilon$ in $D$, the row supplies a finite bound after which the paired readbacks $R_0,R_1$ are compared only inside the displayed dyadic budget.
+\item $E$ is the $\RealUp$ seal handoff, exposed only after $S_0,S_1,R_0,R_1,D,\mu$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the paired windows, readbacks, tolerance ledger, equality modulus, Real seal handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto \mu \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopRealEqualityModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyEqualityCriterionUp$, $\CauchyRealEqualityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRealEqualityModulusUp}$ row naming exactly this finite equality-modulus packet.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,R_0,R_1,D,\mu,E,H,C,P,N$. It has no coordinate for quotient real equality, trichotomy, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop real equality-modulus NameCert obligations]
+\label{thm:bishop-real-equality-modulus-namecert-obligations}
+For every accepted $\BishopRealEqualityModulusUp$ carrier
+$$
+M=(S_0,S_1,R_0,R_1,D,\mu,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopRealEqualityModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the paired StreamName windows, paired RegSeqRat readbacks, DyadicRatCore tolerance ledger, equality-modulus row, Real seal handoff, transport, replay, provenance, and local naming;
+\item paired finite-window exposure, requiring both names to display the inspected windows before any equality-modulus answer is consumed;
+\item regular readback exactness, requiring $R_0,R_1$ to be the only regular rational rows read from the paired windows;
+\item dyadic tolerance visibility, requiring $D$ to display the requested radii and split budgets before $\mu$ answers a comparison request;
+\item equality-modulus exactness, requiring every admitted equality read to pass through $\mu$ before the terminal Real seal handoff $E$ is exposed;
+\item componentwise $\hsame$ transport and displayed $\Cont$ replay through $H$ and $C$;
+\item $\Pkg$ provenance and local naming through $P$ and $N$;
+\item nonescape from quotient real equality, trichotomy, selected limits, countable choice, host real equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No Bishop real equality-modulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-real-equality-modulus-carrier}. The accepted tuple displays exactly the paired stream windows, paired regular readbacks, dyadic tolerance ledger, equality modulus, Real seal handoff, transport, replay, provenance, and local naming rows.
+
+The finite-window and readback obligations are read from $S_0,S_1,R_0,R_1$. A consumer first exposes the inspected coordinates of both names and then reads the regular rational rows obtained from those windows.
+
+The tolerance and equality-modulus obligations are read from $D$ and $\mu$. The dyadic ledger displays the requested radii and split comparison budgets; the equality-modulus row supplies the finite bound that makes the paired readbacks comparable inside that displayed budget.
+
+Finally the structural rows $E,H,C,P,N$ seal, transport, replay, source, and name exactly the same finite route. Since the carrier contains no coordinate for quotient equality, trichotomy, selected limits, countable choice, host equality, or ambient completeness, those principles cannot enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop real equality-modulus L10 handoff]
+\label{thm:bishop-real-equality-modulus-l10-handoff}
+Every $\RealUp$-facing equality read exported by an accepted $\BishopRealEqualityModulusUp$ packet factors through the displayed route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \BishopRealEqualityModulusUp \longmapsto \RealUp
+$$
+implemented by $S_0,S_1,R_0,R_1,D,\mu,E,H,C,P,N$. The route exports a finite equality-modulus certificate for later Real and Completion consumers; it exports no quotient real equality, trichotomy, selected limit, countable-choice selector, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing equality read of the packet. Projection exposes the paired finite windows $S_0,S_1$ and their regular rational readbacks $R_0,R_1$.
+
+Next read the dyadic tolerance ledger $D$. It fixes the requested radii, split budgets, and comparison cells before the equality-modulus row can answer the read.
+
+Now consume $\mu$ and then $E$. The modulus row is downstream of the displayed windows, readbacks, and tolerance ledger; the terminal Real seal handoff is downstream of the modulus row. Transport, replay, provenance, and local naming preserve this order through $H,C,P,N$.
+
+Thus every L10 equality-facing consumer sees the displayed modulus route before any Real seal is available. Because no quotient, trichotomy, selected-limit, choice, host-equality, or ambient-completeness coordinate is present in the carrier, none is exported by the handoff.
+\end{proof}
+
+\closureat{BishopRealEqualityModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealEqualityModulusUp}
+  \constructivestory{A $\BishopRealEqualityModulusUp$ packet is generated from paired finite StreamName windows, paired RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a displayed equality-modulus row, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-equality-modulus-carrier}, \autoref{thm:bishop-real-equality-modulus-namecert-obligations}, and \autoref{thm:bishop-real-equality-modulus-l10-handoff} seed the finite equality-modulus route over paired stream windows, regular rational readbacks, dyadic tolerance ledgers, terminal Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, trichotomy, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formalization requires carrier admission, paired finite-window exposure, regular readback exactness, dyadic tolerance visibility, equality-modulus exactness, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopRealEqualityModulusUp.}
+\end{closurestatus}

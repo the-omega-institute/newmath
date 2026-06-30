@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceClusterWitnessUp$}
+\label{ch:concrete-instances-regular-sequence-cluster-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularSequenceClusterWitnessUp$ packet records the finite route by which a regular sequence displays a cluster witness before a Real or Completion consumer reads a seal. It sits over the regular-sequence source of \autoref{ch:concrete-instances-regular-sequence-space-namecert}, the finite observation windows of \autoref{ch:concrete-instances-finite-stream-namecert}, the cofinal extraction route of \autoref{ch:concrete-instances-cauchy-subsequence-extractor-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed cluster witness for a regular-sequence source without countable choice, quotient equality of sequence names, host compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular-sequence cluster-witness carrier]
+\label{def:regular-sequence-cluster-witness-carrier}
+A $\RegularSequenceClusterWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,F,E,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RegularSequenceSpaceUp$ source row, retaining the regular-sequence classifier and the source-window names used by the cluster read.
+\item $F$ is the $\FiniteStreamUp$ window ledger, recording the finite source windows inspected for the cluster witness.
+\item $E$ is the $\CauchySubsequenceExtractorUp$ cofinal extraction row, naming the monotone cofinal schedule by which the displayed windows are read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radii and comparison slack used in the cluster-window checks.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the rational observations read from the extracted windows.
+\item $Q$ is the terminal $\RealUp$ seal row, consumed only after $S,F,E,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, finite windows, extractor, dyadic tolerance, regular readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,F,E,D,R\longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularSequenceClusterWitnessUp$, $\RegularSequenceSpaceUp$, $\FiniteStreamUp$, $\CauchySubsequenceExtractorUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularSequenceClusterWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,F,E,D,R,Q,H,C,P,N$. It has no coordinate for a choice-selected subsequence, quotient equality of sequence names, a detached cluster point, host compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular-sequence cluster-witness NameCert obligations]
+\label{thm:regular-sequence-cluster-witness-namecert-obligations}
+For every accepted $\RegularSequenceClusterWitnessUp$ carrier
+$$
+W=(S,F,E,D,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RegularSequenceClusterWitnessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed regular-sequence source, finite windows, cofinal extractor, dyadic tolerance row, regular rational readback, Real seal, transport, replay, provenance, and local naming rows;
+\item source-window exposure, requiring every cluster observation to cite the same $\RegularSequenceSpaceUp$ source row $S$ and a displayed $\FiniteStreamUp$ window row $F$;
+\item cofinal extraction exposure, requiring the selected windows to pass through the $\CauchySubsequenceExtractorUp$ row $E$ before any readback is used;
+\item dyadic-tolerance exactness, requiring every cluster comparison to use the displayed $\DyadicRatCoreUp$ row $D$;
+\item regular-readback exactness, requiring the comparison values to be read from the $\RegSeqRatUp$ row $R$ rather than from host sequence equality;
+\item Real-seal nonescape, requiring $Q$ to be consumed only after the source, finite windows, extractor, tolerance, and readback rows have been displayed;
+\item componentwise transport, continuation replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation is discharged by choice, quotient sequence equality, host compactness, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularSequenceClusterWitnessUp.RegularSequenceClusterWitnessTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted carrier $W=(S,F,E,D,R,Q,H,C,P,N)$. The available observation data are exactly the regular-sequence source, finite stream windows, cofinal extractor, dyadic tolerance row, regular rational readback, and terminal Real seal.
+
+The source-window and extractor obligations follow from the placement of $S,F,E$. A cluster observation has no independent schedule row unless it first cites the regular-sequence source, a finite window ledger, and the cofinal extraction route.
+
+The comparison obligations are then forced through $D$ and $R$. The dyadic tolerance row supplies the comparison radius, while the regular rational readback supplies the displayed values inspected inside that radius.
+
+Finally $Q$ is downstream from those rows, and $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since no excluded object is a coordinate of $W$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular-sequence cluster-witness Real-completion handoff]
+\label{thm:regular-sequence-cluster-witness-real-completion-handoff}
+Every Real or Completion consumer of an accepted $\RegularSequenceClusterWitnessUp$ packet reads the finite route
+$$
+\RegularSequenceSpaceUp \longmapsto \FiniteStreamUp \longmapsto \CauchySubsequenceExtractorUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff supplies a displayed cluster witness over finite windows and a cofinal extractor; it does not select a cluster point, identify quotient sequence names, invoke countable choice, or use host compactness or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularSequenceClusterWitnessUp.RegularSequenceClusterWitnessRealCompletionHandoff}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:regular-sequence-cluster-witness-namecert-obligations}. It places the source row $S$, finite-window ledger $F$, cofinal extractor $E$, tolerance row $D$, and readback row $R$ before the Real seal $Q$.
+
+The sibling routes provide the stated handoff surface. The regular-sequence space supplies the source classifier, the finite-stream chapter supplies inspected windows, and the cofinal extractor supplies the displayed monotone schedule before any rational readback is consumed.
+
+The dyadic and regular-rational rows then determine the finite comparison read. Transport, replay, provenance, and local naming preserve that route, so the completion-facing consumer receives only the displayed cluster-witness packet and none of the excluded endpoints.
+\end{proof}
+
+\begin{theorem}[Regular-sequence cluster-witness monotone extraction]
+\label{thm:regular-sequence-cluster-witness-monotone-extraction}
+For every accepted $\RegularSequenceClusterWitnessUp$ carrier
+$$
+W=(S,F,E,D,R,Q,H,C,P,N),
+$$
+each cluster-facing read exposes the cofinal extractor row $E$ as a monotone finite-window schedule over the $\FiniteStreamUp$ ledger $F$ before any $\RegSeqRatUp$ readback $R$ or terminal $\RealUp$ seal $Q$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-cluster-witness-carrier}. Its displayed row order is $S,F,E,D,R,Q,H,C,P,N$, and the replay row records the route
+$$
+S,F,E,D,R\longmapsto Q .
+$$
+
+Apply \autoref{thm:regular-sequence-cluster-witness-namecert-obligations}. The source-window exposure row places every cluster observation over the same source row $S$ and finite-window row $F$, while the cofinal extraction exposure row requires the selected windows to pass through $E$ before any readback is used.
+
+The regular-readback and Real-seal clauses are downstream of that projection. Thus $R$ can only read rational observations after the monotone finite-window schedule has been displayed over $F$, and $Q$ can only be consumed after the source, finite windows, extractor, tolerance, and readback rows have already appeared.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularSequenceClusterWitnessUp.RegularSequenceClusterWitnessCarrier\_monotone\_extraction}
+
+\falsifiablePrediction{A $\RegularSequenceClusterWitnessUp$ consumer that reaches a Real or Completion cluster read without displaying the regular-sequence source, finite stream windows, cofinal extractor, dyadic tolerance row, regular rational readback, transport, replay, provenance, and local naming exits the accepted carrier.}
+
+\independenceWitness{regular-sequence-space, finite-stream, cauchy-subsequence-extractor, dyadicratcore, regseqrat, real: no listed sibling is bijective with $\RegularSequenceClusterWitnessUp$ because this packet jointly binds source regularity, finite windows, cofinal extraction, dyadic tolerance, rational readback, terminal seal, transport, replay, provenance, and local naming.}
+
+\closureat{RegularSequenceClusterWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceClusterWitnessUp}
+  \constructivestory{A $\RegularSequenceClusterWitnessUp$ packet is generated from a RegularSequenceSpace source row, FiniteStream windows, a CauchySubsequenceExtractor cofinal extraction row, DyadicRatCore tolerances, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-cluster-witness-carrier}, \autoref{thm:regular-sequence-cluster-witness-namecert-obligations}, and \autoref{thm:regular-sequence-cluster-witness-real-completion-handoff} seed the finite cluster-witness route over displayed regular-sequence, finite-window, cofinal-extractor, dyadic-tolerance, rational-readback, Real, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected cluster points, quotient sequence equality, countable choice, host compactness, ambient RealUp completeness, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exposure, cofinal extraction exposure, dyadic-tolerance exactness, regular-readback exactness, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularSequenceClusterWitnessUp.}
+\end{closurestatus}

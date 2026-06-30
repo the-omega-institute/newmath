@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalModulusPartitionUp$}
+\label{ch:concrete-instances-located-interval-modulus-partition-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedIntervalModulusPartitionUp$ packet records the finite partition and mesh-modulus surface by which a located interval is handed to dyadic and real-name consumers. It sits after the located interval boundary of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic interval net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers a named finite-means partition/modulus object; it is not host interval equality, selected representatives, trichotomy, choice, compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located interval modulus partition carrier]
+\label{def:located-interval-modulus-partition-carrier}
+A $\LocatedIntervalModulusPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(L,U,A,Q,D,K,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the located interval endpoint rows inherited from $\LocatedIntervalUp$.
+\item $A$ is the locatedness and endpoint-order row, binding the endpoints before any interval partition is read.
+\item $Q$ is the finite dyadic partition-cell row supplied by $\DyadicIntervalNetUp$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to express cell endpoints, mesh bounds, and outward rounding budgets.
+\item $K$ is the mesh-modulus row, recording the finite precision request that bounds the displayed partition cells.
+\item $W$ is the $\StreamNameUp$ window row for endpoint and cell reads at the displayed mesh.
+\item $R$ is the $\RegSeqRatUp$ readback row for the dyadic and stream-window observations.
+\item $S$ is the terminal $\RealUp$ seal row for partition and endpoint consumers.
+\item $H$ records componentwise $\hsame$ transport for endpoint, locatedness, partition, tolerance, modulus, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same partition/modulus route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalModulusPartitionUp$, $\LocatedIntervalUp$, $\DyadicIntervalNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalModulusPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,A,Q,D,K,W,R,S,H,C,P,N$. It has no coordinate for host interval equality, selected endpoint or cell representatives, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval modulus partition carrier obligations]
+\label{thm:located-interval-modulus-partition-carrier}
+For every accepted $\LocatedIntervalModulusPartitionUp$ carrier
+$$
+M=(L,U,A,Q,D,K,W,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedIntervalModulusPartitionUp}$ surface exposes exactly located interval endpoints, finite dyadic partition cells, mesh-modulus data, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every partition read must pass through $A,Q,D,K,W,R,S,H,C,P,N$ after the endpoints are displayed, and the packet exports no host interval equality, selected representatives, trichotomy, choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-modulus-partition-carrier}. Its rows are exactly $L,U,A,Q,D,K,W,R,S,H,C,P,N$, so accepted packets expose endpoint, locatedness, partition, tolerance, modulus, window, readback, seal, transport, replay, provenance, and naming data and no further host interval coordinate.
+
+The finite partition route begins with the located interval endpoint rows and the locatedness row $A$. The dyadic cells $Q$ are then read through the tolerance row $D$ and mesh-modulus row $K$, which fixes the finite precision at which the partition is visible.
+
+The real-name handoff is downstream of the finite rows. Stream windows $W$ and regular rational readback $R$ mediate the dyadic observations before the terminal seal $S$ can be consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no row for host interval equality, selected representatives, trichotomy, choice, compactness, or ambient $\RealUp$ completeness, none of those endpoints is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedIntervalModulusPartitionUp$ consumer that reads a partition cell must expose located endpoints, dyadic partition cells, mesh modulus, stream windows, regular rational readback, Real seal, transport, replay, provenance, and local NameCert rows before exporting the read.}
+
+\closureat{LocatedIntervalModulusPartitionUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalModulusPartitionUp}
+  \constructivestory{A $\LocatedIntervalModulusPartitionUp$ packet is generated from located interval endpoints, an endpoint-order row, finite dyadic partition cells, a dyadic tolerance row, a mesh-modulus row, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-modulus-partition-carrier} and \autoref{thm:located-interval-modulus-partition-carrier} seed the finite partition/modulus route from located intervals to dyadic nets and regular real readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, selected representatives, trichotomy, choice, compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order preservation, dyadic partition-cell visibility, mesh-modulus readback, StreamName windows, RegSeqRat handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalModulusPartitionUp.}
+\end{closurestatus}

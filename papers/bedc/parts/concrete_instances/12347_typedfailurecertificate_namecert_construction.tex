@@ -89,6 +89,42 @@ If either $D$ or $R$ is omitted, the consumer still sees an object and status pa
 \end{proof}
 \leanchecked{BEDC.Derived.TypedFailureCertificateUp.TypedFailureCertificateExportBlocking}
 
+\begin{theorem}[Typed failure certificate bridge-refusal route]
+\label{thm:typed-failure-certificate-bridge-refusal-route}
+Any $\StandardBridgeAuditPacketUp$ consumer of a $\TypedFailureCertificateUp$ failure
+$$
+F=(N,C,V,S,R,D,H,P,L)
+$$
+must read the object-name row $N$, theory-grade row $C$, formal-status row $V$, failed-site row $S$, refusal-route row $R$, diagnostic-branch row $D$, transport row $H$, provenance row $P$, local NameCert row $L$, and the TasteGate-aligned packet before treating the bridge as refused. This route blocks axis confusion: the refusal may close the paper-side bridge route, but it cannot be read as $\bridgeCheckedV$ verification.
+\end{theorem}
+\begin{proof}
+Start with the export-blocking theorem \autoref{thm:typed-failure-certificate-export-blocking}. A standard-bridge audit consumer cannot pass a failed bridge unless it consumes the diagnostic branch $D$ and refusal route $R$.
+
+Use the NameCert obligations of \autoref{thm:typed-failure-certificate-namecert-obligations}. Those obligations expose the remaining rows $N,C,V,S,H,P,L$ as part of the same finite certificate, so the consumer cannot detach the bridge refusal from the object, status, failed site, transport, provenance, or local naming data.
+
+Finally apply the axis-separation theorem \autoref{thm:typed-failure-certificate-axis-separation}. The diagnostic branch identifies the failed route without collapsing the theory-grade row $C$ into the formal-status row $V$. Therefore the standard-bridge audit reads a paper-side refusal route for the displayed packet, not a checked Lean bridge result.
+\end{proof}
+\leanchecked{BEDC.Derived.TypedFailureCertificateUp.TypedFailureCertificateBridgeRefusalRoute}
+
+\begin{theorem}[Typed failure certificate mature treatment route]
+\label{thm:typed-failure-certificate-mature-treatment-route}
+For every accepted $\TypedFailureCertificateUp$ carrier
+$$
+F=(N,C,V,S,R,D,H,P,L),
+$$
+the NameCert obligation surface, axis-separation surface, export-blocking surface, and bridge-refusal surface jointly determine the mature paper-side treatment of the certificate. Every public consumer must read the object name, theory-grade row, formal-status row, failed-site row, refusal-route row, diagnostic branch, componentwise transport, provenance, and local NameCert row before it may treat the failure as audit data, and the route never converts paper-side bridge refusal into $\bridgeCheckedV$ verification.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:typed-failure-certificate-namecert-obligations}. They expose exactly the finite rows $N,C,V,S,R,D,H,P,L$ and make them the only local carrier surface available to a consumer.
+
+Use axis separation, \autoref{thm:typed-failure-certificate-axis-separation}. The diagnostic branch $D$ keeps theory-side, verification-side, and axis-confusion failures apart, so a refused theory gate cannot be read as a failed formal-status gate and a checker-facing failure cannot be read as paper closure.
+
+Next apply export blocking, \autoref{thm:typed-failure-certificate-export-blocking}. A registry, cannot-claim, audit-gate, or bridge-audit consumer cannot export the failed claim unless it consumes both $D$ and the refusal route $R$.
+
+Finally apply the bridge-refusal route of \autoref{thm:typed-failure-certificate-bridge-refusal-route}. The standard-bridge audit reads the same finite failure packet as a paper-side refusal route. Since the route preserves $C$ and $V$ as separate rows, it closes the mature paper treatment while leaving the Lean verification axis unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.TypedFailureCertificateUp.TypedFailureCertificateMatureTreatmentRoute}
+
 \falsifiablePrediction{If the diagnostic branch is deleted, a failed theory-grade row and a failed formal-status row become indistinguishable to public consumers.}
 
 \independenceWitness{auditgatefailurewitness, registryexportsurface, axiszeckendorfcannotclaim, standardbridgeauditpacket: AuditGateFailureWitnessUp records a failed gate witness without the full theory-grade, formal-status, and axis-confusion branch surface; RegistryExportSurfaceUp records export blocking without naming every typed failure branch; AxisZeckendorfCannotClaimUp records cannot-claim refusal without checker-facing failure status; StandardBridgeAuditPacketUp records bridge fields and no-host-leak rows without the full failure-certificate branch taxonomy. None is bijective to $\TypedFailureCertificateUp$.}
@@ -97,14 +133,16 @@ The Lean follow-up must provide explicit $\Nontrivial\ \TypedFailureCertificateU
 
 \closureat{TypedFailureCertificateUp}{seedStr}
 \closureat{TypedFailureCertificateUp}{obligationStr}
+\closureat{TypedFailureCertificateUp}{scopedStr}
+\closureat{TypedFailureCertificateUp}{bridgedStr}
+\closureat{TypedFailureCertificateUp}{matureStr}
 
 \begin{closurestatus}{\TypedFailureCertificateUp}
   \constructivestory{A $\TypedFailureCertificateUp$ packet is generated from object-name, theory-grade, formal-status, failed-site, refusal-route, diagnostic-branch, componentwise transport, provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:typed-failure-certificate-carrier}, \autoref{thm:typed-failure-certificate-namecert-obligations}, \autoref{thm:typed-failure-certificate-axis-separation}, and \autoref{thm:typed-failure-certificate-export-blocking} bind the finite obligation surface over object name, theory grade, formal status, failed site, refusal route, diagnostic branch, transport, provenance, and local naming rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:typed-failure-certificate-carrier}, \autoref{thm:typed-failure-certificate-namecert-obligations}, \autoref{thm:typed-failure-certificate-axis-separation}, \autoref{thm:typed-failure-certificate-export-blocking}, \autoref{thm:typed-failure-certificate-bridge-refusal-route}, \autoref{thm:typed-failure-certificate-mature-treatment-route}, and $\mathsf{BEDC.Derived.TypedFailureCertificateUp.taste\_gate}$ bind the mature paper surface: carrier admission, NameCert obligations, axis separation, export blocking, bridge-refusal routing, and the cited TasteGate marker for the same finite failure-certificate packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not claim checked Lean code, public export closure, public bridge closure, standard bridge checking, or a completed TasteGate carrier for $\TypedFailureCertificateUp$.}
-  \upgradepath{Obligation and public progress require the Lean TasteGate carrier together with the Nontrivial and FieldFaithful instances described above.}
+  \upgradepath{Lean-side carrier, Nontrivial, FieldFaithful, and bridge-checking work remain separate from the mature paper closure grade.}
 \end{closurestatus}

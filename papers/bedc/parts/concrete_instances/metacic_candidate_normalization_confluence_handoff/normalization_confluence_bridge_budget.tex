@@ -1,0 +1,54 @@
+\begin{definition}[Normalization-confluence bridge carrier]
+\label{def:normalization-confluence-bridge-carrier}
+A normalization-confluence bridge carrier for $\MetacicCandidateNormalizationConfluenceHandoffUp$ is a finite $\BHist$ packet
+$$
+B=(A,K,N,J,Q,D,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the MetaCIC audit anchor for the closed typed term boundary.
+\item $K$ is the candidate-normalization evidence row used to expose candidate-mediated strong normalization data.
+\item $N$ is the bounded normal endpoint row reached from $K$.
+\item $J$ is the residual local-join budget row, recording only the bounded join checks available at the confluence frontier.
+\item $Q$ is the closed checker row that verifies the finite term and type boundary before any endpoint or join row is consumed.
+\item $D$ is the obstruction row retaining failed residual edges and blocked comparisons.
+\item $O$ records componentwise $\hsame$ transport for the audit anchor, candidate evidence, endpoint, join budget, closed checker, obstruction, replay, provenance, and local naming rows.
+\item $H$ records displayed $\Cont$ replay through $A,K,N,J,Q,D,O,P,L$.
+\item $C$ is the $\Pkg$ provenance over $\MetacicCandidateNormalizationConfluenceHandoffUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICDecidableBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ is the local public-route packet row for the bounded bridge budget.
+\item $L$ is the local $\NameCert$ row.
+\end{enumerate}
+The carrier has no coordinate for full confluence, unrestricted subject reduction, evaluator equality, quotient syntax equality, global conversion decidability, host evaluator soundness, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[Normalization-confluence bridge obligations]
+\label{thm:normalization-confluence-bridge-obligations}
+Every accepted normalization-confluence bridge carrier exposes candidate-mediated strong-normalization evidence and bounded local confluence rows only through
+$$
+A,K,N,J,Q,D,O,H,C,P,L .
+$$
+The candidate row $K$ may feed the bounded endpoint row $N$, and the residual local-join budget $J$ may feed the confluence frontier only after the closed checker $Q$ and obstruction row $D$ remain visible. The bridge does not prove full confluence, unrestricted subject reduction, evaluator equality, quotient syntax equality, global conversion decidability, host evaluator soundness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the bridge carrier. The only normalization-facing rows are the audit anchor $A$, candidate evidence $K$, bounded endpoint $N$, residual local-join budget $J$, closed checker $Q$, and obstruction row $D$.
+
+Use the candidate-normalization handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It keeps candidate evidence and frontier data visible before bounded endpoint or residual rows can be consumed.
+
+Apply residual-diamond retention and decider-boundary routing from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. These force $J,Q,D$ to remain finite frontier rows rather than global confluence or subject-reduction evidence.
+
+Finally read the structural rows $O,H,C,P,L$. They transport, replay, package, route, and name the same bounded bridge budget, so a consumer receives candidate-mediated normalization and local confluence frontier data without extracting any refused global MetaCIC endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate typed-diamond route]
+\label{thm:metacic-candidate-normalization-confluence-handoff-typed-diamond-route}
+Every typed-diamond consumer of a $\MetacicCandidateNormalizationConfluenceHandoffUp$ bridge carrier must retain candidate evidence, the closed checker, the residual local-join budget, the decidable boundary, and blocked-edge rows before consuming bounded endpoints. The route may pass through residual-diamond and parallel-diamond sibling frontiers, but it refuses full Church--Rosser, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the bridge carrier of \autoref{def:normalization-confluence-bridge-carrier}. Its candidate evidence row $K$, bounded endpoint row $N$, residual local-join budget $J$, closed checker row $Q$, obstruction row $D$, and structural rows $O,H,C,P,L$ are separate coordinates.
+
+Invoke the bridge obligations of \autoref{thm:normalization-confluence-bridge-obligations}. They force candidate evidence and bounded local confluence rows to remain visible, and they place the closed checker and obstruction row before endpoint or join rows are consumed.
+
+Route the typed-diamond read through residual-diamond retention, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. This keeps the residual envelope, decidable boundary, and blocked-edge data attached to the endpoint comparison rather than letting $N$ stand alone.
+
+Finally use the parallel-diamond forward link, \autoref{thm:metacic-candidate-normalization-confluence-handoff-parallel-diamond-forward-link}. It sends the consumer through the parallel-diamond frontier as a guarded boundary route. The structural rows then transport, replay, source, and name only this bounded route, so no full Church--Rosser theorem, unrestricted subject-reduction proof, quotient syntax equality, host evaluator soundness, or kernel-consistency endpoint is exported.
+\end{proof}

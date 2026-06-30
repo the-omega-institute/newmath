@@ -30,6 +30,7 @@ The classifier compares accepted packets only through these coordinates. It cont
 \label{thm:pointwise-stream-metric-pointwise-classifier}
 For an accepted $\PointwiseStreamMetricUp$ carrier $Q=(S,W,D,R,E,M,H,C,P,N)$, every pointwise distance classifier read factors through the certified stream source $S$, the finite window schedule $W$, the dyadic tolerance ledger $D$, the regular-rational readback $R$, and the terminal $\RealUp$ seal $E$ before the $\MetricSpaceUp$ row $M$ may be inspected. The classifier therefore names a pointwise metric route on certified streams and does not read host functions, quotient streams, selected representatives, countable choice, or an ambient completion theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.PointwiseStreamMetricUp.PointwiseStreamMetricPointwiseClassifier}
 \begin{proof}
 Project the carrier of \autoref{def:pointwise-stream-metric-carrier}. The source stream, window schedule, dyadic ledger, regular readback, Real seal, metric row, transport, replay, provenance, and local naming row are all displayed coordinates.
 
@@ -122,6 +123,8 @@ Now split the downstream request by destination. A $\RealModulusOfConvergenceUp$
 Because the carrier lacks coordinates for ambient completeness, host function equality, quotient stream equality, selected representatives, and countable-choice schedules, neither downstream route can acquire those objects from $\PointwiseStreamMetricUp$.
 \end{proof}
 
+The finite-window side of this lattice is consumed by \autoref{ch:concrete-instances-finite-stream-namecert} through its pointwise metric forward route. Thus a downstream $\FiniteStreamUp$ reader receives the same $S,W,D,R,E,M,H,C,P,N$ packet as a finite-window metric read, not as an added completion principle or a hidden stream quotient.
+
 The downstream completion lattice consumes this anchor through the convergence-ledger route of \autoref{ch:concrete-instances-real-modulus-of-convergence-namecert}. Every $\RealModulusOfConvergenceUp$ consumer of an accepted $\PointwiseStreamMetricUp$ packet must read the same finite windows $W$, dyadic ledger $D$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $E$, and displayed metric row $M$ before any convergence ledger is public. The consumer therefore receives the pointwise stream metric only as the finite route already exposed by the carrier, not as a detached completion principle.
 
 \begin{theorem}[Pointwise stream metric finite-window consumption]
@@ -183,6 +186,42 @@ Use the Real-completion anchor \autoref{thm:pointwise-stream-metric-real-complet
 The conclusion is the carrier inventory. Since no coordinate stores ambient completeness, quotient stream equality, selected representatives, countable choice, or host function equality, the completion-facing read can use such data only by leaving the accepted $\PointwiseStreamMetricUp$ packet.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric synchronized-window triangle route]
+\label{thm:pointwise-stream-metric-synchronized-window-triangle-route}
+Let $Q_{\mathrm{xy}},Q_{\mathrm{yz}},Q_{\mathrm{xz}}$ be accepted $\PointwiseStreamMetricUp$ carriers for the displayed stream reads from $x$ to $y$, from $y$ to $z$, and from $x$ to $z$. Suppose the three packets share the same certified $\StreamNameUp$ window schedule $W$ and the same displayed $\MetricSpaceUp$ row $M$:
+$$
+\begin{gathered}
+Q_{\mathrm{xy}}=(S_{\mathrm{xy}},W,D_{\mathrm{xy}},R_{\mathrm{xy}},E_{\mathrm{xy}},M,H_{\mathrm{xy}},C_{\mathrm{xy}},P_{\mathrm{xy}},N_{\mathrm{xy}}),\\
+Q_{\mathrm{yz}}=(S_{\mathrm{yz}},W,D_{\mathrm{yz}},R_{\mathrm{yz}},E_{\mathrm{yz}},M,H_{\mathrm{yz}},C_{\mathrm{yz}},P_{\mathrm{yz}},N_{\mathrm{yz}}),\\
+Q_{\mathrm{xz}}=(S_{\mathrm{xz}},W,D_{\mathrm{xz}},R_{\mathrm{xz}},E_{\mathrm{xz}},M,H_{\mathrm{xz}},C_{\mathrm{xz}},P_{\mathrm{xz}},N_{\mathrm{xz}}).
+\end{gathered}
+$$
+Then any two-leg distance read from $x$ to $z$ through $y$ must consume, in the same synchronized order, the shared finite window $W$, the dyadic triangle ledgers $D_{\mathrm{xy}},D_{\mathrm{yz}},D_{\mathrm{xz}}$, the $\RegSeqRatUp$ readbacks $R_{\mathrm{xy}},R_{\mathrm{yz}},R_{\mathrm{xz}}$, the terminal $\RealUp$ seals $E_{\mathrm{xy}},E_{\mathrm{yz}},E_{\mathrm{xz}}$, and the displayed metric row $M$ before any $\MetricCompletionUp$ or $\RealModulusOfConvergenceUp$ consumer may use the composed distance. The route is a finite BEDC triangle ledger and not an ambient metric-space triangle proof over host functions, quotient streams, selected representatives, or countable-choice schedules.
+\end{theorem}
+\begin{proof}
+Project the three carriers. Each packet displays its stream source row, the shared finite window schedule, its dyadic ledger, its regular-rational readback, its Real seal, the shared metric row, transport, replay, provenance, and local naming row.
+
+Apply the pointwise classifier theorem, \autoref{thm:pointwise-stream-metric-pointwise-classifier}, to the three legs. For $Q_{\mathrm{xy}}$, $Q_{\mathrm{yz}}$, and $Q_{\mathrm{xz}}$ the distance read must pass through the displayed window, dyadic ledger, readback, and Real seal before $M$ is inspected.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}, for each leg. The two-leg read may compose the $x$ to $y$ and $y$ to $z$ reads only after both have exposed the same window $W$, and it may compare them with the $x$ to $z$ read only through the displayed dyadic triangle ledger and readback rows.
+
+Apply reindexing stability, \autoref{thm:pointwise-stream-metric-reindexing-stability}, to any transported schedule request. The $H_{\mathrm{xy}}$, $H_{\mathrm{yz}}$, and $H_{\mathrm{xz}}$ rows, replayed by the corresponding $C$ rows, preserve the shared window and metric row while keeping the three dyadic ledgers, readbacks, Real seals, provenance rows, and local names visible.
+
+Finally invoke completion separation, \autoref{thm:pointwise-stream-metric-completion-separation}. A completion or modulus consumer can use the composed distance only after the synchronized finite route has displayed all three pointwise packets. Since none of the carriers stores ambient completeness, quotient stream equality, selected representatives, host function equality, or countable choice, the triangle route remains a BEDC finite-window route.
+\end{proof}
+
+\begin{theorem}[Pointwise stream metric finite-window triangle budget]
+\label{thm:pointwise-stream-metric-finite-window-triangle-budget}
+Let $Q_{\mathrm{xy}},Q_{\mathrm{yz}},Q_{\mathrm{xz}}$ be accepted $\PointwiseStreamMetricUp$ packets sharing a $\StreamNameUp$ window schedule $W$ and a displayed $\MetricSpaceUp$ row $M$. A completion-facing triangle-budget read for the three legs may export data only through the three displayed dyadic ledgers $D_{\mathrm{xy}},D_{\mathrm{yz}},D_{\mathrm{xz}}$, the three $\RegSeqRatUp$ readbacks $R_{\mathrm{xy}},R_{\mathrm{yz}},R_{\mathrm{xz}}$, the three terminal $\RealUp$ seals $E_{\mathrm{xy}},E_{\mathrm{yz}},E_{\mathrm{xz}}$, and the shared metric row $M$, with the source, transport, replay, provenance, and local naming rows of each packet still visible. The budget route has no coordinate for ambient completeness, quotient stream equality, selected representative, host function equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Apply the synchronized-window triangle route, \autoref{thm:pointwise-stream-metric-synchronized-window-triangle-route}. It already forces the two-leg comparison and the direct comparison to share the same finite window $W$ and metric row $M$ before any completion-facing consumer can read the composed distance.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}, on each of the three packets. This exposes the dyadic ledger, regular-rational readback, and Real seal of each leg as displayed finite-window data rather than as an ambient metric-space fact.
+
+Finally apply the NameCert obligations, \autoref{thm:pointwise-stream-metric-namecert-obligations}. They keep the source rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance, and local names in the exported packet. Since the carrier contains none of the excluded quotient, representative, host-equality, completeness, or choice coordinates, the triangle budget is exactly the listed finite BEDC route.
+\end{proof}
+
 \begin{theorem}[Pointwise stream metric source separation]
 \label{thm:pointwise-stream-metric-source-separation}
 Let $Q=(S,W,D,R,E,M,H,C,P,N)$ be an accepted $\PointwiseStreamMetricUp$ carrier. If two completion-facing reads agree on the metric row $M$ but differ in any of the source rows $S,W,D,R,E$, then the packet cannot identify them by $\PointwiseStreamMetricUp$. Source separation requires the same $\StreamNameUp$ finite window, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\MetricSpaceUp$ row; no quotient stream equality or host function equality can collapse different source rows.
@@ -215,14 +254,57 @@ Now use the sibling $\RealModulusOfConvergenceUp$ chapter. Its carrier and route
 Since neither carrier stores a detached modulus selector, quotient stream equality, selected representative, choice schedule, host function equality, or ambient completion theorem, the pullback is exhausted by the displayed rows.
 \end{proof}
 
-\closureat{PointwiseStreamMetricUp}{seedStr}
+\begin{theorem}[Pointwise stream metric StreamName dependency]
+\label{thm:pointwise-stream-metric-streamname-dependency}
+Every accepted $\PointwiseStreamMetricUp$ packet consumes its pointwise metric rows only after the finite $\StreamNameUp$ window route of \autoref{ch:concrete-instances-streamname-namecert} has been displayed. Thus the metric comparison is a pointwise stream-window read through
+$$
+S,W,D,R,E,M,H,C,P,N
+$$
+and not an external metric-space equality, quotient stream comparison, selected representative, countable-choice schedule, or quotient completion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-stream-metric-carrier}. The source row $S$ and window row $W$ precede the dyadic ledger, regular readback, Real seal, and metric row in the accepted packet.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}. It forces every completion-facing metric read to expose the certified $\StreamNameUp$ window before any pointwise distance row can be consumed.
+
+Apply synchronized-window triangle routing, \autoref{thm:pointwise-stream-metric-synchronized-window-triangle-route}, and source separation, \autoref{thm:pointwise-stream-metric-source-separation}. Together they make the metric comparison depend on the same finite stream-window route rather than on ambient metric equality or a quotient of stream sources.
+
+Finally use modulus ledger pullback, \autoref{thm:pointwise-stream-metric-modulus-ledger-pullback}. Any convergence-facing consumer reads the pointwise metric contribution through the displayed StreamName, DyadicRatCore, RegSeqRat, Real, and MetricSpace rows, so the dependency edge to \autoref{ch:concrete-instances-streamname-namecert} is part of the finite BEDC ledger.
+\end{proof}
+
+\begin{theorem}[Pointwise stream metric regular Cauchy bridge]
+\label{thm:pointwise-stream-metric-regular-cauchy-bridge}
+Let $Q=(S,W,D,R,E,M,H,C,P,N)$ be an accepted $\PointwiseStreamMetricUp$ carrier. Any metric comparison over synchronized stream windows that reaches the terminal $\RealUp$ distance seal $E$ must expose the $\RegSeqRatUp$ regular readback row $R$ before the $\MetricSpaceUp$ comparison row $M$ can be consumed. Thus the comparison is routed through stream windows, dyadic ledgers, regular Cauchy readback, and the Real seal, not through ambient metric equality, quotient stream equality, selected representatives, countable choice, or host function equality.
+\end{theorem}
+\begin{proof}
+Start with finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}. A distance read consumes the certified stream window, dyadic ledger, regular readback, Real seal, and metric row as the displayed packet $S,W,D,R,E,M,H,C,P,N$.
+
+Apply synchronized-window triangle routing, \autoref{thm:pointwise-stream-metric-synchronized-window-triangle-route}. In a synchronized comparison, each leg keeps the shared window schedule visible while its dyadic ledger and readback rows are displayed before the Real distance seal is used.
+
+Use source separation, \autoref{thm:pointwise-stream-metric-source-separation}. Agreement at the metric row alone cannot identify two reads; the source route still requires the same stream window, dyadic ledger, regular readback, and Real seal.
+
+Finally invoke modulus ledger pullback, \autoref{thm:pointwise-stream-metric-modulus-ledger-pullback}. Any convergence-facing or completion-facing consumer receives the pointwise metric contribution only after the $\RegSeqRatUp$ row has pulled the finite rational stream into the regular Cauchy readback surface. Therefore $R$ is exposed before $M$ is consumed.
+\end{proof}
+
+\begin{theorem}[Pointwise stream metric obligation scope]\label{thm:pointwise-stream-metric-obligation-scope}
+The carrier, pointwise classifier, constant-stream route, reindexing stability, NameCert obligations, sibling route, Real-completion anchor, finite-window consumption, completion separation, synchronized-window triangle route, source separation, modulus pullback, StreamName dependency, and regular-Cauchy bridge exhaust the obligation surface of $\PointwiseStreamMetricUp$. Any accepted metric read must therefore pass through the displayed stream source, finite windows, dyadic ledger, regular readback, Real seal, metric row, componentwise transport, displayed replay, provenance, and local naming before it is public.
+\end{theorem}
+\begin{proof}
+The carrier and classifier results, \autoref{def:pointwise-stream-metric-carrier}, \autoref{thm:pointwise-stream-metric-pointwise-classifier}, \autoref{thm:pointwise-stream-metric-constant-stream}, and \autoref{thm:pointwise-stream-metric-reindexing-stability}, determine the packet rows and the basic stable reads.
+
+The NameCert obligations and sibling route then expose the immediate obligation surface. The Real-completion anchor, finite-window consumption, and completion separation theorems force any completion-facing consumer through the same finite windows, dyadic ledger, regular readback, Real seal, and metric row.
+
+The synchronized-window triangle route, source separation, modulus pullback, StreamName dependency, and regular-Cauchy bridge cover the remaining consumer paths. Since each path is routed through the displayed rows $S,W,D,R,E,M,H,C,P,N$, there is no further local obligation for host function equality, quotient stream equality, selected representatives, countable choice, or ambient completion.
+\end{proof}
+
+\closureat{PointwiseStreamMetricUp}{obligationStr}
 
 \begin{closurestatus}{\PointwiseStreamMetricUp}
   \constructivestory{A $\PointwiseStreamMetricUp$ packet is generated from a certified stream source, finite pointwise windows, a dyadic tolerance ledger, regular-rational readback, a Real distance seal, a displayed metric-space row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:pointwise-stream-metric-carrier}, \autoref{thm:pointwise-stream-metric-pointwise-classifier}, \autoref{thm:pointwise-stream-metric-constant-stream}, \autoref{thm:pointwise-stream-metric-reindexing-stability}, and \autoref{thm:pointwise-stream-metric-namecert-obligations} seed the finite pointwise metric route for certified streams over StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, MetricSpaceUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:pointwise-stream-metric-obligation-scope} exhausts the displayed obligation surface for certified pointwise stream metrics over StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, MetricSpaceUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function equality, quotient stream equality, selected representatives, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, pointwise classifier exposure, constant-stream zero-distance exposure, reindexing stability, and ledger non-escape for BEDC.Derived.PointwiseStreamMetricUp.}
+  \upgradepath{Scoped closure requires binding these obligations to their exact primitive routes for stream sources, dyadic ledgers, regular readback, Real seals, metric rows, transport, replay, provenance, and local naming.}
 \end{closurestatus}

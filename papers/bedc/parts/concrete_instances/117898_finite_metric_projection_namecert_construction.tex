@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMetricProjectionUp$}
+\label{ch:concrete-instances-finite-metric-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite metric spaces and Kelley on metric neighbourhoods, the $\FiniteMetricProjectionUp$ packet records the finite nearest-point projection interface that is available when all candidate distances are displayed rows. It sits over the parent projection boundary of \autoref{ch:concrete-instances-metricprojection-namecert}, the located-distance discipline of \autoref{ch:concrete-instances-locatedset-namecert}, the ambient metric source of \autoref{ch:concrete-instances-metric-namecert}, the terminal distance seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic comparison core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives downstream located-set and completion consumers a finite endpoint witness without importing Hilbert projection, closed convexity, quotient subset equality, countable choice, or an ambient nearest-point selector.
+
+\begin{definition}[FiniteMetricProjection carrier]
+\label{def:finite-metric-projection-carrier}
+A $\FiniteMetricProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,L,D,E,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the ambient $\MetricUp$ row naming the finite metric source.
+\item $L$ is the $\LocatedSetUp$ row naming the displayed finite subset and its located-distance ledger.
+\item $D$ is the finite table of candidate distance rows from the queried point to the displayed subset.
+\item $E$ is the endpoint evidence row naming a candidate in the finite subset whose displayed distance is minimal among the rows in $D$.
+\item $Q$ is the $\DyadicRatCoreUp$ comparison ledger used to compare the finite distance rows.
+\item $R$ is the $\RealUp$ distance seal read after the dyadic comparisons and endpoint evidence have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the metric, located-set, distance-table, endpoint, dyadic-comparison, Real-seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a projection request through the finite distance table, dyadic comparisons, endpoint evidence, and terminal distance seal.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMetricProjectionUp$, $\MetricProjectionUp$, $\LocatedSetUp$, $\MetricUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMetricProjectionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for Hilbert projection, closed convexity, subset quotient equality, selected minimizers beyond the displayed endpoint row, countable choice, compactness, or ambient completion.
+\end{definition}
+
+\begin{theorem}[FiniteMetricProjection NameCert obligations]
+\label{thm:finite-metric-projection-namecert-obligations}
+For every accepted $\FiniteMetricProjectionUp$ carrier $F=(M,L,D,E,Q,R,H,C,P,N)$, the local $\NameCert_{\FiniteMetricProjectionUp}$ surface consists exactly of these five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric, located-set, distance-table, endpoint, dyadic-comparison, Real-seal, transport, continuation, provenance, and local naming rows;
+\item located-set exposure, requiring $L$ to be read before any projection consumer may inspect the finite distance table $D$;
+\item finite comparison exactness, requiring every minimality comparison for $E$ to pass through the displayed $\DyadicRatCoreUp$ ledger $Q$;
+\item endpoint handoff, requiring the endpoint row $E$ and terminal distance seal $R$ to be replayed before a $\MetricProjectionUp$ consumer receives a projection result;
+\item ledger refusal, excluding Hilbert projection, closed-convex projection, quotient subset equality, hidden minimizer selection, countable choice, compactness, and ambient completion.
+\end{enumerate}
+No local NameCert row is stored outside those obligations and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-metric-projection-carrier}. Its public rows are exactly $M,L,D,E,Q,R,H,C,P,N$, so carrier admission exposes only the finite metric source, located-set row, candidate distance table, endpoint witness, dyadic comparison ledger, and terminal distance seal.
+
+The located-set and finite-comparison obligations follow from the displayed continuation. A projection request first reads $M$ and $L$, then the finite table $D$, and then the dyadic comparison row $Q$ that checks the endpoint row $E$ against every displayed candidate.
+
+The endpoint handoff is the remaining route. The row $E$ is the only projection endpoint visible to the packet, and $R$ is readable only after $E,Q$ and the finite table have been replayed through $H,C,P,N$. Since the carrier has no further coordinate, none of the refused projection or choice principles can be projected from the NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteMetricProjection nearest-row totality]
+\label{thm:finite-metric-projection-nearest-row-totality}
+Let $F=(M,L,D,E,Q,R,H,C,P,N)$ be an accepted $\FiniteMetricProjectionUp$ packet. Every projection request over the displayed finite subset reaches a nearest-distance row by the finite route
+$$
+M,L,D,Q \longmapsto E,R \longmapsto H,C,P,N .
+$$
+Thus nearest-row totality is the finite exhaustion of the displayed distance table, with all comparisons read through $\DyadicRatCoreUp$ and the terminal distance exposed as a $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the finite distance table $D$ in the carrier. Because $D$ is a displayed finite row, the request inspects each candidate distance inside the packet rather than searching an ambient subset.
+
+Use the dyadic comparison ledger $Q$. It compares the finite distance rows and identifies the endpoint evidence row $E$ as minimal among the displayed candidates.
+
+Finally replay the continuation row $C$ and transport row $H$. The terminal seal $R$ is read only after $M,L,D,Q,E$ are visible, and provenance and local naming preserve that order. The route therefore gives nearest-row totality without adding a hidden selector, quotient equality, choice schedule, compactness theorem, or completion coordinate.
+\end{proof}
+
+\begin{theorem}[FiniteMetricProjection LocatedSet route]
+\label{thm:finite-metric-projection-locatedset-route}
+Every $\LocatedSetUp$ consumer that asks an accepted $\FiniteMetricProjectionUp$ packet for a projection endpoint must first expose the parent $\MetricUp$ row $M$, the located-set row $L$, the finite distance table $D$, the $\DyadicRatCoreUp$ comparison ledger $Q$, the endpoint evidence row $E$, the $\RealUp$ seal $R$, and the structural rows $H,C,P,N$. The packet supplies the endpoint evidence required outside \autoref{ch:concrete-instances-locatedset-namecert}; it does not turn the located-set distance interface itself into a nearest-point selector.
+\end{theorem}
+\begin{proof}
+Read the LocatedSet metric-projection admission boundary in \autoref{thm:locatedset-metric-projection-carrier-admission}. It says that a projection consumer must supply endpoint evidence outside the located-set packet.
+
+The carrier of \autoref{def:finite-metric-projection-carrier} supplies exactly that outside row as $E$, together with the finite distance table $D$, dyadic comparison ledger $Q$, and Real distance seal $R$.
+
+Combine this with \autoref{thm:finite-metric-projection-nearest-row-totality}. The endpoint is obtained only through the finite metric and located-set rows, the displayed distance table, and the dyadic comparison route, so the LocatedSet interface remains a distance interface while $\FiniteMetricProjectionUp$ carries the separate endpoint witness.
+\end{proof}
+
+\begin{closurestatus}{\FiniteMetricProjectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-metric-projection-carrier}, \autoref{thm:finite-metric-projection-namecert-obligations}, \autoref{thm:finite-metric-projection-nearest-row-totality}, and \autoref{thm:finite-metric-projection-locatedset-route} seed the finite projection route from displayed metric-distance rows to a separate endpoint witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hilbert projection, closed-convex projection, quotient subset equality, hidden minimizer selection, countable choice, compactness, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite comparison exactness, endpoint handoff, located-set compatibility, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMetricProjectionUp.}
+  \constructivestory{A $\FiniteMetricProjectionUp$ packet is generated from a Metric row, a LocatedSet row, a finite distance table, endpoint evidence, a DyadicRatCore comparison ledger, a Real distance seal, componentwise hsame transport, continuation replay, provenance, and a local NameCert row.}
+\end{closurestatus}

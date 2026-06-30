@@ -1,0 +1,556 @@
+\chapter{Countable Completion Interface Spine}
+\label{ch:visions-countable-completion-interface-spine}
+\origin{human}
+
+The order--set--type spine permits membership, comparison, and transport to
+be read through certified carriers.  The completion layer crosses the
+boundary from finite history objects to certified countable names.  A single
+finite $\Hist$ value does not encode an infinite object; it can only expose a
+finite observation, a replay route, and the certificate rows authorizing that
+observation.  The L10 surface therefore factors through
+$$
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp,\quad
+\MetricUp,\quad
+\TopologyUp,\quad
+\CompletionUp,
+$$
+together with $\CompleteMetricUp$, $\CompactMetricUp$, and
+$\ContinuousMapUp$ where the metric side is consumed.  Each object is a
+visible countable-name or modulus-bearing interface, never a host quotient,
+selected limit, or ambient complete space.
+
+\section{Countable Names}
+\label{sec:countable-completion-countable-names}
+
+\begin{definition}[Finite-history object]
+\label{def:countable-completion-finite-history-object}
+An object is finite-history presented when every public row is ultimately
+read through finitely many constructor, continuation, signature, package, and
+name-certificate observations over $\Hist$.  Such a row may name a finite
+observation of an infinite process, but it is not itself the completed
+process.
+\end{definition}
+
+\begin{definition}[Countable name over a carrier]
+\label{def:countable-completion-countable-name}
+Let $(X,\sim_X)$ be a certified carrier-classifier pair.  An $X$-countable
+name is an observation map $s:\NatUp\to X$ with rows
+$$
+\forall n:\NatUp,\ X(s(n)),
+$$
+and
+$$
+n\sim_{\NatUp}m\Longrightarrow s(n)\sim_X s(m).
+$$
+Two such names classify together when all displayed observations classify
+pointwise:
+$$
+s\sim_{\mathsf{stream}}t
+\Longleftrightarrow
+\forall n:\NatUp,\ s(n)\sim_X t(n).
+$$
+\end{definition}
+
+\begin{definition}[StreamName carrier and classifier]
+\label{def:countable-completion-streamname-carrier}
+The $\StreamNameUp$ carrier over $X$ is
+$$
+\mathsf{StreamCarrier}_X(s)
+\Longleftrightarrow
+\forall n:\NatUp,\ X(s(n)).
+$$
+Its classifier is
+$$
+\mathsf{StreamSame}_X(s,t)
+\Longleftrightarrow
+\forall n:\NatUp,\ s(n)\sim_X t(n).
+$$
+The public ledger stores finite windows, pointwise classifier rows, reindexing
+routes, replay, provenance, and the local name certificate.
+\end{definition}
+
+\begin{theorem}[Pointwise stream classifier]
+\label{thm:countable-completion-pointwise-stream-classifier}
+If $\sim_X$ is an equivalence classifier, then
+$\mathsf{StreamSame}_X$ is an equivalence classifier on stream names.
+\end{theorem}
+
+\begin{proof}
+Reflexivity is pointwise reflexivity of $\sim_X$.  Symmetry sends each row
+$s(n)\sim_X t(n)$ to $t(n)\sim_X s(n)$.  Transitivity composes the pointwise
+rows $s(n)\sim_X t(n)$ and $t(n)\sim_X u(n)$ to obtain
+$s(n)\sim_X u(n)$.  The stream ledger records the same unary observation
+index in every step.
+\end{proof}
+
+\begin{principle}[Countable-name boundary]
+\label{prin:countable-completion-countable-name-boundary}
+An infinite object in L10 is a certified countable name together with
+pointwise stability.  It is not a single history, a host sequence, a quotient
+class, or a selected global limit.
+\end{principle}
+
+\section{Dyadic Rational Core}
+\label{sec:countable-completion-dyadic-core}
+
+\begin{definition}[Dyadic rational code]
+\label{def:countable-completion-dyadic-code}
+A $\DyadicRatCoreUp$ code is a signed integer mantissa with unary exponent,
+displayed as
+$$
+(a,n)
+\qquad
+a:\IntUp,\quad n:\NatUp,
+$$
+and read as the dyadic value $a\cdot 2^{-n}$.  The carrier is inherited from
+the signed-pair and unary-exponent spines.
+\end{definition}
+
+\begin{definition}[Common-exponent dyadic classifier]
+\label{def:countable-completion-dyadic-classifier}
+Two dyadic codes classify together when they agree after scaling to a common
+unary exponent:
+$$
+(a,n)\sim_{\mathsf{dyad}}(b,m)
+$$
+when there is $k$ with $k\ge n$ and $k\ge m$ such that
+$$
+a\cdot 2^{k-n}\sim_{\IntUp} b\cdot 2^{k-m}.
+$$
+The witness is a comparison and scaling ledger, not a quotient
+representative.
+\end{definition}
+
+\begin{theorem}[Dyadic classifier laws]
+\label{thm:countable-completion-dyadic-classifier-laws}
+The common-exponent classifier is reflexive, symmetric, and transitive.
+\end{theorem}
+
+\begin{proof}
+For reflexivity, use the same exponent $k=n$ and the multiplicative unit row
+on $\IntUp$.  Symmetry reuses the same common exponent and reverses the
+$\IntUp$ classifier row.  For transitivity, combine two common-exponent
+witnesses by taking a displayed exponent above both, scaling both equalities
+to that exponent, and composing the resulting $\IntUp$ classifier rows.
+\end{proof}
+
+\begin{definition}[Dyadic distance data]
+\label{def:countable-completion-dyadic-distance}
+The dyadic absolute value and distance rows are
+$$
+|q|_{\mathsf{dyad}}
+\qquad\text{and}\qquad
+d_{\mathsf{dyad}}(q,r):=|q-r|_{\mathsf{dyad}}.
+$$
+Their certificate records arithmetic stability, order transport, monotone
+radii $2^{-n}$, and classifier compatibility of subtraction and absolute
+value.
+\end{definition}
+
+\begin{principle}[Dyadic core boundary]
+\label{prin:countable-completion-dyadic-core-boundary}
+$\DyadicRatCoreUp$ is the finite arithmetic substrate for L10 tolerances.  It
+uses common-exponent predicates and integer arithmetic rows, not quotient
+types or host rational equality.
+\end{principle}
+
+\section{Regular Sequences and Real Names}
+\label{sec:countable-completion-real-names}
+
+\begin{definition}[Regular dyadic sequence]
+\label{def:countable-completion-regular-sequence}
+A regular dyadic sequence is a stream
+$x:\NatUp\to\DyadicRatCoreUp$ with regularity certificate
+$$
+\mathsf{Reg}(x)
+\Longleftrightarrow
+\forall m\,n:\NatUp,
+|x_m-x_n|\le 2^{-m}+2^{-n}.
+$$
+Thus a $\RegSeqRatUp$ carrier is a $\StreamNameUp$ over
+$\DyadicRatCoreUp$ together with this displayed Cauchy bound.
+\end{definition}
+
+\begin{definition}[Regular-sequence classifier]
+\label{def:countable-completion-regseq-classifier}
+Two regular dyadic sequences classify together when every requested dyadic
+tolerance is met by a displayed tail comparison.  Equivalently, in a fixed
+regular scale one may read rows of the form
+$$
+\forall n:\NatUp,\ |x_n-y_n|\le 2^{-n},
+$$
+with the ledger allowing reindexing, halving, and tail transport.
+\end{definition}
+
+\begin{theorem}[Regular-sequence classifier laws]
+\label{thm:countable-completion-regseq-classifier-laws}
+The regular-sequence classifier is reflexive, symmetric, and transitive when
+dyadic absolute value, order transport, and halving rows are available.
+\end{theorem}
+
+\begin{proof}
+Reflexivity uses $|x_n-x_n|=0$ and $0\le 2^{-n}$.  Symmetry uses
+absolute-value symmetry.  For transitivity at tolerance $\varepsilon$, read
+the two comparison rows at $\varepsilon/2$ and apply the triangle inequality:
+$$
+|x_n-z_n|
+\le
+|x_n-y_n|+|y_n-z_n|
+\le
+\varepsilon.
+$$
+The halving row is explicit dyadic data, so no classical choice is used.
+\end{proof}
+
+\begin{definition}[Real carrier and classifier]
+\label{def:countable-completion-real-carrier}
+A $\RealUp$ carrier is a sealed regular-sequence name
+$$
+r=\mathsf{Seal}(x,\mathsf{Reg}(x)).
+$$
+Two sealed real names classify together when their exposed
+$\RegSeqRatUp$ representatives classify:
+$$
+r\sim_{\RealUp}s
+\Longleftrightarrow
+x\sim_{\mathsf{reg}}y.
+$$
+The seal ledger controls which representative rows are visible to a consumer.
+\end{definition}
+
+\begin{definition}[Constant real embedding]
+\label{def:countable-completion-constant-real}
+A certified dyadic or rational point $d$ embeds as the sealed constant stream
+$$
+\iota(d):=\mathsf{Seal}(\lambda n.\,d,\mathsf{constant\_regularity}).
+$$
+On the history surface, the constant-real carrier is the row saying that the
+history is classified with an $E_1$-seal of a certified rational endpoint.
+\end{definition}
+
+\begin{theorem}[Constant real seal boundary]
+\label{thm:countable-completion-constant-real-boundary}
+The $E_1$ constant seal exposes exactly the carried rational endpoint, and
+an $E_0$ seal cannot expose a constant real endpoint.
+\end{theorem}
+
+\begin{proof}
+For an $E_1$ seal, constructor injectivity transports the rational carrier
+between the displayed endpoint and the endpoint named by the seal.  For an
+$E_0$ seal, the assumed constant-real row would contain an $\hsame$ witness
+between an $E_0$ constructor and an $E_1$ constructor, contradicting
+constructor no-confusion.
+\end{proof}
+
+\begin{theorem}[Real classifier transfer]
+\label{thm:countable-completion-real-classifier-transfer}
+If the $\RegSeqRatUp$ classifier is an equivalence classifier, then the
+$\RealUp$ classifier is an equivalence classifier.
+\end{theorem}
+
+\begin{proof}
+Unseal a real name only through the displayed seal ledger.  Reflexivity,
+symmetry, and transitivity are exactly the corresponding regular-sequence
+classifier rows transported through that ledger.
+\end{proof}
+
+\begin{principle}[Real primitive boundary]
+\label{prin:countable-completion-real-boundary}
+$\RealUp$ is a sealed regular Cauchy name.  It is not a quotient set of
+sequences, not a Dedekind cut imported from a host universe, and not a
+completed scalar field until the relevant algebra, order, apartness, and
+operation-closure rows are supplied.
+\end{principle}
+
+\section{Completion}
+\label{sec:countable-completion-completion}
+
+\begin{definition}[Regular Cauchy sequence with modulus]
+\label{def:countable-completion-cauchy-modulus}
+For a metric or regular-sequence carrier, a completion input is a sequence
+$X:\NatUp\to A$ with an explicit modulus
+$$
+\mu:\mathbb Q_{>0}^{\uparrow}\to\NatUp
+$$
+such that, whenever $m,n\ge\mu(\varepsilon)$, the distance between
+$X_m$ and $X_n$ lies inside the displayed $\varepsilon$-ball at zero.
+\end{definition}
+
+\begin{definition}[Diagonal representative]
+\label{def:countable-completion-diagonal-representative}
+For a regular Cauchy sequence of regular dyadic names, the diagonal
+representative is
+$$
+L_n
+:=
+X_{\mu(1/(n+1))}
+\bigl(\mu(1/(n+1))+n+1\bigr).
+$$
+The ledger records the modulus request, the selected sequence member, the
+internal observation index, and the dyadic value returned by that observation.
+\end{definition}
+
+\begin{theorem}[Diagonal regularity]
+\label{thm:countable-completion-diagonal-regularity}
+The diagonal representative is regular when the constituent regularity rows,
+the Cauchy modulus, dyadic halving, and triangle inequality are available.
+\end{theorem}
+
+\begin{proof}
+Compare $L_m$ and $L_n$ by inserting a common observation scale.  The
+difference splits into three displayed parts: movement inside the first
+regular sequence member, movement between the two sequence members controlled
+by the Cauchy modulus, and movement inside the second regular sequence
+member.  The constituent regularity rows control the outer parts, the modulus
+controls the middle part, and the triangle inequality combines the dyadic
+budgets.
+\end{proof}
+
+\begin{theorem}[Completion limit and uniqueness]
+\label{thm:countable-completion-limit-uniqueness}
+When the diagonal representative is sealed as a real name, it is a limit
+candidate for the regular Cauchy input; any other candidate satisfying the
+same modulus constraints classifies with it under the separated real
+classifier.
+\end{theorem}
+
+\begin{proof}
+The modulus brings $X_n$ close to the selected member used in the diagonal
+representative, and the regularity of that member brings the selected
+observation close to the diagonal value.  Combining these estimates gives the
+limit comparison.  If $L'$ is another candidate, compare $L$ and $L'$ through
+$X_n$:
+$$
+d(L,L')\le d(L,X_n)+d(X_n,L').
+$$
+The two terms can be made smaller than any displayed tolerance, so the
+classifier identifies the two candidates.
+\end{proof}
+
+\begin{principle}[Completion boundary]
+\label{prin:countable-completion-boundary}
+$\CompletionUp$ is explicit modulus data plus diagonal extraction plus
+classifier uniqueness.  It is not an external existence theorem, not a
+quotient construction, and not a use of a selected representative outside
+the ledger.
+\end{principle}
+
+\section{Metric and Topology}
+\label{sec:countable-completion-metric-topology}
+
+\begin{definition}[Metric interface]
+\label{def:countable-completion-metric-interface}
+For a point carrier $(C,\sim_C)$ with apartness boundary, a $\MetricUp$
+interface provides a distance
+$$
+d:C\times C\to\RealUp
+$$
+with nonnegativity, identity of indiscernibles through the carrier
+classifier, symmetry, triangle inequality, endpoint congruence, and explicit
+real moduli for inequality transport.  The ledger records the point
+witnesses and the real distance witness for each comparison.
+\end{definition}
+
+\begin{theorem}[Metric empty distance exactness]
+\label{thm:countable-completion-metric-empty-distance}
+A concrete empty distance witness classifies exactly the two endpoints with
+the empty history:
+$$
+\mathsf{MetricDistanceWitness}(x,y,\emp)
+\Longleftrightarrow
+\hsame(x,\emp)\wedge\hsame(y,\emp).
+$$
+\end{theorem}
+
+\begin{proof}
+Unfold the concrete distance witness.  In the forward direction its
+continuation row has empty result, so continuation inversion forces both
+endpoints to be empty up to $\hsame$.  Conversely, transport the reflexive
+empty distance witness along the two endpoint $\hsame$ rows.
+\end{proof}
+
+\begin{theorem}[Metric symmetry ledger]
+\label{thm:countable-completion-metric-symmetry-ledger}
+For unary endpoint histories, forward and reversed concrete distance ledgers
+classify their distance histories together.
+\end{theorem}
+
+\begin{proof}
+The two witnesses are the forward and reversed unary continuation ledgers.
+Unary continuation commutativity supplies the $\hsame$ classifier row between
+the two distance histories.
+\end{proof}
+
+\begin{definition}[Metric-generated topology]
+\label{def:countable-completion-metric-topology}
+For a $\MetricUp$ carrier, the open ball centered at $x$ with positive radius
+$r:\RealUp$ is
+$$
+B(x,r)=\{y:C\mid d(x,y)<r\}.
+$$
+A $\TopologyUp$ surface generated by these balls records open-set membership,
+neighbourhood witnesses, finite intersection closure, certified union
+closure, membership stability, and a local name certificate.
+\end{definition}
+
+\begin{theorem}[Metric balls are open]
+\label{thm:countable-completion-metric-balls-open}
+Every metric ball with positive radius is open in the generated topology.
+\end{theorem}
+
+\begin{proof}
+Let $y\in B(x,r)$, so $d(x,y)<r$.  The positive remainder
+$r-d(x,y)$ supplies a displayed radius budget.  Take a certified half of that
+budget.  If $d(y,z)$ is below the half-budget, then the triangle inequality
+gives
+$$
+d(x,z)\le d(x,y)+d(y,z)<r.
+$$
+Thus $z$ remains in the ball.  The proof uses real apartness and modulus
+rows, not classical trichotomy.
+\end{proof}
+
+\begin{principle}[Topology boundary]
+\label{prin:countable-completion-topology-boundary}
+$\TopologyUp$ is an open-set classifier and neighbourhood interface with
+certified closure rows.  Metric topology is generated from distance and
+positive-radius data; it does not provide arbitrary powersets, open-cover
+compactness, or an ambient point-set topology.
+\end{principle}
+
+\section{Metric Completion and Maps}
+\label{sec:countable-completion-metric-completion-maps}
+
+\begin{definition}[Regular Cauchy point name]
+\label{def:countable-completion-cauchy-point-name}
+In a $\MetricUp$ space $X$, a regular Cauchy point name is a stream
+$x:\NatUp\to X$ satisfying
+$$
+\forall m\,n:\NatUp,\ d(x_m,x_n)\le 2^{-m}+2^{-n}.
+$$
+Convergence to $a:X$ is recorded by an explicit modulus
+$N:\mathbb Q_{>0}^{\uparrow}\to\NatUp$ such that
+$$
+n\ge N(\varepsilon)\Longrightarrow d(x_n,a)<\varepsilon.
+$$
+\end{definition}
+
+\begin{definition}[Complete and compact metric carriers]
+\label{def:countable-completion-complete-compact-carriers}
+A $\CompleteMetricUp$ carrier is a $\MetricUp$ carrier in which each regular
+Cauchy point name has an explicit limit and convergence modulus, with
+uniqueness under separatedness.  A $\CompactMetricUp$ carrier is the product
+of metric, complete-metric, and totally-bounded rows:
+$$
+\mathsf{CompactMetricCarrier}(X)
+\Longleftrightarrow
+\mathsf{MetricCarrier}(X)\wedge
+\mathsf{CompleteMetricCarrier}(X)\wedge
+\mathsf{TotallyBoundedCarrier}(X).
+$$
+The totally-bounded row supplies finite $\varepsilon$-nets as
+$\ListUp$-certified data.
+\end{definition}
+
+\begin{theorem}[Limit uniqueness under separatedness]
+\label{thm:countable-completion-limit-uniqueness-separated}
+If a regular Cauchy point name converges to $a$ and to $b$, and the metric
+space is separated, then $a\sim_X b$.
+\end{theorem}
+
+\begin{proof}
+For any positive tolerance $\varepsilon$, choose one displayed index beyond
+the two convergence moduli at $\varepsilon/2$.  The triangle inequality gives
+$$
+d(a,b)\le d(a,x_n)+d(x_n,b)<\varepsilon.
+$$
+Since the distance is below every displayed tolerance, the zero-distance
+classifier applies; separatedness then gives $a\sim_X b$.
+\end{proof}
+
+\begin{definition}[Continuous map interface]
+\label{def:countable-completion-continuous-map}
+For metric carriers $X$ and $Y$, a $\ContinuousMapUp$ interface for
+$f:X\to Y$ contains classifier respect and a uniform modulus
+$$
+\omega:\mathbb Q_{>0}^{\uparrow}\to\mathbb Q_{>0}^{\uparrow}
+$$
+such that
+$$
+d_X(x,x')<\omega(\varepsilon)
+\Longrightarrow
+d_Y(f(x),f(x'))<\varepsilon.
+$$
+\end{definition}
+
+\begin{theorem}[Identity and composition of continuous maps]
+\label{thm:countable-completion-continuous-map-laws}
+Identity maps are continuous with identity modulus, and continuous maps
+compose with composed modulus.
+\end{theorem}
+
+\begin{proof}
+For the identity, take $\omega(\varepsilon)=\varepsilon$.  For composition,
+if $f$ has modulus $\omega_f$ and $g$ has modulus $\omega_g$, use
+$$
+\omega_{g\circ f}(\varepsilon):=\omega_f(\omega_g(\varepsilon)).
+$$
+The $f$ row sends a source comparison below $\omega_f(\omega_g(\varepsilon))$
+to a target comparison below $\omega_g(\varepsilon)$, and the $g$ row sends
+that comparison below $\varepsilon$.  Classifier respect is the composition
+of the two classifier-respect rows.
+\end{proof}
+
+\section{L10 Boundary}
+\label{sec:countable-completion-boundary}
+
+\begin{theorem}[Countable completion admission theorem]
+\label{thm:countable-completion-admission}
+If the carrier, classifier, stability, modulus, ledger, and $\NameCert$ rows
+are supplied for
+$$
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp,\quad
+\MetricUp,\quad
+\TopologyUp,\quad
+\CompletionUp,\quad
+\CompleteMetricUp,\quad
+\CompactMetricUp,\quad
+\ContinuousMapUp,
+$$
+then the L10 countable-completion layer is admitted.
+\end{theorem}
+
+\begin{proof}
+$\DyadicRatCoreUp$ supplies finite dyadic tolerance arithmetic.
+$\StreamNameUp$ supplies countable observation names with pointwise
+classifier stability.  $\RegSeqRatUp$ adds regular Cauchy bounds over dyadic
+streams.  $\RealUp$ seals regular names and exposes only classifier-stable
+real observations.  $\CompletionUp$ adds explicit modulus data, diagonal
+representatives, and uniqueness through the classifier.  $\MetricUp$ supplies
+real-valued distance ledgers.  $\TopologyUp$ supplies generated open-set and
+neighbourhood classifiers.  $\CompleteMetricUp$, $\CompactMetricUp$, and
+$\ContinuousMapUp$ add explicit limit, finite-net, and modulus-of-continuity
+rows.  Since every row is routed through displayed carriers and ledgers, none
+of these interfaces imports quotient equality, selected limits, host
+sequences, open-cover compactness, or classical trichotomy.
+\end{proof}
+
+\begin{principle}[Downstream analytic consumption]
+\label{prin:countable-completion-downstream-consumption}
+Analytic and zeta-facing packets may consume L10 only through certified
+countable names, regularity witnesses, explicit moduli, real seals, metric
+distance ledgers, topology classifiers, and completion uniqueness rows.
+They may not replace those rows by host real numbers, bare limits, quotient
+classes, selected representatives, or ambient complete metric spaces.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-regular-sequence-window-coherence-namecert}{Regular-sequence window coherence is realized as finite StreamName windows, dyadic tolerance rows, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert data.}
+\concretizedIn{ch:concrete-instances-real-completion-universal-property-namecert}{The Real completion universal-property packet realizes dense-source, StreamName, RegSeqRat, Bishop regular Cauchy completion, extension, uniqueness, and Real-seal rows as finite NameCert data.}
+\concretizedIn{ch:concrete-instances-located-metric-reflection-namecert}{Located metric reflection realizes the countable-completion interface as a located metric packet before completion reads.}
+\concretizedIn{ch:concrete-instances-dyadic-located-modulus-namecert}{The dyadic located-modulus packet realizes finite tolerance-to-window data for the countable completion spine.}

@@ -1,0 +1,38 @@
+\origin{ai}
+
+\subsection{Hydrophobic-clustering solubility row and the f\_3-stress translation boundary}
+\label{sec:bioreality-hydrophobic-clustering-solubility-esol-f3-boundary}
+
+\paragraph{Finite row surface.}
+The BioReality record named by the claim identifier
+$\mathrm{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}$ is grounded, in the present finite table, by the experiment run $8742a224b538$.  The run supplies $3198$ indexed protein or coding-sequence rows and completed in $60.0$ seconds, with verification timestamp $2026\text{-}06\text{-}29\,17{:}10{:}47+00{:}00$.  These are the only scalar outcome data supplied here for the solubility-linked record: no regression coefficient, rank statistic, $p$-value, module class, hit rate, residual list, or fitted threshold is present in the row.  Consequently the chapter treats the record as a finite contact certificate and a boundary object, not as a positive solubility law.
+
+\paragraph{Coordinate under test.}
+The coordinate carried by this record is not native protein solubility itself.  It is a synonymous coding-window coordinate: each finite row may contain an organism, a CDS or protein identifier, a codon-position bin, an $f_3$-stress residual after amino-acid projection, wobble-weight asymmetry information, amino-acid-bin controls, a position-resolved ribosome-occupancy residual, and a declared stopping condition.  The intended statistical question is whether the $f_3$-stress coordinate contributes to a bounded translation-window readout only after the synonymous amino-acid projection has been imposed and only where third-position wobble weights distinguish a codon from its $f_3$ partner.  In schematic form, the admissible row is
+$$
+\begin{aligned}
+ r_i = (&\mathrm{organism}_i,\mathrm{CDS}_i,\mathrm{window}_i, q_i, a_i, z_i, T_i, b_i),\\
+ q_i &= \mathrm{f_3\text{-}stress\ residual},\\
+ a_i &= \mathbf{1}\{w_c \neq w_{c^{f_3}}\},\\
+ z_i &= \mathrm{amino\text{-}acid\ bin,GC3,length,M\text{-}density,mRNA,position},\\
+ T_i &= \mathrm{matched\ position\text{-}resolved\ ribosome\ occupancy\ residual}.
+\end{aligned}
+$$
+A row can support a translation-window statement only when $T_i$ is supplied by an organism-matched and CDS-matched ribosome-footprint table, not merely by codon geometry or modeled adaptation weights.
+
+\paragraph{Admissible finite claim.}
+The admissible claim is conditional and local.  On a nondegenerate finite panel, the statistic may ask whether $q_i$ improves a bounded readout of $T_i$ in wobble-asymmetric contexts after controlling for amino-acid composition, position or amino-acid bin, GC3, CDS length, $M$-density, codon-count baselines, and matched mRNA abundance.  The row count $n=3198$ is large enough to name the finite surface, but it is not by itself a rank certificate: the table supplied here does not include the design-matrix rank, the number of wobble-asymmetric windows, coverage filters, mappability filters, or the simpler-baseline ablation.  Thus the chapter records the statistical form rather than a passed survival result:
+$$
+\begin{aligned}
+ \Delta &= \mathcal{L}(T\mid Z) - \mathcal{L}(T\mid Z,q,a,q\cdot a),\\
+ \mathrm{support} &\Rightarrow a=1,\ \Delta>0,\ \mathrm{rank}(Z,q,a,q\cdot a)\ \mathrm{sufficient},\\
+ \mathrm{break} &\Leftarrow \mathrm{rank\ failure}\ \vee\ \mathrm{no\ matched\ }T\ \vee\ \mathrm{baseline\ explains\ the\ residual}.
+\end{aligned}
+$$
+Here $Z$ denotes the finite control block, not an unobserved biological mechanism.  The expression is a permitted testing grammar for the table; it is not a statement that translation has already been observed in the supplied data.
+
+\paragraph{Relation to the solubility label.}
+The claim identifier contains a protein-solubility phrase, but the finite evidence given in this packet does not supply an ESOL coefficient, a hydrophobic-clustering statistic, a measured solubility endpoint, or a same-row bridge from translation occupancy to soluble protein fraction.  The only verified numerical facts for this record are $n=3198$, runtime $60.0$ seconds, the run id, and the verification timestamp.  Therefore a solubility interpretation must remain dormant unless a separate row surface attaches protein-level solubility measurements to the same CDS or protein identifiers and evaluates them under amino-acid-composition and abundance controls.  A translation-window residual, even if later observed, would still be one layer below a protein-solubility readout.
+
+\paragraph{Local cannot-claim boundary.}
+No translation realization follows from codon topology alone.  No ribosome occupancy follows from tAI or stAI weights alone.  No protein abundance, folding state, structural order, physical admissibility, localization, biochemical function, system phenotype, mechanism, causation, or universal biological rule follows from $f_3$-stress, hydrophobic clustering language, the review status of the record, or the existence of $3198$ rows.  Each such conclusion requires a separate matched contact at its own layer.  In this chapter the record is therefore classified as a finite, row-indexed request for a controlled translation-window statistic, with a solubility-labeled identifier but without the finite solubility statistics needed for a positive protein-solubility conclusion.

@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\TropicalSemiringUp$}
+\label{ch:concrete-instances-tropical-semiring-namecert}
+\origin{human}
+
+Following Speyer--Sturmfels and standard idempotent algebra, the $\TropicalSemiringUp$ packet records the finite BEDC surface for the max-plus tropical semiring. It sits over the algebraic inventory of \autoref{ch:concrete-instances-ring-namecert}, the order-facing comparison rows of \autoref{ch:concrete-instances-order-namecert}, and the scalar readback boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names tropical addition and multiplication only through displayed carrier, endpoint, order, transport, replay, provenance, and local NameCert rows; it does not import host real completeness, quotient scalar equality, a selected limit, or an unledgered convention for infinity.
+
+\begin{definition}[Tropical semiring carrier]
+\label{def:tropical-semiring-carrier}
+A $\TropicalSemiringUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,A,M,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the carrier-source row, read through the $\RealUp$ or $\DyadicRatCoreUp$ scalar boundary together with a displayed endpoint symbol for the tropical additive zero.
+\item $A$ is the idempotent tropical-addition row. On visible scalar entries it records the chosen max-plus operation, so the displayed addition satisfies $x \oplus x=x$ by comparison with the same inspected value.
+\item $M$ is the tropical-multiplication row. On finite scalar entries it records ordinary scalar addition, with the endpoint row acting as the absorbing boundary for products involving the tropical additive zero.
+\item $E$ is the endpoint-convention ledger. It records whether the packet is read in the bottom-adjoined max-plus presentation or the dual top-adjoined min-plus presentation, and it binds the additive identity, absorbing multiplication boundary, and excluded unledgered endpoint cases.
+\item $O$ is the order-compatibility row. It reads the order surface of \autoref{ch:concrete-instances-order-namecert} and records monotonicity of $A$ and $M$ on the displayed finite comparisons.
+\item $H$ records componentwise $\hsame$ transport for $S,A,M,E,O$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from scalar and endpoint rows to tropical sums, tropical products, and order-compatible comparisons.
+\item $P$ is the $\Pkg$ provenance over $\TropicalSemiringUp$, $\RingUp$, $\OrderUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TropicalSemiringUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,M,E,O,H,C,P,N$. It has no coordinate for host-level real completeness, quotient scalar equality, selected extrema, unbounded optimization data, or an endpoint convention not written in $E$.
+\end{definition}
+
+\begin{theorem}[Tropical semiring NameCert obligations]
+\label{thm:tropical-semiring-namecert-obligations}
+The local $\NameCert_{\TropicalSemiringUp}$ surface for \autoref{def:tropical-semiring-carrier} consists exactly of carrier-source admission, idempotent tropical-addition exposure, tropical-multiplication exposure, endpoint-convention accounting, order compatibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier $T=(S,A,M,E,O,H,C,P,N)$. The first five rows expose the scalar source, the two tropical operations, the endpoint convention, and the order comparisons available to consumers.
+
+The endpoint row is part of the packet rather than ambient notation. Hence the additive zero, the absorbing multiplication boundary, and the max-plus or dual min-plus orientation are checked before any operation row is consumed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no further coordinate is present, the displayed rows exhaust the local NameCert obligations and exclude host completeness, quotient scalar equality, selected extrema, and unrecorded endpoint choices.
+\end{proof}
+
+\begin{theorem}[Tropical idempotent order route]
+\label{thm:tropical-semiring-idempotent-order-route}
+Every order-facing consumer of an accepted $\TropicalSemiringUp$ packet reads tropical idempotence and operation monotonicity through the same finite route
+$$
+S,E \longmapsto A,M \longmapsto O
+$$
+before it may use the packet for path-weight, optimization, or idempotent-algebra arguments. The route exports no total comparison beyond the displayed order rows and no completed-real supremum principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier-source and endpoint rows $S,E$. They determine which scalar entries and which additive boundary are visible to the packet.
+
+Next read $A$ and $M$. Idempotence of tropical addition is the diagonal projection of the displayed max-plus comparison in $A$, while multiplication is ordinary scalar addition only on entries admitted by $S$ and the boundary convention recorded by $E$.
+
+Finally read $O$. The order-compatibility row is the only place where monotonicity is exported to a consumer, and it is transported and replayed only through $H$ and $C$. Therefore downstream path-weight or optimization packets receive a finite idempotent order route, not a host supremum theorem, trichotomy principle, selected extremum, or ambient $\RealUp$ completeness claim.
+\end{proof}
+
+\closureat{TropicalSemiringUp}{seedStr}
+
+\begin{closurestatus}{\TropicalSemiringUp}
+  \constructivestory{A $\TropicalSemiringUp$ packet is generated from a scalar carrier source, idempotent tropical addition, tropical multiplication, endpoint-convention ledger, order-compatibility rows, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tropical-semiring-carrier}, \autoref{thm:tropical-semiring-namecert-obligations}, and \autoref{thm:tropical-semiring-idempotent-order-route} seed the finite max-plus tropical semiring surface over scalar, endpoint, order, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host tropical algebra, completed-real suprema, quotient scalar equality, selected extrema, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, idempotent-addition exposure, multiplication exposure, endpoint accounting, order compatibility, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

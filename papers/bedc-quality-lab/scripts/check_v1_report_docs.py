@@ -17,6 +17,7 @@ from scripts.literature_ledger import (
     LEDGER_POINTER,
     validate_literature_ledger,
 )
+from bedc_quality_lab.aggregation_consistency import scan_doc_hg_surfaces
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +27,11 @@ DOC_PATHS = [
     ROOT / "docs" / "bedc_quality_lab_alpha_milestone.md",
     ROOT / "docs" / "claims_and_nonclaims.md",
     ROOT / "docs" / "artifact_manifest.md",
+    ROOT / "reports" / "canonical" / "dgt-l1-boundary-report.md",
+    ROOT / "reports" / "canonical" / "scaling-ladder.md",
+    ROOT / "reports" / "canonical" / "model-comparison.md",
+    ROOT / "reports" / "canonical" / "index.md",
+    ROOT / "reports" / "canonical" / "experiment_proposals.md",
 ]
 INDEX_PATH = ROOT / "reports" / "canonical" / "index.json"
 DISCOVERY_MAP_PATH = ROOT / "reports" / "canonical" / "discovery_map.json"
@@ -414,6 +420,13 @@ def check_literature_ledger(docs: dict[Path, str], index: dict | None) -> CheckR
     )
 
 
+def check_doc_hg_surfaces() -> CheckResult:
+    report = scan_doc_hg_surfaces(ROOT, paths=DOC_PATHS)
+    if report.errors:
+        return CheckResult("DOC-HG", "FAIL", " | ".join(report.errors))
+    return CheckResult("DOC-HG", "PASS", f"scanned {report.doc_scan_count} documentation surfaces")
+
+
 def json_report_path_from_span(span: str) -> Path | None:
     match = REPORT_REF_RE.match(span)
     if not match:
@@ -511,6 +524,7 @@ def main() -> int:
             check_selected_positive_worked_case(docs),
             check_json_pointers(docs),
             check_literature_ledger(docs, index),
+            check_doc_hg_surfaces(),
         ]
     except Exception as exc:
         print(f"HG-V1-Report-DOCS: FAIL: {exc}")

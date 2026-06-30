@@ -56,18 +56,35 @@ The transport and continuation rows preserve that exposed packet. They may move 
 Finally inspect the downstream use in $\RelationalObjectivityUp$. A relational-objectivity read can consume the certificate only as the anchor-stability row already displayed here. If the certificate is absent, detached from its ledger, or transported across anchors without $R,K,L,H,C,P,N$, the consumer leaves the accepted \AnchorStabilityCertificateUp{} surface.
 \end{proof}
 
+\begin{theorem}[Anchor-stability route exhaustion]
+\label{thm:anchor-stability-certificate-route-exhaustion}
+Every anchor-stability read that is accepted by $\AnchorStabilityCertificateUp$ exposes the full packet
+$$
+F,I,R,K,L,H,C,P,N
+$$
+and the sibling rows $\ObserverHistIdentityUp$, $\MultiHistConfigUp$, $\CrossPerspectiveAlignmentUp$, and $\LocalityCellUp$ before any $\RelationalObjectivityUp$ consumer receives the invariant. The certificate has no route that sends an invariant to relational objectivity while skipping observer identity, multi-history configuration, cross-perspective alignment, locality-cell locality, or one of the displayed packet rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.AnchorStabilityCertificateUp.AnchorStabilityCertificateCarrier\_route\_exhaustion}
+\begin{proof}
+Project the carrier of \autoref{def:anchor-stability-certificate-carrier}. The rows $F,I,R,K,L$ expose the observer family, invariant, route, classifier, and ledger, while $H,C,P,N$ expose transport, continuation, provenance, and local naming.
+
+Read the sibling inputs through the same displayed rows. $\ObserverHistIdentityUp$ and $\MultiHistConfigUp$ supply the observer-family surface, $\CrossPerspectiveAlignmentUp$ supplies the alignment row, and $\LocalityCellUp$ supplies the admissible locality boundary.
+
+Now pass to the relational-objectivity consumer. By \autoref{thm:anchor-stability-certificate-nonescape}, the consumer can receive anchor stability only through the displayed certificate packet, so no unlisted sibling row or hidden anchor route can carry the invariant onward.
+\end{proof}
+
 \falsifiablePrediction{A relational objectivity read fails whenever its invariant row is transported across observer anchors without the displayed anchor-stability certificate.}
 
 \independenceWitness{relationalobjectivity, observerhistidentity, multihistconfig, crossperspectivealignment, localitycell: none is bijective to AnchorStabilityCertificateUp because none stores the invariant row, anchor-change route, classifier, ledger, and local NameCert as one certificate.}
 
 The Lean file `TasteGate.lean` for $\mathsf{BEDC.Derived.AnchorStabilityCertificateUp}$ must provide $\mathsf{Nontrivial}\ \AnchorStabilityCertificateUp$ and $\mathsf{FieldFaithful}\ \AnchorStabilityCertificateUp$ instances for the displayed carrier $F,I,R,K,L,H,C,P,N$.
 
-\closureat{AnchorStabilityCertificateUp}{seedStr}
+\closureat{AnchorStabilityCertificateUp}{obligationStr}
 
 \begin{closurestatus}{\AnchorStabilityCertificateUp}
   \constructivestory{An $\AnchorStabilityCertificateUp$ packet is generated from an observer-family row, invariant row, anchor-change route, classifier row, ledger row, componentwise transport, displayed continuation routes, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the displayed anchor-stability carrier and the nonescape theorem for reads through $F,I,R,K,L,H,C,P,N$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the carrier, NameCert obligations, nonescape theorem, route-exhaustion theorem, and existing TasteGate checked marker for reads through $F,I,R,K,L,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

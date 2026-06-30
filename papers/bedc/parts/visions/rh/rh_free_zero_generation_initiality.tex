@@ -1,0 +1,208 @@
+\chapter{RH-Free Zero Generation by Initiality}
+\label{ch:visions-rh-free-zero-generation-initiality}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-self-similar-recovered-carrier} displays the
+recovered zeta carrier as a diagram of prime, Dirichlet, Euler, Laplace,
+continuation, completion, mirror, zero-ledger, window, code, certificate,
+and provenance rows. \autoref{ch:visions-rh-layered-translation} identifies
+the Riemann Hypothesis with a section into the fixed-half fiber over the
+critical-strip zero-packet carrier. The present chapter isolates the
+initial-algebra pattern that would turn a zero-generation theorem into that
+section. It supplies no analytic continuation, no zero source, and no
+fixed-half witness by itself; it only separates the exact obligations.
+
+\begin{definition}[RH-free zero signature]
+\label{def:rh-free-zero-signature}
+\leandef{BEDC.Derived.RHRoute.ZeroGenerationInitiality.RHFreeZeroSignature}
+\leanchecked{BEDC.Derived.RHRoute.ZeroGenerationInitiality.rhFreeZeroSignatureKinds\_no\_rh\_circ}
+An RH-free zero signature is a displayed endofunctor $F_Z$ on the zeta
+zero-presentation stratum together with a circularity audit
+$$
+\mathsf{NoRHCirc}(F_Z).
+$$
+The audit asserts that no constructor of $F_Z$ consumes an
+$\mathsf{OnCritLine}$ witness, a row asserting $\Re(s)=1/2$, a section of
+the fixed-half inclusion, the proposition $\mathsf{RH}$, or an arbitrary
+unfactored seed
+$$
+\mathcal Z_{\zeta}\to F_Z(X).
+$$
+The admissible inputs are pre-RH rows such as prime-local spectral atoms,
+functional-equation transport, conjugation transport, classifier transport,
+analytic gluing, compatible limit seals, and ledger reconstruction. The
+word ``pre-RH'' means that the row is present in the neutral zeta carrier
+before the fixed-half consequence is imposed.
+\end{definition}
+
+\begin{definition}[Generated zero carrier]
+\label{def:rh-generated-zero-carrier}
+\leandef{BEDC.Derived.RHRoute.ZeroGenerationInitiality.GeneratedZero}
+\leanchecked{BEDC.Derived.RHRoute.ZeroGenerationInitiality.generatedZero\_initiality}
+For an RH-free zero signature $F_Z$, a generated zero carrier is an initial
+algebra
+$$
+(Z,\mathsf{in}_{Z}) := \mu F_Z.
+$$
+Its intended realization into the source carrier of
+\autoref{def:rh-layered-source-carrier} is a displayed map
+$$
+\varepsilon:Z\to\mathcal Z_{\zeta}.
+$$
+Zero-presentation exactness is the conjunction of soundness, faithfulness,
+and essential coverage:
+$$
+\prod_{z:Z}\varepsilon(z):\mathcal Z_{\zeta},
+$$
+$$
+\varepsilon(z)\sim\varepsilon(z')\to z\sim_Z z',
+$$
+and
+$$
+\prod_{u:\mathcal Z_{\zeta}}
+\sum_{z:Z}\varepsilon(z)\sim u.
+$$
+When these rows are displayed, $\varepsilon$ is written
+$Z\simeq\mathcal Z_{\zeta}$. This equivalence is not supplied by
+initiality; it is the completeness obligation saying that the displayed
+generators account for every accepted critical-strip zero packet.
+\end{definition}
+
+\begin{definition}[Generated fixed-half subcarrier]
+\label{def:rh-generated-fixed-half-subcarrier}
+\leandef{BEDC.Derived.RHRoute.ZeroGenerationInitiality.FixedHalfSubcarrier}
+Given $\varepsilon:Z\to\mathcal Z_{\zeta}$, define the generated
+fixed-half predicate
+$$
+P_{1/2}(z)
+:=
+\mathsf{OnCritLine}\bigl(\pi_s(\varepsilon(z))\bigr).
+$$
+The fixed-half subcarrier of $Z$ is
+$$
+H_Z
+:=
+\sum_{z:Z}P_{1/2}(z),
+$$
+with projection $m:H_Z\to Z$.
+\end{definition}
+
+\begin{definition}[Fixed-half closed zero signature]
+\label{def:rh-fixed-half-closed-zero-signature}
+\leandef{BEDC.Derived.RHRoute.ZeroGenerationInitiality.FixedHalfClosedZeroSignature}
+The RH-free zero signature $F_Z$ is fixed-half closed relative to
+$\varepsilon$ when $H_Z$ carries an $F_Z$-algebra
+$$
+h:F_Z(H_Z)\to H_Z
+$$
+whose projection agrees with the original zero algebra:
+$$
+m\circ h
+\sim
+\mathsf{in}_{Z}\circ F_Z(m).
+$$
+Thus every displayed zero constructor, when fed fixed-half inputs, emits a
+fixed-half output. This is a constructor-by-constructor obligation, not a
+pointwise enumeration of zeros.
+\end{definition}
+
+\begin{theorem}[Conditional initiality route to the RH section]
+\label{thm:rh-conditional-initiality-route-section}
+\leanchecked{BEDC.Derived.RHRoute.ZeroGenerationInitiality.rh\_conditional\_initiality\_route\_section}
+Assume $F_Z$ is RH-free, $(Z,\mathsf{in}_{Z})=\mu F_Z$ is displayed,
+$\varepsilon:Z\simeq\mathcal Z_{\zeta}$ is zero-presentation exact, and
+$F_Z$ is fixed-half closed relative to $\varepsilon$. Then the section form
+$\mathsf{Sec}_{\mathsf{RH}}$ of \autoref{def:rh-layered-section-form} is
+inhabited.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-fixed-half-closed-zero-signature}, $H_Z$ is an
+$F_Z$-algebra. Initiality of $Z$ gives the unique algebra morphism
+$$
+r:Z\to H_Z.
+$$
+The composite $m\circ r:Z\to Z$ is an $F_Z$-algebra endomorphism of the
+initial algebra. The identity map on $Z$ is also such an endomorphism, so
+initiality gives
+$$
+m\circ r\sim\mathrm{id}_{Z}.
+$$
+For each $z:Z$, the second component of $r(z):H_Z$ is a witness of
+$P_{1/2}(z)$. Transporting this witness along
+$\varepsilon:Z\simeq\mathcal Z_{\zeta}$ yields a map from every source
+zero packet $u:\mathcal Z_{\zeta}$ to the fixed-half fiber over $u$. This
+is exactly a section of the projection
+$\operatorname{Fix}_{\mathbb R}\to\mathcal Z_{\zeta}$, hence an inhabitant
+of $\mathsf{Sec}_{\mathsf{RH}}$.
+\end{proof}
+
+\begin{corollary}[Conditional extraction of the BEDC RH witness]
+\label{cor:rh-conditional-initiality-extracts-witness}
+Under the hypotheses of
+\autoref{thm:rh-conditional-initiality-route-section}, the constructive
+target of \autoref{prop:rh-constructive-form} is inhabited.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-conditional-initiality-route-section} supplies
+$\mathsf{Sec}_{\mathsf{RH}}$. By
+\autoref{prop:rh-layered-rh-fixed-half-section}, this is the scoped
+fixed-half section readback used by the BEDC statement $\mathsf{RH}$ of
+\autoref{def:rh-predicate}, whose proof content is the function described in
+\autoref{prop:rh-constructive-form}.
+\end{proof}
+
+\begin{principle}[Initiality does not give zero completeness]
+\label{prin:rh-initiality-not-zero-completeness}
+The initiality of $Z=\mu F_Z$ proves induction over the zeros generated by
+$F_Z$. It does not prove that $F_Z$ has generated every accepted
+critical-strip zero packet. The essential coverage component of
+\autoref{def:rh-generated-zero-carrier} is therefore one of the two central
+mathematical obligations of the route. Without it, an off-half zero outside
+the generated carrier would not be seen by initial-algebra induction.
+\end{principle}
+
+\begin{principle}[Constructor closure is the fixed-half hinge]
+\label{prin:rh-constructor-closure-fixed-half-hinge}
+The other central obligation is fixed-half closure of the constructors.
+Administrative constructors, such as classifier transport and ledger
+reconstruction, should preserve $P_{1/2}$ by stability. Symmetry
+constructors, such as conjugation and functional-equation transport, must
+preserve the mirror fixed surface. Limit constructors must preserve
+$P_{1/2}$ through real-part continuity and uniqueness of the completed
+limit. Primitive zero-source constructors are the analytic hinge: they must
+produce fixed-half zero packets without smuggling an
+$\mathsf{OnCritLine}$ witness into their input data.
+\end{principle}
+
+\begin{principle}[Window induction and limit windows]
+\label{prin:rh-window-induction-limit-windows}
+The same distinction applies to inspection windows. Finite generated
+windows are handled by structural induction over their window signature.
+Limit windows are handled as compatible inverse systems
+$$
+W_0\leftarrow W_1\leftarrow W_2\leftarrow\cdots,
+$$
+with a limit-window predicate read as
+$$
+P_{\infty}(w):=\prod_n P_n(\pi_n w).
+$$
+This removes the need to inspect an untyped totality of windows while still
+recording the exact compatibility data required for a completed zero
+carrier.
+\end{principle}
+
+\begin{principle}[Failure readings]
+\label{prin:rh-initiality-route-failure-readings}
+The initiality route has three mathematically distinct failure readings.
+If $\mathsf{NoRHCirc}(F_Z)$ fails, the proposed generator has assumed the
+fixed-half conclusion. If zero-presentation exactness fails, the generator
+does not cover the accepted non-trivial zero carrier. If fixed-half closure
+fails for a constructor, the failing constructor identifies the analytic
+mechanism by which an off-half packet could enter the recovered carrier.
+None of these failures is a route-closure decider or an independence
+theorem for the fixed proposition $\mathsf{RH}$.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-rh-free-zero-initiality-namecert}{The RH-free zero-generation initiality route is represented as a finite NameCert packet with an explicit no-circularity audit.}

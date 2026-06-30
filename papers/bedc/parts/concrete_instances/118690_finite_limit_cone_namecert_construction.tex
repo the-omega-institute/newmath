@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLimitConeUp$}
+\label{ch:concrete-instances-finite-limit-cone-namecert}
+\origin{human}
+
+Following Mac Lane's category-theoretic account of limits, the $\FiniteLimitConeUp$ packet records the finite cone data needed by limit arguments as BEDC NameCert rows rather than as an imported universal-property object. It sits after the certified $\CategoryUp$ surface of \autoref{ch:concrete-instances-category-namecert}, the diagram map discipline of $\FunctorUp$ in \autoref{ch:concrete-instances-functor-namecert}, the componentwise comparison discipline of $\NatTransUp$ in \autoref{ch:concrete-instances-nattrans-namecert}, the binary-product route of $\ProductUp$ in \autoref{ch:concrete-instances-prod-namecert}, the finite pullback route of $\PullbackUp$ in \autoref{ch:concrete-instances-finite-window-pullback-namecert}, and the finite-limit refusal boundary of $\FiniteLimitSealUp$ in \autoref{ch:concrete-instances-finite-limit-seal-namecert}. The packet names cone legs and finite naturality checks; it is not a host finite-limit theorem, a selected terminal cone, quotient equality of diagrams, or an ambient category library object.
+
+\begin{definition}[Finite-limit cone carrier]
+\label{def:finite-limit-cone-carrier}
+A $\FiniteLimitConeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,J,D,A,L,V,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CategoryUp$ codomain certificate, exposing object, hom, identity, composition, associativity, unit, classifier, and transport rows for the category in which the cone is read.
+\item $J$ is the finite $\CategoryUp$ shape row, naming the inspected indexing objects and arrows of the diagram shape.
+\item $D$ is the $\FunctorUp$ diagram row $J\to C$, including object images, arrow images, identity and composition preservation, and the diagram classifier.
+\item $A$ is the apex row, naming the candidate cone apex as an object of $C$ through the same $\CategoryUp$ classifier.
+\item $L$ is the finite leg row, listing the displayed arrows $A\to D(j)$ for every inspected object $j$ of $J$.
+\item $V$ is the cone-visibility row, recording the finite naturality squares for every inspected arrow of $J$ and the adjacent $\NatTransUp$ comparison route when the cone is transported along a certified diagram comparison.
+\item $H$ is componentwise $\hsame$ transport for $C,J,D,A,L,V,R,P,N$.
+\item $R$ is the displayed $\Cont$ replay route through the category, diagram, apex, leg, and visibility rows.
+\item $P$ is $\Pkg$ provenance over $\FiniteLimitConeUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\ProductUp$, $\PullbackUp$, $\FiniteLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteLimitConeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a universal cone, a selected limiting object, quotient equality of diagrams, all finite shapes at once, ambient finite products, ambient pullbacks, or an external category-theory library.
+\end{definition}
+
+\begin{theorem}[Finite-limit cone NameCert obligations]
+\label{thm:finite-limit-cone-namecert-obligations}
+For every accepted $\FiniteLimitConeUp$ carrier $K=(C,J,D,A,L,V,H,R,P,N)$, the local $\NameCert_{\FiniteLimitConeUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the codomain $\CategoryUp$ row, finite shape $\CategoryUp$ row, $\FunctorUp$ diagram row, apex row, leg row, and cone-visibility row;
+\item classifier exposure, comparing cones only through the same codomain, shape, diagram, apex, leg, and visibility data under the displayed category and functor classifiers;
+\item finite cone exactness, requiring every inspected shape arrow to satisfy its displayed naturality square before the leg family is exported;
+\item sibling compatibility, allowing $\ProductUp$, $\PullbackUp$, and $\FiniteLimitSealUp$ consumers to read the cone only as finite cone data and not as a completed universal limit;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,R,P,N$.
+\end{enumerate}
+Thus a consumer may inspect the finite route
+$$
+\CategoryUp,\ \FunctorUp,\ \NatTransUp,\ \ProductUp,\ \PullbackUp,\ \FiniteLimitSealUp
+\longmapsto
+\FiniteLimitConeUp
+$$
+only through the displayed cone rows. It receives no host finite-limit theorem, selected terminal cone, quotient diagram equality, or ambient category-library object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $C,J,D,A,L,V$ are exactly the codomain, finite shape, diagram, apex, leg family, and cone-visibility data, so every exported cone read starts from the finite category and functor surfaces.
+
+The naturality checks are finite because $J$ supplies only the inspected shape rows. The visibility row $V$ records the squares for those rows and the adjacent $\NatTransUp$ comparison route, while the product and pullback siblings may consume only the displayed finite legs and square data.
+
+The structural rows $H,R,P,N$ preserve the same packet by transport, replay, provenance, and local naming. Since the carrier contains no universal-cone coordinate, selected limiting object, quotient diagram equality, all-shapes quantifier, ambient finite products, ambient pullbacks, or external category library, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteLimitConeUp$ consumer that reads a finite-limit cone while omitting the displayed codomain category, finite shape, diagram functor, apex, leg family, cone-visibility, transport, replay, provenance, or local naming rows refutes the carrier of \autoref{def:finite-limit-cone-carrier}.}
+
+\independenceWitness{category, functor, nattrans, product, pullback, finite-limit-seal: none is bijective because $\FiniteLimitConeUp$ jointly carries codomain, finite shape, diagram, apex, leg, finite naturality, sibling compatibility, transport, replay, provenance, and local NameCert rows. Each listed sibling exposes an adjacent surface without the full cone packet.}
+
+\closureat{FiniteLimitConeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLimitConeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-limit-cone-carrier} and \autoref{thm:finite-limit-cone-namecert-obligations} seed the finite cone carrier and its five-row NameCert surface over Category, Functor, NatTrans, Product, Pullback, FiniteLimitSeal, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host finite-limit theorem, a selected terminal cone, quotient diagram equality, all finite shapes at once, or an ambient category-library object.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, finite cone exactness, sibling compatibility, transport, replay, provenance, and local naming for BEDC.Derived.FiniteLimitConeUp.}
+  \constructivestory{A $\FiniteLimitConeUp$ packet is generated from CategoryUp codomain and finite-shape rows, a FunctorUp diagram row, apex and leg rows, finite NatTrans-facing cone-visibility rows, ProductUp/PullbackUp/FiniteLimitSealUp sibling compatibility, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceDiagonalUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-diagonal-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchySubsequenceDiagonalUp$ packet records the finite diagonal route by which a bounded real sequence is inspected through regular Cauchy subsequence windows before a $\RealUp$ cluster-facing seal is exposed. It sits over the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the bounded source surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, and the Bolzano--Weierstrass route of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. The packet names a displayed diagonal schedule and its finite readback; it is not countable choice, a host-selected subsequence, quotient stream equality, trichotomy of reals, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy subsequence diagonal carrier]
+\label{def:regular-cauchy-subsequence-diagonal-carrier}
+A $\RegularCauchySubsequenceDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,S,J,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded sequence source row, read as a $\BoundedRealSequenceUp$ packet and exposing only the inspected sequence indices, finite bounds, and local source route.
+\item $S$ is the subsequence schedule row, listing the finite initial segment of the increasing index schedule used by the diagonal read.
+\item $J$ is the diagonal window selector, assigning each requested regular-Cauchy tolerance to the finite source window and subsequence index already displayed in $S$.
+\item $W$ is the family of $\StreamNameUp$ windows inspected along the displayed schedule and selector rows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the selected windows.
+\item $E$ is the $\RealUp$ seal row reached only after the bounded source, schedule, selector, windows, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, schedule, selector, StreamName windows, RegSeqRat readback, Real seal, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+B,S,J,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySubsequenceDiagonalUp$, $\BoundedRealSequenceUp$, $\BolzanoWeierstrassUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySubsequenceDiagonalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets exactly through $B,S,J,W,R,E,H,C,P,N$. It has no coordinate for countable choice, a host subsequence selector, quotient equality of streams, trichotomy, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy subsequence diagonal NameCert obligations]
+\label{thm:regular-cauchy-subsequence-diagonal-namecert-obligations}
+For every accepted $\RegularCauchySubsequenceDiagonalUp$ carrier $D=(B,S,J,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchySubsequenceDiagonalUp}$ surface consists exactly of carrier admission for the ten displayed rows; bounded-source visibility through $B$; finite subsequence scheduling through $S$; diagonal window selection through $J$; StreamName window exposure through $W$; RegSeqRat readback through $R$; Real seal handoff through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-subsequence-diagonal-carrier}. The bounded source row $B$ is the only source-side input, so every sequence read starts from the finite $\BoundedRealSequenceUp$ surface.
+
+Read the schedule and selector next. The row $S$ lists the finite inspected subsequence indices, while $J$ ties each requested diagonal tolerance to one of the displayed windows. No row can request an unlisted tail or an externally selected subsequence.
+
+The analytic handoff then passes through $W,R,E$. StreamName windows are inspected before the regular rational readback, and the Real seal is downstream of that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for countable choice, a host subsequence selector, quotient stream equality, trichotomy, or ambient Real completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy subsequence diagonal Real handoff]
+\label{thm:regular-cauchy-subsequence-diagonal-real-handoff}
+Every $\RealUp$-facing read from an accepted $\RegularCauchySubsequenceDiagonalUp$ carrier factors through
+$$
+B,S,J,W,R,E,H,C,P,N .
+$$
+In particular, the Real seal is exposed only after the bounded sequence source, finite subsequence schedule, diagonal selector, StreamName windows, and RegSeqRat readback have been displayed. The handoff exports no countable choice, selected host subsequence, quotient stream equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-subsequence-diagonal-namecert-obligations}. They place the bounded source row $B$, schedule row $S$, selector row $J$, and StreamName windows $W$ before any regular readback can be consumed.
+
+The readback row $R$ is therefore the only regular rational route to the terminal seal. A $\RealUp$ consumer reaches $E$ only after this displayed readback has been named.
+
+The structural rows $H,C,P,N$ preserve the same route under transport and replay. Because no excluded selector, quotient, trichotomy, choice, or completeness row occurs in the carrier, every Real-facing read remains inside the displayed diagonal packet.
+\end{proof}
+
+\closureat{RegularCauchySubsequenceDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubsequenceDiagonalUp}
+  \constructivestory{A $\RegularCauchySubsequenceDiagonalUp$ packet is generated from a bounded real sequence source, a finite subsequence schedule, a diagonal window selector, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subsequence-diagonal-carrier}, \autoref{thm:regular-cauchy-subsequence-diagonal-namecert-obligations}, and \autoref{thm:regular-cauchy-subsequence-diagonal-real-handoff} seed the finite diagonal route from bounded source windows to a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, selected host subsequences, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-source visibility, finite schedule exactness, diagonal selector stability, StreamName window coverage, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySubsequenceDiagonalUp.}
+\end{closurestatus}

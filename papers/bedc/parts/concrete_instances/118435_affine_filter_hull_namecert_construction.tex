@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\AffineFilterHullUp$}
+\label{ch:concrete-instances-affine-filter-hull-namecert}
+\origin{human}
+
+Following Kelley on finite filter bases and the standard affine-hull closure discipline for generated neighbourhood systems, the $\AffineFilterHullUp$ packet records a finite hull route from displayed affine generators to a filter-base handoff. It concretizes the vision-routing surface of \autoref{ch:capstones} through a traditional filter-hull object grounded in the coverage index of \autoref{ch:concrete-instances-vision-coverage-index-namecert}, the coverage ledger of \autoref{ch:concrete-instances-vision-coverage-ledger-namecert}, and the filter-base interface of \autoref{ch:concrete-instances-filterbase-namecert}. The packet names the generated affine-filter boundary only; it does not assert convex completeness, select limits, quotient filters, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Affine filter hull carrier]
+\label{def:affine-filter-hull-carrier}
+An $\AffineFilterHullUp$ carrier is a finite $\BHist$ packet
+$$
+A=(V,G,M,I,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite affine-generator row, listing the displayed generator tokens available to the hull.
+\item $G$ is the finite generator-family row, recording which finite affine combinations are admitted as local hull requests.
+\item $M$ is the membership-event row, exposing the $\BHist$ surface attached to each admitted hull request.
+\item $I$ is the inclusion ledger from generator tokens and finite affine combinations into generated filter requests.
+\item $B$ is the generated $\FilterBaseUp$ row exposed to downstream consumers.
+\item $R$ is the routing row linking this concrete object back to the vision coverage index and ledger surfaces.
+\item $H$ records componentwise $\hsame$ transport for generators, finite affine combinations, membership events, inclusion ledgers, filter-base rows, routing rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from affine-generator requests through finite hull membership and into the generated filter-base handoff.
+\item $P$ is the $\Pkg$ provenance over $\AffineFilterHullUp$, $\FilterBaseUp$, $\VisionCoverageIndexUp$, $\VisionCoverageLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AffineFilterHullUp}$ row.
+\end{enumerate}
+The classifier reads only $V,G,M,I,B,R,H,C,P,N$. It has no coordinate for an infinite affine span, quotient filters, selected limits, countable choice, host equality of hulls, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Affine filter hull NameCert obligations]
+\label{thm:affine-filter-hull-namecert-obligations}
+For every accepted $\AffineFilterHullUp$ carrier $A=(V,G,M,I,B,R,H,C,P,N)$, the local $\NameCert_{\AffineFilterHullUp}$ surface consists exactly of carrier admission, finite affine-generator exposure through $V$, finite affine-combination admission through $G$, membership-event exposure through $M$, inclusion-ledger coverage through $I$, generated $\FilterBaseUp$ handoff through $B$, vision-routing compatibility through $R$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:affine-filter-hull-carrier}. The rows $V,G,M,I$ are the complete finite affine-hull generation surface, and $B$ is the only generated filter-base row.
+
+The routing row is separate from the generated base. It records that the hull object realizes a vision coverage route, but it does not create a second carrier or a hidden completion object.
+
+Transport, replay, provenance, and local naming are exactly $H,C,P,N$. Since the carrier has no row for an infinite affine span, quotient filters, selected limits, countable choice, host equality of hulls, or ambient completeness, those principles cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Affine filter hull generated-base route]
+\label{thm:affine-filter-hull-generated-base-route}
+Every downstream read of an accepted $\AffineFilterHullUp$ carrier reaches the generated $\FilterBaseUp$ row $B$ only after finite affine generators $V$, admitted finite combinations $G$, membership events $M$, and the inclusion ledger $I$ have been displayed. The route exports no quotient filters, selected limits, countable choice, host equality of generated hulls, infinite affine span, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows. The only source data for the hull are the finite generator row $V$ and finite-combination row $G$.
+
+The membership-event and inclusion-ledger rows $M,I$ mediate all access from those generators to the generated base. Thus $B$ is available only through the displayed finite hull route.
+
+Apply the NameCert obligations of \autoref{thm:affine-filter-hull-namecert-obligations}. They force the generated $\FilterBaseUp$ handoff and the routing row to remain inside the same finite packet.
+
+The excluded coordinates are absent from $A$. Hence a downstream consumer cannot read quotient filters, selected limits, countable choice, host equality, infinite spans, or ambient completeness from this packet.
+\end{proof}
+
+\begin{theorem}[Affine filter hull vision routing]
+\label{thm:affine-filter-hull-vision-routing}
+The $\AffineFilterHullUp$ packet realizes a concrete routing object for the vision coverage surface: a read through $R$ must point to the existing vision coverage index and coverage ledger while the generated $\FilterBaseUp$ handoff remains the row $B$ of the same carrier. No vision-side marker supplies an independent theorem, hidden carrier, quotient filter, selected limit, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Inspect the routing row $R$ in \autoref{def:affine-filter-hull-carrier}. It names the already displayed coverage index and ledger surfaces as provenance for the concrete hull route.
+
+The generated filter-base handoff is still $B$. Rows $V,G,M,I$ produce it, and rows $H,C,P,N$ transport, replay, source, and name the same object.
+
+Therefore the vision marker is a pointer to this concrete carrier rather than a separate mathematical payload. Since the carrier has no quotient, selected-limit, choice, hidden-carrier, or ambient-completeness coordinate, the routing read cannot export any of those objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AffineFilterHullUp$ read exposes finite affine generators, finite affine-combination rows, membership events, an inclusion ledger, a generated FilterBaseUp row, a vision-routing row, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{filterbase, vision-coverage-index, vision-coverage-ledger: $\AffineFilterHullUp$ is not bijective to any listed sibling because it jointly carries finite affine generators, generated membership events, inclusion-ledger coverage, a generated filter-base handoff, vision-routing compatibility, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{AffineFilterHullUp}{seedStr}
+
+\begin{closurestatus}{\AffineFilterHullUp}
+  \constructivestory{An $\AffineFilterHullUp$ packet is generated from finite affine-generator rows, finite affine-combination rows, membership-event rows, an inclusion ledger, a generated FilterBaseUp row, a vision-routing row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:affine-filter-hull-carrier}, \autoref{thm:affine-filter-hull-namecert-obligations}, \autoref{thm:affine-filter-hull-generated-base-route}, and \autoref{thm:affine-filter-hull-vision-routing} seed the finite affine-filter hull route from displayed generators to generated filter-base handoff and vision routing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite affine spans, quotient filters, selected limits, countable choice, host equality of hulls, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of BEDC.Derived.AffineFilterHullUp with checked carrier admission, finite affine generation, membership-event exposure, inclusion-ledger coverage, FilterBaseUp handoff, vision-routing compatibility, transport, replay, provenance, and classifier faithfulness.}
+\end{closurestatus}

@@ -68,16 +68,30 @@ Finally inspect $T,L,P,N$. These rows supply componentwise stability, replay, pr
 
 \independenceWitness{registryexportsurface, machineinterfaceboundary, claimregistrylayer, axiszeckendorfcannotclaim, prooftraceauditwitness: none carries the joint registry-row, status-agreement, dependency-strength, gap-status, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert packet of $\RegistryConsistencyAuditUp$.}
 
+\begin{theorem}[Registry-consistency audit standard bridge]
+\label{thm:registry-consistency-audit-standard-bridge}
+The exported $\RegistryConsistencyAuditUp$ packet bridges to the standard registry-audit reading by preserving exactly the registry row $R$, status row $S$, dependency row $D$, gap row $G$, cannot-claim row $X$, closure/formal-status row $F$, transport row $T$, replay row $L$, proof-trace row $Q$, provenance row $P$, and local naming row $N$. The bridge has no coordinate for a hidden registry override, prose-only status repair, machine target outside $F$, proof read outside $Q$, or cannot-claim bypass outside $X$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:registry-consistency-audit-carrier}. The standard registry-audit reading receives only the displayed rows $R,S,D,G,X,F,T,L,Q,P,N$.
+
+Apply the route theorem \autoref{thm:registry-consistency-audit-route}. It forces every exported claim to pass through the same registry entry, status agreement, dependency strength, gap status, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local naming rows before the audit is accepted.
+
+Use the NameCert obligations of \autoref{thm:registry-consistency-audit-namecert-obligations}. Those obligations exhaust the local audit surface, so the standard reading cannot import a hidden registry override, prose-only repair, machine target outside $F$, proof read outside $Q$, or cannot-claim bypass outside $X$.
+\end{proof}
+
 \closureat{RegistryConsistencyAuditUp}{seedStr}
 \closureat{RegistryConsistencyAuditUp}{obligationStr}
 \closureat{RegistryConsistencyAuditUp}{publicStr}
+\closureat{RegistryConsistencyAuditUp}{bridgedStr}
+\closureat{RegistryConsistencyAuditUp}{matureStr}
 
 \begin{closurestatus}{\RegistryConsistencyAuditUp}
   \constructivestory{A $\RegistryConsistencyAuditUp$ packet is generated from displayed registry, status, dependency, gap, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:registry-consistency-audit-carrier}, \autoref{thm:registry-consistency-audit-route}, \autoref{thm:registry-consistency-audit-namecert-obligations}, and the checked TasteGate marker at the carrier site bind the scoped carrier, route, and obligation evidence for registry-consistency audit packets.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:registry-consistency-audit-carrier}, \autoref{thm:registry-consistency-audit-route}, \autoref{thm:registry-consistency-audit-namecert-obligations}, \autoref{thm:registry-consistency-audit-standard-bridge}, and the checked TasteGate marker at the carrier site bind the mature paper-axis registry-consistency audit packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close bridge checking, Lean verification, or any registry repair route for $\RegistryConsistencyAuditUp$.}
-  \upgradepath{Bridged closure requires a standard bridge over the same exported registry-consistency audit packet.}
+  \upgradepath{No further paper closure-axis upgrade remains; Lean verification and bridge checking remain separate obligations.}
 \end{closurestatus}

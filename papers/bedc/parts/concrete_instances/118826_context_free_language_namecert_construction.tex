@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ContextFreeLanguageUp$}
+\label{ch:concrete-instances-context-free-language-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and standard formal-language theory, the $\ContextFreeLanguageUp$ packet names a language by finite grammar and derivation data before any recognizer, pumping, or membership consumer reads a host language set. It sits beside the regular-language continuation surface of \autoref{ch:concrete-instances-regular-language-continuation-namecert}, the finite-control surface of \autoref{ch:concrete-instances-finite-automaton-namecert}, the stack-recognizer surface of \autoref{ch:concrete-instances-pushdown-automaton-namecert}, and the derivation-window certificate of \autoref{ch:concrete-instances-context-free-pumping-lemma-namecert}. The packet records the grammar, derivation tree, yield, and classifier rows that those consumers may inspect; it is not an ambient set of words, a host-language equality principle, or a semantic closure theorem.
+
+\begin{definition}[Context-free language carrier]
+\label{def:context-free-language-carrier}
+A $\ContextFreeLanguageUp$ carrier is a finite $\BHist$ packet
+$$
+L=(G,V,\Sigma,P,D,Y,M,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the grammar row naming the start symbol and the finite context-free grammar surface.
+\item $V$ is the finite nonterminal alphabet row.
+\item $\Sigma$ is the finite terminal alphabet row.
+\item $P$ is the production ledger, listing every admitted production as a finite row over $V$ and $\Sigma$.
+\item $D$ is the derivation-tree row, recording the finite tree whose internal nodes read productions from $P$.
+\item $Y$ is the yield stream row, recording the terminal frontier obtained from $D$.
+\item $M$ is the membership classifier row, accepting a word only when it is the displayed yield of an admitted derivation tree.
+\item $H$ stores componentwise $\hsame$ transport for $G,V,\Sigma,P,D,Y,M,C,Q,N$.
+\item $C$ stores displayed $\Cont$ replay from grammar admission through productions, derivation tree, yield stream, and membership classifier.
+\item $Q$ is the $\Pkg$ provenance over $\ContextFreeLanguageUp$, $\ContextFreeGrammarUp$, $\PushdownAutomatonUp$, $\ContextFreePumpingLemmaUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContextFreeLanguageUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite parse forest, host language equality, unrestricted grammar quotient, choice of a canonical derivation, complement closure, determinization, or ambient semantic set membership.
+\end{definition}
+\leanstmt{BEDC.Derived.ContextFreeLanguageUp}
+
+\begin{theorem}[Context-free language NameCert obligations]
+\label{thm:context-free-language-namecert-obligations}
+For every accepted $\ContextFreeLanguageUp$ carrier $L=(G,V,\Sigma,P,D,Y,M,H,C,Q,N)$, the local $\NameCert_{\ContextFreeLanguageUp}$ surface consists exactly of grammar admission through $G,V,\Sigma,P$, derivation stability through $D$ and $H$, yield exactness through $Y$, pumping-boundary nonescape through the $\ContextFreePumpingLemmaUp$ route, classifier transport through $M$, displayed replay through $C$, provenance through $Q$, and local naming through $N$.
+
+No accepted packet exports host language equality, an infinite parse forest, a grammar quotient, a selected canonical derivation, complement closure, determinization, or an ambient semantic language set.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:context-free-language-carrier}. The grammar, nonterminal, terminal, and production rows $G,V,\Sigma,P$ are the only rows that admit grammar syntax.
+
+The derivation tree and yield rows are downstream of that syntax. Componentwise transport through $H$ preserves $D$ and $Y$, and replay through $C$ records the route from productions to the derivation tree and then to the terminal yield.
+
+The membership classifier $M$ reads only the displayed yield of an admitted derivation tree. The $\ContextFreePumpingLemmaUp$ sibling may inspect finite derivation-window data, but it receives no infinite parse forest or semantic language quotient.
+
+Finally $Q$ and $N$ preserve provenance and local naming for the same finite packet. Since none of the excluded objects is a carrier coordinate, no local NameCert obligation can export it.
+\end{proof}
+
+\begin{theorem}[Context-free language pushdown handoff]
+\label{thm:context-free-language-pushdown-handoff}
+Every $\PushdownAutomatonUp$ consumer that accepts a language-membership row from an accepted $\ContextFreeLanguageUp$ packet must first read the grammar row $G$, the nonterminal row $V$, the terminal row $\Sigma$, the production ledger $P$, the derivation-tree row $D$, the yield row $Y$, and the classifier row $M$. The handoff exports only the displayed grammar-and-derivation surface and cannot replace it by a host language set, a hidden stack oracle, a canonical derivation selector, or grammar quotient equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only membership row is $M$, and it is listed after the grammar, production, derivation, and yield rows.
+
+Apply \autoref{thm:context-free-language-namecert-obligations}. Classifier transport is bound to the same finite rows $G,V,\Sigma,P,D,Y,M$ and to the componentwise $\hsame$ transport in $H$.
+
+A pushdown consumer therefore reads the grammar and derivation surface before accepting a language-membership row. The continuation row $C$ records that replay order, while $Q$ and $N$ preserve provenance and naming without adding a second membership source.
+
+The excluded objects are absent from the carrier. Hence the pushdown handoff supplies a finite grammar-and-derivation interface rather than a host language set, stack oracle, derivation selector, or quotient equality principle.
+\end{proof}
+
+\closureat{ContextFreeLanguageUp}{seedStr}
+
+\begin{closurestatus}{\ContextFreeLanguageUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:context-free-language-carrier}, \autoref{thm:context-free-language-namecert-obligations}, and \autoref{thm:context-free-language-pushdown-handoff} seed the finite grammar, derivation, yield, classifier, pushdown-handoff, transport, replay, provenance, and local NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host language equality, infinite parse forests, grammar quotients, canonical derivation selection, complement closure, determinization, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked grammar admission, derivation stability, yield exactness, pumping-boundary nonescape, classifier transport, pushdown handoff, replay, provenance, and local naming for BEDC.Derived.ContextFreeLanguageUp.}
+  \constructivestory{A $\ContextFreeLanguageUp$ packet is generated from a context-free grammar row, finite nonterminal and terminal alphabet rows, a production ledger, derivation tree, yield stream, membership classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

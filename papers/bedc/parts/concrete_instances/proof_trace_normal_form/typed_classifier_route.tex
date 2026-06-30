@@ -1,0 +1,33 @@
+\begin{theorem}[ProofTraceNormalForm typed classifier route]
+\label{thm:proof-trace-normal-form-typed-classifier-route}
+Every terminal $\ProofTraceNormalFormUp$ read must expose the typed endpoint boundary of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, preservation through \autoref{ch:concrete-instances-subjectreduction-namecert}, classifier membership through \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the checker packet of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert} before the terminal row $V$ is read. The route is carried by
+$$
+F=(T,E,R,S,V,J,H,C,P,N)
+$$
+and exports no host conversion, semantic term equality, quotient representative, erased proof semantics, or normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $T,E,R,S,V,J,H,C,P,N$ of \autoref{def:proof-trace-normal-form-carrier}. The membership row $E$ is the classifier boundary, the replay row $R$ is the displayed typed route, the preservation row $S$ is the subject-reduction handoff, the terminal row $V$ is the typed normal-form endpoint, and $J$ is the finite checker packet.
+
+Apply \autoref{thm:proof-trace-normal-form-terminal-route}. It orders the route through proof trace, classifier membership, typed replay, subject reduction, terminal boundary, and checker alignment before any terminal read is exported.
+
+Apply \autoref{thm:proof-trace-normal-form-finite-candidate-induction}. It keeps the same rows visible over the finite proof trace, so the typed endpoint boundary, preservation handoff, classifier-membership row, and checker packet cannot be replaced by host conversion or an oracle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since \autoref{thm:proof-trace-normal-form-namecert-obligations} lists no coordinate for semantic term equality, quotient representatives, erased proof semantics, or normalization oracles, a terminal read of $V$ must follow the displayed typed-classifier sibling route.
+\end{proof}
+
+\begin{theorem}[ProofTraceNormalForm MetaCIC residual route]
+\label{thm:proof-trace-normal-form-metacic-route}
+Every terminal $\ProofTraceNormalFormUp$ read used by a MetaCIC normalization or confluence consumer must display $\TypeClassifierMembershipUp$, $\SubjectReductionUp$, $\TypedReductionNormalFormUp$, $\TypeCheckingClassifierMembershipUp$, and the MetaCIC residual or normalization frontier route before the terminal normal-form row is consumed. In carrier notation
+$$
+F=(T,E,R,S,V,J,H,C,P,N),
+$$
+the rows $E,S,V,J$ remain visible to consumers such as \autoref{ch:concrete-instances-metacic-subject-reduction-residual-gap-namecert} and \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}; the export provides no host conversion, quotient term equality, erased proof semantics, or normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(T,E,R,S,V,J,H,C,P,N)$ from \autoref{def:proof-trace-normal-form-carrier}. The row $E$ is the $\TypeClassifierMembershipUp$ boundary, $S$ is the $\SubjectReductionUp$ handoff, $V$ is the $\TypedReductionNormalFormUp$ terminal row, and $J$ is the $\TypeCheckingClassifierMembershipUp$ checker alignment row.
+
+Apply \autoref{thm:proof-trace-normal-form-typed-classifier-route}. It already places classifier membership, subject reduction, typed normal form, and type-checking membership before any terminal read of $V$ is exported. A MetaCIC normalization or confluence consumer therefore receives the same ordered boundary before it may feed the residual-gap or parallel-diamond frontier.
+
+The MetaCIC-facing handoff is only a route through the displayed rows. The residual and normalization frontier chapters may consume $E,S,V,J,H,C,P,N$ as finite proof-trace evidence, but the packet contains no coordinate for host conversion, quotient term equality, erased proof semantics, or a normalization oracle, so the terminal normal-form row cannot be consumed through any off-packet shortcut.
+\end{proof}

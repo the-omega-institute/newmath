@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\VanDerCorputSumUp$}
+\label{ch:concrete-instances-van-der-corput-sum-namecert}
+\origin{human}
+
+Following van der Corput and Bishop--Bridges constructive analysis, the $\VanDerCorputSumUp$ packet records a finite exponential-sum estimate as displayed NameCert data. It reads coefficient or phase streams through the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, dyadic tolerance budgets through \autoref{ch:concrete-instances-dyadicratcore-namecert}, regular rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, terminal real seals through \autoref{ch:concrete-instances-real-namecert}, the real-series source row of \autoref{ch:concrete-instances-realseries-namecert}, Fourier-facing coefficient windows through \autoref{ch:concrete-instances-fourier-namecert}, and finite-difference control through \autoref{ch:concrete-instances-van-der-corput-difference-estimate-namecert}. The packet names only the finite sum route; it does not claim convergence of an infinite trigonometric series, quotient equality of functions, selected subsequences, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Van der Corput finite exponential-sum carrier]
+\label{def:van-der-corput-sum-carrier}
+A $\VanDerCorputSumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,W,\Phi,Q,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source $\RealSeriesUp$ or Fourier coefficient row whose finite terms are inspected.
+\item $W$ is the $\StreamNameUp$ window row naming the finite index block and every coefficient or phase request used by the sum.
+\item $\Phi$ is the finite phase row, recording the exponential phases only through the displayed window requests.
+\item $Q$ is the quadratic or shifted-difference control row handed off from $\VanDerCorputDifferenceEstimateUp$ when a finite differencing estimate is used.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-budget row for coefficient reads, phase reads, summand products, partial sums, and the final bound.
+\item $M$ is the finite exponential-sum ledger, listing the displayed summands, partial sums, normalization factors, and dyadic slack.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after $W,\Phi,Q,D,M$ have been consumed.
+\item $E$ is the terminal $\RealUp$ seal row for the displayed finite bound or normalized finite sum.
+\item $H$ records componentwise $\hsame$ transport for source, window, phase, difference-control, dyadic-budget, sum-ledger, readback, seal, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay from a requested finite exponential-sum read through $A,W,\Phi,Q,D,M,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\VanDerCorputSumUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RealSeriesUp$, $\FourierUp$, $\VanDerCorputDifferenceEstimateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VanDerCorputSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,\Phi,Q,D,M,R,E,H,C,P,N$. It has no coordinate for host Fourier convergence, an infinite exponential series, quotient equality of functions, selected subsequences, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Van der Corput finite exponential-sum NameCert obligations]
+\label{thm:van-der-corput-sum-namecert-obligations}
+For every accepted $\VanDerCorputSumUp$ carrier $S=(A,W,\Phi,Q,D,M,R,E,H,C,P,N)$, the local $\NameCert_{\VanDerCorputSumUp}$ surface consists exactly of source admission, finite $\StreamNameUp$ window admission, displayed phase admission, optional finite-difference control through $\VanDerCorputDifferenceEstimateUp$, $\DyadicRatCoreUp$ tolerance exactness, finite exponential-sum ledger exactness, $\RegSeqRatUp$ readback, $\RealUp$ seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:van-der-corput-sum-carrier}. The only source observations are the real-series or Fourier row $A$, the finite window row $W$, and the displayed phase row $\Phi$.
+
+The difference-control row $Q$ is available only as a finite handoff from \autoref{ch:concrete-instances-van-der-corput-difference-estimate-namecert}. The dyadic row $D$ then supplies the precision cells for the coefficient reads, phase reads, summand products, and final estimate before the sum ledger $M$ is read.
+
+The readback row $R$ and Real seal row $E$ are downstream of $M$. Transport, replay, provenance, and local naming preserve that same finite route. Since the carrier omits host Fourier convergence, infinite exponential series, quotient equality, selected subsequences, countable choice, and ambient completeness, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Van der Corput finite exponential-sum route]
+\label{thm:van-der-corput-sum-finite-route}
+Every Fourier, real-series, oscillation, or completion-route consumer of an accepted $\VanDerCorputSumUp$ packet receives the finite exponential-sum read only through
+$$
+A\longmapsto W\longmapsto \Phi\longmapsto Q\longmapsto D\longmapsto M\longmapsto R\longmapsto E .
+$$
+In particular, the consumer must display the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance budgets, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\RealSeriesUp$ or $\FourierUp$ source row, and any $\VanDerCorputDifferenceEstimateUp$ handoff before it can inspect the finite bound.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:van-der-corput-sum-namecert-obligations}. It forces every accepted finite-sum read to expose $A,W,\Phi,Q,D,M,R,E,H,C,P,N$.
+
+The finite window row $W$ controls which source coefficients and phases can be read. The phase row $\Phi$ and optional difference-control row $Q$ are therefore downstream of the same displayed index block.
+
+The dyadic budget row $D$ controls the arithmetic cells used by the sum ledger $M$. Only after $M$ has been displayed can the regular readback $R$ and terminal seal $E$ be consumed.
+
+Thus a Fourier, real-series, oscillation, or completion-route consumer sees the same finite route and receives no host convergence theorem, selected subsequence, quotient equality, countable-choice schedule, or ambient Real completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VanDerCorputSumUp$ read factors through a RealSeries or Fourier source row, StreamName windows, phase rows, optional VanDerCorputDifferenceEstimate control, DyadicRatCore budgets, a finite exponential-sum ledger, RegSeqRat readback, RealUp sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, realseries, fourier, van-der-corput-difference-estimate: $\VanDerCorputSumUp$ is not bijective to any listed sibling because it jointly carries finite coefficient or phase windows, difference-control handoff, dyadic arithmetic budgets, a finite exponential-sum ledger, regular rational readback, terminal Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{VanDerCorputSumUp}{seedStr}
+
+\begin{closurestatus}{\VanDerCorputSumUp}
+  \constructivestory{A $\VanDerCorputSumUp$ packet is generated from a RealSeries or Fourier source row, finite StreamName windows, displayed phase rows, optional VanDerCorputDifferenceEstimate handoff, DyadicRatCore tolerance budgets, a finite exponential-sum ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:van-der-corput-sum-carrier}, \autoref{thm:van-der-corput-sum-namecert-obligations}, and \autoref{thm:van-der-corput-sum-finite-route} seed the finite exponential-sum carrier, certificate surface, and consumer route over displayed BEDC rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Fourier convergence, infinite exponential-series convergence, quotient function equality, selected subsequences, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite window coverage, phase admission, finite-difference handoff, dyadic tolerance exactness, exponential-sum ledger exactness, regular readback, Real seal non-escape, transport, replay, provenance, and local NameCert coverage for BEDC.Derived.VanDerCorputSumUp.}
+\end{closurestatus}

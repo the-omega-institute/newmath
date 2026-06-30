@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\CurvedSpacetimeUp$}
+\label{ch:concrete-instances-curved-spacetime-namecert}
+\origin{human}
+
+Following Wald and Choquet-Bruhat on Lorentzian geometry, the $\CurvedSpacetimeUp$ packet records the finite BEDC route by which local Lorentz-rate charts, chart transitions, curvature witnesses, and transport rows may be read as a curved-spacetime interface. It realizes the curved-gluing step of the Inter-Hist Locality chain of \autoref{rem:next-dependency-chain} by sitting over the multi-Hist configuration surface of \autoref{ch:concrete-instances-multihistconfig-namecert}, the causal rows of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the frame-rate packet of \autoref{ch:concrete-instances-lorentz-frame-rate-namecert}, and the symmetric distance-shape ledger of \autoref{ch:concrete-instances-minkowski-rate-geometry-namecert}. The packet names finite chart and transition data; it does not import a host smooth manifold, global frame, metric tensor primitive, selected atlas, coordinate equality, or ambient spacetime object.
+
+\begin{definition}[Curved spacetime carrier]
+\label{def:curved-spacetime-carrier}
+A $\CurvedSpacetimeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,C,R,L,G,K,T,H,Q,P,N)
+$$
+where:
+\begin{itemize}
+\item $M$ is the displayed $\MultiHistConfigUp$ source row.
+\item $C$ is the $\CrossHistCausalUp$ causal-dependence family over the displayed histories.
+\item $R$ is the $\MaxCausalRateUp$ maximum-rate boundary row.
+\item $L$ is the local $\LorentzFrameRateUp$ chart-rate row.
+\item $G$ is the $\MinkowskiRateGeometryUp$ local distance-shape row.
+\item $K$ is the finite curvature ledger, recording which chart overlaps have non-trivial transition curvature data.
+\item $T$ is the finite transition ledger between chart rows.
+\item $H$ is componentwise $\hsame$ transport for the multi-Hist, causal, rate, Lorentz, geometry, curvature, and transition rows.
+\item $Q$ is the displayed $\Cont$ replay route for chart and overlap inspections.
+\item $P$ is the $\Pkg$ provenance over $\CurvedSpacetimeUp$, $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\LorentzFrameRateUp$, $\MinkowskiRateGeometryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CurvedSpacetimeUp}$ row.
+\end{itemize}
+The carrier predicate asserts exactly that these rows form one finite curved-spacetime packet. It has no coordinate for a host manifold, global inertial frame, metric tensor primitive, atlas choice, point equality across charts, or ambient Lorentzian completion.
+\end{definition}
+
+\begin{theorem}[Curved spacetime NameCert obligations]
+\label{thm:curved-spacetime-namecert-obligations}
+For every accepted $\CurvedSpacetimeUp$ carrier $S=(M,C,R,L,G,K,T,H,Q,P,N)$, the local $\NameCert_{\CurvedSpacetimeUp}$ surface consists exactly of carrier admission for the displayed multi-Hist source, causal family, maximum-rate boundary, local Lorentz-rate chart rows, Minkowski-rate geometry rows, finite curvature ledger, finite transition ledger, componentwise transport, continuation replay, package provenance, and local naming row. Every accepted curved-spacetime read is classified only by those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:curved-spacetime-carrier}. The displayed tuple already exposes the only rows available to a consumer.
+
+The local naming row $N$ can certify exactly the rows named by the carrier: $M,C,R,L,G,K,T,H,Q,P$. Thus carrier admission, chart-rate exposure, transition exposure, curvature exposure, transport, replay, provenance, and local naming are the complete obligation surface.
+
+Since no coordinate in the packet names a host manifold, global frame, primitive metric tensor, selected atlas, cross-chart point equality, or ambient Lorentzian object, no such object can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Curved spacetime local Lorentz stability]
+\label{thm:curved-spacetime-local-lorentz-stability}
+Every local chart read of an accepted $\CurvedSpacetimeUp$ packet factors through the route
+$$
+M,C,R,L,G,H,Q,P,N .
+$$
+In particular, local Lorentz-rate stability is read only through the displayed multi-Hist source, causal-dependence family, maximum-rate row, local Lorentz-frame-rate row, Minkowski-rate geometry row, componentwise $\hsame$ transport, continuation replay, provenance, and local naming. It exports no global frame, synchronized clock, host real-valued coordinate system, or detached metric tensor.
+\end{theorem}
+\begin{proof}
+Start from the carrier route. The local Lorentz chart row $L$ is not standalone: it is paired with the displayed multi-Hist source, causal rows, and maximum-rate boundary before any geometry row $G$ can be read.
+
+Componentwise transport through $H$ keeps the same route stable under $\hsame$ comparison of the visible rows. Replay through $Q$ and provenance through $P$ preserve the local chart inspection as a finite continuation path named by $N$.
+
+Therefore every local Lorentz-rate read is confined to the displayed route, with no coordinate for a global inertial frame, synchronized clock, host coordinate system, or primitive metric tensor.
+\end{proof}
+
+\begin{theorem}[Curved spacetime no global frame boundary]
+\label{thm:curved-spacetime-no-global-frame-boundary}
+Every transition, curvature, or transport read exported by an accepted $\CurvedSpacetimeUp$ packet must pass through the finite overlap route
+$$
+M,C,R,L,G,K,T,H,Q,P,N
+$$
+before it can serve as a curved-spacetime interface. The overlap route may expose non-trivial chart gluing and curvature ledgers, but it never exports a single global frame, selected atlas, quotient point equality across charts, host manifold equality, metric tensor primitive, countable-choice chart schedule, or ambient Lorentzian spacetime.
+\end{theorem}
+\begin{proof}
+The transition ledger $T$ and curvature ledger $K$ are rows of the same accepted carrier, so every overlap read begins with the displayed multi-Hist, causal, rate, Lorentz, and local geometry rows.
+
+Apply the NameCert obligation theorem \autoref{thm:curved-spacetime-namecert-obligations}. It forces the transition and curvature rows to remain inside the finite carrier, transported by $H$, replayed by $Q$, sourced by $P$, and named by $N$.
+
+The carrier has no field for a global frame, selected atlas, quotient point equality, host manifold equality, metric tensor primitive, countable-choice chart schedule, or ambient Lorentzian spacetime. Hence the public boundary is exactly the finite curved-gluing route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CurvedSpacetimeUp$ read factors through finite multi-Hist chart rows, causal rows, maximum-rate rows, local Lorentz-frame-rate rows, Minkowski-rate geometry rows, curvature and transition ledgers, hsame transport, Cont replay, Pkg provenance, and local naming before any curved-spacetime consumer receives the interface.}
+
+\independenceWitness{multihistconfig, crosshistcausal, maxcausalrate, lorentz-frame-rate, minkowski-rate-geometry: $\CurvedSpacetimeUp$ is not bijective to any listed sibling because it jointly carries local chart rows, non-trivial transition data, curvature ledgers, transport, replay, provenance, and local naming while refusing a global frame, selected atlas, host manifold equality, metric tensor primitive, and ambient spacetime object.}
+
+\closureat{CurvedSpacetimeUp}{seedStr}
+
+\begin{closurestatus}{\CurvedSpacetimeUp}
+  \constructivestory{A $\CurvedSpacetimeUp$ packet is generated from finite multi-Hist chart rows, cross-Hist causal rows, maximum-rate boundaries, local Lorentz-frame-rate rows, Minkowski-rate geometry rows, curvature and transition ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:curved-spacetime-carrier}, \autoref{thm:curved-spacetime-namecert-obligations}, \autoref{thm:curved-spacetime-local-lorentz-stability}, and \autoref{thm:curved-spacetime-no-global-frame-boundary} bind the finite curved-gluing carrier and its no-global-frame boundary.}
+  \formalstatus{\unformalizedV}
+  \leantarget{}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host smooth manifold, global frame, selected atlas, quotient point equality, metric tensor primitive, ambient Lorentzian spacetime, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local Lorentz stability, transition and curvature readback, transport, replay, provenance, and local naming for the $\CurvedSpacetimeUp$ packet.}
+\end{closurestatus}

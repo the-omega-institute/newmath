@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMidpointIntervalUp$}
+\label{ch:concrete-instances-dyadic-midpoint-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicMidpointIntervalUp$ packet records the finite dyadic interval-halving data used when a Real and Completion construction inspects a retained interval before passing to regular rational names. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the nested interval route of \autoref{ch:concrete-instances-nestedinterval-namecert}. The packet names only midpoint-halving rows in finite $\BHist$ data; it does not import Dedekind cuts, host interval equality, open-cover compactness, selected limits, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic midpoint interval carrier]
+\label{def:dyadic-midpoint-interval-carrier}
+A $\DyadicMidpointIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,R,M,W,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left endpoint row, read as a dyadic rational endpoint supplied by the $\DyadicRatCoreUp$ ledger.
+\item $R$ is the right endpoint row, read as a dyadic rational endpoint in the same ledger and displayed with $L \leq R$ by finite comparison data.
+\item $M$ is the midpoint row, recording the dyadic value obtained from the displayed halving operation on $L$ and $R$.
+\item $W$ is the width and tolerance row. It records the original width, the halved width, and the tolerance budget consumed by Real and Completion requests.
+\item $D$ is the dyadic ledger. It contains the addition, comparison, halving, and denominator-clearance rows needed to read $L,R,M,W$ without leaving $\DyadicRatCoreUp$.
+\item $H$ records componentwise $\hsame$ transport for endpoint, midpoint, width, dyadic-ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-halving request through $L,R,M,W,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMidpointIntervalUp$, $\DyadicRatCoreUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMidpointIntervalUp}$ row naming exactly this midpoint-halving certificate.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,M,W,D,H,C,P,N$. It has no coordinate for Dedekind cuts, host interval equality, open-cover compactness, selected limits, quotient equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dyadic midpoint interval halving]
+\label{thm:dyadic-midpoint-interval-halving}
+For every accepted $\DyadicMidpointIntervalUp$ carrier $I=(L,R,M,W,D,H,C,P,N)$, the midpoint row $M$ and width row $W$ display a finite halving route: the original endpoint interval $[L,R]$ is read through the dyadic ledger $D$, the midpoint is the dyadic half-sum recorded in $M$, and each retained child interval has width bounded by the halved width recorded in $W$. Any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of this halving route must pass through $D,H,C,P,N$ before reading the resulting finite window or real-name seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-midpoint-interval-carrier}. The only endpoint, midpoint, and width data available to a consumer are the displayed rows $L,R,M,W$ together with the dyadic ledger $D$.
+
+The halving step is read inside $\DyadicRatCoreUp$. The ledger $D$ supplies the endpoint comparison, half-sum row, denominator-clearance row, and width comparison row, so the retained left or right child interval is certified by finite dyadic arithmetic rather than by host interval equality.
+
+Next attach the Real and Completion handoff. The finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert} may consume the halved interval only after the rows $L,R,M,W,D$ are displayed.
+
+Finally compare with the nested route of \autoref{ch:concrete-instances-nestedinterval-namecert}. A retained nested cell reads this midpoint packet as one finite refinement step, and the structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no excluded object is a carrier coordinate, no Dedekind cut, host interval equality, open-cover compactness, selected limit, quotient equality, countable choice, or ambient completeness principle is exported.
+\end{proof}
+
+\begin{theorem}[Dyadic midpoint interval NameCert obligations]
+\label{thm:dyadic-midpoint-interval-namecert-obligations}
+For every accepted $\DyadicMidpointIntervalUp$ carrier $I=(L,R,M,W,D,H,C,P,N)$, the local $\NameCert_{\DyadicMidpointIntervalUp}$ surface consists exactly of endpoint admission, midpoint-halving admission, width and tolerance admission, dyadic-ledger exactness, componentwise transport, displayed replay, provenance, and local naming. The obligation surface may cite the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, and the nested interval route of \autoref{ch:concrete-instances-nestedinterval-namecert}; it cannot add Dedekind cuts, host interval equality, open-cover compactness, selected limits, quotient equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:dyadic-midpoint-interval-carrier}. It exposes exactly $L,R,M,W,D,H,C,P,N$ and no host interval object.
+
+The halving obligation is \autoref{thm:dyadic-midpoint-interval-halving}. It forces every midpoint and child-width read through the dyadic ledger before any downstream finite window, regular rational row, or real seal can be consumed.
+
+The remaining obligations are structural. Componentwise $\hsame$ transport is the row $H$, displayed replay is the row $C$, provenance is the row $P$, and local naming is the row $N$. These rows preserve the same finite packet, so the local certificate has no route to Dedekind cuts, host interval equality, open-cover compactness, selected limits, quotient equality, countable choice, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{DyadicMidpointIntervalUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMidpointIntervalUp}
+  \constructivestory{A $\DyadicMidpointIntervalUp$ packet is generated from left and right dyadic endpoint rows, a midpoint row, a width and tolerance row, a dyadic arithmetic ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-midpoint-interval-carrier}, \autoref{thm:dyadic-midpoint-interval-halving}, and \autoref{thm:dyadic-midpoint-interval-namecert-obligations} seed the finite midpoint-halving certificate used by Real and Completion construction routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, host interval equality, open-cover compactness, selected limits, quotient equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, midpoint-halving exactness, width and tolerance readback, dyadic-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.DyadicMidpointIntervalUp.}
+\end{closurestatus}

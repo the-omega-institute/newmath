@@ -108,16 +108,48 @@ Rows $H,C,P,N$ then transport, replay, source, and name the same packet for the 
 \independenceWitness{realityconstrainedmodelaudit, finiteobservationresidueboundary, openfitpacket, modelselectionboundary, realityconstrainedfailuresurface: none is bijective because $\RealityConstrainedModelErrorBudgetUp$ carries source traces, error budget, observation window, mismatch ledger, failure surface, transport, route, provenance, and local naming in one packet. The model audit lacks the bounded error row, the residue boundary lacks the mismatch-budget envelope, the open-fit packet lacks the audit error ledger, the model-selection boundary lacks the source-window budget, and the failure surface lacks the accepted mismatch route.}
 
 The Lean follow-up must provide \texttt{Nontrivial RealityConstrainedModelErrorBudgetUp} and \texttt{FieldFaithful RealityConstrainedModelErrorBudgetUp} instances in \texttt{lean4/BEDC/Derived/RealityConstrainedModelErrorBudgetUp/TasteGate.lean}.
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Reality-constrained model error-budget public certificate]
+\label{thm:reality-constrained-model-error-budget-public-certificate}
+The public bounded-error-budget certificate exported by $\RealityConstrainedModelErrorBudgetUp$ consists exactly of the NameCert obligation surface for $S,E,O,M,F,H,C,P,N$, the nonescape restriction, observation-window exactness, failure visibility, selection handoff, the falsifiable prediction for classifier rejection, and the independence witness separating the sibling audit, residue, fit, selection, and failure-surface packets. Any public consumer of the certificate must preserve the source trace, declared budget, observation window, mismatch ledger, visible failure surface, transport, replay, provenance, and local naming rows as one finite packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations and nonescape theorem. They make $S,E,O,M,F,H,C,P,N$ the whole bounded-error-budget surface and forbid a public consumer from preserving only model syntax while changing the error evidence.
+
+Use observation-window exactness and failure visibility next. The mismatch ledger remains tied to the displayed source, budget, and observation window, and the failure row stays visible whenever the bounded packet is exported.
+
+Apply the selection handoff to the downstream $\ModelSelectionBoundaryUp$ consumer. It receives the same finite packet rather than a detached score, so public export preserves the selection-facing route already present in the carrier.
+
+Finally include the falsifiable prediction and independence witness. The prediction exposes the classifier rejection test for changed budget or window rows, while the witness separates this packet from its audit, residue, fit, selection, and failure-surface siblings. Together these clauses form the public bounded-error-budget certificate and add no unbounded validation, complete calibration, final model truth, or bridge claim.
+\end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_public\_certificate}
+
+\begin{theorem}[Reality-constrained model error-budget bridge interface]
+\label{thm:reality-constrained-model-error-budget-bridge-interface}
+Every public consumer bridge for an accepted $\RealityConstrainedModelErrorBudgetUp$ packet preserves the displayed observation-window row $O$, failure-visibility row $F$, model-selection handoff route, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local $\NameCert$ row $N$ together with the source trace, error-budget row, and mismatch ledger. The bridge exposes no hidden model oracle, no off-window observation repair, no detached scoring channel, and no unbounded validation row outside
+$$
+S,E,O,M,F,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with the public certificate of \autoref{thm:reality-constrained-model-error-budget-public-certificate}. It already identifies $S,E,O,M,F,H,C,P,N$ as the whole bounded-error-budget surface consumed by public readers.
+
+Use observation-window exactness, failure visibility, and selection handoff. These force the mismatch ledger to remain tied to $S,E,O$, keep $F$ visible whenever the packet is exported, and send every $\ModelSelectionBoundaryUp$ read through the same finite rows rather than through detached scoring.
+
+Transport, replay, provenance, and naming do not add a hidden coordinate. Rows $H,C,P,N$ preserve and source the displayed bounded-error packet, so any bridge that claims this public interface must preserve the same rows and cannot expose a model oracle outside the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_bridge\_interface}
 
 \closureat{RealityConstrainedModelErrorBudgetUp}{seedStr}
 
 \begin{closurestatus}{\RealityConstrainedModelErrorBudgetUp}
   \constructivestory{A $\RealityConstrainedModelErrorBudgetUp$ packet is generated from finite source traces, an error-budget row, an observation-window row, a mismatch ledger, a failure surface, componentwise $\hsame$ transports, a displayed $\Cont$ route, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:reality-constrained-model-error-budget-carrier}, \autoref{thm:reality-constrained-model-error-budget-namecert-obligations}, and \autoref{thm:reality-constrained-model-error-budget-nonescape} bind bounded model-error evidence to finite source traces, observation windows, mismatch ledgers, failure surfaces, transport, route, provenance, and local naming.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not assert model truth, unbounded validation, complete statistical calibration, final model selection, Lean verification, axiom-clean audit, or bridge checking for $\RealityConstrainedModelErrorBudgetUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, budget-row exposure, observation-window exactness, mismatch-ledger nonescape, failure-surface visibility, TasteGate nontriviality, and field faithfulness for $S,E,O,M,F,H,C,P,N$.}
+  \upgradepath{No further paper-side theory upgrade is pending for the finite bounded-error packet, including its observation window, failure visibility, selection handoff, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

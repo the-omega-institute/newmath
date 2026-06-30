@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\CourantFischerMinimaxUp$}
+\label{ch:concrete-instances-courant-fischer-minimax-namecert}
+\origin{human}
+
+Following Courant and Fischer on the finite-dimensional min-max principle, the $\CourantFischerMinimaxUp$ packet names the finite spectral min-max certificate without importing a host eigenspace selector. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the inner-product rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the Hermitian surface of \autoref{ch:concrete-instances-hermitian-matrix-namecert}, the normal-operator routing of \autoref{ch:concrete-instances-normal-operator-namecert}, and the finite gap window of \autoref{ch:concrete-instances-finite-dimensional-spectral-gap-namecert}.
+
+\begin{definition}[CourantFischerMinimax carrier]
+\label{def:courant-fischer-minimax-carrier}
+A $\CourantFischerMinimaxUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,O,I,W,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite $\MatrixUp$ row, recording the coordinate table used by the spectral read.
+\item $O$ is the $\NormalOperatorUp$ or $\HermitianMatrixUp$ operator row attached to the same matrix table.
+\item $I$ is the $\InnerProductUp$ row through which vector lengths and orthogonality tests are read.
+\item $W$ is the finite subspace-window row, listing the inspected dimensions, inclusions, and complement windows.
+\item $R$ is the Rayleigh quotient ledger, recording numerator and denominator reads through $M,O,I,W$.
+\item $L$ is the min-max comparison row, displaying the finite lower-window and upper-window comparisons for the same dimension index.
+\item $E$ is the extremal ledger, recording which displayed subspace windows witness the lower and upper sides of the comparison.
+\item $H$ records componentwise $\hsame$ transport for the matrix, operator, inner-product, subspace-window, Rayleigh, comparison, extremal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a spectral min-max request through $M,O,I,W,R,L,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CourantFischerMinimaxUp$, $\MatrixUp$, $\InnerProductUp$, $\HermitianMatrixUp$, $\NormalOperatorUp$, $\FiniteDimensionalSpectralGapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CourantFischerMinimaxUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host eigenvector choice, a spectral-completeness theorem, an ambient quotient of subspaces, selected extrema outside $E$, or a hidden diagonalization procedure.
+\end{definition}
+
+\begin{theorem}[CourantFischerMinimax NameCert obligations]
+\label{thm:courant-fischer-minimax-namecert-obligations}
+For every accepted $\CourantFischerMinimaxUp$ carrier
+$$
+K=(M,O,I,W,R,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\CourantFischerMinimaxUp}$ surface consists exactly of carrier admission, Rayleigh quotient readback, finite subspace-window stability, min-max ledger exactness, sibling transport through $\MatrixUp$, $\InnerProductUp$, $\HermitianMatrixUp$, $\NormalOperatorUp$, and $\FiniteDimensionalSpectralGapUp$, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A spectral min-max read is admitted only after the same matrix, operator, inner-product, subspace-window, Rayleigh, comparison, and extremal rows are visible in the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:courant-fischer-minimax-carrier}. The matrix row $M$, operator row $O$, and inner-product row $I$ supply the finite algebraic surface on which Rayleigh reads can be formed.
+
+The subspace-window row $W$ fixes the finite inspection domain. The Rayleigh ledger $R$ is read only through $M,O,I,W$, so every quotient claim remains tied to the displayed matrix and inner-product coordinates.
+
+The min-max comparison row $L$ records the lower-window and upper-window comparisons for the same finite dimension index. The extremal ledger $E$ names the displayed windows that witness the two sides, without selecting host eigenvectors.
+
+Finally, componentwise transport by $H$ preserves the sibling rows, while $C,P,N$ replay, source, and name the same packet. Since the carrier has no field for spectral completeness, diagonalization, quotient subspace equality, or external extrema, these rows exhaust the local NameCert obligations.
+\end{proof}
+\leanstmt{BEDC.Derived.CourantFischerMinimaxUp}
+
+\closureat{CourantFischerMinimaxUp}{seedStr}
+
+\begin{closurestatus}{\CourantFischerMinimaxUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:courant-fischer-minimax-carrier} and \autoref{thm:courant-fischer-minimax-namecert-obligations} seed the finite spectral min-max certificate through displayed matrix, operator, inner-product, subspace-window, Rayleigh, comparison, and extremal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host eigenvector choice, spectral completeness, quotient subspace equality, selected extrema outside the packet, or ambient diagonalization.}
+  \upgradepath{Obligation closure requires checked carrier admission, Rayleigh readback, finite subspace-window stability, min-max ledger exactness, sibling transport, replay, provenance, and non-escape for BEDC.Derived.CourantFischerMinimaxUp.}
+  \constructivestory{A $\CourantFischerMinimaxUp$ packet is generated from a finite matrix row, a Hermitian or normal-operator row, an inner-product row, a finite subspace-window row, a Rayleigh quotient ledger, a min-max comparison row, an extremal ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,25 @@
+\begin{theorem}[LuenbergerObserverUp Kalman filter boundary route]
+\label{thm:luenberger-observer-kalman-filter-route}
+Every deterministic observer read of an accepted $\LuenbergerObserverUp$ carrier may cite \autoref{ch:concrete-instances-kalman-filter-namecert} only as an estimator boundary. The read must keep the plant row, output row, observer-gain row, residual row, and error-propagation row visible as the carrier coordinates
+$$
+A,C,G,R,E
+$$
+of \autoref{def:luenberger-observer-carrier}, together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\LuenbergerObserverUp}$ naming. It exports no covariance recursion, stochastic innovation law, optimal-filtering theorem, or hidden probabilistic state row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(A,C,Y,G,R,E,H,T,P,N)$. The plant, output, gain, residual, and error-propagation rows are the deterministic observer data, while $H,T,P,N$ preserve and name that finite packet.
+
+The control sibling route of \autoref{thm:luenberger-observer-control-sibling-dependency-route} already displays the control, observability, Gramian, Kalman-boundary, and linear-map chapters before the observer correction becomes public. The observability route of \autoref{thm:luenberger-observer-observability-dependency-route} keeps the output, residual, gain, and error ledger attached to the same finite carrier.
+
+The Kalman-filter citation is therefore boundary information for estimator comparison. Since no covariance coordinate, stochastic innovation coordinate, or probabilistic state coordinate occurs in $L$, the deterministic observer route cannot export a Kalman-filter law.
+\end{proof}
+
+\begin{theorem}[LuenbergerObserverUp Kalman filter dependency boundary]
+\label{thm:luenberger-observer-kalman-filter-dependency}
+The $\LuenbergerObserverUp$ route consumes $\KalmanFilterUp$ only as an estimator-boundary sibling. The plant, output, observer-gain, residual, and error-propagation rows remain deterministic carrier data in $A,C,G,R,E$, and the structural rows $H,T,P,N$ preserve that deterministic packet without adding covariance, innovation, probability-space, or optimality coordinates.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:luenberger-observer-kalman-filter-route}. It already places every Kalman-filter citation outside the carrier coordinates that generate the deterministic observer read.
+
+The displayed carrier rows of \autoref{def:luenberger-observer-carrier} are therefore the complete dependency surface for plant evolution, output comparison, gain application, residual formation, and error propagation. Since $\KalmanFilterUp$ appears only through the boundary citation, no stochastic row can be imported into the deterministic observer packet.
+\end{proof}

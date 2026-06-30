@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyFilterDiagonalUp$}
+\label{ch:concrete-instances-uniform-cauchy-filter-diagonal-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Cauchy filters, the $\UniformCauchyFilterDiagonalUp$ packet records the finite uniform-filter diagonal by which Cauchy-filter rows are read through StreamName windows, regular rational readback, dyadic tolerance ledgers, and the Real seal. It sits next to the finite diagonal interface of \autoref{ch:concrete-instances-cauchy-filter-diagonal-namecert}, the window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the completed real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a non-quotient uniform-filter diagonal interface only; it does not choose a filter representative, select a limit, quotient streams, invoke countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform Cauchy-filter diagonal carrier]
+\label{def:uniform-cauchy-filter-diagonal-carrier}
+A $\UniformCauchyFilterDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+U=(F,W,S,Q,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the uniform Cauchy-filter row, recording finite entourage requests and the corresponding Cauchy-filter response rows before any diagonal consumer reads the packet;
+\item $W$ is the finite diagonal-window row, selecting the bounded family of window indices inspected by the uniform route;
+\item $S$ is the $\StreamNameUp$ window ledger that exposes the named stream windows used by $W$;
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic error bounds used to compare the uniform-filter rows with the regular rational readback;
+\item $R$ is the $\RealUp$ seal row reached after the regular rational readback and dyadic tolerance ledger are present;
+\item $H$ records componentwise $\hsame$ transport for $F,W,S,Q,D,R,C,P,N$;
+\item $C$ records displayed $\Cont$ replay from a finite uniform Cauchy-filter request through the diagonal window, StreamName window ledger, RegSeqRat readback, DyadicRatCore tolerance ledger, and Real seal;
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyFilterDiagonalUp$, $\CauchyFilterDiagonalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\UniformCauchyFilterDiagonalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,W,S,Q,D,R,H,C,P,N$. The carrier has no coordinate for quotient filters, selected representatives, chosen limits, countable-choice schedules, quotient stream equality, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy-filter diagonal NameCert obligations]
+\label{thm:uniform-cauchy-filter-diagonal-namecert-obligations}
+For every accepted $\UniformCauchyFilterDiagonalUp$ carrier $U=(F,W,S,Q,D,R,H,C,P,N)$, the local $\NameCert_{\UniformCauchyFilterDiagonalUp}$ surface consists exactly of carrier admission, uniform Cauchy-filter exposure, finite diagonal-window routing, StreamName window access, RegSeqRat readback, DyadicRatCore tolerance accounting, Real seal admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No accepted consumer may read a Real-facing completion seal before these displayed rows are present.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-cauchy-filter-diagonal-carrier}. The accepted packet exposes exactly the rows $F,W,S,Q,D,R,H,C,P,N$, so every local obligation must be read from those finite rows.
+
+The uniform-filter and diagonal-window obligations are read from $F$ and $W$. The row $F$ exposes only displayed uniform Cauchy-filter requests, while $W$ fixes the finite window family through which the diagonal observation is allowed to pass.
+
+The readback route is then forced by $S,Q,D,R$. StreamName windows are exposed by $S$, regular rational data are read by $Q$, dyadic tolerances are accounted for by $D$, and the Real-facing seal appears only at $R$ after those ledgers are present.
+
+Transport, replay, provenance, and local naming are structural. Componentwise $\hsame$ in $H$ preserves the displayed rows, $\Cont$ replay in $C$ repeats the same route, and $P,N$ add provenance and local naming without adding a quotient, selector, choice schedule, stream equality, host equality, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Uniform diagonal-window subsequence route]
+\label{thm:uniform-cauchy-filter-diagonal-window-subsequence}
+Every $\CauchyFilterDiagonalUp$ or Real-facing completion consumer that reads an accepted $\UniformCauchyFilterDiagonalUp$ packet receives the same finite diagonal-window subsequence
+$$
+F,W,S,Q,D,R
+$$
+before it can consume the displayed $\RealUp$ seal. The route factors through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}; it exports no quotient filter, selected representative, selected limit, countable-choice schedule, quotient stream equality, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $U=(F,W,S,Q,D,R,H,C,P,N)$. The only rows available to a downstream consumer are the displayed carrier rows and their transport, replay, provenance, and local naming data.
+
+The diagonal-window subsequence is therefore fixed by $W$ after the uniform Cauchy-filter row $F$ is exposed. A consumer cannot bypass $W$, because the StreamName row $S$ and the regular rational row $Q$ are attached to the windows selected by $W$.
+
+The tolerance and seal part is read next. The dyadic ledger $D$ records the tolerance bounds used by the regular rational readback, and the Real seal $R$ is consumed only after $Q$ and $D$ are present.
+
+Finally, $H,C,P,N$ preserve this same route under transport, replay, provenance, and local naming. Since no other coordinate exists, the handoff to $\CauchyFilterDiagonalUp$ and to Real-facing completion consumers remains the finite route $F,W,S,Q,D,R$ and cannot export the excluded quotient, choice, equality, or completeness data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformCauchyFilterDiagonalUp$ consumer displays a uniform Cauchy-filter row, a finite diagonal-window row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any completion-facing seal is consumed.}
+
+\independenceWitness{cauchy-filter-diagonal, streamname, regseqrat, dyadicratcore, real: $\UniformCauchyFilterDiagonalUp$ is not bijective to any listed sibling because it packages uniform Cauchy-filter exposure and a finite diagonal-window subsequence together with dyadic tolerance accounting before the Real seal is public.}
+
+\closureat{UniformCauchyFilterDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyFilterDiagonalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-filter-diagonal-carrier}, \autoref{thm:uniform-cauchy-filter-diagonal-namecert-obligations}, and \autoref{thm:uniform-cauchy-filter-diagonal-window-subsequence} seed the uniform Cauchy-filter diagonal route through finite windows, regular rational readback, dyadic tolerance ledgers, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient filters, selected representatives, selected limits, countable choice, quotient stream equality, host real equality, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier exposure, uniform Cauchy-filter routing, diagonal-window subsequence routing, StreamName access, RegSeqRat readback, DyadicRatCore tolerance accounting, Real seal admission, transport replay, provenance, and local naming for BEDC.Derived.UniformCauchyFilterDiagonalUp.}
+  \constructivestory{A $\UniformCauchyFilterDiagonalUp$ packet is generated from uniform Cauchy-filter rows, a finite diagonal-window row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed continuation replay, package provenance, and local naming evidence.}
+\end{closurestatus}

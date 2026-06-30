@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalHalvingUp$}
+\label{ch:concrete-instances-real-interval-halving-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealIntervalHalvingUp$ packet records the real-line bisection step as finite BEDC NameCert data rather than as trichotomy, selected limits, quotient reals, or an ambient completeness theorem. It sits over the constructive real-line interface of \autoref{ch:concrete-instances-constructive-real-line-namecert}, the one-step located bisection packet of \autoref{ch:concrete-instances-located-interval-halving-namecert}, the finite bisection tree of \autoref{ch:concrete-instances-interval-halving-tree-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[RealIntervalHalving carrier]
+\label{def:real-interval-halving-carrier}
+A $\RealIntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,B,M,L,R_{0},D,S,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the left and right endpoint rows of the input real interval;
+\item $M$ is the midpoint row exposed through dyadic arithmetic and finite regular-rational readback;
+\item $L$ is the $\LocatedIntervalHalvingUp$ row recording the one-step located-halving decision at the displayed tolerance;
+\item $R_{0}$ is the $\IntervalHalvingTreeUp$ row recording the finite bisection-tree position reached by this step;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for the midpoint and side read;
+\item $S$ is the $\StreamNameUp$ finite-window row opened for the endpoint and midpoint observations;
+\item $G$ is the $\RegSeqRatUp$ readback row obtained from those windows;
+\item $E$ is the $\RealUp$ seal row available only after the dyadic endpoint windows, stream observations, and regular rational readback have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the endpoint, midpoint, located-halving, tree, tolerance, stream, readback, Real-seal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for the endpoint-window request, midpoint readback, located side row, tree row, Real seal, and structural rows;
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalHalvingUp$, $\ConstructiveRealLineUp$, $\LocatedIntervalHalvingUp$, $\IntervalHalvingTreeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealIntervalHalvingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for trichotomy, a selected limit, quotient real equality, an unrecorded completeness argument, or a Real-facing interval conclusion that bypasses the dyadic endpoint windows.
+\end{definition}
+
+\begin{theorem}[RealIntervalHalving NameCert obligations]
+\label{thm:real-interval-halving-namecert-obligations}
+For every accepted $\RealIntervalHalvingUp$ carrier
+$$
+R=(A,B,M,L,R_{0},D,S,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntervalHalvingUp}$ surface is exhausted by five finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the two endpoint rows, midpoint row, located-halving row, interval-halving tree row, dyadic tolerance, stream window, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item endpoint-window exactness, requiring $A$, $B$, $D$, and $S$ to display the finite dyadic windows used by the bisection request;
+\item midpoint and readback compatibility, requiring $M$ and $G$ to be read from the same displayed dyadic and stream data;
+\item located-tree compatibility, requiring $L$ and $R_{0}$ to record the selected half only as a finite located-halving row and finite tree row;
+\item Real-seal nonescape, excluding trichotomy, selected limits, quotient real equality, hidden completeness, and any interval conclusion before $D,S,G,E$ are visible.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only interval endpoints are $A$ and $B$, and the only midpoint data are the displayed rows $M,D,S,G$.
+
+The endpoint-window exactness row first fixes the dyadic tolerance $D$ and the stream window $S$. The midpoint and readback row then reads $M$ through the same window and records the regular rational handoff in $G$.
+
+The located side and tree position are separate finite rows. The row $L$ records the one-step located halving decision, while $R_{0}$ records the corresponding finite tree position; neither row supplies trichotomy or a selected real limit.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since no coordinate supplies quotient real equality, hidden completeness, or a bypass interval conclusion, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RealIntervalHalving RegSeqRat route]
+\label{thm:real-interval-halving-regseqrat-route}
+Every Real-facing halving read of an accepted $\RealIntervalHalvingUp$ carrier factors through dyadic endpoint windows, $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, and the $\RealUp$ seal before any interval conclusion is available. In carrier coordinates this route is
+$$
+A,B,D,S \longmapsto M,G \longmapsto L,R_{0} \longmapsto E,H,C,P,N .
+$$
+Thus the consumer receives the endpoint windows, midpoint readback, located-halving row, interval-tree row, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before it can read the retained interval.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. Endpoint-window exactness makes $A,B,D,S$ visible before any midpoint or side read.
+
+The midpoint and readback compatibility row then forces $M$ and $G$ to be read from the same dyadic endpoint windows and stream observations. This is the only regular-rational route available to the carrier.
+
+The located-tree compatibility row consumes that readback through $L$ and $R_{0}$. The Real seal $E$ is downstream of these finite rows, and $H,C,P,N$ only preserve the same route by transport, replay, provenance, and local naming.
+
+Therefore a Real-facing halving consumer cannot reach an interval conclusion before the dyadic endpoint windows, StreamName observations, RegSeqRat readback, and Real seal have all been displayed.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealIntervalHalvingUp$ Real-facing interval read exposes endpoint rows, a midpoint row, one LocatedIntervalHalving row, one IntervalHalvingTree row, one DyadicRatCore tolerance row, one StreamName finite-window row, one RegSeqRat readback row, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the retained interval is public.}
+
+\independenceWitness{constructive-real-line, located-interval-halving, interval-halving-tree, dyadicratcore, streamname, regseqrat, real: $\RealIntervalHalvingUp$ is not bijective to any listed sibling because it jointly carries real endpoint windows, midpoint data, a located side row, a finite tree row, dyadic tolerance, stream observations, regular rational readback, Real seal, transport, replay, provenance, and local naming as one finite bisection certificate.}
+
+\closureat{RealIntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalHalvingUp}
+  \constructivestory{A $\RealIntervalHalvingUp$ packet is generated from real endpoint rows, a midpoint row, LocatedIntervalHalving and IntervalHalvingTree rows, DyadicRatCore tolerance, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-halving-carrier}, \autoref{thm:real-interval-halving-namecert-obligations}, and \autoref{thm:real-interval-halving-regseqrat-route} seed the finite Bishop real-interval bisection route over endpoint windows, midpoint readback, located side rows, interval-tree rows, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, selected limits, quotient reals, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.RealIntervalHalvingUp.}
+\end{closurestatus}

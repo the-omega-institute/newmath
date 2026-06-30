@@ -80,6 +80,7 @@ Replay through $C$ and repack through $P$ and $N$. Every consumer route in the o
 \label{thm:regular-cauchy-affine-combination-ledger}
 Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyAffineCombinationUp$ packet reads the affine result only after the finite ledger $E$ has combined the coefficient-complement row, the two scale-error rows, the sum-tolerance row, and the final output tolerance. The packet has no alternate ledger for quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyAffineCombinationUp.RegularCauchyAffineCombinationLedger}
 \begin{proof}
 Read a consumer request through the displayed affine route. The request first reaches the coefficient row, the two source rows, the synchronized stream windows, and the dyadic endpoint rows for $q$ and $1-q$.
 
@@ -88,6 +89,24 @@ The two scale rows are then consumed. Their finite scale ledgers are the only so
 The sum row $\Sigma$ and ledger $E$ finish the regular handoff. The row $E$ combines the two scale ledgers with the sum tolerance and final output tolerance before the readback row $R$ or Real seal row $Z$ can be read.
 
 Thus every consumer-facing affine route passes through the finite ledger. Since the carrier inventory contains no second ledger or host-level affine object, no consumer can escape to quotient stream equality, selected limits, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy affine combination convex route]
+\label{thm:regular-cauchy-affine-combination-convex-route}
+Assume the coefficient endpoint rows of an accepted $\RegularCauchyAffineCombinationUp$ carrier display the nonnegative coefficient row for $q$ and the complementary nonnegative coefficient row for $1-q$ inside the same dyadic window. Then every $\RegSeqRatUp$ or $\RealUp$ consumer of the affine packet factors through the synchronized route
+$$
+Q,X,Y,W_X,W_Y,D_Q,D_{\bar Q},S_X,S_Y,\Sigma,E,R,Z .
+$$
+This route is a finite convex-combination certificate. It exposes neither quotient stream equality, host real affine arithmetic, selected limits, trichotomy, ambient $\RealUp$ completeness, nor bridge data.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:regular-cauchy-affine-combination-obligation-surface}. It places the coefficient row, the two source rows, the synchronized StreamName windows, the dyadic endpoint rows for $q$ and $1-q$, the two scale rows, the sum row, the ledger, readback, and Real seal in the displayed carrier order.
+
+Read the coefficient-complement data next. The nonnegative row for $q$ and the nonnegative complementary row for $1-q$ are both exposed through $D_Q$ and $D_{\bar Q}$ inside the same dyadic window, so no consumer can split the affine read into two unrelated coefficient schedules.
+
+Apply classifier stability from \autoref{thm:regular-cauchy-affine-combination-stability}. The two source windows $W_X,W_Y$, the scale rows $S_X,S_Y$, and the sum row $\Sigma$ transport componentwise along the same synchronized route.
+
+Finally apply the ledger theorem \autoref{thm:regular-cauchy-affine-combination-ledger}. The row $E$ combines the coefficient-complement budget, the two scale-error budgets, the sum tolerance, and the final output tolerance before $R$ or $Z$ is visible, so the consumer receives exactly the finite convex-combination certificate and no excluded quotient, host arithmetic, limit, trichotomy, completeness, or bridge data.
 \end{proof}
 
 \begin{closurestatus}{\RegularCauchyAffineCombinationUp}

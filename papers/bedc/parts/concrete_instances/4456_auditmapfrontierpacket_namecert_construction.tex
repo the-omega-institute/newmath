@@ -24,6 +24,7 @@ with the following visible rows:
 \end{enumerate}
 The classifier accepts exactly packets carrying these rows. It exports no proof of a frontier claim, no hidden discharge for a conditional claim, no erasure of an obstruction row, no unlisted cross-map route, and no host semantic equality coordinate.
 \end{definition}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Audit-map frontier packet NameCert obligations]
 \label{thm:audit-map-frontier-packet-namecert-obligations}
@@ -40,11 +41,13 @@ Read the provenance and routing rows next. The row $P$ names sibling audit packe
 
 Finally inspect the local name $N$. Since the carrier has no coordinate for a hidden proof, a hidden discharge, an erased obstruction, or an unlisted route, these displayed rows exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketCarrier\_namecert\_obligations}
 
 \begin{theorem}[Audit-map frontier packet non-escape]
 \label{thm:audit-map-frontier-packet-nonescape}
 For every accepted $\AuditMapFrontierPacketUp$ carrier $F=(T,C,O,R,X,P,H,Q,N)$, every downstream audit consumer remains inside the displayed checked, conditional, obstruction, frontier, cross-map provenance, $\hsame$, $\Cont$, and local $\NameCert$ rows. In particular, a frontier entry in $X$ cannot be read as a closed theorem, a conditional entry in $O$ cannot be read without its named route, and an obstruction entry in $R$ cannot be removed by transport or provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketCarrier\_nonescape}
 \begin{proof}
 Start from the carrier projection. Any consumer read first selects one of the displayed audit rows $C,O,R,X$ and then follows the provenance, transport, continuation, and naming rows $P,H,Q,N$.
 
@@ -52,6 +55,45 @@ Use the NameCert obligations of \autoref{thm:audit-map-frontier-packet-namecert-
 
 The sibling concrete packets cited in the opening paragraph may supply row content, but this packet does not add a theorem-producing coordinate to them. Thus frontier rows remain frontier rows, conditional rows remain routed rows, and obstruction rows remain visible boundaries.
 \end{proof}
+
+\begin{theorem}[Audit-map frontier packet ledger totality]
+\label{thm:audit-map-frontier-packet-ledger-totality}
+For every accepted $\AuditMapFrontierPacketUp$ carrier $F=(T,C,O,R,X,P,H,Q,N)$ of \autoref{def:audit-map-frontier-packet-carrier}, each concrete audit entry supplied by the sibling chapters named in the opening paragraph lands in exactly one displayed ledger row among the checked row $C$, the conditional row $O$, the obstruction row $R$, or the frontier row $X$. The family tag $T$, the $\BHist$ packet, componentwise $\hsame$ data in $H$, displayed $\Cont$ routes in $Q$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$ record the landing route, but they do not create a fifth audit class.
+\end{theorem}
+\begin{proof}
+Inspect the finite carrier row by row. The rows $C,O,R,X$ are the only carrier coordinates whose declared role is to hold audit entries, while $T$ merely identifies the audit-map family and local BEDC substrate.
+
+The sibling chapters named in the opening paragraph can only be read through $P,H,Q,N$. These rows provide provenance, $\hsame$ transport, $\Cont$ replay, and local naming for already displayed entries.
+
+Thus every sibling-supplied audit item has a visible destination in $C,O,R,X$. Since no coordinate of $F$ is typed as a hidden theorem row or an extra ledger class, the displayed four-way ledger is total for this packet.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketLedgerTotality}
+
+\begin{theorem}[Audit-map frontier packet route non-escape]
+\label{thm:audit-map-frontier-packet-route-nonescape}
+Let $F=(T,C,O,R,X,P,H,Q,N)$ be an accepted $\AuditMapFrontierPacketUp$ carrier. Any route from the MetaCIC open-frontier ledger, the audit synthesis packet, the substitution audit map, or the normalization audit seal into a downstream audit consumer factors through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $F$. Along such a route, a row from $O$, $R$, or $X$ cannot be exported as a closed checked row in $C$.
+\end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketCarrier\_route\_nonescape}
+\begin{proof}
+Start with a displayed sibling route. The route enters the packet through the provenance row $P$ and then uses the $\hsame$ row $H$ and the $\Cont$ row $Q$ to replay the selected audit entry.
+
+The carrier has no route coordinate bypassing $C,O,R,X$. Therefore a conditional, obstruction, or frontier entry remains tagged by its source row while it is transported and replayed.
+
+The local $\NameCert$ row $N$ certifies that the consumer receives the same displayed row data. Hence a route may expose a sibling audit item, but it cannot convert an open, conditional, or obstructed entry into a checked theorem row.
+\end{proof}
+
+\begin{theorem}[Audit-map frontier packet NameCert obligation scope]
+\label{thm:audit-map-frontier-packet-namecert-obligation-scope}
+The $\NameCert_{\AuditMapFrontierPacketUp}$ obligations for the carrier $F=(T,C,O,R,X,P,H,Q,N)$ are scoped exactly to carrier admission, family-tag readback, four-way audit ledger readback, sibling provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, and local naming. They do not oblige the packet to prove any frontier entry, discharge any conditional entry, erase any obstruction row, or identify sibling audit packets by host equality.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to list the visible obligations. Admission reads $F$ as a finite $\BHist$ packet, the tag row $T$ names the local family, and $C,O,R,X$ supply the four audit ledger classes.
+
+The remaining rows are structural. The provenance row $P$ points to the sibling audit chapters, $H$ transports displayed components by $\hsame$, $Q$ replays displayed continuations by $\Cont$, and $N$ gives the local $\NameCert$ name.
+
+No listed row has the role of a theorem prover, a conditional-discharge oracle, an obstruction eraser, or a semantic equality witness between siblings. The obligation surface is therefore exactly the displayed carrier surface.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditMapFrontierPacketUp.AuditMapFrontierPacketCarrier\_namecert\_obligation\_scope}
 
 \closureat{AuditMapFrontierPacketUp}{seedStr}
 
@@ -61,7 +103,6 @@ The sibling concrete packets cited in the opening paragraph may supply row conte
   \scopeclosed{\autoref{def:audit-map-frontier-packet-carrier}, \autoref{thm:audit-map-frontier-packet-namecert-obligations}, and \autoref{thm:audit-map-frontier-packet-nonescape} bind the audit-map frontier packet as finite checked, conditional, obstruction, frontier, cross-map, provenance, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{human}
   \notclaimed{This chapter does not close subject reduction, confluence, candidate-free normalization, hidden discharge routes, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, row-class readback, cross-map provenance, route replay, naming, and non-escape for the same frontier packet.}
 \end{closurestatus}

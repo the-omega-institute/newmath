@@ -9,7 +9,7 @@
         "unlogged error, gap AUROC, certified coverage, and debt reported beside baseline scores"
       ],
       "candidate_id": "vjepa2-ac",
-      "current_artifact_status": "not_executed",
+      "current_evidence_status": "not_executed",
       "expected_input_contract": [
         "visual observations or video frames",
         "action sequence or action token stream"
@@ -20,7 +20,7 @@
       ],
       "name": "V-JEPA 2-AC",
       "repository_url": "https://github.com/facebookresearch/vjepa2",
-      "why_relevant": "V-JEPA 2-AC is the closest public JEPA-family contact because it uses action-conditioned latent prediction for world modeling."
+      "why_relevant": "V-JEPA 2-AC is the closest public JEPA-family evaluation target because it uses action-conditioned latent prediction for world modeling."
     },
     {
       "baseline_role": "LeJEPA-style pixel world-model baseline",
@@ -30,7 +30,7 @@
         "BEDC objective readback metrics on the declared distinction/gap scope"
       ],
       "candidate_id": "leworldmodel-lejepa",
-      "current_artifact_status": "not_executed",
+      "current_evidence_status": "not_executed",
       "expected_input_contract": [
         "pixel observations",
         "benchmark configuration and checkpoint/data path"
@@ -45,14 +45,21 @@
     }
   ],
   "execution_status": {
-    "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
-    "status": "missing"
+    "candidate_id": "vjepa2-ac",
+    "cannot_export": [
+      "repository commit is not recorded for the fixed-checkpoint MiniGrid reports",
+      "official V-JEPA2-AC benchmark protocol was not executed",
+      "gap detection AUROC is not separately evaluated in the near-native candidate"
+    ],
+    "reason": "near-native fixed-checkpoint evidence is recorded but does not satisfy the native metric import contract",
+    "source_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+    "status": "near_native_candidate_not_importable"
   },
   "next_actions": [
     "clone or vendor the selected public baseline in an approved environment",
     "record the exact commit, checkpoint, dataset, and command line",
     "run the selected baseline on a public visual/action benchmark",
-    "export baseline metrics into a BEDC-JEPA comparison artifact"
+    "export baseline metrics into a BEDC-JEPA comparison record"
   ],
   "schema_id": "bedc-jepa-public-baseline-registry",
   "selected_candidate_id": "vjepa2-ac",

@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBinarySubdivisionUp$}
+\label{ch:concrete-instances-regular-cauchy-binary-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names and binary interval bisection, the $\RegularCauchyBinarySubdivisionUp$ packet records the finite route by which a regular rational name is inspected through dyadic half-windows before the terminal real-name seal is read. It sits after the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the alternating route of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite subdivision certificate; it does not identify quotient real names, select a host limit, decide trichotomy, or assert ambient completeness of $\RealUp$.
+
+\begin{definition}[RegularCauchyBinarySubdivision carrier]
+\label{def:regular-cauchy-binary-subdivision-carrier}
+A $\RegularCauchyBinarySubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,R,I,L,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row whose entries list the inspected binary subdivision stages.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the midpoint, lower half, upper half, and requested radius for each inspected stage.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same windows and dyadic ledger.
+\item $I$ is the $\RegularCauchyInterleavingUp$ parity row that records how the left and right half-window reads are interleaved.
+\item $L$ is the left half-window row, read only through $S,D,R,I$.
+\item $U$ is the upper half-window row, read only through $S,D,R,I$.
+\item $E$ is the terminal $\RealUp$ seal available only after $L$ and $U$ have been displayed as half-window evidence for the same regular name.
+\item $H$ records componentwise $\hsame$ transport for windows, dyadic ledger, regular readback, interleaving, half-window rows, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a binary-subdivision request through $S,D,R,I,L,U,E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBinarySubdivisionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyInterleavingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBinarySubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,I,L,U,E,H,C,P,N$. There is no coordinate for quotient reals, selected limits, trichotomy, countable-choice schedules, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyBinarySubdivision NameCert obligations]
+\label{thm:regular-cauchy-binary-subdivision-namecert-obligations}
+For every accepted $\RegularCauchyBinarySubdivisionUp$ carrier
+$$
+K=(S,D,R,I,L,U,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyBinarySubdivisionUp}$ surface consists exactly of carrier admission for the displayed finite windows, dyadic tolerance ledger, regular rational readback, parity interleaving row, left and upper half-window rows, terminal real seal, componentwise transport, displayed replay, package provenance, and local naming. A consumer may read binary subdivision only through the route $S,D,R,I,L,U,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-binary-subdivision-carrier}. The visible rows are precisely $S,D,R,I,L,U,E,H,C,P,N$.
+
+The rows $S,D,R,I$ display the inspected stream windows, dyadic midpoint accounting, regular rational readback, and parity route. The half-window rows $L$ and $U$ are downstream of that joint surface, so they cannot be detached from the same regular Cauchy data.
+
+The terminal seal $E$ and the support rows $H,C,P,N$ preserve the same finite route. Since the carrier has no quotient, selected-limit, trichotomy, choice, host-equality, or ambient-completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyBinarySubdivision window halving]
+\label{thm:regular-cauchy-binary-subdivision-window-halving}
+Let $K=(S,D,R,I,L,U,E,H,C,P,N)$ be an accepted $\RegularCauchyBinarySubdivisionUp$ carrier. Every binary-window request from $K$ first reads the $\StreamNameUp$ row $S$, then the $\DyadicRatCoreUp$ ledger $D$, then the $\RegSeqRatUp$ readback row $R$, and then the $\RegularCauchyInterleavingUp$ parity row $I$ before either half-window row $L$ or $U$ is public. Thus each half-window read is tied to the same displayed regular Cauchy name and the same dyadic subdivision ledger.
+\end{theorem}
+\begin{proof}
+Start with the continuation row $C$. Its displayed route sends a binary-subdivision request through the finite window row $S$ and the dyadic ledger $D$ before any half-window row can be inspected.
+
+Next read the regular rational row $R$ and the interleaving row $I$. They bind the left and upper half-window reads to the same regular name and to the same parity schedule.
+
+The rows $L$ and $U$ are therefore not independent interval choices. They are the two displayed halves of the same finite subdivision route, transported and replayed only through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyBinarySubdivision Real-seal handoff]
+\label{thm:regular-cauchy-binary-subdivision-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyBinarySubdivisionUp$ carrier factors through
+$$
+S,D,R,I,L,U \longmapsto E \longmapsto H,C,P,N .
+$$
+The handoff exports the terminal seal only after the finite StreamName windows, dyadic tolerance ledger, regular rational readback, interleaving route, and both half-window rows have been displayed. It exports no quotient real, selected limit, trichotomy decision, host real equality, countable-choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-binary-subdivision-window-halving}. It forces each half-window request through $S,D,R,I$ before $L$ or $U$ is public.
+
+The terminal row $E$ is downstream of both half-window rows. A Real-facing consumer therefore receives $E$ only after the displayed binary subdivision route has been replayed.
+
+Finally inspect the support rows. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ carry the same finite packet and add no quotient, selected-limit, trichotomy, host-equality, choice, or ambient-completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyBinarySubdivisionUp$ read is refuted if a $\RealUp$ consumer reaches the terminal seal without displaying StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, RegularCauchyInterleaving parity data, both half-window rows, transport, replay, provenance, and local naming.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, regularcauchyinterleaving, real: none alone is bijective with $\RegularCauchyBinarySubdivisionUp$ because the packet jointly records windows, dyadic halving, regular readback, interleaving, two half-window rows, terminal sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyBinarySubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBinarySubdivisionUp}
+  \constructivestory{A $\RegularCauchyBinarySubdivisionUp$ packet is generated from finite StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RegularCauchyInterleaving parity row, left and upper half-window rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-binary-subdivision-carrier}, \autoref{thm:regular-cauchy-binary-subdivision-namecert-obligations}, \autoref{thm:regular-cauchy-binary-subdivision-window-halving}, and \autoref{thm:regular-cauchy-binary-subdivision-real-seal-handoff} seed the finite binary-subdivision route from regular Cauchy windows through dyadic halving and terminal Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient reals, selected limits, trichotomy, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, binary window coverage, dyadic halving exactness, RegSeqRat readback, interleaving parity, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyBinarySubdivisionUp.}
+\end{closurestatus}

@@ -1,0 +1,11 @@
+\begin{theorem}[RegularSequenceSpace sibling route]
+\label{thm:regular-sequence-space-sibling-route}
+Every $\RegularSequenceSpaceUp$ consumer that reads completion-facing data must first consume the sibling route through $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance rows, and $\RealUp$ seal rows. The route passes through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before the regular-sequence-space packet exposes value-facing data to any downstream consumer.
+\end{theorem}
+\begin{proof}
+Project an accepted $\RegularSequenceSpaceUp$ carrier through the local carrier row. Its displayed schedule, readback, tolerance, and seal coordinates are the rows $T,Q,D,R$ already named by the chapter.
+
+The sibling chapters determine the order of consumption. The StreamName window $T$ is read before the RegSeqRat readback $Q$; the DyadicRatCore tolerance row $D$ bounds the readback; and the Real seal $R$ is terminal for value-facing output.
+
+Thus every completion-facing consumer reaches regular-sequence-space data only after the sibling route has been displayed. The carrier has no coordinate for quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness that could bypass this route.
+\end{proof}

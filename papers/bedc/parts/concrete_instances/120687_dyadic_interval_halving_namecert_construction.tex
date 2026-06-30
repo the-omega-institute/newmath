@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalHalvingUp$}
+\label{ch:concrete-instances-dyadic-interval-halving-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicIntervalHalvingUp$ packet records one inspected bisection step for a dyadic interval as finite NameCert data. It sits beside the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies downstream nested interval, interval cover, and regular Cauchy completion consumers with a local halving row; it does not smuggle open-cover compactness, quotient real equality, trichotomy, an unbounded midpoint selector, or ambient $\RealUp$ completeness.
+
+The sibling route is deliberately local. $\DyadicRatCoreUp$ supplies the endpoint arithmetic and width ledger, $\StreamNameUp$ supplies the finite observation window, $\RegSeqRatUp$ supplies the regular rational readback boundary, and $\RealUp$ supplies the terminal seal only after the displayed dyadic row has been inspected.
+
+\begin{definition}[Dyadic interval halving carrier]
+\label{def:dyadic-interval-halving-carrier}
+A $\DyadicIntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+H=(I,D,M,L,R,W,Q,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the input dyadic interval row, recording left endpoint, right endpoint, and the displayed nonnegative width witness.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row for endpoint comparison, midpoint formation, and dyadic denominator tracking.
+\item $M$ is the midpoint row computed from the displayed endpoints through $D$.
+\item $L$ is the left-child row with endpoints given by the input left endpoint and $M$.
+\item $R$ is the right-child row with endpoints given by $M$ and the input right endpoint.
+\item $W$ is the width-halving row, exposing the equality of the two child widths with one displayed dyadic half of the input width.
+\item $Q$ is the $\StreamNameUp$ finite-window row for reading endpoints, midpoint, and child widths.
+\item $E$ is the $\RegSeqRatUp$ rational readback row formed from $Q$ and $D$.
+\item $T$ is the $\RealUp$ seal boundary row available only after $I,D,M,L,R,W,Q,E$ have been displayed.
+\item $C$ records componentwise $\hsame$ transport for interval, arithmetic, midpoint, child, width, window, readback, seal, replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalHalvingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalHalvingUp}$ row.
+\end{enumerate}
+The carrier exports exactly one dyadic halving step. It has no coordinate for an infinite branch, open-cover compactness, quotient real equality, trichotomy, selected midpoint choice beyond the displayed dyadic row, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalHalvingUp.DyadicIntervalHalvingTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval halving NameCert obligations]
+\label{thm:dyadic-interval-halving-namecert-obligations}
+For every accepted $\DyadicIntervalHalvingUp$ carrier
+$$
+H=(I,D,M,L,R,W,Q,E,T,C,P,N),
+$$
+the local $\NameCert_{\DyadicIntervalHalvingUp}$ surface consists exactly of input interval exposure, dyadic arithmetic exposure, midpoint exposure, left-child exposure, right-child exposure, width-halving exposure, finite-window scheduling, regular rational readback, terminal Real sealing, componentwise transport, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-halving-carrier}. The rows $I$ and $D$ expose the input interval and the dyadic arithmetic ledger before any child interval is read.
+
+The midpoint and child rows are $M,L,R$. They are computed from the displayed dyadic endpoint data, and the width row $W$ records the local halving equality for those two children.
+
+The completion-facing route is downstream from the halving rows. The finite window $Q$ is read before the regular rational row $E$, and the terminal Real seal $T$ is available only after that readback. The rows $C,P,N$ transport, source, and name the same finite route, so the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic interval halving nested route handoff]
+\label{thm:dyadic-interval-halving-nested-route}
+Every nested interval consumer of an accepted $\DyadicIntervalHalvingUp$ carrier must read the handoff through
+$$
+I,D,M,L,R,W,Q,E,T,C,P,N .
+$$
+The packet offers one displayed dyadic bisection step that can be appended to a finite nested route, but it does not choose an infinite branch, assert interval compactness, or identify quotient real names.
+\end{theorem}
+\begin{proof}
+Begin with the displayed input interval row $I$ and arithmetic row $D$. These rows determine the endpoint comparison and midpoint formation visible to a later nested-route consumer.
+
+The child rows $L$ and $R$ are both present as finite data, with $W$ recording the halved width relation. A consumer may retain either displayed child in its own finite route, but the carrier itself does not provide an infinite selector.
+
+The rows $Q,E,T$ then expose the observation, rational readback, and Real-facing boundary for that same one-step bisection. Since the structural rows $C,P,N$ preserve only this finite packet, the handoff remains a local nested-route input rather than a compactness or quotient-real principle.
+\end{proof}
+
+\begin{theorem}[Dyadic interval halving Real seal boundary]
+\label{thm:dyadic-interval-halving-real-seal-boundary}
+The $\RealUp$ seal of an accepted $\DyadicIntervalHalvingUp$ carrier is readable only after the dyadic endpoint row, midpoint row, child interval rows, width-halving row, finite observation row, and regular rational readback row have all been displayed. In particular, the seal does not create ambient real completeness, quotient equality of real names, trichotomy, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Read the carrier in the order prescribed by \autoref{def:dyadic-interval-halving-carrier}. The input endpoint row $I$, arithmetic row $D$, midpoint row $M$, child rows $L,R$, and width row $W$ provide the whole dyadic halving surface.
+
+The observation row $Q$ and regular rational row $E$ translate that finite surface into the completion-facing readback route. Only then is the row $T$ exposed as the terminal $\RealUp$ seal boundary.
+
+No remaining coordinate stores ambient completeness, quotient equality, trichotomy, or compactness. The seal therefore records only the displayed one-step dyadic interval readback.
+\end{proof}
+
+\begin{theorem}[Dyadic interval halving scoped bisection transport]
+\label{thm:dyadic-interval-halving-scoped-bisection-transport}
+Every accepted $\DyadicIntervalHalvingUp$ bisection read transports componentwise through the displayed dyadic endpoint row, the $\StreamNameUp$ finite observation schedule, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\DyadicIntervalHalvingUp}$ row. The packet exports no open-cover compactness, quotient $\RealUp$ equality, trichotomy, unbounded midpoint selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:dyadic-interval-halving-namecert-obligations}. They expose the input interval row, dyadic arithmetic row, midpoint row, child rows, width-halving row, finite observation row, regular rational readback row, Real seal row, transport row, provenance row, and local naming row as one finite carrier.
+
+Next use the nested route handoff of \autoref{thm:dyadic-interval-halving-nested-route}. It permits a consumer to append the displayed left or right child only as a one-step bisection input, with no infinite branch selector or compactness principle attached.
+
+Finally apply the Real seal boundary of \autoref{thm:dyadic-interval-halving-real-seal-boundary}. Since the seal is readable only after the endpoint, midpoint, child, width, observation, and readback rows have been displayed, componentwise $\hsame$ transport and $\Cont$ replay preserve exactly that scoped route. The carrier has no coordinate for open-cover compactness, quotient real equality, trichotomy, an unbounded midpoint selector, or ambient completeness, so none is exported.
+\end{proof}
+
+\closureat{DyadicIntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalHalvingUp}
+  \constructivestory{A $\DyadicIntervalHalvingUp$ packet is generated from one input dyadic interval row, DyadicRatCore arithmetic rows, a midpoint row, two child interval rows, a width-halving row, StreamName finite observations, RegSeqRat readback, a RealUp seal boundary, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-halving-carrier}, \autoref{thm:dyadic-interval-halving-namecert-obligations}, \autoref{thm:dyadic-interval-halving-nested-route}, and \autoref{thm:dyadic-interval-halving-real-seal-boundary} seed the one-step dyadic interval bisection packet over arithmetic, observation, readback, seal, transport, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient real equality, trichotomy, selected midpoint choice beyond the displayed dyadic row, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic arithmetic exposure, midpoint formation, child-row exposure, width-halving exactness, finite-window scheduling, regular rational readback, Real seal boundary control, transport, provenance, and local naming for BEDC.Derived.DyadicIntervalHalvingUp.}
+\end{closurestatus}

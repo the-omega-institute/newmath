@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DemicontinuityUp$}
+\label{ch:concrete-instances-demicontinuity-namecert}
+\origin{human}
+
+Following Browder and Minty on weak-to-strong continuity for nonlinear operators, the $\DemicontinuityUp$ packet records the finite certificate surface for a map whose admissible input is read through weak tests while its output is controlled in a strong metric row. It sits over the Banach carrier of \autoref{ch:concrete-instances-banachspace-namecert}, the Hilbert weak-test surface of \autoref{ch:concrete-instances-weak-convergence-hilbert-namecert}, the monotone-operator route of \autoref{ch:concrete-instances-minty-browder-monotone-operator-namecert}, the scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the metric readback surface of \autoref{ch:concrete-instances-metric-space-namecert}. The packet names only the displayed weak-input and strong-output handoff; it does not assert compactness, selected weak subsequences, maximal monotonicity, norm convergence of the input, or an ambient theorem turning weak convergence into strong convergence.
+
+\begin{definition}[Demicontinuity carrier]
+\label{def:demicontinuity-carrier}
+A $\DemicontinuityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,W,M,R,A,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachSpaceUp$ source row, including the normed carrier, linear structure, and completeness-facing provenance inspected by the nonlinear map.
+\item $W$ is the weak-input row, read through $\WeakConvergenceHilbertUp$ when the source is Hilbert-facing and through the displayed Banach weak-test rows otherwise.
+\item $M$ is the $\MetricSpaceUp$ strong-output row, carrying the target distance, strong tolerance boundary, and metric readback used by consumers.
+\item $R$ is the $\RealUp$ scalar seal for weak-test values and strong-output radii.
+\item $A$ is the action row for the displayed nonlinear operator. It records the finite graph window, accepted input names, output names, and the local handoff ledger from weak input tests to strong output estimates.
+\item $S$ is the demicontinuity stability row. Each entry records a weak-input budget, the finite scalar tests that certify it, the strong-output radius requested by $M$, and the displayed comparison sending the operator image into that radius.
+\item $H$ records componentwise $\hsame$ transport for Banach source, weak-input, metric target, real scalar seal, action, stability, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a weak-input request through
+$$
+B,W,M,R,A,S \longmapsto H,C,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DemicontinuityUp$, $\BanachSpaceUp$, $\WeakConvergenceHilbertUp$, $\MintyBrowderMonotoneOperatorUp$, $\RealUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DemicontinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,W,M,R,A,S,H,C,P,N$. It has no coordinate for compactness, selected weakly convergent subsequences, maximal-monotone closure, quotient graph equality, input norm convergence, or a host theorem that replaces the finite handoff ledger.
+\end{definition}
+\leanstmt{BEDC.Derived.DemicontinuityUp}
+
+\begin{theorem}[Demicontinuity NameCert obligations]
+\label{thm:demicontinuity-namecert-obligations}
+For every accepted $\DemicontinuityUp$ carrier $D=(B,W,M,R,A,S,H,C,P,N)$, the local $\NameCert_{\DemicontinuityUp}$ surface consists exactly of carrier admission for the Banach source row, weak-input row, strong-output metric row, real scalar seal, displayed nonlinear action row, demicontinuity stability row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:demicontinuity-carrier}. The analytic rows are exactly $B,W,M,R,A,S$: source admission, weak-input observation, strong-output metric readback, real scalar sealing, the nonlinear action window, and the handoff stability ledger.
+
+The handoff is finite. A consumer first reads the weak-input budget and scalar tests from $W,R$, then reads the requested strong-output radius from $M$, and finally checks the displayed comparison stored in $S$ for the action row $A$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since compactness, selected subsequences, maximality, quotient graph equality, input norm convergence, and ambient weak-to-strong theorems are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Demicontinuity weak-to-strong handoff]
+\label{thm:demicontinuity-weak-strong-handoff}
+Every $\BanachSpaceUp$, $\WeakConvergenceHilbertUp$, $\MintyBrowderMonotoneOperatorUp$, $\RealUp$, or $\MetricSpaceUp$ consumer of an accepted $\DemicontinuityUp$ packet reads the demicontinuity witness only through the finite route
+$$
+\BanachSpaceUp,\WeakConvergenceHilbertUp,\RealUp
+\longmapsto A,S
+\longmapsto \MetricSpaceUp
+$$
+together with $H,C,P,N$. The route exports weak-input tests and strong-output metric control for the displayed action, not compactness, a selected weak limit, maximal-monotone closure, input norm convergence, or an ambient strong-convergence theorem.
+\end{theorem}
+\begin{proof}
+Start with the source and weak-input rows. The Banach row $B$ provides the accepted domain carrier, while $W$ and $R$ provide only the displayed scalar tests and real tolerance values used to recognize a weak-input request.
+
+Read the action and stability rows next. The action row $A$ supplies the finite operator window, and $S$ records the comparison from the accepted weak-input budget to the requested strong-output metric radius.
+
+Finally pass through $M,H,C,P,N$. The metric row is the only strong-output interface, while transport, replay, provenance, and local naming preserve the same finite handoff without adding compactness, selected limits, maximality, quotient graph equality, input norm convergence, or a host convergence theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DemicontinuityUp$ read is refuted if a nonlinear-analysis consumer exports a strong-output conclusion without displaying the $\BanachSpaceUp$ source row, weak-input tests through $\WeakConvergenceHilbertUp$ or sibling Banach weak rows, the $\RealUp$ scalar seal, the $\MetricSpaceUp$ strong-output radius, the action row, the stability ledger, transport, replay, provenance, and local naming.}
+
+\independenceWitness{banach-space, weak-convergence-hilbert, minty-browder-monotone-operator, real, metric-space: none alone is bijective with $\DemicontinuityUp$ because the packet jointly carries a Banach source, weak-input observations, real scalar budgets, an action row, strong metric output control, a finite stability ledger, transport, replay, provenance, and local NameCert while refusing compactness, selected weak limits, maximality, and input norm convergence.}
+
+\closureat{DemicontinuityUp}{seedStr}
+
+\begin{closurestatus}{\DemicontinuityUp}
+  \constructivestory{A $\DemicontinuityUp$ packet is generated from a Banach source row, weak-input observation rows, Real scalar seals, a strong-output MetricSpace row, a nonlinear action row, a demicontinuity stability ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:demicontinuity-carrier}, \autoref{thm:demicontinuity-namecert-obligations}, and \autoref{thm:demicontinuity-weak-strong-handoff} seed the finite weak-input and strong-output handoff certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, compactness, selected weak subsequences, maximal monotonicity, quotient graph equality, input norm convergence, or ambient weak-to-strong convergence.}
+  \upgradepath{Obligation closure requires checked carrier admission, weak-input stability, strong-output metric exactness, action ledger transport, replay, provenance, and local naming for BEDC.Derived.DemicontinuityUp.}
+\end{closurestatus}

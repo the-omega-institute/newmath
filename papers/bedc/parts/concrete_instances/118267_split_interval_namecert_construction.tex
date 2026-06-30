@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SplitIntervalUp$}
+\label{ch:concrete-instances-split-interval-namecert}
+\origin{human}
+
+Following Alexandroff and Urysohn's split-interval construction, the $\SplitIntervalUp$ packet records the constructive two-sided split of a displayed real interval as finite NameCert data. It sits next to the double-arrow packet of \autoref{ch:concrete-instances-double-arrow-space-namecert} and the real endpoint reconstruction of \autoref{ch:concrete-instances-real-namecert}. The chapter names the carrier, local NameCert obligations, and order-topology handoff rows only; it does not assert open-cover compactness, quotient topology, selected endpoint cuts, or a host equality principle for adjacent split points.
+
+\begin{definition}[SplitInterval carrier]
+\label{def:split-interval-carrier}
+A $\SplitIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+S=(x,\sigma,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $x$ is the displayed $\RealUp$ endpoint currently inspected by the packet.
+\item $\sigma$ is a two-sided split bit, naming the lower or upper copy attached to the same endpoint.
+\item $B$ is a located half-open interval basis row recording the finite left-open and right-open neighborhoods actually exposed at $(x,\sigma)$.
+\item $O$ is the lexicographic order-topology row, comparing endpoints through $\RealUp$ and resolving equal endpoints through $\sigma$.
+\item $H$ records componentwise $\hsame$ transport for endpoint, split-bit, basis, order-topology, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from endpoint and split-bit data to the located half-open basis and then to the order-topology row.
+\item $P$ is the $\Pkg$ provenance over $\SplitIntervalUp$, $\RealUp$, $\DoubleArrowSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SplitIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $x,\sigma,B,O,H,C,P,N$. It has no coordinate for a quotient topology, open-cover compactness, selected endpoint cuts, unrestricted open-set lattice, or host point equality between the two copies.
+\end{definition}
+\leandef{BEDC.Derived.SplitIntervalUp}
+
+\begin{theorem}[SplitInterval NameCert obligations]
+\label{thm:split-interval-namecert-obligations}
+For every accepted $\SplitIntervalUp$ packet $S=(x,\sigma,B,O,H,C,P,N)$, the local $\NameCert_{\SplitIntervalUp}$ surface consists exactly of endpoint admission through $\RealUp$, split-bit admission, located half-open basis exposure, lexicographic order-topology exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. A consumer may read a split-interval neighborhood only after those finite rows have been displayed; it cannot replace them by host compactness, quotient topology, selected endpoint cuts, or ambient open-set data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:split-interval-carrier}. The displayed rows $x,\sigma,B,O,H,C,P,N$ are the whole accepted packet, so every local read begins with the real endpoint and the two-sided split bit.
+
+The located half-open basis row $B$ supplies only the finite neighborhoods exposed at the inspected split endpoint. The order-topology row $O$ then reads endpoint comparison through $\RealUp$ and tie-breaking through $\sigma$, matching the split-interval surface used by \autoref{ch:concrete-instances-double-arrow-space-namecert}.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for compactness, quotient topology, selected cuts, ambient opens, or host equality between the two copies, none of those objects can appear among the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[SplitInterval order-topology handoff]
+\label{thm:split-interval-order-topology-handoff}
+Every order-topology consumer of an accepted $\SplitIntervalUp$ packet receives generated split-interval data only through the route
+$$
+\RealUp,\ \sigma,\ B,\ O,\ H,\ C,\ P,\ N .
+$$
+The endpoint row supplies the real comparison boundary, the split bit separates the two sides at equal endpoints, the located half-open basis row supplies the finite neighborhood windows, and the lexicographic order-topology row supplies the order-facing handoff. The route exports no open-cover compactness theorem, quotient-topology presentation, selected cut, unrestricted open-set lattice, or host equality principle.
+\end{theorem}
+\begin{proof}
+Read the carrier in the order displayed by \autoref{def:split-interval-carrier}. The endpoint $x$ and bit $\sigma$ determine which side of the split interval is inspected, while $B$ lists the located half-open basis rows made available to a topology consumer.
+
+Apply \autoref{thm:split-interval-namecert-obligations}. It forces every order-topology read through endpoint admission, split-bit admission, basis exposure, order-topology exposure, transport, replay, provenance, and local naming.
+
+Thus the handoff is a finite route through $\RealUp$, the split bit, located basis data, and the structural NameCert rows. It does not import compactness, quotient topology, selected endpoint cuts, a global open-set lattice, or host equality between the two displayed copies.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SplitIntervalUp$ order-topology read factors through the displayed $\RealUp$ endpoint, split-bit row, located half-open basis row, lexicographic order-topology row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+
+\independenceWitness{double-arrow-space, real: $\SplitIntervalUp$ is not bijective to either sibling because it records a single endpoint with a two-sided split bit and located half-open basis rows, while $\DoubleArrowSpaceUp$ records the two-copy interval packet and $\RealUp$ records endpoint data without the split-bit or half-open basis coordinates.}
+
+\closureat{SplitIntervalUp}{seedStr}
+
+\begin{closurestatus}{\SplitIntervalUp}
+  \constructivestory{A $\SplitIntervalUp$ packet is generated from a RealUp endpoint, a two-sided split bit, located half-open basis rows, a lexicographic order-topology row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:split-interval-carrier}, \autoref{thm:split-interval-namecert-obligations}, and \autoref{thm:split-interval-order-topology-handoff} seed the finite split-interval order-topology packet over RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, quotient topology, selected endpoint cuts, unrestricted open-set lattices, Lean theorem verification, or bridge checking for $\SplitIntervalUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, split-bit stability, located half-open basis exposure, lexicographic order-topology exactness, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.SplitIntervalUp.}
+\end{closurestatus}

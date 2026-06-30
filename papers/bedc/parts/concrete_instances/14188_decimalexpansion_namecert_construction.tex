@@ -586,12 +586,27 @@ Next apply \autoref{thm:decimal-expansion-regseqrat-prefix-coverage}. The $\RegS
 Finally use \autoref{thm:decimal-expansion-regseqrat-density-unblock}. The density-facing handoff and the Real seal remain finite BEDC routes, leaving no coordinate for quotient reals, selected decimal streams, endpoint selectors, trichotomy, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion public window export]
+\label{thm:decimal-expansion-public-window-export}
+Every public-facing $\DecimalExpansionUp$ consumer must expose the digit ledger $D$, decimal window row $W$, place-value row $V$, dyadic and rational comparison row $Q$, $\RegSeqRatUp$ handoff $R$, terminal $\RealUp$ seal $E$, componentwise transport, replay, provenance, and local $\NameCert$ rows before reading a real-facing decimal value. The export is a finite decimal-window route and not a quotient real, selected decimal expansion, endpoint selector, trichotomy decision, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionPublicWindowExport}
+\begin{proof}
+Start with the window obligations. Theorems~\ref{thm:decimal-expansion-digit-window-obligations} and \ref{thm:decimal-expansion-window-normalization-obligation} force every decimal read to display $D,W,V,Q$ before any downstream handoff is available.
+
+Next use the RegSeqRat route. Theorems~\ref{thm:decimal-expansion-regseqrat-handoff}, \ref{thm:decimal-expansion-regseqrat-prefix-coverage}, and \ref{thm:decimal-expansion-regseqrat-digit-replay} keep the handoff row $R$ replayable from the finite digit ledger and dyadic comparison rows.
+
+Finally apply the Real boundary and the non-escape audit. Theorems~\ref{thm:decimal-expansion-real-readback-boundary}, \ref{thm:decimal-expansion-real-window-exhaustion-audit-route}, and \ref{thm:decimal-expansion-signed-window-transport} leave the terminal seal $E$ downstream of the finite route and provide no coordinate for quotient reals, selected expansions, endpoint selectors, trichotomy, or ambient completeness.
+\end{proof}
+
+\closureat{DecimalExpansionUp}{matureStr}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, \autoref{thm:decimal-expansion-real-readback-boundary}, and \autoref{thm:decimal-expansion-regseqrat-handoff} seed the finite decimal-prefix readback surface into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, \autoref{thm:decimal-expansion-digit-window-obligations}, \autoref{thm:decimal-expansion-real-readback-boundary}, \autoref{thm:decimal-expansion-regseqrat-handoff}, \autoref{thm:decimal-expansion-window-normalization-obligation}, \autoref{thm:decimal-expansion-regseqrat-prefix-coverage}, \autoref{thm:decimal-expansion-regseqrat-digit-replay}, and \autoref{thm:decimal-expansion-public-window-export} bind the finite decimal-window carrier, digit classifier, RegSeqRat and Real-facing readback rows, hsame transport, Cont replay, Pkg provenance, local NameCert rows, and the public decimal-window consumer export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Dedekind cuts, quotient reals, endpoint uniqueness, trichotomy, selected representatives, RealUp completeness, or a standard bridge.}
-  \upgradepath{Reaching obligationClosure requires Lean-backed carrier admission, componentwise classifier transport, ledger exhaustion, and RealUp readback-boundary targets for the displayed packet.}
+  \upgradepath{No further paper-axis closure is claimed here; bridge and Lean verification remain separate axes.}
 \end{closurestatus}

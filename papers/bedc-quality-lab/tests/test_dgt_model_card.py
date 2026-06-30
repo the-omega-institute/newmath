@@ -263,6 +263,22 @@ def test_l1_construct_invalid_and_fair_decision_are_separate(tmp_path):
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
 
+def test_fair_decision_boundary_survives_construct_valid_source(tmp_path):
+    _source_fixture(tmp_path)
+    _rewrite_source(
+        tmp_path,
+        "reports/canonical/dgt-base-undertraining-audit.json",
+        lambda payload: payload["base_undertraining_audit"]["construct_validity"].__setitem__("status", "construct-valid"),
+    )
+
+    payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    fair = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "fair architecture comparison")
+
+    assert fair["construct_validity_status"] == "construct-valid"
+    assert fair["status"] == "bounded-negative"
+    assert payload["card_hardgates"]["gates"]["CARD-HG5"]["status"] == "pass"
+
+
 def test_owner_derived_status_rewrites_fail_closed(tmp_path):
     payload = _build(tmp_path)
 

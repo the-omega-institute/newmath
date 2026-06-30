@@ -43,6 +43,7 @@ For every accepted $\CauchyCondensationUp$ carrier $K=(S,W,B,L,T,R,E,H,C,P,N)$, 
 \end{enumerate}
 No other analytic or choice-theoretic obligation is part of the local certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted packet $K=(S,W,B,L,T,R,E,H,C,P,N)$. The projection exposes exactly the monotone source, finite windows, dyadic schedule, block-sum ledger, tail-bound row, regular readback, real seal, transport rows, continuation replay, provenance, and local naming row.
 
@@ -53,6 +54,53 @@ The monotone nonnegative source row $S$ is used only through displayed summand w
 Finally use the structural rows. The componentwise transports in $H$ preserve the displayed data, and $C,P,N$ only replay, source, and name that route. Since the carrier has no further coordinate, the listed obligations exhaust the local $\NameCert_{\CauchyCondensationUp}$ surface.
 \end{proof}
 
+\begin{theorem}[Cauchy condensation dyadic-tail obligation]
+\label{thm:cauchy-condensation-dyadic-tail-obligation}
+For every accepted $\CauchyCondensationUp$ carrier $K=(S,W,B,L,T,R,E,H,C,P,N)$, any tail request presented to the condensation comparison must expose the dyadic schedule $B$, the block-sum ledger $L$, and the tail-bound row $T$ before it can be read by the regular-rational or real-seal rows. Equivalently, the tail obligation is the finite projection
+$$
+S,W,B,L \longmapsto T
+$$
+inside the same displayed carrier, with no detached infinite block choice or external summability premise.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.DyadicTailObligation.CauchyCondensationCarrier\_dyadic\_tail\_obligation}
+\begin{proof}
+Project the accepted packet as $K=(S,W,B,L,T,R,E,H,C,P,N)$. The NameCert obligation surface of \autoref{thm:cauchy-condensation-namecert-obligations} exposes $S,W,B,L,T$ as the source, window, dyadic schedule, block-sum, and tail-bound rows.
+
+Apply \autoref{thm:cauchy-condensation-dyadic-block-handoff}. It forces every tail request through the finite route from $S,W,B,L$ to $T$ before $R$ or $E$ can be inspected.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name that route. Since the carrier has no coordinate for infinite block selection or host summability, the dyadic-tail obligation is exactly the displayed projection.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation RegSeqRat readback obligation]
+\label{thm:cauchy-condensation-regseqrat-readback-obligation}
+For every accepted $\CauchyCondensationUp$ carrier $K=(S,W,B,L,T,R,E,H,C,P,N)$, the $\RegSeqRatUp$ row $R$ is readable only after the finite dyadic-tail obligation through $S,W,B,L,T$ has been displayed. A consumer that preserves $S,W,B,L,T$ and the structural rows $H,C,P,N$ preserves the same readback row $R$, and no quotient series equality, selected sum, or countable-choice schedule supplies an alternate readback.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.RegSeqRatReadbackObligation.CauchyCondensationCarrier\_regseqrat\_readback\_obligation}
+\begin{proof}
+Use \autoref{thm:cauchy-condensation-dyadic-tail-obligation} to bind every tail request to the displayed rows $S,W,B,L,T$. This places the tail-bound row immediately upstream of the regular-rational handoff.
+
+Now apply \autoref{thm:cauchy-condensation-dyadic-block-handoff}. The theorem identifies $R$ as the readback row reached from the dyadic-block route and the same structural rows.
+
+Finally use \autoref{thm:cauchy-condensation-dyadic-block-tail-transport}. Componentwise $\hsame$ transport preserving $W,B,L,T$ preserves the $\RegSeqRatUp$ handoff row, so no quotient, selected-sum, or choice-based alternate readback is available.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation Real-seal nonescape obligation]
+\label{thm:cauchy-condensation-real-seal-nonescape-obligation}
+For every accepted $\CauchyCondensationUp$ carrier $K=(S,W,B,L,T,R,E,H,C,P,N)$, any $\RealUp$ seal-facing read of $E$ must first pass through the dyadic-tail obligation on $S,W,B,L,T$ and the $\RegSeqRatUp$ readback obligation on $R$. Thus the Real-seal obligation is the finite route
+$$
+S,W,B,L,T \longmapsto R \longmapsto E,H,C,P,N,
+$$
+with no route through quotient series equality, selected infinite sums, countable choice, trichotomy, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.RealSealObligation.CauchyCondensationCarrier\_real\_seal\_nonescape\_obligation}
+\begin{proof}
+Start with the dyadic-tail obligation of \autoref{thm:cauchy-condensation-dyadic-tail-obligation}. It fixes the finite route through $S,W,B,L,T$ for every tail request.
+
+Apply \autoref{thm:cauchy-condensation-regseqrat-readback-obligation}. The readback row $R$ is downstream of the same finite dyadic-tail route and cannot be replaced by an external summability object.
+
+Finally apply \autoref{thm:cauchy-condensation-real-seal-nonescape}. The seal row $E$ receives its analytic input from $R$ together with $H,C,P,N$. Since the packet omits quotient equality, selected sums, countable choice, trichotomy, host real equality, and $\RealUp$ completeness, the displayed route exhausts the Real-seal obligation.
+\end{proof}
+
 \begin{theorem}[Cauchy condensation dyadic-block handoff]
 \label{thm:cauchy-condensation-dyadic-block-handoff}
 Every accepted $\CauchyCondensationUp$ carrier sends a monotone nonnegative series tail to a completion-facing comparison route only through the finite dyadic-block handoff
@@ -61,6 +109,7 @@ S,W,B,L \longmapsto T \longmapsto R,E,H,C,P,N.
 $$
 Thus a downstream consumer can read the condensation comparison only after reading the displayed summand windows, dyadic block schedule, block-sum ledger, tail-bound row, and $\RegSeqRatUp$ readback.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_dyadic\_block\_handoff}
 \begin{proof}
 Begin with an accepted carrier and a displayed tail request. The window ledger $W$ identifies the finite summand rows to inspect, while the dyadic schedule $B$ fixes the block endpoints and powers of two.
 
@@ -75,6 +124,7 @@ Transport and replay preserve this route componentwise. The rows $H,C,P,N$ there
 \label{thm:cauchy-condensation-real-seal-nonescape}
 For every accepted $\CauchyCondensationUp$ carrier, any $\RealUp$ seal-facing read factors through the $\RegSeqRatUp$ handoff row $R$ produced from the finite dyadic-block route. The seal row $E$ receives the monotone source, summand windows, dyadic schedule, block-sum ledger, tail bounds, componentwise transports, continuation replay, provenance, and local naming rows, but it receives no quotient series equality, selected infinite sum, countable choice, trichotomy premise, host real equality, or RealUp completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Project the seal-facing rows $R$ and $E$ from the accepted carrier. The regular handoff $R$ is downstream of the tail-bound row $T$, and $T$ is downstream of the displayed summand windows, dyadic schedule, and block-sum ledger.
 
@@ -95,6 +145,7 @@ K'=(S',W',B',L',T',R',E',H',C',P',N')
 $$
 be accepted $\CauchyCondensationUp$ carriers. If componentwise $\hsame$ transport identifies the summand windows, dyadic block schedule, block-sum ledger, and tail-bound rows $W,B,L,T$ with $W',B',L',T'$, then it preserves the $\RegSeqRatUp$ handoff rows $R,R'$ and the $\RealUp$ seal nonescape boundary rows $E,E'$. The transported packet still routes every condensation tail through the displayed finite block surface before any real-seal read.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_dyadic\_block\_tail\_transport}
 \begin{proof}
 Unpack the NameCert obligations of \autoref{thm:cauchy-condensation-namecert-obligations}. The accepted carrier exposes the summand windows, dyadic schedule, block-sum ledger, and tail-bound row as finite rows before the regular readback or real seal can be inspected.
 
@@ -109,6 +160,7 @@ The carrier contains no quotient series equality, selected infinite sum, countab
 \label{thm:cauchy-condensation-tail-lock-uniqueness}
 For an accepted $\CauchyCondensationUp$ carrier $K=(S,W,B,L,T,R,E,H,C,P,N)$, any two $\RealUp$ seal-facing reads that preserve the same summand windows $W$, dyadic block schedule $B$, block-sum ledger $L$, and tail-bound row $T$ must factor through the same $\RegSeqRatUp$ handoff row $R$ before reaching the same Real seal boundary $E$. No quotient series equality, selected sum, countable choice, trichotomy, host real equality, or $\RealUp$ completeness coordinate can distinguish the two reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_tail\_lock\_uniqueness}
 \begin{proof}
 Use the NameCert obligations of \autoref{thm:cauchy-condensation-namecert-obligations}. They expose the carrier only through $S,W,B,L,T,R,E,H,C,P,N$, so both seal-facing reads share the same finite condensation surface once $W,B,L,T$ are preserved.
 
@@ -125,6 +177,7 @@ K=(S,W,B,L,T,R,E,H,C,P,N),
 $$
 and no quotient series equality, selected sum, countable-choice schedule, trichotomy oracle, host real equality, or $\RealUp$ completeness coordinate supplies a second route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_test\_dyadic\_block\_equivalence}
 \begin{proof}
 Start with the accepted carrier and apply \autoref{thm:cauchy-condensation-dyadic-block-handoff}. It identifies the displayed path from the monotone source tail through summand windows, dyadic schedule, block sums, and tail bounds to the regular readback.
 
@@ -133,18 +186,58 @@ Use \autoref{thm:cauchy-condensation-dyadic-block-tail-transport}. Any consumer 
 Finally apply \autoref{thm:cauchy-condensation-tail-lock-uniqueness}. Two seal-facing reads with the same $W,B,L,T$ data cannot be distinguished by an alternate quotient, selected-sum, choice, trichotomy, host-equality, or completeness coordinate. Thus the condensation-test consumer agrees with the packet exactly on the displayed dyadic-block route.
 \end{proof}
 
+\begin{theorem}[Cauchy condensation scoped obligation route]
+\label{thm:cauchy-condensation-scoped-obligation-route}
+For every accepted $\CauchyCondensationUp$ carrier
+$$
+K=(S,W,B,L,T,R,E,H,C,P,N),
+$$
+any consumer read that cites the dyadic-block comparison factors first through the finite $\SeriesUp$ summand windows, the $\FastConvergentSeriesUp$ comparison budget recorded in $T$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $E$, componentwise $\BHist$ and $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchyCondensationUp}$ row. No consumer may cite the comparison theorem from an unsealed series tail, a detached completion object, or an external summability principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_scoped\_obligation\_route}
+\begin{proof}
+First use the dyadic-block handoff of \autoref{thm:cauchy-condensation-dyadic-block-handoff}. It sends every accepted tail request through the displayed $\SeriesUp$ source windows, the dyadic schedule, the block-sum ledger, and the tail-bound row before the regular readback can be inspected.
+
+Next apply the Real-seal nonescape theorem of \autoref{thm:cauchy-condensation-real-seal-nonescape}. The seal-facing read reaches $E$ only after the $\RegSeqRatUp$ row $R$ and the structural rows attached to the same finite carrier are visible.
+
+Transport is supplied by \autoref{thm:cauchy-condensation-dyadic-block-tail-transport}. It preserves the same windows, schedule, block ledger, tail-bound row, regular readback, and Real-seal boundary under componentwise $\hsame$ transport.
+
+Finally use the test equivalence of \autoref{thm:cauchy-condensation-test-dyadic-block-equivalence}. A consumer can cite the dyadic-block comparison exactly when it agrees with the displayed route through $S,W,B,L,T,R,E,H,C,P,N$, so the scoped obligation route is the finite carrier route itself rather than a detached analytic principle.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation obligation-closure package]
+\label{thm:cauchy-condensation-obligation-closure-package}
+For every accepted $\CauchyCondensationUp$ carrier
+$$
+K=(S,W,B,L,T,R,E,H,C,P,N),
+$$
+the carrier, local $\NameCert_{\CauchyCondensationUp}$ obligations, dyadic-tail obligation, $\RegSeqRatUp$ readback obligation, $\RealUp$ seal nonescape obligation, dyadic-block handoff, tail transport, tail-lock uniqueness, and scoped obligation route assemble the full $\obligationClosure$ surface over $\SeriesUp$, $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exports no selected sum, quotient series equality, countable choice, trichotomy, detached summability principle, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCondensationUp.CauchyCondensationCarrier\_obligation\_closure\_package}
+\begin{proof}
+Start from the carrier and NameCert surfaces. Apply \autoref{def:cauchy-condensation-carrier} and \autoref{thm:cauchy-condensation-namecert-obligations} to expose exactly the eleven displayed rows and the local certificate obligations attached to them.
+
+Next bind the analytic tail route. Use \autoref{thm:cauchy-condensation-dyadic-tail-obligation}, \autoref{thm:cauchy-condensation-regseqrat-readback-obligation}, and \autoref{thm:cauchy-condensation-real-seal-nonescape-obligation} to force every tail request through $S,W,B,L,T$, then $R$, then $E,H,C,P,N$.
+
+Now add the comparison and transport layer. The dyadic-block handoff of \autoref{thm:cauchy-condensation-dyadic-block-handoff} supplies the finite route consumed by $\FastConvergentSeriesUp$, while \autoref{thm:cauchy-condensation-dyadic-block-tail-transport} preserves that route under componentwise $\hsame$ transport.
+
+Finally apply \autoref{thm:cauchy-condensation-tail-lock-uniqueness} and \autoref{thm:cauchy-condensation-scoped-obligation-route}. They identify the same $\RegSeqRatUp$ handoff and $\RealUp$ seal boundary for all consumer reads that preserve the displayed finite data. Since every cited theorem uses only the rows of $K$, no selected sum, quotient series equality, countable choice, trichotomy, detached summability principle, or ambient completeness row is introduced.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CauchyCondensationUp$ consumer that reaches a $\RealUp$ seal without reading the displayed summand windows, dyadic block schedule, block-sum ledger, tail-bound row, and $\RegSeqRatUp$ handoff refutes the carrier surface.}
 
 \independenceWitness{series, fastconvergentseries, regseqrat, real: no listed sibling supplies the whole eleven-row packet $K=(S,W,B,L,T,R,E,H,C,P,N)$, because each sibling contributes only a source, comparison budget, regular readback, or seal face while this chapter binds all four faces with dyadic block scheduling, block-sum ledgers, tail bounds, transports, replay, provenance, and local naming.}
 
-\closureat{$\CauchyCondensationUp$}{seedStr}
+\closureat{CauchyCondensationUp}{seedStr}
+\closureat{CauchyCondensationUp}{obligationStr}
+\closureat{CauchyCondensationUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyCondensationUp}
   \constructivestory{A $\CauchyCondensationUp$ packet is generated from a monotone nonnegative $\SeriesUp$ source, finite summand windows, a dyadic block schedule, block-sum ledgers, tail-bound rows, a $\RegSeqRatUp$ readback, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-condensation-carrier}, \autoref{thm:cauchy-condensation-namecert-obligations}, \autoref{thm:cauchy-condensation-dyadic-block-handoff}, and \autoref{thm:cauchy-condensation-real-seal-nonescape} seed the finite dyadic-block condensation boundary over $\SeriesUp$, $\FastConvergentSeriesUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:cauchy-condensation-obligation-closure-package} binds the carrier, local NameCert obligations, dyadic-tail obligation, RegSeqRat readback, Real-seal nonescape, dyadic-block handoff, tail transport, tail-lock uniqueness, scoped obligation route, replay, provenance, and local naming rows over the displayed finite packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim ambient summability, quotient series equality, selected sums, countable choice, trichotomy, host real equality, RealUp completeness, Lean verification, or bridge checking.}
-  \upgradepath{A formal route can encode the eleven-row carrier and prove the finite NameCert obligation surface, dyadic-block handoff theorem, and Real-seal nonescape theorem.}
+  \upgradepath{Scoped closure requires kernel-scoped dependency wording over the same carrier, dyadic-tail, RegSeqRat readback, Real-seal, transport, replay, provenance, and local NameCert rows.}
 \end{closurestatus}

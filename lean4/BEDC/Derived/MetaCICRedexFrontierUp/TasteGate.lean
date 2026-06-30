@@ -1,11 +1,17 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICRedexFrontierUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -253,6 +259,29 @@ instance metaCICRedexFrontierFieldFaithful : FieldFaithful MetaCICRedexFrontierU
             simp only [] at h
             cases h
             rfl
+
+def MetaCICRedexFrontierCarrier (B A L P O E H C G N : BHist) : Prop :=
+  UnaryHistory B ∧ UnaryHistory A ∧ UnaryHistory L ∧ UnaryHistory P ∧
+    UnaryHistory O ∧ UnaryHistory E ∧ UnaryHistory G ∧ hsame H (append B O) ∧
+      Cont B E C ∧ Cont A L P ∧ Cont C G N
+
+theorem MetaCICRedexFrontierCarrier_route_closure {B A L P O E H C G N : BHist} :
+    MetaCICRedexFrontierCarrier B A L P O E H C G N ->
+      UnaryHistory B ∧ UnaryHistory A ∧ UnaryHistory L ∧ UnaryHistory P ∧
+        UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append B O) ∧ Cont B E C ∧
+          Cont C G N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory append
+  intro carrier
+  obtain
+    ⟨unaryB, unaryA, unaryL, unaryP, _unaryO, unaryE, unaryG, transportSame,
+      betaRoute, _argRoute, provenanceRoute⟩ := carrier
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryE betaRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryC unaryG provenanceRoute
+  exact
+    ⟨unaryB, unaryA, unaryL, unaryP, unaryC, unaryN, transportSame, betaRoute,
+      provenanceRoute⟩
 
 theorem MetaCICRedexFrontierCarrier_beta_boundary_route
     (x : MetaCICRedexFrontierUp) :

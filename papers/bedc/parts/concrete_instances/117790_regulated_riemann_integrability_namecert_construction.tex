@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedRiemannIntegrabilityUp$}
+\label{ch:concrete-instances-regulated-riemann-integrability-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, a regulated real function on a compact interval is controlled by finite step approximations and dyadic mesh refinements before a Riemann-sum consumer may read an integral value. The $\RegulatedRiemannIntegrabilityUp$ packet records that integrability certificate as BEDC NameCert data. It sits beside the regulated-function schedule of \autoref{ch:concrete-instances-regulated-function-namecert}, the Darboux finite-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the Riemann-integral readback of \autoref{ch:concrete-instances-riemannintegral-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic mesh ledger of \autoref{ch:concrete-instances-dyadicmesh-namecert}. The packet names finite mesh-and-sum evidence only; it does not import measure completion, selected limits, quotient function equality, host integration, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated Riemann integrability carrier]
+\label{def:regulated-riemann-integrability-carrier}
+A $\RegulatedRiemannIntegrabilityUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,M,G,D,T,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealUp$ interval-domain row, naming the left endpoint, right endpoint, orientation data, and the compact interval on which the certificate is read.
+\item $M$ is the $\DyadicMeshUp$ mesh ledger, recording the dyadic subdivision request, refinement order, and finite mesh width used by the certificate.
+\item $G$ is the $\RegulatedFunctionUp$ step-approximation schedule, listing the step functions and oscillation bounds inspected on the dyadic mesh.
+\item $D$ is the $\DarbouxSumUp$ finite-sum handoff row, exposing lower and upper finite sums computed from the displayed step-approximation data.
+\item $T$ is the $\RiemannIntegralUp$ tagged-mesh read, available only after $A,M,G,D$ have been displayed and the Darboux gap is inside the requested dyadic tolerance.
+\item $H$ records componentwise $\hsame$ transport for interval domain, mesh ledger, step schedule, finite-sum handoff, tagged-mesh read, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval request through dyadic mesh refinement, regulated step approximation, Darboux finite sums, and tagged-mesh readback.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedRiemannIntegrabilityUp$, $\RealUp$, $\DyadicMeshUp$, $\RegulatedFunctionUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\RegulatedRiemannIntegrabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,G,D,T,H,C,P,L$. It has no coordinate for a measure algebra, host function quotient, selected limiting partition, ambient compactness proof, or external completeness principle.
+\end{definition}
+
+\begin{theorem}[Regulated Riemann integrability NameCert obligations]
+\label{thm:regulated-riemann-integrability-namecert-obligations}
+For every accepted $\RegulatedRiemannIntegrabilityUp$ carrier
+$$
+I=(A,M,G,D,T,H,C,P,L),
+$$
+the local $\NameCert_{\RegulatedRiemannIntegrabilityUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Real interval domain, dyadic mesh ledger, regulated step-approximation schedule, Darboux finite-sum handoff, tagged-mesh read, transport, replay, provenance, and local naming rows;
+\item mesh coverage, requiring $M$ to refine the interval row $A$ before the step schedule $G$ is inspected;
+\item regulated approximation exactness, requiring the entries of $G$ to be step data over the mesh cells named by $M$;
+\item Darboux handoff exactness, requiring $D$ to compute finite lower and upper sums only from $A,M,G$ and to expose the dyadic gap budget;
+\item tagged-mesh non-escape, requiring $T$ to be read only after $A,M,G,D$ and the structural rows $H,C,P,L$ are visible.
+\end{enumerate}
+Thus an accepted regulated-integrability certificate is a finite NameCert packet over interval data, mesh data, regulated approximation data, finite Darboux sums, tagged-mesh readback, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:regulated-riemann-integrability-carrier}. The tuple lists exactly the interval, mesh, approximation, finite-sum, tagged-read, and structural rows.
+
+First read the source side. The interval row $A$ supplies the $\RealUp$ domain, while $M$ supplies the dyadic mesh ledger on that same interval. The regulated schedule $G$ is therefore inspected only cellwise over displayed mesh data.
+
+Next read the finite-sum side. The Darboux row $D$ is computed from the step schedule and mesh cells already displayed, so its lower and upper sums cannot be replaced by a hidden host integral or selected limiting partition.
+
+Finally read $T,H,C,P,L$. The tagged-mesh row $T$ is downstream of the finite Darboux gap, and the transport, replay, provenance, and local-name rows preserve the same route. Since no further coordinate remains, the five obligations exhaust the local $\NameCert_{\RegulatedRiemannIntegrabilityUp}$ surface.
+\end{proof}
+
+\falsifiablePrediction{A $\RegulatedRiemannIntegrabilityUp$ consumer that reaches a $\RiemannIntegralUp$ tagged-mesh read without displaying the $\RealUp$ domain row, $\DyadicMeshUp$ mesh ledger, $\RegulatedFunctionUp$ step schedule, and $\DarbouxSumUp$ finite-sum handoff refutes the carrier of \autoref{def:regulated-riemann-integrability-carrier}.}
+
+\independenceWitness{regulatedfunction, darbouxsum, riemannintegral, real, dyadicmesh: $\RegulatedRiemannIntegrabilityUp$ is not bijective to any listed sibling because it jointly carries interval-domain rows, dyadic mesh rows, regulated step-approximation rows, Darboux finite-sum rows, tagged-mesh readback, hsame transport, Cont replay, Pkg provenance, and local naming as one packet.}
+
+\closureat{RegulatedRiemannIntegrabilityUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedRiemannIntegrabilityUp}
+  \constructivestory{A $\RegulatedRiemannIntegrabilityUp$ packet is generated from a Real interval-domain row, DyadicMesh ledger, RegulatedFunction step-approximation schedule, DarbouxSum finite-sum handoff, RiemannIntegral tagged-mesh read, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-riemann-integrability-carrier} and \autoref{thm:regulated-riemann-integrability-namecert-obligations} seed the finite regulated-integrability carrier and its mesh-to-Darboux-to-tagged-read route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly refuses measure completion, selected limits, quotient function equality, host integration, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh coverage, regulated approximation exactness, Darboux finite-sum exactness, tagged-mesh ordering, hsame transport, Cont replay, provenance, and local naming for BEDC.Derived.RegulatedRiemannIntegrabilityUp.}
+\end{closurestatus}

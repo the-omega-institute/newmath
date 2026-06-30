@@ -35,3 +35,21 @@ Use \autoref{thm:regseqrat-tail-shift-stability} to shift the finite window befo
 
 Composing the successor route with the induction hypothesis gives one finite route through the same packet rows. Since each adjacent step excludes quotient stream equality, selected limits, countable choice, metric completeness, and ambient RealUp completeness, the finite composite has no row from which any of those objects can enter.
 \end{proof}
+
+\begin{theorem}[RegSeqRat terminal finite-window Real-seal]
+\label{thm:regseqrat-tail-halving-terminal-real-seal}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let
+$$
+n_0 \to n_1 \to \cdots \to n_k
+$$
+be a finite displayed unary halving ledger whose adjacent arrows are accepted tail-halving steps for the tail budget carried by $P$. Then the terminal halved window supplied by \autoref{thm:regseqrat-tail-halving-induction} is the only finite input consumed by the downstream $\RealUp$ seal: the route factors through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and the selection-free Real-seal input is exactly that terminal displayed window.
+
+The route exports no quotient stream equality, selected limit, host real equality, countable choice, metric-completeness row, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-halving-induction} to the displayed ledger. That theorem already packages the whole finite route through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and downstream $\RealUp$ seal rows, with the terminal window determined by the last halving step.
+
+Now read the nonescape wording of \autoref{thm:regseqrat-tail-halving-closure}. The seal boundary is only a row inventory: it keeps the displayed finite window and the listed support rows, and it removes any coordinate for quotient streams, selected limits, host real equality, countable choice, metric-completeness data, completion points, or ambient completeness.
+
+Therefore the terminal halved window is exactly the selection-free Real-seal input. No other finite window can enter the seal, because the displayed route contains no additional row from which a different finite input could be selected.
+\end{proof}

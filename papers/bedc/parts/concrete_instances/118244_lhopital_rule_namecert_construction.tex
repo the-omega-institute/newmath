@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\LHopitalRuleUp$}
+\label{ch:concrete-instances-lhopital-rule-namecert}
+\origin{human}
+
+Following de l'Hopital, Bernoulli, and Cauchy's mean-value route, the $\LHopitalRuleUp$ packet records the finite BEDC surface behind a derivative-ratio comparison before a limiting quotient is read as a real-facing conclusion. It sits after the derivative quotient interface of \autoref{ch:concrete-instances-derivative-namecert}, the Cauchy mean-value theorem handoff of \autoref{ch:concrete-instances-cauchy-mean-value-theorem-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names one displayed calculus route; it does not import a host limit rule, quotient real equality, trichotomy, selected limiting point, or ambient completeness.
+
+\begin{definition}[LHopitalRule carrier]
+\label{def:lhopital-rule-carrier}
+A $\LHopitalRuleUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,F,G,D,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval row, including the endpoint-side window on which the quotient comparison is requested.
+\item $F$ and $G$ are the two differentiable function rows whose values and derivative quotients are inspected through $\DerivativeUp$ data.
+\item $D$ is the derivative-ratio comparison row, recording the displayed comparison between the derivative quotients of $F$ and $G$ on the same interval window.
+\item $Q$ is the $\CauchyMeanValueTheoremUp$ handoff row that turns the paired derivative data into a finite quotient comparison route.
+\item $R$ is the $\RegSeqRatUp$ readback row for the quotient windows and derivative-ratio budgets.
+\item $E$ is the $\RealUp$ seal row reached only after the interval, function rows, derivative-ratio row, Cauchy mean-value handoff, and regular rational readback are displayed.
+\item $H$ stores componentwise $\hsame$ transport for the interval, functions, derivative-ratio comparison, Cauchy mean-value handoff, readback, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the interval and function rows to the derivative comparison, from the derivative comparison to the Cauchy mean-value handoff, and from that handoff to the readback and real seal.
+\item $P$ is the $\Pkg$ provenance over $\LHopitalRuleUp$, $\DerivativeUp$, $\CauchyMeanValueTheoremUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LHopitalRuleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,F,G,D,Q,R,E,H,C,P,N$. It has no coordinate for a host limit theorem, quotient real equality, trichotomy, selected endpoint representative, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[LHopitalRule NameCert obligations]
+\label{thm:lhopital-rule-namecert-obligations}
+For an accepted $\LHopitalRuleUp$ carrier $L=(I,F,G,D,Q,R,E,H,C,P,N)$, the local $\NameCert_{\LHopitalRuleUp}$ obligations are exactly interval admission, paired differentiable-function admission, derivative-ratio comparison, Cauchy mean-value handoff, regular rational readback, Real seal factorization, componentwise transport, replay, provenance, and local naming. These obligations are discharged only through the displayed route
+$$
+I,F,G\longmapsto D\longmapsto Q\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The interval row $I$ fixes the side and finite window, while $F$ and $G$ are the only differentiable function rows available to the packet. Thus carrier admission and function admission are projections from \autoref{def:lhopital-rule-carrier}.
+
+Next inspect the derivative-ratio row. The row $D$ reads derivative quotient data through the $\DerivativeUp$ interface and records only a displayed comparison on the same interval window. No independent endpoint limit or host quotient rule is present.
+
+Now apply the Cauchy mean-value handoff row $Q$. It is the only route from the paired derivative comparison to a quotient comparison, and the later rows $R$ and $E$ can read that comparison only through regular rational readback and the terminal real seal.
+
+Finally read $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, so no obligation can escape to quotient real equality, trichotomy, selected limiting representatives, host calculus, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[LHopitalRule Cauchy mean-value handoff]
+\label{thm:lhopital-rule-cauchy-mean-value-handoff}
+Every $\RealUp$ or $\RegSeqRatUp$ consumer of an accepted $\LHopitalRuleUp$ packet must read the Cauchy mean-value handoff row $Q$ after the interval row $I$, the differentiable function rows $F,G$, and the derivative-ratio comparison row $D$ have been displayed. The exported route is
+$$
+\DerivativeUp \longmapsto \CauchyMeanValueTheoremUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+inside the same finite packet, with $\StreamNameUp$ windows and $\DyadicRatCoreUp$ budgets available only through the displayed readback rows.
+\end{theorem}
+\begin{proof}
+Begin with the obligation route of \autoref{thm:lhopital-rule-namecert-obligations}. It places $I,F,G$ before $D$, and places $D$ before the Cauchy mean-value row $Q$ can be consumed.
+
+Use the sibling Cauchy mean-value packet named in \autoref{ch:concrete-instances-cauchy-mean-value-theorem-namecert}. The row $Q$ is a handoff row, not a host theorem invocation: it records the finite mean-value comparison surface already exposed by the derivative rows.
+
+Next route the readback. The row $R$ gives the regular rational windows for the quotient comparison, with $\StreamNameUp$ and $\DyadicRatCoreUp$ data visible through the displayed finite observations and tolerance ledger. The row $E$ is downstream of $R$ and is the only real-facing seal.
+
+Therefore any consumer reaching $\RealUp$ or $\RegSeqRatUp$ has already read $I,F,G,D,Q$ through the same packet. The handoff exports no selected limit, no quotient real equality, no trichotomy, no countable choice, and no ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\LHopitalRuleUp$ read factors through an interval row, two differentiable function rows, one derivative-ratio comparison row, a $\CauchyMeanValueTheoremUp$ handoff, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ budgets, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{derivative, cauchy-mean-value-theorem, streamname, dyadicratcore, regseqrat, real: $\LHopitalRuleUp$ is not bijective to any listed sibling because it jointly carries an interval window, two differentiable function rows, derivative-ratio comparison, Cauchy mean-value handoff, readback, real seal, transport, replay, provenance, and local naming as one calculus certificate.}
+
+\closureat{LHopitalRuleUp}{seedStr}
+
+\begin{closurestatus}{\LHopitalRuleUp}
+  \constructivestory{A $\LHopitalRuleUp$ packet is generated from an interval row, two differentiable function rows, a derivative-ratio comparison, a CauchyMeanValueTheorem handoff, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lhopital-rule-carrier}, \autoref{thm:lhopital-rule-namecert-obligations}, and \autoref{thm:lhopital-rule-cauchy-mean-value-handoff} seed the finite derivative-ratio and Cauchy mean-value route for one displayed l'Hopital-rule packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host limit rule, quotient real equality, selected limits, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval admission, differentiable-function admission, derivative-ratio comparison, Cauchy mean-value handoff, regular rational readback, Real seal factorization, transport, replay, provenance, and local naming for BEDC.Derived.LHopitalRuleUp.}
+\end{closurestatus}

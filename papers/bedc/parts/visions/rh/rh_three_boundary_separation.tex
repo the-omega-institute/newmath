@@ -1,0 +1,323 @@
+\chapter{Three Boundaries for RH}
+\label{ch:visions-rh-three-boundary-separation}
+\origin{ai}
+
+\autoref{ch:visions-riemann-hypothesis} states $\mathsf{RH}$ as a
+constructive function from certified critical-strip zero packets to
+$\mathsf{OnCritLine}$ witnesses. The nearby RH chapters also use the
+functional-equation mirror, prime-unitary channels, finite prime windows,
+and route-closure boundaries. The present chapter fixes the separation
+between three objects that should not be conflated: the geometric critical
+line, an exact zero decision operator, and the global rigidity statement
+called RH.
+
+\begin{definition}[Mirror fixed surface]
+\label{def:rh-three-boundary-mirror-fixed-surface}
+The functional-equation mirror is
+$$
+J(s):=1-\overline{s}.
+$$
+The geometric boundary is the fixed surface
+$$
+\mathsf{GeomBoundary}_{\zeta}
+:=
+\operatorname{Fix}(J)
+:=
+\sum_s J(s)\sim s.
+$$
+Equivalently, the pointwise predicate $\mathsf{CritLine}(s)$ is
+$J(s)\sim s$.
+\end{definition}
+\leandef{BEDC.Derived.RHRoute.FunctionalEquationSymmetry.reflectJ}
+\leandef{BEDC.Derived.RHRoute.FunctionalEquationSymmetry.JFixed}
+\leandef{BEDC.Derived.RHRoute.FunctionalEquationSymmetry.CriticalLine}
+
+\begin{lemma}[The mirror fixed surface is the critical line]
+\label{lem:rh-mirror-fixed-surface-critical-line}
+For every complex history $s$,
+$$
+J(s)\sim s
+\quad\Longleftrightarrow\quad
+\Re(s)\sim_{\RealUp}1/2.
+$$
+\end{lemma}
+
+\begin{proof}
+Write $s=\sigma+it$. Then
+$$
+J(s)=1-\overline{s}=1-\sigma+it.
+$$
+Thus $J(s)\sim s$ is equivalent to equality of real parts
+$$
+1-\sigma\sim\sigma,
+$$
+which is equivalent to $\sigma\sim1/2$. The imaginary component is
+unchanged by the calculation. This is the same fixed-point computation used
+in \autoref{def:rh-mirror-map}.
+\end{proof}
+\leanchecked{BEDC.Derived.RHRoute.FunctionalEquationSymmetry.J\_fixed\_iff\_re\_half}
+
+\begin{definition}[Certified zero predicate and exact zero decider]
+\label{def:rh-certified-zero-vs-exact-decider}
+The certified zeta-zero predicate is the packet
+$$
+\mathsf{ZetaZero}(s)
+:=
+\sum_z
+\bigl(
+\mathsf{ZetaVal}(s,z)
+\times
+z\sim_{\ComplexUp}0
+\bigr),
+$$
+read through the recovered zeta carrier and its continuation, branch,
+transport, and zero-ledger rows. The exact zero decision operator is the
+stronger object
+$$
+\mathsf{ZeroDecider}_{\zeta}
+:=
+\prod_s
+\mathsf{Decidable}\bigl(\mathsf{ZetaZero}(s)\bigr).
+$$
+The first object is a certificate-bearing predicate; the second is a total
+decision procedure for that predicate on all complex histories.
+\end{definition}
+
+\begin{definition}[Rigidity boundary]
+\label{def:rh-rigidity-boundary}
+The rigidity boundary is the RH proposition
+$$
+\mathsf{RigidityBoundary}_{\zeta}
+:=
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathsf{OnCritLine}(s)
+\bigr).
+$$
+Equivalently, it asserts that the support of the certified non-trivial zero
+predicate factors through $\operatorname{Fix}(J)$.
+\end{definition}
+
+\begin{theorem}[Three-boundary separation]
+\label{thm:rh-three-boundary-separation}
+The geometric boundary $\operatorname{Fix}(J)$, the exact zero decision
+operator $\mathsf{ZeroDecider}_{\zeta}$, and the rigidity boundary
+$\mathsf{RigidityBoundary}_{\zeta}$ are distinct kinds of data.
+\end{theorem}
+
+\begin{proof}
+The geometric boundary is defined only from the mirror map $J$ and the
+complex-history structure. By
+\autoref{lem:rh-mirror-fixed-surface-critical-line}, it is the critical
+line, and it does not mention $\mathsf{ZetaZero}$.
+
+The exact zero decision operator has type
+$$
+\prod_s\mathsf{Decidable}\bigl(\mathsf{ZetaZero}(s)\bigr).
+$$
+It must decide, for every complex history, whether a certified zero packet
+exists. This is stronger than the certified zero predicate itself, which
+only records evidence when a zero packet is supplied.
+
+The rigidity boundary has type
+$$
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathsf{OnCritLine}(s)
+\bigr).
+$$
+It does not decide whether arbitrary histories are zeros. It consumes an
+already certified critical-strip zero packet and returns a fixed-surface
+witness. Hence the three objects have different inputs, outputs, and proof
+obligations.
+\end{proof}
+
+\begin{corollary}[The critical line is the target fixed surface]
+\label{cor:rh-critical-line-target-fixed-surface}
+The critical line is available before the RH proposition is stated. RH is
+the assertion that the certified non-trivial zero support lands in that
+fixed surface:
+$$
+\operatorname{Supp}(\mathsf{ZetaZero}\times\mathsf{InCritStrip})
+\subseteq
+\operatorname{Fix}(J).
+$$
+\end{corollary}
+
+\begin{proof}
+The fixed surface is defined in
+\autoref{def:rh-three-boundary-mirror-fixed-surface}. The RH predicate of
+\autoref{def:rh-predicate} is the map from a certified critical-strip zero
+packet to $\mathsf{OnCritLine}(s)$, and
+\autoref{lem:rh-mirror-fixed-surface-critical-line} identifies that output
+with membership in $\operatorname{Fix}(J)$.
+\end{proof}
+
+\begin{definition}[Prime-unitary readout boundary]
+\label{def:rh-prime-unitary-readout-boundary}
+For $a>1$, define the centered channel
+$$
+U_a(s):=a^{1/2-s}.
+$$
+For displayed prime rows, the prime-unitary readout is
+$$
+\mathsf{PrimeUnitary}(s)
+:=
+\prod_{p:\PrimeUp}
+\bigl(|U_p(s)|\hsame1\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Prime-unitary balance is a critical-line readout]
+\label{thm:rh-prime-unitary-readout-critical-line}
+For every displayed $a>1$,
+$$
+|a^{1/2-s}|=1
+\quad\Longleftrightarrow\quad
+\Re(s)=1/2.
+$$
+Consequently, $\mathsf{PrimeUnitary}(s)$ is equivalent to
+$\mathsf{OnCritLine}(s)$ on the displayed prime packet.
+\end{theorem}
+
+\begin{proof}
+Write $s=\sigma+it$. Then
+$$
+a^{1/2-s}=a^{1/2-\sigma-it}
+=a^{1/2-\sigma}a^{-it}.
+$$
+The factor $a^{-it}$ has modulus one, so
+$$
+|a^{1/2-s}|=a^{1/2-\sigma}.
+$$
+For $a>1$, this modulus is one exactly when $1/2-\sigma=0$, namely
+$\Re(s)=1/2$. The prime-indexed version is
+\autoref{thm:rh-prime-unitary-balance-critical-line}.
+\end{proof}
+
+\begin{principle}[Prime-unitary balance is not the RH mechanism]
+\label{prin:rh-prime-unitary-not-rh-mechanism}
+Prime-unitary balance is an exact readout of the critical line, not by
+itself a proof mechanism for RH. The calculation of
+\autoref{thm:rh-prime-unitary-readout-critical-line} works for every
+displayed $a>1$ and therefore does not use zero ledgers, Euler-product
+support, finite-window residual control, or any incompatibility between an
+off-line zero packet and the recovered zeta carrier. It becomes RH-facing
+only when connected to certified non-trivial zero packets by additional
+bridge data.
+\end{principle}
+
+\begin{definition}[Finite prime imbalance bridge]
+\label{def:rh-finite-prime-imbalance-bridge}
+A finite prime imbalance certificate
+$$
+\mathsf{FinitePrimeImbalanceCert}(s,W)
+$$
+records that a finite prime window $W$ constructively observes a nonzero
+deviation of $s$ from the fixed-half surface. A tail bound
+$$
+\mathsf{TailBound}(W,s)
+$$
+records that the prime or zeta residual outside $W$ is controlled by an
+explicit modulus and cannot hide a cancellation of the finite defect.
+
+An RH bridge is the displayed equivalence
+$$
+\mathsf{RHBridge}
+:=
+\prod_s
+\left(
+\mathsf{OffLineZeroCert}(s)
+\simeq
+\sum_W
+\bigl(
+\mathsf{FinitePrimeImbalanceCert}(s,W)
+\times
+\mathsf{TailBound}(W,s)
+\bigr)
+\right),
+$$
+where
+$$
+\mathsf{OffLineZeroCert}(s)
+:=
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\neg\mathsf{OnCritLine}(s).
+$$
+\end{definition}
+
+\begin{theorem}[Finite imbalance bridge gives the contradiction route]
+\label{thm:rh-finite-imbalance-bridge-contradiction-route}
+Assume $\mathsf{RHBridge}$, a finite-window incompatibility row
+$$
+\prod_{s,W}
+\bigl(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{FinitePrimeImbalanceCert}(s,W)
+\times
+\mathsf{TailBound}(W,s)
+\to
+\bot
+\bigr),
+$$
+and a located critical-line classifier
+$$
+\prod_s
+\bigl(
+\mathsf{OnCritLine}(s)+\neg\mathsf{OnCritLine}(s)
+\bigr).
+$$
+Then the BEDC RH predicate is inhabited.
+\end{theorem}
+
+\begin{proof}
+Fix $s$ with
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s).
+$$
+Apply the located critical-line classifier. If it gives
+$\mathsf{OnCritLine}(s)$, the required witness is present. Otherwise the
+zero packet, critical-strip packet, and non-line witness form
+$\mathsf{OffLineZeroCert}(s)$. By $\mathsf{RHBridge}$, this yields a finite
+window $W$ with
+$$
+\mathsf{FinitePrimeImbalanceCert}(s,W)
+\times
+\mathsf{TailBound}(W,s).
+$$
+Together with $\mathsf{ZetaZero}(s)$, the finite-window incompatibility row
+gives $\bot$. Hence the non-line branch is impossible, and the surviving
+branch supplies $\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\begin{principle}[Axiom footprint is not a necessity lower bound]
+\label{prin:rh-axiom-footprint-not-necessity}
+A Lean axiom printout for one implementation path records that path's
+dependency footprint. It does not quantify over all possible
+implementations and therefore does not show that zeta, zero predicates, or
+RH carry a mathematical need for $\mathsf{Classical.choice}$,
+$\mathsf{Quot.sound}$, or $\mathsf{propext}$. In the BEDC discipline, any
+use of those constants is an exposed implementation dependency, while the
+RH target remains the axiom-pure construction of a uniform witness
+$$
+\Phi:
+\{\,s\mid\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)\,\}
+\to
+\{\,\mathsf{OnCritLine}(s)\text{ witness}\,\}.
+$$
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-rh-boundary-kind-separation-namecert}{The geometric critical-line surface, certified zero predicate, and RH rigidity boundary are separated as finite NameCert rows.}
+\concretizedIn{ch:concrete-instances-rh-critical-strip-window-certificate-namecert}{finite critical-strip window certificate separating mirror geometry from exact zero decision and global RH rigidity}

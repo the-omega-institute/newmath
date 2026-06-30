@@ -62,14 +62,25 @@ Thus a consumer that removes $F$ loses the refusal boundary, and a consumer that
 
 The Lean follow-up must provide $\Nontrivial\ \CoreRegistryIndexUp$ and $\FieldFaithful\ \CoreRegistryIndexUp$ instances in \texttt{lean4/BEDC/Derived/CoreRegistryIndexUp/TasteGate.lean}. Those instances must preserve $C,T,G,D,S,F,U,O,A,H,K,P,N$ as separate displayed fields before any checked theorem may cite the $\CoreRegistryIndexUp$ packet as a field-faithful registry index.
 
-\closureat{CoreRegistryIndexUp}{scopedStr}
+\begin{theorem}[Core registry index export-surface bridge]
+\label{thm:core-registry-index-export-surface-bridge}
+A public read of $\CoreRegistryIndexUp$ bridges to $\RegistryExportSurfaceUp$ only when the refusal row $F$ and audit row $A$ remain displayed with the concept, theorem, gap, tradition, scientific-claim, route, ordinary-language, transport, continuation, provenance, and local naming rows. Removing either $F$ or $A$ leaves the bridge route and cannot be repaired by export-surface recognition alone.
+\end{theorem}
+\begin{proof}
+Apply the carrier and nonescape rows of \autoref{def:core-registry-index-carrier} and \autoref{thm:core-registry-index-nonescape}. They force every public registry-index consumer to retain the refusal row $F$ and audit row $A$ together with the displayed registry rows.
+
+The registry export surface can expose an accepted public row only after those rows remain visible. Since the export surface does not synthesize missing refusal or audit evidence, a read without $F$ or $A$ is outside the $\CoreRegistryIndexUp$ bridge route.
+\end{proof}
+
+\closureat{CoreRegistryIndexUp}{matureStr}
 
 \begin{closurestatus}{\CoreRegistryIndexUp}
   \constructivestory{A $\CoreRegistryIndexUp$ packet is generated from concept, theorem, gap, tradition, scientific-claim, refusal, route, ordinary-language, audit, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:core-registry-index-carrier}, \autoref{thm:core-registry-index-namecert-obligations}, \autoref{thm:core-registry-index-nonescape}, the falsifiable prediction row, and the independence-witness row bind the public exported registry-index surface for the displayed finite packet.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, hidden total indexing, or correctness of every downstream registry entry.}
-  \upgradepath{The next grade requires Lean closure for Nontrivial CoreRegistryIndexUp and FieldFaithful CoreRegistryIndexUp instances in \texttt{lean4/BEDC/Derived/CoreRegistryIndexUp/TasteGate.lean}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:core-registry-index-carrier}, \autoref{thm:core-registry-index-namecert-obligations}, \autoref{thm:core-registry-index-nonescape}, \autoref{thm:core-registry-index-export-surface-bridge}, the visible sibling routes through RegistryExportSurfaceUp, AxisZeckendorfCannotClaimUp, LargeModelOutputVerifierUp, FocusedMultiHistLedgerUp, and GroundCompilerRecognitionUp, the falsifiable prediction row, and the independence-witness row bind the public exported registry-index surface for the displayed finite packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CoreRegistryIndexUp.CoreRegistryIndex\_refusal\_audit\_nonescape\_certificate}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close Lean bridge checking, registry completeness, hidden total indexing, or correctness of every downstream registry entry.}
+  \upgradepath{No further paper theory-axis strengthening is recorded for this registry-index packet; bridge checking remains a separate formal-axis target.}
 \end{closurestatus}

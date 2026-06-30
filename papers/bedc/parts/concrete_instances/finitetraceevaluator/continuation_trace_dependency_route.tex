@@ -1,0 +1,14 @@
+The $\FiniteTraceEvaluatorUp$ sibling route reads \autoref{ch:concrete-instances-continuationtrace-namecert} before checkpoint or runtime readback. Every accepted finite evaluator route exposes the $\ContinuationTraceUp$ sibling through bounded trace rows, then consumes the checkpoint and runtime rows already listed by the hub. The route refuses host validation, total truth predicates, and unbounded runtime streams.
+
+\begin{theorem}[FiniteTraceEvaluator ContinuationTrace route]
+\label{thm:finitetraceevaluator-continuation-trace-route}
+Every accepted $\FiniteTraceEvaluatorUp$ packet that exports checkpoint or runtime readback first reads the $\ContinuationTraceUp$ sibling through bounded trace rows. The visible route is finite trace exposure, checkpoint admission, runtime readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; it has no coordinate for host validation, total truth predicates, or unbounded runtime streams.
+\end{theorem}
+
+\begin{proof}
+Project the evaluator packet through the existing hub child routes. The bounded trace rows are the only trace source available before checkpoint and runtime rows are consumed.
+
+Read the $\ContinuationTraceUp$ sibling at that boundary. Its finite replay supplies the trace rows that checkpoint admission and runtime readback may inspect, while the evaluator carrier keeps the rows bounded by the same displayed packet.
+
+The structural rows then transport, replay, source, and name the packet. Since no host validator, total truth predicate, or unbounded stream coordinate is present, every accepted read follows the stated finite route.
+\end{proof}

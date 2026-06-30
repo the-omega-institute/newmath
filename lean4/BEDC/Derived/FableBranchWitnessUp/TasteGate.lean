@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FableBranchWitnessUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -193,6 +198,23 @@ private theorem fableBranchWitnessToEventFlow_injective
     (Eq.trans (fableBranchWitness_round_trip x).symm
       (Eq.trans hread (fableBranchWitness_round_trip y)))
 
+def fableBranchWitnessFields : FableBranchWitnessUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FableBranchWitnessUp.mk h m r e a transport route provenance name =>
+      [h, m, r, e, a, transport, route, provenance, name]
+
+private theorem fableBranchWitness_field_faithful :
+    ∀ x y : FableBranchWitnessUp, fableBranchWitnessFields x = fableBranchWitnessFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk h1 m1 r1 e1 a1 transport1 route1 provenance1 name1 =>
+      cases y with
+      | mk h2 m2 r2 e2 a2 transport2 route2 provenance2 name2 =>
+          cases hfields
+          rfl
+
 instance fableBranchWitnessBHistCarrier :
     BHistCarrier FableBranchWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -211,6 +233,22 @@ instance fableBranchWitnessChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (fableBranchWitnessToEventFlow_injective heq)
+
+instance fableBranchWitnessFieldFaithful : FieldFaithful FableBranchWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fableBranchWitnessFields
+  field_faithful := fableBranchWitness_field_faithful
+
+instance fableBranchWitnessNontrivial : Nontrivial FableBranchWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FableBranchWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FableBranchWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem FableBranchWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist, fableBranchWitnessDecodeBHist
@@ -231,5 +269,53 @@ theorem FableBranchWitnessTasteGate_single_carrier_alignment :
       · intro x y heq
         exact fableBranchWitnessToEventFlow_injective heq
       · rfl
+
+def FableBranchWitnessPacket (h m r e a transport route provenance name branchRead : BHist) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  UnaryHistory h ∧ UnaryHistory m ∧ UnaryHistory r ∧ UnaryHistory e ∧ UnaryHistory a ∧
+    UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+      UnaryHistory name ∧ Cont h m r ∧ Cont r e a ∧ Cont a transport route ∧
+        Cont route provenance branchRead
+
+theorem FableBranchWitnessNameCertObligations
+    {h m r e a transport route provenance name branchRead : BHist} :
+    FableBranchWitnessPacket h m r e a transport route provenance name branchRead →
+      SemanticNameCert
+        (fun row : BHist =>
+          FableBranchWitnessPacket h m r e a transport route provenance name branchRead ∧
+            hsame row name)
+        (fun row : BHist =>
+          FableBranchWitnessPacket h m r e a transport route provenance name branchRead ∧
+            hsame row name)
+        (fun row : BHist =>
+          FableBranchWitnessPacket h m r e a transport route provenance name branchRead ∧
+            hsame row name)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro name (And.intro packet (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row col out sameRow sameCol
+        exact hsame_trans sameRow sameCol
+      carrier_respects_equiv := by
+        intro row col same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.FableBranchWitnessUp

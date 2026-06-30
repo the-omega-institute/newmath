@@ -59,6 +59,7 @@ Finally, the structural rows $H,C,\Pi$ transport, replay, package, and name the 
 \label{thm:layered-relation-gate-same-schema-nonidentity}
 If an accepted $\LayeredRelationGateUp$ packet passes its verdict row $G$, then downstream consumers may use the displayed same-schema relation over $A,B,L,P,N,F$. They may not read the verdict as object identity between $A$ and $B$, as empirical law, as proof transfer, as subject-substance transfer, as a global-frame theorem, or as bridge strength.
 \end{theorem}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGate\_same\_schema\_nonidentity}
 \begin{proof}
 Begin with the NameCert obligations of \autoref{thm:layered-relation-gate-namecert-obligations}. The verdict is downstream from the source rows, layer-list row, preserved row, not-preserved row, and refusal ledger.
 
@@ -72,6 +73,8 @@ Object identity and the other excluded readings are listed only in the not-prese
 \label{thm:layered-relation-gate-consumer-route}
 Every same-schema consumer of a passing $\LayeredRelationGateUp$ packet factors through the relation-certificate source of \autoref{ch:visions-layered-relation-certificate}, the concrete certificate surface of \autoref{ch:concrete-instances-layeredrelationcert-namecert}, the force inter-history relation surface of \autoref{ch:concrete-instances-forceinterhistrelation-namecert}, and the axiom-refusal ledger of \autoref{ch:concrete-instances-axiom-refusal-ledger-namecert}. The consumer reads exactly the source, layer-list, preserved, not-preserved, ledger, exactness, failure-boundary, verdict, transport, continuation, package, and local NameCert rows of \autoref{def:layered-relation-gate-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateConsumerRoute}
+\leanvariant{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGate\_consumer\_route}
 \begin{proof}
 First read the relation-certificate discipline of \autoref{ch:visions-layered-relation-certificate} and \autoref{ch:concrete-instances-layeredrelationcert-namecert}. These supply the source, layer, preserved, not-preserved, exactness, and failure-boundary rows consumed by the gate.
 
@@ -81,6 +84,40 @@ Now use \autoref{ch:concrete-instances-axiom-refusal-ledger-namecert}. It suppli
 
 Finally apply \autoref{thm:layered-relation-gate-namecert-obligations} and \autoref{thm:layered-relation-gate-same-schema-nonidentity}. They force the consumer through $A,B,L,P,N,F,G,H,C,\Pi$ and make the verdict a same-schema relation gate, not an identity theorem.
 \end{proof}
+
+\begin{theorem}[LayeredRelationGate carrier obligation]
+\label{thm:layered-relation-gate-carrier-obligation}
+Every $\LayeredRelationGateUp$ obligation read must expose the carrier rows $A,B,L,P,N,F,G,H,C,\Pi$ before any verdict, consumer route, or same-schema export is available.
+\end{theorem}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateCarrierObligation}
+\begin{proof}
+Use the carrier of \autoref{def:layered-relation-gate-carrier}. Its finite tuple lists exactly the two source rows, layer-list row, preserved row, not-preserved row, refusal ledger, verdict row, transport row, continuation row, and package-name row.
+
+Apply the NameCert obligations of \autoref{thm:layered-relation-gate-namecert-obligations}. Carrier exposure is the first obligation, so the downstream route cannot read $G$ or a same-schema consumer before $A,B,L,P,N,F,G,H,C,\Pi$ have all been displayed.
+\end{proof}
+
+\begin{theorem}[LayeredRelationGate classifier obligation]
+\label{thm:layered-relation-gate-classifier-obligation}
+A $\LayeredRelationGateUp$ classifier read may export a passing verdict only after comparing the preserved row $P$ with the not-preserved row $N$ over the same source, layer, and refusal rows $A,B,L,F$. The verdict row $G$ is therefore not a classifier for identity between $A$ and $B$.
+\end{theorem}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateClassifier\_obligation}
+\leanvariant{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateCarrier\_classifier\_obligation}
+\begin{proof}
+Start from \autoref{thm:layered-relation-gate-namecert-obligations}. The preserved and not-preserved disclosures are separate obligations, and both are upstream of verdict export.
+
+Now apply \autoref{thm:layered-relation-gate-same-schema-nonidentity}. It states that a passing verdict licenses relation use while refusing object identity, empirical law, proof transfer, subject-substance transfer, global-frame content, and bridge strength. Hence the classifier must compare $P$ and $N$ before $G$ can be read as a same-schema verdict.
+\end{proof}
+
+\begin{theorem}[LayeredRelationGate ledger obligation]
+\label{thm:layered-relation-gate-ledger-obligation}
+Every same-schema consumer of $\LayeredRelationGateUp$ must keep the refusal ledger $F$ visible. If $F$ is not displayed, the consumer route cannot distinguish a permitted same-schema relation from a hidden identity, empirical-law, proof-transfer, subject-substance, global-frame, or bridge-strength claim.
+\end{theorem}
+\begin{proof}
+Use the consumer route of \autoref{thm:layered-relation-gate-consumer-route}. The route reads the relation-certificate source, concrete certificate surface, force inter-history relation surface, and axiom-refusal ledger before it reaches the local packet.
+
+Apply \autoref{thm:layered-relation-gate-namecert-obligations} and \autoref{thm:layered-relation-gate-same-schema-nonidentity}. They keep $F$ as the displayed failure-boundary row and place the refused readings in $N$ rather than in the exported relation. Without $F$, the same-schema consumer has no visible ledger separating the accepted relation from the forbidden readings.
+\end{proof}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGate\_ledger\_obligation}
 
 The Lean follow-up must provide $\Nontrivial\ \LayeredRelationGateUp$ and $\FieldFaithful\ \LayeredRelationGateUp$ instances in \texttt{lean4/BEDC/Derived/LayeredRelationGateUp/TasteGate.lean}.
 

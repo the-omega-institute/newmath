@@ -1,13 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyTailThresholdNormalizerUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -278,5 +288,94 @@ theorem CauchyTailThresholdNormalizerCarrier_namecert_obligations
           intro _row source
           exact source
       }
+
+theorem CauchyTailThresholdNormalizerCarrier_noninternalization
+    (T : CauchyTailThresholdNormalizerUp) :
+    (∃ S M Theta W0 W1 D R A E H C P L N : BHist,
+      T = CauchyTailThresholdNormalizerUp.mk S M Theta W0 W1 D R A E H C P L N ∧
+        cauchyTailThresholdNormalizerFields T =
+          [S, M, Theta, W0, W1, D, R, A, E, H, C, P, L, N] ∧ hsame H H) ∧
+      cauchyTailThresholdNormalizerEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  cases T with
+  | mk S M Theta W0 W1 D R A E H C P L N =>
+      exact
+        ⟨⟨S, M, Theta, W0, W1, D, R, A, E, H, C, P, L, N, rfl, rfl,
+          hsame_refl H⟩, rfl⟩
+
+def CauchyTailThresholdNormalizerCarrier [AskSetup] [PackageSetup]
+    (S M Theta W0 W1 D R A E H C P L N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory Theta ∧ UnaryHistory W0 ∧
+    UnaryHistory W1 ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory A ∧
+      UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+        UnaryHistory L ∧ UnaryHistory N ∧ Cont Theta W0 W1 ∧ PkgSig bundle P pkg ∧
+          PkgSig bundle N pkg
+
+theorem CauchyTailThresholdNormalizerWindowCofinality [AskSetup] [PackageSetup]
+    {S M Theta W0 W1 D R A E H C P L N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailThresholdNormalizerCarrier S M Theta W0 W1 D R A E H C P L N
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => (hsame row W0 ∨ hsame row W1) ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row M ∨ hsame row Theta ∨ hsame row W0 ∨
+            hsame row W1)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont Theta W0 W1 ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle N pkg)
+        hsame ∧ UnaryHistory W0 ∧ UnaryHistory W1 := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain ⟨_sUnary, _mUnary, _thetaUnary, w0Unary, w1Unary, _dUnary, _rUnary,
+    _aUnary, _eUnary, _hUnary, _cUnary, _pUnary, _lUnary, _nUnary,
+    thresholdWindow, pkgP, pkgN⟩ := carrier
+  have sourceAtW0 : (hsame W0 W0 ∨ hsame W0 W1) ∧ UnaryHistory W0 :=
+    ⟨Or.inl (hsame_refl W0), w0Unary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => (hsame row W0 ∨ hsame row W1) ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row M ∨ hsame row Theta ∨ hsame row W0 ∨
+            hsame row W1)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont Theta W0 W1 ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle N pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro W0 sourceAtW0
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        have otherUnary : UnaryHistory _ :=
+          unary_transport source.right sameRows
+        cases source.left with
+        | inl sameW0 =>
+            exact ⟨Or.inl (hsame_trans (hsame_symm sameRows) sameW0), otherUnary⟩
+        | inr sameW1 =>
+            exact ⟨Or.inr (hsame_trans (hsame_symm sameRows) sameW1), otherUnary⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameW0 =>
+          exact Or.inr (Or.inr (Or.inr (Or.inl sameW0)))
+      | inr sameW1 =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr sameW1)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, thresholdWindow, pkgP, pkgN⟩
+  }
+  exact ⟨cert, w0Unary, w1Unary⟩
 
 end BEDC.Derived.CauchyTailThresholdNormalizerUp

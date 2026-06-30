@@ -24,17 +24,57 @@ with the following visible rows:
 \end{enumerate}
 The carrier has no row identifying $M$ with $G$, no common audit equality, no compiler report promoted to MetaCIC proof evidence, and no MetaCIC derivation promoted to compiler acceptance.
 \end{definition}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TasteGate.TwinSubstrateBridgeTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[TwinSubstrateBridge NameCert obligations]
 \label{thm:twin-substrate-bridge-namecert-obligations}
 For every accepted $\TwinSubstrateBridgeUp$ carrier $B=(M,G,F,R,L,H,C,P,N)$, the local $\NameCert_{\TwinSubstrateBridgeUp}$ surface consists exactly of carrier admission, MetaCIC audit-synthesis readback through $M$, GroundCompiler audit-map readback through $G$, frontier readback through $F$, bridge-route classification through $R$, two-sided ledger exactness through $L$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier in \autoref{def:twin-substrate-bridge-carrier}. The rows $M,G,F,R,L,H,C,P,N$ are the complete finite packet, so carrier admission and row readback are coordinate projections.
 
 The route classifier $R$ is read before the ledger $L$. A MetaCIC-facing read is therefore sent to $M$ and may cite $F$ only as frontier context; a GroundCompiler-facing read is sent to $G$ and may cite $F$ only as frontier context. The ledger row records this choice rather than replacing either substrate row.
 
 The structural rows preserve the same packet. Componentwise $\hsame$ transport in $H$ moves $M,G,F,R,L$ without merging them, $\Cont$ replay in $C$ exposes only displayed routes, and $P,N$ repack the same rows as provenance and local naming. Hence the NameCert surface is exactly the stated finite obligation list.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateBridge carrier admission]
+\label{thm:twin-substrate-bridge-carrier-admission}
+Let $B=(M,G,F,R,L,H,C,P,N)$ be an accepted $\TwinSubstrateBridgeUp$ carrier. Carrier admission for $B$ is exactly the finite projection that exposes the MetaCIC audit-synthesis row $M$, the GroundCompiler audit-map row $G$, and the audit-map frontier row $F$ before any bridge route is consumed. No accepted carrier can expose $R,L,H,C,P,N$ as bridge evidence while omitting one of $M,G,F$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_carrier\_admission}
+\begin{proof}
+Project the carrier of \autoref{def:twin-substrate-bridge-carrier}. The first three coordinates are the substrate rows that make the bridge meaningful: $M$ supplies the MetaCIC side, $G$ supplies the GroundCompiler side, and $F$ supplies the frontier boundary between them.
+
+The later coordinates are dependent public rows. The route classifier $R$ can classify only requests between the displayed substrate sides, and the ledger $L$ can record only reads whose substrate side has already been exposed.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same displayed packet. Since none of them manufactures a missing substrate coordinate, accepted carrier admission must expose $M,G,F$ before the bridge evidence can be read.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateBridge replay stability]
+\label{thm:twin-substrate-bridge-replay-stability}
+For every accepted $\TwinSubstrateBridgeUp$ carrier $B=(M,G,F,R,L,H,C,P,N)$, componentwise transport through $H$ and displayed replay through $C$ preserve the route separation recorded by $R$ and $L$. A replayed MetaCIC-facing request still consumes $M$ before frontier context, a replayed GroundCompiler-facing request still consumes $G$ before frontier context, and a replayed bridge-facing request still compares the sides only through $F$ and $L$.
+\end{theorem}
+\begin{proof}
+Read the route classifier $R$ and ledger $L$ before replay. They determine whether a request is MetaCIC-facing, GroundCompiler-facing, or bridge-facing, and they record which substrate row the request may consume.
+
+Transport through $H$ is componentwise. It moves the displayed rows $M,G,F,R,L$ along $\hsame$ without adding a row that identifies $M$ with $G$ or changes the route assigned by $R$.
+
+Replay through $C$ follows the displayed continuation route after transport. Thus a MetaCIC-facing replay remains on the $M$ side, a GroundCompiler-facing replay remains on the $G$ side, and a bridge-facing replay reaches both sides only through the frontier and ledger rows. The separation is therefore stable under the structural rows of the carrier.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateBridge ledger exactness]
+\label{thm:twin-substrate-bridge-ledger-exactness}
+Every public read of an accepted $\TwinSubstrateBridgeUp$ carrier $B=(M,G,F,R,L,H,C,P,N)$ factors through the route classifier $R$ and the two-sided ledger $L$ before a substrate row is consumed. Consequently, public consumers cannot read $M$, $G$, or $F$ as unclassified substrate data; the only exported substrate access is the route- and ledger-recorded access named by the local $\NameCert_{\TwinSubstrateBridgeUp}$ row.
+\end{theorem}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_ledger\_exactness}
+\begin{proof}
+Start with any public read of the packet. The NameCert obligations in \autoref{thm:twin-substrate-bridge-namecert-obligations} expose the classifier and ledger as part of the finite public surface, so the read is first assigned a route by $R$ and then recorded by $L$.
+
+Only after this routing step may the read consume a substrate row. The MetaCIC route reads $M$, the GroundCompiler route reads $G$, and the bridge route uses $F$ together with the ledger entry that records which side is being compared.
+
+The remaining rows do not bypass this order. Componentwise transport in $H$, displayed replay in $C$, provenance in $P$, and local naming in $N$ preserve the same routed read. Hence every exported substrate access is exactly the access registered by $R,L$ and no unclassified read of $M,G,F$ is public.
 \end{proof}
 
 \begin{theorem}[TwinSubstrateBridge audit separation]

@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCauchyTailCommonRefinementUp$}
+\label{ch:concrete-instances-bishop-regular-cauchy-tail-common-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopRegularCauchyTailCommonRefinementUp$ packet records the finite common-refinement surface used when two regular Cauchy rational names must be read through one late tail before a real-name consumer can compare or transport them. It sits over the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the common-tail filter basis of \autoref{ch:concrete-instances-regular-cauchy-common-tail-filter-namecert}, the tail-comparison route of \autoref{ch:concrete-instances-regular-cauchy-tail-comparison-namecert}, the tail-functor handoff of \autoref{ch:concrete-instances-regular-cauchy-tail-functor-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed late-tail refinement for two Bishop regular Cauchy names; it is not quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop regular Cauchy tail common-refinement carrier]
+\label{def:bishop-regular-cauchy-tail-common-refinement-carrier}
+A $\BishopRegularCauchyTailCommonRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,S,T,R,D,F,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source-name rows. Each source is exposed only through its displayed regular rational reads.
+\item $S$ is the shared $\StreamNameUp$ schedule. It records the finite observation windows, inspected indices, and synchronized late-window requests used for both sources.
+\item $T$ is the common tail-cut row. It records the late cut, cofinal refinement requests, and membership witnesses saying that both sources are read beyond the same displayed tail.
+\item $R$ is the regular readback row. It records the rational observations of $X$ and $Y$ at the windows specified by $S$ and $T$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the requested radius, tail slack, enclosure budget, and finite-window exhaustion consumed by the refinement.
+\item $F$ is the $\RegularCauchyCommonTailFilterUp$ row. It reads $T$ as a finite common-tail basis and exports only displayed basis and cofinality data.
+\item $Q$ is the $\RegularCauchyTailComparisonUp$ row. It records the comparison-facing late-window route obtained after $X,Y,S,T,R,D,F$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the shared schedule, common tail, readback, dyadic ledger, filter row, and comparison row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, shared schedule, common tail, readback, dyadic ledger, filter row, comparison row, real seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,Y,S,T,D \longmapsto R \longmapsto F \longmapsto Q \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCauchyTailCommonRefinementUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyCommonTailFilterUp$, $\RegularCauchyTailComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularCauchyTailCommonRefinementUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these thirteen rows. Its classifier compares accepted packets only through $X,Y,S,T,R,D,F,Q,E,H,C,P,N$ and has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bishop regular Cauchy tail common-refinement NameCert obligations]
+\label{thm:bishop-regular-cauchy-tail-common-refinement-namecert-obligations}
+For every accepted $\BishopRegularCauchyTailCommonRefinementUp$ carrier
+$$
+K=(X,Y,S,T,R,D,F,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopRegularCauchyTailCommonRefinementUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two regular Cauchy source rows, shared stream schedule, common tail cut, regular readback, dyadic tolerance ledger, common-tail filter row, comparison row, terminal real seal, transport, replay, provenance, and local naming row;
+\item shared-schedule discipline, requiring both source rows to be inspected through the same $S$ row before either a comparison route or real seal is available;
+\item common-tail discipline, requiring $T$ to display the late cut, cofinal refinement requests, and membership witnesses consumed by both sources;
+\item tolerance and readback exactness, requiring $R$ and $D$ to expose only the rational observations and dyadic budgets read from the displayed source rows, schedule, and common tail;
+\item filter and comparison non-escape, requiring $F$ and $Q$ to remain downstream of $X,Y,S,T,R,D$ and to export no quotient stream equality, selected limit, countable-choice schedule, host real equality, trichotomy, or ambient $\RealUp$ completeness;
+\item real-seal discipline, requiring $E$ to be read only after the common-tail filter and comparison rows have both been displayed;
+\item transport, replay, provenance, and naming stability, requiring $H,C,P,N$ to preserve and source exactly the displayed rows componentwise.
+\end{enumerate}
+No Bishop regular Cauchy tail common-refinement obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $K=(X,Y,S,T,R,D,F,Q,E,H,C,P,N)$. The carrier exposes exactly the two source rows, shared schedule, common tail, regular readback, dyadic ledger, filter row, comparison row, terminal real seal, and structural rows.
+
+The shared schedule and common tail are finite. The row $S$ fixes the inspected windows for both source names, while $T$ fixes the late cut and cofinal refinement requests through which both sources must be read.
+
+The readback and tolerance rows are tied to that same tail. The row $R$ supplies only the regular rational observations visible at the displayed windows, and $D$ supplies only the dyadic radius, slack, enclosure budget, and finite-window exhaustion attached to those observations.
+
+The filter and comparison rows remain downstream. The row $F$ reads the common tail as a finite common-tail filter basis, and $Q$ reads the resulting late-window route as the comparison-facing surface.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same displayed route. Since none of the excluded host objects has a carrier coordinate, replay edge, provenance entry, or local naming row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy tail common-refinement stability]
+\label{thm:bishop-regular-cauchy-tail-common-refinement-stability}
+Let $K=(X,Y,S,T,R,D,F,Q,E,H,C,P,N)$ be an accepted $\BishopRegularCauchyTailCommonRefinementUp$ carrier. Under componentwise $\hsame$ transport of the displayed rows $X,Y,S,T,R,D,F,Q,E,C,P,N$, the accepted common-refinement packet remains accepted with the same shared schedule, common tail, tolerance ledger, filter row, comparison row, and real-seal boundary. The transported packet still has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{proof}
+Use the transport row $H$. It is componentwise: it identifies the two source rows, shared schedule, common tail, readback, dyadic ledger, filter row, comparison row, seal row, replay, provenance, and local naming row with their transported copies.
+
+Replay the carrier predicate after transport. Each accepted coordinate is replaced by the corresponding $\hsame$ coordinate, so the shared schedule $S$, tail cut $T$, tolerance ledger $D$, filter row $F$, comparison row $Q$, and seal boundary $E$ retain the same displayed dependency order.
+
+The structural rows $C,P,N$ are transported along the same route. Therefore the local NameCert reads the transported packet through exactly the same finite coordinates.
+
+Because transport only moves existing displayed rows and does not add a new coordinate, the refused quotient, selection, choice, host-equality, trichotomy, and completeness objects remain absent.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy tail common-refinement L10 handoff]
+\label{thm:bishop-regular-cauchy-tail-common-refinement-l10-handoff}
+Every $\RealUp$-facing equality, comparison, or completion consumer of an accepted $\BishopRegularCauchyTailCommonRefinementUp$ carrier factors through the finite route
+$$
+X,Y,S,T,D \longmapsto R \longmapsto F \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives two displayed regular Cauchy source names, one shared StreamName schedule, one common tail cut, regular rational readback, DyadicRatCore tolerance accounting, a common-tail filter row, a comparison row, the terminal RealUp seal, componentwise transport, continuation replay, package provenance, and local naming. It receives no quotient stream equality, selected limit, countable-choice schedule, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{proof}
+Begin with an accepted Real-facing consumer read. The source rows are $X$ and $Y$, and the carrier requires both rows to be observed through the common schedule $S$ and late tail $T$.
+
+The dyadic ledger $D$ fixes the precision budget attached to that shared observation. The regular readback row $R$ then supplies the rational observations of the two source names at the displayed windows.
+
+The common-tail filter row $F$ reads the same late cut as a finite basis, and the comparison row $Q$ reads the resulting route as the late-window comparison surface. Only after both rows are displayed can the terminal seal row $E$ be reached.
+
+The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. Induction over the displayed route order proves that a consumer cannot skip from the source rows to the seal: the base stage reads $X,Y,S,T,D$, the readback stage reads $R$, the filter stage reads $F$, the comparison stage reads $Q$, and the terminal stage reads $E,H,C,P,N$.
+
+Since the carrier has no coordinate outside this route, the consumer cannot obtain quotient stream equality, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness from the packet.
+\end{proof}
+
+\closureat{BishopRegularCauchyTailCommonRefinementUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCauchyTailCommonRefinementUp}
+  \constructivestory{A $\BishopRegularCauchyTailCommonRefinementUp$ packet is generated from two RegSeqRat source rows, one shared StreamName schedule, one common tail cut, regular readback, a DyadicRatCore tolerance ledger, a RegularCauchyCommonTailFilter row, a RegularCauchyTailComparison row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-tail-common-refinement-carrier}, \autoref{thm:bishop-regular-cauchy-tail-common-refinement-namecert-obligations}, \autoref{thm:bishop-regular-cauchy-tail-common-refinement-stability}, and \autoref{thm:bishop-regular-cauchy-tail-common-refinement-l10-handoff} seed the finite Bishop regular Cauchy tail common-refinement route over shared StreamName schedules, RegSeqRat source rows, DyadicRatCore tolerances, common-tail filters, tail comparisons, RealUp seals, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-schedule discipline, common-tail discipline, tolerance and readback exactness, filter and comparison non-escape, real-seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularCauchyTailCommonRefinementUp.}
+\end{closurestatus}

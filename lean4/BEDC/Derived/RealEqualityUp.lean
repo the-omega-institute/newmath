@@ -83,7 +83,7 @@ theorem RealEqualityCarrier_namecert_boundary [AskSetup] [PackageSetup]
     ⟨sharedUnary, toleranceUnary, uniformityUnary, classifierReadUnary, boundaryReadUnary,
       sharedTolerance, classifierUniformity, provenancePkg, boundaryPkg⟩
 
-theorem RealEqualityCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+theorem RealEqualityCarrier_public_boundary [AskSetup] [PackageSetup]
     {leftSeal rightSeal leftWindow rightWindow leftReadback rightReadback sharedWindow
       toleranceLedger uniformity classifier transport replay provenance localName classifierRead
       boundaryRead : BHist}
@@ -96,9 +96,10 @@ theorem RealEqualityCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
           PkgSig bundle boundaryRead pkg →
             UnaryHistory leftSeal ∧ UnaryHistory rightSeal ∧ UnaryHistory sharedWindow ∧
               UnaryHistory toleranceLedger ∧ UnaryHistory uniformity ∧
-                UnaryHistory boundaryRead ∧ Cont sharedWindow toleranceLedger classifierRead ∧
-                  Cont classifierRead uniformity boundaryRead ∧ PkgSig bundle provenance pkg ∧
-                    PkgSig bundle boundaryRead pkg := by
+                UnaryHistory classifierRead ∧ UnaryHistory boundaryRead ∧
+                  Cont sharedWindow toleranceLedger classifierRead ∧
+                    Cont classifierRead uniformity boundaryRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle boundaryRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
   intro carrier sharedTolerance classifierUniformity boundaryPkg
   obtain ⟨leftSealUnary, rightSealUnary, _leftWindowUnary, _rightWindowUnary,
@@ -111,6 +112,7 @@ theorem RealEqualityCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
     unary_cont_closed classifierReadUnary uniformityUnary classifierUniformity
   exact
     ⟨leftSealUnary, rightSealUnary, sharedUnary, toleranceUnary, uniformityUnary,
-      boundaryReadUnary, sharedTolerance, classifierUniformity, provenancePkg, boundaryPkg⟩
+      classifierReadUnary, boundaryReadUnary, sharedTolerance, classifierUniformity,
+      provenancePkg, boundaryPkg⟩
 
 end BEDC.Derived.RealEqualityUp

@@ -33,6 +33,7 @@ F=(Q,L,W,R,D,H,C,P,N),
 $$
 the local $\NameCert_{\FiniteStreamUp}$ surface consists exactly of carrier admission for the finite request row, $\ListUp$ prefix spine, $\StreamNameUp$ finite-window handoff, $\RegSeqRatUp$ readback boundary, $\DyadicRatCoreUp$ tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The finite-window exactness clause requires $W$ to expose only the observations listed by $Q$ and represented by $L$. The StreamName handoff clause requires every downstream countable-name read to pass through $W$ before it can reach $R$ or $D$. The RegSeqRat and Real nonescape clause requires every regular-rational or $\RealUp$-facing consumer to remain downstream from $Q,L,W,R,D,H,C,P,N$. The provenance exhaustion clause requires $P$ and $N$ to name only this finite route.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteStreamUp.FiniteStreamCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:finite-stream-carrier}. Its displayed inventory is exactly the finite request row, the finite list spine, the StreamName window, the regular-rational readback boundary, the dyadic tolerance row, and the structural rows $H,C,P,N$.
 
@@ -58,6 +59,134 @@ The displayed $\Cont$ replay row $C$ then fixes the request coordinate used by t
 The componentwise $\hsame$ transport row $H$ preserves the same coordinate rather than identifying it with an unlisted sibling. Thus any $\RealUp$-facing read that reaches $W,R,D$ or a Real seal remains locked to the original $Q,L$ route named by $P,N$.
 \end{proof}
 
+\begin{theorem}[FiniteStream StreamName dependency route]
+\label{thm:finite-stream-streamname-dependency-route}
+Every accepted $\FiniteStreamUp$ packet consumed by a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ reader must expose the finite request row $Q$, the $\ListUp$ prefix spine $L$, and the $\StreamNameUp$ window $W$ before the read can reach the downstream rows
+$$
+R,D,H,C,P,N.
+$$
+The substantive dependency edge is therefore the finite request/list route into the StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, as displayed by the carrier of \autoref{def:finite-stream-carrier}.
+\end{theorem}
+The same finite request row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, and $\RealUp$ seal boundary are consumed by $\RegularRealTailEquivalenceUp$ when equality of regular real names is read through finite tail data in \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}.
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its first exposed consumer rows are $Q,L,W$, and the remaining rows $R,D,H,C,P,N$ are displayed only as downstream readback, tolerance, transport, replay, provenance, and naming data.
+
+Use \autoref{thm:finite-stream-section-sibling-lock}. A Real-facing read that reaches $W,R,D$ or a Real seal remains locked to the original $Q,L$ route, so a StreamName, RegSeqRat, DyadicRatCore, or Real reader cannot replace the finite request/list surface with an unlisted sibling.
+
+Thus the dependency is not an ambient infinite-stream dependency. It is the displayed finite route from $Q$ and $L$ into the $\StreamNameUp$ window $W$, after which the downstream rows may be consumed.
+
+The same finite request/list/window route is the route consumed by \autoref{ch:concrete-instances-regular-sequence-cluster-witness-namecert} before cluster-witness readback can reach $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$. That consumer therefore receives the displayed $Q,L,W$ boundary as an actual dependency row, not as a replaceable narrative shortcut.
+\end{proof}
+
+\begin{theorem}[FiniteStream StreamName route]
+\label{thm:finite-stream-streamname-route}
+Every $\StreamNameUp$ consumer of an accepted $\FiniteStreamUp$ packet must display the finite request row $Q$, the $\ListUp$ prefix spine $L$, and the finite-window row $W$ before it can reach any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row. The only admissible route is
+$$
+Q,L,W \longmapsto R,D,H,C,P,N,
+$$
+so the downstream regular-rational, dyadic-tolerance, and real-seal rows remain locked to the same finite request/list packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. The rows $Q,L,W$ are the finite request, list-spine, and StreamName-window data; the rows $R,D,H,C,P,N$ are downstream readback, tolerance, transport, replay, provenance, and naming data.
+
+Apply \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream $\RealUp$-facing read from replacing $Q$ or $L$ while keeping the displayed route.
+
+Now apply \autoref{thm:finite-stream-streamname-dependency-route}. It forces any StreamName, RegSeqRat, DyadicRatCore, or Real reader to pass through $Q,L,W$ before the downstream rows are consumed. Therefore every StreamName consumer sees the finite route rather than an ambient infinite stream or an unlisted sibling packet.
+\end{proof}
+
+\begin{theorem}[FiniteStream Real-seal forward link]
+\label{thm:finite-stream-real-seal-forward-link}
+Every $\RegularRealTailEquivalenceUp$ or $\RealUp$ consumer of an accepted $\FiniteStreamUp$ packet must read the finite request row $Q$, $\ListUp$ spine $L$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance row $D$, and terminal $\RealUp$ seal boundary in that order, with transport, replay, provenance, and local naming supplied only by $H,C,P,N$. The downstream sibling route is the regular-tail equality surface of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}, which consumes finite request windows rather than an ambient completed stream.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its Real-facing rows are downstream from the displayed finite request, list spine, StreamName window, regular-rational readback, and dyadic tolerance rows.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing read to expose $Q,L,W$ before $R,D,H,C,P,N$ can be consumed.
+
+Apply the finite-window factorization of \autoref{thm:finite-stream-window-factorization}. The factorization identifies the same ordered route as the only admissible path toward RegSeqRat or Real-facing finite-window data. Therefore a $\RegularRealTailEquivalenceUp$ or $\RealUp$ consumer receives a finite request-window seal, not quotient equality of real names, a selected limit, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[FiniteStream prefix-window Real handoff]
+\label{thm:finite-stream-prefix-window-real-handoff}
+An accepted $\FiniteStreamUp$ prefix packet can be consumed by a Real-facing route only after the $\ListUp$ finite row $L$, the $\StreamNameUp$ finite-window row $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback $R$, and the terminal $\RealUp$ seal boundary have all been displayed over the same finite request row $Q$. The handoff preserves componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming through $H,C,P,N$, and it exports no infinite stream, quotient stream equality, selected limit, countable choice, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its Real-facing route is the displayed packet $Q,L,W,R,D,H,C,P,N$, with the Real seal available only downstream from the finite request, list spine, StreamName window, regular readback, and dyadic tolerance rows.
+
+Use the pointwise stream forward route, \autoref{thm:finite-stream-pointwise-stream-forward-route}. It forces any pointwise or StreamName consumer of the finite prefix to expose $Q,L,W$ before readback can reach RegSeqRat, DyadicRatCore, or Real-facing rows.
+
+Apply the Real-seal forward link, \autoref{thm:finite-stream-real-seal-forward-link}, and the finite-window factorization, \autoref{thm:finite-stream-window-factorization}. Together they keep $R$ and $D$ downstream from the finite prefix window and keep the terminal Real boundary downstream from the displayed readback route. Thus a Real-facing consumer receives a finite prefix-window handoff rather than an ambient completed stream or selected limit.
+\end{proof}
+
+\begin{theorem}[FiniteStream pointwise stream forward route]
+\label{thm:finite-stream-pointwise-stream-forward-route}
+Every pointwise stream consumer of an accepted $\FiniteStreamUp$ packet, in particular a $\PointwiseStreamNameUp$ reader of \autoref{ch:concrete-instances-pointwise-stream-namecert}, must first expose the finite request row $Q$, the $\ListUp$ spine $L$, and the $\StreamNameUp$ finite window $W$. Only after that displayed window route is public may the readback reach $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its finite observation surface begins with $Q,L,W$, so a pointwise reader has no entry point into the downstream rows before the request row, list spine, and window row are visible.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing consumer to display the same $Q,L,W$ route before any regular-rational readback, dyadic tolerance row, or Real seal can be consumed.
+
+Finally compare with the pointwise stream carrier of \autoref{def:pointwise-stream-name-carrier}. A $\PointwiseStreamNameUp$ read starts from a certified StreamName source and requested finite point windows; when that source is supplied by $\FiniteStreamUp$, those windows are exactly the displayed finite request/list/window route. Thus the pointwise consumer receives finite BEDC window data, not an ambient infinite stream, quotient stream equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[FiniteStream window concatenation]
+\label{thm:finite-stream-window-concatenation}
+Let
+$$
+F_i=(Q_i,L_i,W_i,R_i,D_i,H_i,C_i,P_i,N_i)
+$$
+for $i=0,1$ be accepted $\FiniteStreamUp$ packets whose endpoint window rows match, so the final displayed row of $W_0$ is the initial displayed row of $W_1$ under the componentwise $\hsame$ transport. Then the concatenated finite observation schedule is accepted as a $\FiniteStreamUp$ packet whose $\StreamNameUp$ consumer reads the first finite window, then the second finite window, before any $\RegSeqRatUp$ or $\RealUp$ seal is exposed. The concatenated route remains finite:
+$$
+Q_0,Q_1,L_0,L_1,W_0,W_1 \longmapsto R,D,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the two carrier rows. The request rows $Q_i$, list spines $L_i$, and StreamName windows $W_i$ are the only schedule data available before downstream readback.
+
+Use the matching endpoint window rows to compose the finite lists. Concatenate the displayed request rows and their $\ListUp$ spines, identifying the shared endpoint only through the given componentwise $\hsame$ transport.
+
+The downstream rows are replayed componentwise. The transport row preserves the two windows, the displayed $\Cont$ replay reads $W_0$ and then $W_1$, and the provenance and local naming rows record the same finite route.
+
+Thus the consumer reaches any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ seal only after both finite windows have been displayed. No infinite stream, selected limit, quotient stream equality, or ambient completeness row is exposed by the concatenation.
+\end{proof}
+
+\begin{theorem}[FiniteStream product window]
+\label{thm:finite-stream-product-window}
+Given two accepted $\FiniteStreamUp$ packets over displayed rows
+$$
+F_i=(Q_i,L_i,W_i,R_i,D_i,H_i,C_i,P_i,N_i)
+$$
+for $i=0,1$, a product finite-window read is admissible only by exposing both request rows $Q_0,Q_1$, both $\ListUp$ spines $L_0,L_1$, and the componentwise $\StreamNameUp$ product window $W_0 \times W_1$ before any downstream row is consumed. The product route then reads the corresponding $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ rows for the same two finite packets. It exports no host product stream, no quotient stream equality, no selected limit, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two carriers from \autoref{def:finite-stream-carrier}. Each carrier exposes its own finite request row, list spine, StreamName window, regular-rational readback, dyadic tolerance row, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:finite-stream-section-sibling-lock} separately to the two packets. The lock prevents either downstream read from replacing $Q_i$ or $L_i$ while keeping the displayed StreamName, RegSeqRat, DyadicRatCore, or Real-facing route.
+
+Next use \autoref{thm:finite-stream-streamname-dependency-route} and \autoref{thm:finite-stream-streamname-route}. They require each component window to pass through $Q_i,L_i,W_i$ before its readback and tolerance rows are consumed.
+
+The product window is therefore formed only after both component routes are visible. Pair the two displayed StreamName windows componentwise, then read $R_0,R_1$, $D_0,D_1$, $H_0,H_1$, $C_0,C_1$, $P_0,P_1$, and $N_0,N_1$ along the same finite request/list routes. Since neither carrier contains a host product stream, quotient stream equality, selected limit, or ambient completeness coordinate, the paired read remains a finite product-window route.
+\end{proof}
+
+\begin{theorem}[FiniteStream finite-window factorization]
+\label{thm:finite-stream-window-factorization}
+Every accepted $\FiniteStreamUp$ packet consumed by a $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ finite-window route factors through the list-indexed finite request surface
+$$
+Q,L,W,R,D,H,C,P,N.
+$$
+The factorization first exposes the finite request row $Q$ and $\ListUp$ prefix spine $L$, then the displayed $\StreamNameUp$ window $W$, then the $\RegSeqRatUp$ readback boundary $R$ and $\DyadicRatCoreUp$ tolerance row $D$, and finally the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It exports no infinite stream, quotient stream equality, countable choice, selected limit, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:finite-stream-carrier}. The packet inventory gives $Q,L,W,R,D,H,C,P,N$ and no coordinate outside that finite list.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing consumer to display $Q,L,W$ before the downstream rows are available.
+
+Next use the product-window theorem, \autoref{thm:finite-stream-product-window}, in the singleton component case. The same argument that blocks a product read from bypassing its two request/list surfaces blocks a one-window read from bypassing its single request/list surface.
+
+It remains to identify the unavailable coordinates. The carrier contains no completed stream, quotient stream equality, countable-choice schedule, selected limit, or ambient Real completeness row, so the finite-window route factors exactly through the displayed request, window, readback, transport, replay, provenance, and naming rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteStreamUp$ read is refuted if it reaches a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer without displaying the finite request row, $\ListUp$ prefix spine, finite-window handoff, regular-rational readback boundary, dyadic tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
 
 \independenceWitness{list, streamname, regseqrat, dyadicratcore, real: $\FiniteStreamUp$ is not bijective to any listed sibling because it jointly carries a finite request row, a List prefix spine, a StreamName window handoff, RegSeqRat readback boundary, DyadicRatCore tolerance row, transport, replay, provenance, and local naming as one finite schedule packet.}
@@ -67,7 +196,7 @@ The componentwise $\hsame$ transport row $H$ preserves the same coordinate rathe
 \begin{closurestatus}{\FiniteStreamUp}
   \constructivestory{A $\FiniteStreamUp$ packet is generated from finite BHist request rows, a ListUp prefix spine, a StreamName finite-window handoff, a RegSeqRat readback boundary, a DyadicRatCore tolerance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-stream-carrier}, \autoref{thm:finite-stream-namecert-obligations}, and \autoref{thm:finite-stream-section-sibling-lock} seed the finite observation-schedule route between List spines and StreamName finite windows.}
+  \scopeclosed{\autoref{def:finite-stream-carrier}, \autoref{thm:finite-stream-namecert-obligations}, \autoref{thm:finite-stream-section-sibling-lock}, and \autoref{thm:finite-stream-streamname-dependency-route} seed the finite observation-schedule route between List spines and StreamName finite windows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close infinite stream equality, selected limits, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}

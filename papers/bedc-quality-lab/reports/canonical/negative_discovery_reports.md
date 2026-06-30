@@ -1,12 +1,13 @@
 # Negative Discovery Reports
 
-- Generated at: `2026-06-12T22:50:28.746960+00:00`
+- Generated at: `2026-06-16T00:19:52.227430+00:00`
 - Status: `pointer-only`
-- Rows: `7`
+- Rows: `8`
 
 | negative id | report id | claim | failed gate | source | audit |
 | --- | --- | --- | --- | --- | --- |
 | `dn:gap-head-ablation` | `gap-head-ablation` | `claim:gap-head-ablation` | `$.hardgate.status` | `reports/canonical/gap-head-ablation.json:$.hardgate.status` | `pass` |
+| `dn:minigrid-doorkey-task-probe` | `minigrid-doorkey-task-probe` | `claim:minigrid-doorkey-task-probe` | `$.claim_boundary.failed_gate` | `reports/canonical/minigrid-doorkey-task-probe.json:$.claim_boundary.failed_gate` | `pass` |
 | `dn:certificate-guided-training` | `certificate-guided-training` | `claim:certificate-guided-training` | `$.claim_capsule.terminal_verdict` | `reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict` | `pass` |
 | `dn:certificate-guided-discovery` | `certificate-guided-discovery` | `claim:certificate-guided-discovery` | `$.positive_discovery` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `pass` |
 | `dn:spectral-ablation-hinge` | `spectral-ablation-hinge` | `claim:spectral-ablation-hinge` | `$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `pass` |

@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocatedUniformCompletionUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -242,6 +246,42 @@ instance locatedUniformCompletionFieldFaithful :
             injection t9 with hN _
             cases hN
             rfl
+
+theorem LocatedUniformCompletionCarrier_namecert_obligations
+    {F U B S R E H C P N completionRead regularRead streamRead readbackRead
+      sealRead : BHist} :
+    UnaryHistory F → UnaryHistory U → UnaryHistory B → UnaryHistory S → UnaryHistory R →
+      UnaryHistory E → Cont F U completionRead → Cont completionRead B regularRead →
+        Cont regularRead S streamRead → Cont streamRead R readbackRead →
+          Cont readbackRead E sealRead →
+            locatedUniformCompletionFromEventFlow
+                (locatedUniformCompletionToEventFlow
+                  (LocatedUniformCompletionUp.mk F U B S R E H C P N)) =
+              some (LocatedUniformCompletionUp.mk F U B S R E H C P N) ∧
+              UnaryHistory completionRead ∧ UnaryHistory regularRead ∧
+                UnaryHistory streamRead ∧ UnaryHistory readbackRead ∧
+                  UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro filterUnary uniformUnary bishopUnary streamUnary readbackUnary realUnary
+    completionRoute regularRoute streamRoute readbackRoute sealRoute
+  have roundTrip :
+      locatedUniformCompletionFromEventFlow
+          (locatedUniformCompletionToEventFlow
+            (LocatedUniformCompletionUp.mk F U B S R E H C P N)) =
+        some (LocatedUniformCompletionUp.mk F U B S R E H C P N) :=
+    locatedUniformCompletion_round_trip (LocatedUniformCompletionUp.mk F U B S R E H C P N)
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed filterUnary uniformUnary completionRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed completionUnary bishopUnary regularRoute
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed regularUnary streamUnary streamRoute
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed streamReadUnary readbackUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary realUnary sealRoute
+  exact ⟨roundTrip, completionUnary, regularUnary, streamReadUnary, readbackReadUnary,
+    sealUnary⟩
 
 namespace TasteGate
 

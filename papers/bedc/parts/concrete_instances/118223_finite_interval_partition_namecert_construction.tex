@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FiniteIntervalPartitionUp$}
+\label{ch:concrete-instances-finite-interval-partition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteIntervalPartitionUp$ packet records the finite closed-interval subdivision data used by interval arguments before any regular rational, real-name, or compact-cover consumer can read a partition. It sits beside the tagged-cell interface of \autoref{ch:concrete-instances-tagged-partition-namecert} and the dyadic refinement route of \autoref{ch:concrete-instances-dyadic-cover-refinement-namecert}. The carrier gives $\RegSeqRatUp$ and $\RealUp$ interval-cover arguments a displayed finite substrate, not a host finite set of cuts, quotient equality of partitions, a selected limiting mesh, open-cover compactness, or ambient real completeness.
+
+\begin{definition}[Finite interval partition carrier]
+\label{def:finite-interval-partition-carrier}
+A $\FiniteIntervalPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(L,U,K,M,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L,U$ are the closed interval endpoint rows, sourced through $\RatUp$ or $\DyadicRatCoreUp$ witnesses and read as the boundary of the inspected interval.
+\item $K$ is the ordered cut row. It lists the finite internal cuts between $L$ and $U$ together with adjacency witnesses for consecutive cells.
+\item $M$ is the dyadic mesh-bound row. It records one displayed dyadic scale bounding the width of every cell determined by $L,K,U$.
+\item $V$ is the cell-coverage row. It witnesses that every interval containment read is routed through exactly one displayed cell or through the shared boundary ledger attached to neighboring cells.
+\item $R$ is the refinement ledger. It records how a later partition read refines the displayed cut row while preserving endpoint rows, coverage rows, and the mesh-bound comparison.
+\item $H$ records componentwise $\hsame$ transport for endpoint rows, ordered cut rows, mesh bounds, coverage rows, refinement ledgers, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from endpoints to cuts, from cuts to cells, from cells to coverage, and from coverage to refinement-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\FiniteIntervalPartitionUp$, $\TaggedPartitionUp$, $\DyadicCoverRefinementUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteIntervalPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,K,M,V,R,H,C,P,N$. It has no coordinate for a host list of cuts, quotient equality of partitions, an unbounded refinement family, selected mesh limits, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite interval partition NameCert obligations]
+\label{thm:finite-interval-partition-namecert-obligations}
+For every accepted $\FiniteIntervalPartitionUp$ carrier $F=(L,U,K,M,V,R,H,C,P,N)$, the local $\NameCert_{\FiniteIntervalPartitionUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite endpoint, cut, mesh, coverage, refinement, transport, replay, provenance, and naming rows;
+\item endpoint order, requiring $L$ and $U$ to bracket the ordered cut row $K$ and every adjacent cell boundary;
+\item cell coverage, requiring every interval containment read to pass through the displayed coverage row $V$ before any $\RegSeqRatUp$ or $\RealUp$ handoff;
+\item mesh and refinement compatibility, requiring $M$ and $R$ to preserve cell width bounds and endpoint coverage under displayed refinement;
+\item classifier transport, requiring $H,C,P,N$ to preserve the same finite partition packet under $\hsame$, $\Cont$, provenance, and local naming.
+\end{enumerate}
+The obligations expose a finite interval-subdivision substrate that may be consumed by $\TaggedPartitionUp$ tags, $\DyadicCoverRefinementUp$ covers, $\RegSeqRatUp$ readbacks, and $\RealUp$ interval seals without importing host finite partitions, quotient partition equality, selected limiting meshes, open-cover compactness, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-partition-carrier}. Carrier admission reads exactly the rows $L,U,K,M,V,R,H,C,P,N$, so the local certificate can inspect only the displayed endpoint, cut, mesh, coverage, refinement, transport, replay, provenance, and naming data.
+
+Endpoint order is read next. The boundary rows $L,U$ bracket the ordered cut row $K$, and every cell boundary is part of the same displayed adjacency ledger rather than a host-side partition object.
+
+The coverage and mesh clauses then consume $V,M,R$. The coverage row sends every interval containment request through the displayed cells, while the dyadic mesh row and refinement ledger keep later subdivision reads compatible with the same endpoint and coverage data.
+
+Finally replay $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, so no extra coordinate can supply quotient partition equality, an external refinement family, a selected mesh limit, open-cover compactness, or ambient $\RealUp$ completeness. The five listed rows therefore exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{FiniteIntervalPartitionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntervalPartitionUp}
+  \constructivestory{A $\FiniteIntervalPartitionUp$ packet is generated from closed interval endpoint rows, ordered finite cut rows, a dyadic mesh bound, cell coverage rows, refinement ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-interval-partition-carrier} and \autoref{thm:finite-interval-partition-namecert-obligations} seed the finite interval-subdivision substrate used by RegSeqRat and Real interval-cover consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient partition equality, host finite-partition presentation, selected limiting meshes, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint order, cell coverage, mesh-refinement compatibility, classifier transport, replay, provenance, and local naming for BEDC.Derived.FiniteIntervalPartitionUp.}
+\end{closurestatus}

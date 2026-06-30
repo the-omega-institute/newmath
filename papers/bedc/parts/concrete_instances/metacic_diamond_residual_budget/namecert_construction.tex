@@ -417,6 +417,22 @@ Apply the obstruction ledger theorem. The substitution-boundary row and obstruct
 Finally use normalization handoff. Even when a normalization-facing consumer is present, the read still passes through $T,F,R,S,J,E,L,D,H,C,P,N$ and no carrier coordinate supplies subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget closed-premise discharge route]
+\label{thm:metacic-diamond-residual-budget-closed-premise-discharge-route}
+Any accepted closed-premise discharge read through a $\MetaCICDiamondResidualBudgetUp$ packet must expose the typed window $T$, redex frontier $F$, residual budget $R$, substitution boundary $S$, candidate join $J$, residual envelope $E$, premise ledger $L$, local diamond row $D$, and structural rows $H,C,P,N$. It may discharge only the displayed finite premise window
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N .
+$$
+The route exports no full subject reduction, global confluence, Church--Rosser theorem, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with frontier accounting and substitution visibility, \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting} and \autoref{thm:metacic-diamond-residual-budget-substitution-visibility}. They require the typed window, redex frontier, residual budget, and substitution boundary to be displayed before the candidate join row can be read.
+
+Use the local-join theorem and candidate-window exhaustion next. \autoref{thm:metacic-diamond-residual-budget-local-join} keeps $J$ under the displayed residual fuel and visible substitution boundary, while \autoref{thm:metacic-diamond-residual-budget-candidate-window-exhaustion} exhausts the finite candidate window before any candidate-mediated consumer may continue.
+
+Apply premise-candidate coverage and confluence refusal, \autoref{thm:metacic-diamond-residual-budget-premise-candidate-coverage} and \autoref{thm:metacic-diamond-residual-budget-confluence-refusal}. These force the residual envelope, premise ledger, local diamond row, and structural rows to stay attached to the same finite route, and they block promotion to subject reduction, global confluence, Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget seed registration]
 \label{thm:metacic-diamond-residual-budget-seed-registration}
 The seed registration surface for $\MetaCICDiamondResidualBudgetUp$ is exactly the finite row family

@@ -1,0 +1,87 @@
+\chapter{Bishop Regular Cauchy Reindexing NameCert Construction}
+\label{ch:concrete-instances-bishop-regular-cauchy-reindexing-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRegularCauchyReindexingUp$ packet records the finite certificate by which a regular Cauchy name may be read along a monotone cofinal unary route without changing its Real-facing finite windows. It sits beside the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers stable reindexing data before a $\RealUp$ name consumes the source as public finite-window evidence; it does not import quotient representatives, countable choice, a selected host limit, host stream equality, or ambient completeness.
+
+\begin{definition}[Bishop regular Cauchy reindexing carrier]
+\label{def:bishop-regular-cauchy-reindexing-carrier}
+A $\BishopRegularCauchyReindexingUp$ carrier is a finite $\BHist$ packet
+$$
+J=(S,I,M,C,D,T,R,H,A,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegSeqRatUp$ name, including its regular Cauchy modulus and finite rational readback rows.
+\item $I$ is the unary index-route row, displaying the finite graph of the reindexing map on every requested window.
+\item $M$ is the monotonicity row, certifying inside the packet that the displayed route is nondecreasing on the inspected unary indices.
+\item $C$ is the cofinality row, giving for every requested tail depth a displayed later source index reached by the route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic bounds used to compare the source and reindexed windows.
+\item $T$ is the tail-stability row, showing that every post-depth read of the reindexed name is backed by a post-depth read of $S$.
+\item $R$ is the $\RealUp$ finite-window read surface exported only after $S,I,M,C,D,T$ are visible.
+\item $H$ records componentwise $\hsame$ transport for source, index route, monotonicity, cofinality, dyadic tolerance, tail stability, read surface, replay, provenance, and local naming rows.
+\item $A$ records displayed $\Cont$ replay from a reindexing request through $S,I,M,C,D,T,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCauchyReindexingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularCauchyReindexingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,I,M,C,D,T,R,H,A,P,N$. It has no coordinate for quotient stream representatives, selected limits, countable choice, host equality of sequences, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bishop regular Cauchy reindexing NameCert obligations]
+\label{thm:bishop-regular-cauchy-reindexing-namecert-obligations}
+For every accepted $\BishopRegularCauchyReindexingUp$ carrier $J=(S,I,M,C,D,T,R,H,A,P,N)$, the local $\NameCert_{\BishopRegularCauchyReindexingUp}$ surface consists exactly of eight obligation groups:
+\begin{enumerate}
+\item carrier admission for the source name, displayed index route, monotonicity row, cofinality row, dyadic tolerance row, tail-stability row, Real-facing read surface, transport, replay, provenance, and local naming;
+\item source regularity readback through the $\RegSeqRatUp$ row $S$;
+\item classifier exactness through the displayed finite index route $I$;
+\item monotonicity exposure through $M$ before any tail comparison is consumed;
+\item cofinality exposure through $C$ before any downstream real-name read is exported;
+\item dyadic tolerance preservation through $D$ for every inspected source and reindexed window;
+\item tail stability through $T$, binding each reindexed tail read to a later source tail read;
+\item ledger, transport, replay, provenance, and local naming through $R,H,A,P,N$.
+\end{enumerate}
+Thus the packet names stable monotone cofinal reindexing of regular Cauchy names as finite BEDC data, not as quotient equality of streams or as a selected limit operation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-regular-cauchy-reindexing-carrier}. The analytic rows are the source regular Cauchy name $S$, the displayed index route $I$, the monotonicity row $M$, the cofinality row $C$, the dyadic tolerance row $D$, and the tail-stability row $T$.
+
+Read the classifier and route obligations first. The route $I$ is finite on each requested window, while $M$ and $C$ certify that the displayed route is monotone and eventually reaches every required source tail depth.
+
+Next read the dyadic and tail rows. The row $D$ preserves the requested tolerances under the source and reindexed windows, and $T$ ensures that a reindexed tail read is backed by a later tail read of the original $\RegSeqRatUp$ name.
+
+Finally $R,H,A,P,N$ expose the Real-facing finite-window surface and preserve the same packet under transport, replay, provenance, and local naming. Since no excluded quotient, choice, selected-limit, host-equality, or completeness principle is a carrier coordinate, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy reindexing tail stability]
+\label{thm:bishop-regular-cauchy-reindexing-tail-stability}
+Let $J=(S,I,M,C,D,T,R,H,A,P,N)$ be an accepted $\BishopRegularCauchyReindexingUp$ carrier. Every $\RealUp$ finite-window consumer of the reindexed regular Cauchy name reads the same public surface through
+$$
+S,I,M,C \longmapsto D \longmapsto T \longmapsto R,H,A,P,N .
+$$
+Consequently stable monotone cofinal reindexing preserves the $\RealUp$ finite-window read surface of the source name: the consumer may inspect the reindexed windows and their displayed source tail witnesses, but it obtains no quotient representative, countable-choice selector, host stream equality, selected host limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bishop-regular-cauchy-reindexing-namecert-obligations}. They require source regularity, route exactness, monotonicity, cofinality, dyadic tolerance preservation, and tail stability to be displayed before any Real-facing read.
+
+Use monotonicity and cofinality together. Monotonicity prevents the displayed route from returning to earlier source windows, while cofinality supplies a later source index for every requested tail depth.
+
+Use dyadic tolerance preservation next. The row $D$ records the same requested tolerance against the source and reindexed windows, so the reindexed read has no independent tolerance scale.
+
+Finally apply tail stability and the structural rows. The row $T$ binds every reindexed tail read to a later source tail read, and $R,H,A,P,N$ replay and name that finite route for the $\RealUp$ consumer. Since quotient representatives, choice selectors, host stream equality, selected host limits, and ambient completeness are absent from the carrier, the public read surface is preserved without importing them.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\BishopRegularCauchyReindexingUp$ read that exports a $\RealUp$ finite-window surface without displaying monotonicity, cofinality, dyadic tolerance preservation, and tail stability is outside the carrier.}
+
+\independenceWitness{regseqrat, streamname, real: $\RegSeqRatUp$ supplies source regularity but not the monotone cofinal route, $\StreamNameUp$ supplies finite observation windows but not tail cofinality, and $\RealUp$ supplies the terminal read surface but not the reindexing certificate.}
+
+\closureat{BishopRegularCauchyReindexingUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCauchyReindexingUp}
+  \constructivestory{A $\BishopRegularCauchyReindexingUp$ packet is generated from a source RegSeqRat row, a displayed unary index route, monotonicity, cofinality, dyadic tolerance preservation, tail stability, a RealUp finite-window read surface, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-reindexing-carrier}, \autoref{thm:bishop-regular-cauchy-reindexing-namecert-obligations}, and \autoref{thm:bishop-regular-cauchy-reindexing-tail-stability} seed the finite certificate for stable monotone cofinal reindexing of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream representatives, countable choice, selected host limits, host stream equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, monotonicity, cofinality, dyadic tolerance preservation, tail stability, ledger, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularCauchyReindexingUp.}
+\end{closurestatus}

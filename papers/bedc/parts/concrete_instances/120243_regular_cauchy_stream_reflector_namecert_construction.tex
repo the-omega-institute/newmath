@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyStreamReflectorUp$}
+\label{ch:concrete-instances-regular-cauchy-stream-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy completions, the $\RegularCauchyStreamReflectorUp$ packet records the finite reflector surface that turns a named Cauchy stream into regular-rational readback and then into a terminal real-name seal. It sits beside the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the completion reflector of \autoref{ch:concrete-instances-cauchycompletionreflector-namecert}. The packet names a non-quotient handoff surface; it does not select a representative stream, assert host equality of completion points, invoke countable choice, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy stream reflector carrier]
+\label{def:regular-cauchy-stream-reflector-carrier}
+A $\RegularCauchyStreamReflectorUp$ carrier is a finite packet
+$$
+R=(S,D,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected stream prefixes and tail requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested radius, comparison budget, and endpoint arithmetic for the same windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from $S$ and $D$.
+\item $L$ is the terminal $\RealUp$ seal reached only after the stream, dyadic, and regular-rational rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $S,D,Q,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the handoff
+$$
+S,D \longmapsto Q \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyStreamReflectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionReflectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyStreamReflectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,Q,L,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, hidden cofinal tails, host completion equality, countable choice, or ambient completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyStreamReflectorUp}
+
+\begin{theorem}[Regular Cauchy stream reflector NameCert obligations]
+\label{thm:regular-cauchy-stream-reflector-namecert-obligations}
+For every accepted $\RegularCauchyStreamReflectorUp$ carrier $R=(S,D,Q,L,H,C,P,N)$, the local $\NameCert_{\RegularCauchyStreamReflectorUp}$ surface consists exactly of StreamName finite-window exposure through $S$, DyadicRatCore tolerance exposure through $D$, RegSeqRat readback through $Q$, RealUp seal exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. The reflector may be consumed by a $\CauchyCompletionReflectorUp$ route only through the displayed chain
+$$
+\StreamNameUp,\ \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+It is not a quotient completion, a selected representative, a hidden choice schedule, or an ambient real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-stream-reflector-carrier}. The only stream-facing rows are $S$ and $D$, so every read of the packet starts with finite windows and a dyadic tolerance ledger.
+
+The regular-rational row $Q$ is downstream of those two rows, and the terminal real-name row $L$ is downstream of $Q$. Thus the visible handoff is exactly the displayed StreamName-to-RegSeqRat-to-RealUp route, with the dyadic ledger still attached.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier has no coordinate for quotient stream equality, selected representatives, hidden cofinal tails, host completion equality, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyStreamReflectorUp$ consumer that exports a real-name handoff must display the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local NameCert rows.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchycompletionreflector: no listed sibling is bijective to $\RegularCauchyStreamReflectorUp$ because this packet jointly binds finite stream windows, dyadic tolerance, regular-rational readback, a real-name seal, reflector provenance, transport, replay, and local naming.}
+
+\closureat{RegularCauchyStreamReflectorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyStreamReflectorUp}
+  \constructivestory{A $\RegularCauchyStreamReflectorUp$ packet is generated from StreamName finite windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-stream-reflector-carrier} and \autoref{thm:regular-cauchy-stream-reflector-namecert-obligations} seed the non-quotient StreamName-to-RegSeqRat-to-RealUp reflector route for the L10 Real and Completion phase.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.RegularCauchyStreamReflectorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, hidden cofinal tails, host completion equality, countable choice, ambient RealUp completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName finite-window exposure, DyadicRatCore tolerance exactness, RegSeqRat readback, RealUp seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyStreamReflectorUp.}
+\end{closurestatus}

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\DetachableSubsetUp$}
+\label{ch:concrete-instances-detachable-subset-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive subsets with decidable membership, the $\DetachableSubsetUp$ packet records the finite BEDC surface by which a displayed subset may be read through a Boolean membership classifier. It sits beside the Boolean carrier of \autoref{ch:concrete-instances-bool-namecert}, the set-like naming surface of \autoref{ch:concrete-instances-setlike-namecert}, the semidecidable-open classifier of \autoref{ch:concrete-instances-semidecidable-open-namecert}, the finite stream-name route of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a reusable finite decidable-membership carrier for constructive subset reads without importing host powersets, excluded middle, quotient subset equality, selected witnesses, or ambient $\RealUp$ completeness.
+
+\begin{definition}[DetachableSubset carrier]
+\label{def:detachable-subset-carrier}
+A $\DetachableSubsetUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,M,Q,B,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\SetLikeUp$ ambient carrier row whose elements are allowed to be inspected;
+\item $M$ is the detachable membership row, returning a displayed $\BoolUp$ answer for each inspected element row;
+\item $Q$ is the complementary refusal row, recording the negative membership answer when $M$ returns false;
+\item $B$ is the $\BoolUp$ decision boundary through which both positive and negative membership answers are read;
+\item $S$ is the $\SemidecidableOpenUp$ exposure row available to open-facing consumers after the Boolean decision has been displayed;
+\item $R$ is the $\StreamNameUp$ finite-window row through which sequential or real-facing consumers request inspected elements;
+\item $H$ records componentwise $\hsame$ transport for the ambient, membership, refusal, Boolean, semidecidable-open, and stream rows;
+\item $C$ records displayed $\Cont$ replay of the same finite route;
+\item $P$ is the $\Pkg$ provenance over $\DetachableSubsetUp$, $\SetLikeUp$, $\BoolUp$, $\SemidecidableOpenUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DetachableSubsetUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these displayed rows. It has no coordinate for a host powerset, an external predicate with excluded middle, quotient subset equality, selected element witness, or ambient real-completion principle.
+\end{definition}
+\leandef{BEDC.Derived.DetachableSubsetUp}
+
+\begin{theorem}[DetachableSubset NameCert obligations]
+\label{thm:detachable-subset-namecert-obligations}
+For every accepted $\DetachableSubsetUp$ carrier
+$$
+D=(A,M,Q,B,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\DetachableSubsetUp}$ surface consists exactly of carrier admission for those rows, ambient set-like exposure through $A$, detachable membership through $M$, negative-membership refusal through $Q$, Boolean readback through $B$, semidecidable-open exposure through $S$, finite StreamName scheduling through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:detachable-subset-carrier}. The projection lists exactly the ambient, membership, refusal, Boolean, semidecidable-open, stream-window, transport, replay, provenance, and naming rows.
+
+The subset is detachable because each inspected element reaches the membership row $M$ only through the displayed ambient row $A$ and receives its answer through the Boolean boundary $B$. The refusal row $Q$ is part of the same packet, so a negative answer is not supplied by an external excluded-middle principle.
+
+The downstream handoff is finite. Open-facing consumers may read $S$ only after the Boolean membership boundary has been displayed, and sequential or real-facing consumers may request inspected elements only through $R,H,C,P,N$. Thus the local NameCert surface is the displayed decidable-membership route itself.
+\end{proof}
+
+\begin{theorem}[DetachableSubset finite membership route]
+\label{thm:detachable-subset-finite-membership-route}
+Every membership answer exported by an accepted $\DetachableSubsetUp$ packet is attached to a displayed element row in $A$ and a displayed Boolean row in $B$. If two accepted packets agree componentwise on $A,M,Q,B,S,R$ under the displayed $\hsame$ transport, then every downstream consumer sees the same accepted-or-refused membership answer.
+\end{theorem}
+\begin{proof}
+Begin with the ambient carrier row $A$. It is the only source from which an inspected element may be named, so a consumer cannot ask the detachable subset about an element outside the displayed carrier route.
+
+The membership and refusal rows $M,Q$ are read through the Boolean boundary $B$. Componentwise $\hsame$ transport therefore identifies the visible element and its visible truth value together.
+
+Replay through $C$ and provenance through $P,N$ preserve the same finite route. Hence transported packets expose the same membership answer to open-facing, stream-facing, and real-facing consumers.
+\end{proof}
+
+\begin{theorem}[DetachableSubset obligation package]
+\label{thm:detachable-subset-obligation-package}
+The carrier, NameCert, and finite membership route clauses assemble the seed obligation package for $\DetachableSubsetUp$. The package is exhausted by the rows
+$$
+A,M,Q,B,S,R,H,C,P,N
+$$
+and by the sibling route through $\SetLikeUp$, $\BoolUp$, $\SemidecidableOpenUp$, $\StreamNameUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies exactly the listed rows, and \autoref{thm:detachable-subset-namecert-obligations} makes them the local NameCert surface.
+
+\autoref{thm:detachable-subset-finite-membership-route} binds each membership answer to a displayed ambient element and Boolean decision boundary. The semidecidable-open and StreamName rows can only consume that displayed boundary; they do not add a host powerset or a choice principle.
+
+Thus the package names the finite decidable-membership surface needed by constructive subset consumers while refusing excluded middle, quotient subset equality, selected witnesses, host powersets, and ambient real completeness.
+\end{proof}
+
+\closureat{DetachableSubsetUp}{seedStr}
+
+\begin{closurestatus}{\DetachableSubsetUp}
+  \constructivestory{A $\DetachableSubsetUp$ packet is generated from a SetLikeUp ambient row, detachable membership and refusal rows, a BoolUp decision boundary, a SemidecidableOpenUp exposure row, a StreamNameUp finite-window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:detachable-subset-carrier}, \autoref{thm:detachable-subset-namecert-obligations}, \autoref{thm:detachable-subset-finite-membership-route}, and \autoref{thm:detachable-subset-obligation-package} seed the finite decidable-membership route for constructive subset consumers.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.DetachableSubsetUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host powersets, excluded middle, quotient subset equality, selected element witnesses, ambient Real completeness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier and NameCert obligations for BEDC.Derived.DetachableSubsetUp.}
+\end{closurestatus}

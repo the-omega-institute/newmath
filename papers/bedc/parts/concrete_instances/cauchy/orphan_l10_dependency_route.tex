@@ -1,1 +1,29 @@
 The $\CauchyUp$ packet enters the L10 dependency lattice through its sibling route before completion or filter consumers inspect it. Every such consumer first reads the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The Cauchy route is therefore a displayed sibling dependency path, not a floating completion primitive or a host-level filter object.
+
+\begin{theorem}[Cauchy L10 sibling dependency route]
+\label{thm:cauchy-l10-sibling-dependency-route}
+Every $\CauchyUp$ consumer in the L10 lattice receives finite observation windows from \autoref{ch:concrete-instances-streamname-namecert}, regular-rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} before any Real-facing approximation is public. The route exports no selected limit, quotient equality, host filter object, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted Cauchy packet through its finite observation surface. The first visible rows are the $\StreamNameUp$ windows, so downstream readers cannot begin from a host-level limit predicate.
+
+Next read the regular-rational sibling. The $\RegSeqRatUp$ row supplies the finite regularity readback used by Cauchy consumers before the packet reaches the Real-facing boundary.
+
+Finally expose the $\RealUp$ seal. Since the seal is reached only after the displayed windows and readback rows, the route supplies finite windows and regular-rational data before public approximation, and it leaves no coordinate for selected limits, quotient equality, host filters, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyUp.L10SiblingDependency.CauchyL10SiblingDependencyRoute}
+
+\begin{theorem}[Cauchy route RegSeqRat tail inversion]
+\label{thm:cauchy-route-regseqrat-tail-inversion}
+Every accepted $\CauchyUp$ consumer that exposes a $\RealUp$-facing approximation through the displayed L10 sibling route must first expose the $\RegSeqRatUp$ regular-rational tail row and the $\DyadicRatCoreUp$ tolerance ledger. If either row is absent, the consumer has no public $\RealUp$-facing approximation route through the $\CauchyUp$ L10 lattice.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-l10-sibling-dependency-route}. A public approximation route is visible only after the accepted Cauchy packet has passed through finite $\StreamNameUp$ windows, regular-rational readback, and the terminal $\RealUp$ seal.
+
+Read the windows first. They determine which finite observations are available to the consumer, but they do not by themselves supply a regular rational tail or a tolerance account.
+
+Next inspect the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows. The regular-rational tail supplies the readback values, while the dyadic ledger supplies the tolerance discipline needed before those values can be read as a Real-facing approximation.
+
+Finally apply the $\RealUp$ seal. Since the seal is reached only after the displayed tail and tolerance rows, deleting either row leaves no public route from the Cauchy consumer to a Real-facing approximation.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyRouteRegSeqRatTailInversion}

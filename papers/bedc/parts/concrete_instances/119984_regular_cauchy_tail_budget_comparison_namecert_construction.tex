@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailBudgetComparisonUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-budget-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy criteria, the $\RegularCauchyTailBudgetComparisonUp$ packet records the finite comparison of two displayed regular-Cauchy tail budgets before either budget is read as a Real or Completion handoff. It sits after the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the tail-budget service of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, the tail-diameter boundary of \autoref{ch:concrete-instances-cauchy-tail-diameter-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Cauchy-criterion arguments one local comparison object for budget alignment; it does not choose a limit, quotient streams, compare host real values, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular-Cauchy tail-budget comparison carrier]
+\label{def:regular-cauchy-tail-budget-comparison-carrier}
+A $\RegularCauchyTailBudgetComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,B_0,B_1,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window service row whose finite tail window is shared by both budget reads;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row inspected through $S$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the two budget reads;
+\item $B_0$ and $B_1$ are the two displayed tail-budget rows over the same $S,R,D$ window-and-tolerance surface;
+\item $E$ is the comparison endpoint row, recording whether the two budgets agree, one refines the other, or the packet exposes a finite obstruction to comparison;
+\item $H$ stores componentwise $\hsame$ transports for the stream, readback, dyadic, budget, endpoint, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ replay routes for reading the shared window, reading both budgets, comparing their classifier rows, and exposing the endpoint;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailBudgetComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyTailDiameterUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyTailBudgetComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected limit, quotient stream equality, host real equality, unlisted tolerance, or ambient completion theorem.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy tail-budget comparison NameCert obligations]
+\label{thm:regular-cauchy-tail-budget-comparison-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-tail-budget-comparison-carrier}, the local $\NameCert_{\RegularCauchyTailBudgetComparisonUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item source and window binding: the two budget rows $B_0,B_1$ read the same $\StreamNameUp$ window $S$, the same $\RegSeqRatUp$ source row $R$, and the same $\DyadicRatCoreUp$ tolerance row $D$;
+\item classifier comparison: the endpoint row $E$ records exactly the displayed comparison between the two budget classifiers;
+\item stability: componentwise $\hsame$ transport through $H$ preserves the same source, window, dyadic, budget, comparison, and endpoint rows;
+\item ledger non-escape: any downstream consumer of the comparison factors through $S,R,D,B_0,B_1,E,H,C,P,N$;
+\item real-seal routing: a $\RealUp$ or completion-facing consumer can read a terminal seal only after the shared window, regular readback, dyadic tolerance, two budget rows, comparison endpoint, transport, replay, provenance, and local naming rows have been exposed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $T=(S,R,D,B_0,B_1,E,H,C,P,N)$. The two budget rows are not independent tail services; they are fields of one finite packet over the same stream window, regular readback, and dyadic tolerance rows.
+
+The classifier comparison is read from $E$. Its alternatives are the displayed agreement, displayed refinement in one direction, displayed refinement in the other direction, or a finite obstruction row. No host real comparison or quotient-stream equality is available to refine that endpoint.
+
+Stability and replay are supplied by $H$ and $C$. Componentwise transport keeps the two budget rows over the same source data, while the continuation rows replay the window read, the two budget reads, the endpoint comparison, and the consumer handoff in the listed order.
+
+The ledger and seal clauses then follow from absence of extra coordinates. A $\RealUp$ or completion-facing consumer sees only the displayed route through $S,R,D,B_0,B_1,E,H,C,P,N$, so the packet cannot export a selected limit, unlisted tolerance, host equality, or ambient completeness object.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy tail-budget comparison Real seal route]
+\label{thm:regular-cauchy-tail-budget-comparison-real-seal-route}
+Every $\RealUp$ or completion-facing read that uses an accepted $\RegularCauchyTailBudgetComparisonUp$ packet factors first through the finite route
+$$
+S,R,D,B_0,B_1,E,H,C,P,N .
+$$
+The route may certify that the two displayed tail budgets agree on the shared window, that one displayed budget refines the other, or that comparison stops at a finite obstruction row. It does not expose a selected real, a quotient of Cauchy streams, a host comparison of limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the source and window binding obligation from \autoref{thm:regular-cauchy-tail-budget-comparison-namecert-obligations}. It forces both budget reads through the same $S,R,D$ surface before any endpoint row can be inspected.
+
+Next read the classifier comparison obligation. The endpoint $E$ records only the finite budget comparison over those displayed rows, so refinement or obstruction data remain tied to the two listed budget rows rather than to an external order on completed reals.
+
+Finally use ledger non-escape and real-seal routing. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, and no coordinate exists for a selected limit, quotient stream, host comparison, countable choice, or ambient completeness theorem. Thus every Real or Completion consumer receives the comparison only through the displayed packet.
+\end{proof}
+
+\closureat{RegularCauchyTailBudgetComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailBudgetComparisonUp}
+  \constructivestory{A $\RegularCauchyTailBudgetComparisonUp$ packet is generated from a shared StreamName window, a RegSeqRat regular readback, a DyadicRatCore tolerance row, two displayed tail-budget rows, a comparison endpoint, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-budget-comparison-carrier}, \autoref{thm:regular-cauchy-tail-budget-comparison-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-budget-comparison-real-seal-route} seed the finite L10 Real and Completion surface for comparing two displayed regular-Cauchy tail budgets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, selected limits, quotient stream equality, host real comparison, countable choice, ambient RealUp completeness, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window binding, classifier comparison, hsame stability, ledger non-escape, Real seal routing, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailBudgetComparisonUp.}
+\end{closurestatus}

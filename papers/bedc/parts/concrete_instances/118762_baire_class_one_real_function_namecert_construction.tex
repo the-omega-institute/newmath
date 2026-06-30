@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BaireClassOneRealFunctionUp$}
+\label{ch:concrete-instances-baire-class-one-real-function-namecert}
+\origin{human}
+
+Following Baire and Bishop-Bridges on pointwise limits of continuous real functions, the $\BaireClassOneRealFunctionUp$ packet records a constructive Baire class one real-valued function as an explicit sequence of continuous real functions with finite pointwise readback. It sits after the real-name carrier of \autoref{ch:concrete-instances-real-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the continuous-map packet of \autoref{ch:concrete-instances-continuousmap-namecert}, and the pointwise stream metric route of \autoref{ch:concrete-instances-pointwise-stream-metric-namecert}. The packet gives later $\RealUp$ consumers a sequence-of-continuous-functions target without host function equality, a quotient function space, selected representatives, countable choice, or an ambient measurability theorem.
+
+\begin{definition}[Baire class one real-function carrier]
+\label{def:baire-class-one-real-function-carrier}
+A $\BaireClassOneRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,S,A,R,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source real-domain row whose point requests are read through $\RealUp$ names.
+\item $S$ is the $\StreamNameUp$ schedule listing the inspected stages of the approximating function sequence.
+\item $A$ is the $\ContinuousMapUp$ row assigning each inspected stage to a displayed continuous real-valued map.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to each pointwise real output produced by the inspected continuous maps.
+\item $E$ is the terminal $\RealUp$ seal for the pointwise limiting value.
+\item $M$ is the $\PointwiseStreamMetricUp$ row comparing the stage outputs only through finite pointwise windows.
+\item $H$ records componentwise $\hsame$ transport for source, schedule, continuous-map, readback, Real-seal, metric, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a point request through $X,S,A,R,E,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BaireClassOneRealFunctionUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ContinuousMapUp$, $\PointwiseStreamMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BaireClassOneRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for host equality of functions, a completed function space quotient, an externally selected pointwise limit, countable choice, arbitrary measurability, or an ambient theorem identifying all Baire class one maps.
+\end{definition}
+
+\begin{theorem}[Baire class one real-function NameCert obligations]
+\label{thm:baire-class-one-real-function-namecert-obligations}
+For every accepted $\BaireClassOneRealFunctionUp$ carrier $F=(X,S,A,R,E,M,H,C,P,N)$, the local $\NameCert_{\BaireClassOneRealFunctionUp}$ surface consists exactly of carrier admission for the source real-domain row, the $\StreamNameUp$ stage schedule, the $\ContinuousMapUp$ sequence row, the $\RegSeqRatUp$ pointwise readback, the terminal $\RealUp$ seal, the $\PointwiseStreamMetricUp$ comparison row, componentwise transport, displayed replay, package provenance, and local naming. Every downstream real-analysis consumer must consume those rows before treating the packet as a Baire class one real-valued function.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:baire-class-one-real-function-carrier}. The accepted packet exposes only the source row, inspected stage schedule, continuous-map sequence row, regular-rational readback, Real seal, pointwise metric row, transport, replay, provenance, and local naming.
+
+The constructive pointwise-limit route starts with $X$ and $S$. A consumer first names the point request and the inspected stages, then reads the continuous-map row $A$ at those stages.
+
+The output route is then forced through $R,E,M$. The regular-rational readback records the displayed numerical data, the Real seal records the terminal pointwise value, and the pointwise stream metric row compares the stage outputs only through finite windows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no coordinate stores host function equality, a quotient function space, selected representatives, countable choice, arbitrary measurability, or an ambient classification theorem, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Baire class one sequence handoff]
+\label{thm:baire-class-one-real-function-sequence-handoff}
+Every $\RealUp$, completion-facing, or pointwise-metric consumer of an accepted $\BaireClassOneRealFunctionUp$ carrier must read the finite route
+$$
+\StreamNameUp
+\longmapsto
+\ContinuousMapUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp
+\longmapsto
+\PointwiseStreamMetricUp .
+$$
+Thus the Baire class one row is a displayed sequence of continuous real-valued maps with pointwise readback, not a host function equality class, a selected limit map, or an imported measurable-function hierarchy.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer. Carrier admission forces the consumer to read the $\StreamNameUp$ schedule before any stage of the approximating sequence can be inspected.
+
+The inspected stage is then a $\ContinuousMapUp$ row. Its numerical output is not exposed directly as a host function value; it passes through the $\RegSeqRatUp$ readback and the terminal $\RealUp$ seal.
+
+The pointwise comparison is supplied by $\PointwiseStreamMetricUp$. That row keeps finite windows visible while the sequence handoff is transported and replayed by $H$ and $C$.
+
+Consequently the consumer receives only the displayed sequence route over the named sibling packets. The carrier inventory excludes host function equality, quotient function spaces, selected pointwise limits, countable choice, and imported measurability structure.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BaireClassOneRealFunctionUp$ consumer is refuted if it treats a pointwise limit as public before displaying the StreamName stage schedule, ContinuousMap sequence row, RegSeqRat readback, Real seal, PointwiseStreamMetric comparison, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{real, streamname, regseqrat, continuousmap, pointwisestreammetric: none is bijective because $\BaireClassOneRealFunctionUp$ binds a real-domain source, explicit stage schedule, continuous real-valued maps, pointwise readback, Real seal, pointwise metric comparison, transport, replay, provenance, and local NameCert rows in one packet. Each sibling supplies one constituent surface, while only this packet names the sequence-of-continuous-functions route.}
+
+\closureat{BaireClassOneRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\BaireClassOneRealFunctionUp}
+  \constructivestory{A $\BaireClassOneRealFunctionUp$ packet is generated from a RealUp source row, a StreamName finite stage schedule, ContinuousMap sequence rows, RegSeqRat pointwise readback, a RealUp seal, a PointwiseStreamMetric comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-class-one-real-function-carrier}, \autoref{thm:baire-class-one-real-function-namecert-obligations}, and \autoref{thm:baire-class-one-real-function-sequence-handoff} seed the explicit sequence-of-continuous-real-functions route over RealUp, StreamNameUp, RegSeqRatUp, ContinuousMapUp, PointwiseStreamMetricUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host function equality, quotient function spaces, selected pointwise limits, countable choice, arbitrary measurability, or a full Baire hierarchy.}
+  \upgradepath{Obligation closure requires checked carrier admission, stage-schedule exactness, continuous-map sequence exposure, pointwise readback, Real seal nonescape, pointwise metric handoff, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.BaireClassOneRealFunctionUp.}
+\end{closurestatus}

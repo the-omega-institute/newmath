@@ -78,6 +78,24 @@ OOD embedding caches. Regenerate them from the public checkpoints:
 Each script writes its record to `reports/` via a `ROOT`-relative path, so the
 tree is self-contained once the intermediates are regenerated next to `code/`.
 
+## Target-oriented loop
+
+The continuing G2N work is driven by a narrow loop around the same
+fail-closed autoresearch gates:
+
+```bash
+python autoresearch/g2n_research_loop.py --once --pull-remote
+```
+
+The loop pulls finished A100 artifacts when available, runs the direct
+strongest-posthoc paired comparison, the selective calibration sweep, and the
+shuffled-label permutation guard, writes
+`reports/g2n_integrated_a100_closure_status.json`, and then executes only the
+G2N closure hypotheses (`fi-018`--`fi-020`) through the existing
+executor/gate/writeback/canonical-adapter stack.  Missing A100 files are
+pending and fail-closed; they do not create evidence records or change the
+article claim.
+
 ## What the records establish (and do not)
 
 The boundary results are summarized in the article; in short they form a

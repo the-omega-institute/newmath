@@ -1,0 +1,14 @@
+\subsection{E. coli mRNA-stability projection of the $B^\ast_{Q6}$ residual basis}
+\label{sec:ecoli-bstarq6-mrna-stability-sqm-codon-optimality}
+\origin{ai}
+
+\paragraph{Data contact.} This cross-layer relation chapter tests the nine-dimensional $B^\ast_{Q6}$ residual basis against the E. coli readout on a log10 scale for mRNA half-life minutes from Esquerre et al. 2015 Table S2 at growth rate $0.40\,\mathrm{h}^{-1}$. The join is large enough to matter but still finite: 3{,}739 CDS rows on the codon side, 2{,}947 half-life records, and 2{,}720 matched rows after identifier alignment, with 1{,}019 CDS records lacking a half-life match. The source record reports a CDS join hit rate of 0.9978649586335735. The control set has 24 columns, rank 23, and residual degrees of freedom 2697 after projection; it consists of an intercept, the logarithm of CDS length in nucleotides, the twenty amino-acid composition proportions, GC3, and the M-density baseline defined from the union support of the nine projected $q$ vectors. The same source record also notes the selected growth rate $0.40\,\mathrm{h}^{-1}$ and a robustness reference at $0.10\,\mathrm{h}^{-1}$.
+
+\paragraph{Surface geometry.} $$\begin{aligned}
+R^2_{QM} &= 0.02298556640056076, \\
+R^2_{QP} &= 0.11632311854858134, \\
+\cos(S_{QM}, S_{QP}) &= -0.7784923375569599.
+\end{aligned}$$
+The mRNA-stability surface is therefore real but modest: its permutation tail is sharp, with $p=0.000999000999000999$, yet the explained fraction is small. On this join, the dominant coordinate for the half-life surface is Arg\_AGR; the abundance surface on the same join is also led by Arg\_AGR. The abundance projection is stronger than the half-life projection, but the cosine is negative, so the two directions are not aligned in E. coli. For a descriptive anchor, the same coordinate family was previously observed in yeast with $R^2_{QM}=0.05179429044975085$ and cosine $0.8040935468384264$ against the abundance surface; the E. coli geometry is weaker and sign-reversed relative to that anchor, which is exactly the kind of organism-specific variation this chapter is meant to keep visible.
+
+\paragraph{Interpretation boundary.} The nine residual coordinates are K\_AAA, Arg\_AGR, Ile\_AUA, Leu\_CUN\_vs\_UUR, Leu\_UUA\_vs\_UUG, Ser\_UCR\_vs\_AGY, Ser\_UCA\_vs\_UCG, Thr\_ACR\_vs\_ACY, and f3\_stress. This records a bounded statistical projection of the codon basis onto an E. coli mRNA-stability panel, not a decay mechanism. The result is compatible with the statement that the $B^\ast_{Q6}$ basis is not absorbed by the amino-acid-plus-context-plus-M-density model on this readout, but it does not by itself establish translation realization, ribosome causality, folding, physical admissibility, function, mechanism, or universality. Those stronger claims require a separate organism-matched contact with a direct translation readout and the same control design.

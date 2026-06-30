@@ -55,6 +55,7 @@ B=(E,W,D,R,S,T,H,C,P,N),
 $$
 the dyadic ledger row $D$ is readable only after the precision row $E$ and the finite $\StreamNameUp$ window chain $W$ have been exposed. The row $D$ supplies adjacent-window $\DyadicRatCoreUp$ error entries for the displayed finite route, and it supplies no quotient-stream equality, selected host limit, choice selector, ambient completeness row, hidden comparison row, or independent Real carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_dyadic\_ledger\_exposure}
 \begin{proof}
 Read the carrier in \autoref{def:regular-cauchy-telescoping-budget-carrier}. Its ordered packet has one precision request $E$, one finite selected-window chain $W$, and one dyadic error ledger $D$.
 
@@ -71,6 +72,7 @@ B=(E,W,D,R,S,T,H,C,P,N),
 $$
 the telescoping composition row $T$ consumes exactly the finite adjacent-window error rows exposed by $D$, records the remaining budget at each finite handoff, and is stable only under the displayed componentwise $\hsame$ transports in $H$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_telescoping\_composition}
 \begin{proof}
 Use \autoref{def:regular-cauchy-telescoping-budget-carrier} to project the finite rows $D,T,H$. The ledger $D$ is the only coordinate containing adjacent-window dyadic error entries, and $T$ is the only coordinate recording their finite telescoping composition.
 
@@ -94,6 +96,7 @@ The dyadic and telescoping obligations make this order explicit. Apply \autoref{
 
 Finally apply \autoref{thm:regular-cauchy-telescoping-budget-real-seal-handoff}. The seal row $S$ is the only $\RealUp$ seal row in the carrier, and that theorem places it after the route through $E,W,D,T,R$. Thus the Real-facing seal cannot be read before the $\RegSeqRatUp$ handoff has been exposed.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_regseqrat\_handoff\_order}
 
 \begin{theorem}[RegularCauchyTelescopingBudget window chain]
 \label{thm:regular-cauchy-telescoping-budget-window-chain}
@@ -110,6 +113,7 @@ Use the existing $\RegularCauchySequenceUp$ and $\RegularCauchyWindowFusionUp$ s
 
 Now read the dyadic and telescoping rows. The ledger $D$ stores the adjacent-window error rows, while $T$ composes them and records the remaining budget passed to the next window. Since $R$ appears only after $D$ and $T$, the $\RegSeqRatUp$ handoff is downstream of the finite chain.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_window\_chain}
 
 \begin{theorem}[RegularCauchyTelescopingBudget Real seal handoff]
 \label{thm:regular-cauchy-telescoping-budget-real-seal-handoff}
@@ -119,6 +123,7 @@ E,W,D,T,R,S,H,C,P,N.
 $$
 The route first consumes the requested precision, then the selected window chain, then the dyadic error ledger, then the telescoping composition ledger, then the $\RegSeqRatUp$ handoff, and only then the $\RealUp$ seal row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_real\_seal\_handoff}
 \begin{proof}
 Begin with the window-chain theorem. It places the selected windows, dyadic error rows, telescoping composition, and $\RegSeqRatUp$ handoff in the displayed order $E,W,D,T,R$.
 
@@ -141,6 +146,7 @@ Use the window-chain theorem and the Real seal handoff theorem. They force every
 
 Inspect the packet boundary. No coordinate stores quotient stream equality, selected host limits, countable choice, ambient completeness, hidden comparisons, unrecorded budgets, or an independent real carrier. The exported surface is exactly the displayed finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_nonescape}
 
 \begin{theorem}[RegularCauchyTelescopingBudget primitive scope binding]
 \label{thm:regular-cauchy-telescoping-budget-primitive-scope-binding}
@@ -150,6 +156,7 @@ B=(E,W,D,R,S,T,H,C,P,N),
 $$
 the scoped primitive surface is exactly the displayed $\DyadicRatCoreUp$ error ledger $D$, the finite $\StreamNameUp$ window chain $W$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal row $S$, the componentwise $\hsame$ transport row $H$, the visible $\Cont$ route row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$, all read under the precision request $E$ and telescoping ledger $T$. No host limit, quotient stream, countable-choice selector, hidden comparison, or ambient completeness row is part of this scope.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_primitive\_scope\_binding}
 \begin{proof}
 Project the carrier from \autoref{def:regular-cauchy-telescoping-budget-carrier}. Its only rows are $E,W,D,R,S,T,H,C,P,N$, with $D$ naming the dyadic error ledger, $W$ naming the finite selected-window chain, $R$ naming the $\RegSeqRatUp$ handoff, and $S$ naming the $\RealUp$ seal.
 
@@ -160,16 +167,90 @@ Now apply the finite route theorems. The telescoping composition theorem consume
 Finally apply \autoref{thm:regular-cauchy-telescoping-budget-nonescape}. Since the excluded host limit, quotient stream, countable-choice selector, hidden comparison, and ambient completeness rows do not occur in the carrier, the scoped primitive binding is precisely the existing finite route through $E,W,D,T,R,S,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTelescopingBudget scoped closure]
+\label{thm:regular-cauchy-telescoping-budget-scoped-closure}
+The carrier, dyadic ledger exposure, telescoping composition, $\RegSeqRatUp$ handoff order, finite window chain, $\RealUp$ seal handoff, non-escape boundary, and primitive-scope binding jointly close the scoped primitive surface of $\RegularCauchyTelescopingBudgetUp$ over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They expose exactly the rows $E,W,D,R,S,T,H,C,P,N$ and identify the visible source chapters for dyadic errors, selected windows, regular rational handoff, Real seal delivery, transport, replay, provenance, and local naming.
+
+Use the ledger and composition theorems to bind the analytic content. Dyadic exposure places $D$ after $E$ and $W$, while telescoping composition consumes the displayed finite ledger through $T$ without adding a hidden comparison row.
+
+Use the handoff and non-escape theorems for the target boundary. The $\RegSeqRatUp$ handoff order, window-chain theorem, and $\RealUp$ seal handoff place $R$ and $S$ downstream of the same finite route, and the non-escape theorem excludes quotient streams, selected host limits, countable choice, hidden comparisons, ambient completeness, and independent Real carriers.
+
+Finally apply the primitive-scope binding. It identifies the complete scoped surface as $E,W,D,T,R,S,H,C,P,N$ over the listed BEDC primitives, so no additional primitive row remains outside the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_scoped\_closure}
+
+\begin{theorem}[RegularCauchyTelescopingBudget public export]
+\label{thm:regular-cauchy-telescoping-budget-public-export}
+Every L10 diagonal handoff consumer that cites $\RegularCauchyTelescopingBudgetUp$ may cite only the ordered public surface
+$$
+E,W,D,T,R,S,H,C,P,N
+$$
+over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The consumer must read the precision request $E$, selected window chain $W$, dyadic error ledger $D$, telescoping composition ledger $T$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $S$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$ in that order before using the packet as a public diagonal budget. The public surface exports no quotient stream equality, selected host limit, countable-choice selector, hidden comparison, unrecorded error budget, ambient completeness principle, or independent RealUp carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier and scoped closure. The carrier displays exactly $E,W,D,R,S,T,H,C,P,N$, and \autoref{thm:regular-cauchy-telescoping-budget-scoped-closure} binds those rows as the scoped primitive surface over the named BEDC prerequisites.
+
+Use the Real seal handoff. Theorems~\ref{thm:regular-cauchy-telescoping-budget-regseqrat-handoff-order} and~\ref{thm:regular-cauchy-telescoping-budget-real-seal-handoff} place $R$ and $S$ after the finite window, dyadic ledger, and telescoping ledger rows, so a diagonal consumer cannot read a Real-facing seal before the ordered route is exposed.
+
+Finally apply non-escape. Theorem~\ref{thm:regular-cauchy-telescoping-budget-nonescape} excludes quotient streams, selected host limits, countable choice, hidden comparisons, unrecorded budgets, ambient completeness, and independent Real carriers. Therefore the reusable public cite is precisely the ordered surface $E,W,D,T,R,S,H,C,P,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_public\_export}
+
+\begin{theorem}[RegularCauchyTelescopingBudget Real bridge route]
+\label{thm:regular-cauchy-telescoping-budget-bridge-route}
+Any $\RealUp$ consumer of the public $\RegularCauchyTelescopingBudgetUp$ export must read the $\StreamNameUp$ window chain, the $\RegSeqRatUp$ handoff, the $\DyadicRatCoreUp$ tolerance rows, the window-chain rows, and the $\RealUp$ seal handoff before consuming the telescoping budget. Equivalently, the consumer must traverse
+$$
+E,W,D,T,R,S,H,C,P,N
+$$
+with $W$ read as the finite $\StreamNameUp$ chain, $D$ read as the $\DyadicRatCoreUp$ ledger, $T$ read as the telescoping ledger, $R$ read as the $\RegSeqRatUp$ handoff, and $S$ read as the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem. It identifies the reusable public surface as the ordered rows $E,W,D,T,R,S,H,C,P,N$ and excludes any independent Real carrier or ambient completeness row.
+
+Use the finite route theorems to expose the bridge order. The window-chain theorem supplies the $\StreamNameUp$ chain $W$ and places its adjacent-window ledger in $D$ before $T$; the $\RegSeqRatUp$ handoff order theorem places $R$ after $E,W,D,T$.
+
+Now apply the Real seal handoff and primitive scope binding. The Real seal handoff places $S$ downstream of the $\RegSeqRatUp$ handoff, while primitive scope binding keeps $H,C,P,N$ as transport, replay, provenance, and naming rows for the same finite packet.
+
+Thus a $\RealUp$ consumer cannot consume the telescoping budget merely as an isolated public row. It must first read the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, window-chain, and Real-seal route.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetCarrier\_bridge\_route}
+
+\begin{theorem}[RegularCauchyTelescopingBudget window concatenation route]
+\label{thm:regular-cauchy-telescoping-budget-window-concatenation-route}
+Suppose two accepted $\RegularCauchyTelescopingBudgetUp$ packets share the terminal $\RegSeqRatUp$ and $\RealUp$ seal row of the first packet as the precision-facing source row of the second packet through displayed $\hsame$ transport. Then their concatenated finite $\StreamNameUp$ window chain exports the ordered composite budget route
+$$
+E,W,D,T,R,S,H,C,P,N.
+$$
+The dyadic error ledgers are appended in the displayed window order, the shared boundary is read through $H$ before repacking, and the composite route introduces no quotient stream equality, selected host limit, countable choice, hidden comparison, ambient completeness, or independent $\RealUp$ carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetWindowConcatenationRoute}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:regular-cauchy-telescoping-budget-carrier}. The first packet supplies rows $E_0,W_0,D_0,T_0,R_0,S_0,H_0,C_0,P_0,N_0$, and the second supplies rows $E_1,W_1,D_1,T_1,R_1,S_1,H_1,C_1,P_1,N_1$.
+
+Use the window-chain theorem and telescoping-composition theorem for both packets. The first route reads $W_0,D_0,T_0$ before $R_0,S_0$, and the second route reads $W_1,D_1,T_1$ before $R_1,S_1$.
+
+Now read the shared boundary. The assumed displayed $\hsame$ transport identifies the terminal $R_0,S_0$ rows with the precision-facing source row of the second packet only through $H_0$ and $H_1$, so the handoff is visible before any composite public route is named.
+
+Repack the composite route by appending the dyadic ledger lists and the finite window chains in that order. The RegSeqRat handoff order and Real seal handoff theorems place the resulting route in the order $E,W,D,T,R,S,H,C,P,N$.
+
+Finally apply non-escape. Since neither input packet contains quotient stream equality, selected host limits, countable choice, hidden comparisons, ambient completeness, or an independent Real carrier, and since the shared boundary is read only through displayed transport, the concatenated route exports none of those objects.
+\end{proof}
+
 \closureat{RegularCauchyTelescopingBudgetUp}{seedStr}
 \closureat{RegularCauchyTelescopingBudgetUp}{obligationStr}[BEDC.Derived.RegularCauchyTelescopingBudgetUp.RegularCauchyTelescopingBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RegularCauchyTelescopingBudgetUp}{bridgedStr}
+\closureat{RegularCauchyTelescopingBudgetUp}{matureStr}
 
 \begin{closurestatus}{\RegularCauchyTelescopingBudgetUp}
   \constructivestory{A $\RegularCauchyTelescopingBudgetUp$ packet is generated from a precision request, a finite chain of selected $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ error ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, a telescoping composition ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-telescoping-budget-carrier}, \autoref{thm:regular-cauchy-telescoping-budget-namecert-obligations}, \autoref{thm:regular-cauchy-telescoping-budget-dyadic-ledger-exposure}, \autoref{thm:regular-cauchy-telescoping-budget-telescoping-composition}, \autoref{thm:regular-cauchy-telescoping-budget-regseqrat-handoff-order}, \autoref{thm:regular-cauchy-telescoping-budget-window-chain}, \autoref{thm:regular-cauchy-telescoping-budget-real-seal-handoff}, and \autoref{thm:regular-cauchy-telescoping-budget-nonescape} with the TasteGate instance \texttt{BEDC.Derived.RegularCauchyTelescopingBudgetUp.taste\_gate} bind the finite chained-window telescoping budget for Real-completion diagonal handoffs.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-telescoping-budget-carrier}, \autoref{thm:regular-cauchy-telescoping-budget-namecert-obligations}, \autoref{thm:regular-cauchy-telescoping-budget-dyadic-ledger-exposure}, \autoref{thm:regular-cauchy-telescoping-budget-telescoping-composition}, \autoref{thm:regular-cauchy-telescoping-budget-regseqrat-handoff-order}, \autoref{thm:regular-cauchy-telescoping-budget-window-chain}, \autoref{thm:regular-cauchy-telescoping-budget-real-seal-handoff}, \autoref{thm:regular-cauchy-telescoping-budget-nonescape}, \autoref{thm:regular-cauchy-telescoping-budget-public-export}, the bridge witness \autoref{thm:regular-cauchy-telescoping-budget-bridge-route}, and the window concatenation route \autoref{thm:regular-cauchy-telescoping-budget-window-concatenation-route} give the mature treatment for chained StreamName windows, dyadic ledgers, RegSeqRat handoff, and Real seal rows in Real-completion diagonal handoffs.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, selected host limits, countable choice, ambient completeness, hidden comparison rows, unrecorded error budgets, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding the dyadic ledger exposure, telescoping composition, RegSeqRat handoff, RealUp seal delivery, transport stability, route replay, provenance, local naming, and non-escape obligations to explicit BEDC primitive scope rows for the same finite packet.}
+  \upgradepath{Bridged closure requires a standard bridge that transports the ordered public surface into the acceptance schema without adding quotient streams, selected host limits, countable choice, hidden comparisons, ambient completeness, or an independent RealUp carrier.}
 \end{closurestatus}

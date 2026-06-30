@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedIntervalRefinementUp$}
+\label{ch:concrete-instances-bishop-located-interval-refinement-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopLocatedIntervalRefinementUp$ packet records the finite service that refines located rational interval cells into dyadic readback windows and regular-Cauchy request rows. It sits between the located-cell surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the rational and dyadic interval rows of \autoref{ch:concrete-instances-rationalinterval-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the regular-Cauchy consumer of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet is a readback service, not a quotient real construction, a selected endpoint operator, a trichotomy principle, or an ambient completeness assumption.
+
+\begin{definition}[Bishop located interval refinement carrier]
+\label{def:bishop-located-interval-refinement-carrier}
+A $\BishopLocatedIntervalRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,Q,D,S,G,A,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalUp$ source row, containing the displayed interval cell, locatedness witness, and finite request boundary.
+\item $Q$ is the $\RationalIntervalUp$ endpoint ledger read from the same displayed cell. It records rational lower and upper witnesses only as named rows.
+\item $D$ is the $\DyadicRatCoreUp$ refinement ledger. It supplies dyadic subcells, midpoint rows, and positive dyadic radii used by finite readback.
+\item $S$ is the $\StreamNameUp$ request schedule row. It lists the finite observation windows through which downstream names ask for interval refinement.
+\item $G$ is the $\RegSeqRatUp$ regular-Cauchy handoff row. It records the finite modulus requests and tail windows accepted by the regular sequence consumer.
+\item $A$ is the $\RealUp$ seal row. It exposes only the real-name boundary used to certify that the handoff is a readback of the same located interval packet.
+\item $H$ records componentwise $\hsame$ transport for $L,Q,D,S,G,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+L,Q \longmapsto D \longmapsto S,G \longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedIntervalRefinementUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedIntervalRefinementUp}$ row.
+\end{enumerate}
+The classifier of an accepted packet compares only the displayed rows above. It contains no coordinate for quotient reals, selected endpoints, trichotomy, arbitrary choice of nested cells, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located interval refinement NameCert obligations]
+\label{thm:bishop-located-interval-refinement-namecert-obligations}
+For every accepted $\BishopLocatedIntervalRefinementUp$ carrier
+$$
+R=(L,Q,D,S,G,A,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedIntervalRefinementUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval source, rational interval ledger, dyadic refinement ledger, stream request schedule, regular-Cauchy handoff, real seal, transport, replay, provenance, and local naming rows;
+\item endpoint readback, requiring each rational endpoint row in $Q$ to be read through the located interval cell $L$ rather than through a selected host endpoint;
+\item dyadic refinement, requiring every finite subcell read to pass through the dyadic ledger $D$ before it reaches a stream or regular-Cauchy consumer;
+\item request compatibility, requiring the schedule row $S$ and the regular-Cauchy row $G$ to expose the same finite tolerance windows;
+\item nonescape, requiring downstream Real, stream, dyadic, and regular-Cauchy consumers to read only $L,Q,D,S,G,A,H,C,P,N$.
+\end{enumerate}
+No BishopLocatedIntervalRefinement obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-interval-refinement-carrier}. The displayed tuple contains the located source cell, rational endpoint ledger, dyadic refinement ledger, stream schedule, regular-Cauchy handoff, real seal, and structural rows.
+
+Endpoint readback uses $L$ and $Q$. The rational endpoint rows are named observations of the located cell, so no host endpoint is selected and no trichotomy branch is imported.
+
+Dyadic refinement is mediated by $D$. Each finite subcell and radius read passes through the dyadic ledger before $S$ or $G$ may inspect it.
+
+Finally compare the request rows $S$ and $G$ through $H$ and replay them through $C$. Provenance and local naming are restricted to $P$ and $N$, so downstream consumers cannot extract quotient reals, selected endpoints, arbitrary nested-cell choice, or ambient completeness from the packet.
+\end{proof}
+
+\begin{theorem}[Bishop located interval refinement Cauchy route]
+\label{thm:bishop-located-interval-refinement-cauchy-route}
+Let
+$$
+R=(L,Q,D,S,G,A,H,C,P,N)
+$$
+be an accepted $\BishopLocatedIntervalRefinementUp$ carrier. Every finite readback from a located interval cell to a regular-Cauchy request factors through
+$$
+L,Q \longmapsto D \longmapsto S,G \longmapsto A,H,C,P,N .
+$$
+Thus the route converts located interval evidence into dyadic and regular-Cauchy finite obligations over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, without importing quotient real equality, selected endpoints, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the located interval source row $L$ and rational endpoint ledger $Q$. They display the cell to be refined and the rational boundary observations consumed by the finite route.
+
+Apply the dyadic ledger row $D$. It refines the displayed rational cell into dyadic subcells and radius rows, giving the finite windows read by the stream schedule $S$.
+
+Use the regular-Cauchy handoff row $G$ together with the real seal $A$. The handoff exports only finite modulus requests and tail windows, and the seal records that these requests read the same displayed source rather than a quotient real.
+
+The rows $H,C,P,N$ transport, replay, package, and name exactly this chain. Since no other coordinate is present, the readback cannot select endpoints, invoke trichotomy, identify quotient reals, or assume ambient completeness.
+\end{proof}
+
+\closureat{BishopLocatedIntervalRefinementUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedIntervalRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-interval-refinement-carrier}, \autoref{thm:bishop-located-interval-refinement-namecert-obligations}, and \autoref{thm:bishop-located-interval-refinement-cauchy-route} define the finite located-interval refinement service and its dyadic and regular-Cauchy readback obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected endpoints, trichotomy, arbitrary nested-cell choice, ambient completeness, Lean verification, or standard bridge closure.}
+  \upgradepath{Scoped closure requires a Lean-backed carrier and obligation theorem for BEDC.Derived.BishopLocatedIntervalRefinementUp.}
+  \constructivestory{A $\BishopLocatedIntervalRefinementUp$ packet is generated from a LocatedInterval source row, RationalInterval endpoint ledger, DyadicRatCore refinement ledger, StreamName request schedule, RegSeqRat handoff, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

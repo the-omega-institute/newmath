@@ -136,6 +136,18 @@ instance egorovChapterTasteGate : ChapterTasteGate EgorovUp where
     intro x y hxy heq
     exact hxy (EgorovToEventFlow_injective heq)
 
+instance egorovFieldFaithful : FieldFaithful EgorovUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := egorovFields
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk M₁ Omega₁ F₁ X₁ S₁ R₁ A₁ W₁ U₁ L₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk M₂ Omega₂ F₂ X₂ S₂ R₂ A₂ W₂ U₂ L₂ H₂ C₂ P₂ N₂ =>
+            cases hfields
+            rfl
+
 def taste_gate : ChapterTasteGate EgorovUp :=
   -- BEDC touchpoint anchor: BHist BMark
   egorovChapterTasteGate

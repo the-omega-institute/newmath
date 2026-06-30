@@ -1,0 +1,91 @@
+\chapter{Regular Cauchy Finite Splice NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-finite-splice-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyFiniteSpliceUp$ packet records finite prefix replacement of a regular rational Cauchy name while preserving the displayed tail route. It sits over the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the tail-shift route of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}, and the finite prefix certificate of \autoref{ch:concrete-instances-finite-prefix-stream-certificate-namecert}. The packet gives Real and Completion consumers a finite means of changing observation windows without exporting quotient stream equality, a selected host limit, countable choice, host real equality, or ambient Real completeness.
+
+\begin{definition}[Regular Cauchy finite splice carrier]
+\label{def:regular-cauchy-finite-splice-carrier}
+A $\RegularCauchyFiniteSpliceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(k,X,Y,W,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $k$ is the unary splice-depth row naming the last replaced prefix index.
+\item $X$ is the original $\RegSeqRatUp$ stream row whose tail regularity is being retained.
+\item $Y$ is the replacement finite-prefix row, read only through displayed cells at indices $0,\ldots,k$.
+\item $W$ is the $\StreamNameUp$ window row that aligns the original and replacement observations at the splice boundary.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the displayed prefix cells and the retained tail comparison.
+\item $R$ is the tail $\RegSeqRatUp$ readback row consumed after depth $k$.
+\item $H$ records componentwise $\hsame$ transport for the splice depth, original row, replacement prefix, window, dyadic ledger, tail readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the finite splice request through $k,X,Y,W,D,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFiniteSpliceUp$, $\RegularCauchyShiftUp$, $\FinitePrefixStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFiniteSpliceUp}$ row naming exactly this finite splice packet.
+\end{enumerate}
+The classifier compares accepted packets only through $k,X,Y,W,D,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected host limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyFiniteSpliceUp.RegularCauchyFiniteSpliceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy finite splice NameCert obligations]
+\label{thm:regular-cauchy-finite-splice-namecert-obligations}
+For every accepted $\RegularCauchyFiniteSpliceUp$ carrier $S=(k,X,Y,W,D,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyFiniteSpliceUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item splice-depth exposure: the unary row $k$ is visible before any replacement cell is read;
+\item prefix replacement locality: the replacement row $Y$ supplies only the displayed cells at indices $0,\ldots,k$;
+\item boundary-window alignment: the $\StreamNameUp$ row $W$ and dyadic ledger $D$ expose the finite splice boundary before the retained tail is consumed;
+\item tail readback preservation: the row $R$ reads the post-$k$ tail as regular rational data downstream of the $\RegularCauchyShiftUp$ route;
+\item structural locality: the rows $H,C,P,N$ preserve exactly the same splice packet under transport, replay, provenance, and naming.
+\end{enumerate}
+The obligation surface may cite the finite prefix certificate of \autoref{ch:concrete-instances-finite-prefix-stream-certificate-namecert} and the regular Cauchy shift route of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}; it cannot add quotient stream equality, selected host limits, countable choice, host real equality, ambient Real completeness, or a bridge certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-finite-splice-carrier}. The finite analytic rows are exactly the splice depth $k$, the source row $X$, the replacement prefix $Y$, the window $W$, the dyadic ledger $D$, and the retained tail readback $R$.
+
+Read the finite prefix certificate and the regular Cauchy shift route. The prefix certificate bounds the replacement cells by $k$, while the shift route ensures that all post-$k$ reads are taken from the displayed tail rather than from an external selector.
+
+The rows $H,C,P,N$ then repack the same finite data under transport, replay, provenance, and naming. Since no excluded principle is a coordinate of the carrier or a result of the cited sibling routes, no local NameCert obligation can export quotient stream equality, selected host limits, countable choice, host real equality, ambient Real completeness, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite splice tail stability]
+\label{thm:regular-cauchy-finite-splice-tail-stability}
+Let $S=(k,X,Y,W,D,R,H,C,P,N)$ be an accepted $\RegularCauchyFiniteSpliceUp$ carrier. Every Real or Completion-facing consumer of the spliced name reads the post-$k$ tail by the displayed route
+$$
+X,Y,k \longmapsto W \longmapsto D \longmapsto R \longmapsto H,C,P,N .
+$$
+Thus finite prefix replacement preserves the regular Cauchy tail route after depth $k$: the consumer may inspect the replacement prefix and the retained tail readback, but it obtains no quotient equality of streams, no host sequence equality, no selected limiting value, no countable-choice tail selector, and no ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-finite-splice-namecert-obligations}. They force the splice depth, replacement prefix, boundary window, dyadic ledger, and retained readback to remain visible before any downstream real-name use.
+
+Use the finite prefix certificate for the cells up to $k$. Those cells are the only part of the name supplied by $Y$, so the replacement cannot affect a post-$k$ read except through the displayed boundary rows $W$ and $D$.
+
+Use the regular Cauchy shift route for the tail after $k$. The readback row $R$ is downstream of that shift route and therefore preserves the regular tail as displayed RegSeqRat data.
+
+Finally replay the structural rows $H,C,P,N$. They transport and name the same finite route, so the Real or Completion-facing consumer receives a stable tail route and none of the excluded quotient, equality, choice, limit-selection, or completeness principles.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite splice nonescape]
+\label{thm:regular-cauchy-finite-splice-nonescape}
+Every exported use of an accepted $\RegularCauchyFiniteSpliceUp$ packet remains downstream of the displayed finite splice rows $k,X,Y,W,D,R,H,C,P,N$. The packet exports finite prefix replacement and retained tail regularity only; it does not export quotient stream equality, a selected host limit, countable choice, host real equality, ambient Real completeness, or a bridge certificate.
+\end{theorem}
+\begin{proof}
+Apply the carrier definition. The accepted packet has no field for quotient stream equality, selected host limits, countable choice, host real equality, ambient completeness, or bridge checking.
+
+Apply tail stability from \autoref{thm:regular-cauchy-finite-splice-tail-stability}. Any Real or Completion-facing read passes through the finite replacement prefix and retained regular tail route before it reaches the structural rows.
+
+The structural rows preserve the same displayed packet under $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ naming. They do not add analytic principles absent from the carrier, so the exported surface remains the finite splice certificate alone.
+\end{proof}
+
+\closureat{RegularCauchyFiniteSpliceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFiniteSpliceUp}
+  \constructivestory{A $\RegularCauchyFiniteSpliceUp$ packet is generated from a unary splice depth, original RegSeqRat row, replacement finite-prefix row, StreamName boundary window, DyadicRatCore tolerance ledger, retained RegSeqRat tail readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-splice-carrier}, \autoref{thm:regular-cauchy-finite-splice-namecert-obligations}, \autoref{thm:regular-cauchy-finite-splice-tail-stability}, and \autoref{thm:regular-cauchy-finite-splice-nonescape} seed the finite prefix-replacement route that preserves the displayed regular Cauchy tail after the splice depth.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyFiniteSpliceUp.RegularCauchyFiniteSpliceTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked splice-depth admission, finite-prefix replacement locality, boundary-window alignment, dyadic tolerance exactness, tail readback stability, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFiniteSpliceUp.}
+\end{closurestatus}

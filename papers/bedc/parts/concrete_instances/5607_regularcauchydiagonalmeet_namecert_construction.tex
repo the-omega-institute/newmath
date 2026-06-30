@@ -56,6 +56,23 @@ The shared-bound route is first read through $M$ and then consumed by $T$. This 
 Next the witness route is exposed through $E$, and the diagonal window coverage is exposed through $W$. Only after these rows have been displayed can $Q$ be consumed. Thus every comparison read factors through the stated finite route, with $H,C,P,N$ carrying transport, replay, provenance, and naming.
 \end{proof}
 
+\begin{theorem}[RegularCauchyDiagonalMeet transport induction]
+\label{thm:regular-cauchy-diagonal-meet-transport-induction}
+Let an accepted $\RegularCauchyDiagonalMeetUp$ carrier display the rows $M,T,E,W,Q$ and the componentwise transport row $H$ of \autoref{def:regular-cauchy-diagonal-meet-carrier}. If the shared modulus, tail meet, witness envelope, diagonal coverage, and comparison rows are transported componentwise along $H$, then every consumer route to the comparison row still factors through
+$$
+M \longmapsto T \longmapsto E \longmapsto W \longmapsto Q.
+$$
+The transported packet therefore preserves the displayed diagonal route without identifying quotient streams, selecting limits, or asserting host RealUp equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalMeetUp.RegularCauchyDiagonalMeetTransportInduction}
+\begin{proof}
+Induct over the finite continuation route displayed in the carrier. The base read is the shared modulus row $M$; transporting it by the corresponding component of $H$ keeps the same shared-bound coordinate and supplies the first node of the route.
+
+For the tail-meet, witness-envelope, and diagonal-coverage steps, use the next component of $H$ together with the carrier rows $T,E,W$. Each step replaces only the visible row by an $\hsame$-transported row while preserving the continuation order recorded by $C$.
+
+At the final comparison step, apply the shared-threshold factorization theorem above. Since every transported read has already replayed $M,T,E,W$, the transported comparison row $Q$ is still reached through the same displayed route. No step introduces a quotient stream equality, selected limit, or host equality coordinate, because those objects are absent from the carrier.
+\end{proof}
+
 \begin{theorem}[RegularCauchyDiagonalMeet non-escape]
 \label{thm:regular-cauchy-diagonal-meet-nonescape}
 An accepted $\RegularCauchyDiagonalMeetUp$ carrier exports only the finite rows $T,M,E,W,Q,H,C,P,N$ of \autoref{def:regular-cauchy-diagonal-meet-carrier}. It exports no quotient stream equality, host real equality, selected limit, countable-choice diagonal selector, analytic completeness theorem, or ambient RealUp completion principle.
@@ -69,13 +86,50 @@ Apply the local NameCert obligations. They force every accepted read to remain i
 The excluded objects would require carrier coordinates or continuation routes not present in $D$. Since the packet contains only finite BEDC rows and their structural provenance, no downstream consumer can recover quotient streams, host equality, selected limits, choice selectors, analytic completeness, or an ambient completion principle from it.
 \end{proof}
 
+\begin{theorem}[RegularCauchyDiagonalMeet obligation closure]
+\label{thm:regular-cauchy-diagonal-meet-obligation-closure}
+The carrier of \autoref{def:regular-cauchy-diagonal-meet-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-diagonal-meet-namecert-obligations}, the shared-threshold factorization of \autoref{thm:regular-cauchy-diagonal-meet-shared-threshold-factorization}, the transport induction of \autoref{thm:regular-cauchy-diagonal-meet-transport-induction}, the non-escape theorem of \autoref{thm:regular-cauchy-diagonal-meet-nonescape}, and the ChapterTasteGate single-carrier rows for field faithfulness and nontriviality exhaust the paper-side obligation surface for the diagonal meet route.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalMeetUp.RegularCauchyDiagonalMeetObligationClosure}
+\begin{proof}
+Project an accepted carrier
+$$
+D=(T,M,E,W,Q,H,C,P,N).
+$$
+The carrier definition displays exactly the tail-meet, shared-modulus, witness-envelope, diagonal-window, comparison, transport, continuation, provenance, and local naming rows available to a consumer.
+
+The NameCert obligations force every accepted read through those rows. The shared-threshold factorization orders the comparison route as $M,T,E,W,Q$, while the transport induction preserves the same route under componentwise $\hsame$. The TasteGate rows read the same displayed carrier as field-faithful and nontrivial, so they add no hidden classifier or second carrier.
+
+Finally apply non-escape. Quotient stream equality, host Real equality, selected limits, countable-choice diagonal selectors, analytic completeness, and ambient RealUp completion have no coordinate in $D$. Therefore no further obligation remains inside the displayed diagonal meet packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDiagonalMeet scoped consumer boundary]
+\label{thm:regular-cauchy-diagonal-meet-scoped-consumer-boundary}
+Every completion-facing consumer of an accepted $\RegularCauchyDiagonalMeetUp$ carrier $D=(T,M,E,W,Q,H,C,P,N)$ reads the exact route
+$$
+M \longmapsto T \longmapsto E \longmapsto W \longmapsto Q.
+$$
+The scope of this boundary is limited to $\RegularCauchyTailMeetUp$, $\CauchyModulusMeetUp$, $\CauchyTailWitnessEnvelopeUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It refuses quotient streams, selected limits, countable-choice diagonal selectors, analytic completeness, and ambient $\RealUp$ completion.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalMeetUp.RegularCauchyDiagonalMeetScopedConsumerBoundary}
+\begin{proof}
+Use the shared-threshold factorization theorem to force every comparison read through $M,T,E,W,Q$. The transport induction theorem keeps that same route stable under the componentwise $\hsame$ rows in $H$.
+
+The non-escape theorem rules out quotient streams, selected limits, countable-choice diagonal selectors, analytic completeness, and ambient completion rows. The obligation-closure theorem then identifies the remaining consumer surface with the displayed carrier, its replay, provenance, and local naming rows.
+
+Thus the boundary is exactly the listed finite route over $\RegularCauchyTailMeetUp$, $\CauchyModulusMeetUp$, $\CauchyTailWitnessEnvelopeUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
+The public diagonal-meet export is the scoped consumer route of \autoref{thm:regular-cauchy-diagonal-meet-scoped-consumer-boundary} together with the checked ChapterTasteGate carrier surface.
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalMeetUp.taste\_gate}
+
 \begin{closurestatus}{\RegularCauchyDiagonalMeetUp}
   \constructivestory{A $\RegularCauchyDiagonalMeetUp$ packet is generated from finite $\BHist$ rows for a regular-Cauchy tail meet, shared modulus meet, witness envelope, diagonal-window coverage, shared-threshold comparison, transports, continuations, provenance, and local naming. The Real-completion-facing comparison is routed by $\Cont$ through the shared modulus, tail meet, witness envelope, and diagonal coverage rows before $Q$ is exposed. Componentwise $\hsame$ preserves the same tail, modulus, envelope, coverage, and comparison rows, while $\Pkg$ records the tail-meet, modulus-meet, witness-envelope, diagonal-window, and Real dependencies. The packet is a finite diagonal meet, not completion.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy diagonal-meet carrier, NameCert obligations, shared-threshold factorization, and non-escape theorem.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{This chapter binds the regular Cauchy diagonal-meet carrier, NameCert obligations, obligation closure, non-escape theorem, and scoped consumer boundary over $\RegularCauchyTailMeetUp$, $\CauchyModulusMeetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim quotient stream equality, host real equality, selected limits, countable-choice diagonal selectors, analytic completeness, or ambient RealUp completion.}
-  \upgradepath{Obligation closure requires Lean encodings of the diagonal-meet carrier, shared-threshold route, componentwise transport, and non-escape theorem.}
+  \upgradepath{The next paper-axis target is a bridge route beyond the public diagonal-meet export, still without adding RealUp completeness, quotient streams, selected limits, or choice selectors.}
 \end{closurestatus}

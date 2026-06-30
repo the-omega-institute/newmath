@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\TietzeExtensionFiniteStepUp$}
+\label{ch:concrete-instances-tietze-extension-finite-step-namecert}
+\origin{human}
+
+Following Tietze and Urysohn, the $\TietzeExtensionFiniteStepUp$ packet isolates one finite bounded correction stage inside the Tietze route. It reads the normal-space separation source of \autoref{ch:concrete-instances-normalspace-namecert}, the Urysohn separator certificate of \autoref{ch:concrete-instances-urysohn-lemma-namecert}, the graph replay surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the bounded value seal of \autoref{ch:concrete-instances-real-namecert}, and the full extension route of \autoref{ch:concrete-instances-tietze-extension-namecert}. The packet also keeps the zero and cozero boundary discipline visible through \autoref{ch:concrete-instances-zero-set-namecert} and \autoref{ch:concrete-instances-cozero-set-namecert}. It names only one displayed correction row, not the full extension theorem.
+
+\begin{definition}[Tietze finite-step carrier]
+\label{def:tietze-extension-finite-step-carrier}
+A $\TietzeExtensionFiniteStepUp$ carrier is a finite $\BHist$ packet
+$$
+S=(N,D,B,U,M,G,R,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NormalSpaceUp$ source row, exposing the ambient topology and the closed-pair separation discipline used by the correction stage.
+\item $D$ is the closed-domain row on which the current bounded partial extension is compared with the input data.
+\item $B$ is the bounded $\RealUp$ interval row for the current error scale, including endpoint bounds for the stage.
+\item $U$ is one $\UrysohnLemmaUp$ separator and correction row. It records the closed positive and negative error regions, the separator graph, and the bounded correction amplitude.
+\item $M$ is the $\ContinuousMapUp$ row for the current partial graph before the correction is applied.
+\item $G$ is the corrected $\ContinuousMapUp$ graph row after adding the Urysohn correction to the current partial graph.
+\item $R$ is the $\RealUp$ seal row for the corrected values and the decreased error bound.
+\item $H$ records componentwise $\hsame$ transport for the normal-space source, closed-domain row, bounded interval, separator row, current graph, corrected graph, Real seal, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from a finite-step request through $N,D,B,U,M,G,R,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\TietzeExtensionFiniteStepUp$, $\NormalSpaceUp$, $\UrysohnLemmaUp$, $\ContinuousMapUp$, $\RealUp$, $\ZeroSetUp$, $\CozeroSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\TietzeExtensionFiniteStepUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $N,D,B,U,M,G,R,H,K,P,L$. It has no coordinate for the completed Tietze extension, selected complements, excluded middle, host function extensionality, open-cover compactness, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Tietze finite-step NameCert obligations]
+\label{thm:tietze-extension-finite-step-namecert-obligations}
+For every accepted $\TietzeExtensionFiniteStepUp$ carrier
+$$
+S=(N,D,B,U,M,G,R,H,K,P,L),
+$$
+the local $\NameCert_{\TietzeExtensionFiniteStepUp}$ surface consists exactly of carrier admission, closed-domain exposure, separator-stage routing, endpoint agreement, bounded-error decrease, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:tietze-extension-finite-step-carrier}. The accepted packet displays exactly the normal-space source, closed-domain row, bounded interval, one Urysohn correction row, current graph, corrected graph, Real seal, and structural support.
+
+Closed-domain exposure is read through $N$ and $D$. A finite correction stage may compare the current graph with the input data only after the displayed closed-domain row is available over the same normal-space source.
+
+Separator-stage routing is the projection to $U$. The correction amplitude and the separating graph are supplied by the $\UrysohnLemmaUp$ row, so no selected complement or excluded-middle branch can be consumed.
+
+Endpoint agreement and bounded-error decrease are read through $M,G,B,R$. The current and corrected graphs are both $\ContinuousMapUp$ rows, while the Real seal records that the corrected graph remains inside the bounded interval and decreases the displayed error scale.
+
+Transport, replay, provenance, and naming are exhausted by $H,K,P,L$. Since the classifier has no further coordinate, the listed rows are the whole local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Tietze finite-step Urysohn stage]
+\label{thm:tietze-extension-finite-step-urysohn-stage}
+Every correction-stage consumer of an accepted $\TietzeExtensionFiniteStepUp$ packet factors through
+$$
+\NormalSpaceUp \longrightarrow \UrysohnLemmaUp \longrightarrow \ContinuousMapUp \longrightarrow \RealUp
+$$
+before the surrounding $\TietzeExtensionUp$ route can consume the corrected graph. The stage exports a bounded corrected graph and an error-decrease row, not a completed extension theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(N,D,B,U,M,G,R,H,K,P,L)$. The normal-space source $N$ and closed-domain row $D$ must be visible before a correction request has a domain on which the current error can be read.
+
+The next row is $U$. It is the unique Urysohn separator and correction coordinate in the packet, so every correction-stage consumer reaches the separator through $\NormalSpaceUp$ and $\UrysohnLemmaUp$.
+
+The corrected graph is then read through $M$ and $G$. Both are $\ContinuousMapUp$ graph rows, and their agreement along the displayed domain is preserved by the structural rows.
+
+Finally $B$ and $R$ supply the $\RealUp$ boundary for the decreased error scale. Only after these rows are displayed may the surrounding $\TietzeExtensionUp$ carrier consume the corrected graph as one ladder stage.
+\end{proof}
+
+\closureat{TietzeExtensionFiniteStepUp}{seedStr}
+
+\begin{closurestatus}{\TietzeExtensionFiniteStepUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tietze-extension-finite-step-carrier}, \autoref{thm:tietze-extension-finite-step-namecert-obligations}, and \autoref{thm:tietze-extension-finite-step-urysohn-stage} seed the finite bounded Urysohn correction stage inside the Tietze extension route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full Tietze extension theorem, host function extensionality, selected complements, excluded middle, open-cover compactness, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-domain exposure, separator-stage routing, endpoint agreement, bounded-error decrease, transport, replay, provenance, and local naming for BEDC.Derived.TietzeExtensionFiniteStepUp.}
+  \constructivestory{A $\TietzeExtensionFiniteStepUp$ packet is generated from a normal-space source row, closed-domain row, bounded Real interval row, one Urysohn separator row, current and corrected ContinuousMap graph rows, a Real error seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

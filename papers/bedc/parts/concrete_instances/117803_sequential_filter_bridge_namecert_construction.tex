@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\SequentialFilterBridgeUp$}
+\label{ch:concrete-instances-sequential-filter-bridge-namecert}
+\origin{human}
+
+Following Bourbaki on Cauchy filters and Bishop--Bridges on regular Cauchy sequences, the $\SequentialFilterBridgeUp$ packet records the finite bridge by which sequence-indexed Cauchy data is read as filter-style completion data without quotienting representatives. It sits between the finite $\StreamNameUp$ window route of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular-rational tail route of \autoref{ch:concrete-instances-regseqrat-namecert}, the saturated $\CauchyFilterUp$ surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the $\CauchyFilterBaseUp$ basis route of \autoref{ch:concrete-instances-cauchy-filter-base-namecert}, and the separated completion boundary of \autoref{ch:concrete-instances-hausdorffcompletion-namecert}. The bridge exposes only displayed tails, finite windows, basis refinements, Cauchy-filter reads, separated-completion checks, transport, replay, provenance, and local naming rows; it does not add a quotient stream, selected representative, countable-choice schedule, host equality of limits, or ambient completeness.
+
+\begin{definition}[Sequential-filter bridge carrier]
+\label{def:sequential-filter-bridge-carrier}
+A $\SequentialFilterBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,R,T,F,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming exactly which sequence indices are inspected.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row for the inspected tail values and tolerances.
+\item $T$ is the sequential tail ledger recording unary tail bounds, tail inclusions, and finite requests made after a chosen depth.
+\item $F$ is the $\CauchyFilterUp$ row generated from those tail requests.
+\item $A$ is the $\CauchyFilterBaseUp$ row listing the finite basis refinements used by $F$.
+\item $Q$ is the $\HausdorffCompletionUp$ separated-completion boundary read after $S,R,T,F,A$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the stream-window, regular-readback, tail, filter, base, and separated-completion rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the sequence windows, regular tails, generated filter, basis refinements, separated boundary, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\SequentialFilterBridgeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\CauchyFilterBaseUp$, $\HausdorffCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialFilterBridgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient representatives, selected subsequences, selected filter points, countable choice, host equality of Cauchy names, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Sequential-filter bridge NameCert obligations]
+\label{thm:sequential-filter-bridge-namecert-obligations}
+For every accepted $\SequentialFilterBridgeUp$ carrier
+$$
+B=(S,R,T,F,A,Q,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialFilterBridgeUp}$ surface consists exactly of StreamName finite-window admission through $S$, RegSeqRat regular-tail readback through $R$, sequential tail-budget exposure through $T$, CauchyFilter generation through $F$, CauchyFilterBase refinement through $A$, HausdorffCompletion separated-boundary exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-filter-bridge-carrier}. The sequence-facing rows are $S,R,T$, the filter-facing rows are $F,A,Q$, and the structural rows are $H,C,P,N$.
+
+The sequence rows expose the finite means of the bridge. A completion request can inspect only the StreamName windows named by $S$, the regular rational readback supplied by $R$, and the tail-budget ledger $T$ that says which later requests those windows answer.
+
+The filter rows then consume that same displayed tail data. The generated Cauchy filter row $F$ and basis row $A$ are downstream of $S,R,T$, while the separated completion boundary $Q$ is downstream of the filter-style read. The structural rows preserve the same dependency, so no quotient representative, selected filter point, countable-choice schedule, host equality, or ambient completeness object can appear in the local certificate.
+\end{proof}
+
+\begin{theorem}[Sequential-filter finite-window induction]
+\label{thm:sequential-filter-bridge-finite-window-induction}
+Let $B=(S,R,T,F,A,Q,H,C,P,N)$ be an accepted $\SequentialFilterBridgeUp$ carrier. Every Cauchy-filter or Cauchy-filter-base read exported by $B$ is obtained by induction on finite $\StreamNameUp$ windows and $\RegSeqRatUp$ tail rows: the base read uses the displayed initial window and tail budget, and each successor read extends the same tail ledger before exposing the corresponding $\CauchyFilterUp$ and $\CauchyFilterBaseUp$ rows. The terminal $\HausdorffCompletionUp$ boundary is readable only after that finite induction has displayed $S,R,T,F,A$.
+\end{theorem}
+\begin{proof}
+The base step reads the first displayed finite window in $S$ together with the matching regular tail row in $R$. The tail ledger $T$ records that this finite observation already answers the initial filter request, so the generated $F$ and basis row $A$ have a visible source.
+
+For the successor step, extend the inspected window by one finite tail request. The $\StreamNameUp$ row records the new index set, the $\RegSeqRatUp$ row records the corresponding regular readback and tolerance, and $T$ appends the tail-budget comparison without changing the earlier rows.
+
+The filter-style read is then rebuilt from the extended finite data. The $\CauchyFilterUp$ row $F$ consumes the extended tail request, the $\CauchyFilterBaseUp$ row $A$ records the basis refinement, and transport through $H$ plus replay through $C$ preserve the same finite route.
+
+Thus every exported filter-style completion read is reached by finite induction on displayed sequence windows and regular tail rows. Since $Q$ is downstream of $F$ and $A$, the $\HausdorffCompletionUp$ boundary cannot be read before the induction has exposed the sequence-to-filter route.
+\end{proof}
+
+\begin{theorem}[Sequential-filter representative nonescape]
+\label{thm:sequential-filter-bridge-representative-nonescape}
+Every completion-facing consumer of an accepted $\SequentialFilterBridgeUp$ carrier factors through
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyFilterUp \longmapsto \CauchyFilterBaseUp \longmapsto \HausdorffCompletionUp .
+$$
+The bridge exports a finite route from sequential Cauchy data to filter-style completion data, not a quotient class, selected representative, hidden limit, host equality proof, countable-choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations and the finite-window induction theorem. They force any completion-facing read to expose $S,R,T$ before $F,A,Q$ are public.
+
+The displayed route is therefore sequence first, filter second, and separated completion last. The carrier has no row that can store a quotient class, selected representative, hidden limit, host equality proof, choice schedule, or ambient completeness witness.
+
+Consequently every completion consumer receives only the finite bridge rows and their structural transport, replay, provenance, and local naming data.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SequentialFilterBridgeUp$ read is refuted if a $\CauchyFilterUp$, $\CauchyFilterBaseUp$, or $\HausdorffCompletionUp$ consumer reaches its row without first displaying the corresponding $\StreamNameUp$ window, $\RegSeqRatUp$ tail readback, and finite tail ledger.}
+
+\independenceWitness{streamname, regseqrat, cauchyfilter, cauchyfilterbase, hausdorffcompletion: none is bijective with $\SequentialFilterBridgeUp$ because the bridge jointly carries finite sequence windows, regular tail readback, tail budgets, generated Cauchy-filter rows, basis refinements, separated-completion boundary data, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{SequentialFilterBridgeUp}{seedStr}
+
+\begin{closurestatus}{\SequentialFilterBridgeUp}
+  \constructivestory{A $\SequentialFilterBridgeUp$ packet is generated from StreamName finite windows, RegSeqRat regular tail rows, sequential tail budgets, CauchyFilter generation, CauchyFilterBase refinements, HausdorffCompletion separated boundaries, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-filter-bridge-carrier}, \autoref{thm:sequential-filter-bridge-namecert-obligations}, \autoref{thm:sequential-filter-bridge-finite-window-induction}, and \autoref{thm:sequential-filter-bridge-representative-nonescape} seed the finite sequence-to-filter completion bridge over StreamName windows, RegSeqRat tails, CauchyFilter rows, CauchyFilterBase refinements, and HausdorffCompletion boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, host equality of limits, countable choice, ambient completeness, Lean verification, axiom-clean audit, or bridge checking for $\SequentialFilterBridgeUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window exposure, RegSeqRat tail readback, finite-window induction, CauchyFilter generation, CauchyFilterBase refinement, HausdorffCompletion boundary nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SequentialFilterBridgeUp.}
+\end{closurestatus}

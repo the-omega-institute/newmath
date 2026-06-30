@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-12T22:50:28.746960+00:00",
+    "generated_at": "2026-06-15T17:58:08.027224+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "4b0cb01bd585aefc5edfa29d7f6061bb98590412ac1b54fe95742e406c554989",
+  "input_fingerprint": "91781160ec5ec9cd91d3dcb946902450f554a21c72150af19b4e4402fd2d9edc",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -16,11 +16,15 @@
     "producer_sources": [
       {
         "path": "bedc_quality_lab/dgt_base_undertraining_audit.py",
-        "sha256": "1aa2c6703083509de0225800db3cc01c182b7957f233b78b0573d641b8155e02"
+        "sha256": "55b6639d21cbfa9c25e5296d6ca92a75eb3a66c35c654f1cba213114931b57bc"
+      },
+      {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "scripts/run_dgt_base_undertraining_audit.py",
-        "sha256": "8f902f267c7317405c5c297e5721a9f92c6e6bf45d924a7e67774dfa317c3d61"
+        "sha256": "682b1f23b8f19ca191ac0ca369314b407e65b8bb30646ef6804f3bd57182897c"
       }
     ],
     "report_output_schema_id": "schema-unspecified",
@@ -37,11 +41,19 @@
     "source_artifacts": [
       {
         "path": "reports/canonical/dgt-l1-controls.json",
-        "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4"
+        "sha256": "2a1575f5d571bb07aafa25346dbe6d57dcec9b0cded253395544b4410a29f360"
       },
       {
         "path": "reports/canonical/input-accessibility.json",
         "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl",
+        "sha256": "31c6865f5ee34bbf661843f64cd1fbd13f17a2e9ed89b313e5365cf04df22191"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "sha256": "a5d3100c47768218d069a3d310a7a2660733eb096d9c7d3ed970232192d06590"
       }
     ],
     "spec": {
@@ -59,7 +71,11 @@
         "full-lejepa",
         "global-quality",
         "full-tensor-namecert",
-        "llm-behavior"
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
       ],
       "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "literature_ref_ids": [],

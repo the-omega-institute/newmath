@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRealObserverUp$}
+\label{ch:concrete-instances-finite-real-observer-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite rational observations of real numbers, the $\FiniteRealObserverUp$ packet records the finite observation window through which a Real-facing reader inspects a regular Cauchy name. It sits beside the finite schedule of \autoref{ch:concrete-instances-finite-stream-namecert}, the StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite observation route; it is not a host real, not a quotient equality of names, not a selected limit, and not a completeness theorem.
+
+\begin{definition}[Finite real observer carrier]
+\label{def:finite-real-observer-carrier}
+A $\FiniteRealObserverUp$ carrier is a finite $\BHist$ packet
+$$
+O=(Q,L,W,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite request row listing the real-name observations being asked for;
+\item $L$ is the list schedule row, read through a $\FiniteStreamUp$ prefix surface for the requested observations;
+\item $W$ is the $\StreamNameUp$ finite-window row selected by $Q$ and $L$;
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the selected window;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the readback;
+\item $H$ records componentwise $\hsame$ transport for the request, list schedule, window, readback, tolerance, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from the request through the finite window and readback rows;
+\item $P$ is the $\Pkg$ provenance over $\FiniteRealObserverUp$, $\FiniteStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteRealObserverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite observation trace, a host real, a quotient representative, a selected limit, or a Real equality principle outside the displayed finite route.
+\end{definition}
+
+\begin{theorem}[Finite real observer window soundness]
+\label{thm:finite-real-observer-window-soundness}
+Every accepted $\FiniteRealObserverUp$ packet exposes its Real-facing read through the finite route
+$$
+Q,L,W,R,D,H,C,P,N.
+$$
+Thus a $\RealUp$ consumer may inspect the requested window only after the finite request row, list prefix row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ tolerance rows have all been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-real-observer-carrier}. The request row $Q$ and list row $L$ determine the only finite observation schedule available to a consumer.
+
+Next read $W,R,D$. The window is a $\StreamNameUp$ row selected by the finite schedule, the readback is a $\RegSeqRatUp$ row attached to that window, and the tolerance ledger is a $\DyadicRatCoreUp$ row consumed by the same readback.
+
+Finally use $H,C,P,N$. Transport is componentwise, continuation replay follows the displayed finite route, provenance names the sibling surfaces, and the local NameCert row seals the packet. Since no other observation coordinate is present, a Real-facing read cannot bypass the displayed window route.
+\end{proof}
+
+\begin{theorem}[Finite real observer NameCert obligations]
+\label{thm:finite-real-observer-namecert-obligations}
+For the carrier of \autoref{def:finite-real-observer-carrier}, the local $\NameCert_{\FiniteRealObserverUp}$ surface consists of carrier admission for $O=(Q,L,W,R,D,H,C,P,N)$, finite request admission, list prefix admission, StreamName window admission, RegSeqRat readback admission, DyadicRatCore tolerance admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+No obligation can be discharged by reading an ambient infinite stream, a host real, a quotient representative, a selected limit, or a completeness principle outside those rows.
+\end{theorem}
+\begin{proof}
+Read the rows of the carrier. The finite request and list rows $Q,L$ are the only schedule data, so every observation obligation begins there.
+
+The analytic rows are then forced in order. The StreamName row $W$ supplies the finite window, the RegSeqRat row $R$ ties that window to a regular rational readback, and the DyadicRatCore row $D$ supplies the displayed tolerance data.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly that route. The refused host objects are not coordinates of $O$, so they cannot satisfy a local naming obligation for $\FiniteRealObserverUp$.
+\end{proof}
+
+\begin{theorem}[Finite real observer Real readback route]
+\label{thm:finite-real-observer-real-readback-route}
+Every $\RealUp$ readback route that consumes an accepted $\FiniteRealObserverUp$ packet factors through \autoref{ch:concrete-instances-finite-stream-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before the terminal Real seal is read. In carrier terms, the rows $Q,L,W,R,D,H,C,P,N$ remain attached to one finite observation window throughout the readback.
+\end{theorem}
+\begin{proof}
+Start with window soundness, \autoref{thm:finite-real-observer-window-soundness}. It makes every Real-facing read expose $Q,L,W,R,D$ before the structural rows are consumed.
+
+Use the sibling chapters as the route sources. The finite stream chapter supplies the list prefix surface, StreamName supplies the finite window, RegSeqRat supplies regular readback, DyadicRatCore supplies the tolerance ledger, and Real supplies only the terminal seal reached through those rows.
+
+The NameCert obligations of \autoref{thm:finite-real-observer-namecert-obligations} then keep transport, replay, provenance, and local naming on the same packet. Hence the readback route is finite and displayed, not a host real, quotient equality, selected limit, or completeness claim.
+\end{proof}
+
+\falsifiablePrediction{Any Real-facing read that omits the finite request row or list prefix row is not a FiniteRealObserverUp carrier read.}
+
+\independenceWitness{finite-stream, streamname, regseqrat, dyadicratcore, real: FiniteStreamUp supplies schedules without regular rational readback; StreamNameUp supplies windows without the full request and Real readback route; RegSeqRatUp supplies regular rational names without the observer schedule; DyadicRatCoreUp supplies tolerance rows without the Real-facing observation packet; RealUp supplies the seal boundary without the finite request ledger. None is bijective to $\FiniteRealObserverUp$.}
+
+\closureat{FiniteRealObserverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRealObserverUp}
+  \constructivestory{A $\FiniteRealObserverUp$ packet is generated from a finite request row, list prefix schedule, StreamName finite window, RegSeqRat readback, DyadicRatCore tolerance ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-real-observer-carrier}, \autoref{thm:finite-real-observer-window-soundness}, \autoref{thm:finite-real-observer-namecert-obligations}, and \autoref{thm:finite-real-observer-real-readback-route} seed the finite observation-window bridge for Real and completion-phase readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, Real completeness, quotient equality of names, selected limits, host real equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite request soundness, list-prefix accountability, StreamName window soundness, RegSeqRat readback, DyadicRatCore tolerance routing, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteRealObserverUp.}
+\end{closurestatus}

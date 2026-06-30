@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedMonotoneSequenceUp$}
+\label{ch:concrete-instances-bounded-monotone-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BoundedMonotoneSequenceUp$ packet names the finite data by which a monotone real sequence and its displayed bounds are read by Real-and-Completion consumers. It sits after the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the apartness-facing real comparison route of \autoref{ch:concrete-instances-apartnessreal-namecert}. The packet records bounded monotonicity as a NameCert surface, not as a completeness theorem or a selected limit.
+
+\begin{definition}[Bounded monotone sequence carrier]
+\label{def:bounded-monotone-sequence-carrier}
+A $\BoundedMonotoneSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,R,M,U,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row naming the finite observation schedule for the sequence.
+\item $W$ is the family of finite stream windows inspected by Real and Completion consumers.
+\item $R$ is the $\RegSeqRatUp$ comparison-tail ledger attached to those windows.
+\item $M$ is the monotone-step row, recording the displayed adjacent or tail comparison used by the sequence direction.
+\item $U$ is the upper-bound row, read through the same regular-rational tail ledger.
+\item $L$ is the lower-bound row, retained for apartness and interval-facing consumers even when the monotone direction only needs one bound.
+\item $E$ is the terminal $\RealUp$ seal row for the sequence values and bound endpoints.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, regular tails, monotone rows, bound rows, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from stream-window reads through regular-rational comparison tails and then to the Real seal rows.
+\item $P$ is the $\Pkg$ provenance over $\BoundedMonotoneSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ApartnessRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedMonotoneSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected supremum, a convergent subsequence, Bolzano--Weierstrass, quotient real equality, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bounded monotone sequence NameCert obligations]
+\label{thm:bounded-monotone-sequence-namecert-obligations}
+For every accepted $\BoundedMonotoneSequenceUp$ carrier $B=(S,W,R,M,U,L,E,H,C,P,N)$, the local $\NameCert_{\BoundedMonotoneSequenceUp}$ surface consists exactly of carrier admission, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ comparison-tail readback, monotone-step exposure, upper-bound and lower-bound row exposure, terminal $\RealUp$ seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-monotone-sequence-carrier}. The sequence is visible only through the stream row $S$ and the finite windows $W$, so no consumer can inspect an unbounded host sequence directly.
+
+The comparison data are the regular-rational tail row $R$ together with the monotone-step row $M$ and the bound rows $U,L$. These rows expose bounded monotonicity before any Real endpoint is read.
+
+The Real seal row $E$ is downstream from the displayed stream and regular-tail data. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Bounded monotone sequence comparison-tail route]
+\label{thm:bounded-monotone-sequence-comparison-tail-route}
+Every Real-and-Completion consumer of an accepted $\BoundedMonotoneSequenceUp$ packet reads the route
+$$
+S,W
+\longmapsto
+R
+\longmapsto
+M,U,L
+\longmapsto
+E
+$$
+together with $H,C,P,N$. The route may expose bounded monotone comparison data to completion-facing consumers, but it does not export a limit, a least upper bound, a convergent subsequence, or a Bolzano--Weierstrass conclusion.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window stage. The only sequence observations are the windows $W$ named by the $\StreamNameUp$ row $S$.
+
+Next read the $\RegSeqRatUp$ comparison tails. The monotone row $M$ and the bound rows $U,L$ are meaningful only after those regular-rational tails have been displayed.
+
+Finally the $\RealUp$ seal row $E$ records the sequence values and bound endpoints reached by the same tail route. Since no carrier coordinate names a limit, supremum, subsequence selection, or compactness principle, the consumer obtains only the bounded-monotone packet surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BoundedMonotoneSequenceUp$ read is refuted if the monotone row $M$ is preserved while the StreamName windows $W$ or RegSeqRat comparison tails $R$ are removed.}
+
+\independenceWitness{streamname, regseqrat, real, apartnessreal: the stream packet supplies finite windows without monotone and bound rows; the regular rational route supplies tail readback without the Real seal; the Real packet supplies endpoint seals without sequence monotonicity; and apartness-facing comparison packets do not jointly carry bounded monotone sequence windows.}
+
+\closureat{BoundedMonotoneSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedMonotoneSequenceUp}
+  \constructivestory{A $\BoundedMonotoneSequenceUp$ packet is generated from finite StreamName windows, RegSeqRat comparison tails, monotone-step rows, upper and lower bound rows, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-monotone-sequence-carrier}, \autoref{thm:bounded-monotone-sequence-namecert-obligations}, and \autoref{thm:bounded-monotone-sequence-comparison-tail-route} seed the bounded monotone sequence surface over StreamName, RegSeqRat, RealUp, apartness-facing comparison, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, selected limits, least upper bounds, convergent subsequences, Bolzano--Weierstrass, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, comparison-tail readback, monotone-step exposure, bound-row exposure, RealUp seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.BoundedMonotoneSequenceUp.}
+\end{closurestatus}

@@ -1,0 +1,25 @@
+\begin{theorem}[MetaCIC residual-diamond source-package budget]
+\label{thm:metacic-critical-path-residual-diamond-source-package-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any residual-diamond consumer or candidate-SN consumer of $K$ must expose the L10 source package
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp,
+$$
+together with the residual-substitution rows, local residual-join rows, substitution-residual rows, bounded local-confluence rows, obstruction row $O$, discharge socket $D$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $L$ before it claims a discharge. The budget is a route-exhaustion condition over displayed NameCert rows; it is not a source-equivalence transport theorem and it exports no global strong-normalization theorem, global confluence theorem, beta-conversion decision procedure, quotient term equality, selected limit, ambient $\RealUp$ completeness principle, or kernel consistency claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondSourcePackageBudget}
+\begin{proof}
+Start with the carrier of \autoref{def:metacic-critical-path-packet}. The public packet rows are exactly $S,N,O,U,D,H,C,P,L$, with $O$ and $D$ kept visible as the obstruction row and discharge socket.
+
+Read the L10 source package through the existing critical-path scope. The mature source surface names $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as the source faces that must be displayed before Real-facing or completion-facing consumers inspect the route.
+
+Now inspect the residual and candidate sides. The residual-substitution rows, local residual-join rows, substitution-residual rows, and bounded local-confluence rows are all consumed through the same finite NameCert packet; the candidate-SN row may use that budget only while the obstruction, socket, transport, replay, provenance, and local naming rows remain attached.
+
+Thus every residual-diamond or candidate-SN discharge claim is exhausted by the displayed source package and residual rows. Since no displayed coordinate carries global SN, global confluence, beta-decidability, quotient term equality, selected limits, ambient Real completeness, or kernel consistency, none of those objects is exported by the budget.
+\end{proof}

@@ -1,0 +1,237 @@
+\section{Prime Charge, Parity, and Phase Dictionary}
+\label{sec:unified-reality-prime-charge-parity-phase-dictionary}
+
+The parity closure route benefits from a sharper projection dictionary.
+The three primary reads are not parity, energy, and an unspecified
+third observable.  The more stable triad is prime charge, parity, and
+phase.  Energy is a derived second-order observable: it is the square
+readout of a failure of these three rows to close.
+
+\begin{definition}[Prime charge, parity, and phase projections]
+\label{def:unified-reality-prime-charge-parity-phase-projections}
+The \emph{prime charge--parity--phase dictionary} assigns the three
+ontic roles to their zeta-facing projections as follows:
+\begin{center}
+\begin{tabular}{p{0.23\linewidth}p{0.28\linewidth}p{0.38\linewidth}}
+\textbf{Ontic role} & \textbf{Primary projection} & \textbf{Zeta read}\\
+Distinction or primality & prime charge, label, fibre & $p$, $v_p$, $S$, $(p,j)$, $\prod_{p\in S}\mathbb Z_p$\\
+Symmetry or unit boundary & parity, mirror, unit circle & $J(s)=1-\overline{s}$ and $\delta\mapsto-\delta$\\
+Time or recursion & phase, action, routing & $e^{-i\tau h_a}$ and $\mathcal R:X\to X$
+\end{tabular}
+\end{center}
+For a node $a=(p,j)$, the prime charge determines the positive height
+$$
+h_a:=2^j\log p.
+$$
+For $s=1/2+\delta+i\tau$, the local channel is
+$$
+U_a(s):=e^{-(s-1/2)h_a}
+=
+e^{-\delta h_a}e^{-i\tau h_a}.
+$$
+\end{definition}
+
+\begin{definition}[Prime charge]
+\label{def:unified-reality-prime-charge}
+The \emph{prime charge} of a displayed resonance node is its discrete
+prime-register row.  In a finite prime family $S$, this register is read
+through the compact fibre
+$$
+\prod_{p\in S}\mathbb Z_p
+$$
+behind the solenoid projection
+$$
+\Sigma_S\twoheadrightarrow\mathbb T.
+$$
+It records which prime slice, valuation depth, or parity depth a node
+belongs to.  It is therefore a distinction read, not a real positive
+scale.
+\end{definition}
+
+\begin{theorem}[Prime charge determines the height ledger]
+\label{thm:unified-reality-prime-charge-determines-height-ledger}
+For every displayed node $a=(p,j)$, the prime charge determines the
+Hamiltonian height
+$$
+h_a=2^j\log p,
+$$
+and hence determines the normal defect and phase rows
+$$
+\log|U_a(s)|=-\delta h_a,
+\qquad
+\arg U_a(s)\equiv-\tau h_a\pmod{2\pi}.
+$$
+\end{theorem}
+
+\begin{proof}
+The node label $a=(p,j)$ records both the prime slice $p$ and the parity
+depth $j$.  The height row is therefore $h_a=2^j\log p$.  Substituting
+this into
+$$
+U_a(s)=e^{-\delta h_a}e^{-i\tau h_a}
+$$
+gives the modulus and argument readouts.
+\end{proof}
+
+\begin{definition}[Energy as derived closure-defect observable]
+\label{def:unified-reality-energy-derived-closure-defect-observable}
+For a finite active packet $A$, the first-order normal defect of a node
+is
+$$
+d_a(s):=\log|U_a(s)|=-\delta h_a.
+$$
+The associated energy is the second-order read
+$$
+\mathcal E_A(s):=\sum_{a\in A}d_a(s)^2.
+$$
+It is not a primary ontic projection.  It forgets the parity orientation
+of the defect and records only its magnitude.
+\end{definition}
+
+\begin{theorem}[Energy is the square of triadic closure failure]
+\label{thm:unified-reality-energy-square-triadic-closure-failure}
+For $s=1/2+\delta+i\tau$ and a finite active packet $A$,
+$$
+\mathcal E_A(s)
+=
+\delta^2\sum_{a\in A}h_a^2.
+$$
+Under the mirror $J(s)=1-\overline{s}$, the first-order defect changes
+sign, while the energy is unchanged.
+\end{theorem}
+
+\begin{proof}
+The defect formula gives $d_a(s)=-\delta h_a$, so
+$$
+\mathcal E_A(s)=\sum_{a\in A}\delta^2h_a^2
+=
+\delta^2\sum_{a\in A}h_a^2.
+$$
+The mirror sends $\delta$ to $-\delta$, so $d_a$ changes sign.  Squaring
+removes the sign, hence the energy is mirror-even.
+\end{proof}
+
+\begin{definition}[Triadic closure defect]
+\label{def:unified-reality-triadic-closure-defect}
+A \emph{triadic closure defect} for a zero-relevant packet is the
+failure of the prime-charge ledger, parity/unit-boundary row, and
+phase-routing row to close in one packet.  In the local zeta channel the
+defect has first-order read
+$$
+\Omega_a(s):=\log|U_a(s)|=-\delta h_a.
+$$
+The unit-boundary row is
+$$
+\Omega_a(s)=0,
+$$
+or equivalently
+$$
+|U_a(s)|=1.
+$$
+\end{definition}
+
+\begin{theorem}[Unit triadic closure forces the fixed-half row]
+\label{thm:unified-reality-unit-triadic-closure-forces-fixed-half}
+Let $a$ be a displayed node with $h_a>0$.  If
+$$
+|U_a(s)|=1
+$$
+for $s=1/2+\delta+i\tau$, then
+$$
+\delta=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The modulus read is
+$$
+|U_a(s)|=e^{-\delta h_a}.
+$$
+If this equals $1$, then
+$$
+-\delta h_a=0.
+$$
+Since $h_a>0$, the located real readout gives $\delta=0$.
+\end{proof}
+
+\begin{definition}[Oriented triadic closure tower]
+\label{def:unified-reality-oriented-triadic-closure-tower}
+An \emph{oriented triadic closure tower} for a critical-strip zero
+$s=1/2+\delta+i\tau$ is a zero-relevant recursive packet tower carrying:
+$$
+\mathsf{PrimeChargeLedger},
+\qquad
+\mathsf{ParityOddDefect},
+\qquad
+\mathsf{PhaseRouting},
+$$
+$$
+\mathsf{WindingCapture},
+\qquad
+\mathsf{SolenoidGaugeDiscipline},
+\qquad
+\mathsf{EnergyOrUnitBound}.
+$$
+The winding row records Rouch\'e or local-degree capture of the zero.
+The solenoid row permits phase and prime-register fibre information, but
+not a hidden real positive scale.  The energy or unit-bound row prevents
+the triadic closure defect from remaining nonzero along the tower.
+\end{definition}
+
+\begin{corollary}[Oriented triadic closure is a proof-role refinement]
+\label{cor:unified-reality-oriented-triadic-closure-proof-role-refinement}
+The oriented triadic closure tower refines the parity closure tower by
+separating the three primary projections from the derived energy
+observable.
+\end{corollary}
+
+\begin{proof}
+The parity closure tower of
+\autoref{def:unified-reality-zeta-parity-closure-tower-certificate}
+uses a signed defect $\Delta$, routing invariance, and parity oddness.
+The present dictionary identifies where these rows come from.  Prime
+charge supplies $h_a$, phase routing supplies $e^{-i\tau h_a}$ and the
+successor relation, and parity supplies the sign change
+$\delta\mapsto-\delta$.  Energy appears only after the first-order
+defect is squared.  Thus the oriented triadic tower keeps the primary
+projection data visible instead of treating energy as a primitive row.
+\end{proof}
+
+\begin{corollary}[Solenoid fibres carry charge but not real scale]
+\label{cor:unified-reality-solenoid-fibres-carry-charge-not-real-scale}
+The solenoid fibre is the natural carrier for prime charge, while the
+factor $e^{-\delta h_a}$ is a noncompact scale defect rather than a
+legal hidden charge.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-prime-charge}, the hidden fibre behind a
+finite solenoid phase projection is $\prod_{p\in S}\mathbb Z_p$.  This
+records prime-register information.  By
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character},
+a compact solenoid phase carrier has no nontrivial continuous positive
+real character.  Therefore the real factor $e^{-\delta h_a}$ cannot be
+absorbed into the prime-register fibre.  It is precisely the closure
+defect measured by
+\autoref{def:unified-reality-triadic-closure-defect}.
+\end{proof}
+
+\begin{corollary}[RH-facing use of the projection dictionary]
+\label{cor:unified-reality-rh-use-projection-dictionary}
+In the zeta route, the proof-relevant projections are prime charge,
+parity, phase routing, winding capture, and the derived energy bound.
+\end{corollary}
+
+\begin{proof}
+Prime charge determines the heights $h_a$.  Parity records the sign of
+$\delta$.  Phase routing records the unitary part
+$e^{-i\tau h_a}$ and the recursive successor structure.  Winding capture
+is required to make the packet zero-relevant rather than merely visible.
+Energy detects whether a nonzero triadic closure defect is being carried
+along a cofinal tower.  These are exactly the proof-role components
+named in
+\autoref{def:unified-reality-oriented-triadic-closure-tower}.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-prime-parity-phase-namecert}{PrimeParityPhaseUp realizes the prime-charge, parity, phase, height-ledger, and closure-defect rows as one finite NameCert packet.}

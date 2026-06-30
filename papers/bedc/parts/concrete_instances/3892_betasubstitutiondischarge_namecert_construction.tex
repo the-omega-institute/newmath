@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a full closed subject-reduction theorem, no global conversion oracle, no erased derivation representative, and no proof row for any non-beta discharge obligation.
 \end{definition}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischargeTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[BetaSubstitutionDischarge NameCert obligations]
 \label{thm:beta-substitution-discharge-namecert-obligations}
@@ -34,6 +35,7 @@ B=(G,d,b,a,c,s,h,r,p,n),
 $$
 the local $\NameCert_{\BetaSubstitutionDischargeUp}$ surface consists exactly of carrier admission for $B$, beta-redex source coverage through $G,d,b,a,c$, substitution-ledger exactness through $s$, componentwise $\hsame$ stability through $h$, displayed $\Cont$ replay through $r$, package provenance through $p$, and local naming through $n$. A consumer may use the packet only as the $\mathrm{BetaSubstitutionPreservation}$ row consumed by the beta case of the MetaCIC subject-reduction interface.
 \end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischarge\_namecert\_obligations}
 \begin{proof}
 Project the displayed carrier. The rows $G,d,b,a,c$ identify the context, domain, body typing, argument typing, and codomain data of one beta redex, while $s$ is the only substitution ledger in the packet.
 
@@ -46,6 +48,7 @@ Finally read $p$ and $n$ as provenance and local naming data. Since the carrier 
 \label{thm:beta-substitution-discharge-binder-boundary}
 For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, every binder-crossing read factors through the single substitution ledger $s$ together with the displayed $\BHist$ rows $G,d,b,a,c$. The route may preserve the rows through $h$ and replay them through $r$, but it cannot replace the binder boundary by host substitution, ambient conversion, quotient equality, or a closed subject-reduction theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischargeCarrier\_binder\_boundary}
 \begin{proof}
 Start with the binder data. The body row $b$ is typed only in the context obtained from $G$ by the displayed domain row $d$, and the argument row $a$ is typed only over the original context row $G$.
 
@@ -56,12 +59,53 @@ Transport through $h$ and replay through $r$ preserve that inventory. They may m
 The package row $p$ and local name row $n$ record the same boundary for downstream certificates, including the $\TypePreservingCompilerUp$ handoff. Hence the binder-crossing read remains the single beta-substitution discharge packet.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionDischarge component transport]
+\label{thm:beta-substitution-discharge-component-transport}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, every componentwise $\hsame$ transport recorded by $h$ preserves exactly the source context row $G$, displayed domain row $d$, body typing row $b$, argument typing row $a$, codomain row $c$, substitution ledger $s$, replay row $r$, provenance row $p$, and local naming row $n$. The transported packet therefore has the same beta-redex discharge surface and gains no host substitution rule, quotient equality, ambient conversion theorem, or closed subject-reduction row.
+\end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischargeCarrier\_component\_transport}
+\begin{proof}
+Project the carrier and read the transport row. The row $h$ is componentwise, so each move is attached to one displayed coordinate of $G,d,b,a,c,s,r,p,n$ rather than to an external substitution principle.
+
+The source, domain, body, argument, codomain, and substitution rows are therefore carried as the same finite beta-redex inventory. No transported coordinate adds a host substitution rule or quotient equality, because those objects are absent from the carrier.
+
+The replay, provenance, and naming rows are preserved with the same boundary. Hence the transported packet remains a $\BetaSubstitutionDischargeUp$ packet over the displayed beta-redex surface and not a closed subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionDischarge replay exactness]
+\label{thm:beta-substitution-discharge-replay-exactness}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, the displayed $\Cont$ replay row $r$ exposes only the beta-redex substituted-body read and the substituted-codomain read determined by $G,d,b,a,c$ and the substitution ledger $s$. It exposes no application-argument stability route, lambda-domain preservation route, Pi-domain preservation route, conversion oracle, quotient equality, or non-beta subject-reduction discharge.
+\end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischargeCarrier\_replay\_exactness}
+\begin{proof}
+Read the replay row after the binder-boundary data. The rows $G,d,b,a,c$ identify the beta redex and $s$ is the only ledger that carries the body and codomain across the binder.
+
+The $\Cont$ routes in $r$ can therefore replay exactly the substituted-body read and the substituted-codomain read. Any application, lambda, Pi, conversion, quotient, or non-beta discharge would require an additional carrier coordinate.
+
+Since the carrier lists no such coordinate, replay exactness is confined to the beta-redex reads named by the substitution ledger. The provenance and naming rows record that same confinement for downstream MetaCIC consumers.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionDischarge context induction]
+\label{thm:beta-substitution-discharge-context-induction}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, every beta-substitution discharge read is obtained by induction over the displayed source context row $G$ and the single substitution ledger $s$. The induction preserves the displayed domain, body, argument, and codomain rows $d,b,a,c$ through the componentwise transport row $h$, and exposes only the substituted-body and substituted-codomain reads through the replay row $r$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BetaSubstitutionDischargeUp.BetaSubstitutionDischargeCarrier\_context\_induction}
+\begin{proof}
+Project the carrier of \autoref{def:beta-substitution-discharge-carrier}. The only context data are the source row $G$, the domain row $d$, the body row $b$, the argument row $a$, the codomain row $c$, and the substitution ledger $s$.
+
+Induct over the displayed context-extension window named by $G$. At the binder-crossing step, use \autoref{thm:beta-substitution-discharge-binder-boundary}; the step can cross the body and codomain boundary only through $s$, not through host substitution or a closed subject-reduction theorem.
+
+For stability of the induction data, use component transport, \autoref{thm:beta-substitution-discharge-component-transport}. It keeps $d,b,a,c,s$ on the same displayed packet under $h$.
+
+Finally apply replay exactness, \autoref{thm:beta-substitution-discharge-replay-exactness}. The replay row $r$ exposes precisely the substituted-body and substituted-codomain reads, so the induction has no remaining route to an application, lambda, Pi, conversion, quotient, or non-beta discharge coordinate.
+\end{proof}
+
 \closureat{BetaSubstitutionDischargeUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionDischargeUp}
   \constructivestory{A $\BetaSubstitutionDischargeUp$ packet is generated from a displayed source context row, domain row, body typing row, argument typing row, codomain row, substitution ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, and \autoref{thm:beta-substitution-discharge-binder-boundary} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, and binder-boundary non-escape statement.}
+  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, \autoref{thm:beta-substitution-discharge-binder-boundary}, \autoref{thm:beta-substitution-discharge-component-transport}, \autoref{thm:beta-substitution-discharge-replay-exactness}, and \autoref{thm:beta-substitution-discharge-context-induction} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, binder-boundary non-escape statement, componentwise transport stability, replay exactness, and context induction.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

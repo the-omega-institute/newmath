@@ -176,4 +176,32 @@ theorem DyadicFloorTasteGate_carrier_alignment
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   rfl
 
+theorem DyadicFloorCarrier_namecert_obligations (packet : DyadicFloorUp) :
+    (∃ request scale floor successor lower upper modulus readback sealRow transport replay
+        provenance name : BHist,
+        packet =
+            DyadicFloorUp.mk request scale floor successor lower upper modulus readback sealRow
+              transport replay provenance name ∧
+          dyadicFloorFields packet =
+            [request, scale, floor, successor, lower, upper, modulus, readback, sealRow,
+              transport, replay, provenance, name] ∧
+          dyadicFloorDecodeBHist (dyadicFloorEncodeBHist request) = request ∧
+          dyadicFloorDecodeBHist (dyadicFloorEncodeBHist floor) = floor ∧
+          dyadicFloorDecodeBHist (dyadicFloorEncodeBHist successor) = successor ∧
+          dyadicFloorDecodeBHist (dyadicFloorEncodeBHist sealRow) = sealRow) ∧
+      dyadicFloorEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · cases packet with
+    | mk request scale floor successor lower upper modulus readback sealRow transport replay
+        provenance name =>
+        exact
+          ⟨request, scale, floor, successor, lower, upper, modulus, readback, sealRow,
+            transport, replay, provenance, name, rfl, rfl,
+            dyadicFloor_decode_encode_bhist request,
+            dyadicFloor_decode_encode_bhist floor,
+            dyadicFloor_decode_encode_bhist successor,
+            dyadicFloor_decode_encode_bhist sealRow⟩
+  · rfl
+
 end BEDC.Derived.DyadicFloorUp

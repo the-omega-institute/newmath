@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionNaturalityUp$}
+\label{ch:concrete-instances-cauchy-completion-naturality-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyCompletionNaturalityUp$ packet records the naturality surface for completion when a displayed uniformly continuous map carries regular rational Cauchy names to regular rational Cauchy names. It sits after the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the functorial completion packet of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, and the uniform-continuity carrier of \autoref{ch:concrete-instances-uniformcontinuity-namecert}. The packet names only the displayed comparison rows needed by later Real and Completion consumers; it does not select representatives, quotient Cauchy names, or assert ambient completeness.
+
+\begin{definition}[Cauchy-completion naturality carrier]
+\label{def:cauchy-complete-functor-law-carrier}
+A $\CauchyCompletionNaturalityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,F,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source completion row, exposing the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks used to name the source regular-Cauchy family.
+\item $T$ is the target completion row, exposing the target $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and terminal $\RealUp$ seal.
+\item $F$ is the $\UniformContinuityUp$ map row, including the finite modulus and replay schedule that turns a source tolerance request into a target tolerance request.
+\item $R$ is the regular-Cauchy transport row. It records that applying $F$ to the source regular-Cauchy windows produces the target regular-Cauchy windows named in $T$.
+\item $E$ is the equality-of-route ledger comparing the two displayed completion reads: first complete then map, or first map the regular-Cauchy data and then complete.
+\item $H$ is componentwise $\hsame$ transport for $S,T,F,R,E,C,P,N$.
+\item $C$ is the displayed $\Cont$ replay from a completion-naturality request through the source windows, the uniform-continuity modulus, the target readback, and the route ledger.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionNaturalityUp$, $\CauchyCompletionFunctorUp$, $\UniformContinuityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionNaturalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for a quotient completion, a selected representative of a Cauchy class, a host function between completed metric spaces, countable choice, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Cauchy-completion naturality NameCert obligations]
+\label{thm:cauchy-completion-naturality-namecert-obligations}
+For every accepted $\CauchyCompletionNaturalityUp$ packet $K=(S,T,F,R,E,H,C,P,N)$, the local $\NameCert$ surface consists exactly of carrier admission, source-window admission, target-window admission, uniform-continuity replay, regular-Cauchy transport, route-ledger comparison, componentwise transport, continuation replay, provenance, and local naming. Each obligation is read from one of the displayed rows of \autoref{def:cauchy-complete-functor-law-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the tuple in \autoref{def:cauchy-complete-functor-law-carrier}. The source and target completion rows are the coordinates $S$ and $T$, and the map row is the coordinate $F$.
+
+The regular-Cauchy transport obligation is the row $R$. It ties the finite source windows to the finite target windows by the modulus and replay data in $F$, so no representative choice is introduced.
+
+The route comparison is the ledger $E$, transported componentwise by $H$ and replayed by $C$. Provenance and local naming are the rows $P$ and $N$. Since the carrier has no other coordinate, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy-completion naturality handoff]
+\label{thm:cauchy-completion-naturality-handoff}
+Every Real or Completion consumer of an accepted $\CauchyCompletionNaturalityUp$ packet reads the naturality square through
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \UniformContinuityUp,\quad
+\CauchyCompletionFunctorUp,\quad \RealUp,\quad \BHist,\quad
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+The consumer first reads the source regular-Cauchy windows, then the uniform-continuity modulus, then the target regular-Cauchy readback and $\RealUp$ seal, and only then the route ledger comparing the two completion reads.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing consumer and project the packet $K=(S,T,F,R,E,H,C,P,N)$. The source route is stored in $S$, and the target route is stored in $T$.
+
+The map can be used only through $F$. Its modulus and replay schedule feed the transport row $R$, which displays the target regular-Cauchy windows before the terminal Real seal is consumed.
+
+Finally compare the two displayed reads with $E$, then attach $H,C,P,N$ for transport, replay, provenance, and local naming. The packet contains no quotient-completion equality, selected limit, host completed function, countable choice, or ambient completeness field, so no such datum is exported.
+\end{proof}
+
+\begin{closurestatus}{\CauchyCompletionNaturalityUp}
+  \constructivestory{A $\CauchyCompletionNaturalityUp$ packet is generated from source completion windows, target completion windows, a displayed $\UniformContinuityUp$ modulus row, regular-Cauchy transport, a route-comparison ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-complete-functor-law-carrier}, \autoref{thm:cauchy-completion-naturality-namecert-obligations}, and \autoref{thm:cauchy-completion-naturality-handoff} seed the finite naturality surface for regular-Cauchy completion under uniformly continuous maps.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected Cauchy representatives, host completed function spaces, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{A formal route can encode BEDC.Derived.CauchyCompletionNaturalityUp and prove carrier admission, regular-Cauchy transport, route-ledger comparison, provenance, and local NameCert exactness.}
+\end{closurestatus}

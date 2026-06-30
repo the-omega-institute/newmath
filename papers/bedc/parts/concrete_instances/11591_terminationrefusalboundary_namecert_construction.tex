@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier stores no divergence oracle, no unbounded search over continuation histories, no certificate-indexed truth branch, and no host evaluator for arbitrary certificate-history pairs.
 \end{definition}
+\leandef{BEDC.Derived.TerminationRefusalBoundaryUp.TerminationRefusalBoundaryCarrier}
 
 \begin{theorem}[Termination-refusal boundary NameCert obligations]
 \label{thm:termination-refusal-boundary-namecert-obligations}
@@ -37,6 +38,7 @@ For the carrier of \autoref{def:termination-refusal-boundary-carrier}, the local
 \end{enumerate}
 Thus an accepted packet may expose a positive finite trace or a refusal boundary, but it cannot decide the global halting predicate of \autoref{def:halting-predicate}.
 \end{theorem}
+\leanchecked{BEDC.Derived.TerminationRefusalBoundaryUp.TerminationRefusalBoundaryCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:termination-refusal-boundary-carrier}. The accepted rows are exactly $S,I,T,F,U,H,C,P,N$.
 
@@ -53,6 +55,7 @@ Finally $H,C,P,N$ transport, replay, package, and name the same finite surface. 
 \label{thm:termination-refusal-boundary-nonescape}
 Every accepted $\TerminationRefusalBoundaryUp$ packet exports only the displayed rows $S,I,T,F,U,H,C,P,N$. A consumer may read a verified finite $\Cont$ trace from $T,F$ or a refusal-to-decide boundary from $U$, but it cannot obtain a divergence oracle, a total halting predicate, an unbounded continuation search, a host evaluator, or a certificate-indexed truth branch from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.TerminationRefusalBoundaryUp.TerminationRefusalBoundaryCarrier\_nonescape}
 \begin{proof}
 Project the carrier and the NameCert obligations. The source, input, trace, verifier, refusal, transport, route, provenance, and local naming rows are the whole accepted surface.
 

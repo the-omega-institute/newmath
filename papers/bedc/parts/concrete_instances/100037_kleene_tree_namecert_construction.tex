@@ -74,6 +74,23 @@ The obstruction row $O$ is downstream of the same finite traversal. It records t
 The structural rows $H,C,P,N$ preserve and name that route. Therefore the finite data may be reused by CantorSpace, FanTheorem, RegSeqRat, or Real-facing consumers only as finite prefix information, never as quotient stream equality, an open-cover compactness principle, or a completeness theorem for $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Kleene tree Cantor--Fan dependency route]
+\label{thm:kleene-tree-cantor-fan-dependency-route}
+Every branch-facing read of an accepted $\KleeneTreeUp$ packet first consumes the $\CantorSpaceUp$ finite-prefix rows of \autoref{ch:concrete-instances-cantorspace-namecert} and the $\FanTheoremUp$ finite-bar rows of \autoref{ch:concrete-instances-fantheorem-namecert} before it can interpret the obstruction row as a stream-name, regular-rational, or real-facing boundary. The visible route remains
+$$
+S,L,B,T,O,H,C,P,N,
+$$
+and no branch selector, selected Cantor point, countable-choice functional, quotient stream equality, open-cover compactness principle, or ambient $\RealUp$ completeness row is produced.
+\end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.CantorFanDependencyRoute.KleeneTreeCantorFanDependencyRoute}
+\begin{proof}
+Project the carrier of \autoref{def:kleene-tree-carrier}. The only branch-facing data are the finite StreamName window $S$, the List prefix spine $L$, the Bool node ledger $B$, the finite tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:kleene-tree-streamname-path-boundary}. It already forces any branch-facing read to remain inside the finite route and refuses infinite paths, selected Cantor points, and quotient stream equality.
+
+The $\CantorSpaceUp$ chapter supplies the finite prefix rows that a branch consumer may test, while the $\FanTheoremUp$ chapter supplies the finite-bar rows against which those prefixes are compared. Since both surfaces are read before the obstruction row is interpreted, the Kleene packet records a horizontal dependency through Cantor-space prefixes and fan-theorem bars rather than a free-standing path object.
+\end{proof}
+
 \begin{theorem}[Kleene tree Specker boundary route]
 \label{thm:kleene-tree-specker-boundary-route}
 Every $\SpeckerSequenceBoundaryUp$ consumer using a $\KleeneTreeUp$ obstruction must first read the $\CantorSpaceUp$ prefix rows, $\FanTheoremUp$ finite-bar rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ boundary before it can consume the obstruction as a Specker-style boundary row. The public route factors through the Kleene carrier rows $S,L,B,T,O,H,C,P,N$ together with the Specker boundary route of \autoref{ch:concrete-instances-specker-sequence-boundary-namecert}.
@@ -81,6 +98,9 @@ Every $\SpeckerSequenceBoundaryUp$ consumer using a $\KleeneTreeUp$ obstruction 
 The consumer receives no branch selector, countable-choice schedule, quotient stream equality, selected Cantor point, path-coded real, ambient $\RealUp$ completeness, or open-cover compactness principle from the Kleene packet.
 \end{theorem}
 \leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeSpeckerBoundaryRoute}
+
+The Specker sequence boundary of \autoref{ch:concrete-instances-specker-sequence-boundary-namecert} consumes this Kleene finite-prefix obstruction as a nonlocated-supremum boundary: the obstruction row remains finite prefix data, and the composed route still refuses branch selectors, countable-choice schedules, quotient stream equality, selected Cantor points, and ambient completeness.
+
 \begin{proof}
 Start with the Kleene carrier of \autoref{def:kleene-tree-carrier}. Its public obstruction route is finite: $\StreamNameUp$ schedule $S$, List prefix spine $L$, Bool node ledger $B$, finite prefix tree $T$, obstruction row $O$, and structural rows $H,C,P,N$.
 
@@ -89,6 +109,19 @@ Apply \autoref{thm:kleene-tree-streamname-path-boundary}. It forces every tree r
 Now read the same obstruction through \autoref{ch:concrete-instances-specker-sequence-boundary-namecert}. The Specker boundary carrier consumes finite stream windows, DyadicRatCore tolerance rows, RegSeqRat readback, and a Real seal or refusal row before any completion-facing consumer can cite the nonlocated-supremum obstruction.
 
 Composing the two routes gives the advertised boundary. A Real or Completion obstruction consumer may cite the Kleene row only after the finite prefix, finite-bar, StreamName, RegSeqRat, and Real boundary rows are displayed. Since neither route contains a branch selector, countable-choice schedule, quotient stream equality, path-coded real, ambient Real completeness, or open-cover compactness, the composed Specker-facing read exports none of those objects.
+\end{proof}
+
+\begin{theorem}[Kleene tree Cantor-space fan boundary]
+\label{thm:kleene-tree-cantor-space-fan-boundary}
+Every Specker-facing $\KleeneTreeUp$ obstruction must pass through the $\CantorSpaceUp$ finite-prefix windows and the $\FanTheoremUp$ finite-bar rows before it can be read as a $\RegSeqRatUp$ or $\RealUp$ boundary. The route exposes only the finite rows $S,L,B,T,O,H,C,P,N$, so the later boundary read cannot recover an infinite branch, a selected Cantor point, quotient stream equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeCantorSpaceFanBoundary}
+\begin{proof}
+Start with \autoref{thm:kleene-tree-specker-boundary-route}. It already places every Specker-facing read behind the finite prefix windows, finite-bar rows, StreamName windows, RegSeqRat readback, and Real boundary.
+
+Now isolate the horizontal dependency. The $\CantorSpaceUp$ rows provide the finite prefix windows, and the $\FanTheoremUp$ rows provide the finite-bar tests attached to those windows. A Specker-facing consumer therefore reaches $\RegSeqRatUp$ or $\RealUp$ only after those two finite surfaces are displayed.
+
+The carrier rows are still the finite rows $S,L,B,T,O,H,C,P,N$. Since none of them stores a branch selector, selected Cantor point, quotient stream equality, open-cover compactness principle, or ambient Real-completeness theorem, the composed boundary read exports none of those objects.
 \end{proof}
 
 \begin{theorem}[Kleene tree prefix-induction closure]
@@ -110,7 +143,7 @@ Finally $H$ and $C$ transport and replay the same finite packet, while $P,N$ rec
 \label{thm:kleene-tree-fan-boundary}
 For every accepted $\KleeneTreeUp$ packet, any $\FanTheoremUp$ or $\CantorSpaceUp$ consumer sees only the finite rows $S,L,B,T,O,H,C,P,N$. The consumer may use finite-bar tests and finite prefix checks along those rows, but it receives no infinite branch, no branch selector, no countable-choice functional, no quotient stream equality, no open-cover compactness principle, and no $\RealUp$ completeness theorem.
 \end{theorem}
-\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTree\_fan\_boundary}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeCarrier\_fan\_boundary}
 \begin{proof}
 Project the carrier of \autoref{def:kleene-tree-carrier}. The displayed packet contains the finite StreamName schedule $S$, the List prefix spine $L$, the Bool node ledger $B$, the finite prefix-tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
 
@@ -148,6 +181,34 @@ Now apply \autoref{thm:kleene-tree-streamname-path-boundary}. The route through 
 The obstruction row contains no selected Cantor point, no path-coded real, no open-cover compactness principle, and no $\RealUp$ completeness theorem. Thus a RegSeqRat or Real completion read cannot escape the finite StreamName boundary supplied by the Kleene tree packet.
 \end{proof}
 \leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeRealCompletionNonescape}
+
+\begin{theorem}[Kleene tree uniform-structure boundary]
+\label{thm:kleene-tree-uniform-structure-boundary}
+Any $\RealUniformStructureUp$-facing consumer of an accepted $\KleeneTreeUp$ obstruction must first pass through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the terminal $\RealUp$ boundary, and the $\RealUniformStructureUp$ L10 finite-source gate of \autoref{thm:real-uniform-structure-l10-gate}. The composed route exports no quotient stream equality, selected path, selected limit, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the Real-completion nonescape of \autoref{thm:kleene-tree-real-completion-nonescape}. It forces every RegSeqRat or Real completion-facing read sourced from the Kleene obstruction to pass through finite StreamName windows and the obstruction row before any Real seal is inspected.
+
+Next read the Real-uniform consumer through \autoref{ch:concrete-instances-real-uniform-structure-namecert}. Its L10 finite-source gate, \autoref{thm:real-uniform-structure-l10-gate}, requires the Real endpoint and seal row, Metric distance row, DyadicRatCore radius ledger, StreamName finite-window row, and RegSeqRat readback row before any UniformSpace or CauchyFilter handoff is available.
+
+Composing these two row orders gives the stated boundary. The Kleene side contributes only finite prefix and obstruction data, while the RealUniformStructure side contributes only the displayed L10 finite-source rows. Since neither route has a coordinate for quotient stream equality, selected paths, selected limits, open-cover compactness, or ambient Real completeness, the uniform-structure-facing consumer cannot export any of those objects.
+\end{proof}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeUniformStructureBoundary}
+
+\begin{theorem}[KleeneTree scoped prefix-choice refusal]
+\label{thm:kleene-tree-scoped-prefix-choice-refusal}
+Every accepted $\KleeneTreeUp$ packet whose prefix induction, fan boundary, selector refusal, and Real-completion nonescape rows are displayed can answer a finite prefix-extension request only through the tree carrier, the $\CantorSpaceUp/\FanTheoremUp$ boundary rows, the $\StreamNameUp/\RegSeqRatUp$ readback route, and the existing refusal ledger. The answer cannot export a branch selector, fan theorem, countable-choice functional, quotient path, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeCarrier\_scoped\_prefix\_choice\_refusal}
+\begin{proof}
+Project the accepted carrier $K=(T,B,L,S,O,H,C,P,N)$ of \autoref{def:kleene-tree-carrier}. A finite prefix-extension request first reads the finite tree ledger $T$, the Bool node ledger $B$, and the List prefix spine $L$.
+
+Apply \autoref{thm:kleene-tree-prefix-induction-closure}. It keeps every accepted extension inside the displayed parent-prefix induction over $T,B,L$ and does not select an infinite branch.
+
+Apply \autoref{thm:kleene-tree-fan-boundary} and \autoref{thm:kleene-tree-selector-refusal}. The CantorSpace and FanTheorem reads remain finite boundary reads, while selector-facing consumers meet the obstruction row $O$ before any branch-producing coordinate can appear.
+
+Finally apply \autoref{thm:kleene-tree-real-completion-nonescape}. A completion-facing read must pass through $\StreamNameUp$ windows and $\RegSeqRatUp$ readback before any Real seal is inspected. Since the carrier inventory has no branch selector, fan theorem, countable-choice functional, quotient path, or ambient Real-completeness coordinate, the scoped prefix-extension answer exports none of those objects.
+\end{proof}
 
 \closureat{KleeneTreeUp}{obligationStr}
 

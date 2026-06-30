@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICBoundedNormalEqualityBudgetUp$}
+\label{ch:concrete-instances-metacic-bounded-normal-equality-budget-namecert}
+\origin{ai}
+
+The $\MetaCICBoundedNormalEqualityBudgetUp$ packet realizes the bounded normal-equality checker frontier of \autoref{ch:metacic-decidable-audit-map} as finite MetaCIC NameCert data. It packages the \texttt{normalizeBounded} fuel ledger and the \texttt{decideClosedBetaConv} comparison row before a consumer may interpret bounded normal-form equality. The packet sits beside the bounded checker surface of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, the neutral-spine route of \autoref{ch:concrete-instances-metacic-decidable-neutral-spine-namecert}, the decidable boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, and the bounded normal-equality frontier of \autoref{ch:concrete-instances-bounded-normal-equality-frontier-namecert}. It is a finite budget object, not a global closed beta-conversion decider, fuel-erased normalizer, subject-reduction theorem, or kernel-consistency principle.
+
+\begin{definition}[MetaCIC bounded normal-equality budget carrier]
+\label{def:metacic-bounded-normal-equality-budget-carrier}
+A $\MetaCICBoundedNormalEqualityBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,F,N,E,Q,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed-term window row naming the two inspected terms, their common type boundary, and the finite context read by the checker.
+\item $F$ is the fuel ledger for \texttt{normalizeBounded}, recording the displayed bound and every consumed reduction step.
+\item $N$ is the bounded normal-form output row, carrying the two computed normal-form candidates at the displayed fuel.
+\item $E$ is the endpoint row, recording finished-normal evidence when the bounded comparison is allowed to become a finished-normal statement.
+\item $Q$ is the \texttt{decideClosedBetaConv} answer row for the two bounded normal-form candidates.
+\item $R$ is the refusal row retained when the endpoint evidence is absent or the consumer asks for fuel-erased conversion decidability.
+\item $H$ records componentwise $\hsame$ transport for typed windows, fuel, bounded normal outputs, endpoints, comparison answers, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded normal-equality query through $T,F,N,E,Q,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICBoundedNormalEqualityBudgetUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICFuelTraceUp$, $\MetaCICDecidableNeutralSpineUp$, $\MetaCICDecidableBoundaryUp$, $\BoundedNormalEqualityFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICBoundedNormalEqualityBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,F,N,E,Q,R,H,C,P,L$. It has no coordinate for unbounded conversion decidability, fuel-erased normalization, subject reduction, confluence, quotient syntax equality, or MetaCIC kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC bounded normal-equality budget obligations]
+\label{thm:metacic-bounded-normal-equality-budget-obligations}
+For every accepted $\MetaCICBoundedNormalEqualityBudgetUp$ carrier $B=(T,F,N,E,Q,R,H,C,P,L)$, the local $\NameCert_{\MetaCICBoundedNormalEqualityBudgetUp}$ surface consists exactly of typed-window exposure through $T$, fuel-ledger exposure through $F$, bounded normal-form output exposure through $N$, endpoint exposure through $E$, bounded comparison exposure through $Q$, refusal retention through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-bounded-normal-equality-budget-carrier}. The computational rows are $T,F,N,E,Q,R$, and the structural rows are $H,C,P,L$.
+
+The bounded normalizer is read through $F$ before the normal-output row $N$ is exposed. This keeps each output attached to the displayed fuel rather than to a fuel-erased normalizer.
+
+The comparison answer $Q$ can be consumed as finished normal equality only through the endpoint row $E$. If that endpoint is absent, the refusal row $R$ remains part of the exported packet. Transport, replay, provenance, and local naming then preserve exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC bounded normal-equality nonescape]
+\label{thm:metacic-bounded-normal-equality-budget-nonescape}
+An accepted $\MetaCICBoundedNormalEqualityBudgetUp$ packet cannot export global closed beta-conversion decidability, unrestricted normalization, subject reduction, confluence, quotient syntax equality, or MetaCIC kernel consistency. Any consumer of the checker result must keep the typed window, fuel ledger, bounded normal-form outputs, endpoint row, comparison answer, refusal row, transport, replay, provenance, and local NameCert rows visible.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-bounded-normal-equality-budget-obligations}. Every checker read is confined to $T,F,N,E,Q,R,H,C,P,L$.
+
+The rows $F,N,Q$ are bounded computation rows. The endpoint row $E$ may license a finished-normal statement for the displayed terms, while $R$ records the refused endpoints when that evidence is missing.
+
+None of the rows stores a fuel-erased normalizer, subject-reduction discharge, confluence proof, quotient syntax equality, or kernel-consistency witness. The structural rows preserve the same packet, so the refused endpoints cannot be produced by replay or provenance.
+\end{proof}
+
+The Lean TasteGate route for $\MetaCICBoundedNormalEqualityBudgetUp$ must provide explicit $\mathsf{Nontrivial}\ \MetaCICBoundedNormalEqualityBudgetUp$ and $\mathsf{FieldFaithful}\ \MetaCICBoundedNormalEqualityBudgetUp$ instances. These instances must keep $T,F,N,E,Q,R,H,C,P,L$ as separate fields before any checked carrier-alignment theorem can serve a decidability-facing consumer.
+
+\falsifiablePrediction{A purported $\MetaCICBoundedNormalEqualityBudgetUp$ consumer is refuted if it exports closed beta-conversion while omitting the displayed typed window, normalizeBounded fuel ledger, bounded normal-form outputs, decideClosedBetaConv answer, endpoint row, refusal row, transport, replay, provenance, or local NameCert row.}
+
+\independenceWitness{bounded-normal-equality-checker, metacic-fuel-trace, metacic-decidable-neutral-spine, metacicdecidableboundary, bounded-normal-equality-frontier: none is bijective to $\MetaCICBoundedNormalEqualityBudgetUp$ because this packet jointly carries typed windows, normalizeBounded fuel, bounded normal outputs, endpoint evidence, decideClosedBetaConv answers, refusal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{MetaCICBoundedNormalEqualityBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICBoundedNormalEqualityBudgetUp}
+  \constructivestory{A $\MetaCICBoundedNormalEqualityBudgetUp$ packet is generated from closed typed-term windows, normalizeBounded fuel ledgers, bounded normal-form output rows, endpoint rows, decideClosedBetaConv answer rows, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-bounded-normal-equality-budget-carrier}, \autoref{thm:metacic-bounded-normal-equality-budget-obligations}, and \autoref{thm:metacic-bounded-normal-equality-budget-nonescape} seed the finite bounded normal-equality budget object over typed windows, fuel, endpoint, comparison, refusal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global closed beta-conversion decidability, fuel-erased normalization, subject reduction, confluence, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, normalizeBounded fuel exactness, bounded normal-form output exposure, endpoint exposure, decideClosedBetaConv answer exactness, refusal retention, TasteGate nontriviality, and field faithfulness for BEDC.Derived.MetaCICBoundedNormalEqualityBudgetUp.}
+\end{closurestatus}

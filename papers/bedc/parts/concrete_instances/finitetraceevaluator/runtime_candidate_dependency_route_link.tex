@@ -1,0 +1,13 @@
+\begin{theorem}[Finite trace evaluator runtime-candidate dependency route]
+\label{thm:finite-trace-evaluator-runtime-candidate-dependency-route}
+Every accepted $\FiniteTraceEvaluatorUp$ runtime read that evaluates a candidate trace first exposes the $\RuntimeCandidateBoundaryUp$ sibling row of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}. The read then factors through the checkpoint-runtime rows, finite trace source, image readback surface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row of the evaluator packet.
+
+Consequently the evaluator cannot consume a candidate trace by replacing the sibling candidate boundary with host validation, an unbounded runtime stream, or a hidden total-truth witness.
+\end{theorem}
+\begin{proof}
+Start with the sibling route named by \autoref{thm:finite-trace-evaluator-runtime-candidate-sibling-route}. It places the runtime candidate boundary before the bounded evaluator rows, so the candidate trace is read only after the displayed $\RuntimeCandidateBoundaryUp$ source has been exposed.
+
+Next apply \autoref{thm:finite-trace-evaluator-terminal-runtime-candidate-bridge}. This forces the terminal runtime consumer through $\RuntimeCandidateBoundaryUp$ and $\ReflectionRuntimeCheckpointUp$ before it reaches the evaluator result.
+
+Finally use \autoref{thm:finite-trace-evaluator-root-image-row} and \autoref{thm:finite-trace-evaluator-namecert-obligations}. The former records the finite trace source and image readback surface, while the latter exhausts the transport, replay, provenance, and local naming rows. Thus every accepted candidate-trace read follows the displayed sibling dependency route.
+\end{proof}

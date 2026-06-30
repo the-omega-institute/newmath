@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyInverseBoundaryUp$}
+\label{ch:concrete-instances-regular-cauchy-inverse-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyInverseBoundaryUp$ packet records the constructive boundary at which a regular Cauchy real name may be read through a reciprocal row. It sits next to the algebra inventory of \autoref{ch:concrete-instances-regularcauchyring-namecert}, the finite product readback of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet does not import host real inversion; it keeps the apartness precondition, reciprocal budget, product-unit check, and seal handoff as displayed NameCert rows.
+
+\begin{definition}[Regular Cauchy inverse-boundary carrier]
+\label{def:regular-cauchy-inverse-boundary-carrier}
+A $\RegularCauchyInverseBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,W,D,Q,R,M,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RegSeqRatUp$ source row for the denominator regular Cauchy name.
+\item $W$ is the $\StreamNameUp$ finite-window row on which the denominator is read.
+\item $D$ is the $\DyadicRatCoreUp$ ledger containing the endpoint, lower-bound, reciprocal-budget, and product-tolerance entries for the same window.
+\item $Q$ is the apartness precondition row, read through the positive-gap surfaces used by $\RegularCauchyApartnessOrderUp$.
+\item $R$ is the $\RegularCauchyReciprocalUp$ readback row exposed only after $Q,W,D$ have been displayed.
+\item $M$ is the $\RegularCauchyProductUp$ handoff row for multiplying the source row by the reciprocal readback.
+\item $U$ is the product-unit ledger row saying that the $M$ route reaches the displayed unit readback at the requested window and budget.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the reciprocal readback and product-unit handoff are public.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic ledger, apartness row, reciprocal row, product row, unit ledger, seal row, continuation, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay for opening the source window, reading the apartness lower bound, invoking the reciprocal row, checking the product-unit ledger, and exposing the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyInverseBoundaryUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyApartnessOrderUp$, $\RegularCauchyReciprocalUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyInverseBoundaryUp}$ row.
+\end{enumerate}
+The carrier is a reciprocal-boundary packet. It stores no total inverse on $\RealUp$, no quotient real equality, no selected stream representative, no trichotomy, no countable-choice row, and no ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy inverse-boundary NameCert obligations]
+\label{thm:regular-cauchy-inverse-boundary-namecert-obligations}
+The local $\NameCert_{\RegularCauchyInverseBoundaryUp}$ surface for \autoref{def:regular-cauchy-inverse-boundary-carrier} consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item apartness precondition, requiring the positive-gap row $Q$ to be displayed before the reciprocal branch is readable;
+\item reciprocal readback, requiring $R$ to consume only the source row $A$, window row $W$, dyadic ledger $D$, and apartness evidence $Q$;
+\item product-unit handoff, requiring $M$ and $U$ to witness the finite route from $A$ and $R$ to the displayed unit readback through $\RegularCauchyProductUp$;
+\item componentwise $\hsame$ transport, requiring $H$ to move $A,W,D,Q,R,M,U,E,C,P,N$ together;
+\item Real-seal non-escape, requiring every $\RealUp$ consumer of $E$ to read the apartness, reciprocal, product-unit, transport, replay, provenance, and naming rows first.
+\end{enumerate}
+These rows are the whole local inverse-boundary surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-inverse-boundary-carrier}. The source, window, dyadic, apartness, reciprocal, product, unit, seal, transport, replay, provenance, and naming rows are explicit coordinates.
+
+The apartness and reciprocal obligations are read in order. The positive-gap row $Q$ is the only eligibility coordinate, and the reciprocal row $R$ is listed as downstream of $Q,W,D$. Thus a consumer cannot read a reciprocal branch from the source row alone.
+
+The product-unit handoff is the displayed algebra check. The row $M$ routes the product through the existing $\RegularCauchyProductUp$ surface, while $U$ records the finite unit readback at the same window and budget. This is a packet-level check, not host real multiplication.
+
+Finally the transport and seal obligations keep the route closed. The rows $H,C,P,N$ preserve and replay the same displayed data, and $E$ is reached only after the reciprocal and unit rows are public. Therefore the packet exports a partial inverse boundary without total real inversion, quotient equality, selected representatives, trichotomy, choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy inverse-boundary seal discipline]
+\label{thm:regular-cauchy-inverse-boundary-seal-discipline}
+Every accepted $\RegularCauchyInverseBoundaryUp$ carrier exposes its terminal $\RealUp$ seal only through the finite route
+$$
+A,W,D,Q \longmapsto R \longmapsto M,U \longmapsto E .
+$$
+The route is stable under the stored componentwise $\hsame$ and displayed $\Cont$ replay rows, and it exports no total inverse operation on all real names.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $I=(A,W,D,Q,R,M,U,E,H,C,P,N)$. The only real-facing coordinate is $E$, and its listed dependencies are the apartness row, reciprocal readback, product row, and product-unit ledger.
+
+Use the NameCert obligations. Apartness precondition and reciprocal readback force the route through $Q$ and $R$; product-unit handoff forces the route through $M$ and $U$; componentwise transport and replay force later consumers to keep $H$ and $C$ attached.
+
+Since the carrier has no coordinate for a total inverse, quotient representative, trichotomy decision, choice principle, or ambient completeness theorem, the terminal seal is exactly a partial inverse-boundary seal.
+\end{proof}
+
+\closureat{RegularCauchyInverseBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInverseBoundaryUp}
+  \constructivestory{A $\RegularCauchyInverseBoundaryUp$ packet is generated from a RegSeqRat source row, a StreamName window, a DyadicRatCore reciprocal ledger, a positive apartness precondition, a RegularCauchyReciprocal readback, a RegularCauchyProduct product-unit handoff, a terminal RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-inverse-boundary-carrier}, \autoref{thm:regular-cauchy-inverse-boundary-namecert-obligations}, and \autoref{thm:regular-cauchy-inverse-boundary-seal-discipline} seed the finite reciprocal-boundary surface consumed before field-like Real handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close total inversion on RealUp, quotient real equality, trichotomy, selected representatives, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, apartness eligibility, reciprocal readback, product-unit exactness, transport stability, and Real-seal nonescape for BEDC.Derived.RegularCauchyInverseBoundaryUp.}
+\end{closurestatus}

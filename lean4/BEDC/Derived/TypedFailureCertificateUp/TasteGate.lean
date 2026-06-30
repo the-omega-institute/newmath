@@ -377,4 +377,97 @@ theorem TypedFailureCertificateExportBlocking
         exact hsame_trans sourceRow (hsame_symm exportReadRefusal)
     }
 
+theorem TypedFailureCertificateBridgeRefusalRoute
+    {N C V S R D H P L bridgeRead : BHist} :
+    hsame bridgeRead R ->
+      hsame R D ->
+        typedFailureCertificateFields
+            (TypedFailureCertificateUp.mk N C V S R D H P L) =
+          [N, C, V, S, R, D, H, P, L] ∧
+          SemanticNameCert
+              (fun row : BHist => hsame row R)
+              (fun row : BHist =>
+                hsame row N ∨ hsame row C ∨ hsame row V ∨ hsame row S ∨
+                  hsame row R ∨ hsame row D ∨ hsame row H ∨ hsame row P ∨
+                    hsame row L)
+              (fun row : BHist => hsame row bridgeRead)
+              hsame ∧
+            hsame bridgeRead D := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  intro bridgeSameRoute routeSameDiagnostic
+  constructor
+  · rfl
+  · constructor
+    · exact {
+        core := {
+          carrier_inhabited := ⟨R, hsame_refl R⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _left _middle _right sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact hsame_trans (hsame_symm sameRows) source
+        }
+        pattern_sound := by
+          intro _row source
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source))))
+        ledger_sound := by
+          intro _row source
+          exact hsame_trans source (hsame_symm bridgeSameRoute)
+      }
+    · exact hsame_trans bridgeSameRoute routeSameDiagnostic
+
+theorem TypedFailureCertificateMatureTreatmentRoute
+    {N C V S R D H P L localRead branchRead exportRead bridgeRead : BHist} :
+    hsame localRead L ->
+      hsame branchRead D ->
+        hsame exportRead R ->
+          hsame R D ->
+            hsame bridgeRead R ->
+              typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+                  [N, C, V, S, R, D, H, P, L] ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row L)
+                  (fun row : BHist =>
+                    hsame row N ∨ hsame row C ∨ hsame row V ∨ hsame row S ∨
+                      hsame row R ∨ hsame row D ∨ hsame row H ∨ hsame row P ∨
+                        hsame row L)
+                  (fun row : BHist => hsame row localRead)
+                  hsame ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row D)
+                  (fun row : BHist => hsame row C ∨ hsame row V ∨ hsame row D)
+                  (fun row : BHist => hsame row branchRead)
+                  hsame ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row R)
+                  (fun row : BHist =>
+                    hsame row D ∧ hsame R R ∧ hsame row exportRead)
+                  (fun row : BHist => hsame row exportRead)
+                  hsame ∧
+                hsame bridgeRead D := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro localSame branchSame exportSame refusalDiagnostic bridgeSame
+  have namecert :=
+    TypedFailureCertificateNameCertObligations
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (localRead := localRead) localSame
+  have axis :=
+    TypedFailureCertificateAxisSeparation
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (branchRead := branchRead) branchSame
+  have exportCert :=
+    TypedFailureCertificateExportBlocking
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (exportRead := exportRead) exportSame refusalDiagnostic
+  exact
+    ⟨namecert.left, namecert.right, axis.right, exportCert.right,
+      hsame_trans bridgeSame refusalDiagnostic⟩
+
 end BEDC.Derived.TypedFailureCertificateUp

@@ -492,6 +492,147 @@ def run_packet_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     }
 
 
+def _oracle_response_text_from_result(result: Any) -> str:
+    if not isinstance(result, dict):
+        return str(result or "")
+    for key in ("response", "answer", "output", "text", "detail"):
+        value = result.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return ""
+
+
+def _oracle_response_is_substantive(response: str) -> bool:
+    head = response[:120]
+    return bool(response) and len(response) >= 300 and "ERROR" not in head and "TIMEOUT" not in head
+
+
+def _oracle_int(value: Any, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _parse_oracle_jsonl_transcript(path: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    header: dict[str, Any] = {}
+    turns: list[dict[str, Any]] = []
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return header, turns
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(record, dict):
+            continue
+        record_kind = str(record.get("record_kind") or "")
+        if record_kind == "session" and not header:
+            header = record
+        elif record_kind == "turn":
+            turns.append(record)
+    return header, turns
+
+
+def _oracle_jsonl_backfill_event(
+    jsonl_path: Path,
+    *,
+    lane: str,
+    topic: str,
+    header: dict[str, Any],
+    turns: list[dict[str, Any]],
+) -> dict[str, Any]:
+    md_path = jsonl_path.with_suffix(".md")
+    turn_count = _oracle_int(header.get("turn_count"), len(turns))
+    stable_suffix = f"{lane}.{topic}.t{turn_count}"
+    subject_id = f"{lane}.{hashlib.sha256(stable_suffix.encode()).hexdigest()[:12]}"
+    return {
+        "event_id": f"event.{hashlib.sha256(('oracle-jsonl-backfill:' + stable_suffix).encode()).hexdigest()[:16]}",
+        "event_kind": "oracle_consultation_completed",
+        "source": lane,
+        "subject_kind": "oracle_consultation",
+        "subject_id": subject_id,
+        "reason": str(header.get("closed_reason") or "oracle consultation transcript backfilled"),
+        "payload": {
+            "lane": lane,
+            "topic": topic,
+            "intended_claim_id": str(header.get("intended_claim_id") or ""),
+            "conversation_id": header.get("conversation_id"),
+            "turns": turn_count,
+            "closed_reason": header.get("closed_reason"),
+            "max_turns_reached": header.get("max_turns_reached"),
+            "pdf_attached": bool(header.get("pdf_attached")),
+            "pdf_skipped_reason": header.get("pdf_skipped_reason") or "",
+            "judge_calls": int(header.get("judge_calls") or 0),
+            "transcript_jsonl": str(jsonl_path),
+            "transcript_md": str(md_path) if md_path.exists() else "",
+            "backfilled": True,
+        },
+        "stable_event_key": f"oracle_consultation_completed::oracle_consultation::{subject_id}",
+        "status": "open",
+        "created_at": now_iso(),
+    }
+
+
+def _backfill_oracle_jsonl_sessions(store: FibonacciRealityStore, sessions_dir: Path) -> dict[str, int]:
+    summary = {"jsonl_scanned": 0, "jsonl_events_emitted": 0, "jsonl_skipped_thin": 0, "jsonl_skipped_present": 0}
+    existing_events = store.load_events()
+    existing_keys = {str(event.get("stable_event_key") or "") for event in existing_events}
+    existing_completed = {
+        (
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("lane") or event.get("source") or ""),
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("topic") or ""),
+            _oracle_int((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("turns")),
+        )
+        for event in existing_events
+        if str(event.get("event_kind") or "") == "oracle_consultation_completed"
+    }
+    new_events: list[dict[str, Any]] = []
+    for lane in ("bio-G", "bio-Plan"):
+        lane_dir = sessions_dir / lane
+        if not lane_dir.exists():
+            continue
+        for jsonl_path in sorted(lane_dir.glob("*.jsonl")):
+            summary["jsonl_scanned"] += 1
+            header, turns = _parse_oracle_jsonl_transcript(jsonl_path)
+            topic = str(header.get("topic") or "")
+            if not topic:
+                stem = jsonl_path.stem
+                topic = stem.split("__", 1)[1] if "__" in stem else stem
+            substantive_turns = [
+                turn
+                for turn in turns
+                if _oracle_response_is_substantive(_oracle_response_text_from_result(turn.get("result")))
+            ]
+            turn_count = _oracle_int(header.get("turn_count"), len(turns))
+            if turn_count < 1 or not substantive_turns:
+                summary["jsonl_skipped_thin"] += 1
+                continue
+            event = _oracle_jsonl_backfill_event(
+                jsonl_path,
+                lane=lane,
+                topic=topic,
+                header={**header, "turn_count": turn_count},
+                turns=turns,
+            )
+            completed_key = (lane, topic, turn_count)
+            stable_key = str(event.get("stable_event_key") or "")
+            if stable_key in existing_keys or completed_key in existing_completed:
+                summary["jsonl_skipped_present"] += 1
+                continue
+            existing_keys.add(stable_key)
+            existing_completed.add(completed_key)
+            new_events.append(event)
+    if new_events:
+        store.write_events(agent_bus._dedup(existing_events + new_events, "event_id"))
+        summary["jsonl_events_emitted"] = len(new_events)
+    return summary
+
+
 def _oracle_session_backfill_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     """Scan oracle_sessions/conv_*.json for substantive ChatGPT responses that
     never made it into a lane transcript (because the Python client gave up
@@ -499,12 +640,21 @@ def _oracle_session_backfill_lane(store: FibonacciRealityStore) -> dict[str, Any
     and synthesize oracle_consultation_completed events so bio-oracle-consumer
     can ingest them on the next cycle. Idempotent — re-runs detect already-
     backfilled topics via the `.backfill` suffix."""
-    summary = {"lane": "bio-C", "scanned": 0, "backfilled": 0, "skipped_thin": 0, "skipped_present": 0}
+    summary = {
+        "lane": "bio-C",
+        "scanned": 0,
+        "backfilled": 0,
+        "skipped_thin": 0,
+        "skipped_present": 0,
+        "jsonl_scanned": 0,
+        "jsonl_events_emitted": 0,
+    }
     sessions_dir = store.paths.events.parent.parent / "state" / "oracle_sessions" if not (store.paths.events.parent.parent / "state" / "oracle_sessions").exists() else store.paths.events.parent.parent / "state" / "oracle_sessions"
     if not sessions_dir.exists():
         sessions_dir = Path(__file__).parent / "state" / "oracle_sessions"
     if not sessions_dir.exists():
         return summary
+    summary.update(_backfill_oracle_jsonl_sessions(store, sessions_dir))
     events_path = store.paths.events
     for conv_path in sorted(sessions_dir.glob("conv_*.json")):
         summary["scanned"] += 1
@@ -687,10 +837,78 @@ def _load_pipeline_config() -> dict[str, Any]:
 
 def _load_oracle_integration_config() -> dict[str, Any]:
     config = _load_pipeline_config().get("oracle_integration")
-    return config if isinstance(config, dict) else {}
+    config = dict(config) if isinstance(config, dict) else {}
+    oracle_pool = os.environ.get("FIBONACCI_REALITY_ORACLE_POOL", "").strip()
+    if oracle_pool:
+        config["server_url"] = f"nyxid-oracle://{oracle_pool}"
+    oracle_conversation_id = os.environ.get("FIBONACCI_REALITY_ORACLE_CONVERSATION_ID", "").strip()
+    if oracle_conversation_id:
+        config["conversation_id"] = oracle_conversation_id
+    server_url = os.environ.get("FIBONACCI_REALITY_ORACLE_SERVER_URL", "").strip()
+    if server_url:
+        config["server_url"] = server_url
+    enabled = os.environ.get("FIBONACCI_REALITY_ORACLE_ENABLED", "").strip().lower()
+    if enabled in {"1", "true", "yes", "on"}:
+        config["enabled"] = True
+    elif enabled in {"0", "false", "no", "off"}:
+        config["enabled"] = False
+    for lane_key, env_key in (
+        ("bio_g", "FIBONACCI_REALITY_ORACLE_BIO_G_ENABLED"),
+        ("bio_plan", "FIBONACCI_REALITY_ORACLE_BIO_PLAN_ENABLED"),
+    ):
+        lane_config = dict(config.get(lane_key)) if isinstance(config.get(lane_key), dict) else {}
+        lane_enabled = os.environ.get(env_key, "").strip().lower()
+        if lane_enabled in {"1", "true", "yes", "on"}:
+            lane_config["enabled"] = True
+        elif lane_enabled in {"0", "false", "no", "off"}:
+            lane_config["enabled"] = False
+        if lane_config:
+            config[lane_key] = lane_config
+    return config
+
+
+def _oracle_uses_nyxid(server_url: str) -> bool:
+    return str(server_url or "").startswith(("nyxid://", "nyxid-oracle://"))
+
+
+def _oracle_transport_name(server_url: str) -> str:
+    if str(server_url or "").startswith("nyxid-oracle://"):
+        return "nyxid-oracle"
+    if str(server_url or "").startswith("nyxid://"):
+        return "nyxid-proxy"
+    return "http"
+
+
+def _oracle_forced_conversation_id(config: dict[str, Any]) -> str:
+    return str(config.get("conversation_id") or "").strip()
+
+
+def _oracle_turn_cooldown_seconds(lane_config: dict[str, Any]) -> float:
+    try:
+        configured = float(lane_config.get("min_seconds_between_turns") or 60.0)
+    except (TypeError, ValueError):
+        configured = 60.0
+    return max(60.0, configured)
+
+
+def oracle_runtime_summary() -> dict[str, Any]:
+    config = _load_oracle_integration_config()
+    server_url = str(config.get("server_url") or "")
+    bio_g = config.get("bio_g") if isinstance(config.get("bio_g"), dict) else {}
+    bio_plan = config.get("bio_plan") if isinstance(config.get("bio_plan"), dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", False)),
+        "bio_g_enabled": bool(bio_g.get("enabled", False)),
+        "bio_plan_enabled": bool(bio_plan.get("enabled", False)),
+        "transport": _oracle_transport_name(server_url),
+        "server_url": server_url,
+        "conversation_id": _oracle_forced_conversation_id(config),
+    }
 
 
 def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
+    if _oracle_uses_nyxid(server_url):
+        return {"status": "skipped", "kind": "bio-oracle", "transport": "nyxid"}
     try:
         url = server_url.rstrip("/") + "/health"
         with urllib.request.urlopen(url, timeout=timeout) as response:
@@ -711,6 +929,8 @@ def run_oracle_server_lane(store: FibonacciRealityStore) -> dict[str, Any]:
         if not config.get("enabled", False):
             return {"lane": "bio-O", "status": "disabled"}
         server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
+        if _oracle_uses_nyxid(server_url):
+            return {"lane": "bio-O", "status": "external_transport", "transport": _oracle_transport_name(server_url)}
         health = _bio_oracle_health_payload(server_url)
         if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
             summary: dict[str, Any] = {"lane": "bio-O", "status": "already_up"}
@@ -819,6 +1039,19 @@ def _turn_count(result: dict[str, Any]) -> int:
     return len(turns) if isinstance(turns, list) else 0
 
 
+def _oracle_has_completed_turn(result: dict[str, Any]) -> bool:
+    turns = result.get("turns")
+    if not isinstance(turns, list):
+        return False
+    for turn in turns:
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if isinstance(turn_result, dict) and str(turn_result.get("status") or "") == "completed":
+            return True
+    return False
+
+
 def _gate_candidate_priority(result: dict[str, Any]) -> tuple[float, str, str]:
     try:
         priority = float(result.get("priority_score"))
@@ -858,6 +1091,13 @@ def _compact_json(value: Any, *, limit: int = 3000) -> str:
     return text[: limit - 3] + "..."
 
 
+def _compact_list(items: Any, *, limit: int = 5) -> str:
+    if not isinstance(items, list):
+        return ""
+    values = [str(item).strip() for item in items if str(item).strip()]
+    return "; ".join(values[:limit])
+
+
 def _conjecture_by_id(store: FibonacciRealityStore, conjecture_id: str) -> dict[str, Any]:
     for conjecture in store.load_conjectures():
         if str(conjecture.get("conjecture_id") or "") == conjecture_id:
@@ -888,41 +1128,114 @@ def _namecert_proposal_text(store: FibonacciRealityStore, claim_id: str) -> str:
     return text[:4000]
 
 
-def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any]) -> tuple[str, str]:
+def _bio_g_forward_frontier_question(claim_id: str, conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+    return (
+        "This finite certificate is established. State the single nearest FORWARD lemma or obstruction "
+        "beyond it: a finite, locally re-verifiable arithmetic, recurrence, linear-algebra, mod-p, "
+        "descent, or finite-generalization statement that is NOT equivalent to the established claim. "
+        "Give the exact missing mathematical datum it would need, one refutation condition or minimal "
+        "counterexample search direction, and the stronger readings that remain unsupported. Do not "
+        "restate, confirm, close, review, package, anchor, or write back the existing claim."
+    )
+
+
+def _bio_g_research_question(
+    claim_id: str,
+    conjecture: dict[str, Any],
+    form: dict[str, Any],
+    *,
+    mode: str = "review",
+) -> str:
+    if mode == "frontier":
+        return _bio_g_forward_frontier_question(claim_id, conjecture, form)
+    text = " ".join(
+        [
+            claim_id,
+            str(conjecture.get("informal_statement") or ""),
+            str(form.get("carrier") or ""),
+            str(form.get("readback") or ""),
+        ]
+    ).lower()
+    if "571" in text or "spectral" in text or "smith" in text:
+        return (
+            "For this finite arithmetic claim, what is the exact implication chain that separates "
+            "the Smith-factor statement from the modular repeated-root statement, and what additional "
+            "finite witness is logically required before the two can be reported as one closed packet?"
+        )
+    if "mod3" in text or "mod-3" in text or "edge-flux" in text or "kernel" in text:
+        return (
+            "For this modulo-3 linear-algebra claim, what is the minimal theorem statement that derives "
+            "a nonzero left-kernel functional from the determinant condition, and which objects should be "
+            "treated as derived rather than primitive?"
+        )
+    if "binet" in text or "golden" in text or "phi" in text or "recurrence" in text:
+        return (
+            "For this Fibonacci recurrence claim, what is the smallest algebraic carrier that supports "
+            "the Binet-style readback, and where exactly must the boundary be drawn between recurrence "
+            "identity and analytic or numerical interpretation?"
+        )
+    if "window6" in text or "window 6" in text:
+        return (
+            "For this Window6 finite certificate, what is the sharpest local closure statement that follows "
+            "from the pinned finite data alone, and what stronger interpretations remain unsupported?"
+        )
+    return (
+        "What is the single sharp mathematical lemma needed to make this claim closed inside a finite BEDC "
+        "packet, and what is the weakest carrier on which that lemma is true?"
+    )
+
+
+def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any], *, mode: str = "review") -> tuple[str, str]:
     claim_id = str(candidate.get("claim_id") or candidate.get("packet_id") or "")
     conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
     form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
-    verified_facts = {
-        "gate_result": candidate,
-        "conjecture": conjecture,
-    }
-    linked = _oracle_linked_records_for_conjecture(store, conjecture) if conjecture else {"reality_contacts": [], "probes": [], "mismatches": []}
-    minimal_form = {
-        "carrier": form.get("carrier") if isinstance(form, dict) else "",
-        "distinctions": form.get("distinctions") if isinstance(form, dict) else [],
-        "readback": form.get("readback") if isinstance(form, dict) else "",
-        "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
-    }
-    prompt = "\n".join(
-        [
-            "Review the BEDC minimal form for this FibonacciReality gate candidate.",
-            f"claim_id: {claim_id}",
+    statement = str(conjecture.get("informal_statement") or candidate.get("reason") or "").strip()
+    carrier = str(form.get("carrier") or "").strip() if isinstance(form, dict) else ""
+    distinctions = _compact_list(form.get("distinctions") if isinstance(form, dict) else [])
+    readback = str(form.get("readback") or "").strip() if isinstance(form, dict) else ""
+    boundary = _compact_list(conjecture.get("forbidden_claims"), limit=4)
+    question = _bio_g_research_question(claim_id, conjecture, form if isinstance(form, dict) else {}, mode=mode)
+    if mode == "frontier":
+        prompt_lines = [
+            "You are a mathematical research oracle for a FibonacciReality discussion.",
+            "Answer only the single forward-frontier research question below.",
+            "Treat the existing claim only as boundary context, not as an object to confirm, close, repair, or package.",
+            "Return one finite, locally re-verifiable mathematical lemma or obstruction beyond that boundary.",
+            "The proposed object must be non-equivalent to the existing claim and must be checkable by finite arithmetic, recurrence, linear algebra, mod-p, descent, or finite search.",
+            "Name the exact missing mathematical datum, give one refutation condition or minimal counterexample search direction, and list stronger readings that remain unsupported.",
+            "Do not write structured data, contracts, implementation plans, operational instructions, anchor text, writeback instructions, or document-editing text.",
+            "Do not rely on hidden project state.",
             "",
-            "current verified_facts compact JSON:",
-            _compact_json(verified_facts),
+            f"Boundary claim label: {claim_id}",
+            f"Established boundary statement: {statement}" if statement else "",
+            f"Boundary carrier: {carrier}" if carrier else "",
+            f"Boundary distinctions: {distinctions}" if distinctions else "",
+            f"Boundary readback target: {readback}" if readback else "",
+            f"Forbidden stronger readings: {boundary}" if boundary else "",
             "",
-            "bio-namer markdown proposal if present:",
-            _namecert_proposal_text(store, claim_id) or "none",
-            "",
-            "BEDC minimal-form summary:",
-            _compact_json(minimal_form),
-            "",
-            "reality contacts and probes:",
-            _compact_json(linked),
-            "",
-            "Question: Is the carrier truly minimal? Are there dependency leaks or unjustified internal structure? "
-            "Is the closure boundary correct? Propose concrete refinement steps if any.",
+            f"Single research question: {question}",
         ]
+    else:
+        prompt_lines = [
+            "You are a mathematical research oracle for a FibonacciReality discussion.",
+            "Answer only the single research question below.",
+            "Do not write structured data, contracts, implementation plans, operational instructions, or document-editing text.",
+            "Do not rely on hidden project state.",
+            "If a datum is missing, state the conditional answer and name the exact mathematical datum needed.",
+            "",
+            f"Claim label: {claim_id}",
+            f"Mathematical statement: {statement}" if statement else "",
+            f"Proposed carrier: {carrier}" if carrier else "",
+            f"Proposed distinctions: {distinctions}" if distinctions else "",
+            f"Readback target: {readback}" if readback else "",
+            f"Known boundary to respect: {boundary}" if boundary else "",
+            "",
+            f"Single research question: {question}",
+        ]
+    prompt = "\n".join(
+        line
+        for line in prompt_lines
+        if line
     )
     return claim_id, prompt
 
@@ -992,15 +1305,19 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/fibonacci_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
-    claim_id, prompt = _bio_g_initial_prompt(store, candidate)
-    topic = f"bio-G.review.{claim_id}"
+    mode = "frontier" if rotation_used else "review"
+    claim_id, prompt = _bio_g_initial_prompt(store, candidate, mode=mode)
+    pdf_path = None
+    topic = f"bio-G.{mode}.{claim_id}"
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-G",
@@ -1014,20 +1331,33 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
+        min_seconds_between_turns=_oracle_turn_cooldown_seconds(lane_config),
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
-    consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
-    consulted_map[claim_id] = now_iso()
-    lane_state["consulted_claim_ids"] = consulted_map
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
+        consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+        consulted_map[claim_id] = now_iso()
+        lane_state["consulted_claim_ids"] = consulted_map
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_topic": topic, "last_failed_claim_id": claim_id})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if new_conv_id and not forced_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
-    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used, "oracle_resumed": bool(existing_conv_id)}
+    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_frontier" if rotation_used else ""))
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_rotation_used": rotation_used,
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _load_claims_document(path: Path) -> dict[str, Any]:
@@ -1360,14 +1690,17 @@ def _maybe_run_bio_plan_oracle(
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/fibonacci_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
+    pdf_path = None
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-Plan",
@@ -1381,17 +1714,29 @@ def _maybe_run_bio_plan_oracle(
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
+        min_seconds_between_turns=_oracle_turn_cooldown_seconds(lane_config),
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_cycle": cycle, "last_failed_topic": topic})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if new_conv_id and not forced_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-Plan"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-Plan", topic, result, intended_claim_id=claim_id)
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _append_frontier_log(store: FibonacciRealityStore, event: str, details: dict[str, Any]) -> None:
@@ -4299,6 +4644,244 @@ def _render_math_fallback_section(
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _raw_claim_facts(verified_facts: dict[str, Any], claim_id: str) -> dict[str, Any]:
+    if not isinstance(verified_facts, dict):
+        return {}
+    direct = verified_facts.get(claim_id)
+    if isinstance(direct, dict):
+        return direct
+    for value in verified_facts.values():
+        if isinstance(value, dict) and (
+            "certificate_stack" in value
+            or "local_lemmas" in value
+            or "refinement_diff" in value
+        ):
+            return value
+    return {}
+
+
+def _has_certificate_completion_facts(facts: dict[str, Any]) -> bool:
+    return isinstance(facts, dict) and (
+        isinstance(facts.get("certificate_stack"), list)
+        or isinstance(facts.get("local_lemmas"), list)
+        or isinstance(facts.get("refinement_diff"), list)
+    )
+
+
+def _render_window6_alpha_certificate_completion_section(
+    conjecture: dict[str, Any],
+    verified_facts: dict[str, Any],
+    *,
+    title: str,
+    label: str,
+) -> str:
+    claim_id = str(conjecture.get("conjecture_id") or "")
+    facts = _raw_claim_facts(verified_facts, claim_id)
+    stack = [
+        item
+        for item in facts.get("certificate_stack", [])
+        if isinstance(item, str) and item.strip()
+    ]
+    if not stack:
+        stack = [
+            "FiniteWitness_W6",
+            "ClockCouplingCert",
+            "ResponseFunctorCert",
+            "CoefficientUseCert",
+            "PhysReadoutCert_alpha",
+            "MetrologicalGaugeSelectionCert",
+            "StableAlphaReadoutCompose_W6",
+            "CertRelNoConverse_W6_alpha",
+        ]
+    stack_text = ", ".join(rf"\texttt{{{_tex_escape_ascii(item)}}}" for item in stack)
+    not_claimed = [
+        item
+        for item in facts.get("not_claimed", conjecture.get("forbidden_claims", []))
+        if isinstance(item, str) and item.strip()
+    ]
+    if not_claimed:
+        boundary_text = (
+            r"The chapter does not claim that the Window6 recurrence identity alone "
+            r"implies $\alpha^{-1}_{Z6}$; it does not claim that the $8/9$ "
+            r"boundary-escape witness is a response coefficient theorem without "
+            r"$\mathrm{CoefficientUseCert}$; it does not identify "
+            r"$\varphi^{-27}$ recoil-scale terms with Green $\varphi^{-37}$ or "
+            r"$571$-certificate effects; and it does not authorize BEDC writeback."
+        )
+    else:
+        boundary_text = (
+            r"The chapter does not claim that Window6 alone implies a physical "
+            r"fine-structure constant, that the boundary-escape witness is already "
+            r"a response coefficient, or that a separate BEDC theorem has been "
+            r"authorized."
+        )
+    lines = [
+        rf"\subsection{{{_tex_escape_ascii(title)}}}",
+        rf"\label{{sec:{_ascii_text(label)}}}",
+        r"\origin{ai}",
+        "",
+        r"\paragraph{Certificate-relative statement.}",
+        (
+            r"The Window6 alpha route is represented as a certificate-completion theorem. "
+            r"The finite recurrence and Binet data supply an algebraic witness, while the "
+            r"clock, response, coefficient-use, physical-calibration, and metrological "
+            r"branch data are external certificates.  The target statement is therefore "
+            r"the forward implication"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"&\mathrm{FiniteWitness}_{W6}+\mathrm{ClockCouplingCert}+\mathrm{ResponseFunctorCert}",
+        r"+\mathrm{CoefficientUseCert}\\",
+        r"&\quad+\mathrm{PhysReadoutCert}_{\alpha}+\mathrm{MetrologicalGaugeSelectionCert}",
+        r"+\mathrm{StableAlphaReadoutCompose}_{W6}\\",
+        r"&\quad+\mathrm{CertRelNoConverse}_{W6,\alpha}",
+        r"\Longrightarrow",
+        r"\mathrm{Readout}_{\alpha}(\Gamma_{\alpha})=\{\alpha^{-1}_{Z6}\}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"Here $\Gamma_{\alpha}$ denotes the supplied certificate stack, and the "
+            r"readout value is the certificate-relative singleton "
+            r"$\alpha^{-1}_{Z6}=137.035999177006279\ldots$.  The implication is not a "
+            r"rule for dropping $\Gamma_{\alpha}$ and is not a reconstruction theorem "
+            r"for the certificates from the displayed number."
+        ),
+        "",
+        r"\paragraph{Algebraic carrier.}",
+        (
+            r"The minimal carrier $A_{W6}$ contains only the finite Window6 arithmetic: "
+            r"$D_0=47$, $s_6=7$, $\rho_6=10$, the polynomial "
+            r"$Q_{6,\alpha}(u)=1-\frac{1}{2}u+\frac{8}{9}u^2$, and the displayed "
+            r"Binet element"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_6^{*}=47+\varphi^{-7}-\frac{1}{2}\varphi^{-17}+\frac{8}{9}\varphi^{-27}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The same carrier records the exponent-shift family"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_6^{(a)}=47+\varphi^{-(7+a)}-\frac{1}{2}\varphi^{-(17+a)}+\frac{8}{9}\varphi^{-(27+a)},",
+        r"\qquad a\in \mathrm{Z}/10\mathrm{Z}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The residue clock modulo $10$ records that the exponents are in one "
+            r"ten-step grading.  It does not choose an integer lift, a real embedding, "
+            r"a numerical branch, or a physical clock origin.  Those choices enter only "
+            r"through the external certificate layer."
+        ),
+        "",
+        r"\paragraph{Branch selection and readout margin.}",
+        (
+            r"A branch-selection certificate supplies a real embedding and an admissible "
+            r"exponent-shift representative.  For a readout interval $J$, the stable "
+            r"margin condition is local rather than global: the selected branch value "
+            r"lies in $J$, and every competitor stays at positive distance from $J$."
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"y_b\in J,\qquad",
+        r"\delta_J=\min_{a\neq b}\operatorname{dist}(y_a,J)>0.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"This $\mathrm{ReadoutMargin}_{W6}(J)$ condition is enough for the certified "
+            r"window to be single-valued at the readout layer.  It does not say that "
+            r"the finite recurrence internally chooses the branch; it says that the "
+            r"external metrological readout excludes the competing branches within the "
+            r"declared interval."
+        ),
+        "",
+        r"\paragraph{Coefficient-use compatibility.}",
+        (
+            r"The coefficient witnesses are separated from the coefficient theorem.  The "
+            r"value $q_1=-1/2$ is witnessed by the alternating Jordan mode, and the value "
+            r"$q_2=8/9$ is witnessed by the right-boundary escape count.  A "
+            r"$\mathrm{CoefficientUseCert}$ is still required before these witnesses may "
+            r"be used as coefficients of the response polynomial.  The compatibility "
+            r"condition"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"\mathrm{CoeffUseMarginCompat}_{W6}",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"asserts that coefficient admissibility does not enlarge, shift, or rebranch "
+            r"the singleton already selected by the readout margin.  Without this "
+            r"condition, a branch-unique readout could still become a larger coefficient "
+            r"fiber at the next layer."
+        ),
+        "",
+        r"\paragraph{Physical calibration and clock phase.}",
+        (
+            r"The physical readout certificate is a calibration-preserving bridge from "
+            r"the selected response scale to the external alpha scale.  It is not implied "
+            r"by coefficient uniqueness: a calibration map unconstrained by "
+            r"$\mathrm{PhysReadoutCert}_{\alpha}$ could send the same selected coefficient "
+            r"to another target value.  The clock-coupling certificate and the "
+            r"metrological branch-selection certificate must also preserve phase.  The "
+            r"clock phase used to name the exponent representative must match the phase "
+            r"used by the external alpha readout, unless a separate phase-insensitivity "
+            r"certificate is supplied."
+        ),
+        "",
+        r"\paragraph{Stable composition.}",
+        (
+            r"The completed theorem composes the certificates as a singleton-pullback "
+            r"argument.  Each stage carries both a selected singleton and an exclusion "
+            r"margin for the competitors that could otherwise enter the final alpha band. "
+            r"The role of $\mathrm{StableAlphaReadoutCompose}_{W6}$ is to preserve that "
+            r"singleton through branch selection, coefficient interpretation, calibration, "
+            r"and clock-phase transport."
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"B_{\mathrm{alg}} \longleftarrow B_{\mathrm{branch}}",
+        r"\longleftarrow B_{\mathrm{coeff}}",
+        r"\longleftarrow B_{\mathrm{phys}}",
+        r"\longleftarrow \{\alpha^{-1}_{Z6}\}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"If the final fiber is not a singleton, the excess-fiber diagnostic assigns "
+            r"the failure to the first external compatibility square that does not factor "
+            r"through the preceding equality.  Algebraic equality inside $A_{W6}$ is then "
+            r"treated as algebraic equality or label redundancy, not as a failure of the "
+            r"Window6 recurrence identity."
+        ),
+        "",
+        r"\paragraph{Experiment path ledger.}",
+        (
+            r"Experiment paths are recorded by a ledger rather than folded into the finite "
+            r"witness.  For a low-energy non-running readout one may write"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_E=D_{Z6}+N_E\varphi^{-27}+\mu_E\varphi^{-37}+\cdots.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The static-impedance path has $N_E=0$ by definition of the certificate target. "
+            r"Magnetic-moment and recoil paths are separate readout ledgers, and their "
+            r"$\varphi^{-27}$-scale offsets are not identified with the Green layer.  The "
+            r"Green susceptibility scale is a $\varphi^{-37}$ layer and must carry its own "
+            r"$571$ certificate."
+        ),
+        "",
+        r"\paragraph{Certificate inventory.}",
+        f"The local inventory for this theorem is {stack_text}.",
+        "",
+        r"\paragraph{Boundary of the result.}",
+        boundary_text,
+    ]
+    return "\n".join(lines).rstrip() + "\n"
+
+
 _NAMECERT_TITLE_REMAP = {
     "loning-format chapter slug": "NameCert chapter slug",
     "internal newmath/bedc derivation": "Derivation from coordinate, closure, spectrum, and relation",
@@ -4352,6 +4935,14 @@ def _render_conjecture_section(
     verified_facts = _all_verified_facts(conjecture)
     title = _title_from_slug(conjecture_id, prefix="Forced Window")
     slug = re.sub(r"[^a-z0-9]+", "-", _ascii_text(conjecture_id).lower()).strip("-") or "forced-window"
+    raw_facts = _raw_claim_facts(verified_facts, conjecture_id)
+    if conjecture_id == "window6.alpha-certificate-completion.external-readout-theorem" or _has_certificate_completion_facts(raw_facts):
+        return _render_window6_alpha_certificate_completion_section(
+            conjecture,
+            verified_facts,
+            title=title,
+            label=slug,
+        ).splitlines()
     return _render_math_fallback_section(
         title=title,
         label=slug,
@@ -5072,23 +5663,33 @@ def run_writeback_lane(store: FibonacciRealityStore) -> dict[str, Any]:
         linked_mismatches = deduped_mismatches
         verified_facts = _all_verified_facts(conjecture)
         conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
-        codex_text = _codex_written_content(
-            render_conjecture_with_codex,
-            (conjecture, verified_facts, linked_contacts, linked_probes, linked_mismatches),
-            verified_facts,
-            conjecture_id,
-            repo_root,
-            writer_config,
+        raw_facts = _raw_claim_facts(verified_facts, conjecture_id)
+        deterministic_certificate_completion = (
+            conjecture_id == "window6.alpha-certificate-completion.external-readout-theorem"
+            or _has_certificate_completion_facts(raw_facts)
         )
-        if codex_text:
-            chapter_text = codex_text.rstrip()
+        if deterministic_certificate_completion:
+            chapter_text = "\n".join(
+                _render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)
+            ).rstrip()
         else:
-            # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
-            cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
-            if cached_rich:
-                chapter_text = cached_rich.rstrip()
+            codex_text = _codex_written_content(
+                render_conjecture_with_codex,
+                (conjecture, verified_facts, linked_contacts, linked_probes, linked_mismatches),
+                verified_facts,
+                conjecture_id,
+                repo_root,
+                writer_config,
+            )
+            if codex_text:
+                chapter_text = codex_text.rstrip()
             else:
-                chapter_text = "\n".join(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)).rstrip()
+                # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
+                cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
+                if cached_rich:
+                    chapter_text = cached_rich.rstrip()
+                else:
+                    chapter_text = "\n".join(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)).rstrip()
         chapter_entries.append((_forced_window_conjecture_slug(conjecture_id), chapter_text))
 
     paths = store.paths
@@ -7310,6 +7911,28 @@ def self_test() -> int:
                 return 1
             if not list((base / "oracle_sessions" / "bio-G").glob("*.jsonl")) or not list((base / "oracle_sessions" / "bio-G").glob("*.md")):
                 print("bio-G oracle transcript missing", file=sys.stderr)
+                return 1
+            prompt_claim_id, oracle_prompt = _bio_g_initial_prompt(
+                oracle_gate_store,
+                {"packet_kind": "conjecture", "claim_id": "oracle.review.claim", "gate_status": "gate_passed"},
+            )
+            if prompt_claim_id != "oracle.review.claim":
+                print(prompt_claim_id, file=sys.stderr)
+                return 1
+            forbidden_prompt_terms = [
+                "verified_facts",
+                "bio-namer",
+                "reality contacts",
+                "probes",
+                "JSON",
+                "PDF",
+                "registry",
+                "writeback",
+                "repository",
+                "local file",
+            ]
+            if any(term in oracle_prompt for term in forbidden_prompt_terms):
+                print(oracle_prompt, file=sys.stderr)
                 return 1
 
             oracle_plan_paths = _temp_paths(base / "oracle_plan")

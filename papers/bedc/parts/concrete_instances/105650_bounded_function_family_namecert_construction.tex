@@ -62,6 +62,23 @@ The pointwise real bounds in $B$ are then read against those map values. The sup
 The provenance and local name rows $P,N$ close the packet. Because the carrier contains no open-cover, ambient topology, quotient equality, or subsequence-selector coordinate, the listed rows exhaust every sup-norm read available to downstream Arzela--Ascoli and equicontinuity consumers.
 \end{proof}
 
+\begin{theorem}[Bounded function-family sup-norm non-escape]
+\label{thm:bounded-function-family-sup-norm-nonescape}
+Any Arzela--Ascoli, equicontinuity, or compact-continuity consumer using the $\BoundedFunctionFamilyUp$ sup-norm ledger must read exactly
+$$
+X,Y,I,M,B,U,H,C,P,N.
+$$
+Consequently it cannot replace $U$ by an ambient function-space topology, selected supremum, quotient real equality, or choice-selected subsequence. The only available sup-norm data are the displayed pointwise $\RealUp$ bound comparisons, the finite family-index and continuous-map rows, structural transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-function-family-carrier}. The rows available to a sup-norm consumer are precisely $X,Y,I,M,B,U,H,C,P,N$, with $U$ positioned after the compact source, complete target, finite index, continuous-map, and pointwise-bound rows.
+
+Apply \autoref{thm:bounded-function-family-namecert-obligations} to identify the local certificate obligations and \autoref{thm:bounded-function-family-sup-norm-route} to force every sup-norm read through the displayed route.
+
+No additional carrier coordinate remains after those rows are exhausted. Thus an Arzela--Ascoli, equicontinuity, or compact-continuity consumer cannot import an ambient function-space topology, selected supremum, quotient real equality, or choice-selected subsequence in place of $U$.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedFunctionFamilyUp.BoundedFunctionFamilySupNormNonescape}
+
 \falsifiablePrediction{An accepted $\BoundedFunctionFamilyUp$ consumer that reads a sup-norm ledger without the displayed finite family-index row, continuous-map rows, pointwise $\RealUp$ bound rows, and structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the carrier surface.}
 
 \independenceWitness{compactmetric, equicontinuityfamily, arzelaascoli, real: no listed sibling jointly carries the compact source, complete target, finite continuous-map family, pointwise real-bound ledger, displayed sup-norm route, transport, replay, provenance, and local name rows of $F=(X,Y,I,M,B,U,H,C,P,N)$.}
@@ -71,7 +88,7 @@ The provenance and local name rows $P,N$ close the packet. Because the carrier c
 \begin{closurestatus}{\BoundedFunctionFamilyUp}
   \constructivestory{A $\BoundedFunctionFamilyUp$ packet is generated from a compact metric source row, complete metric target row, finite family-index row, continuous-map rows, pointwise RealUp bound rows, displayed sup-norm ledger, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-function-family-carrier}, \autoref{thm:bounded-function-family-namecert-obligations}, and \autoref{thm:bounded-function-family-sup-norm-route} bind the finite bounded-family carrier and its displayed sup-norm ledger route.}
+  \scopeclosed{\autoref{def:bounded-function-family-carrier}, \autoref{thm:bounded-function-family-namecert-obligations}, \autoref{thm:bounded-function-family-sup-norm-route}, and \autoref{thm:bounded-function-family-sup-norm-nonescape} bind the finite bounded-family carrier and its displayed sup-norm ledger route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, ambient function-space topology, selected suprema, quotient real equality, choice-selected subsequences, Lean verification, or bridge checking.}

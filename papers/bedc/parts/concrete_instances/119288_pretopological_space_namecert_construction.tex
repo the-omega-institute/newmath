@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\PretopologicalSpaceUp$}
+\label{ch:concrete-instances-pretopological-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, a pretopological space is the neighbourhood-interface presentation obtained before open-set closure laws are imposed as a full topology. The $\PretopologicalSpaceUp$ packet sits between the indexed open carrier of \autoref{ch:concrete-instances-topology-namecert}, the pointwise neighbourhood rows of \autoref{ch:concrete-instances-neighbourhood-system-namecert}, and the prefix-sensitive neighbourhood read of \autoref{ch:concrete-instances-neighborhood-function-namecert}. It records finite local neighbourhood, closure, interior, transport, replay, provenance, and naming rows without forcing a host powerset of opens, quotient equality of neighbourhood filters, selected limits, or ambient topological equivalence.
+
+\begin{definition}[PretopologicalSpace carrier]
+\label{def:pretopological-space-carrier}
+A $\PretopologicalSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(X,N,C,I,H,R,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point row, naming the displayed carrier points and the classifier used to compare point observations.
+\item $N$ is the neighbourhood-system row, recording the finite neighbourhood tokens around each displayed point and their pointwise containment requests.
+\item $C$ is the closure readback row, recording which displayed point lies in the closure of a displayed finite neighbourhood observation.
+\item $I$ is the interior readback row, recording which displayed point is accepted by a finite interior observation.
+\item $H$ records componentwise $\hsame$ transport for point rows, neighbourhood tokens, closure readbacks, interior readbacks, replay rows, provenance rows, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a local neighbourhood request through $X,N,C,I$.
+\item $Q$ is the $\Pkg$ provenance over $\PretopologicalSpaceUp$, $\TopologyUp$, $\NeighbourhoodSystemUp$, $\NeighborhoodFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\PretopologicalSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,N,C,I,H,R,Q,L$. It has no coordinate for full open-set topology laws, host powersets of opens or neighbourhoods, quotient equality of filters, selected limit points, countable choice, or ambient equality of topology structures.
+\end{definition}
+
+\begin{theorem}[PretopologicalSpace NameCert obligations]
+\label{thm:pretopological-space-namecert-obligations}
+For every accepted $\PretopologicalSpaceUp$ carrier $P=(X,N,C,I,H,R,Q,L)$, the local $\NameCert_{\PretopologicalSpaceUp}$ surface consists exactly of point-row exposure, neighbourhood-system exposure, closure readback, interior readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every topology-facing or neighbourhood-facing consumer must display
+$$
+X,N \longmapsto C,I,H,R,Q,L
+$$
+before it may inspect closure, interior, or local neighbourhood data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pretopological-space-carrier}. The accepted packet exposes exactly the rows $X,N,C,I,H,R,Q,L$, with no separate row for a host topology, powerset of opens, quotient filter, selected limit, or countable-choice schedule.
+
+The local rows are read first. The point row $X$ fixes the displayed classifier, and the neighbourhood-system row $N$ supplies the finite pointwise neighbourhood tokens inherited from the neighbourhood presentation.
+
+The readback rows are then confined to the same finite surface. Closure and interior observations are recorded by $C$ and $I$, while $H,R,Q,L$ transport, replay, source, and name the packet. Hence the local certificate obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[PretopologicalSpace neighbourhood transport]
+\label{thm:pretopological-space-neighbourhood-transport}
+Every neighbourhood, closure, or interior read of an accepted $\PretopologicalSpaceUp$ packet transports only through the route
+$$
+\TopologyUp,\NeighbourhoodSystemUp,\NeighborhoodFunctionUp \longmapsto \PretopologicalSpaceUp .
+$$
+The route preserves point-row identity, finite neighbourhood tokens, closure readback, interior readback, displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It does not export full topology laws, host powersets of opens, quotient neighbourhood filters, selected limits, countable choice, or ambient topological equality.
+\end{theorem}
+\begin{proof}
+Start with the topology side. The indexed-open interface of \autoref{ch:concrete-instances-topology-namecert} supplies open-index membership and classifier transport, but the pretopological packet reads only the neighbourhood-facing consequences needed for $N,C,I$.
+
+Read the pointwise neighbourhood surface next. The finite neighbourhood rows of \autoref{ch:concrete-instances-neighbourhood-system-namecert} provide the local tokens, and the finite-observation discipline of \autoref{ch:concrete-instances-neighborhood-function-namecert} supplies the prefix-sensitive replay pattern for neighbourhood requests.
+
+Finally apply the carrier inventory. Transport by $H$, replay by $R$, provenance by $Q$, and naming by $L$ preserve the same rows and add no coordinate for full open-set topology laws, host powersets, quotient filters, selected limits, choice, or ambient topology equality.
+\end{proof}
+
+\closureat{PretopologicalSpaceUp}{seedStr}
+
+\begin{closurestatus}{\PretopologicalSpaceUp}
+  \constructivestory{A $\PretopologicalSpaceUp$ packet is generated from a point row, neighbourhood-system row, closure readback row, interior readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pretopological-space-carrier}, \autoref{thm:pretopological-space-namecert-obligations}, and \autoref{thm:pretopological-space-neighbourhood-transport} seed the neighbourhood-interface carrier between Topology, NeighbourhoodSystem, and NeighborhoodFunction rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full open-set topology laws, quotient equality of neighbourhood filters, selected limits, countable choice, ambient topology equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked point exposure, neighbourhood-system exposure, closure and interior readback, neighbourhood transport, replay, provenance, and local naming for BEDC.Derived.PretopologicalSpaceUp.}
+\end{closurestatus}

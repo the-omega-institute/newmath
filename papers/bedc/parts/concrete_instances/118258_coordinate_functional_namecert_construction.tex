@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CoordinateFunctionalUp$}
+\label{ch:concrete-instances-coordinate-functional-namecert}
+\origin{human}
+
+Following Schauder and Banach-space basis theory, the $\CoordinateFunctionalUp$ packet records the bounded coefficient readback licensed by a displayed Schauder basis without identifying that readback with an arbitrary element of the dual space. It sits beside the basis packet of \autoref{ch:concrete-instances-schauder-basis-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the norm row of \autoref{ch:concrete-instances-norm-namecert}, the Banach completion surface of \autoref{ch:concrete-instances-banach-namecert}, the regular rational scalar route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name modulus seal of \autoref{ch:concrete-instances-real-namecert}. The certificate separates the Schauder basis that supplies coefficients from the coordinate functional that consumes one index and exports a bounded scalar read.
+
+\begin{definition}[Coordinate functional carrier]
+\label{def:coordinate-functional-carrier}
+A $\CoordinateFunctionalUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,V,N,C,Q,M,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\SchauderBasisUp$ source row naming the basis-vector stream, finite partial sums, coefficient requests, tail estimates, and reconstruction route used by the coefficient read.
+\item $V$ is the $\VecSpaceUp$ row naming vector addition, scalar action, zero vector, and finite linear-combination syntax for the vectors on which the coordinate functional is read.
+\item $N$ is the $\NormUp$ and $\BanachUp$ budget row, recording the norm estimates and completion-facing bounds used to treat the coefficient read as bounded.
+\item $C$ is the coordinate-readback row for a displayed basis index $i$, sending an accepted vector read to the coefficient row $c_i(x)$ licensed by $B$.
+\item $Q$ is the $\RegSeqRatUp$ scalar-name row for the rational approximants used to present the coefficient value.
+\item $M$ is the $\RealUp$-valued continuity-modulus row, recording the local bound that turns the coefficient readback into a bounded scalar output.
+\item $H$ records componentwise $\hsame$ transport for the Schauder basis source, vector-space operations, norm budget, coordinate readback, regular scalar name, continuity modulus, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from vector reads through $B,V,N,C,Q,M$ to the scalar output.
+\item $P$ records $\Pkg$ provenance over $\CoordinateFunctionalUp$, $\SchauderBasisUp$, $\VecSpaceUp$, $\NormUp$, $\BanachUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CoordinateFunctionalUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $B,V,N,C,Q,M,H,T,P,L$. It has no coordinate for a Hamel basis choice, arbitrary linear functionals, a full dual-space representation, Hahn--Banach extension, countable choice, or a detached coefficient oracle.
+\end{definition}
+
+\begin{theorem}[CoordinateFunctional coefficient readback]
+\label{thm:coordinate-functional-coefficient-readback}
+For every accepted $\CoordinateFunctionalUp$ carrier $F=(B,V,N,C,Q,M,H,T,P,L)$ and displayed basis index $i$, a coefficient read $x\mapsto c_i(x)$ is admitted only by first exposing the $\SchauderBasisUp$ row $B$, the vector-space row $V$, the norm budget $N$, and the coordinate-readback row $C$. The scalar output is then named through $Q$ and sealed by $M$ as a $\RealUp$-valued bounded read. No coefficient can be read from a host dual vector, a Hamel-basis selector, or an undeclared functional row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:coordinate-functional-carrier}. The only row that contains basis coefficients is $B$, and the only row that turns one displayed index into a scalar request is $C$.
+
+The vector and norm rows are then load-bearing. The row $V$ supplies the finite linear syntax for the input vector, while $N$ supplies the norm budget needed before the read can be treated as a bounded coordinate.
+
+Finally read the scalar rows $Q$ and $M$. The regular rational row gives the displayed scalar approximants, and the real-valued modulus row gives the continuity budget. Since no host dual, Hamel selector, or undeclared functional row appears in $F$, the coefficient readback is exactly the displayed route through $B,V,N,C,Q,M$.
+\end{proof}
+
+\begin{theorem}[CoordinateFunctional linearity obligation]
+\label{thm:coordinate-functional-linearity-obligation}
+Every accepted $\CoordinateFunctionalUp$ packet exposes the additivity and scalar-compatibility obligations for its displayed coefficient read only through the rows $B,V,N,C,Q,M,H,T,P,L$. Additivity is checked against the $\VecSpaceUp$ operations in $V$ and the coefficient-readback row $C$; scalar compatibility is checked against the same vector-space action and the $\RegSeqRatUp$ scalar names in $Q$. The obligation does not assert linearity for arbitrary functionals outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the vector-space row. Addition and scalar action are named in $V$, so the two algebraic tests for the coordinate read are formed only in that displayed syntax.
+
+Use the coefficient row $C$ twice. For additivity it compares the readback on a displayed sum with the displayed sum of coefficient reads; for scalar compatibility it compares the readback on a displayed scalar multiple with the scalar action recorded through $Q$.
+
+The structural rows $H,T,P,L$ preserve the same tests under transport, replay, provenance, and naming. They do not add a new functional row, so the linearity obligation remains local to the coordinate readback carried by the packet.
+\end{proof}
+
+\begin{theorem}[CoordinateFunctional continuity modulus]
+\label{thm:coordinate-functional-continuity-modulus}
+For every accepted $\CoordinateFunctionalUp$ carrier $F=(B,V,N,C,Q,M,H,T,P,L)$, the boundedness or continuity claim available to a downstream consumer is the displayed $\RealUp$-valued modulus row $M$ read after the Schauder source $B$, vector operations $V$, norm budget $N$, coefficient readback $C$, and regular scalar name $Q$. The modulus is a finite NameCert row, not a Hahn--Banach extension, an ambient dual-space norm, or a choice-selected bound.
+\end{theorem}
+\begin{proof}
+Open the carrier and locate the modulus row. The only continuity datum is $M$, and it is downstream from the basis, vector-space, norm, coordinate, and scalar-name rows.
+
+The coefficient readback theorem supplies the route into $M$. A consumer first reads $B,V,N,C,Q$ to obtain a scalar output tied to the displayed basis index, and only then reads the real-valued bound stored in $M$.
+
+The provenance and local naming rows exclude the external principles listed in the statement. Since Hahn--Banach extension, ambient dual-space norms, and choice-selected bounds have no coordinate in $F$, the continuity claim is only the finite modulus row recorded by the packet.
+\end{proof}
+
+\begin{theorem}[CoordinateFunctional NameCert obligations]
+\label{thm:coordinate-functional-namecert-obligations}
+For every accepted $\CoordinateFunctionalUp$ carrier $F=(B,V,N,C,Q,M,H,T,P,L)$, the local $\NameCert_{\CoordinateFunctionalUp}$ surface consists exactly of carrier admission, Schauder basis source exposure, vector-space operation exposure, norm-budget exposure, coordinate-readback exposure, regular scalar-name exposure, real-valued continuity-modulus exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer of $F$ receives those finite rows and no Hamel basis choice, arbitrary linear functional, full dual-space representation, Hahn--Banach theorem, countable-choice schedule, or detached coefficient oracle.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:coordinate-functional-carrier}. It exposes exactly the tuple $B,V,N,C,Q,M,H,T,P,L$.
+
+The analytic rows are $B,V,N,C,Q,M$. They identify the Schauder basis source, the vector-space syntax, the norm budget, the coefficient readback, the regular scalar name, and the real-valued modulus in the order required by the coefficient-readback, linearity-obligation, and continuity-modulus theorems above.
+
+The structural rows $H,T,P,L$ preserve and name that same route. Since the carrier inventory omits Hamel basis choice, arbitrary functionals, dual-space representation, Hahn--Banach extension, countable choice, and detached coefficient oracles, no local NameCert obligation can export them.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CoordinateFunctionalUp$ coefficient read factors through a SchauderBasis row, VecSpace operations, Norm and Banach budget rows, coordinate readback, RegSeqRat scalar names, a Real-valued continuity modulus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{schauder-basis, vecspace, norm, banach, regseqrat, real: no listed sibling supplies the whole packet $F=(B,V,N,C,Q,M,H,T,P,L)$, because the coordinate functional carrier binds basis coefficients, vector operations, norm budgets, scalar readback, continuity modulus, transport, replay, provenance, and local naming in one finite route.}
+
+\closureat{CoordinateFunctionalUp}{seedStr}
+
+\begin{closurestatus}{\CoordinateFunctionalUp}
+  \constructivestory{A $\CoordinateFunctionalUp$ packet is generated from a SchauderBasis source row, VecSpace operation row, Norm and Banach budget row, coordinate readback row, RegSeqRat scalar-name row, Real-valued continuity-modulus row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:coordinate-functional-carrier}, \autoref{thm:coordinate-functional-coefficient-readback}, \autoref{thm:coordinate-functional-linearity-obligation}, \autoref{thm:coordinate-functional-continuity-modulus}, and \autoref{thm:coordinate-functional-namecert-obligations} seed the bounded coordinate-functional route licensed by a displayed Schauder basis.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hamel basis choice, arbitrary linear functionals, full dual-space representation, Hahn--Banach, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-readback exactness, linearity obligations, continuity-modulus exposure, transport, replay, provenance, and local naming for the displayed coordinate functional packet.}
+\end{closurestatus}

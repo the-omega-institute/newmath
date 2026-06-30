@@ -200,6 +200,94 @@ Shannon- or Huffman-optimality claim for an arbitrary probability
 distribution.
 \end{proof}
 
+\section{Channel grammar and finite window geometry}
+\label{sec:visions-channel-grammar-window-geometry}
+
+\begin{definition}[Three readings of the no-adjacent grammar]
+\label{def:visions-three-readings-no-adjacent-grammar}
+The no-adjacent-$11$ grammar has three distinct BEDC readings:
+$$
+\begin{gathered}
+\text{channel reading: } \mathsf{LegalEvent}=(0\mid10)^*11,\\
+\text{finite-window reading: } X_m=\{w\in\{0,1\}^m:w\text{ has no adjacent }11\},\\
+\text{spectral reading: } |X_m|=F_{m+2}\text{ with growth scale }\varphi.
+\end{gathered}
+$$
+The first is a compiler-channel discipline, the second is a finite
+address-geometry discipline, and the third is the growth invariant of the
+same finite-type grammar.
+\end{definition}
+
+\begin{principle}[Ground channel is a streaming use of the golden-mean grammar]
+\label{prin:visions-ground-channel-streaming-golden-mean-grammar}
+The Zeckendorf-safe compiler does not identify channel streams with
+Window-six geometry.  It uses the same local forbidden pattern for a
+different task.  In the compiler, bodies lie in
+$$
+(0\mid10)^*
+$$
+and the first adjacent $11$ is reserved as boundary.  In the
+Axis-Zeckendorf window geometry of
+\autoref{def:axiszeckendorf-no-adjacent-address-windows}, the same
+forbidden pattern defines the admissible finite windows $X_m$ and the
+inverse-limit address carrier $X_\infty^Z$.  In
+\autoref{def:axiszeckendorf-golden-mean-shift-kernel}, the transition
+kernel records the associated golden-mean shift.
+
+Thus the shared object is the local grammar, not a collapse of compiler
+channels, finite windows, and source-level Zeckendorf normal forms into one
+type.
+\end{principle}
+
+\begin{theorem}[Channel bijection is not source-level Zeckendorf rewriting]
+\label{thm:visions-channel-bijection-not-source-zeckendorf-rewrite}
+The GroundCompiler channel bijection
+$$
+\mathsf{EventFlow}\cong\mathsf{LegalZStream}
+$$
+is a self-delimiting display theorem for event flows.  It is not a
+source-level Zeckendorf carry or normal-form theorem.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:main-theorems-channel-bijection}, the legal channel stream
+language is
+$$
+\mathsf{LegalZStream}=((0\mid10)^*11)^*,
+$$
+and $\mathsf{Compile}$ and $\mathsf{Decode}$ are inverse maps.  By
+\autoref{thm:main-theorems-source-channel-separation}, source events and
+channel streams are strictly separated: channel-level $11$ is a terminator,
+source-level $11$ may be raw data, and source-level normalization acts only
+after decoding.  Therefore the channel bijection licenses lossless event
+flow display, not a direct string rewrite by a Zeckendorf carry classifier.
+\end{proof}
+
+\begin{principle}[Boundary recovery pattern]
+\label{prin:visions-boundary-recovery-pattern}
+The compiler channel realizes the pattern
+$$
+\text{local forbidden body pattern}
+\to
+\text{detectable boundary}
+\to
+\text{streaming decoder}
+\to
+\text{round-trip certificate}.
+$$
+Window six realizes the related finite-geometry pattern
+$$
+\text{local forbidden window pattern}
+\to
+\text{finite admissible carrier}
+\to
+\text{inverse-limit extension boundary}.
+$$
+The analogy is structural.  It does not turn legal-stream membership into a
+theorem, a proof, a recognized NameCert, an accepted object flow, or a
+source-level Zeckendorf normal form.
+\end{principle}
+
 \section{The halting boundary}
 \label{sec:visions-channel-halting-boundary}
 
@@ -271,3 +359,4 @@ obstruction that appears when the open meta loop is treated as closed.
 \concretizedIn{ch:concrete-instances-halting-refusal-ledger-namecert}{Halting refusal ledgers realize the local channel terminator/global halting boundary as finite fuel, trace, timeout-refusal, and global-refusal NameCert rows.}
 \concretizedIn{ch:concrete-instances-halting-finite-boundary-namecert}{Halting finite-boundary packets realize the channel-termination vision as finite trace evidence plus diagonal refusal, terminal trace, inscription, transport, replay, provenance, and NameCert rows.}
 \concretizedIn{ch:concrete-instances-certified-event-flow-namecert}{Certified event flows realize source/channel endpoint separation as finite NameCert data.}
+\concretizedIn{ch:concrete-instances-channel-termination-boundary-namecert}{Channel termination boundary packets realize the first-$11$ local delimiter as finite NameCert data separated from global halting claims.}

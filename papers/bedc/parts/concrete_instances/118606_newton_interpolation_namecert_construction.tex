@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\NewtonInterpolationUp$}
+\label{ch:concrete-instances-newton-interpolation-namecert}
+\origin{human}
+
+Following Newton's divided-difference interpolation, the $\NewtonInterpolationUp$ packet records the finite route from ordered interpolation nodes and displayed values to the Newton-basis polynomial row whose coefficients are the divided differences. It sits beside the basis-polynomial route of \autoref{ch:concrete-instances-lagrange-interpolation-namecert} and the confluent jet route of \autoref{ch:concrete-instances-hermite-interpolation-namecert}, while consuming the scalar, coefficient-list, and finite-table surfaces of \autoref{ch:concrete-instances-field-namecert}, \autoref{ch:concrete-instances-polynomial-namecert}, and \autoref{ch:concrete-instances-matrix-namecert}. The packet names only finite node, value, divided-difference, polynomial-row, transport, replay, provenance, and local naming data.
+
+\begin{definition}[Newton interpolation carrier]
+\label{def:newton-interpolation-carrier}
+A $\NewtonInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+W=(X,V,T,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is a nonempty finite node list with an order row and pairwise-distinctness ledger over the displayed $\FieldUp$ scalar source.
+\item $V$ is the value list, indexed by the same finite node list and classified together with $X$ under componentwise endpoint transport.
+\item $T$ is the divided-difference table, stored as a finite triangular $\MatrixUp$ row whose first column is $V$ and whose higher columns are computed from displayed field subtraction and inverse rows.
+\item $R$ is the interpolation polynomial row, assembling the Newton basis products
+$$
+1,\quad (Z-X_0),\quad (Z-X_0)(Z-X_1),\quad \ldots
+$$
+with coefficients read from the top row of $T$ as a normalized $\PolynomialUp$ coefficient list.
+\item $A$ is the classifier-transport and agreement row, recording that the polynomial row evaluates to the displayed values at the node list and agrees with the sibling $\LagrangeInterpolationUp$ route whenever the same finite node-value ledger is read.
+\item $H$ records componentwise $\hsame$ transport for nodes, values, table entries, basis products, polynomial coefficients, agreement rows, replay routes, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for forming table entries, extending the polynomial by one Newton basis factor, evaluating at displayed nodes, and reading the sibling interpolation anchors.
+\item $P$ is the $\Pkg$ provenance over $\NewtonInterpolationUp$, $\FieldUp$, $\PolynomialUp$, $\MatrixUp$, $\LagrangeInterpolationUp$, $\HermiteInterpolationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NewtonInterpolationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets by transporting exactly these rows through $H$ and replaying the same finite table and polynomial-row routes through $C$ and $P$. It has no coordinate for a host polynomial function, unstated matrix inverse, quotient polynomial equality, infinite node family, analytic limiting table, or field-completion principle.
+\end{definition}
+
+\begin{theorem}[Newton interpolation NameCert obligations]
+\label{thm:newton-interpolation-namecert-obligations}
+For every accepted $\NewtonInterpolationUp$ carrier $W=(X,V,T,R,A,H,C,P,N)$, the local $\NameCert_{\NewtonInterpolationUp}$ obligation surface consists exactly of carrier admission for the finite node list, value list, divided-difference table, interpolation polynomial row, classifier transport, displayed replay, package provenance, and local naming. The table row $T$ must read $\FieldUp$ subtraction and inverse data before any higher divided difference is exposed; the polynomial row $R$ must read $\PolynomialUp$ coefficient-list assembly before a consumer obtains the interpolant; and the agreement row $A$ may compare with the sibling $\LagrangeInterpolationUp$ and $\HermiteInterpolationUp$ anchors only through their displayed finite interpolation rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:newton-interpolation-carrier}. The rows $X$ and $V$ supply the ordered node-value ledger, while $T$ stores the triangular divided-difference table as finite matrix data.
+
+The polynomial row $R$ is downstream of $T$. Each coefficient is read from the displayed top row of the table, and each Newton basis product is assembled as a finite $\PolynomialUp$ coefficient-list operation.
+
+The agreement row $A$ records only classifier transport and sibling comparison. It may point to the Lagrange node-value route or to the Hermite confluent route, but it does not import a host interpolation theorem or an external analytic table.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no additional coordinate for quotient polynomial equality, hidden matrix inversion, infinite node families, selected Real representatives, or field completion, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Newton divided-difference stability]
+\label{thm:newton-interpolation-divided-difference-stability}
+Let $W=(X,V,T,R,A,H,C,P,N)$ be an accepted $\NewtonInterpolationUp$ carrier. Any transported read of the node list, value list, or top-row divided-difference coefficients determines the same polynomial row after replaying the displayed $\hsame$ and $\Cont$ routes. In particular, extending the finite node-value ledger by one displayed node appends one triangular column of $T$ and one Newton basis factor to $R$, without changing the already displayed lower-stage polynomial rows.
+\end{theorem}
+\begin{proof}
+Start with the componentwise transport row $H$. It transports the node list, value list, table entries, basis products, and polynomial coefficients together, so a transported divided-difference entry remains attached to the same finite table position.
+
+Replay $C$. The recurrence for the next divided difference uses only displayed field subtraction and inverse rows from the existing node list, and the appended polynomial term uses the next top-row coefficient with the next finite Newton basis product.
+
+The lower-stage rows are already named in $T$ and $R$. Adding a later table column and basis factor appends data to the finite carrier but does not rewrite the earlier table entries or coefficient-list reads.
+
+The agreement and provenance rows $A,P,N$ then name the transported packet as the same Newton interpolation surface. Thus divided-difference stability is a statement about finite carrier transport and replay, not about host polynomial equality, an analytic limiting process, or a hidden matrix inverse.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NewtonInterpolationUp$ read displays a finite node list, value list, divided-difference table, interpolation polynomial row, classifier transport, $\FieldUp$, $\PolynomialUp$, $\MatrixUp$, $\LagrangeInterpolationUp$, $\HermiteInterpolationUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any Newton interpolant is available.}
+
+\independenceWitness{field, polynomial, matrix, lagrange-interpolation, hermite-interpolation: $\NewtonInterpolationUp$ is not bijective to any listed sibling because it jointly carries an ordered node-value ledger, a triangular divided-difference table, a Newton-basis polynomial row, sibling agreement rows, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{NewtonInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\NewtonInterpolationUp}
+  \constructivestory{A $\NewtonInterpolationUp$ packet is generated from an ordered finite node list, displayed value list, triangular divided-difference table, Newton-basis polynomial row, classifier transport, Lagrange and Hermite sibling anchors, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-interpolation-carrier}, \autoref{thm:newton-interpolation-namecert-obligations}, and \autoref{thm:newton-interpolation-divided-difference-stability} seed the finite Newton interpolation carrier, local NameCert obligation surface, and divided-difference stability route over displayed FieldUp, PolynomialUp, MatrixUp, LagrangeInterpolationUp, HermiteInterpolationUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, quotient polynomial equality, host interpolation functions, hidden matrix inverses, infinite node families, analytic limiting tables, selected Real representatives, or field-completion arguments.}
+  \upgradepath{Obligation closure requires checked carrier admission, divided-difference table formation, Newton basis assembly, node evaluation stability, sibling agreement, transport, replay, provenance, and local naming for BEDC.Derived.NewtonInterpolationUp.NewtonInterpolationUp.}
+\end{closurestatus}

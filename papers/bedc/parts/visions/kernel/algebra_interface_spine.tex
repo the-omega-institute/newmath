@@ -1,0 +1,534 @@
+\chapter{Algebra Interface Spine}
+\label{ch:visions-algebra-interface-spine}
+\origin{human}
+
+The arithmetic spine licenses unary counting, continuation addition,
+repeated addition, prefix comparison, signed pairs, and rational histories.
+The algebra layer reads those objects only through certificates.  It does not
+insert host algebraic structures into the kernel.  The layer indexed in
+\autoref{sec:roadmap-l8-algebra} is the certificate chain
+$$
+\MagmaUp
+\to
+\SemigroupUp
+\to
+\MonoidUp
+\to
+\GroupUp
+\to
+\AbGroupUp
+\to
+\RingUp
+\to
+\CommRingUp
+\to
+\FieldUp
+\to
+\ModuleUp
+\to
+\VecSpaceUp.
+$$
+Each step keeps a carrier and classifier visible, adds only the operation or
+law rows named by that step, and records expression provenance in a ledger.
+
+\section{Algebraic Certificate Template}
+\label{sec:algebra-spine-template}
+
+\begin{definition}[Algebraic carrier]
+\label{def:algebra-spine-carrier}
+An algebraic carrier is a carrier-classifier pair
+$$
+(C,\sim_C)
+$$
+where
+$$
+C:\Hist\to\mathsf{Prop}
+$$
+is the admitted carrier predicate and
+$$
+\sim_C:\Hist\to\Hist\to\mathsf{Prop}
+$$
+is the public classifier.  The pair is usable by the algebra layer only after
+a displayed $\NameCert(C,\sim_C)$ supplies carrier transport and classifier
+laws.
+\end{definition}
+
+\begin{definition}[Stable operations]
+\label{def:algebra-spine-stable-operations}
+A unary operation $f$ on $(C,\sim_C)$ is stable when it supplies carrier
+closure, classifier congruence, and ledger rows:
+$$
+C(x)\Longrightarrow C(f(x)),
+\qquad
+x\sim_C y\Longrightarrow f(x)\sim_C f(y).
+$$
+A binary operation $\mu$ is stable when it supplies
+$$
+C(x)\wedge C(y)\Longrightarrow C(\mu(x,y)),
+$$
+and
+$$
+x\sim_C x'\wedge y\sim_C y'
+\Longrightarrow
+\mu(x,y)\sim_C\mu(x',y').
+$$
+The operation ledger records the expression tree, the source histories, and
+the normalization or replay route hidden by the public operation symbol.
+\end{definition}
+
+\begin{definition}[Algebraic interface certificate]
+\label{def:algebra-spine-algcert}
+An algebraic interface certificate is the packet
+$$
+\mathsf{AlgCert}
+=
+(C,\sim_C,\mathsf{Ops},\mathsf{Laws},
+\mathsf{Cong},\mathsf{Ledger},\NameCert{}).
+$$
+The operation field records the displayed operation rows.  The law field
+records the algebraic equations available at classifier resolution.  The
+congruence field records transport of every operation through the classifier.
+The ledger field records finite expression provenance and normalization
+routes.
+\end{definition}
+
+\begin{principle}[Algebra is certificate-facing]
+\label{prin:algebra-spine-certificate-facing}
+Every L8 interface is admitted only through an algebraic interface
+certificate.  A familiar notation such as multiplication, inverse, scalar
+action, or vector addition is therefore a public name for displayed carrier,
+classifier, operation, law, congruence, and ledger rows.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-algebraic-expression-ledger-namecert}{The algebraic expression ledger realizes the operation-provenance rows of the algebra interface spine as finite NameCert data.}
+
+\section{Magma Through Monoid}
+\label{sec:algebra-spine-magma-monoid}
+
+\begin{definition}[Magma interface]
+\label{def:algebra-spine-magma}
+A $\MagmaUp$ interface is an admitted carrier-classifier pair
+$(C,\sim_C)$ with one stable binary operation $\mu$.  Its certificate records
+closure of $\mu$, binary congruence of $\mu$, and an operation ledger.  It
+does not contain associativity, identity, inverse, or commutativity rows.
+\end{definition}
+
+\begin{theorem}[Magma operation descends to classifier classes]
+\label{thm:algebra-spine-magma-descent}
+If $\mu$ satisfies binary congruence, then replacing either input by a
+classified input does not change the output classifier class.
+\end{theorem}
+
+\begin{proof}
+Given $x\sim_C x'$ and $y\sim_C y'$, binary congruence gives
+$$
+\mu(x,y)\sim_C\mu(x',y').
+$$
+This is exactly the descent condition for the public operation read.
+\end{proof}
+
+\begin{definition}[Semigroup interface]
+\label{def:algebra-spine-semigroup}
+A $\SemigroupUp$ interface is a $\MagmaUp$ interface with associativity:
+$$
+C(x)\wedge C(y)\wedge C(z)
+\Longrightarrow
+\mu(\mu(x,y),z)\sim_C\mu(x,\mu(y,z)).
+$$
+\end{definition}
+
+\begin{theorem}[Fourfold rebracketing]
+\label{thm:algebra-spine-fourfold-rebracketing}
+In a $\SemigroupUp$ interface,
+$$
+\mu(\mu(\mu(a,b),c),d)
+\sim_C
+\mu(a,\mu(b,\mu(c,d))).
+$$
+\end{theorem}
+
+\begin{proof}
+Apply associativity to the first three factors, then use binary congruence to
+move the rebracketing inside the outer product.  Apply associativity once more
+to move the final factor into the right-nested expression.
+\end{proof}
+
+\begin{definition}[Monoid interface]
+\label{def:algebra-spine-monoid}
+A $\MonoidUp$ interface is a $\SemigroupUp$ interface with a displayed unit
+$e_C$ satisfying
+$$
+C(e_C),
+\qquad
+\mu(e_C,x)\sim_C x,
+\qquad
+\mu(x,e_C)\sim_C x.
+$$
+\end{definition}
+
+\begin{theorem}[Unit uniqueness]
+\label{thm:algebra-spine-unit-uniqueness}
+If $e$ and $u$ are both two-sided units for the same monoid operation, then
+$e\sim_C u$.
+\end{theorem}
+
+\begin{proof}
+Since $u$ is a right unit, $\mu(e,u)\sim_C e$.  Since $e$ is a left unit,
+$\mu(e,u)\sim_C u$.  Symmetry and transitivity of the classifier give
+$e\sim_C u$.
+\end{proof}
+
+\begin{corollary}[Unit normalization]
+\label{cor:algebra-spine-unit-normalization}
+Finite monoid expressions containing unit leaves normalize, at classifier
+resolution, to expressions in which those unit leaves have been removed.
+\end{corollary}
+
+\begin{proof}
+Induct on the expression tree.  At a node $\mu(e_C,x)$ or $\mu(x,e_C)$, use
+the corresponding unit law.  Binary congruence transports the substitution
+term through the enclosing expression contexts.
+\end{proof}
+
+\section{Groups}
+\label{sec:algebra-spine-groups}
+
+\begin{definition}[Group interface]
+\label{def:algebra-spine-group}
+A $\GroupUp$ interface is a $\MonoidUp$ interface with a stable inverse
+operation $\iota$ satisfying
+$$
+C(x)\Longrightarrow C(\iota(x)),
+\qquad
+x\sim_C y\Longrightarrow \iota(x)\sim_C\iota(y),
+$$
+and
+$$
+\mu(\iota(x),x)\sim_C e_C,
+\qquad
+\mu(x,\iota(x))\sim_C e_C.
+$$
+\end{definition}
+
+\begin{theorem}[Group cancellation]
+\label{thm:algebra-spine-group-cancellation}
+In a $\GroupUp$ interface, left and right multiplication by the same carried
+element are cancellable at classifier resolution.
+\end{theorem}
+
+\begin{proof}
+For left cancellation, assume $\mu(a,b)\sim_C\mu(a,c)$.  Multiply both sides
+on the left by $\iota(a)$ and use binary congruence.  Associativity rewrites
+the two sides as
+$$
+\mu(\mu(\iota(a),a),b)
+\sim_C
+\mu(\mu(\iota(a),a),c).
+$$
+The left inverse law turns the inner products into $e_C$, and the left unit
+law gives $b\sim_C c$.  Right cancellation is the symmetric argument using
+right multiplication by $\iota(a)$.
+\end{proof}
+
+\begin{theorem}[Inverse uniqueness]
+\label{thm:algebra-spine-inverse-uniqueness}
+If
+$$
+\mu(y,x)\sim_C e_C
+\qquad\text{and}\qquad
+\mu(x,z)\sim_C e_C,
+$$
+then $y\sim_C z$.
+\end{theorem}
+
+\begin{proof}
+Use the chain
+$$
+y
+\sim_C
+\mu(y,e_C)
+\sim_C
+\mu(y,\mu(x,z))
+\sim_C
+\mu(\mu(y,x),z)
+\sim_C
+\mu(e_C,z)
+\sim_C
+z.
+$$
+Each step is a unit law, associativity, the displayed inverse witness, or
+classifier transport through the operation.
+\end{proof}
+
+\begin{definition}[Abelian group interface]
+\label{def:algebra-spine-abgroup}
+An $\AbGroupUp$ interface is a $\GroupUp$ interface with commutativity:
+$$
+\mu(x,y)\sim_C\mu(y,x).
+$$
+\end{definition}
+
+\begin{theorem}[Balanced cancellation]
+\label{thm:algebra-spine-balanced-cancellation}
+In an $\AbGroupUp$ interface, if
+$$
+\mu(a,b)\sim_C\mu(c,a),
+$$
+then $b\sim_C c$.
+\end{theorem}
+
+\begin{proof}
+Commutativity changes the right side to $\mu(a,c)$.  Left cancellation in
+\autoref{thm:algebra-spine-group-cancellation} then gives $b\sim_C c$.
+\end{proof}
+
+\section{Rings and Fields}
+\label{sec:algebra-spine-rings-fields}
+
+\begin{definition}[Ring interface]
+\label{def:algebra-spine-ring}
+A $\RingUp$ interface is one carrier-classifier pair $(C,\sim_C)$ equipped
+with an additive $\AbGroupUp$ structure $(+,0,-)$, a multiplicative
+$\MonoidUp$ structure $(\cdot,1)$, and left and right distributivity:
+$$
+x\cdot(y+z)\sim_C x\cdot y+x\cdot z,
+$$
+$$
+(x+y)\cdot z\sim_C x\cdot z+y\cdot z.
+$$
+Its ledger records expression trees containing $0,1,+,-,\cdot$ together with
+the distributivity and sign-propagation rows used by normalization.
+\end{definition}
+
+\begin{theorem}[Zero multiplication]
+\label{thm:algebra-spine-zero-multiplication}
+In a $\RingUp$ interface,
+$$
+0\cdot x\sim_C0,
+\qquad
+x\cdot0\sim_C0.
+$$
+\end{theorem}
+
+\begin{proof}
+For the left zero law, use $0+0\sim_C0$ and multiply by $x$ on the right.
+Right distributivity gives
+$$
+(0+0)\cdot x\sim_C0\cdot x+0\cdot x.
+$$
+The left side is classified with $0\cdot x$, so additive cancellation in the
+underlying $\AbGroupUp$ gives $0\cdot x\sim_C0$.  The right zero law is the
+same argument with left distributivity.
+\end{proof}
+
+\begin{theorem}[Negative products]
+\label{thm:algebra-spine-negative-products}
+In a $\RingUp$ interface,
+$$
+(-x)\cdot y\sim_C-(x\cdot y),
+\qquad
+x\cdot(-y)\sim_C-(x\cdot y).
+$$
+\end{theorem}
+
+\begin{proof}
+For the first identity, distribute $(-x+x)\cdot y$.  The term
+$-x+x$ classifies with $0$, and zero multiplication gives the zero endpoint.
+Thus $(-x)\cdot y+x\cdot y\sim_C0$, so $(-x)\cdot y$ is an additive inverse
+of $x\cdot y$.  Inverse uniqueness in the additive group gives the claim.
+The second identity is identical on the other side.
+\end{proof}
+
+\begin{definition}[Commutative ring interface]
+\label{def:algebra-spine-commring}
+A $\CommRingUp$ interface is a $\RingUp$ interface whose multiplication is
+commutative:
+$$
+x\cdot y\sim_Cy\cdot x.
+$$
+\end{definition}
+
+\begin{theorem}[Distributivity side transport]
+\label{thm:algebra-spine-distributivity-side-transport}
+In a $\CommRingUp$ interface, either distributivity side implies the other.
+\end{theorem}
+
+\begin{proof}
+Assume left distributivity.  Then
+$$
+(x+y)\cdot z\sim_C z\cdot(x+y)
+$$
+by multiplicative commutativity.  Left distributivity gives
+$z\cdot x+z\cdot y$, and commutativity plus additive congruence transports
+that expression to $x\cdot z+y\cdot z$.  The converse is symmetric.
+\end{proof}
+
+\begin{definition}[Field interface]
+\label{def:algebra-spine-field}
+A $\FieldUp$ interface is a $\CommRingUp$ interface with an explicit
+apart-zero predicate $\mathsf{NonZero}(x)$, an inverse operation indexed by
+that witness,
+$$
+\operatorname{inv}(x,p)
+\qquad
+(p:\mathsf{NonZero}(x)),
+$$
+inverse laws
+$$
+x\cdot\operatorname{inv}(x,p)\sim_C1,
+\qquad
+\operatorname{inv}(x,p)\cdot x\sim_C1,
+$$
+and nonzero transport along the classifier.  The inverse is proof-indexed by
+apartness data, not by a host-level negated equality.
+\end{definition}
+
+\begin{theorem}[Nonzero cancellation]
+\label{thm:algebra-spine-field-nonzero-cancellation}
+If $p:\mathsf{NonZero}(a)$ and
+$$
+a\cdot x\sim_Ca\cdot y,
+$$
+then $x\sim_Cy$.
+\end{theorem}
+
+\begin{proof}
+Multiply both sides by $\operatorname{inv}(a,p)$ and use congruence.
+Associativity rewrites the two sides to
+$$
+(\operatorname{inv}(a,p)\cdot a)\cdot x
+\sim_C
+(\operatorname{inv}(a,p)\cdot a)\cdot y.
+$$
+The inverse law changes both left factors to $1$, and the unit law gives
+$x\sim_Cy$.
+\end{proof}
+
+\begin{principle}[Field boundary]
+\label{prin:algebra-spine-field-boundary}
+$\FieldUp$ is admitted only after the carrier, classifier, commutative-ring
+base, apart-zero predicate, proof-indexed inverse, inverse laws, transport,
+and ledger exactness rows are displayed.  It is not a field primitive and it
+does not use excluded-middle reasoning to form inverses.
+\end{principle}
+
+\section{Modules and Vector Spaces}
+\label{sec:algebra-spine-module-vecspace}
+
+\begin{definition}[Module interface]
+\label{def:algebra-spine-module}
+Let $R$ be a $\RingUp$ scalar source and let $M$ be an additive
+$\AbGroupUp$ carrier.  A $\ModuleUp$ interface adds a stable scalar action
+$$
+R\times M\to M
+$$
+with scalar-action congruence, scalar associativity,
+$$
+(rs)\cdot m\sim_M r\cdot(s\cdot m),
+$$
+distributivity over vector addition,
+$$
+r\cdot(m+n)\sim_M r\cdot m+r\cdot n,
+$$
+distributivity over scalar addition,
+$$
+(r+s)\cdot m\sim_M r\cdot m+s\cdot m,
+$$
+and scalar unit law $1\cdot m\sim_Mm$.
+\end{definition}
+
+\begin{theorem}[Module zero and negative scalar laws]
+\label{thm:algebra-spine-module-zero-negative}
+In a $\ModuleUp$ interface,
+$$
+0_R\cdot m\sim_M0_M,
+\qquad
+(-r)\cdot m\sim_M-(r\cdot m).
+$$
+\end{theorem}
+
+\begin{proof}
+For the zero scalar law, use $0_R+0_R\sim_R0_R$ and scalar distributivity
+over scalar addition:
+$$
+(0_R+0_R)\cdot m\sim_M0_R\cdot m+0_R\cdot m.
+$$
+The left side is classified with $0_R\cdot m$, and additive cancellation in
+the module carrier gives $0_R\cdot m\sim_M0_M$.  For the negative scalar
+law, apply the same argument to $(-r+r)\cdot m$ and use inverse uniqueness in
+the additive group of $M$.
+\end{proof}
+
+\begin{definition}[Vector-space interface]
+\label{def:algebra-spine-vecspace}
+A $\VecSpaceUp(F,V)$ interface is a $\ModuleUp(F,V)$ interface whose scalar
+source is a $\FieldUp$ interface.  It requires no further operation field;
+the scalar source is strengthened from ring to field.
+\end{definition}
+
+\begin{theorem}[Nonzero scalar cancellation]
+\label{thm:algebra-spine-vecspace-nonzero-scalar-cancellation}
+If $p:\mathsf{NonZero}(a)$ and
+$$
+a\cdot v\sim_Va\cdot w,
+$$
+then $v\sim_Vw$.
+\end{theorem}
+
+\begin{proof}
+Act on both sides by $\operatorname{inv}(a,p)$.  Scalar associativity changes
+the two sides to
+$$
+(\operatorname{inv}(a,p)a)\cdot v
+\sim_V
+(\operatorname{inv}(a,p)a)\cdot w.
+$$
+The field inverse law identifies the scalar factor with $1$, and scalar unit
+gives $v\sim_Vw$.
+\end{proof}
+
+\section{Algebra Layer Boundary}
+\label{sec:algebra-spine-boundary}
+
+\begin{theorem}[Algebra interface admission theorem]
+\label{thm:algebra-spine-admission}
+If the interfaces
+$$
+\MagmaUp,\quad
+\SemigroupUp,\quad
+\MonoidUp,\quad
+\GroupUp,\quad
+\AbGroupUp,\quad
+\RingUp,\quad
+\CommRingUp,\quad
+\FieldUp,\quad
+\ModuleUp,\quad
+\VecSpaceUp
+$$
+carry their advertised carrier, classifier, operation stability, congruence,
+law, ledger, and $\NameCert$ rows, then the L8 algebra hierarchy is admitted.
+Each layer consumes only the rows exposed by the preceding layers and the
+additional rows named by its own certificate.
+\end{theorem}
+
+\begin{proof}
+$\MagmaUp$ supplies one stable binary operation.  $\SemigroupUp$ adds
+associativity.  $\MonoidUp$ adds a unit.  $\GroupUp$ adds inverse rows.
+$\AbGroupUp$ adds commutativity.  $\RingUp$ combines an additive
+$\AbGroupUp$, a multiplicative $\MonoidUp$, and distributivity on the same
+carrier-classifier pair.  $\CommRingUp$ adds multiplicative commutativity.
+$\FieldUp$ adds apart-zero and proof-indexed inverse data.  $\ModuleUp$ adds
+a scalar action over a ring and an additive abelian group.  $\VecSpaceUp$
+specializes the scalar source to a field.  All rows are certificate fields
+with ledgers, so no algebraic layer enters as a kernel primitive.
+\end{proof}
+
+\begin{principle}[Downstream algebra consumption]
+\label{prin:algebra-spine-downstream-consumption}
+Later analytic, spectral, zeta-facing, and linear-algebraic packets may read
+L8 only through the displayed algebraic ledgers: expression trees, operation
+closure, congruence, normalization routes, inverse apartness witnesses,
+distributivity rows, and scalar-action rows.  They may not replace these rows
+by host algebra, quotient equality, hidden inverses, or ambient vector-space
+facts.
+\end{principle}

@@ -8,9 +8,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import time
@@ -31,6 +33,8 @@ LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
 SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
+LEAN_COMPILE_BUDGETS_PATH = SCRIPT_DIR / "lean_compile_budgets.json"
+MAX_LEAN_COMPILE_BUDGET_SECONDS = 900
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -98,8 +102,24 @@ PREAMBLE_COMMAND_RE = re.compile(
     r"|newenvironment|newtheorem)\*?\{(?P<name>\\?\w+)\}"
 )
 CONCRETE_REGION_PREFIX_RE = re.compile(r"^([0-9]+[a-z]?_[a-z][a-z0-9]*)_")
+NAMECERT_HORIZON_FILE_RE = re.compile(
+    r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$"
+)
 CONCRETE_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
 CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
+NAMECERT_INPUT_RE = re.compile(r"\\input\s*\{\s*([^}]+?)\s*\}")
+# Keep this carrier grammar synchronized with critical_path.py:
+# CLOSURESTATUS_BEGIN_RE indexes only critical_path-visible horizons.
+NAMECERT_CLOSURESTATUS_CARRIER_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
+)
+# Carrier grammar must match critical_path.CLOSUREAT_RE ([A-Z][A-Za-z]*Up): the
+# closureat fallback may only accept carriers critical_path can actually index,
+# else a closureat-only digit/underscore carrier (e.g. Rule110Up) passes the gate
+# while critical_path still ignores the horizon.
+NAMECERT_CLOSUREAT_CARRIER_RE = re.compile(
+    r"\\closureat\s*\{\s*\\?\s*([A-Z][A-Za-z]*Up)\s*\}"
+)
 CONCRETE_BODY_ENV_RE = re.compile(
     r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
 )
@@ -2049,6 +2069,153 @@ def detect_concrete_instance_missing_origin() -> list[dict[str, object]]:
     return sorted(missing, key=lambda item: str(item["file"]))
 
 
+def _strip_tex_comments(text: str) -> str:
+    return "\n".join(
+        re.split(r"(?<!\\)%", line, 1)[0]
+        for line in text.splitlines()
+    )
+
+
+def _resolve_namecert_input(current_file: Path, raw_input: str) -> Path | None:
+    raw_input = raw_input.strip()
+    if not raw_input:
+        return None
+    raw_path = Path(raw_input)
+    if raw_path.is_absolute():
+        candidate = raw_path
+    else:
+        candidate = PAPER_ROOT / raw_path
+    if candidate.suffix == "":
+        candidate = candidate.with_suffix(".tex")
+    if candidate.is_file():
+        return candidate.resolve()
+    return None
+
+
+def _namecert_input_closure(root: Path) -> list[tuple[Path, str]]:
+    seen: set[Path] = set()
+    out: list[tuple[Path, str]] = []
+
+    def visit(path: Path) -> None:
+        resolved = path.resolve()
+        if resolved in seen or not resolved.is_file():
+            return
+        seen.add(resolved)
+        text = read_text(resolved)
+        uncommented = _strip_tex_comments(text)
+        out.append((resolved, uncommented))
+        for match in NAMECERT_INPUT_RE.finditer(uncommented):
+            child = _resolve_namecert_input(resolved, match.group(1))
+            if child is not None:
+                visit(child)
+
+    visit(root)
+    return out
+
+
+def _namecert_norm(raw: str, *, strip_up_suffix: bool = False) -> str:
+    normalized = re.sub(r"[^a-z0-9]", "", raw.lower())
+    if strip_up_suffix and normalized.endswith("up"):
+        normalized = normalized[:-2]
+    return normalized
+
+
+def _camel_to_snake(raw: str) -> str:
+    return re.sub(r"(?<!^)([A-Z])", r"_\1", raw).lower()
+
+
+def _gap_contract_horizon_slugs() -> set[str]:
+    contracts = REPO_ROOT / "papers" / "bedc_mathlib_bridge" / "gap_contracts"
+    slugs: set[str] = set()
+    if not contracts.is_dir():
+        return slugs
+    for path in sorted(contracts.glob("*.yaml")):
+        text = read_text(path)
+        for match in re.finditer(r"^\s*bedc_home\s*:\s*(\S+)\s*$", text, re.MULTILINE):
+            target = match.group(1).strip().strip("'\"")
+            name = target.rsplit(".", 1)[-1]
+            if name.endswith("Up"):
+                slugs.add(_camel_to_snake(name[:-2]))
+        for match in re.finditer(
+            r"papers/bedc/parts/concrete_instances/([0-9A-Za-z]+_)?"
+            r"([a-z][a-z0-9_]*?)_namecert_construction\.tex",
+            text,
+        ):
+            slugs.add(match.group(2))
+    return slugs
+
+
+def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.is_dir():
+        return []
+
+    gap_contract_slugs = _gap_contract_horizon_slugs()
+    findings: list[dict[str, object]] = []
+    for path in sorted(instances.glob("*_namecert_construction.tex")):
+        match = NAMECERT_HORIZON_FILE_RE.match(path.name)
+        if not match:
+            continue
+        slug = match.group(1)
+        expected = _namecert_norm(slug)
+        closure = _namecert_input_closure(path)
+        is_gap = "% BEDC-GAP:" in read_text(path) or slug in gap_contract_slugs
+        closurestatus_carriers: list[str] = []
+        closureat_carriers: list[str] = []
+        closurestatus_present = False
+        closureat_present = False
+        for _source_path, text in closure:
+            if r"\begin{closurestatus}" in text:
+                closurestatus_present = True
+            if r"\closureat" in text:
+                closureat_present = True
+            closurestatus_carriers.extend(
+                match.group(1)
+                for match in NAMECERT_CLOSURESTATUS_CARRIER_RE.finditer(text)
+            )
+            closureat_carriers.extend(
+                match.group(1)
+                for match in NAMECERT_CLOSUREAT_CARRIER_RE.finditer(text)
+            )
+        # Track the closureat token (not just valid carriers) so a horizon
+        # declared only via a critical_path-invisible closureat carrier (e.g.
+        # \closureat{\Rule110Up}{...}) is flagged rather than silently skipped.
+        if not closurestatus_present and not closureat_present:
+            continue
+
+        distinct_registered = sorted({
+            carrier
+            for carrier in closurestatus_carriers
+            if _namecert_norm(carrier, strip_up_suffix=True) != expected
+        })
+        has_expected = any(
+            _namecert_norm(carrier, strip_up_suffix=True) == expected
+            for carrier in (
+                closurestatus_carriers if closurestatus_present else closureat_carriers
+            )
+        )
+        has_foreign_closurestatus = bool(distinct_registered)
+        mismatch = not has_expected or (is_gap and has_foreign_closurestatus)
+        if not mismatch:
+            continue
+        findings.append({
+            "file": display_path(path),
+            "slug": slug,
+            "expected_norm": expected,
+            "closurestatus_carriers": sorted(set(closurestatus_carriers)),
+            "closureat_carriers": sorted(set(closureat_carriers)),
+            "foreign_closurestatus_carriers": distinct_registered,
+            "is_bedc_gap": is_gap,
+            "severity": "hard" if is_gap else "warning",
+            "reason": (
+                "foreign closurestatus carrier in BEDC-GAP chapter"
+                if is_gap and has_expected and has_foreign_closurestatus
+                else "no carrier matches namecert slug"
+            ),
+        })
+    return findings
+
+
 def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
     if not PAPER_PARTS_ROOT.is_dir():
         return []
@@ -2082,6 +2249,88 @@ def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
             "kind": kind,
         })
     return violations
+
+
+def detect_paper_gate_policy_drift() -> list[dict]:
+    try:
+        producer_path = PAPER_ROOT / "scripts" / "phase_paper_gates.py"
+        consumer_path = PAPER_ROOT / "scripts" / "codex_revise.py"
+        spec = importlib.util.spec_from_file_location(
+            "bedc_phase_paper_gates_for_audit",
+            producer_path,
+        )
+        if spec is None or spec.loader is None:
+            return []
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        producer_keys = set(module.GATE_DISPATCH.keys())
+
+        text = consumer_path.read_text(encoding="utf-8")
+        assignment = re.search(r"\bPAPER_GATE_POLICY\b[^=]*=", text)
+        if not assignment:
+            return []
+        start = text.find("{", assignment.end())
+        if start < 0:
+            return []
+
+        depth = 0
+        in_string = False
+        quote = ""
+        escaped = False
+        end = -1
+        for index in range(start, len(text)):
+            char = text[index]
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    in_string = False
+                continue
+            if char in ("'", '"'):
+                in_string = True
+                quote = char
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    end = index
+                    break
+        if end < 0:
+            return []
+
+        policy_body = text[start + 1:end]
+        consumer_keys = set(
+            re.findall(r'^\s*"([^"]+)":\s*\{', policy_body, re.MULTILINE)
+        )
+    except Exception:
+        return []
+
+    findings: list[dict] = []
+    for key in sorted(producer_keys - consumer_keys):
+        findings.append({
+            "key": key,
+            "side": "producer_only",
+            "message": (
+                f"paper-gate schema drift: '{key}' in GATE_DISPATCH(producer) "
+                "but missing from PAPER_GATE_POLICY(consumer) — runs as ADVISORY "
+                "until registered; register in PAPER_GATE_POLICY (+ restart "
+                "orchestrator) to enforce as configured severity"
+            ),
+        })
+    for key in sorted(consumer_keys - producer_keys):
+        findings.append({
+            "key": key,
+            "side": "consumer_only",
+            "message": (
+                f"paper-gate schema drift: '{key}' in PAPER_GATE_POLICY(consumer) "
+                "but missing from GATE_DISPATCH(producer) — will wedge paper "
+                "pipeline with invalid-schema"
+            ),
+        })
+    return findings
 
 
 def changed_concrete_instance_tex_paths() -> set[Path] | None:
@@ -11231,7 +11480,17 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     marker_uniqueness_failures, marker_uniqueness_output = run_marker_uniqueness_check()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
+    namecert_horizon_carrier_mismatches = detect_namecert_horizon_carrier_mismatch()
+    namecert_horizon_carrier_hard = [
+        item for item in namecert_horizon_carrier_mismatches
+        if item.get("severity") == "hard"
+    ]
+    namecert_horizon_carrier_warnings = [
+        item for item in namecert_horizon_carrier_mismatches
+        if item.get("severity") != "hard"
+    ]
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
+    paper_gate_policy_drift = detect_paper_gate_policy_drift()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     theorem_dna_records = collect_theorem_dna_records()
     theorem_dna_coverage = theorem_dna_coverage_payload(
@@ -11335,6 +11594,17 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
+        "namecert_horizon_carrier_mismatches": namecert_horizon_carrier_mismatches,
+        "namecert_horizon_carrier_mismatch_count": len(namecert_horizon_carrier_mismatches),
+        "namecert_horizon_carrier_hard_failures": namecert_horizon_carrier_hard,
+        "namecert_horizon_carrier_hard_failure_count": len(namecert_horizon_carrier_hard),
+        "namecert_horizon_carrier_warnings": namecert_horizon_carrier_warnings,
+        "namecert_horizon_carrier_warning_count": len(namecert_horizon_carrier_warnings),
+        "paper_gate_policy_drift": paper_gate_policy_drift,
+        "paper_gate_policy_drift_count": len(paper_gate_policy_drift),
+        "paper_gate_policy_drift_blocking_count": sum(
+            1 for d in paper_gate_policy_drift if d.get("side") == "consumer_only"
+        ),
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -11556,6 +11826,24 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["concrete_missing_origin"][:50]:
                 print(f"  {item['file']}: {item['kind']}")
+        if payload["namecert_horizon_carrier_mismatches"]:
+            print(
+                "[bedc-ci] namecert horizon carrier visibility: "
+                f"{payload['namecert_horizon_carrier_hard_failure_count']} BEDC-GAP hard failure(s), "
+                f"{payload['namecert_horizon_carrier_warning_count']} global warning(s)"
+            )
+            for item in payload["namecert_horizon_carrier_hard_failures"][:50]:
+                carriers = ", ".join(item["closurestatus_carriers"]) or ", ".join(item["closureat_carriers"])
+                print(
+                    f"  HARD {item['file']}: slug={item['slug']} "
+                    f"carriers=[{carriers}] reason={item['reason']}"
+                )
+            for item in payload["namecert_horizon_carrier_warnings"][:50]:
+                carriers = ", ".join(item["closurestatus_carriers"]) or ", ".join(item["closureat_carriers"])
+                print(
+                    f"  WARN {item['file']}: slug={item['slug']} "
+                    f"carriers=[{carriers}] reason={item['reason']}"
+                )
         if payload["paper_chapter_origin_tags"]:
             print(
                 "[bedc-ci] paper_chapter_origin_tags: "
@@ -11564,6 +11852,22 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["paper_chapter_origin_tags"][:50]:
                 print(f"  {item['file']}:{item['line']}: {item['kind']}")
+        if payload["paper_gate_policy_drift"]:
+            blocking = [
+                d for d in payload["paper_gate_policy_drift"]
+                if d.get("side") == "consumer_only"
+            ]
+            advisory = [
+                d for d in payload["paper_gate_policy_drift"]
+                if d.get("side") != "consumer_only"
+            ]
+            print(
+                "[bedc-ci] paper-gate schema drift: "
+                f"{len(blocking)} BLOCKING (missing from producer), "
+                f"{len(advisory)} advisory (unregistered producer gate; promote)"
+            )
+            for item in payload["paper_gate_policy_drift"][:50]:
+                print(f"  {item['message']}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -11803,7 +12107,9 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["preamble_duplicate_commands_new_count"]
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
+        + payload["namecert_horizon_carrier_hard_failure_count"]
         + payload["paper_chapter_origin_tags_new_count"]
+        + payload["paper_gate_policy_drift_blocking_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
@@ -12049,7 +12355,8 @@ DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
 )
 STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext",)
 PRINT_AXIOMS_RE = re.compile(
-    r"'([\w.·’]+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])"
+    r"^'(.+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])$",
+    re.MULTILINE,
 )
 METACIC_SCOPE = "BEDC.MetaCIC"
 METACIC_IMPORT = "BEDC.MetaCIC"
@@ -13211,23 +13518,120 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
 def cmd_verify_files(args: argparse.Namespace) -> int:
     lean_files_to_check = [resolve_lean_file(p) for p in args.paths]
     overall_rc = 0
+
+    if args.timeout_seconds is None:
+        for lean_file in lean_files_to_check:
+            rel = lean_file.relative_to(LEAN_ROOT)
+            print(f"[bedc-ci] verifying {rel}")
+            result = subprocess.run(
+                ["lake", "env", "lean", str(lean_file)],
+                cwd=LEAN_ROOT,
+                text=True,
+                capture_output=True,
+            )
+            if result.stdout:
+                print(result.stdout, end="")
+            if result.stderr:
+                print(result.stderr, end="", file=sys.stderr)
+            if result.returncode != 0:
+                overall_rc = result.returncode
+                print(f"[bedc-ci] verification failed: {rel}", file=sys.stderr)
+        return overall_rc
+
+    manifest = _load_lean_compile_budgets()
+    default_budget = _clamp_compile_budget(args.timeout_seconds)
     for lean_file in lean_files_to_check:
         rel = lean_file.relative_to(LEAN_ROOT)
+        budget = manifest.get(rel.as_posix(), default_budget)
         print(f"[bedc-ci] verifying {rel}")
-        result = subprocess.run(
+        proc = subprocess.Popen(
             ["lake", "env", "lean", str(lean_file)],
             cwd=LEAN_ROOT,
             text=True,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            start_new_session=True,
+        )
+        try:
+            stdout, stderr = proc.communicate(timeout=budget)
+        except subprocess.TimeoutExpired:
+            if args.kill_process_group:
+                _terminate_process_group(proc)
+            else:
+                proc.kill()
+            stdout, stderr = proc.communicate()
+            if stdout:
+                print(stdout, end="")
+            if stderr:
+                print(stderr, end="", file=sys.stderr)
+            print(
+                f"[bedc-ci] verify-files TIMEOUT: {rel} after {budget}s "
+                "(compile budget exceeded — likely kernel-reduction blowup, "
+                "e.g. by decide over large enumeration)",
+                file=sys.stderr,
+            )
+            overall_rc = 124
+            continue
+        result = subprocess.CompletedProcess(
+            ["lake", "env", "lean", str(lean_file)],
+            proc.returncode,
+            stdout,
+            stderr,
         )
         if result.stdout:
             print(result.stdout, end="")
         if result.stderr:
             print(result.stderr, end="", file=sys.stderr)
         if result.returncode != 0:
-            overall_rc = result.returncode
+            if overall_rc != 124:
+                overall_rc = result.returncode
             print(f"[bedc-ci] verification failed: {rel}", file=sys.stderr)
     return overall_rc
+
+
+def _clamp_compile_budget(raw: object) -> int:
+    try:
+        budget = int(raw)
+    except (TypeError, ValueError):
+        return MAX_LEAN_COMPILE_BUDGET_SECONDS
+    return max(1, min(budget, MAX_LEAN_COMPILE_BUDGET_SECONDS))
+
+
+def _load_lean_compile_budgets() -> dict[str, int]:
+    try:
+        data = json.loads(LEAN_COMPILE_BUDGETS_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    budgets: dict[str, int] = {}
+    for rel, raw_budget in data.items():
+        if not isinstance(rel, str):
+            continue
+        if not isinstance(raw_budget, int) or isinstance(raw_budget, bool):
+            continue
+        budgets[rel] = _clamp_compile_budget(raw_budget)
+    return budgets
+
+
+def _terminate_process_group(proc: subprocess.Popen[str]) -> None:
+    try:
+        pgid = os.getpgid(proc.pid)
+    except ProcessLookupError:
+        return
+    for sig, wait_seconds in ((signal.SIGTERM, 2), (signal.SIGKILL, 0)):
+        try:
+            os.killpg(pgid, sig)
+        except ProcessLookupError:
+            return
+        except PermissionError:
+            try:
+                proc.kill()
+            except ProcessLookupError:
+                return
+            return
+        if wait_seconds:
+            time.sleep(wait_seconds)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -13334,6 +13738,17 @@ def parser() -> argparse.ArgumentParser:
     metacic_purity_p.set_defaults(func=cmd_metacic_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
+    verify_p.add_argument(
+        "--timeout-seconds",
+        type=int,
+        default=None,
+        help="Optional per-file wall-clock budget in seconds",
+    )
+    verify_p.add_argument(
+        "--kill-process-group",
+        action="store_true",
+        help="On timeout, kill the full process group instead of only the parent process",
+    )
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")
     verify_p.set_defaults(func=cmd_verify_files)
 

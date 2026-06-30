@@ -166,6 +166,7 @@ $A$, $\Cont$ routes $C$, $\Pkg$ provenance row $P$, and local
 $\NameCert_{\SupplySocketLedgerUp}$ row $N$. No accepted route may cite the
 ledger while omitting the local NameCert row or bypassing provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.SupplySocketLedgerUp.SupplySocketLedgerUp\_StdBridge}
 \begin{proof}
 Project an accepted packet $L=(G,K,S,A,C,P,N)$. The displayed carrier gives
 the complete list of rows from which a consumer may read a socket route.
@@ -190,10 +191,10 @@ supply itself, which is not a coordinate of the accepted packet.
   \constructivestory{A $\SupplySocketLedgerUp$ packet is generated from one $\mathsf{GAP}$ tag row, one of the seven supply-kind classifiers, one displayed socket site, one audit-gate row, displayed $\Cont$ consumption routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:supply-socket-ledger-carrier}, \autoref{thm:supply-socket-ledger-namecert-obligations}, \autoref{thm:supply-socket-ledger-kind-exhaustion}, \autoref{thm:supply-socket-ledger-audit-nonescape}, \autoref{thm:supply-socket-ledger-tastegate-carrier-boundary} with \leanchecked{BEDC.Derived.SupplySocketLedgerUp.taste\_gate}, \autoref{thm:supply-socket-ledger-route-coverage}, \autoref{thm:supply-socket-ledger-consumer-provenance}, and \autoref{thm:supply-socket-ledger-consumption-coverage} bind the finite carrier, seven-kind classifier, audit-gate routing, continuation locality, package provenance, consumer provenance, bridge-facing consumer route, and explicit non-escape rows.}
-  \formalstatus{\axiomCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.SupplySocketLedgerUp.SupplySocketLedgerTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{bridgeChecked}
   \origin{ai}
   \notclaimed{This chapter does not close public export, standard bridge data, or any internal theorem supplying the refused socket contents.}
-  \upgradepath{No paper theory-axis grade remains for the seven-kind supply-socket ledger; machine bridge checking remains a separate verification-axis task.}
+  \upgradepath{No further formal bridge-axis upgrade remains for the seven-kind supply-socket ledger.}
 \end{closurestatus}

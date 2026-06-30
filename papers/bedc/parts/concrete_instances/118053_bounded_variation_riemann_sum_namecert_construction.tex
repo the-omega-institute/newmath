@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BoundedVariationRiemannSumUp$}
+\label{ch:concrete-instances-bounded-variation-riemann-sum-namecert}
+\origin{human}
+
+Following Jordan's bounded-variation theory and the Riemann finite-sum construction, the $\BoundedVariationRiemannSumUp$ packet records the finite partition route already used when integration-facing chapters read a variation ledger and a tagged sum in the same breath. It sits between the bounded-variation certificate of \autoref{ch:concrete-instances-boundedvariation-namecert}, the tagged finite-sum certificate of \autoref{ch:concrete-instances-riemannsum-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the common finite partition, variation ledger, tagged summation row, dyadic observations, regular readback, Real seal, transport, replay, provenance, and local naming data; it does not assert an integral limit, a supremum over all partitions, a host function quotient, selected tags outside the displayed packet, or ambient completeness.
+
+\begin{definition}[Bounded-variation Riemann-sum carrier]
+\label{def:bounded-variation-riemann-sum-carrier}
+A $\BoundedVariationRiemannSumUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,\Pi,V,T,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite interval row over which all partition, endpoint, variation, and tagged-sum reads are made.
+\item $\Pi$ is the finite interval-partition row, carrying ordered endpoints, subinterval cells, and the common mesh ledger used by both the variation and tagged-sum faces.
+\item $V$ is the $\BoundedVariationUp$ ledger, read through the finite endpoint and edge-difference rows of \autoref{ch:concrete-instances-boundedvariation-namecert}.
+\item $T$ is the tag-containment row, assigning a displayed tag to each cell of $\Pi$ without exporting a choice-selected tag family outside the packet.
+\item $S$ is the $\RiemannSumUp$ row, computing the finite tagged sum from $\Pi$, $T$, the displayed value reads, and the cell-width ledger of \autoref{ch:concrete-instances-riemannsum-namecert}.
+\item $D$ is the $\DyadicRatCoreUp$ edge-observation row, recording endpoint differences, tag-value observations, widths, and finite variation or sum arithmetic at the dyadic level.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the displayed dyadic variation and tagged-sum data as regular rational observations.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $I,\Pi,V,T,S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, partition, variation, tag, sum, dyadic, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the common partition through
+$$
+I,\Pi \longmapsto V,T,S,D \longmapsto R \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationRiemannSumUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedVariationRiemannSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host integrability, a limiting process over all refinements, a supremum variation value, quotient equality of functions, a choice-selected tag family, an ambient measure, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded-variation Riemann-sum NameCert obligations]
+\label{thm:bounded-variation-riemann-sum-obligations}
+For every accepted $\BoundedVariationRiemannSumUp$ carrier $J=(I,\Pi,V,T,S,D,R,E,H,C,P,N)$, the local $\NameCert_{\BoundedVariationRiemannSumUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed interval, partition, bounded-variation ledger, tag-containment row, finite Riemann-sum row, dyadic observation row, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item common finite-partition exposure, requiring both the $\BoundedVariationUp$ ledger $V$ and the $\RiemannSumUp$ row $S$ to read the same interval row $I$ and partition row $\Pi$ before either face is consumed;
+\item dyadic edge and tag compatibility, requiring the edge-difference observations, tag-value reads, widths, variation arithmetic, and finite-sum arithmetic in $D$ to be attached to the same cells of $\Pi$;
+\item $\RegSeqRatUp$ readback, requiring $R$ to be obtained only from the displayed variation and tagged-sum dyadic rows rather than from a hidden sequence or external function;
+\item $\RealUp$ seal non-escape, requiring $E$ to be downstream from $R$ and to export no host integrability theorem, limiting process over refinements, supremum over partitions, quotient function equality, choice-selected tag family, ambient measure, or completeness principle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-variation-riemann-sum-carrier}. The displayed rows are exactly the interval, common partition, bounded-variation ledger, tag-containment data, finite Riemann sum, dyadic observations, regular readback, terminal Real seal, and structural rows.
+
+The common-partition obligation is forced by the order of the carrier. The rows $V$ and $S$ are both downstream from $I$ and $\Pi$, so a consumer cannot read the variation budget from one partition and the tagged sum from another hidden mesh.
+
+The dyadic compatibility obligation is the row $D$. It attaches endpoint differences, tag values, widths, variation arithmetic, and finite-sum arithmetic to the same displayed cells before any regular rational readback is available.
+
+Finally the readback and seal obligations are downstream. The row $R$ repacks only the displayed dyadic data, and the row $E$ is exposed only after $R$. Since no carrier coordinate stores integrability, refinement limits, variation suprema, quotient function equality, external tag choice, measures, or completeness, the five obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Bounded-variation Riemann-sum finite interface]
+\label{thm:bounded-variation-riemann-sum-finite-interface}
+Every integration-facing consumer of an accepted $\BoundedVariationRiemannSumUp$ packet reads the finite route
+$$
+\BoundedVariationUp,\ \RiemannSumUp,\ \DyadicRatCoreUp
+\longmapsto
+\RegSeqRatUp \longmapsto \RealUp
+$$
+through one displayed interval-partition row $\Pi$. The bounded-variation face supplies the finite endpoint and edge ledger, the Riemann-sum face supplies tags, widths, and finite summands on the same cells, and the regular rational readback and Real seal are downstream from both faces.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $J=(I,\Pi,V,T,S,D,R,E,H,C,P,N)$. The rows $I$ and $\Pi$ are displayed before the variation ledger $V$ and before the tag-containment and finite-sum rows $T,S$.
+
+Read the two analytic faces over that same partition. The bounded-variation face contributes endpoint and edge-difference rows through $V$, while the Riemann-sum face contributes the tag, value, width, and summand rows through $T$ and $S$.
+
+The dyadic row $D$ then records both faces at the finite arithmetic level. Only after that common dyadic ledger has been displayed may the packet expose the regular rational readback $R$ and the terminal Real seal $E$.
+
+Thus integration-facing consumers receive a named finite interface between variation control and tagged summation. The interface contains no hidden limiting process, no ambient integrability theorem, and no external tag or partition selection principle.
+\end{proof}
+
+\closureat{BoundedVariationRiemannSumUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationRiemannSumUp}
+  \constructivestory{A $\BoundedVariationRiemannSumUp$ packet is generated from a finite interval row, a common partition row, a bounded-variation ledger, a tag-containment row, a finite Riemann-sum row, dyadic edge and tag observations, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-variation-riemann-sum-carrier}, \autoref{thm:bounded-variation-riemann-sum-obligations}, and \autoref{thm:bounded-variation-riemann-sum-finite-interface} seed the finite common-partition interface between bounded-variation ledgers and tagged Riemann sums.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host integrability, limiting processes over all refinements, variation suprema over arbitrary partitions, quotient equality of functions, selected tag families, ambient measures, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common finite-partition exposure, dyadic edge and tag compatibility, RegSeqRat readback, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.BoundedVariationRiemannSumUp.}
+\end{closurestatus}

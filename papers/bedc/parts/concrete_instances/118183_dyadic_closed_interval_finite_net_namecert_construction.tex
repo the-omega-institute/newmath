@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DyadicClosedIntervalFiniteNetUp$}
+\label{ch:concrete-instances-dyadic-closed-interval-finite-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicClosedIntervalFiniteNetUp$ packet records the finite dyadic data used to read a closed interval by endpoint rows and then expose a finite net at one unary precision. It sits beside the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window reader of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-space-namecert}, and the compact finite-net route of \autoref{ch:concrete-instances-heine-borel-finite-net-namecert}. The certificate names the interval finite-net surface as displayed BEDC packet data, not as open-cover compactness, quotient real equality, selected endpoints, or ambient completeness.
+
+\begin{definition}[Dyadic closed-interval finite-net carrier]
+\label{def:dyadic-closed-interval-finite-net-carrier}
+A $\DyadicClosedIntervalFiniteNetUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,q,G,F,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L,U$ are the lower and upper dyadic closed-interval endpoint rows, sourced through $\DyadicRatCoreUp$.
+\item $q$ is the unary precision row at which the interval is inspected.
+\item $G$ is the endpoint-grid row listing the dyadic grid points between $L$ and $U$ at precision $q$.
+\item $F$ is the finite-net row naming the selected grid points and their metric-radius witnesses.
+\item $S$ is the $\StreamNameUp$ readback row for endpoint and grid windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row that packages the same endpoint and net observations as regular rational data.
+\item $R$ is the $\RealUp$ seal row, available only after $L,U,q,G,F,S,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for endpoints, precision, endpoint grid, finite net, readback rows, real seal, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from the endpoint rows to the grid, from the grid to the finite net, and from the readback rows to the real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicClosedIntervalFiniteNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricSpaceUp$, $\HeineBorelFiniteNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicClosedIntervalFiniteNetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,q,G,F,S,Q,R,H,C,P,N$. It has no coordinate for a selected real endpoint outside the dyadic rows, quotient real equality, open-cover compactness, countable choice, or ambient metric completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic closed-interval finite-net NameCert obligations]
+\label{thm:dyadic-closed-interval-finite-net-namecert-obligations}
+For an accepted $\DyadicClosedIntervalFiniteNetUp$ carrier $I=(L,U,q,G,F,S,Q,R,H,C,P,N)$, the local $\NameCert_{\DyadicClosedIntervalFiniteNetUp}$ obligations are exactly carrier admission, endpoint order visibility, unary precision classification, endpoint-grid coverage, finite-net row coverage, $\StreamNameUp$ and $\RegSeqRatUp$ readback, $\RealUp$ seal factorization, componentwise transport, displayed replay, package provenance, and local naming. Every obligation is discharged by the finite route
+$$
+L,U\longmapsto q\longmapsto G\longmapsto F\longmapsto S,Q\longmapsto R
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-closed-interval-finite-net-carrier}. The endpoint rows $L,U$, precision row $q$, grid row $G$, finite-net row $F$, readback rows $S,Q$, and seal row $R$ are the only mathematical rows available to the classifier.
+
+Endpoint order visibility and precision classification are read before any net row is consumed. The endpoint rows are dyadic arithmetic data, and the unary precision row fixes the scale at which the endpoint grid is formed.
+
+Endpoint-grid coverage and finite-net row coverage are then finite packet checks. The row $G$ lists the displayed dyadic grid, while $F$ names the finite selected grid points and their metric-radius witnesses.
+
+The readback and seal clauses are factorization clauses. The rows $S,Q$ carry the stream and regular rational readings of the same endpoint-grid packet, and $R$ is reached only through those rows. Transport, replay, provenance, and local naming preserve that packet through $H,C,P,N$ without adding quotient equality, selected endpoints, open-cover compactness, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Dyadic closed-interval finite-net sibling route]
+\label{thm:dyadic-closed-interval-finite-net-sibling-route}
+Every $\MetricSpaceUp$, $\HeineBorelFiniteNetUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\DyadicClosedIntervalFiniteNetUp$ packet must first read the dyadic endpoint rows $L,U$, unary precision $q$, endpoint-grid row $G$, finite-net row $F$, $\StreamNameUp$ row $S$, $\RegSeqRatUp$ row $Q$, $\RealUp$ seal row $R$, and the structural rows $H,C,P,N$. No consumer may replace this route by open-cover compactness, quotient real equality, selected real endpoints, countable choice, or ambient metric completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:dyadic-closed-interval-finite-net-carrier}. Its sibling-facing rows are exactly the dyadic endpoints, unary precision, endpoint grid, finite net, stream readback, regular rational readback, real seal, and structural rows displayed there.
+
+The metric and finite-net consumers read $G$ and $F$ only after the dyadic endpoints and precision have been exposed. Thus a $\MetricSpaceUp$ radius witness or $\HeineBorelFiniteNetUp$ handoff is tied to the same endpoint-grid packet.
+
+The regular rational and real consumers read $Q$ and $R$ only after the stream readback row $S$ and finite-net row $F$ are present. Hence the real-facing route factors through the displayed dyadic finite-net data rather than through quotient equality or selected limits.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, so they cannot create an additional endpoint selector, open-cover compactness witness, choice principle, or ambient completeness row.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealUp$ or $\HeineBorelFiniteNetUp$ read from a $\DyadicClosedIntervalFiniteNetUp$ packet factors through the displayed dyadic endpoints, unary precision, endpoint grid, finite net, StreamName readback, RegSeqRat readback, Real seal, componentwise transport, continuation replay, provenance, and local naming before the finite net is consumed.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, metricspace, heineborel-finite-net: $\DyadicClosedIntervalFiniteNetUp$ is not bijective to any listed sibling because it jointly carries dyadic endpoints, unary precision, endpoint-grid rows, finite net rows, readback rows, Real seal, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{DyadicClosedIntervalFiniteNetUp}{seedStr}
+
+\begin{closurestatus}{\DyadicClosedIntervalFiniteNetUp}
+  \constructivestory{A $\DyadicClosedIntervalFiniteNetUp$ packet is generated from dyadic closed-interval endpoints, a unary precision request, endpoint-grid rows, finite net rows, StreamName and RegSeqRat readbacks, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-closed-interval-finite-net-carrier}, \autoref{thm:dyadic-closed-interval-finite-net-namecert-obligations}, and \autoref{thm:dyadic-closed-interval-finite-net-sibling-route} seed the finite dyadic closed-interval net packet for one displayed precision.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient real equality, selected endpoints, countable choice, ambient metric completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint order visibility, precision classification, endpoint-grid coverage, finite-net row coverage, readback factorization, Real-seal factorization, transport, replay, provenance, and local naming for BEDC.Derived.DyadicClosedIntervalFiniteNetUp.}
+\end{closurestatus}

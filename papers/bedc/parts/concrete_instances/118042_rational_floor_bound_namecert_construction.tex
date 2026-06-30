@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RationalFloorBoundUp$}
+\label{ch:concrete-instances-rational-floor-bound-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats integer-part extraction for rationals as bounded search once an explicit Archimedean bound has been displayed. The $\RationalFloorBoundUp$ packet records that finite bounded-search floor witness as a NameCert route between the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the signed-integer interface of \autoref{ch:concrete-instances-int-namecert}, the dyadic scaling ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream and regular-rational readbacks of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed rational floor route; it does not import a host floor function, least-number operator, quotient representative, choice principle, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RationalFloorBound carrier]
+\label{def:rational-floor-bound-carrier}
+A $\RationalFloorBoundUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,U,B,F,D,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ input row, naming the rational whose integer part is being bounded and inspected.
+\item $U$ is a unary Archimedean bound row, displaying a finite natural bound large enough for the bounded search interval around $Q$.
+\item $B$ is the bounded-search trace, recording the inspected integer candidates and the first adjacent pair where the rational input changes from being below the upper candidate to being at least the lower candidate.
+\item $F$ is the $\IntUp$ floor witness row, storing the integer candidate certified by the search trace.
+\item $D$ is the $\DyadicRatCoreUp$ scaling ledger, recording denominator clearing, dyadic comparison cells, and tolerance-free rational comparison data used by the trace.
+\item $T$ records componentwise $\hsame$ transport for the rational input, unary bound, search trace, integer witness, dyadic scaling ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+Q,U,D \longmapsto B \longmapsto F .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RationalFloorBoundUp$, $\RatUp$, $\IntUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalFloorBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,U,B,F,D,T,C,P,N$. It has no coordinate for host floor, least-number search, quotient representative equality, countable choice, hidden real completeness, or an unbounded integer-part oracle.
+\end{definition}
+
+\begin{theorem}[RationalFloorBound NameCert obligations]
+\label{thm:rational-floor-bound-namecert-obligations}
+For every accepted $\RationalFloorBoundUp$ carrier $L=(Q,U,B,F,D,T,C,P,N)$, the local $\NameCert_{\RationalFloorBoundUp}$ surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier admission for the $\RatUp$ input, unary bound, bounded-search trace, $\IntUp$ witness, dyadic scaling ledger, transport, replay, provenance, and local naming rows;
+\item bounded-search visibility, requiring every inspected candidate and stopping comparison in $B$ to remain displayed under the unary bound $U$;
+\item floor inequality, requiring the witness row $F$ to certify $F \leq Q < F+1$ through rational comparisons read from $Q$ and $D$;
+\item dyadic scale compatibility, requiring denominator clearing and comparison cells in $D$ to agree with the rational input and the integer candidates inspected by $B$;
+\item ledger nonescape, stating that no host floor function, least-number operator, quotient representative, choice principle, hidden real-completeness row, or unbounded search oracle is exported by the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-floor-bound-carrier}. The rows $Q,U,B,F,D,T,C,P,N$ are the full visible surface of the packet, so a consumer must read the rational input and unary bound before it can inspect any search trace or integer witness.
+
+Read the bounded search trace under the dyadic ledger. The row $B$ records only finitely many inspected integer candidates bounded by $U$, while $D$ supplies the rational comparison data used to verify the adjacent inequalities around $F$.
+
+Finally replay through $T,C,P,N$. Transport, continuation, provenance, and local naming preserve the same finite route and introduce no coordinate for host floor, least-number selection, quotient representatives, choice, hidden completeness, or unbounded search. The listed rows therefore exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RationalFloorBound Archimedean step]
+\label{thm:rational-floor-bound-archimedean-step}
+Every accepted $\RationalFloorBoundUp$ packet exports a finite unary bound and an $\IntUp$ floor witness for the displayed rational input $Q$. The export is the route
+$$
+Q,U,D \longmapsto B \longmapsto F
+$$
+inside $L=(Q,U,B,F,D,T,C,P,N)$: $U$ supplies the finite search limit, $B$ records the bounded trace, $D$ supplies the dyadic rational comparison ledger, and $F$ is the displayed integer satisfying $F \leq Q < F+1$. The route uses no host floor function, least-number operator, quotient representative, choice principle, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier admission row. It displays the rational input $Q$, unary bound $U$, dyadic scaling ledger $D$, bounded-search trace $B$, and integer witness $F$ as coordinates of the same finite packet.
+
+Use the NameCert obligations of \autoref{thm:rational-floor-bound-namecert-obligations}. Bounded-search visibility keeps every inspected candidate inside the unary bound, and dyadic scale compatibility makes the rational comparisons in the trace read from $Q$ and $D$ rather than from a host floor oracle.
+
+The floor inequality row then identifies the adjacent certified candidates. The witness $F$ is exported only with the displayed inequalities $F \leq Q < F+1$, while $T,C,P,N$ preserve and name the same finite route. Since no excluded floor, least-number, quotient, choice, or real-completeness coordinate exists in the carrier, the Archimedean step is constructively bounded.
+\end{proof}
+
+\closureat{RationalFloorBoundUp}{seedStr}
+
+\begin{closurestatus}{\RationalFloorBoundUp}
+  \constructivestory{A $\RationalFloorBoundUp$ packet is generated from a Rat input, unary Archimedean bound, bounded-search trace, Int floor witness, DyadicRatCore scaling ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-floor-bound-carrier}, \autoref{thm:rational-floor-bound-namecert-obligations}, and \autoref{thm:rational-floor-bound-archimedean-step} seed the finite rational floor witness over Rat, Int, DyadicRatCore, StreamName, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host floor function, least-number operator, quotient representative equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-search visibility, floor-inequality exactness, dyadic scale compatibility, transport, replay, provenance, local naming, and ledger nonescape for BEDC.Derived.RationalFloorBoundUp.}
+\end{closurestatus}

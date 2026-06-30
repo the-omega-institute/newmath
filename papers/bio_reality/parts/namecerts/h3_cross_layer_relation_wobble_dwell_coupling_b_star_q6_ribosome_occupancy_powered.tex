@@ -1,0 +1,20 @@
+\subsection{Wobble-dwell coupling at the ribosome-occupancy layer}
+\label{subsec:wobble-dwell-coupling-b-star-q6-ribosome-occupancy}
+\origin{ai}
+
+\paragraph{Finite-row statement.}
+The record tagged \texttt{ca41f897d026} is a cross-layer occupancy readback for the nine $B^{*}_Q6$ synonymous residual families. The ordered CDS table contributes $6013$ genes, the occupancy table contributes $5754$ genes, the length check removes no rows, and the final join remains $5754$ genes. The analysis is position-confound-controlled: occupancy is demeaned within the file-provided amino-acid bins, with separate 5prime and 3prime window arrays, and the null shuffles synonymous labels only inside the same bin. The permutation budget requested is $200$, every family has at least $200$ permutations available, and the gate uses $\lambda_{\mathrm{DL}}=0.01$ together with $\mathrm{DL}=2$ and the sign condition $C_H>0$.
+
+$$\begin{aligned}
+\mathcal{F}_{\mathrm{pass}} &= \{\text{K\_AAA},\ \text{Arg\_AGR},\ \text{f3\_stress}\},\\
+\lambda_{\mathrm{DL}} &= 0.01,\qquad \mathrm{DL}=2,\qquad N_{\pi}=200.
+\end{aligned}$$
+
+\paragraph{Readback.}
+On this finite row, the families K\_AAA, Arg\_AGR, and f3\_stress clear every gate. The computation therefore does not distribute support evenly across all nine coordinates; it isolates three families whose local ribosome-occupancy separation survives the within-bin permutation Null95 and also satisfies the description-length and support-sign requirements. That is the correct scale of the result: a local, controlled separation, not a blanket statement about the whole nine-dimensional residual basis.
+
+\paragraph{Cross-organism shape.}
+The same nine-coordinate basis also has a nine-dimensional orthogonal complement readback in six organisms. The dominant coordinates shift with context: in Homo sapiens the complement highlights Arg\_AGR, Ile\_AUA, Ser\_UCA\_vs\_UCG, K\_AAA, and f3\_stress; in Saccharomyces cerevisiae it highlights Ser\_UCR\_vs\_AGY, Leu\_CUN\_vs\_UUR, Ser\_UCA\_vs\_UCG, Arg\_AGR, Thr\_ACR\_vs\_ACY, and f3\_stress. The support fraction sums are 1.0 in every tested organism, with 1.0000000000000002 in E. coli. The reported complement scores are $R^2_{QP}=0.04613529805760884$ in danio rerio, $0.10767526667768725$ in E. coli K-12 MG1655, $0.03980793595345331$ in gallus gallus, $0.04454565117192484$ in Homo sapiens, $0.032090091625816136$ in Mycobacterium smegmatis, and $0.29837624987287115$ in Saccharomyces cerevisiae. This is structured but clearly context-sensitive behavior.
+
+\paragraph{Boundary.}
+A separate three-organism CUN/UUR-to-tRNA-Leu contact reports partial Pearson $1.0$ with signs $(+,-,+)$ and sign\_uniform = false, so even the aligned codon-vs-copy readback is not directionally uniform across species. That is enough to record a finite cross-organism relation, not enough to turn it into a universal orientation rule. Likewise, nothing in this section licenses translation, folding, physical admissibility, function, mechanism, or universality without a separate contact that measures those layers directly. The present result is a finite occupancy-layer readback only, and it must stay at that level.

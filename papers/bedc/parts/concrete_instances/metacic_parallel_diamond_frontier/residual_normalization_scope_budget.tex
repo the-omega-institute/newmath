@@ -1,0 +1,31 @@
+\begin{theorem}[MetaCIC parallel-diamond residual-normalization scope]
+\label{thm:metacic-parallel-diamond-residual-normalization-scope}
+Any residual-join read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must consume the critical-pair envelope, candidate-normalization row, residual-substitution row, finite residual witness, and candidate-SN handoff before it exports a diamond-frontier budget. The exported budget is the finite route through
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+with the residual-substitution premise and obstruction rows still visible; it is not a premise-free parallel diamond, full normalization theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+First read the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}. It fixes the local pair inside the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$ and keeps the bounded overlap surface visible.
+
+Next consume the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope} together with the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. These rows place $J$ under the retained premise $P$ rather than turning candidate normalization into an unconditional confluence result.
+
+Now apply finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. The finite witness must read the typed window, residual frontier, substitution-boundary row, checker rows, transport, replay, provenance, and local naming before a closed parallel-diamond route can inspect it.
+
+Finally use the candidate-SN handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. The handoff packages the same conditional spine as a diamond-frontier budget, so the exported object still retains $P$ and $O$ and cannot be reread as full normalization, subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-substitution discharge boundary]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-discharge-boundary}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ packet. A residual-normalization read from $F$ may discharge only the local residual-substitution boundary rows already displayed by the packet: the critical-pair envelope, candidate-normalization scope, residual-substitution dependency route, finite residual witness, and candidate-SN handoff. The discharge does not export subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}. It keeps the local overlap inside the finite rows $P,K,J,R,S,C,B,O,H,T,G,N$ and prevents the read from erasing the retained residual-substitution premise.
+
+Next combine the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope} with the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. These two rows allow the candidate read to discharge only the displayed local boundary, with $P$ still visible as the premise row for the residual route.
+
+Now consume the finite residual witness from \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. The witness is finite data in the same packet, so it can certify the local residual-normalization handoff without becoming a global equality or subject-reduction theorem.
+
+Finally apply the candidate-SN handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. That handoff packages the preceding rows as a candidate-mediated boundary discharge, and none of the six refused exports appears as a coordinate of the carrier.
+\end{proof}

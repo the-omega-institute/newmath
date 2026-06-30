@@ -32,6 +32,7 @@ The classifier compares accepted packets only through $E,B,D,L,M,Q,G,R,H,C,P,N$.
 \label{thm:implicit-function-root-equation-carrier}
 Every accepted $\ImplicitFunctionUp$ root packet must display the equation row, base point row, derivative row, linear map row, matrix row, Picard row, graph row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ImplicitFunctionUp}$ row. No root-equation consumer may read a local solution window before those rows are all visible in the same finite $\BHist$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionRootEquationCarrier}
 \begin{proof}
 Project the accepted packet through \autoref{def:implicit-function-carrier}. The carrier inventory is exactly $E,B,D,L,M,Q,G,R,H,C,P,N$, so the displayed equation, base point, derivative, linear approximation, matrix ledger, Picard route, graph window, Real seal, transport, replay, provenance, and local name are the only rows available.
 
@@ -39,6 +40,7 @@ A root-equation read must therefore open $E$ and $B$ before any analytic route i
 
 The terminal rows $R,H,C,P,N$ seal, transport, replay, source, and name that same route. Since the carrier contains no second equation row or detached solution object, no local solution window can be consumed before the displayed rows have been read.
 \end{proof}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionCarrier\_root\_equation\_carrier}
 
 \begin{theorem}[Implicit function linearization Picard route]
 \label{thm:implicit-function-linearization-picard-route}
@@ -51,6 +53,7 @@ The Picard row $Q$ is the only fixed-point coordinate in the packet. It names th
 
 The graph row $G$ is downstream of $D,L,M,Q$. Consequently a consumer of the local graph must pass through the displayed derivative, linear map, matrix, complete-metric, and Picard rows, and cannot extract host differentiability or a selected germ from an absent carrier coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionLinearizationPicardRoute}
 
 \begin{theorem}[Implicit function local graph seal handoff]
 \label{thm:implicit-function-local-graph-seal-handoff}
@@ -63,6 +66,7 @@ Use the linearization Picard route theorem. It places $G$ downstream of the deri
 
 The structural rows $H,C,P,N$ then transport, replay, source, and name the sealed graph window. The excluded host differentiability, selected germ, quotient function space, and ambient completeness principles have no coordinate in \autoref{def:implicit-function-carrier}, so the seal cannot export them.
 \end{proof}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionLocalGraphSealHandoff}
 
 \begin{theorem}[Implicit function NameCert obligations]\label{thm:implicit-function-namecert-obligations}
 For every accepted $\ImplicitFunctionUp$ carrier
@@ -80,6 +84,7 @@ the local $\NameCert_{\ImplicitFunctionUp}$ surface consists exactly of the foll
 \end{enumerate}
 No local NameCert obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:implicit-function-carrier}. The finite packet lists the equation, base point, derivative source, invertible approximation, matrix ledger, Picard route, graph window, Real seal, transport, replay, provenance, and local name.
 
@@ -111,10 +116,10 @@ Finally $G$ repacks the Picard endpoint as a local graph-window read, and $R$ pr
 
 \independenceWitness{derivative, linearmap, matrix, completemetric, picardcontraction, real: $\ImplicitFunctionUp$ is not bijective to any listed sibling because it jointly carries equation data, base-point data, derivative data, an invertible linear approximation, matrix coordinates, a Picard local-solution route, a local graph window, and a terminal Real seal.}
 
-\closureat{ImplicitFunctionUp}{seedStr}
+\closureat{ImplicitFunctionUp}{obligationStr}
 
 \begin{closurestatus}{\ImplicitFunctionUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:implicit-function-carrier}, \autoref{thm:implicit-function-namecert-obligations}, and \autoref{thm:implicit-function-picard-local-solution-route} seed the constructive local-solution packet over equation data, base-point data, derivative rows, invertible linear approximation rows, matrix component ledgers, Picard contraction data, graph-window rows, Real seal data, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

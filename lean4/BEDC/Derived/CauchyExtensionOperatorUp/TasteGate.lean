@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyExtensionOperatorUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -121,5 +125,35 @@ instance cauchyExtensionOperatorChapterTasteGate :
 def taste_gate : ChapterTasteGate CauchyExtensionOperatorUp :=
   -- BEDC touchpoint anchor: BHist BMark
   cauchyExtensionOperatorChapterTasteGate
+
+theorem CauchyExtensionOperatorCarrier_source_control
+    {source window tolerance map extension sealRow transport replay provenance localCert
+      sourceWindow mapRead extensionRead : BHist} :
+    CauchyExtensionOperatorUp.mk source window tolerance map extension sealRow transport replay
+        provenance localCert =
+        CauchyExtensionOperatorUp.mk source window tolerance map extension sealRow transport replay
+          provenance localCert ->
+      Cont source window sourceWindow ->
+        Cont sourceWindow tolerance mapRead ->
+          Cont mapRead map extensionRead ->
+            UnaryHistory source ->
+              UnaryHistory window ->
+                UnaryHistory tolerance ->
+                  UnaryHistory map ->
+                    UnaryHistory sourceWindow ∧ UnaryHistory mapRead ∧
+                      UnaryHistory extensionRead ∧ Cont source window sourceWindow ∧
+                        Cont sourceWindow tolerance mapRead ∧ Cont mapRead map extensionRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro _sameCarrier sourceWindowRoute mapReadRoute extensionReadRoute sourceUnary windowUnary
+    toleranceUnary mapUnary
+  have sourceWindowUnary : UnaryHistory sourceWindow :=
+    unary_cont_closed sourceUnary windowUnary sourceWindowRoute
+  have mapReadUnary : UnaryHistory mapRead :=
+    unary_cont_closed sourceWindowUnary toleranceUnary mapReadRoute
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed mapReadUnary mapUnary extensionReadRoute
+  exact
+    ⟨sourceWindowUnary, mapReadUnary, extensionReadUnary, sourceWindowRoute, mapReadRoute,
+      extensionReadRoute⟩
 
 end BEDC.Derived.CauchyExtensionOperatorUp

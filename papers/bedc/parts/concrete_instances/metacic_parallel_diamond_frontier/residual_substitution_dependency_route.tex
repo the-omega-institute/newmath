@@ -2,10 +2,35 @@
 \label{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}
 Every accepted $\MetaCICParallelDiamondFrontierUp$ packet that is consumed as a parallel-diamond frontier must first expose the residual-substitution premise row supplied by \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}. The consumer may route that premise into the local critical-pair, candidate-join, residual-frontier, closed-checker, and obstruction rows of $\MetaCICParallelDiamondFrontierUp$, but it cannot replace the premise by residual-substitution compatibility, subject reduction, full Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICParallelDiamondFrontierUp.MetacicParallelDiamondFrontierResidualSubstitutionDependencyRoute}
 \begin{proof}
 Project the frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The residual-substitution premise row $P$ is one of the displayed carrier coordinates, not an external theorem attached after the handoff.
 
 Read the residual-substitution boundary chapter named in the statement. It supplies the visible premise boundary that the frontier route consumes before any candidate join or local-diamond handoff is public.
 
 Finally apply the premise-retention and discharge-obstruction surfaces already present in the frontier chapter. They keep $P$ and the obstruction row visible for every consumer, so the dependency route remains a premise boundary rather than any of the refused confluence endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-premise join determinacy]
+\label{thm:metacic-parallel-diamond-frontier-residual-premise-join-determinacy}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ and $F'=(P,K,J',R,S,C,B,O,H',T',G',N')$ be accepted $\MetaCICParallelDiamondFrontierUp$ packets whose residual-substitution premise row $P$, critical-pair row $K$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, bounded-check row $B$, and obstruction row $O$ agree on the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ surface. Any common candidate-join handoff exposed by both packets is therefore read only through the same displayed $P,K,J,R,S,C,B,O,H,T,G,N$ route, with $J$ the candidate row visible on that route. The handoff does not discharge residual substitution, prove subject reduction, give full Church--Rosser, identify evaluator equality, quotient terms, or assert kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the two frontier carriers through \autoref{def:metacic-parallel-diamond-frontier-carrier}. The rows named in the statement are carrier coordinates, so a common candidate-join read cannot be detached from the shared $P,K,R,S,C,B,O$ boundary.
+
+Now apply the dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places the residual-substitution premise $P$ before the local critical-pair, candidate-join, residual-frontier, closed-checker, and obstruction rows.
+
+Finally use the premise-retention and route surfaces already recorded in the chapter. They keep the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$ visible for every accepted consumer, so the shared handoff is deterministic only at the finite route boundary and remains separate from the refused confluence and kernel endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution confluence budget]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-confluence-budget}
+Every residual-substitution route that contributes to the $\MetaCICParallelDiamondFrontierUp$ parallel-diamond frontier must expose, in order, the retained premise row $P$, residual pair row $R$, local join row $J$, substitution dependency row $S$, and finite budget row $B$ before any candidate-mediated strong-normalization handoff may consume it. The budget is a finite row of the frontier carrier, not a global confluence theorem, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency witness.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The retained premise, residual pair, local join, substitution dependency, and budget rows are displayed carrier coordinates, so a consumer cannot read the candidate handoff before these rows are present.
+
+Apply the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places the retained premise boundary before the critical-pair and candidate-join rows and keeps residual substitution as a visible dependency of the frontier.
+
+Finally use residual-join locality from the surrounding frontier rows. The local join is certified only inside the finite $P,R,J,S,B$ route, and the candidate-mediated handoff consumes that route as a bounded frontier witness. Since no row stores global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency, none of those endpoints is exported by the budget.
 \end{proof}

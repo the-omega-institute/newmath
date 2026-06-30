@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\TuttePolynomialUp$}
+\label{ch:concrete-instances-tutte-polynomial-namecert}
+\origin{human}
+
+Following Tutte's deletion-contraction treatment of finite graph invariants, the $\TuttePolynomialUp$ packet records the polynomial ledger that a graph or matroid consumer may inspect before using the two-variable Tutte polynomial. It sits over the finite graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the rank and independence surface of \autoref{ch:concrete-instances-matroid-namecert}, the coefficient-list discipline of \autoref{ch:concrete-instances-polynomial-namecert}, and the edge-ledger comparison route of \autoref{ch:concrete-instances-networkflow-namecert}. The packet names only finite deletion, contraction, base-case, coefficient, classifier, transport, replay, provenance, and local naming rows; it does not assert graph-minor structure, universal invariant uniqueness, or an ambient host polynomial quotient.
+
+\begin{definition}[Tutte polynomial carrier]
+\label{def:tutte-polynomial-carrier}
+A $\TuttePolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,M,E,D,C,B,L,K,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GraphUp$ row, including vertex, edge, incidence, loop, bridge, and endpoint readback data.
+\item $M$ is the optional $\MatroidUp$ rank-dependence row used when the deletion-contraction read is routed through a displayed matroid carrier.
+\item $E$ is the inspected edge row naming the finite edge whose deletion or contraction branch is being read.
+\item $D$ is the deletion row, carrying the graph or matroid packet obtained by removing $E$ from the same displayed support.
+\item $C$ is the contraction row, carrying the graph or matroid packet obtained by contracting $E$ with its endpoint or rank bookkeeping displayed.
+\item $B$ is the base-case row for empty support, loop, bridge, and isolated component cases.
+\item $L$ is the finite coefficient ledger in the $\PolynomialUp$ surface, with the two variables and all inspected coefficient cells named as rows.
+\item $K$ is the classifier-stability row requiring deletion, contraction, base-case, and coefficient reads to remain stable under the displayed $\hsame$ witnesses.
+\item $H$ stores componentwise $\hsame$ transports for $G,M,E,D,C,B,L,K,R,P,N$.
+\item $R$ stores displayed $\Cont$ replay through graph or matroid inspection, deletion, contraction, base cases, coefficient extraction, classifier stability, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\TuttePolynomialUp$, $\GraphUp$, $\MatroidUp$, $\PolynomialUp$, $\NetworkFlowUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TuttePolynomialUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these finite rows. It has no coordinate for a host graph-minor theorem, a universal invariant proof, quotient equality of polynomials, arbitrary edge-set selection, or an ambient deletion-contraction oracle.
+\end{definition}
+
+\begin{theorem}[Tutte polynomial deletion-contraction obligations]
+\label{thm:tutte-polynomial-deletion-contraction-obligations}
+For every accepted $\TuttePolynomialUp$ carrier $T=(G,M,E,D,C,B,L,K,H,R,P,N)$, the local $\NameCert_{\TuttePolynomialUp}$ surface consists exactly of carrier admission for the finite graph row, optional matroid row, inspected edge row, deletion row, contraction row, base-case row, coefficient ledger, classifier-stability row, componentwise transport, displayed replay, package provenance, and local naming. Every polynomial-facing consumer must expose the deletion branch, contraction branch, base cases, coefficient ledger, and classifier-stability row before it reads the Tutte-polynomial packet as a finite invariant.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tutte-polynomial-carrier}. The source rows are $G,M,E$, the recursive polynomial rows are $D,C,B,L$, and the structural rows are $K,H,R,P,N$.
+
+Read the deletion and contraction branches first. The inspected edge row $E$ determines which finite support is removed or contracted, while $D$ and $C$ keep both resulting packets inside the displayed $\GraphUp$ or $\MatroidUp$ dependency surface.
+
+Next read the base and coefficient rows. The row $B$ records the empty-support, loop, bridge, and isolated-component cases, and $L$ records the two-variable coefficient ledger through $\PolynomialUp$ rather than through host polynomial equality.
+
+Finally apply the classifier and structural rows. The stability row $K$ makes the deletion, contraction, base-case, and coefficient data invariant under the displayed $\hsame$ transports, while $H,R,P,N$ transport, replay, source, and name the same finite packet. Since no coordinate stores a graph-minor theorem, a universal invariant proof, or an ambient polynomial quotient, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\TuttePolynomialUp$ packet is refuted if a consumer reads a polynomial coefficient before displaying the finite graph or matroid source row, inspected edge row, deletion row, contraction row, base-case row, coefficient ledger, classifier-stability row, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{graph, matroid, polynomial, networkflow: $\TuttePolynomialUp$ is not bijective to any listed sibling because it jointly carries deletion, contraction, base-case, coefficient-ledger, classifier-stability, transport, replay, provenance, and local NameCert rows. The siblings supply source graph incidence, rank-dependence, coefficient storage, or edge-ledger routing separately, while only this packet binds them as the finite deletion-contraction polynomial surface.}
+
+\closureat{TuttePolynomialUp}{seedStr}
+
+\begin{closurestatus}{\TuttePolynomialUp}
+  \constructivestory{A $\TuttePolynomialUp$ packet is generated from finite GraphUp rows, optional MatroidUp rank-dependence rows, inspected edge rows, deletion rows, contraction rows, base-case rows, PolynomialUp coefficient ledgers, classifier-stability rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tutte-polynomial-carrier} and \autoref{thm:tutte-polynomial-deletion-contraction-obligations} seed the finite deletion-contraction polynomial route over GraphUp, MatroidUp, PolynomialUp, NetworkFlowUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, full graph-minor theory, universal Tutte invariant uniqueness, quotient equality of polynomials, arbitrary edge-set selection, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deletion and contraction branch exposure, base-case exactness, coefficient-ledger exactness, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.TuttePolynomialUp.}
+\end{closurestatus}

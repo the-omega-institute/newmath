@@ -1,0 +1,257 @@
+\section{Finite-to-Infinite Phase-Energy Tower}
+\label{sec:unified-reality-finite-to-infinite-phase-energy-tower}
+
+The prime phase-radial readback separates two finite-to-infinite
+phenomena.  Finite prime windows display simultaneous phase rotation:
+each displayed prime contributes a unit phase with frequency $\log p$ on
+the critical surface.  The infinite passage relevant to the RH-facing
+obstruction is not the signed phase row, because signed phase can cancel
+in a completed projection.  The stable row is the positive second-order
+normal energy.  It is monotone on finite prime windows and becomes
+unbounded whenever the normal displacement is nonzero.
+
+\begin{definition}[Finite phase-energy window]
+\label{def:unified-reality-finite-phase-energy-window}
+For a nonempty finite prime window $S$, the \emph{finite phase-energy
+window} at
+$$
+s=\frac12+\delta+i\tau
+$$
+is the packet
+$$
+\mathsf{PhaseEnergy}_S(s)
+:=
+\left(
+\Phi_S(\tau),
+\mathcal E_S(s)
+\right),
+$$
+where $\Phi_S(\tau)$ is the finite phase profile of
+\autoref{def:unified-reality-prime-phase-profile} and
+$$
+\mathcal E_S(s)
+=
+\sum_{p\in S}
+\left(\log |p^{1/2-s}|\right)^2
+$$
+is the finite prime normal square energy of
+\autoref{def:unified-reality-prime-normal-square-energy}.
+\end{definition}
+
+\begin{theorem}[Finite prime phase windows have no nonzero common period]
+\label{thm:unified-reality-finite-prime-phase-windows-no-common-period}
+Let $S$ be a finite prime window containing two distinct primes.  There
+is no nonzero real time $T$ such that
+$$
+e^{-iT\log p}=1
+$$
+for every $p\in S$.
+\end{theorem}
+
+\begin{proof}
+Suppose such a nonzero $T$ exists.  For any two distinct primes
+$p,q\in S$, there are integers $m_p,m_q$ with
+$$
+T\log p=2\pi m_p,
+\qquad
+T\log q=2\pi m_q.
+$$
+Since $T\#0$ and both logarithms are positive, neither integer can be
+zero.  Hence
+$$
+\frac{\log p}{\log q}
+=
+\frac{m_p}{m_q}
+\in\mathbb Q.
+$$
+This is a nontrivial rational relation between two prime logarithmic
+directions, contradicting
+\autoref{thm:unified-reality-prime-logarithmic-directions-independent}.
+\end{proof}
+
+\begin{corollary}[Finite phase closure is quasi-periodic data]
+\label{cor:unified-reality-finite-phase-closure-quasiperiodic-data}
+Finite prime phase windows may exhibit approximate recurrence and
+projected cancellation, but they do not carry an exact common period once
+at least two prime frequencies are displayed.
+\end{corollary}
+
+\begin{proof}
+Approximate recurrence belongs to the finite torus face
+$\mathbb T_S$ of
+\autoref{def:unified-reality-prime-torus-radial-deformation-body}.
+Exact common periodicity would require a nonzero $T$ satisfying the
+condition excluded by
+\autoref{thm:unified-reality-finite-prime-phase-windows-no-common-period}.
+Thus finite phase cancellation is not an exact periodic clock for the
+prime tower.
+\end{proof}
+
+\begin{theorem}[Finite normal energy is monotone in the window]
+\label{thm:unified-reality-finite-normal-energy-monotone-window}
+If $S\subseteq T$ are nonempty finite prime windows, then
+$$
+\mathcal E_S(s)\le \mathcal E_T(s).
+$$
+Moreover, if $s=1/2+\delta+i\tau$ and $\delta\#0$, then every nonempty
+finite window has positive normal energy, and enlarging the window adds
+only nonnegative terms.
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+\mathcal E_T(s)
+=
+\sum_{p\in T}
+\left(\log |p^{1/2-s}|\right)^2.
+$$
+All summands are squares, hence nonnegative.  Splitting the sum over
+$S$ and $T\setminus S$ gives
+$$
+\mathcal E_T(s)
+=
+\mathcal E_S(s)
++
+\sum_{p\in T\setminus S}
+\left(\log |p^{1/2-s}|\right)^2,
+$$
+which proves monotonicity.  If $s=1/2+\delta+i\tau$, then
+\autoref{thm:unified-reality-finite-prime-square-energy-positive-off-half}
+gives
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2
+\#0
+$$
+for every nonempty finite window when $\delta\#0$.
+\end{proof}
+
+\begin{theorem}[Finite-to-infinite energy divergence]
+\label{thm:unified-reality-finite-to-infinite-energy-divergence}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+if $\delta\#0$, then the finite-window normal energies form an
+unbounded cofinal tower:
+$$
+\sup_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\mathcal E_S(s)
+=
+\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+For every nonempty finite window $S$,
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2
+$$
+by
+\autoref{thm:unified-reality-prime-square-energy-mirror-even}.  The
+finite sums
+$$
+\sum_{p\in S}(\log p)^2
+$$
+are unbounded as $S$ ranges cofinally over finite prime windows, since
+there are infinitely many displayed prime rows and each displayed square
+is positive.  Because $\delta\#0$, multiplication by $\delta^2$ preserves
+unboundedness.  This is the same extended supremum readout as
+\autoref{thm:unified-reality-global-prime-square-energy-diverges-off-half}.
+\end{proof}
+
+\begin{definition}[Finite normal energy boundary]
+\label{def:unified-reality-finite-normal-energy-boundary}
+The \emph{finite normal energy boundary} row for completed critical-strip
+zeros is
+$$
+\mathsf{FiniteNormalEnergyBoundary}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\sup_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\mathcal E_S(s)
+<\infty
+\right).
+$$
+It says that a completed zero boundary state cannot carry unbounded
+normal prime energy along the finite-window tower.
+\end{definition}
+
+\begin{theorem}[Finite normal energy boundary is conditionally sufficient]
+\label{thm:unified-reality-finite-normal-energy-boundary-conditionally-sufficient}
+If $\mathsf{FiniteNormalEnergyBoundary}_{\zeta}$ holds, then the RH
+fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+The zero and critical-strip rows of $z$ give
+$$
+\sup_{S:\mathsf{FinitePrimeWindow}_{\ne\varnothing}}
+\mathcal E_S(s)
+<\infty
+$$
+by
+\autoref{def:unified-reality-finite-normal-energy-boundary}.  If
+$\delta\#0$, then
+\autoref{thm:unified-reality-finite-to-infinite-energy-divergence}
+gives the opposite extended readout, namely an infinite supremum.  Hence
+$\neg(\delta\#0)$.  The located fixed-half collapse row gives
+$\delta=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+this as $\Re(s)=1/2$.  Varying $z$ supplies the fixed-half section.
+\end{proof}
+
+\begin{corollary}[Finite-to-infinite tracking identifies the proof load]
+\label{cor:unified-reality-finite-to-infinite-tracking-proof-load}
+The finite-to-infinite tower separates detection from zero relevance.
+Off-half displacement is detected by positive finite-window energies and
+becomes unbounded cofinally; the remaining RH-facing claim is that
+completed zeta zero rows satisfy the finite normal energy boundary.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-finite-normal-energy-monotone-window}
+shows that the finite-window energy is positive off the fixed-half
+surface, and
+\autoref{thm:unified-reality-finite-to-infinite-energy-divergence}
+shows that the cofinal tower is unbounded.  These are readout facts, not
+zero-exclusion facts.  The zero-exclusion content is exactly
+\autoref{def:unified-reality-finite-normal-energy-boundary}, equivalently
+the finite-energy form of the zeta no-hair boundary in
+\autoref{def:unified-reality-zeta-no-hair-boundary}.
+\end{proof}
+
+\begin{corollary}[Finite models mark the zero-relevance gap]
+\label{cor:unified-reality-finite-models-mark-zero-relevance-gap}
+The finite-to-infinite energy tower has the same proof-role shape as the
+quartic finite spectral carrier: visible finite data become zero-relevant
+only after a boundary or dominance ledger identifies which visible row
+controls the zero law.
+\end{corollary}
+
+\begin{proof}
+The quartic carrier does not infer endpoint zeros from the mere presence
+of spectral branches; it uses normalization, real projection, dominance,
+and fixed-window separation as in
+\autoref{thm:unified-reality-quartic-marks-zero-relevance-boundary}.  In
+the zeta tower, the visible row is positive normal energy on finite prime
+windows.  The missing zero-relevance ledger is the boundary assertion
+that a completed zero cannot carry unbounded cofinal normal energy, as
+stated in
+\autoref{def:unified-reality-finite-normal-energy-boundary}.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-finite-energy-tower-namecert}{Finite energy tower packets realize finite prime-window phase rows, positive normal-energy rows, monotone window extension, Real/Complex readback, and nonescape ledgers as NameCert data.}

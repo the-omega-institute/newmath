@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyReblockingUp$}
+\label{ch:concrete-instances-cauchy-reblocking-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy tails, the $\CauchyReblockingUp$ packet records finite reblocking of regular rational Cauchy data before any real-name seal is exported. It sits beside the finite-window and tail packets of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-finite-stream-namecert}, and \autoref{ch:concrete-instances-locatedlimit-namecert}. The packet exposes a finite block schedule and a monotone tail selector; it does not introduce a new real, a quotient completion, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyReblocking carrier]
+\label{def:cauchy-reblocking-carrier}
+A $\CauchyReblockingUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,K,T,S,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RegSeqRatUp$ row whose regular rational readings supply the Cauchy tail data to be reblocked.
+\item $K$ is the finite block partition row, listing the displayed consecutive blocks and their endpoints.
+\item $T$ is the monotone tail selector row, assigning each requested tolerance to the block from which all later reads are taken.
+\item $S$ is the $\StreamNameUp$ finite-window row, exposing exactly the finite observations consumed by the selected block.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radii and comparison cells attached to the selected tail.
+\item $H$ records componentwise $\hsame$ transport for the regular source, block partition, tail selector, finite window, dyadic tolerance row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a tail request through $R,K,T,S,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyReblockingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteStreamUp$, $\LocatedLimitUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyReblockingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $R,K,T,S,D,H,C,P,N$. No coordinate stores an independent limit, quotient completion, choice-selected subsequence, trichotomy branch, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[CauchyReblocking NameCert obligations]
+\label{thm:cauchy-reblocking-namecert-obligations}
+For every accepted $\CauchyReblockingUp$ carrier $B=(R,K,T,S,D,H,C,P,N)$, the local $\NameCert_{\CauchyReblockingUp}$ surface consists exactly of carrier admission for the displayed packet, block-schedule exactness for the finite partition $K$, tail selector monotonicity for $T$, $\RegSeqRatUp$ readback preservation for $R$, and Real-seal nonescape for every downstream $\RealUp$ consumer. The finite-window and tolerance rows $S,D$ are consumed only after $K$ and $T$ have been displayed, while $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-reblocking-carrier}. The displayed rows are exactly the regular rational source, finite block partition, monotone selector, finite window, dyadic tolerance row, transport, replay, provenance, and local naming.
+
+Block-schedule exactness is read from $K$. A downstream consumer may inspect only the finite blocks listed there, and the selected tail is recorded by $T$ rather than by a hidden subsequence or an external choice function.
+
+The regular readback is preserved because $R$ remains the only source row. The finite window $S$ and tolerance row $D$ can be reached only after $K$ and $T$ expose the selected block, so the reblocked read is still a read of the same $\RegSeqRatUp$ source.
+
+Finally, the rows $H,C,P,N$ transport, replay, name, and cite the same finite route. Since the carrier has no coordinate for an independent limit, quotient completion, trichotomy branch, choice schedule, or ambient completeness principle, no downstream $\RealUp$ seal can escape the displayed packet.
+\end{proof}
+
+\begin{theorem}[CauchyReblocking regular tail selection]
+\label{thm:cauchy-reblocking-regular-tail-selection}
+Every tail read exported by an accepted $\CauchyReblockingUp$ carrier $B=(R,K,T,S,D,H,C,P,N)$ factors through the same finite block schedule before any $\RealUp$ seal can be read:
+$$
+R,K,T,S,D,H,C,P,N .
+$$
+Thus the reblocked tail is a finite reindexing of the source $\RegSeqRatUp$ row through $K$ and $T$, followed by the $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance row, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:cauchy-reblocking-carrier}. The only rows available before a tail-facing consumer reaches a finite window or tolerance comparison are the source row $R$, the block partition $K$, and the selector $T$.
+
+Use \autoref{thm:cauchy-reblocking-namecert-obligations}. Block-schedule exactness fixes the finite partition, and tail selector monotonicity forces later tail requests to remain inside the scheduled reblocking route.
+
+After the selected block is visible, the consumer may read the finite window $S$ and the dyadic tolerance row $D$. Transport and replay through $H$ and $C$ preserve the same route, while $P$ and $N$ record provenance and local naming.
+
+Therefore every reblocked tail read factors through $R,K,T,S,D,H,C,P,N$ before any $\RealUp$ seal. The packet supplies finite reindexing data only, not a separate completion or host limit.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyReblockingUp$ read is refuted if it reaches a $\RealUp$ seal without displaying the $\RegSeqRatUp$ source row, finite block partition, monotone tail selector, $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, finite-stream, locatedlimit: $\CauchyReblockingUp$ is not bijective to any listed sibling because it jointly carries the source regular rational row, a finite block partition, a monotone tail selector, finite-window and tolerance rows, transport, replay, provenance, and local naming as one reblocking packet.}
+
+\closureat{CauchyReblockingUp}{seedStr}
+
+\begin{closurestatus}{\CauchyReblockingUp}
+  \constructivestory{A $\CauchyReblockingUp$ packet is generated from a RegSeqRat source row, a finite block partition, a monotone tail selector, a StreamName finite window, a DyadicRatCore tolerance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-reblocking-carrier}, \autoref{thm:cauchy-reblocking-namecert-obligations}, and \autoref{thm:cauchy-reblocking-regular-tail-selection} seed the finite reblocking route for regular rational Cauchy tails before any Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected host limits, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, block-schedule exactness, tail selector monotonicity, RegSeqRat readback preservation, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyReblockingUp.}
+\end{closurestatus}

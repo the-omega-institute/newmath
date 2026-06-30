@@ -446,8 +446,9 @@ def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     expected_row = expected["verdicts"][0]
     expected_deltas = expected_row["deltas"]
     monkeypatch.setattr(runner, "ROOT", tmp_path)
-    (tmp_path / "reports").mkdir()
-    (tmp_path / runner.SOURCE_JSON_ARTIFACT).write_text(json.dumps(source_payload), encoding="utf-8")
+    source_path = tmp_path / runner.SOURCE_JSON_ARTIFACT
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(json.dumps(source_payload), encoding="utf-8")
     runner.main()
     payload = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
     report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")

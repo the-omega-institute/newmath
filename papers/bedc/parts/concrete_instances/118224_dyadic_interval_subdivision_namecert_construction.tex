@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalSubdivisionUp$}
+\label{ch:concrete-instances-dyadic-interval-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicIntervalSubdivisionUp$ packet records the finite dyadic cell subdivision used by compact interval arguments before any finite-cover or uniform-modulus consumer can read a mesh. It refines the interval-net discipline of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the cover-refinement carrier of \autoref{ch:concrete-instances-dyadic-cover-refinement-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the tolerance-only handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet is a concrete dyadic subdivision surface for compact-uniform-continuity arguments, not an open-cover compactness theorem, a selected subcover, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic interval subdivision carrier]
+\label{def:dyadic-interval-subdivision-carrier}
+A $\DyadicIntervalSubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,E,Q,G,V,W,M,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalNetUp$ source row exposing the closed interval endpoints and the finite interval-net boundary.
+\item $E$ is the endpoint-exactness row, tying every dyadic cell endpoint back to the same lower and upper interval endpoints.
+\item $Q$ is the dyadic scale row, sourced through $\DyadicRatCoreUp$, at which the interval is subdivided.
+\item $G$ is the ordered dyadic grid row listing the cell endpoints at scale $Q$.
+\item $V$ is the cell-coverage row witnessing that every interval read is routed through one displayed dyadic cell or a shared endpoint boundary.
+\item $W$ is the common-refinement row comparing the displayed grid with a later $\DyadicCoverRefinementUp$ cover row.
+\item $M$ is the mesh-bound row recording the dyadic diameter bound exported to compact finite-cover consumers.
+\item $U$ is the $\UniformModulusUp$ handoff row, available only after the grid, coverage, common-refinement, and mesh rows have been consumed.
+\item $H$ records componentwise $\hsame$ transport for interval-net source, endpoint exactness, dyadic scale, grid, coverage, common-refinement, mesh, uniform-modulus handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from interval endpoints to dyadic grid rows, from grid rows to coverage rows, from coverage to common refinement, and from mesh bounds to the $\UniformModulusUp$ handoff.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalSubdivisionUp$, $\DyadicCoverRefinementUp$, $\ClosedBoundedIntervalNetUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalSubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,E,Q,G,V,W,M,U,H,C,P,N$. It has no coordinate for an open-cover subcover selector, quotient real equality, a hidden grid chooser, arbitrary compactness, or ambient metric completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic interval subdivision NameCert obligations]
+\label{thm:dyadic-interval-subdivision-namecert-obligations}
+For every accepted $\DyadicIntervalSubdivisionUp$ carrier $D=(I,E,Q,G,V,W,M,U,H,C,P,N)$, the local $\NameCert_{\DyadicIntervalSubdivisionUp}$ surface consists exactly of carrier admission, interval-net source exposure, endpoint exactness, dyadic scale classification, ordered grid coverage, cell-coverage exactness, common-refinement compatibility with $\DyadicCoverRefinementUp$, mesh-bound export, $\UniformModulusUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The finite route is
+$$
+\ClosedBoundedIntervalNetUp
+\longmapsto
+\DyadicIntervalSubdivisionUp
+\longmapsto
+\DyadicCoverRefinementUp
+\longmapsto
+\UniformModulusUp ,
+$$
+with the $\CompactMetricUp$ source row read only through the displayed finite interval-net and mesh data.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-interval-subdivision-carrier}. The source interval row $I$, endpoint exactness row $E$, dyadic scale row $Q$, ordered grid row $G$, coverage row $V$, common-refinement row $W$, mesh row $M$, and handoff row $U$ are the only mathematical rows available.
+
+Read $I,E,Q,G,V$ first. These rows display the closed interval endpoints, fix the dyadic scale, list the finite grid, and route every interval containment request through a displayed cell or shared boundary.
+
+Next consume $W,M,U$. The common-refinement row compares the dyadic grid with the $\DyadicCoverRefinementUp$ cover route, the mesh row exports the dyadic diameter bound to compact finite-cover consumers, and the $\UniformModulusUp$ row is visible only after those finite checks.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same subdivision packet, so no open-cover selector, hidden grid choice, quotient real equality, arbitrary compactness principle, or ambient completeness row can enter the certificate.
+\end{proof}
+
+\closureat{DyadicIntervalSubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalSubdivisionUp}
+  \constructivestory{A $\DyadicIntervalSubdivisionUp$ packet is generated from a ClosedBoundedIntervalNet source, endpoint exactness, dyadic scale rows, ordered dyadic grid rows, cell coverage, common-refinement rows, mesh bounds, a UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-subdivision-carrier} and \autoref{thm:dyadic-interval-subdivision-namecert-obligations} seed the finite dyadic subdivision route used by compact finite-cover and uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected subcovers, quotient real equality, hidden grid choice, ambient metric completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval-net source exposure, endpoint exactness, dyadic scale classification, grid coverage, common-refinement compatibility, mesh export, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicIntervalSubdivisionUp.}
+\end{closurestatus}

@@ -4,7 +4,7 @@
 
 Following Kelley and Bourbaki on finer filters, cofinal subfilters, and refinement of directed bases, the $\FilterRefinementUp$ packet names the finite L10 bridge by which a completion route replaces one displayed filter base by a cofinal refinement. It sits after the finite base surface of \autoref{ch:concrete-instances-filterbase-namecert}, refines the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and keeps the completion-facing consumers of \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-metriccompletion-namecert}, and \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert} on the displayed finite route. The packet records cofinal comparison rows only; it is not a quotient filter, not an ultrafilter, not a selected limit, not countable choice, and not an ambient completeness principle.
 
-The same cofinal-replacement row is consumed by the Real-induced uniformity route of \autoref{ch:concrete-instances-real-uniform-structure-namecert}: when a $\RealUniformStructureUp$ packet replaces a Cauchy-filter basis by a cofinal basis, it reads the displayed $\FilterRefinementUp$ source, target, and refinement rows before any completion-facing Real-uniform consumer sees the new basis.
+The same cofinal replacement row is consumed horizontally by the Real-induced uniformity route of \autoref{ch:concrete-instances-real-uniform-structure-namecert} and by the generated-base route of \autoref{ch:concrete-instances-cauchy-filter-subbasis-namecert}. A $\RealUniformStructureUp$ packet and a $\CauchyFilterSubbasisUp$ consumer both read the displayed $\FilterRefinementUp$ source, target, refinement, and finite generated-base rows before any completion-facing route sees the replacement basis.
 
 \begin{definition}[FilterRefinement NameCert surface]
 \label{def:filter-refinement-namecert-surface}
@@ -72,6 +72,19 @@ Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCo
 \end{proof}
 \leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCompletionRoute}
 
+\begin{theorem}[FilterRefinement reverse-ledger comparison]
+\label{thm:filter-refinement-reverse-ledger-comparison}
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. When $\lambda$ is present, it supplies only finite return comparisons from the source route back to the target route. Thus source and target completion-facing reads may be compared through $S,T,\rho,\lambda,H,C,P,N$ without quotient-filter equality, ultrafilter data, selected limits, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCarrier\_reverse\_ledger\_comparison}
+\begin{proof}
+Project the carrier surface of \autoref{def:filter-refinement-namecert-surface}. The rows $S$ and $T$ are displayed filter-base rows, $\rho$ is the cofinal refinement map, and $\lambda$ is explicitly the optional reverse comparison ledger.
+
+Use the completion route theorem \autoref{thm:filter-refinement-completion-route}. It identifies $\lambda$ as route-equivalence data read only when a finite comparison between the source and target completion-facing routes is required.
+
+Apply Cauchy preservation and the Cauchy-basis consumer, \autoref{thm:filter-refinement-cauchy-preservation} and \autoref{thm:filter-refinement-cauchy-basis-consumer}. Both directions remain inside displayed $\FilterBaseUp$ and $\CauchyFilterBaseUp$ rows, while $H,C,P,N$ transport, replay, source, and name the same finite packet. No quotient filter, ultrafilter, selected limit, choice schedule, host equality, or ambient completeness row is available to the comparison.
+\end{proof}
+
 \begin{theorem}[FilterRefinement Cauchy base dependency]
 \label{thm:filter-refinement-cauchy-base-dependency}
 Every refinement accepted by $\FilterRefinementUp$ consumes the finite Cauchy filter base carrier of \autoref{ch:concrete-instances-cauchy-filter-base-namecert} before it may replay completion-facing cofinality. The refined route therefore exposes a $\CauchyFilterBaseUp$ basis row, a cofinal comparison through $\rho$, and the same transport, replay, provenance, and local naming rows $H,C,P,N$ before any $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer reads the refinement.
@@ -85,6 +98,19 @@ Use the Cauchy-base carrier of \autoref{ch:concrete-instances-cauchy-filter-base
 Finally apply \autoref{thm:filter-refinement-completion-route}. It permits completion consumers to read only $T,\rho,\lambda,H,C,P,N$, so the Cauchy-base dependency is a displayed prerequisite for cofinality replay rather than a quotient filter, selected limit, countable-choice selector, or ambient completeness principle.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCauchyBaseDependency}
+
+\begin{theorem}[FilterRefinement Cauchy-basis consumer]
+\label{thm:filter-refinement-cauchy-basis-consumer}
+Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer using a $\FilterRefinementUp$ route must first expose the $\FilterBaseUp$ row $S$, the $\CauchyFilterBaseUp$ row supporting the Cauchy route, and the cofinal comparison row $\rho$ before any completion-facing read. The consumer then factors through the same transport, replay, provenance, and local naming rows $H,C,P,N$, with the optional return ledger $\lambda$ read only when finite route equivalence is required.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCauchyBasisConsumer}
+\begin{proof}
+Project the carrier $R=(S,T,\rho,\lambda,H,C,P,N)$ from \autoref{def:filter-refinement-namecert-surface}. The source row $S$ and target row $T$ are displayed $\FilterBaseUp$ rows, and $\rho$ is the only mandatory cofinal comparison between them.
+
+Use the Cauchy-base dependency theorem \autoref{thm:filter-refinement-cauchy-base-dependency}. It forces the Cauchy-filter route to expose its $\CauchyFilterBaseUp$ basis before cofinality replay can be consumed.
+
+Finally apply the completion route theorem \autoref{thm:filter-refinement-completion-route}. Completion-facing consumers therefore see the basis rows and $\rho$ before they read any $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ boundary, and the structural rows $H,C,P,N$ add no quotient filter, selected limit, countable choice, host equality, or ambient completeness coordinate.
+\end{proof}
 
 The completion-route theorem is read as a sibling dependency rule: a $\FilterRefinementUp$ packet consumes the $\FilterBaseUp$ carrier of \autoref{ch:concrete-instances-filterbase-namecert} and the $\CauchyFilterUp$ route of \autoref{ch:concrete-instances-cauchyfilter-namecert} before any $\UniformCompletionUp$ consumer from \autoref{ch:concrete-instances-uniformcompletion-namecert}, $\MetricCompletionUp$ consumer, or $\CauchyFilterCompletionUp$ consumer may read the refined route.
 

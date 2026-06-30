@@ -27,7 +27,12 @@
       "acceptance": {
         "required_checks": [
           "automath_certificate_present_sorry_free",
-          "automath_certificate_ref_matches"
+          "automath_certificate_ref_matches",
+          "reduced_laplacian_matches_window6_edge_matrix",
+          "smith_normal_form_factorization",
+          "characteristic_polynomial",
+          "mod571_singularity",
+          "simple_not_repeated"
         ]
       }
     },
@@ -276,6 +281,679 @@
           "a0_not_polynomial_in_E",
           "a0_E_noncommute",
           "a0_T_noncommute_spectrum"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-dstar-tenth-grading-absent",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_dstar_tenth_grading_absent.py",
+      "claim_id": "window6.dstar.tenth-order-grading-absent-needs-external.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "phi10_definition",
+          "T_spectrum_all_real",
+          "T_charpoly_no_phi10",
+          "A0_charpoly_no_phi10",
+          "no_tenth_periodic_grading",
+          "eight_ninths_is_escape_not_residual"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-v6-weight-uniqueness",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_v6_weight_uniqueness.py",
+      "claim_id": "window6.foldbin-weights.fibonacci-uniqueness.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_weights",
+          "foldbin_bijection_0_63",
+          "cell_counts_27_22_9_6",
+          "weight_uniqueness",
+          "zeckendorf_interpretation"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-a0-origin-berstel-external",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_a0_origin_berstel_external.py",
+      "claim_id": "window6.a0-origin.berstel-transducer-needs-external.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "a_theta_family_definition",
+          "a0_equals_A_theta_zero",
+          "a0_spectrum_consistent",
+          "transducer_not_window6_forced"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-functor-embedding-needs-external",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_functor_embedding_needs_external.py",
+      "claim_id": "window6.functor-embedding.golden-shell-form-needs-external.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "indices_forward_local",
+          "embedding_expansion_definitional",
+          "embedding_form_necessity_needs_external",
+          "distinct_from_dstar_and_horizon"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-cyclic-golden-10-clock",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_cyclic_golden_10_clock.py",
+      "claim_id": "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "P10_cyclic_enumeration",
+          "P10_shift_cycle_structure",
+          "P10_shift_charpoly_phi10",
+          "S10_minimal_orbit_indicator",
+          "higher_block_no_phi10",
+          "tensor_powers_no_phi10",
+          "ClockCouplingCert_needs_external"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-clock-coupling-irreducible",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_clock_coupling_irreducible.py",
+      "claim_id": "window6.clock-coupling-cert.c10-torsor-origin-irreducible.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "X6_zero_padding_every_residue",
+          "local_coordinate_every_residue",
+          "affine_shape_only_s7_rho10",
+          "functorial_no_canonical_section",
+          "ClockCouplingCert_C10_torsor_origin_irreducible"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-basepoint-canonical-candidates",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_basepoint_canonical_candidates.py",
+      "claim_id": "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "P10_cyclic_enumeration",
+          "minimal_orbit_O",
+          "involution_fixed_point_candidate",
+          "torsor_identity_candidate",
+          "zeckendorf_pisano_candidate",
+          "spectral_phase_candidate",
+          "ClockCouplingCert_basepoint_free_gauge"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-alpha-external-gauge-family",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_alpha_external_gauge_family.py",
+      "claim_id": "window6.alpha-external-gauge.d6-family-theorem-a.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "d6_gauge_family_10_distinct",
+          "residue_only_gauge_invariant",
+          "theorem_A_nogo",
+          "coefficient_witness_status",
+          "gauge_moduli_M_alpha"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-metrological-gauge-selection",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_metrological_gauge_selection.py",
+      "claim_id": "window6.alpha-external-gauge.metrological-gauge-selection.certificate",
+      "required_data": [],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "monotone_inversion_dR_dD_negative",
+          "branch_separation_resolvable",
+          "branch_separation_decreasing",
+          "reverse_fit_diagnosis",
+          "conditional_selection_if_readout_pinned"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-phi-m-factor-image-count-decipherability",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_phi_m_factor_image_count_decipherability.py",
+      "claim_id": "phi-m-factor.image-language-count-decipherability.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "am_count_fibonacci",
+          "image_count_le_fibonacci",
+          "injective_preserves_count",
+          "noninjective_drops_count",
+          "decipherability_lemma"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-gauge-invariant-orbit-observables",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_gauge_invariant_orbit_observables.py",
+      "claim_id": "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "p10_count_lucas",
+          "c10_orbit_count",
+          "orbit_size_spectrum",
+          "burnside_consistency",
+          "spectrum_sums_to_p10",
+          "gauge_invariant_not_basepoint",
+          "general_necklace_closed_form",
+          "aperiodic_primitive_spectrum"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-weight-refined-necklace-polynomial",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_weight_refined_necklace_polynomial.py",
+      "claim_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "weight_refined_brute",
+          "N_n_at_1_equals_orbit_count",
+          "cyclic_weight_enumerator",
+          "lucas_weight_sum",
+          "burnside_weight_refined_matches",
+          "n10_witness"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-joint-necklace-spectrum",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_joint_necklace_spectrum.py",
+      "claim_id": "window6.clock-gauge-invariant.joint-necklace-spectrum.certificate",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "joint_brute",
+          "size_marginal_recovers_a_d",
+          "weight_marginal_recovers_N_n",
+          "joint_strictly_finer",
+          "closed_form_matches",
+          "n10_witness"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-trace-cycle-index-necklace-kernel",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_trace_cycle_index_necklace_kernel.py",
+      "claim_id": "window6.clock-gauge-invariant.trace-cycle-index-necklace-kernel.certificate",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "weighted_trace_identity",
+          "z1_trace_is_lucas",
+          "primitive_poly_mobius",
+          "joint_kernel_recovers_J10",
+          "weight_marginal_recovers_N10",
+          "size_marginal_recovers_a_d",
+          "orbit_count_specialization"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-necklace-spectral-determinant-bridge",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_necklace_spectral_determinant.py",
+      "claim_id": "window6.clock-gauge-invariant.necklace-spectral-determinant-bridge.certificate",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "spectral_determinant",
+          "log_det_trace_powersum",
+          "newton_necklace_identity",
+          "euler_product_is_inverse_determinant",
+          "c10_sector_euler_factor",
+          "z1_recovers_lucas_zeta"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-edge-cokernel-clock",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_edge_cokernel_clock.py",
+      "claim_id": "window6.edge-cokernel-clock.internal-residue-7-locking.certificate",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "edge_matrix_snf",
+          "edge_cokernel_clock_z10",
+          "left_kernel_mod10_cyclic",
+          "cell_residues",
+          "minimal_seam_grade_7",
+          "fibonacci_phase_lock"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-parry-modp-descent",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_parry_modp_descent.py",
+      "claim_id": "window6.parry-measure.stationary-covector-modp-descent.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "parry_stationary_recall",
+          "golden_minpoly_disc",
+          "inert_primes_no_descent",
+          "split_primes_descend",
+          "ramified_p5",
+          "projective_kernel_survives"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-seam-identification",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_seam_identification.py",
+      "claim_id": "window6.edge-cokernel-clock.seam-identification.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "x6_count_21",
+          "u1_cells",
+          "ur_cells",
+          "ur_min_defect_100001",
+          "parents_in_u1",
+          "unique_seam_u1_to_ur"
+        ]
+      }
+    },
+    {
+      "acceptance": {
+        "required_checks": [
+          "lucas_10",
+          "M_10",
+          "M_20_minus_L10_M_10_plus_I",
+          "seam_slot_kernel"
+        ]
+      },
+      "claim_id": "window6.lucas-kernel.coefficient-gauge-obstruction.certificate",
+      "experiment_id": "verify-window6-lucas-kernel-obstruction",
+      "required_data": [],
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_kernel_obstruction.py",
+      "timeout_seconds": 60
+    },
+    {
+      "experiment_id": "verify-window6-golden-split-modp-law",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_golden_split_modp_law.py",
+      "claim_id": "window6.golden-split-modp.fibonacci-entry-point-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "prime_window_p_lt_120",
+          "split_iff_p_mod_5_1_or_4",
+          "inert_iff_p_mod_5_2_or_3",
+          "ramified_p5_double_root"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-fib-entry-point-congruence",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_entry_point_congruence.py",
+      "claim_id": "window6.fib-entry-point.fermat-congruence-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "prime_window_p_lt_80",
+          "fib_entry_point_legendre_mod_5",
+          "lucas_fermat_congruence",
+          "ramified_p5_entry_point"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-fib-gcd-strong-divisibility",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_gcd_strong_divisibility.py",
+      "claim_id": "window6.fib-gcd.strong-divisibility-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "fib_gcd_strong_divisibility_grid_1_20",
+          "fib_divisibility_corollary_grid_1_20",
+          "named_examples"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-pisano-period-modp",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_pisano_period_modp.py",
+      "claim_id": "window6.pisano-period.modp-divisibility-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "known_pisano_values",
+          "prime_window_p_lt_60",
+          "pisano_prime_modp_divisibility_law",
+          "ramified_p5_period_20"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-lucas-fib-norm-relation",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_fib_norm_relation.py",
+      "claim_id": "window6.lucas-fib.norm-relation-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "lucas_fib_norm_n_0_to_40",
+          "lucas_doubling_n_0_to_40",
+          "named_examples_n_5_n_8"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-fibonacci-cube-critical-group",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_fibonacci_cube_critical_group.py",
+      "claim_id": "window6.fibonacci-cube.critical-group-snf.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "window6_fibonacci_cube_vertex_count",
+          "window6_fibonacci_cube_edge_count",
+          "reduced_laplacian_tree_number",
+          "reduced_laplacian_smith_nontrivial_factors",
+          "critical_group_order_matches_tree_number",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-closed-neighborhood-smith",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_closed_neighborhood_smith.py",
+      "claim_id": "window6.fibonacci-cube.closed-neighborhood-smith.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "window6_fibonacci_cube_vertex_count",
+          "window6_fibonacci_cube_edge_count",
+          "closed_neighborhood_determinant",
+          "closed_neighborhood_smith_nontrivial_factor",
+          "endpoint_deleted_minor_unimodular",
+          "closed_neighborhood_cokernel_order",
+          "fibonacci_alignment_F12",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-geodesic-enumerator",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_geodesic_enumerator.py",
+      "claim_id": "window6.fibonacci-cube.geodesic-enumerator.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "window6_fibonacci_cube_vertex_count",
+          "window6_fibonacci_cube_edge_count",
+          "ordered_geodesic_profile",
+          "ordered_geodesic_total",
+          "ordered_distance_profile",
+          "geodesic_profile_strictly_refines_distance_profile",
+          "unordered_distinct_geodesic_profile",
+          "unordered_distinct_geodesic_total",
+          "diametral_pair_geodesic_count",
+          "euler_zigzag_E6_fence_poset",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-matching-enumerator",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_matching_enumerator.py",
+      "claim_id": "window6.fibonacci-cube.matching-enumerator.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "window6_fibonacci_cube_vertex_count",
+          "window6_fibonacci_cube_edge_count",
+          "matching_polynomial_profile",
+          "hosoya_index_total_matchings",
+          "matching_number",
+          "maximum_matching_count",
+          "maximum_matching_monomer_profile",
+          "maximum_matching_monomer_total",
+          "odd_weight_monomer_count_zero",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-ihara-zeta",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_ihara_zeta.py",
+      "claim_id": "window6.fibonacci-cube.ihara-zeta.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "window6_fibonacci_cube_vertex_count",
+          "window6_fibonacci_cube_edge_count",
+          "hashimoto_directed_edge_count",
+          "first_betti_number",
+          "hashimoto_zeta_inverse_coefficients",
+          "zeta_inverse_even_polynomial_bipartite",
+          "ihara_hashimoto_factorization",
+          "factor_polynomial_degrees",
+          "nonbacktracking_odd_traces_zero",
+          "nonbacktracking_even_trace_profile",
+          "primitive_closed_cycle_counts",
+          "bass_determinant_factorization",
+          "bass_ihara_formula",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-theta-square-factorization",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_theta_square_factorization.py",
+      "claim_id": "window.fibonacci-cube.theta-square-factorization.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m2_to_m8",
+          "window6_vertex_count",
+          "theta_square_formula_all_pairs_m2_to_m8",
+          "adjacent_theta_pairs_zero_m2_to_m8",
+          "nonadjacent_three_fibonacci_factors_m2_to_m8",
+          "window6_theta_square_per_pair_profile",
+          "window6_theta_square_total",
+          "theta_pair_breakdown_not_cube_polynomial_repackage",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-geodesic-run-factorization",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_geodesic_run_factorization.py",
+      "claim_id": "window.fibonacci-cube.geodesic-run-factorization.certificate",
+      "required_data": [],
+      "timeout_seconds": 90,
+      "acceptance": {
+        "required_checks": [
+          "euler_zigzag_seidel_prefix",
+          "gamma_m_vertex_counts_m2_to_m7",
+          "all_pairs_total_1864_m2_to_m7",
+          "bfs_formula_all_pairs_m2_to_m7",
+          "example_0101_to_1000_gamma4_count_3",
+          "diametral_gamma6_single_run_A6",
+          "window6_distance_aggregated_profile_reproduces_anchor",
+          "per_pair_generating_law_not_window6_repackage",
+          "formula_profile_matches_bfs_profile_m2_to_m7",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-closed-neighborhood-transfer",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_closed_neighborhood_transfer.py",
+      "claim_id": "window.fibonacci-cube.closed-neighborhood-transfer.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "prefix_order_vertex_counts_m2_to_m8",
+          "prefix_order_matches_no_adjacent_words_m2_to_m8",
+          "closed_neighborhood_block_recurrence_m3_to_m7",
+          "closed_neighborhood_determinant_sequence_m2_to_m8",
+          "identity_link_transfer_determinant_m4_to_m8",
+          "identity_link_transfer_snf_cokernel_m4_to_m8",
+          "closed_neighborhood_torsion_sequence_m2_to_m8",
+          "window6_closed_neighborhood_smith_anchor",
+          "window6_anchor_determinantal_divisor_snf",
+          "no_constant_coefficient_scalar_determinant_recurrence_order_le_6",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-theta-cube-decomposition",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_theta_cube_decomposition.py",
+      "claim_id": "window.fibonacci-cube.theta-cube-decomposition.certificate",
+      "required_data": [],
+      "timeout_seconds": 90,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m3_to_m8",
+          "window6_vertex_count",
+          "theta_tuple_checks_total_498",
+          "theta_cube_formula_all_tuples_m3_to_m8",
+          "adjacent_selected_coordinates_zero_m3_to_m8",
+          "window6_theta_resolved_dimension_sums",
+          "window6_cube_polynomial_coefficients",
+          "theta_square_anchor_k2_formula_agreement",
+          "window6_cube_dimension_cutoff_k_ge_4",
+          "coordinate_resolution_not_total_cube_polynomial_repackage",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-median-zero-triple",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_median_zero_triple.py",
+      "claim_id": "window.fibonacci-cube.median-zero-triple.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m0_to_m15",
+          "brute_force_median_zero_values_m0_to_m6",
+          "median_zero_equals_pairwise_disjoint_support_m0_to_m6",
+          "transfer_state_space_has_8_last_bit_states",
+          "transition_rule_disjoint_support_and_no_adjacent_ones",
+          "transfer_matrix_values_m0_to_m15",
+          "brute_force_transfer_agree_m0_to_m6",
+          "pell_recurrence_m2_to_m15",
+          "characteristic_polynomial_x2_minus_3x_minus_1",
+          "median_triple_statistic_not_prior_anchor_repackage",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-betweenness-triple",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_betweenness_triple.py",
+      "claim_id": "window.fibonacci-cube.betweenness-triple.certificate",
+      "required_data": [],
+      "timeout_seconds": 90,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m0_to_m10",
+          "brute_force_betweenness_values_m0_to_m6",
+          "four_state_transfer_values_m0_to_m10",
+          "brute_force_transfer_agree_m0_to_m6",
+          "order_four_recurrence_m4_to_m10",
+          "characteristic_polynomial_x4_minus_2x3_minus_5x2_plus_1",
+          "interval_cardinality_sum_definition",
+          "distinct_from_wiener_index_window6",
+          "not_prior_median_or_nine_anchor_repackage",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-saturated-chain",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_saturated_chain.py",
+      "claim_id": "window.fibonacci-cube.saturated-chain.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m0_to_m12",
+          "maximal_word_definition_consistency_m0_to_m12",
+          "dp_saturated_chain_values_m0_to_m12",
+          "maximal_word_factorial_sum_m0_to_m12",
+          "closed_form_expected_values_m0_to_m12",
+          "closed_form_agrees_with_dp_m0_to_m14",
+          "three_representations_agree_m0_to_m14",
+          "maximal_weight_profile_closed_form_m0_to_m12",
+          "window6_saturated_chain_anchor",
+          "saturated_chain_not_prior_anchor_repackage",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window-disjoint-tuple-metallic",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window_disjoint_tuple_metallic.py",
+      "claim_id": "window.fibonacci-cube.disjoint-tuple-metallic.certificate",
+      "required_data": [],
+      "timeout_seconds": 90,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_function_baseline",
+          "gamma_m_vertex_counts_m0_to_m14",
+          "transfer_state_spaces_k1_to_k5",
+          "transition_rule_disjoint_support_and_no_adjacent_ones_k1_to_k5",
+          "brute_force_transfer_agree_k1_to_k4_m0_to_m5",
+          "expected_prefix_values_k1_to_k5_m0_to_m6",
+          "metallic_recurrence_k1_to_k5_m2_to_m14",
+          "characteristic_polynomials_x2_minus_kx_minus_1_k1_to_k5",
+          "k1_vertex_count_fibonacci_m0_to_m14",
+          "k2_pell_silver_prefix_m0_to_m7",
+          "k3_median_zero_anchor_prefix_m0_to_m6",
+          "k4_prefix_m0_to_m6",
+          "no_physical_alpha_input_or_readout"
         ]
       }
     }

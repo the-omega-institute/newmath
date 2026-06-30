@@ -1,0 +1,85 @@
+\chapter{RegularCauchyDistributiveLaw NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-distributive-law-namecert}
+\origin{human}
+
+From Bishop and Bridges constructive real arithmetic, the $\RegularCauchyDistributiveLawUp$ packet records the finite window calculation that lets multiplication distribute over addition for regular rational Cauchy names. It consumes the two-source surfaces of $\RegularCauchySumUp$ and $\RegularCauchyProductUp$, the difference route of $\RegularCauchyDifferenceUp$, the algebraic operation inventory of $\RegularCauchyRingUp$, and the source and seal layers $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ from \autoref{ch:concrete-instances-regularcauchysum-namecert}, \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, \autoref{ch:concrete-instances-regularcauchydifference-namecert}, \autoref{ch:concrete-instances-regularcauchyring-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite distributive-window proof surface; it does not import host real algebra or equality of completed real quotients.
+
+\begin{definition}[Regular Cauchy distributive-law carrier]
+\label{def:regular-cauchy-distributive-law-carrier}
+A $\RegularCauchyDistributiveLawUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+D=(A,B,C,W_A,W_B,W_C,S_L,P_L,P_B,P_C,S_R,\Delta,E,R,H,T,Q,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$, $B$, and $C$ are three $\RegSeqRatUp$ source rows for regular rational Cauchy real names.
+\item $W_A$, $W_B$, and $W_C$ are synchronized $\StreamNameUp$ finite-window rows opened at the same requested precision scale.
+\item $S_L$ is the $\RegularCauchySumUp$ row for the source sum $B+C$.
+\item $P_L$ is the $\RegularCauchyProductUp$ row for the left route $A\cdot(B+C)$.
+\item $P_B$ and $P_C$ are the $\RegularCauchyProductUp$ rows for the two right-route products $A\cdot B$ and $A\cdot C$.
+\item $S_R$ is the $\RegularCauchySumUp$ row for the right route $(A\cdot B)+(A\cdot C)$.
+\item $\Delta$ is the $\RegularCauchyDifferenceUp$ comparison row between the left-route readback and the right-route readback.
+\item $E$ is the $\DyadicRatCoreUp$ tolerance ledger containing the source endpoint rows, product endpoint rows, sum endpoint rows, and the finite distributive error budget for the synchronized window.
+\item $R$ is the terminal $\RealUp$ seal row reached only after the left route, right route, difference comparison, and tolerance ledger have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the three source rows, synchronized windows, sum rows, product rows, difference row, dyadic tolerance ledger, terminal seal, continuation, provenance, and local naming.
+\item $T$ stores displayed $\Cont$ replay from the three source windows to the left product route, the two right product routes, the right sum route, the comparison route, and the terminal real-facing route.
+\item $Q$ is the $\Pkg$ provenance over $\RegularCauchyDistributiveLawUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\RegularCauchyDifferenceUp$, $\RegularCauchyRingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDistributiveLawUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for quotient streams, host real equality, trichotomy, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy distributive-law NameCert obligations]
+\label{thm:regular-cauchy-distributive-law-namecert-obligations}
+The local $\NameCert_{\RegularCauchyDistributiveLawUp}$ surface for \autoref{def:regular-cauchy-distributive-law-carrier} consists exactly of carrier admission, synchronized source-window admission, left-route product admission, right-route product-and-sum admission, difference-row comparison, dyadic tolerance-ledger exactness, terminal real-seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-distributive-law-carrier}. The three source rows, synchronized windows, operation rows, difference row, tolerance ledger, transports, continuations, provenance, and local name are all visible coordinates of $D$.
+
+The left route uses the sum row $S_L$ and then the product row $P_L$. Apply \autoref{thm:regular-cauchy-sum-namecert-obligations} to expose $B+C$, then apply \autoref{thm:regular-cauchy-product-namecert-obligations} to expose $A\cdot(B+C)$ through the same synchronized window scale.
+
+The right route uses $P_B$, $P_C$, and $S_R$. Apply the product obligation surface twice to expose $A\cdot B$ and $A\cdot C$, and then apply the sum obligation surface to expose their displayed sum. The difference row $\Delta$ is then read through the comparison surface of \autoref{thm:regular-cauchy-difference-namecert-obligations}.
+
+The tolerance and structural rows are packet coordinates. The ledger $E$ records the dyadic endpoint and error-budget rows used by both routes, while $H,T,Q,N$ transport, replay, source, and name the same finite calculation. Since no other coordinate is present, the obligation surface excludes host real algebra, quotient equality, trichotomy, selected limits, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy distributive-window induction]
+\label{thm:regular-cauchy-distributive-law-window-induction}
+For every accepted $\RegularCauchyDistributiveLawUp$ carrier, the equality of the two distributive routes is witnessed by induction on the displayed synchronized window ledger. At each finite precision window, the endpoint calculation reads only the three $\RegSeqRatUp$ sources, the $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchySumUp$ rows, the $\RegularCauchyProductUp$ rows, the $\RegularCauchyDifferenceUp$ comparison row, the $\RegularCauchyRingUp$ operation inventory, and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the empty window ledger. No source endpoint has been read, so both routes expose only the trivial displayed tolerance row in $E$ and no real-facing equality claim is available.
+
+For the induction step, open the next synchronized windows $W_A,W_B,W_C$. The sum row $S_L$ computes the endpoint for $B+C$, and the product row $P_L$ computes the left-route endpoint from $A$ and that displayed sum.
+
+On the same window, the rows $P_B$ and $P_C$ compute the two product endpoints $A\cdot B$ and $A\cdot C$. The row $S_R$ then sums those two displayed endpoints. The dyadic arithmetic entries in $E$ record the finite distributive identity at this precision and the accumulated error budget for both routes.
+
+The difference row $\Delta$ consumes the two route readbacks and records that their displayed tolerance gap is absorbed by the same ledger. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the induction state, so the finite calculation remains inside the named BEDC packet at every step.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy distributive-law Real-seal handoff]
+\label{thm:regular-cauchy-distributive-law-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyDistributiveLawUp$ packet reaches the terminal distributive handoff only after reading the three source $\RegSeqRatUp$ rows, the synchronized $\StreamNameUp$ windows, the left route $A\cdot(B+C)$, the right route $(A\cdot B)+(A\cdot C)$, the $\RegularCauchyDifferenceUp$ comparison row, the $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The handoff exports no host real equality, quotient stream, trichotomy, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-distributive-law-carrier}. The only real-facing route is the one assembled from the left product readback, the two right product readbacks, their sum, and the difference comparison row.
+
+Apply \autoref{thm:regular-cauchy-distributive-law-namecert-obligations}. It forces every consumer to keep the source windows, operation rows, tolerance ledger, transport, replay, provenance, and local naming attached to the route.
+
+Apply \autoref{thm:regular-cauchy-distributive-law-window-induction}. The route comparison is established at finite synchronized windows and is carried by the displayed dyadic ledger before any $\RealUp$ seal is read.
+
+Finally use the Real-seal boundaries of the sibling operation chapters and the operation inventory of \autoref{thm:regular-cauchy-ring-real-seal-nonescape}. They expose only regular-Cauchy readbacks and terminal seals. Since the distributive-law carrier adds no further real-facing coordinate, the consumer cannot replace the packet by host equality, quotient streams, trichotomy, selected limits, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyDistributiveLawUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDistributiveLawUp}
+  \constructivestory{A $\RegularCauchyDistributiveLawUp$ packet is generated from three RegSeqRat source rows, synchronized StreamName windows, RegularCauchySum and RegularCauchyProduct routes for the left and right distributive expressions, a RegularCauchyDifference comparison row, a DyadicRatCore tolerance ledger, componentwise transport, continuation replay, package provenance, terminal RealUp seal access, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-distributive-law-carrier}, \autoref{thm:regular-cauchy-distributive-law-namecert-obligations}, \autoref{thm:regular-cauchy-distributive-law-window-induction}, and \autoref{thm:regular-cauchy-distributive-law-real-seal-handoff} seed the finite distributive-window surface consumed by regular-Cauchy real arithmetic.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host real equality, quotient streams, trichotomy, selected limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized window admission, dyadic tolerance-ledger exactness, distributive-window induction, and Real-seal nonescape for the same finite packet.}
+\end{closurestatus}

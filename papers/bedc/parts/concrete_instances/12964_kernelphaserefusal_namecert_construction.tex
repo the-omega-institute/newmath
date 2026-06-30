@@ -51,6 +51,48 @@ Use \autoref{thm:kernel-phase-refusal-phase-order}. When the verdict places $T$ 
 The structural rows do not alter this boundary. Componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ naming replay the same finite object, so every listed stronger reading lies outside the accepted $\KernelPhaseRefusalUp$ surface.
 \end{proof}
 
+\begin{theorem}[Kernel phase-refusal admissibility obligation]
+\label{thm:kernel-phase-refusal-admissibility-obligation}
+For the carrier $K=(P,T,D,R,A,H,C,Q,N)$ of \autoref{def:kernel-phase-refusal-carrier}, any accepted $\KernelPhaseRefusalUp$ packet must expose the admissibility row $A$ as the claim-registry, upgrade-registry, formal-target-ledger, and closure-status-reference read before the verdict row $R$ can classify the attempted target $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(P,T,D,R,A,H,C,Q,N)$. The admissibility coordinate $A$ is separate from the target row $T$ and the verdict row $R$, so the packet cannot classify $T$ using an implicit host-side admissibility check.
+
+Use phase order from \autoref{thm:kernel-phase-refusal-phase-order}. The current phase $P$, attempted target $T$, and dependency blocker $D$ must be read in the displayed order before a later-phase target can be treated as available.
+
+Now read the sibling registries named by the carrier. $\ClaimRegistryLayerUp$, $\UpgradeRegistryUp$, $\PhilosophyFormalTargetLedgerUp$, and $\ClosureStatusReferenceUp$ are exactly the rows stored by $A$ for this classifier read.
+
+Finally apply the off-table boundary of \autoref{thm:kernel-phase-refusal-offtable-boundary}. Since the packet has no hidden queue or priority override, $R$ can classify $T$ only after the displayed admissibility row has been exposed.
+\end{proof}
+
+\begin{theorem}[Kernel phase-refusal transport obligation]
+\label{thm:kernel-phase-refusal-transport-obligation}
+For every accepted $\KernelPhaseRefusalUp$ packet $K=(P,T,D,R,A,H,C,Q,N)$, componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ preserve the phase row $P$, target row $T$, blocker row $D$, verdict row $R$, admissibility row $A$, provenance row $Q$, and local name $N$. Such transport cannot turn a blocked or off-table verdict into an accepted target.
+\end{theorem}
+\begin{proof}
+Project $K=(P,T,D,R,A,H,C,Q,N)$. The rows being transported are exactly the displayed coordinates of the carrier; $H$ supplies componentwise $\hsame$ and $C$ replays the same route under $\Cont$.
+
+Use \autoref{thm:kernel-phase-refusal-phase-order}. The blocker row remains part of the same packet whenever the attempted target lies outside the current phase, so transport cannot erase $D$ while preserving the classifier read.
+
+Apply \autoref{thm:kernel-phase-refusal-offtable-boundary}. The verdict row exports only the visible refusal boundary and never stores a bridge-completion claim, blocker discharge, host-priority override, or hidden target queue.
+
+It follows that $H$ and $C$ preserve the displayed $P,T,D,R,A,Q,N$ rows as classifier data. A blocked or off-table verdict therefore remains a blocked or off-table verdict under the packet transport, and no formal verification or phase completion is claimed here.
+\end{proof}
+
+\begin{theorem}[Kernel phase-refusal scope closure]
+\label{thm:kernel-phase-refusal-scope-closure}
+For every accepted $\KernelPhaseRefusalUp$ packet $K=(P,T,D,R,A,H,C,Q,N)$, the scoped read of the packet is exhausted by phase-order exposure through $P,T,D,R$, off-table boundary exposure through $R$, admissibility exposure through $A$, componentwise transport through $H$, displayed replay through $C$, prediction exposure, independence separation from registry siblings, provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-phase-refusal-carrier}. The phase, target, blocker, verdict, admissibility, transport, replay, provenance, and local name are the only displayed rows.
+
+Use \autoref{thm:kernel-phase-refusal-phase-order} for the order of $P,T,D,R$, \autoref{thm:kernel-phase-refusal-offtable-boundary} for the refusal boundary, and \autoref{thm:kernel-phase-refusal-admissibility-obligation} for the registry rows read by $A$.
+
+Apply \autoref{thm:kernel-phase-refusal-transport-obligation} to keep the same rows under $H$ and $C$. The prediction and independence witness then state the external tests for the same finite packet: a no-blocker target is refused, and the classifier remains separate from the registry and closure-reference siblings.
+
+Thus the scoped route contains exactly the displayed carrier rows and the named tests. It does not add target validity, phase completion, claim-registry status, or bridge completion.
+\end{proof}
+
 \falsifiablePrediction{A packet whose attempted target lies above the current phase without a displayed dependency-blocker row cannot be accepted by the phase-refusal classifier.}
 
 \independenceWitness{claimregistrylayer, upgraderegistry, philosophyformaltargetledger, closurestatusreference: this carrier binds phase order, target admissibility, and refusal verdict in one packet, while the siblings store claims, upgrade rows, formal targets, or closure references without the phase-refusal classifier.}
@@ -59,11 +101,10 @@ The Lean follow-up must provide \texttt{lean4/BEDC/Derived/KernelPhaseRefusalUp/
 
 \begin{closurestatus}{\KernelPhaseRefusalUp}
   \constructivestory{The kernel phase-refusal certificate is generated from a $BHist$ packet that records phase order, target admissibility, dependency blockers, and a refusal verdict in one visible carrier. The construction first reads the phase row, then the attempted target row, then the blocker row, and finally the refusal boundary that says the target is off-table for that phase. The $hsame$ relation preserves the verdict under equivalent histories, while $\Cont$ can only propagate the same phase-refusal packet. The phase-order theorem, off-table boundary theorem, prediction, and independence witness keep the object separate from claim registries, formal-target ledgers, status references, or closure metadata that do not carry the refusal classifier.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the kernel phase-refusal carrier, phase-order theorem, off-table boundary theorem, falsifiable prediction, and independence witness.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:kernel-phase-refusal-carrier}, \autoref{thm:kernel-phase-refusal-phase-order}, \autoref{thm:kernel-phase-refusal-offtable-boundary}, \autoref{thm:kernel-phase-refusal-admissibility-obligation}, \autoref{thm:kernel-phase-refusal-transport-obligation}, \autoref{thm:kernel-phase-refusal-scope-closure}, and the checked TasteGate row bind the scoped route for phase order, refusal boundaries, admissibility, transport, replay, prediction, independence, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{It does not claim target invalidity in all phases, claim-registry status, or closure metadata beyond the recorded refusal packet.}
-  \upgradepath{Reaching obligationClosure requires formal phase and admissibility rows plus checked preservation of the refusal verdict under $hsame$.}
+  \upgradepath{Reaching public closure requires a public export route and Lean targets for the phase, admissibility, and refusal-preservation rows.}
 \end{closurestatus}

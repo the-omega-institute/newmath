@@ -299,6 +299,226 @@ theorem VerificationFailureRoadmapNameCertObligations
           exact source
       }⟩
 
+theorem VerificationFailureRoadmapDowngradeRoute
+    {R A F D M U B T C P N auditRead failureRead downgradeRead : BHist} :
+    Cont R A auditRead →
+      Cont auditRead F failureRead →
+        Cont failureRead D downgradeRead →
+          SemanticNameCert
+              (fun h : BHist => hsame h downgradeRead)
+              (fun h : BHist =>
+                hsame h R ∨ hsame h A ∨ hsame h F ∨ hsame h D ∨
+                  hsame h downgradeRead)
+              (fun h : BHist =>
+                hsame h downgradeRead ∧ Cont R A auditRead ∧
+                  Cont auditRead F failureRead ∧ Cont failureRead D downgradeRead)
+              hsame ∧
+            hsame downgradeRead (append (append (append R A) F) D) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro reportAudit auditFailure failureDowngrade
+  have appended :
+      hsame downgradeRead (append (append (append R A) F) D) := by
+    cases reportAudit
+    cases auditFailure
+    cases failureDowngrade
+    rfl
+  have cert :
+      SemanticNameCert
+          (fun h : BHist => hsame h downgradeRead)
+          (fun h : BHist =>
+            hsame h R ∨ hsame h A ∨ hsame h F ∨ hsame h D ∨ hsame h downgradeRead)
+          (fun h : BHist =>
+            hsame h downgradeRead ∧ Cont R A auditRead ∧ Cont auditRead F failureRead ∧
+              Cont failureRead D downgradeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro downgradeRead (hsame_refl downgradeRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, reportAudit, auditFailure, failureDowngrade⟩
+  }
+  exact ⟨cert, appended⟩
+
+theorem VerificationFailureRoadmapNonclaimBoundary
+    (R A F D M U B T C P N : BHist) :
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+        [R, A, F, D, M, U, B, T, C, P, N] ∧
+      Cont M U (append M U) ∧
+        Cont U B (append U B) ∧
+          SemanticNameCert
+            (fun h : BHist => hsame h (append M (append U B)))
+            (fun h : BHist =>
+              hsame h M ∨ hsame h U ∨ hsame h B ∨
+                hsame h (append M (append U B)))
+            (fun h : BHist =>
+              hsame h (append M (append U B)) ∧ Cont M U (append M U) ∧
+                Cont U B (append U B))
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert
+  exact
+    ⟨rfl, rfl, rfl,
+      {
+        core := {
+          carrier_inhabited :=
+            Exists.intro (append M (append U B)) (hsame_refl (append M (append U B)))
+          equiv_refl := by
+            intro h _source
+            exact hsame_refl h
+          equiv_symm := by
+            intro _h _k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _h _k _r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same source
+            exact hsame_trans (hsame_symm same) source
+        }
+        pattern_sound := by
+          intro _h source
+          exact Or.inr (Or.inr (Or.inr source))
+        ledger_sound := by
+          intro _h source
+          exact ⟨source, rfl, rfl⟩
+      }⟩
+
+theorem VerificationFailureRoadmapSiblingIndependence
+    {R A F D M U B T C P N siblingOnly : BHist}
+    (distinct :
+      R ≠ siblingOnly ∨ A ≠ siblingOnly ∨ D ≠ siblingOnly ∨ M ≠ siblingOnly ∨
+        U ≠ siblingOnly ∨ B ≠ siblingOnly ∨ T ≠ siblingOnly ∨ C ≠ siblingOnly ∨
+          P ≠ siblingOnly ∨ N ≠ siblingOnly) :
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+        [R, A, F, D, M, U, B, T, C, P, N] ∧
+      Cont R A (append R A) ∧
+        VerificationFailureRoadmapUp.mk R A F D M U B T C P N ≠
+          VerificationFailureRoadmapUp.mk siblingOnly siblingOnly F siblingOnly siblingOnly
+            siblingOnly siblingOnly siblingOnly siblingOnly siblingOnly siblingOnly := by
+  -- BEDC touchpoint anchor: BHist Cont append
+  exact
+    ⟨rfl, rfl,
+      by
+        intro samePacket
+        cases samePacket
+        cases distinct with
+        | inl reportDiff =>
+            exact reportDiff rfl
+        | inr rest =>
+            cases rest with
+            | inl auditDiff =>
+                exact auditDiff rfl
+            | inr rest =>
+                cases rest with
+                | inl downgradeDiff =>
+                    exact downgradeDiff rfl
+                | inr rest =>
+                    cases rest with
+                    | inl roadmapDiff =>
+                        exact roadmapDiff rfl
+                    | inr rest =>
+                        cases rest with
+                        | inl upgradeDiff =>
+                            exact upgradeDiff rfl
+                        | inr rest =>
+                            cases rest with
+                            | inl cannotClaimDiff =>
+                                exact cannotClaimDiff rfl
+                            | inr rest =>
+                                cases rest with
+                                | inl transportDiff =>
+                                    exact transportDiff rfl
+                                | inr rest =>
+                                    cases rest with
+                                    | inl replayDiff =>
+                                        exact replayDiff rfl
+                                    | inr rest =>
+                                        cases rest with
+                                        | inl provenanceDiff =>
+                                            exact provenanceDiff rfl
+                                        | inr nameDiff =>
+                                            exact nameDiff rfl⟩
+
+theorem VerificationFailureRoadmapBridgeFacingSchemaRoute
+    (R A F D M U B T C P N : BHist) :
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+        [R, A, F, D, M, U, B, T, C, P, N] ∧
+      Cont R A (append R A) ∧
+        Cont (append R A) F (append (append R A) F) ∧
+          Cont (append (append R A) F) D (append (append (append R A) F) D) ∧
+            Cont M U (append M U) ∧
+              Cont (append M U) B (append (append M U) B) ∧
+                SemanticNameCert
+                  (fun h : BHist => hsame h (append (append (append R A) F) D))
+                  (fun h : BHist =>
+                    hsame h R ∨ hsame h A ∨ hsame h F ∨ hsame h D ∨
+                      hsame h M ∨ hsame h U ∨ hsame h B ∨ hsame h T ∨
+                        hsame h C ∨ hsame h P ∨ hsame h N ∨
+                          hsame h (append (append (append R A) F) D))
+                  (fun h : BHist =>
+                    hsame h (append (append (append R A) F) D) ∧
+                      Cont R A (append R A) ∧
+                        Cont (append R A) F (append (append R A) F) ∧
+                          Cont (append (append R A) F) D
+                            (append (append (append R A) F) D))
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert
+  exact
+    ⟨rfl, rfl, rfl, rfl, rfl, rfl,
+      {
+        core := {
+          carrier_inhabited :=
+            Exists.intro (append (append (append R A) F) D)
+              (hsame_refl (append (append (append R A) F) D))
+          equiv_refl := by
+            intro h _source
+            exact hsame_refl h
+          equiv_symm := by
+            intro _h _k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _h _k _r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same source
+            exact hsame_trans (hsame_symm same) source
+        }
+        pattern_sound := by
+          intro _h source
+          exact Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source))))))))))
+        ledger_sound := by
+          intro _h source
+          exact ⟨source, rfl, rfl, rfl⟩
+      }⟩
+
 end TasteGate
 
 end BEDC.Derived.VerificationFailureRoadmapUp

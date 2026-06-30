@@ -1,0 +1,71 @@
+\subsection{Growth-condition stability of the yeast $B^{\ast}_{Q6}$ abundance projection}\label{sec:bioreality-q6-growth-condition-sqp}
+\origin{ai}
+
+\paragraph{Finite row and readout.}
+This record tests whether the nine-dimensional $B^{\ast}_{Q6}$ synonymous-residual coordinate system gives a condition-stable statistical projection onto a yeast protein-abundance readout.  The organism is \emph{Saccharomyces cerevisiae}.  The readout is $\log_{10}(\mathrm{abundance\_ppm})$ from GFP-tagged yeast abundance files labelled in the task as Newman et al. 2009, while the downloaded PAXdb condition headers report Newman, Nature, 2006 with $\mathrm{paxdb\_publication\_year}=2006$.  The two growth conditions are YEPD rich medium and SD minimal medium.  The finite join contains $2517$ YEPD proteins, $2442$ SD proteins, and $2209$ proteins shared across both condition-specific regressions.
+
+\paragraph{Residual coordinate basis.}
+The fitted $Q$ block has the nine coordinates
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+For each condition the control block has $24$ columns before rank reduction and rank $23$ after residualization.  The controls are an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline, where $M$ is the union support of the nine projected $B^{\ast}_{Q6}$ vectors.  Thus the reported condition contrast is not an amino-acid-composition effect, not a length effect, not a GC3-only effect, and not a simple membership effect on the support of the $B^{\ast}_{Q6}$ coordinates.
+
+\paragraph{Per-condition survival scores.}
+After residualizing the abundance readout and the nine $Q$ coordinates against the same control block, the SD condition gives
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{SD}) &= 0.3050385538305022,\\
+\mathrm{explained\ energy}(\mathrm{SD}) &= 131.4599852310053,\\
+\mathrm{residual\ readout\ energy}(\mathrm{SD}) &= 430.9618688529857,\\
+\mathrm{rank}(\widetilde X_{Q}) &= 9,\\
+\mathrm{rank}(Z) &= 23,\\
+\mathrm{df}_{\mathrm{resid}} &= 2186.
+\end{aligned}
+$$
+The dominant coordinate in SD is $f3\_stress$.  The YEPD condition gives
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{YEPD}) &= 0.3280825603424665,\\
+\mathrm{explained\ energy}(\mathrm{YEPD}) &= 149.3320327478236,\\
+\mathrm{residual\ readout\ energy}(\mathrm{YEPD}) &= 455.16601855320954,\\
+\mathrm{rank}(\widetilde X_{Q}) &= 9,\\
+\mathrm{rank}(Z) &= 23,\\
+\mathrm{df}_{\mathrm{resid}} &= 2186.
+\end{aligned}
+$$
+The dominant coordinate in YEPD is again $f3\_stress$.  The two fitted values are above the degenerate-fit guard $0.999999$ only in the safe direction: neither regression is saturated, and both keep a full nine-dimensional residual $Q$ rank after removing the control block.
+
+\paragraph{Condition comparison.}
+The condition-level $S^{QP}$ vectors are almost collinear.  The reported cosine is
+$$
+\begin{aligned}
+\cos(S^{QP}_{\mathrm{SD}},S^{QP}_{\mathrm{YEPD}}) &= 0.9993775935182967,
+\end{aligned}
+$$
+and the reported Pearson correlation is
+$$
+\begin{aligned}
+\rho(S^{QP}_{\mathrm{SD}},S^{QP}_{\mathrm{YEPD}}) &= 0.9983880256003688.
+\end{aligned}
+$$
+The dominant-coordinate indicator is unchanged across the two conditions, and the comparison used $1000$ permutations.  Read narrowly, this finite row says that the yeast $B^{\ast}_{Q6}$ abundance projection is strongly similar between YEPD and SD in this single study and this shared $2209$-protein panel.  It does not say that the same projection is condition-invariant across yeast experiments, organisms, growth regimes, or measurement platforms.
+
+\paragraph{Relation to other finite rows.}
+The same yeast abundance readout appears in a separate mRNA-half-life mediation row.  In that row, the three-way join contains $5085$ proteins, the CDS-to-half-life join hit rate is $0.9156038419146592$, and the direct abundance association is
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2761140373962526,\\
+R^2_{QP\mid M} &= 0.24851799532219632,\\
+R^2_{\mathrm{absorbed\ by}\ M} &= 0.027596042074056304,\\
+\mathrm{mediation\ fraction} &= 0.09994436477872035.
+\end{aligned}
+$$
+The residual-mediator permutation summary reports null mean $0.00019674487584783138$, null $95$th percentile $0.0014571003414947088$, and right-tail permutation probability $0.000999000999000999$.  These numbers are useful for bounding the abundance row: mRNA half-life accounts for a small but nonzero fraction of the $Q$-to-protein-abundance projection, but most of the yeast abundance projection remains after conditioning on that single RNA-stability mediator.  This is a variance decomposition, not a causal path.
+
+\paragraph{Coordinate reducibility and candidate readout context.}
+A separate per-coordinate decomposition on the unified yeast context join reports $n=1258$, a $5$-fold held-out design, $120$ permutations, and a $24$-rank $Z$ basis.  Eight of the nine named $B^{\ast}_{Q6}$ coordinates are listed as having a real source under that held-out/permutation gate: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  In a distinct yeast candidate-readout ranking, the description-length regularizer uses $\lambda=0.01$ with $DL=\log_2(1+n_{\mathrm{col}})$, and the top yeast candidate is $\mathrm{mRNA}$ with $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, $A_H C_H=0.0011462622274400686$, Bonferroni threshold $0.0013014749238591248$, null $95$th percentile $0.0004745820831535835$, and $n=5128$ joined rows.  These companion rows show that the abundance projection is not an isolated arithmetic artifact of the condition comparison, but they still do not identify a molecular mechanism.
+
+\paragraph{Local verdict.}
+The condition-specific finite row supports a bounded statement: in the Newman/PAXdb yeast abundance panel, after amino-acid composition, CDS length, GC3, and $M$-density controls, the $B^{\ast}_{Q6}$ residual coordinate block explains a substantial fraction of residual protein-abundance variance in both SD and YEPD, with $R^2_{QP}=0.3050385538305022$ and $0.3280825603424665$, and with the same dominant coordinate $f3\_stress$.  The nearly identical condition vectors, cosine $0.9993775935182967$ and Pearson $0.9983880256003688$, justify calling this a condition-stable abundance projection for this finite yeast panel.
+
+\paragraph{Boundary of interpretation.}
+No translation claim follows from this chapter by itself.  The readout here is steady-state protein abundance, not ribosome profiling, not translation efficiency, not measured elongation speed, and not a matched mRNA-controlled translation statistic.  No folding, physical admissibility, biological function, biochemical mechanism, causal pathway, organism-level phenotype, or universal biological law follows from the reported $S^{QP}$ values.  Any such stronger statement would require its own layer-matched contact and its own controlled statistic.  The present record only licenses a finite, condition-specific yeast abundance projection under the stated controls.

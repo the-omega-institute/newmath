@@ -464,6 +464,28 @@ theorem CompletionReflectionPacket_real_completion_functor_handoff [AskSetup] [P
     ⟨reflectedUnary, extensionUnary, functorUnary, completionReadUnary, reflectedRow,
       extensionRow, functorRow, completionReadRow, certPkg, completionReadPkg⟩
 
+theorem CompletionReflectionPacket_metric_existence_route [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      metricRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont completion separated metricRoute ->
+        PkgSig bundle metricRoute pkg ->
+          UnaryHistory completion /\ UnaryHistory separated /\ UnaryHistory metricRoute /\
+            Cont completion separated metricRoute /\ Cont completion universal package /\
+              PkgSig bundle cert pkg /\ PkgSig bundle metricRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet metricRouteRow metricRoutePkg
+  obtain ⟨completionUnary, _universalUnary, separatedUnary, _diagonalUnary, _regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    packageRow, _provenanceRow, certPkg⟩ := packet
+  have metricRouteUnary : UnaryHistory metricRoute :=
+    unary_cont_closed completionUnary separatedUnary metricRouteRow
+  exact
+    ⟨completionUnary, separatedUnary, metricRouteUnary, metricRouteRow, packageRow,
+      certPkg, metricRoutePkg⟩
+
 theorem CompletionReflectionPacket_classifier_scope [AskSetup] [PackageSetup]
     {completion universal separated diagonal regular sealRow transport route package provenance
       cert completion' universal' separated' diagonal' regular' sealRow' transport' route'

@@ -1,5 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +9,8 @@ namespace BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -177,5 +181,50 @@ instance uniformlyContinuousCompletionExtensionChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (UniformlyContinuousCompletionExtensionTasteGate_toEventFlow_injective heq)
+
+theorem UniformlyContinuousCompletionExtension_modulus_handoff_route
+    {D T M L U R S Y E H C P N : BHist}
+    (hDTM : Cont D T M) (hMLU : Cont M L U) (hURS : Cont U R S)
+    (hSYE : Cont S Y E) (hEHC : Cont E H C) (hCPN : Cont C P N) :
+    (∃ route : BHist,
+        route = N ∧ Cont D T M ∧ Cont M L U ∧ Cont U R S ∧ Cont S Y E ∧
+          Cont E H C ∧ Cont C P route) ∧
+      SemanticNameCert
+        (fun row : BHist => row = M ∧ Cont D T M)
+        (fun row : BHist => row = M ∨ row = L ∨ row = U ∨ row = R ∨
+          row = S ∨ row = Y ∨ row = E)
+        (fun row : BHist => hsame row M ∨ hsame row E ∨ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  constructor
+  · exact ⟨N, rfl, hDTM, hMLU, hURS, hSYE, hEHC, hCPN⟩
+  · have sourceM :
+        (fun row : BHist => row = M ∧ Cont D T M) M := by
+      exact ⟨rfl, hDTM⟩
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro M sourceM
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          constructor
+          · exact hsame_trans (hsame_symm same) source.left
+          · exact hDTM
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inl source.left
+      ledger_sound := by
+        intro _row source
+        exact Or.inl source.left
+    }
 
 end BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate

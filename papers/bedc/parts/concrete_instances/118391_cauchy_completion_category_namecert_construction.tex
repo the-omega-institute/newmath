@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionCategoryUp$}
+\label{ch:concrete-instances-cauchy-completion-category-namecert}
+\origin{human}
+
+Following Mac Lane and Bishop--Bridges on Kleisli composition and constructive completion, the $\CauchyCompletionCategoryUp$ packet records the finite category surface whose objects are displayed completion packets and whose morphisms are completion-valued BEDC routes. It sits after the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit row of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the bind row of \autoref{ch:concrete-instances-cauchy-completion-bind-namecert}, the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the finite real-name route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The chapter names a completion-category interface as BEDC rows; it is not quotient completion equality, not a selected limit principle, not host equality of completed objects, and not countable choice.
+
+\begin{definition}[CauchyCompletionCategory carrier]
+\label{def:cauchy-completion-category-carrier}
+A $\CauchyCompletionCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(O,A,U,B,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the completion-object row. Each object is read through $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal.
+\item $A$ is the completion-morphism row. Each morphism is a completion-valued BEDC route whose source and target are displayed by $O$.
+\item $U$ is the identity row, routing object identities through $\CauchyCompletionUnitUp$ and the same source-completion data.
+\item $B$ is the bind and Kleisli-composition row, exposing composition only through $\CauchyCompletionMonadUp$ and $\CauchyCompletionBindUp$.
+\item $T$ is the classifier-transport row, recording componentwise transport for object, morphism, unit, bind, metric-completion, stream, regular-rational, dyadic, and Real-seal reads.
+\item $R$ is the replay row, forcing each category-facing consumer to replay the displayed completion route before reading identity or composition data.
+\item $H$ records componentwise $\hsame$ transport for completion objects, completion morphisms, identities, compositions, classifier transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for object reads, morphism reads, identity reads, Kleisli-composition reads, and terminal $\RealUp$ seal requests.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionCategoryUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionBindUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionCategoryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, selected limits, host equality of completed objects, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionCategory NameCert obligations]
+\label{thm:cauchy-completion-category-namecert-obligations}
+For every accepted $\CauchyCompletionCategoryUp$ carrier $G=(O,A,U,B,T,R,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionCategoryUp}$ surface consists exactly of carrier admission, object exposure, morphism exposure, identity exposure, composition exposure, classifier transport, replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape of quotient completion equality, selected limits, host equality, countable choice, hidden representatives, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-category-carrier}. The object, morphism, identity, composition, transport, replay, structural transport, displayed replay, provenance, and naming rows are precisely $O,A,U,B,T,R,H,C,P,N$.
+
+The object and morphism clauses come from $O$ and $A$. The identity clause is read through $U$, while the composition clause is read through $B$ and therefore through the displayed monad and bind rows rather than through host equality of functions.
+
+Classifier transport and replay are local to $T$ and $R$. The rows $H$ and $C$ preserve and replay the same carrier coordinates componentwise, and $P,N$ source and name the packet.
+
+Since no carrier coordinate stores quotient completion equality, selected limits, host equality, countable choice, hidden representatives, or ambient completeness, the non-escape obligation follows by exhaustion.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionCategory Kleisli factorization]
+\label{thm:cauchy-completion-category-kleisli-factorization}
+Every morphism read and every composition read of an accepted $\CauchyCompletionCategoryUp$ packet factors through
+$$
+\CauchyCompletionMonadUp,\ \CauchyCompletionUnitUp,\ \CauchyCompletionBindUp,\ \MetricCompletionUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The factorization may inspect $\DyadicRatCoreUp$ tolerance rows along the regular-rational route, but it exports no quotient completion equality, selected limits, host equality of completed objects, countable choice, hidden stream representative, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a morphism or composition request. By \autoref{thm:cauchy-completion-category-namecert-obligations}, the request first projects the accepted carrier and reads only the displayed object and morphism rows.
+
+For identities, the row $U$ routes the request through $\CauchyCompletionUnitUp$. For composites, the row $B$ routes the request through $\CauchyCompletionMonadUp$ and $\CauchyCompletionBindUp$, so categorical composition is a finite Kleisli-composition read.
+
+The completion-facing part then passes through $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $\DyadicRatCoreUp$ supplying the tolerance observations used by the regular-rational readback. These rows are named in the provenance row $P$ and replayed by $R$ and $C$.
+
+The transport rows $T$ and $H$ preserve the same route componentwise. Because the carrier has no row for quotient completion equality, selected limits, host equality, countable choice, hidden representatives, or ambient completeness, no second route can supply categorical composition data.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyCompletionCategoryUp$ consumer that reads composition without first exposing the monad, unit, bind, metric-completion, stream-window, regular-rational, Real-seal, transport, replay, provenance, and local NameCert rows refutes the packet.}
+
+\independenceWitness{cauchycompletionmonad, cauchycompletionunit, cauchycompletionbind, metriccompletion, streamname, regseqrat, real: none is bijective to $\CauchyCompletionCategoryUp$ because the category packet jointly carries completion objects, completion morphisms, identity rows, bind-composition rows, classifier transport, replay, provenance, and local naming in one finite carrier.}
+
+\closureat{CauchyCompletionCategoryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionCategoryUp}
+  \constructivestory{A $\CauchyCompletionCategoryUp$ packet is generated from completion-object rows, completion-morphism rows, identity rows, bind-composition rows, classifier-transport rows, replay rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-category-carrier}, \autoref{thm:cauchy-completion-category-namecert-obligations}, and \autoref{thm:cauchy-completion-category-kleisli-factorization} seed the finite completion-category packet for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limits, host equality of completed objects, countable choice, hidden stream representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, object exposure, morphism exposure, identity exposure, composition exposure, classifier transport, replay stability, provenance exhaustion, and non-escape for BEDC.Derived.CauchyCompletionCategoryUp.}
+\end{closurestatus}

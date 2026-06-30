@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\HigmanLemmaUp$}
+\label{ch:concrete-instances-higman-lemma-namecert}
+\origin{human}
+
+Following Higman 1952 and Nash-Williams' well-quasi-order method, the $\HigmanLemmaUp$ packet records finite word-embedding data over a well-quasi-ordered source as a NameCert carrier. It sits after the finite-product induction packet of \autoref{ch:concrete-instances-dickson-lemma-namecert}, the finite list rows of \autoref{ch:concrete-instances-list-namecert}, the ordered comparison rows of \autoref{ch:concrete-instances-poset-namecert}, and the candidate-boundary rows of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet is a finite subsequence-embedding certificate for words; it is not a selected infinite subsequence theorem, not a quotient of streams, and not a host proof of MetaCIC normalization.
+
+\begin{definition}[Higman lemma carrier]
+\label{def:higman-lemma-carrier}
+A $\HigmanLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{Higman}(S,W,E,B,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source well-quasi-order row, exposing only finite comparisons and bad-prefix refusals for the underlying alphabet.
+\item $W$ is the finite-word row, storing word windows as $\ListUp$ packets over $S$.
+\item $E$ is the subsequence-embedding row, recording monotone index maps and pointwise source comparisons for a pair of displayed word windows.
+\item $B$ is the bad-sequence-prefix row, storing the finite obstruction prefix that must be reduced when no embedding row is displayed.
+\item $D$ is the Dickson-style product-order dependency row read through $\DicksonLemmaUp$ for the finite vector of front letters and residual word lengths.
+\item $H$ records componentwise $\hsame$ transport for source, word, embedding, obstruction, dependency, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bad-prefix read to a shorter residual-word read and then to an embedding read.
+\item $P$ is the $\Pkg$ provenance over $\HigmanLemmaUp$, $\DicksonLemmaUp$, $\ListUp$, $\PosetUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HigmanLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for countable choice, quotient word equality, a selected infinite subsequence, excluded-middle case selection, or an unconditional MetaCIC termination theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.HigmanLemmaUp.TasteGate.HigmanLemmaTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Higman lemma NameCert obligations]
+\label{thm:higman-lemma-namecert-obligations}
+For every accepted $\HigmanLemmaUp$ carrier $\mathsf{Higman}(S,W,E,B,D,H,C,P,N)$, the local $\NameCert_{\HigmanLemmaUp}$ surface consists exactly of source well-quasi-order exposure through $S$, finite-word exposure through $W$, subsequence-embedding exposure through $E$, bad-sequence-prefix exposure through $B$, Dickson dependency exposure through $D$, componentwise transport through $H$, continuation replay through $C$, provenance nonescape through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The source row $S$, word row $W$, embedding row $E$, obstruction row $B$, and dependency row $D$ are the only mathematical rows available before the structural rows are read.
+
+The source and word rows fix the alphabet and finite windows. The embedding row records only monotone index maps together with pointwise source comparisons, while the bad-prefix row records the finite obstruction prefix that remains when no such embedding is displayed.
+
+The dependency row is read through \autoref{ch:concrete-instances-dickson-lemma-namecert}. It supplies a finite product-order route for the front-letter and residual-length bookkeeping, but it does not add a selected infinite subsequence or a quotient word equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no coordinate for countable choice, excluded-middle selection, quotient words, or an unconditional MetaCIC termination theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.HigmanLemmaUp.HigmanLemmaNameCertObligations}
+
+\begin{theorem}[Higman lemma finite subsequence embedding route]
+\label{thm:higman-lemma-subsequence-embedding-route}
+Every downstream consumer of an accepted $\HigmanLemmaUp$ packet that asks for a word-embedding certificate must read the finite route
+$$
+\ListUp\to\PosetUp\to\DicksonLemmaUp\to\HigmanLemmaUp\to\NameCert .
+$$
+The consumer receives finite word windows, source comparisons, monotone index data, bad-prefix reduction data, Dickson-style product bookkeeping, componentwise transport, replay, provenance, and local naming. It receives no selected infinite subsequence, no quotient stream equality, no countable-choice selector, and no global normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:higman-lemma-namecert-obligations}. They force a consumer to expose the source row $S$, word row $W$, embedding row $E$, obstruction row $B$, and dependency row $D$ before it reads the local naming row.
+
+The word row is a finite $\ListUp$ window over the source comparison surface. The embedding row is a displayed monotone index map with pointwise comparisons, so it is a finite certificate rather than an infinite subsequence selection.
+
+The dependency row routes the finite obstruction reduction through $\DicksonLemmaUp$. This places the front-letter and residual-length bookkeeping on the same finite product-order surface already named by \autoref{ch:concrete-instances-dickson-lemma-namecert}.
+
+Finally the structural rows carry the route to normalization-facing consumers. A $\MetaCICNormalizationFrontierUp$ reader may consume the packet only as a finite residual-word evidence row, because $P$ names no quotient stream equality, countable-choice selector, or global normalization theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.HigmanLemmaUp.HigmanLemmaSubsequenceEmbeddingRoute}
+
+\begin{theorem}[Higman lemma normalization-frontier handoff]
+\label{thm:higman-lemma-normalization-frontier-handoff}
+A normalization-frontier consumer may cite $\HigmanLemmaUp$ only after the finite word packet exposes $S,W,E,B,D,H,C,P,N$ and after the consumer has identified which residual-word window is being handed to the $\MetaCICNormalizationFrontierUp$ boundary. The handoff is a finite subsequence-embedding certificate for residual windows; it does not close subject reduction, confluence, strong normalization, quotient syntax equality, or host evaluator soundness.
+\end{theorem}
+\begin{proof}
+Read the finite subsequence route of \autoref{thm:higman-lemma-subsequence-embedding-route}. It already places the word windows, source comparisons, embedding data, bad-prefix reduction, Dickson dependency, and structural rows before any downstream handoff.
+
+Now compare with the MetaCIC normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. That frontier separates candidate evidence, finished-normal evidence, and obstruction rows; the Higman packet may feed only the finite residual-word evidence side of that separation.
+
+Thus the handoff preserves a finite certificate boundary. It can record that a residual-word window has an embedding route, but it cannot erase the MetaCIC obstruction rows or turn the finite combinatorial packet into a global normalization theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.HigmanLemmaUp.HigmanLemmaNormalizationFrontierHandoff}
+
+\begin{theorem}[Higman lemma finite bad-prefix induction]
+\label{thm:higman-lemma-finite-bad-prefix-induction}
+Any accepted residual-word consumer of a $\HigmanLemmaUp$ packet may perform induction only on the displayed finite bad-prefix windows carried by $B$ and routed through $D,C,P,N$. At each induction step the consumer must keep the $\MetaCICNormalizationFrontierUp$ obstruction row visible, so the induction exports a shorter residual-word window or a finite embedding row, not a global normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:higman-lemma-carrier}. The only obstruction data available to a residual-word consumer is the finite bad-sequence-prefix row $B$, together with the Dickson dependency row $D$ and the structural replay rows $C,P,N$.
+
+Induction therefore has a finite displayed domain. The base case reads an already displayed embedding row $E$, while an induction step shortens only the bad-prefix window named by $B$ and records the dependency through $D$.
+
+Now compare the handoff of \autoref{thm:higman-lemma-normalization-frontier-handoff}. A MetaCIC-facing consumer must preserve the normalization-frontier obstruction row while reading the residual-word evidence.
+
+Thus the induction produces only a shorter displayed residual window or a finite embedding certificate. It cannot erase the obstruction row, select an infinite subsequence, or turn the finite Higman packet into global normalization.
+\end{proof}
+
+\falsifiablePrediction{A claimed HigmanLemmaUp certificate fails if its word-embedding row lacks either a monotone index map or the pointwise source-comparison rows for the displayed finite word windows.}
+
+\independenceWitness{dickson-lemma, list, poset, metacicnormalizationfrontier: $\DicksonLemmaUp$ supplies finite product-order bookkeeping without word embedding rows; $\ListUp$ supplies finite word windows without bad-prefix reduction; $\PosetUp$ supplies comparison rows without residual-word replay; and $\MetaCICNormalizationFrontierUp$ consumes candidate-boundary evidence without being a word-embedding certificate. None is bijective to $\HigmanLemmaUp$ under NameCert-row preservation.}
+
+\closureat{HigmanLemmaUp}{seedStr}
+
+\begin{closurestatus}{\HigmanLemmaUp}
+  \constructivestory{A $\HigmanLemmaUp$ packet is generated from a source well-quasi-order row, finite word rows, subsequence-embedding rows, bad-sequence-prefix rows, Dickson dependency rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:higman-lemma-carrier}, \autoref{thm:higman-lemma-namecert-obligations}, \autoref{thm:higman-lemma-subsequence-embedding-route}, and \autoref{thm:higman-lemma-normalization-frontier-handoff} seed the finite word-embedding packet and its MetaCIC normalization-frontier handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, selected infinite subsequences, quotient word equality, excluded-middle case selection, subject reduction, confluence, strong normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source exposure, finite-word exposure, subsequence-embedding exposure, bad-prefix reduction, Dickson dependency routing, componentwise transport, replay, provenance, and local NameCert exactness for BEDC.Derived.HigmanLemmaUp.}
+\end{closurestatus}

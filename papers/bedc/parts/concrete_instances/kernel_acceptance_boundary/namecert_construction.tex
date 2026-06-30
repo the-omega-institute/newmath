@@ -45,6 +45,70 @@ The audit-facing obligation is $F$. It records that forbidden ancestry, unresolv
 Finally $H$, $C$, $P$, and $N$ replay and name the finite route. Since no row stores kernel self-correctness, compiler correctness, hardware trust, or paper-side closure status, the local NameCert obligations stop exactly at the accepted-declaration and axiom-query boundary.
 \end{proof}
 
+\begin{theorem}[Kernel acceptance boundary carrier admission]
+\label{thm:kernel-acceptance-boundary-carrier-admission}
+For every finite $\BHist$ packet
+$$
+Q=(G,K,A,E,L,F,H,C,P,N)
+$$
+accepted by $\KernelAcceptanceBoundaryUp$, carrier admission is exactly the display of generated-candidate rows, kernel classifier stamps, accepted-declaration exposure, environment-ledger rows, replay ledgers, axiom-query refusal rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. No consumer can enter the carrier through a hidden theorem-name semantics row, compiler-correctness row, hardware row, or paper-closure row.
+\end{theorem}
+\begin{proof}
+Project the coordinates of $Q$ from \autoref{def:kernel-acceptance-boundary-carrier}. The generated candidate row $G$, classifier stamp $K$, accepted declaration row $A$, environment ledger $E$, replay ledger $L$, and axiom-query refusal row $F$ are the data admitted into the finite carrier.
+
+The transport and replay coordinates $H$ and $C$ keep admission stable under componentwise $\hsame$ transport and displayed $\Cont$ replay. The provenance and naming coordinates $P$ and $N$ then package the same finite route as $\Pkg$ provenance and local $\NameCert$ evidence.
+
+Since the carrier definition lists no hidden coordinate for kernel self-correctness, compiler correctness, hardware trust, theorem-name semantics, or paper closure, carrier admission cannot read such data. It remains a projection of the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Kernel acceptance boundary accepted-declaration exposure]
+\label{thm:kernel-acceptance-boundary-accepted-declaration-exposure}
+In every accepted $\KernelAcceptanceBoundaryUp$ packet
+$$
+Q=(G,K,A,E,L,F,H,C,P,N),
+$$
+the accepted declaration row $A$ is exposed only together with the generated candidate $G$, classifier stamp $K$, environment ledger $E$, replay ledger $L$, axiom-query refusal row $F$, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The exposure route is the accepted-declaration source row supplied by \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, with forbidden-ancestry refusal supplied by \autoref{ch:concrete-instances-axiomqueryledger-namecert}.
+\end{theorem}
+\begin{proof}
+Read the accepted declaration row $A$ from the carrier packet. It is not isolated: the same packet displays the generated candidate $G$, the classifier stamp $K$, and the environment ledger $E$ that record where the declaration was admitted.
+
+Next read $L$ and $F$. The replay ledger keeps the finite command route visible, while the axiom-query refusal row keeps forbidden ancestry and unresolved target queries outside the accepted-declaration coordinates.
+
+Finally use $H$, $C$, $P$, and $N$ to transport, replay, package, and name the exposure route. The cited sibling chapters provide the accepted-declaration and forbidden-ancestry source rows; the theorem asserts only that the local packet exposes those rows, not that the kernel implementation is semantically certified.
+\end{proof}
+
+\begin{theorem}[Kernel acceptance boundary closed trace forward link]
+\label{thm:kernel-acceptance-boundary-closed-trace-forward-link}
+Every $\ClosedObservationProofTraceUp$ consumer of \autoref{ch:concrete-instances-closed-observation-proof-trace-namecert} must read the accepted-declaration row $A$ and the axiom-query refusal row $F$ through the $\KernelAcceptanceBoundaryUp$ carrier
+$$
+Q=(G,K,A,E,L,F,H,C,P,N)
+$$
+before replaying a closed proof trace. The forward dependency is the finite route through generated candidate, classifier stamp, accepted declaration, environment ledger, replay ledger, refusal row, transport, replay, provenance, and local naming; it is not a claim of kernel self-correctness or semantic adequacy of theorem names.
+\end{theorem}
+\begin{proof}
+Apply accepted-declaration exposure, \autoref{thm:kernel-acceptance-boundary-accepted-declaration-exposure}. It displays $A$ only together with the generated candidate, classifier stamp, environment ledger, replay ledger, refusal row, transport, replay, provenance, and local naming.
+
+Read the refusal row $F$ from the same carrier. This row keeps forbidden ancestry, unresolved marker targets, and non-kernel semantic claims outside the accepted-declaration coordinates.
+
+A closed proof trace can therefore consume kernel acceptance only through the displayed boundary packet. The downstream trace replay receives an accepted-declaration row and a refusal row, not a proof of kernel implementation correctness or theorem-name semantics.
+\end{proof}
+
+\begin{theorem}[Kernel acceptance boundary replay nonescape]
+\label{thm:kernel-acceptance-boundary-replay-nonescape}
+Every $\Cont$ replay of a $\KernelAcceptanceBoundaryUp$ packet
+$$
+Q=(G,K,A,E,L,F,H,C,P,N)
+$$
+remains confined to generated-candidate rows, classifier stamps, accepted-declaration rows, environment ledgers, replay ledgers, axiom-query refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. In particular, replay cannot manufacture a theorem from forbidden ancestry, unresolved marker targets, non-kernel semantic claims, or any unstored kernel-correctness premise.
+\end{theorem}
+\begin{proof}
+Start with the displayed replay coordinate $C$. By carrier definition, $C$ replays the path from candidate generation through kernel classification, environment lookup, accepted declaration exposure, axiom query, and refusal boundary.
+
+The transport coordinate $H$ is componentwise over the same rows, so replay after $\hsame$ transport still reads only $G,K,A,E,L,F,H,C,P,N$. The provenance and naming rows $P$ and $N$ record that finite route as package and local certificate data.
+
+The refusal coordinate $F$ blocks the only listed escape route: forbidden ancestry, unresolved marker targets, and non-kernel semantic claims are refusal data rather than accepted-declaration data. Since no unstored kernel-correctness premise appears in the carrier, replay non-escape follows by projection of the packet rows.
+\end{proof}
+
 \closureat{KernelAcceptanceBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\KernelAcceptanceBoundaryUp}

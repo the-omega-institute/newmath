@@ -1,11 +1,19 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AnalogyCertificateGateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -257,6 +265,83 @@ theorem AnalogyCertificateGateUp_single_carrier_alignment :
             cases x with
             | mk source kernel gate relation vertex universeRow ledger evidence fiber hom carrier
                 provenance nameCert =>
-                exact ⟨source, List.Mem.head _⟩
+            exact ⟨source, List.Mem.head _⟩
+
+theorem AnalogyCertificateGate_namecert_obligations [AskSetup] [PackageSetup]
+    {S K G R V U L E F H C P N gateRead refusedRead named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont S K G →
+      Cont G R V →
+        Cont V U L →
+          Cont L E gateRead →
+            Cont U F refusedRead →
+              Cont gateRead P named →
+                PkgSig bundle named pkg →
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row named ∧ Cont gateRead P named ∧
+                          PkgSig bundle named pkg)
+                      (fun row : BHist =>
+                        hsame row S ∨ hsame row K ∨ hsame row G ∨ hsame row R ∨
+                          hsame row V ∨ hsame row U ∨ hsame row L ∨ hsame row E ∨
+                            hsame row F ∨ hsame row named)
+                      (fun row : BHist =>
+                        hsame row named ∧ PkgSig bundle named pkg ∧
+                          Cont L E gateRead ∧ Cont U F refusedRead)
+                      hsame ∧
+                    analogyCertificateGateFields
+                        (AnalogyCertificateGateUp.mk S K G R V U L E F H C P N) =
+                      [S, K, G, R, V, U, L, E, F, H, C, P, N] ∧
+                      Cont L E gateRead ∧ Cont U F refusedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro _sourceRoute _preservedRoute _ledgerRoute gateRoute refusedRoute namedRoute pkgNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row named ∧ Cont gateRead P named ∧ PkgSig bundle named pkg)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row K ∨ hsame row G ∨ hsame row R ∨ hsame row V ∨
+              hsame row U ∨ hsame row L ∨ hsame row E ∨ hsame row F ∨ hsame row named)
+          (fun row : BHist =>
+            hsame row named ∧ PkgSig bundle named pkg ∧ Cont L E gateRead ∧
+              Cont U F refusedRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro named ⟨hsame_refl named, namedRoute, pkgNamed⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              sourceRow.right.left,
+              sourceRow.right.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr sourceRow.left))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sourceRow.right.right, gateRoute, refusedRoute⟩
+    }
+  exact ⟨cert, rfl, gateRoute, refusedRoute⟩
 
 end BEDC.Derived.AnalogyCertificateGateUp

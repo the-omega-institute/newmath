@@ -1,0 +1,25 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier seed closure route]
+\label{thm:metacic-parallel-diamond-frontier-seed-closure-route}
+The $\MetaCICParallelDiamondFrontierUp$ seed closure route is visible only after the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, residual-join locality route of \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}, retained-premise budget of \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-mature-budget}, local NameCert rows of \autoref{thm:metacic-parallel-diamond-frontier-obligations}, seed-status row of \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}, closurestatus export row of \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-export}, and closurestatus guard of \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard} have all been displayed. The transport, replay, and provenance rows are read as the structural coordinates $H,T,G,N$ of the same child ledger.
+\end{theorem}
+\begin{proof}
+Read the child ledger rows in order. The critical-pair envelope and residual-join locality route display the local confluence data, while the retained-premise budget and local NameCert rows keep that data attached to the same frontier packet.
+
+The seed-status row then records the local seed claim, and the closurestatus export and guard rows determine what can be exposed at the chapter boundary. Since the route is assembled only from these displayed child rows, the seed record cannot bypass the local ledger.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier seed closure record]
+\label{thm:metacic-parallel-diamond-frontier-seed-closure-record}
+The $\MetaCICParallelDiamondFrontierUp$ seed closure record is valid exactly when the displayed child ledger contains the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, the residual-join locality route of \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}, the retained-premise budget of \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-mature-budget}, the local NameCert obligations of \autoref{thm:metacic-parallel-diamond-frontier-obligations}, the seed-status row of \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}, the closurestatus export row of \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-export}, and the guard rows of \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. Under this record the structural rows $H,T,G,N$ are read only as transport, replay, provenance, and local naming coordinates of the same child packet.
+
+The record exports finite seed closure for that displayed packet. It does not assert global confluence, strong normalization, subject reduction, evaluator equality, quotient term equality, residual-substitution discharge, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the route of \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-route}. It already orders the critical-pair envelope, residual-join locality route, retained-premise budget, local NameCert obligations, seed-status row, closurestatus export, and closurestatus guard before any seed reader reaches the chapter boundary.
+
+The forward read is therefore finite row projection. If the seed closure record is valid, each cited row is displayed in the child ledger, and $H,T,G,N$ can only transport, replay, source, and name that same packet.
+
+Conversely, assume the seven displayed rows are present. The route theorem repacks them into the seed closure route, so the record has exactly the rows needed for the seed-status reader and the closurestatus export guard.
+
+No global endpoint is introduced in the repacking. The cited rows are carrier-local and retain the premise and obstruction boundaries, so the record cannot become a global confluence theorem, strong-normalization theorem, subject-reduction theorem, evaluator-equality theorem, quotient-equality theorem, residual-substitution discharge, or kernel-consistency certificate.
+\end{proof}

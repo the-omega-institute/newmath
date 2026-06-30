@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RegularLanguageContinuationUp$}
+\label{ch:concrete-instances-regular-language-continuation-namecert}
+\origin{human}
+
+Following Kleene's regular-language theorem and the automata presentation of Hopcroft and Ullman, the $\RegularLanguageContinuationUp$ packet records regular-language recognition as finite continuation-recognizer rows rather than as a host set of words. It sits beside the transition-as-continuation surface of \autoref{ch:concrete-instances-continuationautomaton-namecert}, the bounded run surface of \autoref{ch:concrete-instances-finiteprefixautomaton-namecert}, the machine-specific prefix packet of \autoref{ch:concrete-instances-finite-prefix-machine-namecert}, and the terminal behaviour boundary of \autoref{ch:concrete-instances-continuationtermination-namecert}. The carrier names a bounded recognition packet; it does not assert a language quotient, minimization theorem, regular-expression equivalence, unbounded evaluator, or host powerset semantics.
+
+\begin{definition}[Regular-language continuation carrier]
+\label{def:regular-language-continuation-carrier}
+A $\RegularLanguageContinuationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,I,A,T,W,R,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite state-row inventory.
+\item $I$ is the initial continuation row.
+\item $A$ is the accepting-row inventory.
+\item $T$ is the transition table, whose entries are displayed $\Cont$ steps between state rows.
+\item $W$ is the finite input-prefix row inspected by the recognizer.
+\item $R$ is the bounded replay row, recording the run through $W$ using only entries of $T$.
+\item $X$ is the acceptance classifier row, reading the endpoint of $R$ against $A$.
+\item $H$ stores componentwise $\hsame$ transport for state, initial, accepting, transition, prefix, replay, acceptance, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from an input-prefix request to the transition and endpoint classifier rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularLanguageContinuationUp$, $\ContinuationAutomatonUp$, $\FinitePrefixAutomatonUp$, $\FinitePrefixMachineUp$, $\ContinuationTerminationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularLanguageContinuationUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $Q,I,A,T,W,R,X,H,C,P,N$. It has no coordinate for a host language subset, quotient of recognizers, minimized automaton, regular-expression conversion, unbounded run, or external evaluator.
+\end{definition}
+
+\begin{theorem}[Regular-language continuation closure]
+\label{thm:regular-language-continuation-closure}
+Every accepted $\RegularLanguageContinuationUp$ packet presents bounded regular-language recognition as the finite continuation surface
+$$
+Q,I,A,T,W,R,X,H,C,P,N .
+$$
+Any acceptance consumer must read the continuation automaton rows, finite prefix run, machine-prefix comparison row when present, continuation-termination boundary, transport rows, replay rows, provenance, and local naming before it can consume the classifier $X$. The closure is a finite NameCert closure of the recognizer packet, not a theorem identifying all regular-language presentations.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-language-continuation-carrier}. The state inventory, initial row, accepting rows, transition table, input prefix, replay ledger, and classifier are the only recognition coordinates available.
+
+Read the transition surface through \autoref{ch:concrete-instances-continuationautomaton-namecert}. Each transition row is a displayed $\Cont$ step, so the recognizer is already a continuation automaton rather than a separate host operational semantics.
+
+Next read the bounded prefix surfaces of \autoref{ch:concrete-instances-finiteprefixautomaton-namecert} and \autoref{ch:concrete-instances-finite-prefix-machine-namecert}. These siblings keep $W$ and $R$ finite and prevent the classifier from escaping to an unbounded evaluator or hidden machine trace.
+
+Finally use \autoref{ch:concrete-instances-continuationtermination-namecert} for the terminal behaviour boundary. The rows $H,C,P,N$ transport, replay, package, and name the same packet, so the acceptance classifier $X$ remains a finite continuation-recognition row and not a quotient language, minimized automaton, regular-expression equivalence, host powerset object, or unbounded computation theorem.
+\end{proof}
+
+\falsifiablePrediction{A regular-language continuation consumer refutes the packet if it accepts a word without displaying finite state rows, initial row, accepting rows, continuation transition table, input prefix, bounded replay, endpoint classifier, transport, replay, provenance, and local naming.}
+
+\independenceWitness{continuationautomaton, finiteprefixautomaton, finiteprefixmachine, continuationtermination, and regularlanguage: none is bijective to $\RegularLanguageContinuationUp$ because only this packet binds finite continuation transitions, bounded prefix replay, acceptance classification, terminal behaviour boundary, transport, replay, provenance, and local NameCert rows as one recognizer surface.}
+
+\closureat{RegularLanguageContinuationUp}{seedStr}
+
+\begin{closurestatus}{\RegularLanguageContinuationUp}
+  \constructivestory{A $\RegularLanguageContinuationUp$ packet is generated from finite state rows, an initial continuation row, accepting rows, continuation transition rows, a finite input-prefix row, bounded replay, acceptance classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-language-continuation-carrier} and \autoref{thm:regular-language-continuation-closure} seed finite continuation recognition for regular-language packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close minimization, regular-expression equivalence, quotient language equality, host powerset semantics, unbounded evaluation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transition replay exactness, bounded prefix acceptance, terminal behaviour nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularLanguageContinuationUp.}
+\end{closurestatus}

@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRealClosedIntervalUp$}
+\label{ch:concrete-instances-constructive-real-closed-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveRealClosedIntervalUp$ packet records a located closed real interval by endpoint order, finite window reads, and dyadic net data rather than by an ambient set of completed real points. It consumes the real-name surface of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located endpoint discipline of \autoref{ch:concrete-instances-locatedinterval-namecert}, and the finite-net interval route of \autoref{ch:concrete-instances-closed-interval-finite-net-namecert}. The packet is a closed-interval carrier for L10 Real and Completion consumers; it does not assert open-cover compactness, choose endpoints as host reals, quotient interval representatives, or import ambient completeness.
+
+\begin{definition}[Constructive real closed interval carrier]
+\label{def:constructive-real-closed-interval-carrier}
+A $\ConstructiveRealClosedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,O,S,R,D,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the lower and upper endpoint rows, each read through $\RealUp$, $\StreamNameUp$, and $\RegSeqRatUp$ name windows.
+\item $O$ is the endpoint-order row, recording that the lower endpoint is admitted before the upper endpoint as a located interval boundary.
+\item $S$ is the shared $\StreamNameUp$ window ledger used by endpoint, membership, and net-cell reads.
+\item $R$ is the $\RegSeqRatUp$ rational readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for mesh budgets and endpoint comparisons.
+\item $F$ is the finite interval-net row, read through the closed-interval finite-net sibling before any completion-facing consumer inspects the interval.
+\item $E$ is the terminal $\RealUp$ seal for endpoint and cell readbacks.
+\item $H$ records componentwise $\hsame$ transport for endpoint, order, window, readback, dyadic, finite-net, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through the same endpoint and finite-net route.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveRealClosedIntervalUp$, $\LocatedIntervalUp$, $\ClosedIntervalFiniteNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveRealClosedIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,U,O,S,R,D,F,E,H,C,P,N$. It has no coordinate for open-cover compactness, selected endpoint representatives, quotient interval equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ConstructiveRealClosedInterval NameCert obligations]
+\label{thm:constructive-real-closed-interval-namecert-obligations}
+For every accepted $\ConstructiveRealClosedIntervalUp$ carrier $I=(L,U,O,S,R,D,F,E,H,C,P,N)$, the local $\NameCert_{\ConstructiveRealClosedIntervalUp}$ surface consists exactly of endpoint admission through $L,U$; endpoint-order admission through $O$; finite window and rational readback admission through $S,R$; dyadic tolerance admission through $D$; closed-interval finite-net admission through $F$; terminal real-name sealing through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-real-closed-interval-carrier}. The only endpoint rows are $L,U$, and the only order row is $O$.
+
+The numerical reads are then forced through $S,R,D$. A precision request opens a finite stream window, reads regular rational endpoint data in that window, and consumes the dyadic tolerance ledger before reaching the finite-net row.
+
+The finite-net and seal rows are downstream. The row $F$ is the displayed closed-interval net surface, while $E$ is the terminal Real seal reached only after the endpoint, order, window, readback, and dyadic rows have been displayed.
+
+Finally $H,C,P,N$ preserve, replay, source, and locally name that same route. Since the carrier has no coordinate for open covers, selected endpoint representatives, quotient interval equality, countable choice, trichotomy, or ambient completeness, no local NameCert obligation can be stored outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[ConstructiveRealClosedInterval dyadic net route]
+\label{thm:constructive-real-closed-interval-dyadic-net}
+Every Real or Completion consumer of an accepted $\ConstructiveRealClosedIntervalUp$ carrier must read the finite dyadic net route
+$$
+L,U,O \longmapsto S,R,D \longmapsto F,E \longmapsto H,C,P,N
+$$
+before it can inspect the interval as a closed real interval. The route consumes $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ClosedIntervalFiniteNetUp$, and $\RealUp$ as displayed packet rows, not as an open-cover compactness theorem, a selected subcover, quotient real equality, or a completed host interval.
+\end{theorem}
+\begin{proof}
+Begin with endpoint admission. The lower and upper endpoint rows, together with the endpoint-order row, are the only source rows for interval membership.
+
+Next read the finite numerical route. The shared $\StreamNameUp$ window row $S$ and $\RegSeqRatUp$ readback row $R$ supply endpoint approximations, while the $\DyadicRatCoreUp$ row $D$ supplies the mesh tolerance used by the finite net.
+
+The row $F$ is then the only closed-interval finite-net surface visible to the consumer, and the row $E$ is the only Real-facing terminal seal. The structural rows $H,C,P,N$ keep this route invariant under transport, replay, provenance, and local naming.
+
+Therefore a consumer that reaches a closed real interval through the packet receives exactly the displayed dyadic finite-net data and no open-cover compactness proof, selected endpoint representative, selected subcover, quotient interval equality, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ConstructiveRealClosedIntervalUp$ consumer is refuted if it reads a closed real interval without first displaying endpoint rows, the endpoint-order row, StreamName and RegSeqRat windows, a DyadicRatCore tolerance row, and the finite closed-interval net row.}
+
+\independenceWitness{real, regseqrat, streamname, dyadicratcore, locatedinterval, and closed-interval-finite-net: none is bijective to the constructive real closed interval packet because only $\ConstructiveRealClosedIntervalUp$ records endpoint order and dyadic finite-net evidence as one local NameCert route.}
+
+\closureat{ConstructiveRealClosedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRealClosedIntervalUp}
+  \constructivestory{A $\ConstructiveRealClosedIntervalUp$ packet is generated from lower and upper Real endpoint rows, endpoint order, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a closed-interval finite-net row, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-real-closed-interval-carrier}, \autoref{thm:constructive-real-closed-interval-namecert-obligations}, and \autoref{thm:constructive-real-closed-interval-dyadic-net} seed the endpoint-order and dyadic finite-net carrier surface over $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ClosedIntervalFiniteNetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected endpoint representatives, quotient interval equality, selected subcovers, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order admission, finite-window readback, dyadic mesh admission, finite-net exactness, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveRealClosedIntervalUp.}
+\end{closurestatus}

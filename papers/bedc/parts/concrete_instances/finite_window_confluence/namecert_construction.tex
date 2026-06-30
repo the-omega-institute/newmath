@@ -83,6 +83,81 @@ The readiness row $G$ in \autoref{def:finite-window-confluence-carrier} is tied 
 Nontriviality must exhibit an accepted packet with all displayed rows present. FieldFaithfulness must show that deleting any of $B,R,J,S,N,W,H,C,P,K$ changes the readable carrier surface. Thus the TasteGate burden remains exactly at the finite beta-window confluence boundary.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence sibling route]
+\label{thm:finite-window-confluence-sibling-route}
+Every public confluence read exported by an accepted $\FiniteWindowConfluenceUp$ packet routes through the sibling rows named in the carrier: the $\MetaCICRedexFrontierUp$ redex-frontier row, the $\MetaCICLocalJoinLedgerUp$ local-join ledger, the $\MetaCICResidualSubstitutionBoundaryUp$ residual-substitution boundary, the $\ClosedNormalConfluenceSealUp$ closed-normal seal, and the $\MetaCICConfluenceNormalFragmentUp$ normal-fragment confluence row. A consumer cannot read the packet as an isolated confluence theorem without also retaining those sibling routes.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-window-confluence-carrier}. Its public confluence-facing rows are $B,R,J,S,N,W$, so the bounded beta-window row is not readable without the redex-frontier row of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert} and the local-join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}.
+
+The residual part of the read is held by $S$. Thus any join consumer that keeps $J$ must also pass through the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}; otherwise the packet would claim a substitution oracle that is not present in its finite rows.
+
+The endpoint part is held by $N$ and $W$. These rows point respectively to \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert} and \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, so the read remains a closed-normal finite fragment rather than unrestricted MetaCIC confluence.
+
+The structural rows $G,H,C,P,K$ then apply the existing NameCert obligations, the normalization-audit handoff, and the TasteGate readiness row to the same packet. Hence the public route is exactly the displayed finite sibling route.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence residual diamond scope]
+\label{thm:finite-window-confluence-residual-diamond-scope}
+Any local diamond read over the bounded beta window of an accepted $\FiniteWindowConfluenceUp$ carrier must expose the redex-frontier row, local-join ledger, residual-substitution boundary, closed-normal endpoint row, and normal-fragment row together. In carrier notation, a diamond-facing consumer may inspect
+$$
+B,R,J,S,N,W
+$$
+only as the finite route already transported, replayed, sourced, and named by $G,H,C,P,K$. The read remains a finite residual-diamond scope; it does not claim unrestricted Church--Rosser, global subject reduction, quotient conversion equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation surface of \autoref{thm:finite-window-confluence-namecert-obligations}. It requires the bounded beta-window row, redex-frontier readback, local-join ledger, residual-substitution boundary, closed-normal endpoint, and normal-fragment separation to remain visible in the same accepted packet.
+
+Next apply the normalization-audit handoff of \autoref{thm:finite-window-confluence-normalization-audit-handoff}. A local diamond read is a normalization-audit consumer, so it cannot bypass $R,J,S,N,W$ after entering through $B$.
+
+Finally use the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. The redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows are sibling dependencies rather than optional annotations. Hence the diamond scope is finite and residual-boundary-aware, with no route to the global principles excluded from the carrier.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence residual-boundary inversion]
+\label{thm:finite-window-confluence-residual-boundary-inversion}
+If a local diamond read from an accepted $\FiniteWindowConfluenceUp$ packet reaches $J$ as a candidate join, then the same read also exposes $S$ as the residual-substitution boundary row. The candidate join cannot be reinterpreted as a join independent of residual data; it remains in the route
+$$
+B,R,J,S,N,W,G,H,C,P,K .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(B,R,J,S,N,W,G,H,C,P,K)$. The local join ledger $J$ and residual-substitution boundary $S$ are adjacent confluence-facing rows of the same finite packet.
+
+Use the NameCert obligations of \autoref{thm:finite-window-confluence-namecert-obligations} and the normalization-audit handoff of \autoref{thm:finite-window-confluence-normalization-audit-handoff}. They require a diamond-facing read to keep the bounded beta window, redex frontier, local join, residual-substitution boundary, closed-normal endpoint, and normal fragment in one transported and replayed route.
+
+Finally apply the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. It keeps the redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows together, so $J$ cannot be cited as an unconditional global confluence join or as a join detached from residual-substitution data.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence normalization-frontier handoff]
+\label{thm:finite-window-confluence-normalization-frontier-handoff}
+Every local diamond read from an accepted $\FiniteWindowConfluenceUp$ carrier consumed by a $\NormalizationCandidateFrontierUp$ route carries the rows $B,R,J,S,N,W$ through the frontier packet's candidate-evidence, bounded-route, obstruction, transport, replay, provenance, and local NameCert rows. The handoff is therefore a bounded candidate-mediated route from finite-window confluence data to the normalization frontier, not a proof of global Church--Rosser, unrestricted subject reduction, evaluator equality, quotient conversion equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-boundary inversion, \autoref{thm:finite-window-confluence-residual-boundary-inversion}. A local diamond read that reaches the candidate join ledger $J$ must also expose the residual-substitution boundary $S$, while $B,R,N,W$ remain in the same finite confluence route.
+
+Now pass to the frontier through \autoref{thm:normalization-candidate-frontier-stability} and \autoref{thm:normalization-candidate-frontier-audit-handoff}. The frontier can consume positive normalization evidence only while its candidate-evidence row $E$ and bounded-route row $B$ remain visible, so the finite diamond read is carried as bounded candidate data rather than as an evidence-free confluence theorem.
+
+Finally use obstruction exactness and local confluence scope for the frontier, \autoref{thm:normalization-candidate-frontier-obstruction-exactness} and \autoref{thm:normalization-candidate-frontier-local-confluence-scope}. These rows keep obstruction, transport, replay, provenance, and local naming in the handoff, so erased candidate evidence or erased residual data reaches the obstruction route instead of exporting global Church--Rosser, subject reduction, evaluator equality, quotient conversion equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence MetaCIC frontier forward route]
+\label{thm:finite-window-confluence-metacic-frontier-forward-route}
+Every $\MetaCICParallelDiamondFrontierUp$ consumer of an accepted $\FiniteWindowConfluenceUp$ carrier must keep the bounded beta-window row, redex-frontier row, local-join ledger, residual-substitution boundary, closed-normal endpoint row, normal-fragment row, componentwise transport, displayed replay, provenance, and local $\NameCert$ row visible before any frontier handoff. In carrier notation, the forward route is
+$$
+B,R,J,S,N,W,H,C,P,K ,
+$$
+read first through the finite-window obligations, residual-boundary inversion, and normalization-frontier handoff, then through the row discipline of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The route supplies bounded-window evidence to the parallel-diamond frontier only; it does not claim global confluence, unrestricted subject reduction, quotient term equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:finite-window-confluence-namecert-obligations}. They expose the bounded beta-window, redex-frontier, local-join, residual-substitution, closed-normal endpoint, and normal-fragment rows together with transport, replay, provenance, and local naming.
+
+Next apply the residual-boundary inversion of \autoref{thm:finite-window-confluence-residual-boundary-inversion}. Any read that reaches the local join ledger $J$ still carries $S$ as residual-substitution boundary data, so the route cannot be recast as a residual-free local join.
+
+Now use the normalization-frontier handoff of \autoref{thm:finite-window-confluence-normalization-frontier-handoff}. It already transports the finite diamond read through candidate evidence, bounded-route, obstruction, transport, replay, provenance, and local NameCert rows before a frontier consumer may inspect it.
+
+Finally compare with the $\MetaCICParallelDiamondFrontierUp$ row discipline of \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-handoff}. That frontier requires retained residual-substitution, critical-pair, candidate-join, residual-frontier, checker, obstruction, transport, replay, provenance, and local naming rows. The finite-window packet can therefore feed only its displayed bounded route into the frontier, with no route to global confluence, unrestricted subject reduction, quotient term equality, evaluator equality, or kernel consistency.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}

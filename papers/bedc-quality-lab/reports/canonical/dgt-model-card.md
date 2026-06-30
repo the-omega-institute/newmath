@@ -1,4 +1,4 @@
-<!-- payload-sha256: 7bf22e900d2c6e39cf562386ababe8b61f9098b9b926db7c4d34824dc119cd67 -->
+<!-- payload-sha256: 11246020e62426d4712af0550cf932153eafa075587f7bc83626dd5cb9f0851c -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`
@@ -30,7 +30,7 @@
 
 ## Known Failure Modes
 
-- construct-validity boundary: `construct-boundary` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity`)
+- construct-validity boundary: `construct-valid` (`reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity`)
 - fair comparison boundary: `l1-bounded-negative` (`reports/canonical/fair-l1-decision.json:$.ladder_state_projection`)
 - ablation null decomposition: `mixed` (`reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition`)
 - OOD boundary: `not-claimed` (`reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary`)

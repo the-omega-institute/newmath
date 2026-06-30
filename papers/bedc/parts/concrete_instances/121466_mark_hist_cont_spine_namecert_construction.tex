@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\MarkHistContSpineUp$}
+\label{ch:concrete-instances-mark-hist-cont-spine-namecert}
+\origin{ai}
+
+The $\MarkHistContSpineUp$ packet realizes the finite mark-history-continuation spine of \autoref{ch:visions-mark-hist-ext-cont-spine} as concrete NameCert data. It binds the raw $\BMark$ emissions, generated $\BHist$ rows, $\mathsf{Ext}$ one-step extension rows, $\Cont$ continuation rows, $\hsame$ transport, replay, provenance, and local naming into one inspectable packet before any higher BEDC layer reads a continuation trace. The carrier is not a package object, not a signature relation, not a quotient of histories, and not an external normalization theorem.
+
+\begin{definition}[MarkHistContSpine carrier]
+\label{def:mark-hist-cont-spine-carrier}
+A $\MarkHistContSpineUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,H,E,T,Q,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite $\BMark$ emission row, exposing only generated raw marks.
+\item $H$ is the generated $\BHist$ history row recording the finite mark sequence read by the packet.
+\item $E$ is the $\mathsf{Ext}$ one-step extension ledger from a source history and displayed mark to the resulting history.
+\item $T$ is the $\Cont$ continuation trace row, recording the finite concatenation route consumed by downstream replay.
+\item $Q$ is the continuation-trace normal form row, asserting that the same generated history route is read by the displayed continuation trace rather than by an external quotient.
+\item $R$ records componentwise $\hsame$ transport for $M,H,E,T,Q$ and the local classifier row.
+\item $P$ is the $\Pkg$ provenance over $\MarkHistContSpineUp$, $\BMark$, $\BHist$, $\mathsf{Ext}$, $\Cont$, $\hsame$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MarkHistContSpineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,H,E,T,Q,R,P,N$. It has no coordinate for package formation, signature equality, hidden history quotienting, external normalization, or an unrecorded continuation route.
+\end{definition}
+
+\begin{theorem}[MarkHistContSpine NameCert obligations]
+\label{thm:mark-hist-cont-spine-obligations}
+For every accepted $\MarkHistContSpineUp$ carrier
+$$
+K=(M,H,E,T,Q,R,P,N),
+$$
+the local $\NameCert_{\MarkHistContSpineUp}$ surface consists exactly of carrier admission for raw mark emissions, generated history rows, one-step extension rows, continuation trace rows, continuation-trace normal form, componentwise $\hsame$ transport, provenance, and local naming. No obligation may replace those rows by package structure, signature equality, quotient histories, external normalization, or an unrecorded continuation route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mark-hist-cont-spine-carrier}. The visible kernel rows are $M,H,E,T,Q$, and the structural rows are $R,P,N$.
+
+The raw mark and history obligations are read from $M,H$. The one-step extension obligation is read from $E$, and the continuation obligation is read from $T$.
+
+The normal-form row $Q$ records only that the displayed continuation trace has the stated generated history shape. It does not identify histories by a quotient or by an external conversion principle.
+
+Finally $R,P,N$ transport, source, and name the same finite packet. Since no excluded object is stored in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MarkHistContSpine continuation trace]
+\label{thm:mark-hist-cont-spine-continuation-trace}
+Every continuation read from an accepted $\MarkHistContSpineUp$ packet factors through the displayed route
+$$
+\BMark,\ \BHist,\ \mathsf{Ext},\ \Cont,\ \hsame,\ \NameCert .
+$$
+The read exposes raw marks, generated histories, one-step extensions, the continuation trace, trace normal form, componentwise transport, provenance, and local naming before any downstream kernel consumer may inspect the trace.
+\end{theorem}
+\begin{proof}
+Start with the raw mark row $M$ and generated history row $H$. They expose the finite source material of the trace.
+
+Use the extension row $E$ to read each displayed one-step move. The continuation row $T$ then concatenates those moves inside the generated $\BHist$ surface.
+
+Read the normal-form row $Q$ and transport row $R$ last. They keep the trace attached to the same generated history shape without replacing it by quotient history equality or external normalization.
+\end{proof}
+
+\begin{theorem}[Additive continuation dependency]
+\label{thm:mark-hist-cont-spine-add-cont-dependency}
+Any arithmetic consumer that reads a $\MarkHistContSpineUp$ continuation row as an additive continuation must pass through \autoref{ch:concrete-instances-add-namecert} and its unary continuation route. The spine itself supplies only the displayed $\BMark$, $\BHist$, $\mathsf{Ext}$, and $\Cont$ rows, with transport, provenance, and local naming; it does not create $\AddUp$ arithmetic or the unary-source discipline required by additive continuation.
+\end{theorem}
+\begin{proof}
+Project the continuation trace of \autoref{thm:mark-hist-cont-spine-continuation-trace}. The rows $M,H,E,T,Q,R,P,N$ expose generated marks, generated histories, one-step extension, displayed continuation, trace normal form, transport, provenance, and naming.
+
+An additive reading needs more than those rows. By \autoref{thm:addup-natup-sibling-dependency-route}, an accepted $\AddUp$ row first reads its two sources through the unary $\NatUp$ spine and only then consumes the displayed $\Cont$ witness as additive output.
+
+Thus the present spine can hand a continuation trace to a downstream consumer, but the arithmetic interpretation is supplied by the $\AddUp$ sibling route. Without that route, the trace remains a mark-history continuation packet rather than an additive continuation certificate.
+\end{proof}
+
+\begin{theorem}[MarkHistContSpine nonescape]
+\label{thm:mark-hist-cont-spine-nonescape}
+Every public consumer of an accepted $\MarkHistContSpineUp$ packet receives only the finite rows $M,H,E,T,Q,R,P,N$. The packet cannot export package formation, signature equality, quotient-history identification, external normalization, a hidden continuation route, or any object above the mark-history-continuation spine.
+\end{theorem}
+\begin{proof}
+Apply the obligations theorem, \autoref{thm:mark-hist-cont-spine-obligations}. It fixes the admitted packet surface to raw marks, histories, extension, continuation, normal form, transport, provenance, and local naming.
+
+Apply the continuation-trace theorem, \autoref{thm:mark-hist-cont-spine-continuation-trace}. Any trace consumer must read those rows before the continuation trace is public.
+
+The omitted structures are not fields of the carrier. A consumer can therefore use the packet only as a finite kernel-spine NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MarkHistContSpineUp$ read that exposes a continuation trace without first displaying $M,H,E,T,Q,R,P,N$ refutes the carrier surface.}
+
+\independenceWitness{continuationtrace, continuationtracenormalform, namecert, core: no listed sibling jointly carries raw BMark emissions, generated BHist rows, Ext one-step rows, Cont trace rows, trace normal form, hsame transport, provenance, and local NameCert data as one finite kernel-spine packet.}
+
+Future Lean work for this packet must exhibit nontriviality and field faithfulness as TasteGate instances: a $\mathsf{Nontrivial}$ witness separates at least two accepted spine carriers, and $\mathsf{FieldFaithful}$ confirms that the displayed $M,H,E,T,Q,R,P,N$ fields are the classifier surface consumed by the local NameCert row.
+
+\closureat{MarkHistContSpineUp}{seedStr}
+
+\begin{closurestatus}{\MarkHistContSpineUp}
+  \constructivestory{A $\MarkHistContSpineUp$ packet is generated from BMark emissions, BHist generated histories, Ext one-step rows, Cont continuation trace rows, continuation-trace normal form, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mark-hist-cont-spine-carrier}, \autoref{thm:mark-hist-cont-spine-obligations}, and \autoref{thm:mark-hist-cont-spine-continuation-trace} seed the finite mark-history-continuation spine packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close package formation, signature equality, quotient histories, external normalization, Lean verification, TasteGate instance checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, raw mark exposure, generated history exposure, extension rows, continuation trace rows, trace normal form, nonescape, and TasteGate field faithfulness for BEDC.Derived.MarkHistContSpineUp.}
+\end{closurestatus}

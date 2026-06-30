@@ -47,6 +47,60 @@ The analytic handoff then passes through $S$, $R$, and $E$. The stream row recor
 Finally, $H$, $C$, $P$, and $N$ preserve the displayed rows as BEDC certificate data. Thus every obligation is discharged through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and no host interval lattice or open-cover compactness theorem can enter the local surface.
 \end{proof}
 
+\begin{theorem}[Finite interval lattice endpoint order]
+\label{thm:finite-interval-lattice-endpoint-order}
+Let $Q=(D,I,L,J,M,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntervalLatticeUp$ carrier. Every listed dyadic interval cell exposed by $I$ must display its lower and upper endpoint comparison through the $\DyadicRatCoreUp$ row $D$ before any meet or join table entry in $M$ or $J$ can be read as a lattice operation.
+
+Consequently $J$ and $M$ are public only as endpoint-ordered finite tables over the cells listed in $I$. They cannot supply lattice operations for L10 Real or Completion consumers when the endpoint-order evidence from $D$ is absent.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-lattice-carrier}. The row $D$ is the dyadic endpoint and radius ledger, while $I$ is the finite list of dyadic interval cells with displayed lower and upper endpoints.
+
+Read a cell from $I$. Its lower and upper endpoint comparison is not a property of an ambient interval lattice; it is a displayed dyadic comparison supplied by $D$ and carried with the cell row.
+
+The finite join table $J$ and meet table $M$ are indexed by the cells already listed in $I$. A table entry can therefore be interpreted only after the endpoint order of the two source cells and the candidate result cell has been exposed through $D$.
+
+If that endpoint-order evidence is hidden, the carrier still contains symbols named $J$ and $M$, but they no longer certify meet or join operations for the visible interval cells. Hence L10 Real and Completion consumers must read $D$ and $I$ before using the meet and join tables.
+\end{proof}
+
+\begin{theorem}[Finite interval lattice Real-completion route]
+\label{thm:finite-interval-lattice-real-completion-route}
+Let $Q=(D,I,L,J,M,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntervalLatticeUp$ carrier. Every $\RealUp$ or $\CompletionUp$ consumer of a meet or join read from $M$ or $J$ must pass through the finite route
+$$
+D,I,L,J,M,S,R,E,H,C,P,N .
+$$
+Thus the consumer first reads dyadic endpoint rows, finite interval-cell rows, the located interval source, the meet and join tables, StreamName windows, RegSeqRat readback, the Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before reading completion-facing data.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-interval-lattice-carrier}. The tuple exposes the dyadic endpoint ledger $D$, finite interval cells $I$, located source row $L$, meet and join tables $M,J$, stream windows $S$, regular readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Apply the endpoint-order theorem \autoref{thm:finite-interval-lattice-endpoint-order}. It forces every meet or join table entry to read the lower and upper endpoint comparisons from $D$ through the listed cells $I$ before the entry can serve as a lattice operation.
+
+The located source and analytic handoff then remain downstream of the same finite route. The row $L$ supplies the located interval source, $S$ records the inspected endpoint windows, $R$ supplies the $\RegSeqRatUp$ readback, and $E$ exposes the terminal $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name only those displayed rows. Therefore a $\RealUp$ or $\CompletionUp$ consumer cannot read completion-facing data from the lattice unless the dyadic endpoints, interval cells, located source, stream windows, regular readback, Real seal, transport, replay, provenance, and local NameCert rows have already been exposed.
+\end{proof}
+
+\begin{theorem}[Finite interval lattice refinement induction]
+\label{thm:finite-interval-lattice-refinement-induction}
+Let $Q=(D,I,L,J,M,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntervalLatticeUp$ carrier. Suppose a displayed subdivision-depth row refines each listed cell of $I$ by finitely many dyadic subcells whose endpoint comparisons are read through the same $\DyadicRatCoreUp$ row $D$. Then the meet and join tables refine by induction over the displayed depth: at every finite stage the refined tables remain indexed by dyadic endpoint rows from $D$, expose only $\StreamNameUp$ windows from $S$, preserve $\RegSeqRatUp$ readback through $R$, and pass the terminal $\RealUp$ seal only through $E$.
+
+Consequently a $\RealUp$ or $\CompletionUp$ consumer of the refined lattice must still read the route
+$$
+D,I,L,J,M,S,R,E,H,C,P,N
+$$
+before using any refined meet, refined join, or refined endpoint cell.
+\end{theorem}
+\begin{proof}
+Induct on the displayed subdivision-depth row. At depth zero the refined table is the original finite table of \autoref{thm:finite-interval-lattice-real-completion-route}, so all meet and join reads already pass through $D,I,L,J,M,S,R,E,H,C,P,N$.
+
+For the successor step, split each currently displayed cell into its finitely listed dyadic subcells. The endpoint-order theorem \autoref{thm:finite-interval-lattice-endpoint-order} forces the lower and upper endpoint comparisons of every subcell to be read through $D$ before a table entry can be interpreted.
+
+The finite meet and join rows are then rebuilt table-entry by table-entry. Each entry either displays the least containing refined cell, displays the greatest common refined subcell, or records the corresponding refusal row already governed by $J$ and $M$.
+
+Finally the analytic readback is unchanged. The stream windows remain the finite windows in $S$, the rational readback remains the row $R$, and the terminal real-name exposure is still sealed by $E$. Transport, replay, provenance, and local naming in $H,C,P,N$ preserve the same route, so the induction cannot introduce an infinite lattice, selected limit, quotient equality, or ambient completion principle.
+\end{proof}
+
 \closureat{FiniteIntervalLatticeUp}{seedStr}
 
 \begin{closurestatus}{\FiniteIntervalLatticeUp}

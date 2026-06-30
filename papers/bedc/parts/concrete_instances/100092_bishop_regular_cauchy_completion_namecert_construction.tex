@@ -163,6 +163,86 @@ For the step, extend the same finite window rather than choosing a new stream re
 Finally apply seal stability and nonescape exactness, \autoref{thm:bishop-regular-cauchy-completion-seal-stability} and \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. The terminal $\RealUp$ seal is downstream of the finite window recursion, while quotient stream equality, selected limits, countable choice, host equality, and ambient Real completeness have no carrier coordinate from which they could be read.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion finite-window induction]
+\label{thm:regular-cauchy-completion-finite-window-induction}
+Every accepted $\BishopRegularCauchyCompletionUp$ packet consumes its finite observation windows by induction over the displayed $\StreamNameUp$ sections. At each step the read preserves the $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the terminal $\RealUp$ seal. The induction exports no selected limit, quotient representative, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionFiniteWindowInduction}
+\begin{proof}
+Project the carrier $B=(E,S,R,D,W,H,C,P,N)$ from \autoref{def:bishop-regular-cauchy-completion-carrier}. The finite observation ledger is the $\StreamNameUp$ row $S$, with regular readback in $R$, dyadic tolerance control in $E,D$, common-tail scope in $W$, and terminal sealing in $E$ through the Real-facing route.
+
+Run induction over the displayed window ledger. The base window reads the first finite StreamName section, then exposes the corresponding $\RegSeqRatUp$ row and dyadic tolerance rows before any $\RealUp$ seal can be inspected.
+
+For the step, extend only the displayed StreamName section. Common-tail modulus stability and diagonal-window stability keep the enlarged window inside the same $D,W,S,R,E$ route, so the regular readback and dyadic tolerance rows are preserved rather than replaced by a chosen representative.
+
+Finally replay the enlarged route through $H,C,P,N$ and then through the Real seal discipline. Since the carrier has no coordinate for a selected limit, quotient representative, countable-choice schedule, or ambient Real completeness, the induction cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy completion finite-stage induction]
+\label{thm:bishop-regular-cauchy-completion-finite-stage-induction}
+Every accepted finite-stage completion read of a $\BishopRegularCauchyCompletionUp$ packet factors through the displayed sequence of rows
+$$
+D,W,S,R,E,H,C,P,N.
+$$
+The stage induction first fixes the dyadic tail budget $D$ and common-tail window $W$, then reads the finite $\StreamNameUp$ observation row $S$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. No induction step may replace the finite-stage route by quotient stream equality, a selected limit, a countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionFiniteStageInduction}
+\begin{proof}
+Induct on the finite stage named by the window row $W$. The base stage is the first displayed StreamName window, so \autoref{thm:regular-cauchy-completion-finite-window-induction} already forces the read through $D,W,S,R,E$ before any terminal seal is visible.
+
+For the successor stage, extend the displayed window while keeping the same dyadic budget. Common-tail modulus stability from \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability} keeps the enlarged stage inside the fixed $D,W$ route.
+
+The regular readback and seal rows then follow the existing finite-window induction. Componentwise transport, replay, provenance, and naming are carried by $H,C,P,N$ rather than by an external representative of the Cauchy stream.
+
+Finally use diagonal-window stability from \autoref{thm:bishop-regular-cauchy-completion-diagonal-window-stability}. It blocks any comparison that skips the displayed stage rows, so the induction cannot export quotient stream equality, a selected limit, countable choice, host real equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy completion universal handoff]
+\label{thm:real-cauchy-completion-universal-handoff}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
+$\BishopRegularCauchyCompletionUp$ packet factors through the single displayed
+route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp
+\longmapsto \RealUp
+$$
+together with the packet's $\BHist$, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The
+handoff is obtained by combining the common-tail, finite-window,
+diagonal-window, tail-diameter, seal-stability, and nonescape rows already
+displayed in this chapter; it exports no selected limit, quotient stream
+representative, host real equality, countable-choice schedule, or ambient
+$\RealUp$ completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionUniversalHandoff}
+\begin{proof}
+Start with finite-window induction from
+\autoref{thm:regular-cauchy-completion-finite-window-induction}. It forces the
+consumer to read $\StreamNameUp$ windows by finite induction while preserving
+the $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance rows, transport,
+replay, provenance, and terminal Real seal.
+
+Next apply common-tail modulus stability and diagonal-window stability from
+\autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}
+and
+\autoref{thm:bishop-regular-cauchy-completion-diagonal-window-stability}. These
+rows fix the shared dyadic budget and common window before the stream,
+regularity, and Real-seal rows can be consumed.
+
+Use tail-diameter control to keep the two regular readbacks inside the same
+finite completion comparison. Then apply seal stability and the abstract bridge
+route, \autoref{thm:bishop-regular-cauchy-completion-seal-stability} and
+\autoref{thm:bishop-regular-cauchy-completion-abstract-bridge-route}, to send
+the same displayed packet to either a $\RealUp$ consumer or a
+$\CompletionUp$-facing consumer.
+
+Finally apply nonescape exactness from
+\autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. Since the
+carrier contains only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows over the dyadic-stream-regular-Real route, no excluded
+host-level or choice-level object can be exported by the universal handoff.
+\end{proof}
+
 \begin{theorem}[Bishop regular Cauchy completion tail equivalence is quotient-free]
 \label{thm:bishop-regular-cauchy-completion-tail-equivalence-quotient-free}
 Let $B=(E,S,R,D,W,H,C,P,N)$ and $B'=(E',S',R',D,W,H',C',P',N')$ be accepted $\BishopRegularCauchyCompletionUp$ packets sharing the same dyadic tail modulus $D$ and the same common-tail window $W$. Then their completion-facing comparison is carried only by the displayed rows
@@ -231,6 +311,24 @@ Next fix the tolerance and tail data. The common-tail modulus stability theorem 
 Transport is then confined by \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}. The componentwise $\hsame$ row and displayed $\Cont$ replay preserve the same route through $S,R,D,W$ and do not introduce an outside real-equality coordinate.
 
 Finally apply seal stability and nonescape exactness. The theorem \autoref{thm:bishop-regular-cauchy-completion-seal-stability} places the terminal seal $E$ downstream of the displayed route, while \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness} removes quotient equality, selected limits, countable choice, host equality, and ambient Real completeness from the accepted consumer boundary.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy completion density handoff]
+\label{thm:bishop-regular-cauchy-completion-density-handoff}
+Every $\RealSeparabilityUp$ consumer, and every countable-density consumer, of an accepted $\BishopRegularCauchyCompletionUp$ packet must first read the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, terminal $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows supplied by that completion packet before it may consume any dense embedding or countable dense surface. The handoff is the finite route
+$$
+\BishopRegularCauchyCompletionUp \longmapsto
+\RealUp \longmapsto \RealSeparabilityUp ,
+$$
+where the first arrow is the quotient-free Real-seal route of this chapter and the second arrow is the RealSeparability hub route through regular rational readback and completion-facing dense embeddings. It exports no host dense subset, selected approximant, quotient real equality, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionCarrier\_density\_handoff}
+\begin{proof}
+Begin with the Real-seal consumer theorem \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}. It forces every Real-facing read of the Bishop regular Cauchy completion packet through the finite StreamName window, RegSeqRat readback, dyadic tolerance, common-tail, transport, replay, provenance, and local naming rows before the terminal $\RealUp$ seal is visible.
+
+Next apply the universal handoff of \autoref{thm:real-cauchy-completion-universal-handoff}. The same displayed route serves either a $\RealUp$ consumer or a completion-facing consumer, so a density consumer cannot bypass the packet by reading a quotient representative, selected limit, host equality coordinate, or choice schedule.
+
+Finally use the $\RealSeparabilityUp$ hub route of \autoref{ch:concrete-instances-real-separability-namecert}, in particular the RegSeqRat forward route \autoref{thm:real-separability-regseqrat-forward-route}. That route admits completion-facing density only after the regular rational readback and the dense-embedding boundary have been exposed. Composing the two routes gives the stated density handoff and leaves no coordinate for host dense subsets, selected approximants, quotient real equality, countable choice, or ambient Real completeness.
 \end{proof}
 
 \begin{theorem}[Bishop regular Cauchy completion obligation package]
@@ -327,6 +425,25 @@ Real completeness, quotient stream equality, selected limits, host equality,
 or countable choice.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion consumer exactness]
+\label{thm:bishop-regular-cauchy-completion-consumer-exactness}
+Every $\CompletionUp$-facing consumer of an accepted $\BishopRegularCauchyCompletionUp$ packet is exhausted by the displayed dyadic endpoint ledger, $\StreamNameUp$ finite observations, $\RegSeqRatUp$ readback, dyadic tail budget, classifier transport, terminal $\RealUp$ seal handoff, and local $\NameCert$ rows. Equivalently, the consumer-facing route is
+$$
+E,S,R,D,W,H,C,P,N \longmapsto \CompletionUp,
+$$
+where the left side is the concrete regular Cauchy completion packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no ambient $\RealUp$ completeness, quotient stream equality, selected limit, countable-choice schedule, host real equality, or detached equality of Real names.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionConsumerExactness}
+\begin{proof}
+First apply seal stability from \autoref{thm:bishop-regular-cauchy-completion-seal-stability}. It forces any terminal Real read to pass through the finite endpoint, stream-window, regular readback, tail budget, common-tail, transport, replay, provenance, and local naming rows.
+
+Next use the universal handoff and nonescape exactness supplied by \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer} and \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. These theorems keep completion-facing reads inside the displayed packet $E,S,R,D,W,H,C,P,N$ and leave no coordinate for quotient streams, selected limits, countable choice, host equality, or detached Real-name equality.
+
+Then apply the public Real-seal export of \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}. The public export is already the quotient-free handoff over DyadicRatCore endpoints, StreamName windows, RegSeqRat readback, the terminal Real seal, and the structural rows.
+
+Finally use the filter-Real handoff of \autoref{thm:bishop-regular-cauchy-completion-filter-real-handoff}. It shows that even a CauchyFilter-facing basis reaches the terminal Real seal only through the same displayed route. Therefore every Completion-facing consumer sees exactly that finite regular Cauchy completion surface, and not an ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[Bishop regular Cauchy completion abstract bridge route]
 \label{thm:bishop-regular-cauchy-completion-abstract-bridge-route}
 Every abstract $\CompletionUp$-facing consumer of an accepted $\BishopRegularCauchyCompletionUp$ packet must pass through the displayed carrier admission, classifier transport, regularity-envelope, common-tail modulus stability, Real-seal handoff, and nonescape rows before reading the abstract completion interface. The bridge-facing route is
@@ -365,13 +482,27 @@ Finally apply the abstract bridge route of \autoref{thm:bishop-regular-cauchy-co
 \end{proof}
 \leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionMatureRoute}
 
+\begin{theorem}[Bishop regular Cauchy completion limit-witness route]
+\label{thm:bishop-regular-cauchy-completion-limit-witness-route}
+Any $\RegularCauchyLimitWitnessUp$ consumer of an accepted $\BishopRegularCauchyCompletionUp$ packet must factor through dyadic tail modulus, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before reading a limit witness. The witness-facing route exports the mature regular Cauchy completion surface; it does not export quotient stream equality, selected limits outside the displayed packet, countable choice, host Real equality, detached Real-name equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the mature route of \autoref{thm:bishop-regular-cauchy-completion-mature-route}. It already factors every mature completion-facing read through the obligation package, scoped kernel route, public Real-seal export, and abstract bridge route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply the public Real-seal export of \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}. The limit-witness consumer sees the terminal Real read only as a quotient-free seal after dyadic endpoints, stream windows, regular readback, tail data, transport, replay, provenance, and local naming have been displayed.
+
+Next use the filter-Real handoff of \autoref{thm:bishop-regular-cauchy-completion-filter-real-handoff}. It keeps even filter-facing basis reads on the same displayed route before the terminal Real seal can be used, so a $\RegularCauchyLimitWitnessUp$ consumer cannot bypass the finite tail and readback rows.
+
+Finally apply nonescape exactness from \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. Since the carrier has no coordinate for quotient stream equality, selected limits outside the displayed packet, countable choice, host Real equality, detached Real-name equality, or ambient Real completeness, the witness-facing read remains exactly the finite regular Cauchy completion route.
+\end{proof}
+
 \begin{closurestatus}{\BishopRegularCauchyCompletionUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, \autoref{thm:bishop-regular-cauchy-completion-seal-stability}, \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, \autoref{thm:bishop-regular-cauchy-completion-tail-determinacy}, \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}, \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}, \autoref{thm:bishop-regular-cauchy-completion-abstract-bridge-route}, and \autoref{thm:bishop-regular-cauchy-completion-mature-route} close the finite regular Cauchy completion dependency surface, public Real-seal export, mature consumer boundary, and bridge-facing route to the abstract completion interface over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionObligationClosurePackage}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionMatureRoute}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, host real equality, selected limits, countable choice, Lean verification, or bridge checking.}
-  \upgradepath{Lean verification requires a theorem for the packaged carrier admission, classifier transport, regularity-envelope, common-tail modulus stability, Real-seal handoff, and non-escape rows of BEDC.Derived.BishopRegularCauchyCompletionUp over the same displayed BEDC primitives.}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, host real equality, selected limits, countable choice, or standard bridge checking.}
+  \upgradepath{The next formal upgrade is a standard bridge theorem for the mature route over the same displayed BEDC primitives.}
   \constructivestory{A $\BishopRegularCauchyCompletionUp$ packet is generated from DyadicRatCore endpoints, StreamName finite observations, RegSeqRat regularity, a dyadic tail modulus, a common-tail window, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

@@ -77,6 +77,48 @@ Next the route reaches $R$ and $M$. These rows ensure that each function value a
 Only after those rows are present can $E$ hand the inspected target and rational error to the $\WeierstrassApproximationUp$ consumer. The structural rows $H,C,P,N$ preserve and name the same route, so the excluded compactness, choice, equality, quotient, norm, completeness, verification, and bridge data cannot be recovered from the packet.
 \end{proof}
 
+\begin{definition}[Constructive finite Stone--Weierstrass carrier]
+\label{def:stone-weierstrass-constructive-carrier}
+Following Bishop and Bridges, the constructive finite route inside a $\StoneWeierstrassUp$ packet is the subpacket
+$$
+S_{\mathrm{fin}}=(K,A_{\mathrm{fin}},U_{\mathrm{fin}},V_{\mathrm{fin}},R_{\mathrm{fin}},M_{\mathrm{fin}},E_{\mathrm{fin}},H,C,P,N)
+$$
+whose algebra, constants, separation, real-window, modulus, and approximation rows are all read as finite displayed ledgers. The compact source $K$ is still the source of \autoref{ch:concrete-instances-compact-namecert}; the continuous generators in $A_{\mathrm{fin}}$ are still read through \autoref{ch:concrete-instances-continuousmap-namecert}; and the approximation handoff $E_{\mathrm{fin}}$ remains a consumer of \autoref{ch:concrete-instances-weierstrass-approximation-namecert}.
+
+The classifier for this subpacket compares only the displayed finite rows. It has no coordinate for a host dense subalgebra, an externally completed function space, a selected family of all separating functions, pointwise function equality outside the named windows, or a host supremum norm.
+\end{definition}
+
+\begin{theorem}[Constructive Stone--Weierstrass NameCert obligations]
+\label{thm:stone-weierstrass-constructive-namecert-obligations}
+For every accepted constructive finite subpacket $S_{\mathrm{fin}}$ of \autoref{def:stone-weierstrass-constructive-carrier}, the local $\NameCert_{\StoneWeierstrassUp}$ obligations are exactly the finite compact-source row, the finite continuous-generator ledger, the finite constants ledger, the displayed separating-witness ledger, the real-window evaluation ledger, the compact-continuity modulus ledger, the WeierstrassApproximation handoff row, and the structural $H,C,P,N$ rows.
+\end{theorem}
+\begin{proof}
+Project $S_{\mathrm{fin}}$ to the carrier of \autoref{def:stone-weierstrass-carrier}. Each row of the subpacket is one of the rows already named by the ambient $\StoneWeierstrassUp$ certificate, with the algebra, constants, separation, evaluation, modulus, and handoff rows restricted to finite displayed ledgers.
+
+Apply \autoref{thm:stone-weierstrass-namecert-obligations}. Its compact-source, algebra-closure, separation-exactness, evaluation, modulus, and handoff clauses are row-local, so restricting those rows to finite ledgers does not create any additional obligation.
+
+The structural rows $H,C,P,N$ are unchanged. They transport, replay, source, and name the same finite route, and the refusal clause continues to exclude host dense algebras, external function-space equality, selected infinite families, host norms, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Constructive separating-algebra handoff]
+\label{thm:stone-weierstrass-constructive-separating-algebra-handoff}
+Every approximation consumer of an accepted constructive finite subpacket factors through
+$$
+K \longmapsto A_{\mathrm{fin}},U_{\mathrm{fin}},V_{\mathrm{fin}}
+  \longmapsto R_{\mathrm{fin}},M_{\mathrm{fin}}
+  \longmapsto E_{\mathrm{fin}}
+  \longmapsto H,C,P,N .
+$$
+Thus the consumer receives only compact source data, finitely displayed continuous generators, constants, separating witnesses, real-window evaluations, compact-continuity moduli, WeierstrassApproximation handoff data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:stone-weierstrass-separating-algebra-route}. It already forces every approximation-facing read through $K,A,U,V,R,M,E,H,C,P,N$ before any handoff can be consumed.
+
+Now use the finite subpacket of \autoref{def:stone-weierstrass-constructive-carrier}. The rows $A,U,V,R,M,E$ are read as $A_{\mathrm{fin}},U_{\mathrm{fin}},V_{\mathrm{fin}},R_{\mathrm{fin}},M_{\mathrm{fin}},E_{\mathrm{fin}}$, so the same route passes through finite displayed ledgers only.
+
+Finally apply \autoref{thm:stone-weierstrass-constructive-namecert-obligations}. The obligation surface names no host dense subalgebra, external function-space equality, selected infinite separating family, host supremum norm, or ambient completeness row; therefore the handoff is exactly the constructive finite separating-algebra route.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\StoneWeierstrassUp$ approximation-facing read factors through compact source rows, finite continuous-map algebra generators, constants, separating witnesses, real-window evaluations, compact-continuity moduli, WeierstrassApproximation handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{compact, continuousmap, real, ring, weierstrass-approximation: $\StoneWeierstrassUp$ is not bijective to any listed sibling because it jointly carries compact source data, a finite separating algebra of continuous real-valued generators, constant and algebraic closure rows, real-window evaluation, compact-continuity routing, approximation handoff, transport, replay, provenance, and local naming.}
@@ -86,7 +128,7 @@ Only after those rows are present can $E$ hand the inspected target and rational
 \begin{closurestatus}{\StoneWeierstrassUp}
   \constructivestory{A $\StoneWeierstrassUp$ packet is generated from a compact source row, finite continuous-map algebra generators, constants, separating witnesses, real-window evaluations, compact-continuity moduli, WeierstrassApproximation handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stone-weierstrass-carrier}, \autoref{thm:stone-weierstrass-namecert-obligations}, and \autoref{thm:stone-weierstrass-separating-algebra-route} seed the finite separating-algebra route over compact, continuous-map, real, ring, and WeierstrassApproximation surfaces.}
+  \scopeclosed{\autoref{def:stone-weierstrass-carrier}, \autoref{def:stone-weierstrass-constructive-carrier}, \autoref{thm:stone-weierstrass-namecert-obligations}, \autoref{thm:stone-weierstrass-constructive-namecert-obligations}, \autoref{thm:stone-weierstrass-separating-algebra-route}, and \autoref{thm:stone-weierstrass-constructive-separating-algebra-handoff} seed the finite separating-algebra route over compact, continuous-map, real, ring, and WeierstrassApproximation surfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close nonconstructive compactness, choice-selected dense subsets, host function equality, ambient function-space quotients, host supremum norms, ambient completeness, Lean verification, or bridge checking.}

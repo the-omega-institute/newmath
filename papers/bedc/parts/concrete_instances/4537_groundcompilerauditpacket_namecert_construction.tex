@@ -44,6 +44,7 @@ G=(E,S,R,C,Q,M,B,X,H,T,P,N),
 $$
 the local $\NameCert_{\GroundCompilerAuditPacketUp}$ surface consists exactly of event-flow readback through $E$, source-channel readback through $S$, recognizer readback through $R$, certificate-gate readback through $C$, report-boundary readback through $Q$, module-inventory readback through $M$, no-hidden-input readback through $B$, source-channel export readback through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketNameCertObligations}
 \begin{proof}
 Start with the carrier projection. The rows $E,S,R,C,Q,M,B,X,H,T,P,N$ are the only public coordinates available to the local certificate.
 
@@ -58,6 +59,7 @@ Finally inspect $X,H,T,P,N$. The export row links the compiler packet to the sou
 \label{thm:groundcompiler-audit-packet-export-non-escape}
 Every public export from an accepted $\GroundCompilerAuditPacketUp$ packet factors through the displayed event-flow, source-channel, recognizer, certificate-gate, report-boundary, module-inventory, no-hidden-input, source-channel export, transport, continuation, provenance, and local naming rows of \autoref{def:groundcompiler-audit-packet-carrier}. The export surface carries no hidden compiler input, no host source scan, no report-as-proof conversion, no motif-as-object identity, no classifier-quotient collapse into raw equality, and no kernel acceptance claim outside the sibling ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketExportNonEscape}
 \begin{proof}
 Project an accepted carrier $G$. By \autoref{thm:groundcompiler-audit-packet-namecert-obligations}, every public export must pass through the listed NameCert rows.
 
@@ -102,6 +104,7 @@ The classifier of \autoref{def:groundcompiler-audit-packet-classifier} rejects p
 \label{thm:groundcompiler-audit-packet-query-replay}
 Every no-hidden-input query and every report-boundary read replayed from an accepted $\GroundCompilerAuditPacketUp$ packet must pass through the rows $B,Q,M,T,P,N$. The replay reads $B$ for the no-hidden-input $\BHist$ surface, $Q$ for report separation, $M$ for the inspected module ledger, $T$ for displayed $\Cont$ order, $P$ for $\Pkg$ provenance, and $N$ for local $\NameCert$ naming, with all componentwise $\hsame$ transport confined to the exposed carrier rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketQueryReplay}
 \begin{proof}
 Start from the accepted carrier and isolate the rows that a query replay can inspect. The no-hidden-input claim is named only by $B$, and the report-boundary claim is named only by $Q$.
 
@@ -120,6 +123,23 @@ Inspect the report and recognition rows first. The row $Q$ places metric reports
 Next inspect the channel and refusal rows. The source-channel row $S$ and the export row $X$ route legal source-channel information, and $B$ records the no-hidden-input boundary. These rows do not add a host source scan coordinate or a kernel acceptance proof coordinate to the compiler packet.
 
 Finally apply \autoref{thm:groundcompiler-audit-packet-metacic-separation} together with \autoref{thm:groundcompiler-audit-packet-carrier-exposure}. The only remaining rows are $H,T,P,N$, which preserve, replay, package, and name the same finite carrier; they do not turn report rows, motif rows, host scans, or kernel acceptance evidence into compiler proof evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketRefusalSeparation}
+
+\begin{theorem}[GroundCompiler audit packet obligation closure]
+\label{thm:groundcompiler-audit-packet-obligation-closure}
+For every accepted $\GroundCompilerAuditPacketUp$ carrier, the carrier row of \autoref{def:groundcompiler-audit-packet-carrier}, the classifier of \autoref{def:groundcompiler-audit-packet-classifier}, the NameCert obligations of \autoref{thm:groundcompiler-audit-packet-namecert-obligations}, the export nonescape theorem of \autoref{thm:groundcompiler-audit-packet-export-non-escape}, the MetaCIC separation theorem of \autoref{thm:groundcompiler-audit-packet-metacic-separation}, the carrier exposure theorem of \autoref{thm:groundcompiler-audit-packet-carrier-exposure}, the query replay theorem of \autoref{thm:groundcompiler-audit-packet-query-replay}, and the refusal separation theorem of \autoref{thm:groundcompiler-audit-packet-refusal-separation} assemble the complete $\obligationClosure$ surface for $\GroundCompilerAuditPacketUp$.
+
+The assembled surface exposes only the finite GroundCompiler audit packet rows. Report rows, motif rows, host scans, kernel acceptance evidence, and MetaCIC proof evidence remain outside the packet and cannot be projected from the local $\NameCert_{\GroundCompilerAuditPacketUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. Apply \autoref{def:groundcompiler-audit-packet-carrier} and \autoref{def:groundcompiler-audit-packet-classifier} to identify the finite rows and the admissible packet boundary.
+
+Next compose the certificate-facing obligations. The NameCert theorem reads back the event-flow, source-channel, recognizer, certificate-gate, report-boundary, module-inventory, no-hidden-input, export, transport, continuation, provenance, and local naming rows. The export nonescape theorem then prevents those rows from acquiring hidden compiler input, host source scans, report-as-proof conversion, motif identity, raw equality collapse, or kernel acceptance evidence outside the sibling source-channel route.
+
+The MetaCIC separation, carrier exposure, query replay, and refusal separation theorems supply the remaining boundary clauses. They keep MetaCIC proof evidence in the relevant MetaCIC packet, expose only $E,S,R,C,Q,M,B,X,H,T,P,N$, force no-hidden-input and report-boundary queries through $B,Q,M,T,P,N$, and prevent report rows, motif rows, host scans, and kernel acceptance rows from becoming compiler proof evidence.
+
+Thus every public obligation of the GroundCompiler audit packet is accounted for by the displayed finite rows, and every excluded evidence class remains outside the packet. This is exactly the obligation-closure surface claimed for $\GroundCompilerAuditPacketUp$.
 \end{proof}
 
 \closureat{GroundCompilerAuditPacketUp}{seedStr}

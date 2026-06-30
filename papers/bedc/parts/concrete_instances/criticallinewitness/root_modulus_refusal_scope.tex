@@ -17,6 +17,7 @@ Finally use \autoref{thm:critical-line-witness-modulus-comparison-route-totality
 \label{thm:critical-line-witness-root-zero-strip-exclusion}
 For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the supplied zero row $Z$ and critical-strip row $S$ cannot be replaced by host zero search, quotient representatives, analytic continuation, ambient completeness, or any detached zero-strip oracle. Downstream root-facing consumers must read $Z$ and $S$ only through the finite source triad and the displayed transport, continuation, package, and naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootZeroStripExclusion}
 \begin{proof}
 Read the root source triad. The zero and strip rows are supplied finite source rows, and the rational comparison ledger is exposed with them before any downstream boundary can inspect the packet.
 
@@ -40,4 +41,21 @@ First apply the root modulus ledger scope. The modulus-comparison side is exhaus
 Next apply the root zero-strip exclusion. It fixes the supplied zero and strip rows as finite source data and prevents replacement by host zero search, analytic continuation, quotient representatives, or ambient completeness.
 
 Finally use the RH-refusal ledger completeness theorem \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It identifies the downstream export as a refusal ledger rather than an RH proof surface, so the downstream consumer receives exactly the displayed finite package and none of the excluded proof data.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root public export]
+\label{thm:critical-line-witness-root-public-export}
+Every public root-facing consumer of an accepted $\CriticalLineWitnessUp$ packet receives exactly the finite package
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+This package is obtained by composing root modulus ledger scope, root zero-strip exclusion, and root RH-boundary refusal. The export contains no proof of $\mathsf{RH}$, no global zero classifier, no analytic-continuation certificate, no quotient representative, no host equality, and no ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_public\_export}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-root-modulus-ledger-scope}. It fixes the modulus and rational-comparison side of every root-facing read through $M,R,Q,H,C,P,N$.
+
+Next apply \autoref{thm:critical-line-witness-root-zero-strip-exclusion}. It keeps the supplied zero row $Z$ and critical-strip row $S$ attached to the same finite transport, continuation, package, and naming route.
+
+Finally apply \autoref{thm:critical-line-witness-root-rh-boundary-refusal}. It identifies the RH-facing boundary as a refusal package over $Z,S,M,R,Q,H,C,P,N$ rather than as proof data. The public root-facing consumer therefore receives exactly the displayed finite package and none of the refused RH, global-zero, analytic-continuation, quotient, host-equality, or ambient-completeness data.
 \end{proof}

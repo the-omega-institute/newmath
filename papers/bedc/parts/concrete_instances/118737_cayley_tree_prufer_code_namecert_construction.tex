@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CayleyTreePruferCodeUp$}
+\label{ch:concrete-instances-cayley-tree-prufer-code-namecert}
+\origin{human}
+
+Following Cayley and Prufer, the $\CayleyTreePruferCodeUp$ packet records the finite correspondence between labelled trees on a displayed vertex set and length-adjusted code lists. It sits over the graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the tree carrier of \autoref{ch:concrete-instances-tree-namecert}, the spanning-tree surface of \autoref{ch:concrete-instances-spanningtree-namecert}, and the unary/list discipline of \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-list-namecert}. The packet names only finite vertex labels, finite tree-edge ledgers, leaf-removal steps, code-list rows, replay rows, and local naming; it is not the matrix-tree theorem, a host graph isomorphism quotient, an unordered ambient tree set, or a choice principle selecting representatives.
+
+\begin{definition}[Cayley tree Prufer-code carrier]
+\label{def:cayley-tree-prufer-code-carrier}
+A $\CayleyTreePruferCodeUp$ carrier is a finite $\BHist$ packet
+$$
+P=(V,G,T,S,L,C,R,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite labelled-vertex row, read through $\NatUp$ size data and $\ListUp$ finite label enumeration.
+\item $G$ is the $\GraphUp$ edge-incidence row over those displayed labels.
+\item $T$ is the $\TreeUp$ acyclicity and connectedness row carried by the displayed graph data.
+\item $S$ is the $\SpanningTreeUp$ witness tying the tree rows to the graph rows.
+\item $L$ is the finite leaf-removal ledger, listing at each step the least displayed leaf and its unique neighbour.
+\item $C$ is the Prufer code-list row, a $\ListUp$ row whose entries are displayed labels and whose length is the unary predecessor predecessor of the vertex count when that count is at least two.
+\item $R$ is the reconstruction ledger, replaying the code list back to the same labelled tree rows.
+\item $H$ records componentwise $\hsame$ transport for vertex labels, graph edges, tree rows, spanning-tree rows, leaf-removal rows, code rows, reconstruction rows, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from tree-to-code removal and code-to-tree reconstruction.
+\item $Q$ is the $\Pkg$ provenance over $\CayleyTreePruferCodeUp$, $\GraphUp$, $\TreeUp$, $\SpanningTreeUp$, $\NatUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CayleyTreePruferCodeUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which the leaf-removal ledger and reconstruction ledger consume the same displayed vertex labels and tree rows. It has no coordinate for quotienting labelled trees by graph isomorphism, choosing representatives from an ambient tree set, invoking the matrix-tree determinant, or importing an infinite graph space.
+\end{definition}
+
+\begin{theorem}[Cayley tree Prufer-code NameCert obligations]
+\label{thm:cayley-tree-prufer-code-obligations}
+For every accepted $\CayleyTreePruferCodeUp$ carrier
+$$
+P=(V,G,T,S,L,C,R,H,K,Q,N),
+$$
+the local $\NameCert_{\CayleyTreePruferCodeUp}$ surface consists exactly of labelled-vertex exposure, graph-incidence exposure, tree exposure, spanning-tree compatibility, finite leaf-removal accounting, Prufer code-list exposure, reconstruction replay, componentwise transport, displayed continuation replay, package provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:cayley-tree-prufer-code-carrier}. The rows $V,G,T,S$ expose the labelled graph and tree data, while $L$ records the finite removal route that reads leaves and neighbours as displayed labels.
+
+The code row $C$ is a finite $\ListUp$ row controlled by the same unary size data in $V$. The reconstruction row $R$ consumes that list and the remaining displayed labels, so it cannot introduce a hidden tree or an unlisted vertex.
+
+The structural rows $H,K,Q,N$ transport, replay, source, and name the same packet. Since no excluded host coordinate occurs in the carrier, the local NameCert surface is exactly the finite Cayley--Prufer correspondence route.
+\end{proof}
+
+\begin{theorem}[Cayley tree Prufer-code replay]
+\label{thm:cayley-tree-prufer-code-replay}
+Every accepted $\CayleyTreePruferCodeUp$ packet replays in both finite directions:
+$$
+V,G,T,S \longmapsto L,C,H,K,Q,N
+$$
+for leaf-removal encoding, and
+$$
+V,C \longmapsto R,G,T,S,H,K,Q,N
+$$
+for reconstruction. The replay preserves the displayed labelled vertices, tree edges, and code entries, and it exports no matrix-tree determinant, graph-isomorphism quotient, ambient set of trees, or representative-selection principle.
+\end{theorem}
+\begin{proof}
+For encoding, read the displayed tree rows $G,T,S$ over the vertex row $V$. The leaf-removal ledger $L$ chooses leaves only from the finite displayed label list and records the neighbour label placed into the code row $C$.
+
+For reconstruction, start from $V$ and $C$. The reconstruction ledger $R$ attaches each code entry to the least displayed label not currently blocked by the remaining code list, then appends the final edge between the two remaining displayed labels.
+
+Both directions use the same transport, replay, provenance, and local naming rows $H,K,Q,N$. Therefore the replay is a finite labelled-tree/code correspondence inside the listed BEDC rows, with no appeal to determinant enumeration, quotient tree equality, ambient tree sets, or choice.
+\end{proof}
+
+\falsifiablePrediction{A $\CayleyTreePruferCodeUp$ consumer is refuted if it reads a Prufer code entry or reconstructed edge that is not attached to the displayed vertex-label row, graph row, tree row, spanning-tree row, leaf-removal ledger, reconstruction ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{graph, tree, spanningtree, nat, list: no listed sibling alone supplies the complete Cayley--Prufer packet, because only $\CayleyTreePruferCodeUp$ binds labelled vertices, graph incidence, tree rows, spanning-tree compatibility, leaf-removal encoding, code-list reconstruction, transport, replay, provenance, and local naming as one finite NameCert route.}
+
+\closureat{CayleyTreePruferCodeUp}{seedStr}
+
+\begin{closurestatus}{\CayleyTreePruferCodeUp}
+  \constructivestory{A $\CayleyTreePruferCodeUp$ packet is generated from finite labelled vertices, displayed graph incidence, displayed tree rows, spanning-tree compatibility, a finite leaf-removal ledger, a Prufer code-list row, a reconstruction ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cayley-tree-prufer-code-carrier}, \autoref{thm:cayley-tree-prufer-code-obligations}, and \autoref{thm:cayley-tree-prufer-code-replay} seed the finite labelled-tree and Prufer-code correspondence over Graph, Tree, SpanningTree, Nat, List, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the matrix-tree theorem, quotient graph isomorphism, an ambient set of all trees, representative choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, leaf-removal exactness, code-list length accounting, reconstruction replay, labelled-edge preservation, transport, replay, provenance, and local naming for BEDC.Derived.CayleyTreePruferCodeUp.}
+\end{closurestatus}

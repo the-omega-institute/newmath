@@ -26,6 +26,21 @@ Finally apply the dependency diamond. Theorem~\ref{thm:metacic-critical-path-pha
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathOpenPhaseSourceClosure}
 
+\begin{theorem}[MetaCIC critical-path open-phase source ledger discharge budget]
+\label{thm:metacic-critical-path-open-phase-source-ledger-discharge-budget}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any candidate-mediated normalization, residual confluence, or decidability discharge read that is allowed to interact with the current open phase must first display the four L10 source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ through the ledger row $L$. After those four faces are displayed, the read may inspect only the MetaCIC candidate row $N$, obstruction row $O$, handoff row $H$, and discharge-socket row $D$ together with the structural rows of $K$. The budget exports no closed subject reduction, global confluence, full beta-conversion decidability, quotient term equality, selected normal form, countable choice, trichotomy, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the packet rows of $K$. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} makes $L$ the ledger row through which the four current L10 source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are displayed.
+
+Next read the candidate-mediated budget. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} expose only the candidate, obstruction, unblock, discharge, handoff, continuation, package, and ledger rows of the accepted packet.
+
+The open-phase source closure then exhausts the permitted source interaction. Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} requires every admitted source read to factor through one of the four displayed faces, while Theorem~\ref{thm:metacic-critical-path-open-phase-source-nonescape} blocks the listed outside principles.
+
+Thus a normalization, residual confluence, or decidability discharge can use the current open phase only by first displaying the four source faces through $L$ and then staying inside the candidate, obstruction, handoff, discharge-socket, and structural rows already present in $K$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathOpenPhaseSourceLedgerDischargeBudget}
+
 \begin{theorem}[MetaCIC critical-path open-phase source nonescape]
 \label{thm:metacic-critical-path-open-phase-source-nonescape}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, no claim outside the open-phase source ledger can be exported by the current Phase Real and Completion route. In particular, the route exports no quotient real, host equality, selected limit, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness claim.
@@ -54,13 +69,15 @@ It remains to rule out omitted consumers. Theorem~\ref{thm:metacic-critical-path
 
 \begin{theorem}[MetaCIC critical-path open-phase exact-boundary handoff]
 \label{thm:metacic-critical-path-open-phase-exact-boundary-handoff}
-For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, if the open-phase source ledger is consumed through the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, then the resulting handoff factors through the same four-face exact boundary identified by Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness}. The handoff exports no quotient stream equality, selected host limit, countable-choice coordinate, aggregate MetaCIC credential, $\RealUp$ completeness claim, closed subject reduction, or full consistency coordinate.
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, if the open-phase source ledger is consumed through the four displayed faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, then every MetaCIC-candidate read, candidate-mediated normalization read, residual-confluence read, and discharge read in the resulting handoff factors through the same four-face exact boundary identified by Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness}. The handoff exports no quotient stream equality, selected host limit, countable-choice coordinate, aggregate MetaCIC credential, $\RealUp$ completeness claim, closed subject reduction, full confluence coordinate, or full consistency coordinate.
 \end{theorem}
 \begin{proof}
 Begin with the finite ledger rows. Definition~\ref{def:metacic-critical-path-open-phase-source-ledger} lists the packet rows $S,N,O,U,D,H,C,P,L$ together with exactly the four Phase Real source rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 
 Next exhaust the possible consumers. Theorem~\ref{thm:metacic-critical-path-open-phase-source-closure} says that every admitted source read factors through one of those rows, and Theorem~\ref{thm:metacic-critical-path-open-phase-consumer-totality} says that a current Phase Real and Completion consumer receives no fifth roadmap object and no completion principle beyond them.
 
-Finally identify the boundary. Theorem~\ref{thm:metacic-critical-path-exact-boundary-prefix-determinacy} matches the four open-phase prefixes with the exact-boundary ordering, and Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness} recognizes the same $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces as the accepted Real-completion exact boundary. The negative export list follows because neither the ledger exhaustion nor the four-face exactness theorem supplies any additional quotient, host-limit, choice, aggregate-credential, completeness, subject-reduction, or consistency coordinate.
+The candidate-mediated part is still a source read. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} expose only the candidate, obstruction, unblock, discharge, handoff, continuation, package, and ledger rows of the accepted packet, so candidate normalization and residual-confluence reads cannot bypass the displayed source faces.
+
+Finally identify the boundary. Theorem~\ref{thm:metacic-critical-path-exact-boundary-prefix-determinacy} matches the four open-phase prefixes with the exact-boundary ordering, and Theorem~\ref{thm:real-completion-exact-boundary-four-face-exactness} recognizes the same $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces as the accepted Real-completion exact boundary. The negative export list follows because neither the ledger exhaustion nor the four-face exactness theorem supplies any additional quotient, host-limit, choice, aggregate-credential, completeness, subject-reduction, confluence, or consistency coordinate.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathOpenPhaseExactBoundaryHandoff}

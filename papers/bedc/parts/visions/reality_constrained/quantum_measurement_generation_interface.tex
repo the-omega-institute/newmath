@@ -1,0 +1,214 @@
+\section{Quantum measurement as information generation}
+\label{sec:quantum-measurement-generation-interface}
+\origin{ai}
+\concretizedIn{ch:concrete-instances-measurement-residue-ledger-namecert}{Measurement residue ledgers are realized as finite projection, fiber, section-update, and audit NameCert rows.}
+
+\begin{remark}[Paper-side boundary]
+\label{rem:quantum-measurement-generation-boundary}
+This section records a structural interface between constructive
+information generation and quantum measurement. It is not a formulation
+of quantum mechanics, not a substitute for Hilbert-space dynamics, and
+not a derivation of the Born rule. Its role is narrower: to identify the
+measurement, projection, residue, and update grammar that a later
+physical quantum interface would have to certify.
+\end{remark}
+\leandef{BEDC.RealityConstrained.MeasurementBasis}
+\leandef{BEDC.RealityConstrained.MeasurementInterface}
+
+\begin{definition}[Quantum-facing generation layer]
+\label{def:quantum-facing-generation-layer}
+A \emph{quantum-facing generation layer} over a source carrier $T$ is a
+constructive information generation layer
+$$
+\mathcal I_n
+=
+(R_n,\sim_n,P_n,\Lambda_n,\mathsf{Cert}_n,\mathsf{Aud}_n)
+$$
+together with a displayed measurement-context row $M_n$. The readout
+$$
+P_n:T\to R_n
+$$
+is interpreted as the measurement-interface projection for that context,
+and $R_n$ is the corresponding outcome carrier. The context row records
+the preparation surface, observable or probe family, instrument
+configuration, and public outcome ledger. Without $M_n$, the same source
+readout is only an abstract projection row.
+\end{definition}
+
+\begin{principle}[Measurement results are licensed records]
+\label{prin:quantum-measurement-results-licensed-records}
+A quantum-facing outcome is not treated as a bare pre-existing value. It
+is an information row of the form
+$$
+\mathsf{Info}_n(t)
+=
+\bigl(P_n(t),\Lambda_n(t),\mathsf{Cert}_n(t),\mathsf{Aud}_n(t)\bigr)
+$$
+as in \autoref{def:layer-generated-information}, with the additional
+measurement-context row of
+\autoref{def:quantum-facing-generation-layer}. The visible outcome is
+$P_n(t)$; the licensed record includes the preparation, interface,
+classifier, evidence, replay, and audit data that make the outcome
+public.
+\end{principle}
+\leandef{BEDC.RealityConstrained.MeasurementGenerationWitness}
+\leanchecked{BEDC.RealityConstrained.MeasurementInterface.readback\_entry\_listed\_and\_projected}
+
+\begin{definition}[Measurement residue]
+\label{def:quantum-measurement-residue}
+For a quantum-facing generation layer and an outcome $r:R_n$, the
+measurement residue is the information fiber
+$$
+\operatorname{QFib}_n(r)
+:=
+\sum_{t:T}\bigl(P_n(t)\sim_n r\bigr).
+$$
+It is the source structure not separated by the chosen measurement
+interface. It is not a hidden classical value and not an additional
+outcome row of $R_n$.
+\end{definition}
+
+\begin{principle}[Projection is not hidden-variable assignment]
+\label{prin:quantum-projection-not-hidden-variable}
+Reading a source through a measurement interface compresses it to a
+public outcome and leaves a residual fiber. This does not assert that the
+source already carried a definite classical value for every possible
+measurement. It asserts only that a chosen layer has exposed one record
+surface while the remaining source distinctions are retained as fiber
+and ledger data.
+\end{principle}
+
+\begin{definition}[Hilbert-style axis packet]
+\label{def:quantum-hilbert-style-axis-packet}
+A \emph{Hilbert-style axis packet} is a candidate physical refinement of
+an information-generation axis family. It consists of a displayed carrier
+$H$, a finite or certified orthogonal probe family
+$$
+E=\{e_i:i\in I\},
+$$
+projection rows $\Pi_i:H\to H_i$, scalar readbacks $c_i$, and a ledger
+recording inner-product, normalization, and probe provenance. When such
+a packet is available, a state-like row may be displayed in the form
+$$
+\psi=\sum_{i\in I}c_i e_i
+$$
+at the certified resolution of the packet.
+\end{definition}
+
+\begin{principle}[Measurement bases are readout layers]
+\label{prin:quantum-measurement-bases-readout-layers}
+Different quantum measurement bases correspond, in this vocabulary, to
+different readout layers over the same source carrier. A position-like
+readout, a momentum-like readout, and two spin-direction readouts need
+not share a single classical refinement layer. When no displayed common
+refinement and readback ledger is present, the theory may compare the
+layers only through certified bridge rows, not by treating all outcomes
+as simultaneously present classical coordinates.
+\end{principle}
+
+\begin{principle}[Noncommutativity as absence of a classical common refinement]
+\label{prin:quantum-noncommutativity-common-refinement-boundary}
+For quantum-facing layers, noncommuting observables may be read
+structurally as a failure of a common classicalizing refinement: two
+readout surfaces over $T$ do not jointly descend to one visible carrier
+that records both outcome families with compatible readback maps. This
+principle is a typing guide. It does not by itself supply the operator
+commutator, the uncertainty bound, or the Hilbert-space theorem behind a
+particular physical model.
+\end{principle}
+
+\begin{definition}[Born-weight layer]
+\label{def:quantum-born-weight-layer}
+A \emph{Born-weight layer} over a Hilbert-style axis packet is an
+additional measure ledger assigning an outcome weight
+$$
+\mu_n(i)
+$$
+to each displayed projection row. In the usual quantum semantics this
+weight is
+$$
+\mu_n(i)=\|\Pi_i\psi\|^2.
+$$
+The layer must include normalization, positivity, finite or countable
+additivity at the declared scope, and calibration rows connecting the
+weights to empirical frequencies.
+\end{definition}
+
+\begin{principle}[Born rule is not supplied by projection grammar]
+\label{prin:quantum-born-rule-not-supplied-by-projection-grammar}
+Constructive information generation supplies source, readout, residue,
+axis, and ledger grammar. It does not, by itself, choose the Born weight
+map. A quantum physical theory must add the Born-weight layer of
+\autoref{def:quantum-born-weight-layer}, together with the physical
+calibration and experimental prediction rows that make those weights
+empirical.
+\end{principle}
+
+\begin{definition}[Section-style measurement update]
+\label{def:quantum-section-style-measurement-update}
+Given an outcome $r:R_n$, a section-style measurement update is a
+licensed map
+$$
+U_r:R_n\to\operatorname{QFib}_n(r)
+$$
+or, in a Hilbert-style packet, a normalized post-outcome row such as
+$$
+\psi\mapsto\frac{\Pi_r\psi}{\|\Pi_r\psi\|}.
+$$
+Such an update is admissible only when its domain, nonzero denominator
+condition, post-outcome carrier, and replay ledger are displayed.
+\end{definition}
+
+\begin{principle}[State update is a certified section]
+\label{prin:quantum-state-update-certified-section}
+The section-style reading of measurement update does not make collapse a
+mysterious primitive. It treats post-measurement state selection as a
+licensed section from a visible outcome surface into an admissible
+post-outcome fiber. Without the section certificate, the visible outcome
+does not determine a unique source row.
+\end{principle}
+
+\begin{definition}[Entanglement as non-product residue]
+\label{def:quantum-entanglement-nonproduct-residue}
+Let a composite source be read through local outcome carriers $R_A$ and
+$R_B$. A composite residue over $(r_A,r_B)$ is \emph{non-product} when
+there is no displayed equivalence
+$$
+\operatorname{QFib}_{AB}(r_A,r_B)
+\simeq
+\operatorname{QFib}_{A}(r_A)\times\operatorname{QFib}_{B}(r_B)
+$$
+compatible with the local readback ledgers. Such non-product residue is
+the information-generation form of an entanglement boundary.
+\end{definition}
+
+\begin{principle}[Entanglement keeps the source global]
+\label{prin:quantum-entanglement-global-source}
+An entangled composite may have local readouts while its residual source
+fiber remains global. Local outcomes do not exhaust the source, and a
+product of local fibers is not available without a displayed product
+decomposition certificate. This is the fiber-language counterpart of the
+usual refusal to treat an entangled state as a product state.
+\end{principle}
+
+\begin{principle}[Qubit boundary]
+\label{prin:quantum-qubit-boundary}
+A two-outcome readout resembles the binary carriers used in the
+Axis-Zeckendorf and golden conjugate interfaces, but a qubit is not just
+a two-point set. A qubit requires complex amplitudes, phase,
+normalization, admissible measurement axes, and Born weights. The binary
+carrier supplies only the visible outcome alphabet; the physical quantum
+content lives in the certified amplitude, phase, weight, and update
+layers.
+\end{principle}
+
+\begin{principle}[Quantum physical closure obligations]
+\label{prin:quantum-physical-closure-obligations}
+To turn the preceding grammar into a quantum physical theory one must add
+at least: Hilbert-space carrier laws, complex amplitude rows,
+observable/operator laws, unitary time-evolution rows, Born-weight
+calibration, measurement-update rules, tensor-product composition, and
+experiment-facing prediction ledgers. Without these rows the chapter
+records only the information-generation and measurement-projection
+syntax.
+\end{principle}

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DyadicModulusChoiceFreeRefinementUp$}
+\label{ch:concrete-instances-dyadic-modulus-choice-free-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicModulusChoiceFreeRefinementUp$ packet records the finite refinement route by which dyadic tolerance requests are sharpened before a regular rational sequence or Real-facing seal is read. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the choice-free selector boundary of \autoref{ch:concrete-instances-choicefreediagonalselector-namecert}. The packet gives L10 Real and Completion consumers a visible dyadic-modulus refinement surface without quotient reals, selected host limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic modulus choice-free refinement carrier]
+\label{def:dyadic-modulus-choice-free-refinement-carrier}
+A $\DyadicModulusChoiceFreeRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,Q,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger naming the requested dyadic scale and the refined scale consumed downstream;
+\item $Q$ is the finite refinement certificate proving that the downstream tolerance is no coarser than the requested dyadic bound;
+\item $W$ is the finite window schedule that determines which observations are inspected at the refined scale;
+\item $S$ is the $\StreamNameUp$ observation family opened by $W$;
+\item $R$ is the $\RegSeqRatUp$ witness row assembled from the finite observations and the refined dyadic tolerance;
+\item $E$ is the $\RealUp$ seal boundary available only after the regular rational witness row has been displayed;
+\item $H$ records componentwise $\hsame$ transport for dyadic, window, stream, regular, Real-seal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for the same route;
+\item $P$ is the $\Pkg$ provenance over $\DyadicModulusChoiceFreeRefinementUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ChoiceFreeDiagonalSelectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DyadicModulusChoiceFreeRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,Q,W,S,R,E,H,C,P,N$. It has no coordinate for a hidden selector, quotient real, selected limit, countable-choice schedule, or ambient real-completeness principle.
+\end{definition}
+\leandef{BEDC.Derived.DyadicModulusChoiceFreeRefinementUp.DyadicModulusChoiceFreeRefinementUp}
+
+\begin{theorem}[Dyadic modulus choice-free refinement obligations]
+\label{thm:dyadic-modulus-choice-free-refinement-obligations}
+For the carrier of \autoref{def:dyadic-modulus-choice-free-refinement-carrier}, the local $\NameCert_{\DyadicModulusChoiceFreeRefinementUp}$ surface consists exactly of carrier admission for the dyadic tolerance row $D$, refinement certificate $Q$, finite window schedule $W$, StreamName observations $S$, RegSeqRat witness $R$, RealUp seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The analytic content rows are $D,Q,W,S,R,E$, and they occur in the order needed by a Real-facing modulus consumer.
+
+The dyadic row $D$ and refinement row $Q$ determine the tolerated scale before any observation is opened. The finite window $W$ then bounds the StreamName reads $S$, and the RegSeqRat witness $R$ is assembled only from those displayed rows before the RealUp seal $E$ is available.
+
+The structural rows $H,C,P,N$ preserve and name the same route. Since the carrier contains no coordinate for hidden choice, quotient equality, selected limits, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus choice-free refinement stage induction]
+\label{thm:dyadic-modulus-choice-free-refinement-stage-induction}
+Let $M=(D,Q,W,S,R,E,H,C,P,N)$ be an accepted $\DyadicModulusChoiceFreeRefinementUp$ carrier whose window schedule is displayed as finite stages $W_j$. Induction over the stages preserves the route
+$$
+\DyadicRatCoreUp\longmapsto \StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp
+$$
+and keeps every successor refinement inside the displayed dyadic tolerance, observation, regular-witness, and Real-seal rows. No stage may introduce a quotient real, selected host limit, hidden cofinal selector, countable-choice schedule, unbounded observation scan, or ambient completeness claim for $\RealUp$.
+\end{theorem}
+\begin{proof}
+For the base stage, inspect the first displayed window row. Its dyadic scale is admitted by $D,Q$, its finite observations are exactly the corresponding part of $S$, and the partial regular witness is read through the same RegSeqRat route.
+
+For the successor stage, assume the displayed route has been preserved through $W_j$. The next finite window refines the dyadic tolerance by the same certificate row $Q$, opens only the next displayed StreamName observations, and repacks the enlarged finite readback into the RegSeqRat witness row before any RealUp seal is read.
+
+The transport, replay, provenance, and local naming rows are restrictions of $H,C,P,N$ to the same finite route. Thus the induction invariant is the displayed path from dyadic tolerance to StreamName observations, then to RegSeqRat witness and RealUp seal, with no carrier coordinate for the refused endpoints.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicModulusChoiceFreeRefinementUp$ read is refuted if it reaches a RegSeqRat or RealUp consumer without first displaying the dyadic tolerance row, refinement certificate, finite window schedule, StreamName observations, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, choicefreediagonalselector: no listed sibling is bijective to $\DyadicModulusChoiceFreeRefinementUp$ because this packet jointly carries dyadic refinement, finite observation scheduling, regular rational handoff, Real seal, choice-free selector provenance, transport, replay, and local naming as one finite route.}
+
+\closureat{DyadicModulusChoiceFreeRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicModulusChoiceFreeRefinementUp}
+  \constructivestory{A $\DyadicModulusChoiceFreeRefinementUp$ packet is generated from a dyadic tolerance ledger, refinement certificate, finite window schedule, StreamName observations, RegSeqRat witness, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-modulus-choice-free-refinement-carrier}, \autoref{thm:dyadic-modulus-choice-free-refinement-obligations}, and \autoref{thm:dyadic-modulus-choice-free-refinement-stage-induction} seed the choice-free dyadic modulus refinement route over DyadicRatCore, StreamName, RegSeqRat, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient real equality, selected host limits, countable choice, unbounded observation scans, ambient $\RealUp$ completeness, or a public standard bridge.}
+  \upgradepath{Formal closure requires checked carrier admission, dyadic refinement exactness, finite-window pullback, StreamName readback, RegSeqRat witness assembly, RealUp seal delivery, replay stability, and nonescape for the same finite packet.}
+\end{closurestatus}

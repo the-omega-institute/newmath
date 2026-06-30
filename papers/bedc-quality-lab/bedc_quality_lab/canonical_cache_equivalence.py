@@ -62,6 +62,15 @@ CACHE_BACKED_TARGETS: tuple[CacheEquivalenceTarget, ...] = (
             "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
         ),
     ),
+    CacheEquivalenceTarget(
+        target_id="dgt-neural-ablation",
+        owner_module="bedc_quality_lab.dgt_neural_ablation",
+        producer_command=("python3", "scripts/run_dgt_neural_ablation.py"),
+        json_artifact="reports/canonical/dgt-neural-ablation.json",
+        fingerprint_artifact="reports/canonical/dgt-neural-ablation.fingerprint.json",
+        summary_artifact="reports/runs/dgt-neural-ablation/summary.json",
+        raw_artifacts=("reports/runs/dgt-neural-ablation/raw_metrics.jsonl",),
+    ),
 )
 
 

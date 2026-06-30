@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyStaircaseUp$}
+\label{ch:concrete-instances-dyadic-cauchy-staircase-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicCauchyStaircaseUp$ packet records the finite precision staircase by which dyadic tolerance rows are opened in monotone order before a regular rational name is read back and sealed as a Real-facing row. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the effective-rate schedule of \autoref{ch:concrete-instances-cauchyrate-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite precision-schedule certificate; it is not a quotient completion, a selected limit, a countable-choice operator, trichotomy, host real equality, or a completeness theorem for $\RealUp$.
+
+\begin{definition}[Dyadic Cauchy staircase carrier]
+\label{def:dyadic-cauchy-staircase-carrier}
+A $\DyadicCauchyStaircaseUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected windows of the source rational stream.
+\item $D$ is the $\DyadicRatCoreUp$ precision row ledger, listing the dyadic tolerance rows requested by the consumer.
+\item $L$ is the monotone staircase ledger, recording that later displayed rows of $D$ refine earlier rows and that each read of $S$ is attached to the current step.
+\item $R$ is the $\RegSeqRatUp$ readback row exposed only after the relevant staircase step and stream window have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached after the staircase and regular readback route has been consumed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, dyadic precision rows, staircase ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $D,L,S,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyStaircaseUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyRateUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyStaircaseUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, selected limits, countable choice, trichotomy, host real equality, hidden stream equality, or $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicCauchyStaircaseUp.DyadicCauchyStaircaseTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic Cauchy staircase NameCert obligations]
+\label{thm:dyadic-cauchy-staircase-namecert-obligations}
+For every accepted $\DyadicCauchyStaircaseUp$ carrier $K=(S,D,L,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicCauchyStaircaseUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\StreamNameUp$ window row, $\DyadicRatCoreUp$ precision ledger, monotone staircase ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item precision visibility, requiring each consumed tolerance request to appear as a displayed row of $D$ before $L$ advances the staircase;
+\item monotone-step admission, requiring $L$ to record that later displayed precision rows refine earlier displayed rows and that no step is skipped by the readback route;
+\item window-readback routing, requiring $S$ to be opened at the current staircase step before $R$ is consumed;
+\item real-seal order, requiring $E$ to be read only after $D,L,S,R$ have all been displayed in the same finite route;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same precision, staircase, window, readback, and seal rows componentwise;
+\item ledger nonescape from quotient completion, selected limits, countable choice, trichotomy, host real equality, hidden stream equality, and $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-cauchy-staircase-carrier}. The accepted packet displays exactly the rows $S,D,L,R,E,H,C,P,N$.
+
+Precision visibility and monotone-step admission are the role of $D$ and $L$. The dyadic rows in $D$ name the requested tolerances, while $L$ records their displayed refinement order and attaches each opened stream window to the current step.
+
+Window-readback routing follows from the route order. A readback row $R$ can be consumed only after the current dyadic precision row and its staircase step have opened the finite window $S$.
+
+The real seal is downstream. The row $E$ is read after $D,L,S,R$, and the structural rows $H,C,P,N$ transport, replay, source, and name that same finite path.
+
+The nonescape clause follows because none of the excluded objects is a coordinate of the carrier. The local certificate therefore exports only the displayed precision-staircase surface.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy staircase L10 handoff]
+\label{thm:dyadic-cauchy-staircase-l10-handoff}
+Every accepted $\DyadicCauchyStaircaseUp$ carrier $K=(S,D,L,R,E,H,C,P,N)$ hands any L10 Real or Completion consumer the ordered finite route
+$$
+D \longrightarrow L \longrightarrow S \longrightarrow R \longrightarrow E .
+$$
+The route first displays the $\DyadicRatCoreUp$ precision rows, then the monotone staircase ledger, then the $\StreamNameUp$ window, then the $\RegSeqRatUp$ readback, and only then the $\RealUp$ seal. A consumer receives no quotient completion, selected limit, countable-choice selector, trichotomy datum, host real equality, hidden stream equality, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $K=(S,D,L,R,E,H,C,P,N)$. Projection gives the dyadic precision ledger $D$, the staircase ledger $L$, the stream-window row $S$, the regular readback row $R$, and the terminal seal $E$.
+
+The precision rows are consumed first. The staircase ledger $L$ records their monotone refinement order and fixes which window of $S$ is attached to each requested tolerance.
+
+The regular readback $R$ is then read through the opened window, and $E$ is reached only after that readback has been displayed. The rows $H,C,P,N$ preserve, replay, source, and name the same finite route.
+
+Since the route has no carrier coordinate beyond $D,L,S,R,E,H,C,P,N$, the handoff cannot export quotient completion, selected limits, countable choice, trichotomy, host real equality, hidden stream equality, or a completeness theorem for $\RealUp$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicCauchyStaircaseUp$ read is refuted if a Real or Completion consumer reaches a $\RealUp$ seal without displaying the DyadicRatCore precision rows, monotone staircase ledger, StreamName window, RegSeqRat readback, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{dyadicratcore, streamname, cauchy-rate, regseqrat, real: none alone is bijective with $\DyadicCauchyStaircaseUp$ because the packet jointly records finite precision rows, a monotone staircase ledger, stream windows, regular rational readback, terminal Real sealing, transport, replay, provenance, and local NameCert.}
+
+\closureat{DyadicCauchyStaircaseUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyStaircaseUp}
+  \constructivestory{A $\DyadicCauchyStaircaseUp$ packet is generated from StreamName windows, DyadicRatCore precision rows, a monotone staircase ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-staircase-carrier}, \autoref{thm:dyadic-cauchy-staircase-namecert-obligations}, and \autoref{thm:dyadic-cauchy-staircase-l10-handoff} seed the finite precision-staircase certificate between dyadic tolerance rows, stream windows, regular rational readback, and the Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, trichotomy, host real equality, hidden stream equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, precision visibility, monotone-step admission, window-readback routing, real-seal order, transport and replay stability, and ledger nonescape for BEDC.Derived.DyadicCauchyStaircaseUp.}
+\end{closurestatus}

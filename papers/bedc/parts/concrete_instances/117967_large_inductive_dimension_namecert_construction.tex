@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\LargeInductiveDimensionUp$}
+\label{ch:concrete-instances-large-inductive-dimension-namecert}
+\origin{human}
+
+Following Hurewicz--Wallman and Engelking, the $\LargeInductiveDimensionUp$ packet records the separator-recursive large inductive dimension as finite BEDC topology and boundary-cover data. It sits beside the small boundary route of \autoref{ch:concrete-instances-small-inductive-dimension-namecert}, the finite cover-order carrier of \autoref{ch:concrete-instances-coveringdimension-namecert}, the topology source of \autoref{ch:concrete-instances-topology-namecert}, the normal-space separation packet of \autoref{ch:concrete-instances-normalspace-namecert}, and the finite refinement carrier of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}. The packet names a displayed separator-boundary ledger; it does not assert a host dimension theorem, arbitrary open-cover compactness, selected separators outside the carrier, or a choice principle for boundary recursion.
+
+\begin{definition}[Large inductive dimension carrier]
+\label{def:large-inductive-dimension-carrier}
+A $\LargeInductiveDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,N,B,R,S,C,H,T,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\TopologyUp$ source row, exposing the finite open-set, closed-set, neighborhood, and boundary observations inspected by the packet.
+\item $N$ is the $\NormalSpaceUp$ closed-set separation row, recording the displayed separation route between closed sets before a separator boundary is read.
+\item $B$ is the boundary-cover data row, recording finite boundary-cover entries attached to the separator produced by $N$.
+\item $R$ is the recursive large-dimension ledger, recording that each separator-boundary read is consumed only through the displayed topology, normal-space, boundary-cover, and comparison rows.
+\item $S$ is the $\SmallInductiveDimensionUp$ comparison row, recording the finite handoff to the point-neighborhood boundary route without identifying the two inductive dimension packets.
+\item $C$ is the $\CoveringDimensionUp$ comparison row, recording the finite cover-order handoff used when separator-boundary covers are compared with finite refinement data.
+\item $H$ stores componentwise $\hsame$ transport for topology, separation, boundary cover, recursion, comparison, replay, provenance, and local naming rows.
+\item $T$ stores displayed $\Cont$ replay from a closed-set separation request through separator-boundary inspection, recursive ledger readback, small-dimension comparison, covering-dimension comparison, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\LargeInductiveDimensionUp$, $\TopologyUp$, $\NormalSpaceUp$, $\SmallInductiveDimensionUp$, $\CoveringDimensionUp$, $\FiniteCoverRefinementUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\LargeInductiveDimensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,N,B,R,S,C,H,T,P,A$. It has no coordinate for open-cover compactness, selected separator choice, quotient-topology equality, or an ambient theorem equating large inductive dimension with a host cover dimension.
+\end{definition}
+
+\begin{theorem}[Large inductive dimension NameCert obligations]
+\label{thm:large-inductive-dimension-namecert-obligations}
+For every accepted $\LargeInductiveDimensionUp$ carrier
+$$
+L=(X,N,B,R,S,C,H,T,P,A),
+$$
+the local $\NameCert_{\LargeInductiveDimensionUp}$ surface consists exactly of five obligation groups:
+\begin{enumerate}
+\item carrier admission for the displayed finite packet $L$;
+\item separator exactness through the $\TopologyUp$ source row $X$ and $\NormalSpaceUp$ closed-set separation row $N$;
+\item recursive boundary ledger exactness through the boundary-cover row $B$ and large-dimension recursion row $R$;
+\item comparison-row stability through the $\SmallInductiveDimensionUp$ row $S$, $\CoveringDimensionUp$ row $C$, $\FiniteCoverRefinementUp$ provenance inside $P$, componentwise $\hsame$ transport $H$, and displayed $\Cont$ replay $T$;
+\item non-escape from host dimension theorems, arbitrary open-cover compactness, selected separator choice, quotient topology equality, and external choice principles.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:large-inductive-dimension-carrier}. The topology source, closed-set separator, boundary-cover data, recursive ledger, comparison rows, transport, replay, provenance, and naming row are exactly the displayed coordinates of the finite packet.
+
+The separator obligation is read first from $X,N$. A consumer sees only the topology observations and the normal-space closed-set separation route before any separator boundary is inspected.
+
+The recursive obligation is then read from $B,R$. These rows record finite boundary-cover entries and the large-dimension recursion ledger, so the boundary read remains inside the displayed packet.
+
+Finally use $S,C,H,T,P,A$. The small-dimension and covering-dimension rows are comparison surfaces only, and the structural rows transport, replay, source, and name the same packet. Since the refused host objects are not carrier coordinates, the listed obligation groups exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Large inductive dimension separator route]
+\label{thm:large-inductive-dimension-separator-route}
+Every separator-boundary read of an accepted $\LargeInductiveDimensionUp$ packet factors through
+$$
+\TopologyUp,\ \NormalSpaceUp,\ \SmallInductiveDimensionUp,\ \CoveringDimensionUp,\ \FiniteCoverRefinementUp
+$$
+before the recursive large-dimension ledger is consumed. The route exposes closed-set separation, finite boundary-cover data, small-inductive comparison, covering-dimension comparison, finite refinement provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row; it exports no host separator choice, no open-cover compactness theorem, and no ambient equality of dimension notions.
+\end{theorem}
+\begin{proof}
+Begin with the topology source and normal-space separation rows. The read must expose $X$ and $N$ before it can speak about a separator boundary, so there is no channel for an unrecorded host separator.
+
+Next read the boundary-cover and recursion rows $B,R$. They provide the finite boundary data and the displayed recursive ledger attached to the separator.
+
+Then use the comparison rows. The $\SmallInductiveDimensionUp$ row $S$ links the separator boundary to the point-neighborhood boundary route, while the $\CoveringDimensionUp$ row $C$ and the $\FiniteCoverRefinementUp$ provenance inside $P$ link the same finite boundary data to cover-order refinement.
+
+Finally project $H,T,P,A$. These rows transport, replay, source, and name the displayed route, so every separator-boundary read factors through the named topology, normal-space, small-inductive, covering-dimension, and finite-refinement surfaces.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LargeInductiveDimensionUp$ separator-boundary read is refuted if it consumes a recursive large-dimension ledger without first displaying the TopologyUp source row, NormalSpaceUp closed-set separation row, boundary-cover row, SmallInductiveDimensionUp comparison row, CoveringDimensionUp comparison row, FiniteCoverRefinementUp provenance, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{small-inductive-dimension, coveringdimension, topology, normalspace, finite-cover-refinement: $\LargeInductiveDimensionUp$ jointly carries topology-source, closed-set separation, separator-boundary cover data, recursive large-dimension ledger, small-inductive comparison, covering-dimension comparison, finite refinement provenance, transport, replay, provenance, and local naming rows in one packet; each named sibling lacks at least one of these separator-recursive coordinates.}
+
+\closureat{LargeInductiveDimensionUp}{seedStr}
+
+\begin{closurestatus}{\LargeInductiveDimensionUp}
+  \constructivestory{A $\LargeInductiveDimensionUp$ packet is generated from a TopologyUp source row, a NormalSpaceUp closed-set separation row, finite separator-boundary cover rows, a recursive large-dimension ledger, SmallInductiveDimensionUp and CoveringDimensionUp comparison rows, FiniteCoverRefinementUp provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-inductive-dimension-carrier}, \autoref{thm:large-inductive-dimension-namecert-obligations}, and \autoref{thm:large-inductive-dimension-separator-route} seed the separator-recursive large inductive dimension surface over topology, normal-space, small-inductive, covering-dimension, and finite-refinement rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host large-inductive-dimension theorem, equality with small inductive dimension, equality with covering dimension, arbitrary open-cover compactness, selected separator choice, quotient topology equality, or external choice principles.}
+  \upgradepath{Obligation closure requires checked carrier admission, separator exactness, recursive boundary ledger exactness, comparison-row stability, transport, replay, provenance, and local NameCert rows for BEDC.Derived.LargeInductiveDimensionUp.}
+\end{closurestatus}

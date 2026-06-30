@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CompletionReflectorKleisliExtensionUp$}
+\label{ch:concrete-instances-completion-reflector-kleisli-extension-namecert}
+\origin{human}
+
+Following Mac Lane on Kleisli categories and monads, and Bishop--Bridges/Kelley on metric completion, the $\CompletionReflectorKleisliExtensionUp$ packet records the finite service boundary where a completion-facing map is extended along the completion reflector monad without becoming a host function on completed representatives. It sits after the reflector monad of \autoref{ch:concrete-instances-completion-reflector-monad-namecert}, the separated reflector unit of \autoref{ch:concrete-instances-metric-separated-reflector-unit-namecert}, and the real-number terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a Kleisli extension carrier, the bind and join compatibility rows that make the extension public, and the separated uniqueness row that prevents hidden quotient or choice data from entering the route.
+
+\begin{definition}[Completion reflector Kleisli extension carrier]
+\label{def:completion-reflector-kleisli-extension-carrier}
+A $\CompletionReflectorKleisliExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,U,K,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source metric row, exposing point admission, distance readback, zero-distance inspection, symmetry, triangle, and source transport before any completion-valued extension is read.
+\item $R$ is the completion reflector monad row, recording the completion object, reflector handoff, unit interface, bind interface, and join interface consumed from the $\CompletionReflectorMonadUp$ packet.
+\item $U$ is the separated unit row, read through $\MetricSeparatedReflectorUnitUp$, which identifies exactly which zero-distance witnesses are allowed to pass from the source metric surface into the separated completion-facing target.
+\item $K$ is the Kleisli-extension schedule. It records the finite graph of inspected source names, the completion-valued target requests attached to them, and the order in which those requests are extended along the reflector unit.
+\item $J$ is the bind and join compatibility row, requiring the extension schedule $K$ to pass through the monad bind and join rows of $R$ before a nested completion request is flattened.
+\item $E$ is the separated uniqueness row. It states that two extension reads with the same $S,R,U,K,J$ rows expose the same public route only through the separated comparison named by the reflector boundary.
+\item $H$ records componentwise $\hsame$ transport for the source metric row, reflector monad row, separated unit row, Kleisli schedule, bind and join compatibility, separated uniqueness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a source metric request through $R,U,K,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompletionReflectorKleisliExtensionUp$, $\CompletionReflectorMonadUp$, $\MetricSeparatedReflectorUnitUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompletionReflectorKleisliExtensionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for selected representatives, quotient completion, host equality of completed objects, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Completion reflector Kleisli extension NameCert obligations]
+\label{thm:completion-reflector-kleisli-extension-namecert-obligations}
+For every accepted $\CompletionReflectorKleisliExtensionUp$ carrier
+$$
+L=(S,R,U,K,J,E,H,C,P,N),
+$$
+the local $\NameCert_{\CompletionReflectorKleisliExtensionUp}$ surface consists exactly of source metric admission through $S$, completion reflector monad exposure through $R$, separated unit exposure through $U$, Kleisli extension scheduling through $K$, bind and join compatibility through $J$, separated uniqueness through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:completion-reflector-kleisli-extension-carrier}. The source metric information is confined to $S$, the completion reflector monad interface is confined to $R$, and the separated reflector unit information is confined to $U$.
+
+The Kleisli extension route is not a host operation on completed objects. It is the finite schedule $K$ together with the bind and join compatibility row $J$, so every completion-valued extension request must pass through the reflector monad rows named in \autoref{ch:concrete-instances-completion-reflector-monad-namecert}.
+
+Separated uniqueness is read only through $E$, with the separated unit boundary supplied by \autoref{ch:concrete-instances-metric-separated-reflector-unit-namecert} and the real terminal seal supplied by \autoref{ch:concrete-instances-real-namecert}. The rows $H,C,P,N$ then transport, replay, source, and name the same finite packet. Since no excluded principle has a row in $L$, the listed coordinates exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Completion reflector Kleisli extension nonescape]
+\label{thm:completion-reflector-kleisli-extension-nonescape}
+Every completion-facing consumer of an accepted $\CompletionReflectorKleisliExtensionUp$ carrier reads only the displayed finite route
+$$
+S,R,U,K,J,E,H,C,P,N .
+$$
+In particular, the packet exports no selected representatives, no quotient completion, no host equality of completed objects, no countable choice, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:completion-reflector-kleisli-extension-namecert-obligations}. It identifies the public route as the source metric row, reflector monad row, separated unit row, Kleisli extension schedule, bind and join compatibility row, separated uniqueness row, transport row, replay row, provenance row, and local naming row.
+
+The consumer can read completion-facing behavior only after those rows have been displayed. The reflector monad row supplies the bind and join surface, the separated unit row supplies the zero-distance boundary, and the Kleisli schedule records the finite extension order.
+
+The carrier has no slot for representatives, quotient completion, host equality, choice, or ambient completeness. A request for any of those principles therefore remains outside the carrier instead of being replayed through $H,C,P,N$.
+\end{proof}
+
+\closureat{CompletionReflectorKleisliExtensionUp}{seedStr}
+
+\begin{closurestatus}{\CompletionReflectorKleisliExtensionUp}
+  \constructivestory{A $\CompletionReflectorKleisliExtensionUp$ packet is generated from source metric rows, a completion reflector monad row, a separated unit row, a Kleisli extension schedule, bind and join compatibility, separated uniqueness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-reflector-kleisli-extension-carrier}, \autoref{thm:completion-reflector-kleisli-extension-namecert-obligations}, and \autoref{thm:completion-reflector-kleisli-extension-nonescape} seed the finite Kleisli extension service boundary over source metric, completion reflector monad, separated unit, bind and join compatibility, separated uniqueness, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected representatives, quotient completion, host equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Kleisli extension scheduling, bind and join compatibility, separated uniqueness, transport, replay, provenance, and local naming for BEDC.Derived.CompletionReflectorKleisliExtensionUp.}
+\end{closurestatus}

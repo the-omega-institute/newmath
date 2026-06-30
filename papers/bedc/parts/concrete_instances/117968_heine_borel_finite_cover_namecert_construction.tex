@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\HeineBorelFiniteCoverUp$}
+\label{ch:concrete-instances-heine-borel-finite-cover-namecert}
+\origin{human}
+
+Following Borel and Bishop and Bridges, the $\HeineBorelFiniteCoverUp$ packet records the constructive closed-interval finite-cover route by which displayed dyadic meshes and radius ledgers produce a finite cover bundle before any Real or compact-metric consumer reads compactness-facing data. It sits over the closed-bounded interval net of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the compact metric handoff of \autoref{ch:concrete-instances-compactmetric-namecert}, the dyadic rational arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational comparison row of \autoref{ch:concrete-instances-rat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite closed-interval certificate: it exposes the displayed bundle and its extraction route without asserting open-cover compactness for arbitrary $\RealUp$ subsets.
+
+\begin{definition}[Heine--Borel finite-cover carrier]
+\label{def:heine-borel-finite-cover-carrier}
+A $\HeineBorelFiniteCoverUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,M,U,L,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded interval source row, read through $\ClosedBoundedIntervalNetUp$, with named endpoint seals, boundedness data, and the interval membership route.
+\item $M$ is the dyadic mesh row, read through $\DyadicRatCoreUp$ and $\RatUp$, recording the mesh scale, rational cell endpoints, and cell-containment comparisons.
+\item $U$ is the finite cover bundle, listing the displayed cover entries, their inspected cells, and the finite membership witnesses used by the certificate.
+\item $L$ is the Lebesgue-radius ledger, recording the positive radius comparisons that make each mesh cell small enough for one displayed cover entry.
+\item $E$ is the compact-net extraction row, packaging the finite net centers and coverage witnesses handed to $\CompactMetricUp$ consumers.
+\item $R$ is the terminal $\RealUp$ seal row for the interval endpoints, inspected cell representatives, and covered points.
+\item $H$ records componentwise $\hsame$ transport for the interval source, dyadic mesh, finite cover bundle, radius ledger, compact-net extraction, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from closed-interval inspection through dyadic mesh selection, finite cover bundle inspection, Lebesgue-radius comparison, compact-net extraction, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\HeineBorelFiniteCoverUp$, $\ClosedBoundedIntervalNetUp$, $\CompactMetricUp$, $\DyadicRatCoreUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HeineBorelFiniteCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for arbitrary $\RealUp$ subsets, unrestricted open covers, trichotomy, host completeness, quotient equality, selected subcovers outside the displayed finite bundle, or bridge data.
+\end{definition}
+
+\begin{theorem}[Heine--Borel finite-cover NameCert obligations]
+\label{thm:heine-borel-finite-cover-namecert-obligations}
+For every accepted $\HeineBorelFiniteCoverUp$ carrier $F=(I,M,U,L,E,R,H,C,P,N)$, the local $\NameCert_{\HeineBorelFiniteCoverUp}$ obligation surface consists exactly of closed bounded interval source admission, dyadic mesh admission, finite cover bundle exposure, Lebesgue-radius ledger exactness, compact-net extraction, Real sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:heine-borel-finite-cover-carrier}. The interval source $I$ is read before the dyadic mesh $M$, so the mesh cells are attached to a displayed closed bounded interval rather than to an arbitrary subset of $\RealUp$.
+
+Read the finite cover bundle $U$ and the radius ledger $L$. These rows state which finitely many cover entries are inspected and which positive radius comparisons certify that the displayed cells fit inside those entries.
+
+The extraction row $E$ and Real seal $R$ are downstream of the same displayed rows. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve that route and add no open-cover compactness, trichotomy, host completeness, quotient equality, or hidden subcover selector. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Heine--Borel finite-net extraction]
+\label{thm:heine-borel-finite-cover-net-extraction}
+Every $\CompactMetricUp$ or $\RealUp$ consumer of an accepted $\HeineBorelFiniteCoverUp$ packet must read the compact-net extraction row through the finite route
+$$
+\ClosedBoundedIntervalNetUp,\quad
+\DyadicRatCoreUp,\quad
+\RatUp,\quad
+U,\quad
+L,\quad
+\RealUp,\quad
+\hsame,\quad
+\Cont,\quad
+\Pkg,\quad
+\NameCert .
+$$
+The extracted object is the displayed finite cover bundle together with its mesh and Lebesgue-radius ledger; it is not an open-cover compactness theorem for arbitrary $\RealUp$ subsets and not a selected subcover outside that displayed bundle.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:heine-borel-finite-cover-namecert-obligations}. It places compact-net extraction after the interval source, dyadic mesh, finite cover bundle, radius ledger, and Real seal have all been displayed.
+
+The rows $H,C,P,N$ preserve and name exactly this route. A compact-metric or Real-facing consumer can therefore receive $E$ only as the extraction attached to $I,M,U,L,R$.
+
+Since no carrier coordinate stores arbitrary subsets, unrestricted open covers, trichotomy, host completeness, quotient equality, or selected subcovers outside $U$, the extraction exports only the finite closed-interval cover certificate.
+\end{proof}
+
+\falsifiablePrediction{Every $\HeineBorelFiniteCoverUp$ consumer read factors through a closed bounded interval source row, a dyadic mesh row, a displayed finite cover bundle, a Lebesgue-radius ledger, compact-net extraction, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{closedboundedintervalnet, compactmetric, dyadicratcore, rat, real: $\HeineBorelFiniteCoverUp$ is not bijective to any listed sibling because it jointly carries the closed-interval source, dyadic mesh, finite cover bundle, Lebesgue-radius ledger, compact-net extraction, Real seal, transport, replay, provenance, and local NameCert rows as one finite-cover packet.}
+
+\closureat{HeineBorelFiniteCoverUp}{seedStr}
+
+\begin{closurestatus}{\HeineBorelFiniteCoverUp}
+  \constructivestory{A $\HeineBorelFiniteCoverUp$ packet is generated from a closed bounded interval source, dyadic mesh comparisons, a displayed finite cover bundle, a Lebesgue-radius ledger, compact-net extraction, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heine-borel-finite-cover-carrier}, \autoref{thm:heine-borel-finite-cover-namecert-obligations}, and \autoref{thm:heine-borel-finite-cover-net-extraction} seed the constructive closed-interval finite-cover certificate surface over the displayed finite bundle.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness for arbitrary $\RealUp$ subsets, trichotomy, host completeness, quotient equality, selected subcovers outside the displayed finite bundle, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode BEDC.Derived.HeineBorelFiniteCoverUp and prove the finite-cover carrier, NameCert obligation, and net-extraction theorems.}
+\end{closurestatus}

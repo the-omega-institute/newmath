@@ -480,6 +480,39 @@ theorem RegularCauchyProductCarrier_public_export_certificate [AskSetup] [Packag
       realConsumerUnary, publicExportUnary, readbackProvenanceConsumer, consumerRouteReal,
       realBudgetExport, namePkg, publicExportPkg⟩
 
+theorem RegularCauchyProductCarrier_bridge_readiness [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name regConsumer realConsumer publicExport bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback provenance regConsumer ->
+        Cont regConsumer route realConsumer ->
+          Cont realConsumer budget publicExport ->
+            Cont publicExport route bridgeRead ->
+              PkgSig bundle bridgeRead pkg ->
+                UnaryHistory bridgeRead ∧ Cont publicExport route bridgeRead ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier readbackProvenanceConsumer consumerRouteReal realBudgetExport
+    exportRouteBridge bridgePkg
+  obtain ⟨_sourceAUnary, _sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, routeUnary, provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have regConsumerUnary : UnaryHistory regConsumer :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceConsumer
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed regConsumerUnary routeUnary consumerRouteReal
+  have publicExportUnary : UnaryHistory publicExport :=
+    unary_cont_closed realConsumerUnary budgetUnary realBudgetExport
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicExportUnary routeUnary exportRouteBridge
+  exact ⟨bridgeUnary, exportRouteBridge, namePkg, bridgePkg⟩
+
 theorem RegularCauchyProductCarrier_real_pair_seal [AskSetup] [PackageSetup]
     {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
       provenance name pairRead realPairSeal : BHist}

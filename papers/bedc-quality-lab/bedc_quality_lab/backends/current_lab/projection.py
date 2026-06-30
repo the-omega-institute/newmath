@@ -27,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.discovery_compiler.capsule import require_claim_capsule_protocol
 from bedc_quality_lab.evidence_provenance import (
     discovery_evidence_type_for_report,
     evidence_provenance_pointer_for_report,
@@ -1259,10 +1260,16 @@ def _discovery_gated_transformer_projection(
     projection = projection if isinstance(projection, Mapping) else {}
     level = projection.get("discovery_level")
     owner_open, owner_reason, owner_pointer, owner_row = _dgt_scaling_owner_status(context)
+    projection_metadata = {
+        "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+        "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+        "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+    }
     if owner_row is None:
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
+            "projection_metadata": projection_metadata,
             "main_verdict": {
                 "surface_delta_count": 0,
                 "shift_information": 0,
@@ -1281,6 +1288,7 @@ def _discovery_gated_transformer_projection(
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
+            "projection_metadata": projection_metadata,
             "main_verdict": {
                 "surface_delta_count": 0,
                 "shift_information": 0,
@@ -1325,6 +1333,7 @@ def _discovery_gated_transformer_projection(
                 "audit_status": "pass",
             },
             "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
+            "projection_metadata": projection_metadata,
         }, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=evidence_pointer,
@@ -1334,6 +1343,7 @@ def _discovery_gated_transformer_projection(
         )
     return {
         "verdict": "rejected",
+        "projection_metadata": projection_metadata,
         "main_verdict": {
             "discovery_gated_transformer": {
                 "level_candidate": "D0",
@@ -2346,6 +2356,33 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _spectral_ablation_projection(payload)
     elif spec.name == "anisotropic-ou-sweep":
         overlay, evidence = _debt_cell_projection(payload, "$.transition_debt_by_grid")
+    elif spec.name == "minigrid-doorkey-task-probe":
+        positive = pointer_value(payload, "$.claim_boundary.positive_discovery") is True
+        failed_gate = pointer_value(payload, "$.claim_boundary.failed_gate")
+        overlay, evidence = {
+            "positive_discovery": positive,
+            "main_verdict": {
+                "positive_discovery": positive,
+                "surface_delta_count": 1 if positive else 0,
+                "shift_information": 1.0 if positive else 0.0,
+                "structural_discovery": positive,
+                "net_information": 1.0 if positive else 0.0,
+            },
+            "net_positive_signal": positive,
+            "matched_random_control": {"control_positive": False},
+            "evidence_basis": {
+                "scorecard_ready": positive,
+                "audit_status": "pass" if pointer_value(payload, "$.hardgate.status") == "pass" else "fail",
+                "robustness_ready": positive,
+            },
+            "scope_seal": pointer_value(payload, "$.positive_claim.scope_seal"),
+        }, ProjectionEvidence(
+            projection_status="projected" if positive else "base-gated-boundary",
+            evidence_pointer="$.positive_claim",
+            control_pointer="$.control_protocol",
+            scorecard_pointer="$.hardgate.status",
+            failed_gate="$.claim_boundary.failed_gate" if isinstance(failed_gate, str) else "$.base_chance_gate.status",
+        )
     elif spec.name == "nongaussian-distribution-sweep":
         overlay, evidence = _debt_cell_projection(payload, "$.negative_result_ledger")
     elif spec.name == "mixing-family-sweep":
@@ -2541,6 +2578,61 @@ def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, A
     return None
 
 
+def _protocol_capsule_artifact(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> str:
+    pointer = getattr(spec, "claim_capsule_pointer", None)
+    if isinstance(pointer, str):
+        split = pointer.split(":", 1)
+        if len(split) == 2:
+            return split[0]
+        value = pointer_value(payload, pointer)
+        if isinstance(value, str) and (value.endswith(".json") or ":$" in value):
+            return value.split(":", 1)[0]
+        if isinstance(value, Mapping):
+            artifact = value.get("artifact")
+            if isinstance(artifact, str) and artifact:
+                return artifact
+        if value is not None:
+            return spec.json_artifact
+        return f"{spec.json_artifact}.missing-claim-capsule"
+    return spec.json_artifact
+
+
+def _claim_capsule_protocol_failure(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    *,
+    level: DiscoveryLevel,
+) -> str | None:
+    if level not in {"D4", "D5-O", "D5-M"}:
+        return None
+    protocol_payload = {
+        **dict(payload),
+        "self_artifact": spec.json_artifact,
+    }
+    protocol_payload.setdefault("evidence_pointers", [f"{spec.json_artifact}:{spec.positive_claim_pointer}"])
+    if pointer_value(protocol_payload, "$.control_rows") is None and spec.control_pointer is not None:
+        controls = pointer_value(protocol_payload, spec.control_pointer)
+        if controls is not None:
+            protocol_payload["control_rows"] = _sequence_cell(controls) or [controls]
+    try:
+        require_claim_capsule_protocol(
+            protocol_payload,
+            root=ROOT,
+            capsule_artifact=_protocol_capsule_artifact(spec, payload),
+            required_not_claimed=(),
+            cost_pointer=spec.cost_pointer,
+            control_required=spec.control_pointer is not None,
+            positive_claim_pointer=spec.positive_claim_pointer,
+            revocation_pointer="$.revocation_rows",
+            not_claimed_pointer=spec.not_claimed_pointer,
+        )
+    except ValueError as exc:
+        failed = str(exc).removeprefix("claim capsule protocol failed: ").strip()
+        first = failed.split(",", 1)[0] if failed else "unknown"
+        return f"claim-capsule-protocol:{first}"
+    return None
+
+
 def _audit_row(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -2572,6 +2664,9 @@ def _audit_row(
     spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
     if spec_pointer_result is not None:
         return spec_pointer_result
+    protocol_failure = _claim_capsule_protocol_failure(spec, payload, level=level)
+    if protocol_failure is not None:
+        return "invalid", protocol_failure
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):
@@ -2704,6 +2799,9 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
+    elif audit_status == "invalid" and discovery_level in {"D4", "D5-O", "D5-M"}:
+        discovery_level = "D0"
+        terminal_verdict = ""
     scope_claim = _scope_claim_payload(spec, payload)
     scope_gate = _scope_expansion_gate_for_payload(spec, payload)
     if scope_gate is not None and scope_gate.status == "fail" and (
@@ -2761,6 +2859,17 @@ def discovery_row(
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
     if spec.name == "discovery-gated-transformer":
         row["scaling_ladder_pointer"] = f"{SCALING_LADDER_ARTIFACT}:$.levels[0]"
+        metadata = projected.get("projection_metadata")
+        if isinstance(metadata, Mapping):
+            row["projection_metadata"] = {
+                key: metadata[key]
+                for key in (
+                    "model_comparison_pointer",
+                    "model_comparison_semantic_pointer",
+                    "d5_m_scope_pointer",
+                )
+                if isinstance(metadata.get(key), str)
+            }
     if scope_claim is not None:
         row["scope_claim"] = dict(scope_claim)
     if scope_gate is not None:

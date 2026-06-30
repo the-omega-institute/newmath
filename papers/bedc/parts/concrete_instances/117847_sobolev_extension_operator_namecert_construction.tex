@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\SobolevExtensionOperatorUp$}
+\label{ch:concrete-instances-sobolev-extension-operator-namecert}
+\origin{human}
+
+Following Adams--Fournier and Evans-style Sobolev extension theory, the $\SobolevExtensionOperatorUp$ packet records the finite BEDC rows needed by a boundary-to-interior extension read. It sits beside the Sobolev source of \autoref{ch:concrete-instances-sobolev-space-namecert}, the trace packet of \autoref{ch:concrete-instances-sobolev-trace-namecert}, the boundary package of \autoref{ch:concrete-instances-sobolev-trace-boundary-namecert}, the compact-metric support of \autoref{ch:concrete-instances-compactmetric-namecert}, and the complete-metric readback surface of \autoref{ch:concrete-instances-completemetric-namecert}. The packet names only a finite extension route from displayed boundary data back to displayed Sobolev rows; it does not select a global host operator, identify quotient function spaces, or assert an unrestricted trace theorem.
+
+\begin{definition}[Sobolev extension operator carrier]
+\label{def:sobolev-extension-operator-carrier}
+A $\SobolevExtensionOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,T,B,K,M,R,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SobolevSpaceUp$ or $\SobolevUp$ source row, exposing only the interior Sobolev carrier data already named by the corresponding packet.
+\item $T$ is the $\SobolevTraceUp$ row, recording the boundary trace read that the extension route is allowed to address.
+\item $B$ is the $\SobolevTraceBoundaryUp$ row. It fixes the boundary carrier, trace-read arrow, compact boundary window, and complete-metric readback needed by the extension request.
+\item $K$ is the $\CompactMetricUp$ support row, used only as a finite boundary-window and compact-source ledger.
+\item $M$ is the $\CompleteMetricUp$ readback row for the interior target and boundary compatibility checks.
+\item $R$ is the $\RealUp$ scalar seal for norm budgets, boundary radii, and extension estimates.
+\item $X$ is the extension-route classifier. It distinguishes source Sobolev reads, boundary trace reads, compact-window reads, complete-metric readbacks, and scalar budget reads, but has no coordinate for a selected global operator or quotient equality of functions.
+\item $H$ stores componentwise $\hsame$ transport for $S,T,B,K,M,R,X$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from an extension request through the Sobolev source, trace row, boundary row, compact support, complete-metric readback, and scalar seal.
+\item $P$ is the $\Pkg$ provenance over $\SobolevExtensionOperatorUp$, $\SobolevSpaceUp$, $\SobolevUp$, $\SobolevTraceUp$, $\SobolevTraceBoundaryUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SobolevExtensionOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,B,K,M,R,X,H,C,P,N$. It does not contain an unrestricted host trace theorem, a selected extension operator on all boundary data, quotient function-space equality, open-cover compactness, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Sobolev extension operator NameCert obligations]
+\label{thm:sobolev-extension-operator-namecert-obligations}
+For every accepted $\SobolevExtensionOperatorUp$ carrier
+$$
+E=(S,T,B,K,M,R,X,H,C,P,N),
+$$
+the local $\NameCert_{\SobolevExtensionOperatorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Sobolev source, trace row, boundary row, compact-metric support, complete-metric readback, scalar seal, classifier, transport, replay, provenance, and local naming rows;
+\item trace-source compatibility, requiring every extension request to read $T$ and $B$ before it can claim a boundary value belongs to the extension route;
+\item compact and complete-metric exactness, requiring $K$ and $M$ to expose only finite boundary-window, compact-source, distance, and Cauchy-readback rows;
+\item scalar budget exactness, requiring norm and radius comparisons to pass through the displayed $\RealUp$ row $R$;
+\item structural stability under $X,H,C,P,N$, which classifies, transports, replays, sources, and names only the displayed finite route.
+\end{enumerate}
+No $\SobolevExtensionOperatorUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sobolev-extension-operator-carrier}. The analytic rows visible to the classifier are exactly $S,T,B,K,M,R$, and the structural rows are $X,H,C,P,N$.
+
+The trace-source compatibility obligation is forced before any extension read. A consumer must first expose the Sobolev trace row $T$ and the boundary package $B$, so the boundary datum is read through the finite trace and boundary ledgers already present in the carrier.
+
+The compact and complete-metric obligations are then attached to $K$ and $M$. These rows provide only finite boundary-window support and displayed Cauchy or distance readbacks, while scalar budget comparisons reach the Real seal only through $R$.
+
+Finally $X,H,C,P,N$ classify, transport, replay, source, and name the same row order. Since the carrier has no coordinate for a host operator, quotient equality, open-cover compactness, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sobolev trace-extension handoff]
+\label{thm:sobolev-extension-operator-trace-extension-handoff}
+Every downstream trace or boundary-analysis consumer citing an accepted $\SobolevExtensionOperatorUp$ carrier receives only the finite handoff
+$$
+\SobolevSpaceUp,\SobolevUp \longmapsto \SobolevTraceUp \longmapsto \SobolevTraceBoundaryUp \longmapsto \CompactMetricUp,\CompleteMetricUp,\RealUp
+$$
+followed by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet. The handoff is a finite extension-route certificate; it is not a host extension theorem, a selected linear operator, or an equality of completed Sobolev quotients.
+\end{theorem}
+\begin{proof}
+Start with an accepted trace-extension request. The request first reads the Sobolev source row $S$, so it inherits only the interior Sobolev data displayed by the source packet.
+
+Next it reads $T$ and $B$. These rows fix the boundary trace and boundary carrier before compact support or complete-metric readback can be consulted.
+
+The remaining analytic read passes through $K,M,R$. Thus compact-window data, Cauchy or distance readback, and scalar estimates are finite rows of the same packet.
+
+The structural rows $X,H,C,P,N$ only classify, transport, replay, source, and name this route. No carrier coordinate remains from which a host extension theorem, selected operator, or quotient-space equality could be read.
+\end{proof}
+
+\begin{theorem}[Sobolev extension operator nonescape boundary]
+\label{thm:sobolev-extension-operator-nonescape-boundary}
+Every accepted $\SobolevExtensionOperatorUp$ consumer that reaches the complete-metric or scalar extension estimate must first display the boundary route $T,B$ and the compact support row $K$. Consequently the consumer cannot replace the boundary route by an unrestricted host trace theorem, a detached boundary representative, open-cover compactness, ambient completeness, or a selected global extension operator.
+\end{theorem}
+\begin{proof}
+Project an accepted consumer of the carrier. The complete-metric row $M$ and scalar seal $R$ occur downstream of $S,T,B,K$, so neither readback can be reached before the boundary trace and compact support rows are fixed.
+
+The classifier row $X$ records this row order as part of the accepted packet. Componentwise transport $H$ and replay $C$ preserve that order, while $P$ and $N$ source and name the same route.
+
+Any consumer omitting $T,B$, or $K$ would be reading a coordinate absent from the displayed carrier. Hence complete-metric and scalar extension estimates cannot escape the finite boundary route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SobolevExtensionOperatorUp$ extension read factors through displayed SobolevSpaceUp or SobolevUp, SobolevTraceUp, SobolevTraceBoundaryUp, CompactMetricUp, CompleteMetricUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows before any downstream consumer receives an extension estimate.}
+
+\independenceWitness{sobolev-space, sobolev, sobolev-trace, sobolev-trace-boundary, compactmetric, completemetric, real: $\SobolevExtensionOperatorUp$ is not bijective to any listed sibling because it jointly carries source Sobolev data, trace data, boundary data, compact support, complete-metric readback, scalar estimates, classifier, transport, replay, provenance, and local naming in one finite extension-route carrier.}
+
+\closureat{SobolevExtensionOperatorUp}{seedStr}
+
+\begin{closurestatus}{\SobolevExtensionOperatorUp}
+  \constructivestory{A $\SobolevExtensionOperatorUp$ packet is generated from a Sobolev source row, Sobolev trace row, Sobolev trace boundary row, compact-metric support row, complete-metric readback row, Real scalar seal, extension-route classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-extension-operator-carrier}, \autoref{thm:sobolev-extension-operator-namecert-obligations}, \autoref{thm:sobolev-extension-operator-trace-extension-handoff}, and \autoref{thm:sobolev-extension-operator-nonescape-boundary} seed the finite Sobolev extension-route surface over Sobolev, trace, boundary, compact-metric, complete-metric, and real neighbours.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an unrestricted host trace theorem, quotient function-space equality, a selected global extension operator, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace-source compatibility, compact and complete-metric exactness, scalar budget exactness, classifier nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SobolevExtensionOperatorUp.}
+\end{closurestatus}

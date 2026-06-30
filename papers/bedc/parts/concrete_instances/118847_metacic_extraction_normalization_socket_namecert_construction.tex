@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICExtractionNormalizationSocketUp$}
+\label{ch:concrete-instances-metacic-extraction-normalization-socket-namecert}
+\origin{ai}
+
+The $\MetaCICExtractionNormalizationSocketUp$ packet realizes the confluence audit boundary of \autoref{ch:metacic-confluence-audit-map} as finite socket data between extraction, candidate normalization, and residual confluence. It is consumed by \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} through its candidate-mediated strong-normalization socket and by \autoref{ch:concrete-instances-metaciccriticalpath-namecert} through the retained residual-budget path. It does not assert a full parallel diamond. It records exactly the rows needed to keep the substitution-sensitive boundary visible while allowing checked fragments, candidate normal forms, and local joins to be handed to later MetaCIC consumers.
+
+\begin{definition}[MetaCIC extraction-normalization socket carrier]
+\label{def:metacic-extraction-normalization-socket-carrier}
+A $\MetaCICExtractionNormalizationSocketUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,K,R,J,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the extraction row, recording the finite MetaCIC redex, source, target, and closedness window inspected by the socket.
+\item $K$ is the candidate-normalization row, recording the candidate normal form or bounded normalizing trace supplied by the visible extraction window.
+\item $R$ is the residual-substitution row, recording the exact substitution-compatibility boundary that the confluence audit map keeps conditional.
+\item $J$ is the local-join row, recording candidate common reducts or local joins that are available inside the displayed window.
+\item $O$ is the obstruction row, retaining the cases where the residual-substitution row or local-join row is absent.
+\item $H$ records componentwise $\hsame$ transport for extraction, candidate-normalization, residual-substitution, local-join, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an extracted peak through candidate normalization, residual substitution, local join, and obstruction retention.
+\item $P$ is $\Pkg$ provenance over $\MetaCICExtractionNormalizationSocketUp$, the MetaCIC confluence audit map, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICExtractionNormalizationSocketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,K,R,J,O,H,C,P,N$. It has no coordinate for a global Church--Rosser theorem, an unqualified parallel diamond, hidden substitution compatibility, quotient syntax equality, host normalization, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[MetaCIC extraction-normalization socket NameCert obligations]
+\label{thm:metacic-extraction-normalization-socket-namecert-obligations}
+For every accepted $\MetaCICExtractionNormalizationSocketUp$ carrier $E=(X,K,R,J,O,H,C,P,N)$, the local $\NameCert_{\MetaCICExtractionNormalizationSocketUp}$ surface is exhausted by carrier admission, extraction-window exposure, candidate-normalization exposure, residual-substitution boundary retention, local-join exposure, obstruction retention, componentwise transport, displayed replay, package provenance, local naming, and refusal of full closed parallel diamond, global Church--Rosser, hidden substitution compatibility, quotient syntax equality, host normalization, Lean verification, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-extraction-normalization-socket-carrier}. The extraction row $X$ supplies the only visible source and redex data, while $K$ records the candidate-normalization evidence available for that extraction.
+
+The residual-substitution row $R$ and local-join row $J$ are separate obligations. A socket may expose a candidate normalization without discharging residual substitution, and it may expose a local join only when that row is displayed.
+
+The obstruction row $O$ retains the complementary cases. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite surface, so the packet cannot silently export a full parallel diamond, global confluence theorem, hidden substitution compatibility, quotient syntax equality, host normalization, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[MetaCIC extraction-normalization residual handoff]
+\label{thm:metacic-extraction-normalization-socket-residual-handoff}
+Every confluence-audit consumer of an accepted $\MetaCICExtractionNormalizationSocketUp$ packet receives only the finite route
+$$
+X \longmapsto K \longmapsto R,J,O \longmapsto H,C,P,N .
+$$
+Consequently the packet can hand extraction and candidate-normalization evidence to the residual confluence frontier only with the residual-substitution row, local-join row, obstruction row, transport, replay, provenance, and local naming still attached. It cannot imply a full closed parallel diamond unless both $R$ and $J$ are displayed and separately discharged by the consumer.
+\end{theorem}
+\begin{proof}
+Start with a confluence-audit consumer of the socket. The carrier exposes extraction data only through $X$ and candidate-normalization data only through $K$.
+
+Replay the socket through $C$. The replay reaches the residual-substitution row $R$, the local-join row $J$, and the obstruction row $O$ before any downstream residual-confluence consumer can read the packet.
+
+The sibling routes through \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} and \autoref{ch:concrete-instances-metaciccriticalpath-namecert} are consumers of the displayed $X,K,R,J,O,H,C,P,N$ route, not extra discharge evidence.
+
+Transport and provenance through $H,P,N$ keep the same rows attached. Since the carrier has no additional global-diamond coordinate, the handoff is a finite residual socket rather than a closed parallel-diamond proof.
+\end{proof}
+
+\falsifiablePrediction{A socket packet cannot imply a full closed parallel diamond unless the residual-substitution row and local-join row are both displayed.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationaudit, metacicconfluenceauditpacket, metacic-parallel-diamond-frontier: none is bijective because the socket binds extraction, candidate normalization, residual substitution, local join, obstruction, transport, replay, provenance, and NameCert rows in one carrier.}
+
+The Lean follow-up path is \texttt{lean4/BEDC/Derived/MetaCICExtractionNormalizationSocketUp/TasteGate.lean}. It must provide explicit $\mathsf{Nontrivial}\ \MetaCICExtractionNormalizationSocketUp$ and $\mathsf{FieldFaithful}\ \MetaCICExtractionNormalizationSocketUp$ instances preserving extraction, candidate-normalization, residual-substitution, local-join, obstruction, transport, replay, provenance, and local naming rows.
+
+\closureat{MetaCICExtractionNormalizationSocketUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICExtractionNormalizationSocketUp}
+  \constructivestory{A $\MetaCICExtractionNormalizationSocketUp$ packet is generated from extraction, candidate-normalization, residual-substitution, local-join, obstruction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-extraction-normalization-socket-carrier}, \autoref{thm:metacic-extraction-normalization-socket-namecert-obligations}, and \autoref{thm:metacic-extraction-normalization-socket-residual-handoff} seed the finite socket between extraction, normalization evidence, and residual confluence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a full closed parallel diamond, global Church--Rosser, hidden substitution compatibility, quotient syntax equality, host normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, extraction exposure, candidate-normalization exposure, residual-substitution retention, local-join exposure, obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICExtractionNormalizationSocketUp.}
+\end{closurestatus}

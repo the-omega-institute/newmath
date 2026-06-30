@@ -1,0 +1,41 @@
+\begin{theorem}[StreamName pointwise finite-window induction]
+\label{thm:streamname-pointwise-window-induction}
+Let $W$ be a certified finite observation section for a $\StreamNameUp$ packet, displayed as a UnaryHistory window with its $\BHist$ observations, pointwise classifier rows, successor-window projection rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ data. Suppose a finite-window predicate is stable under pointwise classifier transport and under successor-window projection along the displayed UnaryHistory section. If the predicate holds at the initial displayed observation, then it holds on every certified finite observation section of $W$.
+
+The induction is internal to the displayed UnaryHistory window. It does not export host $\NatUp$ induction as a public primitive, quotient stream equality, selected tails, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of $\StreamNameUp$ and read the certified observation section as a finite UnaryHistory packet. The initial displayed observation is covered by the assumed base evidence together with the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the successor step, apply the pointwise classifier induction of \autoref{thm:streamname-pointwise-classifier-induction} to transport the predicate across the classifier row attached to the newly displayed observation. Then use finite observation section cofinality from \autoref{thm:streamname-finite-observation-section-cofinality} to keep the enlarged section inside the certified observation surface.
+
+The successor-window projection determinacy of \autoref{thm:streamname-successor-window-projection-determinacy} identifies the predecessor section and the enlarged section as the displayed UnaryHistory step named by the certificate. Thus the predicate is propagated only through public finite-window rows.
+
+Iterating over the displayed UnaryHistory constructors gives the claim for every certified finite observation section. The argument never exposes host $\NatUp$ induction as part of the public certificate and never adds quotient streams, selected tails, countable choice, host real equality, ambient Real completeness, or bridge data.
+\end{proof}
+
+\begin{theorem}[StreamName pointwise tail-section induction bridge]
+\label{thm:streamname-pointwise-window-induction-tail-section}
+Let $\mathcal T$ be a certified $\StreamNameUp$ tail section consumed by a downstream $\RegSeqRatUp$ or finite-window $\RealUp$ handoff. Suppose a finite-window predicate is stable under pointwise classifier transport, successor-window projection, and finite observation-section cofinal refinement over the displayed $\BHist$ observations, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. If the predicate holds at the initial displayed observation of the source window, then it holds on every certified finite tail section of $\mathcal T$ that is consumed by the handoff.
+
+The conclusion is a tail-section handoff statement over the same certified source window. It does not introduce quotient stream equality, selected limit data, countable choice, host sequence equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Apply the pointwise finite-window induction theorem
+\autoref{thm:streamname-pointwise-window-induction} to the certified source
+window. This propagates the predicate across every displayed finite observation
+section using only pointwise classifier transport and successor-window
+projection.
+
+Next use finite observation-section cofinality,
+\autoref{thm:streamname-finite-observation-section-cofinality}. The tail
+section read by the downstream $\RegSeqRatUp$ or finite-window $\RealUp$
+handoff is a finite cofinal refinement of the same displayed source, not a new
+stream object or a chosen external tail.
+
+Finally apply the public cofinality and monotone-extension rows attached to the
+handoff. They identify the consumed tail section as a finite refinement over
+the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support
+rows. The predicate therefore reaches every certified tail section consumed by
+the handoff while staying inside the finite public packet.
+\end{proof}

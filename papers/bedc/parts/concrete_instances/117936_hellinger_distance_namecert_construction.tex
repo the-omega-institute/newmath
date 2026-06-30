@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\HellingerDistanceUp$}
+\label{ch:concrete-instances-hellinger-distance-namecert}
+\origin{human}
+
+Following Hellinger and Kakutani on affinity-style probability distances, the $\HellingerDistanceUp$ packet records the finite square-root overlap ledger between two displayed probability or distribution rows. It sits after the probability packet of \autoref{ch:concrete-instances-probspace-namecert}, the pushforward distribution ledger of \autoref{ch:concrete-instances-distribution-namecert}, the metric comparison surface of \autoref{ch:concrete-instances-metric-namecert}, the Wasserstein transport-plan packet of \autoref{ch:concrete-instances-wasserstein-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only a finite statistical-distance packet; it does not import measure completion, Radon--Nikodym representatives, selected densities, or a host integration theorem.
+
+\begin{definition}[Hellinger distance carrier]
+\label{def:hellinger-distance-carrier}
+A $\HellingerDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,\mu,\nu,A,B,O,R,M,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source-row ledger whose cells are read through an accepted $\ProbSpaceUp$ carrier or an accepted $\DistributionUp$ pushforward surface.
+\item $\mu$ and $\nu$ are the two probability or distribution source rows over $S$.
+\item $A$ and $B$ are marginal readback rows, exposing the displayed nonnegative weights $\mu(s_i)$ and $\nu(s_i)$ on each listed cell of $S$.
+\item $O$ is the square-root overlap ledger, recording the finite entries $\sqrt{\mu(s_i)}\sqrt{\nu(s_i)}$ and their displayed sum.
+\item $R$ is the $\RealUp$ seal for the terminal Hellinger value, reached only after $A$, $B$, and $O$ have been read.
+\item $M$ is the optional $\MetricUp$ comparison context in which the resulting real distance may be consumed.
+\item $W$ is the optional $\WassersteinUp$ comparison context, present only when a consumer compares the overlap distance with a finite transport-plan row over the same source.
+\item $H$ records componentwise $\hsame$ transport for $S,\mu,\nu,A,B,O,R,M,W$ and the local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source rows through marginal readback, square-root overlap, real sealing, and optional comparison contexts.
+\item $P$ is the $\Pkg$ provenance over $\HellingerDistanceUp$, $\ProbSpaceUp$, $\DistributionUp$, $\MetricUp$, $\WassersteinUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HellingerDistanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for measure completion, a chosen density representative, an ambient integral, a quotient of probability laws, or a selected coupling.
+\end{definition}
+
+\begin{theorem}[Hellinger distance NameCert obligations]
+\label{thm:hellinger-distance-namecert-obligations}
+For every accepted $\HellingerDistanceUp$ carrier
+$$
+L=(S,\mu,\nu,A,B,O,R,M,W,H,C,P,N),
+$$
+the local $\NameCert_{\HellingerDistanceUp}$ surface consists of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\BHist$ packet $L$;
+\item marginal readback through $S,\mu,\nu,A,B$, with every public weight attached to a listed finite source cell;
+\item square-root overlap exactness through $O$, whose entries and finite sum are the only overlap ledger exported by the packet;
+\item $\RealUp$ distance sealing through $R$, downstream from the marginal readbacks and overlap ledger;
+\item componentwise transport, displayed replay, and provenance through $H,C,P$;
+\item local naming through $N$, with no exported coordinate for measure completion, selected densities, ambient integration, quotient probability laws, or hidden couplings.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hellinger-distance-carrier}. The visible coordinates are the finite source ledger, two probability or distribution rows, marginal readbacks, the square-root overlap ledger, the real seal, optional comparison contexts, transport, replay, provenance, and local naming row.
+
+Carrier admission is exactly this projection. Marginal readback is exhausted by $A$ and $B$: a consumer can inspect only weights attached to the listed cells of $S$, and each such read is mediated by the displayed $\ProbSpaceUp$ or $\DistributionUp$ source row.
+
+The overlap obligation is local to $O$. Its entries are the displayed products of square-rooted marginal weights, and its finite sum is the only affinity-style scalar exported before the real seal is reached.
+
+Finally read $R,H,C,P,N$. The $\RealUp$ seal is downstream from the marginal and overlap rows, while transport, replay, provenance, and local naming preserve that same route. Since no other coordinate is present in the packet, the six listed rows exhaust the local $\NameCert$ surface and leave measure completion, selected densities, ambient integration, quotient laws, and hidden couplings outside the carrier.
+\end{proof}
+
+\begin{theorem}[Hellinger finite probability route]
+\label{thm:hellinger-distance-finite-probability-route}
+Every public consumer of an accepted $\HellingerDistanceUp$ packet reads the distance through the finite probability route
+$$
+\ProbSpaceUp,\DistributionUp \longmapsto S,\mu,\nu,A,B,O \longmapsto \RealUp \longmapsto \MetricUp,\WassersteinUp,H,C,P,N .
+$$
+In particular, a downstream comparison may cite $\MetricUp$ or $\WassersteinUp$ only after the probability or distribution source rows, square-root overlap ledger, and $\RealUp$ seal have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:hellinger-distance-namecert-obligations}. They force every public read to expose the finite source ledger, the two probability or distribution rows, the marginal readbacks, and the square-root overlap ledger before the real-valued distance row is available.
+
+The optional comparison rows $M$ and $W$ are downstream coordinates of the same carrier. Thus a $\MetricUp$ consumer receives only the real-sealed distance, and a $\WassersteinUp$ comparison receives only a route already tied to the displayed finite source and overlap ledger.
+
+The structural rows $H,C,P,N$ preserve and name this route without adding analytic data. Since measure completion, selected densities, ambient integration, quotient probability laws, and hidden couplings are absent from the carrier, no public consumer can bypass the finite probability, overlap, and real-seal rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HellingerDistanceUp$ consumer must expose finite ProbSpace or Distribution source rows, two marginal readback rows, the square-root overlap ledger, the RealUp seal, optional MetricUp or WassersteinUp comparison rows, hsame transport, Cont replay, Pkg provenance, and the local NameCert row before any statistical-distance read is public.}
+
+\independenceWitness{Nearest siblings: ProbSpace, Distribution, Metric, Wasserstein, and Real. $\HellingerDistanceUp$ is not bijective to any one of them because it binds two finite marginal rows, a square-root overlap ledger, a terminal RealUp seal, optional metric or transport comparison contexts, and local naming in one finite packet.}
+
+\closureat{HellingerDistanceUp}{seedStr}
+
+\begin{closurestatus}{\HellingerDistanceUp}
+  \constructivestory{A $\HellingerDistanceUp$ packet is generated from finite ProbSpace or Distribution source rows, two marginal readback rows, a square-root overlap ledger, a RealUp distance seal, optional MetricUp or WassersteinUp comparison contexts, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hellinger-distance-carrier}, \autoref{thm:hellinger-distance-namecert-obligations}, and \autoref{thm:hellinger-distance-finite-probability-route} seed the finite statistical-distance NameCert surface over probability, distribution, metric, Wasserstein, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.HellingerDistanceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, Radon--Nikodym representatives, selected densities, ambient integration, quotient probability laws, optimal transport comparison, Lean theorem verification, or bridge checking.}
+  \upgradepath{Lean verification requires checked carrier admission, marginal readback, square-root overlap exactness, RealUp seal routing, MetricUp and WassersteinUp comparison handoff, transport, replay, provenance, and local naming for BEDC.Derived.HellingerDistanceUp.}
+\end{closurestatus}

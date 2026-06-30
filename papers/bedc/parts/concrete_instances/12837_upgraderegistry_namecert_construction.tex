@@ -73,20 +73,45 @@ Use the carrier definition. A valid packet exposes $S$ and $B$ as coordinates, s
 Use status preservation from \autoref{thm:upgrade-registry-status-preservation}. Completion export requires a route that preserves the distinction between current status and next status, and that route also carries the blocker surface. Without $S$ or $B$, the route may at most display a target, desired status, field list, audit row, or formal target; it cannot display the complete promotion packet.
 \end{proof}
 
+\begin{theorem}[UpgradeRegistry public export]
+\label{thm:upgrade-registry-public-export}
+Any public $\UpgradeRegistryUp$ export must expose the target row, current-status row, next-status row, required-field row, blocker row, audit row, formal-target row, componentwise transport row, continuation row, provenance row, and local $\NameCert_{\UpgradeRegistryUp}$ row. Export through $\RegistryExportSurfaceUp$ and $\ClaimRegistryLayerUp$ cannot erase blocker accountability or read the next-status row as a completed promotion.
+\end{theorem}
+\leanchecked{BEDC.Derived.UpgradeRegistryUp.UpgradeRegistryPublicExport}
+\begin{proof}
+Apply \autoref{thm:upgrade-registry-namecert-obligations}. The public packet is the displayed carrier $U=(T,S,Nx,F,B,A,R,H,C,P,L)$, so every export route reads the target, status, field, blocker, audit, formal target, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:upgrade-registry-status-preservation}. The current-status row $S$ and the next-status row $Nx$ remain distinct along every public route, and the required-field and blocker rows travel with that distinction.
+
+Finally apply \autoref{thm:upgrade-registry-noncompletion-surface}. A route through $\RegistryExportSurfaceUp$ or $\ClaimRegistryLayerUp$ that drops $S$ or $B$ may still display registry metadata, but it cannot export completion. Thus blocker accountability remains public whenever the upgrade-registry packet is exported.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\UpgradeRegistryUp$ packet with no current-status row or blocker row cannot export a completion claim.}
 
 \independenceWitness{claimregistrylayer, registryexportsurface, auditwritingdiscipline, axiszeckendorfcannotclaim, registryconsistencyaudit: $\UpgradeRegistryUp$ is not bijective to any sibling because it simultaneously carries target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, provenance, and local NameCert rows. The claim layer admits claim rows without the full promotion packet; the export surface controls release without blocker accounting; the writing-discipline packet controls prose legality without next-status fields; the cannot-claim packet records refusals without promotion transport; and the consistency audit checks agreement without owning the registry entry.}
 
 The Lean follow-up for this chapter must provide $\mathsf{Nontrivial}\ \UpgradeRegistryUp$ and $\mathsf{FieldFaithful}\ \UpgradeRegistryUp$ instances for the displayed carrier fields.
 
-\closureat{UpgradeRegistryUp}{obligationStr}
+\begin{theorem}[UpgradeRegistry bridged handoff surface]
+\label{thm:upgrade-registry-bridged-handoff-surface}
+Every bridge-facing read of an accepted $\UpgradeRegistryUp$ packet routes through the target row, current-status row, next-status row, required-field row, blocker row, audit row, formal-target row, componentwise transport row, continuation row, provenance row, and local $\NameCert_{\UpgradeRegistryUp}$ row before any promotion surface is exported. The handoff therefore exposes the same finite route $T,S,Nx,F,B,A,R,H,C,P,L$ to bridge consumers as to public registry consumers, and it cannot replace blocker accountability, status preservation, audit exposure, or formal-target exposure by hidden bridge state.
+\end{theorem}
+\begin{proof}
+Read the public export theorem \autoref{thm:upgrade-registry-public-export}. It already forces every public promotion route to expose $T,S,Nx,F,B,A,R,H,C,P,L$ before completion can be claimed.
+
+A bridge-facing consumer is still a consumer of the same accepted registry packet. The carrier of \autoref{def:upgrade-registry-carrier} has no separate bridge-only coordinate, so the bridge read cannot bypass the target, status, required-field, blocker, audit, formal-target, transport, continuation, provenance, or local naming rows.
+
+Status preservation and the noncompletion surface then keep the blocker and current-status rows visible. Thus the bridge-facing handoff is a route through the displayed packet rather than an external promotion assertion.
+\end{proof}
+
+\closureat{UpgradeRegistryUp}{publicStr}[BEDC.Derived.UpgradeRegistryUp.TasteGate.UpgradeRegistryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\UpgradeRegistryUp}
   \constructivestory{An $\UpgradeRegistryUp$ packet is generated from target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, and \autoref{thm:upgrade-registry-noncompletion-surface} display the carrier, status, blocker, audit, formal-target, transport, continuation, package, and local naming rows currently owned by the upgrade-registry certificate.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, \autoref{thm:upgrade-registry-noncompletion-surface}, \autoref{thm:upgrade-registry-public-export}, and \autoref{thm:upgrade-registry-bridged-handoff-surface} scope the public and bridge-facing export surfaces for the target, current-status, next-status, required-field, blocker, audit, formal-target, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\UpgradeRegistryUp}$ rows owned by the upgrade-registry certificate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close bridge checking, Lean verification, public export, or completion of the registry rows beyond the displayed obligation surface.}
-  \upgradepath{The next paper-side step is scoped closure for the current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local naming rows.}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, or completion of registry promotions beyond the displayed public and bridge-facing export surfaces.}
+  \upgradepath{No theory-axis upgrade remains; the remaining work is Lean verification and bridge checking for the displayed registry rows.}
 \end{closurestatus}

@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyWindowUp$}
+\label{ch:concrete-instances-real-cauchy-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealCauchyWindowUp$ packet records the finite tail-window certificate by which a real-facing or completion-facing read must pass from displayed Cauchy criterion data to a terminal Real seal. It sits under the Real and Completion route of \autoref{ch:visions-real-completeness}, refines the real-name discipline of \autoref{ch:concrete-instances-real-namecert}, and threads together the window, regular-rational, and dyadic surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. It also specializes the finite convergence surfaces of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert} and \autoref{ch:concrete-instances-bishop-cauchy-convergence-criterion-namecert}. The packet is a tail-window handoff certificate; it is not Real completeness, quotient-stream equality, a selected limit, countable choice, trichotomy, or host equality.
+
+\begin{definition}[Real Cauchy window carrier]
+\label{def:real-cauchy-window-carrier}
+A $\RealCauchyWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,Q,D,M,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row, carrying the finite observation windows and the order in which tail requests are inspected.
+\item $Q$ is the criterion request row, naming the displayed Cauchy or Bishop-Cauchy criterion to be discharged before any Real seal is read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, displaying requested radii, split tolerances, comparison budgets, and endpoint observations.
+\item $M$ is the modulus row, recording the finite index bound that answers the criterion request over the schedule $S$ at tolerance $D$.
+\item $T$ is the finite tail-window row, listing the inspected tail segment downstream of $M$ and upstream of the Real seal.
+\item $R$ is the terminal $\RealUp$ seal row, exposed only after $S,Q,D,M,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, criterion request, tolerance, modulus, finite tail window, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S \longmapsto Q \longmapsto D \longmapsto M \longmapsto T \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyWindowUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyConvergenceCriterionUp$, $\BishopCauchyConvergenceCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,D,M,T,R,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host equality, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real Cauchy window NameCert obligations]
+\label{thm:real-cauchy-window-namecert-obligations}
+For every accepted $\RealCauchyWindowUp$ carrier
+$$
+W=(S,Q,D,M,T,R,H,C,P,N),
+$$
+the local $\NameCert_{\RealCauchyWindowUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName schedule, criterion request, DyadicRatCore tolerance, modulus row, finite tail window, Real seal, transport, replay, provenance, and local naming;
+\item criterion-to-tail scheduling, requiring the request $Q$ to be read over the finite schedule $S$ before $M$ and $T$ are consumed;
+\item dyadic tolerance readback, requiring $D$ to display the requested radii, split tolerances, comparison budgets, and endpoint observations before the modulus row answers the request;
+\item Real seal handoff, requiring $R$ to be downstream of $S,Q,D,M,T$ and never upstream of the finite tail window;
+\item $\hsame$ transport and $\Cont$ replay, requiring $H$ and $C$ to preserve exactly the displayed route;
+\item $\Pkg$ provenance and local naming, requiring $P$ and $N$ to name the same finite packet and no hidden host construction;
+\item nonescape from quotient streams, selected limits, countable choice, trichotomy, host equality, and ambient Real completeness.
+\end{enumerate}
+No Real Cauchy window obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-cauchy-window-carrier}. The accepted tuple displays exactly the schedule, criterion request, dyadic tolerance, modulus, finite tail window, Real seal, transport, replay, provenance, and local naming rows.
+
+The criterion-to-tail schedule is read from $S,Q,M,T$. A consumer first exposes the finite observation schedule and the criterion request, then reads the modulus row, and only then inspects the tail-window row that answers the request.
+
+Dyadic tolerance readback is the role of $D$. The row displays the requested radii, split tolerances, comparison budgets, and endpoint observations used by the modulus and tail-window rows, so no external real-order or trichotomy principle is introduced.
+
+The Real seal handoff is the projection to $R$ together with the structural rows $H,C,P,N$. These rows transport, replay, source, and name the same finite route, and the carrier has no coordinate for quotient streams, selected limits, countable choice, host equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Real Cauchy window finite tail handoff]
+\label{thm:real-cauchy-window-finite-tail-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RealCauchyWindowUp$ packet must pass through the finite tail route
+$$
+S \longmapsto Q \longmapsto D \longmapsto M \longmapsto T \longmapsto R \longmapsto H,C,P,N
+$$
+before reading the Real seal. The handoff exports a StreamName schedule, criterion request, DyadicRatCore tolerance readback, modulus row, finite tail window, terminal Real seal, componentwise transport, replay, provenance, and local naming; it exports no Real completeness, quotient streams, selected limits, trichotomy, countable choice, host equality, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing or completion-facing read of the packet. Projection from \autoref{def:real-cauchy-window-carrier} exposes the ordered rows $S,Q,D,M,T,R,H,C,P,N$.
+
+Apply \autoref{thm:real-cauchy-window-namecert-obligations}. The criterion request is tied to the finite StreamName schedule, the dyadic tolerance row is read before the modulus answers the request, and the finite tail window is downstream of that answer.
+
+The terminal Real seal is the row $R$. Since the carrier admits no other seal coordinate and the transport, replay, provenance, and naming rows preserve only the displayed route, every consumer reaches $R$ only after the finite tail window has been displayed.
+\end{proof}
+
+\closureat{RealCauchyWindowUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyWindowUp}
+  \constructivestory{A $\RealCauchyWindowUp$ packet is generated from StreamName schedules, criterion requests, DyadicRatCore tolerance rows, modulus rows, finite tail windows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-window-carrier}, \autoref{thm:real-cauchy-window-namecert-obligations}, and \autoref{thm:real-cauchy-window-finite-tail-handoff} seed the finite route from displayed Cauchy criterion data through tail-window inspection into a terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, selected limits, trichotomy, countable choice, host equality, Lean verification, or bridge checking.}
+  \upgradepath{Formalization requires carrier admission, criterion-to-tail scheduling, dyadic tolerance readback, Real seal handoff, transport and replay, provenance, naming, and non-escape proofs for BEDC.Derived.RealCauchyWindowUp.}
+\end{closurestatus}

@@ -1,1 +1,11 @@
-The $\CompactRealIntervalUp$ packet consumes the closed-bounded-interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite interval-net rows internal to its compact interval carrier, $\StreamNameUp$ windows from \autoref{ch:concrete-instances-streamname-namecert}, $\RegSeqRatUp$ readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. This dependency route keeps every compact-real-interval read tied to displayed interval endpoints, finite net data, stream observations, regular rational reconstruction, and local real naming before downstream compactness consumers inspect the packet.
+\begin{theorem}[Compact real interval closed-bounded dependency route]
+\label{thm:compact-real-interval-closed-bounded-route}
+Every $\CompactRealIntervalUp$ consumer that inspects the compact-interval packet must first pass through the closed-bounded interval endpoint rows of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic finite-net rows recorded by the compact interval carrier, the $\StreamNameUp$ finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback rows, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The route exposes interval endpoints, finite net data, stream observations, regular rational reconstruction, and local real naming before any compact interval consumer may inspect the packet.
+\end{theorem}
+\begin{proof}
+Project the compact real interval carrier. The closed-bounded endpoint rows supply the only interval source, and the dyadic finite-net rows supply the only finite covering data inside the packet.
+
+The stream and regular-readback rows are then read in order. The $\StreamNameUp$ windows specify the finite observations, and the $\RegSeqRatUp$ rows reconstruct the rational readback attached to those observations.
+
+The terminal $\RealUp$ seal is available only after these endpoint, finite-net, stream, and readback rows have been displayed. Thus a compact interval consumer receives the actual L10 dependency route rather than an ungrounded compactness credential.
+\end{proof}

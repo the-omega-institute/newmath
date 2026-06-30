@@ -8,6 +8,10 @@ FORBIDDEN_POSITIVE_CLAIM_TERMS: tuple[str, ...] = (
     "global-quality",
     "full-tensor-namecert",
     "llm-behavior",
+    "trained empirical superiority over Transformer",
+    "training evidence beats Transformer",
+    "LLM superiority",
+    "production superiority",
 )
 
 HIGH_IMPACT_CLAIM_TERMS: tuple[str, ...] = (

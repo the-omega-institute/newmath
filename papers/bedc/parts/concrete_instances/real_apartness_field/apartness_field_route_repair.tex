@@ -1,0 +1,17 @@
+\begin{theorem}[Real apartness field dependency route]
+\label{thm:real-apartness-field-route-repair}
+Every accepted $\RealApartnessFieldUp$ inverse read or apartness-field read consumes the regular-Cauchy source rows, the $\RegularCauchyApartnessOrderUp$ route of \autoref{ch:concrete-instances-regular-cauchy-apartness-order-namecert}, the located-real bridge through \autoref{ch:concrete-instances-located-real-namecert}, and the $\RealLocatedOrderUp$ row of \autoref{ch:concrete-instances-real-located-order-namecert} before it exports field-level apartness. In carrier notation, for
+$$
+F=(R,A,O,K,D,H,C,P,N),
+$$
+the regular source behind $R$, the positive apartness row $A$, the located-order row $O$, the field row $K$, the dyadic ledger $D$, transport $H$, replay $C$, provenance $P$, and local naming $N$ are consumed in that order as one displayed dependency route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-apartness-field-carrier}. The packet has no field-level apartness coordinate outside $R,A,O,K,D,H,C,P,N$.
+
+Read the regular-Cauchy source first. The existing source route of \autoref{thm:real-apartness-field-regular-cauchy-source-route} places the $\RegSeqRatUp$ source and the terminal $\RealUp$ seal before any field row $K$ is consumed.
+
+Next read the apartness and located rows. The regular-Cauchy apartness/order dependency of \autoref{thm:real-apartness-field-regular-cauchy-apartness-order-dependency} supplies the $\RegularCauchyApartnessOrderUp$ route for $A$, while \autoref{thm:real-apartness-field-located-real-route} supplies the located-real bridge and \autoref{thm:real-apartness-field-located-order-inverse-guard} keeps the $\RealLocatedOrderUp$ row visible over the same real seal.
+
+Finally compose with the NameCert obligations. The algebraic projection and inverse-admission rows of \autoref{thm:real-apartness-field-namecert-obligations} allow $K$ to export field-level apartness only after $A,O,D$ have been displayed, and $H,C,P,N$ preserve the same route. Thus the field-level apartness export is downstream of the regular source, regular-Cauchy apartness/order, located-real bridge, and real located-order rows, with no host equality, trichotomy, selected representative, choice schedule, or ambient completeness inserted.
+\end{proof}

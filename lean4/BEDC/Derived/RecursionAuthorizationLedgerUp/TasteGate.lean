@@ -336,6 +336,44 @@ theorem RecursionAuthorizationLedgerPacket_branch_descent_exactness [AskSetup]
     ⟨branchesUnary, descentUnary, branchReadUnary, outputReadUnary,
       branchesDescentBranchRead, branchReadOutputOutputRead, provenancePkg, outputReadPkg⟩
 
+theorem RecursionAuthorizationLedgerPacket_finite_induction_scope [AskSetup]
+    [PackageSetup]
+    {signature recursor motive branches descent output transport routes provenance name
+      branchRead outputRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerPacket signature recursor motive branches descent output
+        transport routes provenance name bundle pkg →
+      Cont branches descent branchRead →
+        Cont branchRead output outputRead →
+          Cont transport routes auditRead →
+            PkgSig bundle outputRead pkg →
+              PkgSig bundle auditRead pkg →
+                UnaryHistory signature ∧ UnaryHistory recursor ∧ UnaryHistory motive ∧
+                  UnaryHistory branches ∧ UnaryHistory descent ∧ UnaryHistory output ∧
+                    UnaryHistory branchRead ∧ UnaryHistory outputRead ∧
+                      UnaryHistory auditRead ∧ Cont branches descent branchRead ∧
+                        Cont branchRead output outputRead ∧ Cont transport routes auditRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle outputRead pkg ∧
+                            PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet branchesDescentBranchRead branchReadOutputOutputRead
+    transportRoutesAuditRead outputReadPkg auditReadPkg
+  obtain ⟨signatureUnary, recursorUnary, motiveUnary, branchesUnary, descentUnary,
+    outputUnary, transportUnary, routesUnary, provenanceUnary, nameUnary,
+    _signatureRecursorMotive, _motiveBranchesDescent, _descentOutputTransport,
+    _transportRoutesProvenance, provenancePkg⟩ := packet
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchesUnary descentUnary branchesDescentBranchRead
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchReadUnary outputUnary branchReadOutputOutputRead
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed transportUnary routesUnary transportRoutesAuditRead
+  exact
+    ⟨signatureUnary, recursorUnary, motiveUnary, branchesUnary, descentUnary, outputUnary,
+      branchReadUnary, outputReadUnary, auditReadUnary, branchesDescentBranchRead,
+      branchReadOutputOutputRead, transportRoutesAuditRead, provenancePkg, outputReadPkg,
+      auditReadPkg⟩
+
 theorem RecursionAuthorizationLedger_signature_acceptance
     {signature signature' recursor recursor' motive motive' branches branches'
       descent descent' output output' transport transport' routes routes'

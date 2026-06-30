@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyPruningUp$}
+\label{ch:concrete-instances-regular-cauchy-pruning-namecert}
+\origin{human}
+
+Following Bishop and Bridges on subsequences and regular Cauchy sequences, the $\RegularCauchyPruningUp$ packet records the finite certificate surface for deleting redundant observation requests from a regular Cauchy rational stream while preserving the terminal real-name seal. It sits after the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the tail restriction route of \autoref{ch:concrete-instances-regular-cauchy-tail-subsequence-namecert}, the cofinal-subsequence surface of \autoref{ch:concrete-instances-regular-cauchy-cofinal-subsequence-namecert}, and the terminal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a non-quotient, choice-free pruning certificate for L10 Real and Completion consumers; it does not select a hidden subsequence, quotient streams, compare host real equality, or invoke ambient completeness.
+
+\begin{definition}[Regular-Cauchy pruning carrier]
+\label{def:regular-cauchy-pruning-carrier}
+A $\RegularCauchyPruningUp$ carrier is a finite $\BHist$ packet
+$$
+P=(S,W,\rho,T,Q,D,R,E,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegSeqRatUp$ row whose regular Cauchy rational observations are being pruned.
+\item $W$ is the $\StreamNameUp$ window ledger listing the inspected source requests and the retained requests after pruning.
+\item $\rho$ is the pruning schedule row. It records, for each displayed retained request, the source request that survives; it is finite on the inspected window and cofinal on the displayed thresholds.
+\item $T$ is the $\RegularCauchyTailSubsequenceUp$ tail row exposing the initial cutoff before any retained window is read.
+\item $Q$ is the $\RegularCauchyCofinalSubsequenceUp$ cofinal row exposing the monotone retained schedule after the tail cutoff.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the source, retained windows, tail row, cofinal row, and real seal.
+\item $R$ is the retained $\RegSeqRatUp$ readback row obtained from $W,\rho,T,Q,D$.
+\item $E$ is the inherited $\RealUp$ seal, exposed only after the retained readback row has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, windows, pruning schedule, tail row, cofinal row, tolerance ledger, retained readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a pruning request through the same finite rows.
+\item $G$ is the $\Pkg$ provenance over $\RegularCauchyPruningUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailSubsequenceUp$, $\RegularCauchyCofinalSubsequenceUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyPruningUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,\rho,T,Q,D,R,E,H,C,G,N$. It has no coordinate for quotient stream equality, a hidden infinite selector, selected ambient limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy pruning tail stability]
+\label{thm:regular-cauchy-pruning-tail-stability}
+Let
+$$
+P=(S,W,\rho,T,Q,D,R,E,H,C,G,N)
+$$
+be an accepted $\RegularCauchyPruningUp$ carrier. Every tail-facing or cofinal-subsequence consumer of $P$ reads the same terminal $\RealUp$ seal $E$ through the finite route
+$$
+S,W,\rho,T,Q,D,R,E,H,C,G,N.
+$$
+Consequently pruning redundant observed requests preserves the displayed real-name boundary and supplies no quotient stream equality, selected limit, host real equality, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-pruning-carrier}. The tail row $T$ and cofinal row $Q$ are displayed coordinates of the same packet as the source row $S$, window ledger $W$, pruning schedule $\rho$, dyadic ledger $D$, retained readback $R$, and seal $E$.
+
+Read the tail route first. The row $T$ exposes the initial cutoff through \autoref{ch:concrete-instances-regular-cauchy-tail-subsequence-namecert}, so retained requests are not read until the tail window has been displayed.
+
+Read the cofinal route next. The row $Q$ exposes the retained monotone cofinal schedule through \autoref{ch:concrete-instances-regular-cauchy-cofinal-subsequence-namecert}. The schedule row $\rho$ is therefore a finite pruning ledger on the inspected windows, not an external choice function.
+
+Finally read $D,R,E$. The dyadic tolerance ledger is shared by the source, tail, cofinal, and retained readback rows, and $R$ is the only regular rational readback available before the real seal. Since $H,C,G,N$ transport, replay, source, and name only these rows, a consumer cannot extract quotient stream equality, selected limits, host equality, countable choice, or ambient completeness from the pruning packet.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy pruning NameCert obligations]
+\label{thm:regular-cauchy-pruning-namecert-obligations}
+For every accepted $\RegularCauchyPruningUp$ carrier
+$$
+P=(S,W,\rho,T,Q,D,R,E,H,C,G,N),
+$$
+the local $\NameCert_{\RegularCauchyPruningUp}$ surface consists exactly of carrier admission for the source regular rational row, finite window ledger, pruning schedule, tail row, cofinal retained schedule, dyadic tolerance ledger, retained regular rational readback, real seal, componentwise transport, continuation replay, provenance, and local naming rows; tail stability through $T$; cofinal stability through $Q$; retained readback exactness through $R$; and ledger nonescape through $H,C,G,N$. No NameCert obligation is stored outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-pruning-carrier}. The packet displays exactly the source row, inspected and retained windows, pruning schedule, tail and cofinal routes, dyadic ledger, retained readback, Real seal, and structural rows.
+
+Tail stability is \autoref{thm:regular-cauchy-pruning-tail-stability}. It ensures that the tail and cofinal consumers read the same seal through the retained finite route.
+
+Retained readback exactness is read from $R$. The retained $\RegSeqRatUp$ row consumes the displayed windows, pruning schedule, tail row, cofinal row, and dyadic ledger before $E$ is visible.
+
+The structural rows exhaust the route. Componentwise transport, continuation replay, provenance, and local naming preserve only the displayed packet, so no hidden selector, quotient stream, selected limit, host equality, countable choice, ambient completeness, Lean verification, or bridge credential can serve as a local obligation.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyPruningUp$ completion-facing read exposes the source StreamName windows, pruning schedule, tail row, cofinal row, dyadic tolerance ledger, retained RegSeqRat readback, and inherited RealUp seal before any consumer can inspect the pruned stream.}
+
+\closureat{RegularCauchyPruningUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyPruningUp}
+  \constructivestory{A $\RegularCauchyPruningUp$ packet is generated from a source RegSeqRat row, StreamName window ledger, pruning schedule, tail-subsequence row, cofinal-subsequence row, DyadicRatCore tolerance ledger, retained RegSeqRat readback, inherited RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-pruning-carrier}, \autoref{thm:regular-cauchy-pruning-tail-stability}, and \autoref{thm:regular-cauchy-pruning-namecert-obligations} seed the finite pruning route for regular Cauchy rational streams over displayed StreamName windows, tail and cofinal subsequence rows, dyadic tolerance ledgers, retained RegSeqRat readback, and the inherited RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, hidden infinite selectors, selected ambient limits, countable choice, host real equality, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pruning schedule stability, tail stability, cofinal retained-schedule stability, retained readback exactness, RealUp seal compatibility, and ledger nonescape for BEDC.Derived.RegularCauchyPruningUp.}
+\end{closurestatus}

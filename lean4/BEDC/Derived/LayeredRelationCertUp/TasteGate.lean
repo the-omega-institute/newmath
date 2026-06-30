@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LayeredRelationCertUp
@@ -8,6 +9,8 @@ namespace BEDC.Derived.LayeredRelationCertUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -437,5 +440,26 @@ theorem LayeredRelationCert_namecert_row_obligations
         cases packetRows with
         | intro _packetEq rowName =>
             exact And.intro rowName rfl
+
+theorem LayeredRelationCertCarrier_failure_boundary
+    {S Q E N refusedRead failureRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory Q →
+        UnaryHistory E →
+          Cont S Q refusedRead →
+            Cont refusedRead E failureRead →
+              hsame failureRead N →
+                UnaryHistory refusedRead ∧
+                  UnaryHistory failureRead ∧
+                    Cont S Q refusedRead ∧
+                      Cont refusedRead E failureRead ∧
+                        hsame failureRead N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro sUnary qUnary eUnary refusedRoute failureRoute failureName
+  have refusedUnary : UnaryHistory refusedRead :=
+    unary_cont_closed sUnary qUnary refusedRoute
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed refusedUnary eUnary failureRoute
+  exact ⟨refusedUnary, failureUnary, refusedRoute, failureRoute, failureName⟩
 
 end BEDC.Derived.LayeredRelationCertUp

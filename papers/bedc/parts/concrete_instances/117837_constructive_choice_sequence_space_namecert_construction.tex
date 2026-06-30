@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveChoiceSequenceSpaceUp$}
+\label{ch:concrete-instances-constructive-choice-sequence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on choice sequences and constructive real numbers, the $\ConstructiveChoiceSequenceSpaceUp$ packet names the finite-window space in which a displayed stream name is read together with a regular Cauchy rational row and a terminal Real seal. It sits between the finite stream discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular Cauchy rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Real boundary of \autoref{ch:concrete-instances-real-namecert}. The chapter records only the finite rows needed for a named constructive choice-sequence space; it does not add countable choice, quotient stream equality, selected limits, trichotomy, or ambient Real completeness.
+
+\begin{definition}[Constructive choice-sequence space carrier]
+\label{def:constructive-choice-sequence-space-carrier}
+A $\ConstructiveChoiceSequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,Q,R,D,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row, exposing only the finite windows of the sequence name that the packet inspects.
+\item $Q$ is the $\RegSeqRatUp$ row, reading those windows as regular Cauchy rational approximants.
+\item $R$ is the terminal $\RealUp$ seal row available only after $S$ and $Q$ have been displayed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare requested windows and regularity bounds.
+\item $W$ is the finite window-budget row, recording which stream positions, rational approximants, and dyadic tolerances are visible to the packet.
+\item $H$ records componentwise $\hsame$ transport for $S,Q,R,D,W$ and for the replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite stream-window request through regular rational readback and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveChoiceSequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveChoiceSequenceSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,R,D,W,H,C,P,N$. It has no coordinate for countable choice, quotient stream equality, selected limits, trichotomy, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Constructive choice-sequence space NameCert obligations]
+\label{thm:constructive-choice-sequence-space-namecert-obligations}
+For every accepted $\ConstructiveChoiceSequenceSpaceUp$ carrier $X=(S,Q,R,D,W,H,C,P,N)$, the local $\NameCert_{\ConstructiveChoiceSequenceSpaceUp}$ surface consists exactly of carrier admission for the finite stream windows, regular Cauchy rational readback, terminal Real seal, dyadic tolerance ledger, finite window budget, componentwise transport, displayed replay, provenance, and local naming rows. Every consumer must read the route
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp \longmapsto \RealUp
+$$
+through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before treating the packet as a constructive choice-sequence space.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-choice-sequence-space-carrier}. The visible analytic rows are exactly the stream-window row $S$, regular rational readback $Q$, Real seal $R$, dyadic tolerance ledger $D$, and finite window budget $W$.
+
+The NameCert obligations are therefore local. A request first exposes the finite stream positions in $S$ and the budget row $W$; it then reads regular rational approximants through $Q$ and the dyadic tolerance ledger $D$ before the Real seal $R$ is available.
+
+Transport and replay do not create new sequence data. Componentwise $\hsame$ in $H$ preserves the displayed rows, while $\Cont$ in $C$ repeats the same finite-window route for every accepted request.
+
+Finally, provenance and naming are exhausted by $P$ and $N$. Since countable choice, quotient stream equality, selected limits, trichotomy, and ambient Real completeness are not carrier rows, the certificate cannot export them.
+\end{proof}
+
+\begin{theorem}[Constructive choice-sequence space finite-window law]
+\label{thm:constructive-choice-sequence-space-finite-window-law}
+Every read of an accepted $\ConstructiveChoiceSequenceSpaceUp$ packet is determined by a finite window budget $W$ and factors through the sibling rows $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ named by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Enlarging the budget may expose additional displayed windows, but no read bypasses the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $X=(S,Q,R,D,W,H,C,P,N)$. The row $W$ lists the only stream positions, rational approximants, and dyadic tolerances visible to the packet, so a consumer begins with a finite budget rather than an infinite selector.
+
+Apply the carrier route. The stream row $S$ supplies the displayed finite windows, $Q$ reads them as regular Cauchy rational approximants, and $D$ supplies the dyadic tolerance comparisons needed before $R$ seals the data as $\RealUp$.
+
+If the budget is enlarged, the same construction is repeated with a larger displayed row $W'$. The transport row $H$ and replay row $C$ preserve the componentwise route, and $P,N$ name no additional source.
+
+Thus the finite-window law is stable under budget enlargement but never becomes countable choice, quotient stream equality, selected limit data, trichotomy, or ambient Real completeness.
+\end{proof}
+
+\begin{closurestatus}{\ConstructiveChoiceSequenceSpaceUp}
+  \constructivestory{A $\ConstructiveChoiceSequenceSpaceUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a Real seal, a DyadicRatCore tolerance ledger, a finite window budget, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter seeds the finite-window carrier and NameCert obligation surface for Bishop-style constructive choice-sequence spaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim countable choice, quotient stream equality, selected limits, trichotomy, or ambient Real completeness.}
+  \upgradepath{A Lean carrier and checked finite-window gate would move the verification axis beyond the unformalized seed.}
+\end{closurestatus}

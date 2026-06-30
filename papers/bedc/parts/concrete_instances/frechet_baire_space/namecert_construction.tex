@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-frechet-baire-space-namecert}
 \origin{human}
 
-Following Baire and Bourbaki, the $\FrechetBaireSpaceUp$ packet records the finite handoff from a complete metrizable locally convex carrier to the complete-metric Baire route. It sits after the $\FrechetSpaceUp$ carrier of \autoref{ch:concrete-instances-frechet-space-namecert}, the theorem-level dense-open package of \autoref{ch:concrete-instances-baire-category-theorem-namecert}, the inspected complete-metric surface of \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert}, the topological-vector source of \autoref{ch:concrete-instances-topvecspace-namecert}, the locally convex source of \autoref{ch:concrete-instances-locally-convex-space-namecert}, and the metric-completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names only the finite route by which a Frechet-space consumer may receive Baire-category evidence; it does not add Hahn--Banach separation, selected generic points, countable choice, host intersections, or ambient complete locally convex spaces.
+Following Baire and Bourbaki, the $\FrechetBaireSpaceUp$ packet records the finite handoff from a complete metrizable locally convex carrier to the complete-metric Baire route. It sits after the $\FrechetSpaceUp$ carrier of \autoref{ch:concrete-instances-frechet-space-namecert}, the theorem-level dense-open package of \autoref{ch:concrete-instances-baire-category-theorem-namecert}, the inspected complete-metric surface of \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert}, the topological-vector source of \autoref{ch:concrete-instances-topvecspace-namecert}, the locally convex source of \autoref{ch:concrete-instances-locally-convex-space-namecert}, and the metric-completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. In the sibling lattice, the chapter consumes \autoref{ch:concrete-instances-frechet-space-namecert} and \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert} before its route reaches \autoref{ch:concrete-instances-baire-category-theorem-namecert}. The packet names only the finite route by which a Frechet-space consumer may receive Baire-category evidence; it does not add Hahn--Banach separation, selected generic points, countable choice, host intersections, or ambient complete locally convex spaces.
 
 \begin{definition}[Frechet-space Baire carrier]
 \label{def:frechet-space-baire-carrier}
@@ -54,6 +54,22 @@ Inspect the carrier coordinates. The rows $V,L,Q$ preserve the topological-vecto
 Since none of the coordinates stores Hahn--Banach separation, a selected generic point, countable choice, a host intersection object, quotient completion equality, or an ambient complete locally convex space, no accepted consumer can extract those readings from the packet.
 \end{proof}
 
+\begin{theorem}[Frechet-space Baire metric-completion forward lattice]
+\label{thm:frechet-baire-space-metric-completion-forward-lattice}
+Every accepted $\FrechetBaireSpaceUp$ consumer routes Baire evidence through the forward lattice
+$$
+\FrechetSpaceUp \longmapsto \MetricCompletionUp \longmapsto \CompleteMetricBaireSurfaceUp \longmapsto \BaireCategoryTheoremUp
+$$
+before exporting a dense-open conclusion. The rows $F,T,U,V,L,Q,H,C,P,N$ must remain visible, with $V$ and $L$ retaining the topological-vector and locally convex sources and $Q$ retaining the metric-completion handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:frechet-space-baire-carrier}. The Frechet source row $F$ carries the complete metrizable locally convex surface, while $V$ and $L$ keep the inherited topological-vector and locally convex data visible.
+
+Apply the completeness route, \autoref{thm:frechet-space-baire-completeness-route}. It sends the Baire request through the complete metric boundary and the metric-completion handoff $Q$ before the inspected complete-metric Baire surface $U$ and theorem-level row $T$ are read.
+
+Finally use non-escape, \autoref{thm:frechet-space-baire-nonescape}. Since the dense-open conclusion can be exported only through $F,T,U,V,L,Q,H,C,P,N$, the structural rows $H,C,P,N$ preserve the same forward lattice and cannot replace the metric-completion handoff by an ambient host completion or a selected generic point.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\FrechetBaireSpaceUp$ consumer that reads Baire-category evidence without first exposing $F,T,U,V,L,Q,H,C,P,N$ refutes the carrier surface of \autoref{def:frechet-space-baire-carrier}.}
 
 \independenceWitness{frechet-space, baire-category-theorem, complete-metric-baire-surface, topvecspace, locally-convex-space, metriccompletion: no listed sibling is bijective to $\FrechetBaireSpaceUp$, because this packet alone binds the Frechet source, complete-metric Baire inspection, theorem-level dense-open route, topological-vector row, locally convex row, metric-completion handoff, transport, replay, provenance, and local NameCert rows into one finite handoff.}
@@ -63,7 +79,7 @@ Since none of the coordinates stores Hahn--Banach separation, a selected generic
 \begin{closurestatus}{\FrechetBaireSpaceUp}
   \constructivestory{A $\FrechetBaireSpaceUp$ packet is generated from a FrechetSpace source row, a BaireCategoryTheorem route row, a CompleteMetricBaireSurface inspection row, TopVecSpace and LocallyConvexSpace source rows, a MetricCompletion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:frechet-space-baire-carrier}, \autoref{thm:frechet-space-baire-completeness-route}, and \autoref{thm:frechet-space-baire-nonescape} seed the finite Frechet-to-Baire handoff over $F,T,U,V,L,Q,H,C,P,N$.}
+  \scopeclosed{\autoref{def:frechet-space-baire-carrier}, \autoref{thm:frechet-space-baire-completeness-route}, \autoref{thm:frechet-space-baire-nonescape}, and \autoref{thm:frechet-baire-space-metric-completion-forward-lattice} seed the finite Frechet-to-Baire handoff over $F,T,U,V,L,Q,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Hahn--Banach separation, selected generic points, countable choice, host intersections, quotient completion equality, Lean verification, or bridge checking.}

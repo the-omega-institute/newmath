@@ -74,11 +74,23 @@ The completion-facing route is finite. Stream windows are repacked as regular ra
 Finally inspect the missing coordinates of the carrier and classifier. They preserve the finite route under transport and replay, but they contain no selected limit, quotient equality, countable-choice selector, trichotomy row, or ambient completeness principle. Thus downstream Real and completion packets receive only the finite tail-bound handoff.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-bound RegSeqRat handoff]
+\label{thm:regular-cauchy-tail-bound-regseqrat-handoff}
+Every $\RegSeqRatUp$ reader of an accepted $\RegularCauchyTailBoundUp$ packet must read the $\StreamNameUp$ observation row $S$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ radius ledger $D$, the unary tail-index row $N$, and the later-index comparison row $T_0$ before any $\RealUp$ or completion-facing seal is consumed. The handoff keeps the Real seal downstream and exports no quotient streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Specialize \autoref{thm:regular-cauchy-tail-bound-namecert-obligations} to a RegSeqRat-facing reader. The obligations expose $S,R,D,N,T_0$ before the transport, replay, provenance, and local naming rows can be used.
+
+Use the completion handoff of \autoref{thm:regular-cauchy-tail-bound-completion-handoff} only at the boundary where a Real or completion-facing consumer appears. Before that boundary, the reader sees the stream observation, regular rational readback, radius ledger, tail index, and later-index comparisons as finite rows.
+
+Thus the narrower handoff is the RegSeqRat portion of the same packet. The downstream Real seal cannot be used to supply quotient streams, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
 \closureat{RegularCauchyTailBoundUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyTailBoundUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-bound-carrier}, \autoref{def:regular-cauchy-tail-bound-classifier}, \autoref{thm:regular-cauchy-tail-bound-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-bound-completion-handoff} seed the finite regular-Cauchy tail-bound packet over stream observations, regular rational readback, dyadic radii, unary tail indices, later-index comparisons, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-bound-carrier}, \autoref{def:regular-cauchy-tail-bound-classifier}, \autoref{thm:regular-cauchy-tail-bound-namecert-obligations}, \autoref{thm:regular-cauchy-tail-bound-completion-handoff}, and \autoref{thm:regular-cauchy-tail-bound-regseqrat-handoff} seed the finite regular-Cauchy tail-bound packet over stream observations, regular rational readback, dyadic radii, unary tail indices, later-index comparisons, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Real completeness, countable choice, quotient equality, trichotomy, selected limits, Lean verification, or bridge checking.}

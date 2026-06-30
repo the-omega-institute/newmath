@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRiemannSumUp$}
+\label{ch:concrete-instances-constructive-riemann-sum-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive integration, the $\ConstructiveRiemannSumUp$ packet records a finite Riemann-sum surface over tagged dyadic partitions. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational tolerance readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the pointwise source-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names the displayed finite sum only; it does not assert integrability, Darboux equivalence, mesh convergence, selected refining partitions, quotient equality of functions, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Constructive Riemann sum carrier]
+\label{def:constructive-riemann-sum-carrier}
+A $\ConstructiveRiemannSumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(E,T,F,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint row. It records a finite increasing list of dyadic endpoints and the adjacent half-open cells read by the partition surface.
+\item $T$ is the tag row. It records one displayed dyadic tag inside each cell named by $E$.
+\item $F$ is the $\ContinuousMapUp$ readback row. It records the pointwise evaluations requested at the tags and the source-continuity provenance inspected before those values are used.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row. It records dyadic cell widths, dyadic tag comparisons, finite products of displayed values with displayed widths, and the finite dyadic sum replay.
+\item $R$ is the $\RegSeqRatUp$ tolerance row. It records the regular rational window through which the dyadic sum is read before a real-facing consumer accepts the value.
+\item $Q$ is the terminal $\RealUp$ seal reached only after the endpoint, tag, map, arithmetic, and regular rational rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint, tag, map, dyadic arithmetic, regular tolerance, real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay for the route
+$$
+E,T,F,D \longmapsto R \longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveRiemannSumUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveRiemannSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for host integrability, supremum or infimum data, quotient function equality, countable choice, selected mesh sequences, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.ConstructiveRiemannSumUp}
+
+\begin{theorem}[Constructive Riemann sum NameCert obligations]
+\label{thm:constructive-riemann-sum-namecert-obligations}
+For every accepted $\ConstructiveRiemannSumUp$ carrier $S=(E,T,F,D,R,Q,H,C,P,N)$, the local $\NameCert_{\ConstructiveRiemannSumUp}$ surface consists exactly of carrier admission for the displayed endpoint list, tag list, $\ContinuousMapUp$ readback, $\DyadicRatCoreUp$ arithmetic replay, $\RegSeqRatUp$ tolerance readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local naming; refinement stability for partitions obtained by inserting finitely many dyadic endpoints and retagging through displayed dyadic comparisons; sample transport along the $H$ rows; dyadic finite-sum replay through $D$; terminal real handoff through $R,Q$; and ledger non-escape through $P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:constructive-riemann-sum-carrier}. The tuple displays exactly the endpoint, tag, map, dyadic arithmetic, regular readback, real seal, transport, replay, provenance, and local naming rows, so every obligation begins with one of $E,T,F,D,R,Q,H,C,P,N$.
+
+Refinement stability remains finite. Inserting dyadic endpoints only replaces the endpoint row by a longer displayed list and asks $T$ for tags inside the new cells; the dyadic comparisons needed to validate those tags are already rows of $D$.
+
+The sampled values are transported through $H$ and replayed through $C$. Thus a consumer reads tag evaluations from $F$ before using dyadic widths and products from $D$, and the finite sum has no source outside the displayed tagged partition.
+
+The real-facing handoff is terminal. The dyadic sum passes through the regular rational tolerance row $R$ before reaching the seal $Q$, and the provenance and naming rows $P,N$ expose no hidden integrability theorem, selected mesh sequence, quotient equality, or completeness principle.
+\end{proof}
+
+\closureat{ConstructiveRiemannSumUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRiemannSumUp}
+  \constructivestory{A $\ConstructiveRiemannSumUp$ packet is generated from finite dyadic endpoints, displayed tags, ContinuousMap point readback, DyadicRatCore width and product arithmetic, RegSeqRat tolerance readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-riemann-sum-carrier} and \autoref{thm:constructive-riemann-sum-namecert-obligations} seed the finite tagged dyadic partition surface and its dyadic-sum, regular-readback, and real-seal handoff.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.ConstructiveRiemannSumUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Riemann integrability, Darboux equivalence, mesh-limit convergence, selected refining partitions, quotient equality of maps, ambient RealUp completeness, checked obligation rows, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite refinement stability, sample transport, dyadic finite-sum replay, RegSeqRat tolerance readback, Real handoff, provenance, and local naming for BEDC.Derived.ConstructiveRiemannSumUp.}
+\end{closurestatus}

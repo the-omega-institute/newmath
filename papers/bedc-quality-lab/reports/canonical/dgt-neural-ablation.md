@@ -3,7 +3,7 @@
 - Status: `pass`
 - PURE status: `pass`
 - Stable causal attribution: `none`
-- Device: `mps`
+- Device: `cuda`
 - Arms: `11`
 - Seeds: `8`
 - Torch step grid: `[128, 256]`

@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC parallel-diamond candidate-normalization frontier scope]
+\label{thm:metacic-parallel-diamond-candidate-normalization-frontier-scope}
+Every candidate-normalization read used by the $\MetaCICParallelDiamondFrontierUp$ packet must pass through the visible candidate endpoint row, residual-diamond budget, retained-premise boundary, residual-join locality row, and normal-form obligation row before it can feed a local-confluence consumer. Equivalently, the read remains inside the finite frontier spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+where $J$ is read only as the displayed candidate endpoint, $R,S,C,B$ keep the residual-diamond and normal-form budget visible, $P$ and $O$ keep the retained premise and obstruction boundary visible, and $H,T,G,N$ preserve transport, replay, provenance, and local naming. The scope is therefore a bounded candidate-normalization frontier; it is not premise-free local confluence, unrestricted normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with candidate-normalization scope, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. It requires any consumer of the candidate row to expose the full frontier spine before the candidate endpoint $J$ is read.
+
+Next apply the candidate-mediated strong-normalization handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. This keeps the candidate endpoint attached to the critical-pair envelope, finite residual witness, bounded checker rows, obstruction row, transport, replay, provenance, and local naming.
+
+Use the residual-join obligation surface, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligations}. It supplies the residual-diamond budget and local residual-join obligation rows, so a local-confluence consumer cannot read candidate normalization before the residual budget and local join route are visible.
+
+Finally apply the retained-premise closure budget of \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-closure}. The retained premise and obstruction rows remain displayed through the normal-form obligation route, so the candidate-normalization read stays inside the bounded frontier and exports none of the refused global endpoints.
+\end{proof}

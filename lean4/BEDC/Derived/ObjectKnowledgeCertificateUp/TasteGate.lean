@@ -351,6 +351,68 @@ theorem ObjectKnowledgeCertificate_nonescape
       (fun subjectReturn =>
         cont_mutual_extension_right_tail_absurd.right consumerRoute subjectReturn)⟩
 
+theorem ObjectKnowledgeCertificate_public_export
+    {N W S P K T L A C Q exported : BHist} :
+    hsame exported Q ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row exported ∧
+            ∃ packet : ObjectKnowledgeCertificateUp,
+              packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+        (fun row : BHist =>
+          hsame row N ∨ hsame row W ∨ hsame row S ∨ hsame row P ∨
+            hsame row K ∨ hsame row T ∨ hsame row L ∨ hsame row A ∨
+              hsame row C ∨ hsame row Q)
+        (fun row : BHist =>
+          hsame row exported ∧ hsame N N ∧ hsame W W ∧ hsame S S ∧
+            hsame P P ∧ hsame K K ∧ hsame T T ∧ hsame L L ∧
+              hsame A A ∧ hsame C C ∧ hsame Q Q)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro exportedRow
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exported
+          ⟨hsame_refl exported,
+            Exists.intro (ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (hsame_trans sourceRow.left exportedRow)))))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl N, hsame_refl W, hsame_refl S,
+          hsame_refl P, hsame_refl K, hsame_refl T, hsame_refl L,
+          hsame_refl A, hsame_refl C, hsame_refl Q⟩
+  }
+
 theorem ObjectKnowledgeCertificateNameCert_obligations
     {N W S P K T L A C Q : BHist} :
     SemanticNameCert
@@ -396,5 +458,70 @@ theorem ObjectKnowledgeCertificateNameCert_obligations
         ⟨sourceRow.left, hsame_refl T, hsame_refl L, hsame_refl A,
           hsame_refl C, hsame_refl Q⟩
   }
+
+theorem ObjectKnowledgeCertificate_bridge_obligation_surface
+    {N W S P K T L A C Q bridgeRead : BHist}
+    (auditRoute : Cont N W A)
+    (transportRoute : Cont A C bridgeRead) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧
+            ∃ packet : ObjectKnowledgeCertificateUp,
+              packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+        (fun row : BHist =>
+          hsame row N ∧ hsame W W ∧ hsame A A ∧ hsame L L ∧ hsame Q Q)
+        (fun row : BHist =>
+          Cont N W A ∧ Cont A C bridgeRead ∧ hsame row N ∧ hsame C C ∧
+            hsame Q Q)
+        hsame ∧
+      Cont N W A ∧
+        Cont A C bridgeRead ∧
+          hsame N N ∧ hsame W W ∧ hsame A A ∧ hsame L L ∧ hsame C C ∧
+            hsame Q Q := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row N ∧
+              ∃ packet : ObjectKnowledgeCertificateUp,
+                packet = ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q)
+          (fun row : BHist =>
+            hsame row N ∧ hsame W W ∧ hsame A A ∧ hsame L L ∧ hsame Q Q)
+          (fun row : BHist =>
+            Cont N W A ∧ Cont A C bridgeRead ∧ hsame row N ∧ hsame C C ∧
+              hsame Q Q)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N
+          ⟨hsame_refl N,
+            Exists.intro (ObjectKnowledgeCertificateUp.mk N W S P K T L A C Q) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl W, hsame_refl A, hsame_refl L,
+          hsame_refl Q⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨auditRoute, transportRoute, sourceRow.left, hsame_refl C, hsame_refl Q⟩
+  }
+  exact
+    ⟨cert, auditRoute, transportRoute, hsame_refl N, hsame_refl W, hsame_refl A,
+      hsame_refl L, hsame_refl C, hsame_refl Q⟩
 
 end BEDC.Derived.ObjectKnowledgeCertificateUp

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CauchyConvergenceRateUp$}
+\label{ch:concrete-instances-cauchy-convergence-rate-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyConvergenceRateUp$ packet records a tolerance-to-index rate ledger for regular Cauchy names. It sits between the finite stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the finite rate object used by Real-and-Completion consumers; it is not a chosen limit, not a quotient of Cauchy names, and not an ambient completeness theorem.
+
+\begin{definition}[Cauchy convergence rate carrier]
+\label{def:cauchy-convergence-rate-carrier}
+A $\CauchyConvergenceRateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(E,I,R,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the tolerance request row. It displays the dyadic error level to be met before any index is exposed.
+\item $I$ is the unary index row assigned to the tolerance in $E$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular Cauchy name at the displayed index.
+\item $D$ is the $\DyadicRatCoreUp$ bound row comparing the requested tolerance with the finite tail bound.
+\item $S$ is the $\RealUp$ seal row consumed only after $E,I,R,D$ have been fixed.
+\item $H$ records componentwise $\hsame$ transport for tolerance, index, RegSeqRat readback, dyadic bound, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the unary index, regular-rational readback, dyadic bound, and Real seal rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyConvergenceRateUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyConvergenceRateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for a selected Cauchy limit, quotient equality of names, countable choice, hidden tail witnesses, host equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy convergence rate NameCert obligations]
+\label{thm:cauchy-convergence-rate-namecert-obligations}
+For every accepted $\CauchyConvergenceRateUp$ carrier $Q=(E,I,R,D,S,H,C,P,N)$, the local $\NameCert_{\CauchyConvergenceRateUp}$ surface consists exactly of carrier admission, tolerance request exposure, total unary-index assignment for displayed tolerances, monotone tolerance refinement, RegSeqRat handoff, $\RealUp$ nonescape, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-convergence-rate-carrier}. Carrier admission and tolerance exposure are the projections of $Q$ and $E$.
+
+The rate obligations are carried by $I,D$. Totality means that every displayed tolerance row has a displayed unary index row, and monotone refinement means that a sharper displayed tolerance is routed through the same finite ledger before its index can be consumed.
+
+The readback and seal obligations are carried by $R,S$. The row $R$ is the regular-rational handoff, while $S$ is downstream of $E,I,R,D$ and therefore cannot export a Real-facing use without the rate rows.
+
+Transport, replay, provenance, and local naming are exhausted by $H,C,P,N$. Since the carrier has no coordinate for selected limits, quotient equality, countable choice, hidden tail witnesses, host equality, or ambient completeness, the nonescape clause follows by exhaustion.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence rate RegSeqRat handoff]
+\label{thm:cauchy-convergence-rate-regseqrat-handoff}
+Every $\RealUp$-facing use of an accepted $\CauchyConvergenceRateUp$ packet first reads the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows that expose the stream window, the displayed dyadic tolerance, and the regular-rational readback. No Real-facing consumer receives the seal row $S$ from $Q=(E,I,R,D,S,H,C,P,N)$ without those finite rows and their transport, replay, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $Q=(E,I,R,D,S,H,C,P,N)$. The provenance row $P$ names the stream, dyadic, regular-rational, and Real surfaces that the packet is allowed to consume.
+
+The tolerance row $E$ and index row $I$ expose the rate request. The dyadic row $D$ fixes the finite tolerance comparison, and the regular-rational row $R$ fixes the readback point for the displayed Cauchy name.
+
+The Real seal row $S$ is downstream of those rows by the carrier definition. Componentwise transport through $H$ and replay through $C$ preserve the same order under every accepted presentation, and $N$ names only this local packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyConvergenceRateUp$ read exposes tolerance, unary index, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any Real-facing convergence-rate use can be consumed.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: none is bijective to $\CauchyConvergenceRateUp$ because this packet jointly binds a tolerance request, unary index, regular-rational readback, dyadic bound, Real seal, transport, replay, provenance, and local naming as one finite rate ledger.}
+
+\closureat{CauchyConvergenceRateUp}{seedStr}
+
+\begin{closurestatus}{\CauchyConvergenceRateUp}
+  \constructivestory{A $\CauchyConvergenceRateUp$ packet is generated from a displayed tolerance row, a unary index row, RegSeqRat readback, DyadicRatCore bounds, Real seal access, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-convergence-rate-carrier}, \autoref{thm:cauchy-convergence-rate-namecert-obligations}, and \autoref{thm:cauchy-convergence-rate-regseqrat-handoff} seed the finite rate packet for Real-and-Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected Cauchy limits, quotient equality of names, countable choice, hidden tail witnesses, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rate totality, monotone tolerance refinement, RegSeqRat handoff, RealUp nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyConvergenceRateUp.}
+\end{closurestatus}

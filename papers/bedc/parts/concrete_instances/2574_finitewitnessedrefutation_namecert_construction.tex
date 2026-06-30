@@ -91,6 +91,23 @@ Next apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. It forces
 Finally apply \autoref{thm:finite-witnessed-refutation-non-escape}. Since the carrier has no coordinate for a host law, global falsification principle, external observation selector, or erased $\Gap$, the exported object is exactly the finite public packet.
 \end{proof}
 
+\begin{theorem}[Finite witnessed refutation public consumer export]
+\label{thm:finite-witnessed-refutation-public-consumer-export}
+Every downstream consumer reading an accepted $\FiniteWitnessedRefutationUp$ packet through
+$$
+R,G,K,V,D,H,C,P,N
+$$
+must also expose the $\GapClosureBoundaryUp$ and $\BoundedSearchRefutationUp$ sibling routes before treating the contrary record as public refutation data. The exported surface contains only the finite carrier rows, local $\NameCert$ obligations, ledger exactness, non-escape, public packet route, and Gap boundary crosslink; it contains no universal causality law, host-law selector, global falsification principle, all-future causal closure, or erased $\Gap$ commitment.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-witnessed-refutation-namecert-obligations}. It identifies the carrier, local naming, stability, witness, decision, transport, continuation, and package rows available to a refutation consumer.
+
+Apply \autoref{thm:finite-witnessed-refutation-ledger-exactness} and \autoref{thm:finite-witnessed-refutation-non-escape}. These force every read through the displayed rows $R,G,K,V,D,H,C,P,N$ and rule out host laws, external selectors, erased commitments, and global falsification data.
+
+Finally combine \autoref{thm:finite-witnessed-refutation-public-packet} with \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}. The public packet supplies the finite export surface, while the Gap boundary and bounded-search sibling route keep the contrary record local to the displayed branch rather than promoting it to universal causal closure.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_public\_export}
+
 \begin{theorem}[Finite witnessed refutation Gap boundary crosslink]
 \label{thm:finite-witnessed-refutation-gap-boundary-crosslink}
 For an accepted $\FiniteWitnessedRefutationUp$ packet
@@ -98,6 +115,8 @@ $$
 F=(R,G,K,V,D,H,C,P,N),
 $$
 the forward-binding $\Gap$ row $G$ and the refusal/non-escape reading of the refutation are governed by the common boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}. The finite witnessed refutation supplies the contrary record $V$ and decision ledger $D$, while $\GapClosureBoundaryUp$ supplies the rule that unsupported closure requests route to refusal rather than to internal universal closure.
+
+The same finite contrary-record row $V$ and decision ledger $D$ are also the branch surface consumed by \autoref{ch:concrete-instances-boundedsearchrefutation-namecert}: bounded-search refutation reads the displayed finite branch witness, while $\GapClosureBoundaryUp$ supplies the refusal boundary that prevents the branch from becoming universal causal closure.
 \end{theorem}
 \leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_gap\_boundary\_crosslink}
 \begin{proof}
@@ -108,16 +127,32 @@ Apply the public packet theorem above. It lets downstream consumers inspect $R,G
 Now use the GapClosureBoundary source and refusal surface of \autoref{thm:gap-closure-boundary-namecert-obligations} and \autoref{thm:gap-closure-boundary-refusal-nonescape}. That common carrier routes unsupported attempts to turn a $\Gap$ request into internal closure to the refusal ledger, so the finite witnessed refutation remains a contrary-record packet rather than a universal closure principle.
 \end{proof}
 
+\begin{theorem}[Finite witnessed refutation mature budget]
+\label{thm:finite-witnessed-refutation-mature-budget}
+The $\FiniteWitnessedRefutationUp$ packet is a mature contrary-record branch surface for downstream bounded-refutation consumers. Its carrier, NameCert obligations, ledger exactness, non-escape theorem, public packet theorem, public consumer export, and Gap boundary crosslink give $\GapClosureBoundaryUp$ and $\BoundedSearchRefutationUp$ exactly the finite support ledger, forward-binding $\Gap$ commitment, commitment key, contrary witness, decision ledger, transport, replay, provenance, and local naming rows they consume. The mature surface still refuses universal causality, global falsification, all-future causal closure, host-law selection, Lean verification, and standard bridge checking.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:finite-witnessed-refutation-carrier} and \autoref{thm:finite-witnessed-refutation-namecert-obligations}. They expose the finite contrary-record branch as $R,G,K,V,D,H,C,P,N$ and bind every public read to those coordinates.
+
+Apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}, \autoref{thm:finite-witnessed-refutation-non-escape}, and \autoref{thm:finite-witnessed-refutation-public-packet}. These results identify the reusable public packet while ruling out host causal laws, external selectors, erased $\Gap$ commitments, and global falsification data.
+
+Finally combine \autoref{thm:finite-witnessed-refutation-public-consumer-export} with \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}. The downstream routes receive exactly the contrary-record branch consumed by GapClosureBoundary and bounded-search refutation, so no further paper-side theory grade remains for the finite branch surface itself.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteWitnessedRefutationUp.FiniteWitnessedRefutationCarrier\_mature\_budget}
+
 \closureat{FiniteWitnessedRefutationUp}{obligationStr}
 \closureat{FiniteWitnessedRefutationUp}{scopedStr}
+\closureat{FiniteWitnessedRefutationUp}{publicStr}
+\closureat{FiniteWitnessedRefutationUp}{bridgedStr}
+\closureat{FiniteWitnessedRefutationUp}{matureStr}
 
 \begin{closurestatus}{\FiniteWitnessedRefutationUp}
   \constructivestory{A $\FiniteWitnessedRefutationUp$ packet is generated from a finite support ledger, a forward-binding $\Gap$ row, a commitment key, a contrary witness, a decision ledger, displayed transports, continuation routes, provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is exactly \autoref{def:finite-witnessed-refutation-carrier}, \autoref{thm:finite-witnessed-refutation-namecert-obligations}, \autoref{thm:finite-witnessed-refutation-ledger-exactness}, \autoref{thm:finite-witnessed-refutation-non-escape}, \autoref{thm:finite-witnessed-refutation-public-packet}, and \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature surface over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is exactly \autoref{def:finite-witnessed-refutation-carrier}, \autoref{thm:finite-witnessed-refutation-namecert-obligations}, \autoref{thm:finite-witnessed-refutation-ledger-exactness}, \autoref{thm:finite-witnessed-refutation-non-escape}, \autoref{thm:finite-witnessed-refutation-public-packet}, \autoref{thm:finite-witnessed-refutation-public-consumer-export}, \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}, and \autoref{thm:finite-witnessed-refutation-mature-budget}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close universal causality, global falsification, all-future causal closure, host-law selection, bridge checking, or Lean verification.}
-  \upgradepath{Public closure requires a checked consumer boundary showing that downstream refutation reads export only the finite carrier, local $\NameCert$ obligations, ledger exactness, non-escape, public packet, and Gap boundary crosslink.}
+  \upgradepath{No further theory-axis upgrade remains for this finite contrary-record surface; Lean verification and bridge checking remain outside the claim.}
 \end{closurestatus}

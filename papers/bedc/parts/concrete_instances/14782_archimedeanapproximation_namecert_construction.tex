@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no coordinate for quotient real equality, selected representatives, host limits, countable choice, trichotomy, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ArchimedeanApproximation NameCert obligations]
 \label{thm:archimedean-approximation-namecert-obligations}
@@ -43,6 +44,7 @@ following finite obligation rows:
 \item non-escape, stating that quotient real equality, selected host limits, countable choice, trichotomy, and ambient completeness are absent from the carrier.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:archimedean-approximation-carrier}. The
 only available coordinates are the natural bound, rational source, dyadic
@@ -93,12 +95,122 @@ coordinate, every Real-facing approximation read factors through the stated
 finite route and cannot obtain any of the excluded principles.
 \end{proof}
 
+\begin{theorem}[ArchimedeanApproximation window obligations]
+\label{thm:archimedean-approximation-window-obligations}
+For every accepted $\ArchimedeanApproximationUp$ carrier
+$$
+A=(N,Q,D,\epsilon,S,R,E,H,C,P,M),
+$$
+the $\StreamNameUp$ window row $S$ opens only after the natural bound row $N$, dyadic tolerance row $D$, and tolerance request $\epsilon$ have been displayed. A consumer that reads $S$ before those rows is not reading the accepted packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:archimedean-approximation-carrier}. The definition places $S$ as the finite-window row opened at the bound and tolerance named by $N,D,\epsilon$.
+
+Use the NameCert obligations of \autoref{thm:archimedean-approximation-namecert-obligations}. Their bound-compatibility and window-readback compatibility clauses require the same $N,D,\epsilon$ rows before $S$ can be consumed.
+
+The handoff theorem \autoref{thm:archimedean-approximation-real-seal-handoff} then keeps every Real-facing read downstream of the same finite window. Thus a packet that opens $S$ without first displaying $N,D,\epsilon$ leaves the accepted ArchimedeanApproximation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_window\_obligations}
+
+\begin{theorem}[ArchimedeanApproximation dyadic cofinal window]
+\label{thm:archimedean-approximation-dyadic-cofinal-window}
+For every accepted $\ArchimedeanApproximationUp$ carrier
+$$
+A=(N,Q,D,\epsilon,S,R,E,H,C,P,M),
+$$
+any later unary bound refining $N$ and any smaller displayed dyadic tolerance refining $D$ open a $\StreamNameUp$ window whose $\RegSeqRatUp$ readback remains on the same $\RealUp$ seal route.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_dyadic\_cofinal\_window}
+\begin{proof}
+Start from the carrier definition and the NameCert obligations. The rows $N,D,\epsilon$ control the window row $S$, and the obligation surface keeps the bound-compatibility, dyadic tolerance exactness, and window-readback compatibility rows in the same finite packet.
+
+Apply \autoref{thm:archimedean-approximation-window-obligations}. A later unary bound and a smaller dyadic tolerance refine the displayed gate for opening a StreamName window; they do not create a separate host approximation source.
+
+The readback then uses the same $R$ row named by \autoref{thm:archimedean-approximation-dyadic-readback}, and the real-seal handoff of \autoref{thm:archimedean-approximation-real-seal-handoff} keeps the resulting read downstream of $E$. Thus the cofinal window remains a refinement of the accepted $\NatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route.
+\end{proof}
+
+\begin{theorem}[ArchimedeanApproximation dyadic readback]
+\label{thm:archimedean-approximation-dyadic-readback}
+For every accepted $\ArchimedeanApproximationUp$ carrier $A=(N,Q,D,\epsilon,S,R,E,H,C,P,M)$, rational bounds from the $\RatUp$ row $Q$ become Real-facing only through the $\DyadicRatCoreUp$ row $D$ and the $\RegSeqRatUp$ readback row $R$. No consumer may expose the rational bounds directly as a $\RealUp$ observation.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_dyadic\_readback}
+\begin{proof}
+Read the carrier definition. The rational source row $Q$ is a displayed source of lower and upper rational bounds, while $D$ records dyadic tolerance exactness and $R$ records the regular rational readback from the finite window.
+
+Apply the NameCert obligations. Rational-bound exposure, dyadic tolerance exactness, and window-readback compatibility are separate rows of the same certificate, so the rational data in $Q$ must pass through $D$ and $R$ before the real seal row is available.
+
+Finally use \autoref{thm:archimedean-approximation-real-seal-handoff}. The Real-facing route runs through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ before $\RealUp$, excluding any direct host read of rational bounds as real observations.
+\end{proof}
+
+\begin{theorem}[ArchimedeanApproximation real seal nonescape]
+\label{thm:archimedean-approximation-real-seal-nonescape}
+For every accepted $\ArchimedeanApproximationUp$ carrier $A=(N,Q,D,\epsilon,S,R,E,H,C,P,M)$, the $\RealUp$ seal row $E$ exports no quotient equality, selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness. The seal is only the terminal boundary of the displayed bound, dyadic, window, and readback route.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the only coordinates available to a consumer: the natural bound, rational source, dyadic tolerance, tolerance request, StreamName window, RegSeqRat readback, Real seal, transport, continuation, provenance, and local naming rows.
+
+The NameCert obligations identify non-escape as part of the local surface, and \autoref{thm:archimedean-approximation-real-seal-handoff} fixes the route into $E$ through the displayed finite rows.
+
+Since no coordinate stores quotient equality, a selected host limit, a choice schedule, trichotomy, or completeness data, the seal row cannot export any of those principles.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_real\_seal\_nonescape}
+
+\begin{theorem}[Dyadic upper ladder for Archimedean approximation]
+\label{thm:archimedean-approximation-dyadic-upper-ladder}
+Every accepted $\ArchimedeanApproximationUp$ packet over $\DyadicRatCoreUp$, $\RatUp$, $\NatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ exposes a finite unary exponent ladder whose dyadic radius eventually lies below any displayed positive $\RealUp$ tolerance row. The ladder is transported only through the displayed $\hsame$, $\Cont$, and $\Pkg$ rows of the same carrier, and it exports no trichotomy, no selected host limit, and no ambient choice of a real representative.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:archimedean-approximation-carrier} and the obligation rows of \autoref{thm:archimedean-approximation-namecert-obligations}. The rows $N,D,\epsilon,S,R,E,H,C,P,M$ display the natural bound, dyadic tolerance ledger, positive tolerance request, finite window, regular readback, real seal, transport, replay, provenance, and local naming route.
+
+Induct on the displayed unary ladder attached to the $\NatUp$ bound row. The base step reads the initial dyadic scale from $D$, and the successor step applies the dyadic scale monotonicity rows to replace the current radius by the next smaller dyadic radius while preserving the same $\DyadicRatCoreUp$ ledger.
+
+The positive tolerance readback is then consumed through the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route already fixed by \autoref{thm:archimedean-approximation-dyadic-cofinal-window} and \autoref{thm:archimedean-approximation-dyadic-readback}. Componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance keep the ladder inside the accepted packet, so no trichotomy, host limit selection, or external real representative is introduced.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_dyadic\_upper\_ladder}
+
+\begin{theorem}[ArchimedeanApproximation kernel scope]
+\label{thm:archimedean-approximation-kernel-scope}
+The carrier of \autoref{def:archimedean-approximation-carrier}, the NameCert obligations, the real-seal handoff, the window obligations, the dyadic cofinal window, the dyadic readback, the seal nonescape theorem, and the dyadic upper ladder bind every accepted $\ArchimedeanApproximationUp$ packet to the displayed $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No accepted packet contains a row for quotient real equality, a selected host limit, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:archimedean-approximation-carrier} and \autoref{thm:archimedean-approximation-namecert-obligations}. They list the natural bound, rational source, dyadic tolerance, finite StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows as the whole accepted packet.
+
+Next apply the real-seal handoff and window obligations, \autoref{thm:archimedean-approximation-real-seal-handoff} and \autoref{thm:archimedean-approximation-window-obligations}. These keep every Real-facing read downstream of the displayed $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ route.
+
+The dyadic cofinal-window and dyadic readback theorems, \autoref{thm:archimedean-approximation-dyadic-cofinal-window} and \autoref{thm:archimedean-approximation-dyadic-readback}, preserve the same finite route under later bounds and smaller dyadic tolerances.
+
+Finally use seal nonescape and the dyadic upper ladder, \autoref{thm:archimedean-approximation-real-seal-nonescape} and \autoref{thm:archimedean-approximation-dyadic-upper-ladder}. They keep the terminal $\RealUp$ read and the unary ladder inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so none of the excluded host principles is available.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationCarrier\_kernel\_scope}
+
+\begin{theorem}[ArchimedeanApproximation public finite export]
+\label{thm:archimedean-approximation-public-finite-export}
+Every accepted $\ArchimedeanApproximationUp$ packet exports its public approximation read only through the displayed route
+$$
+\NatUp,\ \RatUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The public read may expose a natural bound, rational bounds, a dyadic tolerance ledger, a finite stream window, a regular rational readback, and a terminal real-name seal, but it cannot read quotient real equality, a selected host limit, countable choice, trichotomy, or ambient completeness outside that route.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.PublicFiniteExport.ArchimedeanApproximationCarrier\_public\_finite\_export}
+\begin{proof}
+Start with the carrier of \autoref{def:archimedean-approximation-carrier} and the NameCert obligations of \autoref{thm:archimedean-approximation-namecert-obligations}. They list $N,Q,D,\epsilon,S,R,E,H,C,P,M$ as the whole accepted packet and require each public read to preserve the same local naming surface.
+
+Apply the real-seal handoff of \autoref{thm:archimedean-approximation-real-seal-handoff}. A Real-facing consumer reaches $E$ only after the $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows have been displayed.
+
+The dyadic cofinal window and dyadic readback theorems, \autoref{thm:archimedean-approximation-dyadic-cofinal-window} and \autoref{thm:archimedean-approximation-dyadic-readback}, keep later bounds, smaller dyadic tolerances, rational bounds, finite windows, and regular readbacks on that same route. The seal nonescape theorem \autoref{thm:archimedean-approximation-real-seal-nonescape} prevents the terminal $\RealUp$ row from exporting any hidden real-equality or limit principle.
+
+Finally use the dyadic upper ladder and kernel scope, \autoref{thm:archimedean-approximation-dyadic-upper-ladder} and \autoref{thm:archimedean-approximation-kernel-scope}. They keep the public approximation read inside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so the exported object is exactly the finite BEDC route named in the statement.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanApproximationUp.ArchimedeanApproximationPublicFiniteExport}
+
+\closureat{ArchimedeanApproximationUp}{obligationStr}
+
 \begin{closurestatus}{\ArchimedeanApproximationUp}
   \constructivestory{An $\ArchimedeanApproximationUp$ packet is generated from a natural-number bound, rational bounding rows, a DyadicRatCore tolerance ledger, a StreamName finite window, a RegSeqRat readback, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:archimedean-approximation-carrier}, \autoref{thm:archimedean-approximation-namecert-obligations}, and \autoref{thm:archimedean-approximation-real-seal-handoff} seed the finite Archimedean approximation boundary over natural bounds, rational rows, dyadic tolerances, stream windows, regular readbacks, and RealUp seals.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:archimedean-approximation-carrier}, \autoref{thm:archimedean-approximation-namecert-obligations}, \autoref{thm:archimedean-approximation-real-seal-handoff}, \autoref{thm:archimedean-approximation-window-obligations}, \autoref{thm:archimedean-approximation-dyadic-cofinal-window}, \autoref{thm:archimedean-approximation-dyadic-readback}, \autoref{thm:archimedean-approximation-real-seal-nonescape}, \autoref{thm:archimedean-approximation-dyadic-upper-ladder}, and \autoref{thm:archimedean-approximation-kernel-scope} close the carrier, NameCert obligation, real-seal handoff, window, dyadic cofinal-window, dyadic readback, seal-nonescape, dyadic upper-ladder, and kernel-scope surface for the displayed packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, selected host limits, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, bound compatibility, rational-bound exposure, dyadic tolerance exactness, window-readback compatibility, real-seal handoff, and ledger non-escape for the same packet.}
+  \upgradepath{Public closure requires a public export theorem for the same $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.}
 \end{closurestatus}

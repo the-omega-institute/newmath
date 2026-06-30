@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueConstantUp$}
+\label{ch:concrete-instances-lebesgue-constant-namecert}
+\origin{human}
+
+Following Lebesgue and Zygmund on Fourier partial sums, the $\LebesgueConstantUp$ packet records the finite norm-growth data of trigonometric partial-sum operators as BEDC NameCert rows. It sits over the Fourier coefficient windows of \autoref{ch:concrete-instances-fourier-namecert}, the Dirichlet-kernel row of \autoref{ch:concrete-instances-dirichlet-kernel-namecert}, the circle phase samples of \autoref{ch:concrete-instances-s1-namecert}, the integral normalization route of \autoref{ch:concrete-instances-integral-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream approximation boundary of \autoref{ch:concrete-instances-uniformlimit-namecert}. The packet names a finite harmonic-analysis growth surface, not a host $L^{1}$ operator norm, not Haar measure, and not a quotient function-space object.
+
+\begin{definition}[LebesgueConstant carrier]
+\label{def:lebesgue-constant-carrier}
+A $\LebesgueConstantUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,D,S,I,N,W,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the Fourier coefficient-window row naming the finite frequency interval whose partial sum is inspected.
+\item $D$ is the Dirichlet-kernel row supplying the finite convolution kernel for that window.
+\item $S$ is the $\SOneUp$ phase-sample row used to evaluate the displayed kernel and partial-sum reads.
+\item $I$ is the $\IntegralUp$ normalization row for the finite absolute-kernel read.
+\item $N$ is the finite norm-growth ledger recording the inspected Lebesgue-constant value window.
+\item $W$ is the $\DyadicRatCoreUp$ tolerance window bounding the displayed norm read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite rational approximations.
+\item $E$ is the terminal $\RealUp$ seal for the displayed norm-growth datum.
+\item $H$ records componentwise $\hsame$ transport for $F,D,S,I,N,W,R,E,C,P,L$.
+\item $C$ records displayed $\Cont$ replay from a partial-sum request through the Dirichlet-kernel and integral rows to the norm ledger.
+\item $P$ is the $\Pkg$ provenance over the Fourier, Dirichlet-kernel, circle, integral, dyadic, regular-rational, Real, transport, replay, and NameCert rows.
+\item $L$ is the local $\NameCert_{\LebesgueConstantUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying all twelve rows. It has no coordinate for Haar measure, host $L^{1}$ spaces, quotient function equality, selected Fourier representatives, ambient completeness, or an unrestricted Fourier-convergence theorem.
+\end{definition}
+\leanstmt{BEDC.Derived.LebesgueConstantUp}
+
+\begin{theorem}[LebesgueConstant NameCert obligations]
+\label{thm:lebesgue-constant-namecert-obligations}
+For the carrier of \autoref{def:lebesgue-constant-carrier}, the local $\NameCert_{\LebesgueConstantUp}$ surface is exhausted by five obligation rows:
+\begin{enumerate}
+\item carrier admission for $K=(F,D,S,I,N,W,R,E,H,C,P,L)$;
+\item Fourier-window and Dirichlet-kernel exposure through $F$ and $D$;
+\item phase-sample and integral-normalization exposure through $S$ and $I$;
+\item norm-growth, dyadic tolerance, regular rational readback, and Real sealing through $N,W,R,E$;
+\item componentwise transport, replay, provenance, and local naming through $H,C,P,L$.
+\end{enumerate}
+Every accepted norm-growth read must display these rows before a downstream approximation consumer may cite a Lebesgue-constant datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-constant-carrier}. The displayed tuple contains exactly the Fourier window, Dirichlet kernel, phase samples, integral normalization, norm ledger, dyadic tolerance, regular rational readback, Real seal, transport, replay, provenance, and local NameCert rows.
+
+The first two obligations bind the source of the partial-sum read. The Fourier window $F$ names the finite frequency interval, and the Dirichlet row $D$ supplies the only kernel through which the partial-sum norm can be inspected.
+
+The phase and normalization rows $S,I$ then make the finite absolute-kernel read visible before any norm-growth entry is accepted. Rows $N,W,R,E$ keep the numeric read inside the dyadic, regular-rational, and Real sealing route.
+
+Finally $H,C,P,L$ preserve, replay, source, and name the same packet. Since the carrier has no row for Haar measure, host $L^{1}$ spaces, quotient function equality, selected Fourier representatives, or ambient completeness, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LebesgueConstant Dirichlet norm handoff]
+\label{thm:lebesgue-constant-dirichlet-norm-handoff}
+Every Fourier partial-sum norm read exported by an accepted $\LebesgueConstantUp$ packet factors through the Dirichlet-kernel and integral rows
+$$
+F,D,S,I \longmapsto N,W,R,E
+$$
+before any $\UniformLimitUp$ handoff can consume the norm-growth datum. The handoff does not export Haar measure, host $L^{1}$ spaces, quotient function equality, selected Fourier representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of the norm ledger $N$. Carrier admission places $N$ downstream of the Fourier window $F$, Dirichlet kernel $D$, circle phase samples $S$, and integral normalization $I$.
+
+The replay row $C$ records the only displayed route from a partial-sum request to the norm-growth read. Thus the request must first expose the finite coefficient window, then read the Dirichlet-kernel row and the integral-normalization row before the dyadic tolerance window $W$ and regular-rational readback $R$ are available.
+
+The Real seal $E$ is reached only after $N,W,R$ have been displayed. Transport and provenance through $H$ and $P$ keep that same route attached to the local name $L$, so a $\UniformLimitUp$ consumer receives only the finite norm-growth datum produced by the Dirichlet-kernel and integral rows.
+\end{proof}
+
+\closureat{LebesgueConstantUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueConstantUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-constant-carrier}, \autoref{thm:lebesgue-constant-namecert-obligations}, and \autoref{thm:lebesgue-constant-dirichlet-norm-handoff} seed the finite Fourier partial-sum norm-growth packet through Dirichlet-kernel, integral, dyadic, regular-rational, Real, and uniform-limit-facing rows.}
+  \constructivestory{A $\LebesgueConstantUp$ packet is generated from Fourier coefficient-window data, Dirichlet-kernel rows, circle phase samples, integral-normalization rows, a finite norm-growth ledger, dyadic tolerance data, RegSeqRat readback, a Real seal, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.LebesgueConstantUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Haar measure, host $L^{1}$ spaces, quotient function equality, selected Fourier representatives, ambient completeness, Lean-checked obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires Lean-checked carrier admission, NameCert surface, Dirichlet norm handoff, and ledger non-escape rows for $F,D,S,I,N,W,R,E,H,C,P,L$.}
+\end{closurestatus}

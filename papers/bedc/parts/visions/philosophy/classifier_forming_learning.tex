@@ -344,6 +344,137 @@ failed transfer, stability limits, and not-claimed target scope. A
 test-set score can be evidence, but it is not this ledger.
 \end{proof}
 
+\subsection{Effect Certification}
+\label{subsec:philosophy-learning-effect-certification}
+
+\begin{definition}[Machine-learning effect certificate]
+\label{def:philosophy-machine-learning-effect-certificate}
+A machine-learning effect certificate is a derived packet
+$$
+\begin{gathered}
+\mathsf{MLEffectCert}(\hat\theta,D,\Pi,\ell,\epsilon,\mathcal C)
+\end{gathered}
+$$
+whose rows record the source data packet, split provenance, training
+trace, prediction rows, loss-classifier rows, fit rows, validation or
+test rows, stability domain $\mathcal C$, NoLeak audit, failure surface,
+reproducibility row, and Learning NameCert for the predictor
+$\hat\theta$.
+\end{definition}
+
+\begin{definition}[Certified machine-learning effectiveness]
+\label{def:philosophy-certified-machine-learning-effectiveness}
+A predictor $\hat\theta$ is machine-learning-effective relative to
+$(D,\Pi,\ell,\epsilon,\mathcal C)$ when
+$\mathsf{MLEffectCert}(\hat\theta,D,\Pi,\ell,\epsilon,\mathcal C)$ is
+accepted and the displayed evaluation row satisfies
+$$
+\begin{gathered}
+\operatorname{Err}_{\ell}(\hat\theta;D_\ast)\preceq_{\ell}\epsilon
+\end{gathered}
+$$
+for the declared evaluation split $D_\ast$.
+\end{definition}
+
+\begin{theorem}[Training fit does not imply learning effectiveness]
+\label{thm:philosophy-training-fit-not-learning-effectiveness}
+A low training loss row does not by itself establish certified
+machine-learning effectiveness.
+\end{theorem}
+\begin{proof}
+Training fit compares the predictor only with the records consumed by
+the training route. The effect certificate also requires split
+provenance, prediction rows on the declared evaluation split, loss
+classifier rows, stability domain, NoLeak audit, failure surface,
+reproducibility, and a Learning NameCert. A training row omits these
+fields and therefore cannot license the effectiveness claim.
+\end{proof}
+
+\begin{theorem}[Effectiveness is scope-relative]
+\label{thm:philosophy-machine-learning-effectiveness-scope-relative}
+An accepted machine-learning effect certificate licenses effectiveness
+only relative to its displayed data packet, protocol, loss classifier,
+error budget, and stability domain.
+\end{theorem}
+\begin{proof}
+Each row of the effect certificate is indexed by the declared source,
+split, protocol, loss, budget, and continuation scope. The certificate
+therefore proves a bounded predictor claim over those rows. It does not
+export an unrestricted claim over unlisted domains, losses, budgets,
+tasks, or continuation classes.
+\end{proof}
+
+\begin{theorem}[Leakage breaks effect certification]
+\label{thm:philosophy-leakage-breaks-effect-certification}
+If evaluation information enters the training or selection route without
+being recorded as an admitted source row, the machine-learning effect
+certificate is not accepted.
+\end{theorem}
+\begin{proof}
+The split and NoLeak rows distinguish prediction on held-out records
+from replay of information already present in the training route. If
+evaluation information enters the training or selection route, the
+declared evaluation row no longer witnesses prediction on separated
+records. The split provenance and NoLeak audit therefore fail, so the
+effect certificate is rejected.
+\end{proof}
+
+\begin{definition}[Machine-learning effect strength]
+\label{def:philosophy-machine-learning-effect-strength}
+Machine-learning effect strength is ordered by the strongest certificate
+row displayed for the predictor:
+$$
+\begin{gathered}
+\mathsf{TrainFit}
+<
+\mathsf{ValFit}
+<
+\mathsf{TestFit}
+<
+\mathsf{ReproducedFit}
+<
+\mathsf{StabilityFit}
+<
+\mathsf{BridgeFit}
+<
+\mathsf{TheoremPreservingBridge}.
+\end{gathered}
+$$
+The rows respectively record training fit, validation fit, test fit with
+split provenance, reproduced fit, certified continuation stability,
+records-to-readout bridge fit, and bridge fit with preservation rows.
+\end{definition}
+
+\begin{theorem}[Effect strength is certificate strength]
+\label{thm:philosophy-effect-strength-certificate-strength}
+An effectiveness claim may be reported only at the strongest effect row
+whose certificate fields are present.
+\end{theorem}
+\begin{proof}
+Each effect row adds fields not supplied by the weaker rows. Validation
+requires a split row beyond training fit. Test fit requires test-split
+provenance and NoLeak audit beyond validation fit. Reproduced fit
+requires a reproducibility row. Stability fit requires a certified
+continuation class and failure surface. Bridge fit requires an adapter
+or bridge readout row. Theorem-preserving bridge fit requires
+preservation rows. If those additional fields are absent, the stronger
+claim is not licensed by the displayed certificate.
+\end{proof}
+
+\begin{corollary}[Test fit requires split provenance]
+\label{cor:philosophy-test-fit-requires-split-provenance}
+A small error row on a named test split does not have test-effect
+meaning unless the split provenance and NoLeak rows are present.
+\end{corollary}
+\begin{proof}
+By \autoref{def:philosophy-machine-learning-effect-strength},
+$\mathsf{TestFit}$ includes test-split provenance. By
+\autoref{thm:philosophy-leakage-breaks-effect-certification}, an
+evaluation row whose separation is not certified cannot pass the effect
+certificate. The remaining statement is only a finite record comparison,
+not a certified test-effect row.
+\end{proof}
+
 \subsection{Lineage, Verification, and Anti-Laundering}
 \label{subsec:philosophy-learning-lineage-verification-anti-laundering}
 
@@ -446,3 +577,4 @@ rules out metric-based substitutes.
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-classifier-forming-learning-namecert}{The finite packet realizes classifier-forming learning as certified classifier shift with ledgered training residue.}
+\concretizedIn{ch:concrete-instances-classifier-formation-trace-namecert}{Classifier-formation traces realize learning classifier shift as finite before/after classifier, ledger-residue, and NameCert rows.}

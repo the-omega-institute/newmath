@@ -36,4 +36,31 @@ theorem CriticalLineWitnessCarrier_zero_source_ledger_exhaustion
       unaryDownstreamRead, sameH, zeroRoute, ledgerRoute, downstreamRoute, routeQ, routeC,
       routeN⟩
 
+theorem CriticalLineWitnessZeroSourceLedgerExhaustion
+    {Z S M R Q H C P N zetaRead comparisonRead publicRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zetaRead ->
+        Cont M R comparisonRead ->
+          Cont zetaRead comparisonRead publicRead ->
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory zetaRead ∧ UnaryHistory comparisonRead ∧
+                UnaryHistory publicRead ∧ hsame H (append Z S) ∧ Cont Z S zetaRead ∧
+                  Cont M R comparisonRead ∧ Cont zetaRead comparisonRead publicRead ∧
+                    Cont M R Q ∧ Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory CriticalLineWitnessCarrier
+  intro packet zetaRoute comparisonRoute publicRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryZetaRead : UnaryHistory zetaRead :=
+    unary_cont_closed unaryZ unaryS zetaRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed unaryM unaryR comparisonRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed unaryZetaRead comparisonUnary publicRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryZetaRead, comparisonUnary, publicUnary,
+      sameH, zetaRoute, comparisonRoute, publicRoute, routeQ, routeC, routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp

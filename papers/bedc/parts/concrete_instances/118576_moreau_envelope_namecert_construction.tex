@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\MoreauEnvelopeUp$}
+\label{ch:concrete-instances-moreau-envelope-namecert}
+\origin{human}
+
+Following Moreau's envelope construction, Rockafellar's convex-analysis account of infimal convolution, and Boyd--Vandenberghe's proximal-operator presentation, the $\MoreauEnvelopeUp$ packet records the finite lower-envelope surface for a convex functional after a quadratic penalty has been displayed. It sits beside the conjugacy route of \autoref{ch:concrete-instances-convex-conjugate-namecert}, the subgradient support ledger of \autoref{ch:concrete-instances-subdifferential-namecert}, the proximal candidate route of \autoref{ch:concrete-instances-proximal-map-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the norm source of \autoref{ch:concrete-instances-norm-namecert}. The packet lets proximal and Fenchel consumers cite one finite envelope certificate without asserting selected minimizers, host suprema, quotient function equality, Hilbert projection theorems, or ambient completeness.
+
+\section{Moreau Envelope Carrier}
+\label{sec:moreau-envelope-carrier}
+
+\begin{definition}[Moreau envelope carrier]
+\label{def:moreau-envelope-carrier}
+A $\MoreauEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,F,\lambda,x,Y,Q,V,L,A,G,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the normed source row, read through $\NormUp$ and the scalar seal of $\RealUp$.
+\item $F$ is the convex functional row, including the displayed convex-domain, epigraph, and conjugacy surfaces used by the request.
+\item $\lambda$ is the positive regularization-scale row carried as displayed real data.
+\item $x$ is the input point row in the source carrier.
+\item $Y$ is the finite comparison-window row listing the displayed candidate points inspected by the envelope request.
+\item $Q$ is the quadratic-penalty ledger recording the visible values $\frac{1}{2\lambda}\lVert y-x\rVert^2$ for $y$ in $Y$.
+\item $V$ is the value ledger recording the displayed sums $F(y)+\frac{1}{2\lambda}\lVert y-x\rVert^2$ after both the functional and penalty rows have been read.
+\item $L$ is the lower-envelope budget row recording the finite lower comparison available to the packet; it is a BEDC ledger row, not a host infimum operator.
+\item $A$ is the proximal-candidate handoff row, read only when a displayed $\ProximalMapUp$ packet supplies a candidate compatible with the same $X,F,\lambda,x,Q,V,L$ rows.
+\item $G$ is the convex-conjugate and subdifferential handoff row, read through $\ConvexConjugateUp$ and $\SubdifferentialUp$ after the envelope comparison rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, functional, scale, input, comparison window, penalty, value, lower-envelope budget, proximal handoff, conjugacy handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an envelope request through norm evaluation, real penalty readback, convex-functional comparison, proximal handoff, and conjugacy or subgradient consumers.
+\item $P$ is the $\Pkg$ provenance over $\MoreauEnvelopeUp$, $\ConvexConjugateUp$, $\SubdifferentialUp$, $\ProximalMapUp$, $\RealUp$, $\NormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MoreauEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,F,\lambda,x,Y,Q,V,L,A,G,H,C,P,N$. It has no coordinate for selected minimizers, host suprema, quotient function equality, Hilbert projection theorems, lower-semicontinuity existence theorems, or ambient completeness.
+\end{definition}
+
+\section{Moreau Envelope Certificate}
+\label{sec:moreau-envelope-certificate}
+
+\begin{theorem}[Moreau envelope NameCert obligations]
+\label{thm:moreau-envelope-namecert-obligations}
+For every accepted $\MoreauEnvelopeUp$ carrier $M=(X,F,\lambda,x,Y,Q,V,L,A,G,H,C,P,N)$, the local $\NameCert_{\MoreauEnvelopeUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the normed source, convex functional, positive scale, input point, comparison window, quadratic penalty, value ledger, lower-envelope budget, proximal handoff, conjugacy handoff, transport, replay, provenance, and local naming rows;
+\item penalty exactness, requiring every envelope comparison to read the same $\NormUp$ source row, $\RealUp$ scalar row, scale row $\lambda$, and input row $x$ before the penalty row $Q$ is public;
+\item value-ledger exactness, requiring each displayed value in $V$ to be formed from the same functional row $F$ and penalty row $Q$ for a comparison point listed in $Y$;
+\item lower-envelope nonescape, requiring the budget row $L$ to remain a displayed finite ledger rather than a host infimum or host supremum;
+\item proximal handoff compatibility, requiring any $\ProximalMapUp$ consumer to read the same $X,F,\lambda,x,Q,V,L$ rows before it treats a displayed candidate as an envelope witness;
+\item conjugacy and subgradient compatibility, requiring Fenchel or subdifferential consumers to pass through $\ConvexConjugateUp$ and $\SubdifferentialUp$ only after the envelope comparison rows have been displayed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $X,F,\lambda,x,Y,Q,V,L,A,G$ are the entire envelope surface, and the rows $H,C,P,N$ are the entire structural route that transports, replays, sources, and names that same packet.
+
+Penalty exactness is read first. A comparison point in $Y$ contributes to the envelope request only after the normed source, scalar seal, scale, input, and quadratic penalty value have all been displayed in $X,\lambda,x,Q$.
+
+The value ledger is then forced by $F,Q,V$. Because $V$ records only the displayed sums for listed comparison points, a consumer cannot replace the finite comparison window by a host function space or a quotient-function equality claim.
+
+Finally read $L,A,G,H,C,P,N$. The row $L$ is a finite lower-envelope budget, $A$ is downstream of the proximal packet, and $G$ is downstream of conjugacy and subgradient packets. Since no carrier coordinate stores a selected minimizer, host supremum, Hilbert projection theorem, or ambient completeness principle, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Moreau envelope proximal-real route]
+\label{thm:moreau-envelope-proximal-real-route}
+Every proximal, Fenchel, or real-valued optimization consumer of an accepted $\MoreauEnvelopeUp$ packet must factor through the finite route
+$$
+X,F,\lambda,x,Y,Q,V,L,A,G \longmapsto H,C,P,N .
+$$
+The consumer may read an envelope value only after the norm row, real scalar seal, convex-functional row, finite comparison window, quadratic-penalty ledger, value ledger, lower-envelope budget, and proximal or conjugacy handoff have all been displayed. It receives no selected minimizer, host supremum, quotient function equality, Hilbert projection theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the real-valued read. The row $Q$ supplies the only quadratic penalty values, and those values are available only through the $\NormUp$ and $\RealUp$ rows named by $X$ and $\lambda$.
+
+Next inspect the envelope comparison. The row $V$ combines the displayed convex-functional values with the displayed penalty values for the finite window $Y$, while $L$ records the lower-envelope budget available to the packet.
+
+Now route downstream consumers. A proximal read must pass through $A$ and the $\ProximalMapUp$ packet before a candidate can be treated as compatible with the envelope rows. A Fenchel or subgradient read must pass through $G$ and the $\ConvexConjugateUp$ or $\SubdifferentialUp$ rows after the same comparison data have been exposed.
+
+The structural rows $H,C,P,N$ preserve exactly this route. They add no selected minimizer, host supremum, quotient equality of functions, Hilbert projection semantics, or ambient completeness, so the handoff stops at the displayed proximal-real envelope boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MoreauEnvelopeUp$ consumer read factors through a NormUp source, RealUp scale and value rows, ConvexConjugateUp and SubdifferentialUp handoff rows when dual data are requested, a ProximalMapUp candidate route when a proximal witness is requested, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{convex-conjugate, subdifferential, proximal-map, real, norm: $\MoreauEnvelopeUp$ is not bijective to any listed sibling because it jointly carries a source row, functional row, positive scale, input, comparison window, quadratic penalty ledger, value ledger, lower-envelope budget, proximal handoff, conjugacy handoff, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{MoreauEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\MoreauEnvelopeUp}
+  \constructivestory{A $\MoreauEnvelopeUp$ packet is generated from a normed source row, convex functional row, positive real scale, input point, finite comparison window, quadratic penalty values, displayed value ledger, lower-envelope budget, proximal handoff, convex-conjugate and subdifferential handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moreau-envelope-carrier}, \autoref{thm:moreau-envelope-namecert-obligations}, and \autoref{thm:moreau-envelope-proximal-real-route} seed the finite Moreau-envelope certificate surface over proximal, convex-conjugate, subdifferential, real, and norm rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected minimizers, host suprema, quotient function equality, Hilbert projection theorems, lower-semicontinuity existence theorems, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, penalty exactness, value-ledger exactness, lower-envelope nonescape, proximal handoff compatibility, conjugacy and subgradient compatibility, transport, replay, provenance, and local naming for BEDC.Derived.MoreauEnvelopeUp.}
+\end{closurestatus}

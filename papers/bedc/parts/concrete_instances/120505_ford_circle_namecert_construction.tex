@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\FordCircleUp$}
+\label{ch:concrete-instances-ford-circle-namecert}
+\origin{human}
+
+Following Hardy and Wright on Farey fractions and the classical Ford-circle construction, the $\FordCircleUp$ packet records a reduced rational boundary point together with its tangent upper-half-plane circle as finite Farey and horoball NameCert data. It realizes the Farey-horoball branch of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} beside the finite Farey sequence rows of \autoref{ch:concrete-instances-farey-sequence-namecert}, the Farey approximation route of \autoref{ch:concrete-instances-farey-approximation-namecert}, and the hyperbolic horoball carrier of \autoref{ch:concrete-instances-hyperbolic-horoball-namecert}. The packet names only displayed rational, radius, tangency, horoball, transport, replay, provenance, and local naming rows; it is not a quotient real circle, not a host Euclidean tangent theorem, and not a global hyperbolic-plane completion.
+
+\begin{definition}[FordCircle carrier]\label{def:ford-circle-carrier}
+A $\FordCircleUp$ carrier is a finite $\BHist$ packet
+$$
+F=(Q,D,R,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the reduced rational center row, naming coprime integer numerator and positive denominator data over the rational boundary line.
+\item $D$ is the positive denominator row, recording the denominator witness used by the circle radius and by Farey-neighbour tests.
+\item $R$ is the dyadic reciprocal-square radius row, storing the displayed radius corresponding to the classical value $1/(2D^2)$ as rational and dyadic readback data.
+\item $T$ is the tangency ledger. It records the finite Farey determinant tests that witness equality of the boundary tangency point and exact tangency between neighbouring Ford circles.
+\item $U$ is the upper-half-plane and horoball row. It places the circle as a boundary-tangent horoball read whose base is $Q$ and whose height is read from $R$.
+\item $H$ records componentwise $\hsame$ transport for the reduced rational center, denominator, radius, tangency ledger, upper-half-plane or horoball row, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Farey or hyperbolic-boundary consumer through $Q,D,R,T,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance row over $\FareySequenceUp$, $\HyperbolicHoroballUp$, $\DyadicRatCoreUp$, $\RatUp$, $\IntUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FordCircleUp}$ row.
+\end{enumerate}
+The local classifier compares two accepted packets only through these rows. It has no coordinate for ambient Euclidean circle equality, real quotient centers, selected real representatives, a completed hyperbolic plane, or a host geometry theorem about all tangent circles.
+\end{definition}
+
+\begin{theorem}[FordCircle NameCert obligations]\label{thm:ford-circle-namecert-obligations}
+For every accepted $\FordCircleUp$ carrier
+$$
+F=(Q,D,R,T,U,H,C,P,N),
+$$
+the local $\NameCert_{\FordCircleUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier formation for the reduced rational center, positive denominator, dyadic reciprocal-square radius, Farey tangency ledger, upper-half-plane or horoball row, transport, replay, provenance, and local naming data;
+\item radius stability, requiring the radius row $R$ to be transported together with the same denominator row $D$ and not recomputed from an external real-circle representative;
+\item Farey tangency exactness, requiring the tangency ledger $T$ to expose the determinant and adjacency rows consumed by neighbouring-circle reads;
+\item horoball embedding route, requiring the upper-half-plane row $U$ to be read downstream of $Q,D,R,T$ and upstream of the structural rows $H,C,P,N$;
+\item nonescape from host real-circle equality, excluding ambient Euclidean circle equality, quotient real centers, selected representatives, global hyperbolic-plane completion, and an unlogged tangent-circle theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ford-circle-carrier}. The rows $Q,D,R,T,U,H,C,P,N$ display the reduced rational center, denominator, radius, tangency data, horoball placement, componentwise transport, replay, provenance, and local name.
+
+Radius stability is componentwise. The denominator row $D$ and the dyadic reciprocal-square radius row $R$ move together under $H$, and any consumer replay through $C$ must read $R$ as part of the same packet.
+
+Farey tangency exactness is supplied by the ledger $T$. The packet records the determinant and adjacency data before a neighbouring-circle read can be consumed, so tangency is not imported from an ambient real-circle theorem.
+
+Finally the horoball row $U$ is downstream of the rational and radius rows. The package and NameCert rows $P,N$ name this displayed route, while the absent host objects have no coordinate in the carrier.
+\end{proof}
+
+\closureat{FordCircleUp}{seedStr}
+
+\begin{closurestatus}{\FordCircleUp}
+  \constructivestory{A $\FordCircleUp$ packet is generated from a reduced rational center, positive denominator, dyadic reciprocal-square radius, Farey tangency ledger, upper-half-plane or horoball row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ford-circle-carrier} and \autoref{thm:ford-circle-namecert-obligations} seed the finite Ford-circle surface linking Farey rational data with hyperbolic horoball reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Euclidean circle equality, quotient real-center equality, global hyperbolic-plane completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius stability, Farey tangency exactness, horoball embedding, transport, replay, provenance, and local naming for BEDC.Derived.FordCircleUp.}
+\end{closurestatus}

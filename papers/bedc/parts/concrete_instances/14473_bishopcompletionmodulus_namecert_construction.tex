@@ -194,14 +194,50 @@ Use \autoref{thm:bishop-completion-modulus-real-seal-ordering} for the terminal 
 The excluded principles have no carrier coordinate and no scoped route theorem. Therefore the listed rows form the scoped BEDC dependency surface for $\BishopCompletionModulusUp$.
 \end{proof}
 
-\closureat{BishopCompletionModulusUp}{scopedStr}
+\begin{theorem}[Bishop completion modulus public completion certificate]
+\label{thm:bishop-completion-modulus-public-completion-certificate}
+Every public completion-modulus consumer of an accepted $\BishopCompletionModulusUp$ carrier $Q=(M,S,n,k,W,D,R,E,H,C,P,N)$ receives one certificate surface consisting of the carrier rows of \autoref{def:bishop-completion-modulus-carrier}, finite threshold induction, threshold heredity, the $\RegSeqRatUp$ handoff, and the ordered $\RealUp$ seal. The public read is the finite route
+$$
+M,n \longmapsto k \longmapsto W,D \longmapsto R \longmapsto E
+$$
+preserved by $H,C,P,N$. It exports no quotient stream, selected limit, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopCompletionModulusUp.BishopCompletionModulusCarrier\_public\_completion\_certificate}
+\begin{proof}
+Start with the carrier and obligation surface. Theorems~\ref{thm:bishop-completion-modulus-namecert-obligations} and~\ref{thm:bishop-completion-modulus-l10-handoff} expose the twelve carrier rows and force every completion read through the displayed modulus, finite stream window, dyadic threshold ledger, regular handoff, and Real seal.
+
+Next apply finite threshold induction and threshold heredity. Theorems~\ref{thm:bishop-completion-modulus-finite-threshold-induction} and~\ref{thm:bishop-completion-modulus-threshold-heredity} keep successor precision requests attached to the same $\CauchyModulusUp$ row, the same $\StreamNameUp$ schedule, and the same $\DyadicRatCoreUp$ ledger rather than to a second threshold source.
+
+Use \autoref{thm:bishop-completion-modulus-real-seal-ordering} for the terminal ordering and \autoref{thm:bishop-completion-modulus-same-threshold-transport} for public transport. The $\RegSeqRatUp$ handoff remains prior to the $\RealUp$ seal, and componentwise transport preserves the displayed route.
+
+Finally package the result by \autoref{thm:bishop-completion-modulus-scope-closure}. The public certificate is exactly the scoped finite route above, so no quotient stream, selected completed limit, countable choice, host real equality, or ambient completeness can be exported.
+\end{proof}
+
+\begin{theorem}[Bishop completion modulus bridge-facing Real-seal boundary]
+\label{thm:bishopcompletionmodulus-bridged-real-seal-boundary}
+Every bridge-facing read of an accepted $\BishopCompletionModulusUp$ carrier preserves the displayed route
+$$
+M,n \longmapsto k \longmapsto W,D \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$. A standard interpretation may inspect this completion-modulus handoff and its terminal $\RealUp$ seal, but it may not add quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopCompletionModulusUp.BishopCompletionModulusCarrier\_bridge\_facing\_real\_seal\_boundary}
+\begin{proof}
+Start from the public completion certificate, \autoref{thm:bishop-completion-modulus-public-completion-certificate}. It fixes the public route through the modulus request, threshold, window, dyadic ledger, regular rational handoff, and Real seal.
+
+Next use the same-threshold transport theorem, \autoref{thm:bishop-completion-modulus-same-threshold-transport}. The rows $H,C,P,N$ preserve the displayed route componentwise and replay only the named carrier data, so a bridge-facing read cannot change the threshold source or insert an alternate stream.
+
+Finally apply Real seal ordering from \autoref{thm:bishop-completion-modulus-real-seal-ordering}. Since $E$ is reachable only after $R$ and the carrier has no quotient-stream, selected-limit, choice, host-equality, or ambient-completeness coordinate, the standard-facing boundary is exactly the displayed handoff.
+\end{proof}
+
+\closureat{BishopCompletionModulusUp}{bridgedStr}
 
 \begin{closurestatus}{\BishopCompletionModulusUp}
   \constructivestory{A $\BishopCompletionModulusUp$ packet is generated from a displayed CauchyModulus row, a finite StreamName schedule, a unary precision request, a selected threshold, a finite stream window, a DyadicRatCore threshold ledger, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:bishop-completion-modulus-scope-closure} binds the carrier, NameCert obligations, L10 handoff, threshold coherence, heredity, Real seal ordering, and same-threshold transport for completion-modulus consumers.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:bishop-completion-modulus-public-completion-certificate} and \autoref{thm:bishopcompletionmodulus-bridged-real-seal-boundary} bind the public and bridge-facing export surface for the finite completion-modulus route through carrier rows, threshold induction, threshold heredity, the $\RegSeqRatUp$ handoff, and the ordered $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient stream equality, selected completed limits, countable choice, host real equality, RealUp completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, monotone finite modulus readback, dyadic threshold compatibility, RegSeqRat handoff, and RealUp seal non-escape for the same finite packet.}
+  \upgradepath{Only Lean formal verification and bridge checking remain outside the paper mature treatment of completion-modulus consumers.}
 \end{closurestatus}

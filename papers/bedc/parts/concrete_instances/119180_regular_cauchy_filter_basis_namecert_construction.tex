@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFilterBasisUp$}
+\label{ch:concrete-instances-regular-cauchy-filter-basis-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyFilterBasisUp$ packet records the finite basis object that sits between regular Cauchy schedules and completion-facing filter reads. It is grounded in the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the basis-completion handoff of \autoref{ch:concrete-instances-cauchy-filter-basis-completion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet makes the basis row first-class before completion consumers inspect it; it does not add quotient filters, selected limits, host real equality, countable choice, or ambient completeness.
+
+\begin{definition}[RegularCauchyFilterBasis carrier]
+\label{def:regular-cauchy-filter-basis-carrier}
+A $\RegularCauchyFilterBasisUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,R,D,B,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule naming the regular Cauchy tail observations that may be inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the same windows and regular-rational reads.
+\item $B$ is the $\CauchyFilterBasisUp$ row whose basic observations are exactly the displayed windows in $S$ with tolerances supplied by $D$.
+\item $M$ is the finite meet row: every pair of displayed basis observations has a later displayed observation refining both and preserving the same tolerance ledger.
+\item $E$ is the $\RealUp$ seal row reached only after $S,R,D,B,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for windows, readback, tolerance, basis, meet, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from basis refinements through $S,R,D,B,M,E,H,P,N$.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyFilterBasisUp$, $\CauchyFilterBasisUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFilterBasisUp}$ row.
+\end{enumerate}
+The classifier accepts packets only through the ten displayed rows $S,R,D,B,M,E,H,C,P,N$. No coordinate stores a quotient filter, hidden cofinal family, selected completion point, host real equality, countable-choice selector, or ambient completeness witness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyFilterBasisUp.RegularCauchyFilterBasisTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RegularCauchyFilterBasis NameCert obligations]
+\label{thm:regular-cauchy-filter-basis-namecert-obligations}
+For every accepted $\RegularCauchyFilterBasisUp$ carrier
+$$
+Q=(S,R,D,B,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFilterBasisUp}$ surface consists exactly of carrier admission for the finite window schedule, regular-rational readback, dyadic tolerance ledger, basis row, finite meet row, terminal real seal, componentwise transport, displayed replay, provenance, and local naming. Every completion-facing or Real-facing consumer must first read $S$, then $R$ and $D$, then the basis and meet rows $B,M$, and only then the seal and structural rows $E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-filter-basis-carrier}. The visible source of the packet is the finite window schedule $S$ together with its regular-rational readback $R$ and dyadic tolerance ledger $D$.
+
+Read the basis row next. The row $B$ contains exactly the observations listed by $S$ and the tolerance information listed by $D$, while $M$ supplies the finite common-refinement row needed to keep the basis directed.
+
+Finally consume the seal and structural rows. The row $E$ is downstream from $S,R,D,B,M$, and $H,C,P,N$ only transport, replay, source, and name that same route. Since no excluded quotient, selector, host-equality, choice, or completeness coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilterBasis stability scope]
+\label{thm:regular-cauchy-filter-basis-stability-scope}
+Let $Q=(S,R,D,B,M,E,H,C,P,N)$ be an accepted $\RegularCauchyFilterBasisUp$ carrier. Any finite refinement of displayed basis observations stays inside the same route
+$$
+S,R,D \longmapsto B,M \longmapsto E,H,C,P,N .
+$$
+The refinement preserves the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$ under componentwise $\hsame$ transport and displayed $\Cont$ replay. The stability scope is a finite basis certificate; it is not quotient filter equality, a selected limit, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the displayed basis observations in $B$. By carrier admission, each observation is named by the finite window schedule $S$ and carries its tolerance data in $D$.
+
+Use the meet row $M$ for refinement. For a pair of displayed observations, $M$ names a later displayed observation refining both; induction over a finite list repeats this same row without introducing any hidden cofinal family.
+
+The regular-rational and Real-facing rows remain fixed. The readback row is $R$, the seal row is $E$, and $H,C,P,N$ preserve the route by transport, replay, provenance, and local naming. Hence every stable refinement remains inside the displayed packet and cannot be reread as one of the excluded completion or equality principles.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyFilterBasisUp$ consumer preserving the same displayed basis windows factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterBasisUp$, finite meet, $\RealUp$, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{\texttt{regularcauchyfilter}, \texttt{cauchyfilterbasiscompletion}, \texttt{regseqrat}, \texttt{real}: the RegularCauchyFilter packet carries a source CauchyFilter row; the CauchyFilterBasisCompletion packet carries the completion-facing basis route; the RegSeqRat packet carries regular rational readback without a basis meet; and the Real packet carries the terminal seal. None is bijective to $\RegularCauchyFilterBasisUp$.}
+
+\closureat{RegularCauchyFilterBasisUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFilterBasisUp}
+  \constructivestory{A $\RegularCauchyFilterBasisUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyFilterBasis row, a finite meet row, a RealUp seal, componentwise transport, displayed replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-basis-carrier}, \autoref{thm:regular-cauchy-filter-basis-namecert-obligations}, and \autoref{thm:regular-cauchy-filter-basis-stability-scope} seed the finite regular Cauchy basis route between schedules and completion-facing filters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected completion points, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite meet stability, readback preservation, seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFilterBasisUp.}
+\end{closurestatus}

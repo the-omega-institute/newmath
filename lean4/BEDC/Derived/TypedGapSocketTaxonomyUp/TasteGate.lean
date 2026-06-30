@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TypedGapSocketTaxonomyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -251,5 +253,36 @@ theorem TypedGapSocketTaxonomyTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨typedGapSocketTaxonomyDecode_encode_bhist, typedGapSocketTaxonomy_round_trip,
     fun _ _ heq => typedGapSocketTaxonomyToEventFlow_injective heq, rfl⟩
+
+def typedGapSocketTaxonomyLocalNameSpec (x : TypedGapSocketTaxonomyUp) : BHist → Prop :=
+  -- BEDC touchpoint anchor: BHist hsame NameCert
+  match x with
+  | TypedGapSocketTaxonomyUp.mk _ _ _ _ _ _ _ N =>
+      fun row => hsame row N
+
+theorem TypedGapSocketTaxonomyCarrier_semantic_name_certificate
+    (x : TypedGapSocketTaxonomyUp) :
+    SemanticNameCert (typedGapSocketTaxonomyLocalNameSpec x)
+      (typedGapSocketTaxonomyLocalNameSpec x) (typedGapSocketTaxonomyLocalNameSpec x)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  refine NameCert_carrier_self_semantic_lifting ?core
+  cases x with
+  | mk K G M L H C P N =>
+      exact {
+        carrier_inhabited := Exists.intro N (hsame_refl N)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row other target sameRO sameOT
+          exact hsame_trans sameRO sameOT
+        carrier_respects_equiv := by
+          intro row other same source
+          exact hsame_trans (hsame_symm same) source
+      }
 
 end BEDC.Derived.TypedGapSocketTaxonomyUp

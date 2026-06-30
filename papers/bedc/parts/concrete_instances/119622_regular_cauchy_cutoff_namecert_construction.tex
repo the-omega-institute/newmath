@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCutoffUp$}
+\label{ch:concrete-instances-regular-cauchy-cutoff-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyCutoffUp$ packet records the finite tail-cutoff data by which a regular Cauchy rational name becomes readable by Real and Completion consumers. It sits after the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for a displayed cutoff route; it is not quotient stream equality, a selected limit representative, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy cutoff carrier]
+\label{def:regular-cauchy-cutoff-carrier}
+A $\RegularCauchyCutoffUp$ carrier is a finite $\BHist$ packet
+$$
+K=(n,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the finite cutoff index at which the tail route begins.
+\item $W$ is the $\StreamNameUp$ finite-window schedule inspected at and beyond $n$.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the displayed tail.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the requested cutoff precision.
+\item $E$ is the terminal $\RealUp$ seal row available only after $n,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the cutoff index, window schedule, regular rational readback, dyadic tolerance ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through the cutoff route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCutoffUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCutoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $n,W,R,D,E,H,C,P,N$. It has no coordinate for quotient-name equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy cutoff tail window]
+\label{thm:regular-cauchy-cutoff-tail-window}
+Every accepted $\RegularCauchyCutoffUp$ carrier
+$$
+K=(n,W,R,D,E,H,C,P,N)
+$$
+exposes a finite tail window before any Real-facing seal can be read. A consumer must inspect the cutoff index $n$, the $\StreamNameUp$ window schedule $W$, the $\RegSeqRatUp$ readback row $R$, and the $\DyadicRatCoreUp$ tolerance ledger $D$ before it reaches $E,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyCutoffUp.RegularCauchyCutoffCarrier\_tail\_window}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-cutoff-carrier}. The first four rows display the cutoff index, stream window, regular rational readback, and dyadic tolerance ledger as finite data.
+
+The terminal seal row $E$ is downstream of those displayed rows. Transport, replay, provenance, and local naming preserve the same order because $H,C,P,N$ act on the carried rows rather than replacing them with a hidden tail selector.
+
+Thus an accepted consumer can read the Real-facing seal only through the displayed finite tail window. Any route that omits $n,W,R,D$ has no carrier coordinate to project and is outside the local certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy cutoff RegSeqRat handoff]
+\label{thm:regular-cauchy-cutoff-regseqrat-handoff}
+The $\RegSeqRatUp$ handoff exported by an accepted $\RegularCauchyCutoffUp$ packet is attached to the same finite $\StreamNameUp$ window and $\DyadicRatCoreUp$ tolerance ledger that determine the cutoff. The route
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp
+$$
+therefore remains a displayed finite NameCert route and does not introduce a quotient of streams, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the tail-window theorem. It forces each Real-facing read to pass through the same rows $n,W,R,D$ before the seal row is available.
+
+The $\RegSeqRatUp$ row $R$ is not a standalone limit witness. It is read together with the finite window $W$ and tolerance ledger $D$, and the replay row $C$ preserves that attachment for downstream Real and Completion requests.
+
+Since the carrier has no coordinate for quotient stream equality, selected representatives, countable choice, or ambient completeness, the handoff can export only the displayed finite route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the local structural rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy cutoff non-escape]
+\label{thm:regular-cauchy-cutoff-nonescape}
+No accepted $\RegularCauchyCutoffUp$ consumer reaches the $\RealUp$ seal without first reading the cutoff index, finite stream window, regular rational row, dyadic tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. A claimed Real-facing route that bypasses any of those rows is outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The Real seal is one displayed row of $K$, and the rows $n,W,R,D,H,C,P,N$ specify the finite route by which it is exposed.
+
+Apply the handoff theorem. It ties the regular rational readback to the same stream window and dyadic tolerance ledger that determine the cutoff, so the Real-facing consumer cannot detach $E$ from the tail window.
+
+The remaining rows transport, replay, source, and name that route. Omitting any of them changes the carrier rather than preserving an accepted $\RegularCauchyCutoffUp$ packet, so the attempted bypass is refuted by the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyCutoffUp$ consumer is refuted if it reaches the $\RealUp$ seal without first reading the finite cutoff index, $\StreamNameUp$ window schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: none is bijective with $\RegularCauchyCutoffUp$ because the cutoff packet jointly binds one finite cutoff index, one finite stream window, one regular rational row, one dyadic tolerance ledger, one Real seal, transport, replay, provenance, and local naming as a single tail-cutoff route.}
+
+\closureat{RegularCauchyCutoffUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCutoffUp}
+  \constructivestory{A $\RegularCauchyCutoffUp$ packet is generated from a finite cutoff index, StreamName finite-window schedules, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-cutoff-carrier}, \autoref{thm:regular-cauchy-cutoff-tail-window}, \autoref{thm:regular-cauchy-cutoff-regseqrat-handoff}, and \autoref{thm:regular-cauchy-cutoff-nonescape} seed the finite tail-cutoff route over StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove tail-window exposure, RegSeqRat handoff preservation, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCutoffUp.}
+\end{closurestatus}

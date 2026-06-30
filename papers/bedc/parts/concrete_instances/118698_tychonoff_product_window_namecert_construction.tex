@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\TychonoffProductWindowUp$}
+\label{ch:concrete-instances-tychonoff-product-window-namecert}
+\origin{human}
+
+Following Tychonoff and Kelley, the $\TychonoffProductWindowUp$ packet records only the finite product-window compactness data that can be displayed inside BEDC NameCert rows. It sits after the finite product certificate of \autoref{ch:concrete-instances-tychonoff-finite-product-namecert}, the compact metric product route of \autoref{ch:concrete-instances-compact-metric-product-namecert}, the product-distance ledger of \autoref{ch:concrete-instances-productmetric-namecert}, the compact source boundary of \autoref{ch:concrete-instances-compact-namecert}, and the topology carrier of \autoref{ch:concrete-instances-topology-namecert}. The packet is a finite inspection window for product compactness consumers, not a proof of full product compactness.
+
+\begin{definition}[Tychonoff product-window carrier]
+\label{def:tychonoff-product-window-carrier}
+A $\TychonoffProductWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(I,U,K,M,F,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index-window row, listing exactly the coordinates visible to the packet.
+\item $U$ is the topology-window row, reading each listed coordinate through the finite open-row interface of $\TopologyUp$.
+\item $K$ is the compact-source row, exposing for each listed coordinate only the displayed compact data admitted by $\CompactUp$.
+\item $M$ is the metric product handoff, using $\CompactMetricProductUp$ and $\ProductMetricUp$ only when the displayed window is metric.
+\item $F$ is the finite-product compactness row inherited from $\TychonoffFiniteProductUp$ for the same listed coordinates.
+\item $T$ is the finite cover-window ledger, naming the visible cover requests and finite response rows inside the displayed product window.
+\item $L$ is the local compactness-read ledger, recording which compact-source row is read by each visible product-window request.
+\item $H$ stores componentwise $\hsame$ transport for $I,U,K,M,F,T,L,C,P,N$.
+\item $C$ stores displayed $\Cont$ replay from a consumer request through the same finite product-window rows.
+\item $P$ is the $\Pkg$ provenance over $\TychonoffProductWindowUp$, $\TychonoffFiniteProductUp$, $\CompactMetricProductUp$, $\ProductMetricUp$, $\CompactUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TychonoffProductWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an arbitrary product family, a countable product, an ultrafilter, a selected subcover, a host product point, or open-cover compactness beyond the displayed finite window.
+\end{definition}
+
+\begin{theorem}[Tychonoff product-window NameCert obligations]
+\label{thm:tychonoff-product-window-namecert-obligations}
+For an accepted $\TychonoffProductWindowUp$ carrier
+$$
+W=(I,U,K,M,F,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\TychonoffProductWindowUp}$ surface consists exactly of carrier admission for the finite index window, topology rows, compact-source rows, metric product handoff, finite-product compactness row, cover-window ledger, local compactness-read ledger, componentwise transport, replay, provenance, and local naming. Every compactness read must first expose the displayed route
+$$
+\TopologyUp,\CompactUp,\TychonoffFiniteProductUp,\CompactMetricProductUp,\ProductMetricUp
+\longmapsto
+I,U,K,M,F,T,L,H,C,P,N .
+$$
+The certificate exports finite product-window compactness data only; it does not assert arbitrary Tychonoff products, countable products, choice-selected subcovers, ultrafilters, host product points, or open-cover compactness beyond displayed finite windows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tychonoff-product-window-carrier}. The index row $I$ fixes the visible coordinates, and the topology, compact, metric-product, finite-product, cover-window, and local compactness rows are all displayed before the structural rows are read.
+
+Read $U$ and $K$ first. They expose the finite topology and compact-source data supplied by \autoref{ch:concrete-instances-topology-namecert} and \autoref{ch:concrete-instances-compact-namecert}, without forming an ambient product of all coordinate points.
+
+Next read $F$ through \autoref{ch:concrete-instances-tychonoff-finite-product-namecert}. In metric windows, the same request may also pass through $M$ using \autoref{ch:concrete-instances-compact-metric-product-namecert} and \autoref{ch:concrete-instances-productmetric-namecert}. These rows provide only the finite product-window route already named by $I$.
+
+Finally, $T,L,H,C,P,N$ record the cover-window request, local compactness reads, transport, replay, provenance, and local naming. Since the packet contains no row for countable products, arbitrary products, selected subcovers, ultrafilters, host product points, or open-cover compactness outside the finite window, the NameCert surface is exhausted by the displayed data.
+\end{proof}
+
+\closureat{TychonoffProductWindowUp}{seedStr}
+
+\begin{closurestatus}{\TychonoffProductWindowUp}
+  \constructivestory{A $\TychonoffProductWindowUp$ packet is generated from a finite index window, topology rows, compact-source rows, metric product handoff, TychonoffFiniteProduct finite-product rows, finite cover-window ledgers, local compactness-read ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tychonoff-product-window-carrier} and \autoref{thm:tychonoff-product-window-namecert-obligations} define only the finite product-window carrier and its displayed NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary Tychonoff products, countable products, choice-selected subcovers, ultrafilters, host product points, or open-cover compactness beyond displayed finite windows.}
+  \upgradepath{The next step is Lean alignment of the finite index window, topology rows, compact-source rows, metric product handoff, finite-product row, cover-window ledger, local compactness-read ledger, transport, replay, provenance, and local naming for BEDC.Derived.TychonoffProductWindowUp.}
+\end{closurestatus}

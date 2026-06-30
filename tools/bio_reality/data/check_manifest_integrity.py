@@ -6,6 +6,8 @@ from __future__ import annotations
 import json
 import pathlib
 import sys
+import base64
+import hashlib
 
 
 DATA_DIR = pathlib.Path(__file__).resolve().parent
@@ -14,8 +16,23 @@ MANIFEST_DIR = DATA_DIR / "manifests"
 
 def main() -> int:
     failures: list[str] = []
+    required_manifest_fields = {
+        "fetched_at",
+        "source_url",
+        "source_name",
+        "accession_or_id",
+        "sha256",
+        "byte_size",
+        "content_type",
+        "fetched_by",
+        "intended_claim_id",
+        "license_or_terms",
+    }
     for manifest_path in sorted(MANIFEST_DIR.glob("*.json")):
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        missing = sorted(required_manifest_fields.difference(manifest))
+        if missing:
+            failures.append(f"{manifest_path}: missing manifest field(s): {', '.join(missing)}")
         data_path = DATA_DIR / manifest_path.name
         if not data_path.exists():
             failures.append(f"{manifest_path}: missing data file {data_path.name}")
@@ -25,6 +42,27 @@ def main() -> int:
         if not isinstance(provenance, dict):
             failures.append(f"{data_path}: missing provenance object")
             continue
+        raw_payload_text = payload.get("raw_payload_text")
+        has_raw_payload = False
+        if isinstance(raw_payload_text, str):
+            has_raw_payload = True
+            raw_bytes = raw_payload_text.encode("utf-8")
+            raw_sha = hashlib.sha256(raw_bytes).hexdigest()
+            if manifest.get("sha256") != raw_sha:
+                failures.append(f"{manifest_path}: sha256 does not match raw_payload_text")
+            if manifest.get("byte_size") != len(raw_bytes):
+                failures.append(f"{manifest_path}: byte_size does not match raw_payload_text")
+        provenance_raw_base64 = provenance.get("raw_payload_base64")
+        if isinstance(provenance_raw_base64, str):
+            has_raw_payload = True
+            raw_bytes = base64.b64decode(provenance_raw_base64.encode("ascii"), validate=True)
+            raw_sha = hashlib.sha256(raw_bytes).hexdigest()
+            if manifest.get("sha256") != raw_sha:
+                failures.append(f"{manifest_path}: sha256 does not match raw_payload_base64")
+            if manifest.get("byte_size") != len(raw_bytes):
+                failures.append(f"{manifest_path}: byte_size does not match raw_payload_base64")
+        if not has_raw_payload:
+            failures.append(f"{data_path}: missing raw payload field for manifest replay")
         checks = {
             "sha256": provenance.get("payload_sha256"),
             "byte_size": provenance.get("payload_byte_size"),

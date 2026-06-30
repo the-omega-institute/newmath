@@ -1,17 +1,17 @@
-# Contact Note Draft
+# Evaluation Note Draft
 
-Subject: BEDC-JEPA: certifiable distinctions and gap-aware world-state learning
+Subject: BEDC-JEPA: certified operational claims for world-model latents
 
 Hi David, Yann, Randall,
 
 We read "When Does LeJEPA Learn a World Model?" with particular interest in
-the latent identifiability theorem, the planning connection, and the Lean proof
-inventory.  We are exploring a complementary direction rather than a
+the latent identifiability theorem, the planning connection, and the proof
+inventory. We are exploring a complementary direction rather than a
 reinterpretation of that result.
 
-The question is whether a JEPA-style world model can be trained to learn not
-only continuous latent state, but also operational distinctions and an explicit
-gap ledger:
+The question is whether a JEPA-style world model can be evaluated and trained
+not only for continuous latent state, but also for operational distinctions
+and explicit gap ledgers:
 
 ```text
 world state = z_t + d_t + g_t
@@ -21,7 +21,7 @@ Here `d_t` denotes testable distinctions with transition, intervention, or
 planning consequences, and `g_t` denotes states where the model should not make
 an unqualified world-state claim.
 
-Our local BEDC-JEPA branch now has a four-system ablation:
+The current BEDC-JEPA evidence record contains:
 
 ```text
 S0 latent / prediction only
@@ -30,10 +30,13 @@ S2 post-hoc BEDC report
 S3 trained BEDC-JEPA distinction + gap readback
 ```
 
-The current evidence packet includes boundary worlds, a grid-pixel learned
-transition benchmark, a MiniGrid-style visual planning benchmark, two-object
-counterfactual intervention, four-object distractor sweeps, and six-object
-clutter sweeps.
+The evidence packet includes boundary worlds, a grid-pixel learned-transition
+benchmark, a MiniGrid-style visual planning benchmark, two-object
+counterfactual intervention, four-object distractor sweeps, six-object clutter
+sweeps, a native MiniGrid-DoorKey S0/S1/S2/S3 packet, public MiniGrid
+debt/calibration records, public V-JEPA2-AC Giant checkpoint-scope CUDA
+evaluation, fixed-checkpoint V-JEPA2-AC MiniGrid latent prediction, and a
+fixed-carrier V-JEPA2-AC Latent Claim Certificate Protocol record.
 
 Selected current numbers:
 
@@ -42,8 +45,6 @@ torch objective latent R^2 delta:                    0.000000
 torch objective gap AUROC gain, BEDC - latent-only:  0.499223
 torch objective gap AUROC gain mean, three seeds:    0.498762
 torch objective debt reduction mean, three seeds:    0.102887
-torch objective unlogged error, BEDC:                0.000000
-torch objective debt reduction:                      0.096838
 grid transition one-step R^2:                         0.998237
 MiniGrid-style transition one-step accuracy:          1.000000
 MiniGrid-style gap AUROC gain, S3 - S2:               0.428459
@@ -51,70 +52,52 @@ MiniGrid-style risk-adjusted planning gain:           0.313494
 two-object counterfactual accuracy mean:              0.932750
 four-object counterfactual accuracy mean:             0.940694
 six-object clutter counterfactual accuracy mean:      0.946607
-six-object clutter gap AUROC gain mean, S3 - S2:      0.501613
-six-object clutter unlogged-error reduction mean:     0.270000
+native MiniGrid S0-minus-S3 UER reduction mean:       0.067188
+native MiniGrid S3-minus-S0 gap AUROC gain mean:      0.185662
+V-JEPA2-AC MiniGrid latent-prediction score:          0.981246
+V-JEPA2-AC MiniGrid linear-aligned R^2:               0.980652
 ```
 
-The intended contribution is a model objective, not a post-hoc report:
-distinction heads and gap heads are part of the trained world-state readback,
-and planning can penalize predicted high-gap states.  The torch objective
-artifact keeps the latent carrier fixed and trains the BEDC heads, so the gap
-and debt gains are not coming from a different latent recovery score.  In the
-visual planning benchmark this reduces high-gap and unsafe state selection
-while exposing a real success-rate tradeoff.
+The intended contribution is a model objective and a certificate protocol, not
+a post-hoc report. Distinction heads and gap heads are part of trained
+world-state readback in BEDC-JEPA. For arbitrary fixed carriers, LCCP returns
+either a certified singleton operational claim or an explicit coverage/source
+/stability debt row.
 
-We cannot yet claim a public JEPA implementation comparison, a robotics result,
-or natural-video object interaction.  We have added public MiniGrid DoorKey
-contracts for `MiniGrid-DoorKey-8x8-v0`: the transition packet samples
-Gymnasium `image` observations with shape `(7, 7, 3)` and discrete MiniGrid
-actions, and the benchmark packet computes a DoorKey readback/gap metric
-contract with distinction accuracy, gap AUROC, unlogged error, certified
-coverage, and debt.  The public MiniGrid DoorKey packet has been executed in
-an isolated environment with Gymnasium and MiniGrid installed, then imported
-into the readiness-facing benchmark artifact.  The public MiniGrid result
-records distinction accuracy 1.000000, gap AUROC 1.000000, unlogged error
-0.000000, certified coverage 0.375000, and debt 0.062500 over 32 collected
-samples.
+The CUDA retraining loss-term record is scoped to the boundary-gated torch
+objective. It contains true retraining rows for `full_s3`,
+`minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
+`minus_l_intervention`. Removing `L_gap` preserves latent recovery while
+collapsing gap ranking and certified coverage. Removing `L_unlogged`,
+`L_stability`, or `L_intervention` does not produce an independent positive
+effect in this setting because all retrained rows have zero mean UER and the
+declared stability/intervention surfaces are narrow OU-pair surfaces.
 
-The current readiness gate is `not_contact_ready`: torch objective seed sweep,
-local visual planning, and cluttered object-counterfactual gates pass, while
-public MiniGrid execution also passes.  The public JEPA baseline comparison is
-the remaining blocking gate.  The external run kit records the two result schemas, export
-commands, and import commands needed to close those gates without inventing
-evidence inside this workspace.
-
-For the public JEPA baseline side, the registry selects V-JEPA 2-AC as the
-first candidate because it is action-conditioned, with LeWorldModel / LeJEPA as
-the second candidate because it targets stable JEPA world modeling from pixels.
-The registry is contract-only at this stage; no public JEPA baseline has been
-executed in this workspace.  The separate comparison packet is the readiness
-artifact: it keeps baseline latent-prediction score, rollout/planning score,
-and reported benchmark name empty until an actual public baseline run supplies
-them.  The lab now has a boundary export command and an import command for an
-executed public baseline result, but no such result is present in this
-workspace.  The baseline probe resolves the selected public repository head
-`204698b45b3712590f06245fbfba32d3be539812` and records that local `torch` and
-`torchvision` are installed while `timm` and `einops` are missing; it therefore
-does not close the public JEPA baseline gate.
+The public MiniGrid record supports the UER and gap-ranking directions while
+also exposing an unresolved debt-calibration problem and a risk-success
+planning tradeoff. The V-JEPA2-AC records are fixed-checkpoint evaluations:
+they do not claim official/native V-JEPA2-AC benchmark reproduction, public
+benchmark superiority, or certified semantic grounding.
 
 Reproducible local commands:
 
 ```text
 python scripts/run_bedc_jepa_experiment.py
 python scripts/run_torch_bedc_jepa.py
-python scripts/build_bedc_jepa_artifact_manifest.py
-python scripts/probe_public_minigrid.py
-python scripts/export_public_minigrid_benchmark_result.py
-python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
+python scripts/run_torch_retraining_loss_ablation.py
+python scripts/run_bedc_latent_claim_certificate.py
+python scripts/run_vjepa2_ac_minigrid_claim_certificate.py
+python scripts/run_vjepa2_ac_minigrid_latent_prediction.py
 python scripts/build_public_jepa_baseline_registry.py
-python scripts/probe_public_jepa_baseline.py
-python scripts/export_public_jepa_baseline_result.py
-python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
 python scripts/build_bedc_jepa_external_run_kit.py
+python scripts/build_bedc_jepa_artifact_manifest.py
 python scripts/build_bedc_jepa_readiness.py
+python scripts/build_bedc_jepa_review_bundle.py
+python scripts/build_bedc_jepa_quality_backend_candidate.py
 python -m pytest -q
 ```
 
-Would this be a useful extension direction or add-on benchmark to discuss?
+Would this be a useful complementary evaluation direction or add-on benchmark
+to discuss?
 
 Best,

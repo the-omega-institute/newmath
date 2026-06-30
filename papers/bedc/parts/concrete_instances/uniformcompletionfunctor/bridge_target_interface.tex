@@ -1,0 +1,37 @@
+\begin{theorem}[UniformCompletionFunctor bridge target interface]
+\label{thm:uniform-completion-functor-bridge-target-interface}
+Every target-side bridge read of an accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$ factors through the displayed rows
+$$
+U,F,E,R,W,D,S,H,C,P,N .
+$$
+In particular, the target interface preserves the $\UniformCompletionUp$ source row $U$, the $\CauchyCompletionFunctorUp$ handoff row $F$, the $\CompletionUniversalPropertyUp$ row $E$, the $\RegSeqRatUp$ readback row $R$, the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal row $S$ before any transport, replay, provenance, or local naming row is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorBridgeTargetInterface}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. The target-side bridge can read only the displayed coordinates $U,F,E,R,W,D,S,H,C,P,N$.
+
+Use the source obligation, \autoref{thm:uniformcompletionfunctor-source-obligation}. It fixes $U$ as the UniformCompletion source for every completion-facing read, so the bridge target cannot begin from a target seal or from an isolated handoff row.
+
+Apply the Cauchy handoff theorem, \autoref{thm:uniformcompletionfunctor-cauchy-handoff}, and the bridge source lock, \autoref{thm:uniform-completion-functor-bridge-source-lock}. These place the CauchyCompletionFunctor row and the universal-property row downstream of the same source, then route the bridge through the regular readback, finite windows, and dyadic tolerance rows.
+
+Finally use the Real-seal nonescape theorem, \autoref{thm:uniformcompletionfunctor-real-seal-nonescape}. It keeps $S$ terminal for the displayed readback route and confines $H,C,P,N$ to componentwise transport, replay, provenance, and local naming. Therefore every target-side bridge read exposes exactly the listed interface and no quotient completion, selected limit, host complete uniform space, open-cover compactness theorem, or choice principle.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor target-source order]
+\label{thm:uniform-completion-functor-target-source-order}
+Every target-side bridge read of an accepted $\UniformCompletionFunctorUp$ packet reaches the terminal target seal only after the $\UniformCompletionUp$ source row, $\CauchyCompletionFunctorUp$ handoff row, $\CompletionUniversalPropertyUp$ row, $\RegSeqRatUp$ readback row, $\StreamNameUp$ window row, and $\DyadicRatCoreUp$ tolerance row have been displayed. The target-side route therefore reads
+$$
+U\longmapsto F\longmapsto E\longmapsto R\longmapsto W\longmapsto D\longmapsto S
+$$
+inside the carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$ before any terminal target seal, transport, replay, provenance, or local naming row is consumed.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorTargetSourceOrder}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. The target-side bridge has no row other than $U,F,E,R,W,D,S,H,C,P,N$, so the terminal seal can only be reached through the displayed source-to-target route.
+
+Apply \autoref{thm:uniformcompletionfunctor-source-obligation}. It places the $\UniformCompletionUp$ source row first for every completion-facing read and prevents the bridge from starting at the terminal seal.
+
+Use \autoref{thm:uniformcompletionfunctor-cauchy-handoff} together with \autoref{thm:uniform-completion-functor-bridge-source-lock}. These force the $\CauchyCompletionFunctorUp$ handoff and $\CompletionUniversalPropertyUp$ row to remain downstream of the source row before the bridge can read regular sequences, finite StreamName windows, or dyadic tolerances.
+
+Finally apply \autoref{thm:uniform-completion-functor-bridge-target-interface}. The existing target interface exposes the readback, window, tolerance, and terminal seal rows in the displayed carrier order and confines $H,C,P,N$ to transport, replay, provenance, and local naming. Hence a target-side bridge read is source-before-target rather than a direct read of the terminal seal.
+\end{proof}

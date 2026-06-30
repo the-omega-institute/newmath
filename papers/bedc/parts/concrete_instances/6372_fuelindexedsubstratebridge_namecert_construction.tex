@@ -50,6 +50,7 @@ The refusal and structural rows close the surface. The row $Q$ records the exclu
 \label{thm:fuel-indexed-substrate-bridge-total-host-nonescape}
 Every accepted $\FuelIndexedSubstrateBridgeUp$ consumer route reads the host computation through the total evaluator row $E$ under the displayed fuel row $F$. The packet exports no partial host evaluator, no host-level halting oracle, no selected nontermination witness, and no proof that the substrate computation has completed beyond the displayed finite window $W$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FuelIndexedSubstrateBridgeUp.FuelIndexedSubstrateBridge\_total\_host\_nonescape}
 \begin{proof}
 Start from the obligation surface of \autoref{thm:fuel-indexed-substrate-bridge-obligation-surface}. A consumer reaches the readback row only through $F,S,E,W,R,Q,H,C,P,N$.
 
@@ -62,6 +63,7 @@ The refusal row $Q$ records the missing escapes. Since the carrier has no coordi
 \label{thm:fuel-indexed-substrate-bridge-step-window-boundary}
 For an accepted $\FuelIndexedSubstrateBridgeUp$ packet $B=(F,S,E,W,R,Q,H,C,P,N)$, the substrate-side content available to any downstream route is exactly the finite step window $W$ and readback $R$ obtained under $F,S,E$. In particular, one finite window cannot be consumed as an unbounded computation, a completed universal substrate run, or a quotient stream of all future substrate states.
 \end{theorem}
+\leanchecked{BEDC.Derived.FuelIndexedSubstrateBridgeUp.FuelIndexedSubstrateBridge\_step\_window\_boundary}
 \begin{proof}
 Project the carrier of \autoref{def:fuel-indexed-substrate-bridge-carrier}. The only substrate-facing rows are the state row $S$, the finite window row $W$, and the readback row $R$, all governed by the fuel and evaluator rows $F,E$.
 

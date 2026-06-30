@@ -55,6 +55,36 @@ Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
 
+\begin{theorem}[DyadicUp obligation-closure route]
+\label{thm:dyadic-up-obligation-closure-route}
+For every accepted $\DyadicUp$ carrier $D=(Q,S,R,E,H,C,P,N)$, the rows $Q,S,R,E,H,C,P,N$ listed in \autoref{def:dyadic-up-carrier} and certified by \autoref{thm:dyadic-up-namecert-obligations} are sufficient to witness the $\obligationClosure$ surface consumed by downstream $\DyadicUp$ readers. The route binds $Q$ to $\DyadicRatCoreUp$, $S$ to $\StreamNameUp$, $R$ to $\RegSeqRatUp$, $E$ to $\RealUp$, and $H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before any Real-facing or Completion-facing read can inspect the dyadic packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUp\_obligation\_closure\_route}
+\begin{proof}
+Start from the carrier and NameCert obligations. The carrier displays exactly the dyadic core, stream window, regular rational readback, Real seal, transport, replay, provenance, and local naming rows, while the obligation theorem states that no local naming obligation is stored outside those rows.
+
+Read the mathematical rows first. The dyadic tolerance ledger $Q$, the finite stream window $S$, the regular rational row $R$, and the terminal Real seal $E$ appear before any Real-facing or Completion-facing consumer can use the packet.
+
+The structural rows $H,C,P,N$ then preserve, replay, source, and name the same route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since every obligation row is displayed before the consumer-facing reads and no excluded analytic or quotient object is a carrier coordinate, the displayed rows witness the obligation-closure surface for $\DyadicUp$ consumers.
+\end{proof}
+
+\begin{theorem}[DyadicUp obligation-closure dependency surface]
+\label{thm:dyadic-up-obligation-closure-dependency-surface}
+For every accepted $\DyadicUp$ obligation read, the dependency surface factors through exactly the displayed rows
+$$
+Q,S,R,E,H,C,P,N .
+$$
+Here $Q$ is read from $\DyadicRatCoreUp$, $S$ from $\StreamNameUp$, $R$ from $\RegSeqRatUp$, and $E$ from $\RealUp$ before any Real or Completion consumer can use the dyadic packet. The rows $H,C,P,N$ then transport, replay, source, and locally name that same route. No selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient completeness row is admitted by the dependency surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUp\_obligation\_closure\_dependency\_surface}
+\begin{proof}
+Start with \autoref{thm:dyadic-up-namecert-obligations}. Its finite obligation list admits only the dyadic core, stream window, regular rational sequence, real seal, transport, replay, provenance, and local naming rows of the carrier.
+
+Next apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. It forces every Real-facing read to expose $Q$, then $S$, then $R$ before the terminal row $E$ becomes visible.
+
+Finally use \autoref{thm:dyadic-up-real-seal-factorization}. Since Real and Completion consumers can reach the packet only through that terminal factorization, the remaining rows $H,C,P,N$ merely preserve and name the same finite route, and the excluded binary-expansion, quotient-stream, trichotomy, choice, host-equality, and completeness data have no coordinate from which they can be read.
+\end{proof}
+
 \begin{theorem}[DyadicUp real-seal factorization]
 \label{thm:dyadic-up-real-seal-factorization}
 Let $D=(Q,S,R,E,H,C,P,N)$ be an accepted $\DyadicUp$ carrier. Every $\RealUp$-facing consumer of $D$ must read the displayed dyadic core $Q$, the finite stream window $S$, the regular rational row $R$, and the terminal real seal $E$ in that order before it can export a Real-facing name.
@@ -121,6 +151,7 @@ For any two accepted $\DyadicUp$ carriers read by the same $\StreamNameUp$, $\Re
 
 The route excludes selected binary expansions, quotient streams, trichotomy, choice, host equality, and ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicCommonExponentTotality}
 \begin{proof}
 Project the two accepted carriers through \autoref{def:dyadic-up-carrier}. The only rows available to the shared consumer are the two dyadic core ledgers, finite stream windows, regular rational readbacks, terminal seals, transport, replay, provenance, and local naming rows.
 
@@ -131,6 +162,39 @@ Use common-exponent normalization, \autoref{thm:dyadic-up-common-exponent-normal
 Finally apply the StreamName-RegSeqRat route of \autoref{thm:dyadic-up-streamname-regseqrat-route} and the real-seal factorization of \autoref{thm:dyadic-up-real-seal-factorization}. The shared consumer reaches the terminal Real seals only after the finite common window is visible, and no carrier row supplies a selected binary expansion, quotient stream, trichotomy, choice principle, host equality, or ambient Real-completeness witness.
 \end{proof}
 
+\begin{theorem}[DyadicUp common-window tail envelope]
+\label{thm:dyadic-up-common-window-tail-envelope}
+Let $D_0=(Q_0,S_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $D_1=(Q_1,S_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted $\DyadicUp$ carriers read by one $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer. Then the two reads determine a shared finite tail-envelope window before either terminal $\RealUp$ seal is visible.
+
+The envelope is read from the two dyadic core ledgers $Q_0,Q_1$, the shared finite StreamName window refined from $S_0,S_1$, the two regular rational readbacks $R_0,R_1$, componentwise transport, displayed replay, provenance, and the two local $\NameCert_{\DyadicUp}$ rows. It exposes no selected binary expansion, quotient stream, trichotomy branch, countable-choice selector, host real equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUpCommonWindowTailEnvelope}
+\begin{proof}
+Project the two carriers through \autoref{def:dyadic-up-carrier}. The only rows available to the shared consumer are the two dyadic core ledgers, stream windows, regular rational readbacks, terminal seals, and structural rows.
+
+Apply \autoref{thm:dyadic-exponent-shift-composition}. The two dyadic ledgers compose by common finite precision refinement, so the consumer obtains a single candidate window before any terminal seal can be read.
+
+Use \autoref{thm:dyadic-up-common-exponent-normalization}. It places both StreamName windows and both RegSeqRat readbacks over the refined common exponent window, which is exactly the tail-envelope window seen by the shared consumer.
+
+Finally apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. The terminal Real seals $E_0,E_1$ become visible only after the finite window and readback rows are displayed, and the excluded binary-expansion, quotient, trichotomy, choice, host-equality, and completeness data have no coordinate in either accepted carrier.
+\end{proof}
+
+\begin{theorem}[DyadicUp Real-RegSeqRat common-window readback]
+\label{thm:dyadic-up-real-regseqrat-common-window-readback}
+Any two accepted $\DyadicUp$ packets consumed by the same $\RegSeqRatUp$ or $\RealUp$ route expose their $\DyadicRatCoreUp$ tolerance ledgers through one finite $\StreamNameUp$ window before either $\RegSeqRatUp$ readback or $\RealUp$ seal is available.
+
+The readback route first projects the two dyadic core rows, refines their displayed StreamName windows to the common finite window, attaches the two regular rational readback rows to that window, and only then exposes the terminal Real seals. It exports no selected binary expansion, quotient stream, trichotomy branch, countable-choice selector, host equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-up-streamname-regseqrat-route} to each accepted packet. A shared $\RegSeqRatUp$ or $\RealUp$ consumer must read the dyadic core row, then the StreamName window, then the regular rational readback row before any terminal Real seal can be used.
+
+Use \autoref{thm:dyadic-up-common-exponent-normalization}. The two dyadic core tolerance ledgers are refined to a common finite exponent window, and the two StreamName rows are transported into that same displayed window.
+
+Now apply \autoref{thm:dyadic-up-common-window-tail-envelope}. It identifies the shared tail-envelope window as the finite route seen by the common consumer before either terminal row is visible.
+
+Thus the RegSeqRat readbacks and Real seals are downstream of one finite StreamName window over the two DyadicRatCore ledgers. Since every step is a displayed carrier projection or finite refinement, no selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient Real completeness data is exposed.
+\end{proof}
+
 \begin{theorem}[DyadicUp terminal Real-seal boundary]
 \label{thm:dyadicup-terminal-real-seal-boundary}
 Let
@@ -139,6 +203,7 @@ D=(Q,S,R,E,H,C,P,N)
 $$
 be an accepted $\DyadicUp$ carrier. Every $\RealUp$ or Completion-facing consumer of $D$ factors through exactly the rows $Q,S,R,E,H,C,P,N$, with $Q$ read from $\DyadicRatCoreUp$, $S$ from $\StreamNameUp$, $R$ from $\RegSeqRatUp$, and $E$ from $\RealUp$. No selected binary expansion, quotient stream, host equality, trichotomy, countable choice, or ambient Real-completeness row is readable from the terminal handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUpTerminalRealSealBoundary}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-up-carrier}. It displays the mathematical route rows $Q,S,R,E$ and the structural rows $H,C,P,N$, and it contains no additional Real-facing or Completion-facing coordinate.
 
@@ -163,15 +228,42 @@ seal of \autoref{ch:concrete-instances-real-namecert}.
 \input{parts/concrete_instances/dyadic/dyadic_core_sibling_route}
 \input{parts/concrete_instances/dyadic/real_route_sibling_dependency}
 
+\begin{theorem}[DyadicUp obligation-closure scope]
+\label{thm:dyadic-up-obligation-closure-scope}
+Every accepted $\DyadicUp$ obligation read is exhausted by the dyadic core ledger, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\DyadicCauchyTailEnvelopeUp$ route, $\DyadicRatCoreUp$ sibling route, Real-route sibling dependency, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. It exports no selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-up-namecert-obligations}. The local NameCert surface already restricts the dyadic packet to the dyadic core, stream window, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:dyadic-cauchy-tail-envelope-obligation-closure}, \autoref{thm:dyadic-core-sibling-route}, and \autoref{thm:dyadic-cauchy-real-route-sibling-dependency}. These sibling routes add the Cauchy tail-envelope obligation, DyadicRatCore dependency, and Real-facing handoff surface without introducing a second carrier coordinate.
+
+The remaining rows are exactly componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ data. Since none of the cited routes contains selected binary expansions, quotient streams, trichotomy, countable choice, host equality, or ambient completeness, the accepted obligation read is closed at the displayed obligation surface.
+\end{proof}
+
+\begin{theorem}[DyadicUp public consumer boundary]
+\label{thm:dyadic-public-consumer-boundary}
+Every public $\RealUp$ or Completion-facing $\DyadicUp$ consumer must read the $\DyadicRatCoreUp$ tolerance ledger $Q$, the $\StreamNameUp$ finite window $S$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $E$, the $\DyadicCauchyTailEnvelopeUp$ sibling route, the $\DyadicRatCoreUp$ sibling route, the Real-route sibling dependency, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows before exporting a dyadic public name. The boundary exports no selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the real-seal factorization of \autoref{thm:dyadic-up-real-seal-factorization}. A Real-facing consumer cannot reach the terminal row $E$ without first reading the dyadic core row $Q$, the finite window $S$, and the regular rational readback row $R$.
+
+Next apply the StreamName-RegSeqRat route of \autoref{thm:dyadic-up-streamname-regseqrat-route}. It identifies the visible route from $Q$ through $S$ and $R$ as the only finite real-name path available to the consumer.
+
+Use the terminal Real-seal boundary of \autoref{thm:dyadicup-terminal-real-seal-boundary}. This pins every $\RealUp$ or Completion-facing read to the rows $Q,S,R,E,H,C,P,N$ and excludes the selected binary, quotient, choice, trichotomy, host-equality, and ambient-completeness data.
+
+Finally apply \autoref{thm:dyadic-up-obligation-closure-scope}. The Cauchy tail-envelope route, DyadicRatCore sibling route, Real-route sibling dependency, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows are already part of the closed obligation surface, so the public consumer receives exactly that displayed package before it may export a dyadic public name.
+\end{proof}
+
 \closureat{DyadicUp}{seedStr}
+\closureat{DyadicUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicUp}
   \constructivestory{A $\DyadicUp$ packet is generated from a DyadicRatCore ledger, a finite StreamName window, a RegSeqRat readback row, a RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-up-carrier}, \autoref{thm:dyadic-up-namecert-obligations}, and \autoref{thm:dyadic-up-real-seal-factorization} seed the finite dyadic carrier, NameCert surface, and Real-seal factorization route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:dyadic-up-carrier}, \autoref{thm:dyadic-up-namecert-obligations}, \autoref{thm:dyadic-up-real-seal-factorization}, and \autoref{thm:dyadic-up-obligation-closure-scope} exhaust the finite dyadic obligation surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicCauchyTailEnvelopeUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected binary expansions, trichotomy, host real equality, ambient Real completeness, or a completed bridge.}
-  \upgradepath{Obligation closure requires checked sibling routes for the dyadic Cauchy tail envelope, DyadicRatCore dependency, and Real-facing handoff surface.}
+  \upgradepath{Scoped closure requires a public consumer boundary over the same dyadic core, stream window, regular readback, Real seal, sibling routes, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

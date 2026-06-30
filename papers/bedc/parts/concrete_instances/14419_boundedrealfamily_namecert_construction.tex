@@ -67,19 +67,95 @@ The request then passes through the regular rational readback. The row $Q$ is th
 Finally the bound assertion is read through $B$. Since $B$ is the only bound ledger and since $H,C,P,N$ only transport, replay, source, and name the displayed rows, the request cannot leave the StreamName, RegSeqRat, RealUp, and bound-ledger scope of the packet.
 \end{proof}
 
+\begin{theorem}[Bounded real family bound-ledger nonescape]
+\label{thm:bounded-real-family-bound-ledger-nonescape}
+Every accepted $\BoundedRealFamilyUp$ packet reads the common bound only through the displayed rows $I,W,Q,R,B,H,C,P,N$. In particular, a consumer cannot export trichotomy, quotient real equality, countable choice over indices, a supremum principle, open-cover compactness, or host completeness from the bound ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-real-family-carrier}. The common bound is the single row $B$, and it is available only after the finite index-window ledger $I$, StreamName windows $W$, RegSeqRat readback $Q$, and Real family seals $R$ have been displayed.
+
+Apply \autoref{thm:bounded-real-family-located-upper-row}. It identifies the bound row as finite located lower and upper interval data rather than as an ambient order-completeness witness or a selected supremum.
+
+Apply \autoref{thm:bounded-real-family-regseqrat-scope}. It forces every Real-facing read of a family member or bound assertion through the StreamName, RegSeqRat, RealUp, and ClosedBoundedIntervalNet route carried by $W,Q,R,B$.
+
+It remains to inspect the structural rows. The transport row $H$ preserves only componentwise equality of the displayed rows, the replay row $C$ replays only the displayed route, the provenance row $P$ names only the sibling sources, and the local row $N$ names the packet. None of $H,C,P,N$ contains a branch for trichotomy, quotient real equality, countable choice over indices, supremum extraction, open-cover compactness, or host completeness. Thus the common-bound read cannot escape the finite bound ledger.
+\end{proof}
+
+\begin{theorem}[Bounded real family obligation surface]
+\label{thm:bounded-real-family-obligation-surface}
+Every accepted $\BoundedRealFamilyUp$ carrier exposes exactly the finite index-window ledger $I$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $Q$, $\RealUp$ family seals $R$, $\ClosedBoundedIntervalNetUp$ bound row $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\BoundedRealFamilyUp}$ row $N$ before any compactness, least-upper-bound, or cover-selection consumer may read it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-real-family-carrier}. Its displayed coordinates are exactly $I,W,Q,R,B,H,C,P,N$, so an obligation-level consumer has no other entry point.
+
+Apply \autoref{thm:bounded-real-family-located-upper-row} to the bound coordinate. The common bound is finite located interval-net data, not a supremum, cover selector, or host completeness witness.
+
+Apply \autoref{thm:bounded-real-family-regseqrat-scope} and \autoref{thm:bounded-real-family-bound-ledger-nonescape}. They force every Real-facing read through the StreamName, RegSeqRat, RealUp, and ClosedBoundedIntervalNet route and bar trichotomy, quotient equality, countable choice, compactness extraction, least-upper-bound extraction, and cover-selection reads. Hence the listed rows are exactly the obligation surface available before downstream consumers add their own data.
+\end{proof}
+
+\begin{theorem}[BoundedRealFamily scoped dependency route]
+\label{thm:bounded-real-family-scoped-dependency-route}
+Every accepted $\BoundedRealFamilyUp$ packet exposes its finite index-window ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ family-seal row, $\ClosedBoundedIntervalNetUp$ bound row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any compactness, least-upper-bound, or cover-selection consumer may read it. The route exports no trichotomy, quotient equality of real names, countable choice, supremum principle, open-cover compactness, or host completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:bounded-real-family-carrier}. Its finite dependency route is exactly $I,W,Q,R,B,H,C,P,N$.
+
+The analytic rows are already ordered. Apply \autoref{thm:bounded-real-family-located-upper-row} for the located upper row, \autoref{thm:bounded-real-family-regseqrat-scope} for the StreamName and RegSeqRat scope, and \autoref{thm:bounded-real-family-bound-ledger-nonescape} for the bound-ledger refusal.
+
+Now apply \autoref{thm:bounded-real-family-obligation-surface}. It exhausts the rows visible before a downstream compactness, least-upper-bound, or cover-selection consumer adds its own data.
+
+Since the packet has no coordinate beyond those rows, it exports no trichotomy, quotient equality, countable choice, supremum, open-cover compactness, or host-completeness principle.
+\end{proof}
+
+\begin{theorem}[Bounded real family compactness consumer boundary]
+\label{thm:bounded-real-family-compactness-consumer-boundary}
+Every compactness consumer of an accepted $\BoundedRealFamilyUp$ carrier $F=(I,W,Q,R,B,H,C,P,N)$ must add its own finite-net, total-boundedness, located-compactness, or compactness row before reading a compactness conclusion. The rows $I,W,Q,R,B,H,C,P,N$ expose the bounded-family obligation surface and common bound ledger, but they do not by themselves supply an open-cover compactness theorem, selected finite subcover, compact metric witness, or compactness classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:bounded-real-family-carrier}. Its coordinates list finite index windows, StreamName windows, RegSeqRat readback, Real seals, one ClosedBoundedIntervalNet bound row, transport, replay, provenance, and the local NameCert row.
+
+Apply \autoref{thm:bounded-real-family-located-upper-row} and \autoref{thm:bounded-real-family-regseqrat-scope}. These route every Real-facing read through the displayed windows, readback, seals, and bound row, so a compactness consumer can only see the bounded-family route already named by $I,W,Q,R,B,H,C,P,N$.
+
+Finally apply \autoref{thm:bounded-real-family-bound-ledger-nonescape} and \autoref{thm:bounded-real-family-obligation-surface}. The bound ledger refuses compactness extraction, and the obligation surface is exhausted before any downstream compactness consumer reads the packet. Therefore compactness requires an explicit downstream finite-net or compactness row.
+\end{proof}
+
+\begin{theorem}[Bounded real family least-upper-bound refusal]
+\label{thm:bounded-real-family-least-upper-bound-refusal}
+For every accepted $\BoundedRealFamilyUp$ carrier $F=(I,W,Q,R,B,H,C,P,N)$, the common bound row $B$ is a $\ClosedBoundedIntervalNetUp$ row and not a supremum, least-upper-bound, order-completeness, or trichotomy witness. A least-upper-bound consumer must therefore provide its own supremum or completeness row outside the bounded-family packet.
+\end{theorem}
+\begin{proof}
+Read the carrier through \autoref{def:bounded-real-family-carrier}. The bound coordinate is named as $B:\ClosedBoundedIntervalNetUp$, attached downstream of the finite index-window, StreamName, RegSeqRat, and Real-family rows.
+
+Apply \autoref{thm:bounded-real-family-located-upper-row}. It identifies $B$ as finite located lower and upper interval data, so the row witnesses a displayed common bound rather than a selected least upper bound.
+
+Apply \autoref{thm:bounded-real-family-bound-ledger-nonescape} and \autoref{thm:bounded-real-family-obligation-surface}. These theorems remove trichotomy, quotient equality of real names, countable choice, host completeness, and supremum extraction from the rows available to a consumer. Thus a least-upper-bound read must come from a separate downstream row.
+\end{proof}
+
+\begin{theorem}[Bounded real family cover-selection boundary]
+\label{thm:bounded-real-family-cover-selection-boundary}
+Every cover-selection consumer of an accepted $\BoundedRealFamilyUp$ carrier must pass through an explicit finite-cover, finite-net, or selected-cover sibling row before exporting a cover conclusion. The bounded-family packet supplies only $I,W,Q,R,B,H,C,P,N$ and cannot select a finite subcover from those rows alone.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:bounded-real-family-carrier}. The only cover-facing data present before downstream consumption are the family windows, rational readback, Real seals, the ClosedBoundedIntervalNet bound row, and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:bounded-real-family-regseqrat-scope}. It forces a cover-facing read of a family member or bound assertion to pass through the same StreamName, RegSeqRat, RealUp, and ClosedBoundedIntervalNet route.
+
+Now apply \autoref{thm:bounded-real-family-bound-ledger-nonescape} and \autoref{thm:bounded-real-family-obligation-surface}. They exclude open-cover compactness, cover selection, and hidden choice from the displayed bounded-family rows. Hence a cover-selection consumer must provide a separate finite-cover or finite-net sibling row before any cover conclusion is exported.
+\end{proof}
+
 \falsifiablePrediction{Every $\BoundedRealFamilyUp$ Real-facing read factors through finite index windows, StreamName windows, RegSeqRat readback, RealUp family seals, and a ClosedBoundedIntervalNet bound row.}
 
 \independenceWitness{boundedrealsequence, realcauchymodulus, dyadicintervalcover, closedboundedintervalnet, real: $\BoundedRealFamilyUp$ is not bijective to any listed sibling because it jointly carries an index-window family ledger, StreamName windows, RegSeqRat readback, RealUp family seals, a common bound ledger, componentwise transport, continuation replay, provenance, and local naming.}
 
-\closureat{BoundedRealFamilyUp}{seedStr}
+\closureat{BoundedRealFamilyUp}{publicStr}[BEDC.Derived.BoundedRealFamilyUp.BoundedRealFamilyTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BoundedRealFamilyUp}
   \constructivestory{A $\BoundedRealFamilyUp$ packet is generated from finite index-window rows, StreamName windows, RegSeqRat readback, RealUp family seals, a ClosedBoundedIntervalNet bound row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-real-family-carrier}, \autoref{thm:bounded-real-family-located-upper-row}, and \autoref{thm:bounded-real-family-regseqrat-scope} bind the finite bounded-family source over StreamNameUp, RegSeqRatUp, RealUp, and ClosedBoundedIntervalNetUp.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:bounded-real-family-carrier}, \autoref{thm:bounded-real-family-located-upper-row}, \autoref{thm:bounded-real-family-regseqrat-scope}, \autoref{thm:bounded-real-family-bound-ledger-nonescape}, \autoref{thm:bounded-real-family-obligation-surface}, \autoref{thm:bounded-real-family-scoped-dependency-route}, \autoref{thm:bounded-real-family-compactness-consumer-boundary}, \autoref{thm:bounded-real-family-least-upper-bound-refusal}, and \autoref{thm:bounded-real-family-cover-selection-boundary} bind the finite bounded-family obligation surface, scoped dependency route, and public compactness, least-upper-bound, and cover-selection consumer boundaries over StreamNameUp, RegSeqRatUp, RealUp, and ClosedBoundedIntervalNetUp.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.BoundedRealFamilyUp.BoundedRealFamilyTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, trichotomy, quotient equality of real names, countable choice, an ambient supremum principle, open-cover compactness, or host completeness.}
-  \upgradepath{Lean closure requires carrier admission, located upper-row readback, RegSeqRat scope, bound-ledger nonescape, and TasteGate field faithfulness for BEDC.Derived.BoundedRealFamilyUp.}
+  \upgradepath{Bridge closure requires the standard bridge row needed by downstream compactness, least-upper-bound, and cover-selection routes.}
 \end{closurestatus}

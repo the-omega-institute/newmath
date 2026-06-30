@@ -406,6 +406,47 @@ hypotheses of
 concludes that $U$ and $V$ present one terminal support packet.
 \end{proof}
 
+\begin{theorem}[StreamName terminal support Real-seal minimality]
+\label{thm:streamname-terminal-support-real-seal-minimality}
+Let $U$ be an accepted current Phase $\RealUp$ and Completion terminal
+$\StreamNameUp$ request section. The public Real-facing seal route exported by
+$U$ is minimal on the displayed $\RealUp$ seal face and on the support rows
+$\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$.
+Deleting the $\RealUp$ seal face, or deleting any one of those displayed
+support rows, prevents the same public Real-facing seal route from being
+exported.
+
+The lost route cannot be restored by quotient stream equality, host sequence
+equality, selected limits, countable choice, ambient $\RealUp$ completeness,
+metric-completeness data, aggregate formalstatus rows, or bridge rows.
+\end{theorem}
+\begin{proof}
+Begin with the terminal four-face support minimality theorem
+\autoref{thm:streamname-terminal-four-face-support-minimality}. It identifies
+the accepted public verdict with the visible
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Now specialize to the Real-seal coordinate. The open-phase four-face readback
+\autoref{thm:streamname-open-phase-four-face-exit-readback} and the Real-seal
+lock \autoref{thm:streamname-finite-request-section-real-seal-lock} place the
+terminal $\RealUp$ seal after the finite StreamName window, DyadicRatCore
+ledger, and RegSeqRat readback. Removing that seal therefore removes the
+public Real-facing endpoint of the route rather than merely changing a
+presentation of it.
+
+For a displayed support row, apply the defect-localization theorem
+\autoref{thm:streamname-terminal-support-defect-localization}. A deleted
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ row is detected on the
+same support surface that carries the terminal route, so the export no longer
+presents the same Real-facing seal route.
+
+Finally use the same open-phase readback lemmas together with minimality. The
+excluded coordinates are not faces or support rows of the four-face route, and
+defect localization does not let them carry the missing seal or support
+coordinate. Hence they cannot restore the deleted Real-seal route.
+\end{proof}
+
 \begin{theorem}[StreamName finite-cover terminal support minimality]
 \label{thm:streamname-finite-cover-terminal-support-minimality}
 Let $\{Q_i\}_{i \in I}$ be a finite family of accepted current Phase $\RealUp$

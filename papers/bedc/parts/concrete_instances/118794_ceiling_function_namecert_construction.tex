@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\CeilingFunctionUp$}
+\label{ch:concrete-instances-ceiling-function-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CeilingFunctionUp$ packet records the ordinary upper-integer read as a finite certificate route rather than as a primitive operation on host real numbers. It is the upper-integer dual of the lower endpoint route in \autoref{ch:concrete-instances-floor-function-namecert}; it consumes the upper dyadic enclosure discipline of \autoref{ch:concrete-instances-dyadic-ceiling-namecert}, the integer bracket supplied by \autoref{ch:concrete-instances-archimedean-integer-part-namecert}, the residual row of \autoref{ch:concrete-instances-fractional-part-namecert}, and the real-name source of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed upper integer attached to a real name; it is not host ceiling, order trichotomy, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CeilingFunction carrier]
+\label{def:ceiling-function-carrier}
+A $\CeilingFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,B,Z,U,F,D,Y,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RealUp$ row whose upper-integer read is being requested.
+\item $B$ is the $\ArchimedeanIntegerPartUp$ bracket row attached to the same source real.
+\item $Z$ is the $\IntUp$ lower endpoint exposed by the bracket.
+\item $U$ is the $\IntUp$ upper endpoint exposed by the same bracket, read as the successor-side integer when the residual row is nonzero and as $Z$ on the exact-integer branch.
+\item $F$ is the $\FractionalPartUp$ residual row tied to the same source real and lower endpoint.
+\item $D$ is the $\DyadicRatCoreUp$ scale row recording the finite tolerances used to inspect the source, bracket, and residual rows.
+\item $Y$ is the $\DyadicCeilingUp$ upper-grid row used to compare the real-name window with the displayed upper endpoint.
+\item $I$ is the $\RealIntegerPartUp$ handoff row that packages the same source, bracket, lower endpoint, residual, dyadic scale, dyadic ceiling row, and upper-integer export for Real-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for the source real, bracket, lower endpoint, upper endpoint, residual, dyadic scale, dyadic ceiling, RealIntegerPart handoff, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every ceiling request through $R,B,Z,U,F,D,Y,I$ without inserting another integer search.
+\item $P$ is the $\Pkg$ provenance over $\CeilingFunctionUp$, $\RealUp$, $\ArchimedeanIntegerPartUp$, $\IntUp$, $\FractionalPartUp$, $\DyadicRatCoreUp$, $\DyadicCeilingUp$, $\RealIntegerPartUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CeilingFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for host ceiling, trichotomy over arbitrary real names, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CeilingFunction NameCert obligations]
+\label{thm:ceiling-function-namecert-obligations}
+For every accepted $\CeilingFunctionUp$ carrier $K=(R,B,Z,U,F,D,Y,I,H,C,P,N)$, the local $\NameCert_{\CeilingFunctionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier exposure for the source $\RealUp$ row, $\ArchimedeanIntegerPartUp$ bracket row, lower and upper $\IntUp$ endpoint rows, $\FractionalPartUp$ residual row, $\DyadicRatCoreUp$ scale row, $\DyadicCeilingUp$ upper-grid row, $\RealIntegerPartUp$ handoff row, and structural rows $H,C,P,N$;
+\item bracket exactness, requiring $Z$ and $U$ to be read only as the lower and upper endpoint rows of the displayed $\ArchimedeanIntegerPartUp$ bracket $B$ for the same source row $R$;
+\item residual compatibility, requiring $F$ to bind the same $R,B,Z$ route before the exact-integer and successor-side branches for $U$ are exposed;
+\item upper-grid compatibility, requiring $Y$ to read the finite dyadic ceiling route through the scale row $D$ before any upper-integer export is public;
+\item handoff compatibility, requiring the $\RealIntegerPartUp$ row $I$ to consume exactly the displayed bracket, residual, dyadic scale, dyadic ceiling, and upper-endpoint rows;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the rows componentwise and to send each ceiling request back through $R,B,Z,U,F,D,Y,I$;
+\item ledger refusal, excluding host ceiling, trichotomy, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, and ambient Real completeness from the certificate surface.
+\end{enumerate}
+No CeilingFunction obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K=(R,B,Z,U,F,D,Y,I,H,C,P,N)$. The projection exposes exactly the real source, bracket, lower endpoint, upper endpoint, residual, dyadic scale, dyadic ceiling, RealIntegerPart handoff, transport, replay, provenance, and naming rows.
+
+Bracket exactness is read from \autoref{ch:concrete-instances-archimedean-integer-part-namecert}. The row $B$ binds the source real to a finite lower endpoint and successor-side comparison, so $Z$ and $U$ are available only as the displayed endpoint rows of that bracket.
+
+Residual compatibility is read from \autoref{ch:concrete-instances-fractional-part-namecert}. The residual row $F$ attaches to the same source real and lower endpoint, which fixes the exact-integer branch and the successor-side branch before $U$ can be exported.
+
+The upper dyadic comparison is read through \autoref{ch:concrete-instances-dyadic-ceiling-namecert}. The row $Y$ is inspected at the scale recorded by $D$, so the upper-integer read uses a finite upper-grid route rather than a host ceiling operation.
+
+Finally $I,H,C,P,N$ hand off, transport, replay, source, and name the displayed packet. Since no excluded object appears as a carrier coordinate or classifier clause, the listed rows exhaust the local $\NameCert_{\CeilingFunctionUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[CeilingFunction floor-dual handoff]
+\label{thm:ceiling-function-floor-dual-handoff}
+Every consumer that reads a ceiling value from an accepted $\CeilingFunctionUp$ carrier receives the upper-integer dual of the floor route of \autoref{ch:concrete-instances-floor-function-namecert}. The lower endpoint $Z$ is read through the same bracket and residual route used by $\FloorFunctionUp$, while the exported endpoint $U$ is constrained by the displayed upper branch and the $\DyadicCeilingUp$ upper-grid row $Y$. Thus the consumer obtains a finite upper-integer handoff, not host ceiling, trichotomy, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:ceiling-function-carrier}. The rows $R,B,Z,F,D,I,H,C,P,N$ mirror the lower-endpoint rows used by \autoref{ch:concrete-instances-floor-function-namecert}, so the lower bracket read is shared with the floor route.
+
+The extra endpoint row $U$ records the upper side of the same finite bracket. Its exact-integer branch and successor-side branch are fixed only after the residual row $F$ is tied to the same source and lower endpoint.
+
+The row $Y$ supplies the upper-grid comparison through \autoref{ch:concrete-instances-dyadic-ceiling-namecert}. Consequently the exported endpoint is constrained by a displayed dyadic-ceiling read before the Real-facing handoff row $I$ can be consumed.
+
+The carrier has no coordinate for a host ceiling function or an ambient completeness theorem. Therefore the ceiling consumer receives only the finite upper-integer dual of the existing floor handoff.
+\end{proof}
+
+\begin{theorem}[CeilingFunction RealIntegerPart handoff]
+\label{thm:ceiling-function-real-integer-part-handoff}
+Every consumer that reads a ceiling value from an accepted $\CeilingFunctionUp$ carrier factors through the finite route
+$$
+\RealUp \longmapsto \ArchimedeanIntegerPartUp \longmapsto \IntUp \longmapsto \FractionalPartUp \longmapsto \DyadicRatCoreUp \longmapsto \DyadicCeilingUp \longmapsto \RealIntegerPartUp .
+$$
+In particular, every such read passes through \autoref{ch:concrete-instances-archimedean-integer-part-namecert}, \autoref{ch:concrete-instances-dyadic-ceiling-namecert}, and \autoref{ch:concrete-instances-real-integer-part-namecert}. It receives no host ceiling function, trichotomy service, quotient real equality, selected representative, countable-choice row, hidden Archimedean search, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer request the ceiling value. The replay row $C$ sends the request first to the source $\RealUp$ row $R$, so the route starts from a displayed real name rather than from a host real.
+
+The bracket row $B$ then supplies the $\ArchimedeanIntegerPartUp$ certificate named by \autoref{ch:concrete-instances-archimedean-integer-part-namecert}. The endpoint rows $Z$ and $U$ are the lower and upper integer rows exported by that finite bracket.
+
+The residual and dyadic rows keep the endpoint attached to the same real-name route. The row $F$ records the $\FractionalPartUp$ residual, while $D$ and $Y$ expose only finite dyadic tolerances and a displayed upper-grid read.
+
+The handoff row $I$ is the $\RealIntegerPartUp$ consumer surface. Transport by $H$ preserves the same rows componentwise, and $P,N$ record no additional operation. Therefore every exported ceiling read factors through the stated route.
+\end{proof}
+
+\falsifiablePrediction{Every $\CeilingFunctionUp$ read factors through one $\RealUp$ source row, one $\ArchimedeanIntegerPartUp$ bracket row, lower and upper $\IntUp$ endpoint rows, one $\FractionalPartUp$ residual row, one $\DyadicRatCoreUp$ scale row, one $\DyadicCeilingUp$ upper-grid row, one $\RealIntegerPartUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{real, archimedean-integer-part, int, fractional-part, dyadicratcore, dyadic-ceiling, real-integer-part: no listed sibling is bijective to $\CeilingFunctionUp$ because this packet jointly binds the ceiling-facing name, lower and upper bracket endpoints, residual branch, finite tolerance scale, upper dyadic grid read, RealIntegerPart handoff, transport, replay, provenance, and local naming for the same real source.}
+
+\closureat{CeilingFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CeilingFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ceiling-function-carrier}, \autoref{thm:ceiling-function-namecert-obligations}, \autoref{thm:ceiling-function-floor-dual-handoff}, and \autoref{thm:ceiling-function-real-integer-part-handoff} seed the finite ceiling-function certificate route from a displayed Real source through ArchimedeanIntegerPart bracket, Int endpoint rows, FractionalPart residual, DyadicRatCore scale, DyadicCeiling upper-grid row, RealIntegerPart handoff, and structural rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host ceiling, trichotomy, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, bracket exactness, residual compatibility, upper-grid compatibility, RealIntegerPart handoff compatibility, transport replay stability, and ledger refusal for BEDC.Derived.CeilingFunctionUp.}
+  \constructivestory{A $\CeilingFunctionUp$ packet is generated from a $\RealUp$ source row, an $\ArchimedeanIntegerPartUp$ bracket row, lower and upper $\IntUp$ endpoint rows, a $\FractionalPartUp$ residual row, a $\DyadicRatCoreUp$ scale row, a $\DyadicCeilingUp$ upper-grid row, a $\RealIntegerPartUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

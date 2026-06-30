@@ -1,0 +1,438 @@
+\chapter{Order Set Type Interface Spine}
+\label{ch:visions-order-set-type-interface-spine}
+\origin{human}
+
+The algebra spine exposes stable operations and their classifier-respecting
+laws.  The next kernel-facing layer exposes stable comparison, membership,
+and transport.  In the layer indexed by
+\autoref{sec:roadmap-l9-order-logic-set-type}, the order--set--type surface is
+the certificate family
+$$
+\PreorderUp,\quad
+\PosetUp,\quad
+\TotalOrderUp,\quad
+\LatticeUp,\quad
+\SetLikeUp,\quad
+\TypeLikeUp.
+$$
+The common rule is that no relation, membership predicate, subset relation,
+or typed family enters as an ambient object.  Each is read through a carried
+source, a public classifier, stability rows, a ledger, and a local
+$\NameCert$.
+
+\concretizedIn{ch:concrete-instances-finite-membership-classifier-namecert}{Finite membership classifier rows realize the order--set--type interface through displayed source, member, witness, stability, ledger, transport, replay, provenance, and NameCert rows.}
+
+\section{Relational Certificate Template}
+\label{sec:order-set-type-relational-template}
+
+\begin{definition}[Relational interface]
+\label{def:order-set-type-relational-interface}
+Let $(C,\sim_C)$ be an admitted carrier-classifier pair with
+$$
+C:\Hist\to\mathsf{Prop}
+\qquad\text{and}\qquad
+\sim_C:\Hist\to\Hist\to\mathsf{Prop}.
+$$
+A relational interface over this carrier is a packet
+$$
+\mathcal R=(C,\sim_C,R,\mathsf{Stab}_R,
+\mathsf{Cong}_R,\mathsf{Ledger}_R,\NameCert_R),
+$$
+where $R:\Hist\to\Hist\to\mathsf{Prop}$ is the displayed binary relation.
+The stability row records the law profile required by the interface name,
+the congruence row records classifier transport in both endpoints, and the
+ledger records the source of each comparison witness.
+\end{definition}
+
+\begin{definition}[Relation congruence]
+\label{def:order-set-type-relation-congruence}
+The relation $R$ respects the carrier classifier when
+$$
+C(x)\wedge C(y)\wedge C(x')\wedge C(y')
+\wedge x\sim_C x'\wedge y\sim_C y'\wedge R(x,y)
+\Longrightarrow R(x',y').
+$$
+This row is part of the public relation interface, not an after-the-fact
+identification of representatives.
+\end{definition}
+
+\begin{principle}[Relational primitive boundary]
+\label{prin:order-set-type-relational-boundary}
+An L9 relation is admitted only through the displayed tuple
+$$
+C,\ \sim_C,\ R,\ \mathsf{Stab}_R,\ \mathsf{Cong}_R,\
+\mathsf{Ledger}_R,\ \NameCert_R.
+$$
+Order, elementhood, subset inclusion, and family transport are therefore
+licensed interface rows rather than kernel primitives.
+\end{principle}
+
+\section{Preorders and Posets}
+\label{sec:order-set-type-preorder-poset}
+
+\begin{definition}[Preorder interface]
+\label{def:order-set-type-preorder}
+A $\PreorderUp$ interface is a relational interface
+$(C,\sim_C,\le_C)$ with reflexivity and transitivity:
+$$
+C(x)\Longrightarrow x\le_C x,
+$$
+and
+$$
+x\le_C y\wedge y\le_C z\Longrightarrow x\le_C z.
+$$
+It also carries relation congruence under $\sim_C$ and a comparison ledger.
+\end{definition}
+
+\begin{definition}[Unary prefix preorder read]
+\label{def:order-set-type-unary-prefix-preorder}
+The concrete prefix read uses the unary-history carrier
+$C(h):=\mathsf{Unary}(h)$, the carrier-aware classifier
+$$
+h\sim_C k
+\Longleftrightarrow
+\mathsf{Unary}(h)\wedge\mathsf{Unary}(k)\wedge\hsame(h,k),
+$$
+and the prefix relation
+$$
+h\le_C k
+\Longleftrightarrow
+\exists t\,
+\bigl(\mathsf{Unary}(t)\wedge\Cont(h,t,k)\bigr).
+$$
+The comparison ledger records the tail $t$ and the continuation witness.
+\end{definition}
+
+\begin{theorem}[Prefix preorder laws]
+\label{thm:order-set-type-prefix-preorder-laws}
+The unary prefix read supplies reflexivity, transitivity, and endpoint
+congruence for $\PreorderUp$.
+\end{theorem}
+
+\begin{proof}
+For reflexivity, take the empty unary tail and the right-unit continuation
+row.  For transitivity, compose the two displayed continuation witnesses and
+use unary closure of the composed tail.  For congruence, transport the
+source and endpoint histories along the two $\hsame$ rows in the carrier
+classifier; continuation stability supplies the transported comparison.
+\end{proof}
+
+\begin{definition}[Poset interface]
+\label{def:order-set-type-poset}
+A $\PosetUp$ interface is a $\PreorderUp$ interface with antisymmetry under
+the carrier classifier:
+$$
+x\le_C y\wedge y\le_C x\Longrightarrow x\sim_C y.
+$$
+The existing concrete chapters also use the spelling $\POSetUp$ for this
+partial-order surface; the present layer reads it through the public
+$\PosetUp$ macro.
+\end{definition}
+
+\begin{theorem}[Prefix antisymmetry]
+\label{thm:order-set-type-prefix-antisymmetry}
+For the unary prefix carrier, opposing prefix comparisons classify the two
+endpoints:
+$$
+h\le_C k\wedge k\le_C h\Longrightarrow h\sim_C k.
+$$
+\end{theorem}
+
+\begin{proof}
+The first comparison gives a unary tail $t$ and a continuation
+$\Cont(h,t,k)$.  The second gives a unary tail $u$ and a continuation
+$\Cont(k,u,h)$.  Composing the continuations yields a loop from $h$ back to
+$h$ through the combined tail.  The append-empty inversion and right-unit
+uniqueness rows force the forward tail to be classified as empty, so the
+first comparison endpoint $k$ is classified with $h$.  This is exactly the
+carrier classifier conclusion $h\sim_C k$.
+\end{proof}
+
+\begin{corollary}[Poset exactness for prefix reads]
+\label{cor:order-set-type-poset-exactness}
+On the unary prefix carrier,
+$$
+h\sim_C k
+\Longleftrightarrow
+(h\le_C k\wedge k\le_C h).
+$$
+\end{corollary}
+
+\begin{proof}
+The forward direction transports reflexive prefix comparisons along the
+classifier row.  The reverse direction is
+\autoref{thm:order-set-type-prefix-antisymmetry}.
+\end{proof}
+
+\section{Total Orders and Lattices}
+\label{sec:order-set-type-totalorder-lattice}
+
+\begin{definition}[Total-order interface]
+\label{def:order-set-type-totalorder}
+A $\TotalOrderUp$ interface is a $\PosetUp$ interface with explicit
+comparison data.  For carried endpoints it supplies a displayed comparison
+branch, strict-to-apartness transport, classifier-stable comparison
+transport, and strict transitivity whenever the strict row is part of the
+packet.  Its totality is data-bearing; it is not an excluded-middle
+assertion.
+\end{definition}
+
+\begin{theorem}[Unary comparison is certificate data]
+\label{thm:order-set-type-unary-comparison-data}
+For unary prefix endpoints, a total-order read may be given by finite
+comparison data choosing one of the two prefix directions, with the equality
+branch read through the $\PosetUp$ exactness row.
+\end{theorem}
+
+\begin{proof}
+Unary histories are finite continuation spines.  Compare the spines by
+structural inspection: the empty endpoint is a prefix of every unary endpoint,
+and equal leading unary extensions reduce the comparison to their tails.
+The selected branch is recorded as an explicit prefix witness.  When both
+directions are present, \autoref{cor:order-set-type-poset-exactness} returns
+the classifier branch rather than a host equality.
+\end{proof}
+
+\begin{definition}[Lattice interface]
+\label{def:order-set-type-lattice}
+A $\LatticeUp$ interface is a $\PosetUp$ interface with stable meet and join
+operations.  For $m=x\wedge y$, the certificate records
+$$
+m\le_C x,
+\qquad
+m\le_C y,
+$$
+and greatestness
+$$
+z\le_C x\wedge z\le_C y\Longrightarrow z\le_C m.
+$$
+For $j=x\vee y$, it records
+$$
+x\le_C j,
+\qquad
+y\le_C j,
+$$
+and leastness
+$$
+x\le_C z\wedge y\le_C z\Longrightarrow j\le_C z.
+$$
+Meet and join congruence, together with the bound-characterization ledger,
+complete the certificate.
+\end{definition}
+
+\begin{theorem}[Meet and join uniqueness]
+\label{thm:order-set-type-meet-join-uniqueness}
+In a $\LatticeUp$ interface, two displayed meets of the same pair are
+classified the same, and two displayed joins of the same pair are classified
+the same.
+\end{theorem}
+
+\begin{proof}
+If $m$ and $m'$ are both meets of $x$ and $y$, then $m$ is a lower bound, so
+greatestness of $m'$ gives $m\le_C m'$.  Similarly $m'$ is a lower bound, so
+greatestness of $m$ gives $m'\le_C m$.  Poset antisymmetry gives
+$m\sim_C m'$.  The join case is dual: upper-bound rows and leastness give
+the two comparisons, and antisymmetry gives the classifier conclusion.
+\end{proof}
+
+\begin{theorem}[Lattice laws from bounds]
+\label{thm:order-set-type-lattice-laws-from-bounds}
+The idempotence, commutativity, and absorption laws for meet and join are
+classifier consequences of their bound-characterization rows.
+\end{theorem}
+
+\begin{proof}
+For idempotence, $x$ is both a lower bound and an upper bound of the pair
+$(x,x)$ by reflexivity.  Greatestness and leastness supply the reverse
+comparisons against $x\wedge x$ and $x\vee x$, and antisymmetry gives the
+classifier equalities.
+
+For commutativity, the lower-bound rows for $x\wedge y$ also make it a lower
+bound of $(y,x)$, so greatestness gives $x\wedge y\le_C y\wedge x$; the
+reverse comparison is identical with the operands exchanged.  Joins are
+dual.  For absorption, use the join upper-bound row $x\le_C x\vee y$ to make
+$x$ a lower bound of $(x,x\vee y)$; the meet lower-bound row supplies the
+opposite comparison.  The second absorption law is dual.
+\end{proof}
+
+\section{Set-Like Membership}
+\label{sec:order-set-type-setlike}
+
+\begin{definition}[Set-like interface]
+\label{def:order-set-type-setlike}
+For an element carrier $(E,\sim_E)$, a $\SetLikeUp$ object is not an ambient
+set.  It is a finite packet containing a generated membership predicate,
+membership stability under $\sim_E$, subset implication, restricted
+comprehension, an extensionality boundary, a ledger, and a local
+$\NameCert_{\SetLikeUp}$ row.
+\end{definition}
+
+\begin{definition}[Membership stability and subset]
+\label{def:order-set-type-membership-subset}
+Membership in a set-like object $S$ is stable when
+$$
+x\sim_E y\wedge x\in_S\Longrightarrow y\in_S.
+$$
+The subset relation is implication of membership:
+$$
+S\subseteq T
+\Longleftrightarrow
+\prod_{x:E}(x\in_S\Longrightarrow x\in_T).
+$$
+Both rows are read through the membership ledger; neither is a host powerset
+relation.
+\end{definition}
+
+\begin{definition}[Restricted comprehension]
+\label{def:order-set-type-restricted-comprehension}
+A predicate family $P:E\to\mathsf{Prop}$ may define a set-like object only
+when it carries classifier stability,
+$$
+x\sim_E y\wedge P(x)\Longrightarrow P(y),
+$$
+together with a predicate-generation ledger and a local name certificate.
+The comprehension row is therefore a bounded consumer of certified
+membership data.
+\end{definition}
+
+\begin{theorem}[Subset preorder]
+\label{thm:order-set-type-subset-preorder}
+For $\SetLikeUp$ objects over the same element carrier, subset implication is
+reflexive and transitive.
+\end{theorem}
+
+\begin{proof}
+Reflexivity sends each membership witness $x\in_S$ to itself.  For
+transitivity, compose the two displayed implication rows:
+$$
+x\in_S\Longrightarrow x\in_T\Longrightarrow x\in_U.
+$$
+The proof uses only the membership ledger and implication rows.
+\end{proof}
+
+\begin{theorem}[Set-like extensionality is a certificate field]
+\label{thm:order-set-type-setlike-extensionality}
+If the extensionality boundary for $S$ and $T$ is available and
+$$
+S\subseteq T
+\qquad\text{and}\qquad
+T\subseteq S,
+$$
+then $S$ and $T$ are classified as the same set-like object.
+\end{theorem}
+
+\begin{proof}
+Apply the displayed extensionality boundary row to the two subset
+implications.  The conclusion is the set-like classifier row recorded by the
+packet, not an ambient equality of host sets.
+\end{proof}
+
+\begin{principle}[Membership generation boundary]
+\label{prin:order-set-type-membership-generation}
+Every accepted membership read of a $\SetLikeUp$ packet must expose the
+membership source, the classifier row, transport, replay, provenance, and the
+local name certificate.  A downstream consumer may not replace this route by
+host elementhood, unrestricted separation, selected representatives, a
+powerset coordinate, or quotient equality of sets.
+\end{principle}
+
+\section{Type-Like Transport}
+\label{sec:order-set-type-typelike}
+
+\begin{definition}[Type-like interface]
+\label{def:order-set-type-typelike}
+A $\TypeLikeUp$ interface is a displayed family packet
+$$
+T=(B,F,Q,E,H,C,P,N).
+$$
+Here $B$ is the base classifier family, $F$ is the indexed fiber-carrier row,
+$Q$ is the family-compatible classifier, $E$ is the endpoint-exactness
+ledger, $H$ records componentwise $\hsame$ transport, $C$ records displayed
+$\Cont$ replay, $P$ records provenance, and $N$ is the local
+$\NameCert_{\TypeLikeUp}$ row.
+\end{definition}
+
+\begin{definition}[Type-like transport]
+\label{def:order-set-type-typelike-transport}
+The transport row of a $\TypeLikeUp$ packet has the form
+$$
+A(x)\wedge x\sim_A y\Longrightarrow A(y),
+$$
+or, in displayed-family form, it preserves the base classifier, the indexed
+fiber carrier, the family-compatible classifier, and the endpoint-exactness
+ledger before any sibling consumer may read the endpoint.
+\end{definition}
+
+\begin{definition}[Map-like object]
+\label{def:order-set-type-maplike}
+For type-like interfaces $A$ and $B$, a map-like object is an operation
+interface that sends carried $A$ endpoints to carried $B$ endpoints and
+respects classifiers:
+$$
+x\sim_A x'\Longrightarrow f(x)\sim_B f(x').
+$$
+The operation is therefore a classifier-stable transport surface, not a bare
+host function.
+\end{definition}
+
+\begin{theorem}[Transport core]
+\label{thm:order-set-type-transport-core}
+If $A^\uparrow$ is a $\TypeLikeUp$ interface, $A(x)$ holds, and
+$x\sim_A y$, then $A(y)$ holds.
+\end{theorem}
+
+\begin{proof}
+This is the transport row of the type-like certificate.  The row preserves
+the carrier through the classifier and records the movement in the ledger.
+\end{proof}
+
+\begin{principle}[Type-like host boundary]
+\label{prin:order-set-type-typelike-host-boundary}
+$\TypeLikeUp$ is not a host universe.  Its public content is the displayed
+carrier, classifier, transport, endpoint-exactness, replay, provenance, and
+name-certificate route.  It does not provide quotient type equality,
+impredicative comprehension, selected representatives, or an external
+category of all families.
+\end{principle}
+
+\section{L9 Boundary}
+\label{sec:order-set-type-boundary}
+
+\begin{theorem}[Order set type admission theorem]
+\label{thm:order-set-type-admission}
+If
+$$
+\PreorderUp,\quad
+\PosetUp,\quad
+\TotalOrderUp,\quad
+\LatticeUp,\quad
+\SetLikeUp,\quad
+\TypeLikeUp
+$$
+carry their advertised carrier, classifier, stability, congruence,
+membership-generation, transport, extensionality, ledger, and $\NameCert$
+rows, then the L9 order--set--type layer is admitted.
+\end{theorem}
+
+\begin{proof}
+$\PreorderUp$ supplies a reflexive and transitive relation over a carried
+classifier.  $\PosetUp$ adds antisymmetry under that classifier.
+$\TotalOrderUp$ adds explicit comparison data and constructive apartness
+transport.  $\LatticeUp$ adds meet and join operations through their bound
+characterizations.  $\SetLikeUp$ supplies generated membership, subset as
+membership implication, restricted comprehension, and an extensionality
+boundary.  $\TypeLikeUp$ supplies carrier-plus-classifier-plus-transport
+data for displayed families.  Since each row is part of a finite certified
+route, no order, membership, set, or type interface is imported as a kernel
+primitive or host-level object.
+\end{proof}
+
+\begin{principle}[Downstream L9 consumption]
+\label{prin:order-set-type-downstream-consumption}
+Analytic, zeta-facing, completion, spectral, and model-theoretic packets may
+consume L9 only through its displayed rows: comparison ledgers, classifier
+transport, membership-generation ledgers, subset implications, restricted
+comprehension routes, extensionality boundaries, and type-like transport.
+They may not replace these rows by classical trichotomy, unrestricted
+membership, ambient powersets, quotient type equality, or host universes.
+\end{principle}

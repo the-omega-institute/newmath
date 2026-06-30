@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCommonModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-common-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy names and constructive real completion, the $\RegularCauchyCommonModulusUp$ packet records a shared finite modulus ledger for joining two regular Cauchy names before any terminal $\RealUp$ seal is read. It sits between the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interleaving route of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The carrier is a finite ledger object, not a quotient equality of Cauchy names, an ambient completeness theorem, or a choice of global representative.
+
+\begin{definition}[RegularCauchyCommonModulus carrier]
+\label{def:regular-cauchy-common-modulus-carrier}
+A $\RegularCauchyCommonModulusUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,B,W,R,D,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ rows naming the regular Cauchy inputs whose comparison is being joined;
+\item $W$ is the $\StreamNameUp$ finite-window row exposing the prefixes of both names that are visible to the request;
+\item $R$ records the shared regular-readback ledger tying the two names to the same displayed window schedule;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row containing the dyadic budget used to compare both sides;
+\item $J$ is the common-modulus ledger stating that every accepted precision request is answered by the same finite window before the $\RealUp$ seal is available;
+\item $H$ records componentwise $\hsame$ transport for $A,B,W,R,D,J$;
+\item $C$ records displayed $\Cont$ replay for the common-window request and its downstream handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCommonModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyInterleavingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyCommonModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,W,R,D,J,H,C,P,N$. It has no coordinate for quotient equality of Cauchy names, selected representatives, hidden countable choice, ambient completeness, or a direct $\RealUp$ equality proof.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCommonModulus NameCert obligations]
+\label{thm:regular-cauchy-common-modulus-namecert-obligations}
+For every accepted $\RegularCauchyCommonModulusUp$ carrier $G=(A,B,W,R,D,J,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCommonModulusUp}$ surface is exhausted by five obligation rows:
+\begin{enumerate}
+\item carrier exposure for the two regular Cauchy input rows, finite stream window, shared readback ledger, dyadic tolerance row, common-modulus ledger, transport, replay, provenance, and local naming;
+\item regular-name admission for $A$ and $B$ through the $\RegSeqRatUp$ rows already visible in the carrier;
+\item finite-window exposure through $W,R,D,J$, requiring both names to answer the same displayed dyadic precision request before a consumer may continue;
+\item interleaving compatibility, allowing $\RegularCauchyInterleavingUp$ consumers to read the common ledger as a finite join of the two visible regular names;
+\item ledger refusal, excluding quotient equality of Cauchy names, selected representatives, hidden choice schedules, ambient completeness, and direct $\RealUp$ equality.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The only regular-name inputs are $A$ and $B$, and the only shared comparison data are the finite rows $W,R,D,J$.
+
+The regular-name admission row first reads $A$ and $B$ as $\RegSeqRatUp$ data. The window row $W$ then displays the prefixes of both names that the request can inspect.
+
+Next the shared readback and tolerance rows bind the two sides to the same dyadic request. The common-modulus ledger $J$ records that the request is answered by one finite window schedule rather than by two unrelated searches.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly that finite route. Since no carrier coordinate supplies quotient equality, selected representatives, hidden choice, ambient completeness, or direct $\RealUp$ equality, the five rows exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCommonModulus finite-window handoff]
+\label{thm:regular-cauchy-common-modulus-finite-window-handoff}
+Every $\RegularCauchyInterleavingUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyCommonModulusUp$ carrier must first expose the route
+$$
+A,B,W,R,D,J \longmapsto H,C,P,N .
+$$
+Thus the consumer receives two regular rational names, a finite stream-window schedule, a shared readback ledger, a dyadic tolerance budget, a common-modulus row, componentwise transport, replay, provenance, and local naming before it can read any real-name seal. It receives no quotient equality of Cauchy names, selected representative, hidden choice schedule, ambient completeness theorem, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. Its Real-facing data are downstream of the two regular-name rows and the common finite-window ledger.
+
+Use the NameCert obligations. The finite-window exposure row requires $W,R,D,J$ to be displayed after $A$ and $B$, and the interleaving-compatibility row allows only that displayed ledger to feed the $\RegularCauchyInterleavingUp$ side.
+
+The structural rows then preserve the same route. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ add no quotient, selected representative, choice schedule, completeness theorem, or host real equality, so every downstream seal read is forced through the finite chain above.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyCommonModulusUp$ read is refuted if a $\RegularCauchyInterleavingUp$ or $\RealUp$ consumer reaches a seal without displaying both $\RegSeqRatUp$ rows, the $\StreamNameUp$ window row, the $\DyadicRatCoreUp$ tolerance row, the common-modulus ledger, transport, replay, provenance, and local naming.}
+
+\independenceWitness{Nearest siblings: regseqrat, streamname, dyadicratcore, regular-cauchy-interleaving, real. None alone records two regular Cauchy names together with a single shared finite modulus ledger before the Real seal; each lacks at least one of the input-pair, common-window, tolerance, or handoff coordinates.}
+
+\closureat{RegularCauchyCommonModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCommonModulusUp}
+  \constructivestory{A $\RegularCauchyCommonModulusUp$ packet is generated from two RegSeqRat rows, a finite StreamName window, a shared regular-readback ledger, a DyadicRatCore tolerance row, a common-modulus ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-common-modulus-carrier}, \autoref{thm:regular-cauchy-common-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-common-modulus-finite-window-handoff} seed the shared finite-modulus ledger for two regular Cauchy names before Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of Cauchy names, selected representatives, hidden choice schedules, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-window exposure, interleaving compatibility, Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCommonModulusUp.}
+\end{closurestatus}

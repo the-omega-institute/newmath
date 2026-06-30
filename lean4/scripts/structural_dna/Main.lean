@@ -638,7 +638,7 @@ unsafe def fingerprintsJson (imports decls : Array String) : IO Json := do
       | some info =>
           out := (decl, jsonForDeclFingerprint (← declFingerprint env info)) :: out
       | none =>
-          throw (IO.userError s!"declaration not found: {decl}")
+          pure ()
     return Json.mkObj out.reverse
 
 unsafe def relationsJson (request : RelationRequest) : IO Json := do

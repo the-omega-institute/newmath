@@ -1,0 +1,405 @@
+\chapter{Number Theory and Zeta Interface Spine}
+\label{ch:visions-number-theory-spectra-spine}
+\origin{human}
+
+The geometry layer exposes category, gluing, bundle, and homology rows.  L13
+uses the arithmetic, completion, analysis, and geometry interfaces to reach the
+zeta-facing surface:
+$$
+\PrimeUp,\quad
+\PadicUp,\quad
+\AdeleUp,\quad
+\DirichletSeriesUp,\quad
+\ZetaUp,\quad
+\CritStripUp,\quad
+\ZetaZerosUp.
+$$
+The governing boundary is strict: Riemann-hypothesis-shaped statements are
+theorem targets.  They are not naming-seed assertions, not zero-enumeration
+procedures, and not consequences of merely licensing $\ZetaZerosUp$.
+
+\section{Prime Axis}
+\label{sec:number-theory-spine-prime}
+
+\begin{definition}[Divisibility and primality]
+\label{def:number-theory-spine-prime}
+For unary histories $d,n$, divisibility is the displayed quotient predicate
+$$
+\mathsf{NatDivides}(d,n)
+\Longleftrightarrow
+\exists q,\ \mathsf{NatMul}(d,q,n).
+$$
+The quotient $q$ is part of the witness.  A prime row $\mathsf{NatPrime}(p)$
+requires unary membership, strict inequality $p>1$ through the unary
+strict-prefix relation, and the divisor condition that every divisor of $p$
+classifies with the unit or with $p$.
+\end{definition}
+
+\begin{theorem}[Unit exclusion]
+\label{thm:number-theory-spine-unit-not-prime}
+The unary unit is not prime.
+\end{theorem}
+
+\begin{proof}
+If the unit were prime, the strict inequality field in the prime predicate
+would give a strict unary prefix from the unit to itself.  Strict prefix is
+irreflexive, so the prime witness cannot exist.
+\end{proof}
+
+\begin{definition}[Trial division and factorization ledger]
+\label{def:number-theory-spine-factorization-ledger}
+The $\PrimeUp$ certificate records bounded trial division over finite unary
+segments, factorization lists
+$$
+[p_1,\ldots,p_k]
+$$
+whose entries are nondecreasing unary primes and whose iterated product
+classifies with the target history, and the Euclid-lemma ledger used to
+compare two such lists.
+\end{definition}
+
+\begin{theorem}[Prime factorization uniqueness]
+\label{thm:number-theory-spine-factorization-unique}
+Two prime factorization lists of the same positive unary history have the same
+length and pointwise $\hsame$-classified entries.
+\end{theorem}
+
+\begin{proof}
+The first prime in one list divides the product of the other list.  Euclid's
+lemma moves that divisibility to one factor.  Since that factor is prime, the
+two primes classify together.  The nondecreasing ledger aligns the matching
+entries, cancels them from the two products, and the argument recurses on the
+remaining lists.
+\end{proof}
+
+\begin{definition}[Prime-coordinate readout]
+\label{def:number-theory-spine-prime-coordinate}
+For a positive unary history $n$ and a prime row $p$, the exponent $v_p(n)=k$
+means that $n$ classifies with $p^k m$ for some unary $m$ not divisible by
+$p$.  The prime-coordinate readout is the finite-support family
+$$
+\Phi(n)=(v_p(n))_{p:\PrimeUp}.
+$$
+The finite support is read from the factorization list.
+\end{definition}
+
+\begin{theorem}[Multiplication is coordinate addition]
+\label{thm:number-theory-spine-coordinate-addition}
+For positive unary histories $m,n$,
+$$
+\Phi(mn)=\Phi(m)+\Phi(n).
+$$
+\end{theorem}
+
+\begin{proof}
+Factorization gives
+$m=\prod_p p^{v_p(m)}$ and $n=\prod_p p^{v_p(n)}$ with finite support.
+Multiplying the two products adds exponents prime by prime.  Factorization
+uniqueness identifies those exponents with the coordinates of $mn$.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-prime-namecert}{PrimeUp realizes the Prime Axis divisibility, primality, bounded trial-division, and factorization-ledger rows as finite NameCert data.}
+
+\section{\texorpdfstring{$p$}{p}-Adic and Adele Rows}
+\label{sec:number-theory-spine-padic-adele}
+
+\begin{definition}[Prime scale and valuation]
+\label{def:number-theory-spine-padic-scale}
+For histories $p,e,r$, the predicate $\mathsf{PadicPrimeScale}(p,e,r)$ holds
+when $p$ is a $\PrimeUp$ prime and $r$ is the unary multiplication result of
+$p$ by exponent $e$.  For a nonzero rational history $x=a/b$, the valuation
+row is
+$$
+v_p(x)=v_p(a)-v_p(b),
+$$
+with well-definedness supplied by the rational-normalisation ledger.
+\end{definition}
+
+\begin{theorem}[Prime scale totality]
+\label{thm:number-theory-spine-prime-scale-totality}
+If $p$ is prime and $e$ is unary, then some $r$ satisfies
+$\mathsf{PadicPrimeScale}(p,e,r)$.
+\end{theorem}
+
+\begin{proof}
+The prime witness supplies unary membership for $p$.  Unary multiplication
+totality applied to $p$ and $e$ gives a result $r$ and a
+$\mathsf{NatMul}(p,e,r)$ witness.  Pairing this multiplication row with the
+prime row is exactly the prime-scale packet.
+\end{proof}
+
+\begin{definition}[\texorpdfstring{$p$}{p}-adic carrier]
+\label{def:number-theory-spine-padic-carrier}
+For a prime row $p$, the $\PadicUp(p)$ carrier is the regular Cauchy
+completion of $\RatUp$ under
+$$
+d_p(x,y)=|x-y|_p,\qquad |x|_p=p^{-v_p(x)}.
+$$
+The classifier is zero $p$-adic distance, and the ledger records the prime
+index, valuation decomposition, ultrametric estimate, Cauchy modulus, and
+completion seal.
+\end{definition}
+
+\begin{theorem}[Ultrametric estimate]
+\label{thm:number-theory-spine-ultrametric}
+The $p$-adic metric satisfies
+$$
+d_p(x,z)\le\max(d_p(x,y),d_p(y,z)).
+$$
+\end{theorem}
+
+\begin{proof}
+Write $x-z=(x-y)+(y-z)$.  The valuation ledger gives
+$v_p(a+b)\ge\min(v_p(a),v_p(b))$.  Applying $p^{-(-)}$ reverses this minimum
+into the displayed maximum bound for the absolute values.
+\end{proof}
+
+\begin{definition}[Adele carrier]
+\label{def:number-theory-spine-adele-carrier}
+An $\AdeleUp$ row is a restricted product packet
+$$
+x=(x_\infty,(x_p)_{p:\PrimeUp})
+$$
+with $x_\infty:\RealUp$, $x_p:\PadicUp(p)$, and a finite exception list of
+primes outside which $|x_p|_p\le1$.  The classifier is componentwise, together
+with classification of the restricted-product exception ledgers.
+\end{definition}
+
+\begin{theorem}[Diagonal rationals are restricted]
+\label{thm:number-theory-spine-diagonal-rational}
+The diagonal embedding $\Delta:\RatUp\to\AdeleUp$ lands in the restricted
+product carrier.
+\end{theorem}
+
+\begin{proof}
+For a normalized rational $q=a/b$, only the primes occurring in the
+factorization lists of $a$ and $b$ can have nonzero $v_p(q)$.  That finite
+union is the exception ledger.  For all other primes, $v_p(q)=0$, so
+$|q|_p=1$ and the restricted-product bound holds.
+\end{proof}
+
+\section{Dirichlet Series and Zeta}
+\label{sec:number-theory-spine-dirichlet-zeta}
+
+\begin{definition}[Dirichlet series row]
+\label{def:number-theory-spine-dirichlet}
+A $\DirichletSeriesUp$ row consists of coefficient histories
+$a:\NatUp_{>0}\to\ComplexUp$, a complex input $s$, Dirichlet terms
+$$
+T_n(a,s)=a_n n^{-s},
+\qquad
+n^{-s}:=\exp(-s\log n),
+$$
+an absolute-convergence half-plane ledger, regular Cauchy partial sums, and a
+classifier-stable limit value.
+\end{definition}
+
+\begin{definition}[Completely multiplicative coefficients]
+\label{def:number-theory-spine-completely-multiplicative}
+A coefficient row is completely multiplicative when $a_1$ is the unit and
+$$
+a_{mn}\sim a_m a_n
+$$
+for all positive unary $m,n$.  This is the coefficient condition that permits
+Euler-product regrouping through $\PrimeUp$ factorization.
+\end{definition}
+
+\begin{theorem}[Euler product for Dirichlet rows]
+\label{thm:number-theory-spine-euler-product}
+For completely multiplicative coefficients in the absolute-convergence
+half-plane,
+$$
+\sum_{n\ge1}a_n n^{-s}
+\sim
+\prod_p(1-a_p p^{-s})^{-1}.
+$$
+\end{theorem}
+
+\begin{proof}
+Every positive unary $n$ has a unique finite-support prime factorization
+$n=\prod_p p^{k_p}$.  Complete multiplicativity gives
+$a_n\sim\prod_p a_p^{k_p}$, while the complex analytic term row gives
+$n^{-s}\sim\prod_p p^{-s k_p}$.  The term indexed by $n$ therefore matches a
+finite-support exponent tuple.  Absolute convergence supplies the modulus
+that permits regrouping into the product of geometric series.
+\end{proof}
+
+\begin{definition}[Zeta rows]
+\label{def:number-theory-spine-zeta}
+$\ZetaBasicUp$ is the specialization of $\DirichletSeriesUp$ at the constant
+unit coefficient row on the half-plane $\Re(s)>1$.  It has both the
+Dirichlet-sum face and the Euler-product face
+$$
+\zeta(s)\sim\prod_p(1-p^{-s})^{-1}.
+$$
+The $\ZetaContUp$ row extends this carrier to $\ComplexUp\setminus\{1\}$ by a
+continuation ledger with pole, functional-equation, trivial-zero, and
+$\GammaUp$ horizon rows.
+\end{definition}
+
+\begin{theorem}[Zeta non-vanishing in the Euler-product half-plane]
+\label{thm:number-theory-spine-zeta-nonvanishing-half-plane}
+For $\Re(s)>1$, the $\ZetaBasicUp$ value is apart from zero.
+\end{theorem}
+
+\begin{proof}
+The Euler-product row gives factors $(1-p^{-s})^{-1}$.  Their denominators
+have lower bound $1-p^{-\Re(s)}$, and the product convergence ledger gives an
+explicit positive bound for the finite products and their limit.  Thus the
+limit value is apart from the zero complex history.
+\end{proof}
+
+\section{Critical Strip and Zeta Zeros}
+\label{sec:number-theory-spine-zero-ledger}
+
+\begin{definition}[Critical strip and line]
+\label{def:number-theory-spine-critical-strip}
+For a complex history $s$ with real component $\sigma$, the critical strip row
+is
+$$
+\mathsf{InCritStrip}(s)
+\Longleftrightarrow
+0<\sigma<1
+$$
+through strict order and apartness witnesses.  The critical line row is
+$$
+\mathsf{OnCritLine}(s)
+\Longleftrightarrow
+\sigma\sim_{\RealUp}\frac12.
+$$
+The mirror involution is $J(s)=1-\overline{s}$, whose fixed points are exactly
+the critical-line rows.
+\end{definition}
+
+\begin{definition}[Zeta zero ledger]
+\label{def:number-theory-spine-zeta-zero}
+A $\ZetaZerosUp$ row contains a source $s$, a value row
+$\mathsf{ZetaVal}(s,z)$ read through $\ZetaContUp$, and a zero-pattern row
+$z\sim_{\ComplexUp}0$.  A nontrivial zero row is a zeta-zero row together with
+the displayed $\mathsf{InCritStrip}(s)$ row.
+\end{definition}
+
+\begin{theorem}[Nontrivial zero is strip-bound]
+\label{thm:number-theory-spine-nontrivial-zero-strip}
+Every nontrivial-zero row carries its critical-strip row.
+\end{theorem}
+
+\begin{proof}
+This is projection from the nontrivial-zero packet: it is a pair consisting
+of the zero row and the strip row.
+\end{proof}
+
+\begin{theorem}[Conjugate zero symmetry]
+\label{thm:number-theory-spine-zero-conjugate}
+If $s$ is a zeta-zero row, then $\overline{s}$ is a zeta-zero row.
+\end{theorem}
+
+\begin{proof}
+The Dirichlet sum and continuation ledgers respect complex conjugation, so
+$\zeta(\overline{s})\sim\overline{\zeta(s)}$.  The conjugate of the zero
+complex history is classified with zero, hence the zero row transports to
+$\overline{s}$.
+\end{proof}
+
+\begin{principle}[Zero enumeration boundary]
+\label{prin:number-theory-spine-zero-enumeration-boundary}
+$\ZetaZerosUp$ defines the zero predicate and its classifier-stable ledger.  It
+does not constructively enumerate all nontrivial zeros, decide exact zerohood
+from finite precision, or prove the critical-line conclusion.
+\end{principle}
+
+\section{RH Target Surface}
+\label{sec:number-theory-spine-rh}
+
+\begin{definition}[RH predicate]
+\label{def:number-theory-spine-rh}
+The RH-facing statement is the dependent target
+$$
+\mathsf{RH}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{InCritStrip}(s)\times\mathsf{ZetaZero}(s)
+\to
+\mathsf{OnCritLine}(s)
+\right).
+$$
+A constructive counterexample surface is a complex history together with a
+critical-strip row, a zeta-zero row, and a displayed apartness witness from
+the mirror fixed locus.
+\end{definition}
+
+\begin{definition}[Finite prime-window defect]
+\label{def:number-theory-spine-prime-window-defect}
+For a nonempty finite prime window $S$, define the defect expression
+$$
+D_S(s):=\sum_{p\in S}\log |p^{1/2-s}|.
+$$
+If $s=1/2+\delta+i\tau$, then the modulus ledger reads
+$$
+|D_S(s)|=|\delta|\sum_{p\in S}\log p.
+$$
+\end{definition}
+
+\begin{principle}[Defect-zero incompatibility target]
+\label{prin:number-theory-spine-defect-zero-incompatibility}
+The central RH-facing target is the theorem schema
+$$
+\mathsf{DefectZeroIncompatibility}.
+$$
+It says that a nonempty finite prime-window defect inside the completed zeta
+carrier forces apartness of the zeta value from zero.  This is not supplied by
+licensing $\ZetaZerosUp$; it is the remaining rigidity target.
+\end{principle}
+
+\begin{theorem}[Defect incompatibility implies RH]
+\label{thm:number-theory-spine-defect-implies-rh}
+Assume defect-zero incompatibility, zero-ledger soundness, a route from
+off-fixed critical-strip sources to a nonempty finite prime-window defect, and
+located-real collapse from absence of off-fixed apartness to the critical-line
+row.  Then $\mathsf{RH}$ follows.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry $\mathsf{InCritStrip}(s)$ and $\mathsf{ZetaZero}(s)$.  If $s$
+is apart from the critical line, the off-fixed-to-defect route supplies a
+nonempty finite prime window $S$ with $|D_S(s)|>0$.  Defect-zero
+incompatibility then gives apartness of $\zeta(s)$ from zero.  Zero-ledger
+soundness gives the zero value, a contradiction.  Hence no off-fixed apartness
+remains, and located-real collapse supplies $\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\section{L13 Boundary}
+\label{sec:number-theory-spine-boundary}
+
+\begin{theorem}[Number-theory and zeta admission]
+\label{thm:number-theory-spine-admission}
+If the prime, prime-coordinate, $p$-adic, adele, Dirichlet-series,
+zeta-basic, critical-strip, zeta-continuation, and zeta-zero rows carry their
+advertised carrier, classifier, stability, ledger, and $\NameCert$ fields,
+then the L13 number-theory and zeta layer is admitted.
+\end{theorem}
+
+\begin{proof}
+$\PrimeUp$ supplies divisibility, primality, trial division, Euclid rows, and
+factorization uniqueness.  Prime-coordinate rows turn multiplication into
+finite-support exponent addition.  $\PadicUp$ reads those axes as valuations,
+non-archimedean metrics, and completions of $\RatUp$.  $\AdeleUp$ packages the
+archimedean and $p$-adic components with a finite restricted-product exception
+ledger.  $\DirichletSeriesUp$ supplies regular Cauchy sums, convergence
+half-planes, holomorphicity, and Euler products.  $\ZetaBasicUp$ specializes
+that interface to unit coefficients, while $\ZetaContUp$ supplies continuation
+with pole, functional-equation, trivial-zero, and $\GammaUp$ ledgers.
+$\CritStripUp$ and $\ZetaZerosUp$ expose the zero-facing predicate and its
+boundary rows.  Each row is a certificate over earlier layers, so no RH claim,
+zero enumeration, or ambient analytic oracle is introduced.
+\end{proof}
+
+\begin{principle}[Omega and zeta readout]
+\label{prin:number-theory-spine-omega-zeta-readout}
+At L13, prime factorization supplies the multiplicative coordinate axes,
+Dirichlet rows apply the exponential kernel to those axes, zeta rows recover
+the Euler-product carrier, continuation extends the carrier away from the
+pole, and zero rows expose ledgered zero atoms.  This is the zeta-facing
+readout route; RH remains a rigidity theorem over that route.
+\end{principle}

@@ -99,7 +99,7 @@ OWNER_HARDGATE_SURFACES: tuple[HardgateSurface, ...] = (
         "WIN",
         "reports/canonical/winnability-certificates.json",
         "$.hardgates",
-        "bedc_quality_lab/winnability.py:hardgate_summary",
+        "bedc_quality_lab/winnability.py:_hardgates",
     ),
     HardgateSurface(
         "structural-generalization-splits/hardgates",
@@ -127,42 +127,42 @@ OWNER_HARDGATE_SURFACES: tuple[HardgateSurface, ...] = (
         "SCALE",
         "reports/canonical/discovery-gated-transformer.json",
         "$.scaling_ladder.hardgate.gates",
-        "bedc_quality_lab/discovery_gated_transformer.py:build_payload",
+        "bedc_quality_lab/discovery_gated_transformer.py:scaling_ladder_hardgate_rows",
     ),
     HardgateSurface(
         "discovery-gated-transformer/d5m",
         "D5M",
         "reports/canonical/discovery-gated-transformer.json",
         "$.d5_m_projection.hardgates",
-        "bedc_quality_lab/discovery_gated_transformer.py:build_payload",
+        "bedc_quality_lab/discovery_gated_transformer.py:d5_m_hardgate_rows",
     ),
     HardgateSurface(
         "discovery-gated-transformer/d5o",
         "D5O",
         "reports/canonical/discovery-gated-transformer.json",
         "$.d5_o_projection.gates",
-        "bedc_quality_lab/discovery_gated_transformer.py:build_payload",
+        "bedc_quality_lab/discovery_gated_transformer.py:_d5_o_gate_rows",
     ),
     HardgateSurface(
         "scaling-ladder/hardgates",
         "SCALE",
         "reports/canonical/scaling-ladder.json",
         "$.hardgates",
-        "bedc_quality_lab/scaling_ladder.py:build_payload",
+        "bedc_quality_lab/scaling_ladder.py:_hardgates",
     ),
     HardgateSurface(
         "dgt-l0-controls/feature",
         "L0",
         "reports/canonical/dgt-l0-controls.json",
         "$.feature_audit.gates",
-        "bedc_quality_lab/dgt_l0_controls.py:evaluate_feature_audit",
+        "bedc_quality_lab/dgt_l0_controls.py:feature_audit_payload",
     ),
     HardgateSurface(
         "dgt-l0-controls/metric",
         "L0",
         "reports/canonical/dgt-l0-controls.json",
         "$.honest_metric_review.hardgate_rows",
-        "bedc_quality_lab/dgt_l0_controls.py:honest_metric_review",
+        "bedc_quality_lab/dgt_l0_controls.py:L0HonestMetric.evaluate",
     ),
     *(
         HardgateSurface(
@@ -170,7 +170,7 @@ OWNER_HARDGATE_SURFACES: tuple[HardgateSurface, ...] = (
             "L0",
             "reports/canonical/dgt-l0-controls.json",
             f"$.l0_toy_projection.hardgate_statuses.{surface_key}.gates",
-            "bedc_quality_lab/dgt_l0_controls.py:build_l0_toy_projection",
+            "bedc_quality_lab/dgt_l0_controls.py:_hardgate_bundle",
         )
         for surface_key in (
             "L0",

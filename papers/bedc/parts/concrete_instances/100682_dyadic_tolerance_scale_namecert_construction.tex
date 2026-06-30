@@ -85,14 +85,40 @@ Now apply \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff}. It forces each
 Because the carrier and the handoff route contain no quotient, selected-limit, host-equality, choice, trichotomy, or completeness row, the scale row exhausts the precision gate for every accepted consumer.
 \end{proof}
 
-\closureat{DyadicToleranceScaleUp}{seedStr}
+\begin{theorem}[Dyadic tolerance scale obligation-closure scope]
+\label{thm:dyadic-tolerance-scale-obligation-closure-scope}
+Let $T=(s,d,w,r,m,e,h,c,p,n)$ be an accepted $\DyadicToleranceScaleUp$ carrier. Every accepted obligation read of $T$ is exhausted by the scale row $s$, the $\DyadicRatCoreUp$ tolerance ledger $d$, the $\StreamNameUp$ finite window $w$, the $\CauchyModulusUp$ threshold row $m$, the $\RegSeqRatUp$ readback row $r$, the $\RealUp$ seal $e$, componentwise $\hsame$ transport $h$, displayed $\Cont$ replay $c$, $\Pkg$ provenance $p$, and the local $\NameCert_{\DyadicToleranceScaleUp}$ row $n$. The obligation surface exports no quotient stream equality, selected limit, countable choice, trichotomy, host equality, ambient $\RealUp$ completeness, or bridge data.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:dyadic-tolerance-scale-carrier}. Its visible coordinates are exactly $s,d,w,r,m,e,h,c,p,n$, with $s$ naming the dyadic precision scale and $d,w,m,r,e$ forming the finite route toward regular readback and the Real seal.
+
+Apply \autoref{thm:dyadic-tolerance-scale-namecert-obligations}. The obligation rows are carrier admission, scale monotonicity, classifier transport, RegSeqRat handoff, Real-seal non-escape, provenance, and local naming, and each of those rows is stored on the displayed coordinates of the carrier.
+
+Use \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff} together with \autoref{thm:dyadic-tolerance-scale-precision-gate-exhaustion}. They force every RegSeqRat or Real consumer through the same scale, DyadicRatCore ledger, StreamName window, CauchyModulus threshold, RegSeqRat readback, Real seal, transport, replay, package, and naming route.
+
+It remains only to identify the boundary. The carrier has no coordinate for quotient stream equality, a selected limit, countable choice, trichotomy, host equality, ambient Real completeness, or bridge data, and the obligation rows do not construct such a coordinate. Therefore the displayed rows exhaust the obligation-closure surface.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance scale Real regular readback]
+\label{thm:dyadic-tolerance-scale-real-regular-readback}
+Let $T=(s,d,w,r,m,e,h,c,p,n)$ be an accepted $\DyadicToleranceScaleUp$ carrier. Every $\RealUp$-facing read from $T$ factors through the dyadic scale row $s$, the $\StreamNameUp$ finite window $w$, the $\CauchyModulusUp$ threshold row $m$, the $\RegSeqRatUp$ readback row $r$, the terminal $\RealUp$ seal $e$, componentwise $\hsame$ transport $h$, displayed $\Cont$ replay $c$, $\Pkg$ provenance $p$, and the local $\NameCert_{\DyadicToleranceScaleUp}$ row $n$. Consequently a Real-facing consumer receives a regular rational readback only through the displayed dyadic scale route, not through quotient stream equality, a selected limit, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, or bridge data.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff}. It places every RegSeqRat and Real consumer downstream of the route from the scale row $s$ through the dyadic ledger $d$, the finite stream window $w$, the regular readback $r$, the Cauchy threshold $m$, the Real seal $e$, and the structural rows $h,c,p,n$.
+
+Apply \autoref{thm:dyadic-tolerance-scale-precision-gate-exhaustion}. The scale row is the unique precision gate for those consumers, and the displayed dyadic ledger, StreamName window, Cauchy threshold, RegSeqRat readback, Real seal, transport, replay, provenance, and naming rows are the only rows available for the read.
+
+Finally use \autoref{thm:dyadic-tolerance-scale-obligation-closure-scope}. Its closure scope says that the same rows exhaust every accepted obligation read of the packet. Therefore a Real-facing read factors through the regular readback and Real seal exactly along the local NameCert route, with no bypass through an excluded quotient, selected limit, host-equality, choice, completeness, or bridge coordinate.
+\end{proof}
+
+\closureat{DyadicToleranceScaleUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicToleranceScaleUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-tolerance-scale-carrier}, \autoref{thm:dyadic-tolerance-scale-namecert-obligations}, and \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff} seed the finite dyadic precision-scale route from a scale row through dyadic ledger, StreamName window, RegSeqRat readback, Cauchy threshold, Real seal, transport, replay, provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:dyadic-tolerance-scale-carrier}, \autoref{thm:dyadic-tolerance-scale-namecert-obligations}, \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff}, \autoref{thm:dyadic-tolerance-scale-precision-gate-exhaustion}, and \autoref{thm:dyadic-tolerance-scale-obligation-closure-scope} close the finite dyadic precision-scale obligation surface from a scale row through dyadic ledger, StreamName window, Cauchy threshold, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, scale monotonicity, classifier transport, RegSeqRat handoff, Real-seal non-escape, provenance, and local naming for BEDC.Derived.DyadicToleranceScaleUp.}
+  \upgradepath{The next step is Lean verification of the displayed obligation-closure surface for BEDC.Derived.DyadicToleranceScaleUp.}
   \constructivestory{A $\DyadicToleranceScaleUp$ packet is generated from one dyadic scale row, a DyadicRatCore tolerance ledger, a StreamName finite window, RegSeqRat readback, a CauchyModulus threshold, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

@@ -1,0 +1,376 @@
+\chapter{Analysis Interface Spine}
+\label{ch:visions-analysis-interface-spine}
+\origin{human}
+
+The countable-completion spine supplies certified streams, regular Cauchy
+names, real seals, metric ledgers, topology classifiers, and completion
+moduli.  L11 consumes those rows as the substrate for analysis:
+$$
+\CalculusUp,\quad
+\RealAnalyticUp,\quad
+\ComplexAnalyticUp,\quad
+\MeasureUp,\quad
+\FunctionalAnalysisUp.
+$$
+The same layer also exposes the $\GammaUp$ bridge used by later zeta-facing
+certificates.  In all cases an analytic object is a packet of finite
+approximations, completion routes, classifier transport, explicit moduli, and
+ledger rows.  It is not a host analytic function, a bare limit, a hidden
+operator norm, or an imported spectral theorem.
+
+\section{Analytic Certificate Template}
+\label{sec:analysis-spine-template}
+
+\begin{definition}[Analytic interface]
+\label{def:analysis-spine-interface}
+An analytic interface over a carrier-classifier pair $(C,\sim_C)$ is a packet
+$$
+\mathsf{AnalyticInterface}^{\uparrow}
+=
+(C,\sim_C,\mathsf{Ops},\mathsf{Approx},\mathsf{Limit},
+\mathsf{Stab},\mathsf{Ledger},\NameCert{}).
+$$
+Here $\mathsf{Ops}$ records the permitted analytic operations, such as
+derivative, integral, series, limit, or operator formation.  The
+$\mathsf{Approx}$ row records finite approximants.  The $\mathsf{Limit}$ row
+is a reference to the L10 completion route that turns the approximants into a
+public value.  The stability row records classifier congruence, operation
+descent, modulus transport, and uniqueness through the target classifier.
+\end{definition}
+
+\begin{definition}[Analytic ledger]
+\label{def:analysis-spine-ledger}
+The analytic ledger records the data that make an analytic read finite:
+Cauchy moduli, input bounds, finite partitions, partial sums, tail estimates,
+positive apartness witnesses, branch witnesses, operator bounds, and the
+completion or metric route through which the output is accepted.
+\end{definition}
+
+\begin{principle}[Analysis is certificate-facing]
+\label{prin:analysis-spine-certificate-facing}
+An analytic name is admitted only when the finite approximation surface, the
+completion or measure route, the classifier transport, the stability rows, and
+the local $\NameCert$ are visible.  The public surface cannot be replaced by a
+host function space, an external limit operator, a quotient of functions, or a
+choice-selected representative.
+\end{principle}
+
+\section{Calculus}
+\label{sec:analysis-spine-calculus}
+
+\begin{definition}[Derivative witness]
+\label{def:analysis-spine-derivative-witness}
+Let $X$ and $Y$ be normed vector carriers and let $f:X\to Y$ be a continuous
+map in the classifier-respecting sense.  A derivative witness for $f$ at
+$a:X$ is a bounded linear map $L:X\to Y$ together with a remainder row
+$$
+R_a(h):=f(a+h)-f(a)-L(h)
+$$
+and a local modulus:
+$$
+\forall \varepsilon>0\ \exists \delta>0,\quad
+0<\lVert h\rVert<\delta
+\Longrightarrow
+\lVert R_a(h)\rVert\le \varepsilon\lVert h\rVert .
+$$
+The witness records the local linear approximation and its explicit error
+budget.
+\end{definition}
+
+\begin{definition}[Derivative classifier]
+\label{def:analysis-spine-derivative-classifier}
+Two derivative witnesses $L$ and $M$ for the same input data classify
+together when they agree pointwise through the codomain classifier:
+$$
+L\sim_{\mathsf{Deriv}} M
+\Longleftrightarrow
+\forall h:X,\ L(h)\sim_Y M(h).
+$$
+\end{definition}
+
+\begin{theorem}[Derivative uniqueness]
+\label{thm:analysis-spine-derivative-uniqueness}
+If $L$ and $M$ are derivative witnesses for the same map at the same point,
+then $L\sim_{\mathsf{Deriv}}M$.
+\end{theorem}
+
+\begin{proof}
+Fix $h:X$.  For $h=0$, linearity gives $L(0)\sim_Y0\sim_YM(0)$.  For a
+displayed nonzero $h$, compare the two remainder rows at $t h$ with
+positive $t$ tending to zero through the L10 countable-name route.  Subtracting
+the two estimates gives
+$$
+(L-M)(t h)=o(\lVert t h\rVert).
+$$
+Linearity rewrites the left side as $t(L-M)(h)$ and the norm row rewrites the
+scale as $t\lVert h\rVert$.  Cancelling the positive scalar in the displayed
+apartness field gives
+$$
+\lVert (L-M)(h)\rVert\le \varepsilon\lVert h\rVert
+$$
+for every displayed positive $\varepsilon$.  The separated norm classifier
+therefore gives $(L-M)(h)\sim_Y0$, hence $L(h)\sim_YM(h)$.
+\end{proof}
+
+\begin{definition}[Finite-sum integral seed]
+\label{def:analysis-spine-finite-sum-integral}
+For a continuous real-valued map on a compact interval, a calculus integral
+seed is a directed finite-sum system.  A tagged partition
+$$
+P=(a=x_0<x_1<\cdots <x_n=b,\ \xi_i\in[x_i,x_{i+1}])
+$$
+has finite sum
+$$
+S(P,f):=\sum_{i=0}^{n-1}f(\xi_i)(x_{i+1}-x_i).
+$$
+An integral witness for value $I:\RealUp$ is a regular Cauchy completion row
+for these sums with explicit refinement modulus and endpoint transport.
+\end{definition}
+
+\begin{definition}[Measure-facing integral seed]
+\label{def:analysis-spine-measure-integral}
+When a $\MeasureUp$ interface is available, the integral may instead be read
+through simple-function approximation and a completion row.  The ledger
+records the simple functions, measurable partitions, coefficient rows,
+dominance or monotonicity evidence, and the completion route to the final
+value.
+\end{definition}
+
+\begin{theorem}[Integral uniqueness]
+\label{thm:analysis-spine-integral-uniqueness}
+Two integral witnesses built from the same directed finite-sum system and
+compatible moduli classify to the same real value.
+\end{theorem}
+
+\begin{proof}
+Both witnesses are L10 completion limits of the same directed finite-sum
+name.  The completion uniqueness row transports the shared regular Cauchy
+classifier to the $\RealUp$ classifier, giving the desired equality at the
+real-history surface.
+\end{proof}
+
+\begin{principle}[Calculus boundary]
+\label{prin:analysis-spine-calculus-boundary}
+$\CalculusUp$ consumes $\RealUp$, $\MetricUp$, $\ContinuousMapUp$,
+$\CompletionUp$, and normed vector data.  The fundamental theorem belongs
+only after the interval or measure interface supplies stable integration and
+differentiation routes; it is not part of the root calculus name.
+\end{principle}
+
+\section{Real Analytic Functions}
+\label{sec:analysis-spine-real-analytic}
+
+\begin{definition}[Real-analytic package]
+\label{def:analysis-spine-real-analytic-package}
+The $\RealAnalyticUp$ package contains the real-history rows for
+$$
+\pi,\quad \exp,\quad \log,\quad \sin,\quad \cos .
+$$
+Each row is generated from unary-indexed rational or dyadic approximants with
+an explicit Cauchy modulus, then sealed through $\RegSeqRatUp$ and $\RealUp$.
+\end{definition}
+
+\begin{definition}[Leibniz partial sums and $\pi$]
+\label{def:analysis-spine-pi}
+For unary index $n$, the Leibniz partial sum row is
+$$
+S_n=\sum_{k=0}^{n}\frac{(-1)^k}{2k+1}.
+$$
+The real name $\pi$ is the sealed completion of the rescaled stream
+$(4S_n)_n$ with its alternating-series modulus.
+\end{definition}
+
+\begin{theorem}[Leibniz modulus]
+\label{thm:analysis-spine-leibniz-modulus}
+For $N(k)=2^{k+1}$, if $m,n\ge N(k)$, then
+$$
+|4S_m-4S_n|<2^{-k}.
+$$
+\end{theorem}
+
+\begin{proof}
+The alternating-series tail is bounded by the first omitted term.  Hence
+$$
+|S_m-S_n|\le \frac{1}{2N(k)+1}.
+$$
+Multiplying by $4$ and using $N(k)=2^{k+1}$ gives
+$$
+|4S_m-4S_n|\le \frac{4}{2N(k)+1}<2^{-k}.
+$$
+The comparison is recorded in the dyadic tolerance ledger.
+\end{proof}
+
+\begin{definition}[Exponential partial sums]
+\label{def:analysis-spine-exp-part}
+For $x:\RealUp$, the exponential partial-sum row is
+$$
+E_n(x)=\sum_{k=0}^{n}\frac{x^k}{k!}.
+$$
+Powers use iterated real multiplication, factorials use unary recursion, and
+division is read through a positive denominator and inverse certificate.
+\end{definition}
+
+\begin{theorem}[Exponential modulus on bounded input]
+\label{thm:analysis-spine-exp-modulus}
+If $\lVert x\rVert\le B$, then the exponential partial sums are regular
+Cauchy with a displayed modulus of the form $N(k)=2B+k$.
+\end{theorem}
+
+\begin{proof}
+For $n\ge2B$, the ratio of successive tail terms is at most $1/2$:
+$$
+\frac{\lVert x\rVert}{n+1}\le\frac12.
+$$
+The remaining tail is bounded by a geometric series.  Taking
+$n\ge2B+k$ makes the tail smaller than $2^{-k}$, producing the displayed
+modulus.
+\end{proof}
+
+\begin{theorem}[Exponential additivity]
+\label{thm:analysis-spine-exp-additivity}
+If the three exponential rows for $x$, $y$, and $x+y$ are supplied, then
+$$
+\exp(x+y)\sim_{\RealUp}\exp(x)\exp(y).
+$$
+\end{theorem}
+
+\begin{proof}
+At the finite layer, compare the partial sums for $\exp(x+y)$ with the
+Cauchy product of the partial sums for $\exp(x)$ and $\exp(y)$.  The binomial
+identity matches equal-degree terms, while the exponential moduli control the
+tails.  Passing through the $\RealUp$ completion uniqueness row yields the
+classifier equality.
+\end{proof}
+
+\begin{definition}[Logarithm by bisection]
+\label{def:analysis-spine-log}
+For a positive real input $x$ with apartness from zero, the logarithm row is
+generated by dyadic bisection.  At precision $k$ it records a dyadic interval
+$$
+[y_k,y_k+2^{-k}]
+$$
+such that
+$$
+\exp(y_k)\le x<\exp(y_k+2^{-k}).
+$$
+The sequence $(y_k)_k$ is a regular Cauchy name whose seal is $\log(x)$.
+\end{definition}
+
+\begin{theorem}[Logarithm inverse row]
+\label{thm:analysis-spine-log-exp-inverse}
+\concretizedIn{ch:concrete-instances-exp-log-bisection-namecert}{The logarithm-by-bisection inverse route is realized as finite exponential, dyadic bracket, StreamName, RegSeqRat, and Real seal NameCert data.}
+For positive $x$, if $\log(x)$ is produced by the bisection row, then
+$$
+\exp(\log(x))\sim_{\RealUp}x.
+$$
+If $\exp(z)$ is positive and a logarithm row for it is supplied, then the
+logarithm classifies with $z$.
+\end{theorem}
+
+\begin{proof}
+The bisection ledger forces $\exp(y_k)$ to converge to $x$ at every displayed
+precision.  Completion uniqueness gives $\exp(\log(x))\sim_{\RealUp}x$.
+For an input already known as $\exp(z)$, the same monotone inverse ledger and
+completion uniqueness identify the bisection limit with $z$.
+\end{proof}
+
+\begin{definition}[Trigonometric partial sums]
+\label{def:analysis-spine-trig-part}
+The sine and cosine partial sums are
+$$
+S_n(x)=\sum_{k=0}^{n}(-1)^k\frac{x^{2k+1}}{(2k+1)!},
+$$
+and
+$$
+C_n(x)=\sum_{k=0}^{n}(-1)^k\frac{x^{2k}}{(2k)!}.
+$$
+Their real-history values are sealed regular Cauchy limits with explicit
+input bounds and alternating-tail ledgers.
+\end{definition}
+
+\begin{theorem}[Trigonometric modulus and identities]
+\label{thm:analysis-spine-trig-identities}
+For bounded input, sine and cosine partial sums have explicit Cauchy moduli.
+Their sealed limits satisfy
+$$
+\sin(x)^2+\cos(x)^2\sim_{\RealUp}1,
+$$
+and signed unary integer multiples of $\pi$ are zeros of sine.
+\end{theorem}
+
+\begin{proof}
+The factorial denominator forces the tail terms to decrease once the
+displayed index dominates the input bound.  Alternating-tail estimates give
+the Cauchy moduli.  The Pythagorean identity is obtained by multiplying
+finite partial sums, grouping the Cauchy-product terms, and sending the
+remaining tail through the same modulus.  The integer-multiple zero row is
+proved by induction using the addition formula and the base $\sin(\pi)$ row.
+\end{proof}
+
+\begin{principle}[Real-analytic boundary]
+\label{prin:analysis-spine-real-analytic-boundary}
+$\RealAnalyticUp$ licenses $\pi$, $\exp$, $\log$, $\sin$, and $\cos$ only as
+regular Cauchy constructions over rational or dyadic finite approximants.
+They are not primitive constants or host functions.
+\end{principle}
+
+\section{Complex Analytic Functions}
+\label{sec:analysis-spine-complex-analytic}
+
+\begin{definition}[Complex exponential]
+\label{def:analysis-spine-complex-exp}
+For a complex history $z=x+i y$, the complex exponential row is
+$$
+\exp_{\mathbb C}(z)
+=
+\bigl(\exp(x)\cos(y),\ \exp(x)\sin(y)\bigr).
+$$
+The classifier is componentwise through the $\RealUp$ classifier.
+\end{definition}
+
+\begin{theorem}[Complex exponential stability]
+\label{thm:analysis-spine-complex-exp-stability}
+The complex exponential is stable under the $\ComplexUp$ classifier and has a
+unique output class for each accepted input class.
+\end{theorem}
+
+\begin{proof}
+The $\ComplexUp$ classifier is componentwise.  The real rows
+$\exp$, $\sin$, and $\cos$ are stable under $\RealUp$ classifier transport.
+Thus both components of the complex exponential output transport through the
+same real classifier rows, giving a unique complex classifier result.
+\end{proof}
+
+\begin{theorem}[Complex exponential additivity and Euler row]
+\label{thm:analysis-spine-complex-exp-additivity-euler}
+The complex exponential satisfies
+$$
+\exp_{\mathbb C}(z+z')
+\sim_{\ComplexUp}
+\exp_{\mathbb C}(z)\exp_{\mathbb C}(z'),
+$$
+and for pure imaginary input $i\theta$,
+$$
+\exp_{\mathbb C}(i\theta)
+\sim_{\ComplexUp}
+(\cos\theta,\sin\theta).
+$$
+\end{theorem}
+
+\begin{proof}
+Write $z=x+i y$ and $z'=x'+i y'$.  The real part uses real exponential
+additivity and the cosine addition formula; the imaginary part uses real
+exponential additivity and the sine addition formula.  For $i\theta$, the
+real part of the input is zero, so $\exp(0)\sim_{\RealUp}1$, leaving the
+components $(\cos\theta,\sin\theta)$.
+\end{proof}
+
+\begin{principle}[Complex-analytic boundary]
+\label{prin:analysis-spine-complex-analytic-boundary}
+$\ComplexAnalyticUp$ is componentwise over $\ComplexUp$ and
+$\RealAnalyticUp$, with branch and apartness ledgers for logarithm and power
+operations.  It does not import a host holomorphic calculus or an untracked
+principal branch.
+\end{principle}
+
+\input{parts/visions/kernel/analysis_measure_functional_gamma_spine}

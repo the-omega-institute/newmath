@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RealUniformPartitionUp$}
+\label{ch:concrete-instances-real-uniform-partition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real analysis, the $\RealUniformPartitionUp$ packet records the finite uniform partitions used to inspect a closed real interval by dyadic mesh scale. It sits after the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the located interval-cover route of \autoref{ch:concrete-instances-located-interval-cover-namecert}. The packet names endpoints, mesh cells, finite windows, readback rows, and local certificate data only; it does not assert open-cover compactness, a finite subcover principle, quotient real equality, or completeness of $\RealUp$.
+
+\begin{definition}[RealUniformPartition carrier]
+\label{def:real-uniform-partition-carrier}
+A $\RealUniformPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,B,M,I,E,S,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the lower and upper $\RealUp$ endpoint names, read only through their displayed real-seal rows.
+\item $M$ is the $\DyadicRatCoreUp$ mesh-scale row, recording a positive dyadic step, its refinement budget, and the comparison cells used by the finite partition.
+\item $I$ is the ordered finite window of partition indices, stored as constructor-generated finite data rather than as a host interval or hidden enumeration.
+\item $E$ is the endpoint ledger assigning to each displayed index in $I$ the corresponding dyadic endpoint history between $A$ and $B$.
+\item $S$ is the $\StreamNameUp$ finite-observation row used to inspect endpoint names, mesh rows, and the finite index window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the endpoint and mesh observations displayed by $S$.
+\item $Z$ is the terminal $\RealUp$ seal row reached only after the dyadic mesh, ordered finite window, endpoint ledger, finite observations, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoints, mesh scale, finite index window, endpoint ledger, StreamName observations, RegSeqRat readback, Real seal, replay, provenance, and local certificate.
+\item $C$ records displayed $\Cont$ replay of the route from endpoint names and dyadic mesh through finite windows, readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\RealUniformPartitionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedIntervalCoverUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealUniformPartitionUp}$ row.
+\end{enumerate}
+The carrier predicate requires the finite endpoint ledger $E$ to be ordered by the displayed dyadic mesh row $M$, to cover exactly the finite window $I$, and to be readable through $S,R,Z,H,C,P,N$. It has no coordinate for an arbitrary open cover, a selected subcover, quotient real equality, host interval equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealUniformPartition NameCert obligations]
+\label{thm:real-uniform-partition-namecert-obligations}
+For every accepted $\RealUniformPartitionUp$ carrier $U=(A,B,M,I,E,S,R,Z,H,C,P,N)$, the local $\NameCert_{\RealUniformPartitionUp}$ surface consists exactly of carrier admission for the two $\RealUp$ endpoint names, the $\DyadicRatCoreUp$ mesh-scale row, the ordered finite partition window, the endpoint ledger, $\StreamNameUp$ finite observations, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every partition consumer must expose $M,I,E,S,R$ before reading the Real seal $Z$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows before the Real seal are precisely the endpoint names $A,B$, the dyadic mesh $M$, the finite index window $I$, the endpoint ledger $E$, the finite observation row $S$, and the regular rational readback $R$.
+
+The ordered partition obligation is finite. The mesh row supplies the dyadic step and comparison cells, while the finite window lists the partition indices and the endpoint ledger attaches each index to its displayed endpoint history.
+
+Readback and sealing are downstream. The StreamName row records exactly the finite observations used by the RegSeqRat row, and the Real seal is then read from that regular rational boundary through $Z$.
+
+Finally transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Since the carrier contains no row for open-cover compactness, subcover choice, quotient real equality, host interval equality, countable choice, or completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RealUniformPartition RegSeqRat scope]
+\label{thm:real-uniform-partition-regseqrat-scope}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\RealUniformPartitionUp$ carrier must factor through the finite route
+$$
+A,B,M,I,E,S,R,Z,H,C,P,N.
+$$
+In particular, the regular rational readback $R$ is scoped by the common dyadic mesh row $M$ and the displayed finite window $I$ before the Real seal $Z$ is available. The route exports no infinite stream, quotient real equality, selected limit, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows. The only window available to a StreamName-facing consumer is $S$, and $S$ is displayed after the endpoint names, mesh scale, finite index window, and endpoint ledger have already been projected.
+
+The RegSeqRat readback $R$ therefore cannot be read independently of the finite partition. Its observations are exactly those exposed by $S$, with the mesh comparisons supplied by $M$ and the endpoint rows supplied by $E$.
+
+The Real seal $Z$ is terminal in the same finite route. Transport by $H$ and replay by $C$ preserve the mesh, window, readback, provenance, and local name together, so a downstream Real-facing consumer remains attached to $A,B,M,I,E,S,R,Z,H,C,P,N$.
+
+No excluded coordinate appears in the carrier inventory. Hence the scoped route cannot export an infinite stream, quotient real equality, selected limit, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealUniformPartitionUp$ read is refuted if a consumer reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without displaying the endpoint names, dyadic mesh scale, ordered finite window, endpoint ledger, finite StreamName observations, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, located-interval-cover: $\RealUniformPartitionUp$ is not bijective to any listed sibling because it binds endpoint names, a dyadic mesh scale, ordered finite partition indices, endpoint ledgers, finite observations, regular rational readback, Real sealing, transport, replay, provenance, and local naming in one partition packet.}
+
+\closureat{RealUniformPartitionUp}{seedStr}
+
+\begin{closurestatus}{\RealUniformPartitionUp}
+  \constructivestory{A $\RealUniformPartitionUp$ packet is generated from RealUp endpoint names, a DyadicRatCoreUp mesh scale, an ordered finite partition window, endpoint ledger rows, StreamName finite observations, RegSeqRat readback, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-uniform-partition-carrier}, \autoref{thm:real-uniform-partition-namecert-obligations}, and \autoref{thm:real-uniform-partition-regseqrat-scope} seed the finite uniform partition route from dyadic mesh data to StreamName, RegSeqRat, and RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected finite subcovers, quotient real equality, host interval equality, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite mesh ordering, endpoint-ledger coverage, StreamName observation scope, RegSeqRat readback scope, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealUniformPartitionUp.}
+\end{closurestatus}

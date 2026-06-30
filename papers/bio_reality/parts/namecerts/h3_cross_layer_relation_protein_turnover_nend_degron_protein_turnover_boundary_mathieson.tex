@@ -1,0 +1,35 @@
+\subsection{N-end degron turnover boundary in the Mathieson human half-life table}\label{subsec:bioreality-nend-degron-turnover-boundary-mathieson}
+\origin{ai}
+
+\paragraph{Finite row.}
+This record tests a narrow human protein-turnover boundary: whether an N-end degron-coded partition produces a stable signed relation to the Mathieson human protein half-life table once the comparison is kept at finite-row resolution. The realized ledger contains $n=3898$ joined proteins, a deterministic seed $20260621$, and $12000$ total permutation evaluations, organized as $1000$ permutations per fitted model. The observed sign-consistency fraction is $0.5$, and the negative-control flag is $\mathrm{false}$ rather than a clean null handoff. The computation therefore supplies a finite boundary event, not a biological mechanism.
+
+\paragraph{Scoring geometry.}
+The broader direction-aware ranking ledger uses absorbed energy $A_H$, coordinate-support direction cosine $C_H$, and a description-length penalty with $\lambda=0.01$ and $DL(H)=\log_2(1+n_{\mathrm{columns}})$. For a one-column readout such as turnover, $DL(H)=1$, so the local score has the form
+$$
+\begin{aligned}
+\mathrm{Score}(H) &= A_H C_H - 0.01\,DL(H),\\
+DL(\mathrm{turnover}) &= 1.
+\end{aligned}
+$$
+This formula is a descriptive ranking rule. It does not infer a degradation pathway, an N-end-rule mechanism, or causal mediation from a positive or negative score.
+
+\paragraph{Mathieson turnover contact.}
+The matched human turnover table used for the neighboring human residual test reports $8164$ valid turnover proteins from Mathieson et al. human primary-cell half-lives, with $8057$ rows joined to the abundance and CDS ledger. The CDS join hit rate is $0.9779294769799313$. In that human turnover projection, the modeled complement reference has $P_Q$ energy $1370.6490492302532$, complement energy $1262.2237678771598$, and $d_{\mathrm{modeled}}=0.9208949355679455$ on the full human join. The turnover-only projection is extremely small:
+$$
+\begin{aligned}
+A_{\mathrm{turnover}} &= 3.5740764900116538\times 10^{-6},\\
+R^2_{Q,T_{\mathrm{turn}}} &= 0.004615408769189838,\\
+d_{\mathrm{combined}} &= 0.8901589776585174.
+\end{aligned}
+$$
+Against the degree-of-freedom matched null, turnover does not exceed the null gate: the null mean is $0.0001262572958089998$, the null $95$th percentile is $0.0004342285066808464$, and the recorded call is $\mathrm{exceeds\_null}=\mathrm{false}$.
+
+\paragraph{Direction-aware turnover placement.}
+In the human direction-aware ranking table, turnover has $A_H=0.0005945344095654461$, $C_H=0.6818556702481351$, and $A_HC_H=0.0004053866583198265$. With $\lambda=0.01$ and $DL=1$, its score is $-0.009594613341680174$. The Bonferroni threshold recorded for human turnover is $0.0013532753575986216$, with null $95$th percentile $0.0005731841659980483$ and $n_{\mathrm{joined}}=8057$; the row is not Bonferroni-exceeding. The ranking table therefore places turnover as a weak, direction-compatible but subthreshold absorber of the human non-translation residual. It is not the best human absorber: complex membership and mRNA have larger direction-aware raw products in the same finite table, while PTM density carries larger absorbed energy but weaker directional alignment.
+
+\paragraph{N-end boundary verdict.}
+The N-end degron turnover boundary row adds a more specific finite perturbation of the turnover question. Its $3898$ joined proteins are fewer than the full Mathieson turnover join, and its sign-consistency statistic is exactly $0.5$ across the recorded model family. That is not a stable directional signature. Because the negative-control flag is $\mathrm{false}$, the row should not be summarized as a clean absence result; it is better read as a boundary-sensitive finite comparison whose signed evidence does not resolve a coherent N-end degron turnover direction under this ledger.
+
+\paragraph{Local non-promotion rule.}
+This chapter only licenses the following statement: in the finite Mathieson-linked human turnover ledgers, turnover and the N-end degron boundary do not provide a strong direction-aware explanation of the B*\_Q6 non-translation abundance residual. No translation realization, folding statement, physical admissibility claim, biological function, degradation mechanism, pathway claim, causal mediation, or universal cross-organism rule follows from these numbers. Any such stronger conclusion would require a separate contact with its own matched rows and statistic, rather than reuse of $A_H$, $C_H$, score, sign consistency, rank, or join success.

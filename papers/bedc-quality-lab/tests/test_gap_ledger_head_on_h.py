@@ -508,6 +508,13 @@ def test_payload_and_markdown_share_boundary_fields():
     assert payload["control_protocol"]["same_budget_as_treatment"] is True
     assert payload["control_protocol"]["same_metric_helper_as_treatment"] is True
     assert payload["control_verdict"]["arm"] == runner.MATCHED_RANDOM_ARM
+    assert payload["fair_alignment_control_ledger"]["adapter_role"] == "pointer-only"
+    assert payload["fair_alignment_control_ledger"]["ledger_row_pointer"] == (
+        "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=gap-head-on-h]"
+    )
+    assert payload["fair_alignment_control_ledger"]["fair_control_identity"] == "matched-random-gap-head"
+    assert payload["fair_alignment_control_ledger"]["claim_id"] == "gap-head-on-h:main-claim"
+    assert payload["fair_alignment_control_ledger"]["task_identity"] == "gaussian-ou:learned-h-gap-detection"
     assert "# Gap-Ledger Head on Learned h" in report
     assert "Representation boundary: `learned_h`" in report
     assert "Forbidden inference columns" in report

@@ -174,21 +174,24 @@
     },
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-12T22:50:28.746960+00:00",
+  "generated_at": "2026-06-16T00:19:52.227430+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 21,
+    "D0": 24,
     "D1": 4,
     "D2": 1,
     "D3": 0,
     "D4": 4,
-    "D5-M": 1,
+    "D5-M": 0,
     "D5-O": 2,
-    "DN": 7,
+    "DN": 8,
     "DR": 0
   },
   "manifest_audit": {
     "unregistered_json_artifacts": [
+      "reports/canonical/admission_artifact_hashes.json",
+      "reports/canonical/admission_conflicts.json",
+      "reports/canonical/admission_manifest.json",
       "reports/canonical/boundary_causal_derivative_schema.json",
       "reports/canonical/cache-equivalence.json",
       "reports/canonical/causal-patch-suite.json",
@@ -211,7 +214,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 40,
+  "row_count": 43,
   "rows": [
     {
       "audit_reason": "",
@@ -475,6 +478,37 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.gap-head-pair-rule-bounded-capsule",
+      "evidence_type": "deterministic_projection",
+      "json_artifact": "reports/canonical/gap-head-pair-rule-bounded-capsule.json",
+      "markdown_artifact": "reports/canonical/gap-head-pair-rule-bounded-capsule.md",
+      "projection_status": "source-insufficient",
+      "report": "gap-head-pair-rule-bounded-capsule",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "control_pointer": "$.control_protocol",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.positive_claim",
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.minigrid-doorkey-task-probe",
+      "evidence_type": "boundary_negative",
+      "json_artifact": "reports/canonical/minigrid-doorkey-task-probe.json",
+      "markdown_artifact": "reports/canonical/minigrid-doorkey-task-probe.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[1]",
+      "projection_status": "base-gated-boundary",
+      "report": "minigrid-doorkey-task-probe",
+      "scorecard_pointer": "$.hardgate.status"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
         "main_verdict.deltas.debt_delta<0"
       ],
       "debt_row_pointer": "$.negative_result_ledger",
@@ -498,7 +532,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "reports/canonical/certificate-guided-training.json",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[1]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[2]",
       "projection_status": "projected",
       "report": "certificate-guided-training"
     },
@@ -511,7 +545,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[2]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
       "projection_status": "projected",
       "report": "certificate-guided-discovery"
     },
@@ -550,8 +584,8 @@
       "terminal_verdict": ""
     },
     {
-      "audit_reason": "",
-      "audit_status": "valid",
+      "audit_reason": "claim-capsule-protocol:U-HG4",
+      "audit_status": "invalid",
       "classifier_reasons": [
         "positive_terminal=true",
         "classifier_shift=true",
@@ -563,15 +597,31 @@
         "mechanism_ready=true"
       ],
       "control_pointer": "$.matched_random_control",
-      "discovery_level": "D5-M",
+      "discovery_level": "D0",
       "evidence_pointer": "$.training_mechanism_cert",
       "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-regularized-training",
-      "evidence_type": "deterministic_projection",
+      "evidence_type": "boundary_negative",
       "json_artifact": "reports/canonical/discovery-regularized-training.json",
       "markdown_artifact": "reports/canonical/discovery-regularized-training.md",
       "projection_status": "projected",
       "report": "discovery-regularized-training",
       "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.fair-alignment-control-ledger",
+      "evidence_type": "deterministic_projection",
+      "json_artifact": "reports/canonical/fair-alignment-control-ledger.json",
+      "markdown_artifact": "reports/canonical/fair-alignment-control-ledger.md",
+      "projection_status": "source-insufficient",
+      "report": "fair-alignment-control-ledger",
       "terminal_verdict": ""
     },
     {
@@ -723,6 +773,11 @@
       "failed_gate": "reports/canonical/scaling-ladder.json:$.levels[0]",
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
       "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+      "projection_metadata": {
+        "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+        "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+        "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
+      },
       "projection_status": "source-insufficient",
       "report": "discovery-gated-transformer",
       "scaling_ladder_pointer": "reports/canonical/scaling-ladder.json:$.levels[0]",
@@ -851,7 +906,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
       "report": "spectral-ablation-hinge"
     },
@@ -864,7 +919,7 @@
       "discovery_level": "D0",
       "evidence_pointer": null,
       "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.model-comparison",
-      "evidence_type": "protocol_artifact",
+      "evidence_type": "deterministic_projection",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "projection_status": "source-insufficient",
@@ -912,7 +967,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer"
     },
@@ -925,7 +980,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "runs/single_threshold_escape_witness.json",
       "markdown_artifact": "runs/single_threshold_escape_witness.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
       "projection_status": "escaped-positive-captured",
       "report": "single-threshold-escape"
     },
@@ -938,7 +993,7 @@
       "evidence_type": "boundary_negative",
       "json_artifact": "runs/training_choice_observability.json",
       "markdown_artifact": "runs/training_choice_observability.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
       "projection_status": "pointer-only",
       "report": "training-choice-observability"
     }

@@ -13,6 +13,7 @@ import json
 import math
 import pathlib
 import sys
+from datetime import datetime, timezone
 
 from _tai import codon_w_values, normalize_aa
 from run_b_star_q6_h_candidate_localization_powered import LOCALIZATION_CATEGORIES
@@ -107,9 +108,23 @@ H_CANDIDATES = [
 
 FEATURE_CANDIDATES = {"ptm_density", "complex_member", "tm_count", "domain_count"}
 
+STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": kw.pop("checks", []),
+        "result": kw.pop("result", {}),
+        "started_at": STARTED_AT,
+        "completed_at": utc_now(),
+    }
     payload.update(kw)
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
@@ -1067,15 +1082,21 @@ def main() -> None:
                 "d_reference_matches_within_0_02": isinstance(d_reference_difference, float) and d_reference_difference < MODELED_ALIGNMENT_TOL,
                 "d_roadmap_reference": d_roadmap,
                 "d_roadmap_absolute_difference": d_roadmap_difference,
-                "d_roadmap_matches_within_0_02": isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL,
+                "d_roadmap_matches_within_0_02": (
+                    "not_applicable"
+                    if d_roadmap is None
+                    else isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL
+                ),
                 "P_Q_norm2": base_complement["P_Q_norm2"],
                 "P_Q_perp_Tmod_norm2": base_complement["P_Q_perp_Tmod_norm2"],
             }
 
             inputs_joined_ok = inputs_joined_ok and n_base >= MIN_PROTEINS_PER_ORGANISM
-            complement_ok = complement_ok and finite_unit_interval(d_modeled) and (
-                isinstance(d_reference_difference, float) and d_reference_difference < MODELED_ALIGNMENT_TOL
-            ) and (isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL)
+            reference_ok = isinstance(d_reference_difference, float) and d_reference_difference < MODELED_ALIGNMENT_TOL
+            roadmap_ok = d_roadmap is None or (
+                isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL
+            )
+            complement_ok = complement_ok and finite_unit_interval(d_modeled) and reference_ok and roadmap_ok
             a_values = base_complement["a_perp_vector"]
             a_perp_ok = a_perp_ok and isinstance(a_values, list) and len(a_values) == len(q_names) and all(math.isfinite(float(value)) for value in a_values)
 
@@ -1139,7 +1160,11 @@ def main() -> None:
                 "d_modeled_matches_complement_experiment_within_0_02": isinstance(d_reference_difference, float) and d_reference_difference < MODELED_ALIGNMENT_TOL,
                 "d_modeled_roadmap_reference": d_roadmap,
                 "d_modeled_roadmap_absolute_difference": d_roadmap_difference,
-                "d_modeled_matches_roadmap_within_0_02": isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL,
+                "d_modeled_matches_roadmap_within_0_02": (
+                    "not_applicable"
+                    if d_roadmap is None
+                    else isinstance(d_roadmap_difference, float) and d_roadmap_difference < MODELED_ALIGNMENT_TOL
+                ),
                 "a_perp": base_complement["a_perp"],
                 "P_Q_norm2": base_complement["P_Q_norm2"],
                 "P_Q_perp_Tmod_norm2": base_complement["P_Q_perp_Tmod_norm2"],
@@ -1168,7 +1193,7 @@ def main() -> None:
                 "name": "complement_computed",
                 "passed": complement_ok,
                 "actual": complement_actual,
-                "expected": f"d_modeled finite in [0,1] and aligned with the complement experiment/roadmap within {MODELED_ALIGNMENT_TOL}",
+                "expected": f"d_modeled finite in [0,1], aligned with the complement experiment within {MODELED_ALIGNMENT_TOL}, and aligned with the roadmap within {MODELED_ALIGNMENT_TOL} only for organisms that have a roadmap reference",
             },
             {
                 "name": "a_perp_computed",

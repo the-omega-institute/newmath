@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MirrorDescentUp$}
+\label{ch:concrete-instances-mirror-descent-namecert}
+\origin{human}
+
+Following Nemirovski and Yudin, Beck and Teboulle, and Bubeck, the $\MirrorDescentUp$ packet records mirror descent as finite convex-dual NameCert data. It sits after the feasible convex source of \autoref{ch:concrete-instances-convexset-namecert}, the convex-conjugate ledger of \autoref{ch:concrete-instances-convex-conjugate-namecert}, the Fenchel-duality route of \autoref{ch:concrete-instances-fenchelduality-namecert}, the proximal-map handoff of \autoref{ch:concrete-instances-proximal-map-namecert}, and the linear-programming duality certificate of \autoref{ch:concrete-instances-lpduality-namecert}. The chapter names the mirror update as displayed convex optimization data; it does not import Hilbert projection, quotient equality of iterates, a host minimizer choice, or a selected limiting point.
+
+\begin{definition}[MirrorDescent carrier]
+\label{def:mirror-descent-carrier}
+A $\MirrorDescentUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,F,D,B,G,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the feasible convex row read through the $\ConvexSetUp$ surface.
+\item $F$ is the mirror potential row whose conjugate and subgradient-facing data are read through $\ConvexConjugateUp$.
+\item $D$ is the dual-gradient row carrying the finite dual read used by the update.
+\item $B$ is the Bregman transport row comparing the old primal row, the dual-gradient row, and the transported next-row candidate.
+\item $G$ is the step ledger, listing the displayed step size, tolerance, and update cell consumed by the route.
+\item $S$ is the descent certificate row produced only after $X,F,D,B,G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the feasible row, mirror potential, dual-gradient data, Bregman transport, step ledger, descent certificate, provenance, and local naming row.
+\item $C$ records the displayed $\Cont$ replay from the feasible row to the mirror potential, from the mirror potential to the dual-gradient row, from the Bregman row to the step ledger, and from the step ledger to the descent certificate.
+\item $P$ is the $\Pkg$ provenance over $\MirrorDescentUp$, $\ConvexSetUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\ProximalMapUp$, $\LPDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MirrorDescentUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Hilbert projection, a host-selected minimizer, quotient equality of iterates, countable choice, selected limits, global optimizer existence, or an ambient convergence theorem.
+\end{definition}
+
+\begin{theorem}[MirrorDescent NameCert obligations]
+\label{thm:mirror-descent-namecert-obligations}
+For every accepted $\MirrorDescentUp$ carrier $M=(X,F,D,B,G,S,H,C,P,N)$, the local $\NameCert_{\MirrorDescentUp}$ surface consists exactly of carrier admission for the displayed tuple, classifier transport over $X,F,D,B,G,S,H,C,P,N$, Bregman transport stability through $B$ and $H$, Fenchel-dual compatibility through $F,D$ and the $\FenchelDualityUp$ provenance row, step-ledger nonescape through $G$, descent-certificate handoff through $S$, displayed replay through $C$, dependency provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The feasible convex row, mirror potential, dual-gradient data, Bregman transport row, step ledger, and descent certificate are the only analytic coordinates.
+
+Classifier transport is componentwise through $H$. Bregman stability can compare only the displayed rows $X,F,D,B,G,S$, and the replay row $C$ fixes the order in which these rows are consumed.
+
+Fenchel-dual compatibility is read from the same provenance route. The $\ConvexConjugateUp$, $\FenchelDualityUp$, $\ProximalMapUp$, and $\LPDualityUp$ rows named by $P$ supply the finite convex-dual ledgers, while $G$ and $S$ keep the step and descent handoff inside the packet.
+
+Since no carrier coordinate stores Hilbert projection, a host minimizer, quotient equality, selected limits, global optimizer existence, or an ambient convergence theorem, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MirrorDescent Bregman transport certificate]
+\label{thm:mirror-descent-bregman-transport-certificate}
+Every mirror update read from an accepted $\MirrorDescentUp$ packet consumes the $\ConvexSetUp$ feasible row, $\ConvexConjugateUp$ mirror-potential row, $\FenchelDualityUp$ dual-compatibility row, $\ProximalMapUp$ update handoff, and $\LPDualityUp$ dual ledger through the displayed packet
+$$
+X \longrightarrow F \longrightarrow D \longrightarrow B \longrightarrow G \longrightarrow S .
+$$
+The route is a Bregman transport certificate over finite BEDC rows, not a Hilbert projection, host minimizer choice, quotient equality of iterates, or selected limiting argument.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:mirror-descent-carrier}. The feasible row $X$ is the only source row, and the mirror potential and dual-gradient rows $F,D$ are displayed before the Bregman row $B$ can be read.
+
+Apply \autoref{thm:mirror-descent-namecert-obligations}. Bregman transport stability and Fenchel-dual compatibility are obligations of the same carrier, with the replay row $C$ ordering the read through $X,F,D,B,G,S$.
+
+The proximal and linear-dual surfaces enter only as provenance rows. They certify that the update handoff and dual ledger have been read as finite dependency data, while the step ledger $G$ and descent row $S$ remain inside the displayed packet.
+
+Thus the mirror update route consumes the convex, conjugate, Fenchel-dual, proximal, and linear-dual rows without adding Hilbert projection, host minimizer choice, quotient equality, or a selected limit.
+\end{proof}
+
+\closureat{MirrorDescentUp}{seedStr}
+
+\begin{closurestatus}{\MirrorDescentUp}
+  \constructivestory{A $\MirrorDescentUp$ packet is generated from feasible convex data, a mirror-potential row, dual-gradient data, Bregman transport, a step ledger, a descent certificate, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mirror-descent-carrier}, \autoref{thm:mirror-descent-namecert-obligations}, and \autoref{thm:mirror-descent-bregman-transport-certificate} seed the finite convex-dual mirror update route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim convergence rates, global optimizer existence, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, Bregman transport stability, Fenchel-dual compatibility, step-ledger nonescape, descent-certificate handoff, replay, provenance, and local naming for BEDC.Derived.MirrorDescentUp.}
+\end{closurestatus}

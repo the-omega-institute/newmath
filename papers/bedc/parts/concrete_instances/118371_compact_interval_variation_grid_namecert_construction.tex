@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalVariationGridUp$}
+\label{ch:concrete-instances-compact-interval-variation-grid-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CompactIntervalVariationGridUp$ packet records the finite grid on which bounded variation, Riemann-sum, and compact-interval oscillation consumers inspect an interval function before any ambient real-completeness principle is available. It sits over the compact interval source of \autoref{ch:concrete-instances-bishop-compact-interval-namecert}, the closed endpoint boundary of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite variation grid only; it does not choose an optimal partition, quotient real values, or appeal to open-cover compactness.
+
+\begin{definition}[Compact interval variation grid carrier]
+\label{def:compact-interval-variation-grid-carrier}
+A $\CompactIntervalVariationGridUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,K,M,D,V,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval-source row, exposing the closed bounded endpoint data through \autoref{ch:concrete-instances-closedboundedinterval-namecert}.
+\item $K$ is the $\BishopCompactIntervalUp$ row, recording the compact-interval finite inspection surface attached to $I$.
+\item $M$ is the finite mesh-grid row, listing ordered cells and adjacent endpoints over the displayed interval source.
+\item $D$ is the dyadic tolerance row, read through $\DyadicRatCoreUp$, for mesh width, local oscillation budgets, and variation comparison budgets.
+\item $V$ is the finite variation ledger, recording the displayed adjacent changes and the finite sum row that a variation consumer may inspect.
+\item $W$ is the window-read row, carrying the $\RegSeqRatUp$ readbacks used at the mesh endpoints and at any displayed refinement cell.
+\item $R$ is the $\RealUp$ seal row for the terminal scalar comparisons exported by the packet.
+\item $H$ is the componentwise $\hsame$ transport row for interval source, compact row, mesh, dyadic tolerances, variation ledger, window reads, real seal, replay, provenance, and local naming.
+\item $C$ is the displayed $\Cont$ replay from an interval-grid request through $I,K,M,D,V,W,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalVariationGridUp$, $\BishopCompactIntervalUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactIntervalVariationGridUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, a selected partition outside the displayed grid, quotient equality of real values, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Compact interval variation grid NameCert obligations]
+\label{thm:compact-interval-variation-grid-namecert-obligations}
+For every accepted $\CompactIntervalVariationGridUp$ carrier
+$$
+G=(I,K,M,D,V,W,R,H,C,P,N),
+$$
+the local $\NameCert_{\CompactIntervalVariationGridUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item interval and compact-source admission through $I,K$;
+\item finite mesh-grid exposure through $M$, with every endpoint and adjacent cell read over the same displayed interval source;
+\item dyadic tolerance and variation-ledger exactness through $D,V$;
+\item regular readback and real-seal handoff through $W,R$; and
+\item componentwise transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No variation-grid obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:compact-interval-variation-grid-carrier}. The interval source and Bishop compact interval row are the first displayed coordinates, so every consumer reads $I,K$ before it can inspect the grid.
+
+The finite mesh obligation is projection to $M$. Because the mesh row is attached to the same interval source, endpoint and adjacent-cell reads cannot be detached from the closed bounded interval boundary.
+
+The numerical ledger is read from $D,V$. The dyadic row records the tolerances and comparison budgets, while the variation row records the finite adjacent changes and their finite sum.
+
+The readback and scalar handoff are read from $W,R$. Regular rational windows supply the finite endpoint observations, and the Real row seals only the terminal scalar comparisons already exposed by those windows.
+
+Finally, $H,C,P,N$ exhaust transport, replay, provenance, and local naming. With no further coordinate, the certificate cannot export open-cover compactness, a selected partition outside the grid, quotient equality of real values, countable choice, or ambient Real completeness.
+\end{proof}
+
+\closureat{CompactIntervalVariationGridUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalVariationGridUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-variation-grid-carrier} and \autoref{thm:compact-interval-variation-grid-namecert-obligations} seed the finite compact-interval variation grid surface over interval source, compact row, mesh, dyadic tolerances, variation ledger, regular readbacks, real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected partitions outside the displayed mesh, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval-source admission, compact-row attachment, mesh-grid exactness, dyadic tolerance exactness, variation-ledger exactness, regular readback, real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CompactIntervalVariationGridUp.}
+  \constructivestory{A $\CompactIntervalVariationGridUp$ packet is generated from interval source, BishopCompactInterval, mesh-grid, DyadicRatCore, finite variation ledger, RegSeqRat, Real, hsame, Cont, Pkg, and NameCert rows.}
+\end{closurestatus}

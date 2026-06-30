@@ -63,6 +63,22 @@ The separated classifier $S$ is downstream of the filter row $F$, directed witne
 Finally read $H,C,P,N$ as transport, replay, provenance, and name preservation for the same route. These structural rows preserve the separated handoff; they do not introduce quotient completion classes, selected representatives, countable-choice schedules, or host equality.
 \end{proof}
 
+\begin{theorem}[Hausdorff uniform completion filter-net coincidence]
+\label{thm:hausdorff-uniform-completion-filter-net-coincidence}
+Let $K=(F,D,U,S,H,C,P,N)$ be an accepted $\HausdorffUniformCompletionUp$ carrier presenting both the $\CauchyFilterUp$ row $F$ and the $\CauchyNetUp$ row $D$ for the same uniform-completion request $U$. Every separated uniqueness read from either presentation factors through the same route
+$$
+S,H,C,P,N.
+$$
+Thus the filter side and the net side cannot create a second completion point, quotient filter/net equality, a selected representative, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-uniform-completion-carrier}. The accepted packet contains one Cauchy-filter source row $F$, one Cauchy-net witness row $D$, one uniform-completion request row $U$, and the shared separated and structural rows $S,H,C,P,N$.
+
+Use the NameCert obligations of \autoref{thm:hausdorff-uniform-completion-namecert-obligations}. Filter-net exactness places both presentations before $U$, while separated classifier stability makes $S$ the only row from which uniqueness can be read.
+
+Finally apply the separation handoff of \autoref{thm:hausdorff-uniform-completion-separation-handoff}. Since both sides reach the same $S,H,C,P,N$ route, neither presentation exports a second completion point, quotient equality between filters and nets, selected representatives, host equality, countable-choice schedules, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\HausdorffUniformCompletionUp$ consumer reads $\CauchyFilterUp$, $\CauchyNetUp$, $\UniformCompletionUp$, and a Hausdorff separated classifier row before citing separated uniform-completion uniqueness.}
 
 \independenceWitness{cauchyfilter, cauchynet, uniformcompletion, hausdorffcompletion, separateduniformspace: $\HausdorffUniformCompletionUp$ is not bijective to any listed sibling because it jointly carries the filter request, directed witness, universal-extension route, separated classifier, transport, replay, provenance, and local NameCert rows as one boundary packet.}

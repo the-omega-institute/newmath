@@ -73,6 +73,52 @@ theorem CompactPolishSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨same, hQpkg, hNpkg⟩
   }
 
+theorem CompactPolishSpaceCarrier_readback_certificate [AskSetup] [PackageSetup]
+    {K P C S W R H T Q N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory K ∧ UnaryHistory P ∧ UnaryHistory C ∧ UnaryHistory S ∧
+      UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory T ∧
+        UnaryHistory Q ∧ UnaryHistory N ∧ Cont K W T ∧ Cont P C T ∧
+          Cont S R T ∧ PkgSig bundle Q pkg ∧ PkgSig bundle N pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧ Cont K W T ∧ Cont P C T ∧ Cont S R T ∧
+            PkgSig bundle Q pkg ∧ PkgSig bundle N pkg)
+        (fun row : BHist =>
+          hsame row N ∧ Cont K W T ∧ Cont P C T ∧ Cont S R T)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle Q pkg ∧ PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro obligations
+  obtain ⟨_hK, _hP, _hC, _hS, _hW, _hR, _hH, _hT, _hQ, hN, hKW, hPC, hSR,
+    hQpkg, hNpkg⟩ := obligations
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, hKW, hPC, hSR, hQpkg, hNpkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, source.right.left, source.right.right.left, source.right.right.right.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨unary_transport hN (hsame_symm source.left), source.right.right.right.right.left,
+          source.right.right.right.right.right⟩
+  }
+
 end BEDC.Derived.CompactPolishSpaceUp
 
 namespace BEDC.Derived.CompactPolishSpaceUp.TasteGate

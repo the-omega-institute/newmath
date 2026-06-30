@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceModulusChainUp$}
+\label{ch:concrete-instances-cauchy-sequence-modulus-chain-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy moduli, the $\CauchySequenceModulusChainUp$ packet names the finite chain of displayed precision refinements by which a regular sequence read becomes available to Real-facing completion consumers. It sits after the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the regular completion route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet records a finite modulus-chain surface; it does not assert quotient stream equality, selected limits, ambient completeness, countable choice, or host real equality.
+
+\begin{definition}[Cauchy sequence modulus-chain carrier]
+\label{def:cauchy-sequence-modulus-chain-carrier}
+A $\CauchySequenceModulusChainUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,R,D,C,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window row whose requests determine which sequence entries are visible.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to state every comparison budget in the chain.
+\item $C$ is the displayed chain of Cauchy-modulus refinements, ordered so that each later row refines the tolerance requested by the previous row.
+\item $E$ is the terminal $\RealUp$ seal row for Real-facing completion reads.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, tolerance, chain, seal, replay, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay of the same finite chain.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceModulusChainUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BishopRegularCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceModulusChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,C,E,H,T,P,N$. It has no coordinate for quotient stream equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchySequenceModulusChainUp.CauchySequenceModulusChainTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy sequence modulus-chain NameCert obligations]
+\label{thm:cauchy-sequence-modulus-chain-namecert-obligations}
+For every accepted $\CauchySequenceModulusChainUp$ carrier
+$$
+M=(S,R,D,C,E,H,T,P,N),
+$$
+the local $\NameCert_{\CauchySequenceModulusChainUp}$ surface consists exactly of carrier admission, chain coherence, tolerance monotonicity, readback visibility, Real-seal discipline, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every row of the displayed chain $C$ must read its tolerance through $D$, expose its observations through $S$ and $R$, and reach $E$ only after the finite refinement chain has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-modulus-chain-carrier}. Its visible rows are exactly $S,R,D,C,E,H,T,P,N$, so the local certificate has no hidden coordinate from which quotient stream equality, selected limits, choice, or ambient completeness can be recovered.
+
+Read the analytic rows in order. The finite windows $S$ expose the requested sequence entries, $R$ records the regular rational readback, and $D$ supplies the dyadic tolerance language in which each refinement in $C$ is stated.
+
+The chain row $C$ is then checked for coherence and monotonicity: later requests may refine earlier tolerances, but they cannot bypass the displayed tolerance ledger. The terminal seal $E$ is available only after that finite chain has been read.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same finite packet. Since these structural rows preserve only the displayed route, the NameCert obligations are exhausted by the stated rows.
+\end{proof}
+
+\begin{theorem}[Cauchy sequence modulus-chain regular handoff]
+\label{thm:cauchy-sequence-modulus-chain-regular-handoff}
+Every Real-facing completion read sourced from an accepted $\CauchySequenceModulusChainUp$ packet factors through the displayed finite chain
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ C,\ \RealUp
+$$
+before the terminal Real seal is consumed. The handoff exports no quotient stream equality, selected limit, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $M=(S,R,D,C,E,H,T,P,N)$. The only observation windows are $S$, the only regular rational readback row is $R$, and the only tolerance language for the completion request is $D$.
+
+The completion-facing read must therefore pass through the chain row $C$ before it reaches the terminal seal $E$. A consumer that tries to inspect $E$ without $C$ omits the displayed modulus-refinement route and is not reading the accepted packet.
+
+The transport, replay, provenance, and naming rows preserve the same order. Thus every Real-facing read factors through the finite chain before the Real seal, and none of the excluded host-level or choice-level data is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchySequenceModulusChainUp$ completion read exposes finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a displayed Cauchy-modulus refinement chain, a terminal Real seal, transport, replay, provenance, and local NameCert rows before exporting the read.}
+
+\closureat{CauchySequenceModulusChainUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceModulusChainUp}
+  \constructivestory{A $\CauchySequenceModulusChainUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a displayed Cauchy-modulus refinement chain, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-modulus-chain-carrier}, \autoref{thm:cauchy-sequence-modulus-chain-namecert-obligations}, and \autoref{thm:cauchy-sequence-modulus-chain-regular-handoff} seed the finite modulus-chain route from regular rational windows to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchySequenceModulusChainUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, chain coherence, tolerance monotonicity, readback visibility, Real-seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequenceModulusChainUp.}
+\end{closurestatus}

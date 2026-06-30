@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\KrullIntersectionUp$}
+\label{ch:concrete-instances-krull-intersection-namecert}
+\origin{human}
+
+Following Atiyah--Macdonald style Noetherian commutative algebra, the $\KrullIntersectionUp$ packet records the finite BEDC naming surface for the ideal-adic tail condition that a displayed module element disappears from all sufficiently exposed tail-power rows. It sits after the ring, ideal, module, and Noetherian module carriers of \autoref{ch:concrete-instances-ring-namecert}, \autoref{ch:concrete-instances-ideal-namecert}, \autoref{ch:concrete-instances-module-namecert}, and \autoref{ch:concrete-instances-noetherian-module-namecert}; it is a sibling of the Artin--Rees filtration route in \autoref{ch:concrete-instances-artin-rees-namecert} and a source for completion-facing algebra packets. The packet names only finite $I$-adic tail-power rows, transport, replay, provenance, and local naming; it does not import quotient completion equality, a selected infinite intersection, separatedness of a completion, or an ambient host theorem.
+
+\begin{definition}[Krull intersection carrier]
+\label{def:krull-intersection-carrier}
+A $\KrullIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{KrullIntersection}(R,I,M,N,T,G,H,C,P,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RingUp$ or $\CommRingUp$ source row read by the algebra consumer.
+\item $I$ is the $\IdealUp$ row over the same ring classifier, carrying the ideal-power requests.
+\item $M$ is the $\ModuleUp$ row, together with the $\NoetherianModuleUp$ surface needed by the finite tail-power route.
+\item $N$ is the Noetherian control row, exposing only the finite generator and stabilization ledgers consumed by ideal-adic powers.
+\item $T$ is the $I$-adic tail-power ledger, recording requested powers $I^nM$, later windows $I^{n+k}M$, and the finite comparison rows between them.
+\item $G$ is the Krull-intersection classifier row, comparing accepted packets by $R,I,M,N,T$ and by the declared tail membership route.
+\item $H$ records componentwise $\hsame$ transport for the ring, ideal, module, Noetherian, tail-power, and classifier rows.
+\item $C$ records displayed $\Cont$ replay from an algebra or completion-facing request through the same finite tail-power rows.
+\item $P$ is the $\Pkg$ provenance over $\KrullIntersectionUp$, $\RingUp$, $\IdealUp$, $\ModuleUp$, $\NoetherianModuleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Z$ is the local $\NameCert_{\KrullIntersectionUp}$ row binding the packet.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, a selected element of an infinite intersection, host separatedness, countable choice, or an external Krull intersection theorem.
+\end{definition}
+
+\begin{theorem}[Krull intersection NameCert obligations]
+\label{thm:krull-intersection-namecert-obligations}
+For every accepted $\KrullIntersectionUp$ carrier $\mathsf{KrullIntersection}(R,I,M,N,T,G,H,C,P,Z)$, the local $\NameCert_{\KrullIntersectionUp}$ surface consists exactly of ring-source exposure, ideal exposure, module exposure, Noetherian control, finite $I$-adic tail-power rows, classifier stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A completion-facing or algebra-facing consumer may inspect only the finite route
+$$
+R,I,M,N \longrightarrow T,G \longrightarrow H,C,P,Z .
+$$
+It receives no quotient completion equality, no selected infinite intersection element, no host separatedness theorem, no countable-choice selector, and no ambient equality of all ideal-power intersections.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:krull-intersection-carrier}. The rows $R,I,M,N$ expose the Noetherian ring, ideal, module, and control surfaces before any ideal-power tail can be read.
+
+The row $T$ supplies only finite $I$-adic tail-power windows. Each inspected tail comparison is therefore a displayed row of the packet, not an appeal to a selected infinite intersection or to quotient completion equality.
+
+The classifier $G$ compares packets through the same source and tail-power rows. Componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ preserve those rows, while $P$ records provenance and $Z$ repacks them as the local NameCert.
+
+Since no carrier coordinate names quotient completion equality, a selected infinite intersection element, host separatedness, countable choice, or ambient equality of all ideal-power intersections, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\KrullIntersectionUp$ consumer that cites an ideal-adic tail conclusion without exposing $R,I,M,N,T,G,H,C,P,Z$ refutes the carrier surface of \autoref{def:krull-intersection-carrier}.}
+
+\independenceWitness{ring, ideal, module, noetherian-module, artin-rees, completion: no listed sibling is bijective to $\KrullIntersectionUp$, because this packet jointly binds finite ideal-power tail rows, Noetherian control, classifier stability, transport, replay, provenance, and local NameCert rows while refusing quotient completion equality and selected infinite intersections.}
+
+\closureat{KrullIntersectionUp}{seedStr}
+
+\begin{closurestatus}{\KrullIntersectionUp}
+  \constructivestory{A $\KrullIntersectionUp$ packet is generated from a ring source, ideal source, module source, Noetherian control row, finite ideal-adic tail-power ledger, classifier row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:krull-intersection-carrier} and \autoref{thm:krull-intersection-namecert-obligations} seed the finite Krull-intersection certificate over RingUp, IdealUp, ModuleUp, NoetherianModuleUp, ArtinReesUp-adjacent filtration rows, completion-facing consumers, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected infinite intersections, host separatedness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, finite ideal-adic tail-power exposure, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.KrullIntersectionUp.}
+\end{closurestatus}

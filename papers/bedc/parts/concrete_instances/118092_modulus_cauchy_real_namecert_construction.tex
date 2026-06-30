@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ModulusCauchyRealUp$}
+\label{ch:concrete-instances-modulus-cauchy-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ModulusCauchyRealUp$ packet records a regular Cauchy real read whose convergence evidence is indexed by a displayed modulus ledger rather than by quotient classes of Cauchy sequences. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the choice-free completion route of \autoref{ch:concrete-instances-regular-cauchy-choice-free-completion-namecert}. The packet names the finite route from modulus-indexed rational requests to the $\RealUp$ seal without adding a selected limit, quotient representative, host real equality, or countable-choice schedule.
+
+\begin{definition}[Modulus-Cauchy real carrier]
+\label{def:modulus-cauchy-real-carrier}
+A $\ModulusCauchyRealUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus ledger, listing the inspected precision requests and the finite convergence bounds admitted for those requests.
+\item $S$ is the $\StreamNameUp$ window row, exposing the finite stream windows read at the bounds named by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic radii, slack data, and comparisons used by the modulus-indexed read.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus ledger, stream windows, regular readback, dyadic tolerance, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a modulus-indexed request through $M,S,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ModulusCauchyRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusCauchyRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,S,R,D,E,H,C,P,N$. It has no coordinate for quotient Cauchy classes, selected real limits, host equality of real numbers, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Modulus-Cauchy real NameCert obligations]
+\label{thm:modulus-cauchy-real-namecert-obligations}
+For every accepted $\ModulusCauchyRealUp$ carrier
+$$
+K=(M,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\ModulusCauchyRealUp}$ surface consists exactly of five obligation rows: modulus-ledger exposure through $M$, finite-window and regular-readback exposure through $S,R$, dyadic tolerance exactness through $D$, terminal real sealing through $E$, and structural preservation through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-cauchy-real-carrier}. Rows $M,S,R,D,E$ are the analytic route, while $H,C,P,N$ transport, replay, source, and name that route.
+
+The modulus ledger is read first. It supplies the precision requests and finite bounds, so the stream windows in $S$ and the regular rational readback in $R$ are inspected only along displayed modulus-indexed data.
+
+The dyadic tolerance row $D$ fixes the comparison budget before the terminal row $E$ can be consumed as a $\RealUp$ seal. Since the carrier has no quotient, selected-limit, host-equality, trichotomy, choice, or ambient-completeness coordinate, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Modulus-Cauchy real seal route]
+\label{thm:modulus-cauchy-real-real-seal-route}
+Every $\RealUp$ read of an accepted $\ModulusCauchyRealUp$ packet factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the displayed modulus ledger before the terminal real seal is consumed. Equivalently, the read follows the finite route
+$$
+M,\ S,\ R,\ D,\ E,\ H,\ C,\ P,\ N
+$$
+from modulus-indexed precision data to the $\RealUp$ seal.
+
+The route exports no quotient representative, selected limit, host real equality, countable-choice schedule, trichotomy, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:modulus-cauchy-real-namecert-obligations}. They place every real-facing read downstream of the modulus ledger, the finite stream windows, the regular rational readback, and the dyadic tolerance row.
+
+Use the sibling anchors \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert} for the finite observation route. The terminal seal is the $\RealUp$ row of \autoref{ch:concrete-instances-real-namecert}, and the surrounding completion discipline is the choice-free route of \autoref{ch:concrete-instances-regular-cauchy-choice-free-completion-namecert}.
+
+Finally $H,C,P,N$ preserve the same displayed route by transport, replay, provenance, and local naming. Thus every real-facing consumer receives the modulus-indexed finite packet before the seal and cannot obtain any excluded host-level completion data from it.
+\end{proof}
+
+\begin{closurestatus}{\ModulusCauchyRealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-cauchy-real-carrier}, \autoref{thm:modulus-cauchy-real-namecert-obligations}, and \autoref{thm:modulus-cauchy-real-real-seal-route} seed the modulus-indexed regular Cauchy route from finite stream windows and dyadic tolerances to the terminal real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient Cauchy completions, selected real limits, host real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, modulus coverage, StreamName window exposure, RegSeqRat readback, DyadicRatCore tolerance exactness, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ModulusCauchyRealUp.}
+  \constructivestory{A $\ModulusCauchyRealUp$ packet is generated from a displayed modulus ledger, finite StreamName windows, RegSeqRat readback rows, DyadicRatCore tolerance rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -422,6 +422,8 @@ def test_write_artifacts_emits_canonical_run_capsule_report_metrics_and_fingerpr
     fingerprint = json.loads((tmp_path / owner.CANONICAL_FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
     assert fingerprint["report_name"] == "dgt-neural-ablation"
     assert len(fingerprint["input_fingerprint"]) == 64
+    assert "static_owner" not in fingerprint["inputs"]
+    assert len(fingerprint["inputs"]["canonical_input_record"]["cell_input_digest"]) == 64
     assert "output_digest" not in fingerprint
     assert fingerprint["reproducibility_mode"] == "true_training"
     assert len(fingerprint["reproducibility_contract_digest"]) == 64

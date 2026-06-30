@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMetricProjectionSelectorUp$}
+\label{ch:concrete-instances-finite-metric-projection-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite metric constructions and Kelley on metric projection neighbourhoods, the $\FiniteMetricProjectionSelectorUp$ packet records the finite selector boundary used when a displayed finite projection table is already available. It sits after the projection carrier of \autoref{ch:concrete-instances-metricprojection-namecert}, the finite projection table of \autoref{ch:concrete-instances-finite-metric-projection-namecert}, and the ambient metric source of \autoref{ch:concrete-instances-metric-namecert}. The packet names a consumer-side selector row for already displayed finite candidates; it exports no nearest-point choice, quotient metric equality, or ambient completeness.
+
+\begin{definition}[Finite metric projection selector carrier]
+\label{def:finite-metric-projection-selector-carrier}
+A $\FiniteMetricProjectionSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,F,Q,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the consumed $\MetricUp$ source row for the displayed finite metric data.
+\item $F$ is the consumed $\FiniteMetricProjectionUp$ table row naming the finite candidate distances and endpoint evidence already admitted by the parent finite projection packet.
+\item $Q$ is the finite selector ledger, recording the displayed index or candidate row selected from the table $F$.
+\item $E$ is the endpoint handoff row, read only as the finite endpoint evidence already exposed by $F$.
+\item $R$ is the terminal $\RealUp$ distance seal attached to the selected candidate through the finite projection table.
+\item $H$ records componentwise $\hsame$ transport for the metric source, finite projection table, selector ledger, endpoint handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a projection request through the finite table, selector ledger, endpoint handoff, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMetricProjectionSelectorUp$, $\FiniteMetricProjectionUp$, $\MetricProjectionUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMetricProjectionSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for a host nearest-point function, quotient metric equality, hidden endpoint choice, countable selection schedule, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite metric projection selector NameCert obligations]
+\label{thm:finite-metric-projection-selector-namecert-obligations}
+For every accepted $\FiniteMetricProjectionSelectorUp$ carrier $S=(M,F,Q,E,R,H,C,P,N)$, the local $\NameCert_{\FiniteMetricProjectionSelectorUp}$ surface consists exactly of carrier admission, finite projection table exposure, selector-ledger admission, endpoint handoff, terminal distance sealing, componentwise stability transport, displayed replay, provenance, local naming, and refusal of nearest-point choice, quotient metric equality, hidden endpoint selection, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-metric-projection-selector-carrier}. Its public data are exactly $M,F,Q,E,R,H,C,P,N$, with the selector ledger $Q$ downstream of the finite projection table $F$.
+
+The endpoint handoff is inherited from the table row. By \autoref{thm:finite-metric-projection-nearest-row-totality}, the endpoint evidence in $F$ is already a finite table read through the displayed metric and comparison rows, so $Q$ can only point into that displayed table.
+
+Transport, replay, provenance, and local naming preserve the same finite route. Since no coordinate stores a host nearest-point function, quotient metric equality, hidden endpoint selector, countable schedule, or ambient completeness theorem, the NameCert surface cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Finite metric projection selector nonescape]
+\label{thm:finite-metric-projection-selector-nonescape}
+Every consumer of an accepted $\FiniteMetricProjectionSelectorUp$ packet must read the parent $\MetricUp$ row $M$, the $\FiniteMetricProjectionUp$ table row $F$, the selector ledger $Q$, the endpoint handoff $E$, the terminal seal $R$, and the structural rows $H,C,P,N$ before using the selected projection candidate. The packet supplies a finite selector boundary for displayed candidates only; it exports no nearest-point choice, quotient metric equality, hidden endpoint selection, countable-choice schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the consumed metric source and finite projection table. The row $M$ supplies the metric context, while $F$ supplies the finite candidate-distance and endpoint evidence route of \autoref{ch:concrete-instances-finite-metric-projection-namecert}.
+
+Read the selector ledger $Q$ next. It chooses only among the displayed candidate rows of $F$, and the endpoint handoff $E$ remains the endpoint evidence carried by the same finite table rather than a new projection principle.
+
+Finally replay the terminal seal and structural rows. The route through $R,H,C,P,N$ exposes the selected candidate as finite BEDC data and has no coordinate for a host nearest-point choice, quotient metric equality, hidden endpoint selection, countable-choice schedule, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\FiniteMetricProjectionSelectorUp$ read is refuted whenever a projection consumer uses a selected candidate without displaying the MetricUp source, FiniteMetricProjectionUp table, selector ledger, endpoint handoff, RealUp seal, componentwise transport, replay, provenance, and local NameCert rows.}
+
+\closureat{FiniteMetricProjectionSelectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMetricProjectionSelectorUp}
+  \constructivestory{A $\FiniteMetricProjectionSelectorUp$ packet is generated from a Metric source row, a FiniteMetricProjection table row, a finite selector ledger, an endpoint handoff, a terminal Real distance seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-metric-projection-selector-carrier}, \autoref{thm:finite-metric-projection-selector-namecert-obligations}, and \autoref{thm:finite-metric-projection-selector-nonescape} seed the finite selector boundary from displayed metric projection tables to selected candidate reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close nearest-point choice, quotient metric equality, hidden endpoint selection, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite projection table exposure, selector-ledger admission, endpoint handoff, terminal distance sealing, transport, replay, provenance, local naming, and refusal of choice principles for BEDC.Derived.FiniteMetricProjectionSelectorUp.}
+\end{closurestatus}

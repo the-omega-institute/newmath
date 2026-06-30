@@ -1,0 +1,88 @@
+\chapter{Dyadic Barycentric Refinement NameCert Construction}
+\label{ch:concrete-instances-dyadic-barycentric-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicBarycentricRefinementUp$ packet records dyadic barycentric subdivision as finite listed cell data rather than as an open-cover compactness principle. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the finite interval-cell consumer of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The packet gives Real, Completion, and compact-interval arguments a displayed finite subdivision surface; it does not export open-cover compactness, selected subcovers, quotient streams, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic barycentric refinement carrier]\label{def:dyadic-barycentric-refinement-carrier}
+A $\DyadicBarycentricRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,I,M,K,S,R,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row. It records dyadic addition, halving, midpoint, successor, and radius comparisons used by the subdivision.
+\item $I$ is the parent-cell row consumed from $\DyadicIntervalNetUp$. It lists the displayed closed dyadic cells before refinement.
+\item $M$ is the midpoint row. For each listed parent cell it records the dyadic barycenter and the two displayed child endpoints produced by bisection.
+\item $K$ is the finite child-cell row. It lists the child cells, their parent pointers, adjacency witnesses, endpoint inheritance, and mesh-decrease witnesses.
+\item $S$ is the $\StreamNameUp$ window row exposed when a parent endpoint, barycenter, or child endpoint is read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the dyadic endpoints and the tolerance schedule induced by the child-cell radii.
+\item $Q$ is the terminal $\RealUp$ seal row reached only after the displayed parent, midpoint, child-cell, window, and readback rows have been inspected.
+\item $H$ records componentwise $\hsame$ transport for $D,I,M,K,S,R,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D,I,M,K \longmapsto S,R \longmapsto Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicBarycentricRefinementUp$, $\DyadicRatCoreUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicBarycentricRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,I,M,K,S,R,Q,H,C,P,N$. It has no coordinate for an arbitrary open cover, a selected finite subcover, quotient stream equality, a chosen limit point, countable choice, trichotomy, or completed real compactness.
+\end{definition}
+
+\begin{theorem}[Dyadic barycentric refinement NameCert obligations]\label{thm:dyadic-barycentric-refinement-namecert-obligations}
+For the carrier of \autoref{def:dyadic-barycentric-refinement-carrier}, the local $\NameCert_{\DyadicBarycentricRefinementUp}$ surface consists exactly of carrier admission for
+$$
+B=(D,I,M,K,S,R,Q,H,C,P,N),
+$$
+dyadic endpoint arithmetic through $D$, parent-cell exposure through $I$, barycenter exposure through $M$, child-cell listing through $K$, finite observation windows through $S$, regular rational readback through $R$, the terminal Real seal through $Q$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The rows $D,I,M,K$ are the only subdivision-facing data: endpoints and midpoint arithmetic live in $D,M$, while the parent and child finite-cell ledgers live in $I,K$.
+
+The observation and Real-facing rows are downstream. Endpoint and barycenter reads pass through $S$, the induced dyadic tolerance schedule passes through $R$, and the terminal real-name boundary is exposed only by $Q$.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve exactly the displayed finite route, so the certificate exports subdivision data only through the listed rows.
+\end{proof}
+
+\begin{theorem}[Dyadic barycentric refinement RegSeqRat handoff]\label{thm:dyadic-barycentric-refinement-regseqrat-handoff}
+Every downstream consumer of an accepted $\DyadicBarycentricRefinementUp$ carrier that inspects a parent endpoint, barycenter, child endpoint, or child-cell tolerance must read
+$$
+D,I,M,K \longmapsto S,R \longmapsto Q,H,C,P,N .
+$$
+The $\DyadicRatCoreUp$ row $D$ supplies the dyadic arithmetic, the $\StreamNameUp$ row $S$ exposes the finite endpoint windows, and the $\RegSeqRatUp$ row $R$ exposes the rational tolerance readback. Neither row may be skipped or replaced by quotient stream equality, selected limits, countable choice, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with a downstream endpoint or tolerance read. The carrier gives the consumer only the parent cells in $I$, barycenters in $M$, child cells in $K$, and dyadic arithmetic in $D$ before any named readback row is available.
+
+The read then passes through $S$ and $R$. The StreamName row supplies finite observation windows for the relevant endpoint names, while the RegSeqRat row supplies the regular rational schedule attached to the child-cell radii.
+
+Finally replay $Q,H,C,P,N$. The Real seal is reached only after the displayed finite handoff, and the structural rows preserve that handoff componentwise, excluding quotient stream equality, selected limits, choice, and open-cover compactness.
+\end{proof}
+
+\begin{theorem}[Dyadic barycentric refinement Real seal non-escape]\label{thm:dyadic-barycentric-refinement-real-seal-nonescape}
+For every accepted $\DyadicBarycentricRefinementUp$ carrier $B=(D,I,M,K,S,R,Q,H,C,P,N)$, the terminal $\RealUp$ seal row $Q$ is reachable only after the finite subdivision route
+$$
+D,I,M,K \longmapsto S,R
+$$
+has been displayed. Any Real, Completion, compact-interval, or $\DyadicIntervalNetUp$ consumer that reaches $Q$ remains inside the same routed packet $D,I,M,K,S,R,Q,H,C,P,N$ and cannot escape to host real equality, real trichotomy, ambient $\RealUp$ completeness, selected subcovers, quotient equality, selected limits, or countable choice.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier places $Q$ downstream of endpoint arithmetic, parent cells, barycenter rows, child-cell rows, StreamName windows, and RegSeqRat readback.
+
+Thus a Real-facing consumer must first traverse $D,I,M,K,S,R$. These rows display the finite subdivision cells, endpoint reads, and tolerance schedule before any Real-facing boundary is available.
+
+Once $Q$ is reached, the structural rows $H,C,P,N$ only preserve the same displayed route. Since no excluded equality, selection, trichotomy, choice, compactness, or completeness row is present in the carrier, the Real seal cannot be used as an escape from the finite dyadic barycentric refinement packet.
+\end{proof}
+
+\closureat{DyadicBarycentricRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBarycentricRefinementUp}
+  \constructivestory{A $\DyadicBarycentricRefinementUp$ packet is generated from dyadic endpoint arithmetic, parent interval cells, barycenter rows, finite child cells, StreamName windows, RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-barycentric-refinement-carrier}, \autoref{thm:dyadic-barycentric-refinement-namecert-obligations}, \autoref{thm:dyadic-barycentric-refinement-regseqrat-handoff}, and \autoref{thm:dyadic-barycentric-refinement-real-seal-nonescape} seed the finite dyadic barycentric refinement carrier over dyadic endpoints, parent cells, barycenters, child cells, StreamName windows, RegSeqRat readback, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\formalTargetV}
+  \leanstmt{BEDC.Derived.DyadicBarycentricRefinementUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, quotient stream equality, countable choice, trichotomy, host real equality, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, barycenter arithmetic, child-cell coverage, StreamName and RegSeqRat readback routing, Real seal ordering, provenance, and local naming for BEDC.Derived.DyadicBarycentricRefinementUp.}
+\end{closurestatus}

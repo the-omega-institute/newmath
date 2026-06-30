@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOpenCoverSelectionUp$}
+\label{ch:concrete-instances-finite-open-cover-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley on compactness via finite subcovers, the $\FiniteOpenCoverSelectionUp$ packet records only selection from already displayed finite open-cover rows. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite cover cells of \autoref{ch:concrete-instances-finite-real-cover-namecert}, the stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite selected subrow already visible in the cover ledger; it does not choose an arbitrary open cover, import countable choice, identify quotient real names, appeal to host compactness, select subcovers outside displayed finite rows, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite open cover selection carrier]
+\label{def:finite-open-cover-selection-carrier}
+A $\FiniteOpenCoverSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,O,S,R,D,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row exposing the compact metric carrier and the finite cover request already admitted by that source.
+\item $O$ is the $\FiniteRealCoverUp$ row, or equivalently the displayed finite cover-cell ledger, whose cells are the only candidates from which selection may read.
+\item $S$ is the $\StreamNameUp$ schedule row attached to the cover cells and to the finite observation windows used by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational observations visible in those windows.
+\item $D$ is the $\DyadicRatCoreUp$ radius and tolerance row attached to the cover cells, stream windows, and readback comparisons.
+\item $E$ is the terminal $\RealUp$ seal row, reachable only after $K,O,S,R,D$ have been displayed.
+\item $U$ is the selected finite subrow of $O$, recorded as a displayed sublist or subbundle of cover cells rather than as an external selector.
+\item $H$ records componentwise $\hsame$ transport for compact-source, finite-cover, stream, readback, dyadic, Real-seal, selected-subrow, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite cover-selection request through $K,O,S,R,D,E,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOpenCoverSelectionUp$, $\CompactMetricUp$, $\FiniteRealCoverUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteOpenCoverSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed finite cover row and its selected finite subrow, transported together with the stream, readback, tolerance, Real-seal, replay, provenance, and naming rows.
+\end{definition}
+
+\begin{theorem}[Finite open cover selection NameCert obligations]
+\label{thm:finite-open-cover-selection-namecert-obligations}
+For every accepted $\FiniteOpenCoverSelectionUp$ carrier $F=(K,O,S,R,D,E,U,H,C,P,N)$, the local $\NameCert_{\FiniteOpenCoverSelectionUp}$ surface consists exactly of carrier admission, compact metric source exposure, displayed finite cover-cell exposure, $\StreamNameUp$ schedule exposure, $\RegSeqRatUp$ readback exposure, $\DyadicRatCoreUp$ radius and tolerance exposure, terminal $\RealUp$ seal exposure, selected finite subrow exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-open-cover-selection-carrier}. The only cover source is $O$, and the only selected object is the finite subrow $U$ already carried inside that displayed cover ledger.
+
+Read the analytic rows in order. The compact metric source $K$ admits the finite cover request, $O$ displays the finite cover cells, $S$ schedules the finite observations, $R$ reads them back as regular rational data, $D$ attaches dyadic radius and tolerance comparisons, and $E$ supplies the terminal real-name seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for arbitrary open-cover compactness, countable choice, quotient real equality, host compactness, selected subcovers outside $O$, or ambient $\RealUp$ completeness, those objects are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite open cover selection compact-uniform route]
+\label{thm:finite-open-cover-selection-compact-uniform-route}
+Every compact-uniform or Real-completion consumer of an accepted $\FiniteOpenCoverSelectionUp$ packet reads the selected subrow only through the finite corridor
+$$
+\CompactMetricUp\longmapsto\FiniteRealCoverUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\DyadicRatCoreUp\longmapsto\RealUp .
+$$
+The corridor exposes the selected finite subrow $U$ as part of the displayed cover row $O$ before any downstream uniform-modulus, finite-cover, or real-name consumer may use it.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-open-cover-selection-namecert-obligations}. They force the compact source, finite cover cells, schedule, readback, dyadic tolerance, Real seal, selected subrow, and structural rows to be visible before the packet is consumed.
+
+The selected subrow is read from $O$ through $U$. Thus a downstream compact-uniform route receives a finite cover-cell subrow already displayed in the packet, not an open-cover selector and not a host compactness principle.
+
+Finally replay the stream, regular-rational, dyadic, and Real-seal rows. They provide the finite observation and tolerance corridor through which the selected cover cells can feed a uniform-modulus or Real-completion consumer. The route has no coordinate for countable choice, quotient real equality, subcovers outside the displayed finite rows, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{FiniteOpenCoverSelectionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOpenCoverSelectionUp}
+  \constructivestory{A $\FiniteOpenCoverSelectionUp$ packet is generated from CompactMetric source data, displayed finite cover cells, StreamName schedules, RegSeqRat readback, DyadicRatCore radius and tolerance rows, a RealUp seal, a selected finite subrow, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-open-cover-selection-carrier}, \autoref{thm:finite-open-cover-selection-namecert-obligations}, and \autoref{thm:finite-open-cover-selection-compact-uniform-route} seed the finite cover-selection packet for compact-uniform and Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, countable choice, quotient real equality, host compactness, selected subcovers outside displayed finite rows, ambient $\RealUp$ completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cover-cell exposure, selected subrow exactness, StreamName schedule exposure, RegSeqRat readback, DyadicRatCore tolerance routing, Real seal handoff, transport replay, provenance, and local NameCert exactness for BEDC.Derived.FiniteOpenCoverSelectionUp.}
+\end{closurestatus}

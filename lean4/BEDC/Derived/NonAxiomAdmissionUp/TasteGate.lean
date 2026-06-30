@@ -203,4 +203,14 @@ def taste_gate : ChapterTasteGate NonAxiomAdmissionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   nonAxiomAdmissionChapterTasteGate
 
+theorem NonAxiomAdmissionNamecertObligations (x : NonAxiomAdmissionUp) :
+    ∃ X F W H C P N : BHist,
+      x = NonAxiomAdmissionUp.mk X F W H C P N ∧
+        nonAxiomAdmissionFromEventFlow (nonAxiomAdmissionToEventFlow x) = some x ∧
+          nonAxiomAdmissionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk X F W H C P N =>
+      exact ⟨X, F, W, H, C, P, N, rfl, nonAxiomAdmission_round_trip _, rfl⟩
+
 end BEDC.Derived.NonAxiomAdmissionUp

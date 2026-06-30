@@ -41,6 +41,7 @@ Project the finite ledger coordinate $E$. The readback row $R$ is downstream of 
 
 Therefore a candidate that lacks either paired window or the budget ledger cannot preserve both the $\RegSeqRatUp$ handoff and the $\RealUp$ seal. The Lean follow-up must provide \texttt{Nontrivial RegularCauchyProductBudgetUp} and \texttt{FieldFaithful RegularCauchyProductBudgetUp} in \texttt{TasteGate.lean}.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_falsifiable\_prediction}
 
 \begin{theorem}[RegularCauchyProductBudget independence witness]
 \label{thm:regular-cauchy-product-budget-independence-witness}
@@ -55,6 +56,7 @@ The regularcauchymerge sibling records two cofinal selector routes, and the regu
 
 Thus no bijection can preserve the displayed coordinates and the local $\NameCert$ obligations at once. The Lean follow-up must provide \texttt{Nontrivial RegularCauchyProductBudgetUp} and \texttt{FieldFaithful RegularCauchyProductBudgetUp} in \texttt{TasteGate.lean}.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_independence\_witness}
 
 \falsifiablePrediction{Any accepted product-budget carrier omitting either paired StreamName window or the FiniteErrorBudget row cannot export the same RegSeqRat handoff and RealUp seal.}
 
@@ -75,6 +77,7 @@ The dyadic source rows $D_A$ and $D_B$ are listed after the paired windows and a
 
 The remaining rows $D,E,R,S,H,C,P,N$ consume that displayed window data. Since the carrier has no coordinate for an unbounded stream observation or a quotient representative, all product-window admission is confined to the finite rows already named.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudgetCarrier\_window\_admission}
 
 \begin{theorem}[RegularCauchyProductBudget ledger exactness]
 \label{thm:regular-cauchy-product-budget-ledger-exactness}
@@ -86,6 +89,77 @@ Begin with the admitted windows from \autoref{thm:regular-cauchy-product-budget-
 Read the budget coordinate $E$. Its role in the carrier is the finite product ledger, so it binds the two source-window radii, the product rounding allowance, and the remaining readback budget to the same dyadic product observation.
 
 The readback row $R$ is listed after $E$ and is routed through the same package provenance and continuation data. Hence no product readback can be exported without first passing through the displayed finite ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_ledger\_exactness}
+
+\begin{theorem}[RegularCauchyProductBudget bilinear finite-window route]
+\label{thm:regular-cauchy-product-budget-bilinear-window}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier reads both source windows $W_A,W_B$, both dyadic source rows $D_A,D_B$, the product row $D$, and the finite ledger $E$ as one bilinear finite window before exporting the $\RegSeqRatUp$ readback row $R$ or the $\RealUp$ seal row $S$. In particular, neither source window may be consumed alone, and no product-budget consumer may reach $R$ or $S$ before the symmetric route through
+$$
+A,B,W_A,W_B,D_A,D_B,D,E
+$$
+has been assembled.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-product-budget-window-admission}. It exposes the two source packets together with the paired windows $W_A,W_B$, and it reads the dyadic source rows $D_A,D_B$ only after both finite windows are visible.
+
+Next apply \autoref{thm:regular-cauchy-product-budget-ledger-exactness}. The dyadic product row $D$ and the finite ledger $E$ are bound to the two dyadic source rows in the same carrier, so the product budget consumes the two windows symmetrically rather than as independent one-sided reads.
+
+The later $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff} and the $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-product-budget-real-seal-boundary} both occur after this assembled window. Hence the carrier exports no readback or seal that bypasses the bilinear finite-window route.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_bilinear\_window}
+
+\begin{theorem}[RegularCauchyProductBudget symmetric source-window inversion]
+\label{thm:regular-cauchy-product-budget-symmetric-source-window-inversion}
+Let
+$$
+B=(A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyProductBudgetUp$ carrier. Any consumer that reaches the product row $D$ or the finite ledger row $E$ can recover that both source windows $W_A$ and $W_B$ were admitted through the paired $\RegSeqRatUp$ and $\StreamNameUp$ route. Neither one-sided source window suffices to license the dyadic product row, because the carrier has no coordinate for a product observation built from only $W_A$ or only $W_B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-product-budget-carrier}. The paired source windows $W_A,W_B$ and the dyadic source rows $D_A,D_B$ occur before the product row $D$ and the ledger row $E$, so a read of $D$ or $E$ also identifies the source-window coordinates from which they were assembled.
+
+Use window admission from \autoref{thm:regular-cauchy-product-budget-window-admission}. It admits $W_A$ and $W_B$ together through the $\RegSeqRatUp$ source rows and their $\StreamNameUp$ finite windows before either dyadic source row is consumed.
+
+Use ledger exactness from \autoref{thm:regular-cauchy-product-budget-ledger-exactness} and the bilinear route of \autoref{thm:regular-cauchy-product-budget-bilinear-window}. The product row $D$ and ledger row $E$ are bound to both $D_A$ and $D_B$, which in turn are bound to both $W_A$ and $W_B$.
+
+Thus any consumer at $D$ or $E$ inverts the route back to the paired source-window admission. Since no one-sided product coordinate appears in the carrier tuple, a single window alone cannot license the dyadic product row.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudgetCarrier\_symmetric\_source\_window\_inversion}
+
+\begin{theorem}[RegularCauchyProductBudget source coverage]
+\label{thm:regular-cauchy-product-budget-source-coverage}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier reaching either the $\RegSeqRatUp$ readback row $R$ or the $\RealUp$ seal row $S$ must expose both source packets $A,B$, both $\StreamNameUp$ windows $W_A,W_B$, both dyadic source rows $D_A,D_B$, and the shared $\FiniteErrorBudgetUp$ row $E$. No one-sided product read and no hidden host multiplication route covers the same exported seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_source\_coverage}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-product-budget-window-admission}. It exposes the source packets $A,B$ together with the paired finite windows $W_A,W_B$ before either dyadic source row can be consumed.
+
+Apply \autoref{thm:regular-cauchy-product-budget-ledger-exactness}. The finite ledger $E$ is tied to both dyadic source rows $D_A,D_B$ and to the product row $D$, so a product read cannot cover only one source side.
+
+Use \autoref{thm:regular-cauchy-product-budget-symmetric-source-window-inversion}. Any consumer that has reached the downstream product route can invert the route back to the paired source-window admission.
+
+The rows $R,S,H,C,P,N$ add readback, seal, transport, replay, provenance, and local naming data only after the same paired source route is present. Since the carrier has no coordinate for one-sided multiplication or host multiplication, neither can cover the exported seal.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProductBudget product-closure budget]
+\label{thm:regular-cauchy-product-budget-product-closure-budget}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier closes the finite product budget needed for a $\RegSeqRatUp$ product readback and the terminal $\RealUp$ seal. More precisely, the paired source windows $W_A,W_B$, the dyadic product row $D$, and the $\FiniteErrorBudgetUp$ ledger $E$ force the readback row $R$ and seal row $S$ to use the same finite product budget carried by
+$$
+A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N.
+$$
+No completion or real-algebra consumer may replace this route by host real multiplication, quotient stream equality, an ambient completeness principle, a hidden rounding oracle, or a selected host limit.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_product\_closure\_budget}
+\begin{proof}
+Begin with window admission. By \autoref{thm:regular-cauchy-product-budget-window-admission}, the product route first exposes the two $\RegSeqRatUp$ source rows and the paired $\StreamNameUp$ windows, so $D_A$ and $D_B$ are read only through displayed finite observations.
+
+Next use ledger exactness. By \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, the dyadic product row $D$ and the finite product ledger $E$ are bound to those same source windows before any product readback can be exported.
+
+Now attach the readback and seal. The $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff} consumes $D$ and $E$ through the structural rows $H,C,P,N$, and the $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-product-budget-real-seal-boundary} reads $S$ only after that handoff has been assembled.
+
+Thus the product readback and the Real seal share one finite product budget. Since the carrier has no coordinate for host multiplication, quotient stream equality, ambient completeness, hidden rounding, or selected host limits, no consumer can bypass the displayed route.
 \end{proof}
 
 \begin{theorem}[RegularCauchyProductBudget RegSeqRat handoff]
@@ -103,6 +177,7 @@ Use ledger exactness to identify the dyadic product row and the finite budget le
 
 Finally inspect the structural rows $H,C,P,N$. They preserve the route componentwise under $\hsame$ and $\Cont$ transport and repack it as the local naming surface, so the exported $\RegSeqRatUp$ handoff is exactly the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_regseqrat\_handoff}
 
 \begin{theorem}[RegularCauchyProductBudget Real seal boundary]
 \label{thm:regular-cauchy-product-budget-real-seal-boundary}
@@ -115,6 +190,7 @@ Apply \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}. The readbac
 
 The carrier contains no coordinate for host multiplication, quotient stream equality, ambient completeness, hidden rounding, or selected host limits. Therefore the $\RealUp$ seal is a boundary around the displayed finite packet and exports no additional real object.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_real\_seal\_boundary}
 
 \begin{theorem}[RegularCauchyProductBudget NameCert obligations]
 \label{thm:regular-cauchy-product-budget-namecert-obligations}
@@ -129,6 +205,7 @@ Finite product-ledger exactness is \autoref{thm:regular-cauchy-product-budget-le
 
 The structural obligations are the roles of $H,C,P,N$. They keep transport, continuation, package provenance, and the local certificate on the same displayed packet. Since no forbidden external coordinate is present, non-escape follows by inspection of the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_namecert\_obligations}
 
 \begin{theorem}[RegularCauchyProductBudget checked-obligation readiness]
 \label{thm:regular-cauchy-product-budget-checked-obligation-readiness}
@@ -145,16 +222,78 @@ Next attach the consumer handoff boundary. Apply \autoref{thm:regular-cauchy-pro
 
 Finally repack the structural obligations. Apply \autoref{thm:regular-cauchy-product-budget-namecert-obligations}; its transport, route, provenance, local naming, and non-escape clauses name exactly the same packet. Hence the listed clauses form one obligation surface for downstream Lean formalization.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_checked\_obligation\_readiness}
 
-\closureat{RegularCauchyProductBudgetUp}{seedStr}
+\begin{theorem}[RegularCauchyProductBudget obligation scope]
+\label{thm:regular-cauchy-product-budget-obligation-scope}
+The carrier of \autoref{def:regular-cauchy-product-budget-carrier}, paired-window admission, ledger exactness, product-closure budget, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, local $\NameCert$ obligations, and checked-obligation readiness form one obligation-closure surface over $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteErrorBudgetUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The surface is the finite product-budget route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \FiniteErrorBudgetUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+carried by the same packet $B=(A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{def:regular-cauchy-product-budget-carrier}. It fixes the source rows, paired stream windows, dyadic source rows, dyadic product row, finite ledger, readback row, Real seal, transports, routes, provenance, and local naming row as one finite packet.
+
+Apply \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, and \autoref{thm:regular-cauchy-product-budget-product-closure-budget}. These theorems order the paired $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ product row, and the $\FiniteErrorBudgetUp$ ledger before the readback can be exported.
+
+Next use \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff} and \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}. They attach the $\RegSeqRatUp$ handoff and the $\RealUp$ seal to that same displayed budget route.
+
+Finally repack through \autoref{thm:regular-cauchy-product-budget-namecert-obligations} and \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness}. The rows $H,C,P,N$ supply transport, continuation replay, provenance, and local naming for the same packet, and inspection shows no route through host real multiplication, quotient stream equality, hidden rounding, selected limits, or an unbounded stream.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_obligation\_scope}
+
+\begin{theorem}[RegularCauchyProductBudget dyadic multiplication scope]
+\label{thm:regular-cauchy-product-budget-dyadic-multiplication-scope}
+Every accepted $\RegularCauchyProductBudgetUp$ product-budget packet must expose the paired $\StreamNameUp$ finite windows, the $\DyadicRatCoreUp$ multiplication row, the $\FiniteErrorBudgetUp$ split ledger, and the $\RegSeqRatUp$ product handoff before any $\RealUp$ seal reads the product. For
+$$
+B=(A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N),
+$$
+the admissible multiplication route is the displayed finite path
+$$
+W_A,W_B \longmapsto D_A,D_B \longmapsto D \longmapsto E \longmapsto R \longmapsto S,
+$$
+with componentwise $\hsame$ transport and $\Cont$ replay carried by $H,C,P,N$. No product consumer may replace this route by host real multiplication, quotient stream equality, a hidden rounding oracle, or an uninspected completion seal.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite window rows. In the base read, the packet exposes the two source rows $A,B$ and then the paired windows $W_A,W_B$; no dyadic source row is available before those finite observations are present.
+
+In the window step, read $D_A$ and $D_B$ from the two windows and apply the displayed $\DyadicRatCoreUp$ multiplication row $D$. This keeps the product as a finite dyadic observation rather than a host real product.
+
+Next split the error budget through $E$. The ledger accounts for the two source-window radii, the product rounding allowance, and the remaining readback budget before the product can be handed to $R$.
+
+Finally transport the assembled row through $H,C,P,N$ and only then pass it to the $\RegSeqRatUp$ handoff $R$ and the $\RealUp$ seal $S$. Since the carrier has no coordinate for host multiplication, quotient stream equality, hidden rounding, or an uninspected completion seal, every accepted product read follows the stated finite route.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudgetCarrier\_dyadic\_multiplication\_scope}
+
+\begin{theorem}[RegularCauchyProductBudget public export]
+\label{thm:regular-cauchy-product-budget-public-export}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier exports a public $\NameCert_{\RegularCauchyProductBudgetUp}$ consumer surface whose route is exactly the assembled finite path
+$$
+A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N.
+$$
+The public surface reads the $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ product row, the $\FiniteErrorBudgetUp$ ledger, the $\RegSeqRatUp$ handoff, and the $\RealUp$ seal from that packet. It exports no host multiplication, quotient stream equality, ambient completeness principle, hidden rounding oracle, or selected host limit.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_public\_export}
+\begin{proof}
+Start with the carrier tuple and apply \autoref{thm:regular-cauchy-product-budget-window-admission}. This fixes the two source rows, their paired $\StreamNameUp$ windows, and the dyadic source rows as the only admitted product-window data.
+
+Next apply \autoref{thm:regular-cauchy-product-budget-ledger-exactness} and \autoref{thm:regular-cauchy-product-budget-product-closure-budget}. These identify the $\DyadicRatCoreUp$ product row and the $\FiniteErrorBudgetUp$ ledger as the finite budget through which every product readback must pass.
+
+Attach the consumer boundary through \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff} and \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}. The readback row $R$ and seal row $S$ are therefore downstream of the same displayed finite packet.
+
+Finally apply \autoref{thm:regular-cauchy-product-budget-obligation-scope}. The rows $H,C,P,N$ repack transport, continuation replay, package provenance, and local naming into the public $\NameCert_{\RegularCauchyProductBudgetUp}$ surface, with no extra coordinate through which host multiplication, quotient equality, completeness, hidden rounding, or selected limits could enter.
+\end{proof}
+
+\closureat{RegularCauchyProductBudgetUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyProductBudgetUp}
   \constructivestory{A $\RegularCauchyProductBudgetUp$ packet is generated from two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, dyadic source rows, a $\DyadicRatCoreUp$ product row, a $\FiniteErrorBudgetUp$ ledger, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-falsifiable-prediction}, \autoref{thm:regular-cauchy-product-budget-independence-witness}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, and \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness} bind the finite product-budget carrier and its local NameCert obligation surface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-falsifiable-prediction}, \autoref{thm:regular-cauchy-product-budget-independence-witness}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-product-closure-budget}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness}, \autoref{thm:regular-cauchy-product-budget-obligation-scope}, and \autoref{thm:regular-cauchy-product-budget-public-export} bind the finite product-budget route to StreamName, DyadicRatCore, FiniteErrorBudget, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, NameCert source rows, and the public consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, host real multiplication, quotient stream equality, a hidden rounding oracle, selected host limits, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, paired-window admission, dyadic product exactness, finite-ledger exactness, RegSeqRat handoff, RealUp seal boundary, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+  \upgradepath{The next theory-axis step is a bridge from the public product-budget export to a standard or schema-facing multiplication interface.}
 \end{closurestatus}

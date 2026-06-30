@@ -80,6 +80,44 @@ The order-facing data then factors through $D$ and $O$. The ledger $D$ is the un
 The rows $R,E,H,C,P,N$ are downstream readback, seal, transport, replay, provenance, and naming rows. They add no further order coordinate, so every public order-facing read remains confined to the finite endpoint windows, their dyadic normalization ledger, and the displayed endpoint-order row.
 \end{proof}
 
+\begin{theorem}[Signed digit interval real refinement stability]
+\label{thm:signed-digit-interval-real-refinement-stability}
+Let
+$$
+I=(L,U,D,O,S,R,E,H,C,P,N)
+$$
+and
+$$
+I'=(L',U',D',O',S',R',E',H',C',P',N')
+$$
+be accepted $\SignedDigitIntervalRealUp$ carriers whose displayed rows are related componentwise by the transport row $\hsame$ on $L,U,D,O,S$. For any smaller signed-digit endpoint window and any dyadic tolerance refinement admitted by the finite schedule, the refined read factors again through the rows
+$$
+L,U,D,O,S,R,E,H,C,P,N.
+$$
+The factorization preserves the endpoint-order row and the terminal seal without using trichotomy, selected signed-digit expansions, quotient stream equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The componentwise $\hsame$ data identifies the endpoint rows $L,U$, the normalization ledger $D$, the endpoint-order row $O$, and the schedule row $S$ as the only coordinates available for comparing the original and refined reads.
+
+Refine the schedule row $S$ to the smaller endpoint windows and requested dyadic tolerance. The refined observations are still signed-digit windows from $L$ and $U$, so their normalization is replayed through the same dyadic ledger shape $D$ rather than through a quotient stream or a selected expansion.
+
+The order row $O$ is transported along the displayed $\hsame$ data. Thus the refined dyadic endpoint comparison is the same finite lower-before-upper certificate, only read at the smaller window and tolerance.
+
+Finally repack the refined route through $R,E,H,C,P,N$. The readback, seal, transport, continuation, provenance, and naming rows carry the refined finite route and add no coordinate from trichotomy, choice, compactness, quotient equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Signed digit interval real RegSeqRat seal route]
+\label{thm:signed-digit-interval-real-regseqrat-seal}
+Every Real-facing endpoint or interval read of an accepted $\SignedDigitIntervalRealUp$ carrier must pass through the finite $\StreamNameUp$ schedule $S$, the $\DyadicRatCoreUp$ normalization ledger $D$, and the $\RegSeqRatUp$ readback row $R$ before reaching the terminal $\RealUp$ seal row $E$. The route exports no selected infinite signed-digit expansion and no completeness principle.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:signed-digit-interval-real-carrier}. Its only Real-facing coordinates are arranged after the endpoint rows, the schedule, the dyadic normalization ledger, and the regular rational readback row.
+
+Apply \autoref{thm:signed-digit-interval-real-namecert-obligations}. The local certificate lists regular readback along $S$ and terminal RealUp sealing through $E$ as obligations downstream of the signed-digit endpoint and dyadic normalization rows.
+
+Apply \autoref{thm:signed-digit-interval-real-seal-nonescape}. Since the seal exports only the displayed route $L,U,D,O,S,R,E,H,C,P,N$, any endpoint or interval read must pass through $S,D,R$ before $E$ and cannot expose an infinite expansion, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \closureat{SignedDigitIntervalRealUp}{seedStr}
 
 \begin{closurestatus}{\SignedDigitIntervalRealUp}

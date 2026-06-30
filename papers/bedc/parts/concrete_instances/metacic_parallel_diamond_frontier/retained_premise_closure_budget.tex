@@ -1,0 +1,65 @@
+\begin{theorem}[MetaCIC parallel-diamond retained-premise closure]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-closure}
+A retained-premise read used by a candidate-mediated strong-normalization or local-confluence consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose residual-substitution compatibility rows, candidate-normalization rows, local-join rows, the critical-pair envelope, finite residual witnesses, typed-window rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before it is consumed as a closure budget. The budget is a finite frontier read over
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+not subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the critical-pair envelope and candidate-normalization scope, \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope} and \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. They keep $P,K,J,R,S,C,B,O,H,T,G,N$ visible before candidate-mediated normalization can read the candidate row.
+
+Apply residual-join locality and finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. These force the retained premise, typed windows, residual frontier, local-join checker, finite witness, transport, replay, provenance, and local naming rows to be consumed as one finite packet.
+
+Finally read the retained-premise mature budget, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-mature-budget}. It allows the premise to serve as a closure budget only while the obstruction and residual-substitution rows remain displayed, so the read cannot become subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond retained-premise induction]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-induction}
+Let an accepted $\MetaCICParallelDiamondFrontierUp$ packet expose a finite list of retained-premise reads to a candidate-mediated strong-normalization or local-confluence consumer. If each read is admitted by the retained-premise closure budget of \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-closure}, then induction on the list preserves the same displayed rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+through every residual-pair read. The iterated budget remains only a finite frontier over those rows, and cannot discharge subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+For the base list, read the retained-premise closure theorem. It supplies one closure-budget surface over $P,K,J,R,S,C,B,O,H,T,G,N$, and the empty residual-pair suffix contributes no additional semantic row.
+
+For the cons step, expose the head retained-premise read through the same closure-budget theorem and apply the induction hypothesis to the remaining finite list. The head read and the tail budget both project the same transport, replay, provenance, obstruction, typed-window, residual-frontier, candidate, local-join, and naming rows, so their composition still displays exactly $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Finally project the negative boundary attached to each step. Since neither the head read nor the inductive tail contains a row for subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency, the finite composition cannot acquire any of those conclusions.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization retained premise]
+\label{thm:metacic-candidate-normalization-retained-premise}
+Any candidate-mediated strong-normalization or local-confluence consumer reading a retained premise from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must preserve the displayed candidate-normalization, residual-substitution, local-join, critical-pair, bounded-check, typed-window, transport, replay, provenance, obstruction, and local $\NameCert$ rows. The retained-premise route is the finite row surface
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+not an unrestricted confluence theorem, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency claim.
+\end{theorem}
+\begin{proof}
+Apply retained-premise closure, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-closure}. It keeps candidate normalization, residual substitution, local joins, critical pairs, bounded checks, typed windows, transport, replay, provenance, obstruction, and naming visible before the retained premise is consumed.
+
+Apply retained-premise induction, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-induction}. A finite list of such reads preserves the same displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$ through every residual-pair step.
+
+Now use the candidate SN residual budget and public route sync cited by the retained-pair induction, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget} and \autoref{thm:metacic-parallel-diamond-frontier-public-route-sync}. These keep the consumer on the candidate-normalization route rather than replacing it by a global semantic theorem.
+
+The carrier exposes no row for unrestricted confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency. Therefore the retained premise remains a finite candidate-normalization budget over the displayed rows only.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond retained-pair induction]
+\label{thm:metacic-parallel-diamond-frontier-retained-pair-induction}
+Every finite successor chain of candidate-mediated SN/confluence handoffs that reads the public or bridged $\MetaCICParallelDiamondFrontierUp$ route preserves the retained pair $(P,O)$ and the residual budget $(J,R,B)$ before each handoff. The induction invariant is read through the displayed public route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+and it does not discharge residual substitution, subject reduction, global Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+For the base chain, read the public certificate and finite residual witness consumption. The public route exposes $P,K,J,R,S,C,B,O,H,T,G,N$, while the finite witness row keeps the retained pair $P,O$ and the residual budget $J,R,B$ visible before the first handoff.
+
+For the successor step, apply candidate SN residual budget and public route sync, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget} and \autoref{thm:metacic-parallel-diamond-frontier-public-route-sync}. The head handoff carries $P,O$ as retained premise and obstruction data, and it carries $J,R,B$ as candidate join, residual frontier, and bounded-check budget data. The induction hypothesis supplies the same rows for the remaining finite chain.
+
+Finally compare with the retained seed block sync of \autoref{thm:metacic-parallel-diamond-frontier-seed-block-sync}. It identifies the retained handoff data as finite public-route evidence rather than residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, or kernel consistency, so the whole finite chain preserves only the stated pair and residual budget.
+\end{proof}

@@ -30,6 +30,7 @@ $$
 \end{enumerate}
 The classifier has no coordinate for an ambient function space, a host derivative, a quotient real equality, a selected limit, a Taylor remainder object, or $\RealUp$ completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.FiniteDifferenceUp.FiniteDifferenceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FiniteDifferenceUp NameCert obligations]
 \label{thm:finite-difference-namecert-obligations}
@@ -76,6 +77,24 @@ A derivative-facing or calculus-facing consumer can therefore inspect only the s
 The Taylor-facing boundary is $E$, which is downstream of the same $Q$ and $R$ rows. Componentwise $\hsame$ transport and $\Cont$ replay preserve this order, while $\Pkg$ provenance and the local $\NameCert$ row name exactly the same finite packet.
 
 The excluded differentiability, infinite-graph, quotient-equality, selected-limit, Taylor-remainder, and completeness claims are absent from the carrier and cannot be recovered from the handoff.
+\end{proof}
+
+\begin{theorem}[FiniteDifferenceUp regular-real handoff]
+\label{thm:finite-difference-regular-real-handoff}
+Every accepted $\FiniteDifferenceUp$ packet
+$$
+F=(S,H_0,L,D,Q,R,E,B,T,C,P,N)
+$$
+exposes a Real-facing finite-difference value only by first reading the $\DyadicRatCoreUp$ tolerance row $D$, then the $\RegSeqRatUp$ readback row $Q$, and then the $\RealUp$ seal row $R$. A $\DerivativeUp$, $\CalculusUp$, or $\TaylorTheoremUp$ consumer cannot bypass this route through host differentiability, quotient real equality, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-difference-carrier}. The rows $S,H_0,L$ display the source windows, step history, and stencil, but they do not yet expose a Real-facing value.
+
+Apply \autoref{thm:finite-difference-namecert-obligations}. Its dyadic budgeting clause makes $D$ the only tolerance row available for step-size, coefficient, and denominator checks. Its regular rational clause then makes $Q$ the only readback row for the finite stencil sum before any real seal is public.
+
+Now use \autoref{thm:finite-difference-taylor-handoff}. The consumer boundary $E$ is downstream of the same $D,Q,R$ chain, so derivative, calculus, and Taylor readers inherit the displayed route rather than a host derivative or selected limit.
+
+The remaining rows $B,T,C,P,N$ transport, replay, compare, source, and name the same packet. Since no carrier coordinate stores host differentiability, quotient real equality, selected limiting data, or ambient completeness, coordinate exhaustion leaves only the path $D \longmapsto Q \longmapsto R$ for Real-facing finite-difference values.
 \end{proof}
 
 \closureat{FiniteDifferenceUp}{seedStr}

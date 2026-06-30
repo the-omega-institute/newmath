@@ -108,6 +108,24 @@ Use the bounded real window of \autoref{def:martingale-convergence-bounded-real-
 Finally apply \autoref{thm:martingale-convergence-upcrossing-route}. The upcrossing input to the admission ledger is exactly the displayed $\UpcrossingUp$ and $\DoobUpcrossingUp$ handoff, so the exported Cauchy-preparation ledger remains finite and cannot add almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
 \end{proof}
 
+\begin{theorem}[Martingale convergence obligation closure handoff]
+\label{thm:martingale-convergence-obligation-closure-handoff}
+For an accepted $\MartingaleConvergenceUp$ carrier
+$$
+C=(\Omega,X,E,M,T,O,U,D,S,R,L,A,H,K,P,N),
+$$
+any obligation-closure read of the convergence-admission ledger $A$ must first expose the martingale endpoint rows $X,E,M$, the bounded stopping rows $T,O$, the upcrossing and Doob rows $U,D$, and the schedule, readback, and boundary rows $S,R,L$. The exported object is only a finite convergence-preparation ledger over those rows together with $H,K,P,N$; it does not claim almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
+\end{theorem}
+\begin{proof}
+Open the accepted carrier and apply \autoref{thm:martingale-convergence-namecert-obligations}. The obligation surface for $A$ is already bounded by the displayed endpoint, conditional-expectation, martingale, stopping, optional-stopping, upcrossing, Doob-bound, schedule, readback, real-boundary, transport, replay, provenance, and naming rows.
+
+Use the bounded real window of \autoref{def:martingale-convergence-bounded-real-window}. It identifies the boundary and approximation side as the same $L,S,R$ rows that must be displayed before the upcrossing route can be consumed.
+
+Apply \autoref{thm:martingale-convergence-upcrossing-window-lock}. This forces any read of $A$ through the bounded stopping rows $T,O$, the upcrossing rows $U,D$, and the schedule and readback rows $S,R,L$.
+
+Finally use \autoref{thm:martingale-convergence-finite-cauchy-admission}. The only export left after those exposures is the finite convergence-preparation ledger over the same displayed packet. Since no carrier row names almost-sure quotient equality, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem, the obligation handoff cannot export any of them.
+\end{proof}
+
 \closureat{MartingaleConvergenceUp}{seedStr}
 
 \begin{closurestatus}{\MartingaleConvergenceUp}

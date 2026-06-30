@@ -9,10 +9,14 @@ import importlib
 import inspect
 import json
 import math
+import os
 from pathlib import Path
 import ast
+import sys
+import tempfile
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.canonical_cell_cache import CellInputRecord, cell_input_digest, load_cell_entry, store_cell_entry
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
 from bedc_quality_lab.model import choose_device
 from bedc_quality_lab.reproducibility import contract_from_payload
@@ -21,11 +25,13 @@ from bedc_quality_lab.reproducibility import contract_from_payload
 SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
 ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
 PRODUCER = "scripts/run_dgt_neural_ablation.py"
+OWNER_MODULE = "bedc_quality_lab/dgt_neural_ablation.py"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-neural-ablation.fingerprint.json"
 RUN_ROOT = "reports/runs/dgt-neural-ablation"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
+LAB_ROOT = Path(__file__).resolve().parents[1]
 BASE_SEED = 1133
 DEFAULT_STEP_GRID = (128, 256)
 DEFAULT_SEED_COUNT = 8
@@ -126,6 +132,7 @@ _FORBIDDEN_OWNER_TOKENS = (
     "per" + "_" + "component" + "_" + "quality",
     "per" + "_" + "component" + "_" + "penalty",
 )
+CELL_CACHE_EVENT_OBSERVER: Any = None
 
 
 @dataclass(frozen=True)
@@ -1518,6 +1525,329 @@ def _scope_seal_mechanism_payload(nonredundancy: Mapping[str, Any]) -> dict[str,
     }
 
 
+def run_artifacts_payload() -> dict[str, str]:
+    return {
+        "summary": f"{RUN_ROOT}/summary.json",
+        "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
+        "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
+        "report": f"{RUN_ROOT}/report.md",
+    }
+
+
+def _json_digest(value: Any) -> str:
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _path_digest(relative_path: str) -> str:
+    path = LAB_ROOT / relative_path
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else "missing"
+
+
+def _callable_digest(function: Any) -> str:
+    try:
+        source = inspect.getsource(function)
+    except (OSError, TypeError):
+        source = repr(function)
+    return hashlib.sha256(source.encode("utf-8")).hexdigest()
+
+
+def _runtime_abi(torch: Any, *, device_name: str) -> dict[str, str]:
+    abi = {
+        "python": sys.version.split()[0],
+        "executable": sys.executable,
+        "torch": str(getattr(torch, "__version__", "unknown")),
+        "cuda": str(getattr(getattr(torch, "version", None), "cuda", "not-available")),
+        "cudnn": "not-available",
+        "resolved_device": device_name,
+        "gpu_name": "not-available",
+        "gpu_capability": "not-available",
+    }
+    try:
+        numpy = importlib.import_module("numpy")
+    except Exception:
+        abi["numpy"] = "not-installed"
+    else:
+        abi["numpy"] = str(getattr(numpy, "__version__", "unknown"))
+    cuda = getattr(torch, "cuda", None)
+    if cuda is not None:
+        try:
+            abi["cudnn"] = str(getattr(getattr(torch.backends, "cudnn", None), "version", lambda: "not-available")())
+        except Exception:
+            abi["cudnn"] = "unknown"
+        if device_name == "cuda":
+            try:
+                abi["gpu_name"] = str(cuda.get_device_name(0))
+            except Exception:
+                abi["gpu_name"] = "unknown"
+            try:
+                major, minor = cuda.get_device_capability(0)
+                abi["gpu_capability"] = f"{major}.{minor}"
+            except Exception:
+                abi["gpu_capability"] = "unknown"
+    return abi
+
+
+def _producer_source_closure() -> tuple[dict[str, str], ...]:
+    paths = (
+        OWNER_MODULE,
+        PRODUCER,
+        "bedc_quality_lab/model.py",
+        "bedc_quality_lab/reproducibility.py",
+        "bedc_quality_lab/discovery_gated_transformer.py",
+        "bedc_quality_lab/canonical_cell_cache.py",
+    )
+    return tuple({"path": path, "sha256": _path_digest(path)} for path in paths)
+
+
+def _cell_input_record(
+    torch: Any,
+    *,
+    requested_device: str,
+    device_name: str,
+    run_spec: DgtNeuralAblationRunSpec,
+) -> CellInputRecord:
+    return CellInputRecord(
+        producer_id="dgt-neural-ablation",
+        producer_command=("python3", PRODUCER),
+        report_artifacts={
+            "canonical_json": CANONICAL_JSON_ARTIFACT,
+            "canonical_markdown": CANONICAL_MARKDOWN_ARTIFACT,
+            "canonical_fingerprint": CANONICAL_FINGERPRINT_ARTIFACT,
+            **run_artifacts_payload(),
+        },
+        producer_source_closure=_producer_source_closure(),
+        extra_input_paths=(),
+        config_payload={
+            "schema_id": SCHEMA_ID,
+            "run_spec": run_spec.as_payload(
+                resolved_device=device_name,
+                device_policy={
+                    "requested_device": requested_device,
+                    "resolved_device": device_name,
+                    "resolution_status": "available",
+                    "resolution_reason": "cache-key-device-resolution",
+                    "backend_details": {"torch": "owner-imported"},
+                },
+            ),
+            "arm_ids": list(ARM_IDS),
+            "task_ids": list(TASK_IDS),
+            "metric_keys": list(METRIC_KEYS),
+            "outcome_fields": list(OUTCOME_FIELDS),
+            "step_grid": list(run_spec.step_grid),
+            "seed_count": run_spec.seed_count,
+            "paired_ci_min_seeds": run_spec.paired_ci_min_seeds,
+            "requested_device": run_spec.requested_device,
+            "learning_rate": LEARNING_RATE,
+            "sample_counts": {
+                "core_classification": CORE_SAMPLE_COUNT,
+                "scope_boundary_pressure": SCOPE_SAMPLE_COUNT,
+            },
+            "input_dim": INPUT_DIM,
+            "scope_classes": list(SCOPE_CLASSES),
+            "scope_slices": list(SCOPE_SLICES),
+            "effect_thresholds": run_spec.effect_threshold_payload(),
+            "blocked_effect_thresholds": run_spec.blocked_threshold_payload(),
+            "compute_unit_formula": run_spec.compute_unit_formula,
+            "metric_protocol": METRIC_PROTOCOL.as_payload(),
+            "trainer_digest": _callable_digest(_train_arm_seed),
+        },
+        seed_protocol={
+            "base_seed": BASE_SEED,
+            "seed_list": list(run_spec.seed_list),
+            "step_grid": list(run_spec.step_grid),
+            "deterministic_policy": "torch.manual_seed per arm/seed/training_steps cell",
+            "PYTHONHASHSEED": os.environ.get("PYTHONHASHSEED", "unset"),
+            "CUBLAS_WORKSPACE_CONFIG": os.environ.get("CUBLAS_WORKSPACE_CONFIG", "unset"),
+        },
+        source_artifact_digests={},
+        requested_device=requested_device,
+        resolved_device=device_name,
+        runtime_abi=_runtime_abi(torch, device_name=device_name),
+    )
+
+
+def _raw_metrics_text(records: Sequence[Mapping[str, Any]]) -> str:
+    return "".join(json.dumps(row, sort_keys=True) + "\n" for row in records)
+
+
+def _emit_cell_cache_event(event: str, record: CellInputRecord, **fields: Any) -> None:
+    observer = CELL_CACHE_EVENT_OBSERVER
+    if observer is None:
+        return
+    observer(
+        {
+            "event": event,
+            "producer_id": record.producer_id,
+            **fields,
+        }
+    )
+
+
+def _load_raw_records(path: Path, run_spec: DgtNeuralAblationRunSpec) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for index, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if not isinstance(row, dict):
+            raise ValueError(f"cached DGT neural ablation raw row {index} is not an object")
+        records.append(row)
+    expected_count = len(run_spec.step_grid) * len(run_spec.seed_list) * len(ARM_IDS) * len(TASK_IDS)
+    if len(records) != expected_count:
+        raise ValueError("cached DGT neural ablation raw record count mismatch")
+    if {str(row.get("arm_id")) for row in records} != set(ARM_IDS):
+        raise ValueError("cached DGT neural ablation raw arm set mismatch")
+    if {int(row.get("seed", -1)) for row in records} != set(run_spec.seed_list):
+        raise ValueError("cached DGT neural ablation raw seed set mismatch")
+    if {int(row.get("train_steps", -1)) for row in records} != set(run_spec.step_grid):
+        raise ValueError("cached DGT neural ablation raw step set mismatch")
+    if {str(row.get("task_id")) for row in records} != set(TASK_IDS):
+        raise ValueError("cached DGT neural ablation raw task set mismatch")
+    expected_cells = {
+        (arm_id, seed, step, task_id)
+        for arm_id in ARM_IDS
+        for seed in run_spec.seed_list
+        for step in run_spec.step_grid
+        for task_id in TASK_IDS
+    }
+    observed_cells = {
+        (str(row.get("arm_id")), int(row.get("seed", -1)), int(row.get("train_steps", -1)), str(row.get("task_id")))
+        for row in records
+    }
+    if observed_cells != expected_cells:
+        raise ValueError("cached DGT neural ablation raw training grid mismatch")
+    for row in records:
+        if row.get("requested_training_backend") != "torch":
+            raise ValueError("cached DGT neural ablation raw backend mismatch")
+        if row.get("optimizer") != "Adam":
+            raise ValueError("cached DGT neural ablation raw optimizer mismatch")
+        if int(row.get("gradient_update_steps", -1)) != int(row.get("train_steps", -2)):
+            raise ValueError("cached DGT neural ablation gradient step mismatch")
+        if int(row.get("optimizer_steps", -1)) != int(row.get("train_steps", -2)):
+            raise ValueError("cached DGT neural ablation optimizer step mismatch")
+        if float(row.get("parameter_delta_l2", 0.0)) <= 0.0:
+            raise ValueError("cached DGT neural ablation raw row lacks parameter update evidence")
+        metrics = row.get("metrics")
+        if not isinstance(metrics, Mapping) or set(metrics) != set(METRIC_KEYS):
+            raise ValueError("cached DGT neural ablation raw metric schema mismatch")
+        for field in OUTCOME_FIELDS:
+            if field not in row:
+                raise ValueError(f"cached DGT neural ablation raw row lacks {field}")
+        outcome = TrainingOutcome(**{field: row[field] for field in OUTCOME_FIELDS})
+        if derive_training_metrics(outcome, METRIC_PROTOCOL)["metrics"] != metrics:
+            raise ValueError("cached DGT neural ablation raw metric derivation mismatch")
+    return records
+
+
+def _store_raw_records(record: CellInputRecord, records: Sequence[Mapping[str, Any]]) -> None:
+    with tempfile.TemporaryDirectory(prefix="bedc-nabl-cell-") as temp_dir:
+        raw_path = Path(temp_dir) / "raw_metrics.jsonl"
+        raw_path.write_text(_raw_metrics_text(records), encoding="utf-8")
+        manifest = store_cell_entry(
+            record,
+            {"raw_metrics.jsonl": {"path": raw_path, "media_role": "raw_metrics_jsonl"}},
+        )
+        _emit_cell_cache_event(
+            "store",
+            record,
+            status="stored",
+            cell_input_digest=manifest.cell_input_digest,
+            cell_output_digest=manifest.cell_output_digest,
+            logical_paths=[blob.logical_path for blob in manifest.blobs],
+        )
+
+
+def _train_grid(torch: Any, *, run_spec: DgtNeuralAblationRunSpec, device_name: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for train_steps in run_spec.step_grid:
+        for seed in run_spec.seed_list:
+            for arm in arm_registry():
+                rows.extend(_train_arm_seed(torch, arm, seed=seed, train_steps=train_steps, device_name=device_name))
+    return rows
+
+
+def _training_records(
+    torch: Any,
+    *,
+    requested_device: str,
+    device_name: str,
+    run_spec: DgtNeuralAblationRunSpec,
+) -> list[dict[str, Any]]:
+    record = _cell_input_record(
+        torch,
+        requested_device=requested_device,
+        device_name=device_name,
+        run_spec=run_spec,
+    )
+    lookup = load_cell_entry(record)
+    _emit_cell_cache_event(
+        "lookup",
+        record,
+        status=lookup.status,
+        reason=lookup.reason,
+        manifest_path=lookup.manifest_path.as_posix(),
+        logical_paths=sorted(lookup.verified_blob_paths),
+    )
+    if lookup.status == "hit":
+        raw_path = lookup.verified_blob_paths.get("raw_metrics.jsonl")
+        if raw_path is not None:
+            try:
+                records = _load_raw_records(raw_path, run_spec)
+            except (OSError, json.JSONDecodeError, AttributeError, TypeError, ValueError) as exc:
+                _emit_cell_cache_event("cache-rejected", record, status="corrupt", reason=str(exc))
+            else:
+                _emit_cell_cache_event(
+                    "cache-return",
+                    record,
+                    status="hit",
+                    logical_path="raw_metrics.jsonl",
+                    row_count=len(records),
+                )
+                return records
+        else:
+            _emit_cell_cache_event("cache-rejected", record, status="corrupt", reason="raw_metrics.jsonl blob missing")
+    records = _train_grid(torch, run_spec=run_spec, device_name=device_name)
+    _load_raw_records_from_memory(records, run_spec)
+    _store_raw_records(record, records)
+    return records
+
+
+def _load_raw_records_from_memory(records: Sequence[Mapping[str, Any]], run_spec: DgtNeuralAblationRunSpec) -> None:
+    with tempfile.TemporaryDirectory(prefix="bedc-nabl-validate-") as temp_dir:
+        path = Path(temp_dir) / "raw_metrics.jsonl"
+        path.write_text(_raw_metrics_text(records), encoding="utf-8")
+        _load_raw_records(path, run_spec)
+
+
+def cell_input_summary(
+    torch: Any,
+    *,
+    requested_device: str,
+    device_name: str,
+    run_spec: DgtNeuralAblationRunSpec,
+) -> dict[str, Any]:
+    record = _cell_input_record(
+        torch,
+        requested_device=requested_device,
+        device_name=device_name,
+        run_spec=run_spec,
+    )
+    return {
+        "schema_id": record.schema_id,
+        "key_algorithm_id": record.key_algorithm_id,
+        "producer_id": record.producer_id,
+        "producer_command": list(record.producer_command),
+        "cell_input_digest": cell_input_digest(record),
+        "producer_source_closure": [dict(row) for row in record.producer_source_closure],
+        "report_artifacts": dict(record.report_artifacts),
+        "config_digest": _json_digest(record.config_payload),
+        "seed_protocol_digest": _json_digest(record.seed_protocol),
+        "runtime_abi_digest": _json_digest(record.runtime_abi),
+        "requested_device": record.requested_device,
+        "resolved_device": record.resolved_device,
+    }
+
+
 def unavailable_payload(
     *,
     generated_at: str,
@@ -1533,12 +1863,7 @@ def unavailable_payload(
         "resolution_reason": reason,
         "backend_details": {"torch": "unavailable"},
     }
-    run_artifacts = {
-        "summary": f"{RUN_ROOT}/summary.json",
-        "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
-        "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
-        "report": f"{RUN_ROOT}/report.md",
-    }
+    run_artifacts = run_artifacts_payload()
     gates = {
         gate: {
             "status": "fail",
@@ -1579,7 +1904,14 @@ def unavailable_payload(
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py", "runner": PRODUCER},
+        "source_artifacts": {
+            "owner_module": OWNER_MODULE,
+            "runner": PRODUCER,
+            "canonical_input_record": {
+                "status": "unavailable",
+                "reason": reason,
+            },
+        },
         "run_artifacts": run_artifacts,
         "module_registry": module_registry_payload(),
         "run_spec": run_spec.as_payload(device_policy=device_policy),
@@ -1714,12 +2046,19 @@ def build_payload(
         )
     device_policy = device_resolution.to_dict()
     device_name = device_resolution.resolved_device
-    rows: list[dict[str, Any]] = []
+    input_record_summary = cell_input_summary(
+        torch,
+        requested_device=requested_device,
+        device_name=device_name,
+        run_spec=run_spec,
+    )
     try:
-        for train_steps in run_spec.step_grid:
-            for seed in run_spec.seed_list:
-                for arm in arm_registry():
-                    rows.extend(_train_arm_seed(torch, arm, seed=seed, train_steps=train_steps, device_name=device_name))
+        rows = _training_records(
+            torch,
+            requested_device=requested_device,
+            device_name=device_name,
+            run_spec=run_spec,
+        )
     except Exception as exc:
         return unavailable_payload(
             generated_at=generated_at,
@@ -1754,13 +2093,12 @@ def build_payload(
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py", "runner": PRODUCER},
-        "run_artifacts": {
-            "summary": f"{RUN_ROOT}/summary.json",
-            "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
-            "claim_capsule": f"{RUN_ROOT}/claim_capsule.json",
-            "report": f"{RUN_ROOT}/report.md",
+        "source_artifacts": {
+            "owner_module": OWNER_MODULE,
+            "runner": PRODUCER,
+            "canonical_input_record": input_record_summary,
         },
+        "run_artifacts": run_artifacts_payload(),
         "module_registry": module_registry_payload(),
         "run_spec": run_spec.as_payload(device_policy=device_policy),
         "training_protocol": {
@@ -1982,23 +2320,20 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def _json_digest(payload: Mapping[str, Any]) -> str:
-    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
-
-
 def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:
     contract = contract_from_payload(payload)
+    input_summary = dict(payload.get("source_artifacts", {}).get("canonical_input_record", {}))
     return {
         "schema_id": "bedc-quality-lab:canonical-report-fingerprint",
         "report_name": "dgt-neural-ablation",
         "json_artifact": CANONICAL_JSON_ARTIFACT,
         "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
         "producer_command": ["python3", "scripts/run_dgt_neural_ablation.py"],
-        "input_fingerprint": _json_digest({"producer": PRODUCER, "run_spec": payload.get("run_spec", {})}),
+        "input_fingerprint": _json_digest(input_summary),
         "reproducibility_mode": contract.mode,
         "reproducibility_contract_digest": contract.digest(),
         "reproducibility_contract": contract.to_payload(),
-        "inputs": {"static_owner": "bedc_quality_lab/dgt_neural_ablation.py"},
+        "inputs": {"canonical_input_record": input_summary},
         "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
     }
 

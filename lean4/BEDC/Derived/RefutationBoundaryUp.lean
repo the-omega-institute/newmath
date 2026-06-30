@@ -131,6 +131,27 @@ theorem RefutationBoundaryCarrier_realup_consumer_scope
     exact endpointRoute.trans (append_assoc A F C)
   exact ⟨consumerRoute, sameS, sameT, sameH, sameP, sameN, markSame⟩
 
+theorem RefutationBoundaryCarrier_public_export
+    {A F D S T H C P N exported : BHist}
+    (carrier : RefutationBoundaryCarrier A F D S T H C P N)
+    (exportRoute : Cont D C exported) :
+    RefutationBoundaryObligationSurface A F D S T H C P N ∧
+      Cont A (append F C) exported ∧ hsame A A ∧ hsame F F ∧ hsame D D ∧
+        hsame S S ∧ hsame T T ∧ hsame H H ∧ hsame P P ∧ hsame N N ∧
+          msame BMark.b0 BMark.b0 := by
+  -- BEDC touchpoint anchor: BHist Cont hsame msame BMark
+  have carrierWitness : RefutationBoundaryCarrier A F D S T H C P N := carrier
+  obtain ⟨route, sameA, sameF, sameD, sameS, sameT, sameH, sameC, sameP,
+    sameN, markSame⟩ := carrier
+  have exportedRoute : Cont A (append F C) exported := by
+    cases route
+    exact exportRoute.trans (append_assoc A F C)
+  exact
+    ⟨⟨carrierWitness, route, sameA, sameF, sameD, sameS, sameT, sameH, sameC, sameP,
+        sameN, rfl⟩,
+      exportedRoute, sameA, sameF, sameD, sameS, sameT, sameH, sameP, sameN,
+      markSame⟩
+
 theorem RefutationBoundaryForbiddenTruthBranchExclusion
     {A F D S T H C P N tail : BHist}
     (carrier : RefutationBoundaryCarrier A F D S T H C P N) :
@@ -183,5 +204,25 @@ theorem RefutationBoundaryRealUpConsumerScope
             sameP, sameN, rfl⟩,
           source⟩
   }
+
+theorem RefutationBoundaryStandardBoundaryExport
+    {A F D S T H C P N exported refused : BHist}
+    (carrier : RefutationBoundaryCarrier A F D S T H C P N)
+    (exportRoute : Cont D C exported)
+    (refusalRoute : Cont S T refused) :
+    RefutationBoundaryObligationSurface A F D S T H C P N ∧
+      Cont A (append F C) exported ∧
+        Cont S T refused ∧ hsame P P ∧ hsame N N ∧ msame BMark.b1 BMark.b1 := by
+  -- BEDC touchpoint anchor: BHist Cont hsame msame BMark
+  have carrierWitness : RefutationBoundaryCarrier A F D S T H C P N := carrier
+  obtain ⟨route, sameA, sameF, sameD, sameS, sameT, sameH, sameC, sameP, sameN,
+    _markSame⟩ := carrier
+  have exportedRoute : Cont A (append F C) exported := by
+    cases route
+    exact exportRoute.trans (append_assoc A F C)
+  exact
+    ⟨⟨carrierWitness, route, sameA, sameF, sameD, sameS, sameT, sameH, sameC,
+        sameP, sameN, rfl⟩,
+      exportedRoute, refusalRoute, sameP, sameN, rfl⟩
 
 end BEDC.Derived.RefutationBoundaryUp

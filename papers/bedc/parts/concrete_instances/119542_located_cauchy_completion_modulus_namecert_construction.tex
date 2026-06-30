@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyCompletionModulusUp$}
+\label{ch:concrete-instances-located-cauchy-completion-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedCauchyCompletionModulusUp$ packet records the finite modulus surface by which a located Cauchy completion read supplies explicit dyadic thresholds before a terminal $\RealUp$ seal is consumed. It sits between the located-completion route of \autoref{ch:concrete-instances-regular-cauchy-located-completion-namecert}, the displayed modulus schedule of \autoref{ch:concrete-instances-constructive-real-modulus-namecert}, and the threshold-selection surface of \autoref{ch:concrete-instances-cauchy-modulus-selection-namecert}. The packet is a finite NameCert object for located completion moduli; it is not quotient completion equality, a selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located Cauchy completion modulus carrier]
+\label{def:located-cauchy-completion-modulus-carrier}
+A $\LocatedCauchyCompletionModulusUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,M,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the located-completion source row, read through $\RegularCauchyLocatedCompletionUp$.
+\item $M$ is the Cauchy modulus selector row, read through the displayed $\CauchyModulusSelectionUp$ and $\ConstructiveRealModulusUp$ surfaces.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for the requested located-completion precision.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected at the threshold named by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same finite window and dyadic tolerance.
+\item $E$ is the terminal $\RealUp$ seal available only after $Q,M,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located source, modulus selector, dyadic tolerance, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\RegularCauchyLocatedCompletionUp \longmapsto \CauchyModulusSelectionUp
+\longmapsto \ConstructiveRealModulusUp \longmapsto \DyadicRatCoreUp
+\longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+\item $P$ records $\Pkg$ provenance over $\LocatedCauchyCompletionModulusUp$, $\RegularCauchyLocatedCompletionUp$, $\CauchyModulusSelectionUp$, $\ConstructiveRealModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCauchyCompletionModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,M,D,W,R,E,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, countable choice, trichotomy, host real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located Cauchy completion modulus regularity]
+\label{thm:located-cauchy-completion-modulus-regularity}
+For every accepted $\LocatedCauchyCompletionModulusUp$ carrier
+$$
+L=(Q,M,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedCauchyCompletionModulusUp}$ surface consists exactly of carrier admission for the located-completion source, Cauchy modulus selector, dyadic tolerance row, finite StreamName window, RegSeqRat readback, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every Real-facing read of the packet factors through the finite route
+$$
+Q,M,D,W,R \longmapsto E,H,C,P,N .
+$$
+In particular, a consumer cannot reach the $\RealUp$ seal while bypassing the located source row, the modulus selector row, the dyadic tolerance row, the window row, or the regular rational readback row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-cauchy-completion-modulus-carrier}. The only analytic rows are the located source $Q$, modulus selector $M$, dyadic tolerance row $D$, finite window $W$, regular rational readback $R$, and Real seal $E$.
+
+The regularity route is finite. The source row $Q$ supplies the located-completion request, the selector row $M$ answers it by a displayed threshold, and the dyadic row $D$ records the requested tolerance. The StreamName row $W$ and RegSeqRat row $R$ then expose the inspected rational window before $E$ is available.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only this route. Since quotient completion equality, selected representatives, countable choice, trichotomy, host real equality, open-cover compactness, and ambient $\RealUp$ completeness are absent from the carrier, none of those principles can be exported by the local certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted LocatedCauchyCompletionModulusUp packet that reaches a terminal RealUp seal without displaying the located source, modulus selector, dyadic tolerance, StreamName window, and RegSeqRat readback rows refutes the carrier surface.}
+
+\independenceWitness{Nearest siblings: regular-cauchy-located-completion, constructive-real-modulus, and cauchy-modulus-selection. None is bijective with $\LocatedCauchyCompletionModulusUp$ because this packet jointly carries the located source row, selector row, dyadic tolerance row, finite window, regular rational readback, Real seal, transport, replay, provenance, and local NameCert row for the same finite completion-modulus read.}
+
+\closureat{LocatedCauchyCompletionModulusUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyCompletionModulusUp}
+  \constructivestory{A $\LocatedCauchyCompletionModulusUp$ packet is generated from a located-completion source row, Cauchy modulus selector row, DyadicRatCore tolerance row, StreamName finite window, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-completion-modulus-carrier} and \autoref{thm:located-cauchy-completion-modulus-regularity} seed the finite located-completion modulus route through dyadic tolerance, finite window, regular readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected representatives, countable choice, trichotomy, host real equality, open-cover compactness, ambient RealUp completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-source exposure, modulus-selector exactness, dyadic tolerance compatibility, StreamName window readback, RegSeqRat regularity, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedCauchyCompletionModulusUp.}
+\end{closurestatus}

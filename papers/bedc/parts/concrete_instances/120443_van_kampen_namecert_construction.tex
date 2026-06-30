@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\VanKampenUp$}
+\label{ch:concrete-instances-van-kampen-namecert}
+\origin{human}
+
+Following Seifert and van Kampen, the $\VanKampenUp$ packet records the finite cover-generator route by which local loop data over a path-connected open cover is handed to a fundamental-group presentation consumer. It sits beside the homotopy surface of \autoref{ch:concrete-instances-homotopy-namecert}, the finite based-loop algebra of \autoref{ch:concrete-instances-fundamental-group-namecert}, the open-cover carrier of \autoref{ch:concrete-instances-open-cover-namecert}, the path-connected source of \autoref{ch:concrete-instances-path-connected-space-namecert}, and the group operation surface of \autoref{ch:concrete-instances-group-namecert}. The certificate names cover rows, overlap rows, local path-loop rows, generator rows, relation rows, and a downstream $\FundamentalGroupUp$ consumer route; it does not import a quotient group, a host group presentation theorem, selected representatives of homotopy classes, or ambient path-space equality.
+
+\begin{definition}[$\VanKampenUp$ finite cover-generator carrier]
+\label{def:van-kampen-carrier}
+A $\VanKampenUp$ carrier is a finite $\BHist$ packet
+$$
+\Pi=(X,x_0,U,O,A,L,G,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient topological source row and $x_0$ is the displayed basepoint row. The source must expose the $\PathConnectedSpaceUp$ route that makes every inspected open row reachable from $x_0$ by finite path data.
+\item $U$ is the finite open-cover row family, read through the open-cover surface of \autoref{ch:concrete-instances-open-cover-namecert}. Each member row records its open test, basepoint-reachability witness, and finite cover index.
+\item $O$ is the overlap row family. It lists the nonempty pairwise and finite multi-overlap windows whose path components are inspected before a relation row is accepted.
+\item $A$ is the local path-loop row family. Its entries are based paths, transported basepoints, and local loop rows read through the deformation classifier of \autoref{ch:concrete-instances-homotopy-namecert}.
+\item $L$ is the local fundamental-group row family. Each entry records the $\FundamentalGroupUp$ packet carried by one cover member or overlap component, together with the inclusion route back to $X$.
+\item $G$ is the generator ledger. It records one finite generator row for each admitted local loop or overlap transfer whose image is exported to the global consumer.
+\item $R$ is the relation ledger. It records the finite overlap identifications, conjugation-by-path adjustments, and null-loop seals that the global consumer must read before classifying the generated group row.
+\item $F$ is the $\FundamentalGroupUp$ consumer row. It receives only the displayed generator and relation rows $G,R$ together with their source paths and homotopy comparisons, not a host quotient group.
+\item $H$ records componentwise $\hsame$ transport for $X,x_0,U,O,A,L,G,R,F,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for open-cover admission, overlap admission, path-loop readback, local fundamental-group readback, generator export, relation export, and the global consumer handoff.
+\item $P$ is the $\Pkg$ provenance over $\VanKampenUp$, $\TopologyUp$, $\OpenCoverUp$, $\PathConnectedSpaceUp$, $\HomotopyUp$, $\FundamentalGroupUp$, $\GroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VanKampenUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed cover, overlap, path-loop, generator, relation, consumer, transport, replay, provenance, and naming rows. Thus the packet is a finite cover-generator certificate, not a completed quotient presentation of $\pi_1(X,x_0)$.
+\end{definition}
+
+\begin{theorem}[$\VanKampenUp$ NameCert obligations]
+\label{thm:van-kampen-namecert-obligations}
+For every accepted $\VanKampenUp$ carrier
+$$
+\Pi=(X,x_0,U,O,A,L,G,R,F,H,C,P,N),
+$$
+the local $\NameCert_{\VanKampenUp}$ surface consists exactly of source admission for $X,x_0$ through $\PathConnectedSpaceUp$, finite open-cover admission through $U$, overlap-window admission through $O$, local path-loop admission through $A$, local $\FundamentalGroupUp$ admission through $L$, generator export through $G$, relation export through $R$, target handoff through $F$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\GroupUp$ or $\FundamentalGroupUp$ consumer of the packet must inspect those rows before it may read the generated global algebraic surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:van-kampen-carrier}. The rows $X,x_0,U,O,A,L,G,R,F,H,C,P,N$ expose the topological source, basepoint, cover windows, overlap windows, local path-loop data, local fundamental-group data, generator and relation ledgers, consumer handoff, transport, replay, provenance, and local name.
+
+The source side is forced before any algebraic read. The $\PathConnectedSpaceUp$ row supplies the displayed route from $x_0$ to each inspected cover member, while $U$ and $O$ supply the finite open-cover and overlap windows. The local loop rows in $A$ are then read through $\HomotopyUp$, so every generator has a visible path and deformation provenance.
+
+The algebraic side is only a consumer surface. The local $\FundamentalGroupUp$ rows in $L$ produce finite loop-composition data, and $G,R$ export exactly the generator and relation endpoints the global consumer may inspect. Since $F$ receives these rows through $H,C,P,N$, no step introduces a host quotient group, an uncarried presentation, or a selected homotopy-class representative.
+\end{proof}
+
+\begin{theorem}[$\VanKampenUp$ cover-generator handoff]
+\label{thm:van-kampen-cover-generator-handoff}
+Let $\Pi=(X,x_0,U,O,A,L,G,R,F,H,C,P,N)$ be an accepted $\VanKampenUp$ carrier. Any downstream $\FundamentalGroupUp$ consumer of the global cover-generated surface factors through the finite route
+$$
+X,x_0,U,O,A,L,G,R,H,C,P,N \longmapsto F .
+$$
+The consumer may read the displayed generators, overlap relations, conjugating path rows, and null-loop seals, but it cannot replace them by a host Seifert--van Kampen theorem, a quotient group presentation outside $\BHist$, or an ambient path-component equality.
+\end{theorem}
+\begin{proof}
+Begin with the cover and overlap rows. The open-cover ledger $U$ and overlap ledger $O$ determine which local path-loop rows in $A$ are eligible for export, and the path-connected source row keeps the transport from $x_0$ visible.
+
+Read the local algebraic rows next. Each local row in $L$ is already a $\FundamentalGroupUp$ packet, so its loop composition, inverse, identity, and homotopy comparison data are finite NameCert rows. The generator ledger $G$ selects only endpoints carried by those local rows.
+
+Finally consume the relation ledger $R$ through $F$. The relation rows list the overlap identifications and conjugating paths that the global consumer is allowed to use. Componentwise transport $H$, displayed replay $C$, provenance $P$, and the local name $N$ keep this route inside the same finite packet, so the handoff supplies a cover-generated boundary without importing the ambient quotient theorem.
+\end{proof}
+
+\closureat{VanKampenUp}{seedStr}
+
+\begin{closurestatus}{\VanKampenUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:van-kampen-carrier}, \autoref{thm:van-kampen-namecert-obligations}, and \autoref{thm:van-kampen-cover-generator-handoff} seed the finite cover, overlap, path-loop, local fundamental-group, generator, relation, consumer, transport, replay, provenance, and local naming surface for the Seifert--van Kampen cover-generator packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Seifert--van Kampen theorem, quotient group presentations, selected loop-class representatives, universal covers, monodromy actions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite open-cover admission, overlap-window admission, path-loop admission, local fundamental-group admission, generator export, relation export, target handoff, transport, replay, provenance, and local naming for BEDC.Derived.VanKampenUp.}
+  \constructivestory{A $\VanKampenUp$ packet is generated from a displayed topological source and basepoint, finite open-cover rows, overlap rows, path-loop rows, local FundamentalGroupUp rows, generator rows, relation rows, a FundamentalGroupUp consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

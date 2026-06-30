@@ -99,4 +99,106 @@ theorem BanachAlgebraNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, productUnary, completionUnary⟩
 
+theorem BanachAlgebraPublicExportSurface [AskSetup] [PackageSetup]
+    {R N B Q M H C P L productRead completionRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R ->
+      UnaryHistory N ->
+        UnaryHistory B ->
+          UnaryHistory Q ->
+            UnaryHistory M ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory L ->
+                      Cont R N B ->
+                        Cont B Q productRead ->
+                          Cont productRead M completionRead ->
+                            Cont completionRead L publicRead ->
+                              PkgSig bundle P pkg ->
+                                PkgSig bundle L pkg ->
+                                  PkgSig bundle publicRead pkg ->
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row publicRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row R ∨ hsame row N ∨ hsame row B ∨
+                                            hsame row Q ∨ hsame row M ∨ hsame row H ∨
+                                              hsame row C ∨ hsame row P ∨ hsame row L ∨
+                                                hsame row productRead ∨
+                                                  hsame row completionRead ∨
+                                                    hsame row publicRead)
+                                        (fun row : BHist =>
+                                          UnaryHistory row ∧ Cont R N B ∧
+                                            Cont B Q productRead ∧
+                                              Cont productRead M completionRead ∧
+                                                Cont completionRead L publicRead ∧
+                                                  PkgSig bundle publicRead pkg)
+                                        hsame ∧ UnaryHistory productRead ∧
+                                          UnaryHistory completionRead ∧
+                                            UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BanachAlgebraUp BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro _rUnary _nUnary bUnary qUnary mUnary _hUnary _cUnary _pUnary lUnary
+    ringNormRoute productRoute completionRoute publicRoute _provenancePkg _localPkg publicPkg
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed bUnary qUnary productRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed productUnary mUnary completionRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed completionUnary lUnary publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row N ∨ hsame row B ∨ hsame row Q ∨
+              hsame row M ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row L ∨ hsame row productRead ∨ hsame row completionRead ∨
+                  hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R N B ∧ Cont B Q productRead ∧
+              Cont productRead M completionRead ∧ Cont completionRead L publicRead ∧
+                PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, ringNormRoute, productRoute, completionRoute, publicRoute,
+          publicPkg⟩
+  }
+  exact ⟨cert, productUnary, completionUnary, publicUnary⟩
+
 end BEDC.Derived.BanachAlgebraUp

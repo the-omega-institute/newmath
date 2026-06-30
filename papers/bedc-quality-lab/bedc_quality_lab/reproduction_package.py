@@ -81,10 +81,10 @@ FULL_REPRO_TARGET_IDS = frozenset(
     }
 )
 FAIR_L1_BLOCKED_REASON = {
-    "category": "missing-validation-loss-cell",
-    "detail": "validation-loss-cell-missing",
-    "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
-    "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+    "category": "source-blocked",
+    "detail": "fair-comparison-boundary",
+    "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
+    "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
     "dependency_ref": "github:issue:1196",
     "planning_context_ref": "github:issue:1329#plan-4",
 }

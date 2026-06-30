@@ -245,15 +245,77 @@ Finally combine the located handoff boundary and compact-window transport, \auto
 \end{proof}
 \leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactCompactNeighbourhoodBasis}
 
+\begin{theorem}[LocallyCompact public neighbourhood-base export]
+\label{thm:locallycompact-public-neighbourhood-base-export}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. The public neighbourhood-base read exported by $L$ is exactly the ten-row local carrier route: compact-ball access through $B,K$, local-cover access through the displayed center-radius window $X,x,r$, componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, provenance through $P$, and local $\NameCert$ naming through $N$, with the optional located handoff $A$ attached to the same compact window. Every public read factors through those rows and exports no host-selected neighbourhood base, open-cover compactness, quotient point equality, countable choice, all-centers/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:locally-compact-carrier}. The public read has only the displayed source, point, radius, compact-ball, compact witness, located handoff, transport, replay, provenance, and local naming rows.
+
+Apply the compact-neighbourhood basis theorem, \autoref{thm:locallycompact-compact-neighbourhood-basis}. It identifies the neighbourhood basis as the finite center-radius route through $X,x,r,B,K,A,H,C,P,N$ and refuses external selectors.
+
+Use compact-window transport and the local properness-radius exhaustion route, \autoref{thm:locallycompact-compact-window-transport} and \autoref{thm:locallycompact-local-properness-radius-exhaustion}. These keep $\hsame$ transport, properness comparison, and completion-facing reads inside the same compact-ball window rather than turning the packet into a global properness family.
+
+Finally use the completion consumer route, \autoref{thm:locally-compact-completion-consumer-route}. The public export is therefore the carrier route itself with provenance and local NameCert rows visible; it is not open-cover compactness, quotient equality, choice, ambient completeness, or a host neighbourhood-base structure.
+\end{proof}
+\leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactPublicNeighbourhoodBaseExport}
+
+\begin{theorem}[LocallyCompact abstract schema bridge surface]
+\label{thm:locallycompact-abstract-schema-bridge-surface}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. The public neighbourhood-base export of \autoref{thm:locallycompact-public-neighbourhood-base-export} is the bridge surface from the ten-row LocallyCompact carrier to the abstract local-compactness schema: it exports compact-ball access through $B,K$, local window access through $X,x,r$, optional located refinement through $A$, and structural transport through $H,C,P,N$. It exports no open-cover compactness, host neighbourhood-base selector, quotient point equality, countable choice, all-centers/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-compact-carrier}. The abstract schema can only see the displayed metric source, inspected point, positive radius, closed ball, compact witness, optional located handoff, transport, replay, provenance, and local naming rows.
+
+Apply the public neighbourhood-base export, \autoref{thm:locallycompact-public-neighbourhood-base-export}. It already identifies the exported public read with compact-ball access, center-radius local-cover access, componentwise transport, continuation replay, provenance, and local NameCert naming through exactly those rows.
+
+Therefore the bridge surface is the public export itself. Since neither the carrier nor the public export contains open-cover compactness, a host selector, quotient equality, countable choice, global properness, or ambient Real completeness, the abstract local-compactness schema receives only the finite local compact-neighbourhood boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactAbstractSchemaBridgeSurface}
+
+\begin{theorem}[LocallyCompact mature compact-completion route]
+\label{thm:locallycompact-mature-compact-completion-route}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Every mature consumer that asks for compactness or completion first reads the local closed-ball window $X,x,r,B$, the compact witness $K$, the optional $\LocatedCompactUp$ handoff $A$, the properness nonescape boundary, and the compact-window transport rows $H,C,P,N$. Only after those rows are displayed may the consumer reuse the packet as a compact-completion route, and the route exports no open-cover compactness, host neighbourhood base, quotient point equality, countable choice, all-centers/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the compact-ball window of \autoref{thm:locally-compact-compact-ball-window}. It exposes one metric source, one inspected point, one positive radius ledger, one closed-ball row, and one compact witness before any compactness or completion-facing read is available.
+
+Attach the located handoff using \autoref{thm:locally-compact-located-compact-route}. The row $A$ is optional, and when present it refines the same displayed closed-ball window rather than introducing an open-cover compactness principle or host neighbourhood base.
+
+Next apply proper-metric nonescape, \autoref{thm:locally-compact-proper-metric-nonescape}. A properness or completion consumer can reuse the compact window only through the displayed local packet, so the route does not become an all-centers/all-radii properness family.
+
+Finally use compact-window transport, \autoref{thm:locallycompact-compact-window-transport}. The transport rows $H,C,P,N$ preserve the same source, point, radius, closed-ball, compact witness, and located handoff, and therefore cannot add quotient equality, countable choice, or ambient Real completeness. The mature compact-completion route is exactly this composed finite window.
+\end{proof}
+\leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactMatureCompactCompletionRoute}
+
+\begin{theorem}[LocallyCompact compact-window handoff]
+\label{thm:locally-compact-compact-window-handoff}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Every $\CompactMetricUp$, $\LocatedCompactUp$, $\ProperMetricUp$, $\MetricCompletionUp$, or $\CompletionUp$ consumer that asks for compactness or completion must read the same displayed local window
+$$
+X,\quad x,\quad r,\quad B,\quad K,\quad A,\quad H,\quad C,\quad P,\quad N
+$$
+before using the compactness or completion-facing surface. The handoff exports one compact closed-ball window with transport, replay, provenance, and local naming; it does not export open-cover compactness, global properness, a host neighbourhood base, quotient point equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the compact-ball window, \autoref{thm:locally-compact-compact-ball-window}. It exposes the metric source, inspected point, positive radius, closed-ball row, and compact witness before any compactness-facing consumer can read the packet.
+
+Attach the located row using \autoref{thm:locally-compact-located-compact-route}. The $\LocatedCompactUp$ handoff is tied to the same $X,x,r,B,K$ window, so it cannot introduce a second compact source or an open-cover compactness principle.
+
+Next use proper-metric nonescape, \autoref{thm:locally-compact-proper-metric-nonescape}. A $\ProperMetricUp$ or completion-facing consumer receives one displayed local compactness boundary, not an all-centers/all-radii properness theorem.
+
+Finally compose compact-window transport with the mature compact-completion route, \autoref{thm:locallycompact-compact-window-transport} and \autoref{thm:locallycompact-mature-compact-completion-route}. The rows $H,C,P,N$ preserve the same local window through transport, replay, provenance, and naming, so compactness and completion consumers can reuse only the finite window stated above.
+\end{proof}
+\leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactCompactWindowHandoff}
+
 \closureat{$\LocallyCompactUp$}{seedStr}
 \closureat{LocallyCompactUp}{obligationStr}
 
 \begin{closurestatus}{\LocallyCompactUp}
   \constructivestory{A $\LocallyCompactUp$ packet is generated from a metric source row, an inspected point row, a positive RatUp or RealUp radius ledger, a MetricClosedBall row, a CompactMetric witness for the displayed window, an optional LocatedCompact handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, and \autoref{thm:locallycompact-compact-neighbourhood-basis} bind the compact-neighbourhood scope to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, \autoref{thm:locallycompact-compact-neighbourhood-basis}, \autoref{thm:locallycompact-public-neighbourhood-base-export}, \autoref{thm:locallycompact-abstract-schema-bridge-surface}, and \autoref{thm:locallycompact-mature-compact-completion-route} bind the compact-neighbourhood public surface, abstract schema bridge, and downstream compact-completion example to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, a host neighbourhood base, quotient point equality, countable choice, ambient Real completeness, global properness, Lean verification, or bridge checking.}
-  \upgradepath{A formal route can encode the ten-row carrier and prove the finite local NameCert obligation surface and closed-ball neighbourhood-base theorem for BEDC.Derived.LocallyCompactUp.}
+  \upgradepath{No further theory-axis upgrade is claimed beyond future bridge checking and formalization.}
 \end{closurestatus}

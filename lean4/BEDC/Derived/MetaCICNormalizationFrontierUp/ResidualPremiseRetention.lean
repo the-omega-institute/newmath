@@ -1,0 +1,89 @@
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateDischargeStability
+
+namespace BEDC.Derived.MetaCICNormalizationFrontierUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem MetaCICNormalizationFrontierResidualPremiseRetention [AskSetup] [PackageSetup]
+    {candidate closedCandidate finished endpoint obstruction transport replay provenance
+      localRow candidateRead finishedRead endpointRead normalRead substitutionRead residualRead :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationFrontierGroundCompilerFormalTarget candidate closedCandidate finished
+        endpoint obstruction transport replay provenance localRow candidateRead finishedRead
+        endpointRead normalRead substitutionRead bundle pkg →
+      Cont normalRead obstruction residualRead →
+        PkgSig bundle residualRead pkg →
+          UnaryHistory residualRead ∧ hsame obstruction obstruction ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row residualRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row obstruction ∨ hsame row normalRead ∨ hsame row substitutionRead ∨
+                  hsame row residualRead)
+              (fun row : BHist => PkgSig bundle residualRead pkg ∧ hsame row residualRead)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro target normalObstructionResidual residualPkg
+  have scope :=
+    MetaCICNormalizationFrontierGroundCompilerTargetScope
+      (candidate := candidate) (closedCandidate := closedCandidate) (finished := finished)
+      (endpoint := endpoint) (obstruction := obstruction) (transport := transport)
+      (replay := replay) (provenance := provenance) (localRow := localRow)
+      (candidateRead := candidateRead) (finishedRead := finishedRead)
+      (endpointRead := endpointRead) (normalRead := normalRead)
+      (substitutionRead := substitutionRead) (bundle := bundle) (pkg := pkg) target
+  obtain ⟨carrier, _candidateClosedRead, _finishedEndpointRead, _finishedReplayEndpoint,
+    _endpointLocalNormal, _endpointReplayEndpoint, _endpointLocalSubstitution, _normalPkg,
+    _substitutionPkg⟩ := target
+  obtain ⟨_candidateUnary, _closedCandidateUnary, _finishedUnary, _endpointUnary,
+    obstructionUnary, _transportUnary, _replayUnary, _provenanceUnary, _localRowUnary,
+    _candidateClosedLocal, _finishedEndpointReplay, _endpointReplayProvenance,
+    _transportSameCandidateFinished, _provenancePkg⟩ := carrier
+  obtain ⟨_scopeCert, _candidateReadUnary, _finishedReadUnary, _endpointReadUnary,
+    normalReadUnary, _substitutionReadUnary, _transportSameCandidateFinished,
+    _provenancePkg⟩ := scope
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed normalReadUnary obstructionUnary normalObstructionResidual
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row residualRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row obstruction ∨ hsame row normalRead ∨ hsame row substitutionRead ∨
+            hsame row residualRead)
+        (fun row : BHist => PkgSig bundle residualRead pkg ∧ hsame row residualRead)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro residualRead ⟨hsame_refl residualRead, residualUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr source.left))
+      ledger_sound := by
+        intro _row source
+        exact ⟨residualPkg, source.left⟩
+    }
+  exact ⟨residualUnary, hsame_refl obstruction, cert⟩
+
+end BEDC.Derived.MetaCICNormalizationFrontierUp

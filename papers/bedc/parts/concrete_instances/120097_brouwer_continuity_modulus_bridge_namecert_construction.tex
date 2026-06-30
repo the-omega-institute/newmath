@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerContinuityModulusBridgeUp$}
+\label{ch:concrete-instances-brouwer-continuity-modulus-bridge-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on finite-prefix continuity for choice sequences, the $\BrouwerContinuityModulusBridgeUp$ packet records the handoff that turns Brouwer-continuity evidence into a finite modulus ledger consumable by StreamName, RegSeqRat, and Real-name data. It sits between the continuity surface of \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert}, the choice-sequence observations of \autoref{ch:concrete-instances-choice-sequence-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the endpoint seal of \autoref{ch:concrete-instances-real-namecert}, and the effective finite-prefix route of \autoref{ch:concrete-instances-kreisel-lacombe-shoenfield-namecert}. The chapter packages the bridge as NameCert data; it does not import host functional continuity, countable choice, quotient stream equality, selected real representatives, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Brouwer continuity modulus bridge carrier]
+\label{def:brouwer-continuity-modulus-bridge-carrier}
+A $\BrouwerContinuityModulusBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(C,Q,S,R,E,M,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\BrouwerContinuityPrincipleUp$ row, naming the finite-prefix continuity principle whose output read is being bridged.
+\item $Q$ is the $\ChoiceSequenceUp$ finite-prefix row, recording only the observed choice-sequence cells admitted by the bridge.
+\item $S$ is the $\StreamNameUp$ window row, recording the requested output window and the finite schedule used to answer it.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the scheduled stream window.
+\item $E$ is the $\RealUp$ seal row exposed only after the choice prefix, stream window, rational readback, and modulus ledger have been displayed.
+\item $M$ is the finite modulus ledger, assigning each scheduled output window exactly the input-prefix budget used for replay.
+\item $H$ records componentwise $\hsame$ transport for $C,Q,S,R,E,M,K,P,N$.
+\item $K$ records displayed $\Cont$ replay from Brouwer continuity evidence to choice-sequence observations, from observations to StreamName windows, from windows to RegSeqRat readback, from the modulus ledger to the Real seal, and from the whole route to the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerContinuityModulusBridgeUp$, $\BrouwerContinuityPrincipleUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerContinuityModulusBridgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted bridge packets only through $C,Q,S,R,E,M,H,K,P,N$. It has no coordinate for a completed host functional, a choice-selected modulus, quotient stream equality, a selected real limit, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Brouwer continuity modulus bridge NameCert obligations]
+\label{thm:brouwer-continuity-modulus-bridge-namecert-obligations}
+For every accepted $\BrouwerContinuityModulusBridgeUp$ carrier $B=(C,Q,S,R,E,M,H,K,P,N)$, the local $\NameCert_{\BrouwerContinuityModulusBridgeUp}$ surface consists exactly of carrier admission for the Brouwer-continuity row, choice-sequence finite-prefix row, StreamName window row, RegSeqRat readback row, Real seal row, finite modulus ledger, componentwise transport, displayed replay, provenance, and local naming rows. Each accepted output-window request must pass through the displayed finite-prefix route
+$$
+C,Q \longmapsto M \longmapsto S,R \longmapsto E \longmapsto H,K,P,N .
+$$
+No local obligation is stored outside these displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $C,Q,S,R,E,M$ are the only computational rows, and the rows $H,K,P,N$ are the only structural rows.
+
+The Brouwer-continuity row $C$ supplies the finite-prefix dependence surface, while $Q$ records the choice-sequence cells actually inspected by the route. The StreamName row $S$ cannot answer a window request until the modulus ledger $M$ displays the corresponding input-prefix budget.
+
+Once the window is scheduled, $R$ gives the regular rational readback and $E$ records the endpoint seal. The transport, replay, provenance, and naming rows preserve that order and add no hidden selector or completion theorem.
+
+Thus the local NameCert obligations are exactly the displayed bridge rows. A consumer seeking countable choice, quotient stream equality, a completed host functional, or ambient Real completeness must obtain it outside this packet.
+\end{proof}
+
+\begin{theorem}[Brouwer continuity modulus bridge StreamName handoff]
+\label{thm:brouwer-continuity-modulus-bridge-streamname-handoff}
+Every $\StreamNameUp$ consumer of an accepted $\BrouwerContinuityModulusBridgeUp$ carrier must first read the $\BrouwerContinuityPrincipleUp$ row $C$, the $\ChoiceSequenceUp$ finite-prefix row $Q$, and the finite modulus ledger $M$. The consumer may then inspect the scheduled StreamName window $S$, the RegSeqRat readback $R$, and the Real seal $E$. The handoff exports finite-prefix real-name evidence only; it exports no host functional continuity theorem, countable-choice selector, quotient stream equality, selected real representative, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a StreamName request. The request is represented by $S$, but the carrier permits $S$ to be read only as part of the bridge route from $C$ and $Q$ through the ledger $M$.
+
+Open the ledger row. Each entry of $M$ names the input-prefix budget attached to one displayed output-window request, so the consumer receives a finite prefix rather than a total host function or a choice-selected modulus.
+
+The readback rows then follow deterministically inside the packet. Row $R$ records the regular rational data for the scheduled window, and row $E$ seals the Real-name endpoint after that readback has been displayed.
+
+The structural rows $H,K,P,N$ replay and name the same route. Since none of the refused principles is a carrier coordinate, the StreamName handoff remains a finite-prefix real-name bridge.
+\end{proof}
+
+\closureat{BrouwerContinuityModulusBridgeUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerContinuityModulusBridgeUp}
+  \constructivestory{A $\BrouwerContinuityModulusBridgeUp$ packet is generated from Brouwer-continuity evidence, choice-sequence finite-prefix observations, StreamName windows, RegSeqRat readback, a Real seal, a finite modulus ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-continuity-modulus-bridge-carrier}, \autoref{thm:brouwer-continuity-modulus-bridge-namecert-obligations}, and \autoref{thm:brouwer-continuity-modulus-bridge-streamname-handoff} seed the finite-prefix bridge from Brouwer-continuity and choice-sequence data to StreamName, RegSeqRat, and Real-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host functional continuity, countable choice, quotient stream equality, selected real representatives, trichotomy, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix exactness, StreamName window exactness, RegSeqRat readback, Real-seal handoff, modulus-ledger exactness, and nonescape for BEDC.Derived.BrouwerContinuityModulusBridgeUp.}
+\end{closurestatus}

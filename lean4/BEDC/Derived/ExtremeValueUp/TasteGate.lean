@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ExtremeValueUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -193,5 +198,128 @@ theorem ExtremeValueTasteGate_single_carrier_alignment :
         intro x y heq
         exact extremeValueToEventFlow_injective heq,
       rfl⟩
+
+def ExtremeValuePacket (X F U M S R H C P N attainment : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  UnaryHistory X ∧ UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory M ∧
+    UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont X F U ∧ Cont U M S ∧
+        Cont M S R ∧ Cont R N attainment
+
+theorem ExtremeValueCarrier_finite_net_attainment
+    {X F U M S R H C P N attainment valueRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      Cont S R valueRead →
+        extremeValueFields (ExtremeValueUp.mk X F U M S R H C P N) =
+            [X, F, U, M, S, R, H, C, P, N] ∧
+          UnaryHistory U ∧ UnaryHistory S ∧ UnaryHistory valueRead ∧
+            Cont X F U ∧ Cont U M S ∧ Cont S R valueRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet valueRoute
+  obtain ⟨_sourceUnary, _mapUnary, modulusUnary, _foldUnary, supremumUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, sourceRoute, modulusRoute,
+    _sealRoute, _attainmentRoute⟩ := packet
+  have valueUnary : UnaryHistory valueRead :=
+    unary_cont_closed supremumUnary sealUnary valueRoute
+  exact ⟨rfl, modulusUnary, supremumUnary, valueUnary, sourceRoute, modulusRoute, valueRoute⟩
+
+theorem ExtremeValueNameCertObligations {X F U M S R H C P N attainment : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      SemanticNameCert
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N (And.intro packet (hsame_refl N))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row col out sameRow sameCol
+        exact hsame_trans sameRow sameCol
+      carrier_respects_equiv := by
+        intro row col same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
+theorem ExtremeValueFiniteNetAttainment {X F U M S R H C P N attainment sealRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      Cont X F U →
+        Cont M S attainment →
+          Cont attainment R sealRead →
+            UnaryHistory sealRead ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row X ∨ hsame row F ∨ hsame row U ∨ hsame row M ∨
+                    hsame row S ∨ hsame row R ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont X F U ∧ Cont M S attainment ∧
+                    Cont attainment R sealRead)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro packet sourceRoute attainmentRoute sealRoute
+  obtain ⟨_xUnary, _fUnary, _uUnary, mUnary, sUnary, rUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _packetSourceRoute, _uniformRoute, _foldRoute,
+    _attainmentRoute⟩ := packet
+  have attainmentUnary : UnaryHistory attainment :=
+    unary_cont_closed mUnary sUnary attainmentRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed attainmentUnary rUnary sealRoute
+  have sealSource :
+      (fun row : BHist => hsame row sealRead ∧ UnaryHistory row) sealRead := by
+    exact ⟨hsame_refl sealRead, sealUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row U ∨ hsame row M ∨
+              hsame row S ∨ hsame row R ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X F U ∧ Cont M S attainment ∧
+              Cont attainment R sealRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead sealSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sourceRoute, attainmentRoute, sealRoute⟩
+  }
+  exact ⟨sealUnary, cert⟩
 
 end BEDC.Derived.ExtremeValueUp

@@ -147,4 +147,44 @@ theorem KernelSourceChannelLedgerPacket_source_query_separation [AskSetup] [Pack
       queryBoundaryUnary, generatedStampAccepted, acceptedQuery, sourceQueryRefusal, namePkg,
       boundaryPkg⟩
 
+theorem KernelSourceChannelLedgerPacket_public_export_package [AskSetup] [PackageSetup]
+    {generated stamp accepted ancestry query refusal trace route separation transport replay
+      provenance name auditRead sourceQuery queryBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelSourceChannelLedgerPacket generated stamp accepted ancestry query refusal trace route
+        separation transport replay provenance name bundle pkg ->
+      Cont accepted query auditRead ->
+        Cont accepted query sourceQuery ->
+          Cont sourceQuery refusal queryBoundary ->
+            PkgSig bundle auditRead pkg ->
+              PkgSig bundle queryBoundary pkg ->
+                UnaryHistory generated ∧ UnaryHistory accepted ∧ UnaryHistory query ∧
+                  UnaryHistory refusal ∧ UnaryHistory trace ∧ UnaryHistory route ∧
+                    UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+                      UnaryHistory auditRead ∧ UnaryHistory sourceQuery ∧
+                        UnaryHistory queryBoundary ∧ Cont generated stamp accepted ∧
+                          Cont trace route transport ∧ Cont transport replay provenance ∧
+                            Cont accepted query auditRead ∧ Cont accepted query sourceQuery ∧
+                              Cont sourceQuery refusal queryBoundary ∧ PkgSig bundle name pkg ∧
+                                PkgSig bundle auditRead pkg ∧
+                                  PkgSig bundle queryBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet acceptedQueryAudit acceptedQuerySource sourceQueryRefusal auditPkg boundaryPkg
+  obtain ⟨generatedUnary, _stampUnary, acceptedUnary, _ancestryUnary, queryUnary, refusalUnary,
+    traceUnary, routeUnary, _separationUnary, transportUnary, replayUnary, provenanceUnary,
+    _nameUnary, generatedStampAccepted, _queryRefusalSeparation, traceRouteTransport,
+    transportReplayProvenance, namePkg⟩ := packet
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed acceptedUnary queryUnary acceptedQueryAudit
+  have sourceQueryUnary : UnaryHistory sourceQuery :=
+    unary_cont_closed acceptedUnary queryUnary acceptedQuerySource
+  have queryBoundaryUnary : UnaryHistory queryBoundary :=
+    unary_cont_closed sourceQueryUnary refusalUnary sourceQueryRefusal
+  exact
+    ⟨generatedUnary, acceptedUnary, queryUnary, refusalUnary, traceUnary, routeUnary,
+      transportUnary, replayUnary, provenanceUnary, auditUnary, sourceQueryUnary,
+      queryBoundaryUnary, generatedStampAccepted, traceRouteTransport,
+      transportReplayProvenance, acceptedQueryAudit, acceptedQuerySource, sourceQueryRefusal,
+      namePkg, auditPkg, boundaryPkg⟩
+
 end BEDC.Derived.KernelSourceChannelLedgerUp

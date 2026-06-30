@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnetTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy subnet NameCert obligations]
 \label{thm:cauchy-subnet-namecert-obligations}
@@ -39,6 +40,7 @@ For every accepted $\CauchySubnetUp$ carrier $S=(F,J,W,R,D,L,E,H,C,P,N)$, the lo
 \end{enumerate}
 No NameCert obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnetNameCertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-subnet-carrier}. The projection exposes exactly the source Cauchy filter row $F$, cofinal subnet-index ledger $J$, StreamName window $W$, RegSeqRat readback $R$, DyadicRatCore tolerance ledger $D$, filter-limit handoff $L$, seal row $E$, and structural rows $H,C,P,N$.
 
@@ -55,6 +57,7 @@ F,J,W,R,D \longmapsto L \longmapsto E \longmapsto H,C,P,N .
 $$
 Thus the consumer receives a $\CauchyFilterLimitUp$ handoff only after the source $\CauchyFilterUp$ row, cofinal subnet-index ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ tolerance ledger have been displayed. The route exports no quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnet\_filter\_limit\_handoff}
 \begin{proof}
 Begin with a completion-facing or Real-facing consumer. Carrier admission provides the handoff row $L$ and seal row $E$, but only as rows downstream of $F,J,W,R,D$.
 
@@ -63,9 +66,57 @@ Replay the continuation row $C$. The request first consumes the source Cauchy fi
 Only after that displayed route has been replayed can the packet expose $L$, and only after $L$ can it expose $E$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same dependency order, so the handoff is a finite BEDC route rather than quotient filter equality, selected host subnet choice, countable choice, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cauchy subnet cofinal ledger coverage]
+\label{thm:cauchy-subnet-cofinal-ledger-coverage}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Every accepted subnet request admitted by the cofinal ledger row $J$ has a displayed source-filter request in $F$. Every completion-facing read must pass through
+$$
+F,J,W,R,D,L,E,H,C,P,N
+$$
+before it exposes a $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$ seal. Thus cofinal restriction is a finite ledger coverage route, not a quotient-filter equality, selected host subnet, countable-choice selector, host real equality, or ambient completeness assertion.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnet\_cofinal\_ledger\_coverage}
+\leanvariant{BEDC.Derived.CauchySubnetUp.CauchySubnetCarrier\_cofinal\_ledger\_coverage}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-subnet-carrier}. The row $J$ is specified as the cofinal subnet-index ledger, and its accepted requests are backed by displayed source requests to the filter row $F$.
+
+Use \autoref{thm:cauchy-subnet-namecert-obligations} for row exhaustion. After $F$ and $J$, every admissible read proceeds through the finite-window row $W$, regular rational readback $R$, dyadic tolerance ledger $D$, handoff row $L$, seal row $E$, and structural rows $H,C,P,N$.
+
+Finally apply \autoref{thm:cauchy-subnet-filter-limit-handoff}. It identifies the only endpoint route to $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$, so no completion-facing consumer can bypass the cofinal ledger coverage.
+\end{proof}
+
+\begin{theorem}[Cauchy subnet obligation-closure package]
+\label{thm:cauchy-subnet-obligation-closure-package}
+The carrier definition of \autoref{def:cauchy-subnet-carrier}, together with \autoref{thm:cauchy-subnet-namecert-obligations}, \autoref{thm:cauchy-subnet-filter-limit-handoff}, and \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}, closes the $\CauchySubnetUp$ obligation surface for carrier admission, cofinal coverage, finite-window exactness, tolerance exactness, filter-limit handoff, and ledger refusal. In particular, every accepted $\CauchySubnetUp$ consumer read is forced through
+$$
+F,J,W,R,D,L,E,H,C,P,N
+$$
+before it may expose a $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$ endpoint, and the packet has no remaining local obligation coordinate for quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnet\_obligation\_closure\_package}
+\begin{proof}
+Carrier admission is exactly the row projection in \autoref{def:cauchy-subnet-carrier}. The source filter, cofinal ledger, finite windows, rational readback, dyadic tolerance ledger, limit handoff, completion or Real seal, transport, replay, provenance, and local naming rows are all visible there.
+
+Apply \autoref{thm:cauchy-subnet-namecert-obligations} to exhaust the local NameCert surface. Its obligation list accounts for carrier admission, cofinal restriction coverage, finite-window and tolerance exactness, the downstream filter-limit handoff, and refusal of the excluded host-level data.
+
+The two route theorems then identify the order of consumption. \autoref{thm:cauchy-subnet-filter-limit-handoff} forces every endpoint through $F,J,W,R,D,L,E,H,C,P,N$, while \autoref{thm:cauchy-subnet-cofinal-ledger-coverage} prevents a completion-facing read from bypassing the cofinal ledger. These clauses leave no further local obligation row for the $\CauchySubnetUp$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnetCarrier\_obligation\_closure\_package}
+
+\begin{theorem}[Cauchy subnet scoped route]
+\label{thm:cauchy-subnet-scoped-route}
+Every accepted $\CauchySubnetUp$ read is scoped exactly by the displayed $\CauchyFilterUp$ source row, $\CauchyFilterLimitUp$ handoff row, $\MetricCompletionUp$ endpoint row, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ rational readback row, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal row, the surrounding $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchySubnetUp}$ row. A consumer that omits any one of these rows receives only a partial subnet restriction and cannot expose a completion-facing endpoint for the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the local obligation inventory. \autoref{thm:cauchy-subnet-namecert-obligations} lists carrier admission, cofinal restriction coverage, finite-window and tolerance exactness, filter-limit handoff, and ledger refusal as the only local rows.
+
+Next read the endpoint route. \autoref{thm:cauchy-subnet-filter-limit-handoff} forces every completion-facing or Real-facing consumer through $F,J,W,R,D,L,E,H,C,P,N$, while \autoref{thm:cauchy-subnet-cofinal-ledger-coverage} prevents the cofinal ledger $J$ from being bypassed before the finite windows are inspected.
+
+Finally apply \autoref{thm:cauchy-subnet-obligation-closure-package}. It packages the carrier, handoff, cofinal coverage, and refusal clauses into the same displayed packet, so the exact scope of an accepted read is precisely the listed CauchyFilter, CauchyFilterLimit, MetricCompletion, StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert surface.
+\end{proof}
+
 \begin{closurestatus}{\CauchySubnetUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-subnet-carrier}, \autoref{thm:cauchy-subnet-namecert-obligations}, and \autoref{thm:cauchy-subnet-filter-limit-handoff} seed the finite cofinal subnet restriction surface between CauchyFilter sources, StreamName and RegSeqRat readback, CauchyFilterLimit handoff, and MetricCompletion or Real consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-subnet-carrier}, \autoref{thm:cauchy-subnet-namecert-obligations}, \autoref{thm:cauchy-subnet-filter-limit-handoff}, \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}, and \autoref{thm:cauchy-subnet-obligation-closure-package} close the finite cofinal subnet obligation surface between CauchyFilter sources, StreamName and RegSeqRat readback, DyadicRatCore tolerance rows, CauchyFilterLimit handoff, and MetricCompletion or Real consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient filters, selected host subnets, countable choice, host real equality, ambient completeness, or Lean verification.}

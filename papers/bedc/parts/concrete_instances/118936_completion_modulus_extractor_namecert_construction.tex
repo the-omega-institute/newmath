@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CompletionModulusExtractorUp$}
+\label{ch:concrete-instances-completion-modulus-extractor-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\CompletionModulusExtractorUp$ packet records the finite extraction surface by which completion-facing data exposes a modulus row before any completed object is consumed. It sits beside \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-real-namecert}: those chapters supply the metric-completion, filter-basis, regular rational, dyadic tolerance, finite-window, and real-seal rows, while this chapter names the extractor that keeps the modulus route finite and inspectable.
+
+\begin{definition}[Completion modulus extractor carrier]
+\label{def:completion-modulus-extractor-carrier}
+A $\CompletionModulusExtractorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,B,S,R,D,W,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricCompletionUp$ row naming the completion-facing request.
+\item $B$ is the $\CauchyFilterBasisUp$ row that records the finite basis through which the source is inspected.
+\item $S$ is the finite $\StreamNameUp$ window schedule opened by the extractor.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the extracted regular observations.
+\item $W$ is the extracted modulus row, recording for each admitted precision a finite window and dyadic tolerance witness.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $B,S,R,D,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, basis, window, readback, dyadic, modulus, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the same finite extractor rows.
+\item $P$ is the $\Pkg$ provenance over $\CompletionModulusExtractorUp$, $\MetricCompletionUp$, $\CauchyFilterBasisUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompletionModulusExtractorUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets carrying these rows. It exports no quotient completion, selected limit, countable-choice selector, host real equality, hidden completeness principle, or modulus not displayed in $W$.
+\end{definition}
+\leandef{BEDC.Derived.CompletionModulusExtractorUp}
+
+\begin{theorem}[Completion modulus extractor NameCert obligations]
+\label{thm:completion-modulus-extractor-namecert-obligations}
+For every accepted $\CompletionModulusExtractorUp$ carrier
+$$
+E=(M,B,S,R,D,W,L,H,C,P,N),
+$$
+the local $\NameCert_{\CompletionModulusExtractorUp}$ surface consists exactly of carrier admission, completion-request readback, basis readback, finite-window admission, regular rational readback, dyadic tolerance visibility, extracted-modulus visibility, terminal real sealing, componentwise transport, displayed replay, provenance, and local naming. Every completion-facing consumer must read the extracted modulus row $W$ through
+$$
+M,B,S,R,D,W,L,H,C,P,N
+$$
+and through no hidden completion or choice coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:completion-modulus-extractor-carrier}. The source row $M$ names the completion-facing request, while $B,S,R,D$ expose the finite basis, window, regular readback, and dyadic tolerance data from which a modulus can be read.
+
+Inspect the extracted row $W$. It is the only coordinate whose role is to present the precision-to-window and precision-to-tolerance schedule, so any consumer asking for modulus data must pass through that displayed row.
+
+Finally read $L,H,C,P,N$. The terminal real seal is downstream of the modulus display, and the structural rows transport, replay, source, and locally name the same finite route. Since no coordinate of $E$ stores a quotient completion, selected limit, countable-choice selector, host equality, or hidden completeness principle, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Completion modulus extractor finite route]
+\label{thm:completion-modulus-extractor-route}
+Every $\MetricCompletionUp$ or $\RealUp$ consumer of an accepted $\CompletionModulusExtractorUp$ packet reads the finite route
+$$
+\MetricCompletionUp \longmapsto \CauchyFilterBasisUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto W \longmapsto \RealUp
+$$
+implemented by the displayed rows $M,B,S,R,D,W,L,H,C,P,N$. The route exposes modulus data as finite NameCert evidence; it does not select a completed point, quotient Cauchy names, invoke countable choice, prove host real equality, or assert ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with $M$ and $B$. The completion request is admitted only through the displayed metric-completion row, and the Cauchy-filter basis row fixes the finite observations the extractor may open.
+
+Next inspect $S,R,D,W$. The stream windows determine the finite observations, the regular rational row records the readback, the dyadic ledger supplies tolerance comparison, and $W$ packages those data as the visible modulus row.
+
+The final rows $L,H,C,P,N$ preserve the same route for Real-facing consumers. They seal the terminal real row, transport displayed components, replay the finite request, record provenance, and name the local packet. None of these rows adds quotient data, a selected point, choice, host equality, or ambient completeness.
+\end{proof}
+
+\closureat{CompletionModulusExtractorUp}{seedStr}
+
+\begin{closurestatus}{\CompletionModulusExtractorUp}
+  \constructivestory{A $\CompletionModulusExtractorUp$ packet is generated from MetricCompletion requests, CauchyFilterBasis rows, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance data, an extracted modulus row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-modulus-extractor-carrier}, \autoref{thm:completion-modulus-extractor-namecert-obligations}, and \autoref{thm:completion-modulus-extractor-route} seed the finite extraction route from completion requests through basis windows, regular readback, dyadic tolerance, displayed modulus data, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CompletionModulusExtractorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, completion-source readback, basis-window exactness, RegSeqRat readback, DyadicRatCore tolerance exactness, extracted-modulus visibility, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompletionModulusExtractorUp.}
+\end{closurestatus}

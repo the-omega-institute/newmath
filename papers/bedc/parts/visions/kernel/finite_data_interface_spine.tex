@@ -1,0 +1,586 @@
+\chapter{Finite Data Interface Spine}
+\label{ch:visions-finite-data-interface-spine}
+\origin{human}
+
+The finite-kernel spine of \autoref{ch:visions-mark-hist-ext-cont-spine}
+and \autoref{ch:visions-ask-sig-pkg-gap-namecert-spine} reaches the first
+data-facing layer through certificates.  The finite data layer does not add
+truth values, option values, disjoint sums, ordered pairs, or lists as
+kernel inputs.  It licenses them as derived interfaces over histories,
+history sameness, continuation, package ledgers, stability witnesses, and
+name certificates:
+$$
+(\Hist,\hsame,\ContR,\Pkg,\Gap,\NameCert{})
+\longrightarrow
+(\BoolUp,\OptionUp,\SumUp,\ProdUp,\ListUp).
+$$
+The roadmap obligation for this layer is stated in
+\autoref{sec:roadmap-l6-finite-data}: each public finite-data object must
+display a carrier predicate over $\Hist$, a classifier with stability,
+constructor and case-analysis behavior, and a ledger for the information
+hidden by its public surface.
+
+\section{Interface Template}
+\label{sec:finite-data-interface-template}
+
+\begin{definition}[Finite data interface]
+\label{def:finite-data-interface-template}
+A finite data interface is a certificate packet
+$$
+\mathsf{FinData}^{\uparrow}(A,\sim_A)
+$$
+over histories, consisting of the data
+$$
+(A,\sim_A,\mathsf{Constr}_A,\mathsf{Elim}_A,
+\mathsf{Stab}_A,\mathsf{Ledger}_A,\NameCert(A,\sim_A)).
+$$
+Here
+$$
+A:\Hist\to\mathsf{Prop}
+$$
+is the carrier predicate, and
+$$
+\sim_A:\Hist\to\Hist\to\mathsf{Prop}
+$$
+is the public classifier.  The constructor field records how public
+constructors create admitted histories.  The elimination field records the
+case-analysis or inversion principles allowed by those constructors.  The
+stability field records reflexivity, symmetry, transitivity, and carrier
+transport for the classifier.  The ledger records tag bits, branch choices,
+length rows, component witnesses, or other material suppressed by the public
+name.
+\end{definition}
+
+\begin{definition}[Finite data admission]
+\label{def:finite-data-admission}
+An interface $A^{\uparrow}$ is admitted at the finite data layer when the
+packet of \autoref{def:finite-data-interface-template} is displayed and its
+certificate supplies
+$$
+\mathsf{carrier\_inhabited},
+\qquad
+\mathsf{classifier\_refl},
+\qquad
+\mathsf{classifier\_symm},
+$$
+$$
+\mathsf{classifier\_trans},
+\qquad
+\mathsf{carrier\_transport},
+$$
+together with the advertised constructor, inversion, and ledger fields.
+\end{definition}
+
+\begin{principle}[Finite data is certificate-facing]
+\label{prin:finite-data-certificate-facing}
+No finite data interface is accepted from host notation alone.  A public
+read of $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, or $\ListUp$ must pass
+through a displayed carrier, classifier, stability certificate, ledger, and
+name certificate.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-finite-interface-spine-namecert}{Finite-data interface spine realized as one L6 NameCert packet.}
+
+\begin{theorem}[Finite data interfaces are not kernel inputs]
+\label{thm:finite-data-not-kernel-inputs}
+If $A^{\uparrow}$ is admitted by
+\autoref{def:finite-data-admission}, then $A^{\uparrow}$ is not a BEDC
+kernel input.
+\end{theorem}
+
+\begin{proof}
+The only objects available before the finite data layer are the lower
+generated histories, relations, policies, packages, gaps, and naming
+certificates.  Admission by \autoref{def:finite-data-admission} explicitly
+uses those records.  Thus the public interface is a licensed name over the
+displayed records, not an additional carrier inserted into the kernel.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-finite-data-assembly-namecert}{Finite assembly NameCert for the Bool/Option/Sum/Prod/List interface spine.}
+
+\section{Boolean Endpoint Interface}
+\label{sec:finite-data-bool-interface}
+
+\begin{definition}[Boolean history carrier]
+\label{def:finite-data-bool-carrier}
+The Boolean finite-data carrier is the two-endpoint predicate
+$$
+\mathsf{BoolCarrier}(h)
+:\Longleftrightarrow
+\hsame(h,\emp)
+\vee
+\hsame(h,\Eone(\emp)).
+$$
+The endpoint $\emp$ is the false endpoint, and $\Eone(\emp)$ is the true
+endpoint.
+\end{definition}
+
+\begin{definition}[Boolean history classifier]
+\label{def:finite-data-bool-classifier}
+The Boolean classifier relates exactly histories in the same displayed
+endpoint class:
+$$
+\mathsf{BoolClassifier}(h,k)
+:\Longleftrightarrow
+\bigl(\hsame(h,\emp)\wedge\hsame(k,\emp)\bigr)
+\vee
+\bigl(\hsame(h,\Eone(\emp))\wedge\hsame(k,\Eone(\emp))\bigr).
+$$
+\end{definition}
+
+\begin{definition}[Boolean constructors]
+\label{def:finite-data-bool-constructors}
+The two public constructors are the displayed histories
+$$
+\mathsf{false}^{\uparrow}:=\emp,
+\qquad
+\mathsf{true}^{\uparrow}:=\Eone(\emp).
+$$
+\end{definition}
+
+\begin{theorem}[Boolean endpoint exactness]
+\label{thm:finite-data-bool-endpoint-exactness}
+For admitted Boolean histories $h,k$, the classifier
+$\mathsf{BoolClassifier}(h,k)$ holds exactly when both histories lie in the
+false endpoint class or both lie in the true endpoint class.
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:finite-data-bool-classifier}.  The classifier has only
+the two displayed alternatives, and each alternative requires both histories
+to be in the same endpoint class.
+\end{proof}
+
+\begin{theorem}[Boolean constructor separation]
+\label{thm:finite-data-bool-constructor-separation}
+The endpoint classifier does not relate the two Boolean constructors:
+$$
+\neg\,\mathsf{BoolClassifier}(\emp,\Eone(\emp)).
+$$
+\end{theorem}
+
+\begin{proof}
+If the classifier held, \autoref{def:finite-data-bool-classifier} would put
+$\emp$ and $\Eone(\emp)$ in one endpoint class.  Each class equality
+contradicts history no-confusion for the empty and one-extended
+constructors.
+\end{proof}
+
+\begin{corollary}[Boolean finite data admission]
+\label{cor:finite-data-bool-admission}
+The interface $\BoolUp$ is admitted by its carrier, endpoint classifier,
+two displayed constructors, endpoint separation, stability rows, ledger row,
+and $\NameCert$ or $\SemanticNameCert$ row.
+\end{corollary}
+
+\section{Optional History Interface}
+\label{sec:finite-data-option-interface}
+
+\begin{definition}[Optional carrier]
+\label{def:finite-data-option-carrier}
+Let $A:\Hist\to\mathsf{Prop}$ be an admitted source carrier with classifier
+$\sim_A$.  The optional carrier is
+$$
+\mathsf{OptionCarrier}_A(h)
+:\Longleftrightarrow
+\hsame(h,\emp)
+\vee
+\exists a.\; A(a)\wedge\hsame(h,\Eone(a)).
+$$
+The empty endpoint is the absent case, and histories of the form
+$\Eone(a)$ are present cases.
+\end{definition}
+
+\begin{definition}[Optional classifier]
+\label{def:finite-data-option-classifier}
+The optional classifier is the branch-respecting relation
+$$
+\mathsf{OptionClassifier}_{A,\sim_A}(h,k)
+:\Longleftrightarrow
+\bigl(\hsame(h,\emp)\wedge\hsame(k,\emp)\bigr)
+$$
+$$
+\vee\;
+\exists a,b.\;
+A(a)\wedge A(b)\wedge
+\hsame(h,\Eone(a))\wedge
+\hsame(k,\Eone(b))\wedge
+a\sim_A b.
+$$
+\end{definition}
+
+\begin{definition}[Optional constructors]
+\label{def:finite-data-option-constructors}
+The optional constructors are
+$$
+\mathsf{none}^{\uparrow}:=\emp,
+\qquad
+\mathsf{some}^{\uparrow}(a):=\Eone(a).
+$$
+\end{definition}
+
+\begin{theorem}[Present payload determinacy]
+\label{thm:finite-data-option-present-payload-determinacy}
+If
+$$
+\hsame(h,\Eone(a)),
+\qquad
+\hsame(h,\Eone(b)),
+$$
+then $\hsame(a,b)$.
+\end{theorem}
+
+\begin{proof}
+By symmetry and transitivity for $\hsame$, the two assumptions give
+$\hsame(\Eone(a),\Eone(b))$.  Constructor inversion for $\Eone$ gives
+$\hsame(a,b)$.
+\end{proof}
+
+\begin{theorem}[Absent and present separation]
+\label{thm:finite-data-option-absent-present-separation}
+The optional classifier never identifies an absent endpoint with a visible
+present endpoint.
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:finite-data-option-classifier}.  In the absent--absent
+case, the second history is $\hsame$ to $\emp$, so being also $\hsame$ to
+$\Eone(b)$ would contradict empty--extension no-confusion.  In the
+present--present case, the first history is $\hsame$ to some $\Eone(a)$, so
+being also $\hsame$ to $\emp$ gives the same contradiction.
+\end{proof}
+
+\begin{corollary}[Optional finite data admission]
+\label{cor:finite-data-option-admission}
+If the source carrier $A$ has a $\NameCert(A,\sim_A)$ and the optional
+carrier, classifier, constructor separation, payload determinacy, carrier
+transport, and ledger policy are displayed, then $\OptionUp(A)$ is admitted
+as a finite data interface.
+\end{corollary}
+
+\section{Tagged Sum Interface}
+\label{sec:finite-data-sum-interface}
+
+\begin{definition}[Sum carrier]
+\label{def:finite-data-sum-carrier}
+Let $L,R:\Hist\to\mathsf{Prop}$ be admitted source carriers with classifiers
+$\sim_L$ and $\sim_R$.  The sum carrier is
+$$
+\mathsf{SumCarrier}_{L,R}(h)
+:\Longleftrightarrow
+\exists l.\;L(l)\wedge\hsame(h,\Ezero(l))
+$$
+$$
+\vee\;
+\exists r.\;R(r)\wedge\hsame(h,\Eone(r)).
+$$
+\end{definition}
+
+\begin{definition}[Sum classifier]
+\label{def:finite-data-sum-classifier}
+The sum classifier relates left endpoints through the left source
+classifier and right endpoints through the right source classifier:
+$$
+\mathsf{SumClassifier}_{L,R}(h,k)
+:\Longleftrightarrow
+\exists l,l'.\;
+L(l)\wedge L(l')\wedge
+\hsame(h,\Ezero(l))\wedge
+\hsame(k,\Ezero(l'))\wedge
+l\sim_L l'
+$$
+$$
+\vee\;
+\exists r,r'.\;
+R(r)\wedge R(r')\wedge
+\hsame(h,\Eone(r))\wedge
+\hsame(k,\Eone(r'))\wedge
+r\sim_R r'.
+$$
+\end{definition}
+
+\begin{definition}[Sum constructors]
+\label{def:finite-data-sum-constructors}
+The public sum constructors are
+$$
+\mathsf{inl}^{\uparrow}(l):=\Ezero(l),
+\qquad
+\mathsf{inr}^{\uparrow}(r):=\Eone(r).
+$$
+\end{definition}
+
+\begin{theorem}[Sum branch separation]
+\label{thm:finite-data-sum-branch-separation}
+The sum classifier does not relate a left-tagged endpoint to a right-tagged
+endpoint:
+$$
+\neg\,\mathsf{SumClassifier}_{L,R}(\Ezero(l),\Eone(r)).
+$$
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:finite-data-sum-classifier}.  The left--left branch
+would require the right endpoint $\Eone(r)$ to be $\hsame$ to a left-tagged
+history.  The right--right branch would require the left endpoint
+$\Ezero(l)$ to be $\hsame$ to a right-tagged history.  Both requirements
+contradict history no-confusion for the two extension constructors.
+\end{proof}
+
+\begin{corollary}[Sum finite data admission]
+\label{cor:finite-data-sum-admission}
+If the two sources have their own name certificates and the displayed sum
+carrier, branch classifier, constructor stability, branch separation,
+classifier stability, and ledger rows are supplied, then
+$\SumUp(L,R)$ is admitted.
+\end{corollary}
+
+\section{Ordered Product Interface}
+\label{sec:finite-data-prod-interface}
+
+\begin{definition}[Product pair representation]
+\label{def:finite-data-prod-pair-rep}
+For admitted source carriers $L$ and $R$, the representation
+$$
+\mathsf{ProdPairRep}_{L,R}(h,l,r)
+$$
+records that $h$ is the displayed ordered-pair history assembled from the
+left component $l$ and right component $r$ through the finite continuation
+route, with $L(l)$ and $R(r)$.
+\end{definition}
+
+\begin{definition}[Product carrier and ledger]
+\label{def:finite-data-prod-carrier-ledger}
+The product carrier is
+$$
+\mathsf{ProdCarrier}_{L,R}(h)
+:\Longleftrightarrow
+\exists l,r.\;\mathsf{ProdPairRep}_{L,R}(h,l,r).
+$$
+The product ledger has the same witness shape:
+$$
+\mathsf{ProdLedger}_{L,R}(h)
+:\Longleftrightarrow
+\exists l,r.\;\mathsf{ProdPairRep}_{L,R}(h,l,r).
+$$
+The carrier admits the visible history, while the ledger keeps the component
+witnesses and continuation route available to public consumers.
+\end{definition}
+
+\begin{definition}[Product componentwise classifier]
+\label{def:finite-data-prod-classifier}
+The product classifier is
+$$
+\mathsf{ProdClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+:\Longleftrightarrow
+\exists l,r,l',r'.\;
+\mathsf{ProdPairRep}_{L,R}(h,l,r)
+\wedge
+\mathsf{ProdPairRep}_{L,R}(k,l',r')
+$$
+$$
+\wedge\; l\sim_L l'
+\wedge\; r\sim_R r'.
+$$
+\end{definition}
+
+\begin{theorem}[Product carrier exposes the displayed ledger]
+\label{thm:finite-data-prod-carrier-ledger}
+If $\mathsf{ProdCarrier}_{L,R}(h)$, then
+$\mathsf{ProdLedger}_{L,R}(h)$.
+\end{theorem}
+
+\begin{proof}
+Both predicates have the same displayed witness shape in
+\autoref{def:finite-data-prod-carrier-ledger}.  A carrier witness therefore
+serves as the ledger witness.
+\end{proof}
+
+\begin{theorem}[Product classification exposes component ledgers]
+\label{thm:finite-data-prod-classifier-ledgers}
+If
+$$
+\mathsf{ProdClassifier}_{L,R,\sim_L,\sim_R}(h,k),
+$$
+then
+$$
+\mathsf{ProdLedger}_{L,R}(h)
+\wedge
+\mathsf{ProdLedger}_{L,R}(k).
+$$
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:finite-data-prod-classifier}.  The classifier witness
+contains displayed pair representations for both endpoints.  Each
+representation is exactly a ledger witness by
+\autoref{def:finite-data-prod-carrier-ledger}.
+\end{proof}
+
+\begin{principle}[Product coherence is part of the interface]
+\label{prin:finite-data-prod-coherence}
+Raw continuation is not by itself a product classifier.  A product interface
+must carry coherence data ensuring that ordered components are recovered
+through the displayed pair representation, not by an untracked host
+projection.
+\end{principle}
+
+\begin{corollary}[Product finite data admission]
+\label{cor:finite-data-prod-admission}
+If both source carriers have name certificates and the product pair
+representation, coherence data, componentwise classifier, displayed ledger,
+carrier transport, and stability rows are supplied, then $\ProdUp(L,R)$ is
+admitted.
+\end{corollary}
+
+\section{Finite List Interface}
+\label{sec:finite-data-list-interface}
+
+\begin{definition}[List spine]
+\label{def:finite-data-list-spine}
+For an admitted source carrier $A:\Hist\to\mathsf{Prop}$, the list spine
+carrier $\mathsf{Spine}_A$ is generated by
+$$
+\mathsf{nil}
+$$
+and by
+$$
+\mathsf{cons}(a,xs)
+$$
+whenever $A(a)$ and $xs:\mathsf{Spine}_A$.
+\end{definition}
+
+\begin{definition}[List spine representation]
+\label{def:finite-data-list-spine-rep}
+The relation
+$$
+\mathsf{ListSpineRep}_A(h,xs)
+$$
+records that the public history $h$ displays the finite spine $xs$.
+\end{definition}
+
+\begin{definition}[List carrier and ledger]
+\label{def:finite-data-list-carrier-ledger}
+The list carrier is
+$$
+\mathsf{ListCarrier}_A(h)
+:\Longleftrightarrow
+\exists xs:\mathsf{Spine}_A.\;\mathsf{ListSpineRep}_A(h,xs).
+$$
+The list ledger has the same displayed witness shape:
+$$
+\mathsf{ListLedger}_A(h)
+:\Longleftrightarrow
+\exists xs:\mathsf{Spine}_A.\;\mathsf{ListSpineRep}_A(h,xs).
+$$
+The ledger records finite constructor shape, length information, and payload
+provenance through the source classifier.
+\end{definition}
+
+\begin{definition}[List classifier]
+\label{def:finite-data-list-classifier}
+The public list classifier is
+$$
+\mathsf{ListClassifier}_{A,\sim_A}(h,k)
+:\Longleftrightarrow
+\exists xs,ys.\;
+\mathsf{ListSpineRep}_A(h,xs)
+\wedge
+\mathsf{ListSpineRep}_A(k,ys)
+$$
+$$
+\wedge\;
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+\end{definition}
+
+\begin{theorem}[List nil inversion]
+\label{thm:finite-data-list-nil-inversion}
+If
+$$
+\mathsf{ListSpineRep}_A(h,\mathsf{nil}),
+\qquad
+\mathsf{ListSpineRep}_A(k,ys),
+$$
+and $\mathsf{ListClassifier}_{A,\sim_A}(h,k)$, then
+$ys=\mathsf{nil}$.
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:finite-data-list-classifier}.  The represented nil
+spine can classify only against a displayed spine whose finite classifier
+matches nil.  The cons case would require a nil--cons classifier witness,
+contradicting constructor no-confusion for finite spines.
+\end{proof}
+
+\begin{theorem}[List displayed exactness]
+\label{thm:finite-data-list-displayed-exactness}
+If
+$$
+\mathsf{ListSpineRep}_A(h,xs),
+\qquad
+\mathsf{ListSpineRep}_A(k,ys),
+$$
+then
+$$
+\mathsf{ListClassifier}_{A,\sim_A}(h,k)
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys).
+$$
+\end{theorem}
+
+\begin{proof}
+The reverse direction repacks the two displayed spine representations and
+the finite-spine classifier witness into
+\autoref{def:finite-data-list-classifier}.  The forward direction reads the
+public classifier through the displayed representation coherence, which
+leaves exactly the finite-spine classifier between $xs$ and $ys$.
+\end{proof}
+
+\begin{corollary}[List finite data admission]
+\label{cor:finite-data-list-admission}
+If the source carrier has a name certificate and the list spine
+representation, spine coherence, public classifier, displayed ledger,
+constructor inversion, length readback, and stability rows are supplied, then
+$\ListUp(A)$ is admitted.
+\end{corollary}
+
+\section{Finite Data Layer}
+\label{sec:finite-data-layer-admission}
+
+\begin{theorem}[Finite data admission theorem]
+\label{thm:finite-data-layer-admission}
+For each of
+$$
+\BoolUp,\qquad
+\OptionUp,\qquad
+\SumUp,\qquad
+\ProdUp,\qquad
+\ListUp,
+$$
+admission at the finite data layer follows from the displayed carrier
+predicate over $\Hist$, classifier, $\StabCert$ rows, constructor stability,
+case-analysis or inversion rows, ledger for hidden data, and $\NameCert$ or
+$\SemanticNameCert$ row.  None of the five interfaces enters as a BEDC
+kernel input.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{def:finite-data-admission} to each displayed interface.
+Boolean admission is \autoref{cor:finite-data-bool-admission}.  Optional
+admission is \autoref{cor:finite-data-option-admission}.  Sum admission is
+\autoref{cor:finite-data-sum-admission}.  Product admission is
+\autoref{cor:finite-data-prod-admission}.  List admission is
+\autoref{cor:finite-data-list-admission}.  Each corollary uses only
+histories, history sameness, continuation and package provenance where
+needed, ledger exposure, stability, and name certification.
+\end{proof}
+
+\begin{principle}[Arithmetic boundary]
+\label{prin:finite-data-arithmetic-boundary}
+The next arithmetic-facing layer may use $\BoolUp$ for binary
+observations, $\OptionUp$ for presence and absence, $\SumUp$ for tagged
+case analysis, $\ProdUp$ for ordered pairs with displayed component
+ledgers, and $\ListUp$ for finite windows.  It may not treat any of these
+interfaces as a host truth type, host option type, host coproduct, host
+tuple, or host sequence.
+\end{principle}

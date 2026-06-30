@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DiscreteLyapunovUp$}
+\label{ch:concrete-instances-discrete-lyapunov-namecert}
+\origin{human}
+
+Following Kalman on sampled linear systems and the Anderson--Moore treatment of finite-dimensional linear quadratic control, the $\DiscreteLyapunovUp$ packet records the finite certificate surface for a displayed one-step Lyapunov recursion. It sits after the energy certificate of \autoref{ch:concrete-instances-lyapunov-namecert}, the finite descent ledger of \autoref{ch:concrete-instances-lyapunovstability-namecert}, the algebraic Riccati rows of \autoref{ch:concrete-instances-riccati-namecert}, the finite-horizon control ledger of \autoref{ch:concrete-instances-lqr-namecert}, and the matrix readback rows of \autoref{ch:concrete-instances-matrix-namecert}. The packet names only the displayed finite recursion, residual ledger, transport, replay, provenance, and local naming rows; it does not assert spectral-radius completeness, host matrix analysis, selected infinite limits, or an analytic convergence theorem.
+
+\begin{definition}[DiscreteLyapunov finite recursion carrier]
+\label{def:discrete-lyapunov-carrier}
+A $\DiscreteLyapunovUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,Q,P,R,E,L,Y,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the one-step state-transition matrix row read through $\MatrixUp$.
+\item $Q$ is the displayed positive cost or dissipation matrix row read through the Lyapunov and LQR source packets.
+\item $P$ is the candidate Lyapunov matrix row whose quadratic readback is consumed by stability and control consumers.
+\item $R$ is the finite residual row recording the displayed recursion comparison between $P$, the transported successor read through $A$, and the source row $Q$.
+\item $E$ is the exactness ledger saying that every accepted recursion read is the same displayed residual row $R$.
+\item $L$ is the local dependency row tying $Q$ and $P$ to the $\LyapunovUp$, $\LyapunovStabilityUp$, $\RiccatiUp$, and $\LQRUp$ surfaces.
+\item $Y$ records the finite row and column indices used by the matrix readback of $A,Q,P,R$.
+\item $H$ records componentwise $\hsame$ transport for $A,Q,P,R,E,L,Y$.
+\item $C$ records displayed $\Cont$ replay from the transition row and matrix rows to the residual comparison.
+\item $G$ is the $\Pkg$ provenance over $\DiscreteLyapunovUp$, $\LyapunovUp$, $\LyapunovStabilityUp$, $\RiccatiUp$, $\LQRUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DiscreteLyapunovUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by the displayed transition, matrix, residual, exactness, dependency, index, transport, replay, provenance, and naming rows. It has no coordinate for a spectral-radius test, a host normed-space theorem, an infinite series selection, or an ambient analytic solver.
+\end{definition}
+
+\begin{theorem}[DiscreteLyapunov NameCert obligations]
+\label{thm:discrete-lyapunov-namecert-obligations}
+For the carrier of \autoref{def:discrete-lyapunov-carrier}, the local $\NameCert_{\DiscreteLyapunovUp}$ surface consists exactly of carrier admission, transition-matrix exposure, cost-row exposure, Lyapunov-matrix exposure, finite residual exposure, residual exactness through $E$, dependency exposure through $L$, finite matrix-index exposure through $Y$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any consumer that replaces one of these rows by spectral-radius completeness, host matrix analysis, selected infinite limits, or an analytic convergence theorem leaves the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:discrete-lyapunov-carrier}. The rows $A,Q,P,R$ display the transition matrix, cost row, Lyapunov matrix, and residual comparison before any structural transport or control dependency is read.
+
+The dependency row $L$ ties those displayed rows to the sibling Lyapunov, Lyapunov-stability, Riccati, LQR, and matrix surfaces. This row is only a finite handoff; it does not import a spectral-radius criterion, an infinite sum, or a host analytic matrix theorem.
+
+The rows $E,Y,H,C,G,N$ then record exactness, indices, transport, replay, provenance, and local naming for the same finite residual route. Since the carrier has no coordinate for the excluded analytic objects, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[DiscreteLyapunov residual route]
+\label{thm:discrete-lyapunov-residual-route}
+Let $D=(A,Q,P,R,E,L,Y,H,C,G,N)$ be an accepted $\DiscreteLyapunovUp$ packet. Every downstream read of the discrete Lyapunov recursion factors through the finite route
+$$
+A,Q,P \longrightarrow R \longrightarrow E,L,Y \longrightarrow H,C,G,N .
+$$
+The read first displays the transition and matrix rows, then the residual comparison, then the exactness, dependency, and index rows, and only then the transport, replay, provenance, and local naming rows. The route exports no spectral-radius completeness claim, no host matrix-analysis theorem, no selected infinite limit, and no analytic solver semantics.
+\end{theorem}
+\begin{proof}
+Start with the displayed matrix rows $A,Q,P$. Their source and target slots are the finite row and column indices later recorded by $Y$.
+
+The residual row $R$ is the only carrier coordinate that compares the source Lyapunov row, the successor read through $A$, and the cost row $Q$. Exactness through $E$ says that any accepted recursion read returns to that displayed residual row.
+
+Finally $L,H,C,G,N$ attach dependency, transport, replay, provenance, and naming data to the same residual route. No remaining coordinate can supply spectral completeness, host matrix analysis, an infinite limit selection, or analytic solver data, so every accepted read factors through the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DiscreteLyapunovUp$ read is refuted if a recursion conclusion is reached without displaying the transition matrix row, cost row, Lyapunov matrix row, residual comparison row, exactness ledger, dependency row, finite matrix-index row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{lyapunov, lyapunovstability, riccati, lqr, and matrix: none is bijective to $\DiscreteLyapunovUp$ because only the discrete Lyapunov packet simultaneously records the one-step transition row, cost row, candidate Lyapunov row, finite residual ledger, dependency handoff, matrix indices, transport, replay, provenance, and local NameCert naming.}
+
+\closureat{DiscreteLyapunovUp}{seedStr}
+
+\begin{closurestatus}{\DiscreteLyapunovUp}
+  \constructivestory{A $\DiscreteLyapunovUp$ packet is generated from a one-step transition matrix row, cost row, candidate Lyapunov matrix row, finite residual ledger, residual exactness row, Lyapunov, Lyapunov-stability, Riccati, LQR, and Matrix dependency row, finite matrix indices, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:discrete-lyapunov-carrier}, \autoref{thm:discrete-lyapunov-namecert-obligations}, \autoref{thm:discrete-lyapunov-residual-route}, the displayed falsifiable prediction, and the displayed independence witness seed the finite discrete Lyapunov recursion certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim spectral-radius completeness, host matrix analysis, selected infinite limits, analytic convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual exactness, dependency-row exposure, finite matrix-index exposure, non-escape for analytic Lyapunov primitives, transport, replay, provenance, and local naming for BEDC.Derived.DiscreteLyapunovUp.}
+\end{closurestatus}

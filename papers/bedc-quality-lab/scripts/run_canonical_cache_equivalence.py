@@ -35,6 +35,7 @@ from scripts import run_canonical_reports as canonical_reports
 TARGET_DEFAULT_DEVICES = {
     "dgt-l0-controls": "auto",
     "dgt-l1-controls": "cpu",
+    "dgt-neural-ablation": "auto",
 }
 
 
@@ -59,6 +60,12 @@ def _write_target_outputs(target: CacheEquivalenceTarget, *, generated_at: str, 
 
         payload = dgt_l1_controls.build_payload(generated_at=generated_at, requested_device=requested_device, root=ROOT)
         dgt_l1_controls.write_artifacts(payload, root=ROOT, generated_at=generated_at)
+        return
+    if target.target_id == "dgt-neural-ablation":
+        from bedc_quality_lab import dgt_neural_ablation
+
+        payload = dgt_neural_ablation.build_payload(generated_at=generated_at, requested_device=requested_device)
+        dgt_neural_ablation.write_artifacts(payload, root=ROOT, generated_at=generated_at)
         return
     raise ValueError(f"unsupported cache equivalence target: {target.target_id}")
 

@@ -327,9 +327,29 @@ claim.
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier\_obligation\_package}
 
+\begin{theorem}[BoundedNormalEqualityChecker package-read public consumer]
+\label{thm:bounded-normal-equality-checker-package-read-public-consumer}
+Every public consumer read that starts from the bounded checker package row
+factors through the obligation package. The package-read row is produced only by
+the displayed transport and route rows $H,K$, and the public read then continues
+through the local naming row $A$; the consumer retains the package provenance and
+NameCert package signatures, but gains no hidden conversion or termination row.
+\end{theorem}
+\begin{proof}
+Apply the obligation package to the accepted carrier and the displayed
+$\Cont(H,K)$ package route. This supplies the unary package-read row, the same
+transport-route replay, and the two package signatures.
+
+The public read is then a further displayed continuation from the package-read
+row to the local naming row. Since the obligation package already accounts for
+the available rows, the public consumer can only read the named bounded checker
+surface and cannot introduce a fuel-erased normalizer or host equality oracle.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerPackageRead\_public\_consumer}
+
 \begin{theorem}[BoundedNormalEqualityChecker scoped closure]
 \label{thm:bounded-normal-equality-checker-scope-closure}
-The carrier, classifier, route preorder, NameCert obligations, finished-soundness boundary, deterministic readback, non-escape theorem, classifier-stability row, ledger-exactness row, and obligation package jointly close the bounded normal-equality checker scope. The closed scope is exactly the finite surface over closed MetaCIC term rows, unary fuel, bounded normalizer output, structural \texttt{Term.eq}, finished witnesses, closedness rows, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ carried by $L,R,F,N_L,N_R,E,W,C,H,K,P,A$. It exports no unrestricted beta conversion, hidden normalizer termination, quotient equality of terms, or host equality oracle.
+The carrier, classifier, route preorder, NameCert obligations, finished-soundness boundary, deterministic readback, non-escape theorem, classifier-stability row, ledger-exactness row, obligation package, and package-read public consumer jointly close the bounded normal-equality checker scope. The closed scope is exactly the finite surface over closed MetaCIC term rows, unary fuel, bounded normalizer output, structural \texttt{Term.eq}, finished witnesses, closedness rows, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ carried by $L,R,F,N_L,N_R,E,W,C,H,K,P,A$. It exports no unrestricted beta conversion, hidden normalizer termination, quotient equality of terms, or host equality oracle.
 \end{theorem}
 \leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier\_scope\_closure}
 \begin{proof}
@@ -343,15 +363,43 @@ Finally apply the obligation package. It gathers the listed clauses as one finit
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerScopeClosure}
 
-\closureat{BoundedNormalEqualityCheckerUp}{scopedStr}
+\begin{theorem}[BoundedNormalEqualityChecker public export]
+\label{thm:bounded-normal-equality-checker-public-export}
+Every accepted $\BoundedNormalEqualityCheckerUp$ packet exports exactly the displayed bounded normal-equality checker surface: two closed term rows, the fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. No public consumer receives unrestricted beta-conversion, hidden normalizer termination, quotient equality of terms, or a host equality oracle from this packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerPublicExport}
+\begin{proof}
+Use \autoref{thm:bounded-normal-equality-checker-scope-closure}. It already binds the carrier, classifier, route preorder, NameCert obligations, finished-soundness boundary, deterministic readback, non-escape theorem, classifier-stability row, ledger-exactness row, and obligation package as one closed finite scope.
+
+The public export reads that closed scope without adding a new coordinate. The two closed term rows, fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witnesses, transports, replay, provenance, and local naming are exactly the rows exposed by the scope-closure theorem.
+
+Since the carrier has no row for unrestricted conversion, hidden termination, quotient equality, or host equality, the exported public surface is precisely the displayed bounded checker packet and nothing stronger.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker bridge-facing schema]
+\label{thm:bounded-normal-equality-checker-bridge-facing-schema}
+The public $\BoundedNormalEqualityCheckerUp$ surface exports exactly the bounded closed-term rows, finished-normal readback, fuel monotonicity, classifier stability, ledger exactness, and scope closure already bound by the carrier, classifier, NameCert obligations, finished-soundness boundary, deterministic readback, non-escape theorem, classifier-stability row, ledger-exactness row, obligation package, scope-closure theorem, and public export theorem. A bridge-facing consumer may therefore read the displayed MetaCIC sibling rows, unary fuel, bounded normalizer outputs, finished witnesses, closedness data, componentwise transport, replay, provenance, and local naming, but it receives no unrestricted beta conversion, hidden normalizer termination, quotient equality of terms, or host equality oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerBridgeFacingSchema}
+\begin{proof}
+Start with the public export theorem. It exposes the same finite checker packet already closed by the scope-closure theorem and adds no public coordinate beyond $L,R,F,N_L,N_R,E,W,C,H,K,P,A$.
+
+The bridge-facing schema reads the public packet through the earlier bounded rows. Finished-soundness and deterministic readback supply the finished-normal endpoint and structural equality read, while non-escape prevents that read from becoming unrestricted beta conversion.
+
+Classifier stability and ledger exactness preserve the audit surface under accepted packet comparison. Together with the obligation package, they keep fuel, bounded normalizer output, closedness rows, transport, replay, provenance, and local naming in the displayed finite scope.
+
+Thus the bridge-facing surface is exactly the public bounded normal-equality checker schema. Since none of the cited rows names hidden termination, quotient equality, host equality, or unrestricted conversion, no bridge-facing consumer receives those objects.
+\end{proof}
+
+\closureat{BoundedNormalEqualityCheckerUp}{matureStr}
 
 \begin{closurestatus}{\BoundedNormalEqualityCheckerUp}
   \constructivestory{A $\BoundedNormalEqualityCheckerUp$ packet is generated from two closed MetaCIC term rows, a bounded fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, \autoref{thm:bounded-normal-equality-checker-obligation-package}, and \autoref{thm:bounded-normal-equality-checker-scope-closure} bind the finite bounded normal-equality checker scope.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, \autoref{thm:bounded-normal-equality-checker-obligation-package}, \autoref{thm:bounded-normal-equality-checker-scope-closure}, \autoref{thm:bounded-normal-equality-checker-public-export}, and \autoref{thm:bounded-normal-equality-checker-bridge-facing-schema} bind a mature paper-axis treatment of the public bounded normal-equality checker surface; verification status and checked bridge status remain independent.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close unrestricted beta-conversion, hidden normalizer termination, quotient equality of terms, or host equality.}
-  \upgradepath{The next paper obligation is public closure for the same bounded normal-equality checker surface.}
+  \upgradepath{The paper-axis treatment is mature; Lean verification, axiom-purity certification, and a checked standard bridge remain independent verification-axis work.}
 \end{closurestatus}

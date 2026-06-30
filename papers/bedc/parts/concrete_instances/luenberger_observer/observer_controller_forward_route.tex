@@ -1,0 +1,11 @@
+\begin{theorem}[LuenbergerObserverUp observer-controller forward route]
+\label{thm:luenberger-observer-controller-forward-route}
+Every downstream deterministic observer-controller read of an accepted $\LuenbergerObserverUp$ packet must consume the observer only through the displayed plant, output, gain, residual, error-propagation, transport, replay, provenance, and local NameCert rows of \autoref{def:luenberger-observer-carrier}. The route may then pass to the closest deterministic control-system siblings \autoref{ch:concrete-instances-controlobservability-namecert}, \autoref{ch:concrete-instances-controlcontrollability-namecert}, \autoref{ch:concrete-instances-observability-gramian-namecert}, and \autoref{ch:concrete-instances-linearmap-namecert}; it exports no stochastic covariance update, pole-placement theorem, host convergence theorem, or hidden analytic state trajectory.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(A,C,Y,G,R,E,H,T,P,N)$ from \autoref{def:luenberger-observer-carrier}. The observer-controller read can use only the plant row $A$, output row $C$, comparison row $Y$, gain row $G$, residual row $R$, and error-propagation row $E$ before the structural rows are exposed.
+
+Use the control sibling dependency route of \autoref{thm:luenberger-observer-control-sibling-dependency-route} and the control-observability forward route of \autoref{thm:luenberger-observer-control-observability-forward-route}. They keep the deterministic control and observability siblings visible before the observer correction is public.
+
+The rows $H,T,P,N$ preserve, replay, source, and name the same finite packet. Since no covariance recursion, pole-placement completeness row, convergence theorem, or host trajectory row occurs in the carrier, every observer-controller consumer remains inside the displayed deterministic route.
+\end{proof}

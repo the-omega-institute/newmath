@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealIntervalChainUp$}
+\label{ch:concrete-instances-located-real-interval-chain-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located interval constructions, the $\LocatedRealIntervalChainUp$ packet records a finite chain of located real intervals as the displayed route by which interval refinements feed the Real and Completion stack. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the closed interval boundary of \autoref{ch:concrete-instances-closedboundedinterval-namecert}. The packet names a finite located interval-chain certificate only; it does not assert interval compactness, choose an infinite branch, quotient real names, invoke trichotomy, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Located real interval chain carrier]
+\label{def:located-real-interval-chain-carrier}
+A $\LocatedRealIntervalChainUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite located interval-chain row. It lists the inspected interval cells, their endpoint order, their containment relation to the preceding cell, and the locatedness evidence available at each stage.
+\item $D$ is the $\DyadicRatCoreUp$ diameter and endpoint-arithmetic ledger attached to the same cells.
+\item $S$ is the $\StreamNameUp$ finite-window row for endpoint names, midpoint requests, and refinement stages.
+\item $R$ is the $\RegSeqRatUp$ readback row serving the stream windows and dyadic tolerances of $S$ and $D$.
+\item $E$ is the terminal $\RealUp$ seal row available only after the interval chain, dyadic ledger, stream window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval-chain row, dyadic ledger, stream windows, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+I,D \longmapsto S,R \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealIntervalChainUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedRealIntervalChainUp}$ row.
+\end{enumerate}
+The carrier exports only this displayed finite packet. It has no coordinate for a host interval intersection theorem, quotient equality of real names, a selected infinite branch, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Located real interval chain NameCert obligations]
+\label{thm:located-real-interval-chain-namecert-obligations}
+For every accepted $\LocatedRealIntervalChainUp$ carrier $L=(I,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedRealIntervalChainUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item interval-chain admission: the finite located interval list, endpoint order, containment rows, and locatedness witnesses are displayed by $I$ before any readback is allowed;
+\item dyadic exactness: every diameter and endpoint-arithmetic request is read through the $\DyadicRatCoreUp$ ledger $D$ attached to the same finite chain;
+\item finite observation: endpoint and refinement-stage requests pass through the common $\StreamNameUp$ window $S$ and $\RegSeqRatUp$ readback row $R$ before the terminal $\RealUp$ seal $E$ is consumed;
+\item structural stability: $H,C,P,N$ transport, replay, source, and locally name only the displayed rows of the carrier.
+\end{enumerate}
+No located real interval-chain obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-interval-chain-carrier}. The located chain, dyadic diameter ledger, stream windows, regular readback, Real seal, and structural rows are all coordinates of one finite packet.
+
+The dyadic exactness obligation reads only the row $D$. Since $D$ is attached to the same finite interval cells named by $I$, a consumer cannot replace the chain by a host interval family, an infinite selector, or an ambient order-completeness principle.
+
+The observation obligation is downstream. The stream row $S$ exposes the inspected endpoint and refinement windows, the regular rational row $R$ supplies readback for those windows, and the seal row $E$ is available only after $I,D,S,R$ have been displayed.
+
+Finally $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. Because no carrier coordinate contains quotient equality, choice, trichotomy, interval intersection, or ambient completeness, none of those principles is exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Located real interval chain nested refinement]
+\label{thm:located-real-interval-chain-nested-refinement}
+Let $L=(I,D,S,R,E,H,C,P,N)$ be an accepted $\LocatedRealIntervalChainUp$ carrier. Every refinement read of the chain must expose the finite interval row $I$ and the dyadic diameter ledger $D$ before it consumes the stream window $S$, the regular rational readback $R$, or the terminal $\RealUp$ seal $E$. Thus a nested refinement is a displayed finite chain route through $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not a host-selected infinite intersection or quotient real endpoint.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The only interval-chain coordinate is $I$, and the only diameter and endpoint-arithmetic coordinate is $D$.
+
+Apply the NameCert obligations of \autoref{thm:located-real-interval-chain-namecert-obligations}. They force every refinement request to read the displayed interval-chain row and its dyadic ledger before any observation window or Real-facing seal is available.
+
+The readback rows $S,R,E$ are therefore downstream of the finite nested route. Componentwise transport and replay preserve the same ordering through $H$ and $C$, while $P$ and $N$ record only the displayed source and local name. No coordinate remains from which a consumer could recover a selected infinite branch, quotient endpoint equality, trichotomy, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located real interval chain Real seal route]
+\label{thm:located-real-interval-chain-real-seal-route}
+Every Real and Completion consumer of an accepted $\LocatedRealIntervalChainUp$ carrier reaches the terminal $\RealUp$ seal only through the finite route
+$$
+\ClosedBoundedIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route may transport and replay the displayed chain, but it cannot export interval compactness, countable choice, quotient equality of real names, selected completed endpoints, real trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:located-real-interval-chain-nested-refinement}. It places every refinement read behind the finite interval row $I$ and dyadic ledger $D$.
+
+Next use \autoref{thm:located-real-interval-chain-namecert-obligations}. Its finite-observation clause routes endpoint and refinement-stage reads through $S$ and $R$ before the seal row $E$ can be consumed.
+
+The sibling anchors identify the public surfaces of the route: closed bounded interval data supplies the interval boundary, $\DyadicRatCoreUp$ supplies the diameter and endpoint arithmetic, $\StreamNameUp$ supplies finite observation windows, $\RegSeqRatUp$ supplies regular rational readback, and $\RealUp$ supplies only the terminal seal. Since the carrier contains no compactness theorem, quotient equality, choice selector, trichotomy, or ambient completeness coordinate, the consumer receives only this finite seal route.
+\end{proof}
+
+\closureat{LocatedRealIntervalChainUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealIntervalChainUp}
+  \constructivestory{A $\LocatedRealIntervalChainUp$ packet is generated from a finite located interval-chain row, a DyadicRatCore diameter and endpoint-arithmetic ledger, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-interval-chain-carrier}, \autoref{thm:located-real-interval-chain-namecert-obligations}, \autoref{thm:located-real-interval-chain-nested-refinement}, and \autoref{thm:located-real-interval-chain-real-seal-route} seed the finite located interval-chain route into the Real and Completion stack.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close interval compactness, selected infinite intersections, quotient equality of real names, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean declaration for BEDC.Derived.LocatedRealIntervalChainUp covering carrier admission, dyadic exactness, nested refinement ordering, readback routing, Real seal nonescape, transport, replay, provenance, and local naming.}
+\end{closurestatus}

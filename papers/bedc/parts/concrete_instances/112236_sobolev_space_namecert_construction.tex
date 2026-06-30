@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $F,D,N_0,I,M,R,H,C,P,L$. It has no coordinate for quotient equality of functions, a host distribution space, global measurability completion, countable choice, compact embedding, trace theory, PDE solvability, or an ambient Banach-space theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.SobolevSpaceUp.SobolevSpaceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[SobolevSpace NameCert obligations]
 \label{thm:sobolev-space-namecert-obligations}
@@ -66,6 +67,22 @@ Begin with a completion-facing request for an accepted carrier. The request must
 Next the request reads $N_0$ and $I$. These rows bind the norm, exponent, and local integrability budgets to the same displayed function and derivative data, and the Real readback row $R$ is the only scalar seal available to the route.
 
 The completion handoff $M$ is read after those rows. Transport and replay through $H,C$ preserve the route, while $P,L$ record provenance and local naming. Since the excluded host objects are not carrier coordinates, no completion-facing consumer can bypass the displayed route.
+\end{proof}
+
+\begin{theorem}[SobolevSpace dual test-action handoff]
+\label{thm:sobolev-space-dual-test-action}
+Every dual-facing consumer of an accepted $\SobolevSpaceUp$ carrier
+$$
+S=(F,D,N_0,I,M,R,H,C,P,L)
+$$
+must first read $F,D,N_0,I,R,H,C,P,L$ before it can expose a test-action value or dual budget. Consequently a dual-facing route exported from this packet cannot bypass the displayed source-function windows, weak-derivative actions, norm and integrability budgets, scalar seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $F$ names the function windows available to any dual-facing request, and $D$ supplies the weak derivative actions and test-action coordinates that the request may inspect.
+
+Next the route reads $N_0$ and $I$. These rows bind the norm, exponent, and integrability budgets to the same source and derivative data; the Real row $R$ is the only scalar seal for action values and budget comparisons.
+
+Finally read $H,C,P,L$. These rows transport, replay, source, and name the finite route without adding host distribution spaces, quotient function equality, Hahn--Banach extension, countable choice, compact embedding, or PDE solvability.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\SobolevSpaceUp$ completion-facing read that reaches $\MetricCompletionUp$ without first exposing source-function windows, WeakDerivativeUp rows, NormUp and integrability budgets, RealUp readbacks, hsame transport, Cont replay, Pkg provenance, and local naming refutes the carrier surface of \autoref{def:sobolev-space-carrier}.}

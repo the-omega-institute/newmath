@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RegularOpenSetUp$}
+\label{ch:concrete-instances-regular-open-set-namecert}
+\origin{human}
+
+Kelley/Munkres-style grounding: a regular open set is read as an open set recovered from the interior of its closure, with its complement read through the regular closed comparison surface. The $\RegularOpenSetUp$ packet records that topology-facing object as finite BEDC data over the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the closed-set boundary packet of \autoref{ch:concrete-instances-closedset-namecert}, the regular-closed sibling of \autoref{ch:concrete-instances-regular-closed-set-namecert}, and the metric boundary route of \autoref{ch:concrete-instances-metric-namecert}. It names the displayed open-neighborhood, closure, interior, complement, transport, replay, provenance, and local certificate rows; it does not import a host powerset, detached open-set lattice, quotient equality, selected point, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RegularOpenSet carrier]\label{def:regular-open-set-carrier}
+A $\RegularOpenSetUp$ carrier is a finite $\BHist$ packet
+$$
+U=(T,C,R,M,O,K,I,E,D,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the ambient $\TopologyUp$ row naming the finite open-neighborhood and closure observations available to the packet.
+\item $C$ is the $\ClosedSetUp$ boundary row used when the complement or boundary of the open set is inspected.
+\item $R$ is the $\RegularClosedSetUp$ complement row, recording that the complement side is read by the regular-closed sibling surface.
+\item $M$ is the $\MetricUp$ row used when closure or boundary requests are consumed through ball and distance data.
+\item $O$ is the open-neighborhood classifier for the named open part.
+\item $K$ is the closure row reached from $O$ through $T$ and, when needed, through the metric row $M$.
+\item $I$ is the interior-of-closure row, recording the return from $K$ to an open row in the same topology.
+\item $E$ is the exactness row certifying that the displayed open row $O$ is recovered as $I$.
+\item $D$ is the complement-compatibility row tying the outside of $O$ to the $\ClosedSetUp$ boundary row $C$ and the $\RegularClosedSetUp$ row $R$.
+\item $H$ records componentwise $\hsame$ transport for $T,C,R,M,O,K,I,E,D,Q,P,N$.
+\item $Q$ records displayed $\Cont$ replay for the route $O \to K \to I \to E$ and for the complement route through $C,R,D$.
+\item $P$ is the $\Pkg$ provenance over $\RegularOpenSetUp$, $\TopologyUp$, $\ClosedSetUp$, $\RegularClosedSetUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularOpenSetUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $T,C,R,M,O,K,I,E,D,H,Q,P,N$. It has no coordinate for host powersets, detached open-set lattices, selected limit points, quotient equality of open names, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularOpenSet NameCert obligations]\label{thm:regular-open-set-namecert-obligations}
+For every accepted $\RegularOpenSetUp$ carrier
+$$
+U=(T,C,R,M,O,K,I,E,D,H,Q,P,N),
+$$
+the local $\NameCert_{\RegularOpenSetUp}$ surface consists exactly of carrier admission for the displayed rows, topology exposure through $T$, closure-interior stability along $O \to K \to I \to E$, complement compatibility through $C,R,D$, metric boundary access through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$. The certificate refuses host powersets, detached open-set lattices, quotient equality, selected points, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-open-set-carrier}. The tuple displays the topology, closed-set, regular-closed, metric, open-neighborhood, closure, interior, exactness, complement, transport, replay, provenance, and local naming rows.
+
+Topology exposure is forced by $T$ and $O$. A consumer cannot read the named open part before the finite open-neighborhood observations in $T$ have been exposed, and any closure request must pass through the same topology row before reaching $K$.
+
+Closure-interior stability is the route $O \to K \to I \to E$. The exactness row $E$ records that the interior of the displayed closure returns to the displayed open row, so the packet exports regular openness as a finite certificate row rather than as equality in a host powerset.
+
+Complement compatibility is supplied by $C,R,D$. The complement side is read through the closed-set boundary row and regular-closed sibling row before it is matched with the open side, which blocks a detached open-set lattice or independent closed-set quotient from entering the certificate.
+
+Finally, $H,Q,P,N$ preserve, replay, source, and name the same finite route. Since no carrier coordinate stores selected points, countable choice, ambient $\RealUp$ completeness, quotient equality, or a host powerset, those principles cannot be extracted from the local NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularOpenSetUp.RegularOpenSetTasteGate\_single\_carrier\_alignment}
+
+\closureat{RegularOpenSetUp}{seedStr}
+
+\begin{closurestatus}{\RegularOpenSetUp}
+  \constructivestory{A $\RegularOpenSetUp$ packet is generated from ambient TopologyUp observations, ClosedSetUp boundary data, RegularClosedSetUp complement data, MetricUp boundary reads, an open-neighborhood classifier, closure and interior rows, exactness, complement compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-open-set-carrier} and \autoref{thm:regular-open-set-namecert-obligations} seed the regular-open carrier and local NameCert obligation surface over $\TopologyUp$, $\ClosedSetUp$, $\RegularClosedSetUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host powersets, detached open-set lattices, quotient equality, selected points, countable choice, ambient $\RealUp$ completeness, or any complete lattice theorem for regular open sets.}
+  \upgradepath{Formal closure requires a Lean carrier and obligation package for the same topology, closed-boundary, regular-closed complement, metric, closure-interior, complement-compatibility, transport, replay, provenance, and local naming rows.}
+\end{closurestatus}

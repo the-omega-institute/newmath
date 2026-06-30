@@ -216,6 +216,38 @@ Now read the cofinal tail-budget sibling. By \autoref{thm:cofinal-tail-budget-wi
 Composing the two routes gives the stated factorization: a consumer first reads the finite approximation rows of $F$, then the sibling $\CofinalTailBudgetUp$ row, and only then the seal boundary. The non-escape clauses of the finite approximation and cofinal tail-budget packets exclude selected real values, quotient stream equality, infinite tails, host metrics, and completeness.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation window induction]
+\label{thm:finite-cauchy-approximation-window-induction}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet, and let $W_{0},\ldots,W_{m}$ be a displayed finite list of $\StreamNameUp$ approximation windows read from the same source row $R$ and threshold row $k$. Finite iteration over this window list preserves the route through
+$$
+R,n,k,W,D,E,S,H,C,P,N .
+$$
+In particular, every iterated window consumer reaches the $\RealUp$ or $\CauchyLimitSealUp$ boundary only after the displayed source, precision, threshold, window, dyadic ledger, error, handoff, transport, replay, provenance, and local naming rows have been read.
+\end{theorem}
+\begin{proof}
+Induct on the finite displayed window list. The empty list is covered by \autoref{thm:finite-cauchy-approximation-window-soundness}: no consumer can read a dyadic observation or handoff without first exposing the source, precision, threshold, window, ledger, and error rows of $F$.
+
+For the step, assume the route has been preserved through the first $m$ windows and append one displayed window. Threshold-route coverage keeps the appended window under the same $\CauchyModulusUp$ threshold row $k$, refinement stability transports the existing finite surface through $H$, and the tail-meet dependency route prevents the appended window from becoming an independent tail oracle.
+
+Finally apply seal coverage. The appended list still reaches $S$ only through the same finite rows and structural support, so the induction exports no selected real value, quotient stream equality, infinite tail, host metric, or completeness principle.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy approximation tail induction]
+\label{thm:finite-cauchy-approximation-tail-induction}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose a finite chain of tail refinements is backed at each stage by the named $\CauchyModulusMeetUp$ and $\RegularCauchyTailMeetUp$ rows used by the finite approximation route. Then the final $\RealUp$ or $\CauchyLimitSealUp$ read still factors through the same finite approximation rows
+$$
+R,n,k,W,D,E,S,H,C,P,N
+$$
+together with the displayed meet and tail-meet backing rows. The chain exports no selected real value, quotient stream equality, infinite tail object, host metric, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the finite tail-refinement chain. The base case is the original finite approximation route: \autoref{thm:finite-cauchy-approximation-real-handoff} and \autoref{thm:finite-cauchy-approximation-seal-coverage} place every Real or seal consumer behind the displayed finite rows.
+
+For the step, append one refinement. The $\CauchyModulusMeetUp$ backing row supplies only the shared threshold, while the $\RegularCauchyTailMeetUp$ backing row supplies only the displayed common-tail window. By \autoref{thm:finite-cauchy-approximation-tail-meet-triangle-assembly}, these rows are read as support for $W,D,E$ rather than as new carriers.
+
+The induction hypothesis already routes the preceding chain through $R,n,k,W,D,E,S,H,C,P,N$. Composing it with the appended meet and tail-meet support keeps the terminal $\RealUp$ or $\CauchyLimitSealUp$ read inside the same finite approximation surface.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy approximation obligation closure]
 \label{thm:finite-cauchy-approximation-obligation-closure}
 Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. The carrier row, local $\NameCert_{\FiniteCauchyApproximationUp}$ obligations, window soundness, refinement stability, $\RealUp$ handoff, tail-meet triangle assembly, seal coverage, and mesh-budget projection assemble the local $\NameCert_{\FiniteCauchyApproximationUp}$ obligation closure over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTriangleBoundUp$, $\RealDiagonalWindowCoverageUp$, $\RealDiagonalMeshBudgetUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.

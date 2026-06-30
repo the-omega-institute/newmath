@@ -78,6 +78,8 @@ class MetricPurityTarget:
     empirical_metric_keys: tuple[str, ...]
     mutation_contract_refs: tuple[str, ...]
     allowlist_refs: tuple[str, ...]
+    family: str = ""
+    owner_surface: str = ""
 
 
 @dataclass(**{"froz" + "en": True})
@@ -265,7 +267,7 @@ def run_metric_purity_audit(
             "findings": [_finding_record(finding) for finding in sorted(findings, key=_finding_sort_key)],
             "allowlist_hits": [],
             "allowlist_misses": [],
-            "mutation_coverage": {"registered": 0, "by_gate": {}, "results": []},
+            "mutation_coverage": {"registered": 0, "by_gate": {}, "by_family": {}, "results": []},
             "pathology_results": [],
             "status": "fail",
         }
@@ -601,10 +603,19 @@ def _audit_mutations(
     else:
         cases = all_cases
     cases_by_gate: dict[str, list[HardgateMutationCase]] = {}
+    cases_by_family: dict[str, list[HardgateMutationCase]] = {}
     if audit_stage == "pre_generation":
-        return {"registered": len(cases), "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())}, "results": []}, findings
+        return {
+            "registered": len(cases),
+            "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())},
+            "by_family": {key: len(value) for key, value in sorted(cases_by_family.items())},
+            "results": [],
+        }, findings
     for case in cases:
         cases_by_gate.setdefault(case.gate_id, []).append(case)
+        target = _target_for_gate(hardgate_targets, case.gate_id)
+        if target is not None and target.family:
+            cases_by_family.setdefault(target.family, []).append(case)
     results = []
     for target in hardgate_targets:
         expected_refs = set(target.mutation_contract_refs or (target.id,))
@@ -628,7 +639,12 @@ def _audit_mutations(
                     evidence_pointer=source_ref,
                 )
             )
-    return {"registered": len(cases), "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())}, "results": results}, findings
+    return {
+        "registered": len(cases),
+        "by_gate": {key: len(value) for key, value in sorted(cases_by_gate.items())},
+        "by_family": {key: len(value) for key, value in sorted(cases_by_family.items())},
+        "results": results,
+    }, findings
 
 
 def _audit_promoted_gate_registry(
@@ -788,6 +804,8 @@ def _load_targets(config: Mapping[str, Any], *, findings: list[MetricPurityFindi
                 empirical_metric_keys=tuple(str(item) for item in row.get("empirical_metric_keys", [])),
                 mutation_contract_refs=tuple(str(item) for item in row.get("mutation_contract_refs", [])),
                 allowlist_refs=tuple(str(item) for item in row.get("allowlist_refs", [])),
+                family=str(row.get("family", "")),
+                owner_surface=str(row.get("owner_surface", "")),
             )
         except ValueError as exc:
             findings.append(_registry_finding("REG-HG2", "configs/metric_purity_targets.json", f"targets[{index}]", str(exc)))
@@ -815,7 +833,10 @@ def _effective_target_config(root: Path, config: Mapping[str, Any]) -> dict[str,
     generated_targets = hardgate_inventory.generated_target_rows(root, extra_surfaces)
     generated_mutations = hardgate_inventory.generated_mutation_rows(root, extra_surfaces)
     targets_by_id: dict[str, Mapping[str, Any]] = {}
-    for row in (*static_targets, *generated_targets):
+    for row in static_targets:
+        if isinstance(row, Mapping):
+            targets_by_id[str(row.get("id", ""))] = row
+    for row in generated_targets:
         if isinstance(row, Mapping):
             targets_by_id[str(row.get("id", ""))] = row
     mutation_keys: set[tuple[str, str]] = set()

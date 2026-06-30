@@ -79,6 +79,25 @@ theorem LocatedCompactnessCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨unary_transport localNameUnary (hsame_symm source.right), localNamePkg⟩
   }
 
+theorem LocatedCompactnessCarrier_radius_transport [AskSetup] [PackageSetup]
+    {metric compact closedBall localSupport radius radius' stream transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCompactnessCarrier metric compact closedBall localSupport radius stream transport
+        replay provenance localName bundle pkg →
+      hsame radius radius' →
+        UnaryHistory radius' ∧ Cont metric compact closedBall ∧
+          Cont closedBall localSupport radius ∧ Cont radius stream replay ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: LocatedCompactnessCarrier BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier sameRadius
+  obtain ⟨_metricUnary, _compactUnary, _closedBallUnary, _localSupportUnary, radiusUnary,
+    _streamUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    metricCompactClosedBall, closedBallSupportRadius, radiusStreamReplay,
+    _transportReplayProvenance, provenancePkg, localNamePkg⟩ := carrier
+  exact ⟨unary_transport radiusUnary sameRadius, metricCompactClosedBall, closedBallSupportRadius,
+    radiusStreamReplay, provenancePkg, localNamePkg⟩
+
 inductive LocatedCompactnessUp : Type where
   | mk (M K B U W S H C P N : BHist) : LocatedCompactnessUp
   deriving DecidableEq

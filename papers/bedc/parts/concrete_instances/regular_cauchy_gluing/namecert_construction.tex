@@ -54,6 +54,32 @@ Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier}. A refine
 The glued readback row $Q$ is therefore the same row after refinement, and the $\RealUp$ seal $E$ is read only through $Q$ together with $H,C,P,N$. Since the carrier contains no quotient, selector, host-equality, choice, or completeness coordinate, none of those data can be exported by overlap stability.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing common-refinement exactness]
+\label{thm:regular-cauchy-gluing-common-refinement-exactness}
+Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. Every glued readback exported from $G$ must expose the common $\DyadicRatCoreUp$ refinement row $D$ before the $\RegSeqRatUp$ readback row $Q$ and the $\RealUp$ seal row $E$. The exactness route is transported by $H$ and replayed by $C$, and it exports no quotient stream equality, selected representative, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $D$ is the common dyadic refinement ledger shared by the two local regular Cauchy windows, while $Q$ is the glued regular readback and $E$ is the terminal Real seal.
+
+Apply overlap stability from \autoref{thm:regular-cauchy-gluing-overlap-stability}. Any accepted refinement of the overlap preserves the same $Q$ and $E$ only through the displayed ledger and observation rows, so a glued readback cannot bypass $D$.
+
+Finally use the Cauchy-reindexing handoff of \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. It reads $D,S,Q$ as the finite reindexing-compatible route before any Real-facing consumer reaches $E$, with $H,C,P,N$ preserving and naming the same route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing overlap induction]
+\label{thm:regular-cauchy-gluing-overlap-induction}
+Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. For any finite chain of displayed overlap refinements transported by $H$ and replayed by $C$, the glued $\RegSeqRatUp$ readback $Q$ and the terminal $\RealUp$ seal $E$ remain unchanged. The resulting route still factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$, and it exports no quotient stream equality, selected representatives, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite refinement list.
+
+The empty list is the overlap-stability theorem of \autoref{thm:regular-cauchy-gluing-overlap-stability}: the common dyadic ledger $D$ and the finite observation row $S$ already determine the same glued readback $Q$ and seal $E$.
+
+For the step, assume the earlier refinements preserve $Q$ and $E$. Compose the next displayed refinement with the induction hypothesis, transport the component rows by $H$, and replay the same finite route by $C$.
+
+Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier} componentwise. Since the classifier reads only $L,R,D,S,Q,E,H,C,P,N$, the next refinement cannot add a quotient, representative selector, host equality row, choice schedule, or completeness witness; it only repeats the finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy gluing Cauchy-reindexing handoff]
 \label{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}
 Every accepted $\RegularCauchyGluingUp$ carrier factors its gluing route through the finite $\CauchyReindexingUp$ surface recorded in $P$. The handoff exposes the common dyadic refinement ledger $D$, the finite observation row $S$, and the glued regular readback row $Q$ as a reindexing-compatible route, and it exposes no global quotient of regular Cauchy names or ambient completeness principle.
@@ -66,12 +92,56 @@ The carrier rows $D,S,Q$ are exactly the finite data consumed by that route: $D$
 The support rows $H,C,N$ transport, replay, and name this same finite path. Thus the handoff is reindexing-compatible BEDC data, not a quotient of regular names, a selected representative, or a completeness theorem.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing obligation closure handoff]
+\label{thm:regular-cauchy-gluing-obligation-closure-handoff}
+Every obligation-closure read of an accepted $\RegularCauchyGluingUp$ carrier must expose the full row tuple
+$$
+L,R,D,S,Q,E,H,C,P,N.
+$$
+The route factors through the common $\DyadicRatCoreUp$ refinement ledger, the finite $\StreamNameUp$ observation row, the local $\RegSeqRatUp$ readbacks and glued readback, the terminal $\RealUp$ seal, and the $\CauchyReindexingUp$ handoff named by $P$ before any downstream real-name consumer may read the gluing packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. The accepted packet exposes $L,R,D,S,Q,E,H,C,P,N$, and the obligation surface has no smaller projection that still records the two local windows, their common refinement, and the glued readback.
+
+Use the Cauchy-reindexing handoff of \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. It forces the gluing read through $D,S,Q$ and through the provenance row $P$ naming $\CauchyReindexingUp$, while the carrier rows $L,R$ provide the two regular windows.
+
+The rows $E,H,C,N$ then seal, transport, replay, and name the same finite route. Thus obligation closure reads exactly the displayed tuple and factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing Real seal ordering]
+\label{thm:regular-cauchy-gluing-real-seal-ordering}
+For an accepted $\RegularCauchyGluingUp$ carrier $G=(L,R,D,S,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is reachable only after the common dyadic refinement row $D$, the finite observation row $S$, and the glued readback row $Q$ have been displayed. The seal-ordering route asserts no quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The row $E$ is listed as the terminal $\RealUp$ seal reached only after the two local windows, the common refinement ledger, the finite observations, and the glued readback have been displayed.
+
+Apply the overlap-stability and Cauchy-reindexing handoff theorems. They keep the common dyadic refinement in $D$, the inspected windows in $S$, and the glued regular readback in $Q$ visible before any real-name consumer can inspect $E$.
+
+Since quotient stream equality, selected representatives, host equality, choice schedules, and ambient completeness are not carrier coordinates, the ordering statement cannot export them. It records only the displayed route from $D,S,Q$ to the terminal seal $E$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing local tail compatibility]
+\label{thm:regular-cauchy-gluing-local-tail-compatibility}
+For an accepted $\RegularCauchyGluingUp$ carrier $G=(L,R,D,S,Q,E,H,C,P,N)$, the two local regular-Cauchy windows $L$ and $R$ can be consumed by a $\RealUp$-seal reader only after the overlap row, the common-refinement row, and the Cauchy-reindexing row exhibit a shared $\RegSeqRatUp$ tail boundary. The compatibility route is the finite route through $D,S,Q,H,C,P,N$ supplied by the carrier, and it exports no quotient stream equality, selected representative, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-gluing-carrier}. The two local windows $L,R$ are not read independently by a Real-facing consumer; the packet first displays their shared dyadic ledger $D$, finite observations $S$, and glued readback $Q$.
+
+Apply overlap stability, \autoref{thm:regular-cauchy-gluing-overlap-stability}, and common-refinement exactness, \autoref{thm:regular-cauchy-gluing-common-refinement-exactness}. These theorems keep the overlap row and the common refinement visible before $Q$ is consumed, so the two local $\RegSeqRatUp$ tails are compared at the displayed boundary rather than by host stream equality.
+
+Apply overlap induction, \autoref{thm:regular-cauchy-gluing-overlap-induction}, to finite chains of displayed refinements, and then use the Cauchy-reindexing handoff, \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. The resulting route makes the shared tail boundary stable under $H$ and replayable by $C$ before $E$ is read.
+
+Since quotient stream equality, selected representatives, and ambient completeness are absent from \autoref{def:regular-cauchy-gluing-carrier}, the compatibility theorem can expose only the finite $D,S,Q,H,C,P,N$ route.
+\end{proof}
+
+The local-tail compatibility row is consumed through the $\RegSeqRatUp$ finite-window surface of \autoref{ch:concrete-instances-regseqrat-namecert} and the $\StreamNameUp$ finite-observation surface of \autoref{ch:concrete-instances-streamname-namecert}. The exact dependency is the common-tail rows displayed by $D$ and $Q$, together with finite-window readback through $S$, before the $\RealUp$ seal $E$ is available to any downstream consumer.
+
 \closureat{RegularCauchyGluingUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyGluingUp}
   \constructivestory{A $\RegularCauchyGluingUp$ packet is generated from two compatible regular Cauchy windows, a common $\DyadicRatCoreUp$ refinement ledger, finite $\StreamNameUp$ observations, a glued $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-gluing-carrier}, \autoref{def:regular-cauchy-gluing-classifier}, \autoref{thm:regular-cauchy-gluing-namecert-obligations}, \autoref{thm:regular-cauchy-gluing-overlap-stability}, and \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff} seed the finite gluing route for compatible regular Cauchy windows.}
+  \scopeclosed{\autoref{def:regular-cauchy-gluing-carrier}, \autoref{def:regular-cauchy-gluing-classifier}, \autoref{thm:regular-cauchy-gluing-namecert-obligations}, \autoref{thm:regular-cauchy-gluing-overlap-stability}, \autoref{thm:regular-cauchy-gluing-overlap-induction}, \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}, \autoref{thm:regular-cauchy-gluing-obligation-closure-handoff}, \autoref{thm:regular-cauchy-gluing-real-seal-ordering}, and \autoref{thm:regular-cauchy-gluing-local-tail-compatibility} seed the finite gluing route for compatible regular Cauchy windows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}

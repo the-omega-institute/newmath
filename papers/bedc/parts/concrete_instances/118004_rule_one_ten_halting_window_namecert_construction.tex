@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenHaltingWindowUp$}
+\label{ch:concrete-instances-rule-one-ten-halting-window-namecert}
+\origin{ai}
+
+The $\RuleOneTenHaltingWindowUp$ packet realizes the bounded observation branch of the cellular substrate reading as finite Rule 110 NameCert data. It records a local window, a bounded time depth, the selected Rule 110 update ledger, and the observed halt tag for that finite window only. It sits beside the pattern classifier of \autoref{ch:concrete-instances-rule110-pattern-classifier-namecert}, the causal-cone route of \autoref{ch:concrete-instances-rule-one-ten-causal-cone-namecert}, the local-stencil observation of \autoref{ch:concrete-instances-rule110-local-stencil-observation-namecert}, and the Rule 110 cellular trust substrate of \autoref{ch:concrete-instances-rule110-cellular-trust-substrate-namecert}. The packet is a bounded local observation surface, not a global halting theorem, not a universal decidability claim, and not an oracle for infinite Rule 110 evolutions.
+
+\begin{definition}[Rule 110 halting-window carrier]
+\label{def:rule-one-ten-halting-window-carrier}
+A $\RuleOneTenHaltingWindowUp$ carrier is a finite $\BHist$ packet
+$$
+H=(W,T,L,C,O,B,K,S,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite Rule 110 row window being inspected.
+\item $T$ is the bounded time-depth row, giving the finite number of update steps admitted by the observation.
+\item $L$ is the local transition-table ledger for the Rule 110 update rule on the cells that can influence $W$ within depth $T$.
+\item $C$ is the $\RuleOneTenCausalConeUp$ row naming the finite cone through which the observation is replayed.
+\item $O$ is the orbit-window row containing only the finite states reached before the depth bound is exhausted.
+\item $B$ is the boundary row recording the left and right finite context cells required by the cone.
+\item $K$ is the classifier row, read through $\RuleOneTenPatternClassifierUp$ or $\RuleOneTenLocalStencilObservationUp$, that tags the final bounded observation as halted, active, boundary-blocked, or unresolved inside the displayed window.
+\item $S$ records componentwise $\hsame$ transport for the window, depth, ledger, cone, orbit, boundary, classifier, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from the initial window through the bounded cone and classifier rows.
+\item $P$ is the $\Pkg$ provenance over $\RuleOneTenHaltingWindowUp$, $\CellularAutomatonUp$, $\RuleOneTenPatternClassifierUp$, $\RuleOneTenCausalConeUp$, $\RuleOneTenLocalStencilObservationUp$, $\RuleOneTenCellularTrustSubstrateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RuleOneTenHaltingWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for an unbounded orbit, a global halting predicate, an undecidable continuation oracle, or a hidden host-side simulation result.
+\end{definition}
+
+\begin{theorem}[Rule 110 halting-window NameCert obligations]
+\label{thm:rule-one-ten-halting-window-namecert-obligations}
+For every accepted $\RuleOneTenHaltingWindowUp$ carrier
+$$
+H=(W,T,L,C,O,B,K,S,R,P,N),
+$$
+the local $\NameCert_{\RuleOneTenHaltingWindowUp}$ surface consists exactly of finite-window admission, bounded-depth admission, local transition-table exposure, causal-cone replay, orbit-window exposure, boundary-cell exposure, classifier-tag exactness, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rule-one-ten-halting-window-carrier}. The rows $W,T,L,C,O,B,K,S,R,P,N$ are the whole packet, so every obligation is attached to a displayed finite coordinate.
+
+The local update obligation reads $L$ only over the cells admitted by $W$, $T$, $C$, and $B$. Thus the orbit row $O$ contains bounded states of the selected cone rather than an unbounded evolution.
+
+The classifier row $K$ is downstream of that bounded orbit. It may tag the finite observation as halted, active, boundary-blocked, or unresolved inside the window, but it has no row from which to decide a global halting question.
+
+Finally, $S,R,P,N$ transport, replay, source, and name the same finite surface. Since no carrier coordinate stores an unbounded orbit, global halting predicate, continuation oracle, or hidden simulation result, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rule 110 halting-window causal-cone route]
+\label{thm:rule-one-ten-halting-window-causal-cone-route}
+Every accepted $\RuleOneTenHaltingWindowUp$ observation factors through the finite causal cone
+$$
+W,T,L,B \longmapsto C \longmapsto O \longmapsto K
+$$
+before its local $\NameCert$ row is read. The route records a bounded halting-window observation for Rule 110; it does not decide whether an arbitrary Rule 110 configuration eventually halts outside the displayed window and depth.
+\end{theorem}
+\begin{proof}
+Begin with the finite window $W$ and the depth row $T$. The local transition ledger $L$ and boundary row $B$ determine exactly which cells can influence the displayed observation before the bound is exhausted.
+
+Apply the causal-cone sibling of \autoref{ch:concrete-instances-rule-one-ten-causal-cone-namecert}. The cone row $C$ repacks the window, depth, transition ledger, and boundary rows as a finite replay route.
+
+The orbit row $O$ is read only after the cone is displayed, and the classifier row $K$ is read only after $O$. Thus the packet can report the bounded observation state without asserting anything about cells or times outside the carrier.
+
+The structural rows $S,R,P,N$ preserve this bounded route. Therefore the packet supplies a finite halting-window observation and no global halting theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RuleOneTenHaltingWindowUp$ read exposes a finite row window, a bounded time-depth row, the local Rule 110 transition ledger, a causal-cone row, boundary cells, the orbit window, a classifier tag, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a bounded halt tag is visible.}
+
+\independenceWitness{rule110-pattern-classifier, rule-one-ten-causal-cone, rule110-local-stencil-observation, rule110-cellular-trust-substrate, rule110-cook-frontier-budget: $\RuleOneTenHaltingWindowUp$ is not bijective to any listed sibling because it jointly carries a bounded time-depth row, causal cone, orbit window, boundary context, halt-state classifier, replay, provenance, and local naming for one finite observation packet.}
+
+The Lean TasteGate follow-up for this packet must provide $\mathsf{Nontrivial}\ \RuleOneTenHaltingWindowUp$ and $\mathsf{FieldFaithful}\ \RuleOneTenHaltingWindowUp$ instances for the displayed rows $W,T,L,C,O,B,K,S,R,P,N$ before the bounded observation can serve as a verified taste-gate consumer.
+
+\closureat{RuleOneTenHaltingWindowUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenHaltingWindowUp}
+  \constructivestory{A $\RuleOneTenHaltingWindowUp$ packet is generated from a finite Rule 110 row window, bounded time-depth row, local transition ledger, causal cone, orbit window, boundary context, classifier tag, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule-one-ten-halting-window-carrier}, \autoref{thm:rule-one-ten-halting-window-namecert-obligations}, and \autoref{thm:rule-one-ten-halting-window-causal-cone-route} seed bounded finite-window halting observations for Rule 110.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global halting decidability, unbounded orbit classification, universal continuation prediction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window admission, bounded-depth admission, transition-table exposure, causal-cone replay, orbit-window exposure, classifier exactness, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.RuleOneTenHaltingWindowUp.}
+\end{closurestatus}

@@ -1,0 +1,477 @@
+\section{Spectral Curves as Common Carriers}
+\label{sec:unified-reality-quartic-spectral-common-carrier}
+
+The preceding sections moved from common carriers to projection
+ledgers, noncollapse, algebraic extension directions, and analytic
+process layers. The quartic spectral example gives a more elaborate
+worked case. The object is not a single polynomial, a recurrence, a
+matrix, or an elliptic curve in isolation. It is a fixed common carrier
+whose projections read recurrence algebra, rational generating
+functions, companion-matrix spectra, algebraic curves, elliptic
+normalization, real projection, dominant branches, and endpoint zeros.
+
+The fixed quartic is
+$$
+\Pi(\lambda,y)
+:=
+\lambda^4-\lambda^3-(2y+1)\lambda^2+\lambda+y(y+1).
+$$
+All statements in this section are scoped to this fixed quartic and its
+displayed ledgers. The example is useful precisely because the
+recurrence, spectral polynomial, elliptic model, real projection,
+dominant branch, and fixed-window endpoint-zero law are connected by
+finite certificate rows rather than by an informal analogy between
+different mathematical pictures.
+
+\begin{definition}[Quartic recurrence source]
+\label{def:unified-reality-quartic-recurrence-source}
+The \emph{quartic recurrence source} is the rational generating
+function row
+$$
+Z(t,y)
+:=
+\sum_{m\ge0} Z_m(y)t^m
+=
+\frac{N(t,y)}{D(t,y)}
+$$
+with
+$$
+N(t,y)
+:=
+1+yt+(y^2-y-1)t^2+(y^3-2y)t^3
+$$
+and
+$$
+D(t,y)
+:=
+1-t-(2y+1)t^2+t^3+y(y+1)t^4.
+$$
+The packet
+$$
+\mathsf{RecSource}_{\Pi}:=(N,D)
+$$
+records the source polynomials, the identity $D(t,y)Z(t,y)=N(t,y)$,
+and the coefficient-readback ledger for the sequence
+$(Z_m(y))_{m\ge0}$.
+\end{definition}
+
+\begin{definition}[Recurrence and spectral polynomial realities]
+\label{def:unified-reality-quartic-recurrence-spectral-realities}
+The \emph{recurrence reality} $\mathcal R_{\mathrm{rec}}$ has carrier
+the polynomial sequence $(Z_m(y))_{m\ge0}$ and structure law
+$$
+Z_m(y)-Z_{m-1}(y)-(2y+1)Z_{m-2}(y)+Z_{m-3}(y)+y(y+1)Z_{m-4}(y)=0
+$$
+for $m\ge4$. The \emph{spectral polynomial reality}
+$\mathcal R_{\mathrm{specpoly}}$ has carrier the reciprocal spectral
+face
+$$
+\Pi(\lambda,y)=\lambda^4D(1/\lambda,y).
+$$
+\end{definition}
+
+\begin{definition}[Companion matrix reality]
+\label{def:unified-reality-quartic-companion-matrix-reality}
+The \emph{companion matrix reality} $\mathcal R_{\mathrm{mat}}$ is the
+matrix family
+$$
+T(y)
+=
+\begin{pmatrix}
+1&2y+1&-1&-y(y+1)\\
+1&0&0&0\\
+0&1&0&0\\
+0&0&1&0
+\end{pmatrix}
+$$
+with spectral readout
+$$
+\det(\lambda I-T(y))=\Pi(\lambda,y).
+$$
+It realizes the order-four recurrence as a transfer system and exposes
+branch, eigenvalue, and dominance questions as matrix-spectral reads.
+\end{definition}
+
+\begin{definition}[Quartic spectral common carrier]
+\label{def:unified-reality-quartic-spectral-common-carrier}
+The \emph{quartic spectral common carrier} is the packet
+$$
+\mathcal O_{\Pi}
+:=
+(\mathsf{RecSource}_{\Pi},(Z_m)_{m\ge0},T(y),\Pi(\lambda,y),
+\mathcal C_{\Pi})
+$$
+where
+$$
+\mathcal C_{\Pi}
+:=
+\{(\lambda,y):\Pi(\lambda,y)=0\}
+$$
+is the affine spectral curve. It carries projections
+$$
+\pi_{\mathrm{gen}},
+\pi_{\mathrm{rec}},
+\pi_{\mathrm{mat}},
+\pi_{\mathrm{specpoly}},
+\pi_{\mathrm{curve}}
+$$
+to the generating-function, recurrence, companion-matrix,
+spectral-polynomial, and curve realities.
+\end{definition}
+
+\begin{theorem}[Recurrence, matrix, and spectral polynomial share one carrier]
+\label{thm:unified-reality-quartic-shared-recurrence-spectral-carrier}
+The rational generating function $Z(t,y)=N(t,y)/D(t,y)$, the order-four
+recurrence for $Z_m(y)$, the companion matrix $T(y)$, and the spectral
+polynomial $\Pi(\lambda,y)$ are projections of
+$\mathcal O_{\Pi}$.
+\end{theorem}
+
+\begin{proof}
+The generating-function projection reads the source row
+$(N,D)$. Comparing coefficients in $D(t,y)Z(t,y)=N(t,y)$ gives the
+recurrence row. The companion matrix in
+\autoref{def:unified-reality-quartic-companion-matrix-reality} is the
+transfer matrix for the same recurrence, and its characteristic
+polynomial is
+$$
+\det(\lambda I-T(y))=\Pi(\lambda,y).
+$$
+Finally $\Pi(\lambda,y)=\lambda^4D(1/\lambda,y)$ reads the reciprocal
+spectral face of the denominator. Thus the four presentations are
+ledgered projections of the same packet rather than unrelated objects.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-quartic-spectral-common-carrier-namecert}{The concrete NameCert packet records the recurrence, companion-matrix, spectral-polynomial, curve, and projection ledgers for the fixed quartic carrier.}
+
+\begin{corollary}[The spectral polynomial is not external data]
+\label{cor:unified-reality-quartic-spectral-polynomial-not-external}
+The polynomial $\Pi(\lambda,y)$ is both the reciprocal face of the
+generating-function denominator and the characteristic face of the
+companion matrix.
+\end{corollary}
+
+\begin{proof}
+This is exactly the pair of identities
+$$
+\Pi(\lambda,y)=\lambda^4D(1/\lambda,y),
+\qquad
+\Pi(\lambda,y)=\det(\lambda I-T(y)).
+$$
+\end{proof}
+
+\begin{definition}[Balanced quartic and elliptic normalization]
+\label{def:unified-reality-quartic-balanced-elliptic-normalization}
+The balanced quartic family is
+$$
+P_{a,c,d,g}(\lambda,y)
+:=
+\lambda^4+a\lambda^3+(c-2y)\lambda^2+d\lambda+y(y-c)+g.
+$$
+With
+$$
+\xi=y-\lambda^2,
+\qquad
+Y=2\xi-c,
+$$
+the equation $P_{a,c,d,g}=0$ becomes
+$$
+Y^2=c^2-4a\lambda^3-4d\lambda-4g.
+$$
+The normalized double-root conditions at $(\lambda,y)=(1,0)$ and
+$(\lambda,y)=(-1,1)$ select the member
+$$
+(a,c,d,g)=(-1,-1,1,0),
+$$
+which is $\Pi$. Its elliptic normalization reality is
+$$
+E:\quad Y^2=4\lambda^3-4\lambda+1,
+\qquad
+y=\lambda^2-\frac12+\frac12Y.
+$$
+\end{definition}
+
+\begin{theorem}[Elliptic normalization is a continuation packet]
+\label{thm:unified-reality-quartic-elliptic-normalization-continuation}
+The transport from the affine spectral curve
+$$
+\mathcal C_{\Pi}:\Pi(\lambda,y)=0
+$$
+to
+$$
+E:\quad Y^2=4\lambda^3-4\lambda+1
+$$
+is a generalized continuation from the quartic algebraic-curve reality
+to the elliptic-geometry reality.
+\end{theorem}
+
+\begin{proof}
+In the canonical member, the change of variables is
+$$
+\xi=y-\lambda^2,
+\qquad
+Y=2\xi+1,
+$$
+with reverse read
+$$
+y=\lambda^2-\frac12+\frac12Y.
+$$
+The ledger therefore transports the quartic equation to the displayed
+Weierstrass model and transports points back by the $y$-projection. The
+smoothness, degree-four projection, and ramification computations are
+not hidden assumptions; they are rows of the normalization ledger.
+Hence the move is a generalized continuation in the sense of
+\autoref{def:unified-reality-generalized-analytic-continuation}.
+\end{proof}
+
+\begin{definition}[Ramification ledger]
+\label{def:unified-reality-quartic-ramification-ledger}
+The \emph{ramification ledger} $\mathsf{RamLed}_{\Pi}$ contains the
+finite rows
+$$
+2\lambda Y=1-3\lambda^2,
+$$
+$$
+(\lambda-1)(\lambda+1)(16\lambda^3-9\lambda^2+1)=0,
+$$
+and the branch-value polynomial
+$$
+-y(y-1)(256y^3+411y^2+165y+32),
+$$
+together with the squarefreeness and elimination certificates that
+justify the branch read.
+\end{definition}
+
+\begin{theorem}[Ramification is a normalized-curve readout]
+\label{thm:unified-reality-quartic-ramification-readout}
+$\mathsf{RamLed}_{\Pi}$ is the ramification readout of the same
+normalized carrier $E\to\mathbb P^1_y$, not an external discriminant
+calculation.
+\end{theorem}
+
+\begin{proof}
+The projection is
+$$
+y=\lambda^2-\frac12+\frac12Y
+$$
+on the curve $Y^2=4\lambda^3-4\lambda+1$. Differentiating the displayed
+projection under the Weierstrass relation gives the ramification row
+$$
+2\lambda Y=1-3\lambda^2.
+$$
+Eliminating $(\lambda,Y)$ gives the ramification abscissa equation and
+the branch-value polynomial. Thus the branch ledger is a geometric
+readout of the normalized curve.
+\end{proof}
+
+\begin{definition}[Real projection reality]
+\label{def:unified-reality-quartic-real-projection-reality}
+The \emph{real projection reality} is the map
+$$
+E(\mathbb R)\xrightarrow{\,y\,}\mathbb R_y.
+$$
+Its ledger records the real oval decomposition, the $y$-image of each
+oval, the real-fiber count for regular values, and the
+multiplicity-counted root count at branch values. In the canonical
+quartic, the compact oval maps to $[y_{\mathrm{sub}},1]$ and the
+noncompact oval maps to $[0,\infty)$.
+\end{definition}
+
+\begin{theorem}[Real-root counts are projection-fiber counts]
+\label{thm:unified-reality-quartic-real-root-count-projection}
+The real-root interval diagram of $\Pi(\lambda,y)$ is the real
+projection readout of the elliptic normalization reality.
+\end{theorem}
+
+\begin{proof}
+Real roots of $\Pi(\cdot,y)$ correspond to points of
+$$
+E(\mathbb R)\cap y^{-1}(y).
+$$
+The oval decomposition, endpoint values, ramification values, and
+Sturm/sign rows determine the real-fiber count. Therefore the real-root
+diagram is a finite projection-fiber readout of the normalized carrier.
+\end{proof}
+
+\begin{definition}[Dominant spectral branch reality]
+\label{def:unified-reality-quartic-dominant-branch-reality}
+The \emph{positive-axis dominant branch reality} records the read
+$$
+y>0\longmapsto \lambda_{\mathrm{dom}}(y)
+$$
+where $\lambda_{\mathrm{dom}}(y)$ is the unique maximal-modulus root of
+$\Pi(\cdot,y)$. In the fixed quartic, the branch satisfies
+$\lambda_{\mathrm{dom}}(y)>1$ for $y>0$, and the surviving simple
+dominant root at $y=1$ is $\lambda_{\mathrm{dom}}(1)=2$.
+\end{definition}
+
+\begin{theorem}[Dominance is finer than ramification]
+\label{thm:unified-reality-quartic-dominance-finer-than-ramification}
+The branch locus does not determine the recurrence-zero boundary. A
+branch point contributes to endpoint zero theory only when the colliding
+eigenvalues participate in maximal-modulus competition.
+\end{theorem}
+
+\begin{proof}
+The discriminant projection records collisions of spectral branches, but
+recurrence zeros are controlled by the dominant terms in the spectral
+decomposition. A branch point whose colliding eigenvalue is strictly
+subdominant does not control the endpoint zero law. In the fixed
+quartic, $y_{\mathrm{sub}}$ is a branch point with subdominant collision,
+and $y=1$ is a real collision while the root $2$ remains the dominant
+simple spectral read. The endpoint boundary at $y=0$ is different: the
+colliding branches are active in the positive-axis maximal-modulus
+competition. Thus dominance is an additional ledger, not a consequence
+of the discriminant alone.
+\end{proof}
+
+\begin{corollary}[Discriminant projection is lossy]
+\label{cor:unified-reality-quartic-discriminant-projection-lossy}
+The discriminant locus is a lossy projection of the spectral carrier; it
+cannot recover the recurrence-zero boundary without a dominance ledger.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}
+exhibits branch points that do not contribute to the endpoint-zero
+boundary. The recurrence-zero boundary therefore cannot be read from the
+discriminant projection alone.
+\end{proof}
+
+\begin{definition}[Endpoint zero reality]
+\label{def:unified-reality-quartic-endpoint-zero-reality}
+The \emph{endpoint zero reality} is the local zero-distribution carrier
+for $Z_m(y)$ under the endpoint scale
+$$
+y=-\frac{u^2}{m^2}.
+$$
+Its ledger contains the local branch coordinate $s$ with $y=s^2$, the
+colliding branches $\lambda_{\pm}(s)$, the partial-fraction amplitudes
+$C_{\pm}(s)$, the non-colliding remainder estimate, fixed-window
+Rouch\'e isolation, and the endpoint zero ordering.
+\end{definition}
+
+\begin{theorem}[Endpoint zeros are local branch interference]
+\label{thm:unified-reality-quartic-endpoint-zero-branch-interference}
+The fixed-window endpoint zero law is the endpoint-zero projection of
+$\mathcal O_{\Pi}$. It is obtained by transporting the local branch
+collision through Puiseux branches, partial-fraction amplitudes, cosine
+interference, and Rouch\'e zero isolation.
+\end{theorem}
+
+\begin{proof}
+At $y=0$, the polynomial $\Pi(\lambda,0)$ has a double root at
+$\lambda=1$. With $y=s^2$, the active branches and amplitudes have local
+rows of the form
+$$
+\lambda_{\pm}(s)
+=
+1\pm\frac{s}{\sqrt2}
+\frac58s^2
+\mp\frac{43}{64\sqrt2}s^3
++O(s^4)
+$$
+and
+$$
+C_{\pm}(s)
+=
+\frac12
+\mp\frac{3\sqrt2}{16}s
++O(s^2).
+$$
+On the endpoint scale $s=iu/m$, the two active terms
+$$
+C_+(s)\lambda_+(s)^m+C_-(s)\lambda_-(s)^m
+$$
+combine into a shifted cosine model, while the non-colliding branches
+are controlled by the fixed-window remainder ledger. Rouch\'e isolation
+then transports the approximate cosine zeros to actual zeros of
+$Z_m(-u^2/m^2)$ in the fixed window.
+\end{proof}
+
+\begin{corollary}[Endpoint zeros are not discriminant roots]
+\label{cor:unified-reality-quartic-endpoint-zeros-not-discriminant}
+In the fixed quartic, endpoint zeros are controlled by active spectral
+branch interference, not by the discriminant equation alone.
+\end{corollary}
+
+\begin{proof}
+The discriminant gives branch collision. The endpoint zero law also
+needs dominance, partial-fraction amplitudes, non-colliding remainder
+control, and Rouch\'e isolation. These are precisely the rows listed in
+\autoref{def:unified-reality-quartic-endpoint-zero-reality}.
+\end{proof}
+
+\begin{definition}[Finite exact certificate ledger and scope boundary]
+\label{def:unified-reality-quartic-certificate-ledger-scope}
+The \emph{finite exact certificate ledger} $\mathsf{CertLed}_{\Pi}$
+consists of determinant and characteristic-polynomial identities,
+resultants, discriminant factorizations, ramification resultants,
+Sturm/sign tables, endpoint Puiseux coefficients, amplitude residue
+expansions, remainder estimates, and Rouch\'e window bounds. The
+\emph{scope boundary} $\mathsf{ScopeBnd}_{\Pi}$ refuses the following
+exports: a parameter-space classification of quartic families, a
+general equilibrium measure, a growing-window endpoint zero law, a
+uniform law for growing $k$, a standalone recurrence-boundary theory,
+or any RH or zeta theorem.
+\end{definition}
+
+\begin{theorem}[Quartic spectral carrier is finite-certificate common carrier]
+\label{thm:unified-reality-quartic-finite-certificate-common-carrier}
+The packet $\mathcal O_{\Pi}$ is a finite-certificate common carrier:
+each transport between its realities is supported by rows of
+$\mathsf{CertLed}_{\Pi}$ and bounded by $\mathsf{ScopeBnd}_{\Pi}$.
+\end{theorem}
+
+\begin{proof}
+The recurrence-to-spectrum transport uses $D(t,y)Z(t,y)=N(t,y)$ and
+$\Pi(\lambda,y)=\lambda^4D(1/\lambda,y)$. The matrix-to-spectrum
+transport uses $\det(\lambda I-T(y))=\Pi(\lambda,y)$. The
+quartic-to-elliptic transport uses the balanced change of variables and
+normalization ledger. The elliptic-to-real-projection transport uses the
+real oval decomposition, extrema, branch values, and Sturm/sign rows.
+The real-projection-to-dominance transport uses the positive-axis
+dominance ledger. The dominance-to-endpoint-zero transport uses Puiseux
+branches, residue amplitudes, remainder estimates, and fixed-window
+Rouch\'e isolation. These rows are finite certificates, and the scope
+boundary prevents the local fixed-quartic result from being flattened
+into any global quartic-family or growing-window theorem.
+\end{proof}
+
+\begin{theorem}[Quartic spectral common-carrier principle]
+\label{thm:unified-reality-quartic-spectral-common-carrier-principle}
+The fixed quartic realizes the unified-reality pattern
+$$
+\text{recurrence algebra}
+\to
+\text{spectral polynomial}
+\to
+\text{elliptic geometry}
+\to
+\text{real projection}
+\to
+\text{dominant branch}
+\to
+\text{endpoint zeros}.
+$$
+Each arrow is a ledgered projection or transport from
+$\mathcal O_{\Pi}$, and none is licensed to collapse the others.
+\end{theorem}
+
+\begin{proof}
+The shared-carrier statement is
+\autoref{thm:unified-reality-quartic-shared-recurrence-spectral-carrier}.
+The elliptic transport is
+\autoref{thm:unified-reality-quartic-elliptic-normalization-continuation}.
+Real projection is
+\autoref{thm:unified-reality-quartic-real-root-count-projection}.
+Dominance noncollapse is
+\autoref{thm:unified-reality-quartic-dominance-finer-than-ramification}.
+Endpoint-zero transport is
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference}.
+The finite-certificate and scope discipline is
+\autoref{thm:unified-reality-quartic-finite-certificate-common-carrier}.
+Together these statements exhibit the fixed quartic as a complex worked
+example of the common-carrier, projection, continuation, and
+noncollapse discipline.
+\end{proof}

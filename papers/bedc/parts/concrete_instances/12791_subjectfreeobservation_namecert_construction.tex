@@ -23,6 +23,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares carriers only through $O,H,K,D,L,C,P,N$. It has no coordinate for a subject-substance, host observer identity, owner function, global viewpoint, or observation source outside the displayed $\BHist$, $\Cont$, and $\hsame$ rows.
 \end{definition}
+\leandef{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationCarrier}
 
 \begin{theorem}[Subject-free observation NameCert obligations]
 \label{thm:subject-free-observation-namecert-obligations}
@@ -43,6 +44,7 @@ Finally $L,C,P,N$ expose, replay, source, and name the same packet. Since the ca
 \label{thm:subject-free-observation-no-subject-parameter}
 If a purported observation packet requires a subject-substance coordinate outside the displayed $\BHist$, $\Cont$, and $\hsame$ rows, then it is not an accepted \SubjectFreeObservationUp carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationCarrier\_no\_subject\_parameter}
 \begin{proof}
 Inspect \autoref{def:subject-free-observation-carrier}. The only observation source is $O$, the only observer-identity row is $H$, and the only signature row is $K$.
 
@@ -59,6 +61,7 @@ O,H,K,D,L,C,P,N.
 $$
 The event is a displayed $\Cont$ observation with $\hsame$ observer-history identity and a no-subject ledger, not a host-side subject report.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationCarrier\_ledger\_event}
 \begin{proof}
 Start from the accepted packet $S=(O,H,K,D,L,C,P,N)$. The public event row is $L$, and it is read only after the observation row $O$, observer-history row $H$, signature row $K$, and exclusion row $D$ have been displayed.
 
@@ -71,6 +74,7 @@ No additional report channel appears in the packet. Thus the exported event is e
 \label{thm:subject-free-observation-sibling-independence}
 The \SubjectFreeObservationUp carrier is not bijective, under NameCert-row preservation, to $\mathsf{ObserverHistoryIdentity}^{\uparrow}$, $\ObserverFilterUp$, $\mathsf{KernelObservationSieve}^{\uparrow}$, $\LocalClockBudgetUp$, or $\mathsf{ConsciousObserverState}^{\uparrow}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectFreeObservationUp.SubjectFreeObservationCarrier\_sibling\_independence}
 \begin{proof}
 Compare the sibling surfaces. $\mathsf{ObserverHistoryIdentity}^{\uparrow}$ supplies $\hsame$ observer-history identity, $\ObserverFilterUp$ separates selected and omitted rows, $\mathsf{KernelObservationSieve}^{\uparrow}$ filters kernel-facing observations, $\LocalClockBudgetUp$ budgets local observation windows, and $\mathsf{ConsciousObserverState}^{\uparrow}$ records current observer-state rows.
 

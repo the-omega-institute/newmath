@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\DualSpaceUp$}
+\label{ch:concrete-instances-dual-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive normed spaces and Riesz's duality tradition, the $\DualSpaceUp$ packet records the continuous dual of a displayed normed vector-space carrier as finite NameCert data. It sits over the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the norm row of \autoref{ch:concrete-instances-norm-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, and the bounded-linear-functional boundary of \autoref{ch:concrete-instances-bounded-linear-functional-namecert}. The packet names only displayed bounded scalar functional rows and their finite transport data; it does not import Hahn--Banach, choice, quotient duals, or full Banach duality.
+
+\begin{definition}[Dual space carrier]
+\label{def:dual-space-carrier}
+A $\DualSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(V,N,L,B,E,H,C,P,A)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $V$ is the source $\VecSpaceUp$ row, including the vector addition, zero, inverse, scalar-action, and vector-classifier reads available to dual consumers.
+\item $N$ is the $\NormUp$ row on the same source, exposing the finite norm comparison and norm-transport witnesses used to state boundedness.
+\item $L$ is the $\LinearMapUp$ row for a scalar-valued linear action on the displayed vector rows.
+\item $B$ is the $\BoundedLinearFunctionalUp$ row, recording the boundedness ledger for $L$ against $N$ with scalar endpoints read through the ambient scalar certificate named by the dependency packet.
+\item $E$ is the evaluation row, pairing an accepted functional row with an accepted vector row and returning the displayed scalar endpoint.
+\item $H$ records componentwise $\hsame$ transport for $V,N,L,B,E,C,P,A$.
+\item $C$ records displayed $\Cont$ replay from vector and norm reads through linearity, boundedness, and evaluation.
+\item $P$ is the $\Pkg$ provenance over $\DualSpaceUp$, $\VecSpaceUp$, $\NormUp$, $\LinearMapUp$, $\BoundedLinearFunctionalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\DualSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted dual packets only through these displayed rows. It has no coordinate for all algebraic linear functionals, a quotient by pointwise equality, a selected representative of a functional class, a Hahn--Banach extension principle, or an ambient Banach-dual theorem.
+\end{definition}
+
+\begin{theorem}[Dual space NameCert obligations]
+\label{thm:dual-space-namecert-obligations}
+For every accepted $\DualSpaceUp$ carrier $D=(V,N,L,B,E,H,C,P,A)$, the local $\NameCert_{\DualSpaceUp}$ surface consists exactly of source vector-space admission, norm compatibility, scalar-valued linear-map admission, bounded-linear-functional ledger exposure, evaluation-row exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer of the packet receives no unbounded functional, no quotient dual carrier, no selected representative, no Hahn--Banach extension, and no full Banach-duality theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dual-space-carrier}. The rows $V,N,L,B,E,H,C,P,A$ are the full inventory, so every accepted read begins with the displayed vector-space and norm rows.
+
+Read the functional rows next. The linear-map row $L$ supplies only the scalar-valued linear action visible through $\LinearMapUp$, and the boundedness row $B$ records the finite norm ledger supplied by $\BoundedLinearFunctionalUp$.
+
+The evaluation row $E$ is then exact because it pairs only an accepted bounded functional row with an accepted vector row from $V$. Transport and replay through $H$ and $C$ preserve those same coordinates, while $P$ and $A$ only record provenance and local naming.
+
+Thus the NameCert obligations are precisely the displayed finite rows. Since no row stores an unbounded functional, quotient dual, selected representative, Hahn--Banach extension, or full Banach-duality object, none can be exported by the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{A purported $\DualSpaceUp$ consumer that evaluates a functional without first exposing the $\VecSpaceUp$, $\NormUp$, $\LinearMapUp$, and $\BoundedLinearFunctionalUp$ rows is rejected by the carrier of \autoref{def:dual-space-carrier}.}
+
+\independenceWitness{vecspace, norm, linearmap, boundedlinearfunctional: $\DualSpaceUp$ is not bijective to any listed sibling. $\VecSpaceUp$ lacks scalar-valued bounded functional rows; $\NormUp$ lacks linear action and evaluation rows; $\LinearMapUp$ lacks the norm-boundedness ledger; $\BoundedLinearFunctionalUp$ supplies the bounded functional boundary but not the downstream dual-space packet provenance and local naming row.}
+
+\closureat{DualSpaceUp}{seedStr}
+
+\begin{closurestatus}{\DualSpaceUp}
+  \constructivestory{A $\DualSpaceUp$ packet is generated from VecSpaceUp source rows, NormUp norm rows, LinearMapUp scalar-valued action rows, BoundedLinearFunctionalUp boundedness rows, an evaluation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dual-space-carrier}, \autoref{thm:dual-space-namecert-obligations}, the falsifiable prediction, and the independence witness seed the finite continuous-dual packet over displayed vector-space, norm, linear-map, bounded-linear-functional, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hahn--Banach, choice, quotient duals, all algebraic linear functionals, full Banach duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-functional ledger exactness, evaluation exactness, transport, replay, provenance, and local naming for BEDC.Derived.DualSpaceUp.}
+\end{closurestatus}

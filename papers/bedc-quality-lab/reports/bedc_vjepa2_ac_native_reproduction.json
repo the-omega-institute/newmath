@@ -1,0 +1,139 @@
+{
+  "bedc_readback_metrics": {
+    "accepted_claim_count": 0.0,
+    "claim_status_counts": {
+      "coverage_gap": 2.0,
+      "source_gap": 3.0
+    },
+    "gap_claim_count": 5.0,
+    "mean_certified_coverage": 0.4375,
+    "mean_conformal_miscoverage": 0.1875,
+    "mean_outside_gap_accuracy": 0.55,
+    "mean_unlogged_error": 0.1875,
+    "predicate_count": 5.0,
+    "predicates": [
+      "door_key_context_visible",
+      "unsafe_transition",
+      "has_key",
+      "door_open_or_unlocked",
+      "goal_reachable_with_current_state"
+    ]
+  },
+  "candidate_id": "vjepa2-ac-vit-giant",
+  "cannot_claim_boundary": [
+    "official V-JEPA2-AC benchmark reproduction",
+    "public benchmark superiority",
+    "checkpoint native evaluation parity",
+    "end-to-end V-JEPA2-AC retraining",
+    "certified natural-language semantic grounding"
+  ],
+  "carrier_id": "vjepa2-ac-giant-fixed-minigrid-carrier",
+  "checkpoint_identity": {
+    "candidate_id": "vjepa2-ac-vit-giant",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt",
+    "hub_entry": "vjepa2_ac_vit_giant",
+    "loaded_components": [
+      "encoder",
+      "predictor"
+    ],
+    "repository_url": "https://github.com/facebookresearch/vjepa2"
+  },
+  "claim_status": "near_native_fixed_checkpoint_record_with_official_reproduction_gap",
+  "execution_command": [
+    "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+    "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+    "python scripts/build_vjepa2_ac_near_native_reproduction.py"
+  ],
+  "image_action_stream_split": {
+    "latent_prediction": {
+      "batch_size": 1.0,
+      "device": "cuda",
+      "environment_id": "MiniGrid-DoorKey-8x8-v0",
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+      "sample_count": 96.0,
+      "seed": 20260610.0,
+      "split_rule": "single seeded transition stream; first train_count rows fit the linear alignment; remaining rows are held out for reporting",
+      "test_count": 32.0,
+      "train_count": 64.0,
+      "use_amp": true
+    },
+    "lccp_certificate": {
+      "batch_size": 1.0,
+      "calibration_count": 16.0,
+      "calibration_seed": 20260609.0,
+      "device": "cuda",
+      "environment_id": "MiniGrid-DoorKey-8x8-v0",
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+      "seed": 20260608.0,
+      "split_rule": "disjoint seeded transition streams; train fits readouts, calibration sets conformal thresholds, test reports claims and gaps",
+      "test_count": 16.0,
+      "test_seed": 20260610.0,
+      "train_count": 16.0,
+      "train_seed": 20260608.0,
+      "use_amp": true
+    },
+    "native_minigrid_bedc_packet": {
+      "planning_state_count_collected": 32.0,
+      "sample_count_collected": 256.0,
+      "test_count": 128.0,
+      "train_count": 128.0
+    }
+  },
+  "latent_prediction_metrics": {
+    "constant_baseline_mse": 0.48055749613518584,
+    "flattened_correlation": 0.9988521956521895,
+    "latent_prediction_score": 0.9812458076166543,
+    "linear_aligned_mse": 0.009012467733778182,
+    "linear_aligned_r2": 0.9806519795899356,
+    "mean_cosine_similarity": 0.9988986523472758
+  },
+  "latent_prediction_score": 0.9812458076166543,
+  "lccp_certificate_metrics": {
+    "accepted_claim_count": 0.0,
+    "alphas": [
+      0.2,
+      0.1,
+      0.05,
+      0.02,
+      0.01
+    ],
+    "claim_status_counts": {
+      "coverage_gap": 2.0,
+      "source_gap": 3.0
+    },
+    "gap_claim_count": 5.0,
+    "risk_level": 0.05,
+    "status": "executed"
+  },
+  "native_or_near_native_rollout_score": {
+    "official_rollout_score_status": "not_evaluated",
+    "score_name": "fixed_checkpoint_latent_prediction_score",
+    "value": 0.9812458076166543
+  },
+  "near_native_protocol_status": "executed",
+  "official_native_reproduction_status": "not_evaluated",
+  "parity_gaps": [
+    "official V-JEPA2-AC benchmark protocol is not evaluated",
+    "the latent-prediction split and LCCP calibration split are both declared but are not a single official benchmark split",
+    "the record reports fixed-checkpoint MiniGrid readback rather than an official V-JEPA2-AC rollout benchmark score"
+  ],
+  "parity_protocol": {
+    "same_action_encoding": "declared by one-hot MiniGrid action contracts",
+    "same_alpha_grid": "recorded in the LCCP certificate",
+    "same_bedc_predicate_set": "LCCP predicate set is recorded beside the fixed carrier",
+    "same_observation_preprocessing": "declared by MiniGrid two-frame 256x256 RGB video contracts",
+    "same_planning_or_rollout_target": "fixed-checkpoint latent prediction and readback only; official rollout target not evaluated",
+    "same_train_cal_test_split": "declared separately for latent prediction and LCCP; not an official benchmark split"
+  },
+  "public_environment_id": "MiniGrid-DoorKey-8x8-v0",
+  "repository_identity": {
+    "identity_command": "git ls-remote https://github.com/facebookresearch/vjepa2 HEAD",
+    "identity_scope": "public repository identity for the torch hub source target used by the fixed-checkpoint MiniGrid record; this does not assert official V-JEPA2-AC benchmark reproduction",
+    "repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
+    "repository_url": "https://github.com/facebookresearch/vjepa2"
+  },
+  "schema_id": "bedc-vjepa2-ac-near-native-minigrid-reproduction",
+  "source_boundary": "The current AC Giant evidence is a checkpoint-scope evaluation on a declared tiny-world adapter protocol. The current native public MiniGrid evidence is a BEDC-JEPA S0/S1/S2/S3 packet with a JEPA-style S0 control row. The fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction and LCCP studies are evaluated with explicit execution, checkpoint, and feature contracts. The remaining unevaluated scope is official V-JEPA2-AC benchmark reproduction or rollout benchmark parity.",
+  "status": "evaluated_near_native",
+  "vjepa2_repository_commit": "204698b45b3712590f06245fbfba32d3be539812"
+}

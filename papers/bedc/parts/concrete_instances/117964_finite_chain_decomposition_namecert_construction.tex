@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FiniteChainDecompositionUp$}
+\label{ch:concrete-instances-finite-chain-decomposition-namecert}
+\origin{human}
+
+Following Dilworth and Mirsky on finite partially ordered sets, the $\FiniteChainDecompositionUp$ packet records a standalone finite chain-cover carrier for order-theoretic decomposition work. It sits between the finite order surface of \autoref{ch:concrete-instances-poset-namecert}, the width-cover route of \autoref{ch:concrete-instances-dilworth-decomposition-namecert}, the height-layer route of \autoref{ch:concrete-instances-mirsky-theorem-namecert}, the matching dual certificate of \autoref{ch:concrete-instances-matching-namecert}, and the ordered spine discipline of \autoref{ch:concrete-instances-list-namecert}. The packet names the chain decomposition as displayed finite rows, not as a host poset cover, a quotient order equality, a selected global partition, or an infinite-order theorem.
+
+\begin{definition}[Finite chain-decomposition carrier]
+\label{def:finite-chain-decomposition-carrier}
+A $\FiniteChainDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,L,C,U,A,D,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite $\PosetUp$ order row, including the carried elements, comparison ledger, and classifier for repeated element reads.
+\item $L$ is the $\ListUp$ chain-spine row, storing a finite list of finite chains as displayed ordered spines.
+\item $C$ is the chain-certification row, requiring each spine in $L$ to be internally comparable through the same order row $O$.
+\item $U$ is the coverage row, recording that every carried element of $O$ appears in at least one displayed chain spine.
+\item $A$ is the antichain-width boundary row, exposing the width pressure read by $\DilworthDecompositionUp$ before a minimum-chain-cover consumer inspects the packet.
+\item $D$ is the dual handoff row to $\DilworthDecompositionUp$, $\MirskyTheoremUp$, and $\MatchingUp$, binding chain covers, height layers, and matching certificates to the same finite order row.
+\item $H$ records componentwise $\hsame$ transport for the order, chain spine, certification, coverage, width boundary, dual handoff, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from $O,L,C,U,A,D$ through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteChainDecompositionUp$, $\PosetUp$, $\ListUp$, $\DilworthDecompositionUp$, $\MirskyTheoremUp$, $\MatchingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteChainDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,L,C,U,A,D,H,T,P,N$. It has no coordinate for an ambient host poset, quotient order equality, unlisted chain cover, selected maximal antichain, countable choice, or infinite decomposition principle.
+\end{definition}
+
+\begin{theorem}[Finite chain-decomposition NameCert obligations]
+\label{thm:finite-chain-decomposition-namecert-obligations}
+For an accepted $\FiniteChainDecompositionUp$ carrier
+$$
+F=(O,L,C,U,A,D,H,T,P,N),
+$$
+the local $\NameCert_{\FiniteChainDecompositionUp}$ surface consists exactly of carrier admission for the finite order row, list-of-chains row, chain-certification row, coverage row, antichain-width boundary row, dual handoff row, componentwise transport, displayed replay, provenance, and local naming; order exposure through $O$; finite spine exposure through $L$; chain validity through $C$; cover exactness through $U$; Dilworth and Mirsky compatibility through $A,D$; and nonescape for host posets, quotient order equality, unlisted chain covers, selected external antichains, choice, and infinite-order data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-chain-decomposition-carrier}. The finite order is $O$, the displayed chain family is $L$, chain validity is $C$, cover exactness is $U$, and the width and dual handoff data are $A$ and $D$.
+
+The order exposure obligation is rowwise. Every chain comparison in $C$, every coverage read in $U$, and every width or dual-certificate read in $A,D$ uses the same $\PosetUp$ comparison ledger, so a consumer cannot combine chains from one order with antichain data from another.
+
+The finite-spine and cover obligations are carried by $L,C,U$. The $\ListUp$ row supplies only displayed finite spines, the certification row checks comparability inside each spine, and the coverage row records the carried elements reached by those spines.
+
+Finally $A,D,H,T,P,N$ preserve the chain-cover route. The Dilworth, Mirsky, and Matching siblings may consume the packet only after the finite order, chain spines, and coverage rows are visible, and the structural rows transport, replay, source, and name that same finite surface.
+\end{proof}
+
+\begin{theorem}[Finite chain-decomposition Dilworth handoff]
+\label{thm:finite-chain-decomposition-dilworth-handoff}
+Every $\DilworthDecompositionUp$ or $\MirskyTheoremUp$ consumer of an accepted $\FiniteChainDecompositionUp$ carrier must read the finite order row $O$, chain-spine row $L$, chain-certification row $C$, coverage row $U$, antichain-width boundary row $A$, and dual handoff row $D$ before any chain-cover or height-layer conclusion is exported. The handoff may cite the $\MatchingUp$ dual certificate and the $\ListUp$ spine discipline, but it exports no host partial order, quotient order equality, selected global decomposition, or infinite poset theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:finite-chain-decomposition-namecert-obligations}. They make $O,L,C,U,A,D,H,T,P,N$ the complete public surface of the finite chain-decomposition packet.
+
+The Dilworth-facing read uses $A$ and $D$ only after the chain family is visible. Thus the width boundary and matching handoff remain attached to the same $O,L,C,U$ rows that certify the chain cover.
+
+The Mirsky-facing read uses the same finite chain data as height-layer evidence. It may route through the sibling packet of \autoref{ch:concrete-instances-mirsky-theorem-namecert}, but it cannot replace the displayed chain spines by a selected partition outside the carrier.
+
+Finally $H,T,P,N$ transport, replay, source, and name the handoff. Since neither the carrier nor the cited siblings add a host poset, quotient equality, external decomposition selector, or infinite-order coordinate, the handoff remains a finite BEDC route.
+\end{proof}
+
+\closureat{FiniteChainDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteChainDecompositionUp}
+  \constructivestory{A $\FiniteChainDecompositionUp$ packet is generated from a finite Poset row, a List row of displayed chains, chain-certification rows, a coverage row, an antichain-width boundary, a Dilworth-Mirsky-Matching handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-chain-decomposition-carrier}, \autoref{thm:finite-chain-decomposition-namecert-obligations}, and \autoref{thm:finite-chain-decomposition-dilworth-handoff} seed the finite chain-cover carrier over Poset, List, DilworthDecomposition, MirskyTheorem, and Matching rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host partial orders, quotient order equality, selected external chain covers, countable choice, infinite posets, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, order exposure, finite-spine exposure, chain validity, cover exactness, Dilworth-Mirsky compatibility, transport, replay, provenance, and local naming for BEDC.Derived.FiniteChainDecompositionUp.}
+\end{closurestatus}

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCauchyModulusComparisonUp$}
+\label{ch:concrete-instances-finite-cauchy-modulus-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy moduli, the $\FiniteCauchyModulusComparisonUp$ packet records the finite comparison surface through which two displayed Cauchy-modulus witnesses may be related before any quotient stream, selected limit, or ambient completeness theorem is used. It sits beside the observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a comparison certificate for finite modulus schedules, not an equality principle for completed real numbers.
+
+\begin{definition}[Finite Cauchy modulus comparison carrier]
+\label{def:finite-cauchy-modulus-comparison-carrier}
+A $\FiniteCauchyModulusComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M_0,M_1,W_0,W_1,D,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $M_0$ is the first displayed modulus schedule, recording a finite list of precision requests and the index bounds assigned to them:
+$$
+n_0 \mapsto k^0_{n_0},\quad n_1 \mapsto k^0_{n_1},\quad \ldots,\quad n_s \mapsto k^0_{n_s}.
+$$
+\item $M_1$ is the second displayed modulus schedule on the same precision list:
+$$
+n_0 \mapsto k^1_{n_0},\quad n_1 \mapsto k^1_{n_1},\quad \ldots,\quad n_s \mapsto k^1_{n_s}.
+$$
+\item $W_0$ and $W_1$ are the shared $\StreamNameUp$ finite-window rows. They expose exactly the stream observations demanded by $M_0$ and $M_1$ on the displayed precision list.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-comparison ledger. It records the dyadic tolerance cells in which the two schedules are compared and the positive margin used by the comparison route.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational approximants obtained from the two windows after the dyadic tolerance comparison has been displayed.
+\item $E$ is the terminal $\RealUp$ seal row. It is available only after $M_0,M_1,W_0,W_1,D,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the two modulus schedules, the shared windows, the dyadic tolerance ledger, the regular readback row, the Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M_0,M_1 \longmapsto W_0,W_1 \longmapsto D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteCauchyModulusComparisonUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCauchyModulusComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by the two displayed schedules, their shared finite windows, the dyadic tolerance-comparison ledger, regular rational readback, the terminal Real seal, transport, replay, provenance, and local names. It has no coordinate for quotient stream equality, selected limits, ambient completeness, or host real equality.
+\end{definition}
+
+\begin{theorem}[Finite Cauchy modulus comparison NameCert obligations]
+\label{thm:finite-cauchy-modulus-comparison-namecert-obligations}
+For every accepted $\FiniteCauchyModulusComparisonUp$ carrier
+$$
+B=(M_0,M_1,W_0,W_1,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteCauchyModulusComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two modulus schedules, shared $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance comparison, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item common-window exposure, requiring both schedules to be read on the same finite precision list before any tolerance comparison is available;
+\item dyadic comparison exactness, requiring the tolerance ledger $D$ to mediate every comparison between schedule bounds;
+\item readback compatibility, requiring the $\RegSeqRatUp$ row $R$ to use exactly the stream windows and dyadic tolerance cells displayed by $W_0,W_1,D$;
+\item Real-seal nonescape, requiring any downstream Real consumer to pass through $E,H,C,P,N$ after the comparison rows have been displayed.
+\end{enumerate}
+No finite Cauchy-modulus comparison obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-modulus-comparison-carrier}. The two schedules $M_0$ and $M_1$ expose only finite precision requests and their assigned bounds.
+
+The common-window obligation reads $W_0$ and $W_1$ on the same displayed precision list. This keeps the comparison inside the StreamName windows rather than moving to a quotient stream.
+
+The dyadic comparison row $D$ is then the only route from schedule data to tolerance data. The readback row $R$ receives exactly those windows and tolerance cells, matching the regular rational reconstruction discipline of \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+Finally the Real seal $E$ and the structural rows $H,C,P,N$ transport, replay, source, and name the displayed route. Since no carrier coordinate supplies selected limits, ambient completeness, or host real equality, the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanstmt{BEDC.Derived.FiniteCauchyModulusComparisonUp}
+
+\falsifiablePrediction{A $\FiniteCauchyModulusComparisonUp$ consumer that compares two Cauchy-modulus witnesses without reading the two displayed schedules, the shared $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal refutes the carrier surface.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: no listed sibling supplies the whole comparison packet because each sibling contributes observations, tolerance arithmetic, readback, or sealing, while this chapter binds the finite comparison route with transport, replay, provenance, and local naming.}
+
+\closureat{FiniteCauchyModulusComparisonUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyModulusComparisonUp}
+  \constructivestory{A $\FiniteCauchyModulusComparisonUp$ packet is generated from two finite Cauchy-modulus schedules, shared StreamName windows, a dyadic tolerance-comparison ledger, RegSeqRat readback, Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-modulus-comparison-carrier} and \autoref{thm:finite-cauchy-modulus-comparison-namecert-obligations} seed the finite comparison surface over two Cauchy-modulus schedules, shared StreamName windows, dyadic tolerance comparison, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FiniteCauchyModulusComparisonUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, ambient Real completeness, host real equality, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-window exposure, dyadic comparison exactness, readback compatibility, Real-seal nonescape, and finite NameCert coverage for BEDC.Derived.FiniteCauchyModulusComparisonUp.}
+\end{closurestatus}

@@ -1,0 +1,44 @@
+The $\CalculusUp$ limit route is read only after the real-completion display has fixed its readback rows. The child route below records the sibling order used by derivative, integral, and endpoint consumers: $\LimitUp$ supplies the limit-facing consumer surface, while $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ supply the terminal seal, regular rational readback, and schedule rows that make the limit read finite.
+
+\begin{theorem}[Calculus Limit real handoff]
+\label{thm:calculus-limit-dependency-route-real-handoff}
+Every accepted $\CalculusUp$ derivative, integral, or endpoint consumer that cites the $\LimitUp$ route must first display the $\RealUp$ terminal seal, the $\RegSeqRatUp$ readback row, and the $\StreamNameUp$ schedule row used by that limit route. The handoff is the finite dependency lattice through \autoref{ch:concrete-instances-limit-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-streamname-namecert}; it is not a host limit operator, quotient stream equality, selected representative, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusLimitRealHandoff}
+\begin{proof}
+Start with the existing calculus limit dependency route of \autoref{thm:calculus-limit-dependency-route}. It already places every derivative or integral endpoint read behind the shared $\LimitUp$ consumer surface.
+
+Now read the sibling rows that make this consumer surface finite. The $\StreamNameUp$ schedule names the displayed stream positions, $\RegSeqRatUp$ supplies the regular rational readback, and $\RealUp$ supplies the terminal seal consumed by the limit-facing row.
+
+The calculus packet can therefore cite $\LimitUp$ only after those readback rows are visible. Since the route contains no coordinate for a host limit operator, quotient stream equality, selected representative, or ambient completeness theorem, the handoff remains a finite BEDC dependency route.
+\end{proof}
+
+This terminal-export theorem is the canonical public handoff consumed by the $\CalculusUp$ closure ledger, so the ledger points to this route without changing the independent verification grade recorded for the chapter.
+
+\begin{theorem}[Calculus Limit real derivative readback]
+\label{thm:calculus-limit-real-derivative-readback}
+Every accepted $\CalculusUp$ derivative endpoint consumer that exports a Real-facing derivative value must pass through $\LimitUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ before the endpoint may be read as a $\RealUp$ value. The derivative readback is the finite BEDC route through limit consumption, stream scheduling, regular rational readback, dyadic rational coordinates, and terminal Real sealing; it is not a host limit operator, quotient stream equality, selected representative, or ambient completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusLimitRealDerivativeReadback}
+\begin{proof}
+Start with the real handoff of \autoref{thm:calculus-limit-dependency-route-real-handoff}. It already places derivative endpoint reads behind the $\LimitUp$ consumer surface together with $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+Now include the existing calculus limit dependency route of \autoref{thm:calculus-limit-dependency-route}. Its endpoint schedule is read through rational coordinates, so the $\DyadicRatCoreUp$ row must be visible before the regular readback can be sealed as a Real-facing derivative value.
+
+The route therefore exposes only the displayed limit, stream, dyadic rational, regular readback, and Real seal rows. Since no coordinate supplies a host limit operator, quotient stream equality, selected representative, or ambient completeness theorem, the derivative endpoint remains a finite BEDC readback.
+\end{proof}
+
+\begin{theorem}[Calculus Limit real terminal export]
+\label{thm:calculus-limit-real-terminal-export}
+Every $\CalculusUp$ derivative, integral, or endpoint theorem that exports a Real-facing value through the $\LimitUp$ route must display the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ schedule row, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal before any downstream calculus consumer may read that value. The export composes the real handoff of \autoref{thm:calculus-limit-dependency-route-real-handoff}, the derivative readback of \autoref{thm:calculus-limit-real-derivative-readback}, and the limit dependency route of \autoref{thm:calculus-limit-dependency-route}; it is not a host limit, quotient stream equality, selected representative, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusLimitRealTerminalExport}
+\begin{proof}
+Begin with \autoref{thm:calculus-limit-dependency-route-real-handoff}. It places every derivative, integral, or endpoint consumer behind the $\LimitUp$ surface together with the StreamName schedule, RegSeqRat readback, and terminal Real seal.
+
+Apply \autoref{thm:calculus-limit-real-derivative-readback} to the Real-facing endpoint case. That theorem inserts the $\DyadicRatCoreUp$ tolerance row before the regular readback is sealed as a Real-facing value.
+
+Finally use \autoref{thm:calculus-limit-dependency-route} to identify the common calculus limit route consumed by derivative, integral, and endpoint theorems. The same displayed limit surface is the only route by which those consumers can reach a Real-facing value.
+
+The terminal export is therefore the finite row order $\LimitUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Because none of the composed routes contains a host limit operator, quotient stream equality, selected representative, or ambient $\RealUp$ completeness theorem, no downstream calculus consumer can bypass the displayed rows.
+\end{proof}

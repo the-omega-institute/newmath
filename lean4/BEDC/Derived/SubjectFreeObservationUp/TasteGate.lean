@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SubjectFreeObservationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -211,5 +221,157 @@ theorem SubjectFreeObservationTasteGate_single_carrier_alignment :
       · intro x y heq
         exact subjectFreeObservationToEventFlow_injective heq
       · rfl
+
+theorem SubjectFreeObservationCarrier_no_subject_parameter :
+    (∀ (ef : EventFlow) (x : SubjectFreeObservationUp),
+      subjectFreeObservationFromEventFlow ef = some x →
+        subjectFreeObservationFromEventFlow
+          (List.append ef ([[BMark.b0]] : EventFlow)) = none) ∧
+      (∀ O H K D L C P N extra : BHist,
+        subjectFreeObservationFromEventFlow
+          (List.append
+            (subjectFreeObservationToEventFlow
+              (SubjectFreeObservationUp.mk O H K D L C P N))
+            [subjectFreeObservationEncodeBHist extra]) = none) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro ef x hread
+    cases ef with
+    | nil =>
+        cases hread
+    | cons O rest0 =>
+        cases rest0 with
+        | nil =>
+            cases hread
+        | cons H rest1 =>
+            cases rest1 with
+            | nil =>
+                cases hread
+            | cons K rest2 =>
+                cases rest2 with
+                | nil =>
+                    cases hread
+                | cons D rest3 =>
+                    cases rest3 with
+                    | nil =>
+                        cases hread
+                    | cons L rest4 =>
+                        cases rest4 with
+                        | nil =>
+                            cases hread
+                        | cons C rest5 =>
+                            cases rest5 with
+                            | nil =>
+                                cases hread
+                            | cons P rest6 =>
+                                cases rest6 with
+                                | nil =>
+                                    cases hread
+                                | cons N rest7 =>
+                                    cases rest7 with
+                                    | nil =>
+                                        rfl
+                                    | cons extra rest8 =>
+                                        cases hread
+  · intro O H K D L C P N extra
+    rfl
+
+theorem SubjectFreeObservationCarrier_ledger_event
+    {O H K D L C P N O' H' K' D' L' C' P' N' : BHist} :
+    SubjectFreeObservationUp.mk O H K D L C P N =
+      SubjectFreeObservationUp.mk O' H' K' D' L' C' P' N' →
+        hsame (BHist.e0 O) (BHist.e0 O') ∧
+          hsame (BHist.e0 K) (BHist.e0 K') ∧
+            hsame (BHist.e0 D) (BHist.e0 D') ∧
+              hsame (BHist.e0 L) (BHist.e0 L') := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro sameCarrier
+  cases sameCarrier
+  constructor
+  · exact hsame_refl (BHist.e0 O)
+  · constructor
+    · exact hsame_refl (BHist.e0 K)
+    · constructor
+      · exact hsame_refl (BHist.e0 D)
+      · exact hsame_refl (BHist.e0 L)
+
+theorem SubjectFreeObservationCarrier_sibling_independence [AskSetup] [PackageSetup]
+    {O H K D L C P N identityRead ledgerRead eventRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont O H identityRead →
+      Cont K D ledgerRead →
+        Cont L C eventRead →
+          PkgSig bundle P pkg →
+            PkgSig bundle N pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row identityRead ∨ hsame row ledgerRead ∨ hsame row eventRead)
+                  (fun row : BHist =>
+                    hsame row O ∨ hsame row H ∨ hsame row K ∨ hsame row D ∨
+                      hsame row L ∨ hsame row C ∨ hsame row identityRead ∨
+                        hsame row ledgerRead ∨ hsame row eventRead)
+                  (fun _row : BHist =>
+                    Cont O H identityRead ∧ Cont K D ledgerRead ∧ Cont L C eventRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                  hsame ∧
+                Cont O H identityRead ∧ Cont K D ledgerRead ∧ Cont L C eventRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro identityRoute ledgerRoute eventRoute provenancePkg localNamePkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row identityRead ∨ hsame row ledgerRead ∨ hsame row eventRead)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row H ∨ hsame row K ∨ hsame row D ∨ hsame row L ∨
+              hsame row C ∨ hsame row identityRead ∨ hsame row ledgerRead ∨
+                hsame row eventRead)
+          (fun _row : BHist =>
+            Cont O H identityRead ∧ Cont K D ledgerRead ∧ Cont L C eventRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro identityRead (Or.inl (hsame_refl identityRead))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          cases source with
+          | inl sameIdentity =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameIdentity)
+          | inr rest =>
+              cases rest with
+              | inl sameLedger =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameLedger))
+              | inr sameEvent =>
+                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameEvent))
+      }
+      pattern_sound := by
+        intro _row source
+        cases source with
+        | inl sameIdentity =>
+            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameIdentity))))))
+        | inr rest =>
+            cases rest with
+            | inl sameLedger =>
+                exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                  (Or.inl sameLedger)))))))
+            | inr sameEvent =>
+                exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                  (Or.inr sameEvent)))))))
+      ledger_sound := by
+        intro _row _source
+        exact ⟨identityRoute, ledgerRoute, eventRoute, provenancePkg, localNamePkg⟩
+    }
+  exact
+    ⟨cert, identityRoute, ledgerRoute, eventRoute, provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.SubjectFreeObservationUp

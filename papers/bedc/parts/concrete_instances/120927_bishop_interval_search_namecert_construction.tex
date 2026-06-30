@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalSearchUp$}
+\label{ch:concrete-instances-bishop-interval-search-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis, the $\BishopIntervalSearchUp$ packet records the finite interval-search route by which a located predicate over a displayed closed real interval returns a certified subinterval and a regular Cauchy readback. It sits after the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, the constructive real-line route of \autoref{ch:concrete-instances-constructive-cauchy-real-line-namecert}, the nested-interval source of \autoref{ch:concrete-instances-cantor-nested-interval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only a finite search certificate; it does not choose a completed point, quotient a Cauchy stream, decide a global order, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop interval search carrier]
+\label{def:bishop-interval-search-carrier}
+A $\BishopIntervalSearchUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,D,G,R,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ records located interval endpoints, endpoint-apartness evidence, and the closed interval boundary read through $\RealUp$.
+\item $D$ records the $\DyadicRatCoreUp$ grid, mesh, midpoint, and refinement budget used by the search.
+\item $G$ records the finite dyadic grid and the chosen nested-refinement rows, including the parent-child containment witnesses for every inspected cell.
+\item $R$ records the $\RegSeqRatUp$ readback rows obtained from the displayed endpoint and grid windows.
+\item $W$ records the result witness: the accepted subinterval, the located predicate side selected by the search, and the refusal rows for cells not selected.
+\item $H$ records componentwise $\hsame$ transport for the endpoint, dyadic-grid, refinement, regular-readback, result, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-search request through $L,D,G,R,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalSearchUp$, $\RealUp$, $\ConstructiveCauchyRealLineUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalSearchUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a selected real point, quotient stream equality, host interval equality, omniscient case split, countable-choice schedule, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bishop interval search NameCert obligations]
+\label{thm:bishop-interval-search-namecert-obligations}
+The local $\NameCert_{\BishopIntervalSearchUp}$ surface consists exactly of carrier admission for $L,D,G,R,W,H,C,P,N$, located endpoint exposure, dyadic grid and refinement exposure, regular Cauchy readback, result-witness exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission supplies the packet $I=(L,D,G,R,W,H,C,P,N)$. The source obligations are projections of $L,D,G,R,W$: endpoints are located, the dyadic grid and refinement budget are displayed, the regular rational readback is visible, and the selected result interval is carried with its refusal rows.
+
+The structural obligations are projections of $H,C,P,N$. Transport preserves the displayed rows componentwise, replay sends each request through the finite search route, provenance records the sibling Real and Completion sources, and the local certificate names the packet.
+
+Since the carrier has no coordinate for a selected point, quotient stream equality, host interval equality, omniscient case split, countable-choice schedule, or ambient completeness theorem, no NameCert obligation can export one.
+\end{proof}
+
+\begin{theorem}[Bishop interval search located-net correctness]
+\label{thm:bishop-interval-search-located-net-correctness}
+For every accepted $\BishopIntervalSearchUp$ carrier $I=(L,D,G,R,W,H,C,P,N)$, the result witness $W$ is read only after the located endpoint row $L$, the dyadic grid budget $D$, the nested refinement row $G$, and the regular Cauchy readback $R$ have been displayed. The selected subinterval is therefore a cell of the displayed finite net, and every refusal attached to a nonselected cell is ledgered by the same packet.
+\end{theorem}
+\begin{proof}
+Read the carrier route from \autoref{def:bishop-interval-search-carrier}. The result row $W$ is not an independent search oracle; it is a row after the endpoint, dyadic-grid, refinement, and regular-readback rows.
+
+The containment claim is a finite inspection of $G$. Each selected cell names its parent interval, mesh row, and endpoint witnesses, so the selected subinterval belongs to the displayed net rather than to an ambient interval object.
+
+The refusal rows for nonselected cells are part of $W$ and are replayed through $C$. Componentwise transport through $H$ keeps the same refusals attached to the same endpoint, grid, refinement, and readback data.
+\end{proof}
+
+\begin{theorem}[Bishop interval search Cauchy stability]
+\label{thm:bishop-interval-search-cauchy-stability}
+Let $I_0$ and $I_1$ be accepted $\BishopIntervalSearchUp$ carriers. If their located endpoint rows, dyadic grid budgets, nested refinement rows, regular Cauchy readbacks, result witnesses, replay rows, provenance rows, and local naming rows are componentwise $\hsame$, then every interval-search read accepted for $I_0$ is accepted for $I_1$ with the transported finite result route.
+\end{theorem}
+\begin{proof}
+Use the transport row $H$. It is scoped over $L,D,G,R,W,C,P,N$, so each endpoint observation, grid budget, refinement cell, regular Cauchy readback, result witness, replay, provenance entry, and local name has a transported mate.
+
+Apply displayed replay through $C$. A request accepted for $I_0$ is replayed through $L,D,G,R,W,H,P,N$, and the componentwise $\hsame$ route transports exactly those rows to $I_1$.
+
+Located-net correctness from \autoref{thm:bishop-interval-search-located-net-correctness} keeps the transported result inside the displayed finite net. Thus Cauchy-stable search exports the same finite result route without selecting a completed point, quotienting streams, invoking choice, or using ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted BishopIntervalSearchUp read displays located Real endpoints, DyadicRatCore grid rows, nested refinement rows, RegSeqRat readback, a result witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row before an interval-search consumer reads the packet.}
+
+\independenceWitness{real, constructive-cauchy-real-line, cantor-nested-interval, dyadicratcore, streamname, regseqrat: $\BishopIntervalSearchUp$ is not bijective to any listed sibling because it jointly carries located interval endpoints, dyadic grid and refinement rows, regular Cauchy readback, result witness data, transport, replay, provenance, and local naming in one interval-search packet.}
+
+\closureat{BishopIntervalSearchUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalSearchUp}
+  \constructivestory{A $\BishopIntervalSearchUp$ packet is generated from located Real endpoints, DyadicRatCore grid and refinement rows, RegSeqRat readback, a result witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-search-carrier}, \autoref{thm:bishop-interval-search-namecert-obligations}, \autoref{thm:bishop-interval-search-located-net-correctness}, and \autoref{thm:bishop-interval-search-cauchy-stability} seed the finite constructive interval-search route over Real, constructive Cauchy real-line, dyadic grid, regular rational readback, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected points, quotient stream equality, host interval equality, omniscient search, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located endpoint exposure, dyadic grid and refinement exposure, regular Cauchy readback, result-witness correctness, transport stability, provenance, and local naming for BEDC.Derived.BishopIntervalSearchUp.}
+\end{closurestatus}

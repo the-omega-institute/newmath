@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateSpaceUp$}
+\label{ch:concrete-instances-cauchy-rate-space-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyRateSpaceUp$ packet records the explicit rate ledger carried by a regular Cauchy presentation before any terminal real-name seal is read. It sits between the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite rate substrate for L10 Real and Completion consumers, not a quotient stream, a selected limit, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy rate space carrier]
+\label{def:cauchy-rate-space-carrier}
+A $\CauchyRateSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,W,S,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rate ledger, storing the unary precision schedule and the finite tail thresholds licensed for each requested tolerance.
+\item $W$ is the $\StreamNameUp$ window row that exposes only the inspected stream windows needed by the ledger.
+\item $S$ is the $\RegSeqRatUp$ readback row that converts the displayed windows into regular rational observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-comparison row used to compare the requested precision with the displayed tail budget.
+\item $E$ is the terminal $\RealUp$ seal row, read only after $L,W,S,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the rate ledger, stream windows, regular readback, dyadic comparisons, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a Real-facing Cauchy-rate query through $L,W,S,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRateSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRateSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows and their structural provenance.
+\end{definition}
+
+\begin{theorem}[CauchyRateSpace NameCert obligations]
+\label{thm:cauchy-rate-space-namecert-obligations}
+For every accepted $\CauchyRateSpaceUp$ carrier $R=(L,W,S,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyRateSpaceUp}$ surface consists exactly of carrier admission for the displayed rows, classifier stability through $L,W,S,D,E$, rate-ledger exposure through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. A consumer may read a Real-facing Cauchy rate only after the rate ledger, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance comparison, and terminal Real seal rows are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-rate-space-carrier}. Its analytic rows are exactly the rate ledger, stream windows, regular rational readback, dyadic tolerance comparison, and terminal Real seal.
+
+The classifier-stability and ledger clauses read those rows in the displayed order. The structural rows then transport, replay, source, and name the same finite packet through $H,C,P,N$.
+
+Since no coordinate stores a quotient stream, selected limit, countable-choice schedule, host real equality, or ambient completeness theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyRateSpace regularization handoff]
+\label{thm:cauchy-rate-space-regularization-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$-facing consumer of an accepted $\CauchyRateSpaceUp$ carrier must first read the displayed route
+$$
+L \longmapsto W \longmapsto S \longmapsto D \longmapsto E.
+$$
+Thus the rate ledger and $\StreamNameUp$ windows are visible before any regular-rational readback or terminal Real seal is consumed. The handoff exports no quotient stream equality, selected representative, countable-choice rate selector, host real equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for either the regular rational readback or the terminal Real seal. The carrier has a single readback row $S$ and a single seal row $E$, and both are downstream of the rate ledger, stream windows, and dyadic comparison.
+
+The continuation row $C$ replays the route through $L,W,S,D,E$, while $H$ preserves the same rows under componentwise transport. The provenance row $P$ and local name $N$ identify the route as the $\CauchyRateSpaceUp$ packet.
+
+The excluded objects would require extra carrier coordinates. Because the packet contains only finite BEDC rows and their structural provenance, no consumer can bypass the ledger and window rows to obtain a quotient stream, selected limit, choice-selected rate, host equality, or ambient completion principle.
+\end{proof}
+
+\closureat{CauchyRateSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateSpaceUp}
+  \constructivestory{A $\CauchyRateSpaceUp$ packet is generated from a finite rate ledger, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance comparisons, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-space-carrier}, \autoref{thm:cauchy-rate-space-namecert-obligations}, and \autoref{thm:cauchy-rate-space-regularization-handoff} name the finite Cauchy-rate substrate used before regular-rational and Real-facing reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable-choice rate selectors, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, rate-ledger exposure, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRateSpaceUp.}
+\end{closurestatus}

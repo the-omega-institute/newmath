@@ -39,6 +39,9 @@
         },
         "evidence_basis": {
           "$ref": "#/$defs/bio_evidence_basis"
+        },
+        "bedc_minimal_form": {
+          "$ref": "#/$defs/bedc_minimal_form"
         }
       }
     },
@@ -67,11 +70,15 @@
             "characteristic_recurrence",
             "golden_mean_shift",
             "edge_flux_finite_count",
-            "arithmetic_certificate"
+            "arithmetic_certificate",
+            "graph_invariant_certificate"
           ]
         },
         "evidence_basis": {
           "$ref": "#/$defs/forced_window_evidence_basis"
+        },
+        "bedc_minimal_form": {
+          "$ref": "#/$defs/forced_window_bedc_minimal_form"
         },
         "certificate_refs": {
           "type": "array",
@@ -113,7 +120,7 @@
       "minLength": 1
     },
     "bedc_minimal_form": {
-      "$ref": "#/$defs/bedc_minimal_form"
+      "type": "object"
     },
     "claimed_layer": {
       "type": "string"
@@ -218,6 +225,127 @@
         }
       }
     },
+    "forced_window_bedc_minimal_form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier",
+        "distinctions",
+        "readback",
+        "internal_structure"
+      ],
+      "properties": {
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distinctions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "readback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "internal_structure": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "coordinate",
+              "closure",
+              "spectrum",
+              "trigger",
+              "rank",
+              "homology",
+              "relation",
+              "integer_matrix_power",
+              "lucas_recurrence",
+              "integer_recurrence_evaluation",
+              "integer_prime_enumeration",
+              "modular_root_enumeration",
+              "pisano_residue_pair_search",
+              "mod_5_branch_divisibility_check",
+              "fibonacci_residue_enumeration",
+              "lucas_residue_enumeration",
+              "lucas_fibonacci_norm_enumeration",
+              "lucas_doubling_enumeration",
+              "integer_gcd_enumeration",
+              "divisibility_remainder_enumeration",
+              "bedc_finite_certificate",
+              "fibonacci_recurrence",
+              "prime_window",
+              "pisano_period",
+              "residue_pair_recurrence",
+              "quadratic_residue_class",
+              "mod_5_quadratic_residue_class",
+              "mod_5_divisibility_branch",
+              "integer_norm_relation",
+              "lucas_doubling",
+              "integer_gcd_grid",
+              "divisibility_remainder_grid",
+              "finite_graph",
+              "hamming_edge_relation",
+              "directed_edge_carrier",
+              "hashimoto_nonbacktracking_operator",
+              "ihara_zeta_factorization",
+              "bass_determinant",
+              "closed_walk_trace_identity",
+              "primitive_cycle_mobius_inversion",
+              "breadth_first_search",
+              "shortest_path_counting",
+              "ordered_geodesic_enumerator",
+              "euler_zigzag_certificate",
+              "diff_run_factorization",
+              "euler_zigzag_run_count",
+              "matching_polynomial_recurrence",
+              "monomer_dimer_profile",
+              "bipartition_parity",
+              "closed_neighborhood_relation",
+              "prefix_recursive_vertex_order",
+              "closed_neighborhood_block_matrix",
+              "identity_link_pivot",
+              "integral_smith_transfer_reduction",
+              "determinant_transfer",
+              "cokernel_transfer",
+              "integer_matrix_determinant",
+              "integer_laplacian",
+              "smith_normal_form",
+              "cyclic_cokernel",
+              "critical_group",
+              "fibonacci_cube_family",
+              "weight_graded_poset",
+              "saturated_chain_count",
+              "maximal_word_factorial_sum",
+              "binomial_factorial_closed_form",
+              "graph_metric",
+              "geodesic_interval_betweenness",
+              "ordered_triple_count",
+              "theta_class_coordinate_partition",
+              "induced_four_cycle_incidence",
+              "induced_cube_incidence",
+              "three_segment_fibonacci_factorization",
+              "all_dimension_fibonacci_segment_factorization",
+              "cube_polynomial_coordinate_resolution",
+              "finite_family_enumeration",
+              "median_majority_operation",
+              "ordered_triple_fiber",
+              "disjoint_support_condition",
+              "four_state_transfer_matrix",
+              "quartic_characteristic_polynomial",
+              "forced_order_four_recurrence",
+              "finite_transfer_matrix",
+              "pell_type_recurrence",
+              "none"
+            ]
+          }
+        }
+      }
+    },
     "bio_evidence_basis": {
       "type": "array",
       "minItems": 1,
@@ -238,9 +366,6 @@
     "forced_window_evidence_basis": {
       "type": "array",
       "minItems": 1,
-      "contains": {
-        "const": "automath_certificate"
-      },
       "items": {
         "type": "string",
         "enum": [
@@ -249,11 +374,62 @@
           "bedc_coordinate",
           "bedc_closure",
           "bedc_spectrum",
-          "derived_probe",
-          "mismatch_ledger",
-          "mechanism_bridge",
-          "automath_certificate"
-        ]
+            "derived_probe",
+            "mismatch_ledger",
+            "mechanism_bridge",
+            "automath_certificate",
+            "integer_matrix_power",
+            "lucas_recurrence",
+            "integer_recurrence_evaluation",
+            "integer_prime_enumeration",
+            "modular_root_enumeration",
+            "pisano_residue_pair_search",
+            "mod_5_branch_divisibility_check",
+            "fibonacci_residue_enumeration",
+            "lucas_residue_enumeration",
+            "lucas_fibonacci_norm_enumeration",
+            "lucas_doubling_enumeration",
+            "integer_gcd_enumeration",
+            "divisibility_remainder_enumeration",
+            "bedc_finite_certificate",
+            "finite_graph_enumeration",
+            "hashimoto_nonbacktracking_operator",
+            "ihara_zeta_factorization",
+            "bass_determinant_formula",
+            "closed_walk_trace_identity",
+            "matching_polynomial_recurrence",
+            "monomer_dimer_profile",
+            "fibonacci_cube_family_enumeration",
+            "fibonacci_cube_recursive_decomposition",
+            "weight_graded_poset",
+            "saturated_chain_count",
+            "maximal_word_factorial_sum",
+            "binomial_factorial_closed_form",
+            "closed_neighborhood_block_recurrence",
+            "integral_smith_transfer_reduction",
+            "identity_link_pivot",
+            "no_scalar_determinant_recurrence",
+            "theta_class_square_incidence",
+            "theta_class_cube_incidence",
+            "forced_fibonacci_factorization",
+            "forced_fibonacci_segment_factorization",
+            "cube_polynomial_coordinate_resolution",
+            "integer_matrix_determinant",
+            "integer_laplacian_determinant",
+            "smith_normal_form_determinantal_divisors",
+            "shortest_path_counting",
+            "euler_zigzag_certificate",
+            "euler_zigzag_run_factorization",
+            "diametral_special_case",
+            "lean_statement_only",
+            "median_majority_operation",
+            "disjoint_support_triple_count",
+            "geodesic_interval_betweenness",
+            "quartic_characteristic_polynomial",
+            "distinct_from_wiener",
+            "transfer_matrix_recurrence",
+            "pell_type_recurrence"
+          ]
       }
     },
     "certificate_ref": {
@@ -289,7 +465,26 @@
             "golden_mean_shift_certificate",
             "edge_flux_count_certificate",
             "green_kirchhoff_certificate",
-            "automath_paper_section"
+            "automath_paper_section",
+            "integer_matrix_lucas_kernel_certificate",
+            "lucas_fib_norm_relation_certificate",
+            "fibonacci_entry_point_congruence_certificate",
+            "pisano_period_modp_divisibility_certificate",
+            "modp_root_enumeration_certificate",
+            "fibonacci_gcd_strong_divisibility_certificate",
+            "bedc_finite_certificate",
+            "fibonacci_cube_critical_group_certificate",
+            "closed_neighborhood_smith_certificate",
+            "closed_neighborhood_transfer_certificate",
+            "ordered_geodesic_enumerator_certificate",
+            "geodesic_run_factorization_certificate",
+            "matching_enumerator_certificate",
+            "ihara_hashimoto_zeta_certificate",
+            "theta_square_factorization_certificate",
+            "theta_cube_decomposition_certificate",
+            "median_zero_triple_certificate",
+            "betweenness_triple_certificate",
+            "saturated_chain_certificate"
           ]
         }
       },

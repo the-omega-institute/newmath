@@ -1,0 +1,88 @@
+\origin{ai}
+
+\subsection{Window-six endpoint-collision seam}
+\label{sec:window6-edge-cokernel-clock-seam-identification}
+
+\paragraph{Carrier.}
+Work entirely inside the finite binary cube $\{0,1\}^6$.  A word is written $w=w_1w_2w_3w_4w_5w_6$, with each $w_i\in\{0,1\}$.  Its Hamming weight is
+$$
+\begin{aligned}
+|w|&=w_1+w_2+w_3+w_4+w_5+w_6.
+\end{aligned}
+$$
+The linear no-adjacent-one carrier is the subset
+$$
+\begin{aligned}
+X_6
+&=\{w\in\{0,1\}^6: w_iw_{i+1}=0\text{ for }1\leq i\leq 5\}.
+\end{aligned}
+$$
+This is a finite set of exactly $21$ words, matching the value $F_8=21$ for the usual Fibonacci count of length-six linear binary strings with no adjacent ones.  No limiting process, metric completion, or external comparison is used; the construction is a finite enumeration inside $\{0,1\}^6$.
+
+\paragraph{Cyclic-normal weight-one sector.}
+The cyclic-normal weight-one sector is the set of length-six words of Hamming weight $1$ regarded with the cyclic endpoint relation also harmless, since a single one cannot create an adjacent cyclic pair.  Thus
+$$
+\begin{aligned}
+U_1
+&=\{w\in\{0,1\}^6: |w|=1\}\\
+&=\{000001,000010,000100,001000,010000,100000\}.
+\end{aligned}
+$$
+In particular, $|U_1|=6$.  This sector is not defined by a choice of origin in a global cycle; it is only the finite class of all one-bit cyclic-normal words at length six.
+
+\paragraph{Endpoint-collision sector.}
+Inside the linear carrier $X_6$, impose the endpoint-collision condition $w_1=w_6=1$.  Because $X_6$ forbids only the linear adjacent pairs $(w_1,w_2),(w_2,w_3),(w_3,w_4),(w_4,w_5),(w_5,w_6)$, the endpoint pair $(w_6,w_1)$ may collide without violating membership in $X_6$.  The endpoint-collision sector is therefore
+$$
+\begin{aligned}
+U_R
+&=\{w\in X_6: w_1=1\text{ and }w_6=1\}\\
+&=\{100001,100101,101001\}.
+\end{aligned}
+$$
+Hence $|U_R|=3$.  Its unique minimum-Hamming-weight element is
+$$
+\begin{aligned}
+100001,
+\end{aligned}
+$$
+which has weight $2$.  The remaining two elements, $100101$ and $101001$, have larger weight.  Thus the first endpoint-collision defect, ordered by Hamming weight, is uniquely represented by $100001$.
+
+\paragraph{One-bit predecessor relation.}
+Define the one-bit deletion predecessor relation from $U_R$ to $U_1$ as follows: a word $u\in U_1$ is a predecessor of $v\in U_R$ when $u$ is obtained from $v$ by changing exactly one of the $1$ entries of $v$ to $0$ and leaving all other coordinates unchanged.  For the minimum endpoint-collision defect $v=100001$, there are exactly two such deletions:
+$$
+\begin{aligned}
+100001&\longmapsto 000001,\\
+100001&\longmapsto 100000.
+\end{aligned}
+$$
+Both predecessors lie in $U_1$.  These two arrows are the complete one-bit predecessor data for the minimum defect: deleting the first endpoint gives $000001$, and deleting the last endpoint gives $100000$.  No other weight-one word is one deletion away from $100001$.
+
+\paragraph{Cell quotient.}
+Collapse all words in $U_1$ to a single cell, denoted $e_{U_1}$, and all words in $U_R$ to a single cell, denoted $e_{U_R}$.  The finite predecessor data above creates a boundary passage from the weight-one cyclic-normal cell to the endpoint-collision cell.  Since $100001$ is the unique minimum element of $U_R$ and both of its one-bit predecessors lie in $U_1$, the minimal forward boundary-creation event in the quotient is uniquely
+$$
+\begin{aligned}
+U_1&\longrightarrow U_R.
+\end{aligned}
+$$
+The associated signed cell-chain generator is
+$$
+\begin{aligned}
+j_{\mathrm{seam}}&=e_{U_1}-e_{U_R}.
+\end{aligned}
+$$
+This equation is only a finite cell-quotient identity.  It records which two cells are joined by the first forced endpoint-collision transition and with which orientation the generator is written.
+
+\paragraph{Finite character value.}
+Attach to the signed generator $j_{\mathrm{seam}}$ the finite character value
+$$
+\begin{aligned}
+\chi(j_{\mathrm{seam}})&=7.
+\end{aligned}
+$$
+Within this chapter, the symbol $\chi$ denotes only this finite character assignment on the displayed quotient generator.  The number $7$ is not interpreted as a measurement, a physical constant, or a metrological datum.  The proved content is the finite construction of the carrier, the two sectors, the unique minimum endpoint-collision defect, its two one-bit predecessors, the forced quotient passage $U_1\to U_R$, and the identity $j_{\mathrm{seam}}=e_{U_1}-e_{U_R}$ together with the assigned value $\chi(j_{\mathrm{seam}})=7$.
+
+\paragraph{Witness extraction.}
+The witness is obtained by direct finite enumeration.  First enumerate $X_6$ by testing all $64$ elements of $\{0,1\}^6$ against the five linear adjacency inequalities $w_iw_{i+1}=0$.  This gives $21$ surviving words.  Next select the six words of Hamming weight $1$ to obtain $U_1$.  Then select the words in $X_6$ satisfying $w_1=w_6=1$ to obtain $U_R=\{100001,100101,101001\}$.  Comparing Hamming weights inside this three-element set gives the unique minimum defect $100001$.  Finally, deleting one endpoint bit from $100001$ gives precisely $000001$ and $100000$, both already present in $U_1$.  These finite checks force the unique minimal quotient passage and therefore determine the displayed signed generator.
+
+\paragraph{Claim boundary.}
+Nothing in this finite construction selects a complete $a=0$ origin, identifies any physical quantity with $j_{\mathrm{seam}}$, proves a global return-degree law, supplies a return-functor certificate, or identifies a separate torsor with the edge-cokernel clock.  It also gives no physical value of alpha and no external metrological comparison.  Any such interpretation would require an additional certificate not contained in the finite window-six calculation.

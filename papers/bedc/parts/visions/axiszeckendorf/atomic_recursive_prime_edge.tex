@@ -1,0 +1,243 @@
+\begin{definition}[Recursive operation carrier]
+\label{def:axiszeckendorf-recursive-operation-carrier}
+Let $R$ be a displayed record carrier with classifier $\sim_R$.  A
+recursive operation carrier over $R$ consists of an operation type $O$, an
+operation equivalence $\equiv_O$, a unit operation $\operatorname{id}$, a
+composition law $\circ$, and an action
+$$
+\operatorname{act}:O\times R\to R
+$$
+such that
+$$
+\operatorname{id}(r)\sim_R r
+$$
+and
+$$
+(\beta\circ\gamma)(r)\sim_R\beta(\gamma(r)).
+$$
+The carrier also records the associativity, unit, equivalence-compatibility,
+readback, ledger, and audit rows needed to use these equations inside a
+BEDC information layer.
+\end{definition}
+
+\begin{definition}[Atomic recursive prime edge]
+\label{def:axiszeckendorf-atomic-recursive-prime-edge}
+For a recursive operation carrier over $R$, an atomic recursive prime edge
+from $B_0$ to $B_1$ is data
+$$
+(B_0,B_1,\alpha,\mathsf{Edge}_{\alpha},\mathsf{NonDeg},
+\mathsf{Irred}_{\alpha},\mathsf{Prime}_{\alpha})
+$$
+where $\alpha\in O$ and
+$$
+\mathsf{Edge}_{\alpha}:\alpha(B_0)\sim_R B_1,
+$$
+$$
+\mathsf{NonDeg}:B_0\not\sim_R B_1.
+$$
+The irreducibility row says that
+$$
+\alpha\equiv_O\beta\circ\gamma
+\Longrightarrow
+\beta\equiv_O\operatorname{id}
+\quad\text{or}\quad
+\gamma\equiv_O\operatorname{id}.
+$$
+The prime row is classifier-relative: it asserts primeness for the chosen
+operation divisibility relation, not ordinary integer primality.
+\end{definition}
+
+\begin{principle}[Golden branch pair as a recursive edge]
+\label{prin:axiszeckendorf-golden-branch-recursive-edge}
+The spectral pair $B_0,B_1$ of
+\autoref{def:zeckendorf-golden-conjugate-spectral-readout} may be read as
+a seed and its first visible recursive exposure only after an operation
+carrier and an edge certificate are displayed:
+$$
+B_0\xrightarrow{\alpha}B_1.
+$$
+Under that reading, $B_0$ and $B_1$ are not ontic bottom points.  They are
+visible branch records over source fibers, together with the certificate
+that the displayed operation $\alpha$ transports the first visible record
+to the second.
+\end{principle}
+
+\begin{theorem}[Atomic edge has no nontrivial intermediate operation]
+\label{thm:axiszeckendorf-atomic-edge-no-intermediate-operation}
+Assume $B_0\xrightarrow{\alpha}B_1$ is an atomic recursive prime edge and
+that
+$$
+\alpha\equiv_O\beta\circ\gamma.
+$$
+Then any factorization
+$$
+B_0\xrightarrow{\gamma}C\xrightarrow{\beta}B_1
+$$
+is trivial on at least one side:
+$$
+\beta\equiv_O\operatorname{id}
+\quad\text{or}\quad
+\gamma\equiv_O\operatorname{id}.
+$$
+\end{theorem}
+
+\begin{proof}
+This is exactly the irreducibility row
+$\mathsf{Irred}_{\alpha}$ in
+\autoref{def:axiszeckendorf-atomic-recursive-prime-edge}.  If both
+$\beta$ and $\gamma$ were non-unit operations, the displayed equality
+$\alpha\equiv_O\beta\circ\gamma$ would contradict irreducibility.
+\end{proof}
+
+\begin{definition}[Undelimited atomic collision]
+\label{def:axiszeckendorf-undelimited-atomic-collision}
+Let $\alpha$ be an atomic recursive operation in a displayed operation
+carrier.  A consecutive double occurrence is written
+$$
+\alpha\Vert\alpha.
+$$
+It is \emph{undelimited} when the layer does not display a separator row
+$$
+\mathsf{Sep}_{O}(\alpha,\alpha)
+$$
+certifying a boundary between the two occurrences.  A collision atom for
+that undelimited occurrence is an operation $\beta\in O$ together with a
+classifier row
+$$
+\alpha\Vert\alpha\sim_{\mathrm{coll}}\beta
+$$
+and no audit row that factors the visible record through two separated
+$\alpha$-steps.
+\end{definition}
+
+\begin{principle}[Collision atoms are classifier-relative]
+\label{prin:axiszeckendorf-collision-atoms-classifier-relative}
+A collision atom is not an assertion that $\beta$ is definitionally equal
+to two applications of $\alpha$.  It says that the current readout layer
+cannot separate the visible record into two certified $\alpha$-steps.  The
+unresolved source fiber behind the visible record may still contain a
+two-step history, but that history is not available to the classifier
+unless a separator, clock, bracket, boundary, or replay certificate is
+displayed.
+\end{principle}
+
+\begin{theorem}[No separator gives no certified double read]
+\label{thm:axiszeckendorf-no-separator-no-certified-double-read}
+Assume that a layer can certify a double-$\alpha$ reading only through a
+separator row $\mathsf{Sep}_{O}(\alpha,\alpha)$.  If no such row is
+displayed for $\alpha\Vert\alpha$, then the layer cannot construct a
+certificate distinguishing the double occurrence from a collision atom
+$\beta$ with the same collision classifier read.
+\end{theorem}
+
+\begin{proof}
+A certified double read requires a boundary witness separating the first
+occurrence of $\alpha$ from the second.  By hypothesis the only such witness
+accepted by the layer is $\mathsf{Sep}_{O}(\alpha,\alpha)$.  When this row is
+not displayed, the layer has only the composite visible record.  If that
+record is classified by
+$$
+\alpha\Vert\alpha\sim_{\mathrm{coll}}\beta,
+$$
+then the classifier supplies no further data with which to split it into two
+auditable $\alpha$-steps.  Thus the claimed distinction is not certified in
+the current layer.
+\end{proof}
+
+\begin{principle}[Zeckendorf-safe channels as collision discipline]
+\label{prin:axiszeckendorf-zeckendorf-safe-channel-collision-discipline}
+The Zeckendorf-safe channel encoding is the finite channel model of this
+discipline.  If the raw glyph $1$ is read as the channel marker for one
+atomic action, a bare body substring $11$ would be an undelimited occurrence
+of $\alpha\Vert\alpha$.  The body substitution
+$$
+0\mapsto0,
+\qquad
+1\mapsto10
+$$
+adds a visible separator after every raw $1$, while the event terminator is
+$$
+\mathrm{End}=11.
+$$
+By \autoref{prop:channel-encoding-no-adjacent-11-in-body}, no encoded body
+contains the collision pattern $11$; by
+\autoref{cor:channel-encoding-first-11-is-terminator}, the first displayed
+$11$ is therefore a boundary row rather than a body collision.  The
+source-level carry classifier of \autoref{def:zeckendorf-carry-classifier}
+uses a different interface: it treats adjacent activation as a
+normalization trigger inside recognized history flows, not as a direct
+rewrite of channel glyphs.
+\end{principle}
+
+\begin{definition}[Recursive orbit and alpha valuation]
+\label{def:axiszeckendorf-recursive-orbit-alpha-valuation}
+Given an operation $\alpha$ acting on $R$, define the recursive orbit of
+$B_0$ by
+$$
+B_n:=\alpha^n(B_0),
+\qquad
+\alpha^0:=\operatorname{id},
+\qquad
+\alpha^{n+1}:=\alpha\circ\alpha^n.
+$$
+The orbit is free when
+$$
+\alpha^m(B_0)\sim_R\alpha^n(B_0)
+\Longrightarrow
+m=n.
+$$
+For a subcarrier $X\subseteq R$, an $\alpha$-normal form is a unique
+display
+$$
+x\sim_R\alpha^k(y)
+$$
+with $k\in\mathbb N$ and $y$ no longer left-divisible by $\alpha$.  The
+associated valuation row is
+$$
+v_{\alpha}(x):=k.
+$$
+\end{definition}
+
+\begin{theorem}[Alpha valuation shifts additively]
+\label{thm:axiszeckendorf-alpha-valuation-shifts-additively}
+If $X$ carries an $\alpha$-normal form, then for every $m\in\mathbb N$ and
+$x\in X$,
+$$
+v_{\alpha}(\alpha^m(x))=m+v_{\alpha}(x).
+$$
+\end{theorem}
+
+\begin{proof}
+Let
+$$
+x\sim_R\alpha^k(y)
+$$
+be the $\alpha$-normal form of $x$, so $k=v_{\alpha}(x)$ and $y$ is not
+left-divisible by $\alpha$.  Applying $\alpha^m$ gives
+$$
+\alpha^m(x)\sim_R\alpha^{m+k}(y).
+$$
+By uniqueness of the normal form, this is the normal display of
+$\alpha^m(x)$.  Hence
+$$
+v_{\alpha}(\alpha^m(x))=m+k=m+v_{\alpha}(x).
+$$
+\end{proof}
+
+\begin{principle}[Classifier-relative primeness]
+\label{prin:axiszeckendorf-classifier-relative-primeness}
+The analogy
+$$
+p\text{ in multiplicative factorization}
+\qquad\sim\qquad
+\alpha\text{ in recursive operation composition}
+$$
+is valid only after the classifier has been fixed.  Ordinary primes are
+atoms for multiplicative divisibility.  Recursive prime operations are
+atoms for operation composition.  Zeckendorf carry rows, channel-safe
+body encodings, and golden spectral roots may interact with this pattern
+only through displayed bridge, readback, normal-form, and ledger
+certificates.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-zeckendorf-prime-edge-namecert}{The atomic recursive prime-edge carrier realizes the recursive-operation edge and irreducibility rows as finite NameCert data.}

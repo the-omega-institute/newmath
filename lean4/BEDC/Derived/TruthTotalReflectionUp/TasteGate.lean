@@ -15,7 +15,7 @@ inductive TruthTotalReflectionUp : Type where
       TruthTotalReflectionUp
   deriving DecidableEq
 
-private def truthTotalReflectionEncodeBHist : BHist → RawEvent
+def truthTotalReflectionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: truthTotalReflectionEncodeBHist h
@@ -39,7 +39,7 @@ private theorem truthTotalReflection_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def truthTotalReflectionToEventFlow : TruthTotalReflectionUp → EventFlow
+def truthTotalReflectionToEventFlow : TruthTotalReflectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | TruthTotalReflectionUp.mk sentenceCodes extensionAttempt diagonal transport route
       provenance name =>
@@ -246,5 +246,64 @@ theorem TruthTotalReflectionAttemptRowStability (x : TruthTotalReflectionUp) :
         ⟨sentence, attempt, diagonal, transports, routes, provenance, nameCert, rfl,
           hsame_refl sentence, hsame_refl attempt, hsame_refl diagonal,
           hsame_refl transports, hsame_refl routes⟩
+
+theorem TruthTotalReflectionConsumerSurfaceExhaustion (x : TruthTotalReflectionUp) :
+    ∃ sentence attempt diagonal transport route provenance nameCert : BHist,
+      x = TruthTotalReflectionUp.mk sentence attempt diagonal transport route provenance nameCert ∧
+        List.Mem [BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier
+  cases x with
+  | mk sentence attempt diagonal transport route provenance nameCert =>
+      exact
+        ⟨sentence, attempt, diagonal, transport, route, provenance, nameCert, rfl,
+          List.Mem.head _,
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)),
+          List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.head _)))))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+                (List.Mem.head _))))))))))))⟩
+
+theorem TruthTotalReflectionClassifierTransportScope (x : TruthTotalReflectionUp) :
+    ∃ sentence attempt diagonal transport route provenance nameCert : BHist,
+      x = TruthTotalReflectionUp.mk sentence attempt diagonal transport route provenance
+        nameCert ∧
+        hsame sentence sentence ∧ hsame attempt attempt ∧ hsame diagonal diagonal ∧
+          hsame transport transport ∧ hsame route route ∧
+            List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+              (BHistCarrier.toEventFlow x) ∧
+              List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+                (BHistCarrier.toEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame BHistCarrier
+  cases x with
+  | mk sentence attempt diagonal transport route provenance nameCert =>
+      exact
+        ⟨sentence, attempt, diagonal, transport, route, provenance, nameCert, rfl,
+          hsame_refl sentence, hsame_refl attempt, hsame_refl diagonal,
+          hsame_refl transport, hsame_refl route,
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.head _))))))))⟩
 
 end BEDC.Derived.TruthTotalReflectionUp

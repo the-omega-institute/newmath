@@ -1,0 +1,140 @@
+\chapter{A Concrete Naming Certificate for $\OgdenLemmaUp$}
+\label{ch:concrete-instances-ogden-lemma-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and Sipser, the $\OgdenLemmaUp$ packet records the
+marked-position strengthening of the context-free pumping lemma as finite
+NameCert data. It sits beside the grammar carrier of
+\autoref{ch:concrete-instances-contextfreegrammar-namecert} and the
+unmarked pumping route of
+\autoref{ch:concrete-instances-context-free-pumping-lemma-namecert}; its role
+is to expose which marked terminal positions force the repeated nonterminal
+route, not to import host language equality, infinite parse trees, grammar
+quotients, or an ambient semantic pumping theorem.
+
+\begin{definition}[Ogden lemma carrier]
+\label{def:ogden-lemma-carrier}
+An $\OgdenLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+O=(G,W,M,D,A,E,I,Y,H,C,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\ContextFreeGrammarUp$ grammar packet, including the
+terminal alphabet, nonterminal carrier, start row, production ledger, and
+terminal-yield window.
+\item $W$ is the terminal word row, read as a $\ListUp$ spine with a displayed
+length bound supplied by $\NatUp$.
+\item $M$ is the finite marked-position ledger over $W$, recording only the
+displayed positions chosen for the Ogden read.
+\item $D$ is the finite derivation ledger whose prefix rows are read through
+the grammar packet and whose marked leaves are aligned with $M$.
+\item $A$ is the repeated-nonterminal exposure row forced by the marked
+derivation route.
+\item $E$ is the decomposition row naming the five displayed word pieces and
+the marked-position split attached to them.
+\item $I$ is the pump-index row.
+\item $Y$ is the yielded-word row obtained by replaying the marked pumping
+route at the displayed index.
+\item $H$ records componentwise $\hsame$ transport for the grammar, word,
+marked-position ledger, derivation ledger, repeated-nonterminal row,
+decomposition, pump index, yielded word, replay, provenance, and local naming
+rows.
+\item $C$ records displayed $\Cont$ replay through
+$G,W,M,D,A,E,I,Y,H,R,Q,N$.
+\item $R$ is the sibling route to the $\ContextFreePumpingLemmaUp$ packet,
+forgetting only the marked-position ledger while preserving the displayed
+derivation-prefix route.
+\item $Q$ is the $\Pkg$ provenance over $\OgdenLemmaUp$,
+$\ContextFreeGrammarUp$, $\ContextFreePumpingLemmaUp$, $\ListUp$, $\NatUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OgdenLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$G,W,M,D,A,E,I,Y,H,C,R,Q,N$. The carrier contains no host language set,
+grammar quotient, infinite derivation tree, selected parse tree, or ambient
+semantic pumping principle.
+\end{definition}
+\leanchecked{BEDC.Derived.OgdenLemmaUp.OgdenLemmaTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Ogden lemma NameCert obligations]
+\label{thm:ogden-lemma-namecert-obligations}
+For every accepted $\OgdenLemmaUp$ carrier
+$$
+O=(G,W,M,D,A,E,I,Y,H,C,R,Q,N),
+$$
+the local $\NameCert_{\OgdenLemmaUp}$ surface consists exactly of carrier
+admission for the grammar packet, terminal word row, marked-position ledger,
+finite derivation ledger, repeated-nonterminal exposure row, decomposition,
+pump index, yielded word, transport, replay, sibling pumping route,
+provenance, and local naming. The marked-position ledger $M$ must be displayed
+before $A$ and $E$ are read, and the sibling route $R$ may forget only that
+ledger after the finite derivation-prefix path has been exposed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:ogden-lemma-carrier}. The rows
+$G,W,M,D,A,E,I,Y$ are the whole formal-language surface, while $H,C,R,Q,N$
+transport, replay, compare with the unmarked pumping sibling, source, and name
+the same packet.
+
+First read the grammar and terminal word rows. The finite production ledger
+and terminal-yield window of $G$ supply the derivation-prefix route, and $W$
+supplies the bounded terminal spine on which marked positions can be displayed.
+
+Next expose $M$ before the pumping witness. The repeated-nonterminal row $A$
+and decomposition row $E$ are accepted only as reads of the marked derivation
+ledger $D$, so no unmarked host pumping argument can replace them.
+
+Finally replay the chosen pump index through $I$ and $Y$, then package the
+route through $H,C,R,Q,N$. The sibling row $R$ erases only the marked-position
+annotation after the finite derivation-prefix data has been read, and no
+carrier coordinate stores a host language set, grammar quotient, infinite
+derivation tree, selected parse tree, or ambient semantic pumping principle.
+\end{proof}
+
+\begin{theorem}[Ogden lemma marked-position pumping route]
+\label{thm:ogden-lemma-marked-position-pumping-route}
+Let
+$$
+O=(G,W,M,D,A,E,I,Y,H,C,R,Q,N)
+$$
+be an accepted $\OgdenLemmaUp$ carrier. Every marked pumping read of $O$
+factors through the finite route
+$$
+G \longmapsto W \longmapsto M \longmapsto D \longmapsto A
+\longmapsto E \longmapsto I \longmapsto Y
+$$
+before it reaches transport, replay, provenance, local naming, or the
+$\ContextFreePumpingLemmaUp$ sibling route. A consumer may therefore recover a
+standard pumping-lemma surface only through the displayed forgetful row $R$,
+not by replacing the marked route with host language equality, quotient grammar
+semantics, an infinite parse tree, or an ambient membership theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:ogden-lemma-namecert-obligations}. It orders the
+formal-language rows so that the grammar packet and terminal word are read
+before the marked-position ledger and derivation ledger.
+
+The marked ledger then controls the pumping witness. The repeated-nonterminal
+row $A$ and decomposition row $E$ are downstream of $M$ and $D$, and the pump
+index $I$ can be replayed to the yielded row $Y$ only along that displayed
+finite path.
+
+The structural rows do not add a second pumping argument. Componentwise
+transport $H$ and continuation replay $C$ preserve the same path, while $Q$ and
+$N$ source and name it. The sibling row $R$ gives the only route to the
+unmarked $\ContextFreePumpingLemmaUp$ surface, and that route forgets the mark
+ledger only after the derivation-prefix witness has been displayed.
+\end{proof}
+
+\closureat{OgdenLemmaUp}{seedStr}
+
+\begin{closurestatus}{\OgdenLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ogden-lemma-carrier}, \autoref{thm:ogden-lemma-namecert-obligations}, and \autoref{thm:ogden-lemma-marked-position-pumping-route} seed the marked-position pumping surface over ContextFreeGrammarUp, ContextFreePumpingLemmaUp, ListUp, NatUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host language equality, grammar quotient semantics, infinite parse trees, selected parse trees, ambient semantic pumping, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, marked-position exposure, repeated-nonterminal extraction, decomposition exactness, pump replay, sibling forgetful routing, transport, replay, provenance, and local naming for BEDC.Derived.OgdenLemmaUp.}
+  \constructivestory{An $\OgdenLemmaUp$ packet is generated from a finite ContextFreeGrammarUp grammar packet, a terminal ListUp word row, a NatUp-bounded marked-position ledger, a finite derivation ledger, repeated-nonterminal exposure, decomposition, pump index, yielded word, componentwise hsame transport, Cont replay, sibling ContextFreePumpingLemmaUp routing, package provenance, and a local NameCert row.}
+\end{closurestatus}

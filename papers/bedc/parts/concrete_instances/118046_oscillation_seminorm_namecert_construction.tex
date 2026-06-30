@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\OscillationSeminormUp$}
+\label{ch:concrete-instances-oscillation-seminorm-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive function spaces and oscillation estimates, the $\OscillationSeminormUp$ packet records finite seminorm data for displayed real-valued function windows. It sits after the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the bounded oscillation ledger of \autoref{ch:concrete-instances-bounded-oscillation-namecert}, and the oscillation modulus route of \autoref{ch:concrete-instances-oscillation-modulus-namecert}. The packet names only the finite window, tolerance, readback, and oscillation-bound rows used to compare seminorm requests; it does not claim a host supremum over all points, quotient equality of functions, selected function representatives, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Oscillation seminorm carrier]
+\label{def:oscillation-seminorm-carrier}
+An $\OscillationSeminormUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,W,O,M,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite function-window row, naming the source window, target window, and the finite observation schedule used by the seminorm request.
+\item $W$ is the $\RealUp$ window row for the displayed source and target comparisons.
+\item $O$ is the $\BoundedOscillationUp$ row recording the finite oscillation ledger attached to the same window.
+\item $M$ is the $\OscillationModulusUp$ row converting the displayed oscillation ledger into a tolerance-to-window route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for radius, slack, and comparison budget.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational values opened by the function-window and oscillation rows.
+\item $E$ is the terminal $\RealUp$ seal for the seminorm comparison.
+\item $B$ is the displayed seminorm-bound row, asserting that the finite oscillation ledger is below the carried bound under the same tolerance row $D$.
+\item $H$ records componentwise $\hsame$ transport for function-window, Real, bounded-oscillation, oscillation-modulus, dyadic, regular-readback, seal, bound, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a seminorm request through the finite window, oscillation ledger, modulus row, dyadic budget, regular readback, Real seal, and bound row.
+\item $P$ is the $\Pkg$ provenance over $\OscillationSeminormUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BoundedOscillationUp$, $\OscillationModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OscillationSeminormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host supremum, quotient equality of functions, selected representatives, an unrestricted function-space norm, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Oscillation seminorm NameCert obligations]
+\label{thm:oscillation-seminorm-namecert-obligations}
+For every accepted $\OscillationSeminormUp$ carrier $S=(F,W,O,M,D,R,E,B,H,C,P,N)$, the local $\NameCert_{\OscillationSeminormUp}$ surface consists exactly of carrier admission for the finite function-window row, Real window row, bounded-oscillation ledger, oscillation-modulus route, dyadic tolerance row, regular rational readback, Real seal, seminorm-bound row, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:oscillation-seminorm-carrier}. The analytic rows are $F,W,O,M,D,R,E,B$, and the structural rows are $H,C,P,N$.
+
+The oscillation side is finite. The row $O$ supplies the bounded oscillation ledger for the displayed window, while $M$ records the modulus route by which a tolerance request opens only the corresponding finite windows.
+
+The numerical side is also finite. The dyadic row $D$ fixes the comparison budget, $R$ supplies regular rational readback, $E$ seals the Real-facing comparison, and $B$ records the seminorm bound against the same rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no further analytic coordinate exists, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Oscillation seminorm RegSeqRat handoff]
+\label{thm:oscillation-seminorm-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\OscillationSeminormUp$ packet reads the finite route
+$$
+\BoundedOscillationUp,\ \OscillationModulusUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp
+$$
+before the seminorm-bound row is public. The handoff exports regular rational readback of the displayed oscillation data, not a host supremum, unrestricted norm, selected function representative, quotient equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the bounded oscillation and modulus rows $O,M$. They determine which finite window and tolerance route may be inspected for the seminorm request.
+
+Read the dyadic budget $D$ next. It fixes the comparison precision before any regular rational endpoint can be consumed.
+
+The row $R$ then supplies the $\RegSeqRatUp$ readback, and $E$ supplies the terminal $\RealUp$ seal. Only after those rows are displayed may the bound row $B$ be read as seminorm data.
+
+The structural rows $H,C,P,N$ preserve the same route. Because the carrier lacks host suprema, quotient function equality, selected representatives, unrestricted norm data, countable choice, and ambient Real-completeness coordinates, none of those objects can be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Oscillation seminorm window nonescape]
+\label{thm:oscillation-seminorm-window-nonescape}
+Every accepted $\OscillationSeminormUp$ comparison remains inside the finite function-window, bounded-oscillation, oscillation-modulus, dyadic, regular-readback, Real-seal, and bound rows of \autoref{def:oscillation-seminorm-carrier}. In particular, a consumer cannot replace the packet by an ambient function-space norm or a supremum over unlisted points.
+\end{theorem}
+\begin{proof}
+By carrier projection, the only window data is $F,W$, and the only oscillation data is $O,M$. Thus every comparison begins with the displayed finite window and the oscillation rows attached to it.
+
+By \autoref{thm:oscillation-seminorm-namecert-obligations}, all accepted reads must then pass through $D,R,E,B$ with the same transport, replay, provenance, and naming rows.
+
+The excluded objects require coordinates absent from the packet. Since no carrier row stores all host points, quotient function equality, selected representatives, an unrestricted norm, countable choice, or ambient Real-completeness data, no accepted comparison can escape the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\OscillationSeminormUp$ read factors through a finite function-window row, bounded-oscillation ledger, oscillation-modulus row, DyadicRatCore tolerance row, RegSeqRat readback, Real seal, seminorm-bound row, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\independenceWitness{bounded-oscillation, oscillation-modulus, regseqrat, dyadicratcore, real: none is bijective with $\OscillationSeminormUp$ because this packet jointly carries function-window data, finite oscillation ledgers, modulus routing, tolerance accounting, regular readback, Real sealing, a seminorm-bound row, transport, replay, provenance, and local naming.}
+
+\closureat{OscillationSeminormUp}{seedStr}
+
+\begin{closurestatus}{\OscillationSeminormUp}
+  \constructivestory{An $\OscillationSeminormUp$ packet is generated from finite function-window rows, Real window rows, BoundedOscillation rows, OscillationModulus rows, DyadicRatCore tolerance rows, RegSeqRat readback, RealUp seals, displayed seminorm bounds, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oscillation-seminorm-carrier}, \autoref{thm:oscillation-seminorm-namecert-obligations}, \autoref{thm:oscillation-seminorm-regseqrat-handoff}, and \autoref{thm:oscillation-seminorm-window-nonescape} seed the finite oscillation seminorm packet over displayed Real-facing function windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host suprema, quotient function equality, selected function representatives, unrestricted function-space norms, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, bounded-oscillation ledger exactness, oscillation-modulus routing, dyadic tolerance accounting, RegSeqRat readback, Real-seal nonescape, seminorm-bound confinement, transport, replay, provenance, and local naming for BEDC.Derived.OscillationSeminormUp.}
+\end{closurestatus}

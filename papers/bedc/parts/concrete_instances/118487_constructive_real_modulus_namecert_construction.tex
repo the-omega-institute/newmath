@@ -1,0 +1,121 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRealModulusUp$}
+\label{ch:concrete-instances-constructive-real-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real moduli, the
+$\ConstructiveRealModulusUp$ packet records the finite modulus surface that a
+Real and Completion consumer reads before treating a regular rational stream as
+a completed real name. It sits over the dyadic tolerance rows of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation
+windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular
+rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the
+terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The
+packet names a displayed modulus schedule only; it does not assert quotient
+stream equality, select a limit, import countable choice, or close ambient
+$\RealUp$ completeness.
+
+\begin{definition}[Constructive real modulus carrier]
+\label{def:constructive-real-modulus-carrier}
+A $\ConstructiveRealModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,D,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule naming the inspected
+source positions.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic
+radii requested by the consumer.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational name
+inside the displayed window.
+\item $R$ is the modulus-response row, assigning each requested dyadic radius a
+displayed tail threshold inside $S$.
+\item $A$ is the visible $\RealUp$ seal available only after $S,D,Q,R$ have
+been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,D,Q,R,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp
+\longmapsto R \longmapsto \RealUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveRealModulusUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveRealModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,D,Q,R,A,H,C,P,N$.
+It has no coordinate for quotient equality of real names, a selected limit,
+countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.ConstructiveRealModulusUp}
+
+\begin{theorem}[Constructive real modulus NameCert obligations]
+\label{thm:constructive-real-modulus-namecert-obligations}
+For every accepted $\ConstructiveRealModulusUp$ carrier
+$$
+M=(S,D,Q,R,A,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveRealModulusUp}$ surface consists exactly of
+finite StreamName window exposure, DyadicRatCore tolerance readback, RegSeqRat
+regular-rational readback, modulus-response threshold exposure, visible Real
+seal admission, componentwise $\hsame$ transport, displayed $\Cont$ replay,
+$\Pkg$ provenance, and local naming. No obligation is stored outside these
+displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-real-modulus-carrier}. The
+packet exposes exactly the window, tolerance, readback, response, seal,
+transport, replay, provenance, and naming rows.
+
+The modulus obligations are finite because $S,D,Q,R$ are displayed rows. The
+window row lists the inspected positions, the dyadic ledger lists the requested
+tolerances, the regular-rational readback row supplies the inspected values,
+and the response row records the threshold used by the consumer.
+
+The structural rows $H,C,P,N$ preserve the same packet. Since the carrier has no
+further coordinate, the local certificate cannot store quotient equality of real
+names, a selected limit, countable choice, open-cover compactness, or ambient
+$\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Constructive real modulus Real-completion route]
+\label{thm:constructive-real-modulus-real-completion-route}
+Every Real and Completion consumer reading an accepted
+$\ConstructiveRealModulusUp$ packet must first expose the finite route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp
+\longmapsto R \longmapsto \RealUp .
+$$
+Thus the packet supplies a displayed modulus window for the completion exit
+route through \autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}; it does not supply Real
+completeness, quotient equality, selected limits, or countable choice.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The consumer first reads the finite source
+window $S$, then the dyadic tolerance ledger $D$, and then the regular rational
+readback row $Q$.
+
+The modulus-response row $R$ is available only over the displayed $S,D,Q$
+surface. The Real seal $A$ is therefore downstream of a finite modulus response,
+not a host completion principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route.
+Because the route is exhausted by $S,D,Q,R,A,H,C,P,N$, it cannot export quotient
+equality of real names, selected limits, countable choice, open-cover
+compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{ConstructiveRealModulusUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRealModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-real-modulus-carrier}, \autoref{thm:constructive-real-modulus-namecert-obligations}, and \autoref{thm:constructive-real-modulus-real-completion-route} seed the finite modulus carrier, NameCert obligations, and Real-completion route over StreamName, DyadicRatCore, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of real names, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, dyadic tolerance readback, regular-rational readback, modulus-response threshold exposure, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveRealModulusUp.}
+  \constructivestory{A $\ConstructiveRealModulusUp$ packet is generated from finite StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, modulus-response thresholds, a visible Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

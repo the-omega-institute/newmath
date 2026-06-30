@@ -3,9 +3,7 @@ from copy import deepcopy
 
 import pytest
 
-from bedc_quality_lab import dgt_l0_controls
 from bedc_quality_lab import dgt_l1_boundary_report
-from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     CLAIM_CAPSULE_SCHEMA_ID,
@@ -28,6 +26,26 @@ EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
     canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
     canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
     canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+}
+EXPECTED_MODEL_DESIGN_ROW_FIELDS = {
+    "component_id",
+    "canonical_owner_pointer",
+    "coverage_pointer",
+    "discovery_pointer",
+    "verdict_pointer",
+    "mechanism_pointer",
+    "debt_pointer",
+    "not_claimed_pointer",
+    "negative_witness_pointer",
+    "hardgate_status",
+    "hardgate_reason",
+}
+EXPECTED_MODEL_DESIGN_COVERAGE_POINTERS = {
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[0]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[1]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[3]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[4]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[6]",
 }
 
 
@@ -97,56 +115,36 @@ def test_architecture_claim_capsule_rejects_missing_model_claim_cells():
         )
 
 
-def _write_dgt_owner_ref_inputs(root):
+def _write_dgt_owner_dependency_fixtures(root):
     canonical._write_json_atomic(
         root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
         {
-            "construct_suspension": {"status": "pass"},
-            "honest_metric_review": {"status": "pass"},
-            "negative_witness_sweep": {"status": "fixture"},
-            "compute_param_ledger": {"status": "fixture"},
-            "l0_toy_projection": {
-                "status": "pass",
-                "review_status": "pass",
-                "ladder_consumption": {
-                    "status": "open",
-                    "hardgate_summary_ref": {
-                        "artifact": canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
-                        "pointer": "$.l0_toy_projection.hardgate_statuses.pass",
-                    },
-                    "review_status_alias": "pass",
-                },
-                "hardgate_statuses": {
-                    "pass": {
-                        "gates": {
-                            "L0-PASS-HG1": {"status": "pass"},
-                        }
-                    }
-                },
+            "construct_suspension": {
+                "headline_status": "construct-review-passed",
+                "taint_status": "untainted",
             },
-        },
-    )
-    canonical._write_json_atomic(
-        root / canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
-        {
-            "decision": {"status": "fixture"},
-            "ladder_state_projection": {
-                "state": "fixture",
-                "decision_status": "fixture",
-                "not_claimed": ["fixture"],
+            "honest_metric_review": {"status": "pass"},
+            "negative_witness_sweep": {"status": "pass"},
+            "l0_toy_projection": {
+                "review_status": "pass",
+                "status": "pass",
+                "failure_reasons": [],
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "ladder_consumption": {"status": "open"},
+                "not_claimed": [
+                    "Bounded L0 toy training controls only.",
+                    "No production scale claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No universal recipe claim.",
+                    "No L1 or higher inheritance claim.",
+                ],
             },
         },
     )
     canonical._write_json_atomic(
         root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
         {
-            "review_status": "pass",
-            "promotion_readiness": "ready-pass",
-            "negative_witness_sweep": {"status": "fixture"},
-            "l1_ood_mechanism": {
-                "verdict": "fixture",
-                "l2_implication": "blocked",
-            },
             "l1_tiny_sequence_projection": {
                 "status": "pass",
                 "review_status": "pass",
@@ -159,14 +157,54 @@ def _write_dgt_owner_ref_inputs(root):
                 "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
                 "not_claimed": ["fixture"],
             },
+            "negative_witness_sweep": {
+                "status": "pass",
+                "rows": [
+                    {"witness": "information_starved_baseline"},
+                    {"witness": "unanswerable_ood"},
+                ],
+            },
+            "l1_ood_mechanism": {
+                "owner": "dgt-l1-controls",
+                "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                "verdict": "bounded",
+                "l2_implication": {
+                    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                    "status": "pointer-only",
+                },
+            },
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.FAIR_L1_DECISION_JSON_ARTIFACT,
+        {
+            "decision": {"status": "scaling-evidence-eligible"},
+            "ladder_state_projection": {
+                "state": "l1-scaling-evidence-eligible",
+                "decision_status": "scaling-evidence-eligible",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": [
+                    "Bounded tiny-sequence L1 decision only.",
+                    "No L2 or higher scaling claim.",
+                    "No production deployment claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                ],
+            },
         },
     )
 
 
 def _write_suite_dependencies(root):
-    _write_dgt_owner_ref_inputs(root)
+    _write_dgt_owner_dependency_fixtures(root)
     boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="fixture-time")
     dgt_l1_boundary_report.write_artifacts(boundary_payload, root=root, generated_at="fixture-time")
+    canonical._write_json_atomic(
+        root / canonical.MODEL_COMPARISON_JSON_ARTIFACT,
+        canonical._build_model_comparison(generated_at="fixture-time", write_owner_artifacts=True),
+    )
     dgt = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
     canonical._write_json_atomic(root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT, dgt)
     canonical._write_json_atomic(
@@ -182,7 +220,21 @@ def _write_suite_dependencies(root):
     )
     canonical._write_json_atomic(
         root / canonical.DISCOVERY_MAP_JSON_ARTIFACT,
-        {"coverage_matrix": {"status": "pointer-only"}, "level_counts": {"D0": 0}},
+        {
+            "coverage_matrix": {
+                "cells": [
+                    {"component_id": "CGA"},
+                    {"component_id": "DGT"},
+                    {"component_id": "DGT-neural-ablation"},
+                    {"component_id": "DRT"},
+                    {"component_id": "LAT"},
+                    {"component_id": "LeJEPA-mini-grid-DN"},
+                    {"component_id": "MSN"},
+                ],
+                "status": "pointer-only",
+            },
+            "level_counts": {"D0": 0},
+        },
     )
     canonical._write_json_atomic(
         root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
@@ -244,13 +296,15 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
     assert payload["status"] == "pass"
     assert payload["canonical_owner"]["owner_pointer"] == f"{canonical.MODEL_DESIGN_SUITE_JSON_ARTIFACT}:$"
     assert {gate["status"] for gate in payload["hardgates"].values()} == {"pass"}
-    assert all(set(row) == canonical.MODEL_DESIGN_SUITE_ROW_FIELDS for row in payload["rows"])
+    assert canonical.MODEL_DESIGN_SUITE_ROW_FIELDS == EXPECTED_MODEL_DESIGN_ROW_FIELDS
+    assert all(set(row) == EXPECTED_MODEL_DESIGN_ROW_FIELDS for row in payload["rows"])
     assert "terminal_verdict" not in json.dumps(payload, sort_keys=True)
     assert "candidate_measurements" not in json.dumps(payload, sort_keys=True)
 
     for row in payload["rows"]:
         for field in canonical.MODEL_DESIGN_SUITE_POINTER_FIELDS:
             assert resolve_artifact_pointer(tmp_path, row[field]) is not None, (field, row[field])
+    assert {row["coverage_pointer"] for row in payload["rows"]} == EXPECTED_MODEL_DESIGN_COVERAGE_POINTERS
     assert {
         row["negative_witness_pointer"]
         for row in payload["rows"]
@@ -358,7 +412,11 @@ def test_suite_hg2_owner_pointer_fail_closed_and_propagates(tmp_path, field, val
         ("SUITE-HG1", "component_id"),
         ("SUITE-HG2", "canonical_owner_pointer"),
         ("SUITE-HG3", "discovery_pointer"),
+        ("SUITE-HG4", "coverage_pointer"),
         ("SUITE-HG4", "verdict_pointer"),
+        ("SUITE-HG4", "mechanism_pointer"),
+        ("SUITE-HG4", "debt_pointer"),
+        ("SUITE-HG5", "not_claimed_pointer"),
         ("SUITE-HG5", "negative_witness_pointer"),
     ],
 )

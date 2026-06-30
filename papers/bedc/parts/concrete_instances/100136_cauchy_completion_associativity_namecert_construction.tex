@@ -4,6 +4,8 @@
 
 Following Bishop--Bridges constructive completion together with Kelley/Bourbaki completion terminology, the $\CauchyCompletionAssociativityUp$ packet records the finite BEDC certificate for comparing two ways of flattening a triple Cauchy-completion route. It sits over the monadic transformer of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit route of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the counit route of \autoref{ch:concrete-instances-cauchy-completion-counit-namecert}, the idempotence boundary of \autoref{ch:concrete-instances-cauchy-completion-idempotence-namecert}, and the minimality ledger of \autoref{ch:concrete-instances-cauchycompletionminimality-namecert}. It also consumes the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a route-comparison certificate for repeated completion, not a quotient-completion equality, not a selected representative, not host equality of completed objects, not countable choice, and not ambient completeness of $\RealUp$.
 
+The same finite flattening route is consumed by the Bishop regular Cauchy completion handoff of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, where the shared StreamName, RegSeqRat, DyadicRatCore, and Real rows are read before any completion-facing consumer can ask for a terminal seal.
+
 \begin{definition}[CauchyCompletionAssociativity carrier]
 \label{def:cauchy-completion-associativity-carrier}
 A $\CauchyCompletionAssociativityUp$ carrier is a finite $\BHist$ packet
@@ -74,6 +76,27 @@ Read the ledger common to both routes. The idempotence row $I$ supplies the adja
 After that common ledger, both routes consume the same observation surface. The finite windows are named by $S$, each precision request is accounted for by $D$, the regular rational readback is $R$, and the terminal seal is $E$.
 
 Finally $M$ and $U$ record the surrounding completion-transformer and source-admission rows, while $H,C,P,N$ transport, replay, source, and name the same packet. No further coordinate remains for quotient equality, host equality, selected representatives, countable choice, or ambient completeness, so the two routes agree exactly on the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionAssociativity two-route coherence]
+\label{thm:cauchy-completion-associativity-two-route-coherence}
+Let $A=(M,U,V,I,L,S,R,D,E,F,G,H,C,P,N)$ and $A'=(M,U,V,I,L,S,R,D,E,F',G',H,C,P,N)$ be accepted $\CauchyCompletionAssociativityUp$ carriers sharing the completion-transformer, unit, counit, idempotence, minimality, StreamName, RegSeqRat, DyadicRatCore, Real-seal, transport, replay, provenance, and local naming rows. Suppose the left and right route rows $F,G,F',G'$ replay through the same displayed structural rows $H,C,P,N$. Then every $\RealUp$ or Completion consumer of either carrier receives the same finite ledger
+$$
+M,U,V,I,L,S,D,R,E,H,C,P,N
+$$
+before any terminal seal is inspected.
+
+Thus the comparison is a coherence statement about the displayed BEDC ledger. It is not quotient completion equality, not a selected representative comparison, not host equality of completed objects, not countable choice, and not ambient completeness of $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionAssociativityUp.CauchyCompletionAssociativityCarrier\_route\_coherence}
+\begin{proof}
+Project the two accepted carriers. By hypothesis, the non-route rows agree as displayed data: both packets expose the same $M,U,V,I,L,S,R,D,E,H,C,P,N$ rows before either association route is read.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-completion-associativity-namecert-obligations}. The obligations force carrier admission, left-associated flattening, right-associated flattening, classifier stability, and ledger non-escape to be read only from the displayed rows of each accepted packet.
+
+Use the flattening-route theorem \autoref{thm:cauchy-completion-associativity-flattening-route}. It sends the left and right route rows through the same $I,V,L,S,D,R,E$ ledger, while $M,U,H,C,P,N$ supply the surrounding completion transformer, source admission, transport, replay, provenance, and local name.
+
+Since $F,G,F',G'$ replay through the same $H,C,P,N$ rows, no Real-facing or Completion consumer can distinguish the carriers before the terminal seal by asking for quotient completion equality, a selected representative, host equality, countable choice, or ambient completeness. The only available comparison is the shared finite ledger in the statement.
 \end{proof}
 
 \begin{closurestatus}{\CauchyCompletionAssociativityUp}

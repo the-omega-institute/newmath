@@ -1,0 +1,63 @@
+\begin{lemma}[Calculus derivative and Riemann-integral dependency route]
+\label{lem:calculus-riemann-integral-dependency-route}
+Every substantive $\CalculusUp$ consumer of a derivative or integral conclusion reads the derivative branch through \autoref{ch:concrete-instances-derivative-namecert}, the Riemann finite-sum branch through \autoref{ch:concrete-instances-riemannintegral-namecert}, and the shared endpoint readback through the finite $\RegSeqRatUp$ and $\RealUp$ rows. The route is therefore a displayed BEDC dependency through derivative windows, tagged Riemann sums, regular rational readback, and real-name sealing; it is not a host function space, a host measure-space integral, a selected antiderivative, or quotient equality of functions.
+\end{lemma}
+\begin{proof}
+Project the $\CalculusUp$ local-linearization and root carrier rows already named in \autoref{def:calculus-local-linearization-carrier} and \autoref{def:calculus-root-public-package}. Their derivative-facing coordinates are the $\DerivativeUp$ rows, and their integral-facing coordinates are the $\RiemannIntegralUp$ or finite-sum rows.
+
+The shared numerical readback is not supplied by a host analytic object. It passes through the regular rational and real-name rows before a public endpoint value is exposed.
+
+The existing nonescape theorems in the chapter exclude host function spaces, host integration functionals, selected antiderivatives, quotient equality of functions, and ambient completeness. Hence the dependency route for calculus consumers is the finite $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ route stated above.
+\end{proof}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRiemannIntegralDependencyRoute}
+
+\begin{theorem}[Calculus derivative-integral dependency factorization]
+\label{thm:calculus-riemann-integral-dependency-factorization}
+Any $\CalculusUp$ consumer that combines a derivative conclusion with a Riemann-integral conclusion factors its public read through the $\DerivativeUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, and $\RealUp$ rows before exposing endpoint equality or an estimate. In the notation of \autoref{def:calculus-local-linearization-carrier} and \autoref{def:calculus-root-public-package}, the derivative branch consumes the displayed derivative rows, the integral branch consumes the displayed finite-sum rows, and the common endpoint readback consumes the regular rational and real-name rows before any equality or estimate is public.
+\end{theorem}
+\begin{proof}
+Start with the dependency route of \autoref{lem:calculus-riemann-integral-dependency-route}. It already separates derivative-facing reads through \autoref{ch:concrete-instances-derivative-namecert} from Riemann finite-sum reads through \autoref{ch:concrete-instances-riemannintegral-namecert}.
+
+The local-linearization carrier \autoref{def:calculus-local-linearization-carrier} supplies the derivative-side window, while the root public package \autoref{def:calculus-root-public-package} supplies the shared public rows. Thus a consumer combining the two conclusions must first read the derivative and integral branches as displayed BEDC rows.
+
+The endpoint or estimate then passes through the regular rational readback and terminal Real seal. This is the same nonescape boundary used by \autoref{thm:calculus-local-operation-nonescape}, \autoref{thm:calculus-root-package-nonescape}, and \autoref{thm:calculus-root-real-seal-nonescape}.
+
+Those nonescape statements exclude host function spaces, selected antiderivatives, quotient function equality, host integration functionals, and ambient completeness. Hence no combined derivative-integral conclusion can expose an endpoint equality or estimate before the finite $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ factorization has been consumed.
+\end{proof}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRiemannIntegralDependencyFactorization}
+
+\begin{theorem}[Calculus finite-limit seal dependency]
+\label{thm:calculus-finite-limit-seal-dependency}
+Every $\CalculusUp$ consumer that turns derivative or integral endpoint data into a limit-facing read must first pass through the finite $\FiniteLimitSealUp$ route
+$$
+M,W,R,D,E
+$$
+of \autoref{thm:finite-limit-seal-real-dependency-route}. The calculus consumer may read derivative windows through $\DerivativeUp$ and finite tagged sums through $\RiemannIntegralUp$, but its public endpoint handoff is limit-facing only after the displayed modulus, window, readback, tolerance, and terminal real-seal rows have been consumed.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{lem:calculus-riemann-integral-dependency-route}. It separates the derivative branch, the Riemann finite-sum branch, and the shared regular-rational and real-name readback before any calculus endpoint is public.
+
+Use \autoref{thm:calculus-riemann-integral-dependency-factorization} to combine the derivative and integral branches. The factorization leaves the endpoint read behind the same $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ support, not behind a host function space or selected antiderivative.
+
+Finally apply \autoref{thm:finite-limit-seal-real-dependency-route}. Its finite route $M,W,R,D,E$ is the Real-facing limit seal. Therefore a calculus consumer that turns the endpoint into a limit-facing read must expose that seal before the endpoint can be consumed as public limit data.
+\end{proof}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusFiniteLimitSealDependency}
+
+\begin{theorem}[Calculus finite-limit seal public handoff]
+\label{thm:calculus-finite-limit-seal-public-handoff}
+Any public $\CalculusUp$ endpoint equality or estimate that combines derivative and Riemann-integral branches may be exported only after the $\FiniteLimitSealUp$ route
+$$
+M,W,R,D,E
+$$
+of \autoref{thm:finite-limit-seal-real-dependency-route}, the $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal have all been exposed. The exported handoff is therefore the displayed finite route through $\DerivativeUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\FiniteLimitSealUp$, and $\RealUp$, and not a host function space, selected antiderivative, host integration functional, quotient function equality, or ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Start from the dependency route of \autoref{lem:calculus-riemann-integral-dependency-route}. It already places derivative reads, Riemann finite-sum reads, regular-rational readback, and real-name sealing on displayed BEDC rows.
+
+Apply \autoref{thm:calculus-riemann-integral-dependency-factorization}. Any combined endpoint equality or estimate must first factor through the derivative branch, the Riemann-integral branch, and the shared $\RegSeqRatUp$--$\RealUp$ readback before it is public.
+
+Now use \autoref{thm:calculus-finite-limit-seal-dependency}. When that endpoint read becomes limit-facing, the finite route $M,W,R,D,E$ of the $\FiniteLimitSealUp$ seal is exposed before export.
+
+The non-escape boundary is unchanged: the handoff supplies no host function space, selected antiderivative, host integration functional, quotient function equality, or ambient completeness principle. Hence later calculus statements can consume only the public finite-limit-seal handoff displayed above.
+\end{proof}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusFiniteLimitSealPublicHandoff}

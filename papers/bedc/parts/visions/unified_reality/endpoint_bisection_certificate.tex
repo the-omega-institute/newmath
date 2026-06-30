@@ -1,0 +1,279 @@
+\section{Endpoint Bisection Certificate}
+\label{sec:unified-reality-endpoint-bisection-certificate}
+
+The infinite spiral picture is too coarse if it is read as a literal
+endpoint of the full Dirichlet polyline.  The zero-relevant object must
+be a finite endpoint model equipped with dominance, tail control, and a
+distinguished segment on which the zero acts.  The fixed quartic carrier
+supplies the finite template: endpoint zeros are produced by active
+branch interference after a dominant endpoint window and a Rouch\'e
+ledger have been displayed.  For zeta, the corresponding candidate is
+the Riemann--Siegel or approximate-functional-equation endpoint window,
+where the completed read is split into two finite arms and a controlled
+remainder.
+
+\begin{definition}[Normalized zeta segment channel]
+\label{def:unified-reality-normalized-zeta-segment-channel}
+For
+$$
+s=\frac12+\delta+i\tau
+$$
+and $n\ge1$, the \emph{normalized zeta segment channel} is
+$$
+u_n(s):=n^{1/2-s}=n^{-\delta}e^{-i\tau\log n}.
+$$
+Its straightened log-length defect is
+$$
+\ell_n(s):=\log|u_n(s)|=-\delta\log n.
+$$
+The raw Dirichlet or eta segment may have a baseline length such as
+$n^{-1/2}$; the normalized channel removes that baseline and records
+only the unitary versus radial component.  Thus the critical line is the
+row
+$$
+|u_n(s)|=1
+$$
+for every displayed $n$.
+\end{definition}
+
+\begin{theorem}[Weighted endpoint energy reads the normal displacement]
+\label{thm:unified-reality-weighted-endpoint-energy-reads-normal-displacement}
+For $N\ge2$, define
+$$
+\mathcal E_N^{\zeta}(s)
+:=
+\sum_{1\le n\le N}
+\frac1n
+\left(\log|n^{1/2-s}|\right)^2.
+$$
+If $s=1/2+\delta+i\tau$, then
+$$
+\mathcal E_N^{\zeta}(s)
+=
+\delta^2
+\sum_{1\le n\le N}\frac{(\log n)^2}{n}.
+$$
+Consequently, if $\delta\#0$, then
+$$
+\sup_N\mathcal E_N^{\zeta}(s)=\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-normalized-zeta-segment-channel},
+$$
+\log|n^{1/2-s}|=-\delta\log n.
+$$
+Squaring and summing with weight $1/n$ gives the displayed identity.
+The positive summands $(\log n)^2/n$ are unbounded in total: for
+$N\ge2$,
+$$
+\sum_{2\le n\le N}\frac{(\log n)^2}{n}
+$$
+dominates a cofinal subseries obtained by grouping $n$ into dyadic
+blocks, and the block contributions diverge.  Multiplication by
+$\delta^2>0$ preserves divergence in the located positive readout.
+\end{proof}
+
+\begin{definition}[Finite endpoint segment and bisection parameter]
+\label{def:unified-reality-finite-endpoint-segment-bisection-parameter}
+Let
+$$
+P_m(s):=\sum_{1\le n\le m}v_n(s)
+$$
+be a finite partial read in a displayed endpoint model.  The
+\emph{endpoint segment} at $m$ is the affine segment
+$$
+P_{m-1}(s)+\lambda v_m(s),
+\qquad 0\le\lambda\le1.
+$$
+If the segment contains the origin, its \emph{bisection parameter}
+$\lambda_m(s)$ is the value satisfying
+$$
+P_{m-1}(s)+\lambda_m(s)v_m(s)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Endpoint bisection is endpoint symmetry]
+\label{thm:unified-reality-endpoint-bisection-endpoint-symmetry}
+Assume that a finite endpoint segment contains the origin.  Then
+$$
+\lambda_m(s)=\frac12
+$$
+if and only if
+$$
+P_m(s)=-P_{m-1}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The origin condition is
+$$
+P_{m-1}(s)+\lambda_m(s)v_m(s)=0.
+$$
+If $\lambda_m(s)=1/2$, then
+$$
+P_{m-1}(s)=-\frac12v_m(s),
+$$
+and hence
+$$
+P_m(s)=P_{m-1}(s)+v_m(s)=\frac12v_m(s)=-P_{m-1}(s).
+$$
+Conversely, if $P_m(s)=-P_{m-1}(s)$, then
+$$
+2P_{m-1}(s)+v_m(s)=0,
+$$
+so the origin is reached at $\lambda=1/2$.
+\end{proof}
+
+\begin{definition}[Riemann--Siegel endpoint model row]
+\label{def:unified-reality-riemann-siegel-endpoint-model-row}
+A \emph{Riemann--Siegel endpoint model row} for a completed zeta read at
+height $\tau$ consists of:
+$$
+N(\tau)\sim\sqrt{\frac{\tau}{2\pi}},
+$$
+two finite arms of approximate-functional-equation type
+$$
+\sum_{n\le x}n^{-s},
+\qquad
+\chi(s)\sum_{n\le y}n^{s-1},
+\qquad
+xy\sim\frac{\tau}{2\pi},
+$$
+a symmetric endpoint choice $x\sim y\sim N(\tau)$, and a remainder row.
+On the critical line this row is transported to a real finite
+Riemann--Siegel read of the form
+$$
+2\sum_{n\le N(\tau)}
+n^{-1/2}\cos(\theta(\tau)-\tau\log n)
+$$
+plus the displayed remainder.  The row is a candidate zero-relevant
+endpoint model only when dominance and tail bounds identify a local
+zero island.
+\end{definition}
+
+\begin{definition}[Endpoint bisection certificate]
+\label{def:unified-reality-zeta-endpoint-bisection-certificate}
+For a critical-strip zeta zero $s=1/2+\delta+i\tau$, a
+\emph{zeta endpoint bisection certificate} consists of a cofinal family
+of canonical finite endpoint models $F_N(s)$ with endpoint segments
+$e_N(s)$ and positive endpoint scales $h_N$, together with rows:
+$$
+\Xi(s)=F_N(s)+T_N(s),
+\qquad
+\mathsf{RoucheGap}(F_N,T_N),
+$$
+$$
+\mathsf{ZeroRelevantEndpoint}(e_N,s),
+\qquad
+\lambda_N(s)\to\frac12,
+$$
+$$
+\lambda_N(s)=\frac12
+\Longleftrightarrow
+|e^{-(s-1/2)h_N}|=1,
+$$
+and a cofinal growth row such as
+$$
+h_N\to\infty.
+$$
+The Rouch\'e row prevents a projected finite chord from being treated as
+a zero certificate.  The straightened equivalence says that bisection in
+the endpoint segment is the unit-length condition in the normalized
+normal coordinate.
+\end{definition}
+
+\begin{theorem}[Endpoint bisection certificates are conditionally sufficient]
+\label{thm:unified-reality-endpoint-bisection-certificates-conditionally-sufficient}
+If every critical-strip zeta zero carries a zeta endpoint bisection
+certificate whose limiting bisection row forces
+$$
+\log|e^{-(s-1/2)h_N}|\to0,
+$$
+then the RH fixed-half section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate
+$$
+s=\frac12+\delta+i\tau.
+$$
+The certificate supplies positive scales $h_N$ with $h_N\to\infty$ and
+the limiting straightened read
+$$
+\log|e^{-(s-1/2)h_N}|\to0.
+$$
+But
+$$
+\log|e^{-(s-1/2)h_N}|=-\delta h_N.
+$$
+If $\delta\#0$, then the displayed expression cannot converge to $0$
+along a cofinal sequence with $h_N\to\infty$.  Hence
+$\neg(\delta\#0)$.  Located fixed-half collapse gives $\delta=0$.
+Therefore $\Re(s)=1/2$, and
+\autoref{thm:unified-reality-rh-fixed-half-section-equivalence} gives
+the fixed-half section.
+\end{proof}
+
+\begin{corollary}[Endpoint bisection refines local half-split]
+\label{cor:unified-reality-endpoint-bisection-refines-local-half-split}
+The endpoint bisection certificate refines the local half-split
+certificate by specifying a zeta-native finite endpoint model in which
+the half-split is to be read.
+\end{corollary}
+
+\begin{proof}
+\autoref{def:unified-reality-zeta-local-half-split-certificate} requires
+a local two-branch zero island, Rouch\'e tail control, length equality,
+and a real-defect split formula.  The endpoint bisection certificate
+adds a candidate source for that local island: a Riemann--Siegel or
+approximate-functional-equation endpoint window with a distinguished
+endpoint segment.  Thus the half-split row is no longer attached to an
+arbitrary finite chord; it is attached to a completed zeta endpoint
+model whose tail and dominance ledgers are part of the certificate.
+\end{proof}
+
+\begin{corollary}[The quartic endpoint row is the finite bisection template]
+\label{cor:unified-reality-quartic-endpoint-row-finite-bisection-template}
+The fixed quartic endpoint-zero row is the finite template for the zeta
+endpoint bisection route.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:unified-reality-quartic-endpoint-zero-branch-interference},
+the quartic endpoint zeros are obtained only after the active colliding
+branches, endpoint scale, amplitude rows, and Rouch\'e isolation are
+displayed.  The resulting shifted cosine zeros are finite half-period
+interference points.  The zeta endpoint bisection certificate asks for
+the analogous finite endpoint structure in the completed zeta read: not
+a bare infinite polyline endpoint, but a zero-relevant endpoint window
+with a distinguished bisection segment and a controlled remainder.
+\end{proof}
+
+\begin{corollary}[Solenoid fibres do not hide real scale]
+\label{cor:unified-reality-endpoint-bisection-solenoid-no-real-scale}
+In an endpoint bisection certificate, solenoid-compatible hidden data
+may carry phase and prime-register information, but not the real
+positive scale $e^{-\delta h_N}$.
+\end{corollary}
+
+\begin{proof}
+The solenoid route records compact phase together with prime-adic fibre
+data, as in
+\autoref{def:unified-reality-solenoid-compatible-resonance-lift}.  The
+normal endpoint factor
+$$
+e^{-\delta h_N}
+$$
+belongs to the noncompact positive real scale direction.  The
+straightened equivalence in
+\autoref{def:unified-reality-zeta-endpoint-bisection-certificate}
+therefore cannot be discharged by placing $\delta$ inside the hidden
+solenoid fibre.  The fibre may preserve residue or phase information;
+it is not a reservoir for the real radial defect.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-endpoint-bisection-certificate-namecert}{Endpoint bisection certificates are realized as finite NameCert data over RHRoute endpoint intervals, branch choices, preservation rows, and local half-split handoff.}

@@ -64,6 +64,30 @@ FROZEN_ALLOWED_RE = re.compile(
 )
 FROZEN_RE = re.compile(r"\bfrozen\b", re.IGNORECASE)
 
+GAP_READBACK_RE = re.compile(
+    r"\b(?:gap\s*(?:head|heads|auc|auroc)|gap[- ]?AUC|gap[- ]?AUROC|"
+    r"gap[- ]?readback|failure[- ]?readback|post-hoc\s+gap|"
+    r"horizon[- ]?failure|horizon[- ]?ledger)\b",
+    re.IGNORECASE,
+)
+CAPABILITY_PROMOTION_RE = re.compile(
+    r"\b(?:architecture(?:-|\s+)?(?:level|capability|advantage)|"
+    r"capability|superiority|outperform|beats?|wins?|win\s+rate|"
+    r"planning\s+(?:success|benefit|improvement|advantage)|"
+    r"control\s+(?:success|benefit|improvement|advantage)|"
+    r"allocation\s+(?:success|benefit|improvement|advantage)|"
+    r"public\s+benchmark\s+superiority)\b",
+    re.IGNORECASE,
+)
+SAFE_GAP_BOUNDARY_RE = re.compile(
+    r"\b(?:diagnostic|readback|predicate[- ]discovery|fixed[- ]scope|"
+    r"bounded|scoped|not\s+(?:a|an|the|by|establish|established|claimed|claim|"
+    r"promote|promoted)|does\s+not|do\s+not|cannot|fail[- ]closed|"
+    r"no\s+(?:planning|control|allocation|public|architecture|capability|"
+    r"superiority)|tradeoff|confidence\s+on|declared\s+failure[- ]readback)\b",
+    re.IGNORECASE,
+)
+
 AI_NAMES = ("ChatGPT", "Claude", "OpenAI", "Anthropic")
 ABS_PATH_MARKERS = ("/Users/", "/private/", "/tmp/", "/var/", "/opt/", "/home/", "C:\\")
 EXTERNAL_NEEDLES = (
@@ -248,6 +272,28 @@ def check_no_iteration_narrative(files: list[Path]) -> list[str]:
     return errors
 
 
+def check_gap_readback_claim_boundary(files: list[Path]) -> list[str]:
+    errors = []
+    for path in files:
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        paragraphs = re.split(r"\n\s*\n", text)
+        line_base = 1
+        for paragraph in paragraphs:
+            clean = " ".join(
+                line.strip()
+                for line in paragraph.splitlines()
+                if line.strip() and not line.lstrip().startswith("%")
+            )
+            if clean and GAP_READBACK_RE.search(clean) and CAPABILITY_PROMOTION_RE.search(clean):
+                if not SAFE_GAP_BOUNDARY_RE.search(clean):
+                    errors.append(
+                        f"{rel(path)}:{line_base}: gap readback appears promoted beyond "
+                        f"diagnostic scope: {clean[:180]}"
+                    )
+            line_base += paragraph.count("\n") + 2
+    return errors
+
+
 def check_references(files: list[Path]) -> list[str]:
     text_by_path = {path: strip_comments(path.read_text(encoding="utf-8", errors="ignore")) for path in files}
     all_text = "\n".join(text_by_path.values())
@@ -383,6 +429,7 @@ def main() -> int:
         ("check_up_macros", check_up_macros(files), None),
         ("check_external_provenance", check_external_provenance(files), None),
         ("check_no_iteration_narrative", check_no_iteration_narrative(files), None),
+        ("check_gap_readback_claim_boundary", check_gap_readback_claim_boundary(files), None),
         ("check_no_undefined_refs_or_cites", check_references(files), None),
         ("check_environment_balance", check_env_balance(files), None),
         ("check_lewm_evidence_pointer", check_lewm_evidence_pointer(files), None),

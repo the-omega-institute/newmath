@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\BarrBeckMonadicityUp$}
+\label{ch:concrete-instances-barr-beck-monadicity-namecert}
+\origin{human}
+
+Following Barr and Beck on monadicity, the $\BarrBeckMonadicityUp$ packet records the finite categorical comparison surface where an adjunction, its induced monad, algebra rows, comparison functor, and exactness witnesses can be named without importing ambient category theory. The packet reads \autoref{ch:concrete-instances-adjunction-namecert}, \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, \autoref{ch:concrete-instances-cauchy-completion-monadicity-namecert}, and \autoref{ch:concrete-instances-metric-completion-adjunction-namecert}. It names the comparison route only; it does not assert existence of all coequalizers, preservation of arbitrary limits, host equality of Eilenberg--Moore categories, quotient completion equality, selected representatives, countable choice, Lean verification, or bridge checking.
+
+\begin{definition}[Barr-Beck monadicity carrier]
+\label{def:barr-beck-monadicity-carrier}
+A $\BarrBeckMonadicityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,C,D,F,U,T,E,K,X,Q,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AdjunctionUp$ row, displaying the left and right comparison legs together with the unit and counit triangles.
+\item $C$ is the source $\CategoryUp$ row from which the adjunction domain is read.
+\item $D$ is the target $\CategoryUp$ row in which the monad and algebra rows are compared.
+\item $F$ is the $\FunctorUp$ comparison row induced by the displayed adjunction data.
+\item $U$ is the induced monad row, recording unit and multiplication schedules visible to comparison consumers.
+\item $T$ is the algebra-action row over the same monad schedule.
+\item $E$ is the exactness row for the finite reflexive-pair or split-pair evidence exposed to the classifier.
+\item $K$ is the comparison-kernel row recording how the comparison functor reads algebra data back into the adjunction surface.
+\item $X$ is the $\CauchyCompletionMonadicityUp$ specialization row available to completion-facing consumers.
+\item $Q$ is the $\MetricCompletionAdjunctionUp$ route that supplies the metric-completion adjunction anchor for categorical completion chapters.
+\item $H$ records componentwise $\hsame$ transport for the adjunction, category, functor, monad, algebra, exactness, comparison, completion-specialization, metric-completion route, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from any monadicity request through $A,C,D,F,U,T,E,K,X,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BarrBeckMonadicityUp$, $\AdjunctionUp$, $\CategoryUp$, $\FunctorUp$, $\CauchyCompletionMonadicityUp$, $\MetricCompletionAdjunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BarrBeckMonadicityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,C,D,F,U,T,E,K,X,Q,H,R,P,N$. The carrier has no coordinate for a host Eilenberg--Moore category, an external quotient object, a selected coequalizer, arbitrary-limit preservation, countable-choice schedules, Lean verification, or bridge checking.
+\end{definition}
+\leanstmt{BEDC.Derived.BarrBeckMonadicityUp}
+
+\begin{theorem}[Barr-Beck monadicity NameCert obligations]
+\label{thm:barr-beck-monadicity-namecert-obligations}
+For every accepted $\BarrBeckMonadicityUp$ carrier
+$$
+B=(A,C,D,F,U,T,E,K,X,Q,H,R,P,N),
+$$
+the local $\NameCert_{\BarrBeckMonadicityUp}$ surface consists exactly of carrier admission, adjunction visibility, source and target category exposure, comparison-functor exposure, induced monad schedule, algebra-action row, exactness witness row, comparison-kernel readback, Cauchy-completion monadicity specialization, metric-completion adjunction anchoring, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:barr-beck-monadicity-carrier}. The displayed tuple lists every row available to the classifier, so local comparison can inspect only the adjunction, the two category rows, the comparison functor, the monad schedule, the algebra action, exactness, comparison-kernel readback, completion specialization, metric-completion anchor, transport, replay, provenance, and local naming.
+
+The categorical rows are read first. The row $A$ supplies the adjunction data, $C$ and $D$ supply the source and target categorical surfaces, and $F$ records the comparison functor induced from the same visible data.
+
+The monadicity rows then bind the comparison. The row $U$ supplies unit and multiplication schedules, $T$ records the algebra action over that schedule, $E$ records the finite exactness witness exposed to the classifier, and $K$ records the comparison-kernel readback.
+
+Finally the completion-facing rows anchor downstream use. The row $X$ points to the Cauchy-completion monadicity specialization and $Q$ points to the metric-completion adjunction route, after which $H,R,P,N$ transport, replay, source, and name exactly the displayed packet. Since no excluded coordinate occurs, no additional local obligation is available.
+\end{proof}
+
+\begin{theorem}[Barr-Beck comparison route]
+\label{thm:barr-beck-monadicity-comparison-route}
+Every categorical-completion consumer of an accepted $\BarrBeckMonadicityUp$ carrier factors through the finite route
+$$
+A,C,D,F \longmapsto U,T,E,K \longmapsto X,Q \longmapsto H,R,P,N .
+$$
+Thus the adjunction, category, functor, monad, algebra, exactness, and comparison-kernel rows are read before the $\CauchyCompletionMonadicityUp$ specialization or the $\MetricCompletionAdjunctionUp$ anchor is exported. The route exports no host Eilenberg--Moore category, quotient completion equality, selected coequalizer, selected limit representative, arbitrary-limit preservation theorem, countable-choice schedule, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the public categorical surface. The adjunction row $A$, source and target category rows $C,D$, and comparison-functor row $F$ provide the only categorical coordinates available before monadicity is inspected.
+
+Next consume the monadicity rows. The monad schedule $U$, algebra action $T$, finite exactness witness $E$, and comparison-kernel readback $K$ form the visible comparison boundary; no host category equality or arbitrary coequalizer coordinate is present.
+
+Now attach the completion-facing anchors. The Cauchy-specialization row $X$ and metric-completion adjunction row $Q$ identify the downstream completion route without adding quotient completion equality or selected representatives.
+
+Finally route through transport, replay, provenance, and naming. The rows $H,R,P,N$ exhaust the remaining classifier surface, so every exported categorical-completion consumer factors through the displayed finite packet.
+\end{proof}
+
+\closureat{BarrBeckMonadicityUp}{seedStr}
+
+\begin{closurestatus}{\BarrBeckMonadicityUp}
+  \constructivestory{A $\BarrBeckMonadicityUp$ packet is generated from an Adjunction row, two Category rows, a Functor comparison row, induced monad schedule, algebra-action row, finite exactness witness, comparison-kernel readback, CauchyCompletionMonadicity specialization, MetricCompletionAdjunction anchor, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:barr-beck-monadicity-carrier}, \autoref{thm:barr-beck-monadicity-namecert-obligations}, and \autoref{thm:barr-beck-monadicity-comparison-route} seed the finite Barr-Beck comparison boundary for categorical completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Eilenberg--Moore category equality, selected coequalizers, arbitrary-limit preservation, quotient completion equality, selected representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjunction visibility, source and target category exposure, comparison-functor exposure, induced monad schedule, algebra-action row, exactness witness row, comparison-kernel readback, completion specialization, metric-completion anchoring, transport, replay, provenance, and local naming for BEDC.Derived.BarrBeckMonadicityUp.}
+\end{closurestatus}

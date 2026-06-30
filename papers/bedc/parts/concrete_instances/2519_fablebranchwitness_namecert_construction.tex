@@ -32,6 +32,7 @@ The carrier is finite and local. It contains no global selection function, no fa
 \label{thm:fable-branch-witness-namecert-obligations}
 For the carrier of \autoref{def:fable-branch-witness-carrier}, the local $\NameCert_{\FableBranchWitnessUp}$ surface consists of five finite obligations: carrier admission for $W=(h,m,r,E,A,H,C,P,N)$; mark exposure for the selected row $m$; step exactness for the $\mathsf{EmptyStep}$ and $\Ext$ row $E$ from $h$ to $r$; admissibility exactness for the local certificate $A$; and non-escape for hidden choosers, global branch policies, infinite ledgers, and truth oracles.
 \end{theorem}
+\leanchecked{BEDC.Derived.FableBranchWitnessUp.FableBranchWitnessNameCertObligations}
 \begin{proof}
 Carrier admission is projection of the displayed tuple. The source Hist, selected mark, result Hist, step row, admissibility row, transport row, continuation routes, package provenance, and local naming row are all visible coordinates of the same packet.
 
@@ -50,12 +51,32 @@ h,m,r,E,A,H,C,P,N.
 $$
 Consequently a downstream Empty-fable consumer may inspect the local witnessed branch, but it may not infer a global chooser, a selected branch for an unrelated Hist row, or an accumulated selector ledger beyond this single witnessed step.
 \end{theorem}
+\leanchecked{BEDC.Derived.FableBranchWitnessUp.FableBranchWitnessCarrier\_selector\_exposure}
 \begin{proof}
 Project the accepted carrier to the mark row $m$ and the route row $C$. These two rows give the consumer a displayed selector and the finite routes by which that selector is read.
 
 The rows $E$ and $A$ bind the selector to the same local branch: $E$ records the empty-boundary extension from $h$ through $m$ to $r$, and $A$ records admissibility for that displayed triple. The transport row $H$ preserves those coordinates componentwise.
 
 Finally apply the non-escape part of \autoref{thm:fable-branch-witness-namecert-obligations}. Since the packet has only the listed rows, it realizes local branch selection without exporting a global choice function or an accumulated ledger.
+\end{proof}
+
+\begin{theorem}[FableBranchWitness local transport exactness]
+\label{thm:fable-branch-witness-local-transport}
+For every accepted $\FableBranchWitnessUp$ carrier
+$$
+W=(h,m,r,E,A,H,C,P,N),
+$$
+the componentwise $\hsame$ row $H$ transports exactly the displayed source row $h$, selected mark $m$, result row $r$, empty-boundary step row $E$, admissibility row $A$, continuation routes $C$, provenance row $P$, and local name $N$. This transport preserves the local selector surface exposed by \autoref{thm:fable-branch-witness-selector-exposure} and the TasteGate-aligned carrier row marked at \autoref{def:fable-branch-witness-carrier}; it adds no global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.FableBranchWitnessUp.FableBranchWitnessCarrier\_local\_transport}
+\begin{proof}
+Start from the TasteGate-aligned carrier row of \autoref{def:fable-branch-witness-carrier}. Its coordinates are exactly $h,m,r,E,A,H,C,P,N$, and the local NameCert obligations of \autoref{thm:fable-branch-witness-namecert-obligations} require carrier admission, selected-mark exposure, empty-boundary step exactness, admissibility exactness, and non-escape for hidden choice principles.
+
+Project the transport coordinate $H$. Componentwise $\hsame$ can only compare the displayed source, mark, result, step, admissibility, continuation, provenance, and local-name rows already present in the carrier.
+
+Apply selector exposure from \autoref{thm:fable-branch-witness-selector-exposure}. Since every consumer read of the branch routes through the same finite tuple, the transported packet remains the same local witnessed branch rather than a family of branches.
+
+The carrier inventory contains no coordinate for a global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle. Transport exactness therefore preserves the local branch witness and exports none of those objects.
 \end{proof}
 
 \begin{theorem}[FableBranchWitness empty-boundary selector dependency]
@@ -73,16 +94,34 @@ Use \autoref{thm:fable-branch-witness-selector-exposure}. The selected mark $m$ 
 
 Compare this exposed tuple with \autoref{ch:concrete-instances-emptyboundaryselector-namecert} and \autoref{ch:concrete-instances-empty-fable-ledger-namecert}. The former supplies the enacted local branch row, and the latter consumes the finite selector-ledger row. Since the witness carrier has no coordinate for a global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle, the dependency is exactly the displayed local branch shape.
 \end{proof}
+\leanchecked{BEDC.Derived.FableBranchWitnessUp.FableBranchWitnessCarrier\_empty\_boundary\_selector\_dependency}
+
+\begin{theorem}[FableBranchWitness scoped dependency package]
+\label{thm:fable-branch-witness-scoped-dependency-package}
+The $\FableBranchWitnessUp$ carrier, its local $\NameCert$ obligations, selector exposure, local transport row, and empty-boundary selector dependency scope the packet over
+$$
+\EmptyBoundarySelectorUp,\EmptyFableLedgerUp,\BHist,\mathit{Mark},\Ext,\hsame,\Cont,\Pkg,\NameCert.
+$$
+Within that scope every consumer read of the branch factors through the displayed source row, selected mark, result row, empty-boundary extension, admissibility row, componentwise transport, continuation routes, provenance, and local naming row. The scoped package exports no global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fable-branch-witness-carrier}. Its visible rows are exactly the local branch tuple $h,m,r,E,A,H,C,P,N$, so the carrier and local naming surface already live over $\BHist$, $\mathit{Mark}$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Apply \autoref{thm:fable-branch-witness-namecert-obligations}, \autoref{thm:fable-branch-witness-selector-exposure}, and \autoref{thm:fable-branch-witness-local-transport}. These results expose the selected mark, bind the empty-boundary step and admissibility rows, and preserve the same displayed coordinates under local transport.
+
+Finally use \autoref{thm:fable-branch-witness-empty-boundary-selector-dependency}. The row supplied by $\EmptyBoundarySelectorUp$ and consumed by $\EmptyFableLedgerUp$ is the same finite one-step selector surface, and the carrier inventory contains no coordinate from which a global chooser or truth oracle could be read.
+\end{proof}
+\leanchecked{BEDC.Derived.FableBranchWitnessUp.FableBranchWitnessCarrier\_scoped\_dependency\_package}
 
 \closureat{FableBranchWitnessUp}{seedStr}
 
 \begin{closurestatus}{\FableBranchWitnessUp}
   \constructivestory{A $\FableBranchWitnessUp$ packet is generated from a source $\Hist$ row, selected mark, result $\Hist$ row, empty-boundary step and $\Ext$ row, local admissibility certificate, componentwise $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:fable-branch-witness-carrier}, \autoref{thm:fable-branch-witness-namecert-obligations}, and \autoref{thm:fable-branch-witness-selector-exposure} bind the local witnessed branch carrier, its selector exposure, step exactness, admissibility row, transport routes, provenance, and no-hidden-chooser boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:fable-branch-witness-carrier}, \autoref{thm:fable-branch-witness-namecert-obligations}, \autoref{thm:fable-branch-witness-selector-exposure}, and \autoref{thm:fable-branch-witness-local-transport} bind the local witnessed branch carrier, selector exposure, step exactness, admissibility row, exact componentwise transport, continuation routes, provenance, and no-hidden-chooser boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, global choice, an accumulated selector ledger, branch determinacy for unrelated Hist rows, or a truth oracle for admissibility.}
-  \upgradepath{Obligation closure requires checked carrier admission, selector exposure, empty-boundary step exactness, admissibility exactness, transport stability, provenance, and local naming for the same finite branch-witness packet.}
+  \upgradepath{Public export requires checked carrier admission, selector exposure, empty-boundary step exactness, admissibility exactness, transport stability, provenance, and local naming for the same finite branch-witness packet.}
 \end{closurestatus}

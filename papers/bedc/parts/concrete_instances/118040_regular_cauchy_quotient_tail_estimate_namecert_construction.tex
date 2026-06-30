@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyQuotientTailEstimateUp$}
+\label{ch:concrete-instances-regular-cauchy-quotient-tail-estimate-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats quotient estimates for regular Cauchy names as guarded calculations: the numerator tail, denominator tail, and denominator away-from-zero witness must all remain visible before a real quotient seal is read. The $\RegularCauchyQuotientTailEstimateUp$ packet records that finite guarded quotient-tail budget as a NameCert route between the regular rational sources of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the reciprocal modulus surface of \autoref{ch:concrete-instances-regular-cauchy-reciprocal-modulus-namecert}, the guarded division handoff of \autoref{ch:concrete-instances-regular-cauchy-division-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed quotient-tail route; it does not supply total division, quotient representative equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy quotient tail estimate carrier]
+\label{def:regular-cauchy-quotient-tail-estimate-carrier}
+A $\RegularCauchyQuotientTailEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(N,D,A,M,S,L,V,E,H,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the numerator $\RegSeqRatUp$ source row, displaying the regular rational name whose quotient tail is being estimated.
+\item $D$ is the denominator $\RegSeqRatUp$ source row, displayed as a separate regular rational name.
+\item $A$ is the located away-from-zero lower-bound row for the denominator, recording the positive guard that makes quotient-tail control meaningful.
+\item $M$ is the $\RegularCauchyReciprocalModulusUp$ row, turning $D$ and $A$ into a finite reciprocal modulus budget.
+\item $S$ is the quotient tail schedule, recording the numerator tail index, denominator tail index, reciprocal index, and final quotient precision request.
+\item $L$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic error split for numerator tail, denominator tail, reciprocal budget, and multiplication by the guarded reciprocal.
+\item $V$ is the $\RegularCauchyDivisionUp$ handoff row, available only after $N,D,A,M,S,L$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal boundary for the quotient tail estimate.
+\item $H$ records componentwise $\hsame$ transport for the two sources, away-from-zero guard, reciprocal modulus, tail schedule, dyadic ledger, division handoff, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+N,D,A,M,S,L \longmapsto V \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyQuotientTailEstimateUp$, $\RegSeqRatUp$, $\RegularCauchyReciprocalModulusUp$, $\RegularCauchyDivisionUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $K$ is the local $\NameCert_{\RegularCauchyQuotientTailEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $N,D,A,M,S,L,V,E,H,C,P,K$. It has no coordinate for total division, quotient representative equality, hidden denominator choice, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy quotient tail estimate NameCert obligations]
+\label{thm:regular-cauchy-quotient-tail-estimate-namecert-obligations}
+For every accepted $\RegularCauchyQuotientTailEstimateUp$ carrier $Q=(N,D,A,M,S,L,V,E,H,C,P,K)$, the local $\NameCert_{\RegularCauchyQuotientTailEstimateUp}$ surface consists exactly of numerator and denominator $\RegSeqRatUp$ source visibility, located denominator away-from-zero lower-bound visibility, reciprocal modulus routing, quotient tail scheduling, dyadic tolerance-ledger exposure, $\RegularCauchyDivisionUp$ handoff, $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-quotient-tail-estimate-carrier}. The source rows $N,D$ and the away-from-zero guard $A$ are the complete displayed input surface for a guarded quotient estimate.
+
+Read the reciprocal and tolerance rows next. The modulus row $M$, schedule row $S$, and dyadic ledger $L$ record the finite budgets needed before a quotient tail can be passed to a division consumer.
+
+Finally the division handoff $V$, seal boundary $E$, and structural rows $H,C,P,K$ preserve, replay, source, and name that same finite route. Since no excluded total-division, quotient-representative, hidden-choice, trichotomy, countable-choice, or ambient-completeness row appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy quotient tail estimate Real seal boundary]
+\label{thm:regular-cauchy-quotient-tail-estimate-real-seal-boundary}
+Every Real-facing quotient-tail read of an accepted $\RegularCauchyQuotientTailEstimateUp$ carrier factors through the displayed numerator and denominator $\RegSeqRatUp$ sources, the denominator away-from-zero lower bound, the $\RegularCauchyReciprocalModulusUp$ row, the quotient tail schedule, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchyDivisionUp$ handoff, and the terminal $\RealUp$ seal boundary. The route exports no total division, quotient representative equality, hidden denominator choice, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-quotient-tail-estimate-namecert-obligations}. It identifies $N,D,A,M,S,L$ as the only finite input surface before the guarded division handoff can be read.
+
+The $\RegularCauchyDivisionUp$ row $V$ is therefore downstream of both regular rational sources, the denominator guard, the reciprocal modulus budget, the tail schedule, and the dyadic tolerance ledger. A Real-facing consumer reaches $E$ only through that displayed handoff.
+
+The transport, replay, provenance, and local naming rows preserve the same dependency order. Because the carrier has no row for total division, quotient representative equality, hidden denominator choice, trichotomy, countable choice, or ambient completeness, the terminal seal remains a finite guarded quotient-tail boundary.
+\end{proof}
+
+\closureat{RegularCauchyQuotientTailEstimateUp}{seedStr}
+\begin{closurestatus}{\RegularCauchyQuotientTailEstimateUp}
+  \constructivestory{A $\RegularCauchyQuotientTailEstimateUp$ packet is generated from numerator and denominator RegSeqRat sources, a located away-from-zero lower bound for the denominator, a RegularCauchyReciprocalModulus row, a quotient tail schedule, a DyadicRatCore tolerance ledger, a RegularCauchyDivision handoff, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-quotient-tail-estimate-carrier}, \autoref{thm:regular-cauchy-quotient-tail-estimate-namecert-obligations}, and \autoref{thm:regular-cauchy-quotient-tail-estimate-real-seal-boundary} seed the finite guarded quotient-tail budget for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total division, quotient representative equality, hidden denominator choice, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, numerator and denominator RegSeqRat source visibility, away-from-zero lower-bound visibility, reciprocal modulus routing, quotient tail scheduling, dyadic tolerance exactness, RegularCauchyDivision handoff, RealUp seal boundary, transport, replay, provenance, and local naming.}
+\end{closurestatus}

@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier relates two packets exactly when their displayed source, accepted, refused, preservation, readback, transport, route, provenance, and naming rows compare through $H$ and $C$. The carrier contains no host type checker, no external semantic model, no hidden proof search oracle, and no quotient of histories.
 \end{definition}
+\leanchecked{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ClassifierBoundary NameCert obligations]
 \label{thm:classifier-boundary-namecert-obligations}
@@ -48,6 +49,7 @@ Preservation is then read through $T$. A consumer that starts from an accepted r
 
 Finally read the signature-level view through $G$ and package it through $P$ and $N$. Since no coordinate of the carrier is a host checker, external semantic model, hidden proof search oracle, or quotient of histories, the local NameCert surface cannot export such data.
 \end{proof}
+\leanchecked{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier\_namecert\_obligations}
 
 \begin{theorem}[ClassifierBoundary public boundary]
 \label{thm:classifier-boundary-public-boundary}
@@ -60,6 +62,7 @@ Continuation preservation reaches $T$ only after the accepted row has been displ
 
 Signature readback reaches $G$, and provenance reaches $P$ and $N$. These rows exhaust the carrier, so no consumer can bypass the finite packet to obtain a host type checker or an external semantic model.
 \end{proof}
+\leanchecked{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier\_public\_boundary}
 
 \begin{theorem}[ClassifierBoundary scoped dependency route]
 \label{thm:classifier-boundary-scoped-dependency-route}
@@ -69,6 +72,7 @@ B=(S,A,R,T,G,H,C,P,N),
 $$
 the accepted-membership route, refused non-member route, and continuation-preservation route all factor through the displayed rows $S,A,R,T,G,H,C,P,N$. The dependency scope is exactly the finite $\BHist$ rows, the $\Ext$ classifier rows, displayed $\Cont$ routes, $\mathsf{SigRel}$ readback, componentwise $\hsame$ transports, $\Pkg$ provenance, and the local $\NameCert$ row; it contains no host type checking, external semantic model, proof-search oracle, or quotient history.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier\_scoped\_dependency\_route}
 \begin{proof}
 Project the carrier of \autoref{def:classifier-boundary-carrier}. The rows $S,A,R,T$ are the only coordinates that expose candidate histories, accepted boundary rows, refused boundary rows, and continuation preservation.
 
@@ -109,17 +113,20 @@ Use \autoref{thm:classifier-boundary-namecert-obligations} to bind the local obl
 
 The public-boundary theorem \autoref{thm:classifier-boundary-public-boundary} then gives the consumer factorization through $S,A,R,T,G,H,C,P,N$. Because the carrier omits host type checking, external semantic models, proof-search oracles, and quotient histories, preservation stays inside the stated BEDC primitives.
 \end{proof}
+\leanchecked{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier\_ext\_cont\_preservation\_scope}
 
 \closureat{ClassifierBoundaryUp}{seedStr}
 \closureat{ClassifierBoundaryUp}{obligationStr}
+\closureat{ClassifierBoundaryUp}{scopedStr}[BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier_scoped_dependency_route]
 
 \begin{closurestatus}{\ClassifierBoundaryUp}
   \constructivestory{A $\ClassifierBoundaryUp$ packet is generated from source histories, accepted $\Ext$ rows, refused non-member rows, $\Cont$ preservation rows, $\mathsf{SigRel}$ readback, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:classifier-boundary-carrier}, \autoref{thm:classifier-boundary-namecert-obligations}, and \autoref{thm:classifier-boundary-public-boundary} bind the finite classifier-boundary NameCert surface for accepted membership, refused non-membership, continuation preservation, readback, and provenance.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ClassifierBoundaryUp.ClassifierBoundaryCarrier\_scoped\_dependency\_route}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, host type checking, external semantic models, hidden proof search, quotient histories, or compiler morphism preservation.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations and the public boundary.}
+  \upgradepath{Public closure requires a public-object surface binding all downstream classifier-boundary consumers to this scoped dependency route.}
 \end{closurestatus}

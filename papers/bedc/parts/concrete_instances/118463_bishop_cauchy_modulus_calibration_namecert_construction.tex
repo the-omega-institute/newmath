@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyModulusCalibrationUp$}
+\label{ch:concrete-instances-bishop-cauchy-modulus-calibration-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\BishopCauchyModulusCalibrationUp$ packet records the finite calibration row that ties a displayed precision request to the dyadic tolerance, stream window, regular-rational readback, and terminal Real seal used by a Bishop-style Cauchy name. It sits after the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. It also sits beside the finite tail-window handoff of \autoref{ch:concrete-instances-real-cauchy-window-namecert}. The packet is calibration data for inspected regular Cauchy names; it is not $\RealUp$ completeness, quotient equality of real names, trichotomy, selected representatives, or countable choice.
+
+\begin{definition}[Bishop Cauchy modulus calibration carrier]
+\label{def:bishop-cauchy-modulus-calibration-carrier}
+A $\BishopCauchyModulusCalibrationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,R,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, displaying the requested precision, its dyadic radius, and the finite comparison budget used by the name.
+\item $S$ is the $\StreamNameUp$ window row inspected at that requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the inspected window into regular rational observations.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $D,S,R$ have been displayed.
+\item $M$ is the calibration row tying the precision request, tolerance row, window row, readback row, and Real seal into one Bishop Cauchy modulus route.
+\item $H$ records componentwise $\hsame$ transport for $D,S,R,E,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D \longmapsto S \longmapsto R \longmapsto M \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyModulusCalibrationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyModulusCalibrationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,S,R,E,M,H,C,P,N$. It has no coordinate for quotient real equality, trichotomy, countable choice, selected representatives, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy modulus calibration NameCert obligations]
+\label{thm:bishop-cauchy-modulus-calibration-namecert-obligations}
+For every accepted $\BishopCauchyModulusCalibrationUp$ carrier
+$$
+K=(D,S,R,E,M,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyModulusCalibrationUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\DyadicRatCoreUp$ tolerance row $D$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ readback row $R$, $\RealUp$ seal row $E$, calibration row $M$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$;
+\item dyadic-window calibration, requiring $D$ to determine the precision budget under which $S$ is inspected;
+\item regular readback calibration, requiring $R$ to consume the same $S$ and $D$ before the terminal $\RealUp$ seal row $E$ is visible;
+\item $\hsame$ transport and $\Cont$ replay, requiring $H$ and $C$ to preserve the displayed route $D,S,R,M,E$ without inserting any hidden selector;
+\item $\Pkg$ provenance and local $\NameCert$ naming, requiring $P$ and $N$ to name the same finite packet and to refuse quotient equality, trichotomy, countable choice, selected representatives, host real equality, and ambient Real completeness.
+\end{enumerate}
+No calibration obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-modulus-calibration-carrier}. The packet displays exactly the dyadic tolerance, stream window, regular rational readback, terminal Real seal, calibration, transport, replay, provenance, and local naming rows.
+
+The calibration rows are $D,S,R,M,E$. A precision request first exposes the dyadic budget $D$, reads the finite window $S$, and then checks the regular rational observations through $R$ before the calibration row $M$ can hand the request to the terminal $\RealUp$ seal $E$.
+
+The structural rows are $H,C,P,N$. They transport, replay, source, and name the same finite route, so a consumer cannot introduce a quotient equality row, trichotomy row, countable-choice schedule, selected representative, host equality, or ambient completeness coordinate through the local certificate.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy modulus calibration seal route]
+\label{thm:bishop-cauchy-modulus-calibration-seal-route}
+Every $\RealUp$ consumer of an accepted $\BishopCauchyModulusCalibrationUp$ carrier reaches the seal row only through the finite chain
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+as calibrated by $M$ and preserved by $H,C,P,N$. The route exports a calibrated regular-Cauchy observation packet; it exports no $\RealUp$ completeness theorem, quotient equality of real names, trichotomy, selected representative, host real equality, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bishop-cauchy-modulus-calibration-namecert-obligations}. The obligation rows force a real-facing read to expose the dyadic tolerance row, the stream window, and the regular rational readback before the calibration row can present the terminal seal.
+
+The terminal seal row is $E$. Since $E$ is downstream of the same $D,S,R,M$ route and the transport, replay, provenance, and local naming rows preserve only that route, every accepted consumer reaches $\RealUp$ through the displayed finite packet.
+\end{proof}
+
+\falsifiablePrediction{A $\BishopCauchyModulusCalibrationUp$ consumer that reaches a $\RealUp$ seal without displaying the DyadicRatCore tolerance row, StreamName window row, RegSeqRat readback row, calibration row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row refutes the carrier.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, realcauchywindow: no listed sibling is bijective to $\BishopCauchyModulusCalibrationUp$ because this packet binds the precision tolerance, inspected stream window, regular rational readback, terminal Real seal, calibration row, transport, replay, provenance, and local NameCert row into one finite Bishop Cauchy route.}
+
+\closureat{BishopCauchyModulusCalibrationUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyModulusCalibrationUp}
+  \constructivestory{A $\BishopCauchyModulusCalibrationUp$ packet is generated from a DyadicRatCore tolerance row, StreamName window row, RegSeqRat readback row, RealUp seal row, calibration row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-modulus-calibration-carrier}, \autoref{thm:bishop-cauchy-modulus-calibration-namecert-obligations}, and \autoref{thm:bishop-cauchy-modulus-calibration-seal-route} seed the finite Bishop Cauchy modulus calibration route from dyadic precision requests to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, quotient equality of real names, trichotomy, selected representatives, host real equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-window calibration, regular readback calibration, RealUp seal nonescape, hsame transport, Cont replay, Pkg provenance, and local naming for BEDC.Derived.BishopCauchyModulusCalibrationUp.}
+\end{closurestatus}

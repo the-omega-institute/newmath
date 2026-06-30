@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ClaimAuditBoundaryUp$}
+\label{ch:concrete-instances-claim-audit-boundary-namecert}
+\origin{ai}
+
+The $\ClaimAuditBoundaryUp$ packet realizes the legitimate-claim audit surface of \autoref{ch:visions-legitimate-claim-audit} as a finite NameCert boundary. It sits beside the writing-item packet of \autoref{ch:concrete-instances-writing-item-audit-packet-namecert}, the named externality boundary of \autoref{ch:concrete-instances-apophaticname-namecert}, the registry layer of \autoref{ch:concrete-instances-registrylayer-namecert}, and the object-knowledge certificate of \autoref{ch:concrete-instances-objectknowledgecertificate-namecert}. Those siblings regulate item-level claim text, apophatic externality, registry admission, and licensed object knowledge; this packet binds the finite expression, claim-status row, refusal or gap/socket row, and permitted-claim row before a theorem-shaped consumer may publish the claim.
+
+\begin{definition}[Claim audit boundary carrier]
+\label{def:claim-audit-boundary-carrier}
+A $\ClaimAuditBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,S,G,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite communicable-expression row, recording the encoded expression being audited.
+\item $S$ is the claim-status row, read from the theorem, conditional, route, evidence, non-evidence, meta, refusal, $\mathsf{GAP}$, or socket statuses of \autoref{def:claim-status}.
+\item $G$ is the gap or socket row, recording the boundary position whenever the expression requests supply not produced by the closed substrate.
+\item $R$ is the refusal row, recording the visible refusal that prevents hidden supply from being read as theorem content.
+\item $Q$ is the permitted-claim row, recording the strongest claim text licensed after $E,S,G,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for expression, status, gap or socket, refusal, permitted claim, and the structural rows.
+\item $C$ records displayed $\Cont$ replay from expression admission through status assignment, boundary exposure, refusal readback, and permitted-claim publication.
+\item $P$ is the $\Pkg$ provenance over $\ClaimAuditBoundaryUp$, $\ClaimStatusAuditUp$, $\WritingItemAuditPacketUp$, $\ApophaticNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClaimAuditBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a theorem row that bypasses the displayed status, refusal, gap or socket, and permitted-claim rows.
+\end{definition}
+
+\begin{theorem}[Claim audit boundary NameCert obligations]
+\label{thm:claim-audit-boundary-namecert-obligations}
+For the carrier of \autoref{def:claim-audit-boundary-carrier}, the local $\NameCert_{\ClaimAuditBoundaryUp}$ surface consists exactly of carrier admission, finite-expression readback, claim-status readback, gap or socket exposure, refusal exposure, permitted-claim readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the packet $B=(E,S,G,R,Q,H,C,P,N)$. The rows $E,S,G,R,Q$ expose the expression under audit, the status assigned to it, the gap or socket boundary, the refusal row, and the permitted claim.
+
+The rows $H,C,P,N$ preserve that displayed boundary by transport, replay, provenance, and local naming. Since the carrier has no hidden theorem, status-free claim, refusal-free read, or gap-erasing coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Claim audit boundary status nonescape]
+\label{thm:claim-audit-boundary-status-nonescape}
+No accepted $\ClaimAuditBoundaryUp$ packet permits a theorem row, route row, evidence row, or object-knowledge claim to escape the displayed claim-status row $S$, refusal row $R$, gap or socket row $G$, and permitted-claim row $Q$. If a consumer publishes a claim stronger than $Q$ or bypasses $G$ or $R$, the consumer is no longer reading the accepted packet.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:claim-audit-boundary-namecert-obligations}. Every accepted read exposes $S,G,R,Q$ before local naming, so the status assignment, boundary row, refusal row, and permitted text are part of the public packet.
+
+Read the replay row $C$. It orders expression admission, status assignment, boundary exposure, refusal readback, and permitted-claim publication; therefore claim publication cannot be separated from the displayed status and boundary rows.
+
+Finally inspect the carrier inventory. There is no row for a hidden theorem, unmarked object-knowledge export, gap-free theorem upgrade, or refusal-free claim. The structural rows $H,P,N$ only preserve and name the same packet, so any stronger or bypassing read exits $\ClaimAuditBoundaryUp$.
+\end{proof}
+
+\falsifiablePrediction{If a consumer publishes a theorem row while bypassing the displayed refusal or $\mathsf{GAP}$ row, it is not a $\ClaimAuditBoundaryUp$ packet.}
+
+\independenceWitness{writing-item-audit-packet, apophaticname, registrylayer, objectknowledgecertificate: none is bijective to $\ClaimAuditBoundaryUp$ because the writing-item packet centers item text, the apophatic name centers externality sockets, the registry layer centers admission rows, and the object-knowledge certificate centers licensed object witnesses, while this packet jointly carries expression, status, gap or socket, refusal, permitted claim, transport, replay, provenance, and local naming rows.}
+
+The Lean follow-up must supply explicit $\mathsf{Nontrivial}\ \ClaimAuditBoundaryUp$ and $\mathsf{FieldFaithful}\ \ClaimAuditBoundaryUp$ instances in $\mathsf{lean4/BEDC/Derived/ClaimAuditBoundaryUp/TasteGate.lean}$. The field-faithfulness witness must keep $E,S,G,R,Q,H,C,P,N$ distinct before the claim-audit boundary can be cited by a checked paper marker.
+
+\closureat{ClaimAuditBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ClaimAuditBoundaryUp}
+  \constructivestory{A $\ClaimAuditBoundaryUp$ packet is generated from a finite expression row, claim-status row, gap or socket row, refusal row, permitted-claim row, componentwise transport, displayed continuation replay, package provenance, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:claim-audit-boundary-carrier}, \autoref{thm:claim-audit-boundary-namecert-obligations}, and \autoref{thm:claim-audit-boundary-status-nonescape} seed the finite expression, status, gap or socket, refusal, permitted-claim, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ boundary for legitimate-claim reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, registry-wide claim correctness, object-knowledge truth, hidden supply discharge, bridge checking, or theorem status outside the displayed packet rows.}
+  \upgradepath{Obligation closure requires checked carrier admission, status readback, gap or socket exposure, refusal exposure, permitted-claim readback, transport, replay, provenance, and local naming.}
+\end{closurestatus}

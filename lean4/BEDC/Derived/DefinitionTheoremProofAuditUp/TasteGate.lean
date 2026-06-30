@@ -217,4 +217,63 @@ theorem DefinitionTheoremProofAuditUp_single_carrier_alignment :
   · intro x y heq
     exact DefinitionTheoremProofAuditUp_single_carrier_alignment_toEventFlow_injective heq
 
+theorem DefinitionTheoremProofAuditCarrier_namecert_obligations
+    (x : DefinitionTheoremProofAuditUp) :
+    ∃ D T R S F U H C P N : BHist,
+      x = DefinitionTheoremProofAuditUp.mk D T R S F U H C P N ∧
+        definitionTheoremProofAuditFields x = [D, T, R, S, F, U, H, C, P, N] ∧
+          Nonempty (BHistCarrier DefinitionTheoremProofAuditUp) ∧
+            Nonempty (ChapterTasteGate DefinitionTheoremProofAuditUp) ∧
+              Nonempty (FieldFaithful DefinitionTheoremProofAuditUp) ∧
+                Nonempty (Nontrivial DefinitionTheoremProofAuditUp) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate FieldFaithful
+  cases x with
+  | mk D T R S F U H C P N =>
+      exact
+        ⟨D, T, R, S, F, U, H, C, P, N, rfl, rfl,
+          ⟨definitionTheoremProofAuditBHistCarrier⟩,
+          ⟨definitionTheoremProofAuditChapterTasteGate⟩,
+          ⟨definitionTheoremProofAuditFieldFaithful⟩,
+          ⟨definitionTheoremProofAuditNontrivial⟩⟩
+
+theorem DefinitionTheoremProofAuditAxisAndProofRoute {x : DefinitionTheoremProofAuditUp} :
+    (∃ D T R S F U H C P N : BHist,
+      x = DefinitionTheoremProofAuditUp.mk D T R S F U H C P N) →
+      ∃ D T R S F U H C P N : BHist,
+        x = DefinitionTheoremProofAuditUp.mk D T R S F U H C P N ∧
+          definitionTheoremProofAuditFields x = [D, T, R, S, F, U, H, C, P, N] ∧
+            Nonempty (BHistCarrier DefinitionTheoremProofAuditUp) ∧
+              Nonempty (ChapterTasteGate DefinitionTheoremProofAuditUp) ∧
+                Nonempty (FieldFaithful DefinitionTheoremProofAuditUp) ∧
+                  Nonempty (Nontrivial DefinitionTheoremProofAuditUp) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate FieldFaithful
+  intro hx
+  cases hx with
+  | intro D hx =>
+      cases hx with
+      | intro T hx =>
+          cases hx with
+          | intro R hx =>
+              cases hx with
+              | intro S hx =>
+                  cases hx with
+                  | intro F hx =>
+                      cases hx with
+                      | intro U hx =>
+                          cases hx with
+                          | intro H hx =>
+                              cases hx with
+                              | intro C hx =>
+                                  cases hx with
+                                  | intro P hx =>
+                                      cases hx with
+                                      | intro N hpacket =>
+                                          cases hpacket
+                                          exact
+                                            ⟨D, T, R, S, F, U, H, C, P, N, rfl, rfl,
+                                              ⟨definitionTheoremProofAuditBHistCarrier⟩,
+                                              ⟨definitionTheoremProofAuditChapterTasteGate⟩,
+                                              ⟨definitionTheoremProofAuditFieldFaithful⟩,
+                                              ⟨definitionTheoremProofAuditNontrivial⟩⟩
+
 end BEDC.Derived.DefinitionTheoremProofAuditUp

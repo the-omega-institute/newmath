@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchySubsequenceLimitSealUp$}
+\label{ch:concrete-instances-cauchy-subsequence-limit-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis, the $\CauchySubsequenceLimitSealUp$ packet records the finite seal between a selected cofinal subsequence window and the Real-facing regular read used by L10 completion consumers. It sits after the bounded selector surface of \autoref{ch:concrete-instances-bolzanoweierstrassselector-namecert}, the regular Cauchy subsequence limit packet of \autoref{ch:concrete-instances-regular-cauchy-subsequence-limit-namecert}, the broader subsequence limit boundary of \autoref{ch:concrete-instances-subsequence-limit-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert boundary for subsequence limits; it does not choose a subsequence by host choice, quotient a stream, or assert ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy subsequence limit seal carrier]
+\label{def:cauchy-subsequence-limit-seal-carrier}
+A $\CauchySubsequenceLimitSealUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,I,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source sequence window, carrying the inspected regular Cauchy source values before any subsequence read is formed.
+\item $I$ is the cofinal subsequence index row, recording monotonicity, cofinal reach, and the finite selected indices used by the route.
+\item $D$ is the dyadic tolerance data, including the requested precision and the finite comparison ledger that justifies the selected tail window.
+\item $W$ is the $\StreamNameUp$ window row for the source and selected subsequence observations.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the selected windows and dyadic tolerance data.
+\item $E$ is the $\RealUp$ seal reached only after the selected window and regular rational readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source windows, cofinal index rows, dyadic tolerance data, stream windows, regular readbacks, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite subsequence-limit route.
+\item $P$ records the $\Pkg$ provenance over $\CauchySubsequenceLimitSealUp$, $\BolzanoWeierstrassSelectorUp$, $\RegularCauchySubsequenceLimitUp$, $\SubsequenceLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySubsequenceLimitSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,I,D,W,R,E,H,C,P,N$. It has no coordinate for a host-selected infinite subsequence, quotient stream equality, host real equality, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy subsequence limit seal NameCert obligations]
+\label{thm:cauchy-subsequence-limit-seal-namecert-obligations}
+For every accepted $\CauchySubsequenceLimitSealUp$ carrier $L=(S,I,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\CauchySubsequenceLimitSealUp}$ surface consists exactly of carrier admission for the source sequence window $S$, cofinal subsequence index row $I$, dyadic tolerance data $D$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-subsequence-limit-seal-carrier}. Each row named in the statement is a displayed coordinate of the finite packet, and the carrier lists no hidden coordinate for a selected infinite subsequence, quotient stream, or ambient completion theorem.
+
+The source and index obligations are $S$ and $I$. The dyadic tolerance and finite-window obligations are $D$ and $W$, and the Real-facing route reaches $R$ before it reaches the terminal seal $E$.
+
+Finally use the structural rows. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same route for the selector, regular-subsequence-limit, subsequence-limit, StreamName, RegSeqRat, DyadicRatCore, and Real siblings named above.
+\end{proof}
+
+\begin{theorem}[Cauchy subsequence limit seal nonescape]
+\label{thm:cauchy-subsequence-limit-seal-nonescape}
+Every completion-facing or Real-facing consumer of an accepted $\CauchySubsequenceLimitSealUp$ packet must read the route
+$$
+S,I,D,W,R,E,H,C,P,N
+$$
+before it consumes any subsequence-limit seal. The route exports no host-selected infinite subsequence, quotient stream equality, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-subsequence-limit-seal-namecert-obligations}. They force every consumer to display the source window, cofinal index row, dyadic tolerance data, finite StreamName windows, regular rational readback, and Real seal as one carrier-local route.
+
+The sibling handoffs preserve the same order. The selector boundary of \autoref{ch:concrete-instances-bolzanoweierstrassselector-namecert}, the regular Cauchy subsequence limit packet of \autoref{ch:concrete-instances-regular-cauchy-subsequence-limit-namecert}, and the subsequence limit boundary of \autoref{ch:concrete-instances-subsequence-limit-namecert} can feed the row $I$ or the readback row $R$, but none supplies a hidden quotient stream or host choice coordinate.
+
+Since the classifier has only $S,I,D,W,R,E,H,C,P,N$, any completion-facing read that asks for host real equality, countable choice, or ambient $\RealUp$ completeness asks for data outside the packet. The Real seal is therefore a terminal finite seal for the displayed subsequence route, not an escape hatch into host completion.
+\end{proof}
+
+\closureat{CauchySubsequenceLimitSealUp}{seedStr}
+
+\begin{closurestatus}{\CauchySubsequenceLimitSealUp}
+  \constructivestory{A $\CauchySubsequenceLimitSealUp$ packet is generated from source sequence windows, cofinal subsequence index rows, dyadic tolerance data, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-subsequence-limit-seal-carrier}, \autoref{thm:cauchy-subsequence-limit-seal-namecert-obligations}, and \autoref{thm:cauchy-subsequence-limit-seal-nonescape} seed the finite subsequence-limit seal between selected cofinal windows and Real-facing regular reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove host subsequence choice, quotient stream equality, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal index exposure, dyadic tolerance exactness, StreamName window coverage, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchySubsequenceLimitSealUp.}
+\end{closurestatus}

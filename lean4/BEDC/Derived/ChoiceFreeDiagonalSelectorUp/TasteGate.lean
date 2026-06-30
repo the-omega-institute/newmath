@@ -228,6 +228,54 @@ instance choiceFreeDiagonalSelectorChapterTasteGate :
     intro x y hxy heq
     exact hxy (choiceFreeDiagonalSelectorToEventFlow_injective heq)
 
+def choiceFreeDiagonalSelectorFields : ChoiceFreeDiagonalSelectorUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ChoiceFreeDiagonalSelectorUp.mk request window observations witness sealRow transports
+      routes provenance nameCert =>
+      [request, window, observations, witness, sealRow, transports, routes, provenance, nameCert]
+
+instance choiceFreeDiagonalSelectorFieldFaithful :
+    FieldFaithful ChoiceFreeDiagonalSelectorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := choiceFreeDiagonalSelectorFields
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk request window observations witness sealRow transports routes provenance nameCert =>
+        cases y with
+        | mk request' window' observations' witness' sealRow' transports' routes'
+            provenance' nameCert' =>
+            injection hfields with hrequest htail0
+            injection htail0 with hwindow htail1
+            injection htail1 with hobservations htail2
+            injection htail2 with hwitness htail3
+            injection htail3 with hsealRow htail4
+            injection htail4 with htransports htail5
+            injection htail5 with hroutes htail6
+            injection htail6 with hprovenance htail7
+            injection htail7 with hnameCert _hNil
+            cases hrequest
+            cases hwindow
+            cases hobservations
+            cases hwitness
+            cases hsealRow
+            cases htransports
+            cases hroutes
+            cases hprovenance
+            cases hnameCert
+            rfl
+
+instance choiceFreeDiagonalSelectorNontrivial : Nontrivial ChoiceFreeDiagonalSelectorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ChoiceFreeDiagonalSelectorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ChoiceFreeDiagonalSelectorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem ChoiceFreeDiagonalSelectorTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       choiceFreeDiagonalSelectorDecodeBHist

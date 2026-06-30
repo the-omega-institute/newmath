@@ -72,6 +72,7 @@ trichotomy, selected limits, open-cover compactness, and ambient completeness.
 \end{enumerate}
 No NameCert obligation is stored outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateNameCertObligations}
 \begin{proof}
 Project the carrier of
 \autoref{def:regular-cauchy-tail-estimate-carrier}. The projection exposes
@@ -105,6 +106,7 @@ provenance, and local naming rows $H,C,P,N$. No consumer route can bypass
 $M,W,D,R,E$ or read a quotient stream, a selected host limit, host real
 equality, choice, trichotomy, open-cover compactness, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_real\_seal\_route}
 \begin{proof}
 Start with a real-facing consumer of $E$. Carrier admission lists $E$ only as
 the seal row reached from the regular readback coordinate $R$.
@@ -123,14 +125,510 @@ obtain quotient streams, selected limits, host equality, choice, trichotomy,
 open-cover compactness, or completeness.
 \end{proof}
 
-\closureat{RegularCauchyTailEstimateUp}{seedStr}
+\begin{definition}[Regular Cauchy tail estimate tail-envelope lock]
+\label{def:regular-cauchy-tail-estimate-tail-envelope-lock}
+The tail-envelope lock of an accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ is the displayed route
+$$
+M,W,D,R \longmapsto \RegularCauchyTailEnvelopeUp
+$$
+that reads the modulus threshold, finite $\StreamNameUp$ window,
+$\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ readback before the
+$\RealUp$ seal row is inspected. The lock records that the Real-seal route is
+available only after the finite tail-envelope surface has been exposed.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail estimate tail-envelope lock]
+\label{thm:regular-cauchy-tail-estimate-tail-envelope-lock}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any consumer that exposes the $\RealUp$ seal row $E$
+must first expose the finite tail-envelope route through
+$\RegularCauchyTailEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and
+$\RegSeqRatUp$. No selected limit, quotient stream, countable-choice schedule,
+host equality, open-cover compactness, or ambient completeness principle can
+replace that route.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The rows $M,W,D,R,E$ are
+the displayed mathematical coordinates, and $E$ occurs only after the
+threshold, window, tolerance, and regular readback rows.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}. The
+local certificate forces classifier transport and stability for $M,W,D,R,E$
+componentwise, so the tail estimate cannot detach the seal row from the finite
+tail data.
+
+Now apply \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. Every
+real-facing read of $E$ factors through $M,W,D,R$ before the structural rows
+$H,C,P,N$ are inspected. The definition of the tail-envelope lock identifies
+that preceding route with the $\RegularCauchyTailEnvelopeUp$ handoff.
+
+Since none of the excluded objects is a coordinate of the carrier, no bypass
+can replace the finite envelope route. The seal remains downstream of the
+displayed $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_tail\_envelope\_lock}
+
+\begin{theorem}[Regular Cauchy tail estimate tail dominance]
+\label{thm:regular-cauchy-tail-estimate-tail-dominance}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ whose tail-envelope route is locked, every later
+$\RealUp$-facing comparison exposed by the packet is dominated by the displayed
+finite tail surface. The comparison can read only the $\StreamNameUp$ window
+$W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback
+$R$, the tail-envelope row, componentwise $\hsame$ transport through $H$,
+displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the
+local $\NameCert_{\RegularCauchyTailEstimateUp}$ row $N$.
+
+No later comparison exports a host limit, quotient stream equality, selected
+tail, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_tail\_dominance}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The only Real-facing seal
+coordinate is $E$, and \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}
+places every read of $E$ downstream of the threshold, window, tolerance, and
+regular readback rows $M,W,D,R$.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The lock
+identifies that preceding route with the finite tail-envelope surface through
+$\RegularCauchyTailEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and
+$\RegSeqRatUp$, so any later comparison must reuse the same displayed window,
+tolerance ledger, and readback.
+
+The structural rows do not loosen the dominance claim. The transport row $H$
+moves only the displayed coordinates, the replay row $C$ preserves the same
+route, and $P,N$ record provenance and local naming for that finite packet.
+
+Thus every later $\RealUp$-facing comparison remains dominated by the displayed
+tail surface. Since no host limit, quotient stream equality, selected tail, or
+ambient completeness coordinate occurs in the carrier, none can be exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate tail-induction scope]
+\label{thm:regular-cauchy-tail-estimate-tail-induction-scope}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, induction over displayed finite tail windows preserves the route
+$$
+M,W,D,R,E,H,C,P,N .
+$$
+The threshold row $M$ and dyadic tolerance row $D$ supply the modulus and tolerance scope before any $\RegSeqRatUp$ readback through $R$ or $\RealUp$ seal through $E$ is visible. The induction is confined to displayed finite windows in $W$ and exports no quotient streams, selected limits, choice, trichotomy, open-cover compactness, ambient completeness, or independent Real seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_tail\_induction\_scope}
+\begin{proof}
+Start with the carrier definition, \autoref{def:regular-cauchy-tail-estimate-carrier}. The only rows available to a finite tail-window induction are the threshold, window, dyadic tolerance, readback, seal, transport, replay, provenance, and local naming rows $M,W,D,R,E,H,C,P,N$.
+
+Apply the Real-seal route, tail-envelope lock, and tail dominance results. Theorems \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}, \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}, and \autoref{thm:regular-cauchy-tail-estimate-tail-dominance} force every step to read $M,W,D$ before $R$ and to keep the terminal seal $E$ downstream of the same finite tail-envelope route.
+
+For the induction step, extend only the displayed finite window row $W$ while keeping the same $M,D,R,E,H,C,P,N$ surface. Since the carrier has no quotient stream, selected limit, choice, trichotomy, open-cover compactness, ambient-completeness, or second-seal coordinate, the induction preserves exactly the displayed route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate dyadic-modulus scope]
+\label{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any Real-facing or $\RegSeqRatUp$-facing reader of the tail estimate must pass through the displayed $\DyadicRatCoreUp$ tolerance row $D$, the $\StreamNameUp$ finite-window row $W$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\RegularCauchyTailEstimateUp}$ row $N$.
+
+The dyadic modulus exposed by $M,D$ is therefore scoped to the displayed finite tail-envelope route, and it exports no selected limit, quotient stream, countable-choice schedule, host equality, open-cover compactness, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_dyadic\_modulus\_scope}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-estimate-carrier}. The rows $M,W,D,R,E,H,C,P,N$ are the only coordinates available to a reader of the accepted tail estimate.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}. The local NameCert surface binds carrier admission, classifier transport, componentwise stability, seal-route exactness, and refusal rows to that same finite packet.
+
+Use \autoref{thm:regular-cauchy-tail-estimate-real-seal-route} to place the Real-facing read downstream of the modulus threshold, stream window, dyadic tolerance, and regular readback rows. A $\RegSeqRatUp$-facing reader reaches the same $R$ only after $M,W,D$ have been displayed.
+
+Finally apply \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The lock identifies the route through $\RegularCauchyTailEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ as the required envelope before the seal is exposed, so selected limits, ambient completeness, and the other excluded coordinates are not exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail difference]
+\label{thm:regular-cauchy-tail-difference}
+Let $T_0=(M_0,W_0,D_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and
+$T_1=(M_1,W_1,D_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted
+$\RegularCauchyTailEstimateUp$ carriers. Suppose the threshold and dyadic
+tolerance rows are transported to a common finite surface,
+$M_0 \hsame M_1$ and $D_0 \hsame D_1$, and suppose both packets display their
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ seal routes through those
+transported rows. Then the finite comparison of the two tails is read through
+$$
+M_i,W_i,D_i,R_i,E_i,H_i,C_i,P_i,N_i
+$$
+for $i=0,1$, together with the shared transported $M,D$ surface.
+
+The comparison exports no selected limit, quotient stream equality, host real
+equality, countable-choice schedule, open-cover compactness coordinate, or
+ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_tail\_difference}
+\begin{proof}
+Project the two accepted carriers. The only rows available to the comparison
+are the two displayed threshold, window, tolerance, readback, seal, transport,
+replay, provenance, and naming packets.
+
+Transport the threshold and tolerance rows through the given $\hsame$ data.
+After this transport, both packets read their tail windows over the same
+finite $M,D$ surface.
+
+Replay the continuation rows $C_0$ and $C_1$. For each packet, the read passes
+through the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, and
+the terminal $\RealUp$ seal before any Real-facing comparison is public.
+
+Finally use \autoref{thm:regular-cauchy-tail-estimate-real-seal-route} and
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}. These results
+force both seal reads to remain behind the transported dyadic-modulus route,
+so the tail difference is a finite two-packet comparison rather than a
+selected limit or quotient-stream equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate window triangle]
+\label{thm:regular-cauchy-tail-estimate-window-triangle}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any two tail-window reads that share the displayed
+$\StreamNameUp$ window $W$ and the $\DyadicRatCoreUp$ tolerance ledger $D$
+compose through the same $\RegSeqRatUp$ readback row $R$ and the same terminal
+$\RealUp$ seal row $E$. The composed read may use the threshold row $M$,
+the tail-envelope lock, tail dominance, dyadic-modulus scope, componentwise
+$\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$
+provenance through $P$, and the local
+$\NameCert_{\RegularCauchyTailEstimateUp}$ row $N$.
+
+It exports no ambient $\RealUp$ completeness principle, quotient stream
+equality, selected limit, host real equality, countable-choice schedule,
+open-cover compactness coordinate, or second terminal seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_window\_triangle}
+\begin{proof}
+Start with two accepted tail-window reads sharing $W$ and $D$. By
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, each read
+must expose the same finite window row and dyadic tolerance ledger before any
+$\RegSeqRatUp$-facing or $\RealUp$-facing coordinate is inspected.
+
+Apply the tail-envelope lock of
+\autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The lock places
+both reads inside the route through $\RegularCauchyTailEnvelopeUp$,
+$\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$, so their common
+$W,D$ surface has only the displayed readback row $R$ available downstream.
+
+Use tail dominance from
+\autoref{thm:regular-cauchy-tail-estimate-tail-dominance}. Any later
+Real-facing comparison remains dominated by the same finite tail surface, and
+the structural rows $H,C,P,N$ only transport, replay, package, and name that
+surface.
+
+Finally use the Real-seal route of
+\autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. Since every read
+of $E$ factors through $M,W,D,R$ in order, the two tail-window reads compose
+through the same readback row $R$ and terminal seal $E$.
+
+The refused principles have no coordinate in the carrier. Ambient Real
+completeness, quotient stream equality, selected limits, host equality,
+choice, open-cover compactness, and a second terminal seal therefore cannot
+replace the finite window triangle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate window monotone nesting]
+\label{thm:regular-cauchy-tail-estimate-window-monotone-nesting}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ with two displayed finite tail windows where the
+second refines the first, every consumer must route the coarser read through
+the same $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $R$,
+$\DyadicRatCoreUp$ tolerance ledger $D$, tail-envelope lock, and terminal
+$\RealUp$ seal route $E$ before reading the refined estimate. The refinement
+adds only visible tolerance rows and displayed finite-window rows inside the
+same packet.
+
+It cannot create a quotient stream, selected limit, host convergence
+predicate, second terminal seal, open-cover compactness coordinate, or ambient
+$\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateWindowMonotoneNesting}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The displayed rows
+$M,W,D,R,E,H,C,P,N$ are the only rows available to both finite windows, and
+the refinement hypothesis only adds rows admitted by the same $W$ and $D$.
+
+Apply the tail-envelope lock of
+\autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The coarser
+read must expose the route through $\RegularCauchyTailEnvelopeUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ before the seal row
+$E$ is inspected.
+
+Use tail dominance and dyadic-modulus scope,
+\autoref{thm:regular-cauchy-tail-estimate-tail-dominance} and
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}. These rows
+force both the coarser and refined reads to keep the same displayed window,
+tolerance ledger, readback, transport, replay, provenance, and local naming
+surface.
+
+Finally apply the window triangle theorem,
+\autoref{thm:regular-cauchy-tail-estimate-window-triangle}. Since the two
+reads share the same finite window route and dyadic tolerance ledger, the
+refined read composes after the coarser read through the same $R$ and $E$
+coordinates. The extra rows are visible finite refinements, not new quotient,
+choice, convergence, compactness, or completeness coordinates.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate obligation scope]
+\label{thm:regular-cauchy-tail-estimate-obligation-scope}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier $T=(M,W,D,R,E,H,C,P,N)$, the obligation-closure surface is exactly the displayed rows $M,W,D,R,E,H,C,P,N$ together with the routes already cited through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$.
+
+The surface refuses selected limits, quotient streams, countable choice, host equality, open-cover compactness, and ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_obligation\_scope}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-estimate-carrier}. Its rows are precisely the modulus threshold, finite window, dyadic tolerance, regular readback, real seal, componentwise transport, displayed replay, provenance, and local naming rows $M,W,D,R,E,H,C,P,N$.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}. The local certificate binds carrier admission, classifier transport, componentwise stability, seal-route exactness, and refusal rows to the same finite packet.
+
+Use \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}, \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}, and \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}. Together these route every Real-facing or $\RegSeqRatUp$-facing read through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$ before the seal is consumed.
+
+No additional coordinate remains for selected limits, quotient streams, countable choice, host equality, open-cover compactness, or ambient completeness. Hence the obligation scope is exactly the displayed kernel surface and the named sibling routes.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate obligation register]
+\label{thm:regular-cauchy-tail-estimate-obligation-register}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier $T=(M,W,D,R,E,H,C,P,N)$, the carrier of \autoref{def:regular-cauchy-tail-estimate-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}, the Real seal route of \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}, the tail-envelope lock of \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}, the tail dominance row of \autoref{thm:regular-cauchy-tail-estimate-tail-dominance}, and the dyadic-modulus scope of \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope} form the obligationClosure register for $\RegularCauchyTailEstimateUp$.
+
+The register exports only the displayed rows $M,W,D,R,E,H,C,P,N$ and the named routes through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_obligation\_register}
+\begin{proof}
+Carrier admission is the finite packet of \autoref{def:regular-cauchy-tail-estimate-carrier}. The local certificate rows are exactly the obligation surface listed in \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}.
+
+The Real-facing dependency route is fixed by \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. Its tail-envelope lock and later comparison dominance are supplied by \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock} and \autoref{thm:regular-cauchy-tail-estimate-tail-dominance}.
+
+Finally, \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope} binds the dyadic tolerance and modulus rows to the same finite packet. Together these cited rows account for the carrier, route, stability, dominance, and refusal obligations, so the displayed surface is the obligationClosure register.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate finite precision induction]
+\label{thm:regular-cauchy-tail-estimate-finite-induction}
+Let $T=(M,W,D,R,E,H,C,P,N)$ be an accepted $\RegularCauchyTailEstimateUp$ carrier. Suppose $T$ exposes a tail estimate at a displayed unary precision window, and suppose the next precision window is admitted by the same $\StreamNameUp$ row $W$. Then the estimate refines through the same $\RealCauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $R$, $\RegularCauchyTailEnvelopeUp$ route, and terminal $\RealUp$ seal row $E$.
+
+The refinement is obtained by induction on the displayed finite precision-window extension. It does not use host $\mathbb{N}$ recursion, countable choice, a selected limit, quotient stream equality, host real equality, open-cover compactness, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_finite\_precision\_induction}
+\begin{proof}
+Begin with the displayed precision window already admitted by $W$. By \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, the corresponding tail estimate must read the dyadic tolerance row $D$, the stream window $W$, the regular readback row $R$, and the terminal seal row $E$ through the modulus data $M,D$.
+
+For the induction step, append one admitted finite precision window to the displayed StreamName row. The hypothesis says that the appended window is still a row of the same $W$, so the carrier is not replaced and no new consumer surface is introduced.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-obligation-scope}. The obligation surface remains exactly $M,W,D,R,E,H,C,P,N$ together with the named sibling routes through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$.
+
+Thus each finite extension step refines the estimate through the same modulus, dyadic, readback, tail-envelope, and Real rows. Since the induction ranges only over the displayed finite extension, it never invokes host natural-number recursion, choice, selected limits, quotient streams, host equality, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate obligation basis]
+\label{thm:regular-cauchy-tail-estimate-obligation-basis}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier $T=(M,W,D,R,E,H,C,P,N)$, the carrier row of \autoref{def:regular-cauchy-tail-estimate-carrier}, the local NameCert obligations of \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}, the tail-envelope lock of \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}, the tail dominance theorem of \autoref{thm:regular-cauchy-tail-estimate-tail-dominance}, the dyadic-modulus scope of \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, the window triangle of \autoref{thm:regular-cauchy-tail-estimate-window-triangle}, the obligation scope of \autoref{thm:regular-cauchy-tail-estimate-obligation-scope}, and the finite precision induction of \autoref{thm:regular-cauchy-tail-estimate-finite-induction} exhaust the finite NameCert obligation basis for $\RegularCauchyTailEstimateUp$.
+
+Consequently every L10 Real and Completion consumer reads the packet only through the displayed rows $M,W,D,R,E,H,C,P,N$ and the named sibling routes through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$. No additional obligation row remains for quotient streams, selected limits, countable choice, host equality, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The carrier definition exposes exactly the threshold, window, dyadic tolerance, regular readback, real seal, transport, replay, provenance, and local naming rows, and the NameCert obligations assign carrier admission, classifier transport, componentwise stability, seal-route exactness, and refusal to those rows.
+
+Next use the tail-envelope lock and tail dominance theorems. They force each real-facing comparison through the finite route from $M,W,D,R$ to $\RegularCauchyTailEnvelopeUp$ before the seal row $E$ is consumed.
+
+The dyadic-modulus scope and window triangle then account for all tolerance and window reads. They show that shared finite windows, dyadic ledgers, and regular readback rows compose through the same terminal seal rather than through a second completion or quotient coordinate.
+
+Finally apply the obligation scope and finite precision induction. The obligation scope lists the full sibling route surface, while the induction shows that finite precision extensions stay inside the same packet. These rows cover every displayed obligation named by the carrier, so the packet has no further NameCert basis outside the cited surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateObligationBasis}
+
+\begin{theorem}[Regular Cauchy tail estimate RegSeqRat handoff]
+\label{thm:regular-cauchy-tail-estimate-regseqrat-handoff}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any completion-facing consumer must first expose the
+handoff route
+$$
+D,W,R,E,H,C,P,N .
+$$
+Thus the consumer reads the dyadic tolerance row, the $\StreamNameUp$ finite
+windows, the $\RegSeqRatUp$ readback, the terminal $\RealUp$ seal,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and the local $\NameCert_{\RegularCauchyTailEstimateUp}$ row before any
+completion-facing tail estimate is public.
+
+The route exports no quotient stream, selected limit, countable-choice
+schedule, host equality, open-cover compactness, or ambient $\RealUp$
+completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateRegSeqRatHandoff}
+\begin{proof}
+Begin with the Real seal route of
+\autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. It places every
+seal-facing read behind the threshold row $M$, finite window $W$, dyadic
+tolerance row $D$, and regular readback row $R$ before $E$ is consumed.
+
+Use the dyadic-modulus scope and window triangle,
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope} and
+\autoref{thm:regular-cauchy-tail-estimate-window-triangle}. These results keep
+the dyadic tolerance ledger and shared finite windows attached to the same
+$\RegSeqRatUp$ readback row, so the consumer cannot detach the tail estimate
+from $D,W,R$.
+
+Next apply monotone nesting,
+\autoref{thm:regular-cauchy-tail-estimate-window-monotone-nesting}. Refining a
+finite tail window stays inside the same packet and adds only displayed
+tolerance and window rows before the readback and seal are replayed.
+
+Finally invoke the obligation basis of
+\autoref{thm:regular-cauchy-tail-estimate-obligation-basis}. It exhausts the
+available NameCert rows by $M,W,D,R,E,H,C,P,N$ and the named sibling routes, so
+completion-facing consumers receive only the displayed RegSeqRat-to-Real
+handoff and none of the excluded completion principles.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_regseqrat\_handoff}
+
+\begin{theorem}[Regular Cauchy tail estimate modulus-dominance criterion]
+\label{thm:regular-cauchy-tail-estimate-modulus-dominance-criterion}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, the finite precision induction of
+\autoref{thm:regular-cauchy-tail-estimate-finite-induction} and the window
+monotone nesting of
+\autoref{thm:regular-cauchy-tail-estimate-window-monotone-nesting} produce a
+modulus-dominance witness for the displayed tail route. Consequently every
+later $\RegSeqRatUp$ or $\RealUp$ comparison consuming $R$ or $E$ is bounded by
+the displayed $M,W,D$ tail route.
+
+No selected limit, quotient stream, trichotomy branch, choice schedule,
+open-cover compactness row, or ambient completeness principle may replace that
+dominance witness.
+\end{theorem}
+\begin{proof}
+Start with the Real seal route of
+\autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. It places every
+consumer of $E$ behind the threshold row $M$, finite window row $W$, dyadic
+tolerance row $D$, and regular readback row $R$.
+
+Apply the tail-envelope lock and dyadic-modulus scope,
+\autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock} and
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}. These rows
+identify the route through $M,W,D,R$ as the finite tail surface that every
+$\RegSeqRatUp$-facing or $\RealUp$-facing read must expose.
+
+Use window monotone nesting together with finite precision induction. Refining
+a displayed window remains inside the same $W$ row and extends only the finite
+precision data already governed by $M$ and $D$, so each later comparison carries
+the same modulus-dominance witness.
+
+Finally invoke the RegSeqRat handoff of
+\autoref{thm:regular-cauchy-tail-estimate-regseqrat-handoff}. The carrier
+inventory contains no coordinate for selected limits, quotient streams,
+trichotomy, choice, open covers, or ambient completeness, so the ledger refusal
+leaves only the displayed $M,W,D$ route available to consumers of $R$ or $E$.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateModulusDominanceCriterion}
+
+\begin{theorem}[Regular Cauchy tail estimate public interface]
+\label{thm:regular-cauchy-tail-estimate-public-interface}
+Every consumer of a Real-facing tail estimate through an accepted $\RegularCauchyTailEstimateUp$ carrier
+$$
+T=(M,W,D,R,E,H,C,P,N)
+$$
+must read the estimate through the dyadic tolerance surface $D$, finite $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback row $R$, terminal $\RealUp$ seal $E$, and the modulus-dominance row of \autoref{thm:regular-cauchy-tail-estimate-modulus-dominance-criterion}. This public route is the only exported interface for completion-facing consumers.
+
+The interface exports no quotient stream, selected limit, countable-choice schedule, trichotomy branch, host real equality, open-cover compactness row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimatePublicInterface}
+\begin{proof}
+Begin with the Real seal route of \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. It places every consumer of the terminal seal $E$ behind the threshold row $M$, finite window row $W$, dyadic tolerance row $D$, and regular readback row $R$.
+
+Apply tail dominance and the window triangle, \autoref{thm:regular-cauchy-tail-estimate-tail-dominance} and \autoref{thm:regular-cauchy-tail-estimate-window-triangle}. These theorems keep the displayed dyadic tolerance ledger and compared windows attached to the same regular readback before any Real-facing read is allowed.
+
+Use window monotone nesting and the RegSeqRat handoff, \autoref{thm:regular-cauchy-tail-estimate-window-monotone-nesting} and \autoref{thm:regular-cauchy-tail-estimate-regseqrat-handoff}. Refining a tail window remains inside the same carrier, and the handoff exposes $R$ only through the displayed $M,W,D$ rows before the seal $E$ is read.
+
+Finally invoke the modulus-dominance criterion of \autoref{thm:regular-cauchy-tail-estimate-modulus-dominance-criterion}. It supplies the reusable dominance witness for later $\RegSeqRatUp$ or $\RealUp$ comparisons, while the carrier inventory excludes quotient streams, selected limits, choice schedules, trichotomy, host equality, open covers, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate public tail export]
+\label{thm:regular-cauchy-tail-estimate-public-tail-export}
+Every completion-facing consumer of an accepted $\RegularCauchyTailEstimateUp$ carrier
+$$
+T=(M,W,D,R,E,H,C,P,N)
+$$
+must read the public tail route
+$$
+M,W,D,R,E,H,C,P,N
+$$
+through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ before any completion seal is visible. The route exports the finite tail estimate and its modulus-dominance witness; it exports no quotient stream, selected limit, countable-choice schedule, host real equality, open-cover compactness row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the public interface of \autoref{thm:regular-cauchy-tail-estimate-public-interface}. It requires every Real-facing tail estimate to pass through the dyadic tolerance surface, finite StreamName windows, RegSeqRat readback, terminal Real seal, and the displayed modulus-dominance row.
+
+Next use the tail-envelope lock and Real seal route, \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock} and \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. These theorems keep the threshold row $M$, window row $W$, tolerance row $D$, readback row $R$, and seal row $E$ in the same finite packet before any completion-facing read is exposed.
+
+Finally apply the modulus-dominance criterion and RegSeqRat handoff, \autoref{thm:regular-cauchy-tail-estimate-modulus-dominance-criterion} and \autoref{thm:regular-cauchy-tail-estimate-regseqrat-handoff}. They identify the reusable dominance witness and force the structural rows $H,C,P,N$ to travel with the same route, while the carrier inventory excludes quotient streams, selected limits, choice schedules, host equality, open covers, and ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimatePublicTailExport}
+
+\begin{theorem}[Regular Cauchy tail estimate completion consumer route]
+\label{thm:regular-cauchy-tail-estimate-completion-consumer-route}
+Any $\RegSeqRatUp$ or $\RealUp$ completion consumer that cites the public $\RegularCauchyTailEstimateUp$ interface must consume the public tail export of \autoref{thm:regular-cauchy-tail-estimate-public-tail-export}. In particular the consumer sees $M,W,D,R,E,H,C,P,N$ as one finite route through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, not as a detached completion seal or an ambient completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCompletionConsumerRoute}
+\begin{proof}
+Apply the public tail export. It already lists the finite rows and sibling route that every completion-facing read must expose before the seal row is visible.
+
+The public interface of \autoref{thm:regular-cauchy-tail-estimate-public-interface} supplies the same route as the exported interface for Real-facing consumers. Therefore a later $\RegSeqRatUp$ or $\RealUp$ chapter can cite this theorem as its completion-consumer entrance without adding quotient streams, selected limits, choice, host equality, open covers, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail estimate diagonal-tail fusion]
+\label{thm:regular-cauchy-tail-estimate-diagonal-tail-fusion}
+Any diagonal-limit consumer that cites $\RegularCauchyTailEstimateUp$ must
+fuse the displayed route
+$$
+M,W,D,R,E,H,C,P,N
+$$
+with its finite diagonal-budget route before any $\RealUp$ seal is consumed.
+The fused route reads the public tail export, the completion consumer route,
+the $\RegSeqRatUp$ handoff, and the modulus-dominance criterion as one finite
+tail-to-diagonal surface. It exports no quotient streams, selected limits,
+countable choice, host real equality, open-cover compactness, or ambient
+$\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the public tail export of
+\autoref{thm:regular-cauchy-tail-estimate-public-tail-export}. It exposes the
+finite route $M,W,D,R,E,H,C,P,N$ through $\RealCauchyModulusUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ before any
+completion seal is visible.
+
+Apply the completion consumer route,
+\autoref{thm:regular-cauchy-tail-estimate-completion-consumer-route}. A later
+diagonal-limit chapter may enter the tail-estimate interface only by consuming
+that public route, not by reading a detached $\RealUp$ seal or an ambient
+completion theorem.
+
+Next use the RegSeqRat handoff of
+\autoref{thm:regular-cauchy-tail-estimate-regseqrat-handoff}. It keeps the
+dyadic tolerance row, finite StreamName windows, regular readback, terminal
+seal, transport, replay, provenance, and local naming rows in the same
+completion-facing packet.
+
+Finally apply the modulus-dominance criterion of
+\autoref{thm:regular-cauchy-tail-estimate-modulus-dominance-criterion}. The
+criterion bounds later $\RegSeqRatUp$ and $\RealUp$ comparisons by the
+displayed $M,W,D$ tail route, so a diagonal budget must fuse with this finite
+surface before the seal $E$ is consumed. Since none of the refused objects is a
+carrier coordinate, the fused route cannot export quotient streams, selected
+limits, countable choice, host equality, open-cover compactness, or ambient
+completeness.
+\end{proof}
+
+\closureat{RegularCauchyTailEstimateUp}{obligationStr}
+\closureat{RegularCauchyTailEstimateUp}{publicStr}[BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimatePublicInterface]
+\closureat{RegularCauchyTailEstimateUp}{bridgedStr}[BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimatePublicInterface]
 
 \begin{closurestatus}{\RegularCauchyTailEstimateUp}
   \constructivestory{A $\RegularCauchyTailEstimateUp$ packet is generated from a $\RealCauchyModulusUp$ threshold row, a finite $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance row, a $\RegSeqRatUp$ readback, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-estimate-carrier}, \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-estimate-real-seal-route} bind the finite tail-estimate carrier, local NameCert obligations, and real-seal factorization route.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public interface is now bridged by the checked \texttt{RegularCauchyTailEstimatePublicInterface} target over the displayed modulus, StreamName window, DyadicRatCore tolerance, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimatePublicInterface}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, choice, trichotomy, selected limits, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, stability, Real-seal route exactness, refusal rows, and TasteGate nontriviality with field faithfulness for $M,W,D,R,E,H,C,P,N$.}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, choice, trichotomy, selected limits, open-cover compactness, axiom-purity certification, or bridge checking.}
+  \upgradepath{No further paper-side theory closure remains; bridge checking is the remaining verification-axis work.}
 \end{closurestatus}

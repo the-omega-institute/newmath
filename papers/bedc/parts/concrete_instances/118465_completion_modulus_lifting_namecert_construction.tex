@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CompletionModulusLiftingUp$}
+\label{ch:concrete-instances-completion-modulus-lifting-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completions and Kelley on completion and uniform structures, the $\CompletionModulusLiftingUp$ packet records the finite route by which a displayed completion modulus is lifted into StreamName, RegSeqRat, DyadicRatCore, and Real seal rows before any Real or Completion consumer reads it. It sits after the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the Bishop completion-modulus carrier of \autoref{ch:concrete-instances-bishopcompletionmodulus-namecert}, and the threshold-selection surface of \autoref{ch:concrete-instances-bishop-completion-modulus-selection-namecert}. The packet names only displayed finite lifting data; it does not select limits, quotient streams, countable-choice schedules, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Completion modulus lifting carrier]
+\label{def:completion-modulus-lifting-carrier}
+A $\CompletionModulusLiftingUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the completion modulus row, read through $\BishopCompletionModulusUp$ and $\CauchyModulusUp$, assigning a finite threshold to each displayed precision request.
+\item $S$ is the finite $\StreamNameUp$ window family opened at the thresholds named by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic request, threshold comparison, and radius accounting used by $M$ and $R$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, window, readback, tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through completion-modulus thresholding, finite windows, rational readback, dyadic tolerance accounting, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CompletionModulusLiftingUp$, $\BishopCompletionModulusUp$, $\BishopCompletionModulusSelectionUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompletionModulusLiftingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,S,R,D,E,H,C,P,N$. The carrier has no coordinate for a selected completion point, quotient stream representative, countable-choice schedule, trichotomy, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Completion modulus lifting NameCert obligations]
+\label{thm:completion-modulus-lifting-namecert-obligations}
+For every accepted $\CompletionModulusLiftingUp$ carrier $L=(M,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\CompletionModulusLiftingUp}$ surface consists exactly of carrier admission for the displayed completion modulus, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows; threshold coverage requiring every precision request to be discharged by $M$ before $S$ is opened; tolerance exactness requiring $D$ before $R$ is read; Real seal ordering requiring $E$ to be downstream of $M,S,R,D$; and nonescape for quotient streams, selected limits, countable choice, trichotomy, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:completion-modulus-lifting-carrier}. The only available rows are $M,S,R,D,E,H,C,P,N$, so carrier admission exposes exactly the completion modulus, finite windows, rational readback, dyadic tolerance ledger, Real seal, and structural data.
+
+Threshold coverage is the first lifting step. A precision request is read by the completion-modulus row $M$, and the finite StreamName windows $S$ are opened only at the threshold displayed by that row.
+
+Tolerance exactness and readback are the next step. The DyadicRatCore ledger $D$ records the requested dyadic radius and the threshold comparison before the RegSeqRat row $R$ is read from the opened windows.
+
+Finally the Real seal $E$ is downstream of $M,S,R,D$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, and no carrier coordinate stores quotient streams, selected limits, countable-choice schedules, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Completion modulus lifting Real seal handoff]
+\label{thm:completion-modulus-lifting-real-seal-handoff}
+Every Real-facing or completion-facing consumer of an accepted $\CompletionModulusLiftingUp$ carrier must factor through the displayed route
+$$
+\BishopCompletionModulusUp,\ \CauchyModulusUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, the terminal $\RealUp$ seal is available only after the completion modulus row, finite windows, regular rational readback, dyadic tolerance ledger, componentwise transport, replay, provenance, and local naming rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:completion-modulus-lifting-namecert-obligations}. They force the consumer to read $M$ before $S$, to read $D$ before $R$, and to read $M,S,R,D$ before the terminal seal $E$.
+
+Use the neighbouring Bishop completion-modulus route of \autoref{ch:concrete-instances-bishopcompletionmodulus-namecert} and the threshold-selection surface of \autoref{ch:concrete-instances-bishop-completion-modulus-selection-namecert}. Those routes supply the finite threshold discipline used by $M$ without turning it into a host-selected limit.
+
+The remaining rows are structural. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same lifting path, while $\Pkg$ provenance and the local $\NameCert$ row name it for downstream Real and Completion consumers. Since no listed row contains quotient streams, selected limits, countable choice, trichotomy, host equality, or ambient completeness, the Real seal handoff exports none of those objects.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CompletionModulusLiftingUp$ consumer that reaches a $\RealUp$ seal without displaying the completion modulus row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the packet.}
+
+\independenceWitness{cauchymodulus, streamname, regseqrat, dyadicratcore, real, bishopcompletionmodulus, bishop-completion-modulus-selection: no listed sibling is bijective to $\CompletionModulusLiftingUp$ because this packet jointly carries a completion modulus row, finite windows, regular rational readback, dyadic tolerance accounting, terminal Real seal, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{CompletionModulusLiftingUp}{seedStr}
+
+\begin{closurestatus}{\CompletionModulusLiftingUp}
+  \constructivestory{A $\CompletionModulusLiftingUp$ packet is generated from a completion modulus row, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-modulus-lifting-carrier}, \autoref{thm:completion-modulus-lifting-namecert-obligations}, and \autoref{thm:completion-modulus-lifting-real-seal-handoff} seed the finite completion-modulus lifting route over completion modulus, stream-window, regular-rational, dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold coverage, tolerance exactness, RegSeqRat readback, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.CompletionModulusLiftingUp.}
+\end{closurestatus}

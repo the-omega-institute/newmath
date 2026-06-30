@@ -1,0 +1,398 @@
+\chapter{Bulk--Boundary Prime-Shadow Interface for RH}
+\label{ch:visions-rh-bulk-boundary-prime-shadow-interface}
+\origin{ai}
+
+\autoref{ch:visions-rh-layered-translation} identifies the RH statement as
+a section over the zeta-zero source carrier, while
+\autoref{ch:visions-rh-local-global-zero-exclusion-target} isolates the
+carrier-level incompatibility still required by the prime-window route. The
+present chapter records a typed interface between these two readings. It
+treats prime defects as boundary-visible shadows of a single constrained
+body and states the exact hypotheses under which that interface yields the
+BEDC-RH witness target. The chapter supplies only a conditional assembly
+schema; the analytic content remains the displayed incompatibility row.
+
+\section{Bulk and Boundary Data}
+\label{sec:rh-bulk-boundary-data}
+
+\begin{definition}[Omega boundary readout diagram]
+\label{def:rh-bulk-boundary-readout-diagram}
+An Omega boundary readout diagram is a tuple
+$$
+\mathcal D_{\Omega}
+:=
+\bigl(I,(R_i,\sim_i,C_i,\alpha_i,\rho_{ji},\Lambda_i)_{i\in I}\bigr)
+$$
+where $I$ is a directed preorder, $R_i$ is the carrier of the $i$-th
+readout layer, $\sim_i$ is its classifier, $C_i$ is its legality
+predicate, $\alpha_i:R_i\to R_i$ is its self-similar operation,
+$\Lambda_i$ is its ledger, and $\rho_{ji}:R_j\to R_i$ is the readback map
+whenever $j\ge i$. The readback maps satisfy
+$$
+\rho_{ii}=\mathrm{id}_{R_i},
+\qquad
+\rho_{ki}=\rho_{ji}\circ\rho_{kj}
+\quad(k\ge j\ge i),
+$$
+and preserve classifiers:
+$$
+x\sim_j y
+\to
+\rho_{ji}(x)\sim_i\rho_{ji}(y).
+$$
+The self-similar operations are compatible when
+$$
+\rho_{ji}(\alpha_j(x))
+\sim_i
+\alpha_i(\rho_{ji}(x))
+$$
+for all $j\ge i$ and $x:R_j$.
+\end{definition}
+
+\begin{definition}[Boundary limit with ledger]
+\label{def:rh-bulk-boundary-limit-with-ledger}
+The ledgered boundary limit of $\mathcal D_{\Omega}$ is
+$$
+\partial_{\infty}\mathcal D_{\Omega}
+:=
+\sum_{(r_i)\in\prod_{i\in I}R_i}
+\left(
+\prod_{i\in I}C_i(r_i)
+\right)
+\times
+\left(
+\prod_{j\ge i}
+\rho_{ji}(r_j)\sim_i r_i
+\right)
+\times
+\Lambda_{\partial}.
+$$
+The component $\Lambda_{\partial}$ records the readback rows, compression
+sources, and legality witnesses consumed by the limit carrier.
+\end{definition}
+
+\begin{definition}[Bulk-boundary exactness]
+\label{def:rh-bulk-boundary-exactness}
+Let $T_{\Omega}$ be a constrained bulk carrier with projections
+$$
+\pi_i:T_{\Omega}\to R_i.
+$$
+The comparison map
+$$
+\kappa:T_{\Omega}\to\partial_{\infty}\mathcal D_{\Omega}
+$$
+sends $x$ to the compatible family $((\pi_i(x))_{i\in I},\Lambda_x)$.
+Bulk-boundary exactness is the conjunction
+$$
+\mathsf{BulkBoundaryExact}_{\Omega}(T_{\Omega})
+:=
+\mathsf{Full}_{\kappa}
+\times
+\mathsf{Faithful}_{\kappa}
+\times
+\mathsf{LedgerExact}_{\kappa}.
+$$
+Here $\mathsf{Full}_{\kappa}$ says every compatible boundary family is
+represented by a bulk row, $\mathsf{Faithful}_{\kappa}$ says equality of
+all boundary projections identifies bulk rows, and
+$\mathsf{LedgerExact}_{\kappa}$ says information compressed by the
+projection is recoverable from the boundary ledger.
+\end{definition}
+
+\begin{theorem}[Exactness excludes ghost bulk distinctions]
+\label{thm:rh-bulk-boundary-exactness-excludes-ghost-bulk}
+If $\mathsf{BulkBoundaryExact}_{\Omega}(T_{\Omega})$ holds, then there are
+no bulk rows $x,y:T_{\Omega}$ such that
+$$
+\prod_{i\in I}\bigl(\pi_i(x)\sim_i\pi_i(y)\bigr)
+$$
+holds while $x$ and $y$ remain distinct in the bulk classifier.
+\end{theorem}
+
+\begin{proof}
+The displayed product is exactly the premise consumed by
+$\mathsf{Faithful}_{\kappa}$. Hence $x\sim_{\Omega}y$, contradicting any
+claimed bulk distinction. The ledger-exact component ensures that the
+argument is not merely pointwise: any compressed distinction would have to
+appear in the boundary ledger and therefore in one of the compared rows.
+\end{proof}
+
+\section{Prime Sieve and Shadows}
+\label{sec:rh-prime-sieve-shadows}
+
+\begin{definition}[Prime invariant packet]
+\label{def:rh-prime-invariant-packet}
+For a readout layer $R_i$, a prime invariant packet on a row $r:R_i$ is
+the displayed product
+$$
+\mathsf{PrimeInv}_i(r)
+:=
+\mathsf{Irred}_i(r)
+\times
+\mathsf{PrimeLike}_i(r)
+\times
+\mathsf{Valuation}_i(r)
+\times
+\mathsf{Factorization}_i(r)
+\times
+\mathsf{EulerLocal}_i(r).
+$$
+In the arithmetic layer this packet is read through the $\PrimeUp$
+certificate rows: prime classifier, trial division, factorization
+composition, Euclid-style divisibility, unboundedness, and Euler-local
+response.
+\end{definition}
+
+\begin{definition}[Prime sieve]
+\label{def:rh-prime-sieve-interface}
+For a target layer $R_i$, the prime sieve is the class of arrows
+$f:X\to R_i$ whose image carries prime invariant packets:
+$$
+f\in\mathsf{PrimeSieve}_i
+\quad:\Longleftrightarrow\quad
+\prod_{x:X}\mathsf{PrimeInv}_i(f(x)).
+$$
+\end{definition}
+
+\begin{theorem}[Prime sieve is closed under precomposition]
+\label{thm:rh-prime-sieve-precomposition}
+If $f:X\to R_i$ belongs to $\mathsf{PrimeSieve}_i$ and $g:Y\to X$ is any
+arrow, then $f\circ g:Y\to R_i$ belongs to $\mathsf{PrimeSieve}_i$.
+\end{theorem}
+
+\begin{proof}
+For each $y:Y$, the row $(f\circ g)(y)$ is $f(g(y))$. Since $g(y):X$ and
+$f$ belongs to the prime sieve, $\mathsf{PrimeInv}_i(f(g(y)))$ holds. This
+is the required product over $Y$.
+\end{proof}
+
+\begin{definition}[Prime shadows and defects]
+\label{def:rh-prime-shadow-defect-interface}
+For $x:T_{\Omega}$, the prime shadow at layer $i$ is
+$$
+\mathsf{PrimeShadow}_i(x)
+:=
+\mathsf{PrimeInv}_i(\pi_i(x)).
+$$
+Assume the layer carries a defect-magnitude readout
+$$
+|\mathsf{PrimeShadow}_i(x)|_i:M_i.
+$$
+The layer defect predicate is
+$$
+\mathsf{PrimeDefect}_i(x)
+:=
+\bigl(|\mathsf{PrimeShadow}_i(x)|_i\#0\bigr),
+$$
+and the bulk prime-defect predicate is
+$$
+\mathsf{PrimeDefect}_{\Omega}(x)
+:=
+\sum_{i\in I}\mathsf{PrimeDefect}_i(x).
+$$
+Prime normality is the absence of such a displayed defect:
+$$
+\mathsf{PrimeNormal}_{\Omega}(x)
+:=
+\neg\mathsf{PrimeDefect}_{\Omega}(x).
+$$
+\end{definition}
+
+\begin{definition}[Prime-shadow faithfulness]
+\label{def:rh-prime-shadow-faithfulness-interface}
+Prime-shadow faithfulness is the statement
+$$
+\mathsf{PrimeShadowFaithful}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{PrimeInv}_{\Omega}(x)\#0
+\to
+\sum_{i\in I}\mathsf{PrimeDefect}_i(x)
+\right).
+$$
+It says that a nonzero bulk prime invariant cannot be invisible to all
+boundary readout layers.
+\end{definition}
+
+\begin{theorem}[Ledgered prime expansion gives shadow detection]
+\label{thm:rh-ledgered-prime-expansion-shadow-detection}
+Assume $\mathsf{BulkBoundaryExact}_{\Omega}(T_{\Omega})$. If the bulk
+prime invariant ledger of $x$ expands through the boundary ledger, then a
+nonzero bulk prime invariant in $x$ yields $\mathsf{PrimeDefect}_i(x)$ for
+some $i\in I$.
+\end{theorem}
+
+\begin{proof}
+By $\mathsf{LedgerExact}_{\kappa}$, every bulk prime-invariant witness
+compressed by $\kappa$ is recorded in the boundary ledger. If the witness
+is nonzero, the boundary ledger expansion places that nonzero witness in
+one coordinate row. That coordinate is precisely a layer $i$ with
+$|\mathsf{PrimeShadow}_i(x)|_i\#0$, hence
+$\mathsf{PrimeDefect}_i(x)$.
+\end{proof}
+
+\section{Zero Atoms and Defect Incompatibility}
+\label{sec:rh-zero-atoms-defect-incompatibility}
+
+\begin{definition}[Omega zero atom]
+\label{def:rh-omega-zero-atom}
+Let
+$$
+\pi_{\zeta}:T_{\Omega}\to R_{\zeta}
+$$
+be the projection to the zeta-zero readout layer. The Omega zero atom and
+non-trivial Omega zero atom predicates are
+$$
+\mathsf{ZeroAtom}_{\Omega}(x)
+:=
+\mathsf{ZetaZero}(\pi_{\zeta}(x)),
+$$
+and
+$$
+\mathsf{NTZeroAtom}_{\Omega}(x)
+:=
+\mathsf{ZeroAtom}_{\Omega}(x)
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x)).
+$$
+This is the $\Omega$-indexed reading of the source carrier
+$\mathcal Z_{\zeta}$ from \autoref{def:rh-layered-source-carrier}.
+\end{definition}
+
+\begin{definition}[Prime-defect zero incompatibility]
+\label{def:rh-prime-defect-zero-incompatibility-interface}
+The direct incompatibility form is
+$$
+\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\times
+\mathsf{PrimeDefect}_{\Omega}(x)
+\to
+\bot
+\right).
+$$
+The constructive apartness form is
+$$
+\mathsf{PrimeDefectApartZero}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\times
+\mathsf{PrimeDefect}_{\Omega}(x)
+\to
+\mathsf{Apart}_{0}(\zeta(\pi_{\zeta}(x)))
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Apart-zero form gives defect-zero incompatibility]
+\label{thm:rh-prime-defect-apart-zero-gives-incompatibility}
+Assume $\mathsf{PrimeDefectApartZero}_{\Omega}$ and zero-ledger soundness,
+namely
+$$
+\mathsf{ZeroAtom}_{\Omega}(x)
+\to
+\zeta(\pi_{\zeta}(x))=0.
+$$
+Then $\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $x:T_{\Omega}$ carry both $\mathsf{NTZeroAtom}_{\Omega}(x)$ and
+$\mathsf{PrimeDefect}_{\Omega}(x)$. The non-trivial zero atom supplies
+$\mathsf{InCritStrip}(\pi_{\zeta}(x))$ and
+$\mathsf{ZeroAtom}_{\Omega}(x)$. The apart-zero form gives
+$$
+\mathsf{Apart}_{0}(\zeta(\pi_{\zeta}(x))).
+$$
+Zero-ledger soundness gives $\zeta(\pi_{\zeta}(x))=0$. These two rows are
+incompatible, yielding $\bot$.
+\end{proof}
+
+\section{Conditional RH Assembly}
+\label{sec:rh-prime-shadow-conditional-assembly}
+
+\begin{definition}[Omega RH interface]
+\label{def:rh-omega-rh-interface}
+The Omega-indexed RH target is
+$$
+\mathsf{RH}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\to
+\mathsf{OnCritLine}(\pi_{\zeta}(x))
+\right).
+$$
+It is transported to the BEDC-RH predicate when every legal non-trivial
+zeta-zero packet is represented by a row of $T_{\Omega}$ through
+$\pi_{\zeta}$ and $\mathsf{OnCritLine}$ is stable under the zeta-layer
+classifier.
+\end{definition}
+
+\begin{theorem}[Prime-shadow sufficient interface for RH]
+\label{thm:rh-prime-shadow-sufficient-interface}
+Assume the following data:
+$$
+\mathsf{BulkBoundaryExact}_{\Omega}(T_{\Omega}),
+\qquad
+\mathsf{PrimeShadowFaithful}_{\Omega},
+$$
+$$
+\mathsf{PrimeDefectApartZero}_{\Omega},
+\qquad
+\text{zero-ledger soundness},
+$$
+$$
+\prod_{x:T_{\Omega}}
+\bigl(
+\neg\mathsf{PrimeDefect}_{\Omega}(x)
+\to
+\mathsf{PrimeNormal}_{\Omega}(x)
+\bigr),
+$$
+$$
+\prod_{x:T_{\Omega}}
+\bigl(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\times
+\mathsf{PrimeNormal}_{\Omega}(x)
+\to
+\mathsf{OnCritLine}(\pi_{\zeta}(x))
+\bigr),
+$$
+and representation of every legal non-trivial zeta-zero packet in
+$T_{\Omega}$. Then the BEDC-RH predicate of \autoref{def:rh-predicate}
+holds.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-prime-defect-apart-zero-gives-incompatibility}, the
+apart-zero form and zero-ledger soundness give
+$\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}$. Fix
+$x:T_{\Omega}$ with $\mathsf{NTZeroAtom}_{\Omega}(x)$. If
+$\mathsf{PrimeDefect}_{\Omega}(x)$ held, incompatibility would yield
+$\bot$. Hence $\neg\mathsf{PrimeDefect}_{\Omega}(x)$, and the located
+classifier row gives $\mathsf{PrimeNormal}_{\Omega}(x)$. The
+prime-normal-to-critical-line row then yields
+$\mathsf{OnCritLine}(\pi_{\zeta}(x))$, so $\mathsf{RH}_{\Omega}$ holds.
+Representation of legal non-trivial zeta-zero packets through
+$\pi_{\zeta}$ transports this statement to the BEDC-RH predicate.
+\end{proof}
+
+\begin{principle}[Status of the interface]
+\label{prin:rh-prime-shadow-interface-status}
+The sufficient interface above rephrases the RH route as prime-shadow
+rigidity over a ledgered bulk-boundary diagram. It does not discharge
+\autoref{def:rh-defect-zero-incompatibility}; rather, it identifies that
+incompatibility as the analytic carrier row that prevents a non-trivial
+zero atom from carrying a positive prime defect.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-prime-shadow-interface-namecert}{Finite prime-shadow boundary interface for the RH bulk-boundary vision.}

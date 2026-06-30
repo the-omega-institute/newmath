@@ -1,0 +1,557 @@
+\chapter{Zeta as a Self-Similar Recovered Carrier}
+\label{ch:visions-rh-zeta-self-similar-recovered-carrier}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-unitary-balance-surface} defines
+$\mathsf{ZETA}$ as a recovered carrier rather than as one formula, and
+\autoref{ch:visions-rh-prime-fingerprint-separation} reads complex
+histories through prime-local probes. The present chapter records the
+corresponding self-similar reading. It is a relative reading inside the
+BEDC recovery surface: zeta is not a geometric self-similar figure, but
+a carrier recovered from compatible multiplicative, prime-local,
+Laplace, continuation, completion, mirror, and zero-ledger rows.
+
+\begin{definition}[Prime-local geometric fiber]
+\label{def:rh-prime-local-geometric-fiber}
+For a displayed prime row $p\in\PrimeUp$ and a complex history $s$ in a
+convergence window where the local series is licensed, the
+prime-local geometric fiber is
+$$
+E_p(s):=\sum_{k\geq0}p^{-ks}.
+$$
+It carries the one-step recursion
+$$
+p^{-ks}\mapsto p^{-(k+1)s}
+$$
+with local ratio $p^{-s}$. Equivalently, on the Euler-product window,
+$$
+E_p(s)=(1-p^{-s})^{-1}.
+$$
+The fiber is local to the prime row and to the declared convergence and
+branch ledgers.
+\end{definition}
+
+\begin{definition}[Multiplicative self-similar zeta packet]
+\label{def:rh-multiplicative-self-similar-zeta-packet}
+\leandef{BEDC.Derived.RHRoute.ZeroGenerationInitiality.MultiplicativeSelfSimilarZetaPacket}
+\leanchecked{BEDC.Derived.RHRoute.ZeroGenerationInitiality.multiplicativeSelfSimilarZetaPacket\_zeroLedger\_count}
+The multiplicative self-similar zeta packet is the compatible recovery
+surface
+$$
+\mathcal Z_{\mathrm{ss}}
+:=
+\operatorname{Rec}
+\left(
+\begin{gathered}
+\mathsf{PrimeLocalFibers},\quad
+\mathsf{DirichletRow},\quad
+\mathsf{EulerRow},\quad
+\mathsf{LaplaceRow},\\
+\mathsf{AnalyticContinuation},\quad
+\mathsf{ArchimedeanCompletion},\quad
+\mathsf{FunctionalEquation},\quad
+\mathsf{ZeroLedger}
+\end{gathered}
+\right).
+$$
+It is the self-similar reading of the recovered carrier
+$\mathsf{ZETA}$ of \autoref{def:rh-zeta-recovery-carrier} and
+\autoref{def:rh-layered-zeta-recovery-layer}. The recovery symbol
+records compatibility and transport among the listed rows; it does not
+introduce a primitive carrier outside those rows.
+\end{definition}
+
+\begin{principle}[Zeta self-similarity is carrier-level]
+\label{prin:rh-zeta-self-similarity-carrier-level}
+The expressions
+$$
+\sum_{n\geq1}n^{-s}
+$$
+and
+$$
+\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}
+$$
+are projections of $\mathsf{ZETA}$ on the right half-plane, not
+standalone definitions of the full carrier. The self-similar structure
+belongs to the recovered carrier only after the Dirichlet row, Euler
+row, analytic continuation row, archimedean completion row, functional
+equation row, pole ledger, zero ledger, and branch transport ledger are
+displayed together.
+\end{principle}
+
+\begin{proposition}[Euler gluing is multiplicative self-similarity]
+\label{prop:rh-euler-gluing-multiplicative-self-similarity}
+On the displayed Euler-product window, the zeta projection is obtained
+by gluing the prime-local geometric fibers:
+$$
+\zeta_D(s)
+=
+\prod_{p\in\PrimeUp}E_p(s)
+=
+\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}.
+$$
+This is a multiplicative self-similar projection indexed by ordinary
+prime rows.
+\end{proposition}
+
+\begin{proof}
+By \autoref{prop:rh-euler-product-prime-local-gluing}, the Dirichlet row
+and Euler row agree on $\Re(s)>1$. The proof of that proposition groups
+the Dirichlet terms by the unique factorization row
+$$
+n=\prod_p p^{k_p}
+$$
+and rewrites
+$$
+n^{-s}=\prod_p p^{-k_ps}.
+$$
+Thus the global right-half-plane projection is the product of the local
+geometric fibers $E_p(s)$.
+\end{proof}
+
+\begin{definition}[Prime-occupancy partition readout]
+\label{def:rh-prime-occupancy-partition-readout}
+Let $T_{\mathbb P}$ be the prime-occupancy carrier of
+\autoref{def:layered-projection-prime-occupancy-carrier}. On a displayed
+right-half-plane convergence window, the prime-occupancy partition
+readout is
+$$
+Z_{\mathbb P}(s)
+:=
+\sum_{k\in T_{\mathbb P}}
+\exp\left(
+-s\sum_{p\in\mathbb P}k_p\log p
+\right).
+$$
+The sum ranges over finite-support prime occupancy rows. It is therefore
+the analytic readout of the multiplicative arithmetic presentation, not
+a separate unledgered source carrier.
+\end{definition}
+
+\begin{proposition}[Zeta is the prime-occupancy partition readout]
+\label{prop:rh-zeta-prime-occupancy-partition-readout}
+On the Euler-product window,
+$$
+Z_{\mathbb P}(s)=\zeta_D(s).
+$$
+Equivalently,
+$$
+Z_{\mathbb P}(s)
+=
+\prod_{p\in\PrimeUp}
+\left(\sum_{k\geq0}p^{-ks}\right)
+=
+\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}.
+$$
+\end{proposition}
+
+\begin{proof}
+For a finite-support occupancy row $k$, its readback integer is
+$$
+\Psi(k)=\prod_p p^{k_p}
+$$
+by \autoref{def:layered-projection-arithmetic-multiplication-presentation}.
+Thus
+$$
+\log\Psi(k)=\sum_p k_p\log p
+$$
+and
+$$
+\exp\left(-s\sum_p k_p\log p\right)
+=
+\prod_p p^{-sk_p}.
+$$
+Summing over all finite-support occupancy rows is the same as summing
+over positive integers by unique factorization, hence gives the
+Dirichlet row. Splitting the independent prime coordinates gives the
+Euler product by \autoref{prop:rh-euler-gluing-multiplicative-self-similarity}.
+\end{proof}
+
+\begin{principle}[Zero packets are recovered-carrier cancellations]
+\label{prin:rh-zero-packets-recovered-carrier-cancellations}
+In the prime-occupancy presentation, $\zeta_D$ is the analytic partition
+readout of finite prime configurations on the right half-plane. A
+non-trivial zero packet is not a bare row of $T_{\mathbb P}$ and not a
+zero of one local geometric fiber. It belongs to the completed recovered
+carrier assembled from Dirichlet, Euler, continuation, archimedean
+completion, functional-equation, pole, zero, branch, and transport
+ledgers.
+\end{principle}
+
+\begin{proposition}[Dirichlet projection is a discrete Laplace readout]
+\label{prop:rh-zeta-self-similar-laplace-readout}
+For the zeta coefficients $a_n=1$, the Dirichlet projection is the
+discrete Laplace readout of the atomic source
+$$
+\mu_{\zeta}:=\sum_{n\geq1}\delta_{\log n}.
+$$
+That is, on any displayed convergence window,
+$$
+\sum_{n\geq1}n^{-s}
+=
+\mathcal L[\mu_{\zeta}](s).
+$$
+\end{proposition}
+
+\begin{proof}
+This is \autoref{prop:rh-layered-dirichlet-laplace-readout} with
+$a_n=1$. The equality follows from
+$$
+e^{-s\log n}=n^{-s}
+$$
+on the declared branch and convergence window.
+\end{proof}
+
+\begin{definition}[Zeta recovered-geometry packet]
+\label{def:rh-zeta-recovered-geometry-packet}
+The zeta recovered-geometry packet is the records-side synthesis
+$$
+\mathsf{ZetaGeom}
+:=
+\operatorname{Rec}
+\left(
+\begin{gathered}
+T_{\mathbb P},\quad
+\mathsf{PrimeFingerprint},\quad
+\mathsf{EulerPhaseChannels},\quad
+\mathsf{LaplaceKernel},\\
+\mathsf{FixedHalfMirror},\quad
+\mathsf{FibonacciHalfModel},\quad
+\mathsf{ZetaRecoveryRows}
+\end{gathered}
+\right).
+$$
+Here $T_{\mathbb P}$ is the finite-support prime-occupancy carrier,
+$\mathsf{PrimeFingerprint}$ is the family $(p^{-s})_{p\in\PrimeUp}$,
+$\mathsf{EulerPhaseChannels}$ records the decompositions
+$$
+p^{-s}=p^{-\sigma}e^{-i\tau\log p},
+\qquad
+U_p(s)=p^{1/2-s},
+$$
+$\mathsf{LaplaceKernel}$ records $e^{-s\log n}=n^{-s}$,
+$\mathsf{FixedHalfMirror}$ records $J(s)=1-\overline{s}$ and
+$s=1/2+\delta+i\tau$, $\mathsf{FibonacciHalfModel}$ records the
+classifier-relative comparison with the golden fixed-half pattern of
+\autoref{prin:rh-zeta-fibonacci-self-similar-comparison-boundary}, and
+$\mathsf{ZetaRecoveryRows}$ abbreviates the Dirichlet, Euler,
+continuation, archimedean-completion, functional-equation, pole, zero,
+branch, and transport ledgers of \autoref{def:rh-layered-zeta-recovery-layer}.
+\end{definition}
+
+\begin{definition}[Displayed zeta constraint diagram]
+\label{def:rh-displayed-zeta-constraint-diagram}
+A displayed zeta constraint diagram is a typed records-side diagram
+$$
+\mathcal D_{\zeta}
+:=
+\bigl(I,\ (R_i,\sim_i,P_i,C_i,\Lambda_i,\mathsf{Cert}_i)_{i:I},\
+(\rho_{ji})_{j\to i}\bigr)
+$$
+over one source carrier, where each $P_i$ is a displayed readout, each
+$C_i:R_i\to\mathsf{Prop}$ is a displayed constraint row, and every edge
+$j\to i$ carries a readback map $\rho_{ji}:R_j\to R_i$ with the source
+compatibility row
+$$
+\rho_{ji}(P_j(t))\sim_i P_i(t).
+$$
+For the zeta packet, the diagram contains at least the prime-axis,
+Dirichlet, Euler, Laplace, continuation, archimedean-completion,
+functional-equation, pole-ledger, zero-ledger, branch-transport, and
+provenance rows already listed in
+\autoref{def:rh-zeta-recovered-geometry-packet}. The phrase ``all zeta
+constraints'' refers only to such a displayed diagram, not to an
+untyped totality of predicates.
+\end{definition}
+
+\begin{definition}[Compatible zeta geometry carrier]
+\label{def:rh-compatible-zeta-geometry-carrier}
+For a displayed zeta constraint diagram $\mathcal D_{\zeta}$, the
+compatible zeta geometry carrier is the dependent carrier
+$$
+\mathbb G_{\mathcal D_{\zeta}}
+:=
+\sum_{(r_i):\prod_{i:I}R_i}
+\left(
+\prod_{i:I}C_i(r_i)
+\right)
+\times
+\left(
+\prod_{j\to i}\rho_{ji}(r_j)\sim_i r_i
+\right)
+\times
+\Lambda_{\mathcal D_{\zeta}}.
+$$
+The source-side version is
+$$
+T_{\mathcal D_{\zeta}}
+:=
+\sum_{t:T}
+\prod_{i:I}C_i(P_i(t)).
+$$
+The canonical readout sends $t$ to the compatible family
+$(P_i(t))_{i:I}$ together with the displayed readback and ledger rows.
+\end{definition}
+
+\begin{principle}[Constraint totality is relative to a diagram]
+\label{prin:rh-zeta-constraint-totality-relative}
+The infinite-dimensional geometry of zeta is a compatible limit of a
+displayed constraint diagram. It is not the complex plane, not the Euler
+product alone, and not the untyped collection of every sentence one could
+state about $\zeta$. The carrier $\mathbb G_{\mathcal D_{\zeta}}$
+records precisely the rows, constraints, readbacks, fibers, continuations,
+and ledgers named by $\mathcal D_{\zeta}$.
+\end{principle}
+
+\begin{definition}[Displayed zeta generation signature]
+\label{def:rh-displayed-zeta-generation-signature}
+A displayed zeta generation signature at layer $\ell$ is a BEDC-licensed
+multi-sorted signature
+$$
+\mathcal F_{\zeta,\ell}
+\quad\text{on}\quad
+\mathsf{Sort}_{\zeta}
+:=
+\{
+\mathsf{Obj},
+\mathsf{Win},
+\mathsf{Code},
+\mathsf{Cert},
+\mathsf{Ledger}
+\}.
+$$
+The object sort carries the recovered carrier rows; the window sort carries
+inspection, refinement, pairing, summing, encoding, and sealing windows; the
+code sort carries public readbacks; the certificate sort carries stability
+and correctness witnesses; and the ledger sort carries source, pattern,
+classifier, stability, and replay rows. Typical window constructors have the
+forms
+$$
+\mathsf{idWin},\quad
+\mathsf{composeWin},\quad
+\mathsf{refineWin},\quad
+\mathsf{pairWin},\quad
+\mathsf{sumWin},\quad
+\mathsf{encodeWin},\quad
+\mathsf{sealWin}.
+$$
+Each constructor has displayed input sorts and a displayed ledger row. The
+signature ranges only over the rows named by the ambient zeta diagram; it is
+not a quantifier over every analytic predicate on the complex plane.
+\end{definition}
+
+\begin{definition}[Generated zeta universe]
+\label{def:rh-generated-zeta-universe}
+When the ambient layer supplies the initiality certificate for
+\autoref{def:rh-displayed-zeta-generation-signature}, the generated zeta
+universe is the multi-sorted initial algebra
+$$
+\mathbb U_{\zeta,\ell}:=\mu\mathcal F_{\zeta,\ell}.
+$$
+Its components are written
+$$
+U_{\zeta,\ell}^{\mathsf{Obj}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Win}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Code}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Cert}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Ledger}}.
+$$
+The predicate
+$$
+\mathsf{Generated}_{\zeta,\ell}^{s}(x)
+$$
+means that $x:U_{\zeta,\ell}^{s}$ is obtained by the displayed
+constructors of $\mathcal F_{\zeta,\ell}$. A sealing or completion row is
+generated only when its compatible thread, modulus, branch ledger, and
+replay ledger are also displayed. If the initiality certificate is absent,
+the notation denotes an obligation row, not an additional axiom.
+\end{definition}
+
+\begin{principle}[Internal origin of windows and certificates]
+\label{prin:rh-zeta-internal-origin-windows-certificates}
+In the generated zeta universe, object rows, detection windows, public
+codes, certificates, and ledgers have the same generative origin. For each
+sort $s\in\mathsf{Sort}_{\zeta}$, initial-algebra induction gives
+$$
+\prod_{x:U_{\zeta,\ell}^{s}}
+\mathsf{Generated}_{\zeta,\ell}^{s}(x).
+$$
+Thus a detector for a zero packet, a branch window for continuation, or a
+certificate for a compatibility edge is not an external observer of
+$\mathbb G_{\mathcal D_{\zeta}}$. It is another generated component of the
+same displayed signature.
+\end{principle}
+
+\begin{principle}[Fixed-half closure is not a generator]
+\label{prin:rh-fixed-half-closure-not-generator}
+The fixed-half subcarrier may be read inside
+$\mathbb G_{\mathcal D_{\zeta}}$ only after the neutral zeta diagram, its
+window rows, and its certificate rows have already been generated. The RH
+claim is therefore not a constructor of
+$\mathcal F_{\zeta,\ell}$ and not a defining row of the neutral carrier. It
+is the section target asserting that the zero-ledger projection admitted by
+the generated neutral carrier factors through the fixed-half subcarrier.
+\end{principle}
+
+\begin{definition}[RH-neutral and fixed-half zeta carriers]
+\label{def:rh-neutral-fixed-half-zeta-carriers}
+Let $\mathcal D_{\zeta}^{0}$ be the displayed zeta constraint diagram
+containing the recovery rows of \autoref{def:rh-layered-zeta-recovery-layer}
+and the zero-ledger row, but not the fixed-half conclusion as a defining
+constraint. Its compatible carrier is
+$$
+\mathbb G_{\zeta}^{0}:=\mathbb G_{\mathcal D_{\zeta}^{0}}.
+$$
+The fixed-half subcarrier is
+$$
+\mathbb G_{\zeta}^{1/2}
+:=
+\sum_{g:\mathbb G_{\zeta}^{0}}\mathsf{FixHalf}(g),
+$$
+where $\mathsf{FixHalf}(g)$ may be read through any of the equivalent
+half-layer rows of \autoref{thm:rh-layered-translations}.
+\end{definition}
+
+\begin{principle}[RH as endogenous fixed-half constraint]
+\label{prin:rh-endogenous-fixed-half-constraint}
+RH is not the definition of $\mathbb G_{\zeta}^{1/2}$. It is the claim
+that the zero-ledger part of the RH-neutral carrier
+$\mathbb G_{\zeta}^{0}$ already lands in the fixed-half subcarrier. In
+constraint-diagram language, it says that the fixed-half row is not an
+extra defining row for zero packets, but a consequence of the other
+recovery, mirror, completion, and zero-ledger rows. The positive-apartness
+form of this consequence is the local-global obstruction isolated in
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{principle}
+
+\begin{proposition}[Euler phase channels are prime-axis readouts]
+\label{prop:rh-euler-phase-channels-prime-axis-readouts}
+On the displayed right-half-plane window, the exponential kernel sends a
+finite-support prime occupancy row $k\in T_{\mathbb P}$ to the product of
+its prime-axis phase-scale channels:
+$$
+\exp\left(-s\sum_{p}k_p\log p\right)
+=
+\prod_p\left(p^{-\sigma}e^{-i\tau\log p}\right)^{k_p}
+$$
+for $s=\sigma+i\tau$.
+\end{proposition}
+
+\begin{proof}
+The prime-occupancy readback gives
+$$
+\log\Psi(k)=\sum_p k_p\log p.
+$$
+Substituting $s=\sigma+i\tau$ into the exponential kernel gives
+$$
+e^{-s\log p}=e^{-\sigma\log p}e^{-i\tau\log p}=p^{-\sigma}e^{-i\tau\log p}.
+$$
+Multiplying these local reads over the finite support of $k$ yields the
+displayed product.
+\end{proof}
+
+\begin{principle}[Zeta geometry is recovered-carrier geometry]
+\label{prin:rh-zeta-geometry-recovered-carrier-geometry}
+The geometric reading of zeta is not a point-set geometry in the complex
+plane. The complex coordinate $s$ is a compressed history read through
+prime fingerprints, Euler phase-scale channels, the discrete Laplace
+kernel, the recovered-carrier continuation rows, and the fixed-half
+mirror. In this reading, RH is the zero-ledger section claim that
+recognized critical-strip zero packets of $\mathsf{ZetaGeom}$ land in the
+fixed-half surface, equivalently in the unit-amplitude surface of all
+centered prime channels.
+\end{principle}
+
+\begin{principle}[Prime rows are local probes of the recovered carrier]
+\label{prin:rh-prime-rows-local-probes-recovered-carrier}
+In the zeta self-similar packet, ordinary primes are the
+multiplicative-divisibility atoms, but their RH-facing role is not to be
+points of the critical strip. They index local probes
+$$
+p\mapsto p^{-s}
+$$
+and centered channels
+$$
+U_p(s)=p^{1/2-s}.
+$$
+Thus zeta is an instance of the relative priming principle of
+\autoref{prin:self-similar-priming-relative}: the classifier is
+multiplicative on the index side and prime-local on the information
+readout side.
+\end{principle}
+
+\begin{definition}[Recovered-carrier self-dual mirror]
+\label{def:rh-recovered-carrier-self-dual-mirror}
+The recovered-carrier mirror is the functional-equation readback
+displayed on complex histories as
+$$
+J(s):=1-\overline{s}.
+$$
+Writing
+$$
+s=\frac12+\delta+i\tau
+$$
+gives
+$$
+J(s)=\frac12-\delta+i\tau.
+$$
+It preserves the prime phase clock $\tau\log p$ and reverses the
+prime-amplitude bias $\delta\log p$ in the centered channels, as in
+\autoref{prop:rh-mirror-prime-amplitude-bias}.
+\end{definition}
+
+\begin{theorem}[RH is fixed-half zero ledger for the self-similar carrier]
+\label{thm:rh-self-similar-carrier-fixed-half-zero-ledger}
+Under the recovered-carrier reading of
+\autoref{def:rh-multiplicative-self-similar-zeta-packet}, the Riemann
+Hypothesis is the assertion that every recognized non-trivial zero
+packet lies in the fixed-half surface of the mirror:
+$$
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+s=J(s).
+$$
+Equivalently, every recognized non-trivial zero packet has no
+prime-visible mirror amplitude bias:
+$$
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{PF}(s)=\mathsf{PF}(J(s)).
+$$
+\end{theorem}
+
+\begin{proof}
+The first displayed implication is the fixed-surface reading of
+\autoref{thm:rh-layered-translation-synthesis}. The equivalence with
+prime-fingerprint collapse is
+\autoref{thm:rh-prime-fingerprint-normal-form}. The mirror and centered
+prime-channel interpretation is supplied by
+\autoref{def:rh-recovered-carrier-self-dual-mirror} and
+\autoref{prop:rh-mirror-prime-amplitude-bias}.
+\end{proof}
+
+\begin{principle}[Self-similar comparison boundary]
+\label{prin:rh-zeta-fibonacci-self-similar-comparison-boundary}
+The zeta packet and the Fibonacci-Zeckendorf packet are both
+self-similar only after their classifiers are named. The Fibonacci route
+uses second-order recursive axis normalization
+$$
+e_k+e_{k+1}\rightsquigarrow e_{k+2}.
+$$
+The zeta route uses prime-indexed local geometric fibers and
+multiplicative Euler gluing
+$$
+E_p(s)=1+p^{-s}+p^{-2s}+\cdots.
+$$
+The comparison is structural: it identifies classifier-relative
+self-similar recovery patterns, not a common ordinary geometric object
+and not a proof of the zero-ledger exclusion.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-zeta-basic-namecert}{The basic zeta packet supplies the right-half-plane Dirichlet and Euler rows used by the self-similar projection.}
+\concretizedIn{ch:concrete-instances-zeta-continuation-witness-namecert}{The zeta-continuation witness packet supplies the continuation, pole, trivial-zero, and Gamma-boundary rows needed for recovered-carrier reading.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{The zeta functional-equation ledger supplies the mirror transport row used by the recovered-carrier self-dual mirror.}

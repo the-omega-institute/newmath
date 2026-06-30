@@ -295,15 +295,56 @@ Apply the monotone bounded nonconvergence route of \autoref{thm:specker-sequence
 Finally read the same surface through the Cauchy criterion boundary of \autoref{thm:cauchy-convergence-criterion-specker-boundary}. The criterion contributes only finite windows, threshold and tolerance rows, regular readback, Real seal, and structural rows shared by the packets. It adds no quotient stream equality, selected host limit, located supremum coordinate, or Real completeness witness.
 \end{proof}
 
-\closureat{SpeckerSequenceUp}{publicStr}
+\begin{theorem}[Specker sequence regular-window induction]
+\label{thm:specker-sequence-regular-window-induction}
+Every completion-facing consumer inspecting an accepted $\SpeckerSequenceUp$
+packet before a located-supremum row must proceed by finite induction over the
+displayed $\StreamNameUp$ window. At each step the consumer exposes only the
+current $\RegSeqRatUp$ source prefix, the matching $\DyadicRatCoreUp$ tolerance
+row, the monotone ledger, the bounded ledger, and the structural $\BHist$ rows
+preserved by componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Start with the finite-stage induction theorem,
+\autoref{thm:speckersequence-finite-stage-induction}. Its induction variable is
+the displayed $\StreamNameUp$ schedule, so every inspected stage is a finite
+prefix read rather than a selected infinite stream.
+
+Apply the regular-Cauchy obligation of
+\autoref{thm:specker-sequence-regular-cauchy-obligation}. The obligation exposes
+only the current $\RegSeqRatUp$ source prefix, the matching
+$\DyadicRatCoreUp$ tolerance row, and the monotone and boundedness ledger
+prefixes before any completion-facing conclusion is visible.
+
+Finally apply the Cauchy-criterion non-located boundary of
+\autoref{thm:speckersequence-cauchy-criterion-nonlocated-boundary}. Transport,
+replay, provenance, and local naming preserve the same structural $\BHist$ rows,
+and no located-supremum row, selected limit, quotient stream equality,
+countable-choice selector, or ambient $\RealUp$ completeness witness is added.
+\end{proof}
+
+\begin{theorem}[Specker sequence finite-window refusal induction]
+\label{thm:specker-sequence-window-refusal-induction}
+For every accepted $\SpeckerSequenceUp$ packet, finite-stage induction over the displayed $\StreamNameUp$ schedule preserves exactly the $\RegSeqRatUp$ source prefix, $\DyadicRatCoreUp$ tolerance row, monotone ledger, bounded ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ row, and terminal $\RealUp$ seal boundary. No induction step can introduce a located-supremum row, selected-limit row, quotient stream equality, countable-choice selector, trichotomy, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Induct on the inspected finite window of the displayed $\StreamNameUp$ schedule. In the empty window, the carrier exposes only its structural $\BHist$ rows and the already named refusal boundary, so no located-supremum or selected-limit coordinate is present.
+
+For the step, extend the inspected window by one displayed source observation. Apply \autoref{thm:speckersequence-finite-stage-induction} to keep the new observation inside the same finite schedule, and apply \autoref{thm:specker-sequence-regular-window-induction} to preserve the $\RegSeqRatUp$ prefix, $\DyadicRatCoreUp$ tolerance row, monotone ledger, bounded ledger, and structural transport, replay, provenance, and naming rows.
+
+Finally use \autoref{thm:speckersequence-cauchy-criterion-nonlocated-boundary}. The terminal $\RealUp$ seal remains a finite boundary read, and the missing located-supremum, selected-limit, quotient, choice, trichotomy, and ambient-completeness rows have no carrier coordinate from which an induction step could create them.
+\end{proof}
+
+\closureat{SpeckerSequenceUp}{matureStr}
 
 \begin{closurestatus}{\SpeckerSequenceUp}
   \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, \autoref{thm:specker-sequence-located-supremum-refusal}, \autoref{thm:specker-sequence-located-supremum-consumer-boundary}, \autoref{thm:speckersequence-realup-seal-nonescape}, \autoref{def:specker-sequence-obligation-surface}, \autoref{thm:specker-sequence-regular-cauchy-obligation}, \autoref{thm:specker-sequence-no-choice-boundary}, \autoref{thm:specker-sequence-real-handoff}, \autoref{thm:specker-sequence-obligation-route}, \autoref{thm:specker-sequence-regular-readback-scope}, \autoref{thm:speckersequence-scoped-kernel-route}, \autoref{thm:specker-sequence-monotone-bounded-nonconvergence-route}, \autoref{thm:specker-sequence-completion-refusal-induction}, and \autoref{thm:speckersequence-cauchy-criterion-nonlocated-boundary} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, located-supremum refusal, public located-supremum consumer boundary, public RealUp seal non-escape surface, obligation surface, regular-Cauchy obligation, no-choice boundary, public Real handoff, obligation route, regular readback scope, scoped kernel route, monotone bounded nonconvergence route, Completion-refusal induction route, and Cauchy-criterion non-located boundary.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, located supremum construction, Dedekind cuts, countable choice, trichotomy, bridge checking, or selected limiting reals.}
-  \upgradepath{Mature closure requires a checked standard bridge for the displayed Specker-sequence public surface.}
+  \upgradepath{Further verification work is bridge checking for the existing finite-stage, no-choice, Real-handoff, and Real-seal theorem surface.}
 \end{closurestatus}

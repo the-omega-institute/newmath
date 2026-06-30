@@ -110,6 +110,33 @@ def EpigraphContPkgCarrier [AskSetup] [PackageSetup]
                       PkgSig bundle P pkg ∧
                         PkgSig bundle N pkg
 
+def EpigraphClassifierStability [AskSetup] [PackageSetup]
+    (D V L O H C P N queryRead replayRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  EpigraphContPkgCarrier D V L O H C P N bundle pkg ∧
+    Cont L O queryRead ∧ Cont queryRead H replayRead ∧ hsame replayRead C
+
+theorem EpigraphClassifierStability_replay_row_unary [AskSetup] [PackageSetup]
+    {D V L O H C P N queryRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EpigraphClassifierStability D V L O H C P N queryRead replayRead bundle pkg →
+      UnaryHistory queryRead ∧ UnaryHistory replayRead ∧ UnaryHistory C ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro stable
+  obtain ⟨carrier, queryRoute, replayRoute, replaySameCarrier⟩ := stable
+  obtain ⟨_domainUnary, _valueUnary, lowerUnary, comparisonUnary, transportUnary,
+    carrierReplayUnary, _provenanceUnary, _localNameUnary, _domainValueRoute,
+      _comparisonRoute, provenancePkg, localNamePkg⟩ := carrier
+  have queryUnary : UnaryHistory queryRead :=
+    unary_cont_closed lowerUnary comparisonUnary queryRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed queryUnary transportUnary replayRoute
+  have carrierReplayTransported : UnaryHistory C :=
+    unary_transport replayUnary replaySameCarrier
+  exact ⟨queryUnary, replayUnary, carrierReplayTransported, provenancePkg, localNamePkg⟩
+
 theorem EpigraphNamecertObligations [AskSetup] [PackageSetup]
     {D V L O H C P N queryRead replayRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -248,5 +275,168 @@ theorem EpigraphCarrier_rows_exposed [AskSetup] [PackageSetup]
       exact ⟨source.right, queryRoute, provenancePkg, localNamePkg⟩
   }
   exact ⟨cert, queryUnary, replayUnary⟩
+
+theorem EpigraphMatureConsumerCompleteness [AskSetup] [PackageSetup]
+    {D V L O H C P N lowerRead convexRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EpigraphContPkgCarrier D V L O H C P N bundle pkg →
+      Cont L O lowerRead →
+        Cont O H convexRead →
+          Cont lowerRead convexRead consumerRead →
+            PkgSig bundle N pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row D ∨ hsame row V ∨ hsame row L ∨ hsame row O ∨
+                      hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                        hsame row lowerRead ∨ hsame row convexRead ∨
+                          hsame row consumerRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont L O lowerRead ∧ Cont O H convexRead ∧
+                      Cont lowerRead convexRead consumerRead ∧ PkgSig bundle N pkg)
+                  hsame ∧
+                UnaryHistory lowerRead ∧ UnaryHistory convexRead ∧
+                  UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier lowerRoute convexRoute consumerRoute localNamePkg
+  obtain ⟨_domainUnary, _valueUnary, lowerUnary, comparisonUnary, transportUnary,
+    _replayUnary, _provenanceUnary, _localNameUnary, _domainValueRoute,
+      _comparisonRoute, _provenancePkg, _carrierLocalNamePkg⟩ := carrier
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed lowerUnary comparisonUnary lowerRoute
+  have convexReadUnary : UnaryHistory convexRead :=
+    unary_cont_closed comparisonUnary transportUnary convexRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed lowerReadUnary convexReadUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row V ∨ hsame row L ∨ hsame row O ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row lowerRead ∨
+                hsame row convexRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont L O lowerRead ∧ Cont O H convexRead ∧
+              Cont lowerRead convexRead consumerRead ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, lowerRoute, convexRoute, consumerRoute, localNamePkg⟩
+  }
+  exact ⟨cert, lowerReadUnary, convexReadUnary, consumerReadUnary⟩
+
+theorem EpigraphMatureCrosslink [AskSetup] [PackageSetup]
+    {D V L O H C P N lowerRead convexRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EpigraphContPkgCarrier D V L O H C P N bundle pkg ->
+      Cont L O lowerRead ->
+        Cont O H convexRead ->
+          PkgSig bundle N pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row lowerRead ∨ hsame row convexRead) ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row D ∨ hsame row V ∨ hsame row L ∨ hsame row O ∨
+                    hsame row H ∨ hsame row lowerRead ∨ hsame row convexRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont L O lowerRead ∧ Cont O H convexRead ∧
+                    PkgSig bundle N pkg)
+                hsame ∧
+              UnaryHistory lowerRead ∧ UnaryHistory convexRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier lowerRoute convexRoute localNamePkg
+  obtain ⟨_domainUnary, _valueUnary, lowerUnary, comparisonUnary, transportUnary,
+    _replayUnary, _provenanceUnary, _localNameUnary, _domainValueRoute,
+      _comparisonRoute, _provenancePkg, _carrierLocalNamePkg⟩ := carrier
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed lowerUnary comparisonUnary lowerRoute
+  have convexReadUnary : UnaryHistory convexRead :=
+    unary_cont_closed comparisonUnary transportUnary convexRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row lowerRead ∨ hsame row convexRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row V ∨ hsame row L ∨ hsame row O ∨
+              hsame row H ∨ hsame row lowerRead ∨ hsame row convexRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont L O lowerRead ∧ Cont O H convexRead ∧
+              PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro lowerRead ⟨Or.inl (hsame_refl lowerRead), lowerReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        constructor
+        · cases source.left with
+          | inl lowerSame =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) lowerSame)
+          | inr convexSame =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) convexSame)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl lowerSame =>
+          right
+          right
+          right
+          right
+          right
+          exact Or.inl lowerSame
+      | inr convexSame =>
+          right
+          right
+          right
+          right
+          right
+          exact Or.inr convexSame
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, lowerRoute, convexRoute, localNamePkg⟩
+  }
+  exact ⟨cert, lowerReadUnary, convexReadUnary⟩
 
 end BEDC.Derived.EpigraphUp

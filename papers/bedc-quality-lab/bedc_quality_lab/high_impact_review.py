@@ -21,7 +21,14 @@ DGT_CLAIM_ID = "claim:discovery-gated-transformer"
 DGT_REPORT = "discovery-gated-transformer"
 DGT_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 MODEL_COMPARISON_ARTIFACT = "reports/canonical/model-comparison.json"
+DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 CLAIM_GRAPH_ARTIFACT = "reports/canonical/claim_graph.json"
+SOURCE_ARTIFACTS = {
+    "dgt": DGT_ARTIFACT,
+    "model_comparison": MODEL_COMPARISON_ARTIFACT,
+    "discovery_map": DISCOVERY_MAP_ARTIFACT,
+    "claim_graph": CLAIM_GRAPH_ARTIFACT,
+}
 DGT_REVIEW_ROW_POINTER = f"{JSON_ARTIFACT}:$.review_rows[0]"
 NOT_CLAIMED = (
     "Bounded D4 prototype only.",
@@ -285,11 +292,7 @@ def build_high_impact_review_payload(root: Path, generated_at: str, seed: int = 
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "seed": seed,
-        "source_artifacts": {
-            "dgt": DGT_ARTIFACT,
-            "model_comparison": MODEL_COMPARISON_ARTIFACT,
-            "claim_graph": CLAIM_GRAPH_ARTIFACT,
-        },
+        "source_artifacts": dict(SOURCE_ARTIFACTS),
         "review_rows": [_build_dgt_review_row(hardgates)],
         "hardgates": hardgates,
         "not_claimed": list(NOT_CLAIMED),
@@ -311,7 +314,7 @@ def validate_high_impact_review_payload(payload: Mapping[str, Any], root: Path) 
     if payload.get("seed") != 1131:
         errors.append("seed must be 1131")
     source_artifacts = payload.get("source_artifacts")
-    if not isinstance(source_artifacts, Mapping) or set(source_artifacts) != {"dgt", "model_comparison", "claim_graph"}:
+    if not isinstance(source_artifacts, Mapping) or dict(source_artifacts) != SOURCE_ARTIFACTS:
         errors.append("source_artifacts mismatch")
     hardgates = payload.get("hardgates")
     if not isinstance(hardgates, Mapping) or set(hardgates.keys()) != set(HIR_GATE_IDS):

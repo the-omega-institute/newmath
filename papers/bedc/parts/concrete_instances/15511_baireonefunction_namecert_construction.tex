@@ -2,10 +2,11 @@
 \label{ch:concrete-instances-baireonefunction-namecert}
 \origin{human}
 
-Following Baire's function hierarchy and Bourbaki-style real analysis, the $\BaireOneFunctionUp$ packet records pointwise limits of continuous real-valued maps as finite BEDC ledgers rather than as host function-space objects. It reads continuous approximants through \autoref{ch:concrete-instances-continuousmap-namecert}, indexes their displayed pointwise stream through \autoref{ch:concrete-instances-streamname-namecert}, checks finite rational readbacks through \autoref{ch:concrete-instances-regseqrat-namecert}, seals observed values through \autoref{ch:concrete-instances-real-namecert}, keeps the source context visible through \autoref{ch:concrete-instances-bairespace-namecert}, and exposes only a handoff suitable for lower-semicontinuous consumers in \autoref{ch:concrete-instances-lowersemicontinuous-namecert}. The packet is therefore a certificate for a named pointwise-limit route, not a space of all functions and not a choice of approximating sequence outside the displayed ledger.
+Following Baire's function hierarchy and Bourbaki-style real analysis, the $\BaireOneFunctionUp$ packet records pointwise limits of continuous real-valued maps as finite BEDC ledgers rather than as host function-space objects. It reads continuous approximants through \autoref{ch:concrete-instances-continuousmap-namecert}, indexes their displayed pointwise stream through \autoref{ch:concrete-instances-streamname-namecert}, checks finite rational readbacks through \autoref{ch:concrete-instances-regseqrat-namecert}, seals observed values through \autoref{ch:concrete-instances-real-namecert}, keeps the source context visible through \autoref{ch:concrete-instances-bairespace-namecert}, routes the pointwise-limit handoff through \autoref{ch:concrete-instances-pointwise-limit-namecert}, and exposes only a handoff suitable for lower-semicontinuous consumers in \autoref{ch:concrete-instances-lowersemicontinuous-namecert}. The packet is therefore a certificate for a named pointwise-limit route, not a space of all functions and not a choice of approximating sequence outside the displayed ledger.
 
 \begin{definition}[BaireOneFunction carrier]
 \label{def:baireonefunction-carrier}
+\label{def:baire-one-function-carrier}
 A $\BaireOneFunctionUp$ carrier is a finite $\BHist$ packet
 $$
 K=(X,F,S,Q,R,L,H,C,P,N)
@@ -17,10 +18,10 @@ with the following displayed rows:
 \item $S$ is the $\StreamNameUp$ schedule row selecting, for each displayed source point and precision request, the finite list of approximant indices inspected by the packet.
 \item $Q$ is the $\RegSeqRatUp$ readback row for the selected real-value windows of the approximants.
 \item $R$ is the terminal $\RealUp$ value-seal row reached only after $X,F,S,Q$ have been displayed.
-\item $L$ is the lower-semicontinuous handoff row recording the finite epigraph-facing observations that downstream $\LowerSemicontinuousUp$ consumers may read from the pointwise-limit ledger.
+\item $L$ is the $\PointwiseLimitUp$ and lower-semicontinuous handoff row recording the finite pointwise-limit observations and epigraph-facing observations that downstream $\LowerSemicontinuousUp$ consumers may read from the ledger.
 \item $H$ records componentwise $\hsame$ transport for the source context, continuous approximant ledger, stream schedule, regular rational readback, real value seal, lower-semicontinuous handoff, continuation, provenance, and local naming rows.
 \item $C$ records displayed $\Cont$ replay from a source-point request through the continuous approximant ledger, the selected stream windows, the regular rational readback, the real value seal, and the lower-semicontinuous handoff.
-\item $P$ is the $\Pkg$ provenance over $\BaireOneFunctionUp$, $\BaireSpaceUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LowerSemicontinuousUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $P$ is the $\Pkg$ provenance over $\BaireOneFunctionUp$, $\BaireSpaceUp$, $\PointwiseLimitUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LowerSemicontinuousUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
 \item $N$ is the local $\NameCert_{\BaireOneFunctionUp}$ row.
 \end{enumerate}
 The carrier exports no ambient function space, no arbitrary choice of approximating sequence, no quotient equality of real names, no full measurability theorem, and no completeness theorem for $\RealUp$.
@@ -38,16 +39,18 @@ $$
 are classified together precisely when the displayed $\hsame$ rows in $H$ and $H'$ identify the source-context rows, continuous-approximant ledgers, stream schedules, regular rational readbacks, real value seals, lower-semicontinuous handoff rows, continuation routes, provenance rows, and local naming rows componentwise. The classifier has no coordinate for extensional equality of host functions, no quotient of real names, and no comparison of undisplayed approximants.
 \end{definition}
 \leandef{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionClassifier}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionClassifier\_component\_namecert\_transport}
 
 \begin{theorem}[BaireOneFunction NameCert obligation surface]
 \label{thm:baireonefunction-namecert-obligation-surface}
+\label{thm:baire-one-function-namecert-obligations}
 For every accepted $\BaireOneFunctionUp$ carrier $K=(X,F,S,Q,R,L,H,C,P,N)$, the local $\NameCert_{\BaireOneFunctionUp}$ surface consists exactly of the following finite obligations:
 \begin{enumerate}
 \item carrier admission for the source-context row, continuous approximant ledger, stream schedule, regular rational readback, real value seal, lower-semicontinuous handoff, transport, continuation, provenance, and local naming rows;
 \item continuous-approximant admission, requiring every displayed approximant read to pass through one row of $F$ over the source context $X$;
 \item pointwise-limit scheduling, requiring every value-seal read to factor through the selected windows in $S$ and the corresponding readbacks in $Q$;
 \item real-seal non-escape, requiring $R$ to be downstream of $X,F,S,Q$ and not of an ambient function space;
-\item lower-semicontinuous handoff compatibility, requiring $L$ to consume only the same displayed pointwise-limit ledger;
+\item pointwise-limit and lower-semicontinuous handoff compatibility, requiring $L$ to consume only the same displayed pointwise-limit ledger;
 \item ledger refusal, excluding arbitrary approximating-sequence choice, quotient equality of real names, full measurability, ambient function-space topology, and completeness of $\RealUp$.
 \end{enumerate}
 No NameCert obligation is stored outside these rows.
@@ -62,11 +65,12 @@ Pointwise-limit scheduling is then read through $S$ and $Q$. A value request fir
 
 The real value seal $R$ is downstream of this route. Since $R$ is reached only after the displayed approximant windows and rational readbacks have been replayed, it cannot export quotient equality of real names, a semantic function-space limit, or a completeness principle for $\RealUp$.
 
-The lower-semicontinuous row $L$ is another downstream read of the same ledger. The componentwise transports and continuation routes in $H$ and $C$ preserve the route $X,F,S,Q,R,L$, while $P$ and $N$ record no excluded coordinate. Thus the listed rows exhaust the local NameCert surface.
+The pointwise-limit and lower-semicontinuous row $L$ is another downstream read of the same ledger. The componentwise transports and continuation routes in $H$ and $C$ preserve the route $X,F,S,Q,R,L$, while $P$ and $N$ record no excluded coordinate. Thus the listed rows exhaust the local NameCert surface.
 \end{proof}
 
 \begin{theorem}[BaireOneFunction pointwise-limit ledger]
 \label{thm:baireonefunction-pointwise-limit-ledger}
+\label{thm:baire-one-function-pointwise-limit-handoff}
 Every $\RealUp$ value exported by an accepted $\BaireOneFunctionUp$ carrier factors through the displayed route
 $$
 X,F,S,Q \longmapsto R .
@@ -80,7 +84,7 @@ The source request first reads the $\BaireSpaceUp$ context $X$. The continuous a
 
 The regular rational readback $Q$ checks those selected windows before the seal row is available. Componentwise transport by $H$ preserves this route, and the package and local naming rows record no ambient function-space coordinate. Therefore every exported value seal factors through $X,F,S,Q$.
 \end{proof}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_limit\_ledger}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_lowersemicontinuous\_handoff\_certificate}
 
 \begin{theorem}[BaireOneFunction pointwise schedule obligations]
 \label{thm:baireonefunction-pointwise-schedule-obligations}
@@ -93,6 +97,36 @@ Project the carrier of \autoref{def:baireonefunction-carrier}. The rows $X,F,S,Q
 Apply \autoref{thm:baireonefunction-pointwise-limit-ledger}. It forces every exported $\RealUp$ value through the source context, continuous approximant family, stream schedule, and regular rational readback before the value seal is available.
 
 The handoff theorem \autoref{thm:baireonefunction-lowersemicontinuous-handoff} then consumes the same ledger. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the route, so no $\LowerSemicontinuousUp$ consumer may bypass $X,F,S,Q,R$.
+\end{proof}
+
+\begin{theorem}[BaireOneFunction oscillation locality]
+\label{thm:baireonefunction-oscillation-locality}
+Every oscillation or point-continuity consumer of an accepted $\BaireOneFunctionUp$ carrier $K=(X,F,S,Q,R,L,H,C,P,N)$ factors through the displayed pointwise schedule, the $\RealUp$ observation rows, the $\MetricUp$ or $\ContinuousMapUp$ source rows, and a finite precision window before reading lower-semicontinuous handoff or public-export data. Thus an oscillation read may inspect only the finite source context, selected approximant windows, regular-rational readbacks, real value seals, componentwise transport, replay, provenance, and local naming already visible in the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_oscillation\_locality}
+\begin{proof}
+Project the carrier and classifier rows of \autoref{def:baireonefunction-carrier} and \autoref{def:baireonefunction-classifier}. The source row $X$, approximant ledger $F$, schedule row $S$, regular-rational readback $Q$, real seal $R$, transport $H$, replay $C$, provenance $P$, and local naming $N$ are the rows available before any downstream handoff is read.
+
+Use the pointwise-limit ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It forces every $\RealUp$ value read through the route $X,F,S,Q\longmapsto R$, so an oscillation or point-continuity request must first expose the displayed source point, the selected continuous approximant rows, and the finite regular-rational windows used to seal the observed value.
+
+Now apply the pointwise schedule obligations of \autoref{thm:baireonefunction-pointwise-schedule-obligations}. They keep the lower-semicontinuous handoff $L$ downstream of the same pointwise schedule and prevent it from serving as a shortcut around $X,F,S,Q,R,H,C,P,N$.
+
+The $\MetricUp$ or $\ContinuousMapUp$ source rows enter only through the displayed source context and approximant ledger. Since the carrier has no coordinate for ambient function spaces, quotient real equality, hidden approximants, or an unrestricted continuity theorem, the requested oscillation or point-continuity read is local to the finite observation window already exposed by the packet.
+\end{proof}
+
+\begin{theorem}[BaireOneFunction pointwise oscillation handoff]
+\label{thm:baire-one-function-pointwise-oscillation-handoff}
+Every pointwise oscillation consumer of an accepted $\BaireOneFunctionUp$ carrier $K=(X,F,S,Q,R,L,H,C,P,N)$ must read the $\BaireSpaceUp$ source row $X$, the $\ContinuousMapUp$ approximant ledger $F$, the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ value seal $R$, and the finite precision window determined by these rows before any lower-semicontinuous or oscillation-rank handoff is consumed. The handoff therefore exports a pointwise finite-observation route, not a host oscillation-rank theorem, hidden approximant selector, quotient of real names, or ambient function-space completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_oscillation\_handoff}
+\begin{proof}
+Project the accepted carrier of \autoref{def:baireonefunction-carrier}. The source row $X$, approximant ledger $F$, stream schedule $S$, regular rational readback $Q$, value seal $R$, and structural rows $H,C,P,N$ are displayed before a downstream lower-semicontinuous or oscillation-rank consumer can read any handoff row.
+
+Apply \autoref{thm:baireonefunction-pointwise-limit-ledger}. It forces every pointwise value request through the source context, selected continuous approximant observations, stream schedule, and regular rational readback before the $\RealUp$ seal is available.
+
+Next use \autoref{thm:baireonefunction-pointwise-schedule-obligations}. The schedule obligations keep $L$ downstream of the same pointwise ledger, so a lower-semicontinuous handoff cannot replace $X,F,S,Q,R$ by an ambient convergence or measurability claim.
+
+Finally apply \autoref{thm:baireonefunction-oscillation-locality}. Oscillation reads are local to the finite source context, selected approximant windows, regular-rational readbacks, value seals, transport, replay, provenance, and local naming already visible in the carrier. Hence any oscillation-rank or lower-semicontinuous handoff must pass through the stated pointwise finite-observation route.
 \end{proof}
 
 \begin{theorem}[BaireOneFunction lower-semicontinuous handoff]
@@ -112,6 +146,22 @@ Replay the continuation row $C$. The consumer can reach $L$ only after the sourc
 Transport by $H$ keeps the lower-semicontinuous handoff attached to those same rows. Since the provenance and local naming rows carry no measurability theorem, no ambient function-space topology, no arbitrary approximant selector, and no $\RealUp$ completeness coordinate, the handoff exports none of them.
 \end{proof}
 
+\begin{theorem}[BaireOneFunction lower-semicontinuous exhaustion]
+\label{thm:baireonefunction-lowersemicontinuous-exhaustion}
+Every $\LowerSemicontinuousUp$ public row exported by an accepted $\BaireOneFunctionUp$ carrier
+$$
+K=(X,F,S,Q,R,L,H,C,P,N)
+$$
+is exhausted by the displayed source context $X$, continuous approximant ledger $F$, stream schedule $S$, regular rational readback $Q$, real value seal $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The lower-semicontinuous row $L$ may publish only the public observations already routed through these rows; it cannot introduce hidden approximants, quotient real equality, full measurability, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the pointwise ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It binds every value observation to the route $X,F,S,Q\longmapsto R$, so a downstream lower-semicontinuous consumer cannot read a value that is detached from the displayed source context, approximant family, schedule, and readback.
+
+Next apply the schedule obligations of \autoref{thm:baireonefunction-pointwise-schedule-obligations}. They force $X,F,S,Q,R,H,C,P,N$ to remain visible before $L$ is consumed, and they rule out using the handoff as a shortcut around the finite pointwise schedule.
+
+Finally use the lower-semicontinuous handoff of \autoref{thm:baireonefunction-lowersemicontinuous-handoff}. The handoff row $L$ is downstream of the same pointwise ledger, while $H,C,P,N$ only transport, replay, source, and name the displayed packet. Therefore the public lower-semicontinuous export is exhausted by the stated rows and has no coordinate for hidden approximants, quotient real equality, full measurability, or $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[BaireOneFunction public export]
 \label{thm:baireonefunction-public-export}
 Every public $\BaireOneFunctionUp$ consumer receives exactly the displayed route
@@ -129,14 +179,32 @@ Apply the pointwise schedule obligations and lower-semicontinuous handoff, \auto
 The remaining rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for ambient function spaces, arbitrary approximant selection, quotient real equality, full measurability, or $\RealUp$ completeness, none of those principles is part of the public export.
 \end{proof}
 
-\closureat{BaireOneFunctionUp}{publicStr}
+\begin{theorem}[BaireOneFunction finite schedule nonescape]
+\label{thm:baireonefunction-finite-schedule-nonescape}
+Every pointwise-limit or lower-semicontinuous consumer of an accepted $\BaireOneFunctionUp$ packet must pass through the displayed finite schedule rows
+$$
+X,F,S,Q,R,L,H,C,P,N .
+$$
+The route first exposes the $\BaireSpaceUp$ source row $X$, the $\ContinuousMapUp$ approximant ledger $F$, the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $R$, and the $\LowerSemicontinuousUp$ handoff $L$, then preserves the read through transport $H$, replay $C$, provenance $P$, and local naming $N$. It cannot introduce an undisplayed approximant selector, ambient function-space equality, quotient real equality, measurability theorem, or $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_finite\_schedule\_nonescape}
+\begin{proof}
+Start with the pointwise-limit ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It binds every value read to the displayed source row, approximant ledger, finite schedule, regular rational readback, and real seal.
+
+Apply the pointwise schedule obligations of \autoref{thm:baireonefunction-pointwise-schedule-obligations}. They force the stream schedule $S$ and readback row $Q$ to remain visible before any pointwise consumer may inspect the value row.
+
+Finally use the lower-semicontinuous handoff and public export, \autoref{thm:baireonefunction-lowersemicontinuous-handoff} and \autoref{thm:baireonefunction-public-export}. The structural rows $H,C,P,N$ preserve and name the same finite packet, so no hidden selector, ambient equality, quotient equality, measurability theorem, or $\RealUp$ completeness can enter the consumer route.
+\end{proof}
+
+\closureat{BaireOneFunctionUp}{bridgedStr}
+\closureat{BaireOneFunctionUp}{matureStr}
 
 \begin{closurestatus}{\BaireOneFunctionUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:baireonefunction-carrier}, \autoref{def:baireonefunction-classifier}, \autoref{thm:baireonefunction-namecert-obligation-surface}, \autoref{thm:baireonefunction-pointwise-limit-ledger}, \autoref{thm:baireonefunction-lowersemicontinuous-handoff}, and \autoref{thm:baireonefunction-public-export} bind the finite pointwise-limit packet from continuous real-valued approximants to lower-semicontinuous public consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient function spaces, arbitrary choice of approximating sequence, quotient equality of real names, full measurability, completeness of $\RealUp$, Lean verification, or a standard bridge.}
-  \upgradepath{Bridge closure requires a standard bridge for the public pointwise-limit route and the lower-semicontinuous handoff over BEDC.Derived.BaireOneFunctionUp.}
+  \upgradepath{No paper-side theory upgrade remains; future work is Lean verification or bridge checking if not already recorded.}
   \constructivestory{A $\BaireOneFunctionUp$ packet is generated from a $\BaireSpaceUp$ source context, a finite ledger of $\ContinuousMapUp$ approximants, $\StreamNameUp$ schedule windows, $\RegSeqRatUp$ readbacks, a $\RealUp$ value seal, a $\LowerSemicontinuousUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

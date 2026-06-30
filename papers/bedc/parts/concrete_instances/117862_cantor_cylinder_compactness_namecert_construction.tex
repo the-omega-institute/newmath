@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CantorCylinderCompactnessUp$}
+\label{ch:concrete-instances-cantor-cylinder-compactness-namecert}
+\origin{human}
+
+Following Brouwer and Bishop--Bridges, the $\CantorCylinderCompactnessUp$ packet records the compact finite-prefix surface of Cantor cylinders as displayed NameCert data. It refines the cylinder basis of \autoref{ch:concrete-instances-cantor-cylinder-basis-namecert}, reads its ambient Cantor carrier through \autoref{ch:concrete-instances-cantorspace-namecert}, uses the finite request windows of \autoref{ch:concrete-instances-streamname-namecert}, and routes tolerance comparisons through \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives later StreamName and completion consumers a finite-net handoff surface; it does not assert open-cover compactness, choice-selected branches, quotient stream equality, or ambient Real completeness.
+
+\begin{definition}[Cantor cylinder compactness carrier]
+\label{def:cantor-cylinder-compactness-carrier}
+A $\CantorCylinderCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,C,R,W,D,F,T,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the accepted $\CantorCylinderBasisUp$ source row, including the finite binary prefix basis and refinement data.
+\item $C$ is the ambient $\CantorSpaceUp$ carrier row read only through finite prefix observations.
+\item $R$ is the finite binary prefix row family inspected by the compactness request.
+\item $W$ is the finite cylinder-cover row family, listing the displayed cylinders whose prefixes cover the inspected window.
+\item $D$ is the $\StreamNameUp$ request-window row that bounds which prefix lengths and stream positions are visible to the consumer.
+\item $F$ is the $\DyadicRatCoreUp$ radius and tolerance ledger attached to the same finite request.
+\item $T$ is the compact finite-net handoff row, giving the finite prefix representatives delivered to StreamName and completion-facing consumers.
+\item $H$ stores componentwise $\hsame$ transport for the basis, Cantor carrier, prefix rows, cover rows, request windows, tolerance ledger, finite-net handoff, replay route, provenance, and local naming.
+\item $K$ is the displayed $\Cont$ replay route from request windows to cylinder-cover rows, from cover rows to dyadic tolerance rows, and from those rows to the finite-net handoff.
+\item $P$ is the $\Pkg$ provenance over $\CantorCylinderCompactnessUp$, $\CantorCylinderBasisUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorCylinderCompactnessUp}$ row.
+\end{enumerate}
+The carrier compares compactness reads only through these finite rows. It has no coordinate for arbitrary open covers, selected infinite branches, quotient equality of streams, or a completeness principle for ambient real numbers.
+\end{definition}
+
+\begin{theorem}[Cantor cylinder compactness NameCert obligations]
+\label{thm:cantor-cylinder-compactness-namecert-obligations}
+For every accepted $\CantorCylinderCompactnessUp$ carrier
+$$
+Q=(B,C,R,W,D,F,T,H,K,P,N),
+$$
+the local $\NameCert_{\CantorCylinderCompactnessUp}$ surface consists exactly of the finite carrier admission, prefix-cover visibility, StreamName request-window discipline, dyadic tolerance discipline, finite-net handoff, componentwise transport, continuation replay, provenance, and nonescape obligations displayed by
+$$
+B,C,R,W,D,F,T,H,K,P,N .
+$$
+Every obligation is checked inside the finite-prefix rows inherited from $\CantorCylinderBasisUp$ and $\CantorSpaceUp$ and the finite request and tolerance rows inherited from $\StreamNameUp$ and $\DyadicRatCoreUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the displayed tuple in \autoref{def:cantor-cylinder-compactness-carrier}. The rows $B,C,R,W$ supply the finite cylinder basis, Cantor source, inspected prefix rows, and finite cover rows before any compactness-facing handoff is available.
+
+The request and tolerance obligations are then forced by $D$ and $F$. A consumer may ask only for the prefix lengths and stream positions exposed by the $\StreamNameUp$ row $D$, and each radius or tolerance comparison must pass through the $\DyadicRatCoreUp$ ledger $F$.
+
+The finite-net handoff is the row $T$. It packages exactly the displayed prefix representatives selected by the finite cover rows and tolerance ledger, without adding a branch selector or an infinite product coordinate.
+
+Finally $H,K,P,N$ transport, replay, source, and locally name the same route. Since no displayed row contains an arbitrary open-cover principle, quotient stream equality, selected branch, or ambient Real-completeness certificate, the local NameCert surface cannot export one.
+\end{proof}
+
+\begin{theorem}[Cantor cylinder compactness prefix-net handoff]
+\label{thm:cantor-cylinder-compactness-prefix-net-handoff}
+Every StreamName-facing read of an accepted $\CantorCylinderCompactnessUp$ packet reaches the compact finite-net handoff row $T$ only after the finite binary prefix rows $R$, finite cylinder-cover rows $W$, request-window row $D$, and dyadic radius or tolerance ledger $F$ have been displayed over the source rows $B$ and $C$. The handoff delivered through $H,K,P,N$ is a finite-prefix net surface, not an open-cover compactness theorem, choice-selected branch, quotient stream equality, or ambient Real-completeness claim.
+\end{theorem}
+\begin{proof}
+Start with a StreamName-facing request. The source cylinder basis $B$ and Cantor carrier $C$ expose only finite prefix observations, so the request cannot inspect an infinite stream as a host function.
+
+Read the finite rows in order. The prefix family $R$ supplies the visible binary prefixes, the cover family $W$ records which displayed cylinders cover the inspected window, the request row $D$ bounds the visible stream positions, and the tolerance ledger $F$ records the dyadic radius data attached to that same request.
+
+Only then can the compact handoff row $T$ be consumed. It exports the finite representatives already displayed by $R,W,D,F$ to later StreamName and completion-facing consumers.
+
+The structural rows $H,K,P,N$ preserve this route componentwise. They do not add open-cover compactness, a branch selector, quotient stream equality, or ambient Real completeness, so the exported handoff remains a finite-prefix compactness packet.
+\end{proof}
+
+\closureat{CantorCylinderCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\CantorCylinderCompactnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-cylinder-compactness-carrier}, \autoref{thm:cantor-cylinder-compactness-namecert-obligations}, and \autoref{thm:cantor-cylinder-compactness-prefix-net-handoff} seed the StreamName-facing finite-prefix compactness surface over Cantor cylinder basis, CantorSpace, StreamName windows, DyadicRatCore tolerance rows, compact finite-net handoff rows, transport, replay, provenance, and local NameCert.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim open-cover compactness, choice-selected branches, quotient stream equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{The next step is obligationClosure: carrier admission, prefix-cover visibility, StreamName request-window discipline, dyadic tolerance discipline, finite-net handoff, and nonescape must be discharged as local rows.}
+  \constructivestory{The construction starts from finite Cantor cylinder prefixes, displays the requested StreamName window, attaches DyadicRatCore tolerance rows, and exports only the finite-net handoff preserved by hsame transport, Cont replay, Pkg provenance, and local NameCert.}
+\end{closurestatus}

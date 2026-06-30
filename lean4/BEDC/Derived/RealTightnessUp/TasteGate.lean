@@ -2,13 +2,20 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
+import BEDC.Derived.RegularCauchyLocatedOrderUp.NameCertObligations
 
 namespace BEDC.Derived.RealTightnessUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+open BEDC.Derived.RegularCauchyLocatedOrderUp
 
 inductive RealTightnessUp : Type where
   | mk (R D S Q I B O T H C P N : BHist) : RealTightnessUp
@@ -173,5 +180,28 @@ theorem RealTightnessTasteGate_single_carrier_alignment :
   exact
     ⟨RealTightnessTasteGate_single_carrier_alignment_decode,
       ⟨realTightnessBHistCarrier⟩, ⟨realTightnessChapterTasteGate⟩, rfl⟩
+
+theorem RealTightnessLocatedOrderRow_consumes_namecert_obligations [AskSetup] [PackageSetup]
+    {real dyadic stream rational interval bounded order trap transport replay provenance name
+      left right window tolerance comparison sealRow orderTransport orderReplay orderProvenance
+      orderName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLocatedOrderCarrier left right window tolerance comparison sealRow orderTransport
+        orderReplay orderProvenance orderName bundle pkg ->
+      RealTightnessUp ->
+        realTightnessFields
+            (RealTightnessUp.mk real dyadic stream rational interval bounded order trap transport
+              replay provenance name) =
+          [real, dyadic, stream, rational, interval, bounded, order, trap, transport, replay,
+            provenance, name] ∧
+        UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory window ∧
+          UnaryHistory tolerance ∧ UnaryHistory comparison ∧ UnaryHistory sealRow ∧
+            Cont left window tolerance ∧ Cont tolerance comparison sealRow ∧
+              PkgSig bundle orderProvenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig ChapterTasteGate
+  intro orderCarrier _tightnessToken
+  constructor
+  · rfl
+  · exact RegularCauchyLocatedOrderCarrier_namecert_obligations orderCarrier
 
 end BEDC.Derived.RealTightnessUp

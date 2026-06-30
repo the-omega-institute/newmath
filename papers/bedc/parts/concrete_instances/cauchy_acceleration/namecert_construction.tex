@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-cauchy-acceleration-namecert}
 \origin{human}
 
-Following Bishop and Bridges constructive analysis, the $\CauchyAccelerationUp$ packet records the finite acceleration step by which an ordinary displayed Cauchy name is replaced by a cofinal regular rational name without changing the represented real. It sits after the criterion surfaces of \autoref{ch:concrete-instances-cauchycriterion-namecert} and \autoref{ch:concrete-instances-bishop-cauchy-criterion-namecert}, the regularization route of \autoref{ch:concrete-instances-cauchyregularization-namecert}, the windowed name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet makes acceleration a named finite ledger: it does not select an ambient subsequence, quotient a Cauchy representative, or appeal to host completeness of $\RealUp$.
+Following Bishop and Bridges constructive analysis, the $\CauchyAccelerationUp$ packet records the finite acceleration step by which an ordinary displayed Cauchy name is replaced by a cofinal regular rational name without changing the represented real. It sits after the criterion surfaces of \autoref{ch:concrete-instances-cauchycriterion-namecert} and \autoref{ch:concrete-instances-bishop-cauchy-criterion-namecert}, the regularization route of \autoref{ch:concrete-instances-cauchyregularization-namecert}, the windowed name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The acceleration packet consumes Cauchy tail comparison as substantive finite-window and dyadic-tolerance data through \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before any accelerated Real-facing read is exported. The accelerated cofinal regular-rational name is consumed by \autoref{ch:concrete-instances-metric-completion-existence-namecert} as the completion-existence witness route, with the read still passing through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The packet makes acceleration a named finite ledger: it does not select an ambient subsequence, quotient a Cauchy representative, or appeal to host completeness of $\RealUp$.
 
 \begin{definition}[Cauchy acceleration carrier]
 \label{def:cauchy-acceleration-carrier}
@@ -65,6 +65,38 @@ The source read begins at the $\StreamNameUp$ row $S$. The tolerance read then p
 The regular rational handoff is exactly $R$, and the Real-facing boundary is exactly $E$. Transport and replay through $H$ and $C$ preserve that route for downstream consumers.
 
 Since $P$ and $N$ exhaust the packet and no forbidden coordinate appears in \autoref{def:cauchy-acceleration-carrier}, the exported object is only the displayed accelerated name compatible with $\RegSeqRatUp$ and $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Cauchy acceleration rectangular window route]
+\label{thm:cauchy-acceleration-rectangular-window-route}
+Every accepted $\CauchyAccelerationUp$ carrier $A=(S,T,\alpha,R,E,H,C,P,N)$ reuses the same $\StreamNameUp$ finite windows and $\DyadicRatCoreUp$ tolerance rows when producing the accelerated $\RegSeqRatUp$ readback and the terminal $\RealUp$ handoff. The cofinal ledger $\alpha$ may refine the order of precision requests, but it cannot replace the displayed window route recorded by $S,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the rows $S,T,\alpha,R,E,H,C,P,N$. The source windows are recorded in $S$, and the dyadic tolerance entries are recorded in $T$ before the accelerated regular rational row $R$ or the Real-facing seal $E$ is consumed.
+
+Apply \autoref{thm:cauchy-acceleration-namecert-obligations}. The cofinality row $\alpha$ is an order ledger over displayed source windows, while dyadic tolerance preservation forces each accelerated request to read the same $T$ row before it reaches $R$.
+
+Now apply \autoref{thm:cauchy-acceleration-l10-handoff}. Transport and replay through $H$ and $C$ preserve the route named by $P$ and $N$, so no quotient representative, selected subsequence outside the ledger, or ambient completeness row is exported.
+\end{proof}
+
+\begin{theorem}[Cauchy acceleration cofinal-ledger determinism]
+\label{thm:cauchy-acceleration-cofinal-ledger-determinism}
+Let
+$$
+A=(S,T,\alpha,R,E,H,C,P,N)
+$$
+and
+$$
+A'=(S,T,\alpha',R',E',H,C,P,N)
+$$
+be accepted $\CauchyAccelerationUp$ carriers sharing the same displayed source stream, tolerance schedule, structural replay rows, provenance rows, and local naming boundary through $S,T,H,C,P,N$. If the two cofinal ledgers $\alpha$ and $\alpha'$ choose the same source window for every inspected precision request, then their accelerated $\RegSeqRatUp$ readback and terminal $\RealUp$ seal follow the same finite route. In particular, neither ledger can replace the displayed source-window or tolerance route before $R,R'$ and $E,E'$ are read.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers through \autoref{def:cauchy-acceleration-carrier}. The shared rows expose the same $\StreamNameUp$ source windows, the same $\DyadicRatCoreUp$ tolerance schedule, and the same replay and provenance boundary.
+
+Apply \autoref{thm:cauchy-acceleration-namecert-obligations} to both packets. The only ledger freedom available before the accelerated readback is the cofinal row, and by hypothesis the displayed source window selected for each inspected request is identical in $\alpha$ and $\alpha'$.
+
+Now use \autoref{thm:cauchy-acceleration-rectangular-window-route}. Since the rectangular source-window and tolerance route is fixed, the regular rational rows $R,R'$ and the Real seals $E,E'$ are reached through the same finite route. The packet therefore has no row through which a second ledger can substitute a hidden subsequence, quotient representative, or ambient completeness argument.
 \end{proof}
 
 \closureat{CauchyAccelerationUp}{seedStr}

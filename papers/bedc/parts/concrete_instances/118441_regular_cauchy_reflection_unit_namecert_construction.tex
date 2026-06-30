@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyReflectionUnitUp$}
+\label{ch:concrete-instances-regular-cauchy-reflection-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyReflectionUnitUp$ packet records the finite unit-law surface by which a regular Cauchy rational name enters the reflector and completion interface without selecting a quotient representative or invoking ambient completeness. It sits after the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert} and before the reflector handoff of \autoref{ch:concrete-instances-cauchycompletionreflector-namecert}; the terminal $\RealUp$ seal is consumed only through displayed completion rows.
+
+\begin{definition}[Regular Cauchy reflection unit carrier]
+\label{def:regular-cauchy-reflection-unit-carrier}
+A $\RegularCauchyReflectionUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(R,S,D,F,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RegSeqRatUp$ row, naming the regular rational sequence to be reflected.
+\item $S$ is the $\StreamNameUp$ finite-window row through which the source sequence is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger bounding every inspected window.
+\item $F$ is the $\CauchyCompletionReflectorUp$ handoff row that reads the regular Cauchy data as reflector input.
+\item $M$ is the $\MetricCompletionExistenceUp$ service row used when completion-facing consumers require an existence seal.
+\item $E$ is the terminal $\RealUp$ seal reached only after the reflector and completion rows have been read.
+\item $H$ records componentwise $\hsame$ transport for the regular sequence, windows, dyadic ledger, reflector handoff, completion service, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,S,D \longmapsto F \longmapsto M \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyReflectionUnitUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletionReflectorUp$, $\MetricCompletionExistenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyReflectionUnitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their replay route. It has no coordinate for quotient-stream equality, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy reflection unit NameCert obligations]
+\label{thm:regular-cauchy-reflection-unit-namecert-obligations}
+For every accepted $\RegularCauchyReflectionUnitUp$ carrier $U=(R,S,D,F,M,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyReflectionUnitUp}$ surface consists exactly of carrier admission for the displayed regular rational sequence, finite stream windows, dyadic tolerance ledger, reflector handoff, completion-existence service row, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The unit law is visible only as this finite route from $\RegSeqRatUp$ through $\CauchyCompletionReflectorUp$ and $\MetricCompletionExistenceUp$ to $\RealUp$; it does not export quotient representatives, selected limits, countable choice, host equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-reflection-unit-carrier}. The source row $R$ admits the regular Cauchy rational name, while $S$ and $D$ expose the finite windows and dyadic tolerance ledger through which the source may be inspected.
+
+The unit visibility is the ordered handoff. The reflector row $F$ can be read only after the regular source rows have been displayed, the completion service row $M$ can be read only through that reflector handoff, and the terminal seal $E$ is reached only after the completion-facing route has been exposed.
+
+The Real-seal nonescape follows from the carrier inventory. No row supplies quotient-stream equality, a selected representative, a selected limit, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness, so none of these can be exported by the certificate.
+
+Finally, $H$ and $C$ preserve and replay the same row order, and $P,N$ record its provenance and local name. Transport or replay therefore cannot replace the unit-law packet by any object outside the displayed finite surface.
+\end{proof}
+
+\closureat{RegularCauchyReflectionUnitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyReflectionUnitUp}
+  \constructivestory{A $\RegularCauchyReflectionUnitUp$ packet is generated from RegSeqRat source rows, StreamName finite windows, DyadicRatCore tolerance ledgers, a CauchyCompletionReflector handoff, a MetricCompletionExistence service row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-reflection-unit-carrier} and \autoref{thm:regular-cauchy-reflection-unit-namecert-obligations} seed the finite reflector-unit packet over RegSeqRat, StreamName, DyadicRatCore, CauchyCompletionReflector, MetricCompletionExistence, Real, hsame, Cont, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, selected limits, countable choice, host equality, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit visibility, reflector handoff, Real-seal nonescape, transport preservation, replay preservation, provenance, and local naming for BEDC.Derived.RegularCauchyReflectionUnitUp.}
+\end{closurestatus}

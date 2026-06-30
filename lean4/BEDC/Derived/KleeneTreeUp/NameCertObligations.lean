@@ -154,6 +154,72 @@ theorem KleeneTree_fan_boundary [AskSetup] [PackageSetup]
     ⟨streamUnary, listUnary, boolUnary, treeUnary, obstructionUnary, obstructionReadUnary,
       streamSpine, spineBool, boolTree, treeObstruction, provenancePkg, obstructionPkg⟩
 
+theorem KleeneTreeCarrier_fan_boundary [AskSetup] [PackageSetup]
+    {T B L S O H C P N fanRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KleeneTreeCarrier T B L S O H C P N bundle pkg ->
+      Cont S L fanRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row fanRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row T ∨ hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row O ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                  hsame row fanRead)
+            (fun row : BHist => hsame row fanRead ∧ Cont S L fanRead)
+            hsame ∧
+          UnaryHistory fanRead ∧ Cont S L fanRead := by
+  -- BEDC touchpoint anchor: KleeneTreeCarrier BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier fanRoute
+  obtain ⟨_treeUnary, _boolUnary, listUnary, streamUnary, _obstructionUnary,
+    _transportUnary, _traversalUnary, _provenanceUnary, _localNameUnary, _provenancePkg,
+      _localNamePkg⟩ := carrier
+  have fanUnary : UnaryHistory fanRead :=
+    unary_cont_closed streamUnary listUnary fanRoute
+  have sourceAtFan : hsame fanRead fanRead ∧ UnaryHistory fanRead :=
+    ⟨hsame_refl fanRead, fanUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row fanRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row B ∨ hsame row L ∨ hsame row S ∨ hsame row O ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row fanRead)
+          (fun row : BHist => hsame row fanRead ∧ Cont S L fanRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro fanRead sourceAtFan
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, fanRoute⟩
+  }
+  exact ⟨cert, fanUnary, fanRoute⟩
+
 theorem KleeneTreeSelectorRefusal [AskSetup] [PackageSetup]
     {tree boolLedger listSpine stream obstruction transport traversal provenance localName
       prefixRead nodeRead obstructionRead selectorRead : BHist}

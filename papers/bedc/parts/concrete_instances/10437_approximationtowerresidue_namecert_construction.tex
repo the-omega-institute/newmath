@@ -99,15 +99,28 @@ The Lean follow-up path \texttt{lean4/BEDC/Derived/ApproximationTowerResidueUp/T
 
 \independenceWitness{reality-constrained-approximation-tower, reality-constrained-tower-packet, physical-model-audit, certified-physical-truth, reality-constrained-explanation: none is bijective because $\ApproximationTowerResidueUp$ carries the hidden-source residue, failure surface, recovery route, descent survivor, and local NameCert rows as one finite packet, while the siblings expose tower structure, packet routing, audit, truth, or explanation without isolating this residue surface.}
 
-\closureat{ApproximationTowerResidueUp}{seedStr}
+\begin{theorem}[ApproximationTowerResidue scope lock]
+\label{thm:approximation-tower-residue-scope-lock}
+Every residue-facing consumer of $\ApproximationTowerResidueUp$ is scoped exactly by the carrier of \autoref{def:approximation-tower-residue-carrier}, the classifier of \autoref{def:approximation-tower-residue-classifier}, the NameCert obligations of \autoref{thm:approximation-tower-residue-namecert-obligations}, the non-escape boundary of \autoref{thm:approximation-tower-residue-nonescape}, the recovery-route determinacy of \autoref{thm:approximation-tower-residue-recovery-route-determinacy}, the falsifiable prediction, the independence witness, and the displayed TasteGate marker. No consumer may add a private hidden-source coordinate, second classifier, unledgered recovery route, or physical-adequacy export outside that finite packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApproximationTowerResidueUp.ApproximationTowerResidue\_scope\_lock}
+\begin{proof}
+The carrier lists the only rows a residue-facing consumer can project: hidden-source residue, tower packet, classifier, GAP ledger, failure surface, recovery route, descent survivor, transport, replay, provenance, and local naming.
+
+The classifier and NameCert obligations then force every accepted read to keep those rows componentwise visible. The non-escape theorem blocks adequacy export, while recovery-route determinacy keeps every reopened route inside the same ledger.
+
+The falsifiable prediction and independence witness record the observable boundary against sibling chapters, and the TasteGate marker identifies the same finite carrier as the chapter's accepted packet. Hence the scoped surface is precisely the listed carrier, classifier, obligations, boundary theorems, witness rows, and marker.
+\end{proof}
+
+\closureat{ApproximationTowerResidueUp}{scopedStr}
 
 \begin{closurestatus}{\ApproximationTowerResidueUp}
   \constructivestory{An $\ApproximationTowerResidueUp$ packet is generated from the hidden-source residue row, approximation-tower packet row, classifier row, GAP-admissible ledger, failure surface, recovery route, descent survivor, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:approximation-tower-residue-carrier}, \autoref{def:approximation-tower-residue-classifier}, \autoref{thm:approximation-tower-residue-namecert-obligations}, \autoref{thm:approximation-tower-residue-nonescape}, \autoref{thm:approximation-tower-residue-recovery-route-determinacy}, the falsifiable prediction, and the independence witness bind the carrier, classifier, NameCert obligation, non-escape boundary, recovery-route determinacy, and hidden-source independence surface for the same finite packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:approximation-tower-residue-carrier}, \autoref{def:approximation-tower-residue-classifier}, \autoref{thm:approximation-tower-residue-namecert-obligations}, \autoref{thm:approximation-tower-residue-nonescape}, \autoref{thm:approximation-tower-residue-recovery-route-determinacy}, \autoref{thm:approximation-tower-residue-scope-lock}, the falsifiable prediction, the independence witness, and the TasteGate marker enumerate the carrier, classifier, NameCert obligation surface, non-escape boundary, recovery-route determinacy, and hidden-source independence rows for the same finite packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not provide Lean verification, bridge checking, physical adequacy, hidden-source promotion, certified physical truth, or a host-level model-adequacy row for $\ApproximationTowerResidueUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier preservation, residue non-escape, recovery-route determinacy, transport closure, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Public closure requires checked carrier admission, classifier preservation, residue non-escape, recovery-route determinacy, transport closure, and TasteGate nontriviality with field faithfulness.}
 \end{closurestatus}

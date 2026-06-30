@@ -64,6 +64,7 @@ A \to S \to Q \to F \to R \to G \to (H,C,P,N).
 $$
 The readback row $G$ reports the axiom-use question, the setup-field alternative, and the refusal ledger before any downstream consumer may cite the packet. No audit read can bypass $G$ to recover a Lean axiom, hidden theorem, host assumption, quotient representative, selected witness, or unrecorded primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger\_gate\_readback}
 \begin{proof}
 Read the displayed order in \autoref{def:axiom-refusal-ledger-carrier}. The rows $A,S,Q,F,R,G$ precede the structural rows and make the name, socket, question, alternative, refusal, and readback visible in that order.
 
@@ -76,6 +77,7 @@ Finally apply noninternalization, \autoref{thm:axiom-refusal-ledger-noninternali
 \label{thm:axiom-refusal-ledger-sibling-independence}
 $\AxiomRefusalLedgerUp$ is not a renaming of $\ApophaticNameUp$, $\ApophaticSocketUp$, $\ApophaticGateQuestionUp$, $\ExternalityGateUp$, or $\TypeLevelSocketExposureUp$. The axiom-refusal packet simultaneously carries an axiom-use question $Q$, a setup-field alternative $F$, a refusal ledger $R$, and an audit-readback row $G$ over the same named socket. Each listed sibling lacks at least one of these coordinates, so no bijection of displayed rows preserves the local NameCert surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedgerSiblingIndependence}
 \begin{proof}
 Compare first with $\ApophaticNameUp$ and $\ApophaticSocketUp$. Those siblings name the externality and requested supply shape, but they do not carry the paired axiom-use question and setup-field alternative rows $Q,F$.
 
@@ -89,16 +91,18 @@ Finally compare with $\TypeLevelSocketExposureUp$. It exposes type-level socket 
 \independenceWitness{apophaticname, apophaticsocket, apophaticgatequestion, externalitygate, typelevelsocketexposure: AxiomRefusalLedgerUp alone carries the paired axiom-use question, setup-field alternative, refusal ledger, and audit-readback rows for one named socket; no sibling preserves all rows A,S,Q,F,R,G,H,C,P,N.}
 
 The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived/AxiomRefusalLedgerUp/TasteGate.lean}. It must provide \texttt{Nontrivial AxiomRefusalLedgerUp} and \texttt{FieldFaithful AxiomRefusalLedgerUp} instances for the same displayed carrier.
+\leanchecked{BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedgerTasteGate\_single\_carrier\_alignment}
 
-\closureat{AxiomRefusalLedgerUp}{seedStr}
+\closureat{AxiomRefusalLedgerUp}{scopedStr}[BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger\_namecert\_obligations]
 
 \begin{closurestatus}{\AxiomRefusalLedgerUp}
   \constructivestory{An $\AxiomRefusalLedgerUp$ packet is generated from an apophatic-name row, apophatic-socket row, axiom-use question, setup-field alternative, refusal ledger, audit readback, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axiom-refusal-ledger-carrier}, \autoref{thm:axiom-refusal-ledger-namecert-obligations}, \autoref{thm:axiom-refusal-ledger-noninternalization}, \autoref{thm:axiom-refusal-ledger-gate-readback}, and \autoref{thm:axiom-refusal-ledger-sibling-independence} bind the finite axiom-refusal carrier, setup-field alternative, audit readback, noninternalization surface, and sibling separation.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:axiom-refusal-ledger-carrier}, \autoref{thm:axiom-refusal-ledger-namecert-obligations}, \autoref{thm:axiom-refusal-ledger-noninternalization}, \autoref{thm:axiom-refusal-ledger-gate-readback}, and \autoref{thm:axiom-refusal-ledger-sibling-independence} bind the kernel scope over the setup-field alternative, refusal row, audit readback, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger\_namecert\_obligations}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not supply the refused axiom, hidden theorem, host assumption, quotient representative, selected witness, Lean verification, or bridge checking for $\AxiomRefusalLedgerUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, axiom-use question exactness, setup-field alternative exposure, refusal-ledger coverage, audit-readback stability, noninternalization, nontriviality, and field faithfulness for the same finite packet.}
+  \notclaimed{This chapter does not supply the refused axiom, hidden theorem, host assumption, quotient representative, selected witness, or bridge checking for $\AxiomRefusalLedgerUp$.}
+  \upgradepath{Public closure requires a downstream consumer that reads the scoped refusal ledger as a reusable public audit interface.}
 \end{closurestatus}

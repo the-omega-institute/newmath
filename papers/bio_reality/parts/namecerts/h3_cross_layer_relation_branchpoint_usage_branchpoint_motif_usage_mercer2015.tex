@@ -1,0 +1,37 @@
+\origin{ai}
+
+\subsection{Rank-admissible translation gating beside an expression-controlled branchpoint panel}
+\label{sec:bioreality-q6-rank-admissible-translation-branchpoint-mercer}
+
+\paragraph{Finite branchpoint contact.}
+The branchpoint-motif panel used here is a finite expression-controlled splice-layer surface rather than a translation-readout surface. The joined table contains $n=10584$ intron-overlap rows on the same strand, with expression control supplied by the UCSC hg19 GTEx gene model, using $\log(1+\operatorname{median})$ over $54$ tissue expression scores. The recorded computation completed in $138.47155$ seconds and explicitly marks expression control as present. Thus this table is useful as a cross-layer contrast: it is a real finite biological contact for branchpoint-motif usage under an expression covariate, but it does not by itself furnish codon-count, tRNA, tAI, stAI, ribosome-footprint, translation-efficiency, or protein-output rows.
+
+\paragraph{Translation-survival gate.}
+For a proposed synonymous residual coordinate $q_i$ and a proposed translation readout $T_j$, the admissible statistic is not the in-sample coupling score. The coordinate and readout must first be residualized against the declared control block $Z$, including amino-acid composition, organism identity, GC3, length, and M-density controls. A proposed entry $S^{QT}_{ij}$ is allowed to be interpreted only when the residualized design has non-saturated rank and enough remaining degrees of freedom to make a held-out failure possible. In the notation of the finite row audit, the intended gate is
+$$
+\begin{aligned}
+q_i^{\perp Z} &= (I-P_Z)q_i,\\
+T_j^{\perp Z} &= (I-P_Z)T_j,\\
+S^{QT}_{ij} &> 0 \quad \hbox{only if the residual rank is non-saturated and held-out survival is falsifiable.}
+\end{aligned}
+$$
+When this condition fails, an entry may remain a coupling-only contact or a data request, but it is not translation survival. In particular, an all-$1.0$ fitted surface, a rank-degenerate $n=3$ organism panel, or a positive modeled adaptation contact is not enough to pass the gate.
+
+\paragraph{Observed q6 coordinate support and its limit.}
+The available q6 finite-row memory contains computed synonymous residual coordinates for $9$ labels: $\mathrm{Arg\_AGR}$, $\mathrm{Ile\_AUA}$, $\mathrm{K\_AAA}$, $\mathrm{Leu\_CUN\_vs\_UUR}$, $\mathrm{Leu\_UUA\_vs\_UUG}$, $\mathrm{Ser\_UCA\_vs\_UCG}$, $\mathrm{Ser\_UCR\_vs\_AGY}$, $\mathrm{Thr\_ACR\_vs\_ACY}$, and $f_3$-stress. A three-organism codon-count and tRNA-copy proxy loaded Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12, with a Leu CUN-versus-UUR log-copy proxy readout. The coupling audit did not meet its null break condition: at least one proxy entry exceeded the $0.01$ threshold, with $9$ nonzero entries and maximum absolute proxy coupling $1882464.1106377328$. This is evidence that the coordinate construction reaches a bounded translation-adjacent proxy. It is not evidence that any $S^{QT}_{ij}$ survived the rank-admissible gate, because true tAI, stAI, ribosome-footprint, or translation-efficiency rows were not present in that proxy computation.
+
+\paragraph{Residual-basis row audit.}
+The residual-basis extraction supplies a sharper negative control. For Homo sapiens, $16008$ joined rows gave $6$ candidates, $d_{\mathrm{modeled}}=0.9020707321191321$, $d_{\mathrm{difference}}=0.018824203448813415$, and residual-ratio trajectory
+$$
+\begin{aligned}
+(1.0,&\ 0.9852198225375993,\ 0.9806696939851618,\ 0.9792537895870558,\\
+&0.9787609432955213,\ 0.9787233550315274,\ 0.9723341658092314).
+\end{aligned}
+$$
+For Saccharomyces cerevisiae, $3046$ joined rows gave $9$ candidates, $d_{\mathrm{modeled}}=0.2199040339633322$, $d_{\mathrm{difference}}=0.008171838236265161$, and final residual ratio $0.9798667977250413$. Escherichia coli K12 MG1655 used $3415$ joined rows with $2$ candidates and final residual ratio $0.9979478314995476$, while Danio rerio used $14410$ joined rows with $1$ candidate and final residual ratio $0.9791828971490305$. Gallus gallus and Mycobacterium smegmatis str. MC2 155 are marked needs-data. The regularization note fixes $\lambda=0.01$ with a description-length penalty $\log_2(1+n_{\mathrm{col}})$. Across the four computed organisms the minimum final residual ratio is $0.9723341658092314$, so the computed classification is persistent rather than compressible. This supports a conservative reading: q6 residual geometry remains visible after several modeled readout blocks, but the persistence itself is a request for better layer-matched data, not a mechanism.
+
+\paragraph{Cross-checks from neighboring finite panels.}
+Two additional finite contacts show why the rank gate is necessary. The execution-selection decomposition in Saccharomyces cerevisiae used $5684$ active-gene rows, a $5$-fold split, $240$ deterministic permutations, and reported $R^2_{QP}=0.30732228260918726$ on the active set, with $P_Q$ norm squared $864.0124192674945$ and residual norm squared $2811.4213259512776$; its verdict was composition artifact. The mRNA-stability contact reported $n_{\mathrm{human}}=16500$, $n_{\mathrm{mouse}}=18924$, raw $\rho=0.126224$, and a non-CSC tAI circularity guard. The translation-initiation contact reported $41862$ fixed rows, $16739$ varying rows, and two-sample concordance. These numbers are finite and useful, but none of them supplies a same-row, post-control $q_i\to T_j$ survival entry for the exact rank-admissible translation boundary.
+
+\paragraph{Local conclusion.}
+The chapter therefore records a refusal boundary rather than a positive translation-survival claim. The expression-controlled branchpoint table is real and finite at $10584$ rows, and the q6 coordinate memory contains nonzero proxy coupling plus persistent residual-basis behavior across four computed organisms. Nevertheless, promotion to translation realization requires a separate matched translation-readout contact and a residualized, non-saturated, held-out statistic. No translation, ribosome occupancy, protein abundance, folding, physical admissibility, biological function, molecular mechanism, phenotype, or universal biological law follows from the present finite rows. Those interpretations remain unavailable until a layer-matched contact supplies them and the rank-admissible statistic survives the declared controls.

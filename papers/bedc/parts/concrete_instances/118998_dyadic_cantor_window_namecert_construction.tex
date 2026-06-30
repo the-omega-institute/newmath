@@ -1,0 +1,76 @@
+\chapter{Dyadic Cantor Window NameCert Construction}
+\label{ch:concrete-instances-dyadic-cantor-window-namecert}
+\origin{human}
+
+Following Cantor-space prefix practice and the finite-cover proof of Heine--Cantor, the $\DyadicCantorWindowUp$ packet records finite Boolean prefix windows with dyadic refinement rows. It sits beside the Boolean constructor surface of \autoref{ch:concrete-instances-bool-namecert}, the finite spine discipline of \autoref{ch:concrete-instances-list-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet is a finite prefix-window carrier; it is not a completed Cantor space, a host product space, or a selected infinite branch.
+
+\begin{definition}[Dyadic Cantor window carrier]
+\label{def:dyadic-cantor-window-carrier}
+A $\DyadicCantorWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,L,D,M,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoolUp$ digit row used to discriminate the two Cantor-prefix branches.
+\item $L$ is the $\ListUp$ finite prefix row. It stores only finite Boolean words and their prefix extension relation.
+\item $D$ is the $\DyadicRatCoreUp$ refinement ledger. It records the dyadic cell, depth, radius, and comparison budget attached to each finite prefix window.
+\item $M$ is the $\CompactMetricUp$ support row for the compact finite-window source.
+\item $U$ is the $\UniformModulusUp$ handoff row that may consume the finite window after dyadic refinement has been exposed.
+\item $R$ is the prefix refinement row tying $B,L,D$ together. It records how successor windows split by Boolean digit and how their dyadic cells sit inside the parent cell.
+\item $H$ records componentwise $\hsame$ transport for Boolean digits, list prefixes, dyadic rows, compact-metric support, uniform-modulus handoff, refinement, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+B,L,D,R \longmapsto M,U .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicCantorWindowUp$, $\BoolUp$, $\ListUp$, $\DyadicRatCoreUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCantorWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,L,D,M,U,R,H,C,P,N$. It has no coordinate for an infinite branch, completed Cantor space, host product topology, selected subcover, global fan functional, countable choice, quotient stream equality, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicCantorWindowUp.DyadicCantorWindowTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic Cantor window NameCert obligations]
+\label{thm:dyadic-cantor-window-namecert-obligations}
+For every accepted $\DyadicCantorWindowUp$ carrier
+$$
+W=(B,L,D,M,U,R,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicCantorWindowUp}$ surface consists exactly of Boolean digit exposure through $B$, finite prefix exposure through $L$, dyadic refinement exposure through $D$, compact-metric support through $M$, uniform-modulus handoff through $U$, prefix-refinement stability through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. No window obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Projection from \autoref{def:dyadic-cantor-window-carrier} gives exactly the displayed Boolean, finite-list, dyadic, compact-metric, uniform-modulus, refinement, transport, replay, provenance, and local naming rows.
+
+The finite prefix discipline is carried by $L$, and the only branch split available to the packet is the displayed Boolean digit row $B$. The dyadic ledger $D$ attaches a finite cell and tolerance budget to those prefixes before compact or uniform consumers can read the packet.
+
+The rows $H,C,P,N$ preserve and name the same finite route. Since there is no field for infinite branches, completed Cantor space, selected subcovers, countable choice, quotient stream equality, or a bridge witness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic Cantor window vision handoff]
+\label{thm:dyadic-cantor-window-vision-handoff}
+Every compact-uniform-continuity consumer reading a $\DyadicCantorWindowUp$ packet receives the finite route
+$$
+\BoolUp,\ \ListUp,\ \DyadicRatCoreUp,\ \CompactMetricUp,\ \UniformModulusUp,\ H,C,P,N .
+$$
+The handoff realizes a finite prefix-window cover with dyadic refinement rows before the uniform-modulus ledger is consumed; it exports no completed Cantor space, selected infinite branch, global fan functional, selected subcover, host product topology, quotient stream equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Begin with the prefix rows. The Boolean digit row $B$ and finite list row $L$ determine the inspected prefix window, while the refinement row $R$ records the immediate successor windows without selecting an infinite branch.
+
+The dyadic ledger $D$ gives the cell and tolerance budget for that finite prefix. Only after $B,L,D,R$ are displayed may the compact-metric support row $M$ and uniform-modulus handoff row $U$ be read.
+
+Componentwise transport, replay, provenance, and local naming preserve this finite order. Therefore the compact-uniform-continuity consumer receives a finite prefix-window carrier rather than any completed or choice-based Cantor object.
+\end{proof}
+
+\closureat{DyadicCantorWindowUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCantorWindowUp}
+  \constructivestory{A $\DyadicCantorWindowUp$ packet is generated from Bool digit rows, List finite prefix rows, DyadicRatCore refinement ledgers, CompactMetric support, UniformModulus handoff rows, prefix-refinement stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cantor-window-carrier}, \autoref{thm:dyadic-cantor-window-namecert-obligations}, and \autoref{thm:dyadic-cantor-window-vision-handoff} seed the finite dyadic Cantor prefix-window route over BoolUp, ListUp, DyadicRatCoreUp, CompactMetricUp, UniformModulusUp, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicCantorWindowUp.DyadicCantorWindowTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed Cantor space, selected infinite branches, global fan functionals, selected subcovers, host product topology, quotient stream equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix refinement stability, dyadic compact-window handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCantorWindowUp.}
+\end{closurestatus}

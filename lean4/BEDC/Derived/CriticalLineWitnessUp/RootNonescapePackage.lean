@@ -87,4 +87,78 @@ theorem CriticalLineWitnessCarrier_root_nonescape_package
       modulusUnary, ledgerUnary, refusalUnary, sameH, zeroStripRoute, modulusRoute,
       ledgerRoute, refusalRoute, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessNonescapeBoundary {Z S M R Q H C P N publicRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Q N publicRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨
+                hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                  hsame row N ∨ hsame row publicRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont Q N publicRead ∧ hsame H (append Z S))
+            hsame ∧
+          UnaryHistory publicRead ∧ hsame H (append Z S) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet publicReadRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    routeClosure.left
+  have unaryN : UnaryHistory N :=
+    routeClosure.right.right.left
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed unaryQ unaryN publicReadRoute
+  have sourceAtPublicRead :
+      hsame publicRead publicRead ∧ UnaryHistory publicRead :=
+    ⟨hsame_refl publicRead, publicReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨
+              hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q N publicRead ∧ hsame H (append Z S))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourceAtPublicRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, publicReadRoute, sameH⟩
+  }
+  exact ⟨cert, publicReadUnary, routeClosure.right.right.right⟩
+
 end BEDC.Derived.CriticalLineWitnessUp

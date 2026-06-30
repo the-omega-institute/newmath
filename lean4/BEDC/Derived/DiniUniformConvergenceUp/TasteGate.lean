@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -5,6 +6,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.DiniUniformConvergenceUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -203,5 +205,18 @@ theorem DiniUniformConvergenceTasteGate_single_carrier_alignment :
   · intro x y heq
     exact diniUniformConvergenceToEventFlow_injective heq
   · rfl
+
+theorem DiniUniformConvergenceCompactWindowExactness
+    (x : DiniUniformConvergenceUp) :
+    ∃ K T F M W R E H C P N : BHist,
+      x = DiniUniformConvergenceUp.mk K T F M W R E H C P N ∧
+        diniUniformConvergenceFields x = [K, T, F, M, W, R, E, H, C, P, N] ∧
+          Cont K T (append K T) ∧
+            Cont F W (append F W) ∧
+              Cont R E (append R E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk K T F M W R E H C P N =>
+      exact ⟨K, T, F, M, W, R, E, H, C, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.DiniUniformConvergenceUp

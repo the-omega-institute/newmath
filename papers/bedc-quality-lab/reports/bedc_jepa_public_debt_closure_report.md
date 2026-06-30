@@ -28,7 +28,9 @@ Public MiniGrid reduces silent failures and improves gap ranking, but aggregate 
 
 ## Risk-Constrained Planning
 
+- Rule: select the highest distinction score among actions whose predicted gap is within the risk budget; if no such action exists, record `no_certified_plan`.
 - Selected risk budget: `0.10`
+- Claim status: `risk_success_tradeoff` at the tightest recorded budget
 - High-gap state rate: `0.000000`
 - Effective success rate: `0.093750`
 - No-certified-plan rate: `0.906250`

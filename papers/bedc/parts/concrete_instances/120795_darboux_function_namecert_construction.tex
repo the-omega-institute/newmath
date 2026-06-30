@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxFunctionUp$}
+\label{ch:concrete-instances-darboux-function-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\DarbouxFunctionUp$ packet records the intermediate-value surface of a real function on a displayed interval as finite BEDC rows. It sits beside the Real naming boundary of \autoref{ch:concrete-instances-real-namecert}, the graph-and-modulus route of \autoref{ch:concrete-instances-continuousmap-namecert}, the derivative consumer boundary of \autoref{ch:concrete-instances-derivative-namecert}, the tagged-sum interface of \autoref{ch:concrete-instances-riemann-integrable-namecert}, and the Darboux integral route of \autoref{ch:concrete-instances-darbouxintegral-namecert}. The packet names between-value witnesses for inspected interval windows without identifying host functions by quotient equality, choosing a global intermediate point, importing measure completion, or asserting ambient $\RealUp$ completeness.
+
+\begin{definition}[DarbouxFunction carrier]
+\label{def:darboux-function-carrier}
+A $\DarbouxFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,R,G,B,C,D,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval-source row whose endpoints and inspected subinterval windows are read through $\RealUp$.
+\item $R$ is the $\RealUp$ codomain row for the endpoint values and requested between-value level.
+\item $G$ is the displayed function-graph row, read by $\ContinuousMapUp$ and derivative-facing consumers only through finite source and value windows.
+\item $B$ is the between-value witness ledger: for each inspected pair of interval windows and requested value row it records the finite local witness window certified between the two endpoint values.
+\item $C$ is the continuity consumer boundary, tying $G$ and $B$ to the $\ContinuousMapUp$ route without asserting global uniform continuity.
+\item $D$ is the derivative consumer boundary, exposing the Darboux read needed by $\DerivativeUp$ consumers while withholding any selected primitive or differentiability proof.
+\item $H$ stores componentwise $\hsame$ transport for interval, codomain, graph, between-value, continuity, derivative, provenance, and local naming rows.
+\item $K$ stores displayed $\Cont$ replay for the same finite reads.
+\item $P$ is the $\Pkg$ provenance over $\DarbouxFunctionUp$, $\RealUp$, $\ContinuousMapUp$, $\DerivativeUp$, $\RiemannIntegrableUp$, $\DarbouxIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient equality of host functions, a selected global intermediate point, measure completion, or ambient Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DarbouxFunctionUp.DarbouxFunctionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DarbouxFunction NameCert obligations]
+\label{thm:darboux-function-namecert-obligations}
+For every accepted $\DarbouxFunctionUp$ carrier $F=(I,R,G,B,C,D,H,K,P,N)$, the local $\NameCert_{\DarbouxFunctionUp}$ surface consists exactly of interval-source admission, Real codomain readback, finite graph exposure, between-value witness-ledger exactness, continuity consumer boundary, derivative consumer boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation exports a host function quotient, a selected intermediate point outside the inspected witness ledger, measure completion, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-function-carrier}. The rows $I,R,G,B,C,D,H,K,P,N$ are the only visible coordinates, so every Darboux-function read must pass through the interval source, Real codomain, displayed graph, and between-value ledger before it reaches a consumer.
+
+The between-value claim is finite. The ledger $B$ records inspected interval windows and requested value rows, and it names only the corresponding local witness window. Thus the packet supplies a Darboux surface for the inspected row, not a global choice of intermediate point.
+
+The consumer boundaries then separate the downstream uses. The row $C$ permits continuous-map consumers to replay the graph-and-ledger route, while $D$ permits derivative consumers to read the same Darboux boundary without importing differentiability, a primitive, or an integral value.
+
+Finally $H,K,P,N$ transport, replay, source, and name this same packet. Since no carrier coordinate contains quotient equality of host functions, a global selected point, measure completion, or ambient Real completeness, the listed rows exhaust the local $\NameCert_{\DarbouxFunctionUp}$ surface.
+\end{proof}
+
+\closureat{DarbouxFunctionUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxFunctionUp}
+  \constructivestory{A $\DarbouxFunctionUp$ packet is generated from interval-source rows, Real codomain rows, displayed graph rows, between-value witness ledgers, continuity and derivative consumer boundaries, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-function-carrier} and \autoref{thm:darboux-function-namecert-obligations} seed the finite Darboux-function carrier and its local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host function quotients, selected global intermediate points, measure completion, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, between-value witness-ledger exactness, continuity and derivative consumer boundaries, transport, replay, provenance, and local naming for BEDC.Derived.DarbouxFunctionUp.}
+\end{closurestatus}

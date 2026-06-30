@@ -103,4 +103,346 @@ theorem StepIndexedTotalHostCarrier_namecert_obligations [AskSetup] [PackageSetu
       carrier.trace_bounded_normal, carrier.refusal_transport_route,
       carrier.provenance_pkg⟩
 
+theorem StepIndexedTotalHostCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {host fuel trace normal bounded refusal transport route provenance nameCert boundaryRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StepIndexedTotalHostCarrier host fuel trace normal bounded refusal transport route
+        provenance nameCert bundle pkg →
+      Cont normal refusal boundaryRead →
+        Cont boundaryRead nameCert namedRead →
+          PkgSig bundle namedRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row host ∨ hsame row fuel ∨ hsame row trace ∨
+                    hsame row normal ∨ hsame row bounded ∨ hsame row refusal ∨
+                      hsame row boundaryRead ∨ hsame row namedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+                    Cont normal refusal boundaryRead ∧ Cont boundaryRead nameCert namedRead ∧
+                      PkgSig bundle provenance pkg)
+                hsame ∧
+              UnaryHistory boundaryRead ∧ UnaryHistory namedRead ∧ Cont host fuel trace ∧
+                Cont trace bounded normal ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: StepIndexedTotalHostCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute namedRoute _namedPkg
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed carrier.normal_unary carrier.refusal_unary boundaryRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed boundaryUnary carrier.nameCert_unary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row boundaryRead ∨
+                hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont normal refusal boundaryRead ∧ Cont boundaryRead nameCert namedRead ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+          boundaryRoute, namedRoute, carrier.provenance_pkg⟩
+  }
+  exact
+    ⟨cert, boundaryUnary, namedUnary, carrier.host_fuel_trace,
+      carrier.trace_bounded_normal, carrier.provenance_pkg⟩
+
+theorem StepIndexedTotalHostCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+    {host fuel trace normal bounded refusal transport route provenance nameCert boundaryRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StepIndexedTotalHostCarrier host fuel trace normal bounded refusal transport route
+        provenance nameCert bundle pkg →
+      Cont normal refusal boundaryRead →
+        Cont boundaryRead nameCert namedRead →
+          PkgSig bundle namedRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row host ∨ hsame row fuel ∨ hsame row trace ∨
+                    hsame row normal ∨ hsame row bounded ∨ hsame row refusal ∨
+                      hsame row transport ∨ hsame row route ∨ hsame row boundaryRead ∨
+                        hsame row namedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+                    Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                      Cont boundaryRead nameCert namedRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle namedRead pkg)
+                hsame ∧
+              UnaryHistory boundaryRead ∧ UnaryHistory namedRead ∧ Cont host fuel trace ∧
+                Cont trace bounded normal ∧ Cont refusal transport route := by
+  -- BEDC touchpoint anchor: StepIndexedTotalHostCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute namedRoute namedPkg
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed carrier.normal_unary carrier.refusal_unary boundaryRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed boundaryUnary carrier.nameCert_unary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row boundaryRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                Cont boundaryRead nameCert namedRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+          carrier.refusal_transport_route, boundaryRoute, namedRoute, carrier.provenance_pkg,
+          namedPkg⟩
+  }
+  exact
+    ⟨cert, boundaryUnary, namedUnary, carrier.host_fuel_trace,
+      carrier.trace_bounded_normal, carrier.refusal_transport_route⟩
+
+theorem StepIndexedTotalHostCarrier_public_interface [AskSetup] [PackageSetup]
+    {host fuel trace normal bounded refusal transport route provenance nameCert boundaryRead
+      namedRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StepIndexedTotalHostCarrier host fuel trace normal bounded refusal transport route
+        provenance nameCert bundle pkg →
+      Cont normal refusal boundaryRead →
+        Cont boundaryRead nameCert namedRead →
+          Cont namedRead route publicRead →
+            PkgSig bundle namedRead pkg →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row host ∨ hsame row fuel ∨ hsame row trace ∨
+                        hsame row normal ∨ hsame row bounded ∨ hsame row refusal ∨
+                          hsame row transport ∨ hsame row route ∨
+                            hsame row boundaryRead ∨ hsame row namedRead ∨
+                              hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+                        Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                          Cont boundaryRead nameCert namedRead ∧
+                            Cont namedRead route publicRead ∧ PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: StepIndexedTotalHostCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute namedRoute publicRoute namedPkg publicPkg
+  have scopedResult :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row boundaryRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                Cont boundaryRead nameCert namedRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame ∧
+        UnaryHistory boundaryRead ∧ UnaryHistory namedRead ∧ Cont host fuel trace ∧
+          Cont trace bounded normal ∧ Cont refusal transport route :=
+    (StepIndexedTotalHostCarrier_scoped_kernel_route carrier boundaryRoute namedRoute namedPkg)
+  have namedUnary : UnaryHistory namedRead := scopedResult.right.right.left
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed namedUnary carrier.route_unary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row boundaryRead ∨ hsame row namedRead ∨
+                  hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                Cont boundaryRead nameCert namedRead ∧ Cont namedRead route publicRead ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+          carrier.refusal_transport_route, boundaryRoute, namedRoute, publicRoute, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
+theorem StepIndexedTotalHostCarrier_bridge_interface [AskSetup] [PackageSetup]
+    {host fuel trace normal bounded refusal transport route provenance nameCert boundaryRead
+      namedRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StepIndexedTotalHostCarrier host fuel trace normal bounded refusal transport route
+        provenance nameCert bundle pkg →
+      Cont normal refusal boundaryRead →
+        Cont boundaryRead nameCert namedRead →
+          Cont namedRead route publicRead →
+            PkgSig bundle namedRead pkg →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row host ∨ hsame row fuel ∨ hsame row trace ∨
+                        hsame row normal ∨ hsame row bounded ∨ hsame row refusal ∨
+                          hsame row transport ∨ hsame row route ∨
+                            hsame row boundaryRead ∨ hsame row namedRead ∨
+                              hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+                        Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                          Cont boundaryRead nameCert namedRead ∧
+                            Cont namedRead route publicRead ∧ PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  Cont host fuel trace ∧ Cont trace bounded normal ∧
+                    Cont refusal transport route ∧ Cont namedRead route publicRead ∧
+                      UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: StepIndexedTotalHostCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute namedRoute publicRoute _namedPkg publicPkg
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed carrier.normal_unary carrier.refusal_unary boundaryRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed boundaryUnary carrier.nameCert_unary namedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed namedUnary carrier.route_unary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row boundaryRead ∨ hsame row namedRead ∨
+                  hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                Cont boundaryRead nameCert namedRead ∧ Cont namedRead route publicRead ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+          carrier.refusal_transport_route, boundaryRoute, namedRoute, publicRoute, publicPkg⟩
+  }
+  exact
+    ⟨cert, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+      carrier.refusal_transport_route, publicRoute, publicUnary⟩
+
 end BEDC.Derived.StepIndexedTotalHostUp

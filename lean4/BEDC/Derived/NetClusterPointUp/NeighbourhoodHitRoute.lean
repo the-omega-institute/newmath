@@ -1,0 +1,120 @@
+import BEDC.Derived.NetClusterPointUp.TasteGate
+import BEDC.Derived.NetConvergenceUp
+
+namespace BEDC.Derived.NetClusterPointUp
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+theorem NetClusterPoint_neighbourhood_hit_netconvergence_dependency
+    {moore directed subnet convergence compact transport replay provenance localName
+      source tail entourage optionalSource filter schedule readback realSeal ncTransport
+      ncReplay ncProvenance ncName : BHist} :
+    BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier source tail entourage
+      optionalSource filter schedule readback realSeal ncTransport ncReplay ncProvenance
+      ncName ->
+      hsame convergence source ->
+        Cont source tail entourage ->
+          Cont entourage filter schedule ->
+            Cont schedule readback realSeal ->
+              Cont realSeal ncTransport compact ->
+                hsame compact source ->
+                  (SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row compact ∧
+                          BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier source tail
+                            entourage optionalSource filter schedule readback realSeal
+                            ncTransport ncReplay ncProvenance ncName)
+                      (fun row : BHist =>
+                        hsame row source ∨ hsame row tail ∨ hsame row entourage ∨
+                          hsame row filter ∨ hsame row schedule ∨ hsame row readback ∨
+                            hsame row realSeal ∨ hsame row compact)
+                      (fun row : BHist =>
+                        Cont source tail entourage ∧ Cont entourage filter schedule ∧
+                          Cont schedule readback realSeal ∧
+                            Cont realSeal ncTransport compact ∧ hsame row source)
+                      hsame ∧
+                    hsame source source ∧ hsame tail tail ∧ hsame entourage entourage ∧
+                      hsame filter filter ∧ hsame schedule schedule ∧
+                        hsame readback readback ∧ hsame realSeal realSeal) ∧
+                    hsame convergence source ∧
+                      netClusterPointFields
+                          (NetClusterPointUp.mk moore directed subnet convergence compact
+                            transport replay provenance localName) =
+                        [moore, directed, subnet, convergence, compact, transport, replay,
+                          provenance, localName] := by
+  -- BEDC touchpoint anchor: NetClusterPointUp NetConvergenceCarrier SemanticNameCert
+  intro carrier convergenceSame sourceTail entourageRoute scheduleRoute compactRoute compactSame
+  have dependency :=
+    BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_sequentialcompact_dependency
+      (D := source)
+      (T := tail)
+      (E := entourage)
+      (A := optionalSource)
+      (F := filter)
+      (S := schedule)
+      (R := readback)
+      (L := realSeal)
+      (H := ncTransport)
+      (C := ncReplay)
+      (P := ncProvenance)
+      (M := ncName)
+      (clusterRead := compact)
+      carrier sourceTail entourageRoute scheduleRoute compactRoute compactSame
+  exact ⟨dependency, convergenceSame, rfl⟩
+
+theorem NetClusterPoint_netconvergence_ledger_nonescape_consumer
+    {moore directed subnet convergence compact transport replay provenance localName
+      source tail entourage optionalSource filter schedule readback realSeal ncTransport
+      ncReplay ncProvenance ncName : BHist} :
+    BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier source tail entourage
+      optionalSource filter schedule readback realSeal ncTransport ncReplay ncProvenance
+      ncName ->
+      Cont source tail entourage ->
+        Cont entourage filter schedule ->
+          Cont schedule readback realSeal ->
+            hsame convergence source ->
+              hsame compact source ->
+                (hsame source source ∧ hsame tail tail ∧ hsame entourage entourage ∧
+                    hsame optionalSource optionalSource ∧ hsame filter filter ∧
+                      hsame schedule schedule ∧ hsame readback readback ∧
+                        hsame realSeal realSeal ∧ hsame ncTransport ncTransport ∧
+                          hsame ncReplay ncReplay ∧ hsame ncProvenance ncProvenance ∧
+                            hsame ncName ncName ∧ Cont source tail entourage ∧
+                              Cont entourage filter schedule ∧
+                                Cont schedule readback realSeal ∧ hsame convergence source ∧
+                                  BEDC.Derived.NetConvergenceUp.netConvergenceFields
+                                      (BEDC.Derived.NetConvergenceUp.NetConvergenceUp.mk source
+                                        tail entourage optionalSource filter schedule readback
+                                        realSeal ncTransport ncReplay ncProvenance ncName) =
+                                    [source, tail, entourage, optionalSource, filter, schedule,
+                                      readback, realSeal, ncTransport, ncReplay, ncProvenance,
+                                      ncName]) ∧
+                  hsame compact source ∧
+                    netClusterPointFields
+                        (NetClusterPointUp.mk moore directed subnet convergence compact transport
+                          replay provenance localName) =
+                      [moore, directed, subnet, convergence, compact, transport, replay,
+                        provenance, localName] := by
+  -- BEDC touchpoint anchor: NetClusterPointUp NetConvergenceCarrier ledger nonescape
+  intro carrier sourceTail entourageRoute scheduleRoute convergenceSame compactSame
+  have ledger :=
+    BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_ledger_nonescape
+      (D := source)
+      (T := tail)
+      (E := entourage)
+      (A := optionalSource)
+      (F := filter)
+      (S := schedule)
+      (R := readback)
+      (L := realSeal)
+      (H := ncTransport)
+      (C := ncReplay)
+      (P := ncProvenance)
+      (M := ncName)
+      (consumer := convergence)
+      carrier sourceTail entourageRoute scheduleRoute convergenceSame
+  exact ⟨ledger, compactSame, rfl⟩
+
+end BEDC.Derived.NetClusterPointUp

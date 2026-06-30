@@ -415,4 +415,3 @@ def scaling_claim_block_allows_l1_scaling(payload: Mapping[str, Any]) -> bool:
     if not isinstance(block, Mapping):
         return False
     return block.get("status") == "unblocked" and block.get("fair_rebuild_status") == "resolved-pass"
-

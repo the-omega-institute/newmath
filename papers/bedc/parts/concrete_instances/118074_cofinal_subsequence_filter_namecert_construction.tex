@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CofinalSubsequenceFilterUp$}
+\label{ch:concrete-instances-cofinal-subsequence-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CofinalSubsequenceFilterUp$ packet names the finite witness surface by which a subsequence ledger is read as a cofinal filter without importing countable choice or quotient stream equality. It sits over the displayed window rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records cofinality as certificate data: every requested tail is answered by a displayed subsequence index and then transported through the same filter and Real-facing rows.
+
+\begin{definition}[Cofinal subsequence-filter carrier]
+\label{def:cofinal-subsequence-filter-carrier}
+A $\CofinalSubsequenceFilterUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,R,F,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source-window row for the original sequence and for every displayed subsequence read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows.
+\item $F$ is the $\CauchyFilterUp$ row whose finite tails are generated from the displayed subsequence windows.
+\item $J$ is the cofinal-index ledger. For each finite tail request already displayed by the consumer, $J$ records a subsequence index whose source window in $S$ lies past that tail and whose rational readback is the row in $R$.
+\item $E$ is the $\RealUp$ consumer seal, reachable only after the rows $S,R,F,J$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, regular readback, filter, cofinal-index, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,R \longmapsto J \longmapsto F \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CofinalSubsequenceFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalSubsequenceFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,F,J,E,H,C,P,N$. It has no coordinate for countable choice, quotient equality of streams, a selected limit, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cofinal subsequence-filter NameCert obligations]
+\label{thm:cofinal-subsequence-filter-namecert-obligations}
+For every accepted $\CofinalSubsequenceFilterUp$ carrier
+$$
+X=(S,R,F,J,E,H,C,P,N),
+$$
+the local $\NameCert_{\CofinalSubsequenceFilterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName windows, RegSeqRat readback, CauchyFilter tails, cofinal-index ledger, Real seal, componentwise transport, continuation replay, provenance, and local naming rows;
+\item subsequence readback exactness, requiring every subsequence value to be read from a displayed window in $S$ and the matching regular rational row in $R$;
+\item cofinality exactness, requiring every displayed tail request to be answered by a finite index stored in $J$ before the filter row $F$ is consumed;
+\item filter compatibility, requiring $F$ to be generated only from the displayed subsequence-tail rows and not from an external filter base;
+\item Real-seal nonescape, requiring $E$ to be downstream of $S,R,J,F$ and to export no selected limit, quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness claim;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed cofinal subsequence-filter route.
+\end{enumerate}
+No $\CofinalSubsequenceFilterUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cofinal-subsequence-filter-carrier}. The accepted packet displays exactly the stream, regular readback, filter, cofinal-index, Real seal, transport, replay, provenance, and local naming rows.
+
+Subsequence readback exactness is read from $S$ and $R$. A subsequence value can only use a source window already displayed in $S$ and the matching regular rational readback already displayed in $R$.
+
+Cofinality exactness is the role of $J$. For each displayed tail request, $J$ stores a finite index past that tail before the filter row $F$ is available, so no countable-choice selector or hidden tail oracle is present.
+
+The filter compatibility row is then read through $F$. Since $F$ is downstream of $S,R,J$, the filter base is generated from the displayed subsequence-tail witnesses rather than from an external filter object.
+
+Finally, $E,H,C,P,N$ close the route. The Real seal and structural rows preserve only the displayed packet coordinates, so the excluded objects are absent from every accepted carrier and the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cofinal subsequence-filter nonescape]
+\label{thm:cofinal-subsequence-filter-nonescape}
+Every consumer read of an accepted $\CofinalSubsequenceFilterUp$ packet factors through the finite route
+$$
+S,R \longmapsto J \longmapsto F \longmapsto E \longmapsto H,C,P,N .
+$$
+The consumer receives displayed StreamName windows, RegSeqRat readback, a finite cofinal-index ledger, a CauchyFilter row generated from those witnesses, a Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and receives no countable choice, quotient stream equality, selected limit, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of an accepted packet. Projection exposes the ordered carrier rows $S,R,F,J,E,H,C,P,N$.
+
+The read starts at the source surface. The row $S$ displays the source and subsequence windows, and $R$ displays the regular rational values attached to those windows.
+
+The cofinal witness is then read from $J$. Each finite tail request is answered by an index already stored in the packet, so the consumer cannot replace the ledger by countable choice, quotient stream equality, or a host-side selector.
+
+The filter row $F$ and Real seal $E$ are downstream of the same ledger. They can consume the displayed cofinal subsequence witnesses, but they cannot add a selected limit or an ambient completeness theorem.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Therefore every consumer factors through the displayed packet and receives none of the excluded escape objects.
+\end{proof}
+
+\closureat{CofinalSubsequenceFilterUp}{seedStr}
+
+\begin{closurestatus}{\CofinalSubsequenceFilterUp}
+  \constructivestory{A $\CofinalSubsequenceFilterUp$ packet is generated from StreamName windows, RegSeqRat readback, a CauchyFilter row, a cofinal-index ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-subsequence-filter-carrier}, \autoref{thm:cofinal-subsequence-filter-namecert-obligations}, and \autoref{thm:cofinal-subsequence-filter-nonescape} seed the finite route from displayed subsequence windows through cofinal-index witnesses, CauchyFilter tails, and the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient equality of streams, selected limits, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subsequence readback exactness, cofinality exactness, filter compatibility, Real-seal nonescape, and structural stability for BEDC.Derived.CofinalSubsequenceFilterUp.}
+\end{closurestatus}

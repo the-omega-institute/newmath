@@ -29,6 +29,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier exports no open cover, no external radius selector, no host minimum, and no uniform precision row. Its role is exactly the finite subordinate bundle consumed before the $\UniformModulusUp$ lower-bound fold.
 \end{definition}
+\leandef{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverCarrier}
 
 \begin{theorem}[SubordinateModulusCover NameCert obligations]
 \label{thm:subordinate-modulus-cover-namecert-obligations}
@@ -90,6 +91,7 @@ Use \autoref{thm:subordinate-modulus-cover-namecert-obligations}. The TasteGate 
 
 Thus a transported packet preserves each visible coordinate rather than replacing the carrier or changing the bundle. No parameter-transport equivalence, open-cover selector, host minimum, or uniform precision row is introduced by classifier transport.
 \end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverClassifierStabilityObligation}
 
 \begin{theorem}[SubordinateModulusCover ledger handoff obligation]
 \label{thm:subordinate-modulus-cover-ledger-handoff-obligation}
@@ -106,6 +108,26 @@ Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGat
 
 Finally use \autoref{thm:subordinate-modulus-cover-uniform-handoff}. The $\UniformModulusUp$ consumer receives precisely the finite input ledger for the later lower-bound fold, while the uniform precision chosen by that fold remains outside the subordinate cover packet.
 \end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverLedgerHandoffObligation}
+
+\begin{theorem}[SubordinateModulusCover scope dependency]
+\label{thm:subordinate-modulus-cover-scope-dependency}
+Every compact-uniform handoff row of an accepted $\SubordinateModulusCoverUp$ packet factors through $\CompactUp$ finite-net coverage, $\ContinuousMapUp$ pointwise-modulus data, $\MetricUp$ distance witnesses, $\RatUp$ comparison rows, $\mathsf{ProbeBundle}$ induction, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the $\UniformModulusUp$ consumer. The factorization stays inside
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N),
+$$
+and it contains no open-cover compactness, host minimum, or external selector.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)$. The bundle spine $\mathcal{P}$ and center rows $C$ supply the finite-net side, while $R,D,M,H,F$ record subordinate radii, pointwise precision, pointwise-modulus data, half-radius coverage, and rational comparison.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. The local $\NameCert_{\SubordinateModulusCoverUp}$ surface binds those rows to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming, so the dependency cannot leave the displayed packet.
+
+Use \autoref{thm:subordinate-modulus-cover-uniform-handoff} and \autoref{thm:subordinate-modulus-cover-ledger-handoff-obligation}. They expose the compact, continuous, metric, rational, and finite-bundle rows to the $\UniformModulusUp$ consumer before the lower-bound fold is read.
+
+Thus the scoped dependency is exhausted by the displayed carrier and its existing handoff obligations. Since $S$ has no coordinate for open-cover compactness, host minima, or external selectors, none of those objects can enter the compact-uniform handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverScopeDependency}
 
 \begin{theorem}[SubordinateModulusCover compact coverage exactness]
 \label{thm:subordinate-modulus-cover-compact-coverage-exactness}
@@ -115,6 +137,7 @@ S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
 $$
 be an accepted $\SubordinateModulusCoverUp$ carrier. Every source history covered by the packet is covered by a bundled center from the nonempty $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, through the half-radius coverage rows $H$ and the displayed consumer routes $Q$. The coverage row is internal to the carrier and uses no host open-cover compactness, external radius selector, host minimum, or uniform precision output.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverCompactCoverageExactness}
 \begin{proof}
 Project the carrier by \autoref{def:subordinate-modulus-cover-carrier}. The nonempty bundle spine $\mathcal{P}$, center row $C$, subordinate radius row $R$, half-radius coverage row $H$, and continuation route row $Q$ are all visible coordinates of the same packet.
 
@@ -138,6 +161,7 @@ Use \autoref{thm:subordinate-modulus-cover-namecert-obligations}. The TasteGate 
 
 Thus each precision read is attached to the corresponding bundled center and its pointwise-modulus row. The carrier has no coordinate for an external modulus selector, a host minimum, or a uniform precision result, so compatibility cannot be sourced from any of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverPointwiseCompatibility}
 
 \begin{theorem}[SubordinateModulusCover rational subordination exactness]
 \label{thm:subordinate-modulus-cover-rational-subordination-exactness}
@@ -147,6 +171,7 @@ S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
 $$
 be an accepted $\SubordinateModulusCoverUp$ carrier. Each subordinate radius row in $R$ is below its matching pointwise precision row in $D$ through the rational comparison ledger $F$. This exactness statement is a finite ledger row of the packet and does not assert compact host minima, external radius selection, or a completed uniform-modulus output.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverRationalSubordinationExactness}
 \begin{proof}
 Start with the carrier definition. It displays subordinate radius rows $R$, pointwise precision rows $D$, and the rational comparison ledger $F$ as separate coordinates of the same finite packet.
 
@@ -155,11 +180,139 @@ Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGat
 The handoff remains finite by \autoref{thm:subordinate-modulus-cover-ledger-handoff-obligation}. The comparison is consumed as part of the subordinate-cover ledger before the $\UniformModulusUp$ lower-bound fold, so no host minimum, external radius selector, or fold output is introduced here.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover carrier admission]
+\label{thm:subordinate-modulus-cover-carrier-admission}
+Carrier admission for $\SubordinateModulusCoverUp$ is exactly the displayed packet
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N).
+$$
+It consumes the $\CompactUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows shown in \autoref{def:subordinate-modulus-cover-carrier}, and it admits no host open cover, external selector, host minimum, or uniform-modulus fold output.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverCarrierAdmission}
+\begin{proof}
+Project the carrier definition. The listed packet contains the tolerance row, nonempty probe bundle, centers, subordinate radii, pointwise precision rows, pointwise-modulus row, half-radius coverage row, rational comparison ledger, transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. They bind carrier admission, classifier stability, coverage exactness, pointwise compatibility, rational subordination exactness, and consumer non-escape to that same packet.
+
+Use compact coverage exactness, pointwise compatibility, rational subordination exactness, and the uniform handoff theorem. These results account for every analytic row needed by the L10 compact-uniform route, so admission is exhausted by $S$ and cannot come from any host object outside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover radius stability]
+\label{thm:subordinate-modulus-cover-radius-stability}
+Transport through the $\hsame$ ledger $L$ preserves the subordinate radius rows $R$, pointwise precision rows $D$, half-radius coverage rows $H$, and rational comparison rows $F$ without changing the $\mathsf{ProbeBundle}$ spine $\mathcal{P}$. Thus a transported $\SubordinateModulusCoverUp$ packet presents the same finite subordinate bundle to every $\UniformModulusUp$ consumer.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverRadiusStability}
+\begin{proof}
+Read the transport coordinate $L$ from \autoref{def:subordinate-modulus-cover-carrier}. It is componentwise over the tolerance, bundle, centers, radius histories, precision histories, pointwise rows, coverage rows, and rational comparison rows.
+
+Apply the NameCert obligations and the classifier stability obligation. They restrict transport to the displayed rows and preserve the continuation routes $Q$ through which compact and continuous consumers read the packet.
+
+Now use compact coverage exactness, pointwise compatibility, rational subordination exactness, and the uniform handoff theorem. Since the bundle spine $\mathcal{P}$ remains the same displayed spine and the rows $R,D,H,F$ are transported componentwise, the handoff ledger remains stable without introducing a new bundle, host minimum, or fold output.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover ledger exactness]
+\label{thm:subordinate-modulus-cover-ledger-exactness}
+The handoff ledger exposed from an accepted $\SubordinateModulusCoverUp$ packet to $\UniformModulusUp$ is exhausted by the finite bundle $\mathcal{P}$, bundled centers $C$, subordinate radii $R$, pointwise precision rows $D$, half-radius coverage rows $H$, and rational comparison rows $F$, together with the displayed transport, replay, provenance, and local naming rows. It contains no host minimum, no external radius selector, and no fold output.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverLedgerExactness}
+\begin{proof}
+Project the handoff rows from \autoref{def:subordinate-modulus-cover-carrier}. The compact side is $\mathcal{P},C,H$, the pointwise side is $D,M$, and the rational subordination side is $R,F$.
+
+Apply the NameCert obligations, compact coverage exactness, pointwise compatibility, and rational subordination exactness. These theorems attach each ledger row to the same accepted packet and prevent any read from bypassing $L,Q,P,N$.
+
+Finally use the uniform handoff theorem and the carrier admission theorem above. The $\UniformModulusUp$ consumer receives precisely the finite subordinate-cover input ledger before the lower-bound fold, while the fold result and any host minimum remain outside the packet.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover TasteGate Stage-F discipline]
+\label{thm:subordinate-modulus-cover-tastegate-stagef}
+The single carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+supplies the Stage-F discipline for $\SubordinateModulusCoverUp$: the finite $\mathsf{ProbeBundle}$ spine is nontrivial, the visible fields are faithful to the carrier, and every $\UniformModulusUp$ consumer must pass through compact coverage, pointwise-modulus rows, rational subordination, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any uniform-modulus fold is read.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{thm:subordinate-modulus-cover-carrier-admission}. It identifies $S$ as the single accepted packet and keeps the nonempty $\mathsf{ProbeBundle}$ spine, center rows, radius rows, precision rows, pointwise rows, coverage rows, comparison rows, transport, replay, provenance, and local naming visible.
+
+Apply the NameCert obligations of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. They bind the carrier fields to the same TasteGate surface and prevent consumer reads from bypassing the displayed $\hsame$, $\Cont$, $\Pkg$, and local naming rows.
+
+Use radius stability and ledger exactness from \autoref{thm:subordinate-modulus-cover-radius-stability} and \autoref{thm:subordinate-modulus-cover-ledger-exactness}. The compact coverage row, pointwise-modulus row, and rational subordination row remain faithful to $S$ through transport, and the $\UniformModulusUp$ consumer sees only the finite subordinate-cover ledger before the fold output exists.
+\end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverTasteGate\_stageF\_discipline}
+
+\begin{theorem}[SubordinateModulusCover compact-uniform consumer boundary]
+\label{thm:subordinate-modulus-cover-compact-uniform-consumer-boundary}
+Every $\CompactUp$, $\ContinuousMapUp$, or $\MetricUp$ consumer that reads an accepted $\SubordinateModulusCoverUp$ packet must expose the finite $\mathsf{ProbeBundle}$ spine, pointwise-modulus rows, rational subordination ledger, half-radius coverage row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any $\UniformModulusUp$ fold is read. The consumer boundary is exactly the displayed route through the carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N),
+$$
+and it exports no host compact minimum, open-cover selector, external modulus choice, or completed uniform precision.
+\end{theorem}
+\begin{proof}
+Carrier admission identifies the only packet available to the consumer. The rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ are displayed coordinates of the single carrier, and the tolerance row $E$ only records the compact-uniform request that the packet answers.
+
+Apply radius stability, ledger exactness, pointwise compatibility, and rational subordination exactness. These results keep the finite bundle spine, centerwise precision rows, subordinate radii, half-radius coverage row, rational comparison ledger, and transport rows attached to the same accepted packet through $\hsame$ and $\Cont$ replay.
+
+Finally apply the Stage-F discipline. It forces every $\UniformModulusUp$ consumer to read compact coverage, pointwise-modulus data, rational subordination, provenance, replay, and the local naming row before the lower-bound fold is available. Hence a compact, continuous, or metric consumer reaches the fold only through the finite subordinate-cover boundary, with no host compact minimum, selector, external modulus choice, or completed uniform precision.
+\end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverCompactUniformConsumerBoundary}
+
+\begin{theorem}[SubordinateModulusCover choice-free handoff]
+\label{thm:subordinate-modulus-cover-choice-free-handoff}
+Every accepted $\SubordinateModulusCoverUp$ packet exposes the finite rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ to a $\UniformModulusUp$ consumer before any lower-bound fold is read. No row may be retyped as an external radius selector, host minimum, open-cover compactness witness, or completed uniform precision.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{def:subordinate-modulus-cover-carrier}. The rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ are displayed coordinates of the same finite packet, and the tolerance row $E$ only supplies the request read by that packet.
+
+Compact coverage exactness, pointwise compatibility, and rational subordination exactness attach the bundle, centers, subordinate radii, precision rows, pointwise-modulus row, coverage row, and comparison ledger to the same carrier. The uniform handoff theorem then exposes those finite rows to the $\UniformModulusUp$ consumer before the lower-bound fold produces any output.
+
+Ledger exactness rules out the remaining escape routes. Since the carrier contains no selector coordinate, no host minimum coordinate, no open-cover compactness row, and no completed uniform precision row, none of the displayed rows can be retyped as one of those objects.
+\end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverChoiceFreeHandoff}
+
+\begin{theorem}[SubordinateModulusCover finite-selection scope]
+\label{thm:subordinate-modulus-cover-finite-selection-scope}
+Every accepted $\SubordinateModulusCoverUp$ packet exposes the nonempty $\mathsf{ProbeBundle}$ spine, bundled centers, subordinate positive-radius rows, pointwise precision rows, half-radius coverage rows, and rational comparison ledger as the full finite-selection scope consumed by $\UniformModulusUp$. No host compact minimum, open-cover selector, or completed uniform precision row is present in that scope.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:subordinate-modulus-cover-carrier}. The finite-selection data are exactly the bundle $\mathcal{P}$, centers $C$, subordinate radii $R$, pointwise precision rows $D$, half-radius coverage rows $H$, and rational comparison ledger $F$, with $L,Q,P,N$ supplying transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its carrier admission and consumer non-escape clauses bind those rows to the same local $\NameCert_{\SubordinateModulusCoverUp}$ surface, while compact coverage exactness, pointwise compatibility, and rational subordination exactness account for the three analytic faces of the packet.
+
+Use \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, and \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness}. These theorems attach coverage, centerwise precision, and radius comparison to the displayed finite carrier rather than to an ambient compact object.
+
+Finally apply \autoref{thm:subordinate-modulus-cover-uniform-handoff} and \autoref{thm:subordinate-modulus-cover-choice-free-handoff}. The $\UniformModulusUp$ consumer receives the finite subordinate-cover ledger before the lower-bound fold is read, so the scope contains neither a host compact minimum nor an open-cover selector nor a completed uniform precision row.
+\end{proof}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverFiniteSelectionScope}
+
+\begin{theorem}[SubordinateModulusCover obligation-closure route]
+\label{thm:subordinate-modulus-cover-obligation-closure-route}
+The displayed carrier, TasteGate single-carrier alignment, carrier admission, classifier stability, compact coverage exactness, pointwise compatibility, rational subordination exactness, ledger exactness, choice-free handoff, and finite-selection scope form the obligation surface for $\SubordinateModulusCoverUp$. These rows remain on the single carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N),
+$$
+and they expose no host compact minimum, open-cover selector, external modulus choice, completed uniform precision, or carrier outside the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverObligationClosureRoute}
+\begin{proof}
+Start with the carrier of \autoref{def:subordinate-modulus-cover-carrier} and the TasteGate row of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Together they bind the tolerance, nonempty probe bundle, centers, subordinate radii, pointwise precision rows, pointwise-modulus row, half-radius coverage row, rational comparison ledger, transport, replay, provenance, and local naming to the same packet $S$.
+
+Use carrier admission and classifier stability from \autoref{thm:subordinate-modulus-cover-carrier-admission} and \autoref{thm:subordinate-modulus-cover-classifier-stability-obligation}. These results keep accepted reads and transported reads on the displayed carrier and prevent a consumer from replacing $S$ by an external compact or modulus object.
+
+Apply compact coverage exactness, pointwise compatibility, and rational subordination exactness. The theorems \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, and \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness} account for the coverage, pointwise-modulus, and radius-comparison rows without leaving the packet.
+
+Finally combine ledger exactness, choice-free handoff, and finite-selection scope from \autoref{thm:subordinate-modulus-cover-ledger-exactness}, \autoref{thm:subordinate-modulus-cover-choice-free-handoff}, and \autoref{thm:subordinate-modulus-cover-finite-selection-scope}. The $\UniformModulusUp$ consumer receives exactly the finite subordinate-cover ledger before the fold output, so the named rows form the obligation-closure route and no hidden selection or completed uniform precision is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SubordinateModulusCoverUp$ consumer reaches $\UniformModulusUp$ only after displaying compact coverage, continuousmap pointwise-modulus rows, metric radius rows, rat comparison rows, rational subordination, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{compact, continuousmap, metric, rat, uniformmodulus: no listed sibling is bijective to $\SubordinateModulusCoverUp$ because this packet jointly carries a nonempty probe bundle, bundled centers, subordinate radius rows, pointwise precision rows, half-radius coverage, rational comparison, transport, replay, provenance, and local naming before the uniform-modulus fold.}
+
 \closureat{SubordinateModulusCoverUp}{seedStr}
 
 \begin{closurestatus}{\SubordinateModulusCoverUp}
   \constructivestory{A $\SubordinateModulusCoverUp$ packet is generated from a positive tolerance row, a nonempty $\mathsf{ProbeBundle}$ spine, bundled centers, subordinate positive-radius rows, pointwise-modulus precision rows, half-radius coverage rows, rational comparison ledgers, transport rows, continuation routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:subordinate-modulus-cover-carrier}, \autoref{thm:subordinate-modulus-cover-namecert-obligations}, \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness}, and \autoref{thm:subordinate-modulus-cover-uniform-handoff} register the finite subordinate cover used before the compact-uniform-continuity rational lower-bound fold.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}

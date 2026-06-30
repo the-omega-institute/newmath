@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BoundedVariationFinitePartitionUp$}
+\label{ch:concrete-instances-bounded-variation-finite-partition-namecert}
+\origin{human}
+
+Following Jordan's finite-partition treatment of bounded variation and Rudin's real-analysis presentation of variation sums, the $\BoundedVariationFinitePartitionUp$ packet records only the displayed partition ledger read by a bounded-variation consumer. It sits between the variation packet of \autoref{ch:concrete-instances-boundedvariation-namecert}, the real-function route of \autoref{ch:concrete-instances-bounded-variation-real-function-namecert}, the finite dyadic partition carrier of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the finite mesh and adjacency sibling of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet keeps the classical bounded-variation read at finite means: it names one interval, one finite partition, endpoint readbacks, edge-difference budgets, and local provenance, not a supremum over all partitions, a variation measure, or host equality of functions.
+
+\begin{definition}[BoundedVariationFinitePartition carrier]
+\label{def:bounded-variation-finite-partition-carrier}
+A $\BoundedVariationFinitePartitionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,\Pi,E,R,D,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval row on which the inspected partition is read.
+\item $\Pi$ is the finite $\DyadicPartitionUp$ row, listing the ordered dyadic subintervals and their endpoint adjacency ledger.
+\item $E$ records the $\RealUp$ endpoint rows attached to the displayed partition points.
+\item $R$ is the $\RegSeqRatUp$ readback row for the endpoint names used by the partition inspection.
+\item $D$ is the $\DyadicRatCoreUp$ edge-difference budget, recording the adjacent endpoint comparisons and the finite partial-sum ledger for the inspected partition.
+\item $V$ is the $\BoundedVariationUp$ ledger row consumed by a bounded-variation classifier after $I,\Pi,E,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, partition, endpoint, readback, budget, bounded-variation, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded-variation finite-partition request through $I,\Pi,E,R,D,V$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationFinitePartitionUp$, $\BoundedVariationUp$, $\DyadicPartitionUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedVariationFinitePartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed interval, finite partition, endpoint readback, edge-difference budget, bounded-variation ledger, transport, replay, provenance, and naming rows. It has no coordinate for total variation as a host supremum, a variation measure, quotient equality of functions, hidden partitions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BoundedVariationFinitePartition NameCert obligations]
+\label{thm:bounded-variation-finite-partition-namecert-obligations}
+For every accepted $\BoundedVariationFinitePartitionUp$ carrier
+$$
+Q=(I,\Pi,E,R,D,V,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedVariationFinitePartitionUp}$ surface consists exactly of interval admission, finite dyadic partition admission, endpoint admission through $\RealUp$, regular-rational endpoint readback through $\RegSeqRatUp$, dyadic edge-difference budgeting through $\DyadicRatCoreUp$, bounded-variation ledger handoff through $\BoundedVariationUp$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-variation-finite-partition-carrier}. The interval row $I$ fixes the domain of the inspected read, and the finite $\DyadicPartitionUp$ row $\Pi$ fixes the ordered adjacent cells whose endpoints may be queried.
+
+Read the endpoint rows next. The $\RealUp$ row $E$ gives the terminal endpoint seal, while the $\RegSeqRatUp$ row $R$ supplies the regular-rational readback used to inspect those endpoint names at finite precision.
+
+The dyadic budget row $D$ then records the adjacent endpoint differences and their finite partial sums through $\DyadicRatCoreUp$. Only after those rows are displayed can the bounded-variation ledger $V$ be consumed as a $\BoundedVariationUp$ row.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no row for a host supremum over all partitions, a variation measure, quotient equality of functions, hidden partition families, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[BoundedVariationFinitePartition ledger handoff]
+\label{thm:bounded-variation-finite-partition-ledger-handoff}
+Every bounded-variation consumer of an accepted $\BoundedVariationFinitePartitionUp$ carrier must read the ordered finite route
+$$
+\DyadicPartitionUp
+\longrightarrow
+\RealUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\DyadicRatCoreUp
+\longrightarrow
+\BoundedVariationUp
+$$
+through $I,\Pi,E,R,D,V,H,C,P,N$. The handoff supplies exactly one finite partition ledger to \autoref{ch:concrete-instances-boundedvariation-namecert} and to the real-function surface of \autoref{ch:concrete-instances-bounded-variation-real-function-namecert}.
+\end{theorem}
+\begin{proof}
+Start with a bounded-variation request. By \autoref{thm:bounded-variation-finite-partition-namecert-obligations}, the request first enters the displayed interval and finite partition rows, so every edge is one of the adjacent cells listed by $\Pi$.
+
+The endpoint and budget rows then determine the inspected variation contribution. Endpoint values are read through $E$ and $R$, and each adjacent difference is budgeted by the $\DyadicRatCoreUp$ row $D$.
+
+The $\BoundedVariationUp$ ledger $V$ is downstream of this route. It receives the displayed finite partition and its edge-difference budget, while $H,C,P,N$ preserve the same route for transport, replay, provenance, and local naming.
+
+Thus the consumer obtains one finite partition ledger rather than a global variation object. The displayed partition row consumes the finite mesh and adjacency sibling of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}; no row supplies a supremum over all partitions, a variation measure, host function equality, a hidden refinement family, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{BoundedVariationFinitePartitionUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationFinitePartitionUp}
+  \constructivestory{A $\BoundedVariationFinitePartitionUp$ packet is generated from an interval row, a finite DyadicPartitionUp row, RealUp endpoint rows, RegSeqRatUp readback rows, a DyadicRatCoreUp edge-difference budget, a BoundedVariationUp ledger row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-variation-finite-partition-carrier}, \autoref{thm:bounded-variation-finite-partition-namecert-obligations}, and \autoref{thm:bounded-variation-finite-partition-ledger-handoff} seed the finite bounded-variation partition surface over interval rows, dyadic partitions, real endpoints, regular readbacks, dyadic edge budgets, bounded-variation handoff, and local provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim total variation as a host supremum, a variation measure, quotient equality of functions, hidden partition families, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition exposure, endpoint readback, dyadic edge-budget exactness, bounded-variation ledger handoff, transport, replay, provenance, and local naming for BEDC.Derived.BoundedVariationFinitePartitionUp.}
+\end{closurestatus}

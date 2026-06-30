@@ -1,0 +1,31 @@
+\begin{theorem}[CauchyCompletionMonadLaw Kleisli consumer route]
+\label{thm:cauchy-completion-monad-law-kleisli-consumer-route}
+Every $\CauchyCompletionKleisliUp$ consumer of an accepted
+$\CauchyCompletionMonadLawUp$ packet must first read the monad row, unit row,
+idempotence row, bind row, $\StreamNameUp$ windows, $\DyadicRatCoreUp$
+tolerances, $\RegSeqRatUp$ readbacks, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row
+before exporting a Kleisli-facing $\RealUp$ seal. The route is a consumer of
+\autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}; it does not
+export quotient completion equality, selected representatives, countable-choice
+data, host equality of completed names, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the local NameCert construction,
+\autoref{thm:cauchy-completion-monad-law-namecert-obligations}. It exposes
+$M,U,I,B,S,D,R,H,C,P,N$ as the finite monad, unit, idempotence, bind, stream,
+dyadic, regular-rational, transport, replay, provenance, and local naming
+surface.
+
+Now use the unit-associativity boundary,
+\autoref{thm:cauchy-completion-monad-law-unit-associativity-boundary}. It forces
+every law-facing $\RealUp$ read through the displayed stream, dyadic, and
+regular-rational rows before any terminal seal can be inspected.
+
+Finally attach the Kleisli consumer chapter
+\autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}. A
+$\CauchyCompletionKleisliUp$ consumer may read the monad-law packet only after
+the same finite rows have been displayed, so its Kleisli-facing seal remains a
+finite BEDC consumer route rather than a quotient, selection, choice, host
+equality, or ambient-completeness claim.
+\end{proof}
