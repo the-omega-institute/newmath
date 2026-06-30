@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedDiagonalSequenceUp$}
+\label{ch:concrete-instances-bishop-located-diagonal-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on diagonal arguments for regular Cauchy data, the $\BishopLocatedDiagonalSequenceUp$ packet records the finite L10 route by which a located diagonal sequence is read before any completion-facing consumer reaches the real seal. It sits between the regular-sequence carrier of \autoref{ch:concrete-instances-regular-sequence-space-namecert}, the schedule surface of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the diagonal selector of \autoref{ch:concrete-instances-regularcauchydiagonal-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The carrier stores the diagonal route as finite NameCert data, not as quotient streams, choice-selected representatives, or ambient completeness.
+
+\begin{definition}[BishopLocatedDiagonalSequence carrier]
+\label{def:bishop-located-diagonal-sequence-carrier}
+A $\BishopLocatedDiagonalSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,Q,D,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row naming the inspected finite windows of the source family;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational values visible in those windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, exposing the dyadic budget used by the located diagonal read;
+\item $L$ is the $\RegularSequenceSpaceUp$ source row whose accepted carrier supplies the family-level regular-sequence route;
+\item $R$ is the $\RegularCauchyDiagonalUp$ diagonal row, read only after $S,Q,D,L$ have been exposed;
+\item $H$ records componentwise $\hsame$ transport for $S,Q,D,L,R,C,P,N$;
+\item $C$ records displayed $\Cont$ replay from the regular-sequence source to the stream window, regular rational readback, dyadic tolerance row, diagonal row, and real-facing seal route;
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedDiagonalSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularSequenceSpaceUp$, $\RegularCauchyDiagonalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BishopLocatedDiagonalSequenceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $S,Q,D,L,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected diagonal representatives, countable-choice schedules, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopLocatedDiagonalSequence NameCert obligations]
+\label{thm:bishop-located-diagonal-sequence-namecert-obligations}
+For the carrier of \autoref{def:bishop-located-diagonal-sequence-carrier}, the local $\NameCert_{\BishopLocatedDiagonalSequenceUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for $B=(S,Q,D,L,R,H,C,P,N)$;
+\item analytic exposure of the $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegularSequenceSpaceUp$ source row $L$, and $\RegularCauchyDiagonalUp$ diagonal row $R$;
+\item structural stability through componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item provenance and local naming through $P$ and $N$;
+\item nonescape for quotient streams, selected diagonal representatives, countable-choice schedules, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:bishop-located-diagonal-sequence-carrier}. The analytic data are exactly $S,Q,D,L,R$, and the structural data are exactly $H,C,P,N$.
+
+The schedule, readback, and tolerance rows expose the finite observation surface. The regular-sequence source row $L$ keeps the family-level read inside $\RegularSequenceSpaceUp$, while the diagonal row $R$ is unavailable until those finite rows have been displayed.
+
+Transport and replay preserve this route componentwise. Since the carrier has no row for quotient equality, choice of representatives, countable-choice schedules, or ambient completeness, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[BishopLocatedDiagonalSequence L10 route]
+\label{thm:bishop-located-diagonal-sequence-l10-route}
+Every completion-facing read of an accepted $\BishopLocatedDiagonalSequenceUp$ carrier passes through \autoref{ch:concrete-instances-regular-sequence-space-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before the diagonal read is public. The route may cite the $\RegularCauchyDiagonalUp$ selector of \autoref{ch:concrete-instances-regularcauchydiagonal-namecert}, but only as a consumer of the displayed regular-sequence, stream-window, rational-readback, and dyadic-tolerance rows.
+\end{theorem}
+\begin{proof}
+Start with the regular-sequence source row $L$. It binds the diagonal read to the accepted $\RegularSequenceSpaceUp$ carrier before any completion-facing endpoint is visible.
+
+Read the finite observation rows next. The $\StreamNameUp$ schedule $S$ fixes the inspected windows, the $\RegSeqRatUp$ row $Q$ supplies the regular rational readback, and the $\DyadicRatCoreUp$ row $D$ records the displayed tolerance budget.
+
+Only then consume the diagonal row $R$. The $\RegularCauchyDiagonalUp$ selector receives the finite window, readback, and tolerance data already exposed by the source route, so it cannot introduce quotient streams or selected representatives.
+
+Finally replay $H,C,P,N$ into the $\RealUp$ seal. The terminal real-facing read is therefore public only after the displayed L10 route has passed through the regular-sequence source, StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance surface, and Real seal.
+\end{proof}
+
+\closureat{BishopLocatedDiagonalSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedDiagonalSequenceUp}
+  \constructivestory{A $\BishopLocatedDiagonalSequenceUp$ packet is generated from a StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance row, RegularSequenceSpace source row, RegularCauchyDiagonal selector row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-diagonal-sequence-carrier}, \autoref{thm:bishop-located-diagonal-sequence-namecert-obligations}, and \autoref{thm:bishop-located-diagonal-sequence-l10-route} seed the finite located diagonal-sequence route from regular sequence spaces to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove Lean verification, quotient stream equality, selected diagonal representatives, countable-choice schedules, or ambient $\RealUp$ completeness.}
+  \upgradepath{Formal closure requires a Lean carrier for BEDC.Derived.BishopLocatedDiagonalSequenceUp and checked NameCert obligations for the displayed L10 route.}
+\end{closurestatus}
