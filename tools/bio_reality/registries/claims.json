@@ -31568,6 +31568,21 @@
         }
       ],
       "linked_conjecture_id": "q6.translation-conditioned.decay-rbp.rna-half-life.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.transcription_elongation_axis_modulation.netseq_pausing_sequence_redistribution_gse159603",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Transcription-elongation axis-modulation: does local DNA sequence grammar predict the change in Pol II pause density from elongation-factor deletions? (NEW layer = Pol II pausing/transcription-elongation; perturbation-layer test like 170/171.) Yeast NET-seq GSE159603 (BY4741, sacCer3), WT(4 reps) + POSITIVE arms dst1/chd1/ino80 + NEGATIVE/specificity arms spt4/rpb4/ubp8, 1kb windows (n~11700, R64). Y_pos = mean over (dst1,chd1,ino80) of log1p(NETseq_mut)-log1p(NETseq_WT) = pause redistribution. Verdict bounded_descriptor_only -- REAL but NON-SPECIFIC: sequence features (poly-dA:dT, WW-periodicity, entropy, palindrome, CpG) predict Y_pos with chromosome-held-out incremental R^2 = 0.0214 over [WT-pause baseline + GC] (held-out 0.344 -> 0.365), within-(WT-density x GC decile) permutation p = 0.001, replicated across the 3 positive arms (dst1 -0.24, chd1 -0.24, ino80 -0.01, same sign). BUT FAILS the pre-registered POSITIVE-arm specificity gate: the NEGATIVE arm (spt4/rpb4/ubp8, core elongation factors) shows an EVEN STRONGER sequence dependence (incremental R^2 = 0.0393 > 0.0214). So the sequence->pause-redistribution relationship is GENERAL to elongation-factor deletion (strongest for core factors), NOT specific to the chromatin/TFIIS arms the oracle predicted -- a bounded descriptor, not a clean chromatin-factor-specific modulation. The specificity arm correctly prevented over-claiming. (Found via continuous-pivot + source-grounded oracle, clean-new dataset, self-verified BY4741/sacCer3 matching.) Cannot-claim: 1kb windows coarse vs single-nucleotide pausing; both strands summed; WT-pause baseline controlled so NOT a trivial high-pause artifact; single-ish replicate per mutant; BY4741 on R64 reference; observational.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "netseq_pausing_elongation_axis_gse159603",
+      "history": [
+        {
+          "ts": "2026-06-30T20:46:01+00:00",
+          "status": "open"
+        }
+      ]
     }
   ]
 }
