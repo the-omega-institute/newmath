@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiFiniteAxiomsUp$}
+\label{ch:concrete-instances-kuratowski-finite-axioms-namecert}
+\origin{human}
+
+Following Kuratowski's closure axioms and the finite-set practice used in elementary topology, the $\KuratowskiFiniteAxiomsUp$ packet records the displayed finite ledger by which a closure operator proves preservation of the empty set, extensivity, idempotence, and binary-union stability without importing a host powerset closure as primitive. It sits beside the closure-operator surface of \autoref{ch:concrete-instances-kuratowski-closure-axiom-namecert}, the topology row of \autoref{ch:concrete-instances-topology-namecert}, the membership classifier of \autoref{ch:concrete-instances-setlike-namecert}, and the finite-set packet of \autoref{ch:concrete-instances-kuratowski-finite-set-namecert}.
+
+\begin{definition}[Kuratowski finite axioms carrier]
+\label{def:kuratowski-finite-axioms-carrier}
+A $\KuratowskiFiniteAxiomsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,T,S,E,A,I,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying displayed-object row whose subset requests are read through $\SetLikeUp$;
+\item $T$ is the $\TopologyUp$ row exposing the finite open and closed tests available to the packet;
+\item $S$ is the $\SetLikeUp$ membership classifier row for every subset name mentioned by the ledger;
+\item $E$ is the empty-set closure row;
+\item $A$ is the extensivity row, recording that each displayed member of a named subset remains visible after closure;
+\item $I$ is the idempotence row, recording that a second closure read adds no new displayed subset request;
+\item $U$ is the binary-union row, recording that closure of a displayed union is read by the two component closure rows and the union classifier;
+\item $H$ records componentwise $\hsame$ transport for $X,T,S,E,A,I,U,C,P,N$;
+\item $C$ records displayed $\Cont$ replay for the empty, inclusion, idempotence, and binary-union reads;
+\item $P$ is the $\Pkg$ provenance over $\KuratowskiFiniteAxiomsUp$, $\KuratowskiClosureAxiomUp$, $\TopologyUp$, $\SetLikeUp$, $\KuratowskiFiniteSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KuratowskiFiniteAxiomsUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host powerset, arbitrary indexed union, quotient equality of subsets, selected closed hull, classical separation principle, compactness theorem, or ambient set-theoretic closure operator.
+\end{definition}
+
+\begin{theorem}[Kuratowski finite axiom NameCert obligations]
+\label{thm:kuratowski-finite-axioms-namecert-obligations}
+For an accepted $\KuratowskiFiniteAxiomsUp$ carrier $K=(X,T,S,E,A,I,U,H,C,P,N)$, the local $\NameCert_{\KuratowskiFiniteAxiomsUp}$ surface consists exactly of carrier admission for the displayed object, topology row, SetLike membership classifier, empty-set closure row, extensivity row, idempotence row, binary-union row, componentwise transport, continuation replay, provenance, and local naming. Every topology or closure-operator consumer must read the sibling $\KuratowskiClosureAxiomUp$, $\TopologyUp$, $\SetLikeUp$, and $\KuratowskiFiniteSetUp$ rows before it treats the finite closure ledger as a Kuratowski axiom packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kuratowski-finite-axioms-carrier}. The rows $X,T,S$ supply the displayed object, topology surface, and membership classifier before any closure axiom is inspected.
+
+Read the finite axiom ledger next. The empty row $E$, extensivity row $A$, idempotence row $I$, and binary-union row $U$ are the only closure-axiom rows in the packet, and each is tied to the SetLike classifier rather than to an ambient powerset operation.
+
+Finally apply transport, replay, provenance, and local naming through $H,C,P,N$. These rows keep the four finite axiom checks attached to the Kuratowski closure, topology, SetLike, and finite-set sibling sources, so the certificate exports no arbitrary-union closure, quotient subset equality, selected hull, separation theorem, compactness principle, or host closure operator.
+\end{proof}
+
+\begin{theorem}[Kuratowski finite axiom topology route]
+\label{thm:kuratowski-finite-axioms-topology-route}
+Every accepted $\KuratowskiFiniteAxiomsUp$ read consumed by a topology-facing chapter factors through
+$$
+\KuratowskiClosureAxiomUp,\quad \TopologyUp,\quad \SetLikeUp,\quad \KuratowskiFiniteSetUp .
+$$
+The route exposes only the finite empty, extensivity, idempotence, and binary-union checks displayed in $E,A,I,U$. It cannot be used as an arbitrary indexed-union closure principle, a selected closed-hull construction, a quotient equality of subsets, or a compactness argument.
+\end{theorem}
+\begin{proof}
+Begin with the sibling dependency route named in the carrier. The Kuratowski closure row supplies the closure-operator context, the topology row supplies open and closed tests, the SetLike row classifies displayed subset membership, and the finite-set row bounds the inspected ledger.
+
+The consumer then reads $E,A,I,U$ as four finite checks. Since these rows are displayed entries of the same packet, a topology-facing consumer cannot replace them by an unbounded family of subset claims or by an ambient closure operation.
+
+The structural rows $H,C,P,N$ preserve the same route under transport and replay. Thus the exported surface remains a finite NameCert ledger over the four sibling chapters and does not acquire host powerset, selected-hull, quotient, or compactness data.
+\end{proof}
+
+\closureat{KuratowskiFiniteAxiomsUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiFiniteAxiomsUp}
+  \constructivestory{A $\KuratowskiFiniteAxiomsUp$ packet is generated from a displayed object row, topology row, SetLike membership classifier, finite empty-set closure row, extensivity row, idempotence row, binary-union row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-finite-axioms-carrier}, \autoref{thm:kuratowski-finite-axioms-namecert-obligations}, and \autoref{thm:kuratowski-finite-axioms-topology-route} seed the finite Kuratowski closure-axiom ledger over topology, SetLike, and finite-set rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary indexed-union closure, quotient subset equality, selected closed hulls, compactness, separation axioms, or an ambient host powerset closure operator.}
+  \upgradepath{Obligation closure requires checked carrier admission, empty-set closure, extensivity, idempotence, binary-union stability, topology routing, SetLike classifier routing, finite-set bounding, transport, replay, provenance, and local naming for BEDC.Derived.KuratowskiFiniteAxiomsUp.}
+\end{closurestatus}
