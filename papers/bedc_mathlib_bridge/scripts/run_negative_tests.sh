@@ -206,7 +206,7 @@ expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
 cat > "$TMP_DIR/correspondence_missing_decl.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| absent-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"absent-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.absentCorrespondence"} --> |
+| absent-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"absent-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.absentCorrespondence","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.dvd_iff_toInt_dvd"]} --> |
 EOF
 
 expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
@@ -222,7 +222,7 @@ EOF
 cat > "$TMP_DIR/correspondence_trivial.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| trivial-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"trivial-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.trivialCorrespondence"} --> |
+| trivial-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"trivial-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.trivialCorrespondence","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.dvd_iff_toInt_dvd"]} --> |
 EOF
 
 expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
@@ -240,12 +240,50 @@ EOF
 cat > "$TMP_DIR/correspondence_mathlib_only.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| mathlib-only-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"mathlib-only-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.mathlibOnlyCorrespondence"} --> |
+| mathlib-only-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"mathlib-only-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.mathlibOnlyCorrespondence","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.dvd_iff_toInt_dvd"]} --> |
 EOF
 
 expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
   python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_mathlib_only.md" \
     "$TMP_DIR/GateWMathlibOnly.lean"
+
+cat > "$TMP_DIR/correspondence_weak_consumed.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| weak-consumed | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"weak-consumed","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Export.Int.cint_dvd_iff","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.toInt"]} --> |
+EOF
+
+expect_fail BEDC_GATE_W_WEAK_CONSUMED_DECL \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_weak_consumed.md"
+
+cat > "$TMP_DIR/correspondence_unknown_consumed.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| unknown-consumed | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"unknown-consumed","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Export.Int.cint_dvd_iff","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.missingFinalTheorem"]} --> |
+EOF
+
+expect_fail BEDC_GATE_W_UNKNOWN_CONSUMED_DECL \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_unknown_consumed.md"
+
+cat > "$TMP_DIR/GateWMissingValueDep.lean" <<'EOF'
+import BedcMathlibBridge.CI.MathlibCorrespondence
+
+open BedcMathlibBridge.Constructive.Int
+
+theorem BedcMathlibBridge.Negative.typeOnlyCorrespondence (x : CInt) :
+    x.toInt = x.toInt :=
+  rfl
+EOF
+
+cat > "$TMP_DIR/correspondence_missing_value_dep.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| type-only-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"type-only-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.typeOnlyCorrespondence","bedc_consumed_decl":["BedcMathlibBridge.Constructive.Int.CInt.dvd_iff_toInt_dvd"]} --> |
+EOF
+
+expect_fail BEDC_GATE_W_MISSING_VALUE_DEP \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_missing_value_dep.md" \
+    "$TMP_DIR/GateWMissingValueDep.lean"
 
 cp "$ROOT/tests/negative/gate_h_statement_only.lean" "$TMP_DIR/gate_h_statement_only.lean"
 cp "$ROOT/tests/negative/gate_h_certificate_hypothesis.lean" \
