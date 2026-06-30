@@ -56,6 +56,20 @@ The row $U$ records the uniform-source requests, while $D$ records the finite di
 Thus $S$ supplies the premetric source expected by the separated-reflection route of \autoref{ch:concrete-instances-separated-reflection-universal-namecert}. The structural rows $H,C,Q,N$ transport, replay, source, and name the same handoff; they do not add quotient data, selected representatives, or host equality.
 \end{proof}
 
+\begin{theorem}[Premetric zero-distance classifier boundary]
+\label{thm:premetric-zero-distance-classifier-boundary}
+Let $P=(X,U,D,Z,S,M,H,C,Q,N)$ be an accepted $\PremetricUp$ carrier. Every equality-like read of $P$ must pass through the finite distance-witness row $D$ and the zero-distance classifier row $Z$ before any $\SeparatedReflectionUniversalUp$, $\MetricCompletionUp$, or $\RealUp$ consumer may inspect the packet. Thus zero-distance comparison is the only equality-facing classifier route exposed by the premetric certificate; no consumer receives quotient point equality, selected separated representatives, host metric equality, chosen completion limits, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:premetric-carrier}. The source row $X$ and uniform row $U$ admit the displayed point windows, while $D$ is the only row that records positive-radius distance witnesses.
+
+Apply the NameCert obligation surface of \autoref{thm:premetric-namecert-obligations}. It places the zero-distance classifier $Z$ downstream of $D$, so any equality-like request must be read as a finite family of distance comparisons before it can be passed onward.
+
+The separated-reflection route of \autoref{thm:premetric-separated-reflection-route} consumes exactly that $D,Z$ prefix through $S$. Completion-facing readers then use the same prefix through $M$, so neither route can replace the classifier by a quotient carrier, a selected representative, or host metric equality.
+
+The refused endpoints follow from the carrier inventory. The tuple has no coordinate for quotient equality, selected representatives, chosen completion limits, host metric equality, or ambient completeness, and the support rows $H,C,Q,N$ only transport, replay, package, and name the displayed premetric route.
+\end{proof}
+
 \begin{theorem}[Premetric completion boundary]
 \label{thm:premetric-completion-boundary}
 Every $\MetricCompletionUp$ or $\RealUp$ consumer of an accepted $\PremetricUp$ packet reaches completion-facing data only through the displayed route
