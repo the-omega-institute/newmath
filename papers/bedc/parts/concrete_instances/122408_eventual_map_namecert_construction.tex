@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\EventualMapUp$}
+\label{ch:concrete-instances-eventual-map-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on eventual maps of directed sets and filters, the $\EventualMapUp$ packet records the finite route by which a tail-indexed source surface is transported into a target tail surface. It sits over the directed-index substrate of \autoref{ch:concrete-instances-directedset-namecert}, the Moore--Smith subnet route of \autoref{ch:concrete-instances-moore-smith-subnet-namecert}, the Frechet filter boundary of \autoref{ch:concrete-instances-frechetfilter-namecert}, the filter-base surface of \autoref{ch:concrete-instances-filterbase-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The chapter names eventuality only as displayed cofinal-tail data; it does not import host functions, quotient filters, selected representatives, or countable choice.
+
+\begin{definition}[EventualMapUp carrier]
+\label{def:eventual-map-carrier}
+An $\EventualMapUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,T,M,C,W,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source tail row, naming the inspected directed-set, filter-base, or stream-index tail requests on the domain side.
+\item $T$ is the target tail row, naming the inspected directed-set, filter-base, or stream-index tail requests on the codomain side.
+\item $M$ is the monotone eventual-map row, recording only the displayed comparisons showing that target-tail refinement pulls source-tail requests forward.
+\item $C$ is the cofinal ledger, assigning to each displayed target tail a source tail whose image is eventually inside it.
+\item $W$ is the finite-window pullback row, recording the pulled-back StreamName and RegSeqRat windows used by Real and Completion consumers.
+\item $R$ is the readback row, exposing the target-side observation only after $S,T,M,C,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source tails, target tails, monotone-eventual comparisons, cofinal ledgers, finite-window pullbacks, readbacks, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from every eventual-map request through $S,T,M,C,W,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EventualMapUp$, $\DirectedSetUp$, $\MooreSmithSubnetUp$, $\FrechetFilterUp$, $\FilterBaseUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventualMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for equality of host functions, selected representatives of filters or nets, quotient filters, choice-indexed cofinal maps, or an ambient eventual-equality relation outside the displayed $\BHist$ packet.
+\end{definition}
+
+\begin{theorem}[EventualMapUp NameCert obligations]
+\label{thm:eventual-map-namecert-obligations}
+For every accepted $\EventualMapUp$ carrier
+$$
+E=(S,T,M,C,W,R,H,K,P,N),
+$$
+the local $\NameCert_{\EventualMapUp}$ surface consists exactly of these finite obligations:
+\begin{enumerate}
+\item carrier admission for source-tail data, target-tail data, monotone eventual-map comparisons, the cofinal ledger, finite-window pullbacks, readback, transport, replay, provenance, and local naming;
+\item monotone exactness, requiring every exported refinement comparison to be a displayed row of $M$ between addresses already named by $S$ and $T$;
+\item cofinal exactness, requiring each target-tail request to read its source-tail witness through the ledger $C$ before any downstream consumer can use it;
+\item tail-window pullback stability, requiring the window row $W$ to preserve the same StreamName and RegSeqRat request under the displayed tail pullback;
+\item readback handoff, requiring $R$ to expose the target-side observation only after $S,T,M,C,W$ are visible;
+\item transport and replay stability under $H$ and $K$, with no hidden row added by structural replay;
+\item provenance exhaustion through $P,N$, so the packet is sourced and locally named exactly as an $\EventualMapUp$ carrier;
+\item refusal of host function equality, selected representatives, quotient filters, countable choice, and ambient eventual-equality predicates.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eventual-map-carrier}. The source and target tail rows are $S$ and $T$, while the monotone eventual-map comparisons and cofinal witnesses are $M$ and $C$.
+
+The window and readback rows are downstream. The row $W$ records finite pullbacks of the displayed StreamName and RegSeqRat windows, and $R$ reads the target observation only after the pulled-back tail data have been exposed.
+
+The structural rows $H,K,P,N$ preserve this route componentwise. They transport, replay, source, and name the same finite packet, so they cannot add host function equality, selected representatives, quotient filters, a choice-indexed cofinal map, or an ambient eventual-equality predicate.
+\end{proof}
+
+\begin{theorem}[EventualMapUp composition handoff]
+\label{thm:eventual-map-composition-handoff}
+Let
+$$
+E_{01}=(S_0,S_1,M_{01},C_{01},W_{01},R_{01},H_{01},K_{01},P_{01},N_{01})
+$$
+and
+$$
+E_{12}=(S_1',S_2,M_{12},C_{12},W_{12},R_{12},H_{12},K_{12},P_{12},N_{12})
+$$
+be accepted $\EventualMapUp$ packets whose middle tail rows agree through a displayed $\hsame$ transport. Their composite is exported only by reading the shared finite cofinal ledgers $C_{01},C_{12}$ and the visible tail-window pullbacks $W_{01},W_{12}$. No composition step may replace those rows by host function composition, quotient-filter equality, a selected subnet representative, or countable choice.
+\end{theorem}
+\begin{proof}
+First expose the middle-tail agreement. The only bridge between the target row of $E_{01}$ and the source row of $E_{12}$ is the displayed $\hsame$ transport on the middle tail surface.
+
+Next read the cofinal data in order. A final target-tail request is pulled back through $C_{12}$ to a middle-tail request and then through $C_{01}$ to a source-tail request. The monotone rows $M_{12}$ and $M_{01}$ supply only the displayed refinement comparisons needed for this two-step pullback.
+
+Finally compose the finite windows. The rows $W_{12}$ and $W_{01}$ carry the visible StreamName and RegSeqRat pullbacks, and the readback rows $R_{12}$ and $R_{01}$ remain downstream of those windows. Transport, replay, provenance, and local naming preserve the same finite ledgers, so no host-level composition or choice principle is available.
+\end{proof}
+
+\closureat{EventualMapUp}{seedStr}
+
+\begin{closurestatus}{\EventualMapUp}
+  \constructivestory{An $\EventualMapUp$ packet is generated from source and target tail rows, monotone eventual-map comparisons, a cofinal ledger, finite-window pullbacks, readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventual-map-carrier}, \autoref{thm:eventual-map-namecert-obligations}, and \autoref{thm:eventual-map-composition-handoff} seed the finite eventual-map interface for directed tails, filters, StreamName windows, and RegSeqRat readbacks.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected subnet or filter representatives, quotient filters, countable choice, ambient eventual equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone exactness, cofinal exactness, tail-window pullback stability, readback handoff, transport, replay, provenance, and local naming for BEDC.Derived.EventualMapUp.}
+\end{closurestatus}
