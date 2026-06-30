@@ -4783,6 +4783,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Ledger
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
+import BEDC.Derived.DependentCodomainInversionBoundaryUp
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
@@ -8062,6 +8063,7 @@ import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
 import BEDC.Derived.MarkovChainUp.TransitionPacketScope
+import BEDC.Derived.MarkovKernelUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
@@ -10438,6 +10440,7 @@ import BEDC.Derived.RealCauchyFilterMonadUnitUp
 import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterUp.TasteGate
 import BEDC.Derived.RealCauchyModulusRefinementUp.TasteGate
+import BEDC.Derived.RealCauchyModulusSelectorUp
 import BEDC.Derived.RealCauchyModulusUp.BoundedReadbackCoherence
 import BEDC.Derived.RealCauchyModulusUp.BoundedTailLedger
 import BEDC.Derived.RealCauchyModulusUp.Classifier

@@ -1,0 +1,22 @@
+\begin{definition}[RegularSequenceSpace density route]
+\label{def:regular-sequence-space-density-route}
+The $\RegularSequenceSpaceUp$ density route is the finite dependency corridor in which an accepted carrier
+$$
+S=(X,T,Q,D,R,H,C,P,N)
+$$
+is read first through the $\RegSeqRatUp$ regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, then through the density-facing $\RealSeparabilityUp$ surface of \autoref{ch:concrete-instances-real-separability-namecert}. The route exposes only the displayed source row $X$, stream schedule $T$, regular readback $Q$, dyadic tolerance row $D$, terminal $\RealUp$ seal $R$, componentwise transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+\end{definition}
+
+\begin{theorem}[RegularSequenceSpace RegSeqRat density consumption]
+\label{thm:regular-sequence-space-regseqrat-density-consumption}
+Every $\RealSeparabilityUp$ consumer of an accepted $\RegularSequenceSpaceUp$ carrier must consume the density route of \autoref{def:regular-sequence-space-density-route}. In particular, the consumer reaches \autoref{ch:concrete-instances-real-separability-namecert} only after the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ tolerance ledger, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row remain visible in the same packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:regular-sequence-space-carrier}. The available rows are exactly $X,T,Q,D,R,H,C,P,N$, with $Q$ carrying the regular rational readback and $R$ carrying the terminal Real-facing seal.
+
+Use the RegSeqRat frontier of \autoref{thm:regular-sequence-space-regseqrat-frontier}. It forces completion-facing consumers to read the displayed stream schedule, regular rational readback, dyadic tolerance row, and Real seal before a value-facing endpoint is public.
+
+Now route density-facing reads through \autoref{ch:concrete-instances-real-separability-namecert}. That chapter consumes rational density only after the RegSeqRat and Real-seal rows are visible, so the $\RegularSequenceSpaceUp$ consumer cannot bypass $T,Q,D,R$.
+
+Finally $H,C,P,N$ preserve the same packet by transport, replay, provenance, and local naming. Since the carrier has no coordinate for quotient stream equality, selected dense sequence, countable-choice schedule, unrestricted sequence-space completion, or ambient $\RealUp$ completeness, no density consumer can export those objects from the route.
+\end{proof}
