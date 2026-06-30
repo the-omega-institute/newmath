@@ -253,3 +253,130 @@ as a scale leg in
 \autoref{def:rh-right-triangle-observation-system} appears here as a
 failure of a finite Gram matrix.
 \end{principle}
+
+\begin{theorem}[Right-side zero gives a one-point Pick witness]
+\label{thm:rh-right-side-zero-one-point-pick-witness}
+Assume $\rho$ is a zero of $\xi$ with multiplicity $m\ge1$ and
+$$
+\operatorname{Re}(\rho)>\frac12.
+$$
+Then the Xi Pick row has a one-point negative witness at some
+$z_0\in\mathbb D$.
+\end{theorem}
+
+\begin{proof}
+Near $\rho$,
+$$
+\frac{\xi'(s)}{\xi(s)}
+=
+\frac{m}{s-\rho}
++
+\text{holomorphic row}.
+$$
+Choose $\varepsilon>0$ so small that
+$$
+s_0:=\rho-\varepsilon
+$$
+still satisfies $\operatorname{Re}(s_0)>1/2$ and lies outside the zero
+locus.  The holomorphic row is bounded near $\rho$, while
+$$
+\operatorname{Re}\frac{m}{s_0-\rho}
+=
+-\frac{m}{\varepsilon}.
+$$
+Hence, for sufficiently small $\varepsilon$,
+$$
+\operatorname{Re}\frac{\xi'(s_0)}{\xi(s_0)}<0.
+$$
+Let
+$$
+z_0:=1-\frac1{s_0}.
+$$
+The Cayley readout of \autoref{def:rh-cayley-right-half-plane-readout}
+places $z_0$ in the unit disk.  By definition of $f_{\xi}$,
+$$
+\operatorname{Re}f_{\xi}(z_0)<0.
+$$
+Therefore
+$$
+K_{\xi}(z_0,z_0)
+=
+\frac{2\operatorname{Re}f_{\xi}(z_0)}{1-|z_0|^2}
+<0,
+$$
+which is the one-point instance of
+\autoref{def:rh-finite-pick-witness}.
+\end{proof}
+
+\begin{definition}[Triadic Pick obstruction packet]
+\label{def:rh-triadic-pick-obstruction-packet}
+A triadic Pick obstruction packet is the source-side audit row
+$$
+\mathsf{TriadicPickObstruction}_{\xi}
+$$
+with three displayed sides.  Its $\mathsf P$ side is the
+prime-ledger and solenoid-fibre row: hidden coordinates may refine
+phase and prime-register data, as in
+\autoref{def:rh-phase-channel-hidden-prime-fibre}, but may not supply
+an unrecorded $\mathbb R_{>0}$ scale gauge.  Its $\mathsf T$ side is
+the finite witness extraction of
+\autoref{thm:rh-right-side-zero-one-point-pick-witness}.  Its
+$\mathsf U$ side is the positive kernel row
+$$
+\mathsf{TriadicPickPositivity}_{\xi}.
+$$
+The packet is closed when these three sides read the same radial
+defect: the prime side refuses it as hidden scale, the time side
+extracts it as a finite Pick witness, and the unit side excludes that
+witness by positive definiteness.
+\end{definition}
+
+\begin{theorem}[Triadic Pick obstruction gives fixed-half readout]
+\label{thm:rh-triadic-pick-obstruction-fixed-half-readout}
+Assume $\mathsf{TriadicPickObstruction}_{\xi}$, assume
+$$
+\mathsf{TriadicPickPositivity}_{\xi},
+$$
+and assume the usual reflection consumption row for the completed zeta
+zero ledger.  Then the represented completed zero ledger has fixed-half
+readout.
+\end{theorem}
+
+\begin{proof}
+Suppose there is a represented zero with readout on the right open side
+of the fixed-half surface.  By
+\autoref{thm:rh-right-side-zero-one-point-pick-witness}, it supplies a
+one-point finite Pick witness
+$$
+K_{\xi}(z_0,z_0)<0.
+$$
+However, $\mathsf{TriadicPickPositivity}_{\xi}$ applied to the same
+one-point family gives
+$$
+K_{\xi}(z_0,z_0)\ge0.
+$$
+This contradiction excludes the right open side.  The reflection
+consumption row excludes the opposite open side by transporting it to
+the side already excluded.  Hence the represented completed zero ledger
+reads through the fixed-half surface.
+\end{proof}
+
+\begin{principle}[Pick tower as the common triangular target]
+\label{prin:rh-pick-tower-common-triangular-target}
+The finite source Pick approximation of
+\autoref{def:rh-finite-source-pick-approximation} is the compact
+target for the three-sided route.  Its $\mathsf P_m$ row is the
+source construction of $\Phi_m$ from prime, gamma, normalization, and
+ledger data.  Its $\mathsf U_m$ row is the finite square identity
+$$
+K_m(z,w)=\langle\Phi_m(z),\Phi_m(w)\rangle_{\mathcal H_m}.
+$$
+Its $\mathsf T_m$ row is finite-matrix convergence
+$$
+K_m(z_i,z_j)\to K_{\xi}(z_i,z_j)
+$$
+for every displayed finite disk family.  Thus the remaining source
+burden is not a separate search along Li, Weil, and Nyman lines; it is
+the construction of a source-side Hilbert factorization whose finite
+positive kernels converge to the Xi Pick kernel.
+\end{principle}
