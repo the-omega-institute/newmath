@@ -7033,6 +7033,7 @@ import BEDC.Derived.HypercoverUp.TasteGate
 import BEDC.Derived.HyperfactorialUp
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
+import BEDC.Derived.Hypergeometric2F1Up
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperharmonicUp
 import BEDC.Derived.HyperspaceUp.BridgedInterfaceRoute
@@ -7249,6 +7250,7 @@ import BEDC.Derived.ItoIntegralUp.TasteGate
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JacksonFiniteApproximationUp.TasteGate
 import BEDC.Derived.JacobiIterationUp.TasteGate
+import BEDC.Derived.JacobiSumUp
 import BEDC.Derived.JacobiSymbolUp
 import BEDC.Derived.JacobiThetaFiniteUp
 import BEDC.Derived.JacobiUp
@@ -7351,6 +7353,7 @@ import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleeneTreeUp.UniformStructureBoundary
 import BEDC.Derived.KleisliTraceUp.TasteGate
+import BEDC.Derived.KloostermanSumUp
 import BEDC.Derived.KnoppTailCondensationUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
@@ -10275,6 +10278,7 @@ import BEDC.Derived.RadonTheoremUp.NameCertObligations
 import BEDC.Derived.RadonTheoremUp.TasteGate
 import BEDC.Derived.RaikovCompletionUp.TasteGate
 import BEDC.Derived.RamanujanCongruenceUp
+import BEDC.Derived.RamanujanSumUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RaneyNumberUp
