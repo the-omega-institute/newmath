@@ -12233,6 +12233,7 @@ import BEDC.Derived.SheafificationUp.CoverBasisStability
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverLocalGluingObligation
 import BEDC.Derived.SheafificationUp.CoverLocalGluingReplay
+import BEDC.Derived.SheafificationUp.CoverRefinementBudget
 import BEDC.Derived.SheafificationUp.CoverRefinementFiniteInduction
 import BEDC.Derived.SheafificationUp.CoverSiteGluingLedger
 import BEDC.Derived.SheafificationUp.CoverageExactness
@@ -12247,6 +12248,7 @@ import BEDC.Derived.SheafificationUp.LocalNameCertNonescape
 import BEDC.Derived.SheafificationUp.LocalityGluingRouteCertificate
 import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
+import BEDC.Derived.SheafificationUp.LocalityScopeAddendum
 import BEDC.Derived.SheafificationUp.ObligationClosurePackage
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
