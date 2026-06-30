@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\LoewnerOrderUp$}
+\label{ch:concrete-instances-loewner-order-namecert}
+\origin{human}
+
+Following Loewner's order on self-adjoint matrices and the Boyd--Vandenberghe semidefinite-programming presentation, the $\LoewnerOrderUp$ packet records the finite BEDC surface for the comparison $A \preceq B$ as semidefinite-cone membership of the displayed difference $B-A$. It sits after the Hermitian matrix carrier of \autoref{ch:concrete-instances-hermitian-matrix-namecert}, the semidefinite-cone packet of \autoref{ch:concrete-instances-semidefinitecone-namecert}, and the affine feasible-region route of \autoref{ch:concrete-instances-spectrahedron-namecert}. The packet names an order interface over finite Hermitian matrix rows; it does not assert spectral decomposition, eigenvalue monotonicity, analytic closure, selected diagonalization, or a host positive-semidefinite predicate.
+
+\begin{definition}[Loewner order carrier]
+\label{def:loewner-order-carrier}
+A $\LoewnerOrderUp$ carrier is a finite $\BHist$ packet
+$$
+(A,B,H,D,K,V,O,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the left $\HermitianMatrixUp$ row.
+\item $B$ is the right $\HermitianMatrixUp$ row over the same square dimension, scalar source, and vector-space boundary as $A$.
+\item $H$ is the shared Hermitian comparison window, recording the common dimension, complex scalar rows, vector-space source, and self-adjointness readbacks used by $A$ and $B$.
+\item $D$ is the displayed difference-matrix row for $B-A$, read through the same $\MatrixUp$ and $\VecSpaceUp$ provenance as the two endpoint rows.
+\item $K$ is the $\SemidefiniteConeUp$ membership row for the difference matrix $B-A$.
+\item $V$ is the joint $\VecSpaceUp$ and $\MatrixUp$ provenance row tying $A$, $B$, $H$, and $D$ to one finite coordinate surface.
+\item $O$ is the $\OrderUp$ nonnegativity readback exported by $K$ for displayed vector tests against $B-A$.
+\item $T$ records componentwise $\hsame$ transport for the endpoint, Hermitian, difference, cone-membership, order, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from endpoint inspection through difference formation and semidefinite-cone readback.
+\item $P$ is the $\Pkg$ provenance over $\LoewnerOrderUp$, $\HermitianMatrixUp$, $\SemidefiniteConeUp$, $\MatrixUp$, $\VecSpaceUp$, $\OrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LoewnerOrderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the eleven displayed rows. It has no coordinate for spectral theorem data, eigenvalue comparison, quotient matrix equality, analytic closure, selected basis data, or host-level positive semidefiniteness.
+\end{definition}
+
+\begin{theorem}[Loewner order NameCert obligations]
+\label{thm:loewner-order-namecert-obligations}
+For every accepted $\LoewnerOrderUp$ carrier
+$$
+L=(A,B,H,D,K,V,O,T,C,P,N),
+$$
+the local $\NameCert_{\LoewnerOrderUp}$ surface consists exactly of carrier admission, left and right Hermitian endpoint exposure, shared Hermitian comparison-window exposure, displayed difference-matrix formation, semidefinite-cone membership of $B-A$, vector-space and matrix provenance, $\OrderUp$ nonnegativity readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:loewner-order-carrier}. The endpoint rows $A$ and $B$ are visible only through the Hermitian matrix carrier, and the shared window $H$ keeps their dimension, scalar source, vector-space source, and self-adjointness reads aligned.
+
+The difference obligation is finite. The row $D$ is the displayed matrix row for $B-A$, formed from the same matrix and vector-space provenance row $V$ that types the two endpoint packets.
+
+The positivity obligation is the semidefinite-cone row $K$. Its order-facing output is the nonnegativity readback $O$, so a consumer sees the comparison only after passing through the sibling semidefinite-cone certificate.
+
+Finally $T,C,P,N$ close the transport, replay, provenance, and local naming surface. Since no listed row stores spectral data, eigenvalue comparison, selected bases, quotient matrix equality, analytic closure, or a host positivity predicate, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Loewner order semidefinite route]
+\label{thm:loewner-order-semidefinite-route}
+Every optimization or convex-feasibility consumer that reads an accepted $\LoewnerOrderUp$ packet as $A \preceq B$ must factor through the displayed route
+$$
+(A,B,H,V) \longmapsto D=B-A \longmapsto K:\SemidefiniteConeUp(D) \longmapsto O:\OrderUp.
+$$
+The route may be cited by spectrahedral consumers, but it exports only the finite difference row, semidefinite-cone membership row, order readback, transport, replay, and provenance rows already present in the packet.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through \autoref{def:loewner-order-carrier}. The left and right endpoints are Hermitian rows over the shared comparison window, so a matrix inequality read has no source other than $A$, $B$, $H$, and $V$.
+
+Next form the displayed difference row $D$. This is the only row that turns endpoint data into a cone-facing matrix, and it remains tied to the same $\MatrixUp$ and $\VecSpaceUp$ provenance.
+
+Then read the semidefinite-cone membership row $K$ and its order output $O$. By \autoref{ch:concrete-instances-semidefinitecone-namecert}, the cone read is a finite BEDC membership surface rather than an imported positive-semidefinite predicate.
+
+A spectrahedral consumer may use the resulting route as an affine-matrix inequality boundary, as in \autoref{ch:concrete-instances-spectrahedron-namecert}. The consumer still receives only $D,K,O,T,C,P,N$, so the Loewner comparison remains a finite semidefinite route.
+\end{proof}
+
+\begin{theorem}[Loewner order Hermitian nonescape]
+\label{thm:loewner-order-hermitian-nonescape}
+Every accepted $\LoewnerOrderUp$ packet keeps both endpoints and the displayed difference inside the finite Hermitian matrix surface: the rows $A$ and $B$ are $\HermitianMatrixUp$ carriers, the shared row $H$ supplies the common self-adjoint comparison window, and the difference row $D$ is admitted only as the matrix row consumed by the semidefinite-cone membership $K$ over that same Hermitian boundary.
+
+Thus a Loewner comparison cannot escape to non-Hermitian matrices, quotient matrix equality, host equality of arrays, selected eigenbasis data, or spectral positivity.
+\end{theorem}
+\begin{proof}
+Project the endpoint rows $A$ and $B$ from the carrier. Both are explicit $\HermitianMatrixUp$ rows, so their matrix entries, conjugate-transpose reads, and self-adjointness comparisons are governed by \autoref{ch:concrete-instances-hermitian-matrix-namecert}.
+
+The row $H$ keeps the two endpoint packets over one comparison window. Transport through $T$ is componentwise over that same window, and replay through $C$ inspects only the displayed endpoint, difference, cone, and order rows.
+
+The difference row $D$ is not a separate ambient matrix object. It is the finite matrix row consumed by $K$, and $K$ is the semidefinite-cone membership row whose order readback is $O$.
+
+Since the carrier has no additional coordinate, a consumer cannot read non-Hermitian matrix data, quotient equality, host array equality, selected eigenbasis data, or spectral positivity from an accepted $\LoewnerOrderUp$ packet.
+\end{proof}
+
+\closureat{LoewnerOrderUp}{seedStr}
+\begin{closurestatus}{\LoewnerOrderUp}
+  \constructivestory{A $\LoewnerOrderUp$ packet is generated from two $\HermitianMatrixUp$ endpoint rows over a shared comparison window, a displayed difference-matrix row, a $\SemidefiniteConeUp$ membership row for $B-A$, an $\OrderUp$ nonnegativity readback, $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:loewner-order-carrier}, \autoref{thm:loewner-order-namecert-obligations}, \autoref{thm:loewner-order-semidefinite-route}, and \autoref{thm:loewner-order-hermitian-nonescape} seed the finite Loewner-order packet over displayed $\HermitianMatrixUp$, $\SemidefiniteConeUp$, $\MatrixUp$, $\VecSpaceUp$, $\OrderUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral decomposition, eigenvalue monotonicity, analytic closure, selected diagonalization, host positive-semidefinite predicates, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint Hermitian visibility, difference-row exactness, semidefinite-cone membership, order readback, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
