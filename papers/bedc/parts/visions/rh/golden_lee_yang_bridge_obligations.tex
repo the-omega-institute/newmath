@@ -248,6 +248,184 @@ strict inside and strict outside zero-free ledgers together with radial
 purity.
 \end{principle}
 
+\begin{definition}[Zeckendorf--Mellin path packet]
+\label{def:rh-zeckendorf-mellin-path-packet}
+Let $F_0=0$, $F_1=1$, and
+$$
+F_{j+2}=F_{j+1}+F_j.
+$$
+For the path graph on $\{1,\ldots,m\}$, let
+$$
+\operatorname{Ind}(P_m)
+:=
+\{S\subseteq\{1,\ldots,m\}: i,j\in S\Rightarrow |i-j|\neq1\}.
+$$
+For $S\in\operatorname{Ind}(P_m)$ set
+$$
+N(S):=\sum_{j\in S}F_{j+1}.
+$$
+The finite Zeckendorf ledger identifies $\operatorname{Ind}(P_m)$ with
+the integers
+$$
+0\le N<F_{m+2}.
+$$
+For a vector $\mathbf x=(x_1,\ldots,x_m)$ define the multivariable path
+partition function
+$$
+I_m(\mathbf x)
+:=
+\sum_{S\in\operatorname{Ind}(P_m)}
+\prod_{j\in S}x_j.
+$$
+For $u>0$ the Mellin fibre is
+$$
+x_j(u):=(-1)^{F_{j+1}}e^{-uF_{j+1}}.
+$$
+\end{definition}
+
+\begin{theorem}[Zeckendorf--Mellin exact projection]
+\label{thm:rh-zeckendorf-mellin-exact-projection}
+For $\Re(s)>0$,
+$$
+\sum_{n=1}^{F_{m+2}-1}(-1)^{n-1}n^{-s}
+=
+-\frac1{\Gamma(s)}
+\int_0^{\infty}
+u^{s-1}
+\left(I_m(\mathbf x(u))-1\right)\,du.
+$$
+\end{theorem}
+
+\begin{proof}
+For $n>0$ and $\Re(s)>0$, the Mellin--Laplace identity gives
+$$
+n^{-s}
+=
+\frac1{\Gamma(s)}
+\int_0^{\infty}u^{s-1}e^{-nu}\,du.
+$$
+The Zeckendorf ledger in
+\autoref{def:rh-zeckendorf-mellin-path-packet} gives a bijection from
+nonempty independent sets $S$ to the integers
+$1\le N(S)\le F_{m+2}-1$.  Thus
+$$
+\sum_{n=1}^{F_{m+2}-1}(-1)^{n-1}n^{-s}
+=
+\sum_{\varnothing\neq S\in\operatorname{Ind}(P_m)}
+(-1)^{N(S)-1}N(S)^{-s}.
+$$
+Substituting the Mellin--Laplace identity and using finiteness to
+interchange the sum and integral yields
+$$
+\frac1{\Gamma(s)}
+\int_0^{\infty}
+u^{s-1}
+\sum_{\varnothing\neq S}
+(-1)^{N(S)-1}e^{-uN(S)}\,du.
+$$
+For every independent set $S$,
+$$
+(-1)^{N(S)}e^{-uN(S)}
+=
+\prod_{j\in S}
+\left((-1)^{F_{j+1}}e^{-uF_{j+1}}\right)
+=
+\prod_{j\in S}x_j(u).
+$$
+Therefore
+$$
+\sum_{\varnothing\neq S}
+(-1)^{N(S)-1}e^{-uN(S)}
+=
+-\sum_{\varnothing\neq S}\prod_{j\in S}x_j(u)
+=
+-\left(I_m(\mathbf x(u))-1\right),
+$$
+which is the displayed identity.
+\end{proof}
+
+\begin{definition}[Zeckendorf transfer dominated splitting]
+\label{def:rh-zeckendorf-transfer-dominated-splitting}
+The source row
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+asserts that the non-autonomous path transfer product
+$$
+\begin{pmatrix}
+I_j(\mathbf x(u))\\
+I_{j-1}(\mathbf x(u))
+\end{pmatrix}
+=
+\begin{pmatrix}
+1&x_j(u)\\
+1&0
+\end{pmatrix}
+\begin{pmatrix}
+I_{j-1}(\mathbf x(u))\\
+I_{j-2}(\mathbf x(u))
+\end{pmatrix}
+$$
+has a ledgered dominated splitting on the zero island after Mellin
+projection.  Concretely, the row selects two fibre branches whose
+Mellin-integrated contributions form
+$P_m^{\mathrm{dom}}$, while all remaining transfer contributions form
+$P_m^{\mathrm{sub}}$ and satisfy
+$$
+|P_m^{\mathrm{sub}}(s)|<|P_m^{\mathrm{dom}}(s)|
+\qquad
+s\in\partial D_m.
+$$
+\end{definition}
+
+\begin{definition}[Mellin Lee--Yang stability operator]
+\label{def:rh-mellin-lee-yang-stability-operator}
+The source row
+$$
+\mathsf{MellinLeeYangStabilityOperator}
+$$
+asserts that the Mellin projection in
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} preserves the
+Lee--Yang zero-free regions of the fibre packets.  Equivalently, after
+the fibrewise path packet is lifted by the Joukowsky Lee--Yang ledger,
+the Mellin integral produces no zero branch in
+$$
+0<|u|<1
+$$
+and no zero branch in
+$$
+|u|>1,
+$$
+and the operator introduces no unrecorded $\mathbb R_{>0}$ scale gauge.
+\end{definition}
+
+\begin{theorem}[Mellin rows supply the stable bridge source package]
+\label{thm:rh-mellin-rows-supply-stable-bridge-source-package}
+Assume
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+and
+$$
+\mathsf{MellinLeeYangStabilityOperator}
+$$
+for the golden eta zero island.  Then the three analytic source rows of
+\autoref{def:rh-golden-bridge-analytic-source-rows} are supplied for
+that island.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} identifies the
+golden eta truncation with a Mellin projection of the Zeckendorf path
+partition function.  The dominated-splitting row supplies the branch
+decomposition and boundary dominance estimate required for
+$\mathsf{GoldenSpectralExpansion}$ and
+$\mathsf{GoldenSpectralGap}$.  The Mellin Lee--Yang stability operator
+supplies the strict inside and strict outside zero-free ledgers, with no
+radial scale gauge.  Those are exactly the stability rows required by
+$\mathsf{GoldenStableRoucheHomotopy}$.
+\end{proof}
+
 \begin{definition}[Golden bridge analytic source rows]
 \label{def:rh-golden-bridge-analytic-source-rows}
 The analytic source content of
@@ -268,8 +446,13 @@ dominant pair and proves the uniform gap needed by
 \autoref{thm:rh-dominant-gap-gives-rouche-control}.  The third row
 transports the selected dominant packet to the Fibonacci Lee--Yang lift
 while preserving the strict inside and strict outside zero-free regions.
-Together these rows upgrade weak eta capture to a boundary-stable
-golden packet.
+The Zeckendorf--Mellin route of
+\autoref{thm:rh-mellin-rows-supply-stable-bridge-source-package}
+offers a more structured way to supply these rows: first identify eta
+golden truncation as a Mellin projection of path independent-set data,
+then prove dominated transfer splitting and Mellin stability
+preservation.  Together these rows upgrade weak eta capture to a
+boundary-stable golden packet.
 \end{definition}
 
 \begin{theorem}[A golden bridge witness supplies boundary stability]
@@ -382,4 +565,27 @@ the spectral expansion, spectral gap, and stable Rouch\'e homotopy rows,
 the bridge remains a conditional source package; with them, the
 Lee--Yang unit-boundary certificate can be transported to the same
 zero island without introducing a radial scale anomaly.
+\end{principle}
+
+\begin{principle}[Mellin factorization of the bridge load]
+\label{prin:rh-mellin-factorization-bridge-load}
+The bridge need not be approached as a direct homotopy from an eta
+truncation to a Lee--Yang polynomial.  The exact projection of
+\autoref{thm:rh-zeckendorf-mellin-exact-projection} factors the eta
+truncation through the Zeckendorf path partition function, where the
+Fibonacci transfer and Lee--Yang lift are intrinsic.  The remaining
+analytic load is therefore the pair of source rows
+$$
+\mathsf{ZeckendorfTransferDominatedSplitting}
+$$
+and
+$$
+\mathsf{MellinLeeYangStabilityOperator}.
+$$
+The first row prevents the Mellin projection from selecting a
+non-Fibonacci dominant branch; the second prevents the Mellin operator
+from creating a zero in the strict inside or strict outside region.  This
+factorization is still a proof obligation, but it is more local than an
+unstructured comparison between the eta packet and an unrelated
+Lee--Yang packet.
 \end{principle}
