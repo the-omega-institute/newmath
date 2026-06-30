@@ -13838,6 +13838,7 @@ import BEDC.FKernel.Unary.Domain
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary.Repetition
 import BEDC.FKernel.Unary.ResultCases
+import BEDC.Foundations.TriangleGenerationSystem
 import BEDC.GroundCompiler
 import BEDC.GroundCompiler.AnalysisPipeline
 import BEDC.GroundCompiler.AuditReexport
