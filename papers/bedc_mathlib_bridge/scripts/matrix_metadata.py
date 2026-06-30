@@ -20,6 +20,31 @@ AXIOM_STATUS_VALUES = {
     "principled_irreducible",
     "unprobed",
 }
+CONSUMED_DECL_PREFIXES = ("BEDC.", "BedcMathlibBridge.Constructive.")
+WEAK_CONSUMED_DECLS = {
+    "BEDC",
+    "BedcMathlibBridge.Constructive",
+    "BHist",
+    "Nat",
+    "Int",
+    "CInt",
+    "BEDC.FKernel.Hist.BHist",
+    "BEDC.FKernel.Hist.BHist.Empty",
+    "BEDC.FKernel.Hist.bwordLength",
+    "BedcMathlibBridge.Constructive.Int.CInt",
+    "BedcMathlibBridge.Constructive.Int.CInt.toInt",
+    "BedcMathlibBridge.Constructive.Int.CInt.ofInt",
+}
+WEAK_CONSUMED_TERMINALS = {
+    "BHist",
+    "Nat",
+    "Int",
+    "CInt",
+    "toInt",
+    "ofInt",
+    "toNat",
+    "ofNat",
+}
 
 
 @dataclass
@@ -127,6 +152,57 @@ def validate_axiom_list(value: Any, row: MatrixRow, field: str) -> list[str]:
 
 def validate_axioms(value: Any, row: MatrixRow) -> list[str]:
     return validate_axiom_list(value, row, "expected_axioms")
+
+
+def validate_consumed_decl(value: Any, row: MatrixRow) -> str:
+    decl = validate_decl(value, "bedc_consumed_decl", row)
+    terminal = decl.rsplit(".", 1)[-1]
+    if (
+        decl in WEAK_CONSUMED_DECLS
+        or terminal in WEAK_CONSUMED_TERMINALS
+        or not decl.startswith(CONSUMED_DECL_PREFIXES)
+    ):
+        raise MatrixMetadataError(
+            f"BEDC_GATE_W_WEAK_CONSUMED_DECL: line {row.line_no}: "
+            f"`bedc_consumed_decl` item `{decl}` is too broad to certify "
+            "correspondence consumption"
+        )
+    return decl
+
+
+def validate_consumed_decls(value: Any, row: MatrixRow) -> list[str]:
+    if value is None:
+        raise MatrixMetadataError(
+            f"BEDC_GATE_W_MISSING_VALUE_DEP: line {row.line_no}: "
+            "exported_core row requires non-empty `bedc_consumed_decl`"
+        )
+    raw_items: list[Any]
+    if isinstance(value, str):
+        raw_items = [value]
+    elif isinstance(value, list):
+        raw_items = value
+    else:
+        raise MatrixMetadataError(
+            f"line {row.line_no}: metadata field `bedc_consumed_decl` must be "
+            "a Lean declaration name or a string array"
+        )
+    if not raw_items:
+        raise MatrixMetadataError(
+            f"BEDC_GATE_W_MISSING_VALUE_DEP: line {row.line_no}: "
+            "`bedc_consumed_decl` must be non-empty"
+        )
+    decls = [validate_consumed_decl(item, row) for item in raw_items]
+    if decls != sorted(decls):
+        raise MatrixMetadataError(
+            f"line {row.line_no}: `bedc_consumed_decl` must be sorted"
+        )
+    dupes = sorted(name for name, count in Counter(decls).items() if count > 1)
+    if dupes:
+        raise MatrixMetadataError(
+            f"line {row.line_no}: duplicate `bedc_consumed_decl` item(s): "
+            + ", ".join(dupes)
+        )
+    return decls
 
 
 def validate_axiom_status(value: Any, row: MatrixRow, footprint: list[str]) -> dict[str, str]:
@@ -247,8 +323,8 @@ def optional_empty_string(value: Any, field: str, row: MatrixRow) -> str:
     return value.strip()
 
 
-def correspondence_rows(path: Path) -> list[dict[str, str]]:
-    out: list[dict[str, str]] = []
+def correspondence_rows(path: Path) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
     for row in load_rows(path):
         kind = row.metadata["kind"]
         correspondence = optional_empty_string(
@@ -281,12 +357,17 @@ def correspondence_rows(path: Path) -> list[dict[str, str]]:
             "bedc_irreducible_decl",
             row,
         )
+        consumed_decls = validate_consumed_decls(
+            row.metadata.get("bedc_consumed_decl"),
+            row,
+        )
         out.append(
             {
                 "row_id": row.cells["row_id"],
                 "mathlib_correspondence_decl": correspondence_decl,
                 "mathlib_decl": mathlib_decl,
                 "bedc_irreducible_decl": bedc_decl,
+                "bedc_consumed_decl": consumed_decls,
             }
         )
     return out
