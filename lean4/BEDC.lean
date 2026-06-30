@@ -7876,6 +7876,7 @@ import BEDC.Derived.LocatedUniformExtremeValueUp
 import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedUpperDedekindRealUp.TasteGate
+import BEDC.Derived.LocatedUpperLowerPairUp
 import BEDC.Derived.LocatedWeakKonigUp
 import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
@@ -9202,6 +9203,7 @@ import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.NameCertObligations
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
+import BEDC.Derived.NoetherNormalizationUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp.TasteGate
 import BEDC.Derived.NoetherianModuleUp
