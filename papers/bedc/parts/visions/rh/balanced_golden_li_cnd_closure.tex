@@ -1,0 +1,331 @@
+\chapter{Balanced Golden Li CND Closure}
+\label{ch:visions-rh-balanced-golden-li-cnd-closure}
+\origin{ai}
+
+\autoref{ch:visions-rh-balanced-golden-li-closure} records the balanced
+Lee--Yang route to pointwise Li positivity.  The same source rows carry
+a stronger structure: the Li coefficients form a conditionally negative
+definite kernel on the integer ledger.  This chapter records that kernel
+form.  The advantage is that the finite input is a single quadratic
+negative-type statement rather than a list of separate coefficient
+inequalities.
+
+\begin{definition}[Two-sided Li kernel row]
+\label{def:rh-two-sided-li-kernel-row}
+Let $(\lambda_n)_{n\ge1}$ be the Li--Weil coefficients of
+\autoref{def:rh-li-weil-coefficient-row}.  Set
+$$
+\lambda_0:=0
+$$
+and extend the sequence to $\mathbb Z$ by
+$$
+\lambda_{-n}:=\lambda_n
+\qquad
+(n\ge1).
+$$
+The associated two-sided Li kernel is
+$$
+K_{\lambda}(i,j):=\lambda_{i-j}
+\qquad
+(i,j\in\mathbb Z).
+$$
+\end{definition}
+
+\begin{definition}[Li conditional negative definiteness]
+\label{def:rh-li-conditional-negative-definiteness}
+The source row
+$$
+\mathsf{LiCND}
+$$
+asserts that the two-sided Li kernel of
+\autoref{def:rh-two-sided-li-kernel-row} is conditionally negative
+definite: for every finite coefficient family
+$$
+c_1,\ldots,c_N\in\mathbb C
+$$
+with
+$$
+\sum_{i=1}^N c_i=0,
+$$
+one has
+$$
+\sum_{i,j=1}^N
+c_i\overline{c_j}\lambda_{i-j}
+\le0.
+$$
+\end{definition}
+
+\begin{theorem}[Li CND gives pointwise Li positivity]
+\label{thm:rh-li-cnd-gives-pointwise-li-positivity}
+If $\mathsf{LiCND}$ holds, then
+$$
+\lambda_n\ge0
+\qquad
+(n\ge1).
+$$
+\end{theorem}
+
+\begin{proof}
+Fix $n\ge1$ and use the two-point zero-sum family
+$$
+c_0=1,
+\qquad
+c_n=-1.
+$$
+The conditional negative definiteness inequality gives
+$$
+\lambda_0-\lambda_{-n}-\lambda_n+\lambda_0\le0.
+$$
+Since $\lambda_0=0$ and $\lambda_{-n}=\lambda_n$, this becomes
+$$
+-2\lambda_n\le0.
+$$
+Hence $\lambda_n\ge0$.
+\end{proof}
+
+\begin{corollary}[Li CND gives fixed-half readout]
+\label{cor:rh-li-cnd-fixed-half-readout}
+Assume $\mathsf{LiCND}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-li-cnd-gives-pointwise-li-positivity},
+$\lambda_n\ge0$ for every $n\ge1$.  This is
+$\mathsf{GlobalLiWeilPositivity}$.  The Li criterion consumption row
+then returns fixed-half readout.
+\end{proof}
+
+\begin{definition}[Finite balanced Li CND sequence]
+\label{def:rh-finite-balanced-li-cnd-sequence}
+Let $Z$ be a finite conjugation-stable zero multiset on the fixed line.
+For each $\rho\in Z$ define
+$$
+\alpha_\rho:=1-\frac1\rho.
+$$
+The finite balanced Li sequence attached to $Z$ is
+$$
+\lambda_n^Z
+:=
+\sum_{\rho\in Z}
+\left(1-\alpha_\rho^n\right)
+\qquad
+(n\ge1),
+$$
+with
+$$
+\lambda_0^Z:=0,
+\qquad
+\lambda_{-n}^Z:=\lambda_n^Z.
+$$
+\end{definition}
+
+\begin{theorem}[Balanced critical divisors give Li CND]
+\label{thm:rh-balanced-critical-divisors-give-li-cnd}
+Let $Z$ be a finite conjugation-stable zero multiset on the fixed line.
+Then the sequence $(\lambda_n^Z)_{n\in\mathbb Z}$ of
+\autoref{def:rh-finite-balanced-li-cnd-sequence} is conditionally
+negative definite.
+\end{theorem}
+
+\begin{proof}
+For
+$$
+\rho=\frac12+i\gamma
+$$
+one has
+$$
+\left|1-\frac1\rho\right|
+=
+\left|\frac{\rho-1}{\rho}\right|
+=1.
+$$
+Thus every conjugate pair contributes phases
+$$
+\alpha=e^{i\theta},
+\qquad
+\overline{\alpha}=e^{-i\theta}.
+$$
+The pair contribution to $\lambda_n^Z$ is
+$$
+2-e^{in\theta}-e^{-in\theta}
+=
+2(1-\cos(n\theta)).
+$$
+Hence there is a positive finite measure $\mu_Z$ on the circle such that
+$$
+\lambda_n^Z
+=
+\int_{\mathbb T}
+\left(1-\cos(n\theta)\right)\,d\mu_Z(\theta).
+$$
+Let $c_1,\ldots,c_N$ be a finite zero-sum family.  Then
+$$
+\sum_{i,j}c_i\overline{c_j}\lambda_{i-j}^Z
+=
+\int_{\mathbb T}
+\sum_{i,j}c_i\overline{c_j}
+\left(1-\cos((i-j)\theta)\right)
+\,d\mu_Z(\theta).
+$$
+The constant part vanishes because
+$$
+\sum_{i,j}c_i\overline{c_j}
+=
+\left|\sum_i c_i\right|^2
+=0.
+$$
+The remaining part is
+$$
+-
+\int_{\mathbb T}
+\operatorname{Re}
+\left(
+\sum_{i,j}c_i\overline{c_j}e^{i(i-j)\theta}
+\right)
+\,d\mu_Z(\theta).
+$$
+But
+$$
+\sum_{i,j}c_i\overline{c_j}e^{i(i-j)\theta}
+=
+\left|\sum_i c_i e^{ii\theta}\right|^2
+\ge0.
+$$
+Therefore the displayed quadratic form is nonpositive.  This is
+conditional negative definiteness.
+\end{proof}
+
+\begin{corollary}[Balanced finite containers give Li CND]
+\label{cor:rh-balanced-finite-containers-give-li-cnd}
+Let $C$ be a balanced Lee--Yang source container whose finite zero
+multiset is fixed-line and conjugation-stable.  Then the finite Li
+sequence of $C$ is conditionally negative definite.
+\end{corollary}
+
+\begin{proof}
+The zero multiset of $C$ is a finite conjugation-stable fixed-line
+divisor.  Apply
+\autoref{thm:rh-balanced-critical-divisors-give-li-cnd}.
+\end{proof}
+
+\begin{definition}[Li CND convergence]
+\label{def:rh-li-cnd-convergence}
+Let $C_m$ be balanced finite containers with finite Li sequences
+$(\lambda_n(C_m))_{n\in\mathbb Z}$.  They satisfy
+$$
+\mathsf{LiCNDConvergence}
+$$
+to the completed zeta Li kernel when for every fixed $n\in\mathbb Z$,
+$$
+\lambda_n(C_m)\to\lambda_n,
+$$
+or equivalently, for every finite matrix size, the kernel entries
+$$
+\lambda_{i-j}(C_m)
+$$
+converge entrywise to
+$$
+\lambda_{i-j}.
+$$
+\end{definition}
+
+\begin{theorem}[CND is closed under finite kernel limits]
+\label{thm:rh-cnd-closed-under-finite-kernel-limits}
+Assume each finite kernel $(\lambda_{i-j}(C_m))$ is conditionally
+negative definite and $\mathsf{LiCNDConvergence}$ holds.  Then
+$$
+\mathsf{LiCND}
+$$
+holds for the completed zeta Li kernel.
+\end{theorem}
+
+\begin{proof}
+Let $c_1,\ldots,c_N$ be a finite zero-sum family.  For each $m$,
+conditional negative definiteness gives
+$$
+\sum_{i,j=1}^N
+c_i\overline{c_j}\lambda_{i-j}(C_m)
+\le0.
+$$
+By entrywise convergence on this finite matrix,
+$$
+\sum_{i,j=1}^N
+c_i\overline{c_j}\lambda_{i-j}(C_m)
+\longrightarrow
+\sum_{i,j=1}^N
+c_i\overline{c_j}\lambda_{i-j}.
+$$
+The limit of nonpositive real numbers is nonpositive, so the completed
+zeta Li kernel is conditionally negative definite.
+\end{proof}
+
+\begin{definition}[Balanced golden Li CND closure]
+\label{def:rh-balanced-golden-li-cnd-closure}
+The source row
+$$
+\mathsf{BalancedGoldenLiCNDClosure}
+$$
+asserts the existence of balanced golden Lee--Yang containers $C_m$ such
+that:
+
+\begin{itemize}
+\item the containers are generated by
+$\mathsf{BalancedGoldenConstruction}$;
+\item each finite zero multiset is fixed-line and conjugation-stable;
+\item each finite Li kernel is read through the balanced product row;
+\item $\mathsf{LiCNDConvergence}$ holds.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Balanced golden Li CND closure gives Li CND]
+\label{thm:rh-balanced-golden-li-cnd-closure-gives-li-cnd}
+If $\mathsf{BalancedGoldenLiCNDClosure}$ holds, then
+$$
+\mathsf{LiCND}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{cor:rh-balanced-finite-containers-give-li-cnd}, each finite
+container supplies a conditionally negative definite Li kernel.  The
+closure row supplies $\mathsf{LiCNDConvergence}$.  Apply
+\autoref{thm:rh-cnd-closed-under-finite-kernel-limits}.
+\end{proof}
+
+\begin{corollary}[Balanced golden Li CND closure gives fixed-half readout]
+\label{cor:rh-balanced-golden-li-cnd-closure-fixed-half-readout}
+Assume $\mathsf{BalancedGoldenLiCNDClosure}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-balanced-golden-li-cnd-closure-gives-li-cnd}
+gives $\mathsf{LiCND}$.  Then
+\autoref{cor:rh-li-cnd-fixed-half-readout} applies.
+\end{proof}
+
+\begin{principle}[CND closure as Li--Weil source positivity]
+\label{prin:rh-cnd-closure-as-li-weil-source-positivity}
+The conditionally negative definite formulation strengthens pointwise Li
+positivity into a source-side kernel statement.  Finite balanced
+Lee--Yang divisors give negative type on the integer ledger; finite
+kernel limits preserve negative type; and the two-point zero-sum test
+recovers the usual coefficient inequalities.  Thus the source target is
+$$
+\mathsf{BalancedGoldenConstruction}
+\quad
+\text{with}
+\quad
+\mathsf{LiCNDConvergence},
+$$
+rather than a separate inspection of the individual coefficients.
+\end{principle}
