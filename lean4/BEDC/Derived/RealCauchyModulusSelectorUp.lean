@@ -276,4 +276,44 @@ theorem RealCauchyModulusSelectorCarrier_real_seal_route
               exact hsame_trans (hsame_symm same) source
           }
 
+theorem RealCauchyModulusSelectorCarrier_selector_transport_naturality
+    (x : RealCauchyModulusSelectorUp) :
+    exists M S D Q E R H C P N route transported : BHist,
+      realCauchyModulusSelectorFields x = [M, S, D, Q, E, R, H, C, P, N] ∧
+        Cont R M C ∧ Cont C S route ∧ Cont route D transported ∧ hsame H H ∧
+          Nonempty (NameCert (fun h : BHist => hsame h transported) hsame) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  cases x with
+  | mk M S D Q E R H P N =>
+      refine ⟨M, S, D, Q, E, R, H, append R M, P, N, append (append R M) S,
+        append (append (append R M) S) D, ?_⟩
+      constructor
+      · rfl
+      constructor
+      · rfl
+      constructor
+      · rfl
+      constructor
+      · rfl
+      constructor
+      · exact hsame_refl H
+      · exact
+          Nonempty.intro {
+            carrier_inhabited :=
+              Exists.intro (append (append (append R M) S) D)
+                (hsame_refl (append (append (append R M) S) D))
+            equiv_refl := by
+              intro row _source
+              exact hsame_refl row
+            equiv_symm := by
+              intro row other same
+              exact hsame_symm same
+            equiv_trans := by
+              intro row other third sameRO sameOT
+              exact hsame_trans sameRO sameOT
+            carrier_respects_equiv := by
+              intro row other same source
+              exact hsame_trans (hsame_symm same) source
+          }
+
 end BEDC.Derived.RealCauchyModulusSelectorUp
