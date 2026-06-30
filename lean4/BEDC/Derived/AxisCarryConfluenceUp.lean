@@ -180,4 +180,80 @@ theorem AxisCarryConfluenceCarrier_namecert_obligations [AskSetup] [PackageSetup
         source.right⟩
   }
 
+theorem AxisCarryConfluenceCarrier_normal_form_obligation [AskSetup] [PackageSetup]
+    {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow
+      leftHandoff rightHandoff normalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisCarryConfluenceCarrier u v w n routeLeft routeRight valueLedger boundary
+        continuation provenance nameRow bundle pkg →
+      Cont routeLeft n leftHandoff →
+        Cont routeRight n rightHandoff →
+          Cont leftHandoff rightHandoff normalRead →
+            PkgSig bundle normalRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row normalRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row n ∨ hsame row routeLeft ∨ hsame row routeRight ∨
+                      hsame row valueLedger ∨ hsame row boundary ∨
+                        hsame row continuation ∨ hsame row provenance ∨
+                          hsame row nameRow ∨ hsame row normalRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont routeLeft n leftHandoff ∧
+                      Cont routeRight n rightHandoff ∧
+                        Cont leftHandoff rightHandoff normalRead ∧
+                          PkgSig bundle normalRead pkg)
+                  hsame ∧
+                UnaryHistory n ∧ UnaryHistory leftHandoff ∧
+                  UnaryHistory rightHandoff ∧ UnaryHistory normalRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier leftRoute rightRoute normalRoute normalPkg
+  have nUnary : UnaryHistory n := carrier.left
+  have routeLeftUnary : UnaryHistory routeLeft := carrier.right.left
+  have routeRightUnary : UnaryHistory routeRight := carrier.right.right.left
+  have leftHandoffUnary : UnaryHistory leftHandoff :=
+    unary_cont_closed routeLeftUnary nUnary leftRoute
+  have rightHandoffUnary : UnaryHistory rightHandoff :=
+    unary_cont_closed routeRightUnary nUnary rightRoute
+  have normalUnary : UnaryHistory normalRead :=
+    unary_cont_closed leftHandoffUnary rightHandoffUnary normalRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row normalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row n ∨ hsame row routeLeft ∨ hsame row routeRight ∨
+              hsame row valueLedger ∨ hsame row boundary ∨ hsame row continuation ∨
+                hsame row provenance ∨ hsame row nameRow ∨ hsame row normalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont routeLeft n leftHandoff ∧
+              Cont routeRight n rightHandoff ∧ Cont leftHandoff rightHandoff normalRead ∧
+                PkgSig bundle normalRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro normalRead ⟨hsame_refl normalRead, normalUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+          Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, leftRoute, rightRoute, normalRoute, normalPkg⟩
+  }
+  exact ⟨cert, nUnary, leftHandoffUnary, rightHandoffUnary, normalUnary⟩
+
 end BEDC.Derived.AxisCarryConfluenceUp
