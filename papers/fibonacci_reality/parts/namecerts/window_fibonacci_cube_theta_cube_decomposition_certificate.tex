@@ -1,15 +1,36 @@
-\subsection{NameCert: Window Fibonacci Cube Theta Cube Decomposition}
-\label{sec:namecert-window_fibonacci_cube_theta_cube_decomposition_certificate}
+\subsection{Finite Window Certificate for a Fibonacci-Cube and Theta-Cube Decomposition}\label{sec:window-fibonacci-cube-theta-cube-decomposition-certificate}
 \origin{ai}
 
-\paragraph{Statement.} The packet records a finite forced-window mathematical construction.
+\paragraph{Carrier data required.}
+A self-contained certificate for the object named by this chapter must begin with a specified finite carrier. The present sanitized input gives the intended subject label but gives no finite row data. In particular, it does not specify whether the window carrier is a subset of $\{0,1\}^n$, a graph on such words, a family of marked windows, or a quotient of a finite relation. Without a fixed integer $n$ and a stated membership rule, the carrier cannot be counted, and no exact identity involving its size is determined by the supplied facts.
 
-\paragraph{Carrier.} A finite forced-window carrier is required before a stronger chapter can be authored.
+\paragraph{Predicates and relations required.}
+The phrase ``Fibonacci-cube'' suggests that an admissibility predicate may exclude adjacent marked positions, but the sanitized facts do not state that predicate, the window length, the edge relation, or whether edges are Hamming-distance-one moves, directed moves, colored moves, or another finite relation. A valid finite certificate would need explicit data of the form
+$$
+\begin{aligned}
+X &\subseteq \{0,1\}^n,\\
+R &\subseteq X\times X,\\
+P_i &\subseteq X\quad \text{for each declared part } i,
+\end{aligned}
+$$
+with all symbols defined locally and with enough rows or rules to decide membership by finite inspection.
 
-\paragraph{Relations.} No relation beyond the local finite construction is asserted.
+\paragraph{Partition and decomposition data required.}
+The sanitized facts also do not define what the theta-cube pieces are. To certify a decomposition one must state the finite list of parts, prove that every part is contained in the carrier, prove that distinct parts are disjoint or else give the allowed overlap law, and prove that their union is exactly the carrier or exactly the declared subcarrier. In concrete terms, the missing data must determine exact assertions such as
+$$
+\begin{aligned}
+X &= P_1\cup P_2\cup \cdots \cup P_m,\\
+P_i\cap P_j &= \emptyset \quad \text{for } i\neq j,\\
+|X| &= \sum_{i=1}^{m}|P_i|,
+\end{aligned}
+$$
+when a partition is intended, or the corresponding incidence formula when an overlapping cover is intended.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Matrix, kernel, and spectral data required.}
+If the certificate is meant to include a matrix or kernel, the input must provide the finite indexing set, the entries, and the exact algebraic identity to be checked. The current facts do not supply an adjacency matrix, transfer matrix, projection matrix, incidence matrix, characteristic polynomial, eigenvalue list, determinant, rank, nullity, trace identity, or factorization. Therefore no finite spectral construction can be stated as proved from the provided data.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Witness extraction required.}
+A complete certificate should also state how a witness is read from the finite construction. For example, it might send a carrier element $x\in X$ to its unique part index $i$ with $x\in P_i$, or it might send an edge $(x,y)\in R$ to a theta-cube coordinate and direction. No such extraction map is specified in the sanitized facts, so uniqueness, totality, and computability of the witness map cannot be checked.
 
-\paragraph{Not claimed.} No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed.
+\paragraph{Local boundary.}
+This chapter cannot assert a physical-constant identification, a global evolution law, an external dependency, a metrological comparison, or an interpretation beyond a finite construction. Even a numerical match obtained after choosing a matrix would remain an additional risk unless a separate finite certificate states the exact construction and separates the algebraic identity from any physical reading.

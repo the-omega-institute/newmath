@@ -1,0 +1,97 @@
+\origin{ai}
+
+\subsection{Finite forced-window closed-neighborhood transfer}
+\label{sec:window-fibonacci-cube-closed-neighborhood-transfer}
+
+\paragraph{Carrier and adjacency relation.}
+For each integer $m \geq 2$, let
+$$
+\begin{aligned}
+X_m=\{w=(w_1,\ldots,w_m)\in \{0,1\}^m : w_iw_{i+1}=0\text{ for every }1\leq i<m\}.
+\end{aligned}
+$$
+Thus $X_m$ is the finite set of binary words of length $m$ in which adjacent ones are forbidden. Define a finite graph $\Gamma_m$ with vertex set $X_m$ by joining two distinct words when their Hamming distance is one. Let $A(\Gamma_m)$ be the adjacency matrix of this graph in the chosen prefix order, and set
+$$
+\begin{aligned}
+N_m=I+A(\Gamma_m).
+\end{aligned}
+$$
+The matrix $N_m$ is therefore the closed-neighborhood matrix: its $(u,v)$ entry is $1$ exactly when $u=v$ or $u$ and $v$ differ in one coordinate, and is $0$ otherwise. The finite vertex count is governed by the same recursion as the admissible words: the checked values satisfy $|X_m|=F_{m+2}$ for $m=2,3,4,5,6,7,8$.
+
+\paragraph{Forced prefix partition.}
+The first coordinate gives a canonical split. Every admissible word either begins with $0$, after which the remaining suffix is any element of $X_{m-1}$, or begins with $10$, after which the remaining suffix is any element of $X_{m-2}$. Hence, in prefix order,
+$$
+\begin{aligned}
+X_m=0X_{m-1}\,\sqcup\,10X_{m-2}.
+\end{aligned}
+$$
+With respect to this ordered disjoint union, the closed-neighborhood matrix has the block form
+$$
+\begin{aligned}
+N_m=\begin{pmatrix}N_{m-1}&J_m\\ J_m^T&N_{m-2}\end{pmatrix}
+\end{aligned}
+$$
+for the checked range $m=3,4,5,6,7$. Here $J_m$ is the rectangular $0$-$1$ matrix whose row is indexed by a word in $0X_{m-1}$ and whose column is indexed by a word in $10X_{m-2}$, with entry $1$ exactly when the two represented length-$m$ words differ in one coordinate. This definition uses only the finite carrier and the Hamming-distance-one relation.
+
+\paragraph{Integral transfer matrix.}
+The forced split exposes a smaller integral remainder. For the checked range $m=4,5,6,7,8$, define
+$$
+\begin{aligned}
+R_m=\begin{pmatrix}
+N_{m-3}&J_{m-1}^T\\
+-N_{m-2}J_{m-1}&I-N_{m-2}^2
+\end{pmatrix}.
+\end{aligned}
+$$
+The identity-link transfer asserts that the Smith data of $N_m$ reduce, over the integers, to an identity block together with this remainder. In the finite window recorded here, the nontrivial Smith invariant factors of $N_m$ and $R_m$ agree for $m=4,5,6,7,8$, and the determinant relation is
+$$
+\begin{aligned}
+\det(N_m)=(-1)^{F_m}\det(R_m)
+\end{aligned}
+$$
+for $m=4,5,6,7,8$. The sign is therefore controlled by the Fibonacci index $F_m$, while the torsion-relevant invariant factors are carried by $R_m$.
+
+\paragraph{Finite numerical witnesses.}
+The exact determinant values in the checked window are
+$$
+\begin{aligned}
+\det(N_2)&=-1,\\
+\det(N_3)&=-2,\\
+\det(N_4)&=1,\\
+\det(N_5)&=4,\\
+\det(N_6)&=-144,\\
+\det(N_7)&=10672,\\
+\det(N_8)&=29184.
+\end{aligned}
+$$
+The corresponding cokernel torsion factors for $m=2,3,4,5,6,7,8$ are
+$$
+\begin{aligned}
+&[],\ [2],\ [],\ [2,2],\ [144],\ [2,2,2668],\ [2,16,912].
+\end{aligned}
+$$
+In particular, the sixth closed-neighborhood matrix gives the exact finite anchor
+$$
+\begin{aligned}
+\operatorname{coker}(N_6)\cong \mathbb{Z}/144\mathbb{Z}.
+\end{aligned}
+$$
+This is a statement about the integer Smith normal form of a concrete finite matrix indexed by the words in $\{0,1\}^6$ with no adjacent ones. It is not introduced as a fitted physical value.
+
+\paragraph{Witness extraction procedure.}
+A witness for any listed $m$ is obtained by the following finite operations. First enumerate $X_m$ in prefix order. Second form the Hamming-distance-one graph on this list. Third construct $N_m=I+A(\Gamma_m)$. Fourth split the ordered vertex list as $0X_{m-1}\sqcup 10X_{m-2}$ and read off the off-diagonal block $J_m$. Fifth form $R_m$ from the displayed block formula. Sixth compute determinant and Smith invariant factors over $\mathbb{Z}$. These steps recover the stated determinant transfer, the agreement of nontrivial Smith factors in the checked window, and the $m=6$ cokernel $\mathbb{Z}/144\mathbb{Z}$.
+
+\paragraph{Recurrence boundary.}
+The absolute determinant sequence in the checked window is
+$$
+\begin{aligned}
+1,\ 2,\ 1,\ 4,\ 144,\ 10672,\ 29184.
+\end{aligned}
+$$
+Within the executable finite audit, these absolute values have no constant-coefficient scalar recurrence of order at most $6$. This is only a finite-window obstruction to such a recurrence in the tested range; it is not a global classification of all possible recurrences.
+
+\paragraph{Conjectural reading.}
+The finite data support the following conjectural structural reading: the Fibonacci cube closed-neighborhood matrices are governed by a forced prefix block recurrence, and the integral reduction from $N_m$ to an identity block plus $R_m$ transports determinant and cokernel information through the window. The checked entries $m=2$ through $m=8$ give a complete finite certificate for the displayed numerical claims, including the sixth-window torsion group $\mathbb{Z}/144\mathbb{Z}$.
+
+\paragraph{Local boundary.}
+No identification with a physical constant, no use of a physical value near $1/137$, no global flow law, no external dependency, no metrological comparison, and no convention-dependent interpretation follows from the finite construction above. Any such assertion would require a separate certificate whose input, normalization, and comparison rule are stated independently of this integer matrix calculation.
