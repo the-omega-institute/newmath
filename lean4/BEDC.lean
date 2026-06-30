@@ -6802,6 +6802,7 @@ import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashLikeBoundaryGateUp.TasteGate
 import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashUp
+import BEDC.Derived.HausdorffCompletionAdjointnessUp
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.ForwardLink
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.NameCertObligations
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.SeparatedMetricRoute
