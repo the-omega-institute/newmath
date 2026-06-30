@@ -923,6 +923,7 @@ import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BellNumberModUp
 import BEDC.Derived.BellNumberUp
+import BEDC.Derived.BellPolynomialSecondUp
 import BEDC.Derived.BellPolynomialUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
