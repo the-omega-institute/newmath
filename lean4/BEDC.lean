@@ -2381,6 +2381,7 @@ import BEDC.Derived.CauchyModulusSubsequenceUp.TasteGate
 import BEDC.Derived.CauchyModulusThinningUp
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
+import BEDC.Derived.CauchyModulusUp.ExplicitModulusStandardBridge
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNameTruncationUp
 import BEDC.Derived.CauchyNameUniformityUp
@@ -7876,6 +7877,7 @@ import BEDC.Derived.LocatedUniformExtremeValueUp
 import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedUpperDedekindRealUp.TasteGate
+import BEDC.Derived.LocatedUpperLowerPairUp
 import BEDC.Derived.LocatedWeakKonigUp
 import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
@@ -12164,6 +12166,7 @@ import BEDC.Derived.SheafificationUp.ObligationClosurePackage
 import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.PlusGluingTransport
+import BEDC.Derived.SheafificationUp.PlusLocalityGluingLedger
 import BEDC.Derived.SheafificationUp.PlusLocalizationCarrierAdmission
 import BEDC.Derived.SheafificationUp.PlusSeparationObligation
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
