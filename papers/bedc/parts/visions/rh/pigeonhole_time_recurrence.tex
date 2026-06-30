@@ -1,0 +1,481 @@
+\chapter{Pigeonhole Time Recurrence}
+\label{ch:visions-rh-pigeonhole-time-recurrence}
+\origin{ai}
+
+\autoref{ch:visions-rh-free-zero-generation-initiality} isolates the
+source-internal zero-generation route, and
+\autoref{def:rh-zeta-hist-flow-closure-row} records its Hist-flow time
+component. The present chapter records the finite-projection recurrence
+row attached to that component. Pigeonhole recurrence supplies compact
+phase-return candidates at finite resolution. It does not supply a radial
+scale coordinate, a zero-presentation equivalence, or a boundary-stability
+certificate.
+
+\begin{definition}[Finite prime phase-time flow]
+\label{def:rh-finite-prime-phase-time-flow}
+Let
+$$
+S=\{p_1,\ldots,p_m\}
+$$
+be a finite displayed prime window. The \emph{finite prime phase-time
+flow} is
+$$
+\Phi_S(t)
+:=
+\left(
+e^{-it\log p_1},
+\ldots,
+e^{-it\log p_m}
+\right)
+\in\mathbb T^S.
+$$
+The defining row is that one parameter $t$ drives every displayed prime
+frequency. A family of independent parameters $(t_p)_{p\in S}$ is not a
+single Hist-flow time readout.
+\end{definition}
+
+\begin{theorem}[Exact finite prime phase time is unique]
+\label{thm:rh-exact-finite-prime-phase-time-unique}
+If $S$ contains two distinct prime rows and
+$$
+\Phi_S(t)=\Phi_S(t'),
+$$
+then $t=t'$.
+\end{theorem}
+
+\begin{proof}
+Put $\Delta=t-t'$. Equality of the phase windows gives, for every
+$p\in S$,
+$$
+e^{-i\Delta\log p}=1.
+$$
+Thus
+$$
+\Delta\log p=2\pi k_p
+$$
+for some integer $k_p$. Choose distinct primes $p,q\in S$. If
+$\Delta\ne0$, then $k_p$ and $k_q$ are nonzero, and
+$$
+\frac{\log p}{\log q}
+=
+\frac{k_p}{k_q}
+\in\mathbb Q.
+$$
+Hence there are nonzero integers $a,b$ with
+$$
+a\log p=b\log q.
+$$
+Exponentiating gives
+$$
+p^a=q^b,
+$$
+contradicting unique factorization. Therefore $\Delta=0$, so $t=t'$.
+\end{proof}
+
+\begin{definition}[Finite phase observer]
+\label{def:rh-finite-phase-observer}
+A \emph{finite phase observer} on the prime window $S$ is a finite
+quotient readout
+$$
+q_n:\mathbb T^S\to C_n
+$$
+where $C_n$ is a finite carrier. It records the resolution available at
+the observation layer $n$. Equality after applying $q_n$ is a finite
+projection equality, not equality of the full phase state.
+\end{definition}
+
+\begin{theorem}[Pigeonhole phase recurrence candidate]
+\label{thm:rh-pigeonhole-phase-recurrence-candidate}
+Let $q_n:\mathbb T^S\to C_n$ be a finite phase observer. For any finite
+time list
+$$
+t_0,t_1,\ldots,t_M
+$$
+with
+$$
+M+1>|C_n|,
+$$
+there are indices $i<j$ such that
+$$
+q_n(\Phi_S(t_i))=q_n(\Phi_S(t_j)).
+$$
+The difference $t_j-t_i$ is a finite-resolution phase recurrence
+candidate.
+\end{theorem}
+
+\begin{proof}
+The list
+$$
+q_n(\Phi_S(t_0)),\ldots,q_n(\Phi_S(t_M))
+$$
+has $M+1$ entries in the finite carrier $C_n$. Since $M+1>|C_n|$, two
+entries are equal. This gives the displayed indices $i<j$.
+\end{proof}
+
+\begin{principle}[Projection recurrence is not time collapse]
+\label{prin:rh-projection-recurrence-not-time-collapse}
+Pigeonhole recurrence occurs after applying the finite observer $q_n$.
+It does not contradict
+\autoref{thm:rh-exact-finite-prime-phase-time-unique}. The full ledger
+may still distinguish $\Phi_S(t_i)$ from $\Phi_S(t_j)$, while the finite
+projection cannot. Thus the recurrence row is legal only as a
+ledgered finite projection collision.
+\end{principle}
+
+\begin{definition}[Scale-time energy in a zero tower]
+\label{def:rh-scale-time-energy-zero-tower}
+Let a generated zero tower have active rows $A_n$ with heights
+$h_a>0$. For
+$$
+s=\frac12+r+it,
+$$
+the scale-time defect at $a\in A_n$ is
+$$
+d_a(s):=-r h_a.
+$$
+The finite scale-time energy is
+$$
+E_n(s):=\sum_{a\in A_n}d_a(s)^2,
+\qquad
+W_n:=\sum_{a\in A_n}h_a^2.
+$$
+Equivalently,
+$$
+E_n(s)=r^2W_n.
+$$
+\end{definition}
+
+\begin{theorem}[Pigeonhole recurrence with bounded energy excludes scale time]
+\label{thm:rh-pigeonhole-time-uniqueness-no-scale}
+Assume a generated zero tower carries
+$\mathsf{ZetaHistFlowClosure}_{\zeta}$, finite phase observers with
+pigeonhole recurrence candidates, the scale-time energy row
+$$
+E_n(s)=r^2W_n,
+$$
+cofinal growth
+$$
+W_n\to\infty,
+$$
+and a zero-compatible bound
+$$
+E_n(s)\le B
+$$
+for all displayed tower levels. Then $r=0$.
+\end{theorem}
+
+\begin{proof}
+The pigeonhole row supplies recurrence candidates only in compact finite
+phase projections. By
+\autoref{prin:rh-hist-flow-closure-rejects-scale-time}, a nonzero
+radial parameter $r$ would be a scale-time import rather than a
+Hist-generated phase row. If $r\ne0$, then $r^2>0$, and cofinal growth
+gives
+$$
+r^2W_n\to\infty.
+$$
+Using the energy identity,
+$$
+E_n(s)=r^2W_n,
+$$
+we obtain $E_n(s)\to\infty$, contradicting the bound $E_n(s)\le B$.
+Therefore $r=0$.
+\end{proof}
+
+\begin{corollary}[The pigeonhole row is a phase-candidate row]
+\label{cor:rh-pigeonhole-row-phase-candidate}
+The pigeonhole row in the RH route supplies finite-resolution phase
+return candidates. The exclusion of off-half scale time still requires
+the Hist-flow closure, cofinal active growth, and bounded normal-energy
+rows.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-pigeonhole-phase-recurrence-candidate} gives only
+finite projection collisions. The full no-scale conclusion uses
+\autoref{thm:rh-pigeonhole-time-uniqueness-no-scale}, whose hypotheses
+also include Hist-flow closure, the radial energy identity, cofinal
+growth, and a zero-compatible bound.
+\end{proof}
+
+\begin{principle}[Pigeonhole recurrence is route structure]
+\label{prin:rh-pigeonhole-recurrence-route-structure}
+The pigeonhole row is a structural component of the RH route, not an
+inhabitant of the RH witness type. It clarifies why finite-resolution
+phase projections of a single time flow must contain return candidates.
+It does not prove that such a candidate is a canonical zeta-zero packet,
+that the packet closes on the unit boundary, that the far end cannot
+absorb radial defect, or that every accepted non-trivial zero is covered
+by the generated carrier.
+\end{principle}
+
+\begin{corollary}[Source obligations after finite phase recurrence]
+\label{cor:rh-source-obligations-after-finite-phase-recurrence}
+After the finite phase-recurrence row is displayed, the source obligations
+for the route are:
+$$
+\mathsf{StrongActiveCapture},
+$$
+$$
+\mathsf{BoundaryStability},
+$$
+$$
+\mathsf{ZetaCosmosClosure}_{\zeta},
+$$
+and
+$$
+\mathsf{ZeroPresentationCompleteness}.
+$$
+\end{corollary}
+
+\begin{proof}
+Strong active capture is the row turning finite phase-return candidates
+into canonical zero-relevant packets. Boundary stability is the row
+showing that those packets close only on the unit boundary. Zeta cosmos
+closure is the row excluding an external real positive scale ledger at
+the far end. Zero-presentation completeness is the row identifying all
+accepted non-trivial zeta-zero packets with generated zero packets.
+Together these rows are exactly the source content that
+\autoref{thm:rh-pigeonhole-time-uniqueness-no-scale} assumes but does not
+construct.
+\end{proof}
+
+\begin{definition}[Finite zero certificate]
+\label{def:rh-finite-zero-certificate}
+A \emph{finite zero certificate} for the completed zeta packet is a
+finite analytic packet
+$$
+(D,F,T,\Lambda,\Gamma)
+$$
+where $D$ is a rationally described located-compact box or disk, the
+local decomposition row is
+$$
+\Xi=F+T
+$$
+on a neighbourhood of $D$, the boundary gap row is
+$$
+|T(s)|<|F(s)|
+\qquad
+s\in\partial D,
+$$
+the local-degree or winding row $\Lambda$ gives the zero count of $F$ in
+$D$, and the ledger row $\Gamma$ records source, tail, boundary,
+interval, and completeness data. The certificate is a finite packet; it
+does not expose a bare exact zero coordinate.
+\end{definition}
+
+\begin{definition}[Zero certificate tower]
+\label{def:rh-zero-certificate-tower}
+A \emph{zero certificate tower} is a compatible sequence of finite zero
+certificates
+$$
+(D_n,F_n,T_n,\Lambda_n,\Gamma_n)_{n\ge0}
+$$
+such that
+$$
+D_{n+1}\subseteq D_n,
+\qquad
+\operatorname{diam}(D_n)\to0,
+$$
+and the refinement maps preserve the Rouch\'e gap, local-degree or
+winding row, source ledger, tail ledger, and completeness ledger. This is
+the RH-facing reading of the convergent active-capture zero tower of
+\autoref{def:unified-reality-active-capture-zero-tower}.
+\end{definition}
+
+\begin{theorem}[Certificate towers generate completed zeros]
+\label{thm:rh-certificate-towers-generate-completed-zeros}
+If a zero certificate tower has nonempty located-compact boxes and each
+level certifies one completed-zero island of $\Xi$, then its nested boxes
+have a unique limit readout $s_{\infty}$ and
+$$
+\Xi(s_{\infty})=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The nesting and diameter rows give a unique point in
+$$
+\bigcap_nD_n
+$$
+by \autoref{thm:unified-reality-nested-zero-boxes-unique-limit-readout}.
+The Rouch\'e and local-degree rows certify the same completed-zero island
+through the refinement maps. Therefore
+\autoref{thm:unified-reality-active-capture-convergence-gives-completed-zero}
+applies and yields $\Xi(s_{\infty})=0$.
+\end{proof}
+
+\begin{corollary}[Legal certificate towers cannot converge off half]
+\label{cor:rh-legal-certificate-towers-cannot-converge-off-half}
+Let a zero certificate tower be boundary-stable and carry the Hist-flow
+and no-scale rows used in
+\autoref{thm:rh-pigeonhole-time-uniqueness-no-scale}. If its limit readout
+is
+$$
+s_{\infty}=\frac12+r+it,
+$$
+then $r=0$.
+\end{corollary}
+
+\begin{proof}
+The tower supplies a completed zero by
+\autoref{thm:rh-certificate-towers-generate-completed-zeros}. Boundary
+stability supplies the zero-compatible bound, while the active rows give
+the scale-time energy identity and cofinal growth. Applying
+\autoref{thm:rh-pigeonhole-time-uniqueness-no-scale} gives $r=0$.
+\end{proof}
+
+\begin{principle}[Zeros are certificate limits]
+\label{prin:rh-zeros-are-certificate-limits}
+The RH route should treat a completed zero readout as the limit of
+compatible finite certificates rather than as a naked point supplied
+outside the system. The unresolved global source row is not the existence
+of finite approximations; it is that every accepted non-trivial zeta zero
+is represented by a legal boundary-stable certificate tower whose
+generated limit is covered by the BEDC zero carrier.
+\end{principle}
+
+\begin{definition}[Certificate-tower triadic invariant]
+\label{def:rh-certificate-tower-triadic-invariant}
+For a finite zero certificate
+$$
+\mathcal C=(D,F,T,\Lambda,\Gamma),
+$$
+write
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C)
+:=
+\mathcal I_{\mathsf P}(\mathcal C)
+\wedge
+\mathcal I_{\mathsf U}(\mathcal C)
+\wedge
+\mathcal I_{\mathsf T}(\mathcal C).
+$$
+Here $\mathcal I_{\mathsf P}$ is the source and prime-ledger distinction
+row, $\mathcal I_{\mathsf U}$ is the unit-boundary and legal-gauge row,
+and $\mathcal I_{\mathsf T}$ is the Hist-flow single-time row. The
+invariant says that finite analytic capture is accompanied by a
+ledgered source, a unit-boundary gauge discipline, and an internal time
+readout. It is not merely the equation $\Xi=F+T$.
+\end{definition}
+
+\begin{theorem}[Generated certificate towers preserve the triadic invariant]
+\label{thm:rh-generated-certificate-towers-preserve-triadic-invariant}
+Assume a zero certificate tower is generated by RH-free certificate
+constructors, every constructor preserves
+$\mathcal I_{\mathrm{BEDC}}$, and every refinement morphism transports
+the invariant from the finer level to the displayed coarser level. Then
+every level of the tower satisfies
+$$
+\mathcal I_{\mathrm{BEDC}}(\mathcal C_n).
+$$
+\end{theorem}
+
+\begin{proof}
+The generated certificate carrier is read by structural induction over
+its constructors. The source constructors supply the prime-ledger row.
+Mirror, conjugation, classifier transport, and ledger replay transport an
+existing invariant without adding an unrecorded radial coordinate.
+Analytic gluing and finite-window closure use the displayed Rouch\'e,
+tail, and boundary ledgers. Compatible-limit and recursive-tower
+readback use the refinement hypotheses. Thus each constructor preserves
+$\mathcal I_{\mathrm{BEDC}}$, and induction gives the invariant at every
+generated level. The refinement morphism hypothesis then makes the
+levelwise readouts compatible through the tower.
+\end{proof}
+
+\begin{definition}[Legal boundary-stable certificate tower]
+\label{def:rh-legal-boundary-stable-certificate-tower}
+A zero certificate tower is \emph{legal boundary-stable} when it is an
+active-capture tower, preserves the triadic invariant of
+\autoref{def:rh-certificate-tower-triadic-invariant}, carries Hist-flow
+closure, carries no far-end absorption, and for its limit readout
+$$
+s_{\infty}=\frac12+r+it
+$$
+has defect extraction
+$$
+E_n(s_{\infty})=r^2W_n+o(W_n),
+$$
+cofinal growth
+$$
+W_n\to\infty,
+$$
+and a zero-compatible bound
+$$
+E_n(s_{\infty})\le B
+$$
+for some finite $B$ independent of $n$.
+\end{definition}
+
+\begin{theorem}[No scale closure for legal certificate towers]
+\label{thm:rh-no-scale-closure-legal-certificate-towers}
+The limit readout of a legal boundary-stable certificate tower satisfies
+$$
+r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+Assume $r\ne0$. Then $r^2>0$. Since
+$$
+E_n(s_{\infty})=r^2W_n+o(W_n),
+$$
+there is a cofinal tail of levels on which
+$$
+|o(W_n)|\le \frac{r^2}{2}W_n.
+$$
+Hence, on that tail,
+$$
+E_n(s_{\infty})\ge \frac{r^2}{2}W_n.
+$$
+By cofinal growth, $W_n\to\infty$, so $E_n(s_{\infty})$ is unbounded.
+This contradicts the zero-compatible bound $E_n(s_{\infty})\le B$.
+Therefore $r=0$.
+\end{proof}
+
+\begin{corollary}[Legal certificate towers have fixed-half limits]
+\label{cor:rh-legal-certificate-towers-fixed-half-limits}
+If a zero certificate tower is legal boundary-stable and generates a
+completed zero readout $s_{\infty}$, then
+$$
+\Re(s_{\infty})=\frac12.
+$$
+\end{corollary}
+
+\begin{proof}
+Write
+$$
+s_{\infty}=\frac12+r+it.
+$$
+By \autoref{thm:rh-no-scale-closure-legal-certificate-towers}, $r=0$.
+Thus $\Re(s_{\infty})=1/2$.
+\end{proof}
+
+\begin{definition}[Strong zero-presentation completeness]
+\label{def:rh-strong-zero-presentation-completeness}
+The strong certificate coverage target is
+$$
+\mathsf{StrongZeroPresentationCompleteness}_{\zeta}.
+$$
+It asserts that every accepted non-trivial completed zeta zero is the
+limit readout of a legal boundary-stable certificate tower. This target
+is stronger than weak eta/Rouch\'e capture: weak capture supplies finite
+analytic boxes, while strong coverage also supplies canonical source,
+triadic invariant preservation, boundary stability, no far-end
+absorption, and generated-zero coverage.
+\end{definition}
+
+\begin{corollary}[Certificate-tower proof load]
+\label{cor:rh-certificate-tower-proof-load}
+If $\mathsf{StrongZeroPresentationCompleteness}_{\zeta}$ holds, then
+every accepted non-trivial completed zeta zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Let $u$ be an accepted non-trivial completed zeta zero. Strong
+zero-presentation completeness supplies a legal boundary-stable
+certificate tower whose limit readout is $u$. By
+\autoref{cor:rh-legal-certificate-towers-fixed-half-limits}, that readout
+has real part $1/2$.
+\end{proof}
