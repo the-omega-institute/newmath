@@ -260,6 +260,159 @@ theorem eulerianRowSumFn_natFactorialFn (n : Nat) :
   rw [BEDC.Derived.StirlingFirstUp.natFactorialFn_natToUnary n]
   rw [natToUnary_length]
 
+private theorem eulerian_succ_sub_self_one (n : Nat) :
+    Nat.succ n - n = 1 := by
+  induction n with
+  | zero =>
+      rfl
+  | succ n ih =>
+      change Nat.succ (Nat.succ n) - Nat.succ n = 1
+      rw [Nat.succ_sub_succ_eq_sub]
+      exact ih
+
+theorem eulerian_right_boundary (n : Nat) :
+    eulerianNumber (Nat.succ n) n = 1 := by
+  induction n with
+  | zero =>
+      rfl
+  | succ n ih =>
+      change
+        Nat.succ (Nat.succ n) * eulerianNumber (Nat.succ n) (Nat.succ n) +
+          (Nat.succ n - n) * eulerianNumber (Nat.succ n) n = 1
+      rw [eulerian_succ_diagonal_zero n]
+      rw [ih]
+      rw [eulerian_succ_sub_self_one n]
+      rw [Nat.mul_zero, Nat.one_mul, Nat.zero_add]
+
+private theorem eulerian_zero_left_of_sum_zero {k q : Nat} (h : k + q = 0) :
+    k = 0 := by
+  cases k with
+  | zero =>
+      rfl
+  | succ k =>
+      rw [Nat.succ_add] at h
+      cases h
+
+private theorem eulerian_zero_right_of_sum_zero {k q : Nat} (h : k + q = 0) :
+    q = 0 := by
+  induction k with
+  | zero =>
+      rw [Nat.zero_add] at h
+      exact h
+  | succ n ih =>
+      rw [Nat.succ_add] at h
+      cases h
+
+private theorem eulerian_succ_right_sum_from_split {a b c : Nat} :
+    Nat.succ a + Nat.succ b = Nat.succ c -> a + Nat.succ b = c := by
+  intro h
+  rw [Nat.succ_add] at h
+  exact Nat.succ.inj h
+
+private theorem eulerian_succ_left_sum_from_split {a b c : Nat} :
+    Nat.succ a + Nat.succ b = Nat.succ c -> Nat.succ a + b = c := by
+  intro h
+  rw [Nat.add_succ] at h
+  exact Nat.succ.inj h
+
+private theorem eulerian_succ_sum_left_sub_left (a b : Nat) :
+    Nat.succ (a + Nat.succ b) - a = Nat.succ (Nat.succ b) := by
+  induction a with
+  | zero =>
+      rw [Nat.zero_add, Nat.sub_zero]
+  | succ a ih =>
+      rw [Nat.succ_add]
+      change Nat.succ (Nat.succ (a + Nat.succ b)) - Nat.succ a =
+        Nat.succ (Nat.succ b)
+      rw [Nat.succ_sub_succ_eq_sub]
+      exact ih
+
+private theorem eulerian_succ_sum_left_sub_right (a b : Nat) :
+    Nat.succ (Nat.succ a + b) - b = Nat.succ (Nat.succ a) := by
+  induction b with
+  | zero =>
+      rw [Nat.add_zero, Nat.sub_zero]
+  | succ b ih =>
+      rw [Nat.add_succ]
+      change Nat.succ (Nat.succ (Nat.succ a + b)) - Nat.succ b =
+        Nat.succ (Nat.succ a)
+      rw [Nat.succ_sub_succ_eq_sub]
+      exact ih
+
+private theorem eulerian_succ_split_sub_left {a b c : Nat}
+    (h : a + Nat.succ b = c) :
+    Nat.succ c - a = Nat.succ (Nat.succ b) := by
+  rw [← h]
+  exact eulerian_succ_sum_left_sub_left a b
+
+private theorem eulerian_succ_split_sub_right {a b c : Nat}
+    (h : Nat.succ a + b = c) :
+    Nat.succ c - b = Nat.succ (Nat.succ a) := by
+  rw [← h]
+  exact eulerian_succ_sum_left_sub_right a b
+
+theorem eulerian_symmetry_split (n k q : Nat) :
+    k + q = n -> eulerianNumber (Nat.succ n) k = eulerianNumber (Nat.succ n) q := by
+  induction n generalizing k q with
+  | zero =>
+      intro sumEq
+      have hk : k = 0 := eulerian_zero_left_of_sum_zero sumEq
+      have hq : q = 0 := eulerian_zero_right_of_sum_zero sumEq
+      rw [hk, hq]
+  | succ n ih =>
+      intro sumEq
+      cases k with
+      | zero =>
+          rw [eulerian_left_boundary (Nat.succ (Nat.succ n))]
+          have hq : q = Nat.succ n := by
+            change q = Nat.succ n
+            rw [Nat.zero_add] at sumEq
+            exact sumEq
+          rw [hq]
+          exact (eulerian_right_boundary (Nat.succ n)).symm
+      | succ k =>
+          cases q with
+          | zero =>
+              have hk : Nat.succ k = Nat.succ n := by
+                change Nat.succ k + 0 = Nat.succ n at sumEq
+                rw [Nat.add_zero] at sumEq
+                exact sumEq
+              rw [← Nat.succ_eq_add_one k]
+              rw [hk]
+              exact eulerian_right_boundary (Nat.succ n)
+          | succ q =>
+              have leftSplit : k + Nat.succ q = n :=
+                eulerian_succ_right_sum_from_split sumEq
+              have rightSplit : Nat.succ k + q = n :=
+                eulerian_succ_left_sum_from_split sumEq
+              change
+                Nat.succ (Nat.succ k) * eulerianNumber (Nat.succ n) (Nat.succ k) +
+                  (Nat.succ n - k) * eulerianNumber (Nat.succ n) k =
+                Nat.succ (Nat.succ q) * eulerianNumber (Nat.succ n) (Nat.succ q) +
+                  (Nat.succ n - q) * eulerianNumber (Nat.succ n) q
+              rw [eulerian_succ_split_sub_left leftSplit]
+              rw [eulerian_succ_split_sub_right rightSplit]
+              rw [ih (Nat.succ k) q rightSplit]
+              rw [ih k (Nat.succ q) leftSplit]
+              exact Nat.add_comm
+                (Nat.succ (Nat.succ k) * eulerianNumber (Nat.succ n) q)
+                (Nat.succ (Nat.succ q) * eulerianNumber (Nat.succ n) (Nat.succ q))
+
+theorem eulerian_symmetry_sub (n k : Nat)
+    (bounded : k + (n - k) = n) :
+    eulerianNumber (Nat.succ n) k = eulerianNumber (Nat.succ n) (n - k) :=
+  eulerian_symmetry_split n k (n - k) bounded
+
+theorem eulerian_symmetry_classic (n k : Nat)
+    (bounded : k + (n - 1 - k) = n - 1) :
+    eulerianNumber n k = eulerianNumber n (n - 1 - k) := by
+  cases n with
+  | zero =>
+      have hk : k = 0 := eulerian_zero_left_of_sum_zero bounded
+      rw [hk]
+  | succ n =>
+      exact eulerian_symmetry_sub n k bounded
+
 theorem eulerianNumberFn_unary_result (n k : BHist) :
     BEDC.FKernel.Unary.UnaryHistory (eulerianNumberFn n k) := by
   unfold eulerianNumberFn
@@ -279,6 +432,11 @@ theorem EulerianNumberUp_constructive_export :
       (∀ n extra : Nat, eulerianNumber n (Nat.succ (n + extra)) = 0) ∧
       (∀ n : Nat,
         eulerianRowSum n = BEDC.Derived.PochhammerUp.natFactorialCount n) ∧
+      (∀ n k q : Nat,
+        k + q = n -> eulerianNumber (Nat.succ n) k = eulerianNumber (Nat.succ n) q) ∧
+      (∀ n k : Nat,
+        k + (n - 1 - k) = n - 1 ->
+          eulerianNumber n k = eulerianNumber n (n - 1 - k)) ∧
       (∀ n : Nat,
         eulerianRowSumFn (natToUnary n) =
           BEDC.Derived.FactorialUp.natFactorialFn (natToUnary n)) := by
@@ -294,7 +452,13 @@ theorem EulerianNumberUp_constructive_export :
       · constructor
         · intro n
           exact eulerianRowSum_eq_natFactorialCount n
-        · intro n
-          exact eulerianRowSumFn_natFactorialFn n
+        · constructor
+          · intro n k q
+            exact eulerian_symmetry_split n k q
+          · constructor
+            · intro n k
+              exact eulerian_symmetry_classic n k
+            · intro n
+              exact eulerianRowSumFn_natFactorialFn n
 
 end BEDC.Derived.EulerianNumberUp
