@@ -147,6 +147,52 @@ refinement, and whose sufficiently fine levels carry golden Lee--Yang
 bridge witnesses compatible with the same zero island.
 \end{definition}
 
+\begin{definition}[Golden zeta constraint-container route]
+\label{def:rh-golden-zeta-constraint-container-route}
+The named route
+$$
+\mathrm{ConstraintContainer}^{\uparrow}_{\zeta,\varphi}
+$$
+is the conjunction of the following source rows:
+$$
+\mathsf{GoldenCoverage}_{\zeta,\varphi},
+\qquad
+\mathsf{InternalGoldenRuler}_{\varphi},
+\qquad
+\mathsf{ZetaGoldenLeeYangBridge},
+\qquad
+\mathsf{CofinalGrowth}_{\zeta,\varphi}.
+$$
+Here $\mathsf{GoldenCoverage}_{\zeta,\varphi}$ means that accepted
+non-trivial completed zeta zeros enter golden BEDC certificate towers;
+$\mathsf{InternalGoldenRuler}_{\varphi}$ means that the ruler family is
+generated internally and transports the triadic rows; the bridge row is
+the same-island Lee--Yang source row; and the growth row is the
+cofinal active-height condition
+$$
+W_m\to\infty.
+$$
+\end{definition}
+
+\begin{definition}[Golden bridge analytic subrows]
+\label{def:rh-golden-bridge-analytic-subrows}
+The analytic content of $\mathsf{ZetaGoldenLeeYangBridge}$ separates
+into two source rows.  The row
+$$
+\mathsf{GoldenDominantBranchTheorem}
+$$
+selects the Zeckendorf--Fibonacci path packet as the zero-relevant
+branch by source, dominance, and tail ledgers.  The row
+$$
+\mathsf{GoldenRoucheHomotopy}
+$$
+supplies a boundary-nonvanishing homotopy from the golden eta packet to
+the lifted path packet on the same zero island, or equivalently a
+Rouch\'e comparison strong enough to preserve the winding ledger.  These
+rows are source obligations; neither follows from the existence of a
+golden ruler alone.
+\end{definition}
+
 \begin{theorem}[Internal golden certificates supply container packages]
 \label{thm:rh-internal-golden-certificates-supply-container-packages}
 If
@@ -172,6 +218,30 @@ the constructive BEDC--Golden--Zeta machine rows of
 exactly the components listed in
 \autoref{def:rh-internal-ruler-constraint-container-package}.  Hence
 the zero is presented by an internal-ruler constraint container package.
+\end{proof}
+
+\begin{theorem}[Golden zeta container route supplies internal golden certificates]
+\label{thm:rh-golden-zeta-container-route-supplies-internal-golden-certificates}
+If
+$$
+\mathrm{ConstraintContainer}^{\uparrow}_{\zeta,\varphi}
+$$
+holds, then
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The golden coverage row supplies golden BEDC certificate towers for
+accepted non-trivial completed zeta zeros.  The internal ruler row makes
+the corresponding golden ruler family internal and triadic under
+refinement.  The bridge row supplies cofinal golden Lee--Yang bridge
+witnesses on the same zero islands, while the cofinal growth row supplies
+the active-height growth required by the defect ledger.  These are
+precisely the components required by
+\autoref{def:rh-internal-golden-ruler-zeta-certificate}.
 \end{proof}
 
 \begin{theorem}[Internal-ruler containers supply constructive machines]
@@ -242,6 +312,28 @@ and then
 \autoref{cor:rh-internal-ruler-containers-force-critical-container}.
 \end{proof}
 
+\begin{corollary}[Golden zeta containers force the critical container]
+\label{cor:rh-golden-zeta-containers-force-critical-container}
+If
+$$
+\mathrm{ConstraintContainer}^{\uparrow}_{\zeta,\varphi}
+$$
+holds, then the limit ledger of every accepted non-trivial completed
+zeta zero satisfies
+$$
+\Lambda_{\infty}
+\Vdash_{\zeta,\varphi}
+[\Gamma_{\mathrm{crit}}].
+$$
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-golden-zeta-container-route-supplies-internal-golden-certificates}
+and then
+\autoref{cor:rh-internal-golden-certificates-force-critical-container}.
+\end{proof}
+
 \begin{principle}[Proof load of the internal-ruler container]
 \label{prin:rh-internal-ruler-container-proof-load}
 The internal-ruler container formulation separates four rows.  The
@@ -271,4 +363,7 @@ cofinal supply of the witnesses of
 \autoref{def:rh-golden-lee-yang-bridge-witness}.  Thus failure of that
 bridge leaves the package at weak capture, while success of that bridge
 upgrades the package to the internal-ruler container source row.
+\autoref{def:rh-golden-bridge-analytic-subrows} records the two analytic
+subrows of this bridge: dominance of the selected path branch and
+Rouch\'e homotopy to the analytic packet on the same boundary.
 \end{principle}
