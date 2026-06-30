@@ -1,0 +1,537 @@
+\chapter{Global Weil Positive Container Tower}
+\label{ch:visions-rh-global-weil-positive-container-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-squarefree-prime-polarized-bridge} records the
+squarefree prime surface for polarized Lee--Yang containers, and
+\autoref{ch:visions-rh-xi-jensen-internal-container} records the
+Jensen hyperbolicity surface generated from Xi itself.  The common
+global target behind these routes is a Weil-positive tower: finite
+positive containers whose limit is the Weil quadratic form supplied by
+the explicit formula.  This chapter records that target as the
+non-local form of the no-scale route.
+
+\begin{definition}[Multiplicative test row]
+\label{def:rh-multiplicative-test-row}
+Let $\mathcal A$ be a source test space on
+$\mathbb R_{+}^{\times}$ stable under the operations required by the
+explicit formula.  For $f\in\mathcal A$, its Mellin readout is
+$$
+\widehat f(s)
+:=
+\int_0^\infty f(x)x^s\frac{dx}{x},
+$$
+whenever this integral is read directly, and otherwise by the
+regularized test-row convention of the explicit formula.  In logarithmic
+coordinates $x=e^u$, with $\phi(u)=f(e^u)$, this is the Laplace--Fourier
+readout
+$$
+\widehat f(s)
+=
+\int_{-\infty}^{\infty}\phi(u)e^{su}\,du.
+$$
+\end{definition}
+
+\begin{definition}[Weil quadratic form row]
+\label{def:rh-weil-quadratic-form-row}
+The Weil quadratic form attached to the completed zeta zero ledger is
+the regularized pairing
+$$
+\mathcal W(f)
+:=
+\sum_{\rho}
+\widehat f(\rho)\,
+\overline{\widehat f(1-\overline{\rho})},
+$$
+where $\rho$ ranges over the completed zeta zero ledger with the
+standard symmetry and multiplicity conventions of the explicit formula.
+The displayed formula records the zero-side contribution; the
+regularization and archimedean rows are part of the Weil-form source
+ledger.
+\end{definition}
+
+\begin{definition}[Global Weil positivity]
+\label{def:rh-global-weil-positivity}
+The source row
+$$
+\mathsf{GlobalWeilPositivity}
+$$
+asserts that
+$$
+\mathcal W(f)\ge0
+\qquad
+(f\in\mathcal A).
+$$
+It is the global test-function version of the no-scale condition: no
+displayed test row may extract negative energy from the zero ledger.
+\end{definition}
+
+\begin{principle}[Weil positivity as the no-scale global target]
+\label{prin:rh-weil-positivity-no-scale-global-target}
+The local no-scale route reads an off-half parameter as a radial defect
+$$
+e^{-(s-1/2)h}=e^{-rh}e^{-ith}.
+$$
+Finite packets express this as a scale-energy row.  The global Weil
+route expresses the same obstruction as a test-function positivity row:
+an off-half mirror pair would allow a test readout that separates the two
+mirror points and contributes a negative term to
+\autoref{def:rh-weil-quadratic-form-row}.  Thus the thermodynamic
+no-demon condition and the explicit-formula positivity condition have a
+common target, namely $\mathsf{GlobalWeilPositivity}$.
+\end{principle}
+
+\begin{definition}[Finite Weil-positive container]
+\label{def:rh-finite-weil-positive-container}
+A \emph{finite Weil-positive container} is a pair
+$$
+(\mathcal A_N,\mathcal W_N)
+$$
+where $\mathcal A_N\subseteq\mathcal A$ is a finite displayed
+test space and
+$$
+\mathcal W_N:\mathcal A_N\to\mathbb R
+$$
+is a positive semidefinite quadratic row:
+$$
+\mathcal W_N(f)\ge0
+\qquad
+(f\in\mathcal A_N).
+$$
+The container is source-side when $\mathcal A_N$ and $\mathcal W_N$ are
+generated before any zero island is selected and carry no unledgered
+$\mathbb R_{>0}$ scale coordinate.
+\end{definition}
+
+\begin{definition}[Cofinal Weil-positive container tower]
+\label{def:rh-cofinal-weil-positive-container-tower}
+The source row
+$$
+\mathsf{CofinalWeilPositiveContainerTower}
+$$
+asserts the existence of finite Weil-positive containers
+$$
+(\mathcal A_N,\mathcal W_N)_{N\ge1}
+$$
+with the following rows.
+
+The nesting row is
+$$
+\mathcal A_N\subseteq\mathcal A_{N+1}.
+$$
+The cofinality row says that
+$$
+\bigcup_N\mathcal A_N
+$$
+is dense in the test space used by
+\autoref{def:rh-weil-quadratic-form-row}.  The compatibility row says
+that the restrictions of later quadratic forms to earlier test spaces
+agree with earlier forms up to a displayed error ledger tending to zero.
+The limit row says that for every test function $f$ and every admissible
+cofinal approximation $f_N\in\mathcal A_N$ with $f_N\to f$,
+$$
+\mathcal W_N(f_N)\to\mathcal W(f).
+$$
+\end{definition}
+
+\begin{theorem}[Cofinal Weil-positive tower gives global positivity]
+\label{thm:rh-cofinal-weil-positive-tower-gives-global-positivity}
+If $\mathsf{CofinalWeilPositiveContainerTower}$ holds, then
+$\mathsf{GlobalWeilPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $f\in\mathcal A$.  By cofinality choose admissible
+$f_N\in\mathcal A_N$ with $f_N\to f$.  Finite positivity gives
+$$
+\mathcal W_N(f_N)\ge0
+$$
+for every $N$.  The limit row gives
+$$
+\mathcal W_N(f_N)\to\mathcal W(f).
+$$
+The limit of nonnegative real numbers is nonnegative, so
+$$
+\mathcal W(f)\ge0.
+$$
+Since $f$ was arbitrary, $\mathsf{GlobalWeilPositivity}$ holds.
+\end{proof}
+
+\begin{definition}[Weil criterion consumption row]
+\label{def:rh-weil-criterion-consumption-row}
+The source row
+$$
+\mathsf{WeilCriterionConsumesGlobalPositivity}
+$$
+is the classical criterion that consumes
+$\mathsf{GlobalWeilPositivity}$ and returns the fixed-half zero ledger
+for the completed zeta function.  In this vision it is treated as a
+named bridge row, separate from the construction of the finite
+positive tower.
+\end{definition}
+
+\begin{theorem}[Finite Weil-positive tower gives fixed-half readout]
+\label{thm:rh-finite-weil-positive-tower-fixed-half-readout}
+Assume $\mathsf{CofinalWeilPositiveContainerTower}$ and
+$\mathsf{WeilCriterionConsumesGlobalPositivity}$.  Then the completed
+zeta zero ledger has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-cofinal-weil-positive-tower-gives-global-positivity},
+the tower gives $\mathsf{GlobalWeilPositivity}$.  The consumption row
+then returns the fixed-half zero ledger.
+\end{proof}
+
+\begin{principle}[Finite container routes as Weil-tower candidates]
+\label{prin:rh-finite-container-routes-as-weil-tower-candidates}
+The Lee--Yang, Jensen, golden-ruler, squarefree-prime, and quartic
+endpoint routes are best read as candidate constructions of the finite
+rows in
+\autoref{def:rh-cofinal-weil-positive-container-tower}.  A Lee--Yang
+packet supplies finite nonvanishing and stability; a Jensen section
+supplies finite hyperbolicity; a golden ruler supplies source-side
+cofinal refinement; a squarefree prime packet supplies arithmetic
+ledgering; and a quartic endpoint model supplies a finite dominance and
+Rouch\'e laboratory.  None of these finite rows is by itself the global
+argument.  The global argument is the cofinal passage from finite
+positivity to $\mathsf{GlobalWeilPositivity}$.
+\end{principle}
+
+\begin{definition}[Scale-closure to Weil positivity row]
+\label{def:rh-scale-closure-to-weil-positivity-row}
+The source row
+$$
+\mathsf{ZetaUnitaryScaleClosureToWeilPositivity}
+$$
+asserts that the bounded-energy, no-unledgered-scale, and cofinal-growth
+rows of the zeta unitary scale route assemble into finite
+Weil-positive containers compatible with
+\autoref{def:rh-weil-quadratic-form-row}.  It is the bridge from local
+radial-defect exclusion to the global positivity row.
+\end{definition}
+
+\begin{principle}[Final non-local proof obligation]
+\label{prin:rh-final-non-local-proof-obligation}
+The non-local proof obligation is not to build a stable packet around a
+candidate zero.  It is to construct a source-side cofinal tower of
+finite positive quadratic rows.  In symbols, the active target is
+$$
+\mathsf{CofinalWeilPositiveContainerTower}
+\Longrightarrow
+\mathsf{GlobalWeilPositivity}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+The first implication is the finite-container reduction proved in this
+chapter; the second is delegated to the Weil criterion consumption row.
+\end{principle}
+
+\begin{definition}[Offline mirror pair]
+\label{def:rh-offline-mirror-pair}
+An \emph{offline mirror pair} in the completed zeta zero ledger is a pair
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+$$
+with $r\ne0$, related by
+$$
+\rho_-=1-\overline{\rho_+}.
+$$
+It is the zero-side expression of a radial scale split: the two points
+have the same phase height and opposite real scale directions.
+\end{definition}
+
+\begin{definition}[Diagonal negative probe]
+\label{def:rh-diagonal-negative-probe}
+A \emph{diagonal negative probe} for an offline mirror pair is a test
+row $f\in\mathcal A$ whose Mellin readout separates the pair by
+opposite signs,
+$$
+\widehat f(\rho_+)=1,
+\qquad
+\widehat f(\rho_-)=-1,
+$$
+while all remaining zero-side contributions are controlled by the
+regularized tail ledger of
+\autoref{def:rh-weil-quadratic-form-row}.  The row is diagonal because
+it reads precisely the mirror coordinate that a local scale selector
+would try to hide.
+\end{definition}
+
+\begin{principle}[Offline mirror pairs create negative Weil directions]
+\label{prin:rh-offline-mirror-pairs-create-negative-weil-directions}
+If an offline mirror pair admits a diagonal negative probe, then the
+pair contributes
+$$
+\widehat f(\rho_+)\overline{\widehat f(\rho_-)}
++
+\widehat f(\rho_-)\overline{\widehat f(\rho_+)}
+=
+-2
+$$
+to the zero-side Weil pairing.  With the remaining zero contributions
+made smaller by the displayed tail ledger, this gives a negative
+direction for $\mathcal W$.  Hence an off-half mirror pair is not merely
+a local radial defect; it is a global obstruction to
+$\mathsf{GlobalWeilPositivity}$.
+\end{principle}
+
+\begin{definition}[No diagonal negative probe]
+\label{def:rh-no-diagonal-negative-probe}
+The row
+$$
+\mathsf{NoDiagonalNegativeProbe}
+$$
+asserts that the Weil quadratic form has no diagonal negative direction:
+there is no test row $f\in\mathcal A$ with
+$$
+\mathcal W(f)<0.
+$$
+Thus $\mathsf{NoDiagonalNegativeProbe}$ is the same positivity surface as
+$\mathsf{GlobalWeilPositivity}$, but with emphasis on the diagonal
+obstruction created by an offline mirror pair.
+\end{definition}
+
+\begin{principle}[Halting boundary forbids universal local closure tests]
+\label{prin:rh-halting-boundary-forbids-local-closure-tests}
+\autoref{thm:no-global-theorem-route-closure-decider} and
+\autoref{thm:rh-route-decider-type-vii-socket} rule out a universal
+classifier deciding closure of all sufficiently expressive theorem
+routes.  The RH zero route must therefore not be framed as a global
+local decider that inspects every zero box and declares it legal or
+illegal.  Such a decider would be a theorem-route closure oracle at the
+certificate stratum.  The diagonal-safe alternative is a source-side
+positive tower: each finite container is positive by construction, and
+the global no-negative-probe row is read only after cofinal passage.
+\end{principle}
+
+\begin{definition}[Diagonal-safe Weil tower]
+\label{def:rh-diagonal-safe-weil-tower}
+A cofinal Weil-positive container tower is \emph{diagonal-safe} when
+each finite positivity row is supplied by internal structure, for
+example by a displayed factorization
+$$
+\mathcal W_N(f)=\|T_N f\|^2
+$$
+or by a positive kernel row
+$$
+\mathcal W_N(f)=\langle K_Nf,f\rangle,
+\qquad
+K_N\ge0,
+$$
+and not by a procedure that searches for future negative probes and
+repairs the container after they are found.  The corresponding source
+row is
+$$
+\mathsf{DiagonalSafeWeilTower}.
+$$
+\end{definition}
+
+\begin{theorem}[Diagonal-safe tower gives global positivity]
+\label{thm:rh-diagonal-safe-tower-gives-global-positivity}
+If $\mathsf{DiagonalSafeWeilTower}$ holds, then
+$\mathsf{GlobalWeilPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+A diagonal-safe tower is, in particular, a cofinal Weil-positive
+container tower.  Apply
+\autoref{thm:rh-cofinal-weil-positive-tower-gives-global-positivity}.
+\end{proof}
+
+\begin{principle}[Diagonal-safe final target]
+\label{prin:rh-diagonal-safe-final-target}
+The diagonal role of the halting boundary is negative and structural: it
+forbids a universal local legality decider.  The diagonal role of the
+Weil form is positive and global: any off-half mirror pair would expose
+a negative probe.  The compatible proof target is therefore
+$$
+\mathsf{DiagonalSafeWeilTower}
+\Longrightarrow
+\mathsf{GlobalWeilPositivity}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+This target is source-side and non-local.  It asks for a cofinal family
+of internally positive finite containers rather than a decision
+procedure over all zero boxes.
+\end{principle}
+
+\begin{definition}[Li--Weil coefficient row]
+\label{def:rh-li-weil-coefficient-row}
+Let $\xi(s)$ be the completed zeta function used by the zero ledger.  The
+$n$-th Li--Weil coefficient is the source-side scalar
+$$
+\lambda_n
+:=
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log \xi(s)
+\right]
+\right|_{s=1}.
+$$
+Equivalently, when read through the regularized zero ledger,
+$$
+\lambda_n
+=
+\sum_{\rho}
+\left[
+1-\left(1-\frac1{\rho}\right)^n
+\right].
+$$
+\end{definition}
+
+\begin{definition}[Li--Weil finite negative witness]
+\label{def:rh-li-weil-finite-negative-witness}
+A \emph{Li--Weil finite negative witness} is a positive integer $n$ with
+$$
+\lambda_n<0.
+$$
+The row is finite: it is indexed by one displayed natural number rather
+than by an open-ended search through certificate towers.
+\end{definition}
+
+\begin{definition}[Global Li--Weil positivity]
+\label{def:rh-global-li-weil-positivity}
+The source row
+$$
+\mathsf{GlobalLiWeilPositivity}
+$$
+asserts that
+$$
+\lambda_n\ge0
+\qquad
+(n\ge1).
+$$
+\end{definition}
+
+\begin{definition}[Li criterion consumption row]
+\label{def:rh-li-criterion-consumption-row}
+The source row
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}
+$$
+is the classical bridge consuming
+$\mathsf{GlobalLiWeilPositivity}$ and returning fixed-half zero readout.
+It is used here as a criterion row, not as a construction of the
+coefficients' positivity.
+\end{definition}
+
+\begin{principle}[Li--Weil reduction gives finite bad witnesses]
+\label{prin:rh-li-weil-reduction-finite-bad-witnesses}
+The Li--Weil row gives a concrete form of the diagonal negative-probe
+principle.  If the fixed-half zero readout fails, then the Li criterion
+consumption row presents a finite negative witness
+$$
+\exists n\ge1,\qquad \lambda_n<0.
+$$
+Thus an off-half defect is not allowed to remain an indefinitely delayed
+failure of an infinite tower: it must project to a finite Li--Weil
+coefficient.  This is the finite-witness refinement of
+\autoref{def:rh-no-diagonal-negative-probe}.
+\end{principle}
+
+\begin{definition}[Source-side Li positivity certificate]
+\label{def:rh-source-side-li-positivity-certificate}
+A source-side positivity certificate for $\lambda_n$ consists of
+internally generated data, such as a Hilbert space row and vector
+$$
+(\mathcal H_n,\Psi_n),
+$$
+with
+$$
+\lambda_n=\|\Psi_n\|_{\mathcal H_n}^2,
+$$
+or a finite positive-kernel decomposition whose displayed cancellation
+ledger leaves a nonnegative remainder.  The certificate must be
+generated from the prime, phase, solenoid, golden, Lee--Yang, or
+explicit-formula source rows; it may not be obtained by searching for
+negative witnesses and repairing them afterward.
+\end{definition}
+
+\begin{definition}[Source global Li positivity]
+\label{def:rh-source-global-li-positivity}
+The source row
+$$
+\mathsf{SourceGlobalLiPositivity}
+$$
+asserts that every $\lambda_n$ has a source-side positivity certificate
+in the sense of
+\autoref{def:rh-source-side-li-positivity-certificate}.
+\end{definition}
+
+\begin{theorem}[Source Li positivity gives fixed-half readout]
+\label{thm:rh-source-li-positivity-fixed-half-readout}
+Assume $\mathsf{SourceGlobalLiPositivity}$ and
+$\mathsf{LiCriterionConsumesGlobalLiPositivity}$.  Then the completed
+zeta zero ledger has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+The source-side certificates give $\lambda_n\ge0$ for every $n$, hence
+$\mathsf{GlobalLiWeilPositivity}$.  The Li criterion consumption row
+then returns the fixed-half zero ledger.
+\end{proof}
+
+\begin{definition}[Golden Li positivity limit]
+\label{def:rh-golden-li-positivity-limit}
+The source row
+$$
+\mathsf{GoldenLiPositivityLimit}
+$$
+asserts that there are source-side golden Lee--Yang containers $C_m$
+with finite Li coefficients
+$$
+\lambda_{n,m}
+:=
+\frac{1}{(n-1)!}
+\left.
+\frac{d^n}{ds^n}
+\left[
+s^{n-1}\log C_m(s)
+\right]
+\right|_{s=1}
+$$
+such that $\lambda_{n,m}\ge0$ for all $n,m$, and for each fixed $n$,
+$$
+\lambda_{n,m}\to\lambda_n.
+$$
+\end{definition}
+
+\begin{theorem}[Golden Li positivity limit gives global Li positivity]
+\label{thm:rh-golden-li-positivity-limit-gives-global-li-positivity}
+If $\mathsf{GoldenLiPositivityLimit}$ holds, then
+$\mathsf{GlobalLiWeilPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+Fix $n\ge1$.  The finite rows give $\lambda_{n,m}\ge0$ for every $m$.
+Taking the displayed limit in $m$ gives $\lambda_n\ge0$.  Since $n$ was
+arbitrary, $\mathsf{GlobalLiWeilPositivity}$ holds.
+\end{proof}
+
+\begin{principle}[Li route separates stability from convergence]
+\label{prin:rh-li-route-separates-stability-from-convergence}
+The Li--Weil refinement separates the remaining analytic load into two
+source rows.  The finite stability row requires the finite containers
+$C_m$ to have fixed-half zero readout, which yields
+$\lambda_{n,m}\ge0$ by the usual Li coefficient computation for
+critical-line zero multisets.  The convergence row requires enough
+log-derivative convergence to pass
+$$
+\lambda_{n,m}\to\lambda_n
+$$
+for every fixed $n$.  In named form the open source obligations are
+$$
+\mathsf{FiniteGoldenLeeYangStability}
+\qquad
+\text{and}
+\qquad
+\mathsf{LogDerivativeConvergence}.
+$$
+\end{principle}
