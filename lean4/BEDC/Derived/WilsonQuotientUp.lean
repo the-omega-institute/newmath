@@ -47,6 +47,27 @@ def factorialResidueModNat (modulus : Nat) : Nat -> Nat
 def wilsonNumeratorResidueModPrimeSquareNat (p : Nat) : Nat :=
   (factorialResidueModNat (p * p) (p - 1) + 1) % (p * p)
 
+def wolstenholmeChooseNat : Nat -> Nat -> Nat
+  | 0, 0 => 1
+  | 0, Nat.succ _ => 0
+  | Nat.succ _, 0 => 1
+  | Nat.succ n, Nat.succ k =>
+      wolstenholmeChooseNat n k + wolstenholmeChooseNat n (Nat.succ k)
+
+def wolstenholmeModulusNat (p : Nat) : Nat :=
+  p * p * p
+
+def wolstenholmeBinomialResidueNat (p : Nat) : Nat :=
+  wolstenholmeChooseNat (2 * p - 1) (p - 1) % wolstenholmeModulusNat p
+
+def WolstenholmeBinomialNat (p : Nat) : Prop :=
+  wolstenholmeBinomialResidueNat p = 1 % wolstenholmeModulusNat p
+
+instance wolstenholmeBinomialNatDecidable (p : Nat) :
+    Decidable (WolstenholmeBinomialNat p) :=
+  inferInstanceAs
+    (Decidable (wolstenholmeBinomialResidueNat p = 1 % wolstenholmeModulusNat p))
+
 def wilsonQuotientNatVanishesBool (p : Nat) : Bool :=
   Nat.beq (wilsonNumeratorResidueModPrimeSquareNat p) 0
 
@@ -242,6 +263,26 @@ theorem wilsonQuotientNat_five_value :
     wilsonQuotientNat 5 = 5 := by
   rfl
 
+theorem wolstenholmeChooseNat_five_value :
+    wolstenholmeChooseNat 9 4 = 126 := by
+  rfl
+
+theorem wolstenholmeBinomialResidueNat_five :
+    WolstenholmeBinomialNat 5 := by
+  decide
+
+theorem wolstenholmeBinomialResidueNat_seven :
+    WolstenholmeBinomialNat 7 := by
+  decide
+
+theorem wolstenholmeBinomialResidueNat_eleven :
+    WolstenholmeBinomialNat 11 := by
+  decide
+
+theorem wolstenholmeBinomialResidueNat_thirteen :
+    WolstenholmeBinomialNat 13 := by
+  decide
+
 theorem wilsonQuotientResidueNat_five :
     KnownWilsonQuotientResidueNat 5 := by
   exact wilsonQuotientNatVanishes_five
@@ -268,5 +309,13 @@ theorem KnownWilsonQuotientResidueNat_small_export :
       KnownWilsonQuotientResidueNat 563 := by
   exact ⟨wilsonQuotientResidueNat_five, wilsonQuotientResidueNat_thirteen,
     wilsonQuotientResidueNat_fiveHundredSixtyThree⟩
+
+theorem WolstenholmeBinomialNat_small_export :
+    WolstenholmeBinomialNat 5 ∧ WolstenholmeBinomialNat 7 ∧
+      WolstenholmeBinomialNat 11 ∧ WolstenholmeBinomialNat 13 := by
+  exact ⟨wolstenholmeBinomialResidueNat_five,
+    wolstenholmeBinomialResidueNat_seven,
+    wolstenholmeBinomialResidueNat_eleven,
+    wolstenholmeBinomialResidueNat_thirteen⟩
 
 end BEDC.Derived.WilsonQuotientUp
