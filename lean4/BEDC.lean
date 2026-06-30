@@ -9101,6 +9101,7 @@ import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
+import BEDC.Derived.NarayanaNumberUp
 import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NarcissisticNumberUp
 import BEDC.Derived.NashEquilibriumUp.TasteGate
