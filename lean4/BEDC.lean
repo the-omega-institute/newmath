@@ -3746,6 +3746,7 @@ import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
 import BEDC.Derived.ConnectionUp
+import BEDC.Derived.ConnectionUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.ConsciousObserverStateUp.BridgeRoute
 import BEDC.Derived.ConsciousObserverStateUp.ClassifierStability
@@ -4644,6 +4645,7 @@ import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclicGroupUp
 import BEDC.Derived.CyclicTagSystemUp.TasteGate
+import BEDC.Derived.CyclotomicPolynomialUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.CylinderObjectUp
@@ -5568,6 +5570,7 @@ import BEDC.Derived.EpistemicWitnessUp.Carrier
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EpsilonDeltaLimitUp
 import BEDC.Derived.EpsilonDeltaLimitUp.TasteGate
+import BEDC.Derived.EqUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
@@ -6651,6 +6654,7 @@ import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.GeneticCodeDeformationLedgerUp
 import BEDC.Derived.GeneticCodeDeformationLedgerUp.TasteGate
+import BEDC.Derived.GenocchiNumberUp
 import BEDC.Derived.GenocchiUp
 import BEDC.Derived.GeodesicMetricUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
@@ -8896,6 +8900,7 @@ import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricReflectionSandwichUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
+import BEDC.Derived.MetricReverseTriangleInequalityUp.TasteGate
 import BEDC.Derived.MetricSeparationReflectorUp.TasteGate
 import BEDC.Derived.MetricSequentialCompletionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
@@ -10264,6 +10269,7 @@ import BEDC.Derived.RHRoute.ZeroSignatureFaithfulness
 import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaBoxKrawczyk
 import BEDC.Derived.RHRoute.ZetaBoxOnBall
+import BEDC.Derived.RHRoute.ZetaCosmosClosure
 import BEDC.Derived.RHRoute.ZetaDerivativeBox
 import BEDC.Derived.RHRoute.ZetaDyKrawczykDischarge
 import BEDC.Derived.RHRoute.ZetaDyKrawczykLift
@@ -11613,6 +11619,7 @@ import BEDC.Derived.ResidueUp.TasteGate
 import BEDC.Derived.ResolventIdentityUp
 import BEDC.Derived.ResolventIdentityUp.TasteGate
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
+import BEDC.Derived.ResultantUp
 import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.NameCertObligations
 import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
@@ -12615,6 +12622,7 @@ import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SylvesterSequenceUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.SymmetricPolyUp
+import BEDC.Derived.SymmetricPolynomialUp
 import BEDC.Derived.SymmetryRestorationStabilizerUp.TasteGate
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
@@ -13285,6 +13293,7 @@ import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
 import BEDC.Derived.VandermondeChuUp
+import BEDC.Derived.VandermondeDeterminantUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
@@ -13553,6 +13562,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZigzagNumberUp
 import BEDC.Derived.ZigzagUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CandidateNormalEndpointReadback
