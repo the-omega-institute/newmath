@@ -4681,6 +4681,7 @@ import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.TasteGate
 import BEDC.Derived.DecidableBarUp
+import BEDC.Derived.DecidableBarUp.FiniteBranchInduction
 import BEDC.Derived.DecidableBarUp.TasteGate
 import BEDC.Derived.DecidableBetaFrontierUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
@@ -10579,7 +10580,9 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.BridgeRoute
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
+import BEDC.Derived.RealNameClassifierUp.KernelScopeDeterminacy
 import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
+import BEDC.Derived.RealNameClassifierUp.RefinedWindowSynchronization
 import BEDC.Derived.RealNameClassifierUp.RefinementScopeFactorization
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
