@@ -1,15 +1,115 @@
-\subsection{NameCert: Window Fibonacci Cube Closed Neighborhood Transfer}
-\label{sec:namecert-window_fibonacci_cube_closed_neighborhood_transfer_certificate}
 \origin{ai}
 
-\paragraph{Statement.} The packet records a finite forced-window mathematical construction.
+\subsection{Closed-neighborhood transfer in the length-six Fibonacci window}
+\label{sec:window-fibonacci-cube-closed-neighborhood-transfer-certificate}
 
-\paragraph{Carrier.} A finite forced-window carrier is required before a stronger chapter can be authored.
+\paragraph{Carrier.}
+The finite carrier is the set of binary words of length $6$ with no adjacent $1$ entries.  It is defined directly by
+$$
+\begin{aligned}
+X=\{x\in \{0,1\}^6 \mid x_i x_{i+1}=0\text{ for each }i\in\{1,2,3,4,5\}\}.
+\end{aligned}
+$$
+Writing a word $x$ as $x_1x_2x_3x_4x_5x_6$, the carrier has exactly $21$ elements:
+$$
+\begin{aligned}
+X=\{&000000,000001,000010,000100,001000,010000,100000,\\
+&000101,001001,001010,010001,010010,010100,100001,100010,100100,101000,\\
+&001101,010101,100101,101001\}.
+\end{aligned}
+$$
+The count is also obtained recursively.  If $a_n$ is the number of length-$n$ binary words with no adjacent $1$ entries, then a valid word either begins with $0$ followed by a valid length-$(n-1)$ word, or begins with $10$ followed by a valid length-$(n-2)$ word.  Thus $a_n=a_{n-1}+a_{n-2}$ with $a_0=1$ and $a_1=2$, giving $a_6=21$.
 
-\paragraph{Relations.} No relation beyond the local finite construction is asserted.
+\paragraph{Graph relation and closed neighborhoods.}
+The finite relation is the one-bit flip relation restricted to the carrier.  For $x,y\in X$, put $x\sim y$ exactly when there is a unique index $i\in\{1,2,3,4,5,6\}$ such that $x_i\ne y_i$ and $x_j=y_j$ for every $j\ne i$.  This gives a simple undirected graph on $X$.  The closed neighborhood of $x$ is
+$$
+\begin{aligned}
+N[x]=\{x\}\cup\{y\in X\mid x\sim y\}.
+\end{aligned}
+$$
+The forced-window certificate uses only these finite sets.  Direct inspection of the carrier gives the following closed-neighborhood sizes:
+$$
+\begin{aligned}
+&|N[000000]|=7,\\
+&|N[000001]|=6,\quad |N[000010]|=5,\quad |N[000100]|=5,\quad |N[001000]|=5,\quad |N[010000]|=5,\quad |N[100000]|=6,\\
+&|N[000101]|=5,\quad |N[001001]|=5,\quad |N[001010]|=4,\quad |N[010001]|=5,\quad |N[010010]|=4,\\
+&|N[010100]|=4,\quad |N[100001]|=6,\quad |N[100010]|=5,\quad |N[100100]|=5,\quad |N[101000]|=5,\\
+&|N[001101]|=4,\quad |N[010101]|=4,\quad |N[100101]|=5,\quad |N[101001]|=5.
+\end{aligned}
+$$
+These numbers are not parameters; they are the result of the explicit finite relation above.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Forced coordinate windows.}
+For a coordinate $i\in\{1,2,3,4,5,6\}$ and a value $b\in\{0,1\}$, define the coordinate slice
+$$
+\begin{aligned}
+X_{i=b}=\{x\in X\mid x_i=b\}.
+\end{aligned}
+$$
+A coordinate value is called closed-neighborhood transferable when every word in the slice has at least one closed-neighborhood witness in the opposite slice.  Formally, the transfer predicate is
+$$
+\begin{aligned}
+T(i,b)\Longleftrightarrow \forall x\in X_{i=b}\;\exists y\in N[x]\cap X_{i=1-b}.
+\end{aligned}
+$$
+Because $x$ itself remains in $X_{i=b}$, any witness $y$ must differ from $x$.  Since the graph relation changes exactly one coordinate, the only possible witness is the word obtained from $x$ by flipping coordinate $i$, if that word still lies in $X$.  Thus the predicate is completely finite and has no hidden choice: witness extraction is the partial operation
+$$
+\begin{aligned}
+\tau_i(x)_j=\begin{cases}1-x_i,&j=i,\\x_j,&j\ne i,\end{cases}
+\end{aligned}
+$$
+with acceptance condition $\tau_i(x)\in X$.  When accepted, $\tau_i(x)$ is the unique element of $N[x]\cap X_{i=1-b}$.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Exact transfer matrix.}
+The transfer matrix records whether all words in a slice can be transferred across the chosen coordinate.  Rows are coordinates $1$ through $6$ and columns are values $0,1$:
+$$
+\begin{aligned}
+M=\begin{pmatrix}
+0&1\\
+0&1\\
+0&1\\
+0&1\\
+0&1\\
+0&1
+\end{pmatrix}.
+\end{aligned}
+$$
+The second column is all $1$ because if $x_i=1$, then both adjacent coordinates, when present, are forced to be $0$ by the definition of $X$.  Changing $x_i$ from $1$ to $0$ cannot create adjacent $1$ entries, so $\tau_i(x)\in X$ for every $x\in X_{i=1}$.  The first column is all $0$ because for each coordinate there is a word in $X_{i=0}$ whose coordinate flip would create an adjacent pair of $1$ entries:
+$$
+\begin{aligned}
+&i=1:\;010000\mapsto 110000,\\
+&i=2:\;101000\mapsto 111000,\\
+&i=3:\;010000\mapsto 011000,\\
+&i=4:\;001000\mapsto 001100,\\
+&i=5:\;000101\mapsto 000111,\\
+&i=6:\;000010\mapsto 000011.
+\end{aligned}
+$$
+Each displayed source word lies in $X$, has $x_i=0$, and its flipped word is not in $X$.  Hence no universal transfer can hold from the $0$ slice to the $1$ slice for any coordinate.
 
-\paragraph{Not claimed.} No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed.
+\paragraph{Partition certificate.}
+The carrier is partitioned by Hamming weight into four finite blocks:
+$$
+\begin{aligned}
+X_0&=\{000000\},\\
+X_1&=\{000001,000010,000100,001000,010000,100000\},\\
+X_2&=\{000101,001001,001010,010001,010010,010100,100001,100010,100100,101000\},\\
+X_3&=\{001101,010101,100101,101001\}.
+\end{aligned}
+$$
+The exact block sizes are $1,6,10,4$, summing to $21$.  Under any accepted witness extraction $\tau_i$ from a $1$ slice to a $0$ slice, the Hamming weight drops by one.  Therefore the accepted transfer is a directed finite map from $X_k\cap X_{i=1}$ into $X_{k-1}\cap X_{i=0}$.  This gives an explicit certificate that the closed-neighborhood transfer is weight-lowering whenever it is total.
+
+\paragraph{Kernel form.}
+For each coordinate $i$, define a $21\times 21$ matrix $K_i$ indexed by $X$ in the listed order.  Its entry is
+$$
+\begin{aligned}
+(K_i)_{x,y}=\begin{cases}1,&y=\tau_i(x)\text{ and }\tau_i(x)\in X,\\0,&\text{otherwise.}\end{cases}
+\end{aligned}
+$$
+The row sum of $K_i$ is $1$ exactly for rows whose coordinate flip remains in $X$, and $0$ otherwise.  Restricted to the rows with $x_i=1$, every row sum is $1$; restricted to the rows with $x_i=0$, at least one row sum is $0$ for each $i$.  This matrix statement is equivalent to the transfer matrix $M$ above and is checked by finite enumeration alone.
+
+\paragraph{Certificate conclusion.}
+The finite construction proves the following local statement: in the length-six binary no-adjacent-ones carrier, every forced $1$ at any coordinate has a unique closed-neighborhood witness obtained by changing that coordinate to $0$, while no coordinate admits a universal closed-neighborhood transfer from $0$ to $1$.  The witness is extracted by a single coordinate flip and accepted precisely when the resulting word remains in the carrier.  All counts, partitions, relations, and matrices are finite objects displayed or defined in this subsection.
+
+\paragraph{Boundary.}
+This certificate asserts only the finite closed-neighborhood transfer behavior of the length-six carrier.  It does not identify any physical constant, does not supply a global evolution law, does not depend on an outside data source, does not make a metrological comparison, and does not attach an interpretation beyond the finite construction unless a separate certificate gives the additional bridge.
