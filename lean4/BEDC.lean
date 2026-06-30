@@ -6435,6 +6435,7 @@ import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
 import BEDC.Derived.FiniteUniformDiscrepancyUp
+import BEDC.Derived.FiniteVariationLedgerUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
@@ -6904,6 +6905,7 @@ import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
 import BEDC.Derived.HermitePolyUp
 import BEDC.Derived.HermitePolynomialUp
+import BEDC.Derived.HermitePolynomialUp.TasteGate
 import BEDC.Derived.HigmanLemmaUp
 import BEDC.Derived.HigmanLemmaUp.TasteGate
 import BEDC.Derived.HigsonCompactificationUp
@@ -7772,6 +7774,7 @@ import BEDC.Derived.LocatedIntervalBisectionUp.NestedWindowRoute
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
 import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
+import BEDC.Derived.LocatedIntervalCompletionUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalFanBarrierUp.TasteGate
