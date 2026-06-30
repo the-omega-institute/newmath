@@ -212,4 +212,63 @@ theorem CircleSOneBoundaryHandoff
   }
   exact ⟨cert, handoffUnary⟩
 
+theorem CircleCarrier_compact_metric_boundary
+    {B R M K H P N compactMetricRead : BHist} :
+    UnaryHistory B → UnaryHistory R → UnaryHistory M → UnaryHistory K →
+      UnaryHistory H → UnaryHistory P → UnaryHistory N →
+        Cont K M compactMetricRead → hsame H P →
+          SemanticNameCert
+            (fun row : BHist => hsame row compactMetricRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row B ∨ hsame row R ∨ hsame row M ∨ hsame row K ∨ hsame row H ∨
+                hsame row P ∨ hsame row N ∨ hsame row compactMetricRead)
+            (fun row : BHist => UnaryHistory row ∧ Cont K M compactMetricRead ∧ hsame H P)
+            hsame ∧ UnaryHistory compactMetricRead := by
+  -- BEDC touchpoint anchor: CircleUp BHist Cont hsame SemanticNameCert UnaryHistory
+  intro _boundaryUnary _realUnary metricUnary compactUnary _transportUnary _provenanceUnary
+    _nameUnary compactMetricRoute sameHP
+  have compactMetricUnary : UnaryHistory compactMetricRead :=
+    unary_cont_closed compactUnary metricUnary compactMetricRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row compactMetricRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row R ∨ hsame row M ∨ hsame row K ∨ hsame row H ∨
+              hsame row P ∨ hsame row N ∨ hsame row compactMetricRead)
+          (fun row : BHist => UnaryHistory row ∧ Cont K M compactMetricRead ∧ hsame H P)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro compactMetricRead
+        ⟨hsame_refl compactMetricRead, compactMetricUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceData
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceData.left,
+            unary_transport sourceData.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceData
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr sourceData.left))))))
+    ledger_sound := by
+      intro _row sourceData
+      exact ⟨sourceData.right, compactMetricRoute, sameHP⟩
+  }
+  exact ⟨cert, compactMetricUnary⟩
+
 end BEDC.Derived.CircleUp
