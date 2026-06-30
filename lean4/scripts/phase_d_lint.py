@@ -635,51 +635,115 @@ def _has_companion_general_theorem(worktree: Path, rel_path: str, head: str) -> 
     return False
 
 
+def _value_instance_key(name: str, namespace: str, block: str) -> tuple[str, str] | None:
+    """Return (name_schema, conclusion_head) if `block` is a trivially-closed
+    value instance, else None. A candidate is a public theorem whose name or
+    conclusion embeds a numeric value, closed by decide/native_decide/rfl, and
+    NOT a base/step recursion, a parameterised statement, or a ZMod carrier fact."""
+    sig = block.split(":=", 1)[0]
+    conclusion = _extract_conclusion(sig)
+    if not (VALUE_SUFFIX_RE.search(name) or VALUE_NAT_LITERAL_RE.search(conclusion)):
+        return None
+    if VALUE_BASE_STEP_RE.search(name):
+        return None
+    if VALUE_BOUND_VAR_RE.search(sig):
+        return None
+    if VALUE_ZMOD_EXEMPT_RE.search(sig):
+        return None
+    if not VALUE_TRIVIAL_PROOF_RE.search(block):
+        return None
+    name_schema = VALUE_SUFFIX_RE.sub("_{V}", name)
+    concl_schema = VALUE_NAT_LITERAL_RE.sub("{N}", " ".join(conclusion.split()))
+    head_m = VALUE_HEAD_RE.search(concl_schema)
+    return (name_schema, head_m.group(0) if head_m else "")
+
+
 def detect_value_instance_saturation(worktree: Path, base_branch: str) -> list[str]:
-    """Reject a round that adds >=THRESHOLD sibling public theorems differing only
-    by an embedded numeric value, each closed by a trivial decide/rfl proof, with
-    no companion parameterised theorem. The beautiful form is one ∀-theorem."""
-    blocks = collect_added_public_theorem_blocks(worktree, base_branch)
-    groups: dict[tuple[str, str, str, str], list[str]] = {}
-    for qualified, rel_path, block in blocks:
+    """Anti-unification family gate. A round MUST NOT satisfy a classical theorem
+    target with >=THRESHOLD sibling public theorems that are identical after
+    erasing an embedded numeric value, each closed by decide/native_decide/rfl,
+    with no companion parameterised theorem.
+
+    Detection is *post-state, introduced-or-worsened* (per the gpt-pro
+    adversarial pass), not round-diff-only: a model could otherwise add 2
+    instances per round across several rounds and never trip a round-local
+    >=THRESHOLD check. We scan each touched file's full current set of public
+    theorems, but only FAIL a family that this round pushed to/over the
+    threshold (>=1 family member is a round-added decl) — historical debt that
+    the round did not worsen is left alone. The beautiful form is one
+    forall-theorem binding the mathematical parameter."""
+    added = collect_added_public_theorem_blocks(worktree, base_branch)
+    # Files this round touched with at least one added value-instance candidate.
+    added_names_by_file: dict[str, set[str]] = {}
+    for qualified, rel_path, block in added:
         name = qualified.rsplit(".", 1)[-1]
         namespace = qualified.rsplit(".", 1)[0] if "." in qualified else ""
-        sig = block.split(":=", 1)[0]
-        conclusion = _extract_conclusion(sig)
-        # Candidate only if the name or its conclusion carries a numeric value.
-        if not (VALUE_SUFFIX_RE.search(name) or VALUE_NAT_LITERAL_RE.search(conclusion)):
-            continue
-        # Exemptions: base/step vocabulary, an already-bound parameter, ZMod carrier.
-        if VALUE_BASE_STEP_RE.search(name):
-            continue
-        if VALUE_BOUND_VAR_RE.search(sig):
-            continue
-        if VALUE_ZMOD_EXEMPT_RE.search(sig):
-            continue
-        # Only flag trivially-closed instances (decide/native_decide/rfl).
-        if not VALUE_TRIVIAL_PROOF_RE.search(block):
-            continue
-        name_schema = VALUE_SUFFIX_RE.sub("_{V}", name)
-        concl_schema = VALUE_NAT_LITERAL_RE.sub("{N}", " ".join(conclusion.split()))
-        head_m = VALUE_HEAD_RE.search(concl_schema)
-        head = head_m.group(0) if head_m else ""
-        key = (rel_path, namespace, name_schema, head)
-        groups.setdefault(key, []).append(name)
+        if _value_instance_key(name, namespace, block) is not None:
+            added_names_by_file.setdefault(rel_path, set()).add(name)
 
     hits: list[str] = []
-    for (rel_path, _namespace, name_schema, head), names in sorted(groups.items()):
-        distinct = sorted(set(names))
-        if len(distinct) < VALUE_INSTANCE_THRESHOLD:
+    for rel_path, added_value_names in sorted(added_names_by_file.items()):
+        try:
+            text = (worktree / rel_path).read_text(encoding="utf-8")
+        except OSError:
             continue
-        if _has_companion_general_theorem(worktree, rel_path, head):
-            continue
-        hits.append(
-            f"{rel_path}: VALUE-INSTANCE SATURATION — {len(distinct)} sibling "
-            f"closed computations for `{head}` (schema {name_schema}): "
-            + ", ".join(distinct[:8])
-            + ". Prove ONE parameterised forall-theorem binding the parameter; "
-            "finite checks only as <=2 private examples."
+        # Group ALL current public theorems in the file (post-state) by family.
+        groups: dict[tuple[str, str], list[str]] = {}
+        for qualified, block, _start in _parse_public_theorem_blocks(text):
+            name = qualified.rsplit(".", 1)[-1]
+            namespace = qualified.rsplit(".", 1)[0] if "." in qualified else ""
+            key = _value_instance_key(name, namespace, block)
+            if key is None:
+                continue
+            groups.setdefault(key, []).append(name)
+        for (name_schema, head), names in sorted(groups.items()):
+            distinct = sorted(set(names))
+            if len(distinct) < VALUE_INSTANCE_THRESHOLD:
+                continue
+            # introduced-or-worsened: this round contributed >=1 family member.
+            if not (added_value_names & set(distinct)):
+                continue
+            if _has_companion_general_theorem(worktree, rel_path, head):
+                continue
+            hits.append(
+                f"{rel_path}: VALUE-INSTANCE SATURATION — {len(distinct)} sibling "
+                f"closed computations for `{head}` (schema {name_schema}): "
+                + ", ".join(distinct[:8])
+                + ". Prove ONE parameterised forall-theorem binding the parameter; "
+                "finite checks only as <=2 private examples."
+            )
+
+    hits.extend(_detect_pseudo_generalization(added))
+    return hits
+
+
+def _detect_pseudo_generalization(
+    added_blocks: list[tuple[str, str, str]],
+) -> list[str]:
+    """Catch the evasion where the instance table is wrapped in a fake forall:
+    `theorem foo (p) (hp : p = 5 ∨ p = 7 ∨ p = 11) := by rcases hp ... decide`.
+    A bound variable constrained to a disjunction of >=3 closed values, closed
+    by case-split + decide/rfl, is not a general theorem — it is the same value
+    instances behind a quantifier."""
+    hits: list[str] = []
+    for qualified, rel_path, block in added_blocks:
+        sig = block.split(":=", 1)[0]
+        body = block.split(":=", 1)[1] if ":=" in block else ""
+        # Count `_ = <closed value>` disjuncts (∨-separated) in the signature.
+        eq_values = re.findall(
+            r"=\s*(?:[0-9]+|(?:" + VALUE_WORDS + r")\b)", sig
         )
+        n_disjuncts = sig.count("∨") + sig.count(r"\/")
+        case_split = bool(re.search(r"\brcases\b|\bmatch\b|\b\|\s*rfl\b", body))
+        trivial = bool(re.search(r"\bdecide\b|\bnative_decide\b|\brfl\b", body))
+        if len(eq_values) >= 3 and n_disjuncts >= 2 and case_split and trivial:
+            name = qualified.rsplit(".", 1)[-1]
+            hits.append(
+                f"{rel_path}: PSEUDO-GENERALIZATION — `{name}` binds a parameter "
+                f"to a disjunction of {len(eq_values)} closed values and discharges "
+                "by case-split + decide. This is a value-instance table behind a "
+                "quantifier, not a theorem. Prove the unconstrained parameter case."
+            )
     return hits
 
 
