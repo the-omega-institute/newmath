@@ -126,7 +126,9 @@ $$
 $$
 The source-field says that the balance is produced by the internal
 container rows themselves, not by selecting a zero and then attaching a
-compensating scale ledger to it.
+compensating scale ledger to it.  In particular, the row is global: it is
+a constraint on the completed zeta carrier as a shape, not a family of
+local supports built separately around individual zero packets.
 \end{definition}
 
 \begin{principle}[Analytic G\"omb\"oc reading]
@@ -149,6 +151,44 @@ radial counterweight, namely an extra real-positive scale ledger.  The
 row is still conditional: it names the geometric content of the
 no-scale-to-unitary implication, but it does not prove that every zeta
 zero packet carries such a container.
+\end{principle}
+
+\begin{definition}[Analytic G\"omb\"oc source shape]
+\label{def:rh-analytic-gomboc-source-shape}
+An analytic G\"omb\"oc source shape for $\xi$ is a source-side global
+presentation of the completed zeta carrier in one of the following
+positive forms:
+$$
+K_{\xi}(z,w)=\langle\Phi_{\xi}(z),\Phi_{\xi}(w)\rangle_{\mathcal H}
+$$
+as in \autoref{def:rh-source-pick-hilbert-factorization}, the positive
+real row
+$$
+\operatorname{Re}\frac{\xi'(s)}{\xi(s)}\ge0
+\qquad
+\left(\operatorname{Re}(s)>\frac12\right)
+$$
+of \autoref{def:rh-xi-log-derivative-herglotz-row}, or a positive
+spectral representation of the same log-derivative as in
+\autoref{def:rh-positive-spectral-measure-for-xi}.  The representation
+must be constructed before zero locations are consumed.  A representation
+assembled around the already-read zero divisor is not an analytic
+G\"omb\"oc source shape.
+\end{definition}
+
+\begin{principle}[Source-shape proof form]
+\label{prin:rh-gomboc-source-shape-proof-form}
+The G\"omb\"oc row changes the proof burden from local repair to global
+shape.  A local container placed around a candidate zero would be a
+supporting device for that readout; it would not certify that the
+completed carrier itself is homogeneous.  By contrast, a source-side Pick
+factorization, Herglotz positive-real row, or positive spectral measure
+is a shape theorem for $\xi$ as a whole.  In that form an off-half zero
+cannot be hidden as a local exception: by
+\autoref{thm:rh-right-side-zero-one-point-pick-witness} and
+\autoref{thm:rh-xi-herglotz-row-fixed-half-readout}, it becomes a finite
+negative Pick witness or a negative scale-flow witness against the same
+global positive structure.
 \end{principle}
 
 \begin{theorem}[G\"omb\"oc container gives the unitary scale reduction]
@@ -197,8 +237,9 @@ $$
 unitarity of the scale readout for every certified non-trivial zero packet.
 \item The optional G\"omb\"oc-style container row, when used, must be
 source-side and homogeneous: it may package the no-scale-to-unitary
-implication, but it may not be built by adding a compensating radial
-ledger after a zero has been selected.
+implication through a Pick, Herglotz, or positive spectral source shape,
+but it may not be built by adding a compensating radial ledger after a
+zero has been selected.
 \item The unitary readout must transport back to the ordinary
 $\mathsf{OnCritLine}(s)$ witness used by the BEDC-RH statement.
 \end{enumerate}
@@ -208,9 +249,9 @@ $\mathsf{OnCritLine}(s)$ witness used by the BEDC-RH statement.
   \origin{ai}
   \constructivestory{The route is generated from a certified zeta zero packet, the centered coordinate $w=s-1/2$, the golden scale readout $q=\varphi^w$, the no-independent-real-scale ledger, the optional G\"omb\"oc-style homogeneous container row, the unitary scale obligation, and transport back to the ordinary critical-line predicate.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The chapter states the conditional unitary-scale reduction, the homogeneous-container reading of the no-scale obligation, and the exact proof obligations; it does not discharge the no-scale-to-unitary implication.}
+  \scopeclosed{The chapter states the conditional unitary-scale reduction, the homogeneous-container reading of the no-scale obligation, the source-shape proof form, and the exact proof obligations; it does not discharge the no-scale-to-unitary implication.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
   \notclaimed{This route does not prove $\mathsf{RH}$, does not count zeros, does not construct a G\"omb\"oc-style container for all zeta zero packets, and does not derive the no-independent-real-scale ledger from the functional equation or symmetry alone.}
-  \upgradepath{Scoped closure requires a checked modulus identity for $|\varphi^w|=\varphi^{\Re(w)}$, a no-independent-real-scale to unitary-scale theorem for certified zeta zero packets, an optional source-side homogeneous-container theorem, and transport from unitary scale back to $\mathsf{OnCritLine}$.}
+  \upgradepath{Scoped closure requires a checked modulus identity for $|\varphi^w|=\varphi^{\Re(w)}$, a no-independent-real-scale to unitary-scale theorem for certified zeta zero packets, an optional source-side homogeneous-container theorem expressed through Pick, Herglotz, or positive spectral structure, and transport from unitary scale back to $\mathsf{OnCritLine}$.}
 \end{closurestatus}
