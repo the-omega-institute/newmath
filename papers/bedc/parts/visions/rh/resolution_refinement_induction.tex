@@ -380,3 +380,131 @@ $\mathsf{ZetaGoldenLeeYangBridge}$ of
 \autoref{def:rh-strong-golden-resolution-tower}, not another
 application of Rouch\'e capture.
 \end{principle}
+
+\begin{definition}[Zeckendorf--G\"odel path packet]
+\label{def:rh-zeckendorf-godel-path-packet}
+Let $X_m$ be the no-adjacent Zeckendorf window of
+\autoref{def:zeckendorf-stable-window}, and let $(p_k)_{1\le k\le m}$ be
+a displayed prime register. For
+$$
+z=(z_1,\ldots,z_m)\in X_m
+$$
+define the Zeckendorf--G\"odel integer
+$$
+g(z):=\prod_{k=1}^{m}p_k^{z_k}.
+$$
+For
+$$
+u_k(s):=p_k^{1/2-s},
+$$
+the corresponding path packet is
+$$
+Q_m(s):=
+\sum_{z\in X_m}w_z\prod_{k=1}^{m}u_k(s)^{z_k}.
+$$
+When the weights are the stable path weights, this is the finite
+independent-set packet attached to the no-adjacent grammar. Its
+advantage over the eta truncation is structural: the monomial support is
+already the Zeckendorf path carrier. Its missing row is zero-island
+capture for the completed zeta packet.
+\end{definition}
+
+\begin{definition}[Golden stable capture bridge]
+\label{def:rh-golden-stable-capture-bridge}
+A \emph{golden stable capture bridge} for a zero island $D_m$ consists
+of a weak analytic packet
+$$
+P_m(s)=\sum_{n=1}^{F_{Lm}}(-1)^{n-1}n^{-s},
+$$
+a Zeckendorf--G\"odel path packet $Q_m$, and bridge data satisfying:
+$$
+|R_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+the packet $Q_m$ carries a Lee--Yang type unit-boundary stability
+certificate, and the two packets have the same local zero-island
+readout, for instance by a boundary comparison
+$$
+|P_m(s)-Q_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+or by an explicitly ledgered equality of winding numbers
+$$
+\operatorname{wind}_{\partial D_m}(P_m,0)
+=
+\operatorname{wind}_{\partial D_m}(Q_m,0).
+$$
+The bridge is canonical only when the construction of $Q_m$ uses the
+Zeckendorf, prime-register, and path-stability ledgers rather than a
+post hoc interpolation to the zero island.
+\end{definition}
+
+\begin{principle}[Golden weak capture and stable capture are separate rows]
+\label{prin:rh-golden-weak-stable-separate-rows}
+The golden eta packet and the Zeckendorf--G\"odel path packet solve
+different parts of the route. The eta packet supplies analytic
+Rouch\'e capture of a completed zero island, but it does not carry
+Lee--Yang stability. The path packet is organized by the no-adjacent
+Zeckendorf grammar and is the natural candidate for a Lee--Yang stable
+finite packet, but it does not automatically capture zeta zeros. The
+source theorem must identify these two rows through
+\autoref{def:rh-golden-stable-capture-bridge}.
+\end{principle}
+
+\begin{definition}[Golden stable capture coverage]
+\label{def:rh-golden-stable-capture-coverage}
+The coverage target
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+asserts that every accepted non-trivial completed zeta zero admits, at
+some sufficiently fine golden resolution level, a golden stable capture
+bridge in the sense of
+\autoref{def:rh-golden-stable-capture-bridge}.
+\end{definition}
+
+\begin{theorem}[Golden stable capture coverage gives fixed-half readout]
+\label{thm:rh-golden-stable-capture-coverage-fixed-half}
+If
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+holds, then every accepted non-trivial completed zeta zero has fixed-half
+readout.
+\end{theorem}
+
+\begin{proof}
+Let $u$ be an accepted non-trivial completed zeta zero with local
+coordinate
+$$
+s=\frac12+r+it.
+$$
+The coverage target supplies a golden stable capture bridge. The weak
+analytic packet captures the zero island, and the bridge transfers the
+same winding row to the Zeckendorf--G\"odel path packet $Q_m$. The
+Lee--Yang type certificate for $Q_m$ excludes zero readouts with all
+active variables strictly inside the unit boundary and also excludes the
+corresponding outside region. Since
+$$
+|u_k(s)|=|p_k^{1/2-s}|=p_k^{-r},
+$$
+an $r>0$ readout places every active variable strictly inside the unit
+circle, while an $r<0$ readout places every active variable strictly
+outside it. Both cases contradict the stable packet's zero-island
+readout. Therefore $r=0$.
+\end{proof}
+
+\begin{principle}[Golden blueprint]
+\label{prin:rh-golden-blueprint}
+The BEDC--Golden route has the following compact form. The golden ruler
+and Zeckendorf ledger provide weak finite-resolution active capture; the
+only strong row is the bridge from that analytic capture packet to a
+Zeckendorf--G\"odel Lee--Yang stable packet with the same zero-island
+winding. Thus the hard source theorem is
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta},
+$$
+not the existence of the golden ruler itself.
+\end{principle}
