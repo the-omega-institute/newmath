@@ -50,6 +50,68 @@ which is ledgered by compact prime-register data, not by a real-positive
 scale coordinate.
 \end{principle}
 
+\begin{definition}[Solenoid legal fibre row]
+\label{def:rh-solenoid-legal-fibre-row}
+For a finite prime family $S$, the legal hidden fibre of the phase
+channel is the compact row
+$$
+K_S=\ker(\pi_S)
+$$
+from \autoref{def:rh-phase-channel-hidden-prime-fibre}.  A zero-relevant
+packet is solenoid-legal when every hidden coordinate used to refine its
+phase readout factors through compact phase data or through this
+prime-register fibre.  No coordinate of type $\mathbb R_{>0}$ is part of
+the solenoid-legal fibre row.
+\end{definition}
+
+\begin{theorem}[Solenoid fibres exclude radial gauges]
+\label{thm:rh-solenoid-fibres-exclude-radial-gauges}
+Let a centered active packet be solenoid-legal in the sense of
+\autoref{def:rh-solenoid-legal-fibre-row}.  If a local channel has the
+form
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a},
+\qquad
+h_a>0,
+$$
+and its modulus row is supplied by the solenoid fibre, then $r=0$.
+\end{theorem}
+
+\begin{proof}
+The solenoid fibre is compact.  A modulus row supplied by it is therefore
+a continuous positive real character of a compact phase carrier.  By
+\autoref{lem:unified-reality-compact-phase-no-positive-scale-character},
+such a character is trivial.  Hence
+$$
+|U_a(s)|=e^{-r h_a}=1.
+$$
+Since $h_a>0$, taking logarithms gives $r=0$.
+\end{proof}
+
+\begin{principle}[Solenoid--Pick conditional route]
+\label{prin:rh-solenoid-pick-conditional-route}
+The solenoid row and the Pick row play distinct roles in the same
+triadic obstruction.  The solenoid row determines the legal fibre of the
+observation cord: it permits visible unit phase and hidden compact
+prime-register data, but not a radial $\mathbb R_{>0}$ gauge.  The Pick
+row of \autoref{def:rh-xi-pick-kernel} determines whether the same
+observation cord embeds into a Hilbert space with nonnegative squared
+length.  Consequently, an off-half zero has two incompatible readings:
+it requires a nontrivial radial factor $e^{-r h_a}$, while
+\autoref{thm:rh-solenoid-fibres-exclude-radial-gauges} refuses such a
+factor as hidden fibre and
+\autoref{thm:rh-right-side-zero-one-point-pick-witness} turns the same
+radial defect into a finite negative Pick witness.  Thus the conditional
+route is
+$$
+\mathsf{SolenoidLegalFibre}
+\times
+\mathsf{TriadicPickPositivity}_{\xi}
+\Longrightarrow
+\text{fixed-half readout}.
+$$
+\end{principle}
+
 \begin{principle}[No recovery by mirror scale]
 \label{prin:rh-no-recovery-by-mirror-scale}
 For a centered active channel
