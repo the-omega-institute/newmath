@@ -27,9 +27,17 @@ LOCK="/tmp/.bedc-bridge-heavy.lock"
 load1() { uptime | sed -E 's/.*averages?: ([0-9.]+).*/\1/' | cut -d. -f1; }
 
 # Single-flight: never run two heavy bridge checks at once.
-exec 9>"$LOCK"
-if ! flock -n 9; then
-  echo "[bridge-heavy] another heavy check holds the lock — skip (retry later)"; exit 75
+if command -v flock >/dev/null 2>&1; then
+  exec 9>"$LOCK"
+  if ! flock -n 9; then
+    echo "[bridge-heavy] another heavy check holds the lock — skip (retry later)"; exit 75
+  fi
+else
+  LOCK_DIR="${LOCK}.d"
+  if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+    echo "[bridge-heavy] another heavy check holds the lock — skip (retry later)"; exit 75
+  fi
+  trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
 fi
 
 # Wait for a low-load window so we don't starve the main pipeline.

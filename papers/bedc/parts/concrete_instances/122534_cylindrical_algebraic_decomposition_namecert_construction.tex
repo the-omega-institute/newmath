@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CylindricalAlgebraicDecompositionUp$}
+\label{ch:concrete-instances-cylindrical-algebraic-decomposition-namecert}
+\origin{human}
+
+Following Collins and the real-closed-field quantifier-elimination tradition, the $\CylindricalAlgebraicDecompositionUp$ packet records a finite projection-and-lifting surface for a displayed polynomial family over a real closed field. It sits after the real-closed-field source of \autoref{ch:concrete-instances-real-closed-field-namecert}, the polynomial rows of \autoref{ch:concrete-instances-polynomial-namecert}, the finite reduction ledgers of \autoref{ch:concrete-instances-groebner-basis-namecert}, the Sturm-chain route of \autoref{ch:concrete-instances-sturm-sequence-namecert}, and the root-isolation carrier of \autoref{ch:concrete-instances-real-root-isolation-namecert}. The packet names the cells and sign rows inspected by a cylindrical decomposition; it is not a host semialgebraic set, a selected root object, classical trichotomy, quotient equality, or choice.
+
+\begin{definition}[Cylindrical algebraic decomposition carrier]
+\label{def:cylindrical-algebraic-decomposition-carrier}
+A $\CylindricalAlgebraicDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(R,P,G,S,I,C,L,H,A,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealClosedFieldUp$ source row, carrying the displayed ordered-field, polynomial, Sturm, and root-isolation reads available to the packet.
+\item $P$ is the polynomial-family row, listing the admitted coefficient arrays, variable levels, formal derivatives, and specialization requests.
+\item $G$ is the Groebner/projection ledger, recording resultants, discriminants, leading-coefficient rows, and the finite reduction data used to move from one cylinder level to the next.
+\item $S$ is the Sturm/root-count row for each projected one-variable request over an admitted base cell.
+\item $I$ is the root-isolation row, retaining isolating windows for the roots selected by $S$ without exposing a host root element.
+\item $C$ is the sign-table row, recording the sign of every admitted polynomial on each retained section or sector.
+\item $L$ is the cell-stack and lifting row, listing base cells, lifted sections, lifted sectors, sample-window requests, and parent-child cylinder links.
+\item $H$ records componentwise $\hsame$ transport for the real-closed-field, polynomial, projection, Sturm, isolation, sign-table, lifting, replay, provenance, and local naming rows.
+\item $A$ records displayed $\Cont$ replay from any CAD read through the projection ledger, root-isolation rows, sign table, and cell stack.
+\item $Q$ is the $\Pkg$ provenance over $\CylindricalAlgebraicDecompositionUp$, $\RealClosedFieldUp$, $\PolynomialUp$, $\GroebnerBasisUp$, $\SturmSequenceUp$, $\RealRootIsolationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CylindricalAlgebraicDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host semialgebraic sets, selected roots, classical trichotomy, quotient equality, global algebraic closure, or choice.
+\end{definition}
+
+\begin{theorem}[Cylindrical algebraic decomposition NameCert obligations]
+\label{thm:cylindrical-algebraic-decomposition-namecert-obligations}
+For the carrier of \autoref{def:cylindrical-algebraic-decomposition-carrier}, the local $\NameCert_{\CylindricalAlgebraicDecompositionUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $D=(R,P,G,S,I,C,L,H,A,Q,N)$ over the displayed $\RealClosedFieldUp$ and $\PolynomialUp$ sources;
+\item projection coverage through $G$, requiring every discriminant, resultant, leading-coefficient, derivative, and specialization row used by the decomposition to appear in the finite projection ledger;
+\item sign-invariance through $C$, requiring every admitted polynomial row from $P$ to have one displayed sign row on each retained section or sector;
+\item lifting and sample readback through $S,I,L$, requiring root counts, isolating windows, cell-stack links, and sample windows to be read before any higher cylinder level is accepted;
+\item nonescape from host semialgebraic sets, selected roots, classical trichotomy, quotient equality, global algebraic closure, and choice, enforced by the transport, replay, provenance, and local naming rows $H,A,Q,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cylindrical-algebraic-decomposition-carrier}. The rows $R$ and $P$ give the only ordered-field and polynomial sources, while $G,S,I,C,L$ are the finite algebraic rows that can be inspected before the structural rows are read.
+
+Projection coverage is finite because $G$ lists exactly the resultants, discriminants, leading coefficients, derivatives, specialization rows, and reduction traces used by this packet. A consumer cannot appeal to an unlisted projection polynomial.
+
+Sign-invariance is read from $C$ only after the Sturm and isolation rows have split each base cell into the displayed sections and sectors. Thus the sign row is tied to a retained cell, not to a host semialgebraic object.
+
+The lifting read is the sequence $S,I,L$: first count roots, then retain isolating windows, then attach the lifted section or sector to its parent cell and sample window. The structural rows $H,A,Q,N$ transport, replay, source, and name that same finite packet. Since no coordinate stores host semialgebraic sets, selected roots, trichotomy, quotient equality, global algebraic closure, or choice, the five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CylindricalAlgebraicDecompositionUp$ consumer that reads sign-invariance without the projection ledger, Sturm/root-isolation rows, and cell-stack lifting row is outside the carrier surface.}
+
+\independenceWitness{real-closed-field, polynomial, Groebner-basis, Sturm-sequence, and real-root-isolation: no listed sibling is bijective with $\CylindricalAlgebraicDecompositionUp$ because this packet binds one polynomial family to projection coverage, root isolation, sign tables, cylindrical lifting, transport, replay, provenance, and local naming.}
+
+\closureat{CylindricalAlgebraicDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\CylindricalAlgebraicDecompositionUp}
+  \constructivestory{A $\CylindricalAlgebraicDecompositionUp$ packet is generated from a RealClosedField source row, a polynomial-family row, a Groebner/projection ledger, Sturm/root-count rows, retained isolation windows, a sign table, a cylindrical cell stack, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cylindrical-algebraic-decomposition-carrier} and \autoref{thm:cylindrical-algebraic-decomposition-namecert-obligations} seed the finite projection-cell packet over $\RealClosedFieldUp$, $\PolynomialUp$, $\GroebnerBasisUp$, $\SturmSequenceUp$, and $\RealRootIsolationUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host semialgebraic sets, selected roots, classical trichotomy, quotient equality, global algebraic closure, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection coverage, sign-invariance, lifting and sample readback, transport, replay, provenance, and local naming for BEDC.Derived.CylindricalAlgebraicDecompositionUp.}
+\end{closurestatus}

@@ -157,6 +157,30 @@ Use \autoref{thm:quasi-metric-nonescape} to close the non-escape boundary. It ru
 Finally invoke \autoref{thm:quasimetric-directed-ball-triangle-refinement}. The composed directed-ball comparisons read the asymmetric triangle row $T$ and preserve the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Thus every listed consumer receives exactly the directed-distance scope carried by the displayed rows.
 \end{proof}
 
+\begin{theorem}[QuasiMetric public certificate]
+\label{thm:quasimetric-public-certificate}
+For every accepted $\QuasiMetricUp$ packet
+$$
+Q=(S,X,D,Z,T,B,F,R,E,H,C,P,N),
+$$
+the public directed-distance certificate is the assembled row route
+$$
+\MetricSpaceUp,\ \QuasiUniformSpaceUp,\ \UniformSpaceUp,\ \CauchyFilterUp,\ \CauchyNetUp,\ \UniformCompletionUp,\ \DyadicRatCoreUp,\ \RealUp
+\quad\text{through}\quad
+S,X,D,Z,T,B,F,R,E,H,C,P,N .
+$$
+It is obtained by combining the carrier surface of \autoref{def:quasi-metric-carrier}, the NameCert obligations of \autoref{thm:quasimetric-obligation-surface}, the directed-ball handoff of \autoref{thm:quasi-metric-directed-ball-handoff}, the non-escape boundary of \autoref{thm:quasi-metric-nonescape}, the directed-ball triangle refinement of \autoref{thm:quasimetric-directed-ball-triangle-refinement}, and the directed-distance scope upgrade of \autoref{thm:quasimetric-directed-distance-scope-upgrade}. The certificate exports directed $\RealUp$-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local naming rows, but it exports no symmetry, separatedness, quotient completion, selected limits, host equality, \texttt{Classical.choice}, \texttt{Quot.sound}, or bridge evidence.
+\end{theorem}
+\begin{proof}
+First read the carrier surface of \autoref{def:quasi-metric-carrier}. It displays the source and point rows $S,X$, the directed $\RealUp$ distance row $D$, the zero and forward-triangle rows $Z,T$, the directed-ball row $B$, Cauchy filter and net rows $F,R$, the uniform-reflection row $E$, and the structural rows $H,C,P,N$.
+
+Next apply the NameCert obligation surface of \autoref{thm:quasimetric-obligation-surface}. That theorem identifies carrier admission, directed distance readback, zero diagonal stability, forward triangle stability, directed-ball handoff, Cauchy routing, classifier transport, uniform reflection, and ledger non-escape as the exact local obligations.
+
+Use \autoref{thm:quasi-metric-directed-ball-handoff} and \autoref{thm:quasimetric-directed-ball-triangle-refinement} to assemble the public route. Directed balls are read only after $S,X,D,Z,T$, composed directed-ball comparisons read the asymmetric triangle row $T$, and Cauchy, quasi-uniform, uniform, and completion-facing consumers pass through $B,F,R,E$ before the support rows are read.
+
+Finally use \autoref{thm:quasi-metric-nonescape} and \autoref{thm:quasimetric-directed-distance-scope-upgrade}. They close the route as a public certificate over the displayed rows and rule out alternate exits through symmetry, separatedness, quotient completion, selected limits, host equality, \texttt{Classical.choice}, \texttt{Quot.sound}, or bridge evidence.
+\end{proof}
+
 \closureat{QuasiMetricUp}{scopedStr}
 
 \begin{closurestatus}{\QuasiMetricUp}
