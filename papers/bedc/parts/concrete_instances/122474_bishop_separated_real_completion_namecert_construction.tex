@@ -1,0 +1,108 @@
+\chapter{Bishop Separated Real Completion NameCert Construction}
+\label{ch:concrete-instances-bishop-separated-real-completion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive-completion practice, the $\BishopSeparatedRealCompletionUp$ packet records the finite route by which regular rational stream data is read as a separated real completion object. It refines the regular Cauchy route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the separation reflector of \autoref{ch:concrete-instances-separatedmetricreflection-namecert}. The packet exposes completion data through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, and $\SeparatedMetricReflectionUp$; it does not add quotient real equality, countable choice, a host limit selector, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Bishop separated real completion carrier]
+\label{def:bishop-separated-real-completion-carrier}
+A $\BishopSeparatedRealCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,R,M,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-observation row, exposing only the stream windows requested by the completion consumer.
+\item $R$ is the $\RegSeqRatUp$ regular rational row read from those stream windows.
+\item $M$ is the $\MetricCompletionUp$ completion row, recording the completion-facing metric handoff before separation is applied.
+\item $Q$ is the $\SeparatedMetricReflectionUp$ separation row, restricting comparison to displayed indistinguishability data instead of quotient equality.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $S,R,M,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, regularity, metric-completion, separation, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $S,R,M,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\BishopSeparatedRealCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\MetricCompletionUp$, $\SeparatedMetricReflectionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopSeparatedRealCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,M,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.BishopSeparatedRealCompletionUp}
+
+\begin{theorem}[Bishop separated real completion classifier surface]
+\label{thm:bishop-separated-real-completion-classifier-surface}
+For every accepted $\BishopSeparatedRealCompletionUp$ carrier $B=(S,R,M,Q,E,H,C,P,N)$, the local classifier is exhausted by the stream row $S$, regular rational row $R$, metric-completion row $M$, separated-reflection row $Q$, Real seal $E$, componentwise transport $H$, replay $C$, provenance $P$, and local naming row $N$. Every comparison between accepted carriers must first expose the same finite stream window and regular rational readback before it may inspect the separated metric reflection row. No classifier branch may introduce quotient equality of streams, host real equality, a selected limit, countable choice, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:bishop-separated-real-completion-carrier}. The only data available to the classifier are the displayed rows $S,R,M,Q,E,H,C,P,N$.
+
+The completion-facing part of the route reads finite observations through $S$, regular rational data through $R$, and the metric completion handoff through $M$. The separated reflection row $Q$ is downstream of those rows, so it can compare only the displayed metric-completion data already present in the packet.
+
+Transport and replay are row-local. Componentwise $\hsame$ in $H$ preserves the same rows, and $\Cont$ replay in $C$ repeats the route $S,R,M,Q,E$ for each request.
+
+Since neither the carrier nor its structural rows contain an excluded coordinate, the classifier surface cannot supply quotient stream equality, host real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Bishop separated real completion stability route]
+\label{thm:bishop-separated-real-completion-stability-route}
+Let $B=(S,R,M,Q,E,H,C,P,N)$ and $B'=(S',R',M',Q',E',H',C',P',N')$ be accepted $\BishopSeparatedRealCompletionUp$ carriers. If the displayed transport rows identify corresponding components by $\hsame$, then any Real-facing consumer reads $B$ and $B'$ through the same ordered route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \MetricCompletionUp \longmapsto \SeparatedMetricReflectionUp \longmapsto \RealUp .
+$$
+The stability route preserves the finite carrier surface and exports no quotient equality, host-selected representative, countable-choice schedule, detached real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the classifier surface of \autoref{thm:bishop-separated-real-completion-classifier-surface}. It restricts both accepted carriers to the rows $S,R,M,Q,E,H,C,P,N$ and their transported companions.
+
+The $\hsame$ rows identify corresponding displayed components only. Thus a transported read of $B'$ follows the same finite stream window, the same regular rational handoff shape, the same metric-completion exposure, and the same separated-reflection boundary as the read of $B$.
+
+Finally, the $\Cont$ rows replay the ordered route before the terminal $\RealUp$ seal can be inspected. The replay keeps the separated metric reflection downstream of the metric completion row and upstream of the Real seal, so no external quotient or selected representative is introduced.
+\end{proof}
+
+\begin{theorem}[Bishop separated real completion embedding handoff]
+\label{thm:bishop-separated-real-completion-embedding-handoff}
+Every standard real-embedding read from an accepted $\BishopSeparatedRealCompletionUp$ packet factors through the displayed carrier rows
+$$
+S,R,M,Q,E,H,C,P,N .
+$$
+The embedding may use the regular rational stream data as a completion-facing name and may pass through the separated metric reflection boundary, but it receives the $\RealUp$ seal only as the terminal displayed row. It cannot claim ambient $\RealUp$ completeness, quotient stream equality, countable choice, host real equality, or a selected representative outside the packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to expose the finite rows. A read that asks for an embedding first consumes the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$, because these rows are the only source of regular rational stream data in the packet.
+
+The metric-completion row $M$ then records the completion-facing handoff, while $Q$ records the separated reflection boundary. The terminal Real seal $E$ is downstream of both rows and cannot be read independently of them.
+
+The structural rows $H,C,P,N$ transport, replay, record provenance, and name the same carrier surface. They add no coordinate for an external representative, quotient equality, countable choice, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bishop separated real completion uniqueness boundary]
+\label{thm:bishop-separated-real-completion-uniqueness-boundary}
+If two accepted $\BishopSeparatedRealCompletionUp$ packets have the same displayed $\StreamNameUp$ windows, the same $\RegSeqRatUp$ readback rows, and the same $\SeparatedMetricReflectionUp$ comparison row, then every completion-facing comparison between them is determined inside the shared finite carrier surface. The comparison is a separated-reflection boundary over displayed rows, not a quotient of streams, a host real equality, a selected limit, a countable-choice witness, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the two packets through the stability route of \autoref{thm:bishop-separated-real-completion-stability-route}. Both completion-facing comparisons must expose stream windows and regular rational readbacks before either metric-completion or Real-seal data is available.
+
+The shared separated reflection row is the only comparison boundary admitted by the carrier. Once that row is fixed, the remaining Real-facing read is replayed through the same displayed metric completion handoff and terminal seal.
+
+Thus uniqueness is scoped to the finite carrier surface. The packet supplies no further equality principle and no way to choose representatives outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Bishop separated real completion ledger rows]
+\label{thm:bishop-separated-real-completion-ledger-rows}
+The local $\NameCert_{\BishopSeparatedRealCompletionUp}$ ledger contains exactly these rows: carrier admission for $S,R,M,Q,E,H,C,P,N$; classifier exposure for the same rows; stability under componentwise $\hsame$ transport; embedding handoff through $\StreamNameUp$, $\RegSeqRatUp$, $\MetricCompletionUp$, $\SeparatedMetricReflectionUp$, and $\RealUp$; uniqueness boundary inside the separated reflection row; provenance through $\Pkg$; and local naming through $N$. It records no quotient equality, countable choice, host-selected limit, detached real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:bishop-separated-real-completion-carrier}. Classifier exposure is \autoref{thm:bishop-separated-real-completion-classifier-surface}.
+
+Stability is supplied by \autoref{thm:bishop-separated-real-completion-stability-route}, which keeps every transported read inside the same ordered row surface. The embedding handoff is \autoref{thm:bishop-separated-real-completion-embedding-handoff}.
+
+The uniqueness boundary is \autoref{thm:bishop-separated-real-completion-uniqueness-boundary}. Provenance and local naming are the displayed rows $P$ and $N$, and neither row adds data beyond the carrier.
+\end{proof}
+
+\begin{closurestatus}{\BishopSeparatedRealCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter records the seed carrier, classifier, stability, embedding, uniqueness, and ledger rows for the Bishop separated real completion packet.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.BishopSeparatedRealCompletionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of streams, host real equality, selected limits, countable choice, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{To reach scoped closure, formalize the listed carrier rows and prove classifier, stability, embedding, uniqueness, and ledger exactness in Lean.}
+  \constructivestory{A $\BishopSeparatedRealCompletionUp$ packet is generated from StreamName finite windows, RegSeqRat readback, MetricCompletion handoff, SeparatedMetricReflection comparison, a terminal Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
