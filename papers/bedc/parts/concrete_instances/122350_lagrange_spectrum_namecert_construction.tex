@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\LagrangeSpectrumUp$}
+\label{ch:concrete-instances-lagrange-spectrum-namecert}
+\origin{human}
+
+Following Perron and Cassels on the classical Lagrange spectrum of Diophantine approximation constants, the $\LagrangeSpectrumUp$ packet records a finite spectrum-window certificate over displayed real names and rational approximation data. It sits after the Hurwitz approximation packet of \autoref{ch:concrete-instances-hurwitz-approximation-namecert}, the continued-fraction real packet of \autoref{ch:concrete-instances-continued-fraction-real-namecert}, the Farey and Stern--Brocot rows of \autoref{ch:concrete-instances-farey-sequence-namecert} and \autoref{ch:concrete-instances-stern-brocot-namecert}, and the terminal StreamName, RegSeqRat, DyadicRatCore, and Real seals of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names finite approximation windows; it does not classify the full Lagrange spectrum or select infinite continued fractions.
+
+\begin{definition}[Lagrange spectrum finite-window carrier]
+\label{def:lagrange-spectrum-carrier}
+A $\LagrangeSpectrumUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,A,K,H,F,S,D,W,Q,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the displayed Real input row, naming the real source only through the available finite seal.
+\item $A$ is the finite continued-fraction prefix row read through $\ContinuedFractionRealUp$.
+\item $K$ is the approximation-constant row, listing the rational approximants and finite values used in the local spectrum window.
+\item $H$ is the Hurwitz comparison row, recording the finite Hurwitz-style threshold comparison visible in the window.
+\item $F$ is the Farey comparison row, recording the neighbouring rational interval data used to bound the approximants.
+\item $S$ is the Stern--Brocot comparison row, recording the finite tree route to the same rational window.
+\item $D$ is the DyadicRatCore tolerance row, displaying the dyadic tolerance and common-scale budget.
+\item $W$ is the StreamName window row, listing the finite observation schedule for the real source.
+\item $Q$ is the RegSeqRat readback row, giving the regular rational sequence read of the same window.
+\item $R$ is the Real seal row, recording the finite seal through which the spectrum-window data are exposed.
+\item $T$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from the approximation-window request through $X,A,K,H,F,S,D,W,Q,R,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LagrangeSpectrumUp$, the classical approximation siblings listed above, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LagrangeSpectrumUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $X,A,K,H,F,S,D,W,Q,R,T,C,P,N$. It has no coordinate for the completed Lagrange spectrum, an infinite continued-fraction choice, quotient real equality, trichotomy, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[LagrangeSpectrum NameCert obligations]
+\label{thm:lagrange-spectrum-namecert-obligations}
+For an accepted $\LagrangeSpectrumUp$ carrier
+$$
+L=(X,A,K,H,F,S,D,W,Q,R,T,C,P,N),
+$$
+the local $\NameCert_{\LagrangeSpectrumUp}$ surface consists exactly of displayed Real input exposure, finite continued-fraction prefix exposure, approximation-constant row exposure, Hurwitz comparison, Farey comparison, Stern--Brocot comparison, dyadic tolerance exposure, StreamName window exposure, RegSeqRat readback, Real seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lagrange-spectrum-carrier}. The rows $X,A,K,H,F,S,D,W,Q,R$ are the visible approximation-window data, and $T,C,P,N$ are the transport, replay, provenance, and local naming rows.
+
+The classical approximation rows remain finite. Hurwitz data are read through \autoref{ch:concrete-instances-hurwitz-approximation-namecert}, Farey data through \autoref{ch:concrete-instances-farey-sequence-namecert}, and Stern--Brocot data through \autoref{ch:concrete-instances-stern-brocot-namecert}. The continued-fraction row is only the prefix $A$, not a selected infinite expansion.
+
+The dyadic, StreamName, RegSeqRat, and Real rows expose the same finite request through $D,W,Q,R$. Since the carrier has no row for quotient real equality, trichotomy, countable choice, ambient Real completeness, or completed spectrum classification, the NameCert obligations are exhausted by the displayed finite-window route.
+\end{proof}
+
+\begin{theorem}[LagrangeSpectrum finite approximation route]
+\label{thm:lagrange-spectrum-finite-approximation-route}
+Every accepted $\LagrangeSpectrumUp$ approximation-window read factors through the finite continued-fraction prefix, Hurwitz comparison, Farey comparison, Stern--Brocot comparison, dyadic tolerance, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows of the same carrier.
+\end{theorem}
+\begin{proof}
+Let
+$$
+L=(X,A,K,H,F,S,D,W,Q,R,T,C,P,N)
+$$
+be an accepted carrier. By \autoref{thm:lagrange-spectrum-namecert-obligations}, the approximation-constant row $K$ is read together with $A,H,F,S,D,W,Q,R$ before export.
+
+The route is therefore a finite comparison surface. The continued-fraction prefix supplies the displayed approximants, Hurwitz supplies the threshold comparison, Farey and Stern--Brocot supply rational-window checks, and the dyadic and stream rows bind the finite tolerance to the Real seal.
+
+Transport, replay, provenance, and local naming are supplied by $T,C,P,N$. Thus the read has a finite BEDC route and does not require a completed spectrum, selected infinite continued fraction, quotient equality of reals, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[LagrangeSpectrum Real seal handoff]
+\label{thm:lagrange-spectrum-real-seal-handoff}
+The $\LagrangeSpectrumUp$ finite-window route hands its displayed approximation data to $\RealUp$ only through the StreamName window, RegSeqRat readback, DyadicRatCore tolerance, Real seal row, transport, replay, provenance, and local naming rows already present in the carrier.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier of \autoref{def:lagrange-spectrum-carrier}. The Real-facing rows are $X,D,W,Q,R,T,C,P,N$.
+
+Apply \autoref{thm:lagrange-spectrum-namecert-obligations}. The Real seal $R$ is downstream of the displayed real input, dyadic tolerance, StreamName window, and RegSeqRat readback; it is not an ambient completeness principle.
+
+Therefore the handoff to $\RealUp$ is local to the finite packet. Any consumer that asks for a spectrum-window value must read the same tolerance, stream, regular-sequence, seal, transport, replay, provenance, and naming rows, and cannot replace them by quotient real equality or a global real-completeness claim.
+\end{proof}
+
+\closureat{LagrangeSpectrumUp}{seedStr}
+
+\begin{closurestatus}{\LagrangeSpectrumUp}
+  \constructivestory{A $\LagrangeSpectrumUp$ packet is generated from displayed Real input, finite continued-fraction prefix, approximation-constant, Hurwitz, Farey, Stern--Brocot, DyadicRatCore tolerance, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lagrange-spectrum-carrier}, \autoref{thm:lagrange-spectrum-namecert-obligations}, \autoref{thm:lagrange-spectrum-finite-approximation-route}, and \autoref{thm:lagrange-spectrum-real-seal-handoff} seed the finite Diophantine-approximation spectrum-window route over real names and rational comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed Lagrange-spectrum classification, selected infinite continued fractions, quotient real equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier, finite approximation route, Real seal handoff, transport, replay, provenance, and local naming rows for BEDC.Derived.LagrangeSpectrumUp.}
+\end{closurestatus}

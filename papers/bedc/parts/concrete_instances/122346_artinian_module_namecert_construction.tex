@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\ArtinianModuleUp$}
+\label{ch:concrete-instances-artinian-module-namecert}
+\origin{human}
+
+Following Bourbaki and Atiyah--Macdonald on Artinian modules, the $\ArtinianModuleUp$ packet records descending submodule-chain stabilization over a displayed module source. It sits beside the module carrier of \autoref{ch:concrete-instances-module-namecert}, the scalar ring source of \autoref{ch:concrete-instances-ring-namecert}, and the ascending-chain sibling $\NoetherianModuleUp$ of \autoref{ch:concrete-instances-noetherian-module-namecert}. The packet supplies finite descending-chain evidence only; it does not assert a composition series, a length theorem, quotient-module classification, selected complements, or a host Artinian-module principle.
+
+\section{Carrier definition}
+\label{sec:artinian-module-carrier}
+
+\begin{definition}[Artinian module carrier]\label{def:artinian-module-carrier}
+An $\ArtinianModuleUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{ArtMod}(M,R,D,S,H,C,P,N).
+$$
+The row $M$ is the $\ModuleUp$ source surface. The row $R$ is the scalar $\RingUp$ source read from the module certificate. The row $D$ is the descending-submodule-chain ledger: it lists the displayed submodule rows, their inclusion comparisons, and the finite read order in which a consumer may inspect them. The row $S$ is the stabilization witness, assigning to every displayed descending chain in $D$ a finite stage after which all later submodule endpoints classify with that stage. The row $H$ is componentwise $\hsame$ transport for the module, scalar, descending-chain, and stabilization rows. The row $C$ is displayed $\Cont$ replay for the descending-chain read and stabilization handoff. The row $P$ is $\Pkg$ provenance over $\ArtinianModuleUp$, $\ModuleUp$, $\RingUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows. The row $N$ is the local $\NameCert_{\ArtinianModuleUp}$ row.
+\end{definition}
+
+\begin{theorem}[Artinian module NameCert obligations]\label{thm:artinian-module-namecert-obligations}
+For every accepted $\ArtinianModuleUp$ carrier $\mathsf{ArtMod}(M,R,D,S,H,C,P,N)$, the local $\NameCert_{\ArtinianModuleUp}$ surface consists exactly of carrier admission for the eight displayed rows, source compatibility with the $\ModuleUp$ and $\RingUp$ rows, descending-chain ledger admission through $D$, finite stabilization access through $S$, componentwise classifier transport through $H$, displayed continuation replay through $C$, provenance non-escape through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the eight rows of \autoref{def:artinian-module-carrier}. The module row $M$ fixes the additive carrier, scalar action, and module classifier before any descending submodule chain is inspected.
+
+The scalar row $R$ binds the chain to the same ring action already visible in the $\ModuleUp$ certificate. The descending ledger $D$ then supplies only displayed submodule rows and inclusion comparisons, so the chain is not replaced by a quotient-module classifier or a selected complement.
+
+Read the stabilization witness $S$ over the displayed chain in $D$. Componentwise transport $H$ moves the module, scalar, chain, and stabilization rows together through $\hsame$, while $C$ replays only the listed continuation data.
+
+Finally, $P$ and $N$ repack the same finite inventory as the local naming certificate. Since no composition-series selector, length theorem, quotient classification, selected complement, or host Artinian principle occurs in the carrier, none can occur among the local obligations.
+\end{proof}
+
+\begin{theorem}[Artinian descending-chain route]\label{thm:artinian-module-descending-chain-route}
+Let $\mathsf{ArtMod}(M,R,D,S,H,C,P,N)$ be an accepted $\ArtinianModuleUp$ carrier. Every downstream module consumer that reads descending-chain stabilization must first expose the $\ModuleUp$ source $M$, the scalar $\RingUp$ row $R$, and the descending-submodule-chain ledger $D$, and only then may read the finite stabilization witness $S$. The route is the descending-chain analogue of the $\NoetherianModuleUp$ ascending-chain packet, but it exports no ascending-chain theorem, composition-series theorem, selected quotient, or host Artinian-module result.
+\end{theorem}
+\begin{proof}
+Begin with the source rows $M$ and $R$. They determine the module classifier and scalar action, so the later descending-chain read is attached to the same algebraic object used by \autoref{ch:concrete-instances-module-namecert}.
+
+The ledger $D$ is read next. It contains the finite list of displayed submodule rows and inclusion comparisons, and it is the only row from which a descending chain can be inspected.
+
+Apply $S$ to that displayed ledger. The resulting stage is finite and lives inside the same module classifier. Transport through $H$ and replay through $C$ preserve that ordered route, while $P$ and $N$ expose only the provenance and naming rows of the same packet.
+
+Thus a consumer receives descending-chain stabilization as finite $\BHist$ data. The sibling comparison with \autoref{ch:concrete-instances-noetherian-module-namecert} is structural only: the present packet uses descending chains, not the ascending-chain or finite-generator rows of $\NoetherianModuleUp$.
+\end{proof}
+
+\closureat{ArtinianModuleUp}{seedStr}
+
+\begin{closurestatus}{\ArtinianModuleUp}
+  \constructivestory{An $\ArtinianModuleUp$ packet is generated from a ModuleUp source, a scalar RingUp source, a descending-submodule-chain ledger, a finite stabilization witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:artinian-module-carrier}, \autoref{thm:artinian-module-namecert-obligations}, and \autoref{thm:artinian-module-descending-chain-route} seed the finite descending-submodule-chain route through ModuleUp, RingUp, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close composition series, length theory, quotient-module classification, selected complements, host Artinian-module theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, descending-chain ledger admission, finite stabilization access, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.ArtinianModuleUp.}
+\end{closurestatus}
