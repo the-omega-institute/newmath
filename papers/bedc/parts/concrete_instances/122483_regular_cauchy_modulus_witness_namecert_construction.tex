@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusWitnessUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges' regular Cauchy treatment of constructive real numbers, the $\RegularCauchyModulusWitnessUp$ packet isolates the finite tail-modulus witness needed before a regular rational stream is sealed as a real object. It sits on the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records the witnessed tail window as finite NameCert data; it is not a selected limit, a quotient stream, a countable-choice principle, or an ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy modulus-witness carrier]
+\label{def:regular-cauchy-modulus-witness-carrier}
+A $\RegularCauchyModulusWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,R,T,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source-window row, naming the finite observations of the rational stream that are available to the witness.
+\item $R$ is the $\RegSeqRatUp$ regularity row, recording that the source stream is read through the regular rational sequence carrier rather than through a host sequence.
+\item $T$ is the tail-window row, naming a finite index budget after which the displayed comparison is served.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row consumed by the tail-window request.
+\item $Q$ is the tail readback row, recording that every displayed comparison inside the window reads the same $S,R,T,D$ route.
+\item $E$ is the $\RealUp$ consumer-facing seal row, recording that a later real-name read may consume the witnessed route without receiving a selected limit or quotient equality.
+\item $H$ records componentwise $\hsame$ transport for $S,R,T,D,Q,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay through stream readback, regularity readback, tail-window service, dyadic tolerance lookup, seal handoff, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyModulusWitnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusWitnessUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed witness route. It contains no hidden selector, no second tolerance ledger, no quotient stream, no host real equality, no selected limit, no countable-choice row, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy modulus-witness NameCert obligations]
+\label{thm:regular-cauchy-modulus-witness-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-modulus-witness-carrier}, the local $\NameCert_{\RegularCauchyModulusWitnessUp}$ surface consists exactly of carrier admission for
+$$
+W=(S,R,T,D,Q,E,H,C,P,N),
+$$
+finite stream-window exposure through $S$, regular rational sequence exposure through $R$, tail-window exposure through $T$, dyadic tolerance exposure through $D$, readback exactness through $Q$, consumer-facing $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its displayed rows are exactly the stream window, regular rational sequence row, tail-window budget, dyadic tolerance, readback route, real-seal handoff, transport, replay, provenance, and local naming.
+
+The four sibling dependencies are consumed in order. The $\StreamNameUp$ row supplies the finite observations, the $\RegSeqRatUp$ row supplies the regular-sequence discipline, the $\DyadicRatCoreUp$ row supplies the tolerance being served, and the $\RealUp$ row is only a downstream seal consumer.
+
+Finally read $H,C,P,N$. These rows transport, replay, package, and name the same finite packet, and no carrier coordinate can be projected as a selected limit, quotient stream, countable choice, host real equality, or ambient completeness theorem.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyModulusWitnessUp}
+  \constructivestory{A $\RegularCauchyModulusWitnessUp$ packet is generated from a finite stream window, a regular rational sequence row, a displayed tail-window budget, a dyadic tolerance row, a readback route, a Real-facing seal handoff, componentwise transports, displayed replay, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-witness-carrier} and \autoref{thm:regular-cauchy-modulus-witness-namecert-obligations} bind the finite tail-modulus witness surface over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected limits, quotient streams, countable choice, host real equality, or ambient completeness for $\RegularCauchyModulusWitnessUp$.}
+  \upgradepath{Lean closure requires an encoding of the carrier, tail-window readback exactness, classifier transport, displayed replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
