@@ -66,4 +66,25 @@ theorem ClosurePreservationAuditWitness_substitution_row [AskSetup] [PackageSetu
     ⟨sUnary, vUnary, fUnary, substitutionUnary, fullSubstitutionUnary,
       substitutionRoute, fullSubstitutionRoute, provenancePkg, fullSubstitutionPkg⟩
 
+theorem ClosurePreservationAuditWitness_namecert_obligations [AskSetup] [PackageSetup]
+    {S V F B R H C P N nameRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg ->
+      Cont H C nameRead ->
+        PkgSig bundle N pkg ->
+          UnaryHistory S ∧ UnaryHistory V ∧ UnaryHistory F ∧ UnaryHistory B ∧
+            UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+              UnaryHistory N ∧ UnaryHistory nameRead ∧ Cont S V F ∧ Cont F B H ∧
+                Cont B R C ∧ Cont H C nameRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier nameRoute namePkg
+  obtain ⟨sUnary, vUnary, fUnary, bUnary, rUnary, hUnary, cUnary, pUnary, nUnary,
+    shiftVariableRoute, fullBetaRoute, betaStepRoute, provenancePkg⟩ := carrier
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed hUnary cUnary nameRoute
+  exact
+    ⟨sUnary, vUnary, fUnary, bUnary, rUnary, hUnary, cUnary, pUnary, nUnary, nameUnary,
+      shiftVariableRoute, fullBetaRoute, betaStepRoute, nameRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.ClosurePreservationAuditWitnessUp
