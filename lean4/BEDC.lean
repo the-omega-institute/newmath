@@ -6436,6 +6436,7 @@ import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
 import BEDC.Derived.FiniteUniformDiscrepancyUp
+import BEDC.Derived.FiniteVariationLedgerUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
@@ -6905,6 +6906,7 @@ import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
 import BEDC.Derived.HermitePolyUp
 import BEDC.Derived.HermitePolynomialUp
+import BEDC.Derived.HermitePolynomialUp.TasteGate
 import BEDC.Derived.HigmanLemmaUp
 import BEDC.Derived.HigmanLemmaUp.TasteGate
 import BEDC.Derived.HigsonCompactificationUp
@@ -7773,6 +7775,7 @@ import BEDC.Derived.LocatedIntervalBisectionUp.NestedWindowRoute
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
 import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
+import BEDC.Derived.LocatedIntervalCompletionUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalFanBarrierUp.TasteGate
@@ -12906,6 +12909,7 @@ import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
+import BEDC.Derived.TwinSubstrateAuditCouplingUp.MetaCICRoute
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.NameCertObligations
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.NonCollapse
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
@@ -13437,6 +13441,7 @@ import BEDC.Derived.WronskianUp.DifferentialEquationConsumerHandoff
 import BEDC.Derived.WronskianUp.LedgerExactness
 import BEDC.Derived.WronskianUp.LinearDependenceBoundary
 import BEDC.Derived.WronskianUp.LinearDependenceWitness
+import BEDC.Derived.WronskianUp.ObligationClosurePackage
 import BEDC.Derived.WronskianUp.ObligationClosureScope
 import BEDC.Derived.WronskianUp.RealSealNonescape
 import BEDC.Derived.WronskianUp.SturmSeparationHandoff
@@ -13510,6 +13515,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
 import BEDC.Derived.ZetaContinuationApplicationUp.ZetaBasicSourceLock
 import BEDC.Derived.ZetaContinuationSocketUp
+import BEDC.Derived.ZetaContinuationSocketUp.AnalyticHandoff
 import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
