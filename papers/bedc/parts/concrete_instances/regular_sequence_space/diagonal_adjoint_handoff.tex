@@ -1,0 +1,17 @@
+\begin{theorem}[RegularSequenceSpace diagonal-adjoint handoff]
+\label{thm:regular-sequence-space-diagonal-adjoint-handoff}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Every finite diagonal window over $S$ that is consumed by a completion-facing endpoint projects through the displayed route
+$$
+\StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+without changing the dyadic tail budget $D$. Equivalently, the diagonal read first fixes one $\StreamNameUp$ window $T$, transports its $\RegSeqRatUp$ readback $Q$ by componentwise $\hsame$, and then exposes the terminal $\RealUp$ seal $R$ over the same $\DyadicRatCoreUp$ tolerance row.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite diagonal window. In the empty window, the carrier projection of \autoref{def:regular-sequence-space-carrier} already exposes $T,Q,D,R,H,C,P,N$ as one route, so the tail budget is exactly the displayed row $D$.
+
+For the successor window, apply the diagonal tail extraction theorem, \autoref{thm:regular-sequence-space-diagonal-tail-extraction}. It keeps the new diagonal read inside the same $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, and $\RealUp$ seal route.
+
+Now use shift closure, \autoref{thm:regular-sequence-space-shift-closure}. The finite tail shift preserves $T,Q,D$ before the terminal seal is consumed, so the successor step cannot tighten, weaken, or replace the dyadic budget row.
+
+Finally replay the structural rows. Componentwise $\hsame$ transport $H$, continuation replay $C$, provenance $P$, and local naming $N$ carry the same diagonal-adjoint handoff to $\RegSeqRatUp$ and $\RealUp$ consumers. The route has no coordinate for quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}

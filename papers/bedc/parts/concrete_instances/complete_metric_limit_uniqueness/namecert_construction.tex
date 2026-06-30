@@ -45,6 +45,54 @@ The comparison then passes through the metric witness $M$ and the Real zero-dist
 Finally the separated classifier $S$ consumes that zero-distance row. The support rows $H,C,P,N$ transport, replay, source, and name the same route, so the listed rows exhaust the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Complete metric limit uniqueness carrier rows]
+\label{thm:complete-metric-limit-uniqueness-carrier-rows}
+Every accepted $\CompleteMetricLimitUniquenessUp$ carrier displays exactly the rows
+$$
+A,L_{0},L_{1},M,Z,S,H,C,P,N
+$$
+of \autoref{def:complete-metric-limit-uniqueness-carrier} before the NameCert obligations of \autoref{thm:complete-metric-limit-uniqueness-namecert-obligations} can be read. The two limit rows $L_{0}$ and $L_{1}$ are therefore public only as complete-metric limit reads over the same source row $A$, and the structural rows $H,C,P,N$ may replay or name only that displayed route.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. It lists the source, paired limit rows, metric witness, zero-distance row, separated classifier, transport, replay, provenance, and local naming as the complete finite packet.
+
+Apply the NameCert obligation theorem. Its obligation surface is indexed by those same coordinates, so no consumer can read a limit comparison before the carrier rows have been displayed.
+
+The replay and naming rows preserve the projected route. They do not add a second source, a selected limit, or an unstored equality principle.
+\end{proof}
+
+\begin{theorem}[Complete metric limit uniqueness separated nonescape]
+\label{thm:complete-metric-limit-uniqueness-separated-nonescape}
+Let
+$$
+U=(A,L_{0},L_{1},M,Z,S,H,C,P,N)
+$$
+be an accepted $\CompleteMetricLimitUniquenessUp$ carrier. Any public uniqueness comparison must pass through the metric zero-distance row $Z$ and then through the separated classifier row $S$ before it is exposed. In particular, uniqueness cannot escape from $L_{0}$ and $L_{1}$ directly to host point equality, quotient representative equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier-row theorem \autoref{thm:complete-metric-limit-uniqueness-carrier-rows}. It forces the comparison to begin with the shared source $A$ and the two complete-metric limit rows $L_{0},L_{1}$.
+
+Use the obligation theorem \autoref{thm:complete-metric-limit-uniqueness-namecert-obligations}. It places the metric witness $M$ and zero-distance row $Z$ before the separated handoff, so the comparison cannot bypass the distance-zero route.
+
+Finally read the separated classifier $S$. Since $H,C,P,N$ only transport, replay, source, and name the same finite packet, no host equality, quotient representative, selected limit, choice schedule, or ambient completeness principle is available.
+\end{proof}
+
+\begin{theorem}[Complete metric limit uniqueness NameCert scope]
+\label{thm:complete-metric-limit-uniqueness-namecert-scope}
+The local $\NameCert_{\CompleteMetricLimitUniquenessUp}$ scope for an accepted packet is exactly the carrier-row surface
+$$
+A,L_{0},L_{1},M,Z,S,H,C,P,N
+$$
+together with the NameCert obligations of \autoref{thm:complete-metric-limit-uniqueness-namecert-obligations}. A public comparison may be exposed only after the metric zero-distance row and separated classifier have both been displayed, so every downstream uniqueness consumer reads a separated nonescape route rather than an ambient equality theorem.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:complete-metric-limit-uniqueness-carrier-rows} with the obligation theorem. The first theorem fixes the carrier coordinates, and the second assigns the local NameCert obligations to those coordinates.
+
+Apply separated nonescape, \autoref{thm:complete-metric-limit-uniqueness-separated-nonescape}. It identifies $Z$ and $S$ as the required boundary between the paired limit rows and any public uniqueness read.
+
+The resulting scope is therefore finite and local to the displayed packet. It cannot be enlarged by replay into quotient equality, selected endpoints, countable choice, host equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Complete metric limit uniqueness separatedness handoff]
 \label{thm:complete-metric-limit-uniqueness-separatedness}
 Every consumer that reads uniqueness from an accepted $\CompleteMetricLimitUniquenessUp$ carrier must factor the read through
