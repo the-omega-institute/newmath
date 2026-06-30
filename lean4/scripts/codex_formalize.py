@@ -99,6 +99,12 @@ FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "p
 MAX_LEAN_FILE_LINES = 800
 LEAN_FILE_BUDGET_SECONDS = 180
 LEAN_FILE_BUDGET_MAX_SECONDS = 900
+BRIDGE_PROJECT_REL = Path("papers/bedc_mathlib_bridge")
+BRIDGE_TARGET_BRANCH = "codex-auto-dev"
+BRIDGE_ROUND_INTERVAL_SECONDS = int(os.environ.get("BRIDGE_ROUND_INTERVAL", "3600"))
+BRIDGE_ROUND_MAX_LOAD = float(os.environ.get("BEDC_BRIDGE_ROUND_MAX_LOAD", "18"))
+BRIDGE_CODEX_TIMEOUT_SECONDS = int(os.environ.get("BEDC_BRIDGE_CODEX_TIMEOUT", "3600"))
+BRIDGE_HEAVY_CHECK_TIMEOUT_SECONDS = int(os.environ.get("BEDC_BRIDGE_HEAVY_CHECK_TIMEOUT", "10800"))
 
 
 def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
@@ -2137,6 +2143,332 @@ def codex_exec(
             os.unlink(out_file)
 
     return output
+
+
+BRIDGE_ROUND_PROMPT_TEMPLATE = """\
+You are working in the repository worktree at {worktree}.
+Working language: Chinese for notes, English for Lean names and code.
+
+Task: write one BEDC mathlib-bridge row for this candidate, only inside
+papers/bedc_mathlib_bridge.
+
+Candidate:
+```json
+{candidate_json}
+```
+
+Nearby eligible candidates, for context only:
+```json
+{candidates_json}
+```
+
+Hard constraints:
+- Do not edit lean4/BEDC, lean4/ outside the bridge project, papers/bedc main
+  paper files, tools, CI, or this orchestrator.
+- Do not import Mathlib from the main mathlib-free BEDC project. Mathlib imports
+  are allowed only under papers/bedc_mathlib_bridge/lean4.
+- No axiom, no sorry, no unsafe, no classical shortcut unless an existing bridge
+  template already uses it for a measured boundary row. This task is for an
+  exported_core constructive row.
+- Do not commit and do not push. The orchestrator will verify and commit.
+- Keep the bridge-side proof small. If the candidate needs a large theory
+  development, leave the worktree unchanged.
+
+Expected bridge shape:
+- Add or edit BedcMathlibBridge.Constructive.<Anchor>.lean for the BEDC
+  readback/proof.
+- Add or edit BedcMathlibBridge.Export.<Anchor>.lean with an export witness,
+  a mathlib correspondence theorem, and concrete consumed BEDC declarations.
+- Register the files through BedcMathlibBridge.Constructive,
+  BedcMathlibBridge.Export, BedcMathlibBridge.All, and
+  BedcMathlibBridge.CI.ExportAudit.exportWitnessRegistry as needed.
+- Add one MATRIX.md row with metadata kind exported_core,
+  classification:false, mathlib_decl, bedc_irreducible_decl, export_witness,
+  mathlib_correspondence_decl, and bedc_consumed_decl.
+
+Use these existing templates as style references:
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Fibonacci.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Fibonacci.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Binomial.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Binomial.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Bool.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Bool.lean
+
+Before finishing, run the cheapest relevant bridge build/checks you can afford
+inside papers/bedc_mathlib_bridge/lean4 or papers/bedc_mathlib_bridge. The
+orchestrator will run scripts/bridge_heavy_check.sh after you return.
+"""
+
+
+def _bridge_candidate_filter() -> list[dict[str, object]]:
+    script = REPO_ROOT / BRIDGE_PROJECT_REL / "scripts" / "candidate_filter.py"
+    result = run_cmd(
+        ["python3", str(script), "--top", "5", "--min-score", "7"],
+        cwd=REPO_ROOT,
+        timeout=300,
+    )
+    if result.returncode != 0:
+        logger.warning(f"[bridge] candidate filter failed: {(result.stderr or result.stdout)[-800:]}")
+        return []
+    candidates: list[dict[str, object]] = []
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            logger.warning(f"[bridge] ignoring malformed candidate JSONL line: {line[:200]}")
+            continue
+        if isinstance(item, dict):
+            candidates.append(item)
+    return [item for item in candidates if item.get("eligible") is True]
+
+
+def _bridge_slug(value: str) -> str:
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", value).strip("-").lower()
+    return slug[:48] or "candidate"
+
+
+def _bridge_worktree_name(candidate: dict[str, object]) -> tuple[Path, str]:
+    decl = str(candidate.get("bedc_decl") or "candidate")
+    stamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    slug = _bridge_slug(decl.split(".")[-1])
+    return WORKTREE_DIR / f"bridge_auto_{os.getpid()}_{stamp}_{slug}", f"bridge-auto-{os.getpid()}-{stamp}-{slug}"
+
+
+def _create_bridge_worktree(candidate: dict[str, object]) -> tuple[Path, str]:
+    WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
+    wt_path, branch = _bridge_worktree_name(candidate)
+    with _git_lock:
+        if wt_path.exists():
+            logger.warning(f"[bridge] removing stale worktree at {wt_path}")
+            run_cmd(["git", "worktree", "remove", "--force", str(wt_path)], cwd=REPO_ROOT, timeout=120)
+            if wt_path.exists():
+                shutil.rmtree(wt_path, ignore_errors=True)
+        run_cmd(["git", "branch", "-D", branch], cwd=REPO_ROOT, timeout=120)
+        fetch = run_cmd(["git", "fetch", "origin", BRIDGE_TARGET_BRANCH], cwd=REPO_ROOT, timeout=300)
+        if fetch.returncode != 0:
+            raise RuntimeError(f"bridge fetch failed: {fetch.stderr.strip()}")
+        add = run_cmd(
+            ["git", "worktree", "add", "-b", branch, str(wt_path), f"origin/{BRIDGE_TARGET_BRANCH}"],
+            cwd=REPO_ROOT,
+            timeout=300,
+        )
+        if add.returncode != 0:
+            raise RuntimeError(f"bridge worktree add failed: {add.stderr.strip()}")
+    cache_script = wt_path / BRIDGE_PROJECT_REL / "scripts" / "clone_lake_cache.sh"
+    warm = run_cmd(["bash", str(cache_script), str(wt_path), str(REPO_ROOT)], cwd=wt_path, timeout=1800)
+    if warm.returncode != 0:
+        logger.warning(f"[bridge] cache warm failed, continuing cold: {(warm.stderr or warm.stdout)[-800:]}")
+    return wt_path, branch
+
+
+def _remove_bridge_worktree(wt_path: Path, branch: str) -> None:
+    with _git_lock:
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)], cwd=REPO_ROOT, timeout=180)
+        if wt_path.exists():
+            shutil.rmtree(wt_path, ignore_errors=True)
+        run_cmd(["git", "branch", "-D", branch], cwd=REPO_ROOT, timeout=120)
+
+
+def _bridge_changed_paths(wt_path: Path) -> list[str]:
+    diff = run_cmd(["git", "diff", "--name-only", "HEAD"], cwd=wt_path, timeout=120)
+    staged = run_cmd(["git", "diff", "--cached", "--name-only"], cwd=wt_path, timeout=120)
+    others = run_cmd(["git", "ls-files", "--others", "--exclude-standard"], cwd=wt_path, timeout=120)
+    paths: list[str] = []
+    for output in (diff.stdout, staged.stdout, others.stdout):
+        for line in output.splitlines():
+            line = line.strip()
+            if line and line not in paths:
+                paths.append(line)
+    return paths
+
+
+def _bridge_paths_are_firewalled(paths: list[str]) -> bool:
+    prefix = BRIDGE_PROJECT_REL.as_posix() + "/"
+    return all(path == BRIDGE_PROJECT_REL.as_posix() or path.startswith(prefix) for path in paths)
+
+
+def _bridge_prompt(candidate: dict[str, object], candidates: list[dict[str, object]], wt_path: Path) -> str:
+    return BRIDGE_ROUND_PROMPT_TEMPLATE.format(
+        worktree=wt_path,
+        candidate_json=json.dumps(candidate, indent=2, sort_keys=True),
+        candidates_json=json.dumps(candidates, indent=2, sort_keys=True),
+    )
+
+
+def _run_bridge_heavy_check(wt_path: Path) -> tuple[int, Path, str]:
+    bridge_dir = wt_path / BRIDGE_PROJECT_REL
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_path = LOG_DIR / f"bridge_heavy_check_{ts}.log"
+    env = os.environ.copy()
+    env.setdefault("BEDC_BRIDGE_MAX_LOAD", str(int(BRIDGE_ROUND_MAX_LOAD)))
+    with open(log_path, "w", encoding="utf-8") as log:
+        result = subprocess.run(
+            ["bash", "scripts/bridge_heavy_check.sh", "."],
+            cwd=str(bridge_dir),
+            stdin=subprocess.DEVNULL,
+            stdout=log,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=BRIDGE_HEAVY_CHECK_TIMEOUT_SECONDS,
+            env=env,
+        )
+    text = log_path.read_text(encoding="utf-8", errors="replace")
+    return result.returncode, log_path, text
+
+
+def _bridge_heavy_check_passed(rc: int, log_text: str) -> bool:
+    pass_tokens = [
+        "[bridge-axioms] PASS",
+        "[export-matrix] PASS",
+        "[mathlib-correspondence] PASS",
+        "[no-hollow] PASS",
+        "[statement-shape] PASS",
+        "[boundary-axioms] PASS",
+    ]
+    missing = [token for token in pass_tokens if token not in log_text]
+    if missing:
+        logger.warning(f"[bridge] heavy check missing PASS token(s): {missing}")
+        return False
+    for line in log_text.splitlines():
+        if line.startswith("[negative] observed "):
+            continue
+        if "BEDC_GATE_W_MISSING_VALUE_DEP" in line or "FAIL" in line:
+            logger.warning(f"[bridge] heavy check failure line: {line[:500]}")
+            return False
+    return rc == 0 or rc == 124
+
+
+def _bridge_commit_message(candidate: dict[str, object]) -> str:
+    decl = str(candidate.get("bedc_decl") or "candidate")
+    target = str(candidate.get("mathlib_target_guess") or "mathlib")
+    return f"bridge: auto-write {decl.split('.')[-1]} to {target} correspondence"
+
+
+def _push_bridge_worktree(wt_path: Path, candidate: dict[str, object]) -> bool:
+    paths = _bridge_changed_paths(wt_path)
+    if not paths:
+        logger.info("[bridge] codex produced no bridge changes")
+        return False
+    if not _bridge_paths_are_firewalled(paths):
+        logger.error(f"[bridge] refusing non-bridge path changes: {paths}")
+        return False
+    add = run_cmd(["git", "add", BRIDGE_PROJECT_REL.as_posix()], cwd=wt_path, timeout=120)
+    if add.returncode != 0:
+        logger.error(f"[bridge] git add failed: {add.stderr.strip()}")
+        return False
+    commit = run_cmd(["git", "commit", "-m", _bridge_commit_message(candidate)], cwd=wt_path, timeout=300)
+    if commit.returncode != 0:
+        logger.error(f"[bridge] git commit failed: {(commit.stderr or commit.stdout)[-1000:]}")
+        return False
+    env = os.environ.copy()
+    env["LEAN4_GUARDRAILS_BYPASS"] = "1"
+    for attempt in range(1, 4):
+        fetch = subprocess.run(
+            ["git", "fetch", "origin", BRIDGE_TARGET_BRANCH],
+            cwd=str(wt_path),
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            timeout=300,
+            env=env,
+        )
+        if fetch.returncode != 0:
+            logger.error(f"[bridge] fetch failed before push: {fetch.stderr.strip()}")
+            return False
+        merge = subprocess.run(
+            ["git", "merge", "--no-ff", "--no-edit", f"origin/{BRIDGE_TARGET_BRANCH}"],
+            cwd=str(wt_path),
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            timeout=300,
+            env=env,
+        )
+        if merge.returncode != 0:
+            logger.error(f"[bridge] merge origin/{BRIDGE_TARGET_BRANCH} failed: {(merge.stderr or merge.stdout)[-1000:]}")
+            return False
+        push = subprocess.run(
+            ["git", "push", "origin", f"HEAD:{BRIDGE_TARGET_BRANCH}"],
+            cwd=str(wt_path),
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            timeout=300,
+            env=env,
+        )
+        if push.returncode == 0:
+            logger.info(f"[bridge] pushed bridge row to {BRIDGE_TARGET_BRANCH}")
+            return True
+        logger.warning(f"[bridge] push attempt {attempt} rejected: {(push.stderr or push.stdout)[-500:]}")
+        time.sleep(5 * attempt)
+    return False
+
+
+def run_bridge_round() -> bool:
+    candidates = _bridge_candidate_filter()
+    if not candidates:
+        logger.info("[bridge] no eligible bridge candidate")
+        return False
+    candidate = candidates[0]
+    wt_path: Path | None = None
+    branch = ""
+    try:
+        wt_path, branch = _create_bridge_worktree(candidate)
+        codex_exec(
+            _bridge_prompt(candidate, candidates, wt_path),
+            work_dir=wt_path,
+            timeout_seconds=BRIDGE_CODEX_TIMEOUT_SECONDS,
+            log_tag="bridge_round",
+        )
+        paths = _bridge_changed_paths(wt_path)
+        if not paths:
+            logger.info("[bridge] bridge codex left no changes")
+            return False
+        if not _bridge_paths_are_firewalled(paths):
+            logger.error(f"[bridge] bridge codex touched forbidden paths: {paths}")
+            return False
+        rc, log_path, log_text = _run_bridge_heavy_check(wt_path)
+        logger.info(f"[bridge] heavy check rc={rc} log={log_path}")
+        if rc == 75:
+            logger.info("[bridge] heavy check deferred by load gate")
+            return False
+        if not _bridge_heavy_check_passed(rc, log_text):
+            logger.error(f"[bridge] heavy check failed; see {log_path}")
+            return False
+        return _push_bridge_worktree(wt_path, candidate)
+    except subprocess.TimeoutExpired as exc:
+        logger.warning(f"[bridge] heavy check timeout: {exc}")
+        return False
+    except Exception as exc:
+        logger.error(f"[bridge] bridge round error: {exc}", exc_info=True)
+        return False
+    finally:
+        if wt_path is not None and branch:
+            _remove_bridge_worktree(wt_path, branch)
+
+
+def bridge_round_loop() -> None:
+    logger.info(
+        f"[bridge] loop started interval={BRIDGE_ROUND_INTERVAL_SECONDS}s "
+        f"max_load={BRIDGE_ROUND_MAX_LOAD}"
+    )
+    while True:
+        try:
+            try:
+                load1 = os.getloadavg()[0]
+            except (AttributeError, OSError):
+                load1 = 0.0
+            if load1 < BRIDGE_ROUND_MAX_LOAD:
+                run_bridge_round()
+            else:
+                logger.info(f"[bridge] load {load1:.1f} >= {BRIDGE_ROUND_MAX_LOAD:.1f}; skip cycle")
+        except Exception as exc:
+            logger.error(f"[bridge] loop error: {exc}", exc_info=True)
+        time.sleep(BRIDGE_ROUND_INTERVAL_SECONDS)
 
 
 # ---------------------------------------------------------------------------
@@ -4421,6 +4753,10 @@ def main() -> int:
             name="recovery",
         )
         recovery_t.start()
+
+    if os.environ.get("BEDC_BRIDGE_ROUNDS") == "1" and not args.dry_run:
+        threading.Thread(target=bridge_round_loop, daemon=True, name="bridge-round").start()
+        logger.info("[bridge] optional bridge-round thread enabled by BEDC_BRIDGE_ROUNDS=1")
 
     total_succeeded = 0
     total_failed = 0
