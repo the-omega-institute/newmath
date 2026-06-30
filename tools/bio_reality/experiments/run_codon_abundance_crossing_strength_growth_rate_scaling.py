@@ -21,7 +21,6 @@ EPS = 1e-12
 RIDGE_LAMBDA = 1e-8
 
 ORGANISMS = [
-    "arabidopsis_thaliana",
     "bacillus_subtilis_subsp_subtilis_str_168",
     "caenorhabditis_elegans",
     "danio_rerio",
@@ -37,6 +36,11 @@ ORGANISMS = [
     "rattus_norvegicus",
     "saccharomyces_cerevisiae",
     "sulfolobus_solfataricus",
+    "campylobacter_jejuni_subsp_jejuni_nctc_11168",
+    "salmonella_enterica_serovar_typhimurium_lt2",
+    "staphylococcus_aureus_nctc_8325",
+    "mycobacterium_tuberculosis_h37rv",
+    "klebsiella_pneumoniae_mgh_78578",
 ]
 
 TRNA_FILE_SLUG = {
@@ -77,6 +81,14 @@ DOUBLING_TIME_MIN = {
     "rattus_norvegicus": 1080.0,
     "saccharomyces_cerevisiae": 90.0,
     "sulfolobus_solfataricus": 360.0,
+    "campylobacter_jejuni_subsp_jejuni_nctc_11168": 90.0,
+    "salmonella_enterica_serovar_typhimurium_lt2": 25.0,
+    "corynebacterium_glutamicum_atcc_13032": 50.0,
+    "deinococcus_radiodurans_r1": 90.0,
+    "helicobacter_pylori_26695": 150.0,
+    "staphylococcus_aureus_nctc_8325": 30.0,
+    "mycobacterium_tuberculosis_h37rv": 1440.0,
+    "klebsiella_pneumoniae_mgh_78578": 30.0,
 }
 
 DOUBLING_TIME_SOURCE = {
@@ -96,6 +108,14 @@ DOUBLING_TIME_SOURCE = {
     "rattus_norvegicus": "Rat or mammalian cultured-cell literature, rounded to an 18 h proliferative-cell scale.",
     "saccharomyces_cerevisiae": "Saccharomyces cerevisiae rich-medium growth literature and textbook values, rounded to a 90 min minimum doubling scale.",
     "sulfolobus_solfataricus": "Sulfolobus solfataricus optimal thermoacidophile culture literature, rounded to a several-hour doubling scale.",
+    "campylobacter_jejuni_subsp_jejuni_nctc_11168": "Campylobacter jejuni NCTC 11168 microaerophilic rich-medium doubling literature, ~1.5 h scale.",
+    "salmonella_enterica_serovar_typhimurium_lt2": "Salmonella enterica Typhimurium LT2 enteric rich-medium minimum doubling, ~25 min scale.",
+    "corynebacterium_glutamicum_atcc_13032": "Corynebacterium glutamicum ATCC 13032 industrial rich-medium doubling, ~45-60 min scale.",
+    "deinococcus_radiodurans_r1": "Deinococcus radiodurans R1 optimal lab doubling literature, ~1.5 h scale.",
+    "helicobacter_pylori_26695": "Helicobacter pylori 26695 microaerophilic slow doubling literature, ~2.5 h scale.",
+    "staphylococcus_aureus_nctc_8325": "Staphylococcus aureus NCTC 8325 rich-medium minimum doubling, ~30 min scale.",
+    "mycobacterium_tuberculosis_h37rv": "Mycobacterium tuberculosis H37Rv canonical slow generation time, ~24 h scale.",
+    "klebsiella_pneumoniae_mgh_78578": "Klebsiella pneumoniae enteric rich-medium fast doubling literature, ~30 min scale.",
 }
 
 CUN_CODONS = ["CUU", "CUC", "CUA", "CUG"]

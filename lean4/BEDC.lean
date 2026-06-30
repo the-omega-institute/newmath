@@ -12233,6 +12233,7 @@ import BEDC.Derived.SheafificationUp.PlusSeparationObligation
 import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.PresheafSheafRoute
 import BEDC.Derived.SheafificationUp.ProvenanceNamingObligation
+import BEDC.Derived.SheafificationUp.RefinementStabilityBudget
 import BEDC.Derived.SheafificationUp.RestrictionCompatibilityObligation
 import BEDC.Derived.SheafificationUp.RootObligationCarrier
 import BEDC.Derived.SheafificationUp.SeparatedPlusCarrierObligation
@@ -13452,6 +13453,7 @@ import BEDC.Derived.WronskianUp.CarrierStability
 import BEDC.Derived.WronskianUp.DeterminantLedgerExactness
 import BEDC.Derived.WronskianUp.DeterminantRouteStability
 import BEDC.Derived.WronskianUp.DifferentialEquationConsumerHandoff
+import BEDC.Derived.WronskianUp.DifferentialScopeLedger
 import BEDC.Derived.WronskianUp.LedgerExactness
 import BEDC.Derived.WronskianUp.LinearDependenceBoundary
 import BEDC.Derived.WronskianUp.LinearDependenceWitness
