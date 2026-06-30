@@ -1,0 +1,193 @@
+\chapter{Li Time Negative Witness}
+\label{ch:visions-rh-li-time-negative-witness}
+\origin{ai}
+
+\autoref{def:rh-li-weil-finite-negative-witness} records the finite
+Li--Weil witness produced by the Li criterion consumption row.  This
+chapter gives the geometric readout of that witness.  The Li coordinate
+turns the fixed-half line into the unit circle; off-half displacement
+becomes radial scale, and the discrete Li time $n$ amplifies that radial
+component into a finite negative-energy row.
+
+\begin{definition}[Li time coordinate]
+\label{def:rh-li-time-coordinate}
+For a nontrivial zero row $\rho$ of the completed zeta function, define
+$$
+z(\rho):=1-\frac{1}{\rho}
+=
+\frac{\rho-1}{\rho}.
+$$
+\end{definition}
+
+\begin{theorem}[Li coordinate reads the fixed-half circle]
+\label{thm:rh-li-coordinate-fixed-half-circle}
+For $\rho=\sigma+i\gamma$,
+$$
+|z(\rho)|=1
+$$
+if and only if
+$$
+\sigma=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+|z(\rho)|
+=
+\left|\frac{\rho-1}{\rho}\right|
+=
+\frac{|\rho-1|}{|\rho|}.
+$$
+Thus $|z(\rho)|=1$ exactly when $|\rho-1|=|\rho|$.  Squaring gives
+$$
+(\sigma-1)^2+\gamma^2=\sigma^2+\gamma^2,
+$$
+hence $\sigma=1/2$.
+\end{proof}
+
+\begin{definition}[Li discrete time energy]
+\label{def:rh-li-discrete-time-energy}
+For a finite reflected zero ledger $Z$, the $n$th Li time energy is
+$$
+\lambda_n^Z
+:=
+\sum_{\rho\in Z}
+\left(1-z(\rho)^n\right),
+\qquad
+n\ge1.
+$$
+The completed zeta Li--Weil row of
+\autoref{def:rh-li-weil-coefficient-row} is the regularized infinite
+version of the same readout.
+\end{definition}
+
+\begin{theorem}[Fixed-line pairs have nonnegative Li time energy]
+\label{thm:rh-fixed-line-pairs-nonnegative-li-time-energy}
+Let $Z$ be a finite conjugation-stable zero multiset on the fixed line.
+Then
+$$
+\lambda_n^Z\ge0
+\qquad
+(n\ge1).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-li-coordinate-fixed-half-circle}, each zero row has
+$z(\rho)=e^{i\theta_\rho}$.  A conjugate pair contributes
+$$
+\left(1-e^{in\theta_\rho}\right)
++
+\left(1-e^{-in\theta_\rho}\right)
+=
+2-2\cos(n\theta_\rho)
+\ge0.
+$$
+Summing over the finite conjugate pairs gives the claim.
+\end{proof}
+
+\begin{definition}[Radial Li pair]
+\label{def:rh-radial-li-pair}
+A radial Li pair is a reflected pair of zero rows whose Li coordinates
+are
+$$
+z,
+\qquad
+\frac{1}{\overline z},
+$$
+with $|z|\ne1$.  Equivalently, one member of the pair lies inside the
+unit circle and the other lies outside it.
+\end{definition}
+
+\begin{principle}[Radial Li time amplification]
+\label{prin:rh-radial-li-time-amplification}
+For a radial Li pair, some discrete time $n$ detects the radial scale.
+Indeed, if the outside coordinate is $z_\ast=Re^{i\theta}$ with
+$R>1$, then along a subsequence of $n$ the real part of
+$e^{in\theta}$ stays positive.  The term $z_\ast^n$ then has real part
+of order $R^n$, so the contribution of $1-z_\ast^n$ eventually gives a
+negative finite Li direction unless an equally large source row is
+displayed.  The Li criterion consumption row packages this amplification
+as the finite negative witness of
+\autoref{def:rh-li-weil-finite-negative-witness}.
+\end{principle}
+
+\begin{definition}[Li time positive tower]
+\label{def:rh-li-time-positive-tower}
+The source row
+$$
+\mathsf{LiTimePositiveTower}
+$$
+is $\mathsf{GlobalLiWeilPositivity}$ read as a discrete-time energy
+tower:
+$$
+\lambda_n\ge0
+\qquad
+(n\ge1).
+$$
+\end{definition}
+
+\begin{definition}[Li coefficient square representation]
+\label{def:rh-li-coefficient-square-representation}
+The source row
+$$
+\mathsf{LiCoefficientSquareRepresentation}
+$$
+asserts that every Li--Weil coefficient has a source-side nonnegative
+presentation, either as a finite Hilbert square
+$$
+\lambda_n=\|T_n\|_{\mathcal H_n}^2
+$$
+or as a displayed limit of such squares
+$$
+\lambda_n=\lim_m\|T_{n,m}\|_{\mathcal H_{n,m}}^2.
+$$
+\end{definition}
+
+\begin{theorem}[Li coefficient squares give the Li time tower]
+\label{thm:rh-li-coefficient-squares-give-li-time-tower}
+If $\mathsf{LiCoefficientSquareRepresentation}$ holds, then
+$$
+\mathsf{LiTimePositiveTower}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Each displayed square is nonnegative, and a displayed limit of
+nonnegative real rows is nonnegative.  Hence $\lambda_n\ge0$ for every
+$n\ge1$, which is $\mathsf{LiTimePositiveTower}$.
+\end{proof}
+
+\begin{corollary}[Li coefficient squares give fixed-half readout]
+\label{cor:rh-li-coefficient-squares-fixed-half-readout}
+Assume $\mathsf{LiCoefficientSquareRepresentation}$ and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-li-coefficient-squares-give-li-time-tower} gives
+$\mathsf{GlobalLiWeilPositivity}$.  The Li criterion consumption row
+then returns fixed-half readout.
+\end{proof}
+
+\begin{principle}[Li time no-scale target]
+\label{prin:rh-li-time-no-scale-target}
+The Li time coordinate is the finite witness version of the no-scale
+principle.  Unit Li coordinates give phase iteration on $S^1$; radial Li
+pairs carry nonunit scale, and discrete time powers expose that scale as
+a finite negative Li witness.  In named form the non-circular source
+target is
+$$
+\mathsf{LiCoefficientSquareRepresentation}
+\Longrightarrow
+\mathsf{LiTimePositiveTower}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}
