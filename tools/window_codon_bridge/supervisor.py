@@ -760,8 +760,11 @@ def dev_rollup_lane() -> dict:
         return {"ran": False, "error": f"config_error: {exc}"}
     if not cfg.get("enabled", False):
         return {"ran": False, "skipped": "disabled"}
-    if git_busy():
-        return {"ran": False, "skipped": "git_busy"}
+    # No global git_busy() guard here: the managed-rollup script operates in its
+    # own isolated worktree and acquires the shared git common lock itself, so it
+    # is designed to run concurrently with other pipelines. Gating on the global
+    # `pgrep -x git` would starve the lane on a busy multi-daemon machine (it
+    # never clears), which is why bio-D omits it.
     if _merge_head_present():
         return {"ran": False, "skipped": "merge_in_progress"}
     remote = str(cfg.get("remote") or "origin")
