@@ -6635,6 +6635,7 @@ import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.GeneticCodeDeformationLedgerUp
 import BEDC.Derived.GeneticCodeDeformationLedgerUp.TasteGate
+import BEDC.Derived.GenocchiNumberUp
 import BEDC.Derived.GenocchiUp
 import BEDC.Derived.GeodesicMetricUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
@@ -13506,6 +13507,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZigzagNumberUp
 import BEDC.Derived.ZigzagUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CandidateNormalEndpointReadback
