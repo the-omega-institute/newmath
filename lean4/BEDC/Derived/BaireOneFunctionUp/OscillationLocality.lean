@@ -332,4 +332,85 @@ theorem BaireOneFunctionCarrier_pointwise_oscillation_handoff [AskSetup] [Packag
   obtain ⟨oscillationCert, oscillationUnary⟩ := locality
   exact ⟨pointwiseCert, oscillationCert, pointwiseUnary, oscillationUnary⟩
 
+theorem BaireOneFunctionCarrier_pointwise_lowersemicontinuous_handoff_certificate
+    [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead lscRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg ->
+      Cont S Q pointwiseRead ->
+        PkgSig bundle pointwiseRead pkg ->
+          Cont R L lscRead ->
+            PkgSig bundle lscRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row pointwiseRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                      hsame row pointwiseRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle pointwiseRead pkg ∧ Cont S Q pointwiseRead)
+                  hsame ∧
+                SemanticNameCert
+                    (fun row : BHist => hsame row lscRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                        hsame row R ∨ hsame row L ∨ hsame row lscRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont R L lscRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle lscRead pkg)
+                    hsame ∧
+                  UnaryHistory pointwiseRead ∧ UnaryHistory lscRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier pointwiseRoute pointwisePkg lscRoute lscPkg
+  have carrierWhole := carrier
+  obtain ⟨_xUnary, _fUnary, scheduleUnary, readbackUnary, _realUnary, _handoffUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _sourceApproxSchedule, _scheduleReadbackReal,
+    _realHandoffTransport, _transportContinuationProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have pointwiseUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed scheduleUnary readbackUnary pointwiseRoute
+  have pointwiseCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row pointwiseRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+              hsame row pointwiseRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle pointwiseRead pkg ∧
+              Cont S Q pointwiseRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro pointwiseRead
+        ⟨hsame_refl pointwiseRead, pointwiseUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, pointwisePkg, pointwiseRoute⟩
+  }
+  have lscHandoff :=
+    BaireOneFunctionCarrier_lowersemicontinuous_handoff
+      (X := X) (F := F) (S := S) (Q := Q) (R := R) (L := L) (H := H)
+      (C := C) (P := P) (N := N) (lscRead := lscRead) (bundle := bundle)
+      (pkg := pkg) carrierWhole lscRoute lscPkg
+  obtain ⟨lscCert, lscUnary, _sourceApproxSchedule, _scheduleReadbackReal,
+    _provenancePkg⟩ := lscHandoff
+  exact ⟨pointwiseCert, lscCert, pointwiseUnary, lscUnary⟩
+
 end BEDC.Derived.BaireOneFunctionUp
