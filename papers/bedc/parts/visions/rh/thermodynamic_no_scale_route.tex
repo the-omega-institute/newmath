@@ -245,6 +245,36 @@ Thus a radial compensation selector is precisely a real-positive scale
 ledger indexed by the active heights.
 \end{definition}
 
+\begin{lemma}[Unit boundary local channel test]
+\label{lem:rh-unit-boundary-local-channel-test}
+Let
+$$
+s=\frac12+r+it
+$$
+and let $h_a>0$.  For the centered channel
+$$
+U_a(s)=e^{-(s-1/2)h_a},
+$$
+the unit-boundary condition
+$$
+|U_a(s)|=1
+$$
+forces $r=0$.
+\end{lemma}
+
+\begin{proof}
+The centered channel decomposes as
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}.
+$$
+Hence
+$$
+|U_a(s)|=e^{-r h_a}.
+$$
+If this modulus is one, then $e^{-r h_a}=1$.  Taking real logarithms
+gives $-r h_a=0$.  Since $h_a>0$, one has $r=0$.
+\end{proof}
+
 \begin{theorem}[No-demon scale compensation]
 \label{thm:rh-no-demon-scale-compensation}
 Assume a packet admits only compact phase rows, compact prime-register
@@ -382,6 +412,99 @@ demon-free thermodynamic zero tower for each accepted non-trivial
 completed zeta zero.  Apply
 \autoref{cor:rh-demon-free-towers-fixed-half-readout}.
 \end{proof}
+
+\begin{definition}[No-demon internal golden zeta certificate]
+\label{def:rh-no-demon-internal-golden-zeta-certificate}
+The source row
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+asserts that every accepted non-trivial completed zeta zero is presented
+by a cofinal golden certificate tower satisfying four compatible rows.
+The internal-ruler row is
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+from \autoref{def:rh-internal-golden-ruler-zeta-certificate}.  The
+same-island boundary row is
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+from \autoref{def:rh-zeta-golden-lee-yang-bridge-source-row}.  The
+information-thermodynamic row is
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+from \autoref{def:rh-no-demon-zeta-certificate}.  The compatibility row
+requires that these three presentations use the same zero island, the
+same Zeckendorf address ledger, the same active-height refinement, and
+the same scale-defect extraction.  Thus the row is a source package, not
+an additional analytic theorem: it records that the internal golden
+ruler, the Lee--Yang bridge, and the no-unledgered-selector discipline
+are present on one certificate tower.
+\end{definition}
+
+\begin{theorem}[No-demon internal golden certificates supply thermodynamic certificates]
+\label{thm:rh-no-demon-internal-golden-certificates-supply-thermodynamic-certificates}
+If
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then
+$$
+\mathsf{NoDemonZetaCertificate}_{\zeta}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Fix an accepted non-trivial completed zeta zero.  The source row of
+\autoref{def:rh-no-demon-internal-golden-zeta-certificate} supplies a
+single cofinal golden certificate tower carrying the no-demon zeta row,
+with the scale-defect extraction and active-height refinement displayed
+on that same tower.  Forgetting the internal-ruler and Lee--Yang bridge
+rows leaves exactly the demon-free thermodynamic tower required by
+\autoref{def:rh-no-demon-zeta-certificate}.
+\end{proof}
+
+\begin{corollary}[No-demon internal golden certificates give fixed-half readout]
+\label{cor:rh-no-demon-internal-golden-certificates-fixed-half-readout}
+If
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then every accepted non-trivial completed zeta zero has real part
+$1/2$.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-no-demon-internal-golden-certificates-supply-thermodynamic-certificates}
+and then
+\autoref{cor:rh-no-demon-certificates-fixed-half-readouts}.
+\end{proof}
+
+\begin{principle}[No-demon internal golden source load]
+\label{prin:rh-no-demon-internal-golden-source-load}
+The row
+$$
+\mathsf{NoDemonInternalGoldenZetaCertificate}_{\zeta,\varphi}
+$$
+does not replace the analytic bridge obligations.  Its internal golden
+ruler component still depends on the source package of
+\autoref{def:rh-internal-golden-ruler-zeta-certificate}; its boundary
+component still depends on the bridge source row of
+\autoref{def:rh-zeta-golden-lee-yang-bridge-source-row}; and the bridge
+source row still carries the dominant-branch and Rouch\'e homotopy
+obligations isolated in
+\autoref{def:rh-golden-bridge-analytic-subrows}.  The contribution of
+the no-demon row is orthogonal: once those same-island rows are supplied,
+no unledgered information selector may turn the radial factor
+$$
+e^{-r h_a}
+$$
+into a legal phase or compact prime-register gauge.
+\end{principle}
 
 \begin{principle}[Thermodynamic wording preserves the proof boundary]
 \label{prin:rh-thermodynamic-wording-proof-boundary}
