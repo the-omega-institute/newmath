@@ -1,4 +1,5 @@
 import BedcMathlibBridge.Export.Int
+import BedcMathlibBridge.Export.Bool
 import BedcMathlibBridge.Export.Gaussian
 import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
