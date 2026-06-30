@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopSequenceSpaceUp$}
+\label{ch:concrete-instances-bishop-sequence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on sequence spaces over constructive real names, the $\BishopSequenceSpaceUp$ packet records the finite L10 route by which a displayed stream-indexed family of regular rational names is read as a sequence-space object before any completion or Real-facing consumer inspects the terminal seal. It sits over the finite schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the source route of \autoref{ch:concrete-instances-regular-sequence-space-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed sequence-space rows; it does not assert quotient equality of real sequences, selected pointwise representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopSequenceSpace carrier]
+\label{def:bishop-sequence-space-carrier}
+A $\BishopSequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,R,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row, listing the finite sequence indices, precision requests, and observation windows opened by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row, assigning each displayed window the regular rational data read from the scheduled sequence entry.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii, comparisons, and finite arithmetic cells used to compare the scheduled reads.
+\item $Q$ is the $\RegularSequenceSpaceUp$ source route, exposing the sequence-space admission row consumed by the Bishop packet.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $S,R,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, readback, tolerance, source-route, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a sequence-space request through $S,R,D,Q,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopSequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularSequenceSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopSequenceSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,Q,E,H,C,P,N$. It has no coordinate for quotient equality of real sequences, selected pointwise representatives, countable-choice schedules, trichotomy branches, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopSequenceSpace NameCert obligations]
+\label{thm:bishop-sequence-space-namecert-obligations}
+For every accepted $\BishopSequenceSpaceUp$ carrier
+$$
+B=(S,R,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopSequenceSpaceUp}$ surface consists exactly of finite StreamName scheduling through $S$, RegSeqRat readback through $R$, DyadicRatCore tolerance accounting through $D$, RegularSequenceSpace source admission through $Q$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-sequence-space-carrier}. The schedule row $S$, readback row $R$, tolerance row $D$, source-route row $Q$, and seal row $E$ are visible before the structural rows are consumed.
+
+Read the sequence-space route in order. The $\StreamNameUp$ row opens only the finite windows requested by the consumer, $\RegSeqRatUp$ reads those windows as regular rational data, and $\DyadicRatCoreUp$ records the displayed tolerance comparisons.
+
+The $\RegularSequenceSpaceUp$ row supplies the source sequence-space admission, and the terminal $\RealUp$ seal is downstream of that finite route. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet.
+
+Since the carrier contains no quotient sequence equality, selected representative, choice schedule, trichotomy branch, or ambient completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BishopSequenceSpace Stream-RegSeq-Real scope]
+\label{thm:bishop-sequence-space-stream-regseq-real-scope}
+Every completion-facing or Real-facing read of an accepted $\BishopSequenceSpaceUp$ carrier must pass through the finite route
+$$
+S \longmapsto R \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, RegularSequenceSpace source route, terminal Real seal, componentwise transport, replay, provenance, and local naming. It receives no quotient stream, selected pointwise representative, countable choice, trichotomy branch, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(S,R,D,Q,E,H,C,P,N)$. A completion-facing read can inspect only the displayed schedule, readback, tolerance, source-route, seal, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligation theorem of \autoref{thm:bishop-sequence-space-namecert-obligations}. It forces the read through $S,R,D,Q,E$ before the structural rows can export the packet to a downstream consumer.
+
+The structural rows do not add new analytic content. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming preserve the same finite route from StreamName windows to the Real seal.
+
+Therefore every public read is scoped to the StreamName, RegSeqRat, DyadicRatCore, RegularSequenceSpace, and Real rows named in the statement, and the excluded quotient, representative, choice, trichotomy, and completeness surfaces are unavailable.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopSequenceSpaceUp$ completion-facing read exposes a StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, RegularSequenceSpace source route, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data before a downstream consumer reads the terminal seal.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, regular-sequence-space, real: $\BishopSequenceSpaceUp$ is not bijective to any listed sibling because it binds schedule windows, regular rational readback, tolerance arithmetic, sequence-space source admission, Real sealing, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{BishopSequenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopSequenceSpaceUp}
+  \constructivestory{A $\BishopSequenceSpaceUp$ packet is generated from a StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, RegularSequenceSpace source route, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-sequence-space-carrier}, \autoref{thm:bishop-sequence-space-namecert-obligations}, and \autoref{thm:bishop-sequence-space-stream-regseq-real-scope} seed the finite Bishop sequence-space route from displayed stream windows through regular rational readback and dyadic tolerance accounting to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real sequences, selected pointwise representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName scheduling, RegSeqRat readback, DyadicRatCore tolerance exactness, RegularSequenceSpace source routing, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopSequenceSpaceUp.}
+\end{closurestatus}

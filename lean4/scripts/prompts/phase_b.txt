@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization worker <WORKER_ID>.
 
 ## Prompts version
-v5.59 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.60 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -21,6 +21,19 @@ Source meanings:
 
 The existing HARD GATEs (1 of 3 from `top[0..critical_path.dispatch_window.lean)`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 The mandatory top window follows `.pipeline_parallel.json`'s `lean` concurrency value via `critical_path.dispatch_window.lean`, preventing high-concurrency workers from being forced onto the same one or two hot chapters when a 71-line single-file chapter has no sibling surface to disperse claims.
+
+## SUBSTANCE PREFERENCE (round-3 stdInterop adversarial — SOFT, never a reject)
+
+The reverse-replay benchmark (`lean4/scripts/reverse_replay_benchmark.json`) tracks the user's real goal: traditional-math equivalence. While that benchmark has `transferred_to_std=0` and a `blocked_missing_carrier` frontier, the highest-value Lean work is **substance** — theorems advancing real traditional mathematics or its BEDC replay / L0→L1/L2 carrier-preservation evidence — over internal `<X>Up_StdBridge` readback bookkeeping. Internal `_StdBridge` is legitimate BEDC closure but does NOT advance external equivalence, and `bridge_mature_advance` still carries a large internal-bridge queue; do not spend a third of target-selection pressure there while substantive fronts exist.
+
+When filling **SOFT slots** (after the HARD GATEs above are satisfied), PREFER a substantive target — one whose chapter / file / name carries any of:
+- `\origin{human}` (classical-math lineage), or
+- a reverse-replay benchmark object token (`Nat` / `Rat` / `LocatedReal` / `Octonion` / `SternBrocot` / `Kummer` / `Dirichlet`), or
+- a classical-math lexicon token (`abel` / `binomial` / `pascal` / `mersenne` / `perfect` / `dirichlet` / `convolution` / `fibonacci` / `euler` / `bernoulli` / `vandermonde` / `dedekind` / `gauss` / `cauchy` / `banach` / `jensen` / `bessel` / `gronwall` / similar),
+
+whose new theorem connects ≥2 pre-existing BEDC concepts with a real proof (`induction` / `cases` / `calc` / `refine` / ≥2 `have`) — OVER a pure internal `_StdBridge` / `_namecert_obligations` / `*Carrier` scaffold theorem closed by `rfl` / `decide` / a one-step wrapper.
+
+This is a SOFT ordering of SOFT-slot choices, NOT a gate. Base cases (`_zero` / `_one` / `_succ`), recursion-unfold lemmas, and genuine short first-principles theorems remain fully legitimate — they simply don't satisfy the substance preference by themselves. NEVER emit empty targets for this, NEVER skip a recovery / heal / formal_axis_top safety-net target, and NEVER reject a round on this basis. The aim: spend target-selection pressure on real traditional-math substance while internal-bridge closure continues at lower priority.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
