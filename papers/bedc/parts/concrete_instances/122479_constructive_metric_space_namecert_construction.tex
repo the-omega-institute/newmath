@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveMetricSpaceUp$}
+\label{ch:concrete-instances-constructive-metric-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive metric spaces, the $\ConstructiveMetricSpaceUp$ packet records the finite interface needed before an L10 completion consumer may ask for points, located distances, separatedness evidence, or completion ledgers. It is read downstream of the metric naming surface in \autoref{ch:concrete-instances-metric-namecert}, the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational-name route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary of \autoref{ch:concrete-instances-completemetric-namecert}. The packet supplies countable constructive naming data; it does not import host equality, quotients, choice, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Constructive metric-space carrier]
+\label{def:constructive-metric-space-carrier}
+A $\ConstructiveMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,E,d,L,S,R,C,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point-name carrier, read only through finite $\StreamNameUp$ windows.
+\item $E$ is the point classifier, transported by displayed $\hsame$ rows and never by host equality of points.
+\item $d$ is the located-distance service, returning finite $\RegSeqRatUp$ evidence for requested point pairs and requested tolerances.
+\item $L$ is the separatedness-reflection row: a positive located distance is the only exported witness that two point names are apart.
+\item $S$ is the $\StreamNameUp$ window ledger used by point and distance reads.
+\item $R$ is the $\RealUp$ seal row for completed distance names, available only after the located-distance and regular-rational rows have been displayed.
+\item $C$ is the completion ledger tying the point, classifier, located-distance, separatedness, stream, regular-rational, and real-seal rows to downstream $\CompleteMetricUp$ consumers.
+\item $Q$ stores componentwise $\hsame$ transport for the displayed rows.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveMetricSpaceUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveMetricSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,E,d,L,S,R,C,Q,P,N$. It has no coordinate for quotient completion, countable choice, selected representatives, host point equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Constructive metric-space NameCert obligations]
+\label{thm:constructive-metric-space-namecert-obligations}
+For every accepted $\ConstructiveMetricSpaceUp$ carrier $M=(X,E,d,L,S,R,C,Q,P,N)$, the local $\NameCert_{\ConstructiveMetricSpaceUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item point carrier: $X$ admits only finitely requested point-name windows through $S$;
+\item classifier: $E$ compares point names through displayed $\hsame$ and $\Cont$ routes, not through host equality;
+\item located distance: $d$ supplies $\RegSeqRatUp$ evidence for each requested pair and tolerance before the $\RealUp$ seal $R$ is available;
+\item separatedness reflection: $L$ exports apartness only from a displayed positive located-distance row;
+\item completion ledger: $C$ records how $X,E,d,L,S,R,Q,P,N$ may be consumed by a later $\CompleteMetricUp$ packet.
+\end{enumerate}
+No obligation row exports quotient points, selected Cauchy representatives, choice functions, host equality of names, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-metric-space-carrier}. The point carrier, classifier, located-distance row, separatedness-reflection row, stream ledger, real seal, completion ledger, transports, provenance, and local naming row are all visible coordinates of the same finite packet.
+
+The located-distance obligation reads a requested point pair through $X,E,S$ before it reaches the regular-rational evidence in $d$. The real-facing row $R$ is a seal for that displayed distance name, not a completion principle.
+
+The completion ledger $C$ then records the downstream handoff to $\CompleteMetricUp$ consumers. Since the carrier has no quotient row, selected representative row, choice schedule, host equality row, or ambient completeness row, the NameCert surface is exhausted by the five displayed obligations.
+\end{proof}
+
+\begin{theorem}[Constructive metric-space separated completion route]
+\label{thm:constructive-metric-space-separated-completion-route}
+Every downstream completion read of an accepted $\ConstructiveMetricSpaceUp$ carrier must pass through the displayed route
+$$
+X,E,d,L,S,R,C,Q,P,N .
+$$
+The route may hand a $\CompleteMetricUp$ consumer point names, classifier evidence, located distances, separatedness reflection, finite StreamName windows, RegSeqRat distance names, Real seals, transport rows, package provenance, and local naming. It may not hand over quotient-completion equality, a selected limit, countable choice, host point equality, or a theorem that $\RealUp$ is complete.
+\end{theorem}
+\begin{proof}
+Start with the completion ledger $C$. Its only inputs are the visible rows of the carrier, so every completion-facing read is downstream of the point carrier, classifier, located-distance service, separatedness row, window ledger, real seal, transports, provenance, and local NameCert row.
+
+Separatedness is supplied by $L$ only after a positive located-distance row has been displayed. Thus a completion consumer may cite separatedness as a finite reflection of the located metric data, not as host equality or quotient equality.
+
+The terminal handoff to $\CompleteMetricUp$ is therefore a route through countable constructive naming data. It supplies the interface needed by completion work while leaving quotient construction, selected limits, choice, and ambient $\RealUp$ completeness outside this chapter.
+\end{proof}
+
+\falsifiablePrediction{Every $\ConstructiveMetricSpaceUp$ completion-facing read factors through one point carrier, one point classifier, one located-distance service, one separatedness-reflection row, one finite StreamName ledger, one RegSeqRat distance-name route, one RealUp seal, one completion ledger, componentwise hsame transport, package provenance, and local naming.}
+
+\independenceWitness{metric, streamname, regseqrat, real, completemetric: $\ConstructiveMetricSpaceUp$ is not bijective to any listed sibling because it jointly carries point naming, classifier stability, located-distance service, separatedness reflection, finite windows, regular rational distance names, Real seals, completion ledger rows, transport, provenance, and local naming.}
+
+\closureat{ConstructiveMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveMetricSpaceUp}
+  \constructivestory{A $\ConstructiveMetricSpaceUp$ packet is generated from point names, a displayed point classifier, located-distance rows, separatedness reflection, StreamName windows, RegSeqRat distance names, a RealUp seal, a CompleteMetricUp ledger, componentwise hsame transport, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-metric-space-carrier}, \autoref{thm:constructive-metric-space-namecert-obligations}, and \autoref{thm:constructive-metric-space-separated-completion-route} seed the finite constructive metric-space interface consumed by separated completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, countable choice, host equality of points, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked point-carrier admission, classifier stability, located-distance exactness, separatedness reflection, completion-ledger replay, transport, provenance, and local naming for BEDC.Derived.ConstructiveMetricSpaceUp.}
+\end{closurestatus}

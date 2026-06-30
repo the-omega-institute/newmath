@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyApartnessCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-apartness-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyApartnessCriterionUp$ packet records the finite-window criterion by which two regular Cauchy rational names exhibit positive apartness before any quotient real equality, trichotomy principle, or host real order is consulted. It sits between the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the positive dyadic gap evidence of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite separation interface of \autoref{ch:concrete-instances-apartnessreal-namecert}.
+
+\begin{definition}[Regular Cauchy apartness criterion carrier]
+\label{def:apartness-cauchy-criterion-carrier}
+A $\RegularCauchyApartnessCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,R,W,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right $\RegSeqRatUp$ rows, including their displayed rational-value reads and regular Cauchy modulus rows.
+\item $W$ is a common finite $\StreamNameUp$ window that names exactly the finitely many indices inspected on both rows.
+\item $D$ is the positive $\DyadicRatCoreUp$ gap evidence read from the windowed endpoint approximations.
+\item $A$ is the $\ApartnessRealUp$ finite-window separation row produced after the $\RealUp$ seal reads the two regular Cauchy rows as real names.
+\item $H$ records componentwise $\hsame$ transport for $L,R,W,D,A,C,P,N$ and for the two windowed endpoint readbacks.
+\item $C$ records displayed $\Cont$ replay from an apartness request through the two regular Cauchy rows, the common window, the positive dyadic gap, the real seal, and the separation row.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyApartnessCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ApartnessRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyApartnessCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,W,D,A,H,C,P,N$. It has no coordinate for quotient equality of reals, a total order, trichotomy, excluded middle, a selected limit, a host metric, or a completion theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy apartness criterion NameCert obligations]
+\label{thm:apartness-cauchy-criterion-namecert-obligations}
+For every accepted $\RegularCauchyApartnessCriterionUp$ carrier
+$$
+Q=(L,R,W,D,A,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyApartnessCriterionUp}$ surface consists exactly of left and right $\RegSeqRatUp$ admission, common finite $\StreamNameUp$ window exposure, positive $\DyadicRatCoreUp$ gap evidence, $\RealUp$ seal compatibility, $\ApartnessRealUp$ separation-row handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apartness-cauchy-criterion-carrier}. The rows $L$ and $R$ supply the two regular rational names, while $W$ restricts the inspection to a common finite window.
+
+Read the dyadic gap row $D$. Because $D$ is positive evidence over the displayed windowed endpoint readbacks, the criterion uses a finite witness rather than a total comparison of completed reals.
+
+The row $A$ is then obtained by replaying the $\RealUp$ seal and the $\ApartnessRealUp$ finite-window separation interface on the same displayed data. The structural rows $H,C,P,N$ transport, replay, source, and name only these finite rows, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy apartness criterion Real seal handoff]
+\label{thm:apartness-cauchy-criterion-real-seal-handoff}
+Let
+$$
+Q=(L,R,W,D,A,H,C,P,N)
+$$
+be an accepted $\RegularCauchyApartnessCriterionUp$ carrier. Any $\RealUp$ or $\ApartnessRealUp$ consumer that reads the positive apartness of the two regular Cauchy names must first expose $L,R,W,D$ and the structural rows $H,C,P,N$. The handoff is the finite route
+$$
+\RegSeqRatUp,\StreamNameUp,\DyadicRatCoreUp
+\longmapsto
+\RealUp,\ApartnessRealUp ,
+$$
+not quotient equality of completed reals, a host real order, trichotomy, a selected limit, or a choice principle over tails.
+\end{theorem}
+\begin{proof}
+Start from the two $\RegSeqRatUp$ rows and the common window. The finite window $W$ identifies which rational approximants are inspected, so the handoff has an explicit observation schedule before the real-name seal is consumed.
+
+Replay the positive dyadic gap $D$ through the displayed endpoint readbacks. This produces the separation data required by the $\ApartnessRealUp$ finite-window row after the $\RealUp$ seal reads the same regular Cauchy names.
+
+Finally use $H,C,P,N$ to transport, replay, source, and locally name the handoff. Since every consumer must pass through these rows, the public output is positive apartness evidence only, with no quotient equality, trichotomy, host order, selected limit, or tail-choice principle added.
+\end{proof}
+
+\closureat{RegularCauchyApartnessCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyApartnessCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apartness-cauchy-criterion-carrier}, \autoref{thm:apartness-cauchy-criterion-namecert-obligations}, and \autoref{thm:apartness-cauchy-criterion-real-seal-handoff} seed the finite-window apartness criterion over regular Cauchy rational rows, common stream windows, positive dyadic gaps, real seals, apartness handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient equality of reals, trichotomy, total real order, host metric apartness, selected limits, completion, or choice over tails.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, positive dyadic-gap stability, real-seal handoff, apartness-row handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyApartnessCriterionUp.}
+  \constructivestory{A $\RegularCauchyApartnessCriterionUp$ packet is generated from two RegSeqRatUp rows, a common finite StreamNameUp window, positive DyadicRatCoreUp gap evidence, RealUp seal compatibility, an ApartnessRealUp separation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+\end{closurestatus}

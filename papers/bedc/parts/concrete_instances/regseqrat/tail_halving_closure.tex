@@ -53,3 +53,17 @@ Now read the nonescape wording of \autoref{thm:regseqrat-tail-halving-closure}. 
 
 Therefore the terminal halved window is exactly the selection-free Real-seal input. No other finite window can enter the seal, because the displayed route contains no additional row from which a different finite input could be selected.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-halving stability]
+\label{thm:regseqrat-tail-halving-stability}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $P'$ be a finite tail-halving ledger over the same $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ classifier and readback rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ support. If $P'$ is obtained from $P$ by a displayed finite halving ledger, then replacing $P$ by $P'$ preserves the downstream $\RealUp$ seal handoff.
+
+The preserved handoff is still the finite terminal-window route and exports no quotient stream equality, selected limit, host real equality, countable choice, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-halving-induction} to the displayed finite halving ledger from $P$ to $P'$. It composes the halving steps through the same StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat classifier and readback rows, and downstream RealUp seal.
+
+Now apply \autoref{thm:regseqrat-tail-halving-terminal-real-seal} to the terminal ledger. The theorem identifies the terminal halved window as the only finite input consumed by the downstream $\RealUp$ seal.
+
+The support rows named in the statement are precisely the rows retained by those two theorems: $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ remain componentwise over the same public packet. Hence the replacement by $P'$ preserves the seal handoff and cannot add quotient stream equality, selected limits, host real equality, choice, completion data, or ambient completeness.
+\end{proof}
