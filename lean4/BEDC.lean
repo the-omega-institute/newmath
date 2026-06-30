@@ -11583,6 +11583,7 @@ import BEDC.Derived.ResidueUp.TasteGate
 import BEDC.Derived.ResolventIdentityUp
 import BEDC.Derived.ResolventIdentityUp.TasteGate
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
+import BEDC.Derived.ResultantUp
 import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.NameCertObligations
 import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
