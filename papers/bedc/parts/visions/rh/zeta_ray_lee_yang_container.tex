@@ -1,0 +1,145 @@
+\chapter{Zeta Ray Lee--Yang Container}
+\label{ch:visions-rh-zeta-ray-lee-yang-container}
+\origin{ai}
+
+\autoref{ch:visions-rh-golden-bridge-three-level-closure} records the
+multivariate Lee--Yang container direction for the golden bridge.  The
+present chapter sharpens that direction to the actual locus available to
+zeta packets.  The variables in a zeta packet are not independent
+polydisk coordinates; they are synchronized by a single complex height
+parameter.
+
+\begin{definition}[Zeta logarithmic ray]
+\label{def:rh-zeta-logarithmic-ray}
+Let $A_m$ be a finite active-mode set with heights $h_a>0$.  The
+\emph{zeta logarithmic ray} is the real two-parameter surface
+$$
+\mathcal R_{A_m}
+:=
+\left\{
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+:
+r,t\in\mathbb R
+\right\}.
+$$
+Its off-boundary part is
+$$
+\mathcal R_{A_m}^{\mathrm{off}}
+:=
+\left\{
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+:
+r,t\in\mathbb R,\ r\ne0
+\right\},
+$$
+and its critical phase part is
+$$
+\mathcal R_{A_m}^{\mathrm{crit}}
+:=
+\left\{
+\left(e^{-ith_a}\right)_{a\in A_m}
+:
+t\in\mathbb R
+\right\}.
+$$
+\end{definition}
+
+\begin{definition}[Zeta-ray Lee--Yang stability]
+\label{def:rh-zeta-ray-lee-yang-stability}
+A finite packet $\mathcal Z_m(\mathbf u)$ with active heights
+$(h_a)_{a\in A_m}$ is \emph{zeta-ray Lee--Yang stable} if
+$$
+\mathcal Z_m
+\left(
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+\right)
+\ne0
+$$
+for every $r\ne0$ and every $t\in\mathbb R$.  This is weaker than
+nonvanishing on the whole polydisk and stronger than a one-variable
+diagonal Lee--Yang assertion.
+\end{definition}
+
+\begin{definition}[Exponential Lee--Yang specialization]
+\label{def:rh-exponential-lee-yang-specialization}
+Given a multivariate packet $\mathcal Z_m(u_a)_{a\in A_m}$ and heights
+$h_a>0$, its \emph{exponential specialization} is the exponential
+polynomial
+$$
+\Phi_m(w)
+:=
+\mathcal Z_m\left((e^{-w h_a})_{a\in A_m}\right).
+$$
+The packet is \emph{exponential Lee--Yang stable} for the height vector
+if
+$$
+\Phi_m(w)=0
+\quad\Longrightarrow\quad
+\Re(w)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Zeta-ray stability gives fixed-half readout]
+\label{thm:rh-zeta-ray-stability-fixed-half-readout}
+Let a zero-relevant golden packet be Rouch\'e equivalent on a zero
+island to a packet $\mathcal Z_m$ that is zeta-ray Lee--Yang stable for
+the same active heights.  Then every zero captured on that island has
+real part $1/2$.
+\end{theorem}
+
+\begin{proof}
+Let a captured zero have readout
+$$
+\rho=\frac12+r+it.
+$$
+If $r\ne0$, then its active variables form a point of
+$\mathcal R_{A_m}^{\mathrm{off}}$:
+$$
+\left(e^{-(\rho-1/2)h_a}\right)_{a\in A_m}
+=
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}.
+$$
+Zeta-ray Lee--Yang stability says that $\mathcal Z_m$ has no zero at
+that point.  The Rouch\'e equivalence gives the same zero count on the
+same island, so the captured zero cannot have $r\ne0$.  Hence $r=0$.
+\end{proof}
+
+\begin{definition}[Prime-height Hermite--Biehler row]
+\label{def:rh-prime-height-hb-row}
+The source row
+$$
+\mathsf{PrimeHeightHB}
+$$
+asserts that the exponential specialization
+$$
+\Phi_m(w)=
+\mathcal Z_m\left((e^{-w h_a})_{a\in A_m}\right)
+$$
+of the prime-compatible Zeckendorf container belongs to a
+Hermite--Biehler, de Branges, or equivalent exponential-polynomial
+stability class forcing all zeros of $\Phi_m$ in the zero-relevant
+island to satisfy $\Re(w)=0$.
+\end{definition}
+
+\begin{principle}[Ray stability is the required container surface]
+\label{prin:rh-ray-stability-container-surface}
+Full polydisk Lee--Yang nonvanishing is more than the zeta bridge
+requires.  The zeta variables are tied by the same parameter
+$w=s-1/2$ and can only move on the logarithmic ray of
+\autoref{def:rh-zeta-logarithmic-ray}.  The relevant replacement for a
+global multivariate stability claim is therefore
+$$
+\mathsf{ZetaRayStability}
+\qquad
+\text{or structurally}
+\qquad
+\mathsf{PrimeHeightHB}.
+$$
+Together with a same-island capture row
+$$
+\mathsf{PrimePacketToZetaCapture},
+$$
+these rows are sufficient for the no-scale readout of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{principle}
+
