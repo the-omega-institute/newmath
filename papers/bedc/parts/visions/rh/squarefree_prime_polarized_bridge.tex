@@ -203,3 +203,109 @@ Euler-product contour row, or an explicit-formula tail ledger.  Without
 such a ledger, squarefree support is only a formal address surface and
 does not supply the local Rouch\'e bridge.
 \end{principle}
+
+\begin{definition}[Stable squarefree prime approximation of Xi]
+\label{def:rh-stable-squarefree-prime-approximation-xi}
+The source row
+$$
+\mathsf{StableSquarefreePrimeApproximationOfXi}
+$$
+asserts that there is a source-side sequence of functions
+$$
+C_m(s)
+=
+\sum_{n\in\mathcal N_{D_m}^{\mathrm{sq}}}
+b_m(n)n^{1/2-s}
+$$
+such that each $C_m$ is the prime-height readback of a polarized
+Lee--Yang seed in the sense of
+\autoref{def:rh-prime-height-polarized-readback}, and
+$$
+C_m\to \Xi
+$$
+uniformly on compact subsets, with the ordinary contour margins obtained
+from compact-uniform convergence on each boundary curve.  The
+construction of $C_m$ is fixed by the source ledger before any zero
+island is selected.
+\end{definition}
+
+\begin{theorem}[Stable squarefree approximation gives golden closure]
+\label{thm:rh-stable-squarefree-approximation-gives-golden-closure}
+If $\mathsf{StableSquarefreePrimeApproximationOfXi}$ holds, then the
+source row $\mathsf{GoldenLeeYangClosureOfXi}$ of
+\autoref{def:rh-source-side-golden-lee-yang-closure} holds.
+\end{theorem}
+
+\begin{proof}
+Each $C_m$ is a prime-height readback of a polarized Lee--Yang seed.
+Hence, by \autoref{prin:rh-polarization-supplies-container-row}, it has
+no zeros when all prime-height variables lie strictly inside the unit
+disk or strictly outside it.  For
+$$
+s=\frac12+r+it
+$$
+with $r\ne0$, the variables
+$$
+e^{-(s-1/2)\log p_j}
+$$
+all have modulus $e^{-r\log p_j}$, hence are all strictly inside the
+unit disk when $r>0$ and all strictly outside it when $r<0$.  Therefore
+each $C_m$ has no zero off the critical line.  The stated
+compact-uniform convergence supplies the boundary Rouch\'e margins on
+every fixed zero-exclusion contour, and the construction is source-side.
+These are precisely the closure rows of
+\autoref{def:rh-source-side-golden-lee-yang-closure}.
+\end{proof}
+
+\begin{corollary}[Stable squarefree approximation gives fixed-half readout]
+\label{cor:rh-stable-squarefree-approximation-fixed-half}
+If $\mathsf{StableSquarefreePrimeApproximationOfXi}$ holds, then $\Xi$
+has no zero with real part different from $1/2$.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-stable-squarefree-approximation-gives-golden-closure}
+and then
+\autoref{thm:rh-golden-lee-yang-closure-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Source-side squarefree obstruction]
+\label{prin:rh-source-side-squarefree-obstruction}
+The row
+$$
+\mathsf{StableSquarefreePrimeApproximationOfXi}
+$$
+is stronger and less circular than local squarefree dominance.  It does
+not compare a packet to a container chosen near a zero; it asks for a
+single source-side compact-uniform container tower.  Its difficulty is
+arithmetic: squarefree prime products naturally occur in Euler factors
+for reciprocal or signed product packets, while $\Xi$ contains the
+completed zeta numerator.  Thus prime powers, reciprocal contours,
+logarithmic derivatives, or explicit-formula tails must be accounted for
+by a displayed ledger before the source-side closure row can be
+claimed.
+\end{principle}
+
+\begin{definition}[Squarefree closure companion rows]
+\label{def:rh-squarefree-closure-companion-rows}
+The squarefree source-side route has three companion rows.  The row
+$$
+\mathsf{StableSquarefreePrimeApproximationOfXi^{-1}}
+$$
+uses stable squarefree packets to control the reciprocal completed
+function or an argument-principle contour, so that zeros of $\Xi$ are
+recorded as poles in a no-scale ledger.  The row
+$$
+\mathsf{LeeYangWeilPositivity}
+$$
+translates Lee--Yang stability of the squarefree packets into a Weil
+positivity inequality through the explicit formula.  The row
+$$
+\mathsf{LeeYangToHermiteBiehlerSourceContainer}
+$$
+transports the polarized squarefree packets into a Hermite--Biehler or
+de Branges source container.  These rows are alternatives to direct
+compact-uniform approximation of $\Xi$; none is a consequence of local
+Rouch\'e capture alone.
+\end{definition}
