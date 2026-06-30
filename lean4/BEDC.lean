@@ -6368,6 +6368,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.StdBridge
 import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.CofinalReindexStability
+import BEDC.Derived.FinitePrefixStreamUp.CompletionSectionPullback
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
 import BEDC.Derived.FinitePrefixStreamUp.ObservationCutStability
