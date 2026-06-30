@@ -1,0 +1,201 @@
+\chapter{Golden Lee--Yang Bridge Obligations}
+\label{ch:visions-rh-golden-lee-yang-bridge-obligations}
+\origin{ai}
+
+\autoref{ch:visions-rh-resolution-refinement-induction} supplies the
+golden ruler, the Zeckendorf truncation ledger, and weak eta
+Rouch\'e capture.  The present chapter isolates the source rows needed
+to turn that weak capture into a Lee--Yang type boundary-stable packet.
+The bridge is a source theorem about the same zero island; it is not a
+restatement of fixed-half readout.
+
+\begin{definition}[Fibonacci path carrier]
+\label{def:rh-fibonacci-path-carrier}
+For a width $m$, let $X_m$ be the stable Zeckendorf window of
+\autoref{def:zeckendorf-stable-window}.  A \emph{Fibonacci path carrier}
+is the finite hard-core packet
+$$
+I_m(t):=\sum_{z\in X_m} t^{|z|},
+\qquad
+|z|:=\sum_{k=1}^{m}z_k.
+$$
+Equivalently, $X_m$ is the independent-set carrier of the path graph on
+$m$ vertices.  The no-adjacent Zeckendorf grammar therefore supplies a
+finite path-model source row, but this row is only combinatorial until
+it is tied to a completed zeta zero island.
+\end{definition}
+
+\begin{definition}[Lee--Yang lift certificate]
+\label{def:rh-lee-yang-lift-certificate}
+Let $A(t)$ be a finite path-model polynomial of degree $d$.  Its
+Joukowsky lift is the polynomial
+$$
+\mathcal L_A(u)
+:=
+(1+u)^{2d}
+A\left(-\frac{u}{(1+u)^2}\right).
+$$
+A \emph{Lee--Yang lift certificate} for $A$ is a finite ledger proving
+that every nontrivial zero of $\mathcal L_A$ lies on the unit circle, or
+equivalently that the lifted zero-relevant packet has no zero branch in
+the strict inside or strict outside regions
+$$
+0<|u|<1,
+\qquad
+|u|>1.
+$$
+The certificate is a unit-boundary row for the lifted path packet.  It
+does not by itself identify that packet with an eta or zeta packet.
+\end{definition}
+
+\begin{definition}[Golden bridge witness]
+\label{def:rh-golden-lee-yang-bridge-witness}
+Let
+$$
+\mathcal G_m(\rho)=(D_m,P_m,R_m,\Gamma_m)
+$$
+be a golden eta certificate packet in the sense of
+\autoref{def:rh-golden-eta-certificate-packet}.  A
+\emph{golden Lee--Yang bridge witness} for $\mathcal G_m(\rho)$ consists
+of a Fibonacci path carrier $I_{k_m}$, a lifted packet
+$\mathcal L_m$, and a bridge ledger with the following rows:
+$$
+|R_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+a Lee--Yang lift certificate for $\mathcal L_m$, a same-island transfer
+from $P_m$ to $\mathcal L_m$, radial purity, and dominance.
+
+The same-island transfer may be given by a boundary comparison
+$$
+|P_m(s)-\mathcal L_m(s)|<|P_m(s)|
+\qquad
+s\in\partial D_m,
+$$
+or by a ledgered homotopy $H_{\tau}$ with
+$$
+H_0=P_m,
+\qquad
+H_1=\mathcal L_m,
+\qquad
+0\notin H_{\tau}(\partial D_m)
+\quad
+0\le\tau\le1.
+$$
+Radial purity means that the comparison error and homotopy rows contain
+only phase, finite source, and $p$-adic or Zeckendorf ledger data, never
+an unrecorded factor $e^{-r h}$.  Dominance means that the lifted path
+packet is selected by the source ledger as the zero-relevant branch,
+rather than chosen after the zero island is known.
+\end{definition}
+
+\begin{principle}[Bridge rows are independent]
+\label{prin:rh-golden-bridge-rows-independent}
+The rows in \autoref{def:rh-golden-lee-yang-bridge-witness} have
+separate proof roles.  The eta Rouch\'e inequality captures the
+completed zero island.  The path carrier supplies the no-adjacent
+Fibonacci grammar.  The Lee--Yang lift supplies unit-boundary stability
+for the lifted path packet.  The same-island transfer proves that the
+eta packet and the lifted packet read the same local zero event.  Radial
+purity prevents the transfer from hiding a real positive scale factor.
+Dominance makes the lifted packet canonical rather than interpolatory.
+\end{principle}
+
+\begin{theorem}[A golden bridge witness supplies boundary stability]
+\label{thm:rh-golden-bridge-witness-supplies-boundary-stability}
+Let a completed zero island be captured by a golden eta packet
+$\mathcal G_m(\rho)$ and let
+\autoref{def:rh-golden-lee-yang-bridge-witness} supply a bridge witness
+whose active lifted variables have the centered form
+$$
+u_a(s)=e^{-(s-1/2)h_a},
+\qquad
+h_a>0.
+$$
+If the island readout is
+$$
+s=\frac12+r+it,
+$$
+then the bridge witness excludes $r\ne0$ for that island.
+\end{theorem}
+
+\begin{proof}
+The same-island row transfers the local zero event from the eta packet
+to the lifted Lee--Yang packet without changing the winding ledger on
+$\partial D_m$.  Hence the lifted packet has a zero-relevant branch at
+the same readout.  For each active variable,
+$$
+|u_a(s)|
+=
+\left|e^{-(s-1/2)h_a}\right|
+=
+e^{-rh_a}.
+$$
+If $r>0$, then every active variable lies in the strict inside region
+$|u_a(s)|<1$.  If $r<0$, then every active variable lies in the strict
+outside region $|u_a(s)|>1$.  Both alternatives are forbidden by the
+Lee--Yang lift certificate, and radial purity prevents the bridge from
+absorbing the contradiction into an unledgered scale factor.  Therefore
+$r=0$.
+\end{proof}
+
+\begin{definition}[Golden Lee--Yang bridge source row]
+\label{def:rh-zeta-golden-lee-yang-bridge-source-row}
+The source row
+$$
+\mathsf{ZetaGoldenLeeYangBridge}
+$$
+asserts that every accepted non-trivial completed zeta zero has a
+cofinal golden certificate tower whose sufficiently fine levels carry
+golden Lee--Yang bridge witnesses.  The witnesses must be compatible
+under refinement: the zero island, Zeckendorf address, lifted path
+packet, same-island transfer, radial-purity row, and dominance row at
+level $m+1$ restrict to the corresponding level-$m$ rows.
+\end{definition}
+
+\begin{theorem}[The bridge source row gives golden stable capture]
+\label{thm:rh-golden-bridge-source-row-gives-stable-capture}
+If $\mathsf{ZetaGoldenLeeYangBridge}$ holds, then
+$$
+\mathsf{GoldenStableCaptureBridge}_{\zeta}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Let an accepted non-trivial completed zeta zero be given.  The bridge
+source row supplies a cofinal golden tower with bridge witnesses at
+sufficiently fine levels.  Each witness contains the weak eta capture
+row, the Zeckendorf or Fibonacci path packet, the Lee--Yang
+unit-boundary certificate, and a same-island transfer.  These are exactly
+the rows required by the golden stable capture bridge of
+\autoref{def:rh-golden-stable-capture-bridge}, with the additional
+radial-purity and dominance ledgers recording canonicity of the source.
+Thus the zero is covered by
+$\mathsf{GoldenStableCaptureBridge}_{\zeta}$.
+\end{proof}
+
+\begin{corollary}[Golden Lee--Yang bridge suffices for fixed-half readout]
+\label{cor:rh-golden-lee-yang-bridge-fixed-half-readout}
+If $\mathsf{ZetaGoldenLeeYangBridge}$ holds, then every accepted
+non-trivial completed zeta zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-golden-bridge-source-row-gives-stable-capture},
+the golden stable capture coverage target holds.  Apply
+\autoref{thm:rh-golden-stable-capture-coverage-fixed-half}.
+\end{proof}
+
+\begin{principle}[Dominant branch source load]
+\label{prin:rh-golden-dominant-branch-source-load}
+The dominant branch row is the analytic load of the bridge.  It must
+show that the lifted Fibonacci path packet is the zero-relevant finite
+source for the displayed island, with tail and comparison budgets strong
+enough to preserve the boundary gap.  Without that row, a Lee--Yang
+stable path packet and a weak eta capture packet remain two unrelated
+finite objects.  With it, the same island is controlled by a
+unit-boundary packet, and the radial scale coordinate has no legal
+place to close.
+\end{principle}
