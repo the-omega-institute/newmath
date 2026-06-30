@@ -160,4 +160,105 @@ theorem BishopCompletionComparisonCarrier_seal_nonescape
   }
   exact ⟨cert, replayBoundaryUnary, replayLimitUnary, replayLocatedUnary, realSealUnary⟩
 
+theorem BishopCompletionComparisonCarrier_located_filter_comparison [AskSetup] [PackageSetup]
+    {regular boundary locatedLimit locatedReal realSeal replayToBoundary replayToLimit
+      replayToLocated provenance localName filterWindow regRead dyadicRead comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory regular →
+      UnaryHistory boundary →
+        UnaryHistory locatedLimit →
+          UnaryHistory locatedReal →
+            UnaryHistory localName →
+              UnaryHistory filterWindow →
+                UnaryHistory regRead →
+                  UnaryHistory dyadicRead →
+                    Cont regular boundary replayToBoundary →
+                      Cont replayToBoundary locatedLimit replayToLimit →
+                        Cont replayToLimit locatedReal replayToLocated →
+                          Cont replayToLocated localName realSeal →
+                            Cont filterWindow regRead dyadicRead →
+                              Cont dyadicRead realSeal comparisonRead →
+                                PkgSig bundle provenance pkg →
+                                  PkgSig bundle comparisonRead pkg →
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row comparisonRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row regular ∨ hsame row boundary ∨
+                                            hsame row locatedLimit ∨ hsame row locatedReal ∨
+                                              hsame row realSeal ∨ hsame row filterWindow ∨
+                                                hsame row regRead ∨ hsame row dyadicRead ∨
+                                                  hsame row comparisonRead ∨
+                                                    hsame row provenance ∨ hsame row localName)
+                                        (fun row : BHist =>
+                                          UnaryHistory row ∧
+                                            Cont filterWindow regRead dyadicRead ∧
+                                              Cont dyadicRead realSeal comparisonRead ∧
+                                                PkgSig bundle comparisonRead pkg)
+                                        hsame ∧
+                                      UnaryHistory realSeal ∧ UnaryHistory comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro regularUnary boundaryUnary locatedLimitUnary locatedRealUnary localNameUnary
+    filterWindowUnary regReadUnary dyadicReadUnary boundaryRoute limitRoute locatedRoute
+    sealRoute filterRoute comparisonRoute _provenancePkg comparisonPkg
+  have replayBoundaryUnary : UnaryHistory replayToBoundary :=
+    unary_cont_closed regularUnary boundaryUnary boundaryRoute
+  have replayLimitUnary : UnaryHistory replayToLimit :=
+    unary_cont_closed replayBoundaryUnary locatedLimitUnary limitRoute
+  have replayLocatedUnary : UnaryHistory replayToLocated :=
+    unary_cont_closed replayLimitUnary locatedRealUnary locatedRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed replayLocatedUnary localNameUnary sealRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed filterWindowUnary regReadUnary filterRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed dyadicUnary realSealUnary comparisonRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row comparisonRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row regular ∨ hsame row boundary ∨ hsame row locatedLimit ∨
+              hsame row locatedReal ∨ hsame row realSeal ∨ hsame row filterWindow ∨
+                hsame row regRead ∨ hsame row dyadicRead ∨ hsame row comparisonRead ∨
+                  hsame row provenance ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont filterWindow regRead dyadicRead ∧
+              Cont dyadicRead realSeal comparisonRead ∧ PkgSig bundle comparisonRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro comparisonRead
+        ⟨hsame_refl comparisonRead, comparisonUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inl source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, filterRoute, comparisonRoute, comparisonPkg⟩
+  }
+  exact ⟨cert, realSealUnary, comparisonUnary⟩
+
 end BEDC.Derived.BishopCompletionComparisonUp
