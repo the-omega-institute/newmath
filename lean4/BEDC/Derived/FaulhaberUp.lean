@@ -461,4 +461,38 @@ theorem powerSumNat_small_values :
       powerSumNat 3 3 = 36 := by
   exact ⟨rfl, rfl, rfl⟩
 
+theorem faulhaberCoreConstructiveExport (n : Nat) :
+    (∀ p : Nat, powerSumNat p 0 = 0) ∧
+      (∀ p m : Nat,
+        powerSumNat p (Nat.succ m) =
+          powerSumNat p m + powNat (Nat.succ m) p) ∧
+      (∀ p : Nat, rawPowerSum p 0 = rawZero) ∧
+      (∀ p m : Nat,
+        rawPowerSum p (Nat.succ m) =
+          rawAdd (rawPowerSum p m) (rawPowNat (Nat.succ m) p)) ∧
+      (∀ p m : Nat,
+        rawFaulhaberFormula p m =
+          rawDivNat
+            (rawAdd
+              (rawFaulhaberBernoulliPolyEval p (m + 1))
+              (rawNeg (rawFaulhaberBernoulliPolyEval p 1)))
+            p) ∧
+      2 * powerSumNat 1 n = n * (n + 1) ∧
+      6 * powerSumNat 2 n = n * (n + 1) * (2 * n + 1) ∧
+      4 * powerSumNat 3 n = n * n * (n + 1) * (n + 1) ∧
+      powerSumNat 1 3 = 6 ∧
+      powerSumNat 2 3 = 14 ∧
+      powerSumNat 3 3 = 36 := by
+  exact ⟨powerSumNat_zero,
+    powerSumNat_succ,
+    rawPowerSum_zero,
+    rawPowerSum_succ,
+    rawFaulhaber_formula,
+    powerSum_one_closed_scaled n,
+    powerSum_two_closed_scaled n,
+    powerSum_three_closed_scaled n,
+    powerSumNat_small_values.left,
+    powerSumNat_small_values.right.left,
+    powerSumNat_small_values.right.right⟩
+
 end BEDC.Derived.FaulhaberUp
