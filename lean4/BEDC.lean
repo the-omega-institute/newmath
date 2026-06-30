@@ -7508,6 +7508,7 @@ import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.ClassifierObligation
 import BEDC.Derived.LayeredRelationGateUp.ConsumerRoute
 import BEDC.Derived.LayeredRelationGateUp.LedgerObligation
+import BEDC.Derived.LayeredRelationGateUp.ObligationClosure
 import BEDC.Derived.LayeredRelationGateUp.SameSchemaNonidentity
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
@@ -9719,6 +9720,7 @@ import BEDC.Derived.PhaseTransformLadderUp
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.GapLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationCarrier
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
@@ -10865,6 +10867,7 @@ import BEDC.Derived.RealWindowSynchronizerUp.Nonescape
 import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealZeroUp
+import BEDC.Derived.RealZeroUp.TasteGate
 import BEDC.Derived.Real_modulus_of_convergenceUp
 import BEDC.Derived.RealityConstrained.ConstructiveInfoGen
 import BEDC.Derived.RealityConstrained.LayeredNormalForms
@@ -11063,6 +11066,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.FieldHandoff
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.FormalAxisTarget
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.InverseWindowConsumption
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.LocatedReciprocalHandoff
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
@@ -12961,6 +12965,7 @@ import BEDC.Derived.TypedExampleReductionTraceUp
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
 import BEDC.Derived.TypedGapSocketTaxonomyUp.NameCertObligations
 import BEDC.Derived.TypedGapSocketTaxonomyUp.NoncollapsePrediction
+import BEDC.Derived.TypedGapSocketTaxonomyUp.PublicExport
 import BEDC.Derived.TypedGapSocketTaxonomyUp.TasteGate
 import BEDC.Derived.TypedNormalFormDeciderUp.TasteGate
 import BEDC.Derived.TypedReductionNormalFormUp
@@ -13460,6 +13465,7 @@ import BEDC.Derived.WronskianUp.DeterminantLedgerExactness
 import BEDC.Derived.WronskianUp.DeterminantRouteStability
 import BEDC.Derived.WronskianUp.DifferentialEquationConsumerHandoff
 import BEDC.Derived.WronskianUp.DifferentialScopeLedger
+import BEDC.Derived.WronskianUp.L10ScopeBinding
 import BEDC.Derived.WronskianUp.LedgerExactness
 import BEDC.Derived.WronskianUp.LinearDependenceBoundary
 import BEDC.Derived.WronskianUp.LinearDependenceWitness
