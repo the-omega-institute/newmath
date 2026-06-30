@@ -249,6 +249,22 @@ Use row totality and checker-cell locality, \autoref{thm:typed-example-coverage-
 Apply non-escape and critical-path spend exhaustion, \autoref{thm:typed-example-coverage-matrix-nonescape} and \autoref{thm:typed-example-coverage-matrix-criticalpath-budget-exhaustion}. They keep gallery, checker, beta-boundary, and regression-spend reads tied to the same family row and rule out subject reduction, normalization, checker completeness, and unindexed budget use. The public certificate is therefore exactly the displayed surface $F,G,C,B,R,E,H,K,P,N$.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix formal target row]
+\label{thm:typed-example-coverage-matrix-formal-target-row}
+The next formal target surface for $\TypedExampleCoverageMatrixUp$ consists of a $\mathsf{Nontrivial}$ witness pair, a $\mathsf{FieldFaithful}$ mk-field projection, and TasteGate single-carrier alignment over the displayed rows
+$$
+F,G,C,B,R,E,H,K,P,N .
+$$
+This target surface is confined to the already displayed coverage-matrix carrier, row-totality evidence, checker-cell locality, family exhaustion, TasteGate obligation surface, and public certificate. It does not include checker completeness, subject reduction, normalization, arbitrary beta closure, or gallery soundness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:typed-example-coverage-matrix-carrier} to supply the witness pair and mk-field projections from the displayed rows $F,G,C,B,R,E,H,K,P,N$.
+
+Apply row totality, checker-cell locality, and family exhaustion, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, and \autoref{thm:typed-example-coverage-matrix-family-exhaustion}. These keep every gallery, checker, beta-boundary, and regression-spend cell tied to the same finite family row.
+
+Finally apply the TasteGate obligation surface and the public certificate, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface} and \autoref{thm:typed-example-coverage-matrix-public-certificate}. They identify the single-carrier alignment surface and exclude checker completeness, subject reduction, normalization, arbitrary beta closure, and gallery soundness from the target.
+\end{proof}
+
 \falsifiablePrediction{If the coverage-matrix row is removed, a checker-audit consumer can no longer verify that every accepted typed-example family has paired gallery, checker, beta, and regression-spend cells.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, typedexampleauditbudget, betastepboundary. None carries the combined matrix-cell carrier because each sibling exposes one surface family, while the coverage matrix stores the shared family index and the paired gallery, checker, beta, and regression-spend cells in one packet.}
