@@ -102,13 +102,28 @@ Finally apply \autoref{thm:circle-compact-metric-boundary}. The compact and metr
 \end{proof}
 \leanchecked{BEDC.Derived.CircleUp.CircleCarrier\_real\_metric\_scope\_route}
 
+\begin{theorem}[Circle Real metric scoped closure]
+\label{thm:circle-real-metric-scoped-closure}
+Every accepted $\CircleUp$ read is scoped exactly by the carrier rows $B,R,M,K,S,H,P,N$ of \autoref{def:circle-carrier}, the displayed $\BHist$ packet, componentwise $\hsame$ transport, $\Pkg$ provenance, local $\NameCert_{\CircleUp}$ naming, and the sibling surfaces $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, and optional $\SOneUp$. The scoped route exports no ambient plane, quotient-angle equality, selected parametrization, global orientation, or identification of $\CircleUp$ with $\SOneUp$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:circle-namecert-obligations}. The accepted read begins with the carrier rows $B,R,M,K,S,H,P,N$ and the local $\NameCert_{\CircleUp}$ surface, so no unlisted coordinate can enter the scope.
+
+Use \autoref{thm:circle-sone-boundary-handoff} and \autoref{thm:circle-sone-real-seal-route}. These results keep the optional $\SOneUp$ row as a handoff from the boundary and real-coordinate rows, not as an identification of the circle packet with the phase-group sibling.
+
+Apply \autoref{thm:circle-compact-metric-boundary} and \autoref{thm:circle-real-metric-scope-route}. The compact, metric, and real rows already determine the closed-boundary inspection surface through $\BHist$, $\hsame$, $\Pkg$, and local naming.
+
+Thus the scoped closure is exactly the displayed BEDC carrier surface over $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, and optional $\SOneUp$, while ambient planes, quotient-angle equality, selected parametrizations, global orientations, and carrier identification with $\SOneUp$ remain outside the packet.
+\end{proof}
+
 \closureat{CircleUp}{seedStr}
 \closureat{CircleUp}{obligationStr}
+\closureat{CircleUp}{scopedStr}
 
 \begin{closurestatus}{\CircleUp}
   \constructivestory{A $\CircleUp$ packet is generated from boundary-loop, Real-coordinate, metric-neighborhood, compact-cover, optional SOne handoff, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-metric-subspace-carrier-obligation}, \autoref{thm:circle-sone-real-seal-route}, and \autoref{thm:circle-compact-metric-boundary} bind the topological boundary certificate, compact-metric obligations, and algebraic phase handoff.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-metric-subspace-carrier-obligation}, \autoref{thm:circle-sone-real-seal-route}, \autoref{thm:circle-compact-metric-boundary}, \autoref{thm:circle-real-metric-scope-route}, and \autoref{thm:circle-real-metric-scoped-closure} bind the topological boundary certificate, compact-metric obligations, Real metric route, and algebraic phase handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global parametrization, quotient-angle equality, or an identification of $\CircleUp$ with $\SOneUp$.}
