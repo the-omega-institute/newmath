@@ -1,0 +1,205 @@
+\chapter{BEDC--Golden--Zeta Generation Machine}
+\label{ch:visions-rh-bedc-golden-zeta-generation-machine}
+\origin{ai}
+
+\autoref{ch:visions-mark-hist-ext-cont-spine} supplies the raw
+mark-history kernel, \autoref{ch:visions-rh-free-zero-generation-initiality}
+supplies the RH-free zero-generation interface,
+\autoref{ch:visions-rh-resolution-refinement-induction} supplies the
+golden resolution tower, and
+\autoref{ch:visions-rh-golden-lee-yang-bridge-obligations} isolates the
+Lee--Yang bridge.  The present chapter records the composite machine
+obtained by placing those rows in one source order.  It is a conditional
+interface: the fixed-half readout is produced only after the source rows
+listed below have been supplied.
+
+\begin{definition}[BEDC--Golden--Zeta generation machine]
+\label{def:rh-bedc-golden-zeta-generation-machine}
+A \emph{BEDC--Golden--Zeta generation machine} is a finite-to-limit
+source packet
+$$
+\mathfrak M_{\zeta}
+$$
+with the following displayed rows.
+
+The kernel row is the raw mark and history spine
+$$
+\mathsf{b0},\mathsf{b1}
+\longrightarrow
+\mathsf{BHist}
+$$
+of \autoref{def:kernel-spine-raw-mark-carrier}, equipped with the
+one-step time row of \autoref{def:omega-generation-one-step-time-row}.
+Thus time is constructor-tail generation over histories rather than an
+ambient parameter.
+
+The zero row is an RH-free generated zero carrier
+$$
+Z=\mu F_Z
+$$
+with a realization
+$$
+\varepsilon:Z\to\mathcal Z_{\zeta}
+$$
+as in \autoref{def:rh-generated-zero-carrier}.  Its source
+completeness row is the essential coverage component
+$$
+\prod_{u:\mathcal Z_{\zeta}}
+\sum_{z:Z}\varepsilon(z)\sim u.
+$$
+
+The arithmetic row assigns active heights
+$$
+h_a>0
+$$
+from the logarithmic prime or integer ledger, so that centered zeta
+channels have the form
+$$
+U_a(s):=e^{-(s-1/2)h_a}.
+$$
+
+The resolution row is a golden resolution ruler
+$$
+\delta_m=\varphi^{-m},
+\qquad
+N_m=F_{Lm},
+$$
+with Zeckendorf truncation ledgers, as in
+\autoref{def:rh-golden-resolution-ruler} and
+\autoref{def:rh-zeckendorf-resolution-ledger}.
+
+The certificate row is a compatible resolution certificate tower in the
+sense of \autoref{def:rh-resolution-certificate-tower}, carrying the
+triadic invariant of \autoref{def:rh-certificate-tower-triadic-invariant}
+at every displayed level.
+
+The bridge row is a cofinal family of golden Lee--Yang bridge witnesses
+in the sense of \autoref{def:rh-golden-lee-yang-bridge-witness}.  This
+row connects the weak eta capture packet to a lifted Fibonacci path
+packet with the same zero-island readout.
+
+The defect row is the scale-energy extraction
+$$
+E_m(s)=r^2W_m+o(W_m),
+\qquad
+W_m\to\infty,
+$$
+for readouts
+$$
+s=\frac12+r+it.
+$$
+\end{definition}
+
+\begin{definition}[Machine legality]
+\label{def:rh-bedc-golden-zeta-machine-legality}
+The machine $\mathfrak M_{\zeta}$ is \emph{legal} when its hidden
+coordinates are confined to the compact phase row and finite
+prime-register fibres:
+$$
+\mathbb T,
+\qquad
+\prod_{p\in S}\mathbb Z_p,
+$$
+and when no constructor, bridge comparison, tail row, or limit socket
+imports an independent real positive closure coordinate
+$$
+\mathbb R_{>0}.
+$$
+Equivalently, the only admissible readback of
+$$
+U_a(s)=e^{-r h_a}e^{-it h_a}
+$$
+inside the closed machine treats $e^{-it h_a}$ as phase data and
+requires $e^{-r h_a}$ to be accounted for by the defect ledger rather
+than absorbed as gauge.
+\end{definition}
+
+\begin{principle}[Machine source order]
+\label{prin:rh-bedc-golden-zeta-machine-source-order}
+The source order of \autoref{def:rh-bedc-golden-zeta-generation-machine}
+is strict.  Raw marks generate histories.  Histories provide the time
+row.  The generated zero carrier supplies the zero-presentation surface.
+The prime ledger supplies logarithmic heights.  The golden ruler supplies
+finite resolution.  Weak eta capture supplies local zero islands.
+The Lee--Yang bridge supplies boundary stability for the same islands.
+The defect-energy row then turns any off-half radial coordinate into an
+unbounded normal-energy readout.  No later row may be used as an
+unledgered source for an earlier row.
+\end{principle}
+
+\begin{theorem}[Legal generation machines exclude radial limits]
+\label{thm:rh-legal-generation-machines-exclude-radial-limits}
+Let a legal BEDC--Golden--Zeta generation machine produce a completed
+zero certificate tower with limit readout
+$$
+s_{\infty}=\frac12+r+it.
+$$
+If its bridge witnesses supply zero-compatible boundary bounds and its
+defect row satisfies
+$$
+E_m(s_{\infty})=r^2W_m+o(W_m),
+\qquad
+W_m\to\infty,
+$$
+then $r=0$.
+\end{theorem}
+
+\begin{proof}
+The certificate row of the machine is a resolution certificate tower.
+The bridge row supplies the boundary-stability component by
+\autoref{thm:rh-golden-bridge-witness-supplies-boundary-stability}; the
+legality row supplies the refusal of hidden real-positive scale gauge;
+the defect row supplies cofinal growth and scale-energy extraction.
+Thus the tower is legal boundary-stable in the sense of
+\autoref{def:rh-legal-boundary-stable-certificate-tower}.  Applying
+\autoref{thm:rh-no-scale-closure-legal-certificate-towers} gives
+$r=0$.
+\end{proof}
+
+\begin{definition}[BEDC--Golden--Zeta source row]
+\label{def:rh-bedc-golden-zeta-source-row}
+The source row
+$$
+\mathsf{BEDCGoldenZetaMachine}_{\zeta}
+$$
+asserts that every accepted non-trivial completed zeta zero is presented
+by a legal BEDC--Golden--Zeta generation machine whose sufficiently fine
+levels carry compatible golden Lee--Yang bridge witnesses.
+\end{definition}
+
+\begin{corollary}[The machine source row gives fixed-half readout]
+\label{cor:rh-bedc-golden-zeta-machine-fixed-half-readout}
+If
+$$
+\mathsf{BEDCGoldenZetaMachine}_{\zeta}
+$$
+holds, then every accepted non-trivial completed zeta zero has fixed-half
+readout.
+\end{corollary}
+
+\begin{proof}
+Let an accepted non-trivial completed zeta zero be given.  The source
+row supplies a legal generation machine presenting it.  By
+\autoref{thm:rh-legal-generation-machines-exclude-radial-limits}, its
+limit readout has $r=0$ in the decomposition
+$$
+s_{\infty}=\frac12+r+it.
+$$
+Therefore $\Re(s_{\infty})=1/2$.
+\end{proof}
+
+\begin{principle}[Machine proof load]
+\label{prin:rh-bedc-golden-zeta-machine-proof-load}
+The machine formulation separates the proof load into source rows.  The
+kernel and history rows are supplied by the BEDC spine.  The golden
+resolution and weak eta capture rows are supplied by the local
+Rouch\'e construction of
+\autoref{thm:rh-golden-eta-weak-active-capture}.  The strong source
+content is the construction of compatible golden Lee--Yang bridge
+witnesses for the same zero islands, including dominance, same-island
+transfer, radial purity, and far-end energy control.  Those rows are the
+mathematical content of
+$$
+\mathsf{BEDCGoldenZetaMachine}_{\zeta}.
+$$
+\end{principle}
