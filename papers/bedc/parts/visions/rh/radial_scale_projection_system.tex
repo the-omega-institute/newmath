@@ -1,0 +1,187 @@
+\chapter{Radial Scale Projection System}
+\label{ch:visions-rh-radial-scale-projection-system}
+\origin{ai}
+
+\autoref{ch:visions-rh-triadic-pythagorean-obstruction} identifies the
+analytic triangle as one scale defect, and
+\autoref{ch:visions-rh-right-triangle-invariant-system} records its
+finite Hilbert form.  The present chapter isolates the scalar readout
+shared by the Li, Weil, and Nyman projections.  The scalar is the radial
+coordinate of the Li map; every analytic line in the route reads the
+same coordinate through a different finite or Hilbert witness.
+
+\begin{definition}[Li radial scale coordinate]
+\label{def:rh-li-radial-scale-coordinate}
+For a nontrivial completed zeta zero row $\rho$, let
+$$
+z(\rho):=1-\frac{1}{\rho}
+$$
+as in \autoref{def:rh-li-time-coordinate}.  The Li radial scale
+coordinate is
+$$
+\ell(\rho):=\log|z(\rho)|.
+$$
+When $z(\rho)=e^{\ell+i\theta}$, the coordinate $\ell$ is the scale
+leg and $\theta$ is the phase angle.
+\end{definition}
+
+\begin{theorem}[Radial scale reads the fixed-half surface]
+\label{thm:rh-radial-scale-fixed-half-surface}
+For a nontrivial completed zero row $\rho$,
+$$
+\ell(\rho)=0
+$$
+if and only if the readout of $\rho$ lies on the fixed-half surface.
+\end{theorem}
+
+\begin{proof}
+By definition, $\ell(\rho)=0$ exactly when $|z(\rho)|=1$.  By
+\autoref{thm:rh-li-coordinate-fixed-half-circle}, this is equivalent to
+the fixed-half readout.
+\end{proof}
+
+\begin{theorem}[Li radial Pythagorean identity]
+\label{thm:rh-li-radial-pythagorean-identity}
+Let
+$$
+z=e^{\ell+i\theta}.
+$$
+For every $n\ge1$,
+$$
+|1-z^n|^2
+=
+(e^{n\ell}-1)^2
++
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+\end{theorem}
+
+\begin{proof}
+This is \autoref{thm:rh-li-coordinate-pythagorean-decomposition},
+rewritten with the notation of
+\autoref{def:rh-li-radial-scale-coordinate}.
+\end{proof}
+
+\begin{definition}[Radial projection triple]
+\label{def:rh-radial-projection-triple}
+The radial projection triple attached to a completed zero ledger is
+$$
+\mathsf{RadialProjection}_{\zeta}
+:=
+(\mathsf T_{\ell},\mathsf W_{\ell},\mathsf N_{\ell}).
+$$
+The time projection $\mathsf T_{\ell}$ is the Li-time readout of
+$z(\rho)^n$.  The energy projection $\mathsf W_{\ell}$ is the
+Weil-quadratic readout of reflected zero pairs.  The container
+projection $\mathsf N_{\ell}$ is the Nyman--Beurling readout of the
+Mellin separator attached to a zero in the right open half of the
+critical strip.
+\end{definition}
+
+\begin{principle}[Time projection of a nonzero radial scale]
+\label{prin:rh-time-projection-nonzero-radial-scale}
+If a reflected zero pair has Li coordinates
+$$
+z_+=e^{\ell+i\theta},
+\qquad
+z_-=e^{-\ell+i\theta},
+$$
+then Li time reads the radial coordinate through the factor
+$$
+\cosh(n\ell).
+$$
+For $\ell\ne0$, this factor is larger than $1$ for $n\ge1$.  The
+finite Li--Weil witness row of
+\autoref{def:rh-li-weil-finite-negative-witness} is the time-side
+certificate that such radial amplification cannot coexist with the
+global Li positivity row.
+\end{principle}
+
+\begin{principle}[Energy projection of a nonzero radial scale]
+\label{prin:rh-energy-projection-nonzero-radial-scale}
+A reflected off-fixed-half pair produces a Weil value block with a
+negative direction, as in
+\autoref{def:rh-weil-negative-direction-projection}.  The sign of
+$\ell$ may be reversed by reflection, but the existence of a two-point
+reflected orbit with $|\ell|>0$ is what gives the energy-side negative
+direction.  Global Weil positivity forbids that projection when the
+test row and tail ledgers are source-side controlled.
+\end{principle}
+
+\begin{principle}[Container projection of a nonzero radial scale]
+\label{prin:rh-container-projection-nonzero-radial-scale}
+If the reflected orbit has a representative
+$$
+s_0=\sigma+i\tau,
+\qquad
+\sigma>\frac12,
+$$
+then \autoref{lem:rh-off-half-zero-nyman-separator} supplies the
+continuous Mellin functional
+$$
+L_{s_0}(f)=\int_0^1 f(x)x^{s_0-1}\,dx.
+$$
+It annihilates the displayed Nyman generators and does not annihilate
+$\mathbf 1$.  Thus the same radial scale coordinate that Li time reads
+as amplification and Weil energy reads as a negative direction is read
+by the Nyman container as a residual separator.
+\end{principle}
+
+\begin{definition}[Zeta radial triangular closure]
+\label{def:rh-zeta-radial-triangular-closure}
+The source row
+$$
+\mathsf{ZetaRadialTriangularClosure}
+$$
+asserts that every accepted nontrivial completed zero ledger carries
+the radial projection triple of
+\autoref{def:rh-radial-projection-triple}, and that the three
+projections are governed by one scalar
+$$
+\ell(\rho)=\log\left|1-\frac1\rho\right|.
+$$
+The row further asserts that a nonzero value of this scalar must be
+detected by at least one of the three finite or Hilbert witnesses:
+Li-time negativity, Weil negative direction, or Nyman residual
+separation.
+\end{definition}
+
+\begin{theorem}[Radial triangular closure gives fixed-half readout]
+\label{thm:rh-radial-triangular-closure-fixed-half-readout}
+Assume $\mathsf{ZetaRadialTriangularClosure}$ and assume the three
+projection rows
+$$
+\mathsf{GlobalLiWeilPositivity},
+\qquad
+\mathsf{GlobalWeilPositivity},
+\qquad
+\mathsf{NymanBeurlingExhaustion}
+$$
+are available with their usual reflection consumption rows.  Then every
+accepted nontrivial completed zero has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be an accepted nontrivial completed zero.  If
+$\ell(\rho)\ne0$, the closure row forces a detection in one of the
+three projections.  A Li-time negative witness contradicts
+$\mathsf{GlobalLiWeilPositivity}$.  A Weil negative direction
+contradicts $\mathsf{GlobalWeilPositivity}$.  A Nyman residual separator
+contradicts $\mathsf{NymanBeurlingExhaustion}$ by
+\autoref{lem:rh-off-half-zero-nyman-separator}.  Hence
+$\ell(\rho)=0$.  By
+\autoref{thm:rh-radial-scale-fixed-half-surface}, $\rho$ has fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Single radial burden]
+\label{prin:rh-single-radial-burden}
+The Li, Weil, and Nyman tasks should be read as three audits of one
+radial coordinate, not as unrelated proof searches.  Li time asks
+whether powers of $z(\rho)$ expose $\ell(\rho)$.  Weil energy asks
+whether a test row can extract a negative direction from the reflected
+orbit.  Nyman exhaustion asks whether the legal generator container
+leaves a residual Mellin functional.  The source-side burden is to show
+that the BEDC triadic carrier never admits a nonzero radial coordinate
+without one of these witnesses.
+\end{principle}
