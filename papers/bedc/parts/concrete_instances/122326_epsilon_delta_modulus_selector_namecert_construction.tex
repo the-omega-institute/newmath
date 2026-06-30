@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\EpsilonDeltaModulusSelectorUp$}
+\label{ch:concrete-instances-epsilon-delta-modulus-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, an epsilon-delta proof of continuity is useful to later real analysis only when its local witness can be read as explicit finite modulus data. The $\EpsilonDeltaModulusSelectorUp$ packet records that read as a NameCert carrier between the displayed graph and local continuity rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the modulus consumer interface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. It names the finite route from a requested output tolerance to a displayed input-radius row, not a host choice of deltas, quotient equality of functions, or an ambient completeness principle.
+
+\begin{definition}[Epsilon-delta modulus selector carrier]
+\label{def:epsilon-delta-modulus-selector-carrier}
+An $\EpsilonDeltaModulusSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,E,D,W,Q,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousMapUp$ graph and local epsilon-delta continuity row whose source and target observations are already named;
+\item $E$ is the $\DyadicRatCoreUp$ output-tolerance request row;
+\item $D$ is the selected $\DyadicRatCoreUp$ input-radius row displayed for the same request;
+\item $W$ is the finite observation-window row naming the source and target samples inspected by the local proof;
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the displayed source and target rational approximations;
+\item $U$ is the $\UniformModulusUp$ consumer row that can be exported only after $F,E,D,W,Q$ are visible;
+\item $R$ is the $\RealUp$ seal row reached by the readback and modulus route, with no independent completeness coordinate;
+\item $H$ records componentwise $\hsame$ transport for the continuous-map, tolerance, radius, window, readback, uniform-modulus, Real seal, replay, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ replay from an output tolerance through the local epsilon-delta row to the selected input radius and then to the uniform-modulus consumer;
+\item $P$ is the $\Pkg$ provenance over $\EpsilonDeltaModulusSelectorUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\EpsilonDeltaModulusSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice function over all tolerances, quotient equality of maps, a hidden global modulus, trichotomy over reals, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Epsilon-delta modulus selector NameCert obligations]
+\label{thm:epsilon-delta-modulus-selector-namecert-obligations}
+For every accepted $\EpsilonDeltaModulusSelectorUp$ carrier $S=(F,E,D,W,Q,U,R,H,C,P,N)$, the local $\NameCert_{\EpsilonDeltaModulusSelectorUp}$ surface consists exactly of carrier admission for the displayed continuous-map row, output-tolerance row, selected input-radius row, finite window, regular-rational readback, uniform-modulus row, Real seal, transport, replay, provenance, and local naming rows. The selected radius $D$ must be read from the same local epsilon-delta row $F$ and the same tolerance request $E$ before $U$ is visible. Every consumer read of $U$ or $R$ preserves $F,E,D,W,Q,H,C,P,N$ and exports no host choice of radii, quotient map equality, hidden global modulus, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:epsilon-delta-modulus-selector-carrier}. The accepted packet exposes exactly the rows $F,E,D,W,Q,U,R,H,C,P,N$, so the naming surface is exhausted by those finite coordinates.
+
+Read the analytic rows next. The tolerance request $E$ is displayed as dyadic data, and the selected input radius $D$ is accepted only as the row supplied by the same local epsilon-delta continuity proof $F$. The finite window $W$ and readback $Q$ record the observations on which the comparison is checked.
+
+The structural rows then preserve the route. Transport $H$, replay $C$, provenance $P$, and the local name $N$ cannot add a choice function, quotient equality, hidden modulus, trichotomy, or completeness coordinate because none is present in the carrier. Thus the NameCert obligations are exactly the displayed rows and their consumer order.
+\end{proof}
+
+\begin{theorem}[Epsilon-delta selector ContinuousMap route]
+\label{thm:epsilon-delta-modulus-selector-continuousmap-route}
+Every $\UniformModulusUp$ consumer of an accepted $\EpsilonDeltaModulusSelectorUp$ packet factors through the finite route
+$$
+\ContinuousMapUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp \longmapsto \UniformModulusUp \longmapsto \RealUp .
+$$
+In carrier notation, the consumer must read the local continuous-map row $F$, the requested tolerance $E$, the selected radius $D$, the finite window $W$, and the readback row $Q$ before it can consume the uniform-modulus row $U$ or the Real seal $R$. The route is a displayed epsilon-delta modulus selection surface, not a host modulus function, quotient equality of functions, selected global delta table, trichotomy, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the $\ContinuousMapUp$ row. It supplies the graph and local epsilon-delta continuity data as the displayed row $F$, while the dyadic request $E$ names the target tolerance that the consumer wants to spend.
+
+The selector row $D$ is then read only through that same $F,E$ pair. The finite window $W$ and regular rational readback $Q$ expose the source and target observations needed to check the local estimate before any modulus row is exported.
+
+Finally read $U$ and $R$ through the structural rows. The uniform-modulus consumer receives the route preserved by $H,C,P,N$, and the Real seal is reached only after the readback and modulus rows are displayed. Since the packet has no coordinate for host modulus functions, quotient equality, global delta tables, trichotomy, or ambient completeness, none of those readings escapes the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EpsilonDeltaModulusSelectorUp$ packet is refuted if a UniformModulus consumer reads the exported modulus without displaying the ContinuousMap row, dyadic tolerance request, selected dyadic radius, finite observation window, RegSeqRat readback, transport, replay, provenance, and local NameCert rows.}
+\independenceWitness{continuousmap, uniformmodulus, dyadicratcore, regseqrat, real: $\EpsilonDeltaModulusSelectorUp$ is not bijective to any listed sibling because it jointly stores the local epsilon-delta row, requested tolerance, selected input radius, finite readback window, uniform-modulus handoff, Real seal, and structural support in one packet.}
+
+\closureat{EpsilonDeltaModulusSelectorUp}{seedStr}
+
+\begin{closurestatus}{\EpsilonDeltaModulusSelectorUp}
+  \constructivestory{An $\EpsilonDeltaModulusSelectorUp$ packet is generated from a ContinuousMap local epsilon-delta row, dyadic output-tolerance requests, selected dyadic input-radius rows, finite observation windows, RegSeqRat readback rows, a UniformModulus handoff, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:epsilon-delta-modulus-selector-carrier}, \autoref{thm:epsilon-delta-modulus-selector-namecert-obligations}, and \autoref{thm:epsilon-delta-modulus-selector-continuousmap-route} seed the explicit epsilon-delta modulus selector over ContinuousMap, UniformModulus, DyadicRatCore, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host choice of radii, quotient equality of maps, selected global delta tables, trichotomy, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.EpsilonDeltaModulusSelectorUp.}
+\end{closurestatus}
