@@ -1277,6 +1277,8 @@ import BEDC.Derived.BoundedBilinearMapUp.NameCertObligations
 import BEDC.Derived.BoundedBilinearMapUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedCauchyFilterCompletionUp.TasteGate
+import BEDC.Derived.BoundedCauchyFilterUp
+import BEDC.Derived.BoundedCauchyFilterUp.TasteGate
 import BEDC.Derived.BoundedCauchyIntervalUp.TasteGate
 import BEDC.Derived.BoundedCauchySequenceUp.TasteGate
 import BEDC.Derived.BoundedCompleteRealIntervalUp.TasteGate
