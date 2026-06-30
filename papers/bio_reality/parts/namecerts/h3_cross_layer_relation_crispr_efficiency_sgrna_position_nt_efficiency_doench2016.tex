@@ -1,26 +1,33 @@
-\subsection{Position-resolved sgRNA nucleotide efficiency in the Doench2016 screen}
-\label{sec:bioreality-crispr-sgrna-position-nt-doench2016}
+\subsection{Position-resolved sgRNA nucleotide efficiency in the Doench panel}
+\label{subsec:bioreality-crispr-efficiency-sgrna-position-nt-efficiency-doench2016}
 \origin{ai}
 
-\paragraph{Finite row surface.}
-This record concerns a finite CRISPR-efficiency table in which each row is an sgRNA observation with a measured activity endpoint and position-indexed nucleotide information. The checked Doench2016 run is identified by experiment run \texttt{b6c6363256e0}; it contains $5310$ finite rows and completed in $24.6506$ seconds. The scalar GC control readout recorded for this surface is $r_{GC}=-0.0582917$. Thus the available evidence is not a symbolic claim about all guide RNAs, but a bounded row table with a definite sample size, a definite GC-direction summary, and an observed endpoint attached to the same guide-level rows.
-
-\paragraph{Coordinate tested by the chapter.}
-The chapter-specific coordinate is the position-resolved nucleotide pattern of an sgRNA, read against CRISPR efficiency after keeping the guide row, target context, and simpler nucleotide-composition effects distinct. A useful way to state the tested surface is that each admissible row contributes a guide-level response $Y_i$, a vector of position-nucleotide indicators $X_i$, and a control block $Z_i$ containing at least global or local composition summaries such as GC. The finite test is then a controlled survival question:
+\paragraph{Finite table.}
+The Doench sgRNA-efficiency record is a bounded finite-row contact between guide-sequence coordinates and a measured CRISPR efficiency readout.  The verified run for this contact used $n=5310$ guide rows and completed in $24.6506$ seconds.  Its reported marginal GC association was small and negative, with
 $$
 \begin{aligned}
-S_{\mathrm{posNT}} &= \operatorname{score}(Y \mid Z,X)-\operatorname{score}(Y \mid Z),\\
-\text{admissible support} &\Longleftrightarrow S_{\mathrm{posNT}}>0
-\text{ on held-out or otherwise guarded rows.}
+  r_{\mathrm{GC},\mathrm{main}} &= -0.0582917,\\
+  n_{\mathrm{Doench}} &= 5310.
 \end{aligned}
 $$
-The recorded $r_{GC}=-0.0582917$ is therefore not treated as the main biological law. It is a concrete guardrail showing that a composition-associated direction was measured and must not be confused with a position-specific guide-design signal.
+This row count and scalar readout are enough to treat the contact as a real finite measurement surface for position-resolved guide features, but not enough to enlarge it into a general sequence law.  The biological object in this chapter is therefore the guide-position nucleotide table itself: a finite panel in which position-indexed nucleotide indicators, local sequence summaries, and the measured efficiency response are co-present in the same row system.
 
-\paragraph{Cross-dataset boundary.}
-A separate CRISPR-efficiency cross-dataset contact is available under experiment run \texttt{2e9cce255c01}. That run records $10543$ Luo2020 rows, marks \texttt{cross\_protocol=true}, uses the Doench2016 repository as the frozen source, and completed in $33.705459$ seconds. This second finite table is useful because it prevents the Doench2016 record from being phrased as a closed biological principle. The Doench2016 table supplies the primary position-nucleotide efficiency surface; the Luo2020 route supplies an explicitly cross-protocol comparison surface. The two together support a bounded claim of the following form: position-indexed sgRNA nucleotide features are admissible finite-row predictors of CRISPR efficiency only where their contribution survives the relevant composition and dataset-boundary controls.
+\paragraph{Cross-dataset anchor.}
+A separate CRISPR-efficiency verification route records a Luo cross-protocol panel with $n_{\mathrm{Luo}}=10543$, cross-protocol status equal to true, and a source marked as the Doench2016 repository.  That run completed in $33.705459$ seconds.  These numbers are not pooled with the Doench statistic in this chapter.  They serve a narrower role: they show that the same class of position-resolved sgRNA nucleotide features has a second finite-row route available for cross-protocol checking.  The two finite contacts therefore occupy different audit positions:
+$$
+\begin{aligned}
+  n_{\mathrm{Doench}} &= 5310,\\
+  n_{\mathrm{Luo}} &= 10543,\\
+  \mathrm{crossProtocol}_{\mathrm{Luo}} &= \mathrm{true}.
+\end{aligned}
+$$
+The Doench contact is the primary row system for this chapter, while the Luo route is evidence that the coordinate family is not merely a single-file naming artifact.
 
-\paragraph{What the evidence does not establish.}
-The present chapter does not infer translation, ribosome occupancy, protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality from the sgRNA position-nucleotide result. The Doench2016 row count, the GC scalar $-0.0582917$, and the Luo2020 cross-protocol table concern guide efficiency surfaces, not protein-state readouts. Any statement about translation or downstream biological realization would require a separate same-row contact carrying that layer's measurement. In the present record, the only admissible biological reading is narrower: finite guide rows can carry a controlled association between position-resolved guide sequence features and measured CRISPR efficiency.
+\paragraph{Claim scope.}
+The admissible claim is only that a finite CRISPR guide table can test whether position-resolved nucleotide features carry efficiency information after the chosen controls and baselines are applied.  The verified scalar $r_{\mathrm{GC},\mathrm{main}}=-0.0582917$ is especially useful as a guardrail: GC content is present, but its marginal value is weak, so the chapter should not present GC composition alone as the explanatory object.  The operative surface is the finite guide-position design matrix together with the measured efficiency readout.  Any stronger statement would need the actual fitted position terms, held-out improvement, permutation or resampling evidence, and baseline-ablation outputs for the same rows.
 
-\paragraph{Local name certificate.}
-The name certified here is \texttt{h3.cross\_layer\_relation.crispr\_efficiency.sgrna\_position\_nt\_efficiency\_doench2016}. Its concrete support is the $5310$-row Doench2016 efficiency surface with $r_{GC}=-0.0582917$, together with the related $10543$-row Luo2020 cross-protocol route. The certificate is deliberately finite: it names the row-bearing guide-efficiency contact, records the measured scalar guard, and keeps the cross-protocol contact separate from the primary Doench2016 table. The break condition is reached if the chapter is read as a universal sgRNA-design law, as evidence for translation or protein-level behavior, or as a mechanism claim rather than a controlled finite-row efficiency association.
+\paragraph{Relation to the f\_3-stress translation packet.}
+The input conjecture also names an $f_3$-stress residual coordinate and a desired same-window translation or ribosome-occupancy survival statistic.  The CRISPR Doench table does not supply that translation layer.  It has guide efficiency rows, not same-CDS codon-window rows with wobble weights, matched mRNA abundance, and codon-indexed ribosome-footprint occupancy.  Thus the CRISPR contact can be used as a separate finite example of a position-resolved biological readout, but it cannot certify $S_{f3}(T_{\mathrm{position}}\mid Z)$ and cannot promote an $f_3$ residual coordinate into a translation-realization claim.  The required translation statistic would need a joined table containing the residual coordinate, codon counts, wobble-weight context, mRNA control, position or amino-acid-bin controls, and the matched ribosome-occupancy or translation-efficiency readout in the same finite row system.
+
+\paragraph{Local refusal boundary.}
+No conclusion about translation, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or universality follows from the Doench sgRNA-efficiency rows.  The measured object is CRISPR guide efficiency under a position-indexed nucleotide representation.  Even inside the CRISPR layer, the available scalar summary does not by itself establish a complete mechanistic model of Cas9 cutting, DNA repair, chromatin accessibility, guide loading, or cell-state dependence.  Those would require separate contacts at their own measurement layers.  In the present chapter, the finite result is deliberately smaller: a real $5310$-row Doench surface with a weak marginal GC association, accompanied by a $10543$-row cross-protocol route, sufficient for a bounded position-resolved sgRNA-efficiency record and insufficient for any downstream biological promotion.
