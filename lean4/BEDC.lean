@@ -1727,6 +1727,7 @@ import BEDC.Derived.CarmichaelLambdaUp
 import BEDC.Derived.CarmichaelNumberUp
 import BEDC.Derived.CarmichaelUp
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
+import BEDC.Derived.CartanMatrixUp.TasteGate
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CatalanConvolutionUp
@@ -4182,6 +4183,7 @@ import BEDC.Derived.CoveringdimensionUp.ScopeClosureWitness
 import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CoveringdimensionUp.SimplicialStarRefinementScope
 import BEDC.Derived.CoveringdimensionUp.TasteGate
+import BEDC.Derived.CoxeterGroupUp.TasteGate
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CritStripUp.TasteGate
@@ -7574,6 +7576,7 @@ import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LiouvilleLedgerConservationUp.TasteGate
 import BEDC.Derived.LiouvilleNumberUp.TasteGate
 import BEDC.Derived.LiouvilleUp
+import BEDC.Derived.LipschitzCompletionExtensionUp.TasteGate
 import BEDC.Derived.LipschitzConstantUp.TasteGate
 import BEDC.Derived.LipschitzContinuityHandoffUp.TasteGate
 import BEDC.Derived.LipschitzExtensionUp.TasteGate
