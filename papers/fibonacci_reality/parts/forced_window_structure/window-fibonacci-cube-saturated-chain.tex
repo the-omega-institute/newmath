@@ -1,0 +1,79 @@
+\origin{ai}
+
+\subsection{Forced-window saturated chains in the Fibonacci cube}
+\label{sec:window-fibonacci-cube-saturated-chain}
+
+\paragraph{Carrier.}
+Fix a nonnegative integer $m$. The finite word carrier is
+$$
+\begin{aligned}
+X_m = \{w \in \{0,1\}^m : \text{there is no index } i \text{ with } w_i=1 \text{ and } w_{i+1}=1\}.
+\end{aligned}
+$$
+For $m=0$ this is the one-point carrier consisting of the empty word. For $m>0$ the word $0^m$ belongs to $X_m$. The directed graph $\Gamma_m$ has vertex set $X_m$. There is a directed edge $x \to y$ exactly when $y$ is obtained from $x$ by changing one zero coordinate to one, the resulting word remains in $X_m$, and no other coordinate changes. Thus every edge increases Hamming weight by one. The orientation is acyclic because the Hamming weight strictly increases along every directed edge. The vertex count is $|X_m|=F_{m+2}$, and this count has been checked for $m=0,1,\ldots,12$.
+
+\paragraph{Addable positions and maximal words.}
+For $x \in X_m$, call a coordinate $i$ addable for $x$ when $x_i=0$ and the word obtained by setting $x_i$ to $1$ still lies in $X_m$. Equivalently, the new one at $i$ has no neighboring one after the change. A word $w \in X_m$ is maximal when it has no addable coordinate. The directed saturated chains counted here start at $0^m$, follow upward covers, and terminate at a maximal word. The count is denoted $C_m$.
+
+\paragraph{Finite transition kernel.}
+The same object can be described as a finite nilpotent transition matrix. Index the rows and columns by $X_m$, and define
+$$
+\begin{aligned}
+A_m(x,y)=
+\begin{cases}
+1, & \text{if } x \to y \text{ is an upward cover in } \Gamma_m,\\
+0, & \text{otherwise.}
+\end{cases}
+\end{aligned}
+$$
+Since $A_m(x,y)=1$ only when $|y|_1=|x|_1+1$, powers of $A_m$ enumerate directed saturated walks by length. If $M_m \subseteq X_m$ is the set of maximal words, then $C_m$ is the total number of directed paths from $0^m$ to $M_m$ using these covers. Equivalently, with $\mathbf{1}_{M_m}$ the indicator column of $M_m$, the finite sum
+$$
+\begin{aligned}
+C_m=\sum_{r\geq 0} \sum_{w\in M_m} (A_m^r)(0^m,w)
+\end{aligned}
+$$
+terminates automatically because every step raises Hamming weight.
+
+\paragraph{Dynamic recurrence.}
+Define $\operatorname{cnt}(x)$ recursively on $X_m$ by descending Hamming weight:
+$$
+\begin{aligned}
+\operatorname{cnt}(x)=
+\begin{cases}
+1, & \text{if } x \text{ is maximal},\\
+\sum_i \operatorname{cnt}(x^{(i)}), & \text{otherwise, where } i \text{ ranges over addable zero positions of } x.
+\end{cases}
+\end{aligned}
+$$
+Here $x^{(i)}$ is the word obtained from $x$ by setting coordinate $i$ to $1$. This recurrence is well founded because each recursive call increases Hamming weight. It gives $C_m=\operatorname{cnt}(0^m)$.
+
+\paragraph{Partition by terminal word.}
+Each maximal word $w$ determines an interval from $0^m$ to $w$. Inside this interval, only the one-positions of $w$ may be switched on, and every ordering of those one-positions is valid because all intermediate words are coordinatewise below $w$ and hence still have no adjacent ones. Therefore the interval is a Boolean lattice of rank $\operatorname{popcount}(w)$, and it contributes exactly $\operatorname{popcount}(w)!$ saturated chains. Summing over terminal maximal words gives
+$$
+\begin{aligned}
+C_m=\sum_{w\in M_m} \operatorname{popcount}(w)!.
+\end{aligned}
+$$
+This is the witness extraction rule: to exhibit one counted chain, choose a maximal word $w$, choose a permutation of its one-positions, and switch on those positions in that order. Conversely, every counted chain determines exactly this pair.
+
+\paragraph{Closed finite form.}
+Let $k$ be the number of ones in a maximal word. The possible values of $k$ range from $\lceil m/3\rceil$ to $\lceil m/2\rceil$. Grouping maximal words by $k$ yields the exact expression
+$$
+\begin{aligned}
+C_m=\sum_{k=\lceil m/3\rceil}^{\lceil m/2\rceil} {k+1 \choose m-2k+1}\, k!.
+\end{aligned}
+$$
+The binomial factor is the number of maximal words with exactly $k$ ones in this finite forced-window carrier, and the factorial is the number of saturated orders inside the Boolean interval below such a word. Thus the formula separates the terminal-word partition from the order-counting contribution.
+
+\paragraph{Checked rows.}
+The first values are
+$$
+\begin{aligned}
+C_0,C_1,C_2,C_3,C_4,C_5,C_6,C_7,C_8,C_9,C_{10},C_{11},C_{12}
+=1,1,2,3,6,12,26,60,144,366,960,2640,7464.
+\end{aligned}
+$$
+For $m=0,1,\ldots,12$, the dynamic recurrence, the maximal-word factorial sum, and the closed finite form agree. The dynamic recurrence and the closed finite form have also been compared through $m=14$.
+
+\paragraph{Claim boundary.}
+This chapter records a finite saturated-chain invariant of the Hamming-weight-oriented Fibonacci cube family. It does not assert any physical-constant identification, any global flow law, any external dependency, any metrological comparison, or any interpretation beyond the finite construction above. In particular, no value of a physical fine-structure constant, no $\alpha/137$ target, and no reverse numerical fit is part of the mathematical statement.

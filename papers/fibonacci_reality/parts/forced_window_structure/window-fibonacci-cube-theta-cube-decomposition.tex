@@ -1,0 +1,80 @@
+\origin{ai}
+
+\subsection{Finite forced-window Fibonacci cube}
+\label{sec:window-fibonacci-cube-theta-cube-decomposition}
+
+\paragraph{Carrier.}
+Fix an integer $m \ge 1$. The finite vertex set is
+$$
+\begin{aligned}
+X_m=\{w \in \{0,1\}^m : \text{no two adjacent coordinates of } w \text{ are both } 1\}.
+\end{aligned}
+$$
+The graph $\Gamma_m$ has vertex set $X_m$. Two vertices are adjacent exactly when they differ in one coordinate. For each coordinate $i$ with $1 \le i \le m$, let $\Theta_i$ be the class of all edges of $\Gamma_m$ whose two endpoints differ only in coordinate $i$. Thus the family $\{\Theta_i : 1 \le i \le m\}$ is a coordinate partition of the edge set: every edge belongs to exactly one class, namely the class of the coordinate flipped by that edge.
+
+The size of the carrier is Fibonacci. With the Fibonacci numbers denoted by $F_n$ in the convention used by this window count, the vertex number is
+$$
+\begin{aligned}
+|X_m|=F_{m+2}.
+\end{aligned}
+$$
+This has been exhaustively checked for $m=3,4,5,6,7,8$; in particular $|X_6|=21$.
+
+\paragraph{Selected-coordinate cube condition.}
+Let $1 \le i_1 < \cdots < i_k \le m$. A base word $w \in X_m$ is admissible for the selected coordinates $i_1,\ldots,i_k$ when two finite conditions both hold. First, the selected coordinates are zero in the base word:
+$$
+\begin{aligned}
+w_{i_1}=\cdots=w_{i_k}=0.
+\end{aligned}
+$$
+Second, for every subset $A \subseteq \{i_1,\ldots,i_k\}$, the word obtained from $w$ by flipping precisely the coordinates in $A$ is still an element of $X_m$. The number of such admissible base words is denoted
+$$
+\begin{aligned}
+S_m(i_1,\ldots,i_k).
+\end{aligned}
+$$
+Equivalently, $S_m(i_1,\ldots,i_k)$ counts coordinate-resolved induced $k$-dimensional cubes whose edge directions are exactly the classes $\Theta_{i_1},\ldots,\Theta_{i_k}$ and whose chosen base vertex has zeros in those selected directions.
+
+\paragraph{Exact product identity.}
+For every strictly increasing coordinate tuple $1 \le i_1 < \cdots < i_k \le m$, the finite count is
+$$
+\begin{aligned}
+S_m(i_1,\ldots,i_k)
+  =F_{i_1}\prod_{t=2}^{k}F_{i_t-i_{t-1}-1}F_{m-i_k+1}.
+\end{aligned}
+$$
+The factors have a direct forced-window meaning. Before $i_1$, between successive selected coordinates, and after $i_k$, the no-adjacent-ones rule leaves independent Fibonacci windows. The selected coordinates themselves are fixed at zero in the base word, and the demand that every selected-coordinate flip remain valid forces the neighboring positions around the selected coordinates to avoid creating an adjacent pair of ones after any flip. The resulting finite gaps are counted by the displayed Fibonacci factors.
+
+For $k=2$ this specializes to
+$$
+\begin{aligned}
+S_m(i,j)=F_iF_{j-i-1}F_{m-j+1},
+\qquad 1 \le i<j\le m.
+\end{aligned}
+$$
+This is the coordinate-pair square count: it records exactly how many induced squares use the two edge classes $\Theta_i$ and $\Theta_j$.
+
+\paragraph{Window-six aggregate.}
+For $m=6$, the coordinate-resolved totals over all $k$-tuples of selected coordinates are
+$$
+\begin{aligned}
+\sum_{1 \le i_1 \le 6}S_6(i_1)&=38,\\
+\sum_{1 \le i_1<i_2 \le 6}S_6(i_1,i_2)&=22,\\
+\sum_{1 \le i_1<i_2<i_3 \le 6}S_6(i_1,i_2,i_3)&=4,\\
+\sum_{1 \le i_1<\cdots<i_k \le 6}S_6(i_1,\ldots,i_k)&=0
+\quad \text{for } k=4,5,6.
+\end{aligned}
+$$
+Together with the vertex count $|X_6|=21$, these values give the finite cube-count polynomial coefficients
+$$
+\begin{aligned}
+[21,38,22,4].
+\end{aligned}
+$$
+The entries respectively count vertices, coordinate-directed edges, coordinate-resolved squares, and coordinate-resolved three-cubes in $\Gamma_6$.
+
+\paragraph{Finite verification scope.}
+The product identity has been checked by exhaustive enumeration for every nonempty coordinate tuple in the range $m=3,4,5,6,7,8$. Across that range, the enumeration covers 498 coordinate tuples. The computation compares the direct finite predicate defining $S_m(i_1,\ldots,i_k)$ against the closed Fibonacci product for each tuple. The statement recorded here is therefore a finite forced-window conjectural construction with a complete enumeration certificate over the specified windows and coordinate selections.
+
+\paragraph{Local boundary.}
+The construction above asserts only the finite graph carrier, the coordinate edge partition, the selected-coordinate cube predicate, the exact Fibonacci product identity, and the stated finite aggregate for $m=6$. No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from these data unless a separate certificate supplies it.
