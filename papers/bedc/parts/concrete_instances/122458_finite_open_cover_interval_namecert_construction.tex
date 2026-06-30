@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOpenCoverIntervalUp$}
+\label{ch:concrete-instances-finite-open-cover-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive compactness of closed intervals, the $\FiniteOpenCoverIntervalUp$ packet records a finite open-cover certificate by displaying endpoints, cover rows, and dyadic refinements rather than importing compactness as a primitive. It sits beside the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite dyadic interval-net route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and the dyadic mesh refinement route of \autoref{ch:concrete-instances-dyadic-mesh-refinement-namecert}. The packet names only finite interval-cover data; it does not assert arbitrary Heine--Borel compactness, choose a Lebesgue number, select a limiting point, or provide ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite open-cover interval carrier]
+\label{def:finite-open-cover-interval-carrier}
+A $\FiniteOpenCoverIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+O=(E,U,M,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the interval endpoint row, recording the left and right endpoint reads through $\RealUp$ together with their dyadic boundary approximations through $\DyadicRatCoreUp$.
+\item $U$ is the finite $\ProbeBundle$ open-cover row, listing the displayed open probes, their interval-hit predicates, and the finite cover ledger inspected by the packet.
+\item $M$ is the dyadic mesh refinement row, read through $\DyadicMeshRefinementUp$ and the finite dyadic interval-net route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}.
+\item $W$ is the membership-witness row assigning every displayed mesh cell to a cover probe whose openness witness contains that cell.
+\item $H$ records componentwise $\hsame$ transport for endpoint rows, cover probes, mesh refinements, membership witnesses, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-cover request through endpoint inspection, finite cover inspection, dyadic mesh refinement, and membership witnessing.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOpenCoverIntervalUp$, $\RealUp$, $\DyadicRatCoreUp$, $\DyadicMeshRefinementUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteOpenCoverIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,U,M,W,H,C,P,N$. It has no coordinate for an arbitrary open cover over an unbounded domain, a chosen Lebesgue number, a selected interval point, a quotient real representative, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[FiniteOpenCoverInterval NameCert obligations]
+\label{thm:finite-open-cover-interval-obligations}
+For every accepted $\FiniteOpenCoverIntervalUp$ carrier $O=(E,U,M,W,H,C,P,N)$, the local $\NameCert_{\FiniteOpenCoverIntervalUp}$ surface consists exactly of five certificate rows:
+\begin{enumerate}
+\item carrier admission for the displayed endpoint and finite-cover packet;
+\item endpoint exposure through $E$ along the $\RealUp$ and $\DyadicRatCoreUp$ sibling routes;
+\item finite open-cover exposure through the $\ProbeBundle$ row $U$;
+\item dyadic mesh refinement and membership witnessing through $M$ and $W$;
+\item structural stability through componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming $N$.
+\end{enumerate}
+Every downstream compact-uniform, density-net, or interval consumer must read those five rows before treating the packet as a finite interval-cover certificate. The route exports no arbitrary compactness principle, no selected Lebesgue number, no point selector, no quotient real representative, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet of \autoref{def:finite-open-cover-interval-carrier}. The endpoint row $E$, finite cover row $U$, mesh row $M$, membership row $W$, transport row $H$, replay row $C$, provenance row $P$, and local name row $N$ are exactly the displayed coordinates.
+
+Read the sibling routes in order. The real-name seal supplies the endpoint read, the dyadic arithmetic core supplies finite boundary approximations, the dyadic interval-net route supplies the finite cell surface, and the dyadic mesh refinement route supplies the refinement ledger.
+
+The cover row is finite because it is a displayed $\ProbeBundle$ row, and the membership row assigns each displayed mesh cell to one displayed open probe. Thus the certificate is consumed through finite rows rather than through an unrecorded compactness theorem.
+
+Finally replay the structural rows. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the same route and add no coordinate for an arbitrary compactness principle, a selected Lebesgue number, a point selector, quotient real representatives, or ambient Real completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteOpenCoverIntervalUp$ read is refuted if a compact-uniform, density-net, or interval consumer obtains a finite interval-cover certificate without displaying endpoint rows, finite ProbeBundle cover rows, dyadic mesh refinement rows, membership-witness rows, hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+\independenceWitness{real, dyadicratcore, dyadic-interval-net, dyadic-mesh-refinement: the real-name sibling supplies endpoint seals without finite cover data, the dyadic arithmetic core supplies endpoint arithmetic without open probes, the dyadic interval-net sibling supplies cells without cover membership, and the mesh-refinement sibling supplies refinement rows without the finite ProbeBundle cover. None is bijective to $\FiniteOpenCoverIntervalUp$.}
+
+\closureat{FiniteOpenCoverIntervalUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOpenCoverIntervalUp}
+  \constructivestory{A $\FiniteOpenCoverIntervalUp$ packet is generated from interval endpoint rows, finite ProbeBundle cover rows, dyadic mesh refinement rows, membership-witness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-open-cover-interval-carrier} and \autoref{thm:finite-open-cover-interval-obligations} seed the finite open-cover interval certificate over RealUp, DyadicRatCoreUp, DyadicMeshRefinementUp, ProbeBundle, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary Heine--Borel compactness, a selected Lebesgue number, point selection, quotient real representatives, RealUp completeness, Lean verification, bridge checking, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, finite ProbeBundle cover exposure, dyadic mesh refinement, membership-witness exactness, transport, replay, provenance, and local naming for BEDC.Derived.FiniteOpenCoverIntervalUp.}
+\end{closurestatus}
