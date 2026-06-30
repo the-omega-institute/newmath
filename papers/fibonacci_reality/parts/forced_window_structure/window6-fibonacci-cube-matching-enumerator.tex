@@ -1,0 +1,101 @@
+\origin{ai}
+\subsection{Window-six Fibonacci-cube matching enumerator}
+\label{sec:window6-fibonacci-cube-matching-enumerator}
+
+\paragraph{Carrier.}
+Let
+$$
+\begin{aligned}
+X_6=\{w\in \{0,1\}^6 : \text{no two adjacent coordinates of } w \text{ are both }1\}.
+\end{aligned}
+$$
+This is a finite set of binary words of length six with the adjacency-forbidden condition imposed internally on each word. Direct enumeration gives
+$$
+\begin{aligned}
+|X_6|=21.
+\end{aligned}
+$$
+The graph \(\Gamma\_6\) has vertex set \(X\_6\). Two distinct vertices \(u,v\in X\_6\) are joined by an undirected edge exactly when they differ in one coordinate and agree in the other five coordinates. Equivalently, their Hamming distance is one. The resulting finite graph has
+$$
+\begin{aligned}
+|E(\Gamma_6)|=38.
+\end{aligned}
+$$
+If the vertices of \(X\_6\) are placed in any fixed order, the adjacency matrix of \(\Gamma\_6\) is the \(21\times 21\) matrix whose \((u,v)\)-entry is \(1\) when \(u\) and \(v\) are adjacent in this Hamming-distance-one relation and is \(0\) otherwise. No limiting graph, external continuum, or probabilistic sampling law is used.
+
+\paragraph{Finite matching predicate.}
+A \(k\)-matching in \(\Gamma\_6\) is a set \(M\subseteq E(\Gamma\_6)\) with \(|M|=k\) such that no two distinct edges of \(M\) share a vertex. Since \(X\_6\) is finite, the predicate is decided by checking all pairs of selected edges. The matching enumerator is the polynomial
+$$
+\begin{aligned}
+Z_6(q)&=\sum_{k\geq 0} m_k q^k,
+\end{aligned}
+$$
+where \(m\_k\) is the number of \(k\)-matchings of \(\Gamma\_6\). The computed coefficient row for \(k=0,1,\ldots,10\) is
+$$
+\begin{aligned}
+(m_0,m_1,m_2,m_3,m_4,m_5,m_6,m_7,m_8,m_9,m_{10})
+=(&1,38,595,5016,24948,75432,137829,\\
+&146512,83589,21814,1782).
+\end{aligned}
+$$
+Thus the full polynomial is
+$$
+\begin{aligned}
+Z_6(q)&=1+38q+595q^2+5016q^3+24948q^4+75432q^5\\
+&\quad +137829q^6+146512q^7+83589q^8+21814q^9+1782q^{10}.
+\end{aligned}
+$$
+At \(q=1\), this gives the total number of matchings,
+$$
+\begin{aligned}
+Z_6(1)=497556.
+\end{aligned}
+$$
+This value is the Hosoya index of the finite graph \(\Gamma\_6\).
+
+\paragraph{Maximum matchings and monomer extraction.}
+Because \(X\_6\) has \(21\) vertices, any matching can cover at most \(20\) vertices, so it can contain at most \(10\) edges. The coefficient row has a nonzero final entry at degree \(10\), hence
+$$
+\begin{aligned}
+\nu(\Gamma_6)=10.
+\end{aligned}
+$$
+The number of maximum matchings is the degree-ten coefficient,
+$$
+\begin{aligned}
+ m_{10}=1782.
+\end{aligned}
+$$
+Every maximum matching covers exactly \(20\) vertices and therefore leaves exactly one vertex of \(X\_6\) unmatched. This unmatched vertex is the monomer of the maximum matching. Counting, over all maximum matchings, which vertex appears as this unique monomer gives the following profile:
+$$
+\begin{aligned}
+000000&:110, &000101&:108, &001001&:142, &001010&:170,\\
+010001&:190, &010010&:330, &010100&:170, &100001&:122,\\
+100010&:190, &100100&:142, &101000&:108.
+\end{aligned}
+$$
+The listed counts sum to
+$$
+\begin{aligned}
+110+108+142+170+190+330+170+122+190+142+108=1782,
+\end{aligned}
+$$
+so the profile accounts for every maximum matching exactly once. Each listed monomer has even Hamming weight, and the total contribution assigned to odd-weight monomers is
+$$
+\begin{aligned}
+0.
+\end{aligned}
+$$
+Thus the maximum-matching monomer distribution is supported entirely on even-weight vertices of \(X\_6\).
+
+\paragraph{Exact finite assertion.}
+The construction proves only a finite combinatorial statement: the window-six graph \(\Gamma\_6\), built from binary length-six words with no adjacent ones and Hamming-distance-one edges, has matching polynomial coefficients
+$$
+\begin{aligned}
+[1,38,595,5016,24948,75432,137829,146512,83589,21814,1782],
+\end{aligned}
+$$
+Hosoya index \(497556\), matching number \(10\), and \(1782\) maximum matchings. The unique unmatched vertex in each maximum matching is distributed according to the even-weight monomer profile displayed above.
+
+\paragraph{Boundary of the claim.}
+No physical-constant identification, global dynamical law, external dependency, metrological comparison, or interpretation beyond this finite graph construction follows from the enumeration. In particular, no statement about the fine-structure constant, no use of a physical value near \(1/137\), and no reverse fit to a physical measurement is part of the mathematical assertion.
