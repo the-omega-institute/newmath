@@ -43,11 +43,13 @@ The reflection row $S$ and completion boundary $M$ are then forced to read $X,U,
 
 Since quotient point equality, selected separated representatives, chosen completion limits, host metric equality, trichotomy, countable choice, and ambient Real completeness do not occur among the carrier coordinates, no NameCert obligation can be discharged outside the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.PremetricUp.PremetricCarrier\_namecert\_obligations}
 
 \begin{theorem}[Premetric separated-reflection route]
 \label{thm:premetric-separated-reflection-route}
 Let $P=(X,U,D,Z,S,M,H,C,Q,N)$ be an accepted $\PremetricUp$ carrier. Every $\SeparatedReflectionUniversalUp$ consumer of $P$ must first read the source carrier $X$, the uniform source row $U$, the distance-witness relation $D$, and the zero-distance classifier $Z$. The handoff row $S$ therefore presents the reflection source as a finite zero-distance comparison surface, not as a quotient carrier or a selected representative map.
 \end{theorem}
+\leanchecked{BEDC.Derived.PremetricUp.PremetricSeparatedReflectionRoute}
 \begin{proof}
 Apply the obligation theorem, \autoref{thm:premetric-namecert-obligations}. It identifies $X,U,D,Z$ as the full prefix needed before the separated-reflection handoff can be consumed.
 
@@ -55,6 +57,22 @@ The row $U$ records the uniform-source requests, while $D$ records the finite di
 
 Thus $S$ supplies the premetric source expected by the separated-reflection route of \autoref{ch:concrete-instances-separated-reflection-universal-namecert}. The structural rows $H,C,Q,N$ transport, replay, source, and name the same handoff; they do not add quotient data, selected representatives, or host equality.
 \end{proof}
+
+\begin{theorem}[Premetric zero-distance classifier boundary]
+\label{thm:premetric-zero-distance-classifier-boundary}
+Let $P=(X,U,D,Z,S,M,H,C,Q,N)$ be an accepted $\PremetricUp$ carrier. Every equality-like read of $P$ must pass through the finite distance-witness row $D$ and the zero-distance classifier row $Z$ before any $\SeparatedReflectionUniversalUp$, $\MetricCompletionUp$, or $\RealUp$ consumer may inspect the packet. Thus zero-distance comparison is the only equality-facing classifier route exposed by the premetric certificate; no consumer receives quotient point equality, selected separated representatives, host metric equality, chosen completion limits, or ambient completeness data.
+\end{theorem}
+\leanchecked{BEDC.Derived.PremetricUp.PremetricCarrier\_zero\_distance\_classifier\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:premetric-carrier}. The source row $X$ and uniform row $U$ admit the displayed point windows, while $D$ is the only row that records positive-radius distance witnesses.
+
+Apply the NameCert obligation surface of \autoref{thm:premetric-namecert-obligations}. It places the zero-distance classifier $Z$ downstream of $D$, so any equality-like request must be read as a finite family of distance comparisons before it can be passed onward.
+
+The separated-reflection route of \autoref{thm:premetric-separated-reflection-route} consumes exactly that $D,Z$ prefix through $S$. Completion-facing readers then use the same prefix through $M$, so neither route can replace the classifier by a quotient carrier, a selected representative, or host metric equality.
+
+The refused endpoints follow from the carrier inventory. The tuple has no coordinate for quotient equality, selected representatives, chosen completion limits, host metric equality, or ambient completeness, and the support rows $H,C,Q,N$ only transport, replay, package, and name the displayed premetric route.
+\end{proof}
+\leanchecked{BEDC.Derived.PremetricUp.PremetricZeroDistanceClassifierBoundary}
 
 \begin{theorem}[Premetric completion boundary]
 \label{thm:premetric-completion-boundary}
@@ -71,6 +89,7 @@ Any completion consumer must therefore read $X,U,D,Z,S$ before it can inspect $M
 
 The packet contains no coordinate for a completed point, selected Cauchy limit, quotient equality, host metric equality, countable choice, or ambient completeness. Hence the completion boundary is a nonescape condition over the finite premetric surface.
 \end{proof}
+\leanchecked{BEDC.Derived.PremetricUp.PremetricCompletionBoundary}
 
 \closureat{PremetricUp}{seedStr}
 

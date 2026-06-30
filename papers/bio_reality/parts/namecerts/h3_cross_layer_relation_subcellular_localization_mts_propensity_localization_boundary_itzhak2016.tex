@@ -1,63 +1,40 @@
-\chapter{Mitochondrial Targeting Propensity as a Localization Boundary for the Q6 Residual Basis}\label{ch:bioreality-q6-mts-propensity-localization-boundary-itzhak2016}
 \origin{ai}
 
-\subsection{Finite Localization Surface}\label{sec:q6-mts-localization-finite-surface}
+\subsection{Mitochondrial-localization boundary for the $B^{\ast}_{Q6}$ residual surface}
+\label{sec:bioreality-q6-mts-localization-boundary-itzhak2016}
 
-\paragraph{Object of measurement.}
-This record tests a localization-facing readout for the $B^{\ast}_{Q6}$ synonymous residual coordinates, not a translation, abundance, folding, or function claim. The finite surface is formed by joining coding-sequence residual coordinates to a mitochondrial-localization or mitochondrial-targeting-propensity readout in the Itzhak-style localization boundary. The verified finite join contains $8696$ proteins or coding-sequence-linked rows, of which $657$ are mitochondrial-positive rows under the localization label used by the run. Thus the observed mitochondrial fraction on the joined surface is
+\paragraph{Finite surface.}
+The localization contact considered here is a finite human protein panel in which coding-sequence residual coordinates are joined to a binary mitochondrial-localization readout.  The realized join contains $8696$ proteins, of which $657$ are mitochondrial positives.  The computation used $2000$ deterministic permutation draws and completed in $11.034382$ seconds.  Thus the finite object is not a general statement about compartments; it is a row-indexed surface
 $$
 \begin{aligned}
-  \widehat{\pi}_{\mathrm{mito}} &= \frac{657}{8696} \\
-  &\approx 0.0756 .
+  \mathcal{L}_{\mathrm{Itzhak}} &= \{(p, q(p), z(p), \ell(p)) : p \in P_{8696}\},\\
+  |P_{8696}| &= 8696,\\
+  \sum_{p\in P_{8696}} \ell(p) &= 657,
 \end{aligned}
 $$
-The computation used $2000$ permutation draws and completed in $11.034382$ seconds. These numbers establish that the localization contact has a nonempty finite panel and a nontrivial minority class, but they do not by themselves identify a surviving residual coordinate, a translation-mediated path, or a mechanistic targeting rule.
-
-\paragraph{Residual-coordinate side of the contact.}
-The coordinate family is the nine-coordinate $B^{\ast}_{Q6}$ residual basis used across the cross-layer tests: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress. The standard control block for the translation-efficiency run used an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions, GC3, and the $M$-density baseline, with $24$ control columns and rank $23$ in each of the four measured-translation-efficiency organisms. The measured-translation-efficiency finite joins were $n=13140$ for zebrafish, $n=3415$ for \emph{E. coli} K12 MG1655, $n=11554$ for human, and $n=5128$ for budding yeast. Those translation-efficiency joins are not substituted for the localization panel; they record the bounded translation side of the same residual basis and show why a localization statement must remain separated from any ribosome-profiling conclusion unless the same-row translation readout is explicitly present.
-
-\paragraph{Localization as a downstream boundary.}
-The localization panel is downstream of coding sequence and possible translation readout, but the verified localization row count alone does not establish a $Q_i \to T_j \to L_k$ chain. In particular, the observed finite facts are
+where $q(p)$ denotes the available $B^{\ast}_{Q6}$ residual-coordinate vector, $z(p)$ denotes the matched control row, and $\ell(p)\in\{0,1\}$ records mitochondrial assignment on this localization surface.  The positive-class fraction is therefore
 $$
 \begin{aligned}
-  n_{\mathrm{joined}} &= 8696, \\
-  n_{\mathrm{mito}} &= 657, \\
-  n_{\mathrm{perm}} &= 2000, \\
-  t_{\mathrm{runtime}} &= 11.034382\ \mathrm{s}.
+  \widehat{\pi}_{\mathrm{mito}} = {657 \over 8696} \simeq 0.07555 .
 \end{aligned}
 $$
-These values license a localization-boundary entry: the row surface is large enough to define a finite binary or propensity readout, and the mitochondrial-positive class is present. They do not license a positive localization-survival statement unless a reported statistic shows that at least one residual coordinate survives after the declared controls and simpler-baseline ablation.
+This class imbalance is part of the mathematical object: a localization score must be read against a sparse-positive boundary, not against a balanced two-class toy model.
 
-\subsection{Relation to Translation and Protein-Feature Contacts}\label{sec:q6-mts-localization-relation-to-other-contacts}
-
-\paragraph{Measured translation-efficiency comparison.}
-The measured-translation-efficiency experiment computed descriptive absorption of the modeled-tAI-complement abundance residual by measured TE. The absorbed fractions were $0.01759429001506974$ in zebrafish, $0.0010982956489726373$ in \emph{E. coli}, $0.0028947149257963897$ in human, and $0.0002762783754375593$ in budding yeast. The corresponding combined residual fractions were $0.8276090159036916$, $0.6620871850159149$, $0.854133502300174$, and $0.2237928123367028$. These values are useful as a guardrail: measured TE was a weak descriptive absorber in those finite joins, so a localization association, if observed on the Itzhak-style panel, cannot be silently reinterpreted as translation realization. It would still need a same-row translation step and an attenuation or mediation calculation before any translation-conditioned localization statement could be made.
-
-\paragraph{Protein-feature comparison.}
-A separate protein-feature contact tested complex membership, domain count, PTM density, and transmembrane count. Its finite joins were $2242$ zebrafish rows, $18335$ human rows, and $5682$ budding-yeast rows. The Bonferroni-null comparison was heterogeneous: zebrafish PTM density exceeded its Bonferroni threshold, while human complex membership, PTM density, and transmembrane count exceeded their thresholds; budding yeast did not show a Bonferroni excess for the four listed candidates. This heterogeneity is not a localization result. It shows that coarse protein annotations can register residual-coordinate contact on some finite panels while still failing to provide a stable cross-organism mechanism. The mitochondrial-localization panel therefore remains its own contact: neither bulk feature absorption nor a transmembrane-count excess is treated as a substitute for a measured localization readout.
-
-\paragraph{Organism-specific background.}
-The cross-organism meta table also warns against universalizing the localization boundary. In the organism-specific survey, the complete-feature row count was $12$ out of $16$ assembled organisms. The domain-by-dominant-coordinate contingency had $n=12$, Pearson chi-square $9.399999999999999$, Cramer's $V=0.6258327785172862$, and a right-tail permutation value $p=0.5814185814185814$ over $1000$ trials. The continuous tests likewise remained descriptive: $M_{QTP}$ fraction versus GC3 had $r=-0.3062616500469447$ with two-sided permutation value $0.35264735264735264$; versus log protein count had $r=-0.033628115789504955$ with value $0.913086913086913$; versus log tRNA gene count had $r=0.06029405206037823$ with value $0.8621378621378621$. These meta-level values keep the localization boundary from being promoted into a domain law or a universal codon-usage mechanism.
-
-\subsection{Permitted Readback and Refusal Boundary}\label{sec:q6-mts-localization-readback-boundary}
-
-\paragraph{What the finite panel supports.}
-The supported statement is narrow. A finite localization panel exists for the residual-coordinate contact, with $8696$ joined rows, $657$ mitochondrial-positive rows, and $2000$ permutation draws. This is enough to record that mitochondrial localization or mitochondrial-targeting propensity has been brought to the same class of finite readout surfaces as the Q6 residual coordinates. It is also enough to state the immediate statistical burden: a positive localization entry would require a reported coordinate-level statistic, a null distribution or equivalent baseline comparison, and controls covering amino-acid composition, organism or organism-specific scope, GC3, length, $M$-density, and matched abundance or translation covariates where those are part of the panel.
-
-\paragraph{What is not licensed.}
-No translation conclusion follows from the localization row counts. No folding, physical admissibility, protein function, trafficking mechanism, compartment-identity mechanism, phenotype, causal mediation, or universal biological law follows from the joined localization panel alone. A same-row localization association would still be only a localization-facing statistical readout unless a separate contact supplied the missing layer: ribosome profiling or explicit translation-efficiency rows for translation, proteomics for abundance, structure or stability assays for physical state, perturbation or binding evidence for mechanism, and functional or phenotype assays for biological effect. In symbols, the present finite record only supports the existence of a bounded readout surface
+\paragraph{Boundary statistic.}
+For each residual coordinate $q_i$, the admissible localization question is whether the coordinate contributes finite predictive information for $\ell$ after the declared controls have been accounted for.  The chapter records the contact as a boundary surface rather than as a mechanistic conclusion.  In schematic notation, an admissible entry has the form
 $$
 \begin{aligned}
-  (Q_i, Z, L_{\mathrm{mito}}) \quad \text{on} \quad n=8696\ \text{joined rows},
+  S^{QL}_{i,\mathrm{mito}}
+    &= \Delta\operatorname{Score}\bigl(\ell; q_i \mid Z, \mathrm{baseline}\bigr),
 \end{aligned}
 $$
-not the stronger chain
-$$
-\begin{aligned}
-  Q_i \longrightarrow T_j \longrightarrow L_{\mathrm{mito}} \longrightarrow \text{mechanism or function}.
-\end{aligned}
-$$
-The latter chain remains unclaimed until each arrow is backed by its own finite contact and statistic.
+with the empirical null obtained by the $2000$ recorded permutations.  The run metadata supplied for this packet gives the joined row count, the mitochondrial-positive count, the permutation count, and the runtime; it does not supply a coordinate-wise table of $S^{QL}_{i,\mathrm{mito}}$, permutation $p$-values, fitted coefficients, or thresholded coordinate calls.  Consequently this chapter can state the finite localization boundary and the admissible statistic, but it cannot assert that any particular $B^{\ast}_{Q6}$ coordinate survives the localization test.
 
-\paragraph{Chapter verdict.}
-This chapter is ready as a boundary record rather than as a positive biological mechanism claim. The finite Itzhak-style localization surface is present and quantitatively recorded; the mitochondrial-positive class is nonempty; and the permutation count is explicit. The chapter therefore preserves the localization contact for later coordinate-level testing while refusing promotion to translation, folding, physical admissibility, biological function, mechanistic targeting, or universality.
+\paragraph{Relation to measured translation efficiency.}
+The localization boundary is downstream of a separate measured-translation-efficiency contact.  On the human measured-TE surface, the joined row count is $11554$ with control rank $23$, and the modeled-complement fraction is $d_{\mathrm{modeled}}=0.8566190269974241$.  Residualizing against measured TE changes that value only to $d_{\mathrm{combined}}=0.854133502300174$, giving a descriptive absorbed fraction $0.0028947149257963897$.  These numbers are useful only as a guardrail: they show that the human translation-efficiency contact is a small descriptive absorber of the modeled complement on its own finite join.  They do not turn the localization panel into a translation mechanism, and they do not license a claim that mitochondrial localization is mediated by ribosome occupancy.
+
+\paragraph{Relation to fetchable protein features.}
+A separate human protein-feature surface gives a larger all-feature join of $18335$ rows with control rank $23$.  On that surface, the descriptive absorbed fractions are $0.0075271999877804495$ for complex membership, $1.1405527940317433\times 10^{-5}$ for domain count, $0.014884825920540636$ for PTM density, and $0.0015569064882873212$ for transmembrane count.  These feature contacts are not equivalent to a mitochondrial-localization assay.  They provide nearby protein-level context showing that some coarse annotations can absorb small fractions of the residual surface, but they cannot substitute for the $8696$-row localization panel or for a coordinate-wise localization statistic.
+
+\paragraph{Local no-promotion rule.}
+The admissible conclusion is therefore narrow.  The Itzhak-style localization contact supplies a finite protein-localization readout with $8696$ joined rows and $657$ mitochondrial positives, together with a $2000$-permutation audit envelope.  From these rows alone one may discuss whether a controlled coordinate-to-localization statistic has been computed and whether it is positive under the declared null.  In the supplied finite record, the coordinate-wise statistic itself is not present.  No translation claim follows from this localization contact; no folding, physical-admissibility, molecular-function, trafficking-mechanism, phenotype, or universality claim follows either.  Each of those statements would require its own layer-matched measurement surface and its own recorded statistic.

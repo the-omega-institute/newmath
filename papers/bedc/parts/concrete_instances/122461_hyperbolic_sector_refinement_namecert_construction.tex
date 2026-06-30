@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicSectorRefinementUp$}
+\label{ch:concrete-instances-hyperbolic-sector-refinement-namecert}
+\origin{ai}
+
+The $\HyperbolicSectorRefinementUp$ packet realizes the sector-refinement branch of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite NameCert data. It sits after the sector envelope of \autoref{ch:concrete-instances-hyperbolic-sector-envelope-namecert}, the sector expansion packet of \autoref{ch:concrete-instances-hyperbolic-sector-expansion-namecert}, the sector overlap ledger of \autoref{ch:concrete-instances-hyperbolic-sector-overlap-ledger-namecert}, and the observer-expansion packet of \autoref{ch:concrete-instances-hyperbolic-observer-expansion-namecert}. The packet names a finite refinement of an observer-facing sector; it is not a completed hyperbolic boundary, a selected global sector, a host geometric subdivision theorem, or a physical observer law.
+
+\begin{definition}[Hyperbolic sector-refinement carrier]
+\label{def:hyperbolic-sector-refinement-carrier}
+A $\HyperbolicSectorRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,B,V,O,L,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the aperture row inherited from the sector-expansion packet.
+\item $B$ is the boundary-shadow row inherited from the sector-envelope and boundary-facing sector packets.
+\item $V$ is the visual-radius row that keeps the refined sector visible at finite observer scale.
+\item $O$ is the observer-window row, naming the finite focus through which the refinement is read.
+\item $L$ is the overlap ledger row, exposing the sector-overlap constraints before any refined sector is accepted.
+\item $T$ is the transport row for moving aperture, boundary-shadow, radius, observer-window, and overlap evidence together.
+\item $H$ records componentwise $\hsame$ transport for $A,B,V,O,L,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through aperture, boundary shadow, visual radius, observer window, overlap, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicSectorEnvelopeUp$, $\HyperbolicSectorExpansionUp$, $\HyperbolicSectorOverlapLedgerUp$, $\HyperbolicObserverExpansionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyperbolicSectorRefinementUp}$ row.
+\end{enumerate}
+The classifier compares two refinement packets only through these rows. It has no coordinate for ambient hyperbolic-sector equality, selected ideal endpoints, completed boundary regions, or a host subdivision algorithm.
+\end{definition}
+
+\begin{theorem}[Hyperbolic sector-refinement NameCert obligations]
+\label{thm:hyperbolic-sector-refinement-namecert-obligations}
+For every accepted $\HyperbolicSectorRefinementUp$ carrier
+$$
+R=(A,B,V,O,L,T,H,C,P,N),
+$$
+the local $\NameCert_{\HyperbolicSectorRefinementUp}$ surface consists exactly of aperture admission through $A$, boundary-shadow admission through $B$, visual-radius admission through $V$, observer-window admission through $O$, overlap-ledger admission through $L$, transport through $T,H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every observer-expansion consumer must read the sector envelope, sector expansion, and overlap-ledger sibling routes before treating the refinement as accepted. The packet exports no completed hyperbolic boundary, selected global sector, host geometric subdivision theorem, physical observer law, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-sector-refinement-carrier}. The aperture row, boundary-shadow row, visual-radius row, observer-window row, and overlap ledger are the only rows from which a refinement can be read.
+
+Read the sibling anchors in order. The sector envelope supplies the boundary-facing shell, the sector expansion packet supplies aperture and growth comparison, and the sector overlap ledger supplies the finite compatibility rows.
+
+The transport and replay rows keep these dependencies together for each consumer request. Provenance and local naming then record the same finite route as a NameCert surface.
+
+Since the carrier has no coordinate for completed boundary regions, selected endpoints, host subdivision laws, or physical observer dynamics, the listed rows exhaust the accepted refinement packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HyperbolicSectorRefinementUp$ read fails if the overlap ledger is removed while the aperture, boundary-shadow, visual-radius, and observer-window rows remain.}
+
+\independenceWitness{hyperbolic-sector-envelope, hyperbolic-sector-expansion, hyperbolic-sector-overlap-ledger, hyperbolic-observer-expansion: no listed sibling is bijective to $\HyperbolicSectorRefinementUp$ because this packet jointly carries aperture, boundary-shadow, visual-radius, observer-window, overlap, transport, replay, provenance, and local naming rows as one refinement surface.}
+
+\closureat{HyperbolicSectorRefinementUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicSectorRefinementUp}
+  \constructivestory{A $\HyperbolicSectorRefinementUp$ packet is generated from aperture, boundary-shadow, visual-radius, observer-window, overlap, transport, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-sector-refinement-carrier} and \autoref{thm:hyperbolic-sector-refinement-namecert-obligations} seed the finite sector-refinement packet over HyperbolicSectorEnvelopeUp, HyperbolicSectorExpansionUp, HyperbolicSectorOverlapLedgerUp, HyperbolicObserverExpansionUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, completed hyperbolic boundary sectors, selected ideal endpoints, host subdivision theorems, physical observer laws, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked aperture admission, boundary-shadow admission, visual-radius admission, observer-window admission, overlap-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicSectorRefinementUp.}
+\end{closurestatus}

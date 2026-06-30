@@ -1,73 +1,31 @@
+\subsection{Localization readback for the non-translation residual of $B^*_{Q6}$}\label{sec:bioreality-q6-h-candidate-localization-nontranslation-residual}
 \origin{ai}
 
-\subsection{Localization absorption of the non-translation abundance residual}
-\label{sec:bioreality-q6-localization-nontranslation-residual}
-
 \paragraph{Question.}
-The finite object tested here is not the direct $B^{\ast}_{Q6}$ association with protein abundance, and it is not a claim that codon residual geometry produces a localization mechanism.  The tested object is the remaining abundance component after a modeled translation readout has already been used as a bounded translation coordinate.  For each coding sequence row, the nine-dimensional residual coordinate block
-$Q=(K_{AAA},Arg_{AGR},Ile_{AUA},Leu_{CUN\,vs\,UUR},Leu_{UUA\,vs\,UUG},Ser_{UCR\,vs\,AGY},Ser_{UCA\,vs\,UCG},Thr_{ACR\,vs\,ACY},f_3\text{-stress})$
-is residualized against the same baseline covariates used in the protein-abundance experiments: an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$, and the $M$-density baseline defined by the fraction of sense codons on the union support of the nine projected $B^{\ast}_{Q6}$ vectors.  This gives $24$ control columns and rank $23$ for the control design in every localization panel below.
+The finite test asks whether the portion of protein-abundance signal left after the modelled translation readout has been removed has any measurable relation to coarse protein localization annotations.  The source coordinates are the nine $B^*_{Q6}$ residual directions
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  For each joined coding sequence, the abundance residual first removes the fixed covariate block $Z$: intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions, $GC3$, and the $M$-density baseline defined by the union support of those nine projected $q$-vectors.  The experiment then forms the modelled-tAI complement of the $Q$-explained abundance component and projects that residual component onto residualized multi-label localization columns.
 
-\paragraph{Finite matrix surface.}
-The localization readout is the reviewed UniProt subcellular-localization annotation, parsed as a $K=12$ multi-label one-hot surface with categories
-$Cell\_membrane$, $Cytoplasm$, $Cytoskeleton$, $Endoplasmic\_reticulum$, $Golgi$, $Membrane$, $Mitochondrion$, $Nucleus$, $Other$, $Peroxisome$, $Secreted$, and $Vacuole\_Lysosome$.
-The three evaluated organisms have finite joined panels
+\paragraph{Finite surface.}
+The localization readout has $K=12$ annotation columns in each organism.  The joined matrices are not equally powered: zebrafish has $1{,}984$ localization-joined coding sequences out of $14{,}410$ reported CDS abundance joins, human has $16{,}008$ out of $19{,}053$, and budding yeast has $4{,}656$ out of $5{,}815$.  In all three cases the control block has $24$ columns and residualized rank $\operatorname{rank}(Z)=23$.  The parsed UniProtKB reviewed localization records contribute $2{,}821$ records for zebrafish, $16{,}406$ for human, and $4{,}831$ for yeast.  The dominant raw annotation counts are broad and multi-label rather than mechanistic: for human, for example, the largest categories are Membrane $=7{,}119$, Cytoplasm $=6{,}305$, Nucleus $=5{,}837$, Cell membrane $=3{,}570$, and Secreted $=1{,}876$; yeast has Membrane $=1{,}863$, Cytoplasm $=1{,}736$, Nucleus $=1{,}733$, and Mitochondrion $=811$; zebrafish has Cytoplasm $=883$, Nucleus $=845$, Membrane $=708$, and Mitochondrion $=247$.
+
+\paragraph{Statistic.}
+Let $P_Q$ denote the $Z$-residualized protein-abundance component explained by the nine-dimensional $B^*_{Q6}$ coordinate block, and let $T_{\mathrm{mod}}$ denote the modelled tAI readout used only to subtract the modelled translation component.  The residual interrogated here is
 $$
 \begin{aligned}
-\mathrm{danio\_rerio}:&\quad n=1984,\ K=12,\ \operatorname{rank}(Z)=23,\ n_{\mathrm{loc}}=2821,\\
-\mathrm{homo\_sapiens}:&\quad n=16008,\ K=12,\ \operatorname{rank}(Z)=23,\ n_{\mathrm{loc}}=16406,\\
-\mathrm{saccharomyces\_cerevisiae}:&\quad n=4656,\ K=12,\ \operatorname{rank}(Z)=23,\ n_{\mathrm{loc}}=4831.
+P_{Q\perp T_{\mathrm{mod}}} &= P_Q - \Pi_{T_{\mathrm{mod}}} P_Q,\\
+A_L &= \frac{\|\Pi_{L_Z}P_{Q\perp T_{\mathrm{mod}}}\|^2}{\|P_{Q\perp T_{\mathrm{mod}}}\|^2},
 \end{aligned}
 $$
-The corresponding full CDS abundance joins reported by the upstream abundance surface are $14410$ for zebrafish, $19053$ for human, and $5815$ for yeast.  On the larger direct protein-abundance experiment, the same abundance resource had join hit rates $1.0000$ for zebrafish, $0.9779294769799313$ for human, and $0.9156038419146592$ for yeast, with direct $S^{QP}$-style partial-abundance readbacks $R^2_{QP}=0.04613529807085213$, $0.04454565118019448$, and $0.29837624994140827$, respectively.  Those direct values are used only as finite context for the downstream abundance surface; they are not interpreted as localization or mechanism.
+where $L_Z$ is the $12$-column localization design after the same $Z$ residualization.  A degree-of-freedom matched Gaussian null with $K=12$ columns and $200$ trials is used because any multi-column readout absorbs some energy mechanically.  The observed absorption values are $A_L=0.009508864544725801$ for zebrafish, $A_L=0.009254913329269913$ for human, and $A_L=0.011225105608516642$ for yeast.  The corresponding null $95$th percentiles are $0.011321328712802819$, $0.0013758521256775384$, and $0.004958116973149795$, with null means $0.0062549946178242525$, $0.0008032852113983743$, and $0.002689902676583632$ respectively.
 
-\paragraph{Modeled-complement residual.}
-Let $P_Q$ denote the $Z$-residualized protein-abundance component explained by the nine $B^{\ast}_{Q6}$ coordinates.  Let $T_{\mathrm{mod}}$ denote the modeled translation readout used in the companion abundance decomposition, and let $P_{Q\perp T_{\mathrm{mod}}}$ be the part of $P_Q$ not absorbed by that modeled translation coordinate.  The localization test projects this non-translation abundance component onto the residualized $12$-column localization matrix $L$.
-The recorded complement fractions on the localization joins are
-$$
-\begin{aligned}
-d_{\mathrm{modeled}}(\mathrm{danio\_rerio}) &= 0.7608723943210729,\\
-d_{\mathrm{modeled}}(\mathrm{homo\_sapiens}) &= 0.9020707321191324,\\
-d_{\mathrm{modeled}}(\mathrm{saccharomyces\_cerevisiae}) &= 0.1997853864617063.
-\end{aligned}
-$$
-For human and yeast these agree with the full abundance-complement references within the declared $0.02$ tolerance: human differs by $0.018824203448813193$ from the reference value $0.9208949355679455$, and yeast differs by $0.011946809265360736$ from the reference value $0.21173219572706703$.  Zebrafish differs by $0.11375632672819314$ from the reference value $0.874628721049266$, so the zebrafish localization join is reported as a changed-row-surface case rather than as a matched complement reproduction.
+\paragraph{Readback.}
+The finite rows therefore separate three cases.  Human and yeast show localization absorption above the degree-of-freedom matched null: human exceeds the null boundary by roughly $0.007879061203592375$, and yeast exceeds it by roughly $0.006266988635366847$.  Zebrafish does not exceed its null boundary, since $0.009508864544725801<0.011321328712802819$.  The complement diagnostic also warns that the zebrafish localization join changes the readout surface substantially: its modelled complement fraction is $0.7608723943210729$ on the localization join versus $0.874628721049266$ on the full abundance-CDS join, an absolute difference of $0.11375632672819314$.  Human and yeast are stable by the stated $0.02$ tolerance: human has $0.9020707321191324$ versus $0.9208949355679455$, absolute difference $0.018824203448813193$, and yeast has $0.1997853864617063$ versus $0.21173219572706703$, absolute difference $0.011946809265360736$.
 
-\paragraph{Observed localization absorption.}
-The finite statistic is the fraction of $P_{Q\perp T_{\mathrm{mod}}}$ absorbed by the residualized localization columns.  The computed values are
-$$
-\begin{aligned}
-A_L(\mathrm{danio\_rerio}) &= 0.009508864544725801,\\
-A_L(\mathrm{homo\_sapiens}) &= 0.009254913329269913,\\
-A_L(\mathrm{saccharomyces\_cerevisiae}) &= 0.011225105608516642.
-\end{aligned}
-$$
-Because a $12$-column multi-label readout can absorb variance mechanically, the comparison is made against a degree-of-freedom-matched Gaussian null with $200$ trials per organism.  The null means and $95$th percentiles are
-$$
-\begin{aligned}
-\mathrm{danio\_rerio}:&\quad \mu_0=0.0062549946178242525,\quad q_{0.95}=0.011321328712802819,\\
-\mathrm{homo\_sapiens}:&\quad \mu_0=0.0008032852113983743,\quad q_{0.95}=0.0013758521256775384,\\
-\mathrm{saccharomyces\_cerevisiae}:&\quad \mu_0=0.002689902676583632,\quad q_{0.95}=0.004958116973149795.
-\end{aligned}
-$$
-Thus the finite-row readback has a two-positive, one-null pattern: human and yeast exceed their matched-null $95$th-percentile thresholds, while zebrafish does not.  In compact form,
-$$
-\begin{aligned}
-A_L(\mathrm{danio\_rerio})-q_{0.95} &= -0.001812464168077018,\\
-A_L(\mathrm{homo\_sapiens})-q_{0.95} &= 0.007879061203592374,\\
-A_L(\mathrm{saccharomyces\_cerevisiae})-q_{0.95} &= 0.006266988635366847.
-\end{aligned}
-$$
-The human and yeast rows therefore support localization as an $H$-candidate for carrying part of the modeled-translation-complement abundance residual on these finite joined panels.  The zebrafish row remains below the finite null threshold and also fails the complement-match tolerance, so it is not used as a positive localization-carrying row.
+\paragraph{Relation to the surrounding protein-abundance tests.}
+The localization result is not read in isolation.  Direct protein-omics survival against PAXdb abundance was positive across the powered panel, with all nine coordinates surviving in each of fifteen organisms and $R^2_{QP}$ ranging from $0.019256877907572044$ in Halobacterium to $0.29837624994140827$ in yeast.  Measured ribosome-TE survival was also finite but uneven: $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ in yeast, $0.04034217614654355$ in zebrafish, $0.018837911344127926$ in human, and $0.009394266754822262$ in Escherichia coli.  The measured TE mediation fraction was strongest in yeast, $0.4793069656345167$, much weaker in E. coli, $0.04091158340950673$, nearly absent in human, $0.0027966485036786744$, and clipped to $0$ in zebrafish after a raw suppressive value $-0.04801486048721136$.  Joint TE and mRNA-stability variance partitioning likewise leaves substantial residual signal: the joint mediation fractions are $0.5195182225621592$ in yeast, $0.2404669586626661$ in E. coli, and $0.16890712099923358$ in human, each with right-tail permutation value $0.000999000999000999$ under the registered paired permutation.  A separate yeast readout dictionary with $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, $n_{join}=1800$, five folds, and $120$ permutations covers $0.24538211439730545$ of the residual signal and leaves $0.7546178856026946$ unexplained.  These surrounding values make localization a candidate descriptor of part of the remaining residual, not a replacement for translation or stability mediation.
 
-\paragraph{Readout composition.}
-The parsed localization surfaces show that the positive rows are not single-category artifacts.  Human has $16406$ reviewed localization records, including $6305$ cytoplasm, $7119$ membrane, $5837$ nucleus, $3570$ cell-membrane, $1876$ secreted, $1529$ cytoskeleton, $1449$ endoplasmic-reticulum, $1370$ mitochondrion, $1096$ Golgi, $482$ vacuole-lysosome, $161$ other, and $109$ peroxisome records.  Yeast has $4831$ records, including $1736$ cytoplasm, $1863$ membrane, $1733$ nucleus, $811$ mitochondrion, $426$ endoplasmic-reticulum, $274$ cell-membrane, $224$ Golgi, $217$ vacuole-lysosome, $165$ cytoskeleton, $91$ secreted, $77$ peroxisome, and $44$ other records.  Zebrafish has $2821$ records, including $883$ cytoplasm, $845$ nucleus, $708$ membrane, $247$ mitochondrion, $230$ cell-membrane, $207$ endoplasmic-reticulum, $182$ cytoskeleton, $125$ Golgi, $79$ secreted, $45$ vacuole-lysosome, $23$ other, and $14$ peroxisome records.
-
-\paragraph{Relation to measured translation rows.}
-The same residual coordinate block has measured ribosome-TE survival rows in a separate finite test: $R^2_{QT,meas}=0.04034217614654355$ for zebrafish, $0.018837911344127926$ for human, and $0.13681931343730436$ for yeast, with all nine coordinates surviving under the positive threshold.  The measured translation-mediated abundance decomposition reports mediated fractions $0.0$ for zebrafish after truncating the raw negative fraction $-0.04801486048721136$, $0.0027966485036786744$ for human, and $0.4793069656345167$ for yeast.  These numbers explain why the localization experiment is deliberately phrased as an $H$-candidate test on the residual complement: the measured or modeled translation surfaces do not exhaust every downstream abundance component on every organism, and the remaining component can be interrogated by a separate finite readout such as localization.
+\paragraph{Position and dwell context.}
+The yeast $f_3$-stress branch gives an independent finite check on whether the residual has local translation-context structure.  The dwell mediation test joins $1{,}257$ rows, uses five folds and $120$ deterministic row-label permutations, and reports a base held-out $R^2$ of $0.1855578757644517$, full held-out $R^2$ of $0.20412261520502883$, and held-out $\Delta R^2=0.01856473944057712$ against a null $95$th percentile of $0.0013115362189692937$.  The $f_3$-dwell correlation is $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$.  Its positional companion classifies the leading segment as $5'$ rather than $3'$, with $five\_prime\_ramp\_passed=\mathrm{true}$ and $three\_prime\_body\_passed=\mathrm{false}$.  A broader structural-order ramp test marks the module as $ramp\_positive\_but\_not\_localized$: the primary $50$-codon ramp has weighted $f_3$ ramp $\Delta R^2=0.0011165640103326878$, body $\Delta R^2=-0.00026157313923957926$, sign-flip $p=0.0478515625$ for the ramp, and paired ramp-minus-body sign-flip $p=0.05859375$.  Thus the finite evidence supports a local dwell/ramp signal and a localization-associated non-translation residual in human and yeast, but not a folded-structure conclusion.
 
 \paragraph{Verdict.}
-The chapter-level conclusion is a bounded finite-row statement.  On the human and yeast localization joins, residualized multi-label subcellular localization absorbs more of $P_{Q\perp T_{\mathrm{mod}}}$ than expected from a degree-of-freedom-matched null, with margins $0.007879061203592374$ and $0.006266988635366847$.  On the zebrafish join, the observed absorption $0.009508864544725801$ is below the null $95$th percentile $0.011321328712802819$, and the localization-filtered complement fraction does not match the full abundance-complement reference.  The finite evidence therefore supports localization as a descriptive carrier of residual abundance signal in human and yeast only, not as a universal statement across the three organisms.
-
-\paragraph{Boundary.}
-This test does not establish translation, folding, physical admissibility, molecular function, causal mechanism, phenotype, or a universal biological law.  The localization annotations are coarse, reviewed, multi-label category records; their projection onto $P_{Q\perp T_{\mathrm{mod}}}$ is a statistical absorption calculation.  A separate layer-matched contact would be required for claims about ribosome dynamics, folded structure, compartmental trafficking mechanism, physical feasibility, biochemical function, perturbation response, or organism-level consequence.  In particular, a positive localization absorption row says only that the residual abundance component has finite covariance with the localization category surface after the stated controls and matched-null comparison.
+The localization experiment is a ready finite-row readback for the non-translation residual question.  It says that, after subtracting the modelled tAI component from the $B^*_{Q6}$ protein-abundance projection, residualized coarse localization columns absorb more than a matched null in human and yeast, while zebrafish remains below the null and has a materially altered join.  The admissible statement is deliberately narrow: localization annotations carry a descriptive fraction of the remaining abundance residual in two of the three tested organism joins.  No translation mechanism, folded structure, physical admissibility, protein function, causal pathway, organismal phenotype, or universal biological rule follows from this table.  Those stronger claims require separate layer-matched measurements and their own controlled finite-row statistics.

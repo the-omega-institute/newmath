@@ -141,4 +141,135 @@ theorem HellySelection_bounded_variation_window [AskSetup] [PackageSetup]
   }
   exact ⟨cert, variationUnary, boundedUnary⟩
 
+theorem HellySelection_finite_variation_window_handoff [AskSetup] [PackageSetup]
+    {B A W S R E T C P N variationRead boundedRead selectedRead sealedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HellySelectionCarrier B A W S R E T C P N bundle pkg ->
+      Cont B A variationRead ->
+        Cont variationRead W boundedRead ->
+          Cont S R selectedRead ->
+            Cont selectedRead E sealedRead ->
+              PkgSig bundle sealedRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row sealedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row S ∨
+                        hsame row R ∨ hsame row E ∨ hsame row sealedRead)
+                    (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealedRead pkg)
+                    hsame ∧
+                  UnaryHistory boundedRead ∧ UnaryHistory selectedRead ∧
+                    UnaryHistory sealedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier variationRoute boundedRoute selectedRoute sealedRoute sealedPkg
+  obtain ⟨bUnary, aUnary, wUnary, sUnary, rUnary, eUnary, _tUnary, _cUnary,
+    _pUnary, _nUnary, _namePkg⟩ := carrier
+  have variationUnary : UnaryHistory variationRead :=
+    unary_cont_closed bUnary aUnary variationRoute
+  have boundedUnary : UnaryHistory boundedRead :=
+    unary_cont_closed variationUnary wUnary boundedRoute
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed sUnary rUnary selectedRoute
+  have sealedUnary : UnaryHistory sealedRead :=
+    unary_cont_closed selectedUnary eUnary sealedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row S ∨
+              hsame row R ∨ hsame row E ∨ hsame row sealedRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealedRead ⟨hsame_refl sealedRead, sealedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sealedPkg⟩
+  }
+  exact ⟨cert, boundedUnary, selectedUnary, sealedUnary⟩
+
+theorem HellySelection_subsequence_handoff [AskSetup] [PackageSetup]
+    {B A W S R E T C P N selectedRead sealedRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HellySelectionCarrier B A W S R E T C P N bundle pkg ->
+      Cont S R selectedRead ->
+        Cont selectedRead E sealedRead ->
+          Cont sealedRead T replayRead ->
+            PkgSig bundle replayRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row T ∨
+                      hsame row replayRead)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle replayRead pkg)
+                  hsame ∧
+                UnaryHistory selectedRead ∧ UnaryHistory sealedRead ∧
+                  UnaryHistory replayRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier selectedRoute sealedRoute replayRoute replayPkg
+  obtain ⟨_bUnary, _aUnary, _wUnary, sUnary, rUnary, eUnary, tUnary, _cUnary,
+    _pUnary, _nUnary, _namePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed sUnary rUnary selectedRoute
+  have sealedUnary : UnaryHistory sealedRead :=
+    unary_cont_closed selectedUnary eUnary sealedRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed sealedUnary tUnary replayRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row T ∨
+              hsame row replayRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle replayRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro replayRead ⟨hsame_refl replayRead, replayUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, replayPkg⟩
+  }
+  exact ⟨cert, selectedUnary, sealedUnary, replayUnary⟩
+
 end BEDC.Derived.HellySelectionUp

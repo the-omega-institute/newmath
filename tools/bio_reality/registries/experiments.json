@@ -2889,6 +2889,176 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_folding_stability.structure_burial_contact_order_folding_ddg_tsuboyama2023",
+   "experiment_id": "protein_structure_burial_folding_ddg_tsuboyama2023",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment: does 3D-structure local geometry (Cα burial; contact-order) cross to measured per-site folding ΔΔG beyond the substitution's own property change? Source Tsuboyama 2023 (Zenodo 7992926) dG_site_feature_Fig3.csv + AlphaFold_model_PDBs; tools/bio_reality/data/protein_structure_burial_folding_ddg_tsuboyama2023.json (sites = pdb/pos/wt/ddg-to-20-targets; ca_coords = per-domain Cα). Features from coordinates (pure stdlib): burial = #Cα within 10A; contact-order = mean |Δresseq| of <=8A non-local Cα contacts / L. Primary statistic = within-fixed-substitution pooled Spearman(burial, ΔΔG) (substitution constant within block => pure structural context, anti-disguised-e_in); decisive null = within-domain feature permutation (B=1000, non-degenerate). Frontier sub-test = contact-order incremental held-out R^2 beyond burial (target-demeaned site-held-out ridge) + partial-Spearman. Positive control = anchor burial<->mean-ΔΔG. Verdict crosses_boundary (|rho_within|>=0.10 AND within-perm p<0.01 AND anchor reproduced) / bounded_descriptor_only / composition_artifact / needs_data; frontier verdict (crosses/bounded/null) reported separately, does not gate the main verdict. Deterministic, fixed seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_structure_burial_folding_ddg_tsuboyama2023.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T06:29:54+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.functional_mutational_tolerance.local_disorder_dms_tolerance_proteingym",
+   "experiment_id": "protein_local_disorder_dms_functional_tolerance_proteingym",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment: does sequence-intrinsic local disorder/low-complexity predict measured per-position functional mutational tolerance beyond position-in-protein + center-residue identity? Source ProteinGym v0.1 substitution DMS (HuggingFace OATML-Markslab/ProteinGym), 27 functional assays (stability excluded); tools/bio_reality/data/protein_local_disorder_dms_functional_tolerance_proteingym.json (per assay: WT seq + [pos,mut,dms_score]). Readout = assay-internal z-scored per-position tolerance (mean DMS over >=5 substitutions). Feature = FLANKING ±7 (center excluded) disorder-promoting fraction + Shannon complexity. Controls = pos_term (dist-to-nearest-terminus) + center-residue hydropathy/charge/disorder. Primary = held-out incremental R^2 (controls+disorder vs controls) + partial-Spearman(disorder|pos); decisive null = within-assay position-permutation (B=1000, non-degenerate). Positive control = pos_term->tolerance. Verdict crosses_boundary (partial|rho|>=0.10 AND incr-R^2>=0.01 AND perm p<0.01 AND anchor) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, fixed seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_local_disorder_dms_functional_tolerance_proteingym.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T08:17:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_binding_energetics.interface_burial_binding_ddg_skempi",
+   "experiment_id": "protein_interface_burial_binding_ddg_skempi",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment: does protein-protein interface structural burial (Levy interface-location ordinal) cross to measured binding ΔΔG beyond the substitution's own property change? Source SKEMPI v2.0 single mutations; tools/bio_reality/data/protein_interface_burial_binding_ddg_skempi.json (records pdb/wt/mut/iloc/ddg; ddg=RT*ln(Kd_mut/Kd_wt)). Feature = burial ordinal SUR/INT=0,RIM=1,SUP=2,COR=3. Primary = within-fixed-substitution pooled Spearman(burial, ΔΔG) (substitution constant within block => pure interface-position context); decisive null = within-pdb permutation of burial across each complex's mutations (B=1000, non-degenerate, preserves complex ΔΔG + iloc multiset). Positive control = anchor burial->ΔΔG (mean ΔΔG monotonic in interface burial). Verdict crosses_boundary (|rho_within|>=0.10 AND within-perm p<0.01 AND anchor) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, fixed seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_interface_burial_binding_ddg_skempi.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T09:06:43+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.execution_selection_decomposition.b_star_q6_residual_exec_selection_joint_powered",
+   "experiment_id": "b_star_q6_residual_exec_selection_joint_powered",
+   "hypothesis_level": "H3",
+   "statement": "Execution-vs-selection joint decomposition of the B*_Q6 protein-abundance residual P_Q (doc 7.5). P_Q (reconstructed faithfully: yeast base R^2_QP=0.298, dictionary anchor C*=0.256) is jointly regressed on (a) k_tl^local = per-gene local-dwell execution rate from the order-2 finite-state transducer over {K_AAA, Arg_AGR, f3_stress} on yeast riboseq occupancy, and (b) E_sel = per-gene selection potential Sum_t -log P_o(c_t|a_t) from yeast codon usage; n=5684 genes, base controls = aa-composition/length/GC. Decomposition: execution_fraction=0.044, selection_fraction=0.016, unresolved_fraction=0.940 (dominant=unresolved). Held-out joint Delta-R^2=0.0140 beats the target-permutation null 50x (null95=0.00026) and partial-Spearman(exec|base)=-0.125, partial-Spearman(sel|base)=-0.137 both clear the 0.10 effect floor -- but the joint lift FAILS the description-length complexity penalty (net lift after DL = -0.006), so verdict composition_artifact (the two channels do not justify their model complexity). Critically, k_tl^local is NOT disguised measured-TE (Spearman=-0.015) -- a genuinely independent execution channel. Finding: local execution (transducer dwell) and codon-preference selection each carry a real-but-tiny, complexity-failing signal; ~94% of P_Q stays unresolved by these two channels. Per the methods upgrade, this 94% is NOT yet attributable to hidden biology -- it requires the observation-noise ceiling and proteostasis/PTM/chaperone subtraction (subsequent modules) before interpretation. Cannot-claim: observational, not causal; transducer is weak order-2; E_sel partly co-defined with B*_Q6 (both synonymous-preference residuals, aa-composition-residualized but boundary not sharp); occupancy covers a gene subset; unresolved-dominant is the doc 7.1 source-definition, not a failure.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_exec_selection_joint_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T10:45:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.target_noise_ceiling.b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
+   "experiment_id": "b_star_q6_pq_target_permutation_dictionary_ceiling_powered",
+   "hypothesis_level": "H3",
+   "statement": "Target-side permutation noise ceiling for the B*_Q6 protein-abundance residual P_Q (methods-upgrade decisive gate, doc step 1): is the measured-readout dictionary's compressibility of P_Q genuine biological structure, or an artifact of the model class compressing any same-marginal target? The existing dictionary null is READOUT-side (permutes the readout basis); this adds the missing TARGET-side null. Yeast (n=3290, base R^2_QP=0.293 = reconstruction-validated): the best complexity-penalized dictionary coverage C*_obs=0.2086; permuting P_Q within MATCHED STRATA (abundance-decile x CDS-length-bin x GC3-bin) and re-running the full dictionary selection B=200 times yields target-null N_target_95=0.0095 (null mean 0.0044, max 0.0164), so C*_obs exceeds the matched ceiling by ~22x with p_target=0.005. Verdict crosses_boundary: the B*_Q6->protein-abundance dictionary compressibility is GENUINE structure, NOT a model-class artifact -- the model class achieves only ~0.4% coverage on a stratum-shuffled P_Q. This VALIDATES continuing the source-side decomposition program. Cannot-claim: observational, not causal; matched strata control only abundance/length/GC3 (not finer join/platform structure -- possibly still lenient); C* uses the minimal_dictionary lambda-DL/join/null penalties; passing this gate does NOT mean the unexplained U is all hidden biology -- U still must clear the observation-noise ceiling and have proteostasis/PTM/chaperone contacts subtracted before attribution.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_target_permutation_dictionary_ceiling_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T10:45:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.observation_ceiling.b_star_q6_pq_cross_condition_observation_ceiling_powered",
+   "experiment_id": "b_star_q6_pq_cross_condition_observation_ceiling_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (methods step 2): cross-condition observation ceiling for P_Q. Reconstruct the B*_Q6 abundance residual P_Q under SD and YEPD yeast proteomics (proteomics_abundance_saccharomyces_cerevisiae_{sd,yepd}.json, log10) with the same Q/control machinery as the landed P_Q results; Ceil_Q=corr(P_Q^SD,P_Q^YEPD) split-half reproducibility; compare to dictionary coverage C* (minimal_dictionary); inverse-variance weighted projection w_g=1/sigma^2_g (sigma from SD-YEPD spread) + n_eff. Verdict crosses_boundary if Ceil_Q high AND C*<<Ceil_Q (reproducible undictionaried U) / bounded_descriptor_only / composition_artifact (U is observation/condition noise) / needs_data. Reconstruction-validated (base R^2_QP approx 0.298). Deterministic, pure stdlib. Confounded by the CDS-intrinsic-predictor tautology + cross-condition!=technical-replicate; a clean ceiling needs same-condition technical replicates.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_cross_condition_observation_ceiling_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T12:10:19+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.proteostasis_mismatch.b_star_q6_pq_proteostasis_mismatch_absorption_powered",
+   "experiment_id": "b_star_q6_pq_proteostasis_mismatch_absorption_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (methods step 3): proteostasis mismatch absorption of U. Reconstruct U = P_Q - Pi_D P_Q (minimal_dictionary machinery, yeast, base R^2_QP approx 0.298). Build a translation/folding-burden mismatch subspace Delta from log(TE) (riboseq_translation_efficiency) + folding burden (structural_order disorder + uniprot domain_count/tm_count/complex_member/ptm_density; ids normalized by stripping the 4932. STRING prefix to join). Test A_prot = |Pi_Delta U|^2/|U|^2 (held-out 5-fold) vs a matched-strata (abundance-decile x length) permutation null (B>=200). Verdict crosses_boundary (A_prot > null95 AND held-out Delta-R^2 >= 0.01) / bounded_descriptor_only / composition_artifact / needs_data. BURDEN-ONLY (no chaperone capacity term -- chaperone-client data unavailable). Deterministic, pure stdlib, reconstruction-validated.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_proteostasis_mismatch_absorption_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T13:07:10+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.chaperone_client.b_star_q6_pq_chaperone_client_absorption_powered",
+   "experiment_id": "b_star_q6_pq_chaperone_client_absorption_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (methods step 5): chaperone-client absorption of U. Reconstruct U = P_Q - Pi_D P_Q (minimal_dictionary machinery, yeast, base R^2_QP approx 0.298). Build a 64-dim binary chaperone-membership feature per client gene from the Gong 2009 atlas (tools/bio_reality/data/chaperone_client_gong2009_saccharomyces_cerevisiae.json). Test A_chap = |Pi_C U|^2/|U|^2 with held-out 5-fold cross-fit (mandatory for the 64-dim feature) + a matched-strata (abundance-decile x length) permutation null (B>=200). Verdict crosses_boundary (cross-fitted A_chap > null95 AND held-out dR^2 >= 0.01) / bounded_descriptor_only / composition_artifact (held-out collapses / overfit) / needs_data. Deterministic, pure stdlib, reconstruction-validated.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_pq_chaperone_client_absorption_powered.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-29T13:59:57+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translational_selection_growth_scaling.codon_abundance_strength_doubling_time",
+   "experiment_id": "codon_abundance_crossing_strength_growth_rate_scaling",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib meta-experiment: does per-organism codon->protein-abundance crossing strength scale with an independent life-history trait (minimum doubling/generation time) BEYOND GC3 + tRNA-pool? Recompute 16 organisms' crossing strength (5-fold held-out R^2 of the 9-coordinate B*_Q6 codon block over length + aa-composition + GC3, reusing the cross_organism machinery) from in-repo cds_codon_abundance_<organism>.json. Covariates: GC3 (3rd-position G/C fraction) + tRNA-pool-size (gtrnadb_trna_all_copy_<organism>.json total copies). Independent variable: hardcoded curated literature minimum doubling time (NOT codon-derived -- escapes the circularity trap). Test bare Spearman rho + PARTIAL Spearman rho(strength, log doubling | GC3, log tRNA-pool) vs an organism-pairing permutation null (B>=20000). Verdict crosses_boundary (partial significant AND |rho|>=0.10) / bounded_descriptor_only / composition_artifact (partial collapses = GC3/tRNA shadow) / needs_data (n_complete<12 or under-powered). Deterministic, pure stdlib, no network; all inputs reuse already-committed repo data.",
+   "script_path": "tools/bio_reality/experiments/run_codon_abundance_crossing_strength_growth_rate_scaling.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-30T12:05:08+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.collision_persistence_rqc.disome_hel2_resolution_residual_gse139036",
+   "experiment_id": "disome_collision_persistence_hel2_gse139036",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle-designed): Hel2-resolution residual / collision persistence. Read the per-gene GSE139036 disome+monosome table (WT+hel2D), compute Y_g = Dlog2(disome/mono) [hel2D - WT]. Build novel sequence-grammar features (charge-clustering run/dipeptide, downstream self-pairing proxy, acidic clustering) and test HELD-OUT 5-fold ridge incremental R^2 over a control set masking known stalls (20-aa composition + GC + GC3 + log2 coverage + CGA freq + CGA-CGA + poly-Pro), with a within-coverage-decile permutation null (B>=1000). Verdict crosses_boundary (incr held-out R^2>=0.01 AND perm p<0.05) / bounded_descriptor_only / composition_artifact (grammar adds nothing beyond known stalls + composition) / needs_data. Deterministic, pure stdlib; gene-level (pooled 3'-WIG has no A-site offset).",
+   "script_path": "tools/bio_reality/experiments/run_disome_collision_persistence_hel2_gse139036.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-30T16:47:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }

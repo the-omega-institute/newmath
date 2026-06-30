@@ -206,4 +206,35 @@ theorem ObserverHistoryIdentityPacket_classifier_stability [AskSetup] [PackageSe
       signaturesPkg'⟩
   exact ⟨transported, sameSignatures, sameSamenessRows⟩
 
+theorem ObserverHistoryIdentityUp_StdBridge [AskSetup] [PackageSetup]
+    {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverHistoryIdentityPacket leftHistory rightHistory signatures samenessRows ledger routes
+        provenance nameCert bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            ObserverHistoryIdentityPacket leftHistory rightHistory signatures samenessRows ledger
+              routes provenance row bundle pkg)
+          (fun row : BHist =>
+            UnaryHistory row ∧ SameSig bundle leftHistory rightHistory ∧
+              PkgSig bundle signatures pkg)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont ledger routes samenessRows ∧
+              PkgSig bundle provenance pkg)
+          hsame ∧
+        SameSig bundle leftHistory rightHistory ∧ Cont ledger routes samenessRows ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle signatures pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SameSig Cont PkgSig SemanticNameCert
+  intro packet
+  obtain ⟨cert, sameRows, ledgerRoutes, provenancePkg⟩ :=
+    ObserverHistoryIdentityPacket_namecert_obligations
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := ledger) (routes := routes)
+      (provenance := provenance) (nameCert := nameCert) (bundle := bundle) (pkg := pkg)
+      packet
+  obtain ⟨_leftUnary, _rightUnary, _signaturesUnary, _samenessRowsUnary, _ledgerUnary,
+    _routesUnary, _provenanceUnary, _nameCertUnary, _sameRows, _ledgerRoutes,
+    _provenancePkg, signaturesPkg⟩ := packet
+  exact ⟨cert, sameRows, ledgerRoutes, provenancePkg, signaturesPkg⟩
+
 end BEDC.Derived.ObserverHistoryIdentityUp

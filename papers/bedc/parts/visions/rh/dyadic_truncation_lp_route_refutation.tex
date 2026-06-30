@@ -1,0 +1,78 @@
+\chapter{Dyadic Truncation Laguerre--P\'olya Route Refutation}
+\label{ch:visions-rh-dyadic-truncation-lp-route-refutation}
+\origin{ai}
+
+The completed zeta function admits the de Bruijn--Newman Fourier
+representation
+$$
+\xi(z)=\int_0^{\infty}\Phi(u)\cos(zu)\,du,
+$$
+with $\Phi$ the standard super-exponentially decaying kernel. This suggests a
+tempting finite-cutoff route to the Riemann Hypothesis: dyadically truncate
+the integral, show that every truncation lies in the Laguerre--P\'olya class,
+and pass to the limit by Hurwitz's theorem. The present chapter records that
+this route does not close, because its central premise is false for sharp
+cutoffs. It does not prove or disprove the Riemann Hypothesis; it isolates,
+with a finite reproducible counterexample, why the route cannot be completed.
+
+\begin{definition}[Sharp dyadic truncation]
+\label{def:rh-dyadic-sharp-truncation}
+For a cutoff $a_K>0$ write the sharp dyadic truncation
+$$
+\xi_K(z):=\int_0^{a_K}\Phi(u)\cos(zu)\,du,
+$$
+and let $\kappa_K$ denote the number of non-real zeros of $\xi_K$ in the upper
+half plane. Since every Laguerre--P\'olya entire function has only real zeros,
+any certificate $\kappa_K>0$ refutes the all-$K$ Laguerre--P\'olya premise for
+this sharp-cutoff family.
+\end{definition}
+
+\begin{principle}[The conditional Hurwitz bridge]
+\label{prin:rh-dyadic-hurwitz-bridge}
+Since $\xi_K\to\xi$ uniformly on compact sets and the Laguerre--P\'olya class is
+closed under locally uniform limits, the implication
+$$
+\bigl(\forall K,\ \kappa_K=0\bigr)\ \Rightarrow\ \xi\in\mathrm{LP}\ \Rightarrow\ \mathsf{RH}
+$$
+is valid. The implication is sound, and that is precisely why it carries no
+content on its own: all of the difficulty is shifted into its premise.
+\end{principle}
+
+\begin{principle}[The premise is false: a finite counterexample]
+\label{prin:rh-dyadic-premise-false}
+The premise $\forall K,\ \kappa_K=0$ fails. The reproducible experiment
+\texttt{papers/bedc/experiments/dyadic\_truncation\_lp\_refutation.py}
+exhibits non-real zeros of small-cutoff truncations $\xi_K$, each certified by
+an argument-principle winding count together with a Newton residual check, so
+that $\kappa_K>0$ for those cutoffs. The all-$K$ Laguerre--P\'olya premise
+therefore cannot hold, and the route above cannot be discharged.
+\end{principle}
+
+\begin{principle}[Forced bifurcation mechanism]
+\label{prin:rh-dyadic-forced-bifurcation}
+The failure is structural rather than incidental. Write the
+boundary-corrected truncation as a homotopy $F_t=Q_K+tP_K$ running from a
+Robin characteristic function $Q_K$, whose zeros are all real and simple, to
+the truncation at $t=1$. For large cutoffs the first Robin zeros cluster near
+the origin and move under the homotopy with opposite-sign velocities, so they
+are forced to collide before the endpoint, producing a real double zero from
+which a non-real pair is born. Hence the no-bifurcation sub-route is
+impossible: real-rootedness of the limit cannot be secured merely by keeping
+every truncation inside the Laguerre--P\'olya class, and any salvage would
+require a separate birth-and-death cancellation argument across the homotopy.
+\end{principle}
+
+\begin{principle}[Scope and provenance of the refutation]
+\label{prin:rh-dyadic-route-scope}
+The obstruction is that a sharp domain cutoff lacks the Laguerre--P\'olya
+preservation enjoyed by the smooth de Bruijn--Newman heat deformation
+$e^{tu^2}\Phi$. The same failure mode is classical: the proven failure of the
+Tur\'an partial-sum route, the Szeg\H{o}-curve behaviour of the partial sums of the
+exponential whose zeros stay complex even though the limit is zero-free, and
+the insensitivity of Jensen-polynomial hyperbolicity to off-line zeros. The
+route is recorded here as not-claimed. It makes no positive or negative
+statement about the Riemann Hypothesis itself; it removes one tempting but
+unsound bridge so that effort is not spent re-deriving it.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-dyadic-truncation-lp-refutation-window-namecert}{Sharp dyadic truncation refutation windows realize the Laguerre--Polya route obstruction as finite cutoff, zero-count, refusal, transport, replay, provenance, and NameCert rows.}

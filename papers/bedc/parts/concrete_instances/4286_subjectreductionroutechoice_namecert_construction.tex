@@ -22,7 +22,6 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through these displayed rows and the visible transport and continuation routes.
 \end{definition}
-\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[SubjectReductionRouteChoice obligations]
 \label{thm:subject-reduction-route-choice-obligations}
@@ -45,6 +44,7 @@ Finally, $P$ and $N$ account for the finite provenance and local name. Hence the
 \label{thm:subject-reduction-route-choice-obligation-surface}
 For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, the obligation surface exposes the explicit bundle row $B$, the bundle-consumption row $V$, the obstruction-boundary row $O$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the package provenance row $P$, and the local naming row $N$. The same finite route is read through the discharge bundle surface, the socket boundary, and the downstream subject-reduction consumer of the sibling chapters.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceObligationSurface}
 \begin{proof}
 Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The bundle row, bundle-consumption row, obstruction row, transport row, replay row, provenance row, and local name are all visible coordinates of one finite packet.
 
@@ -53,10 +53,28 @@ The discharge bundle and socket boundary are not hidden behind the packet: they 
 Since the carrier has no coordinate for closed-CIC discharge, hidden route choice, or host proof search, the displayed rows exhaust the obligation surface.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteChoice route-obligation surface]
+\label{thm:subject-reduction-route-choice-route-obligation-surface}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, every route-obligation read exposes exactly the bundle row $B$ and the bundle-consumption row $V$ while retaining the obstruction row $O$ as a visible boundary. The transport, replay, provenance, and naming rows $H,C,P,N$ may preserve and replay only those displayed rows.
+
+Thus the route-obligation surface exports no closed subject-reduction theorem, quotient syntax equality, host evaluator soundness, hidden typeclass route, or third discharge path.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The route-facing rows are $B,V$, the obstruction-facing row is $O$, and the structural rows are $H,C,P,N$.
+
+Apply the obligation-surface theorem \autoref{thm:subject-reduction-route-choice-obligation-surface}. It exhausts the visible rows of the packet before any downstream consumer reads the route choice.
+
+Use the obstruction-boundary theorem \autoref{thm:subject-reduction-route-choice-obstruction-boundary}. It keeps $O$ separate from the bundle-consumption route, so an uninhabited obstruction cannot be reclassified as a closed subject-reduction proof.
+
+Finally apply nonescape \autoref{thm:subject-reduction-route-choice-nonescape} and obstruction-route exhaustion \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}. These rule out a hidden typeclass route, quotient syntax equality, host evaluator soundness, closed consistency, and any third discharge path.
+\end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceRouteObligationSurface}
+
 \begin{theorem}[SubjectReductionRouteChoice MetaCIC scope]
 \label{thm:subject-reduction-route-choice-metacic-scope}
 Every accepted $\SubjectReductionRouteChoiceUp$ read remains inside the MetaCIC route of the discharge bundle, socket boundary, substitution/type-preservation rows, and the downstream subject-reduction consumer. The route may cite the sibling surfaces of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert}, but it does not claim closed-CIC discharge or host proof search.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceCarrier\_metacic\_scope}
 \begin{proof}
 Use the obligation surface theorem above. It identifies the displayed rows and binds them to the finite route-choice packet before any consumer may proceed.
 
@@ -96,6 +114,7 @@ For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, ev
 
 The window is not a proof of full subject reduction. It exports no unrestricted reduction theorem, quotient syntax equality, host evaluator soundness, or closed consistency claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceTypePreservationWindow}
 \begin{proof}
 Start from the accepted carrier. The route rows $B,V$ identify the discharge bundle surface and its consumption route, while $O$ records the boundary where the present substrate has not supplied the missing closed-CIC discharge.
 
@@ -110,6 +129,7 @@ For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, ev
 
 No blocked edge escapes as unrestricted subject reduction, quotient syntax equality, host evaluator soundness, closed consistency, or an inhabited discharge bundle.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceBlockedEdgeNonescape}
 \begin{proof}
 Inspect the obstruction boundary in \autoref{def:subject-reduction-route-choice-carrier}. The row $O$ is separate from the route rows $B,V$, so a blocked edge cannot be reclassified as an inhabited discharge route.
 
@@ -117,11 +137,13 @@ The NameCert obligations of \autoref{thm:subject-reduction-route-choice-obligati
 
 Therefore a downstream worker can use the blocked edge as finite route-choice information only. The refused global subject-reduction, quotient-equality, evaluator-soundness, and closed-consistency claims remain outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceCarrier\_blocked\_edge\_nonescape}
 
 \begin{theorem}[SubjectReductionRouteChoice bundle-route exhaustion]
 \label{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}
 Every consumer read of an accepted $\SubjectReductionRouteChoiceUp$ packet reaches exactly one public route surface: the explicit bundle surface $B,V$. That surface exposes the four discharge coordinates named by the subject-reduction discharge interface, and no second route, hidden instance, or host conversion rule is exported by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceBundleRouteExhaustion}
 \begin{proof}
 Inspect the route coordinates in \autoref{def:subject-reduction-route-choice-carrier}. The explicit route is the pair $B,V$.
 
@@ -144,6 +166,7 @@ Finally use \autoref{thm:subject-reduction-route-choice-nonescape}. The rows $H,
 \label{thm:subject-reduction-route-choice-obstruction-boundary}
 The $\SubjectReductionRouteChoiceUp$ packet keeps the obstruction row $O$ separate from the route rows. It may record that a downstream substrate can use the explicit bundle route, but it does not supply an inhabited $\mathrm{SubjectReductionDischargeBundle}$, a proof of the dependent-codomain discharge row, or a closed subject-reduction theorem for the present substrate.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceObstructionBoundary}
 \begin{proof}
 Read the carrier rows in order. The route rows $B,V$ name how a discharge would be consumed once supplied, while $O$ names the boundary where the present substrate lacks the required discharge.
 
@@ -156,6 +179,7 @@ Therefore the packet can expose the route choice to downstream audits while keep
 \label{thm:subject-reduction-route-choice-obstruction-route-exhaustion}
 Every accepted $\SubjectReductionRouteChoiceUp$ packet read factors through exactly one of the displayed bundle-consumption route $B,V$ or the displayed obstruction row $O$, and both routes are transported only by the structural rows $H,C,P,N$. No third route, hidden typeclass instance, closed-CIC discharge, quotient syntax equality, host evaluator soundness, or closed consistency claim is exported by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceObstructionRouteExhaustion}
 \begin{proof}
 Project the carrier rows from \autoref{def:subject-reduction-route-choice-carrier}. The route-facing coordinates are $B,V$, the obstruction-facing coordinate is $O$, and all remaining rows are transport, replay, provenance, and local naming data.
 
@@ -164,6 +188,18 @@ Apply \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}. 
 Apply \autoref{thm:subject-reduction-route-choice-obstruction-boundary}. Any consumer that does not receive an inhabited bundle route remains at the obstruction row $O$, where the closed-CIC discharge and closed subject-reduction theorem are not supplied.
 
 Finally use \autoref{thm:subject-reduction-route-choice-nonescape}. The structural rows $H,C,P,N$ preserve only the displayed bundle and obstruction coordinates, so quotient syntax equality, evaluator soundness, closed consistency, and any third route remain outside the packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice confluence nonescape]
+\label{thm:subject-reduction-route-choice-confluence-nonescape}
+Any confluence or subject-reduction consumer reading an accepted $\SubjectReductionRouteChoiceUp$ packet must keep the explicit bundle rows $B,V$, the obstruction row $O$, and the structural rows $H,C,P,N$ visible. Thus local confluence, closed subject reduction, quotient syntax equality, evaluator soundness, and closed consistency cannot escape the route-choice boundary.
+\end{theorem}
+\begin{proof}
+Start with the bundle route. By \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, any consumer that reaches the displayed discharge route sees only the explicit rows $B,V$ and no hidden instance or host conversion rule.
+
+Next read the obstruction boundary. By \autoref{thm:subject-reduction-route-choice-obstruction-boundary} and \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}, a consumer that lacks an inhabited bundle remains at the row $O$, while the structural rows $H,C,P,N$ only transport and replay the same finite choice.
+
+Finally apply \autoref{thm:subject-reduction-route-choice-nonescape}. Since every route is exhausted by $B,V,O,H,C,P,N$, no confluence, closed subject-reduction, quotient-equality, evaluator-soundness, or closed-consistency claim is exported from the packet.
 \end{proof}
 
 \begin{theorem}[SubjectReductionRouteChoice vision handoff]
@@ -175,6 +211,19 @@ The vision chapter exposes the bundle route and the checked obstruction ledger. 
 
 The route-choice packet also records $O$, so the handoff is not read as a closed subject-reduction proof for the present substrate. Consumers can cite the finite choice surface and must still obtain discharge data elsewhere.
 \end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice TasteGate obligation handoff]
+\label{thm:subject-reduction-route-choice-tastegate-obligation-handoff}
+Any obligation-closure read of $\SubjectReductionRouteChoiceUp$ must first expose the $\TasteGate$ single-carrier alignment row, the route-choice carrier rows $B,V,O,H,C,P,N$, and the MetaCIC obstruction rows consumed by the packet. The read is therefore a finite alignment and obstruction handoff; it is not a hidden subject-reduction discharge, quotient syntax equality, evaluator soundness theorem, or closed consistency claim.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:subject-reduction-route-choice-carrier}. It displays the bundle route rows $B,V$, the obstruction row $O$, and the structural rows $H,C,P,N$ as one packet.
+
+Next use the obstruction boundary and route-exhaustion theorems, \autoref{thm:subject-reduction-route-choice-obstruction-boundary} and \autoref{thm:subject-reduction-route-choice-obstruction-route-exhaustion}. They force every accepted consumer to choose between the displayed bundle route and the displayed obstruction row, with no third discharge channel.
+
+Finally read the checked $\TasteGate$ alignment row. Since the alignment names the same single-carrier packet, an obligation-closure consumer must keep the route-choice rows and the MetaCIC obstruction rows visible before any later closure step can be claimed.
+\end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionRouteChoiceUp.SubjectReductionRouteChoiceTasteGate\_single\_carrier\_alignment}
 
 \closureat{SubjectReductionRouteChoiceUp}{seedStr}
 

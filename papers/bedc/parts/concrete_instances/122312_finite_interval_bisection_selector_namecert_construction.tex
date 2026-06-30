@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\FiniteIntervalBisectionSelectorUp$}
+\label{ch:concrete-instances-finite-interval-bisection-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on interval bisection and regular Cauchy construction, the $\FiniteIntervalBisectionSelectorUp$ packet records the finite selector used when an L10 Real or Completion route must choose a displayed half of a finite interval cell. It sits after the endpoint-order lattice of \autoref{ch:concrete-instances-finite-interval-lattice-namecert}, the dyadic interval cells of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The selector supplies a finite bisection handoff; it is not an open-cover compactness principle, a quotient real equality row, an ambient completeness theorem, or a choice function over all intervals.
+
+\begin{definition}[Finite interval bisection selector carrier]
+\label{def:finite-interval-bisection-selector}
+A $\FiniteIntervalBisectionSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,I,B,S,Q,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint-order row naming the lower endpoint, midpoint, and upper endpoint comparisons used by the bisection.
+\item $I$ is the $\DyadicIntervalUp$ cell row naming the displayed parent interval and its two finite half-cells.
+\item $B$ is the selected-half row, recording whether the accepted continuation consumes the left half, the right half, or a refusal row when the half predicate is not displayed.
+\item $S$ is the $\StreamNameUp$ schedule row for the finite endpoint and midpoint observations used by the selector.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational observations attached to the selected half.
+\item $R$ is the $\RealUp$ seal row exposed only after $D,I,B,S,Q$ have remained visible.
+\item $H$ records componentwise $\hsame$ transport for endpoint order, interval cells, selected-half data, stream windows, readback, Real sealing, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a parent interval request to the selected half and then to the regular-rational and Real-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteIntervalBisectionSelectorUp$, $\FiniteIntervalLatticeUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteIntervalBisectionSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global interval choice function, a selected limit point, quotient equality of real names, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite interval selected-half exactness]
+\label{thm:finite-interval-bisection-selected-half-exactness}
+Let $F=(D,I,B,S,Q,R,H,C,P,N)$ be an accepted $\FiniteIntervalBisectionSelectorUp$ carrier. Every selected-half read from $B$ must expose the parent interval, midpoint split, and chosen half through the dyadic endpoint-order row $D$ and the displayed cell row $I$ before it can be consumed by a StreamName, RegSeqRat, or Real-facing continuation. The packet therefore selects only one of the two listed half-cells of $I$ and exports no hidden representative, quotient real equality, open-cover compactness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-bisection-selector}. The rows $D$ and $I$ display the lower endpoint, midpoint, upper endpoint, parent interval, and the two finite half-cells before the selector row is read.
+
+Use the endpoint-order and Real-completion route of \autoref{ch:concrete-instances-finite-interval-lattice-namecert}. That route already forces interval consumers to keep dyadic endpoint evidence and finite cell membership visible before analytic handoff.
+
+The selected-half row $B$ is then interpreted only relative to those displayed endpoint and cell rows. If the requested half is absent, the refusal row remains inside $B$; if it is present, the chosen half is one of the two cells listed by $I$.
+
+Finally $S,Q,R,H,C,P,N$ preserve the same displayed route by stream scheduling, regular rational readback, Real sealing, transport, replay, provenance, and local naming. None of those rows introduces a hidden representative, quotient real equality, open-cover compactness, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Finite interval bisection refinement induction]
+\label{thm:finite-interval-bisection-refinement-induction}
+Let $F=(D,I,B,S,Q,R,H,C,P,N)$ be an accepted $\FiniteIntervalBisectionSelectorUp$ carrier. For every displayed finite bisection depth, iterating the selector rebuilds a finite chain of dyadic half-cells whose endpoint comparisons remain in $D$, whose interval cells remain in $I$, whose selected-half rows remain in $B$, and whose analytic handoff remains the route
+$$
+S,Q,R,H,C,P,N .
+$$
+Thus refinement induction supplies only a finite chain of displayed bisections and cannot introduce an infinite nested interval object, selected limit point, countable choice schedule, quotient real equality, or ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Induct on the displayed bisection depth. At depth zero the chain is the parent cell named by $I$, with endpoint order and analytic handoff already recorded by the carrier.
+
+For the successor step, apply selected-half exactness, \autoref{thm:finite-interval-bisection-selected-half-exactness}. The next half-cell is one of the two displayed halves of the current cell, and its lower endpoint, midpoint, and upper endpoint comparisons are still read through $D$.
+
+The finite interval lattice refinement induction of \autoref{thm:finite-interval-lattice-refinement-induction} supplies the table-level refinement discipline for the surrounding cell lattice. The selector adds only the row recording which displayed half is consumed at the current step.
+
+Finally the stream schedule, regular rational readback, Real seal, transport, replay, provenance, and local naming rows remain $S,Q,R,H,C,P,N$ at every finite stage. The induction therefore builds a finite displayed chain and never supplies an infinite nested object, selected limit point, countable choice schedule, quotient real equality, or ambient completion theorem.
+\end{proof}
+
+\begin{theorem}[Finite interval bisection RegSeqRat handoff]
+\label{thm:finite-interval-bisection-regseqrat-handoff}
+Every RegSeqRat-facing consumer of an accepted $\FiniteIntervalBisectionSelectorUp$ carrier factors through the displayed route
+$$
+\FiniteIntervalLatticeUp,\ \DyadicIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp
+\longrightarrow
+\RegSeqRatUp .
+$$
+The selected-half row $B$ may narrow the visible interval cell, but it does not create a rational sequence outside the displayed stream schedule or bypass the endpoint-order evidence.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-interval-bisection-selector}. The dyadic endpoint row $D$, interval-cell row $I$, selected-half row $B$, and stream schedule row $S$ are upstream of the regular rational readback row $Q$.
+
+Apply selected-half exactness. It forces $B$ to choose only a displayed half-cell whose endpoint order is already visible through $D$ and $I$.
+
+Apply refinement induction. Every finite tail of repeated bisection remains a finite chain of displayed cells, so a RegSeqRat-facing readback sees the same endpoint and stream-window route at each finite stage.
+
+Thus $Q$ is reached only through the displayed finite interval lattice, dyadic interval, dyadic endpoint, and stream schedule rows. No quotient stream, selected representative, countable-choice subsequence, or ambient Real-completion route is imported by the handoff.
+\end{proof}
+
+\begin{theorem}[Finite interval bisection Real-seal nonescape]
+\label{thm:finite-interval-bisection-real-seal-nonescape}
+Let $F=(D,I,B,S,Q,R,H,C,P,N)$ be an accepted $\FiniteIntervalBisectionSelectorUp$ carrier. A $\RealUp$ or $\CompletionUp$ consumer reaches the terminal seal $R$ only after the dyadic endpoint row $D$, displayed interval-cell row $I$, selected-half row $B$, stream schedule $S$, and RegSeqRat readback $Q$ have been exposed. The Real-facing seal therefore records the same finite bisection route and not a chosen limit, quotient real equality, open-cover compactness principle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Use the RegSeqRat handoff of \autoref{thm:finite-interval-bisection-regseqrat-handoff}. It places every regular rational readback downstream of the finite interval lattice, dyadic interval, endpoint-order, selected-half, and stream schedule rows.
+
+The Real-completion route of \autoref{ch:concrete-instances-finite-interval-lattice-namecert} keeps analytic consumers inside the displayed finite lattice route before a Real-facing seal is read.
+
+Finally replay the structural rows $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve the same packet, so the terminal row $R$ cannot add a chosen limit, quotient real equality, open-cover compactness principle, or ambient completeness witness.
+\end{proof}
+
+\closureat{FiniteIntervalBisectionSelectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntervalBisectionSelectorUp}
+  \constructivestory{A $\FiniteIntervalBisectionSelectorUp$ packet is generated from dyadic endpoint-order rows, displayed interval cells, a selected-half row, finite stream windows, RegSeqRat readback, Real seal, componentwise hsame transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-interval-bisection-selector}, selected-half exactness, refinement induction, RegSeqRat handoff, and Real-seal nonescape seed the finite bisection selector route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global interval choice, infinite nested interval convergence, selected limits, quotient real equality, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selected-half exactness, finite refinement induction, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteIntervalBisectionSelectorUp.}
+\end{closurestatus}

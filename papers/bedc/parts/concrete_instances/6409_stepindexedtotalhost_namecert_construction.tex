@@ -125,18 +125,37 @@ Apply the obligation surface and separation theorems, \autoref{thm:step-indexed-
 Finally use the sibling boundary of \autoref{thm:step-indexed-total-host-sibling-boundary}. The Turing-machine, bounded-trace, normal-form, and closed-normal siblings can be cited as anchors, but none supplies the missing semantic endpoints. Hence the public interface exports the displayed finite packet and nothing beyond it.
 \end{proof}
 
+\begin{theorem}[StepIndexedTotalHost bridge interface]
+\label{thm:step-indexed-total-host-bridge-interface}
+The public fuel-indexed $\StepIndexedTotalHostUp$ interface bridges the total-host read and the bounded universal trace read exactly through
+$$
+A,F,R,N,Z,B,Hs,C,P,K .
+$$
+A consumer may transport the host row $A$ to the shared fuel row $F$, replay the finite substrate trace $R$, read the bounded universal witness $Z$, and return to the normal-form host boundary $N$. The bridge does not export unbounded halting, partial evaluator transfer, host evaluator equality, quotient behaviour, or a proof that substrate universality is a total-host property.
+\end{theorem}
+\leanchecked{BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier\_bridge\_interface}
+\begin{proof}
+Start with the public interface theorem, \autoref{thm:step-indexed-total-host-public-interface}. It exposes exactly the rows $A,F,R,N,Z,B,Hs,C,P,K$ and no semantic endpoint outside the finite packet.
+
+Use the separation and obligation-surface theorems, \autoref{thm:step-indexed-total-host-separation} and \autoref{thm:step-indexed-total-host-obligation-surface}. They force host/substrate comparison through the shared fuel row $F$ before either the bounded universal trace witness $Z$ or the normal-form boundary $N$ is read.
+
+Finally apply the sibling boundary. The Turing-machine, bounded universal trace, normal-form, and closed-normal consistency chapters provide bridge anchors, while the refusal ledger $B$ blocks the absent unbounded and equality claims. Hence the public interface is a bridge between the displayed finite reads, not an export of stronger host or substrate semantics.
+\end{proof}
+
 \closureat{StepIndexedTotalHostUp}{seedStr}
 \closureat{StepIndexedTotalHostUp}{obligationStr}[BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostTasteGate\_single\_carrier\_alignment]
 \closureat{StepIndexedTotalHostUp}{scopedStr}[BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostTasteGate\_single\_carrier\_alignment]
 \closureat{StepIndexedTotalHostUp}{publicStr}[BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostTasteGate\_single\_carrier\_alignment]
+\closureat{StepIndexedTotalHostUp}{bridgedStr}
+\closureat{StepIndexedTotalHostUp}{matureStr}[BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier\_bridge\_interface]
 
 \begin{closurestatus}{\StepIndexedTotalHostUp}
   \constructivestory{A $\StepIndexedTotalHostUp$ packet is generated from a total host term or evaluator row, unary fuel row, finite substrate trace row, normal-form boundary row, bounded universal trace witness row, refusal ledger, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:step-indexed-total-host-carrier}, \autoref{thm:step-indexed-total-host-namecert-obligations}, \autoref{thm:step-indexed-total-host-separation}, \autoref{thm:step-indexed-total-host-sibling-boundary}, \autoref{thm:step-indexed-total-host-obligation-surface}, \autoref{thm:step-indexed-total-host-scoped-kernel-route}, and \autoref{thm:step-indexed-total-host-public-interface} specify the finite total-host and universal-substrate boundary packet, its fuel-indexed obligation surface, and its exported public interface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:step-indexed-total-host-carrier}, \autoref{thm:step-indexed-total-host-namecert-obligations}, \autoref{thm:step-indexed-total-host-separation}, \autoref{thm:step-indexed-total-host-sibling-boundary}, \autoref{thm:step-indexed-total-host-obligation-surface}, \autoref{thm:step-indexed-total-host-scoped-kernel-route}, \autoref{thm:step-indexed-total-host-public-interface}, and \autoref{thm:step-indexed-total-host-bridge-interface} specify the mature fuel-indexed total-host and universal-substrate boundary through the checked bridge-interface theorem.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, partial evaluator semantics, host evaluator equality, quotient behaviour, or transfer of substrate universality to the total host.}
-  \upgradepath{Lean closure requires a checked target for the public interface and its scoped host/substrate boundary.}
+  \upgradepath{The mature paper scope is the fuel-indexed total-host/substrate boundary through the checked bridge interface; Lean verification remains an independent formal-axis obligation.}
 \end{closurestatus}

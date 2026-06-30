@@ -43,6 +43,7 @@ For the carrier of \autoref{def:max-rate-read-gate-carrier}, the local $\NameCer
 \item transport stability and non-escape through $H,Q,C,P,N$, excluding global frames, synchronized clocks, metric tensors, Lorentz frames, host real speeds, and detached maximum-rate reads.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxRateReadGateUp.MaxRateReadGateNameCertObligations}
 \begin{proof}
 Carrier admission is the projection of the finite tuple in \autoref{def:max-rate-read-gate-carrier}. The rows $M,R,S,F,L,H,Q,C,P,N$ display the configuration, rate row, symmetry row, refusal row, lock, transport, probe stability, route, provenance, and local naming data.
 
@@ -82,6 +83,7 @@ M,R,S,F,L,H,Q,C,P,N.
 $$
 The consumer may inspect the multi-Hist configuration row, the $\MaxCausalRateUp$ row, the observer-symmetry row, the no-global-frame refusal row, the consumer lock, componentwise transport, probe stability, displayed continuation routes, provenance, and local naming data. It may not bypass the gate to obtain a free rate value or a global reference frame.
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxRateReadGateUp.MaxRateReadGateCarrier\_downstream\_consumer\_boundary}
 \begin{proof}
 Read the carrier rows listed in \autoref{def:max-rate-read-gate-carrier}. The only maximum-rate input is $R$, and the only public path to $R$ goes through $S,F,L$.
 
@@ -118,6 +120,20 @@ Begin with the carrier definition. It fixes the ten visible rows and names the $
 Add the NameCert obligations. They require locality against $M$, observer symmetry through $S$, no-global-frame refusal through $F$, consumer locking through $L$, and transport through $H,Q,C,P,N$.
 
 The symmetry-and-non-escape theorem and downstream boundary then exhaust the public consumer surface. Together they make the package finite, falsifiable, and separated from the sibling packets that supply only configuration, causal witnesses, raw maximum-rate bounds, locality cells, or invariant readback rows.
+\end{proof}
+
+\begin{theorem}[MaxRateReadGate obligation coverage]
+\label{thm:max-rate-read-gate-namecert-obligation-coverage}
+The carrier, NameCert obligations, symmetry nonescape theorem, downstream consumer boundary, CrossHistCausalRate handoff, and package theorem cover the carrier admission, rate-source locality, observer-symmetry exactness, no-global-frame refusal, consumer-lock exactness, transport stability, and ledger nonescape obligations for $\MaxRateReadGateUp$. The same coverage is constrained by the checked TasteGate carrier alignment for \texttt{BEDC.Derived.MaxRateReadGateUp.MaxRateReadGateTasteGate\_single\_carrier\_alignment}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{def:max-rate-read-gate-carrier} for carrier admission. The tuple $G=(M,R,S,F,L,H,Q,C,P,N)$ displays exactly the configuration row, maximum-rate row, observer-symmetry row, no-global-frame refusal, consumer lock, transport, probe stability, continuation route, provenance, and local naming.
+
+Apply \autoref{thm:max-rate-read-gate-namecert-obligations} for rate-source locality, observer-symmetry exactness, no-global-frame refusal, consumer-lock exactness, transport stability, and nonescape. The checked TasteGate marker following the carrier records that the formal carrier alignment is the same single displayed surface.
+
+Apply \autoref{thm:max-rate-read-gate-symmetry-nonescape}, \autoref{thm:max-rate-read-gate-downstream-consumer-boundary}, and \autoref{thm:max-rate-read-gate-cross-hist-causal-rate-handoff}. These results show that observer swaps, downstream maximum-rate consumers, and $\CrossHistCausalRateUp$ handoffs all read the same gate rows and cannot bypass the no-global-frame refusal or consumer lock.
+
+Finally apply \autoref{thm:max-rate-read-gate-namecert-package}. The package theorem assembles those rows over $\MultiHistConfigUp$, $\MaxCausalRateUp$, $\CrossHistCausalUp$, $\ObserverLocalityCellUp$, $\InterHistInvariantUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$, so no listed obligation remains outside the finite package.
 \end{proof}
 
 \closureat{MaxRateReadGateUp}{seedStr}

@@ -126,20 +126,26 @@ If the same request asks for a primitive dimension interpretation of $Z$ or $N$,
 
 Transport through $H$ preserves this boundary componentwise. It can move the refusal packet along accepted presentations, but it cannot add a new dimension row to the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryCarrier\_cannot\_claim\_route\_exactness}
 
 \begin{theorem}[DimLiftBoundary axis normal-address lock]
 \label{thm:dimliftboundary-axis-normal-address-lock}
-For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the rows $Z$ and $N$ are locked to AxisZeckendorf carry and normal-address evidence under the full-axis context $F$, the transport rows $H$, the consumer routes $C$, the package provenance $P$, and the local naming row $Q$. Any read of $Z$ or $N$ must preserve this axis-normal address and cannot reinterpret it as a primitive dimension carrier.
+For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the rows $Z$ and $N$ are locked to AxisZeckendorf carry and normal-address evidence only after four sibling routes are displayed: the $\RealUp$ handoff row $R$ of \autoref{thm:dimliftboundary-real-handoff-nonescape}, the $\ZeckendorfNormalUp$ scope row of \autoref{thm:dimliftboundary-zeckendorf-carrier-scope}, the $\ZCarryUp$ carry row inside the full-axis context $F$, and the $\AxisZeckendorfCannotClaimUp$ refusal route of \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. Any accepted normal-address read must preserve this route through $F,H,C,P,Q$ and cannot reinterpret $Z$ or $N$ as a primitive dimension carrier.
 
-The lock is local to the displayed packet: $Z$ supplies carry evidence, $N$ supplies normal-address evidence, $F$ supplies the full-axis context, and $H,C,P,Q$ supply only transport, route, provenance, and naming evidence.
+The lock is local to the displayed packet. It records a boundary address, not a full dimensional lift, host equality of addresses, RealUp completeness, or completeness of the axis.
 \end{theorem}
 \begin{proof}
-Project the carrier rows. The carry coordinate $Z$ and normal-address coordinate $N$ occur together with the full-axis context $F$, so each read of either row is already addressed inside the AxisZeckendorf packet.
+Project the carrier rows. The carry coordinate $Z$ and normal-address coordinate $N$ occur together with the full-axis context $F$, so each read of either row is already addressed inside the AxisZeckendorf packet rather than inside an ambient dimension object.
 
 Use the Zeckendorf carrier scope of \autoref{thm:dimliftboundary-zeckendorf-carrier-scope}. It closes the displayed packet under the $\hsame$ transports and $\Cont$ routes while keeping primitive dimension carriers outside the scope.
 
-The package row $P$ and local naming row $Q$ record the same dependency boundary. They name the axis-normal evidence already present; they do not provide a separate dimension row or classifier.
+Use the Real handoff non-escape theorem \autoref{thm:dimliftboundary-real-handoff-nonescape}. It places the row $R$ downstream of the carry, normal-address, cannot-claim, and full-axis rows, so an accepted normal-address read cannot bypass the real-facing refusal boundary.
+
+Finally apply the cannot-claim route exactness of \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. The request may expose $Z,N,F,H,C,P,Q$, but a primitive-dimension request is routed to $A$ and $R$.
+
+The package row $P$ and local naming row $Q$ therefore record the same dependency boundary. They name the axis-normal evidence already present; they do not provide a separate dimension row, host address equality, or completeness principle.
 \end{proof}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryAxisNormalAddressLock}
 
 \begin{theorem}[DimLiftBoundary downstream acceptance boundary]
 \label{thm:dimliftboundary-downstream-acceptance-boundary}
@@ -153,6 +159,47 @@ Begin with \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. It forces
 Next use \autoref{thm:dimliftboundary-axis-normal-address-lock}. It fixes $Z$ and $N$ as AxisZeckendorf carry and normal-address evidence under $F,H,C,P,Q$ rather than as dimension-valued rows.
 
 A later acceptance certificate may add a separate dimension row only after this packet has been consumed as refusal evidence. Without that consumption, the later certificate would be reading through a row that the present carrier explicitly does not export.
+\end{proof}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryDownstreamAcceptanceBoundary}
+
+\begin{theorem}[DimLiftBoundary carrier admission obligation]
+\label{thm:dimliftboundary-obligation-carrier}
+For every displayed packet
+$$
+D=(Z,N,A,F,R,H,C,P,Q)
+$$
+accepted as a $\DimLiftBoundaryUp$ carrier, carrier admission is exactly the admission of the nine rows $Z,N,A,F,R,H,C,P,Q$ in \autoref{def:dimlift-boundary-carrier}. The row $Z$ admits AxisZeckendorf carry evidence, $N$ admits normal-address evidence, $A$ admits the cannot-claim refusal, $F$ admits the full-axis context, $R$ admits the real-facing refusal boundary, $H$ admits componentwise transport, $C$ admits consumer routes, $P$ admits package provenance, and $Q$ admits the local NameCert name. No admitted row is a primitive dimension carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The displayed tuple has exactly the rows $Z,N,A,F,R,H,C,P,Q$, and each row is named in the carrier inventory.
+
+Apply \autoref{thm:dimlift-boundary-namecert-obligations}. Its carrier-admission clause is the first local NameCert row and it ranges over the same displayed packet.
+
+Finally apply \autoref{thm:dimlift-boundary-non-escape}. Since primitive dimension reads land in $A$ and $R$ rather than in a dimension-valued coordinate, carrier admission does not add any primitive dimension carrier.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary classifier stability obligation]
+\label{thm:dimliftboundary-obligation-classifier}
+For accepted packets $D=(Z,N,A,F,R,H,C,P,Q)$ and $D'=(Z',N',A',F',R',H',C',P',Q')$, the $\DimLiftBoundaryUp$ classifier is stable exactly when the displayed $\hsame$ and $\Cont$ rows transport the carry, normal-address, cannot-claim, full-axis, real-facing refusal, provenance, and local naming coordinates componentwise. This stability preserves the refusal interpretation of $Z,N,A,F,R$ and does not create a geometric, topological, vector-space, homological, projective, metric, or real dimension row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:dimlift-boundary-classifier}. It defines classifier comparison by componentwise $\hsame$ and $\Cont$ transport across $Z,N,A,F,R,P,Q$ and their primed counterparts.
+
+The transport table $H$ and route table $C$ are visible coordinates of both accepted packets. Thus classifier stability is checked inside the same finite carrier surface, not by an external dimension semantics.
+
+Use \autoref{thm:dimliftboundary-zeckendorf-carrier-scope} and \autoref{thm:dimliftboundary-axis-normal-address-lock}. They keep $Z$ and $N$ locked to AxisZeckendorf carry and normal-address evidence under $F,H,C,P,Q$, so stable transport preserves the refusal interpretation.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary ledger obligation]
+\label{thm:dimliftboundary-obligation-ledger}
+For every accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the ledger obligations are route exactness through $C$, package provenance through $P$, local naming exactness through $Q$, and non-escape through $A$ and $R$. Any consumer route that asks for carry, normal-address, full-axis, transport, provenance, or naming data receives the corresponding displayed row; any route that asks for primitive dimension data is refused by the cannot-claim and real-facing boundary rows.
+\end{theorem}
+\begin{proof}
+Route exactness is supplied by the continuation table $C$. By \autoref{thm:dimliftboundary-cannot-claim-route-exactness}, a request for primitive dimension data is routed to $A$ and $R$, while ordinary carrier requests remain on the displayed rows.
+
+Package provenance and local naming are the rows $P$ and $Q$ of \autoref{def:dimlift-boundary-carrier}. The NameCert obligations of \autoref{thm:dimlift-boundary-namecert-obligations} identify these rows as part of the same finite boundary packet.
+
+Non-escape is then \autoref{thm:dimlift-boundary-non-escape}. Together with the public boundary statement of \autoref{thm:dimlift-boundary-public-export}, it ensures that the ledger exports refusal evidence for downstream acceptance work and no primitive dimension interface.
 \end{proof}
 
 \closureat{DimLiftBoundaryUp}{seedStr}

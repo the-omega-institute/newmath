@@ -94,11 +94,13 @@ Now apply \autoref{thm:finite-prefix-stream-certificate-observation-induction}. 
 
 Finally replay \autoref{thm:finite-prefix-stream-certificate-window-readback}. The RegSeqRat and Real-facing consumers still see the same finite route through $W_{\leq j},D_{\leq j},R_{\leq j}$ before the structural rows $H,C,P,N$ can be read. Since the omitted tail is not a carrier coordinate, the cut remains a finite observation prefix and nothing more.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixStreamUp.FinitePrefixStreamCarrier\_observation\_cut\_stability}
 
 \begin{theorem}[Finite prefix stream cofinal reindex stability]
 \label{thm:finite-prefix-stream-cofinal-reindex-stability}
 Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier. Suppose a displayed monotone cofinal reindex route sends a target prefix request $m$ to a source cut $j \leq k$ and exposes that route through the cofinal and stream-reindexing rows of \autoref{ch:concrete-instances-cofinal-reindexing-namecert} and \autoref{ch:concrete-instances-stream-reindexing-namecert}. Then every visible prefix observation in the reindexed request still factors through the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ handoff after the unary depth $k$ is replaced by the displayed reindexed prefix $m$. The exported route is finite reindex data followed by finite prefix data; it does not use quotient stream equality, selected tails, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
 \end{theorem}
+\leanchecked{BEDC.Derived.FinitePrefixStreamUp.FinitePrefixStreamCofinalReindexStability}
 \begin{proof}
 Project the carrier by \autoref{def:finite-prefix-stream-certificate-carrier}. The source-side prefix observations available to the reindex route are exactly the displayed rows $k,W,D,R,H,C,P,N$.
 
@@ -124,6 +126,7 @@ Next apply \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-
 
 Finally use \autoref{thm:finite-prefix-stream-completion-section-pullback}. Any completion-facing section is pulled back to that same finite route, so the Bishop regular Cauchy or Real consumer receives a composed reindex-and-prefix handoff rather than a host-level equality or selected limiting object.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixStreamUp.FinitePrefixStreamCarrier\_regular\_cauchy\_reindex\_handoff}
 
 \begin{theorem}[Finite prefix stream certificate prefix concatenation]
 \label{thm:finite-prefix-stream-certificate-prefix-concatenation}

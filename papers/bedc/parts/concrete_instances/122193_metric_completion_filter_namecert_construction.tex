@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\MetricCompletionFilterUp$}
+\label{ch:concrete-instances-metric-completion-filter-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley filter completion, the $\MetricCompletionFilterUp$ packet records the filter-facing finite certificate surface for Cauchy completion. It sits between the metric-completion branch of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite filter-base rows of \autoref{ch:concrete-instances-filterbase-namecert}, the stream-window presentation of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names completion data as finite filter rows; it does not introduce quotient classes, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\falsifiablePrediction{A completion consumer that reads a filter limit without displaying the $\CauchyFilterUp$, $\FilterBaseUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows has left the $\MetricCompletionFilterUp$ packet.}
+
+\independenceWitness{metriccompletion, cauchyfilter, filterbase, streamname, regseqrat, real: $\MetricCompletionFilterUp$ is not bijective to any one sibling because it jointly carries completion admission, Cauchy-filter evidence, finite base refinement, stream windows, regular rational readback, terminal real sealing, transport, replay, provenance, and local naming.}
+
+\begin{definition}[MetricCompletionFilter carrier]
+\label{def:metric-completion-filter-carrier}
+A $\MetricCompletionFilterUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,d,F,B,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,d$ is the source metric row accepted by the $\MetricCompletionUp$ surface;
+\item $F$ is the $\CauchyFilterUp$ evidence row for the displayed completion-facing filter;
+\item $B$ is the $\FilterBaseUp$ finite-base row refining the requested filter neighborhoods;
+\item $S$ is the $\StreamNameUp$ finite-window row used to read the base tails;
+\item $R$ is the $\RegSeqRatUp$ readback row for regular rational tail data;
+\item $E$ is the terminal $\RealUp$ seal attached to the displayed readback;
+\item $H$ records componentwise $\hsame$ transport of the metric, Cauchy-filter, base, window, readback, and seal rows;
+\item $C$ records displayed $\Cont$ replay from metric-completion requests through Cauchy-filter evidence, finite base refinement, StreamName windows, RegSeqRat readback, and the Real seal;
+\item $P$ is the $\Pkg$ provenance over $\MetricCompletionFilterUp$, $\MetricCompletionUp$, $\CauchyFilterUp$, $\FilterBaseUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetricCompletionFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a quotient completion class, selected filter limit, countable-choice schedule, or ambient real completeness theorem.
+\end{definition}
+
+\begin{theorem}[MetricCompletionFilter tail-base refinement]
+\label{thm:metric-completion-filter-tail-base}
+Every completion-facing read of an accepted $\MetricCompletionFilterUp$ carrier
+$$
+M=(X,d,F,B,S,R,E,H,C,P,N)
+$$
+must expose the $\CauchyFilterUp$ row $F$, the $\FilterBaseUp$ row $B$, the $\StreamNameUp$ finite-window row $S$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal $E$ before it may be consumed as completion data. The finite base row $B$ refines each displayed filter request to a tail window read through $S$ and $R$, so the completion handoff is the displayed tail-base route rather than a quotient-class representative or a selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-filter-carrier}. The metric row and Cauchy-filter row are visible before any completion-facing read reaches the base, window, readback, or seal rows.
+
+Use the finite row projection through $B,S,R$. The $\FilterBaseUp$ row refines each displayed filter request to a named base tail, the $\StreamNameUp$ row fixes the finite request window, and the $\RegSeqRatUp$ row reads that window as regular rational data.
+
+The terminal $\RealUp$ seal is downstream of this readback. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same tail-base route, while $\Pkg$ provenance and the local $\NameCert$ row name the packet.
+
+Thus every completion-facing consumer receives only the displayed Cauchy-filter, finite-base, StreamName, RegSeqRat, and Real-seal rows. No quotient class, selected limit, countable-choice schedule, or ambient completeness theorem is used.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFilter obligation surface]
+\label{thm:metric-completion-filter-obligation-surface}
+For every accepted $\MetricCompletionFilterUp$ carrier
+$$
+M=(X,d,F,B,S,R,E,H,C,P,N),
+$$
+the visible completion-filter obligation surface is the finite $\BHist$ inventory consisting of the metric row $(X,d)$, Cauchy-filter row $F$, filter-base row $B$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetricCompletionFilterUp}$ naming row $N$. No completion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-filter-carrier}. The analytic rows are exactly $(X,d),F,B,S,R,E$, and the structural rows are exactly $H,C,P,N$.
+
+Apply tail-base refinement from \autoref{thm:metric-completion-filter-tail-base}. It forces every completion-facing read to pass through the Cauchy-filter row, finite base row, finite StreamName window, regular rational readback, and terminal Real seal.
+
+The remaining rows transport, replay, source, and locally name that same route. Since the carrier has no further coordinate, quotient completion classes, selected filter limits, countable-choice schedules, and ambient completeness cannot be part of the local obligation surface.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFilter RegSeqRat handoff]
+\label{thm:metric-completion-filter-regseqrat-handoff}
+Every accepted $\MetricCompletionFilterUp$ read that exports tail data to a completion-facing consumer must pass from the $\FilterBaseUp$ row $B$ and $\StreamNameUp$ window $S$ through the $\RegSeqRatUp$ readback row $R$ before any $\RealUp$ seal is visible. The handoff therefore records regular rational tail data as finite BEDC rows, with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ naming carried along the same route.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metric-completion-filter-tail-base}. The theorem already places $B,S,R$ between the Cauchy-filter row and the terminal seal.
+
+Read the obligation surface of \autoref{thm:metric-completion-filter-obligation-surface}. It identifies $R$ as the unique regular rational readback row in the carrier, so a consumer cannot replace it by a selected filter limit or host completion representative.
+
+The rows $H,C,P,N$ preserve the same handoff under transport, replay, provenance, and naming. Thus the RegSeqRat handoff is the displayed route through $B,S,R$ and not an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFilter Real-seal boundary]
+\label{thm:metric-completion-filter-real-seal-boundary}
+The terminal $\RealUp$ seal row $E$ of an accepted $\MetricCompletionFilterUp$ carrier is available only after the metric row, Cauchy-filter row, filter-base row, StreamName window, and RegSeqRat readback have been displayed and transported through $H,C,P,N$. A Real-facing consumer may therefore read $E$ only as the end of the finite completion-filter route, not as quotient completion equality, a selected limit, a countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the tail-base theorem \autoref{thm:metric-completion-filter-tail-base}. It places the seal row downstream of $F,B,S,R$ for every completion-facing read.
+
+Apply \autoref{thm:metric-completion-filter-regseqrat-handoff}. The regular rational readback row is already displayed before the seal, and the structural rows $H,C,P,N$ carry the same route.
+
+Finally use the carrier projection from \autoref{def:metric-completion-filter-carrier}. The carrier has no coordinate for quotient completion equality, selected limits, countable-choice schedules, or ambient Real completeness, so the Real seal is confined to the finite route just described.
+\end{proof}
+
+\closureat{MetricCompletionFilterUp}{seedStr}
+
+\begin{closurestatus}{\MetricCompletionFilterUp}
+  \constructivestory{A $\MetricCompletionFilterUp$ packet is generated from a source metric row, a Cauchy-filter row, a finite FilterBase refinement, StreamName windows, RegSeqRat readback, a terminal Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-completion-filter-carrier} and \autoref{thm:metric-completion-filter-tail-base} bind the finite filter-completion carrier and tail-base refinement route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion classes, selected filter limits, countable-choice schedules, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-base refinement, transport, replay, provenance, and local naming for BEDC.Derived.MetricCompletionFilterUp.}
+\end{closurestatus}

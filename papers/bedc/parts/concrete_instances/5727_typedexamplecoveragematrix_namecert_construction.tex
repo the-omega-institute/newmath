@@ -110,6 +110,18 @@ The row family of \autoref{def:typed-example-coverage-matrix-row-family} selects
 The support rows $H,K,P,N$ transport, replay, source, and name the same matrix. They cannot manufacture a global type-system theorem outside the displayed coverage rows.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix public export]
+\label{thm:typed-example-coverage-matrix-public-export}
+Every MetaCIC audit consumer of an accepted $\TypedExampleCoverageMatrixUp$ packet receives only the family-indexed gallery, checker, beta-boundary, and regression-spend rows $F,G,C,B,R,E,H,K,P,N$. The export may cite the MetaCIC typed-examples gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the typed-example audit budget of \autoref{ch:concrete-instances-typedexampleauditbudget-namecert}, and the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert}, but it does not export checker completeness, subject reduction, normalization, arbitrary beta closure, or gallery soundness beyond the displayed family rows.
+\end{theorem}
+\begin{proof}
+Project the accepted matrix carrier. The public rows are the family index $F$, the paired gallery, checker, beta-boundary, and regression-spend cells $G,C,B,R$, the exactness row $E$, and the structural rows $H,K,P,N$.
+
+Read the cited sibling chapters through provenance. The MetaCIC typed-examples gallery supplies gallery cells, the audit-budget packet supplies regression-spend cells, and the beta-step boundary supplies beta-boundary cells; the coverage matrix is the place where those cells share one family index.
+
+Apply the boundary-row theorem above. Since the exported rows do not contain subject reduction, normalization, checker completeness, arbitrary beta closure, or gallery soundness coordinates, a MetaCIC audit consumer receives only the displayed row-indexed matrix surface.
+\end{proof}
+
 \begin{theorem}[Typed example coverage matrix critical-path spend exhaustion]
 \label{thm:typed-example-coverage-matrix-criticalpath-budget-exhaustion}
 Any checker-audit spend from an accepted $\TypedExampleCoverageMatrixUp$ packet must expose the same family row in $F$, gallery cell in $G$, checker cell in $C$, beta-boundary cell in $B$, regression spend in $R$, exactness row in $E$, and structural rows $H,K,P,N$. Therefore the matrix cannot be used as subject-reduction evidence, normalization evidence, or checker-completeness evidence.
@@ -221,6 +233,38 @@ Use ledger non-escape \autoref{thm:typed-example-coverage-matrix-ledger-nonescap
 Finally apply the component route of \autoref{thm:typed-example-coverage-matrix-component-route} and the TasteGate obligation surface of \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface}. These rows preserve the same componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support, and therefore the scoped export is exactly the finite matrix surface stated above.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix public certificate]
+\label{thm:typed-example-coverage-matrix-public-certificate}
+The public checker-audit certificate exported by $\TypedExampleCoverageMatrixUp$ is exactly the finite row-indexed surface
+$$
+F,G,C,B,R,E,H,K,P,N .
+$$
+Any consumer citing this certificate receives family-index exactness through $F,E$, paired gallery, checker, beta-boundary, and regression cells through $G,C,B,R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\TypedExampleCoverageMatrixUp}$ row through $N$. The certificate exports no subject-reduction theorem, normalization theorem, checker-completeness theorem, arbitrary beta closure, arbitrary gallery soundness, hidden family row, or unindexed regression budget.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:typed-example-coverage-matrix-namecert-obligations}. They identify carrier admission, family-index exactness, paired cell exposure, matrix exactness, transport, replay, provenance, and local naming as the only certificate rows.
+
+Use row totality and checker-cell locality, \autoref{thm:typed-example-coverage-matrix-row-totality} and \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}. These bind every accepted family row to its gallery, checker, beta-boundary, and regression cells, so the public consumer receives the paired matrix row rather than detached sibling cells.
+
+Apply non-escape and critical-path spend exhaustion, \autoref{thm:typed-example-coverage-matrix-nonescape} and \autoref{thm:typed-example-coverage-matrix-criticalpath-budget-exhaustion}. They keep gallery, checker, beta-boundary, and regression-spend reads tied to the same family row and rule out subject reduction, normalization, checker completeness, and unindexed budget use. The public certificate is therefore exactly the displayed surface $F,G,C,B,R,E,H,K,P,N$.
+\end{proof}
+
+\begin{theorem}[Typed example coverage matrix formal target row]
+\label{thm:typed-example-coverage-matrix-formal-target-row}
+The next formal target surface for $\TypedExampleCoverageMatrixUp$ consists of a $\mathsf{Nontrivial}$ witness pair, a $\mathsf{FieldFaithful}$ mk-field projection, and TasteGate single-carrier alignment over the displayed rows
+$$
+F,G,C,B,R,E,H,K,P,N .
+$$
+This target surface is confined to the already displayed coverage-matrix carrier, row-totality evidence, checker-cell locality, family exhaustion, TasteGate obligation surface, and public certificate. It does not include checker completeness, subject reduction, normalization, arbitrary beta closure, or gallery soundness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:typed-example-coverage-matrix-carrier} to supply the witness pair and mk-field projections from the displayed rows $F,G,C,B,R,E,H,K,P,N$.
+
+Apply row totality, checker-cell locality, and family exhaustion, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, and \autoref{thm:typed-example-coverage-matrix-family-exhaustion}. These keep every gallery, checker, beta-boundary, and regression-spend cell tied to the same finite family row.
+
+Finally apply the TasteGate obligation surface and the public certificate, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface} and \autoref{thm:typed-example-coverage-matrix-public-certificate}. They identify the single-carrier alignment surface and exclude checker completeness, subject reduction, normalization, arbitrary beta closure, and gallery soundness from the target.
+\end{proof}
+
 \falsifiablePrediction{If the coverage-matrix row is removed, a checker-audit consumer can no longer verify that every accepted typed-example family has paired gallery, checker, beta, and regression-spend cells.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, typedexampleauditbudget, betastepboundary. None carries the combined matrix-cell carrier because each sibling exposes one surface family, while the coverage matrix stores the shared family index and the paired gallery, checker, beta, and regression-spend cells in one packet.}
@@ -229,12 +273,17 @@ The Lean follow-up for namespace $\mathsf{BEDC.Derived.TypedExampleCoverageMatri
 
 \closureat{TypedExampleCoverageMatrixUp}{obligationStr}
 
+\begin{theorem}[Typed example coverage matrix scope closure record]
+\label{thm:typed-example-coverage-matrix-scope-closure-record}
+The scoped paper surface of $\TypedExampleCoverageMatrixUp$ is the finite matrix export recorded in \autoref{thm:typed-example-coverage-matrix-scoped-export}, with its obligation rows supplied by carrier admission, family-index exactness, paired gallery-checker-beta-spend exposure, matrix exactness, row-totality, checker-cell locality, family exhaustion, the TasteGate obligation surface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\TypedExampleCoverageMatrixUp}$. This record closes only that scoped matrix surface.
+\end{theorem}
+
 \begin{closurestatus}{\TypedExampleCoverageMatrixUp}
   \constructivestory{A $\TypedExampleCoverageMatrixUp$ packet is generated from a finite typed-example family index, paired gallery cells, checker cells, beta cells, regression-spend cells, exactness rows, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{def:typed-example-coverage-matrix-row-family}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, \autoref{thm:typed-example-coverage-matrix-spend-boundary}, \autoref{thm:typed-example-coverage-matrix-gallery-rows}, \autoref{thm:typed-example-coverage-matrix-boundary-rows}, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, \autoref{thm:typed-example-coverage-matrix-family-exhaustion}, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface}, and \autoref{thm:typed-example-coverage-matrix-scoped-export} enumerate the finite coverage-matrix obligation surface for gallery, checker, beta, regression-spend, row-family, boundary, row-totality, checker-locality, family-exhaustion, TasteGate evidence, and scoped export.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{def:typed-example-coverage-matrix-row-family}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, \autoref{thm:typed-example-coverage-matrix-spend-boundary}, \autoref{thm:typed-example-coverage-matrix-gallery-rows}, \autoref{thm:typed-example-coverage-matrix-boundary-rows}, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, \autoref{thm:typed-example-coverage-matrix-family-exhaustion}, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface}, \autoref{thm:typed-example-coverage-matrix-scoped-export}, \autoref{thm:typed-example-coverage-matrix-public-certificate}, and \autoref{thm:typed-example-coverage-matrix-scope-closure-record} enumerate the finite coverage-matrix obligation surface for gallery, checker, beta, regression-spend, row-family, boundary, row-totality, checker-locality, family-exhaustion, TasteGate evidence, scoped export, and public certificate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close checker completeness, subject reduction, normalization, arbitrary beta closure, arbitrary gallery soundness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, family-index exactness, paired cell exposure, matrix exactness, regression-spend confinement, TasteGate evidence, componentwise transport, displayed continuation, provenance, and local naming rows.}
+  \upgradepath{The next paper step is a public export or bridge route for the scoped matrix surface, while Lean verification remains a separate target.}
 \end{closurestatus}

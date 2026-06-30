@@ -50,6 +50,23 @@ The remaining rows transport, replay, source, and locally name the same packet. 
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierCarrier\_namecert\_obligations}
 
+\begin{theorem}[RealClassifier finite-window exactness target]
+\label{thm:realclassifier-scaffold-target}
+For every accepted $\RealClassifierUp$ carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+the public classifier relation is determined exactly by the common $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealNameClassifierUp$ row $C$, the $\RegularCauchyEquivalenceUp$ row $E$, and the two $\RegSeqRatUp$ readbacks $R_X,R_Y$. Any consumer asking for host real equality, quotient stream equality, trichotomy, countable choice, or ambient completeness has no row in the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:real-classifier-carrier}. The only public comparison data are the common finite window $W$, dyadic ledger $D$, classifier row $C$, regular-Cauchy boundary $E$, and regular rational readbacks $R_X,R_Y$ over the terminal seals $X,Y$.
+
+Use the NameCert obligations of \autoref{thm:real-classifier-namecert-obligations}. They force every accepted classifier read through $W,D,C,E,R_X,R_Y$ before the public boundary is reached, while $H,K,P,N$ only transport, replay, source, and locally name the same packet.
+
+Finally inspect the absent coordinates of the carrier. Since no row stores host real equality, quotient stream equality, trichotomy, countable choice, or ambient completeness, no accepted consumer can extract one of those objects from the public classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealClassifierUp.RealClassifierCarrier\_finite\_window\_exactness\_target}
+
 \begin{theorem}[RealClassifier RegSeqRat handoff]
 \label{thm:real-classifier-regseqrat-handoff}
 Every $\RegSeqRatUp$-facing classifier read of an accepted $\RealClassifierUp$ carrier factors through the displayed regular readbacks $S_X,S_Y,R_X,R_Y$, the common window $W$, the dyadic tolerance ledger $D$, the $\RealNameClassifierUp$ row $C$, and the $\RegularCauchyEquivalenceUp$ row $E$. Thus the public real-classifier read is a finite route through regular rational data, not a direct equality test on terminal real seals.
@@ -224,6 +241,29 @@ Finally read the downstream consumers through \autoref{thm:realclassifier-comple
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierTailReplacementStability}
 
+\begin{theorem}[RealClassifier dyadic-source embedding faithfulness]
+\label{thm:realclassifier-dyadic-source-embedding-faithfulness}
+Let
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N)
+$$
+and
+$$
+Q'=(X',Y',S'_X,S'_Y,R'_X,R'_Y,W',D,C',E',H',K',P',N')
+$$
+be accepted $\RealClassifierUp$ carriers whose terminal $\RealUp$ seals arise from constant $\StreamNameUp$ lifts of displayed $\DyadicRatCoreUp$ source rows. Suppose the two packets share the same dyadic tolerance ledger $D$, expose the same common classifier window through $W$ and $W'$, and reach equal public $\RealClassifierUp$ boundary decisions. Then the equality at the classifier boundary preserves the displayed dyadic source equality surface: the only source equality exported to a $\DyadicRealEmbeddingFaithfulUp$ consumer is the one read through the shared $\DyadicRatCoreUp$ ledger, the constant $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, and the terminal $\RealUp$ seals.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff} to both carriers. It forces each dyadic-source read to pass through the displayed regular-rational rows, the common window, the dyadic ledger, the classifier row, and the regular-Cauchy boundary before the public classifier boundary is reached.
+
+Use common-window quotient refusal from \autoref{thm:real-classifier-common-window-quotient-refusal}. Since both packets share the classifier window and dyadic tolerance ledger, equality at the boundary cannot be replaced by host real equality or quotient stream equality.
+
+Read the dyadic source ledger through \autoref{ch:concrete-instances-dyadicratcore-namecert} and the constant-window route through \autoref{ch:concrete-instances-streamname-namecert}. These rows keep the two accepted RealClassifier packets tied to displayed dyadic sources rather than to unstated representatives.
+
+Finally use the regular readback and tail-replacement surfaces, \autoref{thm:real-classifier-regular-real-tail-equivalence-readback} and \autoref{thm:realclassifier-tail-replacement-stability}. The $\RegSeqRatUp$ readbacks and terminal $\RealUp$ seals may be transported only along the displayed finite route, so a $\DyadicRealEmbeddingFaithfulUp$ consumer receives exactly the dyadic source equality surface and no selected limit, trichotomy, countable-choice schedule, or ambient-completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.RealClassifierDyadicSourceEmbeddingFaithfulness}
+
 \begin{theorem}[RealClassifier public exactness surface]
 \label{thm:realclassifier-public-exactness-surface}
 Every accepted $\RealClassifierUp$ public classifier read is exactly the finite route through the two $\RealUp$ seals, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance data, the $\RealNameClassifierUp$ row, the $\RegularCauchyEquivalenceUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealClassifierUp}$ row. No accepted public read exports host real equality, quotient stream equality, a selected limit, trichotomy, or a completeness coordinate.
@@ -236,6 +276,19 @@ Use the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} and
 Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}, tolerance-window determinacy from \autoref{thm:real-classifier-tolerance-window-determinacy}, and window scope from \autoref{thm:real-classifier-window-scope}. The shared window and tolerance ledger determine the public classifier route, while $H,K,P,N$ transport, replay, source, and locally name that exact finite packet.
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierPublicExactnessSurface}
+
+\begin{theorem}[RealClassifier psame bridge consumption]
+\label{thm:realclassifier-psame-bridge-consumption}
+The public exactness surface of \autoref{thm:realclassifier-public-exactness-surface} is exactly the RealClassifier input consumed by the $\CauchyEquivalenceSetoidUp$ psame bridge of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The bridge reads the same sealRead, equalityRead, and realClassifierRead route through the two $\RealUp$ seals, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance data, the $\RealNameClassifierUp$ row, the $\RegularCauchyEquivalenceUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealClassifierUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the public exactness surface. It already exhausts every accepted public classifier read by the finite route through the two Real seals, regular rational readbacks, shared window, dyadic ledger, classifier row, equivalence row, and structural rows.
+
+Now read the $\CauchyEquivalenceSetoidUp$ bridge chapter. Its psame-facing bridge consumes a RealClassifier boundary only after the same sealRead, equalityRead, and realClassifierRead rows are displayed, so the bridge receives no second classifier channel.
+
+Finally compare the source lists. Both routes expose the same $X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$ rows before any public equality-facing read is available. Thus the psame bridge consumes the RealClassifier public exactness surface without adding quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealClassifierUp.RealClassifierPsameBridgeConsumption}
 
 \begin{theorem}[RealClassifier public export readback]
 \label{thm:realclassifier-public-export-readback}
@@ -319,6 +372,19 @@ Apply the completion-density consumer theorem \autoref{thm:realclassifier-comple
 Finally use the public exactness surface of \autoref{thm:realclassifier-public-exactness-surface}. Since every accepted public read is exhausted by the same finite rows, an audit-facing read and its dense consumer have one shared route through $X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$. The excluded selected representatives, quotient stream equality, countable choice, and ambient completeness coordinates are absent from both surfaces.
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierAuditDensityCoherence}
+
+\begin{theorem}[RealClassifier theorem-check target handoff]
+\label{thm:real-classifier-theoremcheck-target-handoff}
+The theorem-check target for $\RealClassifierUp$ is exactly the public exactness surface route through the two $\RealUp$ seals, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RealNameClassifierUp$ row, the $\RegularCauchyEquivalenceUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealClassifierUp}$ row. The handoff targets that route only; it does not change the recorded formal status before Lean supplies the corresponding theorem-checked evidence.
+\end{theorem}
+\begin{proof}
+Start with the public exactness surface of \autoref{thm:realclassifier-public-exactness-surface}. It already states the exact public classifier route through the Real seals, regular rational readbacks, shared window, dyadic ledger, classifier row, equivalence row, and structural rows.
+
+Next use the audit route theorem \autoref{thm:real-classifier-audit-route}. It confirms that the audit-facing read is the same ordered source route, not a second equality, representative, choice, or completeness channel.
+
+Finally apply audit-density coherence, \autoref{thm:real-classifier-audit-density-coherence}. Since density consumers receive the same displayed public route, the theorem-check target is precisely the public exactness surface named by the chapter leantarget.
+\end{proof}
+\leanchecked{BEDC.Derived.RealClassifierTheoremCheckTargetHandoff}
 
 \closureat{RealClassifierUp}{scopedStr}
 \closureat{RealClassifierUp}{publicStr}[BEDC.Derived.RealClassifierPublicExactnessSurface]

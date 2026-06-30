@@ -132,6 +132,85 @@ equality, evaluator equality, or consistency, the endpoint remains the retained
 finite budget surface stated above.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual normal-form frontier]
+\label{thm:metacic-candidate-normalization-confluence-handoff-residual-normal-form-frontier}
+An accepted normal-form endpoint of a
+$\MetacicCandidateNormalizationConfluenceHandoffUp$ packet may be consumed as
+local confluence evidence only while one finite frontier packet still displays
+the candidate gate, residual-diamond row, residual-substitution premise,
+cut-height budget, parallel frontier route, and sibling confluence route. The
+endpoint is therefore read through the normal-form obligation, obstruction
+retention, normal-form budget, diamond-budget route, cut-height route, and
+parallel frontier route before any local-confluence consumer sees it.
+
+The frontier packet preserves obstruction rows. It does not export subject
+reduction, unrestricted Church--Rosser, evaluator equality, quotient syntax
+equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}.
+It places the endpoint after the candidate gate, residual-diamond row, and
+sibling confluence route, so the endpoint is never presented as an isolated
+normal form.
+
+Apply obstruction retention and the normal-form budget theorem,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-obstruction-retention}
+and
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-budget}.
+These rows keep the residual-substitution premise, residual-diamond row,
+cut-height budget, parallel frontier route, and sibling confluence route
+attached to the same finite handoff packet.
+
+Next use the diamond-budget and cut-height routes,
+\autoref{thm:metacic-candidate-normalization-diamond-budget-route} and
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-cut-height-budget}.
+They expose bounded local peak, join-budget, and cut-height data as visible
+frontier coordinates rather than as hidden global confluence assumptions.
+
+Finally apply the parallel-diamond frontier route,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-parallel-diamond-frontier-route}.
+Together with the sibling confluence route, it leaves the residual and frontier
+rows visible when the endpoint is consumed as local confluence evidence. Since
+the carrier has no coordinate for subject reduction, unrestricted
+Church--Rosser, evaluator equality, quotient syntax equality, global
+normalization, or kernel consistency, the endpoint remains a finite
+obstruction-preserving frontier read.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate normalization normal-form obligation route]
+\label{thm:metacic-candidate-normalization-normal-form-obligation-route}
+Every normal-form endpoint read exported by a
+$\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier must pass through
+the candidate gate, residual-diamond retention, cut-height budget,
+parallel-diamond frontier route, sibling confluence route, and local
+$\NameCert$ rows before it can be used as confluence-facing evidence. The route
+retains the residual and frontier evidence attached to the endpoint; it does not
+export subject reduction, unrestricted Church--Rosser, evaluator equality,
+quotient syntax equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}.
+It places every endpoint downstream of the candidate gate, residual-diamond row,
+and sibling confluence route before any consumer can read it.
+
+Apply obstruction retention,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-obstruction-retention}.
+The retained residual-substitution premise, candidate diamond dependency,
+cut-height budget, and parallel frontier route remain attached to the endpoint
+instead of being discharged by the normal-form read.
+
+Finally use the normal-form budget theorem
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-budget}.
+It keeps the cut-height budget, parallel-diamond frontier surface, sibling
+confluence route, and local naming rows visible before the endpoint is treated
+as confluence-facing evidence. Since none of the cited rows contains subject
+reduction, unrestricted Church--Rosser, evaluator equality, quotient syntax
+equality, global normalization, or kernel consistency, the read exports only
+the retained finite obligation route.
+\end{proof}
+
 \begin{theorem}[MetaCIC retained-premise normal-form handoff]
 \label{thm:metacic-candidate-normalization-confluence-retained-premise-normal-form}
 Every strong-normalization-facing consumer of the normal-form endpoint exported
@@ -232,4 +311,18 @@ endpoint read. The carrier's refused endpoints exclude candidate-free
 normalization, global confluence, unrestricted subject reduction, quotient
 syntax equality, closed consistency, and any consumer route that erases the
 obstruction.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization residual-join choice-free handoff]
+\label{thm:metacic-candidate-normalization-confluence-handoff-residual-join-choice-free}
+When an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet exposes finite residual budget exhaustion and a displayed local-confluence certificate route, the residual-join endpoint is read as a finite handoff row. The endpoint is not a selected global normal form: it remains attached to the candidate evidence, normal-form obligation, residual budget, residual exhaustion surface, local confluence certificate route, transport, replay, provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation of \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}. It keeps candidate evidence and the sibling confluence route visible before any endpoint is public.
+
+Apply the residual budget theorem, \autoref{thm:metacic-candidate-normalization-residual-budget}. The bounded local peak, join-budget, residual-diamond retention, decidable-boundary, and blocked-edge rows remain finite budget data rather than a choice of global normal form.
+
+Now use residual exhaustion, \autoref{thm:metacic-normal-form-residual-budget-exhaustion}. The forward case carries the retained premise through the candidate and frontier rows, while the blocked case keeps the residual edge as an obstruction attached to the endpoint.
+
+Finally read the local confluence certificate route through the sibling confluence surface already cited by the normal-form and residual-budget rows. Since the endpoint is assembled only from those displayed rows and the structural transport, replay, provenance, and naming data, it is a choice-free residual-join handoff.
 \end{proof}

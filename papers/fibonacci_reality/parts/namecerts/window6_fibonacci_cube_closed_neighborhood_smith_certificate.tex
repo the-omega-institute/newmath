@@ -1,15 +1,73 @@
-\subsection{NameCert: Window Six Fibonacci Cube Closed Neighborhood Smith}
-\label{sec:namecert-window6_fibonacci_cube_closed_neighborhood_smith_certificate}
-\origin{ai}
+\chapter{Window 6 Fibonacci Cube Closed-Neighborhood Smith Certificate}\label{ch:window6-fibonacci-cube-closed-neighborhood-smith-certificate}\origin{ai}
 
-\paragraph{Statement.} The packet records a finite forced-window mathematical construction.
+\subsection{Finite Carrier and Closed-Window Kernel}\label{sec:window6-fibonacci-cube-carrier-kernel}
 
-\paragraph{Carrier.} A finite forced-window carrier is required before a stronger chapter can be authored.
+\paragraph{Carrier.} Work entirely inside the finite set
+$$\begin{aligned}
+C=\{x\in\{0,1\}^6: x_i x_{i+1}=0\text{ for }1\le i\le 5\}.
+\end{aligned}$$
+Thus no word in $C$ has two adjacent $1$ entries. In lexicographic order the carrier is
+$$\begin{aligned}
+C=\{&000000,000001,000010,000100,000101,001000,001001,001010,010000,010001,010010,\\
+&010100,010101,100000,100001,100010,100100,100101,101000,101001,101010\}.
+\end{aligned}$$
+The exact cardinality is $|C|=21$. The weight partition by the number of $1$ entries is
+$$\begin{aligned}
+|\{x\in C:\sum_{i=1}^6 x_i=0\}|&=1,\\
+|\{x\in C:\sum_{i=1}^6 x_i=1\}|&=6,\\
+|\{x\in C:\sum_{i=1}^6 x_i=2\}|&=10,\\
+|\{x\in C:\sum_{i=1}^6 x_i=3\}|&=4.
+\end{aligned}$$
+These four numbers add to $21$, and the list above gives the corresponding explicit finite enumeration.
 
-\paragraph{Relations.} No relation beyond the local finite construction is asserted.
+\paragraph{Closed-neighborhood relation.} For $x,y\in C$, define
+$$\begin{aligned}
+A_{x,y}=1 \quad\Longleftrightarrow\quad \sum_{i=1}^6 |x_i-y_i|\le 1,
+\end{aligned}$$
+and set $A_{x,y}=0$ otherwise. This is a $21\times 21$ integer matrix indexed by the displayed order of $C$. It is symmetric. Its diagonal entries are all $1$, and its off-diagonal $1$ entries are precisely the edges of the length-six Fibonacci cube. The exact number of off-diagonal unordered edges is $38$, so the total number of matrix entries equal to $1$ is
+$$\begin{aligned}
+21+2\cdot 38=97.
+\end{aligned}$$
+The row sums, in the same order as the carrier list, are
+$$\begin{aligned}
+&(7,6,5,5,5,5,4,4,5,4,3,4,4,6,5,4,4,4,5,4,4).
+\end{aligned}$$
+Equivalently, the vertex $000000$ sees itself and the six one-bit words, while a general vertex sees itself together with exactly those one-coordinate flips that remain in $C$.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\subsection{Smith Certificate}\label{sec:window6-fibonacci-cube-smith-certificate}
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Determinantal data.} Let $A$ be the integer matrix just defined. Direct finite elimination over the integers gives
+$$\begin{aligned}
+\det(A)=-144.
+\end{aligned}$$
+A unit minor is obtained by deleting the row indexed by $000001$ and the column indexed by $000001$. If $A'$ denotes the resulting $20\times 20$ submatrix, then
+$$\begin{aligned}
+\det(A')=1.
+\end{aligned}$$
+This single minor is enough to determine all determinantal divisors below full size. Let $\Delta_k$ be the greatest common divisor of all $k\times k$ minors of $A$, with $\Delta_0=1$. Since one $20\times 20$ minor is equal to $1$, $\Delta_{20}=1$. The divisibility chain for determinantal divisors gives $\Delta_k\mid \Delta_{20}$ for $0\le k\le 20$, hence
+$$\begin{aligned}
+\Delta_0=\Delta_1=\cdots=\Delta_{20}=1.
+\end{aligned}$$
+The full determinant gives
+$$\begin{aligned}
+\Delta_{21}=|\det(A)|=144.
+\end{aligned}$$
+Therefore the Smith invariant factors $s_k=\Delta_k/\Delta_{k-1}$ are
+$$\begin{aligned}
+(s_1,s_2,\ldots,s_{21})=(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,144).
+\end{aligned}$$
+Equivalently, there exist unimodular integer matrices $U$ and $V$ such that
+$$\begin{aligned}
+UAV=\operatorname{diag}(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,144).
+\end{aligned}$$
+No nontrivial invariant factor occurs before the final one.
 
-\paragraph{Not claimed.} No physical identification, metrological comparison, global flow law, external dependency, or external interpretation is claimed.
+\paragraph{Kernel and cokernel consequences.} Since $\det(A)\ne 0$, the map $A:\mathbb{Z}^{21}\to\mathbb{Z}^{21}$ has trivial kernel over $\mathbb{Z}$ and over $\mathbb{Q}$. Its cokernel is finite, and the Smith data identify it as
+$$\begin{aligned}
+\mathbb{Z}^{21}/A\mathbb{Z}^{21}\cong \mathbb{Z}/144\mathbb{Z}.
+\end{aligned}$$
+Thus the closed-neighborhood operator on this finite carrier has exactly one torsion coordinate in its integral quotient, and that coordinate has order $144$.
+
+\paragraph{Witness extraction.} The carrier witness for a row is the displayed word $x\in C$. The closed-neighborhood witness for an entry $A_{x,y}=1$ is either the equality $x=y$ or the unique coordinate $i$ at which $x$ and $y$ differ, together with the check that both words lie in $C$. The Smith witness is the pair of finite row and column selections obtained by omitting the index $000001$ on both sides; the determinant identity $\det(A')=1$ supplies a visible unit minor. The determinant identity $\det(A)=-144$ supplies the full-size divisor. These two finite integer checks force the complete Smith list above.
+
+\paragraph{Local boundary.} The construction proves only the finite carrier, the closed-neighborhood matrix, the exact counts, the determinant, the unit minor, and the resulting Smith normal form. It does not identify the number $144$ with any physical constant, assert a global evolution rule, introduce an external dependency, compare against measurement data, or attach any interpretation beyond this finite integer matrix unless an independent certificate supplies those additional steps.

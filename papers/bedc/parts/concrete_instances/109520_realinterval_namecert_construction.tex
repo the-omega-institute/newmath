@@ -142,6 +142,7 @@ The route theorem \autoref{thm:real-interval-seal-enclosure-route} gives the sam
 \label{thm:real-interval-obligation-closure-route}
 Every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$ routes endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ through the displayed rows $L,U,E,D,W,R,S,H,C,P,N$. The route supplies no host interval equality, selected endpoint representative, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalCarrier\_obligation\_closure\_route}
 \begin{proof}
 First read the local obligation surface from \autoref{thm:real-interval-namecert-obligations}. It exposes carrier admission, endpoint order, enclosure stability, dyadic tolerance handoff, Real seal non-escape, transport, replay, provenance, and local naming as finite rows of the accepted carrier.
 
@@ -158,6 +159,7 @@ L,U,E,D,W,R,S,H,C,P,N
 $$
 only as the endpoint-and-enclosure packet of \autoref{def:real-interval-carrier}; it may not add host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalPublicNameCertExport}
 \begin{proof}
 Start from the carrier and obligation route. Theorems~\ref{def:real-interval-carrier} and~\ref{thm:real-interval-obligation-closure-route} identify the complete endpoint-and-enclosure packet as the rows $L,U,E,D,W,R,S,H,C,P,N$.
 
@@ -200,11 +202,54 @@ Use the NameCert obligations and public export, \autoref{thm:real-interval-namec
 
 Finally apply the finite-net consumer route of \autoref{thm:real-interval-finite-net-consumer}. It shows that downstream interval data reaches finite cell and density consumers only through the dyadic, located-enclosure, StreamName, RegSeqRat, and Real-seal route. Hence the bridge-facing NameCert route is the displayed packet above.
 \end{proof}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalBridgedNameCertRoute}
+
+\begin{theorem}[RealInterval finite endpoint-envelope route]
+\label{thm:realinterval-finite-endpoint-envelope-route}
+Every $\RealIntervalUp$ endpoint consumer that exports interval membership must
+first factor through the displayed finite endpoint envelope
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto
+\RegSeqRatUp \longmapsto \RealIntervalEnclosureUp \longmapsto \RealUp .
+$$
+The dyadic endpoint arithmetic is read from $D$, the finite endpoint windows
+from $W$, the regular readback from $R$, the enclosure row from $E$, and the
+terminal value seal from $S$ before membership is public. The envelope exports
+no quotient stream equality, selected endpoints, host interval equality,
+ambient $\RealUp$ completeness, trichotomy, compactness, or countable-choice
+schedule.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalFiniteEndpointEnvelopeRoute}
+\begin{proof}
+Start with the endpoint-order obligation of
+\autoref{thm:real-interval-endpoint-order-obligation}. It keeps the enclosure
+and order row $E$ visible whenever a consumer treats $L$ and $U$ as interval
+endpoints.
+
+Next apply the dyadic-window handoff
+\autoref{thm:real-interval-dyadic-window-handoff}. The endpoint arithmetic
+enters through the displayed $\DyadicRatCoreUp$ row $D$, then exposes only
+finite $\StreamNameUp$ windows $W$, and only then produces the $\RegSeqRatUp$
+readback row $R$.
+
+Use the bridged NameCert route
+\autoref{thm:realinterval-bridged-namecert-route}. It inserts the
+$\LocatedIntervalUp$ and $\RealIntervalEnclosureUp$ rows carried by $E$ between
+the endpoint ledger and the terminal $\RealUp$ seal $S$, while $H,C,P,N$
+transport, replay, package, and name the same displayed route.
+
+Finally read Real-seal nonescape from
+\autoref{thm:real-interval-real-seal-nonescape}. Since $S$ is available only
+after $L,U,E,D,W,R$ have been displayed, interval membership cannot be exported
+from quotient stream equality, selected endpoints, host interval equality,
+ambient completeness, trichotomy, compactness, or countable choice.
+\end{proof}
 
 \begin{theorem}[RealInterval endpoint enclosure transport]
 \label{thm:realinterval-endpoint-enclosure-transport}
 For accepted $\RealIntervalUp$ carriers $I=(L,U,E,D,W,R,S,H,C,P,N)$ and $I'=(L',U',E',D',W',R',S',H',C',P',N')$, componentwise $\hsame$ transport preserves both endpoint enclosure rows before interval membership is public. In particular, a consumer that transports $L$ to $L'$ and $U$ to $U'$ must also transport the enclosure-and-order row $E$ to $E'$ and the dyadic-window-readback route $D,W,R$ to $D',W',R'$ before it may read the terminal seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalEndpointEnclosureTransport}
 \begin{proof}
 Start with classifier transport, \autoref{thm:real-interval-classifier-transport}. It allows carrier admission to move only through the displayed endpoint, enclosure, dyadic-window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 
@@ -221,6 +266,7 @@ L,U,E,D,W,R,S,H,C,P,N,
 $$
 with $W$ and $R$ displayed before $S$ and with the refusal boundary preserved by the local NameCert rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalStreamRealSealNonescape}
 \begin{proof}
 Read the Real-seal nonescape theorem \autoref{thm:real-interval-real-seal-nonescape}. It places the seal row $S$ strictly after the endpoint, order, tolerance, window, and readback rows $L,U,E,D,W,R$.
 
@@ -231,29 +277,59 @@ The finite-net consumer theorem \autoref{thm:real-interval-finite-net-consumer} 
 
 \begin{theorem}[RealInterval bridge scope]
 \label{thm:real-interval-bridge-scope}
-Every bridge-facing $\RealIntervalUp$ read is exhausted by the displayed rows
+Every bridge-facing $\RealIntervalUp$ read factors through the finite endpoint-and-enclosure rows
 $$
 L,U,E,D,W,R,S,H,C,P,N
 $$
-and by the sibling surfaces $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The bridge-scope packet exports no host interval equality, selected endpoint representative, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+and by the sibling surfaces $\LocatedIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ only as endpoint-enclosure readback. The bridge-scope packet cannot be read as host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
 \begin{proof}
 Start from the public export of \autoref{thm:realinterval-public-namecert}. It binds public interval reads to the endpoint, enclosure, tolerance, window, readback, seal, transport, replay, provenance, and local naming rows of the displayed carrier.
 
-Next use the bridged route and endpoint-enclosure transport, \autoref{thm:realinterval-bridged-namecert-route} and \autoref{thm:realinterval-endpoint-enclosure-transport}. These results keep the bridge-facing read on the $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ sibling surfaces before any interval membership is public.
+Next use the bridged route and endpoint-enclosure transport, \autoref{thm:realinterval-bridged-namecert-route} and \autoref{thm:realinterval-endpoint-enclosure-transport}. These results keep the bridge-facing read on the located endpoint row, dyadic interval envelope, finite stream windows, regular rational readback, and terminal Real seal before any interval membership is public.
 
-Finally apply the StreamName Real-seal nonescape theorem, \autoref{thm:realinterval-stream-real-seal-nonescape}. The seal row $S$ remains downstream of $L,U,E,D,W,R$ and upstream of no additional host principle, so the bridge scope is exactly the displayed packet and none of the excluded objects is exported.
+Finally apply the StreamName Real-seal nonescape theorem, \autoref{thm:realinterval-stream-real-seal-nonescape}. The seal row $S$ remains downstream of $L,U,E,D,W,R$ and upstream of no additional host principle, so the bridge scope is exactly the displayed endpoint-enclosure packet. Compactness, selected endpoint representatives, trichotomy, countable choice, and ambient completeness have no row in this factorization.
+\end{proof}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalBridgeScope}
+
+\begin{theorem}[RealInterval formal target handoff]
+\label{thm:realinterval-formal-target-handoff}
+Any future Lean target that advances the formal status of $\RealIntervalUp$ must expose the endpoint carrier rows $L,U$, the dyadic-window handoff rows $D,W,R$, the endpoint-order obligation $E$, the Real-seal nonescape row $S$, and the bridge-scope rows $H,C,P,N$ before it may claim a checked public interval surface. In particular, the target must route through the carrier of \autoref{def:real-interval-carrier}, the finite-net consumer of \autoref{thm:real-interval-finite-net-consumer}, the finite endpoint envelope of \autoref{thm:realinterval-endpoint-enclosure-transport}, the StreamName Real-seal nonescape theorem of \autoref{thm:realinterval-stream-real-seal-nonescape}, and the bridge scope of \autoref{thm:real-interval-bridge-scope}.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalFormalTargetHandoff}
+\begin{proof}
+Start with the carrier definition. It presents the endpoint rows $L,U$, the endpoint-order and enclosure row $E$, the dyadic tolerance row $D$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $S$, and the structural rows $H,C,P,N$ in one accepted packet.
+
+Use the dyadic-window handoff and finite-net consumer theorems. They keep downstream real-completion and net reads on $D,W,R$ before the seal row is consumed, so a formal target cannot replace those rows by an ambient interval object.
+
+Apply endpoint-enclosure transport and StreamName Real-seal nonescape. The endpoint envelope must transport both endpoints together with $E$, while the seal theorem keeps $S$ from exporting quotient real equality, selected endpoints, trichotomy, compactness, or ambient $\RealUp$ completeness.
+
+Finally read the bridge-scope theorem. It leaves only $H,C,P,N$ as transport, replay, provenance, and local naming for the same packet, so any checked Lean target must display exactly these handoff rows before the formal status can advance.
+\end{proof}
+
+\begin{theorem}[RealInterval mature consumer route]
+\label{thm:realinterval-mature-consumer-route}
+Every mature $\RealIntervalUp$ consumer read factors through the endpoint-and-enclosure route already displayed by $\DyadicIntervalNetUp$, $\FiniteCauchyDensityNetUp$, $\LocatedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$. The route exposes lower endpoint $L$, upper endpoint $U$, enclosure and order row $E$, dyadic tolerance row $D$, finite window row $W$, regular-rational readback row $R$, terminal real seal $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any downstream interval read is accepted. It does not export open-cover compactness, quotient real equality, selected endpoint representatives, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalMatureConsumerRoute}
+\begin{proof}
+Start with the endpoint carrier and finite-net consumer theorems. The carrier displays $L,U,E,D,W,R,S,H,C,P,N$, while \autoref{thm:real-interval-finite-net-consumer} routes net-facing reads through the dyadic and finite Cauchy density surfaces before any public interval endpoint is consumed.
+
+Next apply the endpoint-enclosure and StreamName Real-seal results. By \autoref{thm:realinterval-endpoint-enclosure-transport}, endpoint transport keeps $E$ attached to $L$ and $U$; by \autoref{thm:realinterval-stream-real-seal-nonescape}, the $\StreamNameUp$ and $\RegSeqRatUp$ rows feed the terminal $\RealUp$ seal without adding quotient equality or completeness.
+
+Finally use the bridge-scope and formal-target handoff theorems. They identify $\LocatedIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as readback surfaces for the same displayed packet. The density and interval-net consumers therefore see only the endpoint-and-enclosure route, so the mature route closes without importing compactness, selected endpoints, trichotomy, countable choice, or ambient real completeness.
 \end{proof}
 
 \closureat{RealIntervalUp}{seedStr}
 \closureat{RealIntervalUp}{obligationStr}
+\closureat{RealIntervalUp}{bridgedStr}
 
 \begin{closurestatus}{\RealIntervalUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:real-interval-carrier}, \autoref{thm:real-interval-namecert-obligations}, \autoref{thm:real-interval-seal-enclosure-route}, \autoref{thm:real-interval-endpoint-order-obligation}, \autoref{thm:real-interval-dyadic-window-handoff}, \autoref{thm:real-interval-real-seal-nonescape}, \autoref{thm:real-interval-obligation-closure-route}, and \autoref{thm:realinterval-public-namecert} bind endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ to the displayed public $\RealIntervalUp$ rows over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-interval-carrier}, \autoref{thm:real-interval-namecert-obligations}, \autoref{thm:real-interval-seal-enclosure-route}, \autoref{thm:real-interval-endpoint-order-obligation}, \autoref{thm:real-interval-dyadic-window-handoff}, \autoref{thm:real-interval-real-seal-nonescape}, \autoref{thm:real-interval-obligation-closure-route}, \autoref{thm:realinterval-public-namecert}, \autoref{thm:real-interval-bridge-scope}, and \autoref{thm:realinterval-mature-consumer-route} bind endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, finite net readback, Real-seal nonescape, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ to the displayed mature $\RealIntervalUp$ rows over $\DyadicIntervalNetUp$, $\FiniteCauchyDensityNetUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, ambient RealUp completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge that transports the public $\RealIntervalUp$ surface into the acceptance schema without adding host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, or ambient RealUp completeness.}
+  \upgradepath{Verification closure requires checked carrier admission, endpoint enclosure, dyadic-window handoff, finite-net consumer routing, Real-seal nonescape, transport, replay, provenance, local naming, and bridge interpretation for BEDC.Derived.RealIntervalUp.}
   \constructivestory{A $\RealIntervalUp$ packet is generated from lower and upper RealUp endpoint rows, an enclosure and order row, a DyadicRatCoreUp tolerance row, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

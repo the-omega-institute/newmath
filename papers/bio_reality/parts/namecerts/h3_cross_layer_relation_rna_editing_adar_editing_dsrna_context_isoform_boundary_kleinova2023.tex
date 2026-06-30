@@ -1,38 +1,39 @@
 \origin{ai}
-
-\subsection{ADAR editing as a finite isoform-boundary contact}
-\label{sec:bioreality-adar-editing-dsrna-context-isoform-boundary-kleinova}
+\subsection{ADAR editing at a dsRNA isoform boundary}
+\label{sec:bioreality-adar-editing-dsrna-context-isoform-boundary-kleinova2023}
 
 \paragraph{Finite row.}
-The ADAR editing row records a bounded contact with RNA-editing reality, not a mechanism reconstruction.  The finite run attached to this chapter used $3137$ editing sites, replayed $1200$ permutations, and completed in $15.7578$ seconds.  The relevant readback is therefore a finite site ledger: each row belongs to an observed editing-site panel, the permutation count fixes the null replay budget, and the elapsed runtime fixes only the computational trace.  No p-value, effect direction, hit rate, module label, or per-site classification is stored in the available row.  The chapter therefore treats the Kleinova-style ADAR/dsRNA contact as a boundary row: it says that a finite set of RNA-editing positions was admitted to the BioReality ledger and stress-tested by a deterministic permutation replay, but it does not say that the BEDC coordinate system has discovered an editing mechanism.
+The ADAR-editing packet is recorded as a cross-layer relation rather than as a mechanism claim.  Its finite observed row is the Kleinova-style dsRNA-context and isoform-boundary test: the run identifier is \texttt{599de6cd4a6c}, the site count is $n_{\mathrm{sites}}=3137$, the deterministic permutation budget is $1200$, and the recorded runtime is $15.7578$ seconds.  These numbers are the entire finite readback carried by this row.  They say that a bounded RNA-editing boundary was assembled and replayed on a concrete collection of editing sites; they do not say that the BEDC coordinate geometry has identified the enzyme, the local RNA structure, the editing chemistry, a transcript fate, a protein-level consequence, or a universal rule.
 
-\paragraph{Carrier and readback.}
-The carrier for this row is the tuple
+\paragraph{What is being measured.}
+The biological object is an ADAR-associated A-to-I editing readout near a double-stranded-RNA context and an isoform boundary.  The mathematical role of the row is narrower: it asks whether a finite collection of editing sites can be kept as a layer-crossing boundary record with explicit row count and null-replay budget.  In this chapter the carrier is therefore not an infinite transcriptome model.  It is the tuple consisting of the site ledger, the boundary predicate used to select the site context, the replay budget, and the final bounded status of the row.  The classification is $\mathrm{cross\_layer\_relation}$ because the test touches RNA sequence/context and transcript annotation at once; the classification does not promote the row to a pathway statement.
+
+\paragraph{Local scoring convention.}
+The broader direction-aware ranking machinery used elsewhere in the same BioReality family ranks candidate readouts by absorbed energy $A_H$, coordinate-support cosine $C_H$, and a description-length penalty.  The stated scoring rule is
 $$
 \begin{aligned}
-  R_{\mathrm{ADAR}} = (N_{\mathrm{sites}}, N_{\mathrm{perm}}, t_{\mathrm{sec}})
-  = (3137, 1200, 15.7578).
+\mathrm{Score}(H) &= A_H C_H - \lambda\,DL(H),\\
+\lambda &= 0.01,\\
+DL(H) &= \log_2(1+n_{\mathrm{columns}}).
 \end{aligned}
 $$
-This is deliberately smaller than the biological phenomenon.  ADAR editing depends on transcript context, double-stranded RNA pairing, isoform annotation, cell type, developmental state, and sequence mappability.  The stored row only asserts that $3137$ sites entered the finite replay and that $1200$ null draws were used.  The row can support statements about data availability, finite replay size, and the absence of a stronger promoted claim.  It cannot by itself support an editing-rate law, an isoform-switching law, an ADAR-binding mechanism, or a causal claim about protein abundance.
+The RNA-editing row does not add a new $H$ channel to that ranking table; it is cited here to keep the boundary language calibrated.  In the ranked B*\_Q6 residual table, the strongest raw direction-aware products remain small: for \textit{Danio rerio}, measured translation efficiency has $A_H=0.017594290015070787$, $C_H=0.6573753096184687$, and $A_HC_H=0.011566051846174291$; for human, complex membership has $A_H=0.007527199987780841$, $C_H=0.8723071163246565$, and $A_HC_H=0.006566030115340095$; for yeast, mRNA has $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, and $A_HC_H=0.0011462622274400686$.  These comparison numbers matter because they show the intended scale of the finite readback: even when a ranked readout is available, the result is a small descriptive projection, not an explanation of biological cause.
 
-\paragraph{Relation to the cross-layer residual panel.}
-The surrounding cross-layer panel ranks candidate readouts for the modeled-translation-complement abundance residual over nine $B^*_{Q6}$ coordinates.  In that panel, the score is
+\paragraph{Direction and null discipline.}
+The finite ADAR row has $3137$ sites and $1200$ permutations, but no separate scalar in the row asserts a causal excess, a direction cosine, an absorbed-energy value, a Bonferroni pass, or a shared absorber.  Therefore the only admissible local conclusion is that the packet has a computable RNA-editing boundary instance.  The row is compatible with later enrichment, direction, or mechanism tests, but those tests would need their own finite columns: a declared statistic, a null distribution, a p-value or threshold rule, and a separate contact tying the statistic to the biological layer being claimed.  Without those columns, the run remains a bounded site-level record.
+
+\paragraph{Relation to nearby boundary rows.}
+The same finite-row discipline appears in other cross-layer packets.  The uORF/Kozak endogenous-translation-efficiency row records $n=10982$ and runtime $68.392$ seconds, while the ADAR row records $n_{\mathrm{sites}}=3137$ and runtime $15.7578$ seconds.  The comparison is not biological equivalence; it is a consistency check on reporting style.  Both rows are allowed to say that a concrete, fetchable panel was processed.  Neither row, by row count alone, is allowed to claim translation realization, RNA-editing mechanism, folding state, protein function, organism-level phenotype, or cross-organism universality.
+
+\paragraph{Readback.}
+The readback of this chapter is the finite assertion
 $$
 \begin{aligned}
-  \mathrm{Score}(H) = A_H C_H - \lambda DL(H), \qquad \lambda = 0.01,
+\mathrm{ADARBoundaryRow} &= (3137\ \mathrm{sites},\ 1200\ \mathrm{permutations},\ 15.7578\ \mathrm{s}),\\
+\mathrm{layer} &= \mathrm{cross\_layer\_relation}.
 \end{aligned}
 $$
-with $C_H$ the coordinate-support direction cosine, not a biological mechanism.  The strongest raw alignment values remain small: for Danio rerio, measured translation efficiency has $A_H C_H = 0.011566051846174291$ and $\mathrm{Score}=0.001566051846174291$, while mRNA has $A_H C_H=0.01073458857797759$ and $\mathrm{Score}=0.000734588577977589$.  For Homo sapiens, complex membership has $A_H C_H=0.006566030115340095$ and $\mathrm{Score}=-0.0034339698846599055$, and mRNA has $A_H C_H=0.006224777217900546$ and $\mathrm{Score}=-0.0037752227820994546$.  For Saccharomyces cerevisiae, the leading mRNA row has $A_H C_H=0.0011462622274400686$ and $\mathrm{Score}=-0.008853737772559931$.  These values make the ADAR row useful as a bounded contact with RNA-processing reality, but they also prevent it from being folded into a universal cross-layer explanation.
+This is enough for a BioReality chapter because the paper is tracking where a mathematical packet touches measured biological rows.  It is not enough to infer why an editing event occurs, whether ADAR binding is necessary or sufficient, whether a dsRNA stem is structurally realized in vivo, whether an isoform boundary changes translation or protein abundance, or whether the pattern generalizes beyond the assayed context.
 
-\paragraph{Negative boundary.}
-The ADAR contact is intentionally kept separate from the ranked $H$ readouts.  The ranking table has organism-specific best absorbers: Danio rerio selects measured translation efficiency, Homo sapiens selects complex membership, Gallus gallus selects complex membership, and Saccharomyces cerevisiae selects mRNA, while many organisms have no computable ranking rows.  No shared universal $H$ is present.  The ADAR row does not repair that absence, because the available ADAR finite facts contain neither a same-row projection $A_H$ nor a direction cosine $C_H$ against the nine residual coordinates.  It also contains no Bonferroni threshold, no null exceedance flag, and no description-length entry.  Consequently the ADAR row may be listed as an RNA-processing contact, but it may not be used as an absorber in the $H$ table unless a later same-row construction supplies those missing fields.
-
-\paragraph{Comparison with other finite contacts.}
-The row is more lightly annotated than several neighboring BioReality contacts.  The Window6 boundary-$R$ signature has a cross-organism avoided count of $15$ out of $15$ computed organisms, with one-sided binomial probability $3.0517578125\times 10^{-5}$ and two-sided probability $6.103515625\times 10^{-5}$.  The N-end protein-turnover boundary joins $3898$ rows and runs $12000$ actual permutations, with a consistent-sign fraction of $0.5$ and no negative-control null.  The uORF/Kozak endogenous-translation-efficiency row joins $10982$ rows and records $68.392$ seconds of runtime.  Against that scale, the ADAR row is a compact site-panel contact: $3137$ sites and $1200$ permutations are enough to document a finite replay, but not enough to promote a cross-layer law without the missing effect and null summaries.
-
-\paragraph{Biological interpretation.}
-The permitted interpretation is narrow.  The row says that ADAR-associated dsRNA/isoform-boundary data can be represented as a finite RNA-editing contact and that the replay was executed on $3137$ sites.  The row does not show that codon-window geometry controls editing, that RNA editing mediates translation efficiency, that edited transcripts alter folding or protein stability, or that isoform boundaries realize a conserved biological channel.  Translation, folding, physical admissibility, molecular function, mechanism, phenotype, and universality all require separate matched contacts and separate statistics.  In particular, a future promotion would need at least a site-level effect statistic, a declared null distribution, a p-value or exceedance rule, a mapping from edited transcript rows to organism-matched CDS or protein identifiers, and a residual-blind readout support independent of the ranking output.
-
-\paragraph{Verdict.}
-The chapter is ready as a finite boundary record.  Its content is not that ADAR editing explains the $B^*_{Q6}$ residual, but that a Kleinova-style ADAR/dsRNA isoform-boundary site panel has been admitted with $3137$ sites and $1200$ permutation replays.  The scientific value of the row is the disciplined non-promotion: it marks an RNA-processing contact that may be joined later, while the present evidence remains a bounded finite readback with no causal, mechanistic, functional, structural, translation-level, or universal claim.
+\paragraph{Local boundary.}
+No translation, folding, physical admissibility, function, mechanism, phenotype, or universal biological law follows from this row.  The row also does not license treating $A_H$, $C_H$, Score, rank, or a chosen absorber as causal evidence.  Any future promotion would require a distinct same-row contact: for example, a direct ADAR perturbation, an independent structure-probing readout, an isoform-resolved RNA abundance effect, a translation-efficiency readout, or a protein-level consequence with its own null.  Until such a contact is present, the chapter remains a precise finite record of an RNA-editing boundary calculation.

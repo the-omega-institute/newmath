@@ -24,6 +24,15 @@ abbrev fallingNat (x k : Nat) : Nat :=
 abbrev risingNat (x n : Nat) : Nat :=
   BEDC.Derived.StirlingCycleUp.risingFactorialValue x n
 
+abbrev stirlingFirstNat (n k : Nat) : Nat :=
+  BEDC.Derived.StirlingFirstUp.stirlingFirst n k
+
+abbrev stirlingFirstPrefixNat (n : Nat) : Nat -> Nat :=
+  BEDC.Derived.StirlingFirstUp.stirlingFirstPrefix n
+
+abbrev stirlingSecondNat (n k : Nat) : Nat :=
+  BEDC.Derived.StirlingUp.stirlingSecond n k
+
 abbrev Z : Type :=
   BEDC.Algebra.Rel.IntegerUp
 
@@ -80,6 +89,22 @@ def lahDescendingExpansionPrefix (x n : Nat) : Nat -> Nat
 
 def lahDescendingExpansion (x n : Nat) : Nat :=
   lahDescendingExpansionPrefix x n n
+
+def lahRowPrefix (n : Nat) : Nat -> Nat
+  | 0 => lahNumber n 0
+  | Nat.succ k => lahRowPrefix n k + lahNumber n (Nat.succ k)
+
+def lahRowSum (n : Nat) : Nat :=
+  lahRowPrefix n n
+
+def lahStirlingConvolutionPrefix (n k : Nat) : Nat -> Nat
+  | 0 => stirlingFirstNat n 0 * stirlingSecondNat 0 k
+  | Nat.succ m =>
+      lahStirlingConvolutionPrefix n k m +
+        stirlingFirstNat n (Nat.succ m) * stirlingSecondNat (Nat.succ m) k
+
+def lahStirlingConvolution (n k : Nat) : Nat :=
+  lahStirlingConvolutionPrefix n k n
 
 abbrev lahStirlingDiagonalSum : Nat -> Nat -> Nat :=
   BEDC.Derived.LahUp.lahStirlingDiagonalSum
@@ -242,6 +267,141 @@ theorem lahStirlingDiagonalSum_self_eq_lahNumber_self (n : Nat) :
     lahStirlingDiagonalSum n n = lahNumber n n := by
   exact BEDC.Derived.LahUp.lahStirlingDiagonalSum_self_eq_lahNumber_self n
 
+theorem lahRowPrefix_succ (n k : Nat) :
+    lahRowPrefix n (Nat.succ k) =
+      lahRowPrefix n k + lahNumber n (Nat.succ k) := by
+  rfl
+
+theorem lahRowSum_definition (n : Nat) :
+    lahRowSum n = lahRowPrefix n n := by
+  rfl
+
+theorem lahRowPrefix_above_self (n extra : Nat) :
+    lahRowPrefix n (n + extra) = lahRowSum n := by
+  induction extra with
+  | zero =>
+      rw [Nat.add_zero]
+      rfl
+  | succ extra ih =>
+      rw [Nat.add_succ]
+      change lahRowPrefix n (n + extra) +
+          lahNumber n (Nat.succ (n + extra)) =
+        lahRowSum n
+      rw [ih]
+      rw [lahNumber_above n extra]
+      rw [Nat.add_zero]
+
+theorem lahRowSum_zero :
+    lahRowSum 0 = 1 := by
+  rfl
+
+theorem lahRowSum_one :
+    lahRowSum 1 = 1 := by
+  rfl
+
+theorem lahRowSum_two :
+    lahRowSum 2 = 3 := by
+  rfl
+
+theorem lahRowSum_three :
+    lahRowSum 3 = 13 := by
+  rfl
+
+theorem lahRowPrefix_succ_row_recurrence (n k : Nat) :
+    lahRowPrefix (Nat.succ n) (Nat.succ k) =
+      lahRowPrefix (Nat.succ n) k +
+        ((n + Nat.succ k) * lahNumber n (Nat.succ k) + lahNumber n k) := by
+  rfl
+
+theorem lahClosedNumerator_first_column (n : Nat) :
+    lahClosedNumerator (Nat.succ n) 1 =
+      factorialNat (Nat.succ n) := by
+  unfold lahClosedNumerator C
+  change BEDC.Derived.BinomialIdentitiesUp.C n 0 *
+      factorialNat (Nat.succ n) =
+    factorialNat (Nat.succ n)
+  rw [BEDC.Derived.BinomialIdentitiesUp.binomial_zero_right]
+  exact Nat.one_mul (factorialNat (Nat.succ n))
+
+theorem lahClosedDenominator_one :
+    lahClosedDenominator 1 = 1 := by
+  rfl
+
+theorem lahExactClosedDivision_diagonal (n : Nat) :
+    lahExactClosedDivision
+      (Nat.succ n) (Nat.succ n)
+      (lahNumber (Nat.succ n) (Nat.succ n)) := by
+  unfold lahExactClosedDivision lahClosedDenominator lahClosedNumerator C
+  rw [lahNumber_self]
+  change 1 * factorialNat (Nat.succ n) =
+    BEDC.Derived.BinomialIdentitiesUp.C n n * factorialNat (Nat.succ n)
+  rw [BEDC.Derived.BinomialIdentitiesUp.binomial_self]
+
+theorem lahStirlingConvolutionPrefix_first_column_succ (n fuel : Nat) :
+    lahStirlingConvolutionPrefix (Nat.succ n) 1 (Nat.succ fuel) =
+      stirlingFirstPrefixNat (Nat.succ n) (Nat.succ fuel) := by
+  induction fuel with
+  | zero =>
+      change
+        BEDC.Derived.StirlingFirstUp.stirlingFirst (Nat.succ n) 0 *
+            BEDC.Derived.StirlingUp.stirlingSecond 0 1 +
+            BEDC.Derived.StirlingFirstUp.stirlingFirst (Nat.succ n) 1 *
+              BEDC.Derived.StirlingUp.stirlingSecond 1 1 =
+          BEDC.Derived.StirlingFirstUp.stirlingFirst (Nat.succ n) 0 +
+            BEDC.Derived.StirlingFirstUp.stirlingFirst (Nat.succ n) 1
+      rw [BEDC.Derived.StirlingFirstUp.stirlingFirst_succ_zero]
+      rw [BEDC.Derived.StirlingUp.stirlingSecond_zero_succ]
+      rw [BEDC.Derived.StirlingUp.stirlingSecond_self]
+      rw [Nat.zero_mul, Nat.mul_one, Nat.zero_add]
+  | succ fuel ih =>
+      change
+        lahStirlingConvolutionPrefix (Nat.succ n) 1 (Nat.succ fuel) +
+            BEDC.Derived.StirlingFirstUp.stirlingFirst
+              (Nat.succ n) (Nat.succ (Nat.succ fuel)) *
+              BEDC.Derived.StirlingUp.stirlingSecond
+                (Nat.succ (Nat.succ fuel)) 1 =
+          stirlingFirstPrefixNat (Nat.succ n) (Nat.succ fuel) +
+            BEDC.Derived.StirlingFirstUp.stirlingFirst
+              (Nat.succ n) (Nat.succ (Nat.succ fuel))
+      rw [ih]
+      rw [BEDC.Derived.StirlingUp.stirlingSecond_succ_one]
+      rw [Nat.mul_one]
+
+theorem lahStirlingConvolution_first_column (n : Nat) :
+    lahStirlingConvolution (Nat.succ n) 1 =
+      lahNumber (Nat.succ n) 1 := by
+  unfold lahStirlingConvolution
+  rw [lahStirlingConvolutionPrefix_first_column_succ]
+  change BEDC.Derived.StirlingFirstUp.stirlingFirstRowSum (Nat.succ n) =
+    lahNumber (Nat.succ n) 1
+  rw [BEDC.Derived.StirlingFirstUp.stirlingFirstRowSum_eq_factorial]
+  exact (lahNumber_succ_one n).symm
+
+theorem lahRowSum_recurrence_surface :
+    (lahRowSum 0 = 1) ∧
+      (lahRowSum 1 = 1) ∧
+      (lahRowSum 2 = 3) ∧
+      (lahRowSum 3 = 13) ∧
+      (∀ n extra : Nat, lahRowPrefix n (n + extra) = lahRowSum n) ∧
+      (∀ n k : Nat,
+        lahRowPrefix (Nat.succ n) (Nat.succ k) =
+          lahRowPrefix (Nat.succ n) k +
+            ((n + Nat.succ k) * lahNumber n (Nat.succ k) +
+              lahNumber n k)) := by
+  constructor
+  · exact lahRowSum_zero
+  · constructor
+    · exact lahRowSum_one
+    · constructor
+      · exact lahRowSum_two
+      · constructor
+        · exact lahRowSum_three
+        · constructor
+          · intro n extra
+            exact lahRowPrefix_above_self n extra
+          · intro n k
+            exact lahRowPrefix_succ_row_recurrence n k
+
 theorem LahNumberUp_constructive_export :
     (∀ n k : Nat,
       lahNumber (Nat.succ n) (Nat.succ k) =
@@ -256,6 +416,15 @@ theorem LahNumberUp_constructive_export :
       (∀ n : Nat,
         lahExactClosedDivision (Nat.succ n) 1 (lahNumber (Nat.succ n) 1)) ∧
       (∀ n : Nat,
+        lahExactClosedDivision
+          (Nat.succ n) (Nat.succ n)
+          (lahNumber (Nat.succ n) (Nat.succ n))) ∧
+      (∀ n : Nat,
+        lahStirlingConvolution (Nat.succ n) 1 =
+          lahNumber (Nat.succ n) 1) ∧
+      (lahRowSum 0 = 1 ∧ lahRowSum 1 = 1 ∧
+        lahRowSum 2 = 3 ∧ lahRowSum 3 = 13) ∧
+      (∀ n : Nat,
         lahStirlingDiagonalSum n n = lahNumber n n) := by
   constructor
   · intro n k
@@ -269,7 +438,21 @@ theorem LahNumberUp_constructive_export :
       · constructor
         · intro n
           exact lahExactClosedDivision_first_column n
-        · intro n
-          exact lahStirlingDiagonalSum_self_eq_lahNumber_self n
+        · constructor
+          · intro n
+            exact lahExactClosedDivision_diagonal n
+          · constructor
+            · intro n
+              exact lahStirlingConvolution_first_column n
+            · constructor
+              · constructor
+                · exact lahRowSum_zero
+                · constructor
+                  · exact lahRowSum_one
+                  · constructor
+                    · exact lahRowSum_two
+                    · exact lahRowSum_three
+              · intro n
+                exact lahStirlingDiagonalSum_self_eq_lahNumber_self n
 
 end BEDC.Derived.LahNumberUp

@@ -63,7 +63,7 @@ private theorem supplySocketLedger_mk_congr
   cases hNameCert
   rfl
 
-private def supplySocketLedgerToEventFlow : SupplySocketLedgerUp → EventFlow
+def supplySocketLedgerToEventFlow : SupplySocketLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | SupplySocketLedgerUp.mk gapTag supplyKind socketSite auditGate consumptionRoute
       provenance nameCert =>
@@ -82,7 +82,7 @@ private def supplySocketLedgerToEventFlow : SupplySocketLedgerUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         supplySocketLedgerEncodeBHist nameCert]
 
-private def supplySocketLedgerFromEventFlow : EventFlow → Option SupplySocketLedgerUp
+def supplySocketLedgerFromEventFlow : EventFlow → Option SupplySocketLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>

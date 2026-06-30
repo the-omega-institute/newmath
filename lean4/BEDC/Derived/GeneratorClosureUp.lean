@@ -446,4 +446,80 @@ theorem GeneratorClosurePacket_fixedpoint_consumer_route_determinacy [AskSetup] 
       consumerRoute,
       consumerPkg⟩
 
+theorem GeneratorClosureUp_StdBridge [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      bridge fixed consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg ->
+      hsame endpoint bridge ->
+        Cont name bridge routes ->
+          PkgSig bundle bridge pkg ->
+            Cont bridge witnesses fixed ->
+              Cont fixed name consumer ->
+                PkgSig bundle consumer pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row generator ∨ hsame row constructors ∨ hsame row authorized ∨
+                          hsame row classifier ∨ hsame row witnesses ∨ hsame row transport ∨
+                            hsame row routes ∨ hsame row provenance ∨ hsame row name ∨
+                              hsame row endpoint ∨ hsame row bridge ∨ hsame row fixed ∨
+                                hsame row consumer)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont name bridge routes ∧
+                          Cont bridge witnesses fixed ∧ Cont fixed name consumer ∧
+                            PkgSig bundle consumer pkg)
+                      hsame ∧
+                    UnaryHistory bridge ∧ UnaryHistory fixed ∧ UnaryHistory consumer := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packet sameEndpoint bridgeRoute _bridgePkg fixedRoute consumerRoute consumerPkg
+  obtain ⟨_generatorUnary, _constructorsUnary, _authorizedUnary, _classifierUnary,
+    witnessesUnary, _transportUnary, _provenanceUnary, nameUnary, endpointUnary,
+    _generatorRoute, _classifierRoute, _endpointRoute, _endpointPkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_transport endpointUnary sameEndpoint
+  have fixedUnary : UnaryHistory fixed :=
+    unary_cont_closed bridgeUnary witnessesUnary fixedRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed fixedUnary nameUnary consumerRoute
+  constructor
+  · exact
+      {
+        core := {
+          carrier_inhabited := Exists.intro consumer ⟨hsame_refl consumer, consumerUnary⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro row row' same
+            exact hsame_symm same
+          equiv_trans := by
+            intro row row' row'' sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro row row' same source
+            exact ⟨hsame_trans (hsame_symm same) source.left, unary_transport source.right same⟩
+        }
+        pattern_sound := by
+          intro row source
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr source.left)))))))))))
+        ledger_sound := by
+          intro row source
+          exact ⟨source.right, bridgeRoute, fixedRoute, consumerRoute, consumerPkg⟩
+      }
+  · exact ⟨bridgeUnary, fixedUnary, consumerUnary⟩
+
 end BEDC.Derived.GeneratorClosureUp

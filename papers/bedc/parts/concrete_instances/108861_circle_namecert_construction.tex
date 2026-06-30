@@ -45,6 +45,7 @@ The rows $H,P,N$ transport, source, and name the same finite packet. Since no am
 \label{thm:circle-sone-boundary-handoff}
 Every $\SOneUp$-facing read of an accepted $\CircleUp$ carrier factors through the boundary-loop row $B$, real-coordinate readback $R$, metric row $M$, compact-cover row $K$, and handoff row $S$. The handoff may expose a phase-group consumer, but it cannot make $\SOneUp$ the carrier of topological compact-boundary data and cannot export quotient-angle equality or a selected global parametrization.
 \end{theorem}
+\leanchecked{BEDC.Derived.CircleUp.CircleSOneBoundaryHandoff}
 \begin{proof}
 Start with a consumer asking for the phase-group reading. The $\CircleUp$ carrier first exposes the boundary surface through $B$ and its local real and metric inspections through $R,M$.
 
@@ -53,14 +54,79 @@ Compactness is read through $K$, so the consumer receives a finite cover surface
 The componentwise transport, provenance, and naming rows $H,P,N$ preserve this order. Because the carrier has no quotient-angle coordinate or selected global parametrization, the handoff remains a boundary-to-phase route rather than an identification of the two packets.
 \end{proof}
 
+\begin{theorem}[Circle metric subspace carrier obligation]
+\label{thm:circle-metric-subspace-carrier-obligation}
+For every accepted $\CircleUp$ carrier $C=(B,R,M,K,S,H,P,N)$, the boundary row $B$, $\RealUp$ coordinate row $R$, $\MetricSpaceUp$ neighborhood row $M$, $\CompactUp$ cover row $K$, $\SOneUp$ handoff row $S$, transport row $H$, provenance row $P$, and local $\NameCert_{\CircleUp}$ row $N$ are the full carrier obligation surface. A consumer may not replace these rows by an ambient plane, a selected parametrization, quotient-angle equality, or a global orientation choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.CircleUp.CircleMetricSubspaceCarrierObligation}
+\begin{proof}
+Project the carrier of \autoref{def:circle-carrier}. Its analytic boundary surface is exactly $B,R,M,K,S$, and its structural surface is exactly $H,P,N$.
+
+No other coordinate is available for a circle consumer. Since the carrier omits an ambient plane, selected trigonometric map, quotient by angle equality, and orientation row, the displayed coordinates exhaust the carrier obligation surface.
+\end{proof}
+
+\begin{theorem}[Circle $\SOneUp$ real seal route]
+\label{thm:circle-sone-real-seal-route}
+Every phase-group read of an accepted $\CircleUp$ carrier must pass through the $\RealUp$ coordinate row $R$ and the $\SOneUp$ handoff row $S$, with the boundary row $B$, metric row $M$, compact row $K$, transport $H$, provenance $P$, and local naming $N$ still present. This route permits a phase interpretation but does not identify $\CircleUp$ with $\SOneUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CircleUp.CircleSOneRealSealRoute}
+\begin{proof}
+Start with a consumer that asks for phase-group data. The carrier first exposes the topological boundary and real-coordinate surface through $B$ and $R$.
+
+The handoff row $S$ can then point to the $\SOneUp$ sibling, while $M,K,H,P,N$ keep the same metric, compact, transport, provenance, and naming rows attached to the circle packet. Because $S$ is a handoff coordinate rather than the carrier itself, the route is not an identification of the two chapters.
+\end{proof}
+
+\begin{theorem}[Circle compact metric boundary]
+\label{thm:circle-compact-metric-boundary}
+Before any consumer reads $\CircleUp$ as a closed boundary, the packet must expose the compact-cover row $K$, the metric-neighborhood row $M$, the boundary row $B$, the $\RealUp$ coordinate row $R$, transport $H$, provenance $P$, and local naming $N$. The compact-metric boundary does not supply an ambient plane, a selected parametrization, or quotient-angle equality.
+\end{theorem}
+\begin{proof}
+Read the compact and metric coordinates together. The row $K$ supplies finite cover data for the closed boundary, and $M$ supplies the neighborhood inspection by which boundary adjacency is read.
+
+The rows $B,R,H,P,N$ bind those compact and metric inspections to the circle carrier and its local name. Since no ambient plane or quotient-angle coordinate appears in the packet, a closed-boundary consumer receives only this compact-metric surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CircleUp.CircleCarrier\_compact\_metric\_boundary}
+
+\begin{theorem}[Circle Real metric scope route]
+\label{thm:circle-real-metric-scope-route}
+For every accepted $\CircleUp$ read of $C=(B,R,M,K,S,H,P,N)$, the boundary inspection is scoped by the displayed $\BHist$ carrier rows, componentwise $\hsame$ transport, $\Pkg$ provenance, local $\NameCert_{\CircleUp}$ naming, the $\RealUp$ coordinate row, the $\MetricSpaceUp$ neighborhood row, the $\CompactUp$ finite-cover row, and the optional $\SOneUp$ handoff row. The route exports no ambient plane, quotient-angle equality, selected parametrization, global orientation, or identification of $\CircleUp$ with $\SOneUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:circle-carrier}. The row list exposes the boundary row $B$, real-coordinate inspection $R$, metric inspection $M$, compact cover $K$, optional $\SOneUp$ handoff $S$, transport $H$, provenance $P$, and local naming $N$.
+
+Apply \autoref{thm:circle-namecert-obligations}. Its NameCert surface forces the topological rows $B,R,M,K,H,P,N$ to be read before any phase handoff can be used.
+
+Use \autoref{thm:circle-sone-boundary-handoff} and \autoref{thm:circle-sone-real-seal-route}. They keep $S$ as a downstream handoff through the same boundary and $\RealUp$ rows, not as an identification with the circle carrier.
+
+Finally apply \autoref{thm:circle-compact-metric-boundary}. The compact and metric rows already exhaust the closed-boundary inspection surface together with $B,R,H,P,N$, so the scoped route is exactly the displayed BEDC row surface and nothing from an ambient plane, quotient angle, selected parametrization, or global orientation remains available.
+\end{proof}
+\leanchecked{BEDC.Derived.CircleUp.CircleCarrier\_real\_metric\_scope\_route}
+
+\begin{theorem}[Circle Real metric scoped closure]
+\label{thm:circle-real-metric-scoped-closure}
+Every accepted $\CircleUp$ read is scoped exactly by the carrier rows $B,R,M,K,S,H,P,N$ of \autoref{def:circle-carrier}, the displayed $\BHist$ packet, componentwise $\hsame$ transport, $\Pkg$ provenance, local $\NameCert_{\CircleUp}$ naming, and the sibling surfaces $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, and optional $\SOneUp$. The scoped route exports no ambient plane, quotient-angle equality, selected parametrization, global orientation, or identification of $\CircleUp$ with $\SOneUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CircleUp.CircleCarrier\_real\_metric\_scoped\_closure}
+\begin{proof}
+Apply \autoref{thm:circle-namecert-obligations}. The accepted read begins with the carrier rows $B,R,M,K,S,H,P,N$ and the local $\NameCert_{\CircleUp}$ surface, so no unlisted coordinate can enter the scope.
+
+Use \autoref{thm:circle-sone-boundary-handoff} and \autoref{thm:circle-sone-real-seal-route}. These results keep the optional $\SOneUp$ row as a handoff from the boundary and real-coordinate rows, not as an identification of the circle packet with the phase-group sibling.
+
+Apply \autoref{thm:circle-compact-metric-boundary} and \autoref{thm:circle-real-metric-scope-route}. The compact, metric, and real rows already determine the closed-boundary inspection surface through $\BHist$, $\hsame$, $\Pkg$, and local naming.
+
+Thus the scoped closure is exactly the displayed BEDC carrier surface over $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, and optional $\SOneUp$, while ambient planes, quotient-angle equality, selected parametrizations, global orientations, and carrier identification with $\SOneUp$ remain outside the packet.
+\end{proof}
+
 \closureat{CircleUp}{seedStr}
+\closureat{CircleUp}{obligationStr}
+\closureat{CircleUp}{scopedStr}
 
 \begin{closurestatus}{\CircleUp}
   \constructivestory{A $\CircleUp$ packet is generated from boundary-loop, Real-coordinate, metric-neighborhood, compact-cover, optional SOne handoff, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, and \autoref{thm:circle-sone-boundary-handoff} seed the topological boundary certificate and its algebraic phase handoff.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-metric-subspace-carrier-obligation}, \autoref{thm:circle-sone-real-seal-route}, \autoref{thm:circle-compact-metric-boundary}, \autoref{thm:circle-real-metric-scope-route}, and \autoref{thm:circle-real-metric-scoped-closure} bind the topological boundary certificate, compact-metric obligations, Real metric route, and algebraic phase handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global parametrization, quotient-angle equality, or an identification of $\CircleUp$ with $\SOneUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, boundary stability, compact-cover exactness, SOne handoff noncollapse, transport, provenance, and local naming for the same finite packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, boundary stability, compact-cover exactness, SOne handoff noncollapse, transport, provenance, and local naming for the same finite packet.}
 \end{closurestatus}

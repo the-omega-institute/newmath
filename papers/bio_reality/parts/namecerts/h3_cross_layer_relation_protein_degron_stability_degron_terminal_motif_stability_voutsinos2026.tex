@@ -1,57 +1,30 @@
 \origin{ai}
 
-\subsection{Translation-Bounded RNA Decay Bridge for Terminal Degron Windows}
-\label{sec:translation-bounded-rna-decay-bridge-terminal-degron-windows}
+\subsection{Translation-bounded RNA half-life bridge for degron-window coordinates}
+\label{sec:bioreality-q6-rna-decay-rbp-bridge-degron-voutsinos}
 
-\paragraph{Finite panel.}
-The record concerns a finite matched RNA/CDS window panel in which each row carries a residual synonymous coordinate label $B^{*}_{Q6}$, a CDS or transcript key, a local window position, a same-row translation readout when available, a matched mRNA abundance control, and an RNA half-life readout.  The concrete terminal-degron audit surface contains $5303$ C-terminal protein rows, with $n_{\mathrm{cterm}}=5303$ and $n_{\mathrm{proteins}}=5303$, computed in run $1a932ef5684e$ with runtime $40.3029$ seconds.  These rows are sufficient to define the terminal-window carrier and to test whether the row accounting remains finite, keyed, and reproducible.  They are not, by themselves, sufficient to assert an RNA-decay mechanism.
+\paragraph{Finite row object.}
+This record concerns a finite matched RNA/CDS window panel whose internal coordinate column is a $B^*_{Q6}$ residual label on synonymous coding windows.  The biological target is not the coordinate itself, but a possible bounded relation among four row-level surfaces: the residual coordinate, a same-row translation readout, an RNA half-life readout, and a prespecified decay-factor RBP occupancy or perturbation column.  The degron-window audit for this subject contains $5303$ C-terminal windows over $5303$ proteins, with experiment run identifier $1a932ef5684e$ and deterministic runtime $40.3029$ seconds.  These numbers define the available finite row support for the degron-side carrier; they do not, by themselves, supply RBP occupancy, RBP loss, rescue, or binding-defective controls.
 
-\paragraph{Coordinate and readout separation.}
-Let $i$ range over the finite terminal-window rows.  The coordinate column is written $q_i \in B^{*}_{Q6}$, the translation readout is $T_i$, the matched transcript abundance control is $A_i$, and the RNA half-life readout is $H_i$.  A decay-factor RBP occupancy column, when present, is written $O_i$, and perturbation or rescue labels are written $P_i$.  The admissible row shape is therefore
+\paragraph{Comparison scale.}
+The same BioReality ledger also records two other finite cross-layer audits that are useful only as scale anchors.  The charge-patterning thermal-stability audit contains $6961$ rows with run identifier $8873440304f9$ and a deterministic runtime bucket of $70.0$ seconds, while the ubiquitylation acidic-microenvironment audit contains $10410$ sites across $2883$ proteins with $2000$ permutations and run identifier $0b96a8e4da3c$.  These companion counts show that the degron-window carrier is of comparable finite size, but they are not imported as evidence for RNA decay, RBP binding, translation, folding, or function.  Their role here is restricted to documenting that the present record is a finite-row audit rather than a free-form biological generalization.
+
+\paragraph{Admissible positive statement.}
+A positive bridge is allowed only after the finite table contains, in the same organism and at the same local window resolution, all of the following columns: high-versus-low $B^*_{Q6}$ coordinate labels, the same-row translation readout, matched mRNA abundance, RNA half-life, measured decay-factor RBP occupancy, a coordinate/occupancy decoupling design, target-RBP loss, wild-type rescue, and binding-defective or non-target controls.  The intended finite readout is a bounded half-life statistic in which the coordinate-associated difference tracks the measured RBP occupancy, disappears when the target RBP is lost, and returns under wild-type rescue but not under binding-defective or non-target control arms.  In symbolic form the permitted claim has the following row-level shape:
 $$
 \begin{aligned}
-  i \longmapsto (q_i,T_i,A_i,H_i,O_i,P_i,Z_i),
+&\Delta H(q_{\mathrm{high}},q_{\mathrm{low}} \mid Z,T,A) \text{ follows measured } O_{\mathrm{RBP}}, \\
+&\Delta H \to 0 \text{ under target-RBP loss}, \\
+&\Delta H \text{ returns under wild-type rescue and not under binding-defective or non-target rescue}.
 \end{aligned}
 $$
-where $Z_i$ denotes the prespecified controls: transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, amino-acid composition, batch, rank sufficiency, and simpler baseline terms.  The symbol $q_i$ is only a finite coordinate label.  It is not a measurement of translation, RNA decay, protein abundance, folding, physical admissibility, biological function, phenotype, adaptation, causation, or a universal law.
+Here $H$ denotes RNA half-life, $T$ denotes the same-row translation readout, $A$ denotes matched mRNA abundance, $O_{\mathrm{RBP}}$ denotes measured decay-factor RBP occupancy, and $Z$ collects the declared controls: transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, amino-acid composition, batch, rank sufficiency, and simpler-baseline terms.
 
-\paragraph{Claim tested.}
-The chapter tests whether a coordinate-associated RNA half-life difference may be treated as a bounded cross-layer relation.  The positive form is deliberately narrow: high-coordinate and low-coordinate synonymous windows may be compared only after amino-acid composition and local sequence controls are fixed; any half-life difference must follow a prespecified measured decay-factor RBP occupancy; occupancy must be experimentally separated from coordinate state; target-RBP loss must collapse the effect; wild-type rescue must restore it; and binding-defective or non-target controls must fail to restore the same pattern.  The same-row translation readout is a boundary condition, not a license to infer protein output.
+\paragraph{Null condition.}
+The null is not merely absence of a visible RNA half-life difference.  The required null says that, after the listed controls and the translation-readout boundary are attached, high- and low-coordinate synonymous windows are exchangeable with respect to RNA half-life unless the measured RBP bridge supplies the missing direction.  Thus a coordinate-associated half-life contrast without measured occupancy is only an RNA-stability association; a contrast with occupancy but without coordinate/occupancy decoupling is only a confounded occupancy association; and a contrast that fails target-RBP loss or wild-type rescue is not an RBP-mediated bridge.  The available degron audit has the finite carrier count, but the supplied memory does not contain the occupancy and perturbation rows needed to reject this null for the RNA-decay mechanism.
 
-\paragraph{Finite statistic.}
-The intended statistic is a controlled contrast between high-coordinate and low-coordinate windows, conditioned on translation and abundance controls, and then checked against the RBP occupancy and perturbation structure.  In schematic finite-row form, the admissible comparison is
-$$
-\begin{aligned}
-  \Delta_H
-  &=
-  \widehat{H}(q_i=\mathrm{high}\mid T_i,A_i,Z_i)
-  -
-  \widehat{H}(q_i=\mathrm{low}\mid T_i,A_i,Z_i),\\
-  \Delta_{H\mid O}
-  &=
-  \widehat{H}(O_i=1\mid q_i,T_i,A_i,Z_i)
-  -
-  \widehat{H}(O_i=0\mid q_i,T_i,A_i,Z_i).
-\end{aligned}
-$$
-A bridge is supported only if the coordinate contrast is carried by the measured occupancy term and by the target-RBP perturbation and rescue arms.  If $\Delta_H$ persists without measured occupancy, if occupancy is not decoupled from coordinate state, if target-RBP loss does not collapse the half-life effect, or if wild-type rescue does not separate from binding-defective and non-target controls, then the result remains an RNA-stability association or a coordinate descriptor.
+\paragraph{Boundary of interpretation.}
+This chapter does not infer translation, protein output, folded structure, physical admissibility, biological function, phenotype, adaptation, causation, or a universal sequence law from RNA half-life.  The same-row translation readout is a gate on the interpretation of the RNA half-life panel, not proof of translation realization or protein production.  Matched mRNA abundance is a control for transcript-level abundance, not RNA half-life evidence by itself.  Ribosome profiling or translation efficiency is a translation-layer readout, not RBP occupancy, RNA half-life, target-RBP loss, or rescue evidence.  The $B^*_{Q6}$ residual coordinate is kept as a finite coordinate label; it is not curated biological evidence and cannot select the RBP without a prespecified measured occupancy and perturbation panel.
 
-\paragraph{Observed finite facts.}
-The terminal-degron run supplies a finite row count and reproducible execution envelope, not a completed RBP-decay bridge.  Its $5303$ terminal rows establish that the relevant C-terminal window surface can be enumerated.  The same audit bundle also contains two neighboring cross-layer finite surfaces: a human thermal-stability surface with $n=6961$ rows and runtime recorded in the deterministic $70.0$ second bucket under run $8873440304f9$, and a ubiquitylation-occupancy surface with $n_{\mathrm{sites}}=10410$, $n_{\mathrm{prots}}=2883$, and $2000$ actual permutations under run $0b96a8e4da3c$.  These additional row counts are cited only to locate the scale of finite cross-layer auditing in the bundle.  They do not supply RNA half-life, decay-factor occupancy, or perturbation-rescue evidence for the terminal-degron RNA-decay question.
-
-\paragraph{Null form.}
-The null hypothesis is exchangeability of high-coordinate and low-coordinate labels with respect to RNA half-life after the declared controls and the same-row translation boundary are attached.  In finite-row language, the null says
-$$
-\begin{aligned}
-  H_i \perp q_i
-  \mid
-  (T_i,A_i,Z_i)
-\end{aligned}
-$$
-unless a measured occupancy and perturbation structure breaks that exchangeability in the prescribed direction.  This null is not weakened by the existence of a terminal-degron row set.  A row set gives an eligible carrier; it does not give the missing RBP occupancy column, the target-RBP loss column, the wild-type rescue column, or the binding-defective and non-target control columns.
-
-\paragraph{Boundary.}
-The local boundary is strict.  RNA half-life alone does not imply translation realization, protein output, folded structure, physical admissibility, function, phenotype, adaptation, mechanism, causation, or universality.  Matched mRNA abundance is a transcription-layer control, not an RNA half-life measurement.  Ribosome profiling or translation efficiency is a translation-layer readout, not an RBP occupancy assay.  A same-row translation readout can prevent an RNA-only association from being promoted too far, but it cannot create an RNA-decay mechanism.  The bridge becomes positive only when the same finite rows contain $B^{*}_{Q6}$ labels, translation readout, matched abundance, RNA half-life, measured decay-factor RBP occupancy, coordinate/occupancy decoupling, target-RBP loss, wild-type rescue, and binding-defective or non-target controls.
-
-\paragraph{Readback.}
-The present readback is therefore bounded and conditional.  The terminal-degron surface is finite and reproducible at $5303$ rows, and it can host a translation-bounded RNA half-life test.  The available payload does not yet contain the measured RBP occupancy or perturbation-rescue structure needed for a positive cross-layer RBP-decay bridge.  The correct conclusion is that the coordinate remains a finite descriptor, or at most a candidate RNA-stability association, until the missing same-window RBP and rescue columns are joined and the declared controlled statistic is computed.
+\paragraph{Present verdict.}
+The record is ready as a bounded BioReality chapter because it gives a concrete finite degron-window carrier, declares the exact same-row contacts required for an RNA half-life bridge, and states the local failure modes that prevent promotion.  The current positive claim remains blocked at the mechanism step: $5303$ rows are enough to define the finite degron-side window universe, but not enough to establish an RBP-mediated RNA-decay bridge without measured decay-factor occupancy, coordinate/occupancy decoupling, target-RBP loss, wild-type rescue, and binding-defective or non-target controls on the same joined panel.

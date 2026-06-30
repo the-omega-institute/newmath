@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RealClosedFieldUp$}
+\label{ch:concrete-instances-real-closed-field-namecert}
+\origin{human}
+
+Following Artin and van der Waerden on real closed fields, the $\RealClosedFieldUp$ packet records the finite ordered-algebra surface by which a displayed field is read as real-closed without importing a host algebraic closure, selected roots, or classical trichotomy. It sits over the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the field carrier of \autoref{ch:concrete-instances-field-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the root-isolation surface of \autoref{ch:concrete-instances-real-root-isolation-namecert}, and the Sturm-chain route of \autoref{ch:concrete-instances-sturm-sequence-namecert}. The packet names only the displayed order, polynomial, odd-degree root, positive-square, isolation, transport, replay, provenance, and local certificate rows.
+
+\begin{definition}[Real closed field carrier]
+\label{def:real-closed-field-carrier}
+A $\RealClosedFieldUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,K,O,P,S,I,A,Q,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ source row naming the real-facing carrier boundary.
+\item $K$ is the $\FieldUp$ row naming addition, multiplication, units, inverse-on-witnesses, and field classifier transport.
+\item $O$ is the order row attached to the same displayed carrier as $K$, with positivity and comparison data read only through finite BEDC rows.
+\item $P$ is the $\PolynomialUp$ row for coefficient lists, degree ledgers, formal derivatives, and evaluation requests over the displayed field.
+\item $S$ is the $\SturmSequenceUp$ row carrying finite sign-variation and endpoint ledger data for the polynomial request.
+\item $I$ is the $\RealRootIsolationUp$ row exporting retained isolating windows and no selected host root.
+\item $A$ is the odd-degree root route: for each displayed odd-degree polynomial row admitted by $P$, it records the Sturm/isolation handoff through $S$ and $I$ to a retained $\RealUp$ seal.
+\item $Q$ is the positive-square route: every displayed positive field element is paired with a square witness row, and every square witness remains tied to the same order classifier.
+\item $H$ records componentwise $\hsame$ transport for the real, field, order, polynomial, Sturm, isolation, root, square, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any real-closed-field read through $R,K,O,P,S,I,A,Q,H$.
+\item $G$ is the $\Pkg$ provenance over $\RealClosedFieldUp$, $\RealUp$, $\FieldUp$, $\PolynomialUp$, $\SturmSequenceUp$, $\RealRootIsolationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealClosedFieldUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host algebraic closure, a selected algebraic root outside the isolating window, quotient polynomial equality, classical trichotomy, choice of signs, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Real closed field NameCert obligations]
+\label{thm:real-closed-field-namecert-obligations}
+For every accepted $\RealClosedFieldUp$ carrier $F=(R,K,O,P,S,I,A,Q,H,C,G,N)$, the local $\NameCert_{\RealClosedFieldUp}$ surface consists exactly of these finite obligations:
+\begin{enumerate}
+\item carrier admission for the real, field, order, polynomial, Sturm, root-isolation, odd-degree root, positive-square, transport, replay, provenance, and local naming rows;
+\item field/order compatibility through $K$ and $O$ on the same displayed carrier;
+\item polynomial admission through the finite coefficient, degree, derivative, and evaluation rows of $P$;
+\item odd-degree root exposure through the route $P,S,I,A$ before any $\RealUp$ seal is available;
+\item positive-square exposure through $O,K,Q$, with the square witness tied to the displayed order classifier;
+\item componentwise transport, continuation replay, provenance, and local naming through $H,C,G,N$.
+\end{enumerate}
+No other real-closed-field obligation is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-closed-field-carrier}. Its rows already list the complete finite surface: real boundary, field operations, order data, polynomial requests, Sturm variation, root isolation, root and square routes, and BEDC structural rows.
+
+The odd-degree clause is read through the polynomial row $P$, then through the Sturm row $S$, then through the isolating-window row $I$, and only then through the root route $A$. Thus an accepted root read cannot be replaced by an ambient algebraic closure or selected host element.
+
+The positive-square clause is separate. It uses the order classifier $O$, the field row $K$, and the displayed witness row $Q$, so positivity and squareness remain rows of the same packet.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same rows. Since no coordinate stores host algebraic closure, quotient polynomial equality, classical trichotomy, or a choice schedule, the listed obligations exhaust the local $\NameCert_{\RealClosedFieldUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Real closed field order-root route]
+\label{thm:real-closed-field-order-root-route}
+Every real-closed-field read from an accepted $\RealClosedFieldUp$ packet factors through
+$$
+R,K,O,P \longmapsto S,I,A,Q \longmapsto H,C,G,N .
+$$
+Odd-degree root reads must pass through the $\PolynomialUp$, $\SturmSequenceUp$, and $\RealRootIsolationUp$ rows before exposing a retained $\RealUp$ seal; positive-square reads must pass through the displayed order and field rows before exposing the square witness. No read may bypass these routes by appealing to host algebraic closure, a selected root, quotient real equality, trichotomy, choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with an odd-degree root request. The polynomial source is the row $P$, so coefficients, degree, derivative, and evaluation requests are displayed before any root data is considered.
+
+Next the Sturm and isolation rows are read. The row $S$ supplies the sign-variation ledger, and the row $I$ supplies the retained isolating window. The root route $A$ can therefore expose only the retained $\RealUp$ seal attached to those rows.
+
+For a positive-square request, the order row $O$ supplies positivity and the field row $K$ supplies multiplication. The witness row $Q$ records the square witness over that same displayed carrier and classifier.
+
+The structural rows $H,C,G,N$ then preserve and replay the same packet. Because no listed row contains host algebraic closure, quotient equality, trichotomy, choice, or ambient completeness data, the displayed route is the whole order-root interface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealClosedFieldUp$ consumer that reads an odd-degree root without the $\PolynomialUp$, $\SturmSequenceUp$, and $\RealRootIsolationUp$ rows, or reads a positive-square witness without the displayed field and order rows, is outside the carrier surface.}
+
+\independenceWitness{real, field, polynomial, sturm-sequence, real-root-isolation: no listed sibling is bijective with $\RealClosedFieldUp$ because this packet binds one real-facing field carrier to order data, polynomial requests, Sturm variation, isolating windows, odd-degree root exposure, positive-square witnesses, transport, replay, provenance, and local naming.}
+
+\closureat{RealClosedFieldUp}{seedStr}
+
+\begin{closurestatus}{\RealClosedFieldUp}
+  \constructivestory{A $\RealClosedFieldUp$ packet is generated from RealUp, FieldUp, order, PolynomialUp, SturmSequenceUp, RealRootIsolationUp, odd-degree root, positive-square, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-closed-field-carrier}, \autoref{thm:real-closed-field-namecert-obligations}, and \autoref{thm:real-closed-field-order-root-route} seed the finite ordered-algebra packet for real-closed-field reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host algebraic closure, selected roots outside isolating windows, quotient polynomial equality, classical trichotomy, choice of signs, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, field/order compatibility, polynomial admission, odd-degree root exposure, positive-square exposure, transport, replay, provenance, and local naming for BEDC.Derived.RealClosedFieldUp.}
+\end{closurestatus}

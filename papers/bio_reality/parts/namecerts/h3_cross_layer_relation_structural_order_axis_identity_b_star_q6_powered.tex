@@ -1,29 +1,53 @@
+\subsection{Structural-order axis identity for the powered B-star Q6 surface}\label{subsec:h3-cross-layer-relation-structural-order-axis-identity-b-star-q6-powered}
 \origin{ai}
 
-\subsection{Structural-order axis identity for $B^{*}_{Q6}$ residual coordinates}
-\label{sec:bioreality-structural-order-axis-identity-b-star-q6}
-
 \paragraph{Finite surface.}
-The BioReality record considered here is the finite surface whose rows are controlled residual coordinates $q_i$ from the nine-coordinate $B^{*}_{Q6}$ panel, together with translation-side and protein-side readouts kept as separate measured or modelled coordinates. The computed residual axes are $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. The finite claim is not that all synonymous residual axes carry higher-order biological information. It is the sharper assertion that, after the declared controls and held-out folds are applied, the structural-order increment has a single dominant coordinate, namely $f3\_stress$.
+The record concerns a finite cross-layer surface whose residual coordinates are the nine B-star Q6 axes
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+The readout is not a new codon coordinate and not a direct biological mechanism.  It is a finite held-out axis-identification experiment asking whether one of these residual coordinates carries the structural-order increment more strongly than its siblings after the declared controls and fold-level sign-flip test are applied.  The run identifier is $fac1206f6516$, the experiment identifier is $b\_star\_q6\_structural\_order\_axis\_identity\_powered$, the fold count is $5$, the minimum joined-row gate is $300$, and the deterministic seed is $sha256:8da7c86c999e5bee370c0c1a60a84722d81290b54b4dc2d4bd43c1cbd29fb394$.
 
-\paragraph{Axis test.}
-The powered axis-identity run used $5$ folds with a minimum joined-row condition of $300$ and evaluated fold-level sign-flip evidence for each of the nine residual coordinates. The full $B^{*}_{Q6}$ signal was significant, but exactly one coordinate passed the coordinate-level sign-flip gate. The dominant increment axis and the dominant loading axis were both $f3\_stress$. Its weighted held-out $R^2$ increment was $0.0031744502294756994$, its weighted absolute unit loading was $0.5109586606724208$, and its sign-flip right-tail value was $p=0.03125$. The remaining coordinates did not pass the same gate: $Arg\_AGR$ had increment $0.0020139270616115154$ with $p=0.142578125$, $Ile\_AUA$ had increment $0.0013067592718559024$ with $p=0.0693359375$, $K\_AAA$ had increment $0.0005307046179682497$ with $p=0.2294921875$, $Ser\_UCR\_vs\_AGY$ had increment $0.0010134090056701938$ with $p=0.2158203125$, $Leu\_UUA\_vs\_UUG$ had increment $0.00017615626369389472$ with $p=0.24609375$, and $Ser\_UCA\_vs\_UCG$ had increment $0.00004390882136492317$ with $p=0.4873046875$. Two coordinates were negative in held-out increment: $Leu\_CUN\_vs\_UUR$ at $-0.0003205780368125179$ with $p=0.779296875$, and $Thr\_ACR\_vs\_ACY$ at $-0.00045340330387383447$ with $p=0.529296875$.
-
-\paragraph{Finite interpretation.}
-The supported readback is therefore an axis identity statement, not a universal codon law. The finite matrix separates one coordinate from the rest: $f3\_stress$ is the only tested $B^{*}_{Q6}$ coordinate whose fold-level increment remains positive against the sign-flip null at the stated gate. Equivalently, the observed ordering is
+\paragraph{Axis statistic.}
+For each coordinate $q_i$, the finite statistic is the weighted held-out increment together with a one-sided fold-level sign-flip probability.  The positive structural-order identity call is made only when the same coordinate is both the dominant loading axis and the dominant increment axis, and when the sign-flip probability clears the finite gate.  In this run the full B-star Q6 signal is significant and exactly one coordinate passes the gate: $f3\_stress$.  Its weighted absolute unit loading is $0.5109586606724208$, its weighted held-out increment is $0.0031744502294756994$, and its sign-flip probability is $0.03125$.  The finite decision can be summarized as
 $$
 \begin{aligned}
-  f3\_stress &> Arg\_AGR > Ile\_AUA > Ser\_UCR\_vs\_AGY > K\_AAA \\
-  &> Leu\_UUA\_vs\_UUG > Ser\_UCA\_vs\_UCG > Leu\_CUN\_vs\_UUR > Thr\_ACR\_vs\_ACY
+q_{\mathrm{dom}} &= f3\_stress,\\
+\Delta R^2_{\mathrm{heldout}}(q_{\mathrm{dom}}) &= 0.0031744502294756994,\\
+p_{\mathrm{signflip}}(q_{\mathrm{dom}}) &= 0.03125,\\
+|\ell(q_{\mathrm{dom}})| &= 0.5109586606724208.
 \end{aligned}
 $$
-when ordered by the reported weighted held-out increment. The term structural order is used here only for this finite tested response surface. It does not by itself assert folded protein structure, physical feasibility, molecular function, phenotype, mechanism, or species-wide invariance.
+Thus the chapter-level readback is not that every B-star Q6 coordinate carries structural order.  The finite-row result is narrower: the structural-order signal, on this powered surface, is localized to the $f3\_stress$ axis.
 
-\paragraph{Relation to the translation-mediated abundance surface.}
-A separate cross-layer protein-abundance decomposition supplies the main guardrail for interpreting direct $q_i \to P_k$ associations. In that run, the same nine $B^{*}_{Q6}$ residual coordinates were joined to per-protein modelled tAI and measured protein abundance in $12$ organisms. The organism-specific joined protein counts were $4042$ for \textit{Bacillus subtilis}, $11661$ for \textit{Caenorhabditis elegans}, $14410$ for \textit{Danio rerio}, $13295$ for \textit{Drosophila melanogaster}, $3739$ for \textit{Escherichia coli} K12 MG1655, $12418$ for chicken, $19053$ for human, $19395$ for mouse, $4129$ for \textit{Mycobacterium smegmatis}, $13322$ for rat, $5815$ for yeast, and $1656$ for \textit{Sulfolobus solfataricus}. The mediation scalar $M^{QTP}$ stayed in the unit interval for every organism, ranging from $0.01850668564589326$ in \textit{Sulfolobus solfataricus} to $0.9491551041216973$ in yeast. Human had total $R^2_{QP}=0.04454565118019448$, direct $R^2_{QP\mid T}=0.03242643251185274$, and indirect component $0.012119218668341744$; yeast had total $R^2_{QP}=0.29837624994140827$, direct $R^2_{QP\mid T}=0.0151709093608293$, and indirect component $0.28320534058057895$. These values support a controlled statistical decomposition of residual-to-protein abundance through a translation readout, but they do not convert the structural-order axis result into a causal translation mechanism.
+\paragraph{Sibling-axis ledger.}
+The sibling coordinates remain visible in the finite ledger because their held-out increments and sign-flip probabilities determine whether the identity is specific or diffuse.  The axis increments are
+$$
+\begin{aligned}
+\Delta R^2(K\_AAA) &= 0.0005307046179682497, & p &= 0.2294921875,\\
+\Delta R^2(Arg\_AGR) &= 0.0020139270616115154, & p &= 0.142578125,\\
+\Delta R^2(Ile\_AUA) &= 0.0013067592718559024, & p &= 0.0693359375,\\
+\Delta R^2(Leu\_CUN\_vs\_UUR) &= -0.0003205780368125179, & p &= 0.779296875,\\
+\Delta R^2(Leu\_UUA\_vs\_UUG) &= 0.00017615626369389472, & p &= 0.24609375,\\
+\Delta R^2(Ser\_UCR\_vs\_AGY) &= 0.0010134090056701938, & p &= 0.2158203125,\\
+\Delta R^2(Ser\_UCA\_vs\_UCG) &= 0.00004390882136492317, & p &= 0.4873046875,\\
+\Delta R^2(Thr\_ACR\_vs\_ACY) &= -0.00045340330387383447, & p &= 0.529296875,\\
+\Delta R^2(f3\_stress) &= 0.0031744502294756994, & p &= 0.03125.
+\end{aligned}
+$$
+The two negative increments, $Leu\_CUN\_vs\_UUR$ and $Thr\_ACR\_vs\_ACY$, are especially important controls: they prevent the chapter from reading ordinary B-star Q6 membership as automatic structural-order support.  The near-positive but nonpassing axes, especially $Ile\_AUA$ with $p=0.0693359375$ and $Arg\_AGR$ with $p=0.142578125$, show that the decision is a rank-and-gate result rather than a narrative selection of the largest named codon family.
 
-\paragraph{Structure-proxy audit.}
-The yeast structure-mediation run gives a second local check on over-reading the axis identity. On $4759$ joined yeast rows, after controls for coding length, amino-acid composition, $GC3$, and the $M$-density baseline, the direct residual-to-protein-abundance value was $R^2_{QP}=0.2715520808117803$. Conditioning on the 5-prime coding-region MFE proxy changed this to $R^2_{QP\mid S}=0.2706601505000995$, while conditioning on measured translation efficiency and mRNA stability gave $R^2_{QP\mid T,M}=0.13773967696311287$, and conditioning on all three gave $R^2_{QP\mid T,M,S}=0.13759011208318542$. The structure-only fraction was $0.003284564452662019$, the structure-incremental fraction was $0.0005507778820193332$, and the permutation value for the structure-incremental right tail was $0.1258741258741259$. This audit is compatible with a small sequence-derived structure proxy, but it is not a folded-structure experiment and does not license a structural mechanism.
+\paragraph{Translation and protein-abundance context.}
+The broader B-star Q6 program also contains bounded translation and protein-abundance contacts, but those contacts do not collapse into this structural-order axis identity.  A modeled tAI survival surface was computed for three organisms, with $81$ entries above the $0.01$ coupling threshold and maximum absolute entry $3801961.031607896$, using GtRNAdb tRNA gene-copy counts and dos Reis wobble weights.  That run explicitly records that $3$ organisms are insufficient for powered survival and that the readout is modeled tAI coupling, not ribosome-profiling or proteomics validation.  Separately, the twelve-organism protein-abundance mediation surface reports positive finite mediation fractions for organisms such as $Saccharomyces\ cerevisiae$ with $M^{QTP}=0.9491551041216973$, $Escherichia\ coli\ K12\ MG1655$ with $M^{QTP}=0.612922252793667$, and $Drosophila\ melanogaster$ with $M^{QTP}=0.6165167748739756$, while retaining the statement that these are statistical decompositions rather than causal mechanisms.  The yeast structure-mediation run reports $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid S}=0.2706601505000995$, $R^2_{QP\mid T,M}=0.13773967696311287$, and $R^2_{QP\mid T,M,S}=0.13759011208318542$, with a structure-only fraction $0.003284564452662019$ and a structure-incremental fraction $0.0005507778820193332$.  Those numbers are compatible with the present axis-localization result, but they are not substitutes for it.
 
-\paragraph{Local no-promotion rule.}
-The admissible conclusion is confined to finite-row identity: among the tested $B^{*}_{Q6}$ residual coordinates, $f3\_stress$ is the only coordinate that passes the fold-level sign-flip gate for the structural-order response, with held-out increment $0.0031744502294756994$ and $p=0.03125$. A direct residual-to-protein association is not promoted unless the same coordinate first survives an explicit translation-readout step, and even then the result remains a controlled statistical chain rather than proof of translation dynamics. No translation realization, folding claim, physical admissibility claim, molecular function claim, mechanism claim, organismal phenotype claim, selection claim, or universal biological law follows from this chapter unless a separate layer-matched contact supplies that specific measurement and the finite statistic is recomputed under the stated controls.
+\paragraph{Negative absorption check.}
+The chaperone-client absorption audit is a local guard against promoting a structural-order axis into a generic proteostasis explanation.  In $Saccharomyces\ cerevisiae$, the chaperone-client membership matrix has rank $64$ on $3290$ analysis rows, but the five-fold cross-fitted held-out increment is negative: $A_{chap}=-0.025094043993987934$, with held-out baseline $R^2=-0.0012543882346045532$, held-out model $R^2=-0.02634843222859251$, null mean $-0.02069844694751184$, null $95$ percent level $-0.011919241878822474$, and $p_{chap}=0.8059701492537313$.  The verdict there is $composition\_artifact$.  This negative result keeps the present chapter from interpreting $f3\_stress$ as a demonstrated chaperone-client, folding, or post-translational-state axis.
+
+\paragraph{Local conclusion.}
+The finite decision is therefore an axis-identity statement:
+$$
+\begin{aligned}
+\mathrm{StructuralOrderAxis}(B^\star Q6) &= f3\_stress,\\
+\mathrm{passing\ axes} &= \{f3\_stress\},\\
+\mathrm{nonpassing\ sibling\ axes} &= \{K\_AAA, Arg\_AGR, Ile\_AUA, Leu\_CUN\_vs\_UUR, Leu\_UUA\_vs\_UUG, Ser\_UCR\_vs\_AGY, Ser\_UCA\_vs\_UCG, Thr\_ACR\_vs\_ACY\}.
+\end{aligned}
+$$
+The conclusion is chapter-specific and finite-row bounded: structural-order signal is carried by $f3\_stress$ in the powered axis audit, with exactly one coordinate passing the sign-flip gate.  No translation realization, folded structure, physical admissibility, molecular function, biological mechanism, organismal phenotype, selection law, or universal rule follows from this axis identity by itself.  Such claims require their own layer-matched measurements and controls.  In particular, a direct residual-to-protein association is not admissible as protein realization unless the residual first survives a controlled translation readout, and a protein-abundance or structural-order statistic does not by itself become evidence for folding, function, or mechanism.

@@ -1,0 +1,15 @@
+\begin{theorem}[Poincare disk geodesic projection sibling lattice]
+\label{thm:poincare-disk-geodesic-projection-sibling-lattice}
+Every accepted $\PoincareDiskGeodesicProjectionUp$ route reads the disk-carrier, boundary row, metric/geodesic row, transport row, replay row, provenance row, and local $\NameCert$ row before any projection consumer inspects the projected route. The sibling lattice runs through the disk carrier of \autoref{ch:concrete-instances-unitdisk-namecert}, the hyperbolic metric surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the geodesic-boundary packet of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, the boundary-fixed transport route of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, and the outgoing phase-transport route of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier
+$$
+G=(D,B,M,T,J,H,C,P,N)
+$$
+through \autoref{def:poincare-disk-geodesic-projection-carrier}. The rows $D,B,M,T,H,C,P,N$ are visible before the projection join $J$ can be exported.
+
+Apply \autoref{thm:poincare-disk-geodesic-projection-namecert-obligations}. It forces every projection consumer to read the disk row, boundary-geodesic row, hyperbolic metric row, boundary-fixed transport row, projection join, componentwise transport, replay, provenance, and local naming in that order.
+
+Thus the route is horizontal rather than kernel-only: $D$ is anchored in \autoref{ch:concrete-instances-unitdisk-namecert}, $M$ in \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, $B$ in \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, $T$ in \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, and the downstream projection consumer in \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}. Since $J$ is unavailable until those rows have been displayed, no projection read floats apart from its disk and hyperbolic siblings.
+\end{proof}

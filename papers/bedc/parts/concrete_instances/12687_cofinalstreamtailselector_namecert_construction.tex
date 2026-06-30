@@ -39,6 +39,7 @@ The selector obligations are read in order. The precision request $\epsilon$ ope
 
 The RealUp seal row $A$ is downstream of $W,R,D,\sigma$, while $H,C,P,N$ provide transport, route replay, provenance, and local naming. Since the carrier has no coordinate for quotient streams, host-selected limits, countable choice, hidden tail selection, or ambient completeness, these rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorCarrier\_namecert\_obligations}
 
 \begin{theorem}[Cofinal StreamName tail selector seal order]
 \label{thm:cofinal-stream-tail-selector-seal-order}
@@ -96,6 +97,7 @@ The sibling routes supply the same cofinal-window role in different presentation
 \label{thm:cofinal-stream-tail-selector-real-seal-nonescape}
 For an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the $\RealUp$ seal row $A$ does not export quotient stream identity, host real equality, host-selected limits, countable-choice selection, hidden family limits, or an ambient completeness principle. The seal remains a finite boundary for the same cofinal StreamName route displayed in the sibling tail-selector chapters.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorRealSealNonescape}
 \begin{proof}
 Project the carrier. The seal row $A$ is downstream of the finite cofinal tail window $W$, the regular handoff $R$, the dyadic readback $D$, and the selector provenance row $\sigma$.
 
@@ -108,6 +110,7 @@ Since no extra coordinate is present in the carrier, the seal row cannot export 
 \label{thm:cofinal-stream-tail-selector-nonescape}
 An accepted $\CofinalStreamTailSelectorUp$ carrier cannot be used to recover data outside the displayed tuple $\epsilon,W,R,D,A,\sigma,H,C,P,N$. In particular, it exports no quotient stream identity, host real equality, host-selected limit, unbounded tail search, countable-choice selector, hidden family limit, or ambient RealUp completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorNonescape}
 \begin{proof}
 The NameCert obligations identify every row available to a downstream consumer. The precision request, finite StreamName tail window, RegSeqRat handoff, dyadic readback, RealUp seal, and selector provenance rows are the only content rows, and $H,C,P,N$ only transport, replay, package, and name those rows.
 
@@ -124,6 +127,7 @@ $$
 $$
 Every completion-facing seal read is therefore routed through the displayed cofinal tail window, regular-sequence handoff, dyadic readback, selector provenance, componentwise transport, continuation route, package provenance, and local naming row. The assembled package gives no bypass through quotient stream equality, host real equality, host-selected limits, countable choice, hidden tail selection, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorObligationPackage}
 \begin{proof}
 Use the carrier of \autoref{def:cofinal-stream-tail-selector-carrier} and the obligations of \autoref{thm:cofinal-stream-tail-selector-namecert-obligations}. These identify the finite rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and bind them over the StreamName, RegSeqRat, DyadicRatCore, RealUp, history, transport, continuation, package, and naming surfaces.
 
@@ -131,6 +135,21 @@ Apply \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every $\R
 
 Finally combine the TasteGate obligation of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} with non-escape from \autoref{thm:cofinal-stream-tail-selector-nonescape}. The taste gate may only read the displayed carrier rows, and the non-escape theorem excludes quotient stream equality, countable choice, hidden selectors, and ambient completeness from the exported surface.
 \end{proof}
+
+\begin{theorem}[Cofinal StreamName tail selector public export]
+\label{thm:cofinal-stream-tail-selector-public-export}
+Every accepted $\CofinalStreamTailSelectorUp$ public consumer receives only the precision request, displayed $\StreamNameUp$ tail window, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ readback, $\RealUp$ seal, selector provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of the carrier. The public export is routed through the obligation package, seal order, and non-escape boundary, and it uses the TasteGate site of \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation} only as the local finite-carrier discipline.
+\end{theorem}
+\begin{proof}
+Start with the obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}. It assembles the carrier, local NameCert obligations, seal-order theorem, TasteGate obligation, and non-escape theorem over the finite rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$.
+
+Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-order}. It forces every public read of the $\RealUp$ seal through the precision request, StreamName tail window, RegSeqRat handoff, DyadicRatCore readback, and selector provenance before the seal is visible.
+
+Apply the non-escape theorem \autoref{thm:cofinal-stream-tail-selector-nonescape}. It removes quotient stream identity, host real equality, host-selected limits, unbounded tail search, countable choice, hidden family limits, and ambient RealUp completeness from the public surface.
+
+The TasteGate obligation, already recorded at \autoref{thm:cofinal-stream-tail-selector-tastegate-obligation}, supplies only the local finite-carrier discipline for the same rows. Therefore the accepted public consumer receives exactly the listed BEDC rows and no additional tail-selection or completion principle.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorCarrier\_public\_export}
 
 \begin{theorem}[Cofinal StreamName tail selector scoped route]
 \label{thm:cofinal-stream-tail-selector-scoped-route}
@@ -144,6 +163,7 @@ $$
 $$
 is scoped over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The precision request $\epsilon$ opens only the displayed StreamName tail window $W$; $R$ and $D$ read regular-sequence and dyadic rows from that window; $A$ is the terminal Real seal; $\sigma,H,C,P,N$ record selector provenance, componentwise transport, continuation replay, package provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorScopedRoute}
 \begin{proof}
 Start from the carrier and obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}. They expose exactly the rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and list the BEDC surfaces on which those rows may be read.
 
@@ -156,24 +176,82 @@ The remaining rows do not introduce new analytic data. They transport, replay, s
 \label{thm:cofinal-stream-tail-selector-window-readback-scope}
 In an accepted $\CofinalStreamTailSelectorUp$ carrier $Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N)$, the cofinal window row $W$ and readback rows $R,D,\sigma$ remain ordered before any consumer read of the $\RealUp$ seal row $A$. No accepted route can inspect $A$ before the finite window, regular handoff, dyadic readback, and selector provenance have been displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorWindowReadbackScope}
 \begin{proof}
 Apply the seal-order theorem \autoref{thm:cofinal-stream-tail-selector-seal-order}. It places the Real seal downstream of $W,R,D,\sigma$ for every completion-facing read.
 
 Use the scoped-route theorem \autoref{thm:cofinal-stream-tail-selector-scoped-route} to keep the same ordering inside the BEDC row classes. The rows $H,C,P,N$ only preserve the already displayed route and cannot move the seal ahead of the cofinal window or readback rows.
 \end{proof}
 
+\begin{theorem}[Cofinal StreamName tail selector public certificate]
+\label{thm:cofinal-stream-tail-selector-public-certificate}
+The carrier of \autoref{def:cofinal-stream-tail-selector-carrier}, the obligation package of \autoref{thm:cofinal-stream-tail-selector-obligation-package}, the seal order of \autoref{thm:cofinal-stream-tail-selector-seal-order}, the scoped route of \autoref{thm:cofinal-stream-tail-selector-scoped-route}, and the window readback scope of \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} export a public certificate for the cofinal-window route over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The certificate exposes only the displayed rows
+$$
+\epsilon,W,R,D,A,\sigma,H,C,P,N
+$$
+and exports no quotient stream identity, host-selected limit, countable-choice selector, hidden tail oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation package. They identify the accepted packet as the finite row tuple $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and bind those rows to StreamName, RegSeqRat, DyadicRatCore, RealUp, history, transport, continuation, package, and naming surfaces.
+
+Apply the seal-order theorem to the Real-facing boundary. It places $A$ downstream of the finite cofinal window $W$, the regular handoff $R$, the dyadic readback $D$, and selector provenance $\sigma$.
+
+Use the scoped-route theorem and the window-readback scope theorem to make the same ordering public. These results keep the route inside $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ and prevent the seal from moving ahead of the displayed readback rows.
+
+The carrier has no coordinate for quotient stream identity, host-selected limits, countable choice, hidden tail oracles, or ambient Real completeness. Therefore the assembled route is exactly the stated public certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicCertificate}
+
+\begin{theorem}[Cofinal StreamName tail selector public window transport]
+\label{thm:cofinal-stream-tail-selector-public-window-transport}
+For every accepted $\CofinalStreamTailSelectorUp$ carrier
+$$
+Q=(\epsilon,W,R,D,A,\sigma,H,C,P,N),
+$$
+any public transport of the cofinal selector window preserves the order
+$$
+\epsilon \to W \to R \to D \to \sigma \to A
+$$
+through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The rows $H,C,P,N$ only transport, replay, source, and name the same finite route. Such a transport cannot replace the window by quotient stream identity, a host-selected limit, countable choice, a hidden selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the public certificate of \autoref{thm:cofinal-stream-tail-selector-public-certificate}. It exposes exactly the displayed packet rows and already refuses quotient stream identity, host-selected limits, countable-choice selectors, hidden tail oracles, and ambient Real completeness.
+
+Apply the scoped route of \autoref{thm:cofinal-stream-tail-selector-scoped-route}. The precision request opens the $\StreamNameUp$ window $W$, the regular and dyadic rows $R,D$ read that window, selector provenance $\sigma$ remains part of the displayed route, and the $\RealUp$ seal $A$ is reached only afterward.
+
+Use the window readback scope of \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} together with the seal-order theorem of \autoref{thm:cofinal-stream-tail-selector-seal-order}. These keep every public transport from moving $A$ ahead of $\epsilon,W,R,D,\sigma$.
+
+The remaining rows $H,C,P,N$ have only transport, replay, source, and naming roles in the same finite packet. They therefore preserve the already displayed route rather than selecting a new tail, adding a limit, or appealing to a completeness principle outside the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorPublicWindowTransport}
+
+\begin{theorem}[Cofinal StreamName tail selector bridge surface]
+\label{thm:cofinal-stream-tail-selector-bridge-surface}
+The public certificate of \autoref{thm:cofinal-stream-tail-selector-public-certificate} and the public-window transport of \autoref{thm:cofinal-stream-tail-selector-public-window-transport} determine the exact bridge surface available to any future standard bridge for $\CofinalStreamTailSelectorUp$. That surface consists of the precision request, cofinal $\StreamNameUp$ tail window, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ readback, selector provenance, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows of the accepted carrier.
+
+No standard bridge may export quotient stream equality, a host-selected limit, a countable-choice selector, a hidden tail oracle, or ambient $\RealUp$ completeness from this public surface.
+\end{theorem}
+\begin{proof}
+Start with the public certificate. It exposes exactly the rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and refuses quotient stream identity, host-selected limits, countable choice, hidden tail oracles, and ambient Real completeness.
+
+Apply the scoped route, seal-order, and window-readback scope theorems. They place the precision request before the cofinal $\StreamNameUp$ window, route $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback through that window, keep selector provenance visible, and allow the $\RealUp$ seal only after those rows have been displayed.
+
+Use public-window transport to preserve the same route across any public handoff. The rows $H,C,P,N$ only transport, replay, source, and name the displayed carrier, while the non-escape theorem excludes every off-packet tail selector or completeness principle. Therefore the listed rows are the whole bridge surface available to a future standard bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorBridgeSurface}
+
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 
-\closureat{CofinalStreamTailSelectorUp}{scopedStr}
+\closureat{CofinalStreamTailSelectorUp}{publicStr}
 
 \begin{closurestatus}{\CofinalStreamTailSelectorUp}
   \constructivestory{A $\CofinalStreamTailSelectorUp$ packet is generated from a precision request, a displayed cofinal StreamName tail window, RegSeqRat handoff, DyadicRatCore readback, RealUp seal delivery, selector provenance, componentwise hsame transports, displayed Cont routes, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:cofinal-stream-tail-selector-scoped-route} and \autoref{thm:cofinal-stream-tail-selector-window-readback-scope} scope the finite route over StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows before any Real seal read.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:cofinal-stream-tail-selector-public-export} exports the accepted cofinal-window selector packet as a public Real-completion surface over the displayed StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real limits, countable choice, hidden tail selection, or a public standard bridge.}
-  \upgradepath{Public closure requires a downstream public-object surface for the scoped cofinal-window route without quotient streams, host limits, countable choice, hidden selectors, or ambient RealUp completeness.}
+  \upgradepath{Bridged closure requires a standard bridge for the public cofinal-window selector surface without quotient streams, host limits, countable choice, hidden selectors, or ambient RealUp completeness.}
 \end{closurestatus}

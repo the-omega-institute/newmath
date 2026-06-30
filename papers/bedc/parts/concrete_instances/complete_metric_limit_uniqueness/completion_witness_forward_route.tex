@@ -1,0 +1,15 @@
+\begin{theorem}[Complete metric limit uniqueness completion-witness route]
+\label{thm:complete-metric-limit-uniqueness-completion-witness-route}
+Every accepted $\CompleteMetricLimitUniquenessUp$ comparison that is consumed by a completion witness must pass through the displayed source row $A$, the paired complete-metric limit rows $L_{0}$ and $L_{1}$, the $\MetricUp$ distance row $M$, the $\RealUp$ zero-distance row $Z$, the separated classifier row $S$, and the structural rows $H,C,P,N$ before it reaches the $\RealCompletionWitnessExtractorUp$ route of \autoref{ch:concrete-instances-realcompletionwitnessextractor-namecert}. Thus the witness-facing comparison is the finite route
+$$
+A,L_{0},L_{1},M,Z,S,H,C,P,N
+$$
+followed by the extractor's displayed diagonal, selected-window, regular readback, Real seal, completion handoff, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:complete-metric-limit-uniqueness-carrier}. They make the source row, paired limit rows, metric distance row, Real zero-distance row, separated classifier, transport, replay, provenance, and local naming visible before any uniqueness comparison can be read.
+
+Apply the separatedness handoff of \autoref{thm:complete-metric-limit-uniqueness-separatedness} and the separated nonescape theorem \autoref{thm:complete-metric-limit-uniqueness-separated-nonescape}. These force the comparison through $M,Z,S$ after the paired limit rows and before any downstream consumer receives a uniqueness read.
+
+Finally route the accepted comparison into \autoref{ch:concrete-instances-realcompletionwitnessextractor-namecert}. The extractor consumes only its displayed finite rows, so the forwarded comparison adds no selected limit, quotient representative, ambient completeness row, or host equality principle.
+\end{proof}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SpectralProjectionUp$}
+\label{ch:concrete-instances-spectral-projection-namecert}
+\origin{human}
+
+Following Horn and Johnson's finite-dimensional matrix analysis, the packet records spectral projectors as displayed polynomial idempotent rows over a matrix carrier. It sits after the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the displayed polynomial surface of \autoref{ch:concrete-instances-polynomial-namecert}, the field-extension rows of \autoref{ch:concrete-instances-fieldext-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, and the finite spectral-radius boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}. The chapter names only the finite polynomial projector packet; it does not import host spectral calculus, contour integrals, quotient eigenspaces, selected eigenbases, or analytic completeness.
+
+\begin{definition}[Spectral projection carrier]
+\label{def:spectral-projection-carrier}
+A $\SpectralProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,P,L,I,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ source row, including the finite square matrix and its entry carrier.
+\item $P$ is the displayed $\PolynomialUp$ projector row whose coefficients are read over the same scalar field as $M$.
+\item $L$ is the eigenvalue or factor row, exposed through $\FieldExtUp$ when the projector is displayed after scalar extension.
+\item $I$ is the idempotence row recording that the evaluated polynomial projector satisfies $P(M)P(M)=P(M)$ inside the displayed matrix carrier.
+\item $R$ is the range/kernel visibility row: it records the visible image boundary, the visible kernel boundary, and the finite $\VecSpaceUp$ rows consumed by downstream invariant-subspace readers.
+\item $H$ records componentwise $\hsame$ transport for the matrix source, polynomial projector, eigenvalue or factor row, idempotence row, range/kernel visibility, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a spectral-projection request through $M,P,L,I,R,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\SpectralProjectionUp$, $\MatrixUp$, $\PolynomialUp$, $\FieldExtUp$, $\VecSpaceUp$, $\SpectralRadiusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpectralProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,P,L,I,R,H,C,Q,N$. It has no coordinate for a host functional calculus, an implicit contour integral, a quotient eigenspace, a selected eigenbasis, or a completed spectral decomposition.
+\end{definition}
+
+\begin{theorem}[Spectral projection NameCert obligations]
+\label{thm:spectral-projection-namecert-obligations}
+For every accepted $\SpectralProjectionUp$ carrier
+$$
+S=(M,P,L,I,R,H,C,Q,N),
+$$
+the local $\NameCert_{\SpectralProjectionUp}$ surface consists exactly of carrier admission for the displayed matrix source, polynomial projector, eigenvalue or factor row, idempotence row, range/kernel visibility row, componentwise transport, displayed replay, package provenance, and local naming. Any consumer that reads a spectral projector must expose the matrix-polynomial route, the field-extension boundary when used, the finite vector-space visibility row, and the spectral-radius boundary before it may consume the projector as a named finite row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-projection-carrier}. The matrix and polynomial inputs are $M,P$, the scalar or factor boundary is $L$, the idempotence witness is $I$, and the visible range/kernel boundary is $R$.
+
+The transport and replay rows $H,C$ preserve exactly those displayed rows. The provenance row $Q$ records the consumed MatrixUp, PolynomialUp, FieldExtUp, VecSpaceUp, and SpectralRadiusUp siblings, while $N$ names the local packet.
+
+No additional spectral object is available to the classifier. Hence the NameCert obligations are exhausted by the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[Spectral projection matrix-polynomial handoff]
+\label{thm:spectral-projection-matrix-polynomial-handoff}
+Every accepted $\SpectralProjectionUp$ packet exports its projector only through the finite handoff
+$$
+\MatrixUp \times \PolynomialUp \times \FieldExtUp \to \mathsf{IdempotentMatrixRow} \to \VecSpaceUp.
+$$
+The $\SpectralRadiusUp$ row can bound the finite matrix side of the handoff, but it cannot replace the displayed polynomial projector, idempotence row, or range/kernel visibility row.
+\end{theorem}
+\begin{proof}
+Read the handoff from the carrier rows. The matrix source and polynomial projector produce the displayed matrix row $P(M)$, while the field-extension row records the scalar boundary used to display the eigenvalue or factor data.
+
+The idempotence row $I$ is the only row that lets the packet act as a projector. The range/kernel visibility row $R$ is the only row exported to vector-space consumers.
+
+The spectral-radius row appears only through provenance and finite matrix-side estimates. It therefore cannot supply the projector, the idempotence witness, or the visible subspace boundary by itself.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpectralProjectionUp$ consumer displays Matrix source rows, Polynomial projector rows, FieldExt eigenvalue or factor rows when used, idempotence rows, range/kernel visibility rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before it can consume a spectral projector.}
+
+\independenceWitness{matrix, polynomial, fieldext, vecspace, spectralradius: $\SpectralProjectionUp$ is not bijective to any listed sibling because it jointly binds a finite matrix source, a displayed polynomial projector, eigenvalue or factor exposure, idempotence, visible range/kernel rows, transport, replay, provenance, and local naming as one projector packet.}
+
+\closureat{SpectralProjectionUp}{seedStr}
+
+\begin{closurestatus}{\SpectralProjectionUp}
+  \constructivestory{A $\SpectralProjectionUp$ packet is generated from a MatrixUp source row, a PolynomialUp projector row, a FieldExtUp eigenvalue or factor row when used, an idempotence row, VecSpaceUp range/kernel visibility rows, a SpectralRadiusUp finite matrix-side boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-projection-carrier}, \autoref{thm:spectral-projection-namecert-obligations}, and \autoref{thm:spectral-projection-matrix-polynomial-handoff} seed the finite polynomial projector interface over MatrixUp, PolynomialUp, FieldExtUp, VecSpaceUp, SpectralRadiusUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host spectral calculus, contour integrals, quotient eigenspaces, selected eigenbases, analytic completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, polynomial-projector exactness, idempotence exactness, range/kernel visibility, matrix-polynomial handoff, transport, replay, provenance, and local naming for BEDC.Derived.SpectralProjectionUp.}
+\end{closurestatus}

@@ -1,0 +1,73 @@
+\subsection{Rank-Admissible Translation Boundary for the $B^*_{Q6}$ Execution-Selection Readout}
+\label{sec:bior-reality-q6-rank-admissible-execution-selection-boundary}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+The record studied here is a finite-row boundary for deciding when a synonymous residual coordinate may be treated as a translation readout survivor rather than as a fitted projection artifact.  The carrier consists of residualized $B^*_{Q6}$ codon-topology coordinates, organism-indexed translation or translation-proxy readout surfaces, and a control table $Z$ containing amino-acid composition, organism identity where applicable, GC3, coding-sequence length, and M-density.  The intended entry is $S^{QT}_{ij}$, where $q_i$ is a residual synonymous coordinate and $T_j$ is a translation-side readout.  The entry is admissible only when the post-control row space has enough remaining rank to make held-out failure possible.  A fitted score that is positive in sample, or even numerically perfect, is therefore not by itself a survival statement.
+
+For this packet the directly computed execution-selection panel is yeast.  The active gene set contains $5684$ rows, with $5815$ base rows before the active restriction, $5810$ ordered coding-sequence joins, and $5684$ occupancy/dwell joins.  The finite estimator used $5$ folds and $240$ target permutations under the deterministic seed named by the run.  The canonical protein-omics baseline gives
+$$
+\begin{aligned}
+R^2_{QP,\mathrm{active}} &= 0.30732228260918726,\\
+R^2_{QP,\mathrm{full}} &= 0.29837624994140827.
+\end{aligned}
+$$
+The active residual split has
+$$
+\begin{aligned}
+\|P_Q\|^2 &= 864.0124192674945,\\
+\|P_{\mathrm{residual}}\|^2 &= 2811.4213259512776.
+\end{aligned}
+$$
+These values place the computation inside the declared row-count and baseline-range checks: the sample size is well above $1000$, and the active $R^2_{QP}$ lies inside the accepted interval $[0.25,0.34]$.  The final finite classification, however, is \emph{composition artifact}.  Thus the run is informative as a refusal boundary: the execution-selection table is large enough to evaluate the finite question, but the tested joint signal is not promoted across the translation-survival boundary.
+
+\paragraph{Rank gate.}
+The gate is a rank condition before biological interpretation.  Let $\widetilde q_i$ be the residual of $q_i$ after projecting against $Z$, and let $\widetilde T_j$ be the corresponding residualized translation readout.  An entry is eligible for survival testing only when the residual design has non-saturated rank and held-out degrees of freedom:
+$$
+\begin{aligned}
+S^{QT}_{ij}\ \hbox{is reportable}
+&\Longrightarrow
+\operatorname{rank}(\widetilde q_i,\widetilde T_j,Z) < n
+\quad\hbox{and}\quad
+\operatorname{df}_{\mathrm{heldout}}(i,j;Z)>0.
+\end{aligned}
+$$
+If the design is saturated, then the packet reports coupling-only or needs-data status, even when the fitted surface has $R^2=1.0$ or a positive in-sample coefficient.  This is the central distinction in the chapter: a contact between codon geometry and a translation-side surface is not the same thing as a controlled survival statement.  The finite result above reaches the baseline audit but returns composition artifact rather than a cross-layer survival call.
+
+\paragraph{Coupling evidence held below survival.}
+A separate three-organism codon-usage and tRNA-copy contact computes the $B^*_{Q6}$ synonymous residual coordinates
+$\mathrm{Arg\_AGR}$, $\mathrm{Ile\_AUA}$, $\mathrm{K\_AAA}$, $\mathrm{Leu\_CUN\_vs\_UUR}$, $\mathrm{Leu\_UUA\_vs\_UUG}$, $\mathrm{Ser\_UCA\_vs\_UCG}$, $\mathrm{Ser\_UCR\_vs\_AGY}$, $\mathrm{Thr\_ACR\_vs\_ACY}$, and $f_3$-stress.  The contact loads Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12, uses a $61$-codon count space, and tests a tRNA-Leu CUN-versus-UUR log-copy proxy.  The threshold for a nonzero coupling entry is $0.01$; the run finds $9$ entries above that threshold and maximum absolute proxy coupling
+$$
+\begin{aligned}
+\max |A_{ij}| = 1882464.1106377328.
+\end{aligned}
+$$
+The all-zero coupling break condition is therefore not met.  Nevertheless, this is explicitly an $A^{QT}$ proxy contact, not an $S^{QT}$ survival certificate.  The proxy readout is not a measured ribosome-occupancy or translation-efficiency matrix, and the three-organism surface is not enough to license a universal biological rule.  Its role is to say that the coordinate family has a finite contact worth auditing; it does not remove the rank-admissibility and held-out-readout requirements.
+
+\paragraph{Residual readout context.}
+The residual-basis extraction run gives the complementary negative context.  For each organism with sufficient local readout data it begins with $R_0=P_{Q\perp T\mathrm{mod}}$, applies a $\lambda=0.01$ description-length penalty with $DL=\log_2(1+n_{\mathrm{col}})$, and compares selected readout blocks to degree-of-freedom matched deterministic Gaussian nulls.  Four organisms are computed and all four are labeled persistent rather than compressible: Danio rerio, Escherichia coli K-12 MG1655, Homo sapiens, and Saccharomyces cerevisiae.  Gallus gallus and Mycobacterium smegmatis str. MC2 155 remain needs-data.
+
+The reported final residual curves do not collapse.  Danio rerio has $n=14410$, one candidate, and $\rho=(1.0,0.9791828971490305)$.  Escherichia coli has $n=3415$, two candidates, and $\rho=(1.0,0.9982293045445091,0.9979478314995476)$.  Homo sapiens has $n=16008$, six candidates, and
+$$
+\begin{aligned}
+\rho = (&1.0,0.9852198225375993,0.9806696939851618,0.9792537895870558,\\
+&0.9787609432955213,0.9787233550315274,0.9723341658092314).
+\end{aligned}
+$$
+Saccharomyces cerevisiae has $n=3046$, nine candidates, and
+$$
+\begin{aligned}
+\rho = (&1.0,0.9962498989663637,0.9929843170647626,0.9915730985485388,\\
+&0.9903314906684438,0.9894054695002641,0.9885902293718664,\\
+&0.9882386501212531,0.9881524582851271,0.9798667977250413).
+\end{aligned}
+$$
+The minimum final residual fraction across the computed organisms is $0.9723341658092314$, with zero organisms classified as compressible or partially compressible.  This supports the same conservative reading as the execution-selection result: the finite surfaces expose structured residuals and bounded contacts, but they do not produce a translation-realization claim.
+
+\paragraph{Neighboring finite contacts.}
+Other finite panels constrain the biological neighborhood without changing the gate.  The translational-selection growth-scaling run computes strengths for $20$ requested organisms, has $20$ organisms with doubling-time rows, and $17$ complete strength/doubling/GC3/tRNA rows.  Its primary strength field is held-out $R^2$ after residualizing the nine $B^*_{Q6}$ synonymous coordinates and log protein abundance over length, amino-acid composition, and GC3, then fitting fold-local slopes.  The mRNA half-life contact has $n_{\mathrm{human}}=16500$, $n_{\mathrm{mouse}}=18924$, a raw correlation $\rho=0.126224$, and a non-CSC tAI circularity guard.  The translation-initiation contact records $41862$ fixed rows, $16739$ varying rows, and two-sample concordance.  The branchpoint usage contact records $10584$ introns with expression control from a UCSC hg19 GTEx-derived expression surface.  These numbers show that the paper has several finite external biological surfaces around translation, RNA stability, initiation, and splicing.  None of them substitutes for the same-row, rank-admissible $q_i$ to $T_j$ survival matrix required here.
+
+\paragraph{Local no-promotion rule.}
+The chapter therefore reports a bounded finite result rather than a biological mechanism.  A $B^*_{Q6}$ residual coordinate may be used as an internal coordinate of the finite design, codon-usage and tRNA-copy tables may supply bounded organism-level contacts, and tAI or stAI weights may supply modeled translation-adaptation readouts.  But no translation survival, ribosome occupancy, protein abundance, folded structure, physical admissibility, molecular function, phenotype, mechanism, or universal law follows from those pieces alone.  Such claims require a separate layer-matched contact and a non-saturated held-out statistic on the same finite rows.
+
+The operational conclusion is consequently sharp.  The yeast execution-selection panel is large and passes the baseline audit, with $n=5684$ active rows and a baseline $R^2$ of $0.30732228260918726$, but its verdict is composition artifact.  The three-organism proxy coupling surface has nonzero $A_{ij}$ contacts, but it is not an $S^{QT}$ result.  The residual-basis readouts remain persistent, with final $\rho$ values no lower than $0.9723341658092314$.  The correct finite statement is therefore that the $B^*_{Q6}$ rank-admissibility gate is necessary and active: it blocks promotion from residual codon geometry or proxy coupling to translation survival unless the proposed entry has non-saturated rank, held-out degrees of freedom, and a matched translation readout under the declared controls.
