@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RightBlockFluxReservoirCoefficientUp$}
+\label{ch:concrete-instances-right-block-flux-reservoir-coefficient-namecert}
+\origin{ai}
+
+The $\RightBlockFluxReservoirCoefficientUp$ packet realizes the right-block flux-reservoir coefficient of \autoref{prin:zeckendorf-right-block-flux-reservoir-coefficient} as finite NameCert data. It records the right-block boundary count, the cube-degree normalization, the resulting local ratio, the static cut source, transport, replay, provenance, and local naming rows before any impedance or coupling reader can cite the coefficient. The packet sits beside the Zeckendorf phase shell of \autoref{ch:concrete-instances-zeckendorf-phase-shell-namecert}, the static Green boundary-flux row of \autoref{ch:concrete-instances-static-green-boundary-flux-namecert}, the flux-operator geometry surface of \autoref{ch:concrete-instances-flux-operator-geometry-namecert}, and the beta-sign selection packet of \autoref{ch:concrete-instances-beta-sign-selection-namecert}.
+
+\begin{definition}[RightBlockFluxReservoirCoefficient carrier]
+\label{def:right-block-flux-reservoir-coefficient-carrier}
+A $\RightBlockFluxReservoirCoefficientUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,E,G,R,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the right-block row, naming the six-element right edge-flux block inside the Window-six cube;
+\item $E$ is the boundary-count row, recording the displayed boundary size $32$;
+\item $G$ is the cube-degree row, recording the degree $6$ used by the local directed-edge normalization;
+\item $R$ is the normalized-ratio row, displaying the coefficient $32/(6\cdot 6)=8/9$;
+\item $S$ is the static-cut row, tying the coefficient to the right-boundary cut-flux source rather than to the dynamic Green-relaxation readout;
+\item $T$ is the transport row from the coefficient packet to impedance or coupling consumers;
+\item $H$ records componentwise $\hsame$ transport for block, boundary, degree, ratio, static-cut, consumer, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for block admission, boundary counting, degree normalization, ratio readback, static-cut handoff, and consumer use;
+\item $P$ is the $\Pkg$ provenance over $\RightBlockFluxReservoirCoefficientUp$, $\ZeckendorfPhaseShellUp$, $\StaticGreenBoundaryFluxUp$, $\FluxOperatorGeometryUp$, $\BetaSignSelectionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RightBlockFluxReservoirCoefficientUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,E,G,R,S,T,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[RightBlockFluxReservoirCoefficient NameCert obligations]
+\label{thm:right-block-flux-reservoir-coefficient-namecert-obligations}
+For the carrier of \autoref{def:right-block-flux-reservoir-coefficient-carrier}, the local $\NameCert_{\RightBlockFluxReservoirCoefficientUp}$ surface consists exactly of right-block admission, boundary-count exposure, cube-degree exposure, normalized-ratio readback, static-cut source exposure, consumer transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The packet therefore turns the coefficient $8/9$ into a finite boundary-count and normalization certificate, not a free-floating numerical parameter.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(B,E,G,R,S,T,H,C,P,N)$. The block, boundary, degree, ratio, static-cut, and consumer rows are all visible coordinates of one finite packet.
+
+The boundary-count and degree rows determine the normalized ratio row. The coefficient is read as $32/(6\cdot 6)=8/9$ through $E,G,R$, so it cannot be replaced by an untracked scalar or by the global cut-flux density.
+
+The static-cut and transport rows are $S$ and $T$. They route the coefficient to impedance or coupling consumers while keeping it separate from the dynamic Green-relaxation layer.
+
+Finally, $H,C,P,N$ preserve the same finite rows under transport, replay, provenance, and local naming. No additional coordinate supplies a physical continuum model, a dynamic relaxation coefficient, or a hidden normalization convention.
+\end{proof}
+
+\begin{theorem}[RightBlockFluxReservoirCoefficient boundary ratio]
+\label{thm:right-block-flux-reservoir-coefficient-boundary-ratio}
+In an accepted $\RightBlockFluxReservoirCoefficientUp$ carrier $K=(B,E,G,R,S,T,H,C,P,N)$, the public coefficient row $R$ is available only after the right-block row $B$, boundary-count row $E$, cube-degree row $G$, and static-cut row $S$ have been displayed. The ratio readback is the local boundary escape value $8/9$, and it does not claim the global cut-flux density, the one-way mismatch mean, or a dynamic Green-relaxation coefficient.
+\end{theorem}
+\begin{proof}
+Read the displayed block row $B$ and boundary-count row $E$. They identify the finite right edge-flux block and its boundary size before any ratio is public.
+
+Use the cube-degree row $G$ to normalize the boundary count locally. The ratio row $R$ is therefore tied to the directed-edge budget of the block, not to the full cube budget.
+
+The static-cut row $S$ fixes the readout mode. It keeps the coefficient in the static right-boundary source layer, while $T,H,C,P,N$ transport, replay, source, and name the same finite readback for downstream consumers.
+\end{proof}
+
+\falsifiablePrediction{If an accepted RightBlockFluxReservoirCoefficientUp packet exposes the coefficient without the right-block row, boundary-count row, cube-degree row, and static-cut row, then the packet is refuted as a NameCert carrier for the right-block flux-reservoir coefficient.}
+
+\independenceWitness{zeckendorf-phase-shell, static-green-boundary-flux, flux-operator-geometry, beta-sign-selection: none is bijective to $\RightBlockFluxReservoirCoefficientUp$ because those siblings respectively bind phase-shell, Green-exact cut-source, operator-geometry, or sign-selection rows, while this packet binds the right-block boundary count, cube-degree normalization, local ratio, static-cut source, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/RightBlockFluxReservoirCoefficientUp/TasteGate.lean} must provide explicit $\Nontrivial\ \RightBlockFluxReservoirCoefficientUp$ and $\FieldFaithful\ \RightBlockFluxReservoirCoefficientUp$ instances. The nontriviality witness must distinguish an accepted coefficient packet from a packet with a missing boundary-count or cube-degree row, and the field-faithfulness witness must preserve $B,E,G,R,S,T,H,C,P,N$ as separate rows.
+
+\closureat{RightBlockFluxReservoirCoefficientUp}{seedStr}
+
+\begin{closurestatus}{\RightBlockFluxReservoirCoefficientUp}
+  \constructivestory{A $\RightBlockFluxReservoirCoefficientUp$ packet is generated from a right-block row, boundary-count row, cube-degree row, normalized-ratio row, static-cut row, consumer transport row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:right-block-flux-reservoir-coefficient-carrier}, \autoref{thm:right-block-flux-reservoir-coefficient-namecert-obligations}, and \autoref{thm:right-block-flux-reservoir-coefficient-boundary-ratio} seed the finite boundary-count, cube-degree, ratio, static-cut, transport, replay, provenance, and naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim a physical continuum model, dynamic Green-relaxation coefficient, global cut-flux density, one-way mismatch theorem, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked right-block admission, boundary-count exposure, cube-degree exposure, normalized-ratio readback, static-cut exposure, transport, replay, provenance, local naming, and the required Nontrivial and FieldFaithful instances for BEDC.Derived.RightBlockFluxReservoirCoefficientUp.}
+\end{closurestatus}
