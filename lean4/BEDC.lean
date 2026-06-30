@@ -3416,6 +3416,7 @@ import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
 import BEDC.Derived.CompactCoverModulusUp.TasteGate
+import BEDC.Derived.CompactCoverNerveUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
 import BEDC.Derived.CompactDiniModulusUp
@@ -3511,6 +3512,7 @@ import BEDC.Derived.CompactOscillationBarModulusUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
+import BEDC.Derived.CompactRealIntervalSearchBasisUp.TasteGate
 import BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
@@ -10026,6 +10028,7 @@ import BEDC.Derived.PrimitiveRootFinal
 import BEDC.Derived.PrimitiveRootUp
 import BEDC.Derived.PrimorialUp
 import BEDC.Derived.PrincipalFilterUp.TasteGate
+import BEDC.Derived.PringsheimConvergenceUp.TasteGate
 import BEDC.Derived.PringsheimDoubleSequenceUp.TasteGate
 import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
 import BEDC.Derived.ProbSpaceUp

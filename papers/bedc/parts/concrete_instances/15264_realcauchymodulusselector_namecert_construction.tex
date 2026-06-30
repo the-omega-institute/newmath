@@ -73,6 +73,7 @@ The exclusion clauses follow by inspecting the carrier. Since none of Real compl
 \label{thm:real-cauchy-modulus-selector-window-monotone}
 Let $T=(M,S,D,Q,E,R,H,C,P,N)$ be an accepted $\RealCauchyModulusSelectorUp$ packet. If the selector row $R$ accepts a finite window at unary precision $n$, then every displayed larger unary precision window accepted by the same $\RealCauchyModulusUp$ row $M$ is accepted after replay through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. The replay may enlarge the observed prefix and refine the tolerance ledger, but it must still pass through $S,D,Q,E,H,C,P,N$ and cannot use Real completeness, quotient stream equality, countable choice, host real equality, or an unbounded stream read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_window\_monotone}
 \begin{proof}
 Project the finite-window route of \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}. Acceptance at precision $n$ exposes the selected threshold in $M$, the finite StreamName window $S$, the dyadic tolerance row $D$, the regular rational readback $Q$, and the terminal Real seal $E$.
 
