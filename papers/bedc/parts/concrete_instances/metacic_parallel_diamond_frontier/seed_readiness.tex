@@ -46,16 +46,34 @@ Apply the premise preservation and critical-path consumer routes already named i
 The obstruction row then blocks endpoint promotion. Since $O$ remains part of the exported frontier evidence, the consumer cannot reinterpret the handoff as subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution local discharge]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-local-discharge}
+When an accepted $\MetaCICParallelDiamondFrontierUp$ packet displays a residual-substitution row together with the critical pair, candidate join, residual-frontier, closed-checker, bounded-check, obstruction, transport, replay, provenance, and local $\NameCert$ rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+that packet locally discharges the finite residual window for the current candidate-mediated diamond only. The discharge is the visible closure of that displayed window under the present candidate join and retained obstruction; it is not subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with seed readiness and public seed readiness, \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness} and \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness}. They expose the two residual branches, candidate join, residual-frontier row, closed-checker row, bounded-check row, obstruction row, and structural rows as one finite packet.
+
+Apply the critical-path retained-premise handoff, \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. It keeps the residual-substitution premise $P$ and obstruction row $O$ visible while the critical-path consumer reads the candidate-mediated local diamond.
+
+Use premise preservation together with the obligation-closure package, \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation} and \autoref{thm:metacic-parallel-diamond-frontier-obligation-closure-package}. These rows preserve the displayed premise and obstruction across the finite window and assemble the local obligation surface without promoting it to a global metatheorem.
+
+Thus the only discharged object is the current finite residual window under the displayed candidate join. The packet has no coordinate for subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency, so none of those endpoints is exported.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier obligation-closure package]
 \label{thm:metacic-parallel-diamond-frontier-obligation-closure-package}
-The seed-readiness row of \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}, the public seed-readiness row of \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness}, and the critical-path retained-premise handoff of \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff} assemble the local obligation surface for residual branches, candidate join, normalization-confluence handoff, critical-path socket, and obstruction retention in an accepted $\MetaCICParallelDiamondFrontierUp$ packet. The package refuses subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, and kernel consistency.
+The seed-readiness row of \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}, the public seed-readiness row of \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness}, and the critical-path retained-premise handoff of \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff} assemble the local obligation surface for residual branches, candidate join, normalization-confluence handoff, critical-path socket, and obstruction retention in an accepted $\MetaCICParallelDiamondFrontierUp$ packet. The package refuses subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, premise-free residual-substitution discharge, and kernel consistency.
 \end{theorem}
 \begin{proof}
 Project the displayed frontier rows. The carrier surface keeps the residual-substitution premise, two residual branches, candidate join, residual frontier, closed-checker row, normalization-confluence handoff rows, obstruction row, transport, replay, provenance, and local naming rows visible.
 
 Apply \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}. It places the residual branches, common join candidate, normalization-confluence handoff, and critical-path socket before any confluence-frontier read.
 
-Next apply \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness} and \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. These rows preserve the public route and keep the residual premise together with the obstruction row under critical-path consumption, so the package records obligation closure for the finite frontier surface without promoting it to subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, or kernel consistency.
+Next apply \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness} and \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. These rows preserve the public route and keep the residual premise together with the obstruction row under critical-path consumption, so the package records obligation closure for the finite frontier surface without promoting it to subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, premise-free residual-substitution discharge, or kernel consistency.
 \end{proof}
 
 \begin{theorem}[MetaCIC parallel-diamond frontier seed closure]
