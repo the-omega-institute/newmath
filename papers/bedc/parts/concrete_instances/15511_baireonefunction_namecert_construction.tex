@@ -146,6 +146,22 @@ Replay the continuation row $C$. The consumer can reach $L$ only after the sourc
 Transport by $H$ keeps the lower-semicontinuous handoff attached to those same rows. Since the provenance and local naming rows carry no measurability theorem, no ambient function-space topology, no arbitrary approximant selector, and no $\RealUp$ completeness coordinate, the handoff exports none of them.
 \end{proof}
 
+\begin{theorem}[BaireOneFunction lower-semicontinuous exhaustion]
+\label{thm:baireonefunction-lowersemicontinuous-exhaustion}
+Every $\LowerSemicontinuousUp$ public row exported by an accepted $\BaireOneFunctionUp$ carrier
+$$
+K=(X,F,S,Q,R,L,H,C,P,N)
+$$
+is exhausted by the displayed source context $X$, continuous approximant ledger $F$, stream schedule $S$, regular rational readback $Q$, real value seal $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The lower-semicontinuous row $L$ may publish only the public observations already routed through these rows; it cannot introduce hidden approximants, quotient real equality, full measurability, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the pointwise ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It binds every value observation to the route $X,F,S,Q\longmapsto R$, so a downstream lower-semicontinuous consumer cannot read a value that is detached from the displayed source context, approximant family, schedule, and readback.
+
+Next apply the schedule obligations of \autoref{thm:baireonefunction-pointwise-schedule-obligations}. They force $X,F,S,Q,R,H,C,P,N$ to remain visible before $L$ is consumed, and they rule out using the handoff as a shortcut around the finite pointwise schedule.
+
+Finally use the lower-semicontinuous handoff of \autoref{thm:baireonefunction-lowersemicontinuous-handoff}. The handoff row $L$ is downstream of the same pointwise ledger, while $H,C,P,N$ only transport, replay, source, and name the displayed packet. Therefore the public lower-semicontinuous export is exhausted by the stated rows and has no coordinate for hidden approximants, quotient real equality, full measurability, or $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[BaireOneFunction public export]
 \label{thm:baireonefunction-public-export}
 Every public $\BaireOneFunctionUp$ consumer receives exactly the displayed route
