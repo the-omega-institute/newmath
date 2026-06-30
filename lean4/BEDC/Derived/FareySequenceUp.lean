@@ -59,11 +59,22 @@ inductive FareyMember : FareyFraction -> List FareyFraction -> Prop where
   | tail {x y : FareyFraction} {tail : List FareyFraction} :
       FareyMember x tail -> FareyMember x (y :: tail)
 
+def FareyComplete (n : Nat) (xs : List FareyFraction) : Prop :=
+  ∀ x : FareyFraction,
+    fareyProperFraction x ->
+      fareyDenominatorBound n x ->
+        fareyReduced x ->
+          FareyMember x xs
+
 def FareySequence (n : Nat) (xs : List FareyFraction) : Prop :=
   FareySortedList xs ∧ FareyAdjacentList xs ∧ fareyNodupByRatEq xs ∧
+    FareyComplete n xs ∧
     ∀ x : FareyFraction,
       FareyMember x xs ->
         fareyProperFraction x ∧ fareyDenominatorBound n x ∧ fareyReduced x
+
+def FareyBetweenAdjacent (x m y : FareyFraction) : Prop :=
+  fareyAdjacent x m ∧ fareyAdjacent m y
 
 theorem farey_mediant_num (x y : FareyFraction) :
     (fareyMediant x y).num = intRing.add x.num y.num := by
@@ -78,6 +89,10 @@ theorem farey_adjacent_cross_eq_one {x y : FareyFraction} :
     fareyAdjacent x y -> IntRel (fareyCrossDet x y) intRing.one := by
   intro adjacent
   exact fareyAdjacent_cross_eq_one adjacent
+
+theorem fareyAdjacent_crossDet_eq_one {x y : FareyFraction} :
+    fareyAdjacent x y -> IntRel (fareyCrossDet x y) intRing.one := by
+  exact farey_adjacent_cross_eq_one
 
 theorem farey_adjacent_mediant_neighbors {x y : FareyFraction} :
     fareyAdjacent x y ->
@@ -113,6 +128,12 @@ theorem farey_adjacent_mediant_reduced {x y : FareyFraction} :
   intro adjacent
   exact ⟨y, Or.inl (farey_adjacent_mediant_right adjacent)⟩
 
+theorem farey_mediant_between_adjacent {x y : FareyFraction} :
+    fareyAdjacent x y ->
+      FareyBetweenAdjacent x (fareyMediant x y) y := by
+  intro adjacent
+  exact farey_adjacent_mediant_neighbors adjacent
+
 theorem farey_adjacent_list_mediant_refines_pair {x y : FareyFraction} :
     fareyAdjacent x y ->
       FareyAdjacentList [x, fareyMediant x y, y] := by
@@ -137,12 +158,27 @@ theorem farey_sequence_member_bound {n : Nat} {xs : List FareyFraction}
     {x : FareyFraction} :
     FareySequence n xs -> FareyMember x xs -> fareyDenominatorBound n x := by
   intro sequence member
-  exact (sequence.right.right.right x member).right.left
+  exact (sequence.right.right.right.right x member).right.left
 
 theorem farey_sequence_member_reduced {n : Nat} {xs : List FareyFraction}
     {x : FareyFraction} :
     FareySequence n xs -> FareyMember x xs -> fareyReduced x := by
   intro sequence member
-  exact (sequence.right.right.right x member).right.right
+  exact (sequence.right.right.right.right x member).right.right
+
+theorem farey_sequence_complete_surface {n : Nat} {xs : List FareyFraction} :
+    FareySequence n xs -> FareyComplete n xs := by
+  intro sequence
+  exact sequence.right.right.right.left
+
+theorem farey_sequence_contains_eligible {n : Nat} {xs : List FareyFraction}
+    {x : FareyFraction} :
+    FareySequence n xs ->
+      fareyProperFraction x ->
+        fareyDenominatorBound n x ->
+          fareyReduced x ->
+            FareyMember x xs := by
+  intro sequence
+  exact farey_sequence_complete_surface sequence x
 
 end BEDC.Derived.FareySequenceUp
