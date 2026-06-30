@@ -134,6 +134,46 @@ asserts that every accepted non-trivial completed zeta zero is presented
 by an internal-ruler constraint container package.
 \end{definition}
 
+\begin{definition}[Internal golden ruler zeta certificate]
+\label{def:rh-internal-golden-ruler-zeta-certificate}
+The source row
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+asserts that every accepted non-trivial completed zeta zero has a
+cofinal golden eta certificate tower whose ruler family is internal and
+container-mature, whose Zeckendorf truncation ledgers are unique under
+refinement, and whose sufficiently fine levels carry golden Lee--Yang
+bridge witnesses compatible with the same zero island.
+\end{definition}
+
+\begin{theorem}[Internal golden certificates supply container packages]
+\label{thm:rh-internal-golden-certificates-supply-container-packages}
+If
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then
+$$
+\mathsf{InternalRulerConstraintContainer}_{\zeta,\varphi}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Fix an accepted non-trivial completed zeta zero.  The internal golden
+certificate row supplies a cofinal golden eta certificate tower and an
+internal container-mature ruler family.  The unique Zeckendorf
+truncation ledgers provide the source-address part of the ruler, while
+the compatible golden Lee--Yang bridge witnesses provide the boundary,
+same-island transfer, radial-purity, and dominance rows.  Together with
+the constructive BEDC--Golden--Zeta machine rows of
+\autoref{def:rh-constructive-bedc-golden-zeta-machine}, these are
+exactly the components listed in
+\autoref{def:rh-internal-ruler-constraint-container-package}.  Hence
+the zero is presented by an internal-ruler constraint container package.
+\end{proof}
+
 \begin{theorem}[Internal-ruler containers supply constructive machines]
 \label{thm:rh-internal-ruler-containers-supply-constructive-machines}
 If
@@ -180,6 +220,28 @@ and then
 \autoref{thm:rh-constructive-machines-force-critical-container}.
 \end{proof}
 
+\begin{corollary}[Internal golden certificates force the critical container]
+\label{cor:rh-internal-golden-certificates-force-critical-container}
+If
+$$
+\mathsf{InternalGoldenRulerZetaCertificate}_{\zeta,\varphi}
+$$
+holds, then the limit ledger of every accepted non-trivial completed
+zeta zero satisfies
+$$
+\Lambda_{\infty}
+\Vdash_{\zeta,\varphi}
+[\Gamma_{\mathrm{crit}}].
+$$
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-internal-golden-certificates-supply-container-packages}
+and then
+\autoref{cor:rh-internal-ruler-containers-force-critical-container}.
+\end{proof}
+
 \begin{principle}[Proof load of the internal-ruler container]
 \label{prin:rh-internal-ruler-container-proof-load}
 The internal-ruler container formulation separates four rows.  The
@@ -195,4 +257,18 @@ is the same-island Lee--Yang bridge of
 package closes only when these rows are displayed together with radial
 purity, dominance, cofinal active-height growth, and no external
 scale-gauge row.
+\end{principle}
+
+\begin{principle}[Bridge reduction for the internal golden certificate]
+\label{prin:rh-internal-golden-certificate-bridge-reduction}
+The internal golden certificate row does not add a second analytic
+route beyond the golden bridge.  The weak eta capture row supplies
+finite zero-island capture; the internal ruler row supplies source,
+refinement, and Zeckendorf address control; the constraint-container row
+records the surviving candidate class and admissible gauge.  The only
+strong zeta-specific row is the same-island Lee--Yang bridge, namely a
+cofinal supply of the witnesses of
+\autoref{def:rh-golden-lee-yang-bridge-witness}.  Thus failure of that
+bridge leaves the package at weak capture, while success of that bridge
+upgrades the package to the internal-ruler container source row.
 \end{principle}
