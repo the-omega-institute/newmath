@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SeparatedCauchyFilterUp$}
+\label{ch:concrete-instances-separated-cauchy-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Bourbaki, the $\SeparatedCauchyFilterUp$ packet records the finite route by which a Cauchy-filter completion read is first reflected through separated metric data before any Real-facing consumer may inspect the terminal seal. It sits between the filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}, the separated reflection surface of \autoref{ch:concrete-instances-separatedmetricreflection-namecert}, the finite stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed filter-base, separated-reflection, finite-window, regular-readback, and Real-seal rows; it does not identify quotient filters, choose representatives, invoke countable choice, import host limits, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Separated Cauchy filter carrier]
+\label{def:separated-cauchy-filter-carrier}
+A $\SeparatedCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,M,Q,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ source row, exposing only a finite filter-base request and its displayed refinement data.
+\item $M$ is the $\MetricCompletionUp$ route row, naming the completion-facing carrier through which the filter request is read.
+\item $Q$ is the $\SeparatedMetricReflectionUp$ row, recording the separated reflection boundary before any equality-facing completion read is available.
+\item $T$ is the $\StreamNameUp$ finite observation row used to inspect the reflected filter route.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the displayed observation windows.
+\item $E$ is the terminal $\RealUp$ seal, available only after $F,M,Q,T,R$ remain visible together.
+\item $H$ records componentwise $\hsame$ transport for the filter source, completion route, separated reflection, stream observation, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\SeparatedCauchyFilterUp$, $\CauchyFilterUp$, $\MetricCompletionUp$, $\SeparatedMetricReflectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeparatedCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filter equality, selected representatives, countable choice, hidden limit selection, host limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Separated Cauchy filter NameCert obligations]
+\label{thm:separated-cauchy-filter-namecert-obligations}
+For every accepted $\SeparatedCauchyFilterUp$ carrier
+$$
+S=(F,M,Q,T,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SeparatedCauchyFilterUp}$ surface consists exactly of Cauchy-filter source admission, metric-completion route admission, separated-reflection exposure, finite stream observation, regular rational readback, terminal Real sealing, componentwise transport, displayed continuation replay, provenance, and local naming. No obligation row may replace these displayed rows by quotient filter equality, a selected representative, countable choice, host limit selection, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-cauchy-filter-carrier}. The analytic route is carried by $F,M,Q,T,R,E$, and the structural route is carried by $H,C,P,N$.
+
+The source row $F$ exposes a finite Cauchy-filter base request. The completion row $M$ records the metric-completion route for that request, while $Q$ inserts the separated reflection boundary before any equality-facing read can occur.
+
+The finite observation and readback rows then make the route inspectable. The stream row $T$ displays the observation windows, and $R$ records the regular rational readback extracted from those windows before the terminal Real seal $E$ is consumed.
+
+Transport, replay, provenance, and naming preserve the same rows through $H,C,P,N$. Since no carrier coordinate stores quotient filter equality, selected representatives, countable choice, host limit selection, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Separated Cauchy filter reflection soundness]
+\label{thm:separated-cauchy-filter-reflection-soundness}
+Every Real-facing read of an accepted $\SeparatedCauchyFilterUp$ packet factors through the finite route
+$$
+\CauchyFilterUp\longmapsto \MetricCompletionUp\longmapsto \SeparatedMetricReflectionUp\longmapsto \StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp .
+$$
+Consequently the packet exports a separated completion-facing filter read without exporting quotient filter equality, selected representatives, countable choice, host limits, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $S=(F,M,Q,T,R,E,H,C,P,N)$. The only source row is $F$, and the only completion route row is $M$.
+
+The separated reflection row $Q$ is placed between the completion route and the observation rows. Thus a consumer cannot read the terminal seal as an unreflected filter quotient or as an equality of representative filters.
+
+The finite observation row $T$ and regular readback row $R$ supply the displayed data used by the terminal seal $E$. The structural rows $H,C,P,N$ transport, replay, source, and name this same route rather than adding a host limit operation or choice schedule.
+
+Therefore every accepted Real-facing read follows the displayed route, and any consumer that skips the separated-reflection, finite-window, or regular-readback rows is outside the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SeparatedCauchyFilterUp$ Real-facing read that reaches the terminal seal without displaying a CauchyFilter source row, MetricCompletion route row, SeparatedMetricReflection boundary row, StreamName observation row, and RegSeqRat readback row refutes the carrier.}
+
+\independenceWitness{cauchyfilter, metriccompletion, separatedmetricreflection, streamname, regseqrat, real: $\SeparatedCauchyFilterUp$ is not bijective to any listed sibling because it jointly binds filter source, completion route, separated reflection, finite observation, regular readback, Real sealing, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{SeparatedCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\SeparatedCauchyFilterUp}
+  \constructivestory{A $\SeparatedCauchyFilterUp$ packet is generated from CauchyFilter source, MetricCompletion route, SeparatedMetricReflection boundary, StreamName observation, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:separated-cauchy-filter-carrier}, \autoref{thm:separated-cauchy-filter-namecert-obligations}, \autoref{thm:separated-cauchy-filter-reflection-soundness}, the falsifiable prediction, and the independence witness seed the separated Cauchy-filter completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient filter equality, selected representatives, countable choice, host limits, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-base exposure, completion-route admission, separated-reflection soundness, finite observation, regular readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SeparatedCauchyFilterUp.}
+\end{closurestatus}
