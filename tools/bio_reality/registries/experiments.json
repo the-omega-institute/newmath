@@ -3025,6 +3025,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translational_selection_growth_scaling.codon_abundance_strength_doubling_time",
+   "experiment_id": "codon_abundance_crossing_strength_growth_rate_scaling",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib meta-experiment: does per-organism codon->protein-abundance crossing strength scale with an independent life-history trait (minimum doubling/generation time) BEYOND GC3 + tRNA-pool? Recompute 16 organisms' crossing strength (5-fold held-out R^2 of the 9-coordinate B*_Q6 codon block over length + aa-composition + GC3, reusing the cross_organism machinery) from in-repo cds_codon_abundance_<organism>.json. Covariates: GC3 (3rd-position G/C fraction) + tRNA-pool-size (gtrnadb_trna_all_copy_<organism>.json total copies). Independent variable: hardcoded curated literature minimum doubling time (NOT codon-derived -- escapes the circularity trap). Test bare Spearman rho + PARTIAL Spearman rho(strength, log doubling | GC3, log tRNA-pool) vs an organism-pairing permutation null (B>=20000). Verdict crosses_boundary (partial significant AND |rho|>=0.10) / bounded_descriptor_only / composition_artifact (partial collapses = GC3/tRNA shadow) / needs_data (n_complete<12 or under-powered). Deterministic, pure stdlib, no network; all inputs reuse already-committed repo data.",
+   "script_path": "tools/bio_reality/experiments/run_codon_abundance_crossing_strength_growth_rate_scaling.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-30T12:05:08+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
