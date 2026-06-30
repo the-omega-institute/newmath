@@ -185,3 +185,90 @@ leaves a residual Mellin functional.  The source-side burden is to show
 that the BEDC triadic carrier never admits a nonzero radial coordinate
 without one of these witnesses.
 \end{principle}
+
+\begin{definition}[Cross-projection radial refutation packet]
+\label{def:rh-cross-projection-radial-refutation-packet}
+A cross-projection radial refutation packet for a completed zero ledger
+is a source-side row that starts from a displayed assumption
+$$
+\ell(\rho)\ne0
+$$
+and exports this same scalar to the three projection ledgers
+$$
+\mathsf T_{\ell},
+\qquad
+\mathsf W_{\ell},
+\qquad
+\mathsf N_{\ell}
+$$
+of \autoref{def:rh-radial-projection-triple}.  The packet is accepted
+only when the time ledger reads the reflected Li pair, the energy ledger
+reads the corresponding Weil negative direction, and the container
+ledger reads the Mellin separator in the open half selected by
+reflection.  Thus the packet does not certify a contradiction inside a
+single projection; it certifies that a nonzero radial coordinate has
+the same readback in the other two projections as well.
+\end{definition}
+
+\begin{definition}[Triangular burden of a radial source row]
+\label{def:rh-triangular-burden-radial-source-row}
+Let $\mathcal Q$ be a RH-facing source row whose conclusion is consumed
+by the fixed-half route.  Its triangular radial burden is the
+requirement that any use of $\mathcal Q$ against a zero ledger with
+$$
+\ell(\rho)\ne0
+$$
+comes with a cross-projection radial refutation packet.  A row that
+only records positivity, separation, or exhaustion in its native
+projection is therefore a local analytic row.  It becomes a route row
+only after the same radial scalar has been transported to the remaining
+projection ledgers.
+\end{definition}
+
+\begin{theorem}[Two-sided projection audit closes the third side]
+\label{thm:rh-two-sided-projection-audit-closes-third-side}
+Assume a completed zero ledger carries a cross-projection radial
+refutation packet.  Suppose two of the projection rows
+$$
+\mathsf{GlobalLiWeilPositivity},
+\qquad
+\mathsf{GlobalWeilPositivity},
+\qquad
+\mathsf{NymanBeurlingExhaustion}
+$$
+are source-side closed, and suppose the remaining projection is linked
+to them by the triadic source transport of
+\autoref{def:rh-triadic-source-transport}.  Then the zero ledger cannot
+carry
+$$
+\ell(\rho)\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+Assume $\ell(\rho)\ne0$.  The cross-projection packet exports this
+scalar to all three ledgers.  If the time ledger supplies a finite
+negative Li witness, it contradicts
+$\mathsf{GlobalLiWeilPositivity}$.  If the energy ledger supplies a
+Weil negative direction, it contradicts
+$\mathsf{GlobalWeilPositivity}$.  If the container ledger supplies a
+Mellin separator, it contradicts $\mathsf{NymanBeurlingExhaustion}$ by
+\autoref{lem:rh-off-half-zero-nyman-separator}.  The two closed sides
+and the triadic source transport ensure that the remaining side cannot
+hide the same scalar as an unledgered real-positive coordinate.  Hence
+the assumption $\ell(\rho)\ne0$ is impossible.
+\end{proof}
+
+\begin{principle}[No single-projection consumption]
+\label{prin:rh-no-single-projection-consumption}
+The fixed-half route may consume a Li, Weil, or Nyman target only after
+its triangular radial burden is displayed.  A Li square row must explain
+where the corresponding radial scale would appear as Weil energy and as
+Nyman residual separation.  A Weil factorization row must explain where
+the same radial scale would appear in Li time and in the Nyman
+container.  A Nyman exhaustion row must explain where its residual
+separator would appear in Li time and Weil energy.  This is the
+source-side form of the rule that every off-fixed-half assumption is
+tested against the other two ledgers, not only against the ledger in
+which it was first detected.
+\end{principle}
