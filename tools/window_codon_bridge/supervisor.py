@@ -30,6 +30,8 @@ LEDGER = REPO_ROOT / "papers" / "window_codon_bridge" / "bridge_ledger.jsonl"
 STOP = SCRIPT_DIR / ".stop"
 STATE_DIR = SCRIPT_DIR / "state"
 LOCK = STATE_DIR / "supervisor.lock"
+PIPELINE_CONFIG = SCRIPT_DIR / "pipeline_config.json"
+DEV_ROLLUP_STATE = STATE_DIR / "dev_rollup_state.json"
 DEFAULT_INTERVAL = 600.0
 DEV_BASE_BRANCH = "dev"
 PUBLISH_CHURN_PREFIXES = (
@@ -731,6 +733,79 @@ def keep_lane():
     return {"committed": r.returncode == 0, "out": (r.stdout or r.stderr)[-200:]}
 
 
+def _write_dev_rollup_state() -> None:
+    DEV_ROLLUP_STATE.parent.mkdir(parents=True, exist_ok=True)
+    DEV_ROLLUP_STATE.write_text(json.dumps({"last_run_ts": time.time()}), encoding="utf-8")
+
+
+def dev_rollup_lane() -> dict:
+    """Forward rollup: feat->dev via Loning's managed-rollup tools/sync_with_auto_dev.py.
+
+    Mirrors the bio-D lane. The script builds an isolated worktree from origin/dev,
+    merges our feat branch in (codex-resolving conflicts, regenerating
+    lean4/BEDC.lean), pushes a separate rollup-<head>-to-<base> branch, maintains
+    one PR into dev, and auto-merges once green and mergeable -- the bridge's
+    research output (claims, ledger, paper) thus reaches the shared dev mainline
+    every other pipeline rolls into. Content-delta gated on the three-dot diff: a
+    feat that is only commit-count ahead via dev-sync merge commits has no content
+    diff, and rolling it up produces an empty-diff PR that triggers no CI, never
+    goes green, and blocks the script from rebuilding (deadlock). The reverse
+    dev->feat direction is dev_sync_lane.
+    """
+    if not PIPELINE_CONFIG.exists():
+        return {"ran": False, "skipped": "no_config"}
+    try:
+        cfg = load(PIPELINE_CONFIG).get("dev_rollup") or {}
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"ran": False, "error": f"config_error: {exc}"}
+    if not cfg.get("enabled", False):
+        return {"ran": False, "skipped": "disabled"}
+    if git_busy():
+        return {"ran": False, "skipped": "git_busy"}
+    if _merge_head_present():
+        return {"ran": False, "skipped": "merge_in_progress"}
+    remote = str(cfg.get("remote") or "origin")
+    source = str(cfg.get("head_branch") or "feat/window-codon-bridge")
+    target = str(cfg.get("base_branch") or DEV_BASE_BRANCH)
+    min_seconds = float(cfg.get("min_seconds_between") or 600)
+    try:
+        last_ts = float(json.loads(DEV_ROLLUP_STATE.read_text(encoding="utf-8")).get("last_run_ts") or 0.0)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        last_ts = 0.0
+    if time.time() - last_ts < min_seconds:
+        return {"ran": False, "skipped": "throttled"}
+    script = REPO_ROOT / "tools" / "sync_with_auto_dev.py"
+    if not script.exists():
+        return {"ran": False, "error": "sync_script_missing"}
+    if subprocess.run(["gh", "--version"], capture_output=True).returncode != 0:
+        return {"ran": False, "skipped": "gh_unavailable"}
+    git("fetch", remote, source, target)
+    delta = git("diff", "--name-only", f"{remote}/{target}...{remote}/{source}")
+    if not (delta.stdout or "").strip():
+        _write_dev_rollup_state()
+        return {"ran": False, "skipped": "no_content_delta"}
+    try:
+        result = subprocess.run(
+            ["python3", str(script), "--source-branch", source, "--target-branch", target],
+            cwd=str(REPO_ROOT), capture_output=True, text=True, timeout=1800,
+        )
+    except subprocess.TimeoutExpired:
+        _write_dev_rollup_state()
+        return {"ran": True, "error": "sync_timeout"}
+    _write_dev_rollup_state()
+    out = (result.stdout or "") + (result.stderr or "")
+    rollup_lines = [ln for ln in out.splitlines() if "[sync] rollup" in ln]
+    tail = (rollup_lines or out.splitlines())[-4:]
+    if result.returncode != 0:
+        print(f"[dev-rollup] sync failed: {tail}", flush=True)
+        return {"ran": True, "error": "sync_failed", "tail": tail}
+    merged = any(("merging into" in ln) or ("green and mergeable" in ln) for ln in rollup_lines)
+    print(f"[dev-rollup] ran sync feat->dev (merged={merged})", flush=True)
+    return {"ran": True, "source": source, "target": target,
+            "rollup_branch": f"rollup-{source.replace('/', '-')}-to-{target.replace('/', '-')}",
+            "merged": merged, "tail": tail}
+
+
 def should_stop() -> bool:
     return STOP.exists()
 
@@ -766,7 +841,8 @@ def main():
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} dev_sync={dev_sync} sync={sync} coverage={coverage} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
+            rollup = {} if args.no_commit else dev_rollup_lane()
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} dev_sync={dev_sync} sync={sync} coverage={coverage} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish} rollup={rollup}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
