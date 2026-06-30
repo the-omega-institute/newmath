@@ -82,10 +82,12 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "ihara_hashimoto_zeta_certificate",
     "theta_square_factorization_certificate",
     "theta_cube_decomposition_certificate",
+    "theta_sparse_certificate",
     "median_zero_triple_certificate",
     "betweenness_triple_certificate",
     "saturated_chain_certificate",
     "disjoint_tuple_metallic_certificate",
+    "efficient_open_domination_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -143,10 +145,12 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "ihara_hashimoto_zeta_certificate",
         "theta_square_factorization_certificate",
         "theta_cube_decomposition_certificate",
+        "theta_sparse_certificate",
         "median_zero_triple_certificate",
         "betweenness_triple_certificate",
         "saturated_chain_certificate",
         "disjoint_tuple_metallic_certificate",
+        "efficient_open_domination_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -195,6 +199,9 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "no_scalar_determinant_recurrence",
     "theta_class_square_incidence",
     "theta_class_cube_incidence",
+    "theta_class_flippability_incidence",
+    "padded_word_avoidance",
+    "nonnegative_terminal_zero_run_transfer",
     "forced_fibonacci_factorization",
     "forced_fibonacci_segment_factorization",
     "cube_polynomial_coordinate_resolution",
@@ -206,6 +213,8 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "euler_zigzag_run_factorization",
     "diametral_special_case",
     "lean_statement_only",
+    "axiom_free_lean",
+    "distinct_from_distance_invariants",
     "median_majority_operation",
     "disjoint_support_triple_count",
     "disjoint_support_tuples",
@@ -217,6 +226,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "metallic_ratio_recurrence",
     "pell_type_recurrence",
     "fibonacci_pell_unification",
+    "efficient_open_domination_relation",
+    "nonnegative_four_state_transfer",
+    "all_positive_axiom_free_lean",
+    "distinct_from_even_overlap_signed",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
