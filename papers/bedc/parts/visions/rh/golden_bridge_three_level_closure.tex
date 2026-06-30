@@ -157,3 +157,111 @@ $$
 s=\frac12+r+it.
 $$
 \end{principle}
+
+\begin{definition}[Renormalized Zeckendorf endpoint transfer]
+\label{def:rh-renormalized-zeckendorf-endpoint-transfer}
+The endpoint scale for the Zeckendorf--Mellin fibre is not a fixed
+$u>0$.  It is the normalized scale
+$$
+u=\frac{\alpha}{F_{m+2}}.
+$$
+At this scale the Mellin fibre variables become
+$$
+\widetilde x_{m,j}(\alpha)
+:=
+(-1)^{F_{j+1}}
+\exp\left(-\alpha\frac{F_{j+1}}{F_{m+2}}\right).
+$$
+The associated non-autonomous path transfer matrices are
+$$
+T_{m,j}(\alpha)
+:=
+\begin{pmatrix}
+1&\widetilde x_{m,j}(\alpha)\\
+1&0
+\end{pmatrix},
+$$
+with total endpoint transfer
+$$
+\mathcal T_m(\alpha)
+:=
+T_{m,m}(\alpha)T_{m,m-1}(\alpha)\cdots T_{m,1}(\alpha).
+$$
+The source row
+$$
+\mathsf{RenormalizedZeckendorfEndpointTransfer}
+$$
+asserts that the zero-relevant Mellin window is read through this
+normalized transfer product, not through a fixed-$u$ fibre where the
+large Fibonacci weights freeze the tail variables.
+\end{definition}
+
+\begin{principle}[Endpoint scaling is part of dominance]
+\label{prin:rh-endpoint-scaling-part-of-dominance}
+For fixed $u>0$, the variables
+$$
+x_j(u)=(-1)^{F_{j+1}}e^{-uF_{j+1}}
+$$
+decay rapidly with $j$, so the last variables of a long Zeckendorf
+window no longer participate in a balanced Fibonacci competition.  The
+renormalized scale of
+\autoref{def:rh-renormalized-zeckendorf-endpoint-transfer} keeps the
+terminal ratios
+$$
+\frac{F_{j+1}}{F_{m+2}}
+$$
+visible.  Hence the dominated-splitting row in
+\autoref{def:rh-zeckendorf-transfer-dominated-splitting} must be proved
+for the normalized endpoint transfer product $\mathcal T_m(\alpha)$.
+\end{principle}
+
+\begin{definition}[Mellin stability attack surfaces]
+\label{def:rh-mellin-stability-attack-surfaces}
+The source row
+$$
+\mathsf{MellinLeeYangStabilityOperator}
+$$
+may be attacked through any of the following stability-preservation
+surfaces.
+
+The total-positivity surface proves that the Mellin kernel produces a
+P\'olya-frequency or Laguerre--P\'olya type transform compatible with
+the Lee--Yang zero-free regions.
+
+The Hermite--Biehler surface rewrites the Mellin-projected packet as a
+function
+$$
+E(z)=A(z)-iB(z)
+$$
+whose half-plane or unit-circle stability is controlled by a
+de Branges-type ledger.
+
+The Rouch\'e-stable discretization surface approximates the Mellin
+integral by finite sums
+$$
+\sum_{\ell}w_{\ell}(s)L_{m,u_{\ell}},
+$$
+with a stability-preserving choice of weights and a boundary error
+ledger strong enough to pass to the integral without crossing zero.
+\end{definition}
+
+\begin{principle}[Mellin stability as no-demon finite form]
+\label{prin:rh-mellin-stability-no-demon-finite-form}
+The Mellin stability row is the finite packet analogue of the no-demon
+constraint.  An off-half readout
+$$
+s=\frac12+r+it
+$$
+introduces the real scale factor
+$$
+e^{-rh_a}
+$$
+and therefore tilts any active-mode distribution by real-positive
+weights.  If Mellin projection preserves the Lee--Yang inside and
+outside zero-free regions, that tilt cannot be hidden as a phase or
+prime-register gauge.  The only remaining legal readout is the unit
+boundary readout, where
+$$
+|e^{-(s-1/2)h_a}|=1.
+$$
+\end{principle}
