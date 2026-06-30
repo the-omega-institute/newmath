@@ -74,6 +74,35 @@ theorem AxisCarryConfluenceCarrier_local_diamond [AskSetup] [PackageSetup]
     ⟨nUnary, leftHandoffUnary, rightHandoffUnary, publicReadUnary, leftRoute,
       rightRoute, publicRoute, publicPkg⟩
 
+theorem AxisCarryConfluenceCarrier_local_join_obligation [AskSetup] [PackageSetup]
+    {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow
+      leftHandoff rightHandoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisCarryConfluenceCarrier u v w n routeLeft routeRight valueLedger boundary
+        continuation provenance nameRow bundle pkg ->
+      Cont routeLeft n leftHandoff ->
+        Cont routeRight n rightHandoff ->
+          UnaryHistory n ∧
+            UnaryHistory valueLedger ∧
+              UnaryHistory leftHandoff ∧
+                UnaryHistory rightHandoff ∧
+                  Cont routeLeft n leftHandoff ∧
+                    Cont routeRight n rightHandoff := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier leftRoute rightRoute
+  have nUnary : UnaryHistory n := carrier.left
+  have routeLeftUnary : UnaryHistory routeLeft := carrier.right.left
+  have routeRightUnary : UnaryHistory routeRight := carrier.right.right.left
+  have valueLedgerUnary : UnaryHistory valueLedger :=
+    carrier.right.right.right.right.right.right.left
+  have leftHandoffUnary : UnaryHistory leftHandoff :=
+    unary_cont_closed routeLeftUnary nUnary leftRoute
+  have rightHandoffUnary : UnaryHistory rightHandoff :=
+    unary_cont_closed routeRightUnary nUnary rightRoute
+  exact
+    ⟨nUnary, valueLedgerUnary, leftHandoffUnary, rightHandoffUnary, leftRoute,
+      rightRoute⟩
+
 theorem AxisCarryConfluenceCarrier_normalization_handoff [AskSetup] [PackageSetup]
     {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow
       leftHandoff rightHandoff publicRead boundaryRead : BHist}
