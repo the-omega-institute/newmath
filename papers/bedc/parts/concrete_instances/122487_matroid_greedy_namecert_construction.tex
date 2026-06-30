@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MatroidGreedyUp$}
+\label{ch:concrete-instances-matroid-greedy-namecert}
+\origin{human}
+
+Following Edmonds' matroid greedy theorem, the $\MatroidGreedyUp$ packet records the finite exchange route by which a displayed weight-ordered scan produces a maximum-weight independent set in a finite matroid. It reads the independence and exchange rows of \autoref{ch:concrete-instances-matroid-namecert}, the augmenting-incidence discipline of \autoref{ch:concrete-instances-matching-namecert}, the finite residual comparison surface of \autoref{ch:concrete-instances-networkflow-namecert}, and the ordered-field weak-duality rows of \autoref{ch:concrete-instances-lpduality-namecert}. The packet names the greedy certificate as finite BEDC data; it does not import a host optimizer, quotient equality of bases, selected maximal bases outside the ledger, or an ambient linear-programming oracle.
+
+\begin{definition}[Matroid greedy carrier]
+\label{def:matroid-greedy-carrier}
+A $\MatroidGreedyUp$ carrier is a finite $\BHist$ packet
+$$
+G=(E,M,W,O,A,X,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite ground row shared with the source $\MatroidUp$ packet.
+\item $M$ is the source $\MatroidUp$ row, including independent-set admission, hereditary restriction, and exchange data.
+\item $W$ is the finite weight row, assigning an ordered value to every displayed ground element.
+\item $O$ is the weight-order scan row, recording the finite descending inspection order and tie ledger.
+\item $A$ is the accepted greedy prefix row, recording each admitted independent prefix.
+\item $X$ is the exchange witness row, pairing any competing independent row with the first displayed exchange point at which the greedy prefix dominates.
+\item $V$ is the value comparison row, read through finite sums and the $\LPDualityUp$ weak-duality discipline.
+\item $H$ records componentwise $\hsame$ transport for ground, source matroid, weights, order, accepted prefixes, exchange witnesses, value comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every consumer that reopens the scan or exchange route.
+\item $P$ is the $\Pkg$ provenance over $\MatroidGreedyUp$, $\MatroidUp$, $\MatchingUp$, $\NetworkFlowUp$, $\LPDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MatroidGreedyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host greedy algorithm, quotient ground equality, selected bases outside the displayed scan, an unrestricted optimizer, or ambient linear-programming strong duality.
+\end{definition}
+
+\begin{theorem}[Matroid greedy NameCert obligations]
+\label{thm:matroid-greedy-namecert-obligations}
+For every accepted $\MatroidGreedyUp$ carrier
+$$
+G=(E,M,W,O,A,X,V,H,C,P,N),
+$$
+the local $\NameCert_{\MatroidGreedyUp}$ surface consists exactly of carrier admission for $G$, source $\MatroidUp$ exposure through $M$, weight and scan exposure through $W,O$, greedy-prefix exposure through $A$, exchange-witness exposure through $X$, value-comparison exposure through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:matroid-greedy-carrier}. The rows $E,M,W,O,A,X,V$ are the complete finite optimization inventory: source ground and matroid, ordered weights, accepted scan prefixes, exchange witnesses, and value comparison.
+
+Read $M$ through \autoref{ch:concrete-instances-matroid-namecert}. Hereditary restriction licenses rejected scan steps, while the exchange row is the only source for replacing a competing independent element by the earliest greedy element.
+
+The matching and network-flow siblings supply finite incidence and residual-comparison discipline for the exchange ledger, and the $\LPDualityUp$ sibling supplies the ordered value-comparison surface. The rows $H,C,P,N$ transport, replay, source, and name exactly the same data.
+
+Since no carrier coordinate stores a host optimizer, quotient ground equality, selected basis family, unrestricted search, or ambient strong-duality theorem, none of those objects can discharge a local $\NameCert_{\MatroidGreedyUp}$ obligation.
+\end{proof}
+
+\begin{theorem}[Matroid greedy exchange certificate]
+\label{thm:matroid-greedy-exchange-certificate}
+Every accepted $\MatroidGreedyUp$ packet exports a finite exchange certificate: for any displayed competing independent row over the same $\MatroidUp$ source, the row $X$ supplies a finite sequence of exchange steps that replaces the competitor by the greedy prefix without lowering the displayed value row $V$. The exchange route factors through the same ground row $E$, source matroid row $M$, weight row $W$, scan row $O$, accepted-prefix row $A$, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+The certificate is finite and public. It is not a host optimality theorem, not quotient equality of bases, not a selected external maximum, not an unbounded augmenting search, and not an ambient linear-programming oracle.
+\end{theorem}
+\begin{proof}
+Start with a displayed competitor over the same source matroid. The carrier in \autoref{def:matroid-greedy-carrier} makes the source ground $E$, independence row $M$, weights $W$, and scan order $O$ visible before any exchange step is read.
+
+Use the source exchange row from $\MatroidUp$. At the first scan position where the competitor differs from the greedy prefix, the exchange witness row $X$ names a displayed replacement that preserves independence and does not move to a lower weight position.
+
+Iterating this finite exchange ledger rewrites the competitor into the greedy prefix. The matching and network-flow sibling rows keep the incidence and residual bookkeeping finite, while the $\LPDualityUp$ value row $V$ records that the displayed value comparison is monotone along the ledger.
+
+The support rows $H,C,P,N$ transport, replay, source, and name the same exchange certificate. Because the packet contains no host optimizer, quotient-basis equality, selected maximum, unbounded search, or ambient LP oracle, the exported certificate is exactly the finite exchange route.
+\end{proof}
+
+\falsifiablePrediction{A consumer that cites $\MatroidGreedyUp$ without displaying the source matroid, weight-order scan, accepted prefixes, exchange witness ledger, value comparison, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows is not reading the carrier.}
+
+\independenceWitness{matroid, matching, networkflow, lpduality: $\MatroidUp$ supplies the exchange source, $\MatchingUp$ supplies incidence pairing, $\NetworkFlowUp$ supplies residual comparison discipline, and $\LPDualityUp$ supplies finite ordered value comparison, but none carries the greedy scan plus exchange-certificate packet as a local NameCert row.}
+
+\closureat{MatroidGreedyUp}{seedStr}
+
+\begin{closurestatus}{\MatroidGreedyUp}
+  \constructivestory{A $\MatroidGreedyUp$ packet is generated from a finite ground row, source MatroidUp row, finite weight row, weight-order scan row, accepted greedy prefix row, exchange witness row, value comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:matroid-greedy-carrier}, \autoref{thm:matroid-greedy-namecert-obligations}, and \autoref{thm:matroid-greedy-exchange-certificate} seed the finite greedy exchange certificate over MatroidUp, MatchingUp, NetworkFlowUp, LPDualityUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host matroid optimization, quotient ground equality, selected global bases, unrestricted search, ambient linear-programming strong duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, scan-prefix exactness, exchange-witness exactness, value comparison, transport, replay, provenance, and local naming for BEDC.Derived.MatroidGreedyUp.}
+\end{closurestatus}
