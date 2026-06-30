@@ -111,6 +111,25 @@ def cwStep : Branch -> CWPositiveFraction -> CWPositiveFraction
   | Branch.left, x => cwLeft x
   | Branch.right, x => cwRight x
 
+def cwPair (x : CWPositiveFraction) : Nat × Nat :=
+  (cwNumerator x, cwDenominator x)
+
+def cwPairStep : Branch -> Nat × Nat -> Nat × Nat
+  | Branch.left, pair => (pair.1, pair.1 + pair.2)
+  | Branch.right, pair => (pair.1 + pair.2, pair.2)
+
+theorem cwStep_pair (step : Branch) (x : CWPositiveFraction) :
+    cwPair (cwStep step x) = cwPairStep step (cwPair x) := by
+  cases step with
+  | left =>
+      have read := cw_left_readback x
+      unfold cwPair cwPairStep
+      exact Prod.ext read.left read.right
+  | right =>
+      have read := cw_right_readback x
+      unfold cwPair cwPairStep
+      exact Prod.ext read.left read.right
+
 def cwEval : BranchPath -> CWPositiveFraction
   | [] => cwRoot
   | step :: tail => cwStep step (cwEval tail)
@@ -186,6 +205,151 @@ theorem generated_has_path {x : CWPositiveFraction} :
       cases ih with
       | intro path eqPath =>
           exact ⟨Branch.right :: path, congrArg cwRight eqPath⟩
+
+/-- 非商构造的正分数规格；`numPred/denPred` 是实际分子分母的前驱。 -/
+structure PositiveFractionSpec where
+  numPred : Nat
+  denPred : Nat
+
+def PositiveFractionSpec.num (x : PositiveFractionSpec) : Nat :=
+  x.numPred + 1
+
+def PositiveFractionSpec.den (x : PositiveFractionSpec) : Nat :=
+  x.denPred + 1
+
+def PositiveFractionSpec.toCW (x : PositiveFractionSpec) : CWPositiveFraction :=
+  { numPred := x.numPred, denPred := x.denPred }
+
+theorem positiveFractionSpec_toCW_readback (x : PositiveFractionSpec) :
+    cwNumerator x.toCW = x.num ∧ cwDenominator x.toCW = x.den := by
+  exact ⟨rfl, rfl⟩
+
+inductive PositivePairGenerated : Nat -> Nat -> Prop where
+  | root : PositivePairGenerated 1 1
+  | left {a b : Nat} :
+      PositivePairGenerated a b -> PositivePairGenerated a (a + b)
+  | right {a b : Nat} :
+      PositivePairGenerated a b -> PositivePairGenerated (a + b) b
+
+theorem positivePairGenerated_positive_left {a b : Nat} :
+    PositivePairGenerated a b -> 0 < a := by
+  intro generated
+  induction generated with
+  | root =>
+      exact Nat.succ_pos 0
+  | left _ ih =>
+      exact ih
+  | right _ ih =>
+      exact Nat.lt_of_lt_of_le ih (Nat.le_add_right _ _)
+
+theorem positivePairGenerated_positive_right {a b : Nat} :
+    PositivePairGenerated a b -> 0 < b := by
+  intro generated
+  induction generated with
+  | root =>
+      exact Nat.succ_pos 0
+  | left _ ih =>
+      exact Nat.lt_of_lt_of_le ih (Nat.le_add_left _ _)
+  | right _ ih =>
+      exact ih
+
+theorem cwEval_positivePairGenerated (path : BranchPath) :
+    PositivePairGenerated (cwNumerator (cwEval path)) (cwDenominator (cwEval path)) := by
+  induction path with
+  | nil =>
+      exact PositivePairGenerated.root
+  | cons step tail ih =>
+      cases step with
+      | left =>
+          have read := cw_left_readback (cwEval tail)
+          change
+            PositivePairGenerated
+              (cwNumerator (cwLeft (cwEval tail)))
+              (cwDenominator (cwLeft (cwEval tail)))
+          rw [read.left, read.right]
+          exact PositivePairGenerated.left ih
+      | right =>
+          have read := cw_right_readback (cwEval tail)
+          change
+            PositivePairGenerated
+              (cwNumerator (cwRight (cwEval tail)))
+              (cwDenominator (cwRight (cwEval tail)))
+          rw [read.left, read.right]
+          exact PositivePairGenerated.right ih
+
+theorem cwEval_positive_left (path : BranchPath) :
+    0 < cwNumerator (cwEval path) := by
+  exact positivePairGenerated_positive_left (cwEval_positivePairGenerated path)
+
+theorem cwEval_positive_right (path : BranchPath) :
+    0 < cwDenominator (cwEval path) := by
+  exact positivePairGenerated_positive_right (cwEval_positivePairGenerated path)
+
+theorem generatedPositiveRational_positive_left {x : CWPositiveFraction} :
+    GeneratedPositiveRational x -> 0 < cwNumerator x := by
+  intro generated
+  cases generated_has_path generated with
+  | intro path same =>
+      cases same
+      exact cwEval_positive_left path
+
+theorem generatedPositiveRational_positive_right {x : CWPositiveFraction} :
+    GeneratedPositiveRational x -> 0 < cwDenominator x := by
+  intro generated
+  cases generated_has_path generated with
+  | intro path same =>
+      cases same
+      exact cwEval_positive_right path
+
+def pairOfPositiveFractionSpec (x : PositiveFractionSpec) : Nat × Nat :=
+  (x.num, x.den)
+
+def pairCoveredByCalkinWilf (pair : Nat × Nat) : Prop :=
+  ∃ path : BranchPath, cwPair (cwEval path) = pair
+
+theorem cwEval_pairCovered (path : BranchPath) :
+    pairCoveredByCalkinWilf (cwPair (cwEval path)) := by
+  exact ⟨path, rfl⟩
+
+theorem positivePairGenerated_has_path {a b : Nat} :
+    PositivePairGenerated a b -> ∃ path : BranchPath, cwPair (cwEval path) = (a, b) := by
+  intro generated
+  induction generated with
+  | root =>
+      exact ⟨[], rfl⟩
+  | left gen ih =>
+      cases ih with
+      | intro path same =>
+          exact ⟨Branch.left :: path, by
+            rw [cwEval_cons_left]
+            have read := cw_left_readback (cwEval path)
+            unfold cwPair at same
+            cases same
+            unfold cwPair
+            apply Prod.ext
+            · exact read.left
+            · exact read.right⟩
+  | right gen ih =>
+      cases ih with
+      | intro path same =>
+          exact ⟨Branch.right :: path, by
+            rw [cwEval_cons_right]
+            have read := cw_right_readback (cwEval path)
+            unfold cwPair at same
+            cases same
+            unfold cwPair
+            apply Prod.ext
+            · exact read.left
+            · exact read.right⟩
+
+def positiveFractionSpecCoveredByCalkinWilf (x : PositiveFractionSpec) : Prop :=
+  pairCoveredByCalkinWilf (pairOfPositiveFractionSpec x)
+
+theorem positiveFractionSpec_has_cw_path
+    (x : PositiveFractionSpec) :
+    PositivePairGenerated x.num x.den -> positiveFractionSpecCoveredByCalkinWilf x := by
+  intro generated
+  exact positivePairGenerated_has_path generated
 
 def fibonacciLevelPair (n : Nat) : Nat × Nat :=
   (BEDC.Derived.FibonacciUp.fib (n + 1),
