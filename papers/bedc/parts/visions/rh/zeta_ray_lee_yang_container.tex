@@ -435,3 +435,83 @@ cofinal version of the bridge: the polarized golden containers need not
 equal the zeta packet, but they must dominate the same zero islands with
 strict Rouch\'e margins.
 \end{definition}
+
+\begin{definition}[Source-side golden Lee--Yang closure]
+\label{def:rh-source-side-golden-lee-yang-closure}
+The source row
+$$
+\mathsf{GoldenLeeYangClosureOfXi}
+$$
+asserts that the completed zeta function $\Xi(s)$ is obtained as a
+source-side limit of internally generated polarized golden Lee--Yang
+containers.  Concretely, there are functions
+$$
+C_m(s)
+=
+\mathcal Z_m^{\mathrm{pol}}
+\left(
+e^{-(s-1/2)h_{m,1}},
+\ldots,
+e^{-(s-1/2)h_{m,d_m}}
+\right)
+$$
+such that each $h_{m,j}>0$, each $C_m$ is supplied before any zero
+island is selected, each $C_m$ has no zero in
+$$
+\Re(s)\ne\frac12,
+$$
+and $C_m\to\Xi$ uniformly on compact sets with enough boundary
+Rouch\'e control to prevent limit zeros from entering the off-line
+region.
+\end{definition}
+
+\begin{theorem}[Golden Lee--Yang closure gives fixed-half readout]
+\label{thm:rh-golden-lee-yang-closure-fixed-half-readout}
+If $\mathsf{GoldenLeeYangClosureOfXi}$ holds, then $\Xi$ has no zero
+with real part different from $1/2$.
+\end{theorem}
+
+\begin{proof}
+Assume that $\Xi$ has a zero $\rho$ with
+$$
+\Re(\rho)\ne\frac12.
+$$
+Choose a small disk $D$ around $\rho$ whose closure does not meet the
+line $\Re(s)=1/2$ and whose boundary has no zero of $\Xi$.  Then
+$$
+M:=\min_{s\in\partial D}|\Xi(s)|>0.
+$$
+Uniform convergence gives, for sufficiently large $m$,
+$$
+|C_m(s)-\Xi(s)|<\frac M2
+\qquad
+s\in\partial D.
+$$
+Hence $|C_m(s)|>M/2$ on $\partial D$, and therefore
+$$
+|\Xi(s)-C_m(s)|<|C_m(s)|
+\qquad
+s\in\partial D.
+$$
+By Rouch\'e's theorem, $\Xi$ and $C_m$ have the same number of zeros in
+$D$.  But $C_m$ has no zero in the off-line disk $D$, contradiction.
+Thus no such $\rho$ exists.
+\end{proof}
+
+\begin{principle}[Local capture is not the final bridge]
+\label{prin:rh-local-capture-not-final-bridge}
+The local rows
+$$
+\mathsf{ZetaToPrimeAsanoCapture}
+\qquad
+\mathsf{ZetaToPolarizedGoldenContainerRouche}
+$$
+are useful only as finite-island consequences of a source-side
+construction.  If they are postulated separately around each candidate
+zero, the bridge risks encoding the desired exclusion into the local
+choice of container.  The non-circular target is the prior container
+tower of \autoref{def:rh-source-side-golden-lee-yang-closure}: the
+container sequence is constructed from the internal ruler and
+polarization mechanism first, and zero exclusion is then read by
+Rouch\'e.
+\end{principle}
