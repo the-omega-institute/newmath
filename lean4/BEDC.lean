@@ -6635,6 +6635,7 @@ import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.GeneticCodeDeformationLedgerUp
 import BEDC.Derived.GeneticCodeDeformationLedgerUp.TasteGate
+import BEDC.Derived.GenocchiNumberUp
 import BEDC.Derived.GenocchiUp
 import BEDC.Derived.GeodesicMetricUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
