@@ -120,6 +120,35 @@ VALUE_TRIVIAL_PROOF_RE = re.compile(
 )
 VALUE_HEAD_RE = re.compile(r"[A-Za-z_][\w'.]*")
 VALUE_INSTANCE_THRESHOLD = 4
+_VALUE_WORD_TO_INT = {
+    "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
+    "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
+    "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
+    "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20,
+}
+
+
+def _name_value(name: str) -> int | None:
+    """Recover the integer embedded in a value-instance name (`_five`→5, `_13`→13)."""
+    m = VALUE_SUFFIX_RE.search(name)
+    if not m:
+        return None
+    tok = m.group(0).lstrip("_")
+    if tok.isdigit():
+        return int(tok)
+    wm = re.match(r"(" + VALUE_WORDS + r")", tok)
+    return _VALUE_WORD_TO_INT.get(wm.group(1)) if wm else None
+
+
+def _is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
 
 
 def _strip_hsame_tokens(text: str) -> str:
@@ -705,13 +734,24 @@ def detect_value_instance_saturation(worktree: Path, base_branch: str) -> list[s
                 continue
             if _has_companion_general_theorem(worktree, rel_path, head):
                 continue
-            hits.append(
+            values = [v for v in (_name_value(n) for n in distinct) if v is not None]
+            prime_sample = len(set(values)) >= 3 and all(_is_prime(v) for v in values)
+            msg = (
                 f"{rel_path}: VALUE-INSTANCE SATURATION — {len(distinct)} sibling "
                 f"closed computations for `{head}` (schema {name_schema}): "
                 + ", ".join(distinct[:8])
                 + ". Prove ONE parameterised forall-theorem binding the parameter; "
                 "finite checks only as <=2 private examples."
             )
+            if prime_sample:
+                # High-confidence theorem-sampling smell (you sample primes to
+                # verify a theorem, not to define a sequence). Hard-gate-eligible.
+                hits.append("PRIME-SAMPLE " + msg)
+            else:
+                # Consecutive/non-prime indices are legitimate for concrete
+                # number-sequence chapters (Happy/Automorphic/Overpartition);
+                # always warn, never hard-fail.
+                print("[warn] value-instance (non-prime, advisory): " + msg)
 
     hits.extend(_detect_pseudo_generalization(added))
     return hits
