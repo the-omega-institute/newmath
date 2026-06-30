@@ -973,6 +973,7 @@ import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinaryExpansionUp.TasteGate
 import BEDC.Derived.BinaryQuadFormUp
+import BEDC.Derived.BinaryQuadraticFormUp
 import BEDC.Derived.BinaryTreeUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
@@ -5141,6 +5142,7 @@ import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
 import BEDC.Derived.DirichletCharacterUp
+import BEDC.Derived.DirichletConvolutionUp
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
@@ -9676,6 +9678,7 @@ import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellTowerUp
 import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
+import BEDC.Derived.PerfectNumberUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp
