@@ -1,21 +1,11 @@
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CWComplexUp
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Package
-open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -23,20 +13,20 @@ inductive CWComplexUp : Type where
   | mk (T K E A B C H R P N : BHist) : CWComplexUp
   deriving DecidableEq
 
-def cwComplexEncodeBHist : BHist -> RawEvent
+def cwComplexEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cwComplexEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cwComplexEncodeBHist h
 
-def cwComplexDecodeBHist : RawEvent -> BHist
+def cwComplexDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cwComplexDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cwComplexDecodeBHist tail)
 
-private theorem CWComplexCarrier_namecert_obligations_decode_encode :
-    forall h : BHist, cwComplexDecodeBHist (cwComplexEncodeBHist h) = h := by
+private theorem CWComplexTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, cwComplexDecodeBHist (cwComplexEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -44,39 +34,59 @@ private theorem CWComplexCarrier_namecert_obligations_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def cwComplexFields : CWComplexUp -> List BHist
+def cwComplexToEventFlow : CWComplexUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CWComplexUp.mk T K E A B C H R P N => [T, K, E, A, B, C, H, R, P, N]
+  | CWComplexUp.mk T K E A B C H R P N =>
+      [[BMark.b0],
+        cwComplexEncodeBHist T,
+        [BMark.b1, BMark.b0],
+        cwComplexEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist B,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        cwComplexEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        cwComplexEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        cwComplexEncodeBHist N]
 
-def cwComplexToEventFlow : CWComplexUp -> EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => (cwComplexFields x).map cwComplexEncodeBHist
-
-private def CWComplexCarrier_namecert_obligations_eventAt : Nat -> EventFlow -> RawEvent
+private def cwComplexEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => CWComplexCarrier_namecert_obligations_eventAt index rest
+  | Nat.succ index, _event :: rest => cwComplexEventAtDefault index rest
 
 def cwComplexFromEventFlow (ef : EventFlow) : Option CWComplexUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CWComplexUp.mk
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 0 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 1 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 2 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 3 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 4 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 5 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 6 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 7 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 8 ef))
-      (cwComplexDecodeBHist (CWComplexCarrier_namecert_obligations_eventAt 9 ef)))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 1 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 3 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 5 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 7 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 9 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 11 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 13 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 15 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 17 ef))
+      (cwComplexDecodeBHist (cwComplexEventAtDefault 19 ef)))
 
-private theorem CWComplexCarrier_namecert_obligations_round_trip (x : CWComplexUp) :
-    cwComplexFromEventFlow (cwComplexToEventFlow x) = some x := by
+private theorem CWComplexTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : CWComplexUp, cwComplexFromEventFlow (cwComplexToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk T K E A B C H R P N =>
       change
@@ -93,20 +103,20 @@ private theorem CWComplexCarrier_namecert_obligations_round_trip (x : CWComplexU
             (cwComplexDecodeBHist (cwComplexEncodeBHist P))
             (cwComplexDecodeBHist (cwComplexEncodeBHist N))) =
           some (CWComplexUp.mk T K E A B C H R P N)
-      rw [CWComplexCarrier_namecert_obligations_decode_encode T,
-        CWComplexCarrier_namecert_obligations_decode_encode K,
-        CWComplexCarrier_namecert_obligations_decode_encode E,
-        CWComplexCarrier_namecert_obligations_decode_encode A,
-        CWComplexCarrier_namecert_obligations_decode_encode B,
-        CWComplexCarrier_namecert_obligations_decode_encode C,
-        CWComplexCarrier_namecert_obligations_decode_encode H,
-        CWComplexCarrier_namecert_obligations_decode_encode R,
-        CWComplexCarrier_namecert_obligations_decode_encode P,
-        CWComplexCarrier_namecert_obligations_decode_encode N]
+      rw [CWComplexTasteGate_single_carrier_alignment_decode_encode T,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode K,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode E,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode A,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode B,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode C,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode H,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode R,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode P,
+        CWComplexTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem CWComplexCarrier_namecert_obligations_toEventFlow_injective
+private theorem CWComplexTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CWComplexUp} :
-    cwComplexToEventFlow x = cwComplexToEventFlow y -> x = y := by
+    cwComplexToEventFlow x = cwComplexToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -114,8 +124,8 @@ private theorem CWComplexCarrier_namecert_obligations_toEventFlow_injective
         cwComplexFromEventFlow (cwComplexToEventFlow y) :=
     congrArg cwComplexFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CWComplexCarrier_namecert_obligations_round_trip x).symm
-      (Eq.trans hread (CWComplexCarrier_namecert_obligations_round_trip y)))
+    (Eq.trans (CWComplexTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CWComplexTasteGate_single_carrier_alignment_round_trip y)))
 
 instance cwComplexBHistCarrier : BHistCarrier CWComplexUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -127,39 +137,21 @@ instance cwComplexChapterTasteGate : ChapterTasteGate CWComplexUp where
   round_trip := by
     intro x
     change cwComplexFromEventFlow (cwComplexToEventFlow x) = some x
-    exact CWComplexCarrier_namecert_obligations_round_trip x
+    exact CWComplexTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CWComplexCarrier_namecert_obligations_toEventFlow_injective heq)
+    exact hxy (CWComplexTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def CWComplexCarrier [AskSetup] [PackageSetup]
-    (T K E A B C H R P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
-  UnaryHistory T ∧ UnaryHistory K ∧ UnaryHistory E ∧ UnaryHistory A ∧
-    UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory H ∧ UnaryHistory R ∧
-      UnaryHistory P ∧ UnaryHistory N ∧ Cont T K E ∧ Cont E A B ∧
-        PkgSig bundle P pkg
-
-theorem CWComplexCarrier_namecert_obligations [AskSetup] [PackageSetup]
-    {T K E A B C H R P N boundaryRead : BHist} {bundle : ProbeBundle ProbeName}
-    {pkg : Pkg} :
-    CWComplexCarrier T K E A B C H R P N bundle pkg ->
-      Cont A B boundaryRead ->
-        PkgSig bundle boundaryRead pkg ->
-          UnaryHistory T ∧ UnaryHistory K ∧ UnaryHistory E ∧ UnaryHistory A ∧
-            UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory H ∧ UnaryHistory R ∧
-              UnaryHistory P ∧ UnaryHistory N ∧ UnaryHistory boundaryRead ∧
-                Cont T K E ∧ Cont E A B ∧ Cont A B boundaryRead ∧
-                  PkgSig bundle P pkg ∧ PkgSig bundle boundaryRead pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
-  intro carrier boundaryRoute boundaryPkg
-  obtain ⟨tUnary, kUnary, eUnary, aUnary, bUnary, cUnary, hUnary, rUnary, pUnary,
-    nUnary, topologyCellRoute, attachingBoundaryRoute, provenancePkg⟩ := carrier
-  have boundaryUnary : UnaryHistory boundaryRead :=
-    unary_cont_closed aUnary bUnary boundaryRoute
+theorem CWComplexTasteGate_single_carrier_alignment :
+    (∀ h : BHist, cwComplexDecodeBHist (cwComplexEncodeBHist h) = h) ∧
+      (∀ x : CWComplexUp, cwComplexFromEventFlow (cwComplexToEventFlow x) = some x) ∧
+        (∀ x y : CWComplexUp, cwComplexToEventFlow x = cwComplexToEventFlow y → x = y) ∧
+          cwComplexEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨tUnary, kUnary, eUnary, aUnary, bUnary, cUnary, hUnary, rUnary, pUnary, nUnary,
-      boundaryUnary, topologyCellRoute, attachingBoundaryRoute, boundaryRoute, provenancePkg,
-      boundaryPkg⟩
+    ⟨CWComplexTasteGate_single_carrier_alignment_decode_encode,
+      CWComplexTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => CWComplexTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.CWComplexUp
