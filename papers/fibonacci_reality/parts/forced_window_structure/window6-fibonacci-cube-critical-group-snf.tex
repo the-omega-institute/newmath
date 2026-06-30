@@ -1,0 +1,81 @@
+\origin{ai}
+
+\subsection{Window-six Fibonacci cube and its reduced critical group}
+\label{sec:window6-fibonacci-cube-critical-group-snf}
+
+\paragraph{Carrier.}
+Let $\{0,1\}^6$ be the set of all binary words $w=w_1w_2w_3w_4w_5w_6$ of length six. Define
+$$
+\begin{aligned}
+X_6=\{w\in \{0,1\}^6 : \text{there is no } i\in\{1,2,3,4,5\}\text{ with }w_i=1\text{ and }w_{i+1}=1\}.
+\end{aligned}
+$$
+Thus $X_6$ is the finite collection of length-six binary words in which adjacent ones are forbidden. Its cardinality is
+$$
+\begin{aligned}
+|X_6|=21.
+\end{aligned}
+$$
+The graph $\Gamma_6$ has vertex set $X_6$. Two distinct vertices $u,v\in X_6$ are joined by an undirected edge exactly when they differ in one coordinate and agree in the other five coordinates. Equivalently, if
+$$
+\begin{aligned}
+d(u,v)=|\{i\in\{1,2,3,4,5,6\}:u_i\ne v_i\}|,
+\end{aligned}
+$$
+then $u$ and $v$ are adjacent precisely when $d(u,v)=1$. With this relation, $\Gamma_6$ has exactly $38$ undirected edges.
+
+\paragraph{Finite partitions and incidence data.}
+The defining predicate on words gives a finite carrier without any ambient limiting process. For local accounting, the vertices may be partitioned by Hamming weight:
+$$
+\begin{aligned}
+X_6=\bigcup_{k=0}^{6}\{w\in X_6: |\{i:w_i=1\}|=k\},
+\end{aligned}
+$$
+with the understanding that the displayed union is disjoint because each word has a unique number of ones. This partition is not an additional structure; it only records that every vertex is sorted by a finite predicate already determined by the word. The edge relation is also finite and internal: it is the subset of unordered pairs $\{u,v\}$ in $X_6$ satisfying $d(u,v)=1$. The exact edge count is part of the finite certificate:
+$$
+\begin{aligned}
+|\{\{u,v\}:u,v\in X_6,\ u\ne v,\ d(u,v)=1\}|=38.
+\end{aligned}
+$$
+
+\paragraph{Reduced Laplacian.}
+Let $0=000000$ be the distinguished root vertex. Form the ordinary graph Laplacian $L$ of $\Gamma_6$ by putting the degree of a vertex on the diagonal, putting $-1$ in the $(u,v)$ entry when $u$ and $v$ are adjacent, and putting $0$ in the $(u,v)$ entry when $u\ne v$ and $u$ and $v$ are not adjacent. The reduced Laplacian $L^{(0)}$ is obtained by deleting the row and column indexed by the root vertex $000000$. Since $|X_6|=21$, the matrix $L^{(0)}$ is a $20\times 20$ integer matrix. Its determinant is the exact integer
+$$
+\begin{aligned}
+\det(L^{(0)})=592458464.
+\end{aligned}
+$$
+This determinant is asserted only as a finite matrix identity for the explicitly defined graph and root deletion.
+
+\paragraph{Smith normal form and critical group.}
+The Smith normal form of $L^{(0)}$ has invariant factors consisting of $1$ repeated $18$ times, followed by $4$ and $148114616$. In other words, over integer row and column operations by unimodular matrices, $L^{(0)}$ is diagonalized to a diagonal matrix whose nonzero diagonal entries are
+$$
+\begin{aligned}
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,148114616.
+\end{aligned}
+$$
+The product of these invariant factors is
+$$
+\begin{aligned}
+1^{18}\cdot 4\cdot 148114616=592458464,
+\end{aligned}
+$$
+which matches the reduced-Laplacian determinant. The critical group is the finite abelian group presented by the integer cokernel of the reduced Laplacian:
+$$
+\begin{aligned}
+\operatorname{Crit}(\Gamma_6)=\mathbb{Z}^{20}/L^{(0)}\mathbb{Z}^{20}.
+\end{aligned}
+$$
+Removing the trivial invariant factors gives the group identity
+$$
+\begin{aligned}
+\operatorname{Crit}(\Gamma_6)\cong \mathbb{Z}/4\mathbb{Z}\oplus \mathbb{Z}/148114616\mathbb{Z}.
+\end{aligned}
+$$
+Thus the finite forced-window construction yields the exact statement: the window-six Fibonacci-cube graph $\Gamma_6$ has reduced-Laplacian determinant $592458464$ and critical group $\mathbb{Z}/4\mathbb{Z}\oplus \mathbb{Z}/148114616\mathbb{Z}$.
+
+\paragraph{Witness extraction.}
+A witness for the statement consists of the following finite data: the $21$ admissible binary words in $X_6$, the $38$ unordered Hamming-distance-one edges among them, the chosen root $000000$, the resulting $20\times 20$ integer matrix $L^{(0)}$, and integer unimodular row and column operations producing the stated Smith normal form. The theorem content does not require an infinite object, a limiting argument, or any measurement input; it is exhausted by the finite word predicate, the finite adjacency relation, and the exact integer normal-form calculation.
+
+\paragraph{Boundary of the claim.}
+This chapter makes no identification with any physical constant, including the fine-structure constant or any expression involving $137$. It also does not assert a global flow law, an external dependency, a metrological comparison, or any convention-dependent physical interpretation. Such statements would require a separate certificate specifying the additional objects, comparison rule, tolerance, and interpretation map. No such extra assertion is included here.
