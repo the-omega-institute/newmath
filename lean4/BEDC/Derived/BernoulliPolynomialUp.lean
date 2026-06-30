@@ -22,6 +22,22 @@ def rawRatPolyEval : RawRat -> RawRatPoly -> RawRat :=
 def rawBernoulliPolynomial (n : Nat) : RawRatPoly :=
   BEDC.Derived.BernoulliPolyUp.rawBernoulliPolynomial n
 
+def rawBernoulliPolynomialCoeff (n degree : Nat) : RawRat :=
+  BEDC.Derived.BernoulliPolyUp.rawBernoulliPolyCoeff n degree
+
+def rawBernoulliPowerBasisTerm (n k : Nat) : Nat × RawRat :=
+  (n - k, rawMulNat (BEDC.Derived.BinomialIdentitiesUp.C n k) (rawBernoulli k))
+
+def rawBernoulliPowerBasisTermsFrom (n fuel k : Nat) : List (Nat × RawRat) :=
+  match fuel with
+  | 0 => []
+  | Nat.succ fuel' =>
+      rawBernoulliPowerBasisTerm n k ::
+        rawBernoulliPowerBasisTermsFrom n fuel' (Nat.succ k)
+
+def rawBernoulliPowerBasisTerms (n : Nat) : List (Nat × RawRat) :=
+  rawBernoulliPowerBasisTermsFrom n (Nat.succ n) 0
+
 def bernoulliPolynomial (n : Nat) : List RationalUp.RatNum :=
   (rawBernoulliPolynomial n).map rawRatToRat
 
@@ -155,10 +171,68 @@ def rawBernoulliDifferenceRhs (n : Nat) : RawRatPoly :=
   | 0 => [rawZero]
   | Nat.succ m => rawRatPolyZeros m ++ [rawRatOfNat (Nat.succ m), rawZero]
 
+def BernoulliPolynomialDifferenceClaim (n : Nat) : Prop :=
+  rawBernoulliPolynomialDifference n = rawBernoulliDifferenceRhs n
+
+def BernoulliPolynomialSymmetryClaim (n : Nat) : Prop :=
+  rawBernoulliPolynomialOneMinusX n = rawBernoulliSymmetryRhs n
+
+def BernoulliPolynomialDerivativeClaim (n : Nat) : Prop :=
+  rawBernoulliPolynomialDerivative n = rawBernoulliDerivativeRhs n
+
+structure BernoulliPolynomialExport where
+  degree : Nat
+  coefficients : RawRatPoly
+  powerBasisTerms : List (Nat × RawRat)
+  valueAtZero : RawRat
+  shiftedDifference : RawRatPoly
+  symmetryReadback : RawRatPoly
+  derivativeReadback : RawRatPoly
+  deriving DecidableEq, Repr
+
+def bernoulliPolynomialExport (n : Nat) : BernoulliPolynomialExport where
+  degree := n
+  coefficients := rawBernoulliPolynomial n
+  powerBasisTerms := rawBernoulliPowerBasisTerms n
+  valueAtZero := rawBernoulliPolynomialAtZero n
+  shiftedDifference := rawBernoulliPolynomialDifference n
+  symmetryReadback := rawBernoulliPolynomialOneMinusX n
+  derivativeReadback := rawBernoulliPolynomialDerivative n
+
 theorem rawBernoulliPolynomial_definition (n : Nat) :
     rawBernoulliPolynomial n =
       BEDC.Derived.BernoulliPolyUp.rawBernoulliPolynomial n := by
   rfl
+
+theorem rawBernoulliPolynomial_coeff_formula (n degree : Nat) :
+    rawBernoulliPolynomialCoeff n degree =
+      match BEDC.Derived.BinomialIdentitiesUp.C n (n - degree) with
+      | 0 => rawZero
+      | 1 => rawBernoulli (n - degree)
+      | Nat.succ (Nat.succ c) =>
+          rawMulNat (Nat.succ (Nat.succ c)) (rawBernoulli (n - degree)) := by
+  rfl
+
+theorem rawBernoulliPowerBasisTerm_formula (n k : Nat) :
+    rawBernoulliPowerBasisTerm n k =
+      (n - k,
+        rawMulNat (BEDC.Derived.BinomialIdentitiesUp.C n k)
+          (rawBernoulli k)) := by
+  rfl
+
+theorem rawBernoulliPowerBasisTerms_definition (n : Nat) :
+    rawBernoulliPowerBasisTerms n =
+      rawBernoulliPowerBasisTermsFrom n (Nat.succ n) 0 := by
+  rfl
+
+theorem bernoulliPolynomialExport_coefficients (n : Nat) :
+    (bernoulliPolynomialExport n).coefficients =
+      rawBernoulliPolynomial n := by
+  rfl
+
+theorem bernoulliPolynomialExport_valueAtZero (n : Nat) :
+    (bernoulliPolynomialExport n).valueAtZero = rawBernoulli n := by
+  exact BEDC.Derived.BernoulliPolyUp.rawBernoulliPolynomial_eval_zero n
 
 theorem bernoulliPolynomial_definition (n : Nat) :
     bernoulliPolynomial n =
@@ -215,6 +289,14 @@ theorem rawBernoulliPolynomial_derivative_three :
     rawBernoulliPolynomialDerivative 3 = rawBernoulliDerivativeRhs 3 := by
   rfl
 
+theorem rawBernoulliPolynomial_derivative_four :
+    rawBernoulliPolynomialDerivative 4 = rawBernoulliDerivativeRhs 4 := by
+  decide
+
+theorem rawBernoulliPolynomial_derivative_five :
+    rawBernoulliPolynomialDerivative 5 = rawBernoulliDerivativeRhs 5 := by
+  decide
+
 theorem rawBernoulliPolynomial_difference_zero :
     rawBernoulliPolynomialDifference 0 = rawBernoulliDifferenceRhs 0 := by
   rfl
@@ -230,6 +312,14 @@ theorem rawBernoulliPolynomial_difference_two :
 theorem rawBernoulliPolynomial_difference_three :
     rawBernoulliPolynomialDifference 3 = rawBernoulliDifferenceRhs 3 := by
   rfl
+
+theorem rawBernoulliPolynomial_difference_four :
+    rawBernoulliPolynomialDifference 4 = rawBernoulliDifferenceRhs 4 := by
+  decide
+
+theorem rawBernoulliPolynomial_difference_five :
+    rawBernoulliPolynomialDifference 5 = rawBernoulliDifferenceRhs 5 := by
+  decide
 
 theorem rawBernoulliPolynomial_symmetry_zero :
     rawBernoulliPolynomialOneMinusX 0 = rawBernoulliSymmetryRhs 0 := by
@@ -247,6 +337,14 @@ theorem rawBernoulliPolynomial_symmetry_three :
     rawBernoulliPolynomialOneMinusX 3 = rawBernoulliSymmetryRhs 3 := by
   rfl
 
+theorem rawBernoulliPolynomial_symmetry_four :
+    rawBernoulliPolynomialOneMinusX 4 = rawBernoulliSymmetryRhs 4 := by
+  decide
+
+theorem rawBernoulliPolynomial_symmetry_five :
+    rawBernoulliPolynomialOneMinusX 5 = rawBernoulliSymmetryRhs 5 := by
+  decide
+
 theorem rawBernoulliPolynomial_difference_small_window :
     rawBernoulliPolynomialDifference 0 = rawBernoulliDifferenceRhs 0 ∧
       rawBernoulliPolynomialDifference 1 = rawBernoulliDifferenceRhs 1 ∧
@@ -256,6 +354,20 @@ theorem rawBernoulliPolynomial_difference_small_window :
     rawBernoulliPolynomial_difference_one,
     rawBernoulliPolynomial_difference_two,
     rawBernoulliPolynomial_difference_three⟩
+
+theorem rawBernoulliPolynomial_difference_verified_window :
+    BernoulliPolynomialDifferenceClaim 0 ∧
+      BernoulliPolynomialDifferenceClaim 1 ∧
+      BernoulliPolynomialDifferenceClaim 2 ∧
+      BernoulliPolynomialDifferenceClaim 3 ∧
+      BernoulliPolynomialDifferenceClaim 4 ∧
+      BernoulliPolynomialDifferenceClaim 5 := by
+  exact ⟨rawBernoulliPolynomial_difference_zero,
+    rawBernoulliPolynomial_difference_one,
+    rawBernoulliPolynomial_difference_two,
+    rawBernoulliPolynomial_difference_three,
+    rawBernoulliPolynomial_difference_four,
+    rawBernoulliPolynomial_difference_five⟩
 
 theorem rawBernoulliPolynomial_symmetry_small_window :
     rawBernoulliPolynomialOneMinusX 0 = rawBernoulliSymmetryRhs 0 ∧
@@ -267,6 +379,20 @@ theorem rawBernoulliPolynomial_symmetry_small_window :
     rawBernoulliPolynomial_symmetry_two,
     rawBernoulliPolynomial_symmetry_three⟩
 
+theorem rawBernoulliPolynomial_symmetry_verified_window :
+    BernoulliPolynomialSymmetryClaim 0 ∧
+      BernoulliPolynomialSymmetryClaim 1 ∧
+      BernoulliPolynomialSymmetryClaim 2 ∧
+      BernoulliPolynomialSymmetryClaim 3 ∧
+      BernoulliPolynomialSymmetryClaim 4 ∧
+      BernoulliPolynomialSymmetryClaim 5 := by
+  exact ⟨rawBernoulliPolynomial_symmetry_zero,
+    rawBernoulliPolynomial_symmetry_one,
+    rawBernoulliPolynomial_symmetry_two,
+    rawBernoulliPolynomial_symmetry_three,
+    rawBernoulliPolynomial_symmetry_four,
+    rawBernoulliPolynomial_symmetry_five⟩
+
 theorem rawBernoulliPolynomial_derivative_small_window :
     rawBernoulliPolynomialDerivative 1 = rawBernoulliDerivativeRhs 1 ∧
       rawBernoulliPolynomialDerivative 2 = rawBernoulliDerivativeRhs 2 ∧
@@ -274,6 +400,18 @@ theorem rawBernoulliPolynomial_derivative_small_window :
   exact ⟨rawBernoulliPolynomial_derivative_one,
     rawBernoulliPolynomial_derivative_two,
     rawBernoulliPolynomial_derivative_three⟩
+
+theorem rawBernoulliPolynomial_derivative_verified_window :
+    BernoulliPolynomialDerivativeClaim 1 ∧
+      BernoulliPolynomialDerivativeClaim 2 ∧
+      BernoulliPolynomialDerivativeClaim 3 ∧
+      BernoulliPolynomialDerivativeClaim 4 ∧
+      BernoulliPolynomialDerivativeClaim 5 := by
+  exact ⟨rawBernoulliPolynomial_derivative_one,
+    rawBernoulliPolynomial_derivative_two,
+    rawBernoulliPolynomial_derivative_three,
+    rawBernoulliPolynomial_derivative_four,
+    rawBernoulliPolynomial_derivative_five⟩
 
 theorem bernoulliPolynomial_constructive_export :
     rawBernoulliPolynomialAtZero 4 = rawBernoulli 4 ∧
@@ -284,5 +422,15 @@ theorem bernoulliPolynomial_constructive_export :
     rawBernoulliPolynomial_difference_three,
     rawBernoulliPolynomial_symmetry_three,
     rawBernoulliPolynomial_derivative_three⟩
+
+theorem bernoulliPolynomial_window_export :
+    rawBernoulliPolynomialAtZero 5 = rawBernoulli 5 ∧
+      BernoulliPolynomialDifferenceClaim 5 ∧
+      BernoulliPolynomialSymmetryClaim 5 ∧
+      BernoulliPolynomialDerivativeClaim 5 := by
+  exact ⟨rawBernoulliPolynomial_eval_zero 5,
+    rawBernoulliPolynomial_difference_five,
+    rawBernoulliPolynomial_symmetry_five,
+    rawBernoulliPolynomial_derivative_five⟩
 
 end BEDC.Derived.BernoulliPolynomialUp
