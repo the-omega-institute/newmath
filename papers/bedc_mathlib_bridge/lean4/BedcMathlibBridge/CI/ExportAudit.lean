@@ -26,6 +26,8 @@ structure ExportRegistration where
 def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Int.cintIntExport,
     witnessType := `BedcMathlibBridge.Export.Int.IntExportWitness },
+  { witness := `BedcMathlibBridge.Export.Bool.boolExport,
+    witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
   { witness := `BedcMathlibBridge.Export.Eisenstein.eisExport,

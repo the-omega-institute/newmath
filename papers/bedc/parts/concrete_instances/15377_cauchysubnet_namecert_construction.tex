@@ -126,6 +126,18 @@ Use \autoref{thm:cauchy-subnet-filter-limit-handoff} and \autoref{thm:cauchy-sub
 Finally apply \autoref{thm:cauchy-subnet-obligation-closure-package}. The same package includes componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row, so the obligation surface is scoped to the named kernel rows and does not acquire any excluded host-level coordinate.
 \end{proof}
 
+\begin{theorem}[CauchySubnet public certificate route]
+\label{thm:cauchysubnet-public-certificate-route}
+Every public completion-facing consumer of an accepted $\CauchySubnetUp$ packet reads the cofinal ledger through $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterLimitUp$, $\MetricCompletionUp$, and $\RealUp$ before it can expose the local $\NameCert_{\CauchySubnetUp}$ row. The public route exports no quotient filters, selected host subnets, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cauchy-subnet-namecert-obligations}. It identifies the local rows that must be displayed before the packet can be consumed: source Cauchy filter, cofinal subnet-index ledger, finite windows, regular readback, dyadic tolerance, handoff, endpoint seal, transport, replay, provenance, and local naming.
+
+Next apply \autoref{thm:cauchy-subnet-filter-limit-handoff} and \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}. These results force every completion-facing read through the cofinal ledger and then through the finite-window, readback, tolerance, handoff, and endpoint rows.
+
+Finally apply \autoref{thm:cauchy-subnet-scoped-kernel-route}. It pins the route to the displayed kernel rows and excludes quotient filters, selected host subnets, countable choice, host real equality, and ambient completeness before the local $\NameCert_{\CauchySubnetUp}$ row is public.
+\end{proof}
+
 \begin{closurestatus}{\CauchySubnetUp}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:cauchy-subnet-carrier}, \autoref{thm:cauchy-subnet-namecert-obligations}, \autoref{thm:cauchy-subnet-filter-limit-handoff}, \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}, \autoref{thm:cauchy-subnet-obligation-closure-package}, and \autoref{thm:cauchy-subnet-scoped-kernel-route} close the finite cofinal subnet obligation surface between CauchyFilter sources, StreamName and RegSeqRat readback, DyadicRatCore tolerance rows, CauchyFilterLimit handoff, MetricCompletion or Real consumers, and the hsame, Cont, Pkg, and NameCert support rows.}

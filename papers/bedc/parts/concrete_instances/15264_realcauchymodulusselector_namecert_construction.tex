@@ -141,6 +141,7 @@ Finally apply seal factorization, \autoref{thm:real-cauchy-modulus-selector-seal
 \label{thm:real-cauchy-modulus-selector-tail-bound}
 Let $T=(M,S,D,Q,E,R,H,C,P,N)$ be an accepted $\RealCauchyModulusSelectorUp$ packet. A selected unary precision request bounds the displayed StreamName window before the terminal seal row $E$ is read: the selector must pass through the modulus row $M$, the finite window row $S$, the dyadic tolerance row $D$, and the regular rational readback row $Q$ before any Real-facing seal consumer can inspect $E$. The bound is therefore a finite tail-bound row over $M,S,D,Q,H,C,P,N$, not a completeness principle, quotient stream equality, countable-choice selector, host real equality, or unbounded stream read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_tail\_bound}
 \begin{proof}
 Start with finite-window soundness, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}. A unary precision request first exposes the selected threshold in $M$, the StreamName window $S$, the dyadic tolerance row $D$, and the regular rational readback row $Q$.
 
@@ -157,6 +158,7 @@ $$
 $$
 The selector contributes only the finite route from a displayed precision request to a StreamName window, dyadic tolerance ledger, regular rational readback, and terminal Real seal. It does not export Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside $R$, open-cover compactness, or unbounded stream reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_real\_seal\_route}
 \begin{proof}
 Apply the NameCert obligations of \autoref{thm:real-cauchy-modulus-selector-namecert-obligations}. They force every accepted packet to display the Real Cauchy modulus row, selected StreamName window, dyadic tolerance ledger, regular rational readback, selector row, transport, replay, provenance, and local naming.
 
