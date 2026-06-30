@@ -2194,9 +2194,11 @@ Use these existing templates as style references:
 - papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Bool.lean
 - papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Bool.lean
 
-Before finishing, run the cheapest relevant bridge build/checks you can afford
-inside papers/bedc_mathlib_bridge/lean4 or papers/bedc_mathlib_bridge. The
-orchestrator will run scripts/bridge_heavy_check.sh after you return.
+Do NOT run any lake build, make check, or mathlib build yourself: a bridge
+build compiles mathlib and is heavy, and running it here is NOT load-gated and
+will starve the main pipeline. Just write the files. The orchestrator runs the
+load-gated scripts/bridge_heavy_check.sh after you return, which is the ONLY
+verification build and waits for a low-load window.
 """
 
 
