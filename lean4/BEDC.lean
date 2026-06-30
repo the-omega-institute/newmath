@@ -9201,6 +9201,7 @@ import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.NameCertObligations
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
+import BEDC.Derived.NoetherNormalizationUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp.TasteGate
 import BEDC.Derived.NoetherianModuleUp
@@ -10237,6 +10238,7 @@ import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRoute.ZetaBoxKrawczyk
 import BEDC.Derived.RHRoute.ZetaBoxOnBall
 import BEDC.Derived.RHRoute.ZetaDerivativeBox
+import BEDC.Derived.RHRoute.ZetaDyKrawczykDischarge
 import BEDC.Derived.RHRoute.ZetaDyKrawczykLift
 import BEDC.Derived.RHRoute.ZetaInheritedInvariants
 import BEDC.Derived.RHRoute.ZetaKrawczykInstantiation
