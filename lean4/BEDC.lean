@@ -9201,6 +9201,7 @@ import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.NameCertObligations
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
+import BEDC.Derived.NoetherNormalizationUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NoetherSymmetryUp.TasteGate
 import BEDC.Derived.NoetherianModuleUp
