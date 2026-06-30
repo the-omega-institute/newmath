@@ -77,6 +77,22 @@ Next read $L$ and $F$. The replay ledger keeps the finite command route visible,
 Finally use $H$, $C$, $P$, and $N$ to transport, replay, package, and name the exposure route. The cited sibling chapters provide the accepted-declaration and forbidden-ancestry source rows; the theorem asserts only that the local packet exposes those rows, not that the kernel implementation is semantically certified.
 \end{proof}
 
+\begin{theorem}[Kernel acceptance boundary closed trace forward link]
+\label{thm:kernel-acceptance-boundary-closed-trace-forward-link}
+Every $\ClosedObservationProofTraceUp$ consumer of \autoref{ch:concrete-instances-closed-observation-proof-trace-namecert} must read the accepted-declaration row $A$ and the axiom-query refusal row $F$ through the $\KernelAcceptanceBoundaryUp$ carrier
+$$
+Q=(G,K,A,E,L,F,H,C,P,N)
+$$
+before replaying a closed proof trace. The forward dependency is the finite route through generated candidate, classifier stamp, accepted declaration, environment ledger, replay ledger, refusal row, transport, replay, provenance, and local naming; it is not a claim of kernel self-correctness or semantic adequacy of theorem names.
+\end{theorem}
+\begin{proof}
+Apply accepted-declaration exposure, \autoref{thm:kernel-acceptance-boundary-accepted-declaration-exposure}. It displays $A$ only together with the generated candidate, classifier stamp, environment ledger, replay ledger, refusal row, transport, replay, provenance, and local naming.
+
+Read the refusal row $F$ from the same carrier. This row keeps forbidden ancestry, unresolved marker targets, and non-kernel semantic claims outside the accepted-declaration coordinates.
+
+A closed proof trace can therefore consume kernel acceptance only through the displayed boundary packet. The downstream trace replay receives an accepted-declaration row and a refusal row, not a proof of kernel implementation correctness or theorem-name semantics.
+\end{proof}
+
 \begin{theorem}[Kernel acceptance boundary replay nonescape]
 \label{thm:kernel-acceptance-boundary-replay-nonescape}
 Every $\Cont$ replay of a $\KernelAcceptanceBoundaryUp$ packet
