@@ -13246,6 +13246,7 @@ import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
 import BEDC.Derived.VandermondeChuUp
+import BEDC.Derived.VandermondeDeterminantUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
