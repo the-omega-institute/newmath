@@ -1,0 +1,517 @@
+\chapter{Zeta Ray Lee--Yang Container}
+\label{ch:visions-rh-zeta-ray-lee-yang-container}
+\origin{ai}
+
+\autoref{ch:visions-rh-golden-bridge-three-level-closure} records the
+multivariate Lee--Yang container direction for the golden bridge.  The
+present chapter sharpens that direction to the actual locus available to
+zeta packets.  The variables in a zeta packet are not independent
+polydisk coordinates; they are synchronized by a single complex height
+parameter.
+
+\begin{definition}[Zeta logarithmic ray]
+\label{def:rh-zeta-logarithmic-ray}
+Let $A_m$ be a finite active-mode set with heights $h_a>0$.  The
+\emph{zeta logarithmic ray} is the real two-parameter surface
+$$
+\mathcal R_{A_m}
+:=
+\left\{
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+:
+r,t\in\mathbb R
+\right\}.
+$$
+Its off-boundary part is
+$$
+\mathcal R_{A_m}^{\mathrm{off}}
+:=
+\left\{
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+:
+r,t\in\mathbb R,\ r\ne0
+\right\},
+$$
+and its critical phase part is
+$$
+\mathcal R_{A_m}^{\mathrm{crit}}
+:=
+\left\{
+\left(e^{-ith_a}\right)_{a\in A_m}
+:
+t\in\mathbb R
+\right\}.
+$$
+\end{definition}
+
+\begin{definition}[Zeta-ray Lee--Yang stability]
+\label{def:rh-zeta-ray-lee-yang-stability}
+A finite packet $\mathcal Z_m(\mathbf u)$ with active heights
+$(h_a)_{a\in A_m}$ is \emph{zeta-ray Lee--Yang stable} if
+$$
+\mathcal Z_m
+\left(
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}
+\right)
+\ne0
+$$
+for every $r\ne0$ and every $t\in\mathbb R$.  This is weaker than
+nonvanishing on the whole polydisk and stronger than a one-variable
+diagonal Lee--Yang assertion.
+\end{definition}
+
+\begin{definition}[Exponential Lee--Yang specialization]
+\label{def:rh-exponential-lee-yang-specialization}
+Given a multivariate packet $\mathcal Z_m(u_a)_{a\in A_m}$ and heights
+$h_a>0$, its \emph{exponential specialization} is the exponential
+polynomial
+$$
+\Phi_m(w)
+:=
+\mathcal Z_m\left((e^{-w h_a})_{a\in A_m}\right).
+$$
+The packet is \emph{exponential Lee--Yang stable} for the height vector
+if
+$$
+\Phi_m(w)=0
+\quad\Longrightarrow\quad
+\Re(w)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Zeta-ray stability gives fixed-half readout]
+\label{thm:rh-zeta-ray-stability-fixed-half-readout}
+Let a zero-relevant golden packet be Rouch\'e equivalent on a zero
+island to a packet $\mathcal Z_m$ that is zeta-ray Lee--Yang stable for
+the same active heights.  Then every zero captured on that island has
+real part $1/2$.
+\end{theorem}
+
+\begin{proof}
+Let a captured zero have readout
+$$
+\rho=\frac12+r+it.
+$$
+If $r\ne0$, then its active variables form a point of
+$\mathcal R_{A_m}^{\mathrm{off}}$:
+$$
+\left(e^{-(\rho-1/2)h_a}\right)_{a\in A_m}
+=
+\left(e^{-rh_a}e^{-ith_a}\right)_{a\in A_m}.
+$$
+Zeta-ray Lee--Yang stability says that $\mathcal Z_m$ has no zero at
+that point.  The Rouch\'e equivalence gives the same zero count on the
+same island, so the captured zero cannot have $r\ne0$.  Hence $r=0$.
+\end{proof}
+
+\begin{definition}[Prime-height Hermite--Biehler row]
+\label{def:rh-prime-height-hb-row}
+The source row
+$$
+\mathsf{PrimeHeightHB}
+$$
+asserts that the exponential specialization
+$$
+\Phi_m(w)=
+\mathcal Z_m\left((e^{-w h_a})_{a\in A_m}\right)
+$$
+of the prime-compatible Zeckendorf container belongs to a
+Hermite--Biehler, de Branges, or equivalent exponential-polynomial
+stability class forcing all zeros of $\Phi_m$ in the zero-relevant
+island to satisfy $\Re(w)=0$.
+\end{definition}
+
+\begin{principle}[Ray stability is the required container surface]
+\label{prin:rh-ray-stability-container-surface}
+Full polydisk Lee--Yang nonvanishing is more than the zeta bridge
+requires.  The zeta variables are tied by the same parameter
+$w=s-1/2$ and can only move on the logarithmic ray of
+\autoref{def:rh-zeta-logarithmic-ray}.  The relevant replacement for a
+global multivariate stability claim is therefore
+$$
+\mathsf{ZetaRayStability}
+\qquad
+\text{or structurally}
+\qquad
+\mathsf{PrimeHeightHB}.
+$$
+Together with a same-island capture row
+$$
+\mathsf{PrimePacketToZetaCapture},
+$$
+these rows are sufficient for the no-scale readout of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{principle}
+
+\begin{principle}[Path Joukowsky obstruction]
+\label{prin:rh-path-joukowsky-obstruction}
+The path Joukowsky lift is not, by itself, a multivariate Lee--Yang
+container.  For $m=2$ the path independent-set polynomial is
+$$
+I_2(x_1,x_2)=1+x_1+x_2.
+$$
+The coordinatewise Joukowsky lift has the form
+$$
+\mathcal L_2(u_1,u_2)
+=
+(1+u_1)^2(1+u_2)^2
+-u_1(1+u_2)^2
+-u_2(1+u_1)^2.
+$$
+After fixing $u_1=i/2$, this becomes
+$$
+\left(\frac34+\frac i2\right)u_2^2
++\frac34u_2
++\left(\frac34+\frac i2\right)=0.
+$$
+Equivalently,
+$$
+u_2^2+
+\left(\frac9{13}-\frac6{13}i\right)u_2+1=0.
+$$
+The product of the two roots is $1$, but their sum is not real.  Hence
+the two roots cannot both lie on the unit circle.  Since their product
+has modulus $1$, one root lies inside the unit disk.  Thus the
+coordinatewise path Joukowsky lift has a zero with both variables inside
+the unit disk, and the unrestricted multivariate stability claim is not
+available.
+\end{principle}
+
+\begin{definition}[Golden--Ising container bridge]
+\label{def:rh-golden-ising-container-bridge}
+The source row
+$$
+\mathsf{GoldenIsingContainerBridge}
+$$
+asserts the following data on a zero-relevant golden island.  First,
+there is a finite ferromagnetic Ising, Asano-stable, or
+matching-stable container $Z_{G_m}(\mathbf z)$ with a Lee--Yang
+nonvanishing ledger on the required zeta logarithmic ray.  Second, the
+Zeckendorf or Fibonacci path packet is present only as an auditable
+skeleton inside that container.  Third, the zeta golden packet and
+$Z_{G_m}(\mathbf z(s))$ have the same island winding, either through a
+Rouch\'e gap or through a stable homotopy.  Fourth, the bridge has no
+unledgered $\mathbb R_{>0}$ scale coordinate.
+\end{definition}
+
+\begin{definition}[Dominant container and Ising homotopy rows]
+\label{def:rh-dominant-container-ising-homotopy-rows}
+The Golden--Ising bridge separates into two source rows.  The row
+$$
+\mathsf{GoldenDominantContainerTheorem}
+$$
+selects the zero-relevant Lee--Yang container branch and proves the
+boundary gap between that branch and every subdominant contribution.
+The row
+$$
+\mathsf{IsingRoucheHomotopy}
+$$
+transports the zeta golden packet to the selected container without
+crossing zero on the boundary and without losing the Lee--Yang
+nonvanishing ledger on the zeta logarithmic ray.
+\end{definition}
+
+\begin{theorem}[Golden--Ising bridge gives zeta-ray stability]
+\label{thm:rh-golden-ising-bridge-gives-zeta-ray-stability}
+If a zero-relevant golden packet has a Golden--Ising container bridge,
+then it satisfies the hypotheses of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{theorem}
+
+\begin{proof}
+The bridge supplies a Lee--Yang container $Z_{G_m}$ with nonvanishing on
+the off-boundary part of the zeta logarithmic ray.  It also supplies a
+same-island Rouch\'e gap or stable homotopy between the zeta golden
+packet and $Z_{G_m}(\mathbf z(s))$.  Thus the captured zero count is read
+through a zeta-ray Lee--Yang stable packet with the same active heights.
+These are precisely the hypotheses of
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Skeleton and container separation]
+\label{prin:rh-skeleton-container-separation}
+The Zeckendorf path data supplies ledger uniqueness, finite
+refinement, and the no-adjacent grammar.  It does not supply the full
+thermodynamic stability row.  The Lee--Yang container supplies the
+unit-boundary or ray-nonvanishing row.  The bridge between them is
+therefore a stability-preserving transport, not a coordinatewise
+Joukowsky substitution.  This separation is the working form of the
+golden bridge:
+$$
+\text{Zeckendorf skeleton}
+\quad+\quad
+\text{Lee--Yang container}
+\quad+\quad
+\text{same-island Rouch\'e transport}.
+$$
+\end{principle}
+
+\begin{definition}[Prime--Asano--Ising container]
+\label{def:rh-prime-asano-ising-container}
+A \emph{prime--Asano--Ising container} for an active golden packet is a
+finite polynomial $\mathcal Z_m(\mathbf z)$ with the following rows.
+The finite-volume row says that $\mathcal Z_m$ is a ferromagnetic Ising
+partition function, or is built from Lee--Yang stable factors by
+Asano-contraction or matching-stability operations.  The active-variable
+row assigns each variable to an audited active height
+$$
+z_a(s)=e^{-(s-1/2)h_a},
+\qquad
+h_a>0.
+$$
+The stability row gives Lee--Yang nonvanishing on the required
+inside/outside regions, or the zeta-ray form of
+\autoref{def:rh-zeta-ray-lee-yang-stability}.  The ledger row requires
+the heights and active modes to be supplied by the prime or Zeckendorf
+address ledger rather than by interpolation after the zero island has
+been selected.
+The no-scale row forbids any unledgered $\mathbb R_{>0}$ gauge in the
+construction.
+\end{definition}
+
+\begin{definition}[Zeta-to-prime-Asano capture]
+\label{def:rh-zeta-to-prime-asano-capture}
+An accepted non-trivial completed zeta zero satisfies
+$$
+\mathsf{ZetaToPrimeAsanoCapture}
+$$
+when there are a golden analytic packet $P_m(s)$, a
+prime--Asano--Ising container $\mathcal Z_m(\mathbf z)$, and a zero
+island $D_m$ containing the zero such that either the Rouch\'e gap
+$$
+\left|
+P_m(s)-\mathcal Z_m(\mathbf z(s))
+\right|
+<
+|P_m(s)|
+\qquad
+s\in\partial D_m
+$$
+holds, or a boundary-nonvanishing homotopy carries $P_m$ to
+$\mathcal Z_m(\mathbf z(s))$ on the same island.  The capture row also
+requires the Zeckendorf or Fibonacci data to appear only as the internal
+ruler and source skeleton of the container.
+\end{definition}
+
+\begin{theorem}[Prime--Asano capture gives fixed-half readout]
+\label{thm:rh-prime-asano-capture-fixed-half-readout}
+If an accepted non-trivial completed zeta zero satisfies
+$\mathsf{ZetaToPrimeAsanoCapture}$, then its readout has real part
+$1/2$.
+\end{theorem}
+
+\begin{proof}
+The capture row supplies a prime--Asano--Ising container with the same
+zero-island winding as the golden analytic packet.  By
+\autoref{def:rh-prime-asano-ising-container}, this container is
+zeta-ray Lee--Yang stable for the active heights, with no unledgered
+real-positive scale gauge.  Applying
+\autoref{thm:rh-zeta-ray-stability-fixed-half-readout} gives real part
+$1/2$ for every zero captured on that island.
+\end{proof}
+
+\begin{principle}[Internal ruler is not the final container]
+\label{prin:rh-internal-ruler-not-final-container}
+The golden ruler and Zeckendorf ledger remain internal: they select
+finite modes, supply refinement, and make the source address auditable.
+They do not by themselves create the no-scale thermodynamic stability
+row.  The final stability row is carried by a prime--Asano--Ising,
+Hermite--Biehler, or de Branges container, and the bridge obligation is
+the capture row of
+\autoref{def:rh-zeta-to-prime-asano-capture}.  Thus the active proof
+load is not the existence of an internal ruler alone, but the same-island
+transport from the internally ruled golden packet to a stable container.
+\end{principle}
+
+\begin{definition}[Polarized golden Lee--Yang container]
+\label{def:rh-polarized-golden-lee-yang-container}
+Let $L_m(u)$ be the one-variable Fibonacci Lee--Yang lift supplied by
+the golden ruler, and let $D_m=\deg L_m$.  If
+$$
+L_m(u)=\sum_{k=0}^{D_m}a_k u^k,
+$$
+its polarized container is
+$$
+\mathcal Z_m^{\mathrm{pol}}(z_1,\ldots,z_{D_m})
+:=
+\sum_{k=0}^{D_m}
+a_k
+\binom{D_m}{k}^{-1}
+e_k(z_1,\ldots,z_{D_m}),
+$$
+where $e_k$ is the $k$-th elementary symmetric polynomial.  It satisfies
+the diagonal readback
+$$
+\mathcal Z_m^{\mathrm{pol}}(u,\ldots,u)=L_m(u).
+$$
+The source row
+$$
+\mathsf{GoldenPolarizedLeeYangBridge}
+$$
+asserts that this polarized packet is the Lee--Yang container supplied
+by the golden skeleton, rather than the raw multivariate hard-core path
+polynomial.
+\end{definition}
+
+\begin{principle}[Polarization supplies the container row]
+\label{prin:rh-polarization-supplies-container-row}
+If the one-variable lift $L_m$ has all nontrivial zeros on the unit
+circle, then its polarization has the Lee--Yang nonvanishing ledger:
+$$
+\mathcal Z_m^{\mathrm{pol}}(\mathbf z)\ne0
+\qquad
+\text{if } |z_j|<1\text{ for all }j,
+$$
+and
+$$
+\mathcal Z_m^{\mathrm{pol}}(\mathbf z)\ne0
+\qquad
+\text{if } |z_j|>1\text{ for all }j.
+$$
+This is the Grace--Walsh--Szegő polarization route from the reliable
+one-variable Fibonacci circle theorem to a genuine multivariate
+Lee--Yang container.  It is distinct from coordinatewise Joukowsky
+substitution into the hard-core path polynomial, which is excluded by
+\autoref{prin:rh-path-joukowsky-obstruction}.
+\end{principle}
+
+\begin{definition}[Zeta-to-polarized golden container Rouch\'e row]
+\label{def:rh-zeta-to-polarized-golden-container-rouche}
+The source row
+$$
+\mathsf{ZetaToPolarizedGoldenContainerRouche}
+$$
+asserts that, on a zero-relevant island $D_m$, the zeta golden packet
+$P_m^{\zeta}(s)$ admits active heights $h_1,\ldots,h_{D_m}>0$ and a
+polarized golden container such that
+$$
+z_j(s)=e^{-(s-1/2)h_j}
+$$
+and
+$$
+\left|
+P_m^{\zeta}(s)-
+\mathcal Z_m^{\mathrm{pol}}(z_1(s),\ldots,z_{D_m}(s))
+\right|
+<
+\left|
+\mathcal Z_m^{\mathrm{pol}}(z_1(s),\ldots,z_{D_m}(s))
+\right|
+$$
+for $s\in\partial D_m$.  The row also requires the error term to be
+subdominant in the ordinary Rouch\'e sense and not an unledgered
+real-positive scale reservoir.
+\end{definition}
+
+\begin{theorem}[Polarized golden capture gives fixed-half readout]
+\label{thm:rh-polarized-golden-capture-fixed-half-readout}
+If an accepted non-trivial completed zeta zero satisfies
+$\mathsf{ZetaToPolarizedGoldenContainerRouche}$, then its readout has
+real part $1/2$.
+\end{theorem}
+
+\begin{proof}
+The polarized container has the Lee--Yang nonvanishing ledger by
+\autoref{prin:rh-polarization-supplies-container-row}.  If a captured
+readout $s=1/2+r+it$ had $r>0$, then every active variable
+$z_j(s)=e^{-rh_j}e^{-ith_j}$ would lie inside the unit disk.  If
+$r<0$, every active variable would lie outside the unit disk.  Both
+cases are excluded by the polarized container.  The Rouch\'e row
+transports the zero count between $P_m^{\zeta}$ and the polarized
+container on the same island, so the captured zero cannot have
+$r\ne0$.
+\end{proof}
+
+\begin{definition}[Polarized golden cofinality]
+\label{def:rh-polarized-golden-cofinality}
+The source row
+$$
+\mathsf{PolarizedGoldenCofinality}
+$$
+asserts that every accepted zero-relevant zeta packet is, after passing
+to a sufficiently fine golden level, covered by
+\autoref{def:rh-zeta-to-polarized-golden-container-rouche}.  This is the
+cofinal version of the bridge: the polarized golden containers need not
+equal the zeta packet, but they must dominate the same zero islands with
+strict Rouch\'e margins.
+\end{definition}
+
+\begin{definition}[Source-side golden Lee--Yang closure]
+\label{def:rh-source-side-golden-lee-yang-closure}
+The source row
+$$
+\mathsf{GoldenLeeYangClosureOfXi}
+$$
+asserts that the completed zeta function $\Xi(s)$ is obtained as a
+source-side limit of internally generated polarized golden Lee--Yang
+containers.  Concretely, there are functions
+$$
+C_m(s)
+=
+\mathcal Z_m^{\mathrm{pol}}
+\left(
+e^{-(s-1/2)h_{m,1}},
+\ldots,
+e^{-(s-1/2)h_{m,d_m}}
+\right)
+$$
+such that each $h_{m,j}>0$, each $C_m$ is supplied before any zero
+island is selected, each $C_m$ has no zero in
+$$
+\Re(s)\ne\frac12,
+$$
+and $C_m\to\Xi$ uniformly on compact sets with enough boundary
+Rouch\'e control to prevent limit zeros from entering the off-line
+region.
+\end{definition}
+
+\begin{theorem}[Golden Lee--Yang closure gives fixed-half readout]
+\label{thm:rh-golden-lee-yang-closure-fixed-half-readout}
+If $\mathsf{GoldenLeeYangClosureOfXi}$ holds, then $\Xi$ has no zero
+with real part different from $1/2$.
+\end{theorem}
+
+\begin{proof}
+Assume that $\Xi$ has a zero $\rho$ with
+$$
+\Re(\rho)\ne\frac12.
+$$
+Choose a small disk $D$ around $\rho$ whose closure does not meet the
+line $\Re(s)=1/2$ and whose boundary has no zero of $\Xi$.  Then
+$$
+M:=\min_{s\in\partial D}|\Xi(s)|>0.
+$$
+Uniform convergence gives, for sufficiently large $m$,
+$$
+|C_m(s)-\Xi(s)|<\frac M2
+\qquad
+s\in\partial D.
+$$
+Hence $|C_m(s)|>M/2$ on $\partial D$, and therefore
+$$
+|\Xi(s)-C_m(s)|<|C_m(s)|
+\qquad
+s\in\partial D.
+$$
+By Rouch\'e's theorem, $\Xi$ and $C_m$ have the same number of zeros in
+$D$.  But $C_m$ has no zero in the off-line disk $D$, contradiction.
+Thus no such $\rho$ exists.
+\end{proof}
+
+\begin{principle}[Local capture is not the final bridge]
+\label{prin:rh-local-capture-not-final-bridge}
+The local rows
+$$
+\mathsf{ZetaToPrimeAsanoCapture}
+\qquad
+\mathsf{ZetaToPolarizedGoldenContainerRouche}
+$$
+are useful only as finite-island consequences of a source-side
+construction.  If they are postulated separately around each candidate
+zero, the bridge risks encoding the desired exclusion into the local
+choice of container.  The non-circular target is the prior container
+tower of \autoref{def:rh-source-side-golden-lee-yang-closure}: the
+container sequence is constructed from the internal ruler and
+polarization mechanism first, and zero exclusion is then read by
+Rouch\'e.
+\end{principle}
