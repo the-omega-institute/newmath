@@ -107,9 +107,83 @@ the identity $|\varphi^w|=\varphi^{\Re(w)}$ is only a readout of the
 critical line, not a proof that zero packets land there.
 \end{principle}
 
+\begin{definition}[G\"omb\"oc-style homogeneous container row]
+\label{def:rh-gomboc-homogeneous-container-row}
+A G\"omb\"oc-style homogeneous container row for the completed zeta
+carrier is a source-side packet
+$$
+\mathsf{ZetaGombocContainer}_{\zeta}
+$$
+with three displayed fields.  The homogeneity field says that the zero
+packet carries no hidden mass, weight, or density parameter beyond the
+source, prime, phase, tail, and defect ledgers already present in the
+carrier.  In the centered channel this forbids an unrecorded
+$\mathbb R_{>0}$ factor acting as a radial counterweight.  The equilibrium
+field says that the legal balance surface of the container is the unit
+scale surface
+$$
+|q|=1.
+$$
+The source-field says that the balance is produced by the internal
+container rows themselves, not by selecting a zero and then attaching a
+compensating scale ledger to it.
+\end{definition}
+
+\begin{principle}[Analytic G\"omb\"oc reading]
+\label{prin:rh-analytic-gomboc-reading}
+The G\"omb\"oc-style reading is a geometric discipline for the no-scale
+obligation in \autoref{prin:rh-unitary-scale-closure-reduction}.  A
+homogeneous convex body with a single stable balance point represents, at
+the level of analogy, a container whose righting behaviour is carried by
+shape rather than by hidden weights.  The zeta translation is the row
+$$
+\mathsf{ZetaGombocContainer}_{\zeta}
+\Longrightarrow
+\mathsf{NoIndependentRealScaleLedger}
+\Longrightarrow
+\mathsf{UnitaryScale}(q).
+$$
+Thus an off-half readout is not interpreted as a second equilibrium of
+the same homogeneous container.  It is interpreted as a demand for a
+radial counterweight, namely an extra real-positive scale ledger.  The
+row is still conditional: it names the geometric content of the
+no-scale-to-unitary implication, but it does not prove that every zeta
+zero packet carries such a container.
+\end{principle}
+
+\begin{theorem}[G\"omb\"oc container gives the unitary scale reduction]
+\label{thm:rh-gomboc-container-unitary-scale-reduction}
+Assume that every certified non-trivial zeta zero in the critical strip
+carries $\mathsf{ZetaGombocContainer}_{\zeta}$ and that the container row
+supplies the implication
+$$
+\mathsf{ZetaGombocContainer}_{\zeta}
+\to
+\mathsf{UnitaryScale}(q)
+$$
+for the centered golden scale readout $q=\varphi^{s-1/2}$.  Then every
+certified non-trivial zeta zero in the critical strip satisfies the
+critical-line readout.
+\end{theorem}
+
+\begin{proof}
+Fix a certified non-trivial zeta zero $s$ in the critical strip and set
+$$
+q=\varphi^{s-1/2}.
+$$
+The assumed container row gives $\mathsf{UnitaryScale}(q)$, hence
+$|q|=1$.  By
+\autoref{prin:rh-unitary-scale-closure-reduction}, the identity
+$$
+|q|=\varphi^{\Re(s-1/2)}
+$$
+then forces $\Re(s)=1/2$.  This is precisely the ordinary
+$\mathsf{OnCritLine}(s)$ readout.
+\end{proof}
+
 \begin{definition}[Route obligations]
 \label{def:rh-unitary-scale-closure-obligations}
-The unitary scale closure route has four obligations.
+The unitary scale closure route has five obligations.
 
 \begin{enumerate}
 \item The centered coordinate $w=s-1/2$ must be carried by the same
@@ -121,6 +195,10 @@ $$
 $$
 \item The ZetaCosmosClosure no-independent-real-scale ledger must imply
 unitarity of the scale readout for every certified non-trivial zero packet.
+\item The optional G\"omb\"oc-style container row, when used, must be
+source-side and homogeneous: it may package the no-scale-to-unitary
+implication, but it may not be built by adding a compensating radial
+ledger after a zero has been selected.
 \item The unitary readout must transport back to the ordinary
 $\mathsf{OnCritLine}(s)$ witness used by the BEDC-RH statement.
 \end{enumerate}
@@ -128,11 +206,11 @@ $\mathsf{OnCritLine}(s)$ witness used by the BEDC-RH statement.
 
 \begin{closurestatus}{ZetaUnitaryScaleClosureUp}
   \origin{ai}
-  \constructivestory{The route is generated from a certified zeta zero packet, the centered coordinate $w=s-1/2$, the golden scale readout $q=\varphi^w$, the no-independent-real-scale ledger, the unitary scale obligation, and transport back to the ordinary critical-line predicate.}
+  \constructivestory{The route is generated from a certified zeta zero packet, the centered coordinate $w=s-1/2$, the golden scale readout $q=\varphi^w$, the no-independent-real-scale ledger, the optional G\"omb\"oc-style homogeneous container row, the unitary scale obligation, and transport back to the ordinary critical-line predicate.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The chapter states the conditional unitary-scale reduction and its exact proof obligations; it does not discharge the no-scale-to-unitary implication.}
+  \scopeclosed{The chapter states the conditional unitary-scale reduction, the homogeneous-container reading of the no-scale obligation, and the exact proof obligations; it does not discharge the no-scale-to-unitary implication.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
-  \notclaimed{This route does not prove $\mathsf{RH}$, does not count zeros, and does not derive the no-independent-real-scale ledger from the functional equation or symmetry alone.}
-  \upgradepath{Scoped closure requires a checked modulus identity for $|\varphi^w|=\varphi^{\Re(w)}$, a no-independent-real-scale to unitary-scale theorem for certified zeta zero packets, and transport from unitary scale back to $\mathsf{OnCritLine}$.}
+  \notclaimed{This route does not prove $\mathsf{RH}$, does not count zeros, does not construct a G\"omb\"oc-style container for all zeta zero packets, and does not derive the no-independent-real-scale ledger from the functional equation or symmetry alone.}
+  \upgradepath{Scoped closure requires a checked modulus identity for $|\varphi^w|=\varphi^{\Re(w)}$, a no-independent-real-scale to unitary-scale theorem for certified zeta zero packets, an optional source-side homogeneous-container theorem, and transport from unitary scale back to $\mathsf{OnCritLine}$.}
 \end{closurestatus}
