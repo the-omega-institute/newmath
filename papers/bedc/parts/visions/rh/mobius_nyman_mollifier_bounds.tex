@@ -1,0 +1,270 @@
+\chapter{Mobius Nyman Mollifier Bounds}
+\label{ch:visions-rh-mobius-nyman-mollifier-bounds}
+\origin{ai}
+
+\autoref{ch:visions-rh-golden-nyman-square-tower} reduces the Hilbert
+container route to the finite row
+$$
+\mathsf{DampedMobiusNymanExhaustion}.
+$$
+The present chapter records a more inspectable sufficient package for
+that row.  It separates the reciprocal interval computation into a low
+block controlled by a smoothed Mobius average and a tail block governed
+by weighted residue orthogonality.
+
+\begin{definition}[Dirichlet mollifier readout]
+\label{def:rh-dirichlet-mollifier-readout}
+Let $\mu$ denote the Mobius function.  For a finite damping row
+$$
+w_X:\mathbb N_{\ge1}\to\mathbb C
+$$
+with finite support, define the Dirichlet mollifier
+$$
+A_X(s)
+:=
+\sum_{n\ge1}\mu(n)w_X(n)n^{-s}
+$$
+and its Nyman readout
+$$
+M_X(x)
+:=
+-
+\sum_{n\ge1}\mu(n)w_X(n)\rho_{1/n}(x).
+$$
+The support condition makes $M_X$ a finite Nyman vector.
+\end{definition}
+
+\begin{definition}[Mellin mollifier error row]
+\label{def:rh-mellin-mollifier-error-row}
+For $0<\operatorname{Re}(s)<1$, the Mellin bridge of
+\autoref{def:rh-nyman-mellin-bridge-row} gives
+$$
+\int_0^1 M_X(x)x^{s-1}\,dx
+=
+-
+\frac{\zeta(s)}{s}
+\sum_{n\ge1}\mu(n)w_X(n)(n^{-1}-n^{-s}).
+$$
+Thus the error against $\mathbf 1$ has Mellin readout
+$$
+\int_0^1 (M_X(x)-\mathbf 1)x^{s-1}\,dx
+=
+-
+\frac{1}{s}
+-
+\frac{\zeta(s)}{s}
+\sum_{n\ge1}\mu(n)w_X(n)(n^{-1}-n^{-s}).
+$$
+This row is only an analytic diagnostic; the Hilbert proof obligations
+below are stated directly in $L^2(0,1)$.
+\end{definition}
+
+\begin{definition}[Golden damped Mobius readout]
+\label{def:rh-golden-damped-mobius-readout}
+For the Fibonacci scale $F_m$, a golden damping row is a finitely
+supported weight
+$$
+w_m:\mathbb N_{\ge1}\to\mathbb C
+$$
+whose support is contained in a displayed finite multiple of $F_m$.
+It defines
+$$
+M_m^{\varphi}(x)
+:=
+-
+\sum_{n\ge1}\mu(n)w_m(n)\rho_{1/n}(x).
+$$
+The row
+$$
+\mathsf{GoldenDampedMobiusExhaustion}
+$$
+asserts
+$$
+\|M_m^{\varphi}-\mathbf 1\|_2\to0.
+$$
+\end{definition}
+
+\begin{theorem}[Golden damped Mobius exhaustion gives golden Nyman exhaustion]
+\label{thm:rh-golden-damped-mobius-exhaustion-gives-golden-nyman}
+If $\mathsf{GoldenDampedMobiusExhaustion}$ holds and each
+$M_m^{\varphi}$ belongs to $V_m^{\varphi}$, then
+$$
+\mathsf{GoldenNymanGramExhaustion}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The distance from $\mathbf 1$ to $V_m^{\varphi}$ is bounded by the error
+of any displayed vector in $V_m^{\varphi}$.  Hence
+$$
+d_m^{\varphi}
+\le
+\|M_m^{\varphi}-\mathbf 1\|_2.
+$$
+The right side tends to $0$.  Apply
+\autoref{thm:rh-golden-gram-row-distance-row}.
+\end{proof}
+
+\begin{definition}[Golden Mobius low block]
+\label{def:rh-golden-mobius-low-block}
+For a golden damping row $w_m$, define
+$$
+S_m
+:=
+\sum_{n\ge1}\frac{\mu(n)w_m(n)}{n}.
+$$
+The low-block bound is
+$$
+F_m|S_m|^2\to0.
+$$
+\end{definition}
+
+\begin{definition}[Golden residue tail block]
+\label{def:rh-golden-residue-tail-block}
+Using $r_n(k)$ from
+\autoref{def:rh-nyman-residue-readback}, define the tail error
+$$
+T_m
+:=
+\sum_{k>F_m}
+\left|
+1+
+\sum_{n\ge1}\mu(n)w_m(n)\frac{r_n(k)}{n}
+\right|^2
+\left(
+\frac{1}{k}-\frac{1}{k+1}
+\right).
+$$
+The residue tail bound is
+$$
+T_m\to0.
+$$
+\end{definition}
+
+\begin{definition}[Golden Mobius low-tail bounds]
+\label{def:rh-golden-mobius-low-tail-bounds}
+The source row
+$$
+\mathsf{GoldenMobiusLowTailBounds}
+$$
+asserts the existence of golden damping rows $w_m$ such that the
+low-block bound of \autoref{def:rh-golden-mobius-low-block} and the
+tail bound of \autoref{def:rh-golden-residue-tail-block} both hold.
+\end{definition}
+
+\begin{lemma}[Low block bound controls the displayed low intervals]
+\label{lem:rh-low-block-bound-controls-low-intervals}
+Assume $w_m(n)=1$ for $1\le n\le F_m$.  On reciprocal intervals with
+$1/x\in[k,k+1)$ and $k\le F_m$, the low-block contribution to
+$M_m^{\varphi}(x)-\mathbf 1$ is
+$$
+-
+kS_m.
+$$
+Consequently, its $L^2$ contribution is bounded by
+$$
+F_m|S_m|^2.
+$$
+\end{lemma}
+
+\begin{proof}
+By \autoref{thm:rh-nyman-generators-residue-normal-form},
+$$
+\rho_{1/n}(x)=\frac{r_n(k)}{n}.
+$$
+For $k\le F_m$ and $n\le F_m$,
+$$
+r_n(k)=k-n\left\lfloor\frac{k}{n}\right\rfloor.
+$$
+Therefore the raw low block reads
+$$
+-
+\sum_{n\le F_m}\mu(n)\frac{r_n(k)}{n}
+=
+-
+k\sum_{n\le F_m}\frac{\mu(n)}{n}
++
+\sum_{n\le k}\mu(n)\left\lfloor\frac{k}{n}\right\rfloor.
+$$
+The divisor identity gives
+$$
+\sum_{n\le k}\mu(n)\left\lfloor\frac{k}{n}\right\rfloor=1.
+$$
+After subtracting $\mathbf 1$, the displayed low error is $-kS_m$.
+The interval weight is
+$$
+\int_k^{k+1}\frac{dy}{y^2}
+=
+\frac{1}{k}-\frac{1}{k+1},
+$$
+so
+$$
+\sum_{k\le F_m}
+k^2|S_m|^2
+\left(
+\frac{1}{k}-\frac{1}{k+1}
+\right)
+\le
+F_m|S_m|^2.
+$$
+\end{proof}
+
+\begin{theorem}[Low-tail bounds give golden damped Mobius exhaustion]
+\label{thm:rh-low-tail-bounds-give-golden-damped-mobius-exhaustion}
+If $\mathsf{GoldenMobiusLowTailBounds}$ holds and the damping rows have
+unit low block $w_m(n)=1$ for $n\le F_m$, then
+$$
+\mathsf{GoldenDampedMobiusExhaustion}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+Split the $L^2$ norm of $M_m^{\varphi}-\mathbf 1$ along the reciprocal
+intervals $1/x\in[k,k+1)$.  The part with $k\le F_m$ tends to $0$ by
+\autoref{lem:rh-low-block-bound-controls-low-intervals} and the
+low-block bound.  The part with $k>F_m$ is exactly the tail quantity
+$T_m$, hence tends to $0$ by the residue tail bound.  Therefore
+$$
+\|M_m^{\varphi}-\mathbf 1\|_2\to0.
+$$
+\end{proof}
+
+\begin{corollary}[Low-tail bounds give fixed-half readout]
+\label{cor:rh-low-tail-bounds-fixed-half-readout}
+Assume $\mathsf{GoldenMobiusLowTailBounds}$, unit low blocks, and the
+Mellin and reflection consumption rows of
+\autoref{thm:rh-nyman-exhaustion-fixed-half-readout}.  Then the
+completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-low-tail-bounds-give-golden-damped-mobius-exhaustion}
+gives $\mathsf{GoldenDampedMobiusExhaustion}$.  The vectors lie in the
+golden Nyman spaces, so
+\autoref{thm:rh-golden-damped-mobius-exhaustion-gives-golden-nyman}
+gives $\mathsf{GoldenNymanGramExhaustion}$.  Finally apply
+\autoref{cor:rh-golden-nyman-exhaustion-fixed-half-readout}.
+\end{proof}
+
+\begin{principle}[Mobius residue orthogonality target]
+\label{prin:rh-mobius-residue-orthogonality-target}
+The low-tail package isolates the remaining analytic burden.  The low
+row asks for sufficient cancellation of the smoothed Mobius average
+$$
+\sum_{n\ge1}\frac{\mu(n)w_m(n)}{n},
+$$
+while the tail row asks for weighted orthogonality between $\mu(n)w_m(n)$
+and the residue readbacks $r_n(k)/n$ on the reciprocal tail.  In named
+form the target chain is
+$$
+\mathsf{GoldenMobiusLowTailBounds}
+\Longrightarrow
+\mathsf{GoldenDampedMobiusExhaustion}
+\Longrightarrow
+\mathsf{GoldenNymanGramExhaustion}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}
