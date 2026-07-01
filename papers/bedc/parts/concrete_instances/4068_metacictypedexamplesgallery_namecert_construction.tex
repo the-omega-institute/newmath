@@ -91,6 +91,24 @@ Checker acceptance is then forced through $K$. Transport of the same family row 
 Finally apply the regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the carrier has no coordinate for subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness, no additional typed-family read is exposed by the gallery.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery checker-route factorization]
+\label{thm:metacic-typedexamples-gallery-checker-route-factorization}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+every gallery consumer read factors through exactly one displayed example-family row among $B,N,L,S,E,I,A,R$ and then through $K,H,C,P,M$. The checker row $K$ is therefore only the finite acceptance boundary for the chosen displayed family. It cannot be read as subject reduction, confluence, normalization, conversion completeness, or checker completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. Its displayed example-family rows are exactly $B,N,L,S,E,I,A,R$, so a gallery read first chooses one of those finite rows.
+
+Case split over the displayed family row. Bool reads route through $B$, Nat reads through $N$, List reads through $L$, Sum reads through $S$, equality reads through $E$, identity reads through $I$, application reads through $A$, and beta-redex reads through $R$.
+
+After that family choice, acceptance must pass through $K$, and the same accepted route is transported by $H$, replayed by $C$, sourced by $P$, and named by $M$.
+
+Finally cite the regression surface theorem \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the packet has no coordinate for the excluded global metatheorems, the checker row remains a finite family acceptance boundary and cannot be consumed as subject reduction, confluence, normalization, conversion completeness, or checker completeness.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICTypedExamplesGalleryUp}
   \constructivestory{A $\MetaCICTypedExamplesGalleryUp$ packet is generated from finite $\BHist$ rows for selected typed examples, checker rows, beta or conversion readbacks, route rows, provenance, and local naming. Each gallery entry is replayable by $\Cont$ through the finite checker surface, so consumers can inspect represented examples without receiving a global calculus theorem. Componentwise $\hsame$ preserves the example, checker, and route rows, while $\Pkg$ records the MetaCIC typed-example dependencies. The gallery is therefore a bounded regression surface for displayed examples and not a proof of preservation, normalization, or checker completeness.}
   \theoryclosure{\seedClosure}
