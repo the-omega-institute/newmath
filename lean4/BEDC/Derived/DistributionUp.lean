@@ -391,4 +391,34 @@ theorem DistributionPushforward_continuity_from_below_prefix_readback
               nextStep))
       exact And.intro prefixUnary (And.intro currentReadback prefixLE)
 
+theorem DistributionPushforward_null_completion_random_variable_descent
+    {sourcePreimageX sourcePreimageY sourceMeasure : BHist -> BHist}
+    {targetEvent pushedX pushedY nullDiff : BHist} :
+    DistributionPushforwardCarrier sourcePreimageX sourceMeasure targetEvent pushedX ->
+      DistributionPushforwardCarrier sourcePreimageY sourceMeasure targetEvent pushedY ->
+        Cont (sourceMeasure nullDiff) BHist.Empty
+            (sourceMeasure (sourcePreimageX targetEvent)) ->
+          Cont (sourceMeasure nullDiff) BHist.Empty
+              (sourceMeasure (sourcePreimageY targetEvent)) ->
+            hsame (sourceMeasure nullDiff) BHist.Empty ->
+              hsame pushedX pushedY := by
+  -- BEDC touchpoint anchor: BHist Cont hsame DistributionPushforwardCarrier
+  intro carrierX carrierY nullReadX nullReadY _nullZero
+  have pushedXMeasureX :
+      hsame pushedX (sourceMeasure (sourcePreimageX targetEvent)) :=
+    carrierX.right.right
+  have pushedYMeasureY :
+      hsame pushedY (sourceMeasure (sourcePreimageY targetEvent)) :=
+    carrierY.right.right
+  have measureXNull :
+      hsame (sourceMeasure (sourcePreimageX targetEvent)) (sourceMeasure nullDiff) :=
+    cont_right_unit_result nullReadX
+  have measureYNull :
+      hsame (sourceMeasure (sourcePreimageY targetEvent)) (sourceMeasure nullDiff) :=
+    cont_right_unit_result nullReadY
+  exact
+    hsame_trans pushedXMeasureX
+      (hsame_trans measureXNull
+        (hsame_trans (hsame_symm measureYNull) (hsame_symm pushedYMeasureY)))
+
 end BEDC.Derived.DistributionUp
