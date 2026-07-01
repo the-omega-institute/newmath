@@ -32631,6 +32631,34 @@
         }
       ],
       "linked_conjecture_id": null
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.ribozyme_ligase_activity.f1u_ligase_structure_beyond_composition_epistasis_zenodo6945203",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "F1*U ligase-ribozyme fitness-landscape structural epistasis is DETECTABLE but INTERPOLATION-BOUND, not a transferable fold-activity code (RNA ligase-catalysis layer; single-mechanism, genuinely-novel; distinct from twister self-cleavage [174] and Azoarcus self-splicing [175]). Rotrattanadumrong et al 2022 (Zenodo 10.5281/zenodo.6945203), 35nt catalytic core, the 'Combinatorially complete' 2^16 = 65536 mutational hypercube (systematic enumeration of all combinations of 16 mutations connecting WT to a 16-mutant active genotype -> NO generator / selection confound), y = log2(Mean_RA + 0.05) replicate-mean relative ligase activity, n=8000 stratified subsample. Single RNA-ligase mechanism, no perturbation arm. Verdict bounded_descriptor_only: RNA STRUCTURE features (reverse-complement / stem density k=3/4/5, max RC-stem, trinuc entropy) add held-out incremental R^2 = 0.016 OVER the ADDITIVE per-locus model (16 is-mutant indicators + mutation-load; random-5-fold held-out R^2 0.174 -> 0.190), i.e. real non-additive STRUCTURAL EPISTASIS, permutation p = 0.005 (null mean -0.0015, B=200) -- BUT it does NOT transfer to higher mutation loads: trained on low-load variants (HD<=8) and tested on high-load variants (HD>=9), the structure increment is -0.001 (no transfer). So the structural-epistasis signal is largely hypercube-NEIGHBOR INTERPOLATION (a held-out variant's Hamming-neighbors inform its epistatic residual), not a globally-transferable fold->activity code. NB the 2^16 hypercube is Hamming-connected, so single-linkage neighbor-cluster holdout collapses to one cluster -> the leave-high-HD-out shell is the distance-controlled transfer test, and it is negative. NOT CLAIMED: a transferable fold-activity code (extrapolation fails); a new mechanism. CONTRAST across 3 ribozymes: twister NATURAL variants (174) = clean structure->activity crossing; Azoarcus MODEL-GENERATED (175) = generator-confounded bounded; F1*U COMBINATORIAL hypercube (179) = interpolation-bound bounded. The transferable ligase-landscape signal is the ADDITIVE per-locus model (R^2 = 0.17); structural epistasis is real but local.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "f1u_ligase_ribozyme_epistasis_landscape_zenodo6945203",
+      "history": [
+        {
+          "ts": "2026-07-01T01:56:55+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-07-01T01:56:55+00:00",
+          "status": "passed",
+          "reason": "experiment result (orchestrator-run; verdict bounded_descriptor_only; structure over additive per-locus incr R^2=0.016 random-5fold perm p=0.005 [structural epistasis real] but leave-high-HD-out -0.001 [no transfer -> interpolation-bound]; additive model R^2=0.17 carries transferable signal; 2^16 hypercube n=8000/65536)",
+          "experiment_run_id": "894db6864cf1",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "8d7bdb04f878a4f7"
+        }
+      ],
+      "linked_conjecture_id": null
     }
   ]
 }
