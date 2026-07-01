@@ -2151,6 +2151,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube Gamma_n viewed as a poset under the coordinatewise order (u <= v iff u_i <= v_i for all i; u <= v with v a Fibonacci word forces u to be one, so the order is well defined on all vertices), the number of comparable ordered pairs C_n = #{(u,v) in V(Gamma_n)^2 : u <= v} (the size of the order relation, including u=v) equals the rank/weight enumerator W_n(x)=sum_v x^{weight(v)} at x=2, namely C_n = sum_v 2^{weight(v)} (with W_n(x)=W_{n-1}(x)+x W_{n-2}(x); W_n(1)=F_{n+2}), and satisfies the all-positive order-two recurrence C_n = C_{n-1} + 2 C_{n-2} with minimal polynomial t^2-t-2=(t-2)(t+1) whose dominant root is 2 (a JACOBSTHAL-type object, NOT the golden ratio; t^2-t-2 is coprime to t^2-t-1 and appears in none of the golden-ratio-adjacent Fibonacci/Lucas/Pell-cube anchors); values 3,5,11,21,43,85,171,341,683,1365,2731,5461 verified to n=12 (C_0=1 the empty word), realized by a nonnegative two-state transfer c0=(1,3), step(a,b)=(b, b+2a), readout C=a, with the comparability count checked by direct pair enumeration against the 2^{weight} identity. A poset / order-relation register with a genuinely different algebraic constant (root 2) distinct from every transfer / trace / orbit / cube-polynomial / extremal / Padovan anchor; not a lag/Walsh/arity/C_k/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "path.distance-two-independent-set.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-distance-two-independent-supergolden",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "path.distance-two-independent-set",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "Strengthening the Fibonacci-word adjacency constraint from distance 1 to distance 2, the number of length-n binary words in which every two 1s are at least 3 apart (no 11 and no 101; the 1-positions form an independent set of the square of the path P_n, i.e. a 2-packing of P_n) is D_n = 2,3,4,6,9,13,19,28,41,60,88,129,189,277,406 and satisfies the all-positive recurrence D_n = D_{n-1} + D_{n-3} (equivalently D(n+3)=D(n+2)+D(n)) with minimal polynomial t^3-t^2-1 whose real root is the SUPERGOLDEN ratio (Narayana's cows constant ~1.4656), coprime to t^2-t-1 and absent from every golden-ratio-adjacent Fibonacci/Lucas/Pell-cube anchor as well as the plastic (Padovan) and Jacobsthal anchors; verified to n=15, realized by a nonnegative non-companion three-state transfer lumped by the trailing gap since the last 1 (just-placed 1 / one 0 / two-or-more 0s) c0=(0,0,1), step(a,b,d)=(d,a,b+d), readout D=a+b+d, with the count checked by direct distance-2 enumeration. A packing / distance-constraint register with a genuinely different algebraic constant (supergolden ratio) distinct from every transfer / trace / orbit / cube-polynomial / extremal / Padovan / Jacobsthal anchor; not a lag/Walsh/arity/C_k/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
