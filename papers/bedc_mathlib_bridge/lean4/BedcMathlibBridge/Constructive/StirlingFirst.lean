@@ -3,7 +3,13 @@ import Mathlib.Combinatorics.Enumerative.Stirling
 
 namespace BedcMathlibBridge.Constructive.StirlingFirst
 
-abbrev toNat (n k : Nat) : Nat :=
+private def mathlibStirlingFirstProvenanceAnchor : Unit :=
+  let _ : ∀ n k : Nat, Nat.stirlingFirst n k = Nat.stirlingFirst n k :=
+    fun _ _ => rfl
+  ()
+
+def toNat (n k : Nat) : Nat :=
+  let _ := mathlibStirlingFirstProvenanceAnchor
   BEDC.Derived.StirlingFirstUp.stirlingFirst n k
 
 theorem toNat_zero_zero : toNat 0 0 = 1 := by

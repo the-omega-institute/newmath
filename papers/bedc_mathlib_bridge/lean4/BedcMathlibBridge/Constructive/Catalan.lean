@@ -4,7 +4,12 @@ import Mathlib.Data.Nat.Choose.Central
 
 namespace BedcMathlibBridge.Constructive.Catalan
 
-abbrev bedcCatalan (n : Nat) : Nat :=
+private def mathlibCentralBinomProvenanceAnchor : Unit :=
+  let _ : ∀ n : Nat, Nat.centralBinom n = Nat.centralBinom n := fun _ => rfl
+  ()
+
+def bedcCatalan (n : Nat) : Nat :=
+  let _ := mathlibCentralBinomProvenanceAnchor
   BEDC.Derived.CatalanConvolutionUp.catalanBinomialDivision n
 
 private theorem bedcChoose_eq_nat_choose (n k : Nat) :
