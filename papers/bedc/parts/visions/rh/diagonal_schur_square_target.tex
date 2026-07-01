@@ -1,0 +1,332 @@
+\chapter{Diagonal Schur Square Target}
+\label{ch:visions-rh-diagonal-schur-square-target}
+\origin{ai}
+
+\autoref{ch:visions-rh-golden-weil-gram-induction} reduces the global
+Weil-positive route to finite Gram positivity and then to Schur
+residuals.  This chapter records the diagonal obstruction behind that
+reduction and isolates the source-side square target: each conditional
+Weil energy row must be presented as a norm square before any posterior
+matrix factorization is invoked.
+
+\begin{definition}[Finite reflected zero ledger]
+\label{def:rh-finite-reflected-zero-ledger}
+Let $J$ denote the completed-zeta reflection
+$$
+J(\rho):=1-\overline{\rho}.
+$$
+A finite zero ledger $\mathcal Z_T$ is \emph{reflected} when it is
+closed under $J$, with the displayed multiplicities preserved.  On the
+finite value space
+$$
+V_T:=\{v=(v_\rho)_{\rho\in\mathcal Z_T}\},
+$$
+define the reflected Weil block
+$$
+Q_T(v)
+:=
+\sum_{\rho\in\mathcal Z_T}
+v_\rho\,\overline{v_{J\rho}}.
+$$
+\end{definition}
+
+\begin{theorem}[Finite reflected Weil signature]
+\label{thm:rh-finite-reflected-weil-signature}
+Assume $\mathcal Z_T$ is a reflected finite zero ledger.  A fixed point
+of $J$ contributes a positive square to $Q_T$.  A two-point orbit
+$\{\rho,J\rho\}$ with $\rho\ne J\rho$ contributes one positive and one
+negative direction.  Consequently, $Q_T$ is positive semidefinite
+exactly when the finite ledger has no two-point reflected orbit.
+\end{theorem}
+
+\begin{proof}
+If $J\rho=\rho$, then the orbit contribution is
+$$
+v_\rho\overline{v_\rho}=|v_\rho|^2.
+$$
+If $\rho\ne J\rho$, write the two coordinates as $(x,y)$.  The orbit
+contribution is
+$$
+x\overline{y}+y\overline{x}
+=
+2\operatorname{Re}(x\overline{y}).
+$$
+In the basis $(x,y)$ the Hermitian matrix is
+$$
+\begin{pmatrix}
+0 & 1\\
+1 & 0
+\end{pmatrix},
+$$
+with eigenvalues $1$ and $-1$.  Summing over the finite $J$-orbits gives
+the signature statement and the stated criterion for semidefiniteness.
+\end{proof}
+
+\begin{corollary}[Finite mirror negative value row]
+\label{cor:rh-finite-mirror-negative-value-row}
+If $\mathcal Z_T$ contains a two-point reflected orbit
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+\qquad
+r\ne0,
+$$
+then there is $v\in V_T$ with
+$$
+Q_T(v)<0.
+$$
+\end{corollary}
+
+\begin{proof}
+Set $v_{\rho_+}=1$, $v_{\rho_-}=-1$, and set every other displayed
+coordinate to $0$.  Then the orbit contribution is
+$$
+1\cdot\overline{-1}+(-1)\cdot\overline{1}=-2.
+$$
+All other displayed contributions vanish.
+\end{proof}
+
+\begin{definition}[Finite Mellin interpolation row]
+\label{def:rh-finite-mellin-interpolation-row}
+The test space $\mathcal A$ has the finite Mellin interpolation row when
+for every finite set of distinct complex points
+$$
+s_1,\ldots,s_M
+$$
+and target values
+$$
+a_1,\ldots,a_M
+$$
+there is $f\in\mathcal A$ with
+$$
+\widehat f(s_j)=a_j
+\qquad
+(1\le j\le M).
+$$
+In logarithmic coordinates this asks for a compactly supported smooth
+row $\phi$ with
+$$
+\int_{-\infty}^{\infty}\phi(u)e^{s_j u}\,du=a_j.
+$$
+\end{definition}
+
+\begin{lemma}[Translate packets give finite Mellin interpolation]
+\label{lem:rh-translate-packets-give-finite-mellin-interpolation}
+Assume the logarithmic test space contains finite linear combinations of
+translates of a compactly supported smooth bump $\psi$ whose Laplace
+transform
+$$
+\Psi(s):=\int_{-\infty}^{\infty}\psi(u)e^{su}\,du
+$$
+is nonzero at $s_1,\ldots,s_M$.  Then the finite Mellin interpolation
+row holds for these points.
+\end{lemma}
+
+\begin{proof}
+Use test rows of the form
+$$
+\phi(u)=\sum_{k=1}^M c_k\psi(u-T_k).
+$$
+Their readout at $s_j$ is
+$$
+\int \phi(u)e^{s_j u}\,du
+=
+\Psi(s_j)\sum_{k=1}^M c_k e^{s_jT_k}.
+$$
+The functions $T\mapsto e^{s_jT}$ are linearly independent for distinct
+$s_j$.  Therefore one can choose $T_1,\ldots,T_M$ so that the evaluation
+matrix
+$$
+\left(e^{s_jT_k}\right)_{j,k}
+$$
+is invertible; otherwise the determinant would vanish for all choices
+of sample points and the displayed exponentials would be linearly
+dependent.  The resulting finite linear system determines
+$c_1,\ldots,c_M$.
+\end{proof}
+
+\begin{definition}[Tail-controlled diagonal interpolation]
+\label{def:rh-tail-controlled-diagonal-interpolation}
+The finite Mellin interpolation row is tail-controlled for a reflected
+finite zero ledger when the interpolating row can be chosen so that the
+regularized contribution of zeros outside the ledger is bounded by a
+displayed error constant.  For the mirror value row of
+\autoref{cor:rh-finite-mirror-negative-value-row}, the required bound is
+strictly smaller than the magnitude of the finite negative block.
+\end{definition}
+
+\begin{theorem}[Tail-controlled interpolation gives a negative Weil probe]
+\label{thm:rh-tail-controlled-interpolation-negative-weil-probe}
+Assume a reflected finite zero ledger contains a two-point reflected
+orbit and that the finite Mellin interpolation row is tail-controlled
+for the corresponding mirror value row.  Then there exists
+$f\in\mathcal A$ with
+$$
+\mathcal W(f)<0.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{cor:rh-finite-mirror-negative-value-row}, prescribe values
+on the finite ledger whose reflected block contribution is negative.
+By finite Mellin interpolation, choose a test row realizing these
+values.  The tail-control row makes the regularized contribution from
+the complement smaller than the finite negative margin.  Therefore the
+full Weil quadratic row is negative.
+\end{proof}
+
+\begin{definition}[Explicit formula Schur square]
+\label{def:rh-explicit-formula-schur-square}
+The source row
+$$
+\mathsf{ExplicitFormulaSchurSquare}
+$$
+asserts that every Schur residual of
+\autoref{def:rh-golden-weil-orthogonal-residual} is presented directly
+from the explicit-formula source rows as a norm square.  In symbols,
+there are Hilbert spaces $\mathcal H_N$ and source-side linear readouts
+$T_N$ such that
+$$
+\mathcal W(\psi_{N+1}^{\perp})
+=
+\|T_N\psi_{N+1}^{\perp}\|_{\mathcal H_N}^2.
+$$
+The readout $T_N$ must be constructed from the archimedean, prime,
+normalization, solenoid, Lee--Yang, Jensen, or trace-formula rows.  It
+may not be obtained by first assuming the positivity of $G_{N+1}$ and
+then factoring that matrix.
+\end{definition}
+
+\begin{theorem}[Explicit formula Schur square gives square representation]
+\label{thm:rh-explicit-formula-schur-square-gives-square-representation}
+If $\mathsf{ExplicitFormulaSchurSquare}$ holds, then
+$$
+\mathsf{SchurResidualSquareRepresentation}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The row $\mathsf{ExplicitFormulaSchurSquare}$ supplies exactly the
+Hilbert spaces and source-side readouts required in
+\autoref{def:rh-schur-residual-square-representation}, with
+$$
+\Delta_N=\mathcal W(\psi_{N+1}^{\perp})
+=
+\|T_N\psi_{N+1}^{\perp}\|_{\mathcal H_N}^2.
+$$
+\end{proof}
+
+\begin{corollary}[Explicit formula Schur square gives global positivity]
+\label{cor:rh-explicit-formula-schur-square-global-positivity}
+Assume $G_1\succeq0$, the Schur range rows, and the density and
+continuity rows of \autoref{thm:rh-golden-gram-reduction}.  If
+$$
+\mathsf{ExplicitFormulaSchurSquare}
+$$
+holds, then $\mathsf{GlobalWeilPositivity}$ holds.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-explicit-formula-schur-square-gives-square-representation},
+the Schur residual square representation holds.  Then
+\autoref{thm:rh-square-representation-gives-diagonal-safe-induction}
+gives $\mathsf{DiagonalSafeWeilInduction}$, and
+\autoref{cor:rh-diagonal-safe-weil-induction-global-positivity} gives
+$\mathsf{GlobalWeilPositivity}$.
+\end{proof}
+
+\begin{definition}[Weil--Kolmogorov factorization]
+\label{def:rh-weil-kolmogorov-factorization}
+The source row
+$$
+\mathsf{WeilKolmogorovFactorization}
+$$
+asserts the existence of a Hilbert space $\mathcal H$ and a linear
+source readout
+$$
+\Theta:\mathcal A\to\mathcal H
+$$
+such that the polarized Weil form satisfies
+$$
+\mathcal W(f,g)=
+\langle \Theta f,\Theta g\rangle_{\mathcal H}
+\qquad
+(f,g\in\mathcal A).
+$$
+The construction of $\Theta$ is source-side: it is not the operation of
+placing zero ordinates into a spectrum after fixed-half readout has
+already been obtained.
+\end{definition}
+
+\begin{theorem}[Weil--Kolmogorov factorization gives Schur squares]
+\label{thm:rh-weil-kolmogorov-factorization-gives-schur-squares}
+If $\mathsf{WeilKolmogorovFactorization}$ holds, then
+$$
+\mathsf{SchurResidualSquareRepresentation}
+$$
+holds for the golden Weil Gram tower.
+\end{theorem}
+
+\begin{proof}
+Let $\Theta$ be the factorization map.  The Gram matrix $G_N$ is the
+ordinary Hilbert Gram matrix of
+$$
+\Theta\psi_1,\ldots,\Theta\psi_N.
+$$
+The residual row $\psi_{N+1}^{\perp}$ maps to the Hilbert residual of
+$\Theta\psi_{N+1}$ modulo the span of the earlier vectors.  Therefore
+$$
+\Delta_N
+=
+\mathcal W(\psi_{N+1}^{\perp})
+=
+\|\Theta\psi_{N+1}^{\perp}\|_{\mathcal H}^2.
+$$
+Taking $T_N$ to be the restriction of $\Theta$ to the residual row gives
+the required square representation.
+\end{proof}
+
+\begin{corollary}[Weil--Kolmogorov factorization gives fixed-half readout]
+\label{cor:rh-weil-kolmogorov-factorization-fixed-half-readout}
+Assume the base, range, density, continuity, and Weil criterion
+consumption rows used above.  If
+$$
+\mathsf{WeilKolmogorovFactorization}
+$$
+holds, then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-weil-kolmogorov-factorization-gives-schur-squares}
+gives $\mathsf{SchurResidualSquareRepresentation}$.  The square
+representation gives $\mathsf{DiagonalSafeWeilInduction}$, hence
+$\mathsf{GlobalWeilPositivity}$.  The Weil criterion consumption row
+then returns fixed-half readout.
+\end{proof}
+
+\begin{principle}[Minimal diagonal-safe square target]
+\label{prin:rh-minimal-diagonal-safe-square-target}
+The finite Gram route reduces the non-local obstruction to conditional
+energy rows:
+$$
+\Delta_N
+=
+a_N-b_N^\ast G_N^+b_N.
+$$
+The non-circular target is not a posterior factorization of a positive
+matrix.  It is a source construction of the readouts $T_N$, or more
+globally of a Weil--Kolmogorov factorization.  In named form the target
+chain is
+$$
+\mathsf{WeilKolmogorovFactorization}
+\Longrightarrow
+\mathsf{SchurResidualSquareRepresentation}
+\Longrightarrow
+\mathsf{GlobalWeilPositivity}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}

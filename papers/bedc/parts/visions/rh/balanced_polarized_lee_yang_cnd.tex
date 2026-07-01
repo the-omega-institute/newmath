@@ -1,0 +1,237 @@
+\chapter{Balanced Polarized Lee--Yang CND}
+\label{ch:visions-rh-balanced-polarized-lee-yang-cnd}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-ray-lee-yang-container} supplies the
+polarized Lee--Yang container row, and
+\autoref{ch:visions-rh-balanced-golden-li-closure} records the balanced
+normalization row.  This chapter inserts the finite source implication
+between them and \autoref{ch:visions-rh-balanced-golden-li-cnd-closure}:
+balanced polarized Lee--Yang containers have fixed-line divisors and
+therefore supply Li conditional negative definiteness.
+
+\begin{definition}[Self-inversive polarized packet]
+\label{def:rh-self-inversive-polarized-packet}
+Let
+$$
+\mathcal Z(z_1,\ldots,z_D)
+$$
+be a multi-affine polarized Lee--Yang packet.  It is self-inversive
+after phase normalization when
+$$
+\mathcal Z(z_1,\ldots,z_D)
+=
+\left(\prod_{j=1}^{D}z_j\right)
+\mathcal Z(z_1^{-1},\ldots,z_D^{-1}).
+$$
+The phase normalization is part of the source ledger; it is not a
+zero-specific adjustment.
+\end{definition}
+
+\begin{definition}[Balanced polarized readback]
+\label{def:rh-balanced-polarized-readback}
+Let $h_1,\ldots,h_D>0$ be source heights and write
+$$
+H:=\sum_{j=1}^{D}h_j.
+$$
+For the logarithmic central variable $w=s-1/2$, the raw readback is
+$$
+C^{\mathrm{raw}}(w)
+:=
+\mathcal Z(e^{-wh_1},\ldots,e^{-wh_D}).
+$$
+The balanced readback is
+$$
+C(w):=
+e^{Hw/2}C^{\mathrm{raw}}(w).
+$$
+\end{definition}
+
+\begin{theorem}[Self-inversive packets have canonical balance]
+\label{thm:rh-self-inversive-packets-have-canonical-balance}
+If $\mathcal Z$ is self-inversive in the sense of
+\autoref{def:rh-self-inversive-polarized-packet}, then the balanced
+readback of \autoref{def:rh-balanced-polarized-readback} satisfies
+$$
+C(w)=C(-w).
+$$
+\end{theorem}
+
+\begin{proof}
+Substitute $z_j=e^{-wh_j}$ into the self-inversive identity.  Since
+$$
+\prod_{j=1}^{D}e^{-wh_j}=e^{-wH},
+$$
+one gets
+$$
+\mathcal Z(e^{-wh_1},\ldots,e^{-wh_D})
+=
+e^{-wH}
+\mathcal Z(e^{wh_1},\ldots,e^{wh_D}).
+$$
+Multiplying by $e^{Hw/2}$ gives
+$$
+C(w)
+=
+e^{-Hw/2}
+\mathcal Z(e^{wh_1},\ldots,e^{wh_D}).
+$$
+The right side is exactly $C(-w)$.
+\end{proof}
+
+\begin{theorem}[Polarized Lee--Yang readback has fixed-line divisor]
+\label{thm:rh-polarized-lee-yang-readback-fixed-line-divisor}
+Assume $\mathcal Z$ has the Lee--Yang nonvanishing ledger of
+\autoref{prin:rh-polarization-supplies-container-row}.  Then every zero
+of the balanced readback $C(w)$ lies on
+$$
+\operatorname{Re}(w)=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The exponential factor $e^{Hw/2}$ has no zeros, so $C(w)=0$ is
+equivalent to
+$$
+\mathcal Z(e^{-wh_1},\ldots,e^{-wh_D})=0.
+$$
+If $\operatorname{Re}(w)>0$, then
+$$
+|e^{-wh_j}|=e^{-\operatorname{Re}(w)h_j}<1
+$$
+for every $j$, contradicting the inner Lee--Yang nonvanishing row.  If
+$\operatorname{Re}(w)<0$, then every $|e^{-wh_j}|>1$, contradicting the
+outer Lee--Yang nonvanishing row.  Thus every zero has
+$\operatorname{Re}(w)=0$.
+\end{proof}
+
+\begin{definition}[Balanced polarized Lee--Yang CND packet]
+\label{def:rh-balanced-polarized-lee-yang-cnd-packet}
+A balanced polarized Lee--Yang CND packet consists of:
+
+\begin{itemize}
+\item a polarized Lee--Yang packet $\mathcal Z$ with the nonvanishing
+ledger of \autoref{prin:rh-polarization-supplies-container-row};
+\item source heights $h_1,\ldots,h_D>0$;
+\item the self-inversive balance row of
+\autoref{def:rh-self-inversive-polarized-packet};
+\item the balanced readback $C(w)$ of
+\autoref{def:rh-balanced-polarized-readback};
+\item the real structure needed to pair conjugate fixed-line zeros.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Balanced polarized packets give finite Li CND]
+\label{thm:rh-balanced-polarized-packets-give-finite-li-cnd}
+Every balanced polarized Lee--Yang CND packet supplies a finite Li kernel
+that is conditionally negative definite.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-polarized-lee-yang-readback-fixed-line-divisor}, the
+zeros of the balanced readback lie on $\operatorname{Re}(w)=0$, hence
+the corresponding $s$-zeros lie on $\operatorname{Re}(s)=1/2$.  The real
+structure pairs them by conjugation.  Therefore the zero multiset is a
+finite conjugation-stable fixed-line divisor.  Apply
+\autoref{thm:rh-balanced-critical-divisors-give-li-cnd}.
+\end{proof}
+
+\begin{definition}[Source balanced golden approximation]
+\label{def:rh-source-balanced-golden-approximation}
+The source row
+$$
+\mathsf{SourceBalancedGoldenApproximation}
+$$
+asserts that the completed zeta function is approximated near $s=1$ by
+balanced polarized golden Lee--Yang CND packets
+$$
+C_m(s)
+=
+e^{A_m(s-1/2)}
+\mathcal Z_m^{\mathrm{pol}}
+\left(
+e^{-(s-1/2)h_{m,1}},
+\ldots,
+e^{-(s-1/2)h_{m,D_m}}
+\right),
+$$
+where $A_m$ is forced by the self-inversive height ledger and the
+approximation is source-side, not selected from the zero locations of
+$\xi$.
+\end{definition}
+
+\begin{theorem}[Source approximation gives Li CND convergence under local analytic control]
+\label{thm:rh-source-approximation-gives-li-cnd-convergence}
+Assume $\mathsf{SourceBalancedGoldenApproximation}$ and the local
+analytic hypotheses of
+\autoref{thm:rh-local-analytic-condition-log-derivative-convergence}
+for the approximating packets $C_m$.  Then
+$$
+\mathsf{LiCNDConvergence}
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The local analytic theorem gives convergence of every fixed Li
+coefficient:
+$$
+\lambda_n(C_m)\to\lambda_n.
+$$
+For each finite kernel matrix only finitely many differences $i-j$ are
+used, so the same fixed-coefficient convergence gives entrywise
+convergence of that matrix.  This is precisely
+$\mathsf{LiCNDConvergence}$.
+\end{proof}
+
+\begin{corollary}[Balanced polarized source approximation gives fixed-half readout]
+\label{cor:rh-balanced-polarized-source-approximation-fixed-half-readout}
+Assume $\mathsf{SourceBalancedGoldenApproximation}$, the local analytic
+control row of
+\autoref{thm:rh-source-approximation-gives-li-cnd-convergence}, and
+$$
+\mathsf{LiCriterionConsumesGlobalLiPositivity}.
+$$
+Then the completed zeta zero ledger has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Each balanced polarized packet gives a finite Li CND kernel by
+\autoref{thm:rh-balanced-polarized-packets-give-finite-li-cnd}.  The
+source approximation and local analytic control give
+$\mathsf{LiCNDConvergence}$.  Thus
+\autoref{thm:rh-cnd-closed-under-finite-kernel-limits} gives
+$\mathsf{LiCND}$, and
+\autoref{cor:rh-li-cnd-fixed-half-readout} gives the fixed-half readout.
+\end{proof}
+
+\begin{definition}[Balanced Lee--Yang kernel closure]
+\label{def:rh-balanced-lee-yang-kernel-closure}
+Let $\Phi$ denote the even Fourier--Laplace kernel whose transform reads
+the completed zeta function on the central line variable.  The source row
+$$
+\mathsf{BalancedLeeYangKernelClosure}
+$$
+asserts that $\Phi$ is the limit, in a topology strong enough to imply
+the local analytic control above, of discrete even source kernels whose
+Laplace transforms are balanced polarized Lee--Yang CND packets.
+\end{definition}
+
+\begin{principle}[Kernel closure is the CND convergence load]
+\label{prin:rh-kernel-closure-cnd-convergence-load}
+The finite balanced polarized Lee--Yang construction supplies Li CND
+without further zero-side input.  The analytic load is the convergence
+row: the source kernels must approximate the Riemann kernel strongly
+enough to pass logarithmic derivatives at $s=1$.  In named form the
+target is
+$$
+\mathsf{BalancedLeeYangKernelClosure}
+\Longrightarrow
+\mathsf{LiCNDConvergence}
+\Longrightarrow
+\mathsf{LiCND}
+\Longrightarrow
+\text{fixed-half zero readout}.
+$$
+\end{principle}
