@@ -2955,6 +2955,7 @@ import BEDC.Derived.CellularWindowTraceUp.TasteGate
 import BEDC.Derived.CenteredPolygonalUp
 import BEDC.Derived.CentralFactorialUp
 import BEDC.Derived.CentralLimitFiniteWindowUp.TasteGate
+import BEDC.Derived.CentralTrinomialUp
 import BEDC.Derived.CertificateAuditGateUp
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
 import BEDC.Derived.CertificateCompilerUp
@@ -5568,6 +5569,7 @@ import BEDC.Derived.EnrichedMetricSpaceUp
 import BEDC.Derived.EnrichedYonedaUp.TasteGate
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
+import BEDC.Derived.EntringerNumberUp
 import BEDC.Derived.EntropyUp
 import BEDC.Derived.EntropyUp.TasteGate
 import BEDC.Derived.EpigraphUp
@@ -8055,6 +8057,7 @@ import BEDC.Derived.MachineReadableAuditInterfaceUp.ObligationBasis
 import BEDC.Derived.MachineReadableAuditInterfaceUp.TasteGate
 import BEDC.Derived.MackeyDecompositionUp
 import BEDC.Derived.MagmaUp
+import BEDC.Derived.MahonianNumberUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.AtlasSurface
 import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
@@ -9570,6 +9573,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
+import BEDC.Derived.OrderedBellNumberUp
 import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OrdinalAnalysisUp.TasteGate
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
