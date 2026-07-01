@@ -26,3 +26,4 @@ bedc-core:
 	python3 ../../tools/check-axioms.py
 	python3 ../../lean4/scripts/bedc_ci.py axiom-purity
 	python3 ../../lean4/scripts/triangle_coverage.py
+	python3 ../../lean4/scripts/no_fake_rh_audit.py
