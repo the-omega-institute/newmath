@@ -1,0 +1,252 @@
+\chapter{Final Moment Obligation Core}
+\label{ch:visions-rh-final-moment-obligation-core}
+\origin{ai}
+
+\autoref{ch:visions-rh-xi-hausdorff-moment-audit} and
+\autoref{ch:visions-rh-xi-triangular-moment-certificate-tower} reduce the
+positive-kernel route to finite moment data. This chapter records the
+remaining proof load without repeating the reductions. The RH-facing
+construction has reached a point where the only unresolved mathematical
+content is the source-side positivity of a specific moment-difference
+family, or a stronger norm formula explaining that positivity.
+
+\section{Moment Difference Surface}
+\label{sec:rh-final-moment-difference-surface}
+
+\begin{definition}[Final moment difference]
+\label{def:rh-final-moment-difference}
+For the xi moment row of
+\autoref{def:rh-xi-hausdorff-moment-row}, define
+$$
+M_{n,k}
+:=
+(-1)^k\Delta^k a_n.
+$$
+Equivalently,
+$$
+M_{n,k}
+=
+\sum_{j=0}^{k}
+(-1)^j
+\binom{k}{j}
+a_{n+j}.
+$$
+Using the defining derivatives of $a_n$, this becomes
+$$
+M_{n,k}
+=
+(-1)^n
+\sum_{j=0}^{k}
+\binom{k}{j}
+\frac{1}{(n+j)!}
+\left.
+\frac{d^{n+j}}{dx^{n+j}}S_{\xi}(x)
+\right|_{x=1}.
+$$
+Every $M_{n,k}$ is a finite source-side datum.
+\end{definition}
+
+\begin{definition}[Moment norm certificate]
+\label{def:rh-source-moment-norm-certificate}
+The statement
+$$
+\mathsf{SourceMomentNormCertificate}
+$$
+asserts that for every finite pair $(n,k)$ there is a Hilbert row
+$\mathcal H_{n,k}$ and a vector $\Psi_{n,k}\in\mathcal H_{n,k}$ such
+that
+$$
+M_{n,k}
+=
+\|\Psi_{n,k}\|_{\mathcal H_{n,k}}^2.
+$$
+The Hilbert row and the vector must be constructed from the
+prime, Gamma, rational-boundary, and completed-zeta source ledgers. They
+may not be defined by using zero locations as posterior data.
+\end{definition}
+
+\begin{theorem}[Norm certificates imply Hausdorff positivity]
+\label{thm:rh-source-moment-norm-certificate-implies-hausdorff}
+If $\mathsf{SourceMomentNormCertificate}$ holds, then
+$\mathsf{XiHausdorffMomentPositivity}$ holds.
+\end{theorem}
+
+\begin{proof}
+For each finite pair $(n,k)$, the norm certificate gives
+$$
+M_{n,k}
+=
+\|\Psi_{n,k}\|_{\mathcal H_{n,k}}^2.
+$$
+Norm squares are nonnegative, so $M_{n,k}\ge0$. Since
+$M_{n,k}=(-1)^k\Delta^k a_n$, this is exactly the finite inequality
+family of \autoref{def:rh-xi-hausdorff-moment-positivity}.
+\end{proof}
+
+\section{Source Decomposition Target}
+\label{sec:rh-final-source-decomposition-target}
+
+\begin{definition}[Prime--Gamma source decomposition]
+\label{def:rh-prime-gamma-source-decomposition}
+At the base point $x=1$, set
+$$
+s(x):=\frac12+\sqrt{x}.
+$$
+The completed logarithmic derivative decomposes on the source side as
+$$
+\frac{\xi'}{\xi}(s)
+=
+\frac1s+\frac1{s-1}
+-\frac12\log\pi
++\frac12\frac{\Gamma'}{\Gamma}\left(\frac{s}{2}\right)
++\frac{\zeta'}{\zeta}(s),
+$$
+and for $\Re(s)>1$,
+$$
+\frac{\zeta'}{\zeta}(s)
+=
+-\sum_{m\ge2}
+\frac{\Lambda(m)}{m^s}.
+$$
+Thus every derivative appearing in $M_{n,k}$ is sourced by rational
+boundary terms, Gamma or polygamma terms, and prime-power von Mangoldt
+terms at $s=3/2$.
+\end{definition}
+
+\begin{definition}[Prime--Gamma triangular cancellation]
+\label{def:rh-prime-gamma-triadic-cancellation}
+The statement
+$$
+\mathsf{PrimeGammaTriadicCancellation}
+$$
+asserts that the decomposition of
+\autoref{def:rh-prime-gamma-source-decomposition} induces rows
+$$
+M_{n,k}^{\mathrm{rat}},
+\qquad
+M_{n,k}^{\Gamma},
+\qquad
+M_{n,k}^{\mathbb P}
+$$
+with
+$$
+M_{n,k}
+=
+M_{n,k}^{\mathrm{rat}}
++
+M_{n,k}^{\Gamma}
++
+M_{n,k}^{\mathbb P}
+\ge0
+$$
+for every finite pair $(n,k)$. The assertion is not that each summand is
+separately nonnegative; it is that the source decomposition closes
+without producing a negative triangular moment row.
+\end{definition}
+
+\begin{principle}[Prime--Gamma cancellation is the source-side form]
+\label{prin:rh-prime-gamma-cancellation-source-side-form}
+$\mathsf{PrimeGammaTriadicCancellation}$ is the direct source-side
+positivity problem. It asks for a cancellation law among rational
+boundary, Gamma, and prime-power rows at the source-safe base point. It
+does not mention zero locations, and it does not use a limiting Hilbert
+space as an input.
+\end{principle}
+
+\section{Triadic Norm Decomposition}
+\label{sec:rh-final-triadic-norm-decomposition}
+
+\begin{definition}[BEDC source norm formula]
+\label{def:rh-bedc-source-norm-formula}
+The statement
+$$
+\mathsf{BEDCSourceNormFormula}
+$$
+is the stronger certificate that each final moment difference has a
+source-built norm decomposition
+$$
+M_{n,k}
+=
+\left\|
+\Psi_{n,k}^{\mathrm{source}}
+\right\|_{\mathcal H_{n,k}}^2.
+$$
+Equivalently, the vector may be displayed through the three BEDC-facing
+components
+$$
+M_{n,k}
+=
+\|\Psi_{n,k}^{\mathsf P}\|^2
++
+\|\Psi_{n,k}^{\mathsf U}\|^2
++
+\|\Psi_{n,k}^{\mathsf T}\|^2,
+$$
+where $\mathsf P$ carries prime, Gamma, rational-boundary, and source
+ledger rows; $\mathsf U$ carries the positive inner-product row; and
+$\mathsf T$ records that $(n,k)$ is a finite witness coordinate.
+\end{definition}
+
+\begin{theorem}[Source norm formula implies triangular cancellation]
+\label{thm:rh-source-norm-formula-implies-triadic-cancellation}
+If $\mathsf{BEDCSourceNormFormula}$ holds and its source projection agrees
+with the decomposition of
+\autoref{def:rh-prime-gamma-source-decomposition}, then
+$\mathsf{PrimeGammaTriadicCancellation}$ holds.
+\end{theorem}
+
+\begin{proof}
+The source norm formula gives $M_{n,k}$ as a norm square, hence
+$M_{n,k}\ge0$. Agreement with the prime--Gamma source decomposition
+identifies this same number with
+$$
+M_{n,k}^{\mathrm{rat}}
++
+M_{n,k}^{\Gamma}
++
+M_{n,k}^{\mathbb P}.
+$$
+Therefore the displayed sum is nonnegative for every finite pair
+$(n,k)$.
+\end{proof}
+
+\begin{theorem}[Final moment core is conditionally RH-sufficient]
+\label{thm:rh-final-moment-core-conditionally-rh-sufficient}
+If either $\mathsf{BEDCSourceNormFormula}$ or
+$\mathsf{PrimeGammaTriadicCancellation}$ is established in a form that
+implies $\mathsf{XiHausdorffMomentPositivity}$, and if the analytic
+determination and zero-exclusion transports of
+\autoref{ch:visions-rh-xi-hausdorff-moment-audit} are available, then
+the BEDC RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+The source norm formula implies Hausdorff positivity by
+\autoref{thm:rh-source-moment-norm-certificate-implies-hausdorff}. The
+prime--Gamma cancellation route is assumed to imply the same finite
+inequality family. Once $\mathsf{XiHausdorffMomentPositivity}$ is
+available, \autoref{thm:rh-xi-hausdorff-audit-conditionally-rh-sufficient}
+applies the analytic determination row and the Stieltjes-to-zero-exclusion
+transport to obtain the RH section target.
+\end{proof}
+
+\section{Obligation Boundary}
+\label{sec:rh-final-obligation-boundary}
+
+\begin{principle}[Only the final moment core remains open in this route]
+\label{prin:rh-final-moment-core-status}
+Within the moment route, the unreduced proof load is the construction of
+one of the following source-side certificates:
+$$
+\mathsf{BEDCSourceNormFormula},
+\qquad
+\mathsf{PrimeGammaTriadicCancellation},
+\qquad
+\mathsf{XiHausdorffMomentPositivity}.
+$$
+The first is strongest, the second is the explicit source cancellation
+form, and the third is the finite Hausdorff inequality family. The
+positive measure, triangular finite tower, Herglotz function, Pick
+kernel, Hilbert factorization, and RH-facing zero exclusion are reduction
+surfaces once one of these source-side certificates is supplied.
+\end{principle}
