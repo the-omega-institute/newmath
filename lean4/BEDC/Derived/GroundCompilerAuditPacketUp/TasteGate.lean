@@ -274,4 +274,12 @@ theorem GroundCompilerAuditPacketTasteGate_single_carrier_alignment :
         exact groundCompilerAuditPacketToEventFlow_injective heq
       · rfl
 
+def GroundCompilerAuditPacketClassifier (x : GroundCompilerAuditPacketUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark hsame BHistCarrier
+  exists E S R C Q M B X H T P N : BHist,
+    x = GroundCompilerAuditPacketUp.mk E S R C Q M B X H T P N ∧
+      hsame H H ∧ hsame T T ∧ hsame P P ∧ hsame N N ∧
+        groundCompilerAuditPacketEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          List.Mem (groundCompilerAuditPacketEncodeBHist E) (BHistCarrier.toEventFlow x)
+
 end BEDC.Derived.GroundCompilerAuditPacketUp

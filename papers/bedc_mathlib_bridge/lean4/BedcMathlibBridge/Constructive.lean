@@ -6,3 +6,5 @@ import BedcMathlibBridge.Constructive.ZMod
 import BedcMathlibBridge.Constructive.Fibonacci
 import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.Factorial
+import BedcMathlibBridge.Constructive.Catalan
+import BedcMathlibBridge.Constructive.StirlingFirst

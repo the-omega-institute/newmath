@@ -345,4 +345,100 @@ theorem QuasiMetricCarrier_scope_tightening [AskSetup] [PackageSetup]
   }
   exact ⟨cert, directedReadUnary, ballReadUnary, completionReadUnary, scopedReadUnary⟩
 
+theorem QuasiMetricCarrier_public_namecert_export [AskSetup] [PackageSetup]
+    {source points distance zero triangle ball filter net uniformReflection transport replay
+      provenance localName directedRead ballRead completionRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuasiMetricCarrier source points distance zero triangle ball filter net uniformReflection
+        transport replay provenance localName bundle pkg ->
+      UnaryHistory localName ->
+        Cont distance points directedRead ->
+          Cont directedRead ball ballRead ->
+            Cont ball uniformReflection completionRead ->
+              Cont completionRead localName publicRead ->
+                PkgSig bundle publicRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row source ∨ hsame row points ∨ hsame row distance ∨
+                          hsame row zero ∨ hsame row triangle ∨ hsame row ball ∨
+                            hsame row filter ∨ hsame row net ∨
+                              hsame row uniformReflection ∨ hsame row localName ∨
+                                hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont distance points directedRead ∧
+                          Cont directedRead ball ballRead ∧
+                            Cont ball uniformReflection completionRead ∧
+                              Cont completionRead localName publicRead ∧
+                                PkgSig bundle publicRead pkg)
+                      hsame ∧
+                    UnaryHistory directedRead ∧ UnaryHistory ballRead ∧
+                      UnaryHistory completionRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier localNameUnary distancePointRead directedBallRead ballUniformRead
+    completionLocalRead publicPkg
+  obtain ⟨sourceUnary, pointsUnary, _zeroUnary, ballUnary, uniformReflectionUnary,
+    _transportUnary, sourcePointsDistance, _distanceZeroTriangle, _triangleBallFilter,
+    _ballUniformNet, _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed sourceUnary pointsUnary sourcePointsDistance
+  have directedReadUnary : UnaryHistory directedRead :=
+    unary_cont_closed distanceUnary pointsUnary distancePointRead
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed directedReadUnary ballUnary directedBallRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed ballUnary uniformReflectionUnary ballUniformRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed completionReadUnary localNameUnary completionLocalRead
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row points ∨ hsame row distance ∨ hsame row zero ∨
+              hsame row triangle ∨ hsame row ball ∨ hsame row filter ∨ hsame row net ∨
+                hsame row uniformReflection ∨ hsame row localName ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont distance points directedRead ∧
+              Cont directedRead ball ballRead ∧ Cont ball uniformReflection completionRead ∧
+                Cont completionRead localName publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, distancePointRead, directedBallRead, ballUniformRead,
+          completionLocalRead, publicPkg⟩
+  }
+  exact ⟨cert, directedReadUnary, ballReadUnary, completionReadUnary, publicReadUnary⟩
+
 end BEDC.Derived.QuasiMetricUp

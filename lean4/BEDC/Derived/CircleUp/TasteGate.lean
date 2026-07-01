@@ -327,6 +327,24 @@ theorem CircleCarrier_compact_metric_boundary
   }
   exact ⟨cert, compactMetricUnary⟩
 
+theorem CircleCarrier_boundary_route_certificate
+    {boundary coordinate metric compactness _handoff boundaryRead compactMetricRead : BHist} :
+    Cont boundary coordinate boundaryRead →
+      Cont metric compactness compactMetricRead →
+        UnaryHistory boundary →
+          UnaryHistory coordinate →
+            UnaryHistory metric →
+              UnaryHistory compactness →
+                UnaryHistory boundaryRead ∧
+                  UnaryHistory compactMetricRead ∧ hsame boundary boundary := by
+  -- BEDC touchpoint anchor: CircleUp BHist Cont hsame UnaryHistory
+  intro boundaryRoute compactMetricRoute boundaryUnary coordinateUnary metricUnary compactnessUnary
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed boundaryUnary coordinateUnary boundaryRoute
+  have compactMetricReadUnary : UnaryHistory compactMetricRead :=
+    unary_cont_closed metricUnary compactnessUnary compactMetricRoute
+  exact ⟨boundaryReadUnary, compactMetricReadUnary, hsame_refl boundary⟩
+
 theorem CircleMetricSubspaceCarrierObligation
     {B R M K S H P N boundaryRead compactMetricRead : BHist} :
     UnaryHistory B → UnaryHistory R → UnaryHistory M → UnaryHistory K →
