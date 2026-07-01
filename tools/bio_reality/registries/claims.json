@@ -18704,6 +18704,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-07-01T07:57:34+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T07:57:35+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "5b6a50589de7",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -32331,6 +32348,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-07-01T07:57:35+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T07:58:01+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4ef14c89efbb",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -33419,7 +33453,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "DNA aptamer ADS switch -- ATP-induced fluorescence ON/OFF is captured by N10 base composition; higher-order sequence structure adds nothing (NEW modality = small-molecule DNA aptamer molecular switch/sensor; single-mechanism, genuinely-novel). Yoshikawa/Soh 2023 (DOI 10.1038/s41467-023-38105-4 [oracle mis-cited -5; correct -4], MOESM4 ATP screen), 517493 QC-pass MiSeq clusters (RFU 100-1000, RSD<30%), y = log2(mean_F_ATP_500uM / mean_F_buffer), n=8000 subsample of 486262 fixed-10nt N10 switching domains. Single mechanism: ATP binds the DNA aptamer -> anchored-displacement / N10 conformational switch -> fluorophore-quencher distance changes -> fluorescence. Verdict composition_artifact: N10 base composition (mono + 16 dinucleotide) already captures the predictable ATP-induced switch signal (Hamming-neighbor-cluster held-out R^2 = 0.103), the self-complementarity displacement physical proxy adds only 0.005, and higher-order sequence STRUCTURE (Shannon k2/3 entropy, homopolymer/purine/AT runs, max self-stem) adds only 0.0006 held-out incremental over composition + self-complementarity (permutation p=0.040 but FAR below the 0.01 effect floor -> statistically detectable yet negligible), same under random split (0.0005). The readout is sparse (only 2.2% of clusters reach >=2-fold switch) and MiSeq-fluorescence-relative (authors caution it is for relative / top-switch screening, not absolute binding). NOT CLAIMED: that sequence is uninformative (composition predicts switch at R^2 ~ 0.10); a large effect. The boundary + explanation: for a 10nt N10 switching domain the higher-order structure descriptors that CROSS the boundary for long sequences (nucleosome 173, ribozyme 174, RNA-localization 180, 80nt toehold-switch 181) DEGENERATE into composition -- at 10nt there is essentially no structure beyond composition, so the ATP-switch code is a base-composition code, not a higher-order structural one. Instructive contrast with the 80nt toehold switch (181, POSITIVE): SEQUENCE LENGTH gates whether structure adds beyond composition.",
       "depends_on": [],
-      "status": "passed",
+      "status": "error",
       "experiment_id": "aptamer_ads_switch_atp_fluorescence_s41467_2023_38105",
       "history": [
         {
@@ -33437,6 +33471,23 @@
             "failed": 0
           },
           "script_sha": "7ff80483a6e36d19"
+        },
+        {
+          "ts": "2026-07-01T07:58:01+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-07-01T07:59:57+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "dbd938cd1f0f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "4cd10db9431b75e3"
         }
       ],
       "linked_conjecture_id": null
