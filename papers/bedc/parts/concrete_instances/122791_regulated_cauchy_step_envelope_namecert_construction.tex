@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedCauchyStepEnvelopeUp$}
+\label{ch:concrete-instances-regulated-cauchy-step-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions and regular Cauchy real names, the $\RegulatedCauchyStepEnvelopeUp$ packet records the finite route by which a regulated step approximant supplies regular rational readback before a $\RealUp$ completion-facing seal is consumed. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the regulated-function packet of \autoref{ch:concrete-instances-regulated-function-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite step-envelope handoff without importing quotient functions, selected limits, measure completion, host step functions, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated Cauchy step-envelope carrier]
+\label{def:regulated-cauchy-step-envelope-carrier}
+A $\RegulatedCauchyStepEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(F,S,W,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\RegulatedFunctionUp$ source row whose finite step approximants are being read.
+\item $S$ is the step-envelope row, listing the inspected partition cells, rational step values, and the finite oscillation budget attached to the request.
+\item $W$ is the $\StreamNameUp$ finite-window row opened on the approximant schedule before any regular readback is served.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the partition mesh, the step-value comparisons, and the terminal seal request.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from $F,S,W,D$.
+\item $R$ is the terminal $\RealUp$ seal row, available only after the regulated source, step envelope, finite windows, dyadic ledger, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, envelope, window, dyadic, regular-readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+F,S,W,D \longmapsto Q \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegulatedCauchyStepEnvelopeUp$, $\RegulatedFunctionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedCauchyStepEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,W,D,Q,R,H,C,P,N$. It has no coordinate for a quotient function, selected limit, measure completion, host step function, trichotomy, or ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regulated Cauchy step-envelope NameCert obligations]
+\label{thm:regulated-cauchy-step-envelope-namecert-obligations}
+For every accepted $\RegulatedCauchyStepEnvelopeUp$ carrier
+$$
+E=(F,S,W,D,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\RegulatedCauchyStepEnvelopeUp}$ surface consists exactly of carrier admission for the displayed regulated-function source, step-envelope schedule, finite-window row, dyadic-tolerance ledger, regular rational readback, terminal real seal, componentwise transport, displayed replay, provenance, and local naming rows. A consumer may read the $\RegSeqRatUp$ row $Q$ only through $F,S,W,D$, and may read the $\RealUp$ seal $R$ only through $F,S,W,D,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-cauchy-step-envelope-carrier}. The regulated source row $F$ and step-envelope row $S$ are the only rows that expose approximant data, while the window row $W$ records the finite stream requests through which the approximant schedule is inspected.
+
+Read the dyadic ledger $D$. It stores the mesh and step-value tolerance comparisons attached to the same finite request, so no external real comparison or hidden selected representative can supply the error budget.
+
+Finally read $Q,R,H,C,P,N$. The regular readback $Q$ is downstream of $F,S,W,D$, and the Real seal $R$ is downstream of that readback. The structural rows transport, replay, source, and locally name only the displayed packet, so the local certificate surface has no further coordinate from which a quotient function, selected limit, measure completion, host step function, trichotomy, or ambient completeness principle could be read.
+\end{proof}
+
+\begin{theorem}[Regulated Cauchy step-envelope Real-completion handoff]
+\label{thm:regulated-cauchy-step-envelope-real-completion-handoff}
+Every $\RealUp$-facing or completion-facing read of an accepted $\RegulatedCauchyStepEnvelopeUp$ carrier factors first through the finite route
+$$
+F,S,W,D,Q,H,C,P,N .
+$$
+Thus the handoff from regulated step approximants to a real-name seal is a carrier-local certificate over $\RegulatedFunctionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows. It exports no quotient function space, selected limiting function, measure completion, hidden step-function representative, trichotomy, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The only terminal real-name coordinate is $R$, and it is stored in the same finite packet as the regulated source row, step envelope, stream window, dyadic ledger, regular readback, transport, replay, provenance, and local naming rows.
+
+Apply the obligation surface of \autoref{thm:regulated-cauchy-step-envelope-namecert-obligations}. It places $F,S,W,D$ before the regular rational readback $Q$, and places $Q$ before any $\RealUp$-facing seal can be consumed.
+
+The remaining rows $H,C,P,N$ preserve the displayed route by componentwise transport, replay, provenance, and local naming. Since the carrier of \autoref{def:regulated-cauchy-step-envelope-carrier} contains no row for quotient function equality, selected limits, measure completion, host step functions, trichotomy, or ambient Real completeness, every completion-facing read is forced through the finite envelope route above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegulatedCauchyStepEnvelopeUp$ completion-facing read displays one RegulatedFunction source row, one finite step-envelope row, one StreamName window row, one DyadicRatCore tolerance ledger, one RegSeqRat readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, local naming, and one terminal RealUp seal before the seal is consumed.}
+
+\independenceWitness{regulated-function, streamname, dyadicratcore, regseqrat, real: $\RegulatedCauchyStepEnvelopeUp$ is not bijective to any listed sibling because it jointly carries a regulated-function source, a finite step-envelope schedule, finite stream windows, a dyadic tolerance ledger, regular rational readback, a terminal Real seal, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{RegulatedCauchyStepEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedCauchyStepEnvelopeUp}
+  \constructivestory{A $\RegulatedCauchyStepEnvelopeUp$ packet is generated from a regulated-function source row, finite step-envelope schedule, StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-cauchy-step-envelope-carrier}, \autoref{thm:regulated-cauchy-step-envelope-namecert-obligations}, and \autoref{thm:regulated-cauchy-step-envelope-real-completion-handoff} seed the finite route from regulated step approximants to regular rational readback and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient functions, selected limits, measure completion, host step functions, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, step-envelope schedule admission, finite-window exposure, dyadic tolerance exactness, RegSeqRat readback, Real-seal nonescape, transport stability, replay stability, provenance, and local naming for BEDC.Derived.RegulatedCauchyStepEnvelopeUp.}
+\end{closurestatus}
