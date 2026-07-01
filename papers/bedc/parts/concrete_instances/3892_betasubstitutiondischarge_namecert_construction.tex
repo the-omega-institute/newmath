@@ -100,12 +100,26 @@ For stability of the induction data, use component transport, \autoref{thm:beta-
 Finally apply replay exactness, \autoref{thm:beta-substitution-discharge-replay-exactness}. The replay row $r$ exposes precisely the substituted-body and substituted-codomain reads, so the induction has no remaining route to an application, lambda, Pi, conversion, quotient, or non-beta discharge coordinate.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionDischarge obligation surface]
+\label{thm:beta-substitution-discharge-obligation-surface}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, carrier admission, substitution-ledger exactness, binder-boundary nonescape, componentwise transport, replay exactness, and context induction exhaust the displayed beta-redex obligation surface consumed by the MetaCIC subject-reduction beta case. No consumer of the packet receives an application-argument stability row, lambda-domain preservation row, Pi-domain preservation row, conversion oracle, quotient equality, erased derivation representative, or closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:beta-substitution-discharge-carrier}. The rows $G,d,b,a,c$ expose the beta-redex source context, domain, body typing, argument typing, and codomain data, while $s$ is the only substitution ledger attached to those rows.
+
+Apply \autoref{thm:beta-substitution-discharge-namecert-obligations} and \autoref{thm:beta-substitution-discharge-binder-boundary}. The first fixes the local NameCert surface, and the second forces every binder-crossing read to pass through $s$ rather than through host substitution or a closed subject-reduction theorem.
+
+Use \autoref{thm:beta-substitution-discharge-component-transport} and \autoref{thm:beta-substitution-discharge-replay-exactness}. Transport preserves the displayed coordinates componentwise, and replay exposes only the substituted-body and substituted-codomain reads determined by the substitution ledger.
+
+Finally apply \autoref{thm:beta-substitution-discharge-context-induction}. The induction over $G$ and $s$ leaves no remaining coordinate from which an application, lambda, Pi, conversion, quotient, erased-derivation, or non-beta discharge obligation could be read.
+\end{proof}
+
 \closureat{BetaSubstitutionDischargeUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionDischargeUp}
   \constructivestory{A $\BetaSubstitutionDischargeUp$ packet is generated from a displayed source context row, domain row, body typing row, argument typing row, codomain row, substitution ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, \autoref{thm:beta-substitution-discharge-binder-boundary}, \autoref{thm:beta-substitution-discharge-component-transport}, \autoref{thm:beta-substitution-discharge-replay-exactness}, and \autoref{thm:beta-substitution-discharge-context-induction} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, binder-boundary non-escape statement, componentwise transport stability, replay exactness, and context induction.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, \autoref{thm:beta-substitution-discharge-binder-boundary}, \autoref{thm:beta-substitution-discharge-component-transport}, \autoref{thm:beta-substitution-discharge-replay-exactness}, \autoref{thm:beta-substitution-discharge-context-induction}, and \autoref{thm:beta-substitution-discharge-obligation-surface} bind the finite beta-substitution discharge carrier and the beta-redex obligation surface consumed by the MetaCIC subject-reduction beta case.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
