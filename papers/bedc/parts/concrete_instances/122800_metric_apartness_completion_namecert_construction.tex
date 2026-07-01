@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\MetricApartnessCompletionUp$}
+\label{ch:concrete-instances-metric-apartness-completion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive metric and apartness completion, the $\MetricApartnessCompletionUp$ packet records the finite route by which a separated metric completion keeps positive apartness data visible while it accepts Cauchy names. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the abstract completion packet of \autoref{ch:concrete-instances-completion-namecert}, the apartness-space surface of \autoref{ch:concrete-instances-apartnessspace-namecert}, the regular Cauchy criterion of \autoref{ch:concrete-instances-regularcauchycriterion-namecert}, and the Cauchy completion criterion of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}. The packet makes the separated completion consume displayed apartness evidence directly; it does not treat apartness as a side condition stored outside the completion carrier.
+
+\begin{definition}[Metric apartness completion carrier]
+\label{def:metric-apartness-completion-carrier}
+A $\MetricApartnessCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,C,A,R,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\MetricUp$ source row whose distance reads supply the Cauchy and separation data.
+\item $C$ is the $\CompletionUp$ row naming the completion request and its finite target surface.
+\item $A$ is the $\ApartnessSpaceUp$ row that displays positive apartness before separated completion reads are accepted.
+\item $R$ is the $\RegularCauchyCriterionUp$ row recording the regular Cauchy schedule consumed by the completion request.
+\item $Q$ is the $\CauchyCompletionCriterionUp$ row that admits the Cauchy-name handoff into the completion carrier.
+\item $E$ is the separation ledger, recording that apartness transport and zero-distance refusal are replayed along the Cauchy-name route.
+\item $H$ records componentwise $\hsame$ transport for the metric source, completion target, apartness row, Cauchy criteria, separation ledger, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from the metric source and Cauchy criteria through the apartness row and separation ledger before the completion name is exposed.
+\item $P$ is the $\Pkg$ provenance over $\MetricApartnessCompletionUp$, $\MetricUp$, $\CompletionUp$, $\ApartnessSpaceUp$, $\RegularCauchyCriterionUp$, $\CauchyCompletionCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricApartnessCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,C,A,R,Q,E,H,T,P,N$. It has no coordinate for host equality of completion classes, selected Cauchy representatives, untracked apartness, real trichotomy, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[MetricApartnessCompletion NameCert obligations]
+\label{thm:metric-apartness-completion-namecert-obligations}
+For every accepted $\MetricApartnessCompletionUp$ carrier $M=(S,C,A,R,Q,E,H,T,P,N)$, the local $\NameCert_{\MetricApartnessCompletionUp}$ surface consists exactly of carrier admission for the displayed metric source, completion target, apartness row, regular Cauchy criterion, Cauchy completion criterion, separation ledger, componentwise transport, displayed replay, provenance, and local naming rows. A completion-facing consumer may read the completed name only after the route
+$$
+S,R,Q \longmapsto A,E \longmapsto C,H,T,P,N
+$$
+has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-apartness-completion-carrier}. Its only rows are $S,C,A,R,Q,E,H,T,P,N$, so every accepted read must use those coordinates.
+
+The Cauchy side is exposed by $R$ and $Q$ over the metric source $S$. The apartness side is exposed by $A$, and the separation ledger $E$ records the replay that keeps zero-distance refusal and positive apartness attached to the Cauchy-name route.
+
+The structural rows then close the local certificate. Componentwise transport $H$, displayed replay $T$, provenance $P$, and local naming $N$ preserve the same finite packet, while $C$ is available only downstream of the displayed criteria and apartness ledger. Since no hidden coordinate stores representatives or host equality, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetricApartnessCompletion apartness transport]
+\label{thm:metric-apartness-completion-apartness-transport}
+Every accepted $\MetricApartnessCompletionUp$ read transports apartness through the displayed $\ApartnessSpaceUp$ row $A$ and separation ledger $E$. If a consumer reads the completed name without exposing $A,E,H,T,P,N$, then the read is outside the carrier of \autoref{def:metric-apartness-completion-carrier}.
+\end{theorem}
+\begin{proof}
+The carrier contains apartness information only in the displayed row $A$ and its separation ledger $E$. The transport row $H$ and replay row $T$ preserve those rows componentwise along the completion route.
+
+Apply \autoref{thm:metric-apartness-completion-namecert-obligations}. It places $A,E$ between the Cauchy criteria and the exposed completion name, with $H,T,P,N$ stabilizing the same packet.
+
+Thus an apartness-free read cannot be a read of the accepted carrier. It would require a coordinate for hidden apartness or host equality, and the carrier has neither.
+\end{proof}
+
+\begin{theorem}[MetricApartnessCompletion Cauchy separation]
+\label{thm:metric-apartness-completion-cauchy-separation}
+For every accepted $\MetricApartnessCompletionUp$ carrier $M=(S,C,A,R,Q,E,H,T,P,N)$, the regular Cauchy row $R$ and Cauchy completion row $Q$ are separated by the displayed apartness row $A$ and separation ledger $E$ before the completion row $C$ becomes public. The packet therefore refuses a completion route that identifies Cauchy names by hidden representative equality.
+\end{theorem}
+\begin{proof}
+Project $R,Q,A,E,C$ from the carrier. The rows $R,Q$ provide the Cauchy schedule and admission criterion, while $A,E$ carry the positive apartness and separation replay attached to that schedule.
+
+Use the obligation theorem above. Its route displays $S,R,Q$ before $A,E$, and only then exposes the completion-facing rows $C,H,T,P,N$.
+
+Because representative equality is not a carrier coordinate, no consumer can replace the displayed apartness separation with hidden equality of Cauchy names. The only public route to $C$ is the separated route listed in the carrier.
+\end{proof}
+
+\begin{theorem}[MetricApartnessCompletion public boundary]
+\label{thm:metric-apartness-completion-public-boundary}
+The public boundary of an accepted $\MetricApartnessCompletionUp$ packet is exactly the metric source $S$, completion row $C$, apartness row $A$, regular Cauchy row $R$, Cauchy completion row $Q$, separation ledger $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetricApartnessCompletionUp}$ row $N$. It exports no host equality of completion classes, selected representative, untracked apartness predicate, trichotomy, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the public packet as $S,C,A,R,Q,E,H,T,P,N$. No other coordinate is available to the classifier.
+
+The NameCert obligations force a read of the completion row through the metric source, Cauchy criteria, apartness row, and separation ledger. The apartness-transport and Cauchy-separation theorems keep that route visible for every completion-facing consumer.
+
+Therefore the public boundary is exactly the displayed packet. The excluded host equality, selected representative, untracked apartness predicate, trichotomy, and ambient completeness data have no row from which they could be exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetricApartnessCompletionUp$ read displays a MetricUp source, Completion row, ApartnessSpace row, RegularCauchyCriterion row, CauchyCompletionCriterion row, separation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the completion name is exposed.}
+
+\independenceWitness{metric, completion, apartnessspace, regularcauchycriterion, cauchycompletioncriterion: $\MetricApartnessCompletionUp$ is not bijective to any listed sibling because it jointly carries metric source data, a completion target, apartness evidence, regular Cauchy scheduling, Cauchy completion admission, separation replay, transport, continuation, provenance, and local NameCert rows in one packet.}
+
+\closureat{MetricApartnessCompletionUp}{seedStr}
+
+\begin{closurestatus}{\MetricApartnessCompletionUp}
+  \constructivestory{A $\MetricApartnessCompletionUp$ packet is generated from a MetricUp source row, CompletionUp target row, ApartnessSpace row, RegularCauchyCriterion row, CauchyCompletionCriterion row, separation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-apartness-completion-carrier}, \autoref{thm:metric-apartness-completion-namecert-obligations}, \autoref{thm:metric-apartness-completion-apartness-transport}, \autoref{thm:metric-apartness-completion-cauchy-separation}, and \autoref{thm:metric-apartness-completion-public-boundary} seed the finite separated metric completion surface that keeps apartness data on the completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host equality of completion classes, selected Cauchy representatives, quotient completion semantics, real trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, apartness transport, Cauchy separation, completion-boundary nonescape, transport stability, replay stability, provenance, and local naming for BEDC.Derived.MetricApartnessCompletionUp.}
+\end{closurestatus}
