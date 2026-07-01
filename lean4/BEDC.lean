@@ -1151,6 +1151,7 @@ import BEDC.Derived.BishopRealConstructionUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealLocatedOrderUp.TasteGate
+import BEDC.Derived.BishopRealNameRealizerUp
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
 import BEDC.Derived.BishopRealNumberUp.TasteGate
 import BEDC.Derived.BishopRealPrecisionUp.TasteGate
@@ -13525,6 +13526,7 @@ import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
+import BEDC.Derived.Window6ZeroMarkGaloisClosure
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
