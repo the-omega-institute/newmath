@@ -151,6 +151,8 @@ Cognate Anti Defense Virjendb & Cognate anti-defense payload necessity, VirJenDB
 Crispr Spacer Prophage Crypticness & CRISPR spacer-exposure predicts resident-prophage crypticness/defectiveness (oracle Q5, anti-CRISPR-database-free). Hypothesis: if an active host CRISPR spacer targets a resident prophage, that prophage should be structurally more defective (missing phage modules) than matched same-host UNEXPOSED prophages -- unless it has an escape mechanism. Independent carrier = host CRISPR spacers (CRISPRCasdb precomputed, keyed by genome accession; no CCTyper). Target = resident prophages (Flinders PhiSpy Kept regions). Exposure E(h,p)=exact >=28nt spacer match to prophage nt (both strands). Phenotype = 5-module CrypticScore/IntactLike (packaging/head/tail/lysis/lysogeny from NCBI CDS product strings). Estimator R(h,p)=CrypticScore(exposed) - median CrypticScore(same-host UNEXPOSED prophages matched by length/GC/ORF); B=IntactLike diff. Nulls: N1 same-host-unexposed (primary), N2 shuffled-spacer, N3 same-genus cross-host swap, N5 chromosome self-target. Hard preflight before stats. Verdict 5-way. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.host_defense.crispr_spacer_known_acr_payload status=data_gate_failed
 Crispr Spacer Known Acr Payload & CRISPR spacer-exposure predicts COGNATE known anti-CRISPR (Acr) escape payload in resident prophages (oracle Q7, AcrHub-free via AcrDB). Hypothesis: if a host's active CRISPR-Cas spacer (subtype t) exactly targets a resident prophage, that prophage is enriched for known Acrs inhibiting subtype t -- vs matched same-host UNEXPOSED prophages -- as an escape mechanism. Independent carrier = host CRISPR-Cas subtype (CRISPRCasdb ccpp\_db clustercas.class, per single-subtype GCA) + exact spacer exposure (CRISPRCasdb spacers, >=28nt both strands). Target = resident prophage proteins (Flinders Kept regions, NCBI fasta\_cds\_aa). Payload = AcrDB 122 experimentally-known Acrs (pro.unl.edu/AcrDB; PRIMARY known-only -- predicted/cAcr excluded to avoid circularity since AcrDB predictions use prophage/CRISPR/self-targeting context), via diamond blastp (evalue<=1e-5, qcov/scov>=70\%, id>=30\%, 40-250aa). Cognate map = Acr family header -> inhibited subtype (AcrIIA4->II-A). Estimator Y=log2((A+0.5)/(L+1)); W=Y - median Y over matched same-host unexposed; D=non-cognate decoy; S=same-genus cross-host swap; N1-N6 nulls (N6=Acr-subtype-label permutation = direct cognacy necessity test). Hard preflight before stats. Verdict 5-way. & \texttt{data\_gate\_failed} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.alt_code_profile_edge_hiding status=certified
+Alt Code Profile Edge Hiding & Alternative genetic codes preserve near-maximal profile-normalized local mutation edge-hiding. For each code table, e\_in = same-output Hamming-1 codon edges; tau = e\_in / e\_max(degeneracy\_profile) where e\_max is the exact H(3,4) edge-isoperimetric profile bound. Necessity: alt-code tau stays near max AND real e\_in beats a profile-preserving random-assignment null. Upgrades 64->21 from a static code-layer fact to an evolution-level local-hiding constraint (oracle-designed, direction tau\_t; task 2 of the d\_resid4/H3/K\_theta program). & \texttt{certified} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1764,3 +1766,18 @@ its 122 experimentally-KNOWN Acrs as the PRIMARY payload (predicted/cAcr exclude
 predictions integrate prophage/CRISPR/self-targeting context, circular with the carrier).
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_crispr\_spacer\_known\_acr.py
+
+\subsection{Alt Code Profile Edge Hiding}\label{sec:bridge-alt-code-profile-edge-hiding}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.alt_code_profile_edge_hiding status=certified
+\textbf{Statement.} Alternative genetic codes preserve near-maximal profile-normalized local mutation edge-hiding. For
+each code table, e\_in = same-output Hamming-1 codon edges; tau = e\_in /
+e\_max(degeneracy\_profile) where e\_max is the exact H(3,4) edge-isoperimetric profile bound.
+Necessity: alt-code tau stays near max AND real e\_in beats a profile-preserving random-assignment
+null. Upgrades 64->21 from a static code-layer fact to an evolution-level local-hiding constraint
+(oracle-designed, direction tau\_t; task 2 of the d\_resid4/H3/K\_theta program).
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} alternative codes stay near the profile maximum and beat the profile-random null across tables.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_alt\_code\_profile\_edge\_hiding.py

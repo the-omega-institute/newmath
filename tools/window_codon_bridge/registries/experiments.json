@@ -600,6 +600,14 @@
       "status": "terminal",
       "timeout_seconds": 86400,
       "note": "CRISPR spacer-exposure -> known anti-CRISPR (AcrDB) cognate payload (oracle Q7, AcrHub-free). NON-daemon terminal experiment (needs diamond + NCBI + CRISPRCasdb ccpp_db subtype lookup + AcrDB 122 KnownAcr + Flinders bulk). Env CA_MANIFEST/CA_SPACER_FSA/CA_FLINDERS_BULK/CA_GCA_SUBTYPES/CA_ACR_FAA/CA_DIAMOND/CA_HOST_LIMIT/CA_FETCH_DEADLINE_SECONDS. carrier=(h,p,t) single-subtype host spacer+CRISPRCasdb subtype; payload=diamond blastp prophage proteins vs sanitized AcrDB 122 KnownAcr; cognate=Acr-family-header->subtype; Y/W/D/S genus-capped; N1-N6 (N6=subtype-label permutation); hard preflight (>=100 matched/>=25 known-Acr+/>=10 genera/no-genus>20%/>=2 subtypes/leave-one-out-stable); 5-way verdict. IMPORTANT: ensure_acr_diamond_db sanitizes the AcrDB FASTA before makedb (AcrDB seqs have embedded spaces that hang diamond makedb; commit a40111aeef). Full-universe run -> data_gate_failed (only 8 known-Acr-positive genera <10 gate; median_W=-0.167 non-supportive). data_gate_failed != refuted. Cached scratchpad/cc_q4acr_full.json."
+    },
+    {
+      "experiment_id": "alt_code_profile_edge_hiding",
+      "claim_id": "bridge.genetic_code.alt_code_profile_edge_hiding",
+      "script_path": "tools/window_codon_bridge/experiments/run_alt_code_profile_edge_hiding.py",
+      "status": "open",
+      "timeout_seconds": 600,
+      "note": "Profile-normalized alt-code edge-hiding. Pure-stdlib, no network (25 NCBI translation tables from tools/bio_reality/data/ncbi_genetic_codes.json). e_max via exact H(3,4) edge-isoperimetric profile bound beta={1:0,2:1,3:3,4:6,5:7,6:9,7:12,8:16}. Standard code e_in=69/e_max=72/tau=0.958. 5-way verdict certified/coincidence/refuted/needs_derivation/data_gate_failed."
     }
   ]
 }
