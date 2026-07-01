@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyInterleavingMergeUp$}
+\label{ch:concrete-instances-regular-cauchy-interleaving-merge-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyInterleavingMergeUp$ packet records the finite merge route by which two displayed regular Cauchy real names are read through one interleaved window and one regular-real tail-equivalence boundary before a $\RealUp$ consumer receives the seal. It sits after the finite stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, the even/odd interlacing packet of \autoref{ch:concrete-instances-cauchy-interlacing-namecert}, and the same-real tail route of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}. The packet specializes interlacing to the regular-Cauchy merge boundary: it names the finite source rows, shared window, tolerance ledger, tail-equivalence route, and Real seal together, without turning them into quotient streams, selected representatives, countable choice, host equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy interleaving merge carrier]
+\label{def:regular-cauchy-interleaving-merge-carrier}
+A $\RegularCauchyInterleavingMergeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,W,D,I,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose regular Cauchy tails are merged.
+\item $W$ is the shared $\StreamNameUp$ finite-window row. It records the requests at which both sources are inspected before a merge read is served.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the two source tails, the interleaved tail, and the terminal seal request.
+\item $I$ is the $\CauchyInterlacingUp$ schedule row, read only after $A,B,W,D$ have been displayed.
+\item $T$ is the $\RegularRealTailEquivalenceUp$ handoff row witnessing that the interleaved regular read and the displayed source route reach the same regular-real tail boundary.
+\item $R$ is the terminal $\RealUp$ seal row, available only after $A,B,W,D,I,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic, interlacing, tail-equivalence, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+A,B,W,D \longmapsto I \longmapsto T \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyInterleavingMergeUp$, $\CauchyInterlacingUp$, $\RegularRealTailEquivalenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyInterleavingMergeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,W,D,I,T,R,H,C,P,N$. It has no coordinate for quotient streams, selected representatives, countable choice, host equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy interleaving merge NameCert obligations]
+\label{thm:regular-cauchy-interleaving-merge-namecert-obligations}
+For every accepted $\RegularCauchyInterleavingMergeUp$ carrier
+$$
+M=(A,B,W,D,I,T,R,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyInterleavingMergeUp}$ surface consists exactly of source admission for $A,B$, shared finite-window exposure through $W$, dyadic tolerance exposure through $D$, interlacing-schedule exposure through $I$, regular-real tail-equivalence exposure through $T$, terminal $\RealUp$ seal exposure through $R$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-interleaving-merge-carrier}. The first two rows expose the regular rational source names, while the shared window row $W$ records the finite requests through which both tails are inspected.
+
+Next read the merge rows. The dyadic ledger $D$ supplies the tolerance accounting, the interlacing row $I$ supplies the finite even/odd schedule already certified by \autoref{ch:concrete-instances-cauchy-interlacing-namecert}, and the tail-equivalence row $T$ places the merged read inside the regular-real same-tail route of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}.
+
+Finally read $R,H,C,P,N$. The seal row is downstream of the source, window, tolerance, interlacing, and tail-equivalence rows, and the structural rows only transport, replay, source, and name that same displayed packet. Since no excluded host object has a carrier coordinate, replay edge, provenance entry, or local naming row, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving merge Real seal nonescape]
+\label{thm:regular-cauchy-interleaving-merge-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\RegularCauchyInterleavingMergeUp$ carrier reaches the seal row $R$ only through the finite route
+$$
+A,B,W,D,I,T,H,C,P,N .
+$$
+Thus the merge read is a carrier-local certificate over two displayed $\RegSeqRatUp$ sources, one $\StreamNameUp$ window, one $\DyadicRatCoreUp$ tolerance ledger, one $\CauchyInterlacingUp$ schedule row, and one $\RegularRealTailEquivalenceUp$ handoff row. It is not a quotient stream, selected representative, countable-choice schedule, host equality, trichotomy, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The seal row $R$ is listed after the two source rows, shared window, dyadic ledger, interlacing schedule, and regular-real tail-equivalence handoff, so it is not available as an independent endpoint.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-interleaving-merge-namecert-obligations}. They identify the complete route that must be displayed before the local certificate can expose the Real-facing seal.
+
+Use the sibling routes only at their displayed boundaries. The interlacing row $I$ supplies the finite merge schedule from \autoref{ch:concrete-instances-cauchy-interlacing-namecert}, and the handoff row $T$ supplies the same-real tail boundary from \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}. The remaining rows $H,C,P,N$ transport, replay, source, and name that route, so the seal cannot leak quotient streams, selected representatives, countable choice, host equality, trichotomy, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyInterleavingMergeUp$ Real-facing read displays two RegSeqRatUp source rows, one shared StreamNameUp window, one DyadicRatCoreUp tolerance ledger, one CauchyInterlacingUp schedule row, one RegularRealTailEquivalenceUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, local naming, and one terminal RealUp seal.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchy-interlacing, regular-real-tail-equivalence: $\RegularCauchyInterleavingMergeUp$ is not bijective to any listed sibling because it jointly carries two regular rational source rows, a shared finite window, a dyadic tolerance ledger, an interlacing schedule, a regular-real tail-equivalence handoff, a terminal Real seal, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{RegularCauchyInterleavingMergeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInterleavingMergeUp}
+  \constructivestory{A $\RegularCauchyInterleavingMergeUp$ packet is generated from two RegSeqRat source rows, one shared StreamName window, one DyadicRatCore tolerance ledger, one CauchyInterlacing schedule row, one RegularRealTailEquivalence handoff row, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-interleaving-merge-carrier}, \autoref{thm:regular-cauchy-interleaving-merge-namecert-obligations}, and \autoref{thm:regular-cauchy-interleaving-merge-real-seal-nonescape} seed the finite regular-Cauchy merge packet over StreamName, RegSeqRat, DyadicRatCore, CauchyInterlacing, RegularRealTailEquivalence, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected representatives, countable choice, host equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires binding the source, shared-window, dyadic-tolerance, interlacing, regular-real tail-equivalence, seal, transport, replay, provenance, and local naming rows to BEDC.Derived.RegularCauchyInterleavingMergeUp.}
+\end{closurestatus}
