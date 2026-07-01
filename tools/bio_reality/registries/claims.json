@@ -32778,6 +32778,34 @@
         }
       ],
       "linked_conjecture_id": null
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.rna_subcellular_localization.nzip_3utr_zipcode_sequence_beyond_composition_emtab10902",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "N-zip 3'UTR-zipcode neurite/soma localization code (NEW MODALITY = RNA subcellular localization; single-mechanism, genuinely-novel; a CAUSAL per-tile MPRA distinct from the correlational whole-gene Fazal-2019 mRNA-localization claim). N-zip MPRA (Nat Neurosci 2022, ArrayExpress E-MTAB-10902; mouse primary cortical neurons, GRCm38.p6), 4760 3'UTR tiles from 97 neurite-localized genes; y = DESeq2 log2ratio(neurite/soma) reporter-RNA enrichment (WT). Single GFP-reporter cis-localization-element mechanism (one scaffold, variable 3'UTR tile), WT only, natural tiles -> no generator confound. Verdict crosses_boundary: higher-order sequence STRUCTURE predicts neurite/soma localization with LEAVE-ONE-GENE-OUT held-out incremental R^2 = 0.021 OVER a mono+dinuc composition + length + tile-offset baseline (held-out R^2 0.148 -> 0.169), permutation p = 0.003 (null mean -0.019, B=300). ATTRIBUTION: the signal is driven ENTIRELY by STRUCTURE features (reverse-complement / stem-pairing density, trinuc entropy, max-AU-run; leave-gene-out incr 0.020) -- trinucleotide k-mer composition adds NOTHING beyond mono+dinuc (incr 0.000). So the transferable localization code is STRUCTURAL (stem-pairing + AU-runs), consistent with structured / (AU)n zipcodes, not short linear k-mer motifs. The signal TRANSFERS across held-out genes (leave-one-gene-out 0.021), though the random-split incremental (0.041) shows a within-gene interpolation component. NOT CLAIMED: identification of specific zipcodes (this is aggregate structural predictivity); a new mechanism. CONTRAST with the Fazal-2019 whole-gene APEX-seq claim (correlational endogenous ER/nucleus, signal-peptide-confounded, bounded rho^2 ~0.07%): N-zip CAUSALLY isolates the per-tile neurite/soma cis-element and finds a stronger, structure-driven, gene-transferable contact. The fresh contact: 3'UTR RNA structure (stem-pairing + AU-runs) predicts neurite/soma mRNA localization across genes beyond composition -- a transferable structural localization code.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "nzip_3utr_zipcode_localization_emtab10902",
+      "history": [
+        {
+          "ts": "2026-07-01T02:28:44+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-07-01T02:28:44+00:00",
+          "status": "passed",
+          "reason": "experiment result (orchestrator-run; verdict crosses_boundary; leave-one-gene-out incr R^2=0.021 higher-order-seq over composition, perm p=0.003; STRUCTURE-driven [RC-stem/entropy/AU-run 0.020, trinuc 0.000]; transfers across genes; causal per-tile MPRA vs correlational Fazal-2019; n=4760/97 genes)",
+          "experiment_run_id": "fe94f04b67b0",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "4411ea5a1241ecb7"
+        }
+      ],
+      "linked_conjecture_id": null
     }
   ]
 }
