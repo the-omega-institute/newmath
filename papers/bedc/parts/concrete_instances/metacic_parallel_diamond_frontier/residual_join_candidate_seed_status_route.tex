@@ -1,0 +1,15 @@
+\begin{theorem}[MetaCIC residual-join candidate seed-status route]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-candidate-seed-status-route}
+Every seed-status reader for $\MetaCICParallelDiamondFrontierUp$ that consumes residual-join evidence and candidate-normalization evidence must read them inside the same parallel-diamond packet
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The route uses the residual-join locality rows, candidate-normalization scope rows, and parallel-diamond seed-status rows as seedClosure evidence for the hub. It does not discharge residual substitution, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted frontier packet. The residual-join rows $J,R,S$ are exposed only with the retained premise row $P$, critical-pair row $K$, bounded checker row $B$, obstruction row $O$, and structural rows $H,T,G,N$ still visible.
+
+Read the candidate-normalization scope next. It keeps the candidate row inside the same spine $P,K,J,R,S,C,B,O,H,T,G,N$ and prevents the candidate read from becoming a premise-free normalization or confluence theorem.
+
+Finally apply the parallel-diamond seed-status route. The seed status exported to the hub is exactly the displayed packet assembled from residual-join locality, candidate normalization, finite residual witnesses, transport, replay, provenance, and local naming, so the hub records seedClosure evidence without adding theorem content of its own.
+\end{proof}
