@@ -3178,6 +3178,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.dna_secondary_structure_thermodynamics.arraymelt_hairpin_dg37_sequence_structure_beyond_composition_zenodo15299578",
+   "experiment_id": "arraymelt_dna_hairpin_thermodynamics_sequence_code_zenodo15299578",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, NEW MODALITY = DNA secondary-structure thermodynamics, single-mechanism): does generic sequence STRUCTURE predict DNA-hairpin dG_37 beyond composition + the NUPACK nearest-neighbor model, transferring across held-out scaffolds AND structural-motif families? Greenleaf Array Melt (Zenodo 15299578, arr.csv), n=19729 two-state hairpins. y=measured dG_37; sound baseline = composition(mono/dinuc/GC/length) + NUPACK dG_37 (composition ALONE is negative under leave-scaffold-out); full=+structure (RC/stem density k4/5/6, max RC-stem, trinuc entropy, runs). Three holdouts: leave-scaffold-out (primary+perm B=200), leave-Series-out (family transfer), random (interpolation). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_arraymelt_dna_hairpin_thermodynamics_sequence_code_zenodo15299578.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T00:56:19+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_protein_binding.ctcf_rna_tile_structure_beyond_composition_gse221537",
+   "experiment_id": "ctcf_rna_binding_structure_mprna_gse221537",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, NEW MODALITY = RNA-protein binding, single-mechanism): does RNA-tile STRUCTURE (stem-pairing potential + complexity) predict CTCF fRIP enrichment beyond composition, transferring across held-out source RNAs? GEO GSE221537 CTCF arm, barcodes pooled to tile, y=replicate-mean CPM-normalized log2(IP/Input), n=973 tiles / 9 RNAs. baseline=composition(mono/dinuc/GC/length)+tile-position; full=+structure(RC/stem density k4/5/6, max RC-stem, trinuc entropy, homopolymer/purine runs). Holdouts: leave-one-source-RNA-out (primary+perm B=300), within-RNA-centered random 5-fold (RNA-level removed), random 5-fold (interpolation ref). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_ctcf_rna_binding_structure_mprna_gse221537.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T01:25:10+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
