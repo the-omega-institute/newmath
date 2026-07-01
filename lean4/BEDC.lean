@@ -13501,6 +13501,7 @@ import BEDC.Derived.Window6RisingColumnTripleRecurrence
 import BEDC.Derived.Window6SaturationDeficitExtremal
 import BEDC.Derived.Window6SeamGluingParity
 import BEDC.Derived.Window6SeamIdentification
+import BEDC.Derived.Window6SignedInvolutionFixedPoint
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
 import BEDC.Derived.Window6StaircaseDominoTripleRecurrence
