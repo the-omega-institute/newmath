@@ -1836,6 +1836,7 @@ import BEDC.Derived.CauchyBornologicalUniformityUp.TasteGate
 import BEDC.Derived.CauchyBornologyBasisUp.TasteGate
 import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyBoundSelectorUp.TasteGate
+import BEDC.Derived.CauchyBoundSelectorUp.WindowStability
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
 import BEDC.Derived.CauchyChainCriterionUp.TasteGate
@@ -3361,6 +3362,7 @@ import BEDC.Derived.CofinalModulusSealUp.WindowBudgetExactness
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSequenceSelectorUp.TasteGate
+import BEDC.Derived.CofinalStreamTailSelectorUp.BridgeStability
 import BEDC.Derived.CofinalStreamTailSelectorUp.NameCertObligations
 import BEDC.Derived.CofinalStreamTailSelectorUp.ObligationPackage
 import BEDC.Derived.CofinalStreamTailSelectorUp.PublicExport
@@ -12645,6 +12647,7 @@ import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ObligationSurface
+import BEDC.Derived.SubjectReductionRouteChoiceUp.RouteNonescape
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteClassifierUp.TasteGate
