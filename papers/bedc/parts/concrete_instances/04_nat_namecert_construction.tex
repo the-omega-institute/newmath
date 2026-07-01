@@ -120,6 +120,34 @@ For an $\IntUp$ read, use the signed-pair presentation of \autoref{ch:concrete-i
 The prefix totality and common-upper rows are still shared after the signed-pair packaging. Thus addition and signed balancing both enter through the same finite unary chain, and their difference is only the downstream consumer that reads the displayed $\NatUp$ rows.
 \end{proof}
 
+\begin{theorem}[Nat unary dependency route for addition and integer balance]
+\label{thm:nat-orphan-add-dependency-route}
+Every downstream $\AddUp$ continuation read and every $\IntUp$ signed-pair
+balancing read must first expose the $\NatUp$ unary carrier, the one-extension
+closure row, the prefix-total row, and the directed common-upper row. Only after
+those rows are displayed may the route cite
+\autoref{ch:concrete-instances-add-namecert} and
+\autoref{ch:concrete-instances-int-namecert} as the sibling consumers of the
+same finite unary source.
+\end{theorem}
+\begin{proof}
+Start with the Nat source spine theorem
+\autoref{thm:nat-add-source-spine-forward-link}. It forces every addition
+continuation to display the unary judgment, one-extension closure, prefix
+totality, and common-upper rows before the $\AddUp$ operation is read.
+
+Now apply the add-int unary chain theorem
+\autoref{thm:nat-add-int-unary-chain-orphan-link}. The same displayed carrier
+and closure rows are consumed by the positive and negative sides of an $\IntUp$
+signed pair before balancing is inspected.
+
+This dependency is substantive rather than self-reference because the final
+readers are the sibling chapters \autoref{ch:concrete-instances-add-namecert}
+and \autoref{ch:concrete-instances-int-namecert}. The $\NatUp$ chapter supplies
+the unary source rows; the sibling certificates consume those rows as addition
+and signed-pair balance data.
+\end{proof}
+
 \begin{definition}[Strict unary prefix]
 \label{def:nat-unary-strict-prefix}
 A strict unary prefix from $h$ to $k$ is a unary tail $t$ such that $t$ is not

@@ -62,6 +62,26 @@ Only downstream of $Q$ does the seal row $A$ become visible. The structural rows
 Therefore a Real or Completion consumer receives the displayed finite classifier route and nothing stronger. Quotient stream equality, selected limits, countable choice, trichotomy, host real equality, and ambient completeness remain outside the packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail equivalence composition]
+\label{thm:regular-cauchy-tail-equivalence-composition}
+Suppose accepted $\RegularCauchyTailEquivalenceUp$ packets witness tail equivalence from $A$ to $B$ and from $B$ to $C$ with compatible $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledgers, $\CauchyEquivalenceSetoidUp$ comparison rows, and $\RealUp$ seal rows. Then every Real or Completion consumer of the composed $A$-to-$C$ comparison factors through the two displayed finite routes
+$$
+A \longmapsto B
+\qquad\text{and}\qquad
+B \longmapsto C
+$$
+before it may read the endpoint seal. The composed read exposes no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers of \autoref{def:regular-cauchy-tail-equivalence-carrier}. The first packet displays its source and middle windows, readbacks, dyadic tolerance ledger, setoid comparison, Real seal, transport, replay, provenance, and local naming rows; the second packet displays the same inventory for the middle and target rows.
+
+Apply the Real handoff of \autoref{thm:regular-cauchy-tail-equivalence-real-handoff} to the first packet and then to the second. Compatibility of the middle $\StreamNameUp$ windows and $\RegSeqRatUp$ readback lets the second handoff read the shared middle row only through the displayed finite carrier data.
+
+Now concatenate the componentwise $\hsame$ transports and the displayed $\Cont$ routes. The setoid comparison rows supply the only comparison surface, while the dyadic ledgers keep the tolerance accounting visible on both sides of the middle readback.
+
+The endpoint consumer therefore receives an $A$-to-$C$ route only through the two displayed packets. Since neither carrier has a coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness, the composed comparison exports none of those endpoints.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RegularCauchyTailEquivalenceUp$ read displays two $\StreamNameUp$ windows, two $\RegSeqRatUp$ readbacks, one $\DyadicRatCoreUp$ tail-tolerance ledger, one $\CauchyEquivalenceSetoidUp$ comparison row, one $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before Real or Completion equality is consumed.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, cauchy-equivalence-setoid, real: $\RegularCauchyTailEquivalenceUp$ is not bijective to any listed sibling because it binds two window rows, two regular readbacks, one tail-tolerance ledger, one setoid comparison row, one Real seal, componentwise transport, replay, provenance, and local naming into a single L10 equality-facing carrier.}
