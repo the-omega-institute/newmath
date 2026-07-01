@@ -495,7 +495,7 @@ private theorem degWeight_nonneg (k : Nat) (B : BRat)
         (ratLt_to_ratLe (natRat_succ_pos_local m))
         (pow_nonneg_local B hB m)
 
-private theorem derivBoundShift_nonneg (d : Nat) (cs : List BRat) (B : BRat)
+theorem derivBoundShift_nonneg (d : Nat) (cs : List BRat) (B : BRat)
     (hB : ratLe ratZero B) :
     ratLe ratZero (derivBoundShift d cs B) := by
   induction cs generalizing d with
@@ -512,7 +512,7 @@ private theorem derivBoundShift_nonneg (d : Nat) (cs : List BRat) (B : BRat)
           (degWeight_nonneg d B hB))
         (ih (Nat.succ d))
 
-private theorem derivBound_nonneg (cs : List BRat) (B : BRat)
+theorem derivBound_nonneg (cs : List BRat) (B : BRat)
     (hB : ratLe ratZero B) :
     ratLe ratZero (derivBound cs B) := by
   unfold derivBound
@@ -720,7 +720,7 @@ def panels (n : Nat) : Nat :=
 def hUniform (a b : BRat) (n : Nat) : BRat :=
   ratDivNat (ratSub b a) n
 
-private theorem ratDivNat_mul_cancel (x : BRat) (n : Nat) :
+theorem ratDivNat_mul_cancel (x : BRat) (n : Nat) :
     RatEq (ratMul (ratDivNat x n) (natRat (Nat.succ n))) x := by
   unfold ratDivNat
   exact BEDC.Real.RatNumKernel.ratDivApart_mul_cancel_right
@@ -733,7 +733,7 @@ private theorem ratDivNat_nonneg {x : BRat} (n : Nat)
   exact BEDC.Real.RatNumKernel.ratDivApart_nonneg_of_nonneg_pos
     hx (natRat_succ_pos_local n) (natRat_succ_apart_local n)
 
-private theorem hUniform_nonneg {a b : BRat} (n : Nat)
+theorem hUniform_nonneg {a b : BRat} (n : Nat)
     (hab : ratLe a b) :
     ratLe ratZero (hUniform a b n) := by
   unfold hUniform
