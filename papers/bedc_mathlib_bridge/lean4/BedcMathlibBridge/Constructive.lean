@@ -9,3 +9,4 @@ import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
+import BedcMathlibBridge.Constructive.Derangement
