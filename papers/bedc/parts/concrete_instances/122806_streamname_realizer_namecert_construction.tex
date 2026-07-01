@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\StreamNameRealizerUp$}
+\label{ch:concrete-instances-streamname-realizer-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Troelstra--van Dalen on lawlike choice sequences, the $\StreamNameRealizerUp$ packet records finite realization data for observed stream names without converting the stream into a quotient object or a countable-choice schedule. It sits over the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a lawlike finite admission route for Real and Completion consumers: it tells the consumer which finite observations are available, how they are replayed, and where regular-rational and dyadic checks enter before any $\RealUp$ seal can be read.
+
+\begin{definition}[StreamNameRealizer carrier]
+\label{def:streamname-realizer-carrier}
+A $\StreamNameRealizerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row, naming the observed stream and the finite request discipline by which windows are opened.
+\item $W$ is the lawlike window-realization row, recording a finite request list, its returned observations, and the monotone extension discipline for later requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those realized windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying dyadic radii, comparison budgets, and endpoint arithmetic for the realized observations.
+\item $E$ is the $\RealUp$ seal row, readable only after $S,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source streams, realized windows, regular readback rows, dyadic tolerance rows, real seals, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite observation request through $S,W,Q,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameRealizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamNameRealizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,W,Q,D,E,H,C,P,N$. It has no coordinate for a completed infinite stream, quotient stream equality, countable choice, a host modulus selector, ambient $\RealUp$ completeness, or an external oracle for future observations.
+\end{definition}
+
+\begin{theorem}[StreamNameRealizer window admission]
+\label{thm:streamname-realizer-window-admission}
+Every finite observation request admitted by an accepted $\StreamNameRealizerUp$ carrier
+$$
+R=(S,W,Q,D,E,H,C,P,N)
+$$
+must first expose the $\StreamNameUp$ source row $S$ and the lawlike window-realization row $W$. Any downstream regular-rational or real-facing read must then pass through the $\RegSeqRatUp$ row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, the terminal $\RealUp$ seal row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ naming $N$. The admission route exports only finite realized windows and refuses quotient stream equality, countable choice, host-side future observation, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-realizer-carrier}. The rows $S$ and $W$ are the only source and window-realization entrances, so an admitted finite request cannot be read before those rows are displayed.
+
+The completion-facing part of the route is ordered by the carrier. Regular-rational readback is $Q$, dyadic tolerance and endpoint arithmetic are $D$, and the real-name seal is $E$. Thus a consumer cannot skip directly from a stream observation to a $\RealUp$ row.
+
+Finally use the structural rows. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route. Since no carrier coordinate stores a completed stream, quotient equality, countable choice, or a host oracle, those claims are outside the admission theorem.
+\end{proof}
+
+\begin{theorem}[StreamNameRealizer NameCert obligations]
+\label{thm:streamname-realizer-namecert-obligations}
+For every accepted $\StreamNameRealizerUp$ carrier
+$$
+R=(S,W,Q,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\StreamNameRealizerUp}$ surface consists exactly of carrier admission for the finite $\BHist$ packet, $\StreamNameUp$ source exposure through $S$, lawlike finite-window realization through $W$, $\RegSeqRatUp$ readback through $Q$, $\DyadicRatCoreUp$ tolerance exactness through $D$, $\RealUp$ seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier of \autoref{def:streamname-realizer-carrier}. Its displayed rows are exactly $S,W,Q,D,E,H,C,P,N$.
+
+Apply the window-admission theorem \autoref{thm:streamname-realizer-window-admission}. It fixes the order in which source, finite window realization, regular readback, dyadic tolerance, and real seal rows may be consumed.
+
+The remaining rows are structural. Componentwise $\hsame$ transports the same finite realization data, $\Cont$ replays the displayed request, $\Pkg$ records the provenance, and the local $\NameCert$ row names the packet. No other obligation can be projected from the carrier.
+\end{proof}
+
+\begin{closurestatus}{\StreamNameRealizerUp}
+  \constructivestory{A $\StreamNameRealizerUp$ packet is generated from a StreamName source row, a lawlike finite-window realization row, RegSeqRat readback, DyadicRatCore tolerance data, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:streamname-realizer-carrier}, \autoref{thm:streamname-realizer-window-admission}, and \autoref{thm:streamname-realizer-namecert-obligations} bind the finite lawlike realization route from StreamName observations to RegSeqRat, DyadicRatCore, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed streams, quotient stream equality, countable choice, host-side future observation, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires carrier admission, window admission, readback exactness, tolerance exactness, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.StreamNameRealizerUp.}
+\end{closurestatus}
