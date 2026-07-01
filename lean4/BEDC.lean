@@ -114,6 +114,8 @@ import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketLedgerExactnessObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchLedgerObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchObstructionConsumerLock
+import BEDC.Derived.AnalyticContinuationSocketUp.BridgeRoute
+import BEDC.Derived.AnalyticContinuationSocketUp.BridgeRouteCertificate
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierAdmission
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.CarrierSourceObligation
@@ -6709,6 +6711,7 @@ import BEDC.Derived.GreedySpectralClosureUp.TasteGate
 import BEDC.Derived.GroebnerBasisUp.TasteGate
 import BEDC.Derived.GromovHausdorffUp.NameCertObligations
 import BEDC.Derived.GromovHausdorffUp.TasteGate
+import BEDC.Derived.GronwallBellmanUp.TasteGate
 import BEDC.Derived.GronwallInequalityUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
@@ -8783,6 +8786,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExpo
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.Rectangle
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDeciderInversion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDiamondRetention
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDiamondTotality
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualProgress
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualStripLocalJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.RetainedPremiseInversion
@@ -9233,6 +9237,7 @@ import BEDC.Derived.NestedCauchyIntervalSelectionUp.TasteGate
 import BEDC.Derived.NestedCauchyRealSectionUp.TasteGate
 import BEDC.Derived.NestedClosedBallUp
 import BEDC.Derived.NestedClosedBallUp.ObligationPackage
+import BEDC.Derived.NestedClosedBallUp.PublicCompletionSurface
 import BEDC.Derived.NestedClosedBallUp.PublicExport
 import BEDC.Derived.NestedClosedBallUp.TasteGate
 import BEDC.Derived.NestedClosedIntervalUp
@@ -13521,6 +13526,7 @@ import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
+import BEDC.Derived.Window6ZeroMarkGaloisClosure
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
