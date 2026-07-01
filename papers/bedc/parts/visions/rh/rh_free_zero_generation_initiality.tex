@@ -595,4 +595,57 @@ None of these failures is a route-closure decider or an independence
 theorem for the fixed proposition $\mathsf{RH}$.
 \end{principle}
 
+\begin{theorem}[Completeness bridge to constructive RH]
+\label{thm:rh-generation-completeness-bridge}
+\leanchecked{BEDC.Derived.RHRoute.GenerativeZeroCompletion.constructiveRH\_of\_completion}
+\leanvariant{BEDC.Derived.RHRoute.GenerativeZeroCompletion.symmetryReadbackRH\_of\_completion}
+Let $\varepsilon:Z\to\mathcal Z_{\zeta}$ be a generated realization whose
+fixed-half closure is displayed, as in \autoref{def:rh-generated-zero-carrier}.
+Package the completeness datum as the record whose rows are $\varepsilon$, the
+fixed-half closure witness, and the coverage row
+$$
+\prod_{u:\mathcal Z_{\zeta}}\mathsf{NontrivZero}(u)\to
+\sum_{z:Z}\varepsilon(z)\sim u.
+$$
+From this record, together with the located readback row
+$$
+\mathsf{OnCritLineReadback}(u)\to\mathsf{OnCritLine}(u),
+$$
+the fixed-half closure supplies $\mathsf{CritLine}(\varepsilon(z))$ for the
+covering generator, and critical-line transport along $\sim$ yields
+$\mathsf{OnCritLine}(u)$. This is the constructive Riemann hypothesis of
+\autoref{ch:visions-rh-layered-translation}, read off the generation side. The
+theorem is conditional: it consumes the coverage record and the readback row as
+hypotheses and constructs neither. The coverage row is the completeness
+obligation of \autoref{def:rh-generated-zero-carrier}; it is not discharged
+here, and no inhabitant of the completeness record is exhibited.
+\end{theorem}
+
+\begin{principle}[Zero-free forward dynamics and the obligation firewall]
+\label{prin:rh-generation-forward-firewall}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTower.ZetaBridgeObligations}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTower.generated\_true\_zero\_twoWay}
+The generation side is presented as a forward dynamics that never inspects a
+zeta value. A tick carries a radial log-scale row, an angular rotation row, and
+a fresh orthogonal residual, gated by a no-adjacent Zeckendorf certificate. A
+state stores only its generated syntax; its located point is the fold of that
+syntax, never a stored coordinate, so no tick can fit a zero backwards. The
+analytic content is quarantined behind an evaluator interface whose binding,
+completeness, and soundness rows are the only bridge to the true zero set, and
+the forward dynamics constructs none of them. Under the packaged bridge the
+generated orbit and the true zero set stand in a displayed two-way
+correspondence.
+\end{principle}
+
+\begin{remark}[Non-vacuity of the forward dynamics]
+\label{rem:rh-generation-nonvacuity}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTowerExample.toyPoint1\_generated}
+A toy instance fills every abstract row of the forward dynamics with concrete
+data: a prime-local seed at $p=2$, a constant located-complex algebra, and a
+tick whose register advances. It exhibits an inhabitant of the generated-point
+type at tick depth one, so the dynamics and its membership predicate are not
+vacuous. The instance carries no zeta semantics; it certifies only that the
+generation types are inhabited and that the dynamics runs.
+\end{remark}
+
 \concretizedIn{ch:concrete-instances-rh-free-zero-initiality-namecert}{The RH-free zero-generation initiality route is represented as a finite NameCert packet with an explicit no-circularity audit.}
