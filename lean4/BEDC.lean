@@ -13413,6 +13413,7 @@ import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonMangoldtUp
 import BEDC.Derived.VonStaudtClausenUp
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.Visions.BackreactionMetricDegeneracy
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WRRHotspotCubeUp.TasteGate
 import BEDC.Derived.WassersteinUp.CostReadbackScope
