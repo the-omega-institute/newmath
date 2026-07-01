@@ -33412,6 +33412,34 @@
         }
       ],
       "linked_conjecture_id": null
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.dna_aptamer_molecular_switch.aptamer_ads_atp_dynamic_range_sequence_beyond_composition_displacement_s41467",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "DNA aptamer ADS switch -- ATP-induced fluorescence ON/OFF is captured by N10 base composition; higher-order sequence structure adds nothing (NEW modality = small-molecule DNA aptamer molecular switch/sensor; single-mechanism, genuinely-novel). Yoshikawa/Soh 2023 (DOI 10.1038/s41467-023-38105-4 [oracle mis-cited -5; correct -4], MOESM4 ATP screen), 517493 QC-pass MiSeq clusters (RFU 100-1000, RSD<30%), y = log2(mean_F_ATP_500uM / mean_F_buffer), n=8000 subsample of 486262 fixed-10nt N10 switching domains. Single mechanism: ATP binds the DNA aptamer -> anchored-displacement / N10 conformational switch -> fluorophore-quencher distance changes -> fluorescence. Verdict composition_artifact: N10 base composition (mono + 16 dinucleotide) already captures the predictable ATP-induced switch signal (Hamming-neighbor-cluster held-out R^2 = 0.103), the self-complementarity displacement physical proxy adds only 0.005, and higher-order sequence STRUCTURE (Shannon k2/3 entropy, homopolymer/purine/AT runs, max self-stem) adds only 0.0006 held-out incremental over composition + self-complementarity (permutation p=0.040 but FAR below the 0.01 effect floor -> statistically detectable yet negligible), same under random split (0.0005). The readout is sparse (only 2.2% of clusters reach >=2-fold switch) and MiSeq-fluorescence-relative (authors caution it is for relative / top-switch screening, not absolute binding). NOT CLAIMED: that sequence is uninformative (composition predicts switch at R^2 ~ 0.10); a large effect. The boundary + explanation: for a 10nt N10 switching domain the higher-order structure descriptors that CROSS the boundary for long sequences (nucleosome 173, ribozyme 174, RNA-localization 180, 80nt toehold-switch 181) DEGENERATE into composition -- at 10nt there is essentially no structure beyond composition, so the ATP-switch code is a base-composition code, not a higher-order structural one. Instructive contrast with the 80nt toehold switch (181, POSITIVE): SEQUENCE LENGTH gates whether structure adds beyond composition.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "aptamer_ads_switch_atp_fluorescence_s41467_2023_38105",
+      "history": [
+        {
+          "ts": "2026-07-01T07:57:17+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-07-01T07:57:17+00:00",
+          "status": "passed",
+          "reason": "experiment result (orchestrator-run; verdict composition_artifact; N10 composition R^2=0.103, self-compl +0.005, higher-order +0.0006 [below floor, perm p=0.040]; 10nt too short -> structure degenerates into composition; contrast 80nt toehold 181 POSITIVE, sequence length gates structure; n=8000/486262)",
+          "experiment_run_id": "27d4805eed33",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "7ff80483a6e36d19"
+        }
+      ],
+      "linked_conjecture_id": null
     }
   ]
 }
