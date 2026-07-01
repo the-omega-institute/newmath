@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for Real completeness, quotient stream equality, host real equality, countable choice, trichotomy, selected limits outside the displayed row $R$, open-cover compactness, or an unbounded stream read.
 \end{definition}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Real Cauchy modulus selector NameCert obligations]
 \label{thm:real-cauchy-modulus-selector-namecert-obligations}
@@ -38,6 +39,7 @@ For an accepted $\RealCauchyModulusSelectorUp$ carrier $T=(M,S,D,Q,E,R,H,C,P,N)$
 \end{enumerate}
 No NameCert obligation is stored outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:real-cauchy-modulus-selector-carrier}. The tuple displays the modulus row, selected finite window, dyadic tolerance ledger, regular rational readback, Real seal, selector row, transport, replay, provenance, and local name.
 
@@ -92,6 +94,7 @@ R\longmapsto M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E\longmapsto(H,
 $$
 The route cannot factor through Real completeness, quotient stream equality, countable choice, host equality, or an unbounded stream read before the $\RealUp$ seal is named.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_seal\_factorization}
 \begin{proof}
 Use finite-window soundness, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}. A finite precision request first reads the selector row $R$, then the accepted modulus row $M$, the selected stream window $S$, the dyadic tolerance row $D$, the regular rational readback row $Q$, and the terminal seal row $E$.
 
@@ -100,12 +103,79 @@ Use monotone-window reuse, \autoref{thm:real-cauchy-modulus-selector-window-mono
 The exclusion clause follows by projection of \autoref{def:real-cauchy-modulus-selector-carrier}. None of Real completeness, quotient stream equality, countable choice, host equality, or unbounded stream reads is a carrier coordinate, so none can be an intermediate factor in the accepted seal route.
 \end{proof}
 
-\closureat{RealCauchyModulusSelectorUp}{seedStr}
+\begin{theorem}[Real Cauchy modulus selector transport naturality]
+\label{thm:real-cauchy-modulus-selector-selector-transport-naturality}
+Let $T=(M,S,D,Q,E,R,H,C,P,N)$ and $T'=(M',S',D',Q',E',R',H',C',P',N')$ be accepted $\RealCauchyModulusSelectorUp$ packets. Suppose the displayed transport row $H$ relates the coordinates componentwise:
+$$
+M\hsame M',\quad
+S\hsame S',\quad
+D\hsame D',\quad
+Q\hsame Q',\quad
+E\hsame E',\quad
+R\hsame R',\quad
+C\hsame C',\quad
+P\hsame P',\quad
+N\hsame N'.
+$$
+Then every selected finite precision route
+$$
+R\longmapsto M\longmapsto S\longmapsto D\longmapsto Q\longmapsto E
+$$
+in $T$ is transported to the corresponding route
+$$
+R'\longmapsto M'\longmapsto S'\longmapsto D'\longmapsto Q'\longmapsto E'
+$$
+in $T'$ with the same excluded readings: no Real completeness, quotient stream equality, countable choice, host equality, selected limit outside the selector row, or unbounded stream read is introduced.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers using \autoref{def:real-cauchy-modulus-selector-carrier}. The selected route in $T$ is a displayed route through the selector row, modulus row, finite StreamName window, dyadic tolerance ledger, regular rational readback, and terminal Real seal.
+
+Apply finite-window soundness, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}, to the route in $T$. It identifies $R,M,S,D,Q,E$ as the only selected coordinates visible to the precision request. Use monotone-window reuse, \autoref{thm:real-cauchy-modulus-selector-window-monotone}, when the transported route is read at a larger displayed precision.
+
+Now use the componentwise $H$ row. It transports the selector, threshold source, window, tolerance, readback, seal, replay, provenance, and local name coordinates to $R',M',S',D',Q',E',C',P',N'$. The transported route is therefore the same finite selector route in $T'$, read through corresponding displayed rows rather than through a new carrier.
+
+Finally apply seal factorization, \autoref{thm:real-cauchy-modulus-selector-seal-factorization}. Since neither carrier has a coordinate for Real completeness, quotient stream equality, countable choice, host equality, selected limits outside the selector row, or unbounded stream reads, componentwise transport cannot introduce any of those readings.
+\end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_selector\_transport\_naturality}
+
+\begin{theorem}[Real Cauchy modulus selector tail bound]
+\label{thm:real-cauchy-modulus-selector-tail-bound}
+Let $T=(M,S,D,Q,E,R,H,C,P,N)$ be an accepted $\RealCauchyModulusSelectorUp$ packet. A selected unary precision request bounds the displayed StreamName window before the terminal seal row $E$ is read: the selector must pass through the modulus row $M$, the finite window row $S$, the dyadic tolerance row $D$, and the regular rational readback row $Q$ before any Real-facing seal consumer can inspect $E$. The bound is therefore a finite tail-bound row over $M,S,D,Q,H,C,P,N$, not a completeness principle, quotient stream equality, countable-choice selector, host real equality, or unbounded stream read.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_tail\_bound}
+\begin{proof}
+Start with finite-window soundness, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}. A unary precision request first exposes the selected threshold in $M$, the StreamName window $S$, the dyadic tolerance row $D$, and the regular rational readback row $Q$.
+
+Use monotone-window reuse, \autoref{thm:real-cauchy-modulus-selector-window-monotone}. Larger displayed precision requests may enlarge the observed prefix and refine the tolerance ledger, but they still replay the same $M,S,D,Q$ route before reaching the terminal Real seal.
+
+Finally apply seal factorization, \autoref{thm:real-cauchy-modulus-selector-seal-factorization}. The seal row $E$ is downstream of the selector route, so a Real-facing consumer cannot inspect it until the finite tail-bound data have already been displayed through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Real Cauchy modulus selector Real-seal route]
+\label{thm:real-cauchy-modulus-selector-real-seal-route}
+Every Real-facing seal read exported by an accepted $\RealCauchyModulusSelectorUp$ packet factors through
+$$
+\RealCauchyModulusUp,\CauchyModulusUp,\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The selector contributes only the finite route from a displayed precision request to a StreamName window, dyadic tolerance ledger, regular rational readback, and terminal Real seal. It does not export Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside $R$, open-cover compactness, or unbounded stream reads.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusSelectorUp.RealCauchyModulusSelectorCarrier\_real\_seal\_route}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:real-cauchy-modulus-selector-namecert-obligations}. They force every accepted packet to display the Real Cauchy modulus row, selected StreamName window, dyadic tolerance ledger, regular rational readback, selector row, transport, replay, provenance, and local naming.
+
+Apply the tail-bound theorem, \autoref{thm:real-cauchy-modulus-selector-tail-bound}. It places the StreamName window, dyadic tolerance, and regular rational readback before the terminal Real seal in every selected precision route.
+
+Use seal factorization, \autoref{thm:real-cauchy-modulus-selector-seal-factorization}. The Real-facing seal is therefore reached only after the upstream $\RealCauchyModulusUp$ and $\CauchyModulusUp$ schedule has been read through $M$, and after the $S,D,Q,H,C,P,N$ structural rows have preserved the selected finite window.
+
+The exclusions are exactly the non-coordinates of \autoref{def:real-cauchy-modulus-selector-carrier}. Since the carrier contains none of the listed ambient principles, the Real-seal route remains the displayed finite BEDC route.
+\end{proof}
+
+\closureat{RealCauchyModulusSelectorUp}{scopedStr}
 
 \begin{closurestatus}{\RealCauchyModulusSelectorUp}
   \constructivestory{A $\RealCauchyModulusSelectorUp$ packet is generated from an accepted $\RealCauchyModulusUp$ modulus row, a selected $\StreamNameUp$ finite window, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, a selector row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-cauchy-modulus-selector-carrier}, \autoref{thm:real-cauchy-modulus-selector-namecert-obligations}, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}, \autoref{thm:real-cauchy-modulus-selector-window-monotone}, and \autoref{thm:real-cauchy-modulus-selector-seal-factorization} bind the finite selector route from Real Cauchy modulus schedules to Real-facing seal reads.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-selector-carrier}, \autoref{thm:real-cauchy-modulus-selector-namecert-obligations}, \autoref{thm:real-cauchy-modulus-selector-finite-window-soundness}, \autoref{thm:real-cauchy-modulus-selector-window-monotone}, \autoref{thm:real-cauchy-modulus-selector-seal-factorization}, \autoref{thm:real-cauchy-modulus-selector-selector-transport-naturality}, \autoref{thm:real-cauchy-modulus-selector-tail-bound}, and \autoref{thm:real-cauchy-modulus-selector-real-seal-route} bind the finite selector route from Real Cauchy modulus schedules to Real-facing seal reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, countable choice, trichotomy, host real equality, selected limits outside the displayed selector row, open-cover compactness, Lean verification, or a public standard bridge.}

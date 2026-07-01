@@ -1,0 +1,68 @@
+\chapter{Axis-Zeckendorf Running Coordinate NameCert Construction}
+\label{ch:concrete-instances-axis-zeckendorf-running-coordinate-namecert}
+\origin{ai}
+
+The $\AxisZeckendorfRunningCoordinateUp$ packet realizes the phase-shell running-coordinate branch of \autoref{prin:zeckendorf-phase-shell-running-coordinate} as finite BEDC data. It sits beside the Zeckendorf phase-shell surface of \autoref{ch:concrete-instances-zeckendorf-phase-shell-namecert}, the carry-classifier boundary of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert}, the hyperbolic observer phase-shell packet of \autoref{ch:concrete-instances-hyperbolic-observer-phase-shell-namecert}, and the golden projection surface used by phase readouts. The packet separates shell-exponent motion from denominator response: a consumer may read a running coordinate only after the shell exponent, denominator response, readout route, transport, provenance, and local NameCert rows remain visible.
+
+\begin{definition}[Axis-Zeckendorf running-coordinate carrier]
+\label{def:axis-zeckendorf-running-coordinate-carrier}
+An $\AxisZeckendorfRunningCoordinateUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,D,R,T,V,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the shell-exponent row, naming the Zeckendorf phase shell and the finite golden-radius exponent being inspected.
+\item $D$ is the denominator-response row, recording the fixed-window denominator coordinate without changing the shell exponent.
+\item $R$ is the readout route row, displaying how the shell exponent and denominator response are consumed by the running-coordinate read.
+\item $T$ is the transport row, recording componentwise $\hsame$ stability for shell exponents, denominator responses, readout rows, replay, provenance, and local naming.
+\item $V$ is the displayed $\Cont$ replay row for fixed-denominator transport and shell-exponent readback.
+\item $P$ is the $\Pkg$ provenance over $\AxisZeckendorfRunningCoordinateUp$, $\ZeckendorfPhaseShellUp$, $\ZeckendorfCarryClassifierUp$, $\HyperbolicObserverPhaseShellUp$, $\GoldenPhaseProjectionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AxisZeckendorfRunningCoordinateUp}$ row.
+\end{enumerate}
+The classifier reads only these seven rows. It has no coordinate for a hidden electroweak running law, an untracked denominator drift, a host real equality of readouts, or a shell change not exposed by $S$.
+\end{definition}
+
+\begin{theorem}[Axis-Zeckendorf running-coordinate surface]
+\label{thm:axis-zeckendorf-running-coordinate-surface}
+For every accepted $\AxisZeckendorfRunningCoordinateUp$ carrier $Z=(S,D,R,T,V,P,N)$, the local $\NameCert_{\AxisZeckendorfRunningCoordinateUp}$ surface consists exactly of shell-exponent exposure, denominator-response exposure, readout-route exposure, componentwise transport, displayed replay, provenance, and local naming. Fixed denominator transport preserves the shell-exponent row: any read that changes $D$ without exposing a new $S$ remains in the same shell.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:axis-zeckendorf-running-coordinate-carrier}. The shell exponent $S$ and denominator response $D$ are separate rows, so a read cannot identify denominator motion with shell motion.
+
+Read the route row $R$. It consumes $S$ and $D$ in the displayed order and exposes the running coordinate as finite readout data rather than as a host real law.
+
+Transport through $T$ and replay through $V$. Because transport is componentwise, fixed denominator transport acts on $D$ and the readout route while preserving the shell-exponent row $S$ unless a new shell row is explicitly supplied.
+
+Finally package the route through $P$ and $N$. The packet therefore exports only the displayed shell-exponent, denominator-response, readout, transport, provenance, and naming surface.
+\end{proof}
+
+\begin{theorem}[Axis-Zeckendorf fixed-denominator non-escape]
+\label{thm:axis-zeckendorf-fixed-denominator-nonescape}
+Every fixed-denominator read of an accepted $\AxisZeckendorfRunningCoordinateUp$ packet factors through the same shell-exponent row $S$ before it reaches the readout route $R$. The read may alter denominator response data inside $D$, but it cannot change shell exponent, phase-shell provenance, or local NameCert identity without exposing a new accepted carrier row.
+\end{theorem}
+\begin{proof}
+Start with a fixed-denominator read. The row $S$ names the shell exponent, while $D$ names the denominator response inspected inside that shell.
+
+Use the readout route $R$ and transport row $T$. Fixed-denominator transport has no coordinate that rewrites $S$, so the transported read remains attached to the same shell-exponent row.
+
+Replay and source the read through $V$ and $P$, then name it through $N$. Since no hidden shell-change coordinate exists in the carrier, every fixed-denominator read remains in the original shell until a new accepted shell-exponent row is displayed.
+\end{proof}
+
+\falsifiablePrediction{For an accepted $\AxisZeckendorfRunningCoordinateUp$ packet, fixed denominator transport cannot change the shell-exponent row; any observed shell change must expose a new $S$ row and a new local $\NameCert$ read.}
+
+\independenceWitness{zeckendorf-phase-shell, zeckendorf-carry-classifier, hyperbolic-observer-phase-shell, golden-phase-projection: $\AxisZeckendorfRunningCoordinateUp$ is not bijective to any listed sibling because it jointly carries shell exponent, denominator response, readout route, transport, provenance, replay, and local naming as one running-coordinate packet.}
+
+Lean's TasteGate surface for $\AxisZeckendorfRunningCoordinateUp$ must provide Nontrivial and FieldFaithful instances for the seven-row carrier, so downstream consumers can distinguish shell-exponent rows from denominator-response rows.
+
+\closureat{AxisZeckendorfRunningCoordinateUp}{seedStr}
+
+\begin{closurestatus}{\AxisZeckendorfRunningCoordinateUp}
+  \constructivestory{An $\AxisZeckendorfRunningCoordinateUp$ packet is generated from shell-exponent rows, denominator-response rows, readout-route rows, componentwise transport, displayed replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axis-zeckendorf-running-coordinate-carrier}, \autoref{thm:axis-zeckendorf-running-coordinate-surface}, and \autoref{thm:axis-zeckendorf-fixed-denominator-nonescape} seed the finite Axis-Zeckendorf running-coordinate packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a hidden electroweak running law, host real equality of readouts, shell changes without displayed shell-exponent rows, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shell-exponent exposure, denominator-response exposure, readout routing, fixed-denominator non-escape, transport, replay, provenance, local naming, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.AxisZeckendorfRunningCoordinateUp.}
+\end{closurestatus}
