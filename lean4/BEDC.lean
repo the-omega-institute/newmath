@@ -10285,6 +10285,7 @@ import BEDC.Derived.RHRoute.LiCriterionRoute
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
 import BEDC.Derived.RHRoute.LocalHalfSplitCertificate
 import BEDC.Derived.RHRoute.LocatedGenerationTower
+import BEDC.Derived.RHRoute.LocatedGenerationTowerExample
 import BEDC.Derived.RHRoute.LocatedZetaZero
 import BEDC.Derived.RHRoute.NestedWindowConditional
 import BEDC.Derived.RHRoute.NonfixedOrbit
