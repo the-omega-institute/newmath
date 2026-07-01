@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceMorphismUp$}
+\label{ch:concrete-instances-cauchy-sequence-morphism-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, a $\CauchySequenceMorphismUp$ packet names a finite modulus-preserving route between accepted $\CauchySequenceSpaceUp$ packets. It is not a host function between streams and not a quotient map between completion classes. The route consumes the source and target spaces of \autoref{ch:concrete-instances-cauchysequencespace-namecert}, the scheduled windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the modulus rows of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the completion boundary of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}. Its Real-facing read remains compatible with the seal discipline of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Cauchy sequence morphism carrier]
+\label{def:cauchy-sequence-morphism-carrier}
+A $\CauchySequenceMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,M,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted source $\CauchySequenceSpaceUp$ packet.
+\item $T$ is the accepted target $\CauchySequenceSpaceUp$ packet.
+\item $M$ is the modulus-preserving row, carrying each source finite-window request to a target window request with the displayed $\CauchyModulusUp$ bound.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records how the source tolerance is carried to the target tolerance.
+\item $E$ is the $\RealCauchyCompletionUp$ and $\RealUp$ handoff row reached only after $S,T,M,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, target, modulus-preserving row, tolerance ledger, Real-seal handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceMorphismUp$, $\CauchySequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceMorphismUp}$ row.
+\end{enumerate}
+The classifier compares accepted morphism packets only through $S,T,M,D,E,H,C,P,N$. It has no coordinate for a host function, quotient stream map, selected limit, countable choice schedule, ambient completeness principle, or full category of completions.
+\end{definition}
+
+\begin{theorem}[Cauchy sequence morphism NameCert obligations]
+\label{thm:cauchy-sequence-morphism-namecert-obligations}
+For every accepted $\CauchySequenceMorphismUp$ carrier
+$$
+F=(S,T,M,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchySequenceMorphismUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item source and target admission for the accepted $\CauchySequenceSpaceUp$ packets $S$ and $T$;
+\item modulus preservation, saying that every source window request consumed by the morphism is routed through $M$ to a target window request with the displayed $\CauchyModulusUp$ bound;
+\item dyadic tolerance exactness for $D$, tying the transported source tolerance to the target tolerance ledger;
+\item Real-seal handoff nonescape for $E$, forcing every completion-facing read through $S,T,M,D$ before any $\RealCauchyCompletionUp$ or $\RealUp$ seal is consumed;
+\item structural stability for $H,C,P,N$, transporting, replaying, sourcing, and locally naming only the same displayed route.
+\end{enumerate}
+No morphism obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-morphism-carrier}. The source and target sequence-space packets are the only endpoints available, and $M$ is the only row that transports window requests between them.
+
+Read the dyadic ledger $D$. It is stored beside the same source, target, and modulus rows, so tolerance transfer cannot be supplied by an external real equality or by a quotient stream map.
+
+Finally read the handoff row $E$ and the structural rows $H,C,P,N$. They preserve the displayed route through transport, replay, provenance, and local naming, and they add no coordinate for host functions, selected limits, countable choice, ambient completeness, or a category-of-completions theorem.
+\end{proof}
+
+\begin{theorem}[Cauchy sequence morphism Real-seal nonescape]
+\label{thm:cauchy-sequence-morphism-real-seal-nonescape}
+Let
+$$
+F=(S,T,M,D,E,H,C,P,N)
+$$
+be an accepted $\CauchySequenceMorphismUp$ carrier. Every $\RealCauchyCompletionUp$- or $\RealUp$-facing read exported by $F$ factors first through the source packet $S$, the target packet $T$, the modulus-preserving row $M$, the dyadic tolerance ledger $D$, the transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $N$ before the seal row $E$ is consumed.
+
+Consequently the morphism exports no host function, quotient stream map, selected limit, countable-choice schedule, ambient completeness principle, or full category-of-completions structure.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The only Real-facing coordinate is $E$, and it is stored in the same packet as $S,T,M,D,H,C,P,N$.
+
+Apply the NameCert obligation surface of \autoref{thm:cauchy-sequence-morphism-namecert-obligations}. The source-target admission row and modulus-preservation row place $S,T,M$ before any completion-facing read, while dyadic exactness places $D$ on the same route.
+
+The structural stability row then routes the read through $H,C,P,N$. Since these rows only transport, replay, source, and locally name the displayed packet, the seal row cannot be consumed through a host function, quotient stream map, selected limit, choice schedule, ambient completeness principle, or category-of-completions structure.
+\end{proof}
+
+\closureat{CauchySequenceMorphismUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceMorphismUp}
+  \constructivestory{A $\CauchySequenceMorphismUp$ packet is generated from source and target $\CauchySequenceSpaceUp$ rows, a modulus-preserving row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealCauchyCompletionUp$ and $\RealUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-morphism-carrier}, \autoref{thm:cauchy-sequence-morphism-namecert-obligations}, and \autoref{thm:cauchy-sequence-morphism-real-seal-nonescape} seed the finite modulus-preserving morphism route between accepted Cauchy-sequence-space packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host functions, quotient stream maps, selected limits, countable choice, ambient completeness, a full category of completions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-target admission, modulus preservation, dyadic tolerance exactness, Real-seal nonescape, transport stability, replay stability, provenance, and local naming for BEDC.Derived.CauchySequenceMorphismUp.}
+\end{closurestatus}
