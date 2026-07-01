@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-01T15:05:42Z
+> 最后刷新: 2026-07-01T17:57:58Z
 
-**Daemon 状态**: monitor (monitor cycle 241, adjust_since_research 2, round_counter 34599, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 243, adjust_since_research 2, round_counter 34695, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1092 条 finding):
-- isolated_theorem: 776 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1091 条 finding):
+- isolated_theorem: 775 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 63 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 81 次
-- TASTE ALERT category=low_entropy_template: 26 次
+- TASTE ALERT category=low_entropy_template: 27 次
 - TASTE ALERT category=cycle_exception: 7 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -475,6 +475,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-01T15:04:59Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchySubnetUp.CauchySubnetCarrier_obligation_closure_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySubnetUp.CauchySubnetCarrier_obligation_closure_package:e2015600`). Rationale: I inspected the Lean declaration and the CauchySubnet paper chapter, and exact active-code search showed no Lean downstream consumer for this target; the paper has only the escaped leanchecked marker, while the same chapter retains the canonical CauchySubnet_obligation_closure_package and the stronger CauchySubnetCarrier_scoped_kernel_route. I attempted delete_theorem by removing the Lean declaration and the paper marker, but the required lake build gate did not produce a confirmed exit 0: output reached the final build stage around [14073/14080], then no lake/lean process was visible while the PTY session still reported running, and I interrupted it with code 130. Per task rules I reverted the edit and leave the theorem unchanged with this gate failure recorded. Gate results: lake_build=attempted delete_theorem; build reached [14073/14080] with no Lean error, then produced no terminal exit status and was interrupted with code 130, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-01T16:30:22Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_seal_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_seal_nonescape:3c7e3bf5`). Rationale: The target is not a disposable wrapper: the paper uses seal non-escape as a proof dependency for the Real route, boundary transport, and public L10 route, while Lean previously had no downstream consumer. I added BishopCompletionComparisonCarrier_boundary_real_nonescape in the boundary-transport sibling, which explicitly calls the target and combines its seal non-escape certificate with the existing real-route certificate, tying the isolated theorem into the same BHist/Cont/SemanticNameCert route family. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-01T17:57:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport` (flag `isolated_theorem`, finding `isolated_theorem:bishopcompletioncomparison:BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport:28772705`). Rationale: The theorem is not disposable staging: the paper chapter uses the boundary-transport claim in the BishopCompletionComparison public route, but Lean had no downstream symbol reference. I added a sibling consumer, BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_transport_real_route, which combines the boundary transport certificate with the existing Real route certificate over the same carrier, replay, provenance, and package data. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
