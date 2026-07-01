@@ -3280,6 +3280,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.transcription_termination.intrinsic_terminator_strength_sequence_beyond_composition_physical_chen2013",
+   "experiment_id": "terminator_intrinsic_strength_chen2013_nmeth2515",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, 9th MODALITY = intrinsic transcription termination, single-mechanism): does higher-order sequence predict E. coli terminator strength beyond composition + the authors' validated physical model (Predicted TS hairpin-U-tract kinetic model + ∆G components), identity-cluster-controlled? Chen 2013 (DOI 10.1038/nmeth.2515), n=507 (311 natural + 196 synthetic, ~43nt), y=log2(Average Strength). baseline_comp=composition; baseline_phys=+Predicted TS + ∆GU/L/H/A; full=+higher-order (RC/stem density, entropy, U-run/A-run). k-mer-minhash identity-cluster holdout + perm (B=400) + leave-source(natural/synthetic) diagnostic + physical-over-composition step. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_terminator_intrinsic_strength_chen2013_nmeth2515.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T08:33:27+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.dna_cis_regulatory_element.crx_retina_cre_reporter_activity_sequence_beyond_composition_cels2024",
+   "experiment_id": "crx_active_learning_retina_cre_activity_cels2024",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, 10th MODALITY = DNA cis-regulatory element reporter activity, single-mechanism): does higher-order sequence structure predict CRX-dependent developing-retina CRE reporter activity beyond composition, seed-lineage-leakage-controlled? Friedman/Cohen Cell Systems 2024 (DOI 10.1016/j.cels.2024.12.004; barakcohenlab/CRX-Active-Learning, Data/activity_summary_stats_and_metadata.txt), n_total=120,910 (164bp), subsample n=9,001 across 335 seed families (of 5,330), y=expression_log2 (barcode-averaged MPRA reporter activity). baseline_comp=composition (mono/dinuc/GC); full=+higher-order generic structure (k-mer entropy k3/k4, RC/palindrome density k4/k5/k6, max-RC-stem, homopolymer/purine/AT runs, CpG O/E). leave-parent-family-out (original_seq) holdout + leave-library-out (generator) transfer + random-split contrast + perm (B=300). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_crx_active_learning_retina_cre_activity_cels2024.py",
+   "timeout_seconds": 1800,
+   "status": "passed",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T09:13:29+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
