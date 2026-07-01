@@ -11833,13 +11833,13 @@ import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.SL2Up
 import BEDC.Derived.SRRouteDependencyAuditUp.TasteGate
+import BEDC.Derived.SafePrimeUp
 import BEDC.Derived.SamuelCompactificationUp.TasteGate
 import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
 import BEDC.Derived.SardTheoremUp
-import BEDC.Derived.SafePrimeUp
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
@@ -12786,6 +12786,7 @@ import BEDC.Derived.TerminationRefusalBoundaryUp.NameCertObligations
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
 import BEDC.Derived.TetrahedralUp
+import BEDC.Derived.TetranacciUp
 import BEDC.Derived.TheoremGapRegistryUp.BridgeSurface
 import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
@@ -12922,7 +12923,6 @@ import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TotallyBoundedUp.TasteGate
 import BEDC.Derived.TotallyDisconnectedSpaceUp.TasteGate
 import BEDC.Derived.TotientSummatoryUp
-import BEDC.Derived.TetranacciUp
 import BEDC.Derived.TouchardPolyUp
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
