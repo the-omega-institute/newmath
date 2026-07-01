@@ -10256,6 +10256,7 @@ import BEDC.Derived.RHRoute.IntervalMatrixPSD.AlgebraNormalize
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.FormalPoly
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.HornerInterval
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.PanelError
+import BEDC.Derived.RHRoute.IntervalMatrixPSD.PolyPanelError
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.QRatBridge
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
 import BEDC.Derived.RHRoute.JensenHyperbolicityRoute
