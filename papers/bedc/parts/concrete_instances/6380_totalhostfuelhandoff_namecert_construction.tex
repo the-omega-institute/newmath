@@ -117,15 +117,17 @@ The substrate and continuation siblings point to components rather than the whol
 Consequently the $\TotalHostFuelHandoffUp$ packet is the concrete interface object for terminal readback across the total-host and substrate-trace boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.TotalHostFuelHandoffUp.TotalHostFuelHandoffSiblingBoundary}
+\leanchecked{BEDC.Derived.TotalHostFuelHandoffUp.TotalHostFuelHandoffTasteGate\_single\_carrier\_alignment}
 
 The Lean \texttt{lean4/BEDC/Derived/TotalHostFuelHandoffUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \TotalHostFuelHandoffUp$ and $\mathsf{FieldFaithful}\ \TotalHostFuelHandoffUp$ instances. These instances must preserve the total-host source row, fuel handoff row, substrate row, finite trace row, terminal readback row, refusal ledger, componentwise transports, displayed continuation routes, package provenance, and local naming row.
 
 \closureat{TotalHostFuelHandoffUp}{seedStr}
+\closureat{TotalHostFuelHandoffUp}{obligationStr}[BEDC.Derived.TotalHostFuelHandoffUp.TotalHostFuelHandoffNameCertObligations]
 
 \begin{closurestatus}{\TotalHostFuelHandoffUp}
   \constructivestory{A $\TotalHostFuelHandoffUp$ packet is generated from a total-host source row, finite fuel handoff row, substrate row, finite trace row, terminal readback row, refusal ledger, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:total-host-fuel-handoff-carrier}, \autoref{thm:total-host-fuel-handoff-namecert-obligations}, \autoref{thm:total-host-fuel-handoff-nonescape}, and \autoref{thm:total-host-fuel-handoff-sibling-boundary} specify the finite fuel handoff packet between total host and substrate trace.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:total-host-fuel-handoff-carrier}, \autoref{thm:total-host-fuel-handoff-namecert-obligations}, \autoref{thm:total-host-fuel-handoff-nonescape}, \autoref{thm:total-host-fuel-handoff-sibling-boundary}, and the checked TasteGate marker specify the finite fuel handoff packet and its NameCert obligation surface between total host and substrate trace.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
