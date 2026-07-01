@@ -9263,6 +9263,7 @@ import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NeumannSeriesUp.TasteGate
+import BEDC.Derived.NewmanShanksWilliamsUp
 import BEDC.Derived.NewtonForwardSeriesUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
@@ -11832,6 +11833,7 @@ import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.SL2Up
 import BEDC.Derived.SRRouteDependencyAuditUp.TasteGate
+import BEDC.Derived.SafePrimeUp
 import BEDC.Derived.SamuelCompactificationUp.TasteGate
 import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
@@ -12425,6 +12427,7 @@ import BEDC.Derived.SolipsismGapRefusalUp.NameCertObligations
 import BEDC.Derived.SolipsismGapRefusalUp.Nonescape
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.SophieGermainPrimeUp
 import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
@@ -12783,6 +12786,7 @@ import BEDC.Derived.TerminationRefusalBoundaryUp.NameCertObligations
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
 import BEDC.Derived.TetrahedralUp
+import BEDC.Derived.TetranacciUp
 import BEDC.Derived.TheoremGapRegistryUp.BridgeSurface
 import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
@@ -13476,6 +13480,7 @@ import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6IncidenceOrthogonalityTripleRecurrence
 import BEDC.Derived.Window6JointNecklace
+import BEDC.Derived.Window6LiveTailCongruence
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6LucasDisjointPairTrace
 import BEDC.Derived.Window6LucasFibNormRelation
