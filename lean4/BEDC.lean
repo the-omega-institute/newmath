@@ -11706,6 +11706,7 @@ import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
+import BEDC.Derived.RiemannSamplerUp.TasteGate
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
 import BEDC.Derived.RiemannStieltjesUp.DarbouxMeshRefinement
