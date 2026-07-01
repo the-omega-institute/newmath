@@ -1485,6 +1485,7 @@ import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchyUp.TailWindowInduction
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
@@ -3638,6 +3639,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteOrderedFieldUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.DensityCompletionHandoff
+import BEDC.Derived.CompleteSeparableMetricUp.FiniteDensityInduction
 import BEDC.Derived.CompleteSeparableMetricUp.FiniteWindowDensitySeal
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
@@ -10045,6 +10047,7 @@ import BEDC.Derived.PrimitiveDistinctionLedgerUp.NameCertObligations
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.NoBooleanCollapse
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
+import BEDC.Derived.PrimitiveRecursionUp.UnaryScheduleRealization
 import BEDC.Derived.PrimitiveRecursiveUp.TasteGate
 import BEDC.Derived.PrimitiveRootCyclic
 import BEDC.Derived.PrimitiveRootExistence
