@@ -12116,6 +12116,7 @@ import BEDC.Derived.Window6NoPairOnlyTripleRecurrence
 import BEDC.Derived.Window6ParryModPDescent
 import BEDC.Derived.Window6PellCubePolynomial
 import BEDC.Derived.Window6PisanoPeriodModP
+import BEDC.Derived.Window6PosetComparabilityJacobsthal
 import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6RisingColumnTripleRecurrence
 import BEDC.Derived.Window6SeamIdentification
