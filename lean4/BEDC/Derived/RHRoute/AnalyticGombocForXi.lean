@@ -179,6 +179,200 @@ structure AnalyticGombocEquivalenceBridge where
   B_to_C : HerglotzPositivity -> StieltjesPositiveSpectral
   C_to_A : StieltjesPositiveSpectral -> PickHilbertDecomposition
 
+inductive PickHerglotzReductionObligation where
+  | cayleyTransformRightHalfPlane
+  | pickKernelKolmogorovFactor
+  | herglotzRealPartReadback
+  | locatedBoundaryControl
+
+def canonicalPickHerglotzReductionObligations :
+    List PickHerglotzReductionObligation :=
+  [ PickHerglotzReductionObligation.cayleyTransformRightHalfPlane,
+    PickHerglotzReductionObligation.pickKernelKolmogorovFactor,
+    PickHerglotzReductionObligation.herglotzRealPartReadback,
+    PickHerglotzReductionObligation.locatedBoundaryControl ]
+
+structure PickHerglotzReduction where
+  obligations : List PickHerglotzReductionObligation
+  obligations_scope :
+    obligations = canonicalPickHerglotzReductionObligations
+  from_pick : PickHilbertDecomposition -> HerglotzPositivity
+  from_herglotz_to_pick : HerglotzPositivity -> PickHilbertDecomposition
+
+theorem pick_herglotz_reduction_obligation_count
+    (R : PickHerglotzReduction) :
+    R.obligations.length = 4 := by
+  rw [R.obligations_scope]
+  rfl
+
+def pick_to_herglotz_reduction
+    (R : PickHerglotzReduction)
+    (A : PickHilbertDecomposition) :
+    HerglotzPositivity :=
+  R.from_pick A
+
+def herglotz_to_pick_reduction
+    (R : PickHerglotzReduction)
+    (B : HerglotzPositivity) :
+    PickHilbertDecomposition :=
+  R.from_herglotz_to_pick B
+
+theorem pick_herglotz_interderivable
+    (R : PickHerglotzReduction) :
+    (Nonempty PickHilbertDecomposition -> Nonempty HerglotzPositivity) ∧
+      (Nonempty HerglotzPositivity -> Nonempty PickHilbertDecomposition) := by
+  constructor
+  · intro hA
+    cases hA with
+    | intro A =>
+        exact ⟨R.from_pick A⟩
+  · intro hB
+    cases hB with
+    | intro B =>
+        exact ⟨R.from_herglotz_to_pick B⟩
+
+theorem pick_herglotz_nonempty_iff
+    (R : PickHerglotzReduction) :
+    Iff (Nonempty PickHilbertDecomposition) (Nonempty HerglotzPositivity) := by
+  have AB := pick_herglotz_interderivable R
+  exact Iff.intro AB.left AB.right
+
+inductive HerglotzStieltjesReductionObligation where
+  | nevanlinnaRepresentation
+  | positiveSpectralMeasure
+  | cauchyStieltjesKernelReadback
+  | locatedIntegralControl
+
+def canonicalHerglotzStieltjesReductionObligations :
+    List HerglotzStieltjesReductionObligation :=
+  [ HerglotzStieltjesReductionObligation.nevanlinnaRepresentation,
+    HerglotzStieltjesReductionObligation.positiveSpectralMeasure,
+    HerglotzStieltjesReductionObligation.cauchyStieltjesKernelReadback,
+    HerglotzStieltjesReductionObligation.locatedIntegralControl ]
+
+structure HerglotzStieltjesReduction where
+  obligations : List HerglotzStieltjesReductionObligation
+  obligations_scope :
+    obligations = canonicalHerglotzStieltjesReductionObligations
+  from_herglotz : HerglotzPositivity -> StieltjesPositiveSpectral
+  from_stieltjes_to_herglotz : StieltjesPositiveSpectral -> HerglotzPositivity
+
+theorem herglotz_stieltjes_reduction_obligation_count
+    (R : HerglotzStieltjesReduction) :
+    R.obligations.length = 4 := by
+  rw [R.obligations_scope]
+  rfl
+
+def herglotz_to_stieltjes_reduction
+    (R : HerglotzStieltjesReduction)
+    (B : HerglotzPositivity) :
+    StieltjesPositiveSpectral :=
+  R.from_herglotz B
+
+def stieltjes_to_herglotz_reduction
+    (R : HerglotzStieltjesReduction)
+    (C : StieltjesPositiveSpectral) :
+    HerglotzPositivity :=
+  R.from_stieltjes_to_herglotz C
+
+theorem herglotz_stieltjes_interderivable
+    (R : HerglotzStieltjesReduction) :
+    (Nonempty HerglotzPositivity -> Nonempty StieltjesPositiveSpectral) ∧
+      (Nonempty StieltjesPositiveSpectral -> Nonempty HerglotzPositivity) := by
+  constructor
+  · intro hB
+    cases hB with
+    | intro B =>
+        exact ⟨R.from_herglotz B⟩
+  · intro hC
+    cases hC with
+    | intro C =>
+        exact ⟨R.from_stieltjes_to_herglotz C⟩
+
+theorem herglotz_stieltjes_nonempty_iff
+    (R : HerglotzStieltjesReduction) :
+    Iff (Nonempty HerglotzPositivity) (Nonempty StieltjesPositiveSpectral) := by
+  have BC := herglotz_stieltjes_interderivable R
+  exact Iff.intro BC.left BC.right
+
+inductive GombocEquivalenceScope where
+  | standardPositivityInterderivability
+  | completedXiReadbackHardBoundary
+  | rhConclusionRequiresXiCertificate
+
+def canonicalGombocEquivalenceScope :
+    List GombocEquivalenceScope :=
+  [ GombocEquivalenceScope.standardPositivityInterderivability,
+    GombocEquivalenceScope.completedXiReadbackHardBoundary,
+    GombocEquivalenceScope.rhConclusionRequiresXiCertificate ]
+
+structure GombocEquivalence where
+  pick_herglotz : PickHerglotzReduction
+  herglotz_stieltjes : HerglotzStieltjesReduction
+  scope_markers : List GombocEquivalenceScope
+  scope_markers_scope :
+    scope_markers = canonicalGombocEquivalenceScope
+
+theorem gomboc_equivalence_scope_count
+    (E : GombocEquivalence) :
+    E.scope_markers.length = 3 := by
+  rw [E.scope_markers_scope]
+  rfl
+
+def gomboc_equivalence_bridge
+    (E : GombocEquivalence) :
+    AnalyticGombocEquivalenceBridge :=
+  { hard_boundaries := canonicalAnalyticGombocHardBoundaries
+    hard_boundaries_scope := rfl
+    A_to_B := E.pick_herglotz.from_pick
+    B_to_C := E.herglotz_stieltjes.from_herglotz
+    C_to_A := fun C =>
+      E.pick_herglotz.from_herglotz_to_pick
+        (E.herglotz_stieltjes.from_stieltjes_to_herglotz C) }
+
+theorem gomboc_A_B_C_interderivable
+    (E : GombocEquivalence) :
+    (Nonempty PickHilbertDecomposition -> Nonempty HerglotzPositivity) ∧
+      (Nonempty HerglotzPositivity -> Nonempty PickHilbertDecomposition) ∧
+        (Nonempty HerglotzPositivity -> Nonempty StieltjesPositiveSpectral) ∧
+          (Nonempty StieltjesPositiveSpectral -> Nonempty HerglotzPositivity) := by
+  have AB := pick_herglotz_interderivable E.pick_herglotz
+  have BC := herglotz_stieltjes_interderivable E.herglotz_stieltjes
+  exact ⟨AB.left, AB.right, BC.left, BC.right⟩
+
+theorem gomboc_A_B_C_nonempty_iff
+    (E : GombocEquivalence) :
+    (Iff (Nonempty PickHilbertDecomposition) (Nonempty HerglotzPositivity)) ∧
+      (Iff (Nonempty HerglotzPositivity) (Nonempty StieltjesPositiveSpectral)) := by
+  exact
+    ⟨pick_herglotz_nonempty_iff E.pick_herglotz,
+      herglotz_stieltjes_nonempty_iff E.herglotz_stieltjes⟩
+
+structure GombocFormsWithRH where
+  pick_A : PickHilbertDecomposition
+  herglotz_B : HerglotzPositivity
+  stieltjes_C : StieltjesPositiveSpectral
+  constructive_rh : ConstructiveRH
+
+def gomboc_forms_with_rh_from_pick
+    (E : GombocEquivalence)
+    (A : PickHilbertDecomposition) :
+    GombocFormsWithRH :=
+  let B := E.pick_herglotz.from_pick A
+  { pick_A := A
+    herglotz_B := B
+    stieltjes_C := E.herglotz_stieltjes.from_herglotz B
+    constructive_rh := rh_from_pick_hilbert_decomposition A }
+
+theorem gomboc_equivalence_from_pick_reaches_all
+    (E : GombocEquivalence)
+    (A : PickHilbertDecomposition) :
+    Nonempty HerglotzPositivity ∧
+      Nonempty StieltjesPositiveSpectral ∧ ConstructiveRH := by
+  let B := E.pick_herglotz.from_pick A
+  exact ⟨⟨B⟩, ⟨E.herglotz_stieltjes.from_herglotz B⟩,
+    rh_from_pick_hilbert_decomposition A⟩
+
 theorem analytic_gomboc_hard_boundary_count :
     canonicalAnalyticGombocHardBoundaries.length = 5 := by
   rfl
@@ -260,13 +454,82 @@ theorem rh_via_stieltjes_positive_spectral
   intro s zero
   exact handoff.rh_from_stieltjes C s zero
 
+def gomboc_forms_with_rh_from_herglotz
+    (E : GombocEquivalence)
+    (handoff : AnalyticGombocRHHandoff)
+    (B : HerglotzPositivity) :
+    GombocFormsWithRH :=
+  { pick_A := E.pick_herglotz.from_herglotz_to_pick B
+    herglotz_B := B
+    stieltjes_C := E.herglotz_stieltjes.from_herglotz B
+    constructive_rh := handoff.rh_from_herglotz B }
+
+def gomboc_forms_with_rh_from_stieltjes
+    (E : GombocEquivalence)
+    (handoff : AnalyticGombocRHHandoff)
+    (C : StieltjesPositiveSpectral) :
+    GombocFormsWithRH :=
+  let B := E.herglotz_stieltjes.from_stieltjes_to_herglotz C
+  { pick_A := E.pick_herglotz.from_herglotz_to_pick B
+    herglotz_B := B
+    stieltjes_C := C
+    constructive_rh := handoff.rh_from_stieltjes C }
+
+theorem gomboc_equivalence_from_herglotz_reaches_all
+    (E : GombocEquivalence)
+    (handoff : AnalyticGombocRHHandoff)
+    (B : HerglotzPositivity) :
+    Nonempty PickHilbertDecomposition ∧
+      Nonempty StieltjesPositiveSpectral ∧ ConstructiveRH := by
+  exact
+    ⟨⟨E.pick_herglotz.from_herglotz_to_pick B⟩,
+      ⟨E.herglotz_stieltjes.from_herglotz B⟩,
+      handoff.rh_from_herglotz B⟩
+
+theorem gomboc_equivalence_from_stieltjes_reaches_all
+    (E : GombocEquivalence)
+    (handoff : AnalyticGombocRHHandoff)
+    (C : StieltjesPositiveSpectral) :
+    Nonempty PickHilbertDecomposition ∧
+      Nonempty HerglotzPositivity ∧ ConstructiveRH := by
+  let B := E.herglotz_stieltjes.from_stieltjes_to_herglotz C
+  exact
+    ⟨⟨E.pick_herglotz.from_herglotz_to_pick B⟩, ⟨B⟩,
+      handoff.rh_from_stieltjes C⟩
+
 structure AnalyticGombocForXi where
   pick_hilbert_A : PickHilbertDecomposition
   herglotz_B : HerglotzPositivity
   stieltjes_C : StieltjesPositiveSpectral
   equivalence_bridge : AnalyticGombocEquivalenceBridge
+  gomboc_equivalence : GombocEquivalence
+  equivalence_bridge_scope :
+    equivalence_bridge = gomboc_equivalence_bridge gomboc_equivalence
   rh_handoff : AnalyticGombocRHHandoff
   no_hidden_ballast : NoHiddenBallast
+
+theorem analytic_gomboc_for_xi_bridge_reads_gomboc_equivalence
+    (G : AnalyticGombocForXi) :
+    G.equivalence_bridge = gomboc_equivalence_bridge G.gomboc_equivalence := by
+  exact G.equivalence_bridge_scope
+
+def analytic_gomboc_for_xi_forms_from_pick
+    (G : AnalyticGombocForXi)
+    (A : PickHilbertDecomposition) :
+    GombocFormsWithRH :=
+  gomboc_forms_with_rh_from_pick G.gomboc_equivalence A
+
+def analytic_gomboc_for_xi_forms_from_herglotz
+    (G : AnalyticGombocForXi)
+    (B : HerglotzPositivity) :
+    GombocFormsWithRH :=
+  gomboc_forms_with_rh_from_herglotz G.gomboc_equivalence G.rh_handoff B
+
+def analytic_gomboc_for_xi_forms_from_stieltjes
+    (G : AnalyticGombocForXi)
+    (C : StieltjesPositiveSpectral) :
+    GombocFormsWithRH :=
+  gomboc_forms_with_rh_from_stieltjes G.gomboc_equivalence G.rh_handoff C
 
 theorem rh_via_analytic_gomboc_from_pick
     (G : AnalyticGombocForXi) :
@@ -289,5 +552,112 @@ theorem rh_via_analytic_gomboc
     (G : AnalyticGombocForXi) :
     ConstructiveRH := by
   exact rh_via_analytic_gomboc_from_pick G
+
+structure ToyPickPositivityA where
+  kernel_quadratic : KernelGramPacket -> Rat
+  kernel_quadratic_nonnegative :
+    forall packet : KernelGramPacket,
+      ratLe ratZero (kernel_quadratic packet)
+
+structure ToyHerglotzPositivityB where
+  real_part : RatComplex -> Rat
+  real_part_nonnegative :
+    forall z : RatComplex, ratLe ratZero (real_part z)
+
+structure ToyStieltjesPositiveSpectralC where
+  Atom : Type
+  mass : Atom -> Rat
+  kernel : Rat -> Atom -> Rat
+  integral : Rat -> Rat
+  mass_nonnegative : forall a : Atom, ratLe ratZero (mass a)
+  kernel_nonnegative :
+    forall x : Rat, ratLe ratZero x ->
+      forall a : Atom, ratLe ratZero (kernel x a)
+  integral_nonnegative :
+    forall x : Rat, ratLe ratZero x -> ratLe ratZero (integral x)
+
+def toyPickA_constant_one : ToyPickPositivityA :=
+  { kernel_quadratic := fun _ => ratOne
+    kernel_quadratic_nonnegative := fun _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg }
+
+def toyHerglotzB_constant_one : ToyHerglotzPositivityB :=
+  { real_part := fun _ => ratOne
+    real_part_nonnegative := fun _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg }
+
+def toyStieltjesC_single_atom : ToyStieltjesPositiveSpectralC :=
+  { Atom := Unit
+    mass := fun _ => ratOne
+    kernel := fun _ _ => ratOne
+    integral := fun _ => ratOne
+    mass_nonnegative := fun _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    kernel_nonnegative := fun _ _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    integral_nonnegative := fun _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg }
+
+def toyHerglotzPositivity_constant_one : HerglotzPositivity :=
+  { xi_log_derivative_real_part := fun _ => ratOne
+    source_side_readback_obligations := canonicalHerglotzReadbackObligations
+    source_side_readback_scope := rfl
+    no_illegal_scale_source_sink := fun _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    right_half_plane_scope := fun _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg }
+
+def toyLocatedPositiveSpectralMeasure_single_atom :
+    LocatedPositiveSpectralMeasure :=
+  { Atom := Unit
+    mass := fun _ => ratOne
+    spectral_location := fun _ => ratZero
+    mass_nonnegative := fun _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    location_nonnegative := fun _ => ratLe_refl ratZero
+    cauchy_kernel := fun _ _ => ratOne
+    kernel_nonnegative := fun _ _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    integral := fun _ => ratOne
+    integral_nonnegative := fun _ _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg
+    readback_obligations := canonicalStieltjesReadbackObligations
+    readback_obligations_scope := rfl }
+
+def toyStieltjesPositiveSpectral_single_atom :
+    StieltjesPositiveSpectral :=
+  { spectral_measure := toyLocatedPositiveSpectralMeasure_single_atom
+    dlog_xi_half_sqrt := fun _ => ratOne
+    stieltjes_readback := fun _ _ => RatEq_refl ratOne
+    positive_spectral_measure := fun _ =>
+      BEDC.Real.RatNumLogEnclosure.ratOne_nonneg }
+
+theorem toy_gomboc_positivity_witnesses_inhabited :
+    Nonempty ToyPickPositivityA ∧
+      Nonempty ToyHerglotzPositivityB ∧
+        Nonempty ToyStieltjesPositiveSpectralC := by
+  exact ⟨⟨toyPickA_constant_one⟩, ⟨toyHerglotzB_constant_one⟩,
+    ⟨toyStieltjesC_single_atom⟩⟩
+
+theorem toy_B_C_certificates_inhabited :
+    Nonempty HerglotzPositivity ∧ Nonempty StieltjesPositiveSpectral := by
+  exact ⟨⟨toyHerglotzPositivity_constant_one⟩,
+    ⟨toyStieltjesPositiveSpectral_single_atom⟩⟩
+
+theorem toy_pick_A_sample_positive
+    (packet : KernelGramPacket) :
+    ratLe ratZero (toyPickA_constant_one.kernel_quadratic packet) := by
+  exact toyPickA_constant_one.kernel_quadratic_nonnegative packet
+
+theorem toy_herglotz_B_sample_positive
+    (z : RatComplex) :
+    ratLe ratZero (toyHerglotzB_constant_one.real_part z) := by
+  exact toyHerglotzB_constant_one.real_part_nonnegative z
+
+theorem toy_stieltjes_C_sample_positive
+    (x : Rat)
+    (hx : ratLe ratZero x) :
+    ratLe ratZero (toyStieltjesC_single_atom.integral x) := by
+  exact toyStieltjesC_single_atom.integral_nonnegative x hx
 
 end BEDC.Derived.RHRoute.AnalyticGombocForXi
