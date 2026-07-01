@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-01T19:12:59Z
+> 最后刷新: 2026-07-01T21:02:29Z
 
-**Daemon 状态**: monitor (monitor cycle 244, adjust_since_research 2, round_counter 34763, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 245, adjust_since_research 2, round_counter 34813, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1105 条 finding):
-- isolated_theorem: 789 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1116 条 finding):
+- isolated_theorem: 799 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 63 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 64 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 78 次
-- TASTE ALERT category=low_entropy_template: 27 次
+- TASTE ALERT category=isolated_theorem: 80 次
+- TASTE ALERT category=low_entropy_template: 28 次
 - TASTE ALERT category=cycle_exception: 7 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -479,6 +479,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-01T17:57:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport` (flag `isolated_theorem`, finding `isolated_theorem:bishopcompletioncomparison:BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport:28772705`). Rationale: The theorem is not disposable staging: the paper chapter uses the boundary-transport claim in the BishopCompletionComparison public route, but Lean had no downstream symbol reference. I added a sibling consumer, BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_transport_real_route, which combines the boundary transport certificate with the existing Real route certificate over the same carrier, replay, provenance, and package data. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-01T19:12:14Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusDisplayedPrefixSubledger_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusDisplayedPrefixSubledger_closure:ca6316a6`). Rationale: The target was not paper-marked and grep showed no prior downstream references, but its statement carries real BEDC content: it packages the displayed prefix subledger into a SemanticNameCert plus prefix and retained UnaryHistory closure. I kept the theorem and made the existing scoped closure route consume it directly, replacing a duplicate local derivation of the same prefix/retained closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-01T21:01:44Z: `resolved` `add_downstream_user` for `BEDC.Derived.ZetaContinuationSocketUp.ZetaContinuationSocketLedger_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ZetaContinuationSocketUp.ZetaContinuationSocketLedger_nonescape:1f23db51`). Rationale: The target is not a trivial restatement: the paper chapter uses the ledger non-escape claim as part of the socket boundary and later paper-only boundary exhaustion, but Lean had no sibling consumer. I added `ZetaContinuationSocketCarrier_analytic_ledger_boundary` in the analytic handoff sibling file, which substantively consumes `ZetaContinuationSocketLedger_nonescape` together with `ZetaContinuationSocketCarrier_analytic_handoff` to expose both the downstream seal certificate and the pole/gamma/trivial ledger certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
