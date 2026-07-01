@@ -74,6 +74,20 @@ The approximation and trace rows $A,T$ order the descent budget before the winne
 The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Because no row carries a host choice selector, quotient completion, or independent ambient-completeness assertion, downstream consumers cannot obtain such data from the handoff.
 \end{proof}
 
+\begin{theorem}[Ekeland variational-principle descent window]
+\label{thm:ekeland-variational-principle-descent-window}
+Any accepted $\EkelandVariationalPrincipleUp$ packet exposes the approximation row $A$, finite descent trace $T$, complete-metric readiness row $M$, lower-semicontinuity row $L$, rational readback row $R$, and winner window $W$ in that order before a downstream fixed-point or minimization consumer may read the perturbation inequality. The read is therefore a finite descent-window obligation over the carrier rows of \autoref{def:ekeland-variational-principle-carrier}, not a host minimizer, selected choice function, quotient completion, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(X,d,M,L,R,A,T,W,H,C,P,N)$ and read the obligation surface of \autoref{thm:ekeland-variational-principle-namecert-obligations}. The approximation row $A$ supplies the initial value, tolerance, and perturbation budget before any descent comparison can be inspected.
+
+Next use the metric-descent handoff of \autoref{thm:ekeland-variational-principle-metric-descent-handoff}. It keeps the finite trace $T$ downstream of $A$ and keeps every Cauchy-tail request routed through $M$.
+
+The value comparisons then pass through $L$ and $R$. Thus lower-semicontinuity and rational readback remain visible before the terminal perturbation inequality is exposed in $W$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same ordered window. Since the carrier contains no coordinate for host minimizers, selected choice functions, quotient completions, or ambient completeness, the consumer receives only the displayed descent window.
+\end{proof}
+
 \closureat{EkelandVariationalPrincipleUp}{seedStr}
 
 \begin{closurestatus}{\EkelandVariationalPrincipleUp}

@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\KKMLemmaUp$}
+\label{ch:concrete-instances-kkm-lemma-namecert}
+\origin{human}
+
+Following Knaster, Kuratowski, and Mazurkiewicz, the $\KKMLemmaUp$ packet records the finite simplex-cover intersection datum behind the KKM lemma as a NameCert carrier. It sits downstream of the finite-cover surface of \autoref{ch:concrete-instances-kkm-finite-cover-namecert}, the compact metric route of \autoref{ch:concrete-instances-compactmetric-namecert}, the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the polytope face ledger of \autoref{ch:concrete-instances-polytope-namecert}, and the finite NameCert cover surfaces used by \autoref{ch:concrete-instances-finite-cover-tree-namecert} and \autoref{ch:concrete-instances-compact-located-subcover-namecert}. The packet names only finite face-cover rows, convex-hull membership rows, compact-metric support, intersection-window data, transport, replay, provenance, and local naming; it does not select a host intersection point or import arbitrary open-cover compactness.
+
+\begin{definition}[KKM lemma carrier]
+\label{def:kkm-lemma-carrier}
+A $\KKMLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,F,V,C,P_0,M,Q,I,H,R,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite simplex inventory row.
+\item $F$ is the face ledger naming every inspected face and its spanning vertex list.
+\item $V$ is the vertex-indexed cover row inherited from the $\KKMFiniteCoverUp$ finite-cover surface.
+\item $C$ is the $\ConvexSetUp$ row certifying convex hull membership for the simplex and each displayed face.
+\item $P_0$ is the $\PolytopeUp$ face-incidence row.
+\item $M$ is the $\CompactMetricUp$ finite compactness support row for the inspected simplex carrier.
+\item $Q$ is the finite cover-qualification row, asserting that each displayed face is covered by the cells indexed by its own vertices.
+\item $I$ is the intersection-window row naming the finite subfamily whose common intersection is forced by the face-cover inspection.
+\item $H$ records componentwise $\hsame$ transport for the simplex, face, cover, convexity, compactness, qualification, and intersection-window rows.
+\item $R$ records displayed $\Cont$ replay through the same finite KKM route.
+\item $G$ is the $\Pkg$ provenance over $\KKMLemmaUp$, $\KKMFiniteCoverUp$, $\CompactMetricUp$, $\ConvexSetUp$, $\PolytopeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KKMLemmaUp}$ row.
+\end{enumerate}
+The carrier exports a finite intersection certificate. It contains no coordinate for an externally selected intersection point, quotient equality of closed sets, arbitrary open-cover compactness, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[KKM lemma NameCert obligations]
+\label{thm:kkm-lemma-namecert-obligations}
+For every accepted $\KKMLemmaUp$ carrier $K=(S,F,V,C,P_0,M,Q,I,H,R,G,N)$, the local $\NameCert_{\KKMLemmaUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item simplex and face admission through $S,F,P_0$, binding every inspected face to a displayed finite vertex list;
+\item cover-row admission through $V,Q$, requiring each face to be covered only by cells indexed by vertices of that face;
+\item convex and compact support through $C,M$, exposing convex-hull membership and compact-metric finite support before any intersection-window read;
+\item intersection-window handoff through $I$, naming the finite subfamily whose common meet is forced by the face-cover inspection;
+\item transport, replay, provenance, and local naming through $H,R,G,N$, with no host point selector, quotient cover equality, arbitrary open-cover compactness, countable choice, or ambient completeness row.
+\end{enumerate}
+No local KKM lemma obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The simplex inventory $S$, face ledger $F$, and polytope row $P_0$ determine the only faces that can be inspected.
+
+Next read the finite-cover route. The cover row $V$ and qualification row $Q$ say that each displayed face is covered by the cells indexed by its own vertices, matching the finite KKM cover surface of \autoref{ch:concrete-instances-kkm-finite-cover-namecert}.
+
+The convex and compact support rows then bind the geometric read. The $\ConvexSetUp$ row $C$ supplies face-hull membership, and the $\CompactMetricUp$ row $M$ supplies only the displayed finite compactness support.
+
+Finally the intersection-window row $I$ is read after those face-cover checks. Componentwise transport, replay, provenance, and the local NameCert row repack the same finite data, so the obligation surface cannot export a selected host point, quotient cover equality, arbitrary open-cover compactness, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[KKM lemma finite simplex-cover handoff]
+\label{thm:kkm-lemma-finite-simplex-cover-handoff}
+Every downstream constructive fixed-point, finite intersection, or compact-convex cover consumer reading an accepted $\KKMLemmaUp$ carrier factors through the finite route
+$$
+\KKMFiniteCoverUp,\quad \CompactMetricUp,\quad \ConvexSetUp,\quad \PolytopeUp
+\longmapsto
+S,F,V,C,P_0,M,Q,I,H,R,G,N .
+$$
+The consumer receives a displayed finite simplex-cover intersection window, not a host-selected intersection point, arbitrary compactness theorem, quotient cover equality, countable-choice schedule, or ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:kkm-lemma-namecert-obligations}. It orders simplex and face admission before cover qualification, and it keeps the convex and compact support rows visible before $I$ can be inspected.
+
+The finite simplex-face inspection is the only handoff mechanism. For each displayed face, the packet checks the listed vertices, reads the cover cells indexed by those vertices, and records the corresponding intersection-window contribution inside the same $\BHist$ packet.
+
+Structural rows preserve that order. The $\hsame$ transport row $H$, $\Cont$ replay row $R$, package row $G$, and local NameCert row $N$ keep the handoff attached to $\KKMFiniteCoverUp$, $\CompactMetricUp$, $\ConvexSetUp$, and $\PolytopeUp$ rather than to any external compactness or choice principle.
+\end{proof}
+
+\closureat{KKMLemmaUp}{seedStr}
+
+\begin{closurestatus}{\KKMLemmaUp}
+  \constructivestory{A $\KKMLemmaUp$ packet is generated from a finite simplex inventory, face ledger, vertex-indexed KKM cover row, convex-set support, polytope face incidence, compact-metric support, finite cover qualification, intersection-window data, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kkm-lemma-carrier}, \autoref{thm:kkm-lemma-namecert-obligations}, and \autoref{thm:kkm-lemma-finite-simplex-cover-handoff} seed the finite simplex-cover intersection route over KKMFiniteCoverUp, CompactMetricUp, ConvexSetUp, PolytopeUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host-selected intersection point, arbitrary open-cover compactness, quotient equality of closed sets, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, face-cover exactness, convex and compact support, intersection-window nonescape, structural replay, provenance exhaustion, and local naming for BEDC.Derived.KKMLemmaUp.}
+\end{closurestatus}
