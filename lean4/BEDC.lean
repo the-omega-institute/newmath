@@ -2961,6 +2961,7 @@ import BEDC.Derived.CellularWindowTraceUp.TasteGate
 import BEDC.Derived.CenteredPolygonalUp
 import BEDC.Derived.CentralFactorialUp
 import BEDC.Derived.CentralLimitFiniteWindowUp.TasteGate
+import BEDC.Derived.CentralTrinomialUp
 import BEDC.Derived.CertificateAuditGateUp
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
 import BEDC.Derived.CertificateCompilerUp
@@ -5578,6 +5579,7 @@ import BEDC.Derived.EnrichedMetricSpaceUp
 import BEDC.Derived.EnrichedYonedaUp.TasteGate
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
+import BEDC.Derived.EntringerNumberUp
 import BEDC.Derived.EntropyUp
 import BEDC.Derived.EntropyUp.TasteGate
 import BEDC.Derived.EpigraphUp
@@ -5645,6 +5647,7 @@ import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EstimatorUp
+import BEDC.Derived.EuclidFactorialNumberUp
 import BEDC.Derived.EuclideanAlgorithmUp.NameCertObligations
 import BEDC.Derived.EuclideanAlgorithmUp.TasteGate
 import BEDC.Derived.EudoxusRealUp
@@ -8073,6 +8076,7 @@ import BEDC.Derived.MachineReadableAuditInterfaceUp.ObligationBasis
 import BEDC.Derived.MachineReadableAuditInterfaceUp.TasteGate
 import BEDC.Derived.MackeyDecompositionUp
 import BEDC.Derived.MagmaUp
+import BEDC.Derived.MahonianNumberUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.AtlasSurface
 import BEDC.Derived.ManifoldUp.ChartDomainCarrierTransport
@@ -8100,6 +8104,7 @@ import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
 import BEDC.Derived.MarkovRealUp.TasteGate
 import BEDC.Derived.MarkovTriggerDynamicsUp.TasteGate
+import BEDC.Derived.MarkovTripleUp
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceWitnessUp
 import BEDC.Derived.MartingaleFiltrationUp.TasteGate
@@ -9590,6 +9595,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
+import BEDC.Derived.OrderedBellNumberUp
 import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OrdinalAnalysisUp.TasteGate
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
@@ -10248,6 +10254,7 @@ import BEDC.Derived.RHRoute.ArgumentPrincipleUp
 import BEDC.Derived.RHRoute.BoxCoverInduction
 import BEDC.Derived.RHRoute.BoxKernelConcrete
 import BEDC.Derived.RHRoute.CausalReflectionPositiveCone
+import BEDC.Derived.RHRoute.CertificateWitnesses
 import BEDC.Derived.RHRoute.CertifiedFirstZero
 import BEDC.Derived.RHRoute.ChannelNormalForm
 import BEDC.Derived.RHRoute.ConcreteZetaLocatedZero
@@ -10262,6 +10269,7 @@ import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EulerHasseEta
 import BEDC.Derived.RHRoute.EulerHasseRegroup
+import BEDC.Derived.RHRoute.EulerProductConvergence
 import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
@@ -10271,6 +10279,7 @@ import BEDC.Derived.RHRoute.FiniteEulerDirichlet
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
+import BEDC.Derived.RHRoute.FiniteWindowFubini
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GenerationInvariantExclusion
 import BEDC.Derived.RHRoute.GoldenPowSignedExponent
@@ -10300,6 +10309,7 @@ import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
 import BEDC.Derived.RHRoute.PrimePhaseRadialReadback
 import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.PrimeSpiralProjectionKernel
+import BEDC.Derived.RHRoute.QPrimeLocated
 import BEDC.Derived.RHRoute.RHRouteFormalBridge
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision
 import BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivisionUp
@@ -10989,6 +10999,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RealizerSpaceUp.TasteGate
 import BEDC.Derived.RealseriesUp
 import BEDC.Derived.ReassignmentSupportCompressionUp.TasteGate
+import BEDC.Derived.RecamanSequenceUp
 import BEDC.Derived.RectifiableCurveUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.DescentTransportStability
@@ -13442,6 +13453,7 @@ import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6AdditiveEnergyRecurrence
 import BEDC.Derived.Window6BetweennessOrderFour
+import BEDC.Derived.Window6ClosedZeroFlattenBijection
 import BEDC.Derived.Window6ConvexColumnTripleRecurrence
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6CyclicOrthogonalityQuartetRecurrence
@@ -13481,6 +13493,8 @@ import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6PosetComparabilityJacobsthal
 import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6RisingColumnTripleRecurrence
+import BEDC.Derived.Window6SaturationDeficitExtremal
+import BEDC.Derived.Window6SeamGluingParity
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
