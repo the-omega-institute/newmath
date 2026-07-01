@@ -12480,6 +12480,7 @@ import BEDC.Derived.SternBrocotDyadicApproximationUp
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotTreeUp
 import BEDC.Derived.SternBrocotUp
+import BEDC.Derived.SternBrocotUp.FareyNeighborBoundary
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.SternDiatomicUp
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
