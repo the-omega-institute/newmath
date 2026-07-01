@@ -165,13 +165,13 @@ data is supplied.  Without this resolution a notation like `Phi_{S <- R}`
 hides possible path dependence, holonomy, or gauge phase.
 -/
 def PairIndexedTransportWellDefined (F : FrameCat.{u, v}) : Prop :=
-  ThinBase F or Nonempty (CanonicalTransport F)
+  Or (ThinBase F) (Nonempty (CanonicalTransport F))
 
 /-- The formal gap criterion for morphism-free pair-indexed transport notation. -/
 theorem pairIndexed_wellDefined_iff_thin_or_canonical
     (F : FrameCat.{u, v}) :
     PairIndexedTransportWellDefined F <->
-      ThinBase F or Nonempty (CanonicalTransport F) := by
+      Or (ThinBase F) (Nonempty (CanonicalTransport F)) := by
   constructor
   · intro h
     exact h
@@ -217,7 +217,7 @@ theorem pairIndexed_gap_without_resolution {F : FrameCat.{u, v}} :
         Not (PairIndexedTransportWellDefined F) := by
   intro hgap hnoCanon hwell
   have hor :
-      ThinBase F or Nonempty (CanonicalTransport F) :=
+      Or (ThinBase F) (Nonempty (CanonicalTransport F)) :=
     (pairIndexed_wellDefined_iff_thin_or_canonical F).mp hwell
   cases hor with
   | inl hthin =>
