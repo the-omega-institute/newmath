@@ -47,6 +47,28 @@ Replay through $C$ fixes the consumption order from source distribution and targ
 \end{proof}
 \leanchecked{BEDC.Derived.TransportabilityUp.TransportabilityCarrier\_namecert\_obligations}
 
+\begin{theorem}[Transportability carrier admission]
+\label{thm:transportability-carrier-admission}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, the admitted carrier rows are exactly the source-domain distribution row $S$, target-domain selection row $Tg$, intervention ledger $I$, adjustment ledger $A$, transported distribution row $D$, justification ledger $J$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:transportability-carrier}. Its displayed tuple has precisely the ten coordinates $S,Tg,I,A,D,J,H,C,P,N$.
+
+The obligation surface of \autoref{thm:transportability-namecert-obligations} names carrier admission only for those coordinates. Since the carrier has no hidden selection, host probability, unlicensed counterfactual, or ambient completeness row, no additional row can be admitted.
+\end{proof}
+
+\begin{theorem}[Transportability selection-ledger obligation]
+\label{thm:transportability-selection-ledger-obligation}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, every transported-effect consumer must expose the source-domain distribution row $S$, target selection row $Tg$, intervention ledger $I$, adjustment ledger $A$, transported distribution row $D$, justification ledger $J$, componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ before reading the transported result. The same packet therefore blocks hidden selection oracles, host probability equality, and ambient causal completeness from entering the public transportability surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:transportability-carrier}. The only rows available to a transported-effect consumer are $S,Tg,I,A,D,J,H,C,P,N$, and the carrier explicitly has no hidden selection-oracle coordinate.
+
+Apply \autoref{thm:transportability-namecert-obligations}. Its source-to-target transport clause requires $S,Tg,I,A,J$ to replay through $C$ before $D$ and the local naming row are exposed.
+
+The sibling routes through do-calculus, front-door adjustment, and counterfactual-outcome bookkeeping are read only by the displayed ledgers $I,A,J$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same finite packet, so no host probability equality or ambient causal-completeness assumption can be consumed outside the ledger.
+\end{proof}
+
 \begin{theorem}[Transportability selection row exposure]
 \label{thm:transportability-selection-row-exposure}
 For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, the target-domain selection row $Tg$ is displayed before any transported distribution row $D$ is public. A consumer that reads $D$ without first reading $S$ and $Tg$ has left the finite carrier of \autoref{def:transportability-carrier} and the obligation surface of \autoref{thm:transportability-namecert-obligations}.
@@ -57,6 +79,16 @@ Project the carrier rows $S,Tg,I,A,D,J,H,C,P,N$ from \autoref{def:transportabili
 Apply \autoref{thm:transportability-namecert-obligations}. Its selection-row exposure clause requires $Tg$ to be displayed before any source-to-target distribution read is served, and its transport clause requires $S,Tg,I,A,J$ to replay before $D$ and the local naming row are exposed.
 
 Thus the only public route to $D$ passes through $S$ and $Tg$. Since the carrier has no hidden selection oracle or host external-validity coordinate, a route that omits $Tg$ is outside the accepted $\TransportabilityUp$ packet.
+\end{proof}
+
+\begin{theorem}[Transportability distribution transport]
+\label{thm:transportability-distribution-transport}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, the rows $S,Tg,I,A,J$ replay through $C$ before the transported distribution row $D$ and the local naming row $N$ are exposed.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:transportability-carrier} separates the source distribution, selection row, intervention ledger, adjustment ledger, justification ledger, replay row, transported distribution, and local naming rows.
+
+Use the source-to-target distribution transport clause in \autoref{thm:transportability-namecert-obligations}. It places $S,Tg,I,A,J$ upstream of $D$ through the displayed replay $C$, and it names the local $\NameCert_{\TransportabilityUp}$ row only after that replay route is available.
 \end{proof}
 
 \begin{theorem}[Transportability source-target replay]
