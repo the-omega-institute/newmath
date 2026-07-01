@@ -29,6 +29,22 @@ with the following displayed rows:
 The classifier compares accepted packets only by these displayed rows. It has no coordinate for arbitrary closed-term normalization, confluence, subject reduction, conversion decidability, or a complete algebraic theory of the Church encodings.
 \end{definition}
 
+\begin{theorem}[MetaCIC typed-examples gallery obligation matrix]
+\label{thm:metacictypedexamplesgallery-obligation-matrix}
+Each accepted $\MetaCICTypedExamplesGalleryUp$ typed example row must expose its context row, term row, typing derivation row, reduction-window row, local-join row, normalization-frontier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ row before it can be consumed by $\MetaCICCriticalPathUp$. The matrix is read from the finite gallery rows
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M,
+$$
+with local-join and normalization-frontier access routed through the beta-redex and checker rows $R,K$ rather than through a global confluence, subject-reduction, normalization, or conversion-completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The family rows $B,N,L,S,E,I,A,R$ are the only context, term, typing, and reduction-window sources available to an accepted gallery example, while $K$ is the checker boundary attached to those displayed sources.
+
+The local-join and normalization-frontier reads are therefore sibling routes of the finite beta-redex and checker surface. They are the same finite rows later isolated by \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage} and \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}, with the redex-frontier handoff boundary recorded in \autoref{thm:metacic-redex-frontier-normalization-window-handoff}.
+
+Finally add the structural rows. Transport is projected through $H$, replay through $C$, provenance through $P$, and local naming through $M$. Since the carrier has no coordinate for global confluence, subject reduction, normalization, or conversion completeness, $\MetaCICCriticalPathUp$ can consume only the displayed obligation matrix.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery NameCert obligations]
 \label{thm:metacic-typedexamples-gallery-namecert-obligations}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
