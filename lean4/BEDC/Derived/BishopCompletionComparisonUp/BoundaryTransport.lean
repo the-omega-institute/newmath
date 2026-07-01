@@ -160,4 +160,64 @@ theorem BishopCompletionComparisonCarrier_boundary_real_nonescape [AskSetup] [Pa
       sealNonescape.right.right.left, sealNonescape.right.right.right.left,
       sealNonescape.right.right.right.right, realRoute.right.right⟩
 
+theorem BishopCompletionComparisonCarrier_transport_real_route [AskSetup] [PackageSetup]
+    {regular boundary located enclosure sealRow transport replay provenance localName midRead
+      sealRead auditRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopCompletionComparisonCarrier regular boundary located enclosure sealRow transport replay
+        provenance localName bundle pkg →
+      Cont regular boundary midRead →
+        Cont midRead located enclosure →
+          Cont enclosure sealRow sealRead →
+            Cont transport replay provenance →
+              Cont provenance localName auditRead →
+                Cont auditRead sealRow realRead →
+                  PkgSig bundle realRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row regular ∨ hsame row boundary ∨ hsame row located ∨
+                            hsame row enclosure ∨ hsame row sealRow ∨ hsame row transport ∨
+                              hsame row replay ∨ hsame row realRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont regular boundary midRead ∧
+                            Cont midRead located enclosure ∧ Cont enclosure sealRow sealRead ∧
+                              PkgSig bundle realRead pkg)
+                        hsame ∧
+                      SemanticNameCert
+                          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row regular ∨ hsame row boundary ∨ hsame row located ∨
+                              hsame row enclosure ∨ hsame row sealRow ∨ hsame row transport ∨
+                                hsame row replay ∨ hsame row provenance ∨
+                                  hsame row localName ∨ hsame row realRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont transport replay provenance ∧
+                              Cont provenance localName auditRead ∧
+                                Cont auditRead sealRow realRead ∧ PkgSig bundle realRead pkg)
+                          hsame ∧
+                        UnaryHistory midRead ∧ UnaryHistory sealRead ∧
+                          UnaryHistory auditRead ∧ UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier regularBoundary midLocated enclosureSeal transportReplay provenanceAudit
+    auditReal realPkg
+  have boundaryTransport :=
+    BishopCompletionComparisonCarrier_boundary_transport (regular := regular)
+      (boundary := boundary) (located := located) (enclosure := enclosure)
+      (sealRow := sealRow) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (midRead := midRead)
+      (sealRead := sealRead) (auditRead := auditRead) (realRead := realRead)
+      (bundle := bundle) (pkg := pkg) carrier regularBoundary midLocated enclosureSeal
+      provenanceAudit auditReal realPkg
+  have realRoute :=
+    BishopCompletionComparisonCarrier_real_route (regular := regular) (boundary := boundary)
+      (located := located) (enclosure := enclosure) (sealRow := sealRow)
+      (transport := transport) (replay := replay) (provenance := provenance)
+      (localName := localName) (auditRead := auditRead) (realRead := realRead)
+      (bundle := bundle) (pkg := pkg) carrier transportReplay provenanceAudit auditReal
+      realPkg
+  exact
+    ⟨boundaryTransport.left, realRoute.left, boundaryTransport.right.left,
+      boundaryTransport.right.right.left, realRoute.right.left, realRoute.right.right⟩
+
 end BEDC.Derived.BishopCompletionComparisonUp
