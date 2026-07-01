@@ -424,4 +424,75 @@ theorem NestedDyadicIntervalPacket_standard_bridge_window [AskSetup] [PackageSet
       sharedEndpointRow
   exact ⟨publicExport.left, adjacentCoverage.left, sameEndpoint, sharedEndpointPkg⟩
 
+theorem NestedDyadicIntervalPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint regRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      Cont schedule endpoint regRead ->
+        PkgSig bundle regRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row regRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row first ∨ hsame row next ∨ hsame row schedule ∨
+                  hsame row refinement ∨ hsame row provenance ∨ hsame row ledger ∨
+                    hsame row endpoint ∨ hsame row regRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont first next refinement ∧
+                  Cont schedule refinement endpoint ∧ Cont schedule endpoint regRead ∧
+                    PkgSig bundle regRead pkg)
+              hsame ∧
+            UnaryHistory regRead ∧ Cont first next refinement ∧
+              Cont schedule refinement endpoint ∧ Cont schedule endpoint regRead := by
+  -- BEDC touchpoint anchor: NestedDyadicIntervalPacket BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro packet regRoute regSig
+  obtain ⟨_firstUnary, _nextUnary, scheduleUnary, _refinementUnary, _provenanceUnary,
+    _ledgerUnary, endpointUnary, refinementRoute, endpointRoute, _endpointSig⟩ := packet
+  have regUnary : UnaryHistory regRead :=
+    unary_cont_closed scheduleUnary endpointUnary regRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row regRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row first ∨ hsame row next ∨ hsame row schedule ∨
+              hsame row refinement ∨ hsame row provenance ∨ hsame row ledger ∨
+                hsame row endpoint ∨ hsame row regRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont first next refinement ∧
+              Cont schedule refinement endpoint ∧ Cont schedule endpoint regRead ∧
+                PkgSig bundle regRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro regRead ⟨hsame_refl regRead, regUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, refinementRoute, endpointRoute, regRoute, regSig⟩
+  }
+  exact ⟨cert, regUnary, refinementRoute, endpointRoute, regRoute⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp
