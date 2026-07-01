@@ -19112,6 +19112,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-07-01T12:18:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T12:18:02+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f29e6ec88731",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -33147,6 +33164,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-07-01T12:18:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T12:18:26+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "c263c81cfbd1",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -34460,7 +34494,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Engineered TALE-DNA binding (protein-binding microarray) carries strong, leakage-controlled non-additive (positional-dinucleotide) sequence structure beyond an additive PWM -- but this experiment did NOT serve its intended purpose as the completeness-rule's 'near-complete model -> FAILS' discriminating test, because the fitted additive PWM reached only held-out R^2=0.40, NOT the oracle/paper-claimed near-complete 0.959 (NEW modality = engineered protein-DNA binding; single-mechanism, registry-unmined; oracle 13th-arc prospective test, pre-registered to FAIL). Rogers et al. Nat Commun 2015 (DOI 10.1038/ncomms8440; GEO GSE56978 sample GSM1372480 single TALE TAL2009 + platform GPL18593), n=11,170 unique 60-bp probes (36 variable positions, replicate spots averaged by sequence), y=log10(normalized Alexa-488 signal), subsample n=8,000. Decomposition (k-mer identity-cluster held-out, near-duplicate-controlled): global composition R^2=0.217; adding the per-position additive PWM (positional mononucleotide, the canonical additive model for TF/TALE binding) adds +0.186 (->0.403); adding positional-dinucleotide non-additivity adds a FURTHER +0.114 (->0.517), permutation p=0.005, and cluster-holdout (+0.1136) == random-split (+0.113) so the increment is NOT leakage-inflated (the diverse library has almost no near-duplicates: 7,971 clusters, largest=3). SELF-VERIFICATION FINDING (methodological): the oracle asserted the additive PWM is near-complete at median R^2=0.959, but an actual held-out ridge-fitted additive PWM reaches only R^2=0.40 on this diverse (12-17-substitution) probe library -- the near-complete premise did NOT reproduce (the paper's 0.959 is presumably an in-sample / BEEML-energy-model / near-consensus-subset figure, not a held-out linear PWM on the full diverse set). CONSEQUENCE: this is NOT a near-complete test; it is another PARTIAL-model (R^2~0.40) -> structure-ADDS data point, fully consistent with the refined completeness rule, alongside RBS TIR (185, r^2~0.25 -> +0.033) and inDelphi (186, r^2~0.40 -> +0.014); it is the STRONGEST structure increment in the partial-model series (+0.114) and documents real, leakage-controlled non-additivity in TALE-DNA recognition. THE near-complete (r^2>=0.75) -> FAILS end of the completeness axis REMAINS UNTESTED -- and this experiment shows why it is hard: near-complete mechanistic models are rare, and oracle-claimed completeness must be self-verified by held-out refit before use. NOT CLAIMED: that the completeness rule is refuted (the premise failed, so no rule test occurred); that the additive PWM is near-complete here (it is not, R^2=0.40); single-TALE (no leave-TALE-out transfer axis, so capped at bounded_descriptor_only).",
       "depends_on": [],
-      "status": "passed",
+      "status": "error",
       "experiment_id": "tale_dna_binding_pbm_structure_beyond_pwm_rogers2015",
       "history": [
         {
@@ -34478,6 +34512,23 @@
             "failed": 0
           },
           "script_sha": "b161e273b3b6765a"
+        },
+        {
+          "ts": "2026-07-01T12:18:26+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-07-01T12:39:53+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "956246fa98d6",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "cf76753dcffb58db"
         }
       ],
       "linked_conjecture_id": null
