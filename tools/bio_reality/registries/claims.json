@@ -19401,6 +19401,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-07-01T15:23:38+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T15:23:38+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0d244ed0c45e",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -33725,6 +33742,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-07-01T15:23:39+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T15:24:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "d6247840d397",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -35128,7 +35162,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "E. coli promoter expression NOISE is NOT a higher-order sequence-structure code beyond composition and mean -- generic structure adds nothing that survives leakage control (NEW readout TYPE = expression noise / distributional second moment, distinct from all prior level/rate/abundance readouts; NEW modality; single readout; registry-unmined; pivot; pre-registered to ADD -> REFUTED). Urchueguia et al. PLOS Biol 2021 (DOI 10.1371/journal.pbio.3001491; Zenodo 5701705 processed_datasets_v2.zip, dataset_with_noise_estimates.csv, condition 'M9 + 0.2% glucose' to avoid same-sequence-across-8-conditions leakage), n=872 natural promoter/intergenic sequences (96-1738nt), y = noise (mean-independent noise: log-variance minus the same-mean noise floor). PRE-REGISTERED PREDICTION (oracle, medium probability): ADDS (noise has a mean-independent axis; TFBS architecture/spacing couples to noise). ACTUAL verdict: composition_artifact -- REFUTED. Decomposition: mean alone (fl_mean_log) predicts noise R^2 = -0.0002 (≈0, confirming the readout is already mean-independent by construction); adding composition (mono/dinuc/GC/log-length) adds +0.057 (->0.057, so composition-level sequence content DOES weakly predict noise); adding generic higher-order structure (k-mer entropy, RC/palindrome density, max-RC-stem, homopolymer/poly-A/poly-T/AT runs, CpG O/E) adds only +0.0013 held-out incremental under k-mer identity-cluster holdout (BELOW the 0.01 floor) and +0.0049 under leave-gene-out (also below floor) -- while the random-split incremental was +0.0109, i.e. the apparent structure signal is leakage/overfit and collapses to ~0 under near-duplicate and gene-neighborhood control (perm p=0.033 but effect below floor). FINDING: for natural E. coli promoters, expression-noise-relevant sequence information is COMPOSITION-level (GC/dinucleotide), not higher-order motif/structure; the distributional second moment does not carry a generalizable higher-order sequence code beyond composition + mean. This is the first point on the expression-noise readout type and it is a clean NEGATIVE. NOT CLAIMED: that noise is unpredictable (composition predicts a little, R^2 0.057); that DESIGNED-promoter noise fails (the synthetic-promoter table carried only a promoter ID, not the in-table DNA sequence, so the cleaner designed-library noise test was not buildable here); absolute R^2 is low because promoter noise is largely stochastic.",
       "depends_on": [],
-      "status": "passed",
+      "status": "error",
       "experiment_id": "ecoli_promoter_expression_noise_beyond_composition_mean_urchueguia2021",
       "history": [
         {
@@ -35146,6 +35180,23 @@
             "failed": 0
           },
           "script_sha": "005aa40b544d15b1"
+        },
+        {
+          "ts": "2026-07-01T15:24:04+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-07-01T15:24:24+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "9dde4c536470",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "5f5f9b5e1db6205c"
         }
       ],
       "linked_conjecture_id": null
