@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FiniteHellySelectionUp$}
+\label{ch:concrete-instances-finite-helly-selection-namecert}
+\origin{human}
+
+Following Helly and Bishop--Bridges, the $\FiniteHellySelectionUp$ packet records the finite interval-selection surface needed in the L10 real-completion route. It sits between the dyadic cell machinery of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the subsequence-facing compactness packet of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. The chapter names only finite closed-interval rows and located handoff data; it does not invoke open-cover compactness, arbitrary choice, selected infinite subsequences, quotient real equality, or ambient real completeness.
+
+\begin{definition}[FiniteHellySelection carrier]
+\label{def:finite-helly-selection-carrier}
+A $\FiniteHellySelectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,D,W,Q,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite closed-interval family row. It lists the inspected interval names and their rational endpoint witnesses.
+\item $D$ is the dyadic cell row. It records the finite tolerance grid read through $\DyadicRatCoreUp$ and keeps each cell boundary as rational data.
+\item $W$ is the $\StreamNameUp$ finite-window row naming the bounded observation windows used by the selection request.
+\item $Q$ is the $\RegSeqRatUp$ readback row. It translates the finite window and dyadic cell data into regular rational approximants.
+\item $R$ is the terminal $\RealUp$ seal row for the selected closed-interval witness, read only after $I,D,W,Q$ have been exposed.
+\item $S$ is the finite selection ledger. It records which inspected interval row supplies the local witness and which finite compatibility checks were used.
+\item $H$ records componentwise $\hsame$ transport for interval, dyadic, window, readback, real-seal, selection-ledger, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through the interval family, dyadic cell, finite window, regular readback, real seal, selection ledger, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteHellySelectionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BolzanoWeierstrassUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteHellySelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,W,Q,R,S,H,C,P,N$. It has no coordinate for open-cover compactness, arbitrary choice, selected infinite subsequences, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteHellySelection NameCert obligations]
+\label{thm:finite-helly-selection-namecert-obligations}
+For every accepted $\FiniteHellySelectionUp$ carrier
+$$
+K=(I,D,W,Q,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteHellySelectionUp}$ surface consists exactly of carrier admission for the finite closed-interval family, dyadic cell grid, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, finite selection ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Every compatibility read must expose the finite interval rows $I$, dyadic tolerance row $D$, window row $W$, and regular readback row $Q$ before the selected real seal $R$ is handed to an L10 consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-helly-selection-carrier}. The tuple lists exactly the interval, dyadic, window, readback, real-seal, selection-ledger, transport, replay, provenance, and naming rows.
+
+The selection ledger $S$ records only finite compatibility checks among the displayed interval rows. Thus a consumer cannot replace the ledger by an open-cover compactness argument, a choice function over all intervals, or a selected infinite subsequence.
+
+The structural rows $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and naming. Since quotient real equality and ambient completeness are not coordinates of the carrier, the NameCert surface exports only the displayed L10 interval-selection packet.
+\end{proof}
+
+\begin{theorem}[FiniteHellySelection interval handoff]
+\label{thm:finite-helly-selection-interval-handoff}
+Every $\RealUp$ or $\BolzanoWeierstrassUp$ consumer reading a selected interval witness from an accepted $\FiniteHellySelectionUp$ packet must pass through
+$$
+I,D,W,Q \longmapsto R,S \longmapsto H,C,P,N .
+$$
+The handoff uses the dyadic tolerance source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert} before it can feed the compactness-facing consumer of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. It supplies a finite closed-interval selection row, not open-cover compactness, arbitrary choice, selected infinite subsequences, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-helly-selection-namecert-obligations}. They force every selection read through $I,D,W,Q,R,S,H,C,P,N$.
+
+The dyadic and finite-window rows are read before the regular rational row. This keeps the L10 route finite: the consumer sees only inspected cells and windows, then the regular readback that feeds the terminal real seal.
+
+Finally the handoff to $\RealUp$ or $\BolzanoWeierstrassUp$ consumes $R$ and $S$ through the same transport, replay, provenance, and naming rows. No coordinate in the carrier names open-cover compactness, choice over arbitrary families, an infinite subsequence selector, quotient real equality, or ambient completeness, so none can be exported by the handoff.
+\end{proof}
+
+\closureat{FiniteHellySelectionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteHellySelectionUp}
+  \constructivestory{A $\FiniteHellySelectionUp$ packet is generated from finite closed-interval rows, dyadic cell rows, StreamName finite windows, RegSeqRat readback rows, terminal RealUp seals, a finite selection ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-helly-selection-carrier}, \autoref{thm:finite-helly-selection-namecert-obligations}, and \autoref{thm:finite-helly-selection-interval-handoff} define the finite interval-selection packet and its L10 real-completion handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, arbitrary choice, selected infinite subsequences, quotient real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-cell compatibility, finite-window readback, selection-ledger stability, RealUp seal handoff, provenance, and local naming for BEDC.Derived.FiniteHellySelectionUp.}
+\end{closurestatus}

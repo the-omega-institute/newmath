@@ -1369,6 +1369,47 @@
           "no_physical_alpha_input_or_readout"
         ]
       }
+    },
+    {
+      "experiment_id": "verify-maximal-independent-set-padovan",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_maximal_independent_set_padovan.py",
+      "claim_id": "fibonacci-path.maximal-independent-set.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_cube_vertex_counts",
+          "brute_maximal_values_n1_to_n12",
+          "transfer_values_n1_to_n15",
+          "brute_transfer_agree_n1_to_n12",
+          "padovan_recurrence_n4_to_n15",
+          "plastic_minimal_polynomial_coprime_to_fibonacci",
+          "maximality_register_distinct_object",
+          "distinct_from_mined_anchors",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-comparable-pairs-jacobsthal",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_comparable_pairs_jacobsthal.py",
+      "claim_id": "fibonacci-cube.poset-comparability.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "fibonacci_cube_vertex_counts",
+          "brute_comparable_pairs_n1_to_n10",
+          "weight_enumerator_at_2_identity",
+          "brute_weight_enum_agree",
+          "transfer_values_n1_to_n12",
+          "jacobsthal_recurrence_n3_to_n12",
+          "jacobsthal_minimal_polynomial_coprime_to_fibonacci",
+          "poset_register_distinct_object",
+          "distinct_from_mined_anchors",
+          "no_physical_alpha_input_or_readout"
+        ]
+      }
     }
   ]
 }
