@@ -5637,6 +5637,7 @@ import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EstimatorUp
+import BEDC.Derived.EuclidFactorialNumberUp
 import BEDC.Derived.EuclideanAlgorithmUp.NameCertObligations
 import BEDC.Derived.EuclideanAlgorithmUp.TasteGate
 import BEDC.Derived.EudoxusRealUp
@@ -8085,6 +8086,7 @@ import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
 import BEDC.Derived.MarkovRealUp.TasteGate
 import BEDC.Derived.MarkovTriggerDynamicsUp.TasteGate
+import BEDC.Derived.MarkovTripleUp
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceWitnessUp
 import BEDC.Derived.MartingaleFiltrationUp.TasteGate
@@ -10229,6 +10231,7 @@ import BEDC.Derived.RHRoute.ArgumentPrincipleUp
 import BEDC.Derived.RHRoute.BoxCoverInduction
 import BEDC.Derived.RHRoute.BoxKernelConcrete
 import BEDC.Derived.RHRoute.CausalReflectionPositiveCone
+import BEDC.Derived.RHRoute.CertificateWitnesses
 import BEDC.Derived.RHRoute.CertifiedFirstZero
 import BEDC.Derived.RHRoute.ChannelNormalForm
 import BEDC.Derived.RHRoute.ConcreteZetaLocatedZero
@@ -10243,6 +10246,7 @@ import BEDC.Derived.RHRoute.EtaKernelDischarge
 import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EulerHasseEta
 import BEDC.Derived.RHRoute.EulerHasseRegroup
+import BEDC.Derived.RHRoute.EulerProductConvergence
 import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
@@ -10252,6 +10256,7 @@ import BEDC.Derived.RHRoute.FiniteEulerDirichlet
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
+import BEDC.Derived.RHRoute.FiniteWindowFubini
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GenerationInvariantExclusion
 import BEDC.Derived.RHRoute.GoldenPowSignedExponent
@@ -10977,6 +10982,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RealizerSpaceUp.TasteGate
 import BEDC.Derived.RealseriesUp
 import BEDC.Derived.ReassignmentSupportCompressionUp.TasteGate
+import BEDC.Derived.RecamanSequenceUp
 import BEDC.Derived.RectifiableCurveUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.DescentTransportStability
@@ -13418,6 +13424,7 @@ import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6AdditiveEnergyRecurrence
 import BEDC.Derived.Window6BetweennessOrderFour
+import BEDC.Derived.Window6ClosedZeroFlattenBijection
 import BEDC.Derived.Window6ConvexColumnTripleRecurrence
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6CyclicOrthogonalityQuartetRecurrence
@@ -13457,6 +13464,8 @@ import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6PosetComparabilityJacobsthal
 import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6RisingColumnTripleRecurrence
+import BEDC.Derived.Window6SaturationDeficitExtremal
+import BEDC.Derived.Window6SeamGluingParity
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
