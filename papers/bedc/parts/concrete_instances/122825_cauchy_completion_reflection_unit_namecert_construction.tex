@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionReflectionUnitUp$}
+\label{ch:concrete-instances-cauchy-completion-reflection-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion and Mac Lane on adjunction units, the $\CauchyCompletionReflectionUnitUp$ packet records the finite unit component by which a displayed dense source enters the Cauchy-completion reflector and then feeds the functorial completion surface. It sits between the functorial route of \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert}, the unit packet of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, and the reflector packet of \autoref{ch:concrete-instances-cauchycompletionreflector-namecert}. The chapter names only the displayed NameCert surface of the reflection unit; it does not assert quotient completion equality, selected representatives, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyCompletionReflectionUnit carrier]
+\label{def:cauchy-completion-reflection-unit-carrier}
+A $\CauchyCompletionReflectionUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,K,\eta,R,T,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source dense object row, carrying the displayed source histories before any completion-facing read is available.
+\item $K$ is the completion seal row for the Cauchy-completion reflector over $X$.
+\item $\eta$ is the unit map row sending the displayed dense source into the completion seal.
+\item $R$ is the reflection handoff row consumed by the local $\CauchyCompletionReflectorUp$ surface.
+\item $T$ is the triangle identity row that compares the unit handoff with the reflector replay inside the same finite packet.
+\item $S$ is the $\StreamNameUp$ finite-window row read by the unit and reflection routes.
+\item $Q$ is the $\RegSeqRatUp$ readback row extracted from the same finite windows.
+\item $E$ is the terminal $\RealUp$ seal reached only after $X,K,\eta,R,T,S,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dense source, completion seal, unit map, reflection handoff, triangle identity, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,K,\eta \longmapsto R,T \longmapsto S,Q,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionReflectionUnitUp$, $\CauchyCompletionFunctorialityUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionReflectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionReflectionUnitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, selected stream representatives, chosen limits, countable choice, host equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionReflectionUnit NameCert obligations]
+\label{thm:cauchy-completion-reflection-unit-namecert-obligations}
+For every accepted $\CauchyCompletionReflectionUnitUp$ carrier
+$$
+U=(X,K,\eta,R,T,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionReflectionUnitUp}$ surface consists exactly of source dense-object admission for $X$, completion-seal admission for $K$, unit-map exposure for $\eta$, reflection handoff through $R$, triangle identity exposure through $T$, finite StreamName window exposure through $S$, RegSeqRat readback through $Q$, Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-reflection-unit-carrier}. The displayed rows are exactly the dense source, completion seal, unit map, reflection handoff, triangle identity, finite-window, readback, Real-seal, and structural rows.
+
+The unit and reflection obligations are read in that order. The dense source row $X$ first enters the completion seal $K$ through $\eta$, and only then may the reflection handoff row $R$ be consumed by a completion-facing reader.
+
+The analytic readback rows remain attached to the same packet. The finite window $S$, regular-rational readback $Q$, and terminal Real seal $E$ are downstream of the unit and reflection rows, so no consumer can detach a Real endpoint or a selected representative from the displayed route.
+
+Finally $T,H,C,P,N$ record the triangle comparison, transport, replay, provenance, and local naming for the same carrier. Since the excluded principles are not coordinates of the packet, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionReflectionUnit triangle identity route]
+\label{thm:cauchy-completion-reflection-unit-triangle-identity}
+Every triangle-identity read from an accepted $\CauchyCompletionReflectionUnitUp$ carrier factors through the finite route
+$$
+X,K,\eta \longmapsto R \longmapsto T \longmapsto S,Q,E \longmapsto H,C,P,N .
+$$
+Thus the functorial and separated-completion consumers receive the unit component only after the source dense object, completion seal, unit map, reflection handoff, triangle identity row, finite StreamName window, RegSeqRat readback, terminal Real seal, transport, replay, provenance, and local NameCert rows are visible.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for the triangle identity. Projection gives the dense source row $X$, the completion seal $K$, and the unit map row $\eta$.
+
+The read next passes through the reflection handoff $R$. This is the row visible to the $\CauchyCompletionReflectorUp$ packet and to the functorial completion route of \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert}.
+
+The triangle identity is then the displayed row $T$, not an ambient equation of completions. The StreamName window $S$, RegSeqRat readback $Q$, and Real seal $E$ keep the analytic route finite before any completion-facing consumer reads the unit component.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Therefore the triangle route exports no quotient completion equality, selected representative, countable-choice schedule, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{CauchyCompletionReflectionUnitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionReflectionUnitUp}
+  \constructivestory{A $\CauchyCompletionReflectionUnitUp$ packet is generated from a dense source object, a completion seal, a unit map row, a reflection handoff, a triangle identity row, finite StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-reflection-unit-carrier}, \autoref{thm:cauchy-completion-reflection-unit-namecert-obligations}, and \autoref{thm:cauchy-completion-reflection-unit-triangle-identity} seed the finite reflection-unit surface for Cauchy completion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host equality of completed objects, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dense-source admission, completion-seal admission, unit-map exposure, reflection handoff, triangle identity exposure, finite readback, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionReflectionUnitUp.}
+\end{closurestatus}
