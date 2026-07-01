@@ -7,6 +7,9 @@ Run ``python3 lean4/scripts/bedc_ci.py --help`` for the canonical subcommand lis
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
+import errno
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -20,7 +23,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Iterator
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LEAN_ROOT = SCRIPT_DIR.parent
@@ -32,9 +35,144 @@ TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
-SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
+SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_content_cache.json")
+SCAN_LEAN_SOURCES_CACHE_LOCK_PATH = Path("/tmp/.bedc_scan_lean_sources_content_cache.lock")
+SCAN_LEAN_SOURCES_CACHE_SCHEMA = "bedc_scan_lean_sources_cache.content_addressed"
 LEAN_COMPILE_BUDGETS_PATH = SCRIPT_DIR / "lean_compile_budgets.json"
 MAX_LEAN_COMPILE_BUDGET_SECONDS = 900
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.environ.get(name, str(default)))
+    except ValueError:
+        return default
+
+
+def _env_float(name: str, default: float) -> float:
+    try:
+        return float(os.environ.get(name, str(default)))
+    except ValueError:
+        return default
+
+
+class AuditGateTimeout(RuntimeError):
+    pass
+
+
+def _open_lock_file(path: Path) -> int:
+    flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_CLOEXEC", 0)
+    fd = os.open(str(path), flags, 0o644)
+    try:
+        os.set_inheritable(fd, False)
+    except OSError:
+        pass
+    return fd
+
+
+def _git_common_dir() -> Path | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+            stdin=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+        return None
+    raw = result.stdout.strip()
+    if not raw:
+        return None
+    path = Path(raw)
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    return path
+
+
+def _audit_gate_lock_dir() -> Path:
+    override = os.environ.get("BEDC_AUDIT_GATE_LOCK_DIR")
+    if override:
+        return Path(override)
+    common = _git_common_dir()
+    if common is not None:
+        return common / ".bedc-audit-gate"
+    return Path("/tmp/.bedc-audit-gate")
+
+
+def _try_acquire_audit_slot(slot: Path, command: str) -> int | None:
+    fd = _open_lock_file(slot)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as exc:
+        os.close(fd)
+        if exc.errno in (errno.EWOULDBLOCK, errno.EAGAIN, errno.EACCES):
+            return None
+        raise
+    try:
+        os.ftruncate(fd, 0)
+        stamp = {
+            "pid": os.getpid(),
+            "command": command,
+            "cwd": os.getcwd(),
+            "started": time.time(),
+        }
+        os.write(fd, (json.dumps(stamp, sort_keys=True) + "\n").encode("utf-8"))
+        os.fsync(fd)
+    except OSError:
+        pass
+    return fd
+
+
+def _acquire_audit_slot(command: str) -> tuple[int, Path]:
+    max_parallel = max(1, _env_int("BEDC_AUDIT_GATE_MAX_PARALLEL", 2))
+    poll_seconds = max(0.25, _env_float("BEDC_AUDIT_GATE_POLL_SECONDS", 2.0))
+    wait_timeout = max(
+        1.0,
+        _env_float(
+            "BEDC_AUDIT_GATE_WAIT_TIMEOUT",
+            _env_float("BEDC_AUDIT_GATE_ACQUIRE_TIMEOUT", 1800.0),
+        ),
+    )
+    lock_dir = _audit_gate_lock_dir()
+    lock_dir.mkdir(parents=True, exist_ok=True)
+    deadline = time.time() + wait_timeout
+    while True:
+        slot_indices = list(range(1, max_parallel + 1))
+        offset = os.getpid() % max_parallel
+        slot_indices = slot_indices[offset:] + slot_indices[:offset]
+        for index in slot_indices:
+            slot = lock_dir / f"slot-{index}"
+            fd = _try_acquire_audit_slot(slot, command)
+            if fd is not None:
+                return fd, slot
+        if time.time() > deadline:
+            raise AuditGateTimeout(
+                f"waited {wait_timeout:.0f}s for one of {max_parallel} "
+                f"slot(s) under {lock_dir}"
+            )
+        time.sleep(poll_seconds)
+
+
+def _release_audit_slot(fd: int) -> None:
+    try:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+    except OSError:
+        pass
+    try:
+        os.close(fd)
+    except OSError:
+        pass
+
+
+@contextmanager
+def audit_gate(command: str) -> Iterator[None]:
+    fd, _slot = _acquire_audit_slot(command)
+    try:
+        yield
+    finally:
+        _release_audit_slot(fd)
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -784,19 +922,123 @@ def _load_scan_lean_sources_cache() -> dict[str, object]:
     try:
         if not SCAN_LEAN_SOURCES_CACHE_PATH.exists():
             return {}
-        data = json.loads(SCAN_LEAN_SOURCES_CACHE_PATH.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
+        with SCAN_LEAN_SOURCES_CACHE_PATH.open("r", encoding="utf-8") as handle:
+            prefix = handle.read(2048)
+            if SCAN_LEAN_SOURCES_CACHE_SCHEMA not in prefix:
+                return {}
+            handle.seek(0)
+            data = json.load(handle)
+        if (
+            isinstance(data, dict)
+            and data.get("schema") == SCAN_LEAN_SOURCES_CACHE_SCHEMA
+            and isinstance(data.get("entries"), dict)
+        ):
+            return dict(data["entries"])
+        return {}
     except Exception:
         return {}
 
 
 def _save_scan_lean_sources_cache(cache: dict[str, object]) -> None:
     try:
-        tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
-        tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+        fd = _open_lock_file(SCAN_LEAN_SOURCES_CACHE_LOCK_PATH)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            merged = _load_scan_lean_sources_cache()
+            merged.update(cache)
+            payload = {
+                "schema": SCAN_LEAN_SOURCES_CACHE_SCHEMA,
+                "entries": merged,
+            }
+            tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_name(
+                f"{SCAN_LEAN_SOURCES_CACHE_PATH.name}.{os.getpid()}.tmp"
+            )
+            tmp.write_text(
+                json.dumps(payload, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+        finally:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            except OSError:
+                pass
+            os.close(fd)
     except Exception:
         pass
+
+
+def _scan_cache_key(rel_file: str, content_key: str) -> str:
+    raw = f"{rel_file}\0{content_key}".encode("utf-8")
+    return "scan:" + hashlib.sha256(raw).hexdigest()
+
+
+def _git_ls_files_blob_keys() -> dict[str, str]:
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "-s", "-z", "--", "lean4/BEDC"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+            stdin=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+        return {}
+    blob_keys: dict[str, str] = {}
+    for record in result.stdout.split("\0"):
+        if not record:
+            continue
+        if "\t" not in record:
+            continue
+        meta, rel_file = record.split("\t", 1)
+        parts = meta.split()
+        if len(parts) < 2:
+            continue
+        blob_keys[rel_file] = "git:" + parts[1]
+    return blob_keys
+
+
+def _git_changed_lean_files() -> set[str] | None:
+    changed: set[str] = set()
+    commands = (
+        ["git", "diff", "--name-only", "-z", "--", "lean4/BEDC"],
+        ["git", "diff", "--cached", "--name-only", "-z", "--", "lean4/BEDC"],
+    )
+    for command in commands:
+        try:
+            result = subprocess.run(
+                command,
+                cwd=REPO_ROOT,
+                text=True,
+                capture_output=True,
+                check=True,
+                stdin=subprocess.DEVNULL,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+            return None
+        changed.update(path for path in result.stdout.split("\0") if path)
+    return changed
+
+
+def _file_content_cache_key(path: Path) -> str | None:
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return None
+    return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def _lean_source_content_key(
+    path: Path,
+    rel_file: str,
+    git_blob_keys: dict[str, str],
+    git_changed_files: set[str] | None,
+) -> str | None:
+    git_key = git_blob_keys.get(rel_file)
+    if git_key is not None and git_changed_files is not None and rel_file not in git_changed_files:
+        return git_key
+    return _file_content_cache_key(path)
 
 
 def _record_list_from_json(
@@ -1003,21 +1245,28 @@ def scan_lean_sources() -> LeanSourceScan:
     use_cache = _scan_cache_enabled()
     cache = _load_scan_lean_sources_cache() if use_cache else {}
     new_cache: dict[str, object] = {}
+    git_blob_keys = _git_ls_files_blob_keys() if use_cache else {}
+    git_changed_files = _git_changed_lean_files() if use_cache else None
 
     for path in lean_files():
         rel_file = str(path.relative_to(REPO_ROOT))
-        try:
-            mtime = path.stat().st_mtime
-        except Exception:
-            continue
+        content_key = (
+            _lean_source_content_key(path, rel_file, git_blob_keys, git_changed_files)
+            if use_cache
+            else None
+        )
 
-        cached_entry = cache.get(rel_file) if isinstance(cache, dict) else None
+        cache_key = (
+            _scan_cache_key(rel_file, content_key)
+            if content_key is not None
+            else None
+        )
+        cached_entry = cache.get(cache_key) if cache_key is not None else None
         extract = None
-        if (
-            isinstance(cached_entry, dict)
-            and cached_entry.get("mtime") == mtime
-        ):
+        cache_hit = False
+        if isinstance(cached_entry, dict):
             extract = _extract_from_cache(cached_entry)
+            cache_hit = extract is not None
         if extract is None:
             extract = _scan_lean_source_file(path)
 
@@ -1026,13 +1275,14 @@ def scan_lean_sources() -> LeanSourceScan:
         declaration_headers.update(extract.declaration_headers)
         declaration_bodies.update(extract.declaration_bodies)
         ledgers.extend(extract.discovery_delta_ledgers)
-        if use_cache:
-            new_cache[rel_file] = {
-                "mtime": mtime,
+        if use_cache and cache_key is not None and not cache_hit:
+            new_cache[cache_key] = {
+                "rel_file": rel_file,
+                "content_key": content_key,
                 "extract": _extract_to_json(extract),
             }
 
-    if use_cache:
+    if use_cache and new_cache:
         _save_scan_lean_sources_cache(new_cache)
 
     return LeanSourceScan(
@@ -13834,6 +14084,16 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
+    if args.command in {"audit", "axiom-purity"}:
+        try:
+            with audit_gate(args.command):
+                return args.func(args)
+        except AuditGateTimeout as exc:
+            print(
+                f"[bedc-ci] audit gate acquire timeout: {exc}",
+                file=sys.stderr,
+            )
+            return 75
     return args.func(args)
 
 
