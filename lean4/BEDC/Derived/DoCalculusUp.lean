@@ -395,16 +395,14 @@ theorem DoCalculusPacket_scoped_closure_route [AskSetup] [PackageSetup]
                 UnaryHistory probabilityRead ∧ UnaryHistory scopedRead := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle PkgSig
   intro subledger probabilityRoute scopedRoute scopedPkg
+  obtain ⟨_subledgerCert, prefixReadUnary, retainedReadUnary⟩ :=
+    DoCalculusDisplayedPrefixSubledger_closure subledger
   obtain ⟨packet, prefixRoute, retainedRoute, _retainedPkg⟩ := subledger
-  obtain ⟨interventionUnary, variablesUnary, adjustmentUnary, _distributionUnary,
+  obtain ⟨_interventionUnary, _variablesUnary, _adjustmentUnary, _distributionUnary,
     _independenceUnary, expectationUnary, exportedUnary, _htransUnary, _replayUnary,
     _provenanceUnary, _localNameUnary, _interventionVariablesAdjustment,
     _adjustmentDistributionIndependence, _independenceExpectationExport,
     _htransReplayProvenance, _localNamePkg⟩ := packet
-  have prefixReadUnary : UnaryHistory prefixRead :=
-    unary_cont_closed interventionUnary variablesUnary prefixRoute
-  have retainedReadUnary : UnaryHistory retainedRead :=
-    unary_cont_closed prefixReadUnary adjustmentUnary retainedRoute
   have probabilityReadUnary : UnaryHistory probabilityRead :=
     unary_cont_closed expectationUnary exportedUnary probabilityRoute
   have scopedReadUnary : UnaryHistory scopedRead :=
