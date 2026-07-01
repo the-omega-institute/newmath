@@ -74,6 +74,7 @@ F,J,W,R,D,L,E,H,C,P,N .
 $$
 In particular, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\MetricCompletionUp$ handoff route through $L,E$ are all visible before the $\RealUp$ seal is public. The packet exports no direct tail-to-real read, no hidden regular sequence, no unrecorded dyadic tolerance, no ambient completion equality, and no host real quotient.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnetRegSeqRatTailHandoff}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-subnet-carrier}. Its endpoint row $E$ can be a $\RealUp$ seal only as part of the displayed Cauchy subnet packet, and the continuation row $C$ records the route into that seal.
 
@@ -187,6 +188,20 @@ Start with the filter-limit handoff of \autoref{thm:cauchy-subnet-filter-limit-h
 Next use the cofinal ledger coverage of \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}. This prevents a consumer from bypassing $J$ and fixes the finite-window, readback, and tolerance rows $W,R,D$ as part of the same endpoint route.
 
 Finally apply the scoped kernel route of \autoref{thm:cauchy-subnet-scoped-kernel-route} and the public certificate route of \autoref{thm:cauchysubnet-public-certificate-route}. They add the structural rows $H,C,P,N$ and exclude quotient filters, selected host subnets, countable choice, host real equality, and ambient completeness from every accepted endpoint read.
+\end{proof}
+
+\begin{theorem}[Cauchy subnet public cofinal-filter handoff]
+\label{thm:cauchy-subnet-public-cofinal-filter-handoff}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Before any public completion-facing consumer reads $S$ as a cofinal-filter handoff, the packet exposes the cofinal subnet map ledger $J$, the source $\CauchyFilterUp$ row $F$, the $\CauchyNetUp$ source route when the consumer enters through a net presentation, the $\StreamNameUp$ finite windows $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal row $E$. The handoff is therefore a public finite route through the displayed subnet, filter, net, window, readback, tolerance, and seal rows, not a selected subnet choice, quotient-net equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-subnet-carrier}. The rows $F,J,W,R,D,L,E,H,C,P,N$ expose the source Cauchy filter, cofinal ledger, finite windows, regular rational readback, dyadic tolerance ledger, filter-limit handoff, endpoint seal, transport, replay, provenance, and local naming.
+
+Use the Cauchy subnet obligation surface of \autoref{thm:cauchy-subnet-namecert-obligations}. It forces every accepted subnet request to read the source filter row $F$ and cofinal ledger $J$ before any StreamName window or RegSeqRat readback is public.
+
+Now apply the cofinal ledger coverage and endpoint nonescape routes. By \autoref{thm:cauchy-subnet-cofinal-ledger-coverage}, every completion-facing read passes through $F,J,W,R,D,L,E,H,C,P,N$; by \autoref{thm:cauchy-subnet-endpoint-nonescape}, the endpoint remains downstream of the same rows.
+
+A $\CauchyNetUp$ presentation can therefore only enter as a source-route view of the displayed Cauchy data before the same cofinal ledger is consumed. Since the carrier contains no selected subnet, quotient-net equality, or ambient completeness coordinate, the public handoff exports only the finite cofinal-filter route.
 \end{proof}
 
 \begin{closurestatus}{\CauchySubnetUp}
