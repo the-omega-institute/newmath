@@ -101,6 +101,24 @@ The finite meet and join rows are then rebuilt table-entry by table-entry. Each 
 Finally the analytic readback is unchanged. The stream windows remain the finite windows in $S$, the rational readback remains the row $R$, and the terminal real-name exposure is still sealed by $E$. Transport, replay, provenance, and local naming in $H,C,P,N$ preserve the same route, so the induction cannot introduce an infinite lattice, selected limit, quotient equality, or ambient completion principle.
 \end{proof}
 
+\begin{theorem}[Finite interval lattice mesh-refinement consumption]
+\label{thm:finite-interval-lattice-mesh-refinement-consumption}
+Every $\FiniteIntervalMeshRefinementUp$ consumer of an accepted $\FiniteIntervalLatticeUp$ packet reads
+$$
+D,I,L,J,M,S,R,E,H,C,P,N
+$$
+before interpreting any refined parent-cell table. The downstream consumer of \autoref{ch:concrete-instances-finite-interval-mesh-refinement-namecert} may refine cells only after the endpoint order, Real-completion route, and refinement induction of the lattice packet have been displayed.
+\end{theorem}
+\begin{proof}
+Start with endpoint order, \autoref{thm:finite-interval-lattice-endpoint-order}. It forces every source cell and candidate refined cell to expose lower and upper endpoint comparisons through the dyadic ledger $D$ before a meet or join table entry can be read.
+
+Next use the Real-completion route of \autoref{thm:finite-interval-lattice-real-completion-route}. The route places $L,S,R,E,H,C,P,N$ downstream of the finite dyadic interval rows, so a completion-facing mesh consumer cannot bypass the located source, stream windows, regular readback, Real seal, transport, replay, provenance, or local naming.
+
+Finally apply refinement induction, \autoref{thm:finite-interval-lattice-refinement-induction}. The refined parent-cell table is rebuilt at finite subdivision depth from the same $D,I,J,M$ rows and preserves the same analytic handoff rows.
+
+Thus the $\FiniteIntervalMeshRefinementUp$ consumer named by \autoref{ch:concrete-instances-finite-interval-mesh-refinement-namecert} reads the full lattice route before interpreting refined parent cells, rather than importing selected partitions, quotient real equality, open-cover compactness, or ambient completion data.
+\end{proof}
+
 \closureat{FiniteIntervalLatticeUp}{seedStr}
 
 \begin{closurestatus}{\FiniteIntervalLatticeUp}
