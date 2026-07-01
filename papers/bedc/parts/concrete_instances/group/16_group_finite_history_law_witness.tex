@@ -1,0 +1,91 @@
+\section{Finite-history group-law witness}
+\label{sec:group-finite-history-law-witness}
+
+\begin{definition}[Group finite-history law witness]
+\label{def:group-finite-history-law-witness}
+The concrete finite-history law witness for $\GroupUp$ is the singleton
+terminal continuation packet
+$$
+G_{\emp}=(A_{\emp},R_{\emp},O_{\emp},e_{\emp},I_{\emp},T_{\emp},P_{\emp},N_{\emp})
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A_{\emp}(h):=\hsame(h,\emp)$ is the carried finite-history endpoint.
+\item $R_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k)$ is the
+restricted classifier.
+\item $O_{\emp}$ is the operation row
+$$
+O_{\emp}(h,k,s):=\ContR(h,k,s)\land A_{\emp}(h)\land A_{\emp}(k)\land A_{\emp}(s).
+$$
+\item $e_{\emp}:=\emp$ is the identity row.
+\item $I_{\emp}(h):=\emp$ is the available inverse boundary inside the
+singleton carrier, and any requested inverse endpoint outside $A_{\emp}$ is an
+obstruction row rather than exported inverse data.
+\item $T_{\emp}$ records componentwise $\hsame$ transport and displayed
+$\ContR$ replay for $A_{\emp},R_{\emp},O_{\emp},e_{\emp},I_{\emp}$.
+\item $P_{\emp}$ records provenance from the singleton empty-history instance
+and terminal continuation boundary.
+\item $N_{\emp}$ is the local $\NameCert_{\GroupUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Group finite-history continuation law witness]
+\label{thm:group-finite-history-continuation-law-witness}
+Every law read from the packet $G_{\emp}$ is witnessed by the displayed
+$\ContR$ route rather than by an abstract multiplication symbol. In
+particular, if $A_{\emp}(h)$, $A_{\emp}(k)$, and $\ContR(h,k,s)$, then the
+operation row exposes $A_{\emp}(s)$; the identity reads are the two
+continuation unit rows at $\emp$; and the inverse reads are the constant
+boundary $I_{\emp}(h)=\emp$ together with the obstruction against non-singleton
+inverse endpoints.
+\end{theorem}
+\begin{proof}
+Project the witness of
+\autoref{def:group-finite-history-law-witness}. Its carrier, classifier,
+identity, and inverse rows are exactly the singleton endpoint rows of
+\autoref{def:group-singleton-empty-history-instance} and
+\autoref{def:group-terminal-continuation-boundary}.
+
+For the operation row, use the terminal continuation collapse of
+\autoref{thm:group-singleton-continuation-terminal-collapse}. Under the
+displayed route $\ContR(h,k,s)$, the input classifier and the result carrier
+are the same terminal condition, so an operation read exposes $A_{\emp}(s)$
+only through the continuation ledger.
+
+For the identity rows, use
+\autoref{thm:group-terminal-continuation-boundary-laws}. The left and right
+unit laws are the continuation unit rows specialized to $e_{\emp}=\emp$; they
+do not require an external operation table.
+
+For the inverse boundary, apply
+\autoref{thm:group-terminal-continuation-inverse-obstruction}. The available
+inverse is the displayed constant endpoint $\emp$, while any inverse endpoint
+outside the singleton carrier is outside the exported $\GroupUp$ surface.
+Thus the packet supplies a concrete finite-history group-law witness over the
+terminal continuation route.
+\end{proof}
+
+\begin{theorem}[Group finite-history NameCert surface]
+\label{thm:group-finite-history-namecert-surface}
+The rows $A_{\emp},R_{\emp},O_{\emp},e_{\emp},I_{\emp},T_{\emp},P_{\emp},N_{\emp}$
+form a concrete $\NameCert_{\GroupUp}$ surface for the singleton finite-history
+law witness. A consumer may inspect carrier membership, classifier transport,
+continuation operation, identity, available inverse boundary, provenance, and
+local naming; it receives no non-singleton carrier, subgroup lattice, quotient
+group, arbitrary homomorphism, or host inverse object.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:group-finite-history-continuation-law-witness} for the
+operation, identity, and inverse rows. It routes each law through the displayed
+$\ContR$ ledger and the terminal singleton carrier.
+
+Use \autoref{thm:group-terminal-continuation-consumer-surface} for the public
+boundary. That theorem lists exactly the exported finite-history objects:
+$\mathsf{BHist}$, $A_{\emp}$, $R_{\emp}$, $\ContR$, $\mathsf{append}$, $\emp$,
+the constant inverse row, $\hsame$ transport, and the local ledger rows.
+
+The provenance and naming coordinates $P_{\emp},N_{\emp}$ therefore source and
+name only the displayed singleton packet. Since the excluded algebraic
+objects are absent from the carrier and from the continuation boundary, the
+listed rows exhaust this concrete $\NameCert_{\GroupUp}$ surface.
+\end{proof}
