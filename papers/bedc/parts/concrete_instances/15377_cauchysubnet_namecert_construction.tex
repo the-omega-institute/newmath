@@ -66,6 +66,24 @@ Replay the continuation row $C$. The request first consumes the source Cauchy fi
 Only after that displayed route has been replayed can the packet expose $L$, and only after $L$ can it expose $E$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same dependency order, so the handoff is a finite BEDC route rather than quotient filter equality, selected host subnet choice, countable choice, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchySubnet RegSeqRat tail handoff]
+\label{thm:cauchysubnet-regseqrat-tail-handoff}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Every subnet tail read that reaches a $\RealUp$ seal must pass through the displayed route
+$$
+F,J,W,R,D,L,E,H,C,P,N .
+$$
+In particular, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\MetricCompletionUp$ handoff route through $L,E$ are all visible before the $\RealUp$ seal is public. The packet exports no direct tail-to-real read, no hidden regular sequence, no unrecorded dyadic tolerance, no ambient completion equality, and no host real quotient.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-subnet-carrier}. Its endpoint row $E$ can be a $\RealUp$ seal only as part of the displayed Cauchy subnet packet, and the continuation row $C$ records the route into that seal.
+
+Read the route before the endpoint. The source filter row $F$ and cofinal ledger row $J$ expose the accepted tail request, after which the finite window row $W$ supplies the $\StreamNameUp$ display inspected by the tail.
+
+Next the regular and dyadic rows are forced to appear. The row $R$ is the $\RegSeqRatUp$ readback attached to the displayed windows, and $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the same readback.
+
+Finally apply \autoref{thm:cauchy-subnet-filter-limit-handoff}. The handoff theorem places $L$ and then $E$ downstream of $F,J,W,R,D$, so a public $\RealUp$ seal cannot be reached before the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\MetricCompletionUp$ route has been displayed.
+\end{proof}
+
 \begin{theorem}[Cauchy subnet cofinal ledger coverage]
 \label{thm:cauchy-subnet-cofinal-ledger-coverage}
 Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Every accepted subnet request admitted by the cofinal ledger row $J$ has a displayed source-filter request in $F$. Every completion-facing read must pass through
