@@ -265,6 +265,22 @@ Apply row totality, checker-cell locality, and family exhaustion, \autoref{thm:t
 Finally apply the TasteGate obligation surface and the public certificate, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface} and \autoref{thm:typed-example-coverage-matrix-public-certificate}. They identify the single-carrier alignment surface and exclude checker completeness, subject reduction, normalization, arbitrary beta closure, and gallery soundness from the target.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix Lean handoff contract]
+\label{thm:typed-example-coverage-matrix-lean-handoff-contract}
+Any Lean namespace accepting the formal target row for $\TypedExampleCoverageMatrixUp$ must expose $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the displayed matrix rows
+$$
+F,G,C,B,R,E,H,K,P,N .
+$$
+The namespace may not replace the matrix by the gallery sibling, the beta-boundary sibling, the regression-budget sibling, or an ambient audit theorem; the instances must preserve the row-indexed coverage carrier itself.
+\end{theorem}
+\begin{proof}
+Read the formal target row of \autoref{thm:typed-example-coverage-matrix-formal-target-row}. It names the witness pair, mk-field projection, and TasteGate alignment over exactly $F,G,C,B,R,E,H,K,P,N$.
+
+Use the public certificate of \autoref{thm:typed-example-coverage-matrix-public-certificate}. That certificate is the finite matrix surface and excludes checker completeness, subject reduction, normalization, arbitrary beta closure, arbitrary gallery soundness, hidden family rows, and unindexed regression budgets.
+
+Therefore a future namespace can discharge the target only by exposing the nontriviality and field-faithfulness witnesses for the displayed matrix rows themselves. A sibling gallery or ambient audit theorem would omit the shared row index $F$ or the paired cells $G,C,B,R,E$, so it cannot serve as the handoff contract.
+\end{proof}
+
 \falsifiablePrediction{If the coverage-matrix row is removed, a checker-audit consumer can no longer verify that every accepted typed-example family has paired gallery, checker, beta, and regression-spend cells.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, typedexampleauditbudget, betastepboundary. None carries the combined matrix-cell carrier because each sibling exposes one surface family, while the coverage matrix stores the shared family index and the paired gallery, checker, beta, and regression-spend cells in one packet.}
@@ -281,7 +297,7 @@ The scoped paper surface of $\TypedExampleCoverageMatrixUp$ is the finite matrix
 \begin{closurestatus}{\TypedExampleCoverageMatrixUp}
   \constructivestory{A $\TypedExampleCoverageMatrixUp$ packet is generated from a finite typed-example family index, paired gallery cells, checker cells, beta cells, regression-spend cells, exactness rows, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{def:typed-example-coverage-matrix-row-family}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, \autoref{thm:typed-example-coverage-matrix-spend-boundary}, \autoref{thm:typed-example-coverage-matrix-gallery-rows}, \autoref{thm:typed-example-coverage-matrix-boundary-rows}, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, \autoref{thm:typed-example-coverage-matrix-family-exhaustion}, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface}, \autoref{thm:typed-example-coverage-matrix-scoped-export}, \autoref{thm:typed-example-coverage-matrix-public-certificate}, and \autoref{thm:typed-example-coverage-matrix-scope-closure-record} enumerate the finite coverage-matrix obligation surface for gallery, checker, beta, regression-spend, row-family, boundary, row-totality, checker-locality, family-exhaustion, TasteGate evidence, scoped export, and public certificate.}
+  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{def:typed-example-coverage-matrix-row-family}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, \autoref{thm:typed-example-coverage-matrix-spend-boundary}, \autoref{thm:typed-example-coverage-matrix-gallery-rows}, \autoref{thm:typed-example-coverage-matrix-boundary-rows}, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, \autoref{thm:typed-example-coverage-matrix-family-exhaustion}, \autoref{thm:typed-example-coverage-matrix-tastegate-obligation-surface}, \autoref{thm:typed-example-coverage-matrix-scoped-export}, \autoref{thm:typed-example-coverage-matrix-public-certificate}, \autoref{thm:typed-example-coverage-matrix-lean-handoff-contract}, and \autoref{thm:typed-example-coverage-matrix-scope-closure-record} enumerate the finite coverage-matrix obligation surface for gallery, checker, beta, regression-spend, row-family, boundary, row-totality, checker-locality, family-exhaustion, TasteGate evidence, scoped export, public certificate, and formal-target handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close checker completeness, subject reduction, normalization, arbitrary beta closure, arbitrary gallery soundness, Lean verification, or bridge checking.}
