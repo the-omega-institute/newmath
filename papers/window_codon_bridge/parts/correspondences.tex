@@ -153,6 +153,10 @@ Crispr Spacer Prophage Crypticness & CRISPR spacer-exposure predicts resident-pr
 Crispr Spacer Known Acr Payload & CRISPR spacer-exposure predicts COGNATE known anti-CRISPR (Acr) escape payload in resident prophages (oracle Q7, AcrHub-free via AcrDB). Hypothesis: if a host's active CRISPR-Cas spacer (subtype t) exactly targets a resident prophage, that prophage is enriched for known Acrs inhibiting subtype t -- vs matched same-host UNEXPOSED prophages -- as an escape mechanism. Independent carrier = host CRISPR-Cas subtype (CRISPRCasdb ccpp\_db clustercas.class, per single-subtype GCA) + exact spacer exposure (CRISPRCasdb spacers, >=28nt both strands). Target = resident prophage proteins (Flinders Kept regions, NCBI fasta\_cds\_aa). Payload = AcrDB 122 experimentally-known Acrs (pro.unl.edu/AcrDB; PRIMARY known-only -- predicted/cAcr excluded to avoid circularity since AcrDB predictions use prophage/CRISPR/self-targeting context), via diamond blastp (evalue<=1e-5, qcov/scov>=70\%, id>=30\%, 40-250aa). Cognate map = Acr family header -> inhibited subtype (AcrIIA4->II-A). Estimator Y=log2((A+0.5)/(L+1)); W=Y - median Y over matched same-host unexposed; D=non-cognate decoy; S=same-genus cross-host swap; N1-N6 nulls (N6=Acr-subtype-label permutation = direct cognacy necessity test). Hard preflight before stats. Verdict 5-way. & \texttt{data\_gate\_failed} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.alt_code_profile_edge_hiding status=certified
 Alt Code Profile Edge Hiding & Alternative genetic codes preserve near-maximal profile-normalized local mutation edge-hiding. For each code table, e\_in = same-output Hamming-1 codon edges; tau = e\_in / e\_max(degeneracy\_profile) where e\_max is the exact H(3,4) edge-isoperimetric profile bound. Necessity: alt-code tau stays near max AND real e\_in beats a profile-preserving random-assignment null. Upgrades 64->21 from a static code-layer fact to an evolution-level local-hiding constraint (oracle-designed, direction tau\_t; task 2 of the d\_resid4/H3/K\_theta program). & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.h3_residual_specificity_d_resid4 status=failed
+H3 Residual Specificity D Resid4 & The cross-organism-conserved d\_resid4 (B*\_Q6 non-translation residual, 12 organisms) is NOT specifically high-frequency degree-3 Hamming (H3=E3) codon geometry. Corrected identifiable semipartial degree-split (oracle-designed, fixes prior N4 controlled-E3-equiv-E1E2 collapse): U3|12 vs U12|3 unique conserved energy, no double-residualization against usage/tRNA/f3 (basic controls AA-comp/GC3/length/M-density only). Result: C(U12|3)=0.073 (low-order unique) vs C(U3|12)=0.0032 (E3 unique), 22.8x low-order dominance; A\_obs=-0.0059, R\_obs=0.031; all 12 organism-wise and delete-one signs negative; B=50000 within-AA label-permutation null. d\_resid4 has real cross-organism codon geometry (beats random/perm/box-wobble/known-axis) but it is LOW-ORDER, not degree-3. Implication: the DNA->protein d\_resid4 gap is not high-frequency codon arithmetic; it points to conditional translation dynamics (K\_theta) / low-order structure. & \texttt{failed} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.e1e2_low_order_localization_d_resid4 status=needs_derivation
+E1e2 Low Order Localization D Resid4 & E1-vs-E2 low-order localization of d\_resid4: whether the conserved low-order codon geometry is degree-1 (single-position) vs degree-2 (di-position), excluding refuted degree-3. Identifiability preflight FAILS: under the basic non-B* quotient (Q0W rank 39), L2+L3 saturate the full controlled space (rank 39) so degree-1 is fully subsumed (r1|23=0, Frobenius(U1|23)\textasciitilde{}9e-29); only degree-2 has an identifiable unique component (r2|13=8). Clean E1-vs-E2 semipartial split is non-identifiable on this 12-organism matrix. Informative sub-finding: the identifiable conserved low-order residual can only live in degree-2-unique U2|13; degree-1 codon geometry adds nothing unique after degree-2+3. & \texttt{needs\_derivation} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1781,3 +1785,37 @@ null. Upgrades 64->21 from a static code-layer fact to an evolution-level local-
 \textbf{Why.} alternative codes stay near the profile maximum and beat the profile-random null across tables.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_alt\_code\_profile\_edge\_hiding.py
+
+\subsection{H3 Residual Specificity D Resid4}\label{sec:bridge-h3-residual-specificity-d-resid4}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.h3_residual_specificity_d_resid4 status=failed
+\textbf{Statement.} The cross-organism-conserved d\_resid4 (B*\_Q6 non-translation residual, 12 organisms) is NOT
+specifically high-frequency degree-3 Hamming (H3=E3) codon geometry. Corrected identifiable
+semipartial degree-split (oracle-designed, fixes prior N4 controlled-E3-equiv-E1E2 collapse): U3|12
+vs U12|3 unique conserved energy, no double-residualization against usage/tRNA/f3 (basic controls
+AA-comp/GC3/length/M-density only). Result: C(U12|3)=0.073 (low-order unique) vs C(U3|12)=0.0032 (E3
+unique), 22.8x low-order dominance; A\_obs=-0.0059, R\_obs=0.031; all 12 organism-wise and
+delete-one signs negative; B=50000 within-AA label-permutation null. d\_resid4 has real
+cross-organism codon geometry (beats random/perm/box-wobble/known-axis) but it is LOW-ORDER, not
+degree-3. Implication: the DNA->protein d\_resid4 gap is not high-frequency codon arithmetic; it
+points to conditional translation dynamics (K\_theta) / low-order structure.
+
+\textbf{Verdict.} \texttt{failed}.
+
+\textbf{Why.} d\_resid4 low-order not H3; identifiable semipartial (r3|12=17,r12|3=12), C\_U12|3=22.8x C\_U3|12.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_h3\_residual\_specificity.py
+
+\subsection{E1e2 Low Order Localization D Resid4}\label{sec:bridge-e1e2-low-order-localization-d-resid4}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.e1e2_low_order_localization_d_resid4 status=needs_derivation
+\textbf{Statement.} E1-vs-E2 low-order localization of d\_resid4: whether the conserved low-order codon geometry is
+degree-1 (single-position) vs degree-2 (di-position), excluding refuted degree-3. Identifiability
+preflight FAILS: under the basic non-B* quotient (Q0W rank 39), L2+L3 saturate the full controlled
+space (rank 39) so degree-1 is fully subsumed (r1|23=0, Frobenius(U1|23)\textasciitilde{}9e-29);
+only degree-2 has an identifiable unique component (r2|13=8). Clean E1-vs-E2 semipartial split is
+non-identifiable on this 12-organism matrix. Informative sub-finding: the identifiable conserved
+low-order residual can only live in degree-2-unique U2|13; degree-1 codon geometry adds nothing
+unique after degree-2+3.
+
+\textbf{Verdict.} \texttt{needs\_derivation}.
+
+\textbf{Why.} r1|23=0, degree-1 subsumed by degree-2+3; E2 refinement pending oracle.
