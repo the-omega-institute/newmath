@@ -13449,6 +13449,7 @@ import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6PosetComparabilityJacobsthal
 import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6RisingColumnTripleRecurrence
+import BEDC.Derived.Window6SeamGluingParity
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
