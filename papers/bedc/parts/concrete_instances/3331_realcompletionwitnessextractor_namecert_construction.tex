@@ -141,6 +141,46 @@ only transport, replay, package, and name the displayed coordinates, no
 consumer can escape the finite witness packet.
 \end{proof}
 
+\begin{theorem}[Real completion witness-extractor coordinate induction]
+\label{thm:real-completion-witness-extractor-coordinate-induction}
+Let $\Phi$ be a certificate read on accepted
+$\RealCompletionWitnessExtractorUp$ packets. If $\Phi$ is fixed by the
+dyadic ledger coordinate $D$, the selected-window coordinate $W$, the modulus
+coordinate $M$, the $\RegSeqRatUp$ readback coordinate $Q$, the $\RealUp$
+seal coordinate $L$, the $\CauchyLimitSealUp$ handoff coordinate $S$, the
+componentwise $\hsame$ transport coordinate $H$, the displayed $\Cont$ route
+coordinate $C$, the $\Pkg$ provenance coordinate $P$, and the local
+$\NameCert_{\RealCompletionWitnessExtractorUp}$ coordinate $N$, and if the
+transport row $H$ carries $\Phi$ componentwise across those displayed
+coordinates, then every accepted extractor packet satisfies $\Phi$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+X=(D,W,M,Q,L,S,H,C,P,N)
+$$
+from \autoref{def:real-completion-witness-extractor-carrier}. The carrier has
+no hidden completion coordinate: every accepted read begins with the dyadic
+ledger $D$, selected windows $W$, and modulus schedule $M$.
+
+Next read the computational coordinates in order. The $\RegSeqRatUp$ readback
+row $Q$ is attached to $D,W,M$ by
+\autoref{thm:real-completion-witness-extractor-regular-readback-route}; the
+$\RealUp$ seal $L$ and $\CauchyLimitSealUp$ handoff $S$ are then attached by
+\autoref{thm:real-completion-witness-extractor-seal-handoff-totality}.
+
+Now use the structural coordinates. The componentwise transport row $H$
+preserves $\Phi$ across the displayed dyadic, stream, modulus, readback, seal,
+and handoff rows, while the continuation row $C$ replays those reads in the
+same order. The provenance row $P$ and local naming row $N$ are exhausted by
+\autoref{thm:real-completion-witness-extractor-provenance-exhaustion}.
+
+Finally apply the non-escape theorem. Since any accepted consumer factors
+through exactly $D,W,M,Q,L,S,H,C,P,N$, and since $\Phi$ is stable under each
+coordinate together with the transports recorded by $H$, induction over the
+displayed coordinate spine proves $\Phi$ for every accepted extractor packet.
+\end{proof}
+
 \begin{theorem}[Real completion witness-extractor selected-window admission]
 \label{thm:real-completion-witness-extractor-selected-window-admission}
 For every accepted $\RealCompletionWitnessExtractorUp$ packet, the first

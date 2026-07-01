@@ -1,4 +1,5 @@
 import BEDC.Derived.RHRoute.HalfPlaneEulerProduct
+import BEDC.Derived.RHRoute.QPrimeLocated
 import BEDC.Derived.PrimeUp.UniqueFactorization
 import BEDC.Real.RatNumLogEnclosure
 
@@ -17,6 +18,7 @@ open BEDC.Derived.RationalUp
 open BEDC.Derived.RationalOrderArithUp
 open BEDC.Derived.RHRoute.FinitePrimeWindow
 open BEDC.Derived.RHRoute.HalfPlaneEulerProduct
+open BEDC.Derived.RHRoute.QPrimeLocated
 open BEDC.Real.RatNumKernel
 open BEDC.Real.RatNumLogEnclosure
 
@@ -32,21 +34,6 @@ abbrev NatOneLocal : BHist :=
 def unitComplex : RatComplex :=
   { re := ratOne, im := ratZero }
 
-structure QPrimeLocated
-    (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) where
-  envelope : LocatedComplexMagnitudeEnvelope
-  envelope_eq : envelope = qPrimeSymbolicUnitEnvelope p hp s h
-  radius_contracts : LocalSchurContractive p hp s h
-  abs_lt_one : ratLt envelope.absUB ratOne
-
-def qPrime_located
-    (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) :
-    QPrimeLocated p hp s h :=
-  { envelope := qPrimeSymbolicUnitEnvelope p hp s h
-    envelope_eq := rfl
-    radius_contracts := qPrime_localSchurContractive p hp s h
-    abs_lt_one := qPrime_symbolicEnvelope_lt_one p hp s h }
-
 structure SinglePrimeGeomLocated
     (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) where
   located : QPrimeLocated p hp s h
@@ -59,8 +46,10 @@ structure SinglePrimeGeomLocated
 
 def singlePrimeGeomLocated
     (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) :
+    QPrimeLocated p hp s h ->
     SinglePrimeGeomLocated p hp s h :=
-  { located := qPrime_located p hp s h
+  fun located =>
+  { located := located
     partial_geom := qPrimeGeomSum p hp s h
     partial_geom_eq := fun _K => rfl
     factor_bound := (primeEulerFactorBounded p hp s h).factor_bound
@@ -666,11 +655,14 @@ structure FiniteEulerDirichletPacket
 def finiteEulerDirichletPacket
     (window : List (Nat × Nat)) (s : RatComplex)
     (h : HP1WitnessRat s)
-    (_primeInWindow : ∀ p K, (p, K) ∈ window -> IsPrime p) :
+    (_primeInWindow : ∀ p K, (p, K) ∈ window -> IsPrime p)
+    (qprimeProvider :
+      ∀ p K, (p, K) ∈ window -> (hp : IsPrime p) ->
+        QPrimeLocated p hp s h) :
     FiniteEulerDirichletPacket window s h :=
   { qprime_located := by
       intro p K member hp
-      exact qPrime_located p hp s h
+      exact qprimeProvider p K member hp
     finite_terms := encodedDirichletTerms window
     finite_terms_eq := rfl
     finite_euler_eq_dirichlet := finiteEuler_eq_encodedDirichlet window
@@ -717,15 +709,16 @@ theorem toy_enc_unique_factorization :
     toyWindowTwoThree_all_prime (hsame_refl _)
 
 theorem qprime_located_norm_bound
-    (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s) :
-    ratLt (qPrime_located p hp s h).envelope.absUB ratOne := by
-  exact (qPrime_located p hp s h).abs_lt_one
+    (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s)
+    (located : QPrimeLocated p hp s h) :
+    ratLt located.envelope.absUB ratOne := by
+  exact located.abs_lt_one
 
 theorem single_prime_geom_formal_bound
     (p : Nat) (hp : IsPrime p) (s : RatComplex) (h : HP1WitnessRat s)
-    (K : Nat) :
-    ratLe ((singlePrimeGeomLocated p hp s h).partial_geom K)
-      (singlePrimeGeomLocated p hp s h).factor_bound := by
-  exact (singlePrimeGeomLocated p hp s h).partial_le_factor_bound K
+    (K : Nat) (located : QPrimeLocated p hp s h) :
+    ratLe ((singlePrimeGeomLocated p hp s h located).partial_geom K)
+      (singlePrimeGeomLocated p hp s h located).factor_bound := by
+  exact (singlePrimeGeomLocated p hp s h located).partial_le_factor_bound K
 
 end BEDC.Derived.RHRoute.FiniteEulerDirichlet
