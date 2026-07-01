@@ -175,16 +175,33 @@ Apply the source-target replay theorem \autoref{thm:transportability-source-targ
 Now apply \autoref{thm:transportability-target-distribution-nonescape}. Since the transported distribution cannot escape into hidden selection, host probability equality, unlicensed counterfactual selection, or ambient causal completeness, every exported target read is covered by the displayed replay route and no extra coordinate remains.
 \end{proof}
 
+\begin{theorem}[Transportability scope exhaustion]
+\label{thm:transportability-scope-exhaustion}
+Every accepted $\TransportabilityUp$ read factors through the displayed $\BHist$ rows
+$$
+S,Tg,I,A,D,J,H,C,P,N,
+$$
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local $\NameCert_{\TransportabilityUp}$ naming, and the sibling $\DoCalculusUp$, $\FrontdoorCriterionUp$, and $\CounterfactualOutcomeUp$ routes. The packet exports no hidden selection oracle, host probability equality, unlicensed counterfactual selector, or ambient causal completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:transportability-carrier}. The displayed rows $S,Tg,I,A,D,J,H,C,P,N$ are the complete local packet, and \autoref{thm:transportability-target-replay-coverage} requires every exported target read to pass through them.
+
+Read the structural rows next. Componentwise $\hsame$ transport is stored in $H$, displayed $\Cont$ replay is stored in $C$, $\Pkg$ provenance is stored in $P$, and local naming is stored in $N$.
+
+Finally apply \autoref{thm:transportability-adjustment-ledger-exactness}, \autoref{thm:transportability-intervention-adjustment-ledger}, and \autoref{thm:transportability-target-distribution-nonescape}. These keep the do-calculus, front-door adjustment, and counterfactual-outcome routes inside the displayed ledgers while refusing hidden selection, host probability equality, unlicensed counterfactual selection, and ambient causal completeness.
+\end{proof}
+
 \closureat{TransportabilityUp}{seedStr}
 \closureat{TransportabilityUp}{obligationStr}
+\closureat{TransportabilityUp}{scopedStr}[BEDC.Derived.TransportabilityUp.TransportabilityCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\TransportabilityUp}
   \constructivestory{A $\TransportabilityUp$ packet is generated from source-domain distribution, target-domain selection, intervention, adjustment, transported distribution, justification, componentwise transport, displayed replay, provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:transportability-carrier} and \autoref{thm:transportability-namecert-obligations} seed the finite transportability carrier and its local NameCert obligation surface over source distribution, target selection, intervention, adjustment, transported distribution, justification, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:transportability-carrier}, \autoref{thm:transportability-namecert-obligations}, and \autoref{thm:transportability-scope-exhaustion} bind the finite transportability carrier to its BEDC primitive rows and sibling do-calculus, front-door, and counterfactual routes.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TransportabilityUp.TransportabilityCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close hidden selection oracles, host probability equality, unlicensed counterfactual selectors, ambient causal completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the listed obligation rows to their BEDC primitives and to the sibling do-calculus, front-door, and counterfactual routes.}
+  \upgradepath{Public closure requires a public transportability export theorem over the displayed source-target rows and sibling causal routes.}
 \end{closurestatus}
