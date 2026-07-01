@@ -3382,6 +3382,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.expression_noise.ecoli_promoter_sequence_noise_beyond_composition_mean_urchueguia2021",
+   "experiment_id": "ecoli_promoter_expression_noise_beyond_composition_mean_urchueguia2021",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (pivot to NEW readout TYPE = expression noise / distributional second moment; single readout; pre-registered to ADD): does higher-order sequence structure predict E. coli promoter expression noise beyond composition + mean expression, identity+gene-controlled? Urchueguia et al. PLOS Biol 2021 (DOI 10.1371/journal.pbio.3001491; Zenodo 5701705 dataset_with_noise_estimates.csv, condition M9+glucose), n=872 (96-1738nt), y=noise (mean-independent). baseline=composition + fl_mean_log (mean control, since noise~mean); full=+generic structure (k-mer entropy, RC/palindrome density, max-RC-stem, runs, CpG). k-mer identity-cluster holdout + leave-gene-out (regulon) transfer + random-split contrast + perm (B=300). Records matches_pre_registered_prediction. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_ecoli_promoter_expression_noise_beyond_composition_mean_urchueguia2021.py",
+   "timeout_seconds": 1800,
+   "status": "passed",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T14:47:00+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
