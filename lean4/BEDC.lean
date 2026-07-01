@@ -13904,6 +13904,7 @@ import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Unary.Repetition
 import BEDC.FKernel.Unary.ResultCases
 import BEDC.Foundations.TriAxisCoverage
+import BEDC.Foundations.TriAxisRealized
 import BEDC.Foundations.TriRealization
 import BEDC.Foundations.TriangleGenerationSystem
 import BEDC.GroundCompiler
