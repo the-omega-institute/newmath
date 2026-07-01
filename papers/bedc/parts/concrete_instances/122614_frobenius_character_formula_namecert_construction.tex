@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FrobeniusCharacterFormulaUp$}
+\label{ch:concrete-instances-frobenius-character-formula-namecert}
+\origin{human}
+
+Following Serre and Fulton--Harris on finite-group characters, the $\FrobeniusCharacterFormulaUp$ packet records the finite value formula for an induced character as NameCert data. It consumes the finite group and subgroup sources of \autoref{ch:concrete-instances-group-namecert} and \autoref{ch:concrete-instances-subgroup-namecert}, the finite representation row of \autoref{ch:concrete-instances-finite-group-representation-namecert}, the induced-character packet of \autoref{ch:concrete-instances-induced-character-namecert}, the character-table consumer of \autoref{ch:concrete-instances-character-table-namecert}, and the reciprocity comparison surface of \autoref{ch:concrete-instances-frobenius-reciprocity-namecert}. The packet names only the displayed coset-filtered summation rule, its conjugacy stability, its finite table handoff, and its reciprocity-facing provenance.
+
+\begin{definition}[FrobeniusCharacterFormula carrier]
+\label{def:frobenius-character-formula-carrier}
+A $\FrobeniusCharacterFormulaUp$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{F}=(G,H,Q,V,\theta,\chi,\sigma,\eta,\tau,\rho,\lambda,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\NameCert_{\GroupUp}$ row naming the finite group source.
+\item $H$ is the consumed $\NameCert_{\SubgroupUp}$ row naming the subgroup inclusion inside $G$.
+\item $Q$ is the finite coset ledger whose accepted rows are used as the only summation indices.
+\item $V$ is the consumed $\NameCert_{\FiniteGroupRepresentationUp}$ row whose restricted trace supplies the source character on $H$.
+\item $\theta$ is the source character value row on $H$.
+\item $\chi$ is the consumed $\NameCert_{\InducedCharacterUp}$ row naming the induced character to be evaluated.
+\item $\sigma$ is the displayed finite formula ledger: for each accepted group element row $g$, it lists exactly those accepted coset rows $q$ whose transported element row lies in $H$, and it assigns the finite sum of the corresponding $\theta$ values to $\chi(g)$.
+\item $\eta$ is the representative-independence row, recording that $\hsame$ replacement of accepted coset rows in $Q$ preserves the displayed summand ledger.
+\item $\tau$ is the conjugacy-stability row, recording that the value row is transported through conjugation in $G$ as a class-function value.
+\item $\rho$ is the $\NameCert_{\FrobeniusReciprocityUp}$ provenance row that lets reciprocity consumers read the same induction--restriction boundary.
+\item $\lambda$ is the downstream consumer ledger for $\CharacterTableUp$, $\InducedCharacterUp$, and $\FrobeniusReciprocityUp$ reads.
+\item $P$ is the $\Pkg$ provenance over the consumed rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrobeniusCharacterFormulaUp}$ row.
+\end{enumerate}
+The carrier contains no irreducible decomposition, no quotient-character row, no host representation category, and no selected coset representatives outside the displayed ledger $Q$.
+\end{definition}
+
+\begin{theorem}[FrobeniusCharacterFormula NameCert obligations]
+\label{thm:frobenius-character-formula-namecert-obligations}
+For every accepted $\FrobeniusCharacterFormulaUp$ packet
+$$
+\mathcal{F}=(G,H,Q,V,\theta,\chi,\sigma,\eta,\tau,\rho,\lambda,P,N),
+$$
+the local $\NameCert_{\FrobeniusCharacterFormulaUp}$ surface consists exactly of the following six finite obligations:
+\begin{enumerate}
+\item carrier admission exposes precisely the rows listed in \autoref{def:frobenius-character-formula-carrier};
+\item subgroup admissibility checks every summand of $\sigma$ against the consumed $\NameCert_{\SubgroupUp}$ row $H$ inside the same $\NameCert_{\GroupUp}$ source $G$;
+\item source-character routing requires every summand value to be read through $\theta$ and the finite representation row $V$;
+\item representative independence is the row $\eta$, so changing an accepted coset representative by $\hsame$ changes only the displayed index, not the named value row;
+\item conjugacy stability is the row $\tau$, so the formula exports a class-function value row to character-table consumers;
+\item reciprocity provenance requires every comparison read to pass through $\rho$ and the Frobenius reciprocity boundary named by \autoref{ch:concrete-instances-frobenius-reciprocity-namecert}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frobenius-character-formula-carrier}. The tuple $\mathcal{F}$ already displays the group, subgroup, coset, representation, source-character, induced-character, formula, stability, reciprocity, consumer, provenance, and local naming rows, giving carrier admission.
+
+Subgroup admissibility and source-character routing are checked on each listed summand of $\sigma$. The admissibility test reads only the row $H$ inside $G$, and the summand value reads only $\theta$ through the finite representation row $V$.
+
+Representative independence is exactly the row $\eta$. It compares two accepted rows of the same finite coset ledger $Q$ by $\hsame$ transport and leaves the subgroup test and source-character value row unchanged.
+
+Conjugacy stability is the row $\tau$. It transports the displayed group element row through conjugation in $G$ and repacks the same formula value as the class-function row consumed by $\CharacterTableUp$.
+
+Finally, $\rho$ supplies the reciprocity-facing provenance. Repacking these projected rows with $\lambda$, $P$, and $N$ gives exactly the six listed NameCert obligations and no additional host character theory.
+\end{proof}
+
+\begin{theorem}[FrobeniusCharacterFormula induced value route]
+\label{thm:frobenius-character-formula-induced-value-route}
+Any $\InducedCharacterUp$ or $\CharacterTableUp$ consumer of an accepted $\FrobeniusCharacterFormulaUp$ packet may read the induced value at a displayed group row only through
+$$
+G,\ H,\ Q,\ V,\ \theta,\ \chi,\ \sigma,\ \eta,\ \tau,\ \lambda.
+$$
+It may not import an irreducible decomposition, a host representation category, a quotient-character row, or a coset representative outside $Q$.
+\end{theorem}
+\begin{proof}
+Route the consumer request through the local packet. The group and subgroup boundary is supplied by $G$ and $H$, and the only indexing surface is the finite coset ledger $Q$.
+
+The source values are read through $V$ and $\theta$. The induced-character name is $\chi$, and the value itself is the finite formula row $\sigma$.
+
+The independence and table-facing stability checks are $\eta$ and $\tau$. The downstream read is recorded by $\lambda$, so no other row of $\mathcal{F}$ can supply an irreducible decomposition, host representation category, quotient character, or external representative selector.
+\end{proof}
+
+\closureat{FrobeniusCharacterFormulaUp}{seedStr}
+
+\begin{closurestatus}{\FrobeniusCharacterFormulaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frobenius-character-formula-carrier}, \autoref{thm:frobenius-character-formula-namecert-obligations}, and \autoref{thm:frobenius-character-formula-induced-value-route} seed the finite induced-character value formula over displayed $\GroupUp$, $\SubgroupUp$, $\FiniteGroupRepresentationUp$, $\InducedCharacterUp$, $\CharacterTableUp$, and $\FrobeniusReciprocityUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close irreducible decomposition, host representation categories, quotient characters, selected coset representatives outside the displayed ledger, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subgroup admissibility, source-character routing, representative independence, conjugacy stability, and reciprocity provenance for the same finite packet.}
+  \constructivestory{A $\FrobeniusCharacterFormulaUp$ packet is generated from finite group and subgroup sources, a finite coset ledger, a represented source character, an induced-character row, a displayed finite formula ledger, representative-independence and conjugacy-stability rows, reciprocity provenance, downstream consumer rows, package provenance, and a local NameCert row.}
+\end{closurestatus}
