@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ZeckendorfReadoutCoefficientStrataUp$}
+\label{ch:concrete-instances-zeckendorf-readout-coefficient-strata-namecert}
+\origin{ai}
+
+The $\ZeckendorfReadoutCoefficientStrataUp$ packet realizes the coefficient-strata readout route as finite Zeckendorf carry, phase-shell, running-coordinate, and boundary-flux rows before any physical scalar fit is accepted. It sits after the phase shell of \autoref{ch:concrete-instances-zeckendorf-phase-shell-namecert}, the carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert}, the running coordinate route of \autoref{ch:concrete-instances-axis-zeckendorf-running-coordinate-namecert}, and the static boundary flux of \autoref{ch:concrete-instances-static-green-boundary-flux-namecert}. The chapter names the finite carrier that keeps the static impedance coefficient, beta-shell coefficient, and curvature-residual coefficient in separate rows.
+
+\begin{definition}[Zeckendorf readout coefficient strata carrier]
+\label{def:zeckendorf-readout-coefficient-strata-carrier}
+A $\ZeckendorfReadoutCoefficientStrataUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(P,K,A,G,S,B,C,L,H,T,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\ZeckendorfPhaseShellUp$ phase-shell row.
+\item $K$ is the $\ZeckendorfCarryClassifierUp$ carry-classifier row.
+\item $A$ is the $\AxisZeckendorfRunningCoordinateUp$ running-coordinate row.
+\item $G$ is the $\StaticGreenBoundaryFluxUp$ boundary-flux row.
+\item $S$ is the static impedance stratum row, recording the displayed $8/9$ coefficient as a boundary-flux readout.
+\item $B$ is the beta-shell stratum row, recording the displayed $2/3$ coefficient as a phase-image readout.
+\item $C$ is the curvature-residual stratum row, recording the displayed $4/9$ coefficient as a one-way fold-mismatch readout.
+\item $L$ is the local layer-separation ledger, refusing any read that identifies $S,B,C$ as competing estimates of a single scalar.
+\item $H$ records componentwise $\hsame$ transport for the phase-shell, carry-classifier, running-coordinate, boundary-flux, three coefficient strata, ledger, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a coefficient read through $P,K,A,G,S,B,C,L,H,R,N$.
+\item $R$ is the $\Pkg$ provenance over $\ZeckendorfReadoutCoefficientStrataUp$, $\ZeckendorfPhaseShellUp$, $\ZeckendorfCarryClassifierUp$, $\AxisZeckendorfRunningCoordinateUp$, $\StaticGreenBoundaryFluxUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ZeckendorfReadoutCoefficientStrataUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,K,A,G,S,B,C,L,H,T,R,N$. It has no coordinate for an unstratified scalar fit, floating coefficient tuning, hidden physical calibration, quotient phase equality, or host-field semantics.
+\end{definition}
+
+\begin{theorem}[Zeckendorf readout coefficient strata NameCert obligations]
+\label{thm:zeckendorf-readout-coefficient-strata-namecert-obligations}
+For every accepted $\ZeckendorfReadoutCoefficientStrataUp$ carrier $Z=(P,K,A,G,S,B,C,L,H,T,R,N)$, the local $\NameCert_{\ZeckendorfReadoutCoefficientStrataUp}$ surface consists exactly of phase-shell exposure through $P$, carry-classifier exposure through $K$, running-coordinate exposure through $A$, static boundary-flux exposure through $G$, coefficient-row exposure through $S,B,C$, layer-separation refusal through $L$, componentwise transport through $H$, displayed replay through $T$, provenance through $R$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeckendorf-readout-coefficient-strata-carrier}. The source rows are $P,K,A,G$, the coefficient rows are $S,B,C$, and the structural rows are $L,H,T,R,N$.
+
+The three coefficient rows have distinct readout sources. The static row $S$ is bound to the boundary-flux row $G$, the beta-shell row $B$ is bound to phase-image and running-coordinate data through $P,K,A$, and the curvature-residual row $C$ is bound to the one-way fold-mismatch boundary.
+
+The ledger $L$ refuses a collapse of these strata into a single fit parameter. Transport and replay through $H,T$ preserve the same row separation, while $R,N$ source and name the packet.
+
+Since no carrier coordinate stores an unstratified scalar, floating calibration, quotient phase equality, or host-field interpretation, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Zeckendorf coefficient readout separation]
+\label{thm:zeckendorf-readout-coefficient-strata-separation}
+Every accepted $\ZeckendorfReadoutCoefficientStrataUp$ read keeps the displayed coefficients $8/9$, $2/3$, and $4/9$ in three separate strata. The read may transport and replay the strata through $H,T,R,N$, but it cannot replace the row separation by a single low-energy scalar fit.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:zeckendorf-readout-coefficient-strata-namecert-obligations}. It exposes $S,B,C$ as three rows rather than as one row with three candidate values.
+
+The source rows separate the meaning of the coefficients. Static impedance reads through $G$, beta-shell reads through $P,K,A$, and curvature residual reads through the one-way mismatch row $C$ together with the ledger $L$.
+
+Thus a consumer that collapses the coefficients into one scalar has left the carrier. The packet has transport, replay, provenance, and naming rows, but no coordinate that can erase the displayed stratum separation.
+\end{proof}
+
+The Lean TasteGate follow-up for $\mathsf{BEDC.Derived.ZeckendorfReadoutCoefficientStrataUp}$ must provide explicit $\Nontrivial$ and $\FieldFaithful$ instances for the same carrier rows $P,K,A,G,S,B,C,L,H,T,R,N$ before any checked taste-gate target is recorded.
+
+\falsifiablePrediction{Every accepted $\ZeckendorfReadoutCoefficientStrataUp$ consumer read displays Zeckendorf phase-shell, carry-classifier, running-coordinate, static boundary-flux, static impedance, beta-shell, curvature-residual, layer-separation, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before a coefficient stratum can be consumed.}
+
+\independenceWitness{zeckendorf-phase-shell, zeckendorf-carry-classifier, axis-zeckendorf-running-coordinate, static-green-boundary-flux: $\ZeckendorfReadoutCoefficientStrataUp$ is not bijective to any listed sibling because it jointly carries phase-shell, carry-classifier, running-coordinate, boundary-flux, three coefficient strata, layer-separation refusal, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{ZeckendorfReadoutCoefficientStrataUp}{seedStr}
+
+\begin{closurestatus}{\ZeckendorfReadoutCoefficientStrataUp}
+  \constructivestory{A $\ZeckendorfReadoutCoefficientStrataUp$ packet is generated from Zeckendorf phase-shell, carry-classifier, running-coordinate, static boundary-flux, static impedance, beta-shell, curvature-residual, layer-separation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeckendorf-readout-coefficient-strata-carrier}, \autoref{thm:zeckendorf-readout-coefficient-strata-namecert-obligations}, and \autoref{thm:zeckendorf-readout-coefficient-strata-separation} seed the finite coefficient-strata readout route for Zeckendorf consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close physical scalar fitting, host-field semantics, quotient phase equality, checked TasteGate evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-row separation, layer-refusal coverage, Nontrivial TasteGate evidence, FieldFaithful TasteGate evidence, transport, replay, provenance, and local naming for BEDC.Derived.ZeckendorfReadoutCoefficientStrataUp.}
+\end{closurestatus}
