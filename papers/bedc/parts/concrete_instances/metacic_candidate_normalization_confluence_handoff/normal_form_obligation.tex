@@ -132,6 +132,52 @@ equality, evaluator equality, or consistency, the endpoint remains the retained
 finite budget surface stated above.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization normal-form budget]
+\label{thm:metacic-candidate-normalization-normal-form-budget}
+Every local-confluence consumer of an accepted normal-form endpoint exported by
+a $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must retain the
+candidate gate, residual-diamond row, residual-substitution premise,
+cut-height budget, parallel frontier route, sibling confluence route, and local
+$\NameCert$ row as one finite budget packet. The endpoint is therefore consumed
+only through the normal-form obligation, obstruction-retention row, candidate
+diamond budget route, cut-height budget route, and parallel-diamond frontier
+route before it can be read as local confluence evidence.
+
+This retained packet explicitly excludes unrestricted Church--Rosser, subject
+reduction, quotient syntax equality, evaluator equality, and kernel
+consistency.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}.
+It places every endpoint after the candidate gate, residual-diamond row, and
+sibling confluence route, so the consumer cannot read the endpoint as a detached
+normal form.
+
+Apply obstruction retention,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-obstruction-retention}.
+That row keeps the residual-substitution premise, candidate diamond dependency,
+cut-height budget, and parallel frontier route attached to the endpoint as
+confluence-facing evidence.
+
+Use the candidate diamond budget route,
+\autoref{thm:metacic-candidate-normalization-diamond-budget-route}, together
+with the cut-height budget route
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-cut-height-budget}.
+They expose the bounded local peak, join-budget, cut-height, normalization
+frontier, residual confluence, decidable boundary, and blocked-edge rows as
+finite budget coordinates.
+
+Finally apply the parallel-diamond frontier route,
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-parallel-diamond-frontier-route},
+and the sibling confluence route
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-sibling-route}.
+The local $\NameCert$ row names exactly that finite packet. Since none of these
+rows contains unrestricted Church--Rosser, subject reduction, quotient syntax
+equality, evaluator equality, or kernel consistency, the consumer receives only
+the retained normal-form budget.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual normal-form frontier]
 \label{thm:metacic-candidate-normalization-confluence-handoff-residual-normal-form-frontier}
 An accepted normal-form endpoint of a
