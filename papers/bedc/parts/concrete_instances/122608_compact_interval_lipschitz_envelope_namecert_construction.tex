@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalLipschitzEnvelopeUp$}
+\label{ch:concrete-instances-compact-interval-lipschitz-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Lipschitz control on a compact interval is read through finite interval meshes, displayed bounds, and regular rational readback rather than through an ambient supremum over an uninspected continuum. The $\CompactIntervalLipschitzEnvelopeUp$ packet sits after the compact metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map route of \autoref{ch:concrete-instances-continuousmap-namecert}, the Lipschitz-map carrier of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It realizes the compact interval finite-envelope route without claiming open-cover compactness, ambient $\RealUp$ completeness, or a selected global extremum.
+
+\begin{definition}[Compact interval Lipschitz-envelope packet]
+\label{def:compact-interval-lipschitz-envelope-packet}
+A $\CompactIntervalLipschitzEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,F,L,M,B,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ compact interval source, including the finite mesh rows accepted by the interval carrier.
+\item $F$ is the $\ContinuousMapUp$ or $\LipschitzMapUp$ function row whose values are being bounded.
+\item $L$ is the finite Lipschitz-bound row, displaying the rational or dyadic bound used to compare values across mesh cells.
+\item $M$ is the finite mesh row, read through $\FiniteIntervalMeshRefinementUp$ or an existing compact interval finite-net sibling when the consumer supplies one.
+\item $B$ is the envelope row assigning displayed lower and upper rational bounds to each mesh cell.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed envelope bounds.
+\item $S$ is the terminal $\RealUp$ seal row for envelope values exposed after $K,F,L,M,B,R$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for compact source rows, map rows, Lipschitz bounds, mesh rows, envelope rows, readback rows, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an envelope request through $K,F,L,M,B,R,S,H$.
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalLipschitzEnvelopeUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\LipschitzMapUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactIntervalLipschitzEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an uninspected supremum, a selected maximizing point, an open-cover choice principle, quotient function equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Compact interval Lipschitz-envelope NameCert obligations]
+\label{thm:compact-interval-lipschitz-envelope-namecert-obligations}
+For every accepted $\CompactIntervalLipschitzEnvelopeUp$ carrier
+$$
+E=(K,F,L,M,B,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CompactIntervalLipschitzEnvelopeUp}$ surface requires exactly the displayed compact interval source $K$, function row $F$, finite Lipschitz-bound row $L$, finite mesh row $M$, envelope bound row $B$, regular readback row $R$, Real seal $S$, transport $H$, replay $C$, provenance $P$, and local name $N$. A consumer may read a compact interval envelope only after these rows expose the finite mesh, Lipschitz bound, uniform-modulus handoff, $\RegSeqRatUp$ readback, and $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-interval-lipschitz-envelope-packet}. The source, map, Lipschitz bound, mesh, envelope, readback, seal, and structural rows are the whole packet.
+
+The finite mesh row $M$ is the only place where the interval is inspected. The Lipschitz row $L$ then transports pointwise control across cells, and $B$ records the resulting lower and upper rational envelope bounds.
+
+The readback and seal rows $R,S$ make the envelope usable by regular rational and Real-facing consumers only after the finite rows have been displayed. Rows $H,C,P,N$ preserve, replay, source, and name the same route. Since no additional coordinate is present, the certificate exports no uninspected supremum, selected maximizer, open-cover choice, quotient function equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Compact interval Lipschitz-envelope uniform route]
+\label{thm:compact-interval-lipschitz-envelope-uniform-route}
+Every compact-uniform-continuity consumer of an accepted $\CompactIntervalLipschitzEnvelopeUp$ packet factors through
+$$
+K,F,L,M,B,R,S,H,C,P,N .
+$$
+The packet supplies finite mesh rows, a Lipschitz bound, envelope bounds, uniform-modulus handoff data, $\RegSeqRatUp$ readback, and a terminal $\RealUp$ seal. It does not supply open-cover compactness, selected extrema, quotient function representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:compact-interval-lipschitz-envelope-namecert-obligations}. It identifies the carrier rows that must be exposed before an envelope is public.
+
+The compact-uniform-continuity consumer reads $K,M$ as the finite compact interval mesh route and reads $F,L$ as the map and Lipschitz-control route. It then reads $B$ as the finite envelope ledger.
+
+The rows $R,S$ turn that ledger into regular rational readback and a Real-facing seal. The structural rows $H,C,P,N$ keep the route stable under transport and replay. Thus the consumer receives exactly the displayed finite envelope and none of the refused ambient principles.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactIntervalLipschitzEnvelopeUp$ read exposes compact interval finite mesh rows, a ContinuousMap or LipschitzMap row, a finite Lipschitz bound, envelope bounds, RegSeqRat readback, a RealUp seal, transport, replay, provenance, and local NameCert before a compact-uniform-continuity consumer reads the envelope.}
+
+\independenceWitness{compactmetric, continuousmap, lipschitzmap, regseqrat, real: no listed sibling simultaneously carries compact interval mesh rows, Lipschitz envelope bounds, regular rational readback, Real sealing, transport, replay, provenance, and local NameCert rows for a compact interval envelope.}
+
+\closureat{CompactIntervalLipschitzEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalLipschitzEnvelopeUp}
+  \constructivestory{A $\CompactIntervalLipschitzEnvelopeUp$ packet is generated from a compact interval finite-mesh source, a ContinuousMap or LipschitzMap row, a finite Lipschitz-bound row, envelope bound rows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-lipschitz-envelope-packet}, \autoref{thm:compact-interval-lipschitz-envelope-namecert-obligations}, and \autoref{thm:compact-interval-lipschitz-envelope-uniform-route} seed the compact interval Lipschitz-envelope route from finite mesh and Lipschitz rows to RegSeqRat and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected extrema, quotient function representatives, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-source admission, map admission, Lipschitz-bound stability, finite mesh envelope bounds, RegSeqRat readback, Real sealing, transport, replay, provenance, and ledger refusal for BEDC.Derived.CompactIntervalLipschitzEnvelopeUp.}
+\end{closurestatus}
