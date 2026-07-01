@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\FiniteIntervalMeshRefinementUp$}
+\label{ch:concrete-instances-finite-interval-mesh-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, finite interval arguments are read through displayed meshes, endpoint comparisons, and rational tolerances rather than through a completed continuum of hidden subdivision choices. The $\FiniteIntervalMeshRefinementUp$ packet sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the compact interval surfaces of \autoref{ch:concrete-instances-compact-interval-modulus-namecert}, the compact metric finite-net route of \autoref{ch:concrete-instances-compactmetric-namecert}, the total-boundedness surface of \autoref{ch:concrete-instances-totallybounded-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names the finite refinement discipline used by compact interval and dyadic-net consumers without asserting open-cover compactness, selected partitions, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite interval mesh refinement packet]
+\label{def:finite-interval-mesh-refinement-packet}
+A $\FiniteIntervalMeshRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,D,Q,R,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\CompactIntervalUp$ endpoint row, displaying the interval source and the endpoint order data used by the mesh read.
+\item $D$ is the $\DyadicRatCoreUp$ mesh ledger, listing the dyadic breakpoints, dyadic cell radii, endpoint incidence, and finite containment comparisons.
+\item $Q$ is the refinement map from a coarse finite mesh to the displayed finer mesh, including the finite parent-cell table.
+\item $R$ is the stability row saying that each refined dyadic cell inherits its endpoint, radius, and incidence rows from the parent cell through the same dyadic comparisons.
+\item $U$ is the coverage row, recording that the refined mesh covers the same compact interval source and that a downstream $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer reads only the displayed finite cells.
+\item $H$ records componentwise $\hsame$ transport for interval endpoints, dyadic mesh rows, refinement maps, stability rows, coverage rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an interval-mesh request through $I,D,Q,R,U,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteIntervalMeshRefinementUp$, $\CompactIntervalUp$, $\DyadicRatCoreUp$, $\CompactMetricUp$, $\TotallyBoundedUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteIntervalMeshRefinementUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite subdivision, a selected limiting mesh, an open-cover choice principle, quotient equality of intervals, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite interval mesh refinement NameCert obligations]
+\label{thm:finite-interval-mesh-refinement-namecert-obligations}
+For every accepted $\FiniteIntervalMeshRefinementUp$ carrier
+$$
+M=(I,D,Q,R,U,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteIntervalMeshRefinementUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the compact interval source $I$, dyadic mesh ledger $D$, refinement table $Q$, stability row $R$, coverage row $U$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$;
+\item mesh refinement stability, requiring every refined cell in $Q$ to inherit its dyadic endpoint, radius, and incidence rows from a displayed parent cell through $R$;
+\item coverage monotonicity, requiring the refined mesh to cover the same interval source as the coarse mesh and to expose no smaller domain when read by a $\CompactMetricUp$ or $\TotallyBoundedUp$ consumer;
+\item $\hsame$ and $\Cont$ transport, requiring $H$ and $C$ to preserve the same interval source, dyadic rows, refinement table, stability row, coverage row, provenance row, and local name under accepted renamings and replay;
+\item ledger refusal, requiring the packet to export no infinite subdivision, selected limiting mesh, open-cover choice principle, quotient interval equality, hidden Real selector, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No finite interval mesh-refinement obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-mesh-refinement-packet}. The interval row $I$, dyadic ledger $D$, refinement table $Q$, stability row $R$, coverage row $U$, and structural rows $H,C,P,N$ are the entire displayed packet.
+
+Carrier admission is therefore admission of those rows. Mesh refinement stability is read from $Q$ together with $R$: each refined cell points to a displayed parent cell, and the endpoint, radius, and incidence data are transported through dyadic comparisons already present in $D$.
+
+Coverage monotonicity is read from $U$. The refined mesh may subdivide cells, but it keeps the same compact interval source and the same finite coverage target before any compact metric or totally bounded consumer reads it.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the same finite route. Since the carrier contains no coordinate for infinite subdivision, selected limiting meshes, open-cover choice, quotient interval equality, hidden Real selectors, or ambient Real completeness, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite interval mesh refinement compact handoff]
+\label{thm:finite-interval-mesh-refinement-compact-handoff}
+Every compact interval, compact metric, totally bounded, dyadic-net, or $\RealUp$-facing consumer of an accepted $\FiniteIntervalMeshRefinementUp$ packet must read the displayed route
+$$
+I,D,Q,R,U,H,C,P,N
+$$
+before treating a refined mesh as usable finite data. The handoff is a finite BEDC mesh route, not a selected subdivision limit, not an open-cover compactness theorem, and not an appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-interval-mesh-refinement-namecert-obligations}. They force the refined mesh to expose carrier admission, refinement stability, coverage monotonicity, transport, replay, provenance, local naming, and ledger refusal.
+
+A compact interval or dyadic-net consumer reads $I,D,Q,R,U$ first. These rows display the source interval, dyadic cells, parent-cell table, inherited endpoint data, and coverage ledger.
+
+A compact metric, totally bounded, or Real-facing consumer is downstream of the same displayed route. The rows $H,C,P,N$ preserve and name it without creating a selected limiting partition or a hidden completeness principle. Thus every accepted handoff remains finite and local to the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteIntervalMeshRefinementUp$ read exposes a compact interval source row, dyadic mesh ledger, finite refinement table, stability row, coverage row, hsame transport, Cont replay, provenance, and local NameCert before a compact interval or Real-facing consumer reads the refined mesh.}
+
+\independenceWitness{dyadicratcore, compact-interval, compactmetric, totallybounded, real: no listed sibling simultaneously carries a finite parent-cell refinement table, inherited dyadic endpoint rows, coverage monotonicity, transport, replay, provenance, and local NameCert rows for compact interval mesh refinement.}
+
+\closureat{FiniteIntervalMeshRefinementUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntervalMeshRefinementUp}
+  \constructivestory{A $\FiniteIntervalMeshRefinementUp$ packet is generated from a compact interval source, a DyadicRatCore mesh ledger, a finite parent-cell refinement table, stability and coverage rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-interval-mesh-refinement-packet}, \autoref{thm:finite-interval-mesh-refinement-namecert-obligations}, and \autoref{thm:finite-interval-mesh-refinement-compact-handoff} seed the finite compact-interval mesh refinement route from dyadic cell rows to compact and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, infinite subdivisions, selected limiting meshes, quotient interval equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh refinement stability, coverage monotonicity, transport, replay, provenance, and ledger refusal for BEDC.Derived.FiniteIntervalMeshRefinementUp.}
+\end{closurestatus}
