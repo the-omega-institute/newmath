@@ -45,6 +45,7 @@ import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp
+import BEDC.Derived.AbelSummationUp.PartialSumHandoff
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelTheoremUp.TasteGate
@@ -6819,6 +6820,7 @@ import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HappyNumberUp
 import BEDC.Derived.HardProblemClosureUp.TasteGate
+import BEDC.Derived.HardyCesaroMeanUp.RegularTransformHandoff
 import BEDC.Derived.HardyCesaroMeanUp.TasteGate
 import BEDC.Derived.HardyInequalityUp.TasteGate
 import BEDC.Derived.HardyLittlewoodMaximalUp.TasteGate
@@ -8756,6 +8758,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpo
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ObligationStability
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ObligationSurface
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.OrphanRoute
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelDiamondForwardLink
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelFrontierConsumption
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
@@ -10507,6 +10510,7 @@ import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
 import BEDC.Derived.RealClassifierUp.FiniteWindowExactnessTarget
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
+import BEDC.Derived.RealClassifierUp.PublicExactnessConsumerReuse
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
@@ -12480,6 +12484,7 @@ import BEDC.Derived.SternBrocotDyadicApproximationUp
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotTreeUp
 import BEDC.Derived.SternBrocotUp
+import BEDC.Derived.SternBrocotUp.FareyNeighborBoundary
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.SternDiatomicUp
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
