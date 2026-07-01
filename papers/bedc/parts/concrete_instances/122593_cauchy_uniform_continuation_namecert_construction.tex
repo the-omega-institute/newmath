@@ -1,0 +1,74 @@
+\chapter{Cauchy Uniform Continuation NameCert Construction}
+\label{ch:concrete-instances-cauchy-uniform-continuation-namecert}
+\origin{human}
+
+Bishop-style constructive analysis treats the uniformly continuous extension theorem for completions as a modulus theorem: a map defined on dense rational or dyadic Cauchy data extends only when the same explicit modulus transports regular tails to regular tails. The $\CauchyUniformContinuationUp$ packet records that theorem as finite BEDC NameCert data. It sits after the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the uniformly continuous completion-extension surface of \autoref{ch:concrete-instances-uniformly-continuous-completion-extension-namecert}. The packet names continuation across regular Cauchy completion without quotient completion classes, selected limits, host function extensionality, countable choice, or ambient completeness outside the displayed $\RealUp$ seal.
+
+\begin{definition}[Cauchy uniform continuation carrier]
+\label{def:cauchy-uniform-continuation-carrier}
+A $\CauchyUniformContinuationUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,R,S,E,M,G,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense dyadic or rational source row, recording the finite source observations on which the map is already defined.
+\item $R$ is the $\RegSeqRatUp$ regular-Cauchy name row produced from the source observations and the requested target precision.
+\item $S$ is the finite stream-window row that records which source and target Cauchy-name prefixes are inspected.
+\item $E$ is the terminal $\RealUp$ completion-name seal, exposed only after $D,R,S$ have been displayed.
+\item $M$ is the explicit uniform-continuity modulus row, translating each target precision request into a source-window request.
+\item $G$ is the graph row for the source map on dense dyadic or regular-Cauchy representatives, scoped by $D,R,S,M$.
+\item $T$ records componentwise $\hsame$ transport for source observations, regular-Cauchy names, stream windows, Real seals, moduli, graph rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a continuation request through $D,R,S,E,M,G,T$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyUniformContinuationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyUniformContinuationUp}$ row.
+\end{enumerate}
+The carrier stores no quotient class of Cauchy names, selected completed value, host function equality, countable-choice selector, trichotomy branch, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Cauchy uniform continuation NameCert obligations]
+\label{thm:cauchy-uniform-continuation-namecert-obligations}
+For an accepted $\CauchyUniformContinuationUp$ carrier $U=(D,R,S,E,M,G,T,C,P,N)$, the local NameCert surface consists of exactly the following finite obligations:
+\begin{enumerate}
+\item carrier admission, requiring every continuation read to display $D,R,S,E,M,G,T,C,P,N$ before the local name row is public;
+\item classifier locality, comparing accepted packets only through their displayed dense-source, regular-Cauchy, window, Real-seal, modulus, graph, transport, replay, provenance, and naming rows;
+\item stability, requiring $\hsame$ transport to preserve the modulus-controlled tail request and the graph row on the displayed regular-Cauchy windows;
+\item exactness, requiring the target $\RealUp$ seal $E$ to be reached only through the source graph $G$ and the modulus row $M$ applied to $D,R,S$;
+\item ledger nonescape, requiring $P,N$ to export no quotient completion class, selected limit, host function equality, countable choice, trichotomy, or ambient completeness principle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-uniform-continuation-carrier}. Carrier admission and classifier locality are the visible tuple inventory: a continuation request has no analytic row other than $D,R,S,E,M,G,T,C,P,N$.
+
+For stability, use the displayed $\hsame$ row $T$. It transports dense-source observations, regular-Cauchy names, windows, Real seals, moduli, and graph rows componentwise, so the same target precision request is replayed through the same source-window bound.
+
+For exactness, the modulus row $M$ is the only route from target precision to a source-window request, and the graph row $G$ is scoped by that request. The terminal seal $E$ is therefore downstream of $D,R,S,M,G$ and cannot be read as a detached completed value.
+
+Finally, replay and provenance are exhausted by $C,P,N$. Since the carrier contains no row for quotient completion classes, selected limits, host function equality, countable choice, trichotomy, or ambient completeness, the local certificate cannot export those objects.
+\end{proof}
+
+\begin{theorem}[Modulus composition for Cauchy uniform continuations]
+\label{thm:cauchy-uniform-continuation-modulus-composition}
+Let $U=(D,R,S,E,M,G,T,C,P,N)$ and $V=(D',R',S',E',M',G',T',C',P',N')$ be accepted $\CauchyUniformContinuationUp$ packets whose target seal of $U$ is the displayed dense-source row consumed by $V$. Then the composite continuation is controlled by the finite modulus route $M$ followed by $M'$: a target precision request for $V$ first opens the $M'$ source window for $V$, then opens the $M$ source window for $U$, and the resulting continuation reaches the final $\RealUp$ seal only through the displayed rows of $U$ and $V$.
+\end{theorem}
+\begin{proof}
+Start with the target precision request for the second packet $V$. Its NameCert obligations route that request through the modulus row $M'$ and the displayed source-window, regular-Cauchy, graph, and Real-seal rows of $V$.
+
+The source row consumed by $V$ is the target seal exported by $U$. Apply the obligations for $U$ to that intermediate request. The row $M$ opens the required source window for $U$, and $G$ supplies the dense-source graph only on that window.
+
+Compose the two displayed replay rows $C$ and $C'$. The combined replay first follows $M'$, then $M$, and then reads the two graph rows in order before the final seal is public.
+
+The provenance rows $P,P'$ and local names $N,N'$ record only this finite route. Because neither carrier contains quotient completion classes, selected limits, host function equality, countable choice, trichotomy, or ambient completeness, the composite continuation exports none of those surfaces.
+\end{proof}
+
+\closureat{CauchyUniformContinuationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyUniformContinuationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-uniform-continuation-carrier}, \autoref{thm:cauchy-uniform-continuation-namecert-obligations}, and \autoref{thm:cauchy-uniform-continuation-modulus-composition} seed the finite modulus-controlled continuation route across regular Cauchy completion names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected completed values, host function extensionality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier locality, modulus stability, continuation exactness, composition exactness, replay, provenance, and local naming for BEDC.Derived.CauchyUniformContinuationUp.}
+  \constructivestory{A $\CauchyUniformContinuationUp$ packet is generated from dense dyadic or rational source rows, RegSeqRat regular-Cauchy names, finite stream windows, a RealUp seal, explicit uniform-continuity moduli, source graph rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
