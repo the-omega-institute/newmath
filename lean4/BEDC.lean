@@ -10253,6 +10253,7 @@ import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GenerationInvariantExclusion
+import BEDC.Derived.RHRoute.GoldenPowSignedExponent
 import BEDC.Derived.RHRoute.GroundedAltConvergence
 import BEDC.Derived.RHRoute.HalfPlaneEulerProduct
 import BEDC.Derived.RHRoute.QPrimeLocated
@@ -13442,6 +13443,7 @@ import BEDC.Derived.Window6NoPairOnlyTripleRecurrence
 import BEDC.Derived.Window6ParryModPDescent
 import BEDC.Derived.Window6PellCubePolynomial
 import BEDC.Derived.Window6PisanoPeriodModP
+import BEDC.Derived.Window6PosetComparabilityJacobsthal
 import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6RisingColumnTripleRecurrence
 import BEDC.Derived.Window6SeamIdentification
