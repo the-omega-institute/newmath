@@ -91,4 +91,73 @@ theorem MetacicCandidateNormalizationConfluenceHandoffObligationSurface
       ⟨endpointReadUnary, frontierReadUnary, residualReadUnary, deciderReadUnary,
         surfaceReadUnary⟩
 
+theorem MetacicCandidateHandoffScopedTasteGateRoute [AskSetup] [PackageSetup]
+    {A K N F C D B T R P L frontierRead boundaryRead joinRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffCarrier A K N F C D B T R P
+        L bundle pkg ->
+      Cont A K frontierRead ->
+        Cont frontierRead F boundaryRead ->
+          Cont C D joinRead ->
+            PkgSig bundle P pkg ->
+              PkgSig bundle boundaryRead pkg ->
+                PkgSig bundle joinRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        (hsame row boundaryRead ∨ hsame row joinRead) ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row A ∨ hsame row K ∨ hsame row N ∨ hsame row F ∨
+                          hsame row C ∨ hsame row D ∨ hsame row B ∨ hsame row T ∨
+                            hsame row R ∨ hsame row P ∨ hsame row L ∨
+                              hsame row boundaryRead ∨ hsame row joinRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont A K frontierRead ∧
+                          Cont frontierRead F boundaryRead ∧ Cont C D joinRead ∧
+                            PkgSig bundle P pkg)
+                      hsame ∧
+                    UnaryHistory boundaryRead ∧ UnaryHistory joinRead := by
+  -- BEDC touchpoint anchor: MetacicCandidateNormalizationConfluenceHandoffCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier frontierRoute boundaryRoute joinRoute provenancePkg _boundaryPkg _joinPkg
+  obtain ⟨auditUnary, candidateUnary, _normalUnary, frontierUnary, confluenceUnary,
+    decidableUnary, _blockedUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _carrierPkg⟩ := carrier
+  have frontierReadUnary : UnaryHistory frontierRead :=
+    unary_cont_closed auditUnary candidateUnary frontierRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed frontierReadUnary frontierUnary boundaryRoute
+  have joinReadUnary : UnaryHistory joinRead :=
+    unary_cont_closed confluenceUnary decidableUnary joinRoute
+  constructor
+  · constructor
+    · constructor
+      · exact
+          Exists.intro boundaryRead
+            ⟨Or.inl (hsame_refl boundaryRead), boundaryReadUnary⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other sameRows
+        exact hsame_symm sameRows
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _other sameRows sourceRow
+        exact
+          ⟨Or.elim sourceRow.left
+              (fun sameBoundary =>
+                Or.inl (hsame_trans (hsame_symm sameRows) sameBoundary))
+              (fun sameJoin =>
+                Or.inr (hsame_trans (hsame_symm sameRows) sameJoin)),
+            unary_transport sourceRow.right sameRows⟩
+    · intro _row sourceRow
+      cases sourceRow.left with
+      | inl sameBoundary =>
+          right; right; right; right; right; right; right; right; right; right; right; left
+          exact sameBoundary
+      | inr sameJoin =>
+          right; right; right; right; right; right; right; right; right; right; right; right
+          exact sameJoin
+    · intro _row sourceRow
+      exact
+        ⟨sourceRow.right, frontierRoute, boundaryRoute, joinRoute, provenancePkg⟩
+  · exact ⟨boundaryReadUnary, joinReadUnary⟩
+
 end BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp

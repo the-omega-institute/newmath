@@ -312,4 +312,60 @@ theorem BetaSubstitutionDischargeCarrier_context_induction [AskSetup] [PackageSe
     ⟨cert, bodyReadUnary, codomainReadUnary, transportedUnary, replayReadUnary,
       namedReadUnary⟩
 
+theorem BetaSubstitutionDischargeCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {context domain body argument codomain subst transport replay provenance localName bodyRead
+      codomainRead transportedRead replayRead namedRead betaRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BetaSubstitutionDischargeCarrier context domain body argument codomain subst transport
+        replay provenance localName bundle pkg →
+      Cont subst replay betaRead →
+        Cont body subst bodyRead →
+          Cont codomain subst codomainRead →
+            Cont bodyRead transport transportedRead →
+              Cont transportedRead replay replayRead →
+                Cont replayRead localName namedRead →
+                  PkgSig bundle provenance pkg →
+                    PkgSig bundle betaRead pkg →
+                      UnaryHistory betaRead ∧
+                        UnaryHistory namedRead ∧
+                          SemanticNameCert
+                              (fun row : BHist => hsame row betaRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row context ∨ hsame row domain ∨ hsame row body ∨
+                                  hsame row argument ∨ hsame row codomain ∨
+                                    hsame row subst ∨ hsame row betaRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont subst replay betaRead ∧
+                                  PkgSig bundle provenance pkg ∧ PkgSig bundle betaRead pkg)
+                              hsame ∧
+                            SemanticNameCert
+                              (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row context ∨ hsame row domain ∨ hsame row body ∨
+                                  hsame row argument ∨ hsame row codomain ∨
+                                    hsame row subst ∨ hsame row transport ∨
+                                      hsame row replay ∨ hsame row provenance ∨
+                                        hsame row localName ∨ hsame row bodyRead ∨
+                                          hsame row codomainRead ∨
+                                            hsame row transportedRead ∨
+                                              hsame row replayRead ∨ hsame row namedRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont body subst bodyRead ∧
+                                  Cont codomain subst codomainRead ∧
+                                    Cont bodyRead transport transportedRead ∧
+                                      Cont transportedRead replay replayRead ∧
+                                        Cont replayRead localName namedRead ∧
+                                          PkgSig bundle provenance pkg)
+                              hsame := by
+  -- BEDC touchpoint anchor: BetaSubstitutionDischargeCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier substReplayBeta bodySubst codomainSubst bodyTransport transportedReplay
+    replayName provenancePkg betaPkg
+  obtain ⟨betaCert, betaUnary⟩ :=
+    BetaSubstitutionDischarge_namecert_obligations carrier substReplayBeta betaPkg
+  obtain ⟨namedCert, _bodyReadUnary, _codomainReadUnary, _transportedUnary,
+      _replayReadUnary, namedUnary⟩ :=
+    BetaSubstitutionDischargeCarrier_context_induction carrier bodySubst codomainSubst
+      bodyTransport transportedReplay replayName provenancePkg
+  exact ⟨betaUnary, namedUnary, betaCert, namedCert⟩
+
 end BEDC.Derived.BetaSubstitutionDischargeUp

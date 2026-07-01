@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\GaussianEliminationUp$}
+\label{ch:concrete-instances-gaussian-elimination-namecert}
+\origin{human}
+
+Following Gaussian and standard finite-dimensional linear algebra, the $\GaussianEliminationUp$ packet records field-based row reduction as a finite pivot, normalization, and elimination ledger over displayed $\MatrixUp$ and $\FieldUp$ rows. It sits beside the fraction-free determinant route of \autoref{ch:concrete-instances-bareiss-fraction-free-elimination-namecert}: Bareiss elimination records determinant-preserving updates over ring and polynomial rows, while this packet names the finite field-division surface used by row-reduction consumers. The packet exports no ambient quotient matrix equality, no selected solution set, no rank-nullity theorem, no Smith normal form, and no host proof that every matrix reaches a canonical echelon form.
+
+\begin{definition}[GaussianElimination carrier]
+\label{def:gaussian-elimination-carrier}
+A $\GaussianEliminationUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,M,I,P,N,L,Z,R,H,C,K,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the consumed $\FieldUp$ scalar row, including the displayed zero, one, addition, multiplication, negation, and inverse reads used by the ledger.
+\item $M$ is the consumed $\MatrixUp$ row, including the finite row and column index sets and the initial entry readbacks.
+\item $I$ lists the pivot-search windows inspected by the packet and the finite row-swap rows used before each pivot is normalized.
+\item $P$ records the chosen pivot entries and their nonzero-field witnesses.
+\item $N$ records the pivot-normalization rows, including the displayed inverse read through $F$ and the row-scaling operation on $M$.
+\item $L$ records the elimination rows that cancel each displayed nonpivot entry using finite field operations.
+\item $Z$ records the zero-row and terminal echelon-window checks obtained from the finite ledger.
+\item $R$ is the row-reduction readback row exported to downstream finite linear-algebra consumers.
+\item $H$ records componentwise $\hsame$ transport for $F,M,I,P,N,L,Z,R$ and the local naming rows.
+\item $C$ records displayed $\Cont$ replay from a row-reduction request through the scalar, matrix, pivot, normalization, elimination, terminal-window, and readback rows.
+\item $K$ is the $\Pkg$ provenance over $\GaussianEliminationUp$, $\FieldUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\GaussianEliminationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an unlogged pivot inverse, quotient equality of matrices, arbitrary solution-space selection, rank theory, or a host canonical-form theorem.
+\end{definition}
+
+\begin{theorem}[GaussianElimination NameCert obligations]
+\label{thm:gaussian-elimination-namecert-obligations}
+For every accepted $\GaussianEliminationUp$ carrier $G=(F,M,I,P,N,L,Z,R,H,C,K,Q)$, the local $\NameCert_{\GaussianEliminationUp}$ surface consists exactly of carrier admission, field-source exposure, matrix-source exposure, finite pivot-window exposure, pivot nonzero evidence, pivot normalization, elimination-row exposure, terminal echelon-window readback, componentwise transport, replay, provenance, local naming, and refusal of unlogged inverses, quotient matrix equality, selected solution sets, rank theory, Smith normal form, and host canonical-form theorems.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gaussian-elimination-carrier}. The source rows $F$ and $M$ must be read before any pivot operation is available.
+
+Inspect the finite ledger rows $I,P,N,L,Z,R$. Pivot windows and swaps are displayed in $I$, nonzero pivot evidence is stored in $P$, normalization reads field inverses through $N$, elimination rows are listed in $L$, and terminal echelon-window checks are recorded in $Z$ before the row-reduction readback $R$ is exported.
+
+The rows $H,C,K,Q$ transport, replay, source, and name the same finite route. Since no additional coordinate is present, the packet cannot export an unlogged inverse, quotient matrix equality, selected solution set, rank theorem, Smith normal form, or host canonical-form theorem.
+\end{proof}
+
+\begin{theorem}[GaussianElimination Bareiss row-reduction handoff]
+\label{thm:gaussian-elimination-bareiss-row-reduction-handoff}
+The $\GaussianEliminationUp$ packet and the $\BareissFractionFreeEliminationUp$ packet share the displayed matrix-ledger boundary at $\MatrixUp$, but they expose different finite routes. A Gaussian row-reduction consumer must read
+$$
+\FieldUp,\ \MatrixUp \longmapsto I,P,N,L,Z,R \longmapsto H,C,K,Q,
+$$
+whereas the Bareiss determinant route of \autoref{ch:concrete-instances-bareiss-fraction-free-elimination-namecert} reads the fraction-free pivot, divisibility, branch, and determinant handoff rows. Thus the Gaussian packet may hand a finite row-reduction read to matrix consumers without claiming the fraction-free determinant exactness of Bareiss, and the Bareiss packet may hand determinant data to $\DeterminantUp$ without claiming arbitrary field-based Gaussian elimination.
+\end{theorem}
+\begin{proof}
+Start with the shared matrix boundary. Both packets consume a displayed $\MatrixUp$ row, so downstream consumers can compare that source row through ordinary $\hsame$ transport and $\Pkg$ provenance.
+
+Separate the scalar routes. The Gaussian packet reads field inverses through $F$ and pivot normalization through $N$, while the Bareiss packet reads ring rows, previous-pivot denominators, exact-divisibility witnesses, and determinant exactness rows. These rows are not interchangeable.
+
+The handoff is therefore a dependency comparison, not an identification. The Gaussian route exports finite row-reduction readback through $R$, and the Bareiss route exports determinant-facing fraction-free data through its determinant handoff. Neither packet imports the other's refused claims.
+\end{proof}
+
+\closureat{GaussianEliminationUp}{seedStr}
+
+\begin{closurestatus}{\GaussianEliminationUp}
+  \constructivestory{A $\GaussianEliminationUp$ packet is generated from FieldUp scalar rows, MatrixUp entry rows, finite pivot-window rows, pivot nonzero witnesses, pivot-normalization rows, elimination rows, terminal echelon-window rows, row-reduction readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gaussian-elimination-carrier}, \autoref{thm:gaussian-elimination-namecert-obligations}, and \autoref{thm:gaussian-elimination-bareiss-row-reduction-handoff} seed the finite field-based row-reduction route over displayed matrix, field, pivot, normalization, elimination, readback, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient matrix equality, selected solution sets, rank-nullity, Smith normal form, Bareiss determinant exactness, host canonical echelon form, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pivot-window exposure, pivot nonzero evidence, normalization exactness, elimination replay, terminal-window readback, structural transport, provenance, and consumer nonescape for BEDC.Derived.GaussianEliminationUp.}
+\end{closurestatus}
