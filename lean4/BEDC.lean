@@ -2737,7 +2737,6 @@ import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubnetUp
-import BEDC.Derived.CauchySubnetUp.PublicCertificateRoutes
 import BEDC.Derived.CauchySubnetUp.TailHandoff
 import BEDC.Derived.CauchySubnetUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
@@ -5187,6 +5186,7 @@ import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUniformModulusUp
 import BEDC.Derived.DirichletUniformModulusUp.TasteGate
+import BEDC.Derived.DirichletUniformTestUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
@@ -5318,7 +5318,6 @@ import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
 import BEDC.Derived.DyadicErrorBudgetUp.TasteGate
-import BEDC.Derived.DyadicErrorBudgetUp.TriangleAccounting
 import BEDC.Derived.DyadicExponentShiftUp.TasteGate
 import BEDC.Derived.DyadicFastCauchyUp.TasteGate
 import BEDC.Derived.DyadicFloorUp
@@ -6396,6 +6395,7 @@ import BEDC.Derived.FinitePrefixStreamUp.CofinalReindexStability
 import BEDC.Derived.FinitePrefixStreamUp.CompletionSectionPullback
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
+import BEDC.Derived.FinitePrefixStreamUp.ObservationCut
 import BEDC.Derived.FinitePrefixStreamUp.ObservationCutStability
 import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
 import BEDC.Derived.FinitePrefixStreamUp.PrefixConcatenation
@@ -9767,6 +9767,7 @@ import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.GapLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationCarrier
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationClassifier
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
@@ -10930,6 +10931,7 @@ import BEDC.Derived.RealWindowSynchronizerUp.Nonescape
 import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealZeroUp
+import BEDC.Derived.RealZeroUp.ComponentwiseTransport
 import BEDC.Derived.RealZeroUp.TasteGate
 import BEDC.Derived.Real_modulus_of_convergenceUp
 import BEDC.Derived.RealityConstrained.ConstructiveInfoGen
@@ -12671,6 +12673,7 @@ import BEDC.Derived.SubjectReductionRouteChoiceUp.ConfluenceNonescape
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ObligationSurface
 import BEDC.Derived.SubjectReductionRouteChoiceUp.RouteNonescape
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
+import BEDC.Derived.SubjectReductionRouteChoiceUp.VisionHandoff
 import BEDC.Derived.SubjectReductionRouteClassifierUp
 import BEDC.Derived.SubjectReductionRouteClassifierUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteTriangleUp
@@ -12800,6 +12803,7 @@ import BEDC.Derived.TaylorModelUp.RemainderObligationRoute
 import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
+import BEDC.Derived.TaylorRemainderUp.TasteGate
 import BEDC.Derived.TaylorTheoremUp.TasteGate
 import BEDC.Derived.TelephoneNumberUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
