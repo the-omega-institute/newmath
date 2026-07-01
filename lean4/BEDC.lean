@@ -10262,6 +10262,7 @@ import BEDC.Derived.RHRoute.InfinitePrimeTorusCompatibility
 import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
 import BEDC.Derived.RHRoute.IntervalMatrixPSD
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.AlgebraNormalize
+import BEDC.Derived.RHRoute.IntervalMatrixPSD.ArchimedeanEntry
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.FormalPoly
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.HornerInterval
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.PanelError
