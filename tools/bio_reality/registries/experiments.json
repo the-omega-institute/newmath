@@ -3348,6 +3348,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_dna_binding.tale_pbm_binding_sequence_beyond_composition_pwm_rogers2015",
+   "experiment_id": "tale_dna_binding_pbm_structure_beyond_pwm_rogers2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle 13th-arc prospective test, 13th MODALITY = engineered protein-DNA binding, single-mechanism; candidate pre-registered to FAIL as the near-complete-model discriminating case): does positional-dinucleotide non-additive structure predict TALE PBM binding signal beyond composition + an additive PWM, near-duplicate-controlled? Rogers et al. Nat Commun 2015 (DOI 10.1038/ncomms8440; GEO GSM1372480 TAL2009 + GPL18593), n=11,170 unique 60-bp probes (36 variable positions), y=log10(Alexa-488 signal). baseline_comp=global composition; baseline_pwm=+per-position mononucleotide (additive PWM); full=+adjacent-variable-position dinucleotide interactions. k-mer identity-cluster holdout + random-split contrast + perm (B=200). SELF-VERIFIES the oracle-claimed PWM near-completeness by held-out refit (found R^2=0.40 not 0.959 -> premise failed, records premise_near_complete_holds + matches_pre_registered_prediction). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_tale_dna_binding_pbm_structure_beyond_pwm_rogers2015.py",
+   "timeout_seconds": 1800,
+   "status": "passed",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T12:15:23+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
