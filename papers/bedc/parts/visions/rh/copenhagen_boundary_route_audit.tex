@@ -1,0 +1,240 @@
+\chapter{Copenhagen Boundary Route Audit}
+\label{ch:visions-rh-copenhagen-boundary-route-audit}
+\origin{ai}
+
+The Copenhagen no-scale route is a route-audit chapter, not a proof of
+$\mathsf{RH}$.  Its purpose is to keep three attractive reformulations on
+the honest side of the boundary.  A completed-xi route may speak in
+Copenhagen tower energy, in diagonal Jensen hyperbolicity, or in
+Gomboc--Stieltjes positivity; none of these languages supplies the missing
+source-side positivity by being renamed.  A closed proof still needs an
+independent global row that is cofinal in all visible cutoffs and is
+constructed before the zero divisor is read.
+
+\section{Faithful Reformulations and Leverage}
+\label{sec:rh-copenhagen-faithful-reformulations}
+
+\begin{principle}[Faithful reformulations are not leverage]
+\label{prin:rh-faithful-reformulations-not-leverage}
+The following rows are faithful reformulations of the same completed-xi
+barrier unless an independent source-side positivity or uniform-estimate
+row is supplied:
+$$
+\begin{gathered}
+\mathsf{NoFarEndAbsorption},\qquad
+\mathsf{LiPositivity},\qquad
+\mathsf{WeilPositivity},\\
+\mathsf{StieltjesHerglotzPositivity},\qquad
+\mathsf{FullJensenHyperbolicity}.
+\end{gathered}
+$$
+They may be excellent coordinates for the proof obligation.  They do not
+decrease the proof obligation merely by translating it into a positivity,
+moment, hyperbolicity, or no-scale dialect.
+\end{principle}
+
+The distinction is between a source row and a posterior readback.  If a
+positive spectral measure is built from an already fixed-half divisor, it
+records what $\mathsf{RH}$ would make visible; it does not generate
+$\mathsf{RH}$.  If Li, Weil, Herglotz, Stieltjes, or Jensen data are proved
+from prime-side or operator-side rows without consuming the zero-placement
+conclusion, then the route has leverage.  The audit question is therefore
+not whether these formulations are equivalent to the target.  The question
+is whether their positive object is produced on the source side.
+
+\section{The Three Projections of the Same Wall}
+\label{sec:rh-copenhagen-three-projections}
+
+\begin{principle}[Copenhagen boundary]
+\label{prin:rh-copenhagen-boundary}
+At the completed-xi level, the Copenhagen energy tower, the
+diagonal-Jensen row, and the Gomboc row are three projections of the same
+global positivity wall.  In schematic form the closed target is
+$$
+\begin{gathered}
+\forall D,n\; \mathsf{JensenHyperbolic}(D,n)\\
+\Longleftrightarrow\quad
+\exists \nu\ge0\; \mathsf{StieltjesXi}(\nu)\\
+\Longleftrightarrow\quad
+\forall \varphi\; \mathsf{WeilPSD}(\varphi).
+\end{gathered}
+$$
+The Copenhagen energy expression is the no-scale face of the same wall:
+an off-half real scale $r$ creates a positive factor $r^2$ multiplying a
+cofinal weight.  Bounded energy can then rule out positive apartness of
+$r^2$, but only after the cofinal bounded-energy capture has been supplied.
+\end{principle}
+
+The bridge just stated is a boundary principle, not a new theorem of this
+chapter.  Its force is negative: it prevents a proof from treating one
+projection as a free source for another.  A finite table of Jensen
+polynomials, a finite Weil Gram table, a finite spectral measure
+approximation, or a finite Copenhagen tower prefix sees only a bounded
+window.  A global result must be cofinal in degree, truncation, support,
+height, and packet depth.
+
+\begin{principle}[Finite visibility is incomplete]
+\label{prin:rh-finite-visibility-incomplete}
+Finite phase data, finite Jensen radius data, finite spectral data, and
+finite positive-semidefinite tables do not determine the complete zero
+set.  A finite window may be matched while additional zeros are inserted
+outside the visible radius by a Blaschke-type outer-window modification.
+Therefore finite success cannot be promoted to completed-xi closure unless
+there is a cofinal uniform theorem or an independent source-side
+construction that controls every later window.
+\end{principle}
+
+The consequence is operational.  If the argument asks to check all
+degrees $D$, all Jensen levels $n$, all spectral cutoffs $K$, or all
+compact supports one by one, then it has become an enumeration protocol
+rather than a proof.  A proof needs a row whose statement is uniform
+before the enumeration starts.
+
+\section{Checked Finite Brick}
+\label{sec:rh-copenhagen-checked-finite-brick}
+
+\begin{theorem}[Bounded energy excludes positive scale apartness]
+\label{thm:rh-copenhagen-bounded-energy-excludes-positive-scale-apartness}
+Let $r$ be a rational scale parameter, let
+$W:\mathbb N\to\mathbb Q$ be nonnegative and unbounded, and let $B$ be a
+rational bound.  If
+$$
+\forall n,\qquad r^2 W_n\le B,
+$$
+then $0<r^2$ is impossible.
+\leanchecked{BEDC.Derived.RHRoute.CopenhagenNoScale.boundedEnergy\_apart\_absurd}
+\end{theorem}
+
+\begin{proof}
+The formal proof chooses, by unboundedness of $W$, an index $n$ with
+$$
+W_n>B/r^2
+$$
+under the temporary assumption $0<r^2$.  Multiplication by the positive
+rational $r^2$ gives
+$$
+B<r^2W_n,
+$$
+contradicting the assumed bound $r^2W_n\le B$.  This is the abstract
+Archimedean no-scale brick.  It is checked in Lean with no additional
+axiom.
+\end{proof}
+
+The conditional tower interface is also encoded:
+\leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenTowerData}
+and
+\leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenCaptureObligation}.
+The field
+$$
+\mathsf{energy\_bounded}:
+\exists B,\ \forall n,\ r^2W_n\le B
+$$
+inside $\mathsf{CopenhagenTowerData}$ is a capture input.  It is not
+inhabited here for completed zeta zeros.  The checked conditional theorem
+$$
+\mathsf{CopenhagenTowerData}(r)
+\Longrightarrow
+\neg(0<r^2)
+$$
+is recorded as
+\leanchecked{BEDC.Derived.RHRoute.CopenhagenNoScale.copenhagenTower\_forces\_not\_apart}.
+Thus the Lean contribution is a true finite brick plus a conditional
+handoff.  It does not assert $r=0$ by trichotomy, does not construct the
+xi tower, and does not prove $\mathsf{RH}$.
+
+\section{Gomboc Conditional Comparison}
+\label{sec:rh-copenhagen-gomboc-conditional-comparison}
+
+The Gomboc route has the same logical shape.  Its encoded xi-facing
+container
+\leandef{BEDC.Derived.RHRoute.AnalyticGombocForXi.AnalyticGombocForXi}
+contains Pick, Herglotz, Stieltjes, equivalence, handoff, and
+no-hidden-ballast data.  The handoff theorem
+\leanchecked{BEDC.Derived.RHRoute.AnalyticGombocForXi.rh\_via\_analytic\_gomboc}
+is conditional on such a container.  The source-side spectral positivity
+field
+\leandef{BEDC.Derived.RHRoute.AnalyticGombocForXi.StieltjesPositiveSpectral.positive\_spectral\_measure}
+is part of the supplied structure, not a theorem generated in this paper
+chapter.
+
+This is the intended comparison.  Copenhagen says that bounded cofinal
+energy plus unbounded weights forbid positive scale apartness.  Gomboc
+says that a supplied Pick--Herglotz--Stieltjes positive package gives the
+constructive RH readout.  Both routes are useful boundary normal forms.
+Neither route claims that the required xi-facing package has been
+constructed.
+
+\section{Bad Examples as First-Class Boundary Data}
+\label{sec:rh-copenhagen-bad-examples}
+
+\begin{principle}[Two-term resonance is off-line]
+\label{prin:rh-bad-example-two-term-resonance}
+For two exponential terms with distinct heights $h_1\ne h_2$ and
+coefficients $a\ne b$, phase cancellation occurs at a shifted line
+$$
+\delta=\frac{\log(b/a)}{h_2-h_1}\ne0
+$$
+in general.  Verdict: phase cancellation alone is not enough; exact
+balance or a Lee--Yang stability row is required before a resonance may
+be used as fixed-half evidence.
+\end{principle}
+
+\begin{principle}[Positive kernels do not imply Laguerre--Polya]
+\label{prin:rh-bad-example-positive-kernel-not-lp}
+Let
+$$
+\mu=\delta_{-1}+a\delta_0+\delta_1
+\qquad (a>2).
+$$
+The Fourier transform is
+$$
+\widehat{\mu}(z)=a+2\cos z.
+$$
+Its zeros need not be real.  Verdict: positivity of a kernel or measure
+row does not by itself place an entire function in the
+Laguerre--Polya class; a separate real-rootedness-preserving mechanism is
+needed.
+\end{principle}
+
+\begin{principle}[Mellin projection need not preserve Lee--Yang]
+\label{prin:rh-bad-example-mellin-projection}
+The finite Mellin projection
+$$
+P_2(s)=1-2^{-s}
+$$
+has zeros on $\operatorname{Re}(s)=0$, not on the line
+$\operatorname{Re}(s)=1/2$.  Verdict: a projection that is natural for
+Mellin or prime-window bookkeeping need not preserve the Lee--Yang unit
+circle or the fixed-half target.
+\end{principle}
+
+\begin{principle}[All-cutoff dyadic LP is not a reliable premise]
+\label{prin:rh-bad-example-all-cutoff-dyadic-lp}
+The all-$K$ dyadic Laguerre--Polya premise is not a stable bridge.  Low
+corrected Jensen levels for small cutoffs such as $K=2,3$ already exhibit
+non-hyperbolic behaviour in the intended finite tests.  Verdict: a
+cutoff-by-cutoff Laguerre--Polya route should be treated as a refuted or
+unreliable premise unless it supplies a separate uniform preservation
+theorem.
+\end{principle}
+
+\begin{principle}[Finite visibility cannot certify the tail]
+\label{prin:rh-bad-example-finite-visibility}
+Any finite table of phases, Jensen coefficients, spectral atoms, Gram
+entries, or Copenhagen tower levels leaves an outer region unseen.
+Additional zeros or defects may be placed beyond that region without
+changing the visible data.  Verdict: finite visibility is evidence about
+a window, not a certificate for the completed zero set.
+\end{principle}
+
+\begin{principle}[Boundary verdict]
+\label{prin:rh-copenhagen-boundary-verdict}
+The honest output of the Copenhagen audit is the following separation.
+The checked no-scale brick is real: bounded cofinal energy contradicts
+positive rational scale apartness.  The capture rows that would attach
+that brick to completed zeta zeros are not inhabited here.  The diagonal
+Jensen, Weil, Stieltjes--Herglotz, and Gomboc formulations describe the
+same global wall.  A proof must add source-side positivity or a cofinal
+uniform theorem; otherwise the route remains a boundary normal form and
+does not become a proof of $\mathsf{RH}$.
+\end{principle}
