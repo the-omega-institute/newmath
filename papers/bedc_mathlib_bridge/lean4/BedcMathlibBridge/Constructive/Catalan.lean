@@ -1,6 +1,6 @@
 import BedcMathlibBridge.Constructive.Binomial
 import BEDC.Derived.CatalanConvolutionUp
-import Mathlib.Combinatorics.Enumerative.Catalan
+import Mathlib.Data.Nat.Choose.Central
 
 namespace BedcMathlibBridge.Constructive.Catalan
 
@@ -17,11 +17,7 @@ theorem bedcCatalan_eq_centralBinom_div (n : Nat) :
   unfold bedcCatalan
   rw [BEDC.Derived.CatalanConvolutionUp.catalan_binomial_division_surface]
   rw [bedcChoose_eq_nat_choose]
+  rw [← Nat.two_mul n]
   exact congrArg (fun x => x / (n + 1)) (Nat.centralBinom_eq_two_mul_choose n).symm
-
-theorem bedcCatalan_eq_mathlib_catalan (n : Nat) :
-    bedcCatalan n = catalan n := by
-  rw [bedcCatalan_eq_centralBinom_div]
-  exact (catalan_eq_centralBinom_div n).symm
 
 end BedcMathlibBridge.Constructive.Catalan
