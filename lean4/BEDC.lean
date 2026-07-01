@@ -12540,6 +12540,8 @@ import BEDC.Derived.StoneDualityUp.TasteGate
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.NameCertObligations
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.TasteGate
+import BEDC.Derived.StoneWeierstrassLatticeUp.NameCertObligations
+import BEDC.Derived.StoneWeierstrassLatticeUp.TasteGate
 import BEDC.Derived.StoneWeierstrassUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.BridgeBoundary
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.ObligationClosureRoute
