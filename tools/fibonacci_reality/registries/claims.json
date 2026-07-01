@@ -2133,6 +2133,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the path P_n (equivalently the Fibonacci cube Gamma_n carrier), the number of maximal independent sets M_n = #{maximal Fibonacci words of length n : no 0-coordinate can be flipped to 1, i.e. every 0 has a 1-neighbour so the 1-positions are a maximal independent = independent dominating set} satisfies the all-positive Padovan recurrence M_n = M_{n-2} + M_{n-3} (equivalently M(n+3)=M(n+1)+M(n)) with minimal polynomial t^3-t-1 whose real root is the PLASTIC number (~1.3247), coprime to t^2-t-1 and absent from every golden-ratio-adjacent Fibonacci/Lucas/Pell-cube anchor; values 1,2,2,3,4,5,7,9,12,16,21,28,37,49,65 verified to n=15, realized by a nonnegative non-companion three-state transfer lumped by the trailing coordinate (in-set / out-dominated / out-undominated) c0=(0,1,0), step(a,b,d)=(b+d,a,b), readout M=a+b (the out-undominated state carried but excluded at readout). A maximality / independent-domination register with a genuinely different algebraic constant (plastic number) distinct from every transfer / trace / orbit / cube-polynomial / extremal anchor; not a lag/Walsh/arity/C_k/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "fibonacci-cube.poset-comparability.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-comparable-pairs-jacobsthal",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "fibonacci-cube.poset-comparability",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Fibonacci cube Gamma_n viewed as a poset under the coordinatewise order (u <= v iff u_i <= v_i for all i; u <= v with v a Fibonacci word forces u to be one, so the order is well defined on all vertices), the number of comparable ordered pairs C_n = #{(u,v) in V(Gamma_n)^2 : u <= v} (the size of the order relation, including u=v) equals the rank/weight enumerator W_n(x)=sum_v x^{weight(v)} at x=2, namely C_n = sum_v 2^{weight(v)} (with W_n(x)=W_{n-1}(x)+x W_{n-2}(x); W_n(1)=F_{n+2}), and satisfies the all-positive order-two recurrence C_n = C_{n-1} + 2 C_{n-2} with minimal polynomial t^2-t-2=(t-2)(t+1) whose dominant root is 2 (a JACOBSTHAL-type object, NOT the golden ratio; t^2-t-2 is coprime to t^2-t-1 and appears in none of the golden-ratio-adjacent Fibonacci/Lucas/Pell-cube anchors); values 3,5,11,21,43,85,171,341,683,1365,2731,5461 verified to n=12 (C_0=1 the empty word), realized by a nonnegative two-state transfer c0=(1,3), step(a,b)=(b, b+2a), readout C=a, with the comparability count checked by direct pair enumeration against the 2^{weight} identity. A poset / order-relation register with a genuinely different algebraic constant (root 2) distinct from every transfer / trace / orbit / cube-polynomial / extremal / Padovan anchor; not a lag/Walsh/arity/C_k/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
