@@ -609,7 +609,7 @@ def load_objective_formal_grades() -> dict[str, str]:
     try:
         result = subprocess.run(
             ["python3", "lean4/scripts/bedc_ci.py",
-             "axiom-purity", "--strict", "--json"],
+             "axiom-purity", "--strict", "--full", "--json"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
             timeout=AXIOM_PURITY_BUDGET_SECONDS,
         )

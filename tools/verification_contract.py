@@ -81,7 +81,7 @@ GATES: dict[str, VerificationGate] = {
     "axiom-purity": VerificationGate(
         name="axiom-purity",
         owner="ship",
-        command="python3 lean4/scripts/bedc_ci.py axiom-purity --strict",
+        command="python3 lean4/scripts/bedc_ci.py axiom-purity --strict --full",
         worker_premerge="deferred",
         ship="required",
     ),
