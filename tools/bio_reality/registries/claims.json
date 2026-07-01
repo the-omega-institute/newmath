@@ -18772,6 +18772,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-07-01T08:38:55+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T08:38:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4229961ffcb6",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -32467,6 +32484,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-07-01T08:38:55+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-07-01T08:39:20+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a2ed1112e775",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -33600,7 +33634,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "E. coli intrinsic terminator strength is captured by composition + the authors' hairpin-U-tract kinetic model; generic higher-order sequence structure adds nothing (NEW modality = sequence -> intrinsic transcription termination strength; single-mechanism, genuinely-novel; registry-unmined). Chen et al. Nat Methods 2013 (DOI 10.1038/nmeth.2515, MOESM206 natural + MOESM207 synthetic), 507 terminators (311 natural + 196 synthetic, ~43nt), y = log2(Average Strength) (induced GFP/RFP reporter ratio). Single mechanism: Rho-independent intrinsic transcription termination (hairpin destabilizes the elongation complex + U-tract). Verdict composition_artifact: composition (mono + dinucleotide + GC + length) captures the strength (identity-cluster [k-mer minhash] held-out R^2 = 0.429); the authors' VALIDATED physical model (Predicted TS hairpin-U-tract kinetic model + ∆GU/L/H/A free-energy components; Pearson 0.64 with measured) adds a substantial +0.134 over composition (-> R^2 0.563); but generic higher-order sequence STRUCTURE (reverse-complement / stem density, trinuc entropy, U-run/A-run) adds -0.027 held-out incremental over composition + the physical model (nothing, mild overfit; permutation p=0.66). NOT CLAIMED: that sequence is uninformative -- the hairpin-U-tract physical model explains a lot; only the GENERIC descriptors add nothing beyond it. The boundary + META-PATTERN confirmation: terminator strength HAS a strong validated physical model (hairpin-U-tract kinetics), and -- exactly like DNA-hairpin thermodynamics vs NUPACK (177) -- when a strong physical model already captures the readout, generic sequence-structure descriptors add nothing. This is the SECOND failure mode of the two-factor meta-pattern: claim 182 (aptamer) failed because the variable sequence was too SHORT (10nt -> structure = composition); this one (183) fails because a STRONG physical model captures it (sequence is long enough, ~43nt). Contrast the 80nt toehold switch (181, POSITIVE, WEAK physical model). The refined two-factor rule -- generic structure crosses beyond composition only when the sequence is LONG ENOUGH AND no STRONG physical model exists -- is now confirmed on both failure axes.",
       "depends_on": [],
-      "status": "passed",
+      "status": "error",
       "experiment_id": "terminator_intrinsic_strength_chen2013_nmeth2515",
       "history": [
         {
@@ -33618,6 +33652,23 @@
             "failed": 0
           },
           "script_sha": "4e45d1764f9ad324"
+        },
+        {
+          "ts": "2026-07-01T08:39:20+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-07-01T08:39:33+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "98fb8cc25102",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "928b6c7e0baebc4e"
         }
       ],
       "linked_conjecture_id": null
