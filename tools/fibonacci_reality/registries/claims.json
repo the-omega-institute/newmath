@@ -2115,6 +2115,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube Gamma_n (vertices = length-n binary words with no two adjacent 1s, |V|=F_{n+2}; edges = single-coordinate flips keeping the Fibonacci property), the degree of a word w equals deg(w)=n-|N(S)| where S is the set of 1-positions (an independent set of the path P_n) and N(S) its open neighborhood in P_n. The minimum degree is delta(Gamma_n) = ceil(n/3), equivalently the sharp integer bound 3*deg(w) >= n for every Fibonacci word w (from |N(S)| <= floor(2n/3), itself from |S|+|N(S)|<=n and |N(S)|<=2|S| giving 3|N(S)|<=2n). Equality is attained exactly by the periodic word (010)^{n/3} when 3 | n (E_3=010, E_6=010010, E_9=010010010, E_12=010010010010). Verified by direct Gamma_n construction for n=1..12: the degree formula deg(w)=n-|N(S)| holds for every vertex, delta(Gamma_n)=ceil(n/3) and 3*deg(w)>=n hold for all words, |N(S)|<=floor(2n/3) holds for all independent sets, and the equality word is the unique periodic (010)^{n/3}. This is an extremal / inequality register (a sharp lower bound with equality classification), distinct from every counting / transfer / trace / orbit / cube-polynomial anchor. The minimum-degree certificate is python-verified, and the universal axiom-free Lean statement 3*deg(w) >= length(w) over all Fibonacci words is now discharged: proven (no axioms) at BEDC.Derived.Window6FibCubeMinDegree.fibcube_min_degree by the verified inductive invariant 3*degFrom(prev,w)+[prev] >= length(w)+[(not prev) and head], the deg=n-|N(S)| reduction confirmed combinatorially. The lean_target field remains statement-only per the registry verification-decoupling convention. No alpha claim"
+    },
+    {
+      "claim_id": "fibonacci-path.maximal-independent-set.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-maximal-independent-set-padovan",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "fibonacci-path.maximal-independent-set",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the path P_n (equivalently the Fibonacci cube Gamma_n carrier), the number of maximal independent sets M_n = #{maximal Fibonacci words of length n : no 0-coordinate can be flipped to 1, i.e. every 0 has a 1-neighbour so the 1-positions are a maximal independent = independent dominating set} satisfies the all-positive Padovan recurrence M_n = M_{n-2} + M_{n-3} (equivalently M(n+3)=M(n+1)+M(n)) with minimal polynomial t^3-t-1 whose real root is the PLASTIC number (~1.3247), coprime to t^2-t-1 and absent from every golden-ratio-adjacent Fibonacci/Lucas/Pell-cube anchor; values 1,2,2,3,4,5,7,9,12,16,21,28,37,49,65 verified to n=15, realized by a nonnegative non-companion three-state transfer lumped by the trailing coordinate (in-set / out-dominated / out-undominated) c0=(0,1,0), step(a,b,d)=(b+d,a,b), readout M=a+b (the out-undominated state carried but excluded at readout). A maximality / independent-domination register with a genuinely different algebraic constant (plastic number) distinct from every transfer / trace / orbit / cube-polynomial / extremal anchor; not a lag/Walsh/arity/C_k/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
