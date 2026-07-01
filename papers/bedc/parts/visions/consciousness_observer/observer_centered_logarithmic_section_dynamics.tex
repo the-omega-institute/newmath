@@ -1,0 +1,495 @@
+\chapter{Observer-Centered Logarithmic Section Dynamics}
+\label{ch:visions-observer-centered-logarithmic-section-dynamics}
+\origin{ai}
+
+This chapter formalizes the observer-centered reading as a frame selector,
+not as a psychological substance. It refines the focused-record carrier of
+\autoref{ch:visions-consciousness-universe-observer-in-bedc} and the
+egocentric interface packet of
+\autoref{sec:egocentric-interface-mentation-dynamics}. The selector chooses
+an adjacent reference frame, the chosen frame exposes a complete
+world-section, the prior ledger is rewritten into that frame, and any
+residual used by the public read is recorded as an orthogonal ledger row.
+The solenoid fibre supplies the compact model for a visible phase whose
+prime-register coordinate may vary without changing the visible circle
+readout.
+
+\section{Frame Selection Data}
+\label{sec:observer-centered-frame-selection-data}
+
+\begin{definition}[Reference-frame graph]
+\label{def:observer-centered-reference-frame-graph}
+A \emph{reference-frame graph} is an undirected graph
+$$
+\mathcal R=(V_{\mathcal R},E_{\mathcal R}).
+$$
+Its vertices are frame rows. For $R,R'\in V_{\mathcal R}$, the notation
+$$
+R'\sim R
+$$
+means that $(R,R')\in E_{\mathcal R}$. The relation is adjacency in the
+frame graph, not spatial adjacency inside an already chosen physical
+model.
+\end{definition}
+
+\begin{definition}[Observer-centered selector]
+\label{def:observer-centered-selector}
+An \emph{observer-centered selector} is a function
+$$
+\chi:\mathbb N_{\ge0}\to V_{\mathcal R}
+$$
+with values
+$$
+R_n:=\chi(n)
+$$
+such that
+$$
+R_{n+1}\sim R_n
+$$
+for every displayed selection step. The selector is centered only in the
+records-side sense: it is the frame-index row through which the focused
+history reads a world-section. It is not a subject-substance and not a
+global observer above the frame graph.
+\end{definition}
+
+\begin{definition}[World Hilbert bundle]
+\label{def:observer-centered-world-hilbert-bundle}
+Over a reference-frame graph $\mathcal R$, a \emph{world Hilbert bundle}
+is a family
+$$
+\mathscr H=\{\mathcal H_R\}_{R\in V_{\mathcal R}}
+$$
+of Hilbert spaces. An element
+$$
+B_R\in\mathcal H_R
+$$
+is a complete world-section as read in frame $R$. The word complete refers
+to the section relative to the frame row; it does not assert an
+observer-independent completed cosmos.
+\end{definition}
+
+\begin{definition}[Frame reshaping row]
+\label{def:observer-centered-frame-reshaping-row}
+For each displayed adjacency $R'\sim R$, a \emph{frame reshaping row} is
+an isometric embedding, or a unitary isomorphism when the comparison is
+reversible,
+$$
+\Phi_{R'\leftarrow R}:\mathcal H_R\to\mathcal H_{R'}.
+$$
+It rewrites records from frame $R$ into frame $R'$. It is not, by this
+definition, a signal-propagation operator inside one fixed physical
+space.
+\end{definition}
+
+\begin{principle}[Frame reshaping is not propagation]
+\label{prin:observer-centered-reshaping-not-propagation}
+A finite-propagation constraint applies to a displayed physical
+propagator
+$$
+U_R(t):\mathcal H_R\to\mathcal H_R
+$$
+inside one frame. It does not automatically apply to
+$$
+\Phi_{R'\leftarrow R}:\mathcal H_R\to\mathcal H_{R'}.
+$$
+Using such a constraint across frames requires an additional bridge row
+identifying the reshaping operation with a physical propagation
+discipline.
+\end{principle}
+
+\section{Orthogonal Section Step}
+\label{sec:observer-centered-orthogonal-section-step}
+
+\begin{definition}[Ledger rewrite and residual]
+\label{def:observer-centered-ledger-rewrite-residual}
+At selection stage $n$, let
+$$
+B_n\in\mathcal H_{R_n}
+$$
+be the displayed world-section and let
+$$
+\mathcal L_n\subseteq\mathcal H_{R_n}
+$$
+be the displayed history ledger subspace. After the selector chooses
+$R_{n+1}\sim R_n$, the rewritten ledger is
+$$
+\mathcal L_n^{\uparrow}
+:=
+\Phi_{R_{n+1}\leftarrow R_n}(\mathcal L_n)
+\subseteq
+\mathcal H_{R_{n+1}}.
+$$
+Let
+$$
+P_n^{\uparrow}:\mathcal H_{R_{n+1}}\to\mathcal L_n^{\uparrow}
+$$
+be the orthogonal projection onto the rewritten ledger. For
+$$
+B_{n+1}\in\mathcal H_{R_{n+1}},
+$$
+the residual row is
+$$
+\eta_{n+1}
+:=
+B_{n+1}-P_n^{\uparrow}B_{n+1}.
+$$
+\end{definition}
+
+\begin{definition}[Orthogonal section step]
+\label{def:observer-centered-orthogonal-section-step}
+The transition from $B_n$ to $B_{n+1}$ is an
+\emph{orthogonal section step} when
+$$
+\eta_{n+1}\perp\mathcal L_n^{\uparrow}
+$$
+and the accepted ledger is
+$$
+\mathcal L_{n+1}
+:=
+\mathcal L_n^{\uparrow}
+\oplus
+\overline{\operatorname{span}}\{\eta_{n+1}\}.
+$$
+If $\eta_{n+1}=0$, the step carries no residual direction. If
+$\eta_{n+1}\#0$, the residual direction is not absorbed into the prior
+ledger; it is admitted as its own displayed row.
+\end{definition}
+
+\begin{theorem}[Adjacent selection gives a complete successor section]
+\label{thm:observer-centered-adjacent-selection-complete-section}
+Assume $R_{n+1}\sim R_n$ and
+$$
+B_{n+1}\in\mathcal H_{R_{n+1}}.
+$$
+Then $B_{n+1}$ is a complete world-section in the selected successor
+frame, not a fragmentary alteration inside $\mathcal H_{R_n}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:observer-centered-world-hilbert-bundle}, every element of
+$\mathcal H_{R_{n+1}}$ is a complete world-section relative to the frame
+$R_{n+1}$. The adjacency hypothesis restricts which frame may be selected
+after $R_n$; it does not state that the successor section is a local
+fragment inside the prior Hilbert space. Therefore the selected object is
+complete in $\mathcal H_{R_{n+1}}$.
+\end{proof}
+
+\begin{theorem}[Orthogonal ledger decomposition]
+\label{thm:observer-centered-orthogonal-ledger-decomposition}
+For an orthogonal section step,
+$$
+\mathcal L_{n+1}
+=
+\mathcal L_n^{\uparrow}
+\oplus
+E_{n+1},
+\qquad
+E_{n+1}:=
+\overline{\operatorname{span}}\{\eta_{n+1}\},
+$$
+and
+$$
+E_{n+1}\perp\mathcal L_n^{\uparrow}.
+$$
+\end{theorem}
+
+\begin{proof}
+The first displayed equality is exactly the ledger clause in
+\autoref{def:observer-centered-orthogonal-section-step}. Since
+$\eta_{n+1}\perp\mathcal L_n^{\uparrow}$, every vector in the closed span
+of $\eta_{n+1}$ is orthogonal to $\mathcal L_n^{\uparrow}$. Hence
+$E_{n+1}\perp\mathcal L_n^{\uparrow}$.
+\end{proof}
+
+\begin{corollary}[Pythagorean readout for a rewritten section]
+\label{cor:observer-centered-pythagorean-rewritten-section}
+Assume
+$$
+B_{n+1}
+=
+\Phi_{R_{n+1}\leftarrow R_n}(B_n)+\eta_{n+1},
+$$
+with
+$$
+\eta_{n+1}\perp\mathcal L_n^{\uparrow}
+$$
+and
+$$
+\Phi_{R_{n+1}\leftarrow R_n}(B_n)\in\mathcal L_n^{\uparrow}.
+$$
+Then
+$$
+\|B_{n+1}\|^2
+=
+\|\Phi_{R_{n+1}\leftarrow R_n}(B_n)\|^2
++
+\|\eta_{n+1}\|^2.
+$$
+If $\Phi_{R_{n+1}\leftarrow R_n}$ is isometric on $B_n$, then
+$$
+\|B_{n+1}\|^2
+=
+\|B_n\|^2+\|\eta_{n+1}\|^2.
+$$
+\end{corollary}
+
+\begin{proof}
+The two summands in the displayed decomposition are orthogonal, so the
+Hilbert-space Pythagorean identity applies. The final equality is the
+isometry clause for $\Phi_{R_{n+1}\leftarrow R_n}$.
+\end{proof}
+
+\section{Logarithmic Time Readout}
+\label{sec:observer-centered-logarithmic-time-readout}
+
+\begin{definition}[Multiplicative accumulation scale]
+\label{def:observer-centered-multiplicative-accumulation-scale}
+A positive scale row is a sequence
+$$
+A_n>0
+$$
+with displayed multipliers
+$$
+\lambda_{n+1}>0
+$$
+such that
+$$
+A_{n+1}=\lambda_{n+1}A_n.
+$$
+\end{definition}
+
+\begin{definition}[Logarithmic observer-time coordinate]
+\label{def:observer-centered-logarithmic-observer-time}
+The logarithmic observer-time coordinate attached to the scale row is
+$$
+T_n:=\log A_n.
+$$
+It is a coordinate on multiplicative accumulation, not a global clock
+shared by all histories.
+\end{definition}
+
+\begin{theorem}[Multiplicative accumulation becomes additive in log time]
+\label{thm:observer-centered-log-linearization}
+If
+$$
+A_{n+1}=\lambda_{n+1}A_n,
+$$
+then
+$$
+T_{n+1}-T_n=\log\lambda_{n+1}
+$$
+and hence
+$$
+T_n=T_0+\sum_{j=1}^{n}\log\lambda_j.
+$$
+If all displayed multipliers are equal to one value $\lambda$, then
+$$
+T_n=T_0+n\log\lambda.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:observer-centered-logarithmic-observer-time},
+$$
+T_{n+1}
+=
+\log A_{n+1}
+=
+\log(\lambda_{n+1}A_n)
+=
+\log\lambda_{n+1}+\log A_n
+=
+T_n+\log\lambda_{n+1}.
+$$
+Iteration gives the displayed sum. The constant-multiplier case follows
+by substituting $\lambda_j=\lambda$ in that sum.
+\end{proof}
+
+\section{Visible Stability and Solenoid Fibres}
+\label{sec:observer-centered-visible-stability-solenoid-fibres}
+
+\begin{definition}[Visible readout and adjacent continuity]
+\label{def:observer-centered-visible-readout-adjacent-continuity}
+Let
+$$
+V_R:\mathcal H_R\to\mathcal O
+$$
+be a visible readout into a metric readout space
+$(\mathcal O,d_{\mathcal O})$. The system satisfies adjacent continuity
+when there is a constant $L>0$ such that, for every displayed adjacency
+$R'\sim R$ and every $B\in\mathcal H_R$,
+$$
+d_{\mathcal O}
+\bigl(
+V_{R'}(\Phi_{R'\leftarrow R}B),
+V_R(B)
+\bigr)
+\le
+L\,d_{\mathcal R}(R',R).
+$$
+\end{definition}
+
+\begin{theorem}[Visible stability bound]
+\label{thm:observer-centered-visible-stability-bound}
+Assume adjacent continuity, assume
+$$
+B_{n+1}
+=
+\Phi_{R_{n+1}\leftarrow R_n}(B_n)+\eta_{n+1},
+$$
+and assume $V_{R_{n+1}}$ is $M$-Lipschitz on the displayed segment. If
+$$
+O_n:=V_{R_n}(B_n),
+$$
+then
+$$
+d_{\mathcal O}(O_{n+1},O_n)
+\le
+L\,d_{\mathcal R}(R_{n+1},R_n)
++
+M\|\eta_{n+1}\|.
+$$
+\end{theorem}
+
+\begin{proof}
+Write $\Phi_n:=\Phi_{R_{n+1}\leftarrow R_n}$. By the triangle inequality,
+$$
+\begin{aligned}
+d_{\mathcal O}(O_{n+1},O_n)
+&\le
+d_{\mathcal O}
+\bigl(
+V_{R_{n+1}}(\Phi_nB_n+\eta_{n+1}),
+V_{R_{n+1}}(\Phi_nB_n)
+\bigr)\\
+&\quad+
+d_{\mathcal O}
+\bigl(
+V_{R_{n+1}}(\Phi_nB_n),
+V_{R_n}(B_n)
+\bigr).
+\end{aligned}
+$$
+The first term is at most $M\|\eta_{n+1}\|$ by the Lipschitz hypothesis.
+The second term is at most $L\,d_{\mathcal R}(R_{n+1},R_n)$ by adjacent
+continuity.
+\end{proof}
+
+\begin{definition}[Solenoid-visible phase readout]
+\label{def:observer-centered-solenoid-visible-phase-readout}
+Let $\Sigma_S$ be the $S$-solenoid of
+\autoref{def:unified-reality-s-solenoid-over-unit-circle}, with visible
+projection
+$$
+\pi_S:\Sigma_S\to\mathbb T
+$$
+and kernel
+$$
+K_S:=\ker\pi_S.
+$$
+A readout
+$$
+O:\Sigma_S\to Y
+$$
+is \emph{solenoid-visible} when it factors through the circle projection:
+there is a map
+$$
+\bar O:\mathbb T\to Y
+$$
+such that
+$$
+O=\bar O\circ\pi_S.
+$$
+\end{definition}
+
+\begin{theorem}[Solenoid-visible reads are kernel-blind]
+\label{thm:observer-centered-solenoid-visible-kernel-blind}
+If $O=\bar O\circ\pi_S$, then for every
+$$
+\widetilde t\in\Sigma_S
+$$
+and every $k\in K_S$,
+$$
+O(\widetilde t k)=O(\widetilde t).
+$$
+\end{theorem}
+
+\begin{proof}
+Since $k\in K_S$, one has $\pi_S(k)=1$. Therefore
+$$
+\pi_S(\widetilde t k)
+=
+\pi_S(\widetilde t)\pi_S(k)
+=
+\pi_S(\widetilde t).
+$$
+Applying the factorization $O=\bar O\circ\pi_S$ gives the claim.
+\end{proof}
+
+\begin{corollary}[Visible phase stability may hide fibre motion]
+\label{cor:observer-centered-visible-phase-hides-fibre-motion}
+For a solenoid-visible read, two lifts in one $\pi_S$-fibre give the same
+visible output. Thus a prime-register fibre coordinate may vary while the
+visible unit-circle phase remains fixed.
+\end{corollary}
+
+\section{Synthesis}
+\label{sec:observer-centered-logarithmic-section-synthesis}
+
+\begin{theorem}[Observer-centered logarithmic section dynamics]
+\label{thm:observer-centered-logarithmic-section-dynamics}
+Assume a reference-frame graph, an observer-centered selector, a world
+Hilbert bundle, frame reshaping rows, orthogonal section steps, a
+multiplicative accumulation scale with logarithmic observer-time
+coordinate, and a solenoid-visible phase readout. Then each accepted
+selection step has the following five rows:
+$$
+R_{n+1}\sim R_n,
+$$
+$$
+B_{n+1}\in\mathcal H_{R_{n+1}},
+$$
+$$
+\mathcal L_{n+1}
+=
+\Phi_{R_{n+1}\leftarrow R_n}(\mathcal L_n)
+\oplus
+E_{n+1},
+\qquad
+E_{n+1}\perp
+\Phi_{R_{n+1}\leftarrow R_n}(\mathcal L_n),
+$$
+$$
+T_n=T_0+\sum_{j=1}^{n}\log\lambda_j,
+$$
+and
+$$
+O(\widetilde t k)=O(\widetilde t)
+\qquad
+(k\in K_S)
+$$
+for every solenoid-visible read.
+\end{theorem}
+
+\begin{proof}
+The adjacency row is \autoref{def:observer-centered-selector}. The
+complete-section row is
+\autoref{thm:observer-centered-adjacent-selection-complete-section}. The
+ledger decomposition and orthogonality rows are
+\autoref{thm:observer-centered-orthogonal-ledger-decomposition}. The
+logarithmic time row is
+\autoref{thm:observer-centered-log-linearization}. The solenoid kernel
+blindness row is
+\autoref{thm:observer-centered-solenoid-visible-kernel-blind}.
+\end{proof}
+
+\begin{principle}[Frame-centered reading]
+\label{prin:observer-centered-frame-centered-reading}
+The compressed reading of the chapter is that a focused record does not
+move through a fixed completed world as a detachable subject. It selects
+adjacent frame rows, receives complete frame-relative sections, rewrites
+the prior ledger into the selected frame, admits residual information
+orthogonally, reads multiplicative accumulation through a logarithmic
+coordinate, and may keep visible phase fixed while compact
+prime-register fibre data vary behind the solenoid projection.
+\end{principle}
