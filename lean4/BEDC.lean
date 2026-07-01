@@ -2737,6 +2737,7 @@ import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubnetUp
+import BEDC.Derived.CauchySubnetUp.TailHandoff
 import BEDC.Derived.CauchySubnetUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
@@ -3536,6 +3537,7 @@ import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactSubspaceModulusRestrictionUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
+import BEDC.Derived.CompactUniformCauchyModulusUp.TasteGate
 import BEDC.Derived.CompactUniformCauchyUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityLedgerUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
@@ -3646,6 +3648,7 @@ import BEDC.Derived.CompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteOrderedFieldUp.TasteGate
+import BEDC.Derived.CompleteRealModulusUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.DensityCompletionHandoff
 import BEDC.Derived.CompleteSeparableMetricUp.FiniteDensityInduction
 import BEDC.Derived.CompleteSeparableMetricUp.FiniteWindowDensitySeal
@@ -9857,6 +9860,7 @@ import BEDC.Derived.PisanoPeriodUp
 import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PochhammerUp
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
+import BEDC.Derived.PoincareDiskBoundaryTransportUp.TasteGate
 import BEDC.Derived.PoincareDiskDynamicsUp.TasteGate
 import BEDC.Derived.PoincareDiskGeodesicProjectionUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
@@ -11572,6 +11576,7 @@ import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.BridgeRoute
+import BEDC.Derived.RegularCauchyTelescopingBudgetUp.CarrierVisibleRows
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.NonEscape
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.PrimitiveScopeBinding
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.RealSealHandoff
