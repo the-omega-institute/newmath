@@ -1562,6 +1562,7 @@ import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
 import BEDC.Derived.CWComplexUp.TasteGate
 import BEDC.Derived.CadlagRealFunctionUp.TasteGate
+import BEDC.Derived.CakeNumberUp
 import BEDC.Derived.CalculusOfConstructionsUp.NameCertObligations
 import BEDC.Derived.CalculusOfConstructionsUp.TasteGate
 import BEDC.Derived.CalculusUp
@@ -7528,6 +7529,7 @@ import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LeibnizSeriesTestUp.NameCertObligations
 import BEDC.Derived.LeibnizSeriesTestUp.TasteGate
 import BEDC.Derived.LengthSpaceUp.TasteGate
+import BEDC.Derived.LeonardoNumberUp
 import BEDC.Derived.LesserLimitedOmniscienceUp
 import BEDC.Derived.LesserLimitedOmniscienceUp.TasteGate
 import BEDC.Derived.LeviCivitaConnectionUp.TasteGate
@@ -9151,6 +9153,7 @@ import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
+import BEDC.Derived.NarayanaCowUp
 import BEDC.Derived.NarayanaNumberUp
 import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NarcissisticNumberUp
@@ -11618,6 +11621,7 @@ import BEDC.Derived.RelationalObjectivityUp.TasteGate
 import BEDC.Derived.RelationalPhysicsUp
 import BEDC.Derived.RelationalPhysicsUp.TasteGate
 import BEDC.Derived.RellichKondrachovUp.TasteGate
+import BEDC.Derived.RencontresNumberUp
 import BEDC.Derived.RepresentationRingUp
 import BEDC.Derived.RepresentationRingUp.InducedConsumerBoundary
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
