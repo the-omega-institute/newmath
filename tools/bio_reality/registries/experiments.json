@@ -3212,6 +3212,57 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.ribozyme_ligase_activity.f1u_ligase_structure_beyond_composition_epistasis_zenodo6945203",
+   "experiment_id": "f1u_ligase_ribozyme_epistasis_landscape_zenodo6945203",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, RNA ligase catalysis, single-mechanism): does RNA STRUCTURE predict ligase activity beyond the ADDITIVE per-locus model (structural epistasis) in the F1*U 2^16 combinatorial hypercube, and does it transfer to higher mutation loads? Zenodo 6945203 'Combinatorially complete' subset (65536 variants, 16 variable loci), y=log2(Mean_RA+0.05), n=8000. baseline=16 is-mutant indicators + HD_WT (additive); full=+structure (RC/stem density k3/4/5, max RC-stem, trinuc entropy, runs). Primary=random-5-fold structure-over-additive (epistasis) + perm B=200; diagnostic=leave-high-HD-out (train HD<=8, test HD>=9) extrapolation. (Hamming-connected hypercube -> single-linkage cluster holdout collapses.) Verdict crosses_boundary (epistasis real AND extrapolates) / bounded_descriptor_only (real but interpolation-bound) / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_f1u_ligase_ribozyme_epistasis_landscape_zenodo6945203.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T01:56:55+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_subcellular_localization.nzip_3utr_zipcode_sequence_beyond_composition_emtab10902",
+   "experiment_id": "nzip_3utr_zipcode_localization_emtab10902",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, 6th MODALITY = RNA subcellular localization, single-mechanism): does higher-order sequence (trinucleotide + structure) predict N-zip neurite/soma 3'UTR-tile localization beyond mono+dinuc composition, transferring leave-one-gene-out? E-MTAB-10902 supplement xlsx, n=4760 tiles / 97 genes, y=DESeq2 log2ratio(neurite/soma) WT. baseline=composition(mono/dinuc/GC/length/tile-offset); full=+trinuc(64)+structure(RC/stem density, entropy, max-AU-run, homopolymer). Gene-grouped 5-fold leave-one-gene-out (primary+perm B=300) + random-split diagnostic + trinuc-vs-structure attribution. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_nzip_3utr_zipcode_localization_emtab10902.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T02:28:44+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_strand_displacement_switch.toehold_dynamic_range_sequence_beyond_composition_hairpin_gse149225",
+   "experiment_id": "toehold_switch_dynamic_range_gse149225",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib experiment (oracle direction, 7th MODALITY = programmable RNA strand-displacement switch, single-mechanism): does higher-order sequence predict synthetic toehold switch cognate-trigger ON/OFF dynamic range beyond composition + a hairpin physical proxy, transferring leave-one-source-organism-out? GEO GSE149225, n=8000/95864, 927 source organisms (23 viral + 906 human TF). y=winsorized log2(ON_OFF); baseline_comp=composition; baseline_phys=+hairpin proxy (RC/stem density k4/5/6 + max-RC-stem, stdlib surrogate for ViennaRNA); full=+higher-order (trinuc entropy, homopolymer/AU/purine runs, palindrome). Leave-organism-out held-out incremental R^2 + perm (B=250) + random-split transfer diagnostic + hairpin-over-composition step. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_toehold_switch_dynamic_range_gse149225.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-07-01T07:10:05+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
