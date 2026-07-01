@@ -1,0 +1,328 @@
+\chapter{Xi Hausdorff Moment Audit}
+\label{ch:visions-rh-xi-hausdorff-moment-audit}
+\origin{ai}
+
+\autoref{ch:visions-rh-triadic-solenoid-pick-tower} reduces the
+source-Hilbert positivity request to the moment positivity of the
+completed zeta carrier. The present chapter makes that request finite
+and auditable. Instead of asking directly for a Hilbert space
+factorization of the completed Pick kernel, it asks for a concrete
+Hausdorff moment sequence extracted from the source-side logarithmic
+derivative at a point where the Euler product is safely on the
+absolutely convergent side. The positive measure, Herglotz function, Pick
+kernel, and Hilbert factorization are then reconstructed from the moment
+certificate.
+
+\section{Centered Source Moments}
+\label{sec:rh-xi-hausdorff-centered-source-moments}
+
+\begin{definition}[Centered completed zeta carrier]
+\label{def:rh-centered-completed-zeta-carrier}
+Let
+$$
+F(w)
+:=
+\xi\left(\frac12+w\right)
+$$
+and let
+$$
+G(x)
+:=
+F(\sqrt{x})
+=
+\xi\left(\frac12+\sqrt{x}\right)
+$$
+on a displayed branch of $\sqrt{x}$ near $x=1$. The source base point is
+$$
+x_0=1,
+\qquad
+\frac12+\sqrt{x_0}=\frac32.
+$$
+This base point lies in the half-plane where the zeta Euler product is
+absolutely convergent.
+\end{definition}
+
+\begin{definition}[Xi source Stieltjes candidate]
+\label{def:rh-xi-source-stieltjes-candidate}
+The xi source Stieltjes candidate is the normalized logarithmic
+derivative
+$$
+S_{\xi}(x)
+:=
+2\frac{G'(x)}{G(x)}
+=
+2\frac{d}{dx}
+\log\xi\left(\frac12+\sqrt{x}\right).
+$$
+The factor $2$ matches
+\autoref{def:rh-bedc-moment-positivity-for-xi} and ensures that
+$$
+2wS_{\xi}(w^2)
+=
+2\frac{\xi'}{\xi}\left(\frac12+w\right)
+$$
+on the centered branch used by the completed zeta Pick target.
+\end{definition}
+
+\begin{definition}[Xi Hausdorff moment row]
+\label{def:rh-xi-hausdorff-moment-row}
+The xi Hausdorff moment row is the sequence
+$$
+a_n
+:=
+\frac{(-1)^n}{n!}
+\left.
+\frac{d^n}{dx^n}S_{\xi}(x)
+\right|_{x=1},
+\qquad
+n\ge0.
+$$
+Each $a_n$ is a source-side coefficient because it is read from the
+Taylor data of $S_{\xi}$ at the base point $x=1$, corresponding to
+$s=3/2$.
+\end{definition}
+
+\begin{principle}[Moment row is independent of zero-location input]
+\label{prin:rh-xi-moment-row-source-side}
+The sequence $(a_n)$ is not computed from the location of zeros. It is
+extracted from the completed zeta carrier through the logarithmic
+derivative at a source-side base point. A later proof that $(a_n)$ is a
+positive moment sequence may imply zero-location information, but that
+information is not an input to the moment row.
+\end{principle}
+
+\section{Finite Hausdorff Audit}
+\label{sec:rh-xi-hausdorff-finite-audit}
+
+\begin{definition}[Finite difference rows]
+\label{def:rh-xi-finite-difference-rows}
+For a sequence $(a_n)$, define
+$$
+\Delta a_n
+:=
+a_{n+1}-a_n
+$$
+and, for $k\ge0$,
+$$
+\Delta^k a_n
+:=
+\sum_{j=0}^{k}
+(-1)^{k-j}
+\binom{k}{j}
+a_{n+j}.
+$$
+\end{definition}
+
+\begin{definition}[Xi Hausdorff moment positivity]
+\label{def:rh-xi-hausdorff-moment-positivity}
+The certificate
+$$
+\mathsf{XiHausdorffMomentPositivity}
+$$
+is the family of finite inequalities
+$$
+(-1)^k\Delta^k a_n\ge0
+\qquad
+(n,k\ge0)
+$$
+for the moment row of
+\autoref{def:rh-xi-hausdorff-moment-row}. Each displayed pair $(n,k)$ is
+one finite audit item.
+\end{definition}
+
+\begin{principle}[Hausdorff positivity is a finite audit family]
+\label{prin:rh-xi-hausdorff-finite-audit-family}
+The positivity target is not an uninspected infinite assertion about a
+Hilbert space. A failure is witnessed by a finite pair $(n,k)$ with
+$$
+(-1)^k\Delta^k a_n<0.
+$$
+A proof supplies a stable rule producing the nonnegativity certificate
+for each finite pair. Thus the target is an infinite family only in the
+same sense as an induction or a recursive certificate family, not as an
+unledgered analytic object.
+\end{principle}
+
+\begin{theorem}[Hausdorff positivity gives a source measure]
+\label{thm:rh-xi-hausdorff-positivity-gives-source-measure}
+Assume $\mathsf{XiHausdorffMomentPositivity}$ and the Hausdorff moment
+theorem for the displayed sequence. Then there is a positive measure
+$\mu$ on $[0,1]$ such that
+$$
+a_n=\int_0^1 y^n\,d\mu(y)
+\qquad
+(n\ge0).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-xi-hausdorff-moment-positivity}, the sequence
+$(a_n)$ is completely monotone in the Hausdorff sense:
+$$
+(-1)^k\Delta^k a_n\ge0
+$$
+for every finite pair $(n,k)$. The Hausdorff moment theorem identifies
+such sequences exactly with moment sequences of positive measures on
+$[0,1]$. Applying that theorem gives the displayed measure $\mu$.
+\end{proof}
+
+\section{From Moments to Stieltjes and Pick Kernels}
+\label{sec:rh-xi-hausdorff-to-pick}
+
+\begin{definition}[Hausdorff transform readout]
+\label{def:rh-xi-hausdorff-transform-readout}
+For the positive measure $\mu$ of
+\autoref{thm:rh-xi-hausdorff-positivity-gives-source-measure}, define
+$$
+\widetilde S_{\xi}(x)
+:=
+\int_0^1
+\frac{1}{1+(x-1)y}
+\,d\mu(y).
+$$
+Near $x=1$, its Taylor expansion is
+$$
+\widetilde S_{\xi}(x)
+=
+\sum_{n\ge0}
+(-1)^n a_n (x-1)^n.
+$$
+\end{definition}
+
+\begin{definition}[Analytic determination row]
+\label{def:rh-xi-analytic-determination-row}
+The analytic determination row for the xi Hausdorff audit states that
+the Taylor expansion of $S_{\xi}$ at $x=1$ is determined by the moment
+row $(a_n)$ on a nonempty source neighborhood and that the equality
+$$
+S_{\xi}(x)=\widetilde S_{\xi}(x)
+$$
+continues through the displayed zero-free analytic domain by uniqueness
+of analytic continuation.
+\end{definition}
+
+\begin{theorem}[Hausdorff audit gives the Stieltjes target]
+\label{thm:rh-xi-hausdorff-audit-gives-stieltjes-target}
+Assume $\mathsf{XiHausdorffMomentPositivity}$, the Hausdorff moment
+theorem for the moment row, and the analytic determination row of
+\autoref{def:rh-xi-analytic-determination-row}. Then
+$S_{\xi}$ has a positive Stieltjes-type representation.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-xi-hausdorff-positivity-gives-source-measure} supplies
+$\mu\ge0$ on $[0,1]$. By
+\autoref{def:rh-xi-hausdorff-transform-readout},
+$$
+\widetilde S_{\xi}(x)
+=
+\sum_{n\ge0}(-1)^n a_n(x-1)^n
+$$
+near $x=1$. The definition of $a_n$ gives the same Taylor expansion for
+$S_{\xi}$ at $x=1$, and the analytic determination row transports the
+local equality to the displayed analytic domain. Finally the change of
+variables
+$$
+y=\frac1{1+t}
+$$
+turns the Hausdorff transform into a Stieltjes-type transform on
+$[0,\infty)$, with positive pushed-forward measure. Thus the moment
+certificate discharges the Stieltjes target of
+\autoref{def:rh-bedc-moment-positivity-for-xi}.
+\end{proof}
+
+\begin{theorem}[Xi Hausdorff audit is conditionally RH-sufficient]
+\label{thm:rh-xi-hausdorff-audit-conditionally-rh-sufficient}
+Assume $\mathsf{XiHausdorffMomentPositivity}$, the Hausdorff moment
+theorem for the moment row, the analytic determination row, and the
+standard Stieltjes-to-zero-exclusion transport for the completed zeta
+carrier. Then the BEDC RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-xi-hausdorff-audit-gives-stieltjes-target}, the function
+$S_{\xi}$ is represented by a positive Stieltjes-type transform. Hence
+the associated half-plane function
+$$
+H_{\xi}(w):=2wS_{\xi}(w^2)
+$$
+has nonnegative real part on the right half-plane. The corresponding
+Pick kernel is therefore positive. The assumed Stieltjes-to-zero-exclusion
+transport is exactly the analytic discharge route recorded in
+\autoref{prin:rh-source-hilbert-positivity-remaining-discharge}: an
+off-line zero would produce a forbidden local real-part read near the
+logarithmic-derivative pole. Thus the completed non-trivial zero packets
+are transported to the fixed half-line section.
+\end{proof}
+
+\section{Truncated Witnesses}
+\label{sec:rh-xi-hausdorff-truncated-witnesses}
+
+\begin{definition}[Finite Hausdorff audit window]
+\label{def:rh-xi-finite-hausdorff-audit-window}
+For $N\ge0$, the finite Hausdorff audit window is the finite list of
+inequalities
+$$
+(-1)^k\Delta^k a_n\ge0
+\qquad
+(0\le n,\ 0\le k,\ n+k\le N).
+$$
+It is a finite BEDC witness surface: all coefficients involved are among
+$$
+a_0,\ldots,a_N.
+$$
+\end{definition}
+
+\begin{principle}[Truncated moments produce finite positive packets]
+\label{prin:rh-xi-truncated-moments-produce-finite-packets}
+When a finite audit window is accompanied by the standard truncated
+Hausdorff moment construction, it yields a finite positive atomic
+measure
+$$
+\mu_N
+=
+\sum_{j=1}^{M_N}c_{N,j}\delta_{y_{N,j}},
+\qquad
+c_{N,j}>0,\quad 0\le y_{N,j}\le1,
+$$
+matching the displayed moments in that window. The finite transform
+$$
+S_N(x)
+:=
+\int_0^1
+\frac{1}{1+(x-1)y}
+\,d\mu_N(y)
+$$
+then gives a finite Herglotz function
+$$
+H_N(w):=2wS_N(w^2),
+$$
+and hence a finite Pick kernel with a finite Hilbert factorization of the
+form constructed in
+\autoref{thm:rh-finite-pick-kernel-hilbert-factorization}.
+\end{principle}
+
+\begin{principle}[Status of the xi Hausdorff audit]
+\label{prin:rh-xi-hausdorff-audit-status}
+The RH-facing proof load is reduced to a finite-audit family:
+$$
+\mathsf{XiHausdorffMomentPositivity}.
+$$
+The finite check at $(n,k)$ is the explicit inequality
+$$
+(-1)^k
+\sum_{j=0}^{k}
+(-1)^{k-j}
+\binom{k}{j}
+\frac{(-1)^{n+j}}{(n+j)!}
+\left.
+\frac{d^{n+j}}{dx^{n+j}}S_{\xi}(x)
+\right|_{x=1}
+\ge0.
+$$
+Together with the analytic determination row, this moment certificate
+constructs the measure, the Stieltjes transform, the Herglotz function,
+the Pick kernel, and the Hilbert factorization required by the finite
+tower.
+\end{principle}
