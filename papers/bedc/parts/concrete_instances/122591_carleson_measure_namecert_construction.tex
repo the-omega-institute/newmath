@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CarlesonMeasureUp$}
+\label{ch:concrete-instances-carleson-measure-namecert}
+\origin{human}
+
+Following Carleson and the Hardy-space boundary embedding tradition, the $\CarlesonMeasureUp$ packet records the finite measure-window surface needed before a Hardy-boundary consumer treats a displayed measure row as Carleson-facing data. It sits after the Hardy-space carrier of \autoref{ch:concrete-instances-hardy-space-namecert}, the box geometry of \autoref{ch:concrete-instances-carleson-box-namecert}, the event-value substrate of \autoref{ch:concrete-instances-measure-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed boxes, local measure budgets, Hardy boundary rows, dyadic tolerances, Real scalar seals, transport, replay, provenance, and local naming; it does not assert selected boundary limits, completed measure theory, quotient function equality, global embedding constants, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Carleson measure carrier]
+\label{def:carleson-measure-carrier}
+A $\CarlesonMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,H,U,D,E,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\CarlesonBoxUp$ window row from \autoref{ch:concrete-instances-carleson-box-namecert}. It exposes the boundary arc, radial dyadic window, tent footprint, and finite box budget inspected by the measure request.
+\item $H$ is the $\HardySpaceUp$ handoff row from \autoref{ch:concrete-instances-hardy-space-namecert}. It names the Hardy-boundary source that may consume the same box window.
+\item $U$ is the $\MeasureUp$ local mass row from \autoref{ch:concrete-instances-measure-namecert}. It records only the displayed mass assigned to the box window and the finite event-value route supporting that mass.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row from \autoref{ch:concrete-instances-dyadicratcore-namecert}. It stores the dyadic scale, arc length, radial depth, and comparison tolerance used by the window estimate.
+\item $E$ is the $\RealUp$ scalar seal row from \autoref{ch:concrete-instances-real-namecert}. It seals the displayed mass, dyadic window size, and local comparison value after $B,H,U,D$ are visible.
+\item $S$ records componentwise $\hsame$ transport for $B,H,U,D,E$.
+\item $C$ records displayed $\Cont$ replay from a boundary embedding request through the box, Hardy handoff, measure mass, dyadic tolerance, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CarlesonMeasureUp$, $\CarlesonBoxUp$, $\HardySpaceUp$, $\MeasureUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CarlesonMeasureUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through $B,H,U,D,E,S,C,P,N$. It has no coordinate for a selected boundary limit, a completed measure algebra, quotient equality of Hardy functions, a global embedding theorem, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Carleson measure NameCert obligations]
+\label{thm:carleson-measure-namecert-obligations}
+For every accepted $\CarlesonMeasureUp$ carrier $M=(B,H,U,D,E,S,C,P,N)$, the local $\NameCert_{\CarlesonMeasureUp}$ surface consists exactly of Carleson-box visibility, Hardy-space handoff visibility, displayed measure-mass visibility, dyadic tolerance visibility, Real scalar sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. A boundary embedding consumer may read the measure row only after $B,H,U,D,E$ are all public in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:carleson-measure-carrier}. The displayed tuple exposes exactly the box, Hardy handoff, measure mass, dyadic tolerance, Real seal, transport, replay, provenance, and local naming row.
+
+Read the window rows first. The $\CarlesonBoxUp$ row $B$ names the boundary arc and radial window, while the $\HardySpaceUp$ row $H$ names the Hardy-boundary source allowed to inspect that same window.
+
+The measure and scalar rows are downstream of the window. The row $U$ supplies only the displayed $\MeasureUp$ mass for the box, $D$ supplies the dyadic scale and comparison tolerance, and $E$ seals the resulting scalar reads through $\RealUp$.
+
+Finally the structural rows preserve the displayed route. Since $S,C,P,N$ add only transport, replay, provenance, and naming, the packet has no coordinate for selected boundary limits, completed measure algebras, quotient function equality, global embedding theorems, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Carleson measure window-embedding handoff]
+\label{thm:carleson-measure-window-embedding-handoff}
+Every Hardy-boundary embedding request that consumes an accepted $\CarlesonMeasureUp$ packet factors through the finite route
+$$
+\CarlesonBoxUp \longmapsto \MeasureUp \longmapsto \DyadicRatCoreUp \longmapsto \HardySpaceUp \longmapsto \RealUp .
+$$
+In carrier notation, the consumer reads the box window $B$, local mass row $U$, dyadic tolerance row $D$, Hardy handoff $H$, Real seal $E$, and the structural rows $S,C,P,N$. The route is a finite Carleson-window measure handoff, not a proof of the host Carleson embedding theorem, a selected boundary-limit principle, a completed measure construction, a quotient-function equality claim, or an ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the box window. The row $B$ is already a finite $\CarlesonBoxUp$ packet, so the measure request begins with displayed boundary geometry rather than an ambient measurable subset.
+
+Next read the local mass and tolerance rows. The $\MeasureUp$ row $U$ provides only the mass assigned to that displayed box, and $D$ records the dyadic scale and tolerance used by the comparison.
+
+The Hardy-facing read then passes through $H$ and $E$. The Hardy handoff is visible only after the box, mass, and tolerance rows have been displayed, and the Real seal records the scalar endpoint of the same route.
+
+Transport, replay, provenance, and local naming preserve the packet. Because no carrier row stores a selected boundary limit, completed measure theory, quotient equality of Hardy functions, global embedding theorem, or ambient completeness principle, no boundary embedding consumer can read those endpoints from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CarlesonMeasureUp$ packet is refuted if a Hardy-boundary embedding consumer reads a measure mass without displaying the Carleson box, Hardy handoff, local MeasureUp mass, dyadic tolerance, Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{hardy-space, carleson-box, measure, dyadicratcore, real: $\CarlesonMeasureUp$ is not bijective to any listed sibling because it jointly stores box geometry, Hardy handoff, local measure mass, dyadic tolerance, Real scalar sealing, and structural support in one packet.}
+
+\closureat{CarlesonMeasureUp}{seedStr}
+
+\begin{closurestatus}{\CarlesonMeasureUp}
+  \constructivestory{A $\CarlesonMeasureUp$ packet is generated from a CarlesonBox window, HardySpace handoff, MeasureUp local mass row, DyadicRatCore tolerance row, RealUp scalar seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:carleson-measure-carrier}, \autoref{thm:carleson-measure-namecert-obligations}, and \autoref{thm:carleson-measure-window-embedding-handoff} seed the finite Hardy-boundary measure packet over box windows, local masses, dyadic tolerances, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected boundary limits, completed measure theory, quotient function equality, the host Carleson embedding theorem, global embedding constants, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.CarlesonMeasureUp.}
+\end{closurestatus}
