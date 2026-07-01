@@ -2403,6 +2403,7 @@ import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.ExplicitModulusStandardBridge
 import BEDC.Derived.CauchyModulusUp.RefinementConsumerBoundary
+import BEDC.Derived.CauchyModulusUp.StdBridge
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNameTruncationUp
 import BEDC.Derived.CauchyNameUniformityUp
@@ -9806,6 +9807,7 @@ import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
 import BEDC.Derived.PhysicalLawBridgeUp.NontrivialObligation
 import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
+import BEDC.Derived.PhysicalLawBridgeUp.ScopedTasteGateRoute
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
