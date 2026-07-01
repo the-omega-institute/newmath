@@ -60,23 +60,27 @@ def taylorRemainderToEventFlow : TaylorRemainderUp -> EventFlow
           BMark.b1, BMark.b1, BMark.b0],
         taylorRemainderEncodeBHist N]
 
-def taylorRemainderFromEventFlow : EventFlow -> Option TaylorRemainderUp
+private def taylorRemainderEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag0, D, _tag1, P, _tag2, W, _tag3, E, _tag4, Q, _tag5, S, _tag6, H,
-      _tag7, C, _tag8, G, _tag9, N] =>
-      some
-        (TaylorRemainderUp.mk
-          (taylorRemainderDecodeBHist D)
-          (taylorRemainderDecodeBHist P)
-          (taylorRemainderDecodeBHist W)
-          (taylorRemainderDecodeBHist E)
-          (taylorRemainderDecodeBHist Q)
-          (taylorRemainderDecodeBHist S)
-          (taylorRemainderDecodeBHist H)
-          (taylorRemainderDecodeBHist C)
-          (taylorRemainderDecodeBHist G)
-          (taylorRemainderDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => taylorRemainderEventAtDefault index rest
+
+def taylorRemainderFromEventFlow (ef : EventFlow) : Option TaylorRemainderUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (TaylorRemainderUp.mk
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 1 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 3 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 5 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 7 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 9 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 11 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 13 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 15 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 17 ef))
+      (taylorRemainderDecodeBHist (taylorRemainderEventAtDefault 19 ef)))
 
 private theorem taylorRemainder_round_trip :
     forall x : TaylorRemainderUp,
