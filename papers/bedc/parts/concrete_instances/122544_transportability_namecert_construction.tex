@@ -139,6 +139,42 @@ Apply domain-selection coverage and the intervention-adjustment ledger, \autoref
 Finally use the refusal clause in \autoref{thm:transportability-namecert-obligations}. Since hidden selection oracles, host probability equality, unlicensed counterfactual selectors, and ambient causal completeness are absent from the finite carrier, the target distribution has no route outside the stated ledger.
 \end{proof}
 
+\begin{theorem}[Transportability domain-selection obligation]
+\label{thm:transportability-domain-selection-obligation}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, a transported-effect read is admissible only after the source-domain distribution row $S$ and target-domain selection row $Tg$ have both been exposed. The selection obligation is componentwise: $S$ supplies the source distribution being transported, $Tg$ supplies the target-domain mechanism boundary, and the later rows $I,A,D,J,H,C,P,N$ may be consumed only downstream of that pair.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:transportability-carrier}. The source row $S$ and target row $Tg$ are separate coordinates, so the target side cannot be recovered by reading the source row alone.
+
+Apply \autoref{thm:transportability-selection-row-exposure}. It places $Tg$ before the transported distribution row $D$, and \autoref{thm:transportability-domain-selection-coverage} keeps $S$ and $Tg$ together on every route to $D$.
+
+The structural rows do not change the source-target order. Intervention and adjustment are later ledger rows, while $H,C,P,N$ transport, replay, source, and name the same displayed route. Therefore the domain-selection obligation is exactly the displayed $S,Tg$ boundary followed by the remaining carrier rows.
+\end{proof}
+
+\begin{theorem}[Transportability adjustment-ledger exactness]
+\label{thm:transportability-adjustment-ledger-exactness}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, the intervention-adjustment portion of a transported read is exactly the pair of ledger rows $I,A$ together with the justification ledger $J$. The row $I$ records the displayed $\DoCalculusUp$ intervention route, $A$ records the displayed adjustment route, including any $\FrontdoorCriterionUp$ row actually consumed, and $J$ records the cited handoff; no hidden adjustment oracle or host probability equality is added.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:transportability-carrier}. The only intervention and adjustment coordinates are $I$ and $A$, and the only justification coordinate is $J$.
+
+Use the do-calculus handoff clause of \autoref{thm:transportability-namecert-obligations}. It requires $I$ and $J$ to cite the displayed do-calculus route before a transported distribution is accepted. Use \autoref{thm:transportability-intervention-adjustment-ledger} to keep $A$ in the same route whenever $D$ is read.
+
+The provenance row $P$ records the allowed $\DoCalculusUp$ and $\FrontdoorCriterionUp$ sources, while $C$ replays the displayed source-to-target route. Since hidden adjustment data and host probability equality are absent from the carrier, ledger exactness is precisely the finite $I,A,J$ package.
+\end{proof}
+
+\begin{theorem}[Transportability target replay coverage]
+\label{thm:transportability-target-replay-coverage}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, every exported transported-distribution read factors through source distribution $S$, target selection $Tg$, intervention ledger $I$, adjustment ledger $A$, transported row $D$, justification ledger $J$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\TransportabilityUp}$ row $N$. No exported target read bypasses one of these coordinates.
+\end{theorem}
+\begin{proof}
+Project the full carrier in \autoref{def:transportability-carrier}. Its displayed coordinates are exactly $S,Tg,I,A,D,J,H,C,P,N$.
+
+Apply the source-target replay theorem \autoref{thm:transportability-source-target-replay}. It identifies the public route to $D$ as source distribution, target selection, intervention, adjustment, and justification followed by structural transport, replay, provenance, and naming.
+
+Now apply \autoref{thm:transportability-target-distribution-nonescape}. Since the transported distribution cannot escape into hidden selection, host probability equality, unlicensed counterfactual selection, or ambient causal completeness, every exported target read is covered by the displayed replay route and no extra coordinate remains.
+\end{proof}
+
 \closureat{TransportabilityUp}{seedStr}
 
 \begin{closurestatus}{\TransportabilityUp}
