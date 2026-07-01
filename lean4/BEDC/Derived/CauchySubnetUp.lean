@@ -495,4 +495,93 @@ theorem CauchySubnetCarrier_obligation_closure_package [AskSetup] [PackageSetup]
   }
   exact ⟨cert, handoffUnary, sealUnary, cofinalUnary, endpointUnary⟩
 
+theorem CauchySubnetCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+    {F J W R D L E H C P N handoff sealRead endpointRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySubnetCarrier F J W R D L E H C P N bundle pkg →
+      Cont D L handoff →
+        Cont handoff E sealRead →
+          Cont F J endpointRead →
+            Cont endpointRead N scopedRead →
+              PkgSig bundle scopedRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row F ∨ hsame row J ∨ hsame row W ∨ hsame row R ∨
+                        hsame row D ∨ hsame row L ∨ hsame row E ∨ hsame row H ∨
+                          hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row scopedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont D L handoff ∧ Cont handoff E sealRead ∧
+                        Cont F J endpointRead ∧ Cont endpointRead N scopedRead ∧
+                          PkgSig bundle scopedRead pkg)
+                    hsame ∧
+                  UnaryHistory handoff ∧ UnaryHistory sealRead ∧
+                    UnaryHistory endpointRead ∧ UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: CauchySubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro carrier routeHandoff routeSeal endpointRoute scopedRoute scopedPkg
+  obtain ⟨filterUnary, cofinalUnary, _windowUnary, _readbackUnary, toleranceUnary,
+    limitUnary, sealBaseUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    localNameUnary, _filterSubnetWindow, _windowReadbackTolerance, _toleranceLimitSeal,
+    _sealTransportReplay, _provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed toleranceUnary limitUnary routeHandoff
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffUnary sealBaseUnary routeSeal
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed filterUnary cofinalUnary endpointRoute
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed endpointUnary localNameUnary scopedRoute
+  have sourceScoped :
+      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row) scopedRead := by
+    exact ⟨hsame_refl scopedRead, scopedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row J ∨ hsame row W ∨ hsame row R ∨ hsame row D ∨
+              hsame row L ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D L handoff ∧ Cont handoff E sealRead ∧
+              Cont F J endpointRead ∧ Cont endpointRead N scopedRead ∧
+                PkgSig bundle scopedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopedRead sourceScoped
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeHandoff, routeSeal, endpointRoute, scopedRoute, scopedPkg⟩
+  }
+  exact ⟨cert, handoffUnary, sealUnary, endpointUnary, scopedUnary⟩
+
 end BEDC.Derived.CauchySubnetUp
