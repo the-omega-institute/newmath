@@ -45,6 +45,7 @@ import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp
+import BEDC.Derived.AbelSummationUp.PartialSumHandoff
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelTheoremUp.TasteGate
@@ -6819,6 +6820,7 @@ import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HappyNumberUp
 import BEDC.Derived.HardProblemClosureUp.TasteGate
+import BEDC.Derived.HardyCesaroMeanUp.RegularTransformHandoff
 import BEDC.Derived.HardyCesaroMeanUp.TasteGate
 import BEDC.Derived.HardyInequalityUp.TasteGate
 import BEDC.Derived.HardyLittlewoodMaximalUp.TasteGate
@@ -10507,6 +10509,7 @@ import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
 import BEDC.Derived.RealClassifierUp.FiniteWindowExactnessTarget
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
+import BEDC.Derived.RealClassifierUp.PublicExactnessConsumerReuse
 import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
