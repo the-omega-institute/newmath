@@ -26,6 +26,8 @@ structure ExportRegistration where
 def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Int.cintIntExport,
     witnessType := `BedcMathlibBridge.Export.Int.IntExportWitness },
+  { witness := `BedcMathlibBridge.Export.Bool.boolExport,
+    witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
   { witness := `BedcMathlibBridge.Export.Eisenstein.eisExport,
@@ -34,6 +36,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.ZMod.ZModExportWitness },
   { witness := `BedcMathlibBridge.Export.Fibonacci.fibonacciExport,
     witnessType := `BedcMathlibBridge.Export.Fibonacci.FibonacciExportWitness },
+  { witness := `BedcMathlibBridge.Export.Binomial.binomialExport,
+    witnessType := `BedcMathlibBridge.Export.Binomial.BinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
+    witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CofinalStreamReindexingUp$}
+\label{ch:concrete-instances-cofinal-stream-reindexing-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CofinalStreamReindexingUp$ packet records the finite route by which a StreamName schedule may be read through a cofinal reindexing ledger before regular rational readback, dyadic tolerance comparison, or Real-facing sealing occurs. It sits after the $\StreamNameUp$ naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RealUp$ seal discipline of \autoref{ch:concrete-instances-real-namecert}, and the cofinal subnet route of \autoref{ch:concrete-instances-cauchy-subnet-namecert}. The packet names cofinal reindexing as finite NameCert data, not as quotient stream equality, a host-selected subsequence, countable choice, host real equality, or ambient completeness.
+
+\begin{definition}[Cofinal StreamName reindexing carrier]
+\label{def:cofinal-stream-reindexing-carrier}
+A $\CofinalStreamReindexingUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,J,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row whose finite observation windows are to be reindexed.
+\item $J$ is the cofinal reindex ledger. It records finite dominance checks from each accepted target window back to a displayed source window of $S$.
+\item $W$ is the finite-window row obtained after replaying the source row and the cofinal ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed target windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the source and reindexed readbacks.
+\item $E$ is the $\RealUp$ seal row available only after $S,J,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source stream, cofinal ledger, target windows, readback, tolerance ledger, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a target precision request through $S,J,W,R,D,E,H$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\CofinalStreamReindexingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalStreamReindexingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host-selected subsequences, countable-choice schedules, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cofinal StreamName reindexing NameCert obligations]
+\label{thm:cofinal-stream-reindexing-namecert-obligations}
+For every accepted $\CofinalStreamReindexingUp$ carrier $Q=(S,J,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\CofinalStreamReindexingUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the source StreamName row, cofinal reindex ledger, finite windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, transport, replay, provenance, and local naming rows;
+\item cofinal coverage, requiring every accepted target window to pass through $J$ and to name a displayed source window in $S$;
+\item finite-window stability, requiring the row $W$ to preserve the window requested after the cofinal ledger has been replayed;
+\item readback preservation, requiring $R$ and $D$ to be the only rows through which the reindexed window reaches a regular rational comparison;
+\item seal nonescape, requiring every Real-facing consumer to inspect $S,J,W,R,D$ before the seal row $E$ is available.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-stream-reindexing-carrier}. The projection exposes exactly the source StreamName row, cofinal ledger, finite-window row, regular rational readback, dyadic tolerance ledger, Real seal, and structural rows.
+
+Cofinal coverage is the role of $J$. Each accepted target window must replay a finite dominance check back to the source row $S$ before the target row $W$ can be consumed.
+
+Finite-window stability and readback preservation are then forced by $W,R,D$. The target window is displayed first, its regular rational readback is exposed next, and the dyadic tolerance ledger is the only comparison row available before the seal.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Since no quotient stream, host-selected subsequence, countable-choice schedule, host real equality, or ambient-completeness coordinate appears in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cofinal StreamName reindexing Real seal nonescape]
+\label{thm:cofinal-stream-reindexing-real-seal-nonescape}
+Let $Q=(S,J,W,R,D,E,H,C,P,N)$ be an accepted $\CofinalStreamReindexingUp$ carrier. Every Real-facing consumer of the reindexed stream factors through the finite route
+$$
+S,J,W,R,D \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus any Real-facing read first consumes the source $\StreamNameUp$ row, the cofinal reindex ledger, the finite target window, the $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance ledger. The $\RealUp$ seal receives no quotient stream, host-selected subsequence, countable-choice schedule, host real equality, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer. Carrier admission gives a seal row $E$, but it is downstream of the source stream, cofinal ledger, target window, readback, and tolerance rows.
+
+Replay the continuation row $C$. The request first consumes $S$ and $J$, then inspects $W$, reads $R$, and checks the dyadic tolerance ledger $D$.
+
+Only after this finite route has been displayed can the packet expose $E$. Componentwise transport and provenance through $H,P,N$ preserve the same dependency order, so the Real seal cannot be reached by quotient stream equality, host-selected subsequence choice, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\closureat{CofinalStreamReindexingUp}{seedStr}
+
+\begin{closurestatus}{\CofinalStreamReindexingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-stream-reindexing-carrier}, \autoref{thm:cofinal-stream-reindexing-namecert-obligations}, and \autoref{thm:cofinal-stream-reindexing-real-seal-nonescape} seed the cofinal StreamName reindexing surface over StreamName, RegSeqRat, DyadicRatCore, Real, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, host-selected subsequences, countable choice, host real equality, ambient completeness, bridge checking, or theorem-level Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal coverage, finite-window stability, readback preservation, seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CofinalStreamReindexingUp.}
+  \constructivestory{A $\CofinalStreamReindexingUp$ packet is generated from a StreamName source row, a cofinal reindex ledger, finite target windows, RegSeqRat readback, DyadicRatCore tolerance rows, a RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

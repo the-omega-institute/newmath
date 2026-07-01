@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\SingletonMetricUp$}
+\label{ch:concrete-instances-singletonmetric-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\SingletonMetricUp$ packet records the terminal one-point metric space as finite BEDC NameCert data. It sits at the boundary shared by \autoref{ch:concrete-instances-metric-space-namecert}, \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-compactmetric-namecert}, and \autoref{ch:concrete-instances-real-namecert}: every displayed distance is the zero $\RealUp$ distance, every point-read is the unique point-read, and every classifier comparison is total because there is no second point from which a distance, cover, or Cauchy tail could diverge.
+
+\begin{definition}[Singleton metric carrier]
+\label{def:singletonmetric-carrier}
+A $\SingletonMetricUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,D,T,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the unique point row.
+\item $D$ is the zero-distance row, recording that every displayed distance read has value $0_{\RealUp}$.
+\item $T$ is the total classifier row: any two accepted point reads are classified as the same singleton point.
+\item $H$ records componentwise $\hsame$ transport for the point row, zero-distance row, total classifier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the unique-point metric query.
+\item $G$ records
+$$
+\Pkg(S)=\Pkg(\SingletonMetricUp,\MetricSpaceUp,\CompleteMetricUp,\CompactMetricUp,\RealUp,\BHist,\hsame,\Cont,\NameCert).
+$$
+\item $N$ is the local $\NameCert_{\SingletonMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,D,T,H,C,G,N$. It has no coordinate for a nonzero distance, a second point, a selected Cauchy limit, an open-cover choice, quotient equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Singleton metric NameCert obligations]
+\label{thm:singletonmetric-namecert-obligations}
+For every accepted $\SingletonMetricUp$ carrier
+$$
+S=(P,D,T,H,C,G,N),
+$$
+the local $\NameCert_{\SingletonMetricUp}$ surface consists exactly of carrier admission for the unique point row, zero $\RealUp$ distance row, total classifier row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The packet therefore presents the terminal one-point $\MetricSpaceUp$ boundary case, with immediate $\CompleteMetricUp$ and $\CompactMetricUp$ readings only through the same displayed zero-distance and total-classifier rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:singletonmetric-carrier}. The only point data are the row $P$, the zero-distance row $D$, and the total classifier row $T$.
+
+The metric, completeness, and compactness readings are terminal readings of the same finite surface. Since every point read is $P$ and every distance read is the zero $\RealUp$ row $D$, a Cauchy request has no independent limit choice and a finite-cover request has no independent cover-selection coordinate.
+
+The structural rows $H,C,G,N$ transport, replay, source, and name exactly this terminal surface. Because the carrier contains no nonzero distance, second point, selected limit, open-cover choice, quotient equality, or ambient-completeness coordinate, none can be exported by the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\SingletonMetricUp}
+  \constructivestory{A $\SingletonMetricUp$ packet is generated from one point row, zero RealUp distance row, total classifier row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:singletonmetric-carrier} and \autoref{thm:singletonmetric-namecert-obligations} seed the terminal one-point metric packet over the displayed rows $P,D,T,H,C,G,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close nontrivial metric spaces, nonzero distances, selected Cauchy limits, open-cover choice, quotient equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-distance exactness, total-classifier stability, hsame transport, Cont replay, Pkg provenance, and local naming for BEDC.Derived.SingletonMetricUp.}
+\end{closurestatus}

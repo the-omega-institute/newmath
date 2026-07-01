@@ -1,0 +1,121 @@
+\chapter{A Concrete Naming Certificate for $\HenkinModelUp$}
+\label{ch:concrete-instances-henkin-model-namecert}
+\origin{human}
+
+Following Henkin and the standard completeness proof tradition, the
+$\HenkinModelUp$ packet reconstructs the witness construction as finite BEDC
+NameCert data. It is a local consumer of the first-order syntax surface of
+\autoref{ch:concrete-instances-firstorder-namecert} and the satisfaction
+surface of \autoref{ch:concrete-instances-modeltheory-namecert}; it does not
+assert a host compactness theorem or a global completeness theorem.
+
+\section{Finite Henkin packet}
+\label{sec:henkin-model-finite-packet}
+
+A carried $\HenkinModelUp$ row is a displayed $\mathsf{BHist}$ tuple
+$(S,\Theta,C,W,T,M,\mathsf{Sat},\rho,\lambda)$. The row $S$ is the
+$\FirstOrderUp$ signature and formula endpoint source. The row $\Theta$ is a
+finite theory window, consisting only of the named formula endpoints currently
+admitted by the packet. The row $C$ lists the Henkin constants exposed inside
+that window, and the row $W$ records the witness obligations tying existential
+formula endpoints to their displayed witness constants.
+
+The row $T$ is the finite term-model table. Its entries are raw term endpoints
+read through $S$, together with the congruence comparisons already visible in
+the local packet. The row $M$ packages the term-model interpretation rows for
+relation and function symbols over those endpoints. The row $\mathsf{Sat}$ is
+the satisfaction ledger: each entry names a formula endpoint, an assignment or
+closed-term environment endpoint, and the truth row read from the finite
+Henkin window.
+
+Transport is part of the carrier. The comparison ledger $\lambda$ records the
+$\hsame$ and $\Cont$ rows that move the finite theory window, Henkin
+constants, witness obligations, term-model rows, and satisfaction entries
+between classifier-related packets. The provenance row $\rho$ records the
+$\Pkg$ source of each displayed row, so a downstream consumer can see whether
+a formula endpoint came from the first-order syntax certificate, a witness
+extension row, or a term-model readback.
+
+\section{Local certificate surface}
+\label{sec:henkin-model-local-certificate}
+
+The local $\NameCert_{\HenkinModelUp}$ accepts exactly the rows exposed by the
+finite packet. A witness obligation is accepted when its existential formula
+endpoint lies in $\Theta$, its witness constant lies in $C$, and its
+instantiated formula endpoint is recorded in the same finite window. A
+term-model row is accepted when every term endpoint and interpretation entry
+is read through $S$, $T$, and $M$, with provenance still attached to $\rho$.
+A satisfaction entry is accepted when it is one of the displayed
+$\mathsf{Sat}$ rows and its formula endpoint is carried by the same
+$\FirstOrderUp$ source.
+
+Classifier stability is rowwise. If two $\HenkinModelUp$ packets are related
+by the displayed comparison ledger, then the finite theory windows,
+constants, witness rows, term-model entries, interpretation rows, satisfaction
+entries, and provenance rows transport together. No comparison appeals to
+ambient syntax equality, quotient equality on terms, or a chosen infinite
+model outside the packet.
+
+The certificate is deliberately local. It records how a finite Henkin window
+can be named, transported, and consumed as a term-model witness surface. It
+does not choose a completed infinite theory, take a quotient by a host
+equivalence relation, invoke countable choice to select witnesses, or derive
+the global model-existence theorem.
+
+\begin{theorem}[Henkin model witness-extension obligations]
+\label{thm:henkin-model-witness-extension-obligations}
+Let
+$$
+H=(S,\Theta,C,W,T,M,\mathsf{Sat},\rho,\lambda)
+$$
+be an accepted $\HenkinModelUp$ packet. Every witness-extension row in $W$ extends only displayed formula histories already carried by $\Theta$ through the $\FirstOrderUp$ source $S$. If an existential endpoint is not present as a $\BHist$ formula row in the finite theory window, the local $\NameCert_{\HenkinModelUp}$ has no coordinate that can attach a Henkin constant, instantiated formula endpoint, or downstream witness read to it.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The finite theory window $\Theta$ and the witness ledger $W$ are carried as displayed $\BHist$ rows, and both are read through the same first-order syntax source $S$.
+
+The local certificate admits a witness obligation only when the existential endpoint, its witness constant, and the instantiated formula endpoint are visible in the same finite window. Thus the witness-extension read is a rowwise extension of displayed formula histories.
+
+The structural rows $\rho$ and $\lambda$ preserve this restriction under provenance and transport. They replay already displayed witness rows, but they do not create constants for formula endpoints absent from $\Theta$.
+\end{proof}
+
+\begin{theorem}[Henkin model term-model satisfaction scope]
+\label{thm:henkin-model-term-model-satisfaction-scope}
+For every accepted $\HenkinModelUp$ packet
+$$
+H=(S,\Theta,C,W,T,M,\mathsf{Sat},\rho,\lambda),
+$$
+term-model satisfaction is readable only through the displayed $\FirstOrderUp$ syntax row $S$, the term table $T$, the interpretation table $M$, and the satisfaction ledger $\mathsf{Sat}$, with the model-theoretic use scoped by the $\ModelTheoryUp$ rows named in the packet provenance. The read exports no ambient syntax quotient, no host equality of terms, and no satisfaction relation outside the finite ledger.
+\end{theorem}
+\begin{proof}
+Begin with the term-model rows. The table $T$ lists only raw term endpoints read through $S$, and $M$ interprets only the relation and function endpoints visible in the same packet.
+
+Next inspect the satisfaction ledger. Each entry of $\mathsf{Sat}$ names a formula endpoint and an environment endpoint, so the model-theoretic read is a finite ledger row rather than a host satisfaction relation.
+
+The provenance row $\rho$ records the $\FirstOrderUp$ and $\ModelTheoryUp$ sources, while $\lambda$ transports the same entries under accepted comparisons. Since no carrier coordinate stores quotient syntax equality or an external model, the satisfaction scope is exactly the displayed packet surface.
+\end{proof}
+
+\begin{theorem}[Henkin model completeness-facing non-escape]
+\label{thm:henkin-model-completeness-nonescape}
+Every completeness-facing consumer of an accepted $\HenkinModelUp$ packet must factor through
+$$
+S,\Theta,C,W,T,M,\mathsf{Sat},\rho,\lambda .
+$$
+It may read displayed formula histories, witness constants, term-model rows, satisfaction entries, provenance, and transport. It cannot export a selected infinite model, quotient syntax equality, countable choice, host compactness, or a global completeness theorem from the local packet.
+\end{theorem}
+\begin{proof}
+The consumer first exposes the finite theory window and witness rows. These rows show which formula endpoints are present and which witness constants are attached inside the packet.
+
+It then reads the term-model and satisfaction rows through $T,M,\mathsf{Sat}$. Those rows are finite $\BHist$ data, so the consumer receives only the displayed term and formula entries.
+
+Finally $\rho$ and $\lambda$ supply provenance and transport for the same finite route. Because the carrier contains no coordinate for selected infinite models, quotient syntax equality, countable choice, host compactness, or global completeness, none of those objects can escape from the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\HenkinModelUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter seeds the finite Henkin witness packet, its term-model rows, satisfaction ledger, transport rows, provenance rows, and local NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \constructivestory{The construction starts from a finite first-order window, adjoins displayed witness constants for accepted existential endpoints, reads closed terms into the term-model table, and records satisfaction only through the resulting finite ledger.}
+  \notclaimed{The chapter does not close host compactness, quotient syntax equality, a selected infinite model, countable choice, or global completeness.}
+  \upgradepath{A scoped certificate requires Lean carriers for the finite theory window, Henkin constants, witness obligations, term-model rows, and satisfaction transport.}
+\end{closurestatus}
