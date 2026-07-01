@@ -23,6 +23,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for an ambient plane, a selected trigonometric parametrization, a quotient by angle equality, or a global orientation choice.
 \end{definition}
+\leanchecked{BEDC.Derived.CircleUp.CircleCarrier\_boundary\_route\_certificate}
 
 \begin{theorem}[Circle NameCert obligations]
 \label{thm:circle-namecert-obligations}
@@ -117,16 +118,29 @@ Apply \autoref{thm:circle-compact-metric-boundary} and \autoref{thm:circle-real-
 Thus the scoped closure is exactly the displayed BEDC carrier surface over $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, and optional $\SOneUp$, while ambient planes, quotient-angle equality, selected parametrizations, global orientations, and carrier identification with $\SOneUp$ remain outside the packet.
 \end{proof}
 
+\begin{theorem}[Circle public boundary export]
+\label{thm:circle-public-boundary-export}
+The public $\CircleUp$ export is exactly the boundary-loop row $B$, $\RealUp$ coordinate row $R$, $\MetricSpaceUp$ neighborhood row $M$, $\CompactUp$ cover row $K$, optional $\SOneUp$ handoff row $S$, componentwise $\hsame$ transport row $H$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CircleUp}$ route $N$ of \autoref{def:circle-carrier}. A downstream consumer may cite this boundary as the public circle surface, but it receives no ambient plane, quotient-angle equality, selected parametrization, global orientation, or carrier identification with $\SOneUp$.
+\end{theorem}
+\begin{proof}
+Start with the scoped closure of \autoref{thm:circle-real-metric-scoped-closure}. It already identifies the visible BEDC carrier surface as $B,R,M,K,S,H,P,N$ over the boundary, Real-coordinate, metric, compact, optional phase-handoff, transport, provenance, and local naming rows.
+
+Now read that scoped packet as an outward-facing boundary. The NameCert obligations of \autoref{thm:circle-namecert-obligations} keep the topological circle read on the boundary, coordinate, metric, compact, transport, provenance, and local naming rows before the optional handoff can be used.
+
+Finally apply the handoff and compact-metric exclusions of \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-sone-real-seal-route}, and \autoref{thm:circle-compact-metric-boundary}. They keep $S$ as an optional route to the $\SOneUp$ sibling and exclude the ambient plane, quotient-angle, parametrization, orientation, and carrier-identification readings. Thus the public boundary exports exactly the displayed carrier rows.
+\end{proof}
+
 \closureat{CircleUp}{seedStr}
 \closureat{CircleUp}{obligationStr}
 \closureat{CircleUp}{scopedStr}
+\closureat{CircleUp}{publicStr}
 
 \begin{closurestatus}{\CircleUp}
   \constructivestory{A $\CircleUp$ packet is generated from boundary-loop, Real-coordinate, metric-neighborhood, compact-cover, optional SOne handoff, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-metric-subspace-carrier-obligation}, \autoref{thm:circle-sone-real-seal-route}, \autoref{thm:circle-compact-metric-boundary}, \autoref{thm:circle-real-metric-scope-route}, and \autoref{thm:circle-real-metric-scoped-closure} bind the topological boundary certificate, compact-metric obligations, Real metric route, and algebraic phase handoff.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:circle-carrier}, \autoref{thm:circle-namecert-obligations}, \autoref{thm:circle-sone-boundary-handoff}, \autoref{thm:circle-metric-subspace-carrier-obligation}, \autoref{thm:circle-sone-real-seal-route}, \autoref{thm:circle-compact-metric-boundary}, \autoref{thm:circle-real-metric-scope-route}, \autoref{thm:circle-real-metric-scoped-closure}, and \autoref{thm:circle-public-boundary-export} bind the topological boundary certificate, compact-metric obligations, Real metric route, algebraic phase handoff, and public boundary export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, global parametrization, quotient-angle equality, or an identification of $\CircleUp$ with $\SOneUp$.}
-  \upgradepath{Scoped closure requires checked carrier admission, boundary stability, compact-cover exactness, SOne handoff noncollapse, transport, provenance, and local naming for the same finite packet.}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global parametrization, quotient-angle equality, ambient-plane data, or an identification of $\CircleUp$ with $\SOneUp$.}
+  \upgradepath{Formal closure requires checked carrier admission, boundary stability, compact-cover exactness, SOne handoff noncollapse, transport, provenance, and local naming for the same finite packet.}
 \end{closurestatus}
