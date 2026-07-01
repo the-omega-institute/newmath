@@ -12095,6 +12095,7 @@ import BEDC.Derived.Window6EvenHolePairRecurrence
 import BEDC.Derived.Window6FactorImageCount
 import BEDC.Derived.Window6FibCubeMinDegree
 import BEDC.Derived.Window6FibEntryPointCongruence
+import BEDC.Derived.Window6LiveTailCongruence
 import BEDC.Derived.Window6FibGcdStrongDivisibility
 import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6FlippabilityMaskRecurrence
