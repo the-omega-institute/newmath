@@ -1,0 +1,11 @@
+\begin{theorem}[LuenbergerObserver observer-control lattice route]
+\label{thm:luenberger-observer-control-lattice-route}
+Every deterministic $\LuenbergerObserverUp$ correction read consumes the observer/control dependency lattice before it exposes the observer row. The route must display $\ControlObservabilityUp$ for the output-map read, $\ControlControllabilityUp$ for the finite control-side reachability boundary, $\ObservabilityGramianUp$ for the dual observability ledger, $\KalmanFilterUp$ as the stochastic-estimator boundary, $\LinearMapUp$ for the plant and gain rows, and $\StateSpaceModelUp$ for the finite state-space carrier before the rows of \autoref{def:luenberger-observer-carrier} are public.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:luenberger-observer-carrier}. Its plant, output, observer-gain, residual, and error-propagation rows are not standalone data; each is displayed against a control or state-space sibling.
+
+The observability and controllability packets supply the finite output and control lattice. The observability Gramian records the dual readback, while the Kalman-filter packet marks the estimator boundary that this deterministic observer does not internalize.
+
+The remaining rows come from the displayed linear and state-space carriers. $\LinearMapUp$ names the plant and gain maps, and $\StateSpaceModelUp$ supplies the state-space row through which those maps are read. Thus a consumer reaches the public $\LuenbergerObserverUp$ row only after the full observer/control dependency lattice is visible.
+\end{proof}
