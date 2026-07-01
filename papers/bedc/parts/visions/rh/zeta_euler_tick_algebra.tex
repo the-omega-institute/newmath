@@ -1,0 +1,369 @@
+\chapter{Zeta--Euler Tick Algebra}
+\label{ch:visions-rh-zeta-euler-tick-algebra}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-self-similar-recovered-carrier} reads
+$\mathsf{ZETA}$ as a recovered carrier assembled from Dirichlet, Euler,
+Laplace, continuation, completion, mirror, and zero-ledger rows. The
+present chapter isolates the dynamical row inside that carrier. Integers
+are finite prime-occupancy sections, prime multiplication is a tick in
+the prime ledger, $\log n$ is the energy coordinate of the section, and
+the right-half-plane zeta projection is the partition trace of the
+corresponding logarithmic Hamiltonian. The chapter is an interface
+translation; it does not close the analytic continuation, zero coverage,
+or RH obligations.
+
+\section{Prime Ledger and Logarithmic Hamiltonian}
+\label{sec:rh-zeta-euler-prime-ledger-hamiltonian}
+
+\begin{definition}[Prime-register lattice]
+\label{def:rh-zeta-euler-prime-register-lattice}
+The prime-register lattice is the finite-support abelian group
+$$
+G_{\mathbb P}:=
+\bigoplus_{p\in\mathbb P}\mathbb Z e_p,
+$$
+with positive cone
+$$
+G_{\mathbb P}^{+}:=
+\bigoplus_{p\in\mathbb P}\mathbb N e_p.
+$$
+For a positive integer
+$$
+n=\prod_p p^{v_p(n)},
+$$
+the register row is
+$$
+\nu(n):=\sum_p v_p(n)e_p\in G_{\mathbb P}^{+}.
+$$
+The row is finite by unique prime factorization.
+\end{definition}
+
+\begin{definition}[Zeta Fock carrier and Hamiltonian]
+\label{def:rh-zeta-fock-carrier-hamiltonian}
+The Zeta--Euler tick carrier is the Hilbert space
+$$
+\mathcal H_{\zeta}:=\ell^2(\mathbb N_{\ge1})
+$$
+with standard basis $\{|n\rangle:n\ge1\}$. Equivalently, it has the
+finite-excitation prime-occupancy presentation
+$$
+\mathcal H_{\zeta}
+\cong
+\bigotimes_{p\in\mathbb P}^{0}\ell^2(\mathbb N_0),
+\qquad
+|n\rangle
+\longleftrightarrow
+\bigotimes_p |v_p(n)\rangle.
+$$
+For each prime $p$, the number row is
+$$
+N_p|n\rangle:=v_p(n)|n\rangle.
+$$
+The logarithmic Hamiltonian is
+$$
+H_{\zeta}:=
+\sum_{p\in\mathbb P}(\log p)N_p,
+$$
+read on the finite-support basis. Thus
+$$
+H_{\zeta}|n\rangle=(\log n)|n\rangle.
+$$
+\end{definition}
+
+\begin{theorem}[Zeta phase flow is prime-ledger phase transport]
+\label{thm:rh-zeta-phase-flow-prime-ledger-transport}
+Let
+$$
+U_t:=e^{-itH_{\zeta}}.
+$$
+Then, for every positive integer $n$,
+$$
+U_t|n\rangle
+=
+n^{-it}|n\rangle
+=
+\prod_p e^{-itv_p(n)\log p}|n\rangle.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-zeta-fock-carrier-hamiltonian},
+$$
+H_{\zeta}|n\rangle=(\log n)|n\rangle.
+$$
+Therefore
+$$
+U_t|n\rangle=e^{-it\log n}|n\rangle=n^{-it}|n\rangle.
+$$
+Since
+$$
+\log n=\sum_p v_p(n)\log p,
+$$
+the final product form follows.
+\end{proof}
+
+\section{Trace and Euler Decomposition}
+\label{sec:rh-zeta-euler-trace-decomposition}
+
+\begin{definition}[Zeta partition trace]
+\label{def:rh-zeta-partition-trace}
+For $s=\sigma+it$ in a displayed right-half-plane convergence window, the
+Zeta--Euler partition trace is
+$$
+Z_{\mathrm{tick}}(s):=
+\operatorname{Tr}(e^{-sH_{\zeta}}),
+$$
+when the trace is licensed by absolute convergence. For a finite prime
+window $S$, the finite carrier and Hamiltonian are
+$$
+\mathcal H_S:=\bigotimes_{p\in S}\ell^2(\mathbb N_0),
+\qquad
+H_S:=\sum_{p\in S}(\log p)N_p,
+$$
+with finite-window trace
+$$
+Z_S(s):=\operatorname{Tr}_{\mathcal H_S}(e^{-sH_S}).
+$$
+\end{definition}
+
+\begin{theorem}[Right-half-plane trace is the Dirichlet projection]
+\label{thm:rh-zeta-trace-dirichlet-projection}
+On $\Re(s)>1$,
+$$
+Z_{\mathrm{tick}}(s)=\zeta_D(s).
+$$
+Equivalently,
+$$
+\operatorname{Tr}(e^{-sH_{\zeta}})
+=
+\sum_{n\ge1}e^{-s\log n}
+=
+\sum_{n\ge1}n^{-s}.
+$$
+\end{theorem}
+
+\begin{proof}
+The basis vector $|n\rangle$ is an eigenvector of $H_{\zeta}$ with
+eigenvalue $\log n$. Hence
+$$
+e^{-sH_{\zeta}}|n\rangle=e^{-s\log n}|n\rangle=n^{-s}|n\rangle.
+$$
+On $\Re(s)>1$ the diagonal series is absolutely summable, so the trace is
+the displayed sum. This is the Dirichlet projection of
+\autoref{def:rh-zeta-recovery-carrier}.
+\end{proof}
+
+\begin{theorem}[Finite-window Euler trace]
+\label{thm:rh-zeta-finite-window-euler-trace}
+For a finite prime window $S$ and $\Re(s)>0$,
+$$
+Z_S(s)
+=
+\prod_{p\in S}\frac{1}{1-p^{-s}}.
+$$
+As the prime windows cofinally exhaust $\mathbb P$, this agrees with the
+Euler projection on $\Re(s)>1$.
+\end{theorem}
+
+\begin{proof}
+On the $p$-factor, the number row has eigenvalues $k\ge0$, so
+$$
+\operatorname{Tr}(e^{-s(\log p)N_p})
+=
+\sum_{k\ge0}p^{-ks}
+=
+\frac{1}{1-p^{-s}}
+$$
+for $\Re(s)>0$. The finite tensor product trace is the product of these
+one-prime traces. The cofinal window statement is the Euler gluing row of
+\autoref{prop:rh-euler-product-prime-local-gluing}.
+\end{proof}
+
+\begin{corollary}[Energy moments of the trace]
+\label{cor:rh-zeta-energy-moments-trace}
+On $\Re(s)>1$,
+$$
+(-\partial_s)^k\zeta_D(s)
+=
+\sum_{n\ge1}(\log n)^k n^{-s}.
+$$
+In particular,
+$$
+i\partial_t\zeta_D(\sigma+it)
+=
+-\zeta_D'(\sigma+it)
+=
+\operatorname{Tr}(H_{\zeta}e^{-(\sigma+it)H_{\zeta}}).
+$$
+\end{corollary}
+
+\begin{proof}
+Absolute convergence on the displayed window licenses termwise
+differentiation. Each application of $-\partial_s$ multiplies the
+$n$-term by $\log n$. The $t$-derivative identity follows from
+$s=\sigma+it$.
+\end{proof}
+
+\section{Prime Tick and Solenoid Phase}
+\label{sec:rh-zeta-prime-tick-solenoid-phase}
+
+\begin{definition}[Prime creation tick]
+\label{def:rh-zeta-prime-creation-tick}
+For a prime $p$, the prime creation tick is the isometry
+$$
+C_p:\mathcal H_{\zeta}\to\mathcal H_{\zeta},
+\qquad
+C_p|n\rangle:=|pn\rangle.
+$$
+More generally, $C_m|n\rangle:=|mn\rangle$ for $m\ge1$. On the register
+row,
+$$
+\nu(pn)=\nu(n)+e_p.
+$$
+\end{definition}
+
+\begin{definition}[Zeta tick ledger residual]
+\label{def:rh-zeta-tick-ledger-residual}
+Let $\mathcal L\subseteq\mathcal H_{\zeta}$ be a closed ledger subspace
+and let $B\in\mathcal L$. The residual of the prime tick $p$ is
+$$
+\eta_p:=C_pB-P_{\mathcal L}C_pB,
+$$
+where $P_{\mathcal L}$ is the orthogonal projection onto $\mathcal L$.
+The tick-extended ledger is
+$$
+\mathcal L^{+}:=
+\mathcal L\oplus\overline{\operatorname{span}}\{\eta_p\}.
+$$
+\end{definition}
+
+\begin{theorem}[Prime ticks enter the ledger orthogonally]
+\label{thm:rh-zeta-prime-tick-orthogonal-ledger}
+For every closed ledger $\mathcal L$ and every prime tick $p$,
+$$
+\eta_p\perp\mathcal L.
+$$
+\end{theorem}
+
+\begin{proof}
+This is the Hilbert projection theorem applied to $C_pB$ and the closed
+subspace $\mathcal L$. The vector
+$$
+C_pB-P_{\mathcal L}C_pB
+$$
+is orthogonal to $\mathcal L$, and this vector is $\eta_p$ by
+\autoref{def:rh-zeta-tick-ledger-residual}.
+\end{proof}
+
+\begin{definition}[Finite-window Zeta solenoid phase row]
+\label{def:rh-zeta-finite-window-solenoid-phase-row}
+For a finite prime window $S$, the Zeta solenoid phase row is the
+one-parameter phase family on the $S$-prime torus with frequency vector
+$$
+\omega_p^{\zeta}:=-\log p
+\qquad
+(p\in S).
+$$
+For an integer supported in $S$,
+$$
+n=\prod_{p\in S}p^{v_p(n)},
+$$
+the associated character row is
+$$
+\chi_n:=\prod_{p\in S}\chi_p^{v_p(n)}.
+$$
+\end{definition}
+
+\begin{theorem}[Solenoid phase reads the Zeta phase]
+\label{thm:rh-zeta-solenoid-phase-reads-zeta-phase}
+Along the finite-window Zeta phase row,
+$$
+\chi_n(\tau_{\zeta,S}(t))=n^{-it}.
+$$
+\end{theorem}
+
+\begin{proof}
+By the frequency definition,
+$$
+\chi_p(\tau_{\zeta,S}(t))=e^{-it\log p}.
+$$
+Multiplying over the finite support of $n$ gives
+$$
+\chi_n(\tau_{\zeta,S}(t))
+=
+\prod_{p\in S}e^{-itv_p(n)\log p}
+=
+e^{-it\log n}
+=
+n^{-it}.
+$$
+\end{proof}
+
+\begin{principle}[Zeta phase is not a bare circle readout]
+\label{prin:rh-zeta-phase-not-bare-circle-readout}
+The visible row $n^{-it}\in\mathbb T$ is only the circle projection of the
+prime-ledger phase. The solenoid row of
+\autoref{def:rh-solenoid-phase-register} permits hidden compact
+prime-register fibres. It does not permit an independent positive real
+radial coordinate to be hidden as phase fibre.
+\end{principle}
+
+\section{Zero Closure and Li Radial Residual}
+\label{sec:rh-zeta-zero-li-radial-residual}
+
+\begin{definition}[Li radial residual]
+\label{def:rh-zeta-li-radial-residual}
+For a nonzero zero-coordinate $\rho$, its Li coordinate is
+$$
+z_{\rho}:=1-\frac1{\rho}.
+$$
+Writing
+$$
+z_{\rho}=e^{\ell_{\rho}+i\theta_{\rho}},
+$$
+the real number
+$$
+\ell_{\rho}:=\log|z_{\rho}|
+$$
+is the Li radial residual.
+\end{definition}
+
+\begin{theorem}[Li radial residual is the fixed-half test]
+\label{thm:rh-zeta-li-radial-residual-fixed-half-test}
+For $\rho=\beta+i\gamma$ with $\rho\ne0$,
+$$
+\ell_{\rho}=0
+\quad\Longleftrightarrow\quad
+\beta=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+The equality $\ell_{\rho}=0$ is equivalent to $|z_{\rho}|=1$. Since
+$$
+z_{\rho}=\frac{\rho-1}{\rho},
+$$
+this is equivalent to
+$$
+|\rho-1|=|\rho|.
+$$
+Writing $\rho=\beta+i\gamma$, the squared equality is
+$$
+(\beta-1)^2+\gamma^2=\beta^2+\gamma^2,
+$$
+which reduces to $\beta=1/2$.
+\end{proof}
+
+\begin{principle}[Zeta--Euler tick algebra proof boundary]
+\label{prin:rh-zeta-euler-tick-algebra-proof-boundary}
+The Zeta--Euler tick algebra supplies the following translation:
+prime-register ticks generate finite-support integer sections, the
+logarithmic Hamiltonian reads their energy, the right-half-plane trace
+recovers the Dirichlet projection, the finite-window trace recovers the
+Euler product, and the Li radial residual measures departure from the
+fixed-half surface. The remaining RH-facing source statement is not any
+of these identities. It is the exclusion of a nonzero archimedean radial
+residual from every accepted completed zero packet, in the presence of
+the continuation, completion, solenoid, and zero-coverage ledgers.
+\end{principle}
