@@ -478,6 +478,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-01T17:57:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport` (flag `isolated_theorem`, finding `isolated_theorem:bishopcompletioncomparison:BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_boundary_transport:28772705`). Rationale: The theorem is not disposable staging: the paper chapter uses the boundary-transport claim in the BishopCompletionComparison public route, but Lean had no downstream symbol reference. I added a sibling consumer, BEDC.Derived.BishopCompletionComparisonUp.BishopCompletionComparisonCarrier_transport_real_route, which combines the boundary transport certificate with the existing Real route certificate over the same carrier, replay, provenance, and package data. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-01T19:12:14Z: `resolved` `add_downstream_user` for `BEDC.Derived.DoCalculusUp.DoCalculusDisplayedPrefixSubledger_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.DoCalculusUp.DoCalculusDisplayedPrefixSubledger_closure:ca6316a6`). Rationale: The target was not paper-marked and grep showed no prior downstream references, but its statement carries real BEDC content: it packages the displayed prefix subledger into a SemanticNameCert plus prefix and retained UnaryHistory closure. I kept the theorem and made the existing scoped closure route consume it directly, replacing a duplicate local derivation of the same prefix/retained closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
