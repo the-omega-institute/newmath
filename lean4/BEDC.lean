@@ -13413,6 +13413,7 @@ import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6AdditiveEnergyRecurrence
 import BEDC.Derived.Window6BetweennessOrderFour
+import BEDC.Derived.Window6ClosedZeroFlattenBijection
 import BEDC.Derived.Window6ConvexColumnTripleRecurrence
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6CyclicOrthogonalityQuartetRecurrence
