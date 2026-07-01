@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\FloydWarshallClosureUp$}
+\label{ch:concrete-instances-floyd-warshall-closure-namecert}
+\origin{human}
+
+Following Floyd and Warshall, finite all-pairs shortest-path closure is read here as a stage-indexed matrix certificate rather than as an ambient graph-theoretic oracle. The $\FloydWarshallClosureUp$ packet sits after the finite graph rows of \autoref{ch:concrete-instances-graph-namecert}, the single-path ledger of \autoref{ch:concrete-instances-shortestpath-namecert}, the matrix surface of \autoref{ch:concrete-instances-matrix-namecert}, the finite order and natural-stage rows of $\OrderUp$ and $\NatUp$, and the nonnegative weight seal of $\RealUp$. It records the all-pairs closure route consumed by finite algorithm certificates, not negative-cycle detection, choice of a canonical path representative, quotient equality of paths, or ambient completeness of weights.
+
+\begin{definition}[FloydWarshallClosure certificate]
+\label{def:floyd-warshall-closure-certificate}
+A $\FloydWarshallClosureUp$ certificate is a finite $\BHist$ packet
+$$
+F=(G,W,D,K,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GraphUp$ row listing vertices and directed edge incidence.
+\item $W$ is the nonnegative weight row, read through $\RealUp$ and the finite order surface of $\OrderUp$.
+\item $D$ is the distance-matrix row, read as a finite $\MatrixUp$ table indexed by ordered vertex pairs.
+\item $K$ is the $\NatUp$ intermediate-vertex stage index, displaying the finite order in which vertices are admitted as possible internal nodes.
+\item $R$ is the relaxation table; its $k,i,j$ entry records the displayed comparison between the old distance $D_{ij}$ and the routed candidate $D_{ik}+D_{kj}$.
+\item $H$ records componentwise $\hsame$ transports for the graph, weight, matrix, stage, and relaxation rows.
+\item $C$ records displayed $\Cont$ replays of the finite relaxation passes.
+\item $P$ is the $\Pkg$ provenance over $\FloydWarshallClosureUp$, $\GraphUp$, $\ShortestPathUp$, $\MatrixUp$, $\OrderUp$, $\NatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FloydWarshallClosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,W,D,K,R,H,C,P,N$. It has no coordinate for an infinite graph, a selected global path representative, a negative-cycle oracle, quotient path equality, or an ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[FloydWarshallClosure NameCert obligations]
+\label{thm:floyd-warshall-closure-namecert-obligations}
+For every accepted $\FloydWarshallClosureUp$ certificate $F=(G,W,D,K,R,H,C,P,N)$, the local $\NameCert_{\FloydWarshallClosureUp}$ surface consists exactly of finite graph admission, nonnegative weight exposure, matrix-entry exposure, intermediate-stage admission, relaxation-table exactness, componentwise transport, continuation replay, package provenance, and local naming. Every all-pairs shortest-path consumer must read those rows before interpreting the matrix $D$ as a closed distance table.
+\end{theorem}
+\begin{proof}
+Project the certificate of \autoref{def:floyd-warshall-closure-certificate}. The rows $G,W,D,K,R$ are the only graph, weight, distance-matrix, stage, and relaxation data available to a consumer.
+
+The relaxation obligation is finite because $K$ lists the displayed intermediate vertices and $D$ is a finite $\MatrixUp$ table over ordered vertex pairs. For each $k,i,j$, the row $R$ stores the comparison between the previous entry and the route through $k$, so no hidden shortest-path oracle is needed.
+
+Transport and replay preserve the same displayed rows. Componentwise $\hsame$ through $H$ cannot add a new graph, weight, or path representative, and the $\Cont$ replay through $C$ only replays the listed relaxation passes.
+
+Finally $P$ and $N$ source and name the same finite packet. Since the carrier contains no infinite graph, negative-cycle oracle, quotient path equality, selected representative, or ambient completeness row, the local NameCert surface is exactly the displayed all-pairs closure certificate.
+\end{proof}
+
+\begin{theorem}[FloydWarshallClosure induction invariant]
+\label{thm:floyd-warshall-closure-induction-invariant}
+Let $F=(G,W,D,K,R,H,C,P,N)$ be an accepted $\FloydWarshallClosureUp$ certificate. Inducting over the displayed intermediate-vertex row $K$, after the stage prefix $k$ every matrix entry in $D$ records the least displayed route whose internal vertices are drawn from that prefix, as witnessed by the relaxation entries of $R$ and the nonnegative weight comparisons in $W$. The invariant is transported only through $H$ and replayed only through $C$.
+\end{theorem}
+\begin{proof}
+At the empty stage prefix, the matrix row $D$ reads only the direct graph edges and diagonal entries exposed by $G$ and $W$. The order and nonnegativity rows make each base comparison visible without selecting an external path representative.
+
+For the successor stage, expose the next intermediate vertex from $K$. For each ordered pair $i,j$, the relaxation row $R$ compares the previous entry with the displayed routed candidate through that vertex. The finite order row decides which displayed entry is retained in the certificate table.
+
+The induction step is componentwise over the matrix indices. Because the matrix is finite, the proof rebuilds the invariant entry-by-entry, using only rows already present in $G,W,D,K,R$.
+
+Transport through $H$ and replay through $C$ preserve that finite inventory. They cannot introduce a hidden path oracle, quotient path equality, or ambient real-completeness principle, so the induction invariant remains the displayed Floyd-Warshall stage invariant.
+\end{proof}
+
+\begin{theorem}[FloydWarshallClosure shortest-path handoff]
+\label{thm:floyd-warshall-closure-shortestpath-handoff}
+Every $\ShortestPathUp$ or finite algorithm consumer of an accepted $\FloydWarshallClosureUp$ certificate must read the route
+$$
+G,W,D,K,R,H,C,P,N
+$$
+before using any all-pairs distance entry. The handoff interprets each selected source-target entry of $D$ through the finite graph row, nonnegative weight row, stage induction row, and relaxation table, not through a detached Dijkstra ledger, Bellman--Ford ledger, quotient path equality, or selected global path representative.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:floyd-warshall-closure-namecert-obligations}. They require every consumer to expose the graph, weight, matrix, stage, relaxation, transport, replay, provenance, and naming rows before the matrix can be read as closed.
+
+Apply the induction invariant of \autoref{thm:floyd-warshall-closure-induction-invariant}. It identifies each matrix entry after the final stage as the result of the finite relaxation pass over the displayed intermediate-vertex row $K$.
+
+A $\ShortestPathUp$ consumer can therefore project a single source-target entry only after the all-pairs closure route has been read. The projected entry remains tied to $G,W,D,K,R,H,C,P,N$.
+
+The packet has no coordinate for a detached single-source ledger, a selected global path representative, quotient path equality, negative-cycle detection, or ambient completeness of weights. Thus the shortest-path handoff is the displayed finite closure certificate itself.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FloydWarshallClosureUp$ all-pairs read exposes one finite Graph row, one nonnegative weight row, one Matrix distance table, one Nat stage row, one relaxation table, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before a shortest-path consumer reads a distance entry.}
+
+\independenceWitness{graph, shortestpath, matrix, order, nat, real: $\FloydWarshallClosureUp$ is not bijective to any listed sibling because it jointly carries the finite all-pairs distance matrix, the displayed intermediate-stage row, and the relaxation table in one NameCert packet.}
+
+\closureat{FloydWarshallClosureUp}{seedStr}
+
+\begin{closurestatus}{\FloydWarshallClosureUp}
+  \constructivestory{A $\FloydWarshallClosureUp$ packet is generated from a finite graph row, nonnegative weight row, finite distance matrix, intermediate-vertex stage index, relaxation table, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:floyd-warshall-closure-certificate}, \autoref{thm:floyd-warshall-closure-namecert-obligations}, \autoref{thm:floyd-warshall-closure-induction-invariant}, and \autoref{thm:floyd-warshall-closure-shortestpath-handoff} seed the finite all-pairs shortest-path closure certificate and its handoff to shortest-path consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close negative-cycle detection, selected global path representatives, quotient path equality, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, relaxation-table exactness, stage induction, transport stability, replay stability, provenance, and local naming for BEDC.Derived.FloydWarshallClosureUp.}
+\end{closurestatus}
