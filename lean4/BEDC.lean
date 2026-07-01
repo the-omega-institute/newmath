@@ -13522,6 +13522,7 @@ import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
+import BEDC.Derived.Window6ZeroMarkGaloisClosure
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
