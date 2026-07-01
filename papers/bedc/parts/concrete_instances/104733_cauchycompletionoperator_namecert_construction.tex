@@ -64,6 +64,24 @@ The structural rows $H,C,P,N$ preserve this route under transport, replay it as 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorFunctorialHandoff}
 
+\begin{theorem}[CauchyCompletionOperator triangle consumption route]
+\label{thm:cauchy-completion-operator-triangle-consumption-route}
+Every accepted $\CauchyCompletionOperatorUp$ packet consumed by $\CauchyCompletionFunctorialityUp$ or $\SeparatedCompletionFunctorUp$ for an identity or composition triangle read must route through
+$$
+M,U \longmapsto B \longmapsto S,R,D \longmapsto Q,E \longmapsto H,C,P,N .
+$$
+The triangle read cannot bypass the completion-boundary row $B$, the finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, or the separated-limit handoff $Q$. It exports no quotient completion equality, selected representative, countable-choice schedule, host equality, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-operator-carrier}. The only available rows are $M,B,U,S,R,D,Q,E,H,C,P,N$, so an identity or composition triangle consumer has no detached completion endpoint to inspect.
+
+Apply \autoref{thm:cauchy-completion-operator-functorial-handoff}. It places the metric and uniform source rows before $B$, then forces every completion-facing read through the finite windows, regular readback, dyadic tolerance ledger, separated-limit handoff, Real seal, transport, replay, provenance, and local naming.
+
+The downstream consumers are the functorial completion surface of \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert} and the separated completion functor of \autoref{ch:concrete-instances-separated-completion-functor-namecert}. Both may consume the operator packet only through the displayed route, so their triangle reads inherit the same completion-boundary and finite-window order.
+
+The exclusion clause follows from the carrier inventory. None of quotient completion equality, selected representatives, selected limits, countable choice, host equality, or ambient Real completeness is a coordinate of the accepted packet.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionOperator finite-window extraction]
 \label{thm:cauchy-completion-operator-window-extraction}
 Every accepted $\CauchyCompletionOperatorUp$ packet exposes its completion-facing request through a finite extraction window before any separated-limit or Real endpoint row is available. The extracted window consists exactly of the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the completion-boundary row $B$, and the structural rows $H,C,P,N$ that transport, replay, source, and name the same finite packet.
