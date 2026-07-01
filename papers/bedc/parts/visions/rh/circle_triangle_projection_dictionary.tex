@@ -1,0 +1,316 @@
+\chapter{Circle-Triangle Projection Dictionary}
+\label{ch:visions-rh-circle-triangle-projection-dictionary}
+\origin{ai}
+
+\autoref{ch:visions-rh-circle-triangle-hidden-scale-generation} isolates
+the common generator behind the RH-facing route: generated time,
+unit-circle phase, orthogonal triangle readout, Zeckendorf--prime ledger,
+Li scale-phase coordinates, and hidden-scale refusal. The present chapter
+records how the familiar RH criteria are read as projections of that one
+generator. The point is not to replace their analytic content with a
+name. It is to prevent the proof search from treating Li positivity,
+Weil positivity, Nyman exhaustion, Lee--Yang boundary stability, branch
+dominance, and tower cofinality as unrelated obligations.
+
+\section{Common Generator}
+\label{sec:rh-circle-triangle-projection-common-generator}
+
+\begin{definition}[RH circle-triangle-register generator]
+\label{def:rh-circle-triangle-register-generator}
+An RH circle-triangle-register generator is a certificate packet
+$$
+\mathcal R_{\zeta}
+:=
+\bigl(
+\mathcal G,
+\mathsf{PrimeReg},
+\mathsf{ZeroRead},
+\mathsf{LiRead},
+\mathsf{OrthRead},
+\mathsf{NoScale}
+\bigr)
+$$
+whose rows are as follows. The row $\mathcal G$ is a
+circle-triangle generation packet in the sense of
+\autoref{def:rh-circle-triangle-generation-packet}. The prime-register
+row is the source ledger of
+\autoref{def:rh-zeta-prime-register-readout}. The zero-read row carries
+completed non-trivial zero packets. The Li-read row carries
+$z_{\rho}=1-1/\rho$. The orthogonal-read row carries the scale-phase
+defect split of
+\autoref{thm:rh-li-observation-defect-scale-phase-split}. The no-scale
+row is $\mathsf{NoHiddenScaleFromBEDC}(\mathcal G)$.
+\end{definition}
+
+\begin{principle}[Projection discipline for RH criteria]
+\label{prin:rh-projection-discipline-for-criteria}
+A classical RH criterion is accepted into this dictionary only as a
+projection of $\mathcal R_{\zeta}$ with a declared visible surface, a
+declared hidden fiber or residual ledger, and a declared transport back
+to the zero-read row. A projection may expose time coefficients, energy
+forms, approximation containers, finite thermal boundaries, branch
+dominance, or cofinal tower exhaustion. It may not erase the radial scale
+residual unless the no-scale row has been supplied.
+\end{principle}
+
+\begin{definition}[Projection row]
+\label{def:rh-circle-triangle-projection-row}
+A projection row of $\mathcal R_{\zeta}$ is a tuple
+$$
+\Pi
+:=
+\bigl(
+V_{\Pi},
+\pi_{\Pi}:\mathcal R_{\zeta}\to V_{\Pi},
+\Lambda_{\Pi},
+\mathsf{Back}_{\Pi}
+\bigr).
+$$
+Here $V_{\Pi}$ is the visible criterion surface, $\pi_{\Pi}$ is the
+readout, $\Lambda_{\Pi}$ is the residual ledger retained by that readout,
+and $\mathsf{Back}_{\Pi}$ is the transport that converts a violation or
+positivity certificate on $V_{\Pi}$ back into a statement about the
+zero-read row.
+\end{definition}
+
+\section{Classical Projections}
+\label{sec:rh-circle-triangle-classical-projections}
+
+\begin{definition}[Li time projection]
+\label{def:rh-li-time-projection}
+The Li time projection reads the iterates
+$$
+z_{\rho}^n
+$$
+of the Li coordinate. Its visible surface is the time sequence of
+defects
+$$
+1-z_{\rho}^n.
+$$
+Under a scale-phase read
+$$
+z_{\rho}=e^{\ell+i\theta},
+$$
+the defect norm splits as
+$$
+|1-z_{\rho}^n|^2
+=
+(e^{n\ell}-1)^2
++
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+Thus the Li surface is the time projection of hidden radial scale.
+\end{definition}
+
+\begin{principle}[Li positivity is a time-facing no-scale test]
+\label{prin:rh-li-positivity-time-facing-no-scale-test}
+Li positivity asks whether the time projection can detect a radial scale
+leg. If $\ell\#0$, the factor $e^{n\ell}$ is amplified along the append
+order. Any Li-side positivity theorem that rules out the resulting
+negative or unbounded time witness is therefore a projection of
+$\mathsf{NoHiddenScaleFromBEDC}$, not an independent source of the unit
+circle.
+\end{principle}
+
+\begin{definition}[Weil energy projection]
+\label{def:rh-weil-energy-projection}
+The Weil energy projection reads the zero packet through a quadratic
+test form
+$$
+\mathcal W(f)
+$$
+whose visible surface is an energy pairing of zero-side probes. Its
+residual ledger records which mirror-paired zero packets and test
+functions were used. An off-line mirror pair supplies an energy channel
+whose sign can be reversed by an appropriate probe; the projection
+therefore detects the same radial leg as an energy defect.
+\end{definition}
+
+\begin{principle}[Weil positivity is an energy-facing no-scale test]
+\label{prin:rh-weil-positivity-energy-facing-no-scale-test}
+Weil positivity is the energy projection of the no-hidden-scale row. A
+nonzero radial coordinate creates a separated mirror-pair channel, and a
+test function can read that separation as negative energy. A positive
+Weil form closes precisely the projection route that would otherwise let
+radial scale appear as a hidden energy defect.
+\end{principle}
+
+\begin{definition}[Nyman container projection]
+\label{def:rh-nyman-container-projection}
+The Nyman container projection reads the zero packet through a closed
+linear span of scaling correctors in a function space on $(0,1)$. Its
+visible surface is the approximation of the target container row, and
+its residual ledger records separating functionals. If an off-line zero
+survives, it produces a functional that annihilates the displayed
+generators while not annihilating the target row. The unexhausted
+functional is the container-side residue of hidden radial scale.
+\end{definition}
+
+\begin{principle}[Nyman exhaustion is a container-facing no-scale test]
+\label{prin:rh-nyman-exhaustion-container-facing-no-scale-test}
+Nyman exhaustion asks whether the legal scaling generators fill the
+container without leaving a residual functional. In the dictionary, such
+a residual functional is the projection of $\ell\#0$ into the container
+surface. Closing the Nyman span is therefore a container-facing form of
+the no-hidden-scale obligation.
+\end{principle}
+
+\begin{definition}[Lee--Yang unit-boundary projection]
+\label{def:rh-lee-yang-unit-boundary-projection}
+The Lee--Yang unit-boundary projection reads finite thermal or algebraic
+models whose zero sets are forced to a unit circle by a finite positivity
+or ferromagnetic monotonicity row. Its visible surface is a unit boundary
+in the finite model. Its residual ledger records which finite
+interactions, variables, and specialization maps preserve the
+unit-boundary statement.
+\end{definition}
+
+\begin{principle}[Lee--Yang boundary is a finite unit model]
+\label{prin:rh-lee-yang-boundary-finite-unit-model}
+Lee--Yang boundary stability is a finite model of the same constraint
+as $\ell=0$: zeros may occur only on the unit boundary licensed by the
+finite packet. It does not by itself prove the zeta zero statement; it
+supplies a projection pattern showing how finite positivity can enforce
+unit-circle localization without adding an independent radial register.
+\end{principle}
+
+\section{Dominance and Cofinality Projections}
+\label{sec:rh-circle-triangle-dominance-cofinality}
+
+\begin{definition}[Dominant-strand projection]
+\label{def:rh-dominant-strand-projection}
+The dominant-strand projection records which branch, strand, or
+finite-window carrier actually controls the visible zero-relevant
+surface. Its residual ledger records branch choices, comparison windows,
+and maximal-modulus or endpoint dominance rows. A branch point or
+spectral component is not accepted as the controlling observation merely
+because it is visible; dominance must be certified as part of the
+projection row.
+\end{definition}
+
+\begin{principle}[Dominance prevents false projection collapse]
+\label{prin:rh-dominance-prevents-false-projection-collapse}
+Dominant-branch theorems are projection-correctness tests. They prevent a
+visible but non-dominant strand from being mistaken for the zero-relevant
+generator. In the circle-triangle route, such theorems ensure that the
+scale-phase leg being tested is the controlling observation vector rather
+than a discarded or subordinate branch.
+\end{principle}
+
+\begin{definition}[Tower cofinality projection]
+\label{def:rh-tower-cofinality-projection}
+The tower cofinality projection reads a growing family of finite
+observation spaces
+$$
+\mathcal H_0\subset\mathcal H_1\subset\cdots
+$$
+with orthogonal residuals
+$$
+v_{m+1}
+=
+P_m v_{m+1}+\eta_{m+1},
+\qquad
+\eta_{m+1}\perp\mathcal H_m.
+$$
+The visible invariant is
+$$
+|v_{m+1}|^2
+=
+|P_m v_{m+1}|^2+|\eta_{m+1}|^2.
+$$
+Cofinality asserts that the legal tower exhausts the zero-relevant
+observation surface rather than leaving a residual functional.
+\end{definition}
+
+\begin{principle}[Tower cofinality is the infinite no-scale test]
+\label{prin:rh-tower-cofinality-infinite-no-scale-test}
+The infinite part of the RH route is not a search through unrelated
+criteria. It is the question whether the fixed generator and its finite
+observation windows are cofinal. If a nonzero residual remains outside
+the tower, it is read as a separating functional, an unexhausted scale
+leg, or a missing source row. The finite Pick tower and the xi Hausdorff
+moment audit are analytic implementations of this cofinality projection.
+\end{principle}
+
+\section{Minimal Proof Package}
+\label{sec:rh-circle-triangle-minimal-proof-package}
+
+\begin{definition}[Prime-register completeness]
+\label{def:rh-prime-register-completeness}
+Prime-register completeness is the source statement that every zeta
+oscillation frequency used by the Dirichlet row is generated by the
+prime exponent ledger:
+$$
+n=\prod_p p^{v_p(n)},
+\qquad
+\log n=\sum_p v_p(n)\log p.
+$$
+It supplies the arithmetic part of the generator and prevents zeta phase
+from being treated as an unledgered continuous frequency.
+\end{definition}
+
+\begin{definition}[Circular-triangular observation completeness]
+\label{def:rh-circular-triangular-observation-completeness}
+Circular-triangular observation completeness is the statement that every
+zero-relevant completed zeta observation has the Li coordinate and
+orthogonal defect split of
+\autoref{def:rh-li-zero-coordinate} and
+\autoref{thm:rh-li-observation-defect-scale-phase-split}, with the
+source ledgers of $\mathcal R_{\zeta}$ still attached.
+\end{definition}
+
+\begin{definition}[No hidden radial register]
+\label{def:rh-no-hidden-radial-register}
+No hidden radial register is the specialization of
+\autoref{def:rh-no-hidden-scale-from-bedc-row} to zero-relevant zeta
+observations. A nonzero radial coordinate
+$$
+\ell\#0
+$$
+is neither a unit-circle phase, nor a prime-exponent gauge, nor a free
+continuous coordinate. It must either enter the ledger as a residual
+scale row, in which case the object is not pure phase closure, or remain
+unavailable, in which case the object is not legal.
+\end{definition}
+
+\begin{theorem}[Minimal generator package is conditionally RH-sufficient]
+\label{thm:rh-minimal-generator-package-conditionally-sufficient}
+Assume prime-register completeness, circular-triangular observation
+completeness, no hidden radial register, and the located readback needed
+to turn absence of radial apartness into equality. Then the BEDC RH
+section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be a completed non-trivial zero packet. Circular-triangular
+observation completeness supplies
+$$
+z_{\rho}=1-\frac1{\rho}=e^{\ell+i\theta}
+$$
+and the defect split
+$$
+|1-z_{\rho}^n|^2
+=
+(e^{n\ell}-1)^2
++
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+If $\ell\#0$, the radial term is a nonzero scale leg. By no hidden
+radial register, that leg cannot be absorbed into unit phase or into the
+prime-register row supplied by prime-register completeness. If it is
+recorded, the object is not pure phase closure; if it is not recorded,
+the object is not legal. Thus the radial coordinate is not apart from
+zero. The located readback gives $\ell=0$, hence $|z_{\rho}|=1$. By
+\autoref{thm:rh-li-circle-criterion}, $\Re(\rho)=1/2$. Since the zero
+packet was arbitrary, the section target is inhabited.
+\end{proof}
+
+\begin{principle}[Status of the projection dictionary]
+\label{prin:rh-circle-triangle-projection-dictionary-status}
+The projection dictionary identifies a common source mechanism for the
+major RH-facing criteria. It does not claim that any of the projected
+analytic theorems has already been discharged. The remaining proof load
+is the construction of the generator packet $\mathcal R_{\zeta}$, the
+no-hidden-radial-register theorem, and a cofinal analytic implementation
+such as the finite Pick tower or the xi Hausdorff moment audit.
+\end{principle}

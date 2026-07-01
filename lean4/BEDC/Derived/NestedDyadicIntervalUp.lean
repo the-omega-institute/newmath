@@ -384,4 +384,44 @@ theorem NestedDyadicIntervalPacket_prefix_truncation_stability [AskSetup] [Packa
     ⟨firstCutUnary, nextCutUnary, scheduleCutUnary, refinementCutUnary, provenanceUnary,
       ledgerCutUnary, endpointCutUnary, refinementCutRow, endpointCutRow, endpointCutPkg⟩
 
+theorem NestedDyadicIntervalPacket_standard_bridge_window [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint refinementRead sharedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint bundle pkg ->
+      Cont refinement ledger refinementRead ->
+        PkgSig bundle refinementRead pkg ->
+          Cont schedule refinement sharedEndpoint ->
+            PkgSig bundle sharedEndpoint pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    NestedDyadicIntervalPacket first next schedule refinement provenance ledger
+                        endpoint bundle pkg ∧ hsame row endpoint)
+                  (fun row : BHist =>
+                    NestedDyadicIntervalPacket first next schedule refinement provenance ledger
+                        endpoint bundle pkg ∧ hsame row endpoint)
+                  (fun row : BHist =>
+                    NestedDyadicIntervalPacket first next schedule refinement provenance ledger
+                        endpoint bundle pkg ∧ hsame row endpoint)
+                  hsame ∧
+                UnaryHistory refinementRead ∧ hsame endpoint sharedEndpoint ∧
+                  PkgSig bundle sharedEndpoint pkg := by
+  intro packet refinementReadRow refinementReadPkg sharedEndpointRow sharedEndpointPkg
+  have publicExport :=
+    NestedDyadicIntervalPacket_public_finite_window_export
+      (first := first) (next := next) (schedule := schedule) (refinement := refinement)
+      (provenance := provenance) (ledger := ledger) (endpoint := endpoint)
+      (bundle := bundle) (pkg := pkg) packet
+  have adjacentCoverage :=
+    NestedDyadicIntervalPacket_adjacent_refinement_coverage
+      (first := first) (next := next) (schedule := schedule) (refinement := refinement)
+      (provenance := provenance) (ledger := ledger) (endpoint := endpoint)
+      (refinementRead := refinementRead) (bundle := bundle) (pkg := pkg) packet
+      refinementReadRow refinementReadPkg
+  have endpointRow : Cont schedule refinement endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sameEndpoint : hsame endpoint sharedEndpoint :=
+    cont_respects_hsame (hsame_refl schedule) (hsame_refl refinement) endpointRow
+      sharedEndpointRow
+  exact ⟨publicExport.left, adjacentCoverage.left, sameEndpoint, sharedEndpointPkg⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp

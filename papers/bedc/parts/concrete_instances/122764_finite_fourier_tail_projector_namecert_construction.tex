@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteFourierTailProjectorUp$}
+\label{ch:concrete-instances-finite-fourier-tail-projector-namecert}
+\origin{human}
+
+Following Fourier and Fejer, the $\FiniteFourierTailProjectorUp$ packet records the finite tail-projection surface used when a displayed Fourier series is inspected only beyond a named cutoff. It sits after the coefficient-window packet of \autoref{ch:concrete-instances-fourier-series-namecert}, the symmetric partial-sum kernel of \autoref{ch:concrete-instances-dirichlet-kernel-namecert}, the positive averaging sibling of \autoref{ch:concrete-instances-fejer-kernel-namecert}, the real-series corridor of \autoref{ch:concrete-instances-realseries-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a constructive finite projector: it does not assert Fourier convergence, host function equality, quotient coefficient streams, countable choice, or a selected infinite tail limit.
+
+\begin{definition}[Finite Fourier tail projector carrier]
+\label{def:finite-fourier-tail-projector-carrier}
+A $\FiniteFourierTailProjectorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,A,W,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the cutoff row, naming the first frequency excluded from the head window and the finite right endpoint of the inspected tail window.
+\item $A$ is the coefficient-prefix row inherited from the $\FourierSeriesUp$ packet, including the finite coefficient names that determine the inspected partial sums.
+\item $W$ is the finite tail-window row, listing exactly the frequencies whose coefficients are projected into the tail read.
+\item $D$ is the $\DyadicRatCoreUp$ frequency ledger, storing the dyadic tolerance, frequency bounds, and finite comparison scale used by the projector.
+\item $S$ is the $\RealSeriesUp$ partial-sum row for the displayed tail block.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from $S$ and $D$.
+\item $E$ is the terminal $\RealUp$ seal for the projected tail block, readable only after $K,A,W,D,S,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for cutoff, coefficient prefix, tail window, dyadic ledger, series row, readback, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a Fourier-series request through the tail projector and into the same finite tail-window read.
+\item $P$ is the $\Pkg$ provenance over $\FiniteFourierTailProjectorUp$, $\FourierSeriesUp$, $\DirichletKernelUp$, $\FejerKernelUp$, $\RealSeriesUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteFourierTailProjectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $K,A,W,D,S,R,E,H,C,P,N$. It has no coordinate for host function equality, a quotient coefficient stream, an unbounded tail predicate, countable choice, Fourier convergence, or a selected infinite sum.
+\end{definition}
+
+\begin{theorem}[Finite Fourier tail projector NameCert obligations]
+\label{thm:finite-fourier-tail-projector-namecert-obligations}
+For every accepted $\FiniteFourierTailProjectorUp$ carrier
+$$
+T=(K,A,W,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteFourierTailProjectorUp}$ surface consists exactly of cutoff admission through $K$, coefficient-prefix exposure through $A$, finite tail-window admission through $W$, dyadic frequency-ledger exactness through $D$, $\RealSeriesUp$ tail-block readback through $S$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The cutoff row $K$ fixes the boundary between the head coefficients and the tail block, while $A$ supplies only the finite coefficient prefix already visible to the $\FourierSeriesUp$ packet.
+
+Read the projector window next. The row $W$ lists the displayed frequencies, and $D$ records the dyadic scale at which those frequencies and their coefficient reads are inspected. Thus the projector is a finite window operation before any real-facing seal is available.
+
+The tail read then passes through $S,R,E$. The $\RealSeriesUp$ row $S$ records the displayed tail-block partial sum, $R$ gives the regular rational readback, and $E$ seals that endpoint as a $\RealUp$ row only after the preceding data have been projected.
+
+Finally $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since no row stores host function equality, a quotient coefficient stream, Fourier convergence, countable choice, or a selected infinite tail limit, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Finite Fourier tail projector Fourier-series handoff]
+\label{thm:finite-fourier-tail-projector-fourier-series-handoff}
+Every $\FourierSeriesUp$, $\DirichletKernelUp$, or $\FejerKernelUp$ consumer of an accepted $\FiniteFourierTailProjectorUp$ packet reaches the projected tail only through the finite route
+$$
+\FourierSeriesUp \longmapsto \FiniteFourierTailProjectorUp \longmapsto \RealSeriesUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The handoff may compare the projected block with Dirichlet or Fejer kernel windows, but it cannot replace the carrier rows by host function equality, quotient coefficient streams, pointwise convergence, countable choice, or a selected infinite tail.
+\end{theorem}
+\begin{proof}
+Begin with the Fourier-series source. The coefficient-prefix row $A$ is read as finite $\FourierSeriesUp$ data, not as a completed coefficient stream.
+
+Apply the tail projector. The cutoff $K$ and tail window $W$ identify the finite block that may be passed to a kernel-facing or series-facing consumer, and the dyadic ledger $D$ fixes the comparison scale for that block.
+
+Read the real-facing rows. The tail block enters $\RealSeriesUp$ through $S$, then $\RegSeqRatUp$ through $R$, and finally the terminal $\RealUp$ seal through $E$. Dirichlet and Fejer consumers may inspect the same displayed window only through their named kernel rows.
+
+The structural rows $H,C,P,N$ keep the handoff inside the local certificate. Therefore the route exports a finite Fourier tail projection certificate rather than convergence, quotient equality, choice, or a selected limit.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteFourierTailProjectorUp$ read exposes a cutoff row, coefficient-prefix row, finite tail window, dyadic frequency ledger, RealSeriesUp tail-block row, RegSeqRatUp readback, RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert data before a Fourier-series or kernel consumer receives the projected tail.}
+
+\independenceWitness{fourier-series, dirichlet-kernel, fejer-kernel, realseries, regseqrat, dyadicratcore, real: $\FiniteFourierTailProjectorUp$ is not bijective to any listed sibling because it jointly binds a cutoff, coefficient prefix, finite tail window, dyadic frequency ledger, tail-block series row, regular rational readback, real seal, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteFourierTailProjectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteFourierTailProjectorUp}
+  \constructivestory{A $\FiniteFourierTailProjectorUp$ packet is generated from a cutoff row, coefficient-prefix row, finite tail window, DyadicRatCore frequency ledger, RealSeries tail-block row, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-fourier-tail-projector-carrier}, \autoref{thm:finite-fourier-tail-projector-namecert-obligations}, \autoref{thm:finite-fourier-tail-projector-fourier-series-handoff}, the falsifiable prediction, and the independence witness seed the finite Fourier tail-projection packet over displayed coefficient windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Fourier convergence, pointwise convergence, host function equality, quotient coefficient streams, countable choice, selected infinite tails, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cutoff exactness, coefficient-prefix exposure, finite tail-window admission, dyadic frequency-ledger stability, RealSeries readback, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local ledgering for BEDC.Derived.FiniteFourierTailProjectorUp.}
+\end{closurestatus}

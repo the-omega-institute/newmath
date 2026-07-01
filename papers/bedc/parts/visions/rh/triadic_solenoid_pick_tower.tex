@@ -1,0 +1,391 @@
+\chapter{Triadic Solenoid Pick Tower}
+\label{ch:visions-rh-triadic-solenoid-pick-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-phase-triangle-prime-register-readout} isolates
+the source-side obligation behind the phase-prime-triangle reading:
+completed zeta must enter as a certificate-bearing object, and its Pick
+positivity must be produced from source data rather than from a posteriori
+zero information. The present chapter records the finite tower that makes
+that obligation concrete. Each finite layer builds a positive Pick kernel
+from a finite solenoid source, positive spectral atoms, and a Hilbert
+factorization. The remaining unclosed content is the convergence of this
+finite tower to the completed zeta kernel.
+
+\section{Finite Solenoid Sources}
+\label{sec:rh-triadic-solenoid-finite-sources}
+
+\begin{definition}[Triadic solenoid Pick layer]
+\label{def:rh-triadic-solenoid-pick-layer}
+A triadic solenoid Pick layer is a finite packet
+$$
+\mathcal T_m
+:=
+\bigl(
+S_m,\Sigma_{S_m},
+(\gamma_{m,j})_{j=1}^{N_m},
+(\alpha_{m,j})_{j=1}^{N_m},
+(c_{m,j})_{j=1}^{N_m}
+\bigr)
+$$
+with the following rows:
+$$
+S_m\subset\PrimeUp
+$$
+is a finite prime window;
+$$
+\Sigma_{S_m}\to\mathbb T
+$$
+is the finite solenoid phase projection of
+\autoref{def:unified-reality-s-solenoid-over-unit-circle};
+$$
+\gamma_{m,j}
+$$
+are displayed finite source roles or active modes over the same window;
+$$
+\alpha_{m,j}\in\RealUp_{>0}
+$$
+are their positive frequency readouts; and
+$$
+c_{m,j}\in\RealUp_{>0}
+$$
+are positive spectral weights. The packet contains no independent
+$\RealUp_{>0}$ source fiber; positive real numbers occur only as frequency
+and weight readouts certified by the finite layer.
+\end{definition}
+
+\begin{principle}[Triadic role of a finite layer]
+\label{prin:rh-triadic-layer-roles}
+The layer $\mathcal T_m$ separates the three BEDC roles:
+$$
+\mathsf P_m
+:=
+\text{finite prime ledger and solenoid phase fiber},
+$$
+$$
+\mathsf T_m
+:=
+\text{finite active-mode phase flow},
+$$
+and
+$$
+\mathsf U_m
+:=
+\text{positive spectral weight ledger}.
+$$
+The positivity used below is therefore a finite source row, not an
+untyped assumption that a limiting positive kernel exists.
+\end{principle}
+
+\begin{definition}[Cofinal finite solenoid tower]
+\label{def:rh-cofinal-finite-solenoid-pick-tower}
+A cofinal finite solenoid Pick tower is a sequence
+$$
+\mathcal T_1,\mathcal T_2,\ldots
+$$
+such that
+$$
+S_1\subset S_2\subset\cdots\subset\PrimeUp,
+\qquad
+\bigcup_m S_m=\PrimeUp
+$$
+at the declared source-ledger scope. The cofinality row states only that
+every displayed prime row eventually appears in a finite window; it does
+not assert convergence to the completed zeta kernel.
+\end{definition}
+
+\section{Finite Herglotz Kernels}
+\label{sec:rh-triadic-solenoid-finite-herglotz}
+
+\begin{definition}[Finite positive spectral measure]
+\label{def:rh-finite-positive-spectral-measure}
+For a layer $\mathcal T_m$, the finite positive spectral measure is
+$$
+\nu_m
+:=
+\sum_{j=1}^{N_m}c_{m,j}\delta_{\alpha_{m,j}^2}.
+$$
+It is a finite source-side measure because each support point
+$\alpha_{m,j}^2$ and each weight $c_{m,j}$ is displayed in the layer
+packet and satisfies positivity at that layer.
+\end{definition}
+
+\begin{definition}[Finite Stieltjes and Herglotz readouts]
+\label{def:rh-finite-stieltjes-herglotz-readouts}
+The finite Stieltjes readout is
+$$
+S_m(x)
+:=
+\int_0^\infty\frac{1}{x+t}\,d\nu_m(t)
+=
+\sum_{j=1}^{N_m}
+\frac{c_{m,j}}{x+\alpha_{m,j}^2}.
+$$
+For a centered half-plane coordinate $w$, define
+$$
+H_m(w)
+:=
+2wS_m(w^2)
+=
+\sum_{j=1}^{N_m}
+\frac{2c_{m,j}w}{w^2+\alpha_{m,j}^2}.
+$$
+\end{definition}
+
+\begin{theorem}[Finite layer is Herglotz on the right half-plane]
+\label{thm:rh-finite-layer-herglotz}
+If $\Re(w)>0$, then
+$$
+\Re H_m(w)\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+It is enough to check one summand. For $\alpha>0$ and $\Re(w)>0$,
+$$
+\Re\frac{w}{w^2+\alpha^2}
+=
+\frac{\Re(w)(|w|^2+\alpha^2)}
+{|w^2+\alpha^2|^2}
+\ge0.
+$$
+Multiplication by the positive coefficient $2c_{m,j}$ preserves
+nonnegativity, and a finite sum of nonnegative real parts has nonnegative
+real part.
+\end{proof}
+
+\begin{definition}[Finite right-half-plane Pick kernel]
+\label{def:rh-finite-right-half-plane-pick-kernel}
+The right-half-plane Pick kernel of the finite layer is
+$$
+P_m(w,\eta)
+:=
+\frac{H_m(w)+\overline{H_m(\eta)}}{w+\overline{\eta}}.
+$$
+\end{definition}
+
+\begin{definition}[Finite Hilbert feature map]
+\label{def:rh-finite-hilbert-feature-map}
+For each active mode set
+$$
+\phi_{m,j}(w)
+:=
+\sqrt{2c_{m,j}}\,
+\frac{(w,\alpha_{m,j})}{w^2+\alpha_{m,j}^2}
+\in\mathbb C^2.
+$$
+Let
+$$
+\mathcal H_m
+:=
+\bigoplus_{j=1}^{N_m}\mathbb C^2,
+\qquad
+\Phi_m(w)
+:=
+\bigoplus_{j=1}^{N_m}\phi_{m,j}(w).
+$$
+\end{definition}
+
+\begin{theorem}[Finite Pick kernel has an explicit Hilbert factorization]
+\label{thm:rh-finite-pick-kernel-hilbert-factorization}
+For every finite layer,
+$$
+P_m(w,\eta)
+=
+\langle\Phi_m(w),\Phi_m(\eta)\rangle_{\mathcal H_m}.
+$$
+Consequently $P_m$ is positive definite.
+\end{theorem}
+
+\begin{proof}
+For one summand,
+$$
+H_{m,j}(w)
+:=
+\frac{2c_{m,j}w}{w^2+\alpha_{m,j}^2}.
+$$
+A direct computation gives
+$$
+\frac{H_{m,j}(w)+\overline{H_{m,j}(\eta)}}{w+\overline{\eta}}
+=
+2c_{m,j}
+\frac{w\overline{\eta}+\alpha_{m,j}^2}
+{(w^2+\alpha_{m,j}^2)(\overline{\eta}^{\,2}+\alpha_{m,j}^2)}.
+$$
+The right side is exactly
+$$
+\langle\phi_{m,j}(w),\phi_{m,j}(\eta)\rangle_{\mathbb C^2}.
+$$
+Summing over $j$ gives the displayed factorization in $\mathcal H_m$.
+Positive definiteness follows from the Gram form.
+\end{proof}
+
+\section{Disk Kernels and the Limiting Target}
+\label{sec:rh-triadic-solenoid-disk-kernel}
+
+\begin{definition}[Disk transfer of the finite kernel]
+\label{def:rh-finite-disk-pick-kernel}
+Use the centered Cayley coordinate
+$$
+w(z):=\frac{1+z}{2(1-z)}.
+$$
+Define
+$$
+f_m(z):=H_m(w(z))
+$$
+and
+$$
+K_m(z,\zeta)
+:=
+\frac{f_m(z)+\overline{f_m(\zeta)}}{1-z\overline{\zeta}}.
+$$
+The feature map $\Psi_m$ is obtained from $\Phi_m\circ w$ with the
+standard Cayley kernel factor. Thus $K_m$ is again a finite Gram kernel.
+\end{definition}
+
+\begin{definition}[Completed zeta Pick target]
+\label{def:rh-completed-zeta-pick-target}
+The completed zeta Pick target is
+$$
+f_{\xi}(z)
+:=
+2\frac{\xi'}{\xi}\left(\frac{1}{1-z}\right),
+$$
+and
+$$
+K_{\xi}(z,\zeta)
+:=
+\frac{f_{\xi}(z)+\overline{f_{\xi}(\zeta)}}{1-z\overline{\zeta}}.
+$$
+\end{definition}
+
+\begin{definition}[Triadic solenoid Pick tower convergence]
+\label{def:rh-triadic-solenoid-pick-tower-convergence}
+A cofinal finite solenoid Pick tower converges to the completed zeta Pick
+target when, for every finite disk window $F\subset\mathbb D$,
+$$
+K_m(z,\zeta)\to K_{\xi}(z,\zeta)
+\qquad
+(z,\zeta\in F)
+$$
+with the convergence row supplied by the same source ledger. This is the
+hard analytic row of the tower.
+\end{definition}
+
+\begin{theorem}[Finite tower convergence gives positive completed kernel]
+\label{thm:rh-finite-tower-convergence-gives-positive-kxi}
+If a cofinal finite solenoid Pick tower converges to
+$K_{\xi}$, then $K_{\xi}$ is positive definite.
+\end{theorem}
+
+\begin{proof}
+Let $z_1,\ldots,z_N\in\mathbb D$ and $a_1,\ldots,a_N\in\mathbb C$. For
+each $m$, positive definiteness of $K_m$ gives
+$$
+\sum_{i,j=1}^{N}a_i\overline{a_j}K_m(z_i,z_j)\ge0.
+$$
+Taking the displayed finite-window limit yields
+$$
+\sum_{i,j=1}^{N}a_i\overline{a_j}K_{\xi}(z_i,z_j)\ge0.
+$$
+Thus $K_{\xi}$ is positive definite.
+\end{proof}
+
+\begin{theorem}[Triadic solenoid Pick tower is conditionally RH-sufficient]
+\label{thm:rh-triadic-solenoid-pick-tower-conditionally-sufficient}
+If a cofinal finite solenoid Pick tower converges to the completed zeta
+Pick target and the standard logarithmic-derivative zero-exclusion
+transport is available for the same completed zeta carrier, then the BEDC
+RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-finite-tower-convergence-gives-positive-kxi},
+$K_{\xi}$ is positive definite. Hence
+$$
+K_{\xi}(z,z)\ge0
+$$
+for every disk row $z$. Since
+$$
+K_{\xi}(z,z)
+=
+\frac{2\Re f_{\xi}(z)}{1-|z|^2},
+$$
+we obtain $\Re f_{\xi}(z)\ge0$ on the disk. Transporting along
+$s=1/(1-z)$ gives the nonnegative real-part read for
+$\xi'/\xi$ on the right-half critical domain. The stated
+logarithmic-derivative zero-exclusion transport rules out an off-line zero
+there; the functional-equation mirror then rules out its reflected
+off-line companion. Thus the fixed-half section is obtained.
+\end{proof}
+
+\section{Moment Positivity Target}
+\label{sec:rh-triadic-solenoid-moment-target}
+
+\begin{definition}[Moment positivity for the completed zeta carrier]
+\label{def:rh-bedc-moment-positivity-for-xi}
+Let
+$$
+S_{\xi}(x)
+:=
+2
+\frac{d}{dx}
+\log\xi\left(\frac12+\sqrt{x}\right).
+$$
+This convention gives
+$$
+2wS_{\xi}(w^2)
+=
+2\frac{\xi'}{\xi}\left(\frac12+w\right)
+$$
+on the centered branch used by
+\autoref{def:rh-completed-zeta-pick-target}.
+The BEDC moment positivity target for $\xi$ is the certificate that
+$S_{\xi}$ is a Stieltjes transform
+$$
+S_{\xi}(x)
+=
+\int_0^\infty\frac{1}{x+t}\,d\nu(t),
+\qquad
+\nu\ge0,
+$$
+with $\nu$ constructed from the completed zeta source ledger. Equivalently,
+when a source-side expansion
+$$
+S_{\xi}(x)
+=
+\sum_{n\ge0}(-1)^n\mu_n x^{-n-1}
+$$
+is displayed, the moment rows must satisfy the Stieltjes conditions
+$$
+\det(\mu_{i+j})_{i,j=0}^{N}\ge0,
+\qquad
+\det(\mu_{i+j+1})_{i,j=0}^{N}\ge0
+$$
+for every displayed finite $N$.
+\end{definition}
+
+\begin{principle}[Moment positivity is the remaining finite-tower discharge]
+\label{prin:rh-moment-positivity-remaining-discharge}
+The finite objects of
+\autoref{def:rh-triadic-solenoid-pick-layer} through
+\autoref{thm:rh-finite-pick-kernel-hilbert-factorization} are already
+explicit. The remaining proof load is not the abstract existence of a
+positive kernel; it is the source-side Stieltjes moment certificate of
+\autoref{def:rh-bedc-moment-positivity-for-xi}. Such a certificate
+constructs the positive measure, supplies finite atomic approximants by
+standard moment approximation rows, gives the convergence of
+\autoref{def:rh-triadic-solenoid-pick-tower-convergence}, and therefore
+feeds the conditional RH-sufficient theorem above.
+\end{principle}
+
+\begin{principle}[Status of the triadic solenoid Pick tower]
+\label{prin:rh-triadic-solenoid-pick-tower-status}
+The tower turns the Source Hilbert positivity request of
+\autoref{def:rh-source-hilbert-positivity-object} into a finite sequence
+of concrete certificate rows: finite solenoid source, finite frequency
+flow, positive spectral atoms, finite Herglotz function, finite Pick
+kernel, and finite Hilbert factorization. The limiting identification
+with the completed zeta kernel remains exactly the
+$\mathsf{BEDCMomentPositivityForXi}$ obligation.
+\end{principle}

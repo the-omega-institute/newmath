@@ -333,6 +333,48 @@ enters only when source, pattern, classifier, stability, and ledger fields
 are all supplied.
 \end{proof}
 
+\begin{definition}[Certified existence]
+\label{def:ask-sig-spine-certified-existence}
+For a proposed object or interface name $X$, BEDC-certified existence is
+the judgment
+$$
+\mathsf{Exists}^{\uparrow}(X)
+:=
+\sum_{N:\NameCert(X)}
+\mathsf{Admits}(N).
+$$
+The admission row records that the source, pattern, classifier,
+stability, and ledger fields of $N$ are available to downstream
+consumers. Thus existence is a construction certificate for the named
+interface, not prior possession of an untyped object.
+\end{definition}
+
+\begin{principle}[Existence is certificate-bearing admission]
+\label{prin:ask-sig-spine-existence-certificate-bearing}
+In BEDC, a mathematical name is usable only as far as its construction
+certificate exposes the relevant source, classifier, boundary, transport,
+and ledger rows. A zeta carrier, zero packet, Hilbert-style surface,
+solenoid phase carrier, Pick kernel, completion, quotient, or limit may be
+used only after the corresponding certificate has named what is generated,
+what is hidden, and how the hidden material remains auditable.
+\end{principle}
+
+\begin{theorem}[Certified existence is the object-layer admission rule]
+\label{thm:ask-sig-spine-certified-existence-admission}
+Every object-layer use of a derived interface factors through
+$\mathsf{Exists}^{\uparrow}(X)$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:ask-sig-spine-derived-interface-admission}, a derived
+interface $X$ enters the finite kernel only through $\NameCert(X)$. The
+additional admission row in
+\autoref{def:ask-sig-spine-certified-existence} records that the fields of
+that certificate are available for the intended object-layer use. Thus any
+use of $X$ factors through the displayed pair consisting of the naming
+certificate and its admission row.
+\end{proof}
+
 \begin{principle}[Ledger policy for hidden material]
 \label{prin:ask-sig-spine-ledger-policy-hidden-material}
 Any derived interface that hides a process, tail, source fiber, phase row,
