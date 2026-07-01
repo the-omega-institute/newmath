@@ -32484,6 +32484,34 @@
         }
       ],
       "linked_conjecture_id": null
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.rna_protein_binding.ctcf_rna_tile_structure_beyond_composition_gse221537",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "CTCF-RNA binding structural code (NEW-MODALITY engine boundary-map layer = RNA-protein binding; single-mechanism, genuinely-novel). Jing et al MPRNA-IP (GEO GSE221537, CTCF arm): per-150nt-RNA-tile CTCF anti-FLAG fRIP enrichment = replicate-mean CPM-normalized log2(IP/Input), barcodes pooled to tile, 973 tiles tiling 9 source RNAs (XIST / TSIX / FIRRE / JPX / MBP / SRA1 / WRAP53 / PPIA / GAPDH). Single mechanism (one protein CTCF, IP vs Input), no perturbation arm, no design generator. Verdict crosses_boundary: RNA-tile STRUCTURE (stem-pairing potential + sequence complexity) predicts CTCF enrichment with LEAVE-ONE-SOURCE-RNA-OUT held-out incremental R^2 = 0.061 OVER a composition + tile-position baseline (held-out R^2 0.336 -> 0.397), permutation p = 0.003 (null mean -0.021, B=300). The structure signal TRANSFERS across held-out RNAs -- leave-one-RNA-out incremental (0.061) EXCEEDS the random-split incremental (0.030), i.e. genuinely cross-RNA-transferable, not within-library interpolation -- AND survives within-RNA centering (incremental 0.019, RNA-level offset removed, so structure picks binding tiles WITHIN an RNA too). Direction: CTCF binds HIGH-complexity, stem-pairing-capable tiles (trinuc entropy Spearman +0.35, reverse-complement / stem density +0.18) and AVOIDS low-complexity / homopolymer tiles (poly-A -0.30, max-homopolymer -0.26). This QUANTIFIES the paper's qualitative finding (CTCF-enriched tiles lack a clear linear motif but correlate with predicted RNA secondary structure) as a leave-one-RNA-out-transferable beyond-composition contact. NOT CLAIMED: direct vs indirect binding (formaldehyde fRIP cannot separate); endogenous relevance (MPRNA-IP is HEK293T overexpression context); a new mechanism (fresh engine boundary-map contact in a new modality, not new biology). The fresh contact: RNA secondary-structure potential predicts CTCF-RNA binding across source RNAs beyond composition -- a transferable structure-over-motif RNA-binding code.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "ctcf_rna_binding_structure_mprna_gse221537",
+      "history": [
+        {
+          "ts": "2026-07-01T01:25:10+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-07-01T01:25:10+00:00",
+          "status": "passed",
+          "reason": "experiment result (orchestrator-run; verdict crosses_boundary; leave-one-RNA-out incr R^2=0.061 structure over composition+position, perm p=0.003; transfers across RNAs [LSO 0.061 > random 0.030] + within-RNA 0.019; CTCF binds high-complexity/stem-pairing RNA, avoids homopolymer; n=973/9 RNAs)",
+          "experiment_run_id": "1cbb254673dc",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "12f4f666ee586e31"
+        }
+      ],
+      "linked_conjecture_id": null
     }
   ]
 }
