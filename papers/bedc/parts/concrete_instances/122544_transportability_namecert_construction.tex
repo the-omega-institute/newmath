@@ -47,6 +47,18 @@ Replay through $C$ fixes the consumption order from source distribution and targ
 \end{proof}
 \leanchecked{BEDC.Derived.TransportabilityUp.TransportabilityCarrier\_namecert\_obligations}
 
+\begin{theorem}[Transportability selection-ledger obligation]
+\label{thm:transportability-selection-ledger-obligation}
+For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, every transported-effect consumer must expose the source-domain distribution row $S$, target selection row $Tg$, intervention ledger $I$, adjustment ledger $A$, transported distribution row $D$, justification ledger $J$, componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ before reading the transported result. The same packet therefore blocks hidden selection oracles, host probability equality, and ambient causal completeness from entering the public transportability surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:transportability-carrier}. The only rows available to a transported-effect consumer are $S,Tg,I,A,D,J,H,C,P,N$, and the carrier explicitly has no hidden selection-oracle coordinate.
+
+Apply \autoref{thm:transportability-namecert-obligations}. Its source-to-target transport clause requires $S,Tg,I,A,J$ to replay through $C$ before $D$ and the local naming row are exposed.
+
+The sibling routes through do-calculus, front-door adjustment, and counterfactual-outcome bookkeeping are read only by the displayed ledgers $I,A,J$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same finite packet, so no host probability equality or ambient causal-completeness assumption can be consumed outside the ledger.
+\end{proof}
+
 \begin{theorem}[Transportability selection row exposure]
 \label{thm:transportability-selection-row-exposure}
 For every accepted $\TransportabilityUp$ carrier $T=(S,Tg,I,A,D,J,H,C,P,N)$, the target-domain selection row $Tg$ is displayed before any transported distribution row $D$ is public. A consumer that reads $D$ without first reading $S$ and $Tg$ has left the finite carrier of \autoref{def:transportability-carrier} and the obligation surface of \autoref{thm:transportability-namecert-obligations}.
