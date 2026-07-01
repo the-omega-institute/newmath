@@ -419,6 +419,22 @@ private theorem ratSub_add_cancel_right_local (x y : Rat) :
       (ratAdd_respects (RatEq_refl x) (BEDC.Derived.LocatedReal.ratNeg_add_local y))
       (ratAdd_zero_right x))
 
+private theorem ratAdd_right_neg_cancel_local (x y : Rat) :
+    RatEq (ratAdd (ratAdd x y) (ratNeg y)) x := by
+  exact RatEq_trans _ _ _
+    (BEDC.Derived.LocatedReal.ratAdd_assoc_local x y (ratNeg y))
+    (RatEq_trans _ _ _
+      (ratAdd_respects (RatEq_refl x) (BEDC.Derived.LocatedReal.ratAdd_neg_local y))
+      (ratAdd_zero_right x))
+
+theorem ratSub_eq_of_add_right_eq {x y z : Rat} :
+    RatEq (ratAdd x y) z -> RatEq (ratSub z y) x := by
+  intro h
+  unfold ratSub
+  exact RatEq_trans _ _ _
+    (ratAdd_respects (RatEq_symm h) (RatEq_refl (ratNeg y)))
+    (ratAdd_right_neg_cancel_local x y)
+
 private theorem ratMul_neg_right_local (x y : Rat) :
     RatEq (ratMul x (ratNeg y)) (ratNeg (ratMul x y)) := by
   apply ratEq_of_num_den_intEq
@@ -518,7 +534,7 @@ theorem ratMul_sum_left (a : Rat) (K : Nat) (f : Nat -> Rat) :
         (ratMul_add_left a (ratSum K f) (f K))
         (ratAdd_respects ih (RatEq_refl (ratMul a (f K))))
 
-private theorem geom_telescopes (q : Rat) (K : Nat) :
+theorem geom_telescopes (q : Rat) (K : Nat) :
     RatEq
       (ratAdd (ratMul (ratSub ratOne q) (geomSum q K)) (ratPow q K))
       ratOne := by
@@ -875,6 +891,73 @@ theorem geomSum_le_inv_one_sub
       (ratLe_of_RatEq_left (ratMul_comm s gap) gapTimesSumLeOne)
       (RatEq_symm multipliedTarget)
   exact ratMul_le_cancel_right gapPos productLe
+
+theorem geomSum_add_tail_div_eq_inv_one_sub
+    (q : Rat) (K : Nat)
+    (hgap : ratApart0 (ratSub ratOne q)) :
+    RatEq
+      (ratAdd (geomSum q K)
+        (ratDivApart (ratPow q K) (ratSub ratOne q) hgap))
+      (ratDivApart ratOne (ratSub ratOne q) hgap) := by
+  let gap := ratSub ratOne q
+  let s := geomSum q K
+  let p := ratPow q K
+  let tail := ratDivApart p gap hgap
+  apply ratRightInverse_unique (c := gap)
+  · have distribute :
+        RatEq (ratMul (ratAdd s tail) gap)
+          (ratAdd (ratMul s gap) (ratMul tail gap)) :=
+      ratMul_add_right s tail gap
+    have commuteSum :
+        RatEq (ratMul s gap) (ratMul gap s) :=
+      ratMul_comm s gap
+    have tailCancel :
+        RatEq (ratMul tail gap) p :=
+      ratDivApart_mul_cancel_right hgap
+    have telescope :
+        RatEq (ratAdd (ratMul gap s) p) ratOne := by
+      unfold gap s p
+      exact geom_telescopes q K
+    exact RatEq_trans _ _ _
+      distribute
+      (RatEq_trans _ _ _
+        (ratAdd_respects commuteSum tailCancel)
+        telescope)
+  · exact ratDivApart_mul_cancel_right hgap
+
+theorem geomSum_tail_div_error_eq
+    (q : Rat) (K : Nat)
+    (hgap : ratApart0 (ratSub ratOne q)) :
+    RatEq
+      (ratSub (ratDivApart ratOne (ratSub ratOne q) hgap)
+        (geomSum q K))
+      (ratDivApart (ratPow q K) (ratSub ratOne q) hgap) := by
+  let tail := ratDivApart (ratPow q K) (ratSub ratOne q) hgap
+  have split :
+      RatEq
+        (ratAdd (geomSum q K) tail)
+        (ratDivApart ratOne (ratSub ratOne q) hgap) :=
+    geomSum_add_tail_div_eq_inv_one_sub q K hgap
+  have swapped :
+      RatEq
+        (ratAdd tail (geomSum q K))
+        (ratDivApart ratOne (ratSub ratOne q) hgap) :=
+    RatEq_trans _ _ _
+      (ratAdd_comm tail (geomSum q K))
+      split
+  exact ratSub_eq_of_add_right_eq swapped
+
+theorem geomSum_truncation_error_le_tail_div
+    (q : Rat) (K : Nat)
+    (hgap : ratApart0 (ratSub ratOne q)) :
+    ratLe
+      (ratSub (ratDivApart ratOne (ratSub ratOne q) hgap)
+        (geomSum q K))
+      (ratDivApart (ratPow q K) (ratSub ratOne q) hgap) := by
+  exact ratLe_of_RatEq_left
+    (geomSum_tail_div_error_eq q K hgap)
+    (ratLe_refl
+      (ratDivApart (ratPow q K) (ratSub ratOne q) hgap))
 
 private theorem ratDivApart_antitone_den_pos {x a b : Rat}
     (hx : ratLe ratZero x)
