@@ -1,5 +1,6 @@
 import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ZetaCosmosClosure
+import BEDC.Derived.RHRoute.GoldenPowSignedExponent
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Real.RatNumLogEnclosure
 
@@ -13,6 +14,7 @@ open BEDC.Derived.RHRoute.ConstructiveRHStatement
 open BEDC.Derived.RHRoute.ZetaBoxEvaluator
 open BEDC.Derived.RHRoute.BoxKernelConcrete
 open BEDC.Derived.RHRoute.ZetaCosmosClosure
+open BEDC.Derived.RHRoute.GoldenPowSignedExponent
 open BEDC.Real.RatNumKernel
 open BEDC.Real.RatNumLogEnclosure
 open BEDC.Derived.FibonacciLucasIdentitiesUp
@@ -86,20 +88,32 @@ def centeredRealPart (s : RatComplex) : Rat :=
 def realPartCenteredAtHalf (s : RatComplex) : Prop :=
   RatEq (centeredRealPart s) ratZero
 
+theorem centeredExponent_eq_zero_iff_realPartCenteredAtHalf
+    (s : RatComplex) :
+    GoldenPowSignedExponent.GoldenPowRatEqOne
+        (GoldenPowSignedExponent.goldenPowRat (centeredRealPart s)) ↔
+      realPartCenteredAtHalf s := by
+  exact GoldenPowSignedExponent.goldenPowRat_eq_one_iff
+    (centeredRealPart s)
+
 structure NoIndependentRealScale (s : RatComplex) where
   zero_point : NontrivialZetaZero s
   ledger_channel : Nat
 
 structure CenteredGoldenScale (s : RatComplex) where
-  exponentCode : Nat
+  exponentCode : Rat
   modulus : Rat
-  golden_power : GoldenPow
+  golden_power : GoldenPowRat
   golden_power_readback :
-    golden_power = goldenPow exponentCode
-  unit_modulus_reads_golden_unit :
-    RatEq modulus ratOne -> golden_power = ⟨1, 0⟩
+    golden_power = goldenPowRat exponentCode
   exponent_reads_centered_real :
-    exponentCode = 0 -> realPartCenteredAtHalf s
+    RatEq exponentCode (centeredRealPart s)
+  centered_real_reads_exponent :
+    RatEq (centeredRealPart s) ratZero -> RatEq exponentCode ratZero
+  unit_modulus_reads_golden_unit :
+    RatEq modulus ratOne -> GoldenPowRatEqOne golden_power
+  golden_unit_reads_unit_modulus :
+    GoldenPowRatEqOne golden_power -> RatEq modulus ratOne
 
 structure ZetaUnitaryScaleClosure where
   scale_eigenvalue :
@@ -108,7 +122,7 @@ structure ZetaUnitaryScaleClosure where
   modulus_identity :
     (s : RatComplex) -> (zero : NontrivialZetaZero s) ->
       (scale_eigenvalue s zero).golden_power =
-        goldenPow (scale_eigenvalue s zero).exponentCode
+        goldenPowRat (scale_eigenvalue s zero).exponentCode
   unitary_from_no_scale :
     (s : RatComplex) -> (zero : NontrivialZetaZero s) ->
       NoIndependentRealScale s ->
@@ -125,10 +139,10 @@ def ZetaCosmosNoScaleLedgerLinked
   NoIndependentRealScaleLedger unfolding ∧
     (∀ s : RatComplex, (zero : NontrivialZetaZero s) ->
       (closure.no_scale_for_zero s zero).ledger_channel =
-        (closure.scale_eigenvalue s zero).exponentCode) ∧
+        0) ∧
     (∀ s : RatComplex, (zero : NontrivialZetaZero s) ->
       (closure.scale_eigenvalue s zero).golden_power =
-        goldenPow (closure.scale_eigenvalue s zero).exponentCode)
+        goldenPowRat (closure.scale_eigenvalue s zero).exponentCode)
 
 theorem zetaCosmosNoScaleLedgerLinked_intro
     {signature : BEDC.Derived.RHRoute.ZeroGenerationInitiality.RHFreeZeroSignature}
@@ -138,11 +152,11 @@ theorem zetaCosmosNoScaleLedgerLinked_intro
     (channel_reads :
       ∀ s : RatComplex, (zero : NontrivialZetaZero s) ->
         (closure.no_scale_for_zero s zero).ledger_channel =
-          (closure.scale_eigenvalue s zero).exponentCode)
+          0)
     (power_reads :
       ∀ s : RatComplex, (zero : NontrivialZetaZero s) ->
         (closure.scale_eigenvalue s zero).golden_power =
-          goldenPow (closure.scale_eigenvalue s zero).exponentCode) :
+          goldenPowRat (closure.scale_eigenvalue s zero).exponentCode) :
     ZetaCosmosNoScaleLedgerLinked cosmos closure := by
   exact ⟨cosmos.no_independent_real_scale_ledger, channel_reads, power_reads⟩
 
@@ -154,13 +168,51 @@ theorem unitary_scale_closure_zero_re_centered
   have hmod : RatEq scale.modulus ratOne :=
     closure.unitary_from_no_scale s zero
       (closure.no_scale_for_zero s zero)
-  have hgoldenUnit : scale.golden_power = ⟨1, 0⟩ :=
+  have hgoldenUnit : GoldenPowRatEqOne scale.golden_power :=
     scale.unit_modulus_reads_golden_unit hmod
-  have hpow : goldenPow scale.exponentCode = ⟨1, 0⟩ := by
-    exact Eq.trans (Eq.symm (closure.modulus_identity s zero)) hgoldenUnit
-  have hcode : scale.exponentCode = 0 :=
-    (goldenPow_eq_one_iff scale.exponentCode).mp hpow
-  exact scale.exponent_reads_centered_real hcode
+  have hpow : GoldenPowRatEqOne (goldenPowRat scale.exponentCode) := by
+    rw [← closure.modulus_identity s zero]
+    exact hgoldenUnit
+  have hcode : RatEq scale.exponentCode ratZero :=
+    (goldenPowRat_eq_one_iff scale.exponentCode).mp hpow
+  have hcenter : RatEq (centeredRealPart s) ratZero :=
+    RatEq_trans _ _ _ (RatEq_symm scale.exponent_reads_centered_real) hcode
+  exact hcenter
+
+theorem scale_unit_modulus_iff_centered_real
+    (closure : ZetaUnitaryScaleClosure)
+    (s : RatComplex) (zero : NontrivialZetaZero s) :
+    RatEq (closure.scale_eigenvalue s zero).modulus ratOne ↔
+      realPartCenteredAtHalf s := by
+  constructor
+  · intro hmod
+    let scale := closure.scale_eigenvalue s zero
+    have hgoldenUnit : GoldenPowRatEqOne scale.golden_power :=
+      scale.unit_modulus_reads_golden_unit hmod
+    have hpow : GoldenPowRatEqOne (goldenPowRat scale.exponentCode) := by
+      rw [← closure.modulus_identity s zero]
+      exact hgoldenUnit
+    have hcode : RatEq scale.exponentCode ratZero :=
+      (goldenPowRat_eq_one_iff scale.exponentCode).mp hpow
+    exact RatEq_trans _ _ _ (RatEq_symm scale.exponent_reads_centered_real) hcode
+  · intro hcenter
+    let scale := closure.scale_eigenvalue s zero
+    have hcode : RatEq scale.exponentCode ratZero :=
+      scale.centered_real_reads_exponent hcenter
+    have hpow : GoldenPowRatEqOne (goldenPowRat scale.exponentCode) :=
+      (goldenPowRat_eq_one_iff scale.exponentCode).mpr hcode
+    have hgoldenUnit : GoldenPowRatEqOne scale.golden_power := by
+      rw [closure.modulus_identity s zero]
+      exact hpow
+    exact scale.golden_unit_reads_unit_modulus hgoldenUnit
+
+theorem scale_unit_modulus_iff_re_half
+    (closure : ZetaUnitaryScaleClosure)
+    (s : RatComplex) (zero : NontrivialZetaZero s) :
+    RatEq (closure.scale_eigenvalue s zero).modulus ratOne ↔
+      RatEq s.re halfRat := by
+  exact Iff.trans (scale_unit_modulus_iff_centered_real closure s zero)
+    (BEDC.Derived.RationalUp.ratSub_zero_iff s.re halfRat)
 
 theorem realPartCenteredAtHalf_reads_onCriticalLine
     {s : RatComplex} :
