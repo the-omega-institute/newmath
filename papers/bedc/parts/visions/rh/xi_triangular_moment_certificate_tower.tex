@@ -1,0 +1,365 @@
+\chapter{Xi Triangular Moment Certificate Tower}
+\label{ch:visions-rh-xi-triangular-moment-certificate-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-xi-hausdorff-moment-audit} identifies
+$\mathsf{XiHausdorffMomentPositivity}$ as the finite-audit family behind
+the completed zeta Pick kernel. The present chapter expands that family
+into a triangular certificate tower. Each finite level is a concrete
+difference table, a positive Bernstein ledger, a finite atomic measure,
+a finite Herglotz function, and a Pick kernel with an explicit Hilbert
+factorization. Thus the phrase ``positive spectral measure'' is not used
+as a primitive existence claim; it is approached through finite
+certificate rows.
+
+\section{Triangular Difference Ledger}
+\label{sec:rh-xi-triangular-difference-ledger}
+
+\begin{definition}[Hausdorff difference triangle]
+\label{def:rh-xi-hausdorff-difference-triangle}
+For the xi moment row $(a_n)$ of
+\autoref{def:rh-xi-hausdorff-moment-row}, the Hausdorff difference
+triangle is the array
+$$
+D_{n,k}
+:=
+(-1)^k\Delta^k a_n,
+\qquad
+n,k\ge0.
+$$
+The entry $D_{n,k}$ is finite: it depends only on
+$$
+a_n,a_{n+1},\ldots,a_{n+k}.
+$$
+\end{definition}
+
+\begin{definition}[Finite triangular moment certificate]
+\label{def:rh-finite-triangular-moment-certificate}
+For $N\ge0$, a finite triangular moment certificate is the finite packet
+$$
+\mathcal M_N
+:=
+\bigl(
+(a_0,\ldots,a_N),
+(D_{n,k})_{n+k\le N},
+(\beta_{N,j})_{0\le j\le N}
+\bigr),
+$$
+where
+$$
+D_{n,k}=(-1)^k\Delta^k a_n
+$$
+and
+$$
+\beta_{N,j}
+:=
+\binom{N}{j}
+D_{j,N-j}.
+$$
+The certificate is positive when
+$$
+D_{n,k}\ge0
+\qquad
+(n+k\le N).
+$$
+\end{definition}
+
+\begin{principle}[Triangular audit is local and finite]
+\label{prin:rh-triangular-audit-local-finite}
+Every level $\mathcal M_N$ is checked inside a finite triangular table.
+A failure of $\mathsf{XiHausdorffMomentPositivity}$ appears as a
+specific entry $D_{n,k}<0$. A successful level exposes positive Bernstein
+weights $\beta_{N,j}$ and therefore a finite positive measure without
+calling on a limiting measure as an input.
+\end{principle}
+
+\section{Bernstein Measure Layer}
+\label{sec:rh-xi-bernstein-measure-layer}
+
+\begin{definition}[Bernstein basis and moment functional]
+\label{def:rh-bernstein-basis-moment-functional}
+For $N\ge0$, set
+$$
+B_{N,j}(y)
+:=
+\binom{N}{j}y^j(1-y)^{N-j},
+\qquad
+0\le j\le N.
+$$
+The finite moment functional $L_N$ is defined on monomials of degree at
+most $N$ by
+$$
+L_N(y^r):=a_r
+\qquad
+(0\le r\le N)
+$$
+and extended linearly to polynomials of degree at most $N$.
+\end{definition}
+
+\begin{theorem}[Bernstein weights are finite differences]
+\label{thm:rh-bernstein-weights-finite-differences}
+For $0\le j\le N$,
+$$
+L_N(B_{N,j})
+=
+\binom{N}{j}
+(-1)^{N-j}\Delta^{N-j}a_j
+=
+\beta_{N,j}.
+$$
+Consequently a positive triangular moment certificate has
+$L_N(B_{N,j})\ge0$ for every $j$.
+\end{theorem}
+
+\begin{proof}
+Expanding the Bernstein basis gives
+$$
+B_{N,j}(y)
+=
+\binom{N}{j}y^j(1-y)^{N-j}
+=
+\binom{N}{j}
+\sum_{r=0}^{N-j}
+(-1)^r
+\binom{N-j}{r}
+y^{j+r}.
+$$
+Applying $L_N$ gives
+$$
+L_N(B_{N,j})
+=
+\binom{N}{j}
+\sum_{r=0}^{N-j}
+(-1)^r
+\binom{N-j}{r}
+a_{j+r}.
+$$
+This is exactly
+$$
+\binom{N}{j}(-1)^{N-j}\Delta^{N-j}a_j,
+$$
+which is $\beta_{N,j}$ by
+\autoref{def:rh-finite-triangular-moment-certificate}.
+\end{proof}
+
+\begin{definition}[Bernstein atomic measure]
+\label{def:rh-bernstein-atomic-measure}
+The Bernstein atomic measure associated to a positive
+$\mathcal M_N$ is
+$$
+\mu_N
+:=
+\sum_{j=0}^{N}
+\beta_{N,j}\delta_{j/N}.
+$$
+It is a finite positive measure on $[0,1]$ because every
+$\beta_{N,j}$ is a displayed nonnegative entry of the triangular
+certificate.
+\end{definition}
+
+\begin{principle}[Bernstein layer is the unit-positive row]
+\label{prin:rh-bernstein-layer-unit-positive-row}
+The measure $\mu_N$ is the finite $\mathsf U_N$ row of the triangular
+certificate tower. It is not asserted by compactness or by a completed
+moment theorem; its atoms and weights are written directly from the
+finite difference triangle.
+\end{principle}
+
+\section{Finite Stieltjes and Herglotz Layer}
+\label{sec:rh-xi-triangular-stieltjes-herglotz}
+
+\begin{definition}[Triangular finite Stieltjes readout]
+\label{def:rh-triangular-finite-stieltjes-readout}
+For a positive triangular certificate $\mathcal M_N$, define
+$$
+S_N(x)
+:=
+\int_0^1
+\frac{1}{1+(x-1)y}
+\,d\mu_N(y).
+$$
+Equivalently,
+$$
+S_N(x)
+=
+\sum_{j=0}^{N}
+\frac{\beta_{N,j}}{1+(x-1)j/N}.
+$$
+\end{definition}
+
+\begin{definition}[Triangular finite Herglotz readout]
+\label{def:rh-triangular-finite-herglotz-readout}
+The associated half-plane readout is
+$$
+H_N(w)
+:=
+2wS_N(w^2).
+$$
+For atoms with $j>0$, set
+$$
+y_j:=\frac{j}{N},
+\qquad
+t_j:=\frac{1-y_j}{y_j},
+\qquad
+c_j:=\frac{\beta_{N,j}}{y_j}.
+$$
+Then the corresponding summand has the form
+$$
+\frac{2c_jw}{w^2+t_j}.
+$$
+The atom $j=0$ contributes the positive linear term
+$$
+2\beta_{N,0}w.
+$$
+\end{definition}
+
+\begin{theorem}[Triangular Herglotz positivity]
+\label{thm:rh-triangular-herglotz-positivity}
+If $\mathcal M_N$ is positive and $\Re(w)>0$, then
+$$
+\Re H_N(w)\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+For every atom with $j>0$, the summand is
+$$
+\frac{2c_jw}{w^2+t_j}
+$$
+with $c_j\ge0$ and $t_j\ge0$. The computation in
+\autoref{thm:rh-finite-layer-herglotz} gives nonnegative real part on
+the right half-plane. The atom $j=0$ contributes
+$2\beta_{N,0}w$, whose real part is
+$2\beta_{N,0}\Re(w)\ge0$. A finite sum of nonnegative real parts has
+nonnegative real part.
+\end{proof}
+
+\section{Finite Pick and Hilbert Layer}
+\label{sec:rh-xi-triangular-pick-hilbert}
+
+\begin{definition}[Triangular finite Pick kernel]
+\label{def:rh-triangular-finite-pick-kernel}
+The half-plane Pick kernel of $\mathcal M_N$ is
+$$
+P_N(w,\eta)
+:=
+\frac{H_N(w)+\overline{H_N(\eta)}}{w+\overline{\eta}}.
+$$
+The disk kernel is obtained through the centered Cayley coordinate
+$$
+w(z):=\frac{1+z}{2(1-z)}
+$$
+by
+$$
+K_N(z,\zeta)
+:=
+\frac{H_N(w(z))+\overline{H_N(w(\zeta))}}
+{1-z\overline{\zeta}}.
+$$
+\end{definition}
+
+\begin{definition}[Triangular Hilbert feature map]
+\label{def:rh-triangular-hilbert-feature-map}
+For each atom with $j>0$, define
+$$
+\phi_{N,j}(w)
+:=
+\sqrt{2c_j}
+\frac{(w,\sqrt{t_j})}{w^2+t_j}
+\in\mathbb C^2.
+$$
+For the atom $j=0$, define a one-dimensional feature
+$$
+\phi_{N,0}(w):=\sqrt{2\beta_{N,0}}.
+$$
+Let
+$$
+\mathcal H_N^{\triangle}
+:=
+\mathbb C
+\oplus
+\bigoplus_{j=1}^{N}\mathbb C^2
+$$
+and
+$$
+\Phi_N^{\triangle}(w)
+:=
+\phi_{N,0}(w)\oplus
+\bigoplus_{j=1}^{N}\phi_{N,j}(w).
+$$
+\end{definition}
+
+\begin{theorem}[Triangular Pick kernel has a finite Hilbert factorization]
+\label{thm:rh-triangular-pick-kernel-finite-hilbert-factorization}
+For every positive triangular moment certificate,
+$$
+P_N(w,\eta)
+=
+\left\langle
+\Phi_N^{\triangle}(w),
+\Phi_N^{\triangle}(\eta)
+\right\rangle_{\mathcal H_N^{\triangle}}.
+$$
+Consequently $P_N$ and $K_N$ are positive definite.
+\end{theorem}
+
+\begin{proof}
+For $j>0$, the rank-two factorization is the same calculation as
+\autoref{thm:rh-finite-pick-kernel-hilbert-factorization} with
+$\alpha^2=t_j$ and coefficient $c_j$. For $j=0$, the Herglotz summand is
+$2\beta_{N,0}w$, and its Pick quotient is
+$$
+\frac{2\beta_{N,0}w+2\beta_{N,0}\overline{\eta}}
+{w+\overline{\eta}}
+=
+2\beta_{N,0},
+$$
+which is the Gram kernel of $\phi_{N,0}$. Summing the finite Gram
+factorizations gives the displayed factorization. Positive definiteness
+is immediate from the Gram form, and the disk kernel is its Cayley
+transport.
+\end{proof}
+
+\section{Tower Convergence Target}
+\label{sec:rh-xi-triangular-tower-convergence}
+
+\begin{definition}[Triangular moment certificate tower]
+\label{def:rh-triangular-moment-certificate-tower}
+A triangular moment certificate tower is a sequence
+$$
+\mathcal M_0,\mathcal M_1,\mathcal M_2,\ldots
+$$
+such that each $\mathcal M_N$ is positive and the associated transforms
+$S_N$ converge locally to $S_{\xi}$ on the displayed analytic domain of
+\autoref{def:rh-xi-analytic-determination-row}. The convergence row is
+part of the certificate; finite positivity alone does not assert it.
+\end{definition}
+
+\begin{theorem}[Triangular certificate tower is conditionally RH-sufficient]
+\label{thm:rh-triangular-certificate-tower-conditionally-rh-sufficient}
+If a triangular moment certificate tower exists, its convergence row
+identifies the limit with $S_{\xi}$, and the standard
+Stieltjes-to-zero-exclusion transport is available for the completed zeta
+carrier, then the BEDC RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+Each level supplies a positive Pick kernel by
+\autoref{thm:rh-triangular-pick-kernel-finite-hilbert-factorization}.
+The convergence row gives the limiting completed zeta kernel, so the
+limit kernel is positive definite. The
+Stieltjes-to-zero-exclusion transport then applies exactly as in
+\autoref{thm:rh-xi-hausdorff-audit-conditionally-rh-sufficient}, forcing
+the completed non-trivial zero packets onto the fixed half-line section.
+\end{proof}
+
+\begin{principle}[Status of the triangular moment tower]
+\label{prin:rh-triangular-moment-tower-status}
+The triangular tower is the finite constructive form of
+$\mathsf{XiHausdorffMomentPositivity}$. Its level-$N$ data are the moment
+prefix, the finite difference triangle, the Bernstein weights, the
+atomic measure, the Herglotz function, the Pick kernel, and the Hilbert
+feature map. A failed entry gives a finite witness; a successful cofinal
+tower gives the positive-kernel route required by the RH-facing
+certificate.
+\end{principle}
