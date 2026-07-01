@@ -102,8 +102,8 @@ LOG_DIRS = [
 # on the codex API rather than CPU/RAM.
 # ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 4
-LEAN_MAX = 4  # 2026-06-20 stop-bleed: 8/6 was NOT sustainable after all — a
+LEAN_MIN = 2
+LEAN_MAX = 2  # API-throughput floor: 4/6 (=10 rounds) flooded the codex API — ~48 concurrent codex sessions all 0%-CPU waiting on ESTABLISHED connections (rc124 40min timeouts) while a single new session pinged fine, i.e. account-level concurrency throttling, NOT local CPU (codex used 0%). 2/3 keeps concurrent codex under the account's throughput. Earlier 2026-06-20 stop-bleed note: 8/6 was NOT sustainable after all — a
                # ~8h lean 0-SUCCESS stall (paper kept producing 9/2h) traced to
                # load ~30 making lean's heavy pre-merge gates time out. The
                # smoking gun: 12 concurrent bedc_ci.py audits (> 8 lean rounds)
@@ -130,7 +130,7 @@ LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # cuts ff-rejection rate dramatically.
 
 PAPER_BUFFER = 4
-PAPER_MIN = 6   # lowered 2026-05-15 (later): with PAPER_MAX=10 due to push-
+PAPER_MIN = 3   # API-throughput floor (see LEAN_MAX): paper codex share the same account throttle. earlier note: lowered 2026-05-15 (later): with PAPER_MAX=10 due to push-
                 # lock starvation, MIN must be ≤ MAX. 6 still keeps discovery
                 # channels warm. Restore once codex_resolve moves out of lock.
 PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
@@ -140,7 +140,7 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 6  # 2026-06-07: dropped to PAPER_MIN floor — see LEAN_MAX note;
+PAPER_MAX = 3  # API-throughput floor (see LEAN_MAX). earlier note: 2026-06-07: dropped to PAPER_MIN floor — see LEAN_MAX note;
                 # 8/6 is what this 8-core box sustains without audit timeouts.
 
 LAKE_DIVISOR = 5
