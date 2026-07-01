@@ -481,6 +481,64 @@ def git(*args: str, **kwargs: Any) -> subprocess.CompletedProcess[str]:
     return run(["git", *args], **kwargs)
 
 
+def warm_taste_lake_cache(worktree: Path) -> None:
+    """把主仓库 lean4/.lake 缓存暖拷贝到 taste 验证 worktree。"""
+    dst = worktree / "lean4" / ".lake"
+    try:
+        listing = run(
+            ["git", "-C", str(worktree), "worktree", "list"],
+            check=True,
+            capture=True,
+            timeout=TIMEOUTS["git"],
+        ).stdout
+        first = (listing or "").splitlines()[0]
+        src_root = Path(first.split()[0])
+        src = src_root / "lean4" / ".lake"
+        if not src.exists():
+            print(f"[taste] warm-cache skipped: source missing: {src}", flush=True)
+            return
+
+        if dst.exists():
+            shutil.rmtree(dst, ignore_errors=True)
+        dst.mkdir(parents=True, exist_ok=True)
+
+        packages_status = "none"
+        src_packages = src / "packages"
+        if src_packages.exists() and any(src_packages.iterdir()):
+            (dst / "packages").symlink_to(src_packages)
+            packages_status = "symlink"
+
+        cloned: list[str] = []
+        for sub in ("build", "config"):
+            src_sub = src / sub
+            dst_sub = dst / sub
+            if not src_sub.exists():
+                continue
+            result = subprocess.run(
+                ["cp", "-Rc", str(src_sub), str(dst_sub)],
+                text=True,
+                capture_output=True,
+                timeout=600,
+            )
+            if result.returncode != 0:
+                if dst_sub.exists():
+                    shutil.rmtree(dst_sub, ignore_errors=True)
+                shutil.copytree(src_sub, dst_sub, symlinks=True)
+            cloned.append(sub)
+
+        clone_status = "COW" if cloned else "none"
+        print(
+            f"[taste] warm-cache ready at {dst} "
+            f"(packages={packages_status}, build/config={clone_status})",
+            flush=True,
+        )
+    except Exception as exc:
+        if dst.exists():
+            shutil.rmtree(dst, ignore_errors=True)
+        print(f"[taste] warm-cache skipped: {exc}", flush=True)
+        return
+
+
 def cleanup_rule_evolution_worktree(worktree: Path, branch: str) -> None:
     git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
     git("branch", "-D", branch, check=False, capture=True)
@@ -1968,6 +2026,7 @@ def dispatch_research(dry_run: bool, commit: str) -> tuple[bool, list[Finding]]:
     if add.returncode != 0:
         append_alert("research_worktree_failed", {"stderr": tail(add.stderr or add.stdout or "")})
         return False, []
+    warm_taste_lake_cache(worktree)
     try:
         res = run(
             [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(worktree), META_PROMPT_RESEARCH],
@@ -2293,6 +2352,7 @@ def inspect_and_resolve_top_finding(state: dict, cfg: dict, dry_run: bool) -> bo
         append_alert("resolution_failed", {"id": entry.get("id"), "reason": reason})
         mark_resolution_failed(state, entry, reason)
         return False
+    warm_taste_lake_cache(worktree)
     base_sha = run(["git", "rev-parse", "HEAD"], cwd=worktree, check=True, capture=True, timeout=30).stdout.strip()
     attempted = True
     result: dict[str, Any] = {}
@@ -2911,6 +2971,7 @@ def dispatch_rule_evolution(
     add = git("worktree", "add", "-b", branch, str(worktree), base_sha, check=False, capture=True)
     if add.returncode != 0:
         return False, f"worktree add failed: {tail(add.stderr or add.stdout)}", None
+    warm_taste_lake_cache(worktree)
     try:
         prompt = build_rule_evolution_prompt(flag, evidence)
         if approval_ids:
