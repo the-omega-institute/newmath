@@ -126,6 +126,14 @@ _VALUE_WORD_TO_INT = {
     "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
     "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20,
 }
+TRIANGLE_CORE_CARRIER_RE = re.compile(
+    r"^\s*(?:inductive|structure|class)\s+([A-Za-z_][\w']*Up)\b"
+)
+TRIANGLE_CODE_RE = re.compile(
+    r"\bcode\s*:?\s*=\s*(.*?)(?=\n\s*[A-Za-z_][\w']*\s*:?\s*=|\n\s*\|"
+    r"|\n\s*(?:theorem|lemma|def|inductive|structure|class|instance|end)\b|\Z)",
+    re.DOTALL,
+)
 
 
 def _name_value(name: str) -> int | None:
@@ -757,6 +765,78 @@ def detect_value_instance_saturation(worktree: Path, base_branch: str) -> list[s
     return hits
 
 
+def _triangle_instance_blocks(text: str) -> list[str]:
+    lines = text.splitlines()
+    blocks: list[str] = []
+    i = 0
+    while i < len(lines):
+        if not re.match(r"^\s*(?:@\[[^\]]+\]\s*)*instance\b", lines[i]):
+            i += 1
+            continue
+        start = i
+        i += 1
+        while i < len(lines) and not LEAN_COMMAND_START_RE.match(lines[i]):
+            i += 1
+        blocks.append("\n".join(lines[start:i]))
+    return blocks
+
+
+def _triangle_neutral_for_carrier(text: str, carrier: str) -> bool:
+    for line in text.splitlines():
+        if "TriAxisNeutral" in line and re.search(rf"\b{re.escape(carrier)}\b", line):
+            return True
+    return False
+
+
+def _low_entropy_triangle_code(block: str) -> bool:
+    match = TRIANGLE_CODE_RE.search(block)
+    if not match:
+        return False
+    code = _strip_lean_comments(match.group(1))
+    tokens = set(re.findall(r"\b(base|distinctionGen|timeGen|symmetryGen|pairGen)\b", code))
+    if tokens == {"base"}:
+        return True
+    if tokens and tokens <= {"base", "timeGen"} and "timeGen" in tokens:
+        return True
+    return False
+
+
+def detect_triangle_binding_gap(worktree: Path, base_branch: str) -> list[str]:
+    """SHADOW-only TGS adoption measurement for new Derived core carriers."""
+    grouped = _diff_added_blocks_per_file(worktree, base_branch)
+    carriers_by_file: dict[str, set[str]] = {}
+    for rel_path, blocks in grouped.items():
+        if not rel_path.startswith(DERIVED_PATH_PREFIX + "/"):
+            continue
+        for _name, block in blocks:
+            match = TRIANGLE_CORE_CARRIER_RE.match(block)
+            if match:
+                carriers_by_file.setdefault(rel_path, set()).add(match.group(1))
+
+    hits: list[str] = []
+    for rel_path, carriers in sorted(carriers_by_file.items()):
+        try:
+            text = (worktree / rel_path).read_text(encoding="utf-8")
+        except OSError:
+            continue
+        instance_blocks = _triangle_instance_blocks(text)
+        for carrier in sorted(carriers):
+            binding_blocks = [
+                block for block in instance_blocks
+                if "TriAxisProjected" in block
+                and re.search(rf"\b{re.escape(carrier)}\b", block)
+            ]
+            if not binding_blocks and not _triangle_neutral_for_carrier(text, carrier):
+                hits.append(
+                    f"SHADOW triangle-binding gap: {carrier} in {rel_path} "
+                    "— no TriAxisProjected instance"
+                )
+                continue
+            if any(_low_entropy_triangle_code(block) for block in binding_blocks):
+                hits.append(f"SHADOW low-entropy triangle code: {carrier}")
+    return hits
+
+
 def _detect_pseudo_generalization(
     added_blocks: list[tuple[str, str, str]],
 ) -> list[str]:
@@ -874,6 +954,10 @@ def main() -> int:
 
     decls = diff_added_decls(args.worktree, args.base_branch)
     large_decide_hits = detect_large_decide_enumerations(args.worktree, args.base_branch)
+    triangle_hits = detect_triangle_binding_gap(args.worktree, args.base_branch)
+    print(f"[phase-d] SHADOW triangle-binding: {len(triangle_hits)} gaps")
+    for hit in triangle_hits:
+        print(f"[phase-d] {hit}")
     wrapper_hits: list[str] = []
     wrapper_gate_enabled = os.environ.get("BEDC_ENABLE_WRAPPER_GATE", "1") != "0"
     wrapper_gate_shadow = os.environ.get("BEDC_WRAPPER_GATE_SHADOW", "0") == "1"

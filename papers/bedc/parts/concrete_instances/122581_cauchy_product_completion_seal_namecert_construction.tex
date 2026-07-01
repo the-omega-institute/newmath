@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductCompletionSealUp$}
+\label{ch:concrete-instances-cauchy-product-completion-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis, the $\CauchyProductCompletionSealUp$ packet records the finite product-completion route by which two regular rational Cauchy names expose a product row before any $\RealUp$ multiplication consumer reads a completed seal. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Cauchy product source of \autoref{ch:concrete-instances-cauchyproduct-namecert}, the regular product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the product-window route of \autoref{ch:concrete-instances-cauchy-product-commutativity-namecert}. The packet names the completion-facing product seal as finite BEDC rows; it does not quotient streams, select product representatives, assert host real equality, use countable choice, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyProductCompletionSeal carrier]
+\label{def:cauchy-product-completion-seal-carrier}
+A $\CauchyProductCompletionSealUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(L,R,P,B,Q,T,S,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right $\RegSeqRatUp$ source rows admitted for product formation.
+\item $P$ is the $\CauchyProductUp$ product-source row.
+\item $B$ is the finite product-budget row exposing which tail windows and dyadic tolerances are consumed.
+\item $Q$ is the $\DyadicRatCoreUp$ product-tolerance row.
+\item $T$ is the dyadic tail-stability ledger for the product row.
+\item $S$ is the $\RealUp$ completion-seal handoff row.
+\item $H$ records componentwise $\hsame$ transport for the source, product, budget, tolerance, stability, seal, provenance, replay, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the source rows through product budget, dyadic tolerance, tail stability, and seal handoff.
+\item $K$ is the $\Pkg$ provenance over $\CauchyProductCompletionSealUp$, $\CauchyProductUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductCompletionSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected representatives, host real equality, countable choice, or ambient completion.
+\end{definition}
+
+\begin{theorem}[CauchyProductCompletionSeal classifier]
+\label{thm:cauchy-product-completion-seal-classifier}
+Two accepted $\CauchyProductCompletionSealUp$ carriers are classified by the displayed rows $L,R,P,B,Q,T,S,H,C,K,N$. A classifier comparison may identify the product-completion seal only when the source regular names, product-source row, product budget, dyadic tolerance, tail-stability ledger, seal handoff, transport, replay, provenance, and local naming rows are all compared through the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-completion-seal-carrier}. The classifier-visible data are exactly the listed rows.
+
+The structural rows $H,C,K,N$ preserve and name the same source, product, budget, tolerance, stability, and seal coordinates. Since the carrier has no quotient-stream or host-real-equality coordinate, no classifier comparison can use one.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionSeal source admission]
+\label{thm:cauchy-product-completion-seal-source-admission}
+Every accepted $\CauchyProductCompletionSealUp$ carrier admits its product source only through the two displayed $\RegSeqRatUp$ rows $L,R$ and the $\CauchyProductUp$ row $P$.
+\end{theorem}
+\begin{proof}
+Read $L,R,P$ from \autoref{def:cauchy-product-completion-seal-carrier}. These are the only rows that can serve as product-source data before the budget row is exposed.
+
+The classifier theorem \autoref{thm:cauchy-product-completion-seal-classifier} keeps all source comparisons inside the same finite packet, so no unrecorded product source can enter the seal route.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionSeal product-budget exposure]
+\label{thm:cauchy-product-completion-seal-product-budget-exposure}
+Every accepted $\CauchyProductCompletionSealUp$ carrier exposes the product-budget row $B$ before a completion-facing consumer can read the dyadic tolerance row $Q$, tail-stability ledger $T$, or seal handoff $S$.
+\end{theorem}
+\begin{proof}
+The carrier definition places $B$ between the product-source row $P$ and the downstream tolerance, stability, and seal rows. The replay row $C$ records that same order as displayed $\Cont$ data.
+
+By \autoref{thm:cauchy-product-completion-seal-classifier}, downstream comparisons preserve $B$ as part of the finite packet. Thus a completion consumer cannot read $Q,T,S$ while bypassing the budget exposure row.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionSeal dyadic tail stability]
+\label{thm:cauchy-product-completion-seal-dyadic-tail-stability}
+Every accepted $\CauchyProductCompletionSealUp$ carrier reads dyadic tail stability through the tolerance row $Q$ and the stability ledger $T$ after the product budget has been exposed.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:cauchy-product-completion-seal-carrier}. The dyadic tolerance is the row $Q$, and the product-tail stability evidence is the ledger $T$.
+
+Apply product-budget exposure from \autoref{thm:cauchy-product-completion-seal-product-budget-exposure}. It places $B$ before $Q$ and $T$, so the dyadic tail-stability read is a budgeted finite read rather than a host-level convergence claim.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionSeal completion-seal handoff]
+\label{thm:cauchy-product-completion-seal-completion-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyProductCompletionSealUp$ carrier reaches the seal row $S$ only after reading $L,R,P,B,Q,T,H,C,K,N$.
+\end{theorem}
+\begin{proof}
+Start with source admission and product-budget exposure. They place $L,R,P$ before $B$, and $B$ before the dyadic tolerance and tail-stability rows.
+
+Use dyadic tail stability above. It fixes $Q,T$ as the finite stability route. The structural rows $H,C,K,N$ transport, replay, source, and name that same route before the seal row $S$ is consumed.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionSeal quotient and choice refusal]
+\label{thm:cauchy-product-completion-seal-quotient-choice-refusal}
+No accepted $\CauchyProductCompletionSealUp$ carrier exports quotient streams, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:cauchy-product-completion-seal-carrier}. Its rows are exactly source, product, budget, dyadic tolerance, tail stability, seal, transport, replay, provenance, and local naming rows.
+
+The completion-seal handoff of \autoref{thm:cauchy-product-completion-seal-completion-seal-handoff} routes every completion-facing read through those rows. The refused objects are not rows of the carrier and are not introduced by $H,C,K,N$.
+\end{proof}
+
+\leandef{BEDC.Derived.CauchyProductCompletionSealUp}
+
+\closureat{CauchyProductCompletionSealUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductCompletionSealUp}
+  \constructivestory{A $\CauchyProductCompletionSealUp$ packet is generated from left and right RegSeqRat source rows, a CauchyProduct source row, product-budget exposure, DyadicRatCore tolerance, tail-stability ledger, Real seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-completion-seal-carrier}, \autoref{thm:cauchy-product-completion-seal-classifier}, and the five obligation theorems seed the finite product-completion seal route over regular rational sources, dyadic product budgets, tail stability, and Real-facing handoff rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CauchyProductCompletionSealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real multiplication, quotient stream equality, selected product representatives, countable choice, host real equality, ambient Real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier preservation, product-budget exposure, dyadic tail stability, completion-seal handoff, refusal, and local naming for BEDC.Derived.CauchyProductCompletionSealUp.}
+\end{closurestatus}

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\InfoGenerationTraceUp$}
+\label{ch:concrete-instances-info-generation-trace-namecert}
+\origin{ai}
+
+The $\InfoGenerationTraceUp$ packet realizes the constructive information generation vision of \autoref{sec:constructive-information-generation} as finite NameCert data over visible record rows, residue rows, compatible refinement rows, replay, and provenance. It sits beside the finite tower packet of \autoref{ch:concrete-instances-realityconstrainedtowerpacket-namecert}, the reflection-gap audit route of \autoref{ch:concrete-instances-reflection-gap-audit-namecert}, and the classifier boundary surface of \autoref{ch:concrete-instances-classifierboundary-namecert}. Those siblings supply tower source rows, audit and gap rows, and visible classifier-boundary discipline; this packet binds them into one generated-information trace before any consumer treats a visible record as the whole source.
+
+\begin{definition}[InfoGenerationTrace carrier]
+\label{def:info-generation-trace-carrier}
+An $\InfoGenerationTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,V,L,Q,R,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-carrier row, naming the displayed $\mathcal I_n$ layer or tower source from which the trace is read.
+\item $V$ is the visible-record row, recording the generated record exposed to the current consumer.
+\item $L$ is the ledger row, carrying provenance, gap, audit, and classifier-boundary entries that license $V$.
+\item $Q$ is the residue row, recording the remaining source fiber over $V$ rather than collapsing it into the visible record.
+\item $R$ is the compatible refinement row, naming any readback from a later visible surface to the present one.
+\item $J$ is the visible-refinement join row, displaying how $V,Q,R$ are consumed together by a downstream generated-information read.
+\item $H$ records componentwise $\hsame$ transport for source, visible record, ledger, residue, refinement, join, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+S\longrightarrow V\longrightarrow L\longrightarrow Q\longrightarrow R\longrightarrow J .
+$$
+\item $P$ records provenance over $\InfoGenerationTraceUp$, $\RealityConstrainedTowerPacketUp$, $\ReflectionGapAuditUp$, $\ClassifierBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\InfoGenerationTraceUp}$ row.
+\end{enumerate}
+The classifier compares accepted traces only through $S,V,L,Q,R,J,H,C,P,N$. It has no coordinate for a bare information object, hidden source equality, final physical truth, tower-external information, host semantic completeness, or an unrecorded generation step.
+\end{definition}
+
+\begin{theorem}[InfoGenerationTrace NameCert obligations]
+\label{thm:info-generation-trace-namecert-obligations}
+For every accepted $\InfoGenerationTraceUp$ carrier
+$$
+T=(S,V,L,Q,R,J,H,C,P,N),
+$$
+the local $\NameCert_{\InfoGenerationTraceUp}$ surface consists exactly of source admission through $S$, visible-record exposure through $V$, audit and gap licensing through $L$, residue display through $Q$, compatible refinement through $R$, visible-refinement joining through $J$, componentwise transport through $H$, displayed replay through $C$, provenance exhaustion through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:info-generation-trace-carrier}. The accepted packet exposes exactly the rows $S,V,L,Q,R,J,H,C,P,N$, so source admission and visible-record exposure are finite displayed data.
+
+The licensing obligation is supplied by $L$. It records the provenance, gap, audit, and classifier-boundary entries through which the visible row is admitted, so no bare information object can enter the trace.
+
+The non-exhaustion obligation is supplied by $Q$ and $R$. The residue row keeps the source fiber visible, while the refinement row records any compatible readback from a later surface to the current visible record.
+
+Finally, $J,H,C,P,N$ join, transport, replay, source, and name the same route. Since the carrier contains no row for hidden source equality, final physical truth, tower-external information, host semantic completeness, or unrecorded generation, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[InfoGenerationTrace visible residue]
+\label{thm:info-generation-trace-visible-residue}
+Every accepted generated-information read through an $\InfoGenerationTraceUp$ carrier must expose the visible row $V$, residue row $Q$, refinement row $R$, replay row $C$, provenance row $P$, and local NameCert row $N$ before it exports the generated record. A consumer that reads $V$ while omitting $Q$ or $R$ has read only a visible record, not the full generated-information trace.
+\end{theorem}
+\begin{proof}
+Start with the source and visible rows $S,V$. They identify the layer source and the record exposed to the consumer, but they do not contain the residual source family by themselves.
+
+Read the ledger and residue rows $L,Q$. The ledger licenses the visible row, and the residue row records what remains over that visible record. This is the finite trace counterpart of the residue family in \autoref{def:constructive-information-residue}.
+
+Read the refinement row $R$ and the join row $J$. They display how later compatible layers may return to the present visible record without erasing the residue data.
+
+The replay, provenance, and local naming rows $C,P,N$ then export the generated-information trace. Since the carrier has no coordinate for bare objects, hidden source equality, tower-external information, or final truth, omitting $Q$ or $R$ leaves the consumer with an incomplete visible read.
+\end{proof}
+
+\falsifiablePrediction{Any accepted generated-information read through $\InfoGenerationTraceUp$ must expose visible record, residue, compatible refinement, replay, provenance, and local NameCert rows before exporting the generated record.}
+
+\independenceWitness{constructive-information-generation, belief, generation-trace-adjacent, realityconstrainedtowerpacket, reflection-gap-audit, classifierboundary: $\InfoGenerationTraceUp$ is not bijective to any listed sibling because it binds one visible record to residue and compatible-refinement rows together with audit, replay, provenance, and local NameCert data.}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/InfoGenerationTraceUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \InfoGenerationTraceUp$ and $\mathsf{FieldFaithful}\ \InfoGenerationTraceUp$ instances. These instances must preserve the rows $S,V,L,Q,R,J,H,C,P,N$ as distinct fields before a checked carrier-alignment theorem can serve as the TasteGate witness.
+
+\closureat{InfoGenerationTraceUp}{seedStr}
+
+\begin{closurestatus}{\InfoGenerationTraceUp}
+  \constructivestory{An $\InfoGenerationTraceUp$ packet is generated from a source-carrier row, visible-record row, audit and gap ledger row, residue row, compatible-refinement row, visible-refinement join row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:info-generation-trace-carrier}, \autoref{thm:info-generation-trace-namecert-obligations}, and \autoref{thm:info-generation-trace-visible-residue} seed the finite trace packet realizing constructive information generation as visible rows plus residue and refinement data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close final physical truth, hidden source equality, tower-external information, host semantic completeness, unrecorded generation steps, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, visible-record exposure, audit and gap licensing, residue display, compatible refinement, visible-refinement joining, transport, replay, provenance, and local naming for BEDC.Derived.InfoGenerationTraceUp.}
+\end{closurestatus}

@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BorelMeasureUp$}
+\label{ch:concrete-instances-borel-measure-namecert}
+\origin{human}
+
+Following Halmos and Bourbaki on Borel measures, the $\BorelMeasureUp$ packet records the finite route from a displayed measurable space and its generated Borel event row to a measure value surface. It sits after the measurable-space carrier of \autoref{ch:concrete-instances-measurable-space-namecert}, the cover-valued outer-measure boundary of \autoref{ch:concrete-instances-outer-measure-namecert}, and the regular-measure consumer surface of \autoref{ch:concrete-instances-radon-measure-namecert}. The packet names a Borel-event measure route for downstream Radon and probability consumers; it is not a completed measure algebra, a host sigma-finiteness theorem, a quotient equality of measures, or an ambient standard Borel oracle.
+
+\begin{definition}[BorelMeasure carrier]
+\label{def:borel-measure-carrier}
+A $\BorelMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,A,E,O,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying measurable-space carrier row read through $\MeasurableSpaceUp$.
+\item $A$ is the displayed Borel event-family row over $X$, read through the generated-event surface already exposed by the measurable-space packet.
+\item $E$ is the event-admission classifier, recording that every measured event is read through $A$ before any value row is exposed.
+\item $O$ is the outer-measure boundary row, carrying empty-set, monotonicity, finite-cover, and Caratheodory test data from $\OuterMeasureUp$.
+\item $M$ is the Borel measure value row, assigning displayed real values only to admitted Borel events.
+\item $R$ is the regular-measure handoff row for consumers that later read the same values through $\RadonMeasureUp$.
+\item $H$ records componentwise $\hsame$ transport for measurable-space, Borel-event, outer-measure, value, Radon-handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the Borel event request through event admission, outer-measure boundary, measure value, Radon handoff, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BorelMeasureUp$, $\MeasurableSpaceUp$, $\OuterMeasureUp$, $\RadonMeasureUp$, $\MeasureUp$, $\ProbSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BorelMeasureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed measure algebra, host sigma-finiteness, quotient equality of measures, choice-selected Borel codes, or an ambient standard-model probability space.
+\end{definition}
+
+\begin{theorem}[BorelMeasure NameCert obligations]
+\label{thm:borel-measure-namecert-obligations}
+For every accepted $\BorelMeasureUp$ carrier $B=(X,A,E,O,M,R,H,C,P,N)$, the local $\NameCert_{\BorelMeasureUp}$ surface consists exactly of carrier admission through the measurable-space row $X$, Borel-event admission through $A$ and $E$, outer-measure boundary exposure through $O$, Borel measure valuation through $M$, Radon-facing regularity handoff through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Every downstream measure, probability, or Radon consumer must read the Borel event row before the value row. The packet exports no completed measure algebra, host sigma-finiteness theorem, quotient measure equality, choice-selected code enumeration, or ambient standard Borel oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:borel-measure-carrier}. The rows $X,A,E,O,M,R,H,C,P,N$ are the entire public surface of the packet.
+
+The measurable-space row $X$ and Borel event rows $A,E$ supply the domain on which value reads are legal. The outer-measure boundary row $O$ is the only route by which finite cover and Caratheodory test data enter the carrier.
+
+The measure value row $M$ is therefore exposed only after Borel event admission and outer-measure boundary data. The Radon handoff row $R$ records a downstream regularity request, but it does not add a host regularity theorem or a completed measure object.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since no further coordinate is present, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[BorelMeasure measurable-space handoff]
+\label{thm:borel-measure-measurable-space-handoff}
+Every accepted $\BorelMeasureUp$ packet hands a measure-facing consumer the route
+$$
+X,A,E,O \longmapsto M \longmapsto R,H,C,P,N
+$$
+where $X,A,E$ are read through \autoref{ch:concrete-instances-measurable-space-namecert}, $O$ is read through \autoref{ch:concrete-instances-outer-measure-namecert}, and $R$ is the regularity-facing row consumed by \autoref{ch:concrete-instances-radon-measure-namecert}. Thus Borel measure values are public only after the measurable-event and outer-measure boundary rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the measurable-space carrier. It supplies the underlying point row and generated Borel event family, so the Borel measure packet cannot expose $M$ before $X,A,E$ have been read.
+
+Next use the outer-measure boundary. The row $O$ supplies the finite cover and Caratheodory test data that make the Borel valuation a displayed measure route rather than a host assignment of values to arbitrary subsets.
+
+The Radon handoff row $R$ is downstream from $M$. Transport, replay, provenance, and local naming through $H,C,P,N$ keep the same order, so a Radon or probability consumer receives only the displayed Borel measure route and no hidden completed measure algebra.
+\end{proof}
+
+\falsifiablePrediction{A $\BorelMeasureUp$ consumer that reads a measure value $M$ without first exposing the Borel event rows $A,E$ and the outer-measure boundary row $O$ refutes the carrier surface.}
+
+\independenceWitness{measurable-space, outer-measure, radon-measure, measure, probspace: no listed sibling supplies the full ten-row packet $B=(X,A,E,O,M,R,H,C,P,N)$, because each sibling contributes only event admission, cover boundary, regularity, value, or normalization data while this chapter binds the Borel measure route with transport, replay, provenance, and local naming.}
+
+\closureat{BorelMeasureUp}{seedStr}
+
+\begin{closurestatus}{\BorelMeasureUp}
+  \constructivestory{A $\BorelMeasureUp$ packet is generated from measurable-space carrier rows, Borel event rows, event admission, outer-measure boundary data, Borel measure values, Radon handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:borel-measure-carrier}, \autoref{thm:borel-measure-namecert-obligations}, and \autoref{thm:borel-measure-measurable-space-handoff} seed the finite Borel measure route over measurable-space, Borel-event, outer-measure, value, Radon-handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, sigma-finiteness, quotient measure equality, selected Borel code enumeration, probability normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Borel-event exposure, outer-measure boundary coverage, Borel value exactness, Radon handoff, transport, replay, provenance, and local naming for BEDC.Derived.BorelMeasureUp.}
+\end{closurestatus}

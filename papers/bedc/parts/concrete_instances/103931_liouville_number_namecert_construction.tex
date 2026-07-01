@@ -57,11 +57,27 @@ The regular rational readback $R$ is then forced by the displayed windows. The c
 The transport, replay, provenance, and naming rows preserve that route. They add no coordinate for off-window choice, decimal uniqueness, transcendence, or a general completeness theorem, so every downstream consumer remains inside the finite NameCert packet.
 \end{proof}
 
+\begin{theorem}[LiouvilleNumber finite-window approximation induction]
+\label{thm:liouville-number-finite-window-approximation-induction}
+Let $L=(Q,D,S,R,A,E,H,C,P,N)$ be an accepted $\LiouvilleNumberUp$ carrier, and let $S'$ be a finite $\StreamNameUp$ extension of the inspected window schedule $S$ whose extra requests are witnessed by rows already routed through the rational-approximant row $Q$, the dyadic budget row $D$, the regular rational readback row $R$, the approximation classifier row $A$, and the $\RealUp$ seal row $E$. Then every real-name read over the extended finite window still factors through
+$$
+Q,D,S',R,A,E,H,C,P,N.
+$$
+The extension preserves the same Liouville-style route by finite-window induction, and it still refuses off-window choice, decimal expansion uniqueness, transcendence, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The base window is exactly the finite schedule $S$, and \autoref{thm:liouville-number-finite-approximation-handoff} gives the route through $Q,D,R,A,E,H,C,P,N$ for every inspected request in that schedule.
+
+For the induction step, add one displayed request to the window. The hypothesis on $S'$ supplies the matching rational approximant in $Q$, dyadic tolerance budget in $D$, regular rational readback in $R$, approximation classifier in $A$, and real seal in $E$ before the transport, replay, provenance, and naming rows are consulted.
+
+Iterating the finite step over the added window entries gives the displayed route for all of $S'$. Since the induction only appends inspected rows and never adds a coordinate outside $Q,D,S',R,A,E,H,C,P,N$, the packet still has no off-window choice function, decimal uniqueness principle, transcendence theorem, or ambient completeness theorem.
+\end{proof}
+
 \closureat{LiouvilleNumberUp}{seedStr}
 
 \begin{closurestatus}{\LiouvilleNumberUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:liouville-number-carrier}, \autoref{thm:liouville-number-namecert-obligations}, and \autoref{thm:liouville-number-finite-approximation-handoff} seed the finite Liouville-style real-name certificate over rational approximants, dyadic tolerance budgets, finite StreamName windows, RegSeqRat readback, and the Real seal.}
+  \scopeclosed{\autoref{def:liouville-number-carrier}, \autoref{thm:liouville-number-namecert-obligations}, \autoref{thm:liouville-number-finite-approximation-handoff}, and \autoref{thm:liouville-number-finite-window-approximation-induction} seed the finite Liouville-style real-name certificate over rational approximants, dyadic tolerance budgets, finite StreamName windows, RegSeqRat readback, and the Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, decimal expansion uniqueness, countable choice over approximants, a general irrationality theorem, transcendence, or ambient $\RealUp$ completeness.}

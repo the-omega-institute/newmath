@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowUniformCompletionUp$}
+\label{ch:concrete-instances-finite-window-uniform-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion, and Bourbaki and Kelley on uniform completion, the $\FiniteWindowUniformCompletionUp$ packet records the finite-window surface by which a uniform Cauchy completion request is inspected through StreamName windows, regular rational readback, and dyadic tolerance ledgers before any Real-facing seal is visible. It sits after the reflector of \autoref{ch:concrete-instances-uniform-completion-reflector-namecert}, the finite stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}; it also reads the terminal $\RealUp$ seal as a named row rather than as ambient completeness.
+
+\begin{definition}[Finite-window uniform completion carrier]
+\label{def:finite-window-uniform-completion-carrier}
+A $\FiniteWindowUniformCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,U,S,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\UniformCompletionReflectorUp$ row, naming the source uniform object, completion target, dense route, and reflector-facing route visible to the packet.
+\item $U$ is the $\UniformCauchyCompletionUp$ row, recording the uniform Cauchy family and the completion-facing request inspected by the finite window.
+\item $S$ is the $\StreamNameUp$ finite-window row; it exposes only the stream windows used by the uniform Cauchy request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, budgeting every displayed comparison made by the finite windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row on those same windows and dyadic tolerances.
+\item $E$ is the $\RealUp$ seal row reached only after $R,U,S,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the reflector, uniform Cauchy, stream-window, dyadic-tolerance, regular-readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a uniform completion request through $R,U,S,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowUniformCompletionUp$, $\UniformCompletionReflectorUp$, $\UniformCauchyCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowUniformCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,U,S,D,Q,E,H,C,P,N$. It has no coordinate for quotient completion objects, selected limit representatives, countable choice, host equality of completed points, detached Real completeness, or an ambient completion theorem.
+\end{definition}
+
+\begin{theorem}[Finite-window uniform completion NameCert obligations]
+\label{thm:finite-window-uniform-completion-namecert-obligations}
+For every accepted $\FiniteWindowUniformCompletionUp$ carrier $W=(R,U,S,D,Q,E,H,C,P,N)$, the local $\NameCert_{\FiniteWindowUniformCompletionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item reflector admission through the $\UniformCompletionReflectorUp$ row $R$;
+\item uniform Cauchy admission through the $\UniformCauchyCompletionUp$ row $U$;
+\item finite observation through the $\StreamNameUp$ row $S$;
+\item dyadic tolerance exactness through the $\DyadicRatCoreUp$ row $D$;
+\item regular rational readback through the $\RegSeqRatUp$ row $Q$;
+\item terminal sealing through the $\RealUp$ row $E$;
+\item componentwise $\hsame$ transport and displayed $\Cont$ replay through $H$ and $C$;
+\item $\Pkg$ provenance and local naming through $P$ and $N$.
+\end{enumerate}
+These rows exhaust the certificate surface and add no quotient completion, selected limit, countable-choice, host-equality, detached-completeness, or ambient-completion coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-uniform-completion-carrier}. Its visible coordinates are $R,U,S,D,Q,E,H,C,P,N$, so every local obligation must be read from one of those rows.
+
+The completion request enters through the reflector row $R$ and the uniform Cauchy row $U$. The only observations available to that request are the StreamName windows $S$, the dyadic tolerance row $D$, and the RegSeqRat readback row $Q$.
+
+The terminal row is $E$. Since $E$ is downstream of the finite observation stack, a Real-facing consumer cannot read a completed point, selected representative, or ambient completeness theorem before the displayed rows have been exposed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. No refused host-side principle appears as a carrier coordinate, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite-window uniform completion nonescape]
+\label{thm:finite-window-uniform-completion-nonescape}
+Every Real-facing or completion-facing consumer of an accepted $\FiniteWindowUniformCompletionUp$ packet factors through the finite route
+$$
+\UniformCompletionReflectorUp,\UniformCauchyCompletionUp
+\longmapsto
+\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The route is transported by $\hsame$, replayed by $\Cont$, sourced by $\Pkg$, and locally named by $\NameCert$ through the rows $H,C,P,N$. It exports no quotient completion object, selected limit representative, countable-choice schedule, host equality of completed points, detached $\RealUp$ completeness, or ambient uniform-completion theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $W=(R,U,S,D,Q,E,H,C,P,N)$. The reflector and uniform Cauchy rows $R,U$ are the only completion-request coordinates.
+
+The finite observational stack is $S,D,Q$. These rows expose the stream windows, tolerance ledger, and regular rational readback used by the request, and no consumer can bypass them because no other observation coordinate is present.
+
+The only terminal seal is $E$. The structural rows $H,C,P,N$ preserve and name the same displayed route, while the carrier has no quotient, selection, choice, host-equality, detached-completeness, or ambient-completion coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteWindowUniformCompletionUp$ consumer that reaches a $\RealUp$ or completion-facing boundary while omitting the reflector row, uniform Cauchy row, StreamName windows, DyadicRatCore tolerance row, RegSeqRat readback row, Real seal, transport, replay, provenance, or local naming row refutes the packet.}
+
+\independenceWitness{uniform-completion-reflector, uniform-cauchy-completion, streamname, dyadicratcore, regseqrat, real: $\FiniteWindowUniformCompletionUp$ is not bijective to any listed sibling because it jointly carries the reflector route, uniform Cauchy request, finite windows, dyadic tolerances, regular readback, Real seal, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{FiniteWindowUniformCompletionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowUniformCompletionUp}
+  \constructivestory{A $\FiniteWindowUniformCompletionUp$ packet is generated from UniformCompletionReflector, UniformCauchyCompletion, StreamName, DyadicRatCore, RegSeqRat, RealUp, hsame, Cont, Pkg, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-uniform-completion-carrier}, \autoref{thm:finite-window-uniform-completion-namecert-obligations}, \autoref{thm:finite-window-uniform-completion-nonescape}, the falsifiable prediction, and the independence witness seed the finite-window uniform completion route from uniform Cauchy data to Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion objects, selected limit representatives, countable choice, host equality of completed points, detached $\RealUp$ completeness, ambient uniform completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, reflector admission, uniform Cauchy admission, finite-window readback, dyadic tolerance exactness, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWindowUniformCompletionUp.}
+\end{closurestatus}

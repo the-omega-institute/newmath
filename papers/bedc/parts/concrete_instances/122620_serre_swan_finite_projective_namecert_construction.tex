@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\SerreSwanFiniteProjectiveUp$}
+\label{ch:concrete-instances-serre-swan-finite-projective-namecert}
+\origin{human}
+
+Following Serre and Swan, the $\SerreSwanFiniteProjectiveUp$ packet records the finite bridge by which a vector-bundle row over a compact base is read as a finite-projective module row, and conversely by which displayed finite-projective module data supplies the local vector-bundle surface consumed by BEDC readers. It sits between the vector-bundle certificate of \autoref{ch:concrete-instances-vectorbundle-namecert}, the module carrier of \autoref{ch:concrete-instances-module-namecert}, and the scalar ring source of \autoref{ch:concrete-instances-ring-namecert}. The packet names only displayed section rows, idempotent matrix rows, local trivialization rows, transport, replay, provenance, and local naming; it does not import a host equivalence of categories, selected global bases, quotient module equality, or ambient compactness outside the carried rows.
+
+\begin{definition}[Serre--Swan finite-projective carrier]
+\label{def:serre-swan-finite-projective-carrier}
+A $\SerreSwanFiniteProjectiveUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,R,M,E,V,L,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact-base naming row over which the section and vector-bundle reads are scoped.
+\item $R$ is the scalar $\RingUp$ row for continuous scalar functions on the displayed base.
+\item $M$ is the $\ModuleUp$ row carrying the finite-projective section module with its displayed scalar action.
+\item $E$ is the idempotent or finite-summand ledger witnessing finite projectivity through matrix rows over $R$.
+\item $V$ is the $\VectorBundleUp$ row carrying fibres, local trivializations, transition maps, and overlap checks.
+\item $L$ is the local section ledger, displaying the finite windows in which module generators read as bundle sections and bundle sections read back as module elements.
+\item $Q$ is the comparison row tying the projective-module idempotent surface to the vector-bundle transition surface.
+\item $H$ records componentwise $\hsame$ transport for the base, scalar ring, module, idempotent, vector-bundle, section, comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Serre--Swan request through $X,R,M,E,V,L,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SerreSwanFiniteProjectiveUp$, $\VectorBundleUp$, $\ModuleUp$, $\RingUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SerreSwanFiniteProjectiveUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,R,M,E,V,L,Q,H,C,P,N$. It has no coordinate for a host category equivalence, a selected basis, quotient equality of modules, an ambient sheaf of sections, or external compactness data.
+\end{definition}
+
+\begin{theorem}[Serre--Swan finite-projective NameCert obligations]
+\label{thm:serre-swan-finite-projective-namecert-obligations}
+For every accepted $\SerreSwanFiniteProjectiveUp$ carrier
+$$
+S=(X,R,M,E,V,L,Q,H,C,P,N),
+$$
+the local $\NameCert_{\SerreSwanFiniteProjectiveUp}$ surface consists exactly of carrier admission for the displayed base row, scalar ring row, finite-projective module row, idempotent ledger, vector-bundle row, local section ledger, comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer of the Serre--Swan handoff must expose $X,R,M,E,V,L,Q,H,C,P,N$ before reading either the finite-projective module side or the vector-bundle side as public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:serre-swan-finite-projective-carrier}. The finite packet contains only the base, ring, module, idempotent, vector-bundle, section, comparison, transport, replay, provenance, and local naming rows.
+
+The module-facing read is routed through $R,M,E$. The scalar ring row supplies the displayed coefficients, the module row supplies the carrier and scalar action, and the idempotent ledger supplies the finite-projective witness rather than a selected basis or quotient-module equality.
+
+The bundle-facing read is routed through $V,L,Q$. The vector-bundle row exposes fibres and transition data, the local section ledger records the finite section windows, and the comparison row is the only bridge between those windows and the finite-projective module surface.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite rows. Since no host category equivalence, ambient section sheaf, external compactness assertion, or selected global basis is present in the carrier, the listed rows exhaust the public NameCert obligations.
+\end{proof}
+
+\closureat{SerreSwanFiniteProjectiveUp}{seedStr}
+
+\begin{closurestatus}{\SerreSwanFiniteProjectiveUp}
+  \constructivestory{A $\SerreSwanFiniteProjectiveUp$ packet is generated from a displayed base row, scalar Ring row, finite-projective Module row, idempotent ledger, VectorBundle row, local section ledger, comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:serre-swan-finite-projective-carrier} and \autoref{thm:serre-swan-finite-projective-namecert-obligations} seed the finite Serre--Swan handoff between finite-projective module rows and vector-bundle rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host equivalence of categories, selected global bases, quotient module equality, ambient sheaf semantics, external compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, idempotent-ledger exposure, vector-bundle section handoff, comparison-row exactness, transport, replay, provenance, and local naming for BEDC.Derived.SerreSwanFiniteProjectiveUp.}
+\end{closurestatus}

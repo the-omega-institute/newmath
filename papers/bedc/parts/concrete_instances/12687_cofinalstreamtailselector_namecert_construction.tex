@@ -240,6 +240,21 @@ Use public-window transport to preserve the same route across any public handoff
 \end{proof}
 \leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorBridgeSurface}
 
+\begin{theorem}[Cofinal StreamName tail selector Real-seal bridge]
+\label{thm:cofinal-stream-tail-selector-real-seal-bridge}
+Any Real-facing bridge from an accepted $\CofinalStreamTailSelectorUp$ packet factors the $\RealUp$ seal through the displayed precision request, cofinal $\StreamNameUp$ tail window, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ readback, selector provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The bridge may cite the public certificate and public-window transport only in this order, and it cannot replace the route by quotient stream equality, a hidden tail selector, a host limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalStreamTailSelectorUp.CofinalStreamTailSelectorRealSealBridge}
+\begin{proof}
+Start with the public certificate of \autoref{thm:cofinal-stream-tail-selector-public-certificate}. It exposes exactly the accepted rows $\epsilon,W,R,D,A,\sigma,H,C,P,N$ and places the Real seal inside the same finite packet as the precision request, cofinal window, regular handoff, dyadic readback, selector provenance, transport, replay, provenance, and local naming row.
+
+Apply the public-window transport theorem of \autoref{thm:cofinal-stream-tail-selector-public-window-transport}. It preserves the order $\epsilon \to W \to R \to D \to \sigma \to A$ across any public handoff, so a Real-facing bridge cannot move the seal ahead of the displayed window or readback rows.
+
+Use the scoped route of \autoref{thm:cofinal-stream-tail-selector-scoped-route}, the seal-order theorem of \autoref{thm:cofinal-stream-tail-selector-seal-order}, and the window-readback scope of \autoref{thm:cofinal-stream-tail-selector-window-readback-scope}. These results keep the bridge inside $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with $A$ downstream of $W,R,D,\sigma$.
+
+Finally apply the bridge-surface theorem of \autoref{thm:cofinal-stream-tail-selector-bridge-surface}. Since that surface has no coordinate for quotient stream equality, hidden tail selectors, host limits, countable choice, or ambient Real completeness, every Real-facing bridge must factor the seal through the displayed finite route.
+\end{proof}
+
 \falsifiablePrediction{A selector packet that lacks a displayed cofinal StreamName tail window is not an accepted CofinalStreamTailSelectorUp carrier.}
 \independenceWitness{regularcauchytailselector, dyadiccofinaltailselector, diagonaltailselector, realcompletionselectorseal: these siblings expose tail, dyadic, diagonal, or seal rows separately, while CofinalStreamTailSelectorUp binds all of them with StreamName cofinal-window selection and RealUp seal handoff, so no row-preserving bijection exists.}
 

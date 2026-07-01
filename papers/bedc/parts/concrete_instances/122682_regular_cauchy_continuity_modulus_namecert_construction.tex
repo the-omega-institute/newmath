@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyContinuityModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-continuity-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, continuity on regular Cauchy names is witnessed by an explicit finite modulus that turns a target tolerance into a source-window and dyadic-tolerance budget. The $\RegularCauchyContinuityModulusUp$ packet sits between the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite transformer surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert}. It names the regular-Cauchy continuity budget consumed by later completion arguments without asserting ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy continuity-modulus carrier]
+\label{def:regular-cauchy-continuity-modulus-carrier}
+A $\RegularCauchyContinuityModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,E,D,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyContinuousMapUp$ transformer row whose source and target regular-name reads are being controlled.
+\item $E$ is the target-error row, a finite $\DyadicRatCoreUp$ tolerance request presented before any source-window read is served.
+\item $D$ is the dyadic control ledger, recording the source tolerance, target tolerance, and finite comparison rows used by the modulus.
+\item $W$ is the $\StreamNameUp$ finite-window row opened on the source and target Cauchy names.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows and dyadic ledger.
+\item $S$ is the terminal $\RealUp$ seal row, exposed only after $F,E,D,W,R$ have all been replayed.
+\item $H$ records componentwise $\hsame$ transport for transformer, tolerance, dyadic-control, stream-window, regular-readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request through the transformer, dyadic control, finite windows, regular readback, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyContinuityModulusUp$, $\CauchyContinuousMapUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyContinuityModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host function on reals, quotient stream equality, countable choice over source windows, selected representatives, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy continuity-modulus NameCert obligations]
+\label{thm:regular-cauchy-continuity-modulus-namecert-obligations}
+For every accepted $\RegularCauchyContinuityModulusUp$ carrier $M=(F,E,D,W,R,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchyContinuityModulusUp}$ surface is exhausted by carrier admission for the displayed transformer, target-error, dyadic-control, stream-window, regular-readback, real-seal, transport, replay, provenance, and local naming rows; target tolerance exposure through $E$; dyadic control through $D$; finite-window accountability through $W$; regular readback through $R$; and refusal of host real functions, quotient stream equality, selected representatives, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:regular-cauchy-continuity-modulus-carrier}. The tuple $F,E,D,W,R,S,H,C,P,N$ is the only packet available to the local naming row.
+
+The target tolerance first appears as the row $E$. The dyadic control row $D$ then records the source-side tolerance and comparison data, and the finite stream window row $W$ records exactly which Cauchy-name prefixes are opened before the transformer row $F$ is read.
+
+Regular readback through $R$ and terminal sealing through $S$ are downstream of the same finite route. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve that packet without adding a host function, quotient equality, representative selector, choice schedule, trichotomy, or Real-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy continuity dyadic control]
+\label{thm:regular-cauchy-continuity-modulus-dyadic-control}
+Every accepted $\RegularCauchyContinuityModulusUp$ read that is consumed by a $\CauchyContinuousMapUp$, $\RegSeqRatUp$, or $\RealUp$ route must expose the finite $\DyadicRatCoreUp$ target tolerance $E$, the dyadic control ledger $D$, the $\StreamNameUp$ window row $W$, and the $\RegSeqRatUp$ readback row $R$ before the terminal $\RealUp$ seal $S$ is available. The packet therefore supplies finite regular-Cauchy continuity control, not an ambient continuity theorem for completed reals.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-continuity-modulus-namecert-obligations}. It places target tolerance exposure, dyadic control, finite-window accountability, and regular readback inside the same local NameCert surface.
+
+The consumer route through $\CauchyContinuousMapUp$ reads the transformer row $F$ only together with the tolerance rows $E,D$ and the finite stream windows $W$. The $\RegSeqRatUp$ row $R$ is then the visible regular-name readback produced from those displayed rows.
+
+Only after that readback may the terminal seal $S$ be consumed by a $\RealUp$-facing route. Since the carrier of \autoref{def:regular-cauchy-continuity-modulus-carrier} has no row for completed-real continuity, quotient streams, selected representatives, countable choice, trichotomy, or host real equality, the dyadic control route is exactly the finite packet described above.
+\end{proof}
+
+\closureat{RegularCauchyContinuityModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyContinuityModulusUp}
+  \constructivestory{A $\RegularCauchyContinuityModulusUp$ packet is generated from a CauchyContinuousMap transformer row, target dyadic tolerance, dyadic control ledger, finite StreamName windows, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-continuity-modulus-carrier}, \autoref{thm:regular-cauchy-continuity-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-continuity-modulus-dyadic-control} seed the finite regular-Cauchy continuity-modulus carrier and its dyadic control route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed-real continuity, quotient stream equality, selected representatives, countable choice over windows, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires binding the transformer, target-error, dyadic-control, finite-window, regular-readback, seal, transport, replay, provenance, and local naming rows to BEDC primitives.}
+\end{closurestatus}

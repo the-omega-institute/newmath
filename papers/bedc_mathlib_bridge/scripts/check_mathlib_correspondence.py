@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 from matrix_metadata import (
     MatrixMetadataError,
@@ -25,7 +26,11 @@ def find_bridge_root() -> Path:
     raise RuntimeError("cannot locate papers/bedc_mathlib_bridge root")
 
 
-def render_audit(rows: list[dict[str, str]]) -> str:
+def render_name_array(names: list[str]) -> str:
+    return "#[" + ", ".join(lean_name(name) for name in names) + "]"
+
+
+def render_audit(rows: list[dict[str, Any]]) -> str:
     entries = []
     for row in rows:
         entries.append(
@@ -33,7 +38,8 @@ def render_audit(rows: list[dict[str, str]]) -> str:
             + lean_string(row["row_id"])
             + f", correspondenceDecl := {lean_name(row['mathlib_correspondence_decl'])}"
             + f", bedcDecl := {lean_name(row['bedc_irreducible_decl'])}"
-            + f", mathlibDecl := {lean_name(row['mathlib_decl'])} }}"
+            + f", mathlibDecl := {lean_name(row['mathlib_decl'])}"
+            + f", consumedDecls := {render_name_array(row['bedc_consumed_decl'])} }}"
         )
     body = ",\n  ".join(entries)
     return (
