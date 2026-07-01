@@ -63,6 +63,9 @@ jobs:
       - name: "Triangle coverage (anti-vacuity + designated three-axis structure)"
         run: python3 lean4/scripts/triangle_coverage.py
 
+      - name: "No-fake-RH audit (conditional route boundary)"
+        run: python3 lean4/scripts/no_fake_rh_audit.py
+
       - name: Save Lean .lake cache (canonical branches only)
         if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/lean4-codex-auto-dev')
         uses: actions/cache/save@v4
