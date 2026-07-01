@@ -10287,6 +10287,7 @@ import BEDC.Derived.RHRoute.GoldenPowSignedExponent
 import BEDC.Derived.RHRoute.GroundedAltConvergence
 import BEDC.Derived.RHRoute.HalfPlaneEulerProduct
 import BEDC.Derived.RHRoute.HaltingBoundary
+import BEDC.Derived.RHRoute.HausdorffMomentCertificate
 import BEDC.Derived.RHRoute.InfinitePrimeTorusCompatibility
 import BEDC.Derived.RHRoute.InterlayerSpectralDynamics
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
@@ -13501,6 +13502,7 @@ import BEDC.Derived.Window6RisingColumnTripleRecurrence
 import BEDC.Derived.Window6SaturationDeficitExtremal
 import BEDC.Derived.Window6SeamGluingParity
 import BEDC.Derived.Window6SeamIdentification
+import BEDC.Derived.Window6SignedInvolutionFixedPoint
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
 import BEDC.Derived.Window6StaircaseDominoTripleRecurrence
