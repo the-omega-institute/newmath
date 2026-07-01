@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SternBrocotRealCompletionUp$}
+\label{ch:concrete-instances-stern-brocot-real-completion-namecert}
+\origin{human}
+
+Following Stern and Brocot's mediant enumeration and the Hardy--Wright continued-fraction treatment of rational bracketing, the $\SternBrocotRealCompletionUp$ packet reconstructs a real-completion route from finite rational intervals. It sits beside the tree carrier of \autoref{ch:concrete-instances-stern-brocot-namecert} and the expansion carrier of \autoref{ch:concrete-instances-continued-fraction-real-namecert}, then hands its regular refinement stream to \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet records only finite bracketing, mediant refinement, dyadic tolerance, stream handoff, transport, replay, provenance, and local naming rows; it does not import Dedekind cuts, quotient real equality, selected limits, completeness, or choice.
+
+\begin{definition}[Stern-Brocot real-completion carrier]
+\label{def:stern-brocot-real-completion-carrier}
+A $\SternBrocotRealCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,M,T,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is a finite $\SternBrocotUp$ bracket row, naming adjacent rational endpoints and the finite path that generated them.
+\item $M$ is the mediant-refinement row, recording the next finite bracket rows obtained by the Stern--Brocot mediant rule.
+\item $T$ is the dyadic tolerance row, bounding each active bracket width by a displayed $\DyadicRatCoreUp$ tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ rational-core readback used to compare bracket widths and tolerances.
+\item $R$ is the $\RegSeqRatUp$ stream row obtained by reading the bracket representatives through the dyadic tolerance schedule.
+\item $E$ is the $\RealUp$ seal row receiving the regular rational stream as a completion candidate.
+\item $H$ records componentwise $\hsame$ transport for brackets, mediant refinements, tolerances, dyadic rational rows, regular rational streams, Real seals, provenance, and local names.
+\item $C$ records displayed $\Cont$ replay from finite bracket data through mediant refinement, dyadic tolerance, $\RegSeqRatUp$ stream handoff, and the $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\SternBrocotRealCompletionUp$, $\SternBrocotUp$, $\ContinuedFractionRealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SternBrocotRealCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,M,T,D,R,E,H,C,P,N$. It contains no coordinate for Dedekind cuts, quotient real equality, selected limiting points, completeness of $\RealUp$, host real arithmetic, or choice.
+\end{definition}
+
+\begin{theorem}[Stern-Brocot real-completion NameCert obligations]
+\label{thm:stern-brocot-real-completion-namecert-obligations}
+For every accepted $\SternBrocotRealCompletionUp$ carrier
+$$
+S=(B,M,T,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SternBrocotRealCompletionUp}$ surface consists exactly of Stern--Brocot bracket exposure through $B$, mediant refinement exposure through $M$, dyadic tolerance exposure through $T$, $\DyadicRatCoreUp$ readback through $D$, $\RegSeqRatUp$ stream handoff through $R$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stern-brocot-real-completion-carrier}. Rows $B,M,T,D,R,E$ are the completion-facing data, while $H,C,P,N$ are the structural certificate rows.
+
+The rational bracketing route begins with $B$ and $M$. The Stern--Brocot row supplies adjacent rational endpoints, and the mediant row records the finite refinement step without reading an infinite path as a completed object.
+
+The tolerance route then runs through $T$ and $D$. The dyadic row bounds bracket widths by finite rational data, so the regular stream handoff has a displayed tolerance source rather than an ambient real limit.
+
+Finally the handoff through $R$ and $E$ presents the regular rational stream to the $\RealUp$ seal. The transport, replay, provenance, and local naming rows preserve this finite route, so no Dedekind cut, quotient equality, selected limit, completeness principle, or choice coordinate is available.
+\end{proof}
+
+\begin{theorem}[Stern-Brocot real-completion sibling route]
+\label{thm:stern-brocot-real-completion-sibling-route}
+Every public read of an accepted $\SternBrocotRealCompletionUp$ packet factors through the sibling rows named by the carrier: the $\SternBrocotUp$ bracket row, the continued-fraction bracketing discipline of $\ContinuedFractionRealUp$, the $\DyadicRatCoreUp$ tolerance row, the $\RegSeqRatUp$ regular stream row, and the terminal $\RealUp$ seal. A consumer cannot read the packet as an isolated completeness theorem or as quotient real equality.
+\end{theorem}
+\begin{proof}
+Begin with the carrier. Its first two rows, $B$ and $M$, are finite Stern--Brocot bracket data; they match the rational bracketing route also exposed by the continued-fraction real packet.
+
+Next read the dyadic tolerance and rational-core rows $T,D$. These rows keep the finite bracket widths explicit before any regular stream can be named.
+
+The $\RegSeqRatUp$ row $R$ and $\RealUp$ seal $E$ then provide the completion-facing handoff. Since the structural rows $H,C,P,N$ replay and source only this route, the consumer receives a rational-refinement certificate rather than a Dedekind cut, quotient equality class, selected limit, or completeness theorem.
+\end{proof}
+
+\closureat{SternBrocotRealCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SternBrocotRealCompletionUp}
+  \constructivestory{A $\SternBrocotRealCompletionUp$ packet is generated from finite Stern--Brocot bracket rows, mediant refinement rows, dyadic tolerance rows, $\DyadicRatCoreUp$ rational-core readback, a $\RegSeqRatUp$ stream handoff, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stern-brocot-real-completion-carrier}, \autoref{thm:stern-brocot-real-completion-namecert-obligations}, and \autoref{thm:stern-brocot-real-completion-sibling-route} seed the finite rational-bracketing route from Stern--Brocot refinement to a regular rational stream and a Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient real equality, selected limits, completeness, host real arithmetic, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mediant refinement, dyadic tolerance exactness, RegSeqRat stream handoff, Real seal exposure, hsame transport, Cont replay, Pkg provenance, and local NameCert coverage for BEDC.Derived.SternBrocotRealCompletionUp.}
+\end{closurestatus}
