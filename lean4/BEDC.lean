@@ -1151,6 +1151,7 @@ import BEDC.Derived.BishopRealConstructionUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealLocatedOrderUp.TasteGate
+import BEDC.Derived.BishopRealNameRealizerUp
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
 import BEDC.Derived.BishopRealNumberUp.TasteGate
 import BEDC.Derived.BishopRealPrecisionUp.TasteGate
