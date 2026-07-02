@@ -519,6 +519,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-02T22:04:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness:0d0a2139`). Rationale: The target is not a vacuous restatement: it projects the identity packet's ledger, route, provenance, SameSig, and UnaryHistory boundary from the ObserverHistoryIdentity carrier. It was isolated, so I added a sibling consumer in ObserverFilterUp that explicitly invokes this theorem and hands the identity ledger/provenance rows into the observer-filter route/provenance boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-02T23:15:23Z: `resolved` `delete_theorem` for `BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff:982457e5`). Rationale: The declaration rebuilt a local SemanticNameCert for a bracket row from D,L,U and Cont data, but repo search found no Lean consumer; the only reference was the paper leanchecked marker. The nearby bound consumer theorem proves its own certificate directly and is the closure target, so keeping this target as an isolated checked claim adds no downstream BEDC surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
