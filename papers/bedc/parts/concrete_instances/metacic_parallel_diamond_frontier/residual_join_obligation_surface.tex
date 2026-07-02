@@ -188,3 +188,21 @@ Next use finite residual witness consumption, \autoref{thm:metacic-parallel-diam
 
 Finally apply the candidate strong-normalization handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. Since the handoff consumes only the displayed candidate-mediated surface and the rows $P$ and $O$ are still present through $H,T,G,N$, the exported join remains a local frontier obligation and none of the refused global endpoints is introduced.
 \end{proof}
+
+\begin{theorem}[MetaCIC residual-join window determinacy]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-window-determinacy}
+Let two accepted candidate-mediated residual-join reads of a $\MetaCICParallelDiamondFrontierUp$ packet expose the same retained premise row $P$, critical-pair row $K$, candidate row $J$, residual witness rows $R,S,C,B$, obstruction row $O$, transport rows $H,T$, provenance row $G$, and local $\NameCert$ row $N$. Then the two reads determine the same local join window over the finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The conclusion is only local window determinacy for the displayed residual-join surface. It is not global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First compose the residual-join obligation carrier of \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligation-carrier}. Both reads expose the same carrier-local rows, so the retained premise, critical-pair row, candidate row, residual witness rows, obstruction row, transport, replay, provenance, and local naming are the same displayed packet.
+
+Next apply the residual-budget diamond obligation of \autoref{thm:metacic-parallel-diamond-residual-budget-obligation}. The budgeted local diamond handoff cannot leave the route $P,K,J,R,S,C,B,O,H,T,G,N$, and the shared rows therefore force both reads to consume the same bounded residual window.
+
+Use finite residual witness consumption to keep $R,S,C,B$ as the displayed witness and checker rows of that same window. The shared obstruction row $O$ and shared transport rows $H,T$ prevent either read from replacing the witness by an external evaluator equality or quotient term equality.
+
+Finally apply the candidate strong-normalization handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. Since the handoff consumes only the shared candidate-mediated surface, the two accepted reads determine one local join window. The argument never exports global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
