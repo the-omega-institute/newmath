@@ -9958,6 +9958,7 @@ import BEDC.Derived.PointedCompleteMetricSpaceUp
 import BEDC.Derived.PointedCompleteMetricSpaceUp.CauchyBasepointRoute
 import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricUp
+import BEDC.Derived.PointedCompleteMetricUp.TasteGate
 import BEDC.Derived.PointedGromovHausdorffUp.TasteGate
 import BEDC.Derived.PointedMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedSetUp
@@ -13053,6 +13054,7 @@ import BEDC.Derived.TotallyBoundedCompletionUp.ScopedConsumerCoverage
 import BEDC.Derived.TotallyBoundedCompletionUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp.UniformExtensionLedger
 import BEDC.Derived.TotallyBoundedIntervalUp
+import BEDC.Derived.TotallyBoundedIntervalUp.TasteGate
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
@@ -13634,6 +13636,7 @@ import BEDC.Derived.Window6LucasKernelObstruction
 import BEDC.Derived.Window6LucasNecklaceBurnside
 import BEDC.Derived.Window6MaximalIndependentSetPadovan
 import BEDC.Derived.Window6MedianZeroTriplePell
+import BEDC.Derived.Window6MirrorSkewNeutralSplit
 import BEDC.Derived.Window6ModP571Singularity
 import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6NecklaceSpectralDeterminant

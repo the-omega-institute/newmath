@@ -97,4 +97,40 @@ theorem RealModulusFusionRegseqHandoff [AskSetup] [PackageSetup]
     _nUnary, _sourceModulus, tailWindow, handoffSeal, _hContCName, pkgRow⟩ := carrier
   exact ⟨tailWindow, handoffSeal, rUnary, pkgRow⟩
 
+theorem RealModulusFusionSharedTailWindowExhaustion [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N consumer : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont W consumer R ->
+        Cont E consumer N ->
+          UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧ UnaryHistory R ∧
+            UnaryHistory E ∧ Cont X M T ∧ Cont T W R ∧ Cont R S E ∧
+              Cont W consumer R ∧ Cont E consumer N ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier windowConsumer sealConsumer
+  obtain ⟨_xUnary, mUnary, tUnary, wUnary, rUnary, _sUnary, eUnary, _hUnary, _cUnary,
+    _nUnary, sourceModulus, tailWindow, handoffSeal, _hContCName, pkgRow⟩ := carrier
+  exact
+    ⟨mUnary, tUnary, wUnary, rUnary, eUnary, sourceModulus, tailWindow, handoffSeal,
+      windowConsumer, sealConsumer, pkgRow⟩
+
+theorem RealModulusFusionRealSealBoundary [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N sealRow : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont E N sealRow ->
+        PkgSig bundle sealRow pkg ->
+          UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+            UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory sealRow ∧
+              Cont X M T ∧ Cont T W R ∧ Cont R S E ∧ Cont E N sealRow ∧
+                PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier sealRoute sealPkg
+  obtain ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, _hUnary, _cUnary,
+    nUnary, sourceModulus, tailWindow, handoffSeal, _hContCName, _pkgRow⟩ := carrier
+  have sealUnary : UnaryHistory sealRow := unary_cont_closed eUnary nUnary sealRoute
+  exact
+    ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, sealUnary,
+      sourceModulus, tailWindow, handoffSeal, sealRoute, sealPkg⟩
+
 end BEDC.Derived.RealModulusFusionUp
