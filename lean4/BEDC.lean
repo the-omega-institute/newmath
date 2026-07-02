@@ -10095,6 +10095,7 @@ import BEDC.Derived.PreuniformityUp.FilterBaseRoute
 import BEDC.Derived.PreuniformityUp.NameCertObligations
 import BEDC.Derived.PreuniformityUp.TasteGate
 import BEDC.Derived.PriestleyDualityUp.TasteGate
+import BEDC.Derived.PrimaryDecompositionUp.TasteGate
 import BEDC.Derived.PrimeAdicLocalSlicing
 import BEDC.Derived.PrimeAdicParityEnergyWindow
 import BEDC.Derived.PrimeAdicParitySphere
@@ -13387,6 +13388,7 @@ import BEDC.Derived.UniformCompletionUp.TasteGate
 import BEDC.Derived.UniformContinuityModulusUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
+import BEDC.Derived.UniformContractionRealCompletionUp.TasteGate
 import BEDC.Derived.UniformConvergenceCauchyCriterionUp.TasteGate
 import BEDC.Derived.UniformConvergencePreservesContinuityUp
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
