@@ -159,6 +159,8 @@ H3 Residual Specificity D Resid4 & The cross-organism-conserved d\_resid4 (B*\_Q
 E1e2 Low Order Localization D Resid4 & E1-vs-E2 low-order localization of d\_resid4: whether the conserved low-order codon geometry is degree-1 (single-position) vs degree-2 (di-position), excluding refuted degree-3. Identifiability preflight FAILS: under the basic non-B* quotient (Q0W rank 39), L2+L3 saturate the full controlled space (rank 39) so degree-1 is fully subsumed (r1|23=0, Frobenius(U1|23)\textasciitilde{}9e-29); only degree-2 has an identifiable unique component (r2|13=8). Clean E1-vs-E2 semipartial split is non-identifiable on this 12-organism matrix. Informative sub-finding: the identifiable conserved low-order residual can only live in degree-2-unique U2|13; degree-1 codon geometry adds nothing unique after degree-2+3. & \texttt{needs\_derivation} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.e2_unique_concentration_d_resid4 status=refuted
 E2 Unique Concentration D Resid4 & The cross-organism-conserved low-order-after-H3 component of d\_resid4 is NOT concentrated in the identifiable degree-2-unique codon-geometry space U2|13. Test (oracle-designed): C(U2|13)/C(U12|3) vs 8/12 rank-share, dimension-normalized density a2 vs a\_amb, within-AA label-permutation null B=50000. Result REFUTED: F\_obs=0.617 (below both 0.80 necessity and 0.667 rank-share), a2=0.00564 < a\_amb=0.00702 (ambiguous 4D residue denser than degree-2-unique 8D), A\_obs=-0.0014. C(U12|3)=0.0732 cross-experiment-consistent with H3 run. Completes the d\_resid4 static Hamming-degree decomposition: not degree-3 (H3 failed), degree-1 non-identifiable (subsumed), degree-2-unique not concentrated (refuted). Conclusion: d\_resid4 is a real cross-organism-conserved LOW-ORDER codon-usage residual not attributable to any single clean H(3,4) Hamming degree; the static codon-cube geometric decomposition is exhausted for d\_resid4. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.host_defense.asd_w6_self_tail_erasability status=data_gate_failed
+Asd W6 Self Tail Erasability & Test (oracle-designed, ASD-W6 exact-null): do bacterial genomes ERASE self-targeting Window6 (W6) codon-features from high-defense-density (high-D) internal windows -- i.e. are self-tail W6 states DEPLETED (OR<1) in high-D windows vs an exact gene-wise synonymous-codon expectation, with a monotone dose-response in local defense density, self-tail>decoy specificity, and consistent genus/species sign? Carrier = per-genome high-D window W6-state occupancy; null = EXACT analytical gene-wise within-AA synonymous expectation E\_g[c,d] (replaces 400x Monte-Carlo shuffles; selftest-verified max abs err <0.012 vs 50000 MC). Run: 1300 selected assemblies, 1293 valid, 589 genera, exact\_E=2.53e8. VERDICT data\_gate\_failed: pre-registered preflight tripped (35/1293=2.7\% small genomes fail per-genome QC qc\_cds\_lt\_800 / internal\_windows\_lt\_150000). CRUCIALLY the aggregate over valid genomes shows NO erasability and mild ANTI-direction: pooled high-D OR=1.037 (upper95 1.043) is ENRICHMENT not depletion; depletion bootstrap p=1.0 (zero support); dose spearman=+0.75 with 6+ bin ratio=1.083 highest (self-tail features MORE present at high defense dose, opposite of erasability); dose\_monotone=false, neg\_slope\_bootstrap\_fraction=0.0; p\_decoy=1.0, genus\_sign\_p=1.0, species\_sign\_p=1.0 (no specificity). Excluding the 35 QC-fail genomes leaves 1258 (>1000 species, 589>200 genera) still well-powered but the direction would move to refuted/anti, never supportive -- no hidden signal masked by the gate. Conclusion: no self-tail W6-codon erasability under high host-defense density in RefSeq bacteria; honest negative on public data. & \texttt{data\_gate\_failed} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1841,3 +1843,32 @@ static codon-cube geometric decomposition is exhausted for d\_resid4.
 exhausted.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_e2\_unique\_concentration.py
+
+\subsection{Asd W6 Self Tail Erasability}\label{sec:bridge-asd-w6-self-tail-erasability}
+% CLAIM_DETAIL claim_id=bridge.host_defense.asd_w6_self_tail_erasability status=data_gate_failed
+\textbf{Statement.} Test (oracle-designed, ASD-W6 exact-null): do bacterial genomes ERASE self-targeting Window6 (W6)
+codon-features from high-defense-density (high-D) internal windows -- i.e. are self-tail W6 states
+DEPLETED (OR<1) in high-D windows vs an exact gene-wise synonymous-codon expectation, with a
+monotone dose-response in local defense density, self-tail>decoy specificity, and consistent
+genus/species sign? Carrier = per-genome high-D window W6-state occupancy; null = EXACT analytical
+gene-wise within-AA synonymous expectation E\_g[c,d] (replaces 400x Monte-Carlo shuffles;
+selftest-verified max abs err <0.012 vs 50000 MC). Run: 1300 selected assemblies, 1293 valid, 589
+genera, exact\_E=2.53e8. VERDICT data\_gate\_failed: pre-registered preflight tripped (35/1293=2.7\%
+small genomes fail per-genome QC qc\_cds\_lt\_800 / internal\_windows\_lt\_150000). CRUCIALLY the
+aggregate over valid genomes shows NO erasability and mild ANTI-direction: pooled high-D OR=1.037
+(upper95 1.043) is ENRICHMENT not depletion; depletion bootstrap p=1.0 (zero support); dose
+spearman=+0.75 with 6+ bin ratio=1.083 highest (self-tail features MORE present at high defense
+dose, opposite of erasability); dose\_monotone=false, neg\_slope\_bootstrap\_fraction=0.0;
+p\_decoy=1.0, genus\_sign\_p=1.0, species\_sign\_p=1.0 (no specificity). Excluding the 35 QC-fail
+genomes leaves 1258 (>1000 species, 589>200 genera) still well-powered but the direction would move
+to refuted/anti, never supportive -- no hidden signal masked by the gate. Conclusion: no self-tail
+W6-codon erasability under high host-defense density in RefSeq bacteria; honest negative on public
+data.
+
+\textbf{Verdict.} \texttt{data\_gate\_failed}.
+
+\textbf{Why.} preflight tripped (35/1293 small genomes fail per-genome QC); aggregate over valid genomes
+null/mild-anti: high-D OR=1.037 enrichment, depletion bootstrap p=1.0, dose spearman +0.75 (6+ ratio
+1.083), decoy/genus/species sign p all 1.0 -- no erasability, no masked signal.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_asd\_w6\_exact\_null.py
