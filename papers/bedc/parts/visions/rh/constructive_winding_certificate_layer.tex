@@ -1,0 +1,201 @@
+\providecommand{\ConstructiveWindingCertificateUp}{\mathsf{ConstructiveWindingCertificate}^{\uparrow}}
+
+\chapter{A Constructive Winding-Certificate Layer for the Argument-Principle Route}
+\label{ch:visions-rh-constructive-winding-certificate-layer}
+\origin{ai}
+
+The argument-principle route at finite height separates into two obligations.
+The topological and combinatorial half defines a winding number for rational
+boundary polygons and proves that this number is well defined under the
+certificate operations used by a finite verifier. The analytic half proves
+that such a polygon faithfully tracks $\zeta(\partial R)$ and that the
+constructive argument-principle theorem identifies the resulting winding with
+the number of zeros inside $R$. Only the topological half is closed here.
+
+The present layer therefore does not prove the Riemann Hypothesis, does not
+locate every zeta zero, and does not supply the analytic bridge from
+$\zeta(\partial R)$ to a rational polygon. It records the completed
+mathlib-free, 0-axiom, propext-free Lean certificate layer in the namespace
+$\mathsf{BEDC.Derived.RHRoute.RationalPolygonWinding}$ and its sibling
+modules. The layer works with finite rational vertices and the signed crossing
+count of the positive real ray. Its `Up' versions use the BEDC integer carrier
+so that the algebra remains inside the same constructive kernel fragment.
+
+\begin{definition}[Rational-polygon winding certificate layer]
+\label{def:rh-rational-polygon-winding-certificate-layer}
+A rational-polygon winding certificate consists of a finite cyclic list of
+rational complex vertices, the oriented edge list obtained from that cycle,
+and the signed sum of edge crossings of the positive real ray. The ordinary
+integer count is written as $\mathsf{computedWinding}$, while the BEDC-integer
+count is written as $\mathsf{computedWindingUp}$. A certificate generator may
+perturb rational vertices within certified crossing margins, refine an edge by
+inserting an intermediate rational point, rotate the starting vertex, reverse
+edge orientations, and split a rectangular boundary into adjacent boxes.
+\end{definition}
+
+\begin{principle}[Perturbation stability]
+\label{prin:rh-winding-perturbation-stability}
+If every edge of a rational polygon carries a margin certificate keeping it
+away from the crossing discriminants, then any edgewise rational perturbation
+preserving those margins has the same computed winding. This is the stability
+fact used when a finite evaluator replaces a boundary trace by nearby rational
+vertices without changing the topological certificate.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonWindingStability.computedWinding\_stable\_of\_edgewiseMarginPreserving}
+
+\begin{principle}[Collinear edge subdivision]
+\label{prin:rh-winding-collinear-edge-subdivision}
+Inserting a rational point strictly between the endpoints of a segment splits
+the segment into two collinear directed segments without changing the total
+crossing contribution of that edge. This is the local algebraic fact behind
+boundary refinement.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision.edgeCrossing\_collinear\_split}
+
+\begin{principle}[Surface-level subdivision invariance]
+\label{prin:rh-winding-subdivision-invariance}
+At the summed BEDC-integer level, replacing one edge in an oriented edge list
+by its two collinear subedges preserves the total crossing sum. Thus adaptive
+refinement changes the mesh of the polygon, not its winding certificate.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonEdgeSubdivision.sumEdgeCrossingsUp\_subdivide\_one}
+
+\begin{principle}[Cyclic rotation invariance]
+\label{prin:rh-winding-cyclic-rotation}
+The chosen starting vertex of a nonempty cyclic vertex list is not part of the
+certificate content. Rotating the list by one step preserves the BEDC-integer
+winding count.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonWinding.computedWindingUp\_cyclic\_rotate\_one}
+
+\begin{principle}[Orientation reversal cancellation]
+\label{prin:rh-winding-orientation-cancellation}
+Traversing the same rational edge in the two opposite directions contributes
+opposite signed crossings, so the two directed copies have net contribution
+$0$ in the BEDC integer carrier.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonWinding.edgeCrossingUp\_reverse\_cancel}
+
+\begin{principle}[Box-split additivity]
+\label{prin:rh-winding-box-split-additivity}
+When a rectangular boundary is split into adjacent boxes, the shared interior
+edge is traversed once in each direction and cancels. The resulting crossing
+sum is additive across the split, giving the combinatorial skeleton for
+recursive box certificates.
+\end{principle}
+\leanchecked{BEDC.Derived.RHRoute.RationalPolygonWinding.sumEdgeCrossingsUp\_box\_split}
+
+Together these checked facts say the following precise thing: for rational
+boundary polygons, the winding number is a finite combinatorial object that is
+well defined, stable under certified perturbation, invariant under edge
+subdivision and cyclic rotation, antisymmetric under orientation reversal, and
+additive under box splitting. These are the structural properties needed by
+the topological side of an argument-principle certificate, and they are all
+kernel-verified in the 0-axiom BEDC fragment. They are not a zero-counting
+theorem for $\zeta$.
+
+\begin{principle}[Open analytic bridges]
+\label{prin:rh-winding-open-analytic-bridges}
+Two analytic obligations remain open. First, the route needs a located
+interval evaluator for $\zeta$ on $\partial R$. The intended evaluator passes
+through the eta series
+$$
+\eta(s)=\sum_{n\geq1}(-1)^{n-1}n^{-s},
+\qquad
+\zeta(s)=\frac{\eta(s)}{1-2^{1-s}},
+$$
+with
+$$
+n^{-s}=\exp(-s\ln n),
+\qquad
+n^{-it}=\cos(t\ln n)-i\sin(t\ln n).
+$$
+The critical point is the tail: a naive Leibniz estimate does not directly
+apply because the phase $n^{-it}$ rotates in the complex plane. A strict
+Euler--Boole alternating-summation bound is the concrete 0-axiom shape needed
+for the critical strip, including derivative bounds for interval-Newton or
+Krawczyk certificates.
+
+Second, the route needs the constructive argument-principle theorem itself:
+a discrete Rouch\'e or faithful-approximation theorem proving that a rational
+polygon whose certified tube contains $\zeta(\partial R)$ has the same winding
+as the true boundary trace and therefore counts zeros inside $R$. These are
+multi-week constructive-analysis obligations, not completed certificate
+payload.
+\end{principle}
+
+A usable Euler--Boole obligation can be stated without hiding the analytic
+work. For a box
+$$
+B=\{s=\sigma+it:\sigma_-\leq\sigma\leq\sigma_+,\ t_-\leq t\leq t_+\},
+\qquad 0<\sigma_-<\sigma_+<1,
+$$
+set $X=N+1$ and $f_s(x)=x^{-s}$. With Euler polynomials defined by
+$$
+\frac{2e^{xz}}{e^z+1}
+=
+\sum_{\nu\geq0}E_\nu(x)\frac{z^\nu}{\nu!},
+$$
+Euler--Boole summation gives endpoint terms plus a remainder
+$$
+R_N(s)
+=
+(-1)^N
+\left[
+\frac12\sum_{\nu=0}^{2L-1}
+\frac{E_\nu(0)}{\nu!}\,
+f_s^{(\nu)}(X)
++\mathcal E_L(s)
+\right],
+$$
+where
+$$
+f_s^{(\nu)}(X)=(-1)^\nu(s)_\nu X^{-s-\nu},
+\qquad
+E_{2j}(0)=0\quad(j\geq1).
+$$
+A constructive interval evaluator must turn this into a uniform complex-box
+bound for $\mathcal E_L(B)$ and for $\partial_s\mathcal E_L(B)$, then propagate
+those enclosures through $\zeta(s)=\eta(s)/(1-2^{1-s})$. This is the analytic
+bottleneck shared by the winding and local-zero routes.
+
+\begin{principle}[Located-zero complement]
+\label{prin:rh-winding-located-zero-complement}
+The local alternative is to locate a single zero by a Krawczyk or
+interval-Newton certificate. Near the first nontrivial zero,
+$c\approx 1/2+14.1347i$, one chooses a high-precision approximate inverse
+$a\approx 1/\zeta'(c)$ and studies the Newton-like map
+$$
+N(z)=z-a\,\zeta(z).
+$$
+For a closed complex box $B$ around $c$, the constructive target has the form
+$$
+N(B)\subseteq B,
+\qquad
+\sup_{z\in B}|1-a\zeta'(z)|<1.
+$$
+This traps a unique zero in $B$. It is a local located-zero certificate, not a
+global statement about all zeros. It is complementary to the rational-polygon
+winding layer because both legs need the same located-$\zeta$ interval
+evaluator and the same Euler--Boole complex tail control.
+\end{principle}
+
+This should also be read against the route separation in
+\autoref{ch:visions-rh-dyadic-truncation-lp-route-refutation}. The sharp
+dyadic Laguerre--P\'olya premise fails as a global preservation strategy. The
+present chapter does not try to revive that premise. It keeps the finite
+topological certificate layer and points the analytic work toward located
+$\zeta$ evaluation, Krawczyk-style local boxes, and a constructive
+argument-principle bridge.
+
+\begin{closurestatus}{\ConstructiveWindingCertificateUp}
+  \constructivestory{A $\ConstructiveWindingCertificateUp$ packet is generated from finite rational boundary vertices, oriented rational edges, signed positive-ray crossing rows, perturbation-margin rows, subdivision rows, cyclic-rotation rows, reversed-edge cancellation rows, and box-split rows, with all exported structure witnessed by the listed Lean targets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Rational-boundary-polygon winding number's combinatorial certificate layer, including well-definedness, stability, subdivision and cyclic-rotation invariance, orientation cancellation, and box additivity; excluding located-zeta evaluation and the analytic argument-principle theorem}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.RationalPolygonWinding.sumEdgeCrossingsUp\_box\_split}
+  \bridgestatus{none}
+  \notclaimed{Not closed: the located-zeta interval evaluator and the constructive argument-principle theorem identifying winding with zero count}
+  \upgradepath{Add located complex exp/ln/trig continuity evaluators plus discrete Rouch\'e or faithful-approximation error control}
+  \origin{ai}
+\end{closurestatus}

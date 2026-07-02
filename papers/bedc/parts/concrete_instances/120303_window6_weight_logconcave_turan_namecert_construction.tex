@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for Window-Six Weight Log-Concavity}
+\label{ch:concrete-instances-window6-weight-logconcave-turan-namecert}
+\origin{ai}
+
+The window-six Fibonacci carrier records finite binary words with no adjacent true entries and reads their weight distribution through the polynomial
+$$
+W_m(x)=\sum_k b(m,k)x^k,
+$$
+where $b(m,k)$ is the number of length-$m$ admissible words with exactly $k$ true entries. Equivalently $b(m,k)=\binom{m-k+1}{k}$ on its natural support, and $\sum_k b(m,k)=F_{m+2}$. The BEDC carrier used here is the direct finite enumeration of those words, not the closed binomial formula.
+
+\begin{definition}[Fibonacci weight coefficient]
+\label{def:window6-fibonacci-weight-coefficient}
+For $m,k\in\mathbb{N}$, let $b(m,k)$ be the coefficient of $x^k$ in $W_m(x)$, computed by enumerating all length-$m$ Boolean words, rejecting words with adjacent true entries, and counting the survivors with weight $k$. In Lean this coefficient is the natural number
+$$
+\mathsf{weightCoeff}(m,k).
+$$
+\end{definition}
+
+\begin{theorem}[Window-six through window-ten degree-two Turan certificate]
+\label{thm:window6-weight-logconcave-turan}
+For the finite windows $m=6,7,8,9,10$, every internal coefficient position checked by the certificate satisfies the degree-two Turan inequality
+$$
+b(m,k+1)b(m,k-1)\leq b(m,k)^2.
+$$
+Equivalently, the inspected coefficient rows of $W_m(x)$ are log-concave. The Lean certificate covers the nontrivial internal positions
+$$
+\begin{aligned}
+&(6,1),(6,2),\\
+&(7,1),(7,2),(7,3),\\
+&(8,1),(8,2),(8,3),\\
+&(9,1),(9,2),(9,3),(9,4),\\
+&(10,1),(10,2),(10,3),(10,4).
+\end{aligned}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6WeightLogConcaveTuran.window\_six\_to\_ten\_weight\_logconcave\_turan}
+
+\begin{proof}
+The proof is a finite certificate. Lean computes the admissible-word counts by recursive enumeration and then proves each inequality by an explicit natural-number slack. For example, the window $m=6$ row is
+$$
+(b(6,0),b(6,1),b(6,2),b(6,3))=(1,6,10,4),
+$$
+with total $21=F_8$. The two internal inequalities are witnessed by
+$$
+\begin{aligned}
+b(6,2)b(6,0)+26&=b(6,1)^2,\\
+b(6,3)b(6,1)+76&=b(6,2)^2.
+\end{aligned}
+$$
+The remaining windows are discharged in the same finite manner, using only the enumerator and natural-number slack equalities.
+\end{proof}
+
+\begin{theorem}[Finite-window RH criterion shape]
+\label{thm:window6-weight-logconcave-rh-shape}
+The certificate of \autoref{thm:window6-weight-logconcave-turan} realizes the degree-two Turan positivity shape on a Fibonacci carrier. In the classical analytic route, the Riemann Hypothesis is equivalent to the completed xi function lying in the Laguerre--Polya class, and that route is tested by finite Jensen-polynomial hyperbolicity windows; at degree two the finite positivity condition has the Turan form
+$$
+a_k^2\geq a_{k-1}a_{k+1}.
+$$
+This chapter supplies that shape only for the displayed Fibonacci coefficients, adjacent to the Laguerre--Polya packet of \autoref{ch:concrete-instances-laguerre-polya-namecert} and the RH roadmap of \autoref{ch:visions-riemann-hypothesis}.
+\end{theorem}
+\begin{proof}
+The statement is a scope identification. The Lean theorem supplies finite natural-number inequalities for the coefficient rows of $W_m(x)$. The Laguerre--Polya and Jensen route asks for hyperbolicity of finite polynomial windows, whose degree-two shadow is the adjacent coefficient inequality above. The carrier here is not the xi-function coefficient stream; it is the finite Fibonacci-cube weight carrier.
+
+This is a finite-window positivity certificate on a Fibonacci carrier, not a proof of RH; it models the degree-two Turán/Jensen shape that Laguerre-Pólya (hence RH) requires.
+\end{proof}
+
+\falsifiablePrediction{A recomputation of the Lean finite enumerator for $m=6,7,8,9,10$ that violates any displayed internal Turan inequality refutes this packet.}
+
+\independenceWitness{laguerre-polya, riemann-hypothesis-roadmap, window-six-fibonacci-carrier: this packet is not bijective to the Laguerre--Polya or RH packets because it contains only finite Fibonacci-cube word enumeration, finite weight coefficients, explicit slack equalities, and the degree-two Turan shape on those coefficients.}
+
+
+\begin{closurestatus}{Window6WeightLogConcaveTuran}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:window6-fibonacci-weight-coefficient}, \autoref{thm:window6-weight-logconcave-turan}, and \autoref{thm:window6-weight-logconcave-rh-shape} close the finite Fibonacci-carrier degree-two Turan certificate for $m=6,7,8,9,10$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6WeightLogConcaveTuran.window\_six\_to\_ten\_weight\_logconcave\_turan}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite Fibonacci-carrier degree-2 Turan positivity only}
+  \upgradepath{extend to higher Jensen-polynomial hyperbolicity and connect to the xi Taylor coefficients}
+\end{closurestatus}
