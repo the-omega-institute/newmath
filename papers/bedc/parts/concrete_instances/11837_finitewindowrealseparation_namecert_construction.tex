@@ -61,6 +61,24 @@ Attach the Real-completion faces. The dyadic row $D$ supplies the finite toleran
 No further row is available. Thus the local NameCert surface is exhausted by $W,D,S,R,H,C,P,N$, and any read requiring host equality, quotient streams, selected representatives, or ambient completeness is not a read of this packet.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-separation shared-window obligation]
+\label{thm:finite-window-real-separation-shared-window-obligation}
+Every separation read exported by an accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N)
+$$
+must display one common finite window row $W$ before the dyadic tolerance row $D$, the $\StreamNameUp/\RegSeqRatUp$ readback row $S$, the $\RealUp$ seal row $R$, componentwise transport $H$, displayed replay $C$, provenance $P$, and the local $\NameCert_{\FiniteWindowRealSeparationUp}$ row $N$ are consumed. The obligation is constructive: it supplies no quotient stream equality, no host Real equality, no selected representative, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-separation-carrier}. The row $W$ is the only coordinate that names the common observation window for the two Real-facing reads.
+
+Apply the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It blocks access to the RealUp separation readback $R$ unless $W,D,S$ have already been displayed in that order.
+
+Now use the NameCert surface of \autoref{thm:finite-window-real-separation-namecert-surface}. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route; they do not add a second window, a quotient equality, a host representative, or an ambient completeness object.
+
+Thus every separation read has to expose the common finite window before any dyadic, StreamName, RegSeqRat, Real-seal, transport, replay, provenance, or local naming row is consumed.
+\end{proof}
+
 \begin{theorem}[Finite-window Real-separation TasteGate obligation]
 \label{thm:finite-window-real-separation-tastegate-obligation}
 The Lean TasteGate surface for $\FiniteWindowRealSeparationUp$ must provide $\mathsf{Nontrivial}\ \FiniteWindowRealSeparationUp$ and $\mathsf{FieldFaithful}\ \FiniteWindowRealSeparationUp$ instances for the same finite carrier $F=(W,D,S,R,H,C,P,N)$. These instances must keep RealUp separation readback behind the displayed dyadic tolerance and StreamName/RegSeqRat rows and must not introduce host equality, quotient streams, selected representatives, or ambient completeness.
@@ -79,7 +97,7 @@ The excluded coordinates are absent from the carrier and from the NameCert surfa
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}
   \constructivestory{A $\FiniteWindowRealSeparationUp$ packet is generated from a shared finite-window row, a DyadicRatCore tolerance row, StreamName and RegSeqRat readback, RealUp separation readback, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-window-real-separation-carrier}, \autoref{thm:finite-window-real-separation-window-refusal}, \autoref{thm:finite-window-real-separation-namecert-surface}, and \autoref{thm:finite-window-real-separation-tastegate-obligation} bind the finite Real-separation carrier, shared-window refusal, NameCert surface, and TasteGate obligation.}
+  \scopeclosed{\autoref{def:finite-window-real-separation-carrier}, \autoref{thm:finite-window-real-separation-window-refusal}, \autoref{thm:finite-window-real-separation-namecert-surface}, \autoref{thm:finite-window-real-separation-shared-window-obligation}, and \autoref{thm:finite-window-real-separation-tastegate-obligation} bind the finite Real-separation carrier, shared-window refusal, NameCert surface, shared-window obligation, and TasteGate obligation.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
