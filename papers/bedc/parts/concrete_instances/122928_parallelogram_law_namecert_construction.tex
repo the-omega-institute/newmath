@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ParallelogramLawUp$}
+\label{ch:concrete-instances-parallelogram-law-namecert}
+\origin{human}
+
+Following Jordan and von Neumann's characterization of normed spaces whose norm is induced by an inner product, the $\ParallelogramLawUp$ packet records the finite BEDC surface on which a vector-space row, norm row, and inner-product candidate are inspected through the parallelogram identity. It sits after the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the inner-product surface of \autoref{ch:concrete-instances-innerproduct-namecert}, and the Hilbert-space handoff of \autoref{ch:concrete-instances-hilbert-namecert}. The packet names only displayed norm and pairing rows; it is not a host vector equality proof, a completed analytic structure, a quotient-norm theorem, or a selected polarization oracle.
+
+\begin{definition}[Parallelogram-law carrier]
+\label{def:parallelogram-law-carrier}
+A $\ParallelogramLawUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(V,N,I,P,H,C,R,L)
+$$
+with the following rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ source row, recording the displayed vector carrier, zero, addition, inverse, scalar action, and finite linear-combination windows used in the law.
+\item $N$ is the $\NormUp$ row over $V$, recording the norm endpoints for $x$, $y$, $x+y$, and $x-y$ together with the finite comparison ledger used by the packet.
+\item $I$ is the $\InnerProductUp$ candidate row, recording the pairing table and symmetry, additivity, scalar, and positivity witnesses that may induce the displayed norm.
+\item $P$ is the parallelogram identity ledger. For every displayed pair $(x,y)$ in the finite window it stores the two norm-square sides
+$$
+N(x+y)+N(x-y)
+\quad\hbox{and}\quad
+2N(x)+2N(y)
+$$
+as $\RealUp$-sealed rows, together with the equality readback for that pair.
+\item $H$ records componentwise $\hsame$ transport for the vector, norm, inner-product, parallelogram, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the vector row through the norm and inner-product rows to the parallelogram ledger.
+\item $R$ is the $\Pkg$ provenance over $\ParallelogramLawUp$, $\VecSpaceUp$, $\NormUp$, $\InnerProductUp$, $\HilbertUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\ParallelogramLawUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only by these displayed rows. It has no coordinate for host vector equality, completed Hilbert structure, quotient norm equality, unbounded analytic closure, or an inner-product reconstruction not recorded in $I$ and $P$.
+\end{definition}
+
+\begin{theorem}[Parallelogram-law NameCert obligations]
+\label{thm:parallelogram-law-namecert-obligations}
+For every accepted $\ParallelogramLawUp$ carrier $Q=(V,N,I,P,H,C,R,L)$, the local $\NameCert_{\ParallelogramLawUp}$ surface consists exactly of carrier admission for the displayed rows, vector-source exposure through $V$, norm-readback exposure through $N$, inner-product candidate exposure through $I$, parallelogram identity accountability through $P$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $R$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parallelogram-law-carrier}. The vector source row $V$ is the only place where the vector operations and finite pair window are stored.
+
+The norm row $N$ exposes the four norm endpoints for each displayed pair, while $I$ exposes the inner-product candidate whose induced norm is being tested. Neither row supplies a host equality principle or a completed Hilbert object.
+
+The ledger $P$ records the two parallelogram sides and their $\RealUp$ readback for the same pair window. Transport and replay through $H$ and $C$ preserve that row order, and provenance and naming through $R$ and $L$ package the same finite data.
+
+Since no other coordinate appears in $Q$, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Parallelogram-law norm-inner-product handoff]
+\label{thm:parallelogram-law-norm-inner-product-handoff}
+Every Hilbert-facing consumer of an accepted $\ParallelogramLawUp$ packet must read the finite route
+$$
+\VecSpaceUp\longmapsto\NormUp\longmapsto\InnerProductUp\longmapsto\ParallelogramLawUp\longmapsto\HilbertUp .
+$$
+The route exports only the displayed vector operations, norm endpoints, inner-product candidate, parallelogram ledger, transport, replay, provenance, and local naming rows. It does not export completed analytic structure, quotient vector equality, a selected polarization formula outside $I$, or an ambient Hilbert-space theorem.
+\end{theorem}
+\begin{proof}
+Begin with $V$. A consumer must first expose the finite vector-space window from which the two vectors, their sum, and their difference are read.
+
+Next read $N$ and $I$. The norm row supplies the observable norm endpoints, and the inner-product row supplies the candidate pairing surface that may explain those norm endpoints.
+
+Then read the parallelogram ledger $P$. This row is the handoff point: it records that the norm data and pairing data agree on the displayed finite identity rows before a Hilbert-facing consumer may cite the packet.
+
+Finally use $H,C,R,L$ to transport, replay, package, and name the same rows. The Hilbert sibling may consume this route only as finite NameCert data, so the packet never imports host equality, completion, quotienting, or an external polarization oracle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ParallelogramLawUp$ Hilbert-facing read must display $\VecSpaceUp$, $\NormUp$, $\InnerProductUp$, parallelogram ledger, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before the $\HilbertUp$ handoff is visible.}
+
+\independenceWitness{vecspace, norm, innerproduct, hilbert: $\ParallelogramLawUp$ is not bijective to any listed sibling because it jointly carries the vector operation row, norm readback row, inner-product candidate row, parallelogram equality ledger, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{ParallelogramLawUp}{seedStr}
+
+\begin{closurestatus}{\ParallelogramLawUp}
+  \constructivestory{A $\ParallelogramLawUp$ packet is generated from a VecSpaceUp source row, NormUp readback row, InnerProductUp candidate row, finite parallelogram ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:parallelogram-law-carrier}, \autoref{thm:parallelogram-law-namecert-obligations}, and \autoref{thm:parallelogram-law-norm-inner-product-handoff} seed the finite parallelogram-law route over $\VecSpaceUp$, $\NormUp$, $\InnerProductUp$, $\HilbertUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient norm equality, completed Hilbert structure, host vector equality, selected polarization outside the displayed rows, or ambient analytic completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, vector-source exposure, norm-readback exposure, inner-product candidate exposure, parallelogram ledger accountability, transport and replay stability, provenance non-escape, and Hilbert handoff exactness for BEDC.Derived.ParallelogramLawUp.}
+\end{closurestatus}

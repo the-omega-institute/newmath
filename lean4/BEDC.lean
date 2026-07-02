@@ -3502,6 +3502,7 @@ import BEDC.Derived.CompactMetricCompletionUp.UniformModulusSeal
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
 import BEDC.Derived.CompactMetricHyperspaceUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
+import BEDC.Derived.CompactMetricProductUp.ComponentHandoff
 import BEDC.Derived.CompactMetricProductUp.TasteGate
 import BEDC.Derived.CompactMetricSequentialNetUp.TasteGate
 import BEDC.Derived.CompactMetricSubspaceUp.TasteGate
@@ -6214,6 +6215,7 @@ import BEDC.Derived.FiniteGroupRepresentationUp.NameCertBridge
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.ScopedKernelScope
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
+import BEDC.Derived.FiniteIntersectionPropertyUp.NameCertObligations
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
 import BEDC.Derived.FiniteIntervalChoiceUp.TasteGate
 import BEDC.Derived.FiniteIntervalCoverUp.TasteGate
@@ -9665,6 +9667,7 @@ import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
 import BEDC.Derived.OrderedBellNumberUp
+import BEDC.Derived.OrderedCauchyGroupUp.TasteGate
 import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OrdinalAnalysisUp.TasteGate
 import BEDC.Derived.OreLocalizationUp.TasteGate
@@ -10619,6 +10622,7 @@ import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
 import BEDC.Derived.RealClassifierUp.TailReplacementStability
 import BEDC.Derived.RealClassifierUp.TheoremCheckTargetHandoff
+import BEDC.Derived.RealClassifierUp.WindowExhaustion
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp
@@ -13514,6 +13518,7 @@ import BEDC.Derived.VietorisRipsComplexUp.TasteGate
 import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
+import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank
 import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
