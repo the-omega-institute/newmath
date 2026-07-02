@@ -221,4 +221,67 @@ theorem FableBranchWitnessCarrier_scoped_dependency_package
     ⟨localPackage.left, localPackage.right.left, localPackage.right.right.left,
       localPackage.right.right.right, nameListed⟩
 
+theorem FableBranchWitnessCarrier_public_export
+    {h m r E A H C P N transportRead branchRead exportRead : BHist} :
+    UnaryHistory h -> UnaryHistory E -> UnaryHistory H -> UnaryHistory C -> UnaryHistory P ->
+      UnaryHistory N -> Cont h E r -> Cont H C transportRead ->
+        Cont transportRead N branchRead -> Cont branchRead P exportRead ->
+          SemanticNameCert
+              (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨ hsame row A ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                    hsame row branchRead ∨ hsame row exportRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont h E r ∧ Cont H C transportRead ∧
+                  Cont transportRead N branchRead ∧ Cont branchRead P exportRead)
+              hsame ∧
+            UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: FableBranchWitnessCarrier BHist Cont hsame SemanticNameCert UnaryHistory
+  intro hUnary eUnary hTransportUnary cUnary pUnary nUnary emptyRoute transportRoute
+    branchRoute exportRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed hTransportUnary cUnary transportRoute
+  have branchUnary : UnaryHistory branchRead :=
+    unary_cont_closed transportUnary nUnary branchRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed branchUnary pUnary exportRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨ hsame row A ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row branchRead ∨ hsame row exportRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont h E r ∧ Cont H C transportRead ∧
+              Cont transportRead N branchRead ∧ Cont branchRead P exportRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, exportUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right; right; right; right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, emptyRoute, transportRoute, branchRoute, exportRoute⟩
+  }
+  exact ⟨cert, exportUnary⟩
+
 end BEDC.Derived.FableBranchWitnessUp
