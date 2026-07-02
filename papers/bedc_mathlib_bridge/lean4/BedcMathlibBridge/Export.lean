@@ -9,3 +9,4 @@ import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
+import BedcMathlibBridge.Export.Derangement
