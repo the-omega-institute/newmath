@@ -130,6 +130,19 @@ def scan(root: Path):
         nat_defs = len(NAT_REC_RE.findall(text))
         has_recur = bool(RECUR_THM_RE.search(text))
         priority = (2 if has_recur else 0) + min(nat_defs, 3)
+        # Demote carriers whose mathlib counterpart is Rat- or Finset-valued
+        # (Bernoulli/Euler polynomials, harmonic numbers, set-partition/Bell
+        # counts, generating-function objects): those can't be an exported_core
+        # 0-axiom bridge and always fail-close, so a bridge consumer should try
+        # the Nat-closed-form carriers (Catalan/central-factorial/Lah/figurate/
+        # ...) first, which have a real chance of a clean Nat facade.
+        RAT_FINSET_HARD = (
+            "Bernoulli", "Euler", "Bell", "Genocchi", "Tangent", "Secant",
+            "Poly", "Partition", "Overpartition", "Umbral", "Faulhaber",
+            "Harmonic", "Hyperharmonic", "Hermite",
+        )
+        if any(k in name for k in RAT_FINSET_HARD):
+            priority -= 5
         # Concrete bridgeable declarations. Rank value-word-suffixed names first
         # (Number/Count/Value/Term/fn) — those are the closed forms a mathlib
         # facade lines up with; a bare helper like `step` rarely bridges.

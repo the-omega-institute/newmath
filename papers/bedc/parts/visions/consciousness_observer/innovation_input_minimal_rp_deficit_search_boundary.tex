@@ -1,0 +1,517 @@
+\chapter{Innovation Input Minimal RP Deficit Search Boundary}
+\label{ch:visions-innovation-input-minimal-rp-deficit-search-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-finite-window-rp-boundary} gives
+finite-window reflection positivity as a matrix condition. This chapter
+turns that condition into a search object: the Q3 constraint is kept exact,
+RP failure is measured by least eigenvalues and link deficits, and negative
+finite-window certificates become local obstructions to OS/RP-compatible
+self-substitution.
+
+\section{Q3 Search Space}
+\label{sec:innovation-input-qthree-search-space}
+
+\begin{definition}[Q3 phase-word space]
+\label{def:innovation-input-qthree-phase-word-space}
+For $N\ge2$, define
+$$
+\mathcal Q_N
+:=
+\left\{
+v=(v_0,\ldots,v_{N-1})\in\mathbb T^N:
+\sum_{a=0}^{N-1}v_a=\sqrt N
+\right\}.
+$$
+An element $v\in\mathcal Q_N$ determines the self-substitution rule
+$$
+u_{Nn+a}=v_a u_n.
+$$
+\end{definition}
+
+\begin{proposition}[Expected dimension of the Q3 space]
+\label{prop:innovation-input-qthree-space-expected-dimension}
+At a nonsingular point, $\mathcal Q_N$ is a real manifold of dimension
+$N-2$.
+\end{proposition}
+
+\begin{proof}
+The torus $\mathbb T^N$ has real dimension $N$. The Q3 equation
+$$
+\sum_a v_a=\sqrt N
+$$
+is one complex equation, equivalently the two real equations
+$$
+\operatorname{Re}\sum_a v_a=\sqrt N,
+$$
+and
+$$
+\operatorname{Im}\sum_a v_a=0.
+$$
+At points where these two constraints have differential rank $2$, the
+regular value theorem gives dimension $N-2$.
+\end{proof}
+
+\begin{definition}[Last-two-side closure]
+\label{def:innovation-input-last-two-side-closure}
+Choose $v_0,\ldots,v_{N-3}\in\mathbb T$ and set
+$$
+R:=\sqrt N-\sum_{a=0}^{N-3}v_a.
+$$
+If $|R|\le2$, write $R=\rho e^{i\phi}$ with $0\le\rho\le2$ and choose
+$$
+v_{N-2}=e^{i\phi}e^{i\alpha},
+$$
+$$
+v_{N-1}=e^{i\phi}e^{-i\alpha},
+$$
+where
+$$
+\cos\alpha=\frac{\rho}{2}.
+$$
+\end{definition}
+
+\begin{theorem}[Exact Q3 closure]
+\label{thm:innovation-input-exact-qthree-closure}
+Every phase word constructed by
+\autoref{def:innovation-input-last-two-side-closure} lies in
+$\mathcal Q_N$.
+\end{theorem}
+
+\begin{proof}
+The construction gives $v_{N-2}+v_{N-1}=R$. Therefore
+$$
+\sum_{a=0}^{N-1}v_a
+=
+\sum_{a=0}^{N-3}v_a+v_{N-2}+v_{N-1}
+=
+\sum_{a=0}^{N-3}v_a+R
+=
+\sqrt N.
+$$
+\end{proof}
+
+\begin{principle}[No projection after the fact]
+\label{prin:innovation-input-no-qthree-clip-projection}
+Searches for RP-compatible self-substitution rows must keep
+$$
+\sum_a v_a=\sqrt N
+$$
+as an exact constraint. Projecting or clipping an infeasible phase row back
+toward Q3 after optimization can create apparent zero-defect rows whose
+phase sum is not a certificate. Exact closure or explicitly constrained
+optimization is part of the search object.
+\end{principle}
+
+\section{Neutral Window Deficits}
+\label{sec:innovation-input-neutral-window-deficits}
+
+\begin{definition}[Neutral future block set]
+\label{def:innovation-input-neutral-future-block-set}
+For a window length $L\ge1$ and exponent bound $R\ge1$, let
+$\mathcal B_{L,R}^{\mathrm{neu}}$ be the set of anchored future signed
+blocks
+$$
+\alpha=\sum_{j=1}^L e_j\delta_j
+$$
+with
+$$
+e_j\in\{-R,-R+1,\ldots,R\}
+$$
+and
+$$
+\sum_{j=1}^L e_j=0.
+$$
+The zero block is included. The sites $1,\ldots,L$ remain anchored until
+the reflected difference in the RP matrix has been formed.
+\end{definition}
+
+\begin{definition}[Neutral finite-window RP matrix]
+\label{def:innovation-input-neutral-finite-window-rp-matrix}
+For an enumeration
+$$
+\mathcal B=\{\alpha_0,\ldots,\alpha_m\}
+\subset
+\mathcal B_{L,R}^{\mathrm{neu}},
+$$
+with $\alpha_0=0$, define
+$$
+M_{\mathcal B}(v)_{ij}
+:=
+\Gamma(\alpha_j-\theta\alpha_i).
+$$
+The reflection is the one from
+\autoref{def:innovation-input-discrete-reflection}; the anchoring
+discipline is the one in
+\autoref{def:innovation-input-finite-window-rp-matrix}. The row passes
+the window $\mathcal B$ when $M_{\mathcal B}(v)\succeq0$.
+\end{definition}
+
+\begin{definition}[Hermitian defect and RP deficit]
+\label{def:innovation-input-hermitian-rp-deficit}
+For a neutral window $\mathcal B$, define the Hermitian defect
+$$
+\eta_{\mathcal B}(v)
+:=
+\left\|M_{\mathcal B}(v)-M_{\mathcal B}(v)^*\right\|.
+$$
+Define the RP deficit by
+$$
+\rho_{\mathcal B}(v)
+:=
+\lambda_{\min}
+\left(
+\frac{M_{\mathcal B}(v)+M_{\mathcal B}(v)^*}{2}
+\right).
+$$
+An RP candidate must have $\eta_{\mathcal B}(v)=0$ and
+$\rho_{\mathcal B}(v)\ge0$ for every finite window.
+\end{definition}
+
+\begin{definition}[Optimal neutral window deficit]
+\label{def:innovation-input-optimal-neutral-window-deficit}
+The optimal neutral deficit at window $(N,L,R)$ is
+$$
+\rho_{N,L,R}^{\mathrm{neu}}
+:=
+\sup_{v\in\mathcal Q_N}
+\rho_{\mathcal B_{L,R}^{\mathrm{neu}}}(v).
+$$
+If $\rho_{N,L,R}^{\mathrm{neu}}<0$, no $N$-ary Q3 self-substitution row
+passes that neutral RP window. If it is nonnegative, the result is only a
+finite-window candidate condition, not a complete RP certificate.
+\end{definition}
+
+\section{Link Deficit Gate}
+\label{sec:innovation-input-link-deficit-gate}
+
+\begin{definition}[Link observable]
+\label{def:innovation-input-link-observable}
+For $d\ge1$, define the neutral future observable
+$$
+F_d(n):=u_{n+1}\overline{u_{n+1+d}}.
+$$
+Its signed block is
+$$
+\alpha_d:=\delta_1-\delta_{1+d}.
+$$
+\end{definition}
+
+\begin{definition}[Link mean and reflected diagonal]
+\label{def:innovation-input-link-mean-reflected-diagonal}
+Set
+$$
+\mu_d:=\langle F_d\rangle
+=
+\Gamma(\delta_1-\delta_{1+d})
+=
+\Gamma(\delta_0-\delta_d).
+$$
+With the convention
+$$
+\gamma(d)=\Gamma(\delta_d-\delta_0),
+$$
+this means $\mu_d=\overline{\gamma(d)}$. Also set
+$$
+D_d:=\langle\theta F_d,F_d\rangle.
+$$
+Directly,
+$$
+D_d
+=
+\Gamma(\delta_0-\delta_d+\delta_{d+1}-\delta_{2d+1}).
+$$
+\end{definition}
+
+\begin{theorem}[Link two-by-two necessary condition]
+\label{thm:innovation-input-link-two-by-two-necessary-condition}
+If neutral RP holds, then for every $d\ge1$,
+$$
+D_d\in\mathbb R_{\ge0}
+$$
+and
+$$
+D_d\ge |\mu_d|^2.
+$$
+Equivalently, the link deficit
+$$
+\Delta_d(v):=D_d-|\mu_d|^2
+$$
+must satisfy $\Delta_d(v)\ge0$.
+\end{theorem}
+
+\begin{proof}
+Use the two future observables $F_0=1$ and $F_1=F_d$. Their RP matrix is
+$$
+M_d=
+\left(
+\begin{array}{cc}
+1 & \mu_d\\
+\overline{\mu_d} & D_d
+\end{array}
+\right).
+$$
+Under neutral RP this matrix is Hermitian positive semidefinite. Therefore
+its diagonal entry $D_d$ is nonnegative real, and its determinant satisfies
+$$
+\det M_d=D_d-|\mu_d|^2\ge0.
+$$
+\end{proof}
+
+\begin{corollary}[Negative link deficit obstruction]
+\label{cor:innovation-input-negative-link-deficit-obstruction}
+If $D_d\notin\mathbb R$ or $\Delta_d(v)<0$ for some $d\ge1$, then the
+phase word does not satisfy neutral RP.
+\end{corollary}
+
+\begin{proof}
+This is the contrapositive of
+\autoref{thm:innovation-input-link-two-by-two-necessary-condition}.
+\end{proof}
+
+\section{Known Link Obstructions}
+\label{sec:innovation-input-known-link-obstructions}
+
+\begin{principle}[Ternary link obstruction]
+\label{prin:innovation-input-ternary-link-obstruction}
+For the ternary Q3 row
+$$
+v=(e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}),
+$$
+one has $\mu_2=1/2$ and
+$$
+D_2=
+\Gamma(\delta_0-\delta_2+\delta_3-\delta_5)
+=
+\frac16.
+$$
+Therefore
+$$
+\Delta_2
+=
+D_2-|\mu_2|^2
+=
+\frac16-\frac14
+=
+-\frac1{12}.
+$$
+The ternary row is excluded by the $d=2$ link window.
+\end{principle}
+
+\begin{principle}[Quartic link obstruction]
+\label{prin:innovation-input-quartic-link-obstruction}
+For the quartic real-sign Q3 row
+$$
+v=(1,1,1,-1),
+$$
+one has $\mu_1=1/5$ and
+$$
+D_1=
+\Gamma(\delta_0-\delta_1+\delta_2-\delta_3)
+=
+-\frac35.
+$$
+Therefore
+$$
+\Delta_1
+=
+D_1-|\mu_1|^2
+=
+-\frac35-\frac1{25}
+=
+-\frac{16}{25}.
+$$
+The quartic row is excluded by the $d=1$ link window.
+\end{principle}
+
+\begin{principle}[First RP screen]
+\label{prin:innovation-input-first-rp-screen}
+The link deficits form the first screen for RP-compatible
+self-substitution. A candidate must satisfy
+$$
+\Delta_d(v)\ge0
+$$
+for all checked links. A single negative link deficit is already a
+finite-window neutral RP obstruction, before any larger RP matrix is
+assembled.
+\end{principle}
+
+\section{Exact Correlation Evaluation}
+\label{sec:innovation-input-exact-correlation-evaluation}
+
+\begin{definition}[Block diameter]
+\label{def:innovation-input-block-diameter}
+For a signed block
+$$
+\alpha=\sum_j e_j\delta_{m_j},
+$$
+define
+$$
+\operatorname{diam}(\alpha):=
+\max_j m_j-\min_j m_j.
+$$
+After a common translation, one may assume $\min_j m_j=0$.
+\end{definition}
+
+\begin{definition}[Carry closure]
+\label{def:innovation-input-carry-closure}
+For a finite set $\mathcal A$ of signed blocks, the one-step carry closure
+contains every branch block $\alpha_a$ of
+\autoref{def:innovation-input-signed-block-carry-branch}, for
+$\alpha\in\mathcal A$ and $0\le a<N$, normalized by translation. Iterating
+this operation gives the carry closure
+$$
+\overline{\mathcal A}^{\mathrm{carry}}.
+$$
+\end{definition}
+
+\begin{proposition}[Finite-window correlations reduce to a finite linear system]
+\label{prop:innovation-input-finite-window-correlation-linear-system}
+For a fixed finite RP window and a fixed exponent bound, the block
+correlations appearing in its matrix entries reduce, under carry closure,
+to a finite linear system
+$$
+X=A(v)X+b(v).
+$$
+The entries of $A(v)$ and $b(v)$ are averages of Laurent monomials in the
+phase word entries $v_a$.
+\end{proposition}
+
+\begin{proof}
+For a fixed block $\alpha=\sum_j e_j\delta_{m_j}$, the carry branch at
+residue $a$ replaces each index by
+$$
+q_{j,a}=\left\lfloor\frac{a+m_j}{N}\right\rfloor.
+$$
+Hence branch diameters obey the coarse bound
+$$
+\operatorname{diam}(\alpha_a)
+\le
+\left\lceil\frac{\operatorname{diam}(\alpha)}{N}\right\rceil.
+$$
+All persistent self-cycles are confined to finitely many small-diameter
+blocks. Starting from a finite window and repeatedly applying carry
+branches therefore produces finitely many normalized block types. Writing
+\autoref{thm:innovation-input-finite-block-carry-recursion} for each block
+gives the displayed finite linear system.
+\end{proof}
+
+\begin{principle}[Exact evaluator contract]
+\label{prin:innovation-input-exact-evaluator-contract}
+For search purposes, the exact evaluator is the carry-closure linear
+system attached to the requested window. Long finite words are not the
+primary certificate. A negative eigenvalue or negative link deficit should
+be reported with the Q3 residual, the block window, the carry-closure
+system, and the resulting exact or high-precision matrix entry.
+\end{principle}
+
+\section{Search Objects}
+\label{sec:innovation-input-rp-search-objects}
+
+\begin{definition}[Link-screen feasible set]
+\label{def:innovation-input-link-screen-feasible-set}
+For $N\ge2$ and $d_{\max}\ge1$, define
+$$
+\mathcal C_{N,d_{\max}}
+:=
+\left\{
+v\in\mathcal Q_N:
+\Delta_d(v)\ge0
+\ \text{and}\
+D_d(v)\in\mathbb R
+\quad
+1\le d\le d_{\max}
+\right\}.
+$$
+\end{definition}
+
+\begin{definition}[Window RP feasible set]
+\label{def:innovation-input-window-rp-feasible-set}
+For $L,R$, define
+$$
+\mathcal R_{N,L,R}
+:=
+\left\{
+v\in\mathcal Q_N:
+M_{\mathcal B_{L,R}^{\mathrm{neu}}}(v)\succeq0
+\right\}.
+$$
+Whenever the window contains the link observables $F_d$ for
+$d\le d_{\max}$,
+$$
+\mathcal R_{N,L,R}\subseteq\mathcal C_{N,d_{\max}}.
+$$
+\end{definition}
+
+\begin{principle}[Minimal RP candidate problem]
+\label{prob:innovation-input-minimal-rp-candidate}
+Find the least alphabet size $N$ for which there is a Q3 phase word
+$v\in\mathcal Q_N$ that remains in $\mathcal R_{N,L,R}$ through increasing
+neutral windows, beginning with
+$$
+(L,R)=(2,1),(3,1),(4,1).
+$$
+The complete neutral RP problem asks whether some $v\in\mathcal Q_N$
+passes every neutral finite window. The charged RP problem asks the same
+without the neutrality restriction.
+\end{principle}
+
+\begin{principle}[Search route]
+\label{prin:innovation-input-rp-search-route}
+A reliable search route has four gates. First, sample exactly inside
+$\mathcal Q_N$ using
+\autoref{def:innovation-input-last-two-side-closure} or an explicitly
+constrained parameterization. Second, compute $\Delta_d(v)$ for
+$1\le d\le d_{\max}$ and reject any negative link deficit. Third, form
+small neutral RP windows such as $\mathcal B_{2,1}^{\mathrm{neu}}$ and
+$\mathcal B_{3,1}^{\mathrm{neu}}$ and compute their least eigenvalues.
+Fourth, optimize the window value
+$$
+\sup_{v\in\mathcal Q_N}
+\lambda_{\min}M_{\mathcal B_{L,1}^{\mathrm{neu}}}(v)
+$$
+as the window grows, rather than fixing a small-window candidate and
+assuming it remains optimal.
+\end{principle}
+
+\begin{principle}[Layered search table]
+\label{prin:innovation-input-layered-search-table}
+The known smallest representatives occupy the following search states:
+$$
+\begin{array}{c|c|c|c|c}
+N & \text{representative row} & \text{Q3} & \text{two-point row} &
+\text{link deficit}\\
+\hline
+2 & (e^{i\pi/4},e^{-i\pi/4}) &
+\text{yes} & \text{nonreal} & \text{charged obstruction}\\
+3 & (e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}) &
+\text{yes} & \text{real} & \Delta_2=-1/12\\
+4 & (1,1,1,-1) &
+\text{yes} & \text{real} & \Delta_1=-16/25\\
+N\ge5 & \text{undetermined} &
+\text{open} & \text{open} & \text{open}
+\end{array}
+$$
+Thus the live search problem begins after the three smallest
+representatives have already been filtered by charged or neutral
+finite-window obstructions.
+\end{principle}
+
+\begin{principle}[Candidate families for the next screen]
+\label{prin:innovation-input-candidate-families-next-screen}
+Two low-dimensional $N=5$ families give natural first screens. The
+symmetric pentary family has
+$$
+v=(a,b,c,b,a),
+\qquad
+2a+2b+c=\sqrt5.
+$$
+The unit-root correction family has the form
+$$
+v_a=e^{i\phi}w_a,
+$$
+where the $w_a$ are drawn from fifth-root phase patterns and the common
+rotation is chosen only when the Q3 sum is exactly $\sqrt5$. In either
+family, the first nontrivial target is simultaneous nonnegativity of
+$\Delta_1$ and $\Delta_2$.
+\end{principle}
