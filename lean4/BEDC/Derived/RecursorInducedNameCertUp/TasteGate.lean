@@ -68,6 +68,12 @@ def recursorInducedNameCertToEventFlow : RecursorInducedNameCertUp -> EventFlow
           BMark.b1, BMark.b0],
         recursorInducedNameCertEncodeBHist name]
 
+def recursorInducedNameCertFields : RecursorInducedNameCertUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RecursorInducedNameCertUp.mk signature motive branch output audit transport continuation
+      provenance name =>
+      [signature, motive, branch, output, audit, transport, continuation, provenance, name]
+
 def recursorInducedNameCertFromEventFlow : EventFlow -> Option RecursorInducedNameCertUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
@@ -195,6 +201,18 @@ private theorem recursorInducedNameCertToEventFlow_injective {x y : RecursorIndu
     (Eq.trans (recursorInducedNameCert_round_trip x).symm
       (Eq.trans hread (recursorInducedNameCert_round_trip y)))
 
+private theorem recursorInducedNameCert_field_faithful :
+    forall x y : RecursorInducedNameCertUp,
+      recursorInducedNameCertFields x = recursorInducedNameCertFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk signature motive branch output audit transport continuation provenance name =>
+      cases y with
+      | mk signature' motive' branch' output' audit' transport' continuation' provenance' name' =>
+          cases hfields
+          rfl
+
 instance recursorInducedNameCertBHistCarrier : BHistCarrier RecursorInducedNameCertUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := recursorInducedNameCertToEventFlow
@@ -210,6 +228,11 @@ instance recursorInducedNameCertChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (recursorInducedNameCertToEventFlow_injective heq)
+
+instance recursorInducedNameCertFieldFaithful : FieldFaithful RecursorInducedNameCertUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := recursorInducedNameCertFields
+  field_faithful := recursorInducedNameCert_field_faithful
 
 theorem RecursorInducedNameCertTasteGate_single_carrier_alignment :
     (forall h : BHist, recursorInducedNameCertDecodeBHist
