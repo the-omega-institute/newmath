@@ -23,7 +23,13 @@ def ignoredDeclPrefixes : Array Name := #[
   `BedcMathlibBridge.RelQuotEquiv,
   -- Bool is a bridge canary for the thin-layer audit; its BEDC-side readback
   -- facts are present under BEDC.Derived.BoolUp and can be wired separately.
-  `BedcMathlibBridge.Constructive.Bool
+  `BedcMathlibBridge.Constructive.Bool,
+  -- The sign-magnitude presentation of BEDC IntUp reads back into `Bool × Nat`
+  -- (a sign bit paired with the unary magnitude length), the faithful target
+  -- that keeps `+0` and `-0` distinct. Like the Bool canary, that target shape
+  -- is mathlib-free; the difference presentation's `Int` bridge is separate.
+  `BedcMathlibBridge.Constructive.IntSignMagnitude,
+  `BedcMathlibBridge.Export.IntSignMagnitude
 ]
 
 def formatNames (names : Array Name) : String :=
