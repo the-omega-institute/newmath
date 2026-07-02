@@ -1886,6 +1886,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
 import BEDC.Derived.CauchyCompletionFunctorUp.RealSealFunctoriality
 import BEDC.Derived.CauchyCompletionFunctorUp.RegseqRealEndofunctor
 import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
+import BEDC.Derived.CauchyCompletionFunctorUp.StdBridge
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
@@ -2761,7 +2762,6 @@ import BEDC.Derived.CauchyTailDiagonalUp.TasteGate
 import BEDC.Derived.CauchyTailDiameterUp
 import BEDC.Derived.CauchyTailDiameterUp.TasteGate
 import BEDC.Derived.CauchyTailEnvelopeComparisonUp.TasteGate
-import BEDC.Derived.CauchyTailEquivalenceUp.TailTransport
 import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyTailEstimateUp.TasteGate
 import BEDC.Derived.CauchyTailEvaluationFunctionalUp.TasteGate
@@ -8193,6 +8193,7 @@ import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
 import BEDC.Derived.MenageUp
 import BEDC.Derived.MengerNobelingEmbeddingUp.TasteGate
+import BEDC.Derived.MengerSpongeUp.TasteGate
 import BEDC.Derived.MercerTheoremUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MertensFunctionUp
@@ -11314,7 +11315,6 @@ import BEDC.Derived.RegularCauchyInterleavingUp.FiniteTailBudgetRoute
 import BEDC.Derived.RegularCauchyInterleavingUp.RegSeqRatRealConsumerFactorization
 import BEDC.Derived.RegularCauchyInterleavingUp.SwapSymmetryBoundary
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
-import BEDC.Derived.RegularCauchyInterpolationUp.NameCertObligations
 import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
 import BEDC.Derived.RegularCauchyLatticeOperationsUp.TasteGate
@@ -13254,7 +13254,6 @@ import BEDC.Derived.UniformCauchyFilterUp.CompletionHandoff
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyLimitUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusExtractorUp.TasteGate
-import BEDC.Derived.UniformCauchyModulusUp.SharedWindowBudget
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchyNetUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceSpaceUp
