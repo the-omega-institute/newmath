@@ -108,6 +108,102 @@ from the same source ledger rather than attached after the zero packet
 has been inspected.
 \end{principle}
 
+\begin{definition}[Triangular legality rows for completed xi]
+\label{def:rh-triangular-legality-rows-completed-xi}
+A triangular legality row for a completed xi zero packet with centered
+coordinate
+$$
+\rho=\frac12+r+it
+$$
+is the part of a $\mathsf{ZetaIsBEDCLegalObject}$ witness that supplies
+the following data. Each active mode $a$ has a source-ledger height
+$h_a>0$ coming from prime, Gamma, normalization, or continuation rows,
+and its centered channel is
+$$
+U_a(\rho)
+=
+e^{-(\rho-\frac12)h_a}
+=
+e^{-rh_a}e^{-ith_a}.
+$$
+The solenoid gauge row is phase-valued:
+$$
+0\to K_S\to\Sigma_S\to\mathbb T\to0,
+\qquad
+K_S\cong\prod_{p\in S}\mathbb Z_p,
+$$
+so a factor in $\RealUp_{>0}$ is not a hidden solenoid fibre. The
+orthogonal observation row is
+$$
+v_a(\rho):=(-rh_a,-th_a),
+\qquad
+|v_a(\rho)|^2=r^2h_a^2+t^2h_a^2.
+$$
+For finite active packets $A_m$, set
+$$
+W_m:=\sum_{a\in A_m}h_a^2,
+\qquad
+E_m^{\mathrm{scale}}(\rho):=r^2W_m.
+$$
+The cofinal triangular closure row requires
+$$
+W_m\to\infty,
+\qquad
+E_m^{\mathrm{scale}}(\rho)\le B_{\rho}
+$$
+for a bound $B_{\rho}$ attached to the zero packet. The bound is a
+ledgered unit-positive or Pick/Hausdorff stability row; it is not a
+positive real scale register.
+\end{definition}
+
+\begin{theorem}[Legal triangular xi construction is conditionally RH-sufficient]
+\label{thm:rh-legal-triangular-xi-construction-conditionally-rh-sufficient}
+Assume every completed non-trivial xi zero packet carries a
+$\mathsf{ZetaIsBEDCLegalObject}$ witness whose triangular legality rows
+are as in \autoref{def:rh-triangular-legality-rows-completed-xi}. Then
+the BEDC RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+Let a completed non-trivial zero packet have centered coordinate
+$$
+\rho=\frac12+r+it.
+$$
+The triangular legality rows give
+$$
+E_m^{\mathrm{scale}}(\rho)=r^2W_m,
+\qquad
+W_m\to\infty,
+\qquad
+E_m^{\mathrm{scale}}(\rho)\le B_{\rho}.
+$$
+If $r\#0$, then $r^2>0$, so the first two rows imply
+$$
+E_m^{\mathrm{scale}}(\rho)\to\infty.
+$$
+This contradicts the displayed bound row. Hence the centered radial
+coordinate has no apartness from zero, and the located real readback in
+the zero packet gives $r=0$. Therefore
+$$
+\operatorname{Re}(\rho)=\frac12.
+$$
+Since the zero packet was arbitrary, the corresponding section sends
+every completed non-trivial zero packet to its fixed-half witness.
+\end{proof}
+
+\begin{principle}[Legal construction is stronger than analytic description]
+\label{prin:rh-legal-construction-stronger-than-description}
+The theorem does not assert that any formal description of $\xi$ is
+enough. The construction must retain the source ledger, preserve the
+triangular square-norm invariant, route visible reads through
+$\mathbb T$ and the compact prime-register fibre, and supply the bounded
+unit-positive row that prevents $E_m^{\mathrm{scale}}$ from becoming an
+unledgered $\RealUp_{>0}$ coordinate. Thus the remaining analytic burden
+is to construct $\mathsf{ZetaIsBEDCLegalObject}$, for example through a
+source-built Pick factorization or through the xi Hausdorff moment
+positivity route.
+\end{principle}
+
 \begin{definition}[SourcePickHilbertFactorization]
 \label{def:rh-source-positive-frontier-pick-hilbert-factorization}
 For the completed zeta Pick target of
