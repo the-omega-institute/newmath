@@ -62,6 +62,24 @@ Attach the Real-completion faces. The dyadic row $D$ supplies the finite toleran
 No further row is available. Thus the local NameCert surface is exhausted by $W,D,S,R,H,C,P,N$, and any read requiring host equality, quotient streams, selected representatives, or ambient completeness is not a read of this packet.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-separation obligation surface]
+\label{thm:finite-window-real-separation-obligation-surface}
+For every accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N),
+$$
+the RealUp separation obligation surface is exposed only through the common finite window $W$, the dyadic tolerance row $D$, the StreamName/RegSeqRat readback row $S$, the RealUp readback row $R$, and the structural rows $H,C,P,N$. No accepted separation consumer can replace these rows by quotient streams, host equality of reals, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-separation-carrier}. Its only Real-separation coordinates are $W,D,S,R$, followed by the structural rows $H,C,P,N$.
+
+Apply the NameCert surface of \autoref{thm:finite-window-real-separation-namecert-surface}. It lists the same eight rows as the whole local surface, so no further obligation coordinate is available to a consumer.
+
+Now use the shared-window obligation of \autoref{thm:finite-window-real-separation-shared-window-obligation}. The row $W$ is common to the two Real-facing reads, $D$ fixes the dyadic tolerance for that window, $S$ supplies the StreamName and RegSeqRat readback, and $R$ is the RealUp readback reached only after those rows are displayed.
+
+The refusal clauses follow from absence of carrier coordinates. Quotient streams, host real equality, selected representatives, and ambient completeness are not fields of $F$, and the structural rows $H,C,P,N$ only transport, replay, source, and name the same finite surface.
+\end{proof}
+
 \begin{theorem}[Finite-window Real-separation shared-window obligation]
 \label{thm:finite-window-real-separation-shared-window-obligation}
 Every separation read exported by an accepted $\FiniteWindowRealSeparationUp$ carrier
