@@ -3,13 +3,14 @@ import Mathlib.Data.List.Count
 
 namespace BedcMathlibBridge.Export.ProjectionLedgerCount
 
-abbrev BHist := BEDC.FKernel.Hist.BHist
-abbrev ProjectionLedger := BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger
-
-def projectionLedgerRowCountReadback (ledger : ProjectionLedger) (row : BHist) : Nat :=
+def projectionLedgerRowCountReadback
+    (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+    (row : BEDC.FKernel.Hist.BHist) : Nat :=
   ledger.rowCount row
 
-def projectionLedgerListCountSum (ledger : ProjectionLedger) (row : BHist) : Nat :=
+def projectionLedgerListCountSum
+    (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+    (row : BEDC.FKernel.Hist.BHist) : Nat :=
   ledger.observed.count row +
     ledger.hidden.count row +
       ledger.scopedRows.count row +
@@ -18,34 +19,56 @@ def projectionLedgerListCountSum (ledger : ProjectionLedger) (row : BHist) : Nat
             ledger.provenance.count row
 
 theorem projectionLedger_rowCount_eq_list_count_sum
-    (ledger : ProjectionLedger) (row : BHist) :
+    (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+    (row : BEDC.FKernel.Hist.BHist) :
     projectionLedgerRowCountReadback ledger row =
       projectionLedgerListCountSum ledger row := by
   rfl
 
 theorem projectionLedger_list_count_identity
-    (ledger : ProjectionLedger) (row : BHist) :
+    (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+    (row : BEDC.FKernel.Hist.BHist) :
     ledger.observed.count row = List.count row ledger.observed := by
   rfl
 
 theorem projectionLedger_readback_apply
-    (ledger : ProjectionLedger) (row : BHist) :
+    (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+    (row : BEDC.FKernel.Hist.BHist) :
     projectionLedgerRowCountReadback ledger row =
       projectionLedgerRowCountReadback ledger row := by
   rfl
 
 structure ProjectionLedgerCountExportWitness where
-  readback : ProjectionLedger -> BHist -> Nat
-  readback_apply : ∀ (ledger : ProjectionLedger) (row : BHist),
+  readback :
+    BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger ->
+      BEDC.FKernel.Hist.BHist -> Nat
+  mathlib_count :
+    BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger ->
+      BEDC.FKernel.Hist.BHist -> Nat
+  readback_apply :
+    ∀ (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+      (row : BEDC.FKernel.Hist.BHist),
     readback ledger row = projectionLedgerRowCountReadback ledger row
-  list_count_sum_apply : ∀ (ledger : ProjectionLedger) (row : BHist),
+  mathlib_count_apply :
+    ∀ (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+      (row : BEDC.FKernel.Hist.BHist),
+    mathlib_count ledger row = List.count row ledger.observed
+  list_count_sum_apply :
+    ∀ (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+      (row : BEDC.FKernel.Hist.BHist),
     readback ledger row = projectionLedgerListCountSum ledger row
-  observed_list_count_apply : ∀ (ledger : ProjectionLedger) (row : BHist),
+  observed_list_count_apply :
+    ∀ (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
+      (row : BEDC.FKernel.Hist.BHist),
     ledger.observed.count row = List.count row ledger.observed
 
 def projectionLedgerCountExport : ProjectionLedgerCountExportWitness where
   readback := projectionLedgerRowCountReadback
+  mathlib_count := fun ledger row => List.count row ledger.observed
   readback_apply := projectionLedger_readback_apply
+  mathlib_count_apply := by
+    intro ledger row
+    rfl
   list_count_sum_apply := projectionLedger_rowCount_eq_list_count_sum
   observed_list_count_apply := projectionLedger_list_count_identity
 
