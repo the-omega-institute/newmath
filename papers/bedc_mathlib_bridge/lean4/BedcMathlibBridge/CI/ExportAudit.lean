@@ -57,6 +57,12 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Superfactorial.superfactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.Superfactorial.SuperfactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.AscFactorial.ascFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.AscFactorial.AscFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.CentralBinom.centralBinomExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CentralBinom.CentralBinomExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },
