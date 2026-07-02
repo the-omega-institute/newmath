@@ -47,25 +47,57 @@ def banachFixedPointIterationBudgetToEventFlow :
   | x => List.map banachFixedPointIterationBudgetEncodeBHist
       (banachFixedPointIterationBudgetFields x)
 
-def banachFixedPointIterationBudgetFromEventFlow
-    (ef : EventFlow) : Option BanachFixedPointIterationBudgetUp :=
+def banachFixedPointIterationBudgetFromEventFlow :
+    EventFlow → Option BanachFixedPointIterationBudgetUp
   -- BEDC touchpoint anchor: BHist BMark
-  match ef with
-  | [X, T, x0, I, Q, R, K, H, C, P, N] =>
-      some
-        (BanachFixedPointIterationBudgetUp.mk
-          (banachFixedPointIterationBudgetDecodeBHist X)
-          (banachFixedPointIterationBudgetDecodeBHist T)
-          (banachFixedPointIterationBudgetDecodeBHist x0)
-          (banachFixedPointIterationBudgetDecodeBHist I)
-          (banachFixedPointIterationBudgetDecodeBHist Q)
-          (banachFixedPointIterationBudgetDecodeBHist R)
-          (banachFixedPointIterationBudgetDecodeBHist K)
-          (banachFixedPointIterationBudgetDecodeBHist H)
-          (banachFixedPointIterationBudgetDecodeBHist C)
-          (banachFixedPointIterationBudgetDecodeBHist P)
-          (banachFixedPointIterationBudgetDecodeBHist N))
-  | _ => none
+  | [] => none
+  | X :: rest0 =>
+      match rest0 with
+      | [] => none
+      | T :: rest1 =>
+          match rest1 with
+          | [] => none
+          | x0 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | I :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | Q :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | K :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (BanachFixedPointIterationBudgetUp.mk
+                                                      (banachFixedPointIterationBudgetDecodeBHist X)
+                                                      (banachFixedPointIterationBudgetDecodeBHist T)
+                                                      (banachFixedPointIterationBudgetDecodeBHist x0)
+                                                      (banachFixedPointIterationBudgetDecodeBHist I)
+                                                      (banachFixedPointIterationBudgetDecodeBHist Q)
+                                                      (banachFixedPointIterationBudgetDecodeBHist R)
+                                                      (banachFixedPointIterationBudgetDecodeBHist K)
+                                                      (banachFixedPointIterationBudgetDecodeBHist H)
+                                                      (banachFixedPointIterationBudgetDecodeBHist C)
+                                                      (banachFixedPointIterationBudgetDecodeBHist P)
+                                                      (banachFixedPointIterationBudgetDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem BanachFixedPointIterationBudgetTasteGate_round_trip :
     ∀ x : BanachFixedPointIterationBudgetUp,

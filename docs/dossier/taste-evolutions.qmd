@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T14:23:09Z
+> 最后刷新: 2026-07-02T15:34:54Z
 
-**Daemon 状态**: monitor (monitor cycle 256, adjust_since_research 2, round_counter 35779, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 257, adjust_since_research 2, round_counter 35833, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1155 条 finding):
 - isolated_theorem: 836 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,8 +30,8 @@ date-modified: today
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 72 次
-- TASTE ALERT category=low_entropy_template: 13 次
+- TASTE ALERT category=isolated_theorem: 61 次
+- TASTE ALERT category=low_entropy_template: 9 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
@@ -506,6 +506,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T13:12:37Z: `resolved` `add_downstream_user` for `BEDC.Derived.ExtremeValueUp.ExtremeValueCarrier_finite_net_attainment` (flag `isolated_theorem`, finding `isolated_theorem:extremevalue:BEDC.Derived.ExtremeValueUp.ExtremeValueCarrier_finite_net_attainment:637258a5`). Rationale: The target has real BEDC content: it extracts the finite-net carrier field equality, unary closure for the value read, and the Cont route from an accepted ExtremeValuePacket, and the paper uses it as the finite-net attainment claim. It was isolated only because the later Real-seal boundary theorem rebuilt adjacent facts without calling it. I added a sibling consumer theorem in RealSealBoundary.lean that uses the target together with ExtremeValueRealSealBoundary to export both the SemanticNameCert seal boundary and the finite-net carrier/read route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T14:22:35Z: `resolved` `delete_theorem` for `BEDC.Derived.UniformCauchyCompletionRealizerUp.UniformCauchyCompletionRealizerCarrier_modulus_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.UniformCauchyCompletionRealizerUp.UniformCauchyCompletionRealizerCarrier_modulus_stability:1758c981`). Rationale: The target had no Lean downstream users and only one removable paper marker. Its actual Lean content was a direct carrier-field projection, while the sibling theorem UniformCauchyCompletionRealizerCarrier_real_seal_handoff already projects a strictly stronger field surface including the same dyadic/window/readback/modulus/seal route plus the source row. The paper's informal modulus-stability theorem remains as seed-level text, but it no longer claims this weak projection as a checked realization. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T15:34:09Z: `resolved` `add_downstream_user` for `BEDC.Derived.SubdifferentialUp.SubdifferentialCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:subdifferential:BEDC.Derived.SubdifferentialUp.SubdifferentialCarrier_namecert_obligations:13492b19`). Rationale: The target is not a removable wrapper: it projects the finite Subdifferential carrier obligations used by the paper-facing NameCert theorem. It had no Lean downstream consumer, so I added SubdifferentialSupportNameCert_consumer in the support-inequality sibling, which calls the target directly and packages the support/stationarity obligations into a SemanticNameCert consumer surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
