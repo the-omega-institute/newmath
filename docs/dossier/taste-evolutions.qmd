@@ -20,20 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T22:05:22Z
+> 最后刷新: 2026-07-02T23:16:11Z
 
-**Daemon 状态**: monitor (monitor cycle 262, adjust_since_research 2, round_counter 36282, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 263, adjust_since_research 2, round_counter 36382, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1176 条 finding):
-- isolated_theorem: 857 条; 代表样本 `derived`, `derived`, `derived`
-- unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
+**待处理 queue** (1223 条 finding):
+- isolated_theorem: 877 条; 代表样本 `derived`, `derived`, `derived`
+- unauthorized_capstone: 280 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 85 次
-- TASTE ALERT category=low_entropy_template: 8 次
-- TASTE ALERT category=cycle_exception: 2 次
-- TASTE ALERT category=resolution_gate_failed: 1 次
+- TASTE ALERT category=unauthorized_capstone: 12 次
+- TASTE ALERT category=low_entropy_template: 9 次
+- TASTE ALERT category=cycle_exception: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -518,6 +518,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T20:52:52Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_non_escape_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_non_escape_boundary:0d0a2139`). Rationale: The theorem carries real BEDC content: it packages the observer-history packet's visible BHist rows, SameSig/Cont/PkgSig ledger facts, and SemanticNameCert boundary into the non-escape surface used conceptually by downstream observer-filter chapters. I added a substantive downstream consumer in ObserverFilterUp that combines an ObserverFilterCarrier with an ObserverHistoryIdentityPacket, calls the flagged non-escape theorem, and exports the identity NameCert together with filter selected/omitted routes and provenance, giving the target a concrete Lean consumer rather than leaving it isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T22:04:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness:0d0a2139`). Rationale: The target is not a vacuous restatement: it projects the identity packet's ledger, route, provenance, SameSig, and UnaryHistory boundary from the ObserverHistoryIdentity carrier. It was isolated, so I added a sibling consumer in ObserverFilterUp that explicitly invokes this theorem and hands the identity ledger/provenance rows into the observer-filter route/provenance boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T23:15:23Z: `resolved` `delete_theorem` for `BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff:982457e5`). Rationale: The declaration rebuilt a local SemanticNameCert for a bracket row from D,L,U and Cont data, but repo search found no Lean consumer; the only reference was the paper leanchecked marker. The nearby bound consumer theorem proves its own certificate directly and is the closure target, so keeping this target as an isolated checked claim adds no downstream BEDC surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
