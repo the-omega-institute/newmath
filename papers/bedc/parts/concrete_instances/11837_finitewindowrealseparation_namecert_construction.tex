@@ -151,6 +151,24 @@ Finally use the obligation closure route \autoref{thm:finite-window-real-separat
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_window\_budget\_determinacy}
 
+\begin{theorem}[Finite-window Real-separation scoped kernel route]
+\label{thm:finite-window-real-separation-scoped-kernel-route}
+For every accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N),
+$$
+the scoped kernel route is exactly the finite route over the $\DyadicRatCoreUp$ tolerance row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, $\RealUp$ separation readback row, $\RealCompletionExactBoundaryUp$, $\BudgetedRealSealRouteUp$, $\RegularCauchyTailMeetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The carrier exposes no route through quotient streams, host real equality, selected representatives, countable choice, detached separation witnesses, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-separation-carrier}. The rows $W,D,S,R,H,C,P,N$ are the only rows available to a consumer, and the provenance row $P$ names the exact-boundary, budgeted-seal, and shared-tail-meet sources of the Real-facing read.
+
+Apply shared-window refusal and the NameCert surface, \autoref{thm:finite-window-real-separation-window-refusal} and \autoref{thm:finite-window-real-separation-namecert-surface}. They force the RealUp separation row to be read only after the shared finite window, dyadic tolerance, and StreamName/RegSeqRat readback rows have been displayed, while $H,C,P,N$ preserve and name the same route.
+
+Use the shared-window obligation and obligation closure route, \autoref{thm:finite-window-real-separation-shared-window-obligation} and \autoref{thm:finite-window-real-separation-obligation-closure-route}. These bind the structural rows to the displayed kernel dependencies and reject every outside coordinate before the Real-separation read is consumed.
+
+Finally apply window-budget determinacy, \autoref{thm:finite-window-real-separation-window-budget-determinacy}. Since the visible budget is determined by the same $W,D,S,H$ route, the scoped kernel surface is exactly the listed dyadic, stream, regular-rational, Real, completion-boundary, seal-route, tail-meet, history, transport, continuation, provenance, and local naming inventory.
+\end{proof}
+
 \begin{theorem}[Finite-window Real-separation witness exhaustion]
 \label{thm:finite-window-real-separation-witness-exhaustion}
 Every Real-separation witness accepted by a $\FiniteWindowRealSeparationUp$ carrier is exhausted by the rows
