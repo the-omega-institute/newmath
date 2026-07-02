@@ -12,7 +12,9 @@ tensor-network isometries, and quantum cellular automata, but it is not
 identical to any of those structures without further data. Closing the
 input by a self-substitution rule produces a sharp cost: the binary
 compatible rule is unique up to mirror exchange and carries an intrinsic
-time arrow.
+time arrow. Enlarging the alphabet separates compatibility from that
+forced arrow: the binary row is a rigid endpoint, while ternary and square
+alphabet rows admit reversible compatible witnesses.
 
 \section{Lineage of the Refinement Row}
 \label{sec:innovation-input-lineage-refinement-row}
@@ -294,10 +296,69 @@ For an $N$-ary self-substitution row the compatibility equation becomes
 $$
 \sum_{a=0}^{N-1}e^{i\theta_a}=\sqrt N.
 $$
-For $N\ge3$ its solution set has positive dimension. The binary theorem
-therefore isolates the rigid endpoint; the larger-alphabet question is
-whether reversible or approximately reversible subfamilies occupy positive
-measure, and whether the forced arrow weakens in the large-alphabet limit.
+For $N=2$ the compatibility equation is rigid and forces the oriented
+pair of \autoref{thm:innovation-input-binary-compatible-self-substitution}.
+For $N\ge3$ the solution set has positive dimension, so reversibility is a
+separate constraint on the self-substitution row rather than a consequence
+of compatibility alone.
+\end{principle}
+
+\begin{theorem}[Higher-alphabet reversible self-substitution]
+\label{thm:innovation-input-higher-alphabet-reversible-self-substitution}
+The binary incompatibility between compatible self-substitution and
+time-reversal symmetry is not stable under enlargement of the alphabet.
+For $N=3$ the phase row
+$$
+\theta=\left(\frac{\pi}{6},-\frac{\pi}{2},\frac{\pi}{6}\right)
+$$
+satisfies
+$$
+e^{i\pi/6}+e^{-i\pi/2}+e^{i\pi/6}=\sqrt3
+$$
+and its circular-correlation recursion has real block coefficients. For
+every square alphabet size $N=k^2$, a compatible real-sign row exists:
+choose
+$$
+\#\{+\}=\frac{k(k+1)}2,
+\qquad
+\#\{-\}=\frac{k(k-1)}2.
+$$
+Then the sum of the signs is $k=\sqrt N$.
+\end{theorem}
+
+\begin{proof}
+The ternary identity is immediate from
+$2e^{i\pi/6}-i=\sqrt3$. After factoring out the common rotation, the phase
+pattern is a third-root pattern with conjugate block products; the
+correlation recursion therefore has real coefficients at every finite
+depth. For the square alphabet row, the two displayed cardinalities are
+integers because $k(k+1)$ is even, their sum is $k^2$, and their signed
+difference is $k$.
+\end{proof}
+
+\begin{principle}[Binary endpoint]
+\label{prin:innovation-input-binary-endpoint}
+The forced time arrow of \autoref{thm:innovation-input-self-substitution-time-arrow}
+is a binary endpoint. With two phases, the equation
+$a+b=\sqrt2$ leaves only the mirror pair
+$e^{\pm i\pi/4}$, and the first circular coefficient is nonreal. With
+three or more phases, compatibility can coexist with a real
+correlation audit. The arrow is therefore forced in the binary row and
+becomes a selectable feature in larger alphabets.
+\end{principle}
+
+\begin{principle}[Feasibility audit for phase searches]
+\label{prin:innovation-input-phase-search-feasibility-audit}
+Any numerical or parametrized search for reversible self-substitution rows
+must keep
+$$
+\left|\sum_{a=0}^{N-1}e^{i\theta_a}\right|=\sqrt N
+$$
+as a displayed constraint. A projection that maps infeasible trial values
+back into an inverse-trigonometric domain can create apparent zero-defect
+rows whose phase sum does not satisfy the compatibility equation. The
+feasibility constraint is part of the certificate, not a post-processing
+choice.
 \end{principle}
 
 \begin{principle}[Lineage correspondence ledger]
