@@ -17,6 +17,7 @@ import BedcMathlibBridge.Export.Superfactorial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.QBinomial
+import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.OddDoubleFactorial
