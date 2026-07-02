@@ -342,4 +342,30 @@ theorem RandomVarCountablePreimageIntersection_exactness
     cont_deterministic displayedTotalReadback cert.carried_total_bridge
   exact ⟨unary_transport sourceUnary (hsame_symm witnessSource), witnessSource⟩
 
+theorem RandomVarCountablePreimageIntersection_witness_determinacy
+    {source target intersection witness witnessPrime : BHist} :
+    UnaryHistory source ->
+      Cont target intersection witness ->
+        Cont target intersection witnessPrime ->
+          RandomVarTotalReadbackCertificate target source witness ->
+            RandomVarTotalReadbackCertificate target source witnessPrime ->
+              hsame witness witnessPrime := by
+  -- BEDC touchpoint anchor: BHist Cont hsame RandomVarTotalReadbackCertificate
+  intro _sourceUnary targetIntersectionReadback targetIntersectionReadbackPrime cert certPrime
+  have intersectionEmpty : hsame intersection BHist.Empty :=
+    cont_left_cancel targetIntersectionReadback cert.chosen_readback
+  have displayedReadback : Cont target BHist.Empty witness :=
+    cont_hsame_transport (hsame_refl target) intersectionEmpty (hsame_refl witness)
+      targetIntersectionReadback
+  have witnessSource : hsame witness source :=
+    cont_deterministic displayedReadback cert.carried_total_bridge
+  have intersectionEmptyPrime : hsame intersection BHist.Empty :=
+    cont_left_cancel targetIntersectionReadbackPrime certPrime.chosen_readback
+  have displayedReadbackPrime : Cont target BHist.Empty witnessPrime :=
+    cont_hsame_transport (hsame_refl target) intersectionEmptyPrime
+      (hsame_refl witnessPrime) targetIntersectionReadbackPrime
+  have witnessPrimeSource : hsame witnessPrime source :=
+    cont_deterministic displayedReadbackPrime certPrime.carried_total_bridge
+  exact hsame_trans witnessSource (hsame_symm witnessPrimeSource)
+
 end BEDC.Derived.RandomVarUp
