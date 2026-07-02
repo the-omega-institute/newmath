@@ -12139,6 +12139,7 @@ import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
 import BEDC.Derived.Window6WeightLogConcaveTuran
 import BEDC.Derived.Window6WeightUltraLogConcave
+import BEDC.Derived.Window6WeightToeplitzTotalPositive
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
