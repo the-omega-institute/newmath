@@ -1097,6 +1097,20 @@
      "reason": "preflight passed (1360 valid/616 genera); OR_pool=0.909 upper95=0.922<=1.01, both frame ORs<1, p_decoy=0.912 (rank 9119/10000, less enriched than decoys), species/genus frac_pos 0.15/0.13, genus_sign_p=1.0, internal-only anti-direction retained — hidden off-frame stops depleted not enriched; ambush hypothesis refuted"
     }
    ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.kpsi_w6_ucluster_transducer",
+   "statement": "Test (oracle-designed, Kψ-W6-UClusterTransducer): does a fixed Window6 U-cluster finite-state transducer score, computed from same-protein luciferase synonymous-variant SEQUENCES and isolated from raw U content, predict the m¹Ψ-vs-UTP polysome-load shift beyond each variant's synonymous codon inventory? This is the same-protein synonymous-recoding readout test (the Kθ-validation the natural-genome branch lacked). Carrier = Kψ(c_i,c_{i+1})=choose(#U in Window6, 2), sequence-only; the real carrier is Z_order(v) = z-score of S_obs vs B=500 within-variant synonymous-position shuffles (preserves protein/inventory/total-U, destroys Window6 ordering). Readout = ΔPLI(v) = mean polysome-load-index(n1m) - mean(utp) over 3 reps × 5 gradient fractions. Data (both PUBLIC, fetchable): carrier from Nature Suppl Table 1 (paper s41586-025-09945-5, MOESM3 fluc_library sheet, static-content.springer.com) — variant CDS sequences; readout from GEO GSE309271 library_reads.tsv.gz (per-variant fraction counts). 1:1 map = 304 variants (intersection 304, zero missing), same_protein_frac=1.0, preflight PASSED under oracle-amended power gate (≥250 mapped same-protein variants replacing the infeasible ≥500; the designed library is only 305). VERDICT coincidence (independently re-verified): the signal is REAL and significant (Spearman rho(Z_order,ΔPLI)=0.153, p_order=0.0042 vs synonymous-order null, p_label=0.0041 vs readout-permutation, replicate 9/9 positive) BUT necessity FAILS decisively — it is a U-content coincidence, not a certified Window6 transducer: raw total U content predicts ΔPLI FAR better (decoy rho=0.612) than the ordering-isolated Z_order (0.153); Kψ ranks only 3rd of decoys (single-window-U decoy rho=0.561), NOT top-5%; abundance control fails (|corr(Z_order,abundance)|/|corr(Z_order,ΔPLI)|=1.48 > 0.5); pearson=0.106<0.15, top-bottom quintile gap=0.052<0.15, paper's own polysome-enrichment-score correlation weak (0.055). Independent re-verify from raw data: spearman(raw Kψ S_obs,ΔPLI)=+0.590 and spearman(%U,ΔPLI)=+0.612 both strong (~0.6), collapsing to 0.153 once U content is removed by synonymous shuffle — confirming the m¹Ψ effect scales with U content (replicating the paper's own conclusion) but is NOT specifically driven by Window6 U-clustering/ordering. Note: mechanized verdict initially returned needs_more_data on the rho<0.20 power-band; corrected to coincidence because the necessity failure (specificity vs raw-U decoy + abundance confound) is decisive and cannot be rescued by more data — a spec-precedence fix (coincidence necessity-failure now checked before needs_more_data power-band). Conclusion: the codon↔Window6 bridge's Kθ-validation lands COINCIDENCE — no certified Window6 finite-state transducer for m¹Ψ translation response on the one available public same-protein recoding dataset.",
+   "status": "coincidence",
+   "experiment_id": "kpsi_w6_ucluster_transducer",
+   "origin": "oracle conv_fca0b553012dd6fb",
+   "history": [
+    {
+     "ts": "2026-07-02",
+     "status": "coincidence",
+     "reason": "preflight passed (304 mapped same-protein variants, Nature Suppl Table 1 carrier + GEO GSE309271 readout); significant (rho=0.153, p_order=0.0042, p_label=0.0041, replicate 9/9) but necessity fails: raw total U decoy (0.612) and single-window-U (0.561) beat Z_order (0.153), Kψ decoy_rank=3 not top5%, abundance ratio=1.48>0.5 — U-content coincidence not Window6 transducer"
+    }
+   ]
   }
  ]
 }
