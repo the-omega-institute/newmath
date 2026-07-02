@@ -144,6 +144,38 @@ geometric version of the same boundary principle.  That version remains a
 paper-level principle here and is not claimed as Lean checked.
 \end{proof}
 
+\begin{theorem}[Degree-two Turan certificate for Jensen positivity]
+\label{thm:rh-jensen-turan-degree2}
+Let $P(X)=a+2bX+cX^{2}$ be the degree-two Jensen polynomial with
+$c>0$.  Then $P$ takes a nonpositive value for some rational $X$ if and
+only if the Turan inequality $b^{2}\ge ac$ holds.  The proof completes
+the square,
+$$
+c\,P(X)=(cX+b)^{2}+(ac-b^{2}),
+$$
+and uses the witness $X=-b/c$.
+\leanchecked{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_dips\_iff\_turan}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_complete\_square}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_nonpos\_forces\_turan}
+\end{theorem}
+
+\begin{proof}
+This is an unconditional finite algebraic certificate over the rational
+carrier used by the Lean packet.  It isolates the structural core of the
+Turan inequality
+$$
+\gamma_{n+1}^{2}\ge \gamma_n\gamma_{n+2}
+$$
+for the Taylor coefficients that would feed the degree-two Jensen
+polynomial of $\xi$.  The certificate is strictly weaker than
+$\mathsf{RH}$: only Jensen hyperbolicity for all degrees $d$ and all
+levels $n$ is the P\'olya--$\mathsf{RH}$ equivalent statement.  It does
+not constrain $\xi$ zeros without the coefficient-enclosure obligation;
+turning the rational certificate into a statement about $\xi$ would also
+require certified rational enclosures for the relevant Taylor
+coefficients $\gamma_0,\gamma_1,\gamma_2$.
+\end{proof}
+
 The conditional tower interface is also encoded:
 \leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenTowerData}
 and
