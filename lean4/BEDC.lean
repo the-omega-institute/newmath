@@ -2168,6 +2168,7 @@ import BEDC.Derived.CauchyIntersectionPrincipleUp.TasteGate
 import BEDC.Derived.CauchyIntervalNestingUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
+import BEDC.Derived.CauchyKovalevskayaUp
 import BEDC.Derived.CauchyLimitClassifierLockUp.TasteGate
 import BEDC.Derived.CauchyLimitFunctorUp
 import BEDC.Derived.CauchyLimitFunctorUp.StdBridge
