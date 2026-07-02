@@ -12,9 +12,6 @@ open BEDC.Derived.RationalOrderArithUp
 open BEDC.Real.RatNumKernel
 open BEDC.Real.RatNumLogEnclosure
 
-abbrev BRat : Type :=
-  Rat
-
 def pow : BRat -> Nat -> BRat :=
   ratPow
 
