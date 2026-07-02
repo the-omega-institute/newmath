@@ -22,7 +22,12 @@ theorem projectionLedger_rowCount_eq_list_count_sum
     (ledger : BEDC.Derived.CommonCarrierProjectionUp.ProjectionLedger)
     (row : BEDC.FKernel.Hist.BHist) :
     projectionLedgerRowCountReadback ledger row =
-      projectionLedgerListCountSum ledger row := by
+      List.count row ledger.observed +
+        List.count row ledger.hidden +
+          List.count row ledger.scopedRows +
+            List.count row ledger.refused +
+              List.count row ledger.transport +
+                List.count row ledger.provenance := by
   rfl
 
 theorem projectionLedger_list_count_identity
