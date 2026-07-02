@@ -161,6 +161,7 @@ import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.AperyUp
 import BEDC.Derived.ApophaticBoundarySocketStackUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+import BEDC.Derived.ApophaticFiberFarEndUp
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFixedPointFiberUp.ScopedRoute
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
@@ -2727,6 +2728,7 @@ import BEDC.Derived.CauchySequenceOrderCompletenessUp.TasteGate
 import BEDC.Derived.CauchySequenceOrderUp.TasteGate
 import BEDC.Derived.CauchySequenceProductStabilityUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
+import BEDC.Derived.CauchySequenceSpaceUp.CommonWindowInduction
 import BEDC.Derived.CauchySequenceSpaceUp.FiniteSectionPullbackCorrespondence
 import BEDC.Derived.CauchySequenceSpaceUp.KernelScopePacket
 import BEDC.Derived.CauchySequenceSpaceUp.ModulusFamilyFactorization
@@ -6195,6 +6197,7 @@ import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverMeshUp
+import BEDC.Derived.FiniteCoverModulusSelectorUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
 import BEDC.Derived.FiniteCoverNerveUp.OrphanSiblingRoute
@@ -6546,6 +6549,7 @@ import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
+import BEDC.Derived.FiniteWindowRealSeparationUp.PublicRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedCompletionRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
@@ -10645,6 +10649,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StreamRegseqTailSealFactorization
 import BEDC.Derived.RealCauchyCompletionUp.SynchronizedNullTailConsumer
 import BEDC.Derived.RealCauchyConvergenceUp.TasteGate
 import BEDC.Derived.RealCauchyDenseEmbeddingUp.TasteGate
+import BEDC.Derived.RealCauchyFilterBasisUp.TasteGate
 import BEDC.Derived.RealCauchyFilterLimitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterMonadUnitUp
 import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
@@ -11343,6 +11348,7 @@ import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyCutoffUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
+import BEDC.Derived.RegularCauchyDensityUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
@@ -13670,6 +13676,7 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanCyclotomicPentagon
 import BEDC.Derived.Window6GoldenMeanHankelTuran
 import BEDC.Derived.Window6GoldenMeanParryResidue
 import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit

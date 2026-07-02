@@ -284,4 +284,87 @@ theorem FableBranchWitnessCarrier_public_export
   }
   exact ⟨cert, exportUnary⟩
 
+theorem FableBranchWitnessCarrier_formal_target_route
+    {h m r E A H C P N admissibilityRead transportRead replayRead provenanceRead
+      branchRead : BHist} :
+    UnaryHistory h -> UnaryHistory E -> UnaryHistory A -> UnaryHistory H ->
+      UnaryHistory C -> UnaryHistory P -> UnaryHistory N -> Cont h E r ->
+        Cont r A admissibilityRead ->
+          Cont admissibilityRead H transportRead ->
+            Cont transportRead C replayRead ->
+              Cont replayRead P provenanceRead ->
+                Cont provenanceRead N branchRead ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row branchRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨
+                          hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                            hsame row N ∨ hsame row admissibilityRead ∨
+                              hsame row transportRead ∨ hsame row replayRead ∨
+                                hsame row provenanceRead ∨ hsame row branchRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont h E r ∧ Cont r A admissibilityRead ∧
+                          Cont admissibilityRead H transportRead ∧
+                            Cont transportRead C replayRead ∧
+                              Cont replayRead P provenanceRead ∧
+                                Cont provenanceRead N branchRead)
+                      hsame ∧ UnaryHistory branchRead := by
+  -- BEDC touchpoint anchor: FableBranchWitnessCarrier BHist Cont hsame SemanticNameCert UnaryHistory
+  intro hUnary eUnary aUnary hTransportUnary cUnary pUnary nUnary emptyRoute
+    admissibilityRoute transportRoute replayRoute provenanceRoute branchRoute
+  have rUnary : UnaryHistory r :=
+    unary_cont_closed hUnary eUnary emptyRoute
+  have admissibilityUnary : UnaryHistory admissibilityRead :=
+    unary_cont_closed rUnary aUnary admissibilityRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed admissibilityUnary hTransportUnary transportRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary cUnary replayRoute
+  have provenanceUnary : UnaryHistory provenanceRead :=
+    unary_cont_closed replayUnary pUnary provenanceRoute
+  have branchUnary : UnaryHistory branchRead :=
+    unary_cont_closed provenanceUnary nUnary branchRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row branchRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨
+              hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row admissibilityRead ∨
+                  hsame row transportRead ∨ hsame row replayRead ∨
+                    hsame row provenanceRead ∨ hsame row branchRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont h E r ∧ Cont r A admissibilityRead ∧
+              Cont admissibilityRead H transportRead ∧ Cont transportRead C replayRead ∧
+                Cont replayRead P provenanceRead ∧ Cont provenanceRead N branchRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro branchRead ⟨hsame_refl branchRead, branchUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right; right; right; right; right; right; right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, emptyRoute, admissibilityRoute, transportRoute, replayRoute,
+          provenanceRoute, branchRoute⟩
+  }
+  exact ⟨cert, branchUnary⟩
+
 end BEDC.Derived.FableBranchWitnessUp
