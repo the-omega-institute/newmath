@@ -13647,6 +13647,7 @@ import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenMeanParryResidue
 import BEDC.Derived.Window6GoldenMeanHankelTuran
 import BEDC.Derived.Window6GoldenMeanCyclotomicPentagon
+import BEDC.Derived.Window6GoldenMeanShiftEquivalence
 import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6IncidenceOrthogonalityTripleRecurrence
