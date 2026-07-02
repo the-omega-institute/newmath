@@ -6,6 +6,7 @@ import BedcMathlibBridge.Export.Pythagorean
 import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
+import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Catalan
