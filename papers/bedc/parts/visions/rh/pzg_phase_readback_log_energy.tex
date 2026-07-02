@@ -1,0 +1,161 @@
+\chapter{PZG Phase Readback and Log Energy}
+\label{ch:visions-rh-pzg-phase-readback-log-energy}
+\origin{ai}
+
+\autoref{ch:visions-rh-memory-filtration-prime-zeckendorf-register}
+defines the Prime--Zeckendorf--Goedel register and the single-mode
+continuous-discrete bridge. The present chapter records the associated
+readback distinction. The finite PZG register is unique. The complete
+Dirichlet-monomial character reads its frequency faithfully. A visible
+unit-circle projection of a solenoid state does not, by itself, recover
+the prime-register fibre behind that phase.
+
+\section{Log-Energy Readout}
+\label{sec:rh-pzg-log-energy-readout}
+
+\begin{definition}[Log-energy PZG readout]
+\label{def:rh-log-energy-pzg-readout}
+The log-energy Prime--Zeckendorf--Goedel readout replaces the standard
+orthonormal basis by a weighted orthogonal basis
+$(\varepsilon_{p,k})_{p,k}$ with
+$$
+\|\varepsilon_{p,k}\|^2=F_k\log p,
+\qquad
+\langle\varepsilon_{p,k},\varepsilon_{q,\ell}\rangle=0
+\quad
+((p,k)\ne(q,\ell)).
+$$
+For a positive integer $n$, set
+$$
+R_{\mathsf{PZG}}(n)
+:=
+\sum_{p,k}z_{p,k}\varepsilon_{p,k}.
+$$
+\end{definition}
+
+\begin{theorem}[Log-energy reads logarithmic height]
+\label{thm:rh-log-energy-reads-logarithmic-height}
+For every positive integer $n$,
+$$
+\|R_{\mathsf{PZG}}(n)\|^2=\log n.
+$$
+Consequently, for every $t\in\RealUp$,
+$$
+n^{-it}=e^{-it\|R_{\mathsf{PZG}}(n)\|^2}.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-log-energy-pzg-readout} and orthogonality,
+$$
+\|R_{\mathsf{PZG}}(n)\|^2
+=
+\sum_{p,k}z_{p,k}F_k\log p.
+$$
+The last sum is $\log n$ by the PZG expansion in
+\autoref{thm:rh-prime-zeckendorf-goedel-uniqueness}. Substitution into
+$n^{-it}=e^{-it\log n}$ gives the phase identity.
+\end{proof}
+
+\begin{principle}[Zeckendorf carries preserve log energy]
+\label{prin:rh-zeckendorf-carries-preserve-log-energy}
+Inside a fixed prime row, the Zeckendorf carry
+$$
+\varepsilon_{p,k}+\varepsilon_{p,k+1}
+\rightsquigarrow
+\varepsilon_{p,k+2}
+$$
+preserves the displayed log-energy because
+$$
+F_k\log p+F_{k+1}\log p=F_{k+2}\log p.
+$$
+Thus the no-adjacent normal form is not merely a coding convention. It
+is the register normal form compatible with the triangular square-norm
+row used by the PZG Hilbert readout.
+\end{principle}
+
+\section{Phase Readback}
+\label{sec:rh-pzg-phase-readback}
+
+\begin{theorem}[Complete monomial phase character is register faithful]
+\label{thm:rh-complete-phase-readback-register-faithful}
+Let $m,n\in\mathbb N_{>0}$. If
+$$
+e^{-it\log n}=e^{-it\log m}
+\qquad
+\text{for every }t\in\RealUp,
+$$
+then
+$$
+Z_{\mathsf{PZG}}(n)=Z_{\mathsf{PZG}}(m).
+$$
+\end{theorem}
+
+\begin{proof}
+The displayed equality gives
+$$
+e^{-it(\log n-\log m)}=1
+\qquad
+\text{for every }t\in\RealUp.
+$$
+A real frequency whose exponential is constantly $1$ on the full real
+line has zero frequency. Hence $\log n=\log m$, and therefore $n=m$.
+The conclusion follows from
+\autoref{thm:rh-prime-zeckendorf-goedel-uniqueness}.
+\end{proof}
+
+\begin{principle}[Solenoid projection is not register readback]
+\label{prin:rh-solenoid-projection-not-register-readback}
+The faithfulness in
+\autoref{thm:rh-complete-phase-readback-register-faithful} concerns the
+full one-parameter character
+$t\mapsto e^{-it\log n}$ attached to one Dirichlet monomial. It is not a
+claim that the visible projection
+$$
+\pi_S:\Sigma_S\to\mathbb T
+$$
+of \autoref{def:unified-reality-s-solenoid-over-unit-circle} is
+injective. The kernel
+$$
+K_S:=\ker(\pi_S)
+$$
+is the prime-register fibre retained by
+\autoref{def:rh-solenoid-phase-register}. Therefore two solenoid source
+rows may have the same visible unit-circle phase and still differ by a
+prime-register fibre row. Recovering the register requires the fibre
+ledger or a certified section; the circle output alone is only the
+visible phase surface.
+\end{principle}
+
+\begin{principle}[Instantaneous phase is not a register certificate]
+\label{prin:rh-instantaneous-phase-not-register-certificate}
+At a fixed time $t_0$, equality of phase reads records only
+$$
+t_0(\log n-\log m)\in2\pi\mathbb Z.
+$$
+It is therefore a modular phase observation, not a certificate of
+register equality. The complete monomial character is faithful by
+\autoref{thm:rh-complete-phase-readback-register-faithful}, while a
+solenoid-visible phase is fibre-blind by
+\autoref{prin:rh-solenoid-projection-not-register-readback}. These are
+the two distinct uniqueness rows: the PZG source ledger determines its
+phase readout, but a projected phase value does not reconstruct the
+prime-register fibre without the solenoid ledger.
+\end{principle}
+
+\begin{principle}[Solenoid fibres are not radial scale ledgers]
+\label{prin:rh-solenoid-fibres-not-radial-scale-ledgers}
+For a centered active mode
+$$
+U_a(s)=e^{-rh_a}e^{-ith_a},
+\qquad
+h_a>0,
+$$
+the phase factor $e^{-ith_a}$ is compatible with a PZG or solenoid phase
+readout, but the positive factor $e^{-rh_a}$ is not a compact
+prime-register fibre coordinate. This is the same separation as
+\autoref{def:rh-solenoid-legal-fibre-row}: the legal hidden fibre is
+$K_S$, not $\RealUp_{>0}$. Hence an off-boundary radial factor must be
+recorded as a scale row or refused as unledgered data; it cannot be
+reclassified as lost prime-register phase.
+\end{principle}
