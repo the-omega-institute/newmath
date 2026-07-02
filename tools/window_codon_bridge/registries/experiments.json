@@ -624,6 +624,14 @@
       "status": "terminal",
       "timeout_seconds": 1800,
       "note": "E2-unique concentration test for d_resid4 low-order-after-H3 conserved geometry. Pure-stdlib, reuses H3 residual-specificity machinery. --null-reps=N (default 50000). Verdict refuted: not degree-2-concentrated."
+    },
+    {
+      "experiment_id": "asd_w6_self_tail_exact_null",
+      "claim_id": "bridge.host_defense.asd_w6_self_tail_erasability",
+      "script_path": "tools/window_codon_bridge/experiments/run_asd_w6_exact_null.py",
+      "status": "terminal",
+      "timeout_seconds": 86400,
+      "note": "ASD-W6 self-tail-erasability test with EXACT analytical gene-wise within-AA synonymous null E_g[c,d] (replaces 400x Monte-Carlo shuffles; ~42s/genome). Pure-stdlib, fetches RefSeq assemblies. env ASD_W6_MAX_GENOMES / ASD_W6_NULL_REPLICATES / ASD_W6_CACHE_DIR; --selftest exercises exact-E vs MC (max abs err <0.012 @50000 MC). 1300-genome run verdict data_gate_failed (preflight) with aggregate null/mild-anti (no erasability). Non-daemon (long fetch+compute)."
     }
   ]
 }
