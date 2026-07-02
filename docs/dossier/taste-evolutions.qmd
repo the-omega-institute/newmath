@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T06:55:43Z
+> 最后刷新: 2026-07-02T08:06:26Z
 
-**Daemon 状态**: monitor (monitor cycle 250, adjust_since_research 2, round_counter 35117, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 251, adjust_since_research 2, round_counter 35164, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1128 条 finding):
 - isolated_theorem: 810 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,9 +30,9 @@ date-modified: today
 - low_entropy_template: 65 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 81 次
-- TASTE ALERT category=low_entropy_template: 27 次
-- TASTE ALERT category=cycle_exception: 8 次
+- TASTE ALERT category=isolated_theorem: 76 次
+- TASTE ALERT category=low_entropy_template: 23 次
+- TASTE ALERT category=cycle_exception: 7 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -494,6 +494,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T05:33:46Z: `resolved` `delete_theorem` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary` (flag `isolated_theorem`, finding `isolated_theorem:stepindexedtotalhost:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary:b8986066`). Rationale: The target had no Lean downstream users and only a removable paper marker. Its proof merely repackaged existing StepIndexedTotalHostCarrier projections together with externally supplied sibling UnaryHistory and Cont premises, while the same file already retains the more substantive public sibling boundary theorem that ties the carrier through the public interface and SemanticNameCert surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T06:55:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage:43e3a8b4`). Rationale: The target is structurally meaningful: it isolates the Sylow packet's prime row, exponent row, coverage row, coverage Cont route, and provenance package, and the paper treats it as a named component of the Sylow obligation surface. It was isolated only because the later closure theorem re-projected the same carrier fields directly. I made SylowCarrier_obligation_closure_surface consume BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage and reuse its extracted coverage surface before assembling the broader NameCert closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T08:05:47Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations:43e3a8b4`). Rationale: The target is not a disposable wrapper: it is the paper's primary checked NameCert-obligation theorem for the Sylow carrier, and the surrounding chapter uses it as the local carrier-admission surface. Repo search showed no Lean downstream consumer, so I added SylowCarrier_public_readback_consumes_namecert_obligations in the same Sylow row family. The new theorem substantively consumes SylowCarrier_namecert_obligations and combines its SemanticNameCert/provenance output with the public scope dependency lock and Cont/PkgSig consumer route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
