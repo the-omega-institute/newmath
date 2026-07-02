@@ -3632,6 +3632,7 @@ import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
 import BEDC.Derived.CompactUniformModulusUp.TasteGate
 import BEDC.Derived.CompactUniformNetSelectionUp.TasteGate
 import BEDC.Derived.CompactUniformOscillationUp.TasteGate
+import BEDC.Derived.CompactUniformOscillationWindowUp.TasteGate
 import BEDC.Derived.CompactUniformPullbackUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusLedgerUp.TasteGate
@@ -6544,6 +6545,7 @@ import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
+import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedCompletionRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.TerminalReadbackExclusion
@@ -6898,6 +6900,7 @@ import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
 import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
+import BEDC.Derived.HaltingTraceClassifierUp.TraceSoundness
 import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
@@ -12811,6 +12814,7 @@ import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteAuditUp
+import BEDC.Derived.SubjectReductionRouteAuditUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteAuditUp.SocketHandoff
 import BEDC.Derived.SubjectReductionRouteAuditUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ConfluenceNonescape
@@ -12967,6 +12971,7 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
 import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
@@ -13664,6 +13669,8 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
+import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenPentagonRPLink
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6IncidenceOrthogonalityTripleRecurrence
