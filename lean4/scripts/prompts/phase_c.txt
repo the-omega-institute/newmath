@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.61 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.62 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## TOP-OF-PROMPT REJECT-PREVENTION CHECKLIST (read FIRST, apply before every commit)
 
@@ -125,6 +125,37 @@ The `NameCert.mk () () () () ()` pattern is forbidden. Specifically:
 If you cannot find a target that satisfies these constraints, output
 `{"targets": []}` from Phase B and let gate_check fail the round.
 Vacuous certificates are worse than empty rounds.
+
+## Exportability discipline (mathlib-bridge readiness)
+
+When — and only when — a Phase B target implements or extends a Derived
+carrier that mirrors a concrete, pre-existing mathlib structural object (a
+Nat/Int-valued sequence or combinatorial count with a clean recurrence: a
+derangement / subfactorial count, a Schröder / Motzkin / Bell number, a Pell
+sequence term, etc.; NOT an apophatic / refusal / NameCert-internal object),
+leave it reachable by the mathlib bridge at 0 axioms:
+
+1. Expose the mirror value as a canonical readback ANCHORED to the carrier's
+   `BHist` / inductive machinery — the way `FibonacciUp.fib` is the readback
+   of the Fibonacci carrier — NOT as a bare `def foo : Nat -> Nat` helper
+   detached from the carrier. The bridge's anti-laundering gate rejects a
+   bare Nat shadow that is not tied to a real BEDC carrier, so a detached
+   helper can never be bridged.
+2. State the readback's structural facts as 0-axiom theorems: base cases and
+   recurrence (`foo_zero`, `foo_one`, `foo_add_two`), provable by `rfl` or
+   induction with NO `Classical.choice` / `Quot.sound` / `propext`.
+3. Add a one-line `-- mathlib-ref: <Mathlib.decl>` comment immediately above
+   the readback naming the pre-existing mathlib counterpart (e.g.
+   `-- mathlib-ref: numDerangements`). This is the exportability signal the
+   mathlib bridge candidate filter reads; without it a genuinely bridgeable
+   object stays invisible to the bridge.
+
+This is additive and does NOT change which targets you pick — `critical_path`
+still drives selection. It only asks that WHEN a target already mirrors a
+mathlib structural object you leave it bridge-ready. Do NOT invent new
+mathlib-mirror carriers just to satisfy this (that is re-certification
+padding, not theory growth), and NEVER weaken the mathlib-free / 0-axiom /
+0-sorry core invariant to chase a bridge.
 
 ## Script-backed Phase D gates
 

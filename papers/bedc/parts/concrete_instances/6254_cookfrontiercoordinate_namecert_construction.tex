@@ -122,16 +122,34 @@ The structural rows $H$ and $C$ have different duties: one transports componentw
 Each field therefore discharges a distinct NameCert obligation listed in \autoref{thm:cook-frontier-coordinate-namecert-obligations}. A merge removes the witness for at least one listed obligation, so field faithfulness is forced by the displayed carrier itself.
 \end{proof}
 
-\closureat{CookFrontierCoordinateUp}{obligationStr}
+\begin{theorem}[Cook frontier coordinate scoped kernel route]
+\label{thm:cook-frontier-coordinate-scoped-kernel-route}
+Every accepted $\CookFrontierCoordinateUp$ coordinate read factors through the finite route
+$$
+F \longmapsto R \longmapsto S \longmapsto A \longmapsto L \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+Here $F$ is the ordered stage-frontier triple, $R$ is the Rule 110 scale row, $S$ is the stage-sample ledger, $A$ is the audit-binary row, $L$ is the failure ledger, and $H,C,P,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CookFrontierCoordinateUp}$ rows. The only sibling inputs consumed by the route are the displayed finite rows of $\CellularAutomatonUp$ and $\BoundedUniversalTraceUp$; the route does not export unbounded Rule 110 universality, target-machine halting, host evaluator correctness, quotient stream equality, or a detached success claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cook-frontier-coordinate-carrier}. Its coordinates are exactly the stage-frontier triple, scale row, sample ledger, audit replay row, failure ledger, transports, replay route, provenance, and local naming row.
+
+Apply the NameCert obligations of \autoref{thm:cook-frontier-coordinate-namecert-obligations}. They bind carrier admission, stage-frontier accountability, scale accountability, sample exposure, audit replay, failure-ledger non-escape, stability, replay, provenance, and local naming to those same rows.
+
+Use the witnessed-universality boundary and failure-ledger non-escape theorems, \autoref{thm:cook-frontier-coordinate-witnessed-universality-boundary} and \autoref{thm:cook-frontier-coordinate-failure-ledger-nonescape}. The sibling $\CellularAutomatonUp$ and $\BoundedUniversalTraceUp$ rows are consumed only as finite displayed inputs, while every failed or incomplete read stays in $L$.
+
+Finally apply scale-row faithfulness, audit replay exactness, and field faithfulness. These prevent replacement of $R$, $A$, $L$, or any structural row by a hidden evaluator, an unbounded universality principle, or a merged carrier field. Thus the scoped kernel route is precisely the displayed finite route.
+\end{proof}
+
+\closureat{CookFrontierCoordinateUp}{scopedStr}
 
 \begin{closurestatus}{\CookFrontierCoordinateUp}
   \constructivestory{A $\CookFrontierCoordinateUp$ packet is generated from an ordered stage-frontier triple, finite Rule 110 scale row, stage-sample ledger, audit-binary replay row, failure ledger, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cook-frontier-coordinate-carrier}, \autoref{thm:cook-frontier-coordinate-namecert-obligations}, \autoref{thm:cook-frontier-coordinate-witnessed-universality-boundary}, \autoref{thm:cook-frontier-coordinate-failure-ledger-nonescape}, \autoref{thm:cook-frontier-coordinate-scale-row-faithfulness}, \autoref{thm:cook-frontier-coordinate-audit-replay-exactness}, and \autoref{thm:cook-frontier-coordinate-field-faithfulness} specify the finite Cook compile-frontier coordinate packet, NameCert obligations, witnessed-universality boundary, failure-ledger non-escape, scale-row faithfulness, audit replay exactness, and field faithfulness rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cook-frontier-coordinate-carrier}, \autoref{thm:cook-frontier-coordinate-namecert-obligations}, \autoref{thm:cook-frontier-coordinate-witnessed-universality-boundary}, \autoref{thm:cook-frontier-coordinate-failure-ledger-nonescape}, \autoref{thm:cook-frontier-coordinate-scale-row-faithfulness}, \autoref{thm:cook-frontier-coordinate-audit-replay-exactness}, \autoref{thm:cook-frontier-coordinate-field-faithfulness}, and \autoref{thm:cook-frontier-coordinate-scoped-kernel-route} specify the finite Cook compile-frontier coordinate packet, NameCert obligations, witnessed-universality boundary, failure-ledger non-escape, scale-row faithfulness, audit replay exactness, field faithfulness, and scoped kernel route.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CookFrontierCoordinateUp.CookFrontierCoordinate\_namecert\_obligations}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not prove unbounded Rule 110 universality, target-machine halting, host evaluator correctness, quotient stream equality, Lean verification, or bridge checking for $\CookFrontierCoordinateUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, frontier-triple accountability, scale-row faithfulness, audit replay exactness, failure-ledger non-escape, nontriviality, and field faithfulness for the same finite coordinate.}
+  \notclaimed{This chapter does not prove unbounded Rule 110 universality, target-machine halting, host evaluator correctness, quotient stream equality, or bridge checking for $\CookFrontierCoordinateUp$.}
+  \upgradepath{Public closure requires a public-object surface for the coordinate route and a bridge-checked schema handoff for the same finite coordinate.}
 \end{closurestatus}
