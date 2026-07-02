@@ -57,6 +57,29 @@ private theorem driverWedge_self_zero (d : DriverVec) :
   unfold driverWedge
   exact (ratSub_zero_iff (ratMul d.1 d.2) (ratMul d.2 d.1)).mpr (ratMul_comm d.1 d.2)
 
+private theorem mem_singleton_driver_eq {head d : DriverVec} :
+    List.Mem d [head] -> d = head := by
+  intro h
+  cases h with
+  | head => rfl
+  | tail _ htail => cases htail
+
+private theorem singleton_driver_collinear (head : DriverVec) :
+    allCollinear [head] := by
+  intro d1 d2 h1 h2
+  have e1 : d1 = head := mem_singleton_driver_eq h1
+  have e2 : d2 = head := mem_singleton_driver_eq h2
+  cases e1
+  cases e2
+  exact driverWedge_self_zero head
+
+private theorem at_least_two_drivers_not_singleton
+    (head second : DriverVec) (rest : List DriverVec) :
+    Not ((head :: second :: rest).length ≤ 1) := by
+  intro hlen
+  change Nat.succ (Nat.succ rest.length) ≤ Nat.succ Nat.zero at hlen
+  exact Nat.not_succ_le_zero rest.length (Nat.le_of_succ_le_succ hlen)
+
 /-- A rational with zero numerator is equal to `0` under `RatEq`. -/
 private theorem ratNum_zero_to_RatEq_zero_local {x : RatNum} :
     IntEq x.num intZero -> RatEq x ratZero := by
@@ -98,28 +121,18 @@ private theorem weighted_wedge_sq_zero
 theorem single_step_ledger_collinear (ds : List DriverVec) :
     ds.length ≤ 1 -> allCollinear (ledgerDrivers ds) := by
   intro hlen
-  unfold ledgerDrivers allCollinear
+  unfold ledgerDrivers
   cases ds with
   | nil =>
+      unfold allCollinear
       intro d1 d2 h1 _h2
       cases h1
   | cons head tail =>
       cases tail with
       | nil =>
-          intro d1 d2 h1 h2
-          cases h1 with
-          | head =>
-              cases h2 with
-              | head =>
-                  exact driverWedge_self_zero head
-              | tail _ htail =>
-                  cases htail
-          | tail _ htail =>
-              cases htail
+          exact singleton_driver_collinear head
       | cons second rest =>
-          cases hlen with
-          | step hzero =>
-              cases hzero
+          exact False.elim (at_least_two_drivers_not_singleton head second rest hlen)
 
 /-- Collinearity forces every two-driver metric determinant selected from the list to vanish. -/
 theorem collinear_implies_degenerate
