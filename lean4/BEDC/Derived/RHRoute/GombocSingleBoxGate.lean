@@ -84,4 +84,120 @@ theorem level1_re_lower :
     level1ReLower <= level1PartialRe := by
   decide
 
+def etaTerms64 : List EtaDyTerm :=
+  etaTerms16 ++
+  [ { amp := 125246, cos := -1046825, sin := -60573, positive := true }
+  , { amp := 119990, cos := -847659, sin := -617241, positive := false }
+  , { amp := 115222, cos := -409050, sin := -965500, positive := true }
+  , { amp := 110873, cos := 117396, sin := -1041984, positive := false }
+  , { amp := 106890, cos := 592152, sin := -865371, positive := true }
+  , { amp := 103225, cos := 917432, sin := -507769, positive := false }
+  , { amp := 99840, cos := 1046627, sin := -63907, positive := true }
+  , { amp := 96703, cos := 979645, sin := 373908, positive := false }
+  , { amp := 93787, cos := 750714, sin := 732079, positive := true }
+  , { amp := 91069, cos := 413889, sin := 963435, positive := false }
+  , { amp := 88527, cos := 29728, sin := 1048155, positive := true }
+  , { amp := 86145, cos := -345059, sin := 990175, positive := false }
+  , { amp := 83908, cos := -664408, sin := 811217, positive := true }
+  , { amp := 81801, cos := -896369, sin := 544090, positive := false }
+  , { amp := 79814, cos := -1023838, sin := 226422, positive := true }
+  , { amp := 77936, cos := -1043354, sin := -104516, positive := false }
+  , { amp := 76158, cos := -962689, sin := -415621, positive := true }
+  , { amp := 74472, cos := -797869, sin := -680380, positive := false }
+  , { amp := 72870, cos := -570107, sin := -880051, positive := true }
+  , { amp := 71347, cos := -302982, sin := -1003849, positive := false }
+  , { amp := 69895, cos := -20065, sin := -1048384, positive := true }
+  , { amp := 68511, cos := 256928, sin := -1016612, positive := false }
+  , { amp := 67190, cos := 509419, sin := -916517, positive := true }
+  , { amp := 65926, cos := 722750, sin := -759700, positive := false }
+  , { amp := 64716, cos := 886517, sin := -559999, positive := true }
+  , { amp := 63557, cos := 994546, sin := -332250, positive := false }
+  , { amp := 62445, cos := 1044600, sin := -91227, positive := true }
+  , { amp := 61378, cos := 1037905, sin := 149212, positive := false }
+  , { amp := 60352, cos := 978556, sin := 376749, positive := true }
+  , { amp := 59365, cos := 872875, sin := 581034, positive := false }
+  , { amp := 58415, cos := 728770, sin := 753927, positive := true }
+  , { amp := 57500, cos := 555120, sin := 889580, positive := false }
+  , { amp := 56618, cos := 361234, sin := 984389, positive := true }
+  , { amp := 55766, cos := 156364, sin := 1036852, positive := false }
+  , { amp := 54944, cos := -50677, sin := 1047351, positive := true }
+  , { amp := 54150, cos := -251824, sin := 1017888, positive := false }
+  , { amp := 53382, cos := -439989, sin := 951799, positive := true }
+  , { amp := 52639, cos := -609202, sin := 853455, positive := false }
+  , { amp := 51919, cos := -754699, sin := 727970, positive := true }
+  , { amp := 51222, cos := -872942, sin := 580934, positive := false }
+  , { amp := 50547, cos := -961591, sin := 418157, positive := true }
+  , { amp := 49892, cos := -1019443, sin := 245453, positive := false }
+  , { amp := 49256, cos := -1046339, sin := 68455, positive := true }
+  , { amp := 48639, cos := -1043047, sin := -107542, positive := false }
+  , { amp := 48040, cos := -1011135, sin := -277701, positive := true }
+  , { amp := 47458, cos := -952840, sin := -437730, positive := false }
+  , { amp := 46892, cos := -870929, sin := -583947, positive := true }
+  , { amp := 46341, cos := -768569, sin := -713311, positive := false }
+  ]
+
+def level2PartialRe : DyInt :=
+  etaDyPartialRe etaTerms64
+
+def level2PartialIm : DyInt :=
+  etaDyPartialIm etaTerms64
+
+def level2TailReEnvelope : DyInt :=
+  50000
+
+def level2TailImEnvelope : DyInt :=
+  50000
+
+def level2ReLower : DyInt :=
+  120000
+
+def level2ImAbsLower : DyInt :=
+  1000000
+
+structure CenterTailEnvelope where
+  etaRe : DyInt
+  etaIm : DyInt
+  reTailBound : DyInt
+  imTailBound : DyInt
+  re_tail_lower : level2PartialRe - reTailBound <= etaRe
+  re_tail_upper : etaRe <= level2PartialRe + reTailBound
+  im_tail_lower : level2PartialIm - imTailBound <= etaIm
+  im_tail_upper : etaIm <= level2PartialIm + imTailBound
+
+theorem level2_partial_re_readback :
+    level2PartialRe = 181382 := by
+  decide
+
+theorem level2_partial_im_readback :
+    level2PartialIm = 1077161 := by
+  decide
+
+theorem level2_center_minus_tail_re_lower :
+    level2ReLower <= level2PartialRe - level2TailReEnvelope := by
+  decide
+
+theorem level2_center_minus_tail_im_abs_lower :
+    level2ImAbsLower <= level2PartialIm - level2TailImEnvelope := by
+  decide
+
+theorem level2_tail_envelope_re_lower
+    (cert : CenterTailEnvelope)
+    (hbound : cert.reTailBound <= level2TailReEnvelope) :
+    level2ReLower <= cert.etaRe := by
+  have lowerToCenter :
+      level2ReLower <= level2PartialRe - cert.reTailBound :=
+    Int.le_trans level2_center_minus_tail_re_lower
+      (Int.sub_le_sub_left hbound level2PartialRe)
+  exact Int.le_trans lowerToCenter cert.re_tail_lower
+
+theorem level2_tail_envelope_im_abs_lower
+    (cert : CenterTailEnvelope)
+    (hbound : cert.imTailBound <= level2TailImEnvelope) :
+    level2ImAbsLower <= cert.etaIm := by
+  have lowerToCenter :
+      level2ImAbsLower <= level2PartialIm - cert.imTailBound :=
+    Int.le_trans level2_center_minus_tail_im_abs_lower
+      (Int.sub_le_sub_left hbound level2PartialIm)
+  exact Int.le_trans lowerToCenter cert.im_tail_lower
+
 end BEDC.Derived.RHRoute.GombocSingleBoxGate
