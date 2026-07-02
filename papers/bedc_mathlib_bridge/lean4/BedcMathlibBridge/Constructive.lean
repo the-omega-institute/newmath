@@ -19,3 +19,6 @@ import BedcMathlibBridge.Constructive.QBinomial
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
+import BedcMathlibBridge.Constructive.Square
+import BedcMathlibBridge.Constructive.Pronic
+import BedcMathlibBridge.Constructive.CenteredHexagonal
