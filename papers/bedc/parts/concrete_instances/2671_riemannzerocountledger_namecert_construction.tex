@@ -68,6 +68,48 @@ Next read the comparison surface. The rows $M$ and $E$ record the Riemann-von Ma
 The remaining rows $H,C,P,N$ provide transport, replay, provenance, and local naming only. Therefore the height-window surface is exhausted by the displayed packet and has no route to zero-set completeness, analytic continuation, host cardinality, or a proof of the RH predicate.
 \end{proof}
 
+\begin{theorem}[RiemannZeroCountLedger height-filter stability]
+\label{thm:riemann-zero-count-ledger-height-filter-stability}
+For every accepted $\RiemannZeroCountLedgerUp$ carrier $L=(T,Z,U,M,E,H,C,P,N)$, a transported zero-count read preserves the displayed height request row $T$ before the finite zero packet list $Z$ is filtered. The componentwise $\hsame$ row $H$ and displayed $\Cont$ replay row $C$ may transport and replay the height request, but they cannot replace $T$ by a new height window, a host real bound, or an untracked zero-set predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-zero-count-ledger-carrier}. The height request is the coordinate $T$, and the zero packet list $Z$ is filtered only after that coordinate is read.
+
+Apply the height-window binding obligation of \autoref{thm:riemann-zero-count-ledger-namecert-obligations}. It makes $T$ the unique displayed row used by the finite filter, so a downstream read cannot introduce a second height source.
+
+Now read the transport and replay rows. The componentwise $\hsame$ entries in $H$ preserve the height row as the same displayed coordinate, while the $\Cont$ route in $C$ replays the read of $T$ before the filter on $Z$.
+
+Therefore the transported packet still filters $Z$ under the original displayed height row. Since no carrier coordinate stores a host real bound or ambient zero-set predicate, those endpoints cannot be inferred by transport.
+\end{proof}
+
+\begin{theorem}[RiemannZeroCountLedger comparison-error nonescape]
+\label{thm:riemann-zero-count-ledger-comparison-error-nonescape}
+Every RH-facing export of an accepted $\RiemannZeroCountLedgerUp$ carrier must read the Riemann-von Mangoldt comparison ledger $M$ and explicit error row $E$ before the unary count row $U$ is handed to a consumer. The export is only a finite comparison-error ledger for the displayed height window; it cannot imply $\mathsf{RH}$, analytic continuation, zero-set completeness, host cardinality, or completeness of the analytic zero list.
+\end{theorem}
+\begin{proof}
+Start with the exported zero-count read of \autoref{thm:riemann-zero-count-ledger-window-exhaustion}. That theorem exhausts the read by the displayed rows $T,Z,U,M,E,H,C,P,N$.
+
+Use the comparison-error ledger obligation in \autoref{thm:riemann-zero-count-ledger-namecert-obligations}. It requires both $M$ and $E$ to be opened before the count is exported, so the consumer receives a comparison row together with its explicit error boundary.
+
+The rows $M$ and $E$ compare the unary count against the finite Riemann-von Mangoldt ledger for the same displayed height request. They do not add a coordinate for analytic continuation, all zeros below the height, host cardinality, or a proof of the RH predicate.
+
+Thus the export is non-escaping: it records the comparison-error surface for the finite packet and refuses each analytic endpoint named in the statement.
+\end{proof}
+
+\begin{theorem}[RiemannZeroCountLedger zero-list count transport]
+\label{thm:riemann-zero-count-ledger-zero-list-count-transport}
+Let $L=(T,Z,U,M,E,H,C,P,N)$ and $L'=(T',Z',U',M',E',H',C',P',N')$ be accepted $\RiemannZeroCountLedgerUp$ carriers connected by the componentwise $\hsame$ transport and displayed $\Cont$ replay rows of their local packets. If the transported read identifies the height request, zero-list row, and unary-count row with the displayed $T,Z,U$ rows of $L$, then the transported packet preserves the same finite zero list $Z$ and the same unary count $U$ before any comparison-error export is consumed.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. In each packet, the zero-list row and unary-count row are displayed coordinates, not ambient zero-set or host-cardinality data.
+
+Apply zero-list visibility and unary-count exactness from \autoref{thm:riemann-zero-count-ledger-namecert-obligations}. These obligations force the count to be the $\UnaryHistory$ count of the displayed finite list and force every counted entry to remain a visible $\CriticalStripZetaZeroWitnessUp$ packet.
+
+Now use the hypothesis on the componentwise transport and replay rows. The $\hsame$ entries identify the transported height, zero-list, and count rows with $T,Z,U$, and the $\Cont$ entries replay those reads before the comparison rows are consumed.
+
+Consequently the transported export preserves the displayed finite list and its unary count. Any attempt to read a different finite list, host cardinality, zero-set completeness theorem, or analytic continuation would bypass the named coordinates and would no longer be a transported read of the accepted packet.
+\end{proof}
+
 \closureat{RiemannZeroCountLedgerUp}{seedStr}
 
 \begin{closurestatus}{\RiemannZeroCountLedgerUp}
