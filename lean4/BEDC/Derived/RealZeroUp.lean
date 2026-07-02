@@ -319,4 +319,176 @@ theorem RealZeroCarrier_dyadic_ledger_obligation
   }
   exact ⟨cert, ledgerUnary, sameTerminal, zeroRoute, terminalRoute⟩
 
+theorem RealZeroCarrier_positive_abs_handoff [AskSetup] [PackageSetup]
+    {q S Z0 D R H C P N namedRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealZeroCarrier q S Z0 D R H C P N ->
+      Cont R N namedRead ->
+        Cont Z0 D ledgerRead ->
+          PkgSig bundle P pkg ->
+            PkgSig bundle N pkg ->
+              PkgSig bundle namedRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row q ∨ hsame row S ∨ hsame row Z0 ∨ hsame row D ∨
+                        hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                          hsame row N ∨ hsame row namedRead ∨ hsame row ledgerRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont q S Z0 ∧ Cont Z0 D R ∧
+                        Cont Z0 D ledgerRead ∧ Cont R N namedRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                            PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory namedRead ∧ hsame R ledgerRead := by
+  -- BEDC touchpoint anchor: RealZeroCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier namedRoute ledgerRoute pkgP pkgN pkgNamed
+  obtain ⟨_qUnary, _sUnary, z0Unary, dUnary, rUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, zeroRoute, terminalRoute, _sameH, _sameC, _sameP, _sameN,
+    _terminalCert⟩ := carrier
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed rUnary nUnary namedRoute
+  have sameTerminal : hsame R ledgerRead :=
+    cont_respects_hsame (hsame_refl Z0) (hsame_refl D) terminalRoute ledgerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row q ∨ hsame row S ∨ hsame row Z0 ∨ hsame row D ∨
+              hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row namedRead ∨ hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont q S Z0 ∧ Cont Z0 D R ∧
+              Cont Z0 D ledgerRead ∧ Cont R N namedRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      left
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, zeroRoute, terminalRoute, ledgerRoute, namedRoute, pkgP, pkgN,
+          pkgNamed⟩
+  }
+  exact ⟨cert, namedUnary, sameTerminal⟩
+
+theorem RealZeroCarrier_zero_distance_seal [AskSetup] [PackageSetup]
+    {q S Z0 D R H C P N namedRead ledgerRead metricRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealZeroCarrier q S Z0 D R H C P N ->
+      Cont R N namedRead ->
+        Cont Z0 D ledgerRead ->
+          Cont ledgerRead namedRead metricRead ->
+            PkgSig bundle P pkg ->
+              PkgSig bundle N pkg ->
+                PkgSig bundle metricRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row metricRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row q ∨ hsame row S ∨ hsame row Z0 ∨ hsame row D ∨
+                          hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                            hsame row N ∨ hsame row ledgerRead ∨ hsame row namedRead ∨
+                              hsame row metricRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont q S Z0 ∧ Cont Z0 D R ∧
+                          Cont Z0 D ledgerRead ∧ Cont R N namedRead ∧
+                            Cont ledgerRead namedRead metricRead ∧
+                              PkgSig bundle metricRead pkg)
+                      hsame ∧
+                    UnaryHistory ledgerRead ∧ UnaryHistory namedRead ∧
+                      UnaryHistory metricRead := by
+  -- BEDC touchpoint anchor: RealZeroCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier namedRoute ledgerRoute metricRoute _pkgP _pkgN pkgMetric
+  obtain ⟨_qUnary, _sUnary, z0Unary, dUnary, rUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, zeroRoute, terminalRoute, _sameH, _sameC, _sameP, _sameN,
+    _terminalCert⟩ := carrier
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed z0Unary dUnary ledgerRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed rUnary nUnary namedRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed ledgerUnary namedUnary metricRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row metricRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row q ∨ hsame row S ∨ hsame row Z0 ∨ hsame row D ∨
+              hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row ledgerRead ∨ hsame row namedRead ∨
+                  hsame row metricRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont q S Z0 ∧ Cont Z0 D R ∧
+              Cont Z0 D ledgerRead ∧ Cont R N namedRead ∧
+                Cont ledgerRead namedRead metricRead ∧ PkgSig bundle metricRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro metricRead ⟨hsame_refl metricRead, metricUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, zeroRoute, terminalRoute, ledgerRoute, namedRoute, metricRoute,
+          pkgMetric⟩
+  }
+  exact ⟨cert, ledgerUnary, namedUnary, metricUnary⟩
+
 end BEDC.Derived.RealZeroUp

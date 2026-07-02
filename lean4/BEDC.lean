@@ -45,6 +45,7 @@ import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp
+import BEDC.Derived.AbelSummationUp.DirichletTestRoute
 import BEDC.Derived.AbelSummationUp.PartialSumHandoff
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
@@ -12683,6 +12684,7 @@ import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ConfluenceNonescape
+import BEDC.Derived.SubjectReductionRouteChoiceUp.ConstructorExhaustion
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ObligationSurface
 import BEDC.Derived.SubjectReductionRouteChoiceUp.RouteNonescape
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
@@ -13583,6 +13585,7 @@ import BEDC.Derived.WronskianUp.LinearDependenceWitness
 import BEDC.Derived.WronskianUp.ObligationClosurePackage
 import BEDC.Derived.WronskianUp.ObligationClosureScope
 import BEDC.Derived.WronskianUp.RealSealNonescape
+import BEDC.Derived.WronskianUp.RegularCauchyDeterminantHandoff
 import BEDC.Derived.WronskianUp.SturmSeparationHandoff
 import BEDC.Derived.WronskianUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
