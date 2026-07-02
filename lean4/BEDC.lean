@@ -161,6 +161,7 @@ import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.AperyUp
 import BEDC.Derived.ApophaticBoundarySocketStackUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
+import BEDC.Derived.ApophaticFiberFarEndUp
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFixedPointFiberUp.ScopedRoute
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
@@ -2727,6 +2728,7 @@ import BEDC.Derived.CauchySequenceOrderCompletenessUp.TasteGate
 import BEDC.Derived.CauchySequenceOrderUp.TasteGate
 import BEDC.Derived.CauchySequenceProductStabilityUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
+import BEDC.Derived.CauchySequenceSpaceUp.CommonWindowInduction
 import BEDC.Derived.CauchySequenceSpaceUp.FiniteSectionPullbackCorrespondence
 import BEDC.Derived.CauchySequenceSpaceUp.KernelScopePacket
 import BEDC.Derived.CauchySequenceSpaceUp.ModulusFamilyFactorization
