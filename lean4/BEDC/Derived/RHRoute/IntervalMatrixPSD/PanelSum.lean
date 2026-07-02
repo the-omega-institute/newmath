@@ -23,40 +23,8 @@ private theorem ratMul_zero_left_local (x : BRat) :
     RatEq (ratMul ratZero x) ratZero :=
   RatEq_trans _ _ _ (ratMul_comm ratZero x) (ratMul_zero_right_local x)
 
-private def ratRing : RelCommRing BRat RatEq where
-  zero := ratZero
-  one := ratOne
-  add := ratAdd
-  mul := ratMul
-  neg := ratNeg
-  refl := RatEq_refl
-  symm := RatEq_symm
-  trans := by
-    intro _ _ _
-    exact RatEq_trans _ _ _
-  add_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratAdd_respects hleft hright
-  mul_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratMul_respects hleft hright
-  neg_congr := by
-    intro _ _ h
-    exact ratNeg_respects h
-  add_assoc := BEDC.Derived.LocatedReal.ratAdd_assoc_local
-  add_comm := ratAdd_comm
-  add_zero := ratAdd_zero_right
-  zero_add := ratZero_add_left
-  add_neg := BEDC.Derived.LocatedReal.ratAdd_neg_local
-  neg_add := BEDC.Derived.LocatedReal.ratNeg_add_local
-  mul_assoc := ratMul_assoc
-  mul_one := ratMul_one_right
-  one_mul := ratOne_mul_left
-  mul_zero := ratMul_zero_right_local
-  zero_mul := ratMul_zero_left_local
-  left_distrib := BEDC.Real.RatNumKernel.ratMul_add_left
-  right_distrib := BEDC.Real.RatNumKernel.ratMul_add_right
-  mul_comm := ratMul_comm
+private abbrev ratRing : RelCommRing BRat RatEq :=
+  ratRelCommRing
 
 private theorem ratSub_respects {x x' y y' : BRat} :
     RatEq x x' -> RatEq y y' -> RatEq (ratSub x y) (ratSub x' y') := by

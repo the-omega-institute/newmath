@@ -107,4 +107,28 @@ theorem MetacicDecidableAuditPacket_checker_exactness_route
             (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
               boundary obstruction transport replay provenance localName)⟩
 
+theorem MetacicDecidableAuditPacket_nonescape
+    (x : MetacicDecidableAuditPacketUp) :
+    ∃ checker sameTerm typing gallery boundedNormal boundary obstruction transport replay provenance
+        localName replayRead boundaryRead : BHist,
+      x =
+          MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+            boundary obstruction transport replay provenance localName ∧
+        Cont transport replay replayRead ∧
+          Cont boundary obstruction boundaryRead ∧
+            metacicDecidableAuditPacketFromEventFlow
+                (metacicDecidableAuditPacketToEventFlow x) =
+              some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+      provenance localName =>
+      exact
+        ⟨checker, sameTerm, typing, gallery, boundedNormal, boundary, obstruction, transport,
+          replay, provenance, localName, append transport replay, append boundary obstruction,
+          rfl, rfl, rfl,
+          MetacicDecidableAuditPacketTasteGate_single_carrier_alignment.right.left
+            (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+              boundary obstruction transport replay provenance localName)⟩
+
 end BEDC.Derived.MetacicDecidableAuditPacketUp
