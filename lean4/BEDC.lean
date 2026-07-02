@@ -1922,6 +1922,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
 import BEDC.Derived.CauchyCompletionOperatorUp
 import BEDC.Derived.CauchyCompletionOperatorUp.BridgeRoute
+import BEDC.Derived.CauchyCompletionOperatorUp.CompleteMetricLimitUniquenessOutboundRef
 import BEDC.Derived.CauchyCompletionOperatorUp.CompositionUniquenessRoute
 import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
@@ -6652,6 +6653,8 @@ import BEDC.Derived.GaleShapleyStableMatchingUp.TasteGate
 import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GalerkinProjectionUp.TasteGate
 import BEDC.Derived.GaloisConnectionUp
+import BEDC.Derived.GaloisConnectionUp.NameCertObligations
+import BEDC.Derived.GaloisConnectionUp.TasteGate
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
