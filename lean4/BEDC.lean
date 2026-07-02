@@ -4010,6 +4010,7 @@ import BEDC.Derived.ContinuationReplayUp.TasteGate
 import BEDC.Derived.ContinuationTerminationUp.NameCertObligations
 import BEDC.Derived.ContinuationTerminationUp.NonEscape
 import BEDC.Derived.ContinuationTerminationUp.TasteGate
+import BEDC.Derived.ContinuationTerminationUp.TerminalRoute
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
@@ -13685,6 +13686,7 @@ import BEDC.Derived.Window6GoldenMeanCyclotomicPentagon
 import BEDC.Derived.Window6GoldenMeanHankelTuran
 import BEDC.Derived.Window6GoldenMeanParryResidue
 import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
+import BEDC.Derived.Window6GoldenMeanQuadraticCapstone
 import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenMeanShiftEquivalence
 import BEDC.Derived.Window6GoldenPentagonRPLink
