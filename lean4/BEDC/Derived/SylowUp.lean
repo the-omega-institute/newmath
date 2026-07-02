@@ -324,6 +324,86 @@ theorem SylowCarrier_scope_dependency_lock [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary, coverageRoute, transportRoute⟩
 
+theorem SylowCarrier_conjugacy_transport_public_scope [AskSetup] [PackageSetup]
+    {groupRow subgroupRow subgroupRow' primeRow exponentRow coverageRow coverageRow' actionRow
+      actionRow' transportRow transportRow' consumerRow consumerRow' hsameRow hsameRow'
+      provenance provenance' localCert localCert' publicRead publicRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SylowCarrier groupRow subgroupRow primeRow exponentRow coverageRow actionRow transportRow
+        consumerRow hsameRow provenance localCert bundle pkg →
+      SylowCarrier groupRow subgroupRow' primeRow exponentRow coverageRow' actionRow'
+          transportRow' consumerRow' hsameRow' provenance' localCert' bundle pkg →
+        hsame coverageRow coverageRow' →
+          hsame actionRow actionRow' →
+            Cont consumerRow hsameRow publicRead →
+              PkgSig bundle publicRead pkg →
+                Cont consumerRow' hsameRow' publicRead' →
+                  PkgSig bundle publicRead' pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row groupRow ∨ hsame row subgroupRow ∨
+                            hsame row primeRow ∨ hsame row exponentRow ∨
+                              hsame row coverageRow ∨ hsame row actionRow ∨
+                                hsame row transportRow ∨ hsame row consumerRow ∨
+                                  hsame row hsameRow ∨ hsame row publicRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont groupRow subgroupRow coverageRow ∧
+                            Cont coverageRow actionRow transportRow ∧
+                              Cont transportRow consumerRow hsameRow ∧
+                                Cont consumerRow hsameRow publicRead ∧
+                                  PkgSig bundle publicRead pkg)
+                        hsame ∧
+                      SemanticNameCert
+                          (fun row : BHist => hsame row publicRead' ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row groupRow ∨ hsame row subgroupRow' ∨
+                              hsame row primeRow ∨ hsame row exponentRow ∨
+                                hsame row coverageRow' ∨ hsame row actionRow' ∨
+                                  hsame row transportRow' ∨ hsame row consumerRow' ∨
+                                    hsame row hsameRow' ∨ hsame row publicRead')
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont groupRow subgroupRow' coverageRow' ∧
+                              Cont coverageRow' actionRow' transportRow' ∧
+                                Cont transportRow' consumerRow' hsameRow' ∧
+                                  Cont consumerRow' hsameRow' publicRead' ∧
+                                    PkgSig bundle publicRead' pkg)
+                          hsame ∧
+                        hsame transportRow transportRow' ∧
+                          Cont coverageRow actionRow transportRow ∧
+                            Cont coverageRow' actionRow' transportRow' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig SemanticNameCert
+  intro carrier carrier' sameCoverage sameAction publicRoute publicPkg publicRoute' publicPkg'
+  have transportSurface :=
+    BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport
+      (groupRow := groupRow) (subgroupRow := subgroupRow) (subgroupRow' := subgroupRow')
+      (primeRow := primeRow) (exponentRow := exponentRow) (coverageRow := coverageRow)
+      (coverageRow' := coverageRow') (actionRow := actionRow) (actionRow' := actionRow')
+      (transportRow := transportRow) (transportRow' := transportRow')
+      (consumerRow := consumerRow) (consumerRow' := consumerRow') (hsameRow := hsameRow)
+      (hsameRow' := hsameRow') (provenance := provenance) (provenance' := provenance')
+      (localCert := localCert) (localCert' := localCert') (bundle := bundle) (pkg := pkg)
+      carrier carrier' sameCoverage sameAction
+  have publicSurface :=
+    BEDC.Derived.SylowUp.SylowCarrier_scope_dependency_lock
+      (groupRow := groupRow) (subgroupRow := subgroupRow) (primeRow := primeRow)
+      (exponentRow := exponentRow) (coverageRow := coverageRow) (actionRow := actionRow)
+      (transportRow := transportRow) (consumerRow := consumerRow) (hsameRow := hsameRow)
+      (provenance := provenance) (localCert := localCert) (publicRead := publicRead)
+      (bundle := bundle) (pkg := pkg) carrier publicRoute publicPkg
+  have publicSurface' :=
+    BEDC.Derived.SylowUp.SylowCarrier_scope_dependency_lock
+      (groupRow := groupRow) (subgroupRow := subgroupRow') (primeRow := primeRow)
+      (exponentRow := exponentRow) (coverageRow := coverageRow') (actionRow := actionRow')
+      (transportRow := transportRow') (consumerRow := consumerRow') (hsameRow := hsameRow')
+      (provenance := provenance') (localCert := localCert') (publicRead := publicRead')
+      (bundle := bundle) (pkg := pkg) carrier' publicRoute' publicPkg'
+  obtain ⟨sameTransport, _transportUnary, _transportUnary', transportRoute,
+    transportRoute'⟩ := transportSurface
+  obtain ⟨publicCert, _publicUnary, _coverageRoute, _transportRoute⟩ := publicSurface
+  obtain ⟨publicCert', _publicUnary', _coverageRoute', _transportRoute'⟩ := publicSurface'
+  exact ⟨publicCert, publicCert', sameTransport, transportRoute, transportRoute'⟩
+
 theorem SylowCarrier_public_readback_consumes_namecert_obligations [AskSetup] [PackageSetup]
     {groupRow subgroupRow primeRow exponentRow coverageRow actionRow transportRow consumerRow
       hsameRow provenance localCert publicRead : BHist}
