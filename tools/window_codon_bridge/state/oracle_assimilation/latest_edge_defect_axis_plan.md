@@ -1,7 +1,7 @@
 # Edge-Defect Axis Oracle Assimilation
 
 - schema: `window_codon_oracle_assimilation.v1`
-- generated_ts: `2026-07-02T12:40:32Z`
+- generated_ts: `2026-07-02T12:50:52Z`
 - source_task_id: `f234d91b-d252-46a3-80c6-72b223bb039f`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
 - oracle_response_chars: `9922`
