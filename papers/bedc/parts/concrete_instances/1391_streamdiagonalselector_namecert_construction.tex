@@ -127,6 +127,7 @@ Combining the two routes gives a single finite handoff from $S,\mu,W,D_H,R$ thro
 \label{thm:stream-diagonal-selector-window-coverage}
 Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. Every diagonal read of $D$ that is visible to a $\RealDiagonalCompletionUp$ consumer is covered by the displayed $\StreamNameUp$ schedule $S$, selector row $\mu$, selected finite window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, diagonal handoff $H$, transport row $C$, provenance $P$, and local name $N$. No additional stream window, quotient stream, or choice-selected diagonal value is available to the consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamDiagonalSelectorUp.StreamDiagonalSelectorPacket\_window\_coverage}
 \begin{proof}
 Project the carrier of \autoref{def:stream-diagonal-selector-carrier}. Its visible rows are exactly $S,\mu,W,R,D_H,H,C,P,N$, so any diagonal read begins with that finite packet.
 
@@ -179,8 +180,8 @@ Finally, \autoref{thm:stream-diagonal-selector-real-handoff} and \autoref{thm:st
 
 \begin{closurestatus}{\StreamDiagonalSelectorUp}
   \constructivestory{A $\StreamDiagonalSelectorUp$ packet is generated from a $\StreamNameUp$ schedule, a displayed selector row, one selected finite stream window, a $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealDiagonalCompletionUp$ diagonal packet, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stream-diagonal-selector-carrier}, \autoref{thm:stream-diagonal-selector-namecert-obligations}, and \autoref{thm:stream-diagonal-selector-real-handoff} describe the seed finite diagonal selector certificate consumed by real-completion routes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:stream-diagonal-selector-carrier}, \autoref{thm:stream-diagonal-selector-namecert-obligations}, \autoref{thm:stream-diagonal-selector-real-handoff}, and \autoref{thm:stream-diagonal-selector-obligation-closure} close the finite diagonal selector obligation surface consumed by real-completion routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

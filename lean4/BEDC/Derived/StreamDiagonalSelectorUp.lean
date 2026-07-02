@@ -258,6 +258,77 @@ theorem StreamDiagonalSelectorPacket_tail_budget_readback [AskSetup] [PackageSet
   }
   exact ⟨cert, budgetReadUnary⟩
 
+theorem StreamDiagonalSelectorPacket_window_coverage [AskSetup] [PackageSetup]
+    {schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert
+      endpoint coverageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StreamDiagonalSelectorPacket schedule selector window readback dyadicLedger diagonalPacket routes
+        provenance nameCert endpoint bundle pkg ->
+      Cont window dyadicLedger coverageRead ->
+        PkgSig bundle endpoint pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row window ∨ hsame row dyadicLedger ∨ hsame row endpoint ∨
+                  hsame row coverageRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont schedule selector window ∧
+                  Cont window readback dyadicLedger ∧
+                    Cont dyadicLedger diagonalPacket endpoint ∧
+                      Cont window dyadicLedger coverageRead ∧ PkgSig bundle endpoint pkg)
+              hsame ∧
+            UnaryHistory coverageRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro packet coverageRoute endpointPkg
+  obtain ⟨scheduleUnary, selectorUnary, readbackUnary, diagonalUnary, _routesUnary,
+    _provenanceUnary, _nameCertUnary, windowRoute, ledgerRoute, endpointRoute,
+    _endpointPkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary selectorUnary windowRoute
+  have ledgerUnary : UnaryHistory dyadicLedger :=
+    unary_cont_closed windowUnary readbackUnary ledgerRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary diagonalUnary endpointRoute
+  have coverageUnary : UnaryHistory coverageRead :=
+    unary_cont_closed windowUnary ledgerUnary coverageRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row window ∨ hsame row dyadicLedger ∨ hsame row endpoint ∨
+              hsame row coverageRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont schedule selector window ∧
+              Cont window readback dyadicLedger ∧
+                Cont dyadicLedger diagonalPacket endpoint ∧
+                  Cont window dyadicLedger coverageRead ∧ PkgSig bundle endpoint pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro coverageRead ⟨hsame_refl coverageRead, coverageUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, windowRoute, ledgerRoute, endpointRoute, coverageRoute, endpointPkg⟩
+  }
+  exact ⟨cert, coverageUnary⟩
+
 theorem StreamDiagonalSelectorPacket_handoff_exactness [AskSetup] [PackageSetup]
     {schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert
       endpoint : BHist}
