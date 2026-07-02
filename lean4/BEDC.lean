@@ -3387,6 +3387,7 @@ import BEDC.Derived.CofinalStreamTailSelectorUp.PublicExport
 import BEDC.Derived.CofinalStreamTailSelectorUp.PublicWindowTransport
 import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealBridge
 import BEDC.Derived.CofinalStreamTailSelectorUp.RealSealNonescape
+import BEDC.Derived.CofinalStreamTailSelectorUp.RouteRows
 import BEDC.Derived.CofinalStreamTailSelectorUp.ScopedRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.StreamRoute
 import BEDC.Derived.CofinalStreamTailSelectorUp.TasteGate
@@ -8094,7 +8095,6 @@ import BEDC.Derived.LucasSequenceUp
 import BEDC.Derived.LucasTheoremBinomUp
 import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LucasUVSequenceUp
-import BEDC.Derived.LuenbergerObserverUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LusinFiniteContinuityWindowUp
 import BEDC.Derived.LyapunovStabilityUp
@@ -8792,6 +8792,7 @@ import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.BoundedJoinWindow
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateEndpointRoute
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateResidualJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateRowReadiness
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBoundary
@@ -11169,6 +11170,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.PublicInterface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.ReciprocalWindowBoundary
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RouteComposition
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.RouteRows
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.SharedFieldInverseWindow
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessCotransitivityUp.TasteGate

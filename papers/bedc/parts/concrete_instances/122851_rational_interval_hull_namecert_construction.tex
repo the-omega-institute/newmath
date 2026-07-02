@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RationalIntervalHullUp$}
+\label{ch:concrete-instances-rational-interval-hull-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RationalIntervalHullUp$ packet records the finite rational lower-upper hull used before enclosure and completion consumers inspect a regular rational or real-facing interval route. It sits between the finite bracket surface of \autoref{ch:concrete-instances-rational-interval-enclosure-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window boundary of \autoref{ch:concrete-instances-streamname-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located hull surface of \autoref{ch:concrete-instances-located-real-interval-hull-namecert}. The packet names a finite rational hull family; it does not assert quotient real equality, a least ambient real interval, selected endpoints, or completeness of $\RealUp$.
+
+\begin{definition}[Rational interval hull carrier]
+\label{def:rational-interval-hull-carrier}
+A $\RationalIntervalHullUp$ carrier is a finite $\BHist$ packet
+$$
+H=(L,U,O,D,S,R,E,A,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the finite family of rational lower endpoint rows, each read through $\RatUp$.
+\item $U$ is the finite family of rational upper endpoint rows, each read through $\RatUp$.
+\item $O$ is the rational order ledger, recording $L_i \leq U_i$ and the pairwise lower-upper comparisons requested by the hull consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare rational endpoints against dyadic radii and finite observation scales.
+\item $S$ is the $\StreamNameUp$ window row naming the finite requests at which the source interval family is inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational names served by the windows in $S$.
+\item $E$ is the $\RationalIntervalEnclosureUp$ handoff row, exposing each rational bracket as an enclosure packet.
+\item $A$ is the $\LocatedRealIntervalHullUp$ admission row, reached only after the rational endpoints, dyadic tolerance ledger, stream windows, regular readbacks, and enclosure handoff have been displayed.
+\item $T$ records componentwise $\hsame$ transport for endpoints, order ledgers, tolerances, windows, readbacks, enclosures, located hull rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a hull request through $L,U,O,D,S,R,E,A,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalHullUp$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalEnclosureUp$, $\LocatedRealIntervalHullUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalIntervalHullUp}$ row.
+\end{enumerate}
+The classifier compares accepted rational hulls only through $L,U,O,D,S,R,E,A,T,C,P,N$. It has no coordinate for quotient real equality, selected representatives, a host least interval, total trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rational interval hull NameCert obligations]
+\label{thm:rational-interval-hull-namecert-obligations}
+For every accepted $\RationalIntervalHullUp$ carrier $H=(L,U,O,D,S,R,E,A,T,C,P,N)$, the local $\NameCert_{\RationalIntervalHullUp}$ surface consists exactly of carrier admission, rational endpoint ordering, dyadic tolerance compatibility, stream-window exposure, regular rational readback, enclosure handoff, located-hull admission, componentwise transport, displayed replay, provenance, and local naming. Every obligation is read from the displayed rows over $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalEnclosureUp$, $\LocatedRealIntervalHullUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rational endpoint rows $L,U$ and the order ledger $O$ are the only endpoint and comparison coordinates available to the local classifier.
+
+The dyadic and regular-source stages are then read through $D,S,R$. The dyadic ledger fixes finite tolerance comparisons, the stream row fixes the inspected requests, and the regular rational row records the readback served at those requests.
+
+The enclosure and located-hull stages are downstream. The row $E$ repackages the finite rational brackets as $\RationalIntervalEnclosureUp$ data, while $A$ admits the same displayed brackets to the $\LocatedRealIntervalHullUp$ surface without adding a host least interval.
+
+Finally $T,C,P,N$ transport, replay, package, and name the same finite route. Since no excluded quotient, selected endpoint, total comparison, choice, or ambient completeness coordinate occurs in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rational interval hull finite-family exactness]
+\label{thm:rational-interval-hull-finite-family-exactness}
+Every accepted $\RationalIntervalHullUp$ packet exposes its hull as exactly the finite family route
+$$
+\begin{gathered}
+\RatUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \\
+\longmapsto \RationalIntervalEnclosureUp \longmapsto \LocatedRealIntervalHullUp \longmapsto \RealUp .
+\end{gathered}
+$$
+A Real or Completion consumer receives the displayed rational endpoint family, rational order ledger, dyadic tolerance rows, stream windows, regular readbacks, enclosure handoff, located-hull admission, transport, replay, provenance, and local naming. It receives no quotient real equality, host least interval, selected endpoint pair, ambient $\RealUp$ completeness theorem, or hidden infinite family.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation theorem. It identifies $L,U,O,D,S,R,E,A,T,C,P,N$ as the whole local surface, so a consumer has no access to any row outside the finite packet.
+
+Read the family route in order. The rational endpoint rows and order ledger precede the dyadic tolerance row; the stream windows and regular rational readback precede the enclosure handoff; and the located-hull row precedes the terminal Real-facing seal.
+
+Transport and replay preserve the same route. Componentwise $\hsame$ transport and displayed $\Cont$ replay can only move the named rows $T$ and $C$, while $P$ and $N$ record provenance and local naming for the same finite family.
+
+Thus finite-family exactness is a carrier inventory claim: all public hull reads factor through the displayed rows, and the excluded quotient, host, selected, completeness, and hidden-family principles are absent.
+\end{proof}
+
+\closureat{RationalIntervalHullUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalHullUp}
+  \constructivestory{A $\RationalIntervalHullUp$ packet is generated from finite rational lower and upper endpoint rows, a rational order ledger, a DyadicRatCoreUp tolerance ledger, StreamNameUp windows, RegSeqRatUp readbacks, RationalIntervalEnclosureUp handoff rows, LocatedRealIntervalHullUp admission, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-hull-carrier}, \autoref{thm:rational-interval-hull-namecert-obligations}, and \autoref{thm:rational-interval-hull-finite-family-exactness} seed the finite rational hull route from rational endpoint families to enclosure, located-hull, Real, and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, a host least interval, selected endpoints, total trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational endpoint ordering, dyadic tolerance compatibility, stream-window exposure, regular readback, enclosure handoff, located-hull admission, transport, replay, provenance, and local naming for BEDC.Derived.RationalIntervalHullUp.}
+\end{closurestatus}
