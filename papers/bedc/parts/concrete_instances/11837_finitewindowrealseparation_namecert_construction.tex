@@ -150,6 +150,30 @@ Apply the refusal, NameCert surface, and shared-window obligation of \autoref{th
 Finally use the obligation closure route \autoref{thm:finite-window-real-separation-obligation-closure-route}. Since the accepted packets agree on $W,D,S,H$, the admissible budget visible to any consumer is the same finite dependency route. The remaining rows $C,P,N$ and $C',P',N'$ replay, source, and name that route, while the excluded coordinates are not fields of the carrier.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-separation shared-budget normalization]
+\label{thm:finite-window-real-separation-shared-budget-normalization}
+Let
+$$
+F=(W,D,S,R,H,C,P,N)
+\qquad\text{and}\qquad
+F'=(W,D,S,R',H,C',P',N')
+$$
+be accepted $\FiniteWindowRealSeparationUp$ packets with the same shared finite-window row $W$ and the same dyadic tolerance row $D$. Any $\RealUp$ separation read exposed by either packet factors through one normalized finite budget route
+$$
+W,D,S,R,H,C,P,N
+$$
+after replacing the replay, provenance, and local naming rows of the second packet by the displayed route for the same window, tolerance, readback, and transport budget. No normalized route may use quotient streams, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It blocks any RealUp read until the common window row $W$, dyadic tolerance row $D$, and StreamName/RegSeqRat readback row $S$ have been displayed.
+
+Apply the NameCert surface and shared-window obligation of \autoref{thm:finite-window-real-separation-namecert-surface} and \autoref{thm:finite-window-real-separation-shared-window-obligation}. These theorems bind the readback row, transport row, replay, provenance, and local name to the same finite packet once $W$ and $D$ are fixed.
+
+Use the window-budget determinacy theorem \autoref{thm:finite-window-real-separation-window-budget-determinacy}. Agreement on the shared finite window and dyadic tolerance forces the visible Real-separation budget through the same finite route, so the normalized read can be recorded as $W,D,S,R,H,C,P,N$.
+
+The refusal clauses are structural. Quotient streams, selected representatives, and ambient completeness are not fields of the accepted carrier, and replay or provenance cannot create a second budget outside the displayed finite route.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}

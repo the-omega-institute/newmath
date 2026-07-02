@@ -1,5 +1,6 @@
 import BedcMathlibBridge.Constructive.Bool
 import BedcMathlibBridge.Constructive.Int
+import BedcMathlibBridge.Constructive.IntSignMagnitude
 import BedcMathlibBridge.Constructive.Gaussian
 import BedcMathlibBridge.Constructive.Eisenstein
 import BedcMathlibBridge.Constructive.ZMod
@@ -8,3 +9,19 @@ import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.StirlingFirst
+import BedcMathlibBridge.Constructive.StirlingSecond
+import BedcMathlibBridge.Constructive.Derangement
+import BedcMathlibBridge.Constructive.DescFactorial
+import BedcMathlibBridge.Constructive.Superfactorial
+import BedcMathlibBridge.Constructive.AscFactorial
+import BedcMathlibBridge.Constructive.CentralBinom
+import BedcMathlibBridge.Constructive.QBinomial
+import BedcMathlibBridge.Constructive.Tetrahedral
+import BedcMathlibBridge.Constructive.Triangular
+import BedcMathlibBridge.Constructive.OddDoubleFactorial
+import BedcMathlibBridge.Constructive.Square
+import BedcMathlibBridge.Constructive.Pronic
+import BedcMathlibBridge.Constructive.CenteredHexagonal
+import BedcMathlibBridge.Constructive.SquarePyramidal
+import BedcMathlibBridge.Constructive.Pentagonal
+import BedcMathlibBridge.Constructive.Hexagonal
