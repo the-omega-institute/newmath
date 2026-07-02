@@ -126,6 +126,24 @@ Finally cite the regression surface theorem \autoref{thm:metacic-typedexamples-g
 \end{proof}
 \leanchecked{BEDC.MetaCIC.gallery\_checker\_route\_factorization}
 
+\begin{theorem}[MetaCIC typed-examples gallery family-row determinacy]
+\label{thm:metacic-typedexamples-gallery-family-row-determinacy}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+two consumer reads with the same displayed family tag among Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, and beta-redex factor through the same corresponding row before they reach $K,H,C,P,M$. Distinct displayed family tags cannot be identified by the checker row $K$ alone.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The only family rows available before the checker boundary are $B,N,L,S,E,I,A,R$, corresponding respectively to Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, and beta-redex.
+
+Case split over those eight displayed family tags. Two Bool reads both project $B$, two Nat reads both project $N$, two List reads both project $L$, two Sum reads both project $S$, two equality reads both project $E$, two identity reads both project $I$, two application reads both project $A$, and two beta-redex reads both project $R$.
+
+Now apply checker-route factorization from \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. It forces $K$ downstream of the selected family row, followed by $H,C,P,M$, so the checker cannot become an independent source of family identity.
+
+Finally use the regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the carrier has no coordinate for arbitrary examples, checker completeness, subject reduction, confluence, normalization, or conversion completeness, distinct displayed family tags remain distinct finite rows rather than collapsing through a global metatheorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery kernel scope]
 \label{thm:metacic-typed-examples-gallery-kernel-scope}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
