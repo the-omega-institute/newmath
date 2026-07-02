@@ -8210,6 +8210,7 @@ import BEDC.Derived.MedianDepthSealingUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
 import BEDC.Derived.MenageUp
+import BEDC.Derived.MengerCoverCompactnessUp.TasteGate
 import BEDC.Derived.MengerNobelingEmbeddingUp.TasteGate
 import BEDC.Derived.MengerSpongeUp.TasteGate
 import BEDC.Derived.MercerTheoremUp.TasteGate
