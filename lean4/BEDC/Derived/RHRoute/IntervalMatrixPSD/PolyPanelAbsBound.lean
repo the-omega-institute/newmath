@@ -73,4 +73,29 @@ theorem polyAbsBoundSound_of_endpoint
       (RatEq_refl b) ht.2
   exact ratLe_trans (evalPoly_ratAbs_le cs t b hb tAbsLeB) hbound
 
+/-- A polynomial with nonnegative coefficients is nonnegative at a nonnegative point:
+`0 <= evalShift d cs t` whenever `0 <= t` and every coefficient is `>= 0`.  The dual of
+`evalShift_ratAbs_le` (a lower-bound producer): the reusable brick behind polynomial lower
+bounds like `A_ge_one` for the rational-carrier zero-panel obligations. -/
+theorem evalShift_nonneg (t : BRat) (ht : ratLe ratZero t) :
+    ∀ (cs : List BRat), (∀ c, c ∈ cs → ratLe ratZero c) →
+      ∀ d, ratLe ratZero (evalShift d cs t) := by
+  intro cs
+  induction cs with
+  | nil => intro _ _d; exact ratLe_refl ratZero
+  | cons c cs ih =>
+      intro hc d
+      have hterm : ratLe ratZero (ratMul c (pow t d)) :=
+        ratMul_nonneg (hc c List.mem_cons_self) (ratPow_nonneg ht d)
+      have hrest : ratLe ratZero (evalShift (Nat.succ d) cs t) :=
+        ih (fun c' hc' => hc c' (List.mem_cons_of_mem c hc')) (Nat.succ d)
+      exact ratLe_respects (ratAdd_zero_right ratZero) (RatEq_refl _)
+        (ratAdd_le_add hterm hrest)
+
+/-- Polynomial specialization of `evalShift_nonneg` (`evalPoly = evalShift 0`). -/
+theorem evalPoly_nonneg (cs : List BRat) (t : BRat)
+    (ht : ratLe ratZero t) (hc : ∀ c, c ∈ cs → ratLe ratZero c) :
+    ratLe ratZero (evalPoly cs t) :=
+  evalShift_nonneg t ht cs hc 0
+
 end BEDC.Derived.RHRoute.IntervalMatrixPSD.PolyPanelAbsBound
