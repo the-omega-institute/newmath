@@ -73,6 +73,26 @@ Use the NameCert obligation surface. Source admission exposes $X$, shared modulu
 Finally route the handoff through $H,C,P,N$. These rows transport, replay, package, and name the same finite route; they do not add quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealModulusFusion shared-tail window exhaustion]
+\label{thm:real-modulus-fusion-shared-tail-window-exhaustion}
+For an accepted $\RealModulusFusionUp$ packet
+$$
+F=(X,M,T,W,R,S,E,H,C,P,N),
+$$
+every consumer that reaches either the $\RegSeqRatUp$ row $R$ or the $\RealUp$ seal row $E$ must expose, in order, the shared modulus row $M$, the $\RegularCauchyTailMeetUp$ threshold row $T$, and the $\StreamNameUp$ window family $W$. There is no alternate route through quotient streams, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-fusion-carrier}. The source family $X$ is followed by the shared modulus row $M$, the tail-meet threshold $T$, and the finite window family $W$ before either the handoff row $R$ or the seal row $E$ appears.
+
+Use the NameCert obligations of \autoref{thm:real-modulus-fusion-namecert-obligations}. They order source admission, shared-modulus exposure, tail-meet readback, and finite-window scheduling as displayed rows of the same packet.
+
+For a consumer that reaches $R$, apply \autoref{thm:real-modulus-fusion-regseq-handoff}. The handoff theorem forces every regular-rational read through $M,T,W$ before $R$.
+
+For a consumer that reaches $E$, apply \autoref{thm:real-modulus-fusion-real-seal-boundary}. The seal boundary extends the same route through $R,S,E$ and keeps $M,T,W$ upstream of the terminal seal.
+
+Finally close with non-escape, \autoref{thm:real-modulus-fusion-nonescape}. Since the packet has no quotient stream, selected limit, countable choice, trichotomy, or ambient completeness coordinate, no consumer can bypass the shared-tail window sequence.
+\end{proof}
+
 \begin{theorem}[RealModulusFusion Real seal boundary]
 \label{thm:real-modulus-fusion-real-seal-boundary}
 Every $\RealUp$ seal read exported by an accepted $\RealModulusFusionUp$ packet factors through the finite route
