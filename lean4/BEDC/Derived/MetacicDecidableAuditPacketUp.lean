@@ -82,4 +82,29 @@ theorem MetacicDecidableAuditPacket_bounded_normal_boundary
             (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
               boundary obstruction transport replay provenance localName)⟩
 
+theorem MetacicDecidableAuditPacket_checker_exactness_route
+    (x : MetacicDecidableAuditPacketUp) :
+    ∃ checker sameTerm typing gallery boundedNormal boundary obstruction transport replay provenance
+        localName checkerRead sameTermRead auditRead : BHist,
+      x =
+          MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+            boundary obstruction transport replay provenance localName ∧
+        Cont checker typing checkerRead ∧
+          Cont sameTerm typing sameTermRead ∧
+            Cont checkerRead gallery auditRead ∧
+              metacicDecidableAuditPacketFromEventFlow
+                  (metacicDecidableAuditPacketToEventFlow x) =
+                some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+      provenance localName =>
+      exact
+        ⟨checker, sameTerm, typing, gallery, boundedNormal, boundary, obstruction, transport,
+          replay, provenance, localName, append checker typing, append sameTerm typing,
+          append (append checker typing) gallery, rfl, rfl, rfl, rfl,
+          MetacicDecidableAuditPacketTasteGate_single_carrier_alignment.right.left
+            (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+              boundary obstruction transport replay provenance localName)⟩
+
 end BEDC.Derived.MetacicDecidableAuditPacketUp
