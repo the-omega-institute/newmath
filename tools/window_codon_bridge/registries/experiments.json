@@ -640,6 +640,14 @@
       "status": "terminal",
       "timeout_seconds": 86400,
       "note": "W6-OffFrameStopAmbush: Window6 hidden off-frame stop codon-pair forcing test. Carrier = table-11 K_total mask on Opp>0 aa-pairs; EXACT gene-wise within-AA synonymous null E_g[c,d]; 10000 composition-matched pseudo-stop decoys (deduped over 624-set exhaustive universe, MIN_DISTINCT_DECOY_SETS floor=100 replacing infeasible >=5000 gate) + genus-block bootstrap B=10000 + internal-only null. Pure-stdlib, fetches RefSeq _cds_from_genomic.fna.gz. env W6AMB_MAX_GENOMES/W6AMB_CACHE_DIR/W6AMB_BOOTSTRAPS/W6AMB_DECOY_POOLS; --selftest exercises carrier/Opp/exact-E-vs-MC/decoy-gen/verdict. 1400-genome run verdict refuted (OR_pool=0.909, hidden stops depleted). Non-daemon (long fetch+compute). Per-genome cost dominated by CDS parse+61x61 matrix build ~5s."
+    },
+    {
+      "experiment_id": "kpsi_w6_ucluster_transducer",
+      "claim_id": "bridge.genetic_code.kpsi_w6_ucluster_transducer",
+      "script_path": "tools/window_codon_bridge/experiments/run_kpsi_w6_ucluster_transducer.py",
+      "status": "terminal",
+      "timeout_seconds": 3600,
+      "note": "Kψ-W6-UClusterTransducer: Window6 U-cluster transducer (Kψ=choose(#U,2), Z_order-isolated via B=500 synonymous shuffles) vs m¹Ψ polysome-load shift ΔPLI. Carrier = Nature Suppl Table 1 fluc_library XLSX (pure-stdlib zipfile+xml parse, static-content.springer.com MOESM3); readout = GEO GSE309271 library_reads.tsv.gz. env KPSI_CARRIER_XLSX/KPSI_READOUT_TSVGZ/KPSI_CACHE_DIR/KPSI_B_VARIANT/KPSI_B_GLOBAL/KPSI_B_LABEL; --selftest exercises xlsx-decode/ORF/Kψ/Z_order/PLI/nulls/decoys/verdict. 304-variant run verdict coincidence (U-content coincidence, not Window6 transducer). Small all-local analysis (~minutes), non-daemon. Oracle-amended power gate ≥250 (not ≥500); verdict precedence coincidence>needs_more_data on necessity failure."
     }
   ]
 }
