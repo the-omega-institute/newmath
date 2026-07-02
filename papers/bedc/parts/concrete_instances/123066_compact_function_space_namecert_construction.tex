@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CompactFunctionSpaceUp$}
+\label{ch:concrete-instances-compact-function-space-namecert}
+\origin{human}
+
+Following Kelley and the Arzela--Ascoli compactness theorem, the $\CompactFunctionSpaceUp$ packet records compact-source function-space data as finite BEDC rows before any compact-open or equicontinuity consumer reads a family of maps. It sits over the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the graph surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the tolerance-only modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the Real readback chain through $\RegSeqRatUp$ and $\StreamNameUp$. The packet is a carrier for named function-space observations; it is not a quotient function space, a host function equality principle, a selected representative family, compactness by choice, or an ambient theorem asserting that every function family is compact.
+
+\begin{definition}[CompactFunctionSpace carrier]
+\label{def:compact-function-space-carrier}
+A $\CompactFunctionSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,F,M,R,V,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact source row, read through $\CompactMetricUp$ and its finite-net evidence;
+\item $F$ is the displayed family of graph rows, read through $\ContinuousMapUp$;
+\item $M$ is the tolerance-only $\UniformModulusUp$ row shared by the family on the compact source;
+\item $R$ is the terminal $\RealUp$ value and distance-read seal used by evaluations;
+\item $V$ is the $\RegSeqRatUp$ regular rational readback row for value windows;
+\item $U$ is the $\StreamNameUp$ window row for finite evaluation schedules;
+\item $H$ records componentwise $\hsame$ transport for $X,F,M,R,V,U$ and for the structural rows;
+\item $C$ records displayed $\Cont$ replay from compact-net probes to graph reads, modulus reads, StreamName windows, RegSeqRat readback, and Real seals;
+\item $P$ is the $\Pkg$ provenance over $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CompactFunctionSpaceUp}$ row.
+\end{enumerate}
+The carrier contains no host function object, no quotient function-space equality, no selected representative of an equivalence class, no global compactness theorem, and no choice principle for extracting functions from the displayed rows.
+\end{definition}
+
+\begin{theorem}[CompactFunctionSpace NameCert obligations]
+\label{thm:compact-function-space-namecert-obligations}
+For every accepted $\CompactFunctionSpaceUp$ packet $Q=(X,F,M,R,V,U,H,C,P,N)$, the local $\NameCert_{\CompactFunctionSpaceUp}$ surface consists exactly of carrier admission for the compact metric row $X$, continuous graph family $F$, shared uniform-modulus row $M$, Real seal $R$, RegSeqRat readback $V$, StreamName window $U$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. Any consumer preserving the packet must preserve these rows together, and no consumer may replace them by host function equality, quotient-function classes, selected representatives, compactness by choice, or an external function-space compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The accepted packet exposes exactly the ten displayed rows, so carrier admission is a finite $\BHist$ inventory and not an external space of functions.
+
+The analytic rows are tied together. The compact metric row supplies finite probes, the continuous-map row supplies graph reads, the uniform-modulus row supplies tolerance-only control, and the StreamName, RegSeqRat, and Real rows expose finite value readback.
+
+Finally read $H,C,P,N$. These rows transport, replay, package, and name the same packet. Since the excluded host and quotient objects are absent from the carrier, they cannot appear as NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CompactFunctionSpace finite-net handoff]
+\label{thm:compact-function-space-finite-net-handoff}
+Every Arzela--Ascoli, compact-open, or uniform-convergence consumer of an accepted $\CompactFunctionSpaceUp$ packet receives the function-space data through
+$$
+X \to F \to M \to U \to V \to R
+$$
+with $H,C,P,N$ visible. The finite handoff first reads compact-net probes in $X$, then graph-family data in $F$, then the tolerance-only modulus $M$, and only then the finite StreamName, RegSeqRat, and Real readback rows. It does not supply selected functions, quotient function spaces, host extensional equality, compactness by choice, or an ambient compact-open theorem.
+\end{theorem}
+\begin{proof}
+Start with the compact source row $X$. A consumer receives only finite compact-net probes from the displayed packet, so it cannot begin by selecting a host function or a point of an ambient function space.
+
+Read $F$ and $M$ next. The graph-family row and shared uniform-modulus row determine how compact-source probes are turned into finite evaluation windows.
+
+The terminal readback is $U,V,R$ with $H,C,P,N$ visible. StreamName windows, regular rational readbacks, Real seals, transport, replay, provenance, and local naming are the whole exported handoff, so the excluded quotient and choice-based objects are outside the route.
+\end{proof}
+
+\closureat{CompactFunctionSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CompactFunctionSpaceUp}
+  \constructivestory{A $\CompactFunctionSpaceUp$ packet is generated from compact metric source probes, continuous graph-family rows, a shared UniformModulus row, finite StreamName windows, RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite carrier, local NameCert obligations, and finite-net handoff for compact function-space packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected representatives, quotient function spaces, compactness by choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, graph-family visibility, uniform-modulus handoff, StreamName and RegSeqRat readback, Real seals, transport, provenance, and local naming.}
+\end{closurestatus}
