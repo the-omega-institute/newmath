@@ -7,6 +7,7 @@ import BedcMathlibBridge.Constructive.Eisenstein
 import BedcMathlibBridge.Constructive.ZMod
 import BedcMathlibBridge.Constructive.Fibonacci
 import BedcMathlibBridge.Constructive.Binomial
+import BedcMathlibBridge.Constructive.BinomialIdentities
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
