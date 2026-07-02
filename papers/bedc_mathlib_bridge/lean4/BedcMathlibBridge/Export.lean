@@ -2,6 +2,7 @@ import BedcMathlibBridge.Export.Int
 import BedcMathlibBridge.Export.IntSignMagnitude
 import BedcMathlibBridge.Export.Bool
 import BedcMathlibBridge.Export.Gaussian
+import BedcMathlibBridge.Export.Pythagorean
 import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
