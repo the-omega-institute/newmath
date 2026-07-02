@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ParallelConfluenceAuditUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -253,6 +255,39 @@ instance parallelConfluenceAuditChapterTasteGate :
     intro x y hxy heq
     exact hxy (parallelConfluenceAuditToEventFlow_injective heq)
 
+instance parallelConfluenceAuditFieldFaithful :
+    FieldFaithful ParallelConfluenceAuditUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary conditionalDiamond
+        closedStar closedNormal atomShape nonClaim transports routes provenance localName =>
+        [parallelStep, substitutionBoundary, conditionalDiamond, closedStar, closedNormal,
+          atomShape, nonClaim, transports, routes, provenance, localName]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk parallelStep₁ substitutionBoundary₁ conditionalDiamond₁ closedStar₁ closedNormal₁
+        atomShape₁ nonClaim₁ transports₁ routes₁ provenance₁ localName₁ =>
+        cases y with
+        | mk parallelStep₂ substitutionBoundary₂ conditionalDiamond₂ closedStar₂ closedNormal₂
+            atomShape₂ nonClaim₂ transports₂ routes₂ provenance₂ localName₂ =>
+            cases h
+            rfl
+
+instance parallelConfluenceAuditNontrivial : Nontrivial ParallelConfluenceAuditUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ParallelConfluenceAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ParallelConfluenceAuditUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem ParallelConfluenceAuditTasteGate_single_carrier_alignment :
     parallelConfluenceAuditFromEventFlow
         (parallelConfluenceAuditToEventFlow
@@ -267,5 +302,36 @@ theorem ParallelConfluenceAuditTasteGate_single_carrier_alignment :
   exact parallelConfluenceAudit_round_trip
     (ParallelConfluenceAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
       BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+
+theorem ParallelConfluenceAudit_conditional_bridge_rows
+    {P S D C Nm At No H R L G P' S' D' C' Nm' At' No' H' R' L' G' : BHist}
+    (sameDisplay :
+      parallelConfluenceAuditToEventFlow
+          (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) =
+        parallelConfluenceAuditToEventFlow
+          (ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G'))
+    (conditionalRoute : Cont S D C)
+    (closedStarRoute : Cont D C R) :
+    hsame S S' ∧ hsame D D' ∧ hsame C C' ∧ hsame Nm Nm' ∧ hsame At At' ∧
+      Cont S' D' C' ∧ Cont D' C' R' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have carrierEq :
+      ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G =
+        ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G' :=
+    parallelConfluenceAuditToEventFlow_injective sameDisplay
+  cases carrierEq
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · exact conditionalRoute
+            · exact closedStarRoute
 
 end BEDC.Derived.ParallelConfluenceAuditUp
