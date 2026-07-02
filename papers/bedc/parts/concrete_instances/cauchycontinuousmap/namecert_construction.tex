@@ -288,6 +288,18 @@ The modulus boundary is supplied by \autoref{thm:cauchy-continuous-map-modulus-b
 \input{parts/concrete_instances/cauchycontinuousmap/l10_sibling_route.tex}
 \input{parts/concrete_instances/cauchycontinuousmap/bridge_scope.tex}
 
+\begin{theorem}[CauchyContinuousMap regular-Cauchy boundedness route]
+\label{thm:cauchy-continuous-map-regular-cauchy-boundedness-route}
+Every accepted $\CauchyContinuousMapUp$ packet whose source and image are consumed by an L10 completion client must expose the $\RegularCauchyBoundednessUp$ row after the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$ rows have been displayed. The boundedness row is read as the finite induction certificate of \autoref{thm:regular-cauchy-boundedness-finite-induction-bound}; it does not supply a host function, quotient stream, selected limit, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the L10 sibling route of \autoref{thm:cauchy-continuous-map-l10-sibling-route}. It forces the completion client to read the StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, and Real seal before any map-facing output is consumed.
+
+Next use the Real-completion scope theorem, \autoref{thm:cauchy-continuous-map-real-completion-scope}. The same accepted packet remains confined to the displayed completion route; it cannot replace the source or image by a host function, quotient stream, selected limit, or ambient completeness witness.
+
+Finally attach the boundedness row through \autoref{thm:regular-cauchy-boundedness-finite-induction-bound}. That theorem identifies the bound as a finite induction certificate over the displayed stream window, regular readback, dyadic ledger, and modulus threshold. Therefore the L10 completion client receives the $\RegularCauchyBoundednessUp$ row only after the existing StreamName, RegSeqRat, DyadicRatCore, CauchyModulus, and Real rows are visible.
+\end{proof}
+
 \closureat{CauchyContinuousMapUp}{scopedStr}
 \closureat{CauchyContinuousMapUp}{publicStr}[BEDC.Derived.CauchyContinuousMapUp]
 
