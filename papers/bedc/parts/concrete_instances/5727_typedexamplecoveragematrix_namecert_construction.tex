@@ -50,6 +50,18 @@ The rows $G,C,B,R$ are paired by position. A consumer can inspect a gallery cell
 The exactness row $E$ records that the four cell kinds are jointly present for every accepted family and that no extra coverage coordinate exists outside the matrix. The rows $H,K,P,N$ then transport, route, name, and package only the displayed rows.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix obligation surface]
+\label{thm:typed-example-coverage-matrix-obligation-surface}
+For MetaCIC audit consumers, the full $\TypedExampleCoverageMatrixUp$ obligation surface is the family-index row $F$, gallery cells $G$, checker cells $C$, beta-boundary cells $B$, regression-spend cells $R$, exactness row $E$, and structural rows $H,K,P,N$. A consumer may read a coverage obligation only after the same accepted matrix row displays all of $F,G,C,B,R,E$ and the structural rows route, transport, source, and name that row; no detached gallery cell, checker cell, beta-boundary cell, regression-spend cell, or ambient MetaCIC theorem is part of the surface.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:typed-example-coverage-matrix-carrier} and the row family of \autoref{def:typed-example-coverage-matrix-row-family}. They display the family index $F$ and attach gallery, checker, beta-boundary, regression-spend, and exactness cells to the same finite matrix rows.
+
+Apply the NameCert obligations of \autoref{thm:typed-example-coverage-matrix-namecert-obligations}. These obligations make carrier admission, family-index exactness, paired cell exposure, matrix exactness, and the structural rows $H,K,P,N$ the required read surface for every MetaCIC audit consumer.
+
+The regression exactness, non-escape, spend boundary, row totality, checker-cell locality, and family exhaustion results then keep each consumer obligation on its displayed row. Thus the obligation surface is exactly $F,G,C,B,R,E,H,K,P,N$, with no hidden cell and no external checker theorem added to the matrix.
+\end{proof}
+
 \begin{theorem}[Typed example coverage matrix regression exactness]
 \label{thm:typed-example-coverage-matrix-regression-exactness}
 Every regression-spend cell in an accepted $\TypedExampleCoverageMatrixUp$ packet is paired with the unique displayed family row and with the corresponding gallery, checker, and beta cells. Conversely, every accepted family row has a displayed regression-spend cell in $R$.
