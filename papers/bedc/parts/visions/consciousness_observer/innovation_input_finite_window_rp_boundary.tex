@@ -1,0 +1,548 @@
+\chapter{Innovation Input Finite-Window Reflection-Positive Boundary}
+\label{ch:visions-innovation-input-finite-window-rp-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-finite-block-reversibility-boundary}
+separates two-point realness from finite-block realness. Reflection
+positivity is still stronger: it asks for nonnegative quadratic forms for
+reflected future observables. This chapter records a finite-window audit
+for self-substitution phase rows and applies it to the smallest Q3
+representatives already isolated above.
+
+\section{Finite-Window Reflection}
+\label{sec:innovation-input-finite-window-reflection}
+
+\begin{definition}[Discrete reflection]
+\label{def:innovation-input-discrete-reflection}
+Let the discrete reflection act on integer sites by
+$$
+\theta(j)=1-j.
+$$
+Thus $1\mapsto0$, $2\mapsto-1$, and $3\mapsto-2$. On signed block atoms,
+set
+$$
+\theta\delta_j:=\delta_{1-j}.
+$$
+For a signed block
+$$
+\alpha=\sum_j e_j\delta_j,
+$$
+define
+$$
+\theta\alpha:=\sum_j e_j\delta_{1-j}.
+$$
+\end{definition}
+
+\begin{definition}[Future monomial]
+\label{def:innovation-input-future-monomial}
+A future signed block in a window of length $L$ is an anchored block of
+the form
+$$
+\alpha=\sum_{j=1}^L e_j\delta_j,
+\qquad
+e_j\in\mathbb Z.
+$$
+The sites $1,\ldots,L$ are the actual future positions relative to the
+reflection plane. The block is not translated before reflection.
+It determines the future monomial
+$$
+U_\alpha(n):=\prod_{j=1}^L u_{n+j}^{e_j}.
+$$
+When $Q(\alpha)=\sum_j e_j=0$, the monomial is neutral.
+\end{definition}
+
+\begin{definition}[Finite-window RP matrix]
+\label{def:innovation-input-finite-window-rp-matrix}
+Given anchored future signed blocks $\alpha_0,\ldots,\alpha_m$, define
+$$
+M_{ij}
+:=
+\langle \theta U_{\alpha_i},U_{\alpha_j}\rangle
+:=
+\Gamma(\alpha_j-\theta\alpha_i).
+$$
+The order of operations is fixed: keep the future blocks at their anchored
+sites, reflect $\alpha_i$, form $\alpha_j-\theta\alpha_i$, and only then
+translate all sites by a common integer if negative sites occur, using
+\autoref{def:innovation-input-block-translation}. The window passes the
+reflection-positive check when
+$$
+M\succeq0.
+$$
+\end{definition}
+
+\begin{proposition}[Translation and reflection anti-commute]
+\label{prop:innovation-input-translation-reflection-anticommute}
+For $T_s\delta_j:=\delta_{j+s}$,
+$$
+\theta T_s=T_{-s}\theta.
+$$
+Thus finite-window RP entries depend on the anchored placement of the
+future blocks before reflection, even though $\Gamma$ itself is invariant
+under common translation after the reflected difference is formed.
+\end{proposition}
+
+\begin{proof}
+On atoms,
+$$
+\theta T_s\delta_j=\theta\delta_{j+s}=\delta_{1-j-s},
+$$
+while
+$$
+T_{-s}\theta\delta_j=T_{-s}\delta_{1-j}=\delta_{1-j-s}.
+$$
+The identity follows by linearity.
+\end{proof}
+
+\begin{definition}[Charged and neutral RP windows]
+\label{def:innovation-input-charged-neutral-rp}
+The charged RP audit allows arbitrary future monomials. The neutral RP
+audit restricts to future monomials with $Q(\alpha)=0$. Therefore
+$$
+\text{charged RP}
+\Longrightarrow
+\text{neutral RP}.
+$$
+The neutral audit is the projective or gauge-invariant version of the same
+finite-window test.
+\end{definition}
+
+\begin{theorem}[Finite-window Gram criterion]
+\label{thm:innovation-input-finite-window-gram-criterion}
+Let $F_i=U_{\alpha_i}$ be a finite list of future monomials. For
+$$
+F=\sum_i c_iF_i,
+$$
+one has
+$$
+\langle\theta F,F\rangle
+=
+\sum_{i,j}\overline{c_i}M_{ij}c_j.
+$$
+Consequently the finite window satisfies reflection positivity exactly
+when $M\succeq0$.
+\end{theorem}
+
+\begin{proof}
+Expand the quadratic form:
+$$
+\langle\theta F,F\rangle
+=
+\left\langle
+\theta\left(\sum_i c_iF_i\right),
+\sum_j c_jF_j
+\right\rangle.
+$$
+The reflection acts on the observables, while the first slot of the
+correlation pairing is conjugate-linear. Hence
+$$
+\langle\theta F,F\rangle
+=
+\sum_{i,j}\overline{c_i}c_j
+\langle\theta F_i,F_j\rangle
+=
+\sum_{i,j}\overline{c_i}M_{ij}c_j.
+$$
+Nonnegativity for every coefficient vector $c$ is exactly positive
+semidefiniteness of the Gram matrix.
+\end{proof}
+
+\section{Charged One-Site Obstruction}
+\label{sec:innovation-input-charged-one-site-rp}
+
+\begin{theorem}[Charged one-site necessary condition]
+\label{thm:innovation-input-charged-one-site-necessary-condition}
+If the charged finite-window RP audit holds, then
+$$
+\gamma(1)\in\mathbb R_{\ge0}.
+$$
+\end{theorem}
+
+\begin{proof}
+Take the future monomial $F(n)=u_{n+1}$. Its reflection is
+$\theta F(n)=u_n$. Therefore
+$$
+\langle\theta F,F\rangle
+=
+\left\langle u_n,u_{n+1}\right\rangle
+=
+\left\langle \overline{u_n}u_{n+1}\right\rangle
+=
+\gamma(1).
+$$
+Charged RP requires this value to be nonnegative.
+\end{proof}
+
+\begin{corollary}[Binary charged RP obstruction]
+\label{cor:innovation-input-binary-charged-rp-obstruction}
+The binary Q3 self-substitution row
+$$
+v=(e^{i\pi/4},e^{-i\pi/4})
+$$
+fails charged finite-window RP at the one-site window.
+\end{corollary}
+
+\begin{proof}
+By \autoref{prin:innovation-input-binary-coefficient-source-arrow},
+$$
+\gamma(1)=\frac{1-2i}{5}.
+$$
+This is not real, so it cannot be a nonnegative real number.
+\end{proof}
+
+\begin{corollary}[Ternary charged RP obstruction]
+\label{cor:innovation-input-ternary-charged-rp-obstruction}
+The ternary Q3 self-substitution row
+$$
+v=(e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6})
+$$
+fails charged finite-window RP at the one-site window.
+\end{corollary}
+
+\begin{proof}
+By \autoref{prin:innovation-input-ternary-weakly-reversible-word},
+$$
+\gamma(1)=-\frac12.
+$$
+The value is real but negative, contradicting
+\autoref{thm:innovation-input-charged-one-site-necessary-condition}.
+\end{proof}
+
+\begin{principle}[Quartic one-site survival]
+\label{prin:innovation-input-quartic-one-site-survival}
+For the real-sign quartic Q3 row $v=(1,1,1,-1)$,
+$$
+\gamma(1)=\frac15>0.
+$$
+Thus the row passes the charged one-site test, but this does not certify
+reflection positivity.
+\end{principle}
+
+\section{Ternary Neutral RP Failure}
+\label{sec:innovation-input-ternary-neutral-rp-failure}
+
+\begin{lemma}[Ternary neutral diagonal value]
+\label{lem:innovation-input-ternary-neutral-diagonal-value}
+For the ternary row, one has
+$$
+\gamma(2)=\frac12
+$$
+and
+$$
+D_{13}
+:=
+\Gamma(\delta_0-\delta_2+\delta_3-\delta_5)
+=
+\frac16.
+$$
+\end{lemma}
+
+\begin{proof}
+The value $\gamma(2)=1/2$ is
+\autoref{prin:innovation-input-ternary-weakly-reversible-word}. For the
+block $\delta_0-\delta_2+\delta_3-\delta_5$, the ternary carry recursion
+has three branches:
+$$
+a=0:
+\qquad
+1\cdot1,
+$$
+$$
+a=1:
+\qquad
+\omega\,\Gamma(\delta_0-\delta_2),
+$$
+and
+$$
+a=2:
+\qquad
+\overline\omega\,\Gamma(\delta_0-\delta_2),
+$$
+where $\omega=e^{2\pi i/3}$. Therefore
+$$
+D_{13}
+=
+\frac13
+\left(
+1+(\omega+\overline\omega)\gamma(2)
+\right).
+$$
+Since $\omega+\overline\omega=-1$ and $\gamma(2)=1/2$,
+$$
+D_{13}
+=
+\frac13\left(1-\frac12\right)
+=
+\frac16.
+$$
+\end{proof}
+
+\begin{theorem}[Ternary neutral RP obstruction]
+\label{thm:innovation-input-ternary-neutral-rp-obstruction}
+For the ternary Q3 row
+$$
+v=(e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}),
+$$
+the neutral future observables
+$$
+F_0=1,
+\qquad
+F_1=u_{n+1}\overline{u_{n+3}}
+$$
+have finite-window RP matrix
+$$
+M=
+\left(
+\begin{array}{cc}
+1 & \frac12\\
+\frac12 & \frac16
+\end{array}
+\right).
+$$
+Its determinant is
+$$
+\det M=\frac16-\frac14=-\frac1{12}<0.
+$$
+Hence the ternary row fails neutral finite-window RP.
+\end{theorem}
+
+\begin{proof}
+The constant entry is $M_{00}=1$. The off-diagonal entry is
+$$
+M_{01}
+=
+\langle F_1\rangle
+=
+\left\langle u_{n+1}\overline{u_{n+3}}\right\rangle
+=
+\gamma(2)
+=
+\frac12.
+$$
+The same value gives $M_{10}$. For the diagonal entry, set
+$$
+\alpha=\delta_1-\delta_3.
+$$
+Then
+$$
+\theta\alpha=\delta_0-\delta_{-2}.
+$$
+Thus
+$$
+\alpha-\theta\alpha
+=
+(\delta_1-\delta_3)-(\delta_0-\delta_{-2}).
+$$
+After translating by $2$, this becomes
+$$
+\delta_0-\delta_2+\delta_3-\delta_5.
+$$
+Therefore
+$$
+M_{11}
+=
+\Gamma(\delta_0-\delta_2+\delta_3-\delta_5)
+=
+D_{13}
+=
+\frac16
+$$
+by \autoref{lem:innovation-input-ternary-neutral-diagonal-value}. The
+displayed determinant is negative, so $M$ is not positive semidefinite.
+\end{proof}
+
+\begin{corollary}[Two-point realness does not imply neutral RP]
+\label{cor:innovation-input-two-point-real-not-neutral-rp}
+Two-point weak reversibility does not imply neutral finite-window RP.
+\end{corollary}
+
+\begin{proof}
+The ternary Q3 row has real two-point correlations by
+\autoref{prin:innovation-input-ternary-weakly-reversible-word}, but fails
+neutral finite-window RP by
+\autoref{thm:innovation-input-ternary-neutral-rp-obstruction}.
+\end{proof}
+
+\section{Quartic Neutral RP Failure}
+\label{sec:innovation-input-quartic-neutral-rp-failure}
+
+\begin{lemma}[Quartic neutral diagonal value]
+\label{lem:innovation-input-quartic-neutral-diagonal-value}
+For the quartic real-sign row $v=(1,1,1,-1)$ and
+$$
+F(n)=u_{n+1}\overline{u_{n+2}},
+$$
+one has
+$$
+\langle\theta F,F\rangle=-\frac35.
+$$
+\end{lemma}
+
+\begin{proof}
+The observable corresponds to $\alpha=\delta_1-\delta_2$. Since
+$$
+\theta\alpha=\delta_0-\delta_{-1},
+$$
+the reflected diagonal block is
+$$
+\alpha-\theta\alpha
+=
+(\delta_1-\delta_2)-(\delta_0-\delta_{-1}).
+$$
+After translating by $1$, this becomes
+$$
+\delta_0-\delta_1+\delta_2-\delta_3.
+$$
+Set
+$$
+D_{12}:=\Gamma(\delta_0-\delta_1+\delta_2-\delta_3).
+$$
+For $v=(1,1,1,-1)$, the four carry branches contribute
+$$
+a=0:\qquad -1\cdot1,
+$$
+$$
+a=1:\qquad -1\cdot\gamma(1),
+$$
+$$
+a=2:\qquad -1\cdot1,
+$$
+and
+$$
+a=3:\qquad -1\cdot\gamma(1).
+$$
+Therefore
+$$
+D_{12}
+=
+-\frac14\left(2+2\gamma(1)\right)
+=
+-\frac12(1+\gamma(1)).
+$$
+Using $\gamma(1)=1/5$ from
+\autoref{prin:innovation-input-quartic-real-sign-word},
+$$
+D_{12}
+=
+-\frac12\left(1+\frac15\right)
+=
+-\frac35.
+$$
+\end{proof}
+
+\begin{theorem}[Quartic neutral RP obstruction]
+\label{thm:innovation-input-quartic-neutral-rp-obstruction}
+The quartic real-sign Q3 row
+$$
+v=(1,1,1,-1)
+$$
+fails neutral finite-window RP.
+\end{theorem}
+
+\begin{proof}
+The neutral future observable $F(n)=u_{n+1}\overline{u_{n+2}}$ has
+$$
+\langle\theta F,F\rangle=-\frac35<0
+$$
+by \autoref{lem:innovation-input-quartic-neutral-diagonal-value}. A
+positive semidefinite reflection-positive matrix cannot have a negative
+diagonal entry.
+\end{proof}
+
+\begin{corollary}[Real-sign correlations do not imply RP]
+\label{cor:innovation-input-real-sign-not-rp}
+Real-sign Q3 words can have real two-point correlations while failing
+neutral finite-window RP.
+\end{corollary}
+
+\begin{proof}
+The quartic row is real-sign and Q3-compatible by
+\autoref{prin:innovation-input-quartic-real-sign-word}; its two-point
+correlations are real by
+\autoref{cor:innovation-input-real-sign-weak-reversible}. It fails neutral
+finite-window RP by \autoref{thm:innovation-input-quartic-neutral-rp-obstruction}.
+\end{proof}
+
+\section{Strict Layering}
+\label{sec:innovation-input-finite-window-rp-layering}
+
+\begin{theorem}[Self-substitution reversibility layers]
+\label{thm:innovation-input-self-substitution-reversibility-layers}
+For Q3 self-substitution phase rows, finite-window reflection positivity is
+strictly stronger than real two-point correlations and real word-level
+correlations.
+\end{theorem}
+
+\begin{proof}
+The ternary row has real two-point correlations but fails neutral
+finite-window RP by
+\autoref{thm:innovation-input-ternary-neutral-rp-obstruction}. The quartic
+real-sign row has real word-level correlations but fails neutral
+finite-window RP by
+\autoref{thm:innovation-input-quartic-neutral-rp-obstruction}. The binary
+row fails even the charged one-site condition by
+\autoref{cor:innovation-input-binary-charged-rp-obstruction}.
+\end{proof}
+
+\begin{principle}[Terminology separation]
+\label{prin:innovation-input-rp-terminology-separation}
+The self-substitution rows require three distinct terms. Correlation
+reversibility means
+$$
+\gamma(m)\in\mathbb R
+\qquad
+\text{for all }m.
+$$
+Finite-block real reversibility means
+$$
+\Gamma(\alpha)\in\mathbb R
+$$
+for every balanced block $\alpha$. RP reversibility means that every
+finite-window reflection-positive matrix is positive semidefinite, with
+the limiting row matching the OS/RP positivity used by
+\autoref{thm:innovation-input-rp-transition-positivity}. The ternary row
+belongs to the first class but not to the second or third. The quartic row
+belongs to the first class but fails the third.
+\end{principle}
+
+\begin{principle}[Window audit table]
+\label{prin:innovation-input-finite-window-rp-audit-table}
+The smallest Q3 representatives have the following RP-facing status:
+$$
+\begin{array}{c|c|c|c|c}
+N & \text{representative Q3 row} & \text{two-point row} &
+\text{neutral RP} & \text{charged RP}\\
+\hline
+2 & (e^{i\pi/4},e^{-i\pi/4}) &
+\text{nonreal} &
+\text{fail} &
+\text{fail}\\
+3 & (e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}) &
+\text{real} &
+\text{fail} &
+\text{fail}\\
+4 & (1,1,1,-1) &
+\text{real} &
+\text{fail} &
+\text{one-site pass}
+\end{array}
+$$
+Thus Q3 self-reference can coexist with the absence of a two-point arrow,
+but these minimal representatives do not provide an OS/RP-compatible
+self-substitution row.
+\end{principle}
+
+\begin{definition}[Neutral RP deficit]
+\label{def:innovation-input-neutral-rp-deficit}
+For a bounded neutral future window, let
+$M_{N,L}^{\mathrm{neu}}(v)$ denote the finite-window RP matrix formed from
+the neutral monomials supported in $\{1,\ldots,L\}$. The neutral RP deficit
+is the least eigenvalue
+$$
+\rho_{N,L}^{\mathrm{neu}}(v)
+:=
+\lambda_{\min}M_{N,L}^{\mathrm{neu}}(v).
+$$
+Nonnegative values are necessary finite-window evidence for RP
+compatibility; negative values are finite-window obstruction certificates.
+\end{definition}
