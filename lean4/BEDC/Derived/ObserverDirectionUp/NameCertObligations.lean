@@ -8,6 +8,15 @@ open BEDC.FKernel.Hist
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
+theorem ObserverDirectionUp_carrier_fields (x : ObserverDirectionUp) :
+    ∃ R T U L B H C P N : BHist,
+      x = ObserverDirectionUp.mk R T U L B H C P N ∧
+        FieldFaithful.fields x = [R, T, U, L, B, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist FieldFaithful
+  cases x with
+  | mk R T U L B H C P N =>
+      exact ⟨R, T, U, L, B, H, C, P, N, rfl, rfl⟩
+
 theorem ObserverDirectionUp_namecert_obligations (x : ObserverDirectionUp) :
     ∃ R T U L B H C P N : BHist,
       x = ObserverDirectionUp.mk R T U L B H C P N ∧
