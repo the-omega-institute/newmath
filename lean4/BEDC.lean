@@ -4106,6 +4106,7 @@ import BEDC.Derived.ConvexConjugateUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.ObligationSurface
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
+import BEDC.Derived.CookFrontierCoordinateUp.NameCertObligations
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.WitnessedUniversalityBoundary
 import BEDC.Derived.CookFrontierWitnessUp.TasteGate
@@ -8105,6 +8106,7 @@ import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
 import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
+import BEDC.Derived.LowerVietorisCompletionUp
 import BEDC.Derived.LpSpaceUp.TasteGate
 import BEDC.Derived.LucasCarmichaelUp
 import BEDC.Derived.LucasLehmerUp
@@ -13512,7 +13514,9 @@ import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
 import BEDC.Derived.Visions.LedgerDriverRank
+import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
+import BEDC.Derived.Visions.TwistedInvolutionSignature
 import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
