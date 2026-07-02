@@ -157,6 +157,24 @@ The obligation matrix requires each displayed family read to keep its local typi
 Finally use typed-family coverage and checker-route factorization. The first theorem says every gallery family read factors through the displayed family rows, and the second says each consumer read then passes through $K,H,C,P,M$. The omitted global claims remain outside the scope because no carrier row names them.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples counterexample boundary]
+\label{thm:metacic-typedexamples-gallery-subject-reduction-counterexample-boundary}
+An accepted $\MetaCICTypedExamplesGalleryUp$ row can be consumed as a finite regression row or as a finite counterexample boundary only when its context row, term row, typing row, reduction-window row, checker row, transport row, replay row, provenance row, and local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row are all displayed inside
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M).
+$$
+The row cannot be read as global subject reduction, and it also cannot be read as a global failure of subject reduction. It is only bounded evidence about the displayed Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, or beta-redex family chosen from $B,N,L,S,E,I,A,R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The finite family row supplies the context, term, typing, and reduction-window data, while $K$ supplies the checker boundary and $H,C,P,M$ supply transport, replay, provenance, and local naming.
+
+Apply the coverage scope of \autoref{thm:metacic-typed-examples-gallery-coverage-scope}. It restricts every exported claim to the displayed family rows and refuses arbitrary example coverage.
+
+Now apply checker-route factorization from \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. Any consumer read must pass through one displayed family and then through $K,H,C,P,M$, so a regression or counterexample use remains a finite row-boundary claim.
+
+Since the carrier has no coordinate for global subject reduction and no coordinate for a global countertheorem, neither conclusion can be projected from the gallery packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery scoped route]
 \label{thm:metacic-typed-examples-gallery-scoped-route}
 Every consumer route out of an accepted $\MetaCICTypedExamplesGalleryUp$ packet is a scoped route through
