@@ -107,4 +107,28 @@ theorem RegularCauchyDensityRegSeqRatHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, windowUnary, readbackUnary, sealUnary⟩
 
+theorem RegularCauchyDensityDyadicApproximation [AskSetup] [PackageSetup]
+    {Q S R A E H C P N windowRead readbackRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDensityCarrier Q S R A E H C P N bundle pkg ->
+      Cont S R windowRead ->
+        Cont windowRead A readbackRead ->
+          Cont readbackRead E sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory Q ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory A ∧
+                UnaryHistory E ∧ UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                  UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier windowRoute readbackRoute sealRoute _sealPkg
+  obtain ⟨qUnary, sUnary, rUnary, aUnary, eUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _carrierPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed sUnary rUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary aUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary eUnary sealRoute
+  exact
+    ⟨qUnary, sUnary, rUnary, aUnary, eUnary, windowUnary, readbackUnary, sealUnary⟩
+
 end BEDC.Derived
