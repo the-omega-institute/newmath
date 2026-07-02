@@ -450,4 +450,20 @@ theorem gallery_checker_route_factorization :
     ⟨⟨boolTyped, boolChecked⟩,
       ⟨⟨natTyped, natChecked⟩, ⟨pairTyped, pairChecked⟩⟩⟩
 
+theorem gallery_kernel_scope :
+    (HasType [] churchTrueTm churchBoolTy ∧
+      inferTypeCtx [] churchTrueTm = some churchBoolTy) ∧
+      (HasType [] churchZeroTm churchNatTy ∧
+        inferTypeCtx [] churchZeroTm = some churchNatTy) ∧
+        (HasType [] churchMkPairTm churchMkPairTy ∧
+          inferTypeCtx [] churchMkPairTm = some churchMkPairTy) ∧
+          inferTypeCtx [] churchFalseTm = some churchBoolTy := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  have route := gallery_checker_route_factorization
+  have falseTyped : HasType [] churchFalseTm churchBoolTy := church_false
+  have falseChecked :
+      inferTypeCtx [] churchFalseTm = some churchBoolTy :=
+    CheckCompleteness.inferTypeCtx_complete_raw [] churchFalseTm churchBoolTy falseTyped
+  exact ⟨route.left, ⟨route.right.left, ⟨route.right.right, falseChecked⟩⟩⟩
+
 end BEDC.MetaCIC
