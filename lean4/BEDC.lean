@@ -3632,6 +3632,7 @@ import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
 import BEDC.Derived.CompactUniformModulusUp.TasteGate
 import BEDC.Derived.CompactUniformNetSelectionUp.TasteGate
 import BEDC.Derived.CompactUniformOscillationUp.TasteGate
+import BEDC.Derived.CompactUniformOscillationWindowUp.TasteGate
 import BEDC.Derived.CompactUniformPullbackUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusLedgerUp.TasteGate
@@ -6544,6 +6545,7 @@ import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
+import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedCompletionRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.TerminalReadbackExclusion
