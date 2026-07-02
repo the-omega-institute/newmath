@@ -22,3 +22,6 @@ import BedcMathlibBridge.Export.OddDoubleFactorial
 import BedcMathlibBridge.Export.Square
 import BedcMathlibBridge.Export.Pronic
 import BedcMathlibBridge.Export.CenteredHexagonal
+import BedcMathlibBridge.Export.SquarePyramidal
+import BedcMathlibBridge.Export.Pentagonal
+import BedcMathlibBridge.Export.Hexagonal
