@@ -1069,6 +1069,20 @@
      "reason": "F_obs=0.617<rank-share 0.667, a2<a_amb; low-order not degree-2-concentrated; static geometry exhausted"
     }
    ]
+  },
+  {
+   "claim_id": "bridge.host_defense.asd_w6_self_tail_erasability",
+   "statement": "Test (oracle-designed, ASD-W6 exact-null): do bacterial genomes ERASE self-targeting Window6 (W6) codon-features from high-defense-density (high-D) internal windows — i.e. are self-tail W6 states DEPLETED (OR<1) in high-D windows vs an exact gene-wise synonymous-codon expectation, with a monotone dose-response in local defense density, self-tail>decoy specificity, and consistent genus/species sign? Carrier = per-genome high-D window W6-state occupancy; null = EXACT analytical gene-wise within-AA synonymous expectation E_g[c,d] (replaces 400x Monte-Carlo shuffles; selftest-verified max abs err <0.012 vs 50000 MC). Run: 1300 selected assemblies, 1293 valid, 589 genera, exact_E=2.53e8. VERDICT data_gate_failed: pre-registered preflight tripped (35/1293=2.7% small genomes fail per-genome QC qc_cds_lt_800 / internal_windows_lt_150000). CRUCIALLY the aggregate over valid genomes shows NO erasability and mild ANTI-direction: pooled high-D OR=1.037 (upper95 1.043) is ENRICHMENT not depletion; depletion bootstrap p=1.0 (zero support); dose spearman=+0.75 with 6+ bin ratio=1.083 highest (self-tail features MORE present at high defense dose, opposite of erasability); dose_monotone=false, neg_slope_bootstrap_fraction=0.0; p_decoy=1.0, genus_sign_p=1.0, species_sign_p=1.0 (no specificity). Excluding the 35 QC-fail genomes leaves 1258 (>1000 species, 589>200 genera) still well-powered but the direction would move to refuted/anti, never supportive — no hidden signal masked by the gate. Conclusion: no self-tail W6-codon erasability under high host-defense density in RefSeq bacteria; honest negative on public data.",
+   "status": "data_gate_failed",
+   "experiment_id": "asd_w6_self_tail_exact_null",
+   "origin": "oracle conv_fca0b553012dd6fb",
+   "history": [
+    {
+     "ts": "2026-07-02",
+     "status": "data_gate_failed",
+     "reason": "preflight tripped (35/1293 small genomes fail per-genome QC); aggregate over valid genomes null/mild-anti: high-D OR=1.037 enrichment, depletion bootstrap p=1.0, dose spearman +0.75 (6+ ratio 1.083), decoy/genus/species sign p all 1.0 — no erasability, no masked signal"
+    }
+   ]
   }
  ]
 }
