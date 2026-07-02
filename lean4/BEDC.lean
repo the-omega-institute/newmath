@@ -9223,6 +9223,7 @@ import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
 import BEDC.Derived.MonotoneConvergenceRealUp.TasteGate
 import BEDC.Derived.MonotoneConvergenceSequenceUp.TasteGate
 import BEDC.Derived.MonotoneInverseUp.TasteGate
+import BEDC.Derived.MonotoneModulusUp
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSequenceWindowCauchyUp
 import BEDC.Derived.MonotoneSequenceWindowCauchyUp.TasteGate
