@@ -124,6 +124,7 @@ G,L,T,S,K,U,V,D,R,H,C,P,N .
 $$
 The window consists of the gluing route, witness ledger, tail envelope, seal-budget synchronizer, completion-seal classifier, StreamName family, RegSeqRat handoff, DyadicRatCore ledger, terminal Real seal, componentwise transport, displayed replay, provenance, and local NameCert row, and no further completion or witness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_window}
 \begin{proof}
 Project the carrier of \autoref{def:finite-cauchy-gluing-budget-carrier}. Its displayed tuple is $B=(G,L,T,S,K,U,V,D,R,H,C,P,N)$, so every accepted packet begins with exactly those rows.
 
@@ -154,6 +155,7 @@ Finally apply \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Every diagona
 \label{thm:finite-cauchy-gluing-budget-real-seal-handoff}
 Every $\RealUp$-facing consumer of an accepted $\FiniteCauchyGluingBudgetUp$ packet receives the terminal seal row $R$ only after the packet has displayed the $\StreamNameUp$ row $U$, the $\DyadicRatCoreUp$ row $D$, and the $\RegSeqRatUp$ row $V$ along the same finite route. The handoff is therefore a finite budget handoff through StreamName, DyadicRatCore, and RegSeqRat data, not a direct ambient Real-completeness read.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_real\_seal\_handoff}
 \begin{proof}
 Project the accepted carrier by \autoref{def:finite-cauchy-gluing-budget-carrier}. The row $R$ is listed after the finite StreamName window family $U$, the regular-sequence handoff $V$, and the dyadic tolerance ledger $D$.
 
