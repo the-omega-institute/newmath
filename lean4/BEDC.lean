@@ -6209,6 +6209,7 @@ import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
 import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteFanTheoremUp.TasteGate
+import BEDC.Derived.FiniteFourierEnergyUp
 import BEDC.Derived.FiniteFourierTailProjectorUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
