@@ -93,7 +93,6 @@ import BEDC.Derived.AffineVarUp.TasteGate
 import BEDC.Derived.AiryFunctionUp.TasteGate
 import BEDC.Derived.AitkenDeltaSquaredUp.TasteGate
 import BEDC.Derived.AlexanderDualTriggerAlgebraUp.TasteGate
-import BEDC.Derived.AlexanderSubbaseTheoremUp.TasteGate
 import BEDC.Derived.AlexandroffCompactificationUp.TasteGate
 import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
@@ -1196,7 +1195,6 @@ import BEDC.Derived.BishopSpaceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
 import BEDC.Derived.BishopTotalBoundedUp
-import BEDC.Derived.BishopUniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BishopUniformContinuityModulusUp.TasteGate
@@ -6532,7 +6530,6 @@ import BEDC.Derived.FiniteWindowObserverUp.TasteGate
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
-import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
@@ -6644,6 +6641,7 @@ import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
 import BEDC.Derived.FuchsianGroupActionUp
 import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
 import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
+import BEDC.Derived.FullAxisRealRefusalUp
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.FullAxisUp.TasteGate
@@ -8883,6 +8881,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.RouteLedgerCertificate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
+import BEDC.Derived.MetacicDecidableAuditPacketUp
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute

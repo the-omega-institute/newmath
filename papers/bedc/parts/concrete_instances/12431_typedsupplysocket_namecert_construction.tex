@@ -173,12 +173,12 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \TypedSupplySocke
 
 \begin{closurestatus}{\TypedSupplySocketUp}
   \constructivestory{The typed supply socket is generated from a $BHist$ packet that records a socket kind, requested supply, consumption site, audit gate, non-internalization row, and the socket route that consumes them together. The carrier convention reads the typed socket directly from those rows and uses $hsame$ to preserve both socket identity and kind across equivalent histories. Continuations are admitted only through $\Cont$ extensions that keep the typed row attached to the supply route. NameCert obligations, kind separation, TasteGate obligation, prediction, and independence witness certify that a consumer cannot silently retag a socket or use an untyped supply source. The socket is therefore a typed ledger route, not an ambient resource.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:typed-supply-socket-scope-rows} scopes the rows $K,Q,S,G,U,H,C,P,N$ exactly over SocketKindClassifierUp, SupplySocketLedgerUp, MachineInterfaceSocketUp, ApophaticFarEndSocketUp, BHist, hsame, Cont, Pkg, and NameCert, with no untyped supply availability row exported.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:typed-supply-socket-scope-rows} bridges the public rows $K,Q,S,G,U,H,C,P,N$ over SocketKindClassifierUp, SupplySocketLedgerUp, MachineInterfaceSocketUp, ApophaticFarEndSocketUp, TasteGate, BHist, hsame, Cont, Pkg, and NameCert, with no untyped supply availability row or hidden witness exported.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TypedSupplySocketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim untyped supply availability, host resource equality, or kind conversion outside the recorded socket carrier.}
-  \upgradepath{Bridge closure requires a standard bridge route that exports the public typed-supply socket surface without adding an untyped supply availability row.}
+  \upgradepath{Mature closure requires a standard bridge route that exports the typed socket public rows across the socket-kind classifier, supply ledger, machine-interface socket, apophatic far-end socket, TasteGate boundary, and local NameCert surface without adding an untyped supply grant or hidden witness.}
 \end{closurestatus}
