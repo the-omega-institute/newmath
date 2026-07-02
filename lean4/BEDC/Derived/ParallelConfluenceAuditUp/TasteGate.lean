@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ParallelConfluenceAuditUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.ParallelConfluenceAuditUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -333,5 +335,47 @@ theorem ParallelConfluenceAudit_conditional_bridge_rows
           · constructor
             · exact conditionalRoute
             · exact closedStarRoute
+
+theorem ParallelConfluenceAudit_conditional_bridge_route_closed
+    {parallelStep substitutionBoundary conditionalDiamond closedStar closedNormal atomShape nonClaim
+      transports routes provenance localName substitutionRead diamondRead starRead : BHist} :
+    UnaryHistory parallelStep ->
+      UnaryHistory substitutionBoundary ->
+        UnaryHistory conditionalDiamond ->
+          UnaryHistory closedStar ->
+            Cont parallelStep substitutionBoundary substitutionRead ->
+              Cont substitutionRead conditionalDiamond diamondRead ->
+                Cont diamondRead closedStar starRead ->
+                  UnaryHistory substitutionRead ∧
+                    UnaryHistory diamondRead ∧
+                      UnaryHistory starRead ∧
+                        parallelConfluenceAuditFromEventFlow
+                            (parallelConfluenceAuditToEventFlow
+                              (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary
+                                conditionalDiamond closedStar closedNormal atomShape nonClaim
+                                transports routes provenance localName)) =
+                          some
+                            (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary
+                              conditionalDiamond closedStar closedNormal atomShape nonClaim
+                              transports routes provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro unaryParallel unarySubstitution unaryDiamond unaryStar routeSubstitution routeDiamond
+    routeStar
+  have unarySubstitutionRead : UnaryHistory substitutionRead :=
+    unary_cont_closed unaryParallel unarySubstitution routeSubstitution
+  have unaryDiamondRead : UnaryHistory diamondRead :=
+    unary_cont_closed unarySubstitutionRead unaryDiamond routeDiamond
+  have unaryStarRead : UnaryHistory starRead :=
+    unary_cont_closed unaryDiamondRead unaryStar routeStar
+  constructor
+  · exact unarySubstitutionRead
+  · constructor
+    · exact unaryDiamondRead
+    · constructor
+      · exact unaryStarRead
+      · exact
+          parallelConfluenceAudit_round_trip
+            (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary conditionalDiamond
+              closedStar closedNormal atomShape nonClaim transports routes provenance localName)
 
 end BEDC.Derived.ParallelConfluenceAuditUp
