@@ -12,3 +12,5 @@ import BedcMathlibBridge.Export.StirlingSecond
 import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
+import BedcMathlibBridge.Export.AscFactorial
+import BedcMathlibBridge.Export.CentralBinom
