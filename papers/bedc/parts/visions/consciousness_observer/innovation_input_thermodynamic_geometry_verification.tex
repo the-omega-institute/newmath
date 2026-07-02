@@ -10,8 +10,8 @@ certificate: the cone slot behind the two twelfth-coefficients, the
 agreement of the curvature instruments away from critical points, the
 scheme test for the massive area slope, the three-dimensional Ricci tensor
 read, the homogeneous next-order trace channel, the two-dimensional
-tensor-coefficient read, and the grid-scaling test which separates
-continuum terms from lattice residue.
+and three-dimensional tensor-coefficient reads, and the grid-scaling test
+which separates continuum terms from lattice residue.
 
 \section{Cone Slot and the Two Twelfths}
 \label{sec:innovation-input-thermo-verification-cone-slot}
@@ -348,6 +348,140 @@ matched flat subtraction. A nonzero value at order one identifies a
 normalization or time-factor error in the estimator. The flat-control
 column is thus an internal audit row for the tensor-coefficient
 measurement.
+\end{principle}
+
+\section{Spherical Consistency and Three-Dimensional Tensor Read}
+\label{sec:innovation-input-thermo-verification-three-dimensional-tensor-coefficient}
+
+\begin{theorem}[Spherical-family consistency constraints]
+\label{thm:innovation-input-thermo-spherical-family-consistency}
+In the full DeWitt next-order tensor ledger, comparison with the
+homogeneous trace identity on the family of standard spheres $S^d$ imposes
+four dimension-independent coefficient relations. In the coefficient
+coordinates used for the tensor ledger these include
+$$
+c_5=0,
+\qquad
+c_7=-c_4.
+$$
+The same relations force the two-dimensional scalar contraction
+$$
+\frac14(c_6+c_8)+\frac12c_9+c_{10}
+=
+-\frac1{360}.
+$$
+Thus the two-dimensional coefficient $\gamma$ in
+\autoref{def:innovation-input-thermo-two-dimensional-next-order-basis} is
+the spherical-family contraction of the full tensor ledger.
+\end{theorem}
+
+\begin{proof}
+On a standard sphere, $\nabla R=0$ and all derivative curvature terms vanish.
+The homogeneous trace expansion of
+\autoref{thm:innovation-input-thermo-homogeneous-trace-expansion} is then
+a polynomial identity in the dimension $d$, because the contractions
+$|\operatorname{Riem}|^2$ and $|\operatorname{Ric}|^2$ have explicit
+polynomial forms in $d$. Matching powers of $d$ against the full tensor
+basis gives the displayed relations and the stated two-dimensional
+contraction.
+\end{proof}
+
+\begin{theorem}[Three-sphere zero trace channel]
+\label{thm:innovation-input-thermo-three-sphere-zero-channel}
+For the unit standard three-sphere,
+$$
+|\operatorname{Riem}|^2=|\operatorname{Ric}|^2,
+\qquad
+\square R=0.
+$$
+Hence the homogeneous next-order trace coefficient in
+\autoref{thm:innovation-input-thermo-homogeneous-trace-expansion}
+vanishes exactly.
+\end{theorem}
+
+\begin{proof}
+For a unit standard sphere of dimension $d$,
+$$
+|\operatorname{Riem}|^2=2d(d-1),
+\qquad
+|\operatorname{Ric}|^2=d(d-1)^2.
+$$
+These are equal at $d=3$, and $R$ is constant, so the $\square R$ term
+also vanishes.
+\end{proof}
+
+\begin{principle}[Sphere comparison witness]
+\label{prin:innovation-input-thermo-sphere-comparison-witness}
+The measured spherical trace row separates the zero and nonzero channels:
+the $S^3$ trace correction is zero to machine precision across the
+displayed time window, while the $S^2$ trace correction follows the
+coefficient $-T/45$. This comparison tests the
+$|\operatorname{Riem}|^2-|\operatorname{Ric}|^2$ structure directly,
+because the two spherical geometries sit on opposite sides of the same
+homogeneous formula.
+\end{principle}
+
+\begin{principle}[Three-dimensional rank read]
+\label{prin:innovation-input-thermo-three-dimensional-rank-read}
+The three-dimensional directional-slope system has singular-value rank
+three on the measured conformally flat family. Its displayed null
+direction is proportional to
+$$
+(0,-2,-1,2),
+$$
+in the four-coordinate block that contains the Laplacian-Ricci and scalar
+Laplacian coefficients. Since this null direction has no $c_2$ component,
+the coefficient of $\square R_{ij}$ is read independently of that
+nullspace.
+\end{principle}
+
+\begin{principle}[Laplacian coefficient read]
+\label{prin:innovation-input-thermo-laplacian-coefficient-read}
+The three-dimensional coefficient read gives
+$$
+c_2=-0.0172(94),
+\qquad
+c_3=-0.0003(50).
+$$
+It is compatible with the rational candidate
+$$
+c_2=-\frac1{60},
+\qquad
+c_3=0.
+$$
+The induced two-dimensional diagonal combination is then
+$$
+\beta_{\rm 2d}
+=
+c_3+\frac12c_2
+=
+-\frac1{120},
+$$
+which is consistent with the measured
+$\beta=-0.0089(10)$ of
+\autoref{prin:innovation-input-thermo-diagonal-coefficient-channel}.
+\end{principle}
+
+\begin{principle}[Three-dimensional consistency check]
+\label{prin:innovation-input-thermo-three-dimensional-consistency-check}
+The directional target
+$$
+b=(+0.412,+0.172,-0.127)
+$$
+is compatible with the spherical-family constraints, the two-dimensional
+coefficient row, and the three-dimensional rank read. The system therefore
+does not expose an inconsistency between the Ricci tensor witness and the
+next-order DeWitt tensor ledger.
+\end{principle}
+
+\begin{principle}[Weyl-blind boundary]
+\label{prin:innovation-input-thermo-weyl-blind-boundary}
+The remaining quadratic coefficients, including the combination involving
+$c_4$, $c_{10}$, and $c_6-c_8$, are hidden on the present conformally flat
+three-dimensional family by a Weyl-blind null direction and a weak
+singular value. A complete ten-coefficient read therefore requires a
+background where the Weyl sector is visible, or a nonconformal
+three-dimensional metric with sharper directional-slope data.
 \end{principle}
 
 \section{Residual Discrimination by Grid Scaling}
