@@ -10274,6 +10274,7 @@ import BEDC.Derived.RHRoute.IntervalMatrixPSD.AlgebraNormalize
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.ArchimedeanEntry
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.FormalPoly
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.HornerInterval
+import BEDC.Derived.RHRoute.IntervalMatrixPSD.ArchimedeanRationalCerts
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.KernelApproxCerts
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.PanelError
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.PanelSum
