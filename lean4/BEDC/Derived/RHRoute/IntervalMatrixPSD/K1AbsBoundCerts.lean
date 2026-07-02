@@ -150,4 +150,161 @@ theorem K1_A4_ge_one_zeroPanel :
   exact ratLe_respects (RatEq_refl ratOne)
     (ratAdd_respects (RatEq_symm hhead) (RatEq_refl _)) base
 
+/-! ### `E1_4` zero-panel abs bound (degree 6)
+
+`K1_E1_4 = [0, 0, 0, -1/32, 7/11520, -1/480, 1/5760]`, endpoint `t = 1/8`.  The three leading
+zero coefficients contribute nothing; the four nonzero terms sum to
+`92160 + 224 + 96 + 1 = 92481` over `1509949440 = 30827/503316480`, matching
+`K1_E1_4_abs_bound`. -/
+
+/-- Opaque boundary for `pow` succ-unfolding: proved at the Rat/Nat *variable* level so the
+elaborator never whnf-reduces `ratPow` on the concrete big `qNat` term (block-1 whnf hazard). -/
+private theorem pow_succ_eq (x : Rat) (n : Nat) :
+    RatEq (pow x (Nat.succ n)) (ratMul (pow x n) x) := by
+  change RatEq (ratMul (pow x n) x) (ratMul (pow x n) x)
+  exact RatEq_refl _
+
+/-- `(1/8)^k` folded to a single `qNat`, built up one factor of `1/8` at a time via
+`qNat_mul`, routing each succ-step through `pow_succ_eq` to avoid whnf blowup.  `pow` is
+x-right: `pow x (n+1) = (pow x n) * x`. -/
+private theorem powE1 : RatEq (pow (qNat 1 8) 1) (qNat 1 8) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 0) (ratOne_mul_left (qNat 1 8))
+private theorem powE2 : RatEq (pow (qNat 1 8) 2) (qNat 1 64) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 1)
+    (RatEq_trans _ _ _ (ratMul_respects powE1 (RatEq_refl (qNat 1 8)))
+      (qNat_mul (Nat.succ_pos 7) (Nat.succ_pos 7)))
+private theorem powE3 : RatEq (pow (qNat 1 8) 3) (qNat 1 512) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 2)
+    (RatEq_trans _ _ _ (ratMul_respects powE2 (RatEq_refl (qNat 1 8)))
+      (qNat_mul (Nat.succ_pos 63) (Nat.succ_pos 7)))
+private theorem powE4 : RatEq (pow (qNat 1 8) 4) (qNat 1 4096) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 3)
+    (RatEq_trans _ _ _ (ratMul_respects powE3 (RatEq_refl (qNat 1 8)))
+      (qNat_mul (Nat.succ_pos 511) (Nat.succ_pos 7)))
+private theorem powE5 : RatEq (pow (qNat 1 8) 5) (qNat 1 32768) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 4)
+    (RatEq_trans _ _ _ (ratMul_respects powE4 (RatEq_refl (qNat 1 8)))
+      (qNat_mul (Nat.succ_pos 4095) (Nat.succ_pos 7)))
+private theorem powE6 : RatEq (pow (qNat 1 8) 6) (qNat 1 262144) :=
+  RatEq_trans _ _ _ (pow_succ_eq (qNat 1 8) 5)
+    (RatEq_trans _ _ _ (ratMul_respects powE5 (RatEq_refl (qNat 1 8)))
+      (qNat_mul (Nat.succ_pos 32767) (Nat.succ_pos 7)))
+
+/-- Nonzero endpoint terms of `evalPoly (K1_E1_4.map ratAbs) (1/8)` as single qNats. -/
+private theorem termE3 :
+    RatEq (ratMul (ratAbs (qInt (-1) 32)) (pow (qNat 1 8) 3)) (qNat 1 16384) :=
+  RatEq_trans _ _ _
+    (ratMul_respects
+      (RatEq_trans _ _ _ (ratMagnitude_neg (qNat 1 32)) (ratAbs_qNat 1 32)) powE3)
+    (qNat_mul (Nat.succ_pos 31) (Nat.succ_pos 511))
+private theorem termE4 :
+    RatEq (ratMul (ratAbs (qNat 7 11520)) (pow (qNat 1 8) 4)) (qNat 7 47185920) :=
+  RatEq_trans _ _ _ (ratMul_respects (ratAbs_qNat 7 11520) powE4)
+    (qNat_mul (Nat.succ_pos 11519) (Nat.succ_pos 4095))
+private theorem termE5 :
+    RatEq (ratMul (ratAbs (qInt (-1) 480)) (pow (qNat 1 8) 5)) (qNat 1 15728640) :=
+  RatEq_trans _ _ _
+    (ratMul_respects
+      (RatEq_trans _ _ _ (ratMagnitude_neg (qNat 1 480)) (ratAbs_qNat 1 480)) powE5)
+    (qNat_mul (Nat.succ_pos 479) (Nat.succ_pos 32767))
+private theorem termE6 :
+    RatEq (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6)) (qNat 1 1509949440) :=
+  RatEq_trans _ _ _ (ratMul_respects (ratAbs_qNat 1 5760) powE6)
+    (qNat_mul (Nat.succ_pos 5759) (Nat.succ_pos 262143))
+
+/-- A leading zero-coefficient term vanishes: `|0| * (1/8)^k = 0`. -/
+private theorem termE_zero (k : Nat) :
+    RatEq (ratMul (ratAbs ratZero) (pow (qNat 1 8) k)) ratZero :=
+  RatEq_trans _ _ _
+    (ratMul_respects
+      (ratMagnitude_eq_self_of_nonneg (ratLe_refl ratZero))
+      (RatEq_refl (pow (qNat 1 8) k)))
+    (ratMul_zero_left (pow (qNat 1 8) k))
+
+/-- The endpoint comparison for `E1_4`:
+`evalPoly (K1_E1_4.map ratAbs) (1/8) <= 30827/503316480`. -/
+private theorem endpoint_le_E1_4 :
+    ratLe (evalPoly (List.map ratAbs K1_E1_4) (qNat 1 8)) K1_E1_4_abs_bound := by
+  -- nonzero part: term3 + (term4 + (term5 + (term6 + 0)))
+  have b3 : ratLe (ratMul (ratAbs (qInt (-1) 32)) (pow (qNat 1 8) 3))
+      (qNat 92160 1509949440) :=
+    ratLe_respects (RatEq_symm termE3) (RatEq_refl _)
+      (qNat_crossLe (Nat.succ_pos 16383) (Nat.succ_pos 1509949439) (by decide))
+  have b4 : ratLe (ratMul (ratAbs (qNat 7 11520)) (pow (qNat 1 8) 4))
+      (qNat 224 1509949440) :=
+    ratLe_respects (RatEq_symm termE4) (RatEq_refl _)
+      (qNat_crossLe (Nat.succ_pos 47185919) (Nat.succ_pos 1509949439) (by decide))
+  have b5 : ratLe (ratMul (ratAbs (qInt (-1) 480)) (pow (qNat 1 8) 5))
+      (qNat 96 1509949440) :=
+    ratLe_respects (RatEq_symm termE5) (RatEq_refl _)
+      (qNat_crossLe (Nat.succ_pos 15728639) (Nat.succ_pos 1509949439) (by decide))
+  have b6 : ratLe (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6))
+      (qNat 1 1509949440) :=
+    ratLe_of_RatEq termE6
+  have b6z :
+      ratLe (ratAdd (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6)) ratZero)
+        (qNat 1 1509949440) :=
+    ratLe_respects (RatEq_symm (ratAdd_zero_right _)) (RatEq_refl _) b6
+  have sumBound :
+      ratLe
+        (ratAdd (ratMul (ratAbs (qInt (-1) 32)) (pow (qNat 1 8) 3))
+          (ratAdd (ratMul (ratAbs (qNat 7 11520)) (pow (qNat 1 8) 4))
+            (ratAdd (ratMul (ratAbs (qInt (-1) 480)) (pow (qNat 1 8) 5))
+              (ratAdd (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6)) ratZero))))
+        (ratAdd (qNat 92160 1509949440)
+          (ratAdd (qNat 224 1509949440)
+            (ratAdd (qNat 96 1509949440) (qNat 1 1509949440)))) :=
+    ratAdd_le_add b3 (ratAdd_le_add b4 (ratAdd_le_add b5 b6z))
+  -- fold the /1509949440 bounds: 96+1=97, 224+97=321, 92160+321=92481
+  have rhsFold :
+      RatEq
+        (ratAdd (qNat 92160 1509949440)
+          (ratAdd (qNat 224 1509949440)
+            (ratAdd (qNat 96 1509949440) (qNat 1 1509949440))))
+        (qNat 92481 1509949440) :=
+    RatEq_trans _ _ _
+      (ratAdd_respects (RatEq_refl (qNat 92160 1509949440))
+        (ratAdd_respects (RatEq_refl (qNat 224 1509949440))
+          (qNat_add_same_den (Nat.succ_pos 1509949439))))
+      (RatEq_trans _ _ _
+        (ratAdd_respects (RatEq_refl (qNat 92160 1509949440))
+          (qNat_add_same_den (Nat.succ_pos 1509949439)))
+        (qNat_add_same_den (Nat.succ_pos 1509949439)))
+  have hnonzero :
+      ratLe
+        (ratAdd (ratMul (ratAbs (qInt (-1) 32)) (pow (qNat 1 8) 3))
+          (ratAdd (ratMul (ratAbs (qNat 7 11520)) (pow (qNat 1 8) 4))
+            (ratAdd (ratMul (ratAbs (qInt (-1) 480)) (pow (qNat 1 8) 5))
+              (ratAdd (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6)) ratZero))))
+        (qNat 92481 1509949440) :=
+    ratLe_respects (RatEq_refl _) rhsFold sumBound
+  -- collapse the three leading zero terms
+  have hcollapse :
+      RatEq (evalPoly (List.map ratAbs K1_E1_4) (qNat 1 8))
+        (ratAdd (ratMul (ratAbs (qInt (-1) 32)) (pow (qNat 1 8) 3))
+          (ratAdd (ratMul (ratAbs (qNat 7 11520)) (pow (qNat 1 8) 4))
+            (ratAdd (ratMul (ratAbs (qInt (-1) 480)) (pow (qNat 1 8) 5))
+              (ratAdd (ratMul (ratAbs (qNat 1 5760)) (pow (qNat 1 8) 6)) ratZero)))) :=
+    RatEq_trans _ _ _
+      (ratAdd_respects (termE_zero 0) (RatEq_refl _))
+      (RatEq_trans _ _ _
+        (ratZero_add_left _)
+        (RatEq_trans _ _ _
+          (ratAdd_respects (termE_zero 1) (RatEq_refl _))
+          (RatEq_trans _ _ _
+            (ratZero_add_left _)
+            (RatEq_trans _ _ _
+              (ratAdd_respects (termE_zero 2) (RatEq_refl _))
+              (ratZero_add_left _)))))
+  exact ratLe_respects (RatEq_symm hcollapse) (RatEq_refl _)
+    (ratLe_trans hnonzero
+      (qNat_crossLe (Nat.succ_pos 1509949439) (Nat.succ_pos 503316479) (by decide)))
+
+/-- Zero-panel abs bound for `K1_E1_4`: the concrete content of
+`K1ZeroPanelObligations.E1_4_abs_bound_zeroPanel`, discharged 0-axiom. -/
+theorem K1_E1_4_abs_bound_zeroPanel_cert :
+    PolyAbsBoundSound K1_E1_4 zeroPanelLeft zeroPanelRight K1_E1_4_abs_bound :=
+  polyAbsBoundSound_of_endpoint K1_E1_4 zeroPanelLeft zeroPanelRight K1_E1_4_abs_bound
+    (ratLe_refl ratZero) (qNat_nonneg 1 8) endpoint_le_E1_4
+
 end BEDC.Derived.RHRoute.IntervalMatrixPSD.K1AbsBoundCerts

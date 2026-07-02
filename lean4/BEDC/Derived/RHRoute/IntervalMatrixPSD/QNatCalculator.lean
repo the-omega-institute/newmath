@@ -21,7 +21,26 @@ open BEDC.Derived.RationalUp
 open BEDC.Derived.RationalOrderArithUp
 open BEDC.Real.RatNumKernel
 open BEDC.Real.RatNumLogEnclosure
+open BEDC.Derived.IntUp
 open BEDC.Derived.RHRoute.IntervalMatrixPSD
+
+/-- A located rational whose numerator is zero equals `ratZero` (cross-multiplication:
+`x.num = 0` forces both sides of `RatEq x ratZero` to `intZero`). -/
+private theorem ratNum_zero_to_RatEq_zero {x : Rat}
+    (numZero : IntEq x.num intZero) : RatEq x ratZero := by
+  unfold RatEq
+  change IntEq (IntMul x.num (ratDenInt ratZero)) (IntMul ratZero.num (ratDenInt x))
+  have leftToZero : IntEq (IntMul x.num (ratDenInt ratZero)) intZero :=
+    IntEq_trans (intMul_left_congr (c := x.num) ratDenInt_zero)
+      (IntEq_trans (intMul_one_right x.num) numZero)
+  have rightToZero : IntEq (IntMul ratZero.num (ratDenInt x)) intZero := by
+    change IntEq (IntMul intZero (ratDenInt x)) intZero
+    exact intMul_zero_left (ratDenInt x)
+  exact IntEq_trans leftToZero (IntEq_symm rightToZero)
+
+/-- Left annihilation: `ratZero * x = ratZero`. -/
+theorem ratMul_zero_left (x : Rat) : RatEq (ratMul ratZero x) ratZero :=
+  ratNum_zero_to_RatEq_zero (intMul_zero_left x.num)
 
 /-- The located reciprocal respects `RatEq` on its argument.  `inv x = inv x * (y * inv y)
 = inv x * (x * inv y) = (inv x * x) * inv y = inv y`. -/
