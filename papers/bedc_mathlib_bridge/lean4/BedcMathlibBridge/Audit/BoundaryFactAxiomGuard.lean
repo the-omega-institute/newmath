@@ -7,8 +7,10 @@ import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
+import Mathlib.Data.Nat.Totient
 import Mathlib.Combinatorics.Enumerative.Bell
 import Mathlib.Data.Real.Basic
+import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
@@ -105,6 +107,17 @@ axiom-bearing bridge theorem.
 -/
 noncomputable def auditNatBellBoundary : Nat → Nat :=
   Nat.bell
+
+/-!
+Audit-only touchpoints for mathlib's finite number-theoretic functions whose
+carrier definitions route through `Finset`, `Finsupp`, or arithmetic-function
+big-operator layers.
+-/
+noncomputable def auditNatTotientBoundary : Nat → Nat :=
+  Nat.totient
+
+noncomputable def auditNatDivisorsBoundary : Nat → Finset Nat :=
+  Nat.divisors
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
