@@ -44,6 +44,11 @@ KEYWORDS = (
 )
 
 NAT_REC_RE = re.compile(r"def\s+\w+\s*(?:\([^)]*\)\s*)*:\s*Nat\s*(?:->|→)\s*")
+# Same shape but capturing the declaration name, so consumers (the bridge
+# daemon) get the concrete BEDC.Derived.<Carrier>.<fn> to bridge, not just the
+# module. Prefer names ending in a value-word (Number/Count/Value/fn/...) which
+# are almost always the closed sequence a mathlib facade corresponds to.
+NAT_REC_NAME_RE = re.compile(r"def\s+(\w+)\s*(?:\([^)]*\)\s*)*:\s*Nat\s*(?:->|→)")
 # A recurrence / closed-form theorem raises 0-axiom-bridge confidence.
 RECUR_THM_RE = re.compile(
     r"\b(?:theorem|lemma)\s+\w*(?:recurrence|succ|closed|closedForm|_eq_|zero|one)\b",
@@ -125,9 +130,21 @@ def scan(root: Path):
         nat_defs = len(NAT_REC_RE.findall(text))
         has_recur = bool(RECUR_THM_RE.search(text))
         priority = (2 if has_recur else 0) + min(nat_defs, 3)
+        # Concrete bridgeable declarations. Rank value-word-suffixed names first
+        # (Number/Count/Value/Term/fn) — those are the closed forms a mathlib
+        # facade lines up with; a bare helper like `step` rarely bridges.
+        names = NAT_REC_NAME_RE.findall(text)
+        seen: set[str] = set()
+        ordered = [n for n in names if not (n in seen or seen.add(n))]
+        value_words = ("Number", "Count", "Value", "Term", "fn", "Fn")
+        ordered.sort(key=lambda n: (0 if n.endswith(value_words) else 1))
+        namespace = f"BEDC.Derived.{name}"
+        bridge_decls = [f"{namespace}.{n}" for n in ordered[:4]]
         worklist.append(
             {
                 "carrier": name,
+                "namespace": namespace,
+                "bridge_decls": bridge_decls,
                 "file": str(f.relative_to(root)),
                 "nat_recursion_defs": nat_defs,
                 "has_recurrence_or_closedform_theorem": has_recur,
