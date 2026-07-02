@@ -6900,6 +6900,7 @@ import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
 import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
+import BEDC.Derived.HaltingTraceClassifierUp.TraceSoundness
 import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
@@ -12812,6 +12813,7 @@ import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteAuditUp
+import BEDC.Derived.SubjectReductionRouteAuditUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteAuditUp.SocketHandoff
 import BEDC.Derived.SubjectReductionRouteAuditUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ConfluenceNonescape
@@ -12968,6 +12970,7 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
 import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
