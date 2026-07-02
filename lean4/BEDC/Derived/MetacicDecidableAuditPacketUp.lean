@@ -131,4 +131,32 @@ theorem MetacicDecidableAuditPacket_nonescape
             (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
               boundary obstruction transport replay provenance localName)⟩
 
+theorem MetacicDecidableAuditPacket_obligation_closure_surface
+    (x : MetacicDecidableAuditPacketUp) :
+    ∃ checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+        provenance localName checkerWindow normalWindow structuralWindow namedWindow : BHist,
+      x =
+          MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+            boundary obstruction transport replay provenance localName ∧
+        Cont checker sameTerm checkerWindow ∧
+          Cont boundedNormal boundary normalWindow ∧
+            Cont transport replay structuralWindow ∧
+              Cont provenance localName namedWindow ∧
+                metacicDecidableAuditPacketFromEventFlow
+                    (metacicDecidableAuditPacketToEventFlow x) =
+                  some x ∧
+                  metacicDecidableAuditPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+      provenance localName =>
+      exact
+        ⟨checker, sameTerm, typing, gallery, boundedNormal, boundary, obstruction, transport,
+          replay, provenance, localName, append checker sameTerm, append boundedNormal boundary,
+          append transport replay, append provenance localName, rfl, rfl, rfl, rfl, rfl,
+          MetacicDecidableAuditPacketTasteGate_single_carrier_alignment.right.left
+            (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+              boundary obstruction transport replay provenance localName),
+          rfl⟩
+
 end BEDC.Derived.MetacicDecidableAuditPacketUp

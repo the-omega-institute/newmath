@@ -136,8 +136,22 @@ def scan(root: Path):
         names = NAT_REC_NAME_RE.findall(text)
         seen: set[str] = set()
         ordered = [n for n in names if not (n in seen or seen.add(n))]
+        # Rank the PRIMARY closed sequence/count function first, demoting
+        # internal helpers (prefix-sum / fuel-bounded / step / layer / raw
+        # accumulators) that never line up with a mathlib facade. A worker fed a
+        # helper as its anchor either bridges nothing or the wrong thing.
         value_words = ("Number", "Count", "Value", "Term", "fn", "Fn")
-        ordered.sort(key=lambda n: (0 if n.endswith(value_words) else 1))
+        helper_words = (
+            "Prefix", "Step", "Fuel", "Layer", "Row", "Raw", "raw", "Seq",
+            "Aux", "Acc", "Helper", "List", "Tail", "Drop", "Fold", "Loop",
+        )
+
+        def rank(n: str) -> tuple[int, int]:
+            is_helper = 1 if n.endswith(helper_words) else 0
+            is_value = 0 if n.endswith(value_words) else 1
+            return (is_helper, is_value)
+
+        ordered.sort(key=rank)
         namespace = f"BEDC.Derived.{name}"
         bridge_decls = [f"{namespace}.{n}" for n in ordered[:4]]
         worklist.append(
