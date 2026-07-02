@@ -1,0 +1,583 @@
+\chapter{Innovation Input-Flow Geometry Boundary}
+\label{ch:visions-innovation-input-geometry-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-soldering-metric-interface} identifies the
+orthogonal innovation one-form as the first genuine coupling row between a
+ledger field and a metric-facing read. This chapter records the adjacent
+boundary: the positive Hilbert Gram row, the tick-reflected signature row,
+and the reflection-positive input-flow row are distinct certificates. They
+may be compatible, but none may be substituted for another without an
+explicit bridge.
+
+\section{Discrete Ledger Source}
+\label{sec:innovation-input-discrete-ledger-source}
+
+\begin{definition}[One-step ledger comparison]
+\label{def:innovation-input-one-step-ledger-comparison}
+A one-step ledger comparison consists of Hilbert rows
+$\mathcal H_n$, $\mathcal H_{n+1}$, ledger subspaces
+$\mathcal L_n\subseteq\mathcal H_n$, $\mathcal L_{n+1}\subseteq
+\mathcal H_{n+1}$, a section row $B_n\in\mathcal H_n$, and an isometric
+reshaping row
+$$
+\Phi_{n+1,n}:\mathcal H_n\to\mathcal H_{n+1}.
+$$
+Let $P_n^\uparrow$ be the orthogonal projection onto
+$\Phi_{n+1,n}(\mathcal L_n)$. The one-step innovation residual is
+$$
+\eta_{n+1}:=B_{n+1}-P_n^\uparrow B_{n+1}.
+$$
+\end{definition}
+
+\begin{theorem}[Orthogonal admission law]
+\label{thm:innovation-input-orthogonal-admission-law}
+For every one-step ledger comparison,
+$$
+\eta_{n+1}\perp\Phi_{n+1,n}(\mathcal L_n)
+$$
+and
+$$
+\|B_{n+1}\|^2
+=
+\|P_n^\uparrow B_{n+1}\|^2+\|\eta_{n+1}\|^2.
+$$
+If $B_n\in\mathcal L_n$ and
+$P_n^\uparrow B_{n+1}=\Phi_{n+1,n}B_n$, then
+$$
+\|B_{n+1}\|^2
+=
+\|B_n\|^2+\|\eta_{n+1}\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The residual $B-PB$ of an orthogonal projection is orthogonal to the
+range of $P$. The norm identity is the Pythagorean identity for the
+orthogonal decomposition $B_{n+1}=P_n^\uparrow B_{n+1}+\eta_{n+1}$.
+The final statement uses the isometry of $\Phi_{n+1,n}$.
+\end{proof}
+
+\begin{definition}[Logarithmic tick read]
+\label{def:innovation-input-logarithmic-tick-read}
+For a ledger comparison with $B_n\ne0$, the logarithmic tick read is
+$$
+T_n:=\log\|B_n\|^2.
+$$
+Under the compatibility row of
+\autoref{thm:innovation-input-orthogonal-admission-law},
+$$
+T_{n+1}-T_n
+=
+\log\left(1+\frac{\|\eta_{n+1}\|^2}{\|B_n\|^2}\right).
+$$
+\end{definition}
+
+\begin{theorem}[Continuous innovation is the first-order residual]
+\label{thm:innovation-input-continuous-first-order-residual}
+Let $\mathcal H\to M$ be a Hilbert bundle with a metric connection
+$D_\Phi$, let $\mathcal L\subseteq\mathcal H$ be a closed ledger
+subbundle, and let $P_x$ and $Q_x=I-P_x$ be the fibrewise orthogonal
+projections. Transport $B(x+\varepsilon u)$ back to $\mathcal H_x$ along
+$D_\Phi$. If $B_x\in\mathcal L_x$, then
+$$
+\lim_{\varepsilon\to0}
+\varepsilon^{-1}Q_xB(x+\varepsilon u)
+=
+Q_x(D_{\Phi,u}B)_x.
+$$
+If $B_x\notin\mathcal L_x$, the unscaled term $Q_xB_x$ remains visible,
+so the scaled residual does not define a linear tangent read.
+\end{theorem}
+
+\begin{proof}
+The connection gives the first-order expansion
+$$
+B(x+\varepsilon u)
+=
+B_x+\varepsilon(D_{\Phi,u}B)_x+O(\varepsilon^2)
+$$
+after transport to $\mathcal H_x$. Applying $Q_x$ gives
+$$
+Q_xB(x+\varepsilon u)
+=
+Q_xB_x+\varepsilon Q_x(D_{\Phi,u}B)_x+O(\varepsilon^2).
+$$
+The condition $B_x\in\mathcal L_x$ is exactly $Q_xB_x=0$.
+\end{proof}
+
+\begin{definition}[Quantized refinement edge]
+\label{def:innovation-input-quantized-refinement-edge}
+A quantized refinement edge has a finite cell set $C_n$, a refinement
+factor $N\ge2$, an isometric split
+$$
+e_c\longmapsto N^{-1/2}\sum_{a=0}^{N-1}e_{ca},
+$$
+and a fixed modulus $\varepsilon>0$ such that each displayed cell
+coefficient of $B_n$ and $B_{n+1}$ has modulus $\varepsilon$.
+\end{definition}
+
+\begin{theorem}[Refinement residual rate]
+\label{thm:innovation-input-refinement-residual-rate}
+For a quantized refinement edge satisfying the compatibility row
+$P_n^\uparrow B_{n+1}=\Phi_{n+1,n}B_n$,
+$$
+\frac{\|\eta_{n+1}\|^2}{\|B_n\|^2}=N-1,
+\qquad
+T_{n+1}-T_n=\log N.
+$$
+\end{theorem}
+
+\begin{proof}
+If $|C_n|=A_n$, then
+$$
+\|B_n\|^2=\varepsilon^2A_n,
+\qquad
+\|B_{n+1}\|^2=\varepsilon^2NA_n.
+$$
+\autoref{thm:innovation-input-orthogonal-admission-law} gives
+$\|\eta_{n+1}\|^2=\varepsilon^2(N-1)A_n$. Dividing by $\|B_n\|^2$ gives
+the residual rate, and the logarithmic identity gives the tick length.
+\end{proof}
+
+\section{Positive Innovation Gram Row}
+\label{sec:innovation-input-positive-gram-row}
+
+\begin{definition}[Innovation Gram tensor]
+\label{def:innovation-input-gram-tensor}
+Let $\Theta=Q_{\mathcal L}D_{\Phi}B$ be the innovation one-form of
+\autoref{def:innovation-soldering-one-form}. Its positive innovation Gram
+tensor is
+$$
+\chi^\eta_x(u,v)
+:=
+\langle \Theta_x(u),\Theta_x(v)\rangle
+$$
+for $u,v\in T_xM$. Its real and imaginary reads are
+$$
+h^\eta_x(u,v):=\operatorname{Re}\chi^\eta_x(u,v),
+\qquad
+\Omega^\eta_x(u,v):=2\operatorname{Im}\chi^\eta_x(u,v).
+$$
+\end{definition}
+
+\begin{theorem}[Positive Gram constraint]
+\label{thm:innovation-input-positive-gram-constraint}
+For any finite family $u_1,\ldots,u_n\in T_xM$, the matrix
+$$
+\chi^\eta_{ij}:=\chi^\eta_x(u_i,u_j)
+$$
+is Hermitian positive semidefinite. Consequently $h^\eta$ is symmetric
+positive semidefinite, $\Omega^\eta$ is antisymmetric, and every pair
+$u,v\in T_xM$ satisfies
+$$
+h^\eta(u,u)h^\eta(v,v)
+\ge
+h^\eta(u,v)^2+\frac14\Omega^\eta(u,v)^2.
+$$
+\end{theorem}
+
+\begin{proof}
+For coefficients $c_i\in\mathbb C$,
+$$
+\sum_{i,j}\overline{c_i}\chi^\eta_{ij}c_j
+=
+\left\|\sum_i c_i\Theta_x(u_i)\right\|^2
+\ge0.
+$$
+This proves positive semidefiniteness and Hermitian symmetry. The real and
+imaginary symmetry rows follow by taking real and imaginary parts. The
+displayed inequality is the nonnegativity of the $2\times2$ principal minor
+associated to $u$ and $v$.
+\end{proof}
+
+\begin{principle}[Positive size is not Lorentz signature]
+\label{prin:innovation-input-positive-size-not-lorentz}
+The row $\chi^\eta$ gives a Hilbert-size certificate. Its real part is
+nonnegative by construction. A Lorentz-facing row therefore requires an
+additional signature certificate, such as the displayed bilinear form
+$G$ of \autoref{def:innovation-soldering-metric-row}, the tick reflection
+$J_T$ of \autoref{def:innovation-soldering-tick-residual-line-reflection},
+or a reflection-positive input-flow reconstruction as in
+\autoref{sec:innovation-input-reflection-positive-flow}. The positive Gram
+row alone cannot carry the time-side sign.
+\end{principle}
+
+\section{Phase Packets and Curvature Budget}
+\label{sec:innovation-input-phase-packets-curvature-budget}
+
+\begin{definition}[Constant-modulus phase packet]
+\label{def:innovation-input-constant-modulus-phase-packet}
+A constant-modulus phase packet over a local coordinate window consists of
+orthonormal component rows $e_a$, positive weights $w_a$ with
+$\sum_a w_a=1$, fixed covectors $\kappa_a$, and the ray-ledger field
+$$
+B(z)=\sum_a c_a e^{i\kappa_a\cdot z}e_a,
+\qquad
+|c_a|^2=w_a,
+$$
+with ledger subbundle $\mathbb C B$.
+\end{definition}
+
+\begin{theorem}[Constant-modulus packets give covariance geometry]
+\label{thm:innovation-input-constant-modulus-covariance}
+For a constant-modulus phase packet,
+$$
+\chi^\eta_{\mu\nu}
+=
+\sum_a w_a\kappa_{a\mu}\kappa_{a\nu}
+-
+\bar\kappa_\mu\bar\kappa_\nu,
+\qquad
+\bar\kappa_\mu:=\sum_a w_a\kappa_{a\mu}.
+$$
+Thus $h^\eta$ is the covariance matrix of the displayed covectors and
+$\Omega^\eta=0$.
+\end{theorem}
+
+\begin{proof}
+The derivative of the $a$th component is
+$i\kappa_{a\mu}c_ae^{i\kappa_a\cdot z}$. Hence
+$$
+\langle B,\partial_\nu B\rangle=i\bar\kappa_\nu,
+\qquad
+\langle\partial_\mu B,\partial_\nu B\rangle
+=
+\sum_a w_a\kappa_{a\mu}\kappa_{a\nu}.
+$$
+Projecting away the ray $\mathbb C B$ subtracts
+$\bar\kappa_\mu\bar\kappa_\nu$. The result is real, so the imaginary
+curvature read is zero.
+\end{proof}
+
+\begin{corollary}[Constant-modulus rank budget]
+\label{cor:innovation-input-constant-modulus-rank-budget}
+If a constant-modulus phase packet has $r$ displayed components, then
+$$
+\operatorname{rank}h^\eta\le r-1.
+$$
+A nondegenerate $d$-dimensional covariance read of this kind therefore
+requires $r\ge d+1$.
+\end{corollary}
+
+\begin{proof}
+The centered covectors $\kappa_a-\bar\kappa$ satisfy
+$$
+\sum_a w_a(\kappa_a-\bar\kappa)=0.
+$$
+They span at most an $(r-1)$-dimensional real space, and the covariance
+matrix is their weighted Gram matrix.
+\end{proof}
+
+\begin{example}[Simplex covariance witness]
+\label{ex:innovation-input-simplex-covariance-witness}
+Let $r=d+1$ and choose $\kappa_1,\ldots,\kappa_{d+1}\in\mathbb R^d$ as
+the vertices of a regular simplex centered at $0$, with equal weights.
+Then
+$$
+\sum_a w_a\kappa_a=0
+$$
+and
+$$
+\sum_a w_a\kappa_a\kappa_a^{\mathsf T}
+=
+cI_d
+$$
+for some $c>0$. Hence the constant-modulus covariance read is
+nondegenerate. The rank budget of
+\autoref{cor:innovation-input-constant-modulus-rank-budget} is therefore
+sharp for this packet class.
+\end{example}
+
+\begin{definition}[Variable-weight phase packet]
+\label{def:innovation-input-variable-weight-phase-packet}
+A variable-weight phase packet keeps the fixed covectors $\kappa_a$ but
+allows positive smooth weights $w_a(z)$ with $\sum_a w_a(z)=1$:
+$$
+B(z)=\sum_a \sqrt{w_a(z)}e^{i\kappa_a\cdot z}e_a.
+$$
+\end{definition}
+
+\begin{theorem}[Variable weights split metric and curvature]
+\label{thm:innovation-input-variable-weight-split}
+For a variable-weight phase packet,
+$$
+h^\eta_{\mu\nu}
+=
+\frac14\sum_a
+\frac{\partial_\mu w_a\,\partial_\nu w_a}{w_a}
++
+\sum_a w_a(\kappa_{a\mu}-\bar\kappa_\mu)
+(\kappa_{a\nu}-\bar\kappa_\nu),
+$$
+and
+$$
+\Omega^\eta_{\mu\nu}
+=
+\partial_\mu\bar\kappa_\nu-\partial_\nu\bar\kappa_\mu,
+\qquad
+\bar\kappa_\mu(z):=\sum_a w_a(z)\kappa_{a\mu}.
+$$
+Thus the real row splits into a Fisher-information row and a covariance
+row, while the phase-curvature row is the exterior derivative of the mean
+covector read.
+\end{theorem}
+
+\begin{proof}
+The $a$th component derivative is
+$$
+\partial_\mu B_a
+=
+\left(
+\frac{\partial_\mu w_a}{2\sqrt{w_a}}
++i\kappa_{a\mu}\sqrt{w_a}
+\right)e^{i\kappa_a\cdot z}.
+$$
+Since $\sum_a w_a=1$, one has
+$$
+\langle B,\partial_\nu B\rangle=i\bar\kappa_\nu.
+$$
+Expanding $\langle\partial_\mu B,\partial_\nu B\rangle$ and subtracting
+the ray component gives the displayed real part. The imaginary part is
+$$
+\frac12\sum_a
+\left(
+\partial_\mu w_a\,\kappa_{a\nu}
+-
+\partial_\nu w_a\,\kappa_{a\mu}
+\right),
+$$
+whose double is
+$\partial_\mu\bar\kappa_\nu-\partial_\nu\bar\kappa_\mu$.
+\end{proof}
+
+\begin{principle}[Curvature requires the correct packet class]
+\label{prin:innovation-input-curvature-requires-packet-class}
+Constant-modulus phase packets carry covariance geometry but no phase
+curvature. Variable-weight packets can carry an exact mean-covector
+curvature row. A nontrivial topological phase read therefore cannot be
+inferred from a bare constant-modulus covariance packet; it requires the
+displayed packet class to carry the relevant amplitude, winding, or
+holonomy data.
+\end{principle}
+
+\begin{example}[Two-component coherent surface]
+\label{ex:innovation-input-two-component-coherent-surface}
+On a coordinate window with variables $(\vartheta,\varphi)$, consider the
+ray-ledger field
+$$
+B(\vartheta,\varphi)
+=
+\cos\frac{\vartheta}{2}\,e_0
++
+e^{i\varphi}\sin\frac{\vartheta}{2}\,e_1.
+$$
+For the ray ledger $\mathbb C B$, direct computation gives
+$$
+h^\eta
+=
+\frac14\,d\vartheta^2
++
+\frac14\sin^2\vartheta\,d\varphi^2
+$$
+and
+$$
+\Omega^\eta
+=
+\frac12\sin\vartheta\,d\vartheta\wedge d\varphi.
+$$
+Thus
+$$
+\det h^\eta
+=
+\frac14(\Omega^\eta_{\vartheta\varphi})^2
+$$
+on the regular part. A two-component packet can therefore carry a
+nondegenerate two-dimensional metric read with phase curvature when the
+packet class contains the relevant variable amplitude and winding data.
+\end{example}
+
+\begin{principle}[Rank budgets are packet-relative]
+\label{prin:innovation-input-rank-budgets-packet-relative}
+The simplex bound $r\ge d+1$ belongs to constant-modulus covariance
+packets, where the real centered covectors are the only rank resource.
+The coherent-surface example shows that the same numerical bound is not a
+general law for all ray-ledger packets. The invariant law that survives
+all packet choices is the positive Gram constraint of
+\autoref{thm:innovation-input-positive-gram-constraint}; sharper rank
+budgets must state their packet class.
+\end{principle}
+
+\section{Reflection-Positive Input Flow}
+\label{sec:innovation-input-reflection-positive-flow}
+
+\begin{definition}[Reversible finite input flow]
+\label{def:innovation-input-reversible-finite-flow}
+A reversible finite input flow consists of a finite state set $E$, a
+strictly positive stationary distribution $\pi$, and a transition kernel
+$p(x,y)$ satisfying detailed balance:
+$$
+\pi(x)p(x,y)=\pi(y)p(y,x).
+$$
+Let $P$ be the induced self-adjoint operator on $L^2(\pi)$.
+\end{definition}
+
+\begin{definition}[Reflection-positive input row]
+\label{def:innovation-input-reflection-positive-row}
+Let $(d_n)_{n\in\mathbb Z}$ be the stationary two-sided chain of
+\autoref{def:innovation-input-reversible-finite-flow}. Let
+$\mathcal K_+$ be the future algebra generated by $d_1,d_2,\ldots$, and
+let $\theta$ be the reflection sending $d_n$ to $d_{1-n}$. The input row is
+reflection-positive when
+$$
+\langle \theta F,F\rangle\ge0
+$$
+for every $F\in\mathcal K_+$.
+\end{definition}
+
+\begin{theorem}[Reflection positivity is transition positivity]
+\label{thm:innovation-input-rp-transition-positivity}
+For $F,G\in\mathcal K_+$ define
+$$
+h_F(x):=\mathbb E[F\mid d_1=x].
+$$
+Then
+$$
+\langle\theta F,G\rangle
+=
+\langle h_F,P h_G\rangle_{L^2(\pi)}.
+$$
+Since every $h\in L^2(\pi)$ is $h_F$ for $F=h(d_1)$, reflection positivity
+holds exactly when $P$ is positive semidefinite.
+\end{theorem}
+
+\begin{proof}
+Given $d_0$, the past and future of a Markov chain are conditionally
+independent. Detailed balance identifies the conditional law of the
+reflected future with the conditional law read from the boundary state.
+Thus
+$$
+\mathbb E[\overline{\theta F}G]
+=
+\sum_x\pi(x)\overline{h_F(x)}(P h_G)(x).
+$$
+The final equivalence follows by taking $F=h(d_1)$.
+\end{proof}
+
+\begin{example}[Two-state reflection boundary]
+\label{ex:innovation-input-two-state-reflection-boundary}
+Let $E=\{0,1\}$ with stationary distribution $(1/2,1/2)$ and transition
+matrix
+$$
+P=
+\begin{pmatrix}
+1-q&q\\
+q&1-q
+\end{pmatrix}.
+$$
+The eigenvalues are $1$ and $1-2q$. Hence the input row is
+reflection-positive exactly when $q\le1/2$. For $q>1/2$, the function
+$f(0)=1$, $f(1)=-1$ satisfies
+$$
+\langle f,Pf\rangle_{L^2(\pi)}=(1-2q)\|f\|^2_{L^2(\pi)}<0,
+$$
+so the reflected inner product is negative on a future observable.
+\end{example}
+
+\begin{corollary}[Positive Hamiltonian row]
+\label{cor:innovation-input-positive-hamiltonian-row}
+If $0\preceq P\preceq I$ and the tick length is $\Delta T>0$, then the
+nonzero spectral part carries
+$$
+H:=-\frac1{\Delta T}\log P\succeq0,
+\qquad
+e^{-\Delta T H}=P.
+$$
+The unitary row $e^{-itH}$ is then obtained by spectral calculus. If $P$
+has a negative spectral value, no self-adjoint $H$ can satisfy
+$e^{-\Delta T H}=P$ on that spectral part.
+\end{corollary}
+
+\begin{proof}
+The logarithm of a positive contraction is a nonpositive self-adjoint
+operator on the nonzero spectral subspace, so $H$ is positive and the
+exponential identity follows. Conversely, the exponential of a
+self-adjoint operator has positive spectrum.
+\end{proof}
+
+\begin{example}[Nearest-neighbour diffusion witness]
+\label{ex:innovation-input-nearest-neighbour-diffusion-witness}
+On a one-dimensional periodic lattice with spacing $\ell$, take the
+translation-invariant transition row with jumps $-\ell$, $0$, and
+$+\ell$ of probabilities $q$, $1-2q$, and $q$. Its Fourier multiplier is
+$$
+\widehat P(k)=1-2q(1-\cos(k\ell)).
+$$
+For $q\le1/4$, this multiplier is nonnegative for every $k$, so the
+reflection-positive row is present. With tick length $\Delta T$, the
+Hamiltonian multiplier satisfies
+$$
+H(k)
+=
+-\Delta T^{-1}\log\widehat P(k)
+=
+\frac{q\ell^2}{\Delta T}k^2+O(k^4\ell^4)
+$$
+near $k=0$. The low-momentum inverse-metric read is therefore the
+per-tick displacement variance divided by $\Delta T$:
+$$
+g^{xx}=\frac{2q\ell^2}{\Delta T}.
+$$
+\end{example}
+
+\begin{principle}[Two metric engines]
+\label{prin:innovation-input-two-metric-engines}
+The covariance read $h^\eta$ and the diffusion read $g^{xx}$ arise from
+different rows. The former is a kinematic Gram construction from
+$\Theta=Q_{\mathcal L}D_\Phi B$; the latter is a low-momentum read of
+$-\log P$ from an input-flow transition operator. Identifying them is an
+additional bridge obligation, not a consequence of either row alone.
+\end{principle}
+
+\section{Interface Separation}
+\label{sec:innovation-input-interface-separation}
+
+\begin{principle}[Three non-interchangeable certificates]
+\label{prin:innovation-input-three-certificates}
+The innovation programme carries three separate certificates:
+$$
+\chi^\eta(u,v)=\langle\Theta(u),\Theta(v)\rangle,
+$$
+$$
+g^T(u,v)=\operatorname{Re}\langle\Theta(u),J_T\Theta(v)\rangle,
+$$
+and
+$$
+P\succeq0,\qquad H=-\Delta T^{-1}\log P.
+$$
+The first is the positive Hilbert Gram certificate, the second is the
+pointwise tick-reflected signature certificate, and the third is the
+input-flow certificate for reflection positivity and Hamiltonian
+reconstruction. A physical bridge must state which certificate it uses and
+which comparison rows identify them.
+\end{principle}
+
+\begin{principle}[Prime-register data must reach a visible row]
+\label{prin:innovation-input-prime-register-visible-row}
+Prime-register or solenoid data affect the geometry-facing interface only
+when they enter $B$, $D_{\Phi}$, $Q_{\mathcal L}$, the scale row used for
+$\Delta T$, or the transition operator $P$. A prime fibre that remains
+visible only through a projected phase is kernel-blind at the metric level,
+as in
+\autoref{prin:innovation-soldering-solenoid-coupling-enters-innovation}.
+\end{principle}
+
+\begin{principle}[Geometry boundary]
+\label{prin:innovation-input-geometry-boundary}
+The boundary recorded here is a translation interface from ledger rows to
+metric-facing and dynamics-facing certificates. It does not assert field
+equations, empirical matter coupling, a completed quantum-gravity model, or
+a proof that the tick-reflected and reflection-positive routes determine the
+same propagation cone. Those are bridge obligations, not consequences of the
+positive innovation Gram row.
+\end{principle}
