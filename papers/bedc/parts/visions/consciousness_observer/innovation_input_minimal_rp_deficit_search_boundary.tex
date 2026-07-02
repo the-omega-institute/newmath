@@ -109,7 +109,8 @@ optimization is part of the search object.
 \begin{definition}[Neutral future block set]
 \label{def:innovation-input-neutral-future-block-set}
 For a window length $L\ge1$ and exponent bound $R\ge1$, let
-$\mathcal B_{L,R}^{\mathrm{neu}}$ be the set of future signed blocks
+$\mathcal B_{L,R}^{\mathrm{neu}}$ be the set of anchored future signed
+blocks
 $$
 \alpha=\sum_{j=1}^L e_j\delta_j
 $$
@@ -121,7 +122,8 @@ and
 $$
 \sum_{j=1}^L e_j=0.
 $$
-The zero block is included.
+The zero block is included. The sites $1,\ldots,L$ remain anchored until
+the reflected difference in the RP matrix has been formed.
 \end{definition}
 
 \begin{definition}[Neutral finite-window RP matrix]
@@ -139,8 +141,10 @@ M_{\mathcal B}(v)_{ij}
 \Gamma(\alpha_j-\theta\alpha_i).
 $$
 The reflection is the one from
-\autoref{def:innovation-input-discrete-reflection}. The row passes the
-window $\mathcal B$ when $M_{\mathcal B}(v)\succeq0$.
+\autoref{def:innovation-input-discrete-reflection}; the anchoring
+discipline is the one in
+\autoref{def:innovation-input-finite-window-rp-matrix}. The row passes
+the window $\mathcal B$ when $M_{\mathcal B}(v)\succeq0$.
 \end{definition}
 
 \begin{definition}[Hermitian defect and RP deficit]

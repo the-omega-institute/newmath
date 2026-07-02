@@ -35,12 +35,15 @@ $$
 
 \begin{definition}[Future monomial]
 \label{def:innovation-input-future-monomial}
-A future signed block is a block of the form
+A future signed block in a window of length $L$ is an anchored block of
+the form
 $$
 \alpha=\sum_{j=1}^L e_j\delta_j,
 \qquad
 e_j\in\mathbb Z.
 $$
+The sites $1,\ldots,L$ are the actual future positions relative to the
+reflection plane. The block is not translated before reflection.
 It determines the future monomial
 $$
 U_\alpha(n):=\prod_{j=1}^L u_{n+j}^{e_j}.
@@ -50,7 +53,7 @@ When $Q(\alpha)=\sum_j e_j=0$, the monomial is neutral.
 
 \begin{definition}[Finite-window RP matrix]
 \label{def:innovation-input-finite-window-rp-matrix}
-Given future signed blocks $\alpha_0,\ldots,\alpha_m$, define
+Given anchored future signed blocks $\alpha_0,\ldots,\alpha_m$, define
 $$
 M_{ij}
 :=
@@ -58,14 +61,38 @@ M_{ij}
 :=
 \Gamma(\alpha_j-\theta\alpha_i).
 $$
-If negative sites occur in $\alpha_j-\theta\alpha_i$, translate all sites
-by a common integer so that they are nonnegative, using
+The order of operations is fixed: keep the future blocks at their anchored
+sites, reflect $\alpha_i$, form $\alpha_j-\theta\alpha_i$, and only then
+translate all sites by a common integer if negative sites occur, using
 \autoref{def:innovation-input-block-translation}. The window passes the
 reflection-positive check when
 $$
 M\succeq0.
 $$
 \end{definition}
+
+\begin{proposition}[Translation and reflection anti-commute]
+\label{prop:innovation-input-translation-reflection-anticommute}
+For $T_s\delta_j:=\delta_{j+s}$,
+$$
+\theta T_s=T_{-s}\theta.
+$$
+Thus finite-window RP entries depend on the anchored placement of the
+future blocks before reflection, even though $\Gamma$ itself is invariant
+under common translation after the reflected difference is formed.
+\end{proposition}
+
+\begin{proof}
+On atoms,
+$$
+\theta T_s\delta_j=\theta\delta_{j+s}=\delta_{1-j-s},
+$$
+while
+$$
+T_{-s}\theta\delta_j=T_{-s}\delta_{1-j}=\delta_{1-j-s}.
+$$
+The identity follows by linearity.
+\end{proof}
 
 \begin{definition}[Charged and neutral RP windows]
 \label{def:innovation-input-charged-neutral-rp}
