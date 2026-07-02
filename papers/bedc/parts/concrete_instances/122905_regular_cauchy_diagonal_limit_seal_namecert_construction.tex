@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalLimitSealUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-limit-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyDiagonalLimitSealUp$ packet records the finite route by which the diagonal representative of \autoref{def:real-completeness-diagonal-limit} becomes a Real-facing seal. It sits after the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real packet of \autoref{ch:concrete-instances-real-namecert}. The packet names the diagonal representative, its window choice, its regularity and tail comparison data, and its Real seal; it is not a selected limit, quotient-stream equality, countable-choice modulus, or ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy diagonal-limit seal carrier]
+\label{def:regular-cauchy-diagonal-limit-seal-carrier}
+A $\RegularCauchyDiagonalLimitSealUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{DiagSeal}(Q,M,W,R,D,L,S,H,C,P,N)
+$$
+with the following rows.
+\begin{enumerate}
+\item $Q$ is the precision-request row naming the Real-completion consumer and the requested tolerance.
+\item $M$ is the displayed regular Cauchy modulus row used to choose the diagonal stage for that request.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing the inspected diagonal and tail windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational observations obtained from $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic budget for diagonal regularity and tail comparison.
+\item $L$ is the diagonal representative row, storing the finite readback of the representative described in \autoref{def:real-completeness-diagonal-limit}.
+\item $S$ is the terminal $\RealUp$ seal row, reached only after $Q,M,W,R,D,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for precision requests, moduli, stream windows, regular rational readbacks, dyadic budgets, diagonal representatives, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the precision request through $M,W,R,D,L$ to the Real seal row $S$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDiagonalLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalLimitSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,M,W,R,D,L,S,H,C,P,N$. It has no coordinate for a hidden limit selection, quotient equality of streams, countable-choice modulus, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy diagonal-limit seal NameCert obligations]
+\label{thm:regular-cauchy-diagonal-limit-seal-namecert-obligations}
+For every accepted $\RegularCauchyDiagonalLimitSealUp$ carrier $\mathsf{DiagSeal}(Q,M,W,R,D,L,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchyDiagonalLimitSealUp}$ surface consists exactly of precision-request admission through $Q$, regular Cauchy modulus exposure through $M$, finite $\StreamNameUp$ window inspection through $W$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ tolerance budgeting through $D$, diagonal representative exposure through $L$, terminal $\RealUp$ seal handoff through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-limit-seal-carrier}. The rows $Q,M,W,R,D,L,S,H,C,P,N$ are the complete local surface.
+
+The request $Q$ determines the tolerance being answered. The modulus row $M$ chooses the diagonal stage, the finite window row $W$ displays what is inspected, and the readback and dyadic rows $R,D$ record the regular rational and tolerance data used in the diagonal estimate.
+
+The diagonal representative row $L$ is downstream of those visible rows, and the Real seal $S$ is downstream of $L$. Transport, replay, provenance, and local naming preserve the same dependency. Since no carrier coordinate stores a selected limit, quotient stream, countable choice, host real equality, or ambient completeness theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal-limit seal route]
+\label{thm:regular-cauchy-diagonal-limit-seal-route}
+Every accepted $\RegularCauchyDiagonalLimitSealUp$ consumer that reaches a $\RealUp$ seal must pass through the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp
+\longrightarrow
+\RealUp
+$$
+after displaying the precision request, the regular Cauchy modulus row, and the diagonal representative row. Thus the diagonal-limit construction is consumed as finite StreamName, RegSeqRat, DyadicRatCore, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $\mathsf{DiagSeal}(Q,M,W,R,D,L,S,H,C,P,N)$. The precision request and modulus rows identify the diagonal stage used for the read.
+
+The finite stream window $W$ and regular rational readback $R$ expose the actual observations, while $D$ supplies the dyadic tolerance budget for the diagonal regularity and tail comparison checks. The representative row $L$ is therefore a finite readback row, not a hidden limit.
+
+Finally $S$ is the only Real-facing seal in the carrier, and $H,C,P,N$ keep the same route visible to downstream consumers. The route cannot be shortened through quotient-stream equality, countable choice, or ambient Real completeness because none of those objects appears in the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyDiagonalLimitSealUp$ consumer that reaches a $\RealUp$ seal without displaying a precision request, regular Cauchy modulus, StreamName window, RegSeqRat readback, DyadicRatCore budget, and diagonal representative row refutes the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\RegularCauchyDiagonalLimitSealUp$ is not bijective to any listed sibling because it jointly binds a precision request, regular Cauchy modulus, finite diagonal window, regular rational readback, dyadic tolerance budget, diagonal representative, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyDiagonalLimitSealUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDiagonalLimitSealUp}
+  \constructivestory{A $\RegularCauchyDiagonalLimitSealUp$ packet is generated from a precision request, regular Cauchy modulus row, StreamNameUp finite windows, RegSeqRatUp readback, DyadicRatCoreUp tolerance data, diagonal representative row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-diagonal-limit-seal-carrier}, \autoref{thm:regular-cauchy-diagonal-limit-seal-namecert-obligations}, and \autoref{thm:regular-cauchy-diagonal-limit-seal-route} seed the diagonal representative route from finite StreamName windows through RegSeqRat readback and DyadicRatCore tolerance data into a Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient stream equality, countable-choice moduli, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, precision-request exposure, regular Cauchy modulus compatibility, finite-window readback, diagonal representative exactness, dyadic tolerance preservation, Real-seal nonescape, componentwise transport, provenance, and local naming for BEDC.Derived.RegularCauchyDiagonalLimitSealUp.}
+\end{closurestatus}

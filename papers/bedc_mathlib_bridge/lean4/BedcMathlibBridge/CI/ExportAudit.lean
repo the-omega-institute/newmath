@@ -33,6 +33,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pythagorean.pythagoreanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pythagorean.PythagoreanExportWitness },
   { witness := `BedcMathlibBridge.Export.Eisenstein.eisExport,
     witnessType := `BedcMathlibBridge.Export.Eisenstein.EisensteinExportWitness },
   { witness := `BedcMathlibBridge.Export.ZMod.zmodExport,
@@ -66,9 +69,15 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CentralBinom.centralBinomExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralBinom.CentralBinomExportWitness },
+  { witness := `BedcMathlibBridge.Export.Delannoy.delannoyClosedFormTermExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Delannoy.DelannoyClosedFormTermExportWitness },
   { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.QFactorial.qFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.QFactorial.QFactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },
@@ -97,6 +106,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Hexagonal.hexagonalExport,
     witnessType :=
       `BedcMathlibBridge.Export.Hexagonal.HexagonalExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.projectionLedgerCountExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.ProjectionLedgerCountExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },

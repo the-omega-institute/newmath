@@ -1,0 +1,356 @@
+\chapter{Innovation Input Boundary Dynamics and Numerical Rows}
+\label{ch:visions-innovation-input-boundary-dynamics-numerics}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-modular-arithmetic-boundary} places
+modular spectra and zeta scattering inside the input-flow interface. This
+chapter records the boundary dynamics that compute those spectra through
+continued fractions and transfer operators, together with the numerical
+congruence rows that measure finite-register coupling.
+
+\section{Geodesic and Boundary Flow}
+\label{sec:innovation-input-boundary-geodesic-flow}
+
+\begin{theorem}[Quadratic discriminant trichotomy]
+\label{thm:innovation-input-boundary-discriminant-trichotomy}
+For the modular surface, conjugacy classes split by the sign of
+$$
+D=t^2-4.
+$$
+The cases $D<0$, $D=0$, and $D>0$ correspond respectively to elliptic
+fixed rows, cusp scattering rows, and closed geodesic rows. In the
+$D>0$ case, primitive closed geodesics correspond to narrow classes of
+indefinite binary quadratic forms, with length
+$$
+2\log\varepsilon_D^+.
+$$
+\end{theorem}
+
+\begin{proof}
+This is the standard classification of elements of
+$\mathrm{SL}(2,\mathbb Z)$ by trace. The length formula is the usual
+translation-length formula in terms of the fundamental totally positive
+unit.
+\end{proof}
+
+\begin{principle}[Golden orbit]
+\label{prin:innovation-input-boundary-golden-orbit}
+The smallest hyperbolic trace is $3$, giving $D=5$ and fundamental unit
+$\varphi^2$. Thus the shortest closed geodesic is the golden quadratic
+orbit. In the input-flow reading, the all-one continued-fraction word is
+the minimal-action periodic boundary row.
+\end{principle}
+
+\begin{theorem}[Class number and regulator action]
+\label{thm:innovation-input-boundary-class-regulator-action}
+For positive discriminant $D$, the total length contribution of the narrow
+class layer is governed by
+$$
+h^+(D)\log\varepsilon_D^+
+=
+\sqrt D\,L(1,\chi_D),
+$$
+up to the conventional normalization of the class number formula. Thus the
+boundary clock for real quadratic data is the regulator.
+\end{theorem}
+
+\begin{proof}
+This is the real quadratic class number formula, read as a sum of closed
+geodesic lengths.
+\end{proof}
+
+\section{Gauss Map and Mayer Operator}
+\label{sec:innovation-input-boundary-gauss-mayer}
+
+\begin{definition}[Gauss boundary input]
+\label{def:innovation-input-boundary-gauss-input}
+The Gauss boundary input is the map
+$$
+G(x)=\{1/x\}
+$$
+with inverse branches
+$$
+x\longmapsto \frac{1}{x+n},
+\qquad n\ge1.
+$$
+Its natural extension carries the past coordinate needed for reversible
+reflection.
+\end{definition}
+
+\begin{theorem}[Geodesic flow as suspension]
+\label{thm:innovation-input-boundary-geodesic-suspension}
+The modular geodesic flow is represented by a suspension of the natural
+extension of the Gauss map, with roof function proportional to
+$$
+\log(1/x)^{-1}.
+$$
+The natural-extension density is symmetric under the exchange of present
+and past coordinates, giving the boundary form of time reflection.
+\end{theorem}
+
+\begin{proof}
+This is the classical Series coding of geodesic flow by continued
+fractions. The symmetry of the natural-extension density is the reversibility
+row.
+\end{proof}
+
+\begin{definition}[Mayer transfer operator]
+\label{def:innovation-input-boundary-mayer-operator}
+The Mayer operator is
+$$
+(\mathcal L_sf)(x)
+=
+\sum_{n\ge1}(x+n)^{-2s}f\left(\frac1{x+n}\right).
+$$
+\end{definition}
+
+\begin{theorem}[Selberg zeta determinant row]
+\label{thm:innovation-input-boundary-selberg-determinant-row}
+For the modular surface, the Selberg zeta function is recovered from the
+Fredholm determinants of the Mayer operator by the standard even-odd
+factorization
+$$
+Z_{\rm Selberg}(s)
+=
+\det(1-\mathcal L_s)\det(1+\mathcal L_s).
+$$
+\end{theorem}
+
+\begin{proof}
+This is Mayer's determinant formula for the continued-fraction transfer
+operator.
+\end{proof}
+
+\begin{principle}[Gap ledger as natural extension]
+\label{prin:innovation-input-boundary-gap-ledger-natural-extension}
+Choice dynamics discard a complement at each visible step unless the
+natural extension is carried. The discarded complement is precisely the
+past coordinate of the natural extension. Thus the gap-ledger row, the
+natural-extension row, and the reversibility requirement of reflection
+positivity are the same structural demand in three languages.
+\end{principle}
+
+\section{Boundary Reflection Positivity}
+\label{sec:innovation-input-boundary-reflection-positivity}
+
+\begin{theorem}[Wirsing obstruction]
+\label{thm:innovation-input-boundary-wirsing-obstruction}
+The Gauss--Kuzmin--Wirsing transfer operator has a negative secondary
+eigenvalue
+$$
+\lambda_2=-0.3036630029\ldots .
+$$
+Therefore the pure boundary input row fails reflection positivity. A lazy
+operator
+$$
+P_c=(1-c)I+cP
+$$
+is positive for
+$$
+c\le\frac{1}{1+|\lambda_2|}.
+$$
+\end{theorem}
+
+\begin{proof}
+The spectrum of the lazy operator is $1-c+c\lambda$. The negative
+eigenvalue is shifted to zero exactly at the displayed threshold.
+\end{proof}
+
+\begin{principle}[Two mixing thresholds]
+\label{prin:innovation-input-boundary-two-mixing-thresholds}
+The modular shape flow has a Ramanujan-governed lazy threshold, while the
+continued-fraction boundary flow has a Wirsing-governed lazy threshold.
+Both are reflection-positive mixing thresholds; they live in different
+operator rows.
+\end{principle}
+
+\section{Bounded Type and Zaremba Boundary}
+\label{sec:innovation-input-boundary-bounded-type-zaremba}
+
+\begin{definition}[Bounded alphabet boundary input]
+\label{def:innovation-input-boundary-bounded-alphabet}
+For $N\ge1$, the bounded alphabet input restricts continued-fraction digits
+to
+$$
+1\le a\le N.
+$$
+The surviving boundary set is denoted $E_N$.
+\end{definition}
+
+\begin{theorem}[Boundary dimension as pressure root]
+\label{thm:innovation-input-boundary-dimension-pressure-root}
+The Hausdorff dimension $\delta_N=\dim_HE_N$ is the unique value of $s$ at
+which the restricted transfer operator has leading eigenvalue $1$.
+Equivalently, it is the pressure-zero row of the finite-alphabet input.
+\end{theorem}
+
+\begin{proof}
+This is Bowen's formula for conformal expanding iterated-function systems.
+\end{proof}
+
+\begin{principle}[Small alphabet dimension reads]
+\label{prin:innovation-input-boundary-small-alphabet-dimensions}
+The finite-alphabet pressure row has benchmark values
+$$
+\delta_1=0,
+\qquad
+\delta_2=0.5312805\ldots,
+\qquad
+\delta_3\approx0.7057,
+$$
+$$
+\delta_4\approx0.7889,
+\qquad
+\delta_5\approx0.8368,
+\qquad
+\delta_N\uparrow1.
+$$
+Hensley's asymptotic
+$$
+1-\delta_N\sim\frac{6}{\pi^2N}
+$$
+identifies the cost of deleting large digits.
+\end{principle}
+
+\begin{principle}[Third dimension]
+\label{prin:innovation-input-boundary-third-dimension}
+The bounded alphabet row supplies a third dimension read:
+$$
+\text{algebraic dimension},\qquad
+\text{spectral dimension},\qquad
+\text{boundary dimension }\delta_N.
+$$
+The alphabet restriction prices the allowed input set rather than the
+kinematic rank or the stable-tail exponent.
+\end{principle}
+
+\begin{principle}[Zaremba interface]
+\label{prin:innovation-input-boundary-zaremba-interface}
+Finite continued-fraction histories are rational endpoints. The question
+which denominators are reached by the alphabet $\{1,\ldots,N\}$ is the
+Zaremba problem. Bourgain--Kontorovich and Huang provide the density-one
+route at small fixed alphabets; the complete denominator-by-denominator
+statement remains a separate number-theoretic obligation.
+\end{principle}
+
+\section{Congruence-Coupled Measurement Rows}
+\label{sec:innovation-input-boundary-congruence-measurement}
+
+\begin{definition}[Congruence-coupled transfer row]
+\label{def:innovation-input-boundary-congruence-transfer-row}
+For digit matrices
+$$
+\gamma_a=
+\begin{pmatrix}
+a&1\\
+1&0
+\end{pmatrix}
+$$
+and a congruence group $G_q$ generated by their reductions modulo $q$, the
+coupled transfer row is
+$$
+(\mathcal L_{s,N,q}F)(x,g)
+=
+\sum_{a\le N}\frac{1}{(x+a)^{2s}}
+F\left(\frac1{x+a},\gamma_ag\right).
+$$
+\end{definition}
+
+\begin{theorem}[Mirror bipartition]
+\label{thm:innovation-input-boundary-mirror-bipartition}
+Since $\det\gamma_a=-1$, the congruence walk is bipartite with respect to
+the determinant character. The mirror sector carries the eigenvalue $-1$
+before passing to the double-step or mirror-quotient read.
+\end{theorem}
+
+\begin{proof}
+Each digit step changes determinant parity. The determinant character
+therefore changes sign under every generator, giving the eigenvalue $-1$
+on that sector.
+\end{proof}
+
+\begin{definition}[Meeting number]
+\label{def:innovation-input-boundary-meeting-number}
+For a finite alphabet and congruence modulus, the meeting number
+$$
+\Xi_N
+$$
+is the dimensionless ratio between register mixing time and denominator
+expression time. In the measured row for alphabet $\{1,2\}$ it is read from
+the Lyapunov rate and the nonmirror spectral gap.
+\end{definition}
+
+\begin{principle}[Measured alphabet-two row]
+\label{prin:innovation-input-boundary-measured-alphabet-two-row}
+For alphabet $\{1,2\}$, the boundary dimension row is
+$$
+\delta=0.5312805063,
+$$
+the Lyapunov row is approximately
+$$
+\lambda=1.2646,
+$$
+and the nonmirror coupled congruence rows measured over small composite and
+prime-power moduli keep $\Xi$ in the displayed range
+$$
+5.9\le\Xi\le18.6.
+$$
+The row is a numerical witness that congruence registers mix on the same
+logarithmic clock up to a moderate constant.
+\end{principle}
+
+\begin{principle}[Measured congruence table]
+\label{prin:innovation-input-boundary-measured-congruence-table}
+For the alphabet $\{1,2\}$ measurement row, the nonmirror second spectral
+radius and meeting number are recorded as
+$$
+\begin{array}{c|cccccccccccc}
+q&3&5&7&9&11&13&15&17&19&23&25&27\\
+\hline
+\rho_2&.7243&.8910&.7683&.8312&.8069&.8714&.9033&.8023&.8215&.8567&.8910&.8312\\
+\Xi&5.9&16.4&7.2&10.3&8.8&13.8&18.6&8.6&9.6&12.3&16.4&10.3
+\end{array}
+$$
+This is a finite numerical certificate supporting the bounded-clock
+interpretation; it is not a uniform spectral-gap theorem.
+\end{principle}
+
+\begin{principle}[Prime-power freezing witness]
+\label{prin:innovation-input-boundary-prime-power-freezing}
+The measured rows for moduli $5$ and $25$, and for $9$ and $27$, exhibit
+the same slow spectral radius to the displayed precision. The corresponding
+slow mode at the higher prime power is the lift of the lower-level slow
+mode. This is a finite-register shadow of prime-power expansion stability,
+not a theorem about all moduli.
+\end{principle}
+
+\begin{principle}[Chinese-remainder penalty]
+\label{prin:innovation-input-boundary-chinese-remainder-penalty}
+Composite moduli can mix more slowly than each prime factor because the
+same digit drives all congruence coordinates at once. The measured modulus
+$15$ row is the visible instance: the coupled tensor sector is slower than
+the maximum of the separate prime-factor reads, while still remaining in
+the same logarithmic clock scale.
+\end{principle}
+
+\section{Boundary Obligation Ledger}
+\label{sec:innovation-input-boundary-obligation-ledger}
+
+\begin{principle}[Boundary obligations]
+\label{prin:innovation-input-boundary-obligations}
+The boundary programme leaves distinct obligations:
+$$
+\begin{array}{c|c}
+\text{row} & \text{obligation}\\
+\hline
+\text{weighted congruence transfer} & \text{uniform spectral gap}\\
+\text{bounded alphabet} & \text{complete Zaremba coverage}\\
+\text{prime-power tower} & \text{structural freezing criterion}\\
+\text{lazy parameter} & \text{input-flow definition condition}\\
+\text{scattering zero route} & \text{positive class closed under tower operations}
+\end{array}
+$$
+These obligations are not failures of the existing certificates. They mark
+the boundary between closed interface rows and open number-theoretic bridge
+rows.
+\end{principle}

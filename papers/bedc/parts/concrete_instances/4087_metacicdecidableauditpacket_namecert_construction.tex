@@ -42,6 +42,25 @@ The boundary surface is read through $E$ and $O$. The row $E$ keeps finished clo
 Finally $H,R,P,N$ provide transport, route replay, provenance, and local naming. Since no additional coordinate exists, the NameCert obligations are exhausted by the displayed packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable audit seed obligation surface]
+\label{thm:metacic-decidable-audit-seed-obligation-surface}
+Every accepted $\MetacicDecidableAuditPacketUp$ carrier
+$$
+A=(C,M,T,G,B,E,O,H,R,P,N)
+$$
+exposes exactly the decidable-audit source row $C$, the MetaCIC candidate rows $M,T,G$, the finite reduction-window row $B$, the audit verdict and boundary rows $E,O$, transport through $H$, replay through $R$, provenance through $P$, and the local $\NameCert$ row $N$ before any decidability consumer reads the packet. The exposed surface refuses unrestricted beta-conversion decidability, global normalization, quotient equality of terms, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-audit-packet}. The displayed rows $C,M,T,G,B,E,O,H,R,P,N$ are the whole accepted packet, and the existing TasteGate marker records this as the single-carrier alignment witness.
+
+Read the positive audit surface first. The source row $C$ exposes the checked inference entry point, while $M,T,G$ keep same-term comparison, typing soundness and completeness, and gallery candidates as separate MetaCIC rows.
+
+Next read the finite reduction window. The row $B$ is the only bounded-normal comparison coordinate, and $E,O$ record the audit verdict boundary before a consumer treats that comparison as public.
+
+Finally $H,R,P,N$ transport, replay, source, and name the same finite packet. Since no other carrier coordinate exists, unrestricted beta-conversion decidability, global normalization, quotient equality of terms, and bridge checking remain outside the seed obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_seed\_obligation\_surface}
+
 \begin{theorem}[MetaCIC decidable audit packet non-escape]
 \label{thm:metacic-decidable-audit-packet-nonescape}
 Every accepted $\MetacicDecidableAuditPacketUp$ carrier exposes only the finite rows

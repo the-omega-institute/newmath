@@ -246,4 +246,18 @@ theorem ChurchEliminatorRegressionMatrixTasteGate_single_carrier_alignment :
       churchEliminatorRegressionMatrix_decode_encode_bhist,
       rfl⟩
 
+theorem ChurchEliminatorRegressionMatrixCarrier_family_exactness
+    (q : ChurchEliminatorRegressionMatrixUp) :
+    ∃ F G L C B S X H K P N : BHist,
+      q = ChurchEliminatorRegressionMatrixUp.mk F G L C B S X H K P N ∧
+        churchEliminatorRegressionMatrixEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          churchEliminatorRegressionMatrixFromEventFlow
+            (churchEliminatorRegressionMatrixToEventFlow q) = some q := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases q with
+  | mk F G L C B S X H K P N =>
+      refine ⟨F, G, L, C, B, S, X, H, K, P, N, rfl, rfl, ?_⟩
+      exact churchEliminatorRegressionMatrix_round_trip
+        (ChurchEliminatorRegressionMatrixUp.mk F G L C B S X H K P N)
+
 end BEDC.Derived.ChurchEliminatorRegressionMatrixUp

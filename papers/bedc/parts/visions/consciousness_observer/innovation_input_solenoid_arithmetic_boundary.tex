@@ -1,0 +1,380 @@
+\chapter{Innovation Input Solenoid and Arithmetic Boundary}
+\label{ch:visions-innovation-input-solenoid-arithmetic-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-dynamics-spectral-boundary} records
+the statistical and spectral rows of an input flow. This chapter records
+the arithmetic rows of a quantized refinement tower: solenoid structure,
+charge groups, kernel blindness, denominator clearing, and scale-level
+fingerprints. These rows are insensitive to mass and stable-tail
+parameters, because they are zero-order data of the refinement tower.
+
+\section{Holonomy Tower}
+\label{sec:innovation-input-solenoid-holonomy-tower}
+
+\begin{definition}[Refinement mode tower]
+\label{def:innovation-input-solenoid-refinement-mode-tower}
+A refinement mode tower consists of integers
+$$
+M_k=N_1\cdots N_k,\qquad N_k\ge2,
+$$
+and cyclic mode groups $\mathbb Z/M_k\mathbb Z$. The coarse read from
+level $k$ to level $k-1$ is decimation by $N_k$.
+\end{definition}
+
+\begin{lemma}[Aliasing equation]
+\label{lem:innovation-input-solenoid-aliasing-equation}
+Let the level-$k$ mode be
+$$
+x\longmapsto e^{2\pi im^{(k)}x/M_k}.
+$$
+Under decimation $x=N_ky$, it reads on level $k-1$ as the mode
+$m^{(k)}\bmod M_{k-1}$. If
+$$
+z_k:=e^{2\pi im^{(k)}/M_k},
+$$
+then tower compatibility is exactly
+$$
+z_k^{N_k}=z_{k-1}.
+$$
+\end{lemma}
+
+\begin{proof}
+Substitution gives
+$$
+e^{2\pi im^{(k)}N_ky/M_k}
+=
+e^{2\pi im^{(k)}y/M_{k-1}}.
+$$
+The phase equation is the same congruence written multiplicatively.
+\end{proof}
+
+\begin{definition}[$S$-adic solenoid row]
+\label{def:innovation-input-solenoid-row}
+Let $S$ be the set of primes that occur infinitely often among the
+refinement factors $N_k$. The completed phase tower is
+$$
+\Sigma_S
+:=
+\varprojlim
+\left(
+\mathbb T
+\xleftarrow{z\mapsto z^{N_k}}
+\mathbb T
+\right).
+$$
+Its visible circle projection is $\pi_S:\Sigma_S\to\mathbb T$, and its
+kernel is $K_S:=\ker\pi_S$.
+\end{definition}
+
+\begin{theorem}[Tower structure group]
+\label{thm:innovation-input-solenoid-tower-structure-group}
+The compatible mode data of an infinite refinement tower are exactly
+points of $\Sigma_S$. A finite-depth tower has visible circle structure;
+the solenoid is the completed inter-level structure group.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:innovation-input-solenoid-aliasing-equation}, a compatible
+tower is precisely a sequence $(z_k)$ satisfying the inverse-limit
+equations defining $\Sigma_S$.
+\end{proof}
+
+\begin{theorem}[Charge group]
+\label{thm:innovation-input-solenoid-charge-group}
+The Pontryagin dual of the completed tower is
+$$
+\widehat{\Sigma_S}
+=
+\varinjlim
+\left(
+\mathbb Z\xrightarrow{\times N_k}\mathbb Z
+\right)
+=
+\mathbb Z[S^{-1}]\subset\mathbb Q.
+$$
+Consequently solenoid charges are exactly the rational charges whose
+denominators use primes from $S$.
+\end{theorem}
+
+\begin{proof}
+Duality turns compact inverse limits into discrete direct limits. Repeated
+multiplication by the factors $N_k$ in the direct system inverts exactly
+the primes that occur infinitely often.
+\end{proof}
+
+\begin{theorem}[No continuous splitting]
+\label{thm:innovation-input-solenoid-no-splitting}
+The exact sequence
+$$
+0\to K_S\to\Sigma_S\xrightarrow{\pi_S}\mathbb T\to0
+$$
+does not split continuously when $S$ is nonempty.
+\end{theorem}
+
+\begin{proof}
+A continuous splitting would dualize to a homomorphism
+$\mathbb Z[S^{-1}]\to\mathbb Z$ restricting to the identity on
+$\mathbb Z$. For $p\in S$, the element $1/p$ would have to map to an
+integer $a$ with $pa=1$, impossible in $\mathbb Z$.
+\end{proof}
+
+\begin{theorem}[Chern obstruction for a compatible circle tower]
+\label{thm:innovation-input-solenoid-chern-obstruction}
+Let $(P_k)$ be a tower of principal circle bundles over a fixed
+two-dimensional base, compatible with fibre maps
+$$
+z\longmapsto z^{N_k}.
+$$
+Then
+$$
+c_1(P_{k-1})=N_kc_1(P_k).
+$$
+If the tower has unbounded cumulative degree, all Chern classes in the
+compatible tower vanish.
+\end{theorem}
+
+\begin{proof}
+The degree-$N_k$ map on the circle multiplies the Euler class by $N_k$.
+Thus $c_1(P_0)=M_kc_1(P_k)$ for every $k$. Since $c_1(P_0)$ is an
+integer class and $M_k$ is unbounded, divisibility by every $M_k$ forces
+$c_1(P_0)=0$, and then all later classes vanish as well.
+\end{proof}
+
+\begin{theorem}[Beat-frequency digit read]
+\label{thm:innovation-input-solenoid-beat-frequency-digit-read}
+At level $k$, compare a lifted mode $m$ with
+$$
+m'=m+jM_{k-1}.
+$$
+The per-cell-step relative phase is
+$$
+e^{2\pi i(m'-m)/M_k}=e^{2\pi ij/N_k}.
+$$
+Thus adjacent-level interference reads the digit $j\bmod N_k$ of the
+kernel coordinate.
+\end{theorem}
+
+\begin{proof}
+Subtract the two mode phases and divide by the level-$k$ denominator.
+The quotient $M_{k-1}/M_k$ is $1/N_k$.
+\end{proof}
+
+\section{Solenoid Exclusion Rows}
+\label{sec:innovation-input-solenoid-exclusion-rows}
+
+\begin{theorem}[Kernel blindness]
+\label{thm:innovation-input-solenoid-kernel-blindness}
+If a visible observable factors through the circle projection,
+$$
+O=\overline O\circ\pi_S,
+$$
+then
+$$
+O(\tilde t k)=O(\tilde t)
+$$
+for every $k\in K_S$. Hence the kernel coordinate is invisible to any
+single-layer circle-visible read.
+\end{theorem}
+
+\begin{proof}
+Since $\pi_S(\tilde t k)=\pi_S(\tilde t)$, the equality follows from the
+factorization.
+\end{proof}
+
+\begin{theorem}[Profinite-smooth obstruction]
+\label{thm:innovation-input-solenoid-profinite-smooth-obstruction}
+The kernel $K_S$ is totally disconnected. Therefore any continuous map from
+a connected smooth window into $K_S$ is locally constant. Such a row has no
+local derivative contribution to the innovation one-form
+$\Theta=Q_{\mathcal L}D_\Phi B$.
+\end{theorem}
+
+\begin{proof}
+The image of a connected set is connected, and connected subsets of a
+totally disconnected group are points. A locally constant row has zero
+connection derivative on each connected window.
+\end{proof}
+
+\begin{principle}[Flat holonomy channel]
+\label{prin:innovation-input-solenoid-flat-holonomy-channel}
+If $K_S$ affects a physical read, it must do so through a flat holonomy,
+local-system, charge, or inter-level beat-frequency row. It cannot enter a
+local smooth metric row merely by being present as a profinite fibre.
+\end{principle}
+
+\begin{principle}[Solenoid tower allows only flat topological charge]
+\label{prin:innovation-input-solenoid-flat-topological-charge}
+\autoref{thm:innovation-input-solenoid-chern-obstruction} is the
+topological companion of
+\autoref{thm:innovation-input-variable-weight-split}: exact local curvature
+rows and compatible infinite root towers both exclude a nonzero Chern class
+in their stated packet classes. Nonzero topological phase requires a
+different packet class, such as a winding ray family not absorbed into a
+compatible circle-bundle root tower.
+\end{principle}
+
+\begin{theorem}[Single-layer absorption]
+\label{thm:innovation-input-solenoid-single-layer-absorption}
+A flat $K_S$-local system observed only through a character
+$\chi_q:K_S\to U(1)$ exports the $U(1)$-valued representation
+$$
+\chi_q\circ\rho:\pi_1\to U(1).
+$$
+Any other group with the same character image reproduces the same
+single-layer holonomy phenomena. Thus the single-layer read can identify a
+charge image but cannot certify the full solenoid as necessary.
+\end{theorem}
+
+\begin{proof}
+The observable holonomy is the composite character. Its values depend only
+on the image subgroup in $U(1)$ and on the displayed representation into
+that image.
+\end{proof}
+
+\section{Denominator Clearing and Shape Blindness}
+\label{sec:innovation-input-solenoid-denominator-clearing}
+
+\begin{definition}[Shape read of a two-dimensional covariance packet]
+\label{def:innovation-input-solenoid-shape-read}
+For a positive two-dimensional covariance matrix $h$, the shape read is the
+projective modulus
+$$
+\tau(h):=\frac{h_{12}+i\sqrt{\det h}}{h_{11}}.
+$$
+\end{definition}
+
+\begin{theorem}[Denominator clearing]
+\label{thm:innovation-input-solenoid-denominator-clearing}
+Consider a constant-modulus three-component covariance packet in which
+the covectors lie in an $S$-smooth denominator lattice
+$M^{-1}\mathbb Z^2$. Multiplying all covectors by the scalar $M$ sends the
+packet to an integral covector packet and sends
+$$
+h\longmapsto M^2h.
+$$
+The shape read $\tau(h)$ is unchanged. Therefore the set of accessible
+shape reads does not determine $S$.
+\end{theorem}
+
+\begin{proof}
+The covariance matrix is quadratic in the covectors, so scalar
+multiplication by $M$ multiplies $h$ by $M^2$. Both numerator and
+denominator in $\tau(h)$ are homogeneous of degree one in $h$, hence the
+ratio is unchanged.
+\end{proof}
+
+\begin{principle}[Where $S$ can be visible]
+\label{prin:innovation-input-solenoid-where-s-visible}
+The prime set $S$ is invisible to projective shape reads. It can be visible
+only in rows that retain denominator data: charge groups, flux lattices,
+absolute scale rows, tower roots, or beat-frequency digits.
+\end{principle}
+
+\section{Scale and Charge Fingerprints}
+\label{sec:innovation-input-solenoid-scale-charge-fingerprints}
+
+\begin{definition}[Quantized flux setting]
+\label{def:innovation-input-solenoid-quantized-flux-setting}
+A quantized flux setting displays covectors
+$$
+\kappa_a\in M^{-1}\mathbb Z^d,
+$$
+weights
+$$
+w_a\in A^{-1}\mathbb Z_{\ge0},
+$$
+and a cell length $\ell=2\pi/M'$, with $M$, $M'$, and $A$ using primes
+from $S$.
+\end{definition}
+
+\begin{theorem}[Flux lattice]
+\label{thm:innovation-input-solenoid-flux-lattice}
+For variable-weight packets in the setting of
+\autoref{def:innovation-input-solenoid-quantized-flux-setting}, the mean
+covector
+$$
+\bar\kappa=\sum_aw_a\kappa_a
+$$
+has cell differences in $(MA)^{-1}\mathbb Z^d$. The discrete circulation
+around one cell lies in
+$$
+\Phi_0\mathbb Z,
+\qquad
+\Phi_0=\frac{2\pi}{MM'A}.
+$$
+Across the tower, the accessible flux group lies in
+$2\pi\mathbb Z[S^{-1}]$.
+\end{theorem}
+
+\begin{proof}
+Differences of weights lie in $A^{-1}\mathbb Z$, while covectors lie in
+$M^{-1}\mathbb Z^d$. Multiplying by the cell length $2\pi/M'$ gives the
+displayed flux unit.
+\end{proof}
+
+\begin{theorem}[Charge lattice determines the prime set]
+\label{thm:innovation-input-solenoid-charge-lattice-determines-primes}
+For subsets $S_1,S_2$ of the primes,
+$$
+\mathbb Z[S_1^{-1}]=\mathbb Z[S_2^{-1}]
+$$
+as subgroups of $\mathbb Q$ if and only if $S_1=S_2$.
+\end{theorem}
+
+\begin{proof}
+For a prime $p$, one has
+$$
+p\in S
+\quad\Longleftrightarrow\quad
+\frac1p\in\mathbb Z[S^{-1}].
+$$
+Thus the subgroup recovers exactly the primes inverted.
+\end{proof}
+
+\begin{corollary}[Flux-area lower bound]
+\label{cor:innovation-input-solenoid-flux-area-lower-bound}
+If a cell carries nonzero flux and its phase-curvature read is
+$\Omega^\eta$, then the positive Gram constraint gives
+$$
+\operatorname{Area}_{\rm cell}
+\ge
+\frac12|\Phi_{\rm cell}|.
+$$
+In the quantized setting, any nonzero flux cell has area at least
+$\Phi_0/2$ in the corresponding units.
+\end{corollary}
+
+\begin{proof}
+In two dimensions,
+\autoref{thm:innovation-input-positive-gram-constraint} gives
+$\sqrt{\det h^\eta}\ge|\Omega^\eta_{12}|/2$. Multiplying by the cell area
+factor converts the curvature density into the cell flux.
+\end{proof}
+
+\begin{principle}[Area spectra are weaker than charge groups]
+\label{prin:innovation-input-solenoid-area-weaker-than-charge}
+An area value set may contain square-root and weight factors that obscure
+the prime set. The charge lattice $\mathbb Z[S^{-1}]$ is the exact
+fingerprint; an area spectrum is only a scale-level shadow unless the
+bridge proves a lossless conversion.
+\end{principle}
+
+\section{Layering Verdict}
+\label{sec:innovation-input-solenoid-layering-verdict}
+
+\begin{principle}[Three arithmetic layers]
+\label{prin:innovation-input-solenoid-three-arithmetic-layers}
+The arithmetic content of a quantized input tower appears in three layers:
+$$
+\begin{array}{c|c|c}
+\text{layer} & \text{data} & \text{sensitivity}\\
+\hline
+\text{metric-propagation} & h^\eta,\;g^{ij},\;H(k) & m,\alpha,C^{ij}\\
+\text{scale-charge} & \Phi_0,\;\mathbb Z[S^{-1}] & S,\varepsilon,\text{scale rows}\\
+\text{holonomy} & \Sigma_S,\;K_S,\text{beat digits} & S,\text{tower compatibility}
+\end{array}
+$$
+The deepest arithmetic rows are blind to the mass and stable-tail
+deformations of \autoref{ch:visions-innovation-input-dynamics-spectral-boundary}.
+\end{principle}

@@ -2,6 +2,7 @@ import BedcMathlibBridge.Constructive.Bool
 import BedcMathlibBridge.Constructive.Int
 import BedcMathlibBridge.Constructive.IntSignMagnitude
 import BedcMathlibBridge.Constructive.Gaussian
+import BedcMathlibBridge.Constructive.Pythagorean
 import BedcMathlibBridge.Constructive.Eisenstein
 import BedcMathlibBridge.Constructive.ZMod
 import BedcMathlibBridge.Constructive.Fibonacci
@@ -15,7 +16,9 @@ import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
+import BedcMathlibBridge.Constructive.Delannoy
 import BedcMathlibBridge.Constructive.QBinomial
+import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.OddDoubleFactorial

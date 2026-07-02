@@ -2,6 +2,7 @@ import BedcMathlibBridge.Export.Int
 import BedcMathlibBridge.Export.IntSignMagnitude
 import BedcMathlibBridge.Export.Bool
 import BedcMathlibBridge.Export.Gaussian
+import BedcMathlibBridge.Export.Pythagorean
 import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
@@ -15,7 +16,9 @@ import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
+import BedcMathlibBridge.Export.Delannoy
 import BedcMathlibBridge.Export.QBinomial
+import BedcMathlibBridge.Export.QFactorial
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.OddDoubleFactorial
@@ -25,3 +28,4 @@ import BedcMathlibBridge.Export.CenteredHexagonal
 import BedcMathlibBridge.Export.SquarePyramidal
 import BedcMathlibBridge.Export.Pentagonal
 import BedcMathlibBridge.Export.Hexagonal
+import BedcMathlibBridge.Export.ProjectionLedgerCount
