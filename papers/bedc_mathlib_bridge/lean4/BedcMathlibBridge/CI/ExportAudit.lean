@@ -33,6 +33,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pythagorean.pythagoreanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pythagorean.PythagoreanExportWitness },
   { witness := `BedcMathlibBridge.Export.Eisenstein.eisExport,
     witnessType := `BedcMathlibBridge.Export.Eisenstein.EisensteinExportWitness },
   { witness := `BedcMathlibBridge.Export.ZMod.zmodExport,

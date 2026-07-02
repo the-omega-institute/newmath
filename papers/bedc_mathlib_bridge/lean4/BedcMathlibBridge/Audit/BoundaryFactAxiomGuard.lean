@@ -11,6 +11,7 @@ import Mathlib.Data.Nat.Totient
 import Mathlib.Combinatorics.Enumerative.Bell
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Divisors
+import Mathlib.NumberTheory.PythagoreanTriples
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
