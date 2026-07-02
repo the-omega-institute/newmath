@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FiniteComparisonBoundaryUp$}
+\label{ch:concrete-instances-finite-comparison-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located real comparison, the $\FiniteComparisonBoundaryUp$ packet realizes the process-level comparison surface of \autoref{sec:real-completeness-modulus-comparison-boundary} as finite rows. It sits after the located-real comparison packet of \autoref{ch:concrete-instances-located-real-comparison-namecert}, the comparison-modulus route of \autoref{ch:concrete-instances-located-real-comparison-modulus-namecert}, the finite observation boundary of \autoref{ch:concrete-instances-finite-observation-boundary-namecert}, the finite-window separation packet of \autoref{ch:concrete-instances-finite-window-real-separation-namecert}, and the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names finite close and apartness windows; it does not export total trichotomy, host real equality, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite comparison boundary carrier]
+\label{def:finite-comparison-boundary-carrier}
+A $\FiniteComparisonBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,Y,M,W,Q,A,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the first located-real endpoint row, read through $\RealUp$ and its displayed regular rational presentation.
+\item $Y$ is the second located-real endpoint row, read through $\RealUp$ and its displayed regular rational presentation.
+\item $M$ is the finite comparison-modulus row selecting the common observation thresholds for the requested tolerance.
+\item $W$ is the finite apartness-window row selecting the precision at which a positive separation may be read.
+\item $Q$ is the rational close row, recording the displayed $\RatUp$ or $\DyadicRatCoreUp$ close comparison at the selected window.
+\item $A$ is the rational apart row, recording the displayed positive separation when the apartness window is present.
+\item $R$ is the $\RegSeqRatUp$ readback row for both endpoint presentations at the selected thresholds.
+\item $S$ is the $\StreamNameUp$ request row fixing the inspected finite windows.
+\item $H$ records componentwise $\hsame$ transport for endpoints, moduli, windows, rational close and apart rows, readback, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a comparison request through $X,Y,M,W,Q,A,R,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteComparisonBoundaryUp$, $\LocatedRealComparisonUp$, $\FiniteObservationBoundaryUp$, $\FiniteWindowRealSeparationUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteComparisonBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted boundary packets only through $X,Y,M,W,Q,A,R,S,H,C,P,N$. It has no coordinate for total trichotomy, host real equality, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite comparison boundary process-level obligations]
+\label{thm:finite-comparison-boundary-process-level-obligations}
+For every accepted $\FiniteComparisonBoundaryUp$ carrier $B=(X,Y,M,W,Q,A,R,S,H,C,P,N)$, the local $\NameCert_{\FiniteComparisonBoundaryUp}$ surface consists exactly of endpoint exposure, comparison-modulus exposure, apartness-window exposure, rational close and apart rows, regular rational readback, finite stream-window exposure, componentwise transport, displayed replay, provenance, and local naming. Thus every finite tolerance comparison or finite apartness witness is a process-level route through displayed moduli and finite rational observations.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint rows $X,Y$ are the only real-facing coordinates, and they are not compared as completed host points.
+
+Read the modulus and window rows next. The comparison modulus $M$ selects the finite thresholds for a close request, while $W$ selects the finite precision at which an apartness witness may be inspected.
+
+The rational evidence is then confined to $Q,A,R,S$. The close row $Q$ and apart row $A$ are read only at the windows fixed by $S$ and through the regular rational readback row $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite comparison route. Because the excluded trichotomy, host equality, quotient equality, selected representative, choice, and completeness objects are absent from the carrier, the listed rows exhaust the local process-level obligations.
+\end{proof}
+
+\begin{theorem}[Finite comparison boundary apartness nonescape]
+\label{thm:finite-comparison-boundary-apartness-nonescape}
+Every accepted $\FiniteComparisonBoundaryUp$ apartness read factors through the finite route
+$$
+\begin{gathered}
+X,Y \longmapsto M,W \longmapsto S,R \longmapsto Q,A \longmapsto H,C,P,N .
+\end{gathered}
+$$
+The apartness witness therefore remains a finite window over rational readbacks and dyadic tolerance rows. It cannot be used to obtain total located-real trichotomy, host real equality, quotient real equality, a selected representative, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the process-level obligation theorem. It makes $X,Y,M,W,Q,A,R,S,H,C,P,N$ the entire accepted comparison surface.
+
+For an apartness read, the row $W$ fixes the inspected precision before the rational apart row $A$ is available. The stream and regular rational rows $S,R$ determine the finite endpoint observations at that precision.
+
+The close row $Q$ and apart row $A$ remain rational evidence at the displayed window; neither row decides a global trichotomy branch for arbitrary located-real presentations.
+
+Transport, replay, provenance, and local naming preserve only this displayed route. Since no host equality, quotient equality, selected representative, choice schedule, or ambient completeness theorem appears in the packet, apartness cannot escape the finite window.
+\end{proof}
+
+\closureat{FiniteComparisonBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\FiniteComparisonBoundaryUp}
+  \constructivestory{A $\FiniteComparisonBoundaryUp$ packet is generated from two located-real endpoint rows, one finite comparison-modulus row, one finite apartness-window row, rational close and apart rows, RegSeqRatUp readbacks, StreamNameUp finite windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-comparison-boundary-carrier}, \autoref{thm:finite-comparison-boundary-process-level-obligations}, and \autoref{thm:finite-comparison-boundary-apartness-nonescape} seed the finite process-level comparison boundary for close and apartness reads over located-real presentations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total located-real trichotomy, host real equality, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint exposure, comparison-modulus exposure, apartness-window exposure, rational close and apart rows, regular readback, finite stream-window exposure, transport, replay, provenance, and local naming for BEDC.Derived.FiniteComparisonBoundaryUp.}
+\end{closurestatus}

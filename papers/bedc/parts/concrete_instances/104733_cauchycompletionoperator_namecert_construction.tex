@@ -64,6 +64,25 @@ The structural rows $H,C,P,N$ preserve this route under transport, replay it as 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorFunctorialHandoff}
 
+\begin{theorem}[CauchyCompletionOperator triangle consumption route]
+\label{thm:cauchy-completion-operator-triangle-consumption-route}
+Every accepted $\CauchyCompletionOperatorUp$ packet consumed by $\CauchyCompletionFunctorialityUp$ or $\SeparatedCompletionFunctorUp$ for an identity or composition triangle read must route through
+$$
+M,U \longmapsto B \longmapsto S,R,D \longmapsto Q,E \longmapsto H,C,P,N .
+$$
+The triangle read cannot bypass the completion-boundary row $B$, the finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, or the separated-limit handoff $Q$. It exports no quotient completion equality, selected representative, countable-choice schedule, host equality, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorTriangleConsumptionRoute}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-operator-carrier}. The only available rows are $M,B,U,S,R,D,Q,E,H,C,P,N$, so an identity or composition triangle consumer has no detached completion endpoint to inspect.
+
+Apply \autoref{thm:cauchy-completion-operator-functorial-handoff}. It places the metric and uniform source rows before $B$, then forces every completion-facing read through the finite windows, regular readback, dyadic tolerance ledger, separated-limit handoff, Real seal, transport, replay, provenance, and local naming.
+
+The downstream consumers are the functorial completion surface of \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert} and the separated completion functor of \autoref{ch:concrete-instances-separated-completion-functor-namecert}. Both may consume the operator packet only through the displayed route, so their triangle reads inherit the same completion-boundary and finite-window order.
+
+The exclusion clause follows from the carrier inventory. None of quotient completion equality, selected representatives, selected limits, countable choice, host equality, or ambient Real completeness is a coordinate of the accepted packet.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionOperator finite-window extraction]
 \label{thm:cauchy-completion-operator-window-extraction}
 Every accepted $\CauchyCompletionOperatorUp$ packet exposes its completion-facing request through a finite extraction window before any separated-limit or Real endpoint row is available. The extracted window consists exactly of the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the completion-boundary row $B$, and the structural rows $H,C,P,N$ that transport, replay, source, and name the same finite packet.
@@ -297,6 +316,19 @@ Use ledger nonescape, universal factorization, and separated-limit factorization
 Finally invoke scoped obligation closure, \autoref{thm:cauchy-completion-operator-scoped-obligation-closure}. Since the scoped carrier surface already exhausts admission, finite-window routing, terminal Real sealing, transport, replay, provenance, and local naming, the public export is exactly the displayed finite route for downstream completion consumers.
 \end{proof}
 
+\begin{theorem}[Complete metric limit uniqueness outbound reference]
+\label{thm:complete-metric-limit-uniqueness-outbound-ref}
+Every public $\CauchyCompletionOperatorUp$ export that later asserts uniqueness of a separated complete-metric limit must consume \autoref{ch:concrete-instances-complete-metric-limit-uniqueness-namecert} after the public operator route of \autoref{thm:cauchy-completion-operator-public-export}. The operator route exports the finite completion handoff only; it exports no selected limit, quotient representative, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the public export theorem. It binds every downstream completion consumer to the displayed route through $M,B,U,S,R,D,Q,E,H,C,P,N$ before the operator can be used.
+
+A later uniqueness assertion is a separate separated complete-metric comparison. It therefore consumes the sibling route \autoref{ch:concrete-instances-complete-metric-limit-uniqueness-namecert} after the operator export has supplied its completion-facing handoff.
+
+Finally apply the operator nonescape clauses already used in the public export proof. They exclude selected limits, quotient representatives, countable-choice schedules, host completion objects, and ambient $\RealUp$ completeness from the operator route, so uniqueness is imported only from the downstream sibling and not from an extra coordinate of $\CauchyCompletionOperatorUp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorCompleteMetricLimitUniquenessOutboundRef}
+
 \begin{theorem}[CauchyCompletionOperator bridge route]
 \label{thm:cauchy-completion-operator-bridge-route}
 Every bridge-facing consumer of $\CauchyCompletionOperatorUp$ must read the displayed operator through the functorial handoff, finite-window extraction, universal factorization, separated-limit factorization, and public export rows before treating it as a standard completion bridge. Concretely, the consumer first reads the metric and uniform source rows through $M,U$ and the completion-boundary row $B$; then it reads the finite window, regular readback, and dyadic ledger rows $S,R,D$; then it reads the universal and separated-limit handoffs through $Q$ and the terminal Real seal $E$; and only then may it replay transport, provenance, and local naming through $H,C,P,N$.
@@ -318,10 +350,10 @@ Finally apply public export, \autoref{thm:cauchy-completion-operator-public-expo
 
 \begin{closurestatus}{\CauchyCompletionOperatorUp}
   \constructivestory{A $\CauchyCompletionOperatorUp$ packet is generated from MetricCompletion, CauchyCompletionBoundary, UniformCompletion, StreamName, RegSeqRat, DyadicRatCore, CompleteSeparatedMetric, Real, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:cauchy-completion-operator-scoped-obligation-closure} closes the scoped obligation surface over $\MetricCompletionUp$, $\CauchyCompletionBoundaryUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CompleteSeparatedMetricUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already exhibited by \autoref{def:cauchy-completion-operator-carrier}, \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}, \autoref{thm:cauchy-completion-operator-window-extraction}, \autoref{thm:cauchy-completion-operator-obligation-triad}, \autoref{thm:cauchy-completion-operator-obligation-window-route}, \autoref{thm:cauchy-completion-operator-universal-factorization}, \autoref{thm:cauchy-completion-operator-separated-limit-factorization}, and \autoref{thm:cauchy-completion-operator-public-export}; the public export theorem binds downstream completion consumers to the same finite route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, selected limits, countable choice, host completion operators, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard bridge theorem showing this public route is consumed by the downstream completion registry without adding quotient or choice coordinates.}
+  \upgradepath{Machine bridge checking requires a standard bridge theorem showing this public route is consumed by the downstream completion registry without adding quotient or choice coordinates.}
 \end{closurestatus}

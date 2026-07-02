@@ -148,6 +148,7 @@ be an accepted $\QuasiMetricUp$ packet. Every accepted directed-distance read us
 
 Consequently the directed-distance route is a scoped BEDC surface, not a host metric object: no consumer receives symmetry, separated point identity, quotient distance, selected completion limit, ambient metric completeness, open-cover compactness, \texttt{Classical.choice}, \texttt{Quot.sound}, or bridge evidence from the $\QuasiMetricUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_directed\_distance\_scope\_upgrade}
 \begin{proof}
 Start with \autoref{thm:quasimetric-obligation-surface}. It identifies $S,X,D,Z,T,B,F,R,E,H,C,P,N$ as the complete local NameCert inventory and places the Real-valued directed-distance row $D$, zero row $Z$, and forward triangle row $T$ before every public read.
 
@@ -172,6 +173,7 @@ S,X,D,Z,T,B,F,R,E,H,C,P,N .
 $$
 It is obtained by combining the carrier surface of \autoref{def:quasi-metric-carrier}, the NameCert obligations of \autoref{thm:quasimetric-obligation-surface}, the directed-ball handoff of \autoref{thm:quasi-metric-directed-ball-handoff}, the non-escape boundary of \autoref{thm:quasi-metric-nonescape}, the directed-ball triangle refinement of \autoref{thm:quasimetric-directed-ball-triangle-refinement}, and the directed-distance scope upgrade of \autoref{thm:quasimetric-directed-distance-scope-upgrade}. The certificate exports directed $\RealUp$-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local naming rows, but it exports no symmetry, separatedness, quotient completion, selected limits, host equality, \texttt{Classical.choice}, \texttt{Quot.sound}, or bridge evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_public\_certificate}
 \begin{proof}
 First read the carrier surface of \autoref{def:quasi-metric-carrier}. It displays the source and point rows $S,X$, the directed $\RealUp$ distance row $D$, the zero and forward-triangle rows $Z,T$, the directed-ball row $B$, Cauchy filter and net rows $F,R$, the uniform-reflection row $E$, and the structural rows $H,C,P,N$.
 
@@ -190,6 +192,7 @@ Q=(S,X,D,Z,T,B,F,R,E,H,C,P,N),
 $$
 the public directed-distance certificate of \autoref{thm:quasimetric-public-certificate} is exactly the local $\NameCert_{\QuasiMetricUp}$ export over the source row $S$, point carrier $X$, directed $\RealUp$ distance row $D$, zero row $Z$, forward triangle row $T$, directed-ball row $B$, Cauchy filter row $F$, Cauchy net row $R$, uniform-reflection row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming row $N$. The export records dyadic tolerance comparison and directed-ball routing for the Real-valued distance surface, but it exports no symmetry, separated equality, quotient completion, selected limit, ambient completeness, open-cover compactness, or bridge evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_public\_namecert\_export}
 \begin{proof}
 First apply \autoref{thm:quasimetric-public-certificate}. It assembles the public directed-distance certificate from the carrier, obligation surface, directed-ball handoff, triangle refinement, scope route, and non-escape boundary.
 
@@ -198,12 +201,13 @@ Next use \autoref{thm:quasimetric-directed-distance-scope-upgrade}. It keeps eve
 Finally apply \autoref{thm:quasi-metric-nonescape}. Since symmetry, separated equality, quotient completion, selected limits, host equality, \texttt{Classical.choice}, \texttt{Quot.sound}, and bridge evidence are absent from the carrier, the public certificate is precisely the local $\NameCert_{\QuasiMetricUp}$ export over the listed rows.
 \end{proof}
 
+\closureat{QuasiMetricUp}{publicStr}
 \closureat{QuasiMetricUp}{scopedStr}
 
 \begin{closurestatus}{\QuasiMetricUp}
   \constructivestory{A $\QuasiMetricUp$ packet is generated from a source row, a point carrier, a directed RealUp-valued distance row, a zero diagonal row, a forward triangle row, a directed-ball row, Cauchy filter and Cauchy net rows, a uniform-reflection row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:quasi-metric-carrier}, \autoref{thm:quasimetric-obligation-surface}, \autoref{thm:quasi-metric-directed-ball-handoff}, \autoref{thm:quasi-metric-nonescape}, and \autoref{thm:quasimetric-scope-tightening} close the directed metric packet over exactly the displayed source, point, Real-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:quasimetric-public-certificate} is the exported public directed-distance route assembled from the displayed source, point, Real-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close symmetry, separatedness, metric completeness, open-cover compactness, quotient distance, quotient completion, selected limits, standard bridge evidence, Lean verification, or bridge checking.}
