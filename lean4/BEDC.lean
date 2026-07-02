@@ -6716,6 +6716,7 @@ import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaugeLebesgueNumberUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
+import BEDC.Derived.GaussMapUp
 import BEDC.Derived.GaussSumUp
 import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GaussianBinomialUp
@@ -9666,6 +9667,7 @@ import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
 import BEDC.Derived.OrderedBellNumberUp
+import BEDC.Derived.OrderedCauchyGroupUp.TasteGate
 import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OrdinalAnalysisUp.TasteGate
 import BEDC.Derived.OreLocalizationUp.TasteGate
@@ -10620,6 +10622,7 @@ import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
 import BEDC.Derived.RealClassifierUp.TailReplacementStability
 import BEDC.Derived.RealClassifierUp.TheoremCheckTargetHandoff
+import BEDC.Derived.RealClassifierUp.WindowExhaustion
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp
@@ -13515,6 +13518,7 @@ import BEDC.Derived.VietorisRipsComplexUp.TasteGate
 import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
+import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank
 import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
