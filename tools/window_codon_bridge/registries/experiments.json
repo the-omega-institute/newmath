@@ -632,6 +632,14 @@
       "status": "terminal",
       "timeout_seconds": 86400,
       "note": "ASD-W6 self-tail-erasability test with EXACT analytical gene-wise within-AA synonymous null E_g[c,d] (replaces 400x Monte-Carlo shuffles; ~42s/genome). Pure-stdlib, fetches RefSeq assemblies. env ASD_W6_MAX_GENOMES / ASD_W6_NULL_REPLICATES / ASD_W6_CACHE_DIR; --selftest exercises exact-E vs MC (max abs err <0.012 @50000 MC). 1300-genome run verdict data_gate_failed (preflight) with aggregate null/mild-anti (no erasability). Non-daemon (long fetch+compute)."
+    },
+    {
+      "experiment_id": "w6_offframe_stop_ambush",
+      "claim_id": "bridge.genetic_code.w6_offframe_stop_ambush",
+      "script_path": "tools/window_codon_bridge/experiments/run_w6_offframe_stop_ambush.py",
+      "status": "terminal",
+      "timeout_seconds": 86400,
+      "note": "W6-OffFrameStopAmbush: Window6 hidden off-frame stop codon-pair forcing test. Carrier = table-11 K_total mask on Opp>0 aa-pairs; EXACT gene-wise within-AA synonymous null E_g[c,d]; 10000 composition-matched pseudo-stop decoys (deduped over 624-set exhaustive universe, MIN_DISTINCT_DECOY_SETS floor=100 replacing infeasible >=5000 gate) + genus-block bootstrap B=10000 + internal-only null. Pure-stdlib, fetches RefSeq _cds_from_genomic.fna.gz. env W6AMB_MAX_GENOMES/W6AMB_CACHE_DIR/W6AMB_BOOTSTRAPS/W6AMB_DECOY_POOLS; --selftest exercises carrier/Opp/exact-E-vs-MC/decoy-gen/verdict. 1400-genome run verdict refuted (OR_pool=0.909, hidden stops depleted). Non-daemon (long fetch+compute). Per-genome cost dominated by CDS parse+61x61 matrix build ~5s."
     }
   ]
 }
