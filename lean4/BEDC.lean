@@ -13663,6 +13663,7 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenPentagonRPLink
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6IncidenceOrthogonalityTripleRecurrence
 import BEDC.Derived.Window6JointNecklace
@@ -13698,7 +13699,10 @@ import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
 import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
+import BEDC.Derived.Window6WeightFibonacciRecurrence
 import BEDC.Derived.Window6WeightLogConcaveTuran
+import BEDC.Derived.Window6WeightToeplitzTotalPositive
+import BEDC.Derived.Window6WeightUltraLogConcave
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.Window6ZeroMarkGaloisClosure
