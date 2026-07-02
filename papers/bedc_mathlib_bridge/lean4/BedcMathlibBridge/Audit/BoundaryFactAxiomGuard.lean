@@ -9,7 +9,9 @@ import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
 import Mathlib.Data.Nat.Totient
 import Mathlib.Combinatorics.Enumerative.Bell
+import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
+import Mathlib.NumberTheory.Fermat
 import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.PythagoreanTriples
 import Mathlib.NumberTheory.Padics.PadicIntegers
@@ -108,6 +110,23 @@ axiom-bearing bridge theorem.
 -/
 noncomputable def auditNatBellBoundary : Nat → Nat :=
   Nat.bell
+
+/-!
+Audit-only touchpoint for mathlib's Fermat numbers. The BEDC side gives a
+quotient-free tower recurrence and prefix-product relation; the host declaration
+itself retains the proposition-extensionality footprint measured by this row.
+-/
+noncomputable def auditNatFermatNumberBoundary : Nat → Nat :=
+  Nat.fermatNumber
+
+/-!
+Audit-only touchpoint for mathlib's large and small Schroder numbers. Their
+recursive surface is stated through `Finset.sum`, so the host declarations
+inherit the finite-set quotient and choice footprint rather than yielding a
+0-axiom readback target.
+-/
+noncomputable def auditNatSchroderBoundary : (Nat → Nat) × (Nat → Nat) :=
+  (Nat.largeSchroder, Nat.smallSchroder)
 
 /-!
 Audit-only touchpoints for mathlib's finite number-theoretic functions whose
