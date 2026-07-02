@@ -13627,6 +13627,7 @@ import BEDC.Derived.WassersteinUp.CostReadbackScope
 import BEDC.Derived.WassersteinUp.MarginalExactnessScope
 import BEDC.Derived.WassersteinUp.MetricCouplingScope
 import BEDC.Derived.WassersteinUp.TasteGate
+import BEDC.Derived.WazewskiUniversalDendriteUp
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
