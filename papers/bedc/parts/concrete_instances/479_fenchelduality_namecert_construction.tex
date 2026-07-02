@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-fenchelduality-namecert}
 \origin{human}
 
-The $\FenchelDualityUp$ interface names the finite convex-analysis certificate surface for a displayed primal functional, a displayed dual functional, and their pairing ledger. In Rockafellar's convex-analysis presentation and in Boyd--Vandenberghe 2004, Fenchel duality is read through convex functions, epigraphs, conjugate pairings, and extended-real comparisons; the BEDC packet below keeps only the finite rows needed to name that surface. It depends on $\NameCert_{\ConvexSetUp}$ (\autoref{ch:concrete-instances-convexset-namecert}), $\NameCert_{\LPDualityUp}$ (\autoref{ch:concrete-instances-lpduality-namecert}), $\NameCert_{\TopVecSpaceUp}$ (\autoref{ch:concrete-instances-topvecspace-namecert}), $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}), and $\NameCert_{\SemidefiniteConeUp}$ (\autoref{ch:concrete-instances-semidefinitecone-namecert}).
+The $\FenchelDualityUp$ interface names the finite convex-analysis certificate surface for a displayed primal functional, a displayed dual functional, and their pairing ledger. In Rockafellar's convex-analysis presentation and in Boyd--Vandenberghe 2004, Fenchel duality is read through convex functions, epigraphs, conjugate pairings, and extended-real comparisons; the BEDC packet below keeps only the finite rows needed to name that surface. It depends on $\NameCert_{\ConvexSetUp}$ (\autoref{ch:concrete-instances-convexset-namecert}), $\NameCert_{\VecSpaceUp}$ (\autoref{ch:concrete-instances-vecspace-namecert}), $\NameCert_{\LinearMapUp}$ (\autoref{ch:concrete-instances-linearmap-namecert}), $\NameCert_{\LPDualityUp}$ (\autoref{ch:concrete-instances-lpduality-namecert}), $\NameCert_{\TopVecSpaceUp}$ (\autoref{ch:concrete-instances-topvecspace-namecert}), $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}), and $\NameCert_{\SemidefiniteConeUp}$ (\autoref{ch:concrete-instances-semidefinitecone-namecert}).
 
 \section{Finite primal-dual packet}
 \label{sec:fenchelduality-finite-primal-dual-packet}
@@ -26,6 +26,28 @@ with the following visible rows:
 The carrier predicate is $\mathsf{FenchelPacket}(P,D,E,Q,C,R,L)$. Two accepted packets classify together only when the displayed primal row, dual row, pairing row, comparison row, epigraph rows, optional cone-facing rows, and provenance ledger transport by $\hsame$ along the same $\Cont$ routes named in $L$.
 \end{definition}
 
+\begin{definition}[Fenchel duality carrier]
+\label{def:fenchel-duality-carrier}
+A paper-facing $\FenchelDualityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,f,d,\ell,g,w,z,t,\pi,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\VecSpaceUp$ source row carrying the primal vector-space boundary.
+\item $f$ is the primal convex function row over the displayed $\ConvexSetUp$ domain.
+\item $d$ is the dual functional row, exposed as a $\LinearMapUp$-facing read rather than as an ambient dual space.
+\item $\ell$ is the linear pairing row connecting primal witnesses to dual reads.
+\item $g$ is the conjugate ledger row, recording the finite Fenchel conjugacy data available to consumers.
+\item $w$ is the weak-duality inequality row, read through $\RealUp$ comparisons.
+\item $z$ is the zero-gap witness row when the packet displays equality of primal and dual ledger values.
+\item $t$ records classifier transport for $X,f,d,\ell,g,w,z,\pi,n$.
+\item $\pi$ is the $\Pkg$ provenance over $\FenchelDualityUp$, $\ConvexSetUp$, $\VecSpaceUp$, $\LinearMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $n$ is the local $\NameCert_{\FenchelDualityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,f,d,\ell,g,w,z,t,\pi,n$. It has no coordinate for a selected optimizer, Hahn--Banach extension, separating hyperplane, topological dual completion, or analytic strong-duality theorem.
+\end{definition}
+
 \begin{theorem}[FenchelDualityUp NameCert obligation surface]
 \label{thm:fenchelduality-namecert-obligation-surface}
 The local $\NameCert_{\FenchelDualityUp}$ seed surface consists of the following five finite obligations:
@@ -46,6 +68,22 @@ Read the carrier from \autoref{def:fenchelduality-carrier}. Its coordinates list
 The classifier and stability obligations are componentwise. Transporting an accepted packet along the displayed $\hsame$ witnesses replaces representatives of the same visible rows, and the $\Cont$ routes named in the ledger keep the reads inside the cited $\TopVecSpaceUp$, $\VecSpaceUp$, $\RealUp$, $\ConvexSetUp$, $\LPDualityUp$, and $\SemidefiniteConeUp$ certificate boundaries.
 
 The readback clause is therefore exact: a consumer obtains a pairing value, an order comparison, or an epigraph membership only by projecting the corresponding finite ledger row. Since no coordinate stores a separating hyperplane principle, a Hahn--Banach extension, a strong-duality existence witness, a host quotient, or an analytic closure theorem, the excluded classical principles remain outside the seed surface.
+\end{proof}
+
+\begin{theorem}[Fenchel duality NameCert obligations]
+\label{thm:fenchel-duality-namecert-obligations}
+For every accepted paper-facing carrier
+$$
+K=(X,f,d,\ell,g,w,z,t,\pi,n)
+$$
+of \autoref{def:fenchel-duality-carrier}, the local $\NameCert_{\FenchelDualityUp}$ surface consists exactly of primal convex-function exposure through $f$, dual functional exposure through $d$, linear pairing through $\ell$, conjugate-ledger readback through $g$, weak-duality comparison through $w$, zero-gap witness exposure through $z$, classifier transport through $t$, provenance through $\pi$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:fenchel-duality-carrier}. The rows $X,f,d,\ell$ expose the primal vector-space boundary, convex functional, dual functional, and pairing data through the displayed $\VecSpaceUp$, $\ConvexSetUp$, and $\LinearMapUp$ certificate routes.
+
+Next read the convex-duality ledger rows. The conjugate row $g$, weak-duality row $w$, and optional zero-gap row $z$ are finite packet coordinates, so a consumer receives only recorded $\RealUp$ comparisons and ledger witnesses.
+
+Finally the transport, provenance, and naming rows $t,\pi,n$ preserve that surface under classifier comparison. Since the carrier has no coordinate for selected optimizers, Hahn--Banach, separating hyperplanes, topological dual completion, or an analytic strong-duality theorem, the listed rows exhaust the local NameCert obligations.
 \end{proof}
 
 \begin{theorem}[FenchelDualityUp carrier classifier scope]
