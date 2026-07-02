@@ -66,6 +66,27 @@ theorem ClosurePreservationAuditWitness_substitution_row [AskSetup] [PackageSetu
     ⟨sUnary, vUnary, fUnary, substitutionUnary, fullSubstitutionUnary,
       substitutionRoute, fullSubstitutionRoute, provenancePkg, fullSubstitutionPkg⟩
 
+theorem ClosurePreservationAuditWitness_beta_step_row [AskSetup] [PackageSetup]
+    {S V F B R H C P N betaStepRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg →
+      Cont B N betaStepRead →
+        PkgSig bundle betaStepRead pkg →
+          UnaryHistory S ∧ UnaryHistory V ∧ UnaryHistory F ∧ UnaryHistory B ∧
+            UnaryHistory betaStepRead ∧ Cont S V F ∧ Cont F B H ∧
+              Cont B N betaStepRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle betaStepRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier betaStepRoute betaStepPkg
+  obtain ⟨sUnary, vUnary, fUnary, bUnary, _rUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, shiftVariableRoute, fullBetaRoute, _betaStepCarrierRoute, provenancePkg⟩ :=
+    carrier
+  have betaStepUnary : UnaryHistory betaStepRead :=
+    unary_cont_closed bUnary nUnary betaStepRoute
+  exact
+    ⟨sUnary, vUnary, fUnary, bUnary, betaStepUnary, shiftVariableRoute, fullBetaRoute,
+      betaStepRoute, provenancePkg, betaStepPkg⟩
+
 theorem ClosurePreservationAuditWitness_namecert_obligations [AskSetup] [PackageSetup]
     {S V F B R H C P N nameRead : BHist} {bundle : ProbeBundle ProbeName}
     {pkg : Pkg} :

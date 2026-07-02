@@ -162,6 +162,7 @@ import BEDC.Derived.AperyUp
 import BEDC.Derived.ApophaticBoundarySocketStackUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp
+import BEDC.Derived.ApophaticFiberFarEndUp.Routes
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFixedPointFiberUp.ScopedRoute
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
@@ -13676,6 +13677,7 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanCyclotomicPentagon
 import BEDC.Derived.Window6GoldenMeanHankelTuran
 import BEDC.Derived.Window6GoldenMeanParryResidue
 import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
