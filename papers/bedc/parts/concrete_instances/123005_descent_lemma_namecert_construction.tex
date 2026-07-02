@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\DescentLemmaUp$}
+\label{ch:concrete-instances-descent-lemma-namecert}
+\origin{human}
+
+Following Nesterov and Boyd--Vandenberghe on smooth convex finite descent, the $\DescentLemmaUp$ packet records the displayed data needed before an optimization consumer may spend a quadratic upper-bound estimate. It sits beside the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the derivative-facing rows of \autoref{ch:concrete-instances-derivative-namecert} and \autoref{ch:concrete-instances-frechet-derivative-namecert}, the Lipschitz surfaces of \autoref{ch:concrete-instances-lipschitzmap-namecert} and \autoref{ch:concrete-instances-lipschitz-constant-namecert}, and the terminal Real comparison seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite smooth-convex descent estimate, not a host smooth function space, a selected minimizer, or a global convergence theorem.
+
+\begin{definition}[Descent lemma carrier]
+\label{def:descent-lemma-carrier}
+A $\DescentLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,G,L,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the smooth convex source row, read through $\ConvexSetUp$, $\DerivativeUp$, and $\FrechetDerivativeUp$, naming the finite domain window and derivative-facing service used by the estimate.
+\item $G$ is the gradient row, recording the displayed gradient read at the current point and the nearby point reached by the step.
+\item $L$ is the Lipschitz budget row, read through $\LipschitzMapUp$ and $\LipschitzConstantUp$, exposing the finite modulus that bounds gradient variation on the displayed window.
+\item $S$ is the step row, recording the point, direction, step size, and local membership checks consumed by the descent estimate.
+\item $Q$ is the quadratic upper-bound row, recording the displayed inequality between the target value after the step and the value, gradient pairing, and squared-step budget before the step.
+\item $E$ is the $\RealUp$ comparison seal row, available only after the value row, gradient pairing row, Lipschitz budget, and quadratic row have all been exposed.
+\item $H$ records componentwise $\hsame$ transport for the smooth convex source, gradient, Lipschitz budget, step, quadratic bound, Real comparison seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the smooth convex source through gradient/Lipschitz exposure, step formation, quadratic upper-bound checking, and Real comparison.
+\item $P$ is the $\Pkg$ provenance over $\DescentLemmaUp$, $\ConvexSetUp$, $\DerivativeUp$, $\FrechetDerivativeUp$, $\LipschitzMapUp$, $\LipschitzConstantUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DescentLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,G,L,S,Q,E,H,C,P,N$. It has no coordinate for an ambient Banach space, a host smooth function object, a selected global minimizer, countable choice over iterates, or a convergence theorem outside the displayed finite descent row.
+\end{definition}
+
+\begin{theorem}[Descent lemma NameCert obligations]
+\label{thm:descent-lemma-namecert-obligations}
+For every accepted $\DescentLemmaUp$ carrier
+$$
+D=(X,G,L,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\DescentLemmaUp}$ surface consists exactly of smooth-convex source exposure through $X$, gradient exposure through $G$, Lipschitz-budget exposure through $L$, step exposure through $S$, quadratic upper-bound exposure through $Q$, Real comparison sealing through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its analytic rows are exactly the smooth convex source, gradient read, Lipschitz gradient budget, finite step, quadratic upper-bound row, and Real comparison seal.
+
+The source row fixes the domain window before any inequality is read. The gradient and Lipschitz rows expose only displayed derivative-facing data, so a consumer cannot import a host smooth function space or an unrestricted differentiability theorem.
+
+The step and quadratic rows are then checked inside the same finite window. The row $S$ supplies the point, direction, and step size; the row $Q$ records the upper-bound estimate using only those visible data and the Lipschitz budget.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no excluded minimizer or convergence object is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Descent lemma quadratic-bound route]
+\label{thm:descent-lemma-quadratic-bound-route}
+Every smooth-convex descent consumer of an accepted $\DescentLemmaUp$ packet must read the finite route
+$$
+X,G,L,S,Q,E,H,C,P,N
+$$
+before using a descent conclusion. The route supplies a smooth convex source row, displayed gradient read, Lipschitz gradient budget, finite step row, quadratic upper-bound row, Real comparison seal, componentwise transport, replay, provenance, and local naming. It supplies no global minimizer, no global iteration theorem, no choice schedule for descent steps, and no host analytic structure beyond the named source rows.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:descent-lemma-namecert-obligations}. It places the smooth convex source, gradient row, Lipschitz budget, and step row before the quadratic estimate can be consumed.
+
+Read the quadratic row next. The row $Q$ may spend only the displayed value row, gradient pairing, step budget, and Lipschitz budget, then $E$ seals the resulting comparison as a $\RealUp$ read rather than as an ambient analytic judgment.
+
+Use the transport and replay rows to preserve the same route. Componentwise $\hsame$ cannot add a minimizer coordinate, and $\Cont$ replay can only repeat the displayed source, gradient, step, bound, and Real comparison rows.
+
+Thus every descent-facing consumer remains inside $X,G,L,S,Q,E,H,C,P,N$. Any convergence theorem, minimizer witness, or infinite descent schedule must arrive from a separate certificate.
+\end{proof}
+
+\closureat{DescentLemmaUp}{seedStr}
+
+\begin{closurestatus}{\DescentLemmaUp}
+  \constructivestory{A $\DescentLemmaUp$ packet is generated from a smooth convex source row, gradient row, Lipschitz-budget row, finite step row, quadratic upper-bound row, Real comparison seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:descent-lemma-carrier}, \autoref{thm:descent-lemma-namecert-obligations}, and \autoref{thm:descent-lemma-quadratic-bound-route} seed the finite smooth-convex descent estimate for optimization consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected minimizers, global convergence, infinite descent schedules, host smooth function spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, smooth-convex source exposure, gradient and Lipschitz-budget exactness, step exposure, quadratic-bound nonescape, Real comparison sealing, transport, replay, provenance, and local naming for BEDC.Derived.DescentLemmaUp.}
+\end{closurestatus}
