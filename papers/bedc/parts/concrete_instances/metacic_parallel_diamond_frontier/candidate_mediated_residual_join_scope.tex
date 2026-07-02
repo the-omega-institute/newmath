@@ -31,3 +31,21 @@ Next apply the residual-substitution dependency route of \autoref{thm:metacic-pa
 
 Finally combine finite residual witness consumption with residual-join locality, using \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption} and \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. These rows keep $R,S,C,B,O$ attached to the same candidate-normalization route through $J$ and the same structural rows $H,T,G,N$. Thus any visible parallel-diamond conclusion remains inside the retained bounded window named in the statement.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated residual-join obligation]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-obligation}
+Every accepted candidate-normalization window of a $\MetaCICParallelDiamondFrontierUp$ packet that exposes both residual branches must also expose the finite local-join row, retained-premise ledger, and obstruction-retention row before a parallel-diamond frontier consumer may read the window. In carrier form the admissible obligation surface is
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+where $K$ is the critical-pair envelope, $J$ is the candidate-local join row, $P$ is the retained residual-substitution premise ledger, $R,S,C,B$ display the residual branch, typed-window, witness, and bounded-checker rows, $O$ records obstruction retention, and $H,T,G,N$ preserve transport, replay, provenance, and local naming. The obligation is local to this finite surface; it does not assert global confluence, subject reduction, evaluator equality, quotient term equality, residual-substitution discharge, strong normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the candidate-mediated residual window of \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-window}. It already keeps $P,J,R,S,C,B,O,H,T,G,N$ visible while the candidate-normalization row is consumed.
+
+Read the critical-pair envelope through \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}. Both residual branches are therefore branches of the displayed finite envelope $K$, not independent reductions imported from an ambient calculus.
+
+Apply residual-window scope using \autoref{thm:metacic-parallel-diamond-candidate-mediated-residual-join-scope}. The local join row $J$, retained premise row $P$, residual rows $R,S,C,B$, and obstruction row $O$ remain on the same candidate-mediated route.
+
+If a branch attempted to bypass $J$ or $O$, it would no longer be a read of the retained window $P,K,J,R,S,C,B,O,H,T,G,N$. If it attempted to bypass $P$, the residual-substitution dependency named by the window would be lost. Hence the frontier consumer receives a parallel-diamond-facing obligation only after the local join ledger, retained premise ledger, and obstruction-retention row have all been exposed.
+\end{proof}

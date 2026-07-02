@@ -215,19 +215,32 @@ Next apply holomorphic route non-escape. The route remains inside $D_1,D_2,F,G,U
 The zeta witness is then read only after the socket and contour chapters have consumed this finite operation packet. Since neither the operation packet nor the contour-facing handoff contains an RH predicate or a zero-location coordinate, the zeta consumer receives continuation data without any RH zero-location consequence.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationOperation bridge consumption]
+\label{thm:analytic-continuation-operation-bridge-consumption}
+Every bridge consumer of an accepted $\AnalyticContinuationOperationUp$ packet must read the displayed source rows, the domain-overlap row, the operation row, the output row, the branch ledger, the socket handoff, the contour-integral consumer route, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before using the operation. Such a consumer cannot use quotient-of-germs equality, global monodromy, a branch selector, or an RH zero-location consequence.
+\end{theorem}
+\begin{proof}
+Start with public export, \autoref{thm:analytic-continuation-operation-public-export}. It exposes exactly the finite operation surface over $D_1,D_2,F,G,U,A,O,L,H,C,P,N$.
+
+Next use socket extraction and socket handoff exactness, \autoref{thm:analytic-continuation-operation-socket-extraction} and \autoref{thm:analytic-continuation-operation-socket-handoff-exactness}. They force every bridge-facing operation read through the source rows, overlap row, operation row, output row, branch ledger, transports, routes, provenance, and local name.
+
+Finally apply the contour socket handoff and zeta consumer boundary, \autoref{thm:analytic-continuation-operation-contour-socket-handoff} and \autoref{thm:analytic-continuation-operation-zeta-consumer-boundary}. The contour consumer route receives only the displayed operation packet, while the zeta-facing route carries no RH zero-location coordinate. Ledger exactness keeps quotient-of-germs equality, global monodromy, and branch selection outside the exported bridge consumption surface.
+\end{proof}
+
 \closureat{AnalyticContinuationOperationUp}{seedStr}
 \closureat{AnalyticContinuationOperationUp}{obligationStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
 \closureat{AnalyticContinuationOperationUp}{scopedStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
 \closureat{AnalyticContinuationOperationUp}{publicStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
+\closureat{AnalyticContinuationOperationUp}{bridgedStr}[thm:analytic-continuation-operation-bridge-consumption]
 
 \begin{closurestatus}{\AnalyticContinuationOperationUp}
   \constructivestory{An $\AnalyticContinuationOperationUp$ packet is generated from two $\ComplexUp$ domain rows, two $\HolomorphicUp$ input rows, finite overlap and pointwise $\hsame$ evidence, an $\AnalyticContUp$ operation row, an output $\HolomorphicUp$ row, a continuation ledger, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:analytic-continuation-operation-carrier}, \autoref{thm:analytic-continuation-operation-namecert-obligations}, \autoref{thm:analytic-continuation-operation-stability}, \autoref{thm:analytic-continuation-operation-ledger-exactness}, and \autoref{thm:analytic-continuation-operation-public-export} define the local operation carrier, obligation rows, stability, ledger exactness, and the exported operation certificate.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:analytic-continuation-operation-carrier}, \autoref{thm:analytic-continuation-operation-namecert-obligations}, \autoref{thm:analytic-continuation-operation-public-export}, and \autoref{thm:analytic-continuation-operation-bridge-consumption} define the local operation carrier, obligation rows, exported operation certificate, and bridge-consumption route.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global monodromy, quotient-of-germs construction, general branch selection, RH zero-location consequences, or bridge checking.}
-  \upgradepath{Public closure requires a single exported operation certificate over the same $\ComplexUp$, $\HolomorphicUp$, $\AnalyticContUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Mature closure requires examples or completeness-style consumer coverage; machine bridge checking remains a separate verification target.}
 \end{closurestatus}

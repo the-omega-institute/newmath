@@ -7,6 +7,9 @@ Run ``python3 lean4/scripts/bedc_ci.py --help`` for the canonical subcommand lis
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
+import errno
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -20,7 +23,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Iterator
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LEAN_ROOT = SCRIPT_DIR.parent
@@ -32,15 +35,150 @@ TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
-SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
+SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_content_cache.json")
+SCAN_LEAN_SOURCES_CACHE_LOCK_PATH = Path("/tmp/.bedc_scan_lean_sources_content_cache.lock")
+SCAN_LEAN_SOURCES_CACHE_SCHEMA = "bedc_scan_lean_sources_cache.content_addressed"
 LEAN_COMPILE_BUDGETS_PATH = SCRIPT_DIR / "lean_compile_budgets.json"
 MAX_LEAN_COMPILE_BUDGET_SECONDS = 900
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.environ.get(name, str(default)))
+    except ValueError:
+        return default
+
+
+def _env_float(name: str, default: float) -> float:
+    try:
+        return float(os.environ.get(name, str(default)))
+    except ValueError:
+        return default
+
+
+class AuditGateTimeout(RuntimeError):
+    pass
+
+
+def _open_lock_file(path: Path) -> int:
+    flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_CLOEXEC", 0)
+    fd = os.open(str(path), flags, 0o644)
+    try:
+        os.set_inheritable(fd, False)
+    except OSError:
+        pass
+    return fd
+
+
+def _git_common_dir() -> Path | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+            stdin=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+        return None
+    raw = result.stdout.strip()
+    if not raw:
+        return None
+    path = Path(raw)
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    return path
+
+
+def _audit_gate_lock_dir() -> Path:
+    override = os.environ.get("BEDC_AUDIT_GATE_LOCK_DIR")
+    if override:
+        return Path(override)
+    common = _git_common_dir()
+    if common is not None:
+        return common / ".bedc-audit-gate"
+    return Path("/tmp/.bedc-audit-gate")
+
+
+def _try_acquire_audit_slot(slot: Path, command: str) -> int | None:
+    fd = _open_lock_file(slot)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as exc:
+        os.close(fd)
+        if exc.errno in (errno.EWOULDBLOCK, errno.EAGAIN, errno.EACCES):
+            return None
+        raise
+    try:
+        os.ftruncate(fd, 0)
+        stamp = {
+            "pid": os.getpid(),
+            "command": command,
+            "cwd": os.getcwd(),
+            "started": time.time(),
+        }
+        os.write(fd, (json.dumps(stamp, sort_keys=True) + "\n").encode("utf-8"))
+        os.fsync(fd)
+    except OSError:
+        pass
+    return fd
+
+
+def _acquire_audit_slot(command: str) -> tuple[int, Path]:
+    max_parallel = max(1, _env_int("BEDC_AUDIT_GATE_MAX_PARALLEL", 2))
+    poll_seconds = max(0.25, _env_float("BEDC_AUDIT_GATE_POLL_SECONDS", 2.0))
+    wait_timeout = max(
+        1.0,
+        _env_float(
+            "BEDC_AUDIT_GATE_WAIT_TIMEOUT",
+            _env_float("BEDC_AUDIT_GATE_ACQUIRE_TIMEOUT", 1200.0),
+        ),
+    )
+    lock_dir = _audit_gate_lock_dir()
+    lock_dir.mkdir(parents=True, exist_ok=True)
+    deadline = time.time() + wait_timeout
+    while True:
+        slot_indices = list(range(1, max_parallel + 1))
+        offset = os.getpid() % max_parallel
+        slot_indices = slot_indices[offset:] + slot_indices[:offset]
+        for index in slot_indices:
+            slot = lock_dir / f"slot-{index}"
+            fd = _try_acquire_audit_slot(slot, command)
+            if fd is not None:
+                return fd, slot
+        if time.time() > deadline:
+            raise AuditGateTimeout(
+                f"waited {wait_timeout:.0f}s for one of {max_parallel} "
+                f"slot(s) under {lock_dir}"
+            )
+        time.sleep(poll_seconds)
+
+
+def _release_audit_slot(fd: int) -> None:
+    try:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+    except OSError:
+        pass
+    try:
+        os.close(fd)
+    except OSError:
+        pass
+
+
+@contextmanager
+def audit_gate(command: str) -> Iterator[None]:
+    fd, _slot = _acquire_audit_slot(command)
+    try:
+        yield
+    finally:
+        _release_audit_slot(fd)
 
 DECL_RE = re.compile(
     r"^\s*"
     r"(?:@\[[^\]]+\]\s*)*"
     r"(?:(?:private|protected|noncomputable|unsafe|partial|scoped|mutual|local)\s+)*"
-    r"(?P<kind>theorem|lemma|def|abbrev|instance|inductive|class|structure)\s+"
+    r"(?P<kind>theorem|lemma|def|abbrev|opaque|instance|inductive|class|structure)\s+"
     r"(?P<name>«[^»]+»|[A-Za-z0-9_'.]+)?"
 )
 FIELD_RE = re.compile(r"^\s{2,}(?P<name>[A-Za-z0-9_']+)\s*:")
@@ -183,7 +321,7 @@ MARKER_DECL_RE = re.compile(
     r"^\s*"
     r"(?:@\[[^\]]+\]\s*)*"
     r"(?:(?:private|protected|noncomputable|unsafe|partial|scoped|mutual)\s+)*"
-    r"(?P<kind>theorem|def|lemma|abbrev|instance|inductive|structure|class)\s+"
+    r"(?P<kind>theorem|def|lemma|abbrev|opaque|instance|inductive|structure|class)\s+"
     r"(?P<name>«[^»]+»|[A-Za-z0-9_'.]+)\b"
 )
 
@@ -784,19 +922,123 @@ def _load_scan_lean_sources_cache() -> dict[str, object]:
     try:
         if not SCAN_LEAN_SOURCES_CACHE_PATH.exists():
             return {}
-        data = json.loads(SCAN_LEAN_SOURCES_CACHE_PATH.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
+        with SCAN_LEAN_SOURCES_CACHE_PATH.open("r", encoding="utf-8") as handle:
+            prefix = handle.read(2048)
+            if SCAN_LEAN_SOURCES_CACHE_SCHEMA not in prefix:
+                return {}
+            handle.seek(0)
+            data = json.load(handle)
+        if (
+            isinstance(data, dict)
+            and data.get("schema") == SCAN_LEAN_SOURCES_CACHE_SCHEMA
+            and isinstance(data.get("entries"), dict)
+        ):
+            return dict(data["entries"])
+        return {}
     except Exception:
         return {}
 
 
 def _save_scan_lean_sources_cache(cache: dict[str, object]) -> None:
     try:
-        tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
-        tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+        fd = _open_lock_file(SCAN_LEAN_SOURCES_CACHE_LOCK_PATH)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            merged = _load_scan_lean_sources_cache()
+            merged.update(cache)
+            payload = {
+                "schema": SCAN_LEAN_SOURCES_CACHE_SCHEMA,
+                "entries": merged,
+            }
+            tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_name(
+                f"{SCAN_LEAN_SOURCES_CACHE_PATH.name}.{os.getpid()}.tmp"
+            )
+            tmp.write_text(
+                json.dumps(payload, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+        finally:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            except OSError:
+                pass
+            os.close(fd)
     except Exception:
         pass
+
+
+def _scan_cache_key(rel_file: str, content_key: str) -> str:
+    raw = f"{rel_file}\0{content_key}".encode("utf-8")
+    return "scan:" + hashlib.sha256(raw).hexdigest()
+
+
+def _git_ls_files_blob_keys() -> dict[str, str]:
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "-s", "-z", "--", "lean4/BEDC"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+            stdin=subprocess.DEVNULL,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+        return {}
+    blob_keys: dict[str, str] = {}
+    for record in result.stdout.split("\0"):
+        if not record:
+            continue
+        if "\t" not in record:
+            continue
+        meta, rel_file = record.split("\t", 1)
+        parts = meta.split()
+        if len(parts) < 2:
+            continue
+        blob_keys[rel_file] = "git:" + parts[1]
+    return blob_keys
+
+
+def _git_changed_lean_files() -> set[str] | None:
+    changed: set[str] = set()
+    commands = (
+        ["git", "diff", "--name-only", "-z", "--", "lean4/BEDC"],
+        ["git", "diff", "--cached", "--name-only", "-z", "--", "lean4/BEDC"],
+    )
+    for command in commands:
+        try:
+            result = subprocess.run(
+                command,
+                cwd=REPO_ROOT,
+                text=True,
+                capture_output=True,
+                check=True,
+                stdin=subprocess.DEVNULL,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError, OSError):
+            return None
+        changed.update(path for path in result.stdout.split("\0") if path)
+    return changed
+
+
+def _file_content_cache_key(path: Path) -> str | None:
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return None
+    return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def _lean_source_content_key(
+    path: Path,
+    rel_file: str,
+    git_blob_keys: dict[str, str],
+    git_changed_files: set[str] | None,
+) -> str | None:
+    git_key = git_blob_keys.get(rel_file)
+    if git_key is not None and git_changed_files is not None and rel_file not in git_changed_files:
+        return git_key
+    return _file_content_cache_key(path)
 
 
 def _record_list_from_json(
@@ -1003,21 +1245,28 @@ def scan_lean_sources() -> LeanSourceScan:
     use_cache = _scan_cache_enabled()
     cache = _load_scan_lean_sources_cache() if use_cache else {}
     new_cache: dict[str, object] = {}
+    git_blob_keys = _git_ls_files_blob_keys() if use_cache else {}
+    git_changed_files = _git_changed_lean_files() if use_cache else None
 
     for path in lean_files():
         rel_file = str(path.relative_to(REPO_ROOT))
-        try:
-            mtime = path.stat().st_mtime
-        except Exception:
-            continue
+        content_key = (
+            _lean_source_content_key(path, rel_file, git_blob_keys, git_changed_files)
+            if use_cache
+            else None
+        )
 
-        cached_entry = cache.get(rel_file) if isinstance(cache, dict) else None
+        cache_key = (
+            _scan_cache_key(rel_file, content_key)
+            if content_key is not None
+            else None
+        )
+        cached_entry = cache.get(cache_key) if cache_key is not None else None
         extract = None
-        if (
-            isinstance(cached_entry, dict)
-            and cached_entry.get("mtime") == mtime
-        ):
+        cache_hit = False
+        if isinstance(cached_entry, dict):
             extract = _extract_from_cache(cached_entry)
+            cache_hit = extract is not None
         if extract is None:
             extract = _scan_lean_source_file(path)
 
@@ -1026,13 +1275,14 @@ def scan_lean_sources() -> LeanSourceScan:
         declaration_headers.update(extract.declaration_headers)
         declaration_bodies.update(extract.declaration_bodies)
         ledgers.extend(extract.discovery_delta_ledgers)
-        if use_cache:
-            new_cache[rel_file] = {
-                "mtime": mtime,
+        if use_cache and cache_key is not None and not cache_hit:
+            new_cache[cache_key] = {
+                "rel_file": rel_file,
+                "content_key": content_key,
                 "extract": _extract_to_json(extract),
             }
 
-    if use_cache:
+    if use_cache and new_cache:
         _save_scan_lean_sources_cache(new_cache)
 
     return LeanSourceScan(
@@ -1843,8 +2093,9 @@ def run_marker_uniqueness_check() -> tuple[list[dict[str, object]], str]:
 
 
 def _get_commit_changed_files() -> set[str] | None:
-    """Return files changed by HEAD relative to its first parent."""
+    """Return active-round changed files when git context is available."""
     try:
+        dirty_files: set[str] = set()
         dirty = subprocess.run(
             ["git", "diff", "--name-only", "HEAD"],
             cwd=REPO_ROOT,
@@ -1853,17 +2104,43 @@ def _get_commit_changed_files() -> set[str] | None:
         )
         if dirty.returncode == 0:
             dirty_files = {ln.strip() for ln in dirty.stdout.splitlines() if ln.strip()}
-            if dirty_files:
-                return dirty_files
+        base_refs = [
+            os.environ.get("BEDC_CI_BASE_REF", "origin/codex-auto-dev"),
+            "origin/dev",
+        ]
+        merge_base: str | None = None
+        for base_ref in base_refs:
+            if not base_ref:
+                continue
+            base = subprocess.run(
+                ["git", "merge-base", "HEAD", base_ref],
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+            )
+            if base.returncode == 0 and base.stdout.strip():
+                merge_base = base.stdout.strip()
+                break
+        if merge_base is None:
+            parent = subprocess.run(
+                ["git", "rev-parse", "--verify", "HEAD~1"],
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+            )
+            if parent.returncode != 0 or not parent.stdout.strip():
+                return dirty_files or None
+            merge_base = parent.stdout.strip()
         r = subprocess.run(
-            ["git", "diff", "--name-only", "HEAD~1..HEAD"],
+            ["git", "diff", "--name-only", merge_base, "HEAD"],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
         )
         if r.returncode != 0:
-            return None
-        return {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
+            return dirty_files or None
+        base_files = {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
+        return dirty_files | base_files
     except Exception:
         return None
 
@@ -12355,11 +12632,157 @@ DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
 )
 STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext",)
 PRINT_AXIOMS_RE = re.compile(
-    r"^'(.+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])$",
+    r"^'(.+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[([^\]]*)\])$",
     re.MULTILINE,
 )
 METACIC_SCOPE = "BEDC.MetaCIC"
 METACIC_IMPORT = "BEDC.MetaCIC"
+
+
+def _public_bedc_theorem_records(
+    declarations: Iterable[DeclarationRecord],
+) -> list[DeclarationRecord]:
+    by_name: dict[str, DeclarationRecord] = {}
+    for decl in declarations:
+        if (
+            decl.kind in ("theorem", "lemma")
+            and decl.qualified_name.startswith("BEDC.")
+            and not decl.is_private
+            and decl.qualified_name not in by_name
+        ):
+            by_name[decl.qualified_name] = decl
+    return sorted(by_name.values(), key=lambda d: d.qualified_name)
+
+
+def _print_axioms_decl_records(
+    declarations: Iterable[DeclarationRecord],
+) -> list[DeclarationRecord]:
+    by_site: dict[tuple[str, int, str, str], DeclarationRecord] = {}
+    for decl in declarations:
+        if not decl.qualified_name.startswith("BEDC."):
+            continue
+        key = (decl.file, decl.line, decl.kind, decl.qualified_name)
+        by_site.setdefault(key, decl)
+    return sorted(by_site.values(), key=lambda d: (d.file, d.line, d.qualified_name))
+
+
+def _changed_bedc_lean_paths(changed_files: set[str]) -> list[Path]:
+    paths: list[Path] = []
+    seen: set[Path] = set()
+    for rel_file in sorted(changed_files):
+        if rel_file == "lean4/BEDC.lean" or (
+            rel_file.startswith("lean4/BEDC/") and rel_file.endswith(".lean")
+        ):
+            path = REPO_ROOT / rel_file
+            if path.is_file() and path not in seen:
+                paths.append(path)
+                seen.add(path)
+    return paths
+
+
+def _changed_bedc_decl_records(changed_files: set[str]) -> tuple[list[DeclarationRecord], list[Path]]:
+    changed_paths = _changed_bedc_lean_paths(changed_files)
+    declarations: list[DeclarationRecord] = []
+    for path in changed_paths:
+        file_decls, _fields = collect_declarations(path)
+        declarations.extend(file_decls)
+    return _print_axioms_decl_records(declarations), changed_paths
+
+
+def _audit_instance_name(record: DeclarationRecord) -> str:
+    digest = hashlib.sha1(record.qualified_name.encode("utf-8")).hexdigest()[:12]
+    return f"bedcAxiomAuditInst_{record.line}_{digest}"
+
+
+def _print_axioms_target(record: DeclarationRecord) -> str:
+    if record.kind == "instance" and record.name.startswith("<anonymous_instance_"):
+        namespace = record.qualified_name.rsplit(".", 1)[0]
+        return f"{namespace}.{_audit_instance_name(record)}"
+    return record.qualified_name
+
+
+def _source_with_audit_instance_names(
+    source_text: str,
+    records: Iterable[DeclarationRecord],
+) -> str:
+    audit_names = {
+        record.line: _audit_instance_name(record)
+        for record in records
+        if record.kind == "instance" and record.name.startswith("<anonymous_instance_")
+    }
+    if not audit_names:
+        return source_text
+    lines = source_text.splitlines()
+    for line_no, audit_name in audit_names.items():
+        if line_no < 1 or line_no > len(lines):
+            continue
+        line = lines[line_no - 1]
+        match = DECL_RE.match(strip_comments_and_strings(line))
+        if not match:
+            continue
+        kind_start, kind_end = match.span("kind")
+        if line[kind_start:kind_end] != "instance":
+            continue
+        lines[line_no - 1] = f"{line[:kind_end]} {audit_name}{line[kind_end:]}"
+    trailing_newline = "\n" if source_text.endswith("\n") else ""
+    return "\n".join(lines) + trailing_newline
+
+
+def _parse_axioms_line(line: str) -> tuple[str, list[str] | None] | None:
+    match = PRINT_AXIOMS_RE.match(line.strip())
+    if not match:
+        return None
+    name = match.group(1)
+    axs_raw = match.group(2)
+    if axs_raw is None:
+        return name, None
+    return name, [a.strip() for a in axs_raw.split(",") if a.strip()]
+
+
+def _sentinel_token(kind: str, idx: int) -> str:
+    return f"BEDC_AXIOM_AUDIT_{kind}_{idx:06d}"
+
+
+def _parse_sentinel_axiom_reports(
+    output: str,
+    chunk: list[DeclarationRecord],
+) -> tuple[list[str], list[tuple[str, list[str]]], list[str]]:
+    pure: list[str] = []
+    impure: list[tuple[str, list[str]]] = []
+    missing: list[str] = []
+    lines = output.splitlines()
+    cursor = 0
+    for idx, record in enumerate(chunk):
+        begin = _sentinel_token("BEGIN", idx)
+        end = _sentinel_token("END", idx)
+        begin_pos = -1
+        for pos in range(cursor, len(lines)):
+            if lines[pos].strip() == begin:
+                begin_pos = pos
+                break
+        if begin_pos < 0:
+            missing.append(record.qualified_name)
+            continue
+        end_pos = len(lines)
+        for pos in range(begin_pos + 1, len(lines)):
+            if lines[pos].strip() == end:
+                end_pos = pos
+                break
+        parsed: tuple[str, list[str] | None] | None = None
+        for line in lines[begin_pos + 1 : end_pos]:
+            parsed = _parse_axioms_line(line)
+            if parsed is not None:
+                break
+        if parsed is None:
+            missing.append(record.qualified_name)
+        else:
+            _lean_name, axioms = parsed
+            if axioms is None:
+                pure.append(record.qualified_name)
+            else:
+                impure.append((record.qualified_name, axioms))
+        cursor = end_pos + 1 if end_pos < len(lines) else len(lines)
+    return pure, impure, missing
 
 
 def scan_metacic_declarations() -> list[DeclarationRecord]:
@@ -13285,15 +13708,14 @@ def cmd_taste_gate(args: argparse.Namespace) -> int:
 
 
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
-    """Check that every BEDC theorem's transitive axiom dependency set is
-    contained within the allowed Lean stdlib subset.
+    """Check that BEDC transitive axiom dependency sets avoid forbidden axioms.
 
     Default forbidden: Classical.choice, Quot.sound (the controversial axioms).
     --strict additionally forbids propext (true zero-axiom-dependency mode).
 
-    Implementation: writes a temp Lean file that does `#print axioms X` for
-    every public BEDC theorem (from inventory), runs `lake env lean`, parses
-    the output, and reports any forbidden axiom dependency.
+    By default the command checks every declaration in the active git round's
+    changed BEDC Lean files when that context is available. The async/base gate
+    can pass --full to force a complete full-tree theorem scan.
     """
     import tempfile
 
@@ -13304,19 +13726,31 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     extra = [a.strip() for a in (args.also_forbid or "").split(",") if a.strip()]
     forbidden.update(extra)
 
-    declarations, _fields = build_declaration_inventory()
-    theorems = sorted(
-        {
-            d.qualified_name
-            for d in declarations
-            if d.kind in ("theorem", "lemma")
-            and d.qualified_name.startswith("BEDC.")
-            and not d.is_private
-            and module_olean_path(d.module).exists()
-        }
-    )
-    if not theorems:
-        print("[bedc-ci] axiom-purity: no BEDC theorems found", file=sys.stderr)
+    changed_files = _get_commit_changed_files()
+    changed_only_mode = False
+    changed_lean_paths: list[Path] = []
+    if not args.full and changed_files is not None:
+        changed_only_mode = True
+        declaration_records, changed_lean_paths = _changed_bedc_decl_records(changed_files)
+    else:
+        declarations, _fields = build_declaration_inventory()
+        declaration_records = [
+            d
+            for d in _public_bedc_theorem_records(declarations)
+            if module_olean_path(d.module).exists()
+        ]
+    declaration_names = [d.qualified_name for d in declaration_records]
+    theorem_count = sum(1 for d in declaration_records if d.kind in ("theorem", "lemma"))
+    if not declaration_names:
+        mode = "changed-only" if changed_only_mode else "full"
+        print(
+            f"[bedc-ci] axiom-purity:"
+            f" mode={mode}"
+            f" changed_lean_files={len(changed_lean_paths)}"
+            f" declarations=0"
+            f" theorems=0"
+            f" forbidden={sorted(forbidden)}"
+        )
         return 0
 
     # Race-safe tmp-dir handling. Default --tmp-dir is LEAN_ROOT, which is a
@@ -13363,39 +13797,67 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     except OSError:
         pass
 
-    # Walk every .lean file under BEDC/ so that every theorem in `theorems`
-    # is in scope. Root `BEDC.lean` cannot re-export all sub-files because
-    # the project uses a parent-hub + namespace-extension pattern: sub-files
-    # import the parent hub, so the parent hub re-exporting them would
-    # cycle.
-    all_modules: list[str] = []
-    seen_public_decls: set[str] = set()
-    for path in sorted(BEDC_ROOT.rglob("*.lean")):
-        module = ".".join(path.relative_to(LEAN_ROOT).with_suffix("").parts)
-        if not module_olean_path(module).exists():
-            continue
-        file_decls, _fields = collect_declarations(path)
-        public_decls = {d.qualified_name for d in file_decls if not d.is_private}
-        if public_decls and public_decls.issubset(seen_public_decls):
-            continue
-        all_modules.append(module)
-        seen_public_decls.update(public_decls)
-    import_lines = [f"import {m}" for m in all_modules]
     chunk_size = max(1, int(args.chunk_size))
-    chunks = [theorems[i : i + chunk_size] for i in range(0, len(theorems), chunk_size)]
+
+    chunk_jobs: list[tuple[str, list[DeclarationRecord], str]] = []
+    if changed_only_mode:
+        records_by_file: dict[str, list[DeclarationRecord]] = {}
+        for record in declaration_records:
+            records_by_file.setdefault(record.file, []).append(record)
+        for rel_file, records in sorted(records_by_file.items()):
+            file_records = sorted(records, key=lambda record: (record.line, record.qualified_name))
+            source_text = read_text(REPO_ROOT / rel_file).rstrip()
+            audit_source_text = _source_with_audit_instance_names(source_text, file_records)
+            file_chunks = [
+                file_records[i : i + chunk_size]
+                for i in range(0, len(file_records), chunk_size)
+            ]
+            for file_idx, chunk in enumerate(file_chunks, start=1):
+                lean_lines = [audit_source_text, ""]
+                for record_idx, record in enumerate(chunk):
+                    target = _print_axioms_target(record)
+                    lean_lines.append(f'#eval IO.println "{_sentinel_token("BEGIN", record_idx)}"')
+                    lean_lines.append(f"#print axioms {target}")
+                    lean_lines.append(f'#eval IO.println "{_sentinel_token("END", record_idx)}"')
+                label = f"{rel_file} {file_idx}/{len(file_chunks)}"
+                chunk_jobs.append((label, chunk, "\n".join(lean_lines) + "\n"))
+    else:
+        # Walk every .lean file under BEDC/ so that every theorem in `theorems`
+        # is in scope. Root `BEDC.lean` cannot re-export all sub-files because
+        # the project uses a parent-hub + namespace-extension pattern: sub-files
+        # import the parent hub, so the parent hub re-exporting them would
+        # cycle.
+        all_modules: list[str] = []
+        seen_public_decls: set[str] = set()
+        for path in sorted(BEDC_ROOT.rglob("*.lean")):
+            module = ".".join(path.relative_to(LEAN_ROOT).with_suffix("").parts)
+            if not module_olean_path(module).exists():
+                continue
+            file_decls, _fields = collect_declarations(path)
+            public_decls = {d.qualified_name for d in file_decls if not d.is_private}
+            if public_decls and public_decls.issubset(seen_public_decls):
+                continue
+            all_modules.append(module)
+            seen_public_decls.update(public_decls)
+        import_lines = [f"import {m}" for m in all_modules]
+        chunks = [
+            declaration_records[i : i + chunk_size]
+            for i in range(0, len(declaration_records), chunk_size)
+        ]
+        for idx, chunk in enumerate(chunks, start=1):
+            lean_lines = list(import_lines)
+            lean_lines.append("")
+            lean_lines.extend(f"#print axioms {record.qualified_name}" for record in chunk)
+            chunk_jobs.append((f"full chunk {idx}/{len(chunks)}", chunk, "\n".join(lean_lines) + "\n"))
 
     pure: list[str] = []
     impure: list[tuple[str, list[str]]] = []
     violations: list[tuple[str, str]] = []
+    missing_results: list[str] = []
     lean_failed = False
     last_returncode = 0
     tail_outputs: list[str] = []
-    for idx, chunk in enumerate(chunks, start=1):
-        lean_lines = list(import_lines)
-        lean_lines.append("")
-        lean_lines.extend(f"#print axioms {name}" for name in chunk)
-        lean_source = "\n".join(lean_lines) + "\n"
-
+    for idx, (chunk_label, chunk, lean_source) in enumerate(chunk_jobs, start=1):
         # Race-safe tempfile creation. The tmp_dir may disappear between
         # the entry-point mkdir and this call when worktree cleanup races
         # the audit; retry once after re-creating it, then fall back to
@@ -13440,14 +13902,23 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
                 pass
 
         output = (result.stdout or "") + "\n" + (result.stderr or "")
-        for match in PRINT_AXIOMS_RE.finditer(output):
-            decl = match.group(1)
-            axs_raw = match.group(2)
-            if axs_raw is None:
-                pure.append(decl)
-                continue
-            axs = [a.strip() for a in axs_raw.split(",") if a.strip()]
-            impure.append((decl, axs))
+        chunk_impure: list[tuple[str, list[str]]] = []
+        if changed_only_mode:
+            chunk_pure, chunk_impure, chunk_missing = _parse_sentinel_axiom_reports(output, chunk)
+            pure.extend(chunk_pure)
+            impure.extend(chunk_impure)
+            missing_results.extend(chunk_missing)
+        else:
+            for match in PRINT_AXIOMS_RE.finditer(output):
+                decl = match.group(1)
+                axs_raw = match.group(2)
+                if axs_raw is None:
+                    pure.append(decl)
+                    continue
+                axs = [a.strip() for a in axs_raw.split(",") if a.strip()]
+                chunk_impure.append((decl, axs))
+            impure.extend(chunk_impure)
+        for decl, axs in chunk_impure:
             for ax in axs:
                 if ax in forbidden:
                     violations.append((decl, ax))
@@ -13456,25 +13927,38 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             last_returncode = result.returncode
             tail = "\n".join(output.strip().splitlines()[-20:])
             if tail:
-                tail_outputs.append(f"[chunk {idx}/{len(chunks)} rc={result.returncode}]\n{tail}")
+                tail_outputs.append(
+                    f"[chunk {idx}/{len(chunk_jobs)} {chunk_label} rc={result.returncode}]\n{tail}"
+                )
 
     parsed = set(pure)
     parsed.update(decl for decl, _axs in impure)
-    missing = sorted(set(theorems) - parsed)
+    missing = sorted(set(declaration_names) - parsed)
+    if missing_results:
+        missing = sorted(set(missing).union(missing_results))
     result_returncode = last_returncode
 
     if args.json:
         payload = {
-            "theorems_total": len(theorems),
+            "mode": "changed-only" if changed_only_mode else "full",
+            "changed_files": sorted(changed_files) if changed_files is not None else None,
+            "changed_lean_files": [
+                str(path.relative_to(REPO_ROOT)) for path in changed_lean_paths
+            ],
+            "declarations_total": len(declaration_names),
+            "theorems_total": theorem_count,
             "pure_count": len(pure),
             "impure_count": len(impure),
             "pure": sorted(pure),
+            "impure": [
+                {"declaration": decl, "axioms": axs} for decl, axs in sorted(impure)
+            ],
             "violations": [
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],
             "missing_results": missing,
             "lean_returncode": result_returncode,
-            "chunks": len(chunks),
+            "chunks": len(chunk_jobs),
             "chunk_size": chunk_size,
             "forbidden_axioms": sorted(forbidden),
             "passed": not lean_failed and not missing and len(violations) == 0,
@@ -13483,7 +13967,10 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     else:
         print(
             f"[bedc-ci] axiom-purity:"
-            f" theorems={len(theorems)}"
+            f" mode={'changed-only' if changed_only_mode else 'full'}"
+            f" changed_lean_files={len(changed_lean_paths)}"
+            f" declarations={len(declaration_names)}"
+            f" theorems={theorem_count}"
             f" pure={len(pure)}"
             f" impure={len(impure)}"
             f" forbidden={sorted(forbidden)}"
@@ -13502,11 +13989,17 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             if len(violations) > 50:
                 print(f"  ... and {len(violations) - 50} more")
         if lean_failed:
-            print(f"[bedc-ci] axiom-purity FAIL: lean returned {result_returncode} (in {len(chunks)} chunks of {chunk_size})")
+            print(
+                f"[bedc-ci] axiom-purity FAIL: lean returned {result_returncode}"
+                f" (in {len(chunk_jobs)} chunks of {chunk_size})"
+            )
             for tail in tail_outputs:
                 print(tail)
         if missing:
-            print(f"[bedc-ci] axiom-purity FAIL: {len(missing)} theorem(s) had no parsed #print axioms result")
+            print(
+                f"[bedc-ci] axiom-purity FAIL:"
+                f" {len(missing)} declaration(s) had no parsed #print axioms result"
+            )
             for decl in missing[:50]:
                 print(f"  {decl}")
             if len(missing) > 50:
@@ -13714,6 +14207,8 @@ def parser() -> argparse.ArgumentParser:
     )
     purity_p.add_argument("--strict", action="store_true",
                           help="Additionally forbid propext (true zero-axiom-dependency mode)")
+    purity_p.add_argument("--full", action="store_true",
+                          help="Force the full-tree #print axioms audit instead of the default changed-files scope")
     purity_p.add_argument("--allow-propext", action="store_true",
                           help="Explicitly allow propext (override --strict)")
     purity_p.add_argument("--also-forbid", type=str, default="",
@@ -13834,6 +14329,16 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
+    if args.command in {"audit", "axiom-purity"}:
+        try:
+            with audit_gate(args.command):
+                return args.func(args)
+        except AuditGateTimeout as exc:
+            print(
+                f"[bedc-ci] audit gate acquire timeout: {exc}",
+                file=sys.stderr,
+            )
+            return 75
     return args.func(args)
 
 
