@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T04:14:09Z
+> 最后刷新: 2026-07-02T05:34:17Z
 
-**Daemon 状态**: monitor (monitor cycle 248, adjust_since_research 2, round_counter 35031, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 249, adjust_since_research 2, round_counter 35081, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1122 条 finding):
 - isolated_theorem: 804 条; 代表样本 `derived`, `derived`, `derived`
@@ -32,7 +32,7 @@ date-modified: today
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 89 次
 - TASTE ALERT category=low_entropy_template: 30 次
-- TASTE ALERT category=cycle_exception: 9 次
+- TASTE ALERT category=cycle_exception: 8 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -490,6 +490,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T02:41:56Z: `resolved` `leave_with_rationale` for `BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement:cf9e05c8`). Rationale: The theorem is not staging-only or isolated in the current worktree: `lean4/BEDC/Derived/QuasiMetricUp/PublicCertificate.lean` has a substantive downstream consumer, `QuasiMetricCarrier_triangle_refinement_public_route`, which invokes `QuasiMetricCarrier_directed_ball_triangle_refinement` and then extends the composed directed-ball certificate through uniform reflection and local naming into a public SemanticNameCert. The paper chapter also marks the target at the directed-ball triangle refinement theorem site. The daemon evidence appears stale or based on full-qualified string matching, because the Lean consumer uses the unqualified name inside the same namespace. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-02T04:13:29Z: `resolved` `add_downstream_user` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_public_interface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_public_interface:3c7e3bf5`). Rationale: The target is not a removable wrapper: the paper has a distinct StepIndexedTotalHost public-interface theorem, and the Lean statement upgrades the scoped kernel route to a public SemanticNameCert over publicRead. I added a sibling-boundary consumer that calls StepIndexedTotalHostCarrier_public_interface, reuses its public SemanticNameCert and UnaryHistory publicRead result, and connects that public read through a new Cont publicRead bounded sibling route with PkgSig bundle publicRead pkg. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T05:33:46Z: `resolved` `delete_theorem` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary` (flag `isolated_theorem`, finding `isolated_theorem:stepindexedtotalhost:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary:b8986066`). Rationale: The target had no Lean downstream users and only a removable paper marker. Its proof merely repackaged existing StepIndexedTotalHostCarrier projections together with externally supplied sibling UnaryHistory and Cont premises, while the same file already retains the more substantive public sibling boundary theorem that ties the carrier through the public interface and SemanticNameCert surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

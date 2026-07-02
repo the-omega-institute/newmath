@@ -2504,6 +2504,7 @@ import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductSeriesUp
 import BEDC.Derived.CauchyProductSeriesUp.TasteGate
+import BEDC.Derived.CauchyProductTheoremUp.TasteGate
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.BilinearTailWindow
 import BEDC.Derived.CauchyProductUp.BudgetProductAssociativeRoute
@@ -5694,6 +5695,7 @@ import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTheoremUp
 import BEDC.Derived.EulerTransformUp.TasteGate
 import BEDC.Derived.EulerianNumberUp
+import BEDC.Derived.EulerianNumberUp.TasteGate
 import BEDC.Derived.EulerianPolynomialUp
 import BEDC.Derived.EulerianSecondOrderUp
 import BEDC.Derived.EvenOddCauchyCriterionUp.CrossParityHandoffNonEscape
@@ -9645,6 +9647,7 @@ import BEDC.Derived.OrderUp.TasteGate
 import BEDC.Derived.OrderedBellNumberUp
 import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OrdinalAnalysisUp.TasteGate
+import BEDC.Derived.OreLocalizationUp.TasteGate
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
 import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate
