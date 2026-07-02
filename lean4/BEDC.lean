@@ -11648,6 +11648,7 @@ import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
+import BEDC.Derived.RegularCauchyTailProductBoundUp
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSealUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
