@@ -7527,6 +7527,7 @@ import BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
+import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
@@ -10672,6 +10673,7 @@ import BEDC.Derived.RealCompletionSelectorSealUp.Terminality
 import BEDC.Derived.RealCompletionTailLockUp
 import BEDC.Derived.RealCompletionWindowFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
+import BEDC.Derived.RealCompletionWitnessLedgerUp.TasteGate
 import BEDC.Derived.RealConvergenceRateUp.TasteGate
 import BEDC.Derived.RealConvergentSequenceUp.TasteGate
 import BEDC.Derived.RealDecimalNormalFormUp
@@ -13659,6 +13661,7 @@ import BEDC.Derived.WronskianUp.ObligationClosurePackage
 import BEDC.Derived.WronskianUp.ObligationClosureScope
 import BEDC.Derived.WronskianUp.PublicDeterminantExport
 import BEDC.Derived.WronskianUp.RealSealNonescape
+import BEDC.Derived.WronskianUp.RegSeqRatWindowDependency
 import BEDC.Derived.WronskianUp.RegularCauchyDeterminantHandoff
 import BEDC.Derived.WronskianUp.SturmSeparationHandoff
 import BEDC.Derived.WronskianUp.TasteGate
