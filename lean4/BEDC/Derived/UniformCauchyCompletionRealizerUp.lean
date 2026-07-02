@@ -45,5 +45,25 @@ theorem UniformCauchyCompletionRealizerCarrier_modulus_stability [AskSetup] [Pac
       sourceDyadicWindow, windowReadbackModulus, readbackModulusSeal, provenancePkg,
       localNamePkg⟩
 
+theorem UniformCauchyCompletionRealizerCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {source dyadic window readback modulus sealRow transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.UniformCauchyCompletionRealizerUp source dyadic window readback modulus sealRow
+        transport replay provenance localName bundle pkg ->
+      UnaryHistory source ∧ UnaryHistory dyadic ∧ UnaryHistory window ∧
+        UnaryHistory readback ∧ UnaryHistory modulus ∧ UnaryHistory sealRow ∧
+          Cont source dyadic window ∧ Cont window readback modulus ∧
+            Cont readback modulus sealRow ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨sourceUnary, dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, sourceDyadicWindow,
+    windowReadbackModulus, readbackModulusSeal, provenancePkg, localNamePkg⟩ := carrier
+  exact
+    ⟨sourceUnary, dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
+      sourceDyadicWindow, windowReadbackModulus, readbackModulusSeal, provenancePkg,
+      localNamePkg⟩
+
 end UniformCauchyCompletionRealizerUp
 end BEDC.Derived

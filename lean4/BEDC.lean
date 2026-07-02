@@ -7222,6 +7222,7 @@ import BEDC.Derived.InducedCharacterUp.TasteGate
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InfCatUp
+import BEDC.Derived.InitialUniformityUp
 import BEDC.Derived.InitialValueProblemUp.TasteGate
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.InnerProductUp.CarrierRow
