@@ -158,6 +158,11 @@ theorem ratSub_lt_zero_of_lt {a b : RatNum} (h : ratLt a b) :
       ratLe_respects (ratZero_add_left b) (ratSub_add_cancel a b) step
     exact ratLt_not_ratLe_reverse h hba
 
+/-- `0 ≤ b - a ⟹ a ≤ b` (reusable; converse of `ratSub_nonneg_of_le`). -/
+theorem ratLe_of_sub_nonneg (a b : RatNum) (h : ratLe ratZero (ratSub b a)) : ratLe a b :=
+  ratLe_respects (ratZero_add_left a) (ratSub_add_cancel b a)
+    (ratAdd_le_add h (ratLe_refl a))
+
 /-- `1 < 2q ⟹ (1-2q)·2 < 0`. -/
 private theorem oneMinusTwoQ_mul_two_lt_zero (q : RatNum)
     (h : ratLt ratOne (ratMul twoRat q)) :
