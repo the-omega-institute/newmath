@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import fcntl
+import json
 import os
 import sys
 import time
@@ -53,6 +54,54 @@ MAX_LOAD1 = float(os.environ.get("BEDC_BRIDGE_ROUND_MAX_LOAD", "8"))
 MIN_AVAIL_RAM_GB = float(os.environ.get("BEDC_BRIDGE_MIN_AVAIL_RAM_GB", "6.0"))
 MAX_SWAP_GB = float(os.environ.get("BEDC_BRIDGE_MAX_SWAP_GB", "8.0"))
 
+# Candidate rotation: candidate_filter re-nominates the same top-scored carrier
+# every cycle, but some candidates cannot be bridged 0-axiom (e.g. Option needs
+# Quot.sound/propext) and fail the heavy check every time. Without rotation the
+# daemon would hammer the same failing candidate forever. Record a failed
+# candidate and skip it for a cooldown so the daemon rotates through the pool.
+FAILED_STATE_PATH = Path("/tmp/.bedc_bridge_failed.json")
+FAIL_COOLDOWN_SECONDS = int(os.environ.get("BEDC_BRIDGE_FAIL_COOLDOWN", str(6 * 3600)))
+
+
+def _candidate_decl(candidate: dict) -> str:
+    return str(candidate.get("bedc_decl") or candidate.get("bedc_irreducible_decl") or "")
+
+
+def _load_failed() -> dict:
+    try:
+        data = json.loads(FAILED_STATE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _record_failed(decl: str) -> None:
+    if not decl:
+        return
+    now = time.time()
+    failed = _load_failed()
+    failed[decl] = now
+    # Prune entries older than the cooldown so the file stays small.
+    failed = {k: v for k, v in failed.items() if now - float(v) < FAIL_COOLDOWN_SECONDS}
+    try:
+        FAILED_STATE_PATH.write_text(json.dumps(failed), encoding="utf-8")
+    except OSError:
+        pass
+
+
+def _reorder_candidates(candidates: list) -> list:
+    """Non-cooling candidates first (stable), so run_bridge_round's [0] rotates."""
+    now = time.time()
+    failed = _load_failed()
+
+    def cooling(candidate: dict) -> bool:
+        ts = failed.get(_candidate_decl(candidate))
+        return ts is not None and (now - float(ts)) < FAIL_COOLDOWN_SECONDS
+
+    fresh = [c for c in candidates if not cooling(c)]
+    cooling_list = [c for c in candidates if cooling(c)]
+    return fresh + cooling_list
+
 # Hardened worker-prompt contract (adversarial-design consensus: /sshx triplet +
 # gpt-pro). Appended to codex_formalize's BRIDGE_ROUND_PROMPT_TEMPLATE for this
 # process only. Contains no ``{`` / ``}`` so it survives the template .format().
@@ -78,6 +127,20 @@ trivial bridge (leave the worktree unchanged):
    only on the bridge's own inverse lemmas.
 5. bedc_consumed_decl must be a real existing BEDC declaration under lean4/BEDC,
    not a fresh definition invented in this round.
+6. AXIOM DISCIPLINE. An exported_core row must be 0-axiom: it must NOT depend on
+   Quot.sound, propext, or Classical.choice (the BridgeAxiomGuard rejects an
+   exported_core row that leaks any of these with BEDC_GATE_A_AXIOM). Many
+   mathlib targets (quotients, Option/decidable-equality objects, anything whose
+   equivalence needs quotient soundness or propositional extensionality) cannot
+   be bridged 0-axiom. For such a candidate, do ONE of:
+     (a) write a measured_boundary row instead of exported_core — set kind to
+         measured_boundary in the MATRIX metadata, record the exact axioms in
+         the boundary axiom ledger, and follow an existing measured_boundary
+         template. This is still a real, honest bridge (it records where BEDC's
+         constructivity stops and what mathlib axioms the correspondence costs);
+     (b) if you cannot produce a clean exported_core OR a clean measured_boundary
+         row, leave the worktree UNCHANGED.
+   Never force an exported_core row that will fail the axiom guard.
 The load-gated heavy check enforces the no-hollow / statement-shape /
 no-back-edge / boundary-axioms / export-matrix guards and will reject a
 bookkeeping row.
@@ -129,14 +192,27 @@ def run_cycle(dry_run: bool) -> None:
     if not ok:
         cf.logger.info(f"[bridge] gate closed ({why}); skip cycle")
         return
-    if dry_run:
-        candidates = cf._bridge_candidate_filter()
-        decls = [c.get("bedc_decl") for c in candidates[:5]]
-        cf.logger.info(f"[bridge] dry-run gate ok ({why}); {len(candidates)} eligible candidate(s): {decls}")
+    candidates = _reorder_candidates(cf._bridge_candidate_filter())
+    if not candidates:
+        cf.logger.info(f"[bridge] gate ok ({why}); no eligible candidate")
         return
-    cf.logger.info(f"[bridge] gate ok ({why}); running one bridge round")
-    produced = cf.run_bridge_round()
-    cf.logger.info(f"[bridge] round produced={produced}")
+    picked = _candidate_decl(candidates[0])
+    if dry_run:
+        decls = [_candidate_decl(c) for c in candidates[:5]]
+        cf.logger.info(f"[bridge] dry-run gate ok ({why}); {len(candidates)} candidate(s) picked={picked} order={decls}")
+        return
+    cf.logger.info(f"[bridge] gate ok ({why}); running bridge round on {picked}")
+    # Pin run_bridge_round to our rotated order so it picks candidates[0].
+    orig_filter = cf._bridge_candidate_filter
+    cf._bridge_candidate_filter = lambda: candidates
+    try:
+        produced = cf.run_bridge_round()
+    finally:
+        cf._bridge_candidate_filter = orig_filter
+    cf.logger.info(f"[bridge] round produced={produced} candidate={picked}")
+    if not produced:
+        _record_failed(picked)
+        cf.logger.info(f"[bridge] {picked} entered fail-cooldown ({FAIL_COOLDOWN_SECONDS}s)")
 
 
 def main() -> None:
