@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\MorseHomologyUp$}
+\label{ch:concrete-instances-morse-homology-namecert}
+\origin{human}
+
+Following Morse and Milnor, the $\MorseHomologyUp$ packet records the finite BEDC surface on which a Morse function, its critical-point rows, oriented unstable-cell data, boundary-count ledgers, and homology readback are consumed as one NameCert. It sits beside the manifold carrier of \autoref{ch:concrete-instances-manifold-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the differential-form surface of \autoref{ch:concrete-instances-diffform-namecert}, and the Morse-theory packet of \autoref{ch:concrete-instances-morse-theory-namecert}. The certificate names a finite Morse chain and boundary route; it does not import a host transversality theorem, selected gradient-flow compactification, quotient chain equality, or ambient smooth-function space.
+
+\begin{definition}[$\MorseHomologyUp$ finite carrier]
+\label{def:morse-homology-carrier}
+A $\MorseHomologyUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,F,C,G,B,D,H,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\ManifoldUp$ source row, exposing the charted space on which the Morse data are read.
+\item $F$ is the finite Morse-function row, read through $\MorseTheoryUp$ and carrying the displayed critical values and index windows.
+\item $C$ is the critical-point row family, with each point tied to a chart row of $X$ and an index row of $F$.
+\item $G$ is the gradient-incidence row, recording only finite oriented flow-line counts between adjacent index rows.
+\item $B$ is the boundary ledger for the Morse chain rows; it stores the signed incidence data used to form the differential.
+\item $D$ is the differential-squared boundary row, recording the finite cancellation surface that later homology consumers may inspect.
+\item $H$ is the $\HomologyUp$ readback row, exposing cycles, boundaries, and degree windows through the displayed Morse chain ledger.
+\item $T$ records componentwise $\hsame$ transport for the manifold, Morse-function, critical-point, incidence, boundary, cancellation, homology, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a Morse-homology request through $X,F,C,G,B,D,H,T$.
+\item $P$ is the $\Pkg$ provenance over $\MorseHomologyUp$, $\ManifoldUp$, $\HomologyUp$, $\DiffFormUp$, $\MorseTheoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MorseHomologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient moduli space, a host flow-category quotient, chosen perturbations, selected triangulations, or a completed smooth-function universe.
+\end{definition}
+
+\begin{theorem}[$\MorseHomologyUp$ NameCert obligations]
+\label{thm:morse-homology-namecert-obligations}
+For every accepted $\MorseHomologyUp$ carrier
+$$
+M=(X,F,C,G,B,D,H,T,R,P,N),
+$$
+the local $\NameCert_{\MorseHomologyUp}$ surface consists exactly of carrier admission for the manifold row, Morse-function row, critical-point rows, gradient-incidence row, boundary ledger, differential-squared boundary row, homology readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\HomologyUp$ consumer reads the cycle and boundary data through $H$ only after $X,F,C,G,B,D$ are displayed, and every differential-form-facing consumer reads orientation or index bookkeeping through the $\DiffFormUp$ and $\MorseTheoryUp$ provenance rows rather than through a separate host complex.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:morse-homology-carrier}. The rows $X,F,C,G,B,D,H,T,R,P,N$ are the only coordinates available to a consumer of the packet.
+
+The Morse chain stage is $X,F,C,G,B$. The manifold row supplies the charted source, the Morse-function row supplies critical values and index windows, and the critical-point and gradient-incidence rows supply the finite signed boundary counts.
+
+The homology stage is $D,H$. The cancellation row $D$ records the finite boundary-of-boundary surface, and $H$ exposes only the resulting cycle, boundary, and degree-window readbacks to $\HomologyUp$.
+
+Finally $T,R,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no ambient moduli coordinate, quotient chain equality, selected perturbation, or host flow-category object, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[$\MorseHomologyUp$ sibling handoff]
+\label{thm:morse-homology-sibling-handoff}
+Every $\ManifoldUp$-, $\HomologyUp$-, or $\DiffFormUp$-facing read of an accepted $\MorseHomologyUp$ packet factors through the finite route
+$$
+\ManifoldUp,\ \MorseTheoryUp,\ \DiffFormUp,\ \HomologyUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert_{\MorseHomologyUp}.
+$$
+The handoff supplies displayed chart, critical-point, incidence, boundary, cancellation, and homology rows; it does not supply a host transversality theorem, completed moduli space, smooth-function quotient, or selected chain representative outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:morse-homology-namecert-obligations}. A consumer must first read the manifold source $X$, Morse-function row $F$, critical-point rows $C$, and gradient-incidence row $G$ before it can inspect the boundary ledger $B$.
+
+The differential-form and homology sides are then separated. Orientation and index bookkeeping are carried only through the displayed $\DiffFormUp$ and $\MorseTheoryUp$ provenance rows, while homology readback is carried only through $D$ and $H$.
+
+Transport, replay, provenance, and local naming preserve the same rows. Thus the sibling handoff reaches manifold, homology, and differential-form consumers without adding any of the excluded host-side structures.
+\end{proof}
+
+\closureat{MorseHomologyUp}{seedStr}
+
+\begin{closurestatus}{\MorseHomologyUp}
+  \constructivestory{A $\MorseHomologyUp$ packet is generated from a manifold source row, Morse-function row, critical-point rows, gradient-incidence row, boundary ledger, differential-squared boundary row, homology readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:morse-homology-carrier}, \autoref{thm:morse-homology-namecert-obligations}, and \autoref{thm:morse-homology-sibling-handoff} seed the finite Morse chain, boundary, cancellation, and homology readback route over manifold, homology, and differential-form siblings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close transversality, compactified moduli spaces, continuation invariance, selected perturbations, quotient chain equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, critical-point exposure, incidence boundary exactness, cancellation rows, homology readback, transport, replay, provenance, and local naming for BEDC.Derived.MorseHomologyUp.}
+\end{closurestatus}

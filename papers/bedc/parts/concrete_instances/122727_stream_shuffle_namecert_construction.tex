@@ -1,0 +1,130 @@
+\chapter{A Concrete Naming Certificate for $\StreamShuffleUp$}
+\label{ch:concrete-instances-stream-shuffle-namecert}
+\origin{human}
+
+Following Bishop and Bridges on sequences in constructive analysis, the
+$\StreamShuffleUp$ packet records the finite recombination route by which two
+displayed stream-name windows are read through parity-indexed windows before a
+regular rational readback and Real-seal handoff are available. It sits beside
+the stream carrier of \autoref{ch:concrete-instances-streamname-namecert}, the
+regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert},
+the even/odd Cauchy shuffle of
+\autoref{ch:concrete-instances-regular-cauchy-shuffle-namecert}, and the
+finite merge boundary of \autoref{ch:concrete-instances-stream-merge-namecert}.
+The packet is a finite NameCert object; it is not a host stream, quotient
+stream equality, selected representative, countable-choice schedule, or
+ambient completeness principle.
+
+\begin{definition}[Stream shuffle carrier]
+\label{def:stream-shuffle-carrier}
+A $\StreamShuffleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,B,E,O,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source $\StreamNameUp$ rows.
+\item $E$ is the even-index window row reading source $A$.
+\item $O$ is the odd-index window row reading source $B$.
+\item $W$ is the combined finite window exposed to downstream stream
+consumers.
+\item $Q$ is the $\RegSeqRatUp$ readback row assembled from the parity-indexed
+windows when the shuffled stream is read as a regular rational sequence.
+\item $R$ is the Real-seal handoff row available only after $A,B,E,O,W,Q$ have
+been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, parity,
+window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+A,B,E,O \longmapsto W \longmapsto Q \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\StreamShuffleUp$, $\StreamNameUp$,
+$\StreamMergeUp$, $\RegularCauchyShuffleUp$, $\RegSeqRatUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamShuffleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$A,B,E,O,W,Q,R,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Stream shuffle NameCert obligations]
+\label{thm:stream-shuffle-namecert-obligations}
+For every accepted $\StreamShuffleUp$ carrier
+$$
+S=(A,B,E,O,W,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\StreamShuffleUp}$ surface consists exactly of the
+following five obligation rows:
+\begin{enumerate}
+\item source admission for the two $\StreamNameUp$ rows $A,B$;
+\item parity-window exposure through $E,O,W$;
+\item $\RegSeqRatUp$ readback through $Q$;
+\item Real-seal handoff through $R$;
+\item componentwise transport, replay, provenance, and local naming through
+$H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-shuffle-carrier}. The source rows
+$A,B$ are displayed before either parity window is read, so the shuffled
+stream cannot be introduced as an external host stream.
+
+Next read the parity-indexed windows. The even row $E$ and odd row $O$ expose
+finite windows of the two source streams, and the combined row $W$ is the only
+window made public to a downstream $\StreamNameUp$ or $\StreamMergeUp$
+consumer.
+
+Now attach the readback and seal rows. The $\RegSeqRatUp$ row $Q$ reads the
+same parity-indexed window, and the Real-seal handoff $R$ is downstream of
+$Q$. This is the point at which the packet can meet the
+$\RegularCauchyShuffleUp$ route, but it still exposes only the displayed
+finite rows.
+
+Finally use $H,C,P,N$. Componentwise $\hsame$ transport, displayed $\Cont$
+replay, package provenance, and local naming preserve the same carrier
+surface. Since no coordinate names quotient stream equality, a selected
+representative, countable choice, host stream equality, or ambient
+completeness, the five listed obligation rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Stream shuffle parity-window nonescape]
+\label{thm:stream-shuffle-parity-window-nonescape}
+Every accepted $\StreamShuffleUp$ consumer reads the shuffled window only
+through
+$$
+A,B,E,O,W,H,C,P,N .
+$$
+If the consumer asks for regular rational or Real data, the same route
+continues through $Q$ and $R$; no consumer receives a separate host stream,
+quotient stream equality, selected representative, or countable-choice
+schedule.
+\end{theorem}
+\begin{proof}
+Start with the source admission and parity rows of
+\autoref{thm:stream-shuffle-namecert-obligations}. They force each finite
+window read to enter through $A,B,E,O$ before $W$ is public.
+
+For regular rational and Real-facing reads, use the readback and seal rows
+$Q,R$. These rows are downstream of the same parity window and cannot select a
+second source schedule.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name the
+displayed packet. Therefore the consumer remains inside the finite shuffle
+surface and cannot escape to the excluded host or quotient objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\StreamShuffleUp$ read displays two StreamNameUp source rows, even and odd parity windows, one combined window, one RegSeqRatUp readback row when rational data is requested, one RealUp seal row when Real data is requested, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, streammerge, regular-cauchy-shuffle, regseqrat: $\StreamShuffleUp$ is not bijective to any listed sibling because it jointly carries two source StreamName rows, parity-indexed windows, a combined downstream window, optional regular rational readback, a Real-seal handoff, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{StreamShuffleUp}{seedStr}
+
+\begin{closurestatus}{\StreamShuffleUp}
+  \constructivestory{A $\StreamShuffleUp$ packet is generated from two StreamName source rows, even and odd parity windows, one combined window, a RegSeqRat readback row, a Real-seal handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-shuffle-carrier}, \autoref{thm:stream-shuffle-namecert-obligations}, and \autoref{thm:stream-shuffle-parity-window-nonescape} seed the finite stream recombination packet over StreamName, StreamMerge, RegularCauchyShuffle, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable-choice schedules, host stream equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires binding the source, parity-window, combined-window, readback, Real-seal, transport, replay, provenance, and local naming rows to BEDC.Derived.StreamShuffleUp.}
+\end{closurestatus}

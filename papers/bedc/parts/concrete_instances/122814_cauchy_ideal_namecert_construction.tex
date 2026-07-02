@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyIdealUp$}
+\label{ch:concrete-instances-cauchy-ideal-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyIdealUp$ packet records rounded Cauchy ideal data as a finite family of observation rows before any quotient completion, selected limit, or ambient completeness theorem is available. It sits after the rounded filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the ideal carrier and its local certificate obligations; it does not identify Cauchy representatives or choose a completed real.
+
+\begin{definition}[Cauchy ideal carrier]
+\label{def:cauchy-ideal-carrier}
+A $\CauchyIdealUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,R,D,S,Q,E,O,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ source row whose neighborhoods supply the admitted Cauchy observations.
+\item $R$ is the rounded directed ideal row, listing finitely many observation rows closed under displayed coarsening and carrying a finite common-refinement witness for any two listed rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radii and comparison budgets used by the displayed observations.
+\item $S$ is the $\StreamNameUp$ finite observation-window row through which the ideal is inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row assembled from the same stream windows and dyadic tolerance data.
+\item $E$ is the terminal $\RealUp$ seal, exposed only after $F,R,D,S,Q$ have been displayed.
+\item $O$ is the local rounded-obligation ledger, recording inhabitedness, upward closure under displayed weakening, directed refinement, and Cauchy compatibility inside the finite packet.
+\item $H$ records componentwise $\hsame$ transport for the filter source, rounded ideal row, dyadic tolerance row, stream windows, regular readback, real seal, obligation ledger, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from an ideal read through $F,R,D,S,Q,E,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyIdealUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyIdealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,R,D,S,Q,E,O,H,T,P,N$. It has no coordinate for a quotient of filters, equality of completed reals, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyIdeal NameCert obligations]
+\label{thm:cauchy-ideal-namecert-obligations}
+For every accepted $\CauchyIdealUp$ carrier $I=(F,R,D,S,Q,E,O,H,T,P,N)$, the local $\NameCert_{\CauchyIdealUp}$ surface consists exactly of CauchyFilter source exposure through $F$, rounded directed ideal exposure through $R$, DyadicRatCore tolerance accounting through $D$, StreamName window exposure through $S$, RegSeqRat readback through $Q$, terminal Real sealing through $E$, rounded-obligation coverage through $O$, componentwise transport through $H$, displayed replay through $T$, provenance through $P$, and local naming through $N$. A Real or Completion consumer may read the ideal only after the route
+$$
+F,R,D \longmapsto S,Q \longmapsto E,O,H,T,P,N
+$$
+has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-ideal-carrier}. Its analytic rows are $F,R,D,S,Q,E,O$, and its structural rows are $H,T,P,N$.
+
+The rounded ideal row $R$ is read together with the CauchyFilter source $F$ and dyadic tolerance row $D$. Thus inhabitedness, displayed weakening, directed refinement, and Cauchy compatibility are obligations of the same finite packet rather than properties imported from a quotient completion.
+
+The readback rows remain downstream. The finite StreamName window $S$ and RegSeqRat row $Q$ expose only the listed observations, while the Real seal $E$ is available only after those observations and tolerances have been replayed.
+
+Finally $O,H,T,P,N$ cover the local obligations, transport them componentwise, replay them, source them, and name them. Since no hidden coordinate stores quotient equality, representative choice, countable choice, or ambient completeness, the displayed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyIdeal rounded readback]
+\label{thm:cauchy-ideal-rounded-readback}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\CauchyIdealUp$ carrier reads through a rounded directed family of finite Cauchy observation rows over $\CauchyFilterUp$. The consumer may inspect the $\StreamNameUp$ and $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, the $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming, but receives no quotient completion or selected limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-ideal-namecert-obligations}. It places the finite CauchyFilter source, rounded ideal row, and dyadic tolerance data before the stream and regular-rational readback rows.
+
+The rounded-obligation ledger $O$ records exactly the finite ideal laws visible to the consumer: inhabitedness, weakening, directed refinement, and Cauchy compatibility. These laws are replayed through $T$ and transported through $H$ without adding a completed object.
+
+Therefore a downstream read can be a read of the rounded Cauchy ideal packet only through the displayed rows. A quotient completion, selected limit, or host equality claim would require a coordinate not present in the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyIdealUp$ consumer read displays a CauchyFilter source, rounded directed ideal row, DyadicRatCore tolerance ledger, StreamName finite observation window, RegSeqRat readback, RealUp seal, rounded-obligation ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert row before the ideal can be consumed.}
+
+\independenceWitness{cauchyfilter, streamname, regseqrat, dyadicratcore, real: $\CauchyIdealUp$ is not bijective to any listed sibling because it jointly carries rounded directed Cauchy observation rows, finite stream windows, regular rational readback, dyadic tolerance accounting, a Real seal, obligation coverage, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{CauchyIdealUp}{seedStr}
+
+\begin{closurestatus}{\CauchyIdealUp}
+  \constructivestory{A $\CauchyIdealUp$ packet is generated from a CauchyFilter source, rounded directed ideal row, DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, RealUp seal, rounded-obligation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-ideal-carrier}, \autoref{thm:cauchy-ideal-namecert-obligations}, and \autoref{thm:cauchy-ideal-rounded-readback} seed the finite rounded Cauchy ideal route for Bishop-style completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, equality of completed reals, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rounded-directed ideal coverage, Cauchy compatibility, finite-window readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyIdealUp.}
+\end{closurestatus}
