@@ -183,6 +183,20 @@ Apply route exactness and nonescape, \autoref{thm:finite-cauchy-gluing-budget-ro
 The TasteGate target \texttt{BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate.FiniteCauchyGluingBudgetObligationSurface} records the same obligation surface as a checked carrier-facing target.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy gluing-budget tail-stream induction]
+\label{thm:finite-cauchy-gluing-budget-tail-stream-induction}
+Let $B=(G,L,T,S,K,U,V,D,R,H,C,P,N)$ be an accepted $\FiniteCauchyGluingBudgetUp$ packet. Every tail-budget induction used by a diagonal-limit or $\RealUp$ consumer proceeds first through the tail envelope $T$, then the synchronizer $S$, and then the visible finite tail rows $U,D,V,R$ with $H,C,P,N$ still exposed. Such an induction cannot replace StreamName windows by quotient streams, selected limits, hidden completion rows, or host Real-completeness data.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:finite-cauchy-gluing-budget-carrier}. The induction state begins with the displayed packet $B$, so the tail envelope $T$ is read as part of the finite witness budget and not as an ambient tail predicate.
+
+Use the common-tail theorem, \autoref{thm:finite-cauchy-gluing-budget-common-tail}. Once the shared witness ledger and synchronizer side have been fixed, the downstream tail route is the finite route through $U,D,V,R$.
+
+Apply the Real-seal handoff theorem, \autoref{thm:finite-cauchy-gluing-budget-real-seal-handoff}. A Real-facing consumer reaches $R$ only after the StreamName, DyadicRatCore, and RegSeqRat rows have been exposed along the same route.
+
+Finally apply nonescape, \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Quotient streams, selected limits, hidden completion rows, and host Real-completeness data are not carrier coordinates, while $H,C,P,N$ remain visible throughout the tail induction.
+\end{proof}
+
 \falsifiablePrediction{If the finite gluing-budget packet is accepted, a consumer preserving the witness ledger and tail envelope but changing the synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: none is bijective because each sibling omits at least one of the gluing route, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, hsame, Cont, Pkg, and NameCert rows required by this finite budget packet.}
