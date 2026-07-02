@@ -108,6 +108,24 @@ Checker acceptance is then forced through $K$. Transport of the same family row 
 Finally apply the regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the carrier has no coordinate for subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness, no additional typed-family read is exposed by the gallery.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery frontier coverage]
+\label{thm:metacic-typed-examples-gallery-frontier-coverage}
+Every accepted $\MetaCICTypedExamplesGalleryUp$ packet consumed by a frontier checker must expose the typed-family row, the closed beta regression row, the normal-form separation row, and the counterexample-boundary row before exporting a typed-example coverage result. The exported result is therefore a read of the finite route
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M
+$$
+together with the regression surface, typed-family coverage, local subject-reduction boundary, and counterexample-boundary theorems of this chapter. It is not a subject-reduction theorem, a confluence theorem, a normalization theorem, or a global countertheorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The typed-family row is one of $B,N,L,S,E,I,A,R$, the checker boundary is $K$, and the certificate route is carried by $H,C,P,M$.
+
+Read the closed beta regression row through the beta-redex coordinate $R$ and the finite regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. This keeps the frontier checker inside represented syntax and typing examples rather than a global reduction theorem.
+
+Next read normal-form separation through the same displayed family inventory and checker route. Typed-family coverage from \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage} forces the read through one displayed family row before $K,H,C,P,M$ can export it.
+
+Finally use the local subject-reduction boundary and counterexample boundary, \autoref{thm:metacic-typedexamples-gallery-local-subject-reduction-boundary} and \autoref{thm:metacic-typedexamples-gallery-subject-reduction-counterexample-boundary}. These theorems allow the frontier checker to consume the packet as regression and boundary evidence while refusing both a global subject-reduction proof and a global failure theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery checker-route factorization]
 \label{thm:metacic-typedexamples-gallery-checker-route-factorization}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
