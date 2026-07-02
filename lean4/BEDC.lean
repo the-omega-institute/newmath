@@ -6195,6 +6195,7 @@ import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverMeshUp
+import BEDC.Derived.FiniteCoverModulusSelectorUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
 import BEDC.Derived.FiniteCoverNerveUp.OrphanSiblingRoute
@@ -10645,6 +10646,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StreamRegseqTailSealFactorization
 import BEDC.Derived.RealCauchyCompletionUp.SynchronizedNullTailConsumer
 import BEDC.Derived.RealCauchyConvergenceUp.TasteGate
 import BEDC.Derived.RealCauchyDenseEmbeddingUp.TasteGate
+import BEDC.Derived.RealCauchyFilterBasisUp.TasteGate
 import BEDC.Derived.RealCauchyFilterLimitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterMonadUnitUp
 import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
