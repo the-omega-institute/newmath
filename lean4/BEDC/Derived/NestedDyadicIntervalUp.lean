@@ -495,4 +495,72 @@ theorem NestedDyadicIntervalPacket_regseqrat_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, regUnary, refinementRoute, endpointRoute, regRoute⟩
 
+theorem NestedDyadicIntervalPacket_regseqrat_window_exhaustion [AskSetup] [PackageSetup]
+    {I0 next S R P L endpoint prefixRead refinementRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket I0 next S R P L endpoint bundle pkg ->
+      Cont S R prefixRead ->
+        Cont prefixRead I0 refinementRead ->
+          PkgSig bundle P pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row refinementRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row I0 ∨ hsame row S ∨ hsame row R ∨ hsame row P ∨
+                    hsame row L ∨ hsame row prefixRead ∨ hsame row refinementRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont S R prefixRead ∧
+                    Cont prefixRead I0 refinementRead ∧ PkgSig bundle P pkg)
+                hsame ∧
+              UnaryHistory refinementRead := by
+  -- BEDC touchpoint anchor: NestedDyadicIntervalPacket BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro packet prefixRoute refinementRoute pkgP
+  obtain ⟨i0Unary, _nextUnary, scheduleUnary, refinementUnary, _provenanceUnary,
+    _ledgerUnary, _endpointUnary, _packetRefinement, _packetEndpoint, _endpointSig⟩ := packet
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed scheduleUnary refinementUnary prefixRoute
+  have refinementReadUnary : UnaryHistory refinementRead :=
+    unary_cont_closed prefixUnary i0Unary refinementRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row refinementRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I0 ∨ hsame row S ∨ hsame row R ∨ hsame row P ∨
+              hsame row L ∨ hsame row prefixRead ∨ hsame row refinementRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S R prefixRead ∧
+              Cont prefixRead I0 refinementRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro refinementRead ⟨hsame_refl refinementRead, refinementReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, prefixRoute, refinementRoute, pkgP⟩
+  }
+  exact ⟨cert, refinementReadUnary⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp
