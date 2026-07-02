@@ -164,6 +164,106 @@ theorem FiniteWindowRealSeparation_window_refusal [AskSetup] [PackageSetup]
   }
   exact ⟨cert, toleranceUnary, readbackUnary, separationUnary, namedUnary⟩
 
+theorem FiniteWindowRealSeparation_obligation_closure_route [AskSetup] [PackageSetup]
+    {W D S R H C P N toleranceRead readbackRead separationRead namedRead
+      closureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory W ->
+      UnaryHistory D ->
+        UnaryHistory S ->
+          UnaryHistory R ->
+            UnaryHistory P ->
+              UnaryHistory N ->
+                Cont W D toleranceRead ->
+                  Cont toleranceRead S readbackRead ->
+                    Cont readbackRead R separationRead ->
+                      Cont separationRead N namedRead ->
+                        Cont namedRead P closureRead ->
+                          PkgSig bundle P pkg ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row closureRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row W ∨ hsame row D ∨ hsame row S ∨
+                                    hsame row R ∨ hsame row H ∨ hsame row C ∨
+                                      hsame row P ∨ hsame row N ∨
+                                        hsame row toleranceRead ∨ hsame row readbackRead ∨
+                                          hsame row separationRead ∨ hsame row namedRead ∨
+                                            hsame row closureRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont W D toleranceRead ∧
+                                    Cont toleranceRead S readbackRead ∧
+                                      Cont readbackRead R separationRead ∧
+                                        Cont separationRead N namedRead ∧
+                                          Cont namedRead P closureRead ∧
+                                            PkgSig bundle P pkg)
+                                hsame ∧ UnaryHistory closureRead := by
+  -- BEDC touchpoint anchor: FiniteWindowRealSeparationUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro unaryW unaryD unaryS unaryR unaryP unaryN toleranceRoute readbackRoute
+    separationRoute namedRoute closureRoute pkgP
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed unaryW unaryD toleranceRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceUnary unaryS readbackRoute
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed readbackUnary unaryR separationRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed separationUnary unaryN namedRoute
+  have closureUnary : UnaryHistory closureRead :=
+    unary_cont_closed namedUnary unaryP closureRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row closureRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row D ∨ hsame row S ∨ hsame row R ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row toleranceRead ∨
+                hsame row readbackRead ∨ hsame row separationRead ∨ hsame row namedRead ∨
+                  hsame row closureRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D toleranceRead ∧
+              Cont toleranceRead S readbackRead ∧ Cont readbackRead R separationRead ∧
+                Cont separationRead N namedRead ∧ Cont namedRead P closureRead ∧
+                  PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro closureRead ⟨hsame_refl closureRead, closureUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, toleranceRoute, readbackRoute, separationRoute, namedRoute,
+          closureRoute, pkgP⟩
+  }
+  exact ⟨cert, closureUnary⟩
+
 theorem FiniteWindowRealSeparation_shared_window_obligation [AskSetup] [PackageSetup]
     {x : FiniteWindowRealSeparationUp}
     {W D S R H C P N toleranceRead readbackRead separationRead namedRead : BHist}

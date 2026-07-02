@@ -5537,6 +5537,7 @@ import BEDC.Derived.DyadicTotallyBoundedIntervalUp.TasteGate
 import BEDC.Derived.DyadicUp.CauchyTailEnvelope
 import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.CommonExponentTotality
+import BEDC.Derived.DyadicUp.CommonWindowReadback
 import BEDC.Derived.DyadicUp.CommonWindowTailEnvelope
 import BEDC.Derived.DyadicUp.CoreSiblingRoute
 import BEDC.Derived.DyadicUp.ExponentShiftComposition
@@ -11839,6 +11840,7 @@ import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.FunctionalCarrierObligation
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
+import BEDC.Derived.RieszRepresentationUp.MeasureRowObligation
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
 import BEDC.Derived.RieszRepresentationUp.PublicExport
 import BEDC.Derived.RieszRepresentationUp.TasteGate
