@@ -1022,6 +1022,7 @@ import BEDC.Derived.BishopCauchyApproximationUp.TasteGate
 import BEDC.Derived.BishopCauchyChoiceSequenceUp
 import BEDC.Derived.BishopCauchyComparisonUp.TasteGate
 import BEDC.Derived.BishopCauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.BishopCauchyCompletionPairUp.TasteGate
 import BEDC.Derived.BishopCauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
@@ -4459,6 +4460,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootConsumerPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerThreshold
 import BEDC.Derived.CriticalLineWitnessUp.RootContinuationZeroStripCoherence
+import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetLedgerStability

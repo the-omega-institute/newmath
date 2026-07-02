@@ -44,6 +44,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Fibonacci.FibonacciExportWitness },
   { witness := `BedcMathlibBridge.Export.Binomial.binomialExport,
     witnessType := `BedcMathlibBridge.Export.Binomial.BinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.BinomialIdentities.binomialIdentitiesExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BinomialIdentities.BinomialIdentitiesExportWitness },
   { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
     witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
