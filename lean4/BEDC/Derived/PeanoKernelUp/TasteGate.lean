@@ -44,25 +44,65 @@ def peanoKernelToEventFlow : PeanoKernelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (peanoKernelFields x).map peanoKernelEncodeBHist
 
-def peanoKernelFromEventFlow : EventFlow → Option PeanoKernelUp
+def peanoKernelFromEventFlow (xs : EventFlow) : Option PeanoKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [I, M, A, Q, S, R, W, D, E, H, C, P, N] =>
-      some
-        (PeanoKernelUp.mk
-          (peanoKernelDecodeBHist I)
-          (peanoKernelDecodeBHist M)
-          (peanoKernelDecodeBHist A)
-          (peanoKernelDecodeBHist Q)
-          (peanoKernelDecodeBHist S)
-          (peanoKernelDecodeBHist R)
-          (peanoKernelDecodeBHist W)
-          (peanoKernelDecodeBHist D)
-          (peanoKernelDecodeBHist E)
-          (peanoKernelDecodeBHist H)
-          (peanoKernelDecodeBHist C)
-          (peanoKernelDecodeBHist P)
-          (peanoKernelDecodeBHist N))
-  | _ => none
+  match xs with
+  | [] => none
+  | I :: xs1 =>
+      match xs1 with
+      | [] => none
+      | M :: xs2 =>
+          match xs2 with
+          | [] => none
+          | A :: xs3 =>
+              match xs3 with
+              | [] => none
+              | Q :: xs4 =>
+                  match xs4 with
+                  | [] => none
+                  | S :: xs5 =>
+                      match xs5 with
+                      | [] => none
+                      | R :: xs6 =>
+                          match xs6 with
+                          | [] => none
+                          | W :: xs7 =>
+                              match xs7 with
+                              | [] => none
+                              | D :: xs8 =>
+                                  match xs8 with
+                                  | [] => none
+                                  | E :: xs9 =>
+                                      match xs9 with
+                                      | [] => none
+                                      | H :: xs10 =>
+                                          match xs10 with
+                                          | [] => none
+                                          | C :: xs11 =>
+                                              match xs11 with
+                                              | [] => none
+                                              | P :: xs12 =>
+                                                  match xs12 with
+                                                  | [] => none
+                                                  | N :: xs13 =>
+                                                      match xs13 with
+                                                      | [] =>
+                                                          some
+                                                            (PeanoKernelUp.mk
+                                                              (peanoKernelDecodeBHist I)
+                                                              (peanoKernelDecodeBHist M)
+                                                              (peanoKernelDecodeBHist A)
+                                                              (peanoKernelDecodeBHist Q)
+                                                              (peanoKernelDecodeBHist S)
+                                                              (peanoKernelDecodeBHist R)
+                                                              (peanoKernelDecodeBHist W)
+                                                              (peanoKernelDecodeBHist D)
+                                                              (peanoKernelDecodeBHist E)
+                                                              (peanoKernelDecodeBHist H)
+                                                              (peanoKernelDecodeBHist C)
+                                                              (peanoKernelDecodeBHist P)
+                                                              (peanoKernelDecodeBHist N))
+                                                      | _ :: _ => none
 
 private theorem PeanoKernelTasteGate_single_carrier_alignment_round_trip
     (x : PeanoKernelUp) :
