@@ -41,4 +41,26 @@ theorem AxiomDependencyAuditMap_mode_totality [AskSetup] [PackageSetup]
     ⟨kUnary, mUnary, wUnary, aUnary, modeUnary, modeRoute, claimModeLedger, namePkg,
       modePkg⟩
 
+theorem AxiomDependencyAuditMapCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {K M W A L H C P N modeRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyAuditMapCarrier K M W A L H C P N bundle pkg →
+      Cont M W modeRead →
+        PkgSig bundle modeRead pkg →
+          UnaryHistory K ∧ UnaryHistory M ∧ UnaryHistory W ∧ UnaryHistory A ∧
+            UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+              UnaryHistory N ∧ UnaryHistory modeRead ∧ Cont K M L ∧ Cont L A H ∧
+                Cont H C P ∧ Cont M W modeRead ∧ PkgSig bundle N pkg ∧
+                  PkgSig bundle modeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier modeRoute modePkg
+  obtain ⟨kUnary, mUnary, wUnary, aUnary, lUnary, hUnary, cUnary, pUnary,
+    nUnary, claimModeLedger, ledgerAxiomTransport, transportConsumerProvenance,
+    namePkg⟩ := carrier
+  have modeUnary : UnaryHistory modeRead :=
+    unary_cont_closed mUnary wUnary modeRoute
+  exact
+    ⟨kUnary, mUnary, wUnary, aUnary, lUnary, hUnary, cUnary, pUnary, nUnary,
+      modeUnary, claimModeLedger, ledgerAxiomTransport, transportConsumerProvenance,
+      modeRoute, namePkg, modePkg⟩
+
 end BEDC.Derived.AxiomDependencyAuditMapUp

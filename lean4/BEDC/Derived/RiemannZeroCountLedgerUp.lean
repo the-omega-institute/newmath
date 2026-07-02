@@ -39,4 +39,18 @@ theorem RiemannZeroCountLedger_window_exhaustion
         ⟨T, Z, U, M, E, H, C, P, N, ⟨count_unary, rfl⟩, count_unary, rfl, rfl,
           hsame_refl T, hsame_refl Z, hsame_refl M, hsame_refl E⟩
 
+theorem RiemannZeroCountLedgerCarrier_window_exhaustion
+    (x : RiemannZeroCountLedgerUp) :
+    ∃ T Z U M E H C P N : BHist,
+      (∃ count_unary : UnaryHistory U,
+        x = RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary) ∧
+        UnaryHistory U ∧ hsame T T ∧ hsame Z Z ∧ hsame U U ∧
+          Cont H C (append H C) ∧ hsame (append H C) (append H C) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  cases x with
+  | mk T Z U M E H C P N count_unary =>
+      exact
+        ⟨T, Z, U, M, E, H, C, P, N, ⟨count_unary, rfl⟩, count_unary,
+          hsame_refl T, hsame_refl Z, hsame_refl U, rfl, hsame_refl (append H C)⟩
+
 end BEDC.Derived.RiemannZeroCountLedgerUp
