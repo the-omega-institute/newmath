@@ -8,6 +8,10 @@ import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
 import Mathlib.Combinatorics.Enumerative.Bell
+import Mathlib.Combinatorics.Enumerative.Partition.Basic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Data.Finset.Range
+import Mathlib.Data.Multiset.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
@@ -105,6 +109,25 @@ axiom-bearing bridge theorem.
 -/
 noncomputable def auditNatBellBoundary : Nat → Nat :=
   Nat.bell
+
+/-!
+Audit-only touchpoint for extracting a list representative from a multiset.
+-/
+noncomputable def auditMultisetToListBoundary {α : Type u} : Multiset α → List α :=
+  Multiset.toList
+
+/-!
+Audit-only touchpoint for the mathlib natural-number partition finset filtered
+by a decidable predicate.
+-/
+noncomputable def auditNatPartitionRestrictedBoundary (n : Nat) : Finset n.Partition :=
+  Nat.Partition.restricted n (fun k => 0 < k)
+
+/-!
+Audit-only touchpoint for a finite range sum over mathlib `Finset.range`.
+-/
+noncomputable def auditFinsetRangeSumBoundary (n : Nat) : Nat :=
+  (Finset.range n).sum fun k => k
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
