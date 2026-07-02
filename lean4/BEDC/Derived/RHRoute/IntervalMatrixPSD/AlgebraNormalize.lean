@@ -32,7 +32,7 @@ private theorem ratMul_zero_left_local (x : Rat) :
     RatEq (ratMul ratZero x) ratZero :=
   RatEq_trans _ _ _ (ratMul_comm ratZero x) (ratMul_zero_right_local x)
 
-private def ratRing : RelCommRing Rat RatEq where
+def ratRelCommRing : RelCommRing Rat RatEq where
   zero := ratZero
   one := ratOne
   add := ratAdd
@@ -66,6 +66,9 @@ private def ratRing : RelCommRing Rat RatEq where
   left_distrib := BEDC.Real.RatNumKernel.ratMul_add_left
   right_distrib := BEDC.Real.RatNumKernel.ratMul_add_right
   mul_comm := ratMul_comm
+
+private abbrev ratRing : RelCommRing Rat RatEq :=
+  ratRelCommRing
 
 private inductive RExpr where
   | var : Nat -> RExpr
