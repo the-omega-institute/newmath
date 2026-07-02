@@ -7582,6 +7582,7 @@ import BEDC.Derived.LebesgueCoveringDimensionUp.TasteGate
 import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberFiniteCoverUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
+import BEDC.Derived.LebesgueNumberMeshUp
 import BEDC.Derived.LebesgueStieltjesMeasureUp.TasteGate
 import BEDC.Derived.LegendreDichotomyUp
 import BEDC.Derived.LegendrePolynomialUp
@@ -13004,6 +13005,7 @@ import BEDC.Derived.TotallyBoundedCompletionUp.RootRouteExhaustion
 import BEDC.Derived.TotallyBoundedCompletionUp.ScopedConsumerCoverage
 import BEDC.Derived.TotallyBoundedCompletionUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp.UniformExtensionLedger
+import BEDC.Derived.TotallyBoundedIntervalUp
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
