@@ -25,7 +25,7 @@ open BEDC.Derived.RationalOrderArithUp
 open BEDC.Real.RatNumKernel
 open BEDC.Real.RatNumLogEnclosure
 open BEDC.Derived.IntUp
-open BEDC.Derived.LocatedReal (ratAdd_neg_local ratNeg_add_local ratAdd_assoc_local)
+open BEDC.Derived.LocatedReal (ratAdd_neg_local ratNeg_add_local ratAdd_assoc_local ratNeg_neg_local)
 
 /-- `2` as a located rational. -/
 def twoRat : RatNum := ratAdd ratOne ratOne
@@ -164,5 +164,54 @@ inputs have NO unitary/self-adjoint OS reconstruction: the reflection-positivity
 theorem reflection_fails (q : RatNum) (h : ratLt ratOne (ratMul twoRat q)) :
     ratLt (osForm q ratOne (ratNeg ratOne)) ratZero :=
   ratLt_of_RatEq_left (osForm_one_negOne_eq q) (oneMinusTwoQ_mul_two_lt_zero q h)
+
+/-! ### Full ∀f positivity (定理 8.3), via a reusable located `ratSq_nonneg` -/
+
+/-- Public neg-mul (core `ratMul_neg_right_local` is private): `x·(-y) = -(x·y)`. -/
+private theorem ratMul_neg_right (x y : RatNum) :
+    RatEq (ratMul x (ratNeg y)) (ratNeg (ratMul x y)) := by
+  apply ratEq_of_num_den_intEq
+  · exact BEDC.Algebra.Rel.IntegerUp_mul_neg x.num y.num
+  · exact IntEq_refl _
+
+/-- `(-x)·(-x) = x·x`. -/
+private theorem ratNeg_mul_neg (x : RatNum) :
+    RatEq (ratMul (ratNeg x) (ratNeg x)) (ratMul x x) :=
+  RatEq_trans _ _ _ (ratMul_neg_right (ratNeg x) x)
+    (RatEq_trans _ _ _
+      (ratNeg_respects
+        (RatEq_trans _ _ _ (ratMul_comm (ratNeg x) x) (ratMul_neg_right x x)))
+      (ratNeg_neg_local (ratMul x x)))
+
+/-- `x ≤ 0 ⟹ 0 ≤ -x`. -/
+private theorem ratNeg_nonneg_of_nonpos {x : RatNum} (h : ratLe x ratZero) :
+    ratLe ratZero (ratNeg x) :=
+  ratLe_of_RatEq_right (ratSub_nonneg_of_le h) (ratZero_add_left (ratNeg x))
+
+/-- **`0 ≤ x²`** (reusable located square-nonnegativity: nonneg branch by `ratMul_nonneg`,
+nonpos branch by `(-x)² = x²`). -/
+theorem ratSq_nonneg (x : RatNum) : ratLe ratZero (ratSq x) := by
+  show ratLe ratZero (ratMul x x)
+  rcases ratLe_total ratZero x with h | h
+  · exact ratMul_nonneg h h
+  · exact ratLe_of_RatEq_right
+      (ratMul_nonneg (ratNeg_nonneg_of_nonpos h) (ratNeg_nonneg_of_nonpos h))
+      (ratNeg_mul_neg x)
+
+/-- `0 ≤ a ⟹ 0 ≤ b ⟹ 0 ≤ a + b`. -/
+private theorem ratAdd_nonneg {a b : RatNum}
+    (ha : ratLe ratZero a) (hb : ratLe ratZero b) : ratLe ratZero (ratAdd a b) :=
+  ratLe_of_RatEq_left (RatEq_symm (ratZero_add_left ratZero)) (ratAdd_le_add ha hb)
+
+/-- **RP holds for EVERY test vector** when `0 ≤ q` and `2q ≤ 1` (定理 8.3 positive direction):
+the completed-square form is a sum of two nonnegative terms, so `osForm q f0 f1 ≥ 0` for all
+`f0, f1` — full reflection positivity of the tick input in the unitary-reconstructable regime. -/
+theorem reflection_holds (q f0 f1 : RatNum) (hq0 : ratLe ratZero q)
+    (hq : ratLe (ratMul twoRat q) ratOne) :
+    ratLe ratZero (osForm q f0 f1) :=
+  ratAdd_nonneg
+    (ratMul_nonneg hq0 (ratSq_nonneg (ratAdd f0 f1)))
+    (ratMul_nonneg (ratSub_nonneg_of_le hq)
+      (ratAdd_nonneg (ratSq_nonneg f0) (ratSq_nonneg f1)))
 
 end BEDC.Derived.RHRoute.OCLSDReflectionForm
