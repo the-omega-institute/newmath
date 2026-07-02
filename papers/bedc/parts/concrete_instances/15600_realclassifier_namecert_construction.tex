@@ -50,6 +50,24 @@ The remaining rows transport, replay, source, and locally name the same packet. 
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierCarrier\_namecert\_obligations}
 
+\begin{theorem}[RealClassifier RegSeqRat window exhaustion]
+\label{thm:realclassifier-regseqrat-window-exhaustion}
+For every accepted $\RealClassifierUp$ carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+every accepted public classifier comparison reaches the public $\RealClassifierUp$ boundary only through the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback rows $R_X,R_Y$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the terminal $\RealUp$ seal rows $X,Y$, and the structural rows $H,K,P,N$. The route has no coordinate for quotient stream equality, trichotomy, selected representatives, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-classifier-carrier}. Its public comparison rows are the two terminal Real seals, their source and RegSeqRat readbacks, the common StreamName window, the dyadic tolerance ledger, the classifier row, the regular-Cauchy boundary row, and the structural rows.
+
+Use the NameCert obligations of \autoref{thm:real-classifier-namecert-obligations}. They force carrier admission, tolerance classifier stability, RegSeqRat handoff, Real seal non-escape, and ledger exhaustion to read through $S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$ before the public classifier boundary is exposed.
+
+Now route the comparison through the existing handoff and seal the read. The RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} supplies the regular-rational readback before the classifier row is consumed, while the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape} keeps $X$ and $Y$ as displayed terminal seals rather than host real values.
+
+Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The rows $H,K,P,N$ transport, replay, source, and name only the displayed packet, so no quotient stream equality, trichotomy, selected representative, or ambient Real-completeness coordinate can be exported by the accepted comparison.
+\end{proof}
+
 \begin{theorem}[RealClassifier finite-window exactness target]
 \label{thm:realclassifier-scaffold-target}
 For every accepted $\RealClassifierUp$ carrier

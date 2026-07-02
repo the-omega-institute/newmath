@@ -9294,6 +9294,7 @@ import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedCompactIntersectionUp.TasteGate
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
+import BEDC.Derived.NestedDyadicIntervalUp.PrefixInduction
 import BEDC.Derived.NestedIntervalCauchySealUp.TasteGate
 import BEDC.Derived.NestedIntervalCauchyUp.TasteGate
 import BEDC.Derived.NestedIntervalCompactnessUp
