@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\StreamWindowRefinementBudgetUp$}
+\label{ch:concrete-instances-stream-window-refinement-budget-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\StreamWindowRefinementBudgetUp$ packet records a finite common-observation budget for comparing two or more stream windows before a regular rational or Real-facing seal is read. It sits over the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names finite observation-window coordination; it is not quotient stream equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Stream window refinement-budget carrier]
+\label{def:stream-window-refinement-budget-carrier}
+A $\StreamWindowRefinementBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S_0,S_1,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the $\StreamNameUp$ source-window rows whose finite observations are to be compared.
+\item $W$ is the common finite-window budget, recording the displayed observation indices opened on both source rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the two inspected windows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after $S_0,S_1,W,D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the readback route $R$ has been exposed.
+\item $H$ records componentwise $\hsame$ transport for source windows, common budgets, dyadic ledgers, readbacks, seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite common-window request through $S_0,S_1,W,D,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\StreamWindowRefinementBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\StreamWindowRefinementBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected future observations, selected limits, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Stream window refinement-budget NameCert obligations]
+\label{thm:stream-window-refinement-budget-namecert-obligations}
+For every accepted $\StreamWindowRefinementBudgetUp$ carrier
+$$
+B=(S_0,S_1,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\StreamWindowRefinementBudgetUp}$ surface consists exactly of carrier admission for the displayed finite common-window budget; source-window exposure through $S_0,S_1$; common-budget exposure through $W$; dyadic tolerance exposure through $D$; regular rational readback through $R$; terminal real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-window-refinement-budget-carrier}. The only source windows are $S_0$ and $S_1$, the only common observation budget is $W$, and the only tolerance ledger is $D$.
+
+The readback row $R$ is downstream of those finite rows, and the terminal seal $E$ is downstream of $R$. Thus no accepted Real-facing read can bypass the displayed StreamName windows, common budget, DyadicRatCore tolerance ledger, and RegSeqRat readback.
+
+Rows $H,C,P,N$ preserve the same finite packet under transport, continuation replay, provenance, and local naming. Since the carrier contains no coordinate for quotient streams, selected future observations, selected limits, countable choice, host real equality, or ambient completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Stream window refinement-budget Real handoff]
+\label{thm:stream-window-refinement-budget-real-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or Completion-facing consumer of an accepted $\StreamWindowRefinementBudgetUp$ packet reads the sibling route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp
+$$
+through the displayed carrier rows $S_0,S_1,W,D,R,E,H,C,P,N$. The handoff exports finite common-window coordination for StreamName, RegSeqRat, DyadicRatCore, and Real seal reads, not quotient stream equality, selected future observations, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:stream-window-refinement-budget-namecert-obligations}. It forces every accepted read to display both source windows, the common finite budget, the dyadic tolerance row, and the regular rational readback before the terminal seal is consumed.
+
+The sibling chapters supply exactly those surfaces: $\StreamNameUp$ supplies finite observations, $\DyadicRatCoreUp$ supplies tolerance arithmetic, $\RegSeqRatUp$ supplies regular rational readback, and $\RealUp$ supplies the final seal boundary.
+
+Therefore a downstream consumer receives only the finite route $S_0,S_1,W,D,R,E,H,C,P,N$. The carrier inventory excludes quotient streams, selected future observations, selected limits, countable choice, host real equality, and ambient completeness.
+\end{proof}
+
+\closureat{StreamWindowRefinementBudgetUp}{seedStr}
+
+\begin{closurestatus}{\StreamWindowRefinementBudgetUp}
+  \constructivestory{A $\StreamWindowRefinementBudgetUp$ packet is generated from two StreamName source windows, a common finite observation budget, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-window-refinement-budget-carrier}, \autoref{thm:stream-window-refinement-budget-namecert-obligations}, and \autoref{thm:stream-window-refinement-budget-real-handoff} seed the finite common-window route from StreamName observations to RegSeqRat readback and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient stream equality, selected future observations, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exposure, common-budget exposure, dyadic tolerance exposure, regular readback, Real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.StreamWindowRefinementBudgetUp.}
+\end{closurestatus}
