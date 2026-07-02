@@ -109,4 +109,45 @@ theorem K1_T_abs_bound_zeroPanel_cert :
   polyAbsBoundSound_of_endpoint K1_T zeroPanelLeft zeroPanelRight K1_T_abs_bound
     (ratLe_refl ratZero) (qNat_nonneg 1 8) endpoint_le
 
+/-- The `K1_A4` tail coefficients `[0, 1/6, 0, 1/120]` are all nonnegative. -/
+private theorem A4_tail_coeffs_nonneg :
+    ∀ c, c ∈ ([ratZero, qNat 1 6, ratZero, qNat 1 120] : List BRat) →
+      ratLe ratZero c := by
+  intro c hc
+  -- eliminate the List.Mem inductive directly (propext-free; List.mem_cons Iff leaks propext)
+  cases hc with
+  | head => exact ratLe_refl ratZero
+  | tail _ hc =>
+    cases hc with
+    | head => exact qNat_nonneg 1 6
+    | tail _ hc =>
+      cases hc with
+      | head => exact ratLe_refl ratZero
+      | tail _ hc =>
+        cases hc with
+        | head => exact qNat_nonneg 1 120
+        | tail _ hc => nomatch hc
+
+/-- Zero-panel lower bound for `K1_A4`: `1 <= evalPoly K1_A4 t` for every `t` in the zero
+panel.  This is the concrete content of `K1ZeroPanelObligations.A_ge_one_zeroPanel` for the
+natural rational carrier `A := fun t => evalPoly K1_A4 t` (K1_A4 = `1 + t^2/6 + t^4/120` has
+constant term 1 and nonnegative higher coefficients, so it is `>= 1` at `t >= 0`).  0-axiom. -/
+theorem K1_A4_ge_one_zeroPanel :
+    ∀ t, inClosedPanel zeroPanelLeft zeroPanelRight t ->
+      ratLe ratOne (evalPoly K1_A4 t) := by
+  intro t ht
+  have ht0 : ratLe ratZero t := ht.1
+  have hrest :
+      ratLe ratZero (evalShift 1 [ratZero, qNat 1 6, ratZero, qNat 1 120] t) :=
+    evalShift_nonneg t ht0 [ratZero, qNat 1 6, ratZero, qNat 1 120]
+      A4_tail_coeffs_nonneg 1
+  have hhead : RatEq (ratMul ratOne (pow t 0)) ratOne := ratOne_mul_left ratOne
+  have base :
+      ratLe ratOne
+        (ratAdd ratOne (evalShift 1 [ratZero, qNat 1 6, ratZero, qNat 1 120] t)) :=
+    ratLe_respects (ratAdd_zero_right ratOne) (RatEq_refl _)
+      (ratAdd_le_add (ratLe_refl ratOne) hrest)
+  exact ratLe_respects (RatEq_refl ratOne)
+    (ratAdd_respects (RatEq_symm hhead) (RatEq_refl _)) base
+
 end BEDC.Derived.RHRoute.IntervalMatrixPSD.K1AbsBoundCerts
