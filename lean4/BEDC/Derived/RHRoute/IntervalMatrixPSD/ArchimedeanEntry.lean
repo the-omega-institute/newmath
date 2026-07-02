@@ -320,7 +320,7 @@ private theorem ratAbs_nonneg_right_mul_le {x a bound : BRat}
     (ratMul_comm a bound)
     left
 
-private theorem ratAbs_mul_le {x y bx boundY : BRat}
+theorem ratAbs_mul_le {x y bx boundY : BRat}
     (hx : ratLe (ratAbs x) bx)
     (hy : ratLe (ratAbs y) boundY) :
     ratLe (ratAbs (ratMul x y)) (ratMul bx boundY) := by
