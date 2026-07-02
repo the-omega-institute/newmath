@@ -185,6 +185,27 @@ Use shared-window refusal, the NameCert surface, and the shared-window obligatio
 Finally apply the obligation-closure route of \autoref{thm:finite-window-real-separation-obligation-closure-route}. The structural rows preserve the same finite packet, and the carrier contains no quotient-stream, host-equality, selected-representative, or ambient-completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-separation scoped completion route]
+\label{thm:finite-window-real-separation-scoped-completion-route}
+Every accepted $\FiniteWindowRealSeparationUp$ separation read that reaches a completion-facing consumer factors through the finite route
+$$
+W \longmapsto D \longmapsto S \longmapsto R \longmapsto
+\RealCompletionExactBoundaryUp \longmapsto
+\BudgetedRealSealRouteUp \longmapsto
+\RegularCauchyTailMeetUp \longmapsto H \longmapsto C \longmapsto P \longmapsto N .
+$$
+The route first displays the common finite window $W$, dyadic tolerance $D$, $\StreamNameUp/\RegSeqRatUp$ readback $S$, and $\RealUp$ seal $R$; it then reads exact-boundary, budgeted-seal, and tail-meet rows only through the provenance already carried by $P$. It exposes no quotient stream, host real equality, selected representative, detached completion witness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-separation-carrier}. The only separation-facing rows are $W,D,S,R,H,C,P,N$, and the provenance row names the exact-boundary, budgeted-seal, and shared-tail-meet siblings consumed by the Real-facing route.
+
+Apply the shared-window refusal and NameCert surface theorems, \autoref{thm:finite-window-real-separation-window-refusal} and \autoref{thm:finite-window-real-separation-namecert-surface}. They force any RealUp read to pass through the same finite window, dyadic tolerance, and StreamName/RegSeqRat readback before $R$ becomes public.
+
+Use the shared-window obligation and obligation-closure route, \autoref{thm:finite-window-real-separation-shared-window-obligation} and \autoref{thm:finite-window-real-separation-obligation-closure-route}. These bind $H,C,P,N$ to the same displayed packet, so completion-facing consumers cannot detach the exact-boundary or seal rows from the carrier.
+
+Finally apply the scoped kernel route and witness exhaustion theorems, \autoref{thm:finite-window-real-separation-scoped-kernel-route} and \autoref{thm:finite-window-real-separation-witness-exhaustion}. The scoped route already lists the dyadic, stream, regular-rational, Real, exact-boundary, budgeted-seal, and tail-meet dependencies, while witness exhaustion blocks every outside completion witness.
+\end{proof}
+
 \begin{theorem}[Finite-window Real-separation shared-budget normalization]
 \label{thm:finite-window-real-separation-shared-budget-normalization}
 Let
