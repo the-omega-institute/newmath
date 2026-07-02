@@ -1,0 +1,534 @@
+\chapter{Innovation Input Thermodynamic Geometry Boundary}
+\label{ch:visions-innovation-input-thermodynamic-geometry-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-dynamics-spectral-boundary} records
+the dynamic metric rows of an input flow. This chapter records the adjacent
+thermodynamic geometry row: the meeting of the innovation information
+metric with the diffusion metric, the curvature defect of that meeting,
+the entropy-production correction, the entanglement-area read, and the
+Jacobson-style dictionary. The chapter locates the ingredients of a
+thermodynamic gravity argument inside the machine; it does not assert an
+Einstein field-equation derivation.
+
+\section{Coherent Family and Meeting Law}
+\label{sec:innovation-input-thermo-meeting-law}
+
+\begin{lemma}[Two-dimensional conformal diffusion exactness]
+\label{lem:innovation-input-thermo-two-dimensional-conformal-exactness}
+Let a two-dimensional position-dependent jump row have generator
+$-\frac12g(x)\Delta$. For the conformal metric $G=g^{-1}\delta$, this is
+exactly $-\frac12\Delta_G$, and the reversible volume density is
+proportional to $1/g$.
+\end{lemma}
+
+\begin{proof}
+In two dimensions,
+$$
+\Delta_G
+=
+\frac{1}{\sqrt{|G|}}
+\partial_i\left(\sqrt{|G|}G^{ij}\partial_j\right)
+=
+g\Delta.
+$$
+The detailed-balance density is the inverse jump rate, so the chain is
+reversible on the same volume row used by the Laplace--Beltrami operator.
+\end{proof}
+
+\begin{definition}[Machine coherent family]
+\label{def:innovation-input-thermo-machine-coherent-family}
+Let $H$ be the reconstructed Hamiltonian of a reflection-positive
+spatialized input, and let $T>0$ be the logarithmic age. The machine
+coherent family based at a position $z$ is the normalized state
+$$
+\psi_z^{(T)}
+\propto
+e^{-TH}\delta_z.
+$$
+Its innovation information metric is the QGT real part for the parameter
+$z$, written $h_{ij}(z,T)$.
+\end{definition}
+
+\begin{theorem}[Meeting law]
+\label{thm:innovation-input-thermo-meeting-law}
+For a translation-invariant finite-variance input with
+$$
+H(k)=\frac12g^{ij}k_ik_j+O(|k|^4),
+$$
+the coherent-family QGT metric satisfies, in the low-momentum regime,
+$$
+h_{ij}(T)=\frac{1}{2T}(g^{-1})_{ij}.
+$$
+Thus the kinematic QGT metric and the dynamic diffusion metric meet as
+inverse matrices, with conformal factor $1/(2T)$.
+\end{theorem}
+
+\begin{proof}
+The Fourier weight of the coherent family is proportional to
+$$
+e^{-2TH(k)}.
+$$
+At low momentum this is a centered Gaussian with exponent
+$-Tg^{ij}k_ik_j$. Since the constant-modulus phase packet reads the QGT
+metric as the covariance of the covectors $k_i$, the covariance is
+$(2T)^{-1}g^{-1}$.
+\end{proof}
+
+\begin{principle}[Anisotropic closure of the metric comparison]
+\label{prin:innovation-input-thermo-anisotropic-closure}
+The meeting law is matrix-valued. It includes anisotropic and off-diagonal
+diffusion tensors; it is not merely a scalar proportionality. The correction
+of the diffusion tensor as an inverse metric is therefore a prerequisite for
+the comparison row.
+\end{principle}
+
+\begin{principle}[Flat entropy production]
+\label{prin:innovation-input-thermo-flat-entropy-production}
+For the Gaussian coherent family in $d$ dimensions,
+$$
+\operatorname{tr}(h\,g)=\frac{d}{2T}.
+$$
+The Shannon entropy of the corresponding position density has derivative
+$d/(2T)$. Hence the flat meeting row reads
+$$
+\operatorname{tr}(h\,g)=\dot S.
+$$
+This is the entropy-production form of the meeting law.
+\end{principle}
+
+\begin{principle}[Finite-mass and massless boundary]
+\label{prin:innovation-input-thermo-finite-mass-massless-boundary}
+For the massive relativistic multiplier
+$H(k)=\sqrt{|k|^2+m^2}-m$, the quadratic row near $k=0$ gives the same
+meeting law with the effective diffusion scale set by $m^{-1}$. At
+$m=0$, the finite-variance metric row no longer exists, but the coherent
+family still carries the ballistic scaling
+$$
+h=\frac{1}{2T^2}
+$$
+in the one-dimensional Cauchy row. The covariance geometry and the
+massless light-cone scaling therefore separate cleanly.
+\end{principle}
+
+\begin{principle}[Numerical meeting witnesses]
+\label{prin:innovation-input-thermo-numerical-meeting-witnesses}
+The numerical certificate contains four independent rows. A
+one-dimensional lattice chain gives
+$$
+h\,2Tg=0.9844,\ 0.9958,\ 0.9991,\ 0.99991
+$$
+at $T=5,20,100,1000$. A two-dimensional anisotropic walk with
+off-diagonal diffusion gives componentwise ratios to
+$(2T)^{-1}g^{-1}$ in the range $1.002$--$1.003$ at $T=400$. A massive
+relativistic multiplier gives
+$$
+h\,2T/m=1.153,\ 1.015,\ 1.0015
+$$
+at $T=5,50,500$. The massless Cauchy row gives $h\,2T^2=1.0000$.
+Together these rows support the matrix-valued meeting read, the massive
+approach to the diffusive regime, and the massless scaling boundary.
+\end{principle}
+
+\section{Heat Kernel Identity and Curvature Read}
+\label{sec:innovation-input-thermo-curvature-read}
+
+\begin{theorem}[Heat-kernel QGT identity]
+\label{thm:innovation-input-thermo-heat-kernel-qgt-identity}
+Let $K_T(z,z')$ be the heat kernel of the reconstructed geometric
+Hamiltonian on the physical volume measure. For the coherent family of
+\autoref{def:innovation-input-thermo-machine-coherent-family},
+$$
+h_{ij}(z,T)
+=
+\partial_{z^i}\partial_{z'^j}\log K_T(z,z')\big|_{z'=z}.
+$$
+\end{theorem}
+
+\begin{proof}
+The overlap of the unnormalized coherent states is the heat kernel
+$K_T(z,z')$ up to factors separated in $z$ and $z'$. In the QGT expression
+for normalized states, those separated factors cancel under the mixed
+second derivative, leaving the displayed identity.
+\end{proof}
+
+\begin{corollary}[Spectral-dimension merger]
+\label{cor:innovation-input-thermo-spectral-dimension-merger}
+In a homogeneous setting,
+$$
+\operatorname{tr}h
+=
+-\partial_T\log K_T(z,z).
+$$
+With the spectral-dimension convention
+$K_T(z,z)\asymp T^{-d_s(T)/2}$, the coherent-family trace reads
+$$
+\operatorname{tr}h(T)=\frac{d_s(T)}{2T},
+$$
+up to the derivative correction when $d_s$ runs with $T$. For a smooth
+metric, the small-time expansion gives
+$$
+d_s(T)=d-\frac{T}{3}R+O(T^2).
+$$
+Thus the meeting row and the spectral-dimension row use the same heat
+kernel instrument.
+\end{corollary}
+
+\begin{theorem}[Curvature defect of meeting]
+\label{thm:innovation-input-thermo-curvature-defect}
+For a smooth Riemannian metric $G$ and small $T$,
+$$
+2T\,h_{ij}(z,T)
+=
+G_{ij}(z)-\frac{T}{3}\operatorname{Ric}_{ij}(z)+O(T^2).
+$$
+In two dimensions, for a conformal scalar diffusion read,
+$$
+2Tg\,h=1-\frac{R}{6}T+O(T^2).
+$$
+\end{theorem}
+
+\begin{proof}
+Insert the Minakshisundaram--Pleijel heat-kernel expansion into
+\autoref{thm:innovation-input-thermo-heat-kernel-qgt-identity}. The mixed
+second derivative of the world function gives the metric term, and the
+mixed derivative of the Van Vleck--Morette factor gives the Ricci
+coefficient.
+\end{proof}
+
+\begin{principle}[Ricci as a measurable machine output]
+\label{prin:innovation-input-thermo-ricci-output}
+Ricci curvature is read as the first-order failure of exact meeting:
+the information metric and diffusion metric meet at leading order, and the
+first defect is $-\operatorname{Ric}/3$. This makes curvature a statistical
+output of the coherent-family row, not a primitive field-equation input.
+\end{principle}
+
+\begin{principle}[Curvature numerical witnesses]
+\label{prin:innovation-input-thermo-curvature-numerical-witnesses}
+The curvature certificate contains a sphere witness and a machine-operator
+witness. On the sphere, the measured value
+$$
+\frac{2Th-1}{T}=-0.33344
+$$
+at $T=0.005$ matches the predicted $-R/6=-1/3$. For the conformal-torus
+machine operator of \autoref{lem:innovation-input-thermo-two-dimensional-conformal-exactness},
+the point $(0,0)$ has $R=-1.1935$, predicted slope $+0.19891$, and
+corrected readings $+0.20203$ and $+0.20398$ at $T=0.04$ and $T=0.08$.
+The point $(\pi,0)$ has $R=+0.5363$, predicted slope $-0.08938$, and
+corrected readings $-0.09018$ and $-0.09033$. The control point
+$(\pi/2,\pi/2)$ has $R=0$ and corrected readings $-0.00002$ and
+$-0.00009$. The flat-control subtraction removes the lattice dispersion
+term proportional to $dx^2/T^2$; at the zero-curvature control, that term
+shrinks by the expected factor $1/4$ when $T$ is doubled.
+\end{principle}
+
+\section{Local Heat-Geometry Identity}
+\label{sec:innovation-input-thermo-local-heat-geometry}
+
+\begin{theorem}[Local thermodynamic geometry identity]
+\label{thm:innovation-input-thermo-local-heat-geometry}
+For the coherent-family position entropy and the diffusion metric trace,
+the small-time local relation is
+$$
+\dot S
+=
+\operatorname{tr}(h\,g)+\frac{R}{12}+O(T).
+$$
+The coefficient $1/12$ is dimension-independent in the stated heat-kernel
+normalization.
+\end{theorem}
+
+\begin{proof}
+In normal coordinates, the squared Van Vleck factor and the Riemannian
+volume density cancel to the required order. The entropy receives the
+volume-density correction, while $\operatorname{tr}(h\,g)$ receives the
+Ricci correction from
+\autoref{thm:innovation-input-thermo-curvature-defect}. Subtracting the
+two expansions gives the displayed $R/12$ term.
+\end{proof}
+
+\begin{corollary}[Thermodynamic curvature read]
+\label{cor:innovation-input-thermo-thermodynamic-curvature-read}
+The scalar curvature can be read by
+$$
+R=12\bigl(\dot S-\operatorname{tr}(h\,g)\bigr)+O(T).
+$$
+Thus the geometric curvature read of
+\autoref{thm:innovation-input-thermo-curvature-defect} has a second,
+thermodynamic measurement protocol.
+\end{corollary}
+
+\begin{principle}[Internal consistency test]
+\label{prin:innovation-input-thermo-internal-consistency-test}
+The same scalar curvature must be obtained from the meeting-defect read
+and from the entropy-production read. This gives an internal consistency
+test for any proposed input-flow geometry bridge.
+\end{principle}
+
+\begin{principle}[Thermodynamic numerical witnesses]
+\label{prin:innovation-input-thermo-thermodynamic-numerical-witnesses}
+On the sphere, the measured differences
+$$
+\dot S-\operatorname{tr}(hg)=0.16856,\ 0.16735,\ 0.16789
+$$
+at $T=0.02,0.05,0.10$ match the prediction $R/12=1/6$ to the observed
+finite-difference accuracy. For the machine conformal-torus operator,
+flat-subtracted readings give $-0.10246$ at the negative-curvature point
+where $R/12=-0.09945$, and $+0.04535$ at the positive-curvature point
+where $R/12=+0.04469$. The heat-geometry identity therefore has both
+curvature signs under the same estimator.
+\end{principle}
+
+\section{Entanglement Entropy Row}
+\label{sec:innovation-input-thermo-entanglement-row}
+
+\begin{definition}[Free-field reconstruction row]
+\label{def:innovation-input-thermo-free-field-row}
+The free-field reconstruction row consumes the positive Hamiltonian
+multiplier of \autoref{ch:visions-innovation-input-dynamics-spectral-boundary}
+and forms the Gaussian ground-state covariance matrices for a scalar field
+on a lattice regulator.
+\end{definition}
+
+\begin{principle}[Area law witness]
+\label{prin:innovation-input-thermo-area-law-witness}
+For a two-dimensional spatial torus cut by a straight boundary, the
+Gaussian covariance calculation records an area law: the entropy per unit
+boundary length stabilizes as the system size increases. In the
+mass-$0.2$ row,
+$$
+\frac{S}{2L}
+=
+0.062416,\ 0.062307,\ 0.062286,\ 0.062285,\ 0.062285
+$$
+for $L=24,32,48,64,96$. The remaining size correction is below the
+displayed precision in this window.
+\end{principle}
+
+\begin{principle}[Universal massive slope]
+\label{prin:innovation-input-thermo-universal-massive-slope}
+The small-mass area coefficient has the form
+$$
+\kappa(m)=\kappa_{\rm UV}-\frac{m}{12}+O(m^2)
+$$
+in the measured free scalar row. The measured values
+$$
+\kappa(0.05),\kappa(0.1),\kappa(0.2),\kappa(0.4),\kappa(0.8)
+=
+0.0733,\ 0.0695,\ 0.0623,\ 0.0499,\ 0.0318
+$$
+give a small-mass slope near $-0.0816$, close to $-1/12$. The intercept
+$\kappa_{\rm UV}$ is regulator dependent, while the slope is the universal
+heat-kernel contribution of the free-field row.
+\end{principle}
+
+\begin{theorem}[Arithmetic blindness of vacuum entanglement]
+\label{thm:innovation-input-thermo-entanglement-arithmetic-blindness}
+The free-field vacuum entanglement row is blind to the refinement factor
+$N$ and to the prime content $S$ when these enter only through an overall
+Hamiltonian scale.
+\end{theorem}
+
+\begin{proof}
+The ground state of a positive quadratic Hamiltonian is unchanged by
+multiplying the Hamiltonian by a positive scalar. The refinement factor
+enters the reconstructed Hamiltonian through the overall energy scale
+$1/\log N$ in this setting, so the vacuum covariance and its entanglement
+entropy are unchanged.
+\end{proof}
+
+\begin{principle}[Species boundary]
+\label{prin:innovation-input-thermo-species-boundary}
+The candidate identification
+$$
+\frac{1}{4G}\sim\frac{\kappa_{\rm UV}}{\varepsilon}
+$$
+inherits the regulator and species dependence of the entanglement area
+coefficient. The machine therefore reproduces the known induced-gravity
+obstruction rather than bypassing it.
+\end{principle}
+
+\begin{remark}[Two heat-kernel twelfths]
+\label{rem:innovation-input-thermo-two-twelfths}
+The curvature correction $+R/12$ in
+\autoref{thm:innovation-input-thermo-local-heat-geometry} and the massive
+area-law slope $-m/12$ in
+\autoref{prin:innovation-input-thermo-universal-massive-slope} both arise
+from heat-kernel coefficient rows. The chapter records the resonance; it
+does not identify the two coefficients by a common theorem.
+\end{remark}
+
+\section{Modular Hamiltonian and Unruh Row}
+\label{sec:innovation-input-thermo-modular-unruh}
+
+\begin{definition}[Gaussian modular Hamiltonian row]
+\label{def:innovation-input-thermo-gaussian-modular-hamiltonian-row}
+For a Gaussian state restricted to a region $A$, let
+$$
+X=\langle\varphi\varphi\rangle_A,
+\qquad
+P=\langle\pi\pi\rangle_A.
+$$
+The modular Hamiltonian is the quadratic operator $K$ such that
+$\rho_A\propto e^{-K}$.
+\end{definition}
+
+\begin{theorem}[Gaussian modular Hamiltonian normal form]
+\label{thm:innovation-input-thermo-gaussian-modular-normal-form}
+Let $X_s=X^{1/2}$ and diagonalize
+$$
+X_sPX_s=O\nu^2O^{\mathsf T},
+$$
+with symplectic eigenvalues $\nu_a\ge1/2$. Set
+$$
+\epsilon_a=\log\frac{\nu_a+1/2}{\nu_a-1/2}.
+$$
+Then
+$$
+K=\frac12\pi^{\mathsf T}G_K\pi+\frac12\varphi^{\mathsf T}F_K\varphi,
+$$
+where
+$$
+G_K=X_sO\,\operatorname{diag}\left(\frac{\epsilon_a}{\nu_a}\right)
+O^{\mathsf T}X_s
+$$
+and
+$$
+F_K=X_s^{-1}O\,\operatorname{diag}(\epsilon_a\nu_a)
+O^{\mathsf T}X_s^{-1}.
+$$
+\end{theorem}
+
+\begin{proof}
+The canonical transformation
+$\Phi=O^{\mathsf T}X_s^{-1}\varphi$ and
+$\Pi=O^{\mathsf T}X_s\pi$ diagonalizes the covariance data. Each normal
+mode is a thermal oscillator with
+$\coth(\epsilon_a/2)=2\nu_a$. Pulling the oscillator kernels back gives
+the displayed matrices.
+\end{proof}
+
+\begin{principle}[Bisognano--Wichmann read]
+\label{prin:innovation-input-thermo-bw-read}
+For a continuum half-space, the modular Hamiltonian is
+$$
+K=2\pi\int x\,T_{00}(x)\,dx.
+$$
+The lattice calculation reads this weakly: smoothed row sums of the
+modular kernels approach the boost weight $2\pi x$ near the cut, while
+pointwise entries display nonlocal regulator spread.
+\end{principle}
+
+\begin{principle}[Weak modular numerical witness]
+\label{prin:innovation-input-thermo-weak-modular-numerical-witness}
+For a massive lattice scalar with $m=0.15$ and interval length $40$, high
+precision covariance diagonalization gives the following ratios to the
+Bisognano--Wichmann prediction. At sites $i=0,2,4,6,10$, the
+$G_K$ diagonal ratios are
+$$
+0.9986,\ 0.9944,\ 0.9708,\ 0.9373,\ 0.8567,
+$$
+the $G_K$ row-sum ratios are
+$$
+0.9986,\ 0.9978,\ 0.9879,\ 0.9985,\ 1.062,
+$$
+and the $F_K$ row-sum ratios against $2\pi \tilde x\,m^2$ are
+$$
+0.996,\ 1.018,\ 0.928,\ 0.926,\ 1.113.
+$$
+Near the cut, the row-sum tests recover $2\pi\tilde x$ at percent scale,
+while the diagonal entries display the expected nonlocal broadening of the
+modular kernel. A larger interval in double precision gives ratios near
+$1$ at the first two sites, but high precision is needed once the
+symplectic eigenvalues approach $1/2$.
+\end{principle}
+
+\begin{principle}[Unruh temperature boundary]
+\label{prin:innovation-input-thermo-unruh-temperature-boundary}
+The weak half-space modular row gives the Unruh temperature
+$1/(2\pi)$ in machine units. The finite lattice row has two controlled
+deviations: nonlocal broadening near the cut and exponential sensitivity
+to a second boundary when the region is a finite interval rather than a
+half-space.
+\end{principle}
+
+\section{Jacobson Dictionary}
+\label{sec:innovation-input-thermo-jacobson-dictionary}
+
+\begin{principle}[Thermodynamic gravity dictionary]
+\label{prin:innovation-input-thermo-jacobson-dictionary}
+The machine supplies the following dictionary:
+$$
+\begin{array}{c|c|c}
+\text{thermodynamic-gravity ingredient} & \text{machine row} & \text{status}\\
+\hline
+\text{metric} & h=(2T)^{-1}g^{-1} & \text{meeting law}\\
+\text{Ricci curvature} & 2Th=G-\frac{T}{3}\operatorname{Ric}+O(T^2) & \text{curvature read}\\
+\text{entropy production} & \dot S=\operatorname{tr}(hg)+\frac{R}{12}+O(T) & \text{heat row}\\
+\text{entanglement variation} & \kappa_{\rm UV}-m/12 & \text{area row}\\
+\text{Unruh temperature} & K=2\pi\text{ boost} & \text{modular row}\\
+\text{Newton coupling} & \kappa_{\rm UV}/\varepsilon & \text{scheme dependent}\\
+\text{Clausius assembly} & \delta Q=T\delta S & \text{requires local equilibrium}
+\end{array}
+$$
+\end{principle}
+
+\begin{principle}[What remains outside the certificate]
+\label{prin:innovation-input-thermo-remaining-obstructions}
+The thermodynamic rows locate the ingredients of the Jacobson argument but
+leave two named obstructions outside the current certificate: the
+scheme/species dependence of the area coefficient and the external local
+equilibrium condition needed to assemble a field equation. Therefore this
+chapter is a boundary and dictionary, not an Einstein-equation proof.
+\end{principle}
+
+\section{Scope and Correspondence Ledger}
+\label{sec:innovation-input-thermo-scope-ledger}
+
+\begin{principle}[Structural assumptions]
+\label{prin:innovation-input-thermo-structural-assumptions}
+The local-equilibrium condition needed for a Clausius assembly is external
+to the current input-flow certificate. The coherent family is canonical in
+the sense that the machine evolves its own localized states, but uniqueness
+among all possible coherent families is not claimed. The amplitude
+semigroup convention used here fixes the factor $1/(2T)$; density
+semigroup conventions shift this constant by the corresponding factor
+without changing the inverse-metric structure.
+\end{principle}
+
+\begin{principle}[Certificate scope]
+\label{prin:innovation-input-thermo-certificate-scope}
+The meeting law is stated for translation-invariant finite-variance rows.
+The curvature and heat-geometry theorems are analytic small-time
+statements for smooth metrics, with numerical witnesses in dimension two.
+The entanglement row is a free scalar Gaussian reconstruction on a single
+lattice regulator. The modular row is a weak half-space test near the cut,
+not a pointwise equality of every lattice kernel entry.
+\end{principle}
+
+\begin{principle}[External correspondence ledger]
+\label{prin:innovation-input-thermo-external-correspondence-ledger}
+The classical components used by the chapter include the
+Minakshisundaram--Pleijel and DeWitt--Synge heat-kernel expansions,
+de Bruijn-type entropy identities, Gaussian covariance methods for free
+fields, the Bisognano--Wichmann theorem, the Unruh temperature row,
+Jacobson's thermodynamic equation-of-state program, and Sakharov induced
+gravity. The machine contribution is the interface: the meeting law, the
+curvature and entropy measurement protocols, and the placement of the
+remaining obstructions inside the input-flow ledger.
+\end{principle}
+
+\begin{principle}[Open verification rows]
+\label{prin:innovation-input-thermo-open-verification-rows}
+\autoref{ch:visions-innovation-input-thermodynamic-geometry-verification}
+records the completed verification rows for the higher-dimensional Ricci
+read, regulator comparison of the universal massive slope, common
+heat-kernel slot of the two twelfth-coefficients, generic-point dual
+curvature instruments, homogeneous next-order trace channel, and lattice
+residual discrimination.
+\autoref{ch:visions-innovation-input-interaction-slot-response-boundary}
+records the interaction and slot-response rows for the area law. The
+remaining rows outside those certificates are an input-flow definition of
+local equilibrium and a fully discrete Clausius--Raychaudhuri assembly.
+\end{principle}

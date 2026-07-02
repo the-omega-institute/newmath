@@ -1,0 +1,292 @@
+\chapter{Innovation Input Dynamics and Spectral Boundary}
+\label{ch:visions-innovation-input-dynamics-spectral-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-geometry-boundary} separates the
+positive innovation Gram row from the reflection-positive transition row.
+This chapter records the dynamical content of the transition row: diffusion
+geometry, relativistic dispersion, mass as a correlation scale, and spectral
+dimension are reads of the input-flow operator, not further consequences of
+the Hilbert Gram tensor.
+
+\section{Spatialized Input and Diffusion Read}
+\label{sec:innovation-input-dynamics-diffusion-read}
+
+\begin{definition}[Spatialized reversible input]
+\label{def:innovation-input-dynamics-spatialized-input}
+A spatialized reversible input over a lattice window consists of a reversible
+finite or periodic-state transition operator $P$ whose states carry a
+displayed displacement row
+$$
+\Delta x\in\mathbb R^d.
+$$
+The input is translation-invariant when $P$ is diagonalized by Fourier
+characters, with multiplier $\widehat P(k)$.
+\end{definition}
+
+\begin{definition}[Diffusion inverse metric read]
+\label{def:innovation-input-dynamics-diffusion-inverse-metric}
+Assume $\widehat P(k)>0$ near $k=0$ and let $\Delta T>0$ be the tick
+length. The reconstructed Hamiltonian multiplier is
+$$
+H(k):=-\Delta T^{-1}\log\widehat P(k).
+$$
+If
+$$
+H(k)=\frac12g^{ij}k_ik_j+O(|k|^3),
+$$
+then $g^{ij}$ is the diffusion inverse-metric read of the input flow.
+\end{definition}
+
+\begin{theorem}[Low-momentum meeting]
+\label{thm:innovation-input-dynamics-low-momentum-meeting}
+For a centered translation-invariant input with finite second moment,
+$$
+\mathbb E[\Delta x^i]=0,
+\qquad
+C^{ij}:=\mathbb E[\Delta x^i\Delta x^j],
+$$
+the low-momentum expansion satisfies
+$$
+H(k)=\frac{1}{2\Delta T}C^{ij}k_ik_j+O(|k|^3).
+$$
+Thus the diffusion inverse metric is
+$$
+g^{ij}=\frac{C^{ij}}{\Delta T}.
+$$
+\end{theorem}
+
+\begin{proof}
+The characteristic multiplier has expansion
+$$
+\widehat P(k)=1-\frac12C^{ij}k_ik_j+O(|k|^3)
+$$
+because the mean displacement is zero. The logarithm satisfies
+$-\log(1-a+O(|k|^3))=a+O(|k|^3)$ for
+$a=\frac12C^{ij}k_ik_j$.
+\end{proof}
+
+\begin{example}[One-dimensional local chain]
+\label{ex:innovation-input-dynamics-one-dimensional-local-chain}
+For jumps $-\ell$, $0$, and $+\ell$ with probabilities $q$, $1-2q$, and
+$q$,
+$$
+\widehat P(k)=1-2q(1-\cos(k\ell)).
+$$
+When $q\le1/4$, this multiplier is nonnegative for every lattice momentum.
+Near $0$,
+$$
+H(k)=\frac{q\ell^2}{\Delta T}k^2+O(k^4\ell^4)
+=
+\frac12g^{xx}k^2+O(k^4),
+$$
+with
+$$
+g^{xx}=\frac{2q\ell^2}{\Delta T}.
+$$
+\end{example}
+
+\begin{principle}[Kinematic and dynamic geometries are different rows]
+\label{prin:innovation-input-dynamics-two-geometries}
+The kinematic geometry $h^\eta$ of
+\autoref{def:innovation-input-gram-tensor} is a covariance or
+Fisher-covariance read of the innovation one-form. The dynamic geometry
+$g^{ij}$ above is a low-momentum read of $-\log P$. A bridge may identify
+them only after it supplies a comparison row between the covector packet
+used by $\Theta$ and the displacement statistics used by $P$.
+\end{principle}
+
+\section{Relativistic Dispersion}
+\label{sec:innovation-input-dynamics-relativistic-dispersion}
+
+\begin{definition}[Relativistic input multiplier]
+\label{def:innovation-input-dynamics-relativistic-multiplier}
+For $m\ge0$ and tick length $\Delta T$, the relativistic input multiplier is
+$$
+\widehat P_m(k)
+:=
+\exp\left(
+-\Delta T\bigl(\sqrt{|k|^2+m^2}-m\bigr)
+\right).
+$$
+\end{definition}
+
+\begin{lemma}[Subordination positivity]
+\label{lem:innovation-input-dynamics-subordination-positivity}
+For $t>0$ and $m\ge0$, the function
+$$
+e^{-t\sqrt{|k|^2+m^2}}
+$$
+is positive definite in $k$. Equivalently, it is a positive mixture of
+Gaussian multipliers:
+$$
+e^{-t\sqrt{|k|^2+m^2}}
+=
+\int_0^\infty
+e^{-s|k|^2}e^{-sm^2}\eta_t(ds)
+$$
+with a positive half-stable subordinator measure $\eta_t$.
+\end{lemma}
+
+\begin{proof}
+This is the classical half-stable subordination formula for the square-root
+semigroup. Since each Gaussian multiplier is positive definite and the
+mixing measure is positive, the mixture is positive definite.
+\end{proof}
+
+\begin{theorem}[Relativistic Hamiltonian realization]
+\label{thm:innovation-input-dynamics-relativistic-realization}
+The multiplier of
+\autoref{def:innovation-input-dynamics-relativistic-multiplier} is
+positive definite and positive. Therefore it determines a
+reflection-positive input row after the usual lattice periodization when a
+lattice window is used. Its reconstructed Hamiltonian is
+$$
+H_m(k)=\sqrt{|k|^2+m^2}-m.
+$$
+After analytic continuation of the reconstructed unitary row, the group
+velocity satisfies
+$$
+\left|\nabla_k\sqrt{|k|^2+m^2}\right|
+=
+\frac{|k|}{\sqrt{|k|^2+m^2}}
+\le1.
+$$
+\end{theorem}
+
+\begin{proof}
+Positivity follows from \autoref{lem:innovation-input-dynamics-subordination-positivity}
+and multiplication by the positive scalar $e^{\Delta Tm}$. The identity
+$H_m=-\Delta T^{-1}\log\widehat P_m$ is immediate. The velocity bound is
+the displayed derivative estimate.
+\end{proof}
+
+\begin{principle}[Speed is an input-scale read]
+\label{prin:innovation-input-dynamics-speed-scale-read}
+The normalized speed bound in
+\autoref{thm:innovation-input-dynamics-relativistic-realization} is not a
+primitive spacetime constant inside the certificate. It is the unit obtained
+after the input jump scale and the tick length $\Delta T$ have been fixed.
+Changing those rows changes the empirical calibration while preserving the
+formal multiplier identity.
+\end{principle}
+
+\begin{theorem}[Mass as correlation length]
+\label{thm:innovation-input-dynamics-mass-correlation-length}
+For $m>0$, the one-dimensional spatial law associated to the relativistic
+multiplier has exponential tail
+$$
+\rho_m(x)\sim C_m e^{-m|x|}|x|^{-3/2}
+$$
+up to the standard Bessel-kernel factor. Thus $m^{-1}$ is the input-flow
+correlation length. For $m=0$, the law is Cauchy-type with tail
+$|x|^{-2}$ and infinite variance.
+\end{theorem}
+
+\begin{proof}
+The inverse Fourier transform of the square-root semigroup is the
+relativistic Cauchy kernel, expressible through $K_1$. The large-argument
+asymptotic of $K_1$ gives the exponential factor for $m>0$. Setting
+$m=0$ gives the ordinary Cauchy tail.
+\end{proof}
+
+\begin{corollary}[Mass-variance split]
+\label{cor:innovation-input-dynamics-mass-variance-split}
+The finite-mass input row has a finite second-moment regime and hence a
+low-momentum diffusion geometry. The massless row has the correct
+light-cone scaling but no finite covariance metric. This is not a failure
+of the input row; it marks the boundary between covariance geometry and
+Cauchy scaling.
+\end{corollary}
+
+\section{Stable Inputs and Spectral Dimension}
+\label{sec:innovation-input-dynamics-stable-spectral-dimension}
+
+\begin{definition}[Stable input multiplier]
+\label{def:innovation-input-dynamics-stable-input}
+For $0<\alpha\le2$, the $\alpha$-stable input multiplier is
+$$
+\widehat P_\alpha(k)=\exp(-\Delta T|k|^\alpha).
+$$
+\end{definition}
+
+\begin{theorem}[Stable reflection-positive row]
+\label{thm:innovation-input-dynamics-stable-positive-row}
+The multiplier $\widehat P_\alpha$ is positive definite for
+$0<\alpha\le2$, so it defines a reflection-positive input row. Its
+Hamiltonian is
+$$
+H_\alpha(k)=|k|^\alpha.
+$$
+\end{theorem}
+
+\begin{proof}
+The function $|k|^\alpha$ is conditionally negative definite for
+$0<\alpha\le2$. By the Levy--Khintchine theorem,
+$e^{-t|k|^\alpha}$ is positive definite for every $t>0$.
+\end{proof}
+
+\begin{theorem}[Spectral dimension read]
+\label{thm:innovation-input-dynamics-spectral-dimension}
+For an $\alpha$-stable input in $d$ spatial dimensions,
+$$
+\operatorname{tr}e^{-TH_\alpha}
+\propto
+\int_{\mathbb R^d}e^{-T|k|^\alpha}\,dk
+\propto
+T^{-d/\alpha}.
+$$
+With the convention
+$$
+\operatorname{tr}e^{-TH}\sim T^{-d_s/2},
+$$
+the spectral dimension is
+$$
+d_s=\frac{2d}{\alpha}.
+$$
+\end{theorem}
+
+\begin{proof}
+The scaling change $k=T^{-1/\alpha}u$ gives the power
+$T^{-d/\alpha}$.
+\end{proof}
+
+\begin{principle}[Dimension split]
+\label{prin:innovation-input-dynamics-dimension-split}
+The framework carries at least two independent dimension reads. The
+algebraic dimension is constrained by rank budgets of the innovation packet,
+such as \autoref{cor:innovation-input-constant-modulus-rank-budget}. The
+spectral dimension is controlled by the tail exponent $\alpha$ of the
+input-flow multiplier. They agree only in the Gaussian case $\alpha=2$.
+\end{principle}
+
+\section{Dynamic Output Table}
+\label{sec:innovation-input-dynamics-output-table}
+
+\begin{principle}[Dynamic parameter locations]
+\label{prin:innovation-input-dynamics-parameter-locations}
+The dynamical parameters have separate certificate locations:
+$$
+\begin{array}{c|c|c}
+\text{row} & \text{parameter} & \text{visible effect}\\
+\hline
+\text{tick scale} & \Delta T & \text{energy unit}\\
+\text{finite second moment} & C^{ij} & \text{diffusion inverse metric}\\
+\text{relativistic tail} & m & \text{correlation length and mass}\\
+\text{stable tail} & \alpha & \text{spectral dimension}\\
+\text{transition positivity} & P\succeq0 & \text{reflection positivity}
+\end{array}
+$$
+No entry of this table is supplied by the positive innovation Gram row
+alone.
+\end{principle}
+
+\begin{principle}[Propagation boundary]
+\label{prin:innovation-input-dynamics-propagation-boundary}
+The input-flow row can supply a Hamiltonian, a low-energy diffusion read,
+and a Wick-facing relativistic dispersion. It does not by itself supply
+Einstein dynamics, matter coupling, or equality with the tick-reflected
+metric of \autoref{thm:innovation-soldering-tick-reflected-gram-lorentz}.
+Those require explicit bridge rows between local soldering data and the
+global transition operator.
+\end{principle}
