@@ -255,6 +255,24 @@ The refusal clause follows from the carrier inventory. The packet has no coordin
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_common\_window\_exactness}
 
+\begin{theorem}[Finite-window Real-separation terminal readback exclusion]
+\label{thm:finitewindowrealseparation-terminal-readback-exclusion}
+For every accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N),
+$$
+any terminal $\RealUp$ readback exposed by the packet remains downstream of the shared finite window $W$, dyadic tolerance row $D$, $\StreamNameUp/\RegSeqRatUp$ readback row $S$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\FiniteWindowRealSeparationUp}$ row $N$. The terminal readback cannot be replaced by host equality, quotient streams, selected representatives, detached Real witnesses, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It blocks access to the $\RealUp$ row unless the common finite window, dyadic tolerance, and StreamName/RegSeqRat readback rows have already been displayed.
+
+Apply the NameCert surface of \autoref{thm:finite-window-real-separation-namecert-surface}. The structural rows $H,C,P,N$ transport, replay, source, and name the same eight-row carrier, so a terminal readback has no route outside the displayed packet.
+
+Use the scoped completion route of \autoref{thm:finite-window-real-separation-scoped-completion-route}. Completion-facing consumers see the Real-facing row only after the finite route through $W,D,S,R,H,C,P,N$ and the listed exact-boundary, budgeted-seal, and shared-tail-meet provenance rows.
+
+Finally combine shared-budget normalization and common-window exactness, \autoref{thm:finite-window-real-separation-shared-budget-normalization} and \autoref{thm:finite-window-real-separation-common-window-exactness}. These theorems keep every admissible terminal readback attached to the same finite window and tolerance budget, while the carrier has no coordinate for host equality, quotient streams, selected representatives, detached Real witnesses, or ambient completeness.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{obligationStr}
 \closureat{FiniteWindowRealSeparationUp}{scopedStr}
 
