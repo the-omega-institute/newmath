@@ -7231,6 +7231,7 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.InitialUniformityUp
+import BEDC.Derived.InitialUniformityUp.TasteGate
 import BEDC.Derived.InitialValueProblemUp.TasteGate
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.InnerProductUp.CarrierRow
@@ -10636,6 +10637,7 @@ import BEDC.Derived.RealClassifierUp.PublicExportReadback
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
 import BEDC.Derived.RealClassifierUp.TailReplacementStability
+import BEDC.Derived.RealClassifierUp.TheoremCheckReadbackRoute
 import BEDC.Derived.RealClassifierUp.TheoremCheckTargetHandoff
 import BEDC.Derived.RealClassifierUp.WindowExhaustion
 import BEDC.Derived.RealClosureUp.TasteGate
