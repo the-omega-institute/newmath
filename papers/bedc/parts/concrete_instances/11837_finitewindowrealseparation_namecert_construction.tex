@@ -113,6 +113,24 @@ The excluded coordinates are absent from the carrier and from the NameCert surfa
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparationTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Finite-window Real-separation obligation closure route]
+\label{thm:finite-window-real-separation-obligation-closure-route}
+For every accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N),
+$$
+the full obligation route is exposed through the shared finite-window row $W$, dyadic tolerance row $D$, StreamName and RegSeqRat readback row $S$, RealUp separation readback row $R$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$ before any Real separation read is consumed. No accepted route may read $R$ before the packet has displayed $W,D,S,H,C,P,N$ as the finite support of that read.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:finite-window-real-separation-carrier}. It lists exactly the rows $W,D,S,R,H,C,P,N$, so every accepted Real-separation consumer is already bounded by those displayed coordinates.
+
+Apply the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It prevents access to the RealUp row $R$ until the common finite window $W$, dyadic tolerance $D$, and StreamName/RegSeqRat readback $S$ have been displayed.
+
+Use the NameCert surface and shared-window obligation, \autoref{thm:finite-window-real-separation-namecert-surface} and \autoref{thm:finite-window-real-separation-shared-window-obligation}. These bind the structural rows $H,C,P,N$ to the same finite packet, so transport, replay, provenance, and local naming cannot escape the displayed route.
+
+Finally apply the TasteGate obligation of \autoref{thm:finite-window-real-separation-tastegate-obligation}. It forces any Lean-side gate for the packet to preserve the same finite carrier and refuses host equality, quotient streams, selected representatives, and ambient completeness before the Real separation read.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}
