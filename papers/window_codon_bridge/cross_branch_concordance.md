@@ -6,7 +6,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 61
 - duplicate_bio_program: 34
-- math_stub: 8
+- math_stub: 9
 - needs_derivation: 28
 
 ## B*_Q6 crosswalk summary
@@ -17,7 +17,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 - bio_only: 56
 - duplicate: 9
 - fibonacci_only: 1
-- namecert_watchlist: 36
+- namecert_watchlist: 37
 - param_divergence: 25
 - track_a_homeless: 4
 
@@ -130,6 +130,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_human_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.human | bio_only | Track A human codon-wobble boundary response with a permutation null. |
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_yeast_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.yeast | bio_only | Track A yeast codon-wobble boundary response with a permutation null. |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_additive_energy_certificate.tex | Window Fibonacci Cube Additive Energy | math_stub | \subsection{NameCert: Window Fibonacci Cube Additive Energy} \label{sec:namecert-window_fibonacci_cube_additive_energy_c |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_cyclic_orthogonality_quartet_certificate.tex | Window Fibonacci Cube Cyclic Orthogonality Quartet | math_stub | \subsection{NameCert: Window Fibonacci Cube Cyclic Orthogonality Quartet} \label{sec:namecert-window_fibonacci_cube_cycl |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_efficient_open_domination_certificate.tex | Window Fibonacci Cube Efficient Open Domination | math_stub | \subsection{NameCert: Window Fibonacci Cube Efficient Open Domination} \label{sec:namecert-window_fibonacci_cube_efficie |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_even_hole_pair_certificate.tex | Window Fibonacci Cube Even Hole Pair | math_stub | \subsection{NameCert: Window Fibonacci Cube Even Hole Pair} \label{sec:namecert-window_fibonacci_cube_even_hole_pair_cer |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_gated_face_certificate.tex | Window Fibonacci Cube Gated Face | math_stub | \subsection{NameCert: Window Fibonacci Cube Gated Face} \label{sec:namecert-window_fibonacci_cube_gated_face_certificate |
