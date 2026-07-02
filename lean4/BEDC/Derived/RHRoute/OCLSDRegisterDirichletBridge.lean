@@ -1,5 +1,7 @@
 import BEDC.Derived.RHRoute.OCLSDRegisterWeight
 import BEDC.Derived.RHRoute.FiniteEulerDirichlet
+import BEDC.Derived.FibonacciUp
+import BEDC.Derived.ZeckendorfUp
 
 /-
 S3 Layer 1 — OCLSD register → finite Euler–Dirichlet bridge (pointwise Nat kernel).
@@ -90,5 +92,72 @@ theorem encodedNat_eq_encNat_fibmap :
       show p ^ (fib k) * encodedNat rest
         = encNat ((p, fib k) :: pzgToExponents rest)
       rw [encNat_cons, encodedNat_eq_encNat_fibmap rest]
+
+/-! ## Layer 2 — canonical Zeckendorf register realizes `p^e` (uses Loning's `zeckendorf_sum_restore`). -/
+
+/-- The OCLSD register's Fibonacci equals the shared `FibonacciUp.fib` (same standard Fibonacci;
+only the addition order in the recurrence differs). -/
+private theorem fib_eq_pair : ∀ n : Nat,
+    fib n = BEDC.Derived.FibonacciUp.fib n
+      ∧ fib (n + 1) = BEDC.Derived.FibonacciUp.fib (n + 1)
+  | 0 => ⟨rfl, rfl⟩
+  | n + 1 => by
+      obtain ⟨h0, h1⟩ := fib_eq_pair n
+      refine ⟨h1, ?_⟩
+      show fib n + fib (n + 1)
+        = BEDC.Derived.FibonacciUp.fib (n + 1) + BEDC.Derived.FibonacciUp.fib n
+      rw [h0, h1, Nat.add_comm]
+
+theorem fib_eq (n : Nat) : fib n = BEDC.Derived.FibonacciUp.fib n := (fib_eq_pair n).1
+
+/-- Propext-free `a^(m+n) = a^m * a^n`. -/
+private theorem natPow_add (a m n : Nat) : a ^ (m + n) = a ^ m * a ^ n := by
+  induction n with
+  | zero => rw [Nat.add_zero, Nat.pow_zero, Nat.mul_one]
+  | succ n ih => rw [Nat.add_succ, Nat.pow_succ, Nat.pow_succ, ih, natMul_assoc]
+
+/-- Register built from a prime's Zeckendorf index list: `index ↦ (p, index+2)`. -/
+def pzgFromIndices (p : Nat) : List Nat → PZGRow
+  | [] => PZGRow.nil
+  | index :: rest => PZGRow.cons p (index + 2) (pzgFromIndices p rest)
+
+/-- Sum of `fib (index+2)` over a Zeckendorf index list. -/
+def sumMyFib : List Nat → Nat
+  | [] => 0
+  | index :: rest => fib (index + 2) + sumMyFib rest
+
+theorem sumMyFib_eq_zeckendorfValue (indices : List Nat) :
+    sumMyFib indices = BEDC.Derived.ZeckendorfUp.zeckendorfValue indices := by
+  induction indices with
+  | nil => rfl
+  | cons index rest ih =>
+      show fib (index + 2) + sumMyFib rest
+        = BEDC.Derived.ZeckendorfUp.fibonacciTerm index
+          + BEDC.Derived.ZeckendorfUp.zeckendorfValue rest
+      unfold BEDC.Derived.ZeckendorfUp.fibonacciTerm
+      rw [ih, fib_eq (index + 2)]
+
+theorem encodedNat_pzgFromIndices (p : Nat) (indices : List Nat) :
+    encodedNat (pzgFromIndices p indices) = p ^ (sumMyFib indices) := by
+  induction indices with
+  | nil => rfl
+  | cons index rest ih =>
+      show p ^ (fib (index + 2)) * encodedNat (pzgFromIndices p rest)
+        = p ^ (fib (index + 2) + sumMyFib rest)
+      rw [ih, natPow_add]
+
+/-- Canonical Zeckendorf register realizing exponent `e` on prime `p` (NOT a raw multiset). -/
+def pzgOfExponent (p e : Nat) : PZGRow :=
+  pzgFromIndices p (BEDC.Derived.ZeckendorfUp.zeckendorf e)
+
+/-- **S3 Layer-2 core**: the canonical Zeckendorf register on prime `p` encodes exactly `p^e`,
+because `Σ fib(index+2) = e` (Loning's `zeckendorf_sum_restore`, consumed not re-derived).  This
+is the genuine Zeckendorf increment: OCLSD's Fibonacci register realizes an arbitrary prime power
+canonically. -/
+theorem encodedNat_pzgOfExponent (p e : Nat) :
+    encodedNat (pzgOfExponent p e) = p ^ e := by
+  show encodedNat (pzgFromIndices p (BEDC.Derived.ZeckendorfUp.zeckendorf e)) = p ^ e
+  rw [encodedNat_pzgFromIndices, sumMyFib_eq_zeckendorfValue,
+    BEDC.Derived.ZeckendorfUp.zeckendorf_sum_restore]
 
 end BEDC.Derived.RHRoute.OCLSDRegisterDirichletBridge
