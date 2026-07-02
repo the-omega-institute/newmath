@@ -186,10 +186,19 @@ theorem SylowCarrier_obligation_closure_surface [AskSetup] [PackageSetup]
       SylowCarrier groupRow subgroupRow primeRow exponentRow coverageRow actionRow
         transportRow consumerRow hsameRow provenance localCert bundle pkg :=
     carrier
-  obtain ⟨groupUnary, subgroupUnary, primeUnary, exponentUnary, coverageUnary, actionUnary,
+  have coverageSurface :=
+    BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage
+      (groupRow := groupRow) (subgroupRow := subgroupRow) (primeRow := primeRow)
+      (exponentRow := exponentRow) (coverageRow := coverageRow) (actionRow := actionRow)
+      (transportRow := transportRow) (consumerRow := consumerRow) (hsameRow := hsameRow)
+      (provenance := provenance) (localCert := localCert) (bundle := bundle) (pkg := pkg)
+      carrier
+  obtain ⟨primeUnary, exponentUnary, coverageUnary, _coverageRouteFromPrimePower,
+    provenancePkg⟩ := coverageSurface
+  obtain ⟨groupUnary, subgroupUnary, _primeUnary, _exponentUnary, _coverageUnary, actionUnary,
     transportUnary, consumerUnary, _hsameUnary, provenanceUnary, localCertUnary,
     _coverageRoute, _transportRoute, _consumerRoute, sameConsumerProvenance,
-    _sameHsameProvenance, provenancePkg, localCertPkg⟩ := carrier
+    _sameHsameProvenance, _provenancePkg, localCertPkg⟩ := carrier
   have provenancePattern :
       hsame provenance groupRow ∨ hsame provenance subgroupRow ∨ hsame provenance primeRow ∨
         hsame provenance exponentRow ∨ hsame provenance coverageRow ∨
