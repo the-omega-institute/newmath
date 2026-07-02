@@ -4479,6 +4479,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusBoundaryPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
@@ -10521,6 +10522,8 @@ import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadicalUp
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
+import BEDC.Derived.RadonNikodymDerivativeUp
+import BEDC.Derived.RadonNikodymDerivativeUp.TasteGate
 import BEDC.Derived.RadonNikodymUp.TasteGate
 import BEDC.Derived.RadonTheoremUp.NameCertObligations
 import BEDC.Derived.RadonTheoremUp.TasteGate
