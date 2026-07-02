@@ -4479,6 +4479,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusBoundaryPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
@@ -5197,6 +5198,7 @@ import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DimLiftBoundaryUp.AxisNormalAddressLock
 import BEDC.Derived.DimLiftBoundaryUp.CannotClaimRouteExactness
 import BEDC.Derived.DimLiftBoundaryUp.CarrierAdmissionObligation
+import BEDC.Derived.DimLiftBoundaryUp.ClassifierStabilityObligation
 import BEDC.Derived.DimLiftBoundaryUp.DownstreamAcceptanceBoundary
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
@@ -9867,6 +9869,7 @@ import BEDC.Derived.PhenomenologyScienceInterfaceUp.GapLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationCarrier
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationClassifier
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum
