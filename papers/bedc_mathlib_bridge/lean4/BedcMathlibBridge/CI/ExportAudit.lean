@@ -88,6 +88,15 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CenteredHexagonal.centeredHexagonalExport,
     witnessType :=
       `BedcMathlibBridge.Export.CenteredHexagonal.CenteredHexagonalExportWitness },
+  { witness := `BedcMathlibBridge.Export.SquarePyramidal.squarePyramidalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.SquarePyramidal.SquarePyramidalExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pentagonal.pentagonalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pentagonal.PentagonalExportWitness },
+  { witness := `BedcMathlibBridge.Export.Hexagonal.hexagonalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Hexagonal.HexagonalExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },

@@ -22,3 +22,6 @@ import BedcMathlibBridge.Constructive.OddDoubleFactorial
 import BedcMathlibBridge.Constructive.Square
 import BedcMathlibBridge.Constructive.Pronic
 import BedcMathlibBridge.Constructive.CenteredHexagonal
+import BedcMathlibBridge.Constructive.SquarePyramidal
+import BedcMathlibBridge.Constructive.Pentagonal
+import BedcMathlibBridge.Constructive.Hexagonal
