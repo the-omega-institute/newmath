@@ -120,6 +120,44 @@ Now apply the $\RegularCauchyTailBudgetUp$ observation gate and readback factori
 Combining the two routes gives a single finite handoff from $S,\mu,W,D_H,R$ through the tail-budget rows to $H$ and $N$. Since neither carrier stores quotient streams, selected host limits, ambient completeness, or host real equality, no such datum can be read from the composed handoff.
 \end{proof}
 
+\begin{theorem}[StreamDiagonalSelector window coverage]
+\label{thm:stream-diagonal-selector-window-coverage}
+Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. Every diagonal read of $D$ that is visible to a $\RealDiagonalCompletionUp$ consumer is covered by the displayed $\StreamNameUp$ schedule $S$, selector row $\mu$, selected finite window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, diagonal handoff $H$, transport row $C$, provenance $P$, and local name $N$. No additional stream window, quotient stream, or choice-selected diagonal value is available to the consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-diagonal-selector-carrier}. Its visible rows are exactly $S,\mu,W,R,D_H,H,C,P,N$, so any diagonal read begins with that finite packet.
+
+Use selector determinacy \autoref{thm:stream-diagonal-selector-selector-determinacy} and finite-window transport \autoref{thm:stream-diagonal-selector-window-transport}. The selected window is the one determined by $S$ and $\mu$, and the readback and dyadic ledger move with that same window through the recorded transport.
+
+Finally apply the RealUp handoff and tail-budget readback routes, \autoref{thm:stream-diagonal-selector-real-handoff} and \autoref{thm:stream-diagonal-selector-tail-budget-readback}. They identify the downstream consumer with the same finite rows and exclude quotient streams, selected host limits, ambient completeness, and host equality.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector RegSeqRat handoff]
+\label{thm:stream-diagonal-selector-regseqrat-handoff}
+For an accepted $\StreamDiagonalSelectorUp$ packet $D=(S,\mu,W,R,D_H,H,C,P,N)$, the $\RegSeqRatUp$ readback row $R$ is the unique finite readback handoff between the selected $\StreamNameUp$ window $W$ and the diagonal completion row $H$. The handoff must preserve the selector row $\mu$, the dyadic ledger $D_H$, transport $C$, provenance $P$, and local name $N$, and it exports no host rational stream or selected real.
+\end{theorem}
+\begin{proof}
+Start with the selected window $W$ in the carrier. The packet stores a single readback row $R$ next to $W$ and $D_H$, so the regular-rational observation is part of the displayed selector route.
+
+Apply finite-window transport \autoref{thm:stream-diagonal-selector-window-transport}. It keeps $W,R,D_H,H$ attached under the componentwise $\hsame$ and $\Cont$ data recorded in $C$.
+
+Now use handoff exactness and tail-budget readback, \autoref{thm:stream-diagonal-selector-handoff-exactness} and \autoref{thm:stream-diagonal-selector-tail-budget-readback}. The diagonal completion row consumes the same $R$ and cannot replace it by a host rational stream, selected real, quotient stream, or ambient completion coordinate.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector Real seal nonescape]
+\label{thm:stream-diagonal-selector-real-seal-nonescape}
+Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. Any $\RealUp$ seal read downstream of $D$ must pass through $S,\mu,W,R,D_H,H,C,P,N$ and the existing $\RealDiagonalCompletionUp$ handoff. The seal cannot escape to ambient $\RealUp$ completeness, host real equality, a quotient stream, a choice-selected limit, or a second selector source.
+\end{theorem}
+\begin{proof}
+Project the accepted selector packet. The only real-facing coordinate is the diagonal completion row $H$, with access mediated by the selected window $W$, readback $R$, dyadic ledger $D_H$, transport $C$, provenance $P$, and local name $N$.
+
+Use selector determinacy \autoref{thm:stream-diagonal-selector-selector-determinacy}. It prevents a downstream seal from switching to a second selector source after the request has passed through $S$ and $\mu$.
+
+Apply the RealUp handoff \autoref{thm:stream-diagonal-selector-real-handoff} and handoff exactness \autoref{thm:stream-diagonal-selector-handoff-exactness}. They force the Real-facing read through the displayed diagonal packet and exclude host real values, host equality, external completed-real carriers, quotient streams, and selected limits.
+
+The tail-budget readback theorem \autoref{thm:stream-diagonal-selector-tail-budget-readback} gives the same non-escape boundary for consumers that inspect a budgeted finite window before sealing.
+\end{proof}
+
 \begin{theorem}[StreamDiagonalSelector obligation closure]
 \label{thm:stream-diagonal-selector-obligation-closure}
 The carrier habitation row, selector determinacy row, finite-window transport row, handoff exactness row, and non-escape row form the obligation-closed $\StreamDiagonalSelectorUp$ surface. For an accepted packet $D=(S,\mu,W,R,D_H,H,C,P,N)$, every diagonal selector read is exhausted by the displayed stream schedule, selector row, selected finite window, regular-rational readback, dyadic ledger, diagonal-completion packet, transport routes, provenance, and local naming row.
