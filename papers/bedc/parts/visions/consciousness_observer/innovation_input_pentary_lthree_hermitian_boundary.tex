@@ -5,8 +5,8 @@
 \autoref{ch:visions-innovation-input-pentary-anchored-window-boundary}
 separates anchored $L=2$ passage from anchored $L=3$ failure for one
 pentary Q3 row. This chapter isolates the first $L=3$ algebraic filters:
-the three anchored link diagonals and the correlation inequality forced
-by the second link.
+the three anchored link diagonals, the endpoint gate carried by the
+middle link, and the correlation inequality forced by the second link.
 
 \section{Pentary Edge Ratios}
 \label{sec:innovation-input-pentary-edge-ratios}
@@ -266,6 +266,203 @@ $F_{23}$ the ordinary mean is $\mu$, while for $F_{13}$ it is $\nu$.
 The displayed inequalities follow. The final statement uses
 \autoref{thm:innovation-input-pentary-dtwentythree-correlation-meeting}.
 \end{proof}
+
+\section{Endpoint Gate}
+\label{sec:innovation-input-pentary-endpoint-gate}
+
+\begin{theorem}[Endpoint form of the middle link]
+\label{thm:innovation-input-pentary-dthirteen-endpoint-form}
+For every pentary self-substitution row,
+$$
+D_{13}
+=
+|\mu|^2+\frac{1-|\mu|^2}{5}\overline{x_4}.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:innovation-input-pentary-first-correlation-formula},
+$$
+x_0+x_1+x_2+x_3=(5-x_4)\mu.
+$$
+Taking conjugates gives
+$$
+\overline{x_0}+\overline{x_1}+\overline{x_2}+\overline{x_3}
+=
+(5-\overline{x_4})\overline\mu.
+$$
+Substitute this identity into
+\autoref{thm:innovation-input-pentary-dthirteen-formula}:
+$$
+D_{13}
+=
+\frac15
+\left[
+\overline{x_4}
++
+(5-\overline{x_4})|\mu|^2
+\right].
+$$
+Rearranging gives the displayed formula.
+\end{proof}
+
+\begin{lemma}[Q3 excludes unit first correlation]
+\label{lem:innovation-input-pentary-qthree-excludes-unit-first-correlation}
+If $v\in\mathcal Q_5$, then
+$$
+|\mu|<1.
+$$
+\end{lemma}
+
+\begin{proof}
+Assume $|\mu|=1$. The recursion in the proof of
+\autoref{thm:innovation-input-pentary-first-correlation-formula} writes
+$\mu$ as the average of the five unit complex numbers
+$$
+x_0,\quad x_1,\quad x_2,\quad x_3,\quad x_4\mu.
+$$
+An average of unit complex numbers has unit modulus only when all terms
+are equal. Hence
+$$
+x_0=x_1=x_2=x_3=\mu,
+\qquad
+x_4\mu=\mu.
+$$
+Since $\mu\ne0$, this gives $x_4=1$. The cyclic product relation then
+gives
+$$
+\mu^4=x_0x_1x_2x_3x_4=1.
+$$
+Writing $\rho:=\mu$, the edge-ratio equations force
+$$
+v
+=
+v_0(1,\overline\rho,\overline\rho^{\,2},
+\overline\rho^{\,3},\overline\rho^{\,4}),
+\qquad
+\rho^4=1.
+$$
+If $\rho=1$, the row sum has modulus $5$. If
+$\rho\in\{-1,i,-i\}$, the row sum has modulus $1$. None of these moduli
+is $\sqrt5$, contradicting $v\in\mathcal Q_5$. Therefore $|\mu|<1$.
+\end{proof}
+
+\begin{theorem}[Pentary endpoint gate]
+\label{thm:innovation-input-pentary-endpoint-gate}
+If a row $v\in\mathcal Q_5$ passes the anchored $L=3$ neutral RP window,
+then
+$$
+x_4\in\{1,-1\}.
+$$
+Equivalently,
+$$
+v_4=v_0
+\qquad
+\text{or}
+\qquad
+v_4=-v_0.
+$$
+\end{theorem}
+
+\begin{proof}
+Reflection positivity forces the diagonal entry $D_{13}$ to be real
+nonnegative by
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+By
+\autoref{thm:innovation-input-pentary-dthirteen-endpoint-form},
+$$
+D_{13}
+=
+|\mu|^2+\frac{1-|\mu|^2}{5}\overline{x_4}.
+$$
+The first term is real, and
+\autoref{lem:innovation-input-pentary-qthree-excludes-unit-first-correlation}
+gives
+$$
+1-|\mu|^2>0.
+$$
+Thus $D_{13}$ is real only if $\overline{x_4}$ is real. Since
+$|x_4|=1$, this means $x_4=\pm1$. The identity
+$x_4=v_4\overline{v_0}$ is then equivalent to $v_4=\pm v_0$.
+\end{proof}
+
+\begin{definition}[Endpoint branches]
+\label{def:innovation-input-pentary-endpoint-branches}
+The even endpoint branch is the sublocus of $\mathcal Q_5$ on which
+$$
+v_4=v_0,
+$$
+equivalently $x_4=1$. On this branch the Q3 equation reads
+$$
+2v_0+v_1+v_2+v_3=\sqrt5.
+$$
+The odd endpoint branch is the sublocus of $\mathcal Q_5$ on which
+$$
+v_4=-v_0,
+$$
+equivalently $x_4=-1$. On this branch the Q3 equation reads
+$$
+v_1+v_2+v_3=\sqrt5.
+$$
+\end{definition}
+
+\begin{corollary}[Endpoint branch form of candidates]
+\label{cor:innovation-input-endpoint-branch-form-candidates}
+Every anchored $L=3$ neutral RP candidate in $\mathcal Q_5$ lies in one
+of the two endpoint forms
+$$
+v=(v_0,v_1,v_2,v_3,v_0)
+$$
+or
+$$
+v=(v_0,v_1,v_2,v_3,-v_0).
+$$
+The palindromic locus is the sublocus of the even endpoint branch where
+$v_1=v_3$.
+\end{corollary}
+
+\begin{proof}
+This is exactly
+\autoref{thm:innovation-input-pentary-endpoint-gate}, with the
+palindromic condition read from
+\autoref{def:innovation-input-palindromic-phase-word}.
+\end{proof}
+
+\begin{corollary}[Middle-link values on endpoint branches]
+\label{cor:innovation-input-middle-link-values-endpoint-branches}
+On the even endpoint branch,
+$$
+D_{13}=\frac{1+4|\mu|^2}{5}.
+$$
+On the odd endpoint branch,
+$$
+D_{13}=\frac{6|\mu|^2-1}{5}.
+$$
+Consequently, an anchored $L=3$ neutral RP candidate on the odd endpoint
+branch must satisfy
+$$
+|\mu|^2\ge\frac16.
+$$
+\end{corollary}
+
+\begin{proof}
+Substitute $x_4=1$ and $x_4=-1$ respectively into
+\autoref{thm:innovation-input-pentary-dthirteen-endpoint-form}. The odd
+endpoint lower bound is the condition $D_{13}\ge0$ from
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+\end{proof}
+
+\begin{principle}[Endpoint-first pentary search]
+\label{prin:innovation-input-endpoint-first-pentary-search}
+The first scalar diagonal gate for the anchored $L=3$ neutral RP problem
+does not inspect the full $7\times7$ matrix. It already confines every
+candidate to the even or odd endpoint branch. The even endpoint branch
+still contains the palindromic rows, while the odd endpoint branch leaves
+the endpoint phase outside the Q3 equation; any candidate there must have
+that phase fixed by the Hermitian and positive-semidefinite gates rather
+than by Q3 alone.
+\end{principle}
 
 \begin{corollary}[Algebraic form of the anchor effect]
 \label{cor:innovation-input-pentary-anchor-effect-algebraic-form}
