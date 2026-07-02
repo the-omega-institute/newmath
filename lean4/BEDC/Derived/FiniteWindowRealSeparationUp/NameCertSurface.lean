@@ -164,4 +164,62 @@ theorem FiniteWindowRealSeparation_window_refusal [AskSetup] [PackageSetup]
   }
   exact ⟨cert, toleranceUnary, readbackUnary, separationUnary, namedUnary⟩
 
+theorem FiniteWindowRealSeparation_shared_window_obligation [AskSetup] [PackageSetup]
+    {x : FiniteWindowRealSeparationUp}
+    {W D S R H C P N toleranceRead readbackRead separationRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    finiteWindowRealSeparationToEventFlow x =
+        finiteWindowRealSeparationToEventFlow
+          (FiniteWindowRealSeparationUp.mk W D S R H C P N) ->
+      UnaryHistory W ->
+        UnaryHistory D ->
+          UnaryHistory S ->
+            UnaryHistory R ->
+              UnaryHistory P ->
+                UnaryHistory N ->
+                  Cont W D toleranceRead ->
+                    Cont toleranceRead S readbackRead ->
+                      Cont readbackRead R separationRead ->
+                        Cont separationRead N namedRead ->
+                          PkgSig bundle P pkg ->
+                            x = FiniteWindowRealSeparationUp.mk W D S R H C P N ∧
+                              UnaryHistory namedRead ∧
+                                SemanticNameCert
+                                  (fun row : BHist =>
+                                    hsame row separationRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row W ∨ hsame row D ∨ hsame row S ∨
+                                      hsame row R ∨ hsame row H ∨ hsame row C ∨
+                                        hsame row P ∨ hsame row N ∨
+                                          hsame row toleranceRead ∨
+                                            hsame row readbackRead ∨
+                                              hsame row separationRead ∨
+                                                hsame row namedRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont W D toleranceRead ∧
+                                      Cont toleranceRead S readbackRead ∧
+                                        Cont readbackRead R separationRead ∧
+                                          Cont separationRead N namedRead ∧
+                                            PkgSig bundle P pkg)
+                                  hsame := by
+  -- BEDC touchpoint anchor: FiniteWindowRealSeparationUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory ChapterTasteGate
+  intro flowEq unaryW unaryD unaryS unaryR unaryP unaryN toleranceRoute readbackRoute
+    separationRoute namedRoute pkgP
+  have flowInjective :
+      ∀ x y : FiniteWindowRealSeparationUp,
+        finiteWindowRealSeparationToEventFlow x =
+          finiteWindowRealSeparationToEventFlow y → x = y :=
+    FiniteWindowRealSeparationTasteGate_single_carrier_alignment.right.right.left
+  have carrierEq : x = FiniteWindowRealSeparationUp.mk W D S R H C P N :=
+    flowInjective x (FiniteWindowRealSeparationUp.mk W D S R H C P N) flowEq
+  have windowRefusal :=
+    FiniteWindowRealSeparation_window_refusal
+      (W := W) (D := D) (S := S) (R := R) (H := H) (C := C) (P := P) (N := N)
+      (toleranceRead := toleranceRead) (readbackRead := readbackRead)
+      (separationRead := separationRead) (namedRead := namedRead)
+      (bundle := bundle) (pkg := pkg)
+      unaryW unaryD unaryS unaryR unaryP unaryN toleranceRoute readbackRoute
+      separationRoute namedRoute pkgP
+  exact ⟨carrierEq, windowRefusal.right.right.right.right, windowRefusal.left⟩
+
 end BEDC.Derived.FiniteWindowRealSeparationUp
