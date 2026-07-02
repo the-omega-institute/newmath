@@ -93,6 +93,7 @@ import BEDC.Derived.AffineVarUp.TasteGate
 import BEDC.Derived.AiryFunctionUp.TasteGate
 import BEDC.Derived.AitkenDeltaSquaredUp.TasteGate
 import BEDC.Derived.AlexanderDualTriggerAlgebraUp.TasteGate
+import BEDC.Derived.AlexanderSubbaseTheoremUp.TasteGate
 import BEDC.Derived.AlexandroffCompactificationUp.TasteGate
 import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
@@ -1002,6 +1003,7 @@ import BEDC.Derived.BinomialTransformUp
 import BEDC.Derived.BinomialTransformUp.ExplicitFormula
 import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
+import BEDC.Derived.BirkhoffProjectiveMetricUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
 import BEDC.Derived.BisectionMethodUp.TasteGate
 import BEDC.Derived.BisectionRealUp.TasteGate
@@ -1195,6 +1197,7 @@ import BEDC.Derived.BishopSpaceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
 import BEDC.Derived.BishopTotalBoundedUp
+import BEDC.Derived.BishopUniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
 import BEDC.Derived.BishopUniformContinuityModulusUp.TasteGate
@@ -3622,6 +3625,7 @@ import BEDC.Derived.CompactUniformModulusExtractorUp.TasteGate
 import BEDC.Derived.CompactUniformModulusStabilityUp.TasteGate
 import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
 import BEDC.Derived.CompactUniformModulusUp.TasteGate
+import BEDC.Derived.CompactUniformNetSelectionUp.TasteGate
 import BEDC.Derived.CompactUniformOscillationUp.TasteGate
 import BEDC.Derived.CompactUniformPullbackUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
@@ -6530,6 +6534,7 @@ import BEDC.Derived.FiniteWindowObserverUp.TasteGate
 import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
+import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
