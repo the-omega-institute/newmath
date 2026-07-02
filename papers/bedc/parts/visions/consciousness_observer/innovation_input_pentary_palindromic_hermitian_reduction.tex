@@ -1,0 +1,547 @@
+\chapter{Innovation Input Pentary Palindromic Hermitian Reduction}
+\label{ch:visions-innovation-input-pentary-palindromic-hermitian-reduction}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-golden-hermitian-obstruction}
+shows that link-diagonal positivity does not force the anchored
+$L=3$ RP matrix to be Hermitian. This chapter identifies a structural
+sufficient condition for Hermitian symmetry: palindromic phase words make
+the balanced correlation function reflection-even. Inside the pentary Q3
+palindromic locus, the finite-window problem is therefore reduced from a
+non-Hermitian matrix problem to a positive-semidefinite problem on a real
+one-dimensional curve.
+
+\section{Reflection Evenness}
+\label{sec:innovation-input-reflection-evenness}
+
+\begin{definition}[Block reflection]
+\label{def:innovation-input-block-reflection}
+Use the anchored reflection
+$$
+\theta(j)=1-j.
+$$
+For a signed block
+$$
+\alpha=\sum_j e_j\delta_j,
+$$
+define
+$$
+\theta\alpha:=\sum_j e_j\delta_{1-j}.
+$$
+\end{definition}
+
+\begin{definition}[Balanced neutral block]
+\label{def:innovation-input-balanced-neutral-block}
+A signed block
+$$
+\alpha=\sum_j e_j\delta_j
+$$
+is balanced in the sense of
+\autoref{def:innovation-input-balanced-block} when
+$$
+Q(\alpha):=\sum_j e_j=0.
+$$
+Balanced blocks are the correlation blocks of neutral monomials, for
+example $u_{n+i}\overline{u_{n+j}}$ and their finite products.
+\end{definition}
+
+\begin{definition}[Reflection-even balanced correlations]
+\label{def:innovation-input-reflection-even-balanced-correlations}
+A self-substitution correlation function $\Gamma$ is reflection-even on
+balanced blocks when
+$$
+\Gamma(\alpha)=\Gamma(\theta\alpha)
+$$
+for every balanced block $\alpha$.
+\end{definition}
+
+\begin{theorem}[Reflection evenness implies Hermitian RP matrices]
+\label{thm:innovation-input-reflection-even-implies-hermitian-rp}
+Let
+$$
+\mathcal B=\{\alpha_0,\ldots,\alpha_m\}
+$$
+be a finite set of balanced future blocks, and set
+$$
+M_{ij}:=\Gamma(\alpha_j-\theta\alpha_i).
+$$
+If $\Gamma$ is reflection-even on balanced blocks, then
+$$
+M=M^*.
+$$
+\end{theorem}
+
+\begin{proof}
+It is enough to prove $M_{ij}=\overline{M_{ji}}$. By definition,
+$$
+M_{ij}
+=
+\Gamma(\alpha_j-\theta\alpha_i)
+$$
+and
+$$
+M_{ji}
+=
+\Gamma(\alpha_i-\theta\alpha_j).
+$$
+Complex conjugation of a balanced correlation reverses the signed block,
+so
+$$
+\overline{M_{ji}}
+=
+\Gamma(-\alpha_i+\theta\alpha_j).
+$$
+But
+$$
+\theta(\alpha_j-\theta\alpha_i)
+=
+\theta\alpha_j-\alpha_i
+=
+-\alpha_i+\theta\alpha_j.
+$$
+Reflection evenness therefore gives
+$$
+\overline{M_{ji}}
+=
+\Gamma(\theta(\alpha_j-\theta\alpha_i))
+=
+\Gamma(\alpha_j-\theta\alpha_i)
+=
+M_{ij}.
+$$
+\end{proof}
+
+\begin{corollary}[Hermitian audit reduction]
+\label{cor:innovation-input-hermitian-audit-reduction}
+For any self-substitution row whose balanced correlations are
+reflection-even, every neutral finite-window RP matrix is Hermitian.
+Within such a class, the finite-window RP audit is the single condition
+$$
+M\succeq0.
+$$
+\end{corollary}
+
+\section{Palindromic Reflection}
+\label{sec:innovation-input-palindromic-reflection}
+
+\begin{definition}[Palindromic phase word]
+\label{def:innovation-input-palindromic-phase-word}
+A phase word $v=(v_0,\ldots,v_{N-1})\in\mathbb T^N$ is palindromic when
+$$
+v_a=v_{N-1-a}
+\qquad
+0\le a<N.
+$$
+In the pentary case this is the shape
+$$
+v=(a,b,c,b,a).
+$$
+\end{definition}
+
+\begin{theorem}[Palindromic rows are reflection-even]
+\label{thm:innovation-input-palindromic-rows-reflection-even}
+If $v$ is palindromic, then its self-substitution correlation function
+satisfies
+$$
+\Gamma(\alpha)=\Gamma(\theta\alpha)
+$$
+for every balanced block $\alpha$.
+\end{theorem}
+
+\begin{proof}
+At finite depth $K$, write
+$$
+n=a_0+a_1N+\cdots+a_{K-1}N^{K-1}
+$$
+and
+$$
+u_n^{(K)}=\prod_{\ell=0}^{K-1}v_{a_\ell}.
+$$
+Let
+$$
+R_K(n):=N^K-1-n.
+$$
+If $n$ has $N$-ary digits $(a_0,\ldots,a_{K-1})$, then $R_K(n)$ has
+digits $(N-1-a_0,\ldots,N-1-a_{K-1})$. Since $v$ is palindromic,
+$$
+u_{R_K(n)}^{(K)}=u_n^{(K)}.
+$$
+
+For a balanced block $\alpha=\sum_j e_j\delta_j$, take the finite-depth
+average over indices for which every shifted term remains in the depth
+$K$ interval. The omitted boundary set has density tending to zero. In
+the surviving average, substitute $n'=R_K(n)$. The identity above gives
+$$
+u_{n+j}^{(K)}
+=
+u_{R_K(n+j)}^{(K)}
+=
+u_{R_K(n)-j}^{(K)}
+=
+u_{n'-j}^{(K)}.
+$$
+Passing to the correlation limit yields
+$$
+\Gamma(\alpha)
+=
+\Gamma\left(\sum_j e_j\delta_{-j}\right).
+$$
+Because $\alpha$ is balanced, translating the block by one unit does not
+change the neutral correlation, and hence
+$$
+\Gamma\left(\sum_j e_j\delta_{-j}\right)
+=
+\Gamma\left(\sum_j e_j\delta_{1-j}\right)
+=
+\Gamma(\theta\alpha).
+$$
+\end{proof}
+
+\begin{corollary}[Palindromic rows have Hermitian neutral RP matrices]
+\label{cor:innovation-input-palindromic-hermitian-neutral-rp}
+Every palindromic self-substitution row has Hermitian neutral
+finite-window RP matrices.
+\end{corollary}
+
+\begin{proof}
+Combine
+\autoref{thm:innovation-input-palindromic-rows-reflection-even}
+with
+\autoref{thm:innovation-input-reflection-even-implies-hermitian-rp}.
+\end{proof}
+
+\section{Pentary Palindromic Q3 Curve}
+\label{sec:innovation-input-pentary-palindromic-qthree-curve}
+
+\begin{definition}[Pentary palindromic Q3 locus]
+\label{def:innovation-input-pentary-palindromic-qthree-locus}
+Define
+$$
+\mathcal P_5
+:=
+\left\{
+(a,b,c,b,a)\in\mathbb T^5:
+2a+2b+c=\sqrt5
+\right\}.
+$$
+\end{definition}
+
+\begin{definition}[Palindromic edge variables]
+\label{def:innovation-input-palindromic-edge-variables}
+For $v=(a,b,c,b,a)$, set
+$$
+q:=a\overline b,
+\qquad
+r:=b\overline c.
+$$
+Then $|q|=|r|=1$, and
+$$
+a=qb,
+\qquad
+c=\overline r\,b.
+$$
+\end{definition}
+
+\begin{theorem}[Pentary palindromic Q3 equation]
+\label{thm:innovation-input-pentary-palindromic-qthree-equation}
+A palindromic phase word $v=(a,b,c,b,a)$ lies in $\mathcal P_5$ if and
+only if there are $q,r\in\mathbb T$ such that
+$$
+\left|2q+2+\overline r\right|=\sqrt5,
+$$
+and
+$$
+b=\frac{\sqrt5}{2q+2+\overline r},
+\qquad
+a=qb,
+\qquad
+c=\overline r\,b.
+$$
+Equivalently, for $q=e^{i\alpha}$ and $r=e^{i\beta}$,
+$$
+2\cos\alpha+\cos\beta+\cos(\alpha+\beta)=-1.
+$$
+\end{theorem}
+
+\begin{proof}
+Using
+\autoref{def:innovation-input-palindromic-edge-variables},
+$$
+2a+2b+c
+=
+b(2q+2+\overline r).
+$$
+Since $|b|=1$, the Q3 condition is equivalent to
+$|2q+2+\overline r|=\sqrt5$, with $b$ then determined by the displayed
+formula.
+
+Now square the modulus:
+$$
+\left|2q+2+\overline r\right|^2
+=
+9+8\cos\alpha+4\cos\beta+4\cos(\alpha+\beta).
+$$
+Setting this equal to $5$ and dividing by $4$ gives
+$$
+2\cos\alpha+\cos\beta+\cos(\alpha+\beta)=-1.
+$$
+\end{proof}
+
+\begin{corollary}[One-dimensional palindromic locus]
+\label{cor:innovation-input-pentary-palindromic-one-dimensional}
+Away from singular points of the displayed real constraint, the pentary
+palindromic Q3 locus $\mathcal P_5$ is a real one-dimensional curve.
+\end{corollary}
+
+\section{Palindromic Link Formulas}
+\label{sec:innovation-input-palindromic-link-formulas}
+
+\begin{definition}[Real palindromic edge coordinates]
+\label{def:innovation-input-real-palindromic-edge-coordinates}
+For $q=e^{i\alpha}$ and $r=e^{i\beta}$, write
+$$
+A:=\operatorname{Re}q=\cos\alpha,
+$$
+$$
+B:=\operatorname{Re}r=\cos\beta,
+$$
+$$
+C:=\operatorname{Re}(qr)=\cos(\alpha+\beta),
+$$
+and
+$$
+E:=\operatorname{Re}(q\overline r)=\cos(\alpha-\beta).
+$$
+The Q3 equation on $\mathcal P_5$ is
+$$
+2A+B+C=-1.
+$$
+\end{definition}
+
+\begin{theorem}[Palindromic $L=3$ link formulas]
+\label{thm:innovation-input-palindromic-lthree-link-formulas}
+For every $v=(a,b,c,b,a)\in\mathcal P_5$,
+$$
+\mu=\frac{A+B}{2},
+$$
+$$
+\nu=D_{23}
+=
+\frac{1+2C+A(A+B)}{5},
+$$
+$$
+D_{12}
+=
+\frac{1+2E+B(A+B)}{5},
+$$
+and
+$$
+D_{13}
+=
+\frac{1+4\mu^2}{5}.
+$$
+\end{theorem}
+
+\begin{proof}
+The pentary edge ratios from
+\autoref{def:innovation-input-pentary-edge-ratios} are
+$$
+x_0=q,
+\qquad
+x_1=r,
+\qquad
+x_2=\overline r,
+\qquad
+x_3=\overline q,
+\qquad
+x_4=1.
+$$
+Substituting these values into
+\autoref{thm:innovation-input-pentary-first-correlation-formula} gives
+$$
+\mu
+=
+\frac{q+r+\overline r+\overline q}{4}
+=
+\frac{A+B}{2}.
+$$
+
+For $\nu$, use
+\autoref{thm:innovation-input-pentary-second-correlation-formula}:
+$$
+\nu
+=
+\frac15
+\left[
+qr+1+\overline{qr}+(\overline q+q)\mu
+\right]
+=
+\frac{1+2C+2A\mu}{5}.
+$$
+Since $2A\mu=A(A+B)$, the formula for $\nu=D_{23}$ follows from
+\autoref{thm:innovation-input-pentary-dtwentythree-correlation-meeting}.
+
+For $D_{12}$, use
+\autoref{thm:innovation-input-pentary-dtwelve-formula}:
+$$
+D_{12}
+=
+\frac15
+\left[
+q\overline r+r\overline q+1+(\overline r+r)\mu
+\right]
+=
+\frac{1+2E+2B\mu}{5}.
+$$
+Since $2B\mu=B(A+B)$, this is the stated formula. Finally,
+\autoref{thm:innovation-input-pentary-dthirteen-formula} gives
+$$
+D_{13}
+=
+\frac15
+\left[
+1+(\overline q+\overline r+r+q)\mu
+\right]
+=
+\frac{1+2(A+B)\mu}{5}
+=
+\frac{1+4\mu^2}{5}.
+$$
+\end{proof}
+
+\begin{corollary}[Palindromic three-link necessary inequalities]
+\label{cor:innovation-input-palindromic-three-link-inequalities}
+If $v\in\mathcal P_5$ passes the anchored $L=3$ neutral RP window, then
+$$
+\frac{1+2E+B(A+B)}{5}
+\ge
+\left(\frac{A+B}{2}\right)^2,
+$$
+$$
+\frac{1+2C+A(A+B)}{5}
+\ge
+\left(\frac{A+B}{2}\right)^2,
+$$
+and
+$$
+\frac{1+4\mu^2}{5}
+\ge
+\nu^2.
+$$
+\end{corollary}
+
+\begin{proof}
+These are the $2\times2$ principal minor inequalities from
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+For the palindromic locus, $\mu$ and $\nu$ are real, and the link formulas
+are those of
+\autoref{thm:innovation-input-palindromic-lthree-link-formulas}.
+\end{proof}
+
+\section{Known Rows Inside the Reduction}
+\label{sec:innovation-input-known-rows-palindromic-reduction}
+
+\begin{example}[Pythagorean row]
+\label{ex:innovation-input-pythagorean-palindromic-reduction}
+For $v_\star=(a,b,-a,b,a)$, one has
+$$
+q=a\overline b=i,
+\qquad
+r=b\overline{(-a)}=i.
+$$
+Thus
+$$
+A=0,
+\qquad
+B=0,
+\qquad
+C=-1,
+\qquad
+E=1.
+$$
+The formulas above give
+$$
+\mu=0
+$$
+and
+$$
+\nu=D_{23}
+=
+\frac{1+2(-1)}{5}
+=
+-\frac15.
+$$
+Thus the $L=3$ failure of $v_\star$ is exactly the negative second-link
+diagonal.
+\end{example}
+
+\begin{example}[Golden palindrome endpoints]
+\label{ex:innovation-input-golden-palindrome-endpoints-palindromic-reduction}
+The two golden palindrome rows
+$$
+v_5^{(+)}=(\xi,\xi^{-1},-1,\xi^{-1},\xi),
+\qquad
+\xi=e^{\pi i/5},
+$$
+and
+$$
+v_5^{(-)}=(\zeta,\zeta^{-1},1,\zeta^{-1},\zeta),
+\qquad
+\zeta=e^{2\pi i/5},
+$$
+are palindromic Q3 rows. Hence their neutral RP matrices are Hermitian by
+\autoref{cor:innovation-input-palindromic-hermitian-neutral-rp}. Their
+failure is already visible at the anchored $L=2$ window by
+\autoref{thm:innovation-input-golden-palindromes-not-rp-candidates}.
+\end{example}
+
+\begin{theorem}[Pentary palindromic search reduction]
+\label{thm:innovation-input-pentary-palindromic-search-reduction}
+Within $\mathcal P_5$, all neutral finite-window RP matrices are
+Hermitian. The $L=3$ link-diagonal layer is controlled by the four real
+coordinates
+$$
+A=\operatorname{Re}q,
+\qquad
+B=\operatorname{Re}r,
+\qquad
+C=\operatorname{Re}(qr),
+\qquad
+E=\operatorname{Re}(q\overline r),
+$$
+subject to
+$$
+2A+B+C=-1.
+$$
+Therefore the pentary palindromic RP search is a positive-semidefinite
+matrix problem along the real curve
+$$
+2\cos\alpha+\cos\beta+\cos(\alpha+\beta)=-1.
+$$
+\end{theorem}
+
+\begin{proof}
+Hermitian symmetry is
+\autoref{cor:innovation-input-palindromic-hermitian-neutral-rp}. The
+parameterization and curve equation are
+\autoref{thm:innovation-input-pentary-palindromic-qthree-equation}. The
+link-diagonal formulas are
+\autoref{thm:innovation-input-palindromic-lthree-link-formulas}.
+\end{proof}
+
+\begin{principle}[Projection reading]
+\label{prin:innovation-input-palindromic-projection-reading}
+Each tick of the self-substitution ledger chooses a local phase $v_a$.
+Finite windows see only the projected correlations $\Gamma(\alpha)$.
+Palindromic symmetry forces these projected balanced correlations to be
+reflection-even, so the observed finite-window matrix has no Hermitian
+twist:
+$$
+M=M^*.
+$$
+This symmetry is still weaker than reflection positivity. The OS-compatible
+condition is the positive-semidefinite gate
+$$
+M\succeq0.
+$$
+\end{principle}

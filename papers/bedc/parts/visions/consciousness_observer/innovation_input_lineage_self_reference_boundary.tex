@@ -14,7 +14,8 @@ input by a self-substitution rule produces a sharp cost: the binary
 compatible rule is unique up to mirror exchange and carries an intrinsic
 time arrow. Enlarging the alphabet separates compatibility from that
 forced arrow: the binary row is a rigid endpoint, while ternary and square
-alphabet rows admit reversible compatible witnesses.
+alphabet rows admit reversible compatible witnesses. The common grammar is
+the phase-polygon equation for Q3 compatibility.
 
 \section{Lineage of the Refinement Row}
 \label{sec:innovation-input-lineage-refinement-row}
@@ -201,6 +202,124 @@ does not automatically belong to the reflection-positive class of
 use of this row must first supply a positive transition certificate or a
 separate Wick-facing bridge.
 \end{principle}
+
+\section{Phase-Polygon Compatibility}
+\label{sec:innovation-input-phase-polygon-compatibility}
+
+\begin{definition}[Self-substitution phase word]
+\label{def:innovation-input-self-substitution-phase-word}
+For a quantized refinement edge with factor $N$, an $N$-ary
+self-substitution phase word is a tuple
+$$
+v=(v_0,\ldots,v_{N-1})\in\mathbb T^N.
+$$
+It closes the refined phases by the rule
+$$
+u_{ca}=v_a u_c
+$$
+for every parent cell $c$ and child index $a$. The resulting refined block
+over $c$ is
+$$
+\varepsilon u_c\sum_{a=0}^{N-1}v_a e_{ca}.
+$$
+\end{definition}
+
+\begin{theorem}[Q3 phase-polygon equation]
+\label{thm:innovation-input-qthree-phase-polygon}
+An $N$-ary self-substitution phase word satisfies the compatibility row
+$P_n^\uparrow B_{n+1}=\Phi_NB_n$ if and only if
+$$
+\sum_{a=0}^{N-1}v_a=\sqrt N.
+$$
+The right side is the positive real representative fixed by the chosen
+coarse phase convention.
+\end{theorem}
+
+\begin{proof}
+For a fixed parent cell $c$, write
+$$
+\phi_c=N^{-1/2}\sum_{a=0}^{N-1}e_{ca}.
+$$
+The refined block is
+$$
+b_c=u_c\sum_{a=0}^{N-1}v_a e_{ca}.
+$$
+Its projection onto the old lifted line $\mathbb C\phi_c$ has coefficient
+$$
+\langle \phi_c,b_c\rangle
+=
+\frac{u_c}{\sqrt N}\sum_{a=0}^{N-1}v_a.
+$$
+Thus $P^\uparrow b_c=u_c\phi_c$ for every parent cell if and only if the
+displayed phase sum is $\sqrt N$.
+\end{proof}
+
+\begin{corollary}[Self-substitution residual rate]
+\label{cor:innovation-input-self-substitution-residual-rate}
+Every Q3-compatible $N$-ary self-substitution phase word has residual rate
+$$
+\frac{\|\eta_{n+1}\|^2}{\|B_n\|^2}=N-1.
+$$
+\end{corollary}
+
+\begin{proof}
+Each parent block has norm square $N\varepsilon^2$, while its old lifted
+projection has norm square $\varepsilon^2$ by
+\autoref{thm:innovation-input-qthree-phase-polygon}. Orthogonality of the
+projection residual gives block residual norm square
+$(N-1)\varepsilon^2$. Summing over the $A_n$ parent cells and dividing by
+$\|B_n\|^2=A_n\varepsilon^2$ gives the formula.
+\end{proof}
+
+\begin{definition}[Phase correlation row]
+\label{def:innovation-input-phase-correlation-row}
+For a self-substitution phase sequence $u_n$, define the two-point
+correlation, when the Cesaro limit exists, by
+$$
+\gamma(m)
+:=
+\lim_{L\to\infty}
+\frac1L
+\sum_{n=0}^{L-1}
+u_{n+m}\overline{u_n}.
+$$
+A real-valued correlation row is a necessary audit for time-reversal
+symmetry at the two-point phase level.
+\end{definition}
+
+\begin{theorem}[Ternary real correlation recursion]
+\label{thm:innovation-input-ternary-real-correlation-recursion}
+For the ternary phase word
+$$
+A=e^{i\pi/6},
+\qquad
+B=e^{-i\pi/2},
+\qquad
+(v_0,v_1,v_2)=(A,B,A),
+$$
+the correlations satisfy
+$$
+\gamma(3m)=\gamma(m),
+$$
+$$
+\gamma(3m+1)=\frac13\bigl(-\gamma(m)+\gamma(m+1)\bigr),
+$$
+and
+$$
+\gamma(3m+2)=\frac13\bigl(\gamma(m)-\gamma(m+1)\bigr).
+$$
+Consequently every $\gamma(m)$ is real.
+\end{theorem}
+
+\begin{proof}
+The identities $B\overline A+A\overline B=-1$ and
+$A\overline A=1$ are immediate. Splitting the Cesaro average into the
+three residue classes of $n$ modulo $3$ gives the displayed recursions.
+The initial value is $\gamma(0)=1$, and the one-step relation gives
+$\gamma(1)=-1/2$. The recursion expresses each later value as a real
+linear combination of smaller-index values, so induction gives
+$\gamma(m)\in\mathbb R$ for all $m$.
+\end{proof}
 
 \section{Externality Displacement}
 \label{sec:innovation-input-externality-displacement}
