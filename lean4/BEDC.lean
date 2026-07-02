@@ -1497,6 +1497,7 @@ import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchyUp.ObligationSurface
 import BEDC.Derived.BoundedRegularCauchyUp.TailWindowInduction
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
@@ -6545,6 +6546,7 @@ import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.CarrierAdmission
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
+import BEDC.Derived.FiniteWindowRealSeparationUp.PublicRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedCompletionRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.ScopedKernelRoute
 import BEDC.Derived.FiniteWindowRealSeparationUp.TasteGate
@@ -6900,6 +6902,7 @@ import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
 import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
+import BEDC.Derived.HaltingTraceClassifierUp.TraceSoundness
 import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
@@ -9225,6 +9228,7 @@ import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
 import BEDC.Derived.MonotoneConvergenceRealUp.TasteGate
 import BEDC.Derived.MonotoneConvergenceSequenceUp.TasteGate
 import BEDC.Derived.MonotoneInverseUp.TasteGate
+import BEDC.Derived.MonotoneModulusUp
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSequenceWindowCauchyUp
 import BEDC.Derived.MonotoneSequenceWindowCauchyUp.TasteGate
@@ -11340,6 +11344,7 @@ import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyCutoffUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
+import BEDC.Derived.RegularCauchyDensityUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
@@ -12812,6 +12817,7 @@ import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteAuditUp
+import BEDC.Derived.SubjectReductionRouteAuditUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteAuditUp.SocketHandoff
 import BEDC.Derived.SubjectReductionRouteAuditUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.ConfluenceNonescape
@@ -12968,6 +12974,7 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
 import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
@@ -13665,6 +13672,9 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanHankelTuran
+import BEDC.Derived.Window6GoldenMeanParryResidue
+import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
 import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenPentagonRPLink
 import BEDC.Derived.Window6GoldenSplitModPLaw
@@ -14201,6 +14211,7 @@ import BEDC.MetaCIC.Decidable
 import BEDC.MetaCIC.Decidable.CheckClosed
 import BEDC.MetaCIC.Decidable.CheckClosedAtom
 import BEDC.MetaCIC.Decidable.CheckCompleteness
+import BEDC.MetaCIC.Decidable.GalleryObligations
 import BEDC.MetaCIC.Decidable.GalleryTests
 import BEDC.MetaCIC.Decidable.NormalEqDecide
 import BEDC.MetaCIC.Evaluation.EvalClosed

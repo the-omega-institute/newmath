@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneModulusUp$}
+\label{ch:concrete-instances-monotone-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis with explicit moduli, the $\MonotoneModulusUp$ packet records the finite certificate by which a displayed precision schedule is read as a monotone majorant before any StreamName, RegSeqRat, or Real-facing consumer may use it. It sits beside the Cauchy modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite monotone-majorant route for inspected precision requests; it does not supply a least modulus, quotient stream equality, countable choice, a selected limit, ambient $\RealUp$ completeness, or bridge checking.
+
+\begin{definition}[Monotone modulus carrier]
+\label{def:monotone-modulus-carrier}
+A $\MonotoneModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,U,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite precision-request row whose tolerance demands are visible to the carrier.
+\item $U$ is the monotone majorant row, recording for each displayed request a threshold no smaller than the thresholds assigned to tighter displayed requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the finite dyadic comparisons used by $R$ and $U$.
+\item $W$ is the $\StreamNameUp$ finite-window row opened only after the corresponding request, majorant, and dyadic rows have been displayed.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the finite windows and dyadic tolerance rows.
+\item $E$ is the $\RealUp$ seal-routing row, available only after $R,U,D,W,Q$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the request, majorant, tolerance, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a request through the majorant row, dyadic tolerance row, StreamName window, RegSeqRat readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,U,D,W,Q,E,H,C,P,N$. It has no coordinate for an optimal modulus, quotient stream equality, host real equality, countable choice, selected limits, ambient real completeness, Lean verification, or a standard bridge.
+\end{definition}
+\leanstmt{BEDC.Derived.MonotoneModulusUp}
+
+\begin{theorem}[Monotone modulus NameCert obligations]
+\label{thm:monotone-modulus-namecert-obligations}
+For every accepted $\MonotoneModulusUp$ carrier
+$$
+M=(R,U,D,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\MonotoneModulusUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the request, monotone majorant, dyadic tolerance, StreamName window, RegSeqRat readback, Real seal, and structural rows $H,C,P,N$;
+\item request visibility, requiring every consumed precision demand to appear in $R$ before the majorant row is read;
+\item monotone-majorant exposure, requiring $U$ to display the threshold comparison between weaker and tighter visible requests;
+\item dyadic-window compatibility, requiring $D$ and $W$ to be read together before any regular rational readback is exported;
+\item RegSeqRat/Real seal routing, requiring $Q$ and $E$ to factor through $R,U,D,W$ in the displayed order;
+\item transport, replay, provenance, and local naming stability through $H,C,P,N$ for exactly the displayed rows.
+\end{enumerate}
+No monotone-modulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $M=(R,U,D,W,Q,E,H,C,P,N)$. Carrier admission exposes exactly the request, monotone majorant, dyadic tolerance, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Request visibility is read first from $R$. The majorant row $U$ is available only for those displayed requests, and its monotone comparison relates weaker and tighter visible demands inside the same finite packet.
+
+Read the dyadic and window rows next. The tolerance ledger $D$ keeps the comparisons inside $\DyadicRatCoreUp$, while $W$ opens only the finite $\StreamNameUp$ windows justified by the request and majorant rows.
+
+Finally use $Q,E,H,C,P,N$. The regular rational readback and Real seal remain downstream of $R,U,D,W$, and the structural rows transport, replay, source, and name only that route. Since optimal modulus selection, quotient stream equality, host real equality, countable choice, selected limits, ambient completeness, Lean verification, and bridge data are absent from the carrier, none can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Monotone modulus finite consumer route]
+\label{thm:monotone-modulus-finite-consumer-route}
+Every StreamName, RegSeqRat, or Real-facing consumer of an accepted $\MonotoneModulusUp$ packet factors through the displayed route
+$$
+R,U,D \longmapsto W \longmapsto Q \longmapsto E,H,C,P,N .
+$$
+Thus the consumer may use the monotone majorant only as finite request data tied to $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. The route exports no least modulus, quotient stream equality, selected limit, countable-choice schedule, host real equality, ambient Real completeness, Lean certificate, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the packet. The only precision schedule available is the pair of request and majorant rows $R,U$, and the majorant row is tied to the dyadic tolerance ledger $D$ before any finite window can be opened.
+
+The StreamName window row $W$ is therefore downstream of the displayed request and tolerance data. The RegSeqRat row $Q$ reads back only those finite windows, and the Real seal $E$ is reached only after that readback.
+
+The structural rows preserve this order. Componentwise transport in $H$, replay in $C$, provenance in $P$, and local naming in $N$ carry the same finite route to consumers without adding an optimization principle, quotient equality, choice schedule, host equality, completeness theorem, Lean certificate, or bridge credential.
+\end{proof}
+
+\closureat{MonotoneModulusUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneModulusUp}
+  \constructivestory{A $\MonotoneModulusUp$ packet is generated from finite precision requests, a monotone majorant row, dyadic tolerance rows, StreamName windows, RegSeqRat readback, RealUp seal routing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-modulus-carrier}, \autoref{thm:monotone-modulus-namecert-obligations}, and \autoref{thm:monotone-modulus-finite-consumer-route} seed the finite monotone-majorant route for StreamName, RegSeqRat, Real, and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close least-modulus selection, quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request visibility, monotone-majorant exposure, dyadic-window compatibility, RegSeqRat/Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneModulusUp.}
+\end{closurestatus}

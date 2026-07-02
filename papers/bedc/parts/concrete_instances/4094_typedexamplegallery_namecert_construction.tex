@@ -44,6 +44,22 @@ The checker obligation reads $T$ only against entries already present in $E$. Th
 Finally read $R,H,K,P,N$. The regression row names the finite families whose checked behavior is preserved as a gallery surface, while transport, replay, provenance, and local naming keep every consumer inside the same displayed packet. No row adds a general subject-reduction, normalisation, confluence, global conversion, proof-erasure, or host-evaluation endpoint.
 \end{proof}
 
+\begin{theorem}[Typed example gallery obligation frontier]
+\label{thm:typed-example-gallery-obligation-frontier}
+Every obligation consumer of an accepted $\TypedExampleGalleryUp$ packet must expose the rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+in that order before any gallery result is public. The entry row $E$ is read before checker visibility in $T$; checker visibility is read before closedness in $C$; closedness is read before the selected beta row $B$; beta rows are read before the regression surface $R$; and only then may componentwise transport $H$, replay $K$, provenance $P$, and the local $\NameCert_{\TypedExampleGalleryUp}$ row $N$ be consumed. The frontier exports the finite gallery obligation surface only, not subject reduction, normalization, confluence, or conversion decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$ from \autoref{def:typed-example-gallery-carrier}. Its coordinates already list the entry, checker, closedness, beta, regression, transport, replay, provenance, and local naming rows in the required order.
+
+Apply \autoref{thm:typed-example-gallery-namecert-obligations}. Carrier admission exposes the whole packet, checker visibility uses $T$ against entries in $E$, closedness visibility uses $C$ only for displayed inputs, beta visibility uses $B$ only for selected computations, and regression visibility uses $R$ through $H,K,P,N$.
+
+Finally use \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-typed-normal-form-separation}. These keep the public read inside the finite regression and displayed normal-form surface. Since the carrier has no coordinate for arbitrary term reduction, global normalization, confluence, or conversion decidability, none of those conclusions can cross the obligation frontier.
+\end{proof}
+
 \begin{theorem}[Typed example gallery regression surface]
 \label{thm:typed-example-gallery-regression-surface}
 Every consumer of an accepted $\TypedExampleGalleryUp$ packet receives a finite regression surface for the typed-example corpus: accepted typing rows, closedness inputs, selected beta computations, and sibling provenance through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet cannot be reread as a theorem about all represented terms, all closed substitutions, all beta steps, all erased proof terms, or all checker results.
