@@ -1,6 +1,7 @@
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
@@ -11,6 +12,7 @@ namespace BEDC.Derived.FiniteRefutationBoundaryUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
@@ -76,5 +78,27 @@ theorem FiniteRefutationBoundaryNamecertObligations [AskSetup] [PackageSetup]
       exact ⟨source.right, pkgRow⟩
   }
   exact ⟨cert, rfl, rfl⟩
+
+theorem FiniteRefutationBoundary_ground_loop_soundness
+    {A R D E H C P N botR replay transportedRoute : BHist}
+    (packet : FiniteRefutationBoundaryUp)
+    (hpacket : packet = FiniteRefutationBoundaryUp.mk A R D E H C P N botR)
+    (refutationReplay : Cont A R replay)
+    (transportReplay : Cont replay H transportedRoute)
+    (terminalReadback : hsame transportedRoute botR) :
+    hsame botR (append (append A R) H) ∧
+      List.Mem botR (finiteRefutationBoundaryFields packet) ∧
+      hsame N N ∧ hsame P P := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  cases hpacket
+  cases refutationReplay
+  cases transportReplay
+  cases terminalReadback
+  exact
+    ⟨rfl,
+      List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+        (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+          (List.Mem.head _)))))))),
+      hsame_refl N, hsame_refl P⟩
 
 end BEDC.Derived.FiniteRefutationBoundaryUp
