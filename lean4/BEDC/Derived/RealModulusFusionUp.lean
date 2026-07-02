@@ -133,4 +133,103 @@ theorem RealModulusFusionRealSealBoundary [AskSetup] [PackageSetup]
     ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, sealUnary,
       sourceModulus, tailWindow, handoffSeal, sealRoute, sealPkg⟩
 
+theorem RealModulusFusionObligationEnvelope [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N consumer sealRow : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont W consumer R ->
+        Cont E consumer N ->
+          Cont E N sealRow ->
+            PkgSig bundle sealRow pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row M ∨ hsame row T ∨ hsame row W ∨
+                      hsame row R ∨ hsame row S ∨ hsame row E ∨ hsame row H ∨
+                        hsame row C ∨ hsame row P ∨ hsame row N)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg)
+                  hsame ∧
+                UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+                  UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧ Cont X M T ∧
+                    Cont T W R ∧ Cont R S E ∧ Cont W consumer R ∧ Cont E consumer N ∧
+                      Cont E N sealRow ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier windowConsumer sealConsumer sealRoute sealPkg
+  obtain ⟨cert, xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary⟩ :=
+    RealModulusFusionNamecertObligations carrier
+  obtain ⟨_mWindow, _tWindow, _wWindow, _rWindow, _eWindow, sourceModulus, tailWindow,
+    handoffSeal, windowConsumerRoute, sealConsumerRoute, pkgRow⟩ :=
+      RealModulusFusionSharedTailWindowExhaustion carrier windowConsumer sealConsumer
+  obtain ⟨_tailWindow, _handoffSeal, _rHandoff, _pkgHandoff⟩ :=
+    RealModulusFusionRegseqHandoff carrier
+  obtain ⟨_xSeal, _mSeal, _tSeal, _wSeal, _rSeal, _sSeal, _eSeal, _sealUnary,
+    _sourceSeal, _tailSeal, _handoffSealRoute, sealRouteOut, sealPkgOut⟩ :=
+      RealModulusFusionRealSealBoundary carrier sealRoute sealPkg
+  exact
+    ⟨cert, xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, sourceModulus,
+      tailWindow, handoffSeal, windowConsumerRoute, sealConsumerRoute, sealRouteOut,
+        pkgRow, sealPkgOut⟩
+
+theorem RealModulusFusionNonescape [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N row : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      (hsame row X ∨ hsame row M ∨ hsame row T ∨ hsame row W ∨ hsame row R ∨
+        hsame row S ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+          hsame row N) ->
+        UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+          UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory H ∧
+            UnaryHistory C ∧ UnaryHistory N ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory
+  intro carrier visibleRow
+  obtain ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, hUnary, cUnary,
+    nUnary, _sourceModulus, _tailWindow, _handoffSeal, _hContCName, pkgRow⟩ := carrier
+  have exposed :
+      UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+        UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory H ∧
+          UnaryHistory C ∧ UnaryHistory N ∧ PkgSig bundle P pkg :=
+    ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, hUnary, cUnary, nUnary,
+      pkgRow⟩
+  cases visibleRow with
+  | inl _sameX =>
+      exact exposed
+  | inr visibleTail =>
+      cases visibleTail with
+      | inl _sameM =>
+          exact exposed
+      | inr visibleTail =>
+          cases visibleTail with
+          | inl _sameT =>
+              exact exposed
+          | inr visibleTail =>
+              cases visibleTail with
+              | inl _sameW =>
+                  exact exposed
+              | inr visibleTail =>
+                  cases visibleTail with
+                  | inl _sameR =>
+                      exact exposed
+                  | inr visibleTail =>
+                      cases visibleTail with
+                      | inl _sameS =>
+                          exact exposed
+                      | inr visibleTail =>
+                          cases visibleTail with
+                          | inl _sameE =>
+                              exact exposed
+                          | inr visibleTail =>
+                              cases visibleTail with
+                              | inl _sameH =>
+                                  exact exposed
+                              | inr visibleTail =>
+                                  cases visibleTail with
+                                  | inl _sameC =>
+                                      exact exposed
+                                  | inr visibleTail =>
+                                      cases visibleTail with
+                                      | inl _sameP =>
+                                          exact exposed
+                                      | inr _sameN =>
+                                          exact exposed
+
 end BEDC.Derived.RealModulusFusionUp

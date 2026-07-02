@@ -1,0 +1,377 @@
+\chapter{Exploratory RH Route Ledger}
+\label{ch:visions-rh-exploratory-route-ledger}
+\origin{ai}
+
+This chapter records the exploratory RH route developed in a 169-turn
+working session.  The purpose is archival and diagnostic.  It separates
+ideas that are already covered by existing BEDC formal surfaces from
+heuristic geometry, conjectural bridge obligations, and full-strength
+restatements.  It does not prove the Riemann Hypothesis, does not assert
+proximity to a proof, and does not introduce Lean targets for philosophical
+or analogy-driven material.
+
+\section{Audit Convention}
+\label{sec:rh-exploratory-ledger-audit-convention}
+
+Each item below is assigned one of four statuses.
+
+\begin{definition}[Route ledger status]
+\label{def:rh-exploratory-route-ledger-status}
+A route item is \emph{covered} when its formal kernel is already represented
+by an existing RH chapter or by an existing
+$\mathsf{BEDC.Derived.RHRoute}$ module.  It is \emph{heuristic} when it gives
+geometric, physical, or ontological guidance without a present theorem.  It
+is \emph{conditional} when it gives a valid implication from an explicit
+bridge obligation to $\mathsf{RH}$ or to a zero-exclusion target.  It is
+\emph{full-strength restatement} when the proposed bridge is, after
+quantification strong enough to do work, another form of the
+no-off-line-zero problem.
+\end{definition}
+
+The four statuses are intentionally not arranged as a progress scale.
+``Covered'' does not mean that $\mathsf{RH}$ is proved; it means that the
+particular small datum has already been formalized or recorded.  ``Heuristic''
+does not mean false; it means that no certificate-bearing mathematical
+statement is being claimed.  ``Conditional'' records an honest theorem shape
+whose hypotheses remain open.  ``Full-strength restatement'' records a useful diagnostic
+translation rather than a reduction of difficulty.
+
+\section{Three Boundaries and the Prime-Unitary Surface}
+\label{sec:rh-ledger-three-boundaries-prime-unitary}
+
+The earliest stable correction in the exploration was the separation of
+three objects:
+$$
+\operatorname{Fix}(J),
+\qquad
+\prod_s \mathsf{Decidable}(\mathsf{ZetaZero}(s)),
+\qquad
+\mathsf{RH}.
+$$
+The first is the geometric fixed surface of the functional-equation mirror
+$$
+J(s)=1-\overline{s}.
+$$
+The second is an exact zero decision operator.  The third is the global
+rigidity statement that a certified critical-strip zero lands on the fixed
+surface.
+
+Status: covered.  The fixed-surface computation is the subject of
+\autoref{ch:visions-rh-three-boundary-separation}, whose Lean-side kernel is
+the module $\mathsf{BEDC.Derived.RHRoute.FunctionalEquationSymmetry}$.  That
+module verifies the fixed-surface calculation identifying $J$-fixedness with
+the critical-line predicate.  The same chapter also records why exact zero
+decidability is a different object from the RH proposition.
+
+The prime-unitary readout was also stabilized.  For a displayed base
+$a>1$,
+$$
+|a^{1/2-s}|=1
+\quad\Longleftrightarrow\quad
+\Re(s)=1/2.
+$$
+For primes this is the centered Euler-channel readout
+$U_p(s)=p^{1/2-s}$.  The point of the ledger is the negative boundary: this
+calculation is a critical-line reparameterization, not an RH mechanism by
+itself.  It applies for every displayed $a>1$ and says nothing about whether
+$s$ carries a zeta-zero packet.
+
+Status: covered.  The prime-local surface is recorded in
+\autoref{ch:visions-rh-prime-unitary-balance-surface} and
+\autoref{ch:visions-rh-three-boundary-separation}.  Its Lean-side carrier is
+the existing $\mathsf{BEDC.Derived.RHRoute.UnitaryBalance}$ module.  The
+route becomes RH-facing only after a zero-ledger bridge supplies a reason why
+an off-line zero cannot coexist with the displayed prime-channel defect.
+
+\section{Located Process Geometry and Type Boundaries}
+\label{sec:rh-ledger-located-process-geometry}
+
+The session repeatedly used a geometric language in which a rational value
+axis is distinguished from a process axis.  In BEDC terms, the strict content
+is this: located real data are not bare rational points but approximation
+processes with explicit moduli.  A rational value is the degenerate case with
+a constant approximation and trivial modulus.  Comparing two located reals is
+therefore comparison of two approximation processes to a displayed tolerance,
+not an unrestricted trichotomy of exact completed points.
+
+Status: heuristic as imagery, covered as infrastructure.  The language of
+orthogonal axes, shadows, and process directions is only a visualization.
+The certificate content is the ordinary BEDC discipline already used by the
+located real and zeta-box modules: finite tolerance, apartness, and explicit
+moduli stay inside the constructive fragment; exact global comparison and
+unrestricted point extraction belong to a separate boundary.
+
+The same discussion produced a useful caution about
+$\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and
+$\mathsf{propext}$.  The honest statement is not that classical mathematics
+is erroneous, nor that these names are proved necessary for zeta.  The
+statement is only that such constants measure implementation footprints for
+particular classical encodings: choice extracts data from existence,
+quotients identify processes as points, and propositional extensionality
+collapses proof distinctions.  BEDC avoids those collapses in the kernel.
+
+Status: heuristic and governance-facing.  The transcript's strongest
+versions of this point are philosophy of implementation, not RH lemmas.  No
+Lean target is attached to them here.
+
+\section{Common Carrier and Zeta as a Projection Chain}
+\label{sec:rh-ledger-common-carrier-projection-chain}
+
+The middle part of the session organized triangles, circles, elliptic
+normalizations, Fourier and Laplace transforms, and zeta as a chain of
+compatible projections rather than as a literal holomorphic continuation
+from one object to the next.  The valid BEDC reading is:
+$$
+\text{shared carrier rows}
+\quad\leadsto\quad
+\text{compatible algebraic, geometric, spectral, and analytic readouts}.
+$$
+For zeta this means that the Dirichlet series, Euler product, eta row,
+analytic continuation, archimedean completion, functional equation, pole
+ledger, zero ledger, and branch-transport rows are compatible readings of a
+recovered carrier.
+
+Status: covered.  The recovered-carrier discipline is already recorded in
+\autoref{ch:visions-rh-prime-unitary-balance-surface},
+\autoref{ch:visions-rh-zero-skew-eventflow-target}, and
+\autoref{ch:visions-rh-zeta-self-similar-recovered-carrier}.  The taxonomy
+side is represented by the existing
+$\mathsf{BEDC.Derived.RHRoute.ZetaLikeProjectionTaxonomy}$ module.  This
+does not imply that properties of a triangle, a circle, a finite elliptic
+model, or a Fourier transform transfer automatically to Riemann zeta.  Such
+transfer requires displayed carrier maps, overlap laws, and tail or
+continuation estimates.
+
+The finite quartic spectral-curve example was used as a guide for what a
+closed finite model looks like: recurrence data, spectral polynomial,
+normalization, projection, dominant branch, and endpoint zero law are all in
+the same finite ledger.  The honest lesson for RH is negative as much as
+positive.  Riemann $\xi$ is an order-one entire transcendental function with
+infinitely many zeros; a finite algebraic branch argument does not transfer
+through the finite-to-infinite boundary without a separate convergence,
+dominance, or positivity theorem.
+
+Status: heuristic for RH, useful as finite-model discipline.  It is not a
+proof template that can be applied by analogy alone.
+
+\section{Object Induction, Three Invariants, and No-Split Zeros}
+\label{sec:rh-ledger-object-induction-three-invariants}
+
+Another arc described a triad of object-level invariants:
+observation/time, distinction/prime locality, and symmetry/transport.  In
+BEDC vocabulary this can be read as a route through histories and
+continuation, gap or apartness data, and $\hsame$-respecting transport.  The
+proposed RH reading was that a zero fiber should have no additional
+same-layer normal degree of freedom.
+
+Status: covered as a conditional route, heuristic as philosophy.  Existing
+modules already record the usable conditional kernel:
+$\mathsf{ObjectRealityInductionRoute}$ packages the object-induction route;
+$\mathsf{ZeroGenerationInitiality}$ packages the initiality route; and
+$\mathsf{ZeroSignatureFaithfulness}$ records signature-faithfulness
+obligations.  The paper-side references are
+\autoref{ch:visions-rh-free-zero-generation-initiality} and the neighboring
+zero-generation chapters.
+
+The missing theorem is not a slogan about there being only three
+invariants.  It is a zero-fiber exactness theorem.  One possible form says:
+every accepted critical-strip zero packet is generated by pre-RH
+constructors, and those constructors preserve the fixed-half subcarrier.
+Another possible form says: a mirror-split off-line zero would expose a
+defect row that the completed carrier cannot accept.  Both are conditional
+bridges; neither is currently closed for Riemann zeta.
+
+Status: conditional.  The session's ``pigeonhole'' language is best read as
+classifier faithfulness.  It is not a proof that two mirror-related off-line
+zeros must be the same point.
+
+\section{Finite Prime Windows, Odd Defects, and Even Energy}
+\label{sec:rh-ledger-prime-window-energy}
+
+The most concrete non-analytic core of the session was the normal-defect
+calculation.  Write
+$$
+s=\frac12+\delta+i\tau.
+$$
+Then each centered prime channel satisfies
+$$
+|p^{1/2-s}|=p^{-\delta}.
+$$
+Consequently a nonzero $\delta$ produces a coherent amplitude defect in
+every displayed nonempty prime window.  A mirror pair sends
+$\delta$ to $-\delta$; signed first-order defect can cancel between the two
+mirror reads, but the even energy $\delta^2$ cannot be removed by that sign
+change.
+
+Status: covered as finite readout.  The window and defect apparatus is
+already recorded in \autoref{ch:visions-rh-finite-prime-window-gluing},
+\autoref{ch:visions-rh-prime-skew-boundary-defect-refutation}, and
+\autoref{ch:visions-rh-prime-window-recursive-tower}.  Existing Lean modules
+cover the finite machinery:
+$\mathsf{FinitePrimeWindow}$, $\mathsf{PrimeSkewDefect}$,
+$\mathsf{OddZeroDefect}$, $\mathsf{EvenDefectEnergy}$, and
+$\mathsf{FiniteToInfinitePhaseEnergyTower}$.
+
+The finite conclusion is not RH.  It says that off-line bias is locally
+visible.  The missing analytic carrier theorem is
+$$
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{PositiveNormalDefect}(s)
+\to
+\bot,
+$$
+or an equivalent completed-carrier exclusion.  This is the same hinge
+isolated in the local-global exclusion chapters.  It is recorded here as
+conditional, not as a checked theorem.
+
+\section{Far-End, Solenoid, and Lee--Yang Readings}
+\label{sec:rh-ledger-far-end-solenoid-lee-yang}
+
+The far-end discussion produced two separate items that must not be
+confused.  First, it gave a useful discipline: the infinite end is not a
+point, a warehouse, or an untyped place where a finite defect can disappear.
+Second, when expressed as ``no far-end absorption for zeta,'' it becomes a
+restatement of the no-off-line-zero problem unless an independent positivity
+or domination theorem is supplied.
+
+Status: full-strength restatement when quantified strongly enough for zeta.  The
+existing $\mathsf{OnticBoundaryLedger}$ module already records this boundary
+as a ledger entry rather than a proof.  The far-end unity and energy socket
+modules record finite normalization interfaces, but they do not discharge
+the zeta-specific zero-exclusion theorem.
+
+The solenoid and Lee--Yang turn was more precise.  For a finite prime set
+$S$, an $S$-localized solenoid has a visible circle and a compact
+$p$-adic fiber.  A finite Lee--Yang stable resonance can force its zeros to
+land on the unit boundary.  In the $s$-coordinate, a local factor of the
+form
+$$
+z=e^{-(s-1/2)H},
+\qquad H>0,
+$$
+lands on the unit circle only when $\Re(s)=1/2$.
+
+Status: conditional.  Finite solenoid or Lee--Yang mechanisms are genuine
+mathematical structures, and existing RHRoute ledgers contain finite
+solenoid-bound and source-gap records.  The missing bridge is to show that
+Riemann $\xi$ admits a zero-relevant solenoid Lee--Yang capture:
+on each off-line compact region, a stable solenoid main term dominates a
+tail term, or a sequence of finite Lee--Yang stable approximants converges
+to $\Xi$.  Without that bridge, the mechanism does not prove RH.
+
+\section{Dyadic Truncations, Jensen, Hilbert--Polya, and Weil Positivity}
+\label{sec:rh-ledger-classical-route-audit}
+
+The final technical arc audited several standard route families.
+All of them can be made honest by expressing their bridge obligations
+directly.
+
+\begin{principle}[Dyadic Laguerre--Polya bridge]
+\label{prin:rh-ledger-dyadic-lp-bridge}
+If a family of completed dyadic truncations $\Xi_K$ converges locally
+uniformly to $\Xi$ and every $\Xi_K$ belongs to the
+Laguerre--Polya class, then Hurwitz-type reasoning gives real zeros for
+$\Xi$ and hence RH.
+\end{principle}
+
+Status: bridge sound, premise false for the sharp truncation route recorded
+in this paper.  \autoref{ch:visions-rh-dyadic-truncation-lp-route-refutation}
+records why the tempting all-$K$ sharp-cutoff Laguerre--Polya premise does
+not hold.  Thus the dyadic arc is preserved as a negative route ledger, not
+as a pending proof.
+
+\begin{principle}[Jensen and Laguerre--Polya audit]
+\label{prin:rh-ledger-jensen-lp-audit}
+Showing all Jensen polynomials attached to $\Xi$ are hyperbolic is a
+classical Laguerre--Polya route to RH.  Fixed-degree high-shift
+hyperbolicity is informative, but the all-degree all-shift family is the
+hard object.
+\end{principle}
+
+Status: full-strength restatement as a global criterion.  It is not a BEDC
+shortcut.
+
+\begin{principle}[Hilbert--Polya and spectral determinant audit]
+\label{prin:rh-ledger-hilbert-polya-audit}
+A self-adjoint or unitary spectral realization whose determinant is
+Riemann $\xi$ would force the required real-line or unit-circle zero
+placement.  Finite CMV, Jacobi, and determinant interfaces demonstrate the
+shape of such mechanisms but do not construct the required infinite
+operator for $\xi$.
+\end{principle}
+
+Status: conditional.  The finite spectral interface is useful; the
+determinant-equals-$\xi$ theorem is not present.
+
+\begin{principle}[Weil and Li positivity audit]
+\label{prin:rh-ledger-weil-li-audit}
+Weil positivity and Li coefficient positivity are faithful RH criteria.
+They are valuable because they identify the correct positive form or
+coefficient sequence.  They become proof mechanisms only when the positivity
+is derived from an independent structure rather than assumed in a form
+coextensive with the fixed RH target.
+\end{principle}
+
+Status: full-strength restatement as global positivity; potentially useful as a
+target if an independent semi-local domination theorem is produced.  The
+last turns of the session therefore correctly moved toward semi-local Weil
+positivity, finite matrix criteria, Birman--Schwinger bounds, and
+low/high-frequency estimates.  Those are bridge obligations, not checked
+results in this paper.
+
+\section{Lean Decision}
+\label{sec:rh-ledger-lean-decision}
+
+No Lean module accompanies this chapter.  The session contains many
+phrases that can be given formal-looking names, but the only parts that are
+currently suitable for 0-axiom BEDC formalization are already represented by
+existing RHRoute modules: the functional-equation fixed surface, the
+prime-unitary readout, finite prime-window gluing, odd and even defect
+rows, object-induction and zero-generation conditional routes, route-closure
+separation, zeta projection taxonomy, and finite solenoid-bound ledgers.
+
+The remaining items require one of the following before they become Lean
+targets:
+$$
+\begin{gathered}
+\text{a zeta-specific defect-zero incompatibility theorem},\\
+\text{a zero-presentation exactness theorem for a pre-RH generator},\\
+\text{a solenoid Lee--Yang capture theorem for }\Xi,\\
+\text{a full Laguerre--Polya or Jensen hyperbolicity proof},\\
+\text{an independent Weil or Li positivity theorem},\\
+\text{or a spectral realization whose determinant is }\xi.
+\end{gathered}
+$$
+None of these is available in the repository as a closed 0-axiom theorem.
+They are therefore recorded as route obligations and not as Lean stubs.
+
+\section{Summary}
+\label{sec:rh-ledger-summary}
+
+The session is valuable as a route ledger because it repeatedly found the
+same boundary from different directions.  The critical line is already the
+functional-equation fixed surface.  Prime-unitary balance and finite windows
+read that surface cleanly, but do not by themselves carry a zeta-zero
+exclusion.  Geometric language about common carriers, process axes,
+far-ends, resonances, and no-hair principles is useful only when translated
+into displayed carrier maps, stability, positivity, or tail domination.
+When such translation is strong enough to rule out off-line zeros, it is
+exactly where the RH difficulty lives.
+
+Thus the honest current state is:
+$$
+\boxed{
+\text{finite and conditional RHRoute kernels are already recorded;}
+}
+$$
+$$
+\boxed{
+\text{the session contributes no separate 0-axiom theorem beyond existing coverage;}
+}
+$$
+$$
+\boxed{
+\text{the unresolved work is analytic rigidity, not terminology.}
+}
+$$
