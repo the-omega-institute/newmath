@@ -1734,6 +1734,7 @@ import BEDC.Derived.CantorSpaceCompactnessUp.TasteGate
 import BEDC.Derived.CantorSpaceUniformModulusUp
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
+import BEDC.Derived.CantorStieltjesMeasureUp.TasteGate
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
 import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
@@ -6160,6 +6161,7 @@ import BEDC.Derived.FiniteCauchyTailHandoffUp.NameCertObligations
 import BEDC.Derived.FiniteCauchyTailHandoffUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
+import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.BolzanoHandoff
 import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
@@ -9897,7 +9899,6 @@ import BEDC.Derived.PoincareDiskGeodesicProjectionUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
-import BEDC.Derived.PoincareRecurrenceUp.TasteGate
 import BEDC.Derived.PoincareTriangleDefectUp.TasteGate
 import BEDC.Derived.PoincareVisualRadiusLadderUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricSpaceUp
@@ -10851,7 +10852,6 @@ import BEDC.Derived.RealTightnessUp.TasteGate
 import BEDC.Derived.RealTriangleInequalityUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
 import BEDC.Derived.RealUniformCauchyNameUp.TasteGate
-import BEDC.Derived.RealUniformCauchyProductUp
 import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.Derived.RealUniformEmbeddingUp.SealHandoff
 import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
@@ -11807,7 +11807,6 @@ import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannUniformMeshUp.TasteGate
-import BEDC.Derived.RiemannZeroCountLedgerUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszFischerUp.TasteGate
 import BEDC.Derived.RieszInterpolationUp
