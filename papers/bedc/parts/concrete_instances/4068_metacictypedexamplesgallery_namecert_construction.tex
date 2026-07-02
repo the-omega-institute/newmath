@@ -215,6 +215,28 @@ Next use typed-family coverage and checker-route factorization. The theorem \aut
 Finally cite the scoped route of \autoref{thm:metacic-typed-examples-gallery-scoped-route}. It excludes the global metatheorem rows, so the accepted scope is exactly the displayed thirteen-row surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery scope export]
+\label{thm:metacic-typed-examples-gallery-scope-export}
+Every exported gallery read from an accepted $\MetaCICTypedExamplesGalleryUp$ packet is exactly one displayed family row among
+$$
+B,N,L,S,E,I,A,R
+$$
+followed by the finite checker and certificate route
+$$
+K,H,C,P,M.
+$$
+No consumer may read the exported gallery as global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The only family rows available for export are $B,N,L,S,E,I,A,R$, and the only post-family route rows are $K,H,C,P,M$.
+
+Apply the obligation matrix and typed-family coverage theorems, \autoref{thm:metacictypedexamplesgallery-obligation-matrix} and \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}. They force each exported family read to keep its displayed context, term, typing, reduction-window, checker, transport, replay, provenance, and local naming data inside the finite carrier.
+
+Use the checker-route factorization and scoped route theorems, \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization} and \autoref{thm:metacic-typed-examples-gallery-scoped-route}. These identify the consumer route as one family row followed by $K,H,C,P,M$, with no bypass through a global checker theorem.
+
+Finally apply the scope rows theorem \autoref{thm:metacic-typedexamples-gallery-scope-rows}. Since the accepted scope is exactly the thirteen displayed rows, the excluded global metatheorems and arbitrary coverage claims are not exportable from the gallery packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery scoped-closure route]
 \label{thm:metacic-typed-examples-gallery-scoped-closure-route}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier

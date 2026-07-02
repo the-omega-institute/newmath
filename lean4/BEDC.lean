@@ -6209,6 +6209,7 @@ import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
 import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteFanTheoremUp.TasteGate
+import BEDC.Derived.FiniteFourierEnergyUp
 import BEDC.Derived.FiniteFourierTailProjectorUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
@@ -7116,6 +7117,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicObserverShadowMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
+import BEDC.Derived.HyperbolicPhaseLensUp
 import BEDC.Derived.HyperbolicPhaseObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
@@ -13108,6 +13110,7 @@ import BEDC.Derived.TubeLemmaFiniteProductUp
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
+import BEDC.Derived.TukeyDepthUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.MetaCICRoute
