@@ -66,11 +66,14 @@ def isAuditedContentDecl (env : Environment) (n : Name) : Bool :=
 def isRootIntName (n : Name) : Bool :=
   n == `Int || (`Int).isPrefixOf n
 
+def isMathlibListCountName (n : Name) : Bool :=
+  n == `List.count
+
 def isMathlibDecl (env : Environment) (n : Name) : Bool :=
   BedcGate.isFromModulePrefix env `Mathlib n
 
 def isBridgeJustifyingConstant (env : Environment) (n : Name) : Bool :=
-  isRootIntName n || isMathlibDecl env n
+  isRootIntName n || isMathlibListCountName n || isMathlibDecl env n
 
 def structureProjectionOwner? (env : Environment) (n : Name) : Option Name := Id.run do
   match n with
