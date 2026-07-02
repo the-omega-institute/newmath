@@ -13669,6 +13669,8 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanHankelTuran
+import BEDC.Derived.Window6GoldenMeanParryResidue
 import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
 import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenPentagonRPLink
