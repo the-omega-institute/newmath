@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CantorBaireEmbeddingUp$}
+\label{ch:concrete-instances-cantor-baire-embedding-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on choice sequences and finite prefix inspection, the $\CantorBaireEmbeddingUp$ packet records the Cantor-to-Baire prefix embedding as finite NameCert data. It sits after the Cantor prefix carrier of \autoref{ch:concrete-instances-cantorspace-namecert}, the Baire prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the constructive comparison packet of \autoref{ch:concrete-instances-constructive-cantor-baire-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite prefix route; it does not choose an infinite branch, quotient stream names, assert ambient $\RealUp$ completeness, or identify Baire names by a host equality principle.
+
+\begin{definition}[Cantor--Baire embedding carrier]
+\label{def:cantor-baire-embedding-carrier}
+A $\CantorBaireEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,B,J,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the Cantor prefix row, read through $\CantorSpaceUp$ and recording binary finite words.
+\item $B$ is the Baire prefix row, read through $\BaireSpaceUp$ and recording the corresponding finite natural-number prefixes.
+\item $J$ is the injective prefix-code ledger, recording that distinct Cantor prefixes are assigned distinct Baire prefixes before any downstream read.
+\item $W$ is the finite $\StreamNameUp$ window exposed to sequence consumers.
+\item $Q$ is the $\RegSeqRatUp$ readback row available after the finite stream window has been displayed.
+\item $R$ is the terminal $\RealUp$ seal row, available only after the prefix and readback rows are already visible.
+\item $H$ records componentwise $\hsame$ transport for prefix rows, ledger, stream window, readback, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the Cantor prefix row through the Baire prefix row and then through $W,Q,R$.
+\item $P$ is the $\Pkg$ provenance over $\CantorSpaceUp$, $\BaireSpaceUp$, $\ConstructiveCantorBaireUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CantorBaireEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for countable choice, quotient stream equality, host Baire equality, a selected completed real, or a prefix collapse not recorded in the finite ledger $J$.
+\end{definition}
+
+\begin{theorem}[Cantor--Baire embedding NameCert obligations]
+\label{thm:cantor-baire-embedding-namecert-obligations}
+For the carrier of \autoref{def:cantor-baire-embedding-carrier}, the local $\NameCert_{\CantorBaireEmbeddingUp}$ surface consists exactly of carrier admission for $E=(K,B,J,W,Q,R,H,C,P,N)$; Cantor prefix admission through $K$; Baire prefix admission through $B$; injective prefix-code preservation through $J$; finite stream-window exposure through $W$; regular rational readback through $Q$; terminal real-name sealing through $R$; and transport, replay, provenance, and naming stability through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-baire-embedding-carrier}. The rows $K,B,J,W,Q,R,H,C,P,N$ are the only local coordinates.
+
+The prefix obligations are read first. Row $K$ supplies the displayed binary Cantor prefix, row $B$ supplies the corresponding Baire prefix, and row $J$ records the finite prefix-code ledger relating them.
+
+The downstream completion-facing obligations are read only after the prefix rows. Rows $W,Q,R$ expose the stream window, regular rational readback, and terminal real-name seal in that order.
+
+Rows $H,C,P,N$ preserve the displayed route under transport, replay, provenance, and local naming. Since no other coordinate exists, the local NameCert surface is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Prefix injection before completion consumers]
+\label{thm:cantor-baire-embedding-prefix-injection}
+If two accepted $\CantorBaireEmbeddingUp$ carriers expose distinct Cantor prefixes in their $K$ rows, then their $B$ rows expose distinct Baire prefixes before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the packet. A downstream consumer therefore cannot identify distinct binary prefixes by passing through stream, rational-readback, or real-seal rows.
+\end{theorem}
+\begin{proof}
+Read the injective ledger $J$ in the carrier $E=(K,B,J,W,Q,R,H,C,P,N)$. The ledger is placed between the Cantor prefix row $K$ and the Baire prefix row $B$, so prefix comparison is settled before the stream window $W$ is available.
+
+Now inspect the downstream rows. The regular rational readback $Q$ and the real-name seal $R$ are reachable only through the displayed replay row $C$, whose route already passes through $K,B,J,W$.
+
+Componentwise transport through $H$ preserves the displayed prefix rows rather than replacing them by quotient names. Thus distinct Cantor prefixes remain distinct as Baire prefixes at the point where completion-facing consumers begin to read the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CantorBaireEmbeddingUp$ packet whose ledger maps two distinct Cantor prefixes to the same Baire prefix is refuted before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can read it.}
+
+\independenceWitness{cantorspace, bairespace, constructive-cantor-baire, streamname, regseqrat, real: none is bijective to CantorBaireEmbeddingUp. The Cantor and Baire packets expose the endpoint prefix carriers; the constructive comparison packet records a broader relation; the stream and regular-rational packets consume finite windows; and the Real packet seals a completed read. Only the embedding packet stores the prefix-code ledger $J$ between the Cantor and Baire rows.}
+
+\closureat{CantorBaireEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\CantorBaireEmbeddingUp}
+  \constructivestory{A $\CantorBaireEmbeddingUp$ packet is generated from Cantor prefix rows, Baire prefix rows, an injective prefix-code ledger, finite StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-baire-embedding-carrier}, \autoref{thm:cantor-baire-embedding-namecert-obligations}, and \autoref{thm:cantor-baire-embedding-prefix-injection} bind the finite prefix embedding route before completion-facing consumers read it.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, countable choice, quotient stream equality, selected infinite branches, host Baire equality, or ambient Real completeness.}
+  \upgradepath{Lean closure requires a checked carrier theorem for the prefix-code ledger and its StreamName, RegSeqRat, and Real handoff.}
+\end{closurestatus}
