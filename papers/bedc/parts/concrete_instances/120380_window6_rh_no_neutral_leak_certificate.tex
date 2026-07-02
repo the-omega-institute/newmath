@@ -1,0 +1,69 @@
+\chapter{A Finite Window6 Skew/Neutral Certificate for the RH No-Neutral-Leak Obligation}
+\label{ch:concrete-instances-window6-rh-no-neutral-leak-certificate}
+\origin{ai}
+
+The zeta-to-Zeckendorf residual route sends an off-mirror zeta zero event into a Zeckendorf residual tower over the Fibonacci-cube projections $X_m=\{0,1\}^m_{\mathrm{no}\,11}$, with residual carrier $V_m=\mathbb{Q}[X_m]$. One of the load-bearing obligations of that route is a no-neutral-leak condition: the residual must live in the skew sector of a return operator $R_m$, with $1\notin\operatorname{spec}(R_m\!\mid_{\text{skew}})$, since the attractive computation $R_6r=-\tfrac12 r$ eliminates a residual only after its neutral $1$-eigenmode has been excluded. This chapter records a finite Window6-level certificate for the shape of that obligation: an explicit mirror involution whose fixed set is the neutral support and whose free orbits are the skew sector, so that the skew/neutral split of $X_6$ is exhibited as a checked $\pm1$-eigenspace decomposition. This is a finite residual-surface certificate, not a proof of RH.
+
+\section{The Window6 Mirror Involution}
+\label{sec:window6-mirror-involution}
+
+Let $X_6$ be the Fibonacci-cube surface of six-letter Boolean words with no adjacent $1$. The mirror is the letter reversal
+$$
+\mu(b_0b_1b_2b_3b_4b_5)=b_5b_4b_3b_2b_1b_0 .
+$$
+
+\begin{theorem}[Mirror is a no-adjacent involution]
+\label{thm:window6-mirror-involution}
+The reversal $\mu$ is an involution, $\mu\circ\mu=\operatorname{id}$, and it preserves the no-adjacent-$1$ constraint: if a six-letter word has no adjacent $1$, then so does its reversal. Hence $\mu$ acts on $X_6$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6MirrorSkewNeutralSplit.mirror6\_involutive}
+\leanvariant{BEDC.Derived.Window6MirrorSkewNeutralSplit.mirror6\_preserves\_noAdj}
+
+\section{Fixed Points Are the Neutral Support}
+\label{sec:window6-mirror-fixed-neutral}
+
+\begin{theorem}[Fixed iff palindrome]
+\label{thm:window6-mirror-fixed-palindrome}
+A word of $X_6$ is fixed by $\mu$ if and only if it is a palindrome. On the no-adjacent surface the palindromes are exactly
+$$
+000000,\qquad 010010,\qquad 100001,
+$$
+so the mirror-fixed set has size $3$. These fixed words are the finite neutral support: they are the words the mirror cannot move, the Window6 analogue of the $1$-eigenmode that the no-neutral-leak obligation must exclude from the skew sector.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6MirrorSkewNeutralSplit.mirror6\_fixed\_iff\_palindrome}
+
+\section{The Skew/Neutral Split Certificate}
+\label{sec:window6-mirror-skew-neutral-split}
+
+Every non-palindrome pairs with its distinct reversal, so the non-fixed words of $X_6$ partition into free two-element mirror orbits, the finite skew sector. Choosing the lexicographically smaller representative of each orbit counts those orbits.
+
+\begin{theorem}[Finite skew/neutral decomposition]
+\label{thm:window6-mirror-skew-neutral-split}
+The Fibonacci-cube surface $X_6$ decomposes under the mirror into the neutral fixed set and the free skew orbits:
+$$
+\lvert X_6\rvert=\lvert X_6^{\mathrm{neutral}}\rvert+2\,\lvert X_6^{\mathrm{skew}}\rvert,
+\qquad
+21=3+2\cdot 9 .
+$$
+The neutral part has dimension $3$; the skew part has $9$ free mirror orbits, spanning the remaining $18$ words. This is the checked $\pm1$-eigenspace split of the mirror on the Window6 residual surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6MirrorSkewNeutralSplit.window6\_mirror\_skew\_neutral\_split\_certificate}
+\leanvariant{BEDC.Derived.Window6MirrorSkewNeutralSplit.neutral\_count}
+\leanvariant{BEDC.Derived.Window6MirrorSkewNeutralSplit.skew\_pair\_count}
+
+\section{Relation to the No-Neutral-Leak Obligation}
+\label{sec:window6-mirror-rh-relation}
+
+The zeta-to-Zeckendorf route asks, at each layer, that a certified residual carry no component in the $1$-eigenmode of the return operator, so that the $-\tfrac12$ contraction can drive it to zero. \autoref{thm:window6-mirror-skew-neutral-split} realizes the finite instance of that split explicitly: the mirror supplies a concrete involution on $X_6$ whose $+1$-eigenspace is spanned by the three palindromic neutral words and whose $-1$-eigenspace is spanned by the nine skew orbit differences. A residual placed in the skew span is, at this Window6 layer, provably free of the neutral mode, because the neutral mode is exactly the fixed-point span, which the skew span meets only in zero.
+
+This is a finite residual-surface certificate. It does not prove RH, and it does not by itself discharge the all-layer spectral obligation $1\notin\operatorname{spec}(R_m\!\mid_{\text{skew}})$ for every $m$; it exhibits the combinatorial shape of that obligation on the sixth Fibonacci-cube projection and gives an axiom-free finite witness of the skew/neutral separation there.
+
+\begin{closurestatus}{Window6MirrorSkewNeutralSplit}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-mirror-skew-neutral-split} closes the finite Window6 mirror skew/neutral decomposition $21=3+2\cdot9$ with the mirror-fixed palindromes as the neutral support.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6MirrorSkewNeutralSplit.window6\_mirror\_skew\_neutral\_split\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This does not prove RH; it is a finite Window6-layer skew/neutral separation certificate only, and it does not discharge the all-layer spectral no-neutral-leak obligation.}
+  \upgradepath{An RH-route upgrade would extend the finite mirror split to the all-layer Zeckendorf tower and connect the mirror-fixed neutral support to the $1$-eigenmode of the return operator $R_m$ on $V_m$.}
+\end{closurestatus}
