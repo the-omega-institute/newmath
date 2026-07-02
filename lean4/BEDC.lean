@@ -7115,6 +7115,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicObserverShadowMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
+import BEDC.Derived.HyperbolicPhaseLensUp
 import BEDC.Derived.HyperbolicPhaseObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
