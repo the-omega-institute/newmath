@@ -120,6 +120,20 @@ Now apply the $\RegularCauchyTailBudgetUp$ observation gate and readback factori
 Combining the two routes gives a single finite handoff from $S,\mu,W,D_H,R$ through the tail-budget rows to $H$ and $N$. Since neither carrier stores quotient streams, selected host limits, ambient completeness, or host real equality, no such datum can be read from the composed handoff.
 \end{proof}
 
+\begin{theorem}[StreamDiagonalSelector obligation closure]
+\label{thm:stream-diagonal-selector-obligation-closure}
+The carrier habitation row, selector determinacy row, finite-window transport row, handoff exactness row, and non-escape row form the obligation-closed $\StreamDiagonalSelectorUp$ surface. For an accepted packet $D=(S,\mu,W,R,D_H,H,C,P,N)$, every diagonal selector read is exhausted by the displayed stream schedule, selector row, selected finite window, regular-rational readback, dyadic ledger, diagonal-completion packet, transport routes, provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Carrier habitation is \autoref{def:stream-diagonal-selector-carrier}: the accepted packet names all rows $S,\mu,W,R,D_H,H,C,P,N$ as finite $\BHist$ data.
+
+Selector determinacy is \autoref{thm:stream-diagonal-selector-selector-determinacy}. It confines the selected window coordinate to the displayed selector row and schedule.
+
+Finite-window transport is \autoref{thm:stream-diagonal-selector-window-transport}, and handoff exactness is \autoref{thm:stream-diagonal-selector-handoff-exactness}. These two theorems keep the selected window, readback, dyadic ledger, diagonal packet, package row, and local name attached to the same finite route.
+
+Finally, \autoref{thm:stream-diagonal-selector-real-handoff} and \autoref{thm:stream-diagonal-selector-tail-budget-readback} state the non-escape boundary: the route exports no quotient stream, choice-selected limit, host real value, ambient completeness principle, or host equality test. Hence the listed rows are exactly the obligation-closed selector surface.
+\end{proof}
+
 \closureat{StreamDiagonalSelectorUp}{seedStr}
 
 \begin{closurestatus}{\StreamDiagonalSelectorUp}
