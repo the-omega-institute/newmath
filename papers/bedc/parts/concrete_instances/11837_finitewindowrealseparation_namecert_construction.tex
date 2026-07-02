@@ -192,6 +192,26 @@ The refusal clauses are structural. Quotient streams, selected representatives, 
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_shared\_budget\_normalization}
 
+\begin{theorem}[Finite-window Real-separation common-window exactness]
+\label{thm:finite-window-real-separation-common-window-exactness}
+Let
+$$
+F=(W,D,S,R,H,C,P,N)
+\qquad\text{and}\qquad
+F'=(W,D,S,R',H',C',P',N')
+$$
+be accepted $\FiniteWindowRealSeparationUp$ packets with the same shared finite-window row $W$, the same dyadic tolerance row $D$, and the same $\StreamNameUp/\RegSeqRatUp$ readback row $S$. Every admissible $\RealUp$ separation read exposed by either packet factors through the same $W,D,S$ route before reading $R$ or $R'$. Disagreement in replay, provenance, local naming, or the remaining transport rows cannot create a second separation budget outside that common finite window.
+\end{theorem}
+\begin{proof}
+Start with the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It blocks every RealUp separation read until the common finite window $W$, dyadic tolerance $D$, and StreamName/RegSeqRat readback row $S$ have been displayed.
+
+Use the NameCert surface and shared-window obligation of \autoref{thm:finite-window-real-separation-namecert-surface} and \autoref{thm:finite-window-real-separation-shared-window-obligation}. These bind the Real-facing row, transport, replay, provenance, and local name to the finite route whose first three rows are $W,D,S$.
+
+Apply window-budget determinacy and shared-budget normalization, \autoref{thm:finite-window-real-separation-window-budget-determinacy} and \autoref{thm:finite-window-real-separation-shared-budget-normalization}. Once the two packets agree on $W,D,S$, any admissible read of $R$ or $R'$ has the same finite budget prefix, while $H,C,P,N$ and $H',C',P',N'$ only preserve, replay, source, and name that displayed route.
+
+The refusal clause follows from the carrier inventory. The packet has no coordinate for a detached budget, quotient stream equality, selected representative, host Real equality, or ambient completeness, so disagreement in replay, provenance, or local naming cannot supply another route to a RealUp separation read.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}
