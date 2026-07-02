@@ -497,6 +497,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-02T08:05:47Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations:43e3a8b4`). Rationale: The target is not a disposable wrapper: it is the paper's primary checked NameCert-obligation theorem for the Sylow carrier, and the surrounding chapter uses it as the local carrier-admission surface. Repo search showed no Lean downstream consumer, so I added SylowCarrier_public_readback_consumes_namecert_obligations in the same Sylow row family. The new theorem substantively consumes SylowCarrier_namecert_obligations and combines its SemanticNameCert/provenance output with the public scope dependency lock and Cont/PkgSig consumer route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-02T09:15:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport:43e3a8b4`). Rationale: The theorem has meaningful BEDC content: it transports conjugacy data between two accepted Sylow carriers via coverage/action hsame rows and exposes both transport Cont routes. It was paper-marked but had no Lean downstream consumer, so I added SylowCarrier_conjugacy_transport_public_scope, which uses the target together with both sides of SylowCarrier_scope_dependency_lock to bind conjugacy transport to public-read NameCert scope certificates. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
