@@ -62,6 +62,42 @@ MAX_SWAP_GB = float(os.environ.get("BEDC_BRIDGE_MAX_SWAP_GB", "8.0"))
 FAILED_STATE_PATH = Path("/tmp/.bedc_bridge_failed.json")
 FAIL_COOLDOWN_SECONDS = int(os.environ.get("BEDC_BRIDGE_FAIL_COOLDOWN", str(6 * 3600)))
 
+# Discovery feeder. candidate_filter's autonomous-bridge universe (hardcoded
+# ANCHOR_PATTERNS) has its 0-axiom-able members already bridged, and the
+# remaining eligible carriers need classical axioms, so the bridge round almost
+# always fail-closes. But there IS a large un-bridged tail of combinatorial /
+# number-theoretic carriers that the operator's feat-bridge PR flow bridges by
+# hand. Each cycle we emit that tail (un-contested by any open feat-bridge
+# branch, not yet in MATRIX) as a worklist so the daemon is useful as a
+# discovery feeder even when its own bridge round produces nothing. Read-only;
+# never bridges and never guesses a mathlib target (that stays with the author).
+REPO_ROOT = SCRIPT_DIR.parent.parent
+COVERAGE_GAP_SCRIPT = REPO_ROOT / "papers" / "bedc_mathlib_bridge" / "scripts" / "bridge_coverage_gap.py"
+WORKLIST_PATH = Path("/tmp/.bedc_bridge_worklist.json")
+
+
+def emit_coverage_gap() -> None:
+    import subprocess
+    try:
+        out = subprocess.run(
+            [sys.executable, str(COVERAGE_GAP_SCRIPT), "--json"],
+            capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=120,
+        )
+        if out.returncode != 0 or not out.stdout.strip():
+            cf.logger.info(f"[bridge] coverage-gap emit skipped (rc={out.returncode})")
+            return
+        data = json.loads(out.stdout)
+        WORKLIST_PATH.write_text(out.stdout)
+        top = [r["carrier"] for r in data.get("worklist", [])[:8]]
+        cf.logger.info(
+            f"[bridge] coverage-gap: {data.get('uncontested_unbridged')} "
+            f"uncontested-unbridged (of {data.get('total_bridge_shaped_carriers')} "
+            f"bridge-shaped, {data.get('contested_open_feat_bridge')} contested); "
+            f"top={top} -> {WORKLIST_PATH}"
+        )
+    except Exception as e:  # a feeder failure must never break the bridge cycle
+        cf.logger.info(f"[bridge] coverage-gap emit error: {e}")
+
 
 def _candidate_decl(candidate: dict) -> str:
     return str(candidate.get("bedc_decl") or candidate.get("bedc_irreducible_decl") or "")
@@ -188,6 +224,10 @@ def gates_ok() -> tuple[bool, str]:
 
 
 def run_cycle(dry_run: bool) -> None:
+    # Always emit the discovery-feeder worklist first: it is cheap (no Lake
+    # build), useful regardless of the load gate, and is the daemon's primary
+    # value now that the autonomous-bridge candidate pool is exhausted/classical.
+    emit_coverage_gap()
     ok, why = gates_ok()
     if not ok:
         cf.logger.info(f"[bridge] gate closed ({why}); skip cycle")

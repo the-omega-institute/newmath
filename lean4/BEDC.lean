@@ -11157,12 +11157,14 @@ import BEDC.Derived.RecursionAuthorizationLedgerUp.MotiveOutputRoute
 import BEDC.Derived.RecursionAuthorizationLedgerUp.OutputAuditBoundary
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.RecursorAuthorizationUp.NameCertObligations
 import BEDC.Derived.RecursorAuthorizationUp.TasteGate
 import BEDC.Derived.RecursorBranchAuditUp.NamecertObligations
 import BEDC.Derived.RecursorBranchAuditUp.TasteGate
 import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorGeneratorUp
+import BEDC.Derived.RecursorInducedNameCertUp.NameCertObligationSurface
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
@@ -13661,6 +13663,7 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenPentagonRPLink
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6IncidenceOrthogonalityTripleRecurrence
 import BEDC.Derived.Window6JointNecklace
@@ -13696,7 +13699,10 @@ import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
 import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
+import BEDC.Derived.Window6WeightFibonacciRecurrence
 import BEDC.Derived.Window6WeightLogConcaveTuran
+import BEDC.Derived.Window6WeightToeplitzTotalPositive
+import BEDC.Derived.Window6WeightUltraLogConcave
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.Window6ZeroMarkGaloisClosure

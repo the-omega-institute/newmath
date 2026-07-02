@@ -76,6 +76,12 @@ def recursorInducedNameCertToEventFlow : RecursorInducedNameCertUp -> EventFlow
           BMark.b1, BMark.b0],
         recursorInducedNameCertEncodeBHist name]
 
+def recursorInducedNameCertFields : RecursorInducedNameCertUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RecursorInducedNameCertUp.mk signature motive branch output audit transport continuation
+      provenance name =>
+      [signature, motive, branch, output, audit, transport, continuation, provenance, name]
+
 def recursorInducedNameCertFromEventFlow : EventFlow -> Option RecursorInducedNameCertUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
@@ -202,12 +208,6 @@ private theorem recursorInducedNameCertToEventFlow_injective {x y : RecursorIndu
   exact Option.some.inj
     (Eq.trans (recursorInducedNameCert_round_trip x).symm
       (Eq.trans hread (recursorInducedNameCert_round_trip y)))
-
-private def recursorInducedNameCertFields : RecursorInducedNameCertUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RecursorInducedNameCertUp.mk signature motive branch output audit transport continuation
-      provenance name =>
-      [signature, motive, branch, output, audit, transport, continuation, provenance, name]
 
 private theorem recursorInducedNameCert_field_faithful :
     forall x y : RecursorInducedNameCertUp,
