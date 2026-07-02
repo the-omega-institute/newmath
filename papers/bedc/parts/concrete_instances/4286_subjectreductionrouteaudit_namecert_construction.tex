@@ -86,6 +86,18 @@ subject reduction, or an alternate route, the socket handoff remains a finite
 audit row for bundle-route consumption alone.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteAudit obligation surface]
+\label{thm:subject-reduction-route-audit-obligation-surface}
+Every accepted $\SubjectReductionRouteAuditUp$ packet exposes exactly its bundle route comparison row, socket handoff row, nonescape ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any MetaCIC discharge consumer can inspect it. The exposed surface remains an audit packet and does not prove subject reduction, closed subject reduction, or a public schema bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-audit-carrier}. The comparison row is $E$, the socket handoff is read through $U,S$, the nonescape information is the absence of any discharge-hypothesis coordinate beyond the displayed route rows, and $H,C,P,N$ supply transport, replay, provenance, and naming.
+
+Apply the NameCert obligations of \autoref{thm:subject-reduction-route-audit-namecert-obligations}. They identify the accepted packet with exactly those carrier, comparison, handoff, transport, replay, provenance, and local naming rows.
+
+Finally use the socket handoff theorem, \autoref{thm:subject-reduction-route-audit-socket-handoff}. It permits downstream inspection only through the displayed bundle comparison and socket rows, while explicitly withholding closed subject reduction, the missing discharge hypotheses, host conversion, and any route outside the displayed bundle comparison. Hence the obligation surface supports MetaCIC discharge work without asserting subject reduction, closed subject reduction, or a public schema bridge.
+\end{proof}
+
 \closureat{SubjectReductionRouteAuditUp}{seedStr}
 
 \begin{closurestatus}{\SubjectReductionRouteAuditUp}
