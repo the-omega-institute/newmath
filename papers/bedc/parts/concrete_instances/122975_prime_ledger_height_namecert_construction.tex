@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\PrimeLedgerHeightUp$}
+\label{ch:concrete-instances-prime-ledger-height-namecert}
+\origin{ai}
+
+The $\PrimeLedgerHeightUp$ packet realizes the prime-ledger separation row of \autoref{def:unified-reality-prime-ledger-logarithmic-height} and \autoref{lem:unified-reality-prime-ledger-height-separated} as finite NameCert data. It reads prime rows through \autoref{ch:concrete-instances-prime-namecert}, integer exponent rows through \autoref{ch:concrete-instances-int-namecert}, and the factorization ledger through \autoref{ch:concrete-instances-unique-factorization-domain-namecert}. The packet names a finite prime-index ledger, an integer-exponent row, a logarithmic-height readout, zero-height separation, transport, replay, provenance, and local naming. It does not claim $\mathsf{RH}$, analytic continuation, Euler-product convergence, host real equality of logarithms, an infinite prime enumeration, or a completed zeta surface.
+
+\begin{definition}[Prime ledger height carrier]
+\label{def:prime-ledger-height-carrier}
+A $\PrimeLedgerHeightUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,Z,F,H,S,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite $\PrimeUp$ support row listing the primes whose ledger coordinates are visible.
+\item $Z$ is the $\IntUp$ exponent row assigning an integer coefficient to each displayed prime in $P$.
+\item $F$ is the finite factorization row, read through $\UniqueFactorizationDomainUp$, that interprets the same exponent ledger as a product of displayed prime powers.
+\item $H$ is the logarithmic-height row, recording the finite sum of integer exponents against displayed logarithmic prime weights.
+\item $S$ is the zero-height separation row: a displayed zero height forces every exposed integer exponent in $Z$ to be the zero row.
+\item $T$ records componentwise $\hsame$ transport for $P,Z,F,H,S,C,Q,N$.
+\item $C$ records displayed $\Cont$ replay from a ledger-height request through finite support, integer exponent, factorization, height, and separation rows.
+\item $Q$ is the $\Pkg$ provenance over $\PrimeLedgerHeightUp$, $\PrimeUp$, $\IntUp$, $\UniqueFactorizationDomainUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrimeLedgerHeightUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. It has no coordinate for analytic continuation, a zeta zero, an Euler product outside the displayed finite support, real-completeness equality, quotient prime ledgers, countable choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Prime ledger height NameCert obligations]
+\label{thm:prime-ledger-height-namecert-obligations}
+For every accepted $\PrimeLedgerHeightUp$ carrier
+$$
+L=(P,Z,F,H,S,T,C,Q,N),
+$$
+the local $\NameCert_{\PrimeLedgerHeightUp}$ surface consists exactly of finite prime-support exposure, integer-exponent exposure, finite factorization exposure, logarithmic-height readout, zero-height separation, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every height-separation consumer must read these rows before it can use the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:prime-ledger-height-carrier}. The visible support is $P$, the exponent data are $Z$, the finite product interpretation is $F$, and the height readout is $H$.
+
+The separation row $S$ is local to that finite support. It states only that the displayed zero-height read forces the displayed exponent coordinates to be zero, using the finite factorization row and the prime rows already present in the packet.
+
+The structural rows $T,C,Q,N$ transport, replay, source, and name the same finite route. Since no row names analytic continuation, a zeta zero, an Euler product outside the displayed support, real-completeness equality, quotient prime ledgers, countable choice, or bridge checking, no such object belongs to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Prime ledger height separation route]
+\label{thm:prime-ledger-height-separation-route}
+Every accepted $\PrimeLedgerHeightUp$ packet that exports zero-height separation factors through the finite route
+$$
+P \longrightarrow Z \longrightarrow F \longrightarrow H \longrightarrow S
+$$
+and then through $T,C,Q,N$ for transport, replay, provenance, and local naming. The separation read is therefore a finite prime-ledger NameCert consequence over $\PrimeUp$, $\IntUp$, and $\UniqueFactorizationDomainUp$ rows, not an analytic statement about zeta functions or a global theorem about all completed prime registers.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:prime-ledger-height-namecert-obligations}. A consumer cannot read the height row before the finite support and integer-exponent rows are displayed, and it cannot read separation before the finite factorization and height rows are displayed.
+
+Use the factorization dependency supplied by \autoref{ch:concrete-instances-unique-factorization-domain-namecert}. The equality of the displayed finite prime-power product with the neutral product can be consumed only through the UFD factor ledger and associate comparison rows, so each visible exponent coordinate is forced through the same finite support route.
+
+Finally apply carrier non-escape from \autoref{def:prime-ledger-height-carrier}. The packet contains no analytic-continuation row, no zeta-zero row, no infinite prime enumeration row, no quotient ledger row, and no ambient real-completeness row. Thus the separation route is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Prime ledger height TasteGate obligation]
+\label{thm:prime-ledger-height-tastegate-obligation}
+The Lean TasteGate route for $\PrimeLedgerHeightUp$ must keep the fields $P,Z,F,H,S,T,C,Q,N$ distinct in one carrier alignment. A $\mathsf{Nontrivial}\ \PrimeLedgerHeightUp$ instance must distinguish an accepted nonempty finite support from an empty or missing ledger packet, and a $\mathsf{FieldFaithful}\ \PrimeLedgerHeightUp$ instance must preserve the row order from finite prime support through integer exponents, factorization, logarithmic height, and separation before a checked carrier-alignment theorem can serve as the TasteGate witness.
+\end{theorem}
+\begin{proof}
+Read the carrier fields in \autoref{def:prime-ledger-height-carrier}. The support, exponent, factorization, height, and separation rows play different roles in the accepted packet, while $T,C,Q,N$ provide structural transport, replay, provenance, and local naming.
+
+The TasteGate obligation is therefore field-faithfulness for this one finite carrier. Collapsing $P$ into $Z$, $H$ into $S$, or the structural rows into the arithmetic rows would lose the consumer route of \autoref{thm:prime-ledger-height-separation-route}. The Lean follow-on file must expose those distinctions before any checked TasteGate theorem can be cited by the paper.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PrimeLedgerHeightUp$ separation read is refuted if it reaches a consumer without displaying finite PrimeUp support, IntUp exponent rows, a UniqueFactorizationDomainUp factorization row, logarithmic-height readout, zero-height separation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{prime, int, unique-factorization-domain: $\PrimeLedgerHeightUp$ is not bijective to any listed sibling because it jointly carries finite prime support, integer exponent rows, a factorization handoff, logarithmic-height readout, zero-height separation, transport, replay, provenance, and local naming as one ledger-height packet.}
+
+\closureat{PrimeLedgerHeightUp}{seedStr}
+
+\begin{closurestatus}{\PrimeLedgerHeightUp}
+  \constructivestory{A $\PrimeLedgerHeightUp$ packet is generated from finite PrimeUp support, IntUp exponent rows, a UniqueFactorizationDomainUp factorization row, a logarithmic-height row, a zero-height separation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prime-ledger-height-carrier}, \autoref{thm:prime-ledger-height-namecert-obligations}, \autoref{thm:prime-ledger-height-separation-route}, and \autoref{thm:prime-ledger-height-tastegate-obligation} seed the finite prime-ledger height separation packet and its TasteGate obligation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\mathsf{RH}$, analytic continuation, Euler-product convergence, zeta zero exclusion, infinite prime enumeration, host real equality of logarithms, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite support exactness, integer-exponent readback, factorization handoff, logarithmic-height separation, TasteGate field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.PrimeLedgerHeightUp.}
+\end{closurestatus}
