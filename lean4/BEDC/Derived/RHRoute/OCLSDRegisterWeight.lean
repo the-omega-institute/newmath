@@ -93,4 +93,33 @@ theorem encodedNat_carry (p k : Nat) (rest : PZGRow) :
   rw [encodedNat_cons, encodedNat_cons, encodedNat_cons, fib_carry, natPow_add,
     natMul_assoc]
 
+/-- **Register concatenation adds the per-prime weight**: `pzgAppend` is the ledger-append,
+and the Fibonacci weight is additive under it (the accumulation half of the ledger monoid). -/
+theorem primeFibWeight_append (target : Nat) (R1 R2 : PZGRow) :
+    primeFibWeight target (pzgAppend R1 R2)
+      = primeFibWeight target R1 + primeFibWeight target R2 := by
+  induction R1 with
+  | nil =>
+      show primeFibWeight target R2 = 0 + primeFibWeight target R2
+      rw [Nat.zero_add]
+  | cons q k xs ih =>
+      show primeFibWeight target (PZGRow.cons q k (pzgAppend xs R2))
+        = primeFibWeight target (PZGRow.cons q k xs) + primeFibWeight target R2
+      rw [primeFibWeight_cons, primeFibWeight_cons, ih, Nat.add_assoc]
+
+/-- **Register concatenation multiplies the encoded integer**: `n(R1 ++ R2) = n(R1)·n(R2)`.
+So `encodedNat` is a monoid homomorphism `(PZGRow, pzgAppend, nil) → (ℕ, ×, 1)` — the OCLSD
+ledger's concatenation *is* integer multiplication (定理 7.4 completeness / 命题 7.3 additive
+log-time `T = log n`, since `log` of this product is the sum of the parts). -/
+theorem encodedNat_append (R1 R2 : PZGRow) :
+    encodedNat (pzgAppend R1 R2) = encodedNat R1 * encodedNat R2 := by
+  induction R1 with
+  | nil =>
+      show encodedNat R2 = encodedNat PZGRow.nil * encodedNat R2
+      rw [encodedNat_nil, Nat.one_mul]
+  | cons p k xs ih =>
+      show encodedNat (PZGRow.cons p k (pzgAppend xs R2))
+        = encodedNat (PZGRow.cons p k xs) * encodedNat R2
+      rw [encodedNat_cons, encodedNat_cons, ih, natMul_assoc]
+
 end BEDC.Derived.RHRoute.OCLSDRegisterWeight
