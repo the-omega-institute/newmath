@@ -8138,6 +8138,7 @@ import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
+import BEDC.Derived.MarkovChainUp.ScopedObligationPackage
 import BEDC.Derived.MarkovChainUp.TransitionKernelRowFactorization
 import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.MarkovKernelUp
@@ -10859,6 +10860,7 @@ import BEDC.Derived.RealTriangleInequalityUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
 import BEDC.Derived.RealUniformCauchyNameUp.TasteGate
 import BEDC.Derived.RealUniformCauchyProductUp
+import BEDC.Derived.RealUniformCauchyProductUp.TasteGate
 import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.Derived.RealUniformEmbeddingUp.SealHandoff
 import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
@@ -13617,6 +13619,7 @@ import BEDC.Derived.WronskianUp.LinearDependenceBoundary
 import BEDC.Derived.WronskianUp.LinearDependenceWitness
 import BEDC.Derived.WronskianUp.ObligationClosurePackage
 import BEDC.Derived.WronskianUp.ObligationClosureScope
+import BEDC.Derived.WronskianUp.PublicDeterminantExport
 import BEDC.Derived.WronskianUp.RealSealNonescape
 import BEDC.Derived.WronskianUp.RegularCauchyDeterminantHandoff
 import BEDC.Derived.WronskianUp.SturmSeparationHandoff
