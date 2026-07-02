@@ -86,11 +86,62 @@ The obligation
 $$
 \mathsf{CofinalTriangularTower}
 $$
-asks for a tower of finite triangular observation spaces whose residuals
-are exhausted in the limit. Finite orthogonal increments and finite Pick
+asks for a tower of finite triangular observation spaces whose
+nondegenerate residual legs are PZG-supported in the sense of
+\autoref{def:rh-pzg-supported-residual-row}, and whose residuals are
+exhausted in the limit. Finite orthogonal residual rows and finite Pick
 positivity are already reduction rows; the open content is the cofinal
-exhaustion statement that prevents a radial residual from being hidden at
-the far end.
+exhaustion statement, together with the layerwise source-ledger condition
+of \autoref{prin:rh-pzg-support-nondegenerate-triangle-leg-criterion},
+that prevents a radial residual from being hidden at the far end.
+\end{definition}
+
+\begin{definition}[Cofinal prime-class triangular tower obligation]
+\label{def:rh-cofinal-prime-class-triangular-tower-obligation}
+The obligation
+$$
+\mathsf{CofinalPrimeClassTriangularTower}
+$$
+asks for a cofinal family of prime-classifier containers in the sense of
+\autoref{def:rh-prime-classifier-container}. For every zero-relevant
+radial scale witness $\ell\#0$, some finite stage of the family must
+display a container $\mathcal C$ whose register, unit, triangular norm,
+or boundary row reads the scale as a nonzero obstruction:
+$$
+\mathsf{Obstruction}_{\mathcal C}(\ell)\#0.
+$$
+The obstruction may be a visible inert parity boundary, a nonunit
+normalized phase parameter, a negative energy or pairing row, or a
+separating residual functional. The obligation is the cofinal
+prime-class form of NoHiddenRadialRegister: a radial leg may fail to be
+unit phase, but it may not escape every displayed prime-classifier
+container.
+\end{definition}
+
+\begin{definition}[Layerwise prime cofinality obligation]
+\label{def:rh-layerwise-prime-cofinality-obligation}
+The obligation
+$$
+\mathsf{LayerwisePrimeCofinality}
+$$
+is the layerwise source form of
+\autoref{def:rh-cofinal-prime-class-triangular-tower-obligation}. It asks
+for a tower of primality-supported layers
+$$
+\Pi_0\subseteq\Pi_1\subseteq\Pi_2\subseteq\cdots
+$$
+as in \autoref{def:rh-primality-supported-layer}, together with
+container-relative split, inert, and ramified reads at the finite stages,
+such that every zero-relevant radial scale witness $\ell\#0$ is detected
+at some stage:
+$$
+\exists m\quad
+\mathsf{Obstruction}_{\Pi_m}(\ell)\#0.
+$$
+This is the constructive form of cofinal prime-class detection: the
+obstruction must be found by a displayed atom layer and its classifier,
+not by an unledgered prohibition after the zero packet has been
+inspected.
 \end{definition}
 
 \begin{definition}[Diagonal safety obligation]
@@ -152,6 +203,8 @@ $$
 \quad
 \mathsf{CofinalTriangularTower},
 \quad
+\mathsf{CofinalPrimeClassTriangularTower},
+\quad
 \mathsf{DiagonalSafety},
 \quad
 \mathsf{NoHiddenRadialRegister},
@@ -168,11 +221,13 @@ faithfulness and equivalence obligations would expose it through the Li,
 Weil, and Nyman projections as the same source-side defect. Dominance
 ensures that the defect belongs to the zero-relevant strand; unit-boundary
 transport prevents it from passing through a legal unit container;
-cofinality prevents it from escaping to the tower tail; diagonal safety
-prevents posterior repair. The hidden-scale and hidden-radial-register
-obligations then rule out the radial witness inside a legal closure. The
-zero packet is therefore forced onto the unit Li boundary, and the
-earlier Li criterion transports that row to the critical-line section.
+cofinal triangular exhaustion prevents it from escaping to the tower
+tail; cofinal prime-class detection prevents it from escaping all
+prime-classifier containers; diagonal safety prevents posterior repair.
+The hidden-scale and hidden-radial-register obligations then rule out the
+radial witness inside a legal closure. The zero packet is therefore forced
+onto the unit Li boundary, and the earlier Li criterion transports that
+row to the critical-line section.
 \end{proof}
 
 \section{Compressed Core}
@@ -186,12 +241,14 @@ $$
 \qquad
 \mathsf{NoHiddenRadialRegister},
 \qquad
-\mathsf{CofinalTriangularTower}.
+\mathsf{LayerwisePrimeCofinality}.
 $$
 The first supplies the legal observation object, the second forbids a
 nonzero radial scale as a hidden gauge or ledger-free residual, and the
-third prevents a residual from being postponed to the infinite tail.
-Tri-projection faithfulness, dominant-strand selection, unit-boundary
+third supplies a cofinal atom-layer tower whose prime classifiers detect
+any nonzero radial leg at some finite or tower stage. Cofinal
+prime-class triangular detection, cofinal triangular exhaustion,
+tri-projection faithfulness, dominant-strand selection, unit-boundary
 transport, diagonal safety, and projection equivalence are support rows
 that make these three tasks usable in the completed zeta carrier.
 \end{principle}
