@@ -1,0 +1,76 @@
+\chapter{The Window6 Weight Polynomial: A Finite-Window Positivity Ladder on a Fibonacci Carrier}
+\label{ch:concrete-instances-window6-weight-finite-window-rh-ladder}
+\origin{ai}
+
+The Fibonacci-cube weight polynomial $W_m(x)=\sum_k b(m,k)x^k$, with $b(m,k)$ the number of length-$m$ no-adjacent-$1$ words of weight $k$ and $\sum_k b(m,k)=F_{m+2}$, is a finite carrier for the positivity conditions that the finite-window formulation of the Riemann Hypothesis asks of the Riemann $\xi$ function. The Laguerre--Polya route reads $\mathrm{RH}$ as hyperbolicity of finite Jensen windows; its degree-two shadow is coefficient log-concavity, and its stronger shadows are the Newton inequalities, Toeplitz total positivity, and full real-rootedness. This chapter records four rungs of that ladder as axiom-free finite certificates on the Fibonacci carrier, together with the structural fact that ties them to this branch's spectral-determinant constants. None of this is a proof of $\mathrm{RH}$; each rung is a finite positivity witness on a Fibonacci-cube surface.
+
+\section{The Ladder}
+\label{sec:window6-weight-rh-ladder}
+
+The degree-two rung, coefficient log-concavity $b(m,k)^2\ge b(m,k-1)b(m,k+1)$, is recorded separately as the degree-two log-concavity rung. The present chapter adds three sharper rungs and the recurrence that forces them.
+
+\begin{theorem}[Newton ultra-log-concavity]
+\label{thm:window6-weight-newton-ultra}
+For $m=6,\ldots,10$ the weight coefficients satisfy the binomial-normalised Newton inequalities
+$$
+b(m,k-1)\,b(m,k+1)\,(k+1)\,(n-k+1)\ \le\ b(m,k)^2\,k\,(n-k),
+$$
+with $n$ the degree of $W_m$. This is the coefficient shadow of real-rootedness that is strictly sharper than plain log-concavity.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6WeightUltraLogConcave.window\_six\_to\_ten\_weight\_newton\_ultra\_log\_concave}
+
+\begin{theorem}[Toeplitz total positivity]
+\label{thm:window6-weight-toeplitz}
+For $m=6,\ldots,10$ the weight-coefficient sequence has nonnegative $2\times2$ and $3\times3$ Toeplitz minors, the discrete Polya-frequency strengthening that a real-rooted polynomial's coefficient sequence carries.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6WeightToeplitzTotalPositive.window\_six\_to\_ten\_weight\_toeplitz\_total\_positive\_certificate}
+\leanvariant{BEDC.Derived.Window6WeightToeplitzTotalPositive.window\_six\_to\_ten\_weight\_toeplitz\_three\_total\_positive}
+
+\begin{theorem}[Fibonacci recurrence and real-rootedness]
+\label{thm:window6-weight-fibonacci-recurrence}
+The weight coefficients obey the Fibonacci polynomial recurrence
+$$
+b(m+2,k+1)=b(m+1,k+1)+b(m,k),
+$$
+that is $W_m(x)=W_{m-1}(x)+x\,W_{m-2}(x)$, with generating function $\sum_m W_m(x)z^m=(1-z-xz^2)^{-1}$. At $x=1$ this is the golden-mean generating function $(1-z-z^2)^{-1}$. The recurrence forces interlacing, hence real-rootedness of every $W_m$; the linear-times-quadratic factorisation of $W_6$ is recorded explicitly.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6WeightFibonacciRecurrence.window\_six\_weight\_fibonacci\_recurrence}
+\leanvariant{BEDC.Derived.Window6WeightFibonacciRecurrence.window\_six\_linear\_quadratic\_factor\_certificate}
+
+\section{The Spectral-Determinant Identification}
+\label{sec:window6-weight-spectral-identification}
+
+The generating function of the ladder is not a new object. With the weighted golden-mean transfer matrix
+$$
+T(y)=\begin{pmatrix}1&y\\1&0\end{pmatrix},
+$$
+this branch's necklace spectral determinant already records
+$$
+\det\!\left(I-xT(y)\right)=1-x-yx^2,
+$$
+which at $y=1$ is the Fibonacci generating function $1-x-x^2$ whose reciprocal produces $F_{m+2}=\mathbf 1^{\top}T(1)^{m-1}\mathbf 1$ and $L_m=\operatorname{tr}T(1)^m$. Thus $W_m$ is the coefficient stream of $\det(I-xT(y))^{-1}$, and the branch's fine constants are the same data viewed spectrally: the golden ratio and its conjugate $\{\varphi,-1/\varphi\}$ are the eigenvalues of $T(1)$, equivalently the reciprocal poles of $1-x-x^2$, equivalently the roots governing the metallic recurrences $t^2-t-1$, $t^3-t-1$, $t^2-2t-1$, $t^3-t^2-1$ that this branch has certified elsewhere.
+
+\begin{theorem}[Three readings of one determinant]
+\label{thm:window6-weight-three-readings}
+The finite objects
+$$
+\text{fine constants}\quad=\quad\operatorname{spec}T(y),\qquad
+\text{RH-carrier}\quad=\quad\text{coefficients of }\det(I-xT(y))^{-1},
+$$
+are two readings of the single spectral determinant $\det(I-xT(y))=1-x-yx^2$; the positivity rungs of \autoref{sec:window6-weight-rh-ladder} are finite-window positivity conditions on the second reading, and the metallic constants are the first reading. The reflection-positivity link deficit of a golden self-substitution word, $\Delta_d=D_d-|\mu_d|^2\ge0$, is the same $2\times2$ Gram determinant shape as the degree-two rung, on the same golden constants.
+\end{theorem}
+\leanvariant{BEDC.Derived.Window6WeightFibonacciRecurrence.window\_six\_weight\_fibonacci\_recurrence}
+
+\falsifiablePrediction{A recomputation of the Lean finite enumerator for $m=6,\ldots,10$ that violates any displayed Newton, Toeplitz, or recurrence identity, or a $W_m$ with a non-real root at these lengths, refutes this packet.}
+
+\independenceWitness{laguerre-polya, riemann-hypothesis-roadmap, reflection-positivity: this packet is finite Fibonacci-cube word enumeration with explicit natural-number positivity witnesses and a coefficient recurrence; it is not bijective to the analytic $\xi$-hyperbolicity packet or to any full RH packet, and it makes no analytic transport claim to the prime channels.}
+
+\begin{closurestatus}{Window6WeightFiniteWindowRHLadder}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-weight-newton-ultra}, \autoref{thm:window6-weight-toeplitz}, and \autoref{thm:window6-weight-fibonacci-recurrence} close the Newton, Toeplitz, and Fibonacci-recurrence rungs on the Fibonacci carrier for $m=6,\ldots,10$, and \autoref{thm:window6-weight-three-readings} identifies the carrier with the golden-mean spectral determinant $1-x-yx^2$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6WeightFibonacciRecurrence.window\_six\_weight\_fibonacci\_recurrence}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite Fibonacci-carrier positivity ladder and a spectral-determinant identification only, with no analytic transport to the Riemann $\xi$ coefficients or the prime channels.}
+  \upgradepath{lift the finite Newton/Toeplitz/real-rootedness rungs to all $m$, then connect the golden-mean spectral determinant to the analytic $\xi$ Jensen windows.}
+\end{closurestatus}
