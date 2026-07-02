@@ -11,6 +11,7 @@ import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
+import BedcMathlibBridge.Export.FussCatalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
 import BedcMathlibBridge.Export.Derangement

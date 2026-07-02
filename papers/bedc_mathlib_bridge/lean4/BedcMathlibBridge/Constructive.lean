@@ -11,6 +11,7 @@ import BedcMathlibBridge.Constructive.BinomialIdentities
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
+import BedcMathlibBridge.Constructive.FussCatalan
 import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
 import BedcMathlibBridge.Constructive.Derangement
