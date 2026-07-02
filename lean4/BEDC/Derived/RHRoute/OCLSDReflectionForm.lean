@@ -89,6 +89,16 @@ theorem ratZero_lt_twoRat : ratLt ratZero twoRat :=
 theorem ratZero_le_twoRat : ratLe ratZero twoRat :=
   ratLt_to_ratLe ratZero_lt_twoRat
 
+/-- `ratNat 0 = 0`. -/
+theorem ratNat_zero : RatEq (ratNat 0) ratZero := by
+  apply ratEq_of_num_den_intEq <;> exact IntEq_refl _
+
+/-- `0 ≤ 1`. -/
+theorem ratZero_le_one : ratLe ratZero ratOne :=
+  ratLe_of_RatEq_left (RatEq_symm ratNat_zero)
+    (ratLe_of_RatEq_right (ratNat_le_of_nat_le (Nat.zero_le 1))
+      (RatEq_symm ratOne_eq_ratNat_one))
+
 /-! ### The reduction and the two classification theorems -/
 
 private theorem ratSq_one_plus_negOne :
