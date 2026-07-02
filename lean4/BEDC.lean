@@ -12137,6 +12137,7 @@ import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
 import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6UnionVertexCoverPairRecurrence
+import BEDC.Derived.Window6WeightFibonacciRecurrence
 import BEDC.Derived.Window6WeightLogConcaveTuran
 import BEDC.Derived.Window6WeightUltraLogConcave
 import BEDC.Derived.Window6WeightToeplitzTotalPositive
