@@ -151,6 +151,22 @@ Finally use the obligation closure route \autoref{thm:finite-window-real-separat
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_window\_budget\_determinacy}
 
+\begin{theorem}[Finite-window Real-separation witness exhaustion]
+\label{thm:finite-window-real-separation-witness-exhaustion}
+Every Real-separation witness accepted by a $\FiniteWindowRealSeparationUp$ carrier is exhausted by the rows
+$$
+W,D,S,R,H,C,P,N .
+$$
+No detached Real separation witness can be consumed, and no witness route may replace the shared finite window, dyadic tolerance, StreamName and RegSeqRat readback, Real readback, transport, replay, provenance, and local naming rows by quotient streams, host equality, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-separation-carrier}. The witness-facing coordinates are exactly $W,D,S,R,H,C,P,N$.
+
+Use shared-window refusal, the NameCert surface, and the shared-window obligation from \autoref{thm:finite-window-real-separation-window-refusal}, \autoref{thm:finite-window-real-separation-namecert-surface}, and \autoref{thm:finite-window-real-separation-shared-window-obligation}. They force every Real-separation read to display the common finite window, tolerance, and readback rows before the Real-facing row is consumed.
+
+Finally apply the obligation-closure route of \autoref{thm:finite-window-real-separation-obligation-closure-route}. The structural rows preserve the same finite packet, and the carrier contains no quotient-stream, host-equality, selected-representative, or ambient-completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Finite-window Real-separation shared-budget normalization]
 \label{thm:finite-window-real-separation-shared-budget-normalization}
 Let
