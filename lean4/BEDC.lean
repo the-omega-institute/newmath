@@ -45,6 +45,7 @@ import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
+import BEDC.Derived.AbelSummabilityUp.TasteGate
 import BEDC.Derived.AbelSummationUp
 import BEDC.Derived.AbelSummationUp.DirichletTestRoute
 import BEDC.Derived.AbelSummationUp.PartialSumHandoff
@@ -7317,6 +7318,7 @@ import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
+import BEDC.Derived.IshiharaBoundednessFiniteTestUp
 import BEDC.Derived.IshiharaFiniteTestBoundaryUp
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
@@ -9924,6 +9926,7 @@ import BEDC.Derived.PointwiseStreamMetricUp
 import BEDC.Derived.PoissonKernelUp.TasteGate
 import BEDC.Derived.PoissonSummationUp.NameCertObligations
 import BEDC.Derived.PoissonSummationUp.TasteGate
+import BEDC.Derived.PolarizationIdentityUp.TasteGate
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
@@ -10608,6 +10611,7 @@ import BEDC.Derived.RealCompletenessDiagonalSelectorUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealCompletenessWitnessUp.TasteGate
+import BEDC.Derived.RealCompletionAdjointUp.TasteGate
 import BEDC.Derived.RealCompletionBoundaryWitnessUp.TasteGate
 import BEDC.Derived.RealCompletionExactBoundaryUp.AllRowsNecessary
 import BEDC.Derived.RealCompletionExactBoundaryUp.CofinalTerminalDeterminacy
