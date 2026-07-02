@@ -20,7 +20,7 @@ open BEDC.Derived.RationalOrderArithUp
 open BEDC.Real.RatNumKernel
 
 /-- Tiny rational literal adapter for the displayed denominator-one constants in this file. -/
-def rpQ (n : Int) (d : Nat) : RatNum :=
+def satRpQ (n : Int) (d : Nat) : RatNum :=
   match n, d with
   | Int.ofNat 0, Nat.succ Nat.zero => ratZero
   | Int.ofNat 1, Nat.succ Nat.zero => ratOne
@@ -32,23 +32,23 @@ def rpQ (n : Int) (d : Nat) : RatNum :=
   | _, _ => ratZero
 
 def cycleGramMinusOne : List (List RatNum) :=
-  [[rpQ 1 1, rpQ 1 1, rpQ (-1) 1],
-    [rpQ 1 1, rpQ 1 1, rpQ 1 1],
-    [rpQ (-1) 1, rpQ 1 1, rpQ 1 1]]
+  [[satRpQ 1 1, satRpQ 1 1, satRpQ (-1) 1],
+    [satRpQ 1 1, satRpQ 1 1, satRpQ 1 1],
+    [satRpQ (-1) 1, satRpQ 1 1, satRpQ 1 1]]
 
 def satCycleWitness : List RatNum :=
-  [rpQ 1 1, rpQ (-2) 1, rpQ 1 1]
+  [satRpQ 1 1, satRpQ (-2) 1, satRpQ 1 1]
 
 /-- The displayed matrix-vector product `G * w = (-2, 0, -2)`. -/
 def satCycleGramTimesWitness : List RatNum :=
-  [rpQ (-2) 1, rpQ 0 1, rpQ (-2) 1]
+  [satRpQ (-2) 1, satRpQ 0 1, satRpQ (-2) 1]
 
 def satCycleQuadForm : RatNum :=
   ratAdd
     (ratAdd
-      (ratMul (rpQ 1 1) (rpQ (-2) 1))
-      (ratMul (rpQ (-2) 1) (rpQ 0 1)))
-    (ratMul (rpQ 1 1) (rpQ (-2) 1))
+      (ratMul (satRpQ 1 1) (satRpQ (-2) 1))
+      (ratMul (satRpQ (-2) 1) (satRpQ 0 1)))
+    (ratMul (satRpQ 1 1) (satRpQ (-2) 1))
 
 def SaturatedCycleNegativeDirection
     (gram : List (List RatNum)) (w : List RatNum) (q : RatNum) : Prop :=
@@ -145,7 +145,7 @@ private theorem ratLt_neg_anti_local {a b : RatNum} :
     exact ratLt_not_ratLe_reverse h ba
 
 theorem sat_cycle_quad_form_eq_neg_four :
-    RatEq satCycleQuadForm (rpQ (-4) 1) := by
+    RatEq satCycleQuadForm (satRpQ (-4) 1) := by
   unfold satCycleQuadForm
   change
     RatEq
