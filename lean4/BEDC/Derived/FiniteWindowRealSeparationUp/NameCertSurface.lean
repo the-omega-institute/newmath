@@ -222,4 +222,33 @@ theorem FiniteWindowRealSeparation_shared_window_obligation [AskSetup] [PackageS
       separationRoute namedRoute pkgP
   exact ⟨carrierEq, windowRefusal.right.right.right.right, windowRefusal.left⟩
 
+theorem FiniteWindowRealSeparation_obligation_surface
+    {W D S R H C P N wd ds sr hc cp : BHist} :
+    UnaryHistory W →
+      UnaryHistory D →
+        UnaryHistory S →
+          UnaryHistory R →
+            UnaryHistory H →
+              UnaryHistory C →
+                UnaryHistory P →
+                  UnaryHistory N →
+                    Cont W D wd →
+                      Cont wd S ds →
+                        Cont ds R sr →
+                          Cont H C hc →
+                            Cont hc P cp →
+                              UnaryHistory sr ∧ Cont W D wd ∧ Cont wd S ds ∧
+                                Cont ds R sr ∧ Cont H C hc ∧ Cont hc P cp ∧
+                                  UnaryHistory N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryW unaryD unaryS unaryR _unaryH _unaryC _unaryP unaryN wdRoute dsRoute
+    srRoute hcRoute cpRoute
+  have wdUnary : UnaryHistory wd :=
+    unary_cont_closed unaryW unaryD wdRoute
+  have dsUnary : UnaryHistory ds :=
+    unary_cont_closed wdUnary unaryS dsRoute
+  have srUnary : UnaryHistory sr :=
+    unary_cont_closed dsUnary unaryR srRoute
+  exact ⟨srUnary, wdRoute, dsRoute, srRoute, hcRoute, cpRoute, unaryN⟩
+
 end BEDC.Derived.FiniteWindowRealSeparationUp
