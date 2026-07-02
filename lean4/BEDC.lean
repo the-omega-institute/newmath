@@ -10303,6 +10303,7 @@ import BEDC.Derived.RHRoute.OCLSDHamiltonian
 import BEDC.Derived.RHRoute.OCLSDPhaseAlgebra
 import BEDC.Derived.RHRoute.OCLSDWeilGeometricAdapter
 import BEDC.Derived.RHRoute.OCLSDRegisterWeight
+import BEDC.Derived.RHRoute.OCLSDRegisterDirichletBridge
 import BEDC.Derived.RHRoute.OCLSDReflectionForm
 import BEDC.Derived.RHRoute.OCLSDTickReflection
 import BEDC.Derived.RHRoute.OSReconstructionContract
