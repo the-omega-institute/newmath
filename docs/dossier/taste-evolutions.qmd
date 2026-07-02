@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T01:33:09Z
+> 最后刷新: 2026-07-02T02:42:48Z
 
-**Daemon 状态**: monitor (monitor cycle 246, adjust_since_research 2, round_counter 34959, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 247, adjust_since_research 2, round_counter 34992, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1122 条 finding):
-- isolated_theorem: 805 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 804 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 64 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 65 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 90 次
+- TASTE ALERT category=isolated_theorem: 88 次
 - TASTE ALERT category=low_entropy_template: 31 次
 - TASTE ALERT category=cycle_exception: 9 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
@@ -486,6 +486,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T00:07:13Z: `resolved` `add_downstream_user` for `BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement:cf9e05c8`). Rationale: The target is not a trivial wrapper: it builds the directed-ball triangle refinement SemanticNameCert and exposes the unary chain through composed directed-ball reads. Source grep found no existing Lean consumer, while the paper chapter uses the theorem as part of the public certificate narrative. I added a substantive sibling consumer, QuasiMetricCarrier_triangle_refinement_public_route, which invokes the target theorem and then routes the composed ball through uniform reflection and local naming into a public SemanticNameCert. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T01:32:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.RealUniformStructureUp.RealUniformStructureCarrier_located_cauchy_filter_handoff` (flag `isolated_theorem`, finding `isolated_theorem:realuniformstructure:BEDC.Derived.RealUniformStructureUp.RealUniformStructureCarrier_located_cauchy_filter_handoff:af1002bd`). Rationale: The handoff theorem has meaningful BEDC content: it composes the RealUniformStructure carrier, displayed Cont route, located-tail read, and PkgSig provenance into unary/package evidence for located Cauchy-filter consumers. I kept it and added the sibling consumer BEDC.Derived.RealUniformStructureUp.RealUniformStructureLocatedEqualityFilterBoundary, which explicitly calls the target theorem and uses its located-tail output to build a SemanticNameCert bridge through the equality/filter boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T02:41:56Z: `resolved` `leave_with_rationale` for `BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_directed_ball_triangle_refinement:cf9e05c8`). Rationale: The theorem is not staging-only or isolated in the current worktree: `lean4/BEDC/Derived/QuasiMetricUp/PublicCertificate.lean` has a substantive downstream consumer, `QuasiMetricCarrier_triangle_refinement_public_route`, which invokes `QuasiMetricCarrier_directed_ball_triangle_refinement` and then extends the composed directed-ball certificate through uniform reflection and local naming into a public SemanticNameCert. The paper chapter also marks the target at the directed-ball triangle refinement theorem site. The daemon evidence appears stale or based on full-qualified string matching, because the Lean consumer uses the unqualified name inside the same namespace. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 

@@ -1,5 +1,11 @@
-namespace BEDC.Derived
+import BEDC.FKernel.Hist
 
-def RegularCauchySumCriterionUp : Type := Unit
+namespace BEDC.Derived.RegularCauchySumCriterionUp
 
-end BEDC.Derived
+open BEDC.FKernel.Hist
+
+inductive RegularCauchySumCriterionUp : Type where
+  | mk (A B WA WB D L R E H C P N : BHist) : RegularCauchySumCriterionUp
+  deriving DecidableEq
+
+end BEDC.Derived.RegularCauchySumCriterionUp
