@@ -1,0 +1,292 @@
+\chapter{Innovation Input Pythagorean Local Hermitian Rigidity}
+\label{ch:visions-innovation-input-pythagorean-local-hermitian-rigidity}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-mirror-decomposition-gate}
+shows that Q3 compatibility leaves two mirror-antisymmetric phase-twist
+directions, while Hermitian three-link symmetry can only hold at
+rank-drop points of the resulting defect matrix. The Pythagorean row
+from
+\autoref{def:innovation-input-pythagorean-pentary-phase-word}
+is the unique palindromic row surviving the anchored $L=2$ positive
+semidefinite gate, up to complex conjugation, and it fails anchored
+$L=3$ positivity by
+\autoref{thm:innovation-input-pythagorean-lthree-failure}. This chapter
+records the local Hermitian fact at that boundary point: the surviving
+palindromic row is not the endpoint of a first-order nonpalindromic
+Hermitian branch.
+
+\section{Antisymmetric Tangent Directions}
+\label{sec:innovation-input-pythagorean-antisymmetric-tangent-directions}
+
+\begin{definition}[Pythagorean antisymmetric phase perturbation]
+\label{def:innovation-input-pythagorean-antisymmetric-phase-perturbation}
+Let
+$$
+a:=\frac{1+2i}{\sqrt5},
+\qquad
+b:=\frac{2-i}{\sqrt5}.
+$$
+For $x,y\in\mathbb R$, define
+$$
+v(\varepsilon;x,y)
+:=
+\left(
+a e^{i\varepsilon x},
+b e^{i\varepsilon y},
+-a,
+b e^{-i\varepsilon y},
+a e^{-i\varepsilon x}
+\right).
+$$
+At $\varepsilon=0$ this is the Pythagorean row $v_\star=(a,b,-a,b,a)$.
+The pair $(x,y)$ is the mirror-antisymmetric tangent coordinate over the
+two edge pairs $(v_0,v_4)$ and $(v_1,v_3)$.
+\end{definition}
+
+\begin{proposition}[Antisymmetric perturbations are Q3-tangent]
+\label{prop:innovation-input-pythagorean-antisymmetric-qthree-tangent}
+For every $x,y\in\mathbb R$,
+$$
+\left.
+\frac{d}{d\varepsilon}
+\sum_{j=0}^4v_j(\varepsilon;x,y)
+\right|_{\varepsilon=0}
+=0.
+$$
+Thus $(x,y)$ is tangent to $\mathcal Q_5$ at $v_\star$.
+\end{proposition}
+
+\begin{proof}
+The derivatives of the mirror-paired entries are
+$$
+\left.\frac{d}{d\varepsilon}v_0(\varepsilon;x,y)\right|_{\varepsilon=0}
+=iax,
+\qquad
+\left.\frac{d}{d\varepsilon}v_4(\varepsilon;x,y)\right|_{\varepsilon=0}
+=-iax,
+$$
+and
+$$
+\left.\frac{d}{d\varepsilon}v_1(\varepsilon;x,y)\right|_{\varepsilon=0}
+=iby,
+\qquad
+\left.\frac{d}{d\varepsilon}v_3(\varepsilon;x,y)\right|_{\varepsilon=0}
+=-iby.
+$$
+The middle entry is constant. The sum of the five derivatives is
+therefore zero.
+\end{proof}
+
+\begin{definition}[Linearized three-link Hermitian defect]
+\label{def:innovation-input-linearized-three-link-hermitian-defect}
+For $\alpha,\beta\in\mathcal B_3$, set
+$$
+\dot H_{\alpha,\beta}(x,y)
+:=
+\left.
+\frac{d}{d\varepsilon}
+\left(
+M_3(v(\varepsilon;x,y))_{\alpha,\beta}
+-
+\overline{M_3(v(\varepsilon;x,y))_{\beta,\alpha}}
+\right)
+\right|_{\varepsilon=0}.
+$$
+If the anchored three-link Hermitian condition is preserved to first
+order along the perturbation, then every
+$\dot H_{\alpha,\beta}(x,y)$ vanishes.
+\end{definition}
+
+\section{Defect Linearization}
+\label{sec:innovation-input-pythagorean-defect-linearization}
+
+\begin{lemma}[Pythagorean three-link defect slopes]
+\label{lem:innovation-input-pythagorean-three-link-defect-slopes}
+At $v_\star$, the antisymmetric perturbation of
+\autoref{def:innovation-input-pythagorean-antisymmetric-phase-perturbation}
+has the following nonzero basic first-order Hermitian defects:
+$$
+\dot H_{0,e_{13}}(x,y)
+=
+-\frac{4i}{5}(x-y),
+$$
+$$
+\dot H_{0,-e_{13}}(x,y)
+=
+\frac{4i}{5}(x-y),
+$$
+$$
+\dot H_{e_{12},e_{23}}(x,y)
+=
+\frac{4i}{5}(2x-y),
+$$
+$$
+\dot H_{-e_{12},-e_{23}}(x,y)
+=
+-\frac{4i}{5}(2x-y),
+$$
+$$
+\dot H_{e_{13},-e_{23}}(x,y)
+=
+-\frac45(x-2y),
+$$
+and
+$$
+\dot H_{-e_{13},e_{23}}(x,y)
+=
+-\frac45(x-2y).
+$$
+All other first-order defects in the anchored three-link window either
+vanish or are obtained from these by the forced sign and conjugation
+relations.
+\end{lemma}
+
+\begin{proof}
+Apply the finite carry-closure recursion of
+\autoref{prop:innovation-input-finite-window-correlation-linear-system}
+to the balanced blocks that occur in the entries of $M_3(v)$. For each
+such block $\alpha$, the correlation satisfies a finite system of the
+form
+$$
+\Gamma_v(\alpha)
+=
+\frac15
+\sum_{r=0}^4 C_r(v,\alpha)\Gamma_v(\alpha_r),
+$$
+where the branch coefficients $C_r(v,\alpha)$ are Laurent monomials in
+the five phase entries. Differentiating this finite system at
+$v_\star$ gives
+$$
+\dot\Gamma(\alpha)
+=
+\frac15
+\sum_{r=0}^4
+\left[
+\dot C_r(\alpha)\Gamma_{v_\star}(\alpha_r)
++
+C_r(v_\star,\alpha)\dot\Gamma(\alpha_r)
+\right].
+$$
+The derivative of the phase row is
+$$
+\dot v_0=iax,
+\qquad
+\dot v_4=-iax,
+\qquad
+\dot v_1=iby,
+\qquad
+\dot v_3=-iby,
+\qquad
+\dot v_2=0.
+$$
+Substituting these five derivatives, solving the finite linearized
+carry-closure system, and then forming the Hermitian differences of
+\autoref{def:innovation-input-linearized-three-link-hermitian-defect}
+gives exactly the displayed six slopes. The remaining entries of the
+Hermitian defect matrix are fixed by skew-Hermitian symmetry of
+$M_3-M_3^*$ and by the sign symmetry between opposite neutral links.
+\end{proof}
+
+\section{Local Rigidity}
+\label{sec:innovation-input-pythagorean-local-rigidity}
+
+\begin{theorem}[Pythagorean first-order Hermitian rigidity]
+\label{thm:innovation-input-pythagorean-first-order-hermitian-rigidity}
+If the antisymmetric perturbation
+$v(\varepsilon;x,y)$ preserves the anchored three-link Hermitian
+condition to first order at $\varepsilon=0$, then
+$$
+x=0,
+\qquad
+y=0.
+$$
+Equivalently, $v_\star$ has no nonzero mirror-antisymmetric tangent
+direction inside the anchored $L=3$ Hermitian locus.
+\end{theorem}
+
+\begin{proof}
+First-order Hermitian preservation forces every defect slope in
+\autoref{lem:innovation-input-pythagorean-three-link-defect-slopes} to
+vanish. From
+$$
+\dot H_{0,e_{13}}(x,y)
+=
+-\frac{4i}{5}(x-y)
+$$
+one gets $x-y=0$. From
+$$
+\dot H_{e_{12},e_{23}}(x,y)
+=
+\frac{4i}{5}(2x-y)
+$$
+one gets $2x-y=0$. Hence $x=y$ and $2x=y$, so $x=y=0$. The remaining
+linear factor $x-2y$ then vanishes automatically.
+\end{proof}
+
+\begin{corollary}[No first-order nonpalindromic branch at the Pythagorean row]
+\label{cor:innovation-input-no-first-order-nonpalindromic-branch-pythagorean}
+The Pythagorean row is not the endpoint of a smooth nonpalindromic
+anchored three-link Hermitian branch whose tangent has nonzero
+mirror-antisymmetric part. In particular, a nonpalindromic point of
+$\mathcal H_{5,3,1}^{\mathrm{neu}}$, if one exists, cannot be obtained
+by leaving $v_\star$ through a nonzero first-order antisymmetric phase
+twist.
+\end{corollary}
+
+\begin{proof}
+A smooth curve through $v_\star$ whose first-order displacement changes
+the mirror-paired phases in opposite directions has an antisymmetric
+tangent coordinate $(x,y)$. If the curve remains in
+$\mathcal H_{5,3,1}^{\mathrm{neu}}$ to first order, the tangent must
+satisfy
+\autoref{thm:innovation-input-pythagorean-first-order-hermitian-rigidity};
+therefore it is zero. This excludes a nonzero first-order
+nonpalindromic departure at that point.
+\end{proof}
+
+\begin{corollary}[Conjugate Pythagorean first-order rigidity]
+\label{cor:innovation-input-conjugate-pythagorean-first-order-rigidity}
+The complex conjugate row $\overline{v_\star}$ has the same first-order
+Hermitian rigidity: every mirror-antisymmetric tangent direction that
+preserves the anchored three-link Hermitian condition to first order is
+zero.
+\end{corollary}
+
+\begin{proof}
+Complex conjugation carries the anchored three-link matrix to its
+conjugate matrix and carries Hermitian defects to their conjugates. The
+linear factors in
+\autoref{lem:innovation-input-pythagorean-three-link-defect-slopes},
+namely
+$$
+x-y,
+\qquad
+2x-y,
+\qquad
+x-2y,
+$$
+are unchanged as real equations. The proof of
+\autoref{thm:innovation-input-pythagorean-first-order-hermitian-rigidity}
+therefore applies verbatim.
+\end{proof}
+
+\begin{principle}[Local role of the Pythagorean boundary]
+\label{prin:innovation-input-pythagorean-local-boundary-role}
+Q3 compatibility sees only the symmetric phase sum, so it allows the
+antisymmetric phase twists $(x,y)$ at first order. The anchored three-link
+Hermitian equations see three incompatible linear reads,
+$$
+x-y,
+\qquad
+2x-y,
+\qquad
+x-2y,
+$$
+and their common zero is the palindromic tangent. Thus the Pythagorean
+row and its conjugate are not local sources of a nonpalindromic
+Hermitian branch. The unresolved pentary problem is therefore pushed to
+rank-drop points away from these palindromic $L=2$ boundary points, in
+the sense of
+\autoref{thm:innovation-input-nonpalindromic-hermitian-rank-drop}.
+\end{principle}

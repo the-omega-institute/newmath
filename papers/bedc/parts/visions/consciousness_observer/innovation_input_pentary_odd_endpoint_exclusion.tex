@@ -1,0 +1,344 @@
+\chapter{Innovation Input Pentary Odd Endpoint Exclusion}
+\label{ch:visions-innovation-input-pentary-odd-endpoint-exclusion}
+\origin{ai}
+
+\autoref{thm:innovation-input-pentary-endpoint-gate} confines every
+anchored $L=3$ neutral RP candidate in $\mathcal Q_5$ to one of two
+endpoint branches. This chapter discharges the odd endpoint branch. The
+argument uses only the first reflected link mean and the middle-link
+diagonal: Hermitian symmetry makes the distance-one mean real, while the
+odd endpoint Q3 geometry makes any real value too small to pass the
+$D_{13}$ positivity gate.
+
+\section{Odd Endpoint Coordinates}
+\label{sec:innovation-input-odd-endpoint-coordinates}
+
+\begin{definition}[Odd endpoint relative coordinates]
+\label{def:innovation-input-odd-endpoint-relative-coordinates}
+Assume $v\in\mathcal Q_5$ lies on the odd endpoint branch of
+\autoref{def:innovation-input-pentary-endpoint-branches}. Write
+$$
+v=(a,b,c,d,-a),
+\qquad
+|a|=|b|=|c|=|d|=1.
+$$
+Define the relative internal phases
+$$
+B:=\frac ba,
+\qquad
+C:=\frac ca,
+\qquad
+D:=\frac da,
+$$
+and the internal edge ratios
+$$
+p:=B\overline C,
+\qquad
+q:=C\overline D.
+$$
+Then $B,C,D,p,q\in\mathbb T$ and
+$$
+B\overline D=pq.
+$$
+\end{definition}
+
+\begin{theorem}[Odd endpoint Q3 edge equation]
+\label{thm:innovation-input-odd-endpoint-qthree-edge-equation}
+On the odd endpoint branch, the Q3 condition is equivalent to
+$$
+\operatorname{Re}(p+q+pq)=1.
+$$
+\end{theorem}
+
+\begin{proof}
+Since $v_4=-v_0$, the Q3 equation becomes
+$$
+b+c+d=\sqrt5.
+$$
+Multiplying by $\overline a$ gives
+$$
+|B+C+D|=\sqrt5.
+$$
+Squaring the modulus gives
+$$
+|B+C+D|^2
+=
+3+2\operatorname{Re}
+\left(
+B\overline C+C\overline D+B\overline D
+\right).
+$$
+Using $B\overline C=p$, $C\overline D=q$, and $B\overline D=pq$, the
+condition $|B+C+D|^2=5$ is exactly
+$$
+\operatorname{Re}(p+q+pq)=1.
+$$
+\end{proof}
+
+\begin{theorem}[Odd endpoint first correlation]
+\label{thm:innovation-input-odd-endpoint-first-correlation}
+On the odd endpoint branch,
+$$
+6\mu
+=
+\overline B+p+q-D
+=
+\overline B+p+q-\frac{B}{pq}.
+$$
+\end{theorem}
+
+\begin{proof}
+For $v=(a,b,c,d,-a)$, the cyclic edge ratios of
+\autoref{def:innovation-input-pentary-edge-ratios} are
+$$
+x_0=a\overline b=\overline B,
+\qquad
+x_1=b\overline c=p,
+$$
+$$
+x_2=c\overline d=q,
+\qquad
+x_3=d\overline{(-a)}=-D,
+$$
+and
+$$
+x_4=(-a)\overline a=-1.
+$$
+Substitution into
+\autoref{thm:innovation-input-pentary-first-correlation-formula} gives
+$$
+\mu
+=
+\frac{x_0+x_1+x_2+x_3}{5-x_4}
+=
+\frac{\overline B+p+q-D}{6}.
+$$
+Finally $pq=B\overline D$ implies $D=B/(pq)$.
+\end{proof}
+
+\section{Real First-Correlation Bound}
+\label{sec:innovation-input-odd-endpoint-real-first-correlation-bound}
+
+\begin{lemma}[Odd endpoint real mean bound]
+\label{lem:innovation-input-odd-endpoint-real-mean-bound}
+On the odd endpoint Q3 branch, if
+$$
+\mu\in\mathbb R,
+$$
+then
+$$
+|\mu|\le\frac1{10}.
+$$
+\end{lemma}
+
+\begin{proof}
+Write
+$$
+p=e^{i(\eta+\delta)},
+\qquad
+q=e^{i(\eta-\delta)}.
+$$
+Then $pq=e^{2i\eta}$, and
+\autoref{thm:innovation-input-odd-endpoint-qthree-edge-equation} becomes
+$$
+2\cos\delta\cos\eta+\cos2\eta=1.
+$$
+Set
+$$
+c:=\cos\eta,
+\qquad
+y:=c^2.
+$$
+The displayed equation is
+$$
+\cos\delta\,c=1-c^2.
+$$
+In particular $c\ne0$, and
+$$
+\cos\delta=\frac{1-y}{c}.
+$$
+
+Write $B=e^{i(\eta+\varphi)}$. By
+\autoref{thm:innovation-input-odd-endpoint-first-correlation},
+$$
+6\mu=p+q+\overline B-\frac{B}{pq}.
+$$
+Since
+$$
+p+q=2\cos\delta\,e^{i\eta}
+$$
+and
+$$
+\overline B-\frac{B}{pq}
+=
+-2i e^{-i\eta}\sin\varphi,
+$$
+one has
+$$
+6\mu
+=
+2\cos\delta\,e^{i\eta}
+-2i e^{-i\eta}\sin\varphi.
+$$
+Taking imaginary parts and using $\mu\in\mathbb R$ gives
+$$
+\cos\delta\sin\eta=\cos\eta\sin\varphi.
+$$
+Thus
+$$
+|\sin\varphi|
+=
+|\cos\delta\tan\eta|
+=
+\frac{(1-y)^{3/2}}{y}
+\le1.
+$$
+Hence
+$$
+(1-y)^3\le y^2.
+$$
+The function $(1-y)^3-y^2$ is strictly decreasing on $[0,1]$, and at
+$y=2/5$ it equals
+$$
+\left(\frac35\right)^3-\left(\frac25\right)^2
+=
+\frac7{125}>0.
+$$
+Therefore
+$$
+y>\frac25.
+$$
+
+Taking real parts in the displayed formula for $6\mu$ and substituting
+$\sin\varphi=\cos\delta\tan\eta$ gives
+$$
+6\mu
+=
+2\cos\delta
+\left(
+\cos\eta-\frac{\sin^2\eta}{\cos\eta}
+\right)
+=
+2\cos\delta\frac{\cos2\eta}{\cos\eta}.
+$$
+Using $\cos\delta=(1-y)/\cos\eta$ yields
+$$
+\mu
+=
+\frac{(1-y)(2y-1)}{3y}.
+$$
+For $2/5\le y\le1/2$,
+$$
+|\mu|
+=
+\frac{(1-y)(1-2y)}{3y}.
+$$
+The inequality $|\mu|\le1/10$ is equivalent to
+$$
+20y^2-33y+10\le0,
+$$
+whose roots are $2/5$ and $5/4$, so it holds on this interval. For
+$1/2\le y\le1$,
+$$
+\mu=\frac{(1-y)(2y-1)}{3y},
+$$
+and $\mu\le1/10$ is equivalent to
+$$
+20y^2-27y+10\ge0.
+$$
+This quadratic has discriminant $-71$ and positive leading coefficient,
+so it is positive for all real $y$. The bound follows.
+\end{proof}
+
+\section{Odd Endpoint Exclusion}
+\label{sec:innovation-input-odd-endpoint-exclusion}
+
+\begin{theorem}[No odd endpoint anchored $L=3$ candidate]
+\label{thm:innovation-input-no-odd-endpoint-lthree-candidate}
+There is no row
+$$
+v\in\mathcal Q_5
+$$
+on the odd endpoint branch that passes the anchored $L=3$ neutral RP
+window.
+\end{theorem}
+
+\begin{proof}
+Assume that such a row passes anchored $L=3$ neutral RP. Then the RP
+matrix is Hermitian. Applying the Hermitian condition to the subwindow
+generated by $0$ and $e_{12}$ forces the distance-one mean
+$$
+\mu=\Gamma(\delta_0-\delta_1)
+$$
+to be real. Hence
+\autoref{lem:innovation-input-odd-endpoint-real-mean-bound} gives
+$$
+|\mu|^2\le\frac1{100}.
+$$
+On the odd endpoint branch,
+\autoref{cor:innovation-input-middle-link-values-endpoint-branches} gives
+$$
+D_{13}=\frac{6|\mu|^2-1}{5}.
+$$
+Therefore
+$$
+D_{13}
+\le
+\frac{6/100-1}{5}
+=
+-\frac{47}{250}
+<0.
+$$
+This contradicts the required nonnegativity of $D_{13}$ in
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+\end{proof}
+
+\begin{corollary}[Pentary candidates reduce to the even endpoint branch]
+\label{cor:innovation-input-pentary-candidates-reduce-even-endpoint}
+Every row in
+$$
+\mathcal R_{5,3,1}^{\mathrm{neu}}
+$$
+lies on the even endpoint branch
+$$
+v_4=v_0.
+$$
+\end{corollary}
+
+\begin{proof}
+By the endpoint gate of
+\autoref{thm:innovation-input-pentary-endpoint-gate}, any anchored
+$L=3$ neutral RP candidate has $v_4=v_0$ or $v_4=-v_0$. The odd endpoint
+case is impossible by
+\autoref{thm:innovation-input-no-odd-endpoint-lthree-candidate}.
+\end{proof}
+
+\begin{theorem}[Even endpoint exclusion closes the pentary three-link class]
+\label{thm:innovation-input-even-endpoint-exclusion-closes-pentary}
+Assume that no row on the even endpoint branch
+$$
+v_4=v_0
+$$
+passes the anchored $L=3$ neutral RP window. Then
+$$
+\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{cor:innovation-input-pentary-candidates-reduce-even-endpoint},
+every row in $\mathcal R_{5,3,1}^{\mathrm{neu}}$ lies on the even
+endpoint branch. The stated even endpoint exclusion therefore leaves no
+row in $\mathcal R_{5,3,1}^{\mathrm{neu}}$.
+\end{proof}
+
+\begin{principle}[Pentary branch ledger]
+\label{prin:innovation-input-pentary-branch-ledger}
+The anchored pentary $L=3$ neutral RP problem has a branch-level
+structure. The middle-link diagonal gives the endpoint dichotomy
+$v_4=\pm v_0$. The odd endpoint branch is ruled out by the incompatibility
+between Hermitian realness of $\mu$ and $D_{13}\ge0$. The remaining
+unconditional branch is the even endpoint branch; once it is excluded,
+the whole pentary three-link class is empty.
+\end{principle}
