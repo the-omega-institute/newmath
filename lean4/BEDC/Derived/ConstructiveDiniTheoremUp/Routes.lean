@@ -161,4 +161,97 @@ theorem ConstructiveDiniTheoremFiniteNetMonotoneWindowRoute [AskSetup] [PackageS
   }
   exact ⟨cert, finiteUnary, modulusUnary⟩
 
+theorem ConstructiveDiniTheoremNameCertObligations [AskSetup] [PackageSetup]
+    {K F M D U W R E H C P N theoremRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory K ->
+      UnaryHistory F ->
+        UnaryHistory M ->
+          UnaryHistory D ->
+            UnaryHistory U ->
+              UnaryHistory W ->
+                UnaryHistory R ->
+                  UnaryHistory E ->
+                    Cont K F M ->
+                      Cont M D U ->
+                        Cont U W R ->
+                          Cont R E theoremRead ->
+                            PkgSig bundle P pkg ->
+                              PkgSig bundle theoremRead pkg ->
+                                SemanticNameCert
+                                    (fun row : BHist => hsame row theoremRead ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row K ∨ hsame row F ∨ hsame row M ∨
+                                        hsame row D ∨ hsame row U ∨ hsame row W ∨
+                                          hsame row R ∨ hsame row E ∨ hsame row H ∨
+                                            hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                              hsame row theoremRead)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧ Cont K F M ∧ Cont M D U ∧
+                                        Cont U W R ∧ Cont R E theoremRead ∧
+                                          PkgSig bundle theoremRead pkg)
+                                    hsame ∧
+                                  UnaryHistory theoremRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro unaryK unaryF _unaryM unaryD _unaryU unaryW _unaryR unaryE routeM routeU routeR
+    routeTheorem pPkg theoremPkg
+  have unaryMFromRoute : UnaryHistory M :=
+    unary_cont_closed unaryK unaryF routeM
+  have unaryUFromRoute : UnaryHistory U :=
+    unary_cont_closed unaryMFromRoute unaryD routeU
+  have unaryRFromRoute : UnaryHistory R :=
+    unary_cont_closed unaryUFromRoute unaryW routeR
+  have theoremUnary : UnaryHistory theoremRead :=
+    unary_cont_closed unaryRFromRoute unaryE routeTheorem
+  have sourceAtTheorem : hsame theoremRead theoremRead ∧ UnaryHistory theoremRead :=
+    ⟨hsame_refl theoremRead, theoremUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row theoremRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row F ∨ hsame row M ∨ hsame row D ∨ hsame row U ∨
+              hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row theoremRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K F M ∧ Cont M D U ∧ Cont U W R ∧
+              Cont R E theoremRead ∧ PkgSig bundle theoremRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro theoremRead sourceAtTheorem
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeM, routeU, routeR, routeTheorem, theoremPkg⟩
+  }
+  exact ⟨cert, theoremUnary⟩
+
 end BEDC.Derived.ConstructiveDiniTheoremUp
