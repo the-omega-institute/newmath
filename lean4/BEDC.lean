@@ -1497,6 +1497,7 @@ import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
+import BEDC.Derived.BoundedRegularCauchyUp.ObligationSurface
 import BEDC.Derived.BoundedRegularCauchyUp.TailWindowInduction
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
@@ -13668,6 +13669,7 @@ import BEDC.Derived.Window6FlippabilityMaskRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6GoldenMeanPrimitiveOrbit
 import BEDC.Derived.Window6GoldenMeanRuelleZeta
 import BEDC.Derived.Window6GoldenPentagonRPLink
 import BEDC.Derived.Window6GoldenSplitModPLaw
@@ -14204,6 +14206,7 @@ import BEDC.MetaCIC.Decidable
 import BEDC.MetaCIC.Decidable.CheckClosed
 import BEDC.MetaCIC.Decidable.CheckClosedAtom
 import BEDC.MetaCIC.Decidable.CheckCompleteness
+import BEDC.MetaCIC.Decidable.GalleryObligations
 import BEDC.MetaCIC.Decidable.GalleryTests
 import BEDC.MetaCIC.Decidable.NormalEqDecide
 import BEDC.MetaCIC.Evaluation.EvalClosed
