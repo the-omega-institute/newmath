@@ -10425,6 +10425,7 @@ import BEDC.Derived.RHRoute.OCLSDRegisterWeight
 import BEDC.Derived.RHRoute.OCLSDReflectionForm
 import BEDC.Derived.RHRoute.OCLSDTickReflection
 import BEDC.Derived.RHRoute.OSReconstructionContract
+import BEDC.Derived.RHRoute.PassiveFiniteScattering
 import BEDC.Derived.RHRoute.OCLSDPrimeLock
 import BEDC.Derived.RHRoute.OCLSDSpectral
 import BEDC.Derived.RHRoute.ObjectRealityInductionRoute
