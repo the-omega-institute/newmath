@@ -1,0 +1,174 @@
+\chapter{A Concrete Naming Certificate for Window6 Forward Deliverable Shapes}
+\label{ch:concrete-instances-window6-forward-deliverable-shapes-namecert}
+\origin{ai}
+
+The Window6 forward-math package realizes six Fibonacci-cube proof-object shapes as finite NameCert data: a closed-zero count identity, a seam-gluing law, a sharp saturation-deficit inequality, a live-tail congruence with exact finite-state memory, a signed involution with a fixed block, and a zero-mark Galois closure. Each shape is recorded here as a bounded Window6 surface over Boolean words, local six-letter windows, and the no-adjacent-$1$ Fibonacci-cube constraint.
+
+\section{Closed-Zero Flattening Count Identity}
+\label{sec:window6-closed-zero-flattening-count-identity}
+
+\begin{theorem}[Closed-zero interior flattening]
+\label{thm:window6-closed-zero-flattening-count-identity}
+For Window6 Fibonacci-cube words, a closed-zero endpoint window is insulated from the no-adjacent interior between its two displayed zero guards. Replacing that interior by any other no-adjacent interior preserves the surrounding no-adjacent read. In the concrete enumerated windows this yields the checked count identity
+$$
+C_m=8Z_m
+$$
+for the displayed finite lengths $m=6,\ldots,12$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_bijection}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m6}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m7}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m8}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m9}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m10}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m11}
+\leanvariant{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_count\_identity\_m12}
+
+\begin{closurestatus}{Window6ClosedZeroFlattenBijection}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-closed-zero-flattening-count-identity} closes the closed-zero insulation statement and records concrete count identities for lengths $6$ through $12$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6ClosedZeroFlattenBijection.window6\_closed\_zero\_flatten\_bijection}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim a symbolic all-length formula beyond the checked bijection surface and the displayed finite count identities.}
+  \upgradepath{A broader closure would package the finite count witnesses into a single symbolic recurrence or all-length enumeration theorem.}
+\end{closurestatus}
+
+\section{Seam-Gluing Parity}
+\label{sec:window6-seam-gluing-parity}
+
+\begin{theorem}[Window6 seam scanner gluing]
+\label{thm:window6-seam-gluing-parity}
+Let $x$ and $y$ be Boolean words of length at least $5$. The even-two-hit Window6 scanner is compositional under append: the scan of $x++y$ is the scan of $x$, plus the scan of $y$, plus the bounded seam contribution determined only by the suffix of $x$ of length $5$ and the prefix of $y$ of length $5$:
+$$
+\nu_2(x++y)=\nu_2(x)+\nu_2(y)+\operatorname{straddle}(\operatorname{suf}_5(x),\operatorname{pref}_5(y)).
+$$
+The parity reading is the corresponding Boolean xor of the three summands.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6SeamGluingParity.window6\_seam\_scanner\_append}
+\leanvariant{BEDC.Derived.Window6SeamGluingParity.window6\_seam\_scanner\_append\_parity}
+
+\begin{closurestatus}{Window6SeamGluingParity}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-seam-gluing-parity} closes append composition for the Window6 seam scanner and its parity readback under the length-at-least-$5$ hypotheses.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6SeamGluingParity.window6\_seam\_scanner\_append}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim an arbitrary stream transducer theorem, a cyclic seam theorem, or a scanner over non-Boolean alphabets.}
+  \upgradepath{A broader closure would expose the seam scanner as a reusable finite transducer interface with checked associativity across multiple appends.}
+\end{closurestatus}
+
+\section{Saturation-Deficit Extremality}
+\label{sec:window6-saturation-deficit-extremality}
+
+\begin{theorem}[Sharp Window6 saturation-deficit bound]
+\label{thm:window6-saturation-deficit-extremality}
+For every Boolean word $w$, the Window6 saturation deficit is bounded on both sides by
+$$
+0\leq \operatorname{deficit}_6(w)\leq 3N_6(|w|).
+$$
+The upper bound is attained by the all-zero witnesses, while alternating witnesses attain the lower bound with deficit $0$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6SaturationDeficitExtremal.window6\_saturation\_deficit\_upper}
+\leanvariant{BEDC.Derived.Window6SaturationDeficitExtremal.window6\_saturation\_deficit\_lower}
+\leanvariant{BEDC.Derived.Window6SaturationDeficitExtremal.window6\_deficit\_allzeros}
+\leanvariant{BEDC.Derived.Window6SaturationDeficitExtremal.window6\_deficit\_alt}
+
+\begin{closurestatus}{Window6SaturationDeficitExtremal}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-saturation-deficit-extremality} closes the two-sided Window6 deficit inequality and the all-zero and alternating extremal witnesses.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6SaturationDeficitExtremal.window6\_saturation\_deficit\_upper}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim a classification of every extremizing word or a higher-window analogue.}
+  \upgradepath{A broader closure would add a checked extremizer classification and a parameterized window-size family.}
+\end{closurestatus}
+
+\section{Live-Tail Congruence}
+\label{sec:window6-live-tail-congruence}
+
+\begin{theorem}[Five-tail right congruence and exact memory]
+\label{thm:window6-live-tail-congruence}
+For a prefix $p$ of length at least $5$, every real suffix-window read after appending a continuation $s$ factors through the last five bits of $p$:
+$$
+\operatorname{realSuffixWindows}(p,s)=\operatorname{windows}_6(\operatorname{tail}_5(p)++s).
+$$
+Consequently two such prefixes with the same five-tail are right-congruent for all continuations. The checked finite memory surface lists the $13$ no-adjacent five-tails and proves length-five minimality by separating unequal tails with a one-bit continuation.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6LiveTailCongruence.window6\_live\_tail\_congruence}
+\leanvariant{BEDC.Derived.Window6LiveTailCongruence.window6\_live\_tail\_factor}
+\leanvariant{BEDC.Derived.Window6LiveTailCongruence.T5\_length}
+\leanvariant{BEDC.Derived.Window6LiveTailCongruence.window6\_live\_tail\_minimality\_length\_five}
+
+\begin{closurestatus}{Window6LiveTailCongruence}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-live-tail-congruence} closes the five-tail factorization, right congruence, $13$-state no-adjacent memory count, and length-five separation witness.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6LiveTailCongruence.window6\_live\_tail\_congruence}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim a minimized automaton object with transition table equivalence beyond the checked tail congruence and separation surface.}
+  \upgradepath{A broader closure would package the thirteen tails as an explicit automaton with checked transition totality and minimization.}
+\end{closurestatus}
+
+\section{Signed Involution Fixed Point}
+\label{sec:window6-signed-involution-fixed-point}
+
+\begin{theorem}[Window6 signed involution with fixed block]
+\label{thm:window6-signed-involution-fixed-point}
+On admissible Window6 blocks, the checked map $\operatorname{flip}_6$ is an involution, preserves the Fibonacci no-adjacent constraint, reverses parity away from its fixed block, and has the unique fixed block $010010$. The induced guarded counts satisfy the finite Franklin-type identities
+$$
+|G_{\mathrm{ev}}(m)|=|G_{\mathrm{odd}}(m)|+|H(m)|
+$$
+for the checked lengths $m=6,\ldots,12$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_involutive}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_parity\_flip}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_fixed\_010010}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_fixed\_unique}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_preserves\_fib}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_6}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_7}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_8}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_9}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_10}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_11}
+\leanvariant{BEDC.Derived.Window6SignedInvolutionFixedPoint.guarded\_count\_identity\_12}
+
+\begin{closurestatus}{Window6SignedInvolutionFixedPoint}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-signed-involution-fixed-point} closes involutivity, Fibonacci preservation, parity reversal away from $010010$, fixed-point uniqueness, and finite guarded count identities for lengths $6$ through $12$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6SignedInvolutionFixedPoint.flip6\_involutive}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim a global infinite Franklin involution or symbolic all-length guarded count formula.}
+  \upgradepath{A broader closure would bind the local involution to a single all-length signed enumeration theorem.}
+\end{closurestatus}
+
+\section{Zero-Mark Galois Closure}
+\label{sec:window6-zero-mark-galois-closure}
+
+\begin{theorem}[Window6 zero-mark Galois closure]
+\label{thm:window6-zero-mark-galois-closure}
+The Window6 zero-mark operators form a finite Galois connection: dilation is left adjoint to erosion under the displayed implication order, with the required five-cell padding equation
+$$
+\operatorname{dilate}_6(S)\leq P\quad\Longleftrightarrow\quad S\leq \operatorname{erode}_6(P).
+$$
+The induced operator $\operatorname{Cl}$ is extensive, monotone, and idempotent. Its finite closed reads are generated by unions of marked intervals whose separating gaps are at least six positions.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6ZeroMarkGaloisClosure.window6\_galois\_adjunction}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.window6\_galois\_adjunction\_forward}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.window6\_galois\_adjunction\_backward}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.cl\_extensive}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.cl\_monotone}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.cl\_idempotent}
+\leanvariant{BEDC.Derived.Window6ZeroMarkGaloisClosure.erode6\_image\_closed\_window}
+
+\begin{closurestatus}{Window6ZeroMarkGaloisClosure}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-zero-mark-galois-closure} closes the Window6 dilation--erosion adjunction, closure extensivity, monotonicity, idempotence, and the checked finite closed-window image surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6ZeroMarkGaloisClosure.window6\_galois\_adjunction}
+  \bridgestatus{none}
+  \notclaimed{This anchor does not claim a topological closure space over an infinite carrier or a complete symbolic classification of every closed finite set outside the checked Window6 mark interface.}
+  \upgradepath{A broader closure would expose fixed-point interval-union normal forms as a single checked classifier theorem.}
+\end{closurestatus}
