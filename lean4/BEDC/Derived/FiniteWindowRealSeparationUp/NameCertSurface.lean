@@ -487,4 +487,98 @@ theorem FiniteWindowRealSeparation_obligation_surface
     unary_cont_closed dsUnary unaryR srRoute
   exact ⟨srUnary, wdRoute, dsRoute, srRoute, hcRoute, cpRoute, unaryN⟩
 
+theorem FiniteWindowRealSeparation_common_window_exactness [AskSetup] [PackageSetup]
+    {x y : FiniteWindowRealSeparationUp}
+    {W D S R R' H H' C P N C' P' N' toleranceRead readbackRead separationRead
+      separationRead' namedRead namedRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    finiteWindowRealSeparationToEventFlow x =
+        finiteWindowRealSeparationToEventFlow
+          (FiniteWindowRealSeparationUp.mk W D S R H C P N) ->
+      finiteWindowRealSeparationToEventFlow y =
+          finiteWindowRealSeparationToEventFlow
+            (FiniteWindowRealSeparationUp.mk W D S R' H' C' P' N') ->
+        UnaryHistory W -> UnaryHistory D -> UnaryHistory S -> UnaryHistory R ->
+          UnaryHistory R' -> UnaryHistory N -> Cont W D toleranceRead ->
+            Cont toleranceRead S readbackRead ->
+              Cont readbackRead R separationRead ->
+                Cont readbackRead R' separationRead' ->
+                  Cont separationRead N namedRead ->
+                    Cont separationRead' N namedRead' ->
+                      PkgSig bundle namedRead pkg ->
+                        x = FiniteWindowRealSeparationUp.mk W D S R H C P N ∧
+                          y = FiniteWindowRealSeparationUp.mk W D S R' H' C' P' N' ∧
+                            UnaryHistory separationRead ∧
+                              UnaryHistory separationRead' ∧
+                                SemanticNameCert
+                                  (fun row : BHist =>
+                                    hsame row readbackRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row W ∨ hsame row D ∨ hsame row S ∨
+                                      hsame row readbackRead ∨
+                                        hsame row separationRead ∨
+                                          hsame row separationRead')
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont W D toleranceRead ∧
+                                      Cont toleranceRead S readbackRead)
+                                  hsame := by
+  -- BEDC touchpoint anchor: FiniteWindowRealSeparationUp BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro flowX flowY unaryW unaryD unaryS unaryR unaryR' _unaryN toleranceRoute
+    readbackRoute separationRoute separationRoute' _namedRoute _namedRoute' _pkgNamed
+  have roundTrip :
+      ∀ z : FiniteWindowRealSeparationUp,
+        finiteWindowRealSeparationFromEventFlow
+          (finiteWindowRealSeparationToEventFlow z) = some z :=
+    FiniteWindowRealSeparationTasteGate_single_carrier_alignment.right.left
+  have xExact : x = FiniteWindowRealSeparationUp.mk W D S R H C P N :=
+    Option.some.inj
+      (Eq.trans (roundTrip x).symm
+        (Eq.trans (congrArg finiteWindowRealSeparationFromEventFlow flowX)
+          (roundTrip (FiniteWindowRealSeparationUp.mk W D S R H C P N))))
+  have yExact : y = FiniteWindowRealSeparationUp.mk W D S R' H' C' P' N' :=
+    Option.some.inj
+      (Eq.trans (roundTrip y).symm
+        (Eq.trans (congrArg finiteWindowRealSeparationFromEventFlow flowY)
+          (roundTrip (FiniteWindowRealSeparationUp.mk W D S R' H' C' P' N'))))
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed unaryW unaryD toleranceRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceUnary unaryS readbackRoute
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed readbackUnary unaryR separationRoute
+  have separationUnary' : UnaryHistory separationRead' :=
+    unary_cont_closed readbackUnary unaryR' separationRoute'
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row readbackRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row D ∨ hsame row S ∨ hsame row readbackRead ∨
+              hsame row separationRead ∨ hsame row separationRead')
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D toleranceRead ∧
+              Cont toleranceRead S readbackRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro readbackRead ⟨hsame_refl readbackRead, readbackUnary⟩
+      equiv_refl := by intro row _source; exact hsame_refl row
+      equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left,
+          unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; left
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, toleranceRoute, readbackRoute⟩
+  }
+  exact ⟨xExact, yExact, separationUnary, separationUnary', cert⟩
+
 end BEDC.Derived.FiniteWindowRealSeparationUp
