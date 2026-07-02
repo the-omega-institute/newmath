@@ -1,0 +1,373 @@
+\chapter{Innovation Input Lineage and Self-Reference Boundary}
+\label{ch:visions-innovation-input-lineage-self-reference-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-geometry-boundary} records the
+positive Gram, tick-reflection, and reflection-positive transition
+certificates of an input-flow geometry. This chapter records the adjacent
+lineage and self-reference boundary. The quantized refinement row is a
+single-particle isometric refinement walk with an external input stream; it
+has precise interfaces with quantum walks, multiresolution analysis,
+tensor-network isometries, and quantum cellular automata, but it is not
+identical to any of those structures without further data. Closing the
+input by a self-substitution rule produces a sharp cost: the binary
+compatible rule is unique up to mirror exchange and carries an intrinsic
+time arrow. Enlarging the alphabet separates compatibility from that
+forced arrow: the binary row is a rigid endpoint, while ternary and square
+alphabet rows admit reversible compatible witnesses.
+
+\section{Lineage of the Refinement Row}
+\label{sec:innovation-input-lineage-refinement-row}
+
+\begin{principle}[Single-particle refinement walk]
+\label{prin:innovation-input-single-particle-refinement-walk}
+The quantized refinement edge of
+\autoref{def:innovation-input-quantized-refinement-edge} is best located
+as an isometric quantum walk on a growing refinement structure, together
+with an external input stream. Its cells are basis vectors in
+$\ell^2(C_n)$, not tensor factors. This separates the certificate from the
+standard quantum-cellular-automaton setting, where locality and index
+theorems live in a tensor-product operator algebra.
+\end{principle}
+
+\begin{principle}[Quantum-cellular-automaton boundary]
+\label{prin:innovation-input-qca-boundary}
+A genuine quantum cellular automaton can have a one-particle sector that
+resembles a quantum walk. The converse is an additional construction
+problem: one must supply a tensor-factor state space, a local unitary or
+local isometry rule, and a functorial projection whose one-particle sector
+is the displayed refinement edge. The input-flow certificate therefore
+defines a target for such a parent automaton, not the parent automaton
+itself.
+\end{principle}
+
+\begin{principle}[Multiresolution and wavelet skeleton]
+\label{prin:innovation-input-multiresolution-skeleton}
+The refinement isometry
+$$
+e_c\longmapsto N^{-1/2}\sum_{a=0}^{N-1}e_{ca}
+$$
+is the finite-cell analogue of a Haar scaling relation. The scale chain is
+the multiresolution chain, and the innovation residual is the wavelet-detail
+row. The input-flow contribution is not the existence of this scaling
+skeleton; it is the quantized modulus row, the compatibility equation, and
+the resulting norm allocation
+$$
+\frac{\|\eta_{n+1}\|^2}{\|B_n\|^2}=N-1.
+$$
+\end{principle}
+
+\begin{principle}[Tensor-network interface]
+\label{prin:innovation-input-tensor-network-interface}
+Layered isometries without disentanglers form the bare skeleton of a
+multiscale tensor network. To obtain a tensor-network dynamics rather than
+a single-particle refinement ledger, one must add tensor factors,
+entangling gates or disentanglers, and a rule for how the input stream acts
+on many-body states. The free-field reconstruction rows of
+\autoref{ch:visions-innovation-input-thermodynamic-geometry-boundary}
+already use a second-quantized output of the machine; the missing data are
+local tensor rules, not merely many-body vocabulary.
+\end{principle}
+
+\begin{principle}[Lineage ledger]
+\label{prin:innovation-input-lineage-ledger}
+The same displayed refinement row has four neighboring descriptions:
+quantum walk on a growing graph, Haar multiresolution scaling, a bare
+isometric tensor-network skeleton, and the one-particle shadow of a
+possible quantum cellular automaton. These are lineage pointers. None of
+them changes the certificate used by
+\autoref{thm:innovation-input-refinement-residual-rate} or the
+reflection-positive boundary of
+\autoref{thm:innovation-input-rp-transition-positivity}.
+\end{principle}
+
+\section{Self-Substitution Input}
+\label{sec:innovation-input-self-substitution}
+
+\begin{definition}[Binary self-substitution row]
+\label{def:innovation-input-binary-self-substitution}
+A binary self-substitution row closes the input by requiring each refined
+cell to inherit its parent phase through two fixed unit phases:
+$$
+u_{c0}=a\,u_c,
+\qquad
+u_{c1}=b\,u_c,
+\qquad
+|a|=|b|=1.
+$$
+It is compatible with the quantized refinement condition when the
+coarse-grained phase sum satisfies
+$$
+a+b=\sqrt2.
+$$
+\end{definition}
+
+\begin{theorem}[Binary compatible self-substitution]
+\label{thm:innovation-input-binary-compatible-self-substitution}
+The binary self-substitution row satisfies the compatibility equation
+$a+b=\sqrt2$ if and only if
+$$
+\{a,b\}
+=
+\{e^{i\pi/4},e^{-i\pi/4}\}.
+$$
+Thus the compatible binary self-substitution rule is unique up to mirror
+exchange.
+\end{theorem}
+
+\begin{proof}
+Let $a=e^{i\alpha}$ and $b=e^{i\beta}$. The condition that $a+b$ is the
+positive real number $\sqrt2$ forces the average angle to be $0$ modulo
+$2\pi$ and the chord length to be $\sqrt2$. Hence the two angles are
+$+\pi/4$ and $-\pi/4$ up to exchange.
+\end{proof}
+
+\begin{principle}[Boundary cases]
+\label{prin:innovation-input-self-substitution-boundary-cases}
+The equal-phase rule $a=b$ gives no innovation under the binary
+compatibility equation, while the opposite-phase rule $a=-b$ gives no
+retained coarse component. These two familiar substitution boundaries fail
+opposite sides of the refinement compatibility row. The compatible rule of
+\autoref{thm:innovation-input-binary-compatible-self-substitution} sits
+between them.
+\end{principle}
+
+\begin{definition}[One-step circular correlation]
+\label{def:innovation-input-one-step-circular-correlation}
+For a binary self-substitution row set
+$$
+\gamma(1)
+:=
+\frac{b\overline a}{2-a\overline b}.
+$$
+This row records the first circular correlation of the induced phase
+measure.
+\end{definition}
+
+\begin{theorem}[Self-substitution time arrow]
+\label{thm:innovation-input-self-substitution-time-arrow}
+For the compatible binary self-substitution rule,
+$$
+\gamma(1)=\frac{1-2i}{5}.
+$$
+In particular the circular correlation is not real. The self-substitution
+input is therefore not time-reversal symmetric in this correlation row.
+\end{theorem}
+
+\begin{proof}
+Choose the ordered representative $a=e^{i\pi/4}$ and
+$b=e^{-i\pi/4}$. Then $b\overline a=-i$ and $a\overline b=i$, so
+$$
+\gamma(1)
+=
+\frac{-i}{2-i}
+=
+\frac{1-2i}{5}.
+$$
+Mirror exchange conjugates the value and reverses the arrow.
+\end{proof}
+
+\begin{principle}[Self-reference cost]
+\label{prin:innovation-input-self-reference-cost}
+Closing the input by a binary self-substitution rule removes the arbitrary
+external digit choice only by moving choice into a structural rule. The
+compatible rule is rigid, and its circular correlation carries an intrinsic
+orientation. Perfectly symmetric self-copying lies on the zero-innovation
+boundary; compatible self-substitution has innovation but carries a time
+arrow.
+\end{principle}
+
+\begin{principle}[Spectral and metric rows of the self-substitution]
+\label{prin:innovation-input-self-substitution-spectral-metric-rows}
+The compatible binary self-substitution row has singular-continuous
+spectral behavior in its phase measure and a well-defined QGT metric row.
+The numerical ledger records a convergent metric value near
+$$
+h=2.77243,
+$$
+below the uniform baseline $\pi^2/3$. Its linear mean covector tends to
+zero, while the first circular mean remains nonzero, with modulus about
+$0.447$ and angle about $-63.4^\circ$ in the displayed orientation. These
+data place the arrow in the circular holonomy layer rather than in a
+nonzero ordinary mean momentum.
+\end{principle}
+
+\begin{principle}[Reflection-positive boundary of the self-substitution]
+\label{prin:innovation-input-self-substitution-rp-boundary}
+The self-substitution row is a deterministic substitution input, not a
+reversible Markov input with a positive transition operator. It therefore
+does not automatically belong to the reflection-positive class of
+\autoref{thm:innovation-input-rp-transition-positivity}. Any Lorentz-facing
+use of this row must first supply a positive transition certificate or a
+separate Wick-facing bridge.
+\end{principle}
+
+\section{Externality Displacement}
+\label{sec:innovation-input-externality-displacement}
+
+\begin{principle}[Externality displacement]
+\label{prin:innovation-input-externality-displacement}
+The input-flow framework begins by externalizing digit choice. Attempts to
+close that choice move the externality to another row rather than removing
+it. A self-substitution rule moves it to the structural rule and pays with
+an intrinsic time arrow. A complex-refinement self-observation row moves it
+to the choice of complex multiplication structure and pays with an
+arithmetic admissibility condition. A thermodynamic-gravity assembly moves
+it to local equilibrium data, as recorded in
+\autoref{prin:innovation-input-thermo-structural-assumptions}. Each move
+leaves a theorem-level constraint behind.
+\end{principle}
+
+\begin{principle}[No hidden unification claim]
+\label{prin:innovation-input-no-hidden-unification-claim}
+The lineage and self-reference rows do not turn the input-flow grammar into
+a completed quantum-gravity or consciousness theory. They record where
+neighboring structures attach, which data are still external, and which
+constraints appear when external choice is pushed into the machine. This is
+a boundary ledger, not a unification theorem.
+\end{principle}
+
+\section{Self-Observation and Arithmetic Habitat}
+\label{sec:innovation-input-self-observation-arithmetic-habitat}
+
+\begin{definition}[Self-similar observation row]
+\label{def:innovation-input-self-similar-observation-row}
+A self-similar observation row is a refinement row in which the refined
+machine remains similar to the coarse machine. In a Gaussian refinement
+tower, this means that the refining sublattice is obtained by multiplication
+by a Gaussian integer.
+\end{definition}
+
+\begin{theorem}[Two-square admissibility]
+\label{thm:innovation-input-two-square-admissibility}
+In the Gaussian refinement tower, a rational prime $p$ admits a
+conformal index-$p$ self-similar refinement exactly when
+$$
+p=a^2+b^2
+$$
+for integers $a,b$. Inert primes enter conformal Gaussian refinement only
+through even powers.
+\end{theorem}
+
+\begin{proof}
+This is the conformal-refinement reading of
+\autoref{thm:innovation-input-modular-digit-field-fermat}. Multiplication
+by a Gaussian integer of norm $p$ gives an index-$p$ similar sublattice,
+and Fermat's two-square theorem characterizes exactly the rational primes
+that occur as such norms.
+\end{proof}
+
+\begin{principle}[Heegner habitat for universal shape blindness]
+\label{prin:innovation-input-heegner-habitat-self-observation}
+If self-similar observation is required for all ideal refinements in an
+imaginary quadratic order, universal shape blindness holds exactly in the
+class-number-one habitat recorded by
+\autoref{prin:innovation-input-modular-heegner-shape-blind-list}. Outside
+that habitat, the class group becomes a visible shape register. Perfect
+self-observation therefore lives only where the class group imposes no
+shape memory.
+\end{principle}
+
+\begin{principle}[Arithmetic constraint from self-observation]
+\label{prin:innovation-input-arithmetic-constraint-self-observation}
+The two-square and class-number-one restrictions are not empirical claims
+about all possible input streams. They are conditional constraints produced
+by a self-similar observation requirement. In the unrestricted input-flow
+grammar the prime set remains external; under self-similar observation it
+is cut by the arithmetic of the selected complex structure.
+\end{principle}
+
+\section{Parent Automaton and Larger Alphabets}
+\label{sec:innovation-input-parent-automaton-larger-alphabets}
+
+\begin{principle}[Parent automaton target]
+\label{prin:innovation-input-parent-automaton-target}
+The parent-automaton target asks for a tensor-product, local,
+quantum-cellular-automaton realization whose one-particle sector is the
+quantized refinement input row. A solution would have to preserve the
+residual-rate law, the reflection-positive boundary, and the solenoid
+arithmetic rows after projection to the one-particle sector. The present
+chapter only states the target surface.
+\end{principle}
+
+\begin{principle}[Larger alphabet self-substitution]
+\label{prin:innovation-input-larger-alphabet-self-substitution}
+For an $N$-ary self-substitution row the compatibility equation becomes
+$$
+\sum_{a=0}^{N-1}e^{i\theta_a}=\sqrt N.
+$$
+For $N=2$ the compatibility equation is rigid and forces the oriented
+pair of \autoref{thm:innovation-input-binary-compatible-self-substitution}.
+For $N\ge3$ the solution set has positive dimension, so reversibility is a
+separate constraint on the self-substitution row rather than a consequence
+of compatibility alone.
+\end{principle}
+
+\begin{theorem}[Higher-alphabet reversible self-substitution]
+\label{thm:innovation-input-higher-alphabet-reversible-self-substitution}
+The binary incompatibility between compatible self-substitution and
+time-reversal symmetry is not stable under enlargement of the alphabet.
+For $N=3$ the phase row
+$$
+\theta=\left(\frac{\pi}{6},-\frac{\pi}{2},\frac{\pi}{6}\right)
+$$
+satisfies
+$$
+e^{i\pi/6}+e^{-i\pi/2}+e^{i\pi/6}=\sqrt3
+$$
+and its circular-correlation recursion has real block coefficients. For
+every square alphabet size $N=k^2$, a compatible real-sign row exists:
+choose
+$$
+\#\{+\}=\frac{k(k+1)}2,
+\qquad
+\#\{-\}=\frac{k(k-1)}2.
+$$
+Then the sum of the signs is $k=\sqrt N$.
+\end{theorem}
+
+\begin{proof}
+The ternary identity is immediate from
+$2e^{i\pi/6}-i=\sqrt3$. After factoring out the common rotation, the phase
+pattern is a third-root pattern with conjugate block products; the
+correlation recursion therefore has real coefficients at every finite
+depth. For the square alphabet row, the two displayed cardinalities are
+integers because $k(k+1)$ is even, their sum is $k^2$, and their signed
+difference is $k$.
+\end{proof}
+
+\begin{principle}[Binary endpoint]
+\label{prin:innovation-input-binary-endpoint}
+The forced time arrow of \autoref{thm:innovation-input-self-substitution-time-arrow}
+is a binary endpoint. With two phases, the equation
+$a+b=\sqrt2$ leaves only the mirror pair
+$e^{\pm i\pi/4}$, and the first circular coefficient is nonreal. With
+three or more phases, compatibility can coexist with a real
+correlation audit. The arrow is therefore forced in the binary row and
+becomes a selectable feature in larger alphabets.
+\end{principle}
+
+\begin{principle}[Feasibility audit for phase searches]
+\label{prin:innovation-input-phase-search-feasibility-audit}
+Any numerical or parametrized search for reversible self-substitution rows
+must keep
+$$
+\left|\sum_{a=0}^{N-1}e^{i\theta_a}\right|=\sqrt N
+$$
+as a displayed constraint. A projection that maps infeasible trial values
+back into an inverse-trigonometric domain can create apparent zero-defect
+rows whose phase sum does not satisfy the compatibility equation. The
+feasibility constraint is part of the certificate, not a post-processing
+choice.
+\end{principle}
+
+\begin{principle}[Lineage correspondence ledger]
+\label{prin:innovation-input-lineage-correspondence-ledger}
+The correspondence checks for this boundary include quantum walks and
+quantum cellular automata, causal graph dynamics, multiresolution analysis
+and Haar wavelets, multiscale tensor networks, generalized Thue--Morse
+diffraction, complex multiplication, and class-number-one shape theory.
+These are source disciplines for the interface claims. The input-flow
+contribution is the exact placement of each discipline against the
+refinement, positivity, solenoid, and self-reference rows.
+\end{principle}

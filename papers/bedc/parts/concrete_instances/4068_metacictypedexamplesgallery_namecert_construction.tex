@@ -143,6 +143,22 @@ Apply the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligati
 Now apply the typed-family coverage and checker-route factorization theorems. They place every family read inside one displayed row and then through $K,H,C,P,M$. Since the carrier has no coordinate for the excluded global metatheorems, the kernel-facing scope is exactly this finite route.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery local subject-reduction boundary]
+\label{thm:metacic-typedexamples-gallery-local-subject-reduction-boundary}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+any subject-reduction read exposed by the gallery is local to the displayed rows $B,N,L,S,E,I,A,R$ and their checker, transport, replay, provenance, and naming rows $K,H,C,P,M$. A consumer may use the represented beta-redex endpoint or typed-example endpoint only through this finite route; it may not consume the gallery as global preservation, global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{theorem}
+\begin{proof}
+Start from the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}. It requires each displayed example read to expose its context row, term row, typing derivation row, reduction-window row, local-join row, normalization-frontier row, transport, replay, provenance, and local naming row inside the accepted gallery.
+
+Use checker-route factorization and kernel scope, \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization} and \autoref{thm:metacic-typed-examples-gallery-kernel-scope}. These theorems force every consumer through one of the displayed family rows $B,N,L,S,E,I,A,R$ and then through $K,H,C,P,M$.
+
+Finally apply the regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the carrier has no coordinate for global preservation or a complete subject-reduction theorem, any preservation-shaped read remains a local worked-example boundary and cannot be exported as a global metatheorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery scope completion]
 \label{thm:metacic-typedexamples-gallery-scope-completion}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier

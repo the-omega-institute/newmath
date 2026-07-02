@@ -107,6 +107,28 @@ For a consumer that reaches $E$, apply \autoref{thm:real-modulus-fusion-real-sea
 Finally close with non-escape, \autoref{thm:real-modulus-fusion-nonescape}. Since the packet has no quotient stream, selected limit, countable choice, trichotomy, or ambient completeness coordinate, no consumer can bypass the shared-tail window sequence.
 \end{proof}
 
+\begin{theorem}[RealModulusFusion shared-budget normalization]
+\label{thm:real-modulus-fusion-shared-budget-normalization}
+For every accepted $\RealModulusFusionUp$ packet
+$$
+F=(X,M,T,W,R,S,E,H,C,P,N),
+$$
+there is a single normalized budget order
+$$
+X \longrightarrow M \longrightarrow T \longrightarrow W \longrightarrow R \longrightarrow S \longrightarrow E.
+$$
+Any consumer that reaches the $\RegSeqRatUp$ handoff row $R$ or the terminal $\RealUp$ seal row $E$ must use that same order, with no alternate budget route through quotient streams, selected limits, host real equality, countable choice, trichotomy, ambient completeness, or a second shared modulus.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:real-modulus-fusion-namecert-obligations}. They expose the source modulus rows $X$, the shared modulus row $M$, the tail-meet threshold $T$, the finite window family $W$, the handoff row $R$, the selector route $S$, and the seal row $E$ as rows of one accepted packet.
+
+Use the RegSeq handoff theorem \autoref{thm:real-modulus-fusion-regseq-handoff}. Any $\RegSeqRatUp$ consumer must reach $R$ only after $M,T,W$ have been displayed, so the handoff cannot choose a second budget order.
+
+Apply shared-tail window exhaustion and the Real seal boundary, \autoref{thm:real-modulus-fusion-shared-tail-window-exhaustion} and \autoref{thm:real-modulus-fusion-real-seal-boundary}. The first theorem keeps both $R$ and $E$ downstream of the same shared-tail window sequence, and the second extends that sequence through $S$ before the terminal $\RealUp$ seal is read.
+
+Finally invoke non-escape from \autoref{thm:real-modulus-fusion-nonescape}. Since the packet has no coordinate for quotient streams, selected limits, host equality, countable choice, trichotomy, ambient completeness, or another shared modulus, every accepted consumer uses the displayed normalized order.
+\end{proof}
+
 \begin{theorem}[RealModulusFusion Real seal boundary]
 \label{thm:real-modulus-fusion-real-seal-boundary}
 Every $\RealUp$ seal read exported by an accepted $\RealModulusFusionUp$ packet factors through the finite route
