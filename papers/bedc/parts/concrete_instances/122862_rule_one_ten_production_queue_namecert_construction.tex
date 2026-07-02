@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenProductionQueueUp$}
+\label{ch:concrete-instances-rule-one-ten-production-queue-namecert}
+\origin{ai}
+
+The $\RuleOneTenProductionQueueUp$ packet realizes the Cook cyclic-tag production branch of \autoref{sec:cellular-automaton-reading-frontier-as-goedel} as finite NameCert data. It sits beside the cyclic-tag carrier of \autoref{ch:concrete-instances-cyclic-tag-system-namecert}, the Rule 110 local-stencil observation of \autoref{ch:concrete-instances-rule110-local-stencil-observation-namecert}, the Cook frontier budget of \autoref{ch:concrete-instances-rule110-cook-frontier-budget-namecert}, and the cellular pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}. The packet records production rows, tape-symbol rows, queue-head rows, step-budget rows, replay rows, provenance rows, and local naming before any consumer may read the Cook branch as a cellular production surface.
+
+\begin{definition}[Rule 110 production-queue carrier]
+\label{def:rule-one-ten-production-queue-carrier}
+A $\RuleOneTenProductionQueueUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(C,L,B,T,Hd,S,R,V,E,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CyclicTagSystemUp$ source row, exposing the accepted cyclic-tag production family and the inspected word row;
+\item $L$ is the $\RuleOneTenLocalStencilObservationUp$ row, recording the local Rule 110 stencil window used to read each simulated production step;
+\item $B$ is the $\RuleOneTenCookFrontierBudgetUp$ row, fixing the displayed production count, tape-symbol count, and step-budget boundary;
+\item $T$ is the tape-symbol queue row, listing the finite queue segment, head symbol, and tail segment inspected by the branch;
+\item $Hd$ is the queue-head row, naming the active production, head position, and local rotation state;
+\item $S$ is the step-budget row, tying each production dequeue and enqueue event to the finite Cook frontier budget;
+\item $R$ is the replay row, displaying the cyclic-tag update and the corresponding Rule 110 local-stencil observations in lockstep;
+\item $V$ is the cellular pattern-catalog row, recording which glider or ether-pattern tags are read from the replayed stencil window;
+\item $E$ is the obstruction and refusal row, recording when a requested production read exceeds the displayed queue, tape, or budget rows;
+\item $K$ records componentwise $\hsame$ transport for source, stencil, budget, tape, head, replay, catalog, obstruction, provenance, and local naming rows;
+\item $P$ records $\Pkg$ provenance over $\RuleOneTenProductionQueueUp$, $\CyclicTagSystemUp$, $\RuleOneTenLocalStencilObservationUp$, $\RuleOneTenCookFrontierBudgetUp$, $\CellularPatternCatalogUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RuleOneTenProductionQueueUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an unbounded cyclic-tag run, hidden Rule 110 evaluator, unstated universality theorem, external tape oracle, or detached complexity estimate.
+\end{definition}
+
+\begin{theorem}[Rule 110 production-queue NameCert obligations]
+\label{thm:rule-one-ten-production-queue-namecert-obligations}
+For every accepted $\RuleOneTenProductionQueueUp$ carrier
+$$
+Q=(C,L,B,T,Hd,S,R,V,E,K,P,N),
+$$
+the local $\NameCert_{\RuleOneTenProductionQueueUp}$ surface consists exactly of carrier admission for the cyclic-tag source, Rule 110 local-stencil observation, Cook frontier budget, tape-symbol queue, queue-head state, step-budget ledger, lockstep replay row, cellular pattern-catalog row, obstruction row, componentwise $\hsame$ transport, displayed replay, package provenance, and local naming. A consumer may inspect a production read only after all of those displayed rows are available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rule-one-ten-production-queue-carrier}. The source and cellular rows are $C,L,B,V$, while the queue-specific rows are $T,Hd,S,R,E$.
+
+Read the branch in dependency order. The cyclic-tag row supplies the production family, the local-stencil row supplies the Rule 110 observation window, and the Cook frontier budget supplies the finite count and step boundary. Only then can the tape-symbol queue, queue head, and lockstep replay rows be inspected.
+
+The structural rows preserve the same packet. Transport is read through $K$, provenance through $P$, and local naming through $N$. Since the carrier has no hidden evaluator, unbounded tape oracle, unstated universality theorem, or detached complexity estimate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rule 110 production-queue Cook branch handoff]
+\label{thm:rule-one-ten-production-queue-cook-branch-handoff}
+Every Cook-branch consumer of an accepted $\RuleOneTenProductionQueueUp$ packet factors through
+$$
+\CyclicTagSystemUp,\ \RuleOneTenLocalStencilObservationUp,\ \RuleOneTenCookFrontierBudgetUp,\ \CellularPatternCatalogUp .
+$$
+Concretely, the consumer first displays the cyclic-tag production row $C$, then the Rule 110 local-stencil row $L$, then the budget row $B$, then the finite tape, head, step, replay, catalog, obstruction, transport, provenance, and naming rows $T,Hd,S,R,V,E,K,P,N$. The handoff is a finite production queue, not an unbounded universality proof or a hidden tape oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier. A Cook-branch read has no public coordinate except the displayed rows $C,L,B,T,Hd,S,R,V,E,K,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:rule-one-ten-production-queue-namecert-obligations}. They force a production read to pass through the cyclic-tag source, local stencil observation, budget, queue, head, replay, catalog, obstruction, transport, provenance, and naming rows in the same finite packet.
+
+Thus the handoff is exactly the listed finite route. Any claim requiring an unbounded run, hidden evaluator, unstated universality theorem, external tape oracle, or detached complexity estimate lacks a carrier row and cannot be projected from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RuleOneTenProductionQueueUp$ Cook-branch read displays cyclic-tag source rows, Rule 110 local-stencil observations, Cook frontier budget rows, tape-symbol queue rows, queue-head rows, step-budget rows, replay rows, cellular pattern-catalog rows, obstruction rows, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{cyclic-tag-system, rule110-local-stencil-observation, rule110-cook-frontier-budget, cellularpatterncatalog: none is bijective to $\RuleOneTenProductionQueueUp$ because the queue packet jointly carries the cyclic-tag source, local Rule 110 stencil observations, finite Cook budget, tape-symbol queue, queue-head state, step-budget ledger, lockstep replay, catalog tags, obstruction rows, transport, provenance, and local naming.}
+
+\begin{theorem}[Rule 110 production-queue TasteGate obligation]
+\label{thm:rule-one-ten-production-queue-tastegate-obligation}
+The follow-on TasteGate surface for $\RuleOneTenProductionQueueUp$ must provide $\mathsf{Nontrivial}\ \RuleOneTenProductionQueueUp$ and $\mathsf{FieldFaithful}\ \RuleOneTenProductionQueueUp$ instances for the same displayed carrier $Q=(C,L,B,T,Hd,S,R,V,E,K,P,N)$. Nontriviality must exhibit an accepted finite queue packet, and field faithfulness must keep the cyclic-tag source, stencil observation, budget, tape-symbol queue, queue-head state, replay, catalog, obstruction, transport, provenance, and local naming rows distinct.
+\end{theorem}
+\begin{proof}
+The obligation is read from \autoref{def:rule-one-ten-production-queue-carrier}. The packet has separate rows for cyclic-tag source data, Rule 110 stencil observations, finite budget data, queue state, replay, catalog classification, obstruction, transport, provenance, and local naming.
+
+Nontriviality must therefore inhabit that finite packet rather than a bare tag. Field faithfulness must prevent the source row from replacing the stencil row, the budget row from replacing the replay row, or the catalog row from replacing obstruction and provenance.
+
+The excluded hidden evaluator and unbounded tape oracle are absent from the carrier and from the handoff theorem. The TasteGate instances therefore have to target the displayed production queue itself.
+\end{proof}
+
+\closureat{RuleOneTenProductionQueueUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenProductionQueueUp}
+  \constructivestory{A $\RuleOneTenProductionQueueUp$ packet is generated from CyclicTagSystem source rows, Rule 110 local-stencil observations, Cook frontier budget rows, tape-symbol queue rows, queue-head state, step-budget ledger, lockstep replay, cellular pattern-catalog tags, obstruction rows, componentwise hsame transport, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule-one-ten-production-queue-carrier}, \autoref{thm:rule-one-ten-production-queue-namecert-obligations}, \autoref{thm:rule-one-ten-production-queue-cook-branch-handoff}, and \autoref{thm:rule-one-ten-production-queue-tastegate-obligation} seed the finite production-queue packet for the Rule 110 Cook cyclic-tag branch.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Cook universality, an unbounded cyclic-tag run, a hidden Rule 110 evaluator, an external tape oracle, a detached complexity estimate, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, queue replay, local-stencil alignment, budget exactness, catalog readback, obstruction nonescape, Nontrivial and FieldFaithful TasteGate instances, transport, provenance, and local naming for BEDC.Derived.RuleOneTenProductionQueueUp.}
+\end{closurestatus}

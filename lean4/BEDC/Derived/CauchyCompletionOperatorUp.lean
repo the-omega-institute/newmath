@@ -222,6 +222,45 @@ theorem CauchyCompletionOperatorObligationWindowRoute [AskSetup] [PackageSetup]
       boundaryReadUnary, finiteUnary, separatedReadUnary, sealUnary, metricUniformBoundary,
       boundaryWindow, dyadicSeparated, separatedSeal, sealPkg⟩
 
+theorem CauchyCompletionOperatorTriangleConsumptionRoute [AskSetup] [PackageSetup]
+    {M B U S R D Q E H C P N boundaryRead finiteWindow separatedRead sealRead
+      triangleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionOperatorLedgerPacket M B U S R D Q E H C P N bundle pkg ->
+      Cont M U boundaryRead ->
+        Cont B S finiteWindow ->
+          Cont D Q separatedRead ->
+            Cont separatedRead E sealRead ->
+              Cont sealRead C triangleRead ->
+                PkgSig bundle triangleRead pkg ->
+                  UnaryHistory boundaryRead ∧ UnaryHistory finiteWindow ∧
+                    UnaryHistory separatedRead ∧ UnaryHistory sealRead ∧
+                      UnaryHistory triangleRead ∧ Cont M U boundaryRead ∧
+                        Cont B S finiteWindow ∧ Cont D Q separatedRead ∧
+                          Cont separatedRead E sealRead ∧ Cont sealRead C triangleRead ∧
+                            PkgSig bundle triangleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet metricUniformBoundary boundaryWindow dyadicSeparated separatedSeal
+    sealTriangle trianglePkg
+  obtain ⟨metricUnary, boundaryUnary, uniformUnary, streamUnary, _regularUnary,
+    dyadicUnary, separatedUnary, realSealUnary, _transportUnary, replayUnary,
+    _provenanceUnary, _nameUnary, _streamRegularDyadic, _dyadicSeparatedReal,
+    _provenancePkg, _namePkg⟩ := packet
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed metricUnary uniformUnary metricUniformBoundary
+  have finiteUnary : UnaryHistory finiteWindow :=
+    unary_cont_closed boundaryUnary streamUnary boundaryWindow
+  have separatedReadUnary : UnaryHistory separatedRead :=
+    unary_cont_closed dyadicUnary separatedUnary dyadicSeparated
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed separatedReadUnary realSealUnary separatedSeal
+  have triangleUnary : UnaryHistory triangleRead :=
+    unary_cont_closed sealUnary replayUnary sealTriangle
+  exact
+    ⟨boundaryReadUnary, finiteUnary, separatedReadUnary, sealUnary, triangleUnary,
+      metricUniformBoundary, boundaryWindow, dyadicSeparated, separatedSeal,
+      sealTriangle, trianglePkg⟩
+
 theorem CauchyCompletionOperatorScopedObligationClosure [AskSetup] [PackageSetup]
     {M B U S R D Q E H C P N boundaryRead finiteWindow separatedRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

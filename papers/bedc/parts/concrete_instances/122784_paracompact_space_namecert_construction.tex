@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\ParacompactSpaceUp$}
+\label{ch:concrete-instances-paracompact-space-namecert}
+\origin{human}
+
+Following Bourbaki and Engelking on paracompact Hausdorff spaces, the $\ParacompactSpaceUp$ packet records the space-level certificate that binds a topology source, Hausdorff separation, normal-space separation, locally finite refinement, and partition-refinement ledgers into one finite BEDC NameCert surface. It sits over the open-cover refinement route of \autoref{ch:concrete-instances-paracompact-namecert}, the point-separation rows of \autoref{ch:concrete-instances-hausdorffspace-namecert}, and the closed-pair separation route of \autoref{ch:concrete-instances-normalspace-namecert}. The packet names only displayed topological, refinement, and partition-refinement rows; it does not assert arbitrary subcover selection, host powersets of open sets, unrestricted partitions of unity, or ambient choice principles.
+
+\begin{definition}[Paracompact space carrier]
+\label{def:paracompact-space-carrier}
+A $\ParacompactSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,H,N,A,R,L,P,W,E,K,C,G,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, exposing the ambient open-row operations on the displayed space surface.
+\item $H$ is the $\HausdorffSpaceUp$ point-separation row, read only as the sibling neighbourhood-separation certificate.
+\item $N$ is the $\NormalSpaceUp$ closed-pair separation row over the same topology source.
+\item $A$ is the displayed open-cover request row.
+\item $R$ is the locally finite open-refinement ledger inherited from the $\ParacompactUp$ refinement surface.
+\item $L$ is the coverage and containment ledger, recording that refinement cells cover the displayed region and sit inside their assigned cover cells.
+\item $P$ is the partition-refinement ledger, recording displayed support rows, local finiteness of the support family, and assignment of each support row to the refinement cell that licenses it.
+\item $W$ is the exactness row tying the partition-refinement support ledger to the same cover and refinement windows $A,R,L$.
+\item $E$ records componentwise $\hsame$ transport for the topology, separation, refinement, partition-refinement, exactness, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a paracompact-space request through $T,H,N,A,R,L,P,W,E,G,Z$.
+\item $C$ is the classifier row comparing accepted packets only through the displayed coordinates $T,H,N,A,R,L,P,W,E,K,G,Z$.
+\item $G$ is the $\Pkg$ provenance over $\ParacompactSpaceUp$, $\TopologyUp$, $\HausdorffSpaceUp$, $\NormalSpaceUp$, $\ParacompactUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Z$ is the local $\NameCert_{\ParacompactSpaceUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for a selected subcover, an arbitrary host-indexed open family, unrestricted partition-of-unity weights, host complement selection, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Paracompact space NameCert obligations]
+\label{thm:paracompact-space-namecert-obligations}
+For every accepted $\ParacompactSpaceUp$ carrier
+$$
+S=(T,H,N,A,R,L,P,W,E,K,C,G,Z),
+$$
+the local $\NameCert_{\ParacompactSpaceUp}$ surface consists exactly of carrier admission, topology-source exposure, Hausdorff and normal-space separation exposure, open-cover exposure, locally finite refinement exactness, partition-refinement ledger exposure, support-to-refinement exactness, componentwise transport, displayed replay, classifier comparison, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:paracompact-space-carrier}. The accepted tuple displays exactly the topology source, the Hausdorff and normal separation rows, the cover request, the locally finite refinement ledger, the coverage and containment ledger, the partition-refinement ledger, exactness, transport, replay, classifier, provenance, and local naming.
+
+The topological and separation obligations are read from $T,H,N$. Point-separation information must pass through the $\HausdorffSpaceUp$ row, while closed-pair separation information must pass through the $\NormalSpaceUp$ row over the same topology source.
+
+The refinement obligations are read from $A,R,L$. The cover request is displayed before the refinement is consumed, and the ledger records both local finiteness and containment in the assigned cover rows.
+
+The partition-refinement obligations are read from $P,W$. These rows expose only support rows tied to the displayed locally finite refinement; they do not create a host partition-of-unity object or a selected subcover.
+
+Finally, $E,K,C,G,Z$ exhaust transport, replay, classifier comparison, provenance, and local naming. Since the packet has no further coordinate, no NameCert obligation can export arbitrary cover choice, host powersets, unrestricted weights, ambient normality, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Paracompact space locally finite refinement route]
+\label{thm:paracompact-space-locally-finite-refinement-route}
+Every accepted $\ParacompactSpaceUp$ refinement read factors through the displayed route
+$$
+\TopologyUp \longrightarrow \HausdorffSpaceUp \longrightarrow \NormalSpaceUp \longrightarrow \ParacompactUp \longrightarrow \ParacompactSpaceUp .
+$$
+The exported refinement data are exactly the cover request, locally finite refinement ledger, coverage and containment ledger, separation rows, transport, replay, provenance, and local naming rows of the carrier.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(T,H,N,A,R,L,P,W,E,K,C,G,Z)$. The topology source $T$ is displayed before any separation or refinement row is read.
+
+The separation segment is $H,N$. The Hausdorff row supplies point-neighbourhood separation as a sibling certificate, and the normal-space row supplies closed-pair separation over the same displayed topology.
+
+The refinement segment is $A,R,L$. It is the only route from the open-cover request to a locally finite refinement read and to the corresponding coverage and containment exactness rows.
+
+The structural rows $E,K,C,G,Z$ preserve this order under transport, replay, classifier comparison, provenance, and naming. Hence a refinement consumer reaches $\ParacompactSpaceUp$ only through the displayed topology, separation, and locally finite refinement rows.
+\end{proof}
+
+\begin{theorem}[Paracompact space partition-refinement ledger]
+\label{thm:paracompact-space-partition-refinement-ledger}
+Every partition-refinement read exported by an accepted $\ParacompactSpaceUp$ packet factors through the locally finite refinement ledger before any support row can be consumed. The partition-refinement ledger is the finite pair $(P,W)$: $P$ displays support rows and their assignment to refinement cells, while $W$ records exactness against the same cover and refinement windows $A,R,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:paracompact-space-carrier}. The rows $P$ and $W$ are the only partition-refinement coordinates in the packet.
+
+Before $P$ can be read, the cover and refinement rows $A,R,L$ have already displayed the local finiteness, coverage, and containment data. Thus every support row named by $P$ is tied to a displayed refinement cell rather than to an arbitrary host open family.
+
+The exactness row $W$ then checks the support assignment against the same cover and refinement windows. This prevents the partition-refinement read from escaping to unrestricted partition-of-unity weights, host complement selection, or a separate ambient normality theorem.
+
+Transport, replay, classifier comparison, provenance, and local naming are exhausted by $E,K,C,G,Z$, so the partition-refinement ledger remains a finite NameCert row over the displayed paracompact-space carrier.
+\end{proof}
+
+\closureat{ParacompactSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ParacompactSpaceUp}
+  \constructivestory{A $\ParacompactSpaceUp$ packet is generated from a $\TopologyUp$ source row, $\HausdorffSpaceUp$ point-separation row, $\NormalSpaceUp$ closed-pair separation row, displayed open-cover request, locally finite refinement ledger, coverage and containment ledger, partition-refinement support ledger, exactness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, classifier row, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:paracompact-space-carrier}, \autoref{thm:paracompact-space-namecert-obligations}, \autoref{thm:paracompact-space-locally-finite-refinement-route}, and \autoref{thm:paracompact-space-partition-refinement-ledger} seed the finite space-level route from topology and separation rows through locally finite refinement into partition-refinement support ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subcovers, unrestricted partitions of unity, host powersets of opens, ambient choice principles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Hausdorff and normal separation exposure, locally finite refinement exactness, partition-refinement ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.ParacompactSpaceUp.}
+\end{closurestatus}

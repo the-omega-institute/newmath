@@ -9,3 +9,15 @@ Next read the product-topology row $Q$ and the rectangle ledger $B$. Together wi
 
 The structural rows $S,H,C,R,N$ preserve the same dependency order for observable-open readback, transport, replay, provenance, and local naming. Since the carrier has no standalone topology coordinate outside $O_X,O_Y,Q,B$, no accepted plane topology read can bypass the lower-limit and product-topology siblings.
 \end{proof}
+
+\begin{theorem}[Sorgenfrey plane TopologyUp dependency]
+\label{thm:sorgenfrey-plane-topology-dependency}
+Every accepted $\SorgenfreyPlaneUp$ carrier that exposes its plane topology consumes the lower-limit topology and product topology rows through the $\TopologyUp$ carrier/classifier route of \autoref{ch:concrete-instances-topology-namecert}, together with the lower-limit source of \autoref{ch:concrete-instances-sorgenfrey-line-namecert} and the product classifier of \autoref{ch:concrete-instances-product-topology-namecert}. In the notation of \autoref{def:sorgenfrey-plane-carrier}, the rows $O_X,O_Y,Q,B$ are the visible dependency surface for that read.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $O_X,O_Y,Q,B$. The component topology rows $O_X,O_Y$ are the $\TopologyUp$ reads exported by the two lower-limit line sources, and $Q$ is the displayed product-topology row.
+
+Use \autoref{thm:sorgenfrey-plane-topology-sibling-route} and \autoref{thm:sorgenfrey-plane-lower-limit-product-dependency-route}. They force every plane-level topology observation to pass through the component lower-limit windows and then through the product classifier before the rectangle ledger $B$ is public.
+
+Thus the topology dependency is a concrete sibling route through $\TopologyUp$, $\SorgenfreyLineUp$, and $\ProductTopologyUp$, not a standalone host topology on a plane.
+\end{proof}

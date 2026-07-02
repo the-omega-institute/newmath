@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationBoundaryUp$}
+\label{ch:concrete-instances-finite-observation-boundary-namecert}
+\origin{human}
+
+Following Bishop-style located-real comparison, the $\FiniteObservationBoundaryUp$ packet realizes the exact-comparison boundary of \autoref{sec:real-completeness-modulus-comparison-boundary} as finite BEDC data. It records two located-real endpoint moduli, the requested exact comparison surface, a finite apartness or equality window, and a refusal ledger for total trichotomy before any comparison-facing consumer reads the packet. It sits beside the located-real comparison packet of \autoref{ch:concrete-instances-located-real-comparison-namecert}, the comparison-modulus packet of \autoref{ch:concrete-instances-located-real-comparison-modulus-namecert}, the dyadic comparison boundary of \autoref{ch:concrete-instances-dyadic-modulus-comparison-boundary-namecert}, the finite separation packet of \autoref{ch:concrete-instances-finite-window-real-separation-namecert}, and the located-order packet of \autoref{ch:concrete-instances-real-located-order-namecert}. The packet names a finite observation boundary, not arbitrary exact trichotomy, quotient real equality, $\mathsf{LPO}$, countable choice, or ambient real completeness.
+
+\begin{definition}[Finite observation boundary carrier]
+\label{def:finite-observation-boundary-carrier}
+A $\FiniteObservationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,R,Q,W,A,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left $\LocatedRealUp$ endpoint modulus row, exposing only the finite observations selected by its displayed modulus.
+\item $R$ is the right $\LocatedRealUp$ endpoint modulus row, exposed by the same finite-window discipline.
+\item $Q$ is the requested exact comparison surface, recording that a consumer asked for total left/equal/right classification.
+\item $W$ is the finite observation window selected from the two endpoint moduli for the request.
+\item $A$ is the finite apartness or equality row visible at $W$, using $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ readback data.
+\item $E$ is the refusal ledger for total trichotomy: it records that $Q$ may be answered only by finite apartness or finite equality evidence, not by arbitrary exact comparison.
+\item $F$ records the sibling comparison handoff through located comparison, comparison-modulus, dyadic comparison boundary, finite separation, or located order rows when one of those rows is displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint moduli, request surface, finite window, apartness or equality evidence, refusal ledger, sibling handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the exact-comparison request back through the finite observation window.
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationBoundaryUp$, $\LocatedRealUp$, $\DyadicModulusComparisonBoundaryUp$, $\LocatedRealComparisonUp$, $\LocatedRealComparisonModulusUp$, $\FiniteWindowRealSeparationUp$, $\RealLocatedOrderUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteObservationBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,R,Q,W,A,E,F,H,C,P,N$. It has no coordinate for total trichotomy of arbitrary located reals, quotient-real equality, $\mathsf{LPO}$, countable choice, a selected representative, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite observation boundary NameCert obligations]
+\label{thm:finite-observation-boundary-namecert-obligations}
+For every accepted $\FiniteObservationBoundaryUp$ carrier
+$$
+B=(L,R,Q,W,A,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteObservationBoundaryUp}$ surface consists exactly of left and right endpoint-modulus admission through $L,R$, exact-comparison request exposure through $Q$, finite observation-window admission through $W$, apartness or equality evidence through $A$, trichotomy refusal through $E$, sibling comparison handoff through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint rows $L$ and $R$ expose only the observations selected by the two located-real moduli.
+
+Read the request row $Q$. It records the exact-comparison demand as a surface to be refused or finitely witnessed, not as an available trichotomy operator.
+
+Use the finite window $W$ and the evidence row $A$. These rows can display a positive apartness witness or a finite equality approximation through dyadic, regular-rational, and Real readbacks, but they do not classify every arbitrary pair of located reals.
+
+The refusal ledger $E$ and sibling handoff $F$ preserve the boundary: downstream comparison consumers must pass through located comparison, comparison-modulus, dyadic boundary, finite separation, or located-order rows when those rows are present. The structural rows $H,C,P,N$ add only transport, replay, provenance, and local naming, so no row can export total trichotomy, quotient equality, omniscience, choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteObservationBoundaryUp$ read is refuted if a located-real comparison consumer returns total left/equal/right trichotomy without first exposing two endpoint modulus rows, the requested exact-comparison surface, a finite observation window, finite apartness or equality evidence, the trichotomy refusal ledger, sibling comparison handoff, transport, replay, provenance, and local NameCert data.}
+
+\independenceWitness{located-real-comparison, located-real-comparison-modulus, dyadic-modulus-comparison-boundary, finite-window-real-separation, real-located-order: $\FiniteObservationBoundaryUp$ is not bijective to any listed sibling because it stores the exact-comparison request surface and refusal ledger together with two endpoint moduli, one finite observation window, finite apartness or equality evidence, sibling handoff, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteObservationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationBoundaryUp}
+  \constructivestory{A $\FiniteObservationBoundaryUp$ packet is generated from two LocatedReal endpoint modulus rows, a requested exact-comparison surface, a finite observation window, finite apartness or equality evidence, a total-trichotomy refusal ledger, sibling comparison handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-boundary-carrier}, \autoref{thm:finite-observation-boundary-namecert-obligations}, the falsifiable prediction, and the independence witness seed the finite observation boundary for exact located-real comparison requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary exact trichotomy, quotient-real equality, $\mathsf{LPO}$, countable choice, selected representatives, ambient real completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint-modulus admission, exact-request exposure, finite-window admission, apartness-or-equality evidence, trichotomy refusal, sibling handoff, transport, replay, provenance, and local ledgering for BEDC.Derived.FiniteObservationBoundaryUp.}
+\end{closurestatus}

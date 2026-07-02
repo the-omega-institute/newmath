@@ -346,4 +346,101 @@ theorem RealInverseObligationClosurePackage [AskSetup] [PackageSetup]
   }
   exact ⟨cert, denominatorUnary, productUnary, sealUnary, refusalUnary⟩
 
+theorem RealInversePublicTransportConsumerFactorization [AskSetup] [PackageSetup]
+    {x a p w r s h c l n reciprocalWindow productRead sealRead transportRead replayRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealInverseCarrier x a p w r s h c l n bundle pkg →
+      Cont a w reciprocalWindow →
+        Cont p r productRead →
+          Cont productRead s sealRead →
+            Cont sealRead h transportRead →
+              Cont transportRead c replayRead →
+                Cont replayRead n publicRead →
+                  PkgSig bundle publicRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row a ∨ hsame row p ∨ hsame row w ∨ hsame row r ∨
+                            hsame row s ∨ hsame row h ∨ hsame row c ∨ hsame row n ∨
+                              hsame row reciprocalWindow ∨ hsame row productRead ∨
+                                hsame row sealRead ∨ hsame row transportRead ∨
+                                  hsame row replayRead ∨ hsame row publicRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont a w reciprocalWindow ∧
+                            Cont p r productRead ∧ Cont productRead s sealRead ∧
+                              Cont sealRead h transportRead ∧
+                                Cont transportRead c replayRead ∧
+                                  Cont replayRead n publicRead ∧
+                                    PkgSig bundle publicRead pkg)
+                        hsame ∧
+                      UnaryHistory reciprocalWindow ∧ UnaryHistory productRead ∧
+                        UnaryHistory sealRead ∧ UnaryHistory transportRead ∧
+                          UnaryHistory replayRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier reciprocalRoute productRoute sealRoute transportRoute replayRoute publicRoute
+    publicPkg
+  obtain ⟨_xUnary, aUnary, pUnary, wUnary, rUnary, sUnary, hUnary, cUnary,
+    _lUnary, nUnary, _apartRoute, _carrierProductRoute, _localRoute, _ledgerPkg,
+      _namePkg⟩ := carrier
+  have reciprocalUnary : UnaryHistory reciprocalWindow :=
+    unary_cont_closed aUnary wUnary reciprocalRoute
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed pUnary rUnary productRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed productUnary sUnary sealRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed sealUnary hUnary transportRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary cUnary replayRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row a ∨ hsame row p ∨ hsame row w ∨ hsame row r ∨
+              hsame row s ∨ hsame row h ∨ hsame row c ∨ hsame row n ∨
+                hsame row reciprocalWindow ∨ hsame row productRead ∨
+                  hsame row sealRead ∨ hsame row transportRead ∨
+                    hsame row replayRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont a w reciprocalWindow ∧ Cont p r productRead ∧
+              Cont productRead s sealRead ∧ Cont sealRead h transportRead ∧
+                Cont transportRead c replayRead ∧ Cont replayRead n publicRead ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+          Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, reciprocalRoute, productRoute, sealRoute, transportRoute,
+          replayRoute, publicRoute, publicPkg⟩
+  }
+  exact
+    ⟨cert, reciprocalUnary, productUnary, sealUnary, transportUnary, replayUnary,
+      publicUnary⟩
+
 end BEDC.Derived.RealInverseUp
