@@ -38,7 +38,8 @@ theorem ContinuedFractionConvergentsNameCertObligations [AskSetup] [PackageSetup
                                     hsame row A ∨ hsame row N ∨ hsame row D ∨
                                       hsame row Q ∨ hsame row W ∨ hsame row E ∨
                                         hsame row R ∨ hsame row S ∨ hsame row H ∨
-                                          hsame row C ∨ hsame row P ∨ hsame row L)
+                                          hsame row C ∨ hsame row P ∨ hsame row L ∨
+                                            hsame row sealedRead)
                                   (fun row : BHist =>
                                     UnaryHistory row ∧ Cont A N rationalRead ∧
                                       Cont rationalRead D Q ∧ Cont Q W windowRead ∧
@@ -68,7 +69,7 @@ theorem ContinuedFractionConvergentsNameCertObligations [AskSetup] [PackageSetup
           (fun row : BHist =>
             hsame row A ∨ hsame row N ∨ hsame row D ∨ hsame row Q ∨ hsame row W ∨
               hsame row E ∨ hsame row R ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨
-                hsame row P ∨ hsame row L)
+                hsame row P ∨ hsame row L ∨ hsame row sealedRead)
           (fun row : BHist =>
             UnaryHistory row ∧ Cont A N rationalRead ∧ Cont rationalRead D Q ∧
               Cont Q W windowRead ∧ Cont windowRead E regularRead ∧
@@ -101,10 +102,11 @@ theorem ContinuedFractionConvergentsNameCertObligations [AskSetup] [PackageSetup
                 (Or.inr
                   (Or.inr
                     (Or.inr
-                      (Or.inr
                         (Or.inr
                           (Or.inr
-                            (Or.inr source.left))))))))))
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr source.left)))))))))))
     ledger_sound := by
       intro _row source
       exact
