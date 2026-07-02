@@ -123,6 +123,123 @@ consumer to use residual scale, branch, phase-source, or prime-fiber
 information while omitting the ledger that carries it.
 \end{principle}
 
+\begin{definition}[Prime-classifier container]
+\label{def:rh-prime-classifier-container}
+A prime-classifier container $\mathcal C$ consists of a finite
+prime-register window $P_{\mathcal C}$, a unit or normalized phase row
+$U_{\mathcal C}$, a triangular norm row $N_{\mathcal C}$, a boundary row
+$B_{\mathcal C}$, and a type read
+$$
+\tau_{\mathcal C}:P_{\mathcal C}\to
+\{
+\mathsf{split}_{\mathcal C},
+\mathsf{inert}_{\mathcal C},
+\mathsf{ramified}_{\mathcal C}
+\}.
+$$
+The type names are relative to the container. A split prime is a register
+row whose container supplies a factor pair and hence a possible
+unit-phase resource. An inert prime is a register row whose unpaired
+occurrence contributes to the triangular norm boundary. A ramified prime
+is a branch or degeneracy row whose contribution must be recorded as
+boundary data rather than erased into phase.
+\end{definition}
+
+\begin{principle}[Prime type is container-relative]
+\label{prin:rh-prime-type-container-relative}
+A rational prime is not an undifferentiated particle in the RH-facing
+ledger. It acquires its proof role only after a container $\mathcal C$
+has supplied the classifier
+$\tau_{\mathcal C}$ of \autoref{def:rh-prime-classifier-container}. In
+the Gaussian two-square container this read is the familiar split,
+inert, and ramified trichotomy. In a Frobenius, character, solenoid, or
+finite-window Euler container the same discipline says that the prime
+row must be read through the displayed register, phase, and tower rows
+before it may be used as a triangle leg, a unit-phase resource, or a
+boundary obstruction.
+\end{principle}
+
+\begin{definition}[Triangle parity boundary]
+\label{def:rh-triangle-parity-boundary}
+A triangle classifier container $\mathcal C$ is a prime-classifier
+container whose inert subfamily
+$$
+I_{\mathcal C}
+:=
+\tau_{\mathcal C}^{-1}(\mathsf{inert}_{\mathcal C})
+$$
+is displayed as a finite obstruction window. Its parity boundary on a
+finite register row
+$n=\prod_p p^{v_p(n)}$ is
+$$
+\partial_{\mathcal C}(n)
+:=
+\bigl(v_p(n)\bmod 2\bigr)_{p\in I_{\mathcal C}}.
+$$
+The row
+$$
+\partial_{\mathcal C}(n)=0
+$$
+states that every inert obstruction class visible to $\mathcal C$ occurs
+with even multiplicity.
+\end{definition}
+
+\begin{principle}[Even parity is triangle-norm closure]
+\label{prin:rh-even-parity-triangle-norm-closure}
+The role of \autoref{def:rh-triangle-parity-boundary} is the same as the
+classical two-square classifier over the Gaussian integer container:
+primes split by the container may supply phase resources, while inert
+classes must be paired before they contribute to a quadratic norm row.
+Thus
+$$
+\partial_{\mathcal C}(n)=0
+$$
+is a triangle-norm admissibility row. It says that the visible inert
+boundary has no unpaired class. It does not say that the resulting
+norm row has already been normalized to a unit-circle phase.
+\end{principle}
+
+\begin{definition}[Norm-phase separation row]
+\label{def:rh-norm-phase-separation-row}
+For a triangle classifier container $\mathcal C$, the norm-phase
+separation row is the refusal
+$$
+\mathsf{TriangleNormClosed}_{\mathcal C}(n)
+\nRightarrow
+\mathsf{UnitPhaseClosed}(n).
+$$
+The left side records parity closure and quadratic norm admissibility.
+The right side requires a further normalization row eliminating radial
+scale. In a complex readout this is the difference between a norm block
+and a unit quotient
+$$
+u=\frac{\alpha}{\overline{\alpha}},
+\qquad
+|u|=1.
+$$
+\end{definition}
+
+\begin{principle}[Mirror pairing is not unit-circle closure]
+\label{prin:rh-mirror-pairing-not-unit-circle-closure}
+For a Li coordinate row
+$$
+z_{\rho}=e^{\ell+i\theta},
+$$
+and a displayed positive observation index $n$, the mirror pair with
+radial coordinates $\ell$ and $-\ell$ is an even scale packet, but its
+averaged phase-aligned readout is
+$$
+\frac{e^{n\ell}e^{in\theta}+e^{-n\ell}e^{in\theta}}{2}
+=
+\cosh(n\ell)e^{in\theta}.
+$$
+When $\ell\#0$, the positivity of $n$ gives modulus
+$\cosh(n\ell)>1$. It is therefore a norm-bearing paired packet, not a
+pure unit-circle phase. Consequently the RH-facing route must prove not
+only triangle parity closure, but the stronger radial-scale elimination
+row $\ell=0$.
+\end{principle}
+
 \begin{definition}[No hidden scale row]
 \label{def:rh-no-hidden-scale-from-bedc-row}
 For a circle-triangle generation packet $\mathcal G$, the row
