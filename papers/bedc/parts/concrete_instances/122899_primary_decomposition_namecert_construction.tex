@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\PrimaryDecompositionUp$}
+\label{ch:concrete-instances-primary-decomposition-namecert}
+\origin{human}
+
+Following Atiyah and Macdonald, Introduction to Commutative Algebra, the $\PrimaryDecompositionUp$ packet records the finite row data by which a noetherian algebra source displays an ideal or submodule as an intersection of primary components. It sits after the chain-stabilization surfaces of $\NoetherianModuleUp$ and $\NoetherianRingUp$ in \autoref{ch:concrete-instances-noetherian-module-namecert} and \autoref{ch:concrete-instances-noetherian-ring-namecert}, the ideal membership surface of $\IdealUp$ in \autoref{ch:concrete-instances-ideal-namecert}, the finite reduction witness $\GroebnerBasisUp$ of \autoref{ch:concrete-instances-groebner-basis-namecert}, the finite basis route $\HilbertBasisUp$ of \autoref{ch:concrete-instances-hilbert-basis-namecert}, and the residue recombination sibling $\ChineseRemainderUp$ of \autoref{ch:concrete-instances-chinese-remainder-namecert}. The packet exports only the displayed decomposition route; it is not a host quotient-ideal type, a uniqueness theorem, an ambient radical oracle, or a selected associated-prime principle.
+
+\begin{definition}[Primary decomposition carrier]\label{def:primary-decomposition-carrier}
+A $\PrimaryDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{PrimDec}(R,M,I,B,G,L,E,H,C,Q,N)
+$$
+with the following rows.
+\begin{itemize}
+\item $R$ is the $\NoetherianRingUp$ source row for the ambient commutative ring operations and ascending-chain control.
+\item $M$ is the optional $\NoetherianModuleUp$ row used when the decomposed object is a submodule rather than an ideal.
+\item $I$ is the $\IdealUp$ or submodule-membership row naming the object whose decomposition is being read.
+\item $B$ is the $\HilbertBasisUp$ finite generator row for the displayed ideal or submodule presentation.
+\item $G$ is the $\GroebnerBasisUp$ finite reduction row used only to replay membership in the listed components.
+\item $L$ is the finite component list. Each entry records a component carrier, a primaryness witness row, and the radical-name row used by the classifier below.
+\item $E$ is the exactness ledger: it stores the two finite membership directions between the original object $I$ and the intersection of the component rows in $L$.
+\item $H,C,Q,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance over the listed sibling packets, and local $\NameCert_{\PrimaryDecompositionUp}$ row.
+\end{itemize}
+The classifier compares two carriers only when their ambient $\NoetherianRingUp$ and optional $\NoetherianModuleUp$ rows classify together, their original object rows classify together, their component lists match by displayed component rows, and their exactness ledgers replay the same two membership directions. It has no coordinate for uniqueness of minimal decompositions, equality of radicals except the radical-name rows stored in $L$, host quotient ideals, associated-prime selection, or a decomposition theorem outside the finite packet.
+\end{definition}
+\leandef{BEDC.Derived.PrimaryDecompositionUp.PrimaryDecompositionUp}
+
+\begin{theorem}[Primary decomposition NameCert obligations]\label{thm:primary-decomposition-obligations}
+For every accepted $\PrimaryDecompositionUp$ carrier $\mathsf{PrimDec}(R,M,I,B,G,L,E,H,C,Q,N)$, the local $\NameCert_{\PrimaryDecompositionUp}$ surface consists exactly of carrier admission for the eleven displayed rows, noetherian ring compatibility through $R$, optional noetherian module compatibility through $M$, ideal or submodule source exposure through $I$, finite generator access through $B$, finite reduction replay through $G$, primary component-list exposure through $L$, intersection exactness through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance non-escape through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:primary-decomposition-carrier}. The source rows $R$ and $M$ determine the algebraic classifier before any component can be read.
+
+The object row $I$ is then inspected through the finite generator and reduction surfaces $B$ and $G$. These rows expose the same membership problem to every component of $L$, but they do not introduce quotient ideals or a host decomposition primitive.
+
+The component list $L$ stores only displayed primaryness and radical-name rows, while $E$ stores the two finite membership directions between $I$ and the displayed intersection. Transport, continuation, provenance, and local naming repack those rows. Since no other coordinate appears in the carrier, the local certificate cannot claim uniqueness, associated-prime selection, or radical equality beyond the listed classifier rows.
+\end{proof}
+
+\begin{theorem}[Primary decomposition localization route]\label{thm:primary-decomposition-localization}
+Let $\mathsf{PrimDec}(R,M,I,B,G,L,E,H,C,Q,N)$ be an accepted $\PrimaryDecompositionUp$ carrier. Any downstream local computation that reads a component of the decomposition must first expose the ambient $\NoetherianRingUp$ row $R$, the optional $\NoetherianModuleUp$ row $M$ when present, the original $\IdealUp$ or submodule row $I$, and the finite component-list row $L$. The localized read may use only the selected component row, its stored primaryness witness, its radical-name row, the membership replay supplied by $G$, and the exactness ledger $E$.
+\end{theorem}
+\begin{proof}
+Start from $R$ and $M$. They bind the algebraic source and chain-control surface for every later component read.
+
+Next expose $I$, $B$, and $G$. The finite generator and reduction rows are the only route by which membership in the original object or in a listed component is replayed.
+
+Finally choose a displayed component position in $L$ and use the corresponding rows together with $E$. This yields a local component computation inside the same finite decomposition packet. The route does not pass through host quotient ideals, a selected localization theorem, or a hidden associated-prime construction.
+\end{proof}
+
+\begin{theorem}[Primary decomposition NameCert route]\label{thm:primary-decomposition-namecert}
+Every public consumer of an accepted $\PrimaryDecompositionUp$ packet that claims a primary decomposition must read the route
+$$
+\NoetherianRingUp,\ \NoetherianModuleUp,\ \IdealUp,\ \HilbertBasisUp,\ \GroebnerBasisUp
+\longrightarrow
+\NameCert_{\PrimaryDecompositionUp}.
+$$
+The exported object is exactly the finite component list $L$, the exactness ledger $E$, and the structural rows $H,C,Q,N$. The route may be compared with $\ChineseRemainderUp$ only as a finite recombination sibling: $\PrimaryDecompositionUp$ stores intersection components and primaryness witnesses, while $\ChineseRemainderUp$ stores residue rows and coprime recombination data.
+\end{theorem}
+\begin{proof}
+Read the noetherian source row $R$, and read $M$ when the carrier decomposes a submodule. These rows provide chain-control context but do not by themselves export a decomposition.
+
+Open the object row $I$, the finite basis row $B$, and the reduction row $G$. They supply the membership and generator surface over which component membership can be checked.
+
+The public decomposition is then exactly $L$ together with $E$. The remaining rows $H,C,Q,N$ transport, replay, record provenance, and name that same finite packet. The comparison with $\ChineseRemainderUp$ is therefore only a sibling boundary: recombination data and component-intersection data remain different carrier coordinates.
+\end{proof}
+
+\falsifiablePrediction{Every $\PrimaryDecompositionUp$ consumer that claims a primary decomposition must exhibit the noetherian ring row, optional noetherian module row, ideal or submodule source row, Hilbert-basis row, Groebner reduction row, finite component list, exactness ledger, transport, continuation, provenance, and local naming row.}
+\independenceWitness{noetherian-module, noetherian-ring, ideal, groebner-basis, hilbert-basis, chinese-remainder: $\PrimaryDecompositionUp$ is not bijective to any listed sibling because it jointly carries a noetherian source, a decomposed object row, finite generator and reduction witnesses, primary component rows, radical-name classifier rows, and a two-sided intersection exactness ledger.}
+
+\closureat{PrimaryDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\PrimaryDecompositionUp}
+  \constructivestory{A $\PrimaryDecompositionUp$ packet is generated from NoetherianRingUp and optional NoetherianModuleUp source rows, an IdealUp or submodule source row, HilbertBasisUp finite generator data, GroebnerBasisUp finite reduction traces, a finite primary component list with radical-name rows, a two-sided intersection exactness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:primary-decomposition-carrier}, \autoref{thm:primary-decomposition-obligations}, \autoref{thm:primary-decomposition-localization}, and \autoref{thm:primary-decomposition-namecert} seed the finite primary-decomposition route over NoetherianRingUp, NoetherianModuleUp, IdealUp, HilbertBasisUp, GroebnerBasisUp, ChineseRemainderUp-adjacent recombination boundaries, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close uniqueness of primary decompositions, radical equality beyond the displayed classifier rows, Lean verification, bridge checking, host quotient ideals, associated-prime selection, or an ambient decomposition theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, noetherian source compatibility, component-list primaryness, radical-name classifier stability, exactness-ledger coverage, localized read non-escape, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.PrimaryDecompositionUp.}
+\end{closurestatus}
