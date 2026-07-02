@@ -176,6 +176,51 @@ require certified rational enclosures for the relevant Taylor
 coefficients $\gamma_0,\gamma_1,\gamma_2$.
 \end{proof}
 
+\begin{theorem}[Cubic discriminant identity and the higher-Turan condition]
+\label{thm:rh-jensen-turan-degree3}
+Let $J(X)=g_0+3g_1X+3g_2X^2+g_3X^3$ be the degree-three Jensen
+polynomial and set $A=g_1^2-g_0g_2$, $B=g_2^2-g_1g_3$,
+$C=g_1g_2-g_0g_3$, and $T_3=4AB-C^2$.  Then the discriminant of $J$
+satisfies the pure ring identity
+$$
+\Delta(J)=27\,T_3,
+$$
+and, over the ordered rationals, $T_3\ge 0$ if and only if $A\ge 0$,
+$B\ge 0$, and $C^2\le 4AB$.
+\leanchecked{BEDC.Derived.RHRoute.JensenTuranDegree3.cubic\_discriminant\_eq\_27\_T3}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree3.T3\_nonneg\_iff}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree3.subdiscriminant\_A}
+\end{theorem}
+
+\begin{proof}
+The Lean certificate is finite, unconditional, and algebraic over the
+rational carrier.  The discriminant formula is a pure ring identity, and
+the subdiscriminant layer supplies the SOS-type identity
+$$
+4A^3=H_A^2+g_0^2T_3
+$$
+with the corresponding $B$-side relation used by the ordered-rational
+corollary.  Thus the nontrivial direction from $T_3\ge0$ to $A\ge0$ and
+$B\ge0$ is obtained without real closure.
+
+This is not the real-root bridge.  The implication
+$$
+\Delta\ge0\Longleftrightarrow J \hbox{ has three real roots}
+$$
+is a separate real-closure or Sturm obligation, and is not part of this
+certificate.  Over the ordered rationals, nonnegative discriminant does
+not even supply rational roots: $X^3-3X+1$ has discriminant $81>0$ and no
+rational root.  Nor is $T_3$ an unconditional coefficient-SOS polynomial:
+at $(g_0,g_1,g_2,g_3)=(1,0,0,1)$ one has $T_3=-1$.
+
+The fixed degree-three certificate is strictly weaker than
+$\mathsf{RH}$ and is not $\mathsf{RH}$-equivalent.  P\'olya equivalence
+requires Jensen hyperbolicity in every degree and every level.  Applying
+this finite algebraic brick to $\xi$ would still require certified
+enclosures for $\gamma_0,\gamma_1,\gamma_2,\gamma_3$, and the brick alone
+does not constrain the zero set of $\xi$.
+\end{proof}
+
 The conditional tower interface is also encoded:
 \leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenTowerData}
 and
