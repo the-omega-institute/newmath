@@ -4104,6 +4104,7 @@ import BEDC.Derived.ConvexConjugateUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.ObligationSurface
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
+import BEDC.Derived.CookFrontierCoordinateUp.NameCertObligations
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
 import BEDC.Derived.CookFrontierWitnessUp.TasteGate
 import BEDC.Derived.CoreCompactUp.TasteGate
