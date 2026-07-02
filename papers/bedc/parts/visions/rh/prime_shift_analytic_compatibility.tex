@@ -1,0 +1,131 @@
+\chapter{Prime-Shift Analytic Compatibility}
+\label{ch:visions-rh-prime-shift-analytic-compatibility}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fiber-zoom-renormalization-tower}
+defines analytic prime-shift towers and the
+$\mathsf{SmoothPrimeShiftConstraint}$ obligation. The present chapter
+records the sharper compatibility package used when the tower is meant
+to support analytic continuation rather than only a holomorphic limit of
+finite readouts.
+
+\section{Four Compatibility Rows}
+\label{sec:rh-prime-shift-four-compatibility-rows}
+
+\begin{definition}[PrimeShiftAnalyticCompatibility]
+\label{def:rh-prime-shift-analytic-compatibility}
+Let a prime-fiber tower select clopen cells $C_n\subset K_S$ and finite
+holomorphic readouts
+$$
+F_n:\Omega_n\to\ComplexUp.
+$$
+The tower satisfies
+$$
+\mathsf{PrimeShiftAnalyticCompatibility}
+$$
+when it carries the following rows.
+First, nested cell compatibility:
+$$
+C_{n+1}\subseteq C_n.
+$$
+For a single $p$-adic coordinate with
+$$
+C_k=a_k+p^k\mathbb Z_p,
+$$
+this includes the digit condition
+$$
+a_{k+1}\equiv a_k\pmod{p^k}.
+$$
+Second, cocycle compatibility: the cell-renormalization maps compose
+with the displayed transition ledger, so refinement from level $n$ to
+$n+2$ agrees with refinement through level $n+1$. Third,
+character-flow compatibility: there is one displayed frequency row
+$\omega$ whose induced one-parameter phase flow satisfies
+$$
+\gamma(\tau_{\omega}(t))
+=
+e^{it\ell_{\omega}(\gamma)}
+$$
+for every displayed character $\gamma$ consumed by the tower. Fourth,
+normal-convergence and no-radial-anomaly compatibility:
+$$
+F_n\to F
+$$
+uniformly on compact subsets of the analytic domain, the logarithmic
+derivative readouts converge on zero-free compact windows, and every
+transition factor is unit phase or compact prime-fibre data rather than
+an unledgered element of $\RealUp_{>0}$.
+\end{definition}
+
+\begin{principle}[Compatibility separates paths from flows]
+\label{prin:rh-compatibility-separates-paths-from-flows}
+An arbitrary prime address sequence gives only a discrete path. Nested
+cell compatibility gives a profinite limit point. Cocycle compatibility
+turns the refinements into one coherent tower. Character-flow
+compatibility turns the tower into a smooth phase readout. Normal
+convergence and no-radial-anomaly compatibility are the analytic rows:
+they are what allow the tower to be consumed by analytic continuation
+without importing a hidden positive-real scale.
+\end{principle}
+
+\begin{principle}[Compatibility is the continuation skeleton]
+\label{prin:rh-compatibility-continuation-skeleton}
+Prime-shift compatibility is a necessary skeleton for analytic
+continuation, not a replacement for the continuation theorem attached to
+a concrete source. The nested, digit, cocycle, and character-flow rows
+rule out branch jumps and incoherent refinements; the normal-convergence
+and logarithmic-derivative rows supply compact analytic control; the
+no-radial-anomaly row prevents a positive-real scale from being
+absorbed into the solenoid fibre. A tower that lacks any one of these
+rows cannot serve as a BEDC continuation interface, while a tower that
+carries them still has to be identified with the intended analytic
+source by the appropriate source and operation certificates.
+\end{principle}
+
+\begin{definition}[ZetaAnalyticContinuationIsPrimeShiftCompatible]
+\label{def:rh-zeta-analytic-continuation-prime-shift-compatible}
+The obligation
+$$
+\mathsf{ZetaAnalyticContinuationIsPrimeShiftCompatible}
+$$
+asserts that the eta continuation, functional-equation continuation,
+completed Gamma normalization, contour transport, and explicit-formula
+transport used by the completed zeta route are all realized through
+prime-shift towers satisfying
+\autoref{def:rh-prime-shift-analytic-compatibility}. It is stronger than
+the existence of a meromorphic continuation: it requires that the
+continuation preserve the prime-register ledger, the character flow, the
+normal-convergence rows, and the no-radial-anomaly row.
+\end{definition}
+
+\begin{theorem}[Prime-shift analytic compatibility refines smooth shift]
+\label{thm:rh-prime-shift-analytic-compatibility-refines-smooth-shift}
+If a prime-fiber tower satisfies
+$\mathsf{PrimeShiftAnalyticCompatibility}$, then it satisfies the
+$\mathsf{SmoothPrimeShiftConstraint}$ rows required by
+\autoref{def:rh-smooth-prime-shift-constraint}.
+\end{theorem}
+
+\begin{proof}
+Nested cell compatibility supplies the refinement row. Cocycle
+compatibility supplies coherent transition ledgers. Character-flow
+compatibility supplies the single frequency row behind the visible phase
+readout. Normal convergence supplies the compact-uniform height and
+holomorphic readout control. The no-radial-anomaly clause supplies the
+ledger separation between unit phase, compact prime-fibre data, and
+positive-real scale. These are exactly the rows demanded by
+\autoref{def:rh-smooth-prime-shift-constraint}.
+\end{proof}
+
+\begin{principle}[RH-facing role of analytic compatibility]
+\label{prin:rh-prime-shift-analytic-compatibility-rh-role}
+If a completed zero packet has centered mode
+$$
+U_a(s)=e^{-rh_a}e^{-ith_a},
+$$
+then $e^{-ith_a}$ is compatible with the character-flow row, while a
+nontrivial $e^{-rh_a}$ is a positive-real transition factor. Under
+$\mathsf{ZetaAnalyticContinuationIsPrimeShiftCompatible}$, such a factor
+must be recorded as scale data or refused by the no-radial-anomaly row.
+It cannot be treated as a smooth prime shift inside the solenoid fibre.
+\end{principle}

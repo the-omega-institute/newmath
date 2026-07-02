@@ -331,6 +331,135 @@ $S_1=S_0\sqcup R_1$, and the norm identity follows from the
 Pythagorean identity.
 \end{proof}
 
+\begin{definition}[Primality-supported layer]
+\label{def:rh-primality-supported-layer}
+A layer $\mathcal L_m$ is \emph{primality-supported} when it carries a
+displayed atom set $\Pi_m$, a Hilbert readout
+$$
+\mathcal H_m:=\ell^2(\Pi_m),
+$$
+with orthonormal basis $(e_{\pi})_{\pi\in\Pi_m}$, and a unique register
+map
+$$
+\nu_m:\mathcal L_m\to\mathcal H_m
+$$
+of the form
+$$
+\nu_m(X)=\sum_{\pi\in\Pi_m}v_{\pi}(X)e_{\pi}.
+$$
+The atoms $\pi$ may be ordinary primes, prime ideals, irreducible
+branch rows, irreducible register bits, or irreducible observation
+residuals, provided the displayed layer supplies unique coordinates and
+source provenance for them.
+\end{definition}
+
+\begin{theorem}[Primality-supported layers produce stable triangles]
+\label{thm:rh-primality-supported-layers-produce-stable-triangles}
+Let $\mathcal L_m$ and $\mathcal L_{m+1}$ be primality-supported layers
+with
+$$
+\Pi_m\subseteq\Pi_{m+1}.
+$$
+For any displayed vector $v\in\ell^2(\Pi_{m+1})$, write
+$$
+P_m v:=\sum_{\pi\in\Pi_m}v_{\pi}e_{\pi},
+\qquad
+\eta_{m+1}:=
+\sum_{\pi\in\Pi_{m+1}\setminus\Pi_m}v_{\pi}e_{\pi}.
+$$
+Then
+$$
+v=P_m v+\eta_{m+1},
+\qquad
+\eta_{m+1}\perp P_m v,
+$$
+and therefore
+$$
+\|v\|^2
+=
+\|P_m v\|^2+\|\eta_{m+1}\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The basis vectors indexed by $\Pi_m$ and by
+$\Pi_{m+1}\setminus\Pi_m$ are disjoint members of the displayed
+orthonormal basis of $\ell^2(\Pi_{m+1})$. Hence the two displayed sums
+are orthogonal and add to $v$. The norm identity is the Pythagorean
+identity in the Hilbert readout row.
+\end{proof}
+
+\begin{principle}[Primality is coordinate support for stable triangles]
+\label{prin:rh-primality-coordinate-support-stable-triangles}
+The stable triangle row is not prior geometry. It is the orthogonal
+readout of a layer whose atoms have unique source coordinates. If a
+stage has no atom set, or if an apparent residual has no unique
+primality-supported coordinate, then its squared norm is not a stable
+object-level triangle invariant. Thus primality support is the
+coordinate condition behind the Pythagorean rows of
+\autoref{thm:rh-pythagorean-innovation-law} and
+\autoref{thm:rh-orthogonal-history-tower-pythagorean-formula}.
+\end{principle}
+
+\begin{definition}[PZG-supported residual row]
+\label{def:rh-pzg-supported-residual-row}
+Let $S_m\subseteq S_{m+1}$ be finite supports in
+$\PrimeUp\times\mathbb N$, and set
+$$
+R_{m+1}:=S_{m+1}\setminus S_m.
+$$
+A residual row over this stage is \emph{PZG-supported} when it has the
+displayed form
+$$
+\eta_{m+1}
+=
+\sum_{(p,k)\in R_{m+1}}c_{p,k}e_{p,k},
+$$
+with finite coefficient rows and with every basis vector $e_{p,k}$
+coming from the Prime--Zeckendorf--Goedel atom indexed by $(p,k)$. It is
+degenerate when all displayed coefficients are zero. It is unledgered
+when no finite support row $R_{m+1}$ is supplied.
+\end{definition}
+
+\begin{principle}[PZG support is the nondegenerate triangle-leg criterion]
+\label{prin:rh-pzg-support-nondegenerate-triangle-leg-criterion}
+A stage of an orthogonal history tower can be read as a nondegenerate
+triangle-producing stage only through a PZG-supported residual row. If
+$R_{m+1}$ is empty, or if every coefficient in
+\autoref{def:rh-pzg-supported-residual-row} is zero, the stage has no
+separate orthogonal leg and the squared norm does not gain a residual
+term. If a residual is present but no finite PZG support row is
+displayed, the stage is not a BEDC object-level triangle row, because
+the source ledger of the leg is absent.
+\end{principle}
+
+\begin{theorem}[PZG-supported stages give norm-square growth]
+\label{thm:rh-pzg-supported-stages-norm-square-growth}
+Let $\mathcal H_m$ be spanned by $\{e_{p,k}:(p,k)\in S_m\}$, and let
+$\eta_{m+1}$ be a PZG-supported residual over
+$R_{m+1}=S_{m+1}\setminus S_m$. For every $v_m\in\mathcal H_m$,
+$$
+v_{m+1}:=v_m+\eta_{m+1}
+$$
+satisfies
+$$
+\|v_{m+1}\|^2
+=
+\|v_m\|^2+
+\sum_{(p,k)\in R_{m+1}}|c_{p,k}|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The support $R_{m+1}$ is disjoint from $S_m$. Therefore every basis
+vector appearing in $\eta_{m+1}$ is orthogonal to every basis vector
+spanning $\mathcal H_m$ by
+\autoref{def:rh-prime-zeckendorf-goedel-hilbert-readout}. Hence
+$\eta_{m+1}\perp v_m$. Expanding the norm of
+$v_m+\eta_{m+1}$ leaves the norm of $v_m$ and the diagonal coefficient
+sum of $\eta_{m+1}$, giving the displayed identity.
+\end{proof}
+
 \begin{principle}[Prime--Zeckendorf--Goedel readout as particle ledger]
 \label{prin:rh-prime-zeckendorf-goedel-particle-ledger}
 The phase
