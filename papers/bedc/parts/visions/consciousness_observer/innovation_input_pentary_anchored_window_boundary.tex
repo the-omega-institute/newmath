@@ -1,0 +1,499 @@
+\chapter{Innovation Input Pentary Anchored Window Boundary}
+\label{ch:visions-innovation-input-pentary-anchored-window-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-anchored-rp-golden-palindrome-boundary}
+shows that the golden pentary palindrome endpoints fail the anchored
+$L=2$ neutral RP window. This chapter records a different pentary Q3 row:
+it passes the anchored $L=2$ neutral window, but fails when the window is
+enlarged to include the next anchored link. The obstruction is therefore
+not only a local link shape, but also its position relative to the
+reflection plane.
+
+\section{Anchored Pentary Window}
+\label{sec:innovation-input-pentary-anchored-window}
+
+\begin{definition}[Pentary anchored $L=2$ window]
+\label{def:innovation-input-pentary-anchored-ltwo-window}
+Let $v=(v_0,\ldots,v_4)\in\mathcal Q_5$ and let
+$$
+u_{5n+a}=v_a u_n.
+$$
+For
+$$
+F=u_{n+1}\overline{u_{n+2}},
+$$
+write
+$$
+\alpha=\delta_1-\delta_2.
+$$
+The anchored $L=2$ neutral window is
+$$
+\mathcal B_2=\{0,\alpha,-\alpha\}.
+$$
+Its RP matrix is
+$$
+M_2(v)_{ij}=\Gamma(\alpha_j-\theta\alpha_i),
+$$
+where the future blocks remain anchored before reflection.
+\end{definition}
+
+\begin{definition}[Anchored $L=2$ structure quantities]
+\label{def:innovation-input-pentary-ltwo-structure-quantities}
+Set
+$$
+\mu:=\Gamma(\delta_0-\delta_1),
+$$
+$$
+D:=\Gamma(\delta_0-\delta_1+\delta_2-\delta_3),
+$$
+and
+$$
+C:=\Gamma(\delta_0-\delta_1-\delta_2+\delta_3).
+$$
+Then
+$$
+M_2(v)=
+\left(
+\begin{array}{ccc}
+1 & \mu & \overline{\mu}\\
+\mu & D & C\\
+\overline{\mu} & \overline C & \overline D
+\end{array}
+\right)
+$$
+whenever the anchored window is Hermitian.
+\end{definition}
+
+\begin{theorem}[Pentary anchored $L=2$ formulas]
+\label{thm:innovation-input-pentary-ltwo-formulas}
+For $v=(v_0,\ldots,v_4)\in\mathbb T^5$,
+$$
+\mu
+=
+\frac{
+v_0\overline v_1+
+v_1\overline v_2+
+v_2\overline v_3+
+v_3\overline v_4
+}{
+5-v_4\overline v_0
+}.
+$$
+Moreover
+$$
+D
+=
+\frac15
+\left[
+d_0+d_1+d_3+(d_2+d_4)\mu
+\right],
+$$
+where
+$$
+d_0=v_0\overline v_1v_2\overline v_3,
+\qquad
+d_1=v_1\overline v_2v_3\overline v_4,
+$$
+$$
+d_2=v_2\overline v_3v_4\overline v_0,
+\qquad
+d_3=v_3\overline v_4v_0\overline v_1,
+$$
+and
+$$
+d_4=v_4\overline v_0v_1\overline v_2.
+$$
+Finally,
+$$
+C
+=
+\frac15
+\left[
+c_0+c_1+c_3+c_2\overline\mu+c_4\mu
+\right],
+$$
+where
+$$
+c_0=v_0\overline v_1\overline v_2v_3,
+\qquad
+c_1=v_1\overline v_2\overline v_3v_4,
+$$
+$$
+c_2=v_2\overline v_3\overline v_4v_0,
+\qquad
+c_3=v_3\overline v_4\overline v_0v_1,
+$$
+and
+$$
+c_4=v_4\overline v_0\overline v_1v_2.
+$$
+\end{theorem}
+
+\begin{proof}
+For $\mu=\Gamma(\delta_0-\delta_1)$, split the average by $n=5q+a$.
+For $0\le a\le3$ there is no carry, giving
+$v_a\overline v_{a+1}$. For $a=4$ the carry contributes
+$v_4\overline v_0\mu$. Thus
+$$
+\mu
+=
+\frac15
+\left(
+\sum_{a=0}^3v_a\overline v_{a+1}
++
+v_4\overline v_0\mu
+\right),
+$$
+which gives the displayed formula.
+
+For $D$, the residues $a=0,1,3$ collapse to the zero block and contribute
+$d_0,d_1,d_3$. The residues $a=2,4$ leave the branch block
+$\delta_0-\delta_1$, whose correlation is $\mu$. This gives the displayed
+formula for $D$.
+
+For $C$, the residues $a=0,1,3$ collapse to the zero block and contribute
+$c_0,c_1,c_3$. The residue $a=2$ leaves $-\delta_0+\delta_1$, whose
+correlation is $\overline\mu$, and the residue $a=4$ leaves
+$\delta_0-\delta_1$, whose correlation is $\mu$.
+\end{proof}
+
+\section{Pythagorean Pentary Row}
+\label{sec:innovation-input-pythagorean-pentary-row}
+
+\begin{definition}[Pythagorean pentary phase word]
+\label{def:innovation-input-pythagorean-pentary-phase-word}
+Let
+$$
+a:=\frac{1+2i}{\sqrt5},
+\qquad
+b:=\frac{2-i}{\sqrt5}.
+$$
+Define
+$$
+v_\star:=(a,b,-a,b,a).
+$$
+\end{definition}
+
+\begin{theorem}[Pythagorean row is Q3]
+\label{thm:innovation-input-pythagorean-row-qthree}
+The row $v_\star$ lies in $\mathcal Q_5$.
+\end{theorem}
+
+\begin{proof}
+Directly,
+$$
+a+2b
+=
+\frac{1+2i}{\sqrt5}
++
+2\frac{2-i}{\sqrt5}
+=
+\frac5{\sqrt5}
+=
+\sqrt5.
+$$
+Since the row sum of $(a,b,-a,b,a)$ is $a+2b$, the Q3 equation holds.
+\end{proof}
+
+\begin{lemma}[Pythagorean products]
+\label{lem:innovation-input-pythagorean-products}
+For $a=(1+2i)/\sqrt5$ and $b=(2-i)/\sqrt5$,
+$$
+a\overline b=i,
+\qquad
+b\overline a=-i.
+$$
+\end{lemma}
+
+\begin{proof}
+Since $\overline b=(2+i)/\sqrt5$,
+$$
+a\overline b
+=
+\frac{(1+2i)(2+i)}5
+=
+\frac{5i}{5}
+=
+i.
+$$
+The second identity is the complex conjugate.
+\end{proof}
+
+\section{Anchored $L=2$ Passage}
+\label{sec:innovation-input-pythagorean-ltwo-passage}
+
+\begin{theorem}[Pythagorean anchored $L=2$ structure]
+\label{thm:innovation-input-pythagorean-ltwo-structure}
+For $v_\star=(a,b,-a,b,a)$,
+$$
+\mu=0,
+\qquad
+D=\frac35,
+\qquad
+C=-\frac35.
+$$
+Therefore
+$$
+M_2(v_\star)=
+\left(
+\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \frac35 & -\frac35\\
+0 & -\frac35 & \frac35
+\end{array}
+\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Using \autoref{lem:innovation-input-pythagorean-products},
+$$
+v_0\overline v_1=i,
+\qquad
+v_1\overline v_2=i,
+\qquad
+v_2\overline v_3=-i,
+\qquad
+v_3\overline v_4=-i.
+$$
+The numerator in the formula for $\mu$ is therefore zero, so $\mu=0$.
+
+For $D$, the terms involving $\mu$ vanish. The remaining products are
+$$
+d_0=(a\overline b)((-a)\overline b)=1,
+$$
+$$
+d_1=(b\overline{(-a)})(b\overline a)=1,
+$$
+and
+$$
+d_3=(b\overline a)(a\overline b)=1.
+$$
+Thus $D=(1+1+1)/5=3/5$.
+
+For $C$, again the terms involving $\mu$ vanish. The remaining products are
+$$
+c_0=(a\overline b)(\overline{(-a)}b)=-1,
+$$
+$$
+c_1=(b\overline{(-a)})(\overline b a)=-1,
+$$
+and
+$$
+c_3=(b\overline a)(\overline a b)=-1.
+$$
+Thus $C=-3/5$.
+\end{proof}
+
+\begin{corollary}[Pythagorean row passes anchored $L=2$ neutral RP]
+\label{cor:innovation-input-pythagorean-ltwo-rp-passage}
+The anchored $L=2$ neutral RP matrix of $v_\star$ is positive
+semidefinite.
+\end{corollary}
+
+\begin{proof}
+The lower-right block is
+$$
+\frac35
+\left(
+\begin{array}{cc}
+1 & -1\\
+-1 & 1
+\end{array}
+\right),
+$$
+with eigenvalues $0$ and $6/5$. Together with the top-left entry $1$, the
+matrix eigenvalues are $1$, $0$, and $6/5$.
+\end{proof}
+
+\section{Anchored $L=3$ Failure}
+\label{sec:innovation-input-pythagorean-lthree-failure}
+
+\begin{definition}[Second anchored link]
+\label{def:innovation-input-second-anchored-link}
+Set
+$$
+F_{23}(n):=\overline{u_{n+2}}u_{n+3}.
+$$
+Its future block is
+$$
+\alpha_{23}:=-\delta_2+\delta_3.
+$$
+The reflected diagonal quantity is
+$$
+D_{23}:=\langle\theta F_{23},F_{23}\rangle.
+$$
+Since $\theta\delta_2=\delta_{-1}$ and
+$\theta\delta_3=\delta_{-2}$,
+$$
+\alpha_{23}-\theta\alpha_{23}
+=
+-\delta_2+\delta_3+\delta_{-1}-\delta_{-2}.
+$$
+After translating by $2$, this is the block
+$$
+-\delta_0+\delta_1-\delta_4+\delta_5.
+$$
+\end{definition}
+
+\begin{theorem}[Pythagorean anchored $L=3$ failure]
+\label{thm:innovation-input-pythagorean-lthree-failure}
+For $v_\star=(a,b,-a,b,a)$,
+$$
+D_{23}
+=
+\Gamma(-\delta_0+\delta_1-\delta_4+\delta_5)
+=
+-\frac15.
+$$
+Thus $v_\star$ fails the anchored $L=3$ neutral RP window.
+\end{theorem}
+
+\begin{proof}
+Let $\beta=-\delta_0+\delta_1-\delta_4+\delta_5$. Split the recursion by
+residue $r=0,\ldots,4$.
+
+For $r=0$, the coefficient is
+$$
+\overline v_0v_1\overline v_4v_0=\overline a b\overline a a=-i,
+$$
+and the branch block is $-\delta_0+\delta_1$, whose correlation is
+$\overline\mu=0$.
+
+For $r=1$, the coefficient is
+$$
+\overline v_1v_2\overline v_0v_1=\overline b(-a)\overline a b=-1,
+$$
+and the branch is the zero block.
+
+For $r=2$, the coefficient is
+$$
+\overline v_2v_3\overline v_1v_2=\overline{(-a)}b\overline b(-a)=1,
+$$
+and the branch is the zero block.
+
+For $r=3$, the coefficient is
+$$
+\overline v_3v_4\overline v_2v_3=\overline b a\overline{(-a)}b=-1,
+$$
+and the branch is the zero block.
+
+For $r=4$, the coefficient is
+$$
+\overline v_4v_0\overline v_3v_4=\overline a a\overline b a=i,
+$$
+and the branch block is again $-\delta_0+\delta_1$, whose correlation is
+$\overline\mu=0$.
+
+Therefore
+$$
+D_{23}
+=
+\frac15(0-1+1-1+0)
+=
+-\frac15.
+$$
+The negative diagonal entry violates neutral RP.
+\end{proof}
+
+\begin{corollary}[Anchored $L=2$ does not imply anchored $L=3$]
+\label{cor:innovation-input-ltwo-not-lthree}
+There exists $v\in\mathcal Q_5$ such that its anchored $L=2$ neutral RP
+matrix is positive semidefinite, while its anchored $L=3$ neutral RP
+window fails.
+\end{corollary}
+
+\begin{proof}
+Use $v=v_\star$. The anchored $L=2$ matrix is positive semidefinite by
+\autoref{cor:innovation-input-pythagorean-ltwo-rp-passage}, while
+\autoref{thm:innovation-input-pythagorean-lthree-failure} gives a negative
+anchored $L=3$ diagonal entry.
+\end{proof}
+
+\section{Anchor Dependence}
+\label{sec:innovation-input-anchor-dependence}
+
+\begin{definition}[Anchored link diagonal]
+\label{def:innovation-input-anchored-link-diagonal}
+For $1\le i<j$, define
+$$
+F_{ij}:=u_{n+i}\overline{u_{n+j}},
+$$
+and
+$$
+D_{ij}:=\langle\theta F_{ij},F_{ij}\rangle.
+$$
+\end{definition}
+
+\begin{theorem}[Link diagonal depends on anchor]
+\label{thm:innovation-input-link-diagonal-anchor-dependence}
+For the Pythagorean row,
+$$
+D_{12}=\frac35,
+\qquad
+D_{23}=-\frac15.
+$$
+\end{theorem}
+
+\begin{proof}
+The value $D_{12}=3/5$ is the $D$ value in
+\autoref{thm:innovation-input-pythagorean-ltwo-structure}. The value
+$D_{23}=-1/5$ is
+\autoref{thm:innovation-input-pythagorean-lthree-failure}.
+\end{proof}
+
+\begin{principle}[Anchor-sensitive RP audit]
+\label{prin:innovation-input-anchor-sensitive-rp-audit}
+Ordinary finite-block correlations satisfy
+$$
+\Gamma(T_s\alpha)=\Gamma(\alpha),
+$$
+but RP diagonals are of the form
+$$
+\Gamma(\alpha-\theta\alpha).
+$$
+Because $\theta T_s=T_{-s}\theta$, translating a future block changes its
+relative position to the reflection plane. A complete finite-window audit
+must therefore check every anchored link, not only each translation shape.
+\end{principle}
+
+\begin{principle}[Pentary anchored status table]
+\label{prin:innovation-input-pentary-anchored-status-table}
+The pentary anchored search status is:
+$$
+\begin{array}{c|c|c|c|c}
+N & \text{row} & \text{Q3} & L=2\text{ neutral RP} & L=3\text{ neutral RP}\\
+\hline
+3 & (e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}) &
+\text{yes} & \text{pass} & \text{fail}\\
+4 & (1,1,1,-1) &
+\text{yes} & \text{fail} & \text{not needed}\\
+5 & v_5^{(+)} &
+\text{yes} & \text{fail} & \text{not needed}\\
+5 & v_5^{(-)} &
+\text{yes} & \text{fail} & \text{not needed}\\
+5 & v_\star=(a,b,-a,b,a) &
+\text{yes} & \text{pass} & \text{fail}
+\end{array}
+$$
+Thus the pentary search space contains rows that pass the nearest anchored
+neutral RP window, but the next anchor can still obstruct reflection
+positivity.
+\end{principle}
+
+\begin{principle}[Pentary $L=3$ target]
+\label{prin:innovation-input-pentary-lthree-target}
+The full pentary target is the $\mathcal Q_5$ feasibility problem for
+anchored $L=3$ neutral RP. At minimum one must have
+$$
+D_{12}\ge0,
+\qquad
+D_{13}\ge0,
+\qquad
+D_{23}\ge0.
+$$
+The Pythagorean row has $D_{12}=3/5$ but $D_{23}=-1/5$, so improving the
+candidate requires moving the second anchored link diagonal to the
+nonnegative side without destroying the anchored $L=2$ matrix.
+\end{principle}
