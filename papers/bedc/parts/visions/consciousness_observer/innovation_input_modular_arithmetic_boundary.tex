@@ -1,0 +1,448 @@
+\chapter{Innovation Input Modular Arithmetic Boundary}
+\label{ch:visions-innovation-input-modular-arithmetic-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-solenoid-arithmetic-boundary} records
+the arithmetic carried by an $S$-adic refinement tower. This chapter
+records the modular extension of the same input-flow grammar: partition
+functions, complex multiplication, class-group shape registers, Hecke
+operators, modular forms, and the zero boundary. The content is an
+interface map. Classical number-theoretic structures are named as rows
+that the machine can consume; they are not claimed as consequences of the
+positive innovation Gram row alone.
+
+\section{Thermodynamic Zeta Rows}
+\label{sec:innovation-input-modular-thermodynamic-zeta}
+
+\begin{definition}[State partition row]
+\label{def:innovation-input-modular-state-partition-row}
+For a prime set $S$, let $\mathbb N_S$ be the monoid of positive integers
+whose prime factors lie in $S$. The state partition row is
+$$
+Z_{\rm state}(\beta)
+:=
+\sum_{A\in\mathbb N_S}A^{-\beta}.
+$$
+\end{definition}
+
+\begin{theorem}[State partition is partial zeta]
+\label{thm:innovation-input-modular-state-partial-zeta}
+The state partition row is
+$$
+Z_{\rm state}(\beta)
+=
+\prod_{p\in S}\frac{1}{1-p^{-\beta}}.
+$$
+When $S$ is the set of all primes, it is the Riemann zeta function
+$\zeta(\beta)$ on its half-plane of convergence.
+\end{theorem}
+
+\begin{proof}
+This is the Euler product obtained by unique prime factorization.
+\end{proof}
+
+\begin{definition}[History partition row]
+\label{def:innovation-input-modular-history-partition-row}
+The history partition row sums over ordered refinement histories rather
+than only over terminal sizes:
+$$
+Z_{\rm hist}(\beta)
+:=
+\sum_{k\ge0}\bigl(Z_{\rm state}(\beta)-1\bigr)^k.
+$$
+\end{definition}
+
+\begin{theorem}[History critical row]
+\label{thm:innovation-input-modular-history-critical-row}
+Where the geometric series converges,
+$$
+Z_{\rm hist}(\beta)
+=
+\frac{1}{2-Z_{\rm state}(\beta)}.
+$$
+Its critical row is
+$$
+Z_{\rm state}(\beta)=2.
+$$
+For all primes this uses the Kalmár constant, and for $S=\{2\}$ it gives
+$\beta=1$.
+\end{theorem}
+
+\begin{proof}
+The empty history contributes $1$, and a nonempty step contributes one
+factor from $\mathbb N_S\setminus\{1\}$. Summing ordered words gives the
+displayed geometric series.
+\end{proof}
+
+\begin{principle}[Bost--Connes interface]
+\label{prin:innovation-input-modular-bost-connes-interface}
+The state partition row has the same skeleton as the Bost--Connes
+partition function: a multiplicative refinement monoid acts on root and
+charge data. In the input-flow reading, a choice of compatible root chain
+is a tower-direction selection in the kernel-blind layer of
+\autoref{thm:innovation-input-solenoid-kernel-blindness}.
+\end{principle}
+
+\begin{principle}[Thermal fingerprint levels]
+\label{prin:innovation-input-modular-thermal-fingerprint-levels}
+The full Dirichlet series $Z_{\rm state}(\beta)$ determines $S$ by its
+Euler factors. A single critical inverse temperature is only a coarse
+functional of $S$. Thus the thermodynamic row sits between the exact charge
+lattice of
+\autoref{thm:innovation-input-solenoid-charge-lattice-determines-primes}
+and scalar scale reads: the curve is lossless, while a point on it is not.
+\end{principle}
+
+\section{Complex Refinement and Chirality}
+\label{sec:innovation-input-modular-complex-refinement}
+
+\begin{definition}[Gaussian refinement tower]
+\label{def:innovation-input-modular-gaussian-refinement-tower}
+A Gaussian refinement tower replaces $\mathbb Z$ by $\mathbb Z[i]$.
+Refinement factors are Gaussian integers $\alpha_k$, cumulative factors are
+$M_k=\alpha_1\cdots\alpha_k$, and mode data live in
+$$
+\mathbb Z[i]/M_k.
+$$
+\end{definition}
+
+\begin{theorem}[Gaussian solenoid row]
+\label{thm:innovation-input-modular-gaussian-solenoid-row}
+The compatibility equation for Gaussian refinement is
+$$
+\alpha_k\zeta_k=\zeta_{k-1}
+$$
+on $\mathbb C/\mathbb Z[i]$. Its inverse limit is a two-dimensional
+solenoid, and its charge module is
+$$
+\mathbb Z[i][\mathfrak S^{-1}],
+$$
+where $\mathfrak S$ is the set of Gaussian primes occurring infinitely
+often in the tower.
+\end{theorem}
+
+\begin{proof}
+This is the proof of
+\autoref{thm:innovation-input-solenoid-tower-structure-group} with
+$\mathbb Z$ replaced by $\mathbb Z[i]$ and multiplication by $N_k$
+replaced by multiplication by $\alpha_k$.
+\end{proof}
+
+\begin{theorem}[Digit field and Fermat classification]
+\label{thm:innovation-input-modular-digit-field-fermat}
+For a Gaussian prime $\pi$, the digit alphabet
+$$
+\mathbb Z[i]/\pi
+$$
+is a field. Rational primes $p\equiv 1\pmod{4}$ split and give
+$\mathbb F_p$ digit fields along the two conjugate Gaussian primes; the
+prime $2$ ramifies; rational primes $q\equiv 3\pmod{4}$ are inert and give
+$\mathbb F_{q^2}$. Equivalently, a conformal index-$p$ Gaussian refinement
+exists exactly when $p$ is a sum of two squares.
+\end{theorem}
+
+\begin{proof}
+This is the standard splitting law for $\mathbb Z[i]$, together with
+Fermat's two-square theorem.
+\end{proof}
+
+\begin{definition}[Chirality row]
+\label{def:innovation-input-modular-chirality-row}
+For a split prime $p=\pi\bar\pi$, the chirality row records the value of
+the quarter-turn $i$ in the digit field:
+$$
+r_\pi:=i\bmod\pi.
+$$
+Then $r_\pi^2=-1$, and conjugation sends $r_\pi$ to $-r_\pi$.
+\end{definition}
+
+\begin{principle}[Complex logarithmic ledger]
+\label{prin:innovation-input-modular-complex-log-ledger}
+The cumulative Gaussian refinement factor has a complex logarithmic read.
+Its real part is the ordinary logarithmic tick,
+$$
+T=2\operatorname{Re}\log M_k,
+$$
+while its imaginary part records the cumulative chirality angle modulo the
+unit group of $\mathbb Z[i]$. Time is robust under complex conjugation;
+chirality changes sign.
+\end{principle}
+
+\begin{principle}[Chirality thermodynamics]
+\label{prin:innovation-input-modular-chirality-thermodynamics}
+Adding an angular chemical potential to the Gaussian refinement tower gives
+Hecke Grossencharacter partition rows. The untwisted row recovers
+$$
+\zeta_{\mathbb Q(i)}(\beta)=\zeta(\beta)L(\beta,\chi_4),
+$$
+while nontrivial angular weights read chirality in the holonomy layer. The
+chemical potential is an added readout row, not an intrinsic force law.
+\end{principle}
+
+\begin{theorem}[Reflection as Frobenius in the inert case]
+\label{thm:innovation-input-modular-reflection-frobenius}
+For $q\equiv 3\pmod{4}$, the digit field is
+$\mathbb F_{q^2}=\mathbb F_q(i)$, and Frobenius satisfies
+$$
+i^q=-i.
+$$
+Thus complex conjugation on the digit field is the Frobenius automorphism
+$x\mapsto x^q$ exactly in the inert case.
+\end{theorem}
+
+\begin{proof}
+Since $q\equiv 3\pmod{4}$, $(q-1)/2$ is odd, so
+$i^q=i(i^2)^{(q-1)/2}=-i$.
+\end{proof}
+
+\section{Class-Group Shape Registers}
+\label{sec:innovation-input-modular-class-group-registers}
+
+\begin{definition}[Complex-multiplication shape register]
+\label{def:innovation-input-modular-cm-shape-register}
+Let $K$ be an imaginary quadratic field and $\mathcal O$ an order. A
+complex-multiplication shape register starts from a lattice represented by
+a fractional ideal $L$ and refines by invertible ideals
+$\mathfrak a$, sending
+$$
+L\longmapsto\mathfrak a^{-1}L.
+$$
+\end{definition}
+
+\begin{theorem}[Shape orbit is class-group walk]
+\label{thm:innovation-input-modular-shape-class-walk}
+The similarity class of the refined lattice depends only on the ideal
+class. Along a tower,
+$$
+[L_k]=[\mathfrak a_1\cdots\mathfrak a_k]^{-1}[L_0]
+\in\mathrm{Cl}(\mathcal O).
+$$
+Thus shape blindness for all ideal refinements is equivalent to class
+number one.
+\end{theorem}
+
+\begin{proof}
+Similarity classes of complex-multiplication lattices are ideal classes.
+Multiplying by the inverse ideals gives the displayed class-group walk.
+\end{proof}
+
+\begin{principle}[Heegner shape-blind list]
+\label{prin:innovation-input-modular-heegner-shape-blind-list}
+For maximal imaginary quadratic orders, universal shape blindness occurs
+only in the class-number-one discriminants
+$$
+-3,-4,-7,-8,-11,-19,-43,-67,-163.
+$$
+For nonmaximal orders the corresponding list has the standard finite
+extensions. Outside these exceptional loci, the class group is a visible
+shape register.
+\end{principle}
+
+\begin{example}[Discriminant minus twenty]
+\label{ex:innovation-input-modular-discriminant-minus-twenty}
+For discriminant $-20$, the class group has order $2$. One ideal class
+therefore flips a two-state shape register, while principal refinements
+preserve the shape. The real logarithmic tick remains globally meaningful,
+but chirality acquires a class-group ambiguity.
+\end{example}
+
+\begin{example}[Discriminant minus twenty-three]
+\label{ex:innovation-input-modular-discriminant-minus-twentythree}
+For discriminant $-23$, the class group has order $3$. The three reduced
+forms may be represented by
+$$
+x^2+xy+6y^2,
+\qquad
+2x^2+xy+3y^2,
+\qquad
+2x^2-xy+3y^2.
+$$
+Conjugation extends the register symmetry to a dihedral action of order
+$6$. The associated weight-one modular form may be read through the eta
+product
+$$
+\eta(z)\eta(23z),
+$$
+whose coefficients distinguish principal split primes, nonprincipal split
+primes, and inert primes. This is the modular-form read of a
+nonabelian-looking shape register after adjoining reflection.
+\end{example}
+
+\begin{principle}[Eta-product coefficient audit]
+\label{prin:innovation-input-modular-eta-product-coefficient-audit}
+In the discriminant $-23$ row, the eta-product coefficients give a concrete
+audit surface: principal split primes, nonprincipal split primes, and inert
+primes map to the corresponding coefficient classes. Sample checks include
+small-prime signs at $2$, $3$, $13$, and $23$, together with a principal
+split read at $59$. These checks belong to the modular-form interface, not
+to a congruence-class rule.
+\end{principle}
+
+\begin{theorem}[No finite congruence criterion for the nonabelian register]
+\label{thm:innovation-input-modular-no-congruence-criterion}
+In a class-field situation whose Galois closure over $\mathbb Q$ is
+nonabelian, there is no modulus $m$ and set of residue classes that decide
+the principal-prime condition for all unramified rational primes.
+\end{theorem}
+
+\begin{proof}
+A purely congruence criterion would make the splitting decision factor
+through an abelian cyclotomic extension. That would force the relevant
+Galois action to be abelian, contrary to the nonabelian closure.
+\end{proof}
+
+\section{Hecke Flow and Modular Spectra}
+\label{sec:innovation-input-modular-hecke-flow}
+
+\begin{definition}[Full-channel refinement]
+\label{def:innovation-input-modular-full-channel-refinement}
+For a prime $p$, full-channel refinement of a lattice sums over all
+index-$p$ sublattices. The channel set is naturally
+$$
+\mathbb P^1(\mathbb F_p),
+$$
+with $p+1$ channels.
+\end{definition}
+
+\begin{theorem}[Hecke identity]
+\label{thm:innovation-input-modular-hecke-identity}
+The full-channel refinement operator is the Hecke operator:
+$$
+(T_pf)(L)=\sum_{[L:L']=p}f(L').
+$$
+For distinct primes $p$ and $q$, these operators commute.
+\end{theorem}
+
+\begin{proof}
+This is the standard lattice definition of Hecke operators. Commutativity
+is the usual double-coset relation for coprime indices.
+\end{proof}
+
+\begin{principle}[Shape becomes state space]
+\label{prin:innovation-input-modular-shape-state-space}
+Once every index-$p$ channel is allowed, shape is no longer merely an
+invariant to be tested for blindness. It becomes the state space
+$$
+\mathrm{SL}(2,\mathbb Z)\backslash\mathbb H
+$$
+on which the refinement operators act.
+\end{principle}
+
+\begin{theorem}[Petersson measure as innovation geometry]
+\label{thm:innovation-input-modular-petersson-innovation-geometry}
+For an equivariant projective Hilbert family over the upper half-plane,
+the positive innovation Gram tensor is
+$\mathrm{SL}(2,\mathbb R)$-invariant. Therefore its real part is a scalar
+multiple of the hyperbolic metric and its imaginary part is a scalar
+multiple of the hyperbolic area form. The Petersson measure is the natural
+volume read of this projective innovation geometry.
+\end{theorem}
+
+\begin{proof}
+The upper half-plane has a unique invariant Riemannian metric and invariant
+area form up to scalar. Equivariance forces the Gram tensor's real and
+imaginary parts to lie in those one-dimensional invariant spaces.
+\end{proof}
+
+\begin{principle}[Weight as chirality]
+\label{prin:innovation-input-modular-weight-as-chirality}
+The circle action in the projective family grades states by chirality.
+Holomorphic modular forms of weight $k$ are therefore read as bound states
+in a chirality-$k$ sector of the full-channel refinement flow.
+\end{principle}
+
+\begin{theorem}[Ramanujan threshold as reflection-positive mixing]
+\label{thm:innovation-input-modular-ramanujan-threshold}
+For the normalized prime-channel walk $P=T_p/(p+1)$ on the modular shape
+space, the Eisenstein spectrum contains
+$$
+\frac{2\sqrt p}{p+1}\cos(t\log p).
+$$
+Negative spectral values force reflection positivity to fail for the pure
+walk. A lazy walk
+$$
+P_c=(1-c)I+cP
+$$
+is positive precisely when the negative spectrum is shifted into
+$[0,\infty)$. The optimal threshold is governed by the sharp Hecke spectral
+bound; in the Ramanujan case it is
+$$
+c^*(p)=\frac{p+1}{(\sqrt p+1)^2}.
+$$
+\end{theorem}
+
+\begin{proof}
+The displayed Eisenstein eigenvalue is the standard normalized
+$T_p$ eigenvalue on the unitary axis. The spectrum of $P_c$ is
+$1-c+c\lambda$, so positivity is exactly the lower-spectrum inequality.
+\end{proof}
+
+\begin{principle}[Dihedral boundary]
+\label{prin:innovation-input-modular-dihedral-boundary}
+Class-group and complex-multiplication rows account for the dihedral
+spectral pieces. Non-dihedral Maass and holomorphic eigenforms are the
+genuine delocalized modes of the full-channel refinement flow.
+\end{principle}
+
+\begin{principle}[Ramanujan status split]
+\label{prin:innovation-input-modular-ramanujan-status-split}
+The reflection-positive threshold has several evidentiary forms across
+related rows. The Wirsing boundary threshold is explicit; the Ramanujan
+threshold is structurally exact but open in the Maass sector; and
+expander-style congruence gaps are established in broad settings while
+often not giving the exact constants needed for a sharp input-mixing row.
+\end{principle}
+
+\section{Zero Boundary}
+\label{sec:innovation-input-modular-zero-boundary}
+
+\begin{theorem}[Zeta as scattering matrix]
+\label{thm:innovation-input-modular-zeta-scattering}
+For the modular surface, the Eisenstein constant term has the form
+$$
+y^s+\varphi(s)y^{1-s},
+\qquad
+\varphi(s)=\frac{\Lambda(2s-1)}{\Lambda(2s)}.
+$$
+Thus the completed zeta function enters the machine as a scattering
+coefficient at the cusp.
+\end{theorem}
+
+\begin{proof}
+This is the classical constant-term formula for Eisenstein series on the
+modular surface.
+\end{proof}
+
+\begin{principle}[Zero location boundary]
+\label{prin:innovation-input-modular-zero-location-boundary}
+The input-flow grammar can place Riemann zeta zeros as scattering
+resonances of the cusp row. It does not thereby produce a Hilbert--Polya
+self-adjoint operator for those zeros. The self-adjoint spectral row belongs
+to the Laplacian and Selberg-type zeta functions; the Riemann zeta row enters
+through scattering.
+\end{principle}
+
+\begin{principle}[Three zero-boundary instruments]
+\label{prin:innovation-input-modular-three-zero-boundary-instruments}
+The zero boundary has three independent interface readings. The scattering
+row places zeta zeros in the Eisenstein coefficient. The generation row says
+that changing the finite input generator cannot bypass analytic continuation:
+the same meromorphic object is reached or not reached as a whole. The radial
+positivity row asks for a condition such as
+$$
+\operatorname{Re}\frac{\xi'}{\xi}(s)>0
+$$
+on the right half of the critical strip; classical criteria identify this
+as a Riemann-hypothesis-strength target, not as a closed input-flow theorem.
+The agreement of the three readings locates the wall; it does not remove it.
+\end{principle}
+
+\begin{principle}[Positive target for a zero route]
+\label{prin:innovation-input-modular-positive-zero-target}
+A Lee--Yang-style route to a zero statement would require a specified
+function class, closure of that class under the tower operations, inclusion
+of the base object, and convergence of the tower to the target function.
+The reflection-positive machinery supplies this pattern for transition
+spectra in the input-time variable. Transporting it to the scattering
+variable is an additional analytic bridge obligation.
+\end{principle}
