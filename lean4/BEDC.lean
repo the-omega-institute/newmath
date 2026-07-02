@@ -12863,6 +12863,7 @@ import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TaylorModelUp.RemainderObligationRoute
 import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TaylorPolynomialUp.TasteGate
+import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TaylorRemainderUp.TasteGate
 import BEDC.Derived.TaylorTheoremUp.TasteGate
 import BEDC.Derived.TelephoneNumberUp
@@ -13498,6 +13499,10 @@ import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VietorisRipsComplexUp.TasteGate
 import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
+import BEDC.Derived.Visions.BackreactionMetricDegeneracy
+import BEDC.Derived.Visions.LedgerDriverRank
+import BEDC.Derived.Visions.ObservationSectionCoherence
+import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonMangoldtUp

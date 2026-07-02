@@ -7,7 +7,10 @@ import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
+import Mathlib.Data.Nat.Totient
+import Mathlib.Combinatorics.Enumerative.Bell
 import Mathlib.Data.Real.Basic
+import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
@@ -89,6 +92,32 @@ Audit-only touchpoint for the mathlib Zeckendorf representation and equivalence.
 noncomputable def auditNatZeckendorfBoundary :
     (Nat → List Nat) × (Nat ≃ {l // List.IsZeckendorfRep l}) :=
   (Nat.zeckendorf, Nat.zeckendorfEquiv)
+
+/-!
+Audit-only touchpoint for the mathlib standard Bell number. `Nat.bell`'s
+recurrence body and its only general characterization (`Nat.bell_succ`) are
+stated as a `Finset.sum` over `Fin n.succ`; `Finset = Multiset = Quotient List`,
+so even the bare `Nat.bell` definition inherits the `Quot.sound`/`propext`
+footprint and `Classical.choice` from the mathlib big-operator layer. The BEDC
+side has a quotient-free Bell presentation (`bellNumber` as a Stirling prefix
+sum, plus a 0-axiom standard recurrence `bellNumberByRecurrence`), but bridging
+it to `Nat.bell` would have to route through `Nat.bell_succ`, importing those
+axioms; this row records only the mathlib-object axiom cost and exports no
+axiom-bearing bridge theorem.
+-/
+noncomputable def auditNatBellBoundary : Nat → Nat :=
+  Nat.bell
+
+/-!
+Audit-only touchpoints for mathlib's finite number-theoretic functions whose
+carrier definitions route through `Finset`, `Finsupp`, or arithmetic-function
+big-operator layers.
+-/
+noncomputable def auditNatTotientBoundary : Nat → Nat :=
+  Nat.totient
+
+noncomputable def auditNatDivisorsBoundary : Nat → Finset Nat :=
+  Nat.divisors
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
