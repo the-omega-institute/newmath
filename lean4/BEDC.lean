@@ -10286,6 +10286,7 @@ import BEDC.Derived.RHRoute.IntervalMatrixPSD.PolynomialIntegral
 import BEDC.Derived.RHRoute.IntervalMatrixPSD.QRatBridge
 import BEDC.Derived.RHRoute.FiniteVisibilityIncompleteness
 import BEDC.Derived.RHRoute.IrreducibleInformationSpectralFactor
+import BEDC.Derived.RHRoute.JensenTuranDegree2
 import BEDC.Derived.RHRoute.JensenHyperbolicityRoute
 import BEDC.Derived.RHRoute.KrawczykCertificate
 import BEDC.Derived.RHRoute.LagariasCriterion
