@@ -1,0 +1,67 @@
+\chapter{Uniform Cauchy complete-metric limit NameCert construction}
+\label{ch:concrete-instances-uniform-cauchy-complete-metric-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\UniformCauchyCompleteMetricLimitUp$ packet records the finite route by which a uniformly Cauchy family of regular rational names is read as a complete-metric limit without importing a host completion point. It consumes the sequence-space surface of \autoref{ch:concrete-instances-cauchysequencespace-namecert}, the regular rational name route of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the complete-metric uniqueness route of \autoref{ch:concrete-instances-complete-metric-limit-uniqueness-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 completion object; it is not quotient stream equality, selected representatives, countable choice, host metric completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform Cauchy complete-metric limit carrier]
+\label{def:uniform-cauchy-complete-metric-limit-carrier}
+A $\UniformCauchyCompleteMetricLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,W,U,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\CauchySequenceSpaceUp$ row naming the common finite Cauchy-window surface;
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational names inspected by the packet;
+\item $W$ is the $\StreamNameUp$ window schedule that exposes the finite observations used by the uniform Cauchy test;
+\item $U$ is the uniform tail ledger, recording one displayed tolerance budget for the inspected family rather than a separately chosen tail for each consumer;
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,R,W,U$ have been displayed;
+\item $Q$ is the $\CompleteMetricLimitUniquenessUp$ row that compares any second displayed limit using the same complete-metric limit surface;
+\item $H$ records componentwise $\hsame$ transport for the sequence-space, regular-name, stream-window, uniform-tail, real-seal, uniqueness, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from uniform Cauchy inspection to the complete-metric limit read;
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyCompleteMetricLimitUp$, $\CauchySequenceSpaceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\CompleteMetricLimitUniquenessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\UniformCauchyCompleteMetricLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,W,U,E,Q,H,C,P,N$. It has no coordinate for quotient Cauchy names, selected limit representatives, countable-choice schedules, host metric completion, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy complete-metric limit NameCert obligations]
+\label{thm:uniform-cauchy-complete-metric-limit-obligations}
+The local $\NameCert_{\UniformCauchyCompleteMetricLimitUp}$ surface consists exactly of carrier exposure for $L=(S,R,W,U,E,Q,H,C,P,N)$, sequence-space exposure through $S$, regular rational readback through $R$, stream-window inspection through $W$, uniform tail exactness through $U$, terminal real-seal access through $E$, complete-metric uniqueness comparison through $Q$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-cauchy-complete-metric-limit-carrier}. The displayed rows are exactly the sequence-space, regular-name, stream-window, uniform-tail, real-seal, uniqueness, transport, replay, provenance, and naming coordinates.
+
+The sibling route through \autoref{ch:concrete-instances-cauchysequencespace-namecert} keeps the inspected family on finite Cauchy windows. The $\RegSeqRatUp$ and $\StreamNameUp$ rows record the regular readback and scheduled observations before any $\RealUp$ seal can be consumed.
+
+The row $U$ is the only uniform-tail ledger. The row $Q$ reads uniqueness through $\CompleteMetricLimitUniquenessUp$ after the same finite rows have been exposed. Since the carrier contains no quotient stream, selected representative, choice schedule, or host completion coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy complete-metric limit uniqueness]
+\label{thm:uniform-cauchy-complete-metric-limit-uniqueness}
+Let $L=(S,R,W,U,E,Q,H,C,P,N)$ and $L'=(S',R',W',U',E',Q',H',C',P',N')$ be accepted $\UniformCauchyCompleteMetricLimitUp$ packets. If their $\CauchySequenceSpaceUp$, $\RegSeqRatUp$, $\StreamNameUp$, uniform-tail, and $\RealUp$ seal rows agree componentwise under the displayed transport and replay rows, then their public complete-metric limit reads are identified only through the $\CompleteMetricLimitUniquenessUp$ rows $Q,Q'$. No host real equality, quotient stream equality, selected representative, or ambient completeness principle participates in the comparison.
+\end{theorem}
+\begin{proof}
+Begin with the two carriers. Their public limit reads are available only after the sequence-space rows, regular-name rows, stream schedules, uniform-tail ledgers, and terminal real seals have been exposed.
+
+Use \autoref{thm:uniform-cauchy-complete-metric-limit-obligations}. It confines comparison of accepted packets to the displayed rows $S,R,W,U,E,Q,H,C,P,N$ and $S',R',W',U',E',Q',H',C',P',N'$.
+
+The uniqueness comparison is therefore routed through $Q$ and $Q'$, the rows named by $\CompleteMetricLimitUniquenessUp$. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same finite route. Because the carrier has no quotient, selected representative, host equality, choice schedule, or ambient completeness coordinate, the comparison exports only the finite complete-metric uniqueness read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformCauchyCompleteMetricLimitUp$ consumer that reads a complete-metric limit without first displaying the $\CauchySequenceSpaceUp$, $\RegSeqRatUp$, $\StreamNameUp$, uniform-tail, $\RealUp$, and $\CompleteMetricLimitUniquenessUp$ rows refutes the packet.}
+
+\independenceWitness{cauchysequencespace, regseqrat, streamname, real, complete-metric-limit-uniqueness: the sequence-space packet names common windows, the regular-rational packet names readback, the stream packet names finite observations, the Real packet seals the displayed read, and complete-metric uniqueness compares limits; none is bijective to $\UniformCauchyCompleteMetricLimitUp$ because this packet carries their uniform-tail and uniqueness route as one finite carrier.}
+
+\closureat{UniformCauchyCompleteMetricLimitUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyCompleteMetricLimitUp}
+  \constructivestory{A $\UniformCauchyCompleteMetricLimitUp$ packet is generated from a CauchySequenceSpace row, RegSeqRat readback, StreamName windows, a uniform tail ledger, a RealUp seal, CompleteMetricLimitUniqueness comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-complete-metric-limit-carrier}, \autoref{thm:uniform-cauchy-complete-metric-limit-obligations}, and \autoref{thm:uniform-cauchy-complete-metric-limit-uniqueness} seed the finite uniform complete-metric limit route over existing Cauchy and Real packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy-name equality, selected representatives, countable choice, host metric completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-tail exactness, Real seal routing, CompleteMetricLimitUniqueness consumption, transport, replay, provenance, and local naming for BEDC.Derived.UniformCauchyCompleteMetricLimitUp.}
+\end{closurestatus}
