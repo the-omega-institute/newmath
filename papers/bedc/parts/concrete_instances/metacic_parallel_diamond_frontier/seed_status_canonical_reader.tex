@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier seed-status canonical reader]
+\label{thm:metacic-parallel-diamond-frontier-seed-status-canonical}
+The seed-status record for $\MetaCICParallelDiamondFrontierUp$ is read only through the displayed child packet consisting of the critical-pair envelope, residual-substitution dependency route, candidate-normalization scope, finite residual witness, and local $\NameCert$ rows. A consumer reaches that record by passing through \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}, and \autoref{thm:metacic-parallel-diamond-frontier-obligations} before using the seed-status rows of \autoref{thm:metacic-parallel-diamond-frontier-seed-status-current-axis} and \autoref{thm:metacic-parallel-diamond-frontier-status-canonical}.
+
+Thus the canonical seed-status reader records the same finite frontier packet $P,K,J,R,S,C,B,O,H,T,G,N$. It does not discharge residual substitution, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the critical-pair envelope and residual-substitution dependency route. These rows keep the retained residual premise visible while the frontier is read, so the status record cannot be consumed as a detached diamond theorem.
+
+Next read the candidate-normalization scope and finite residual witness. They restrict the status record to the displayed candidate window and finite residual ledger rather than to global normalization or unrestricted confluence.
+
+Finally use the local $\NameCert$ obligation row and the existing seed-status children. They identify the seed-status record as a route through the same child packet $P,K,J,R,S,C,B,O,H,T,G,N$, with no additional endpoint beyond the frontier-local status reader.
+\end{proof}
