@@ -160,4 +160,24 @@ theorem encodedNat_pzgOfExponent (p e : Nat) :
   rw [encodedNat_pzgFromIndices, sumMyFib_eq_zeckendorfValue,
     BEDC.Derived.ZeckendorfUp.zeckendorf_sum_restore]
 
+/-- Multi-prime canonical register from an exponent vector `[(p,e),…]`. -/
+def pzgOfExponentVector : List (Nat × Nat) → PZGRow
+  | [] => PZGRow.nil
+  | (p, e) :: rest => pzgAppend (pzgOfExponent p e) (pzgOfExponentVector rest)
+
+/-- **S3 Layer-2 (multi-prime)**: the canonical Zeckendorf register of an exponent vector encodes
+exactly Loning's `encNat` of it.  Combines the per-prime Zeckendorf realization
+(`encodedNat_pzgOfExponent`) with the register-concatenation homomorphism (`encodedNat_append`, O3)
+and `encNat_cons`.  This is the register side of the finite Euler–Dirichlet correspondence, ready
+to feed Loning's `finiteEuler_eq_encodedDirichlet` at the window level. -/
+theorem encodedNat_pzgOfExponentVector (xs : List (Nat × Nat)) :
+    encodedNat (pzgOfExponentVector xs) = encNat xs := by
+  induction xs with
+  | nil => rfl
+  | cons pe rest ih =>
+      obtain ⟨p, e⟩ := pe
+      show encodedNat (pzgAppend (pzgOfExponent p e) (pzgOfExponentVector rest))
+        = encNat ((p, e) :: rest)
+      rw [encodedNat_append, encodedNat_pzgOfExponent, ih, encNat_cons]
+
 end BEDC.Derived.RHRoute.OCLSDRegisterDirichletBridge
