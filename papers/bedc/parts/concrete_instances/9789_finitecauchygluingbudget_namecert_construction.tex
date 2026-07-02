@@ -74,6 +74,22 @@ If $S$ is replaced while $L$ and $T$ are fixed, the row that binds the witness s
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_route\_exactness}
 
+\begin{theorem}[Finite Cauchy gluing-budget synchronizer-window exactness]
+\label{thm:finite-cauchy-gluing-budget-synchronizer-window-exactness}
+For any accepted $\FiniteCauchyGluingBudgetUp$ packet
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N),
+$$
+the synchronizer window $(S,K)$ is the unique bridge from the witness ledger and tail envelope to the completion-seal classifier read. Any consumer preserving $L$ and $T$ but replacing either $S$ or $K$ cannot preserve the same completion-seal read of $B$.
+\end{theorem}
+\begin{proof}
+Start from the classifier in \autoref{def:finite-cauchy-gluing-budget-classifier}. It accepts a packet only when the witness ledger, tail envelope, synchronizer, completion-seal classifier, downstream finite rows, structural replay, provenance, and local name are displayed as one tuple.
+
+Apply route exactness from \autoref{thm:finite-cauchy-gluing-budget-route-exactness}. Preserving the same route requires preserving $G,L,T,S,K,U,V,D,R,H,C,P,N$, so fixed witness rows $L,T$ alone do not determine the accepted classifier read.
+
+Finally use nonescape from \autoref{thm:finite-cauchy-gluing-budget-nonescape}. A consumer must factor through the displayed path from $S$ to $K$ before reaching $U,D,V,R$; replacing either synchronizer or classifier leaves the accepted finite budget surface rather than producing another read of the same completion seal.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy gluing-budget nonescape]
 \label{thm:finite-cauchy-gluing-budget-nonescape}
 Every diagonal-limit, $\CauchyWitnessGluingUp$, or $\RealUp$ consumer of an accepted $\FiniteCauchyGluingBudgetUp$ packet factors through
@@ -124,6 +140,7 @@ G,L,T,S,K,U,V,D,R,H,C,P,N .
 $$
 The window consists of the gluing route, witness ledger, tail envelope, seal-budget synchronizer, completion-seal classifier, StreamName family, RegSeqRat handoff, DyadicRatCore ledger, terminal Real seal, componentwise transport, displayed replay, provenance, and local NameCert row, and no further completion or witness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_window}
 \begin{proof}
 Project the carrier of \autoref{def:finite-cauchy-gluing-budget-carrier}. Its displayed tuple is $B=(G,L,T,S,K,U,V,D,R,H,C,P,N)$, so every accepted packet begins with exactly those rows.
 
@@ -155,6 +172,7 @@ Finally apply \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Every diagona
 \label{thm:finite-cauchy-gluing-budget-real-seal-handoff}
 Every $\RealUp$-facing consumer of an accepted $\FiniteCauchyGluingBudgetUp$ packet receives the terminal seal row $R$ only after the packet has displayed the $\StreamNameUp$ row $U$, the $\DyadicRatCoreUp$ row $D$, and the $\RegSeqRatUp$ row $V$ along the same finite route. The handoff is therefore a finite budget handoff through StreamName, DyadicRatCore, and RegSeqRat data, not a direct ambient Real-completeness read.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_real\_seal\_handoff}
 \begin{proof}
 Project the accepted carrier by \autoref{def:finite-cauchy-gluing-budget-carrier}. The row $R$ is listed after the finite StreamName window family $U$, the regular-sequence handoff $V$, and the dyadic tolerance ledger $D$.
 

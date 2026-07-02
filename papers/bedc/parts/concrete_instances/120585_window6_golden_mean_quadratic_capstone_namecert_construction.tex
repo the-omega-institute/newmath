@@ -1,0 +1,114 @@
+\chapter{The Golden-Mean Quadratic-Algebra Capstone}
+\label{ch:concrete-instances-window6-golden-mean-quadratic-capstone}
+\origin{ai}
+
+The golden-mean zeta facets have a closest honest master identity, but not a single finite identity generating every certificate in the surrounding family. The organizing object is the quadratic algebra
+$$
+Q_y=\mathbb Z[y][x]/(x^2-x-y),
+$$
+with every element written as $a x+b$ over $\mathbb Z[y,t]$ and conjugation $\overline{x}=1-x$. The root equation is $x^2=x+y$, so multiplication reduces by
+$$
+(a x+b)(c x+d)=(ac+ad+bc)x+(acy+bd).
+$$
+The trace and norm are
+$$
+\operatorname{Tr}(a x+b)=a+2b,\qquad
+N(a x+b)=b^2+ab-ya^2,
+$$
+and hence $\operatorname{Tr}(x)=1$ and $N(x)=-y$.
+
+\section{The Master Norm Identity}
+\label{sec:window6-quadratic-capstone-master}
+
+The central identity is the norm computation
+$$
+(1-tx)(1+t(x-1))=1-t-yt^2.
+$$
+It is a norm identity in $Q_y[t]$: the second factor is the conjugate of $1-tx$, because $\overline{x}=1-x$. Equivalently, with the regular representation
+$$
+\rho(a x+b)=
+\begin{pmatrix}
+a+b&ya\\
+a&b
+\end{pmatrix},
+\qquad
+\rho(x)=T_y=
+\begin{pmatrix}
+1&y\\
+1&0
+\end{pmatrix},
+$$
+one has $\det\rho(a x+b)=N(a x+b)$ and $\operatorname{tr}\rho(a x+b)=\operatorname{Tr}(a x+b)$. The matrix form of the same identity is
+$$
+(I-tT_y)(I+t(T_y-I))=(1-t-yt^2)I,
+$$
+which is the Cayley--Hamilton reading of $T_y^2=T_y+yI$.
+
+\begin{theorem}[Quadratic-algebra capstone certificate]
+\label{thm:window6-quadratic-capstone-certificate}
+In the finite $\mathbb Z[y,t]$ model of $Q_y$, the root identity $x^2=x+y$, the conjugation identity $\overline{x}=1-x$, the norm and trace values $N(x)=-y$ and $\operatorname{Tr}(x)=1$, the master norm identity $(1-tx)(1+t(x-1))=1-t-yt^2$, the regular representation value $\rho(x)=T_y$, concrete determinant and trace readings of $\rho(x)$, six Fibonacci power identities, six Hankel--Cassini identities, and two finite truncated resolvent identities are all checked by Lean without axioms.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanQuadraticCapstone.golden\_mean\_quadratic\_capstone\_certificate}
+
+\section{Powers, Cassini, and Truncated Resolvents}
+\label{sec:window6-quadratic-capstone-consequences}
+
+Let $F_0(y)=0$, $F_1(y)=1$, and
+$$
+F_{n+2}(y)=F_{n+1}(y)+yF_n(y).
+$$
+The quadratic relation gives the finite power law
+$$
+x^{n+1}=F_{n+1}(y)x+yF_n(y),
+$$
+verified in Lean for the first six nontrivial instances. Taking traces gives the cyclic trace polynomials $C_n(y)=\operatorname{Tr}(x^n)$, whose specialization at $y=1$ is the Lucas trace sequence.
+
+The same conjugation gives the Hankel--Turan discriminant without a separate determinant argument:
+$$
+C_n(y)C_{n+2}(y)-C_{n+1}(y)^2=(x\overline{x})^n(x-\overline{x})^2=(-y)^n(1+4y).
+$$
+Here $x\overline{x}=-y$ and
+$$
+(x-\overline{x})^2=(2x-1)^2=1+4y.
+$$
+The capstone certificate checks this Cassini identity for $n=1,\ldots,6$ as polynomial data.
+
+The finite resolvent identity is also a direct consequence of the same denominator:
+$$
+(1-t-yt^2)\sum_{i=0}^{N}x^i t^i
+=1+t(x-1)-t^{N+1}x^{N+1}-y t^{N+2}x^N.
+$$
+The Lean certificate records the concrete $N=1$ and $N=2$ truncations as finite polynomial computations. These truncations are not a replacement for the primitive-orbit product; they are the quadratic-algebra denominator viewed inside $Q_y[t]$.
+
+\section{Honest Scope Across the Six Facets}
+\label{sec:window6-quadratic-capstone-scope}
+
+There is no single finite identity generating all six facets; the closest honest master is the quadratic-algebra norm identity. This is the honest organizing master of the golden-mean SFT zeta facets, not a grand unification and not a proof of the Riemann Hypothesis; the independent facets remain separate certificates.
+
+\begin{center}
+\begin{tabular}{p{0.32\linewidth}p{0.56\linewidth}}
+\textbf{Facet} & \textbf{Generation by the quadratic master} \\
+A determinant/zeta/trace-recurrence & \textbf{YES directly}. The determinant, resolvent denominator, and trace recurrence come from $T_y^2=T_y+yI$ and $\det(I-tT_y)=1-t-yt^2$; the $\mathbb Z[\varphi]$ splitting still needs $\varphi^2=\varphi+1$. \\
+B Euler-product/primitive-orbit & \textbf{PARTLY}. The master gives $C_n(y)=\operatorname{Tr}(x^n)$ and therefore the input to the Mobius transform, but positivity $P_n\in\mathbb N[y]$ is an independent necklace-counting theorem. \\
+C Parry/RPF/cylinder & \textbf{MOSTLY}. The power law, cylinder recurrences, and derivative identity $C_n'=nF_{n-1}$ are governed by $x^2=x+y$; the golden spectral projector belongs to the $\mathbb Z[\varphi]$ specialization. \\
+D Hankel--Turan/discriminant & \textbf{YES}. Conjugation gives $x\overline{x}=-y$ and $(x-\overline{x})^2=1+4y$, hence the Cassini--Hankel identity. \\
+E fifth-cyclotomic/pentagon & \textbf{PARTLY}. Cyclic norms use the same norm mechanism together with $\prod_{k=0}^{4}(1-\zeta^k a)=1-a^5$; the pentagon Gram relation $G^2=5G$ and $u^2+u-1=0$ remain independent cyclotomic geometry. \\
+F strong-shift-equivalence & \textbf{NO}. The presentation data for strong-shift-equivalence are independent finite certificates, not consequences of the quadratic norm identity. \\
+\end{tabular}
+\end{center}
+
+Thus the capstone is an organizing certificate, not a total generator. It explains why the determinant, trace recurrence, resolvent denominator, power law, and Hankel discriminant repeatedly share the same polynomial $1-t-yt^2$, while marking the primitive-necklace positivity, golden-ring projector, pentagon geometry, and presentation data as independent inputs.
+
+\falsifiablePrediction{A recomputation of the finite $\mathbb Z[y,t]$ quadratic-algebra model that violates $x^2=x+y$, $N(x)=-y$, $\operatorname{Tr}(x)=1$, $(1-tx)(1+t(x-1))=1-t-yt^2$, $\rho(x)=\begin{pmatrix}1&y\\1&0\end{pmatrix}$, or the checked Cassini windows refutes this packet.}
+
+\independenceWitness{golden-mean-facet-scope: the quadratic master does not generate the primitive-orbit positivity theorem, the $\mathbb Z[\varphi]$ spectral projector, the pentagon Gram geometry, the strong-shift-equivalence presentation data, or any proof of the Riemann Hypothesis.}
+
+\begin{closurestatus}{Window6GoldenMeanQuadraticCapstone}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter closes the finite quadratic-algebra master identity for $Q_y=\mathbb Z[y][x]/(x^2-x-y)$, its regular representation at $x$, six finite power and Hankel windows, and the honest facet-scope table for the golden-mean SFT zeta family.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6GoldenMeanQuadraticCapstone.golden\_mean\_quadratic\_capstone\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a single-generator unification of all facets; B positivity, C/E's $\mathbb Z[\varphi]$/pentagon geometry, and F presentation data remain independent certificates; not a proof of RH.}
+  \upgradepath{formalize the universal ring-hom instance over an abstract commutative base and derive each dependent facet as a corollary.}
+\end{closurestatus}
