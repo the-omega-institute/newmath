@@ -76,4 +76,36 @@ theorem RiemannZeroCountLedgerCarrier_comparison_error_nonescape
       comparisonUnary, exportUnary, comparisonRoute, exportRoute,
       hsame_refl M, hsame_refl E⟩
 
+theorem RiemannZeroCountLedgerCarrier_zero_list_count_transport
+    {T Z U M E H C P N T' Z' U' filterRead countRead : BHist}
+    (count_unary : UnaryHistory U)
+    (t_unary : UnaryHistory T)
+    (z_unary : UnaryHistory Z)
+    (sameHeight : hsame T T')
+    (sameZeroList : hsame Z Z')
+    (sameCount : hsame U U')
+    (filterRoute : Cont T Z filterRead)
+    (countRoute : Cont filterRead U countRead) :
+    ∃ x : RiemannZeroCountLedgerUp,
+      x = RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary ∧
+        UnaryHistory T' ∧ UnaryHistory Z' ∧ UnaryHistory U' ∧
+          UnaryHistory filterRead ∧ UnaryHistory countRead ∧
+            Cont T Z filterRead ∧ Cont filterRead U countRead ∧ hsame Z Z' ∧
+              hsame U U' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  have transportedHeight : UnaryHistory T' :=
+    unary_transport t_unary sameHeight
+  have transportedZeroList : UnaryHistory Z' :=
+    unary_transport z_unary sameZeroList
+  have transportedCount : UnaryHistory U' :=
+    unary_transport count_unary sameCount
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed t_unary z_unary filterRoute
+  have countReadUnary : UnaryHistory countRead :=
+    unary_cont_closed filterUnary count_unary countRoute
+  exact
+    ⟨RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary, rfl,
+      transportedHeight, transportedZeroList, transportedCount, filterUnary, countReadUnary,
+      filterRoute, countRoute, sameZeroList, sameCount⟩
+
 end BEDC.Derived.RiemannZeroCountLedgerUp

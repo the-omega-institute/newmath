@@ -3378,6 +3378,7 @@ import BEDC.Derived.ClosurePreservationAuditPacketUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditSealUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditTraceUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditWitnessUp
+import BEDC.Derived.ClosurePreservationAuditWitnessUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
