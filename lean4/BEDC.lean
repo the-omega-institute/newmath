@@ -9958,6 +9958,7 @@ import BEDC.Derived.PointedCompleteMetricSpaceUp
 import BEDC.Derived.PointedCompleteMetricSpaceUp.CauchyBasepointRoute
 import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricUp
+import BEDC.Derived.PointedCompleteMetricUp.TasteGate
 import BEDC.Derived.PointedGromovHausdorffUp.TasteGate
 import BEDC.Derived.PointedMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedSetUp
