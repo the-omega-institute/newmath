@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T10:31:02Z
+> 最后刷新: 2026-07-02T12:01:12Z
 
-**Daemon 状态**: monitor (monitor cycle 253, adjust_since_research 2, round_counter 35512, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 254, adjust_since_research 2, round_counter 35597, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1150 条 finding):
 - isolated_theorem: 832 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,9 +30,9 @@ date-modified: today
 - low_entropy_template: 65 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 72 次
-- TASTE ALERT category=low_entropy_template: 21 次
-- TASTE ALERT category=cycle_exception: 5 次
+- TASTE ALERT category=isolated_theorem: 61 次
+- TASTE ALERT category=low_entropy_template: 17 次
+- TASTE ALERT category=cycle_exception: 4 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -500,6 +500,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T09:15:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport:43e3a8b4`). Rationale: The theorem has meaningful BEDC content: it transports conjugacy data between two accepted Sylow carriers via coverage/action hsame rows and exposes both transport Cont routes. It was paper-marked but had no Lean downstream consumer, so I added SylowCarrier_conjugacy_transport_public_scope, which uses the target together with both sides of SylowCarrier_scope_dependency_lock to bind conjugacy transport to public-read NameCert scope certificates. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T10:30:32Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_substitution_row` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_substitution_row:3c7e3bf5`). Rationale: The target theorem carries real BEDC content: it extracts the shift, variable-substitution, and full-substitution closedness rows from the ClosurePreservationAuditWitness carrier, rather than merely restating another theorem. It was isolated in source use, so I added a downstream consumer in the MetaCICClosurePreservationWitness sibling that invokes this substitution row and hands the resulting full-substitution audit read into the witness carrier's audit row and continuation route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T12:00:41Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_beta_star_row` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_beta_star_row:3c7e3bf5`). Rationale: The theorem carries real BEDC content: it extracts the beta-step route and derives a beta-star read as a closed UnaryHistory row from the ClosurePreservationAuditWitness carrier, rather than restating an existing theorem. It was isolated in downstream Lean use, so I added a sibling consumer in MetaCICClosurePreservationWitnessUp that invokes the beta-star row, transports it into the witness audit row through hsame, and then consumes it through the witness continuation route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
