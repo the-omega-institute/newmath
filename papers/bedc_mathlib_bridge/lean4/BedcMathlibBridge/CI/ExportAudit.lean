@@ -100,6 +100,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Hexagonal.hexagonalExport,
     witnessType :=
       `BedcMathlibBridge.Export.Hexagonal.HexagonalExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.projectionLedgerCountExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.ProjectionLedgerCountExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },
