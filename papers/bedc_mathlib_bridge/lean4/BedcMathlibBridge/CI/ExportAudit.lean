@@ -69,6 +69,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CentralBinom.centralBinomExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralBinom.CentralBinomExportWitness },
+  { witness := `BedcMathlibBridge.Export.Delannoy.delannoyClosedFormTermExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Delannoy.DelannoyClosedFormTermExportWitness },
   { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },
