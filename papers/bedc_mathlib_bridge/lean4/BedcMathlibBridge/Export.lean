@@ -8,6 +8,7 @@ import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.Factorial
+import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
