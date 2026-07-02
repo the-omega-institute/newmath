@@ -13414,6 +13414,7 @@ import BEDC.Derived.VonMangoldtUp
 import BEDC.Derived.VonStaudtClausenUp
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
+import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank
 import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
