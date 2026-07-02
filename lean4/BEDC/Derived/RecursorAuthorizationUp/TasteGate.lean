@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorAuthorizationUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -246,5 +250,43 @@ theorem RecursorAuthorizationBranchExhaustion {I Sigma R M B D H C P N : BHist} 
           hsame Sigma Sigma ∧ hsame B B := by
   -- BEDC touchpoint anchor: BHist BMark hsame
   exact ⟨rfl, rfl, rfl, hsame_refl Sigma, hsame_refl B⟩
+
+theorem RecursorAuthorizationNameCertObligations
+    {I Sigma R M B D H C P N sigRec recMotive motiveBranches branchesDescent
+      descentNamed : BHist} :
+    UnaryHistory Sigma → UnaryHistory R → UnaryHistory M → UnaryHistory B →
+      UnaryHistory D → UnaryHistory N → Cont Sigma R sigRec →
+        Cont sigRec M recMotive → Cont recMotive B motiveBranches →
+          Cont motiveBranches D branchesDescent → Cont branchesDescent N descentNamed →
+            recursorAuthorizationFields (RecursorAuthorizationUp.mk I Sigma R M B D H C P N) =
+                [I, Sigma, R, M, B, D, H, C, P, N] ∧
+              UnaryHistory sigRec ∧ UnaryHistory recMotive ∧
+                UnaryHistory motiveBranches ∧ UnaryHistory branchesDescent ∧
+                  UnaryHistory descentNamed ∧
+                    hsame
+                      (recursorAuthorizationDecodeBHist
+                        (recursorAuthorizationEncodeBHist N))
+                      N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro unarySigma unaryR unaryM unaryB unaryD unaryN sigRoute motiveRoute branchRoute
+    descentRoute namedRoute
+  have sigRecUnary : UnaryHistory sigRec :=
+    unary_cont_closed unarySigma unaryR sigRoute
+  have recMotiveUnary : UnaryHistory recMotive :=
+    unary_cont_closed sigRecUnary unaryM motiveRoute
+  have motiveBranchesUnary : UnaryHistory motiveBranches :=
+    unary_cont_closed recMotiveUnary unaryB branchRoute
+  have branchesDescentUnary : UnaryHistory branchesDescent :=
+    unary_cont_closed motiveBranchesUnary unaryD descentRoute
+  have descentNamedUnary : UnaryHistory descentNamed :=
+    unary_cont_closed branchesDescentUnary unaryN namedRoute
+  exact
+    ⟨rfl,
+      sigRecUnary,
+      recMotiveUnary,
+      motiveBranchesUnary,
+      branchesDescentUnary,
+      descentNamedUnary,
+      recursorAuthorizationDecodeEncodeBHist N⟩
 
 end BEDC.Derived.RecursorAuthorizationUp
