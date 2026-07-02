@@ -7,6 +7,7 @@ import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
 import BedcMathlibBridge.Export.Binomial
+import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
