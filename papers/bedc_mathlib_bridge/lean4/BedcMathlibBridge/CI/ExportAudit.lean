@@ -48,6 +48,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.StirlingSecond.stirlingSecondExport,
     witnessType :=
       `BedcMathlibBridge.Export.StirlingSecond.StirlingSecondExportWitness },
+  { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },
