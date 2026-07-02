@@ -65,4 +65,29 @@ theorem ExtremeValueRealSealBoundary
   }
   exact ⟨cert, sealUnary, sourceRoute, foldRoute, valueRoute, sealRoute⟩
 
+theorem ExtremeValueFiniteNetSealBoundaryConsumer
+    {X F U M S R H C P N attainment sealRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment ->
+      Cont S R sealRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row X ∨ hsame row F ∨ hsame row U ∨ hsame row M ∨
+                hsame row S ∨ hsame row R ∨ hsame row sealRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont X F U ∧ Cont U M S ∧ Cont M S R ∧
+                Cont S R sealRead)
+            hsame ∧
+          extremeValueFields (ExtremeValueUp.mk X F U M S R H C P N) =
+              [X, F, U, M, S, R, H, C, P, N] ∧
+            UnaryHistory U ∧ UnaryHistory S ∧ UnaryHistory sealRead ∧
+              Cont X F U ∧ Cont U M S ∧ Cont S R sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame SemanticNameCert
+  intro packet sealRoute
+  have carrierRead :=
+    BEDC.Derived.ExtremeValueUp.ExtremeValueCarrier_finite_net_attainment packet sealRoute
+  have boundaryRead :=
+    ExtremeValueRealSealBoundary packet sealRoute
+  exact ⟨boundaryRead.left, carrierRead⟩
+
 end BEDC.Derived.ExtremeValueUp

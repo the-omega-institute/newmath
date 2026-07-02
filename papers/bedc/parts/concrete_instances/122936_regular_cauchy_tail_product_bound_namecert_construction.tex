@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailProductBoundUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-product-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyTailProductBoundUp$ packet records the finite tail-window product estimate used when two regular Cauchy rational names are multiplied before a $\RealUp$ seal is consumed. It sits after the tail-sum comparison route of \autoref{ch:concrete-instances-regular-cauchy-tail-sum-namecert}, the regular product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a tail-product bound as finite BEDC rows; it does not assert host multiplication of completed reals, quotient stream equality, selected product representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RegularCauchyTailProductBound carrier]
+\label{def:regular-cauchy-tail-product-bound-carrier}
+A $\RegularCauchyTailProductBoundUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,D,P,A,B,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the tail-window row naming the common cutoff and precision window inherited from the regular Cauchy tail route.
+\item $D$ is the $\DyadicRatCoreUp$ product-budget row recording source tolerances, endpoint majorants, and the cross-error allowance for the tail product.
+\item $P$ is the $\RegularCauchyProductUp$ row exposed only after the tail window and dyadic product budget are displayed.
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose tails are compared inside the product window.
+\item $E$ is the $\RealUp$ seal row consumed only after $P$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tail window, product budget, product row, source rows, real seal, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from the tail-window request through the dyadic budget, regular product row, regular rational sources, and real seal.
+\item $Q$ is the $\Pkg$ provenance over $\RegularCauchyTailProductBoundUp$, $\RegularCauchyTailSumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailProductBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,D,P,A,B,E,H,C,Q,N$. It has no coordinate for host real multiplication, quotient streams, selected representatives, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyTailProductBoundUp}
+
+\begin{theorem}[RegularCauchyTailProductBound obligation surface]
+\label{thm:regular-cauchy-tail-product-bound-obligation-surface}
+For every accepted $\RegularCauchyTailProductBoundUp$ carrier $T=(W,D,P,A,B,E,H,C,Q,N)$, the local $\NameCert_{\RegularCauchyTailProductBoundUp}$ surface consists exactly of carrier admission for the tail window, the $\DyadicRatCoreUp$ product-budget row, the $\RegularCauchyProductUp$ handoff, the two $\RegSeqRatUp$ source rows, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-tail-product-bound-carrier}. The only tail-facing row is $W$, and the only arithmetic row available before product handoff is the dyadic budget $D$.
+
+The rows $P,A,B,E$ then expose the product route. The product row is read through $\RegularCauchyProductUp$, the source rows through $\RegSeqRatUp$, and the terminal seal through $\RealUp$.
+
+Finally $H,C,Q,N$ transport, replay, source, and name exactly those rows. Since the carrier contains no host multiplication, quotient-stream, selected-representative, choice, trichotomy, or ambient-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailProductBound product-tail handoff]
+\label{thm:regular-cauchy-tail-product-bound-product-tail-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyTailProductBoundUp$ carrier reaches the product seal only through the displayed route
+$$
+W\longmapsto D\longmapsto P\longmapsto A,B\longmapsto E .
+$$
+Thus a downstream product estimate first reads the shared tail window, the dyadic product budget, the regular product row, and the two regular rational source rows before the real seal can be consumed.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The row $W$ fixes the finite tail window and $D$ records the product tolerance budget attached to that window.
+
+The handoff row $P$ is downstream of $W$ and $D$. It repacks the tail-product estimate as a $\RegularCauchyProductUp$ row, while $A$ and $B$ keep the two source tails visible as $\RegSeqRatUp$ data.
+
+The seal row $E$ is last in the displayed route. Transport, replay, provenance, and naming preserve the same route through $H,C,Q,N$, so no consumer can replace it by completed-real multiplication, quotient stream equality, selected representatives, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyTailProductBoundUp$ read factors through a tail window, a DyadicRatCore product budget, a RegularCauchyProduct row, two RegSeqRat source rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regular-cauchy-tail-sum, regularcauchyproduct, dyadicratcore, regseqrat, real: $\RegularCauchyTailProductBoundUp$ is not bijective to any listed sibling because it jointly carries the product-tail window, dyadic product-budget ledger, regular product handoff, two regular rational source rows, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyTailProductBoundUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailProductBoundUp}
+  \constructivestory{A $\RegularCauchyTailProductBoundUp$ packet is generated from a regular Cauchy tail window, a DyadicRatCore product-budget row, a RegularCauchyProduct handoff, two RegSeqRat source rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-product-bound-carrier}, \autoref{thm:regular-cauchy-tail-product-bound-obligation-surface}, and \autoref{thm:regular-cauchy-tail-product-bound-product-tail-handoff} seed the finite tail-product bound route for regular Cauchy product and Real-facing consumers.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.RegularCauchyTailProductBoundUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host multiplication of completed reals, quotient stream equality, selected product representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-window exposure, dyadic product-budget exactness, RegularCauchyProduct handoff, RegSeqRat source preservation, Real seal nonescape, transport stability, continuation replay, and provenance nonescape for BEDC.Derived.RegularCauchyTailProductBoundUp.}
+\end{closurestatus}
