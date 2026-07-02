@@ -1,4 +1,5 @@
 import BedcMathlibBridge.Export.Int
+import BedcMathlibBridge.Export.IntSignMagnitude
 import BedcMathlibBridge.Export.Bool
 import BedcMathlibBridge.Export.Gaussian
 import BedcMathlibBridge.Export.Eisenstein
@@ -8,3 +9,19 @@ import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
+import BedcMathlibBridge.Export.StirlingSecond
+import BedcMathlibBridge.Export.Derangement
+import BedcMathlibBridge.Export.DescFactorial
+import BedcMathlibBridge.Export.Superfactorial
+import BedcMathlibBridge.Export.AscFactorial
+import BedcMathlibBridge.Export.CentralBinom
+import BedcMathlibBridge.Export.QBinomial
+import BedcMathlibBridge.Export.Tetrahedral
+import BedcMathlibBridge.Export.Triangular
+import BedcMathlibBridge.Export.OddDoubleFactorial
+import BedcMathlibBridge.Export.Square
+import BedcMathlibBridge.Export.Pronic
+import BedcMathlibBridge.Export.CenteredHexagonal
+import BedcMathlibBridge.Export.SquarePyramidal
+import BedcMathlibBridge.Export.Pentagonal
+import BedcMathlibBridge.Export.Hexagonal
