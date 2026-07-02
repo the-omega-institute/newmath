@@ -180,24 +180,51 @@ theorem level2_center_minus_tail_im_abs_lower :
     level2ImAbsLower <= level2PartialIm - level2TailImEnvelope := by
   decide
 
-theorem level2_tail_envelope_re_lower
-    (cert : CenterTailEnvelope)
-    (hbound : cert.reTailBound <= level2TailReEnvelope) :
-    level2ReLower <= cert.etaRe := by
-  have lowerToCenter :
-      level2ReLower <= level2PartialRe - cert.reTailBound :=
-    Int.le_trans level2_center_minus_tail_re_lower
-      (Int.sub_le_sub_left hbound level2PartialRe)
-  exact Int.le_trans lowerToCenter cert.re_tail_lower
+def level3BoxSide : DyInt :=
+  65536
 
-theorem level2_tail_envelope_im_abs_lower
-    (cert : CenterTailEnvelope)
-    (hbound : cert.imTailBound <= level2TailImEnvelope) :
-    level2ImAbsLower <= cert.etaIm := by
-  have lowerToCenter :
-      level2ImAbsLower <= level2PartialIm - cert.imTailBound :=
-    Int.le_trans level2_center_minus_tail_im_abs_lower
-      (Int.sub_le_sub_left hbound level2PartialIm)
-  exact Int.le_trans lowerToCenter cert.im_tail_lower
+def level3BoxRadius : DyInt :=
+  32768
+
+def level3DerivativeBound : DyInt :=
+  16777216
+
+def level3VariationBound : DyInt :=
+  dyMulDown level3DerivativeBound level3BoxRadius
+
+def level3BoxImLower : DyInt :=
+  level2ImAbsLower - level3VariationBound
+
+theorem level3_box_side_readback :
+    level3BoxSide = 65536 := by
+  decide
+
+theorem level3_box_radius_readback :
+    level3BoxRadius = 32768 := by
+  decide
+
+theorem level3_variation_bound_readback :
+    level3VariationBound = 524288 := by
+  decide
+
+theorem level3_box_im_lower_readback :
+    level3BoxImLower = 475712 := by
+  decide
+
+theorem level3_box_im_lower_positive :
+    0 < level3BoxImLower := by
+  decide
+
+def level3BoxImFloor : Nat :=
+  475712
+
+structure SingleBoxPointCertificate where
+  pointImFloor : Nat
+  point_floor : level3BoxImFloor <= pointImFloor
+
+theorem level3_single_box_im_positive
+    (cert : SingleBoxPointCertificate) :
+    0 < cert.pointImFloor :=
+  Nat.lt_of_lt_of_le (by decide) cert.point_floor
 
 end BEDC.Derived.RHRoute.GombocSingleBoxGate
