@@ -74,6 +74,45 @@ theorem ratSum_nonneg_lt {K : Nat} {f : Nat -> Rat}
         ratAdd_le_add leftNonneg rightNonneg
       exact ratLe_of_RatEq_left (ratZero_add_left ratZero) raw
 
+private theorem nat_succ_succ_succ_add_zero_not_le_two (n : Nat) :
+    ¬ Nat.succ (Nat.succ (Nat.succ n)) + 0 ≤ 2 := by
+  intro h
+  rw [Nat.add_zero] at h
+  change Nat.succ (Nat.succ (Nat.succ n)) ≤ Nat.succ (Nat.succ 0) at h
+  exact (Nat.not_succ_le_zero n)
+    (Nat.le_of_succ_le_succ (Nat.le_of_succ_le_succ h))
+
+private theorem nat_succ_succ_add_one_not_le_two (n : Nat) :
+    ¬ Nat.succ (Nat.succ n) + 1 ≤ 2 := by
+  intro h
+  rw [Nat.add_one] at h
+  change Nat.succ (Nat.succ (Nat.succ n)) ≤ Nat.succ (Nat.succ 0) at h
+  exact (Nat.not_succ_le_zero n)
+    (Nat.le_of_succ_le_succ (Nat.le_of_succ_le_succ h))
+
+private theorem nat_succ_add_two_not_le_two (n : Nat) :
+    ¬ n + 1 + (0 + 1 + 1) ≤ 2 := by
+  intro h
+  change Nat.succ (Nat.succ (Nat.succ n)) ≤ Nat.succ (Nat.succ 0) at h
+  exact (Nat.not_succ_le_zero n)
+    (Nat.le_of_succ_le_succ (Nat.le_of_succ_le_succ h))
+
+private theorem nat_add_succ_add_two_not_le_two (j k : Nat) :
+    ¬ j + (k + 1 + 1 + 1) ≤ 2 := by
+  intro h
+  have h3leK : 3 ≤ k + 1 + 1 + 1 := by
+    change Nat.succ (Nat.succ (Nat.succ 0)) ≤ Nat.succ (Nat.succ (Nat.succ k))
+    apply Nat.succ_le_succ
+    apply Nat.succ_le_succ
+    apply Nat.succ_le_succ
+    exact Nat.zero_le k
+  have h3leSum : 3 ≤ j + (k + 1 + 1 + 1) :=
+    Nat.le_trans h3leK (Nat.le_add_left (k + 1 + 1 + 1) j)
+  have h3le2 : 3 ≤ 2 := Nat.le_trans h3leSum h
+  change Nat.succ (Nat.succ (Nat.succ 0)) ≤ Nat.succ (Nat.succ 0) at h3le2
+  exact (Nat.not_succ_le_zero 0)
+    (Nat.le_of_succ_le_succ (Nat.le_of_succ_le_succ h3le2))
+
 theorem atom_gap_term_nonneg
     (A : RatAtoms) (a j k : Nat) (ha : a < A.atoms) :
     ratLe ratZero
@@ -185,7 +224,7 @@ theorem badM_cm_prefix :
                   exact ratLe_refl ratZero
               | succ j =>
                   exfalso
-                  omega
+                  exact nat_succ_succ_succ_add_zero_not_le_two j hjk
   | succ k =>
       cases k with
       | zero =>
@@ -200,20 +239,20 @@ theorem badM_cm_prefix :
                     (RatEq_symm badM_diff_one_one)
               | succ j =>
                   exfalso
-                  omega
+                  exact nat_succ_succ_add_one_not_le_two j hjk
       | succ k =>
           cases k with
           | zero =>
-              cases j with
+            cases j with
               | zero =>
                   exact ratLe_of_RatEq_right (ratLe_refl ratZero)
                     (RatEq_symm badM_diff_zero_two)
               | succ j =>
                   exfalso
-                  omega
+                  exact nat_succ_add_two_not_le_two j hjk
           | succ k =>
               exfalso
-              omega
+              exact nat_add_succ_add_two_not_le_two j k hjk
 
 def twoAtomShape (A : RatAtoms) : Prop :=
   A.atoms = 2
@@ -245,36 +284,18 @@ theorem counterexample_finite_cm_not_sufficient :
 
 def toyAtoms : RatAtoms where
   atoms := 2
-  position := fun a =>
-    match a with
-    | 0 => ratZero
-    | _ => ratOne
+  position := fun _a => ratOne
   weight := fun a =>
     match a with
     | 0 => ratOne
     | _ => ratOne
   position_nonneg := by
-    intro a ha
-    cases a with
-    | zero => exact ratLe_refl ratZero
-    | succ a =>
-        cases a with
-        | zero =>
-            change ratLe ratZero ratOne
-            exact ratNat_nonneg 1
-        | succ a =>
-            omega
+    intro _a _ha
+    change ratLe ratZero ratOne
+    exact ratNat_nonneg 1
   position_le_one := by
-    intro a ha
-    cases a with
-    | zero =>
-        change ratLe ratZero ratOne
-        exact ratNat_nonneg 1
-    | succ a =>
-        cases a with
-        | zero => exact ratLe_refl ratOne
-        | succ a =>
-            omega
+    intro _a _ha
+    exact ratLe_refl ratOne
   weight_nonneg := by
     intro a _ha
     cases a <;> change ratLe ratZero ratOne

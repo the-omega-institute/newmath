@@ -8138,6 +8138,7 @@ import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
+import BEDC.Derived.MarkovChainUp.ScopedObligationPackage
 import BEDC.Derived.MarkovChainUp.TransitionKernelRowFactorization
 import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.MarkovKernelUp
@@ -9773,6 +9774,7 @@ import BEDC.Derived.PdeUp.TasteGate
 import BEDC.Derived.PeanoContinuumUp.TasteGate
 import BEDC.Derived.PeanoCurveUp.TasteGate
 import BEDC.Derived.PeanoExistenceUp.TasteGate
+import BEDC.Derived.PeanoKernelUp.TasteGate
 import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
@@ -10858,6 +10860,7 @@ import BEDC.Derived.RealTriangleInequalityUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
 import BEDC.Derived.RealUniformCauchyNameUp.TasteGate
 import BEDC.Derived.RealUniformCauchyProductUp
+import BEDC.Derived.RealUniformCauchyProductUp.TasteGate
 import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.Derived.RealUniformEmbeddingUp.SealHandoff
 import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
