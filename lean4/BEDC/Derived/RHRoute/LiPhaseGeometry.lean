@@ -521,9 +521,14 @@ theorem three_quarters_not_critical :
   intro h
   unfold threeQuarterRat natRat BEDC.Real.RatNumKernel.ratNat ratMul ratOne
     intToRat RatEq BEDC.Derived.RationalUp.intOfNat at h
-  have lenEq := IntPairClassifier_length_eq h
-  change 6 = 4 at lenEq
-  cases lenEq
+  change
+    BEDC.Derived.IntUp.IntPairClassifier
+      (BEDC.Derived.IntUp.natToUnary 6, BHist.Empty)
+      (BEDC.Derived.IntUp.natToUnary 4, BHist.Empty) at h
+  have same := h.right.right
+  change hsame (BEDC.Derived.IntUp.natToUnary 6)
+    (BEDC.Derived.IntUp.natToUnary 4) at same
+  cases same
 
 theorem three_quarters_one_not_equidistant :
     RatEq
