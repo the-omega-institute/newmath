@@ -120,6 +120,30 @@ Archimedean no-scale brick.  It is checked in Lean with no additional
 axiom.
 \end{proof}
 
+\begin{theorem}[Finite jets underdetermine the polynomial]
+\label{thm:rh-finite-visibility-additive-jet-underdetermination}
+For every polynomial $p$ over the rationals and every $N$, there is an
+infinite injective family of polynomials, each sharing the first $N+1$
+coefficients, the degree-$N$ jet, with $p$, obtained by adding a single
+high-degree monomial beyond the visible window.  Hence a finite jet does
+not determine the polynomial.
+\leanchecked{BEDC.Derived.RHRoute.FiniteVisibility.fvFamily\_injective}
+\leanvariant{BEDC.Derived.RHRoute.FiniteVisibility.fvFamily\_shares\_jet}
+\leanvariant{BEDC.Derived.RHRoute.FiniteVisibility.jet\_extendAt\_invisible}
+\end{theorem}
+
+\begin{proof}
+This checked brick is the additive core of
+\autoref{prin:rh-finite-visibility-incomplete}.  The family changes only a
+coefficient beyond the visible degree-$N$ jet, so the finite window still
+reads the same polynomial data while the resulting polynomials are pairwise
+different.  The Blaschke-type outer-window modification in
+\autoref{prin:rh-finite-visibility-incomplete}, where one keeps the disk
+window fixed while inserting a zero outside it, is the multiplicative and
+geometric version of the same boundary principle.  That version remains a
+paper-level principle here and is not claimed as Lean checked.
+\end{proof}
+
 The conditional tower interface is also encoded:
 \leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenTowerData}
 and
