@@ -1075,6 +1075,7 @@ import BEDC.Derived.BishopDiagonalRegularizationUp
 import BEDC.Derived.BishopDiagonalRegularizationUp.TasteGate
 import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
+import BEDC.Derived.BishopEquicontinuityPrincipleUp.TasteGate
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.Nonescape
@@ -2003,6 +2004,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.UniformModulusSink
 import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
+import BEDC.Derived.CauchyContinuousFunctionUp.TasteGate
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.BridgeScope
