@@ -131,6 +131,24 @@ Use the NameCert surface and shared-window obligation, \autoref{thm:finite-windo
 Finally apply the TasteGate obligation of \autoref{thm:finite-window-real-separation-tastegate-obligation}. It forces any Lean-side gate for the packet to preserve the same finite carrier and refuses host equality, quotient streams, selected representatives, and ambient completeness before the Real separation read.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-separation window-budget determinacy]
+\label{thm:finite-window-real-separation-window-budget-determinacy}
+Let
+$$
+F=(W,D,S,R,H,C,P,N)
+\qquad\text{and}\qquad
+F'=(W,D,S,R',H,C',P',N')
+$$
+be accepted $\FiniteWindowRealSeparationUp$ packets with the same shared finite-window row $W$, the same dyadic tolerance row $D$, the same $\StreamNameUp/\RegSeqRatUp$ readback row $S$, and the same componentwise $\hsame$ transport row $H$. Then $F$ and $F'$ expose the same admissible $\RealUp$ separation readback budget: any consumer of $R$ or $R'$ must pass through the identical finite window $W$, dyadic budget $D$, readback row $S$, and transport row $H$ before it can read a Real-separation handoff. The packet has no second budget coordinate, detached Real witness, quotient stream equality, selected representative, host Real equality, or ambient completeness row from which an alternate readback budget could be obtained.
+\end{theorem}
+\begin{proof}
+Project the two eight-row carriers from \autoref{def:finite-window-real-separation-carrier}. The only rows that can govern a Real-separation budget are the shared finite window $W$, dyadic tolerance $D$, StreamName/RegSeqRat readback $S$, Real readback row, transport $H$, replay, provenance, and local naming.
+
+Apply the refusal, NameCert surface, and shared-window obligation of \autoref{thm:finite-window-real-separation-window-refusal}, \autoref{thm:finite-window-real-separation-namecert-surface}, and \autoref{thm:finite-window-real-separation-shared-window-obligation}. They force every admissible Real-separation read to enter through $W,D,S$ and then preserve the same route through $H$ before the Real-facing row is public.
+
+Finally use the obligation closure route \autoref{thm:finite-window-real-separation-obligation-closure-route}. Since the accepted packets agree on $W,D,S,H$, the admissible budget visible to any consumer is the same finite dependency route. The remaining rows $C,P,N$ and $C',P',N'$ replay, source, and name that route, while the excluded coordinates are not fields of the carrier.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}
