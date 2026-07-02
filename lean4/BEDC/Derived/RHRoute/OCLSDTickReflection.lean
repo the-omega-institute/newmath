@@ -73,6 +73,21 @@ theorem input_reflection_holds (kit : TickReflectionKit K)
     ratLe ratZero (tickReflectionForm kit g f0 f1) :=
   tick_reflection_holds kit g (hRP g) f0 f1
 
+/-- **Converse (the antisymmetric mode is the sharp test): if the tick's OS form is `≥ 0` on
+the antisymmetric mode `(1,-1)`, the tick IS reflection-positive.**  Together with
+`tick_reflection_holds` this gives the full characterisation `TickReflectionPositive g ⟺
+(OS form ≥ 0 on (1,-1))` — a single computable rational check on the tick decides its
+reconstructability. -/
+theorem reflectionPositive_of_flip_nonneg (kit : TickReflectionKit K) (g : RawGenerationStep K)
+    (h : ratLe ratZero (tickReflectionForm kit g ratOne (ratNeg ratOne))) :
+    TickReflectionPositive kit g := by
+  have h' : ratLe ratZero (ratMul (oneMinusTwoQ (kit.tickQ g)) twoRat) :=
+    ratLe_of_RatEq_right h (osForm_one_negOne_eq (kit.tickQ g))
+  have hsub : ratLe ratZero (oneMinusTwoQ (kit.tickQ g)) :=
+    ratMul_le_cancel_right ratZero_lt_twoRat
+      (ratLe_of_RatEq_left (ratMul_zero_left twoRat) h')
+  exact ratLe_of_sub_nonneg (ratMul twoRat (kit.tickQ g)) ratOne hsub
+
 /-- Non-vacuity: the trivial kit `q ≡ 0` is a reflection-positive input (every tick has
 `2·0 = 0 ≤ 1`).  So the reflection-positive class is inhabited over any dynamics-type. -/
 def trivialKit (K : DynamicsTypes) : TickReflectionKit K where
