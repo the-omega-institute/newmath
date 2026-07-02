@@ -493,6 +493,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-02T05:33:46Z: `resolved` `delete_theorem` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary` (flag `isolated_theorem`, finding `isolated_theorem:stepindexedtotalhost:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary:b8986066`). Rationale: The target had no Lean downstream users and only a removable paper marker. Its proof merely repackaged existing StepIndexedTotalHostCarrier projections together with externally supplied sibling UnaryHistory and Cont premises, while the same file already retains the more substantive public sibling boundary theorem that ties the carrier through the public interface and SemanticNameCert surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-02T06:55:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage:43e3a8b4`). Rationale: The target is structurally meaningful: it isolates the Sylow packet's prime row, exponent row, coverage row, coverage Cont route, and provenance package, and the paper treats it as a named component of the Sylow obligation surface. It was isolated only because the later closure theorem re-projected the same carrier fields directly. I made SylowCarrier_obligation_closure_surface consume BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage and reuse its extracted coverage surface before assembling the broader NameCert closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
