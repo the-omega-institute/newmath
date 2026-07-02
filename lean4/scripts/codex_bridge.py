@@ -223,16 +223,84 @@ def gates_ok() -> tuple[bool, str]:
     return True, f"load={load1:.1f} avail={avail_gb:.1f}GB swap={swap_gb:.1f}GB"
 
 
+COVERAGE_GAP_PROMPT_SUFFIX = """
+
+Coverage-gap candidate handling. When the candidate JSON has
+"source": "coverage-gap", it is a BEDC combinatorial / number-theoretic carrier
+(not a container/relation), given as a namespace plus its concrete
+Nat-recursion declarations in "bridge_decls". Do this:
+- Explore the carrier namespace and identify the PRIMARY closed sequence / count
+  function (the one a named integer sequence corresponds to), not an internal
+  helper like a prefix-sum or a fuel-bounded accumulator.
+- Find its pre-existing Mathlib counterpart yourself (workspace-symbol / hover /
+  leansearch over Mathlib; e.g. a Nat.* or a Nat.choose-based closed form). The
+  "mathlib_target_guess" is null on purpose: you determine the real target,
+  subject to hardened requirement 1 (must be a pre-existing Mathlib decl).
+- If a clean 0-axiom correspondence exists, write the exported_core bridge for
+  that ONE function. If the honest correspondence needs Rat / Finset / Classical
+  / Quot (e.g. Bernoulli-valued or generating-function objects), either write a
+  measured_boundary row per requirement 6(a) or leave the worktree unchanged.
+- Never fabricate a correspondence to a mathlib decl that is not actually equal.
+"""
+
+
+def worklist_candidates() -> list:
+    """Build bridge candidates from the coverage-gap worklist.
+
+    This is what makes the daemon actually PRODUCE. Instead of feeding
+    candidate_filter's exhausted anchor-pattern pool (whose 0-axiom-able members
+    are already bridged and whose remainder — Option/Gcd/List/Sum — is classical
+    and always fail-closes), hand the worker the un-contested, un-bridged
+    combinatorial / number carriers (Bell/Catalan/CentralFactorial/...) that the
+    operator's feat-bridge flow bridges successfully. Each candidate carries the
+    carrier namespace + its concrete Nat-recursion decls; the worker finds the
+    pre-existing mathlib counterpart (per the hardened prompt) and writes the
+    exported_core bridge, or fail-closes on the ones needing classical axioms.
+    The worklist already excludes MATRIX-classified and open-feat-bridge carriers
+    (non-racing), so the daemon only claims the genuine long tail.
+    """
+    try:
+        data = json.loads(WORKLIST_PATH.read_text())
+    except Exception:
+        return []
+    cands = []
+    for row in data.get("worklist", []):
+        decls = row.get("bridge_decls") or []
+        if not decls:
+            continue
+        cands.append(
+            {
+                "bedc_decl": decls[0],
+                "namespace": row.get("namespace"),
+                "bridge_decls": decls,
+                "carrier": row.get("carrier"),
+                "mathlib_target_guess": None,
+                "eligible": True,
+                "source": "coverage-gap",
+                "priority": row.get("priority", 0),
+            }
+        )
+    cands.sort(key=lambda c: -int(c.get("priority", 0)))
+    return cands
+
+
 def run_cycle(dry_run: bool) -> None:
-    # Always emit the discovery-feeder worklist first: it is cheap (no Lake
-    # build), useful regardless of the load gate, and is the daemon's primary
-    # value now that the autonomous-bridge candidate pool is exhausted/classical.
+    # Always emit the discovery-feeder worklist first: cheap (no Lake build),
+    # and it is also the candidate source the daemon now bridges FROM.
     emit_coverage_gap()
     ok, why = gates_ok()
     if not ok:
         cf.logger.info(f"[bridge] gate closed ({why}); skip cycle")
         return
-    candidates = _reorder_candidates(cf._bridge_candidate_filter())
+    # Bridge from the coverage-gap worklist (real combinatorial carriers the
+    # worker can actually bridge), not candidate_filter's exhausted classical
+    # pool. Fall back to candidate_filter only if the worklist is empty.
+    source = worklist_candidates()
+    if source:
+        cf.logger.info(f"[bridge] {len(source)} coverage-gap candidate(s) sourced from worklist")
+    else:
+        source = cf._bridge_candidate_filter()
+    candidates = _reorder_candidates(source)
     if not candidates:
         cf.logger.info(f"[bridge] gate ok ({why}); no eligible candidate")
         return
@@ -263,7 +331,9 @@ def main() -> None:
     args = parser.parse_args()
 
     # Harden the shared prompt for this process only (does not mutate the file).
-    cf.BRIDGE_ROUND_PROMPT_TEMPLATE = cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX
+    cf.BRIDGE_ROUND_PROMPT_TEMPLATE = (
+        cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX + COVERAGE_GAP_PROMPT_SUFFIX
+    )
 
     with pid_lock():
         cf.logger.info(
