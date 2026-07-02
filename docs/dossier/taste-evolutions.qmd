@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T20:53:36Z
+> 最后刷新: 2026-07-02T22:05:22Z
 
-**Daemon 状态**: monitor (monitor cycle 261, adjust_since_research 2, round_counter 36197, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 262, adjust_since_research 2, round_counter 36282, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1173 条 finding):
-- isolated_theorem: 854 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1176 条 finding):
+- isolated_theorem: 857 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 79 次
-- TASTE ALERT category=low_entropy_template: 9 次
+- TASTE ALERT category=isolated_theorem: 85 次
+- TASTE ALERT category=low_entropy_template: 8 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
@@ -516,6 +516,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T19:40:58Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorInducedNameCertUp.RecursorInducedNameCertAuditBoundary_replay_route` (flag `isolated_theorem`, finding `isolated_theorem:recursorinducednamecert:BEDC.Derived.RecursorInducedNameCertUp.RecursorInducedNameCertAuditBoundary_replay_route:c375814f`). Rationale: The target is not a disposable wrapper: it is the Lean marker for the recursor-induced audit-boundary theorem in the recursorinducednamecert chapter, and it packages unary closure through the replay route plus audit-row hsame stability. I added a sibling consumer theorem, RecursorClosureClassifierAudit_induced_replay_consumer, in the closure-classifier audit surface; it explicitly invokes the target and carries its audit/unary conclusion into a downstream closure-classifier readback with Cont closure and PkgSig provenance. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T20:52:52Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_non_escape_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_non_escape_boundary:0d0a2139`). Rationale: The theorem carries real BEDC content: it packages the observer-history packet's visible BHist rows, SameSig/Cont/PkgSig ledger facts, and SemanticNameCert boundary into the non-escape surface used conceptually by downstream observer-filter chapters. I added a substantive downstream consumer in ObserverFilterUp that combines an ObserverFilterCarrier with an ObserverHistoryIdentityPacket, calls the flagged non-escape theorem, and exports the identity NameCert together with filter selected/omitted routes and provenance, giving the target a concrete Lean consumer rather than leaving it isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T22:04:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness:0d0a2139`). Rationale: The target is not a vacuous restatement: it projects the identity packet's ledger, route, provenance, SameSig, and UnaryHistory boundary from the ObserverHistoryIdentity carrier. It was isolated, so I added a sibling consumer in ObserverFilterUp that explicitly invokes this theorem and hands the identity ledger/provenance rows into the observer-filter route/provenance boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
