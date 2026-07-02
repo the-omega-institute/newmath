@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MacneilleCompletionBoundaryUp$}
+\label{ch:concrete-instances-macneille-completion-boundary-namecert}
+\origin{human}
+
+Following MacNeille and Birkhoff, the $\MacneilleCompletionBoundaryUp$ packet records the order-theoretic completion boundary where lower and upper cuts meet only through displayed lattice support. It sits beside the finite lattice representation of \autoref{ch:concrete-instances-birkhoff-representation-finite-lattice-namecert}, the completion pullback boundary of \autoref{ch:concrete-instances-hausdorff-completion-pullback-namecert}, and the terminal Real certificate of \autoref{ch:concrete-instances-real-namecert}. The packet names the cut-pair route as BEDC data; it does not import a host complete lattice, quotient completion, choice-selected cut, or ambient $\RealUp$ completeness.
+
+\begin{definition}[MacNeille completion boundary carrier]
+\label{def:macneille-completion-boundary-carrier}
+A $\MacneilleCompletionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+M=(L,U,O,J,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower-cut row, recording the finite downward-closed observations and their closure under displayed lower bounds.
+\item $U$ is the upper-cut row, recording the finite upward-closed observations and their closure under displayed upper bounds.
+\item $O$ is the $\OrderUp$ comparison support row shared by the two cuts.
+\item $J$ is the $\LatticeUp$ meet--join support row used to test the visible lower--upper adjunction.
+\item $R$ is the $\RegSeqRatUp$ readback row for Real-facing approximants attached to the cut pair.
+\item $E$ is the terminal $\RealUp$ seal row reached from $R$ only after the lower and upper cut rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for lower cuts, upper cuts, order support, lattice support, regular-rational readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from cut comparison through the regular-rational and Real readback route.
+\item $P$ is the $\Pkg$ provenance over $\MacneilleCompletionBoundaryUp$, $\OrderUp$, $\LatticeUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MacneilleCompletionBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,O,J,R,E,H,C,P,N$. It has no coordinate for a host complete lattice, quotient completion, choice-selected lower or upper cut, arbitrary supremum, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[MacNeille completion boundary NameCert obligations]
+\label{thm:macneille-completion-boundary-namecert-obligations}
+For every accepted $\MacneilleCompletionBoundaryUp$ carrier
+$$
+M=(L,U,O,J,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\MacneilleCompletionBoundaryUp}$ surface consists exactly of carrier admission for the displayed lower-cut, upper-cut, order-support, lattice-support, regular-rational readback, Real seal, transport, replay, provenance, and local naming rows; lower--upper adjunction testing through $O$ and $J$; Real-facing readback through $R$ and $E$; and nonescape from host complete lattices, quotient completions, arbitrary suprema, selected cuts, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $L,U,O,J,R,E,H,C,P,N$ display the cut pair, the order and lattice support that test it, the Real-facing readback route, and the structural rows that transport and name that route.
+
+The lower-cut row $L$ and upper-cut row $U$ are not compared by host inclusion. Their comparison is read through the displayed $\OrderUp$ row $O$ and the meet--join support row $J$.
+
+The Real-facing route then passes through $R$ before it reaches $E$. Thus a consumer sees a regular-rational readback and a terminal Real seal, not an external completion object.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed rows. Since the carrier contains no host complete lattice, quotient completion, selected cut, arbitrary supremum, or ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MacNeille completion boundary Real route]
+\label{thm:macneille-completion-boundary-real-route}
+Every $\RealUp$-facing consumer of an accepted $\MacneilleCompletionBoundaryUp$ packet must read the lower-cut row $L$, the upper-cut row $U$, the $\OrderUp$ support row $O$, the $\LatticeUp$ support row $J$, the $\RegSeqRatUp$ readback row $R$, and only then the terminal $\RealUp$ seal row $E$. The route exports no quotient completion, host supremum, selected representative cut, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and project the rows named in \autoref{def:macneille-completion-boundary-carrier}. A Real-facing request cannot see a terminal seal before the two cut rows and their order--lattice support have been displayed.
+
+The regular-rational readback row $R$ is the only route from the cut-pair comparison toward $\RealUp$. It is read after $L,U,O,J$ and before $E$, matching the Real certificate discipline of \autoref{ch:concrete-instances-real-namecert}.
+
+The exclusions follow from the carrier inventory. None of quotient completion, host supremum, selected representative cut, countable choice, or ambient Real completeness is a coordinate of $M$, and $H,C,P,N$ preserve only the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MacneilleCompletionBoundaryUp$ read exposes lower-cut, upper-cut, Order, Lattice, RegSeqRat, Real, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows before any completion-boundary judgment is exported.}
+
+\independenceWitness{birkhoff-representation-finite-lattice, hausdorff-completion-pullback, real: $\MacneilleCompletionBoundaryUp$ is not bijective to any listed sibling because it binds a lower--upper cut pair to order and lattice support before any Real-facing readback row becomes public.}
+
+\closureat{MacneilleCompletionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MacneilleCompletionBoundaryUp}
+  \constructivestory{A $\MacneilleCompletionBoundaryUp$ packet is generated from lower-cut, upper-cut, Order, Lattice, RegSeqRat, Real, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:macneille-completion-boundary-carrier}, \autoref{thm:macneille-completion-boundary-namecert-obligations}, and \autoref{thm:macneille-completion-boundary-real-route} seed the finite MacNeille cut-pair boundary over the L10 Real completion spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host complete lattices, quotient completions, arbitrary suprema, selected cuts, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower--upper adjunction testing, RegSeqRat-to-Real readback, transport, provenance, and nonescape proofs for BEDC.Derived.MacneilleCompletionBoundaryUp.}
+\end{closurestatus}
