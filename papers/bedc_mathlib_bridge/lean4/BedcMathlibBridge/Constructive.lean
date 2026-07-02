@@ -18,6 +18,7 @@ import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
 import BedcMathlibBridge.Constructive.Delannoy
+import BedcMathlibBridge.Constructive.Pell
 import BedcMathlibBridge.Constructive.QBinomial
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Tetrahedral
