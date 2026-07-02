@@ -309,12 +309,30 @@ Now use the public topology surface already recorded by \autoref{thm:sequential-
 Finally apply \autoref{thm:sequentialclosure-carrier-admission-scope} and \autoref{thm:sequentialclosure-nonescape-scope}. The carrier admission theorem repacks the rows as one finite packet, and the nonescape theorem excludes every host closure or selection object absent from that packet.
 \end{proof}
 
+\begin{theorem}[SequentialClosure mature treatment]
+\label{thm:sequentialclosure-mature-treatment}
+The complete paper surface for $\SequentialClosureUp$ is the finite carrier
+$$
+K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)
+$$
+together with the public carrier admission route, the local NameCert obligations, the sequence-limit handoff, the $\RegSeqRatUp$ limit route, $\LocatedSetUp$ stability, the topology handoff, the root sequence and limit ledgers, root topology transport, Kuratowski idempotence, the closed-set fixpoint, kernel scope, carrier-admission scope, nonescape, and public export. A downstream closure consumer that cites $\SequentialClosureUp$ must stay on this displayed surface and receives no host topological closure, arbitrary sequence selection, general sequential compactness, quotient stream equality, ambient $\RealUp$ completeness, or detached bridge row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:sequential-closure-carrier} and the NameCert obligations of \autoref{thm:sequential-closure-namecert-obligations}. They expose the topology, metric, located-source, sequence, candidate-limit, test, window, RegSeqRat, Real, transport, replay, provenance, and naming rows as one finite packet.
+
+The limit-facing route is already fixed. Apply \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequential-closure-regseqrat-limit-route}, \autoref{thm:sequentialclosure-sequence-window-coverage}, and \autoref{thm:sequentialclosure-limit-row-handoff} to force every closure read through finite StreamName windows before the RegSeqRat handoff and Real seal are consumed.
+
+The source and topology routes are also fixed. Use \autoref{thm:sequential-closure-located-set-stability}, \autoref{thm:sequential-closure-topology-handoff}, \autoref{thm:sequential-closure-root-sequence-carrier}, \autoref{thm:sequential-closure-root-limit-ledger}, and \autoref{thm:sequential-closure-root-topology-transport} to keep located-set membership, topology requests, and root ledgers on the same carrier rows.
+
+Finally close the paper surface by \autoref{thm:sequentialclosure-kuratowski-idempotence}, \autoref{thm:sequentialclosure-closed-set-fixpoint}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, \autoref{thm:sequentialclosure-nonescape-scope}, and \autoref{thm:sequentialclosure-public-export}. These theorems repack idempotence, displayed closedness, public consumer exposure, and nonescape as consequences of the same finite packet, so no excluded host closure or completeness object remains part of the paper claim.
+\end{proof}
+
 \closureat{SequentialClosureUp}{obligationStr}
 \closureat{SequentialClosureUp}{publicStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, \autoref{thm:sequentialclosure-nonescape-scope}, and \autoref{thm:sequentialclosure-public-export} enumerate the finite obligation surface, public consumer nonescape route, and displayed sequence-limit, RegSeqRat, and topology handoff for metric closure consumers.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, \autoref{thm:sequentialclosure-nonescape-scope}, \autoref{thm:sequentialclosure-public-export}, and \autoref{thm:sequentialclosure-mature-treatment} enumerate the finite obligation surface, public consumer nonescape route, and displayed sequence-limit, RegSeqRat, topology, root-ledger, Kuratowski, and closed-set fixpoint handoffs for metric closure consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host topological closure, arbitrary sequence selection, general sequential compactness, quotient stream equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
