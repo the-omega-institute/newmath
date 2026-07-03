@@ -142,9 +142,77 @@ Because the excluded host principles are absent from the carrier coordinates,
 they cannot be read by any L10 consumer of the certificate.
 \end{proof}
 
+\begin{theorem}[LocatedUniformLimit common-modulus handoff]
+\label{thm:located-uniform-limit-modulus-handoff}
+Let $U=(I,S,M,W,R,E,G,H,C,P,N)$ be an accepted
+$\LocatedUniformLimitUp$ carrier. Any endpoint comparison exported from $U$
+to a Real-facing or Completion-facing consumer must read the same common
+located uniform Cauchy modulus row $M$ before it can inspect both the finite
+$\StreamNameUp$ window row $W$ and the $\RegSeqRatUp$ readback row $R$.
+Consequently the endpoint comparison is a displayed finite-modulus route
+through $I,S,M,W,R,E,G,H,C,P,N$, not a route through a selected limit, host
+function equality, quotient function equality, countable choice, trichotomy,
+or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from
+\autoref{def:located-uniform-limit-carrier}. The only modulus coordinate
+available to a consumer is $M$, and the NameCert obligations of
+\autoref{thm:located-uniform-limit-namecert-obligations} require each
+Real-facing comparison to request its precision through that row before the
+terminal seal is inspected.
+
+The window and readback route is then forced by the order $M,W,R,E$. The
+finite stream window $W$ displays the scheduled observations, and $R$ reads
+them back as regular rational data before the seal row $E$ can be used.
+
+The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve
+the same finite route for classifier moves. Since no selected limit, host
+function equality, quotient function equality, countable choice, trichotomy,
+or ambient $\RealUp$ completeness is a coordinate of $U$, none of those
+principles can supply a second endpoint-comparison route.
+\end{proof}
+
+\begin{theorem}[LocatedUniformLimit Cauchy-completion factorization]
+\label{thm:located-uniform-limit-cauchy-completion-factorization}
+Every Cauchy-completion or Real consumer of an accepted
+$\LocatedUniformLimitUp$ carrier factors through the displayed packet
+$$
+I,S,M,W,R,E,G,H,C,P,N .
+$$
+In particular, the completion-facing handoff used by
+\autoref{ch:concrete-instances-cauchy-completion-universal-property-namecert},
+\autoref{ch:concrete-instances-real-cauchy-completeness-namecert}, and
+\autoref{ch:concrete-instances-uniform-limit-continuous-namecert} can inspect
+only the finite index and sequence rows, the common located uniform Cauchy
+modulus, finite stream windows, regular rational readbacks, graph row,
+transport and replay ledgers, provenance, and local name supplied by $U$.
+It does not receive a host completeness theorem, a quotient-function
+extensionality principle, a selected limiting function, countable choice,
+trichotomy, or an ambient $\RealUp$ completion operator from this packet.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer and expose its requested endpoint
+comparison. By \autoref{thm:located-uniform-limit-l10-handoff}, the request
+enters through the finite index and sequence rows $I,S$ and cannot inspect a
+terminal real seal before the modulus, window, and readback rows have been
+displayed.
+
+\autoref{thm:located-uniform-limit-modulus-handoff} identifies the unique
+modulus handoff available for that request. The consumer must use $M$ to
+schedule the finite observations in $W$ and must pass through $R$ before the
+seal row $E$ is read.
+
+The graph row $G$ and the replay rows $H,C$ package this schedule as the
+finite route exported to the Cauchy-completion universal property, Real
+Cauchy-completeness surface, and uniform-limit continuity surface cited in
+the statement. The package and local name rows $P,N$ expose no additional
+principle, so every such consumer factors through the displayed packet.
+\end{proof}
+
 \begin{closurestatus}{\LocatedUniformLimitUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-uniform-limit-carrier}, \autoref{thm:located-uniform-limit-namecert-obligations}, and \autoref{thm:located-uniform-limit-l10-handoff} seed the located uniform-limit certificate over finite index rows, sequence rows, common located uniform Cauchy moduli, stream windows, regular rational readbacks, graph rows, and the Real seal.}
+  \scopeclosed{\autoref{def:located-uniform-limit-carrier}, \autoref{thm:located-uniform-limit-namecert-obligations}, \autoref{thm:located-uniform-limit-l10-handoff}, \autoref{thm:located-uniform-limit-modulus-handoff}, and \autoref{thm:located-uniform-limit-cauchy-completion-factorization} seed the located uniform-limit certificate over finite index rows, sequence rows, common located uniform Cauchy moduli, stream windows, regular rational readbacks, graph rows, completion-facing factorization, and the Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close host completeness, quotient function equality, quotient real equality, selected limits, countable choice, trichotomy, or a public standard bridge.}
