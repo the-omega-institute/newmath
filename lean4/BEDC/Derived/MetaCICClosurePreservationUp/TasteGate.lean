@@ -412,4 +412,82 @@ theorem MetaCICClosurePreservationCarrier_beta_chain_nonescape
           · exact metaCICClosurePreservationDecode_encode_bhist betaStarClosed
           · rfl
 
+theorem MetaCICClosurePreservationCarrier_ledger_exactness
+    (x : MetaCICClosurePreservationUp) :
+    (∃ S V U B F A C G R H Q P N : BHist,
+      x = MetaCICClosurePreservationUp.mk S V U B F A C G R H Q P N ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x) ∧
+      metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      constructor
+      · refine
+          ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+            closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+            provenance, name, ?_⟩
+        constructor
+        · rfl
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+      · rfl
+
+theorem MetaCICClosurePreservationCarrier_generator_substitution_induction
+    (x : MetaCICClosurePreservationUp) :
+    ∃ shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow
+        closedSeal generatorClassifier subjectReductionConsumer transport route provenance name : BHist,
+      x = MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed betaClosed
+        betaStarClosed auditRow closedSeal generatorClassifier subjectReductionConsumer transport
+        route provenance name ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x ∧
+          metaCICClosurePreservationDecodeBHist
+              (metaCICClosurePreservationEncodeBHist auditRow) =
+            auditRow ∧
+            metaCICClosurePreservationDecodeBHist
+                (metaCICClosurePreservationEncodeBHist closedSeal) =
+              closedSeal ∧
+              metaCICClosurePreservationDecodeBHist
+                  (metaCICClosurePreservationEncodeBHist generatorClassifier) =
+                generatorClassifier ∧
+                metaCICClosurePreservationDecodeBHist
+                    (metaCICClosurePreservationEncodeBHist betaClosed) =
+                  betaClosed ∧
+                  metaCICClosurePreservationDecodeBHist
+                      (metaCICClosurePreservationEncodeBHist subjectReductionConsumer) =
+                    subjectReductionConsumer ∧
+                    metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      refine
+        ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+          closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+          provenance, name, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+        · constructor
+          · exact metaCICClosurePreservationDecode_encode_bhist auditRow
+          · constructor
+            · exact metaCICClosurePreservationDecode_encode_bhist closedSeal
+            · constructor
+              · exact metaCICClosurePreservationDecode_encode_bhist generatorClassifier
+              · constructor
+                · exact metaCICClosurePreservationDecode_encode_bhist betaClosed
+                · constructor
+                  · exact metaCICClosurePreservationDecode_encode_bhist subjectReductionConsumer
+                  · rfl
+
 end BEDC.Derived.MetaCICClosurePreservationUp
