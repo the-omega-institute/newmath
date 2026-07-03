@@ -10,6 +10,94 @@ $\mathbb F_P$, and show that a nonzero finite residual cannot be missed
 by all $P$-generated Fourier or quadratic norm sieves.  This is a local
 certificate; it is not a substitute for the all-prime tail policy.
 
+\section{Index--Prime Certificate}
+\label{sec:rh-finite-prime-circle-universe-index-prime}
+
+\begin{definition}[IndexPrimePair]
+\label{def:rh-index-prime-pair}
+An index--prime pair certificate is a packet
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P)
+$$
+asserting that
+$$
+P=p_N,
+\qquad
+N=\pi(P),
+$$
+where $p_N$ is the $N$th prime and
+$$
+\pi(P):=\#\{p:p\le P,\ p\text{ prime}\}.
+$$
+Thus $N$ is the time coordinate of the finite prime source layer and
+$P$ is the maximal prime that supplies the finite circle modulus.
+\end{definition}
+
+\begin{definition}[IndexPrimeLedger]
+\label{def:rh-index-prime-ledger}
+The ledger attached to
+$\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ is
+$$
+\operatorname{IndexPrimeLedger}(N,P)
+:=
+\left(
+P=p_N,\,
+N=\pi(P),\,
+\pi_P(\mathcal P_N),\,
+\operatorname{GapHoles}(N,P),\,
+\alpha_N
+\right),
+$$
+where
+$$
+\operatorname{GapHoles}(N,P)
+:=
+\mathbb F_P\setminus\pi_P(\mathcal P_N)
+$$
+and
+$$
+\alpha_N:=\frac{N}{P}.
+$$
+The row records the occupied prime points, the empty finite-circle
+points, and the occupancy ratio of the finite layer.
+\end{definition}
+
+\begin{theorem}[IndexPrimePair is the legal finite-circle modulus]
+\label{thm:rh-index-prime-pair-legal-modulus}
+If $\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ holds, then $P$ is the
+unique modulus used by the finite prime circle at layer $N$.
+\end{theorem}
+
+\begin{proof}
+The certificate supplies $P=p_N$, so every earlier source prime
+$p_j$ with $j<N$ satisfies $p_j<P$, while $p_N$ maps to $0$ modulo $P$.
+The same certificate supplies $N=\pi(P)$, so the displayed finite source
+contains exactly the primes up to $P$.  A smaller modulus would not be
+the maximal prime boundary of this layer; a larger prime modulus would
+add a prime beyond the certified source; a larger composite modulus
+would not provide the field $\mathbb F_P$ used by the circle and Gauss
+rows.  Thus the finite-circle modulus is not a free parameter.
+\end{proof}
+
+\begin{theorem}[IndexPrimePair has BEDC rows]
+\label{thm:rh-index-prime-pair-has-bedc-rows}
+The certificate $\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ carries time,
+unit, and ledger rows.
+\end{theorem}
+
+\begin{proof}
+The time row is the index $N$ in the append-only prime source tower.
+The unit row is the finite circle $\mathbb F_P$ supplied by the maximal
+prime $P=p_N$, together with the unit characters
+$$
+\psi_t(x)=\exp(2\pi i tx/P).
+$$
+The ledger row is \autoref{def:rh-index-prime-ledger}: it records
+$P=p_N$, $N=\pi(P)$, the occupied points, the gap holes, and the
+occupancy ratio.  These are the three BEDC coordinates required for
+using $(N,P)$ as a finite-layer proof parameter.
+\end{proof}
+
 \section{Finite Prime Circle}
 \label{sec:rh-finite-prime-circle-universe-circle}
 
@@ -21,8 +109,13 @@ $$
 \qquad
 P:=p_N,
 $$
-read under the model assumption that these are all primes visible to
-the finite source.  Its maximal-prime classifier is
+equipped with the certificate
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P).
+$$
+It is read under the model assumption that these are exactly the primes
+visible to the finite source up to the certified boundary $P$.  Its
+maximal-prime classifier is
 $$
 \pi_P:\mathcal P_N\to\mathbb F_P,
 \qquad
