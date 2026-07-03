@@ -243,6 +243,52 @@ theorem RolleUpTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨RolleUpTasteGate_single_carrier_alignment_decode_encode, rfl⟩
 
+theorem Rolle_extreme_value_stationary_point {x y : RolleUp}
+    (heq :
+      RolleUpTasteGate_single_carrier_alignment_toEventFlow x =
+        RolleUpTasteGate_single_carrier_alignment_toEventFlow y) :
+    RolleUpTasteGate_single_carrier_alignment_encodeBHist BHist.Empty = ([] : RawEvent) ∧
+      match x, y with
+      | RolleUp.mk _ endpointEquality _ extremeValue _ interiorWitness _ _ _ _ _,
+        RolleUp.mk _ endpointEquality' _ extremeValue' _ interiorWitness' _ _ _ _ _ =>
+          hsame endpointEquality endpointEquality' ∧
+            hsame extremeValue extremeValue' ∧
+              hsame interiorWitness interiorWitness' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · have hxy : x = y := RolleUpTasteGate_single_carrier_alignment_toEventFlow_injective heq
+    cases hxy
+    cases x with
+    | mk _ endpointEquality _ extremeValue _ interiorWitness _ _ _ _ _ =>
+        exact
+          ⟨hsame_refl endpointEquality,
+            hsame_refl extremeValue,
+            hsame_refl interiorWitness⟩
+
+theorem Rolle_derivative_zero_seal_boundary {x y : RolleUp}
+    (heq :
+      RolleUpTasteGate_single_carrier_alignment_toEventFlow x =
+        RolleUpTasteGate_single_carrier_alignment_toEventFlow y) :
+    RolleUpTasteGate_single_carrier_alignment_encodeBHist BHist.Empty = ([] : RawEvent) ∧
+      match x, y with
+      | RolleUp.mk _ _ _ _ derivativeQuotient interiorWitness zeroSeal _ _ _ _,
+        RolleUp.mk _ _ _ _ derivativeQuotient' interiorWitness' zeroSeal' _ _ _ _ =>
+          hsame derivativeQuotient derivativeQuotient' ∧
+            hsame interiorWitness interiorWitness' ∧
+              hsame zeroSeal zeroSeal' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · have hxy : x = y := RolleUpTasteGate_single_carrier_alignment_toEventFlow_injective heq
+    cases hxy
+    cases x with
+    | mk _ _ _ _ derivativeQuotient interiorWitness zeroSeal _ _ _ _ =>
+        exact
+          ⟨hsame_refl derivativeQuotient,
+            hsame_refl interiorWitness,
+            hsame_refl zeroSeal⟩
+
 namespace TasteGate
 
 theorem RolleTasteGate_single_carrier_alignment :
