@@ -53,4 +53,5 @@ import BedcMathlibBridge.Export.Hexagonal
 import BedcMathlibBridge.Export.CentralFactorial
 import BedcMathlibBridge.Export.WilsonQuotient
 import BedcMathlibBridge.Export.Apery
+import BedcMathlibBridge.Export.EntringerNumber
 import BedcMathlibBridge.Export.ProjectionLedgerCount
