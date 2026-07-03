@@ -86,4 +86,27 @@ theorem HemiMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, nameReadUnary⟩
 
+theorem HemiMetricCarrier_directed_ball_handoff [AskSetup] [PackageSetup]
+    {S X D Z T B Q L M U R K C P N ballRead handoffRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HemiMetricCarrier S X D Z T B Q L M U R K C P N bundle pkg ->
+      Cont T B ballRead ->
+        Cont ballRead U handoffRead ->
+          Cont R K nameRead ->
+            PkgSig bundle N pkg ->
+              UnaryHistory ballRead ∧ UnaryHistory handoffRead ∧
+                UnaryHistory nameRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: HemiMetricCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier ballRoute handoffRoute nameRoute namePkg
+  obtain ⟨_sUnary, _xUnary, _dUnary, _zUnary, tUnary, bUnary, _qUnary, _lUnary,
+    _mUnary, uUnary, rUnary, kUnary, _cUnary, _pUnary, _nUnary, pPkg,
+    _storedNamePkg⟩ := carrier
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed tUnary bUnary ballRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed ballReadUnary uUnary handoffRoute
+  have nameReadUnary : UnaryHistory nameRead :=
+    unary_cont_closed rUnary kUnary nameRoute
+  exact ⟨ballReadUnary, handoffReadUnary, nameReadUnary, pPkg, namePkg⟩
+
 end BEDC.Derived.HemiMetricUp

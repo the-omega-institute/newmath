@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDifferenceZeroUp$}
+\label{ch:concrete-instances-cauchy-difference-zero-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyDifferenceZeroUp$ packet records the constructive equality criterion for two regular Cauchy real names: their displayed difference is driven to zero by finite dyadic tolerance rows before any $\RealUp$ consumer may read the equality boundary. It sits over the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the null-sequence boundary of \autoref{ch:concrete-instances-real-null-sequence-namecert}, the regular Cauchy difference modulus of \autoref{ch:concrete-instances-regular-cauchy-difference-modulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names equality by a finite zero-difference route, not by quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+
+\begin{definition}[Cauchy difference zero carrier]
+\label{def:cauchy-difference-zero-carrier}
+A $\CauchyDifferenceZeroUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(X,Y,W_X,W_Y,D,T,B,Q,R,H,C,P,N).
+$$
+The rows have the following meanings:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ regular Cauchy name rows whose equality boundary is being inspected.
+\item $W_X$ and $W_Y$ are the finite $\StreamNameUp$ windows through which the two names are read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing the displayed radii, slack rows, and comparison budgets for the difference requests.
+\item $T$ is the displayed difference-window row: it records the finite rational difference observations read from $X$ and $Y$ through $W_X,W_Y,D$.
+\item $B$ is the $\RegularCauchyDifferenceModulusUp$ row, assigning the displayed tolerance request to the finite windows where the difference is bounded.
+\item $Q$ is the $\RealNullSequenceUp$ witness row, recording that the displayed difference windows form a null sequence along the same dyadic budgets.
+\item $R$ is the terminal $\RealUp$ seal row available only after the regular names, windows, dyadic ledger, difference row, modulus row, and null-sequence row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,W_X,W_Y,D,T,B,Q,R,P,N$.
+\item $C$ records displayed $\Cont$ replay from an equality request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyDifferenceZeroUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyDifferenceModulusUp$, $\RealNullSequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyDifferenceZeroUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient equality of streams, selected representatives, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy difference zero RegSeqRat handoff]
+\label{thm:cauchy-difference-zero-regseqrat-handoff}
+Every accepted $\CauchyDifferenceZeroUp$ packet exposes its equality boundary only after the two $\RegSeqRatUp$ rows $X,Y$ have been read through the finite $\StreamNameUp$ windows $W_X,W_Y$ and the shared $\DyadicRatCoreUp$ tolerance ledger $D$. The displayed difference row $T$, modulus row $B$, null-sequence witness $Q$, and terminal $\RealUp$ seal $R$ are therefore downstream of the regular-rational handoff, and no consumer may replace that handoff by quotient stream equality or selected representatives.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-difference-zero-carrier}. The two source rows $X$ and $Y$ are the only regular Cauchy name coordinates, and their observations are exposed only through $W_X$ and $W_Y$.
+
+The dyadic ledger $D$ fixes the tolerance budget used by those windows. Thus the difference row $T$ can be read only as a finite comparison of the two displayed regular-rational observations under that budget.
+
+The rows $B,Q,R,H,C,P,N$ preserve the same order. They bind the difference modulus, null-sequence witness, Real seal, transport, replay, provenance, and local name to the displayed RegSeqRat route, so the packet has no place from which quotient stream equality or a selected representative could be read.
+\end{proof}
+
+\begin{theorem}[Cauchy difference zero null-sequence boundary]
+\label{thm:cauchy-difference-zero-null-sequence-boundary}
+For every accepted carrier
+$$
+Z=(X,Y,W_X,W_Y,D,T,B,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyDifferenceZeroUp}$ surface consists exactly of carrier admission for the two regular names, finite window exposure, dyadic tolerance accounting, displayed difference windows, regular Cauchy difference modulus, null-sequence witness, terminal Real seal, componentwise transport, replay, provenance, and local naming. A $\RealUp$ or completion-facing consumer can claim the zero-difference boundary only through the null-sequence row $Q$ and the same displayed tolerance route; it cannot claim host real equality, quotient stream equality, countable choice, trichotomy, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-difference-zero-carrier}. The projected rows are exactly the two regular names, two finite windows, dyadic ledger, difference windows, modulus row, null-sequence witness, Real seal, transport, replay, provenance, and local name.
+
+Apply \autoref{thm:cauchy-difference-zero-regseqrat-handoff}. It places the regular readback rows and their StreamName windows before the difference row and before the terminal Real-facing seal.
+
+The null-sequence boundary is the row $Q$. It is attached to the difference windows $T$ under the same dyadic ledger $D$ and the same difference modulus $B$, so a consumer receives a finite zero-difference route rather than a detached equality principle.
+
+Finally, $H,C,P,N$ transport, replay, package, and name that same route. Since no coordinate stores host real equality, quotient stream equality, countable choice, trichotomy, selected representatives, or ambient completeness, none of those principles is part of the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyDifferenceZeroUp$ equality read factors through two RegSeqRat rows, two StreamName windows, one DyadicRatCore tolerance ledger, one displayed difference-window row, one RegularCauchyDifferenceModulus row, one RealNullSequence witness, one terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, real, streamname, dyadicratcore, real-null-sequence, regular-cauchy-difference-modulus: $\CauchyDifferenceZeroUp$ is not bijective to any listed sibling because it jointly carries two regular names, paired windows, a shared dyadic tolerance ledger, displayed difference windows, a difference modulus, a null-sequence witness, and the terminal Real-facing seal.}
+
+\closureat{CauchyDifferenceZeroUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDifferenceZeroUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-difference-zero-carrier}, \autoref{thm:cauchy-difference-zero-regseqrat-handoff}, and \autoref{thm:cauchy-difference-zero-null-sequence-boundary} seed the finite zero-difference criterion for two regular Cauchy real names through displayed windows, dyadic tolerances, null-sequence evidence, and a terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, RegSeqRat handoff exactness, difference-window accounting, null-sequence boundary, Real-seal nonescape, and local NameCert stability for BEDC.Derived.CauchyDifferenceZeroUp.}
+  \constructivestory{A $\CauchyDifferenceZeroUp$ packet is generated from two regular Cauchy name rows, two finite StreamName windows, one DyadicRatCore tolerance ledger, displayed difference windows, a RegularCauchyDifferenceModulus row, a RealNullSequence witness, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}

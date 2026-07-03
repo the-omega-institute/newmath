@@ -300,6 +300,25 @@ theorem squareSumJacobiContact_exports_gaussian_split_and_prime {p : BHist}
   · exact BEDC.Derived.GaussianPrimeUp.int_norm_prime_implies_gaussian_prime
       normPrime unitReflect
 
+theorem squareSumJacobiContact_exports_split_with_ramified_two {p : BHist}
+    (prime : NatPrime p) (R : RelCommRing A r)
+    (scale : IntegerUp -> A) (absValue : A -> A) (sqrtPrime : A)
+    (chi :
+      DirichletCharacter p prime.left (NatPrime_empty_absurd prime)) :
+    SquareSumJacobiContact prime R scale absValue sqrtPrime chi ->
+      BEDC.Derived.GaussianPrimeUp.GaussianSplit (primeInteger prime) ∧
+        BEDC.Derived.GaussianPrimeUp.GaussEq
+          (BEDC.Derived.GaussianPrimeUp.gaussMul
+            BEDC.Derived.GaussianPrimeUp.gaussianOnePlusI
+            BEDC.Derived.GaussianPrimeUp.gaussianOneMinusI)
+          (BEDC.Derived.GaussianPrimeUp.gaussOfInt
+            BEDC.Derived.GaussianPrimeUp.intTwo) := by
+  intro contact
+  constructor
+  · exact squareSumJacobiContact_exports_gaussian_split
+      prime R scale absValue sqrtPrime chi contact
+  · exact BEDC.Derived.GaussianPrimeUp.gaussian_two_ramifies
+
 theorem JacobiSumUp_definition_and_gauss_relation_surface {p : BHist}
     (prime : NatPrime p) (R : RelCommRing A r)
     (scale : IntegerUp -> A) (phase : CyclicPhase p A)

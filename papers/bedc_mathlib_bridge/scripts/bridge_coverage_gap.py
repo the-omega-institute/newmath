@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
-"""Bridge coverage-gap discovery.
+"""Bridge coverage-gap discovery (TELEMETRY ONLY — NOT a daemon bridge source).
 
 Lists BEDC combinatorial / number-theoretic Nat-recursion carriers that are
-bridge-shaped (they expose a `def <name> : Nat -> ... -> Nat` structural
-recursion, the shape that bridges 0-axiom to a mathlib Nat facade) but are
-NOT yet recorded in the bridge MATRIX and are NOT currently being worked by
-an open `feat-bridge-<slug>` branch.
+`def <name> : Nat -> ... -> Nat` shaped.
 
-This is a READ-ONLY discovery feeder: it produces the prioritized worklist of
-un-bridged, un-contested carriers so a bridge author (human or the operator's
-feat-bridge PR flow) can pick the next target without colliding with work
-already in flight. It never writes a bridge, never touches MATRIX, and never
-guesses the mathlib target (the BEDC-carrier -> mathlib-object mapping needs
-domain judgement and stays with the author).
+WARNING — these carriers are Nat-shadow LAUNDERING-shaped, NOT genuine bridge
+candidates. A `Nat -> ... -> Nat` count/sequence carrier bridges to a mathlib
+Nat facade (`Nat.choose` / `Nat.factorial` / `Nat.centralBinom` / ...) only as
+an identity round-trip `natToUnary (natFn (bwordLength a) (bwordLength b))`
+where `bwordLength (natToUnary n) = n` is proven -> the BHist/kernel anchor is
+DEAD and the exported equality is a Nat-vs-Nat identity, not a BEDC-object <->
+mathlib bridge (violates bridge Rule 1). The 4-way adversarial review (codex
+minimal/structural/delete + gpt-pro, 2026-07-03) unanimously ruled this class
+INELIGIBLE for autonomous bridging; `codex_bridge.py` no longer sources
+production candidates from this worklist, and `check_value_anchor.py`
+fail-closes such rows. This module is retained ONLY as read-only human
+telemetry of the Nat-shadow surface. A GENUINE daemon feeder must instead list
+un-bridged STRUCTURAL carriers (structure / inductive with BEDC ops + a
+structure/equivalence/isomorphism theorem, the GaussInt / ZMod / EisInt class);
+when none exist it must emit NO_STRUCTURAL_CARRIER_CANDIDATE and the daemon
+idles (an idle daemon beats a laundering daemon).
+
+It never writes a bridge, never touches MATRIX, and never guesses the mathlib
+target (the BEDC-carrier -> mathlib-object mapping needs domain judgement).
 
 Usage:
     python3 scripts/bridge_coverage_gap.py            # human-readable table
@@ -180,6 +190,11 @@ def scan(root: Path):
         )
     worklist.sort(key=lambda d: (-d["priority"], d["carrier"]))
     return {
+        "class": "nat_shadow_ineligible",
+        "daemon_eligible": False,
+        "NO_STRUCTURAL_CARRIER_CANDIDATE": True,
+        "note": "Nat-recursion carriers below are Nat-shadow laundering-shaped; "
+        "telemetry only, NOT daemon bridge candidates (see module docstring).",
         "total_bridge_shaped_carriers": total,
         "already_in_matrix": bridged,
         "contested_open_feat_bridge": contested,
