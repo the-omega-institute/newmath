@@ -273,4 +273,76 @@ theorem ActiveReadingGateCarrier_export_uniqueness
   }
   exact ⟨rfl, cert, unaryExportRead, unaryNameCert⟩
 
+theorem ActiveReadingGateCarrier_ledger_closure
+    {target active retired blocking exportRow _transport _replay provenance nameCert ledgerRead
+      publicRead : BHist} :
+    UnaryHistory target ->
+      UnaryHistory active ->
+        UnaryHistory retired ->
+          UnaryHistory blocking ->
+            UnaryHistory exportRow ->
+              UnaryHistory provenance ->
+                UnaryHistory nameCert ->
+                  Cont target active blocking ->
+                    Cont blocking exportRow ledgerRead ->
+                      Cont ledgerRead provenance publicRead ->
+                        hsame publicRead nameCert ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                                  hsame row blocking ∨ hsame row exportRow ∨
+                                    hsame row ledgerRead ∨ hsame row publicRead)
+                              (fun row : BHist =>
+                                hsame row publicRead ∧ Cont target active blocking ∧
+                                  Cont blocking exportRow ledgerRead ∧
+                                    Cont ledgerRead provenance publicRead)
+                              hsame ∧
+                            UnaryHistory ledgerRead ∧ UnaryHistory publicRead ∧
+                              UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryTarget unaryActive _unaryRetired unaryBlocking unaryExport unaryProvenance
+    _unaryNameCert targetActive blockingExport ledgerProvenance publicName
+  have unaryLedgerRead : UnaryHistory ledgerRead :=
+    unary_cont_closed unaryBlocking unaryExport blockingExport
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_cont_closed unaryLedgerRead unaryProvenance ledgerProvenance
+  have unaryNameCert : UnaryHistory nameCert :=
+    unary_transport unaryPublicRead publicName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row active ∨ hsame row retired ∨ hsame row blocking ∨
+              hsame row exportRow ∨ hsame row ledgerRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            hsame row publicRead ∧ Cont target active blocking ∧
+              Cont blocking exportRow ledgerRead ∧ Cont ledgerRead provenance publicRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, unaryPublicRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, targetActive, blockingExport, ledgerProvenance⟩
+  }
+  exact ⟨cert, unaryLedgerRead, unaryPublicRead, unaryNameCert⟩
+
 end BEDC.Derived.ActiveReadingGateUp

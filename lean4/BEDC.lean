@@ -3211,6 +3211,7 @@ import BEDC.Derived.ClosedIntervalCauchyCriterionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCompactNetUp.TasteGate
 import BEDC.Derived.ClosedIntervalFiniteIntersectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalNestingUp.TasteGate
+import BEDC.Derived.ClosedIntervalObjectUp
 import BEDC.Derived.ClosedIntervalTotalBoundedUp.TasteGate
 import BEDC.Derived.ClosedLamDomainSubjectReductionUp.TasteGate
 import BEDC.Derived.ClosedMetricBallUp.TasteGate
@@ -6634,6 +6635,7 @@ import BEDC.Derived.FourFaceExitClassifierUp.TasteGate
 import BEDC.Derived.FourierSeriesUp
 import BEDC.Derived.FourierTransformUp.TasteGate
 import BEDC.Derived.FourierUp
+import BEDC.Derived.FoxArtinArcUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyCoefficientSpine
