@@ -392,6 +392,24 @@ Next apply coverage scope, scoped route, and scope export: \autoref{thm:metacic-
 Finally use the scoped-closure route and scoped package theorems, \autoref{thm:metacic-typed-examples-gallery-scoped-closure-route} and \autoref{thm:metacic-typed-examples-gallery-scoped-package}. They identify the resulting package with the same displayed rows and exclude the missing global coordinates. Thus the obligation-to-scoped transition is witnessed by a finite MetaCIC scope package rather than by a host normalization oracle, confluence theorem, or external type checker.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery scoped public export]
+\label{thm:metacic-typed-examples-gallery-scoped-public-export}
+The $\MetaCICTypedExamplesGalleryUp$ carrier, obligation matrix, frontier coverage, kernel scope, coverage scope, scoped route, scope export, scoped-closure route, and scope package assemble a public bounded regression export for represented MetaCIC examples. For every accepted gallery packet, the exported public route is exactly the displayed finite row surface
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M
+$$
+together with the local route theorems named above. The export is public only for represented examples and their replayable checker rows; it refuses subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, and checker completeness as global claims.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation matrix, \autoref{def:metacic-typedexamples-gallery-carrier} and \autoref{thm:metacictypedexamplesgallery-obligation-matrix}. They expose the finite family rows, checker row, transport, replay, provenance, and local naming rows that every accepted public read must carry.
+
+Next use frontier coverage, kernel scope, and coverage scope: \autoref{thm:metacic-typed-examples-gallery-frontier-coverage}, \autoref{thm:metacic-typed-examples-gallery-kernel-scope}, and \autoref{thm:metacic-typed-examples-gallery-coverage-scope}. These theorems keep every represented example inside the displayed gallery families before a consumer may read it as regression evidence.
+
+Apply the scoped route and scope export theorems, \autoref{thm:metacic-typed-examples-gallery-scoped-route} and \autoref{thm:metacic-typed-examples-gallery-scope-export}. They send each represented example through candidate checking, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+
+Finally combine the scoped-closure route and scope package theorems, \autoref{thm:metacic-typed-examples-gallery-scoped-closure-route} and \autoref{thm:metacic-typed-examples-gallery-scope-package}. The resulting export is bounded to represented examples and has no carrier coordinate for global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICTypedExamplesGalleryUp}
   \constructivestory{A $\MetaCICTypedExamplesGalleryUp$ packet is generated from finite $\BHist$ rows for selected typed examples, checker rows, beta or conversion readbacks, route rows, provenance, and local naming. Each gallery entry is replayable by $\Cont$ through the finite checker surface, so consumers can inspect represented examples without receiving a global calculus theorem. Componentwise $\hsame$ preserves the example, checker, and route rows, while $\Pkg$ records the MetaCIC typed-example dependencies. The gallery is therefore a bounded regression surface for displayed examples and not a proof of preservation, normalization, or checker completeness.}
   \theoryclosure{\obligationClosure}
