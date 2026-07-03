@@ -62,6 +62,7 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
+import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
@@ -9753,6 +9754,7 @@ import BEDC.Derived.OptionalStoppingUp
 import BEDC.Derived.OptionalStoppingUp.TasteGate
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
 import BEDC.Derived.OracleResponseLedgerUp.TasteGate
+import BEDC.Derived.OracleSubstrateBoundaryUp
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
@@ -12933,6 +12935,7 @@ import BEDC.Derived.SubordinateModulusCoverUp.StageFDiscipline
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubsequenceLimitUp.TasteGate
 import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
+import BEDC.Derived.SubshiftUp
 import BEDC.Derived.SubshiftUp.TasteGate
 import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.SubspaceTopologyUniformityUp
