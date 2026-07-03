@@ -11629,6 +11629,7 @@ import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
+import BEDC.Derived.RegularCauchyNestedIntervalUp
 import BEDC.Derived.RegularCauchyNetUp
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyNonzeroUp.TasteGate
