@@ -377,4 +377,39 @@ theorem MetaCICClosurePreservationTasteGate_single_carrier_alignment :
         exact metaCICClosurePreservationToEventFlow_injective heq
       · rfl
 
+theorem MetaCICClosurePreservationCarrier_beta_chain_nonescape
+    (x : MetaCICClosurePreservationUp) :
+    ∃ betaClosed betaStarClosed generatorClassifier subjectReductionConsumer route provenance
+        name : BHist,
+      ∃ shiftClosed varSubstClosed substClosed auditRow closedSeal transport : BHist,
+        x =
+            MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name ∧
+          metaCICClosurePreservationFromEventFlow
+              (metaCICClosurePreservationToEventFlow x) =
+            some x ∧
+            metaCICClosurePreservationDecodeBHist
+                (metaCICClosurePreservationEncodeBHist betaStarClosed) =
+              betaStarClosed ∧
+              metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      refine
+        ⟨betaClosed, betaStarClosed, generatorClassifier, subjectReductionConsumer, route,
+          provenance, name, shiftClosed, varSubstClosed, substClosed, auditRow, closedSeal,
+          transport, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+        · constructor
+          · exact metaCICClosurePreservationDecode_encode_bhist betaStarClosed
+          · rfl
+
 end BEDC.Derived.MetaCICClosurePreservationUp

@@ -69,6 +69,59 @@ Next apply the shared-window discipline inherited from \autoref{ch:concrete-inst
 The terminal rows $E,H,C,P,L,N$ then seal the handoff. The $\RealUp$ row is downstream of the normalized shared-window readback, and the remaining rows only transport, replay, source, ledger, and name that displayed route. Thus no diagonal-limit consumer can reach the Real seal before factoring through the normalized shared-window row.
 \end{proof}
 
+\begin{theorem}[Cofinal modulus normalization seal classifier stability]
+\label{thm:cofinal-modulus-normalization-seal-classifier-stability}
+Let
+$$
+S=(A,B,M,W,D,R,E,H,C,P,L,N)
+$$
+and
+$$
+S'=(A',B',M',W',D',R',E',H',C',P',L',N')
+$$
+be accepted $\CofinalModulusNormalizationSealUp$ carriers. If $H$ supplies componentwise $\hsame$ transport from $A,B,M,W,D,R,E,C,P,L,N$ to the corresponding displayed rows of $S'$, and both carriers satisfy the Real-completion handoff of \autoref{thm:cofinal-modulus-normalization-seal-real-completion-handoff}, then the classifier of \autoref{def:cofinal-modulus-normalization-seal-classifier} preserves the same normalized shared-window route. In particular, no classifier-stable read may replace $W$ by a side-specific modulus window, identify $E$ by host real equality, or pass through quotient streams, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers and read the classifier definition. Classification is componentwise: it compares the paired schedules, the cofinal modulus seal row, the normalized shared window, the dyadic ledger, the paired readback, the Real seal, transport, replay, provenance, terminal ledger, and local naming row.
+
+The $\hsame$ row $H$ is exactly the displayed transport that keeps those components in the same classifier cell. Applying \autoref{thm:cofinal-modulus-normalization-seal-real-completion-handoff} on both sides forces every Real-facing read through $M$, then through $W,D,R$, and only then through $E,H,C,P,L,N$.
+
+Thus a classifier-stable transport cannot introduce a second window or an external Real equality test. Any route using quotient streams, selected limits, host equality, or ambient completeness would require a coordinate absent from both carriers and from the classifier.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus normalization seal paired-schedule exposure]
+\label{thm:cofinal-modulus-normalization-seal-paired-schedule-exposure}
+Every $\Cont$ consumer of an accepted $\CofinalModulusNormalizationSealUp$ carrier that reaches the normalized shared-window row $W$ or the terminal $\RealUp$ seal $E$ must first expose the paired cofinal schedules $A,B$ and the cofinal modulus seal row $M$ inside the same $\BHist$ packet. The paired schedule exposure is part of the local $\NameCert_{\CofinalModulusNormalizationSealUp}$ surface and cannot be reconstructed from $W,D,R,E$ alone.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cofinal-modulus-normalization-seal-namecert-obligations}. The local NameCert surface lists $A,B,M$ before the normalized shared-window, dyadic ledger, readback, and Real-seal rows.
+
+Now apply \autoref{thm:cofinal-modulus-normalization-seal-real-completion-handoff}. Its displayed factorization begins with $(A,B)$, then reads $M$, then reaches $(W,D,R)$ and the terminal rows.
+
+If a consumer tried to reconstruct paired schedule exposure from $W,D,R,E$ alone, it would reverse the displayed factorization and forget which two cofinal schedules were normalized. The carrier has no coordinate for that reconstruction, so the exposure must remain explicit in $A,B,M$.
+\end{proof}
+
+\begin{theorem}[Cofinal modulus normalization seal ledger non-escape]
+\label{thm:cofinal-modulus-normalization-seal-ledger-nonescape}
+For an accepted $\CofinalModulusNormalizationSealUp$ carrier
+$$
+S=(A,B,M,W,D,R,E,H,C,P,L,N),
+$$
+the terminal ledger row $L$ bounds every Real-and-Completion handoff that the local $\NameCert_{\CofinalModulusNormalizationSealUp}$ exports. A consumer that changes the cofinal schedules, skips the normalized shared-window route, or reads a Real seal outside the displayed continuation $C$ leaves the ledgered packet and therefore cannot be a $\Cont$ extension of $S$.
+\end{theorem}
+\begin{proof}
+The carrier definition makes $L$ the terminal ledger row for the Real-and-Completion handoff boundary. The NameCert obligations then place $L$ beside the transport, replay, provenance, and local naming rows, so it records the boundary of the displayed packet rather than an external completion claim.
+
+The handoff theorem supplies the only exported route:
+$$
+(A,B)\longmapsto M\longmapsto(W,D,R)\longmapsto(E,H,C,P,L,N).
+$$
+
+A $\Cont$ extension of $S$ must preserve that displayed route. Changing the schedules, skipping $W,D,R$, or reading $E$ outside $C$ removes a required component of the route before the ledger can be read.
+
+Since the carrier contains no quotient-stream coordinate, selected limit, host equality, or ambient completeness datum, there is no alternate ledger that could certify such an escape.
+\end{proof}
+
 \falsifiablePrediction{If the normalized cofinal modulus seal is atomic, then any RealUp diagonal-limit route consuming two cofinal schedules factors through its normalized shared-window row before reaching the RealUp seal.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cofinal-tail-budget, dyadic-cofinal-tail-selector, real-tail-agreement-seal: the new carrier binds paired cofinal schedules, normalized shared-window data, and terminal RealUp seal handoff in one packet, while each sibling lacks at least one of those rows.}
