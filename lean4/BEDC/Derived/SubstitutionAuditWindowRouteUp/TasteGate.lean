@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SubstitutionAuditWindowRouteUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -331,5 +335,20 @@ theorem SubstitutionAuditWindowRouteTasteGate_single_carrier_alignment :
       · intro x y heq
         exact substitutionAuditWindowRouteToEventFlow_injective heq
       · rfl
+
+theorem SubstitutionAuditWindowRouteCarrier_closed_composition_handoff
+    {D L M C G B : BHist} :
+    UnaryHistory D -> UnaryHistory L -> UnaryHistory C -> UnaryHistory G ->
+      Cont D L M -> Cont M C G -> Cont C G B ->
+        UnaryHistory M ∧ UnaryHistory G ∧ UnaryHistory B := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryD unaryL unaryC unaryG routeDL routeMC routeCGB
+  have unaryM : UnaryHistory M :=
+    unary_cont_closed unaryD unaryL routeDL
+  have unaryGFromMC : UnaryHistory G :=
+    unary_cont_closed unaryM unaryC routeMC
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryC unaryG routeCGB
+  exact And.intro unaryM (And.intro unaryGFromMC unaryB)
 
 end BEDC.Derived.SubstitutionAuditWindowRouteUp
