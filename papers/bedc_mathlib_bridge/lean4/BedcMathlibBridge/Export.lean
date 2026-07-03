@@ -10,6 +10,7 @@ import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
+import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.FussCatalan
@@ -18,6 +19,7 @@ import BedcMathlibBridge.Export.StirlingSecond
 import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
+import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
