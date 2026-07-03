@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteHerbrandDisjunctionUp$}
+\label{ch:concrete-instances-finite-herbrand-disjunction-namecert}
+\origin{human}
+
+Following Herbrand's theorem as a proof-search interface for first-order logic, the $\FiniteHerbrandDisjunctionUp$ packet records only the finite disjunction certificate surfaced by a displayed syntactic proof-search route. It sits over the first-order syntax rows of \autoref{ch:concrete-instances-firstorder-namecert}, the model-theory boundary of \autoref{ch:concrete-instances-modeltheory-namecert}, the typed MetaCIC example gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the GroundCompiler audit packet of \autoref{ch:concrete-instances-groundcompiler-audit-packet-namecert}, and the local NameCert discipline used by the proof-tree siblings \autoref{ch:concrete-instances-natural-deduction-namecert} and \autoref{ch:concrete-instances-sequent-calculus-namecert}. The packet names a finite certificate surface; it does not claim host completeness, infinite proof search, semantic truth in all models, choice, or quotient proof equality.
+
+\begin{definition}[Finite Herbrand disjunction carrier]
+\label{def:finite-herbrand-disjunction-carrier}
+A $\FiniteHerbrandDisjunctionUp$ carrier is a finite $\BHist$ packet
+$$
+H=(F,D,W,S,Q,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FirstOrderUp$ formula row containing the prenex source formula, free-variable ledger, quantifier-prefix ledger, and finite term-source alphabet;
+\item $D$ is the finite disjunct inventory, listing the ground instances admitted into the Herbrand disjunction;
+\item $W$ is the witness-term and substitution row, attaching each disjunct in $D$ to a displayed tuple of terms and a substitution readback from $F$;
+\item $S$ is the syntactic checker row for the displayed disjunction, read through natural-deduction, sequent-calculus, or MetaCIC-facing proof rows only as finite proof-search data;
+\item $Q$ is the proof-search route row, recording the finite branch order, branch closures, and checker calls that produced $D,W,S$;
+\item $R$ records componentwise $\hsame$ transport for the source formula, disjunct inventory, witness-term rows, checker route, proof-search route, replay row, provenance row, and local naming row;
+\item $T$ records displayed $\Cont$ replay from the source formula through $Q$ and then through $D,W,S,R,P,N$;
+\item $C$ is the consumer handoff row exposing the certificate to $\MetaCICTypedExamplesGalleryUp$ and $\GroundCompilerAuditPacketUp$ only after the finite disjunct inventory and checker route are visible;
+\item $P$ is the $\Pkg$ provenance over $\FiniteHerbrandDisjunctionUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\MetaCICTypedExamplesGalleryUp$, $\GroundCompilerAuditPacketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteHerbrandDisjunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,D,W,S,Q,R,T,C,P,N$. It has no coordinate for semantic completeness, truth in every structure, infinite proof search, selected model construction, choice, quotient proof equality, or a host proof checker outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Finite Herbrand disjunction NameCert obligations]
+\label{thm:finite-herbrand-disjunction-namecert-obligations}
+For every accepted $\FiniteHerbrandDisjunctionUp$ carrier $H=(F,D,W,S,Q,R,T,C,P,N)$, the local $\NameCert_{\FiniteHerbrandDisjunctionUp}$ surface consists exactly of first-order formula exposure through $F$, finite disjunct inventory exposure through $D$, witness-term and substitution exposure through $W$, checker exposure through $S$, proof-search route exposure through $Q$, componentwise transport through $R$, displayed replay through $T$, downstream certificate handoff through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-herbrand-disjunction-carrier}. The source syntax is $F$, the finite Herbrand inventory is $D$, and the witness-term data are exactly the substitution rows in $W$.
+
+The checker and search data are also displayed. The row $S$ records the finite checker calls, while $Q$ records the branch order and branch closures that led to the disjunction.
+
+Transport, replay, and consumer exposure are then forced through $R,T,C$. The package row $P$ records the cited FirstOrder, ModelTheory, MetaCIC gallery, GroundCompiler, and NameCert dependencies, and $N$ names only this displayed packet.
+
+Since the carrier has no coordinate for semantic completeness, truth in every structure, infinite proof search, selected model construction, choice, quotient proof equality, or a host proof checker outside the displayed rows, no local NameCert obligation can export those principles.
+\end{proof}
+
+\begin{theorem}[Finite Herbrand disjunction non-escape]
+\label{thm:finite-herbrand-disjunction-nonescape}
+Every accepted $\FiniteHerbrandDisjunctionUp$ consumer reads the Herbrand certificate only through the finite route
+$$
+F\longmapsto Q\longmapsto(D,W,S)\longmapsto(R,T,C,P,N).
+$$
+The consumer may cite the route as a displayed finite disjunction certificate for a first-order proof-search branch, but it may not read the packet as host completeness, infinite proof search, model-theoretic truth, choice, quotient proof equality, or an ambient proof checker.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-herbrand-disjunction-namecert-obligations}. They force every accepted read to expose the source formula, the finite disjunct inventory, the witness-term substitutions, the checker row, and the proof-search route before any downstream consumer sees the packet.
+
+The consumer handoff row $C$ can then pass the certificate to MetaCIC or GroundCompiler-facing rows only after the finite inventory and checker route have been replayed through $T$ and transported through $R$.
+
+The non-escape clauses are the non-coordinates of \autoref{def:finite-herbrand-disjunction-carrier}. Because none of host completeness, infinite proof search, model-theoretic truth, choice, quotient proof equality, or an ambient proof checker appears in $H$, no accepted consumer can project such data from the packet.
+\end{proof}
+
+\closureat{FiniteHerbrandDisjunctionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteHerbrandDisjunctionUp}
+  \constructivestory{A $\FiniteHerbrandDisjunctionUp$ packet is generated from a first-order formula row, a finite Herbrand disjunct inventory, witness-term and substitution rows, a checker row, a proof-search route, componentwise $\hsame$ transport, displayed $\Cont$ replay, downstream certificate handoff, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-herbrand-disjunction-carrier}, \autoref{thm:finite-herbrand-disjunction-namecert-obligations}, and \autoref{thm:finite-herbrand-disjunction-nonescape} seed the finite proof-search certificate over $F,D,W,S,Q,R,T,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, infinite proof search, model-theoretic truth, choice, quotient proof equality, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked first-order formula exposure, finite disjunct inventory exposure, witness-term substitution exposure, checker exposure, proof-search route exposure, transport, replay, downstream handoff, provenance, and local naming for BEDC.Derived.FiniteHerbrandDisjunctionUp.}
+\end{closurestatus}

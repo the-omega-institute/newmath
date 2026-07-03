@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\GelfandNaimarkUp$}
+\label{ch:concrete-instances-gelfand-naimark-namecert}
+\origin{human}
+
+Following Gelfand and Naimark's representation theorem for $C^*$-algebras, the $\GelfandNaimarkUp$ packet records the finite NameCert surface by which a displayed $C^*$-algebra source is handed to a Hilbert-space operator-action reader. It sits after the $C^*$-algebra carrier of \autoref{ch:concrete-instances-cstaralgebra-namecert}, the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the bounded-linear-operator interface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the complex scalar carrier of \autoref{ch:concrete-instances-complex-namecert}. The chapter names only the finite representation packet; it does not import the full standard representation theorem, a selected faithful representation, quotient host equality, spectral completeness, or ambient choice.
+
+\begin{definition}[Gelfand--Naimark representation carrier]
+\label{def:gelfand-naimark-carrier}
+A $\GelfandNaimarkUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,H,O,R,C,M,T,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\CStarAlgUp$ source row, exposing the algebra, involution, norm, and $C^*$-identity surface that the representation reader may inspect.
+\item $H$ is the $\HilbertUp$ representation-space row, naming the target Hilbert carrier without selecting a host completion.
+\item $O$ is the $\BoundedLinearOperatorUp$ operator-action row, recording the displayed action of source elements on the Hilbert row.
+\item $R$ is the $\RealUp$ scalar seal row for norm comparisons, positivity readbacks, and displayed operator bounds.
+\item $C$ is the $\ComplexUp$ scalar seal row for complex scalar multiplication, involution compatibility, and inner-product scalar reads.
+\item $M$ stores the multiplicative and involutive compatibility ledger tying $A$ to the operator-action row $O$.
+\item $T$ records componentwise $\hsame$ transport for $A,H,O,R,C,M,K,P,N$.
+\item $K$ records displayed $\Cont$ replay from source-algebra reads through Hilbert-space action, scalar seals, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\GelfandNaimarkUp$, $\CStarAlgUp$, $\HilbertUp$, $\BoundedLinearOperatorUp$, $\RealUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GelfandNaimarkUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. It has no coordinate for a host faithful representation, universal representation, quotient operator algebra, selected state space, unrestricted spectrum, ambient Hilbert completion, or choice principle.
+\end{definition}
+
+\begin{theorem}[Gelfand--Naimark NameCert obligations]
+\label{thm:gelfand-naimark-namecert-obligations}
+For every accepted $\GelfandNaimarkUp$ carrier $G=(A,H,O,R,C,M,T,K,P,N)$, the local $\NameCert_{\GelfandNaimarkUp}$ surface consists exactly of $C^*$-algebra source admission, Hilbert representation-space admission, bounded-operator action exposure, real and complex scalar seal rows, multiplicative and involutive compatibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+Any representation-facing consumer must first display the sibling routes through \autoref{ch:concrete-instances-cstaralgebra-namecert}, \autoref{ch:concrete-instances-hilbert-namecert}, \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-complex-namecert}. Replacing one of those rows by a host representation theorem, selected state space, quotient operator algebra, unrestricted spectrum, or ambient choice leaves the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(A,H,O,R,C,M,T,K,P,N)$. The source row $A$ is the only $C^*$-algebra input, while $H$ and $O$ display the Hilbert carrier and bounded-operator action consumed by the representation reader.
+
+The scalar rows $R$ and $C$ keep norm, positivity, complex scalar, and inner-product reads on displayed Real and Complex seals. The compatibility row $M$ attaches multiplicative and involutive checks to the same operator-action route.
+
+The structural rows $T,K,P,N$ transport, replay, source, and name this finite inventory. Since no row stores a host faithful representation, universal representation, quotient operator algebra, selected state space, unrestricted spectrum, ambient Hilbert completion, or choice principle, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Gelfand--Naimark representation handoff]
+\label{thm:gelfand-naimark-representation-handoff}
+Every representation-facing read from an accepted $\GelfandNaimarkUp$ packet factors through the finite route
+$$
+\CStarAlgUp \longmapsto \HilbertUp \longmapsto
+\BoundedLinearOperatorUp \longmapsto \RealUp,\ \ComplexUp
+\longmapsto \NameCert_{\GelfandNaimarkUp}.
+$$
+For $G=(A,H,O,R,C,M,T,K,P,N)$, the consumer must expose the $C^*$-algebra source row, Hilbert representation-space row, bounded-operator action row, real and complex scalar seal rows, compatibility ledger, transport, replay, provenance, and local naming before any standard-facing representation domain can be compared. The handoff exports no full standard representation theorem, selected faithful representation, quotient host equality, unrestricted spectrum, ambient Hilbert completion, or choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with a representation-facing request. The carrier gives access to the source only through $A$, so the consumer first reads the displayed $C^*$-algebra surface.
+
+Next expose the representation target. The Hilbert row $H$ and bounded-operator row $O$ provide the finite action surface, while $M$ records the multiplicative and involutive compatibility that the action may claim.
+
+The scalar checks then pass through $R$ and $C$. These rows keep norm, positivity, complex scalar, and inner-product reads on the displayed scalar seals before any standard-facing comparison is attempted.
+
+Finally $T,K,P,N$ preserve the same route under transport, continuation replay, provenance, and local naming. The absent host representation theorem, selected faithful representation, quotient equality, unrestricted spectrum, ambient completion, and choice data cannot be recovered from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GelfandNaimarkUp$ read is refuted if a representation-facing consumer obtains a standard-facing representation comparison without displaying the CStarAlg source row, Hilbert representation row, BoundedLinearOperator action row, Real and Complex scalar seals, compatibility ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{cstaralgebra, hilbert, boundedlinearoperator, real, and complex: none is bijective to $\GelfandNaimarkUp$ because only this packet jointly records a $C^*$-algebra source, Hilbert representation carrier, bounded-operator action, scalar seal rows, compatibility ledger, transport, replay, provenance, and local NameCert naming as one representation surface.}
+
+\closureat{GelfandNaimarkUp}{seedStr}
+
+\begin{closurestatus}{\GelfandNaimarkUp}
+  \constructivestory{A $\GelfandNaimarkUp$ packet is generated from a CStarAlg source row, Hilbert representation-space row, BoundedLinearOperator action row, Real and Complex scalar seals, multiplicative and involutive compatibility ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gelfand-naimark-carrier}, \autoref{thm:gelfand-naimark-namecert-obligations}, and \autoref{thm:gelfand-naimark-representation-handoff} seed the finite representation handoff from CStarAlg rows through Hilbert and BoundedLinearOperator rows to Real and Complex scalar seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the full standard representation theorem, selected faithful representation, quotient host equality, unrestricted spectrum, ambient Hilbert completion, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Hilbert and bounded-operator action exposure, scalar seal compatibility, multiplicative and involutive exactness, transport, replay, provenance, and local naming for BEDC.Derived.GelfandNaimarkUp.}
+\end{closurestatus}

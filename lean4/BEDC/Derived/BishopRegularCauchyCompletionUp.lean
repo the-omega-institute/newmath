@@ -99,6 +99,97 @@ theorem BishopRegularCauchyCompletionCarrier_seal_stability [AskSetup] [PackageS
       sealReadUnary, tailCommon, commonObservations, observationsRegularity, regularitySeal,
       provenancePkg, sealPkg⟩
 
+theorem BishopRegularCauchyCompletionLimitWitnessRoute [AskSetup] [PackageSetup]
+    {endpoint observations regularity tailModulus commonTail transport replay provenance localName
+      toleranceRead windowRead regularRead sealRead witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRegularCauchyCompletionCarrier endpoint observations regularity tailModulus
+        commonTail transport replay provenance localName bundle pkg →
+      Cont tailModulus commonTail toleranceRead →
+        Cont toleranceRead observations windowRead →
+          Cont windowRead regularity regularRead →
+            Cont regularRead endpoint sealRead →
+              Cont sealRead localName witnessRead →
+                PkgSig bundle witnessRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row witnessRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row endpoint ∨ hsame row observations ∨
+                          hsame row regularity ∨ hsame row tailModulus ∨
+                            hsame row commonTail ∨ hsame row sealRead ∨
+                              hsame row witnessRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont tailModulus commonTail toleranceRead ∧
+                          Cont toleranceRead observations windowRead ∧
+                            Cont windowRead regularity regularRead ∧
+                              Cont regularRead endpoint sealRead ∧
+                                Cont sealRead localName witnessRead ∧
+                                  PkgSig bundle witnessRead pkg)
+                      hsame ∧
+                    UnaryHistory toleranceRead ∧ UnaryHistory windowRead ∧
+                      UnaryHistory regularRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory witnessRead := by
+  -- BEDC touchpoint anchor: BishopRegularCauchyCompletionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier tailCommon commonObservations observationsRegularity regularitySeal
+    sealWitness witnessPkg
+  obtain ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary,
+    commonTailUnary, _transportUnary, _replayUnary, _provenanceUnary, localNameUnary,
+    _provenancePkg, _localNamePkg⟩ := carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed tailModulusUnary commonTailUnary tailCommon
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceReadUnary observationsUnary commonObservations
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowReadUnary regularityUnary observationsRegularity
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary endpointUnary regularitySeal
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed sealReadUnary localNameUnary sealWitness
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row witnessRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row endpoint ∨ hsame row observations ∨ hsame row regularity ∨
+              hsame row tailModulus ∨ hsame row commonTail ∨ hsame row sealRead ∨
+                hsame row witnessRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont tailModulus commonTail toleranceRead ∧
+              Cont toleranceRead observations windowRead ∧
+                Cont windowRead regularity regularRead ∧
+                  Cont regularRead endpoint sealRead ∧
+                    Cont sealRead localName witnessRead ∧ PkgSig bundle witnessRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro witnessRead ⟨hsame_refl witnessRead, witnessReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, tailCommon, commonObservations, observationsRegularity,
+          regularitySeal, sealWitness, witnessPkg⟩
+  }
+  exact
+    ⟨cert, toleranceReadUnary, windowReadUnary, regularReadUnary, sealReadUnary,
+      witnessReadUnary⟩
+
 theorem BishopRegularCauchyCompletionCarrier_tail_equivalence_quotient_free [AskSetup]
     [PackageSetup]
     {endpoint endpoint' observations observations' regularity regularity' tailModulus commonTail

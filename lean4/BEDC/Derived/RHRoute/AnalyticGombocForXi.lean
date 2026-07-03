@@ -3,6 +3,12 @@ import BEDC.Derived.RHRoute.PrimeCausalTower
 import BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse
 import BEDC.Derived.RHRoute.ZetaUnitaryScaleClosure
 
+/-
+ABSTRACT: 未绑定 true ξ (E=Xi 是 CRPC inhabitant_frontier_obligation
+未 discharge); 所有到 ConstructiveRH 经 CRPC/handoff obligation;
+这是 conditional RH-route scaffold 非 RH proof.
+-/
+
 namespace BEDC.Derived.RHRoute.AnalyticGombocForXi
 
 open BEDC.Derived.RationalUp

@@ -1,0 +1,11 @@
+\begin{theorem}[Luenberger observer transportability dependency route]
+\label{thm:luenberger-observer-transportability-dependency-route}
+Every accepted $\LuenbergerObserverUp$ packet used as an externally valid observer-state reconstruction route must first read the selection-domain row of $\TransportabilityUp$ through \autoref{ch:concrete-instances-transportability-namecert}, the finite state-transition carrier of $\StateSpaceModelUp$ through \autoref{ch:concrete-instances-statespacemodel-namecert}, the deterministic control-system rows through \autoref{thm:luenberger-observer-control-system-route}, the observability row through \autoref{ch:concrete-instances-controlobservability-namecert}, and the estimator boundary through \autoref{ch:concrete-instances-kalman-filter-namecert}. Only after those sibling rows are displayed may a consumer treat the observer correction, residual ledger, and error-propagation row as portable between source and target systems. The route exports no hidden domain-selection oracle, stochastic covariance update, host state equality, or ambient external-validity theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:luenberger-observer-carrier}. Its observer rows $A,C,Y,G,R,E,H,T,P,N$ expose plant dynamics, output, comparison, gain, residual, deterministic error propagation, transport, replay, provenance, and local naming.
+
+The transportability read supplies the source and target selection-domain row before those observer rows are used outside their original system. The state-space, control-system, observability, and Kalman-filter boundary siblings then keep the plant carrier, output route, and estimator boundary visible.
+
+Since the Luenberger carrier contains no domain-selection oracle, host state equality, covariance recursion, or external-validity theorem, observer-state transfer is public only along the displayed transportability and control sibling route.
+\end{proof}

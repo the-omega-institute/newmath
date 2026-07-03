@@ -1,0 +1,646 @@
+\chapter{Innovation-Soldering Metric Interface}
+\label{ch:visions-innovation-soldering-metric-interface}
+\origin{ai}
+
+\autoref{ch:visions-quantum-gr-section-bundle-boundary} separates the
+vertical quantum face from the horizontal relativistic face of an
+observer-centered section bundle. That separation is intentionally weak:
+it says which rows may coexist and which bridge rows are still missing.
+The present chapter records the stronger interface target. A mere
+product bundle or direct-sum connection does not couple the rows. The
+first genuine coupling is a soldering row: the orthogonal innovation of
+the ledger determines a vielbein-like one-form, and that one-form
+determines the metric.
+
+\section{Product Rows and Soldering Rows}
+\label{sec:innovation-soldering-product-versus-soldering}
+
+\begin{definition}[Product-level coexistence]
+\label{def:innovation-soldering-product-level-coexistence}
+A section-bundle description is at \emph{product level} when its total
+carrier and comparison row have the form
+$$
+\mathcal K_R\simeq\mathcal H_R\otimes L^2(\Sigma_{S,R})
+$$
+and
+$$
+D_\mu
+=
+D_\mu^{\mathcal H}
++D_\mu^{\Sigma}
++D_\mu^{\mathrm{base}},
+$$
+so that its displayed curvature is the sum of sector curvatures after
+the cross commutators have been declared absent or untyped. Product
+level is a coexistence statement. It is not yet a dynamical coupling
+between quantum ledger rows, solenoid rows, and metric rows.
+\end{definition}
+
+\begin{definition}[Soldering-level coupling]
+\label{def:innovation-soldering-level-coupling}
+A section-bundle description is at \emph{soldering level} when the
+metric row is not supplied independently of the ledger field. Instead,
+there is an innovation one-form
+$$
+\Theta\in\Omega^1(M;\mathcal E)
+$$
+derived from the ledger field, and the metric is read as
+$$
+g_{\mu\nu}=G_{AB}\Theta^A_{\mu}\Theta^B_{\nu}.
+$$
+The coupling is genuine because a change in the ledger field changes
+$\Theta$, and a change in $\Theta$ changes the metric row.
+\end{definition}
+
+\begin{principle}[Product connection is only a boundary row]
+\label{prin:innovation-soldering-product-connection-boundary-row}
+The combined connection row of
+\autoref{def:quantum-gr-combined-connection-row} is a useful boundary
+syntax, but it is not by itself a unification theorem. If the curvature
+decomposes as a sectorwise sum, then the rows have been placed in one
+ambient bookkeeping space without proving that one sector constrains the
+other. A unification claim requires a row such as
+\autoref{def:innovation-soldering-level-coupling}, where the metric
+depends on the ledger innovation.
+\end{principle}
+
+\section{Continuous Innovation Form}
+\label{sec:innovation-soldering-continuous-form}
+
+\begin{definition}[Continuous ledger field]
+\label{def:innovation-soldering-continuous-ledger-field}
+Let $M$ be a continuous frame base and let
+$$
+\mathcal H\to M
+$$
+be a Hilbert ledger bundle. A continuous ledger field consists of a
+section
+$$
+B\in\Gamma(\mathcal H),
+$$
+a closed ledger subbundle
+$$
+\mathcal L\subseteq\mathcal H,
+$$
+and the orthogonal projection
+$$
+P_{\mathcal L}:\mathcal H\to\mathcal L.
+$$
+The innovation projector is
+$$
+Q_{\mathcal L}:=I-P_{\mathcal L}.
+$$
+\end{definition}
+
+\begin{definition}[Innovation one-form]
+\label{def:innovation-soldering-one-form}
+Let $D_{\Phi}$ be a frame-reshaping connection on $\mathcal H$. The
+\emph{innovation one-form} of the ledger field is
+$$
+\Theta:=Q_{\mathcal L}D_{\Phi}B.
+$$
+Equivalently, for $u\in T_xM$,
+$$
+\Theta_x(u)
+=
+Q_{\mathcal L,x}\bigl(D_{\Phi,u}B\bigr)(x).
+$$
+Its target bundle is the innovation bundle
+$$
+\mathcal E:=\mathcal L^{\perp}.
+$$
+\end{definition}
+
+\begin{definition}[Innovation metric row]
+\label{def:innovation-soldering-metric-row}
+Assume that the innovation bundle $\mathcal E$ carries a displayed
+nondegenerate symmetric bilinear form
+$$
+G_x:\mathcal E_x\times\mathcal E_x\to\mathbb R.
+$$
+The innovation metric row is
+$$
+g_x(u,v):=G_x(\Theta_x(u),\Theta_x(v)).
+$$
+In local notation,
+$$
+g_{\mu\nu}=G_{AB}\Theta^A_{\mu}\Theta^B_{\nu}.
+$$
+\end{definition}
+
+\begin{principle}[Positive Hilbert norm is not the Lorentz metric]
+\label{prin:innovation-soldering-hilbert-norm-not-lorentz-metric}
+The Hilbert inner product controls orthogonality and projection in the
+ledger. It cannot by itself be the Lorentz metric, because it is positive
+definite. The metric row therefore requires the additional signature
+data $G$ on the effective innovation bundle. Without that row, one may
+define a positive quadratic size of an innovation, but not a Lorentzian
+spacetime metric.
+\end{principle}
+
+\begin{theorem}[Innovation one-form gives a Lorentz metric]
+\label{thm:innovation-soldering-one-form-lorentz-metric}
+Assume that, for every $x\in M$, the map
+$$
+\Theta_x:T_xM\to\mathcal E_x
+$$
+is injective and that $G_x$ restricted to $\Theta_x(T_xM)$ is
+nondegenerate with Lorentz signature. Then
+$$
+g_x(u,v)=G_x(\Theta_x(u),\Theta_x(v))
+$$
+defines a Lorentz metric on $M$.
+\end{theorem}
+
+\begin{proof}
+The map $\Theta_x$ is linear and $G_x$ is bilinear, so $g_x$ is bilinear.
+Symmetry of $g_x$ follows from symmetry of $G_x$. If
+$$
+g_x(u,v)=0
+$$
+for every $v\in T_xM$, then
+$$
+G_x(\Theta_x(u),\Theta_x(v))=0
+$$
+for every $v$. Nondegeneracy of $G_x$ on $\Theta_x(T_xM)$ gives
+$\Theta_x(u)=0$. Injectivity of $\Theta_x$ then gives $u=0$. Thus $g_x$
+is nondegenerate, and its signature is the Lorentz signature displayed on
+the image subspace.
+\end{proof}
+
+\begin{theorem}[Metric variation factors through ledger innovation]
+\label{thm:innovation-soldering-metric-variation-through-ledger}
+For
+$$
+g_{\mu\nu}=G_{AB}\Theta^A_{\mu}\Theta^B_{\nu},
+\qquad
+\Theta=Q_{\mathcal L}D_{\Phi}B,
+$$
+a ledger variation $B\mapsto B+\delta B$ induces
+$$
+\delta g_{\mu\nu}
+=
+(\delta G_{AB})\Theta^A_{\mu}\Theta^B_{\nu}
++
+G_{AB}(\delta\Theta^A_{\mu})\Theta^B_{\nu}
++
+G_{AB}\Theta^A_{\mu}(\delta\Theta^B_{\nu}),
+$$
+where
+$$
+\delta\Theta=\delta(Q_{\mathcal L}D_{\Phi}B).
+$$
+If $G$ is fixed, the variation reduces to the symmetric cross term
+between $\delta\Theta$ and $\Theta$.
+\end{theorem}
+
+\begin{proof}
+Differentiate the defining expression
+$$
+g_{\mu\nu}=G_{AB}\Theta^A_{\mu}\Theta^B_{\nu}.
+$$
+The product rule gives the displayed three terms. The final statement is
+the same formula with $\delta G=0$.
+\end{proof}
+
+\section{Tick Reflection and Pythagorean Coding Closure}
+\label{sec:innovation-soldering-tick-reflection-pcc}
+
+\begin{definition}[Tick covector and spatial innovation image]
+\label{def:innovation-soldering-tick-covector-spatial-image}
+Let
+$$
+A:M\to\mathbb R_{>0}
+$$
+be a displayed multiplicative scale row. Its logarithmic tick coordinate
+and tick covector are
+$$
+T:=\log A,
+\qquad
+\tau:=dT.
+$$
+At a point $x$ with $\tau_x\ne0$, set
+$$
+S_x:=\ker\tau_x\subset T_xM.
+$$
+The spatial innovation image is
+$$
+E_x^S:=\Theta_x(S_x)\subset\mathcal E_x.
+$$
+This row is part of the Pythagorean coding closure reading: the scale
+ledger selects the time co-direction, while the innovation map supplies
+the orthogonal readout surface.
+\end{definition}
+
+\begin{definition}[Tick residual line and reflection]
+\label{def:innovation-soldering-tick-residual-line-reflection}
+Assume $\operatorname{rank}(\Theta_x|_{S_x})=3$, and let $\Pi_S^E$ be
+the Hilbert orthogonal projection onto $E_x^S$. For any
+$X_x\in T_xM$ satisfying
+$$
+\tau_x(X_x)=1,
+$$
+define the tick residual
+$$
+r_T(x):=(I-\Pi_S^E)\Theta_x(X_x).
+$$
+When $r_T(x)\ne0$, the tick residual line is
+$$
+E_x^T:=\mathbb R\,r_T(x),
+$$
+and the tick reflection on
+$$
+E_x^4:=E_x^T\oplus E_x^S
+$$
+is
+$$
+J_T:=\Pi_T^E-\Pi_S^E,
+$$
+where $\Pi_T^E$ is the Hilbert orthogonal projection onto $E_x^T$.
+\end{definition}
+
+\begin{lemma}[Tick residual line is independent of the lift]
+\label{lem:innovation-soldering-tick-residual-lift-independent}
+The vector $r_T(x)$ of
+\autoref{def:innovation-soldering-tick-residual-line-reflection} does
+not depend on the choice of $X_x$ satisfying $\tau_x(X_x)=1$.
+\end{lemma}
+
+\begin{proof}
+If $X_x$ and $X'_x$ both satisfy
+$$
+\tau_x(X_x)=\tau_x(X'_x)=1,
+$$
+then
+$$
+\tau_x(X_x-X'_x)=0.
+$$
+Hence $X_x-X'_x\in S_x$, so
+$$
+\Theta_x(X_x-X'_x)\in E_x^S.
+$$
+Applying $I-\Pi_S^E$ kills this vector, and therefore
+$$
+(I-\Pi_S^E)\Theta_x(X_x)
+=
+(I-\Pi_S^E)\Theta_x(X'_x).
+$$
+\end{proof}
+
+\begin{definition}[Lorentzized innovation tensor]
+\label{def:innovation-soldering-lorentzized-innovation-tensor}
+On the four-dimensional innovation image $E_x^4$, define
+$$
+\mathfrak Q^T_x(u,v)
+:=
+\langle
+\Theta_x(u),
+J_T\Theta_x(v)
+\rangle.
+$$
+Its real and imaginary reads are
+$$
+g_x^T(u,v):=\operatorname{Re}\mathfrak Q^T_x(u,v),
+$$
+and
+$$
+F_x^\eta(u,v):=2\operatorname{Im}\mathfrak Q^T_x(u,v).
+$$
+The first row is the Pythagorean metric read; the second row is the
+phase-curvature read carried by the same innovation tensor.
+\end{definition}
+
+\begin{theorem}[Tick-reflected Gram row has Lorentz signature]
+\label{thm:innovation-soldering-tick-reflected-gram-lorentz}
+Assume $\dim M=4$, $\tau_x\ne0$,
+$$
+\operatorname{rank}(\Theta_x|_{\ker\tau_x})=3,
+$$
+and $r_T(x)\ne0$. Then
+$$
+g_x^T(u,v)
+=
+\operatorname{Re}
+\langle
+\Theta_x(u),
+J_T\Theta_x(v)
+\rangle
+$$
+is a nondegenerate symmetric bilinear form on $T_xM$ with signature
+$(1,3)$.
+\end{theorem}
+
+\begin{proof}
+Choose any $X_x$ with $\tau_x(X_x)=1$. Since
+$\Pi_S^E\Theta_x(X_x)$ lies in
+$$
+E_x^S=\Theta_x(S_x),
+$$
+there is $s_X\in S_x$ with
+$$
+\Theta_x(s_X)=\Pi_S^E\Theta_x(X_x).
+$$
+Set
+$$
+\mathcal T_x:=X_x-s_X.
+$$
+Then $\tau_x(\mathcal T_x)=1$ and
+$$
+\Theta_x(\mathcal T_x)=r_T(x).
+$$
+Every $u\in T_xM$ decomposes as
+$$
+u=\tau_x(u)\mathcal T_x+s,
+\qquad
+s\in S_x.
+$$
+Thus
+$$
+\Theta_x(u)=\tau_x(u)r_T+\Theta_x(s),
+$$
+with $r_T\perp E_x^S$. Since $J_T$ is $+I$ on $E_x^T$ and $-I$ on
+$E_x^S$,
+$$
+g_x^T(u,u)
+=
+\tau_x(u)^2\|r_T\|^2
+-
+\|\Theta_x(s)\|^2.
+$$
+The first coefficient is positive because $r_T\ne0$. The second term is
+negative definite on the three-dimensional spatial image because
+$\Theta_x|_{S_x}$ has rank $3$. Symmetry follows from self-adjointness of
+$J_T$. Hence the signature is $(1,3)$.
+\end{proof}
+
+\begin{theorem}[Real and imaginary rows share one innovation source]
+\label{thm:innovation-soldering-real-imaginary-shared-source}
+If $J_T$ is self-adjoint, then
+$$
+\mathfrak Q^T_x(v,u)=\overline{\mathfrak Q^T_x(u,v)}.
+$$
+Consequently $g_x^T=\operatorname{Re}\mathfrak Q^T_x$ is symmetric and
+$F_x^\eta=2\operatorname{Im}\mathfrak Q^T_x$ is antisymmetric.
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+\mathfrak Q^T_x(u,v)
+=
+\langle
+\Theta_x(u),
+J_T\Theta_x(v)
+\rangle.
+$$
+Self-adjointness of $J_T$ gives
+$$
+\langle
+\Theta_x(v),
+J_T\Theta_x(u)
+\rangle
+=
+\overline{
+\langle
+\Theta_x(u),
+J_T\Theta_x(v)
+\rangle
+}.
+$$
+Taking real and imaginary parts gives the stated symmetry and
+antisymmetry rows.
+\end{proof}
+
+\begin{principle}[Pythagorean coding closure boundary]
+\label{prin:innovation-soldering-pcc-boundary}
+Pythagorean coding closure is the local synthesis
+$$
+\Theta=Q_{\mathcal L}D_{\Phi}B,
+\qquad
+T=\log A,
+\qquad
+J_T,
+\qquad
+\mathfrak Q^T_{\mu\nu}
+=
+\langle Q_{\mathcal L}D_{\Phi,\mu}B,
+J_TQ_{\mathcal L}D_{\Phi,\nu}B\rangle.
+$$
+Its real part gives the triangle/metric row, and its imaginary part gives
+the circle/phase-curvature row. Prime and solenoid ledgers affect this
+geometry only when they enter $B$, $D_{\Phi}$, $Q_{\mathcal L}$, or the
+tick scale $A$; otherwise they remain hidden fibre data without
+metric-level force.
+\end{principle}
+
+\section{Discrete Stencils and Cartan Boundary}
+\label{sec:innovation-soldering-discrete-stencils-cartan}
+
+\begin{definition}[Discrete innovation stencil]
+\label{def:innovation-soldering-discrete-stencil}
+Let $x$ be a frame vertex and let
+$$
+e_a:x\to x_a
+\qquad
+(a=0,1,2,3)
+$$
+be four displayed independent local edges. With reshaping rows
+$$
+\Phi_{x_a\leftarrow x}:\mathcal H_x\to\mathcal H_{x_a},
+$$
+define the edge innovation
+$$
+\eta_a(x)
+:=
+Q_{x\to x_a}
+\bigl(
+B_{x_a}-\Phi_{x_a\leftarrow x}B_x
+\bigr).
+$$
+The discrete innovation Gram row is
+$$
+g_{ab}(x):=G(\eta_a(x),\eta_b(x)).
+$$
+When this matrix is nondegenerate with Lorentz signature, it is the
+local discrete metric row at $x$.
+\end{definition}
+
+\begin{principle}[One tick is not a four-dimensional metric]
+\label{prin:innovation-soldering-one-tick-not-full-metric}
+A single OCLSD residual supplies one innovation direction. A
+four-dimensional metric requires a local stencil of independent
+directions or a continuous tangent map $\Theta_x:T_xM\to\mathcal E_x$.
+Thus the passage from ledger innovation to metric is not obtained by
+renaming one residual as a metric. It requires the displayed soldering
+rank and signature rows.
+\end{principle}
+
+\begin{definition}[Innovation-soldered Cartan row]
+\label{def:innovation-soldering-cartan-row}
+An innovation-soldered Cartan row is a schematic connection
+$$
+\mathcal A
+=
+\omega^{ab}J_{ab}
++
+\ell^{-1}\Theta^aP_a
++
+A
++
+\mathcal A^{\Sigma},
+$$
+where $\Theta$ is the innovation one-form of
+\autoref{def:innovation-soldering-one-form}. Its curvature is
+$$
+\mathcal F=d\mathcal A+\mathcal A\wedge\mathcal A.
+$$
+In the Cartan sector, the displayed torsion row is
+$$
+T^a=D_{\omega}\Theta^a,
+$$
+and the de Sitter-style curvature row contains
+$$
+R^{ab}+\ell^{-2}\Theta^a\wedge\Theta^b.
+$$
+These rows are the schematic boundary where soldering produces
+cross-terms absent from a product connection.
+\end{definition}
+
+\begin{principle}[Solenoid coupling must enter the innovation row]
+\label{prin:innovation-soldering-solenoid-coupling-enters-innovation}
+The solenoid fibre is geometrically active only if its prime-register
+rows enter the innovation one-form, the connection used to define it, or
+the signature data used to read it. A hidden fibre that remains visible
+only through
+$$
+\pi_S:\Sigma_S\to\mathbb T
+$$
+is still kernel-blind at the metric level. A geometry-facing solenoid
+coupling must therefore be represented by rows of the form
+$$
+D_{\Phi,\Sigma}B
+\qquad
+\text{or}
+\qquad
+\Theta(B,Z_{\Sigma}),
+$$
+not merely by adjoining $L^2(\Sigma_S)$ to the fibre.
+\end{principle}
+
+\section{Twisted-Holonomy Backreaction: A Degenerate Channel}
+\label{sec:innovation-soldering-twisted-holonomy-backreaction-degenerate}
+
+\begin{principle}[Rank-one twisted-holonomy backreaction is metric-degenerate]
+\label{prin:innovation-soldering-twisted-holonomy-backreaction-degenerate}
+Consider the schematic twisted-holonomy backreaction channel on a
+two-torus $\mathbb T^2$, in which a solenoid ledger is asked to react
+back on an emergent metric row through a single innovation displacement
+$\Delta=(\Delta x,\Delta y)$ read against a scalar weight $w_1 w_2$. The
+displayed metric components take the outer-product form
+$$
+g_{\mu\nu}=w_1 w_2\,\Delta_\mu\Delta_\nu,
+$$
+so that
+$$
+g_{xx}=w_1 w_2\,\Delta x\,\Delta x,
+\quad
+g_{xy}=w_1 w_2\,\Delta x\,\Delta y,
+\quad
+g_{yx}=w_1 w_2\,\Delta y\,\Delta x,
+\quad
+g_{yy}=w_1 w_2\,\Delta y\,\Delta y.
+$$
+This is the outer product of the two-vector $\Delta$ with itself scaled
+by $w_1 w_2$; its rank is at most one, hence the two-by-two determinant
+vanishes identically:
+$$
+\det g
+=
+g_{xx}g_{yy}-g_{xy}g_{yx}
+=
+(w_1 w_2)^2\bigl(\Delta x\,\Delta x\,\Delta y\,\Delta y
+-\Delta x\,\Delta y\,\Delta y\,\Delta x\bigr)
+=
+0.
+$$
+A degenerate row ($\det g=0$) admits no inverse, hence no curvature
+invariant, so this schematic channel does not read out a nondegenerate
+two-dimensional geometry. This is an honest negative and falsifiable
+outcome, not a suppressed obstacle: the rank-one twisted-holonomy
+backreaction row is exactly the failure mode that
+\autoref{prin:innovation-soldering-one-tick-not-full-metric} anticipates,
+where a single innovation direction is renamed as a metric. Because the
+degeneracy is forced by the outer-product shape rather than by any
+prime-register content of the solenoid, the channel does not privilege
+the solenoid structure: the same rank-one row is produced by a
+continuous $\mathrm U(1)$ flat bundle carrying the same single
+displacement. The wording here is schematic and asserts no physical
+metric; it records only that this particular backreaction row cannot
+supply the nondegenerate signature demanded by
+\autoref{def:innovation-soldering-metric-row}.
+\leanstmt{BEDC.Derived.Visions.backreaction\_metric\_det\_zero}
+\end{principle}
+
+\begin{principle}[Two independent drivers restore metric nondegeneracy]
+\label{prin:innovation-soldering-two-driver-nondegenerate}
+The rank-one degeneracy of
+\autoref{prin:innovation-soldering-twisted-holonomy-backreaction-degenerate}
+is not the end of the schematic backreaction story but its exact lower
+boundary; the present principle is the constructive companion that
+locates where a nondegenerate row first becomes available. Replace the
+single innovation displacement by two schematic relative-holonomy
+drivers $\Delta^{(1)}=(\Delta^{(1)}_x,\Delta^{(1)}_y)$ and
+$\Delta^{(2)}=(\Delta^{(2)}_x,\Delta^{(2)}_y)$ read against positive
+scalar weights $w_1,w_2$, and form the weighted sum of the two
+outer-product rows:
+$$
+g_{\mu\nu}
+=
+w_1\,\Delta^{(1)}_\mu\Delta^{(1)}_\nu
++
+w_2\,\Delta^{(2)}_\mu\Delta^{(2)}_\nu.
+$$
+Each summand is individually rank-one, but the two-by-two determinant of
+the sum is governed by the Cauchy--Binet identity and collapses to a
+single wedge square:
+$$
+\det g
+=
+w_1 w_2\,\bigl(\Delta^{(1)}\wedge\Delta^{(2)}\bigr)^2,
+\qquad
+\Delta^{(1)}\wedge\Delta^{(2)}
+=
+\Delta^{(1)}_x\Delta^{(2)}_y-\Delta^{(1)}_y\Delta^{(2)}_x.
+$$
+With $w_1,w_2$ nonzero this determinant vanishes if and only if the wedge
+does, that is, if and only if the two drivers are linearly dependent;
+whenever $\Delta^{(1)}$ and $\Delta^{(2)}$ are linearly independent the
+row is nondegenerate, admits an inverse, and can carry a curvature
+invariant. This delineates the precise boundary of what a schematic
+backreaction channel can hand to geometry: a single driver is forced to
+be degenerate
+(\autoref{prin:innovation-soldering-twisted-holonomy-backreaction-degenerate}),
+while any two linearly independent relative-holonomy drivers already
+suffice for a nondegenerate emergent two-dimensional row --- one is never
+enough, two independent are always enough. The wording remains schematic
+and asserts no physical metric or dynamics; it records only the finite
+algebraic fact that the wedge of two independent drivers is exactly the
+resource the rank-one channel was missing, so the honest negative of
+\autoref{prin:innovation-soldering-twisted-holonomy-backreaction-degenerate}
+is paired with an equally honest constructive sufficiency at the
+two-driver threshold.
+\leanstmt{BEDC.Derived.Visions.two\_driver\_det\_eq\_weighted\_wedge\_sq}
+\end{principle}
+
+\begin{principle}[Innovation-soldering proof boundary]
+\label{prin:innovation-soldering-proof-boundary}
+The chapter supplies the formal target for a genuine ledger-geometry
+coupling: construct $\Theta=Q_{\mathcal L}D_{\Phi}B$, prove the required
+rank and Lorentz-signature rows, and then read the metric through
+$g=G(\Theta,\Theta)$. It does not derive Einstein dynamics, empirical
+matter coupling, or quantum gravity. Those claims would require field
+equations and action rows in which variation of the ledger field changes
+the induced metric and curvature.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-innovation-soldering-metric-interface-namecert}{The finite NameCert carrier records the ledger-innovation-projector-soldering-signature-metric interface and its Nontrivial and FieldFaithful instance requirements.}

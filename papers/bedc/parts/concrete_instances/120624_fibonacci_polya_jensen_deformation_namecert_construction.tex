@@ -1,0 +1,78 @@
+\chapter{The Fibonacci--Polya Jensen Deformation}
+\label{ch:concrete-instances-fibonacci-polya-jensen-deformation}
+\origin{ai}
+
+This chapter records a finite lambda-deformation of the Fibonacci--Polya Jensen kernel. Let
+$$
+\widehat J^{d,n}(X)=X^dJ^{d,n}(1/X)
+$$
+be the reciprocal Jensen polynomial attached to the Taylor coefficients $\gamma_n$ of the Riemann $\xi$ function. For a Fibonacci cube of length $m$, set
+$$
+W_m(T)=\sum_k \binom{m-k+1}{k}T^k.
+$$
+The deformation is
+$$
+F^{(\lambda)}_{m,d,n}(X)=W_m(\lambda D)\widehat J^{d,n}(X),
+$$
+where $D=d/dX$. At $\lambda=0$ this is the actual reciprocal xi Jensen polynomial. At $\lambda=1$ this is the Fibonacci-smoothed window. The parameter therefore embeds the actual degree window into a finite Polya--Schur smoothing family without replacing the xi coefficients by a Fibonacci counting model.
+
+\section{Degree-Two Lambda Discriminant}
+\label{sec:fibonacci-polya-jensen-deformation-degree-two}
+
+In degree two write
+$$
+\widehat J^{2,n}(X)=aX^2+2bX+c,
+$$
+where $a=\gamma_n$, $b=\gamma_{n+1}$, and $c=\gamma_{n+2}$. Since
+$$
+W_m(\lambda D)=1+m\lambda D+\frac{(m-1)(m-2)}{2}\lambda^2D^2
+$$
+on degree-two polynomials, the deformed window is
+$$
+F^{(\lambda)}_{m,2,n}(X)
+=aX^2+(2am\lambda+2b)X+
+\left(a\lambda^2m^2-3a\lambda^2m+2a\lambda^2+2bm\lambda+c\right).
+$$
+Its discriminant is the finite identity
+$$
+\operatorname{disc}F^{(\lambda)}_{m,2,n}
+=4\left((b^2-ac)+(3m-2)\lambda^2a^2\right).
+$$
+Equivalently,
+$$
+\operatorname{disc}F^{(\lambda)}_{m,2,n}-4(b^2-ac)
+=4(3m-2)\lambda^2a^2.
+$$
+For $m\ge 1$, the Fibonacci term is nonnegative after the usual shift $m\mapsto m+1$. Thus the deformation certifies a continuous hyperbolicity stability margin from the actual Jensen discriminant at $\lambda=0$ to the Fibonacci-smoothed margin at $\lambda=1$.
+
+\begin{theorem}[Fibonacci--Polya lambda-deformation Jensen certificate]
+\label{thm:fibonacci-polya-jensen-deformation-certificate}
+The degree-two lambda-deformed Fibonacci--Polya Jensen window has the symbolic discriminant certificate
+$$
+\operatorname{disc}F^{(\lambda)}_{m,2,n}
+=4\left((\gamma_{n+1}^2-\gamma_n\gamma_{n+2})+(3m-2)\lambda^2\gamma_n^2\right).
+$$
+The specialization $\lambda=0$ gives the actual reciprocal Jensen discriminant $4(\gamma_{n+1}^2-\gamma_n\gamma_{n+2})$, the specialization $\lambda=1$ gives the Fibonacci-smoothed degree-two window, and the difference from the actual Jensen discriminant is the explicit lambda-square margin.
+\end{theorem}
+\leanchecked{BEDC.Derived.FibonacciPolyaJensenDeformation.fibonacci\_polya\_jensen\_deformation\_certificate}
+
+\section{Honest Scope}
+\label{sec:fibonacci-polya-jensen-deformation-honest-scope}
+
+This is a finite Jensen stability-margin certificate under Fibonacci Polya--Schur deformation, interpolating the actual reciprocal xi Jensen polynomial at $\lambda=0$ and the Fibonacci-smoothed window at $\lambda=1$. It is a genuine finite RH-shadow, not a sharper attack on RH, not a Zeckendorf model of xi, and not a proof of the Riemann Hypothesis. The coefficients $\gamma_n,\gamma_{n+1},\gamma_{n+2}$ remain symbolic throughout.
+
+The Lean certificate proves the algebraic normal-form identity for the lambda discriminant, the $\lambda=0$ and $\lambda=1$ specializations, and the lambda-square margin identity. It does not evaluate xi coefficients, does not assert global hyperbolicity for all Jensen degrees, and does not discharge any analytic zero-location theorem. Its role is to place the actual degree-two Jensen discriminant inside a finite hyperbolicity-preserving deformation whose extra Fibonacci contribution is visible and nonnegative in the certified margin.
+
+\falsifiablePrediction{A recomputation of the symbolic degree-two deformation that changes the coefficient tuple $(a,2am\lambda+2b,a\lambda^2m^2-3a\lambda^2m+2a\lambda^2+2bm\lambda+c)$, the lambda discriminant term $4((b^2-ac)+(3m-2)\lambda^2a^2)$, the $\lambda=0$ Turan specialization, or the $\lambda=1$ Fibonacci-window specialization refutes this packet.}
+
+\independenceWitness{riemann-hypothesis, zeckendorf-coefficient-models: this packet is a finite Jensen stability-margin certificate under Fibonacci Polya--Schur deformation, interpolating the actual reciprocal xi Jensen polynomial at $\lambda=0$ and the Fibonacci-smoothed window at $\lambda=1$; it is not a proof of RH and not a model identifying xi coefficients with Fibonacci or Zeckendorf counts.}
+
+\begin{closurestatus}{FibonacciPolyaJensenDeformation}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{degree-2 $\lambda$-discriminant identity plus $\lambda=0$ and $\lambda=1$ specializations and margin, with symbolic $\gamma$ coefficients.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FibonacciPolyaJensenDeformation.fibonacci\_polya\_jensen\_deformation\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; a finite Jensen stability-margin certificate under Fibonacci deformation, degree-2 discriminant identity interpolating lambda=0 (actual Jensen) and lambda=1 (Fibonacci window); not a Zeckendorf model of xi.}
+  \upgradepath{certify hyperbolicity and root separation over rational lambda-intervals for higher degree $d$.}
+\end{closurestatus}

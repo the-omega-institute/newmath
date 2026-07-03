@@ -1,0 +1,549 @@
+\chapter{Source-Positive Obligation Frontier}
+\label{ch:visions-rh-source-positive-obligation-frontier}
+\origin{ai}
+
+\autoref{ch:visions-rh-final-moment-obligation-core} isolates the finite
+moment core behind the RH route. This chapter records the remaining
+source-positive frontier as named proof obligations rather than as
+another list of equivalent RH criteria. The Li coordinate, the
+scale-phase split, the Hausdorff reduction, the finite Pick
+factorizations, and the triangular moment tower are already reduction
+surfaces in the preceding chapters. The unreduced content is the
+construction showing that the completed zeta source data generate the
+positive object those reductions require.
+
+\section{Common Observation Coordinate}
+\label{sec:rh-source-positive-common-coordinate}
+
+\begin{definition}[Source-positive observation coordinate]
+\label{def:rh-source-positive-observation-coordinate}
+Fix a centered zeta coordinate and an active mode height
+$$
+s=\frac12+r+it,
+\qquad
+h_a>0.
+$$
+The centered mode readout is
+$$
+U_a(s)
+:=
+e^{-(s-\frac12)h_a}
+=
+e^{-rh_a}e^{-ith_a}.
+$$
+Its logarithmic orthogonal observation vector is
+$$
+v_a(s):=(-rh_a,-th_a).
+$$
+For a finite active packet $A_m$, set
+$$
+W_m:=\sum_{a\in A_m}h_a^2,
+\qquad
+E_m^{\mathrm{scale}}:=r^2W_m.
+$$
+The notation is the same scale-phase read used in
+\autoref{def:rh-centered-phase-scale-mode} and
+\autoref{def:rh-orthogonal-scale-phase-energy-readout}; it is fixed here
+only to name the common projection coordinate for the source-positive
+frontier.
+\end{definition}
+
+\begin{definition}[Triadic frontier roles]
+\label{def:rh-source-positive-triadic-frontier-roles}
+The source-positive frontier reads every unresolved RH-facing obligation
+through three roles:
+$$
+\mathsf P
+:=
+\text{prime, Gamma, rational-boundary, and ledger source rows},
+$$
+$$
+\mathsf U
+:=
+\text{unit-boundary, positive-kernel, or positive-measure row},
+$$
+and
+$$
+\mathsf T
+:=
+\text{finite witness, finite tower, or analytic continuation row}.
+$$
+The role split is a bookkeeping constraint. It does not assert
+positivity; it identifies which row must carry the source, which row must
+carry nonnegativity, and which row must make failures finitely visible or
+transport equality through the analytic domain.
+\end{definition}
+
+\section{Legal Source and Pick Factorization}
+\label{sec:rh-source-positive-legal-pick}
+
+\begin{definition}[ZetaIsBEDCLegalObject]
+\label{def:rh-zeta-is-bedc-legal-object}
+The obligation
+$$
+\mathsf{ZetaIsBEDCLegalObject}
+$$
+asserts that every completed zeta observation relevant to a non-trivial
+zero is represented by a BEDC triadic generator. The $\mathsf P$ row
+displays the source ledger: prime-power frequencies, Gamma normalization,
+functional-equation normalization, continuation rows, and the
+prime-register accounting behind logarithmic heights. The $\mathsf U$
+row displays the admissible unit-boundary or positive-kernel closure; a
+positive real radial scale factor may not be hidden in the solenoid
+prime fiber. The $\mathsf T$ row displays the finite witness tower that
+connects zero packets, moment packets, and Pick packets without
+posterior repair.
+\end{definition}
+
+\begin{principle}[Legal zeta object refines the embedding ledger]
+\label{prin:rh-zeta-legal-object-refines-embedding-ledger}
+$\mathsf{ZetaIsBEDCLegalObject}$ is the source-positive strengthening of
+the embedding obligations of
+\autoref{def:rh-zeta-bedc-embedding-obligation},
+\autoref{def:rh-zeta-bedc-circle-triangle-embedding}, and
+\autoref{def:rh-bedc-legal-zeta-phase-object}. Those obligations name
+the carrier and projection rows. The legal-object frontier additionally
+requires that the positive witness used by the RH route be generated
+from the same source ledger rather than attached after the zero packet
+has been inspected.
+\end{principle}
+
+\begin{definition}[Triangular legality rows for completed xi]
+\label{def:rh-triangular-legality-rows-completed-xi}
+A triangular legality row for a completed xi zero packet with centered
+coordinate
+$$
+\rho=\frac12+r+it
+$$
+is the part of a $\mathsf{ZetaIsBEDCLegalObject}$ witness that supplies
+the following data. Each active mode $a$ has a source-ledger height
+$h_a>0$ coming from prime, Gamma, normalization, or continuation rows,
+and its centered channel is
+$$
+U_a(\rho)
+=
+e^{-(\rho-\frac12)h_a}
+=
+e^{-rh_a}e^{-ith_a}.
+$$
+The solenoid gauge row is phase-valued:
+$$
+0\to K_S\to\Sigma_S\to\mathbb T\to0,
+\qquad
+K_S\cong\prod_{p\in S}\mathbb Z_p,
+$$
+so a factor in $\RealUp_{>0}$ is not a hidden solenoid fibre. The
+orthogonal observation row is
+$$
+v_a(\rho):=(-rh_a,-th_a),
+\qquad
+|v_a(\rho)|^2=r^2h_a^2+t^2h_a^2.
+$$
+For finite active packets $A_m$, set
+$$
+W_m:=\sum_{a\in A_m}h_a^2,
+\qquad
+E_m^{\mathrm{scale}}(\rho):=r^2W_m.
+$$
+The cofinal triangular closure row requires
+$$
+W_m\to\infty,
+\qquad
+E_m^{\mathrm{scale}}(\rho)\le B_{\rho}
+$$
+for a bound $B_{\rho}$ attached to the zero packet. The bound is a
+ledgered unit-positive or Pick/Hausdorff stability row; it is not a
+positive real scale register.
+\end{definition}
+
+\begin{theorem}[Legal triangular xi construction is conditionally RH-sufficient]
+\label{thm:rh-legal-triangular-xi-construction-conditionally-rh-sufficient}
+Assume every completed non-trivial xi zero packet carries a
+$\mathsf{ZetaIsBEDCLegalObject}$ witness whose triangular legality rows
+are as in \autoref{def:rh-triangular-legality-rows-completed-xi}. Then
+the BEDC RH section target is inhabited.
+\end{theorem}
+
+\begin{proof}
+Let a completed non-trivial zero packet have centered coordinate
+$$
+\rho=\frac12+r+it.
+$$
+The triangular legality rows give
+$$
+E_m^{\mathrm{scale}}(\rho)=r^2W_m,
+\qquad
+W_m\to\infty,
+\qquad
+E_m^{\mathrm{scale}}(\rho)\le B_{\rho}.
+$$
+If $r\#0$, then $r^2>0$, so the first two rows imply
+$$
+E_m^{\mathrm{scale}}(\rho)\to\infty.
+$$
+This contradicts the displayed bound row. Hence the centered radial
+coordinate has no apartness from zero, and the located real readback in
+the zero packet gives $r=0$. Therefore
+$$
+\operatorname{Re}(\rho)=\frac12.
+$$
+Since the zero packet was arbitrary, the corresponding section sends
+every completed non-trivial zero packet to its fixed-half witness.
+\end{proof}
+
+\begin{principle}[Legal construction is stronger than analytic description]
+\label{prin:rh-legal-construction-stronger-than-description}
+The theorem does not assert that any formal description of $\xi$ is
+enough. The construction must retain the source ledger, preserve the
+triangular square-norm invariant, route visible reads through
+$\mathbb T$ and the compact prime-register fibre, and supply the bounded
+unit-positive row that prevents $E_m^{\mathrm{scale}}$ from becoming an
+unledgered $\RealUp_{>0}$ coordinate. Thus the remaining analytic burden
+is to construct $\mathsf{ZetaIsBEDCLegalObject}$, for example through a
+source-built Pick factorization or through the xi Hausdorff moment
+positivity route.
+\end{principle}
+
+\begin{definition}[SourcePickHilbertFactorization]
+\label{def:rh-source-positive-frontier-pick-hilbert-factorization}
+For the completed zeta Pick target of
+\autoref{def:rh-completed-zeta-pick-target}, the obligation
+$$
+\mathsf{SourcePickHilbertFactorization}
+$$
+asserts the existence of a Hilbert row $\mathcal H$ and a feature map
+$\Phi:\mathbb D\to\mathcal H$ such that
+$$
+K_{\xi}(z,w)
+=
+\langle \Phi(z),\Phi(w)\rangle_{\mathcal H}
+$$
+for all displayed disk coordinates $z,w$. The carrier $\mathcal H$ and
+the map $\Phi$ must be constructed from prime, Gamma, rational-boundary,
+normalization, and continuation source rows. They may not be defined from
+the posterior zero set of $\xi$.
+\end{definition}
+
+\begin{principle}[Pick factorization is an aggregate source balance]
+\label{prin:rh-source-pick-factorization-aggregate-balance}
+The Pick factorization obligation is not a demand that the prime,
+Gamma, and rational-boundary summands be separately positive kernels.
+The prime component enters through the sign of $\zeta'/\zeta$, while the
+Gamma and boundary rows carry archimedean and completion data. The
+frontier requires an aggregate Gram representation for the completed
+kernel, with the negative and positive source contributions balanced in
+one source-built inner-product row.
+\end{principle}
+
+\begin{definition}[PZGSourceCompletenessForZeta]
+\label{def:rh-pzg-source-completeness-for-zeta}
+The obligation
+$$
+\mathsf{PZGSourceCompletenessForZeta}
+$$
+asserts that every source-side Dirichlet mode used by the completed zeta
+carrier is read through the Prime--Zeckendorf--Goedel filtration of
+\autoref{def:rh-prime-zeckendorf-goedel-register}. In the source-safe
+half-plane, this means that each mode has the displayed form
+$$
+n^{-s}
+=
+n^{-1/2}
+\exp\left(
+-(r+it)\sum_{p,k}z_{p,k}(n)F_k\log p
+\right)
+$$
+for
+$$
+s=\frac12+r+it.
+$$
+The pointwise identity follows from the single-mode bridge of
+\autoref{thm:rh-single-mode-continuous-discrete-bridge}. The obligation
+is the uniform source certificate: the same PZG ledger must remain
+attached to Euler products, logarithmic derivatives, Gamma completion,
+and the positive moment or Pick readouts used later in the route.
+\end{definition}
+
+\begin{principle}[Analytic continuation is not source-completeness by itself]
+\label{prin:rh-analytic-continuation-not-source-completeness}
+Analytic continuation preserves a meromorphic function after the local
+data and domain are fixed, but it does not by itself prove that the PZG
+source ledger, positive-kernel row, and finite witness tower have been
+transported. The continuation row needed here is triadic: it must retain
+the source ledger, preserve the positive row supplied by the Pick or
+Hausdorff mechanism, and expose branch and pole boundaries in finite
+witness data.
+\end{principle}
+
+\begin{theorem}[Source Pick factorization supplies the positive witness]
+\label{thm:rh-source-pick-factorization-supplies-positive-witness}
+If $\mathsf{SourcePickHilbertFactorization}$ holds, then the completed
+zeta Pick kernel is positive definite by a source-side certificate.
+\end{theorem}
+
+\begin{proof}
+For any finite disk rows $z_1,\ldots,z_N$ and coefficients
+$c_1,\ldots,c_N$, the factorization gives
+$$
+\sum_{i,j=1}^{N}
+c_i\overline{c_j}K_{\xi}(z_i,z_j)
+=
+\left\|
+\sum_{i=1}^{N}c_i\Phi(z_i)
+\right\|_{\mathcal H}^2
+\ge0.
+$$
+The source condition on $\mathcal H$ and $\Phi$ records that this
+positive witness belongs to the zeta source ledger rather than to a
+zero-location oracle.
+\end{proof}
+
+\section{Moment Positivity Frontier}
+\label{sec:rh-source-positive-moment-frontier}
+
+\begin{definition}[Normalized xi moment frontier]
+\label{def:rh-normalized-xi-moment-frontier}
+All moment rows in this frontier use the normalization of
+\autoref{def:rh-xi-source-stieltjes-candidate}:
+$$
+S_{\xi}(x)
+:=
+2\frac{G'(x)}{G(x)}.
+$$
+The moment sequence is
+$$
+a_n
+:=
+\frac{(-1)^n}{n!}
+\left.
+\frac{d^n}{dx^n}S_{\xi}(x)
+\right|_{x=1},
+$$
+and the finite moment-difference row is
+$$
+M_{n,k}
+:=
+(-1)^k\Delta^k a_n.
+$$
+Thus $x=1$, equivalently $s=3/2$, is the source-safe base point for the
+moment audit.
+\end{definition}
+
+\begin{principle}[PrimeGammaTriadicCancellation is the explicit source inequality]
+\label{prin:rh-prime-gamma-cancellation-frontier-role}
+$\mathsf{PrimeGammaTriadicCancellation}$, defined in
+\autoref{def:rh-prime-gamma-triadic-cancellation}, is the explicit
+source-side inequality
+$$
+M_{n,k}^{\mathrm{rat}}
++
+M_{n,k}^{\Gamma}
++
+M_{n,k}^{\mathbb P}
+\ge0
+\qquad
+(n,k\ge0).
+$$
+Its $\mathsf P$ row is the von Mangoldt, Gamma, and rational-boundary
+ledger of \autoref{def:rh-prime-gamma-source-decomposition}. Its
+$\mathsf U$ row is the nonnegative aggregate result. Its $\mathsf T$ row
+is the finite index $(n,k)$, because any failure is a displayed negative
+entry in the Hausdorff difference triangle.
+\end{principle}
+
+\begin{principle}[BEDCSourceNormFormula is the square-norm form]
+\label{prin:rh-bedc-source-norm-frontier-role}
+$\mathsf{BEDCSourceNormFormula}$, defined in
+\autoref{def:rh-bedc-source-norm-formula}, is the stronger certificate
+that the same finite moment difference is a source-built norm square:
+$$
+M_{n,k}
+=
+\|\Psi_{n,k}^{\mathrm{source}}\|_{\mathcal H_{n,k}}^2.
+$$
+In triadic form, $\Psi_{n,k}^{\mathrm{source}}$ displays the source
+ledger row, the unit-positive inner-product row, and the finite
+difference witness row. This formula implies nonnegativity immediately
+and explains the cancellation demanded by
+$\mathsf{PrimeGammaTriadicCancellation}$.
+\end{principle}
+
+\begin{principle}[XiHausdorffMomentPositivity is the finite audit form]
+\label{prin:rh-xi-hausdorff-frontier-role}
+$\mathsf{XiHausdorffMomentPositivity}$, defined in
+\autoref{def:rh-xi-hausdorff-moment-positivity}, is the finite audit
+form of source positivity:
+$$
+(-1)^k\Delta^k a_n\ge0
+\qquad
+(n,k\ge0).
+$$
+It is weaker as an explanation than a source norm formula, but it is the
+exact Hausdorff condition needed to construct a positive measure on
+$[0,1]$ through the route of
+\autoref{thm:rh-xi-hausdorff-positivity-gives-source-measure}.
+\end{principle}
+
+\section{Analytic Identification and Finite Tower}
+\label{sec:rh-source-positive-analytic-tower}
+
+\begin{definition}[HausdorffToXiAnalyticContinuation]
+\label{def:rh-hausdorff-to-xi-analytic-continuation}
+Assume the Hausdorff moment row produces a positive measure $\mu$ on
+$[0,1]$ and the transform
+$$
+\widetilde S_{\xi}(x)
+:=
+\int_0^1
+\frac{1}{1+(x-1)y}
+\,d\mu(y)
+$$
+as in \autoref{def:rh-xi-hausdorff-transform-readout}. The obligation
+$$
+\mathsf{HausdorffToXiAnalyticContinuation}
+$$
+asserts that
+$$
+\widetilde S_{\xi}(x)=S_{\xi}(x)
+$$
+on the displayed analytic domain of the completed zeta carrier. The row
+must expose the local Taylor agreement at $x=1$, the connected analytic
+domain used for continuation, the branch choice for $\sqrt{x}$, and the
+pole-exclusion information needed to apply uniqueness of analytic
+continuation without hiding an off-line zero behind a branch or pole
+boundary.
+\end{definition}
+
+\begin{definition}[BEDCFiniteMeasureTowerConvergence]
+\label{def:rh-bedc-finite-measure-tower-convergence}
+For each positive triangular level $N\ge1$, let
+$$
+B_{N,j}(y)
+:=
+\binom Nj y^j(1-y)^{N-j}
+$$
+and form the finite Bernstein atomic measure
+$$
+\mu_N
+:=
+\sum_{j=0}^{N}
+L_N(B_{N,j})\delta_{j/N}
+$$
+from the finite moment functional of
+\autoref{def:rh-bernstein-basis-moment-functional}. Define
+$$
+S_N(x)
+:=
+\int_0^1
+\frac{1}{1+(x-1)y}
+\,d\mu_N(y).
+$$
+The obligation
+$$
+\mathsf{BEDCFiniteMeasureTowerConvergence}
+$$
+asserts local convergence
+$$
+S_N\to S_{\xi}
+$$
+on the same displayed analytic domain, with convergence carried by the
+finite tower ledger rather than by an uninspected limiting measure.
+\end{definition}
+
+\begin{principle}[Tower convergence is the finite constructive form]
+\label{prin:rh-finite-measure-tower-frontier-role}
+$\mathsf{BEDCFiniteMeasureTowerConvergence}$ is the finite constructive
+form of the positive spectral measure. The $\mathsf P$ row is the finite
+moment and Bernstein ledger, the $\mathsf U$ row is the finite positive
+atomic measure and its Pick kernel, and the $\mathsf T$ row is local
+convergence of the tower. It is compatible with
+\autoref{def:rh-triangular-moment-certificate-tower}, whose convergence
+row identifies the limit with $S_{\xi}$.
+\end{principle}
+
+\section{Compressed Frontier Package}
+\label{sec:rh-source-positive-compressed-frontier}
+
+\begin{definition}[Source-positive unresolved package]
+\label{def:rh-source-positive-unresolved-package}
+The source-positive unresolved package is the finite list of named
+proof obligations
+$$
+\begin{gathered}
+\mathsf{ZetaIsBEDCLegalObject},\\
+\mathsf{PZGSourceCompletenessForZeta},\\
+\mathsf{SourcePickHilbertFactorization},\\
+\mathsf{PrimeGammaTriadicCancellation},\\
+\mathsf{BEDCSourceNormFormula},\\
+\mathsf{XiHausdorffMomentPositivity},\\
+\mathsf{HausdorffToXiAnalyticContinuation},\\
+\mathsf{BEDCFiniteMeasureTowerConvergence}.
+\end{gathered}
+$$
+The list is ordered by proof role rather than by logical independence:
+the legal-object row admits the completed zeta carrier, the source Pick
+row gives the kernel-positive target directly, the moment rows give a
+finite-audit route to the same positivity, and the analytic and tower
+rows identify the finite or moment constructions with the original
+completed zeta function.
+\end{definition}
+
+\begin{principle}[Minimal source-positive core]
+\label{prin:rh-source-positive-minimal-core}
+Inside the moment route, the compressed mathematical core is
+$$
+\mathsf{PrimeGammaTriadicCancellation},
+\qquad
+\mathsf{BEDCSourceNormFormula},
+\qquad
+\mathsf{HausdorffToXiAnalyticContinuation}.
+$$
+The norm formula is a stronger explanatory form of the cancellation
+inequality; either route must supply
+$\mathsf{XiHausdorffMomentPositivity}$. The analytic continuation row then
+identifies the Hausdorff transform with the original normalized
+$S_{\xi}$ rather than with a separate function sharing only Taylor
+coefficients at the source-safe base point.
+\end{principle}
+
+\begin{theorem}[Source-positive frontier is conditionally RH-sufficient]
+\label{thm:rh-source-positive-frontier-conditionally-sufficient}
+Assume $\mathsf{ZetaIsBEDCLegalObject}$ and the standard zero-exclusion
+transport for the completed zeta carrier. Assume either
+$\mathsf{SourcePickHilbertFactorization}$ or the moment route consisting
+of $\mathsf{XiHausdorffMomentPositivity}$, the Hausdorff moment theorem
+for the xi moment row, and
+$\mathsf{HausdorffToXiAnalyticContinuation}$. Then the BEDC RH section
+target is inhabited.
+\end{theorem}
+
+\begin{proof}
+If the source Pick factorization holds, then
+\autoref{thm:rh-source-pick-factorization-supplies-positive-witness}
+gives the positive completed Pick kernel from a source-side certificate.
+The legal-object row supplies the zero-ledger and no-hidden-radial
+transport needed to apply the logarithmic-derivative zero-exclusion
+route of \autoref{prin:rh-source-hilbert-positivity-remaining-discharge}.
+
+If instead the moment route is used, Hausdorff positivity supplies a
+positive measure by
+\autoref{thm:rh-xi-hausdorff-positivity-gives-source-measure}. The
+analytic-continuation row identifies its transform with $S_{\xi}$ on the
+displayed analytic domain. Then
+\autoref{thm:rh-xi-hausdorff-audit-conditionally-rh-sufficient} applies
+the Stieltjes-to-zero-exclusion transport to obtain the RH section
+target. In both cases, $\mathsf{ZetaIsBEDCLegalObject}$ prevents the
+positive witness from being detached from the completed zeta source
+ledger.
+\end{proof}
+
+\begin{principle}[Status of the source-positive frontier]
+\label{prin:rh-source-positive-frontier-status}
+This frontier contains proof obligations only. It does not reassert the
+classical equivalences and reductions already recorded in the RH
+visions. The constructive content still to be supplied is that the
+prime, Gamma, rational-boundary, normalization, and continuation source
+data of completed zeta generate a positive moment measure or a
+source-built Pick factorization whose analytic continuation is the
+original completed zeta readout.
+\end{principle}

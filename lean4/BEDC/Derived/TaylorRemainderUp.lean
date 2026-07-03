@@ -1,6 +1,1 @@
-namespace BEDC.Derived
-
-inductive TaylorRemainderUp : Type
-  | carrier
-
-end BEDC.Derived
+import BEDC.Derived.TaylorRemainderUp.TasteGate

@@ -1,0 +1,15 @@
+\begin{theorem}[Frechet-Kolmogorov finite-window compactness handoff]
+\label{thm:frechet-kolmogorov-compactness-finite-window-handoff}
+Every accepted $\FrechetKolmogorovCompactnessUp$ compactness read that is exported to a finite-net or compact-metric consumer must route through the displayed boundedness row, finite translation-modulus row, tail-cutoff row, finite-net extraction row, $\RealUp$ and $\RegSeqRatUp$ readback rows, $\MetricUp$ distance rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\FrechetKolmogorovCompactnessUp}$ row before compactness is public. In carrier notation the handoff refines the local route
+$$
+M,T,E,Q,C,S,R,H,A,P,N
+$$
+by requiring boundedness, translation control, tail cutoff, finite nets, Real readback, rational readback, and metric-distance rows to be visible before the consumer can use the compactness criterion. The handoff exports no ambient compactness theorem, open-cover compactness, countable choice, selected subsequence, selected subcover, quotient completion equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations of \autoref{thm:frechet-kolmogorov-compactness-namecert-obligations}. They force the compact-metric source $M$, total-bounded finite-net row $T$, uniform-modulus row $E$, completion boundary $Q$, finite-window row $S$, readback row $R$, and structural rows $H,A,P,N$ to be displayed before a compactness-facing consumer receives the packet.
+
+Read the additional finite-window controls through the same route. The boundedness row is supplied by the bounded-set dependency already named in the chapter introduction, the finite translation-modulus and tail-cutoff rows are consumed as uniform-window controls, and the finite-net extraction row is read through the total-bounded handoff of \autoref{thm:frechet-kolmogorov-compactness-total-bounded-handoff}. The $\MetricUp$ distance rows and the $\RealUp,\RegSeqRatUp$ readbacks attach the tolerance comparisons to the displayed windows.
+
+Finally apply the completion boundary of \autoref{thm:frechet-kolmogorov-compactness-completion-boundary}. The structural rows only transport, replay, source, and locally name the same finite handoff, so no coordinate remains for ambient compactness, open-cover compactness, countable choice, selected subsequences, selected subcovers, quotient completion equality, or ambient Real completeness.
+\end{proof}

@@ -61,6 +61,7 @@ Finally, $H,C,P,N$ transport, replay, package, and name the same rows. Since non
 \label{thm:primitive-recursion-unary-schedule-realization}
 Let $R=(D,S,T,U,W,Q,H,C,P,N)$ be an accepted $\PrimitiveRecursionUp$ carrier. The schedule row $W$ is realized by induction on the UnaryHistory trace $U$: the zero cell reads the seed row $S$, and each successor cell reads the preceding trace value together with the displayed step row $T$. Consequently every schedule exported by $W$ is indexed by the $\NatUp$ depth $D$ and by no host natural-number recursion coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.PrimitiveRecursionUp.PrimitiveRecursionCarrier\_unary\_schedule\_realization}
 \begin{proof}
 Induct on the UnaryHistory trace row $U$. In the base case the only admitted trace cell is the displayed seed $S$, and the schedule opened by $W$ has zero-depth source $D$.
 
@@ -77,6 +78,7 @@ D \longmapsto S \longmapsto T \longmapsto U \longmapsto W \longmapsto Q \longmap
 $$
 Thus downstream L10 Real and Completion consumers, including routes that later use $\RegularCauchySubtractionUp$, receive a displayed unary schedule, seed, step, trace, stream window schedule, regular rational consumer row, transport, replay, provenance, and local naming. They receive no host natural-number recursion, unbounded minimisation, quotient stream equality, countable choice, selected limit, ambient completeness, Lean verification, or bridge checking.
 \end{theorem}
+\leanchecked{BEDC.Derived.PrimitiveRecursionUp.PrimitiveRecursionStreamScheduleHandoff}
 \begin{proof}
 Begin with a stream-facing or regular-rational-facing read of $R$. By \autoref{def:primitive-recursion-carrier}, the only stream schedule coordinate is $W$, and the only regular rational consumer coordinate is $Q$.
 
@@ -85,6 +87,22 @@ The row $W$ is downstream of the unary depth $D$, seed $S$, step row $T$, and tr
 The row $Q$ then consumes $W$ through the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. Later real and completion routes may pass that scheduled read to sibling consumers such as \autoref{ch:concrete-instances-regular-cauchy-subtraction-namecert}, but they cannot bypass the displayed route.
 
 Componentwise transport, replay, provenance, and local naming preserve the same order. Hence every exported read factors through the stated finite route and exposes none of the excluded ambient data.
+\end{proof}
+
+\begin{theorem}[PrimitiveRecursion RegSeqRat consumer induction]
+\label{thm:primitive-recursion-regseqrat-consumer-induction}
+Let $R=(D,S,T,U,W,Q,H,C,P,N)$ be an accepted $\PrimitiveRecursionUp$ carrier. Any $\RegSeqRatUp$-facing consumer of $R$ is obtained by induction on the displayed UnaryHistory trace $U$ before the consumer row $Q$ is read: the base step reads the seed row $S$, the successor step reads the displayed step row $T$ against the predecessor trace cell, the schedule step reads $W$ only after that induction has generated the requested finite window, and the regular rational consumer step reads $Q$ only after $D,S,T,U,W$ are visible.
+
+Consequently L10 Real and Completion consumers inherit exactly the UnaryHistory induction route of the packet. They do not receive host recursion, unbounded minimisation, quotient stream equality, countable choice, or ambient $\RealUp$ completeness as part of the $\RegSeqRatUp$ handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:primitive-recursion-carrier}. The only recursion-bearing row is the displayed trace $U$, whose zero face is $S$ and whose successor face is replay of $T$ along the unary depth row $D$.
+
+Induct on $U$. In the base case, the consumer sees only the seed row $S$ before any stream schedule exists. In the successor case, the predecessor trace value is already available by the induction hypothesis, and the next value is admitted only through the displayed step row $T$.
+
+After the trace cell is produced, apply \autoref{thm:primitive-recursion-unary-schedule-realization}. The schedule row $W$ is therefore a finite window generated from $D,S,T,U$, not a host recursion coordinate.
+
+Finally apply \autoref{thm:primitive-recursion-stream-schedule-handoff}. The $\RegSeqRatUp$ row $Q$ consumes that schedule and cannot move ahead of it, while $H,C,P,N$ only transport, replay, source, and name the same finite packet. The excluded principles are absent from the carrier and hence absent from the consumer induction route.
 \end{proof}
 
 \closureat{PrimitiveRecursionUp}{seedStr}

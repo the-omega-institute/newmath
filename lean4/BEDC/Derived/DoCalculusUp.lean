@@ -368,4 +368,96 @@ theorem DoCalculusDisplayedPrefixSubledger_closure [AskSetup] [PackageSetup]
   }
   exact ⟨cert, prefixReadUnary, retainedReadUnary⟩
 
+theorem DoCalculusPacket_scoped_closure_route [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName prefixRead retainedRead probabilityRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusDisplayedPrefixSubledger intervention variables adjustment distribution independence
+        expectation exported htrans replay provenance localName prefixRead retainedRead bundle pkg →
+      Cont expectation exported probabilityRead →
+        Cont retainedRead probabilityRead scopedRead →
+          PkgSig bundle scopedRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row intervention ∨ hsame row variables ∨ hsame row adjustment ∨
+                    hsame row distribution ∨ hsame row independence ∨ hsame row expectation ∨
+                      hsame row exported ∨ hsame row prefixRead ∨ hsame row retainedRead ∨
+                        hsame row probabilityRead ∨ hsame row scopedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont intervention variables prefixRead ∧
+                    Cont prefixRead adjustment retainedRead ∧
+                      Cont expectation exported probabilityRead ∧
+                        Cont retainedRead probabilityRead scopedRead ∧
+                          PkgSig bundle scopedRead pkg)
+                hsame ∧
+              UnaryHistory prefixRead ∧ UnaryHistory retainedRead ∧
+                UnaryHistory probabilityRead ∧ UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle PkgSig
+  intro subledger probabilityRoute scopedRoute scopedPkg
+  obtain ⟨_subledgerCert, prefixReadUnary, retainedReadUnary⟩ :=
+    DoCalculusDisplayedPrefixSubledger_closure subledger
+  obtain ⟨packet, prefixRoute, retainedRoute, _retainedPkg⟩ := subledger
+  obtain ⟨_interventionUnary, _variablesUnary, _adjustmentUnary, _distributionUnary,
+    _independenceUnary, expectationUnary, exportedUnary, _htransUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _interventionVariablesAdjustment,
+    _adjustmentDistributionIndependence, _independenceExpectationExport,
+    _htransReplayProvenance, _localNamePkg⟩ := packet
+  have probabilityReadUnary : UnaryHistory probabilityRead :=
+    unary_cont_closed expectationUnary exportedUnary probabilityRoute
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed retainedReadUnary probabilityReadUnary scopedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row intervention ∨ hsame row variables ∨ hsame row adjustment ∨
+              hsame row distribution ∨ hsame row independence ∨ hsame row expectation ∨
+                hsame row exported ∨ hsame row prefixRead ∨ hsame row retainedRead ∨
+                  hsame row probabilityRead ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont intervention variables prefixRead ∧
+              Cont prefixRead adjustment retainedRead ∧
+                Cont expectation exported probabilityRead ∧
+                  Cont retainedRead probabilityRead scopedRead ∧ PkgSig bundle scopedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro scopedRead ⟨hsame_refl scopedRead, scopedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, prefixRoute, retainedRoute, probabilityRoute, scopedRoute,
+          scopedPkg⟩
+  }
+  exact ⟨cert, prefixReadUnary, retainedReadUnary, probabilityReadUnary, scopedReadUnary⟩
+
 end BEDC.Derived.DoCalculusUp

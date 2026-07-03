@@ -2,10 +2,14 @@ import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
 
 namespace BEDC.Derived.PhysicalLawBridgeUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
 
 theorem PhysicalLawBridgeFieldFaithfulObligation
     {law empirical bridge object fit failure transport replay provenance name nameRead
@@ -189,5 +193,279 @@ theorem PhysicalLawBridgeFieldFaithfulObligation
       transportUnary, replayUnary, provenanceUnary, nameUnary, nameReadUnary,
       obligationReadUnary, lawEmpiricalBridge, objectFitFailure, transportReplayProvenance,
       replayProvenanceName, transportReplayObligation⟩
+
+theorem PhysicalLawBridgeScopedTasteGateRoute [AskSetup] [PackageSetup]
+    {law empirical bridge object fit failure transport replay provenance name scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PhysicalLawBridgeCarrier law empirical bridge object fit failure transport replay
+        provenance name →
+      Cont replay provenance scopedRead →
+        hsame scopedRead name →
+          PkgSig bundle scopedRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                      hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                        hsame row scopedRead) ∧
+                    UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                    hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                      hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                        hsame row name ∨ hsame row scopedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont replay provenance scopedRead ∧
+                    hsame scopedRead name ∧ PkgSig bundle scopedRead pkg)
+                hsame ∧
+              Nonempty (ChapterTasteGate PhysicalLawBridgeUp) ∧
+                Nonempty (FieldFaithful PhysicalLawBridgeUp) ∧
+                  Nonempty (Nontrivial PhysicalLawBridgeUp) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier replayProvenance sameScoped scopedPkg
+  obtain ⟨_lawUnary, _empiricalUnary, _bridgeUnary, _objectUnary, _fitUnary,
+    _failureUnary, _transportUnary, replayUnary, provenanceUnary, _nameUnary,
+    _lawEmpiricalBridge, _objectFitFailure, _transportReplayProvenance⟩ := carrier
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenance
+  have scopedSource :
+      (fun row : BHist =>
+        (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨ hsame row object ∨
+            hsame row fit ∨ hsame row failure ∨ hsame row scopedRead) ∧
+          UnaryHistory row) scopedRead := by
+    exact
+      ⟨Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr (hsame_refl scopedRead)))))),
+        scopedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                  hsame row scopedRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+              hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row name ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont replay provenance scopedRead ∧
+              hsame scopedRead name ∧ PkgSig bundle scopedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopedRead scopedSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameLaw =>
+          exact Or.inl sameLaw
+      | inr rest₁ =>
+          cases rest₁ with
+          | inl sameEmpirical =>
+              exact Or.inr (Or.inl sameEmpirical)
+          | inr rest₂ =>
+              cases rest₂ with
+              | inl sameBridge =>
+                  exact Or.inr (Or.inr (Or.inl sameBridge))
+              | inr rest₃ =>
+                  cases rest₃ with
+                  | inl sameObject =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl sameObject)))
+                  | inr rest₄ =>
+                      cases rest₄ with
+                      | inl sameFit =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameFit))))
+                      | inr rest₅ =>
+                          cases rest₅ with
+                          | inl sameFailure =>
+                              exact
+                                Or.inr
+                                  (Or.inr
+                                    (Or.inr (Or.inr (Or.inr (Or.inl sameFailure)))))
+                          | inr sameScopedRead =>
+                              exact
+                                Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr sameScopedRead)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, replayProvenance, sameScoped, scopedPkg⟩
+  }
+  exact
+    ⟨cert, ⟨physicalLawBridgeChapterTasteGate⟩,
+      ⟨physicalLawBridgeFieldFaithful⟩, ⟨physicalLawBridgeNontrivial⟩⟩
+
+theorem PhysicalLawBridgePublicClosureRoute [AskSetup] [PackageSetup]
+    {law empirical bridge object fit failure transport replay provenance name scopedRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PhysicalLawBridgeCarrier law empirical bridge object fit failure transport replay
+        provenance name →
+      Cont replay provenance scopedRead →
+        hsame scopedRead name →
+          Cont scopedRead transport publicRead →
+            PkgSig bundle scopedRead pkg →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                          hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                            hsame row scopedRead ∨ hsame row publicRead) ∧
+                        UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                        hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                          hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                            hsame row name ∨ hsame row scopedRead ∨ hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont replay provenance scopedRead ∧
+                        hsame scopedRead name ∧ Cont scopedRead transport publicRead ∧
+                          PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  UnaryHistory scopedRead ∧ UnaryHistory publicRead ∧
+                    Cont scopedRead transport publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier replayProvenance sameScoped scopedPublic _scopedPkg publicPkg
+  obtain ⟨_lawUnary, _empiricalUnary, _bridgeUnary, _objectUnary, _fitUnary,
+    _failureUnary, transportUnary, replayUnary, provenanceUnary, _nameUnary,
+    _lawEmpiricalBridge, _objectFitFailure, _transportReplayProvenance⟩ := carrier
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenance
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed scopedUnary transportUnary scopedPublic
+  have publicSource :
+      (fun row : BHist =>
+        (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨ hsame row object ∨
+            hsame row fit ∨ hsame row failure ∨ hsame row scopedRead ∨
+              hsame row publicRead) ∧
+          UnaryHistory row) publicRead := by
+    exact
+      ⟨Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr (hsame_refl publicRead))))))),
+        publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+                hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                  hsame row scopedRead ∨ hsame row publicRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row law ∨ hsame row empirical ∨ hsame row bridge ∨
+              hsame row object ∨ hsame row fit ∨ hsame row failure ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row name ∨ hsame row scopedRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont replay provenance scopedRead ∧
+              hsame scopedRead name ∧ Cont scopedRead transport publicRead ∧
+                PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead publicSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameLaw =>
+          exact Or.inl sameLaw
+      | inr rest₁ =>
+          cases rest₁ with
+          | inl sameEmpirical =>
+              exact Or.inr (Or.inl sameEmpirical)
+          | inr rest₂ =>
+              cases rest₂ with
+              | inl sameBridge =>
+                  exact Or.inr (Or.inr (Or.inl sameBridge))
+              | inr rest₃ =>
+                  cases rest₃ with
+                  | inl sameObject =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl sameObject)))
+                  | inr rest₄ =>
+                      cases rest₄ with
+                      | inl sameFit =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameFit))))
+                      | inr rest₅ =>
+                          cases rest₅ with
+                          | inl sameFailure =>
+                              exact
+                                Or.inr
+                                  (Or.inr
+                                    (Or.inr (Or.inr (Or.inr (Or.inl sameFailure)))))
+                          | inr rest₆ =>
+                              cases rest₆ with
+                              | inl sameScopedRead =>
+                                  exact
+                                    Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inl sameScopedRead))))))))))
+                              | inr samePublicRead =>
+                                  exact
+                                    Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr samePublicRead))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, replayProvenance, sameScoped, scopedPublic, publicPkg⟩
+  }
+  exact ⟨cert, scopedUnary, publicUnary, scopedPublic⟩
 
 end BEDC.Derived.PhysicalLawBridgeUp

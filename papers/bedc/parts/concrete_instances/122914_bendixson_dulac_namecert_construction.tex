@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BendixsonDulacUp$}
+\label{ch:concrete-instances-bendixson-dulac-namecert}
+\origin{human}
+
+Following Bendixson and Dulac, the $\BendixsonDulacUp$ packet records the finite divergence certificate used to exclude closed trajectories in a planar ODE window before any periodic-orbit conclusion is read. It sits beside the trapping-region certificate of \autoref{ch:concrete-instances-poincare-bendixson-trap-namecert}, the displayed ODE source of \autoref{ch:concrete-instances-ode-namecert}, the dynamical-state surface of \autoref{ch:concrete-instances-dynsystem-namecert}, the differential-form route of \autoref{ch:concrete-instances-diffform-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only the finite sign, divergence, and boundary-read rows needed for a cycle-exclusion handoff.
+
+\begin{definition}[Bendixson--Dulac carrier]
+\label{def:bendixson-dulac-carrier}
+A $\BendixsonDulacUp$ carrier is a finite $\BHist$ packet
+$$
+B=(O,D,F,G,S,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ planar vector-field row, carrying the local state window and the right-hand-side read;
+\item $D$ is the $\DynSystemUp$ local-flow row, recording the finite time-window dynamics consumed by the criterion;
+\item $F$ is the $\DiffFormUp$ divergence-form row for the displayed Dulac multiplier and vector field;
+\item $G$ is the finite sign ledger asserting that $\operatorname{div}(gX)$ has one displayed sign on the inspected region;
+\item $S$ is the boundary-separation row recording where the sign ledger is read relative to the planar window boundary;
+\item $W$ is the $\RegSeqRatUp$ finite readback row for the coefficient and divergence estimates used by $G$;
+\item $R$ is the terminal $\RealUp$ seal row for those estimates;
+\item $H$ records componentwise $\hsame$ transport for the ODE, dynamics, form, sign, boundary, readback, seal, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from the ODE and dynamics rows through the divergence sign ledger and Real-facing readback;
+\item $P$ is the $\Pkg$ provenance over $\BendixsonDulacUp$, $\OdeUp$, $\DynSystemUp$, $\DiffFormUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BendixsonDulacUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected periodic orbit, global flow completion, quotient path equality, measure-theoretic area, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Bendixson--Dulac NameCert obligations]
+\label{thm:bendixson-dulac-namecert-obligations}
+For every accepted $\BendixsonDulacUp$ carrier $B=(O,D,F,G,S,W,R,H,C,P,N)$, the local $\NameCert_{\BendixsonDulacUp}$ surface consists exactly of planar ODE admission through $O$, local dynamics admission through $D$, differential-form divergence readback through $F$, finite sign-ledger visibility through $G$, boundary-separation visibility through $S$, regular-rational readback through $W$, Real-seal readback through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bendixson-dulac-carrier}. The rows $O,D,F,G,S,W,R$ are the analytic certificate rows, and $H,C,P,N$ are the structural rows that preserve, replay, source, and name the same finite packet.
+
+The ODE and dynamics rows display the planar local-flow window. The differential-form row supplies the divergence read, while the sign ledger and boundary-separation row record how the Dulac sign is inspected on the finite region.
+
+The regular-rational and Real-seal rows expose only the displayed coefficient and divergence estimates. Since no further coordinate is present, the local NameCert obligations are exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Bendixson--Dulac divergence handoff]
+\label{thm:bendixson-dulac-divergence-handoff}
+Every cycle-exclusion consumer of an accepted $\BendixsonDulacUp$ packet must first read the route
+$$
+\OdeUp,\ \DynSystemUp,\ \DiffFormUp,\ G,\ S,\ \RegSeqRatUp,\ \RealUp,\ H,\ C,\ P,\ N .
+$$
+The divergence handoff may be used as a finite sign certificate beside the Poincare--Bendixson trap route of \autoref{ch:concrete-instances-poincare-bendixson-trap-namecert}, but it exports no selected periodic orbit, no global flow completion, no quotient path equality, no measure-theoretic area principle, and no ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations theorem \autoref{thm:bendixson-dulac-namecert-obligations}. It forces every accepted read through the displayed ODE, dynamics, differential-form, sign-ledger, boundary, regular-rational, Real-seal, transport, replay, provenance, and local naming rows.
+
+The sign ledger is the only row that records the divergence condition. Therefore a consumer cannot obtain a cycle-exclusion handoff without preserving the displayed divergence-form read and the finite Real-facing estimates that support its sign.
+
+The comparison with \autoref{ch:concrete-instances-poincare-bendixson-trap-namecert} is a consumer route only. That sibling supplies a trapping-region packet, while this packet supplies a divergence sign packet; neither row set creates a selected orbit, a completed global flow, quotient path equality, measure theory, or ambient Real completeness.
+\end{proof}
+
+\falsifiablePrediction{If the finite sign ledger $G$ or the differential-form row $F$ is absent, an accepted $\BendixsonDulacUp$ packet cannot expose a divergence-based cycle-exclusion handoff.}
+
+\independenceWitness{ode, dynsystem, diffform, real, regseqrat, poincarebendixsontrap: none is bijective with $\BendixsonDulacUp$ because this packet jointly stores the planar ODE row, local dynamics row, divergence-form row, finite sign ledger, boundary-separation row, regular-rational readback, Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{BendixsonDulacUp}{seedStr}
+
+\begin{closurestatus}{\BendixsonDulacUp}
+  \constructivestory{A $\BendixsonDulacUp$ packet is generated from a planar OdeUp row, a DynSystemUp local-flow row, a DiffFormUp divergence-form row, a finite sign ledger, a boundary-separation row, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bendixson-dulac-carrier}, \autoref{thm:bendixson-dulac-namecert-obligations}, and \autoref{thm:bendixson-dulac-divergence-handoff} seed the finite divergence criterion over displayed ODE, dynamics, differential-form, sign, boundary, regular-rational, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected periodic orbits, global flow completion, measure theory, quotient path equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Further closure requires checked carrier admission, divergence-sign stability, cycle-exclusion handoff, and bridge evidence for the same finite Bendixson--Dulac packet.}
+\end{closurestatus}

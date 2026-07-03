@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\TransferFunctionStateSpaceRealizationUp$}
+\label{ch:concrete-instances-transfer-function-state-space-realization-namecert}
+\origin{human}
+
+Following Kalman and Kailath on finite-dimensional realization theory, the $\TransferFunctionStateSpaceRealizationUp$ packet records the finite BEDC route from displayed input-output transfer readback rows to a state-space realization surface. It sits after the state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the minimal-realization packet of \autoref{ch:concrete-instances-minimal-realization-namecert}, the observability and controllability certificates of \autoref{ch:concrete-instances-controlobservability-namecert} and \autoref{ch:concrete-instances-controlcontrollability-namecert}, and the finite $\MatrixUp$ and $\LinearMapUp$ rows of \autoref{ch:concrete-instances-matrix-namecert} and \autoref{ch:concrete-instances-linearmap-namecert}. The packet names a realization certificate, not an analytic equality between host transfer functions.
+
+\begin{definition}[TransferFunctionStateSpaceRealization carrier]
+\label{def:transfer-function-state-space-realization-carrier}
+A $\TransferFunctionStateSpaceRealizationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(U,Y,S,G,A,B,C,D,Q,O,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the input row, read through a finite vector or matrix-facing source.
+\item $Y$ is the output row, read through the same finite input-output discipline.
+\item $S$ is the consumed $\StateSpaceModelUp$ state-space realization row.
+\item $G$ is the transfer readback row naming the finite input-output response surface.
+\item $A,B,C,D$ are the transition, input, output, and feedthrough rows consumed from the state-space realization.
+\item $Q$ is the $\ControlControllabilityUp$ row used by realization-facing consumers.
+\item $O$ is the $\ControlObservabilityUp$ row used by realization-facing consumers.
+\item $E$ is the realization compatibility row saying that $G$ is read only through $U,Y,S,A,B,C,D,Q,O$.
+\item $H$ records componentwise $\hsame$ transport for input, output, state-space, transfer readback, controllability, observability, compatibility, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from input-output requests through the state-space realization and transfer readback rows.
+\item $P$ is the $\Pkg$ provenance over $\TransferFunctionStateSpaceRealizationUp$, $\StateSpaceModelUp$, $\MinimalRealizationUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\MatrixUp$, $\LinearMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TransferFunctionStateSpaceRealizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for analytic transfer-function equality, selected canonical realization, host quotient state space, infinite trajectory semantics, or external minimality theorem.
+\end{definition}
+
+\begin{theorem}[TransferFunctionStateSpaceRealization NameCert obligations]
+\label{thm:transfer-function-state-space-realization-obligations}
+For the carrier of \autoref{def:transfer-function-state-space-realization-carrier}, the local $\NameCert_{\TransferFunctionStateSpaceRealizationUp}$ surface consists exactly of input admission through $U$, output admission through $Y$, state-space realization admission through $S,A,B,C,D$, transfer readback through $G$, controllability through $Q$, observability through $O$, realization compatibility through $E$, componentwise transport through $H$, displayed replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:transfer-function-state-space-realization-carrier}. The accepted packet displays exactly $U,Y,S,G,A,B,C,D,Q,O,E,H,K,P,N$, so every public read is one of these rows or a replay route through them.
+
+The state-space side is finite. The realization row $S$ supplies the transition, input, output, and feedthrough rows $A,B,C,D$, while the controllability and observability rows $Q,O$ record the finite reachability and observation surfaces consumed by realization-facing chapters.
+
+The transfer side is bounded by compatibility. The row $E$ permits $G$ to be read only after the displayed input-output and state-space rows have been exposed, so the packet never needs an analytic transfer-function equality outside the carrier.
+
+The structural rows close the certificate. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row repack the same finite data, while host quotient state spaces, selected canonical realizations, infinite trajectories, and external minimality theorems remain outside the packet.
+\end{proof}
+
+\closureat{TransferFunctionStateSpaceRealizationUp}{seedStr}
+
+\begin{closurestatus}{\TransferFunctionStateSpaceRealizationUp}
+  \constructivestory{A $\TransferFunctionStateSpaceRealizationUp$ packet is generated from input and output rows, a StateSpaceModel realization row, transfer readback, transition, input, output, feedthrough, controllability, observability, compatibility, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:transfer-function-state-space-realization-carrier} and \autoref{thm:transfer-function-state-space-realization-obligations} seed the finite transfer-function/state-space realization surface over StateSpaceModel, MinimalRealization, ControlObservability, ControlControllability, Matrix, and LinearMap rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic transfer-function equality, selected canonical realization, host quotient state space, infinite trajectory semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, state-space realization readback, transfer compatibility, controllability and observability consumption, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

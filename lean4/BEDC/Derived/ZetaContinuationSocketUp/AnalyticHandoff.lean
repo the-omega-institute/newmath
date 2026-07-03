@@ -74,4 +74,51 @@ theorem ZetaContinuationSocketCarrier_analytic_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, analyticReadUnary, sealReadUnary⟩
 
+theorem ZetaContinuationSocketCarrier_analytic_ledger_boundary [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional trivial gamma transport route name analyticRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationSocketCarrier basic eta analytic pole functional trivial gamma transport
+        route name bundle pkg →
+      Cont analytic route analyticRead →
+        Cont analyticRead name sealRead →
+          PkgSig bundle sealRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row basic ∨ hsame row eta ∨ hsame row analytic ∨ hsame row route ∨
+                    hsame row name ∨ hsame row analyticRead ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont analytic route analyticRead ∧
+                    Cont analyticRead name sealRead ∧ PkgSig bundle sealRead pkg)
+                hsame ∧
+              SemanticNameCert
+                  (fun row : BHist => hsame row pole ∨ hsame row gamma ∨ hsame row trivial)
+                  (fun row : BHist =>
+                    hsame row pole ∨ hsame row gamma ∨ hsame row trivial ∨
+                      hsame row analytic ∨ hsame row route)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle route pkg ∧ PkgSig bundle name pkg)
+                  hsame ∧
+                UnaryHistory analyticRead ∧ UnaryHistory sealRead ∧
+                  UnaryHistory pole ∧ UnaryHistory gamma ∧ UnaryHistory trivial := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier analyticRoute sealRoute sealPkg
+  obtain ⟨handoffCert, analyticReadUnary, sealReadUnary⟩ :=
+    ZetaContinuationSocketCarrier_analytic_handoff
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (trivial := trivial) (gamma := gamma)
+      (transport := transport) (route := route) (name := name)
+      (analyticRead := analyticRead) (sealRead := sealRead) (bundle := bundle) (pkg := pkg)
+      carrier analyticRoute sealRoute sealPkg
+  obtain ⟨ledgerCert, poleUnary, gammaUnary, trivialUnary⟩ :=
+    ZetaContinuationSocketLedger_nonescape
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (trivial := trivial) (gamma := gamma)
+      (transport := transport) (route := route) (name := name)
+      (bundle := bundle) (pkg := pkg) carrier
+  exact
+    ⟨handoffCert, ledgerCert, analyticReadUnary, sealReadUnary, poleUnary, gammaUnary,
+      trivialUnary⟩
+
 end BEDC.Derived.ZetaContinuationSocketUp

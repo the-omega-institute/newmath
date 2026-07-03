@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySumCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-sum-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchySumCriterionUp$ packet records the finite addition criterion that lets two displayed regular rational Cauchy sources produce a summed readback before any $\RealUp$ consumer receives the seal. It sits beside the addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the finite product sufficiency of \autoref{ch:concrete-instances-regular-cauchy-product-criterion-namecert}, and the difference criterion of \autoref{ch:concrete-instances-cauchy-difference-criterion-namecert}. The packet names only synchronized windows, dyadic endpoint-sum budgets, regular readback, and seal routing; it does not import host real addition, quotient equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy sum criterion carrier]
+\label{def:regular-cauchy-sum-criterion-carrier}
+A $\RegularCauchySumCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,B,W_A,W_B,D,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose rational observations are being added.
+\item $W_A$ and $W_B$ are synchronized $\StreamNameUp$ window rows for the same precision request.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint-sum and tolerance-budget row.
+\item $L$ is the $\RegularCauchyAdditionUp$ route row, read only after $A,B,W_A,W_B,D$ have been displayed.
+\item $R$ is the summed $\RegSeqRatUp$ readback row produced by the finite addition route.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic, route, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the two source rows through windows, dyadic sum budget, regular addition route, readback, and seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySumCriterionUp$, $\RegularCauchyAdditionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyProductCriterionUp$, $\CauchyProductCriterionUp$, $\CauchyDifferenceCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySumCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,W_A,W_B,D,L,R,E,H,C,P,N$. It has no coordinate for completed-real addition, quotient stream equality, trichotomy, selected representatives, countable choice, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchySumCriterionUp.RegularCauchySumCriterionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy sum criterion NameCert obligations]
+\label{thm:regular-cauchy-sum-criterion-namecert-obligations}
+For every accepted $\RegularCauchySumCriterionUp$ carrier $S=(A,B,W_A,W_B,D,L,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchySumCriterionUp}$ surface consists exactly of source admission for $A,B$, synchronized finite-window exposure through $W_A,W_B$, dyadic endpoint-sum budgeting through $D$, the $\RegularCauchyAdditionUp$ route $L$, summed regular readback through $R$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-sum-criterion-carrier}. The only analytic rows are the two source rows, the paired finite windows, the dyadic sum budget, the addition route, the regular readback, and the terminal Real seal.
+
+Read the source and window rows first. The rows $A,B,W_A,W_B$ display exactly the finite regular-Cauchy observations available to the sum request.
+
+Next read the dyadic and addition rows. The row $D$ records the endpoint-sum tolerance budget, and the route row $L$ consumes that budget before the summed regular readback $R$ is exposed.
+
+Finally read $E,H,C,P,N$. These rows seal, transport, replay, source, and name the same finite route. Since no carrier coordinate names host addition, quotient stream equality, trichotomy, choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sum criterion window-budget exactness]
+\label{thm:regular-cauchy-sum-criterion-window-budget-exactness}
+For every accepted $\RegularCauchySumCriterionUp$ carrier, the synchronized windows $W_A,W_B$ and dyadic row $D$ determine the finite sum budget consumed by the $\RegularCauchyAdditionUp$ route $L$. Every summed $\RegSeqRatUp$ readback factors through
+$$
+A,B \longmapsto W_A,W_B \longmapsto D \longmapsto L \longmapsto R .
+$$
+No budget rule is read from host real addition, quotient stream equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The windows $W_A,W_B$ are the only displayed observation windows for the two sources. They synchronize the source rows before any dyadic endpoint-sum row is available.
+
+The dyadic row $D$ is the only tolerance and endpoint-sum ledger in the carrier. The addition route $L$ is downstream of $D$, and the readback row $R$ is downstream of $L$.
+
+Transport, replay, provenance, and local naming preserve that same row order. Therefore every summed regular readback follows the displayed finite chain, and no excluded external budget can be consumed.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchySumCriterionUp$ read is refuted if a summed RegSeqRatUp or RealUp output is exposed without first displaying two RegSeqRatUp sources, paired StreamNameUp windows, a DyadicRatCoreUp endpoint-sum budget, the RegularCauchyAdditionUp route, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regular-cauchy-addition, regular-cauchy-product-criterion, cauchy-product-criterion, cauchy-difference-criterion: $\RegularCauchySumCriterionUp$ is not bijective to any listed sibling because it carries the two-source addition criterion, synchronized finite windows, dyadic endpoint-sum budget, summed regular readback, Real seal, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{RegularCauchySumCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySumCriterionUp}
+  \constructivestory{A $\RegularCauchySumCriterionUp$ packet is generated from two RegSeqRat source rows, paired StreamName windows, a DyadicRatCore endpoint-sum budget, a RegularCauchyAddition route, a summed RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sum-criterion-carrier}, \autoref{thm:regular-cauchy-sum-criterion-namecert-obligations}, and \autoref{thm:regular-cauchy-sum-criterion-window-budget-exactness} seed the finite addition criterion for regular Cauchy real names through StreamName, RegSeqRat, DyadicRatCore, RegularCauchyAddition, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real addition, quotient stream equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window admission, dyadic endpoint-sum budgeting, RegularCauchyAddition routing, RegSeqRat readback, Real seal handoff, transport stability, replay stability, provenance nonescape, and local naming for BEDC.Derived.RegularCauchySumCriterionUp.}
+\end{closurestatus}

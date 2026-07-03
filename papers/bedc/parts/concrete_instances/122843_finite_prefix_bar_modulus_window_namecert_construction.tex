@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixBarModulusWindowUp$}
+\label{ch:concrete-instances-finite-prefix-bar-modulus-window-namecert}
+\origin{human}
+
+Following Brouwer and Bishop on bars and compact uniform continuity, the $\FinitePrefixBarModulusWindowUp$ packet realizes the finite prefix branch of \autoref{ch:visions-compact-uniform-continuity}. It sits after the finite prefix bar carrier of \autoref{ch:concrete-instances-finite-prefix-bar-namecert}, the compact source of \autoref{ch:concrete-instances-compact-namecert}, and the tolerance-only uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet records a finite route from prefix-depth evidence to a modulus window; it does not choose an infinite branch, import open-cover compactness, or assert an ambient Heine--Cantor theorem.
+
+\begin{definition}[Finite prefix bar-modulus window carrier]
+\label{def:finite-prefix-bar-modulus-window-carrier}
+A $\FinitePrefixBarModulusWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,K,T,D,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite prefix bar row, recording the accepted bar prefixes and their prefix-order boundary.
+\item $K$ is the compact-source row, exposing the compact data consumed by the finite prefix argument.
+\item $T$ is the tolerance-request row, recording the requested output precision as visible finite data.
+\item $D$ is the prefix-depth modulus row, assigning the finite depth at which every accepted prefix supplies the requested tolerance.
+\item $U$ is the uniform-modulus handoff row consumed by $\UniformModulusUp$ readers.
+\item $H$ records componentwise $\hsame$ transport for bar, compact-source, tolerance, depth-modulus, uniform-modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through
+$$
+B,K,T,D,U,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FinitePrefixBarModulusWindowUp$, $\FinitePrefixBarUp$, $\CompactUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FinitePrefixBarModulusWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,K,T,D,U,H,C,P,N$. It has no coordinate for an infinite branch selector, open-cover compactness, countable choice, quotient stream equality, or an external uniform-modulus oracle.
+\end{definition}
+
+\begin{theorem}[Finite prefix bar-modulus window NameCert obligations]
+\label{thm:finite-prefix-bar-modulus-window-namecert-obligations}
+For every accepted $\FinitePrefixBarModulusWindowUp$ carrier
+$$
+W=(B,K,T,D,U,H,C,P,N),
+$$
+the local $\NameCert_{\FinitePrefixBarModulusWindowUp}$ surface consists exactly of finite prefix bar exposure through $B$, compact-source exposure through $K$, tolerance request exposure through $T$, prefix-depth modulus exposure through $D$, uniform-modulus handoff through $U$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-prefix-bar-modulus-window-carrier}. The rows $B,K,T,D,U,H,C,P,N$ are exactly the accepted packet coordinates.
+
+The finite prefix bar row $B$ and compact-source row $K$ provide the source data. The tolerance request $T$ is then routed to the prefix-depth modulus row $D$, which is the only place where a finite depth is exposed.
+
+The uniform-modulus handoff $U$ is downstream of $D$. Transport, replay, provenance, and local naming preserve the same finite route, and the absent infinite-branch, open-cover, countable-choice, quotient-stream, and external-oracle objects cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Finite prefix bar-modulus handoff]
+\label{thm:finite-prefix-bar-modulus-window-handoff}
+Every compact-uniform-continuity consumer that reads a $\FinitePrefixBarModulusWindowUp$ packet must factor its tolerance-only request through the finite route
+$$
+\FinitePrefixBarUp,\ \CompactUp,\ T
+\longmapsto
+D
+\longmapsto
+\UniformModulusUp
+\longmapsto
+H,C,P,N .
+$$
+Thus the handoff from finite prefix depth to uniform-modulus output is a displayed BEDC route, not an informal compactness-to-modulus jump.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-prefix-bar-modulus-window-namecert-obligations}. It places the finite prefix bar, compact-source, and tolerance rows before the depth-modulus row $D$.
+
+The row $D$ supplies the finite prefix depth consumed by the uniform-modulus handoff $U$. A downstream consumer therefore receives a tolerance-only handoff only after the prefix-depth row has been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no infinite branch selector, open-cover compactness theorem, quotient stream equality, countable choice, or external modulus oracle, none of those objects can mediate the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FinitePrefixBarModulusWindowUp$ read displays FinitePrefixBar, compact-source, tolerance, prefix-depth modulus, UniformModulus, hsame, Cont, Pkg, and NameCert rows before any tolerance-only uniform-modulus handoff is accepted.}
+
+\independenceWitness{finite-prefix-bar, compact, uniformmodulus: $\FinitePrefixBarModulusWindowUp$ is not bijective to any listed sibling because it jointly binds finite prefix bars, compact-source rows, tolerance requests, prefix-depth modulus rows, uniform-modulus handoff, transport, replay, provenance, and local naming.}
+
+\closureat{FinitePrefixBarModulusWindowUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrefixBarModulusWindowUp}
+  \constructivestory{A $\FinitePrefixBarModulusWindowUp$ packet is generated from finite prefix bar, compact-source, tolerance-request, prefix-depth modulus, UniformModulus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-bar-modulus-window-carrier}, \autoref{thm:finite-prefix-bar-modulus-window-namecert-obligations}, and \autoref{thm:finite-prefix-bar-modulus-window-handoff} seed the compact-uniform-continuity route from finite prefix depth to tolerance-only uniform-modulus handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite branch selection, open-cover compactness, countable choice, quotient stream equality, external modulus oracles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix bar exposure, compact-source exposure, tolerance request exactness, prefix-depth modulus stability, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FinitePrefixBarModulusWindowUp.}
+\end{closurestatus}

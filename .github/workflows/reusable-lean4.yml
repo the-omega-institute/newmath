@@ -58,10 +58,13 @@ jobs:
       # papers/bedc/Makefile's precheck, which is exercised by the dossier
       # workflow (and every local `make`). Skip duplication here.
       - name: "Audit transitive axiom dependencies (strict: forbid all Lean stdlib axioms)"
-        run: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+        run: python3 lean4/scripts/bedc_ci.py axiom-purity --strict --full
 
       - name: "Triangle coverage (anti-vacuity + designated three-axis structure)"
         run: python3 lean4/scripts/triangle_coverage.py
+
+      - name: "No-fake-RH audit (conditional route boundary)"
+        run: python3 lean4/scripts/no_fake_rh_audit.py
 
       - name: Save Lean .lake cache (canonical branches only)
         if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/lean4-codex-auto-dev')

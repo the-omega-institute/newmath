@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ConvexFunctionUp$}
+\label{ch:concrete-instances-convex-function-namecert}
+\origin{human}
+
+Following Rockafellar's convex analysis and Boyd--Vandenberghe's convex optimization presentation, the $\ConvexFunctionUp$ packet records the finite route by which a displayed convex domain, vector source, real codomain, rational affine weights, and comparison rows name a convex-function surface. It sits over the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the real comparison boundary of \autoref{ch:concrete-instances-real-namecert}, the vector source of \autoref{ch:concrete-instances-vecspace-namecert}, and the rational coefficient source of \autoref{ch:concrete-instances-rat-namecert}. The packet supplies the source row consumed by \autoref{ch:concrete-instances-jensen-inequality-namecert} and \autoref{ch:concrete-instances-fenchelduality-namecert}; it is a finite NameCert surface, not a host function space or an ambient completeness principle.
+
+\begin{definition}[ConvexFunction carrier]
+\label{def:convex-function-carrier}
+A $\ConvexFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,V,R,A,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the convex-domain row, recording the accepted $\ConvexSetUp$ carrier whose elements may be queried.
+\item $V$ is the vector-source row, recording the displayed $\VecSpaceUp$ operations used to form affine expressions.
+\item $R$ is the $\RealUp$ codomain and readback row, recording the real-valued output names and comparison interface.
+\item $A$ is the affine-weight route, recording finite rational weights through $\RatUp$, nonnegative checks, and the displayed finite-sum-to-one row.
+\item $M$ is the midpoint or finite affine-combination ledger, recording the source points, weighted vector expression, and the proof row that the result remains inside $D$.
+\item $E$ is the epigraph and comparison row, recording the displayed inequality between the function value at the affine point and the corresponding affine combination of output reads.
+\item $H$ records componentwise $\hsame$ transport for $D,V,R,A,M,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the domain, vector, rational-weight, real-comparison, transport, provenance, and local name rows.
+\item $P$ is the $\Pkg$ provenance over $\ConvexFunctionUp$, $\ConvexSetUp$, $\RealUp$, $\VecSpaceUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConvexFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,V,R,A,M,E,H,C,P,N$. It has no coordinate for a host convex function, quotient equality of functions or real names, selected extrema, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ConvexFunction NameCert obligations]
+\label{thm:convex-function-namecert-obligations}
+For every accepted $\ConvexFunctionUp$ carrier $F=(D,V,R,A,M,E,H,C,P,N)$, the local $\NameCert_{\ConvexFunctionUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed convex domain, vector source, real codomain and readback row, affine-weight route, midpoint or finite affine-combination ledger, epigraph and comparison row, transport, replay, provenance, and local naming;
+\item affine-combination accountability, requiring every weight and finite affine expression read by a consumer to pass through $A$ and $M$;
+\item convexity comparison exactness, requiring every displayed convexity inequality to be the row recorded in $E$ over the $\RealUp$ readback interface $R$;
+\item transport and replay stability, requiring componentwise $\hsame$ transport and $\Cont$ replay to preserve the same domain, vector, rational-weight, real-comparison, provenance, and local naming route;
+\item ledger nonescape from host functions, quotient real equality, selected extrema, trichotomy, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted packet $F=(D,V,R,A,M,E,H,C,P,N)$. The carrier definition exposes exactly the convex domain, vector source, real codomain, affine-weight, affine-combination, comparison, transport, replay, provenance, and naming rows.
+
+The affine data are read before the comparison row. Thus $A$ supplies the rational weights and finite-sum row, while $M$ supplies the displayed midpoint or finite affine expression and its return to the convex domain.
+
+The convexity comparison is then read only through $E$ and $R$. Transport and replay are componentwise through $H$ and $C$, and provenance and naming are carried by $P$ and $N$. Since none of the excluded host objects is a carrier coordinate, the five listed clauses exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ConvexFunction midpoint route]
+\label{thm:convex-function-midpoint-route}
+Every midpoint or finite affine read of an accepted $\ConvexFunctionUp$ carrier routes through
+$$
+D,V,A,M \longmapsto R,E \longmapsto H,C,P,N .
+$$
+Consequently Jensen and Fenchel consumers may inspect a convex-function source only after the displayed domain, rational weights, $\VecSpaceUp$ affine route, $\RealUp$ comparison row, componentwise transport, replay, provenance, and local name have all been read.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of a midpoint or finite affine expression. By \autoref{def:convex-function-carrier}, the only source rows for such a read are the domain row $D$, vector row $V$, affine-weight row $A$, and affine-combination ledger $M$.
+
+The real-valued convexity statement is downstream of those rows. The codomain row $R$ supplies the displayed real reads, and $E$ supplies the comparison row tying the value at the affine point to the affine combination of output reads.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the packet contains no separate host-function or quotient-equality coordinate, Jensen and Fenchel consumers cannot bypass this displayed path.
+\end{proof}
+
+\falsifiablePrediction{Every $\ConvexFunctionUp$ consumer reads a ConvexSet domain row, VecSpace affine route, Rat weight row, Real codomain and comparison row, midpoint or finite affine-combination ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the convex-function source is public.}
+
+\independenceWitness{convexset, vecspace, rat, real: $\ConvexFunctionUp$ is not bijective to any listed sibling because it jointly carries a convex-domain row, vector-source row, rational affine-weight row, real codomain and comparison row, epigraph ledger, transport, replay, provenance, and local NameCert data as one finite function packet.}
+
+\closureat{ConvexFunctionUp}{seedStr}
+
+\begin{closurestatus}{\ConvexFunctionUp}
+  \constructivestory{A $\ConvexFunctionUp$ packet is generated from a displayed ConvexSet domain row, VecSpace source row, Real codomain and readback row, Rat affine-weight route, midpoint or finite affine-combination ledger, epigraph and comparison row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convex-function-carrier}, \autoref{thm:convex-function-namecert-obligations}, and \autoref{thm:convex-function-midpoint-route} seed the finite convex-function route over ConvexSet, VecSpace, Rat, Real, affine-combination, epigraph, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex functions, quotient equality of functions or real names, selected extrema, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, affine-combination accountability, convexity comparison exactness, transport and replay stability, ledger nonescape, provenance, and local naming for BEDC.Derived.ConvexFunctionUp.}
+\end{closurestatus}

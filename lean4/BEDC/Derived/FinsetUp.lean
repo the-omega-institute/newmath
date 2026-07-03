@@ -255,6 +255,22 @@ theorem FinsetEnumeration_StdBridge {A : BHist -> Prop} {Rel : BHist -> BHist ->
   · intro z carried
     exact carried.right
 
+theorem FinsetEnumerationBridge_bundle_member_readback
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    {bundle : ProbeBundle BHist} {seed readback : BHist} :
+    FinsetEnumerationCarrier A Rel bundle seed →
+      InBundle readback bundle →
+        Rel seed readback →
+          SemanticNameCert (FinsetEnumerationCarrier A Rel bundle)
+              (FinsetEnumerationCarrier A Rel bundle) (FinsetEnumerationCarrier A Rel bundle)
+              Rel ∧
+            exists x : BHist, InBundle x bundle ∧ Rel seed x := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle InBundle NameCert SemanticNameCert
+  intro seedCarrier readbackMember seedReadback
+  exact
+    ⟨FinsetEnumeration_semantic_name_certificate cert seedCarrier,
+      Exists.intro readback ⟨readbackMember, seedReadback⟩⟩
+
 theorem FinsetEnumerationCarrier_bundleAppend_split
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop}
     {left right : ProbeBundle BHist} {a : BHist} :

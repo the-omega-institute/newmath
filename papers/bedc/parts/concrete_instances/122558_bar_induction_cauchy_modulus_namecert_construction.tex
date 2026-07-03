@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BarInductionCauchyModulusUp$}
+\label{ch:concrete-instances-bar-induction-cauchy-modulus-namecert}
+\origin{human}
+
+Following Brouwer's bar induction practice, Troelstra--van Dalen's fan arguments, and the Bishop--Bridges use of explicit Cauchy moduli, the $\BarInductionCauchyModulusUp$ packet records a finite route from bar evidence to a modulus row for regular real names. The route sits beside \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-cauchymodulus-namecert}, \autoref{ch:concrete-instances-bairespace-namecert}, and \autoref{ch:concrete-instances-fantheorem-namecert}; it exposes only finite $\BHist$ rows, transport, replay, provenance, and a local $\NameCert$ seal.
+
+\begin{definition}[Bar induction Cauchy modulus carrier]
+\label{def:bar-induction-cauchy-modulus-carrier}
+A $\BarInductionCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+(B,F,W,S,R,D,E,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $B$ is a decidable bar row for finite prefixes of the displayed branch space.
+\item $F$ is the fan or finite-cover row certifying that the bar is read through a bounded prefix cover.
+\item $W$ is the $\StreamNameUp$ window row that exposes the finite observations used by the bar test.
+\item $S$ is the $\RegSeqRatUp$ readback row attached to the same window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row whose precision request is discharged by the bar.
+\item $E$ is the terminal $\RealUp$ seal row produced after the bounded readback.
+\item $H,C,P,N$ are respectively the $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\BarInductionCauchyModulusUp}$ naming rows for the same finite packet.
+\end{enumerate}
+The accepted carrier may be consumed as a $\CauchyModulusUp$ source only through the displayed bar and fan rows; it contains no countable-choice selector, host infinite branch, quotient stream representative, or ambient Real-completeness witness.
+\end{definition}
+
+\begin{theorem}[Bar induction Cauchy modulus NameCert obligations]
+\label{thm:bar-induction-cauchy-modulus-obligations}
+An accepted $\BarInductionCauchyModulusUp$ carrier satisfies the following five NameCert obligations:
+\begin{enumerate}
+\item carrier habitation by the finite rows $B,F,W,S,D,E,H,C,P,N$ of \autoref{def:bar-induction-cauchy-modulus-carrier};
+\item bar admissibility, saying that every tolerance request reaches the decidable bar row through a finite prefix accepted by $B$;
+\item fan boundedness, saying that the usable prefix is selected only from the finite cover row $F$;
+\item readback exactness, saying that the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows read the same bounded prefix and tolerance request;
+\item transport, replay, provenance, and local naming stability along $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Project the carrier of \autoref{def:bar-induction-cauchy-modulus-carrier}. Its visible rows already name the decidable bar, finite fan cover, StreamName window, RegSeqRat readback, dyadic tolerance, Real seal, and structural naming data.
+
+The bar and fan obligations are read before the analytic rows. The row $B$ supplies the decidable stopping test for the tolerance request, and $F$ supplies the bounded prefix cover through which the stopping test is admitted.
+
+The readback rows then consume the same prefix. The $\StreamNameUp$ row gives the finite observation window, $\RegSeqRatUp$ reads the rational data on that window, $\DyadicRatCoreUp$ records the tolerance, and $\RealUp$ seals only the resulting bounded readback.
+
+Finally $H,C,P,N$ carry the same packet through transport, replay, provenance, and local naming. No obligation contains a selected infinite branch, a countable-choice function, quotient stream equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bar induction Cauchy modulus fan handoff]
+\label{thm:bar-induction-cauchy-modulus-fan-handoff}
+Every $\CauchyModulusUp$ or $\RealUp$ consumer of an accepted $\BarInductionCauchyModulusUp$ packet reads the modulus only through the finite route
+$$
+\FanTheoremUp,\quad
+\BaireSpaceUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\DyadicRatCoreUp,\quad
+\RealUp .
+$$
+The consumer must first inspect the decidable bar row $B$ and the fan cover row $F$, then the StreamName window $W$, RegSeqRat readback $S$, dyadic tolerance $D$, and terminal Real seal $E$. The route exports no countable choice, host infinite branch selection, quotient streams, or ambient Real completeness.
+\end{theorem}
+
+\begin{proof}
+Start with the obligation surface of \autoref{thm:bar-induction-cauchy-modulus-obligations}. It places the decidable bar and finite fan cover before the analytic readback rows.
+
+The $\CauchyModulusUp$ read is therefore a bounded-prefix read. A tolerance request reaches $D$ only after $B$ admits a finite prefix and $F$ bounds the usable cover, so the modulus row cannot be read as a host function selected from infinitely many branches.
+
+The $\RealUp$ read is also bounded. The terminal seal $E$ is exposed only after the $\StreamNameUp$ window and $\RegSeqRatUp$ readback have been matched to the same dyadic tolerance row, so quotient stream representatives and ambient Real completeness are not available to the consumer.
+\end{proof}
+
+\begin{closurestatus}{\BarInductionCauchyModulusUp}
+  \constructivestory{A $\BarInductionCauchyModulusUp$ packet is generated by reading a decidable bar through a finite fan cover, then routing the bounded StreamName, RegSeqRat, DyadicRatCore, and Real rows into a Cauchy-modulus handoff.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface records the finite bar-to-fan-to-Cauchy-modulus route for regular Real names, with only the carrier, obligation, and handoff rows displayed.}
+  \formalstatus{\unformalizedV}
+  \leanstmt{BEDC.Derived.BarInductionCauchyModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a checked Lean NameCert, public Real completeness, countable choice, selected infinite branches, quotient-stream equality, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, bar admissibility, fan boundedness, readback exactness, transport, replay, provenance, and local naming for BEDC.Derived.BarInductionCauchyModulusUp.}
+\end{closurestatus}

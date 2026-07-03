@@ -1,0 +1,9 @@
+\begin{theorem}[Machine export audit transcript envelope route]
+\label{thm:machine-export-boundary-audit-transcript-envelope-route}
+Every $\MachineExportBoundaryUp$ export that reports theorem evidence must first expose the $\AuditTranscriptEnvelopeUp$ status-pair and replay-checksum route of \autoref{ch:concrete-instances-audit-transcript-envelope-namecert} before any machine-readable export row is consumed.
+\end{theorem}
+\begin{proof}
+Read a machine export as a finite boundary packet with exported claim, format, consumer, transport, replay, provenance, and local naming rows. A theorem-evidence report is stronger than a raw export row: it asks the consumer to trust both the paper-side closure grade and the Lean-side verification grade attached to the claim.
+
+The $\AuditTranscriptEnvelopeUp$ carrier supplies exactly that two-axis status pair together with the replay-checksum row. Therefore the export boundary can expose theorem evidence only after routing through the audit transcript envelope; without those rows the machine consumer may still read an export, but not as theorem evidence.
+\end{proof}

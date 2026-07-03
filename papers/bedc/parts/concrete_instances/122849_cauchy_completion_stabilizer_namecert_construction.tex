@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionStabilizerUp$}
+\label{ch:concrete-instances-cauchy-completion-stabilizer-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley on completion and uniform stabilization, the $\CauchyCompletionStabilizerUp$ packet records the finite route by which repeated completion reads are stabilized before a Real-facing consumer inspects the same regular name. It sits over the idempotence route of \autoref{ch:concrete-instances-cauchy-completion-idempotence-namecert}, the functorial route of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, the finite window source of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a repeated-read stabilizer only; it does not assert quotient completion, selected limits, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyCompletionStabilizer carrier]
+\label{def:cauchy-completion-stabilizer-carrier}
+A $\CauchyCompletionStabilizerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(C,I,F,W,D,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source completion row, recording the first completion-facing read before any repeated-read stabilization is available.
+\item $I$ is the $\CauchyCompletionIdempotenceUp$ row, exposing the finite idempotence comparison between the first completion read and the repeated completion read.
+\item $F$ is the $\CauchyCompletionFunctorUp$ row, carrying the functorial route that transports the same displayed completion request.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect the repeated read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row controlling the finite window and comparison budget.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same window and dyadic tolerance rows.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $C,I,F,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source completion, idempotence comparison, functorial route, finite window, dyadic tolerance, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the route
+$$
+C \longmapsto I,F \longmapsto W,D,R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionStabilizerUp$, $\CauchyCompletionIdempotenceUp$, $\CauchyCompletionFunctorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionStabilizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,I,F,W,D,R,E,H,T,P,N$. It has no coordinate for quotient completion equality, selected limits, countable choice, host equality between completed objects, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionStabilizer NameCert obligations]
+\label{thm:cauchy-completion-stabilizer-namecert-obligations}
+For every accepted $\CauchyCompletionStabilizerUp$ carrier
+$$
+S=(C,I,F,W,D,R,E,H,T,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionStabilizerUp}$ surface consists exactly of source completion exposure through $C$, repeated-read stabilization through $I$, functorial completion transport through $F$, finite StreamName window exposure through $W$, DyadicRatCore tolerance exposure through $D$, RegSeqRat readback through $R$, Real sealing through $E$, componentwise transport through $H$, displayed replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-stabilizer-carrier}. The displayed rows are the source completion, idempotence, functorial route, finite window, dyadic tolerance, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+The completion rows are read first. Row $C$ supplies the source completion read, row $I$ compares it with the repeated read, and row $F$ keeps the comparison inside the functorial completion route.
+
+The analytic rows remain downstream of that route. The finite window $W$, dyadic tolerance $D$, regular readback $R$, and terminal seal $E$ are part of the same packet, so a consumer cannot detach a selected limit or a quotient completion object from the repeated-read comparison.
+
+Finally $H,T,P,N$ preserve, replay, source, and name the same carrier. Since quotient completion, selected limits, countable choice, host equality, and ambient $\RealUp$ completeness are absent from the packet, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionStabilizer seal route]
+\label{thm:cauchy-completion-stabilizer-seal-route}
+Every Real-facing consumer of an accepted $\CauchyCompletionStabilizerUp$ packet must factor its repeated completion read through the finite route
+$$
+\CauchyCompletionIdempotenceUp,\ \CauchyCompletionFunctorUp
+\longmapsto
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp
+\longmapsto
+\RealUp
+\longmapsto
+H,T,P,N .
+$$
+The route stabilizes the displayed repeated completion read before the terminal Real seal is consumed. It supplies no quotient completion, selected limit, countable-choice schedule, host equality of completions, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-completion-stabilizer-namecert-obligations}. It places the source completion row $C$ before the idempotence and functorial rows $I,F$.
+
+Next read the finite observation route. The StreamName window $W$, DyadicRatCore tolerance $D$, and RegSeqRat readback $R$ are displayed before the Real seal $E$, so the consumer receives a finite repeated-read packet rather than a chosen completed object.
+
+Finally use the structural rows $H,T,P,N$. They transport, replay, source, and name the same route, which prevents a Real-facing read from bypassing the stabilizer through quotient equality, a selected limit, countable choice, host completion equality, or ambient completeness.
+\end{proof}
+
+\closureat{CauchyCompletionStabilizerUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionStabilizerUp}
+  \constructivestory{A $\CauchyCompletionStabilizerUp$ packet is generated from a source completion row, CauchyCompletionIdempotence comparison, CauchyCompletionFunctor route, StreamName finite windows, DyadicRatCore tolerance, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-stabilizer-carrier}, \autoref{thm:cauchy-completion-stabilizer-namecert-obligations}, and \autoref{thm:cauchy-completion-stabilizer-seal-route} seed the repeated completion-read stabilizer route over the CauchyCompletionIdempotence, CauchyCompletionFunctor, StreamName, DyadicRatCore, RegSeqRat, and Real spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, host equality of completed objects, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source completion admission, repeated-read stabilization, functorial transport, finite-window readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionStabilizerUp.}
+\end{closurestatus}
