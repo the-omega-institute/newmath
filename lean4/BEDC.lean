@@ -5198,6 +5198,7 @@ import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DimLiftBoundaryUp.AxisNormalAddressLock
 import BEDC.Derived.DimLiftBoundaryUp.CannotClaimRouteExactness
 import BEDC.Derived.DimLiftBoundaryUp.CarrierAdmissionObligation
+import BEDC.Derived.DimLiftBoundaryUp.ClassifierStabilityObligation
 import BEDC.Derived.DimLiftBoundaryUp.DownstreamAcceptanceBoundary
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
@@ -7397,6 +7398,7 @@ import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
 import BEDC.Derived.JordanDecompositionBoundedVariationUp
+import BEDC.Derived.JordanDecompositionBoundedVariationUp.TasteGate
 import BEDC.Derived.JordanTotientExtUp
 import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
@@ -9868,6 +9870,7 @@ import BEDC.Derived.PhenomenologyScienceInterfaceUp.GapLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.InvariantTransport
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationCarrier
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationClassifier
+import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObligationLedger
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.ObservationSlice
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhiDivisorSum

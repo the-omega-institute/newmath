@@ -481,4 +481,88 @@ theorem StreamDiagonalSelectorPacket_handoff_exactness [AskSetup] [PackageSetup]
                               windowRoute, ledgerRoute, endpointRoute, endpointPkg⟩
   }
 
+theorem StreamDiagonalSelectorPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert
+      endpoint regSeqHandoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StreamDiagonalSelectorPacket schedule selector window readback dyadicLedger diagonalPacket routes
+        provenance nameCert endpoint bundle pkg ->
+      Cont readback dyadicLedger regSeqHandoff ->
+        PkgSig bundle regSeqHandoff pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row readback ∨ hsame row regSeqHandoff)
+              (fun row : BHist =>
+                hsame row schedule ∨ hsame row selector ∨ hsame row window ∨
+                  hsame row readback ∨ hsame row dyadicLedger ∨
+                    hsame row diagonalPacket ∨ hsame row regSeqHandoff ∨
+                      hsame row nameCert)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont schedule selector window ∧
+                  Cont window readback dyadicLedger ∧ Cont readback dyadicLedger regSeqHandoff ∧
+                    PkgSig bundle regSeqHandoff pkg)
+              hsame ∧ UnaryHistory regSeqHandoff := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro packet regSeqRoute regSeqPkg
+  obtain ⟨scheduleUnary, selectorUnary, readbackUnary, _diagonalUnary, _routesUnary,
+    _provenanceUnary, _nameCertUnary, windowRoute, ledgerRoute, _endpointRoute,
+    _endpointPkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary selectorUnary windowRoute
+  have dyadicLedgerUnary : UnaryHistory dyadicLedger :=
+    unary_cont_closed windowUnary readbackUnary ledgerRoute
+  have regSeqUnary : UnaryHistory regSeqHandoff :=
+    unary_cont_closed readbackUnary dyadicLedgerUnary regSeqRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row readback ∨ hsame row regSeqHandoff)
+          (fun row : BHist =>
+            hsame row schedule ∨ hsame row selector ∨ hsame row window ∨
+              hsame row readback ∨ hsame row dyadicLedger ∨
+                hsame row diagonalPacket ∨ hsame row regSeqHandoff ∨
+                  hsame row nameCert)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont schedule selector window ∧
+              Cont window readback dyadicLedger ∧ Cont readback dyadicLedger regSeqHandoff ∧
+                PkgSig bundle regSeqHandoff pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro readback (Or.inl (hsame_refl readback))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowReadback =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowReadback)
+        | inr rowRegSeq =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) rowRegSeq)
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl rowReadback =>
+          exact Or.inr (Or.inr (Or.inr (Or.inl rowReadback)))
+      | inr rowRegSeq =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rowRegSeq))))))
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | inl rowReadback =>
+          exact
+            ⟨unary_transport readbackUnary (hsame_symm rowReadback), windowRoute, ledgerRoute,
+              regSeqRoute, regSeqPkg⟩
+      | inr rowRegSeq =>
+          exact
+            ⟨unary_transport regSeqUnary (hsame_symm rowRegSeq), windowRoute, ledgerRoute,
+              regSeqRoute, regSeqPkg⟩
+  }
+  exact ⟨cert, regSeqUnary⟩
+
 end BEDC.Derived.StreamDiagonalSelectorUp
