@@ -82,6 +82,18 @@ Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surf
 The blocking row $B$ sits between $A$ and $E$. Since $H$ transports only displayed rows, $C$ replays only the displayed route, and $P,N$ only record provenance and local naming, no sibling route can introduce a second active export for the same target.
 \end{proof}
 
+\begin{theorem}[Active reading gate current-retired boundary]
+\label{thm:active-reading-gate-current-retired-boundary}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, a retired row $R$ may be transported, replayed, and audited only as retired data. It cannot become the current row $A$ or an export row $E$ unless the blocking row $B$ is replaced by a new displayed carrier packet with its own $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The accepted packet is a finite $\BHist$ row with separate coordinates for current reading, retired reading, blocking, export, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ActiveReadingGateUp}$ row.
+
+Apply \autoref{thm:active-reading-gate-obligation-surface} and \autoref{thm:active-reading-gate-export-uniqueness-obligation}. The obligation surface exposes $R$ as retired-reading data, while export uniqueness routes every active export through $A$, then $B$, then $E$. Thus the retired row can be carried by transport and replay, but it is not a current-reading coordinate and not an export coordinate.
+
+Finally use ledger closure from \autoref{thm:active-reading-gate-ledger-closure-obligation} together with provenance stability from \autoref{thm:active-reading-gate-provenance-stability-obligation}. Rows $H,C,P,N$ preserve and name the displayed route already present in $G$; they do not replace the blocking row. Therefore promoting $R$ to $A$ or $E$ requires a different displayed carrier packet with a new blocking row, not an audit replay of the retired row.
+\end{proof}
+
 \begin{theorem}[Active reading gate ledger closure obligation]
 \label{thm:active-reading-gate-ledger-closure-obligation}
 For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the ledger for target, active reading, retired reading, blocking, export, replay, provenance, and local naming is closed by the displayed rows $R,E,L,H,C,P,N$, where $L$ denotes the visible registry and claim ledger induced by $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, and $\WritingItemAuditUp$. No consumer may replace that ledger by an export outside $E$ or by a retired row outside $R$.
