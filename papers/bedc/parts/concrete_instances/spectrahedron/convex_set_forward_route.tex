@@ -1,0 +1,11 @@
+\begin{theorem}[Spectrahedron convex-set forward route]
+\label{thm:spectrahedron-convex-set-forward-route}
+Every accepted $\SpectrahedronUp$ packet reads its affine-linear matrix inequality rows through the $\ConvexSetUp$ sibling of \autoref{ch:concrete-instances-convexset-namecert} before semidefinite-cone positivity is consumed by the route of \autoref{thm:spectrahedron-semidefinite-cone-route}. The affine parameter row $X$, pencil row $L$, offset row $A$, displayed matrix row $S$, convex provenance row $V$, transport row $T$, replay row $C$, package row $P$, and local naming row $N$ must be visible as the convex feasible-surface route before the semidefinite membership row $K$ can serve a feasibility-facing consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectrahedron-carrier}. The rows $X,L,A,S$ expose the affine-linear matrix inequality data, and the row $V$ is the displayed $\ConvexSetUp$ provenance for the same parameter surface.
+
+Use \autoref{thm:spectrahedron-namecert-obligations} to keep $V,T,C,P,N$ in the local spectrahedron certificate before any public read is available. The semidefinite-cone route of \autoref{thm:spectrahedron-semidefinite-cone-route} then consumes $K$ only as part of that already displayed affine and convex route.
+
+Thus the packet records the substantive dependency through $\ConvexSetUp$ before semidefinite positivity is read. It exports no kernel-only spectrahedron predicate, selected feasible point, quotient matrix equality, determinant criterion, or host analytic closure theorem.
+\end{proof}
