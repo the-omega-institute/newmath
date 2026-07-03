@@ -13,6 +13,7 @@ import Mathlib.Combinatorics.Enumerative.Bell
 import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
+import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.PythagoreanTriples
 import Mathlib.NumberTheory.Padics.PadicIntegers
@@ -119,6 +120,14 @@ itself retains the proposition-extensionality footprint measured by this row.
 -/
 noncomputable def auditNatFermatNumberBoundary : Nat → Nat :=
   Nat.fermatNumber
+
+/-!
+Audit-only touchpoint for mathlib Mersenne numbers. The host declaration is
+definitionally `2 ^ p - 1`, but its compiled declaration footprint contains
+`propext`, so it remains a measured boundary object rather than a bridge export.
+-/
+noncomputable def auditMersenneBoundary : Nat → Nat :=
+  _root_.mersenne
 
 /-!
 Audit-only touchpoint for mathlib's large and small Schroder numbers. Their
