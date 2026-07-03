@@ -4880,6 +4880,7 @@ import BEDC.Derived.DenseEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
+import BEDC.Derived.DenseUniformContinuityExtensionUp
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.CompletionConsumerRoute
 import BEDC.Derived.DenseUniformEmbeddingUp.LedgerNonescape
@@ -12141,6 +12142,7 @@ import BEDC.Derived.ScottTopologyUp.TasteGate
 import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
+import BEDC.Derived.SectionMeaningCertificateUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
 import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
