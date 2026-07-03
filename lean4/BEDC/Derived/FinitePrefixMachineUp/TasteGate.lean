@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FinitePrefixMachineUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.FinitePrefixMachineUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -263,5 +265,50 @@ theorem FinitePrefixMachineCarrier_nonescape {M Q T F E A H C N terminal : BHist
   intro carrier terminalRoute
   rcases carrier with ⟨endpointRoute, _acceptanceRoute, replaySame, nameSame, _stateSame⟩
   exact ⟨hsame_symm (cont_deterministic endpointRoute terminalRoute), replaySame, nameSame⟩
+
+theorem FinitePrefixMachineNameCertObligations {M Q T F E A H C N : BHist} :
+    FinitePrefixMachineCarrier M Q T F E A H C N →
+      SemanticNameCert
+        (fun row : BHist => hsame row E ∨ hsame row C)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row F ∨ hsame row E ∨ hsame row A ∨ hsame row C ∨
+            hsame row H ∨ hsame row N)
+        (fun row : BHist =>
+          FinitePrefixMachineCarrier M Q T F E A H C N ∧
+            (hsame row E ∨ hsame row C))
+        hsame := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame SemanticNameCert NameCert
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro E (Or.inl (hsame_refl E))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl sameEndpoint =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameEndpoint)
+        | inr sameReplay =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) sameReplay)
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameEndpoint =>
+          exact Or.inr (Or.inr (Or.inl sameEndpoint))
+      | inr sameReplay =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameReplay))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨carrier, source⟩
+  }
 
 end BEDC.Derived.FinitePrefixMachineUp
