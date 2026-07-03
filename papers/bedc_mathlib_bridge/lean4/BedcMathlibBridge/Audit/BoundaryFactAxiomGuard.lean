@@ -14,6 +14,7 @@ import Mathlib.Combinatorics.Enumerative.Partition.Basic
 import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
+import Mathlib.NumberTheory.Harmonic.Defs
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.PythagoreanTriples
@@ -157,6 +158,9 @@ noncomputable def auditNatTotientBoundary : Nat → Nat :=
 
 noncomputable def auditNatDivisorsBoundary : Nat → Finset Nat :=
   Nat.divisors
+
+noncomputable def auditNatHarmonicNumberBoundary : Nat → Rat :=
+  _root_.harmonic
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib

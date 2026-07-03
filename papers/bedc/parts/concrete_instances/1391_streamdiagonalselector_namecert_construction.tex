@@ -123,6 +123,24 @@ Now apply the $\RegularCauchyTailBudgetUp$ observation gate and readback factori
 Combining the two routes gives a single finite handoff from $S,\mu,W,D_H,R$ through the tail-budget rows to $H$ and $N$. Since neither carrier stores quotient streams, selected host limits, ambient completeness, or host real equality, no such datum can be read from the composed handoff.
 \end{proof}
 
+\begin{theorem}[StreamDiagonalSelector finite tail stability]
+\label{thm:stream-diagonal-selector-tail-stability}
+Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. Suppose the selected $\StreamNameUp$ window $W$ is replaced, along the recorded $\hsame$ and $\Cont$ routes, by a transported finite tail window $W_{\mathrm{tail}}$ accepted by the same $\RegularCauchyTailBudgetUp$ row. Then the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ ledger $D_H$, and the $\RealDiagonalCompletionUp$ handoff $H$ remain the classifier-facing rows of the selector packet.
+
+Thus a finite tail shift can be reused by later $\RealUp$ completion routes without opening a quotient stream, a selected host limit, an ambient completeness principle, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the selector carrier. The selected observation route is the finite tuple $S,\mu,W,R,D_H,H,C,P,N$, and the only allowed movement of the selected window is through the componentwise $\hsame$ and $\Cont$ data already recorded in $C$.
+
+Apply selector determinacy \autoref{thm:stream-diagonal-selector-selector-determinacy}. The transported tail window is still read through the same schedule $S$ and selector row $\mu$, so it cannot create a second selector source or a second selected coordinate.
+
+Next use finite-window transport \autoref{thm:stream-diagonal-selector-window-transport}. It keeps the selected window, regular-rational readback, dyadic ledger, and diagonal packet attached as one finite observation route when $W$ is transported to $W_{\mathrm{tail}}$.
+
+The tail-budget readback theorem \autoref{thm:stream-diagonal-selector-tail-budget-readback} supplies the shared tail threshold and observation-budget rows. Therefore the transported finite tail window reaches the same $\RegSeqRatUp$ readback row and the same $\DyadicRatCoreUp$ ledger before any real-facing consumer is exposed.
+
+Finally apply handoff exactness \autoref{thm:stream-diagonal-selector-handoff-exactness}. The $\RealDiagonalCompletionUp$ coordinate consumes exactly the transported window route, readback, ledger, provenance, and local name, so the composed tail-stable route exports no quotient stream, host limit, ambient completeness principle, or host real equality.
+\end{proof}
+
 \begin{theorem}[StreamDiagonalSelector window coverage]
 \label{thm:stream-diagonal-selector-window-coverage}
 Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. Every diagonal read of $D$ that is visible to a $\RealDiagonalCompletionUp$ consumer is covered by the displayed $\StreamNameUp$ schedule $S$, selector row $\mu$, selected finite window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, diagonal handoff $H$, transport row $C$, provenance $P$, and local name $N$. No additional stream window, quotient stream, or choice-selected diagonal value is available to the consumer.
@@ -176,6 +194,24 @@ Selector determinacy is \autoref{thm:stream-diagonal-selector-selector-determina
 Finite-window transport is \autoref{thm:stream-diagonal-selector-window-transport}, and handoff exactness is \autoref{thm:stream-diagonal-selector-handoff-exactness}. These two theorems keep the selected window, readback, dyadic ledger, diagonal packet, package row, and local name attached to the same finite route.
 
 Finally, \autoref{thm:stream-diagonal-selector-real-handoff} and \autoref{thm:stream-diagonal-selector-tail-budget-readback} state the non-escape boundary: the route exports no quotient stream, choice-selected limit, host real value, ambient completeness principle, or host equality test. Hence the listed rows are exactly the obligation-closed selector surface.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector scoped status]
+\label{thm:stream-diagonal-selector-scoped-status}
+Every accepted $\StreamDiagonalSelectorUp$ read exposes the $\StreamNameUp$ schedule $S$, selector row $\mu$, selected window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, $\RealDiagonalCompletionUp$ packet $H$, transport row $C$, replay and provenance rows, and local $\NameCert_{\StreamDiagonalSelectorUp}$ row before any $\RealUp$ consumer can inspect the handoff. The visible scope is exactly the finite route
+$$
+S,\mu,W,R,D_H,H,C,P,N .
+$$
+It exports a diagonal-selector handoff for the current real-completion phase and no quotient stream, choice-selected limit, host real value, ambient completeness principle, host equality test, or second selector source.
+\end{theorem}
+\begin{proof}
+Start with selector determinacy, \autoref{thm:stream-diagonal-selector-selector-determinacy}. It fixes the schedule $S$ and selector row $\mu$ before any selected window can be inspected.
+
+Apply finite-window transport and handoff exactness, \autoref{thm:stream-diagonal-selector-window-transport} and \autoref{thm:stream-diagonal-selector-handoff-exactness}. They keep the selected window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, and $\RealDiagonalCompletionUp$ handoff $H$ attached to the same finite route.
+
+Use tail-budget readback and window coverage, \autoref{thm:stream-diagonal-selector-tail-budget-readback} and \autoref{thm:stream-diagonal-selector-window-coverage}. These force every budgeted or real-completion-facing read through the displayed window, readback, ledger, transport, provenance, and local name.
+
+Finally apply the RegSeqRat handoff and Real seal nonescape theorems, \autoref{thm:stream-diagonal-selector-regseqrat-handoff} and \autoref{thm:stream-diagonal-selector-real-seal-nonescape}. They prevent a $\RealUp$ consumer from replacing the finite handoff by a quotient stream, selected limit, host real value, ambient completeness principle, host equality test, or second selector source.
 \end{proof}
 
 \closureat{StreamDiagonalSelectorUp}{seedStr}

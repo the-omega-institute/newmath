@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T00:24:57Z
+> 最后刷新: 2026-07-03T01:42:04Z
 
-**Daemon 状态**: monitor (monitor cycle 264, adjust_since_research 2, round_counter 36445, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 265, adjust_since_research 2, round_counter 36513, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1227 条 finding):
-- isolated_theorem: 881 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1229 条 finding):
+- isolated_theorem: 883 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 280 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 86 次
+- TASTE ALERT category=isolated_theorem: 96 次
 - TASTE ALERT category=unauthorized_capstone: 12 次
-- TASTE ALERT category=low_entropy_template: 8 次
+- TASTE ALERT category=low_entropy_template: 7 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -521,6 +521,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T23:15:23Z: `resolved` `delete_theorem` for `BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.RealArchimedeanWindowUp.RealArchimedeanWindowCarrier_dyadic_bracket_handoff:982457e5`). Rationale: The declaration rebuilt a local SemanticNameCert for a bracket row from D,L,U and Cont data, but repo search found no Lean consumer; the only reference was the paper leanchecked marker. The nearby bound consumer theorem proves its own certificate directly and is the closure target, so keeping this target as an isolated checked claim adds no downstream BEDC surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T00:24:30Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_classifier_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_classifier_stability:0d0a2139`). Rationale: The target is not a trivial wrapper: it transports the ObserverHistoryIdentity packet across hsame-related signature, sameness, ledger, and route rows while preserving the classifier-facing comparison surface. Repo grep showed no prior downstream Lean use, so I added a sibling ObserverFilter consumer theorem that invokes this classifier stability result and combines the transported ObserverHistoryIdentity packet with the ObserverFilter selected-subhistory StreamName non-escape surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T01:41:35Z: `resolved` `delete_theorem` for `BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface:c74a4800`). Rationale: The target was an unconsumed projection from MetricEmbeddingCarrier, and exact repo search found no Lean or paper references beyond its declaration. The surrounding chapter already carries the meaningful MetricEmbeddingUp obligations through graph-distance control, separated-completion handoff, and kernel scope, so retaining this isolated surface theorem would duplicate weaker content without a downstream consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
