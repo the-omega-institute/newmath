@@ -27,6 +27,7 @@ import BedcMathlibBridge.Constructive.QBinomial
 import BedcMathlibBridge.Constructive.Narayana
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Raney
+import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
