@@ -53,3 +53,4 @@ import BedcMathlibBridge.Constructive.Hexagonal
 import BedcMathlibBridge.Constructive.CentralFactorial
 import BedcMathlibBridge.Constructive.WilsonQuotient
 import BedcMathlibBridge.Constructive.Apery
+import BedcMathlibBridge.Constructive.EntringerNumber
