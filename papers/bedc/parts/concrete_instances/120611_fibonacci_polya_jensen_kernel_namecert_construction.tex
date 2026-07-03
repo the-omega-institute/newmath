@@ -1,0 +1,87 @@
+\chapter{The Fibonacci--Polya Jensen Kernel}
+\label{ch:concrete-instances-fibonacci-polya-jensen-kernel}
+\origin{ai}
+
+Following Polya and Griffin--Ono--Rolen--Zagier, this chapter records a finite Fibonacci smoothing of the actual Riemann $\xi$ Jensen criterion. Let
+$$
+J^{d,n}(X)=\sum_{j=0}^{d}\binom{d}{j}\gamma_{n+j}X^j
+$$
+be the Jensen polynomial of the Taylor coefficients of $\xi$. Polya's criterion places the Riemann Hypothesis inside the assertion that all such Jensen polynomials are hyperbolic, while Griffin--Ono--Rolen--Zagier prove unconditionally that, for each fixed $d$, $J^{d,n}$ is hyperbolic for all sufficiently large $n$.
+
+For a Fibonacci cube of length $m$, set
+$$
+W_m(T)=\sum_k \binom{m-k+1}{k}T^k.
+$$
+Its coefficients count binary words of length $m$ with no adjacent $1$s and exactly $k$ entries equal to $1$. The real-rootedness of $W_m$ places $W_m(D)$, with $D=d/dX$, among the finite Polya--Schur hyperbolicity preservers. Applied to the reciprocal Jensen polynomial
+$$
+\widehat J^{d,n}(X)=X^dJ^{d,n}(1/X)=\sum_{j=0}^{d}\binom{d}{j}\gamma_{n+j}X^{d-j},
+$$
+the packet studies the finite window
+$$
+F_{m,d,n}(X)=W_m(D)\widehat J^{d,n}(X).
+$$
+Thus hyperbolicity of $J^{d,n}$ implies hyperbolicity of $F_{m,d,n}$, and the GORZ theorem gives an unconditional large-$n$ hyperbolicity shadow for every fixed $m,d$.
+
+\section{Degree-Two Discriminant Window}
+\label{sec:fibonacci-polya-jensen-degree-two}
+
+In degree two write
+$$
+\widehat J^{2,n}(X)=aX^2+2bX+c,
+$$
+where $a=\gamma_n$, $b=\gamma_{n+1}$, and $c=\gamma_{n+2}$. Since
+$$
+W_m(D)=1+mD+\frac{(m-1)(m-2)}{2}D^2
+$$
+on degree-two polynomials, the smoothed polynomial is
+$$
+F_{m,2,n}(X)=aX^2+(2am+2b)X+(am^2-3am+2a+2bm+c).
+$$
+Its discriminant is the finite identity
+$$
+\operatorname{disc}F_{m,2,n}
+=4\left((b^2-ac)+(3m-2)a^2\right).
+$$
+Equivalently,
+$$
+\operatorname{disc}F_{m,2,n}-4(b^2-ac)=4(3m-2)a^2.
+$$
+For $m\ge 1$, the added Fibonacci-kernel term is nonnegative. The Fibonacci window therefore preserves and strengthens the degree-two Turan margin $b^2-ac$; it does not replace the xi coefficient problem by a Fibonacci counting problem.
+
+\begin{theorem}[Fibonacci--Polya degree-two Jensen certificate]
+\label{thm:fibonacci-polya-jensen-kernel-certificate}
+The degree-two Fibonacci--Polya smoothing has the symbolic discriminant certificate
+$$
+\operatorname{disc}F_{m,2,n}
+=4\left((\gamma_{n+1}^2-\gamma_n\gamma_{n+2})+(3m-2)\gamma_n^2\right),
+$$
+and the concrete $m=5$ differential kernel satisfies
+$$
+W_5(D)X^0=1,\quad
+W_5(D)X=X+5,\quad
+W_5(D)X^2=X^2+10X+12,\quad
+W_5(D)X^3=X^3+15X^2+36X+6.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FibonacciPolyaJensenKernel.fibonacci\_polya\_jensen\_kernel\_certificate}
+
+\section{Honest Scope}
+\label{sec:fibonacci-polya-jensen-honest-scope}
+
+This is a hyperbolicity-preserving Fibonacci smoothing of the Jensen criterion, a genuine finite RH-shadow, not a sharper attack on RH, not a claim that $\xi$ coefficients are Zeckendorf or Fibonacci counts, and not a proof of the Riemann Hypothesis. The Lean certificate treats $\gamma_n,\gamma_{n+1},\gamma_{n+2}$ as symbolic coefficients. It proves the finite algebraic normal-form identity behind the displayed degree-two discriminant and checks the $W_5(D)$ monomial action; it does not assume numerical values of the Riemann $\xi$ coefficients and does not discharge any analytic zero-location theorem.
+
+The analytic bridge is external and classical: Polya identifies RH with total hyperbolicity of the Jensen family, and GORZ gives unconditional eventual hyperbolicity in each fixed degree. The BEDC content here is the finite kernel interface placed inside that classical criterion: applying a Fibonacci-cube Laguerre--Polya kernel to the actual $\xi$ Jensen window adds a visible nonnegative degree-two margin term while preserving the honest distinction between finite hyperbolicity shadows and RH itself.
+
+\falsifiablePrediction{A recomputation of the symbolic degree-two smoothing that changes the coefficient tuple $(a,2am+2b,am^2-3am+2a+2bm+c)$, the discriminant term $4((b^2-ac)+(3m-2)a^2)$, or the $W_5(D)$ monomial actions listed in \autoref{thm:fibonacci-polya-jensen-kernel-certificate}, refutes this packet.}
+
+\independenceWitness{riemann-hypothesis, zeckendorf-coefficient-models: this packet is a finite hyperbolicity-preserving smoothing of the actual Riemann $\xi$ Jensen criterion, not a proof of RH and not a model identifying $\xi$ coefficients with Fibonacci or Zeckendorf counts.}
+
+\begin{closurestatus}{FibonacciPolyaJensenKernel}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{degree-2 discriminant identity and Fibonacci-kernel margin preservation for symbolic $\gamma$ coefficients.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FibonacciPolyaJensenKernel.fibonacci\_polya\_jensen\_kernel\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; a hyperbolicity-preserving Fibonacci Polya-Schur smoothing of the actual xi Jensen criterion, degree-2 discriminant identity only; not a Zeckendorf model of xi coefficients.}
+  \upgradepath{lift to general degree $d$ via the full Polya-Schur preservation, and add the deformation parameter $\lambda$ in $W_m(\lambda D)$ to certify a Jensen stability margin over rational $\lambda$-intervals.}
+\end{closurestatus}
