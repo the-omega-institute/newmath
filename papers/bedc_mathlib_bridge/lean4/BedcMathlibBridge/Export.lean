@@ -21,6 +21,7 @@ import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Padovan
+import BedcMathlibBridge.Export.Perrin
 import BedcMathlibBridge.Export.Tribonacci
 import BedcMathlibBridge.Export.Tetranacci
 import BedcMathlibBridge.Export.CullenWoodall

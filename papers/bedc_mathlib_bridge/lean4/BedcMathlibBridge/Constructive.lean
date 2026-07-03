@@ -21,6 +21,7 @@ import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Padovan
+import BedcMathlibBridge.Constructive.Perrin
 import BedcMathlibBridge.Constructive.Tribonacci
 import BedcMathlibBridge.Constructive.Tetranacci
 import BedcMathlibBridge.Constructive.CullenWoodall
