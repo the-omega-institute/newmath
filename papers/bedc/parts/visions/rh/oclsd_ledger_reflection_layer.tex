@@ -1,0 +1,167 @@
+\chapter{Ledger Register and Tick Reflection Positivity}
+\label{ch:visions-rh-oclsd-ledger-reflection-layer}
+\origin{ai}
+
+\autoref{ch:visions-rh-free-zero-generation-initiality} builds the OCLSD
+zero-generation dynamics: a prime-driven tick advances a syntactic term, the
+accumulated angular heights are the eigenvalues of a self-adjoint operator
+$H_{\mathrm{OCLSD}}$, and the sole remaining wall is the spectral zero identity
+(that the prime-generated spectrum is the true zeta zero spectrum). The present
+chapter records two finite rational sub-layers that sit strictly \emph{below}
+that wall and are fully discharged: the arithmetic of the prime--Zeckendorf
+register (which grounds the tick's log-time bookkeeping), and the reflection
+positivity classification of the tick input (which separates the tick data that
+admit a unitary reconstruction from those that do not). Neither sub-layer touches
+the spectral zero identity; both are closed by finite located-rational data.
+
+\section{Prime--Zeckendorf register arithmetic}
+
+The OCLSD register is a finite list of $(\text{prime}, \text{Fibonacci-index})$
+atoms. Its per-prime weight and the integer it encodes are the arithmetic carrier
+of the ``register norm squared equals log-time'' bookkeeping.
+
+\begin{definition}[Per-prime Fibonacci weight]
+\label{def:oclsd-register-fib-weight}
+\leandef{BEDC.Derived.RHRoute.OCLSDRegisterWeight.primeFibWeight}
+For a prime $p$ the weight of a register $R$ is the sum of $F_k$ over the atoms of
+$R$ whose prime equals $p$,
+$$
+w_p(R) \;=\; \sum_{(p,k)\in R} F_k,
+$$
+where $F_k$ is the $k$-th Fibonacci number. For a Zeckendorf register this reads
+back the prime valuation $v_p$.
+\end{definition}
+
+\begin{theorem}[Zeckendorf carry is an isometry of the register weight]
+\label{thm:oclsd-register-carry-isometry}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDRegisterWeight.primeFibWeight\_carry}
+Replacing two adjacent atoms $(p,k),(p,k+1)$ by $(p,k+2)$ preserves every per-prime
+weight, because $F_k+F_{k+1}=F_{k+2}$. The register's per-prime Fibonacci content is
+therefore carry-invariant: a well-defined valuation, not an artifact of the digit
+representation.
+\end{theorem}
+
+\begin{definition}[Encoded integer]
+\label{def:oclsd-register-encoded-integer}
+\leandef{BEDC.Derived.RHRoute.OCLSDRegisterWeight.encodedNat}
+The integer a register encodes is
+$$
+n(R) \;=\; \prod_{(p,k)\in R} p^{F_k}.
+$$
+Grouped by prime this is $n(R)=\prod_p p^{w_p(R)}$, so the register norm squared
+$\sum_{(p,k)} F_k\log p=\log n(R)$ is the log-time $T$.
+\end{definition}
+
+\begin{theorem}[The ledger is a submonoid of the integers]
+\label{thm:oclsd-register-ledger-monoid}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDRegisterWeight.encodedNat\_carry}
+\leanvariant{BEDC.Derived.RHRoute.OCLSDRegisterWeight.encodedNat\_append}
+The Zeckendorf carry preserves $n(R)$, so the log-time is a carry-invariant of the
+register. Register concatenation multiplies the encoded integer,
+$n(R_1 \mathbin{+\!\!+} R_2)=n(R_1)\,n(R_2)$, so the encoding is a monoid homomorphism
+from the ledger onto the multiplicative monoid of $S$-smooth integers; the log-time
+is additive under concatenation.
+\end{theorem}
+
+\section{Finite reflection positivity as a PSD classification}
+
+A single reversible tick carries a located transition weight $q$. Its
+Osterwalder--Schrader reflection form, in the manifestly completed-square shape, is
+$$
+\Phi_q(f_0,f_1) \;=\; q\,(f_0+f_1)^2 \;+\; (1-2q)\,(f_0^2+f_1^2).
+$$
+
+\begin{definition}[Reflection form]
+\label{def:oclsd-reflection-form}
+\leandef{BEDC.Derived.RHRoute.OCLSDReflectionForm.osForm}
+$\Phi_q$ is the two-state reversible reflection quadratic form. On the antisymmetric
+mode $(1,-1)$ the first term vanishes and $\Phi_q(1,-1)=(1-2q)\cdot 2$: the reflection
+form on that mode is exactly the small transition eigenvalue.
+\end{definition}
+
+\begin{theorem}[Reflection positivity classification]
+\label{thm:oclsd-reflection-psd}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDReflectionForm.reflection\_holds}
+\leanvariant{BEDC.Derived.RHRoute.OCLSDReflectionForm.reflection\_fails}
+\leanvariant{BEDC.Derived.RHRoute.OCLSDReflectionForm.ratSq\_nonneg}
+If $0\le q$ and $2q\le 1$ then $\Phi_q(f_0,f_1)\ge 0$ for every $f_0,f_1$ --- the
+transition operator is positive semidefinite and the reflection form is a sum of two
+nonnegative terms. If $2q>1$ then $\Phi_q(1,-1)<0$: an explicit indefinite
+counterexample. Reflection positivity is thus a \emph{classification condition} on the
+transition weight, discharged by the located square-nonnegativity fact $0\le x^2$.
+\end{theorem}
+
+\section{Reflection positivity of the OCLSD tick input}
+
+The classification is parameterized by the actual OCLSD tick.
+
+\begin{definition}[Tick reflection kit]
+\label{def:oclsd-tick-reflection-kit}
+\leandef{BEDC.Derived.RHRoute.OCLSDTickReflection.TickReflectionKit}
+\leandef{BEDC.Derived.RHRoute.OCLSDTickReflection.tickReflectionForm}
+A tick reflection kit assigns to each raw generation step $g$ a located transition
+weight $q(g)$ with $0\le q(g)$; the tick's reflection form is $\Phi_{q(g)}$. The tick
+is \emph{reflection-positive} when $2q(g)\le 1$.
+\end{definition}
+
+\begin{theorem}[Antisymmetric mode decides reconstructability]
+\label{thm:oclsd-tick-reflection-characterization}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDTickReflection.tick\_reflection\_holds}
+\leanvariant{BEDC.Derived.RHRoute.OCLSDTickReflection.tick\_reflection\_fails}
+\leanvariant{BEDC.Derived.RHRoute.OCLSDTickReflection.reflectionPositive\_of\_flip\_nonneg}
+A tick is reflection-positive if and only if its reflection form is nonnegative on the
+antisymmetric mode $(1,-1)$. A reflection-positive tick has $\Phi_{q(g)}\ge 0$ on every
+mode (a unitary Osterwalder--Schrader reconstruction is available); a
+reflection-anticorrelated tick is strictly negative on the antisymmetric mode (no such
+reconstruction). A single located-rational check on one mode therefore decides the
+tick's reconstructability.
+\end{theorem}
+
+\section{Carrier-relative Osterwalder--Schrader reconstruction}
+
+The reflection-positivity classification is the \emph{hypothesis} of the reconstruction theorem:
+from a reflection-positive transition operator $P$ one builds a positive self-adjoint generator
+$H=-\Delta T^{-1}\log P$ and the unitary flow $e^{itH}$. That passage is analytic ---
+located operator logarithm, monotone spectral calculus, a GNS construction --- none of which the
+finite located-rational layer builds. It is encoded honestly as a \emph{carrier contract}: the
+analytic content is posited as an obligation, never faked.
+
+\begin{definition}[Reconstruction carrier]
+\label{def:oclsd-os-reconstruction-carrier}
+\leandef{BEDC.Derived.RHRoute.OSReconstructionContract.OSReconstructionKit}
+\leandef{BEDC.Derived.RHRoute.OSReconstructionContract.OSReconstruction}
+\leandef{BEDC.Derived.RHRoute.OSReconstructionContract.OSReconstructionCarrier}
+A reconstruction kit posits the analytic carrier: a located time axis, transfer/generator/unitary
+operator types, the self-adjoint, nonnegative and unitary predicates, and the operations
+$P\mapsto\log P$, $H\mapsto e^{-tH}$, $H\mapsto e^{itH}$. A reconstruction of a tick $g$ is a
+generator $H$ with its self-adjointness, nonnegativity and unitary-flow certificates together
+with the heat-kernel identity $e^{-\Delta T\cdot H}=P_g$ recovering the tick's transfer operator.
+A carrier bundles the obligation as a map sending a reflection-positive tick to its reconstruction.
+\end{definition}
+
+\begin{theorem}[The finite check feeds the reconstruction]
+\label{thm:oclsd-os-reconstruction-bridge}
+\leandef{BEDC.Derived.RHRoute.OSReconstructionContract.theorem\_8\_4\_from\_finite\_RP}
+\leandef{BEDC.Derived.RHRoute.OSReconstructionContract.theorem\_8\_4\_carrier\_relative}
+Against any reconstruction carrier, a tick whose reflection form is $\ge 0$ on the antisymmetric
+mode --- a single located-rational inequality --- admits an Osterwalder--Schrader reconstruction.
+The finite classification discharged above is exactly the hypothesis the carrier consumes. No
+concrete carrier is supplied: the analytic construction remains an obligation, and the statement
+``reflection positivity yields a reconstruction carrier'' is deliberately \emph{not} asserted, since
+a degenerate all-trivial carrier would fake it. The junction is honest, not the reconstruction.
+\end{theorem}
+
+\begin{principle}[The classification closes; the reconstruction does not]
+\label{prin:oclsd-reflection-boundary}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDTickReflection.trivialKit\_reflectionPositive}
+The reflection-positive tick class is inhabited over any dynamics type (the trivial
+$q\equiv 0$ kit is reflection-positive), so the classification is not vacuous. What the
+finite rational layer supplies is exactly the positivity gate: which tick inputs admit
+a unitary reconstruction. What it does \emph{not} supply is the reconstruction itself
+--- the passage from a positive transition operator to the located generator
+$H=-\Delta T^{-1}\log P$ and its unitary group needs located operator logarithm and
+monotone spectral calculus, which this layer does not build. That analytic step, and
+the spectral zero identity of
+\autoref{ch:visions-rh-free-zero-generation-initiality}, remain the walls; nothing here
+constructs either.
+\end{principle}

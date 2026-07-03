@@ -196,6 +196,24 @@ Finite-window transport is \autoref{thm:stream-diagonal-selector-window-transpor
 Finally, \autoref{thm:stream-diagonal-selector-real-handoff} and \autoref{thm:stream-diagonal-selector-tail-budget-readback} state the non-escape boundary: the route exports no quotient stream, choice-selected limit, host real value, ambient completeness principle, or host equality test. Hence the listed rows are exactly the obligation-closed selector surface.
 \end{proof}
 
+\begin{theorem}[StreamDiagonalSelector scoped status]
+\label{thm:stream-diagonal-selector-scoped-status}
+Every accepted $\StreamDiagonalSelectorUp$ read exposes the $\StreamNameUp$ schedule $S$, selector row $\mu$, selected window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, $\RealDiagonalCompletionUp$ packet $H$, transport row $C$, replay and provenance rows, and local $\NameCert_{\StreamDiagonalSelectorUp}$ row before any $\RealUp$ consumer can inspect the handoff. The visible scope is exactly the finite route
+$$
+S,\mu,W,R,D_H,H,C,P,N .
+$$
+It exports a diagonal-selector handoff for the current real-completion phase and no quotient stream, choice-selected limit, host real value, ambient completeness principle, host equality test, or second selector source.
+\end{theorem}
+\begin{proof}
+Start with selector determinacy, \autoref{thm:stream-diagonal-selector-selector-determinacy}. It fixes the schedule $S$ and selector row $\mu$ before any selected window can be inspected.
+
+Apply finite-window transport and handoff exactness, \autoref{thm:stream-diagonal-selector-window-transport} and \autoref{thm:stream-diagonal-selector-handoff-exactness}. They keep the selected window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D_H$, and $\RealDiagonalCompletionUp$ handoff $H$ attached to the same finite route.
+
+Use tail-budget readback and window coverage, \autoref{thm:stream-diagonal-selector-tail-budget-readback} and \autoref{thm:stream-diagonal-selector-window-coverage}. These force every budgeted or real-completion-facing read through the displayed window, readback, ledger, transport, provenance, and local name.
+
+Finally apply the RegSeqRat handoff and Real seal nonescape theorems, \autoref{thm:stream-diagonal-selector-regseqrat-handoff} and \autoref{thm:stream-diagonal-selector-real-seal-nonescape}. They prevent a $\RealUp$ consumer from replacing the finite handoff by a quotient stream, selected limit, host real value, ambient completeness principle, host equality test, or second selector source.
+\end{proof}
+
 \closureat{StreamDiagonalSelectorUp}{seedStr}
 
 \begin{closurestatus}{\StreamDiagonalSelectorUp}
