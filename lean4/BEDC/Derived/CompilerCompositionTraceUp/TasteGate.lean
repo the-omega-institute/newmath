@@ -173,4 +173,24 @@ theorem CompilerCompositionTraceTasteGate_single_carrier_alignment :
         CompilerCompositionTraceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem CompilerCompositionTrace_continuationmonad_sibling_route
+    (x : CompilerCompositionTraceUp) :
+    ∃ S M T KSM KMT J G L H C A P N : BHist,
+      x = CompilerCompositionTraceUp.mk S M T KSM KMT J G L H C A P N ∧
+        compilerCompositionTraceFields x = [S, M, T, KSM, KMT, J, G, L, H, C, A, P, N] ∧
+          compilerCompositionTraceFromEventFlow (compilerCompositionTraceToEventFlow x) = some x ∧
+            compilerCompositionTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk S M T KSM KMT J G L H C A P N =>
+      refine ⟨S, M, T, KSM, KMT, J, G, L, H, C, A, P, N, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · exact CompilerCompositionTraceTasteGate_single_carrier_alignment_round_trip
+              (CompilerCompositionTraceUp.mk S M T KSM KMT J G L H C A P N)
+          · rfl
+
 end BEDC.Derived.CompilerCompositionTraceUp
