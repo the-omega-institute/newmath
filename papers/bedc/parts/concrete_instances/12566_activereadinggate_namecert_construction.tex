@@ -58,6 +58,34 @@ Transcript and writing-item consumers receive the same route through the provena
 Thus every accepted export factors through $T,A,B,E$, with $R$ blocked from active export. A packet exporting both $A$ and $R$ as active readings for the same target leaves $\ActiveReadingGateUp$ and is refused by $B$.
 \end{proof}
 
+\begin{theorem}[Active reading gate ledger non-escape]
+\label{thm:active-reading-gate-ledger-nonescape}
+Every accepted $\ActiveReadingGateUp$ consumer read factors through
+$$
+T,A,R,B,E,H,C,P,N.
+$$
+Consequently a retired reading cannot become a second active export, and no hidden target alias, registry bypass, claim bypass, transcript bypass, writing-item bypass, or local name outside the displayed carrier is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The packet exposes exactly the target row $T$, active-reading row $A$, retired-reading row $R$, blocking row $B$, export row $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It makes active-reading uniqueness, retired-reading exposure, registry coverage, export non-escape, transport, replay, provenance, and local naming the displayed local obligations.
+
+Use the single-export route of \autoref{thm:active-reading-gate-single-export-route}. Since every public export reaches $E$ through $T,A,B$, the retired row $R$ remains audit data and cannot become a parallel active export.
+\end{proof}
+
+\begin{theorem}[Active reading gate scope grounding]
+\label{thm:active-reading-gate-scope-grounding}
+The $\ActiveReadingGateUp$ scope is grounded in the displayed $\BHist$ rows $T,A,R,B,E,H,C,P,N$, componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, the registry-export siblings, the claim-registry siblings, the audit transcript envelope, the writing-item audit route, and the local $\NameCert_{\ActiveReadingGateUp}$ row $N$. No accepted read has a scope coordinate outside that finite surface.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:active-reading-gate-carrier}. Its rows name the target, active reading, retired reading, blocking ledger, export route, transport, replay, provenance, and local certificate.
+
+The obligation surface of \autoref{thm:active-reading-gate-obligation-surface} grounds the registry and claim sides through $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, and $\ClaimRegistryLayerUp$. It also keeps the audit transcript envelope and writing-item audit route visible through the provenance row $P$.
+
+Apply ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape} and the single-export route from \autoref{thm:active-reading-gate-single-export-route}. The same finite rows that admit the packet also bound every consumer read, so no hidden target alias or bypass route can supply an additional scope coordinate.
+\end{proof}
+
 \falsifiablePrediction{If both $A$ and $R$ are exported as active readings for the same target, the packet is refuted by the blocking row.}
 
 \independenceWitness{registryexportsurface, registrylayer, claimregistrylayer, audittranscriptenvelope, writingitemaudit: none is bijective to ActiveReadingGateUp. The registry export surface controls public export but does not store the active and retired readings together; the registry layer lacks the single-reading gate; the claim registry layer lacks retired-reading audit data; the audit transcript envelope lacks registry blocking as the active-reading gate; and the writing-item audit packet lacks the target-specific export route $T,A,B,E$ as one finite carrier.}
