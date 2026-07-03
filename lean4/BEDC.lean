@@ -1784,6 +1784,7 @@ import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CartanMatrixUp.TasteGate
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
+import BEDC.Derived.CatZeroMetricUp
 import BEDC.Derived.CatalanConvolutionUp
 import BEDC.Derived.CatalanIdentitiesUp
 import BEDC.Derived.CatalanUp
