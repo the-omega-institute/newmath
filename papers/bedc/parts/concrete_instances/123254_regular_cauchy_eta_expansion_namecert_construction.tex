@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEtaExpansionUp$}
+\label{ch:concrete-instances-regular-cauchy-eta-expansion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyEtaExpansionUp$ packet records the finite readback route from a sealed real name to the regular-Cauchy rows that witness it. It sits after the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational row of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the completion transformer of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}. The packet is an eta-expansion certificate for visible names; it does not assert quotient equality of real names, selected representatives, host real equality, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy eta-expansion carrier]
+\label{def:regular-cauchy-eta-expansion-carrier}
+A $\RegularCauchyEtaExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,R,W,D,T,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the sealed $\RealUp$ name whose public read is being expanded;
+\item $R$ is the $\RegSeqRatUp$ witness row displayed by the same name route;
+\item $W$ is the finite $\StreamNameUp$ window ledger through which $R$ is inspected;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for those inspected windows;
+\item $T$ is the $\CauchyCompletionMonadUp$ completion-facing route that records how the seal was produced from the regular-Cauchy witness rows;
+\item $H$ stores componentwise $\hsame$ transports for the seal, regular row, window ledger, dyadic tolerance row, completion route, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ replay from the sealed read back to $R,W,D,T$;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEtaExpansionUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletionMonadUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyEtaExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,W,D,T,H,C,P,N$. It has no coordinate for quotient equality of Real names, selected Cauchy representatives, host equality of completed values, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy eta-expansion NameCert obligations]
+\label{thm:regular-cauchy-eta-expansion-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-eta-expansion-carrier}, the local $\NameCert_{\RegularCauchyEtaExpansionUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $E=(S,R,W,D,T,H,C,P,N)$;
+\item classifier stability under the displayed $\hsame$ transports of $H$;
+\item seal readback exactness, requiring every read of $S$ as regular-Cauchy data to expose $R,W,D$ before any completion-facing consumer is invoked;
+\item completion-route replay through the $\CauchyCompletionMonadUp$ row $T$ and the displayed $\Cont$ row $C$;
+\item ledger non-escape for the $\Pkg$ and local $\NameCert$ rows, excluding quotient equality, selected representatives, host real equality, countable choice, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier. The only analytic rows available to a readback consumer are the seal $S$, the regular rational witness $R$, the finite stream windows $W$, the dyadic tolerance ledger $D$, and the completion route $T$.
+
+The structural rows then force the same surface to persist under transport and replay. The row $H$ transports only the displayed coordinates, while $C$ replays the finite route from the seal read back through $R,W,D,T$.
+
+Finally read $P$ and $N$. They record provenance and local naming for the same packet, and neither row contains quotient equality, selected representatives, host real equality, countable choice, or a completeness principle. These five rows therefore exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy eta-expansion real-seal factorization]
+\label{thm:regular-cauchy-eta-expansion-real-seal-factorization}
+Every accepted $\RegularCauchyEtaExpansionUp$ packet factors any public read of its sealed $\RealUp$ row through the finite route
+$$
+\RealUp \longmapsto \RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyCompletionMonadUp
+$$
+displayed by $S,R,W,D,T,H,C,P,N$. The factorization is a readback certificate for the seal, not a proof that all $\RealUp$ names have regular-Cauchy representatives and not a quotient equality of completed real values.
+\end{theorem}
+\begin{proof}
+Start with the seal row $S$. By the NameCert obligations of \autoref{thm:regular-cauchy-eta-expansion-namecert-obligations}, any regular-Cauchy read of $S$ must expose the witness row $R$, the finite windows $W$, and the dyadic tolerance ledger $D$ before it reaches the completion-facing route $T$.
+
+Next use the continuation row $C$. It records the displayed replay from the public seal read to the same finite rows, so a consumer cannot bypass the regular witness through an unlisted representative or a host equality fact.
+
+The provenance and naming rows $P,N$ close only this packet. Since the carrier has no coordinate for quotient equality, selected representatives, countable choice, or ambient completeness, the factorization is exactly the displayed eta-expansion route and no broader Real completeness claim follows.
+\end{proof}
+
+\closureat{RegularCauchyEtaExpansionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEtaExpansionUp}
+  \constructivestory{A $\RegularCauchyEtaExpansionUp$ packet is generated from a sealed RealUp row, a RegSeqRat witness row, finite StreamName windows, DyadicRatCore tolerance rows, a CauchyCompletionMonad route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-eta-expansion-carrier}, \autoref{thm:regular-cauchy-eta-expansion-namecert-obligations}, and \autoref{thm:regular-cauchy-eta-expansion-real-seal-factorization} bind the finite readback route from a sealed Real name to its regular-Cauchy witness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of real names, selected representatives, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, seal readback exactness, completion-route replay, and ledger non-escape for the same eta-expansion packet.}
+\end{closurestatus}
