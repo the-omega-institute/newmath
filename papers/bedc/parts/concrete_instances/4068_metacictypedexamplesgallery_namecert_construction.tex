@@ -362,6 +362,24 @@ Use the local subject-reduction boundary and counterexample boundary, \autoref{t
 Finally apply the scope rows theorem, \autoref{thm:metacic-typedexamples-gallery-scope-rows}. The accepted scope is exactly $B,N,L,S,E,I,A,R,K,H,C,P,M$, so a MetaCIC scoped-kernel consumer receives only that finite gallery witness and none of the excluded global metatheorems.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery scoped closure status]
+\label{thm:metacic-typedexamples-gallery-scoped-closure-status}
+The $\MetaCICTypedExamplesGalleryUp$ paper surface is scoped by the carrier, obligation matrix, finite regression surface, typed-family coverage, checker-route factorization, family-row determinacy, local subject-reduction boundary, counterexample boundary, scoped route, scope rows, scope export, scoped-closure route, scoped package, and scoped-kernel consumer route. For any accepted gallery packet, every represented example read is confined to the displayed rows
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M
+$$
+and to the route theorems named above before a consumer may treat the packet as a scoped MetaCIC witness. The scope exports represented examples and their local checker routes only; it does not export global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and obligation matrix, \autoref{def:metacic-typedexamples-gallery-carrier} and \autoref{thm:metacictypedexamplesgallery-obligation-matrix}. They name the displayed rows and the finite obligations each accepted gallery read must expose.
+
+Apply the finite regression surface, typed-family coverage, checker-route factorization, and family-row determinacy theorems. These place every example in one represented family row and route its checker read through the same finite support rows.
+
+Use the local subject-reduction boundary and counterexample boundary. They keep preservation-shaped and counterexample-shaped observations inside the represented examples rather than turning them into global calculus metatheorems.
+
+Finally combine the scoped route, scope rows, scope export, scoped-closure route, scoped package, and scoped-kernel consumer route. Together they identify the public paper surface with the finite route listed in the statement and exclude all global metatheorem coordinates.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICTypedExamplesGalleryUp}
   \constructivestory{A $\MetaCICTypedExamplesGalleryUp$ packet is generated from finite $\BHist$ rows for selected typed examples, checker rows, beta or conversion readbacks, route rows, provenance, and local naming. Each gallery entry is replayable by $\Cont$ through the finite checker surface, so consumers can inspect represented examples without receiving a global calculus theorem. Componentwise $\hsame$ preserves the example, checker, and route rows, while $\Pkg$ records the MetaCIC typed-example dependencies. The gallery is therefore a bounded regression surface for displayed examples and not a proof of preservation, normalization, or checker completeness.}
   \theoryclosure{\obligationClosure}
