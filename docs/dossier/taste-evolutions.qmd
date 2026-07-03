@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T02:53:15Z
+> 最后刷新: 2026-07-03T04:16:04Z
 
-**Daemon 状态**: monitor (monitor cycle 266, adjust_since_research 2, round_counter 36608, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 267, adjust_since_research 2, round_counter 36673, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1230 条 finding):
-- isolated_theorem: 884 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1233 条 finding):
+- isolated_theorem: 887 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 280 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 102 次
+- TASTE ALERT category=isolated_theorem: 97 次
 - TASTE ALERT category=unauthorized_capstone: 12 次
-- TASTE ALERT category=low_entropy_template: 7 次
+- TASTE ALERT category=low_entropy_template: 6 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -525,6 +525,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-03T01:41:35Z: `resolved` `delete_theorem` for `BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface:c74a4800`). Rationale: The target was an unconsumed projection from MetricEmbeddingCarrier, and exact repo search found no Lean or paper references beyond its declaration. The surrounding chapter already carries the meaningful MetricEmbeddingUp obligations through graph-distance control, separated-completion handoff, and kernel scope, so retaining this isolated surface theorem would duplicate weaker content without a downstream consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T02:52:42Z: `resolved` `delete_theorem` for `BEDC.Derived.GaussianPrimeUp.rational_prime_split_of_congruent_one_mod_four` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.rational_prime_split_of_congruent_one_mod_four:42658657`). Rationale: The target was an isolated bridge wrapper from FermatTwoSquaresBridge plus NatPrime/NatCongruentOneModFour to GaussianSplit via the already-existing sum_two_squares_splits theorem. Repository search found no Lean downstream users and no paper marker for the full target; the short name appeared only at its declaration. Since the theorem added no consumed BEDC structure beyond applying an unconsumed bridge premise to an existing split theorem, it was removed. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T04:15:29Z: `resolved` `add_downstream_user` for `BEDC.Derived.GaussianPrimeUp.sum_two_squares_splits` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.sum_two_squares_splits:4c2d5c81`). Rationale: The theorem is real BEDC content: it transports a two-square integer representation into the Gaussian split predicate, not just a restatement. It had no downstream full-name references, so I added a JacobiSumUp consumer theorem that takes an existing SquareSumJacobiContact certificate, exports its two-square representation, and feeds it through sum_two_squares_splits to produce a GaussianSplit for the prime integer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
