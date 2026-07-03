@@ -96,6 +96,24 @@ The computation-facing information is still finite gallery data. The beta row $B
 Finally read the sibling provenance row $P$. It routes the displayed examples through the closed-substitution boundary, typechecking-derivation trace, and proof-erasure trace already named by the chapter, while $H,K,N$ preserve transport, replay, and local naming. Since the carrier has no coordinate for arbitrary terms, a global evaluator, confluence, strong normalization, or global conversion decidability, none of those conclusions can be exported.
 \end{proof}
 
+\begin{theorem}[Typed example gallery scoped kernel route]
+\label{thm:typed-example-gallery-scoped-kernel-route}
+Every scoped kernel read of an accepted $\TypedExampleGalleryUp$ packet is confined to the displayed rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and to the three sibling chapters \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. Carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface non-escape, and sibling provenance are scoped to those finite rows and cited siblings; they do not assert global subject reduction, normalization, confluence, conversion decidability, proof-erased compiler correctness, arbitrary checker completeness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The rows $E,T,C,B,R$ are the only gallery, checker, closedness, beta, and regression rows available before the structural data are read.
+
+Apply the NameCert obligations and the obligation frontier. These force checker visibility through $T$, closedness visibility through $C$, beta visibility through $B$, and regression-surface visibility through $R$ before $H,K,P,N$ can transport, replay, source, or name the packet.
+
+The sibling provenance is exactly the three displayed chapters named in the statement. The closed-substitution boundary supplies the closedness source, the typechecking-derivation trace supplies checker routes, and the proof-term-erasure trace supplies proof-facing readback discipline.
+
+Finally use the regression and normal-form separation theorems. They keep all public reads inside the finite gallery surface, so none of the global MetaCIC conclusions can be exported from the scoped kernel route.
+\end{proof}
+
 \closureat{TypedExampleGalleryUp}{obligationStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}
