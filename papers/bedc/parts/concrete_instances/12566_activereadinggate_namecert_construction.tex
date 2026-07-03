@@ -41,6 +41,34 @@ The registry siblings provide the public routes. $\RegistryExportSurfaceUp$ cont
 Rows $E,H,C,P,N$ make that boundary stable. They expose the single export route, preserve the displayed rows componentwise, replay the route through the blocking surface, record package provenance, and name the packet. No remaining coordinate can create a parallel active reading or bypass the refusal row.
 \end{proof}
 
+\begin{theorem}[Active reading gate obligation carrier window]
+\label{thm:active-reading-gate-obligation-carrier-window}
+Every accepted $\ActiveReadingGateUp$ carrier exposes registry export, registry layer, claim registry, audit transcript, writing item, active row, retired row, transport, replay, provenance, and local name before any public active-read decision is exported. In carrier notation, the public window is the displayed route
+$$
+T,A,R,B,E,H,C,P,N
+$$
+together with the registry, claim, transcript, and writing-item sibling rows named by $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $T,A,R,B,E,H,C,P,N$ display target, current reading, retired reading, refusal, export, transport, replay, provenance, and local naming before any public decision can leave the packet.
+
+Now read the sibling rows named in the provenance row. Registry export, registry layer, claim registry, audit transcript, and writing-item audit are available only as displayed consumers of the same packet.
+
+Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ preserve that window. Thus a public active-read decision cannot be exported until the carrier window and sibling rows listed in the statement have all been exposed.
+\end{proof}
+
+\begin{theorem}[Active reading gate scope handoff]
+\label{thm:active-reading-gate-scope-handoff}
+Every public $\ActiveReadingGateUp$ handoff factors through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, registry exports, claim registry, and writing-item audit rows. The handoff carries the active and retired reading rows as displayed data and exports no hidden target alias, registry bypass, claim bypass, writing-item bypass, or active-read decision outside the finite packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It binds the local NameCert surface to the finite carrier and to the registry, claim, transcript, and writing-item siblings named by the packet.
+
+The structural rows supply the handoff route. The carrier itself is a $\BHist$ packet, $H$ supplies componentwise $\hsame$ transport, $C$ supplies displayed $\Cont$ replay, $P$ supplies $\Pkg$ provenance, and $N$ supplies the local $\NameCert$ row.
+
+The registry export, claim registry, and writing-item audit rows are therefore reached only through that same finite packet. Since no row remains for a hidden target alias or bypass route, every public handoff factors through the listed kernel and sibling rows.
+\end{proof}
+
 \begin{theorem}[Active reading gate export uniqueness obligation]
 \label{thm:active-reading-gate-export-uniqueness-obligation}
 For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the export row $E$ is unique as an active-reading export for the target row $T$. Any registry, claim, transcript, or writing-item consumer must read $E$ through the current row $A$ and the blocking row $B$, with $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, and $\WritingItemAuditUp$ acting only on that displayed route.
