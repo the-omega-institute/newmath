@@ -74,6 +74,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Superfactorial.superfactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.Superfactorial.SuperfactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.EuclidFactorial.euclidFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EuclidFactorial.EuclidFactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.AscFactorial.ascFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.AscFactorial.AscFactorialExportWitness },
