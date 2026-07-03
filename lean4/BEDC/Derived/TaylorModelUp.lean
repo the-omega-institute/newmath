@@ -238,6 +238,77 @@ theorem TaylorModelRemainderObligationRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, obligationReadUnary⟩
 
+theorem TaylorModelBridgeFacingRoute [AskSetup] [PackageSetup]
+    {center jet subJet remainder ledger eval validated readback provenance nameCert sameRows
+      route endpoint bridgeRead obligationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelDisplayedFiniteJetSubwindow center jet subJet remainder ledger eval validated
+        readback provenance nameCert sameRows route endpoint bundle pkg ->
+      Cont subJet remainder obligationRead ->
+        Cont obligationRead endpoint bridgeRead ->
+          PkgSig bundle bridgeRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row center ∨ hsame row subJet ∨ hsame row remainder ∨
+                    hsame row ledger ∨ hsame row eval ∨ hsame row readback ∨
+                      hsame row endpoint ∨ hsame row bridgeRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont subJet remainder obligationRead ∧
+                    Cont obligationRead endpoint bridgeRead ∧
+                      PkgSig bundle bridgeRead pkg)
+                hsame ∧
+              UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
+  intro subwindow subJetRemainder obligationEndpoint bridgePkg
+  obtain ⟨carrier, subJetUnary, _sameSubJet, _subJetPkg⟩ := subwindow
+  obtain ⟨_centerUnary, _jetUnary, remainderUnary, _ledgerUnary, _evalUnary,
+    _validatedUnary, _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
+    _routeUnary, endpointUnary, _ledgerRow, _evalRow, _sameRowsRoute, _centerJetEval,
+    _remainderLedgerReadback, _evalReadbackEndpoint, _endpointPkg, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have obligationReadUnary : UnaryHistory obligationRead :=
+    unary_cont_closed subJetUnary remainderUnary subJetRemainder
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed obligationReadUnary endpointUnary obligationEndpoint
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row center ∨ hsame row subJet ∨ hsame row remainder ∨
+              hsame row ledger ∨ hsame row eval ∨ hsame row readback ∨
+                hsame row endpoint ∨ hsame row bridgeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont subJet remainder obligationRead ∧
+              Cont obligationRead endpoint bridgeRead ∧ PkgSig bundle bridgeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, subJetRemainder, obligationEndpoint, bridgePkg⟩
+  }
+  exact ⟨cert, bridgeReadUnary⟩
+
 theorem TaylorModelCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {center jet remainder ledger eval validated readback provenance nameCert sameRows route
       endpoint : BHist}
