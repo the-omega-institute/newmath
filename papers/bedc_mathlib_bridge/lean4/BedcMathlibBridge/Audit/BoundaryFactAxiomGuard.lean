@@ -12,6 +12,7 @@ import Mathlib.Data.Nat.Totient
 import Mathlib.Combinatorics.Enumerative.Bell
 import Mathlib.Combinatorics.Enumerative.Partition.Basic
 import Mathlib.Combinatorics.Enumerative.Schroder
+import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
 import Mathlib.NumberTheory.FactorisationProperties
@@ -149,6 +150,9 @@ multisets, compositions, and finite type machinery.
 -/
 noncomputable def auditNatPartitionCountBoundary (n : Nat) : Nat :=
   Fintype.card (Nat.Partition n)
+
+noncomputable def auditNatBinaryMultinomialBoundary (a b : Nat) : Nat :=
+  Nat.multinomial (Finset.univ : Finset (Fin 2)) ![a, b]
 
 /-!
 Audit-only touchpoints for mathlib's finite number-theoretic functions whose
