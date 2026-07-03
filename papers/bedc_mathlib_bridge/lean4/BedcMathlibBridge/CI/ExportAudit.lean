@@ -85,6 +85,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Motzkin.motzkinExport,
     witnessType :=
       `BedcMathlibBridge.Export.Motzkin.MotzkinExportWitness },
+  { witness := `BedcMathlibBridge.Export.MotzkinTriangle.motzkinTriangleExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.MotzkinTriangle.MotzkinTriangleExportWitness },
   { witness := `BedcMathlibBridge.Export.Padovan.padovanExport,
     witnessType :=
       `BedcMathlibBridge.Export.Padovan.PadovanExportWitness },
@@ -183,6 +186,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.EntringerNumber.entringerNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.EntringerNumber.EntringerNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.Riordan.riordanExport,
+    witnessType := `BedcMathlibBridge.Export.Riordan.RiordanExportWitness },
   { witness :=
       `BedcMathlibBridge.Export.ProjectionLedgerCount.projectionLedgerCountExport,
     witnessType :=
