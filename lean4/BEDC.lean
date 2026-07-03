@@ -1194,6 +1194,7 @@ import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
+import BEDC.Derived.BishopRegularRealSealUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
 import BEDC.Derived.BishopSeparatedRealCompletionUp
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
@@ -12734,6 +12735,7 @@ import BEDC.Derived.StopCodonZeckendorfSuffixUp.VisionRoute
 import BEDC.Derived.StopTrpFaceRankDeficiencyUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
+import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute
