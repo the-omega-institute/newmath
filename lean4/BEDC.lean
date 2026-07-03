@@ -365,6 +365,7 @@ import BEDC.Derived.ArithmeticFnUp
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArithmeticalHierarchyUp.TasteGate
 import BEDC.Derived.ArithmeticoGeometricSequenceUp.TasteGate
+import BEDC.Derived.AronszajnTreeUp.TasteGate
 import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
@@ -965,6 +966,7 @@ import BEDC.Derived.BerryEsseenFiniteWindowUp.ErrorBoundHandoff
 import BEDC.Derived.BerryEsseenFiniteWindowUp.TasteGate
 import BEDC.Derived.BertrandSeriesTestUp.TasteGate
 import BEDC.Derived.BertrandTestUp
+import BEDC.Derived.BesicovitchCoveringUp.TasteGate
 import BEDC.Derived.BesovSpaceUp.TasteGate
 import BEDC.Derived.BesselInequalityUp.TasteGate
 import BEDC.Derived.BesselNumberUp
@@ -1784,6 +1786,7 @@ import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CartanMatrixUp.TasteGate
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
+import BEDC.Derived.CatZeroMetricUp
 import BEDC.Derived.CatalanConvolutionUp
 import BEDC.Derived.CatalanIdentitiesUp
 import BEDC.Derived.CatalanUp
