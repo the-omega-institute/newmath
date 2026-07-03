@@ -23,7 +23,13 @@ def ignoredDeclPrefixes : Array Name := #[
   `BedcMathlibBridge.RelQuotEquiv,
   -- Bool is a bridge canary for the thin-layer audit; its BEDC-side readback
   -- facts are present under BEDC.Derived.BoolUp and can be wired separately.
-  `BedcMathlibBridge.Constructive.Bool
+  `BedcMathlibBridge.Constructive.Bool,
+  -- The sign-magnitude presentation of BEDC IntUp reads back into `Bool × Nat`
+  -- (a sign bit paired with the unary magnitude length), the faithful target
+  -- that keeps `+0` and `-0` distinct. Like the Bool canary, that target shape
+  -- is mathlib-free; the difference presentation's `Int` bridge is separate.
+  `BedcMathlibBridge.Constructive.IntSignMagnitude,
+  `BedcMathlibBridge.Export.IntSignMagnitude
 ]
 
 def formatNames (names : Array Name) : String :=
@@ -60,11 +66,14 @@ def isAuditedContentDecl (env : Environment) (n : Name) : Bool :=
 def isRootIntName (n : Name) : Bool :=
   n == `Int || (`Int).isPrefixOf n
 
+def isMathlibListCountName (n : Name) : Bool :=
+  n == `List.count
+
 def isMathlibDecl (env : Environment) (n : Name) : Bool :=
   BedcGate.isFromModulePrefix env `Mathlib n
 
 def isBridgeJustifyingConstant (env : Environment) (n : Name) : Bool :=
-  isRootIntName n || isMathlibDecl env n
+  isRootIntName n || isMathlibListCountName n || isMathlibDecl env n
 
 def structureProjectionOwner? (env : Environment) (n : Name) : Option Name := Id.run do
   match n with

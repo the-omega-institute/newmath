@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization worker <WORKER_ID>.
 
 ## Prompts version
-v5.60 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.62 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -21,6 +21,7 @@ Source meanings:
 
 The existing HARD GATEs (1 of 3 from `top[0..critical_path.dispatch_window.lean)`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 The mandatory top window follows `.pipeline_parallel.json`'s `lean` concurrency value via `critical_path.dispatch_window.lean`, preventing high-concurrency workers from being forced onto the same one or two hot chapters when a 71-line single-file chapter has no sibling surface to disperse claims.
+When selecting a new core object target, briefly state which triangle axes it mainly exercises (distinction/time/symmetry), and prefer objects whose axis combination is not yet well explored.
 
 ## SUBSTANCE PREFERENCE (round-3 stdInterop adversarial — SOFT, never a reject)
 

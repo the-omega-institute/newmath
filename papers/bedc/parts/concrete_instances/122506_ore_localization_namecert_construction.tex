@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\OreLocalizationUp$}
+\label{ch:concrete-instances-ore-localization-namecert}
+\origin{human}
+
+Following Ore localization of noncommutative rings, the $\OreLocalizationUp$ packet records the finite denominator calculus needed to read fractions $s^{-1}r$ or $rs^{-1}$ without treating localization as generic parameter transport. It sits after the multiplicative monoid surface of \autoref{ch:concrete-instances-monoid-namecert}, the ring operation rows of \autoref{ch:concrete-instances-ring-namecert}, and the ideal-facing absorption surface of \autoref{ch:concrete-instances-ideal-namecert}. The packet names an admissible denominator set, left and right Ore squares, cancellation witnesses, fraction rows, transport, replay, provenance, and local naming; it does not import a host quotient ring, a selected common denominator outside the ledger, commutativity, or a classical total ring of fractions.
+
+\begin{definition}[OreLocalization carrier]
+\label{def:ore-localization-carrier}
+An $\OreLocalizationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,S,O,C,F,D,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the ambient $\RingUp$ row, including the additive, multiplicative, and distributive operation data read through \autoref{ch:concrete-instances-ring-namecert};
+\item $S$ is the denominator $\MonoidUp$ row, naming the multiplicatively closed set used by the localization route;
+\item $O$ is the Ore-square ledger, listing the displayed left and right common-multiple squares used to move a numerator past a denominator;
+\item $C$ is the cancellation ledger, recording the denominator-side cancellation witnesses allowed by the same Ore surface;
+\item $F$ is the finite fraction row, whose entries are displayed numerator-denominator pairs and not host quotient classes;
+\item $D$ is the denominator ledger, recording which denominator row is consumed by each fraction, Ore square, cancellation step, and multiplication handoff;
+\item $H$ records componentwise $\hsame$ transport for the ring, denominator, Ore-square, cancellation, fraction, denominator-ledger, replay, provenance, and local naming rows;
+\item $T$ records displayed $\Cont$ replay for denominator admission, Ore-square formation, fraction multiplication, cancellation, and consumer readback;
+\item $P$ is the $\Pkg$ provenance over $\OreLocalizationUp$, $\RingUp$, $\MonoidUp$, $\IdealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\OreLocalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,O,C,F,D,H,T,P,N$.
+\end{definition}
+\leandef{BEDC.Derived.OreLocalizationUp.OreLocalizationUp}
+\leanchecked{BEDC.Derived.OreLocalizationUp.OreLocalizationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[OreLocalization NameCert obligations]
+\label{thm:ore-localization-namecert-obligations}
+For the carrier of \autoref{def:ore-localization-carrier}, the local $\NameCert_{\OreLocalizationUp}$ surface consists exactly of ambient ring admission, denominator-monoid admission, left and right Ore-square exposure, denominator-side cancellation exposure, finite fraction-row admission, denominator-ledger readback, componentwise transport, displayed continuation replay, provenance, and local naming. Every accepted localization read must pass through these rows before a fraction multiplication or denominator handoff is public.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(R,S,O,C,F,D,H,T,P,N)$. The ring and denominator rows are visible first, so every numerator and denominator read is grounded in the displayed $\RingUp$ and $\MonoidUp$ certificates.
+
+The Ore-square and cancellation rows are $O$ and $C$. They provide the finite common-multiple and cancellation witnesses used to compare displayed fraction rows; no commutative shortcut or host quotient equality is available.
+
+The fraction and denominator ledgers are $F$ and $D$. They record which denominator is consumed at each multiplication, comparison, and handoff step.
+
+Finally, $H,T,P,N$ transport, replay, source, and name the same finite data. Since the packet has no coordinate for a host localization object, selected representatives outside the ledger, total quotient rings, or ambient ideal equality, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[OreLocalization denominator ledger]
+\label{thm:ore-localization-denominator-ledger}
+In an accepted $\OreLocalizationUp$ carrier $L=(R,S,O,C,F,D,H,T,P,N)$, every public fraction row in $F$ has its denominator named in $D$, every Ore-square witness in $O$ consumes denominator rows from $D$, and every cancellation witness in $C$ returns to the same denominator ledger. A consumer cannot cite a localized product, comparison, or handoff unless the relevant denominator route is displayed in $D$.
+\end{theorem}
+\begin{proof}
+Read the fraction row $F$ together with the denominator ledger $D$. The carrier admits fractions only as displayed numerator-denominator pairs, so each fraction coordinate has a corresponding denominator entry.
+
+Use the Ore-square ledger $O$. A common-multiple square is accepted only when the denominator rows it moves across are already listed in $D$.
+
+Use the cancellation ledger $C$ for the final handoff. Cancellation may shorten or compare displayed fraction rows, but it does not create a denominator outside the ledger. The transport, replay, provenance, and naming rows $H,T,P,N$ preserve the same denominator route for downstream consumers.
+\end{proof}
+
+\closureat{OreLocalizationUp}{seedStr}
+
+\begin{closurestatus}{\OreLocalizationUp}
+  \constructivestory{An $\OreLocalizationUp$ packet is generated from an ambient RingUp row, a denominator MonoidUp row, Ore-square witnesses, cancellation witnesses, finite fraction rows, a denominator ledger, transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ore-localization-carrier}, \autoref{thm:ore-localization-namecert-obligations}, and \autoref{thm:ore-localization-denominator-ledger} seed the finite denominator-localization carrier and its NameCert and denominator-ledger obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not construct a host quotient ring, prove universal localization, assume commutativity, select common denominators outside the ledger, close ideal equality, provide Lean verification, or bridge check the route.}
+  \upgradepath{Obligation closure requires checked ring admission, denominator-monoid admission, Ore-square exposure, cancellation exposure, fraction-row admission, denominator-ledger readback, transport, replay, provenance, and local naming for BEDC.Derived.OreLocalizationUp.}
+\end{closurestatus}

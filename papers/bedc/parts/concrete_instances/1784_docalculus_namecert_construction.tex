@@ -222,11 +222,29 @@ It remains to exclude later intervention rows. A later row is, by definition, a 
 \end{proof}
 \leanchecked{BEDC.Derived.DoCalculusUp.DoCalculusPacket\_intervention\_prefix\_locality}
 
+\begin{theorem}[DoCalculus scoped closure route]
+\label{thm:do-calculus-scoped-closure-route}
+The displayed $\DoCalculusUp$ packet closes the following scoped surface: finite $\BHist$ intervention ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, adjustment ledgers, intervention non-escape rows, probability-facing handoff rows, displayed prefix subledgers, prefix-locality routes, $\Pkg$ provenance, and local $\NameCert$ rows. The scope is witnessed exactly by \autoref{def:do-calculus-carrier}, \autoref{thm:do-calculus-namecert-obligation-surface}, \autoref{thm:do-calculus-adjustment-ledger}, \autoref{thm:do-calculus-intervention-non-escape}, \autoref{thm:do-calculus-probability-handoff}, \autoref{def:do-calculus-displayed-prefix-subledger}, and \autoref{thm:do-calculus-intervention-prefix-locality}.
+
+Within this scope, every intervention-facing read is a finite packet route through the displayed causal ledger and its retained probability-facing rows. No read in the scoped surface supplies a hidden intervention, host causal graph, selected counterfactual, ambient probability equality, or adjustment row outside the finite ledger.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:do-calculus-carrier}. It lists exactly the intervention ledger, observed-variable rows, adjustment ledger, modified distribution rows, independence certificates, conditional-expectation row, export row, transport row, continuation row, package provenance, and local naming row. The NameCert obligation surface of \autoref{thm:do-calculus-namecert-obligation-surface} then identifies carrier admission, classifier transport, adjustment exactness, intervention non-escape, and probability handoff as the local naming obligations.
+
+The adjustment ledger is bounded by \autoref{thm:do-calculus-adjustment-ledger}: only observed rows from $V$ and stored independence certificates from $R$ can mediate the displayed query. The intervention-facing side is bounded by \autoref{thm:do-calculus-intervention-non-escape}, which forces every consumer route through $I,V,A,M,R,H,C,P,N$ before any intervention read is visible.
+
+The probability-facing side is bounded by \autoref{thm:do-calculus-probability-handoff}. It routes adjusted distribution rows and independence certificates through the conditional-expectation row and the export row, so the probability chapter receives a finite handoff rather than an ambient model.
+
+Finally use the prefix interface. The displayed subledger of \autoref{def:do-calculus-displayed-prefix-subledger} retains an initial intervention segment together with exactly its dependent observed-variable, adjustment, distribution, independence, transport, continuation, package, and naming rows. The locality theorem \autoref{thm:do-calculus-intervention-prefix-locality} says that reads from the retained prefix cannot inspect later intervention rows. These witnesses assemble the stated scoped closure over $\BHist$, $\hsame$, $\Cont$, finite intervention ledgers, probability-facing rows, and $\NameCert$.
+\end{proof}
+\leanchecked{BEDC.Derived.DoCalculusUp.DoCalculusPacket\_scoped\_closure\_route}
+
 \begin{closurestatus}{\DoCalculusUp}
   \constructivestory{A $\DoCalculusUp$ packet is generated from a finite intervention ledger, observed-variable rows, adjustment-set ledger, modified distribution rows, conditional-independence certificates, conditional-expectation rows, export rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and local naming. The classifier reads an intervention only through the same finite causal ledger and its adjustment and probability-facing handoff rows. The prefix subledger story is constructive locality: an initial intervention segment generates its own retained packet, and later intervention rows cannot be read through routes that were restricted to the displayed prefix. No causal oracle or hidden intervention is introduced.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the DoCalculus carrier, NameCert obligation surface, adjustment ledger exactness, intervention non-escape, probability handoff, displayed prefix subledger, and intervention prefix locality for $\DoCalculusUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:do-calculus-scoped-closure-route} binds the DoCalculus carrier, NameCert obligation surface, adjustment ledger exactness, intervention non-escape, probability handoff, displayed prefix subledger, and intervention prefix locality for $\DoCalculusUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DoCalculusUp.DoCalculusPacket\_scoped\_closure\_route}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim hidden interventions, host graphical causal semantics, causal oracles, external probability equality, or adjustment rows outside the finite ledger.}

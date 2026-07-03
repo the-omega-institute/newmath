@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\UnscentedKalmanFilterUp$}
+\label{ch:concrete-instances-unscented-kalman-filter-namecert}
+\origin{human}
+
+Following Julier and Uhlmann on the unscented transform, the $\UnscentedKalmanFilterUp$ packet records a nonlinear filtering certificate whose sigma-point generation, propagation, covariance ledger, and update row are all displayed as finite BEDC data before a downstream estimator reads the filter. It sits beside the continuous-time $\KalmanBucyFilterUp$ packet of \autoref{ch:concrete-instances-kalman-bucy-filter-namecert} and the finite Gramian ledger of $\ObservabilityGramianUp$ in \autoref{ch:concrete-instances-observability-gramian-namecert}. Its carrier is read through the $\MatrixUp$ rows of \autoref{ch:concrete-instances-matrix-namecert}, the $\VecSpaceUp$ rows of \autoref{ch:concrete-instances-vecspace-namecert}, the $\ProbSpaceUp$ rows of \autoref{ch:concrete-instances-probspace-namecert}, and the $\RandomVarUp$ rows of \autoref{ch:concrete-instances-randomvar-namecert}. The packet names only the finite unscented-filter ledger; it does not claim an ambient stochastic process, analytic convergence theorem, selected nonlinear model class, or optimality theorem.
+
+\begin{definition}[UnscentedKalmanFilter carrier]
+\label{def:unscented-kalman-filter-carrier}
+An $\UnscentedKalmanFilterUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,Y,\mu,\Sigma,S,W,F,G,\widehat{\mu},\widehat{\Sigma},Z,K,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the state and observation rows, each displayed through $\VecSpaceUp$ and $\MatrixUp$ coordinates;
+\item $\mu$ and $\Sigma$ are the prior mean and covariance rows read through $\ProbSpaceUp$ and $\RandomVarUp$ provenance;
+\item $S$ is the finite sigma-point row and $W$ is the corresponding weight row;
+\item $F$ is the propagated state-sigma row and $G$ is the propagated observation-sigma row;
+\item $\widehat{\mu}$ and $\widehat{\Sigma}$ are the predicted mean and covariance rows, and $Z,K,R$ are the innovation, gain, and residual-ledger rows;
+\item $E$ records sibling readback through the $\KalmanBucyFilterUp$ and $\ObservabilityGramianUp$ surfaces without identifying the nonlinear sigma-point packet with either sibling;
+\item $H$ records componentwise $\hsame$ transport of state, observation, covariance, sigma-point, weight, propagation, innovation, gain, and residual rows;
+\item $C$ records displayed $\Cont$ replay for accepted prediction and update routes;
+\item $P$ is the $\Pkg$ provenance naming $\UnscentedKalmanFilterUp$, $\KalmanBucyFilterUp$, $\ObservabilityGramianUp$, $\MatrixUp$, $\VecSpaceUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UnscentedKalmanFilterUp}$ row.
+\end{enumerate}
+No external nonlinear dynamics oracle, host probability space, selected noise process, analytic approximation bound, or optimality certificate is part of the carrier.
+\end{definition}
+
+\begin{theorem}[UnscentedKalmanFilter NameCert obligations]
+\label{thm:unscented-kalman-filter-namecert-obligations}
+For the carrier of \autoref{def:unscented-kalman-filter-carrier}, the local $\NameCert_{\UnscentedKalmanFilterUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $U=(X,Y,\mu,\Sigma,S,W,F,G,\widehat{\mu},\widehat{\Sigma},Z,K,R,E,H,C,P,N)$;
+\item sigma-point classifier stability, saying that the accepted classifier depends only on the displayed $S,W,F,G$ rows and their stated state, observation, mean, and covariance sources;
+\item covariance and update ledger exactness, saying that $\widehat{\mu}$, $\widehat{\Sigma}$, $Z$, $K$, and $R$ are read only through the displayed sigma-point, weight, propagated-observation, innovation, and residual rows;
+\item componentwise $\hsame$ transport through $H$ for state, observation, covariance, sigma-point, weight, propagation, innovation, gain, residual, provenance, and local naming rows;
+\item displayed $\Cont$ replay through $C$ for every prediction, update, and sibling-consumer route exported by the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:unscented-kalman-filter-carrier}. Carrier admission is coordinate inspection: every row used by the certificate is a displayed $\BHist$ coordinate of $U$.
+
+The sigma-point classifier is stable because it reads the finite sigma-point row $S$, weight row $W$, and propagated rows $F,G$ together with their displayed state, observation, mean, and covariance sources. Componentwise replacement by $\hsame$-matched rows preserves that finite shape.
+
+The covariance and update ledger is exact by the same projection. The predicted mean, predicted covariance, innovation, gain, and residual rows have no route except through $S,W,F,G,\widehat{\mu},\widehat{\Sigma},Z,K,R$.
+
+Finally, $H$ and $C$ are the only transport and replay rows. A downstream Kalman, Gramian, matrix, vector-space, probability, or random-variable consumer must therefore read the same finite packet through the package provenance $P$ and the local name row $N$, not through an undisplayed stochastic or analytic object.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UnscentedKalmanFilterUp$ packet is refuted by any estimator consumer that reads a covariance, gain, innovation, residual, or propagated sigma-point row while bypassing the displayed sigma-point row $S$, weight row $W$, covariance ledger $\widehat{\Sigma}$, update rows $Z,K,R$, transport row $H$, replay row $C$, or package provenance $P$.}
+
+\independenceWitness{kalman-bucy-filter, observability-gramian, matrix, vecspace, probspace: none is bijective to $\UnscentedKalmanFilterUp$ because the packet jointly carries sigma-point generation, weights, nonlinear propagation, covariance prediction, innovation update, sibling readback, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{UnscentedKalmanFilterUp}{seedStr}
+
+\begin{closurestatus}{\UnscentedKalmanFilterUp}
+  \constructivestory{An $\UnscentedKalmanFilterUp$ packet is generated from finite state, observation, mean, covariance, sigma-point, weight, propagation, innovation, gain, residual, sibling readback, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:unscented-kalman-filter-carrier}, \autoref{thm:unscented-kalman-filter-namecert-obligations}, the displayed falsifiable prediction, and the displayed independence witness seed the finite nonlinear filtering NameCert surface over KalmanBucy, Gramian, matrix, vector-space, probability-space, and random-variable rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host stochastic-process semantics, analytic convergence, nonlinear filtering optimality, or a selected external probability model.}
+  \upgradepath{Obligation closure requires checked carrier admission, sigma-point classifier stability, covariance and update ledger exactness, componentwise transport, replay, package provenance, and local NameCert exhaustion for BEDC.Derived.UnscentedKalmanFilterUp.}
+\end{closurestatus}

@@ -1,0 +1,216 @@
+\section{Constructor Certificate for OCLSD}
+\label{sec:observer-centered-constructor-certificate}
+\concretizedIn{ch:concrete-instances-observer-centered-constructor-certificate-namecert}{Finite constructor certificate for observer-centered orthogonal ledger steps.}
+
+The observer-centered dynamics can be read as a constructor certificate:
+once the frame selector, Hilbert bundle, reshaping rows, closed ledger
+subspaces, and displayed successor sections are supplied, the orthogonal
+ledger clause is forced by the Hilbert projection theorem. The section
+step is therefore not an additional existence premise; it is the output
+of a finite list of typed rows.
+
+\begin{definition}[OCLSD constructor packet]
+\label{def:observer-centered-oclsd-constructor-packet}
+An \emph{OCLSD constructor packet} consists of a reference-frame graph
+$\mathcal R$, a world Hilbert bundle
+$$
+\{\mathcal H_R\}_{R\in V_{\mathcal R}},
+$$
+a selector $n\mapsto R_n$ with
+$$
+R_{n+1}\sim R_n,
+$$
+isometric reshaping rows
+$$
+\Phi_{n+1,n}:=\Phi_{R_{n+1}\leftarrow R_n}
+:\mathcal H_{R_n}\to\mathcal H_{R_{n+1}},
+$$
+closed ledger subspaces
+$$
+\mathcal L_n\subseteq\mathcal H_{R_n},
+$$
+and displayed world-sections
+$$
+B_n\in\mathcal H_{R_n}.
+$$
+For each stage, it defines the rewritten ledger
+$$
+\mathcal L_n^{\uparrow}:=
+\Phi_{n+1,n}(\mathcal L_n),
+$$
+the orthogonal projection
+$$
+P_n^{\uparrow}:
+\mathcal H_{R_{n+1}}\to\mathcal L_n^{\uparrow},
+$$
+the projection residual
+$$
+\eta_{n+1}:=
+B_{n+1}-P_n^{\uparrow}B_{n+1},
+$$
+the residual line
+$$
+E_{n+1}:=
+\overline{\operatorname{span}}\{\eta_{n+1}\},
+$$
+and the accepted ledger
+$$
+\mathcal L_{n+1}:=
+\mathcal L_n^{\uparrow}\oplus E_{n+1}.
+$$
+\end{definition}
+
+\begin{lemma}[Rewritten ledgers are closed]
+\label{lem:observer-centered-rewritten-ledger-closed}
+In an OCLSD constructor packet, each rewritten ledger
+$$
+\mathcal L_n^{\uparrow}
+=
+\Phi_{n+1,n}(\mathcal L_n)
+$$
+is a closed subspace of $\mathcal H_{R_{n+1}}$.
+\end{lemma}
+
+\begin{proof}
+The ledger $\mathcal L_n$ is closed in a Hilbert space, hence complete in
+the inherited norm. The reshaping row $\Phi_{n+1,n}$ is isometric, so its
+restriction to $\mathcal L_n$ is an isometry onto
+$\mathcal L_n^{\uparrow}$. An isometric image of a complete metric space
+inside a Hilbert space is complete, and a complete linear subspace of a
+Hilbert space is closed.
+\end{proof}
+
+\begin{theorem}[Projection forces the orthogonal section step]
+\label{thm:observer-centered-projection-forces-orthogonal-step}
+Every OCLSD constructor packet satisfies
+$$
+E_{n+1}\perp\mathcal L_n^{\uparrow}
+$$
+and hence forms an orthogonal section step in the sense of
+\autoref{def:observer-centered-orthogonal-section-step}.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:observer-centered-rewritten-ledger-closed}, the subspace
+$\mathcal L_n^{\uparrow}$ is closed. Therefore the orthogonal projection
+$P_n^{\uparrow}$ is available. The Hilbert projection theorem gives
+$$
+B_{n+1}-P_n^{\uparrow}B_{n+1}
+\perp
+\mathcal L_n^{\uparrow}.
+$$
+The left side is exactly $\eta_{n+1}$ by
+\autoref{def:observer-centered-oclsd-constructor-packet}. Taking the
+closed span of this residual preserves orthogonality to
+$\mathcal L_n^{\uparrow}$, so
+$$
+E_{n+1}\perp\mathcal L_n^{\uparrow}.
+$$
+The accepted ledger is the displayed orthogonal sum in the constructor
+packet, so it is an orthogonal section step.
+\end{proof}
+
+\begin{corollary}[Old ledger inclusion and residual separation]
+\label{cor:observer-centered-old-ledger-inclusion-residual-separation}
+For every OCLSD constructor packet,
+$$
+\mathcal L_n^{\uparrow}\subseteq\mathcal L_{n+1}
+$$
+and
+$$
+E_{n+1}\cap\mathcal L_n^{\uparrow}=\{0\}.
+$$
+If $B_n\in\mathcal L_n$, then
+$$
+\Phi_{n+1,n}(B_n)\in\mathcal L_n^{\uparrow}
+$$
+and the residual row $\eta_{n+1}$ is orthogonal to the rewritten copy of
+$B_n$.
+\end{corollary}
+
+\begin{proof}
+The inclusion is immediate from
+$$
+\mathcal L_{n+1}
+=
+\mathcal L_n^{\uparrow}\oplus E_{n+1}.
+$$
+The intersection is trivial because the sum is orthogonal. If
+$B_n\in\mathcal L_n$, then applying $\Phi_{n+1,n}$ places
+$\Phi_{n+1,n}(B_n)$ in $\Phi_{n+1,n}(\mathcal L_n)$, which is
+$\mathcal L_n^{\uparrow}$. The residual orthogonality follows from
+\autoref{thm:observer-centered-projection-forces-orthogonal-step}.
+\end{proof}
+
+\begin{corollary}[Pythagorean constructor row]
+\label{cor:observer-centered-constructor-pythagorean-row}
+If
+$$
+B_{n+1}=\Phi_{n+1,n}(B_n)+\eta_{n+1}
+$$
+and $B_n\in\mathcal L_n$, then
+$$
+\|B_{n+1}\|^2
+=
+\|B_n\|^2+\|\eta_{n+1}\|^2.
+$$
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{cor:observer-centered-old-ledger-inclusion-residual-separation},
+the two displayed summands are orthogonal. The Hilbert-space
+Pythagorean identity gives
+$$
+\|B_{n+1}\|^2
+=
+\|\Phi_{n+1,n}(B_n)\|^2+\|\eta_{n+1}\|^2.
+$$
+The reshaping row is isometric, so
+$$
+\|\Phi_{n+1,n}(B_n)\|=\|B_n\|.
+$$
+\end{proof}
+
+\begin{theorem}[Constructor certificate for observer-centered dynamics]
+\label{thm:observer-centered-constructor-certificate}
+An OCLSD constructor packet determines, at every displayed stage, the
+following certified rows:
+$$
+R_{n+1}\sim R_n,
+$$
+$$
+B_{n+1}\in\mathcal H_{R_{n+1}},
+$$
+$$
+\mathcal L_n^{\uparrow}
+=
+\Phi_{n+1,n}(\mathcal L_n),
+$$
+$$
+\eta_{n+1}
+=
+B_{n+1}-P_n^{\uparrow}B_{n+1},
+$$
+$$
+\mathcal L_{n+1}
+=
+\mathcal L_n^{\uparrow}\oplus E_{n+1},
+\qquad
+E_{n+1}\perp\mathcal L_n^{\uparrow}.
+$$
+Thus the object called OCLSD is the constructor output of its typed
+rows: adjacent frame selection gives a complete successor section, and
+projection against the rewritten ledger gives the orthogonal residual
+row.
+\end{theorem}
+
+\begin{proof}
+The adjacency and section-typing rows are part of
+\autoref{def:observer-centered-oclsd-constructor-packet}. The rewritten
+ledger, projection residual, residual line, and accepted ledger are
+defined there as well. Orthogonality of the residual line is
+\autoref{thm:observer-centered-projection-forces-orthogonal-step}. The
+complete-section reading is
+\autoref{thm:observer-centered-adjacent-selection-complete-section}.
+\end{proof}

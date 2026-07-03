@@ -322,4 +322,87 @@ theorem ExtremeValueFiniteNetAttainment {X F U M S R H C P N attainment sealRead
   }
   exact ⟨sealUnary, cert⟩
 
+theorem ExtremeValueRealSealFactorization
+    {X F U M S R H C P N attainment sealRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      Cont X F U →
+        Cont U M S →
+          Cont M S R →
+            Cont R N attainment →
+              Cont attainment R sealRead →
+                UnaryHistory X ∧ UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory M ∧
+                  UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory sealRead ∧
+                    Cont X F U ∧ Cont U M S ∧ Cont M S R ∧ Cont R N attainment ∧
+                      Cont attainment R sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet sourceRoute modulusRoute foldRoute attainmentRoute sealRoute
+  obtain ⟨xUnary, fUnary, uUnary, mUnary, sUnary, rUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _packetSourceRoute, _packetModulusRoute, _packetFoldRoute,
+    _packetAttainmentRoute⟩ := packet
+  have attainmentUnary : UnaryHistory attainment :=
+    unary_cont_closed rUnary _nUnary attainmentRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed attainmentUnary rUnary sealRoute
+  exact
+    ⟨xUnary, fUnary, uUnary, mUnary, sUnary, rUnary, sealUnary, sourceRoute,
+      modulusRoute, foldRoute, attainmentRoute, sealRoute⟩
+
+theorem ExtremeValueCompactNetMaximumRow
+    {X F U M S R H C P N attainment valueRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      Cont S R valueRead →
+        SemanticNameCert
+            (fun row : BHist => hsame row M ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row X ∨ hsame row F ∨ hsame row U ∨ hsame row M ∨
+                hsame row S ∨ hsame row R)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont X F U ∧ Cont U M S ∧ Cont S R valueRead)
+            hsame ∧
+          UnaryHistory M ∧ UnaryHistory valueRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet valueRoute
+  obtain ⟨_xUnary, _fUnary, _uUnary, mUnary, sUnary, rUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, sourceRoute, modulusRoute, _foldRoute,
+    _attainmentRoute⟩ := packet
+  have valueUnary : UnaryHistory valueRead :=
+    unary_cont_closed sUnary rUnary valueRoute
+  have sourceM :
+      (fun row : BHist => hsame row M ∧ UnaryHistory row) M := by
+    exact ⟨hsame_refl M, mUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row M ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row U ∨ hsame row M ∨
+              hsame row S ∨ hsame row R)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X F U ∧ Cont U M S ∧ Cont S R valueRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro M sourceM
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inl source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sourceRoute, modulusRoute, valueRoute⟩
+  }
+  exact ⟨cert, mUnary, valueUnary⟩
+
 end BEDC.Derived.ExtremeValueUp

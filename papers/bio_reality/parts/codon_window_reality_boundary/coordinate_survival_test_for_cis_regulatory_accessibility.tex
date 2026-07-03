@@ -1,0 +1,31 @@
+\subsection{Coordinate-Survival Test for Cis-Regulatory Accessibility}
+\label{subsec:cis-regulatory-coordinate-accessibility-survival-full-feature-null-cross-layer}
+
+\paragraph{Finite carrier.}
+The record concerns finite allele-by-cell-type rows in which a cis-regulatory variant is presented together with a sequence-coordinate readout and a matched chromatin-accessibility surface.  The biological question is not whether a variant is already known to be functional, but whether a proposed coordinate retains predictive contact with accessibility once ordinary cis-regulatory descriptors have been made unavailable as an explanation.  The admissible row therefore has three local components: a coordinate locating the candidate sequence contrast, a relation comparing accessibility readouts across alleles or populations, and a trigger specifying the matched null against which the relation is tested.  The intended readout has two independent faces: held-out caQTL or accessibility prediction, and allele-specific ATAC imbalance in the same regulatory neighborhood.
+
+\paragraph{Observed finite fact.}
+The only supplied finite verification is \texttt{h0.R.motif.compression}.  In that run, with experiment identifier \texttt{f957b0c114c3}, the realized regulatory motif set $R$ is exactly the following thirteen-element union:
+$$
+\begin{aligned}
+R = \{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+     &UAA, UAG, UCA, UGA, UUA\}.
+\end{aligned}
+$$
+The same finite check reports $\mathrm{no\_extra}=\varnothing$ and $\mathrm{no\_missing}=\varnothing$.  Thus the available row-level evidence says only that this motif-compression surface is internally exact for the listed alphabetic motifs: every expected motif in that finite union is present, and no additional motif is present.  This is useful as a bounded sequence-feature contact, because any later accessibility claim can explicitly match or condition on this motif inventory.  It is not yet an accessibility result.
+
+\paragraph{Matched null required for the accessibility gate.}
+For the proposed cis-regulatory coordinate to pass the chromatin-accessibility boundary, the coordinate-disrupted comparison must be separated from the coordinate-preserving comparison after matching on the known regulatory descriptors.  The matching set is not small: TF motif gain or loss, motif affinity, motif density, motif spacing, pioneer-factor motifs, GC and CpG content, k-mer composition, conservation, repeat and mappability risk, baseline ATAC signal, peak width, promoter or enhancer annotation, distance to the transcription start site, nucleosome-positioning sequence features, ancestry or local ancestry, cell type, batch, and global accessibility state must all be accounted for.  Population caQTL signal by itself is insufficient, because population structure, linkage, cell composition, and baseline peak strength can all carry apparent accessibility association.  A positive record would require both held-out accessibility prediction and allele-specific ATAC imbalance to remain after the same style of full-feature matching.
+
+\paragraph{Decision rule.}
+Let $C$ denote the proposed coordinate indicator, let $A$ denote the accessibility readout, and let $F$ denote the complete matched feature surface described above.  The intended finite test is the survival of coordinate information after conditioning on $F$:
+$$
+\begin{aligned}
+\Delta_{\mathrm{caQTL}} &= \mathrm{Perf}(A \mid F,C) - \mathrm{Perf}(A \mid F),\\
+\Delta_{\mathrm{asATAC}} &= \mathrm{Imbalance}(A \mid F,C) - \mathrm{Imbalance}(A \mid F).
+\end{aligned}
+$$
+The chapter-level gate would require both quantities to be supported by held-out finite rows under the specified null.  The current packet does not supply the caQTL rows, ATAC allele-count rows, matched controls, p-values, confidence intervals, module labels, hit rates, row counts, ancestry strata, cell-type strata, or batch strata needed to evaluate these two residual quantities.  Therefore the coordinate remains a constrained description of known sequence motifs rather than an admitted accessibility-survival claim.
+
+\paragraph{Local boundary of the claim.}
+The exact thirteen-motif compression does not imply that the coordinate opens chromatin.  It also does not imply transcription-factor binding, nucleosome displacement, pioneer-factor action, chromatin-remodeler recruitment, histone marking, enhancer function, gene-expression change, organismal phenotype, disease causality, translation, folding, physical admissibility, molecular function, biochemical mechanism, or universality across loci, ancestries, batches, or cell states.  Any such conclusion would require a separate finite contact supplying the relevant measurement surface and its own matched null.  In the present state, the admissible statement is narrower: one motif inventory has been verified exactly, while the accessibility boundary remains unpassed because the required caQTL and allele-specific ATAC contacts are absent.

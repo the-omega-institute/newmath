@@ -159,6 +159,12 @@ H3 Residual Specificity D Resid4 & The cross-organism-conserved d\_resid4 (B*\_Q
 E1e2 Low Order Localization D Resid4 & E1-vs-E2 low-order localization of d\_resid4: whether the conserved low-order codon geometry is degree-1 (single-position) vs degree-2 (di-position), excluding refuted degree-3. Identifiability preflight FAILS: under the basic non-B* quotient (Q0W rank 39), L2+L3 saturate the full controlled space (rank 39) so degree-1 is fully subsumed (r1|23=0, Frobenius(U1|23)\textasciitilde{}9e-29); only degree-2 has an identifiable unique component (r2|13=8). Clean E1-vs-E2 semipartial split is non-identifiable on this 12-organism matrix. Informative sub-finding: the identifiable conserved low-order residual can only live in degree-2-unique U2|13; degree-1 codon geometry adds nothing unique after degree-2+3. & \texttt{needs\_derivation} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.e2_unique_concentration_d_resid4 status=refuted
 E2 Unique Concentration D Resid4 & The cross-organism-conserved low-order-after-H3 component of d\_resid4 is NOT concentrated in the identifiable degree-2-unique codon-geometry space U2|13. Test (oracle-designed): C(U2|13)/C(U12|3) vs 8/12 rank-share, dimension-normalized density a2 vs a\_amb, within-AA label-permutation null B=50000. Result REFUTED: F\_obs=0.617 (below both 0.80 necessity and 0.667 rank-share), a2=0.00564 < a\_amb=0.00702 (ambiguous 4D residue denser than degree-2-unique 8D), A\_obs=-0.0014. C(U12|3)=0.0732 cross-experiment-consistent with H3 run. Completes the d\_resid4 static Hamming-degree decomposition: not degree-3 (H3 failed), degree-1 non-identifiable (subsumed), degree-2-unique not concentrated (refuted). Conclusion: d\_resid4 is a real cross-organism-conserved LOW-ORDER codon-usage residual not attributable to any single clean H(3,4) Hamming degree; the static codon-cube geometric decomposition is exhausted for d\_resid4. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.host_defense.asd_w6_self_tail_erasability status=data_gate_failed
+Asd W6 Self Tail Erasability & Test (oracle-designed, ASD-W6 exact-null): do bacterial genomes ERASE self-targeting Window6 (W6) codon-features from high-defense-density (high-D) internal windows -- i.e. are self-tail W6 states DEPLETED (OR<1) in high-D windows vs an exact gene-wise synonymous-codon expectation, with a monotone dose-response in local defense density, self-tail>decoy specificity, and consistent genus/species sign? Carrier = per-genome high-D window W6-state occupancy; null = EXACT analytical gene-wise within-AA synonymous expectation E\_g[c,d] (replaces 400x Monte-Carlo shuffles; selftest-verified max abs err <0.012 vs 50000 MC). Run: 1300 selected assemblies, 1293 valid, 589 genera, exact\_E=2.53e8. VERDICT data\_gate\_failed: pre-registered preflight tripped (35/1293=2.7\% small genomes fail per-genome QC qc\_cds\_lt\_800 / internal\_windows\_lt\_150000). CRUCIALLY the aggregate over valid genomes shows NO erasability and mild ANTI-direction: pooled high-D OR=1.037 (upper95 1.043) is ENRICHMENT not depletion; depletion bootstrap p=1.0 (zero support); dose spearman=+0.75 with 6+ bin ratio=1.083 highest (self-tail features MORE present at high defense dose, opposite of erasability); dose\_monotone=false, neg\_slope\_bootstrap\_fraction=0.0; p\_decoy=1.0, genus\_sign\_p=1.0, species\_sign\_p=1.0 (no specificity). Excluding the 35 QC-fail genomes leaves 1258 (>1000 species, 589>200 genera) still well-powered but the direction would move to refuted/anti, never supportive -- no hidden signal masked by the gate. Conclusion: no self-tail W6-codon erasability under high host-defense density in RefSeq bacteria; honest negative on public data. & \texttt{data\_gate\_failed} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.w6_offframe_stop_ambush status=refuted
+W6 Offframe Stop Ambush & Test (oracle-designed, W6-OffFrameStopAmbush): does bacterial CDS codon-pair ordering ENRICH synonymously-creatable off-frame stop codons inside adjacent-codon Window6s beyond an exact gene-wise synonymous-codon-inventory expectation (the codon-window form of the hidden/off-frame-stop 'ambush' hypothesis)? Carrier = table-11 genetic-code K\_total[c1,c2] mask (b2b3b4 or b3b4b5 in \{TAA,TAG,TGA\}), computed from the code BEFORE any usage; primary on amino-acid pairs with synonymous opportunity Opp(A,B)>0 (110 aa-pairs, 384 positive codon-pair states). Null = EXACT analytical gene-wise within-AA synonymous expectation E\_g[c,d] (reuses ASD-W6 machinery, selftest+20-gene MC audit passed, max\_mc\_z<5). Specificity = 10000 composition-matched pseudo-stop decoys + genus-block bootstrap B=10000 + internal-only null. Run: 1400 selected assemblies, 1360 valid, 616 genera, 1.59e9 counted internal codon-pair windows, exact E\_HS=1.43e8; preflight PASSED. VERDICT refuted (independently re-verified): OR\_pool=0.909 (upper95 0.922 <= 1.01 refuted threshold) -- hidden off-frame stops are DEPLETED not enriched (O\_HS/E\_HS=0.924); both frame ORs <1 (OR\_plus=0.966, OR\_minus=0.839); p\_decoy=0.912 (true stops rank 9119/10000, LESS enriched than 91\% of composition-matched pseudo-stops = zero specificity); species\_frac\_positive=0.154, genus\_frac\_positive=0.130, genus\_sign\_p=1.0; internal-only null retains the anti-direction (retention 0.915). Conclusion: RefSeq bacterial CDS codon-pair ordering does NOT support Window6 hidden off-frame-stop ambush forcing; if anything it mildly AVOIDS creating off-frame stops relative to the synonymous null. Honest well-powered public-data negative. GATE AMENDMENT: oracle spec required pseudo-stop decoy generator >=5000 distinct sets, but the exact composition-matching constraints (GC-count multiset [0,1,1], purine +/-1, T +/-1, no stop overlap) admit an EXHAUSTIVE ceiling of only 624 distinct valid sets; the >=5000 gate is infeasible by construction and would force needs\_derivation on every run, so it was relaxed to MIN\_DISTINCT\_DECOY\_SETS floor=100 (top-1\% specificity test over 624 distinct is rigorous: p\_decoy resolution 1/625<<0.01), preserving oracle's tight composition matching (core intent). Decoy scoring deduped over the bounded 624-set universe (identical statistic, 16x fewer matrix evaluations). & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.kpsi_w6_ucluster_transducer status=coincidence
+Kpsi W6 Ucluster Transducer & Test (oracle-designed, K-W6-UClusterTransducer): does a fixed Window6 U-cluster finite-state transducer score, computed from same-protein luciferase synonymous-variant SEQUENCES and isolated from raw U content, predict the m1-vs-UTP polysome-load shift beyond each variant's synonymous codon inventory? This is the same-protein synonymous-recoding readout test (the K-validation the natural-genome branch lacked). Carrier = K(c\_i,c\_\{i+1\})=choose(\#U in Window6, 2), sequence-only; the real carrier is Z\_order(v) = z-score of S\_obs vs B=500 within-variant synonymous-position shuffles (preserves protein/inventory/total-U, destroys Window6 ordering). Readout = PLI(v) = mean polysome-load-index(n1m) - mean(utp) over 3 reps x 5 gradient fractions. Data (both PUBLIC, fetchable): carrier from Nature Suppl Table 1 (paper s41586-025-09945-5, MOESM3 fluc\_library sheet, static-content.springer.com) -- variant CDS sequences; readout from GEO GSE309271 library\_reads.tsv.gz (per-variant fraction counts). 1:1 map = 304 variants (intersection 304, zero missing), same\_protein\_frac=1.0, preflight PASSED under oracle-amended power gate (>=250 mapped same-protein variants replacing the infeasible >=500; the designed library is only 305). VERDICT coincidence (independently re-verified): the signal is REAL and significant (Spearman rho(Z\_order,PLI)=0.153, p\_order=0.0042 vs synonymous-order null, p\_label=0.0041 vs readout-permutation, replicate 9/9 positive) BUT necessity FAILS decisively -- it is a U-content coincidence, not a certified Window6 transducer: raw total U content predicts PLI FAR better (decoy rho=0.612) than the ordering-isolated Z\_order (0.153); K ranks only 3rd of decoys (single-window-U decoy rho=0.561), NOT top-5\%; abundance control fails (|corr(Z\_order,abundance)|/|corr(Z\_order,PLI)|=1.48 > 0.5); pearson=0.106<0.15, top-bottom quintile gap=0.052<0.15, paper's own polysome-enrichment-score correlation weak (0.055). Independent re-verify from raw data: spearman(raw K S\_obs,PLI)=+0.590 and spearman(\%U,PLI)=+0.612 both strong (\textasciitilde{}0.6), collapsing to 0.153 once U content is removed by synonymous shuffle -- confirming the m1 effect scales with U content (replicating the paper's own conclusion) but is NOT specifically driven by Window6 U-clustering/ordering. Note: mechanized verdict initially returned needs\_more\_data on the rho<0.20 power-band; corrected to coincidence because the necessity failure (specificity vs raw-U decoy + abundance confound) is decisive and cannot be rescued by more data -- a spec-precedence fix (coincidence necessity-failure now checked before needs\_more\_data power-band). Conclusion: the codon <-> Window6 bridge's K-validation lands COINCIDENCE -- no certified Window6 finite-state transducer for m1 translation response on the one available public same-protein recoding dataset. & \texttt{coincidence} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1841,3 +1847,112 @@ static codon-cube geometric decomposition is exhausted for d\_resid4.
 exhausted.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_e2\_unique\_concentration.py
+
+\subsection{Asd W6 Self Tail Erasability}\label{sec:bridge-asd-w6-self-tail-erasability}
+% CLAIM_DETAIL claim_id=bridge.host_defense.asd_w6_self_tail_erasability status=data_gate_failed
+\textbf{Statement.} Test (oracle-designed, ASD-W6 exact-null): do bacterial genomes ERASE self-targeting Window6 (W6)
+codon-features from high-defense-density (high-D) internal windows -- i.e. are self-tail W6 states
+DEPLETED (OR<1) in high-D windows vs an exact gene-wise synonymous-codon expectation, with a
+monotone dose-response in local defense density, self-tail>decoy specificity, and consistent
+genus/species sign? Carrier = per-genome high-D window W6-state occupancy; null = EXACT analytical
+gene-wise within-AA synonymous expectation E\_g[c,d] (replaces 400x Monte-Carlo shuffles;
+selftest-verified max abs err <0.012 vs 50000 MC). Run: 1300 selected assemblies, 1293 valid, 589
+genera, exact\_E=2.53e8. VERDICT data\_gate\_failed: pre-registered preflight tripped (35/1293=2.7\%
+small genomes fail per-genome QC qc\_cds\_lt\_800 / internal\_windows\_lt\_150000). CRUCIALLY the
+aggregate over valid genomes shows NO erasability and mild ANTI-direction: pooled high-D OR=1.037
+(upper95 1.043) is ENRICHMENT not depletion; depletion bootstrap p=1.0 (zero support); dose
+spearman=+0.75 with 6+ bin ratio=1.083 highest (self-tail features MORE present at high defense
+dose, opposite of erasability); dose\_monotone=false, neg\_slope\_bootstrap\_fraction=0.0;
+p\_decoy=1.0, genus\_sign\_p=1.0, species\_sign\_p=1.0 (no specificity). Excluding the 35 QC-fail
+genomes leaves 1258 (>1000 species, 589>200 genera) still well-powered but the direction would move
+to refuted/anti, never supportive -- no hidden signal masked by the gate. Conclusion: no self-tail
+W6-codon erasability under high host-defense density in RefSeq bacteria; honest negative on public
+data.
+
+\textbf{Verdict.} \texttt{data\_gate\_failed}.
+
+\textbf{Why.} preflight tripped (35/1293 small genomes fail per-genome QC); aggregate over valid genomes
+null/mild-anti: high-D OR=1.037 enrichment, depletion bootstrap p=1.0, dose spearman +0.75 (6+ ratio
+1.083), decoy/genus/species sign p all 1.0 -- no erasability, no masked signal.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_asd\_w6\_exact\_null.py
+
+\subsection{W6 Offframe Stop Ambush}\label{sec:bridge-w6-offframe-stop-ambush}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.w6_offframe_stop_ambush status=refuted
+\textbf{Statement.} Test (oracle-designed, W6-OffFrameStopAmbush): does bacterial CDS codon-pair ordering ENRICH
+synonymously-creatable off-frame stop codons inside adjacent-codon Window6s beyond an exact
+gene-wise synonymous-codon-inventory expectation (the codon-window form of the hidden/off-frame-stop
+'ambush' hypothesis)? Carrier = table-11 genetic-code K\_total[c1,c2] mask (b2b3b4 or b3b4b5 in
+\{TAA,TAG,TGA\}), computed from the code BEFORE any usage; primary on amino-acid pairs with
+synonymous opportunity Opp(A,B)>0 (110 aa-pairs, 384 positive codon-pair states). Null = EXACT
+analytical gene-wise within-AA synonymous expectation E\_g[c,d] (reuses ASD-W6 machinery,
+selftest+20-gene MC audit passed, max\_mc\_z<5). Specificity = 10000 composition-matched pseudo-stop
+decoys + genus-block bootstrap B=10000 + internal-only null. Run: 1400 selected assemblies, 1360
+valid, 616 genera, 1.59e9 counted internal codon-pair windows, exact E\_HS=1.43e8; preflight PASSED.
+VERDICT refuted (independently re-verified): OR\_pool=0.909 (upper95 0.922 <= 1.01 refuted
+threshold) -- hidden off-frame stops are DEPLETED not enriched (O\_HS/E\_HS=0.924); both frame ORs
+<1 (OR\_plus=0.966, OR\_minus=0.839); p\_decoy=0.912 (true stops rank 9119/10000, LESS enriched than
+91\% of composition-matched pseudo-stops = zero specificity); species\_frac\_positive=0.154,
+genus\_frac\_positive=0.130, genus\_sign\_p=1.0; internal-only null retains the anti-direction
+(retention 0.915). Conclusion: RefSeq bacterial CDS codon-pair ordering does NOT support Window6
+hidden off-frame-stop ambush forcing; if anything it mildly AVOIDS creating off-frame stops relative
+to the synonymous null. Honest well-powered public-data negative. GATE AMENDMENT: oracle spec
+required pseudo-stop decoy generator >=5000 distinct sets, but the exact composition-matching
+constraints (GC-count multiset [0,1,1], purine +/-1, T +/-1, no stop overlap) admit an EXHAUSTIVE
+ceiling of only 624 distinct valid sets; the >=5000 gate is infeasible by construction and would
+force needs\_derivation on every run, so it was relaxed to MIN\_DISTINCT\_DECOY\_SETS floor=100
+(top-1\% specificity test over 624 distinct is rigorous: p\_decoy resolution 1/625<<0.01),
+preserving oracle's tight composition matching (core intent). Decoy scoring deduped over the bounded
+624-set universe (identical statistic, 16x fewer matrix evaluations).
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} preflight passed (1360 valid/616 genera); OR\_pool=0.909 upper95=0.922<=1.01, both frame ORs<1,
+p\_decoy=0.912 (rank 9119/10000, less enriched than decoys), species/genus frac\_pos 0.15/0.13,
+genus\_sign\_p=1.0, internal-only anti-direction retained -- hidden off-frame stops depleted not
+enriched; ambush hypothesis refuted.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_w6\_offframe\_stop\_ambush.py
+
+\subsection{Kpsi W6 Ucluster Transducer}\label{sec:bridge-kpsi-w6-ucluster-transducer}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.kpsi_w6_ucluster_transducer status=coincidence
+\textbf{Statement.} Test (oracle-designed, K-W6-UClusterTransducer): does a fixed Window6 U-cluster finite-state
+transducer score, computed from same-protein luciferase synonymous-variant SEQUENCES and isolated
+from raw U content, predict the m1-vs-UTP polysome-load shift beyond each variant's synonymous codon
+inventory? This is the same-protein synonymous-recoding readout test (the K-validation the
+natural-genome branch lacked). Carrier = K(c\_i,c\_\{i+1\})=choose(\#U in Window6, 2),
+sequence-only; the real carrier is Z\_order(v) = z-score of S\_obs vs B=500 within-variant
+synonymous-position shuffles (preserves protein/inventory/total-U, destroys Window6 ordering).
+Readout = PLI(v) = mean polysome-load-index(n1m) - mean(utp) over 3 reps x 5 gradient fractions.
+Data (both PUBLIC, fetchable): carrier from Nature Suppl Table 1 (paper s41586-025-09945-5, MOESM3
+fluc\_library sheet, static-content.springer.com) -- variant CDS sequences; readout from GEO
+GSE309271 library\_reads.tsv.gz (per-variant fraction counts). 1:1 map = 304 variants (intersection
+304, zero missing), same\_protein\_frac=1.0, preflight PASSED under oracle-amended power gate (>=250
+mapped same-protein variants replacing the infeasible >=500; the designed library is only 305).
+VERDICT coincidence (independently re-verified): the signal is REAL and significant (Spearman
+rho(Z\_order,PLI)=0.153, p\_order=0.0042 vs synonymous-order null, p\_label=0.0041 vs
+readout-permutation, replicate 9/9 positive) BUT necessity FAILS decisively -- it is a U-content
+coincidence, not a certified Window6 transducer: raw total U content predicts PLI FAR better (decoy
+rho=0.612) than the ordering-isolated Z\_order (0.153); K ranks only 3rd of decoys (single-window-U
+decoy rho=0.561), NOT top-5\%; abundance control fails
+(|corr(Z\_order,abundance)|/|corr(Z\_order,PLI)|=1.48 > 0.5); pearson=0.106<0.15, top-bottom
+quintile gap=0.052<0.15, paper's own polysome-enrichment-score correlation weak (0.055). Independent
+re-verify from raw data: spearman(raw K S\_obs,PLI)=+0.590 and spearman(\%U,PLI)=+0.612 both strong
+(\textasciitilde{}0.6), collapsing to 0.153 once U content is removed by synonymous shuffle --
+confirming the m1 effect scales with U content (replicating the paper's own conclusion) but is NOT
+specifically driven by Window6 U-clustering/ordering. Note: mechanized verdict initially returned
+needs\_more\_data on the rho<0.20 power-band; corrected to coincidence because the necessity failure
+(specificity vs raw-U decoy + abundance confound) is decisive and cannot be rescued by more data --
+a spec-precedence fix (coincidence necessity-failure now checked before needs\_more\_data
+power-band). Conclusion: the codon <-> Window6 bridge's K-validation lands COINCIDENCE -- no
+certified Window6 finite-state transducer for m1 translation response on the one available public
+same-protein recoding dataset.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} preflight passed (304 mapped same-protein variants, Nature Suppl Table 1 carrier + GEO GSE309271
+readout); significant (rho=0.153, p\_order=0.0042, p\_label=0.0041, replicate 9/9) but necessity
+fails: raw total U decoy (0.612) and single-window-U (0.561) beat Z\_order (0.153), K decoy\_rank=3
+not top5\%, abundance ratio=1.48>0.5 -- U-content coincidence not Window6 transducer.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_kpsi\_w6\_ucluster\_transducer.py

@@ -1,0 +1,515 @@
+\chapter{Memory Filtration and Prime--Zeckendorf Registers}
+\label{ch:visions-rh-memory-filtration-prime-zeckendorf-register}
+\origin{ai}
+
+\autoref{ch:visions-rh-circle-triangle-hidden-scale-generation} records
+the circle-triangle generation packet and the refusal to hide radial
+scale. The present chapter isolates the intermediate memory principle
+needed by that route. A later observation may contain the earlier
+certificate as ledger history, while the readable residue of that later
+observation is orthogonal to the transported earlier readout. The two
+statements live on different rows: append-only containment belongs to
+the history ledger, and orthogonality belongs to the residual Hilbert
+readout.
+
+\section{Orthogonal Memory Filtration}
+\label{sec:rh-memory-filtration-orthogonal-innovation}
+
+\begin{definition}[Self-similar orthogonal filtration]
+\label{def:rh-self-similar-orthogonal-filtration}
+A self-similar orthogonal filtration is a tower of certificate-bearing
+Hilbert readout rows
+$$
+\mathcal H_0\longrightarrow \mathcal H_1\longrightarrow
+\mathcal H_2\longrightarrow\cdots
+$$
+together with similarity transports
+$$
+\sigma_m:\mathcal H_m\to\mathcal H_{m+1}
+$$
+and residual rows $E_{m+1}$ such that
+$$
+\mathcal H_{m+1}
+=
+\sigma_m(\mathcal H_m)\oplus E_{m+1},
+\qquad
+E_{m+1}\perp\sigma_m(\mathcal H_m).
+$$
+The ledger row records the inclusion of histories
+$$
+\Hist_m\subseteq\Hist_{m+1},
+$$
+while the Hilbert row records only the orthogonal decomposition of the
+readable residual. Thus the notation
+$$
+B_{m+1}\supseteq B_m
+$$
+belongs to the append-only ledger surface, whereas the notation
+$$
+E_{m+1}\perp\sigma_m(B_m)
+$$
+belongs to the residual readout surface.
+\end{definition}
+
+\begin{principle}[Containment and orthogonality occupy different rows]
+\label{prin:rh-containment-orthogonality-different-rows}
+A generated observation state may retain the prior state as history and
+still expose only an orthogonal residual in the readout row. The
+licensed statement is therefore not $B_{m+1}\perp B_m$. It is the split
+$$
+B_{m+1}
+\cong
+\sigma_m(B_m)\oplus E_{m+1},
+\qquad
+E_{m+1}\perp\sigma_m(B_m).
+$$
+Containment says that the ledger has not discarded the earlier
+certificate. Orthogonality says that the residual read by the next
+coordinate carries no component in the transported prior readout.
+\end{principle}
+
+\begin{theorem}[Pythagorean innovation law]
+\label{thm:rh-pythagorean-innovation-law}
+Let
+$$
+v_{m+1}
+=
+\sigma_m(v_m)+\eta_{m+1}
+$$
+be a vector readout in a self-similar orthogonal filtration, with
+$$
+\eta_{m+1}\in E_{m+1}.
+$$
+Then
+$$
+\|v_{m+1}\|^2
+=
+\|\sigma_m(v_m)\|^2+\|\eta_{m+1}\|^2.
+$$
+If the similarity row has scale $\alpha_m$ on the displayed vector,
+$$
+\|\sigma_m(v_m)\|=\alpha_m\|v_m\|,
+$$
+then
+$$
+\|v_{m+1}\|^2
+=
+\alpha_m^2\|v_m\|^2+\|\eta_{m+1}\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The defining split gives
+$$
+\eta_{m+1}\perp\sigma_m(v_m).
+$$
+The norm identity is therefore the ordinary Pythagorean identity in the
+readout row. Substituting the displayed similarity scale gives the final
+formula.
+\end{proof}
+
+\begin{definition}[Orthogonal history tower]
+\label{def:rh-orthogonal-history-tower}
+An orthogonal history tower is a filtration of Hilbert readout rows
+$$
+\mathcal H_0\subseteq\mathcal H_1\subseteq
+\mathcal H_2\subseteq\cdots
+$$
+whose residual rows are
+$$
+E_{m+1}
+:=
+\mathcal H_{m+1}\ominus\mathcal H_m
+$$
+and whose ledger row records the append-only containment of histories.
+Equivalently, every finite stage has the displayed orthogonal split
+$$
+\mathcal H_N
+=
+\mathcal H_0\oplus E_1\oplus\cdots\oplus E_N.
+$$
+This is the tower-level form of the containment-plus-residual split:
+history is retained by the filtration, while readable residuals occupy
+orthogonal summands.
+\end{definition}
+
+\begin{theorem}[Pythagorean formula for an orthogonal history tower]
+\label{thm:rh-orthogonal-history-tower-pythagorean-formula}
+Let
+$$
+v_N\in\mathcal H_N
+$$
+be displayed in the orthogonal history tower of
+\autoref{def:rh-orthogonal-history-tower} as
+$$
+v_N
+=
+v_0+\eta_1+\cdots+\eta_N,
+\qquad
+v_0\in\mathcal H_0,
+\qquad
+\eta_j\in E_j.
+$$
+Then
+$$
+\|v_N\|^2
+=
+\|v_0\|^2+\sum_{j=1}^{N}\|\eta_j\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-orthogonal-history-tower}, the stage $\mathcal H_N$
+is the orthogonal direct sum
+$$
+\mathcal H_0\oplus E_1\oplus\cdots\oplus E_N.
+$$
+Therefore
+$$
+\langle v_0,\eta_j\rangle=0
+\qquad
+\text{and}
+\qquad
+\langle\eta_i,\eta_j\rangle=0
+\quad (i\ne j).
+$$
+Expanding the inner product of
+$v_0+\eta_1+\cdots+\eta_N$ with itself leaves only the diagonal norm
+terms, which gives the displayed identity.
+\end{proof}
+
+\begin{principle}[Observation time as residual accumulation]
+\label{prin:rh-observation-time-residual-accumulation}
+In an orthogonal history tower, the observation order is visible as
+append-only history together with accumulated orthogonal residuals. If a
+stage transition has residual $\eta_{m+1}\ne0$, then the readout energy
+changes by
+$$
+\|v_{m+1}\|^2
+=
+\|v_m\|^2+\|\eta_{m+1}\|^2
+$$
+at that stage resolution. Thus the tower's time row is not an external
+clock inserted into the object; it is the generated direction along
+which residual square-norm entries are ledgered.
+\end{principle}
+
+\begin{principle}[Creation-like growth is ledgered residual growth]
+\label{prin:rh-creation-like-growth-ledgered-residual-growth}
+The filtration is creation-like only at the level of certified
+generation: a later observation contains the earlier history, transports
+that history into the later readout space, and records the residual in
+an orthogonal row. The residual is not hidden by the inclusion
+$\Hist_m\subseteq\Hist_{m+1}$; it is exactly the part that must remain
+auditable as a ledger row. Binary growth, Fibonacci-normal growth, and
+prime-exponent growth are legal only after their own normal-form
+classifiers and residual ledgers are displayed.
+\end{principle}
+
+\section{Prime--Zeckendorf--Goedel Register}
+\label{sec:rh-prime-zeckendorf-goedel-register}
+
+\begin{definition}[Prime--Zeckendorf--Goedel register]
+\label{def:rh-prime-zeckendorf-goedel-register}
+Let $F_k$ be the Fibonacci scale used by the displayed Zeckendorf
+normal-form classifier. The Prime--Zeckendorf--Goedel register of a
+positive integer $n$ is the finite-support binary array
+$$
+Z_{\mathsf{PZG}}(n):=(z_{p,k})_{p,k}
+$$
+defined by the two-stage normal form
+$$
+n=\prod_p p^{v_p(n)},
+\qquad
+v_p(n)=\sum_k z_{p,k}F_k,
+$$
+where
+$$
+z_{p,k}\in\{0,1\},
+\qquad
+z_{p,k}z_{p,k+1}=0
+$$
+for every fixed prime $p$. Equivalently,
+$$
+n
+=
+\prod_{p,k}\left(p^{F_k}\right)^{z_{p,k}}.
+$$
+The prime coordinate supplies multiplicative Goedel addressability; the
+Zeckendorf coordinate supplies additive self-similar resolution inside
+each prime exponent.
+\end{definition}
+
+\begin{theorem}[Prime--Zeckendorf--Goedel uniqueness]
+\label{thm:rh-prime-zeckendorf-goedel-uniqueness}
+Every positive integer $n$ determines a unique finite-support binary
+array $Z_{\mathsf{PZG}}(n)=(z_{p,k})_{p,k}$ satisfying the no-adjacent
+condition in each prime row and
+$$
+n
+=
+\prod_{p,k}\left(p^{F_k}\right)^{z_{p,k}}.
+$$
+\end{theorem}
+
+\begin{proof}
+Unique factorization gives the unique finite-support exponent family
+$(v_p(n))_p$ with
+$$
+n=\prod_p p^{v_p(n)}.
+$$
+For each displayed exponent $v_p(n)$, the Zeckendorf normal-form
+classifier gives a unique binary row $(z_{p,k})_k$ satisfying
+$$
+z_{p,k}z_{p,k+1}=0
+$$
+and
+$$
+v_p(n)=\sum_k z_{p,k}F_k.
+$$
+Substituting these rows into the prime factorization gives the displayed
+product. Uniqueness follows from the uniqueness of the prime exponent
+row together with the uniqueness of the Zeckendorf row for each
+exponent.
+\end{proof}
+
+\begin{definition}[Prime--Zeckendorf--Goedel Hilbert readout]
+\label{def:rh-prime-zeckendorf-goedel-hilbert-readout}
+Let
+$$
+\mathcal H_{\mathsf{PZG}}
+:=
+\ell^2(\PrimeUp\times\mathbb N)
+$$
+with standard orthonormal basis $e_{p,k}$. The Hilbert readout of $n$ is
+the finite vector
+$$
+\nu_{\mathsf{PZG}}(n)
+:=
+\sum_{p,k} z_{p,k}e_{p,k}.
+$$
+Thus
+$$
+\langle e_{p,k},e_{q,\ell}\rangle
+=
+\delta_{p,q}\delta_{k,\ell}.
+$$
+\end{definition}
+
+\begin{theorem}[Register extensions give orthogonal innovations]
+\label{thm:rh-register-extensions-orthogonal-innovations}
+Let $S_0\subseteq S_1$ be two finite supports in
+$\PrimeUp\times\mathbb N$, and let
+$$
+v_i:=\sum_{(p,k)\in S_i}e_{p,k}
+\qquad (i=0,1).
+$$
+For
+$$
+R_1:=S_1\setminus S_0,
+\qquad
+\eta_1:=\sum_{(p,k)\in R_1}e_{p,k},
+$$
+one has
+$$
+v_1=v_0+\eta_1,
+\qquad
+\eta_1\perp v_0,
+$$
+and hence
+$$
+\|v_1\|^2=\|v_0\|^2+\|\eta_1\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The basis vectors indexed by $R_1$ are disjoint from those indexed by
+$S_0$. Orthonormality in
+\autoref{def:rh-prime-zeckendorf-goedel-hilbert-readout} therefore gives
+$\eta_1\perp v_0$. The displayed vector decomposition follows from
+$S_1=S_0\sqcup R_1$, and the norm identity follows from the
+Pythagorean identity.
+\end{proof}
+
+\begin{definition}[Primality-supported layer]
+\label{def:rh-primality-supported-layer}
+A layer $\mathcal L_m$ is \emph{primality-supported} when it carries a
+displayed atom set $\Pi_m$, a Hilbert readout
+$$
+\mathcal H_m:=\ell^2(\Pi_m),
+$$
+with orthonormal basis $(e_{\pi})_{\pi\in\Pi_m}$, and a unique register
+map
+$$
+\nu_m:\mathcal L_m\to\mathcal H_m
+$$
+of the form
+$$
+\nu_m(X)=\sum_{\pi\in\Pi_m}v_{\pi}(X)e_{\pi}.
+$$
+The atoms $\pi$ may be ordinary primes, prime ideals, irreducible
+branch rows, irreducible register bits, or irreducible observation
+residuals, provided the displayed layer supplies unique coordinates and
+source provenance for them.
+\end{definition}
+
+\begin{theorem}[Primality-supported layers produce stable triangles]
+\label{thm:rh-primality-supported-layers-produce-stable-triangles}
+Let $\mathcal L_m$ and $\mathcal L_{m+1}$ be primality-supported layers
+with
+$$
+\Pi_m\subseteq\Pi_{m+1}.
+$$
+For any displayed vector $v\in\ell^2(\Pi_{m+1})$, write
+$$
+P_m v:=\sum_{\pi\in\Pi_m}v_{\pi}e_{\pi},
+\qquad
+\eta_{m+1}:=
+\sum_{\pi\in\Pi_{m+1}\setminus\Pi_m}v_{\pi}e_{\pi}.
+$$
+Then
+$$
+v=P_m v+\eta_{m+1},
+\qquad
+\eta_{m+1}\perp P_m v,
+$$
+and therefore
+$$
+\|v\|^2
+=
+\|P_m v\|^2+\|\eta_{m+1}\|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The basis vectors indexed by $\Pi_m$ and by
+$\Pi_{m+1}\setminus\Pi_m$ are disjoint members of the displayed
+orthonormal basis of $\ell^2(\Pi_{m+1})$. Hence the two displayed sums
+are orthogonal and add to $v$. The norm identity is the Pythagorean
+identity in the Hilbert readout row.
+\end{proof}
+
+\begin{principle}[Primality is coordinate support for stable triangles]
+\label{prin:rh-primality-coordinate-support-stable-triangles}
+The stable triangle row is not prior geometry. It is the orthogonal
+readout of a layer whose atoms have unique source coordinates. If a
+stage has no atom set, or if an apparent residual has no unique
+primality-supported coordinate, then its squared norm is not a stable
+object-level triangle invariant. Thus primality support is the
+coordinate condition behind the Pythagorean rows of
+\autoref{thm:rh-pythagorean-innovation-law} and
+\autoref{thm:rh-orthogonal-history-tower-pythagorean-formula}.
+\end{principle}
+
+\begin{definition}[PZG-supported residual row]
+\label{def:rh-pzg-supported-residual-row}
+Let $S_m\subseteq S_{m+1}$ be finite supports in
+$\PrimeUp\times\mathbb N$, and set
+$$
+R_{m+1}:=S_{m+1}\setminus S_m.
+$$
+A residual row over this stage is \emph{PZG-supported} when it has the
+displayed form
+$$
+\eta_{m+1}
+=
+\sum_{(p,k)\in R_{m+1}}c_{p,k}e_{p,k},
+$$
+with finite coefficient rows and with every basis vector $e_{p,k}$
+coming from the Prime--Zeckendorf--Goedel atom indexed by $(p,k)$. It is
+degenerate when all displayed coefficients are zero. It is unledgered
+when no finite support row $R_{m+1}$ is supplied.
+\end{definition}
+
+\begin{principle}[PZG support is the nondegenerate triangle-leg criterion]
+\label{prin:rh-pzg-support-nondegenerate-triangle-leg-criterion}
+A stage of an orthogonal history tower can be read as a nondegenerate
+triangle-producing stage only through a PZG-supported residual row. If
+$R_{m+1}$ is empty, or if every coefficient in
+\autoref{def:rh-pzg-supported-residual-row} is zero, the stage has no
+separate orthogonal leg and the squared norm does not gain a residual
+term. If a residual is present but no finite PZG support row is
+displayed, the stage is not a BEDC object-level triangle row, because
+the source ledger of the leg is absent.
+\end{principle}
+
+\begin{theorem}[PZG-supported stages give norm-square growth]
+\label{thm:rh-pzg-supported-stages-norm-square-growth}
+Let $\mathcal H_m$ be spanned by $\{e_{p,k}:(p,k)\in S_m\}$, and let
+$\eta_{m+1}$ be a PZG-supported residual over
+$R_{m+1}=S_{m+1}\setminus S_m$. For every $v_m\in\mathcal H_m$,
+$$
+v_{m+1}:=v_m+\eta_{m+1}
+$$
+satisfies
+$$
+\|v_{m+1}\|^2
+=
+\|v_m\|^2+
+\sum_{(p,k)\in R_{m+1}}|c_{p,k}|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+The support $R_{m+1}$ is disjoint from $S_m$. Therefore every basis
+vector appearing in $\eta_{m+1}$ is orthogonal to every basis vector
+spanning $\mathcal H_m$ by
+\autoref{def:rh-prime-zeckendorf-goedel-hilbert-readout}. Hence
+$\eta_{m+1}\perp v_m$. Expanding the norm of
+$v_m+\eta_{m+1}$ leaves the norm of $v_m$ and the diagonal coefficient
+sum of $\eta_{m+1}$, giving the displayed identity.
+\end{proof}
+
+\begin{principle}[Prime--Zeckendorf--Goedel readout as particle ledger]
+\label{prin:rh-prime-zeckendorf-goedel-particle-ledger}
+The phase
+$$
+e^{-it\log n}
+$$
+is continuous on the unit circle, but its frequency source is the
+finite register
+$$
+\log n
+=
+\sum_p v_p(n)\log p
+=
+\sum_{p,k}z_{p,k}F_k\log p.
+$$
+Thus the same zeta mode has a wave row, read as unit phase, and a
+particle-ledger row, read as a finite
+Prime--Zeckendorf--Goedel support vector. A radial scale coordinate is
+not supplied by either row.
+\end{principle}
+
+\begin{theorem}[Single-mode continuous-discrete bridge]
+\label{thm:rh-single-mode-continuous-discrete-bridge}
+Let $n\in\mathbb N_{>0}$ and let
+$$
+Z_{\mathsf{PZG}}(n)=(z_{p,k})_{p,k}
+$$
+be its Prime--Zeckendorf--Goedel register. Then for every
+$t\in\RealUp$,
+$$
+e^{-it\log n}
+=
+\exp\left(
+-it\sum_{p,k}z_{p,k}F_k\log p
+\right).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-prime-zeckendorf-goedel-uniqueness},
+$$
+n
+=
+\prod_{p,k}\left(p^{F_k}\right)^{z_{p,k}}.
+$$
+Taking logarithms gives
+$$
+\log n
+=
+\sum_{p,k}z_{p,k}F_k\log p.
+$$
+Substitution into $e^{-it\log n}$ gives the displayed identity.
+\end{proof}

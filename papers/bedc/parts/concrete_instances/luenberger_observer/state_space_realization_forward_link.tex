@@ -1,0 +1,13 @@
+\begin{theorem}[Luenberger observer state-space realization forward link]
+\label{thm:luenberger-observer-state-space-forward-link}
+Every accepted $\LuenbergerObserverUp$ packet that reads the observer gain, plant state, output row, and innovation replay consumes the finite $\StateSpaceModelUp$ and $\TransferFunctionStateSpaceRealizationUp$ realization rows before any observer-controller or Kalman handoff. The forward link exports only the displayed plant, output, gain, innovation, realization, transport, replay, provenance, and local naming rows; it exports no hidden analytic transfer-function equality, stochastic covariance recursion, pole-placement theorem, or host convergence claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:luenberger-observer-carrier}. The observer gain, plant state, output row, and innovation replay are visible only as displayed finite rows of the accepted packet.
+
+Read the state-space dependency route of \autoref{thm:luenberger-observer-state-space-dependency-route}. It forces the observer packet through the finite $\StateSpaceModelUp$ and $\LinearMapUp$ surfaces before the estimator-error ledger is public.
+
+Now use the realization surface of \autoref{ch:concrete-instances-transfer-function-state-space-realization-namecert}. The observer can pass to observer-controller or Kalman handoff rows only after the transfer readback and state-space realization compatibility rows have been displayed.
+
+The structural rows transport, replay, source, and name exactly this route. Since neither the observer packet nor the realization packet contains analytic transfer-function equality, stochastic covariance recursion, pole placement, or host convergence, the forward link remains a finite NameCert dependency.
+\end{proof}

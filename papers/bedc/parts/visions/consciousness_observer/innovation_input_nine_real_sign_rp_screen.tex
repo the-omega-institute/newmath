@@ -1,0 +1,332 @@
+\chapter{Innovation Input Nine-ary Real-Sign RP Screen}
+\label{ch:visions-innovation-input-nine-real-sign-rp-screen}
+\origin{ai}
+
+\autoref{thm:innovation-input-square-alphabet-real-sign-correlation-boundary}
+shows that every square alphabet admits Q3-compatible real-sign
+self-substitution rows. These rows are automatically two-point weakly
+reversible by \autoref{cor:innovation-input-real-sign-weak-reversible}.
+The first square alphabet beyond the quartic endpoint is $N=9$. This
+chapter records the finite-window RP screen for that real-sign subfamily:
+many rows pass the anchored $L=2$ neutral test, but no row survives the
+anchored $L=3$ real neutral window.
+
+\section{Nine-ary Real-Sign Rows}
+\label{sec:innovation-input-nine-real-sign-rows}
+
+\begin{definition}[Nine-ary real-sign Q3 row]
+\label{def:innovation-input-nine-real-sign-qthree-row}
+A nine-ary real-sign Q3 row is a word
+$$
+v=(v_0,\ldots,v_8)\in\{+1,-1\}^9
+$$
+satisfying
+$$
+\sum_{a=0}^{8}v_a=3.
+$$
+It determines the real-sign self-substitution sequence
+$$
+u_{9n+a}=v_a u_n,
+\qquad
+u_n\in\{+1,-1\}.
+$$
+\end{definition}
+
+\begin{proposition}[Three negative signs]
+\label{prop:innovation-input-nine-real-sign-count}
+A word $v\in\{+1,-1\}^9$ is a nine-ary real-sign Q3 row if and only if it
+has six entries equal to $+1$ and three entries equal to $-1$. Hence there
+are
+$$
+\binom93=84
+$$
+such rows.
+\end{proposition}
+
+\begin{proof}
+Let $P$ and $M$ be the numbers of positive and negative entries. Then
+$$
+P+M=9
+$$
+and the Q3 condition is
+$$
+P-M=3.
+$$
+Thus $P=6$ and $M=3$. The converse is immediate, and the count is the
+choice of the three negative positions.
+\end{proof}
+
+\section{Real Neutral Window}
+\label{sec:innovation-input-nine-real-neutral-window}
+
+\begin{definition}[Real-sign support block]
+\label{def:innovation-input-real-sign-support-block}
+For a finite support $S\subset\mathbb Z$, set
+$$
+U_S(n):=\prod_{j\in S}u_{n+j}.
+$$
+Only the parity of site multiplicity matters, since $u_n^2=1$. Write
+$$
+\Gamma(S):=\langle U_S\rangle.
+$$
+The empty support satisfies $\Gamma(\varnothing)=1$, and common
+translation of $S$ does not change $\Gamma(S)$.
+\end{definition}
+
+\begin{definition}[Anchored real $L=3$ neutral window]
+\label{def:innovation-input-nine-real-lthree-window}
+The real-sign anchored $L=3$ neutral window is
+$$
+\mathcal B_3^{\mathbb R}
+=
+\{1,F_{12},F_{13},F_{23}\},
+$$
+where
+$$
+F_{12}=u_{n+1}u_{n+2},
+\qquad
+F_{13}=u_{n+1}u_{n+3},
+\qquad
+F_{23}=u_{n+2}u_{n+3}.
+$$
+This is the real collapse of the complex neutral window
+$\{1,F_{12},F_{13},F_{23},\overline F_{12},\overline F_{13},
+\overline F_{23}\}$, because $u_n^{-1}=u_n$.
+\end{definition}
+
+\begin{definition}[Nine-ary real neutral RP matrix]
+\label{def:innovation-input-nine-real-rp-matrix}
+Let
+$$
+F_0:=1,
+\qquad
+F_1:=F_{12},
+\qquad
+F_2:=F_{13},
+\qquad
+F_3:=F_{23}.
+$$
+The anchored real neutral $L=3$ RP matrix is
+$$
+M_3^{\mathbb R}(v)_{ij}:=\langle\theta F_i,F_j\rangle,
+\qquad
+0\le i,j\le3,
+$$
+where $\theta(j)=1-j$ on anchored future sites, as in
+\autoref{def:innovation-input-discrete-reflection}. The row passes the
+screen when $M_3^{\mathbb R}(v)$ is symmetric and positive semidefinite.
+\end{definition}
+
+\section{Exact Carry Evaluator}
+\label{sec:innovation-input-nine-real-carry-evaluator}
+
+\begin{definition}[Nine-ary carry branch]
+\label{def:innovation-input-nine-carry-branch}
+Let $S\subset\mathbb Z_{\ge0}$ be finite and let $a\in\{0,\ldots,8\}$.
+For each $j\in S$, write
+$$
+a+j=9q_{j,a}+r_{j,a},
+\qquad
+0\le r_{j,a}<9.
+$$
+Set
+$$
+C_a(S):=\prod_{j\in S}v_{r_{j,a}}.
+$$
+Let $S_a$ be the set of quotient positions $q_{j,a}$ that occur with odd
+multiplicity, translated so that its least element is $0$ when it is
+nonempty.
+\end{definition}
+
+\begin{theorem}[Real-sign finite carry recursion]
+\label{thm:innovation-input-nine-real-carry-recursion}
+For every finite support $S\subset\mathbb Z_{\ge0}$,
+$$
+\Gamma(S)=\frac19\sum_{a=0}^{8}C_a(S)\Gamma(S_a).
+$$
+For any fixed finite window, repeated branching generates a finite set of
+normalized supports, and the associated correlations are the unique
+solution of a finite rational linear system.
+\end{theorem}
+
+\begin{proof}
+Write $n=9q+a$. Then
+$$
+n+j=9(q+q_{j,a})+r_{j,a},
+$$
+and the self-substitution rule gives
+$$
+u_{n+j}=v_{r_{j,a}}u_{q+q_{j,a}}.
+$$
+Multiplying over $j\in S$ yields
+$$
+U_S(n)
+=
+C_a(S)\prod_{j\in S}u_{q+q_{j,a}}.
+$$
+Repeated quotient positions cancel in pairs because $u_m^2=1$, leaving
+the parity support $S_a$. Averaging over the nine residues gives the
+displayed recursion.
+
+If a support has diameter $d$, every branch support has diameter at most
+$\lceil d/9\rceil$. After finitely many branches the diameter is confined
+to a finite range determined by the original window. Hence the closure is
+finite. Since all coefficients are rational signs divided by $9$, the
+finite system is rational. Uniqueness follows by evaluation as the Cesaro
+limit of the substitution sequence; equivalently, the displayed finite
+system is the exact correlation system generated by that limit.
+\end{proof}
+
+\section{Two-Window Passage}
+\label{sec:innovation-input-nine-two-window-passage}
+
+\begin{proposition}[Anchored $L=2$ real screen]
+\label{prop:innovation-input-nine-real-ltwo-screen}
+Among the $84$ nine-ary real-sign Q3 rows, exactly $31$ pass the anchored
+$L=2$ real neutral RP screen for the window $\{1,F_{12}\}$.
+\end{proposition}
+
+\begin{proof}
+For the two-window, write
+$$
+\mu:=\Gamma(\{0,1\})
+$$
+and
+$$
+D_{12}:=\Gamma(\{0,1,2,3\}).
+$$
+The anchored $2\times2$ matrix is
+$$
+\begin{pmatrix}
+1 & \mu\\
+\mu & D_{12}
+\end{pmatrix},
+$$
+so passage is equivalent to
+$$
+D_{12}\ge0
+\qquad
+\text{and}
+\qquad
+D_{12}\ge\mu^2.
+$$
+The exact rational evaluator of
+\autoref{thm:innovation-input-nine-real-carry-recursion}, applied to the
+$84$ choices of the three negative positions, gives $31$ passing rows. The
+reproducible enumeration is
+\texttt{papers/bedc/experiments/nine\_real\_sign\_rp\_screen.py}.
+\end{proof}
+
+\begin{proposition}[A strict two-window witness]
+\label{prop:innovation-input-nine-real-ltwo-witness}
+Let the negative positions be
+$$
+I=\{0,1,3\},
+$$
+so that
+$$
+v=(-1,-1,1,-1,1,1,1,1,1).
+$$
+Then
+$$
+\mu=\frac15,
+\qquad
+D_{12}=\frac19,
+$$
+and therefore
+$$
+D_{12}-\mu^2=\frac{16}{225}>0.
+$$
+\end{proposition}
+
+\begin{proof}
+These values are the exact solution of the carry system generated by
+\autoref{thm:innovation-input-nine-real-carry-recursion} for the supports
+$\{0,1\}$ and $\{0,1,2,3\}$. The same script cited in
+\autoref{prop:innovation-input-nine-real-ltwo-screen} recomputes the
+fractions directly.
+\end{proof}
+
+\section{Three-Window Exclusion}
+\label{sec:innovation-input-nine-three-window-exclusion}
+
+\begin{theorem}[No nine-ary real-sign $L=3$ RP row]
+\label{thm:innovation-input-nine-real-no-lthree-rp-row}
+No nine-ary real-sign Q3 row passes the anchored real neutral $L=3$ RP
+screen:
+$$
+\begin{aligned}
+&\{v\in\{+1,-1\}^9:
+\sum_{a=0}^{8}v_a=3,\
+M_3^{\mathbb R}(v)=M_3^{\mathbb R}(v)^{\mathsf T},\
+M_3^{\mathbb R}(v)\succeq0\}\\
+&\qquad=\varnothing.
+\end{aligned}
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{prop:innovation-input-nine-real-sign-count}, there are $84$
+candidates. The exact carry evaluator computes each matrix
+$M_3^{\mathbb R}(v)$. Of these matrices, $70$ are not symmetric and
+therefore cannot define a real reflection-positive quadratic form.
+
+The remaining $14$ matrices are symmetric. Each fails positive
+semidefiniteness by a negative diagonal entry or by a negative principal
+$2\times2$ determinant. With row and column indices ordered as
+$$
+0\leftrightarrow1,
+\qquad
+1\leftrightarrow F_{12},
+\qquad
+2\leftrightarrow F_{13},
+\qquad
+3\leftrightarrow F_{23},
+$$
+the exact certificates are:
+$$
+\begin{array}{c|c}
+\text{negative positions }I & \text{negative certificate}\\
+\hline
+\{0,1,2\} & \det M_{\{0,1\}}=-\frac4{25}\\
+\{0,2,4\} & M_{33}=-\frac35\\
+\{0,4,5\} & M_{11}=-\frac7{45}\\
+\{0,4,8\} & M_{11}=-\frac59\\
+\{1,3,5\} & \det M_{\{0,1\}}=-\frac5{36}\\
+\{1,4,7\} & \det M_{\{0,1\}}=-\frac14\\
+\{2,3,4\} & \det M_{\{0,1\}}=-\frac5{36}\\
+\{2,4,6\} & M_{22}=-\frac19\\
+\{3,4,5\} & \det M_{\{0,1\}}=-\frac14\\
+\{3,4,8\} & M_{11}=-\frac7{45}\\
+\{3,5,7\} & \det M_{\{0,1\}}=-\frac5{36}\\
+\{4,5,6\} & \det M_{\{0,1\}}=-\frac5{36}\\
+\{4,6,8\} & M_{33}=-\frac35\\
+\{6,7,8\} & \det M_{\{0,1\}}=-\frac4{25}
+\end{array}
+$$
+Every listed entry is a necessary principal-minor condition for positive
+semidefiniteness. Thus no candidate survives the anchored real neutral
+$L=3$ screen.
+\end{proof}
+
+\begin{principle}[Square realness is not RP positivity]
+\label{prin:innovation-input-square-realness-not-rp-positivity}
+The square-alphabet real-sign construction gives Q3 compatibility and
+two-point realness, but it does not by itself give reflection positivity.
+At $N=9$, the natural real-sign Q3 family is already empty at the
+anchored $L=3$ RP level, even though it has many anchored $L=2$ survivors.
+The result concerns only the real-sign subfamily
+$$
+\{+1,-1\}^9\cap\mathcal Q_9.
+$$
+The general complex phase locus
+$$
+\mathcal Q_9
+=
+\left\{
+v\in\mathbb T^9:
+\sum_{a=0}^{8}v_a=3
+\right\}
+$$
+is not excluded by this screen.
+\end{principle}

@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\DyadicReciprocalNewtonUp$}
+\label{ch:concrete-instances-dyadic-reciprocal-newton-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicReciprocalNewtonUp$ packet records the finite Newton reciprocal route used when a positive dyadic source supplies an approximate inverse to Real and Completion consumers. It sits over the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the nonnegative tolerance route of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert}, and the interval-enclosure surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}. The packet exposes a positive source, a displayed reciprocal iterate, an interval enclosure, and an exact error budget before any real-facing inverse language is consumed; it does not assert host division, quotient equality, selected inverse, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic reciprocal Newton carrier]
+\label{def:dyadic-reciprocal-newton-carrier}
+A $\DyadicReciprocalNewtonUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D,P,I,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the positive $\DyadicRatCoreUp$ source row, carrying the dyadic input, its displayed positivity witness, and the arithmetic rows used by the Newton step.
+\item $P$ is the reciprocal-iterate row, recording the current dyadic approximation and the displayed update
+$$
+p \longmapsto p(2-dp)
+$$
+inside the dyadic arithmetic ledger.
+\item $I$ is the $\DyadicIntervalUp$ enclosure row, recording the interval in which the accepted reciprocal iterate remains confined.
+\item $E$ is the $\DyadicAbsoluteValueUp$ error-budget row, recording the displayed residual endpoint and tolerance ledger for the expression $1-dp$.
+\item $H$ records componentwise $\hsame$ transport for the source, iterate, interval, error budget, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the finite route from the source row through the reciprocal step, interval enclosure, and error-budget readback.
+\item $Q$ records $\Pkg$ provenance over $\DyadicReciprocalNewtonUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\DyadicIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicReciprocalNewtonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,P,I,E,H,C,Q,N$. It has no coordinate for host division, quotient rational equality, a selected inverse, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic reciprocal Newton NameCert obligations]
+\label{thm:dyadic-reciprocal-newton-namecert-obligations}
+For every accepted $\DyadicReciprocalNewtonUp$ carrier
+$$
+R=(D,P,I,E,H,C,Q,N),
+$$
+the local $\NameCert_{\DyadicReciprocalNewtonUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the positive $\DyadicRatCoreUp$ source row $D$;
+\item positive-source visibility before the reciprocal iterate row $P$ is read;
+\item reciprocal-step exposure for the displayed update $p \mapsto p(2-dp)$ inside the dyadic arithmetic ledger;
+\item enclosure preservation through the $\DyadicIntervalUp$ row $I$;
+\item error-budget exactness through the $\DyadicAbsoluteValueUp$ row $E$ for the displayed residual;
+\item componentwise $\hsame$ transport through $H$;
+\item displayed $\Cont$ replay through $C$;
+\item $\Pkg$ provenance through $Q$;
+\item local naming through $N$.
+\end{enumerate}
+Thus the packet supplies a finite dyadic reciprocal-iteration certificate, not a host inverse operation, quotient rational equality, selected inverse, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-reciprocal-newton-carrier}. Its rows display the positive source, reciprocal iterate, interval enclosure, error budget, transport, replay, provenance, and local naming data.
+
+Read the rows in dependency order. The source row $D$ exposes positivity and dyadic arithmetic before the reciprocal iterate row $P$ is consumed. The interval row $I$ then records enclosure preservation, and the error row $E$ records the residual budget through the existing absolute-value route.
+
+Finally apply $H,C,Q,N$. These rows transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for host division, quotient equality, selected inverse, trichotomy, countable choice, or ambient completeness, none can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic reciprocal Newton quadratic-error route]
+\label{thm:dyadic-reciprocal-newton-quadratic-error-route}
+Every Real-facing inverse consumer reading an accepted $\DyadicReciprocalNewtonUp$ packet must first pass through the displayed route
+$$
+\DyadicRatCoreUp,\ \DyadicAbsoluteValueUp,\ \DyadicIntervalUp,\ D,\ P,\ I,\ E,\ H,\ C,\ Q,\ N .
+$$
+In particular, each accepted Newton reciprocal read factors through the dyadic source arithmetic, residual absolute-value budget, and interval enclosure rows before any $\RegSeqRatUp$ or $\RealUp$ inverse consumer can use the resulting approximation.
+\end{theorem}
+\begin{proof}
+Begin with the source row $D$. It is the only positive dyadic input row in the carrier, so the reciprocal step cannot be read before the displayed $\DyadicRatCoreUp$ arithmetic and positivity witness are visible.
+
+Next read the error and enclosure rows. The residual budget is exposed through $E$, the $\DyadicAbsoluteValueUp$ row attached to the displayed residual, and the accepted iterate remains bounded by the $\DyadicIntervalUp$ enclosure row $I$.
+
+Only after those rows are displayed may a $\RegSeqRatUp$ or $\RealUp$ consumer attach inverse terminology to the approximation. The transport, replay, provenance, and local naming rows $H,C,Q,N$ preserve the same route and add no hidden host division, quotient equality, selected inverse, trichotomy, countable choice, or ambient completeness data.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicReciprocalNewtonUp$ read is refuted by any Real-facing inverse consumer that consumes the reciprocal iterate before displaying the positive $\DyadicRatCoreUp$ source row, the $\DyadicAbsoluteValueUp$ residual budget, the $\DyadicIntervalUp$ enclosure row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, dyadicabsolutevalue, dyadicinterval, regseqrat, real: none is bijective to $\DyadicReciprocalNewtonUp$ because this packet jointly carries a positive dyadic source, a reciprocal iterate, an interval enclosure, a residual error budget, transport, replay, provenance, and a local NameCert row.}
+
+\closureat{DyadicReciprocalNewtonUp}{seedStr}
+
+\begin{closurestatus}{\DyadicReciprocalNewtonUp}
+  \constructivestory{A $\DyadicReciprocalNewtonUp$ packet is generated from a positive DyadicRatCore source row, a reciprocal-iterate row, a DyadicInterval enclosure row, a DyadicAbsoluteValue residual-budget row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-reciprocal-newton-carrier}, \autoref{thm:dyadic-reciprocal-newton-namecert-obligations}, and \autoref{thm:dyadic-reciprocal-newton-quadratic-error-route} seed the finite constructive reciprocal-iteration route over source, iterate, enclosure, error budget, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host division, quotient equality, selected inverse, trichotomy, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-source visibility, reciprocal-step exposure, enclosure preservation, error-budget exactness, transport, replay, provenance, and local naming for BEDC.Derived.DyadicReciprocalNewtonUp.}
+\end{closurestatus}

@@ -1,0 +1,72 @@
+\chapter{Buckingham Pi NameCert Construction}
+\label{ch:concrete-instances-buckingham-pi-namecert}
+\origin{human}
+
+Following Buckingham's dimensional-analysis theorem, the $\BuckinghamPiUp$ packet records the finite unit-exponent route by which a displayed physical law is read through dimensionless monomial coordinates. It sits beside the finite vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map row of \autoref{ch:concrete-instances-linearmap-namecert}, the matrix ledger of \autoref{ch:concrete-instances-matrix-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the traditional Pi-theorem surface as BEDC data; it does not import host units, choose a basis outside the displayed exponent matrix, quotient physical quantities, or assert analytic smoothness of the modeled law.
+
+\begin{definition}[Buckingham Pi carrier]
+\label{def:buckingham-pi-carrier}
+A $\BuckinghamPiUp$ carrier is a finite $\BHist$ packet
+$$
+B=(U,M,K,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the finite unit-exponent carrier, listing the base-unit coordinates of every inspected quantity.
+\item $M$ is the $\MatrixUp$ row for the displayed dimension matrix over the same finite coordinate window.
+\item $K$ is the dimensionless monomial classifier, exposing exactly the nullspace rows whose exponent vectors cancel all base-unit coordinates.
+\item $T$ is the exponent-transport stability row, recording componentwise $\hsame$ transport for unit rows, exponent vectors, matrix reads, and monomial classifiers.
+\item $E$ is the nullspace and exactness ledger, showing that each exported Pi row is read through $M$ and $K$ before any scalar readback is consumed.
+\item $H$ records the no-host-units non-escape boundary: every accepted read remains inside the displayed unit-exponent packet.
+\item $C$ is the displayed $\Cont$ replay row for finite unit windows, matrix rows, nullspace rows, and dimensionless monomial reads.
+\item $P$ is the $\Pkg$ provenance over $\BuckinghamPiUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BuckinghamPiUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for host units, quotient dimensions, selected physical constants, analytic regularity, or an ambient real-valued law outside the displayed finite packet.
+\end{definition}
+
+\begin{theorem}[Buckingham Pi NameCert surface]
+\label{thm:buckingham-pi-namecert-surface}
+For every accepted $\BuckinghamPiUp$ carrier $B=(U,M,K,T,E,H,C,P,N)$, the local $\NameCert_{\BuckinghamPiUp}$ surface consists exactly of carrier admission for the finite unit-exponent row, matrix readback for the dimension map, dimensionless monomial classification, exponent-transport stability, nullspace and exactness accounting, no-host-units non-escape, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:buckingham-pi-carrier}. The rows $U$ and $M$ display the finite unit coordinates and the dimension matrix before any monomial read is available.
+
+Read the classifier row $K$ through the nullspace ledger $E$. A dimensionless monomial is therefore a finite exponent vector whose matrix read is zero in the displayed unit window, not an equality of host physical quantities.
+
+Transport and replay through $T$ and $C$. These rows preserve the same unit-exponent coordinates and the same classifier row, while $H$ prevents escape to unlisted host units.
+
+Finally package the route through $P$ and $N$. Since the carrier has no coordinate for host units, quotient dimensions, selected physical constants, or analytic regularity, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Buckingham Pi non-escape]
+\label{thm:buckingham-pi-no-host-units-nonescape}
+Every consumer of an accepted $\BuckinghamPiUp$ packet that reads a dimensionless Pi coordinate must first expose the route
+$$
+\VecSpaceUp,\ \LinearMapUp,\ \MatrixUp,\ \RealUp
+$$
+through the carrier rows $U,M,K,T,E,H,C,P,N$. The exported read is a finite nullspace and monomial-classifier packet; it is not a host-unit equation, a quotient-dimension object, a selected physical constant, or an analytic theorem about the modeled system.
+\end{theorem}
+\begin{proof}
+Begin with the requested Pi coordinate. The finite unit-exponent row $U$ fixes the displayed basis of dimensions, and the matrix row $M$ records the corresponding dimension map.
+
+Use the classifier $K$ and exactness ledger $E$ to read only exponent vectors annihilated by that displayed map. The read is stable under $T$ because transport acts componentwise on the same exponent and unit rows.
+
+The no-host-units row $H$ then blocks any appeal to unlisted dimensions or ambient physical quantities. Replay, provenance, and naming through $C,P,N$ preserve the finite route, so no excluded host object is exported.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\BuckinghamPiUp$ read must display the unit-exponent carrier, dimension matrix, dimensionless monomial classifier, exponent-transport row, nullspace exactness ledger, no-host-units boundary, replay, provenance, and local NameCert row before a Pi coordinate is public.}
+
+\independenceWitness{vecspace, linearmap, matrix, real: $\BuckinghamPiUp$ is not bijective to any listed sibling because it jointly carries finite unit-exponent data, a dimension matrix, nullspace classification, exponent transport, exactness, no-host-units non-escape, replay, provenance, and local naming in one physical-law-facing packet.}
+
+\closureat{BuckinghamPiUp}{seedStr}
+
+\begin{closurestatus}{\BuckinghamPiUp}
+  \constructivestory{A $\BuckinghamPiUp$ packet is generated from finite unit-exponent rows, a displayed dimension matrix, dimensionless monomial classifier rows, exponent-transport stability, nullspace exactness, no-host-units non-escape, displayed replay, package provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:buckingham-pi-carrier}, \autoref{thm:buckingham-pi-namecert-surface}, and \autoref{thm:buckingham-pi-no-host-units-nonescape} seed the finite Buckingham Pi NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host physical-unit equality, quotient dimensions, selected physical constants, analytic regularity of a modeled law, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dimension-matrix readback, monomial classification, exponent transport, nullspace exactness, no-host-units non-escape, replay, provenance, and local naming for BEDC.Derived.BuckinghamPiUp.}
+\end{closurestatus}

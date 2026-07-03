@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.OresmeHarmonicDivergenceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -200,5 +212,98 @@ theorem OresmeHarmonicDivergenceTasteGate_single_carrier_alignment :
         OresmeHarmonicDivergenceTasteGate_single_carrier_alignment_toEventFlow_injective
           heq),
       rfl⟩
+
+theorem OresmeHarmonicDivergenceNameCertObligations [AskSetup] [PackageSetup]
+    {S B Q D W R E T C P N blockRead comparisonRead sealRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory S →
+      UnaryHistory B →
+        UnaryHistory Q →
+          UnaryHistory D →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory E →
+                  UnaryHistory T →
+                    UnaryHistory P →
+                      UnaryHistory N →
+                        Cont S B blockRead →
+                          Cont Q D comparisonRead →
+                            Cont W R sealRead →
+                              Cont sealRead E namedRead →
+                                PkgSig bundle P pkg →
+                                  PkgSig bundle N pkg →
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row namedRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row S ∨ hsame row B ∨ hsame row Q ∨
+                                            hsame row D ∨ hsame row W ∨ hsame row R ∨
+                                              hsame row E ∨ hsame row T ∨ hsame row C ∨
+                                                hsame row P ∨ hsame row N ∨
+                                                  hsame row blockRead ∨
+                                                    hsame row comparisonRead ∨
+                                                      hsame row sealRead ∨
+                                                        hsame row namedRead)
+                                        (fun row : BHist =>
+                                          UnaryHistory row ∧ Cont S B blockRead ∧
+                                            Cont Q D comparisonRead ∧
+                                              Cont W R sealRead ∧
+                                                Cont sealRead E namedRead ∧
+                                                  PkgSig bundle P pkg ∧
+                                                    PkgSig bundle N pkg)
+                                        hsame ∧ UnaryHistory blockRead ∧
+                                      UnaryHistory comparisonRead ∧ UnaryHistory sealRead ∧
+                                    UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro sUnary bUnary qUnary dUnary wUnary rUnary eUnary _tUnary _pUnary _nUnary
+    blockRoute comparisonRoute sealRoute namedRoute provenancePkg namePkg
+  have blockUnary : UnaryHistory blockRead :=
+    unary_cont_closed sUnary bUnary blockRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed qUnary dUnary comparisonRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed wUnary rUnary sealRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealUnary eUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row B ∨ hsame row Q ∨ hsame row D ∨
+              hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row T ∨
+                hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row blockRead ∨
+                  hsame row comparisonRead ∨ hsame row sealRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B blockRead ∧ Cont Q D comparisonRead ∧
+              Cont W R sealRead ∧ Cont sealRead E namedRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      repeat (first | exact source.left | apply Or.inr)
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, blockRoute, comparisonRoute, sealRoute, namedRoute,
+          provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, blockUnary, comparisonUnary, sealUnary, namedUnary⟩
 
 end BEDC.Derived.OresmeHarmonicDivergenceUp

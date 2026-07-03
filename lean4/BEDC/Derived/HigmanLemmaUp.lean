@@ -233,4 +233,69 @@ theorem HigmanLemmaNormalizationFrontierHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, wordUnary, dependencyUnary, embeddingUnary, frontierUnary⟩
 
+theorem HigmanLemmaFiniteBadPrefixInduction [AskSetup] [PackageSetup]
+    {S W E B D H C P N _badPrefix shorter residual embedding : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HigmanLemmaCarrier S W E B D H C P N bundle pkg →
+      Cont B D shorter →
+        Cont shorter C residual →
+          Cont residual E embedding →
+            PkgSig bundle P pkg →
+              UnaryHistory embedding ∧
+                SemanticNameCert
+                    (fun row : BHist => hsame row embedding ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row B ∨ hsame row D ∨ hsame row shorter ∨
+                        hsame row residual ∨ hsame row embedding)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont B D shorter ∧ Cont shorter C residual ∧
+                        Cont residual E embedding ∧ PkgSig bundle P pkg)
+                    hsame := by
+  -- BEDC touchpoint anchor: HigmanLemmaCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier shorterRoute residualRoute embeddingRoute provenancePkg
+  obtain ⟨_sUnary, _wUnary, eUnary, bUnary, dUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _provenancePkg, _namePkg⟩ := carrier
+  have shorterUnary : UnaryHistory shorter :=
+    unary_cont_closed bUnary dUnary shorterRoute
+  have residualUnary : UnaryHistory residual :=
+    unary_cont_closed shorterUnary cUnary residualRoute
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed residualUnary eUnary embeddingRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row embedding ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row D ∨ hsame row shorter ∨ hsame row residual ∨
+              hsame row embedding)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont B D shorter ∧ Cont shorter C residual ∧
+              Cont residual E embedding ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro embedding ⟨hsame_refl embedding, embeddingUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, shorterRoute, residualRoute, embeddingRoute, provenancePkg⟩
+  }
+  exact ⟨embeddingUnary, cert⟩
+
 end BEDC.Derived.HigmanLemmaUp

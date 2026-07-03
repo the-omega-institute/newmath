@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalSamplingUp$}
+\label{ch:concrete-instances-located-interval-sampling-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located intervals and constructive real approximation, the $\LocatedIntervalSamplingUp$ packet records the finite sampling route by which a located closed interval is inspected through density-net cells before any completion-facing Real seal is read. It sits beside the finite Cauchy density-net route of \autoref{ch:concrete-instances-finite-cauchy-density-net-namecert}, the dyadic interval-cell route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies Real and Completion consumers with displayed finite interval samples; it does not assert classical compactness, selected limits, quotient representatives, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located interval sampling carrier]
+\label{def:located-interval-sampling-carrier}
+A $\LocatedIntervalSamplingUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,N,W,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the located closed interval row, exposing named endpoint seals and a located endpoint comparison before any sample is read.
+\item $N$ is the $\FiniteCauchyDensityNetUp$ row naming the finite density-net handoff for the same interval source.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the observed sample windows.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the windows in $W$.
+\item $E$ is the downstream $\RealUp$ seal row, available only after $I,N,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, density-net, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+I\longrightarrow N\longrightarrow W\longrightarrow R\longrightarrow E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalSamplingUp$, $\FiniteCauchyDensityNetUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\LocatedIntervalSamplingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,N,W,R,E,H,C,P,L$. It has no coordinate for a quotient representative of the interval, a selected completed sample, trichotomy on endpoints, countable choice over windows, classical compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval sampling NameCert obligations]
+\label{thm:located-interval-sampling-namecert-obligations}
+For every accepted $\LocatedIntervalSamplingUp$ carrier
+$$
+S=(I,N,W,R,E,H,C,P,L),
+$$
+the local $\NameCert_{\LocatedIntervalSamplingUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed located interval, finite Cauchy density-net, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows;
+\item interval-cell exposure, requiring the sample cells to be read through the $\DyadicIntervalNetUp$ surface before a density-net row is consumed;
+\item density-net handoff, requiring $N$ to expose the finite Cauchy density-net route of \autoref{ch:concrete-instances-finite-cauchy-density-net-namecert} for the same located interval row $I$;
+\item readback-before-seal discipline, requiring $W$ and $R$ to be displayed before the $\RealUp$ seal row $E$ is available;
+\item refusal of quotient representatives, selected limits, trichotomy, countable choice, and ambient Real completeness as exportable rows of the packet.
+\end{enumerate}
+No local obligation is stored outside $I,N,W,R,E,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-sampling-carrier}. The accepted packet exposes exactly the located interval, density-net, window, readback, Real seal, transport, replay, provenance, and local naming rows.
+
+The interval-cell obligation is supplied by the dyadic interval-net sibling. A sample cell may be consumed only after the displayed interval source has been matched to a finite $\DyadicIntervalNetUp$ cell route, so the packet never treats an interval as an untracked host subset.
+
+The density-net handoff is supplied by $N$. It names the finite Cauchy density-net route over the same interval row and does not select a completed sample or assert compactness outside the displayed finite rows.
+
+Finally read $W,R,E,H,C,P,L$. The StreamName windows and RegSeqRat readback must precede the Real seal, while transport, replay, provenance, and local naming preserve only the displayed route. Hence quotient representatives, selected limits, trichotomy, countable choice, and ambient Real completeness have no carrier coordinate from which to escape.
+\end{proof}
+
+\closureat{LocatedIntervalSamplingUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalSamplingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-sampling-carrier} and \autoref{thm:located-interval-sampling-namecert-obligations} seed the located interval sampling route over located interval, DyadicIntervalNet, FiniteCauchyDensityNet, StreamName, RegSeqRat, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\encodedDefV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical compactness, quotient interval representatives, selected limits, trichotomy, countable choice, ambient RealUp completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-cell exposure, density-net handoff, StreamName and RegSeqRat readback before Real sealing, provenance exhaustion, and local naming for BEDC.Derived.LocatedIntervalSamplingUp.}
+  \constructivestory{A $\LocatedIntervalSamplingUp$ packet is generated from a located closed interval row, a finite Cauchy density-net row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
+\leandef{BEDC.Derived.LocatedIntervalSamplingUp}

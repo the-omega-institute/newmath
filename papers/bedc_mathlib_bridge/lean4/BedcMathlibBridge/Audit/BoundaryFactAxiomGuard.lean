@@ -1,13 +1,27 @@
 import Lean
 import Lean.Util.CollectAxioms
+import BedcMathlibBridge.Boundary.BernoulliAxiomLedger
 import BedcMathlibBridge.Boundary.RiemannZetaAxiomLedger
 import BedcMathlibBridge.Export.IntProbe
 import Mathlib.Algebra.EuclideanDomain.Int
+import Mathlib.Algebra.IsPrimePow
 import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
+import Mathlib.Data.Nat.Totient
+import Mathlib.Combinatorics.Enumerative.Bell
+import Mathlib.Combinatorics.Enumerative.Partition.Basic
+import Mathlib.Combinatorics.Enumerative.Schroder
+import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Data.Real.Basic
+import Mathlib.NumberTheory.Fermat
+import Mathlib.NumberTheory.FactorisationProperties
+import Mathlib.NumberTheory.Harmonic.Defs
+import Mathlib.NumberTheory.ArithmeticFunction.Carmichael
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.Divisors
+import Mathlib.NumberTheory.PythagoreanTriples
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
 import Mathlib.Order.ConditionallyCompleteLattice.Basic
@@ -89,6 +103,92 @@ Audit-only touchpoint for the mathlib Zeckendorf representation and equivalence.
 noncomputable def auditNatZeckendorfBoundary :
     (Nat → List Nat) × (Nat ≃ {l // List.IsZeckendorfRep l}) :=
   (Nat.zeckendorf, Nat.zeckendorfEquiv)
+
+/-!
+Audit-only touchpoint for the mathlib standard Bell number. `Nat.bell`'s
+recurrence body and its only general characterization (`Nat.bell_succ`) are
+stated as a `Finset.sum` over `Fin n.succ`; `Finset = Multiset = Quotient List`,
+so even the bare `Nat.bell` definition inherits the `Quot.sound`/`propext`
+footprint and `Classical.choice` from the mathlib big-operator layer. The BEDC
+side has a quotient-free Bell presentation (`bellNumber` as a Stirling prefix
+sum, plus a 0-axiom standard recurrence `bellNumberByRecurrence`), but bridging
+it to `Nat.bell` would have to route through `Nat.bell_succ`, importing those
+axioms; this row records only the mathlib-object axiom cost and exports no
+axiom-bearing bridge theorem.
+-/
+noncomputable def auditNatBellBoundary : Nat → Nat :=
+  Nat.bell
+
+/-!
+Audit-only touchpoint for mathlib's Fermat numbers. The BEDC side gives a
+quotient-free tower recurrence and prefix-product relation; the host declaration
+itself retains the proposition-extensionality footprint measured by this row.
+-/
+noncomputable def auditNatFermatNumberBoundary : Nat → Nat :=
+  Nat.fermatNumber
+
+/-!
+Audit-only touchpoint for mathlib Mersenne numbers. The host declaration is
+definitionally `2 ^ p - 1`, but its compiled declaration footprint contains
+`propext`, so it remains a measured boundary object rather than a bridge export.
+-/
+noncomputable def auditMersenneBoundary : Nat → Nat :=
+  _root_.mersenne
+
+/-!
+Audit-only touchpoint for mathlib's large and small Schroder numbers. Their
+recursive surface is stated through `Finset.sum`, so the host declarations
+inherit the finite-set quotient and choice footprint rather than yielding a
+0-axiom readback target.
+-/
+noncomputable def auditNatSchroderBoundary : (Nat → Nat) × (Nat → Nat) :=
+  (Nat.largeSchroder, Nat.smallSchroder)
+
+/-!
+Audit-only touchpoint for mathlib's partition-count carrier. The host count is
+the cardinality of `Nat.Partition n`, whose finite enumeration is built through
+multisets, compositions, and finite type machinery.
+-/
+noncomputable def auditNatPartitionCountBoundary (n : Nat) : Nat :=
+  Fintype.card (Nat.Partition n)
+
+noncomputable def auditNatBinaryMultinomialBoundary (a b : Nat) : Nat :=
+  Nat.multinomial (Finset.univ : Finset (Fin 2)) ![a, b]
+
+/-!
+Audit-only touchpoints for mathlib's finite number-theoretic functions whose
+carrier definitions route through `Finset`, `Finsupp`, or arithmetic-function
+big-operator layers.
+-/
+noncomputable def auditNatTotientBoundary : Nat → Nat :=
+  Nat.totient
+
+noncomputable def auditNatDivisorsBoundary : Nat → Finset Nat :=
+  Nat.divisors
+
+noncomputable def auditNatHarmonicNumberBoundary : Nat → Rat :=
+  _root_.harmonic
+
+noncomputable def auditArithmeticFunctionCarmichaelBoundary :
+    ArithmeticFunction Nat :=
+  ArithmeticFunction.Carmichael
+
+/-!
+Audit-only touchpoint for the mathlib prime-power theorem surface at `2 ^ 2`.
+The BEDC perfect-power packet has a quotient-free decision surface for the
+same square, but the host prime-power proof route is measured separately.
+-/
+theorem auditNatPerfectPowerPrimeSquareBoundary :
+    IsPrimePow ((2 : Nat) ^ 2) :=
+  (Nat.Prime.isPrimePow Nat.prime_two).pow (by decide : 2 ≠ 0)
+
+/-!
+Audit-only touchpoint for mathlib's weird-number predicate at the standard
+`70` witness. The predicate is stated through `properDivisors` and a
+subset-sum existential over `Finset`, so the host declaration is boundary data.
+-/
+noncomputable def auditNatWeirdSeventyBoundary : Prop :=
+  Nat.Weird 70
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib

@@ -26,14 +26,155 @@ structure ExportRegistration where
 def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Int.cintIntExport,
     witnessType := `BedcMathlibBridge.Export.Int.IntExportWitness },
+  { witness := `BedcMathlibBridge.Export.IntSignMagnitude.intSignMagnitudeExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.IntSignMagnitude.IntSignMagnitudeExportWitness },
+  { witness := `BedcMathlibBridge.Export.Bool.boolExport,
+    witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pythagorean.pythagoreanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pythagorean.PythagoreanExportWitness },
   { witness := `BedcMathlibBridge.Export.Eisenstein.eisExport,
     witnessType := `BedcMathlibBridge.Export.Eisenstein.EisensteinExportWitness },
   { witness := `BedcMathlibBridge.Export.ZMod.zmodExport,
     witnessType := `BedcMathlibBridge.Export.ZMod.ZModExportWitness },
   { witness := `BedcMathlibBridge.Export.Fibonacci.fibonacciExport,
     witnessType := `BedcMathlibBridge.Export.Fibonacci.FibonacciExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lucas.lucasExport,
+    witnessType := `BedcMathlibBridge.Export.Lucas.LucasExportWitness },
+  { witness := `BedcMathlibBridge.Export.Leonardo.leonardoExport,
+    witnessType := `BedcMathlibBridge.Export.Leonardo.LeonardoExportWitness },
+  { witness := `BedcMathlibBridge.Export.Binomial.binomialExport,
+    witnessType := `BedcMathlibBridge.Export.Binomial.BinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
+    witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
+  { witness := `BedcMathlibBridge.Export.Catalan.catalanExport,
+    witnessType := `BedcMathlibBridge.Export.Catalan.CatalanExportWitness },
+  { witness := `BedcMathlibBridge.Export.StirlingFirst.stirlingFirstExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.StirlingFirst.StirlingFirstExportWitness },
+  { witness := `BedcMathlibBridge.Export.StirlingSecond.stirlingSecondExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.StirlingSecond.StirlingSecondExportWitness },
+  { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
+  { witness := `BedcMathlibBridge.Export.DescFactorial.descFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.DescFactorial.DescFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Superfactorial.superfactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Superfactorial.SuperfactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Hyperfactorial.hyperfactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Hyperfactorial.HyperfactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.EuclidFactorial.euclidFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EuclidFactorial.EuclidFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.PowTwo.powTwoExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.PowTwo.PowTwoExportWitness },
+  { witness := `BedcMathlibBridge.Export.Jacobsthal.jacobsthalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Jacobsthal.JacobsthalExportWitness },
+  { witness := `BedcMathlibBridge.Export.Padovan.padovanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Padovan.PadovanExportWitness },
+  { witness := `BedcMathlibBridge.Export.Perrin.perrinExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Perrin.PerrinExportWitness },
+  { witness := `BedcMathlibBridge.Export.Tribonacci.tribonacciExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Tribonacci.TribonacciExportWitness },
+  { witness := `BedcMathlibBridge.Export.Tetranacci.tetranacciExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Tetranacci.TetranacciExportWitness },
+  { witness := `BedcMathlibBridge.Export.CullenWoodall.cullenExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CullenWoodall.CullenExportWitness },
+  { witness := `BedcMathlibBridge.Export.CullenWoodall.woodallExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CullenWoodall.WoodallExportWitness },
+  { witness := `BedcMathlibBridge.Export.CentralTrinomial.centralTrinomialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CentralTrinomial.CentralTrinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.AscFactorial.ascFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.AscFactorial.AscFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.CentralBinom.centralBinomExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CentralBinom.CentralBinomExportWitness },
+  { witness := `BedcMathlibBridge.Export.Delannoy.delannoyClosedFormTermExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Delannoy.DelannoyClosedFormTermExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pell.pellRecurrenceExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pell.PellRecurrenceExportWitness },
+  { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Narayana.narayanaExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Narayana.NarayanaExportWitness },
+  { witness := `BedcMathlibBridge.Export.QFactorial.qFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.QFactorial.QFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Raney.raneyExport,
+    witnessType := `BedcMathlibBridge.Export.Raney.RaneyExportWitness },
+  { witness := `BedcMathlibBridge.Export.FussCatalan.fussCatalanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.FussCatalan.FussCatalanExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lobb.lobbExport,
+    witnessType := `BedcMathlibBridge.Export.Lobb.LobbExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
+    witnessType := `BedcMathlibBridge.Export.Lah.LahFirstColumnExportWitness },
+  { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },
+  { witness := `BedcMathlibBridge.Export.Triangular.triangularExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Triangular.TriangularExportWitness },
+  { witness := `BedcMathlibBridge.Export.CakeNumber.cakeNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CakeNumber.CakeNumberExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.OddDoubleFactorial.oddDoubleFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.OddDoubleFactorial.OddDoubleFactorialExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.EvenDoubleFactorial.evenDoubleFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EvenDoubleFactorial.EvenDoubleFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Square.squareExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Square.SquareExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pronic.pronicExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pronic.PronicExportWitness },
+  { witness := `BedcMathlibBridge.Export.CenteredHexagonal.centeredHexagonalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CenteredHexagonal.CenteredHexagonalExportWitness },
+  { witness := `BedcMathlibBridge.Export.SquarePyramidal.squarePyramidalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.SquarePyramidal.SquarePyramidalExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pentagonal.pentagonalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pentagonal.PentagonalExportWitness },
+  { witness := `BedcMathlibBridge.Export.Hexagonal.hexagonalExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Hexagonal.HexagonalExportWitness },
+  { witness := `BedcMathlibBridge.Export.CentralFactorial.centralFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CentralFactorial.CentralFactorialExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.projectionLedgerCountExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.ProjectionLedgerCount.ProjectionLedgerCountExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },

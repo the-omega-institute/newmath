@@ -29,6 +29,22 @@ with the following displayed rows:
 The classifier compares accepted packets only by these displayed rows. It has no coordinate for arbitrary closed-term normalization, confluence, subject reduction, conversion decidability, or a complete algebraic theory of the Church encodings.
 \end{definition}
 
+\begin{theorem}[MetaCIC typed-examples gallery obligation matrix]
+\label{thm:metacictypedexamplesgallery-obligation-matrix}
+Each accepted $\MetaCICTypedExamplesGalleryUp$ typed example row must expose its context row, term row, typing derivation row, reduction-window row, local-join row, normalization-frontier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ row before it can be consumed by $\MetaCICCriticalPathUp$. The matrix is read from the finite gallery rows
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M,
+$$
+with local-join and normalization-frontier access routed through the beta-redex and checker rows $R,K$ rather than through a global confluence, subject-reduction, normalization, or conversion-completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The family rows $B,N,L,S,E,I,A,R$ are the only context, term, typing, and reduction-window sources available to an accepted gallery example, while $K$ is the checker boundary attached to those displayed sources.
+
+The local-join and normalization-frontier reads are therefore sibling routes of the finite beta-redex and checker surface. They are the same finite rows later isolated by \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage} and \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}, with the redex-frontier handoff boundary recorded in \autoref{thm:metacic-redex-frontier-normalization-window-handoff}.
+
+Finally add the structural rows. Transport is projected through $H$, replay through $C$, provenance through $P$, and local naming through $M$. Since the carrier has no coordinate for global confluence, subject reduction, normalization, or conversion completeness, $\MetaCICCriticalPathUp$ can consume only the displayed obligation matrix.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery NameCert obligations]
 \label{thm:metacic-typedexamples-gallery-namecert-obligations}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
@@ -73,10 +89,176 @@ Each consumer read factors through the finite route row $C$ and the checker row 
 Therefore the accepted packet is exactly a finite regression surface for the displayed examples. The excluded metatheorems remain outside the carrier because no row of $G$ can be projected as such a theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery typed-family coverage]
+\label{thm:metacic-typedexamples-gallery-typed-family-coverage}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+every typed-example family read exposed by the gallery factors through one of the displayed family rows $B,N,L,S,E,I,A,R$ and then through the checker row $K$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $M$. The gallery exposes no further subject-reduction family, confluence family, normalization family, conversion-completeness family, arbitrary-example-coverage family, or checker-completeness family.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. Its only typed-example family rows are the Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, and beta-redex rows named by $B,N,L,S,E,I,A,R$.
+
+Now split over that finite displayed family inventory. A Bool read is routed through $B$, a Nat read through $N$, a List read through $L$, a Sum read through $S$, an equality read through $E$, an identity read through $I$, an application read through $A$, and a beta-redex read through $R$.
+
+Checker acceptance is then forced through $K$. Transport of the same family row is read through $H$, replay is read through $C$, and the exported consumer-facing certificate is packaged by $P$ and named by $M$.
+
+Finally apply the regression surface of \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the carrier has no coordinate for subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness, no additional typed-family read is exposed by the gallery.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery checker-route factorization]
+\label{thm:metacic-typedexamples-gallery-checker-route-factorization}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+every gallery consumer read factors through exactly one displayed example-family row among $B,N,L,S,E,I,A,R$ and then through $K,H,C,P,M$. The checker row $K$ is therefore only the finite acceptance boundary for the chosen displayed family. It cannot be read as subject reduction, confluence, normalization, conversion completeness, or checker completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. Its displayed example-family rows are exactly $B,N,L,S,E,I,A,R$, so a gallery read first chooses one of those finite rows.
+
+Case split over the displayed family row. Bool reads route through $B$, Nat reads through $N$, List reads through $L$, Sum reads through $S$, equality reads through $E$, identity reads through $I$, application reads through $A$, and beta-redex reads through $R$.
+
+After that family choice, acceptance must pass through $K$, and the same accepted route is transported by $H$, replayed by $C$, sourced by $P$, and named by $M$.
+
+Finally cite the regression surface theorem \autoref{thm:metacic-typedexamples-gallery-regression-surface}. Since the packet has no coordinate for the excluded global metatheorems, the checker row remains a finite family acceptance boundary and cannot be consumed as subject reduction, confluence, normalization, conversion completeness, or checker completeness.
+\end{proof}
+\leanchecked{BEDC.MetaCIC.gallery\_checker\_route\_factorization}
+
+\begin{theorem}[MetaCIC typed-examples gallery kernel scope]
+\label{thm:metacic-typed-examples-gallery-kernel-scope}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the kernel-facing scope of the gallery is exactly the finite $\BHist$ route named by \autoref{def:metacic-typedexamples-gallery-carrier}, constrained by the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}, the typed-family coverage of \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}, and the checker-route factorization of \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. A kernel consumer may inspect the displayed family row, checker row, transport row, replay row, provenance row, and local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row. It receives no subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.MetaCIC.gallery\_kernel\_scope}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The only kernel-facing rows are the displayed family rows $B,N,L,S,E,I,A,R$, the checker row $K$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $M$.
+
+Apply the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}. It forces each consumed example to display its context, term, typing, reduction-window, local-join, normalization-frontier, transport, replay, provenance, and local naming rows inside the same finite packet.
+
+Now apply the typed-family coverage and checker-route factorization theorems. They place every family read inside one displayed row and then through $K,H,C,P,M$. Since the carrier has no coordinate for the excluded global metatheorems, the kernel-facing scope is exactly this finite route.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery coverage scope]
+\label{thm:metacic-typed-examples-gallery-coverage-scope}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the coverage claim exported by the gallery is scoped to the displayed Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, and beta-redex rows. The claim is read through the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}, the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}, the typed-family coverage of \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}, and the checker-route factorization of \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. It does not cover arbitrary examples, checker completeness, subject reduction, confluence, normalization, or conversion completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite family inventory in the carrier. It lists exactly the rows $B,N,L,S,E,I,A,R$ and gives no row for an arbitrary example family.
+
+The obligation matrix requires each displayed family read to keep its local typing, reduction-window, checker, transport, replay, provenance, and naming data visible. Thus coverage is a row-by-row property of the finite inventory, not a theorem about every possible MetaCIC example.
+
+Finally use typed-family coverage and checker-route factorization. The first theorem says every gallery family read factors through the displayed family rows, and the second says each consumer read then passes through $K,H,C,P,M$. The omitted global claims remain outside the scope because no carrier row names them.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples counterexample boundary]
+\label{thm:metacic-typedexamples-gallery-subject-reduction-counterexample-boundary}
+An accepted $\MetaCICTypedExamplesGalleryUp$ row can be consumed as a finite regression row or as a finite counterexample boundary only when its context row, term row, typing row, reduction-window row, checker row, transport row, replay row, provenance row, and local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row are all displayed inside
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M).
+$$
+The row cannot be read as global subject reduction, and it also cannot be read as a global failure of subject reduction. It is only bounded evidence about the displayed Church Bool, Church Nat, Church List, Church Sum, equality, identity, application, or beta-redex family chosen from $B,N,L,S,E,I,A,R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The finite family row supplies the context, term, typing, and reduction-window data, while $K$ supplies the checker boundary and $H,C,P,M$ supply transport, replay, provenance, and local naming.
+
+Apply the coverage scope of \autoref{thm:metacic-typed-examples-gallery-coverage-scope}. It restricts every exported claim to the displayed family rows and refuses arbitrary example coverage.
+
+Now apply checker-route factorization from \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. Any consumer read must pass through one displayed family and then through $K,H,C,P,M$, so a regression or counterexample use remains a finite row-boundary claim.
+
+Since the carrier has no coordinate for global subject reduction and no coordinate for a global countertheorem, neither conclusion can be projected from the gallery packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery scoped route]
+\label{thm:metacic-typed-examples-gallery-scoped-route}
+Every consumer route out of an accepted $\MetaCICTypedExamplesGalleryUp$ packet is a scoped route through
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M .
+$$
+The route is determined by the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}, the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}, the typed-family coverage theorem of \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}, and the checker-route factorization theorem of \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. The route exports only the bounded gallery surface and keeps subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, and checker completeness outside the claim.
+\end{theorem}
+\begin{proof}
+Choose a consumer read from an accepted gallery packet. By the carrier definition, the read must start inside one of the displayed rows $B,N,L,S,E,I,A,R,K,H,C,P,M$.
+
+If the read asks for example-family content, typed-family coverage forces a unique displayed family entrance among $B,N,L,S,E,I,A,R$. Checker-route factorization then sends the same read through $K,H,C,P,M$.
+
+If the read asks for structural certificate content, the obligation matrix restricts it to the same transport, replay, provenance, and local naming rows. Therefore every consumer route remains inside the displayed scoped route, and the global metatheorem claims are not exported by this packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery scope rows]
+\label{thm:metacic-typedexamples-gallery-scope-rows}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the accepted gallery scope is exactly the row set
+$$
+B,N,L,S,E,I,A,R,K,H,C,P,M .
+$$
+Rows $B,N,L,S,E,I,A,R$ are the displayed typed-family rows, $K$ is the checker boundary for those families, and $H,C,P,M$ are the transport, replay, provenance, and local naming rows. The scope contains no subject-reduction row, confluence row, normalization row, conversion-completeness row, arbitrary-example row, or checker-completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. Its displayed coordinates are precisely $B,N,L,S,E,I,A,R,K,H,C,P,M$, so every accepted row must be one of those coordinates.
+
+Apply the obligation matrix of \autoref{thm:metacictypedexamplesgallery-obligation-matrix}. It requires each accepted gallery read to display its context, term, typing, reduction-window, local-join, normalization-frontier, transport, replay, provenance, and local naming data inside the finite carrier.
+
+Next use typed-family coverage and checker-route factorization. The theorem \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage} confines every family read to $B,N,L,S,E,I,A,R$, and \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization} sends each such read through $K,H,C,P,M$.
+
+Finally cite the scoped route of \autoref{thm:metacic-typed-examples-gallery-scoped-route}. It excludes the global metatheorem rows, so the accepted scope is exactly the displayed thirteen-row surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery scope export]
+\label{thm:metacic-typed-examples-gallery-scope-export}
+Every exported gallery read from an accepted $\MetaCICTypedExamplesGalleryUp$ packet is exactly one displayed family row among
+$$
+B,N,L,S,E,I,A,R
+$$
+followed by the finite checker and certificate route
+$$
+K,H,C,P,M.
+$$
+No consumer may read the exported gallery as global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The only family rows available for export are $B,N,L,S,E,I,A,R$, and the only post-family route rows are $K,H,C,P,M$.
+
+Apply the obligation matrix and typed-family coverage theorems, \autoref{thm:metacictypedexamplesgallery-obligation-matrix} and \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}. They force each exported family read to keep its displayed context, term, typing, reduction-window, checker, transport, replay, provenance, and local naming data inside the finite carrier.
+
+Use the checker-route factorization and scoped route theorems, \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization} and \autoref{thm:metacic-typed-examples-gallery-scoped-route}. These identify the consumer route as one family row followed by $K,H,C,P,M$, with no bypass through a global checker theorem.
+
+Finally apply the scope rows theorem \autoref{thm:metacic-typedexamples-gallery-scope-rows}. Since the accepted scope is exactly the thirteen displayed rows, the excluded global metatheorems and arbitrary coverage claims are not exportable from the gallery packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery scoped-closure route]
+\label{thm:metacic-typed-examples-gallery-scoped-closure-route}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the scoped-closure route is exhausted by $B,N,L,S,E,I,A,R,K,H,C,P,M$ together with the obligation matrix, typed-family coverage, checker-route factorization, scoped-route theorem, and scope-rows theorem. The route refuses subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, and checker completeness as claims of the gallery packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. Its only visible coordinates are the displayed family rows $B,N,L,S,E,I,A,R$, the checker boundary $K$, and the structural rows $H,C,P,M$.
+
+Apply the obligation matrix, coverage theorem, and checker-route factorization: \autoref{thm:metacictypedexamplesgallery-obligation-matrix}, \autoref{thm:metacic-typedexamples-gallery-typed-family-coverage}, and \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. They keep every accepted example read inside the displayed family rows and then route it through $K,H,C,P,M$.
+
+Now use the scoped-route theorem and the scope-rows theorem, \autoref{thm:metacic-typed-examples-gallery-scoped-route} and \autoref{thm:metacic-typedexamples-gallery-scope-rows}. These identify the complete accepted route with $B,N,L,S,E,I,A,R,K,H,C,P,M$.
+
+Since no carrier row names subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness, those global properties cannot be projected from the scoped gallery route.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICTypedExamplesGalleryUp}
   \constructivestory{A $\MetaCICTypedExamplesGalleryUp$ packet is generated from finite $\BHist$ rows for selected typed examples, checker rows, beta or conversion readbacks, route rows, provenance, and local naming. Each gallery entry is replayable by $\Cont$ through the finite checker surface, so consumers can inspect represented examples without receiving a global calculus theorem. Componentwise $\hsame$ preserves the example, checker, and route rows, while $\Pkg$ records the MetaCIC typed-example dependencies. The gallery is therefore a bounded regression surface for displayed examples and not a proof of preservation, normalization, or checker completeness.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the MetaCIC typed-examples gallery carrier, checker route, finite regression-surface theorem, and exclusion of global metatheorems.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the MetaCIC typed-examples gallery carrier, obligation matrix, checker-route factorization, finite regression surface, typed-family coverage, and exclusion of global metatheorems.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
