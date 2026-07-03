@@ -245,6 +245,92 @@ to the nonzero Fourier readout.  The corresponding quadratic norm
 sieve readout is nonzero.
 \end{proof}
 
+\section{Admissible Addresses}
+\label{sec:rh-finite-prime-circle-universe-admissible-addresses}
+
+\begin{definition}[Finite prime address policy]
+\label{def:rh-finite-prime-address-policy}
+In the finite prime universe of \autoref{def:rh-finite-prime-universe},
+an admissible residual address is either one of the displayed points
+$$
+h_j:=p_j\bmod P\in\mathbb F_P
+\qquad
+(1\le j\le N)
+$$
+or a ledger row saying that the residual has no address in the finite
+universe.  An expression involving a prime $p'>P$ is not an admissible
+prime address inside the finite model.
+\end{definition}
+
+\begin{theorem}[Existing prime addresses are event-detected]
+\label{thm:rh-existing-prime-addresses-event-detected}
+Let
+$$
+R_N=\sum_{j=1}^{N}c_j[p_j]
+$$
+be a prime-circle residual.  If $c_j\ne0$ for some $j$, then the event
+$$
+E_j:=\{p_j\bmod P\}\subseteq\mathbb F_P
+$$
+detects $R_N$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:rh-maximal-prime-classifier-injective}, the point
+$p_j\bmod P$ occurs in the pushforward of $R_N$ only with coefficient
+$c_j$.  Pairing with the indicator of $E_j$ therefore gives exactly
+$c_j$, which is nonzero.
+\end{proof}
+
+\begin{theorem}[No external prime address in the finite model]
+\label{thm:rh-no-external-prime-address-finite-model}
+Under the finite prime universe assumption, a residual cannot use a
+prime $p'>P$ as a legal finite prime-circle address.
+\end{theorem}
+
+\begin{proof}
+The finite prime universe states that the displayed source of prime
+addresses is precisely
+$$
+\mathcal P_N=\{p_1,\ldots,p_N=P\}.
+$$
+Thus a prime $p'>P$ is not a point of the source and cannot be used as
+a finite sieve address.  If such a row is asserted as a prime, the
+finite universe assumption fails.  If it is asserted merely as data not
+belonging to $\mathcal P_N$, it must be recorded by the ledger as an
+outside-source residual rather than used as a detector in the finite
+model.
+\end{proof}
+
+\begin{theorem}[Address trichotomy for finite residuals]
+\label{thm:rh-address-trichotomy-finite-residuals}
+Let a residual in the finite prime universe satisfy the BEDC ledger
+requirement that every residual coordinate has a source address or an
+explicit ledger row.  Then exactly the following alternatives are
+available:
+$$
+\begin{gathered}
+\text{it has a nonzero displayed address }h_j\text{ and is event-detected},\\
+\text{it requests an external prime address and violates the finite model},\\
+\text{it has no displayed address and must be recorded as a ledger row}.
+\end{gathered}
+$$
+Consequently a nonzero finite residual cannot be both ledger-legal and
+invisible to all displayed prime-circle events.
+\end{theorem}
+
+\begin{proof}
+If some displayed coefficient $c_j$ is nonzero, then
+\autoref{thm:rh-existing-prime-addresses-event-detected} gives an event
+detector.  If the residual is assigned to a prime $p'>P$, then
+\autoref{thm:rh-no-external-prime-address-finite-model} says that this
+is not a legal finite-model address.  The only remaining possibility is
+that the residual has no displayed address in $\mathcal P_N^\circ$; by
+the stated ledger requirement, it must then be recorded as an explicit
+ledger row.  Thus a nonzero residual cannot remain both legal and
+undetected in the finite prime circle universe.
+\end{proof}
+
 \begin{definition}[Finite prime circle ledger]
 \label{def:rh-finite-prime-circle-ledger}
 The finite prime circle ledger records every nonzero readout as
