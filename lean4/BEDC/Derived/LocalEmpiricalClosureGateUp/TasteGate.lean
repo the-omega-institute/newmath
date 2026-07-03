@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocalEmpiricalClosureGateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -224,5 +226,41 @@ theorem LocalEmpiricalClosureGateTasteGate_single_carrier_alignment :
       (fun _ _ heq => localEmpiricalClosureGateToEventFlow_injective heq),
       ⟨localEmpiricalClosureGateChapterTasteGate⟩,
       ⟨localEmpiricalClosureGateFieldFaithful⟩⟩
+
+theorem LocalEmpiricalClosureGateCarrier_nonfinality {S F J O L H C P N : BHist} :
+    let g := LocalEmpiricalClosureGateUp.mk S F J O L H C P N
+    localEmpiricalClosureGateToEventFlow g =
+        [[BMark.b0],
+          localEmpiricalClosureGateEncodeBHist S,
+          [BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist F,
+          [BMark.b1, BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist J,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist O,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist L,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          localEmpiricalClosureGateEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist P,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          localEmpiricalClosureGateEncodeBHist N] ∧
+      hsame J J ∧ hsame O O ∧ hsame L L ∧ Cont J O (append J O) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · constructor
+    · exact hsame_refl J
+    · constructor
+      · exact hsame_refl O
+      · constructor
+        · exact hsame_refl L
+        · rfl
 
 end BEDC.Derived.LocalEmpiricalClosureGateUp
