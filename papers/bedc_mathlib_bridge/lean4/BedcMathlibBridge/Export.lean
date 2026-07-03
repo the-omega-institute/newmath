@@ -22,6 +22,7 @@ import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Motzkin
+import BedcMathlibBridge.Export.MotzkinTriangle
 import BedcMathlibBridge.Export.Padovan
 import BedcMathlibBridge.Export.Perrin
 import BedcMathlibBridge.Export.Tribonacci
@@ -54,4 +55,5 @@ import BedcMathlibBridge.Export.CentralFactorial
 import BedcMathlibBridge.Export.WilsonQuotient
 import BedcMathlibBridge.Export.Apery
 import BedcMathlibBridge.Export.EntringerNumber
+import BedcMathlibBridge.Export.Riordan
 import BedcMathlibBridge.Export.ProjectionLedgerCount

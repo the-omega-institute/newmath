@@ -22,6 +22,7 @@ import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Motzkin
+import BedcMathlibBridge.Constructive.MotzkinTriangle
 import BedcMathlibBridge.Constructive.Padovan
 import BedcMathlibBridge.Constructive.Perrin
 import BedcMathlibBridge.Constructive.Tribonacci
@@ -54,3 +55,4 @@ import BedcMathlibBridge.Constructive.CentralFactorial
 import BedcMathlibBridge.Constructive.WilsonQuotient
 import BedcMathlibBridge.Constructive.Apery
 import BedcMathlibBridge.Constructive.EntringerNumber
+import BedcMathlibBridge.Constructive.Riordan
