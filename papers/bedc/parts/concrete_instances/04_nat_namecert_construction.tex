@@ -4,9 +4,9 @@
 
 This chapter gives a concrete naming-certificate construction for \(\NatUp\) at the paper-proof level.
 
-The unary carrier and successor rows recorded here are consumed by \autoref{ch:concrete-instances-add-namecert} for continuation-based addition and by \autoref{ch:concrete-instances-int-namecert} for signed-pair balancing. $\AddUp$ reads addition as continuation over $\NatUp$ unary histories, while $\IntUp$ reads signed pairs by balancing two $\NatUp$ source spines.
+The unary carrier and successor rows recorded here are consumed by \autoref{ch:concrete-instances-add-namecert} for continuation-based addition and by \coreboundaryref{ch:concrete-instances-int-namecert}{the IntUp signed-pair certificate} for signed-pair balancing. $\AddUp$ reads addition as continuation over $\NatUp$ unary histories, while $\IntUp$ reads signed pairs by balancing two $\NatUp$ source spines.
 
-The same unary rows also feed later finite schedule consumers. In \autoref{ch:concrete-instances-decidable-bar-namecert}, the unary depth ledger is read only as bounded repetition of the existing $\NatUp$ empty and one-extension rows, so bar-window coverage does not add a separate natural-number primitive.
+The same unary rows also feed later finite schedule consumers. In \coreboundaryref{ch:concrete-instances-decidable-bar-namecert}{the decidable-bar certificate}, the unary depth ledger is read only as bounded repetition of the existing $\NatUp$ empty and one-extension rows, so bar-window coverage does not add a separate natural-number primitive.
 
 \section{Unary histories}
 
@@ -115,7 +115,7 @@ Every $\AddUp$ continuation read and every $\IntUp$ signed-pair balance read con
 \begin{proof}
 For an $\AddUp$ read, apply \autoref{thm:nat-add-source-spine-forward-link}. The continuation may be consumed by \autoref{ch:concrete-instances-add-namecert} only after the unary carrier, one-extension closure, prefix totality, and common-upper rows have been displayed.
 
-For an $\IntUp$ read, use the signed-pair presentation of \autoref{ch:concrete-instances-int-namecert}. Each positive and negative side is a $\NatUp$ unary component, so the same carrier judgment and closure rows license the two components before balancing is inspected.
+For an $\IntUp$ read, use the signed-pair presentation of \coreboundaryref{ch:concrete-instances-int-namecert}{the IntUp signed-pair certificate}. Each positive and negative side is a $\NatUp$ unary component, so the same carrier judgment and closure rows license the two components before balancing is inspected.
 
 The prefix totality and common-upper rows are still shared after the signed-pair packaging. Thus addition and signed balancing both enter through the same finite unary chain, and their difference is only the downstream consumer that reads the displayed $\NatUp$ rows.
 \end{proof}
@@ -127,7 +127,7 @@ balancing read must first expose the $\NatUp$ unary carrier, the one-extension
 closure row, the prefix-total row, and the directed common-upper row. Only after
 those rows are displayed may the route cite
 \autoref{ch:concrete-instances-add-namecert} and
-\autoref{ch:concrete-instances-int-namecert} as the sibling consumers of the
+\coreboundaryref{ch:concrete-instances-int-namecert}{the IntUp signed-pair certificate} as the sibling consumers of the
 same finite unary source.
 \end{theorem}
 \begin{proof}
@@ -143,7 +143,7 @@ signed pair before balancing is inspected.
 
 This dependency is substantive rather than self-reference because the final
 readers are the sibling chapters \autoref{ch:concrete-instances-add-namecert}
-and \autoref{ch:concrete-instances-int-namecert}. The $\NatUp$ chapter supplies
+and \coreboundaryref{ch:concrete-instances-int-namecert}{the IntUp signed-pair certificate}. The $\NatUp$ chapter supplies
 the unary source rows; the sibling certificates consume those rows as addition
 and signed-pair balance data.
 \end{proof}
