@@ -77,6 +77,24 @@ The refusal part is exact. Since the audit row $A$ names the forbidden dependenc
 Thus every readable row is a displayed MetaCIC or BEDC row in the packet. The excluded host, quotient, classical, extensional, conversion, and oracle coordinates are absent from the carrier and cannot be exported by transport or replay.
 \end{proof}
 
+\begin{theorem}[Closed generator audit refusal replay exactness]
+\label{thm:closed-generator-audit-refusal-replay-exactness}
+For every accepted $\ClosedGeneratorAuditUp$ carrier
+$$
+G=(T,K,R,S,A,H,C,P,N),
+$$
+a consumer can replay refusal of \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, host conversion, and unrecorded proof oracles only through the audit row $A$ together with $H,C,P,N$. No kernel row, recursor row, closed-substitution row, transport row, or substitution row can reclassify a refused dependency as accepted evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier $G$. The audit-purity coordinate is the row $A$, while $T,K,R,S$ record generated syntax, kernel acceptance, authorized recursor output, and closed-substitution data.
+
+Apply \autoref{thm:closed-generator-audit-namecert-obligations}. Its five obligations include audit-refusal exactness as the row that records refusal of \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, host conversion, and unrecorded proof oracles.
+
+Use \autoref{thm:closed-generator-audit-nonescape}. Every consumer read remains inside $T,K,R,S,A,H,C,P,N$, so the structural rows $H,C,P,N$ may replay and source the audit row but cannot create an additional acceptance coordinate.
+
+Thus any replay of a refused dependency passes through $A$ and the displayed structural support. The kernel, recursor, and substitution rows remain separate carrier coordinates and cannot recast refusal as accepted evidence.
+\end{proof}
+
 \closureat{ClosedGeneratorAuditUp}{seedStr}
 
 \begin{closurestatus}{\ClosedGeneratorAuditUp}
