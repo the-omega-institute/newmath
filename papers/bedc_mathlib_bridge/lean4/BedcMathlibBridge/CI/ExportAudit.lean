@@ -171,6 +171,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CentralFactorial.centralFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralFactorial.CentralFactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.WilsonQuotient.wilsonQuotientExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.WilsonQuotient.WilsonQuotientExportWitness },
   { witness :=
       `BedcMathlibBridge.Export.ProjectionLedgerCount.projectionLedgerCountExport,
     witnessType :=
