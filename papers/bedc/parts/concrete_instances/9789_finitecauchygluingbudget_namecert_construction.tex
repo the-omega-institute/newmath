@@ -197,6 +197,20 @@ Apply the Real-seal handoff theorem, \autoref{thm:finite-cauchy-gluing-budget-re
 Finally apply nonescape, \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Quotient streams, selected limits, hidden completion rows, and host Real-completeness data are not carrier coordinates, while $H,C,P,N$ remain visible throughout the tail induction.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy gluing-budget tail synchronizer]
+\label{thm:finite-cauchy-gluing-budget-tail-sync}
+Let $B=(G,L,T,S,K,U,V,D,R,H,C,P,N)$ be an accepted $\FiniteCauchyGluingBudgetUp$ packet. Any $\RealUp$-facing tail induction that preserves the witness ledger $L$ and tail envelope $T$ must also preserve the synchronizer $S$ and completion-seal classifier $K$ before reading the StreamName row $U$, DyadicRatCore tolerance row $D$, RegSeqRat handoff row $V$, and Real seal row $R$. A tail induction that changes $S$ or $K$ while keeping $L$ and $T$ leaves the accepted classifier route of $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-gluing-budget-carrier}. The accepted packet exposes the witness ledger $L$, tail envelope $T$, synchronizer $S$, classifier $K$, downstream tail rows $U,D,V,R$, and structural rows $H,C,P,N$ as one finite route.
+
+Apply route exactness \autoref{thm:finite-cauchy-gluing-budget-route-exactness}. Preserving the accepted Real-completion route requires preserving $G,L,T,S,K,U,V,D,R,H,C,P,N$, so $L$ and $T$ alone do not determine the classifier read.
+
+Use synchronizer-window exactness \autoref{thm:finite-cauchy-gluing-budget-synchronizer-window-exactness} and common tail \autoref{thm:finite-cauchy-gluing-budget-common-tail}. The synchronizer and classifier are the window that connects the shared witness side to the downstream StreamName, DyadicRatCore, RegSeqRat, and Real rows.
+
+Finally apply the Real-seal handoff theorem \autoref{thm:finite-cauchy-gluing-budget-real-seal-handoff} and nonescape \autoref{thm:finite-cauchy-gluing-budget-nonescape}. A $\RealUp$-facing induction reaches $R$ only through the displayed $S,K,U,D,V$ route, so changing $S$ or $K$ exits the accepted classifier route rather than preserving the same packet.
+\end{proof}
+
 \falsifiablePrediction{If the finite gluing-budget packet is accepted, a consumer preserving the witness ledger and tail envelope but changing the synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: none is bijective because each sibling omits at least one of the gluing route, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, hsame, Cont, Pkg, and NameCert rows required by this finite budget packet.}
