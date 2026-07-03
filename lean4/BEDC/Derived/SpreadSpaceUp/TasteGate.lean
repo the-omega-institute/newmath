@@ -167,4 +167,20 @@ theorem SpreadSpaceTasteGate_single_carrier_alignment :
       (fun _ _ heq => spreadSpaceToEventFlow_injective heq),
       rfl⟩
 
+theorem SpreadSpace_prefix_bar_stability {x y : SpreadSpaceUp}
+    (heq : spreadSpaceToEventFlow x = spreadSpaceToEventFlow y) :
+    spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) ∧
+      match x, y with
+      | SpreadSpaceUp.mk B L Q _ _ _ _ _ _ _,
+        SpreadSpaceUp.mk B' L' Q' _ _ _ _ _ _ _ =>
+          hsame B B' ∧ hsame L L' ∧ hsame Q Q' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · have hxy : x = y := spreadSpaceToEventFlow_injective heq
+    cases hxy
+    cases x with
+    | mk B L Q _ _ _ _ _ _ _ =>
+        exact ⟨hsame_refl B, hsame_refl L, hsame_refl Q⟩
+
 end BEDC.Derived.SpreadSpaceUp

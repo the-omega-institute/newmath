@@ -10846,6 +10846,7 @@ import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
 import BEDC.Derived.RealCompletionSelectorSealUp.SelectorBudgetTotality
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp.Terminality
+import BEDC.Derived.RealCompletionTailCoconeUp
 import BEDC.Derived.RealCompletionTailLockUp
 import BEDC.Derived.RealCompletionWindowFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp

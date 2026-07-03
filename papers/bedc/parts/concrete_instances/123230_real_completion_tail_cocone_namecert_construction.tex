@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionTailCoconeUp$}
+\label{ch:concrete-instances-real-completion-tail-cocone-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy reals, dyadic rational control, and completion by named approximants, the $\RealCompletionTailCoconeUp$ packet records the finite tail-cocone handoff used by L10 Real and Completion consumers. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the universal completion handoff of \autoref{ch:concrete-instances-real-completion-universal-property-namecert}. The packet names only displayed tail windows, regular-rational readback, cocone coherence, Real sealing, transport, replay, provenance, and local naming; it does not assert quotient completion equality, a selected limit representative, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealCompletionTailCocone carrier]
+\label{def:real-completion-tail-cocone-carrier}
+A $\RealCompletionTailCoconeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,S,Q,R,U,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, naming the dyadic radii inspected by the completion-facing tail.
+\item $S$ is the $\StreamNameUp$ finite-window row, exposing the sequence entries and tail windows available to the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational approximants visible in $S$.
+\item $R$ is the terminal $\RealUp$ seal for the inspected regular-rational tail data.
+\item $U$ is the $\RealCompletionUniversalPropertyUp$ consumer row, recording the universal-property request that reads the tail as a completion handoff.
+\item $L$ is the tail-cocone ledger row, tying the dyadic tolerance, stream window, regular readback, Real seal, and universal-property request to one displayed cocone.
+\item $H$ records componentwise $\hsame$ transport for $D,S,Q,R,U,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the completion consumer through the tail-cocone rows.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionTailCoconeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealCompletionUniversalPropertyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionTailCoconeUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose completion-facing read uses $D,S,Q,R,U,L,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, countable choice, host Cauchy completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealCompletionTailCocone NameCert obligations]
+\label{thm:real-completion-tail-cocone-namecert-obligations}
+For every accepted $\RealCompletionTailCoconeUp$ carrier $T=(D,S,Q,R,U,L,H,C,P,N)$, the local $\NameCert_{\RealCompletionTailCoconeUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure through $D$, stream-window exposure through $S$, regular rational readback through $Q$, Real sealing through $R$, universal-property handoff through $U$, tail-cocone coherence through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-tail-cocone-carrier}. The tuple lists the dyadic tolerance, stream window, regular-rational readback, Real seal, universal-property request, tail ledger, and structural rows as the whole accepted surface.
+
+The completion-facing read is row-ordered. The dyadic row $D$ fixes the inspected tolerance, the stream row $S$ exposes the finite tail window, and the regular row $Q$ supplies the rational readback before the Real seal $R$ and universal-property consumer row $U$ are available.
+
+Finally $L,H,C,P,N$ bind the rows into one tail-cocone packet under coherence, transport, replay, provenance, and local naming. Since no quotient completion equality, selected representative, countable-choice schedule, host completeness, or ambient Real-completeness coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RealCompletionTailCocone vision route]
+\label{thm:real-completion-tail-cocone-vision-route}
+Every L10 Real and Completion consumer of an accepted $\RealCompletionTailCoconeUp$ packet receives its terminal handoff through the finite route
+$$
+\DyadicRatCoreUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp
+\longmapsto
+\RealCompletionUniversalPropertyUp .
+$$
+The consumer may read only the displayed dyadic tolerance, stream window, regular-rational readback, Real seal, universal-property request, tail-cocone ledger, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier surface. The rows $D,S,Q$ expose the finite tolerance, stream window, and regular-rational data before any completion-facing output is read.
+
+Next consume $R$ and $U$. The Real seal is reached only through the displayed regular readback, and the universal-property request is tied to the same terminal Real-facing row.
+
+The ledger $L$ then records the cocone coherence for that route, while $H,C,P,N$ transport, replay, source, and name it. Thus the consumer receives a finite tail-cocone handoff and not quotient completion equality, a selected limit representative, countable choice, host completeness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\leandef{BEDC.Derived.RealCompletionTailCoconeUp}
+
+\falsifiablePrediction{Every accepted $\RealCompletionTailCoconeUp$ read factors through DyadicRatCoreUp tolerances, StreamNameUp tail windows, RegSeqRatUp readback, a RealUp seal, RealCompletionUniversalPropertyUp handoff, tail-cocone coherence, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, real-completion-universal-property: $\RealCompletionTailCoconeUp$ is not bijective to any listed sibling because it jointly carries the dyadic tolerance, finite tail window, regular-rational readback, Real seal, universal-property consumer request, tail-cocone ledger, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{RealCompletionTailCoconeUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionTailCoconeUp}
+  \constructivestory{A $\RealCompletionTailCoconeUp$ packet is generated from DyadicRatCoreUp tolerances, StreamNameUp finite tail windows, RegSeqRatUp readback, a RealUp seal, a RealCompletionUniversalPropertyUp consumer request, a tail-cocone ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-tail-cocone-carrier}, \autoref{thm:real-completion-tail-cocone-namecert-obligations}, and \autoref{thm:real-completion-tail-cocone-vision-route} seed the finite L10 Real and Completion tail-cocone handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limit representatives, countable choice, host Cauchy completeness, ambient RealUp completeness, theorem-checked verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, stream-window exposure, regular-rational readback, RealUp sealing, universal-property handoff, tail-cocone coherence, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionTailCoconeUp.}
+\end{closurestatus}
