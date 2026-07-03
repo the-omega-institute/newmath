@@ -61,6 +61,7 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
+import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
 import BEDC.Derived.AdaptiveCauchyModulusUp.TasteGate
@@ -5250,6 +5251,7 @@ import BEDC.Derived.DirichletRingUp
 import BEDC.Derived.DirichletSeriesTestUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
+import BEDC.Derived.DirichletTestUp.TasteGate
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUniformModulusUp
 import BEDC.Derived.DirichletUniformModulusUp.TasteGate
@@ -6207,6 +6209,7 @@ import BEDC.Derived.FiniteCandidateDiamondUp
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
@@ -10878,6 +10881,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
 import BEDC.Derived.RealModulusPurityBoundaryUp.SourceNonescape
 import BEDC.Derived.RealModulusPurityBoundaryUp.TailBudgetExhaustion
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
+import BEDC.Derived.RealMonotoneSequenceUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.BridgeRoute
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
@@ -12775,6 +12779,7 @@ import BEDC.Derived.StreamDiagonalSelectorUp.ObligationClosure
 import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
 import BEDC.Derived.StreamDiagonalSelectorUp.ScopedStatus
 import BEDC.Derived.StreamDiagonalSelectorUp.TailStability
+import BEDC.Derived.StreamDiagonalSelectorUp.TailWindowScope
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute
@@ -12825,6 +12830,7 @@ import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StreamNameUp.WindowReindexDeterminacy
+import BEDC.Derived.StrongChoquetSpaceUp.TasteGate
 import BEDC.Derived.StrongLawFiniteWindowUp.TasteGate
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
