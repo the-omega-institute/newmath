@@ -6,6 +6,7 @@ import BedcMathlibBridge.Export.Pythagorean
 import BedcMathlibBridge.Export.Eisenstein
 import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
+import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
@@ -22,6 +23,7 @@ import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
 import BedcMathlibBridge.Export.Pell
 import BedcMathlibBridge.Export.QBinomial
+import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular

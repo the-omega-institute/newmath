@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ProcessModulusComparisonUp$}
+\label{ch:concrete-instances-process-modulus-comparison-namecert}
+\origin{ai}
+
+The $\ProcessModulusComparisonUp$ packet realizes the finite comparison-modulus route isolated in \autoref{sec:real-completeness-modulus-comparison-boundary}. It turns the process-level comparison surface for located reals into a concrete NameCert carrier over endpoint streams, endpoint moduli, a shared comparison modulus, and finite rational close-or-apart windows. The packet sits beside the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names only finite comparison data; it does not export exact trichotomy, quotient representative equality, completed host points, or a global order decision.
+
+\begin{definition}[ProcessModulusComparison carrier]
+\label{def:process-modulus-comparison-carrier}
+A $\ProcessModulusComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,M,D,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ stores the two endpoint $\StreamNameUp$ rows, including the finite windows inspected for each endpoint process;
+\item $M$ stores the two endpoint modulus rows and the common comparison modulus used to select synchronized finite observations;
+\item $D$ stores the $\DyadicRatCoreUp$ tolerance ledger for the comparison precision and for the close/apart threshold rows;
+\item $A$ stores the finite apartness window, when present, as a displayed dyadic separation read between endpoint observations;
+\item $R$ stores the $\RegSeqRatUp$ and $\RealUp$ close-or-apart rows that read endpoint rational approximants and seal the resulting finite comparison surface;
+\item $H$ records componentwise $\hsame$ transport for $S,M,D,A,R$ and for the structural rows below;
+\item $C$ records displayed $\Cont$ replay from a comparison request through endpoint streams, endpoint moduli, the comparison modulus, dyadic tolerances, rational readbacks, apartness windows, and real seals;
+\item $P$ is the $\Pkg$ provenance over $\ProcessModulusComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ProcessModulusComparisonUp}$ row.
+\end{enumerate}
+The carrier is intended to admit nontrivial and field-faithful implementations: the Lean surface should provide `Nontrivial ProcessModulusComparisonUp' and `FieldFaithful ProcessModulusComparisonUp' instances before downstream field consumers treat the packet as a comparison modulus service.
+\end{definition}
+
+\begin{theorem}[ProcessModulusComparison NameCert obligations]
+\label{thm:process-modulus-comparison-namecert-obligations}
+For every accepted $\ProcessModulusComparisonUp$ carrier $Q=(S,M,D,A,R,H,C,P,N)$, the local $\NameCert_{\ProcessModulusComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item endpoint-stream admission, requiring both displayed endpoints to be read through $\StreamNameUp$ windows before comparison data is consumed;
+\item endpoint-modulus admission, requiring the two endpoint moduli and the comparison modulus in $M$ to be visible before any close or apart row is read;
+\item dyadic tolerance exactness, requiring $D$ to record the requested precision and the rational threshold used by the comparison;
+\item apartness-window exposure, requiring $A$ to remain a finite witness row rather than a total trichotomy branch;
+\item rational close/apart readback, requiring $R$ to route every comparison through $\RegSeqRatUp$ observations and $\RealUp$ seals;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same endpoint, modulus, dyadic, rational, apartness, and real rows under accepted reads;
+\item provenance and local naming, requiring $P$ and $N$ to record the dependency on $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+No obligation row exports exact located-real trichotomy, quotient stream equality, host real points, arbitrary order comparison, or a comparison branch outside the finite process-level packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:process-modulus-comparison-carrier}. The accepted packet displays endpoint stream rows, endpoint modulus rows, the comparison modulus, dyadic tolerance rows, optional apartness windows, rational readbacks, real seals, and structural rows.
+
+The finite comparison request first reads $S$ and $M$, so both endpoints and the shared schedule are visible before any numerical claim is made. The rows $D,A,R$ then expose only dyadic tolerance data, finite apartness evidence when present, regular rational observations, and terminal real seals.
+
+Finally $H,C,P,N$ preserve and name the same route. Since the carrier has no coordinate for exact trichotomy, quotient representative equality, completed host points, or global order decisions, the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{A comparison implementation that bypasses endpoint StreamName windows, endpoint moduli, the shared comparison modulus, DyadicRatCore tolerance rows, RegSeqRat readbacks, finite apartness windows, RealUp seals, hsame transport, Cont replay, Pkg provenance, or local NameCert data refutes the finite comparison-modulus route.}
+
+\independenceWitness{located-real, streamname, regseqrat, dyadicratcore, real: $\ProcessModulusComparisonUp$ is not bijective to any listed sibling because it jointly carries two endpoint streams, two endpoint moduli, one process-level comparison modulus, dyadic tolerance rows, rational close/apart readbacks, finite apartness windows, Real seals, transport, replay, provenance, and local naming in one finite comparison packet.}
+
+\closureat{ProcessModulusComparisonUp}{seedStr}
+
+\begin{closurestatus}{\ProcessModulusComparisonUp}
+  \constructivestory{A $\ProcessModulusComparisonUp$ packet is generated from endpoint StreamName rows, endpoint modulus rows, a shared comparison modulus, DyadicRatCore tolerance rows, finite apartness windows, RegSeqRat readbacks, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:process-modulus-comparison-carrier} and \autoref{thm:process-modulus-comparison-namecert-obligations} seed the finite process-level comparison-modulus packet for located-real comparison boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close exact trichotomy, quotient representative equality, host real points, global order decisions, Lean verification, Nontrivial or FieldFaithful instances, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-modulus exactness, comparison-modulus replay, dyadic tolerance accounting, rational close/apart readback, Real sealing, Nontrivial and FieldFaithful instances, transport, provenance, and local NameCert rows for BEDC.Derived.ProcessModulusComparisonUp.}
+\end{closurestatus}

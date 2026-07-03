@@ -42,6 +42,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.ZMod.ZModExportWitness },
   { witness := `BedcMathlibBridge.Export.Fibonacci.fibonacciExport,
     witnessType := `BedcMathlibBridge.Export.Fibonacci.FibonacciExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lucas.lucasExport,
+    witnessType := `BedcMathlibBridge.Export.Lucas.LucasExportWitness },
   { witness := `BedcMathlibBridge.Export.Binomial.binomialExport,
     witnessType := `BedcMathlibBridge.Export.Binomial.BinomialExportWitness },
   { witness := `BedcMathlibBridge.Export.BinomialIdentities.binomialIdentitiesExport,
@@ -87,6 +89,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Narayana.narayanaExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Narayana.NarayanaExportWitness },
   { witness := `BedcMathlibBridge.Export.QFactorial.qFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QFactorial.QFactorialExportWitness },
