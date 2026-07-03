@@ -3472,6 +3472,7 @@ import BEDC.Derived.CompactApartnessProfileUp.TasteGate
 import BEDC.Derived.CompactBaireUp.TasteGate
 import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
+import BEDC.Derived.CompactCauchyEquicontinuityUp.TasteGate
 import BEDC.Derived.CompactCompleteFixedPointUp
 import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactContinuityRadiusChoiceUp.TasteGate
@@ -12766,6 +12767,7 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.ObligationClosure
 import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
+import BEDC.Derived.StreamDiagonalSelectorUp.ScopedStatus
 import BEDC.Derived.StreamDiagonalSelectorUp.TailStability
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
