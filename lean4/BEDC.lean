@@ -1208,6 +1208,7 @@ import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
 import BEDC.Derived.BishopRegularRealSealUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
+import BEDC.Derived.BishopRegularSequenceUp.TasteGate
 import BEDC.Derived.BishopSeparatedRealCompletionUp
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
@@ -3402,7 +3403,6 @@ import BEDC.Derived.ClosurePreservationAuditWitnessUp
 import BEDC.Derived.ClosurePreservationAuditWitnessUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
-import BEDC.Derived.ClosureUniversalityQuadrantUp.AxisIndependence
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.ClusterFilterUp.CauchyCompletionHandoff
@@ -7030,6 +7030,7 @@ import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeatKernelUp.TasteGate
 import BEDC.Derived.HeineBorelFiniteIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelFiniteSubcoverUp.TasteGate
 import BEDC.Derived.HeineBorelIntervalUp.BridgedFiniteNetInterface
 import BEDC.Derived.HeineBorelIntervalUp.ClosedIntervalNetExtraction
 import BEDC.Derived.HeineBorelIntervalUp.ClusterFilterRoute
