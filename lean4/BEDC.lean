@@ -948,6 +948,8 @@ import BEDC.Derived.BernoulliSecondKindUp
 import BEDC.Derived.BernoulliUmbralUp
 import BEDC.Derived.BernoulliUp
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
+import BEDC.Derived.BerryEsseenFiniteWindowUp.ErrorBoundHandoff
+import BEDC.Derived.BerryEsseenFiniteWindowUp.TasteGate
 import BEDC.Derived.BertrandSeriesTestUp.TasteGate
 import BEDC.Derived.BertrandTestUp
 import BEDC.Derived.BesovSpaceUp.TasteGate
