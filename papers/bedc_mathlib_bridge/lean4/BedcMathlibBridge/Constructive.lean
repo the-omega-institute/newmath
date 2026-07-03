@@ -42,6 +42,7 @@ import BedcMathlibBridge.Constructive.Raney
 import BedcMathlibBridge.Constructive.FussCatalan
 import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.Lah
+import BedcMathlibBridge.Constructive.LahClosedForm
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber

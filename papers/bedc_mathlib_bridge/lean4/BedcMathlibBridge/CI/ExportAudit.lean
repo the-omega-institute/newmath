@@ -145,6 +145,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Lobb.LobbExportWitness },
   { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
     witnessType := `BedcMathlibBridge.Export.Lah.LahFirstColumnExportWitness },
+  { witness := `BedcMathlibBridge.Export.LahClosedForm.lahClosedFormExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.LahClosedForm.LahClosedFormExportWitness },
   { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },

@@ -42,6 +42,7 @@ import BedcMathlibBridge.Export.Raney
 import BedcMathlibBridge.Export.FussCatalan
 import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.Lah
+import BedcMathlibBridge.Export.LahClosedForm
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
