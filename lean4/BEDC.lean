@@ -5611,6 +5611,7 @@ import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp.NameCertObligations
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp.TasteGate
+import BEDC.Derived.DyadicUnitIntervalUp
 import BEDC.Derived.DyadicUp.CauchyTailEnvelope
 import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.CommonExponentTotality
