@@ -5250,6 +5250,7 @@ import BEDC.Derived.DirichletRingUp
 import BEDC.Derived.DirichletSeriesTestUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
+import BEDC.Derived.DirichletTestUp.TasteGate
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUniformModulusUp
 import BEDC.Derived.DirichletUniformModulusUp.TasteGate
@@ -10878,6 +10879,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
 import BEDC.Derived.RealModulusPurityBoundaryUp.SourceNonescape
 import BEDC.Derived.RealModulusPurityBoundaryUp.TailBudgetExhaustion
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
+import BEDC.Derived.RealMonotoneSequenceUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
 import BEDC.Derived.RealNameClassifierUp.BridgeRoute
 import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
@@ -12825,6 +12827,7 @@ import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StreamNameUp.WindowReindexDeterminacy
+import BEDC.Derived.StrongChoquetSpaceUp.TasteGate
 import BEDC.Derived.StrongLawFiniteWindowUp.TasteGate
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
