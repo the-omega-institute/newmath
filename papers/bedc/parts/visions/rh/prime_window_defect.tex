@@ -1,0 +1,193 @@
+\chapter{Prime-Window Defect Rigidity}
+\label{ch:visions-rh-prime-window-defect}
+\origin{ai}
+
+\autoref{ch:visions-rh-zero-signature-faithfulness} closes a finite
+no-split packet for internal zero signatures. The present chapter isolates
+the smaller arithmetic kernel needed by the spectral-defect route: a
+rational offset from the critical half-line and a nonzero rational
+prime-window weight already force a visible nonzero defect in some finite
+prime window.
+
+This packet does not compute the analytic logarithm $\log p$, does not
+evaluate $\zeta$, and does not assert any unconditional form of RH. The
+checked carrier uses rational weights as the finite BEDC substitute for
+the later analytic $\log p$ bridge.
+
+\section{Finite Carrier}
+\label{sec:rh-prime-window-defect-carrier}
+
+\begin{definition}[Weighted prime window]
+\label{def:rh-weighted-prime-window}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.WeightedPrimeWindow}
+A weighted prime window is a finite prime window together with a rational
+weight on every natural label and an apartness certificate on every
+in-window prime:
+$$
+\mathsf{weight\_apart}(p,h_p):
+\mathsf{Apart}_0(\mathsf{weight}(p)).
+$$
+The weight is deliberately rational. It is the checked finite proxy for
+the later logarithmic readback row and carries no real logarithm in the
+kernel.
+\end{definition}
+
+\begin{definition}[Strip offset point]
+\label{def:rh-strip-offset-point}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.StripOffsetPoint}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.OffHalf}
+A strip offset point stores two rational coordinates $(\delta,\tau)$.
+The predicate $\mathsf{OffHalf}$ is only the apartness statement
+$$
+\mathsf{Apart}_0(\delta).
+$$
+It is not defined by negating a critical-line predicate and it does not
+mention $\zeta$.
+\end{definition}
+
+\begin{definition}[Prime-window defect witness]
+\label{def:rh-prime-window-defect-witness}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.primeWindowDefectAt}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.PrimeWindowDefectWitness}
+For a weighted window $W$, a strip offset point $x$, and a member
+$h_p:p\in W$, the finite defect is
+$$
+\mathsf{defect}(W,x,p,h_p)
+=
+\delta_x\cdot W.\mathsf{weight}(p).
+$$
+A prime-window defect witness is the constructive existential datum
+$$
+\sum_{p:\mathbb N}
+\sum_{h_p:p\in W}
+\mathsf{Apart}_0(\mathsf{defect}(W,x,p,h_p)).
+$$
+The sign convention is irrelevant to this apartness kernel; a signed
+variant would replace the same rational product by its rational negative.
+\end{definition}
+
+\begin{theorem}[Off-half produces a prime-window defect]
+\label{thm:rh-off-half-prime-window-defect}
+\leanchecked{BEDC.Derived.RHRoute.PrimeWindowDefect.offHalf\_to\_primeWindowDefectWitness}
+Let $W$ be a weighted prime window, let $x$ be a strip offset point, and
+let $p$ be an in-window prime. If $\delta_x$ is apart from zero, then
+$W$ has a prime-window defect witness at $x$.
+\end{theorem}
+
+\begin{proof}
+The checked proof is the multiplicative apartness kernel for rational
+numbers. From the offset hypothesis and the window field one has
+$$
+\mathsf{Apart}_0(\delta_x),
+\qquad
+\mathsf{Apart}_0(W.\mathsf{weight}(p)).
+$$
+The rational lemma $\mathsf{ratMul\_apart0}$ gives
+$$
+\mathsf{Apart}_0(\delta_x\cdot W.\mathsf{weight}(p)).
+$$
+The existential witness is exactly the displayed prime $p$, its window
+membership proof $h_p$, and this product-apartness certificate.
+\end{proof}
+
+\section{Anti-Vacuity}
+\label{sec:rh-prime-window-defect-anti-vacuity}
+
+\begin{definition}[Canonical nonempty prime window]
+\label{def:rh-prime-window-defect-canonical}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.canonicalWindow}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.canonicalWeighted}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.canonicalOffHalfPoint}
+The canonical finite inhabitant is the one-prime window $[2]$, with
+weight constantly $1$ and offset point $(1,0)$. Its nonemptiness is
+checked by the concrete prime certificate for $2$, custom finite-list
+no-dup data, and the rational apartness proof
+$\mathsf{Apart}_0(1)$.
+\end{definition}
+
+\begin{theorem}[Canonical defect witness]
+\label{thm:rh-canonical-prime-window-defect}
+\leanchecked{BEDC.Derived.RHRoute.PrimeWindowDefect.canonicalPrimeWindowDefectWitness}
+The canonical weighted one-prime window has a prime-window defect witness
+at the canonical off-half point.
+\end{theorem}
+
+\section{Conditional RH Obligation Rows}
+\label{sec:rh-prime-window-defect-obligations}
+
+\begin{definition}[Zero readback adapter]
+\label{def:rh-prime-window-zero-readback-adapter}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.OffsetReadsZero}
+For a located rational-complex zero candidate $s$ and a strip offset point
+$x$, the adapter says that the rational offset reads the centered real
+coordinate:
+$$
+x.\delta = s.\mathsf{re}-\frac12.
+$$
+This is the only connection between finite defects and located zero data
+inside the checked module.
+\end{definition}
+
+\begin{definition}[Defect-zero incompatibility obligation]
+\label{def:rh-prime-window-defect-zero-incompatibility}
+\leanstmt{BEDC.Derived.RHRoute.PrimeWindowDefect.PrimeWindowDefectZeroIncompatibility}
+The O4 obligation says that a located nontrivial $\zeta$ zero cannot
+coexist with a finite prime-window defect witness whose offset reads that
+zero. This row is the RH-strength analytic gap; it is not proved by the
+finite apartness theorem.
+\end{definition}
+
+\begin{definition}[Finite-window global collapse obligation]
+\label{def:rh-prime-window-finite-window-global-collapse}
+\leanstmt{BEDC.Derived.RHRoute.PrimeWindowDefect.FiniteWindowGlobalCollapse}
+The FWG collapse obligation says that if every offset readback for a
+located nontrivial zero is not off-half, then the located point lies on
+the constructive critical line. This is a located rational-complex
+collapse contract, not a classical RH theorem.
+\end{definition}
+
+\begin{definition}[Prime-window RH obligations]
+\label{def:rh-prime-window-rh-obligations}
+\leandef{BEDC.Derived.RHRoute.PrimeWindowDefect.PrimeWindowRHObligations}
+The obligation package stores carrier closure, the intended defect
+formula row, the O4 defect-zero incompatibility field, and the FWG
+located-collapse field. The finite kernel theorem supplies the local
+defect witness from an off-half offset; O4 and FWG remain explicit
+fields.
+\end{definition}
+
+\begin{theorem}[Obligations imply located ConstructiveRH]
+\label{thm:rh-prime-window-obligations-imply-constructive-rh}
+\leanchecked{BEDC.Derived.RHRoute.PrimeWindowDefect.obligations\_imply\_constructiveRH}
+Any package of prime-window RH obligations implies the existing located
+rational-complex predicate $\mathsf{ConstructiveRH}$.
+\end{theorem}
+
+\begin{proof}
+Fix a located nontrivial zero $s$. To prove it lies on the constructive
+critical line, the FWG field asks for a proof that every offset readback
+for $s$ is not off-half. Given such a readback point $x$, an off-half
+certificate for $x$ produces a defect witness in the canonical nonempty
+weighted window by
+\autoref{thm:rh-off-half-prime-window-defect}. The O4 field rejects that
+defect witness together with the readback adapter. Thus every readback
+point is not off-half, and FWG returns the located critical-line
+conclusion.
+\end{proof}
+
+\leanstmt{BEDC.Derived.RHRoute.ConstructiveRHStatement.ConstructiveRH}
+The displayed route is conditional. The RH-shaped conclusion is the
+located $\mathsf{ConstructiveRH}$ predicate already defined over rational
+complex boxes, not the unconditional classical Riemann hypothesis.
+
+\begin{closurestatus}{PrimeWindowDefectUp}
+  \origin{ai}
+  \constructivestory{The packet uses finite prime-window membership, rational nonzero weights, rational offset apartness, and the multiplicative apartness lemma for RatNum. The conditional RH row consumes explicit O4 and FWG fields rather than deriving analytic zeta incompatibility inside the finite kernel.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{BEDC-internal finite core: off-half, meaning rational $\delta$ apart from zero, implies existence of a nonzero rational prime-window defect witness; explicit obligation fields imply located ConstructiveRH}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.PrimeWindowDefect.offHalf\_to\_primeWindowDefectWitness}
+  \bridgestatus{none}
+  \notclaimed{O4 defect-zero incompatibility requiring classical $\zeta$ or explicit-formula bridge data; finite-window-to-global bridge; true analytic semantics of $\log p$; any unconditional classical RH conclusion}
+  \upgradepath{Connect the rational weight proxy to the analytic readback of $\log |p^{1/2-s}|$, then prove O4 through a finite Weil-packet or explicit-formula incompatibility row and discharge FWG as a located collapse theorem}
+\end{closurestatus}

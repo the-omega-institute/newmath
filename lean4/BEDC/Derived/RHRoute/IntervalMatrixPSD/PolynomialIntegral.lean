@@ -204,6 +204,25 @@ private theorem unitFraction_le_dyadic {j n : Nat} :
         rw [natToUnary_length, natToUnary_length]
         exact h))
 
+private theorem nat_mul_add_right_cic (a b c : Nat) :
+    a * (b + c) = a * b + a * c := by
+  induction c with
+  | zero =>
+      rw [Nat.add_zero, Nat.mul_zero, Nat.add_zero]
+  | succ c ih =>
+      rw [Nat.add_succ, Nat.mul_succ, Nat.mul_succ, ih]
+      rw [Nat.add_assoc]
+
+private theorem nat_mul_assoc_cic (a b c : Nat) :
+    (a * b) * c = a * (b * c) := by
+  induction c with
+  | zero =>
+      rw [Nat.mul_zero]
+      exact (Nat.mul_zero a).symm
+  | succ c ih =>
+      rw [Nat.mul_succ, Nat.mul_succ, ih]
+      rw [nat_mul_add_right_cic]
+
 private theorem powTwoNat_add_right (a b : Nat) :
     powTwoNat (a + b) = powTwoNat a * powTwoNat b := by
   induction b with
@@ -217,10 +236,12 @@ private theorem powTwoNat_add_right (a b : Nat) :
       rw [ih]
       calc
         2 * (powTwoNat a * powTwoNat b)
-            = (2 * powTwoNat a) * powTwoNat b := by rw [Nat.mul_assoc]
+            = (2 * powTwoNat a) * powTwoNat b := by
+              exact (nat_mul_assoc_cic 2 (powTwoNat a) (powTwoNat b)).symm
         _ = (powTwoNat a * 2) * powTwoNat b := by
           rw [Nat.mul_comm 2 (powTwoNat a)]
-        _ = powTwoNat a * (2 * powTwoNat b) := by rw [Nat.mul_assoc]
+        _ = powTwoNat a * (2 * powTwoNat b) := by
+          exact nat_mul_assoc_cic (powTwoNat a) 2 (powTwoNat b)
 
 private def natFrac (C N : Nat) (hN : 0 < N) : BRat :=
   { num := intOfNat (natToUnary C) (natToUnary_unary C)
