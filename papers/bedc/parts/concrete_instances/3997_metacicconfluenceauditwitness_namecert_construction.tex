@@ -84,6 +84,22 @@ The shared rows $H,R,L,N$ provide componentwise transport, continuation replay, 
 The boundary rows remain specific to this packet. The row $S$ names substitution compatibility, $D$ names the conditional parallel diamond, $C$ names the closed-star handoff, and $O$ blocks the missing full confluence claims. Hence the sibling lattice preserves comparison without collapsing the three chapter surfaces into one theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness finite route induction]
+\label{thm:metacic-confluence-audit-witness-finite-route-induction}
+Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Any finite list of replay steps displayed inside the route ledger $R$ preserves the route order
+$$
+P \longrightarrow S \longrightarrow D \longrightarrow C
+$$
+and keeps the obstruction row $O$ visible. Thus a consumer may replay a finite audit route only as a conditional confluence witness; it receives no full closed Church--Rosser theorem, no substitution-compatibility theorem, no quotient equality of reductions, and no evaluator equality.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite replay list inside $R$. In the base case, the conditional boundary theorem \autoref{thm:metacic-confluence-audit-witness-conditional-boundary} gives the route order $P \to S \to D \to C$, and \autoref{thm:metacic-confluence-audit-witness-nonescape} keeps $O$ in the same packet.
+
+For the successor step, assume the prefix route preserves the displayed order and obstruction row. Transport the next replay boundary componentwise through $H$, then apply the finite $\Cont$ replay stored in $R$ to append only a route segment whose endpoints remain among $P,S,D,C$.
+
+Use the sibling-lattice provenance row $L$ from \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} to keep the appended step inside the audit-map, obstruction, and axis-carry comparison surface. Since $O$ remains visible and no carrier coordinate discharges substitution compatibility or evaluator equality, the finite induction preserves exactly the conditional route and exports no stronger confluence claim.
+\end{proof}
+
 \closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
