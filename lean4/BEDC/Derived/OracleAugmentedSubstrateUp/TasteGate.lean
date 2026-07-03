@@ -1,11 +1,17 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.OracleAugmentedSubstrateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -303,5 +309,117 @@ theorem OracleAugmentedSubstrateTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem OracleAugmentedSubstrateClassifier_transport
+    {S A T B E H P N S' A' T' B' E' H' P' N' callRead transcriptRead boundaryRead
+      evidenceRead namedRead : BHist} :
+    UnaryHistory S → UnaryHistory A → UnaryHistory T → UnaryHistory B → UnaryHistory E →
+      UnaryHistory H → UnaryHistory N → hsame S S' → hsame A A' → hsame T T' →
+        hsame B B' → hsame E E' → hsame H H' → hsame P P' → hsame N N' →
+          Cont S A callRead → Cont callRead T transcriptRead →
+            Cont transcriptRead B boundaryRead → Cont boundaryRead E evidenceRead →
+              Cont evidenceRead N namedRead →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row namedRead ∨ hsame row A' ∨ hsame row T' ∨
+                          hsame row B') ∧
+                        UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row S' ∨ hsame row A ∨ hsame row A' ∨
+                        hsame row T ∨ hsame row T' ∨ hsame row B ∨ hsame row B' ∨
+                          hsame row E ∨ hsame row E' ∨ hsame row H ∨ hsame row H' ∨
+                            hsame row P ∨ hsame row P' ∨ hsame row N ∨ hsame row N' ∨
+                              hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S A callRead ∧
+                        Cont callRead T transcriptRead ∧
+                          Cont transcriptRead B boundaryRead ∧
+                            Cont boundaryRead E evidenceRead ∧
+                              Cont evidenceRead N namedRead)
+                    hsame ∧
+                  UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert UnaryHistory
+  intro sUnary aUnary tUnary bUnary eUnary _hUnary nUnary _sameS sameA sameT sameB
+    _sameE _sameH _sameP _sameN callRoute transcriptRoute boundaryRoute evidenceRoute
+    namedRoute
+  have callUnary : UnaryHistory callRead :=
+    unary_cont_closed sUnary aUnary callRoute
+  have transcriptUnary : UnaryHistory transcriptRead :=
+    unary_cont_closed callUnary tUnary transcriptRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed transcriptUnary bUnary boundaryRoute
+  have evidenceUnary : UnaryHistory evidenceRead :=
+    unary_cont_closed boundaryUnary eUnary evidenceRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed evidenceUnary nUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row namedRead ∨ hsame row A' ∨ hsame row T' ∨ hsame row B') ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row S' ∨ hsame row A ∨ hsame row A' ∨
+              hsame row T ∨ hsame row T' ∨ hsame row B ∨ hsame row B' ∨
+                hsame row E ∨ hsame row E' ∨ hsame row H ∨ hsame row H' ∨
+                  hsame row P ∨ hsame row P' ∨ hsame row N ∨ hsame row N' ∨
+                    hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S A callRead ∧ Cont callRead T transcriptRead ∧
+              Cont transcriptRead B boundaryRead ∧ Cont boundaryRead E evidenceRead ∧
+                Cont evidenceRead N namedRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead ⟨Or.inl (hsame_refl namedRead), namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left with
+      | inl sameNamed =>
+          repeat (first | exact sameNamed | apply Or.inr)
+      | inr rest =>
+          cases rest with
+          | inl sameA' =>
+              apply Or.inr
+              apply Or.inr
+              apply Or.inr
+              exact Or.inl sameA'
+          | inr rest =>
+              cases rest with
+              | inl sameT' =>
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  exact Or.inl sameT'
+              | inr sameB' =>
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  apply Or.inr
+                  exact Or.inl sameB'
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, callRoute, transcriptRoute, boundaryRoute, evidenceRoute, namedRoute⟩
+  }
+  exact ⟨cert, namedUnary⟩
 
 end BEDC.Derived.OracleAugmentedSubstrateUp
