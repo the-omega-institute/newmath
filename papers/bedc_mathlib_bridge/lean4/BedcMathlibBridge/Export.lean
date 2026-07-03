@@ -22,6 +22,7 @@ import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
 import BedcMathlibBridge.Export.Pell
 import BedcMathlibBridge.Export.QBinomial
+import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular

@@ -87,6 +87,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Narayana.narayanaExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Narayana.NarayanaExportWitness },
   { witness := `BedcMathlibBridge.Export.QFactorial.qFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QFactorial.QFactorialExportWitness },
