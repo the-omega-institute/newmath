@@ -45,4 +45,33 @@ theorem MollifierCarrier_convolution_window_obligation
     unary_cont_closed cUnary hUnary replayRoute
   exact ⟨nUnary, cUnary, replayUnary, supportRoute, convolutionRoute, replayRoute⟩
 
+theorem MollifierCarrier_compact_support_window
+    {S R N P C H compactReplay compactTransport supportRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory R →
+        UnaryHistory P →
+          UnaryHistory C →
+            UnaryHistory H →
+              Cont S R N →
+                Cont N P supportRead →
+                  Cont R C compactReplay →
+                    Cont compactReplay H compactTransport →
+                      UnaryHistory supportRead ∧ UnaryHistory compactReplay ∧
+                        UnaryHistory compactTransport ∧ Cont S R N ∧
+                          Cont N P supportRead ∧ Cont R C compactReplay ∧
+                            Cont compactReplay H compactTransport := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sUnary rUnary pUnary cUnary hUnary supportRoute readRoute replayRoute transportRoute
+  have nUnary : UnaryHistory N :=
+    unary_cont_closed sUnary rUnary supportRoute
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed nUnary pUnary readRoute
+  have compactReplayUnary : UnaryHistory compactReplay :=
+    unary_cont_closed rUnary cUnary replayRoute
+  have compactTransportUnary : UnaryHistory compactTransport :=
+    unary_cont_closed compactReplayUnary hUnary transportRoute
+  exact
+    ⟨supportReadUnary, compactReplayUnary, compactTransportUnary, supportRoute, readRoute,
+      replayRoute, transportRoute⟩
+
 end BEDC.Derived.MollifierUp
