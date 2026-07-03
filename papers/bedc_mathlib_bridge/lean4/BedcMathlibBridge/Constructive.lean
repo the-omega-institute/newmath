@@ -19,6 +19,7 @@ import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.Hyperfactorial
 import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
+import BedcMathlibBridge.Constructive.Padovan
 import BedcMathlibBridge.Constructive.CullenWoodall
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom

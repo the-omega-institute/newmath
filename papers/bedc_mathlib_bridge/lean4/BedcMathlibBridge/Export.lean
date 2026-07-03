@@ -19,6 +19,7 @@ import BedcMathlibBridge.Export.Superfactorial
 import BedcMathlibBridge.Export.Hyperfactorial
 import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
+import BedcMathlibBridge.Export.Padovan
 import BedcMathlibBridge.Export.CullenWoodall
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
