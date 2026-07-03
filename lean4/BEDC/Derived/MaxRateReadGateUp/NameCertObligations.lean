@@ -275,4 +275,51 @@ theorem MaxRateReadGateCarrier_cross_hist_causal_rate_handoff [AskSetup] [Packag
   }
   exact ⟨cert, handoffUnary⟩
 
+inductive MaxRateReadGateRowSource (M R S F L H Q C P N : BHist) :
+    BHist → Prop where
+  | multiHist : MaxRateReadGateRowSource M R S F L H Q C P N M
+  | rate : MaxRateReadGateRowSource M R S F L H Q C P N R
+  | symmetry : MaxRateReadGateRowSource M R S F L H Q C P N S
+  | refusal : MaxRateReadGateRowSource M R S F L H Q C P N F
+  | lock : MaxRateReadGateRowSource M R S F L H Q C P N L
+  | transport : MaxRateReadGateRowSource M R S F L H Q C P N H
+  | probe : MaxRateReadGateRowSource M R S F L H Q C P N Q
+  | continuation : MaxRateReadGateRowSource M R S F L H Q C P N C
+  | provenance : MaxRateReadGateRowSource M R S F L H Q C P N P
+  | localName : MaxRateReadGateRowSource M R S F L H Q C P N N
+
+def MaxRateReadGateCarrier [AskSetup] [PackageSetup]
+    (M R S F L H Q C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  MaxRateReadGateRowSource M R S F L H Q C P N M ∧
+    MaxRateReadGateRowSource M R S F L H Q C P N R ∧
+      Cont S F L ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem MaxRateReadGateCarrier_namecert_package [AskSetup] [PackageSetup]
+    {M R S F L H Q C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxRateReadGateCarrier M R S F L H Q C P N bundle pkg →
+      NameCert (MaxRateReadGateRowSource M R S F L H Q C P N) hsame ∧
+        Cont S F L ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame NameCert
+  intro carrier
+  obtain ⟨sourceM, _sourceR, route, pPkg, nPkg⟩ := carrier
+  have cert : NameCert (MaxRateReadGateRowSource M R S F L H Q C P N) hsame := {
+    carrier_inhabited := Exists.intro M sourceM
+    equiv_refl := by
+      intro row _source
+      exact hsame_refl row
+    equiv_symm := by
+      intro _row _other sameRows
+      exact hsame_symm sameRows
+    equiv_trans := by
+      intro _row _middle _other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    carrier_respects_equiv := by
+      intro row other sameRows source
+      cases sameRows
+      exact source
+  }
+  exact ⟨cert, route, pPkg, nPkg⟩
+
 end BEDC.Derived.MaxRateReadGateUp
