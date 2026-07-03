@@ -256,4 +256,36 @@ theorem ObservationLogicBoundary_logic_metaLoop_nonescape_handoff [AskSetup] [Pa
     LogicContradictionMetaLoopCarrier_nonescape carrier routeCont gateCont gatePkg
   exact ⟨rfl, nonescape⟩
 
+theorem ObservationLogicBoundary_logic_metaLoop_ledger_handoff [AskSetup] [PackageSetup]
+    {observation logic metaLoop phaseRefusal gapAudit residue transport replay provenance
+      localCert ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier logic observation metaLoop phaseRefusal transport replay
+        provenance localCert bundle pkg →
+      Cont metaLoop phaseRefusal gapAudit →
+        Cont gapAudit transport residue →
+          Cont residue localCert ledgerRead →
+            PkgSig bundle ledgerRead pkg →
+              observationLogicBoundaryFields
+                    (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal
+                      gapAudit residue transport replay provenance localCert) =
+                  [observation, logic, metaLoop, phaseRefusal, gapAudit, residue, transport,
+                    replay, provenance, localCert] ∧
+                UnaryHistory metaLoop ∧ UnaryHistory gapAudit ∧ UnaryHistory residue ∧
+                  UnaryHistory ledgerRead ∧ Cont metaLoop phaseRefusal gapAudit ∧
+                    Cont gapAudit transport residue ∧ Cont residue localCert ledgerRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle localCert pkg ∧
+                        PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier auditRoute residueRoute ledgerRoute ledgerPkg
+  have ledger :
+      UnaryHistory metaLoop ∧ UnaryHistory gapAudit ∧ UnaryHistory residue ∧
+        UnaryHistory ledgerRead ∧ Cont metaLoop phaseRefusal gapAudit ∧
+          Cont gapAudit transport residue ∧ Cont residue localCert ledgerRead ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localCert pkg ∧
+              PkgSig bundle ledgerRead pkg :=
+    LogicContradictionMetaLoopCarrier_ledger_nonescape carrier auditRoute residueRoute
+      ledgerRoute ledgerPkg
+  exact ⟨rfl, ledger⟩
+
 end BEDC.Derived.ObservationLogicBoundaryUp
