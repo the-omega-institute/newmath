@@ -106,3 +106,19 @@ The assumed componentwise transports align the two entrance surfaces. After this
 The sibling rows are only consumer rows in this argument. The shared-threshold packet $M$ and the tail-fusion row $F$ are read before the seal route, and neither adds a second seal endpoint to the schedule carrier. Since the carrier has no coordinate for quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, hidden tail oracles, or ambient completeness, no alternate seal-facing route remains.
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyTailScheduleUp.RegularCauchyTailSchedule\_seal\_facing\_route\_determinacy}
+
+\begin{theorem}[Regular Cauchy tail schedule scope binding]
+\label{thm:regular-cauchy-tail-schedule-scope-binding}
+Every accepted $\RegularCauchyTailScheduleUp$ obligation is scoped only over the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N).
+$$
+The obligation surface therefore binds the precision request, regular rational source, finite window schedule, dyadic tolerance ledger, cofinal-index row, tail witness, shared-threshold consumer, tail-fusion consumer, seal-facing handoff, componentwise transport, continuation replay, provenance, and local naming, and it excludes quotient stream equality, selected limits, unbounded diagonal streams, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. Its analytic rows are exactly $R,W,D,K,T,M,F,E$, and its structural rows are exactly $H,C,P,N$. The displayed sibling objects are the regular rational source, the finite stream windows, the dyadic tolerance ledger, the shared-threshold packet, the tail-fusion row, and the terminal $\RealUp$ seal-facing row.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}. They force carrier admission, classifier stability, schedule exactness, downstream consumer handoff, and ledger non-escape over the same rows. Apply the handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route} to identify the only seal-facing path through $Q,R,W,D,K,T,M,F,E,H,C,P,N$.
+
+Finally apply seal-facing route determinacy, \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy}. Once the displayed entrance rows, sibling consumer rows, transport rows, continuation route, provenance, and naming row are fixed, the terminal seal-facing row is fixed up to $\hsame$. Since the carrier has no coordinate for quotient stream equality, selected limits, unbounded diagonal streams, hidden tail selectors, or ambient completeness, no accepted schedule obligation can escape the listed scope.
+\end{proof}
