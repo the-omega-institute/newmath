@@ -1,0 +1,293 @@
+\chapter{Prime Sieve Duality Completeness}
+\label{ch:visions-rh-prime-sieve-duality-completeness}
+\origin{ai}
+
+\autoref{ch:visions-rh-smooth-prime-classifier-tower} supplies finite
+prime-register quotients and profinite separation, while
+\autoref{ch:visions-rh-layered-prime-probability-sieve} supplies
+finite probability tests on those quotients.  The present chapter
+records the duality principle that makes these two surfaces the same
+finite detection mechanism: prime types are the position coordinates of
+a finite layer, and sieve tests are its readout coordinates.
+
+\section{Type and Sieve Coordinates}
+\label{sec:rh-prime-sieve-duality-type-sieve-coordinates}
+
+\begin{definition}[Prime type and sieve dual pair]
+\label{def:rh-prime-type-sieve-dual-pair}
+A prime type and sieve dual pair is a finite layer
+$$
+(G_m,\mu_m,\pi_m,\mathcal S_m)
+$$
+where $G_m$ is a finite prime type space, $\mu_m$ is a full-support
+probability measure on $G_m$, $\pi_m$ sends prime powers to their
+displayed type, and $\mathcal S_m$ is a finite-dimensional space of
+legal sieve readouts
+$$
+\varphi:G_m\to\mathbb C.
+$$
+When $G_m$ is a finite abelian group, the canonical frequency readouts
+are the characters
+$$
+\widehat G_m:=\operatorname{Hom}(G_m,S^1).
+$$
+The position-frequency pairing is
+$$
+\langle a,\chi\rangle:=\chi(a),
+\qquad
+a\in G_m,\quad \chi\in\widehat G_m.
+$$
+\end{definition}
+
+\begin{principle}[Prime types and sieve methods are dual coordinates]
+\label{prin:rh-prime-types-sieve-methods-dual-coordinates}
+At a finite classifier layer, the type atoms $\mathbf 1_a$ and the
+sieve readouts $\varphi$ are two coordinate systems for the same finite
+space of observations.  The type side records where the prime register
+lands.  The sieve side records how the layer is read.  A residual hidden
+from all legal sieve readouts is therefore hidden from the finite type
+space itself; in a complete dual pair this is possible only for the zero
+residual.
+\end{principle}
+
+\begin{definition}[Sieve-method type space]
+\label{def:rh-sieve-method-type-space}
+A sieve-method type space at layer $m$ is a finite classifier
+$$
+H_m
+$$
+whose points classify legal sieve methods by their construction source:
+congruence, character, Frobenius, splitting, local norm, order, or
+finite Satake-type readout.  A second-order sieve is a legal function
+$$
+\Phi:H_m\to\mathbb C.
+$$
+The pair $(H_m,\widehat H_m)$ is required to obey the same finite
+duality and ledger rules as $(G_m,\widehat G_m)$ whenever it is used as
+proof data.
+\end{definition}
+
+\begin{principle}[Recursive duality is ledger-bounded]
+\label{prin:rh-recursive-duality-ledger-bounded}
+Sieve methods may themselves be classified and filtered, but the
+process is not an unbounded regress.  Each recursive duality level must
+expose a finite or profinite classifier, its legal readout space, its
+normalization convention, and its ledger row.  Thus a method of
+selecting sieve methods is another licensed finite observation surface,
+not an informal meta-choice.
+\end{principle}
+
+\section{Finite Dual Detection}
+\label{sec:rh-prime-sieve-duality-finite-detection}
+
+\begin{definition}[Fourier-complete sieve layer]
+\label{def:rh-fourier-complete-sieve-layer}
+A finite abelian prime type layer $G_m$ is Fourier-complete when its
+legal sieve readouts contain all characters
+$$
+\chi\in\widehat G_m
+$$
+with the normalization
+$$
+\widehat R(\chi)
+:=
+\sum_{a\in G_m}R(a)\overline{\chi(a)}\mu_m(a)
+$$
+for residuals $R\in L^2(G_m,\mu_m)$.
+\end{definition}
+
+\begin{theorem}[Fourier-complete finite layers detect nonzero residuals]
+\label{thm:rh-fourier-complete-finite-layers-detect-nonzero-residuals}
+Let $G_m$ be a Fourier-complete finite abelian prime type layer with
+uniform probability measure.  If
+$$
+R\in L^2(G_m,\mu_m),
+\qquad
+R\ne0,
+$$
+then some legal character readout detects $R$:
+$$
+\widehat R(\chi)\ne0
+$$
+for some $\chi\in\widehat G_m$.
+\end{theorem}
+
+\begin{proof}
+For a finite abelian group with uniform measure, the characters form an
+orthogonal basis of $L^2(G_m,\mu_m)$.  If every coefficient
+$\widehat R(\chi)$ vanished, the Fourier expansion of $R$ in that basis
+would have all coefficients equal to zero, hence $R=0$.  This
+contradicts the hypothesis.
+\end{proof}
+
+\begin{theorem}[Event-complete finite layers detect nonzero residuals]
+\label{thm:rh-event-complete-finite-layers-detect-nonzero-residuals}
+Let $(G_m,\mu_m)$ be a finite probability layer with full support.  If
+$$
+R\in L^2(G_m,\mu_m),
+\qquad
+R\ne0,
+$$
+then some event $E\subseteq G_m$ has nonzero event readout:
+$$
+\sum_{a\in E}R(a)\mu_m(a)\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+If every event readout vanished, then taking $E=\{a\}$ would give
+$$
+R(a)\mu_m(a)=0
+$$
+for every $a\in G_m$.  Full support gives $\mu_m(a)>0$, so $R(a)=0$ for
+every $a$, contradicting $R\ne0$.
+\end{proof}
+
+\begin{corollary}[Finite type-sieve duality detects residuals]
+\label{cor:rh-finite-type-sieve-duality-detects-residuals}
+In a finite complete type-sieve dual pair, every nonzero layer residual
+is detected by either an event readout or a character readout.  If the
+layer is Fourier-complete, the character readout is enough.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-event-complete-finite-layers-detect-nonzero-residuals}
+to the event side.  In the abelian Fourier-complete case, apply
+\autoref{thm:rh-fourier-complete-finite-layers-detect-nonzero-residuals}
+to the character side.
+\end{proof}
+
+\section{Dual Tower Direction}
+\label{sec:rh-prime-sieve-duality-tower-direction}
+
+\begin{definition}[Dual classifier tower]
+\label{def:rh-dual-classifier-tower}
+A dual classifier tower consists of a profinite type system
+$$
+G_\infty=\varprojlim_mG_m
+$$
+together with a directed sieve-readout system
+$$
+\mathcal S_0\to\mathcal S_1\to\mathcal S_2\to\cdots
+$$
+such that every readout in $\mathcal S_m$ pulls back to a legal readout
+on $G_{m+1}$.  In the finite abelian case, the direction reversal is
+$$
+G_0\leftarrow G_1\leftarrow G_2\leftarrow\cdots,
+\qquad
+\widehat G_0\to\widehat G_1\to\widehat G_2\to\cdots.
+$$
+\end{definition}
+
+\begin{principle}[Type refinement is inverse, sieve extension is direct]
+\label{prin:rh-type-refinement-inverse-sieve-extension-direct}
+Refining prime types sends a finite type space to a finer quotient
+above it.  Extending sieve methods adds new legal readouts that factor
+through the finer type space.  Thus the type surface is naturally
+inverse, while the sieve surface is naturally direct.  Completeness of
+the RH route requires these two movements to be compatible: no nonzero
+residual may disappear under every finite type projection and every
+legal sieve extension.
+\end{principle}
+
+\begin{theorem}[Profinite type residuals descend to dual finite layers]
+\label{thm:rh-profinite-type-residuals-descend-to-dual-finite-layers}
+Let a dual classifier tower have Hausdorff profinite type system
+$G_\infty=\varprojlim_mG_m$.  If a profinite residual is nonzero in
+$G_\infty$, then some finite layer has a nonzero residual projection
+detected by the type-sieve dual pair at that layer.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-profinite-residual-separation}, the residual has a
+nonzero projection in some finite quotient $G_m$.  The finite dual pair
+at that layer detects the projection by
+\autoref{cor:rh-finite-type-sieve-duality-detects-residuals}.  Hence
+the residual has a finite event or character readout.
+\end{proof}
+
+\section{RH Interface}
+\label{sec:rh-prime-sieve-duality-rh-interface}
+
+\begin{definition}[PrimeSieveDualityCompleteness]
+\label{def:rh-prime-sieve-duality-completeness}
+The row
+$$
+\mathsf{PrimeSieveDualityCompleteness}
+$$
+asserts that every zeta-facing radial residual enters a Hausdorff
+profinite type system whose finite layers are complete type-sieve dual
+pairs.  Equivalently, any nonzero radial residual has a finite layer
+$m$ and a legal readout $\varphi\in\mathcal S_m$ such that
+$$
+\langle R_m,\varphi\rangle_m\ne0.
+$$
+\end{definition}
+
+\begin{theorem}[Prime sieve duality supplies probability completeness]
+\label{thm:rh-prime-sieve-duality-supplies-probability-completeness}
+Assume $\mathsf{PrimeSieveDualityCompleteness}$.  Then every nonzero
+radial residual of a zeta-facing PFZ packet is visible on a finite
+probability-filtered prime curve in the sense required by
+$$
+\mathsf{LayeredProbabilitySieveCompleteness}.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-prime-sieve-duality-completeness}, the residual has
+a finite layer and a legal readout with nonzero pairing.  Event readouts
+give mean-zero probability tests after subtracting their layer mean.
+Character readouts are legal probability tests on the same finite
+classifier.  The corresponding curve is the
+probability-filtered Chebyshev curve of
+\autoref{def:rh-probability-filtered-chebyshev-curve}.  Thus the
+residual is visible in the sense of
+\autoref{def:rh-layered-probability-sieve-completeness}.
+\end{proof}
+
+\begin{theorem}[Duality-complete sieve excludes hidden radial residuals]
+\label{thm:rh-duality-complete-sieve-excludes-hidden-radial-residuals}
+Assume $\mathsf{PrimeSieveDualityCompleteness}$, every detected
+residual readout is recorded in its sieve ledger, and legal closed
+BEDC/PFZ zero packets cannot carry unledgered residual coordinates.
+Then no nonzero radial residual can be hidden in a legal closed zero
+packet.
+\end{theorem}
+
+\begin{proof}
+A nonzero radial residual has a finite event or character readout by
+\autoref{def:rh-prime-sieve-duality-completeness}.  The readout is a
+finite residual row.  If the row is recorded, the packet carries an
+append ledger and is not closed.  If the row is not recorded, the sieve
+ledger policy is violated.  Both alternatives contradict hidden legal
+closure.
+\end{proof}
+
+\begin{corollary}[Duality completeness is the finite witness route]
+\label{cor:rh-duality-completeness-finite-witness-route}
+The row $\mathsf{PrimeSieveDualityCompleteness}$ supplies the finite
+witness component of the probability sieve tower route: a radial
+residual cannot survive solely as a limit phenomenon outside all finite
+type and sieve coordinates.
+\end{corollary}
+
+\begin{proof}
+The profinite part follows from
+\autoref{thm:rh-profinite-type-residuals-descend-to-dual-finite-layers}.
+The finite detection part follows from
+\autoref{cor:rh-finite-type-sieve-duality-detects-residuals}.  Together
+they produce the finite witness needed by
+\autoref{def:rh-layered-zeta-proof-package}.
+\end{proof}
+
+\begin{principle}[Duality audit boundary]
+\label{prin:rh-prime-sieve-duality-audit-boundary}
+The type-sieve duality packet does not prove the analytic source of a
+radial residual.  That source remains the explicit-formula and
+fixed-window obligation.  The packet proves the classifier side: once a
+nonzero residual is present in the prime type tower, finite event and
+frequency readouts cannot all vanish.  Hence the remaining burden is to
+connect every off-critical zero to this prime-side residual tower.
+\end{principle}

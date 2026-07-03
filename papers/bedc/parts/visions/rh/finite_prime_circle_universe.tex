@@ -1,0 +1,500 @@
+\chapter{Finite Prime Circle Universe}
+\label{ch:visions-rh-finite-prime-circle-universe}
+\origin{ai}
+
+\autoref{ch:visions-rh-all-prime-object} packages the all-prime source
+as a generated BEDC object with finite layers and tail ledger rows.  The
+present chapter records the complementary fixed finite model: assume a
+finite prime universe with largest prime $P$, close that universe inside
+$\mathbb F_P$, and show that a nonzero finite residual cannot be missed
+by all $P$-generated Fourier or quadratic norm sieves.  This is a local
+certificate; it is not a substitute for the all-prime tail policy.
+
+\section{Index--Prime Certificate}
+\label{sec:rh-finite-prime-circle-universe-index-prime}
+
+\begin{definition}[IndexPrimePair]
+\label{def:rh-index-prime-pair}
+An index--prime pair certificate is a packet
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P)
+$$
+asserting that
+$$
+P=p_N,
+\qquad
+N=\pi(P),
+$$
+where $p_N$ is the $N$th prime and
+$$
+\pi(P):=\#\{p:p\le P,\ p\text{ prime}\}.
+$$
+Thus $N$ is the time coordinate of the finite prime source layer and
+$P$ is the maximal prime that supplies the finite circle modulus.
+\end{definition}
+
+\begin{definition}[IndexPrimeLedger]
+\label{def:rh-index-prime-ledger}
+The ledger attached to
+$\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ is
+$$
+\operatorname{IndexPrimeLedger}(N,P)
+:=
+\left(
+P=p_N,\,
+N=\pi(P),\,
+\pi_P(\mathcal P_N),\,
+\operatorname{GapHoles}(N,P),\,
+\alpha_N
+\right),
+$$
+where
+$$
+\operatorname{GapHoles}(N,P)
+:=
+\mathbb F_P\setminus\pi_P(\mathcal P_N)
+$$
+and
+$$
+\alpha_N:=\frac{N}{P}.
+$$
+The row records the occupied prime points, the empty finite-circle
+points, and the occupancy ratio of the finite layer.
+\end{definition}
+
+\begin{theorem}[IndexPrimePair is the legal finite-circle modulus]
+\label{thm:rh-index-prime-pair-legal-modulus}
+If $\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ holds, then $P$ is the
+unique modulus used by the finite prime circle at layer $N$.
+\end{theorem}
+
+\begin{proof}
+The certificate supplies $P=p_N$, so every earlier source prime
+$p_j$ with $j<N$ satisfies $p_j<P$, while $p_N$ maps to $0$ modulo $P$.
+The same certificate supplies $N=\pi(P)$, so the displayed finite source
+contains exactly the primes up to $P$.  A smaller modulus would not be
+the maximal prime boundary of this layer; a larger prime modulus would
+add a prime beyond the certified source; a larger composite modulus
+would not provide the field $\mathbb F_P$ used by the circle and Gauss
+rows.  Thus the finite-circle modulus is not a free parameter.
+\end{proof}
+
+\begin{theorem}[IndexPrimePair has BEDC rows]
+\label{thm:rh-index-prime-pair-has-bedc-rows}
+The certificate $\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ carries time,
+unit, and ledger rows.
+\end{theorem}
+
+\begin{proof}
+The time row is the index $N$ in the append-only prime source tower.
+The unit row is the finite circle $\mathbb F_P$ supplied by the maximal
+prime $P=p_N$, together with the unit characters
+$$
+\psi_t(x)=\exp(2\pi i tx/P).
+$$
+The ledger row is \autoref{def:rh-index-prime-ledger}: it records
+$P=p_N$, $N=\pi(P)$, the occupied points, the gap holes, and the
+occupancy ratio.  These are the three BEDC coordinates required for
+using $(N,P)$ as a finite-layer proof parameter.
+\end{proof}
+
+\section{Finite Prime Circle}
+\label{sec:rh-finite-prime-circle-universe-circle}
+
+\begin{definition}[Finite prime universe]
+\label{def:rh-finite-prime-universe}
+A finite prime universe is a displayed finite source
+$$
+\mathcal P_N=\{p_1,\ldots,p_N\},
+\qquad
+P:=p_N,
+$$
+equipped with the certificate
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P).
+$$
+It is read under the model assumption that these are exactly the primes
+visible to the finite source up to the certified boundary $P$.  Its
+maximal-prime classifier is
+$$
+\pi_P:\mathcal P_N\to\mathbb F_P,
+\qquad
+\pi_P(p_j)=p_j\bmod P.
+$$
+\end{definition}
+
+\begin{definition}[Finite prime circle universe]
+\label{def:rh-finite-prime-circle-universe}
+The finite prime circle universe attached to
+\autoref{def:rh-finite-prime-universe} is
+$$
+\mathcal P_N^\circ
+:=
+\{p_1,\ldots,p_{N-1},0\}
+\subseteq
+\mathbb F_P.
+$$
+The point $0$ is the image of the maximal prime $P$.
+\end{definition}
+
+\begin{lemma}[Maximal-prime classifier is injective]
+\label{lem:rh-maximal-prime-classifier-injective}
+The map $\pi_P:\mathcal P_N\to\mathbb F_P$ is injective.
+\end{lemma}
+
+\begin{proof}
+For $j<N$, one has $0<p_j<P$, so $\pi_P(p_j)=p_j$ as a nonzero element
+of $\mathbb F_P$.  The maximal prime satisfies $\pi_P(P)=0$.  Hence the
+images are the pairwise distinct points
+$$
+p_1,\ldots,p_{N-1},0.
+$$
+\end{proof}
+
+\section{Fourier Completeness}
+\label{sec:rh-finite-prime-circle-universe-fourier}
+
+\begin{definition}[Prime-circle residual]
+\label{def:rh-prime-circle-residual}
+A prime-circle residual is a finite row
+$$
+R_N=\sum_{j=1}^{N}c_j[p_j]
+$$
+on $\mathcal P_N$.  Its pushforward to $\mathbb F_P$ is
+$$
+\widetilde R_N
+:=
+\sum_{j=1}^{N}c_j[\pi_P(p_j)].
+$$
+\end{definition}
+
+\begin{definition}[Maximal-prime Fourier sieve]
+\label{def:rh-maximal-prime-fourier-sieve}
+For $t\in\mathbb F_P$, the maximal-prime Fourier sieve is the additive
+character
+$$
+\psi_t(x):=\exp(2\pi i tx/P),
+\qquad
+x\in\mathbb F_P.
+$$
+Its readout on a prime-circle residual is
+$$
+\widehat R_N(t)
+:=
+\sum_{j=1}^{N}c_j\psi_t(p_j\bmod P).
+$$
+\end{definition}
+
+\begin{theorem}[Finite prime circle Fourier completeness]
+\label{thm:rh-finite-prime-circle-fourier-completeness}
+If $R_N\ne0$, then there exists $t\in\mathbb F_P$ such that
+$$
+\widehat R_N(t)\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{lem:rh-maximal-prime-classifier-injective}, the pushforward
+$\widetilde R_N$ is nonzero whenever $R_N$ is nonzero.  The additive
+characters of the finite additive group $\mathbb F_P$ form an
+orthogonal basis of $L^2(\mathbb F_P)$.  If every readout
+$\widehat R_N(t)$ vanished, all Fourier coefficients of
+$\widetilde R_N$ would vanish, forcing $\widetilde R_N=0$.  This
+contradicts $R_N\ne0$.
+\end{proof}
+
+\section{Quadratic Norm Sieve}
+\label{sec:rh-finite-prime-circle-universe-quadratic}
+
+\begin{definition}[Quadratic norm sieve over the finite prime circle]
+\label{def:rh-finite-prime-circle-quadratic-norm-sieve}
+Let
+$$
+Q_P:\mathbb F_P^2\to\mathbb F_P,
+\qquad
+Q_P(a,b)=a^2+b^2.
+$$
+For a function $R:\mathbb F_P\to\mathbb C$ and $t\in\mathbb F_P$, define
+the quadratic norm sieve readout
+$$
+\mathcal Q_t(R)
+:=
+\sum_{q\in\mathbb F_P}
+R(q)
+\sum_{a,b\in\mathbb F_P}
+\exp(2\pi i t(q-a^2-b^2)/P).
+$$
+\end{definition}
+
+\begin{definition}[Quadratic Gauss row]
+\label{def:rh-quadratic-gauss-row}
+For $t\in\mathbb F_P$, define
+$$
+G_P(t):=\sum_{a\in\mathbb F_P}\exp(2\pi i t a^2/P).
+$$
+The Gauss nondegeneracy row asserts that
+$$
+G_P(t)\ne0.
+$$
+For $t=0$ this is the identity $G_P(0)=P$; for $t\ne0$ it is the
+standard nondegeneracy of the quadratic Gauss sum.
+\end{definition}
+
+\begin{theorem}[Quadratic norm sieve is Fourier sieve times Gauss rows]
+\label{thm:rh-quadratic-norm-sieve-fourier-gauss-factorization}
+For every $t\in\mathbb F_P$ and every $R:\mathbb F_P\to\mathbb C$,
+$$
+\mathcal Q_t(R)
+=
+G_P(-t)^2
+\sum_{q\in\mathbb F_P}R(q)\exp(2\pi i tq/P).
+$$
+\end{theorem}
+
+\begin{proof}
+Expand the definition of $\mathcal Q_t(R)$ and separate the variables:
+$$
+\begin{aligned}
+\mathcal Q_t(R)
+&=
+\sum_q R(q)\exp(2\pi i tq/P)
+\left(\sum_a\exp(-2\pi i t a^2/P)\right)
+\left(\sum_b\exp(-2\pi i t b^2/P)\right)\\
+&=
+G_P(-t)^2
+\sum_q R(q)\exp(2\pi i tq/P).
+\end{aligned}
+$$
+\end{proof}
+
+\begin{corollary}[Quadratic norm sieves detect Fourier-visible residuals]
+\label{cor:rh-quadratic-norm-sieves-detect-fourier-visible-residuals}
+Assume the Gauss nondegeneracy row of
+\autoref{def:rh-quadratic-gauss-row}.  If
+$$
+\sum_{q\in\mathbb F_P}R(q)\exp(2\pi i tq/P)\ne0
+$$
+for some $t\in\mathbb F_P$, then
+$$
+\mathcal Q_t(R)\ne0.
+$$
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-quadratic-norm-sieve-fourier-gauss-factorization}, the
+quadratic readout is the displayed Fourier readout multiplied by
+$G_P(-t)^2$.  The Gauss nondegeneracy row makes that multiplier nonzero.
+\end{proof}
+
+\section{Leakage Contradiction}
+\label{sec:rh-finite-prime-circle-universe-leakage}
+
+\begin{definition}[Prime circle leakage assumption]
+\label{def:rh-prime-circle-leakage-assumption}
+The prime circle leakage assumption for a residual $R_N$ says that all
+maximal-prime Fourier sieve readouts vanish:
+$$
+\widehat R_N(t)=0
+\qquad
+(t\in\mathbb F_P),
+$$
+and, when the quadratic norm sieve is available, all quadratic norm
+readouts vanish:
+$$
+\mathcal Q_t(\widetilde R_N)=0
+\qquad
+(t\in\mathbb F_P).
+$$
+\end{definition}
+
+\begin{theorem}[Finite prime universe leakage contradiction]
+\label{thm:rh-finite-prime-universe-leakage-contradiction}
+In a finite prime universe, no nonzero prime-circle residual satisfies
+the prime circle leakage assumption.
+\end{theorem}
+
+\begin{proof}
+If $R_N\ne0$, then
+\autoref{thm:rh-finite-prime-circle-fourier-completeness} gives
+$t\in\mathbb F_P$ with $\widehat R_N(t)\ne0$.  This contradicts the
+first row of
+\autoref{def:rh-prime-circle-leakage-assumption}.  Therefore any
+residual satisfying the leakage assumption must be zero.
+\end{proof}
+
+\begin{corollary}[Quadratic leakage contradiction]
+\label{cor:rh-quadratic-leakage-contradiction}
+Assume the Gauss nondegeneracy row and suppose a nonzero residual has a
+nonzero Fourier readout at some $t\in\mathbb F_P$.  Then it cannot be missed by
+all quadratic norm sieves.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{cor:rh-quadratic-norm-sieves-detect-fourier-visible-residuals}
+to the nonzero Fourier readout.  The corresponding quadratic norm
+sieve readout is nonzero.
+\end{proof}
+
+\section{Admissible Addresses}
+\label{sec:rh-finite-prime-circle-universe-admissible-addresses}
+
+\begin{definition}[Finite prime address policy]
+\label{def:rh-finite-prime-address-policy}
+In the finite prime universe of \autoref{def:rh-finite-prime-universe},
+an admissible residual address is either one of the displayed points
+$$
+h_j:=p_j\bmod P\in\mathbb F_P
+\qquad
+(1\le j\le N)
+$$
+or a ledger row saying that the residual has no address in the finite
+universe.  An expression involving a prime $p'>P$ is not an admissible
+prime address inside the finite model.
+\end{definition}
+
+\begin{theorem}[Existing prime addresses are event-detected]
+\label{thm:rh-existing-prime-addresses-event-detected}
+Let
+$$
+R_N=\sum_{j=1}^{N}c_j[p_j]
+$$
+be a prime-circle residual.  If $c_j\ne0$ for some $j$, then the event
+$$
+E_j:=\{p_j\bmod P\}\subseteq\mathbb F_P
+$$
+detects $R_N$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:rh-maximal-prime-classifier-injective}, the point
+$p_j\bmod P$ occurs in the pushforward of $R_N$ only with coefficient
+$c_j$.  Pairing with the indicator of $E_j$ therefore gives exactly
+$c_j$, which is nonzero.
+\end{proof}
+
+\begin{theorem}[No external prime address in the finite model]
+\label{thm:rh-no-external-prime-address-finite-model}
+Under the finite prime universe assumption, a residual cannot use a
+prime $p'>P$ as a legal finite prime-circle address.
+\end{theorem}
+
+\begin{proof}
+The finite prime universe states that the displayed source of prime
+addresses is precisely
+$$
+\mathcal P_N=\{p_1,\ldots,p_N=P\}.
+$$
+Thus a prime $p'>P$ is not a point of the source and cannot be used as
+a finite sieve address.  If such a row is asserted as a prime, the
+finite universe assumption fails.  If it is asserted merely as data not
+belonging to $\mathcal P_N$, it must be recorded by the ledger as an
+outside-source residual rather than used as a detector in the finite
+model.
+\end{proof}
+
+\begin{theorem}[Address trichotomy for finite residuals]
+\label{thm:rh-address-trichotomy-finite-residuals}
+Let a residual in the finite prime universe satisfy the BEDC ledger
+requirement that every residual coordinate has a source address or an
+explicit ledger row.  Then exactly the following alternatives are
+available:
+$$
+\begin{gathered}
+\text{it has a nonzero displayed address }h_j\text{ and is event-detected},\\
+\text{it requests an external prime address and violates the finite model},\\
+\text{it has no displayed address and must be recorded as a ledger row}.
+\end{gathered}
+$$
+Consequently a nonzero finite residual cannot be both ledger-legal and
+invisible to all displayed prime-circle events.
+\end{theorem}
+
+\begin{proof}
+If some displayed coefficient $c_j$ is nonzero, then
+\autoref{thm:rh-existing-prime-addresses-event-detected} gives an event
+detector.  If the residual is assigned to a prime $p'>P$, then
+\autoref{thm:rh-no-external-prime-address-finite-model} says that this
+is not a legal finite-model address.  The only remaining possibility is
+that the residual has no displayed address in $\mathcal P_N^\circ$; by
+the stated ledger requirement, it must then be recorded as an explicit
+ledger row.  Thus a nonzero residual cannot remain both legal and
+undetected in the finite prime circle universe.
+\end{proof}
+
+\begin{definition}[Finite prime circle ledger]
+\label{def:rh-finite-prime-circle-ledger}
+The finite prime circle ledger records every nonzero readout as
+$$
+\operatorname{PrimeCircleLedger}_{P,t}
+:=
+(P,t,R_N,\widehat R_N(t))
+$$
+for Fourier readouts, and as
+$$
+\operatorname{QuadraticSieveLedger}_{P,t}
+:=
+(P,Q_P,t,\mathcal Q_t(\widetilde R_N))
+$$
+for quadratic norm readouts.
+\end{definition}
+
+\begin{theorem}[Finite prime circle universe preserves BEDC rows]
+\label{thm:rh-finite-prime-circle-universe-preserves-bedc-rows}
+The finite prime circle universe preserves time, unit, and ledger rows.
+\end{theorem}
+
+\begin{proof}
+The time row is the displayed finite source $\mathcal P_N$ with maximal
+boundary $P$ and classifier $\pi_P$.  The unit row consists of the
+additive characters $\psi_t$, each of modulus $1$, together with the
+quadratic Gauss rows after their normalization by $P^{1/2}$ when the
+quadratic sieve is used.  The ledger row is
+\autoref{def:rh-finite-prime-circle-ledger}: every nonzero Fourier or
+quadratic readout is recorded with the modulus, sieve parameter,
+source residual, and detected value.
+\end{proof}
+
+\section{RH Route Interface}
+\label{sec:rh-finite-prime-circle-universe-rh-interface}
+
+\begin{definition}[FiniteLayerResidual]
+\label{def:rh-finite-layer-residual}
+The row
+$$
+\mathsf{FiniteLayerResidual}(\rho,N)
+$$
+asserts that an off-critical zero packet $\rho$ supplies a nonzero
+prime-circle residual $R_N$ at the finite prime source layer
+$\mathcal P_N$.
+\end{definition}
+
+\begin{theorem}[Finite layer residual cannot be sieve-invisible]
+\label{thm:rh-finite-layer-residual-cannot-be-sieve-invisible}
+Assume $\mathsf{FiniteLayerResidual}(\rho,N)$ and the finite prime
+circle universe for $\mathcal P_N$.  Then the residual supplied by
+$\rho$ is detected by a maximal-prime Fourier sieve.  If the Gauss
+nondegeneracy row is supplied, it is also detected by a quadratic norm
+sieve.
+\end{theorem}
+
+\begin{proof}
+The finite-layer residual row supplies $R_N\ne0$.  Apply
+\autoref{thm:rh-finite-prime-circle-fourier-completeness} to obtain a
+maximal-prime Fourier detector.  The quadratic detector follows from
+\autoref{cor:rh-quadratic-norm-sieves-detect-fourier-visible-residuals}.
+\end{proof}
+
+\begin{principle}[Finite prime circle audit boundary]
+\label{prin:rh-finite-prime-circle-audit-boundary}
+The finite prime circle universe closes the finite combinatorial part
+of the route.  Once an off-critical zero has produced a nonzero
+finite-layer residual, the maximal-prime circle cannot miss it.  The
+remaining analytic burden is the production of
+$$
+\mathsf{FiniteLayerResidual}(\rho,N)
+$$
+from the off-critical zero packet.
+\end{principle}
