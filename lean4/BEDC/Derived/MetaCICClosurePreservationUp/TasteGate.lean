@@ -412,4 +412,29 @@ theorem MetaCICClosurePreservationCarrier_beta_chain_nonescape
           · exact metaCICClosurePreservationDecode_encode_bhist betaStarClosed
           · rfl
 
+theorem MetaCICClosurePreservationCarrier_ledger_exactness
+    (x : MetaCICClosurePreservationUp) :
+    (∃ S V U B F A C G R H Q P N : BHist,
+      x = MetaCICClosurePreservationUp.mk S V U B F A C G R H Q P N ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x) ∧
+      metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      constructor
+      · refine
+          ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+            closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+            provenance, name, ?_⟩
+        constructor
+        · rfl
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+      · rfl
+
 end BEDC.Derived.MetaCICClosurePreservationUp
