@@ -1,0 +1,263 @@
+\chapter{Off-Line Zero Finite-or-Tail Address}
+\label{ch:visions-rh-offline-zero-finite-or-tail-address}
+\origin{ai}
+
+\autoref{ch:visions-rh-all-prime-object} supplies the all-prime source
+with finite layers and tail policy, while
+\autoref{ch:visions-rh-finite-prime-circle-universe} supplies the
+certified finite circle attached to an index--prime pair $(N,P)$.  This
+chapter records the address step needed by the off-line zero route:
+once an off-line zero packet carries an ontological triple and a
+nonzero radial residual, that residual cannot remain addressless.  At a
+certified finite prime circle it is either assigned to a displayed
+finite prime point, or it is assigned to the prime tail ledger beyond
+$P$.  No other legal source status is available.
+
+\section{Address Rows}
+\label{sec:rh-offline-zero-finite-or-tail-address-rows}
+
+\begin{definition}[Off-line residual address packet]
+\label{def:rh-offline-residual-address-packet}
+Let
+$$
+\rho=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+be an off-line zero packet, and let
+$$
+R_\rho\ne0
+$$
+be its radial residual row.  An off-line residual address packet at the
+finite prime circle $(N,P)$ consists of the data
+$$
+\begin{gathered}
+\operatorname{Ont}(\rho)
+=
+(\mathsf T_\rho,\mathsf U_\rho,\mathsf L_\rho),\\
+\mathsf{IndexPrimePair}^{\uparrow}(N,P),\\
+\mathcal P_N=\{p_1,\ldots,p_N=P\},\\
+\operatorname{TailPolicy}_{\mathcal P}.
+\end{gathered}
+$$
+The packet is legal only when the ledger row $\mathsf L_\rho$ assigns
+each nonzero residual coordinate to a displayed source address or to an
+explicit tail row.
+\end{definition}
+
+\begin{definition}[Finite and tail addresses]
+\label{def:rh-offline-zero-finite-tail-address}
+For an off-line residual address packet, a finite address is a
+representation
+$$
+R_N=\sum_{j=1}^{N}c_j[p_j]\ne0
+$$
+of the radial residual at the displayed source layer $\mathcal P_N$,
+with finite-circle pushforward
+$$
+\widetilde R_N
+:=
+\sum_{j=1}^{N}c_j[\pi_P(p_j)]
+\in\mathbb C[\mathbb F_P].
+$$
+A tail address is a row
+$$
+\operatorname{TailRecord}_{>P}(R_\rho)
+\in
+\operatorname{TailPolicy}_{\mathcal P}
+$$
+asserting that the residual coordinate is not a legal point of
+$\mathcal P_N$ and is therefore recorded beyond the certified boundary
+$P$.
+\end{definition}
+
+\begin{definition}[Addressless residual status]
+\label{def:rh-addressless-residual-status}
+An addressless residual status at $(N,P)$ is the assertion that
+$R_\rho\ne0$ has neither a finite address in
+$\pi_P(\mathcal P_N)$ nor a tail row in
+$\operatorname{TailPolicy}_{\mathcal P}$.  Such a status is not a BEDC
+address.  It is the failure of the ledger coordinate
+$\mathsf L_\rho$.
+\end{definition}
+
+\section{Ledger Dichotomy}
+\label{sec:rh-offline-zero-finite-or-tail-ledger-dichotomy}
+
+\begin{theorem}[Ledgered residual has a finite or tail address]
+\label{thm:rh-ledgered-residual-has-finite-or-tail-address}
+Let an off-line zero packet have an off-line residual address packet at
+$(N,P)$.  If $R_\rho\ne0$, then every legal address status for
+$R_\rho$ is one of the following:
+$$
+\begin{gathered}
+\text{a finite address in }\pi_P(\mathcal P_N),\\
+\text{a tail row in }\operatorname{TailPolicy}_{\mathcal P}.
+\end{gathered}
+$$
+If neither row is present, the packet violates $\mathsf L_\rho$.
+\end{theorem}
+
+\begin{proof}
+The finite source layer at $(N,P)$ is exactly
+$$
+\mathcal P_N=\{p_1,\ldots,p_N=P\}
+$$
+by \autoref{def:rh-finite-prime-universe}.  The admissible finite
+addresses are precisely the displayed points of
+\autoref{def:rh-finite-prime-address-policy}.  A residual coordinate
+assigned to one of those points has a finite address by
+\autoref{def:rh-offline-zero-finite-tail-address}.
+
+If the residual coordinate is not assigned to the displayed finite
+source, then the all-prime object permits only the tail policy as the
+source-side account of the omitted coordinate.  This is the
+finite-or-tail visibility row of
+\autoref{def:rh-finite-or-tail-prime-residual}, enforced by
+\autoref{thm:rh-all-prime-object-no-unledgered-residual-escape}.  Thus
+the coordinate must be recorded in
+$\operatorname{TailPolicy}_{\mathcal P}$.  If it is recorded in neither
+place, the residual has the addressless status of
+\autoref{def:rh-addressless-residual-status}, which is exactly a
+failure of the ledger row $\mathsf L_\rho$.
+\end{proof}
+
+\begin{theorem}[Finite addresses are detected]
+\label{thm:rh-offline-zero-finite-addresses-are-detected}
+If $R_\rho$ has a finite address at the certified finite prime circle
+$(N,P)$, then the associated residual is detected by a displayed
+finite-circle event or by a maximal-prime Fourier sieve.  If the Gauss
+nondegeneracy row is supplied, it is also detected by a quadratic norm
+sieve.
+\end{theorem}
+
+\begin{proof}
+A finite address supplies a nonzero row
+$$
+R_N=\sum_{j=1}^{N}c_j[p_j]\ne0.
+$$
+If some coefficient $c_j$ is nonzero, then
+\autoref{thm:rh-existing-prime-addresses-event-detected} detects the
+residual by the singleton event
+$$
+E_j=\{p_j\bmod P\}.
+$$
+Independently,
+\autoref{thm:rh-finite-prime-circle-fourier-completeness} supplies
+$t\in\mathbb F_P$ with nonzero Fourier readout.  Under the Gauss
+nondegeneracy row,
+\autoref{cor:rh-quadratic-norm-sieves-detect-fourier-visible-residuals}
+turns the nonzero Fourier readout into a nonzero quadratic norm sieve
+readout.
+\end{proof}
+
+\begin{theorem}[Tail address cannot close silently]
+\label{thm:rh-tail-address-cannot-close-silently}
+Let $R_\rho$ request an address beyond $P$ in the finite prime circle
+universe.  Then the request either refutes the finite universe as a
+complete prime model, or it enters the tail ledger.  If it enters no
+tail ledger, $\mathsf L_\rho$ fails; if it enters the tail ledger, a
+closed zero packet carries an append residual row.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-no-external-prime-address-finite-model}, a prime
+$p'>P$ is not a legal finite prime-circle address under the finite
+universe assumption.  If the row asserts that $p'>P$ is a prime source
+point, then the assumption that $P$ is the maximal source prime is
+refuted.  If the row is not admitted as a finite source point, the only
+legal account supplied by the all-prime object is the tail policy.
+
+Failure to record this outside-source coordinate gives the addressless
+status of \autoref{def:rh-addressless-residual-status}, hence violates
+$\mathsf L_\rho$.  Recording it gives an explicit append residual row.
+For a closed BEDC/PFZ zero packet, the refusal row of
+\autoref{def:rh-ledger-closure-refusal} says that such a detected or
+ledgered residual cannot be silently absorbed into closed status.
+\end{proof}
+
+\section{Address Theorem}
+\label{sec:rh-offline-zero-finite-or-tail-address-theorem}
+
+\begin{theorem}[OffLineZeroHasFiniteOrTailAddress]
+\label{thm:rh-offline-zero-has-finite-or-tail-address}
+Assume an off-line zero packet $\rho$ has
+$$
+\operatorname{Ont}(\rho)
+=
+(\mathsf T_\rho,\mathsf U_\rho,\mathsf L_\rho)
+$$
+and carries a nonzero radial residual $R_\rho\ne0$.  At any certified
+finite prime circle
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P),
+$$
+with $\operatorname{TailPolicy}_{\mathcal P}$ supplied by the
+all-prime object, 
+the residual has a legal BEDC address only in the following sense:
+$$
+\begin{gathered}
+R_\rho\text{ has a finite address in }\pi_P(\mathcal P_N),\\
+\text{or}\\
+R_\rho\text{ has a tail address in }
+\operatorname{TailPolicy}_{\mathcal P}.
+\end{gathered}
+$$
+There is no third legal address status.  The finite alternative is
+detected by the finite prime circle; the tail alternative is a ledger
+append row rather than closed invisible data.
+\end{theorem}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-ledgered-residual-has-finite-or-tail-address} to the
+off-line residual address packet
+\autoref{def:rh-offline-residual-address-packet}.  The no-address
+status is excluded because it is a failure of $\mathsf L_\rho$.
+
+If the address is finite, then
+\autoref{thm:rh-offline-zero-finite-addresses-are-detected} gives a
+finite event, Fourier, or quadratic sieve readout.  If the address is
+outside the finite source, then
+\autoref{thm:rh-tail-address-cannot-close-silently} places it in the
+tail ledger or refutes the finite model.  Thus the two displayed
+alternatives exhaust the legal BEDC statuses of the nonzero radial
+residual.
+\end{proof}
+
+\begin{corollary}[Closed invisible off-line residual contradiction]
+\label{cor:rh-closed-invisible-offline-residual-contradiction}
+Assume an off-line zero packet has an ontological triple, a nonzero
+radial residual, and a certified finite prime circle.  It cannot also
+be a closed zero packet whose residual is invisible to every displayed
+finite detector and absent from the tail ledger.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-offline-zero-has-finite-or-tail-address}, the residual
+has a finite address or a tail address.  A finite address is detected
+by \autoref{thm:rh-offline-zero-finite-addresses-are-detected},
+contradicting invisibility to every displayed finite detector.  A tail
+address enters $\operatorname{TailPolicy}_{\mathcal P}$, contradicting
+absence from the tail ledger; if it does not enter that ledger, the
+ontological ledger row fails.  Hence the displayed closed invisible
+status is impossible.
+\end{proof}
+
+\begin{principle}[Address audit boundary]
+\label{prin:rh-offline-zero-finite-or-tail-address-audit-boundary}
+The finite-or-tail address theorem consumes the nonzero residual row
+$R_\rho\ne0$ as input.  It does not by itself derive that row from
+$r\ne0$.  The separate analytic source target is
+$$
+\mathsf{OffLineZeroProducesResidual}:
+\qquad
+r\ne0\Longrightarrow R_\rho\ne0,
+$$
+to be supplied by the fixed-window spectral packet and the explicit
+formula projection bridge.  Once that source row is supplied, the
+address layer has no legal escape status beyond finite detection and
+tail ledger admission.
+\end{principle}
