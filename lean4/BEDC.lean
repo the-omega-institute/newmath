@@ -62,6 +62,8 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
+import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
+import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
@@ -965,6 +967,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.ObstructionTriggerEnumeration
+import BEDC.Derived.BetaStepBoundaryUp.ScopedObstructionRoute
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionDischargeUp
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
@@ -8722,6 +8725,7 @@ import BEDC.Derived.MetaCICLocalConfluenceFrontierUp
 import BEDC.Derived.MetaCICLocalDiamondWitnessUp.TasteGate
 import BEDC.Derived.MetaCICLocalJoinLedgerUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
+import BEDC.Derived.MetaCICNormalEndpointBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalEndpointCutUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
@@ -10742,11 +10746,13 @@ import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealClassifierUp.AuditDensityCoherence
 import BEDC.Derived.RealClassifierUp.AuditRoute
+import BEDC.Derived.RealClassifierUp.CarrierPublicRowSurface
 import BEDC.Derived.RealClassifierUp.CommonWindowTotality
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
 import BEDC.Derived.RealClassifierUp.DyadicSourceEmbeddingFaithfulness
 import BEDC.Derived.RealClassifierUp.FiniteWindowExactnessTarget
+import BEDC.Derived.RealClassifierUp.FormalStatusBoundary
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.PsameBridgeConsumption
 import BEDC.Derived.RealClassifierUp.PublicExactnessConsumerReuse
@@ -12728,6 +12734,7 @@ import BEDC.Derived.StableNegationBoundaryUp.TasteGate
 import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
 import BEDC.Derived.StandardBorelSpaceUp
+import BEDC.Derived.StandardBorelSpaceUp.TasteGate
 import BEDC.Derived.StandardBridgeAuditPacketUp.TasteGate
 import BEDC.Derived.StarRefinementUniformCoverUp.TasteGate
 import BEDC.Derived.StatManifoldUp
