@@ -12,4 +12,6 @@ The row $A$ records the accepted declaration that crossed the kernel boundary, a
 The row $F$ records the forbidden-ancestry query that refuses hidden axiom ancestry, and it is read through the $\AxiomQueryLedgerUp$ refusal route.
 
 Only after $A$ and $F$ are displayed may the local naming row $N$ be consumed. The replay and provenance rows preserve that order, so an L10 selector receives an audit boundary and none of the excluded Real, selector, kernel-correctness, compiler-correctness, or semantic-adequacy conclusions.
+
+The downstream $\MachineExportBoundaryUp$ consumer of \autoref{ch:concrete-instances-machine-export-boundary-namecert} reads $\KernelAcceptanceBoundaryUp$ only after the accepted declaration and axiom-query refusal rows are both visible, so machine-facing export cannot consume a bare kernel acceptance row.
 \end{proof}
