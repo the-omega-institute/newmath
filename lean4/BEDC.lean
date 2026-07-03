@@ -10435,6 +10435,7 @@ import BEDC.Derived.RHRoute.OnticBoundaryLedger
 import BEDC.Derived.RHRoute.OrientedTriadicCertificate
 import BEDC.Derived.RHRoute.ParityClosureTowerCertificate
 import BEDC.Derived.RHRoute.PassiveFiniteScattering
+import BEDC.Derived.RHRoute.PassiveFiniteScatteringMatrix
 import BEDC.Derived.RHRoute.PrimeCausalTower
 import BEDC.Derived.RHRoute.PrimeChargeParityPhaseDictionary
 import BEDC.Derived.RHRoute.PrimeCountSolenoidBound
