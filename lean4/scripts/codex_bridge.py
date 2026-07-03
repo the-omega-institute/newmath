@@ -284,25 +284,59 @@ def worklist_candidates() -> list:
     return cands
 
 
+def _structural_only(source: list) -> list:
+    """Keep only genuine STRUCTURAL bridge candidates; drop Nat-shadow-prone ones.
+
+    candidate_filter surfaces a MIX: structural carriers (carrier_equiv over a
+    real BEDC carrier -- TaggedOptionHistoryCarrier / ListHistoryCarrier /
+    SumHistoryCarrier / GaussInt / ZMod class) AND pointwise-equality-to-Nat
+    candidates (e.g. GcdUp.NatGcd -> Nat.gcd). The latter is the LAUNDERING
+    shape: a Nat-valued BEDC function bridged as `f = Nat.<fn>`, which admits the
+    dead `natToUnary (NatFn (bwordLength ...))` round-trip and produces a
+    Nat-vs-Nat identity, not a BEDC-object <-> mathlib bridge. Per the 4-way
+    adversarial spec, the daemon accepts ONLY structural correspondence shapes;
+    if that empties the pool it idles honestly (an idle daemon beats a laundering
+    one). Enforcement still lives in the heavy-check gate -- this is the feeder
+    guard, not the trust boundary."""
+    kept = []
+    for c in source or []:
+        shape = str(c.get("correspondence_shape_guess") or "")
+        target = str(c.get("mathlib_target_guess") or c.get("mathlib_class_guess") or "")
+        if shape == "pointwise_eq" and target.startswith("Nat."):
+            cf.logger.info(
+                f"[bridge] drop Nat-shadow-prone candidate {c.get('bedc_decl')} "
+                f"(pointwise_eq -> {target}); structural-only daemon policy"
+            )
+            continue
+        kept.append(c)
+    return kept
+
+
 def run_cycle(dry_run: bool) -> None:
-    # Always emit the discovery-feeder worklist first: cheap (no Lake build),
-    # and it is also the candidate source the daemon now bridges FROM.
+    # emit_coverage_gap writes the coverage-gap worklist as READ-ONLY TELEMETRY.
+    # It is deliberately NOT a daemon bridge source: its Nat-recursion
+    # combinatorial carriers (binomial / Lah / Catalan / Stirling / polygonal /
+    # ...) can only be bridged as Nat-shadow LAUNDERING -- the BEDC side is
+    # `natToUnary (NatFn (bwordLength a) (bwordLength b))`, an identity
+    # round-trip (`bwordLength (natToUnary n) = n` is proven) wrapping a plain
+    # `Nat -> ... -> Nat` recursion, so the exported equality is a Nat-vs-Nat
+    # identity, NOT a BEDC-object <-> mathlib bridge (violates bridge Rule 1;
+    # the dead-anchor gate check_value_anchor.py fail-closes such rows). The
+    # daemon bridges ONLY genuine structural carriers surfaced by
+    # candidate_filter; when none are eligible it idles honestly rather than
+    # manufacturing laundering.
     emit_coverage_gap()
     ok, why = gates_ok()
     if not ok:
         cf.logger.info(f"[bridge] gate closed ({why}); skip cycle")
         return
-    # Bridge from the coverage-gap worklist (real combinatorial carriers the
-    # worker can actually bridge), not candidate_filter's exhausted classical
-    # pool. Fall back to candidate_filter only if the worklist is empty.
-    source = worklist_candidates()
-    if source:
-        cf.logger.info(f"[bridge] {len(source)} coverage-gap candidate(s) sourced from worklist")
-    else:
-        source = cf._bridge_candidate_filter()
+    source = _structural_only(cf._bridge_candidate_filter())
     candidates = _reorder_candidates(source)
     if not candidates:
-        cf.logger.info(f"[bridge] gate ok ({why}); no eligible candidate")
+        cf.logger.info(
+            f"[bridge] gate ok ({why}); no eligible structural candidate "
+            f"(Nat-shadow coverage-gap worklist is telemetry-only, not a bridge source)"
+        )
         return
     picked = _candidate_decl(candidates[0])
     if dry_run:
