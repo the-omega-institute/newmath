@@ -3402,6 +3402,7 @@ import BEDC.Derived.ClosurePreservationAuditWitnessUp
 import BEDC.Derived.ClosurePreservationAuditWitnessUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
+import BEDC.Derived.ClosureUniversalityQuadrantUp.AxisIndependence
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.ClusterFilterUp.CauchyCompletionHandoff
