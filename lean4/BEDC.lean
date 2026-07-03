@@ -7425,6 +7425,7 @@ import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
 import BEDC.Derived.KaprekarUp
+import BEDC.Derived.KaramataInequalityUp.TasteGate
 import BEDC.Derived.KeithNumberUp
 import BEDC.Derived.KelleyficationUp
 import BEDC.Derived.KelleyficationUp.TasteGate
@@ -12759,6 +12760,7 @@ import BEDC.Derived.StopCodonZeckendorfSuffixUp.VisionRoute
 import BEDC.Derived.StopTrpFaceRankDeficiencyUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
+import BEDC.Derived.StreamDiagonalSelectorUp.ObligationClosure
 import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
 import BEDC.Derived.StreamDiagonalSelectorUp.TailStability
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
