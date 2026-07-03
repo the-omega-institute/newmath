@@ -466,4 +466,42 @@ theorem RegularCauchyTailSchedule_seal_facing_route_determinacy
       regularCauchyTailSchedule_round_trip
         (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)
 
+theorem RegularCauchyTailSchedule_scope_binding
+    {Q R W D K T M F E H C P N route tailRead meetRead fusionRead sealRead : BHist} :
+    UnaryHistory Q ->
+      UnaryHistory R ->
+        UnaryHistory W ->
+          UnaryHistory M ->
+            UnaryHistory F ->
+              Cont Q R route ->
+                Cont route W tailRead ->
+                  Cont tailRead M meetRead ->
+                    Cont meetRead F fusionRead ->
+                      Cont fusionRead E sealRead ->
+                        UnaryHistory route ∧
+                          UnaryHistory tailRead ∧
+                            UnaryHistory meetRead ∧
+                              UnaryHistory fusionRead ∧
+                                hsame sealRead (append fusionRead E) ∧
+                                  regularCauchyTailScheduleFromEventFlow
+                                      (regularCauchyTailScheduleToEventFlow
+                                        (RegularCauchyTailScheduleUp.mk
+                                          Q R W D K T M F E H C P N)) =
+                                    some
+                                      (RegularCauchyTailScheduleUp.mk
+                                        Q R W D K T M F E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory hsame
+  intro unaryQ unaryR unaryW unaryM unaryF routeQR routeTail routeMeet routeFusion sealRoute
+  have unaryRoute : UnaryHistory route := unary_cont_closed unaryQ unaryR routeQR
+  have unaryTailRead : UnaryHistory tailRead :=
+    unary_cont_closed unaryRoute unaryW routeTail
+  have unaryMeetRead : UnaryHistory meetRead :=
+    unary_cont_closed unaryTailRead unaryM routeMeet
+  have unaryFusionRead : UnaryHistory fusionRead :=
+    unary_cont_closed unaryMeetRead unaryF routeFusion
+  exact
+    ⟨unaryRoute, unaryTailRead, unaryMeetRead, unaryFusionRead, sealRoute,
+      regularCauchyTailSchedule_round_trip
+        (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)⟩
+
 end BEDC.Derived.RegularCauchyTailScheduleUp
