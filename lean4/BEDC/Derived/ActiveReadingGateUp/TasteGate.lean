@@ -1,11 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ActiveReadingGateUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +204,73 @@ theorem ActiveReadingGateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact activeReadingGateToEventFlow_injective heq
       · rfl
+
+theorem ActiveReadingGateCarrier_export_uniqueness
+    {target active retired blocking exportRow transport replay provenance nameCert
+      exportRead : BHist} :
+    UnaryHistory target ->
+      UnaryHistory active ->
+        UnaryHistory blocking ->
+          UnaryHistory exportRow ->
+            Cont target active blocking ->
+              Cont blocking exportRow exportRead ->
+                hsame exportRead nameCert ->
+                  activeReadingGateFields
+                      (ActiveReadingGateUp.mk target active retired blocking exportRow
+                        transport replay provenance nameCert) =
+                    [target, active, retired, blocking, exportRow, transport, replay,
+                      provenance, nameCert] ∧
+                    SemanticNameCert
+                        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row target ∨ hsame row active ∨ hsame row blocking ∨
+                            hsame row exportRow ∨ hsame row exportRead)
+                        (fun row : BHist =>
+                          hsame row exportRead ∧ Cont target active blocking ∧
+                            Cont blocking exportRow exportRead)
+                        hsame ∧
+                      UnaryHistory exportRead ∧ UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryTarget unaryActive unaryBlocking unaryExport targetActive blockingExport
+    exportName
+  have unaryExportRead : UnaryHistory exportRead :=
+    unary_cont_closed unaryBlocking unaryExport blockingExport
+  have unaryNameCert : UnaryHistory nameCert :=
+    unary_transport unaryExportRead exportName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row active ∨ hsame row blocking ∨
+              hsame row exportRow ∨ hsame row exportRead)
+          (fun row : BHist =>
+            hsame row exportRead ∧ Cont target active blocking ∧
+              Cont blocking exportRow exportRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, unaryExportRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, targetActive, blockingExport⟩
+  }
+  exact ⟨rfl, cert, unaryExportRead, unaryNameCert⟩
 
 end BEDC.Derived.ActiveReadingGateUp
