@@ -1208,6 +1208,7 @@ import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
 import BEDC.Derived.BishopRegularRealSealUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
+import BEDC.Derived.BishopRegularSequenceUp.TasteGate
 import BEDC.Derived.BishopSeparatedRealCompletionUp
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
@@ -7029,6 +7030,7 @@ import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeatKernelUp.TasteGate
 import BEDC.Derived.HeineBorelFiniteIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelFiniteSubcoverUp.TasteGate
 import BEDC.Derived.HeineBorelIntervalUp.BridgedFiniteNetInterface
 import BEDC.Derived.HeineBorelIntervalUp.ClosedIntervalNetExtraction
 import BEDC.Derived.HeineBorelIntervalUp.ClusterFilterRoute
