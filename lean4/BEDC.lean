@@ -63,6 +63,7 @@ import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
+import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
 import BEDC.Derived.AdaptiveCauchyModulusUp.TasteGate
@@ -964,6 +965,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.ObstructionTriggerEnumeration
+import BEDC.Derived.BetaStepBoundaryUp.ScopedObstructionRoute
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionDischargeUp
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
@@ -8720,6 +8722,7 @@ import BEDC.Derived.MetaCICLocalConfluenceFrontierUp
 import BEDC.Derived.MetaCICLocalDiamondWitnessUp.TasteGate
 import BEDC.Derived.MetaCICLocalJoinLedgerUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
+import BEDC.Derived.MetaCICNormalEndpointBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalEndpointCutUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
@@ -10822,6 +10825,7 @@ import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
 import BEDC.Derived.RealDyadicOrderEmbeddingUp.TasteGate
 import BEDC.Derived.RealEqualityReflectionUp.TasteGate
 import BEDC.Derived.RealEqualityUp
+import BEDC.Derived.RealEqualityUp.RegularCauchySourceRoute
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
 import BEDC.Derived.RealExponentialUp.TasteGate
@@ -12586,6 +12590,7 @@ import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialSetUp.TasteGate
 import BEDC.Derived.SingletonSource
+import BEDC.Derived.SingularHomologyUp.TasteGate
 import BEDC.Derived.SingularValueDecompositionUp.TasteGate
 import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
