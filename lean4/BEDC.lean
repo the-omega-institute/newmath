@@ -1913,6 +1913,7 @@ import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
 import BEDC.Derived.CauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseReflectorUp.TasteGate
+import BEDC.Derived.CauchyCompletionDenseUnitUp
 import BEDC.Derived.CauchyCompletionDensitySourceUp.TasteGate
 import BEDC.Derived.CauchyCompletionEliminatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionEmbeddingReflectionUp.TasteGate
@@ -11031,6 +11032,7 @@ import BEDC.Derived.RealSequenceLimitUp.TailRefinementLedger
 import BEDC.Derived.RealSequenceLimitUp.TailWindowTransport
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealSequenceSpaceUp.TasteGate
+import BEDC.Derived.RealSequentialApartnessUp
 import BEDC.Derived.RealSeriesCauchyCriterionUp
 import BEDC.Derived.RealSeriesCauchyCriterionUp.TasteGate
 import BEDC.Derived.RealSeriesRatioTestUp.TasteGate
