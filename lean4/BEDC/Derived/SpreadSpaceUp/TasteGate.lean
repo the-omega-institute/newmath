@@ -155,20 +155,6 @@ def spreadSpaceTasteGate : ChapterTasteGate SpreadSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   spreadSpaceChapterTasteGate
 
-theorem SpreadSpaceTasteGate_single_carrier_alignment :
-    (forall h : BHist, spreadSpaceDecodeBHist (spreadSpaceEncodeBHist h) = h) ∧
-      (forall x : SpreadSpaceUp,
-        spreadSpaceFromEventFlow (spreadSpaceToEventFlow x) = some x) ∧
-        (forall x y : SpreadSpaceUp,
-          spreadSpaceToEventFlow x = spreadSpaceToEventFlow y -> x = y) ∧
-          spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨spreadSpaceDecode_encode_bhist,
-      spreadSpace_round_trip,
-      (fun _ _ heq => spreadSpaceToEventFlow_injective heq),
-      rfl⟩
-
 theorem SpreadSpace_prefix_bar_stability {x y : SpreadSpaceUp}
     (heq : spreadSpaceToEventFlow x = spreadSpaceToEventFlow y) :
     spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) ∧
