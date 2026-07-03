@@ -8,6 +8,7 @@ import BedcMathlibBridge.Constructive.ZMod
 import BedcMathlibBridge.Constructive.Fibonacci
 import BedcMathlibBridge.Constructive.Lucas
 import BedcMathlibBridge.Constructive.Leonardo
+import BedcMathlibBridge.Constructive.SylvesterSequence
 import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Eulerian
