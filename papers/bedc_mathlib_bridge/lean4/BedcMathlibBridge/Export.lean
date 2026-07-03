@@ -22,6 +22,7 @@ import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Padovan
 import BedcMathlibBridge.Export.Tribonacci
+import BedcMathlibBridge.Export.Tetranacci
 import BedcMathlibBridge.Export.CullenWoodall
 import BedcMathlibBridge.Export.CentralTrinomial
 import BedcMathlibBridge.Export.AscFactorial

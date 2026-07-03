@@ -22,6 +22,7 @@ import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Padovan
 import BedcMathlibBridge.Constructive.Tribonacci
+import BedcMathlibBridge.Constructive.Tetranacci
 import BedcMathlibBridge.Constructive.CullenWoodall
 import BedcMathlibBridge.Constructive.CentralTrinomial
 import BedcMathlibBridge.Constructive.AscFactorial
