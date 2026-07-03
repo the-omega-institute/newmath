@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalBisectionModulusUp$}
+\label{ch:concrete-instances-real-interval-bisection-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealIntervalBisectionModulusUp$ packet records the finite modulus surface used when a closed real interval is bisected under an explicit dyadic tolerance schedule. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the closed interval object of \autoref{ch:concrete-instances-closed-interval-object-namecert}. The packet names only the displayed interval, midpoint, tolerance, branch, readback, seal, transport, replay, provenance, and local naming rows; it is not compactness, trichotomy, quotient interval equality, selected real choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real interval bisection modulus carrier]
+\label{def:real-interval-bisection-modulus-carrier}
+A $\RealIntervalBisectionModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,E,D,T,B,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedIntervalObjectUp$ source interval row, carrying the two endpoint names, endpoint-order evidence, and membership-window surface to be bisected.
+\item $E$ is the endpoint-window row, exposing the inspected lower and upper endpoint observations before a midpoint is read.
+\item $D$ is the $\DyadicRatCoreUp$ midpoint and radius ledger, recording the dyadic half-width comparison and the midpoint-window arithmetic used by the bisection request.
+\item $T$ is the tolerance-modulus row, recording the requested precision and the finite bound that says how many bisection steps are displayed for that precision.
+\item $B$ is the branch-retention row, recording the retained left or right subinterval together with the local evidence that its endpoints remain within the displayed interval surface.
+\item $W$ is the $\StreamNameUp$ finite-window row exposed for the retained interval and midpoint observations.
+\item $R$ is the $\RegSeqRatUp$ readback row serving those finite windows as regular rational observations.
+\item $S$ is the $\RealUp$ seal row, available only after $I,E,D,T,B,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for interval, endpoint, dyadic, modulus, branch, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bisection request through $I,E,D,T,B,W,R,S$ and back to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalBisectionModulusUp$, $\ClosedIntervalObjectUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalBisectionModulusUp}$ row.
+\end{enumerate}
+The carrier exports only this finite displayed bisection-modulus surface. It contains no coordinate for interval compactness, real trichotomy, quotient equality of interval names, countable choice, selected completed points, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real interval bisection modulus NameCert obligations]
+\label{thm:real-interval-bisection-modulus-namecert-obligations}
+For every accepted $\RealIntervalBisectionModulusUp$ carrier
+$$
+M=(I,E,D,T,B,W,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntervalBisectionModulusUp}$ surface consists exactly of closed-interval admission through $I$, endpoint-window exposure through $E$, dyadic midpoint and radius readback through $D$, tolerance-modulus exposure through $T$, branch-retention exposure through $B$, finite-window exposure through $W$, regular rational readback through $R$, terminal Real seal admission through $S$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-interval-bisection-modulus-carrier}. The closed interval row $I$ supplies the only endpoint and membership surface, while $E$ exposes the endpoint windows that the bisection request is allowed to inspect.
+
+The dyadic row $D$ supplies the midpoint and half-width arithmetic, and the tolerance row $T$ supplies the displayed bound on the bisection depth. The retained branch row $B$ is downstream of those rows, so it cannot choose a subinterval before the interval, endpoint, dyadic, and tolerance data have been displayed.
+
+Finally $W,R,S,H,C,P,N$ expose finite windows, regular rational readback, the Real seal, transport, replay, provenance, and local naming for the same packet. Since no row remains for compactness, trichotomy, quotient interval equality, countable choice, selected completed points, or ambient completeness, these rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Real interval bisection modulus bisection invariant]
+\label{thm:real-interval-bisection-modulus-bisection-invariant}
+For an accepted $\RealIntervalBisectionModulusUp$ carrier $M=(I,E,D,T,B,W,R,S,H,C,P,N)$, every displayed bisection step preserves the closed-interval source row and the dyadic tolerance ledger: the retained branch row $B$ is read only after
+$$
+\ClosedIntervalObjectUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp
+$$
+has exposed $I,E,D,T,W,R$. The retained subinterval may be transported and replayed by $H$ and $C$, but it cannot become a host choice of point, a trichotomy decision, quotient interval equality, or an open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They force a branch-retention request to expose the closed interval row $I$, endpoint windows $E$, dyadic midpoint ledger $D$, and tolerance row $T$ before the retained branch can be read.
+
+The finite-window rows then keep the branch constructive. The row $W$ displays the inspected interval and midpoint windows, while $R$ gives regular rational readback for exactly those windows.
+
+The structural rows $H$ and $C$ transport and replay the same retained branch, and $P,N$ source and name it. Therefore the bisection invariant is a finite route over the displayed interval, dyadic, stream, and regular-rational rows, with no host point choice or compactness principle added.
+\end{proof}
+
+\begin{theorem}[Real interval bisection modulus Real-seal nonescape]
+\label{thm:real-interval-bisection-modulus-real-seal-nonescape}
+Every $\RealUp$ seal read exported by an accepted $\RealIntervalBisectionModulusUp$ carrier is reached only after the closed interval row, endpoint-window row, dyadic midpoint ledger, tolerance-modulus row, retained branch row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, and the transport, replay, provenance, and local naming rows have been read. The seal exports the same finite bisection-modulus window and exports no selected real point, quotient equality of interval names, real trichotomy, compactness theorem, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the seal coordinate $S$. It is stored with the interval row $I$, endpoint windows $E$, dyadic midpoint ledger $D$, tolerance row $T$, retained branch row $B$, stream windows $W$, regular readback $R$, and structural rows $H,C,P,N$.
+
+Use the bisection invariant of \autoref{thm:real-interval-bisection-modulus-bisection-invariant}. It places every branch read downstream of the displayed closed-interval, dyadic, stream, and regular-rational route.
+
+Only after that route is fixed can $S$ be read as a $\RealUp$ seal. Thus the seal records the same finite bisection-modulus window and cannot export a selected completed point, quotient equality, trichotomy data, compactness, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted RealIntervalBisectionModulusUp read is refuted if a consumer obtains a retained interval branch or Real seal without displaying the closed interval row, endpoint-window row, dyadic midpoint ledger, tolerance-modulus row, stream window row, regular rational readback row, transport, replay, provenance, and local NameCert evidence.}
+
+\independenceWitness{closedintervalobject, dyadicratcore, streamname, regseqrat, real: none is bijective to $\RealIntervalBisectionModulusUp$ because this packet jointly binds a closed interval source, endpoint windows, dyadic midpoint arithmetic, a finite bisection-depth modulus, a retained branch row, stream windows, regular readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RealIntervalBisectionModulusUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalBisectionModulusUp}
+  \constructivestory{A $\RealIntervalBisectionModulusUp$ packet is generated from a closed interval source row, endpoint-window rows, a DyadicRatCore midpoint and radius ledger, a tolerance-modulus row, a retained branch row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-bisection-modulus-carrier}, \autoref{thm:real-interval-bisection-modulus-namecert-obligations}, \autoref{thm:real-interval-bisection-modulus-bisection-invariant}, and \autoref{thm:real-interval-bisection-modulus-real-seal-nonescape} seed the finite bisection-modulus route over interval, endpoint, dyadic, tolerance, branch, window, readback, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close interval compactness, real trichotomy, quotient interval equality, countable choice, selected completed points, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-window exposure, dyadic midpoint readback, tolerance-modulus exposure, branch-retention exposure, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RealIntervalBisectionModulusUp.}
+\end{closurestatus}
