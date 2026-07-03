@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T16:42:35Z
+> 最后刷新: 2026-07-03T18:04:02Z
 
-**Daemon 状态**: monitor (monitor cycle 277, adjust_since_research 2, round_counter 37065, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 278, adjust_since_research 2, round_counter 37093, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1278 条 finding):
-- isolated_theorem: 906 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1279 条 finding):
+- isolated_theorem: 907 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 75 次
+- TASTE ALERT category=isolated_theorem: 73 次
 - TASTE ALERT category=unauthorized_capstone: 16 次
-- TASTE ALERT category=low_entropy_template: 3 次
+- TASTE ALERT category=low_entropy_template: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -547,6 +547,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-03T15:16:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.UpperHemicontinuityUp.UpperHemicontinuityTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:perhemicontinuity:BEDC.Derived.UpperHemicontinuityUp.UpperHemicontinuityTasteGate_single_carrier_alignment:fa90fca6`). Rationale: The target is not merely removable staging: it is the Lean marker for the upper-hemicontinuity carrier definition and packages the carrier, taste-gate, field-faithful, and nontrivial witnesses used by that chapter. Repository search showed no existing downstream Lean consumer, while the Berge maximum chapter explicitly sits over the upper-hemicontinuity boundary. I added a BergeMaximumUp theorem that uses the flagged alignment theorem to construct an UpperHemicontinuityUp boundary support for each BergeMaximumUp packet and exposes the mapped finite carrier rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T16:41:48Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObservationLogicBoundaryUp.ObservationLogicBoundary_logic_metaLoop_nonescape_handoff` (flag `isolated_theorem`, finding `isolated_theorem:observationlogicboundary:BEDC.Derived.ObservationLogicBoundaryUp.ObservationLogicBoundary_logic_metaLoop_nonescape_handoff:fa90fca6`). Rationale: The theorem has real BEDC content: it transports LogicContradictionMetaLoop non-escape into the ObservationLogicBoundary carrier rows, but it had no downstream Lean consumer. I added EpistemicOntologyBridge_observation_logic_boundary_consumer in the related EpistemicOntologyBridge sibling, using the flagged theorem to feed the observation-logic gateRead row into the bridge carrier while preserving the non-escape UnaryHistory, Cont, and PkgSig evidence. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T18:03:27Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObservationLogicBoundaryUp.ObservationLogicBoundaryTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:observationlogicboundary:BEDC.Derived.ObservationLogicBoundaryUp.ObservationLogicBoundaryTasteGate_single_carrier_alignment:fa90fca6`). Rationale: The target is not disposable: the paper uses it as the checked carrier alignment for the ObservationLogicBoundary carrier, and the theorem packages real carrier content: ChapterTasteGate, FieldFaithful, Nontrivial, BHist decode/encode, round-trip, and injectivity. It previously had no Lean downstream consumer, so I added EpistemicOntologyBridge_observation_logic_boundary_aligned_consumer in the existing sibling consumer file; the new theorem consumes the alignment, combines its gate/field/nontrivial/round-trip facts with the existing observation-logic nonescape handoff, and connects that boundary packet into the EpistemicOntologyBridge event-flow route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

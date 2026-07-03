@@ -58,6 +58,22 @@ Use the transport and continuation rows $H$ and $K$ for downstream checker-audit
 The sibling packets do not identify these two readings. The MetaCIC and typed-example galleries name accepted rows, the seal names worked-example closure of the gallery surface, and the beta-step boundary names reduction-boundary rows; none of them carries the regression-budget coordinate $R$ together with its spend boundary. Thus removing $R$ erases precisely the coverage distinction claimed by the packet.
 \end{proof}
 
+\begin{theorem}[TypedExampleAuditBudget public consumer contract]
+\label{thm:typed-example-audit-budget-public-consumer-contract}
+Every checker-audit public consumer of an accepted $\TypedExampleAuditBudgetUp$ packet must read
+$$
+A=(G,C,B,Z,R,H,K,P,N)
+$$
+as one finite contract. The consumer may export the downstream publicClosure package only after the gallery inventory $G$, checker rows $C$, beta rows $B$, closedness rows $Z$, regression-budget row $R$, transports $H$, continuation routes $K$, provenance $P$, and local name $N$ are all displayed together. The contract cannot export checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations}. They force the public consumer to expose the gallery, checker, beta, closedness, regression-budget, transport, replay, provenance, and local naming rows before any local certificate is read.
+
+Next apply regression non-escape from \autoref{thm:typed-example-audit-budget-regression-nonescape}. The row $R$ is the only coordinate that separates accepted gallery rows from rows counted as regression coverage, so a public checker-audit consumer cannot drop $R$ or replace it with a sibling gallery, seal, or beta-boundary packet.
+
+The downstream publicClosure package is therefore exactly the displayed tuple $G,C,B,Z,R,H,K,P,N$ together with the local NameCert route. Since the carrier has no coordinate for checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend, those claims cannot be exported by the public consumer contract.
+\end{proof}
+
 \falsifiablePrediction{If the regression-budget row is removed from an accepted TypedExampleAuditBudget packet, a downstream checker-audit consumer can no longer distinguish gallery acceptance from regression coverage.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, betastepboundary. The budget packet is not bijective with any sibling because it carries a regression-budget row and a consumer-spend boundary that gallery and seal packets do not expose, while BetaStepBoundary carries reduction-boundary rows rather than typed-example gallery spend rows.}
