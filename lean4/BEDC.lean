@@ -3207,6 +3207,7 @@ import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.ObstructionReadback
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
 import BEDC.Derived.ClosedGeneratorAuditUp
+import BEDC.Derived.ClosedGeneratorAuditUp.TasteGate
 import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
 import BEDC.Derived.ClosedIntervalBisectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCompletionUp.TasteGate
@@ -4449,6 +4450,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHSourceLedgerClosure
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
+import BEDC.Derived.CriticalLineWitnessUp.RationalHeightLedger
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
 import BEDC.Derived.CriticalLineWitnessUp.RealStripHandoff
@@ -4528,6 +4530,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryFormalTarget
 import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootRhConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteObligationCompletion
