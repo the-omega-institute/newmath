@@ -101,6 +101,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Triangular.triangularExport,
     witnessType :=
       `BedcMathlibBridge.Export.Triangular.TriangularExportWitness },
+  { witness := `BedcMathlibBridge.Export.CakeNumber.cakeNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.CakeNumber.CakeNumberExportWitness },
   { witness :=
       `BedcMathlibBridge.Export.OddDoubleFactorial.oddDoubleFactorialExport,
     witnessType :=
