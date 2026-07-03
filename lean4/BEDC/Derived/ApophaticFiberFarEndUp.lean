@@ -109,4 +109,131 @@ theorem ApophaticFiberFarEndCarrier_ledger_boundary_route
     }
   · exact publicSameInscription
 
+theorem ApophaticFiberFarEndCarrier_admission
+    {socket fiber ledger boundary inscription transport route provenance name : BHist} :
+    Cont socket fiber ledger ->
+      Cont ledger boundary inscription ->
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row socket ∨ hsame row fiber ∨ hsame row ledger ∨
+              hsame row boundary ∨ hsame row inscription ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row name)
+          (fun row : BHist =>
+            hsame row socket ∨ hsame row fiber ∨ hsame row ledger ∨
+              hsame row boundary ∨ hsame row inscription ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row name)
+          (fun row : BHist =>
+            (hsame row socket ∨ hsame row fiber ∨ hsame row ledger ∨
+              hsame row boundary ∨ hsame row inscription ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row name) ∧
+              Cont socket fiber ledger ∧ Cont ledger boundary inscription)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro socketFiberLedger ledgerBoundaryInscription
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro socket (Or.inl (hsame_refl socket))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        cases source with
+        | inl sameSocket =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameSocket)
+        | inr rest =>
+            cases rest with
+            | inl sameFiber =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameFiber))
+            | inr rest =>
+                cases rest with
+                | inl sameLedger =>
+                    exact
+                      Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameLedger)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameBoundary =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inl (hsame_trans (hsame_symm sameRows) sameBoundary))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameInscription =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm sameRows)
+                                          sameInscription)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameTransport =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inl
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameTransport))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl sameRoute =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl
+                                                    (hsame_trans (hsame_symm sameRows)
+                                                      sameRoute)))))))
+                                | inr rest =>
+                                    cases rest with
+                                    | inl sameProvenance =>
+                                        exact
+                                          Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inl
+                                                          (hsame_trans (hsame_symm sameRows)
+                                                            sameProvenance))))))))
+                                    | inr sameName =>
+                                        exact
+                                          Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (hsame_trans (hsame_symm sameRows)
+                                                            sameName))))))))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, socketFiberLedger, ledgerBoundaryInscription⟩
+  }
+
 end BEDC.Derived.ApophaticFiberFarEndUp

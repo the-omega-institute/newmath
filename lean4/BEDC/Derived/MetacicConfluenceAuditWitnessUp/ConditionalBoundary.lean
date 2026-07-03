@@ -77,4 +77,37 @@ theorem MetacicConfluenceAuditWitnessCarrier_conditional_boundary [AskSetup] [Pa
       diamondReadUnary, confluenceReadUnary, substRoute, diamondRoute, confluenceRoute,
       confluencePkg⟩
 
+theorem MetacicConfluenceAuditWitnessNonescape [AskSetup] [PackageSetup]
+    {parallel substitution diamond confluence obstruction component route ledger name
+      obstructionRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicConfluenceAuditWitnessCarrier parallel substitution diamond confluence
+        obstruction component route ledger name bundle pkg →
+      Cont obstruction component obstructionRead →
+        Cont obstructionRead route boundaryRead →
+          PkgSig bundle boundaryRead pkg →
+            UnaryHistory obstruction ∧
+              UnaryHistory obstructionRead ∧
+                UnaryHistory boundaryRead ∧
+                  Cont obstruction component obstructionRead ∧
+                    Cont obstructionRead route boundaryRead ∧
+                      PkgSig bundle name pkg ∧ PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier obstructionRoute boundaryRoute boundaryPkg
+  have obstructionUnary : UnaryHistory obstruction :=
+    carrier.right.right.right.right.left
+  have componentUnary : UnaryHistory component :=
+    carrier.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    carrier.right.right.right.right.right.right.left
+  have namePkg : PkgSig bundle name pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary componentUnary obstructionRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed obstructionReadUnary routeUnary boundaryRoute
+  exact
+    ⟨obstructionUnary, obstructionReadUnary, boundaryReadUnary, obstructionRoute,
+      boundaryRoute, namePkg, boundaryPkg⟩
+
 end BEDC.Derived.MetacicConfluenceAuditWitnessUp
