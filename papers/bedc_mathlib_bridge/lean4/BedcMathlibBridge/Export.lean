@@ -23,6 +23,7 @@ import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Padovan
 import BedcMathlibBridge.Export.Tribonacci
 import BedcMathlibBridge.Export.CullenWoodall
+import BedcMathlibBridge.Export.CentralTrinomial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
