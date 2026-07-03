@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\SignedDyadicMantissaNormalFormUp$}
+\label{ch:concrete-instances-signed-dyadic-mantissa-normal-form-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\SignedDyadicMantissaNormalFormUp$ packet records the finite normal-form route by which a signed dyadic rational is read as sign, mantissa, and unary exponent data before any regular rational or completion-facing consumer uses it. It consumes the dyadic carrier of \autoref{ch:concrete-instances-dyadic-namecert}, the dyadic Archimedean row of \autoref{ch:concrete-instances-dyadic-archimedean-namecert}, and the rational-stream handoff of \autoref{ch:concrete-instances-rationalstream-namecert}. The packet names a finite mantissa normalization surface for L10 DyadicRatCore; it does not claim quotient classes, selected representatives, trichotomy, countable choice, or real completeness.
+
+\begin{definition}[Signed dyadic mantissa normal form carrier]
+\label{def:signed-dyadic-mantissa-normal-form-carrier}
+A $\SignedDyadicMantissaNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+M=(s,m,e,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the sign row, with zero, positive, and negative cases recorded as finite BEDC data before any magnitude readback is opened.
+\item $m$ is the mantissa row, recording the displayed nonzero odd mantissa in the nonzero cases and the zero mantissa in the zero case.
+\item $e$ is the unary exponent row, recording the dyadic scale as a finite succession ledger rather than as host integer arithmetic.
+\item $H$ records componentwise $\hsame$ transport for the sign, mantissa, exponent, scaling route, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ scaling routes from the dyadic carrier through Archimedean comparison and into rational-stream readback.
+\item $P$ is the $\Pkg$ provenance over $\SignedDyadicMantissaNormalFormUp$, $\DyadicRatCoreUp$, $\RationalStreamUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDyadicMantissaNormalFormUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose value is displayed by these rows. It exports no quotient dyadic equality class, no selected real representative, no ambient Archimedean completeness, and no hidden conversion outside $s,m,e,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Signed dyadic mantissa normal form NameCert obligations]
+\label{thm:signed-dyadic-mantissa-normal-form-namecert-obligations}
+For every accepted $\SignedDyadicMantissaNormalFormUp$ carrier
+$$
+M=(s,m,e,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDyadicMantissaNormalFormUp}$ surface consists exactly of carrier admission for the sign, mantissa, unary exponent, componentwise transport, displayed scaling continuation, package provenance, and local naming rows; sign-zero coherence for $s$ and $m$; exponent visibility through $e$; dyadic readback through the carrier of \autoref{ch:concrete-instances-dyadic-namecert}; Archimedean comparison through \autoref{ch:concrete-instances-dyadic-archimedean-namecert}; and rational-stream handoff through \autoref{ch:concrete-instances-rationalstream-namecert}.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:signed-dyadic-mantissa-normal-form-carrier}. The only carrier coordinates are $s,m,e,H,C,P,N$, so carrier admission, transport, continuation, provenance, and local naming have no hidden row.
+
+The dyadic value is read from the existing dyadic carrier. The sign row $s$, mantissa row $m$, and unary exponent row $e$ supply the finite value data consumed by \autoref{ch:concrete-instances-dyadic-namecert}.
+
+The Archimedean and stream routes are then visible. The continuation row $C$ records scaling and comparison through \autoref{ch:concrete-instances-dyadic-archimedean-namecert}, and the package row $P$ cites the rational-stream handoff of \autoref{ch:concrete-instances-rationalstream-namecert}.
+
+Since every replay passes through $H,C,P,N$, the NameCert surface is exhausted by the listed finite rows. No quotient class, selected representative, hidden host conversion, or real-completeness witness is part of the packet.
+\end{proof}
+
+\begin{theorem}[Signed dyadic mantissa normalization uniqueness]
+\label{thm:signed-dyadic-mantissa-normal-form-normalization-uniqueness}
+Let
+$$
+M=(s,m,e,H,C,P,N)
+$$
+and
+$$
+M'=(s',m',e',H',C',P',N')
+$$
+be accepted $\SignedDyadicMantissaNormalFormUp$ carriers whose displayed dyadic readback routes agree through the dyadic carrier, dyadic Archimedean row, and rational-stream handoff. Then the NameCert consumer can identify the normal-form rows componentwise:
+$$
+s=s',\qquad m=m',\qquad e=e',
+$$
+and the remaining readable evidence is transported only through the displayed $H,C,P,N$ and $H',C',P',N'$ rows. Thus normalization uniqueness is a finite row comparison, not a quotient-real equality claim.
+\end{theorem}
+\begin{proof}
+Read both carriers through \autoref{def:signed-dyadic-mantissa-normal-form-carrier}. Each accepted packet exposes only its sign, mantissa, unary exponent, transport, continuation, provenance, and local naming rows.
+
+Use the dyadic carrier and Archimedean row as the common comparison surface. Agreement of the displayed dyadic readback routes forces the zero case to match zero and the nonzero cases to match the same signed odd mantissa and unary scale, because no other coordinate may carry value data.
+
+Finally use the rational-stream handoff. It records the same finite readback after scaling, while $H,C,P,N$ and $H',C',P',N'$ only transport, replay, source, and name the displayed rows. The componentwise comparison therefore proves uniqueness of the normal-form rows without exporting quotient classes or real completeness.
+\end{proof}
+
+\closureat{SignedDyadicMantissaNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\SignedDyadicMantissaNormalFormUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-dyadic-mantissa-normal-form-carrier}, \autoref{thm:signed-dyadic-mantissa-normal-form-namecert-obligations}, and \autoref{thm:signed-dyadic-mantissa-normal-form-normalization-uniqueness} seed the finite sign, mantissa, unary exponent, scaling-route, provenance, and local naming surface for signed dyadic mantissa normal forms.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient dyadic equality classes, selected representatives, trichotomy, countable choice, ambient Archimedean completeness, real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign-zero coherence, mantissa parity, unary exponent visibility, dyadic readback, Archimedean comparison, rational-stream handoff, transport, continuation, provenance, and local naming for BEDC.Derived.SignedDyadicMantissaNormalFormUp.}
+  \constructivestory{A $\SignedDyadicMantissaNormalFormUp$ packet is generated from a sign row, mantissa row, unary exponent row, componentwise hsame transport, displayed Cont scaling routes, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
