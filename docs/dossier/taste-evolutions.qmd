@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T12:46:23Z
+> 最后刷新: 2026-07-03T13:55:16Z
 
-**Daemon 状态**: monitor (monitor cycle 274, adjust_since_research 2, round_counter 36953, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 275, adjust_since_research 2, round_counter 36993, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1273 条 finding):
-- isolated_theorem: 901 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1272 条 finding):
+- isolated_theorem: 900 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 114 次
+- TASTE ALERT category=isolated_theorem: 113 次
 - TASTE ALERT category=unauthorized_capstone: 16 次
 - TASTE ALERT category=low_entropy_template: 4 次
 
@@ -541,6 +541,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-03T11:32:16Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:cauchyratebudget:BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetCarrier_namecert_obligations:fcf1b5fe`). Rationale: The target is meaningful BEDC content: it constructs the local SemanticNameCert surface and field-list identity for a CauchyRateBudget packet, and the paper’s later scope-package narrative depends on that obligation surface. It was isolated only because downstream Lean rebuilt route certificates without consuming the local NameCert theorem. I added CauchyRateBudgetWindowConcatenation_namecert_scoped_route in the window-concatenation sibling, which explicitly uses the target for both accepted budget packets and combines those local certificates with the existing concatenated route certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T12:45:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchyCompletionMinimalityUp.CauchyCompletionMinimalityCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:cauchycompletionminimality:BEDC.Derived.CauchyCompletionMinimalityUp.CauchyCompletionMinimalityCarrier_namecert_obligations:bf03bc22`). Rationale: The theorem has real BEDC content: it projects the minimality carrier and closes the dense and compared downstream reads through Cont into UnaryHistory plus the provenance PkgSig, matching the paper NameCert obligations. Source grep showed no prior Lean downstream consumer, so I added CauchyCompletionMinimalityNamecertSeparatedKernel in the separated-reflection sibling and rewired CauchyCompletionMinimalitySeparatedReflectionRoute to consume that kernel, which in turn directly uses the flagged obligations theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T13:54:48Z: `resolved` `add_downstream_user` for `BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_ledger_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:logiccontradictionmetaloop:BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_ledger_nonescape:203407cd`). Rationale: The target has real BEDC content: it carries the LogicContradictionMetaLoop refusal-ledger route through meta-refusal, audit, transport, local naming, UnaryHistory, Cont, and PkgSig evidence. Repo search found no Lean consumer of the exact target, while the neighboring ObservationLogicBoundaryUp handoff already consumes the non-ledger sibling theorem. I added ObservationLogicBoundary_logic_metaLoop_ledger_handoff as a sibling downstream user that explicitly invokes the flagged ledger nonescape theorem and ties its finite ledger route into the ObservationLogicBoundary field packet. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
