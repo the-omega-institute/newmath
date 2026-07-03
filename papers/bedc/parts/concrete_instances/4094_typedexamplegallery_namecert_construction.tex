@@ -158,6 +158,24 @@ The sibling provenance is exactly the three displayed chapters named in the stat
 Finally use the regression and normal-form separation theorems. They keep all public reads inside the finite gallery surface, so none of the global MetaCIC conclusions can be exported from the scoped kernel route.
 \end{proof}
 
+\begin{theorem}[Typed example gallery scope binding]
+\label{thm:typed-example-gallery-scope-binding}
+Every accepted $\TypedExampleGalleryUp$ obligation is scoped only over the displayed rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+of \autoref{def:typed-example-gallery-carrier}, together with the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace named in the provenance row $P$. The obligation binds the finite gallery entries, checker row, closedness row, selected beta row, regression row, componentwise transport, replay, provenance, and local naming surface. It exports no subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$. The carrier and the NameCert obligations expose only the finite gallery-entry row, checker row, closedness row, beta row, regression row, transport rows, replay routes, provenance, and local naming row.
+
+Apply the regression surface and closed-beta route, \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-closed-beta-regression-route}. They force the displayed examples through the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace before any consumer reads the gallery as a regression surface.
+
+Next use the formal-target frontier and normal-form separation, \autoref{thm:typed-example-gallery-formal-target-frontier} and \autoref{thm:typed-example-gallery-typed-normal-form-separation}. These results keep checker, closedness, beta, and normal-form reads inside $E,T,C,B,R,H,K,P,N$ rather than turning them into global MetaCIC theorems.
+
+Finally apply the scoped kernel route of \autoref{thm:typed-example-gallery-scoped-kernel-route}. It identifies the same finite rows and sibling provenance as the complete kernel-facing route, so subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the accepted obligation scope.
+\end{proof}
+
 \closureat{TypedExampleGalleryUp}{obligationStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}
