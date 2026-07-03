@@ -64,6 +64,7 @@ import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.BlockingRowDeterminacy
 import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
+import BEDC.Derived.ActiveReadingGateUp.ExportScope
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
@@ -3106,6 +3107,7 @@ import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
 import BEDC.Derived.ChoiceSequenceRealUp
+import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
