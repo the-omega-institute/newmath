@@ -68,15 +68,27 @@ These two readings exhaust the carrier inventory from \autoref{def:closed-term-s
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedSubstitutionSealUp.ClosedSubstitutionSealAudit\_surface}
 
+\begin{theorem}[Closed substitution seal obligation rows]
+\label{thm:closed-substitution-seal-obligation-rows}
+The obligation surface of $\ClosedSubstitutionSealUp$ is the finite packet made from the carrier of \autoref{def:closed-term-substitution-seal-carrier}, the closed-boundary route of \autoref{thm:closed-substitution-seal-boundary}, the compile-facing handoff of \autoref{thm:closed-substitution-compile-safety}, and the audit surface of \autoref{thm:closed-substitution-audit-surface}. Any consumer of the chapter receives exactly the displayed term, depth, payload, closedness classifier, inert substitution row, inert shift row, audit row, self-compilation handoff, transport, continuation, provenance, and local naming rows before reading the closed-substitution seal.
+\end{theorem}
+\begin{proof}
+Project the carrier first. It supplies the term, depth, payload, classifier, inert rows, audit row, handoff row, and structural naming rows as explicit coordinates.
+
+Use the boundary, compile-safety, and audit-surface theorems in order. They keep the substitution read at the closed boundary, route the compiler consumer through the self-compilation handoff, and expose the audit row without adding semantic equality, subject reduction, compiler completeness, or a host truth predicate.
+
+Thus the obligation rows are exactly the finite rows already displayed by the chapter.
+\end{proof}
+
 \closureat{ClosedSubstitutionSealUp}{seedStr}
 
 \begin{closurestatus}{\ClosedSubstitutionSealUp}
   \constructivestory{A $\ClosedSubstitutionSealUp$ packet is generated from a MetaCIC term row, a depth row, a substitution payload, a \texttt{ClosedAt} classifier, displayed inert substitution and shift rows, an audit row, a self-compilation handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:closed-term-substitution-seal-carrier}, \autoref{thm:closed-substitution-seal-boundary}, \autoref{thm:closed-substitution-compile-safety}, and \autoref{thm:closed-substitution-audit-surface} specify the finite closed-substitution seal carrier, non-escape boundary, compiler handoff, and audit surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close open-term semantic substitution, full evaluator subject reduction, compiler completeness, host truth predicates, or bridge checking.}
-  \upgradepath{Obligation closure requires Lean encoding of the packet and checked theorems for classifier transport, inert substitution, inert shift, audit visibility, and self-compilation handoff.}
+  \upgradepath{Scoped closure requires explicit primitive scope for the closedness classifier, inert substitution row, inert shift row, audit visibility, and self-compilation handoff.}
 \end{closurestatus}
