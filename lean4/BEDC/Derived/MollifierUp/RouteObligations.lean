@@ -94,6 +94,33 @@ theorem MollifierCarrier_compact_support_window
     ⟨supportReadUnary, compactReplayUnary, compactTransportUnary, supportRoute, readRoute,
       replayRoute, transportRoute⟩
 
+theorem MollifierCarrier_real_window_regularity
+    {S R N P C H realRead transportRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory R →
+        UnaryHistory P →
+          UnaryHistory H →
+            Cont S R N →
+              Cont N P C →
+                Cont C H realRead →
+                  Cont realRead H transportRead →
+                    UnaryHistory N ∧ UnaryHistory C ∧ UnaryHistory realRead ∧
+                      UnaryHistory transportRead ∧ Cont S R N ∧ Cont N P C ∧
+                        Cont C H realRead ∧ Cont realRead H transportRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sUnary rUnary pUnary hUnary supportRoute windowRoute realRoute transportRoute
+  have nUnary : UnaryHistory N :=
+    unary_cont_closed sUnary rUnary supportRoute
+  have cUnary : UnaryHistory C :=
+    unary_cont_closed nUnary pUnary windowRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed cUnary hUnary realRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed realUnary hUnary transportRoute
+  exact
+    ⟨nUnary, cUnary, realUnary, transportUnary, supportRoute, windowRoute, realRoute,
+      transportRoute⟩
+
 theorem MollifierCarrier_dyadic_kernel_normalization [AskSetup] [PackageSetup]
     {smooth support normalization convolution replay transport localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
