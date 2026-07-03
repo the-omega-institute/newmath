@@ -75,6 +75,24 @@ Apply the axis-independence boundary \autoref{thm:closure-universality-axis-inde
 Finally read the TasteGate single-carrier marker attached to \autoref{def:closure-universality-carrier}. The marker identifies the displayed carrier as the accepted local packet. It therefore licenses only $Q=(U,D,G,S,A,H,C,P,N)$ and supplies no hidden universality proof, closure oracle, substrate evaluator, detached classifier, or replacement NameCert row.
 \end{proof}
 
+\begin{theorem}[Closure-universality quadrant obligation basis]
+\label{thm:closure-universality-quadrant-obligation-basis}
+Every accepted $\ClosureUniversalityQuadrantUp$ consumer must read the carrier row $Q$, the quadrant tag $G$, the substrate row $S$, the cellular sibling anchors in $A$, the bounded trace witness carried by $A$, the axis-independence boundary, and the obligation-separation row before treating a quadrant entry as public evidence. The accepted basis is therefore the displayed finite route through
+$$
+Q,U,D,G,S,A,H,C,P,N,
+$$
+with no shortcut through an ambient universality oracle, closure oracle, detached substrate evaluator, or host classifier for quadrant membership.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:closure-universality-carrier}. It exposes $Q=(U,D,G,S,A,H,C,P,N)$, so the consumer can read a quadrant entry only by projecting the displayed carrier row and its named coordinates.
+
+Apply the NameCert obligations theorem \autoref{thm:closure-universality-quadrant-namecert-obligations}. It makes the two axis rows, quadrant tag, substrate witness, sibling-anchor ledger, transports, continuations, provenance, and local name the certificate surface for the packet.
+
+Use the axis-independence boundary \autoref{thm:closure-universality-axis-independence-boundary} and the obligation-separation theorem \autoref{thm:closure-universality-quadrant-obligation-separation}. The first keeps $U,D,G$ from collapsing into one another, and the second keeps carrier admission, axis accountability, sibling replay, and NameCert naming as separate rows.
+
+The bounded trace witness is read only as part of the sibling-anchor ledger $A$, together with the cellular rule and substrate anchors. Thus the listed rows form the obligation basis for public evidence. The existing TasteGate Lean carrier is the intended future formalization target for this row discipline, but this theorem claims only the paper-side basis.
+\end{proof}
+
 The later Lean TasteGate namespace $\mathsf{BEDC.Derived.ClosureUniversalityQuadrantUp}$ will provide $\mathsf{Nontrivial}\ \ClosureUniversalityQuadrantUp$ and $\mathsf{FieldFaithful}\ \ClosureUniversalityQuadrantUp$ instances for the displayed carrier.
 
 \closureat{ClosureUniversalityQuadrantUp}{seedStr}
