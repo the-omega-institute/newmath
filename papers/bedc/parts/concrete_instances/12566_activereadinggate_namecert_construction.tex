@@ -114,6 +114,46 @@ Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surf
 Use the single-export route of \autoref{thm:active-reading-gate-single-export-route}. Since every public export reaches $E$ through $T,A,B$, the retired row $R$ remains audit data and cannot become a parallel active export.
 \end{proof}
 
+\begin{theorem}[Active reading gate current retired disjointness]
+\label{thm:active-reading-gate-current-retired-disjointness}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the current row $A$ and retired row $R$ have disjoint export roles. Row $A$ is the only current-reading source for the export row $E$, while $R$ remains audit-visible retired-reading data and cannot be exported as a second active reading for the same target $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $A$ and $R$ are separate displayed coordinates, and only $A$ is named as the active-reading row.
+
+Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It exposes retired-reading data through $R$ while routing active-reading uniqueness through $A$ and $B$.
+
+Use the single export route of \autoref{thm:active-reading-gate-single-export-route} and ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape}. Every export reaches $E$ through $T,A,B$, while every consumer still factors through the displayed carrier containing $R$ as audit data. Thus the two rows have disjoint export roles.
+\end{proof}
+
+\begin{theorem}[Active reading gate blocking row determinacy]
+\label{thm:active-reading-gate-blocking-row-determinacy}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the row $B$ is the unique refusal row for any request that presents a second active reading of the same target row $T$. No registry, claim, transcript, writing-item, transport, replay, provenance, or local naming row may replace $B$ as the blocking witness.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:active-reading-gate-carrier} contains exactly one blocking or refusal row, namely $B$. The target row $T$ and active row $A$ are fixed before export, and $R$ is retired audit data.
+
+The obligation surface of \autoref{thm:active-reading-gate-obligation-surface} places active-reading uniqueness through $A$ and $B$. The single export route of \autoref{thm:active-reading-gate-single-export-route} then forces every public route to read $B$ before $E$.
+
+Ledger non-escape prevents the structural rows from supplying another refusal coordinate. Rows $H,C,P,N$ transport, replay, source, and name the displayed route, so the second-active-reading request is determined by the unique blocking row $B$.
+\end{proof}
+
+\begin{theorem}[Active reading gate registry consumer coverage]
+\label{thm:active-reading-gate-registry-consumer-coverage}
+Every registry, claim, transcript, or writing-item consumer of an accepted $\ActiveReadingGateUp$ packet enters through the displayed rows
+$$
+T,A,B,E,H,C,P,N.
+$$
+The retired row $R$ remains visible to audit consumers, but no registry, claim, transcript, or writing-item export can bypass the target, active-reading, blocking, export, transport, replay, provenance, and naming route.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:active-reading-gate-carrier}. Registry, claim, transcript, and writing-item siblings are named only through the provenance row $P$ and the export obligations attached to $E$.
+
+Apply the obligation surface and single export route. They force every consumer to read the target row $T$, active-reading row $A$, blocking row $B$, and export row $E$ before any public route leaves the packet.
+
+Finally apply ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape}. Transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same entry route, while $R$ remains audit-visible and non-exportable. Hence the listed rows cover every registry, claim, transcript, or writing-item consumer.
+\end{proof}
+
 \begin{theorem}[Active reading gate scope grounding]
 \label{thm:active-reading-gate-scope-grounding}
 The $\ActiveReadingGateUp$ scope is grounded in the displayed $\BHist$ rows $T,A,R,B,E,H,C,P,N$, componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, the registry-export siblings, the claim-registry siblings, the audit transcript envelope, the writing-item audit route, and the local $\NameCert_{\ActiveReadingGateUp}$ row $N$. No accepted read has a scope coordinate outside that finite surface.
