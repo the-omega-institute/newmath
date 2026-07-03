@@ -7398,6 +7398,7 @@ import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
 import BEDC.Derived.JordanDecompositionBoundedVariationUp
+import BEDC.Derived.JordanDecompositionBoundedVariationUp.TasteGate
 import BEDC.Derived.JordanTotientExtUp
 import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
