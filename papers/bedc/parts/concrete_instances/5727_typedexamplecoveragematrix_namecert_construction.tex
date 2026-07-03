@@ -297,6 +297,20 @@ Use row totality and checker-cell locality, \autoref{thm:typed-example-coverage-
 Apply non-escape and critical-path spend exhaustion, \autoref{thm:typed-example-coverage-matrix-nonescape} and \autoref{thm:typed-example-coverage-matrix-criticalpath-budget-exhaustion}. They keep gallery, checker, beta-boundary, and regression-spend reads tied to the same family row and rule out subject reduction, normalization, checker completeness, and unindexed budget use. The public certificate is therefore exactly the displayed surface $F,G,C,B,R,E,H,K,P,N$.
 \end{proof}
 
+\begin{corollary}[Typed example coverage matrix consumer exactness]
+\label{cor:typed-example-coverage-matrix-consumer-exactness}
+Any consumer of the public certificate in \autoref{thm:typed-example-coverage-matrix-public-certificate} receives exactly the displayed family-indexed gallery, checker, beta-boundary, regression-spend, exactness, transport, continuation, provenance, and $\NameCert_{\TypedExampleCoverageMatrixUp}$ rows. The consumer cannot derive checker completeness, subject reduction, normalization, arbitrary beta closure, arbitrary gallery soundness, hidden family rows, or an unindexed regression budget from that certificate.
+\end{corollary}
+\begin{proof}
+Start with the public certificate. It displays only the finite surface $F,G,C,B,R,E,H,K,P,N$ and names the family-indexed gallery, checker, beta-boundary, regression-spend, exactness, transport, replay, provenance, and local naming rows.
+
+Use family exhaustion from \autoref{thm:typed-example-coverage-matrix-family-exhaustion}. No hidden family row can be added outside $F$.
+
+Use checker-cell locality from \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}. Every checker read remains paired with the same gallery, beta-boundary, regression-spend, and exactness data.
+
+Finally apply non-escape through \autoref{thm:typed-example-coverage-matrix-nonescape} and \autoref{thm:typed-example-coverage-matrix-ledger-nonescape}. These prevent a consumer from replacing the displayed rows by checker completeness, subject reduction, normalization, arbitrary beta closure, arbitrary gallery soundness, or an unindexed budget row.
+\end{proof}
+
 \begin{theorem}[Typed example coverage matrix formal target row]
 \label{thm:typed-example-coverage-matrix-formal-target-row}
 The next formal target surface for $\TypedExampleCoverageMatrixUp$ consists of a $\mathsf{Nontrivial}$ witness pair, a $\mathsf{FieldFaithful}$ mk-field projection, and TasteGate single-carrier alignment over the displayed rows

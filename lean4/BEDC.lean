@@ -10037,6 +10037,7 @@ import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
 import BEDC.Derived.PoincareRecurrenceUp.TasteGate
+import BEDC.Derived.PoincareRecurrenceWindowUp
 import BEDC.Derived.PoincareTriangleDefectUp.TasteGate
 import BEDC.Derived.PoincareVisualRadiusLadderUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricSpaceUp
@@ -11441,7 +11442,6 @@ import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDensityUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
-import BEDC.Derived.RegularCauchyDiagonalEmbeddingUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
