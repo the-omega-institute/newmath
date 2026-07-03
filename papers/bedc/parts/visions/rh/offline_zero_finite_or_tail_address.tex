@@ -194,7 +194,7 @@ $$
 \mathsf{IndexPrimePair}^{\uparrow}(N,P),
 $$
 with $\operatorname{TailPolicy}_{\mathcal P}$ supplied by the
-all-prime object, 
+all-prime object,
 the residual has a legal BEDC address only in the following sense:
 $$
 \begin{gathered}
@@ -245,6 +245,142 @@ absence from the tail ledger; if it does not enter that ledger, the
 ontological ledger row fails.  Hence the displayed closed invisible
 status is impossible.
 \end{proof}
+
+\section{Finite Closed-Invisible Refusal}
+\label{sec:rh-offline-zero-finite-closed-invisible-refusal}
+
+\begin{definition}[Finite circle address partition]
+\label{def:rh-finite-circle-address-partition}
+For a certified finite prime circle $(N,P)$, define the occupied prime
+points and gap holes by
+$$
+\begin{gathered}
+H_N:=\pi_P(\mathcal P_N),\\
+G_N:=\mathbb F_P\setminus H_N.
+\end{gathered}
+$$
+The finite circle address partition for a nonzero radial residual is
+the disjoint status list
+$$
+\begin{gathered}
+\text{prime-pit address in }H_N,\\
+\text{gap-hole address in }G_N,\\
+\text{tail address in }\operatorname{TailPolicy}_{\mathcal P},\\
+\text{addressless status.}
+\end{gathered}
+$$
+The first two statuses are finite-circle statuses.  The third is a
+source-tail status beyond the certified finite boundary.  The fourth is
+not a legal BEDC status.
+\end{definition}
+
+\begin{theorem}[Finite circle address partition is exhaustive]
+\label{thm:rh-finite-circle-address-partition-exhaustive}
+Let $R_\rho\ne0$ be governed by an off-line residual address packet at
+$(N,P)$.  Then every attempted address status for $R_\rho$ is one of
+the four statuses in
+\autoref{def:rh-finite-circle-address-partition}.
+\end{theorem}
+
+\begin{proof}
+If the residual is assigned to the finite circle, then its finite
+coordinate lies in $\mathbb F_P$.  By definition,
+$$
+\mathbb F_P=H_N\sqcup G_N,
+$$
+so the coordinate is either an occupied prime point or a gap hole.  If
+the residual is not assigned to the finite circle, then
+\autoref{thm:rh-ledgered-residual-has-finite-or-tail-address} says that
+legal ledgered status requires a tail row in
+$\operatorname{TailPolicy}_{\mathcal P}$.  Without such a row the
+residual has the addressless status of
+\autoref{def:rh-addressless-residual-status}.  These cases are
+disjoint by the definitions of $H_N$, $G_N$, tail policy, and
+addresslessness.
+\end{proof}
+
+\begin{theorem}[Gap-hole address cannot close silently]
+\label{thm:rh-gap-hole-address-cannot-close-silently}
+If $R_\rho$ has a nonzero finite-circle coordinate in $G_N$, then it
+cannot be both ledger-legal and closed-invisible.
+\end{theorem}
+
+\begin{proof}
+The gap holes $G_N$ are part of
+\autoref{def:rh-index-prime-ledger}.  Thus a residual coordinate in
+$G_N$ is not an unclassified finite point: it is explicitly outside
+the occupied prime source points of the certified layer.  If the
+coordinate is admitted as a finite-circle function, then the Fourier
+basis on $\mathbb F_P$ detects any nonzero coordinate, and
+\autoref{thm:rh-quadratic-norm-sieve-fourier-gauss-factorization}
+together with the Gauss nondegeneracy row gives the corresponding
+quadratic readout.  If the coordinate is not admitted as a finite
+readout, its gap-hole status must still be recorded by the ledger.
+
+Therefore the gap coordinate has only two legal outcomes: it is detected
+by finite-circle readouts, or it is recorded as a gap ledger row.  If
+the row is not recorded, $\mathsf L_\rho$ fails; if it is recorded, the
+zero packet carries an append residual row and is not closed in the
+sense of \autoref{def:rh-ledger-closure-refusal}.
+\end{proof}
+
+\begin{theorem}[Off-line zero with an ontological triple cannot be closed and missed]
+\label{thm:rh-offline-zero-ont-triple-cannot-be-closed-and-missed}
+Assume an off-line zero packet $\rho$ has an ontological triple, carries
+a nonzero radial residual, and is tested at a certified finite prime
+circle $(N,P)$ with the all-prime tail policy supplied.  Then $\rho$
+cannot simultaneously satisfy all of the following:
+$$
+\begin{gathered}
+\rho\text{ is a closed zero packet},\\
+\text{every occupied prime-pit event misses }R_\rho,\\
+\text{every maximal-prime Fourier sieve misses }R_\rho,\\
+\text{every supplied quadratic norm sieve misses }R_\rho,\\
+R_\rho\text{ is absent from the finite gap and tail ledgers.}
+\end{gathered}
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-finite-circle-address-partition-exhaustive}, the
+residual has one of four address statuses.
+
+If it has a prime-pit address in $H_N$, then
+\autoref{thm:rh-offline-zero-finite-addresses-are-detected} gives a
+nonzero occupied prime event, Fourier, or supplied quadratic readout.
+This contradicts the missed-readout assumptions.
+
+If it has a gap-hole address in $G_N$, then
+\autoref{thm:rh-gap-hole-address-cannot-close-silently} applies.  A
+finite readout detects it, or the gap ledger records it.  The first
+alternative contradicts the missed-readout assumptions, while the
+second contradicts absence from the finite gap ledger or closed packet
+status.
+
+If it has a tail address, then
+\autoref{thm:rh-tail-address-cannot-close-silently} applies.  The tail
+row either refutes the finite model as a complete prime model or enters
+$\operatorname{TailPolicy}_{\mathcal P}$.  A ledgered tail contradicts
+tail-ledger absence or closed packet status; an unledgered tail violates
+$\mathsf L_\rho$.
+
+If it is addressless, then
+\autoref{def:rh-addressless-residual-status} says that the ledger
+coordinate $\mathsf L_\rho$ fails, contradicting the assumed
+ontological triple.  Hence no address status permits the packet to be
+closed and missed.
+\end{proof}
+
+\begin{principle}[Finite-window obstruction boundary]
+\label{prin:rh-finite-window-obstruction-boundary}
+The finite closed-invisible refusal is a fixed-window statement.  It
+does not assert that every analytic off-line zero has already been
+placed in a specific $(N,P)$ window.  Its contract is narrower: when
+the analytic route supplies a nonzero residual at a certified finite
+prime circle, or else supplies a tail row beyond that circle, the
+finite address partition leaves no closed-and-missed status.
+\end{principle}
 
 \begin{principle}[Address audit boundary]
 \label{prin:rh-offline-zero-finite-or-tail-address-audit-boundary}
