@@ -15,6 +15,7 @@ import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
 import Mathlib.NumberTheory.Harmonic.Defs
+import Mathlib.NumberTheory.ArithmeticFunction.Carmichael
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.Divisors
 import Mathlib.NumberTheory.PythagoreanTriples
@@ -161,6 +162,10 @@ noncomputable def auditNatDivisorsBoundary : Nat → Finset Nat :=
 
 noncomputable def auditNatHarmonicNumberBoundary : Nat → Rat :=
   _root_.harmonic
+
+noncomputable def auditArithmeticFunctionCarmichaelBoundary :
+    ArithmeticFunction Nat :=
+  ArithmeticFunction.Carmichael
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
