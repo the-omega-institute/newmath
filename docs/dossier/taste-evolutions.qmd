@@ -530,6 +530,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-03T05:26:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.GaussianPrimeUp.int_norm_prime_implies_gaussian_prime` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.int_norm_prime_implies_gaussian_prime:42658657`). Rationale: The target is structurally sound BEDC content rather than a removable wrapper: it turns integer multiplicative primality of a Gaussian norm plus unit reflection into GaussianPrime. Grep showed no existing Lean consumer, so I added a JacobiSumUp sibling consumer that combines the existing SquareSumJacobiContact GaussianSplit export with this norm-primality criterion to produce a paired GaussianSplit and GaussianPrime handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-03T06:35:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.GaussianPrimeUp.gaussian_two_ramifies` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.gaussian_two_ramifies:42658657`). Rationale: The theorem carries real Gaussian-integer content: it records the ramified factorization of rational 2 as (1+i)(1-i), rather than merely restating an existing theorem. Repository search showed no downstream Lean consumer, so I added a JacobiSumUp sibling theorem that combines the existing SquareSumJacobiContact-to-GaussianSplit export with this ramified-two equality, making the special Gaussian prime boundary an explicit consumed row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
