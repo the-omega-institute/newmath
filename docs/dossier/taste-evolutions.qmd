@@ -526,6 +526,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-03T02:52:42Z: `resolved` `delete_theorem` for `BEDC.Derived.GaussianPrimeUp.rational_prime_split_of_congruent_one_mod_four` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.rational_prime_split_of_congruent_one_mod_four:42658657`). Rationale: The target was an isolated bridge wrapper from FermatTwoSquaresBridge plus NatPrime/NatCongruentOneModFour to GaussianSplit via the already-existing sum_two_squares_splits theorem. Repository search found no Lean downstream users and no paper marker for the full target; the short name appeared only at its declaration. Since the theorem added no consumed BEDC structure beyond applying an unconsumed bridge premise to an existing split theorem, it was removed. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-03T04:15:29Z: `resolved` `add_downstream_user` for `BEDC.Derived.GaussianPrimeUp.sum_two_squares_splits` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.sum_two_squares_splits:4c2d5c81`). Rationale: The theorem is real BEDC content: it transports a two-square integer representation into the Gaussian split predicate, not just a restatement. It had no downstream full-name references, so I added a JacobiSumUp consumer theorem that takes an existing SquareSumJacobiContact certificate, exports its two-square representation, and feeds it through sum_two_squares_splits to produce a GaussianSplit for the prime integer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
