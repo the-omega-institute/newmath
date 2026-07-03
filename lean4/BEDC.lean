@@ -10472,6 +10472,7 @@ import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.StripArchimedeanBound
 import BEDC.Derived.RHRoute.StripExclusionAssembly
 import BEDC.Derived.RHRoute.StripFirstZerosK29Core
+import BEDC.Derived.RHRoute.StripFirstZerosK29Window
 import BEDC.Derived.RHRoute.StripRationalKit
 import BEDC.Derived.RHRoute.ThreeFourOneSOS
 import BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse
