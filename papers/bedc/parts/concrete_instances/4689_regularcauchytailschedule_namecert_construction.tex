@@ -122,3 +122,19 @@ Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-name
 
 Finally apply seal-facing route determinacy, \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy}. Once the displayed entrance rows, sibling consumer rows, transport rows, continuation route, provenance, and naming row are fixed, the terminal seal-facing row is fixed up to $\hsame$. Since the carrier has no coordinate for quotient stream equality, selected limits, unbounded diagonal streams, hidden tail selectors, or ambient completeness, no accepted schedule obligation can escape the listed scope.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule obligation-closure package]
+\label{thm:regular-cauchy-tail-schedule-obligation-closure-package}
+For every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+the carrier admission, classifier stability, schedule exactness, sibling-consumer handoff, and ledger non-escape rows jointly form the obligation-closure package for the finite precision-to-cofinal-tail schedule. The package binds the $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows displayed in $S$, and it exports no quotient stream equality, selected completed limit, unbounded diagonal stream, hidden tail selector, host real equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and classifier stability. The carrier definition \autoref{def:regular-cauchy-tail-schedule-carrier} lists exactly $Q,R,W,D,K,T,M,F,E,H,C,P,N$, and the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations} transport only those displayed rows.
+
+Next read the exactness and handoff rows. The handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route} forces every seal-facing read to pass through $Q,R,W,D,K,T,M,F$, while \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy} fixes the terminal $\RealUp$ handoff once those rows, the transport rows, the continuation replay, provenance, and local naming are fixed.
+
+Finally apply the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedule-scope-binding}. It keeps every accepted obligation inside the same displayed rows and excludes quotient stream equality, selected limits, unbounded diagonal streams, hidden tail selectors, and ambient completeness. The five rows therefore form the promised obligation-closure package.
+\end{proof}
