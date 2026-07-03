@@ -44,6 +44,22 @@ The checker obligation reads $T$ only against entries already present in $E$. Th
 Finally read $R,H,K,P,N$. The regression row names the finite families whose checked behavior is preserved as a gallery surface, while transport, replay, provenance, and local naming keep every consumer inside the same displayed packet. No row adds a general subject-reduction, normalisation, confluence, global conversion, proof-erasure, or host-evaluation endpoint.
 \end{proof}
 
+\begin{theorem}[TypedExampleGallery finite obligation surface]
+\label{thm:typedexamplegallery-obligation-surface}
+Every public $\TypedExampleGalleryUp$ read factors through the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and through sibling provenance to the closed-substitution boundary, the typechecking derivation trace, and the proof-term erasure trace. The read exposes gallery entries, checker derivation data, closedness inputs, selected beta rows, regression rows, transport, replay, provenance, and local naming; it refuses subject reduction, normalization, confluence, conversion decidability, and host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The visible rows are exactly $E,T,C,B,R,H,K,P,N$, so every public gallery read starts inside the finite packet rather than from a global MetaCIC theorem.
+
+Apply \autoref{thm:typed-example-gallery-namecert-obligations}. Its carrier admission, checker visibility, closedness visibility, beta visibility, and regression-surface visibility clauses force the read through the displayed rows before transport, replay, provenance, and local naming are consumed.
+
+Finally use \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-closed-beta-regression-route}. The regression theorem keeps the public surface finite, while the closed-beta route sends the examples through closed substitution, typechecking derivation trace, and proof-term erasure trace as sibling provenance. Since no carrier coordinate stores subject reduction, normalization, confluence, conversion decidability, or host evaluation, none of those endpoints is exported.
+\end{proof}
+
 \begin{theorem}[Typed example gallery obligation frontier]
 \label{thm:typed-example-gallery-obligation-frontier}
 Every obligation consumer of an accepted $\TypedExampleGalleryUp$ packet must expose the rows
