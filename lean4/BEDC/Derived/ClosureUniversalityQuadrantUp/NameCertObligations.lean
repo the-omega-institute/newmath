@@ -92,17 +92,18 @@ theorem ClosureUniversalityQuadrantCarrier_obligation_basis
       x =
           ClosureUniversalityQuadrantUp.mk universality closure tag substrate anchors transport
             routes provenance nameCert ∧
-        List.Mem (closureUniversalityQuadrantEncodeBHist tag) (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist tag)
+          (closureUniversalityQuadrantToEventFlow x) ∧
         List.Mem (closureUniversalityQuadrantEncodeBHist substrate)
-          (BHistCarrier.toEventFlow x) ∧
+          (closureUniversalityQuadrantToEventFlow x) ∧
         List.Mem (closureUniversalityQuadrantEncodeBHist anchors)
-          (BHistCarrier.toEventFlow x) ∧
+          (closureUniversalityQuadrantToEventFlow x) ∧
         List.Mem (closureUniversalityQuadrantEncodeBHist routes)
-          (BHistCarrier.toEventFlow x) ∧
+          (closureUniversalityQuadrantToEventFlow x) ∧
         List.Mem (closureUniversalityQuadrantEncodeBHist provenance)
-          (BHistCarrier.toEventFlow x) ∧
+          (closureUniversalityQuadrantToEventFlow x) ∧
         List.Mem (closureUniversalityQuadrantEncodeBHist nameCert)
-          (BHistCarrier.toEventFlow x) := by
+          (closureUniversalityQuadrantToEventFlow x) := by
   -- BEDC touchpoint anchor: BHist BMark BHistCarrier
   cases x with
   | mk universality closure tag substrate anchors transport routes provenance nameCert =>
