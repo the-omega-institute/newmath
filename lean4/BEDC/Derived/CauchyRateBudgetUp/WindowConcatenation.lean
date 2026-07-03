@@ -112,4 +112,86 @@ theorem CauchyRateBudgetWindowConcatenation
     ⟨cert, firstWindowUnary, firstReadbackUnary, firstToleranceUnary, secondWindowUnary,
       secondReadbackUnary, secondToleranceUnary, joinedBudgetUnary, joinedSealUnary⟩
 
+theorem CauchyRateBudgetWindowConcatenation_namecert_scoped_route
+    {R0 W0 Q0 D0 E0 H0 C0 P0 N0 R1 W1 Q1 D1 E1 H1 C1 P1 N1 firstWindow
+      firstReadback firstTolerance secondWindow secondReadback secondTolerance joinedBudget
+      joinedSeal : BHist} :
+    CauchyRateBudgetCarrier R0 W0 Q0 D0 E0 H0 C0 P0 N0 →
+      CauchyRateBudgetCarrier R1 W1 Q1 D1 E1 H1 C1 P1 N1 →
+        Cont R0 W0 firstWindow →
+          Cont firstWindow Q0 firstReadback →
+            Cont firstReadback D0 firstTolerance →
+              Cont R1 W1 secondWindow →
+                Cont secondWindow Q1 secondReadback →
+                  Cont secondReadback D1 secondTolerance →
+                    Cont firstTolerance secondTolerance joinedBudget →
+                      Cont joinedBudget E1 joinedSeal →
+                        (SemanticNameCert
+                              (fun row : BHist =>
+                                hsame row R0 ∨ hsame row W0 ∨ hsame row Q0 ∨
+                                  hsame row D0 ∨ hsame row E0 ∨ hsame row H0 ∨
+                                    hsame row C0 ∨ hsame row P0 ∨ hsame row N0)
+                              (fun row : BHist =>
+                                hsame row R0 ∨ hsame row W0 ∨ hsame row Q0 ∨
+                                  hsame row D0 ∨ hsame row E0 ∨ hsame row H0 ∨
+                                    hsame row C0 ∨ hsame row P0 ∨ hsame row N0)
+                              (fun row : BHist =>
+                                hsame row R0 ∨ hsame row W0 ∨ hsame row Q0 ∨
+                                  hsame row D0 ∨ hsame row E0 ∨ hsame row H0 ∨
+                                    hsame row C0 ∨ hsame row P0 ∨ hsame row N0)
+                              hsame ∧
+                            cauchyRateBudgetFields
+                                (CauchyRateBudgetUp.mk R0 W0 Q0 D0 E0 H0 C0 P0 N0) =
+                              [R0, W0, Q0, D0, E0, H0, C0, P0, N0]) ∧
+                          (SemanticNameCert
+                              (fun row : BHist =>
+                                hsame row R1 ∨ hsame row W1 ∨ hsame row Q1 ∨
+                                  hsame row D1 ∨ hsame row E1 ∨ hsame row H1 ∨
+                                    hsame row C1 ∨ hsame row P1 ∨ hsame row N1)
+                              (fun row : BHist =>
+                                hsame row R1 ∨ hsame row W1 ∨ hsame row Q1 ∨
+                                  hsame row D1 ∨ hsame row E1 ∨ hsame row H1 ∨
+                                    hsame row C1 ∨ hsame row P1 ∨ hsame row N1)
+                              (fun row : BHist =>
+                                hsame row R1 ∨ hsame row W1 ∨ hsame row Q1 ∨
+                                  hsame row D1 ∨ hsame row E1 ∨ hsame row H1 ∨
+                                    hsame row C1 ∨ hsame row P1 ∨ hsame row N1)
+                              hsame ∧
+                            cauchyRateBudgetFields
+                                (CauchyRateBudgetUp.mk R1 W1 Q1 D1 E1 H1 C1 P1 N1) =
+                              [R1, W1, Q1, D1, E1, H1, C1, P1, N1]) ∧
+                            SemanticNameCert
+                                (fun row : BHist => hsame row joinedSeal ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row R0 ∨ hsame row W0 ∨ hsame row Q0 ∨
+                                    hsame row D0 ∨ hsame row R1 ∨ hsame row W1 ∨
+                                      hsame row Q1 ∨ hsame row D1 ∨
+                                        hsame row joinedBudget ∨ hsame row joinedSeal)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont R0 W0 firstWindow ∧
+                                    Cont firstWindow Q0 firstReadback ∧
+                                      Cont firstReadback D0 firstTolerance ∧
+                                        Cont R1 W1 secondWindow ∧
+                                          Cont secondWindow Q1 secondReadback ∧
+                                            Cont secondReadback D1 secondTolerance ∧
+                                              Cont firstTolerance secondTolerance joinedBudget ∧
+                                                Cont joinedBudget E1 joinedSeal)
+                                hsame ∧
+                              UnaryHistory joinedBudget ∧ UnaryHistory joinedSeal := by
+  intro firstCarrier secondCarrier firstWindowRoute firstReadbackRoute firstToleranceRoute
+    secondWindowRoute secondReadbackRoute secondToleranceRoute joinedBudgetRoute joinedSealRoute
+  have firstObligations :=
+    BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetCarrier_namecert_obligations
+      R0 W0 Q0 D0 E0 H0 C0 P0 N0
+  have secondObligations :=
+    BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetCarrier_namecert_obligations
+      R1 W1 Q1 D1 E1 H1 C1 P1 N1
+  have joined :=
+    CauchyRateBudgetWindowConcatenation
+      firstCarrier secondCarrier firstWindowRoute firstReadbackRoute firstToleranceRoute
+      secondWindowRoute secondReadbackRoute secondToleranceRoute joinedBudgetRoute joinedSealRoute
+  exact
+    ⟨firstObligations, secondObligations, joined.left,
+      joined.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.CauchyRateBudgetUp
