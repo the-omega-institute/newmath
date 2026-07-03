@@ -27,6 +27,7 @@ import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
+import BedcMathlibBridge.Export.CakeNumber
 import BedcMathlibBridge.Export.OddDoubleFactorial
 import BedcMathlibBridge.Export.Square
 import BedcMathlibBridge.Export.Pronic
