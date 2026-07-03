@@ -9,6 +9,7 @@ import BedcMathlibBridge.Constructive.Fibonacci
 import BedcMathlibBridge.Constructive.Lucas
 import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.Factorial
+import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
@@ -17,6 +18,8 @@ import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
+import BedcMathlibBridge.Constructive.Delannoy
+import BedcMathlibBridge.Constructive.Pell
 import BedcMathlibBridge.Constructive.QBinomial
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Tetrahedral

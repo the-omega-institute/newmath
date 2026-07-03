@@ -1,0 +1,475 @@
+\chapter{Innovation Input Finite-Block Reversibility Boundary}
+\label{ch:visions-innovation-input-finite-block-reversibility-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-self-substitution-correlation-boundary}
+closes the two-point correlation recursion for self-substitution phase
+words. This chapter separates that two-point result from the stronger
+finite-block question. The ternary Q3 row has real two-point correlations,
+but a four-point balanced block still detects a chiral residue.
+
+\section{Signed Blocks}
+\label{sec:innovation-input-finite-block-signed-blocks}
+
+\begin{definition}[Signed block]
+\label{def:innovation-input-signed-block}
+A signed block is a finite integer combination
+$$
+\alpha=\sum_{j=1}^r e_j\delta_{m_j},
+$$
+where
+$$
+m_j\in\mathbb Z_{\ge0},
+\qquad
+e_j\in\mathbb Z\setminus\{0\}.
+$$
+Its phase monomial is
+$$
+U_\alpha(n)
+:=
+\prod_{j=1}^r u_{n+m_j}^{e_j}.
+$$
+Since $|u_n|=1$, negative exponents are interpreted as conjugate powers,
+so $u_n^{-1}=\overline{u_n}$.
+\end{definition}
+
+\begin{definition}[Charge and balanced blocks]
+\label{def:innovation-input-balanced-block}
+The charge of a signed block is
+$$
+Q(\alpha):=\sum_{j=1}^r e_j.
+$$
+The block is balanced when $Q(\alpha)=0$. Balanced blocks are the
+correlation observables that pair phase and conjugate phase contributions;
+unbalanced blocks carry a net phase charge and are not the finite-block
+analogue of the two-point row.
+\end{definition}
+
+\begin{definition}[Finite-block correlation]
+\label{def:innovation-input-finite-block-correlation}
+Let $M(\alpha)=\max_j m_j$. When the limit exists, define
+$$
+\Gamma(\alpha)
+:=
+\lim_{K\to\infty}
+\frac{1}{N^K}
+\sum_{n=0}^{N^K-1-M(\alpha)}
+U_\alpha(n).
+$$
+The two-point row is the special case
+$$
+\Gamma(\delta_0-\delta_m)=\overline{\gamma(m)}.
+$$
+When $\gamma(m)$ is real, this agrees with $\gamma(m)$.
+\end{definition}
+
+\begin{definition}[Translation of a block]
+\label{def:innovation-input-block-translation}
+For $c\in\mathbb Z_{\ge0}$, set
+$$
+\tau_c\alpha:=\sum_{j=1}^r e_j\delta_{m_j+c}.
+$$
+Whenever both limits exist,
+$$
+\Gamma(\tau_c\alpha)=\Gamma(\alpha).
+$$
+Thus blocks that differ by a common translation represent the same
+finite-block correlation.
+\end{definition}
+
+\section{Weak Reversibility Layers}
+\label{sec:innovation-input-finite-block-weak-reversibility}
+
+\begin{definition}[Order of a signed block]
+\label{def:innovation-input-signed-block-order}
+The order of a signed block is
+$$
+|\alpha|:=\sum_j |e_j|.
+$$
+\end{definition}
+
+\begin{definition}[Order-bounded weak reversibility]
+\label{def:innovation-input-order-bounded-weak-reversibility}
+A self-substitution phase word is $d$-order weakly reversible when every
+balanced signed block with $|\alpha|\le d$ satisfies
+$$
+\Gamma(\alpha)\in\mathbb R.
+$$
+The case $d=2$ is exactly two-point weak reversibility.
+\end{definition}
+
+\begin{definition}[Finite-block weak reversibility]
+\label{def:innovation-input-finite-block-weak-reversibility}
+A self-substitution phase word is finite-block weakly reversible when
+$$
+\Gamma(\alpha)\in\mathbb R
+$$
+for every balanced signed block $\alpha$ for which the correlation exists.
+\end{definition}
+
+\begin{principle}[Reversibility hierarchy]
+\label{prin:innovation-input-reversibility-hierarchy}
+The weak reversibility layers satisfy
+$$
+\text{finite-block weak reversibility}
+\Longrightarrow
+d\text{-order weak reversibility}
+\Longrightarrow
+2\text{-order weak reversibility}.
+$$
+The implications are one-way assertions. The ternary computation below
+shows that the last implication cannot be reversed.
+\end{principle}
+
+\section{Finite-Block Carry Recursion}
+\label{sec:innovation-input-finite-block-carry-recursion}
+
+\begin{definition}[Carry branch of a signed block]
+\label{def:innovation-input-signed-block-carry-branch}
+For a signed block
+$$
+\alpha=\sum_j e_j\delta_{m_j}
+$$
+and a residue $a\in\{0,\ldots,N-1\}$, write
+$$
+a+m_j=Nq_{j,a}+r_{j,a},
+\qquad
+0\le r_{j,a}<N.
+$$
+The branch coefficient and branch block are
+$$
+C_a(\alpha):=\prod_j v_{r_{j,a}}^{e_j},
+$$
+and
+$$
+\alpha_a:=\sum_j e_j\delta_{q_{j,a}}.
+$$
+After the branch is formed, a common translation may be removed by
+\autoref{def:innovation-input-block-translation}.
+\end{definition}
+
+\begin{lemma}[Charge preservation under carry branches]
+\label{lem:innovation-input-carry-branch-charge-preservation}
+For every residue $a$,
+$$
+Q(\alpha_a)=Q(\alpha).
+$$
+In particular, balanced blocks have balanced carry branches.
+\end{lemma}
+
+\begin{proof}
+The carry branch changes only the locations of the atoms:
+$$
+\alpha_a=\sum_j e_j\delta_{q_{j,a}}.
+$$
+The integer coefficients $e_j$ are unchanged, so their sum is unchanged.
+\end{proof}
+
+\begin{theorem}[Finite-block carry recursion]
+\label{thm:innovation-input-finite-block-carry-recursion}
+If $\Gamma(\alpha)$ and all branch correlations $\Gamma(\alpha_a)$ exist,
+then
+$$
+\Gamma(\alpha)
+=
+\frac1N
+\sum_{a=0}^{N-1}
+C_a(\alpha)\Gamma(\alpha_a).
+$$
+\end{theorem}
+
+\begin{proof}
+Split the finite-level average by writing $n=Nb+a$. For each atom,
+$$
+n+m_j=Nb+a+m_j=N(b+q_{j,a})+r_{j,a}.
+$$
+The self-substitution rule gives
+$$
+u_{n+m_j}=v_{r_{j,a}}u_{b+q_{j,a}},
+$$
+hence
+$$
+u_{n+m_j}^{e_j}
+=
+v_{r_{j,a}}^{e_j}u_{b+q_{j,a}}^{e_j}.
+$$
+Multiplying over $j$ gives
+$$
+U_\alpha(Nb+a)=C_a(\alpha)U_{\alpha_a}(b).
+$$
+Averaging first over residues and then letting $K\to\infty$ gives the
+displayed recursion; boundary terms have vanishing relative size.
+\end{proof}
+
+\section{Ternary Four-Point Test}
+\label{sec:innovation-input-ternary-four-point-test}
+
+\begin{definition}[Ternary Q3 row]
+\label{def:innovation-input-ternary-qthree-row}
+Let
+$$
+A=e^{i\pi/6},
+\qquad
+B=e^{-i\pi/2},
+\qquad
+v=(A,B,A).
+$$
+Then $A+B+A=\sqrt3$, so this is a ternary Q3-compatible
+self-substitution phase word. By
+\autoref{prin:innovation-input-ternary-weakly-reversible-word}, all its
+two-point correlations are real.
+\end{definition}
+
+\begin{definition}[Four-point test block]
+\label{def:innovation-input-four-point-test-block}
+Set
+$$
+\alpha_\star:=\delta_0+\delta_1-\delta_3-\delta_5.
+$$
+It is balanced, since $Q(\alpha_\star)=1+1-1-1=0$, and has order
+$|\alpha_\star|=4$. Its correlation is
+$$
+\Gamma(\alpha_\star)
+=
+\left\langle
+u_nu_{n+1}\overline{u_{n+3}}\overline{u_{n+5}}
+\right\rangle.
+$$
+\end{definition}
+
+\begin{definition}[Ternary auxiliary correlations]
+\label{def:innovation-input-ternary-auxiliary-correlations}
+Let
+$$
+\omega:=e^{2\pi i/3}
+=
+-\frac12+\frac{\sqrt3}{2}i.
+$$
+For the ternary row, set
+$$
+X:=\Gamma(2\delta_0-2\delta_1),
+$$
+$$
+Y:=\Gamma(\delta_0-\delta_1),
+$$
+$$
+V:=\Gamma(\delta_0-\delta_2),
+$$
+$$
+W:=\Gamma(2\delta_0-\delta_1-\delta_2),
+$$
+and
+$$
+Z:=\Gamma(\delta_0+\delta_1-\delta_3-\delta_5).
+$$
+\end{definition}
+
+\begin{lemma}[Ternary two-point and squared two-point values]
+\label{lem:innovation-input-ternary-two-point-auxiliary-values}
+For the ternary row,
+$$
+Y=-\frac12,
+\qquad
+V=\frac12,
+\qquad
+X=-\frac12.
+$$
+\end{lemma}
+
+\begin{proof}
+For $Y=\Gamma(\delta_0-\delta_1)$, the carry branches give
+$$
+Y=\frac13(\omega+\overline\omega+Y)
+=
+\frac13(-1+Y),
+$$
+so $Y=-1/2$.
+
+For $V=\Gamma(\delta_0-\delta_2)$, the carry branches give
+$$
+V=\frac13\bigl(1+(\omega+\overline\omega)Y\bigr)
+=
+\frac13(1-Y).
+$$
+Substituting $Y=-1/2$ gives $V=1/2$.
+
+For $X=\Gamma(2\delta_0-2\delta_1)$, the carry branches give
+$$
+X=\frac13(\overline\omega+\omega+X)
+=
+\frac13(-1+X).
+$$
+Thus $X=-1/2$.
+\end{proof}
+
+\begin{lemma}[Ternary three-point auxiliary cancellation]
+\label{lem:innovation-input-ternary-three-point-auxiliary-cancellation}
+For the ternary row,
+$$
+W=\Gamma(2\delta_0-\delta_1-\delta_2)=0.
+$$
+\end{lemma}
+
+\begin{proof}
+For the block $2\delta_0-\delta_1-\delta_2$, all three carry branch
+coefficients are $\omega$, and the branch correlations are $1$, $Y$, and
+$X$. Therefore
+$$
+W=\frac13\omega(1+Y+X).
+$$
+By \autoref{lem:innovation-input-ternary-two-point-auxiliary-values},
+$$
+1+Y+X=1-\frac12-\frac12=0.
+$$
+Hence $W=0$.
+\end{proof}
+
+\begin{theorem}[Ternary four-point chirality]
+\label{thm:innovation-input-ternary-four-point-chirality}
+For the ternary Q3 row
+$$
+v=(e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}),
+$$
+one has
+$$
+\Gamma(\delta_0+\delta_1-\delta_3-\delta_5)
+=
+\frac{i\sqrt3}{6}.
+$$
+Consequently this row is two-point weakly reversible but not
+$4$-order weakly reversible.
+\end{theorem}
+
+\begin{proof}
+Write
+$$
+Z:=\Gamma(\delta_0+\delta_1-\delta_3-\delta_5).
+$$
+The three carry branches of $\alpha_\star$ give
+$$
+a=0:
+\qquad
+\overline\omega X,
+$$
+$$
+a=1:
+\qquad
+W,
+$$
+and
+$$
+a=2:
+\qquad
+\omega V.
+$$
+Thus
+$$
+Z=
+\frac13
+\left(
+\overline\omega X+W+\omega V
+\right).
+$$
+Using
+\autoref{lem:innovation-input-ternary-two-point-auxiliary-values} and
+\autoref{lem:innovation-input-ternary-three-point-auxiliary-cancellation},
+$$
+Z=
+\frac13
+\left(
+-\frac12\overline\omega+\frac12\omega
+\right)
+=
+\frac16(\omega-\overline\omega).
+$$
+Since
+$$
+\omega-\overline\omega=i\sqrt3,
+$$
+the claimed value follows.
+\end{proof}
+
+\begin{corollary}[Two-point reversibility does not force finite-block reversibility]
+\label{cor:innovation-input-two-point-not-finite-block-reversible}
+There exists a Q3-compatible self-substitution phase word such that
+$$
+\gamma(m)\in\mathbb R
+\qquad
+\text{for all }m\ge0,
+$$
+while some balanced finite-block correlation is not real.
+\end{corollary}
+
+\begin{proof}
+The ternary row of
+\autoref{def:innovation-input-ternary-qthree-row} has real two-point
+correlations by
+\autoref{prin:innovation-input-ternary-weakly-reversible-word}. The
+balanced block $\alpha_\star$ of
+\autoref{def:innovation-input-four-point-test-block} has nonreal
+correlation by \autoref{thm:innovation-input-ternary-four-point-chirality}.
+\end{proof}
+
+\section{Layer Separation}
+\label{sec:innovation-input-finite-block-layer-separation}
+
+\begin{principle}[Chirality moves upward]
+\label{prin:innovation-input-chirality-moves-upward}
+For the ternary row, the two-point carry coefficients
+$$
+s_1=-1,
+\qquad
+s_2=1
+$$
+are real, so the two-point row sees no phase arrow. The four-point block
+with sites $0,1,3,5$ crosses the ternary digit boundaries differently:
+its carry branches leave the asymmetric residue
+$$
+\frac16(\omega-\overline\omega)=\frac{i\sqrt3}{6}.
+$$
+Thus the ternary row removes the arrow from the two-point layer but does
+not remove it from all finite-block layers.
+\end{principle}
+
+\begin{principle}[Reversibility audit table]
+\label{prin:innovation-input-reversibility-audit-table}
+The basic Q3 rows occupy different levels of the audit hierarchy:
+$$
+\begin{array}{c|c|c|c}
+\text{audit layer} & \text{object} & N=2\text{ Q3 row} & N=3\text{ Q3 row}\\
+\hline
+\text{first two-point} &
+\operatorname{Im}\gamma(1) &
+\ne0 &
+0\\
+\text{all two-point} &
+\gamma(m)\in\mathbb R\ \forall m &
+\text{no} &
+\text{yes}\\
+\text{four-point} &
+\Gamma(\delta_0+\delta_1-\delta_3-\delta_5) &
+\text{not needed} &
+\frac{i\sqrt3}{6}\\
+\text{finite-block weak} &
+\Gamma(\alpha)\in\mathbb R\ \forall Q(\alpha)=0 &
+\text{no} &
+\text{no}\\
+\text{RP/OS} &
+\text{reflection-positive matrices} &
+\text{undecided} &
+\text{undecided}
+\end{array}
+$$
+The table separates two-point weak reversibility, finite-block weak
+reversibility, and RP/OS positivity. None of the stronger layers may be
+inferred from real two-point correlations alone.
+\end{principle}
+
+\begin{principle}[Reflection-positive boundary]
+\label{prin:innovation-input-finite-block-rp-boundary}
+Finite-block realness is still weaker than reflection positivity. The
+finite-window reflection-positive audit is separated in
+\autoref{ch:visions-innovation-input-finite-window-rp-boundary}. The
+four-point computation above is therefore a layer-separation result, not
+an RP certificate.
+\end{principle}

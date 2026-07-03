@@ -48,6 +48,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Binomial.BinomialExportWitness },
   { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
     witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
   { witness := `BedcMathlibBridge.Export.Catalan.catalanExport,
     witnessType := `BedcMathlibBridge.Export.Catalan.CatalanExportWitness },
   { witness := `BedcMathlibBridge.Export.StirlingFirst.stirlingFirstExport,
@@ -71,6 +74,12 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CentralBinom.centralBinomExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralBinom.CentralBinomExportWitness },
+  { witness := `BedcMathlibBridge.Export.Delannoy.delannoyClosedFormTermExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Delannoy.DelannoyClosedFormTermExportWitness },
+  { witness := `BedcMathlibBridge.Export.Pell.pellRecurrenceExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Pell.PellRecurrenceExportWitness },
   { witness := `BedcMathlibBridge.Export.QBinomial.qBinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.QBinomial.QBinomialExportWitness },

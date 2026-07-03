@@ -1,0 +1,357 @@
+\chapter{Innovation Input Pentary Palindromic RP Exclusion}
+\label{ch:visions-innovation-input-pentary-palindromic-rp-exclusion}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-palindromic-hermitian-reduction}
+reduces the pentary palindromic Q3 search to a Hermitian
+positive-semidefinite problem on a real curve. This chapter sharpens that
+reduction: inside the palindromic Q3 locus, the anchored $L=2$ neutral RP
+window is rigid. The only rows that pass it are the Pythagorean row and
+its conjugate, and those rows fail at anchored $L=3$.
+
+\section{Literature Positioning}
+\label{sec:innovation-input-palindromic-rp-literature-positioning}
+
+\begin{principle}[Adjacent traditions]
+\label{prin:innovation-input-adjacent-traditions}
+The finite-window Q3/RP search lies near three established bodies of
+work. Constant-length substitution systems and generalized
+Thue--Morse sequences provide the closest symbolic-dynamical context:
+Baake--Grimm type diffraction calculations and generalized
+Thue--Morse Riesz products explain why recursive correlation calculations
+are the natural language for self-substitution phase rows. Reflection
+positivity and Osterwalder--Schrader reconstruction provide the
+operator-theoretic context: Jaffe-style reflection-positive frameworks,
+Jorgensen-style spectral formulations, and lattice-spin RP methods all
+stress that the relevant object is not merely real two-point correlation,
+but a reflected quadratic form that must be positive. Hankel, Toeplitz,
+and moment-kernel positivity supply a nearby matrix-positivity toolkit for
+finite principal windows.
+
+The present object combines these themes in a more specific finite
+problem: constant-length complex phase self-substitution, the Q3 phase-sum
+constraint, anchored neutral windows, and explicit RP matrices. The
+calculations below treat that finite object directly rather than importing
+an ambient spectral theorem.
+\end{principle}
+
+\section{Anchored $L=2$ Matrix}
+\label{sec:innovation-input-palindromic-ltwo-matrix}
+
+\begin{definition}[Palindromic anchored $L=2$ structure]
+\label{def:innovation-input-palindromic-ltwo-structure}
+For a pentary palindromic Q3 row $v=(a,b,c,b,a)$, take
+$$
+F:=u_{n+1}\overline{u_{n+2}}
+$$
+and
+$$
+\alpha:=\delta_1-\delta_2.
+$$
+The anchored neutral $L=2$ window is
+$$
+\mathcal B_2=\{0,\alpha,-\alpha\}.
+$$
+Write
+$$
+\mu:=\langle F\rangle=\Gamma(\delta_0-\delta_1),
+$$
+$$
+D:=\langle\theta F,F\rangle
+=
+\Gamma(\delta_0-\delta_1+\delta_2-\delta_3),
+$$
+and
+$$
+C:=\langle\theta F,\overline F\rangle
+=
+\Gamma(\delta_0-\delta_1-\delta_2+\delta_3).
+$$
+By
+\autoref{cor:innovation-input-palindromic-hermitian-neutral-rp}, the
+matrix is Hermitian, so it has the form
+$$
+M_2(v)=
+\left(
+\begin{array}{ccc}
+1 & \mu & \mu\\
+\mu & D & C\\
+\mu & \overline C & D
+\end{array}
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Palindromic $L=2$ semidefinite tests]
+\label{thm:innovation-input-palindromic-ltwo-semidefinite-tests}
+If $M_2(v)\succeq0$, then
+$$
+D\ge |C|
+$$
+and
+$$
+\det M_2(v)\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+The lower-right principal block is
+$$
+\left(
+\begin{array}{cc}
+D & C\\
+\overline C & D
+\end{array}
+\right),
+$$
+whose eigenvalues are $D+|C|$ and $D-|C|$. Positivity of this principal
+block gives $D\ge |C|$. Positivity of the full Hermitian matrix gives
+$\det M_2(v)\ge0$.
+\end{proof}
+
+\section{Half-Angle Curve}
+\label{sec:innovation-input-palindromic-half-angle-curve}
+
+\begin{definition}[Half-angle variables]
+\label{def:innovation-input-palindromic-half-angle-variables}
+For the edge variables
+$$
+q=e^{i\alpha},
+\qquad
+r=e^{i\beta},
+$$
+set
+$$
+u:=\tan\frac{\alpha}{2},
+\qquad
+w:=\tan\frac{\beta}{2}.
+$$
+Then
+$$
+q=\frac{1+iu}{1-iu},
+\qquad
+r=\frac{1+iw}{1-iw}.
+$$
+\end{definition}
+
+\begin{lemma}[Half-angle Q3 equation]
+\label{lem:innovation-input-palindromic-half-angle-qthree-equation}
+The pentary palindromic Q3 equation is equivalent to
+$$
+-u^2w^2-u^2-4uw+w^2+5=0.
+$$
+Equivalently,
+$$
+(1-u^2)w^2-4uw+(5-u^2)=0.
+$$
+\end{lemma}
+
+\begin{proof}
+Use
+$$
+\cos\alpha=\frac{1-u^2}{1+u^2},
+\qquad
+\cos\beta=\frac{1-w^2}{1+w^2},
+$$
+and
+$$
+\cos(\alpha+\beta)
+=
+\frac{(1-u^2)(1-w^2)-4uw}{(1+u^2)(1+w^2)}.
+$$
+Substitution into the curve equation
+$$
+2\cos\alpha+\cos\beta+\cos(\alpha+\beta)=-1
+$$
+from
+\autoref{thm:innovation-input-pentary-palindromic-qthree-equation}
+gives the displayed polynomial equation after clearing denominators.
+\end{proof}
+
+\section{Determinant Factorization}
+\label{sec:innovation-input-palindromic-determinant-factorization}
+
+\begin{definition}[Palindromic determinant numerator]
+\label{def:innovation-input-palindromic-determinant-numerator}
+Define
+$$
+\begin{aligned}
+P(u,w):={}&u^4w^2-2u^3w^3-2u^3w
++5u^2w^4+12u^2w^2+5u^2\\
+&-2uw^3-2uw+w^2.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Anchored $L=2$ determinant factorization]
+\label{thm:innovation-input-palindromic-ltwo-determinant-factorization}
+On the pentary palindromic Q3 locus,
+$$
+\det M_2(v)
+=
+-
+\frac{
+16(u-w)^2(u+w)^2P(u,w)
+}{
+25(1+u^2)^4(1+w^2)^4
+}.
+$$
+Moreover $P(u,w)>0$ on the real Q3 curve. Hence
+$$
+\det M_2(v)\le0.
+$$
+\end{theorem}
+
+\begin{proof}
+Substitute
+$$
+q=\frac{1+iu}{1-iu},
+\qquad
+r=\frac{1+iw}{1-iw}
+$$
+into the anchored $L=2$ quantities of
+\autoref{def:innovation-input-palindromic-ltwo-structure}. The determinant
+of the Hermitian matrix is
+$$
+\det M_2(v)
+=
+D^2-|C|^2-2\mu^2(D-\operatorname{Re}C).
+$$
+Direct simplification gives the displayed factorization.
+
+It remains to record why the last factor has no sign change on the real
+Q3 curve. Eliminating $w$ between $P(u,w)=0$ and
+\autoref{lem:innovation-input-palindromic-half-angle-qthree-equation}
+gives, with $z=u^2$,
+$$
+z^6+6z^5+119z^4+84z^3+5615z^2-730z+25.
+$$
+Its Sturm chain has no nonnegative real root. Since $P(1,1)=16>0$, the
+factor $P$ is positive on the real Q3 curve. The denominator is positive,
+so the sign of the determinant is controlled by the leading minus sign
+and the two square factors.
+\end{proof}
+
+\section{Anchored $L=2$ Rigidity}
+\label{sec:innovation-input-palindromic-ltwo-rigidity}
+
+\begin{theorem}[Palindromic $L=2$ rigidity]
+\label{thm:innovation-input-palindromic-ltwo-rigidity}
+For $v\in\mathcal P_5$, the matrix $M_2(v)$ is positive semidefinite if
+and only if
+$$
+q=r=i
+$$
+or
+$$
+q=r=-i.
+$$
+Equivalently, the only pentary palindromic Q3 rows passing anchored
+$L=2$ neutral RP are the Pythagorean row
+$$
+v_\star=(a,b,-a,b,a),
+\qquad
+a=\frac{1+2i}{\sqrt5},
+\qquad
+b=\frac{2-i}{\sqrt5},
+$$
+and its complex conjugate.
+\end{theorem}
+
+\begin{proof}
+If $M_2(v)\succeq0$, then
+\autoref{thm:innovation-input-palindromic-ltwo-semidefinite-tests} gives
+$\det M_2(v)\ge0$. By
+\autoref{thm:innovation-input-palindromic-ltwo-determinant-factorization},
+the determinant is nonpositive, and $P(u,w)>0$ on the real Q3 curve.
+Therefore
+$$
+(u-w)^2(u+w)^2=0,
+$$
+so either $u=w$ or $u=-w$.
+
+If $u=w$, the half-angle Q3 equation becomes
+$$
+-u^4-4u^2+5=0.
+$$
+With $z=u^2$, this is
+$$
+z^2+4z-5=0,
+$$
+so the real solutions have $u^2=1$. Hence $u=w=1$ or $u=w=-1$, giving
+$q=r=i$ or $q=r=-i$.
+
+If $u=-w$, the half-angle Q3 equation becomes
+$$
+-u^4+4u^2+5=0.
+$$
+With $z=u^2$, this is
+$$
+z^2-4z-5=0,
+$$
+so the real branch has $u^2=5$. On this branch, direct substitution gives
+$$
+D=\frac13,
+\qquad
+|C|=\frac59.
+$$
+Thus $D-|C|=-2/9<0$, contradicting the lower-right principal minor
+condition. The branch $u=-w$ is excluded.
+
+For $q=r=i$, the Q3 reconstruction in
+\autoref{thm:innovation-input-pentary-palindromic-qthree-equation} gives
+the displayed Pythagorean row. The case $q=r=-i$ is its complex
+conjugate. Conversely,
+\autoref{cor:innovation-input-pythagorean-ltwo-rp-passage} shows that the
+Pythagorean row passes anchored $L=2$ neutral RP, and conjugation preserves
+the same real positive-semidefinite matrix.
+\end{proof}
+
+\section{Anchored $L=3$ Exclusion}
+\label{sec:innovation-input-palindromic-lthree-exclusion}
+
+\begin{theorem}[No pentary palindromic anchored $L=3$ candidate]
+\label{thm:innovation-input-no-palindromic-lthree-candidate}
+There is no row
+$$
+v\in\mathcal P_5
+$$
+that passes anchored $L=3$ neutral RP.
+\end{theorem}
+
+\begin{proof}
+If $v\in\mathcal P_5$ passed anchored $L=3$ neutral RP, it would pass the
+anchored $L=2$ subwindow. By
+\autoref{thm:innovation-input-palindromic-ltwo-rigidity}, $v$ would be the
+Pythagorean row or its complex conjugate. But
+\autoref{thm:innovation-input-pythagorean-lthree-failure} gives the
+negative anchored $L=3$ diagonal value
+$$
+D_{23}=-\frac15.
+$$
+The value is real, so the conjugate row gives the same obstruction. Hence
+no row in $\mathcal P_5$ passes anchored $L=3$ neutral RP.
+\end{proof}
+
+\begin{corollary}[Palindromic exclusion]
+\label{cor:innovation-input-palindromic-rp-exclusion}
+For the anchored neutral $L=3$ finite-window class,
+$$
+\mathcal P_5\cap\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing.
+$$
+\end{corollary}
+
+\begin{proof}
+This is exactly
+\autoref{thm:innovation-input-no-palindromic-lthree-candidate}.
+\end{proof}
+
+\begin{principle}[Symmetry window]
+\label{prin:innovation-input-palindromic-symmetry-window}
+Palindromic symmetry solves the Hermitian part of the finite-window RP
+problem, but it also makes the anchored $L=2$ window rigid. The only
+surviving rows are the Pythagorean row and its conjugate, and both fail at
+anchored $L=3$. Thus a pentary RP candidate, if one exists, cannot be
+found by imposing full palindromy alone; it must satisfy the Hermitian
+equations by a finer non-palindromic symmetry.
+\end{principle}
