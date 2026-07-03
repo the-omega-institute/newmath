@@ -4754,6 +4754,7 @@ import BEDC.Derived.DarbouxOscillationCriterionUp
 import BEDC.Derived.DarbouxOscillationCriterionUp.PartitionRoute
 import BEDC.Derived.DarbouxOscillationCriterionUp.TasteGate
 import BEDC.Derived.DarbouxOscillationUp
+import BEDC.Derived.DarbouxPartitionLedgerUp.TasteGate
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumRefinementUp
 import BEDC.Derived.DarbouxSumUp.TasteGate
@@ -9228,6 +9229,7 @@ import BEDC.Derived.ModulusOfSequentialContinuityUp.TasteGate
 import BEDC.Derived.ModulusOfTotalBoundednessUp.TasteGate
 import BEDC.Derived.ModulusOfUniformContinuityUp.TasteGate
 import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
+import BEDC.Derived.MollifierUp.NameCertObligations
 import BEDC.Derived.MollifierUp.TasteGate
 import BEDC.Derived.MomentProblemUp.FiniteHankelWindow
 import BEDC.Derived.MomentProblemUp.TasteGate
@@ -13814,6 +13816,7 @@ import BEDC.Derived.WronskianUp.PublicDeterminantExport
 import BEDC.Derived.WronskianUp.RealSealNonescape
 import BEDC.Derived.WronskianUp.RegSeqRatWindowDependency
 import BEDC.Derived.WronskianUp.RegularCauchyDeterminantHandoff
+import BEDC.Derived.WronskianUp.ScopeReplayCertificate
 import BEDC.Derived.WronskianUp.SturmSeparationHandoff
 import BEDC.Derived.WronskianUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
