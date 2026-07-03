@@ -10,6 +10,7 @@ import Mathlib.Data.Int.ConditionallyCompleteOrder
 import Mathlib.Data.Nat.Fib.Zeckendorf
 import Mathlib.Data.Nat.Totient
 import Mathlib.Combinatorics.Enumerative.Bell
+import Mathlib.Combinatorics.Enumerative.Partition.Basic
 import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
@@ -128,6 +129,14 @@ inherit the finite-set quotient and choice footprint rather than yielding a
 -/
 noncomputable def auditNatSchroderBoundary : (Nat → Nat) × (Nat → Nat) :=
   (Nat.largeSchroder, Nat.smallSchroder)
+
+/-!
+Audit-only touchpoint for mathlib's partition-count carrier. The host count is
+the cardinality of `Nat.Partition n`, whose finite enumeration is built through
+multisets, compositions, and finite type machinery.
+-/
+noncomputable def auditNatPartitionCountBoundary (n : Nat) : Nat :=
+  Fintype.card (Nat.Partition n)
 
 /-!
 Audit-only touchpoints for mathlib's finite number-theoretic functions whose
