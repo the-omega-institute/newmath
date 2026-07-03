@@ -50,3 +50,4 @@ import BedcMathlibBridge.Constructive.SquarePyramidal
 import BedcMathlibBridge.Constructive.Pentagonal
 import BedcMathlibBridge.Constructive.Hexagonal
 import BedcMathlibBridge.Constructive.CentralFactorial
+import BedcMathlibBridge.Constructive.WilsonQuotient
