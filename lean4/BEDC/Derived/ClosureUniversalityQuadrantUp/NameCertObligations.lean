@@ -9,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
 
 theorem ClosureUniversalityQuadrantCarrier_namecert_obligations
     {U D G S A H N substrateRead anchorRead namedRead : BHist} :
@@ -84,5 +85,100 @@ theorem ClosureUniversalityQuadrantCarrier_namecert_obligations
       exact ⟨source.right, axisRoute, substrateRoute, anchorRoute, nameRoute⟩
   }
   exact ⟨cert, namedUnary⟩
+
+theorem ClosureUniversalityQuadrantCarrier_obligation_basis
+    (x : ClosureUniversalityQuadrantUp) :
+    ∃ universality closure tag substrate anchors transport routes provenance nameCert : BHist,
+      x =
+          ClosureUniversalityQuadrantUp.mk universality closure tag substrate anchors transport
+            routes provenance nameCert ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist tag) (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist substrate)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist anchors)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist routes)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist provenance)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (closureUniversalityQuadrantEncodeBHist nameCert)
+          (BHistCarrier.toEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier
+  cases x with
+  | mk universality closure tag substrate anchors transport routes provenance nameCert =>
+      refine
+        ⟨universality, closure, tag, substrate, anchors, transport, routes, provenance,
+          nameCert, rfl, ?_, ?_, ?_, ?_, ?_, ?_⟩
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _ (List.Mem.head _)))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _ (List.Mem.head _)))))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _ (List.Mem.head _)))))))))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _ (List.Mem.head _)))))))))))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _
+                                          (List.Mem.tail _ (List.Mem.head _)))))))))))))))))
 
 end BEDC.Derived.ClosureUniversalityQuadrantUp
