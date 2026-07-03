@@ -348,4 +348,21 @@ theorem noUpperHalfPlaneResonancePair (K : ScalarPassiveKit) (z : BComplex)
   ratLe_of_RatEq_left (passive_energy_identity K z h)
     (ratNeg_nonpos_of_nonneg (Dquad_nonneg K))
 
+/-! ## R0-v1 (n-dimensional passivity, in progress) — vector Gram lemmas. -/
+
+/-- **Vector Gram diagonal (real part)**: `⟨v,v⟩.re = ‖v‖²`.  Lifts the scalar `conj_mul_self_re`
+term-by-term over the located inner product — the first load-bearing lemma of the genuine
+n-dimensional passivity (NOT the 1-D special case, NOT an identity stub). -/
+theorem cinner_self_re : ∀ v : CVec, RatEq (cinner v v).re (vNormSq v)
+  | [] => RatEq_refl _
+  | x :: xs => ratAdd_respects (BComplex.conj_mul_self_re x) (cinner_self_re xs)
+
+/-- **Vector Gram diagonal (imaginary part)**: `⟨v,v⟩.im = 0`. -/
+theorem cinner_self_im : ∀ v : CVec, RatEq (cinner v v).im ratZero
+  | [] => RatEq_refl _
+  | x :: xs =>
+      RatEq_trans _ _ _
+        (ratAdd_respects (BComplex.conj_mul_self_im x) (cinner_self_im xs))
+        (ratZero_add_left ratZero)
+
 end BEDC.Derived.RHRoute.PassiveFiniteScattering
