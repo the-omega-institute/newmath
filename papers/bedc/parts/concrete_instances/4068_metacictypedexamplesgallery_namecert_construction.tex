@@ -410,6 +410,18 @@ Apply the scoped route and scope export theorems, \autoref{thm:metacic-typed-exa
 Finally combine the scoped-closure route and scope package theorems, \autoref{thm:metacic-typed-examples-gallery-scoped-closure-route} and \autoref{thm:metacic-typed-examples-gallery-scope-package}. The resulting export is bounded to represented examples and has no carrier coordinate for global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-examples gallery scope witness]
+\label{thm:metacic-typed-gallery-scope-witness}
+The $\MetaCICTypedExamplesGalleryUp$ scope is exhausted by the displayed finite example rows, checker rows, beta and conversion readbacks, route rows, provenance rows, and local naming rows. No accepted gallery row supplies global subject reduction, confluence, normalization, conversion completeness, arbitrary example coverage, or checker completeness.
+\end{theorem}
+\begin{proof}
+Start with frontier coverage and kernel scope, \autoref{thm:metacic-typed-examples-gallery-frontier-coverage} and \autoref{thm:metacic-typed-examples-gallery-kernel-scope}. They place every frontier-facing and kernel-facing read inside the displayed family rows and their finite checker surface.
+
+Apply the scoped route and scope rows theorems, \autoref{thm:metacic-typed-examples-gallery-scoped-route} and \autoref{thm:metacic-typedexamples-gallery-scope-rows}. These identify the accepted route with the family rows $B,N,L,S,E,I,A,R$, the checker row $K$, and the structural rows $H,C,P,M$.
+
+Finally use the scope package theorem, \autoref{thm:metacic-typed-examples-gallery-scope-package}. It repacks the same rows as one scoped MetaCIC package, so the listed finite rows exhaust the witness and the excluded global metatheorems have no carrier coordinate.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICTypedExamplesGalleryUp}
   \constructivestory{A $\MetaCICTypedExamplesGalleryUp$ packet is generated from finite $\BHist$ rows for selected typed examples, checker rows, beta or conversion readbacks, route rows, provenance, and local naming. Each gallery entry is replayable by $\Cont$ through the finite checker surface, so consumers can inspect represented examples without receiving a global calculus theorem. Componentwise $\hsame$ preserves the example, checker, and route rows, while $\Pkg$ records the MetaCIC typed-example dependencies. The gallery is therefore a bounded regression surface for displayed examples and not a proof of preservation, normalization, or checker completeness.}
   \theoryclosure{\obligationClosure}
