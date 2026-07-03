@@ -61,6 +61,7 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
+import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
 import BEDC.Derived.AdaptiveCauchyModulusUp.TasteGate
@@ -6207,6 +6208,7 @@ import BEDC.Derived.FiniteCandidateDiamondUp
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
@@ -12775,6 +12777,7 @@ import BEDC.Derived.StreamDiagonalSelectorUp.ObligationClosure
 import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
 import BEDC.Derived.StreamDiagonalSelectorUp.ScopedStatus
 import BEDC.Derived.StreamDiagonalSelectorUp.TailStability
+import BEDC.Derived.StreamDiagonalSelectorUp.TailWindowScope
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute
