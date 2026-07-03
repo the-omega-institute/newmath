@@ -96,6 +96,18 @@ Use \autoref{thm:closed-generator-audit-nonescape}. Every consumer read remains 
 Thus any replay of a refused dependency passes through $A$ and the displayed structural support. The kernel, recursor, and substitution rows remain separate carrier coordinates and cannot recast refusal as accepted evidence.
 \end{proof}
 
+\begin{theorem}[Closed generator audit kernel-replay induction]
+\label{thm:closed-generator-audit-kernel-replay-induction}
+Every accepted $\ClosedGeneratorAuditUp$ replay over a finite generator-audit path must expose the kernel acceptance witness row, kernel acceptance trace row, generator audit closure row, and recursion authorization ledger row before any closed refusal replay is exported. Induction on the displayed replay length preserves the refusal boundary and exports no Lean kernel soundness, global recursor soundness, quotient transport, or classical choice.
+\end{theorem}
+\begin{proof}
+For replay length zero, project the carrier of \autoref{def:closed-generator-audit-carrier}. The rows $K,R,S,A,H,C,P,N$ display kernel acceptance, recursor authorization, generator closure, refusal audit, transport, replay, provenance, and local naming before any consumer sees a closed refusal row.
+
+For a successor replay, append one generator-audit closure row to the displayed path. The appended row is read through the same generator-audit closure coordinate $S$, while $K$ keeps the accepted kernel witness or trace visible and $R$ keeps the recursion authorization ledger visible.
+
+Apply \autoref{thm:closed-generator-audit-nonescape} to keep the successor replay inside the displayed tuple, and apply \autoref{thm:closed-generator-audit-refusal-replay-exactness} to keep refused dependencies routed through $A,H,C,P,N$. Thus the induction preserves the refusal boundary without exporting Lean kernel soundness, global recursor soundness, quotient transport, or classical choice.
+\end{proof}
+
 \closureat{ClosedGeneratorAuditUp}{seedStr}
 
 \begin{closurestatus}{\ClosedGeneratorAuditUp}
