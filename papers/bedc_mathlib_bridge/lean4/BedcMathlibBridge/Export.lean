@@ -10,6 +10,7 @@ import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
+import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.FussCatalan
