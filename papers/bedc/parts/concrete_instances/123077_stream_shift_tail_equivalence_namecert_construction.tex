@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\StreamShiftTailEquivalenceUp$}
+\label{ch:concrete-instances-stream-shift-tail-equivalence-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular Cauchy sequence practice, the $\StreamShiftTailEquivalenceUp$ packet records the finite certificate that a displayed StreamName and its shifted tail determine the same regular readback after the shift ledger has been inspected. It sits beside the finite stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular tail-equivalence classifier of \autoref{ch:concrete-instances-regular-cauchy-tail-equivalence-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite shift-tail handoff for Real and Completion consumers, not a quotient stream equality or a selected limit.
+
+\begin{definition}[Stream shift tail equivalence carrier]
+\label{def:stream-shift-tail-equivalence-carrier}
+A $\StreamShiftTailEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,A,T,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ source-window row.
+\item $A$ is the finite shift ledger, recording the displayed shift amount and the window-translation schedule from $W$ to its shifted tail.
+\item $T$ is the tail-comparison row, recording the paired observations after the shift ledger has been applied.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from the original and shifted windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the paired tail comparison.
+\item $E$ is the $\RealUp$ seal row that may be read only after $W,A,T,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, shift, tail comparison, regular readback, dyadic tolerance, Real seal, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite windows through shift translation, tail comparison, regular readback, dyadic tolerance checking, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\StreamShiftTailEquivalenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamShiftTailEquivalenceUp}$ row.
+\end{enumerate}
+The carrier exposes no quotient stream, selected representative, host sequence equality, countable-choice schedule, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Stream shift tail equivalence NameCert obligations]
+\label{thm:stream-shift-tail-equivalence-namecert-obligations}
+For every accepted $\StreamShiftTailEquivalenceUp$ carrier
+$$
+S=(W,A,T,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\StreamShiftTailEquivalenceUp}$ surface consists exactly of StreamName window exposure through $W$, finite shift-ledger exposure through $A$, tail-comparison exactness through $T$, RegSeqRat readback through $R$, DyadicRatCore tolerance checking through $D$, Real-seal delivery through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The data rows are $W,A,T,R,D,E$, and the structural rows are $H,C,P,N$.
+
+Read the shift side first. The source stream window $W$ is translated only by the finite shift ledger $A$, so the shifted tail is not introduced as a host-level quotient or selected representative.
+
+The tail comparison is then checked through $T,D,R$. The comparison row records paired shifted observations, the dyadic ledger records the tolerance used for those observations, and the regular rational row records the readback visible to Real and Completion consumers.
+
+Finally inspect $E,H,C,P,N$. The Real seal is downstream of the shift, tail comparison, tolerance, and readback rows, while transport, replay, provenance, and local naming preserve the same finite packet. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Stream shift tail equivalence regular handoff]
+\label{thm:stream-shift-tail-equivalence-regular-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\StreamShiftTailEquivalenceUp$ packet factors through
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp
+$$
+with the finite shift ledger $A$ and tail-comparison row $T$ visible. The consumer receives original and shifted finite windows, a displayed shift schedule, dyadic tolerance checking, regular rational readback, a Real seal, transport, replay, provenance, and local naming; it receives no quotient stream equality or selected limit.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:stream-shift-tail-equivalence-namecert-obligations}. It forces a consumer to read $W,A,T,D,R$ before $E$ is public.
+
+The shift ledger controls the only route from the original stream window to the shifted tail. Thus a consumer cannot bypass $A$ by treating the source and shifted tail as equal host streams.
+
+The dyadic and regular rows make the comparison finite. The tolerance ledger $D$ checks the displayed paired observations in $T$, and the readback row $R$ is the only regular rational handoff available before the Real seal.
+
+Transport, replay, provenance, and local naming preserve the same packet. Therefore Real-facing or completion-facing consumers read a finite shift-tail equivalence surface, not a quotient stream or ambient completion principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\StreamShiftTailEquivalenceUp$ read displays the StreamName row, finite shift ledger, tail-comparison row, DyadicRatCore tolerance ledger, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before a Real-facing tail comparison is consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, regular-cauchy-tail-equivalence, real: $\StreamShiftTailEquivalenceUp$ is not bijective to any listed sibling because it jointly binds one source window, one finite shift ledger, one shifted-tail comparison, dyadic tolerance, regular readback, Real seal, transport, replay, provenance, and local naming in one shift-specific packet.}
+
+\closureat{StreamShiftTailEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\StreamShiftTailEquivalenceUp}
+  \constructivestory{A $\StreamShiftTailEquivalenceUp$ packet is generated from a StreamName source-window row, finite shift ledger, shifted-tail comparison row, RegSeqRat readback row, DyadicRatCore tolerance ledger, RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-shift-tail-equivalence-carrier}, \autoref{thm:stream-shift-tail-equivalence-namecert-obligations}, and \autoref{thm:stream-shift-tail-equivalence-regular-handoff} seed the finite shift-tail route through StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, RegularCauchyTailEquivalenceUp, RealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host sequence equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked stream-window exposure, shift-ledger exactness, tail-comparison exactness, dyadic tolerance checking, regular rational readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.StreamShiftTailEquivalenceUp.}
+\end{closurestatus}
