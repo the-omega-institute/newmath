@@ -183,6 +183,14 @@ theorem auditNatPerfectPowerPrimeSquareBoundary :
   (Nat.Prime.isPrimePow Nat.prime_two).pow (by decide : 2 ≠ 0)
 
 /-!
+Audit-only touchpoint for mathlib's abundant-number predicate at `12`. BEDC
+has a quotient-free sigma-profile certificate for the same value, but the host
+predicate is stated through `properDivisors` and a `Finset` sum.
+-/
+theorem auditNatAbundantTwelveBoundary : Nat.Abundant 12 :=
+  Nat.abundant_twelve
+
+/-!
 Audit-only touchpoint for mathlib's weird-number predicate at the standard
 `70` witness. The predicate is stated through `properDivisors` and a
 subset-sum existential over `Finset`, so the host declaration is boundary data.
