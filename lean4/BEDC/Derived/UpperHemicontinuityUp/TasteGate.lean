@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UpperHemicontinuityUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -219,5 +231,70 @@ theorem UpperHemicontinuityTasteGate_single_carrier_alignment :
   exact
     ⟨rfl, ⟨upperHemicontinuityBHistCarrier⟩, ⟨upperHemicontinuityChapterTasteGate⟩,
       ⟨upperHemicontinuityFieldFaithful⟩, ⟨upperHemicontinuityNontrivial⟩⟩
+
+def UpperHemicontinuityCarrier_namecert_obligations_carrier [AskSetup] [PackageSetup]
+    (domain codomain graph compactValue readback dependency optimization transport replay
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: UpperHemicontinuityUp BHist ProbeBundle Pkg PkgSig
+  FieldFaithful.fields
+      (UpperHemicontinuityUp.mk domain codomain graph compactValue readback dependency
+        optimization transport replay provenance localName) =
+    [domain, codomain, graph, compactValue, readback, dependency, optimization, transport,
+      replay, provenance, localName] ∧
+    PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem UpperHemicontinuityCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {domain codomain graph compactValue readback dependency optimization transport replay
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UpperHemicontinuityCarrier_namecert_obligations_carrier domain codomain graph
+        compactValue readback dependency optimization transport replay provenance localName
+        bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          UpperHemicontinuityCarrier_namecert_obligations_carrier domain codomain graph
+            compactValue readback dependency optimization transport replay provenance
+            localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          UpperHemicontinuityCarrier_namecert_obligations_carrier domain codomain graph
+            compactValue readback dependency optimization transport replay provenance
+            localName bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          UpperHemicontinuityCarrier_namecert_obligations_carrier domain codomain graph
+            compactValue readback dependency optimization transport replay provenance
+            localName bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: UpperHemicontinuityUp BHist ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier
+  let localSpec : BHist → Prop :=
+    fun row : BHist =>
+      UpperHemicontinuityCarrier_namecert_obligations_carrier domain codomain graph
+        compactValue readback dependency optimization transport replay provenance localName
+        bundle pkg ∧ hsame row localName
+  have sourceLocal : localSpec localName := by
+    exact ⟨carrier, hsame_refl localName⟩
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact ⟨localName, sourceLocal⟩
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row other sameRows source
+    exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+  · intro _row source
+    exact source
+  · intro _row source
+    exact source
 
 end BEDC.Derived.UpperHemicontinuityUp
