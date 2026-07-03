@@ -10037,6 +10037,7 @@ import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
 import BEDC.Derived.PoincareRecurrenceUp.TasteGate
+import BEDC.Derived.PoincareRecurrenceWindowUp
 import BEDC.Derived.PoincareTriangleDefectUp.TasteGate
 import BEDC.Derived.PoincareVisualRadiusLadderUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricSpaceUp
