@@ -1,11 +1,24 @@
+import BEDC.Derived.ObservationLogicBoundaryUp.TasteGate
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EpistemicOntologyBridgeUp
 
+open BEDC.Derived.LogicContradictionMetaLoopUp
+open BEDC.Derived.ObservationLogicBoundaryUp
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -226,5 +239,153 @@ theorem EpistemicOntologyBridgeTasteGate_single_carrier_alignment :
                 intro h
                 cases h⟩
         · rfl
+
+theorem EpistemicOntologyBridge_observation_logic_boundary_consumer [AskSetup] [PackageSetup]
+    {ontology knowledge observation logic metaLoop phaseRefusal gapAudit residue transport replay
+      provenance localCert routeRead gateRead phenomenology auditExport ledger bridgeTransport
+      bridgeReplay bridgeProvenance bridgeName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier logic observation metaLoop phaseRefusal transport replay
+        provenance localCert bundle pkg →
+      Cont logic observation routeRead →
+        Cont routeRead metaLoop gateRead →
+          PkgSig bundle gateRead pkg →
+            observationLogicBoundaryFields
+                  (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal
+                    gapAudit residue transport replay provenance localCert) =
+                [observation, logic, metaLoop, phaseRefusal, gapAudit, residue, transport,
+                  replay, provenance, localCert] ∧
+              epistemicOntologyBridgeToEventFlow
+                    (EpistemicOntologyBridgeUp.mk ontology knowledge gateRead phenomenology
+                      auditExport ledger bridgeTransport bridgeReplay bridgeProvenance
+                      bridgeName) =
+                  [[BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist ontology,
+                    [BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist knowledge,
+                    [BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist gateRead,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist phenomenology,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist auditExport,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist ledger,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                      BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist bridgeTransport,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                      BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist bridgeReplay,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                      BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist bridgeProvenance,
+                    [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                      BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                    epistemicOntologyBridgeEncodeBHist bridgeName] ∧
+                UnaryHistory logic ∧ UnaryHistory observation ∧ UnaryHistory metaLoop ∧
+                  UnaryHistory phaseRefusal ∧ UnaryHistory routeRead ∧
+                    UnaryHistory gateRead ∧ Cont logic observation routeRead ∧
+                      Cont routeRead metaLoop gateRead ∧ Cont metaLoop phaseRefusal replay ∧
+                        Cont transport replay provenance ∧ PkgSig bundle localCert pkg ∧
+                          PkgSig bundle gateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier routeCont gateCont gatePkg
+  have boundary :=
+    ObservationLogicBoundary_logic_metaLoop_nonescape_handoff (gapAudit := gapAudit)
+      (residue := residue) carrier routeCont gateCont gatePkg
+  obtain ⟨boundaryFields, logicUnary, observationUnary, metaLoopUnary, phaseRefusalUnary,
+    routeUnary, gateUnary, logicObservationRoute, routeMetaGate, metaPhaseReplay,
+    transportReplayProvenance, localCertPkg, gatePkgOut⟩ := boundary
+  exact
+    ⟨boundaryFields, rfl, logicUnary, observationUnary, metaLoopUnary, phaseRefusalUnary,
+      routeUnary, gateUnary, logicObservationRoute, routeMetaGate, metaPhaseReplay,
+      transportReplayProvenance, localCertPkg, gatePkgOut⟩
+
+theorem EpistemicOntologyBridge_observation_logic_boundary_aligned_consumer
+    [AskSetup] [PackageSetup]
+    {ontology knowledge observation logic metaLoop phaseRefusal gapAudit residue transport replay
+      provenance localCert routeRead gateRead phenomenology auditExport ledger bridgeTransport
+      bridgeReplay bridgeProvenance bridgeName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier logic observation metaLoop phaseRefusal transport replay
+        provenance localCert bundle pkg →
+      Cont logic observation routeRead →
+        Cont routeRead metaLoop gateRead →
+          PkgSig bundle gateRead pkg →
+            Nonempty (ChapterTasteGate ObservationLogicBoundaryUp) ∧
+              Nonempty (FieldFaithful ObservationLogicBoundaryUp) ∧
+                Nonempty (Nontrivial ObservationLogicBoundaryUp) ∧
+                  observationLogicBoundaryFields
+                        (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal
+                          gapAudit residue transport replay provenance localCert) =
+                      [observation, logic, metaLoop, phaseRefusal, gapAudit, residue,
+                        transport, replay, provenance, localCert] ∧
+                    observationLogicBoundaryFromEventFlow
+                          (observationLogicBoundaryToEventFlow
+                            (ObservationLogicBoundaryUp.mk observation logic metaLoop
+                              phaseRefusal gapAudit residue transport replay provenance
+                              localCert)) =
+                        some
+                          (ObservationLogicBoundaryUp.mk observation logic metaLoop
+                            phaseRefusal gapAudit residue transport replay provenance
+                            localCert) ∧
+                      epistemicOntologyBridgeToEventFlow
+                            (EpistemicOntologyBridgeUp.mk ontology knowledge gateRead
+                              phenomenology auditExport ledger bridgeTransport bridgeReplay
+                              bridgeProvenance bridgeName) =
+                          [[BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist ontology,
+                            [BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist knowledge,
+                            [BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist gateRead,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist phenomenology,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist auditExport,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist ledger,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                              BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist bridgeTransport,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                              BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist bridgeReplay,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                              BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist bridgeProvenance,
+                            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+                              BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+                            epistemicOntologyBridgeEncodeBHist bridgeName] ∧
+                        UnaryHistory logic ∧ UnaryHistory observation ∧
+                          UnaryHistory metaLoop ∧ UnaryHistory phaseRefusal ∧
+                            UnaryHistory routeRead ∧ UnaryHistory gateRead ∧
+                              Cont logic observation routeRead ∧
+                                Cont routeRead metaLoop gateRead ∧
+                                  Cont metaLoop phaseRefusal replay ∧
+                                    Cont transport replay provenance ∧
+                                      PkgSig bundle localCert pkg ∧
+                                        PkgSig bundle gateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier routeCont gateCont gatePkg
+  have alignment :=
+    ObservationLogicBoundaryTasteGate_single_carrier_alignment
+  obtain ⟨boundaryGate, boundaryFaithful, boundaryNontrivial, _decode, boundaryRoundTrip,
+    _injective, _emptyEncode⟩ := alignment
+  have boundary :=
+    ObservationLogicBoundary_logic_metaLoop_nonescape_handoff (gapAudit := gapAudit)
+      (residue := residue) carrier routeCont gateCont gatePkg
+  obtain ⟨boundaryFields, logicUnary, observationUnary, metaLoopUnary, phaseRefusalUnary,
+    routeUnary, gateUnary, logicObservationRoute, routeMetaGate, metaPhaseReplay,
+    transportReplayProvenance, localCertPkg, gatePkgOut⟩ := boundary
+  exact
+    ⟨boundaryGate, boundaryFaithful, boundaryNontrivial, boundaryFields,
+      boundaryRoundTrip
+        (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal gapAudit
+          residue transport replay provenance localCert),
+      rfl, logicUnary, observationUnary, metaLoopUnary, phaseRefusalUnary, routeUnary,
+      gateUnary, logicObservationRoute, routeMetaGate, metaPhaseReplay,
+      transportReplayProvenance, localCertPkg, gatePkgOut⟩
 
 end BEDC.Derived.EpistemicOntologyBridgeUp
