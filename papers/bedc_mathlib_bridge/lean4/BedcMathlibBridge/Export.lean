@@ -8,6 +8,7 @@ import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.Factorial
+import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
@@ -16,6 +17,8 @@ import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
+import BedcMathlibBridge.Export.Delannoy
+import BedcMathlibBridge.Export.Pell
 import BedcMathlibBridge.Export.QBinomial
 import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
