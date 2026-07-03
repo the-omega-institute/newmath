@@ -62,6 +62,17 @@ The Euler polygon ledger $E$ gives the finite approximants. The compact-containm
 Rows $H,C,G,N$ do not add another analytic source. They transport, replay, record provenance, and name the same interval trap. Therefore every accepted local-existence read must expose $I,V,W,E,Q,M$ before the solution row is public.
 \end{proof}
 
+\begin{theorem}[Peano existence Euler-polygon induction]\label{thm:peano-existence-euler-polygon-induction}
+An accepted $\PeanoExistenceUp$ carrier consumes the finite Euler polygon ledger $E$ by induction on its displayed step windows. The base reads the interval row $I$, the vector-field row $V$, and the closed $\RealUp$ window $W$; the step appends one Euler segment, verifies compact containment through $Q$, and replays the modulus handoff through $M,H,C,G,N$. The induction exports only the finite local-existence route of the carrier, and it refuses Lipschitz uniqueness, selected maximal solutions, host compactness, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite ledger $E$. In the empty or initial window case, the carrier exposes only the interval row $I$, the continuous vector-field row $V$, and the closed $\RealUp$ window $W$. These rows fix the source ODE request and the window in which the first polygon point is inspected.
+
+For the step case, assume the displayed prefix has already been consumed through the carrier route. Appending one Euler segment adds exactly one slope read from $V$ and one endpoint window to $E$. The containment row $Q$ checks that the new segment remains inside $W$, while the modulus row $M$ supplies the comparison handoff needed to keep the finite prefix compatible with the local solution read.
+
+The structural rows $H,C,G,N$ then transport, replay, record provenance, and name the enlarged finite prefix. By \autoref{thm:peano-interval-trap-obligations}, no accepted local-existence read can bypass $I,V,W,E,Q,M$; by \autoref{thm:peano-existence-namecert-obligations}, the remaining rows add only transport, replay, provenance, and local naming. Since none of the carrier coordinates names Lipschitz uniqueness, a selected maximal solution, host compactness, countable choice, or ambient Real completeness, the induction cannot export any of those objects.
+\end{proof}
+
 \begin{theorem}[Peano existence scoped primitive route]\label{thm:peano-existence-scoped-primitive-route}
 Every accepted local-existence read of a $\PeanoExistenceUp$ carrier factors through the exact primitive route
 $$
