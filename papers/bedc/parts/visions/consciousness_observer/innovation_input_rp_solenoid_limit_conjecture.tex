@@ -70,7 +70,8 @@ N & \text{locus} & \text{displayed passage} & \text{displayed obstruction}\\
 25 & \text{real-sign square} & L=3\ \text{strict examples} & L=4\ \text{empty}\\
 36 & \text{reported real-sign square} & L=3\ \text{strict examples} & L=4\ \text{reported failure}\\
 900 & \text{reported CRT square} & L=4\ \text{strict examples} & L=5\ \text{reported failure}\\
-44100 & \text{reported CRT square} & L=4\ \text{strict example} & L=5\ \text{reported failure}
+44100 & \text{reported CRT square} & L=4\ \text{strict example} & L=5\ \text{reported failure}\\
+5336100 & \text{reported CRT square} & H_5=0\ \text{targeted} & L=4,L=5\ \text{reported failure}
 \end{array}
 $$
 The rows through $N=25$ are the theorem-level rows cited in
@@ -79,9 +80,9 @@ The rows through $N=25$ are the theorem-level rows cited in
 \autoref{thm:innovation-input-even-endpoint-exclusion-closes-pentary},
 \autoref{thm:innovation-input-nine-real-no-lthree-rp-row}, and
 \autoref{thm:innovation-input-square-real-sign-bottleneck}. The rows for
-$N=36$, $N=900$, and $N=44100$ are search-ledger rows: they motivate the
-cofinal prime-register formulation but do not carry theorem status in
-this chapter.
+$N=36$, $N=900$, $N=44100$, and $N=5336100$ are search-ledger rows: they
+motivate the cofinal prime-register formulation but do not carry theorem
+status in this chapter.
 \end{principle}
 
 \begin{principle}[Four-prime CRT witness ledger]
@@ -236,30 +237,120 @@ has the form of a stable finite-window defect whose amplitude decreases
 under prime-register enlargement.
 \end{principle}
 
-\begin{principle}[Primitive defect attenuation prediction]
-\label{prin:innovation-input-primitive-defect-attenuation-prediction}
-The $H_5$ comparison should be read as a primitive-obstruction pattern,
-not as an accidental numerical mismatch. If the same CRT defect channel is
-continued to
+\begin{principle}[Five-prime cancellation tradeoff]
+\label{prin:innovation-input-five-prime-cancellation-tradeoff}
+At the five-prime level
 $$
-N_5=(2\cdot3\cdot5\cdot7\cdot11)^2,
+N_5=(2\cdot3\cdot5\cdot7\cdot11)^2=5336100,
 $$
-the homomorphic attenuation suggested by
-\autoref{prin:innovation-input-primorial-square-homomorphic-delay}
-predicts a defect scale
+the CRT factorization is
 $$
-H_5(N_5)\sim\frac{16}{5445},
+\mathbb Z/N_5\mathbb Z
+\cong
+\mathbb Z/4\mathbb Z
+\times
+\mathbb Z/9\mathbb Z
+\times
+\mathbb Z/25\mathbb Z
+\times
+\mathbb Z/49\mathbb Z
+\times
+\mathbb Z/121\mathbb Z.
+$$
+The reported product row uses a $121$-component real-sign factor with
+negative positions
+$$
+\begin{gathered}
+I_{121}=\{0,1,2,4,6,7,10,14,17,22,26,27,30,32,33,36,\\
+37,38,39,40,45,49,51,56,58,59,62,63,66,67,68,69,\\
+70,71,73,74,75,77,82,83,84,87,90,95,99,100,\\
+103,104,106,108,109,111,112,114,115\}.
+\end{gathered}
+$$
+Thus $\#(-)=55$, $\#(+)=66$, and
+$$
+\sum v_{121}=11.
+$$
+Together with the local sums $2,3,5,7$, the product row has total sum
+$$
+2\cdot3\cdot5\cdot7\cdot11
+=
+2310
+=
+\sqrt{5336100},
+$$
+so it is Q3-compatible.
+
+For this selected five-prime row, the inherited primitive Hermitian defect
+is cancelled:
+$$
+H_5(N_5)=0.
+$$
+Equivalently, the two reflected correlation blocks agree:
+$$
+\Gamma(0,2,3,4,6,7)
+=
+\Gamma(0,1,3,4,5,7)
+=
+-\frac{5326399}{25885425951}.
+$$
+This shows that the $H_5$ channel is not an immutable finite-level
+obstruction. It can be killed by a suitable prime-$11$ local factor.
+
+The same selected row does not pass the window tests. Its anchored real
+neutral $L=5$ matrix has a larger Hermitian defect at the support pair
+$(1,4)$ and $(1,2,3,5)$:
+$$
+M_{(1,4),(1,2,3,5)}
+=
+-\frac{5324243}{31637742829},
 \qquad
-5445=45\cdot11^2.
+M_{(1,2,3,5),(1,4)}
+=
+\frac{69333739}{94913228487},
 $$
-The prediction is not a theorem-level enumeration claim. Its role is to
-turn the finite-window search into a falsifiable asymptotic question:
-whether the same primitive Hermitian defect satisfies
+with difference
 $$
-H_5(P_k^2)\to0
+-\frac{85306468}{94913228487}
+\approx
+-8.9878\times10^{-4}.
 $$
-along a compatible primorial-square CRT family, while remaining nonzero at
-each fixed finite prime register.
+The anchored real neutral $L=4$ test is also lost for this row:
+$$
+\max|M_4-M_4^{\mathsf T}|
+\approx
+1.7991\times10^{-4},
+$$
+and
+$$
+\lambda_{\min}\left(\frac{M_4+M_4^{\mathsf T}}2\right)
+\approx
+-3.40\times10^{-4}.
+$$
+Thus adjoining a prime channel can cancel a chosen high-window defect
+while creating lower-window incompatibility.
+\end{principle}
+
+\begin{principle}[Local-factor compatibility problem]
+\label{prob:innovation-input-local-factor-compatibility}
+The primorial-square search is therefore not a one-defect optimization
+problem. It asks for a recursive choice of local real-sign factors
+$$
+v_{4},v_{9},v_{25},v_{49},v_{121},\ldots
+$$
+such that adjoining a prime factor $v_{p^2}$ preserves every previously
+secured anchored neutral window while reducing the next obstruction. In
+schematic form, if the $S$-register row has passed the windows
+$\ell\le L$, the extension to $S\cup\{p\}$ must keep
+$$
+M_{\ell}^{(S\cup\{p\})}
+\succeq0
+\qquad
+\ell\le L
+$$
+and only then use the extra prime channel to suppress a higher-window
+defect. Complete RP is a tower-compatibility problem, not an isolated
+finite-$N$ search.
 \end{principle}
 
 \begin{principle}[Diagonal obstruction persists beside symmetry failure]
