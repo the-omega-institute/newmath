@@ -5380,6 +5380,7 @@ import BEDC.Derived.DyadicBracketApproximationUp.TasteGate
 import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCantorWindowUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
+import BEDC.Derived.DyadicCauchyCompletionUp
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyDiagonalUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
@@ -13520,6 +13521,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformCauchyEmbeddingUp.TasteGate
+import BEDC.Derived.UniformCauchyFamilyCompletionUp
 import BEDC.Derived.UniformCauchyFilterUp.CompletionHandoff
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyLimitUp.TasteGate
