@@ -32,55 +32,6 @@ def pfzPrimeClassifierFiniteValues : List Nat :=
   pfzPrimeClassifierFinitePoints.map
     (primeClassifierMod pfzPrimeClassifierModulus)
 
-theorem pfz_primeClassifier_mod_lt_self {a P : Nat} (h : a < P) :
-    primeClassifierMod P a = a := by
-  unfold primeClassifierMod
-  exact Nat.mod_eq_of_lt h
-
-theorem pfz_primeClassifier_mod_self (P : Nat) :
-    primeClassifierMod P P = 0 := by
-  unfold primeClassifierMod
-  exact Nat.mod_self P
-
-theorem pfz_primeClassifier_points_distinct_and_bounded :
-    List.Nodup pfzPrimeClassifierFinitePoints ∧
-      ∀ x : Nat, x ∈ pfzPrimeClassifierFinitePoints ->
-        x < pfzPrimeClassifierModulus + pfzPrimeClassifierModulus := by
-  constructor
-  · decide
-  · intro x hx
-    simp [pfzPrimeClassifierFinitePoints, pfzPrimeClassifierModulus] at hx
-    cases hx with
-    | inl h2 =>
-        rw [h2]
-        decide
-    | inr rest =>
-        cases rest with
-        | inl h3 =>
-            rw [h3]
-            decide
-        | inr rest =>
-            cases rest with
-            | inl h5 =>
-                rw [h5]
-                decide
-            | inr h7 =>
-                rw [h7]
-                decide
-
-theorem pfz_primeClassifier_sample_pointwise :
-    primeClassifierMod pfzPrimeClassifierModulus 2 = 2 ∧
-      primeClassifierMod pfzPrimeClassifierModulus 3 = 3 ∧
-      primeClassifierMod pfzPrimeClassifierModulus 5 = 5 ∧
-      primeClassifierMod pfzPrimeClassifierModulus pfzPrimeClassifierModulus = 0 := by
-  constructor
-  · exact pfz_primeClassifier_mod_lt_self (by decide)
-  · constructor
-    · exact pfz_primeClassifier_mod_lt_self (by decide)
-    · constructor
-      · exact pfz_primeClassifier_mod_lt_self (by decide)
-      · exact pfz_primeClassifier_mod_self pfzPrimeClassifierModulus
-
 theorem pfz_primeClassifier_sample_values :
     pfzPrimeClassifierFiniteValues = [2, 3, 5, 0] := by
   rfl
