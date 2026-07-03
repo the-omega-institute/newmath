@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICClosurePreservationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -489,5 +499,57 @@ theorem MetaCICClosurePreservationCarrier_generator_substitution_induction
                 · constructor
                   · exact metaCICClosurePreservationDecode_encode_bhist subjectReductionConsumer
                   · rfl
+
+inductive MetaCICClosurePreservationRowSource
+    (S V U B F A C G R H Q P N : BHist) : BHist → Prop where
+  | shiftClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N S
+  | varSubstClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N V
+  | substClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N U
+  | betaClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N B
+  | betaStarClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N F
+  | auditRow : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N A
+  | closedSeal : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N C
+  | generatorClassifier : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N G
+  | subjectReductionConsumer : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N R
+  | transport : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N H
+  | route : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N Q
+  | provenance : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N P
+  | localName : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N N
+
+def MetaCICClosurePreservationCarrier [AskSetup] [PackageSetup]
+    (S V U B F A C G R H Q P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N S ∧
+    Cont S A Q ∧ Cont U B F ∧ Cont C G R ∧
+      PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem MetaCICClosurePreservationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {S V U B F A C G R H Q P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosurePreservationCarrier S V U B F A C G R H Q P N bundle pkg →
+      NameCert (MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N) hsame ∧
+        Cont S A Q ∧ Cont U B F ∧ Cont C G R ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame NameCert
+  intro carrier
+  obtain ⟨sourceS, routeSAQ, routeUBF, routeCGR, pPkg, nPkg⟩ := carrier
+  have cert :
+      NameCert (MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N) hsame := {
+    carrier_inhabited := Exists.intro S sourceS
+    equiv_refl := by
+      intro row _source
+      exact hsame_refl row
+    equiv_symm := by
+      intro _row _other sameRows
+      exact hsame_symm sameRows
+    equiv_trans := by
+      intro _row _middle _other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    carrier_respects_equiv := by
+      intro row other sameRows source
+      cases sameRows
+      exact source
+  }
+  exact ⟨cert, routeSAQ, routeUBF, routeCGR, pPkg, nPkg⟩
 
 end BEDC.Derived.MetaCICClosurePreservationUp

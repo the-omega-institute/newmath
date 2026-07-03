@@ -108,4 +108,20 @@ theorem RiemannZeroCountLedgerCarrier_zero_list_count_transport
       transportedHeight, transportedZeroList, transportedCount, filterUnary, countReadUnary,
       filterRoute, countRoute, sameZeroList, sameCount⟩
 
+theorem RiemannZeroCountLedgerCarrier_height_filter_stability
+    {T Z U M E H C P N Tprime filterRead : BHist}
+    (count_unary : UnaryHistory U)
+    (height_unary : UnaryHistory T)
+    (sameHeight : hsame T Tprime)
+    (filterRoute : Cont T Z filterRead) :
+    ∃ x : RiemannZeroCountLedgerUp,
+      x = RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary ∧
+        UnaryHistory Tprime ∧ Cont T Z filterRead ∧ hsame T Tprime ∧ hsame T T := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  have transportedHeight : UnaryHistory Tprime :=
+    unary_transport height_unary sameHeight
+  exact
+    ⟨RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary, rfl,
+      transportedHeight, filterRoute, sameHeight, hsame_refl T⟩
+
 end BEDC.Derived.RiemannZeroCountLedgerUp
