@@ -30,6 +30,7 @@ The classifier accepts only packets whose eventual read uses $D,W,T,S,R,A,H,C,P,
 \label{thm:eventually-namecert-obligations}
 For every accepted $\EventuallyUp$ carrier $E=(D,W,T,S,R,A,H,C,P,N)$, the local $\NameCert_{\EventuallyUp}$ surface consists exactly of carrier admission, directed-index exposure through $D$, finite-window exposure through $W$, tail-threshold exposure through $T$, stream readback through $S$, regular rational readback through $R$, terminal $\RealUp$ handoff through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leandef{BEDC.Derived.EventuallyUp.EventuallyCarrier}
 \begin{proof}
 Project the carrier of \autoref{def:eventually-carrier}. The tuple lists the directed index row, finite window, tail threshold, stream read, regular readback, Real-facing handoff, and structural rows as the whole accepted surface.
 
@@ -56,6 +57,7 @@ $$
 $$
 The handoff exports only the displayed directed index, finite window, threshold, stream readback, regular rational readback, terminal real-facing row, transport, replay, provenance, and local naming data.
 \end{theorem}
+\leanchecked{BEDC.Derived.EventuallyUp.EventuallyCarrier\_directed\_tail\_handoff}
 \begin{proof}
 Begin with the carrier projection. The directed row $D$, finite window $W$, and threshold row $T$ expose the tail boundary before any consumer can read stream or regular-rational data.
 
