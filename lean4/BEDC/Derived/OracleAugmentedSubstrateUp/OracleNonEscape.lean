@@ -1,13 +1,18 @@
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.OracleAugmentedSubstrateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem OracleAugmentedSubstrateCarrier_oracle_nonescape
@@ -189,5 +194,62 @@ theorem OracleAugmentedSubstrateCarrier_classifier_transport
         ⟨source.right, callRoute, transcriptRoute, boundaryRoute, evidenceRoute, nameRoute⟩
   }
   exact ⟨cert, transportedUnary⟩
+
+theorem OracleAugmentedSubstrateCarrier_row_exposure [AskSetup] [PackageSetup]
+    {S A T B E H C P N callRead transcriptRead boundaryRead evidenceRead packageRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory S →
+      UnaryHistory A →
+        UnaryHistory T →
+          UnaryHistory B →
+            UnaryHistory E →
+              UnaryHistory H →
+                UnaryHistory C →
+                  UnaryHistory P →
+                    UnaryHistory N →
+                      Cont S A callRead →
+                        Cont callRead T transcriptRead →
+                          Cont transcriptRead B boundaryRead →
+                            Cont boundaryRead E evidenceRead →
+                              Cont evidenceRead P packageRead →
+                                Cont packageRead N namedRead →
+                                  PkgSig bundle namedRead pkg →
+                                    UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory T ∧
+                                      UnaryHistory B ∧ UnaryHistory E ∧ UnaryHistory H ∧
+                                        UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+                                          UnaryHistory callRead ∧
+                                            UnaryHistory transcriptRead ∧
+                                              UnaryHistory boundaryRead ∧
+                                                UnaryHistory evidenceRead ∧
+                                                  UnaryHistory packageRead ∧
+                                                    UnaryHistory namedRead ∧
+                                                      Cont S A callRead ∧
+                                                        Cont callRead T transcriptRead ∧
+                                                          Cont transcriptRead B boundaryRead ∧
+                                                            Cont boundaryRead E evidenceRead ∧
+                                                              Cont evidenceRead P packageRead ∧
+                                                                Cont packageRead N namedRead ∧
+                                                                  PkgSig bundle namedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro sUnary aUnary tUnary bUnary eUnary hUnary cUnary pUnary nUnary callRoute
+    transcriptRoute boundaryRoute evidenceRoute packageRoute namedRoute namedPkg
+  have callUnary : UnaryHistory callRead :=
+    unary_cont_closed sUnary aUnary callRoute
+  have transcriptUnary : UnaryHistory transcriptRead :=
+    unary_cont_closed callUnary tUnary transcriptRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed transcriptUnary bUnary boundaryRoute
+  have evidenceUnary : UnaryHistory evidenceRead :=
+    unary_cont_closed boundaryUnary eUnary evidenceRoute
+  have packageUnary : UnaryHistory packageRead :=
+    unary_cont_closed evidenceUnary pUnary packageRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed packageUnary nUnary namedRoute
+  exact
+    ⟨sUnary, aUnary, tUnary, bUnary, eUnary, hUnary, cUnary, pUnary, nUnary,
+      callUnary, transcriptUnary, boundaryUnary, evidenceUnary, packageUnary, namedUnary,
+      callRoute, transcriptRoute, boundaryRoute, evidenceRoute, packageRoute, namedRoute,
+      namedPkg⟩
 
 end BEDC.Derived.OracleAugmentedSubstrateUp
