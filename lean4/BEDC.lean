@@ -10925,6 +10925,7 @@ import BEDC.Derived.RealMetricUp.TriangleWindowStability
 import BEDC.Derived.RealMinMaxUp.FiniteComparisonHandoff
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusArithmeticUp.TasteGate
+import BEDC.Derived.RealModulusComparisonUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
