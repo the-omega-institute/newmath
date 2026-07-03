@@ -1,4 +1,5 @@
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
+import BEDC.Derived.ActiveReadingGateUp.TasteGate
 
 namespace BEDC.Derived.ActiveReadingGateUp
 
@@ -11,66 +12,73 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem ActiveReadingGateCarrier_current_retired_disjointness [AskSetup] [PackageSetup]
-    {target active retired blocking exportRow transport replay provenance nameCert ledgerRead
-      publicRead : BHist}
+    {target active retired blocking exportRow transport replay provenance nameCert activeExport
+      retiredAudit publicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    UnaryHistory target →
-      UnaryHistory active →
-        UnaryHistory retired →
-          UnaryHistory blocking →
-            UnaryHistory exportRow →
-              UnaryHistory replay →
-                Cont target active blocking →
-                  Cont blocking exportRow ledgerRead →
-                    Cont ledgerRead replay provenance →
-                      PkgSig bundle provenance pkg →
-                        hsame provenance publicRead →
-                          hsame publicRead nameCert →
-                            activeReadingGateFields
-                                (ActiveReadingGateUp.mk target active retired blocking
-                                  exportRow transport replay provenance nameCert) =
-                              [target, active, retired, blocking, exportRow, transport, replay,
-                                provenance, nameCert] ∧
-                              SemanticNameCert
-                                  (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
-                                  (fun row : BHist =>
-                                    hsame row target ∨ hsame row active ∨
-                                      hsame row blocking ∨ hsame row exportRow ∨
-                                        hsame row ledgerRead ∨ hsame row publicRead ∨
-                                          hsame row replay ∨ hsame row provenance ∨
-                                            hsame row nameCert)
-                                  (fun row : BHist =>
-                                    UnaryHistory row ∧ Cont target active blocking ∧
-                                      Cont blocking exportRow ledgerRead ∧
-                                        Cont ledgerRead replay provenance ∧
-                                          PkgSig bundle provenance pkg)
-                                  hsame ∧
-                                UnaryHistory active ∧ UnaryHistory retired ∧
-                                  UnaryHistory publicRead := by
-  -- BEDC touchpoint anchor: ActiveReadingGateUp BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
-  intro _targetUnary activeUnary retiredUnary blockingUnary exportUnary replayUnary
-    targetActiveBlocking blockingExportLedger ledgerReplayProvenance provenancePkg
-    provenancePublic _publicName
-  have ledgerUnary : UnaryHistory ledgerRead :=
-    unary_cont_closed blockingUnary exportUnary blockingExportLedger
+    UnaryHistory target ->
+      UnaryHistory active ->
+        UnaryHistory retired ->
+          UnaryHistory blocking ->
+            UnaryHistory exportRow ->
+              UnaryHistory transport ->
+                UnaryHistory replay ->
+                  Cont target active blocking ->
+                    Cont blocking exportRow activeExport ->
+                      Cont retired transport retiredAudit ->
+                        Cont activeExport replay provenance ->
+                          PkgSig bundle provenance pkg ->
+                            hsame provenance publicRead ->
+                              hsame publicRead nameCert ->
+                                activeReadingGateFields
+                                    (ActiveReadingGateUp.mk target active retired blocking
+                                      exportRow transport replay provenance nameCert) =
+                                  [target, active, retired, blocking, exportRow, transport,
+                                    replay, provenance, nameCert] ∧
+                                  SemanticNameCert
+                                      (fun row : BHist => hsame row activeExport ∧
+                                        UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row target ∨ hsame row active ∨
+                                          hsame row retired ∨ hsame row blocking ∨
+                                            hsame row exportRow ∨ hsame row activeExport ∨
+                                              hsame row retiredAudit ∨ hsame row provenance ∨
+                                                hsame row nameCert)
+                                      (fun row : BHist =>
+                                        UnaryHistory row ∧ Cont target active blocking ∧
+                                          Cont blocking exportRow activeExport ∧
+                                            Cont retired transport retiredAudit ∧
+                                              Cont activeExport replay provenance ∧
+                                                PkgSig bundle provenance pkg)
+                                      hsame ∧
+                                    UnaryHistory activeExport ∧ UnaryHistory retiredAudit ∧
+                                      UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro _targetUnary activeUnary retiredUnary blockingUnary exportUnary transportUnary replayUnary
+    targetActive blockingExport retiredTransport exportReplay provenancePkg provenancePublic
+    publicName
+  have activeExportUnary : UnaryHistory activeExport :=
+    unary_cont_closed blockingUnary exportUnary blockingExport
+  have retiredAuditUnary : UnaryHistory retiredAudit :=
+    unary_cont_closed retiredUnary transportUnary retiredTransport
   have provenanceUnary : UnaryHistory provenance :=
-    unary_cont_closed ledgerUnary replayUnary ledgerReplayProvenance
-  have publicUnary : UnaryHistory publicRead :=
-    unary_transport provenanceUnary provenancePublic
+    unary_cont_closed activeExportUnary replayUnary exportReplay
+  have nameCertUnary : UnaryHistory nameCert :=
+    unary_transport (unary_transport provenanceUnary provenancePublic) publicName
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row activeExport ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row target ∨ hsame row active ∨ hsame row blocking ∨
-              hsame row exportRow ∨ hsame row ledgerRead ∨ hsame row publicRead ∨
-                hsame row replay ∨ hsame row provenance ∨ hsame row nameCert)
+            hsame row target ∨ hsame row active ∨ hsame row retired ∨ hsame row blocking ∨
+              hsame row exportRow ∨ hsame row activeExport ∨ hsame row retiredAudit ∨
+                hsame row provenance ∨ hsame row nameCert)
           (fun row : BHist =>
             UnaryHistory row ∧ Cont target active blocking ∧
-              Cont blocking exportRow ledgerRead ∧ Cont ledgerRead replay provenance ∧
-                PkgSig bundle provenance pkg)
+              Cont blocking exportRow activeExport ∧ Cont retired transport retiredAudit ∧
+                Cont activeExport replay provenance ∧ PkgSig bundle provenance pkg)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      carrier_inhabited :=
+        Exists.intro activeExport ⟨hsame_refl activeExport, activeExportUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -81,20 +89,20 @@ theorem ActiveReadingGateCarrier_current_retired_disjointness [AskSetup] [Packag
         intro _row _middle _other sameLeft sameRight
         exact hsame_trans sameLeft sameRight
       carrier_respects_equiv := by
-        intro _row _other sameRows sourceRow
+        intro _row _other sameRows source
         exact
-          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
-            unary_transport sourceRow.right sameRows⟩
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
     }
     pattern_sound := by
-      intro _row sourceRow
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sourceRow.left)))))
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
     ledger_sound := by
-      intro _row sourceRow
+      intro _row source
       exact
-        ⟨sourceRow.right, targetActiveBlocking, blockingExportLedger,
-          ledgerReplayProvenance, provenancePkg⟩
+        ⟨source.right, targetActive, blockingExport, retiredTransport, exportReplay,
+          provenancePkg⟩
   }
-  exact ⟨rfl, cert, activeUnary, retiredUnary, publicUnary⟩
+  exact ⟨rfl, cert, activeExportUnary, retiredAuditUnary, nameCertUnary⟩
 
 end BEDC.Derived.ActiveReadingGateUp

@@ -316,6 +316,24 @@ The terminal compatibility and completion source exhaustion results identify thi
 Finally, quotient-stream refusal and non-escape close the boundary. Any attempted replacement asks for data outside the carrier and therefore cannot be repacked as a $\CofinalTailAgreementUp$ consumer read.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-agreement public export]
+\label{thm:cofinal-tail-agreement-public-export}
+Every accepted $\CofinalTailAgreementUp$ packet exports a public $\RealUp$- and $\CompletionUp$-facing route exactly through
+$$
+M,F,B,D,R,S,L,H,C,P,N,
+$$
+with the $\RealTailAgreementSealUp$ row $S$ displayed before the $\CauchyLimitSealUp$ row $L$. The public export is the displayed finite route through the carrier, consumer factorization, seal handoff, and support rows; it is not quotient-stream equality, host stream equality, a selected limit, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:cofinal-tail-agreement-carrier}. The accepted packet already lists the public route rows $M,F,B,D,R,S,L,H,C,P,N$, and no additional Real or Completion coordinate is available.
+
+Apply \autoref{thm:cofinal-tail-agreement-consumer-factorization}. It sends every $\RealUp$ or $\CompletionUp$ consumer through the shared threshold, fused tail, selector budget, dyadic readback, regular readback, Real agreement seal, Cauchy-limit handoff, transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:cofinal-tail-agreement-seal-handoff-determinacy}. The handoff has the displayed $\RealTailAgreementSealUp$ row before the displayed $\CauchyLimitSealUp$ row, so the public route cannot choose a second seal or selected host limit.
+
+Finally combine \autoref{thm:cofinal-tail-agreement-quotient-stream-refusal} with \autoref{thm:cofinal-tail-agreement-completion-boundary}. Quotient-stream equality, host stream equality, selected limits, countable choice, and ambient Real completeness all require absent coordinates, so the finite route above is the whole public export.
+\end{proof}
+
 \begin{theorem}[Cofinal tail-agreement scoped kernel route]
 \label{thm:cofinal-tail-agreement-scoped-kernel-route}
 Every accepted public $\CofinalTailAgreementUp$ read factors through the displayed route $M,F,B,D,R,S,L,H,C,P,N$. This route is scoped exactly by the carrier's $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ continuation, $\Pkg$ provenance, local $\NameCert$ row, and the named $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, and $\CauchyLimitSealUp$ surfaces. No accepted read may replace any part of the route by quotient stream equality, host stream equality, a selected limit, countable choice, or ambient Real completeness.
@@ -339,13 +357,13 @@ The Lean \texttt{TasteGate.lean} boundary for this carrier must include \texttt{
 
 \begin{closurestatus}{\CofinalTailAgreementUp}
   \constructivestory{A $\CofinalTailAgreementUp$ packet is generated from a shared RegularCauchyTailMeet threshold, RegularCauchyTailFusion paired tail route, RegularCauchySelectorBudget finite selector budget, dyadic and regular readbacks, RealTailAgreementSeal handoff, CauchyLimitSeal handoff, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:cofinal-tail-agreement-scoped-kernel-route} binds every accepted public read of the finite paired cofinal-tail agreement carrier to the displayed BEDC kernel rows and Real/Completion route surfaces.}
   \formalstatus{\axiomCleanV}
   \leanchecked{BEDC.Derived.CofinalTailAgreementUp.taste\_gate}
   \leantarget{BEDC.Derived.CofinalTailAgreementUp.CofinalTailAgreementTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close public-object closure, quotient stream equality, selected host limits, countable choice, ambient Real completeness, or bridge checking.}
-  \upgradepath{Public closure requires exhibiting the route as a stable public object surface rather than only a scoped finite kernel route.}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, ambient Real completeness, or bridge checking.}
+  \upgradepath{Bridged closure requires a checked bridge for the same public route.}
 \end{closurestatus}
