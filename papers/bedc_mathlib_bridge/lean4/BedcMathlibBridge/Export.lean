@@ -32,6 +32,7 @@ import BedcMathlibBridge.Export.QBinomial
 import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
 import BedcMathlibBridge.Export.Raney
+import BedcMathlibBridge.Export.FussCatalan
 import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.Tetrahedral
