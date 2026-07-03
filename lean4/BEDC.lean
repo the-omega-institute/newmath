@@ -67,6 +67,7 @@ import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
+import BEDC.Derived.ActiveReadingGateUp.RegistryConsumerCoverage
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
@@ -3103,7 +3104,6 @@ import BEDC.Derived.ChoiceFreeRealSealUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
-import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
@@ -6271,6 +6271,7 @@ import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteFanTheoremUp.TasteGate
 import BEDC.Derived.FiniteFourierEnergyUp
+import BEDC.Derived.FiniteFourierEnergyUp.TasteGate
 import BEDC.Derived.FiniteFourierTailProjectorUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
@@ -12999,7 +13000,6 @@ import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.SyntacticMonoidUp.TasteGate
-import BEDC.Derived.SystemFUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
 import BEDC.Derived.TaggedRealPartitionUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
