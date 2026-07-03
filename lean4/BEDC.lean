@@ -2732,6 +2732,7 @@ import BEDC.Derived.CauchySequenceEquivalenceUp.TasteGate
 import BEDC.Derived.CauchySequenceFieldUp.TasteGate
 import BEDC.Derived.CauchySequenceModulusChainUp
 import BEDC.Derived.CauchySequenceModulusChainUp.TasteGate
+import BEDC.Derived.CauchySequenceMorphismUp.TasteGate
 import BEDC.Derived.CauchySequenceOrderCompletenessUp.TasteGate
 import BEDC.Derived.CauchySequenceOrderUp.TasteGate
 import BEDC.Derived.CauchySequenceProductStabilityUp.TasteGate
@@ -6200,6 +6201,7 @@ import BEDC.Derived.FiniteCandidateDiamondUp
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
 import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
@@ -6248,6 +6250,7 @@ import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
 import BEDC.Derived.FiniteGroupRepresentationUp.NameCertBridge
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
+import BEDC.Derived.FiniteHellySelectionUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.ScopedKernelScope
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.NameCertObligations
@@ -8045,6 +8048,7 @@ import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedUpperDedekindRealUp.TasteGate
 import BEDC.Derived.LocatedUpperLowerPairUp
+import BEDC.Derived.LocatedUpperSemicontinuousEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedWeakKonigUp
 import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
@@ -11818,6 +11822,7 @@ import BEDC.Derived.RegularModulusUp.TasteGate
 import BEDC.Derived.RegularOpenSetUp.TasteGate
 import BEDC.Derived.RegularRealCauchySelectorUp
 import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
+import BEDC.Derived.RegularRealFamilyDiagonalUp.TasteGate
 import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
@@ -12755,6 +12760,7 @@ import BEDC.Derived.StopTrpFaceRankDeficiencyUp.TasteGate
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.RealSealNonescape
+import BEDC.Derived.StreamDiagonalSelectorUp.TailStability
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute

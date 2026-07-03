@@ -51,6 +51,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.BinomialIdentities.BinomialIdentitiesExportWitness },
   { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
     witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
+    witnessType := `BedcMathlibBridge.Export.Lah.LahFirstColumnExportWitness },
   { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
     witnessType :=
       `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
@@ -74,6 +76,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Superfactorial.superfactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.Superfactorial.SuperfactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.EuclidFactorial.euclidFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EuclidFactorial.EuclidFactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.AscFactorial.ascFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.AscFactorial.AscFactorialExportWitness },
