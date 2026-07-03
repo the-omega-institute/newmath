@@ -16,10 +16,12 @@ from typing import Any
 EXPERIMENT_ID = "fibonacci_tracka_wobble_vs_codon_e1"
 CLAIM_ID = "bridge.fibonacci_tracka.wobble_boundary_vs_codon_e1"
 TRACKA_BRANCH = "origin/feat/fibonacci_reality-deepening"
+TRACKA_FETCH_REFSPEC = "feat/fibonacci_reality-deepening:refs/remotes/origin/feat/fibonacci_reality-deepening"
 SCRATCH_ROOT = Path("/tmp/tracka_src")
 NULL_N = 20000
 EPS = 1.0e-12
 TOL = 1.0e-10
+SIGNIFICANCE_ALPHA = 0.05
 
 TRACKA_PATHS = (
     "tools/fibonacci_reality/experiments/run_track_a_yeast_wobble_boundary_response.py",
@@ -66,6 +68,10 @@ if str(SCRIPT_DIR) not in sys.path:
 import run_codon_e1_heldout_crossorganism_gate as e1_base  # noqa: E402
 
 
+class TrackADataFetchError(RuntimeError):
+    pass
+
+
 def emit(status: str, **fields: object) -> None:
     payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
     payload.update(fields)
@@ -99,18 +105,34 @@ def percentile_rank_ge(values: list[float], observed: float) -> float:
 
 
 def materialize_tracka() -> None:
+    repo_root = Path(__file__).resolve().parents[3]
+    fetch = subprocess.run(
+        ["git", "fetch", "origin", TRACKA_FETCH_REFSPEC],
+        cwd=repo_root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if fetch.returncode != 0:
+        stderr = fetch.stderr.strip()
+        detail = f": {stderr}" if stderr else ""
+        raise TrackADataFetchError(f"Track-A source data-fetch failed{detail}")
     SCRATCH_ROOT.mkdir(parents=True, exist_ok=True)
     for rel_path in TRACKA_PATHS:
         dest = SCRATCH_ROOT / rel_path
         dest.parent.mkdir(parents=True, exist_ok=True)
+        show = subprocess.run(
+            ["git", "show", f"{TRACKA_BRANCH}:{rel_path}"],
+            cwd=repo_root,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if show.returncode != 0:
+            stderr = show.stderr.decode("utf-8", errors="replace").strip()
+            detail = f": {stderr}" if stderr else ""
+            raise TrackADataFetchError(f"Track-A source data-fetch failed for {rel_path}{detail}")
         with dest.open("wb") as handle:
-            subprocess.run(
-                ["git", "show", f"{TRACKA_BRANCH}:{rel_path}"],
-                cwd=Path(__file__).resolve().parents[3],
-                stdout=handle,
-                stderr=subprocess.PIPE,
-                check=True,
-            )
+            handle.write(show.stdout)
 
 
 def run_tracka_script(rel_path: str) -> dict[str, Any]:
@@ -283,15 +305,31 @@ def status_from_evidence(
     yeast_summary: dict[str, object],
     human_summary: dict[str, object],
     rho_observed: float,
+    rho_null_mean: float,
     rho_null_p_ge: float,
+    edge_overlap: int,
+    edge_null_mean: float,
+    edge_null_p_ge: float,
     window6_connection: str,
 ) -> str:
     if not yeast_summary["boundary_supported"] or not human_summary["boundary_supported"]:
         return "refuted"
-    if window6_connection == "forced" and rho_null_p_ge <= 0.01:
+
+    rho_enriched = rho_observed > rho_null_mean + EPS
+    rho_significant = rho_enriched and rho_null_p_ge <= SIGNIFICANCE_ALPHA
+    edge_enriched = float(edge_overlap) > edge_null_mean + EPS
+    edge_significant = edge_enriched and edge_null_p_ge <= SIGNIFICANCE_ALPHA
+    if window6_connection == "forced" and rho_significant and edge_significant:
         return "certified"
-    if rho_observed >= 0.30 and rho_null_p_ge <= 0.05:
+
+    circular_only = window6_connection in {"q6_circular", "q6_circular_only"}
+    chance_level = not rho_significant and not edge_significant
+    if circular_only and chance_level:
         return "coincidence"
+
+    if window6_connection == "none" and chance_level:
+        return "coincidence"
+
     return "needs_derivation"
 
 
@@ -336,28 +374,42 @@ def main() -> None:
         edge_null_mean = mean([float(value) for value in edge_null_values])
         edge_null_p_ge = percentile_rank_ge([float(value) for value in edge_null_values], float(edge_overlap))
 
-        window6_connection = "q6_circular"
+        window6_connection = "q6_circular_only"
         reason = (
-            "Track-A is a real codon/tRNA supply-boundary signal in yeast and human, but its "
-            "per-codon boundary vector is not significantly more codon-E1-concentrated than a "
-            "matched synonymous relabel null, its edge-hiding overlap is no better than a "
-            "degeneracy-matched null, and the only Window6 route is the already closed q6 "
-            "convention rather than a nonzero Window6-to-codon forcing map."
+            "Track-A is a real codon/tRNA supply-boundary signal in yeast "
+            f"(delta_R2={round_float(float(tracka_yeast['delta_r2']))}, "
+            f"null_percentile={round_float(float(tracka_yeast['null_percentile']))}) and human "
+            f"(delta_R2={round_float(float(tracka_human['delta_r2']))}, "
+            f"null_percentile={round_float(float(tracka_human['null_percentile']))}). "
+            f"The pooled per-codon boundary vector has rho_E1={round_float(rho_observed)} "
+            f"against a synonymous-relabel null mean {round_float(rho_null_mean)} with "
+            f"p_ge={round_float(rho_null_p_ge)}, so the codon-E1 contact is not significant "
+            f"at alpha={SIGNIFICANCE_ALPHA}. Edge-hiding gives R_overlap={edge_overlap} "
+            f"against degeneracy-matched null mean {round_float(edge_null_mean)} with "
+            f"p_ge={round_float(edge_null_p_ge)}, so the overlap is chance-level rather "
+            "than enriched. The only Window6 contact is the q6 circular convention, not a "
+            "non-circular Window6-to-codon forcing map, so this is a biological boundary "
+            "fact recorded as coincidence and does not count as a certified Window6 forcing result."
         )
         status = status_from_evidence(
             tracka_yeast,
             tracka_human,
             rho_observed,
+            rho_null_mean,
             rho_null_p_ge,
+            edge_overlap,
+            edge_null_mean,
+            edge_null_p_ge,
             window6_connection,
         )
         if status == "needs_derivation":
             reason = (
-                "Track-A is a distinct bio-internal codon/tRNA supply-boundary fact: yeast and "
-                "human support the boundary-response, but the pooled per-codon signal is only "
-                "moderately in codon-E1 and not significant under the synonymous relabel null; "
-                "edge-hiding overlap is chance-level under degeneracy matching; no non-circular "
-                "Window6 forcing argument is present."
+                "Track-A is a distinct bio-internal codon/tRNA supply-boundary fact, but the "
+                "tested Window6 contacts do not satisfy the certificate gate: codon-E1 "
+                f"rho_E1={round_float(rho_observed)} with synonymous-relabel "
+                f"p_ge={round_float(rho_null_p_ge)}, edge-hiding R_overlap={edge_overlap} "
+                f"with degeneracy-matched p_ge={round_float(edge_null_p_ge)}, and "
+                f"window6_connection={window6_connection}."
             )
 
         emit(
@@ -396,7 +448,7 @@ def main() -> None:
             window6_connection=window6_connection,
             reason=reason,
         )
-    except subprocess.CalledProcessError as exc:
+    except TrackADataFetchError as exc:
         emit(
             "needs_derivation",
             track_a_yeast_delta_r2=None,
@@ -410,7 +462,7 @@ def main() -> None:
             R_overlap=None,
             R_overlap_null=None,
             window6_connection="none",
-            reason=f"external command failed: {exc.cmd}",
+            reason=str(exc),
         )
     except Exception as exc:
         emit(

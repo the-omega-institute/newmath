@@ -21,6 +21,21 @@ NUCLEOTIDES = ("U", "C", "A", "G")
 PYRIMIDINES = frozenset(("U", "C"))
 PURINES = frozenset(("A", "G"))
 
+BIOCHEMICAL_TRAITS = {
+    "YR": {
+        "description": "pyrimidine/purine",
+        "values": {"U": 0, "C": 0, "A": 1, "G": 1},
+    },
+    "SW": {
+        "description": "weak/strong Watson-Crick pairing",
+        "values": {"U": 0, "A": 0, "C": 1, "G": 1},
+    },
+    "KM": {
+        "description": "amino/keto base class",
+        "values": {"C": 0, "A": 0, "U": 1, "G": 1},
+    },
+}
+
 CODON_TO_MEANING = {
     "UUU": "Phe", "UUC": "Phe", "UUA": "Leu", "UUG": "Leu",
     "UCU": "Ser", "UCC": "Ser", "UCA": "Ser", "UCG": "Ser",
@@ -275,6 +290,293 @@ def arbitrary_encoding_control():
     }
 
 
+def counter_to_strings(values):
+    return {str(key): value for key, value in sorted(Counter(values).items())}
+
+
+def codon_bits(codon, encoding):
+    bits = []
+    for char in codon:
+        bits.extend(encoding[char])
+    return tuple(bits)
+
+
+def projected_word(word, deleted_coordinate):
+    return tuple(
+        bit for index, bit in enumerate(word)
+        if index != deleted_coordinate
+    )
+
+
+def biochemical_encoding_records():
+    records = []
+    trait_names = tuple(BIOCHEMICAL_TRAITS)
+    for trait_order in permutations(trait_names, 2):
+        for flips in product((0, 1), repeat=2):
+            encoding = {}
+            for nucleotide in NUCLEOTIDES:
+                encoding[nucleotide] = tuple(
+                    BIOCHEMICAL_TRAITS[trait_order[index]]["values"][nucleotide] ^ flips[index]
+                    for index in range(2)
+                )
+            records.append({
+                "name": "{}_{}_flip{}{}".format(
+                    trait_order[0], trait_order[1], flips[0], flips[1]
+                ),
+                "trait_order": trait_order,
+                "bit_flips": flips,
+                "encoding": encoding,
+            })
+    return records
+
+
+def encoding_signature(encoding):
+    return tuple(encoding[nucleotide] for nucleotide in NUCLEOTIDES)
+
+
+def arbitrary_encoding_signatures():
+    bit_pairs = ((0, 0), (0, 1), (1, 0), (1, 1))
+    return {
+        tuple(perm)
+        for perm in permutations(bit_pairs)
+    }
+
+
+def biochemical_encoding_coverage(records):
+    biochemical_signatures = {
+        encoding_signature(record["encoding"])
+        for record in records
+    }
+    arbitrary_signatures = arbitrary_encoding_signatures()
+    return {
+        "biochemical_encoding_count": len(records),
+        "unique_biochemical_encodings": len(biochemical_signatures),
+        "arbitrary_two_bit_bijection_count": len(arbitrary_signatures),
+        "covers_all_arbitrary_two_bit_bijections": biochemical_signatures == arbitrary_signatures,
+        "traits": {
+            name: {
+                "description": item["description"],
+                "values": item["values"],
+            }
+            for name, item in sorted(BIOCHEMICAL_TRAITS.items())
+        },
+    }
+
+
+def gamma6_family_selector_report(records, gamma6_words):
+    gamma6_set = set(gamma6_words)
+    all_codons = codon_order()
+    family_by_codon = {}
+    for index, family in enumerate(SYNONYMOUS_FAMILIES):
+        for codon in family:
+            family_by_codon[codon] = index
+
+    summaries = []
+    for record in records:
+        encoding = record["encoding"]
+        selected = [
+            codon for codon in all_codons
+            if codon_bits(codon, encoding) in gamma6_set
+        ]
+        family_hits = Counter(
+            family_by_codon[codon]
+            for codon in selected
+            if codon in family_by_codon
+        )
+        non_family_codons = [
+            codon for codon in selected
+            if codon not in family_by_codon
+        ]
+        output_counts = Counter(CODON_TO_MEANING[codon] for codon in selected)
+        summaries.append({
+            "encoding": record["name"],
+            "selected_count": len(selected),
+            "family_hit_count": len(family_hits),
+            "one_representative_family_count": sum(
+                1 for count in family_hits.values()
+                if count == 1
+            ),
+            "non_family_selected_count": len(non_family_codons),
+            "non_family_selected_codons": non_family_codons,
+            "output_class_hit_count": len(output_counts),
+            "family_hit_multiplicity_counts": counter_to_strings(family_hits.values()),
+            "one_representative_per_family": (
+                len(selected) == len(SYNONYMOUS_FAMILIES)
+                and len(family_hits) == len(SYNONYMOUS_FAMILIES)
+                and all(count == 1 for count in family_hits.values())
+                and not non_family_codons
+            ),
+        })
+
+    successes = [
+        item for item in summaries
+        if item["one_representative_per_family"]
+    ]
+    best_family_hit_count = max(item["family_hit_count"] for item in summaries)
+    best_examples = [
+        item for item in summaries
+        if item["family_hit_count"] == best_family_hit_count
+    ][:4]
+    return {
+        "encoding_count": len(summaries),
+        "selected_count_distribution": counter_to_strings(
+            item["selected_count"] for item in summaries
+        ),
+        "family_hit_count_distribution": counter_to_strings(
+            item["family_hit_count"] for item in summaries
+        ),
+        "output_class_hit_count_distribution": counter_to_strings(
+            item["output_class_hit_count"] for item in summaries
+        ),
+        "non_family_selected_count_distribution": counter_to_strings(
+            item["non_family_selected_count"] for item in summaries
+        ),
+        "success_count": len(successes),
+        "best_family_hit_count": best_family_hit_count,
+        "best_examples": best_examples,
+    }
+
+
+def r_boundary_gamma5_projection_report(records, gamma5_words):
+    gamma5_set = set(gamma5_words)
+    projection_records = []
+    for record in records:
+        encoding = record["encoding"]
+        for deleted_coordinate in range(6):
+            images = [
+                projected_word(codon_bits(codon, encoding), deleted_coordinate)
+                for codon in R_BOUNDARY
+            ]
+            image_set = set(images)
+            projection_records.append({
+                "encoding": record["name"],
+                "deleted_coordinate": deleted_coordinate,
+                "unique_projected_words": len(image_set),
+                "gamma5_member_codons": sum(1 for image in images if image in gamma5_set),
+                "is_injective": len(image_set) == len(R_BOUNDARY),
+                "image_is_gamma5": image_set == gamma5_set,
+            })
+
+    exact = [
+        item for item in projection_records
+        if item["is_injective"] and item["image_is_gamma5"]
+    ]
+    max_unique = max(item["unique_projected_words"] for item in projection_records)
+    max_hits = max(item["gamma5_member_codons"] for item in projection_records)
+    best_examples = [
+        item for item in projection_records
+        if item["unique_projected_words"] == max_unique
+        and item["gamma5_member_codons"] == max_hits
+    ][:4]
+    if not best_examples:
+        best_examples = [
+            item for item in projection_records
+            if item["unique_projected_words"] == max_unique
+        ][:4]
+    return {
+        "projection_count": len(projection_records),
+        "exact_gamma5_image_count": len(exact),
+        "injective_projection_count": sum(
+            1 for item in projection_records
+            if item["is_injective"]
+        ),
+        "unique_projected_word_distribution": counter_to_strings(
+            item["unique_projected_words"] for item in projection_records
+        ),
+        "gamma5_member_codon_distribution": counter_to_strings(
+            item["gamma5_member_codons"] for item in projection_records
+        ),
+        "max_unique_projected_words": max_unique,
+        "max_gamma5_member_codons": max_hits,
+        "best_examples": best_examples,
+    }
+
+
+def third_position_yr_bit(codons, flip):
+    symbols = {codon[2] for codon in codons}
+    if symbols <= PYRIMIDINES:
+        return 0 ^ flip
+    if symbols <= PURINES:
+        return 1 ^ flip
+    return None
+
+
+def split_wobble_gamma5_fiber_report(records, split_blocks, gamma5_words):
+    gamma5_set = set(gamma5_words)
+    candidate_records = []
+    mixed_blocks = []
+    for block in split_blocks:
+        if third_position_yr_bit(block["codons"], 0) is None:
+            mixed_blocks.append({
+                "box": block["box"],
+                "meaning": block["meaning"],
+                "codons": block["codons"],
+                "third_symbols": block["third_symbols"],
+            })
+
+    for record in records:
+        encoding = record["encoding"]
+        for yr_flip in (0, 1):
+            images = []
+            unmapped = []
+            for block in split_blocks:
+                wobble_bit = third_position_yr_bit(block["codons"], yr_flip)
+                if wobble_bit is None:
+                    unmapped.append(block["box"] + ":" + block["meaning"])
+                    continue
+                prefix = block["box"][:2]
+                images.append(encoding[prefix[0]] + encoding[prefix[1]] + (wobble_bit,))
+            image_set = set(images)
+            candidate_records.append({
+                "encoding": record["name"],
+                "yr_bit_flip": yr_flip,
+                "mapped_blocks": len(images),
+                "unmapped_blocks": len(unmapped),
+                "unmapped_labels": unmapped,
+                "unique_image_count": len(image_set),
+                "gamma5_member_images": sum(1 for image in images if image in gamma5_set),
+                "is_total_bijection_to_gamma5": (
+                    not unmapped
+                    and len(image_set) == len(gamma5_set)
+                    and image_set == gamma5_set
+                ),
+            })
+
+    exact = [
+        item for item in candidate_records
+        if item["is_total_bijection_to_gamma5"]
+    ]
+    max_mapped = max(item["mapped_blocks"] for item in candidate_records)
+    max_unique = max(item["unique_image_count"] for item in candidate_records)
+    max_hits = max(item["gamma5_member_images"] for item in candidate_records)
+    return {
+        "candidate_count": len(candidate_records),
+        "total_bijection_count": len(exact),
+        "mapped_block_count_distribution": counter_to_strings(
+            item["mapped_blocks"] for item in candidate_records
+        ),
+        "unmapped_block_count_distribution": counter_to_strings(
+            item["unmapped_blocks"] for item in candidate_records
+        ),
+        "unique_image_count_distribution": counter_to_strings(
+            item["unique_image_count"] for item in candidate_records
+        ),
+        "gamma5_member_image_distribution": counter_to_strings(
+            item["gamma5_member_images"] for item in candidate_records
+        ),
+        "max_mapped_blocks": max_mapped,
+        "max_unique_image_count": max_unique,
+        "max_gamma5_member_images": max_hits,
+        "mixed_wobble_blocks": mixed_blocks,
+        "best_examples": [
+            item for item in candidate_records
+            if item["mapped_blocks"] == max_mapped
+            and item["unique_image_count"] == max_unique
+            and item["gamma5_member_images"] == max_hits
+        ][:4],
+    }
+
+
 def candidate_checks():
     boxes = build_boxes()
     gamma5 = fibonacci_cube(5)
@@ -285,6 +587,21 @@ def candidate_checks():
     family_boxes = sorted(name for name, box in boxes.items() if box["kind"] == "family")
     split_boxes = sorted(name for name, box in boxes.items() if box["kind"] == "split")
     arbitrary_control = arbitrary_encoding_control()
+    biochemical_records = biochemical_encoding_records()
+    biochemical_coverage = biochemical_encoding_coverage(biochemical_records)
+    family_selector_report = gamma6_family_selector_report(
+        biochemical_records,
+        gamma6["words"],
+    )
+    r_projection_report = r_boundary_gamma5_projection_report(
+        biochemical_records,
+        gamma5["words"],
+    )
+    split_fiber_report = split_wobble_gamma5_fiber_report(
+        biochemical_records,
+        split_blocks,
+        gamma5["words"],
+    )
 
     family_size_counts = block_size_counts(SYNONYMOUS_FAMILIES)
     split_size_counts = list_size_counts(split_blocks)
@@ -437,6 +754,66 @@ def candidate_checks():
                 "is only a relabeling of all 64 binary words"
             ),
         },
+        {
+            "name": "biochemical_two_trait_encodings_exhaust_arbitrary_controls",
+            "passed": biochemical_coverage["covers_all_arbitrary_two_bit_bijections"],
+            "respects_biology": True,
+            "respects_window": False,
+            "explicit_bijection": True,
+            "necessity_argument": False,
+            "details": biochemical_coverage,
+            "obstruction": (
+                "using two independent biochemical dichotomies among Y/R, S/W, "
+                "and K/M with bit flips gives exactly the same 24 nucleotide-to-"
+                "two-bit bijections as the arbitrary encoding control; therefore "
+                "the bare 21 selected by gamma6 is not biology-specific"
+            ),
+        },
+        {
+            "name": "biochemical_gamma6_selector_to_21_synonymous_families",
+            "passed": family_selector_report["success_count"] > 0,
+            "respects_biology": True,
+            "respects_window": True,
+            "explicit_bijection": family_selector_report["success_count"] > 0,
+            "necessity_argument": False,
+            "specificity_control_passed": False,
+            "details": family_selector_report,
+            "obstruction": (
+                "under all 24 two-trait biochemical encodings, gamma6 still selects "
+                "21 codons by the universal no-adjacent-one count, but no selection "
+                "gives one representative for each of the 21 synonymous families"
+            ),
+        },
+        {
+            "name": "biochemical_r_boundary_to_gamma5_projection",
+            "passed": r_projection_report["exact_gamma5_image_count"] > 0,
+            "respects_biology": True,
+            "respects_window": True,
+            "explicit_bijection": r_projection_report["exact_gamma5_image_count"] > 0,
+            "necessity_argument": False,
+            "specificity_control_passed": False,
+            "details": r_projection_report,
+            "obstruction": (
+                "projecting the biologically encoded R boundary by deleting one "
+                "coordinate never yields an injective image equal to gamma5; at "
+                "best the 13 boundary codons collapse to 12 projected words"
+            ),
+        },
+        {
+            "name": "biochemical_split_wobble_subblocks_to_gamma5_fibers",
+            "passed": split_fiber_report["total_bijection_count"] > 0,
+            "respects_biology": True,
+            "respects_window": True,
+            "explicit_bijection": split_fiber_report["total_bijection_count"] > 0,
+            "necessity_argument": False,
+            "specificity_control_passed": False,
+            "details": split_fiber_report,
+            "obstruction": (
+                "the split-box subblocks are real wobble objects, but the Ile "
+                "three-codon block is mixed across Y/R and blocks mapped by prefix "
+                "plus wobble class do not form gamma5"
+            ),
+        },
     ]
 
     summary = {
@@ -453,7 +830,16 @@ def candidate_checks():
             and check.get("respects_biology")
             and check.get("respects_window")
             and check.get("necessity_argument")
+            and check.get("specificity_control_passed", True)
         ],
+        "biochemical_encoding_specificity": {
+            "two_trait_encodings_cover_all_two_bit_bijections": (
+                biochemical_coverage["covers_all_arbitrary_two_bit_bijections"]
+            ),
+            "gamma6_family_selector_successes": family_selector_report["success_count"],
+            "r_boundary_gamma5_projection_successes": r_projection_report["exact_gamma5_image_count"],
+            "split_wobble_gamma5_fiber_successes": split_fiber_report["total_bijection_count"],
+        },
     }
     return checks, summary
 
@@ -483,9 +869,13 @@ def main():
         note=(
             "The counts 21 and 13 match the width-6 and width-5 Fibonacci cubes, "
             "but the tested canonical biological structures do not yield a "
-            "structure-respecting forcing map.  The split-box thirteen is a real "
-            "wobble object; R is a separate boundary object.  Neither is forced by "
-            "the Window6 horizon in this derivation."
+            "structure-respecting forcing map.  The biochemical two-trait encodings "
+            "from Y/R, S/W, and K/M exhaust the same 24 two-bit relabelings as the "
+            "arbitrary control; gamma6 selects 21 codons in every case but never "
+            "one representative for each synonymous family.  R-boundary projections "
+            "and split-box wobble fibers also fail to biject onto gamma5.  This "
+            "finite adjudication therefore classifies the cardinality bridge as "
+            "coincidence, not certified forcing."
         ),
     )
 
