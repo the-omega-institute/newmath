@@ -96,6 +96,22 @@ Read the closedness and computation rows next. The closedness row $C$ supplies e
 Finally apply the NameCert obligations and the regression surface theorem. The row $R$ records the regression family, while $P$ keeps the closed-substitution boundary, type-checking derivation trace, and proof-erasure trace as sibling provenance. Transport, replay, provenance, and local naming through $H,K,P,N$ preserve the same finite route and add no global metatheorem.
 \end{proof}
 
+\begin{theorem}[Typed example gallery formal-target frontier]
+\label{thm:typed-example-gallery-formal-target-frontier}
+Any formal target emitted by the $\TypedExampleGalleryUp$ packet may quantify only over the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+of \autoref{def:typed-example-gallery-carrier}: entry exposure, checker row, closedness row, beta row, regression row, transport, replay, provenance, and local $\NameCert$ naming. The gallery may therefore request formalization of carrier admission, row exhaustion, checker visibility, closed-beta regression, and structural nonescape for those rows, but it may not emit a target for subject reduction, normalization, confluence, global conversion, arbitrary checker completeness, proof-erased compiler correctness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. They expose only $E,T,C,B,R,H,K,P,N$, so every formal target must be a statement about those displayed gallery rows and their transport, replay, provenance, and local naming surface.
+
+Use the obligation frontier and checker-row exhaustion theorems next. They identify the checker-facing and closedness-facing data with the finite rows $T$ and $C$, and they leave no coordinate for arbitrary checker completeness or a host evaluator.
+
+Finally apply the closed beta regression route. The row $B$ and regression row $R$ cover only the displayed examples, while $P$ keeps the closed-substitution, typechecking-derivation, and proof-erasure siblings as provenance. Since the carrier has no coordinate for arbitrary terms or global reduction theory, subject reduction, normalization, confluence, global conversion, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the formal-target frontier.
+\end{proof}
+
 \begin{theorem}[Typed example gallery normal-form separation]
 \label{thm:typed-example-gallery-typed-normal-form-separation}
 Every accepted $\TypedExampleGalleryUp$ packet separates displayed normal-form examples from global normalization. A public normal-form read must pass through the displayed entry row $E$, type row $T$, closedness row $C$, beta row $B$, regression row $R$, and sibling provenance $P$ to \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. No consumer may infer strong normalization, confluence, or global conversion decidability from that finite gallery route.
