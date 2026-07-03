@@ -426,6 +426,7 @@ import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.FrontierHandoff
 import BEDC.Derived.AuditMapObstructionSocketUp.NameCertObligations
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
+import BEDC.Derived.AuditMapRouteBudgetUp
 import BEDC.Derived.AuditMapRouteBudgetUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp
 import BEDC.Derived.AuditMapRouteCompilerUp.GroundCompilerHandoff
@@ -3104,6 +3105,7 @@ import BEDC.Derived.ChoiceFreeRealSealUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
+import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
@@ -13000,6 +13002,7 @@ import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.SyntacticMonoidUp.TasteGate
+import BEDC.Derived.SystemFUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
 import BEDC.Derived.TaggedRealPartitionUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
