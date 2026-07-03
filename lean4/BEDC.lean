@@ -404,6 +404,7 @@ import BEDC.Derived.AuditGateFailureWitnessUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
 import BEDC.Derived.AuditMapCoverageLedgerUp.TasteGate
 import BEDC.Derived.AuditMapDependencyWeaveUp
+import BEDC.Derived.AuditMapFamilyLedgerUp.NameCertObligations
 import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyUp.StrictLocalObstruction
@@ -1194,6 +1195,7 @@ import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
 import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
+import BEDC.Derived.BishopRegularRealSealUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
 import BEDC.Derived.BishopSeparatedRealCompletionUp
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
@@ -7398,7 +7400,6 @@ import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
 import BEDC.Derived.JordanDecompositionBoundedVariationUp
-import BEDC.Derived.JordanDecompositionBoundedVariationUp.TasteGate
 import BEDC.Derived.JordanTotientExtUp
 import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
@@ -11245,6 +11246,7 @@ import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailTerminalSectionCover
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
 import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
+import BEDC.Derived.RegSeqRatUp.FiniteRequestTerminalBudgetFactorization
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
 import BEDC.Derived.RegSeqRatUp.RealSealRouteExclusionPackage
 import BEDC.Derived.RegSeqRatUp.RealTerminalFourFaceExactness
