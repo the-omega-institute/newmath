@@ -20,6 +20,7 @@ import BedcMathlibBridge.Constructive.Derangement
 import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.EuclidFactorial
+import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
 import BedcMathlibBridge.Constructive.Delannoy
