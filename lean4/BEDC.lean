@@ -5984,6 +5984,7 @@ import BEDC.Derived.FibonacciCubeUp.TasteGate
 import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Derived.FibonacciPolyaJensenDeformation
+import BEDC.Derived.FibonacciCubeIharaZeta
 import BEDC.Derived.FibonacciPolyaJensenKernel
 import BEDC.Derived.ZeckendorfMobiusSieve
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
