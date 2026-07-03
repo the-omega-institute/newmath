@@ -69,6 +69,7 @@ import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
 import BEDC.Derived.ActiveReadingGateUp.RegistryConsumerCoverage
+import BEDC.Derived.ActiveReadingGateUp.SingleActiveObstruction
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
@@ -3017,6 +3018,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularTrustSubstrateUp.SiblingScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.StrictObstructionLocality
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.CellularVerbRealignmentUp.NameCertObligations
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CellularWindowTraceUp.TasteGate
 import BEDC.Derived.CenteredPolygonalUp
@@ -3217,6 +3219,7 @@ import BEDC.Derived.ClosedConsistencyAssemblyUp.ObligationHandoff
 import BEDC.Derived.ClosedConsistencyAssemblyUp.SiblingRouting
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
+import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.ObstructionReadback
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
@@ -9685,6 +9688,7 @@ import BEDC.Derived.OpenPhysicalFitUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.OperatorNormUp.TasteGate
+import BEDC.Derived.OpialConditionUp.TasteGate
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.AbsentNoPresent
@@ -9766,6 +9770,7 @@ import BEDC.Derived.OptionalStieltjesModulusUp
 import BEDC.Derived.OptionalStieltjesModulusUp.TasteGate
 import BEDC.Derived.OptionalStoppingUp
 import BEDC.Derived.OptionalStoppingUp.TasteGate
+import BEDC.Derived.OracleAugmentedSubstrateUp.CarrierRowExposure
 import BEDC.Derived.OracleAugmentedSubstrateUp.OracleNonEscape
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
 import BEDC.Derived.OracleResponseLedgerUp.TasteGate
@@ -11442,6 +11447,7 @@ import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDensityUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
+import BEDC.Derived.RegularCauchyDiagonalEmbeddingUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
