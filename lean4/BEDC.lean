@@ -8724,6 +8724,7 @@ import BEDC.Derived.MetaCICLocalConfluenceFrontierUp
 import BEDC.Derived.MetaCICLocalDiamondWitnessUp.TasteGate
 import BEDC.Derived.MetaCICLocalJoinLedgerUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
+import BEDC.Derived.MetaCICNormalEndpointBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalEndpointCutUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
