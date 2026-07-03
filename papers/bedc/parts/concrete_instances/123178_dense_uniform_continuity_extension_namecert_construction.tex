@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\DenseUniformContinuityExtensionUp$}
+\label{ch:concrete-instances-dense-uniform-continuity-extension-namecert}
+\origin{human}
+
+Following Bishop-style constructive completion practice, the $\DenseUniformContinuityExtensionUp$ packet records extension of a uniformly continuous map from dense data as finite NameCert evidence rather than as an ambient choice principle. It sits on the L10 completion path beside the uniform carrier of \autoref{ch:concrete-instances-uniformspace-namecert}, the completion interface of \autoref{ch:concrete-instances-completionembedding-namecert}, the distance-preserving route of \autoref{ch:concrete-instances-isometric-embedding-namecert}, and the regular Cauchy dense embedding of \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}.
+
+\begin{definition}[Dense uniform-continuity extension carrier]
+\label{def:dense-uniform-continuity-extension-carrier}
+A $\DenseUniformContinuityExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(U,J,I,D,F,M,W,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $U$ names the source and target $\UniformSpaceUp$ rows and the displayed entourage or modulus surface used to read uniform continuity.
+\item $J$ records the $\CompletionEmbeddingUp$ row for the source dense domain and its completion target.
+\item $I$ records the $\IsometricEmbeddingUp$ comparison row, so equality of completed representatives is read through the displayed embedding interface.
+\item $D$ records the $\RegularCauchyDenseEmbeddingUp$ density row, including the regular Cauchy approximation route from completed points back to dense witnesses.
+\item $F$ records the uniformly continuous dense map on the displayed dense source rows.
+\item $M$ records the modulus or entourage transport proving that approximating dense witnesses are sent to compatible target Cauchy data.
+\item $W$ is the extension-well-definedness row, asserting that two displayed dense approximation routes with the same completed source point produce $\hsame$ target completion rows.
+\item $H$ records componentwise $\hsame$ transport for $U,J,I,D,F,M,W$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from dense approximation through modulus transport and well-defined target completion.
+\item $P$ is the $\Pkg$ provenance over $\DenseUniformContinuityExtensionUp$, $\UniformSpaceUp$, $\CompletionEmbeddingUp$, $\IsometricEmbeddingUp$, $\RegularCauchyDenseEmbeddingUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DenseUniformContinuityExtensionUp}$ row.
+\end{enumerate}
+The carrier exports only this finite extension route. It has no coordinate for arbitrary choice of dense representatives, completeness of an unrelated target, pointwise continuity without a displayed uniform modulus, or uniqueness outside the named completion and embedding rows.
+\end{definition}
+\leanstmt{BEDC.Derived.DenseUniformContinuityExtensionUp}
+
+\begin{theorem}[Dense uniform-continuity extension obligations]
+\label{thm:dense-uniform-continuity-extension-obligations}
+For the carrier of \autoref{def:dense-uniform-continuity-extension-carrier}, the local $\NameCert_{\DenseUniformContinuityExtensionUp}$ surface consists exactly of source and target uniform-space admission, completion-embedding admission, isometric-embedding comparison, regular-Cauchy dense approximation, dense-map admission, modulus or entourage transport, extension well-definedness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $U,J,I,D,F,M,W,H,C,P,N$. The rows $U,J,I,D$ place the construction inside the displayed uniform, completion, isometric, and dense-regular-Cauchy interfaces.
+
+Read the dense map and transport rows next. The row $F$ supplies the map on dense witnesses, while $M$ records the uniform-continuity data needed to send approximating dense histories to compatible target histories.
+
+Finally apply the well-definedness and structural rows. The row $W$ identifies target completion rows obtained from equivalent dense approximations, and $H,C,P,N$ preserve, replay, source, and name the same packet. Since no other row is present, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Dense uniform-continuity extension sibling dependency]
+\label{thm:dense-uniform-continuity-extension-sibling-dependency}
+Every accepted $\DenseUniformContinuityExtensionUp$ export factors through the sibling interfaces $\UniformSpaceUp$, $\CompletionEmbeddingUp$, $\IsometricEmbeddingUp$, and $\RegularCauchyDenseEmbeddingUp$ before it may be read as an extension certificate. The packet supplies a dense uniformly continuous map and its extension route, but it does not by itself supply a new uniform-space structure, a new completion embedding, a new isometric embedding theorem, or a new density theorem.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:dense-uniform-continuity-extension-carrier}. The only rows capable of naming the ambient uniform data, completion route, isometric comparison, and dense approximation are $U,J,I,D$.
+
+Apply \autoref{thm:dense-uniform-continuity-extension-obligations}. A consumer that reads an extension must first expose those sibling rows and then pass through $F,M,W,H,C,P,N$.
+
+The excluded readings have no coordinate in the carrier. New uniform-space, completion, isometry, and density results must therefore be supplied by their named sibling chapters rather than by this extension packet.
+\end{proof}
+
+\closureat{DenseUniformContinuityExtensionUp}{seedStr}
+
+\begin{closurestatus}{\DenseUniformContinuityExtensionUp}
+  \constructivestory{A $\DenseUniformContinuityExtensionUp$ packet is generated from displayed uniform-space, completion-embedding, isometric-embedding, regular-Cauchy density, dense-map, uniform-modulus, well-definedness, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dense-uniform-continuity-extension-carrier}, \autoref{thm:dense-uniform-continuity-extension-obligations}, and \autoref{thm:dense-uniform-continuity-extension-sibling-dependency} bind the finite rows needed to state extension from dense uniformly continuous data along the L10 completion path.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary representative choice, unrelated target completeness, pointwise-only continuity, or uniqueness outside the named completion and embedding rows.}
+  \upgradepath{Lean closure requires checked carrier, sibling-dependency, and well-defined extension obligations for $\DenseUniformContinuityExtensionUp$.}
+\end{closurestatus}

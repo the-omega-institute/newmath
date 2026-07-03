@@ -67,6 +67,7 @@ import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
+import BEDC.Derived.ActiveReadingGateUp.RegistryConsumerCoverage
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
@@ -4880,6 +4881,7 @@ import BEDC.Derived.DenseEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
+import BEDC.Derived.DenseUniformContinuityExtensionUp
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.CompletionConsumerRoute
 import BEDC.Derived.DenseUniformEmbeddingUp.LedgerNonescape
@@ -6269,6 +6271,7 @@ import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteFanTheoremUp.TasteGate
 import BEDC.Derived.FiniteFourierEnergyUp
+import BEDC.Derived.FiniteFourierEnergyUp.TasteGate
 import BEDC.Derived.FiniteFourierTailProjectorUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
@@ -12141,6 +12144,7 @@ import BEDC.Derived.ScottTopologyUp.TasteGate
 import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
+import BEDC.Derived.SectionMeaningCertificateUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
 import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
