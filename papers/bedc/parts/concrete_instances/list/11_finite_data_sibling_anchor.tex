@@ -1,0 +1,11 @@
+The finite-data sibling anchor for $\ListUp$ records the exact rows consumed before public list reads leave the spine certificate.
+
+\begin{theorem}[List finite-data sibling anchor]
+\label{thm:list-finite-data-sibling-anchor}
+The $\ListUp$ spine route consumes $\BoolUp$ tag rows, $\OptionUp$ endpoint rows, $\ProdUp$ component envelopes, and $\SumUp$ branch rows before empty, cons, append, reverse, or payload-bearing list reads are public. Thus the list certificate is anchored in the finite-data sibling lattice of \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-sum-namecert}.
+\end{theorem}
+\begin{proof}
+Read the sibling rows in the order used by the list spine. The $\BoolUp$ row supplies visible tags, the $\OptionUp$ row separates absent and present endpoints, the $\ProdUp$ row packages component envelopes, and the $\SumUp$ row records branch alternatives.
+
+After those rows have been displayed, the list spine can expose empty, cons, append, reverse, and payload-bearing reads as public list data. Since the public reads consume precisely the tag, endpoint, component, and branch rows named above, the certificate remains anchored in the finite-data sibling lattice rather than in an unrecorded host list object.
+\end{proof}
