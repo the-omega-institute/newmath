@@ -65,30 +65,34 @@ def regularCauchyDiagonalEmbeddingToEventFlow :
           BMark.b0],
         regularCauchyDiagonalEmbeddingEncodeBHist localName]
 
-def regularCauchyDiagonalEmbeddingFromEventFlow :
-    EventFlow → Option RegularCauchyDiagonalEmbeddingUp
+private def regularCauchyDiagonalEmbeddingRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [[BMark.b0], dyadicEndpoint, [BMark.b1, BMark.b0], streamWindow,
-      [BMark.b1, BMark.b1, BMark.b0], regularReadback,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], realConsumer,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], transport,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], replay,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0],
-      localName] =>
-      some
-        (RegularCauchyDiagonalEmbeddingUp.mk
-          (regularCauchyDiagonalEmbeddingDecodeBHist dyadicEndpoint)
-          (regularCauchyDiagonalEmbeddingDecodeBHist streamWindow)
-          (regularCauchyDiagonalEmbeddingDecodeBHist regularReadback)
-          (regularCauchyDiagonalEmbeddingDecodeBHist realConsumer)
-          (regularCauchyDiagonalEmbeddingDecodeBHist transport)
-          (regularCauchyDiagonalEmbeddingDecodeBHist replay)
-          (regularCauchyDiagonalEmbeddingDecodeBHist provenance)
-          (regularCauchyDiagonalEmbeddingDecodeBHist localName))
-  | _ => none
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyDiagonalEmbeddingRawAt index rest
+
+def regularCauchyDiagonalEmbeddingFromEventFlow (flow : EventFlow) :
+    Option RegularCauchyDiagonalEmbeddingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyDiagonalEmbeddingUp.mk
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 1 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 3 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 5 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 7 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 9 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 11 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 13 flow))
+      (regularCauchyDiagonalEmbeddingDecodeBHist
+        (regularCauchyDiagonalEmbeddingRawAt 15 flow)))
 
 private theorem regularCauchyDiagonalEmbedding_round_trip :
     ∀ x : RegularCauchyDiagonalEmbeddingUp,
