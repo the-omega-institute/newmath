@@ -13528,6 +13528,7 @@ import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformLipschitzCompactVisionUp.TasteGate
 import BEDC.Derived.UniformLipschitzFamilyUp.TasteGate
 import BEDC.Derived.UniformModulusCompositionUp.TasteGate
+import BEDC.Derived.UniformModulusLedgerUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
