@@ -384,6 +384,7 @@ import BEDC.Derived.AspectChainUp.ConsumerBoundary
 import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.PublicExport
 import BEDC.Derived.AspectChainUp.TasteGate
+import BEDC.Derived.AssouadDimensionUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
@@ -9563,6 +9564,7 @@ import BEDC.Derived.ObservationClassifiedSymmetryUp
 import BEDC.Derived.ObservationConservationLedgerUp
 import BEDC.Derived.ObservationCouplingUp
 import BEDC.Derived.ObservationFiberDigestUp.TasteGate
+import BEDC.Derived.ObservationLogicBoundaryUp.NameCertObligations
 import BEDC.Derived.ObservationLogicBoundaryUp.TasteGate
 import BEDC.Derived.ObservationReflectionHandoffUp.TasteGate
 import BEDC.Derived.ObservationReflectionPacketUp.NonescapeFields
