@@ -207,6 +207,27 @@ Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaust
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierWindowScope}
 
+\begin{theorem}[RealClassifier common-window totality]\label{thm:realclassifier-common-window-totality}
+Every accepted classifier request between two terminal $\RealUp$ seals either displays the common $\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ ledger $D$ and then follows the finite route
+$$
+S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N,
+$$
+or is rejected as outside the $\RealClassifierUp$ carrier. Thus a consumer-facing classifier read is total over the displayed route and refuses every request that omits the common window or tolerance ledger.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N).
+$$
+The carrier gives the two terminal seals together with their regular rational source rows, readbacks, common StreamName window, dyadic tolerance ledger, classifier row, equivalence row, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:real-classifier-namecert-obligations} and \autoref{thm:real-classifier-regseqrat-handoff}. These force an accepted classifier request to expose the RegSeqRat source and readback rows before it reaches the public classifier boundary, and they identify $W$ and $D$ as the common finite inspection surface.
+
+Use real seal non-escape and ledger exhaustion, \autoref{thm:real-classifier-real-seal-nonescape} and \autoref{thm:real-classifier-ledger-exhaustion}. A request that tries to read the terminal seals directly, or that omits the common window or tolerance ledger, has no carrier coordinate and no structural row through which it can be transported or replayed.
+
+Finally apply \autoref{thm:real-classifier-window-scope}. Once $W$ and $D$ are displayed, the remaining rows $C,E,H,K,P,N$ route the classifier and equivalence boundary, transport, replay, provenance, and local naming data. Hence every accepted request follows the listed finite route, while every other request is refused by carrier admission.
+\end{proof}
+
 \begin{theorem}[RealClassifier common-window quotient refusal]
 \label{thm:real-classifier-common-window-quotient-refusal}
 For accepted $\RealClassifierUp$ carriers, a public equality or classifier read is admissible only when both terminal $\RealUp$ seals are compared through the same $\StreamNameUp$ window $W$ and the same $\DyadicRatCoreUp$ ledger $D$. Any attempted read that identifies the terminal $\RealUp$ seals directly, without displaying both $W$ and $D$, leaves the carrier surface and cannot be cited as $\RealClassifierUp$ evidence.
