@@ -1703,6 +1703,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.TailCofinality
 import BEDC.Derived.CanonicalTailChoiceUp.TailInhabitation
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.WindowStability
+import BEDC.Derived.CantorBarModulusUp
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorBernsteinUp.TasteGate
 import BEDC.Derived.CantorCompleteMetricUp.TasteGate
