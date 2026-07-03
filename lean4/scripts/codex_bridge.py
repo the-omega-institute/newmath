@@ -223,24 +223,39 @@ def gates_ok() -> tuple[bool, str]:
     return True, f"load={load1:.1f} avail={avail_gb:.1f}GB swap={swap_gb:.1f}GB"
 
 
-COVERAGE_GAP_PROMPT_SUFFIX = """
+STRUCTURAL_BRIDGE_PROMPT_SUFFIX = """
 
-Coverage-gap candidate handling. When the candidate JSON has
-"source": "coverage-gap", it is a BEDC combinatorial / number-theoretic carrier
-(not a container/relation), given as a namespace plus its concrete
-Nat-recursion declarations in "bridge_decls". Do this:
-- Explore the carrier namespace and identify the PRIMARY closed sequence / count
-  function (the one a named integer sequence corresponds to), not an internal
-  helper like a prefix-sum or a fuel-bounded accumulator.
-- Find its pre-existing Mathlib counterpart yourself (workspace-symbol / hover /
-  leansearch over Mathlib; e.g. a Nat.* or a Nat.choose-based closed form). The
-  "mathlib_target_guess" is null on purpose: you determine the real target,
-  subject to hardened requirement 1 (must be a pre-existing Mathlib decl).
-- If a clean 0-axiom correspondence exists, write the exported_core bridge for
-  that ONE function. If the honest correspondence needs Rat / Finset / Classical
-  / Quot (e.g. Bernoulli-valued or generating-function objects), either write a
-  measured_boundary row per requirement 6(a) or leave the worktree unchanged.
-- Never fabricate a correspondence to a mathlib decl that is not actually equal.
+Structural-carrier bridge (the ONLY bridge kind this daemon may produce).
+The candidate is a genuine BEDC STRUCTURAL carrier: a `structure` / `inductive`
+(or a carrier `Type` with BEDC-defined operations and relations), e.g. the
+GaussInt / ZMod / EisInt / TaggedOptionHistoryCarrier / ListHistoryCarrier /
+SumHistoryCarrier class. Your job is to connect the BEDC OBJECT to a mathlib
+OBJECT, not a Nat value to a Nat function.
+
+HARD anti-laundering rules (a violation must make you leave the worktree
+unchanged rather than ship it):
+- FORBIDDEN: a Nat-value facade. Do NOT write `f n = Nat.<fn> n` /
+  `bwordLength (natToUnary (g (bwordLength ...))) = Nat.<fn>` or any equality
+  whose BEDC side reduces to a plain `Nat -> ... -> Nat` recursion through a
+  `natToUnary` / `bwordLength` identity round-trip. `bwordLength (natToUnary n)
+  = n` is proven, so that round-trip carries no content (a dead anchor).
+- REQUIRED: the bridge is a CARRIER / RELATION / ALGEBRAIC-STRUCTURE
+  correspondence over the BEDC carrier. Concretely, write to/from maps between
+  the BEDC carrier and the mathlib object and show they are mutually inverse (a
+  carrier equivalence), and/or show the BEDC OPERATIONS/RELATIONS (defined in
+  BEDC on that carrier, e.g. GaussAdd/GaussMul, zmodAdd/zmodMul, the tagged
+  constructors) correspond to the mathlib operations. Use BEDC's OWN operations
+  as the bridge source; never pull a mathlib operation back through to/from maps
+  and pass it off as "the BEDC operation" (structure-grafting = laundering).
+- The exported_core row's `correspondence_shape_guess` must be a structural
+  shape (carrier_equiv / rel_equiv / ring_equiv / ...), and `mathlib_decl` must
+  be a mathlib TYPE / STRUCTURE / relation (Option, List, Sum, GaussianInt,
+  ZMod, QuadraticAlgebra, PythagoreanTriple, ...), never a `Nat.*` function.
+
+If you cannot establish a genuine structural correspondence with a pre-existing
+mathlib object under 0 axioms, LEAVE THE WORKTREE UNCHANGED (the daemon records
+a fail-close and rotates). Producing nothing is correct; producing a Nat facade
+is not. Never fabricate a correspondence that is not actually proven.
 """
 
 
@@ -263,6 +278,12 @@ def worklist_candidates() -> list:
         data = json.loads(WORKLIST_PATH.read_text())
     except Exception:
         return []
+    # Fail-closed: the coverage-gap worklist is Nat-shadow-laundering-shaped and
+    # marks itself daemon_eligible=False / NO_STRUCTURAL_CARRIER_CANDIDATE=True.
+    # Never hand its rows to run_bridge_round, even if a future caller revives
+    # this entry point (the adversarial challenge flagged the dormant path).
+    if data.get("daemon_eligible") is False or data.get("NO_STRUCTURAL_CARRIER_CANDIDATE"):
+        return []
     cands = []
     for row in data.get("worklist", []):
         decls = row.get("bridge_decls") or []
@@ -284,28 +305,61 @@ def worklist_candidates() -> list:
     return cands
 
 
+# Correspondence shapes that describe a genuine BEDC-object <-> mathlib-object
+# bridge (a carrier / relation / algebraic-structure equivalence over a real
+# BEDC carrier). Anything else -- pointwise_eq, bhist_readback, or an unknown
+# shape -- is a Nat-value facade that admits the dead natToUnary/bwordLength
+# round-trip, so it is NOT eligible for autonomous bridging.
+_STRUCTURAL_SHAPES = frozenset(
+    {
+        "carrier_equiv",
+        "rel_equiv",
+        "relation_equiv",
+        "ring_equiv",
+        "group_equiv",
+        "field_equiv",
+        "module_equiv",
+        "order_equiv",
+        "predicate_equiv",
+        "structure_equiv",
+        "iso",
+        "isomorphism",
+    }
+)
+
+
 def _structural_only(source: list) -> list:
-    """Keep only genuine STRUCTURAL bridge candidates; drop Nat-shadow-prone ones.
+    """POSITIVE allowlist: accept ONLY genuine structural bridge candidates.
 
     candidate_filter surfaces a MIX: structural carriers (carrier_equiv over a
     real BEDC carrier -- TaggedOptionHistoryCarrier / ListHistoryCarrier /
-    SumHistoryCarrier / GaussInt / ZMod class) AND pointwise-equality-to-Nat
-    candidates (e.g. GcdUp.NatGcd -> Nat.gcd). The latter is the LAUNDERING
-    shape: a Nat-valued BEDC function bridged as `f = Nat.<fn>`, which admits the
-    dead `natToUnary (NatFn (bwordLength ...))` round-trip and produces a
-    Nat-vs-Nat identity, not a BEDC-object <-> mathlib bridge. Per the 4-way
-    adversarial spec, the daemon accepts ONLY structural correspondence shapes;
-    if that empties the pool it idles honestly (an idle daemon beats a laundering
-    one). Enforcement still lives in the heavy-check gate -- this is the feeder
-    guard, not the trust boundary."""
+    SumHistoryCarrier / GaussInt / ZMod class) AND Nat-value-facade candidates
+    (pointwise_eq / bhist_readback to a `Nat.<fn>` target, e.g. NatGcd ->
+    Nat.gcd, natChooseFn -> Nat.choose). The latter admit the dead `natToUnary
+    (NatFn (bwordLength ...))` round-trip and export a Nat-vs-Nat identity, not a
+    BEDC-object <-> mathlib bridge. The adversarial challenge showed a negative
+    drop-list (drop only pointwise_eq -> Nat.*) leaks: candidate_filter's
+    `bhist_readback` role and other non-pointwise shapes slip through. So this is
+    a DEFAULT-DENY allowlist -- a candidate is accepted only when its
+    correspondence shape is affirmatively structural AND its mathlib target is
+    not a `Nat.*` facade. If that empties the pool the daemon idles honestly (an
+    idle daemon beats a laundering one). This is the feeder guard; the trust
+    boundary is the heavy-check anti-laundering gate."""
     kept = []
     for c in source or []:
-        shape = str(c.get("correspondence_shape_guess") or "")
+        decl = c.get("bedc_decl")
+        shape = str(c.get("correspondence_shape_guess") or "").strip()
         target = str(c.get("mathlib_target_guess") or c.get("mathlib_class_guess") or "")
-        if shape == "pointwise_eq" and target.startswith("Nat."):
+        if shape not in _STRUCTURAL_SHAPES:
             cf.logger.info(
-                f"[bridge] drop Nat-shadow-prone candidate {c.get('bedc_decl')} "
-                f"(pointwise_eq -> {target}); structural-only daemon policy"
+                f"[bridge] reject non-structural candidate {decl} "
+                f"(shape={shape or 'none'} -> {target}); structural-only allowlist"
+            )
+            continue
+        if target.startswith("Nat.") or target == "Nat":
+            cf.logger.info(
+                f"[bridge] reject Nat-facade candidate {decl} "
+                f"(shape={shape} -> {target}); structural-only allowlist"
             )
             continue
         kept.append(c)
@@ -366,7 +420,7 @@ def main() -> None:
 
     # Harden the shared prompt for this process only (does not mutate the file).
     cf.BRIDGE_ROUND_PROMPT_TEMPLATE = (
-        cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX + COVERAGE_GAP_PROMPT_SUFFIX
+        cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX + STRUCTURAL_BRIDGE_PROMPT_SUFFIX
     )
 
     with pid_lock():
