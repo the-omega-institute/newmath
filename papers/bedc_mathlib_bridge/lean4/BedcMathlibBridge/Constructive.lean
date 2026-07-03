@@ -30,6 +30,7 @@ import BedcMathlibBridge.Constructive.Narayana
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
+import BedcMathlibBridge.Constructive.CakeNumber
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
 import BedcMathlibBridge.Constructive.Square
 import BedcMathlibBridge.Constructive.Pronic
