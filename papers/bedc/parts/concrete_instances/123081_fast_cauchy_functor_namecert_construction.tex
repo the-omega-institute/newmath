@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyFunctorUp$}
+\label{ch:concrete-instances-fast-cauchy-functor-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FastCauchyFunctorUp$ packet records the finite functorial transport that sends a fast Cauchy name to the regular-Cauchy and real-facing rows used by the completion interface. It sits after the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite transport route; it does not assert quotient stream equality, select a host limit, import countable choice, or use ambient completeness of real numbers.
+
+\begin{definition}[Fast Cauchy functor carrier]
+\label{def:fast-cauchy-functor-carrier}
+A $\FastCauchyFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,M,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source fast-Cauchy name row, including the finite rate window currently inspected by the consumer.
+\item $M$ is the modulus-transport row, recording the displayed passage from the fast rate to the regular-Cauchy request budget.
+\item $W$ is the transported finite $\StreamNameUp$ window exposed after the rate has been read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same transported window.
+\item $D$ is the $\DyadicRatCoreUp$ ledger naming the endpoint, radius, precision, and comparison data used by the readback.
+\item $E$ is the terminal $\RealUp$ seal row available only after $A,M,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source fast-Cauchy rows, moduli, stream windows, readbacks, dyadic ledgers, real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the fast-Cauchy source row through the modulus-transport row and then through $W,R,D,E$.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyFunctorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FastCauchyFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,W,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected host limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Fast Cauchy functor NameCert obligations]
+\label{thm:fast-cauchy-functor-namecert-obligations}
+For the carrier of \autoref{def:fast-cauchy-functor-carrier}, the local $\NameCert_{\FastCauchyFunctorUp}$ surface consists exactly of carrier admission for $F=(A,M,W,R,D,E,H,C,P,N)$, fast-Cauchy source admission through $A$, modulus transport through $M$, finite $\StreamNameUp$ window exposure through $W$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ ledger exposure through $D$, terminal $\RealUp$ sealing through $E$, and transport, replay, provenance, and naming stability through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $A,M,W,R,D,E,H,C,P,N$ are the complete local inventory, so carrier admission is a finite $\BHist$ projection.
+
+Read the source and transport rows first. The fast-Cauchy data are exposed by $A$, and the displayed modulus passage to a regular-Cauchy request budget is exposed by $M$ before any downstream readback is available.
+
+The downstream rows are then forced in order. The transported stream window is $W$, the regular-rational readback is $R$, the dyadic ledger is $D$, and the terminal real seal is $E$.
+
+Finally $H,C,P,N$ preserve the same route under componentwise sameness, replay, provenance, and local naming. Since the packet has no other coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy functor modulus transport]
+\label{thm:fast-cauchy-functor-modulus-transport}
+Let $F=(A,M,W,R,D,E,H,C,P,N)$ be an accepted $\FastCauchyFunctorUp$ packet. Replacing the source fast-Cauchy row $A$ by a transported representative whose rate window is related by the displayed $\hsame$ and $\Cont$ rows preserves the modulus-transport row $M$, the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ ledger $D$, and the terminal $\RealUp$ seal $E$. The transport therefore remains a finite functorial route and exports no quotient stream, selected host limit, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport row $H$. It stores the sameness comparisons for the fast-Cauchy source, modulus, stream window, readback, dyadic ledger, and real seal as one displayed route.
+
+Replay through $C$. The continuation first reads $A$ and $M$, then exposes $W,R,D,E$ in the same order. Transporting $A$ cannot detach the later rows because $C$ has no branch around $M$.
+
+The provenance row $P$ and local name $N$ name the transported packet as the same $\FastCauchyFunctorUp$ surface. Thus the modulus transport preserves exactly the finite downstream route and cannot create an external quotient or host limit coordinate.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy functor sibling independence]
+\label{thm:fast-cauchy-functor-sibling-independence}
+The $\FastCauchyFunctorUp$ carrier is not bijective, under NameCert-row preservation, to $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, or $\mathsf{RegularCauchyFunctor}^{\uparrow}$ alone. Each sibling exposes a proper face of the route, while $\FastCauchyFunctorUp$ stores the source fast-Cauchy row, modulus transport, stream window, regular readback, dyadic ledger, terminal seal, transport, replay, provenance, and local naming in one packet.
+\end{theorem}
+\begin{proof}
+Compare row inventories. $\StreamNameUp$ supplies the finite window face, $\RegSeqRatUp$ supplies the regular-rational readback face, $\DyadicRatCoreUp$ supplies the dyadic ledger, and $\RealUp$ supplies the terminal seal.
+
+The regular-Cauchy functor packet supplies a broader transport interface, but by itself it does not store the fast-Cauchy source row $A$ together with the specific modulus row $M$ and the ordered completion-facing route $W,R,D,E$.
+
+A NameCert-row-preserving bijection would have to preserve all ten rows $A,M,W,R,D,E,H,C,P,N$. None of the listed siblings contains that complete inventory, so the fast-Cauchy functor packet remains independent as a concrete finite carrier.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\FastCauchyFunctorUp$ read must display a fast-Cauchy source row, modulus-transport row, StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, transport, replay, provenance, and local NameCert row before a real-facing consumer can read the packet.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regular-cauchy-functor: none is bijective to FastCauchyFunctorUp. The siblings expose individual window, readback, ledger, seal, or generic functor rows; only this packet binds the fast source, modulus transport, and completion-facing route in one finite NameCert surface.}
+
+\closureat{FastCauchyFunctorUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyFunctorUp}
+  \constructivestory{A $\FastCauchyFunctorUp$ packet is generated from a fast-Cauchy source row, a displayed modulus-transport row, finite StreamName windows, RegSeqRat readback, DyadicRatCore ledger rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-functor-carrier}, \autoref{thm:fast-cauchy-functor-namecert-obligations}, \autoref{thm:fast-cauchy-functor-modulus-transport}, and \autoref{thm:fast-cauchy-functor-sibling-independence} bind the finite fast-to-regular transport route used by completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, selected host limits, countable choice, host real equality, or ambient Real completeness.}
+  \upgradepath{Lean closure requires checked carrier admission and checked modulus transport for the same StreamName, RegSeqRat, DyadicRatCore, and RealUp route.}
+\end{closurestatus}
