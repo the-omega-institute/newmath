@@ -98,4 +98,40 @@ theorem EventuallyCarrier_directed_tail_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, streamReadUnary, realReadUnary, nameReadUnary⟩
 
+theorem EventuallyCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {D W T S R A H C P N streamRead realRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EventuallyCarrier D W T S R A H C P N bundle pkg ->
+      Cont T S streamRead -> Cont R A realRead -> Cont C N nameRead ->
+        UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory T ∧ UnaryHistory S ∧
+          UnaryHistory R ∧ UnaryHistory A ∧ UnaryHistory H ∧ UnaryHistory C ∧
+            UnaryHistory N ∧ UnaryHistory streamRead ∧ UnaryHistory realRead ∧
+              UnaryHistory nameRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                Cont T S streamRead ∧ Cont R A realRead ∧ Cont C N nameRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig Cont UnaryHistory
+  intro carrier streamRoute realRoute nameRoute
+  have dUnary : UnaryHistory D := carrier.left
+  have wUnary : UnaryHistory W := carrier.right.left
+  have tUnary : UnaryHistory T := carrier.right.right.left
+  have sUnary : UnaryHistory S := carrier.right.right.right.left
+  have rUnary : UnaryHistory R := carrier.right.right.right.right.left
+  have aUnary : UnaryHistory A := carrier.right.right.right.right.right.left
+  have hUnary : UnaryHistory H := carrier.right.right.right.right.right.right.left
+  have cUnary : UnaryHistory C := carrier.right.right.right.right.right.right.right.left
+  have nUnary : UnaryHistory N :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have nPkg : PkgSig bundle N pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed tUnary sUnary streamRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed rUnary aUnary realRoute
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed cUnary nUnary nameRoute
+  exact
+    ⟨dUnary, wUnary, tUnary, sUnary, rUnary, aUnary, hUnary, cUnary, nUnary,
+      streamUnary, realUnary, nameUnary, pPkg, nPkg, streamRoute, realRoute, nameRoute⟩
+
 end BEDC.Derived.EventuallyUp

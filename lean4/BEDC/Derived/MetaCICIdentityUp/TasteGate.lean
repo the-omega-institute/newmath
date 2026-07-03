@@ -318,4 +318,27 @@ theorem MetaCICIdentity_boundary_nonescape
           provenance nameCert),
       cert⟩
 
+theorem MetaCICIdentity_generator_recursor_coverage
+    {G E R A B H C P N recursorRead namedRead : BHist} :
+    UnaryHistory G -> UnaryHistory R -> UnaryHistory H -> UnaryHistory C ->
+      Cont G R recursorRead -> Cont H C namedRead ->
+        metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+            [G, E, R, A, B, H, C, P, N] ∧
+          UnaryHistory recursorRead ∧ UnaryHistory namedRead ∧
+            hsame recursorRead (append G R) ∧ hsame namedRead (append H C) ∧
+              metaCICIdentityFromEventFlow
+                  (metaCICIdentityToEventFlow (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro generatorUnary recursorUnary transportUnary routeUnary recursorRoute namedRoute
+  have recursorReadUnary : UnaryHistory recursorRead :=
+    unary_cont_closed generatorUnary recursorUnary recursorRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed transportUnary routeUnary namedRoute
+  have sameRecursorRead : hsame recursorRead (append G R) := recursorRoute
+  have sameNamedRead : hsame namedRead (append H C) := namedRoute
+  exact
+    ⟨rfl, recursorReadUnary, namedReadUnary, sameRecursorRead, sameNamedRead,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
+
 end BEDC.Derived.MetaCICIdentityUp
