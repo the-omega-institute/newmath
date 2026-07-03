@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionDenseUnitUp$}
+\label{ch:concrete-instances-cauchy-completion-dense-unit-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and the Kelley language of dense embeddings into completions, the $\CauchyCompletionDenseUnitUp$ packet isolates the dense unit leg of the Cauchy completion surface. It reads the unit certificate of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the universal mapping packet of \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert}, and the dense-reflector packet of \autoref{ch:concrete-instances-cauchy-completion-dense-reflector-namecert} before any completion-facing consumer can use the dense image. The chapter names the unit-as-dense-image route as finite BEDC data; it does not assert quotient completion equality, selected representatives, countable choice, host equality, or ambient completeness.
+
+\begin{definition}[CauchyCompletionDenseUnit carrier]
+\label{def:cauchy-completion-dense-unit-carrier}
+A $\CauchyCompletionDenseUnitUp$ carrier is a finite $\BHist$ packet
+$$
+J=(X,U,D,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric, regular-Cauchy, or finite-window row being admitted into the completion surface.
+\item $U$ is the $\CauchyCompletionUnitUp$ row that sends $X$ through the displayed stream-window, dyadic-tolerance, regular-readback, and terminal seal route.
+\item $D$ is the dense-image row, recording that the unit image is visible to completion consumers as a dense source-side packet.
+\item $A$ is the $\CauchyCompletionAdjunctionUp$ row that lets completion-facing consumers compare their reads with source-side finite-window consumers over the dense unit image.
+\item $R$ is the $\CauchyCompletionDenseReflectorUp$ row that exposes the same unit image to dense-reflector consumers.
+\item $H$ records componentwise $\hsame$ transport for the source, unit, dense-image, adjunction, reflector, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source row through the unit row, dense-image row, adjunction row, and reflector row.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionDenseUnitUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionAdjunctionUp$, $\CauchyCompletionDenseReflectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionDenseUnitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion representatives, selected Cauchy limits, host equality of completed points, countable-choice schedules, or ambient completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyCompletionDenseUnitUp}
+
+\begin{theorem}[CauchyCompletionDenseUnit NameCert obligations]
+\label{thm:cauchy-completion-dense-unit-namecert-obligations}
+For every accepted $\CauchyCompletionDenseUnitUp$ carrier $J=(X,U,D,A,R,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionDenseUnitUp}$ surface consists exactly of carrier admission, source exposure through $X$, unit admission through $U$, dense-image exposure through $D$, adjunction handoff through $A$, dense-reflector handoff through $R$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and non-escape for quotient completions, selected representatives, host equality, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-dense-unit-carrier}. The tuple exposes exactly the source row, unit row, dense-image row, adjunction row, reflector row, transport, replay, provenance, and local naming row.
+
+The source and unit obligations read $X$ and $U$ first. The unit row is the only route by which the source enters the completion-facing surface, so dense-image exposure cannot be supplied by a detached completion object.
+
+The dense-image, adjunction, and reflector obligations then read $D,A,R$ in that order. The adjunction row compares completion-facing consumers with source-side finite-window consumers, while the dense-reflector row makes the same unit image visible to reflector consumers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no quotient representative, selected limit, host equality, choice schedule, or ambient completeness row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionDenseUnit density handoff]
+\label{thm:cauchy-completion-dense-unit-density-handoff}
+Every completion-facing or dense-reflector consumer of an accepted $\CauchyCompletionDenseUnitUp$ carrier factors through the finite route
+$$
+X\longmapsto U\longmapsto D\longmapsto(A,R)\longmapsto(H,C,P,N).
+$$
+Thus the dense unit leg is the displayed unit image together with its dense-image replay, not a quotient completion class, selected representative, host equality assertion, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The source row $X$ reaches completion consumers only through the unit row $U$ and the dense-image row $D$ displayed in the same packet.
+
+Next use the sibling routes. The adjunction packet of \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert} consumes the dense image through $A$, while the dense-reflector packet of \autoref{ch:concrete-instances-cauchy-completion-dense-reflector-namecert} consumes it through $R$.
+
+It remains to keep both consumers on the same unit leg. The rows $H,C,P,N$ transport, replay, source, and name the route $X,U,D,A,R$ without adding any second completion object. The absent quotient, selected-limit, host-equality, choice, and ambient-completeness coordinates therefore cannot be exported by the handoff.
+\end{proof}
+
+\closureat{CauchyCompletionDenseUnitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionDenseUnitUp}
+  \constructivestory{A $\CauchyCompletionDenseUnitUp$ packet is generated from a source row, a CauchyCompletionUnit row, a dense-image row, a CauchyCompletionAdjunction row, a CauchyCompletionDenseReflector row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-dense-unit-carrier}, \autoref{thm:cauchy-completion-dense-unit-namecert-obligations}, and \autoref{thm:cauchy-completion-dense-unit-density-handoff} seed the dense unit leg between the unit, adjunction, and dense-reflector completion packets.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host equality, ambient completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-image exposure, adjunction handoff, dense-reflector handoff, transport replay, provenance exhaustion, and local naming for BEDC.Derived.CauchyCompletionDenseUnitUp.}
+\end{closurestatus}
