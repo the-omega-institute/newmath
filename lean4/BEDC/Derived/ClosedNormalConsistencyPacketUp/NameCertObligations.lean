@@ -62,4 +62,31 @@ theorem ClosedNormalConsistencyPacketCarrier_normal_fragment_boundary
         (List.Mem.tail _ (List.Mem.head _))))),
       hsame_refl G⟩
 
+theorem ClosedNormalConsistencyPacketCarrier_subject_reduction_gap_boundary
+    {L T B F K G H C P N closedRead normalRead positiveRead obstructionRead
+      namedRead : BHist}
+    (x : ClosedNormalConsistencyPacketUp)
+    (hx : x = ClosedNormalConsistencyPacketUp.mk L T B F K G H C P N)
+    (closedTyping : Cont L T closedRead)
+    (normalFalse : Cont B F normalRead)
+    (positiveFragment : Cont closedRead normalRead positiveRead)
+    (obstructionRoute : Cont positiveRead G obstructionRead)
+    (nameRoute : Cont obstructionRead N namedRead) :
+    List.Mem (closedNormalConsistencyPacketEncodeBHist G)
+        (BHistCarrier.toEventFlow x) ∧
+      hsame namedRead (append (append (append (append L T) (append B F)) G) N) ∧
+      hsame G G := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame BHistCarrier
+  cases hx
+  cases closedTyping
+  cases normalFalse
+  cases positiveFragment
+  cases obstructionRoute
+  cases nameRoute
+  exact
+    ⟨List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+        (List.Mem.tail _ (List.Mem.head _))))),
+      rfl,
+      hsame_refl G⟩
+
 end BEDC.Derived.ClosedNormalConsistencyPacketUp
