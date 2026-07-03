@@ -67,6 +67,7 @@ import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
+import BEDC.Derived.ActiveReadingGateUp.RegistryConsumerCoverage
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
@@ -6269,6 +6270,7 @@ import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteFanTheoremUp.TasteGate
 import BEDC.Derived.FiniteFourierEnergyUp
+import BEDC.Derived.FiniteFourierEnergyUp.TasteGate
 import BEDC.Derived.FiniteFourierTailProjectorUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
