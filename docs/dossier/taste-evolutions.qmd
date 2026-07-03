@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T07:45:39Z
+> 最后刷新: 2026-07-03T09:09:36Z
 
-**Daemon 状态**: monitor (monitor cycle 270, adjust_since_research 2, round_counter 36827, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 271, adjust_since_research 2, round_counter 36865, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1269 条 finding):
-- isolated_theorem: 897 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1270 条 finding):
+- isolated_theorem: 898 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 113 次
+- TASTE ALERT category=isolated_theorem: 108 次
 - TASTE ALERT category=unauthorized_capstone: 16 次
-- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=low_entropy_template: 5 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -533,6 +533,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-03T06:35:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.GaussianPrimeUp.gaussian_two_ramifies` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GaussianPrimeUp.gaussian_two_ramifies:42658657`). Rationale: The theorem carries real Gaussian-integer content: it records the ramified factorization of rational 2 as (1+i)(1-i), rather than merely restating an existing theorem. Repository search showed no downstream Lean consumer, so I added a JacobiSumUp sibling theorem that combines the existing SquareSumJacobiContact-to-GaussianSplit export with this ramified-two equality, making the special Gaussian prime boundary an explicit consumed row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T07:45:06Z: `resolved` `delete_theorem` for `BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier_ledger_nonescape_obligation` (flag `isolated_theorem`, finding `isolated_theorem:criticallinewitness:BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier_ledger_nonescape_obligation:d6bc2022`). Rationale: The flagged theorem was only present at its declaration site and had no Lean consumers; the chapter's canonical marker points instead to the sibling theorem CriticalLineWitnessLedgerNonescapeObligation. The removed declaration was a structurally overlapping non-consumed carrier wrapper around ledger/public read closure, while the surviving theorem carries the paper-facing obligation marker and remains intact. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T09:08:51Z: `resolved` `add_downstream_user` for `BEDC.Derived.NestedClosedBallUp.NestedClosedBallCarrier_diameter_tail_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NestedClosedBallUp.NestedClosedBallCarrier_diameter_tail_stability:c596197d`). Rationale: The theorem has real BEDC content: it ties the dyadic diameter ledger, later stream window, and hsame/Cont replay rows back to the NestedClosedBall carrier fields. Repository grep initially showed only the declaration and paper marker, so I added the sibling theorem BEDC.Derived.NestedClosedBallUp.NestedClosedBallDiameterTailReplayCertificate in the obligation-package layer. The new theorem directly invokes the target and turns its tail-stability facts into a SemanticNameCert consumer for a tail public read. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
