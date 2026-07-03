@@ -298,6 +298,46 @@ instance cofinalModulusNormalizationSealNontrivial :
     intro h
     cases h
 
+def cofinalModulusNormalizationSealClassifier
+    (x y : CofinalModulusNormalizationSealUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame
+  match x, y with
+  | CofinalModulusNormalizationSealUp.mk A B M W D R E _H _C _P L _N,
+      CofinalModulusNormalizationSealUp.mk A' B' M' W' D' R' E' _H' _C' _P' L' _N' =>
+      hsame
+        (append (append (append (append (append (append A B) M) W) D) R)
+          (append E L))
+        (append (append (append (append (append (append A' B') M') W') D') R')
+          (append E' L'))
+
+theorem cofinalModulusNormalizationSealClassifier_route
+    {x y : CofinalModulusNormalizationSealUp} {support publicRead : BHist} :
+    cofinalModulusNormalizationSealClassifier x y →
+      match x, y with
+      | CofinalModulusNormalizationSealUp.mk A B M W D R E _H _C _P L _N,
+          CofinalModulusNormalizationSealUp.mk A' B' M' W' D' R' E' _H' _C' _P' L' _N' =>
+          Cont
+            (append (append (append (append (append (append A B) M) W) D) R)
+              (append E L))
+            support publicRead →
+              Cont
+                (append (append (append (append (append (append A' B') M') W') D') R')
+                  (append E' L'))
+                support publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro classifier
+  cases x with
+  | mk A B M W D R E H C P L N =>
+      cases y with
+      | mk A' B' M' W' D' R' E' H' C' P' L' N' =>
+          intro route
+          change publicRead =
+            append
+              (append (append (append (append (append (append A' B') M') W') D') R')
+                (append E' L'))
+              support
+          exact route.trans (congrArg (fun row => append row support) classifier)
+
 theorem CofinalModulusNormalizationSealTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CofinalModulusNormalizationSealUp) ∧
       Nonempty (FieldFaithful CofinalModulusNormalizationSealUp) ∧
