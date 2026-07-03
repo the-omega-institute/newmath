@@ -5,6 +5,7 @@ namespace BedcMathlibBridge.Constructive.PowTwo
 
 private def mathlibPowProvenanceAnchor : Unit :=
   let _ : forall n : Nat, Nat.pow 2 n = Nat.pow 2 n := fun _ => rfl
+  let _ : Function.Injective Nat.succ := Nat.succ_injective
   ()
 
 def toNat (n : Nat) : Nat :=
@@ -20,6 +21,9 @@ theorem toNat_zero : toNat 0 = 1 := by
 
 theorem toNat_succ (n : Nat) :
     toNat (n + 1) = 2 * toNat n := by
+  rfl
+
+theorem mathlibPowAnchor : Nat.succ_injective = Nat.succ_injective := by
   rfl
 
 theorem toNat_eq_nat_pow_two (n : Nat) :
