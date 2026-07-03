@@ -1,0 +1,144 @@
+\chapter{Packet-Visible Residual Farkas-Cut Exclusion}
+\label{ch:visions-rh-weil-residual-farkas-cut}
+\origin{ai}
+
+This chapter turns the fixed prime-sensitive packet of
+\autoref{ch:visions-rh-weil-prime-sensitive-packet} into a finite exclusion
+consumer. The setting remains deliberately local: one rational $2\times2$
+packet is evaluated at $\theta=1$, one finite residual skeleton is presented
+as list-indexed rational data, and one rational separation certificate forces
+that skeleton to have negative quadratic value at a displayed probe vector.
+The result excludes only packet-visible finite residual closures carrying this
+certificate. It is not a uniform exhaustion of off-critical closures.
+
+\section{Finite Residual Skeleton}
+\label{sec:rh-weil-residual-finite-skeleton}
+
+\begin{definition}[Rational residual skeleton]
+\label{def:rh-weil-residual-skeleton}
+\leandef{BEDC.Derived.RHRoute.WeilResidualFarkasCut.ResidualClass}
+A residual class consists of a finite list of rational symmetric $2\times2$
+atoms, a finite list of rational off-mass readback weights, and a finite
+admissibility predicate on coefficient lists. For a coefficient list
+$\lambda$, the skeleton condition requires
+$$
+\lambda_i\ge 0
+\quad\text{for each visible coefficient,}
+\qquad
+0<
+\sum_i \lambda_i\,\mathsf{offMass}_i,
+$$
+together with the class admissibility predicate. The off-mass field is only a
+rational readback channel for an off-half witness; the Lean formalization uses
+no complex numbers, no zeta zeros, and no analytic import.
+\end{definition}
+
+\begin{definition}[Packet visibility]
+\label{def:rh-weil-residual-packet-visibility}
+\leandef{BEDC.Derived.RHRoute.WeilResidualFarkasCut.VisibleAt}
+For a packet $P$, skeleton $C$, probe vector $x$, tolerance $\kappa$, and
+coefficient list $\lambda$, packet visibility means
+$$
+\left|
+q_{P(\theta=1)}(x)-Q_C(\lambda,x)
+\right|
+\le \kappa .
+$$
+The tolerance $\kappa$ is a fixed rational number. It is not a limiting
+parameter and carries no tail-exhaustion claim.
+\end{definition}
+
+\section{Farkas Cut}
+\label{sec:rh-weil-residual-farkas-cut}
+
+\begin{definition}[Projection separation certificate]
+\label{def:rh-weil-residual-projection-separation}
+\leandef{BEDC.Derived.RHRoute.WeilResidualFarkasCut.ProjectionSepCert}
+A projection separation certificate stores rational numbers $\eta>0$ and
+$\kappa\ge0$, a finite rational dual row, and two checked rational inequalities:
+every admissible nonnegative residual skeleton is bounded by a dual value, and
+that dual value is at most $-(\eta+\kappa)$. The certificate also stores the
+final rational cut
+$$
+-(\eta+\kappa)+\kappa\le -\eta .
+$$
+Thus the certificate is a finite rational Farkas-style negative cut for the
+displayed residual class at the displayed probe vector.
+\end{definition}
+
+\begin{theorem}[Packet-visible residual Farkas-cut exclusion]
+\label{thm:rh-weil-residual-farkas-cut-exclusion}
+\leanchecked{BEDC.Derived.RHRoute.WeilResidualFarkasCut.no\_packet\_visible\_residual\_closure}
+Let $P$ be a rational packet whose $\theta=1$ matrix is tied to a checked
+fixed $2\times2$ PSD certificate. Let $C$ be a finite rational residual class,
+$x$ a rational probe vector, and $\mathsf{sep}$ a projection separation
+certificate for $C$ at $x$. Then there is no coefficient list $\lambda$ such
+that $\lambda$ is a skeleton of $C$ and $C$ is visible from $P$ at $x$ with
+tolerance $\mathsf{sep}.\kappa$.
+\end{theorem}
+
+\begin{proof}
+The separation certificate gives
+$$
+Q_C(\lambda,x)\le -(\eta+\kappa).
+$$
+Visibility gives
+$$
+q_{P(\theta=1)}(x)\le Q_C(\lambda,x)+\kappa\le -\eta .
+$$
+The packet certificate gives
+$$
+0\le q_{P(\theta=1)}(x).
+$$
+Hence $0\le -\eta$, equivalently $\eta\le0$, contradicting the stored
+strict positivity $0<\eta$.
+\end{proof}
+
+\section{Canonical Inhabitant}
+\label{sec:rh-weil-residual-canonical}
+
+\begin{definition}[Canonical finite cut]
+\label{def:rh-weil-residual-canonical-cut}
+\leandef{BEDC.Derived.RHRoute.WeilResidualFarkasCut.canonicalProjectionSepCert}
+The canonical inhabitant uses the diagonal packet
+$\operatorname{diag}(1,1)$ at $\theta=1$, the probe vector $x=(1,0)$, the
+single residual atom
+$$
+R=
+\begin{pmatrix}
+-1&0\\
+0&0
+\end{pmatrix},
+$$
+and the coefficient list $\lambda=[1]$. The off-mass list is $[1]$, so the
+class is not empty and the residual mass is strictly positive. The rational
+cut has $\eta=1$ and $\kappa=0$.
+\end{definition}
+
+\begin{theorem}[Canonical non-vacuous residual skeleton]
+\label{thm:rh-weil-residual-nonvacuous-skeleton}
+\leanchecked{BEDC.Derived.RHRoute.WeilResidualFarkasCut.canonical\_no\_packet\_visible\_residual\_closure}
+The canonical one-atom residual skeleton is excluded from packet-visible
+closure by the checked Farkas cut.
+\end{theorem}
+
+\begin{proof}
+The Lean object also stores
+\leandef{BEDC.Derived.RHRoute.WeilResidualFarkasCut.canonicalNonVacuousSkeleton}
+as an independent inhabitant of the skeleton predicate, so the excluded class
+is not empty. The exclusion theorem is the general packet-visible cut
+consumer applied to the canonical packet, skeleton, probe vector, and
+separation certificate.
+\end{proof}
+
+\begin{closurestatus}{WeilResidualFarkasCutUp}
+  \origin{ai}
+  \constructivestory{A rational $\theta=1$ packet with a checked fixed $2\times2$ PSD certificate and a fixed finite residual skeleton with positive off-mass are separated by a rational Farkas-style negative cut at one probe vector.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Packet-visible finite residual classes for a fixed rational skeleton, fixed rational tolerance, and stored rational projection separation certificate}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.WeilResidualFarkasCut.no\_packet\_visible\_residual\_closure}
+  \bridgestatus{none}
+  \notclaimed{Exclusion of all off-critical closures; uniform skeleton exhaustion; NoOffCriticalTailClosure; packet-invisible skeletons; any unconditional RH conclusion}
+  \upgradepath{Compose a finite atlas of local skeleton cuts and audit packet-visible local completeness; covering all skeletons would be a uniform exhaustion problem and is outside this finite certificate}
+\end{closurestatus}
