@@ -3278,6 +3278,7 @@ import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionSealUp.AuditSurface
 import BEDC.Derived.ClosedSubstitutionSealUp.Boundary
 import BEDC.Derived.ClosedSubstitutionSealUp.CompileSafety
+import BEDC.Derived.ClosedSubstitutionSealUp.ObligationRows
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermContextSealUp
