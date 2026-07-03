@@ -256,4 +256,44 @@ theorem MetacicDecidableAuditPacket_checker_boundary_semantic_certificate
           replay, provenance, localName, checkerWindow, boundaryWindow, auditWindow, rfl,
           checkerRoute, boundaryRoute, auditRoute, cert⟩
 
+theorem MetacicDecidableAuditPacket_retained_normal_window
+    (x : MetacicDecidableAuditPacketUp) :
+    ∃ checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+        provenance localName checkerRead typingRead galleryRead boundedRead boundaryRead
+        retainedRead : BHist,
+      x =
+          MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+            boundary obstruction transport replay provenance localName ∧
+        Cont checker sameTerm checkerRead ∧
+          Cont checkerRead typing typingRead ∧
+            Cont typingRead gallery galleryRead ∧
+              Cont galleryRead boundedNormal boundedRead ∧
+                Cont boundedRead boundary boundaryRead ∧
+                  Cont boundaryRead obstruction retainedRead ∧
+                    metacicDecidableAuditPacketFromEventFlow
+                        (metacicDecidableAuditPacketToEventFlow x) =
+                      some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk checker sameTerm typing gallery boundedNormal boundary obstruction transport replay
+      provenance localName =>
+      exact
+        ⟨checker, sameTerm, typing, gallery, boundedNormal, boundary, obstruction, transport,
+          replay, provenance, localName, append checker sameTerm,
+          append (append checker sameTerm) typing,
+          append (append (append checker sameTerm) typing) gallery,
+          append (append (append (append checker sameTerm) typing) gallery) boundedNormal,
+          append
+            (append (append (append (append checker sameTerm) typing) gallery) boundedNormal)
+            boundary,
+          append
+            (append
+              (append (append (append (append checker sameTerm) typing) gallery) boundedNormal)
+              boundary)
+            obstruction,
+          rfl, rfl, rfl, rfl, rfl, rfl, rfl,
+          MetacicDecidableAuditPacketTasteGate_single_carrier_alignment.right.left
+            (MetacicDecidableAuditPacketUp.mk checker sameTerm typing gallery boundedNormal
+              boundary obstruction transport replay provenance localName)⟩
+
 end BEDC.Derived.MetacicDecidableAuditPacketUp
