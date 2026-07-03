@@ -1,16 +1,22 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ActiveReadingGateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -272,6 +278,127 @@ theorem ActiveReadingGateCarrier_export_uniqueness
       exact ⟨source.left, targetActive, blockingExport⟩
   }
   exact ⟨rfl, cert, unaryExportRead, unaryNameCert⟩
+
+theorem ActiveReadingGateCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {target active retired blocking exportRow replay provenance nameCert targetActive
+      activeBlocking blockingExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory target ->
+        UnaryHistory active ->
+          UnaryHistory retired ->
+            UnaryHistory blocking ->
+              UnaryHistory exportRow ->
+                Cont target active targetActive ->
+                  Cont active blocking activeBlocking ->
+                    Cont blocking exportRow blockingExport ->
+                      PkgSig bundle exportRow pkg ->
+                    SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                          hsame row blocking ∨ hsame row exportRow)
+                      (fun row : BHist =>
+                        hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                          hsame row blocking ∨ hsame row exportRow ∨ hsame row replay ∨
+                            hsame row provenance ∨ hsame row nameCert)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont target active targetActive ∧
+                          Cont active blocking activeBlocking ∧
+                            Cont blocking exportRow blockingExport ∧
+                              PkgSig bundle exportRow pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro targetUnary activeUnary retiredUnary blockingUnary exportUnary targetActiveRoute
+    activeBlockingRoute blockingExportRoute exportPkg
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro target (Or.inl (hsame_refl target))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowTarget =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowTarget)
+        | inr rest =>
+            cases rest with
+            | inl rowActive =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowActive))
+            | inr rest =>
+                cases rest with
+                | inl rowRetired =>
+                    exact
+                      Or.inr (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowRetired)))
+                | inr rest =>
+                    cases rest with
+                    | inl rowBlocking =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl
+                                (hsame_trans (hsame_symm sameRows) rowBlocking))))
+                    | inr rowExport =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr (hsame_trans (hsame_symm sameRows) rowExport))))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl rowTarget =>
+          exact Or.inl rowTarget
+      | inr rest =>
+          cases rest with
+          | inl rowActive =>
+              exact Or.inr (Or.inl rowActive)
+          | inr rest =>
+              cases rest with
+              | inl rowRetired =>
+                  exact Or.inr (Or.inr (Or.inl rowRetired))
+              | inr rest =>
+                  cases rest with
+                  | inl rowBlocking =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl rowBlocking)))
+                  | inr rowExport =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rowExport))))
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | inl rowTarget =>
+          exact
+            ⟨unary_transport targetUnary (hsame_symm rowTarget), targetActiveRoute,
+              activeBlockingRoute, blockingExportRoute, exportPkg⟩
+      | inr rest =>
+          cases rest with
+          | inl rowActive =>
+              exact
+                ⟨unary_transport activeUnary (hsame_symm rowActive), targetActiveRoute,
+                  activeBlockingRoute, blockingExportRoute, exportPkg⟩
+          | inr rest =>
+              cases rest with
+              | inl rowRetired =>
+                  exact
+                    ⟨unary_transport retiredUnary (hsame_symm rowRetired), targetActiveRoute,
+                      activeBlockingRoute, blockingExportRoute, exportPkg⟩
+              | inr rest =>
+                  cases rest with
+                  | inl rowBlocking =>
+                      exact
+                        ⟨unary_transport blockingUnary (hsame_symm rowBlocking),
+                          targetActiveRoute, activeBlockingRoute, blockingExportRoute, exportPkg⟩
+                  | inr rowExport =>
+                      exact
+                        ⟨unary_transport exportUnary (hsame_symm rowExport), targetActiveRoute,
+                          activeBlockingRoute, blockingExportRoute, exportPkg⟩
+  }
 
 theorem ActiveReadingGateCarrier_ledger_closure
     {target active retired blocking exportRow _transport _replay provenance nameCert ledgerRead
