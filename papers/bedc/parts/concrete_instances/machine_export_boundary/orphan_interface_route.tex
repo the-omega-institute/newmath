@@ -11,3 +11,15 @@ Now apply the machine-interface dependency and the forward interface route, \aut
 
 Finally use $H,C,P,N$. Transport and replay keep the same registry-audit-refusal route visible, provenance records the certificate-preserving handoff, and the local name closes the packet. Hence the orphan edge is a child route through $\MachineInterfaceBoundaryUp$ with all export-boundary rows still present.
 \end{proof}
+
+\begin{theorem}[Machine export boundary kernel-acceptance handoff]
+\label{thm:machine-export-boundary-kernel-acceptance-handoff}
+Every $\MachineExportBoundaryUp$ packet exporting a machine-readable theorem row must pass through \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert} before the machine target is public. The accepted-declaration row and axiom-query refusal row of $\KernelAcceptanceBoundaryUp$ are the kernel-side boundary for export, so an export packet $E=(R,T,A,F,H,C,P,N)$ cannot present $T$ as public machine content before the accepted declaration, registry status, audit readback, refusal preservation, componentwise transport, displayed replay, provenance, and local naming rows have all been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The rows $R,T,A,F,H,C,P,N$ are the complete export surface: $R$ records registry status, $T$ records the target theorem row, $A$ records machine-readable audit readback, and $F$ records refusal preservation.
+
+Read the existing registry, audit, and refusal route. The registry route of \autoref{thm:machine-export-boundary-registry-route}, the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}, and the orphan interface route of \autoref{thm:machine-export-boundary-orphan-interface-route} keep $R,A,F,H,C,P,N$ visible before a machine-interface consumer reads $T$.
+
+Now route the theorem row through \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert}. That boundary consumes $\KernelAcceptanceWitnessUp$ for accepted declarations and $\AxiomQueryLedgerUp$ for forbidden-ancestry refusal, so the machine export row cannot become public as a bare target theorem. It is public only after the accepted-declaration and axiom-query-refusal boundary has been displayed.
+\end{proof}
