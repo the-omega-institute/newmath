@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceTailWitnessUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-tail-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchySubsequenceTailWitnessUp$ packet records the finite tail witness by which a regular Cauchy subsequence read remains on the same Real and Completion route as its source. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the threshold-selection surface of \autoref{ch:concrete-instances-cauchy-tail-selection-criterion-namecert}, and the cofinal-subsequence surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-criterion-namecert}. The packet names a displayed tail-extraction witness for downstream Real and Completion consumers; it is not a selected infinite subsequence, quotient stream equality, host sequence equality, chosen limit, countable-choice datum, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy subsequence tail-witness carrier]
+\label{def:regular-cauchy-subsequence-tail-witness-carrier}
+A $\RegularCauchySubsequenceTailWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,S,T,M,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the source $\RegSeqRatUp$ row whose regular rational readback is being inspected.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the source and subsequence windows used by the witness.
+\item $T$ is the $\CauchyTailSelectionCriterionUp$ row that supplies the displayed tail threshold for the requested tolerance.
+\item $M$ is the $\RegularCauchySubsequenceCriterionUp$ row that binds the cofinal subsequence schedule to the same regular-Cauchy readback route.
+\item $H$ records componentwise $\hsame$ transport for the regular readback, stream windows, tail threshold, subsequence criterion, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-extraction request through $R,S,T,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySubsequenceTailWitnessUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyTailSelectionCriterionUp$, $\RegularCauchySubsequenceCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySubsequenceTailWitnessUp}$ row.
+\end{enumerate}
+The classifier reads only $R,S,T,M,H,C,P,N$. It has no coordinate for a selected infinite subsequence, quotient stream equality, host sequence equality, chosen limit, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy subsequence tail-witness NameCert obligations]
+\label{thm:regular-cauchy-subsequence-tail-witness-namecert-obligations}
+For every accepted $\RegularCauchySubsequenceTailWitnessUp$ carrier $W=(R,S,T,M,H,C,P,N)$, the local $\NameCert_{\RegularCauchySubsequenceTailWitnessUp}$ surface consists exactly of source regular readback through $R$, finite window exposure through $S$, tail-threshold exposure through $T$, cofinal-subsequence criterion exposure through $M$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-subsequence-tail-witness-carrier}. The visible analytic rows are precisely the regular readback $R$, finite windows $S$, tail-selection row $T$, and subsequence-criterion row $M$.
+
+Read the rows in dependency order. The source regular rational row $R$ is inspected only through finite stream windows $S$; the tail-selection criterion $T$ supplies the threshold requested by the downstream consumer; and the subsequence criterion $M$ binds that threshold to the displayed cofinal schedule.
+
+The rows $H,C,P,N$ add only transport, replay, provenance, and local naming for the same finite route. Since the carrier has no selected-subsequence, quotient-stream, host-equality, chosen-limit, choice, or ambient-completeness coordinate, these displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy subsequence tail extraction]
+\label{thm:regular-cauchy-subsequence-tail-witness-tail-extraction}
+Every Real or Completion consumer of an accepted $\RegularCauchySubsequenceTailWitnessUp$ packet must read the finite route
+$$
+R,S,T,M,H,C,P,N
+$$
+before using the packet as a tail-density witness. Thus the extraction handoff factors through the regular rational readback, stream windows, tail-selection threshold, and regular-Cauchy subsequence criterion before any downstream Real-facing seal may consume the witness.
+\end{theorem}
+\begin{proof}
+Begin with a downstream Real or Completion request. The carrier exposes no direct completed object; it exposes the source regular rational row $R$ and finite window row $S$ first.
+
+The tail witness is then determined by $T$ and $M$. The row $T$ supplies the finite threshold from the Cauchy tail-selection criterion, while $M$ ties the same threshold to the cofinal regular-Cauchy subsequence route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no row stores a selected infinite subsequence, quotient stream equality, host sequence equality, chosen limit, countable-choice datum, or ambient Real completeness, the consumer can export only the displayed tail-density witness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchySubsequenceTailWitnessUp$ read must display RegSeqRat readback, StreamName windows, CauchyTailSelectionCriterion threshold data, RegularCauchySubsequenceCriterion cofinal-schedule data, hsame transport, Cont replay, Pkg provenance, and local naming before a tail-density witness is public.}
+
+\independenceWitness{regseqrat, streamname, cauchy-tail-selection-criterion, regular-cauchy-subsequence-criterion, real: no listed sibling is bijective to $\RegularCauchySubsequenceTailWitnessUp$ because this packet jointly carries the source readback, finite windows, tail threshold, subsequence criterion, transport, replay, provenance, and local NameCert rows in one tail-extraction carrier.}
+
+\closureat{RegularCauchySubsequenceTailWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubsequenceTailWitnessUp}
+  \constructivestory{A $\RegularCauchySubsequenceTailWitnessUp$ packet is generated from a RegSeqRat source readback, StreamName finite windows, CauchyTailSelectionCriterion threshold data, RegularCauchySubsequenceCriterion cofinal-schedule data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subsequence-tail-witness-carrier}, \autoref{thm:regular-cauchy-subsequence-tail-witness-namecert-obligations}, and \autoref{thm:regular-cauchy-subsequence-tail-witness-tail-extraction} seed the finite tail-extraction witness consumed by L10 Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close selected infinite subsequences, quotient stream equality, host sequence equality, chosen limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-threshold exposure, cofinal-subsequence exposure, tail-density handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySubsequenceTailWitnessUp.}
+\end{closurestatus}
