@@ -8,6 +8,7 @@ import BedcMathlibBridge.Export.ZMod
 import BedcMathlibBridge.Export.Fibonacci
 import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Leonardo
+import BedcMathlibBridge.Export.SylvesterSequence
 import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Eulerian
