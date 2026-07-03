@@ -263,6 +263,12 @@ def worklist_candidates() -> list:
         data = json.loads(WORKLIST_PATH.read_text())
     except Exception:
         return []
+    # Fail-closed: the coverage-gap worklist is Nat-shadow-laundering-shaped and
+    # marks itself daemon_eligible=False / NO_STRUCTURAL_CARRIER_CANDIDATE=True.
+    # Never hand its rows to run_bridge_round, even if a future caller revives
+    # this entry point (the adversarial challenge flagged the dormant path).
+    if data.get("daemon_eligible") is False or data.get("NO_STRUCTURAL_CARRIER_CANDIDATE"):
+        return []
     cands = []
     for row in data.get("worklist", []):
         decls = row.get("bridge_decls") or []
@@ -284,28 +290,61 @@ def worklist_candidates() -> list:
     return cands
 
 
+# Correspondence shapes that describe a genuine BEDC-object <-> mathlib-object
+# bridge (a carrier / relation / algebraic-structure equivalence over a real
+# BEDC carrier). Anything else -- pointwise_eq, bhist_readback, or an unknown
+# shape -- is a Nat-value facade that admits the dead natToUnary/bwordLength
+# round-trip, so it is NOT eligible for autonomous bridging.
+_STRUCTURAL_SHAPES = frozenset(
+    {
+        "carrier_equiv",
+        "rel_equiv",
+        "relation_equiv",
+        "ring_equiv",
+        "group_equiv",
+        "field_equiv",
+        "module_equiv",
+        "order_equiv",
+        "predicate_equiv",
+        "structure_equiv",
+        "iso",
+        "isomorphism",
+    }
+)
+
+
 def _structural_only(source: list) -> list:
-    """Keep only genuine STRUCTURAL bridge candidates; drop Nat-shadow-prone ones.
+    """POSITIVE allowlist: accept ONLY genuine structural bridge candidates.
 
     candidate_filter surfaces a MIX: structural carriers (carrier_equiv over a
     real BEDC carrier -- TaggedOptionHistoryCarrier / ListHistoryCarrier /
-    SumHistoryCarrier / GaussInt / ZMod class) AND pointwise-equality-to-Nat
-    candidates (e.g. GcdUp.NatGcd -> Nat.gcd). The latter is the LAUNDERING
-    shape: a Nat-valued BEDC function bridged as `f = Nat.<fn>`, which admits the
-    dead `natToUnary (NatFn (bwordLength ...))` round-trip and produces a
-    Nat-vs-Nat identity, not a BEDC-object <-> mathlib bridge. Per the 4-way
-    adversarial spec, the daemon accepts ONLY structural correspondence shapes;
-    if that empties the pool it idles honestly (an idle daemon beats a laundering
-    one). Enforcement still lives in the heavy-check gate -- this is the feeder
-    guard, not the trust boundary."""
+    SumHistoryCarrier / GaussInt / ZMod class) AND Nat-value-facade candidates
+    (pointwise_eq / bhist_readback to a `Nat.<fn>` target, e.g. NatGcd ->
+    Nat.gcd, natChooseFn -> Nat.choose). The latter admit the dead `natToUnary
+    (NatFn (bwordLength ...))` round-trip and export a Nat-vs-Nat identity, not a
+    BEDC-object <-> mathlib bridge. The adversarial challenge showed a negative
+    drop-list (drop only pointwise_eq -> Nat.*) leaks: candidate_filter's
+    `bhist_readback` role and other non-pointwise shapes slip through. So this is
+    a DEFAULT-DENY allowlist -- a candidate is accepted only when its
+    correspondence shape is affirmatively structural AND its mathlib target is
+    not a `Nat.*` facade. If that empties the pool the daemon idles honestly (an
+    idle daemon beats a laundering one). This is the feeder guard; the trust
+    boundary is the heavy-check anti-laundering gate."""
     kept = []
     for c in source or []:
-        shape = str(c.get("correspondence_shape_guess") or "")
+        decl = c.get("bedc_decl")
+        shape = str(c.get("correspondence_shape_guess") or "").strip()
         target = str(c.get("mathlib_target_guess") or c.get("mathlib_class_guess") or "")
-        if shape == "pointwise_eq" and target.startswith("Nat."):
+        if shape not in _STRUCTURAL_SHAPES:
             cf.logger.info(
-                f"[bridge] drop Nat-shadow-prone candidate {c.get('bedc_decl')} "
-                f"(pointwise_eq -> {target}); structural-only daemon policy"
+                f"[bridge] reject non-structural candidate {decl} "
+                f"(shape={shape or 'none'} -> {target}); structural-only allowlist"
+            )
+            continue
+        if target.startswith("Nat.") or target == "Nat":
+            cf.logger.info(
+                f"[bridge] reject Nat-facade candidate {decl} "
+                f"(shape={shape} -> {target}); structural-only allowlist"
             )
             continue
         kept.append(c)
