@@ -22,6 +22,7 @@ import BedcMathlibBridge.Constructive.CentralBinom
 import BedcMathlibBridge.Constructive.Delannoy
 import BedcMathlibBridge.Constructive.Pell
 import BedcMathlibBridge.Constructive.QBinomial
+import BedcMathlibBridge.Constructive.Narayana
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular

@@ -191,6 +191,18 @@ private theorem bishopRegularRealSealToEventFlow_injective {x y : BishopRegularR
     (Eq.trans (bishopRegularRealSeal_round_trip x).symm
       (Eq.trans hread (bishopRegularRealSeal_round_trip y)))
 
+private theorem bishopRegularRealSeal_field_faithful :
+    ∀ x y : BishopRegularRealSealUp,
+      bishopRegularRealSealFields x = bishopRegularRealSealFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk W1 G1 D1 M1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk W2 G2 D2 M2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance bishopRegularRealSealBHistCarrier : BHistCarrier BishopRegularRealSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := bishopRegularRealSealToEventFlow
@@ -205,6 +217,41 @@ instance bishopRegularRealSealChapterTasteGate : ChapterTasteGate BishopRegularR
   layer_separation := by
     intro x y hxy heq
     exact hxy (bishopRegularRealSealToEventFlow_injective heq)
+
+instance bishopRegularRealSealFieldFaithful : FieldFaithful BishopRegularRealSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopRegularRealSealFields
+  field_faithful := bishopRegularRealSeal_field_faithful
+
+instance bishopRegularRealSealNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BishopRegularRealSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopRegularRealSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopRegularRealSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem BishopRegularRealSealTasteGate_single_carrier_alignment :
+    (∀ h : BHist, bishopRegularRealSealDecodeBHist (bishopRegularRealSealEncodeBHist h) = h) ∧
+      (∀ x : BishopRegularRealSealUp,
+        bishopRegularRealSealFromEventFlow (bishopRegularRealSealToEventFlow x) = some x) ∧
+        (∀ x y : BishopRegularRealSealUp,
+          bishopRegularRealSealToEventFlow x = bishopRegularRealSealToEventFlow y → x = y) ∧
+          Nonempty (FieldFaithful BishopRegularRealSealUp) ∧
+            Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopRegularRealSealUp) ∧
+              bishopRegularRealSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨bishopRegularRealSealDecode_encode_bhist,
+      bishopRegularRealSeal_round_trip,
+      (fun _ _ heq => bishopRegularRealSealToEventFlow_injective heq),
+      ⟨bishopRegularRealSealFieldFaithful⟩,
+      ⟨bishopRegularRealSealNontrivial⟩,
+      rfl⟩
 
 theorem BishopRegularRealSealNameCertObligations (x : BishopRegularRealSealUp) :
     ∃ W G D M E H C P N : BHist,
@@ -236,5 +283,11 @@ theorem BishopRegularRealSealNameCertObligations (x : BishopRegularRealSealUp) :
   cases x with
   | mk W G D M E H C P N =>
       exact ⟨W, G, D, M, E, H, C, P, N, rfl, rfl, rfl⟩
+
+namespace TasteGate
+
+abbrev BishopRegularRealSealUp := BEDC.Derived.BishopRegularRealSealUp.BishopRegularRealSealUp
+
+end TasteGate
 
 end BEDC.Derived.BishopRegularRealSealUp
