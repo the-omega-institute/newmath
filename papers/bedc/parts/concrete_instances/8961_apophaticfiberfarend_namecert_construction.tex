@@ -50,6 +50,32 @@ The local inscription row $I$ is then read as chain-local accountability. It tie
 Finally $H,C,P,N$ provide transport, continuation replay, provenance, and local naming. Since every public route is a projection through these rows and the carrier has no further coordinate, the obligation surface is exhausted by the finite packet $S,F,G,B,I,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Apophatic fiber far-end carrier admission]
+\label{thm:apophatic-fiber-far-end-carrier-admission}
+Every accepted $\ApophaticFiberFarEndUp$ packet exposes exactly the carrier rows
+$$
+S,F,G,B,I,H,C,P,N
+$$
+as its public $\BHist$ data. No additional row may be read as a far-end object, local subject, hidden digest, theorem object, setup field, or generated witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-fiber-far-end-carrier}. The displayed packet has precisely the rows $S,F,G,B,I,H,C,P,N$, and the definition states that the carrier contains exactly these rows.
+
+The public read is therefore row exhaustion. Since no other coordinate is present, a consumer cannot project a far-end object, subject row, digest, theorem object, setup field, or generated witness from an accepted packet.
+\end{proof}
+
+\begin{theorem}[Apophatic fiber far-end ledger-boundary route]
+\label{thm:apophatic-fiber-far-end-ledger-boundary-route}
+Every public consumer of the $\ApophaticFiberFarEndUp$ far-end row must first pass through the fiber row $F$, the $\mathsf{GAP}$ ledger row $G$, and the apophatic boundary row $B$. It must then pass through $H,C,P,N$ before any local inscription read from $I$ is public.
+\end{theorem}
+\begin{proof}
+Read the public route exactness clause of \autoref{thm:apophatic-fiber-far-end-namecert-obligations}. The far-end request is exposed by $F$, ledgered by $G$, and bounded by $B$ before any consumer route can use the local inscription row.
+
+The continuation part is displayed by $H,C,P,N$. These rows supply transport, replay, provenance, and local naming for the same finite packet, so the inscription read is public only after this route has been traversed.
+
+No parameter transport is used. The claim is a projection from the displayed carrier and from the route exactness clause already listed in the local $\NameCert_{\ApophaticFiberFarEndUp}$ surface.
+\end{proof}
+
 \begin{theorem}[Apophatic fiber far-end noninternality]
 \label{thm:apophatic-fiber-far-end-noninternality}
 For every accepted $\ApophaticFiberFarEndUp$ packet $A=(S,F,G,B,I,H,C,P,N)$, the far-end boundary named by $B$ cannot be consumed as a $\BHist$, $\Hist$, digest, state, theorem object, setup field, generated witness, or observer-substance row. Any accepted consumer of the local inscription row $I$ must still pass through the socket row $S$, fiber row $F$, $\mathsf{GAP}$ ledger $G$, boundary row $B$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
@@ -93,11 +119,11 @@ Finally compare $\ObserverHistIdentityUp$. It supplies the no-subject history-id
 
 \begin{closurestatus}{\ApophaticFiberFarEndUp}
   \constructivestory{An $\ApophaticFiberFarEndUp$ packet is generated from an accepted apophatic socket, fiber row, $\mathsf{GAP}$ far-end ledger, boundary row, local inscription row, componentwise $\hsame$ transport, displayed $\Cont$ routes, provenance, and local naming. The $\BHist$ carrier first exposes the socket and fiber request, then records the far end only as a ledgered boundary, and finally reads the local inscription without adding a subject coordinate. The classifier preserves the far end as noninternal data: every consumer must pass through socket, fiber, ledger, boundary, inscription, route, provenance, and name.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the apophatic fiber far-end carrier, obligations, noninternality, falsifiable prediction, and independence witness.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the apophatic fiber far-end carrier, carrier admission, ledger-boundary route, obligations, noninternality, falsifiable prediction, and independence witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim the far end as a $\BHist$, digest, state, theorem object, setup field, generated witness, or observer substance.}
-  \upgradepath{To reach obligationClosure, turn the existing aligned TasteGate carrier into explicit checked obligations for the fiber, ledger, boundary, and inscription rows.}
+  \upgradepath{Scoped closure requires binding each obligation to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the TasteGate carrier.}
 \end{closurestatus}

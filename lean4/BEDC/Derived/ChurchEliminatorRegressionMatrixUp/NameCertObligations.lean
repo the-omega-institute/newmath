@@ -67,4 +67,84 @@ theorem ChurchEliminatorRegressionMatrixNameCertObligations
       · exact hsame_refl P
       · exact hsame_refl N
 
+theorem ChurchEliminatorRegressionMatrixCarrier_nonescape
+    (x : ChurchEliminatorRegressionMatrixUp) :
+    ∃ F G L C B S X H K P N : BHist,
+      x = ChurchEliminatorRegressionMatrixUp.mk F G L C B S X H K P N ∧
+        BHistCarrier.toEventFlow x =
+          churchEliminatorRegressionMatrixToEventFlow
+            (ChurchEliminatorRegressionMatrixUp.mk F G L C B S X H K P N) ∧
+        List.Mem (churchEliminatorRegressionMatrixEncodeBHist K)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (churchEliminatorRegressionMatrixEncodeBHist P)
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem (churchEliminatorRegressionMatrixEncodeBHist N)
+          (BHistCarrier.toEventFlow x) ∧
+        churchEliminatorRegressionMatrixEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier
+  cases x with
+  | mk F G L C B S X H K P N =>
+      refine ⟨F, G, L, C, B, S, X, H, K, P, N, rfl, rfl, ?_, ?_, ?_, rfl⟩
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _
+                                          (List.Mem.tail _ (List.Mem.head _)))))))))))))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _
+                                          (List.Mem.tail _
+                                            (List.Mem.tail _
+                                              (List.Mem.tail _ (List.Mem.head _)))))))))))))))))))
+      · exact
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _
+                      (List.Mem.tail _
+                        (List.Mem.tail _
+                          (List.Mem.tail _
+                            (List.Mem.tail _
+                              (List.Mem.tail _
+                                (List.Mem.tail _
+                                  (List.Mem.tail _
+                                    (List.Mem.tail _
+                                      (List.Mem.tail _
+                                        (List.Mem.tail _
+                                          (List.Mem.tail _
+                                            (List.Mem.tail _
+                                              (List.Mem.tail _
+                                                (List.Mem.tail _
+                                                  (List.Mem.tail _
+                                                    (List.Mem.head _)))))))))))))))))))))
+
 end BEDC.Derived.ChurchEliminatorRegressionMatrixUp
