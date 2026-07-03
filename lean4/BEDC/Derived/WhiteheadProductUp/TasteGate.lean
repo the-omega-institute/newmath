@@ -53,24 +53,28 @@ def whiteheadProductToEventFlow : WhiteheadProductUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (whiteheadProductFields x).map whiteheadProductEncodeBHist
 
-def whiteheadProductFromEventFlow : EventFlow → Option WhiteheadProductUp
+private def whiteheadProductRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [sourceLeft, sourceRight, mapLeft, mapRight, boundary, commutator, bracket, transport,
-      replay, provenance, name] =>
-      some
-        (WhiteheadProductUp.mk
-          (whiteheadProductDecodeBHist sourceLeft)
-          (whiteheadProductDecodeBHist sourceRight)
-          (whiteheadProductDecodeBHist mapLeft)
-          (whiteheadProductDecodeBHist mapRight)
-          (whiteheadProductDecodeBHist boundary)
-          (whiteheadProductDecodeBHist commutator)
-          (whiteheadProductDecodeBHist bracket)
-          (whiteheadProductDecodeBHist transport)
-          (whiteheadProductDecodeBHist replay)
-          (whiteheadProductDecodeBHist provenance)
-          (whiteheadProductDecodeBHist name))
-  | _ => none
+  | 0, [] => []
+  | 0, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => whiteheadProductRawAt index rest
+
+def whiteheadProductFromEventFlow (flow : EventFlow) : Option WhiteheadProductUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (WhiteheadProductUp.mk
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 0 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 1 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 2 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 3 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 4 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 5 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 6 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 7 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 8 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 9 flow))
+      (whiteheadProductDecodeBHist (whiteheadProductRawAt 10 flow)))
 
 private theorem WhiteheadProductTasteGate_single_carrier_alignment_round_trip
     (x : WhiteheadProductUp) :
