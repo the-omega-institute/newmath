@@ -60,6 +60,18 @@ Apply \autoref{thm:typed-example-gallery-namecert-obligations}. Carrier admissio
 Finally use \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-typed-normal-form-separation}. These keep the public read inside the finite regression and displayed normal-form surface. Since the carrier has no coordinate for arbitrary term reduction, global normalization, confluence, or conversion decidability, none of those conclusions can cross the obligation frontier.
 \end{proof}
 
+\begin{theorem}[Typed example gallery checker-row exhaustion]
+\label{thm:typed-example-gallery-checker-row-exhaustion}
+For an accepted $\TypedExampleGalleryUp$ packet $G=(E,T,C,B,R,H,K,P,N)$, every public checker read for a gallery entry factors through the displayed checker row $T$ after entry exposure through $E$ and before any closedness row $C$, beta row $B$, regression row $R$, or structural row $H,K,P,N$ is consumed. The packet exports no checker result for entries outside $E$ and no arbitrary checker completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The only checker-facing coordinate is $T$, and its statement is indexed by accepted gallery entries already displayed in $E$.
+
+Use \autoref{thm:typed-example-gallery-namecert-obligations}. Its checker-visibility clause reads $T$ only for accepted entries in $E$, while its closedness, beta, and regression clauses are separate rows rather than alternate checker sources.
+
+Finally apply \autoref{thm:typed-example-gallery-obligation-frontier}. The frontier places checker visibility after entry exposure and before $C,B,R,H,K,P,N$. Since the carrier has no coordinate for entries outside $E$ and no row asserting arbitrary checker completeness, every public checker read is exhausted by the displayed row $T$.
+\end{proof}
+
 \begin{theorem}[Typed example gallery regression surface]
 \label{thm:typed-example-gallery-regression-surface}
 Every consumer of an accepted $\TypedExampleGalleryUp$ packet receives a finite regression surface for the typed-example corpus: accepted typing rows, closedness inputs, selected beta computations, and sibling provenance through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet cannot be reread as a theorem about all represented terms, all closed substitutions, all beta steps, all erased proof terms, or all checker results.
