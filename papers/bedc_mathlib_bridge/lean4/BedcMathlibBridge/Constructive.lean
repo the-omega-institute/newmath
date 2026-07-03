@@ -11,6 +11,7 @@ import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.BinomialIdentities
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Lah
+import BedcMathlibBridge.Constructive.LahNumber
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.FussCatalan
@@ -33,6 +34,7 @@ import BedcMathlibBridge.Constructive.Raney
 import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
+import BedcMathlibBridge.Constructive.PolygonalNumberTriangular
 import BedcMathlibBridge.Constructive.CakeNumber
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
 import BedcMathlibBridge.Constructive.Square

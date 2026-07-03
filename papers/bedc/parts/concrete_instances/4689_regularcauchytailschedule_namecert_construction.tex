@@ -68,6 +68,7 @@ Next use the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-n
 
 Finally apply the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedule-scope-binding} and the obligation-closure package \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package}. They keep the shared-threshold handoff inside $\RegularCauchyTailMeetUp$, the fusion handoff inside $\RegularCauchyTailFusionUp$, and all replay, provenance, and local naming inside $H,C,P,N$. Since the carrier has no coordinate for quotient stream equality, selected completed limits, unbounded diagonal streams, or ambient completeness, the triad gives exactly the displayed route and no external analytic object.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailScheduleUp.RegularCauchyTailScheduleObligationTriad}
 
 \closureat{RegularCauchyTailScheduleUp}{seedStr}
 
@@ -135,6 +136,7 @@ S=(Q,R,W,D,K,T,M,F,E,H,C,P,N).
 $$
 The obligation surface therefore binds the precision request, regular rational source, finite window schedule, dyadic tolerance ledger, cofinal-index row, tail witness, shared-threshold consumer, tail-fusion consumer, seal-facing handoff, componentwise transport, continuation replay, provenance, and local naming, and it excludes quotient stream equality, selected limits, unbounded diagonal streams, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailScheduleUp.RegularCauchyTailSchedule\_scope\_binding}
 \begin{proof}
 Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. Its analytic rows are exactly $R,W,D,K,T,M,F,E$, and its structural rows are exactly $H,C,P,N$. The displayed sibling objects are the regular rational source, the finite stream windows, the dyadic tolerance ledger, the shared-threshold packet, the tail-fusion row, and the terminal $\RealUp$ seal-facing row.
 
@@ -157,4 +159,48 @@ Start with carrier admission and classifier stability. The carrier definition \a
 Next read the exactness and handoff rows. The handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route} forces every seal-facing read to pass through $Q,R,W,D,K,T,M,F$, while \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy} fixes the terminal $\RealUp$ handoff once those rows, the transport rows, the continuation replay, provenance, and local naming are fixed.
 
 Finally apply the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedule-scope-binding}. It keeps every accepted obligation inside the same displayed rows and excludes quotient stream equality, selected limits, unbounded diagonal streams, hidden tail selectors, and ambient completeness. The five rows therefore form the promised obligation-closure package.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule cofinal-window induction]
+\label{thm:regular-cauchy-tail-schedule-cofinal-window-induction}
+For every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+finite induction over the displayed $\StreamNameUp$ window schedule $W$, using the $\DyadicRatCoreUp$ ledger $D$ and cofinal index row $K$, preserves the same tail-witness route
+$$
+Q,R,W,D,K,T
+$$
+before the sibling consumer rows $M,F$ are consumed. At each displayed window, the induced tail witness remains the one replayed by $C$ and transported by $H$; hence the induction exports no quotient stream equality, selected completed limit, hidden tail selector, host real equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. The finite schedule row $W$ is displayed together with the dyadic ledger $D$, cofinal index row $K$, and tail-witness row $T$ before either sibling consumer is public.
+
+For the base window, read the first displayed schedule entry in $W$. Schedule exactness from \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations} routes that entry through $Q,R,W,D,K,T$, so the initial tail witness is already inside the carrier.
+
+For the successor step, use the componentwise $\hsame$ transports stored in $H$ to move from one displayed window row to the next, and replay the finite continuation segment stored in $C$. The ledger $D$ and cofinal index $K$ remain part of the same route, so the successor witness is again the displayed row $T$ rather than a hidden selector.
+
+Finally invoke schedule exactness and meet-fusion compatibility, \autoref{thm:regular-cauchy-tail-schedule-tail-meet-fusion-compatibility}. They keep $M$ and $F$ downstream of the completed finite route $Q,R,W,D,K,T$, which proves the cofinal-window induction claim without exporting any external analytic equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule meet-fusion compatibility]
+\label{thm:regular-cauchy-tail-schedule-tail-meet-fusion-compatibility}
+For every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+the shared-threshold row $M$ and the tail-fusion row $F$ consume the same displayed entrance surface
+$$
+Q,R,W,D,K,T.
+$$
+Their downstream reads therefore agree on the cofinal tail witness up to the componentwise $\hsame$ rows in $H$. The compatibility exports no quotient stream equality, selected completed limit, host real equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. The rows $Q,R,W,D,K,T$ are the only precision request, regular rational source, finite window schedule, dyadic ledger, cofinal index, and tail-witness entrance surface available before either sibling consumer is read.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}. Schedule exactness forces every cofinal-tail read through $Q,R,W,D,K,T$, and downstream consumer handoff then routes the shared-threshold read through $M$ and the fusion read through $F$.
+
+Use handoff-route determinacy from \autoref{def:regular-cauchy-tail-schedule-handoff-route} and \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy} to identify the common entrance rows. Both sibling consumers are downstream of the same displayed tail witness rather than of separate hidden tail selectors.
+
+Finally transport componentwise by the $\hsame$ rows stored in $H$. The obligation-closure package of \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package} keeps the compatibility inside the displayed schedule packet, so no quotient stream equality, selected completed limit, host real equality, or ambient completeness endpoint is exported.
 \end{proof}

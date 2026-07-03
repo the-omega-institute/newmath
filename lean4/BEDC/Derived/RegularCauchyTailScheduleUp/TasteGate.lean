@@ -1,10 +1,16 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailScheduleUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
@@ -15,6 +21,30 @@ open BEDC.Meta.TasteGate
 inductive RegularCauchyTailScheduleUp : Type where
   | mk (Q R W D K T M F E H C P N : BHist) : RegularCauchyTailScheduleUp
   deriving DecidableEq
+
+def RegularCauchyTailScheduleCarrier [AskSetup] [PackageSetup]
+    (precision source window dyadic cofinal tail meet fusion sealRow transport route provenance
+      name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧
+    UnaryHistory source ∧
+      UnaryHistory window ∧
+        UnaryHistory dyadic ∧
+          UnaryHistory cofinal ∧
+            UnaryHistory tail ∧
+              UnaryHistory meet ∧
+                UnaryHistory fusion ∧
+                  UnaryHistory sealRow ∧
+                    UnaryHistory transport ∧
+                      UnaryHistory route ∧
+                        UnaryHistory provenance ∧
+                          UnaryHistory name ∧
+                            Cont precision source route ∧
+                              Cont route window tail ∧
+                                Cont tail meet fusion ∧
+                                  Cont fusion sealRow transport ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle name pkg
 
 def regularCauchyTailScheduleEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -465,5 +495,76 @@ theorem RegularCauchyTailSchedule_seal_facing_route_determinacy
   · exact
       regularCauchyTailSchedule_round_trip
         (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)
+
+theorem RegularCauchyTailSchedule_scope_binding
+    {Q R W D K T M F E H C P N route tailRead meetRead fusionRead sealRead : BHist} :
+    UnaryHistory Q ->
+      UnaryHistory R ->
+        UnaryHistory W ->
+          UnaryHistory M ->
+            UnaryHistory F ->
+              Cont Q R route ->
+                Cont route W tailRead ->
+                  Cont tailRead M meetRead ->
+                    Cont meetRead F fusionRead ->
+                      Cont fusionRead E sealRead ->
+                        UnaryHistory route ∧
+                          UnaryHistory tailRead ∧
+                            UnaryHistory meetRead ∧
+                              UnaryHistory fusionRead ∧
+                                hsame sealRead (append fusionRead E) ∧
+                                  regularCauchyTailScheduleFromEventFlow
+                                      (regularCauchyTailScheduleToEventFlow
+                                        (RegularCauchyTailScheduleUp.mk
+                                          Q R W D K T M F E H C P N)) =
+                                    some
+                                      (RegularCauchyTailScheduleUp.mk
+                                        Q R W D K T M F E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory hsame
+  intro unaryQ unaryR unaryW unaryM unaryF routeQR routeTail routeMeet routeFusion sealRoute
+  have unaryRoute : UnaryHistory route := unary_cont_closed unaryQ unaryR routeQR
+  have unaryTailRead : UnaryHistory tailRead :=
+    unary_cont_closed unaryRoute unaryW routeTail
+  have unaryMeetRead : UnaryHistory meetRead :=
+    unary_cont_closed unaryTailRead unaryM routeMeet
+  have unaryFusionRead : UnaryHistory fusionRead :=
+    unary_cont_closed unaryMeetRead unaryF routeFusion
+  exact
+    ⟨unaryRoute, unaryTailRead, unaryMeetRead, unaryFusionRead, sealRoute,
+      regularCauchyTailSchedule_round_trip
+        (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)⟩
+
+theorem RegularCauchyTailScheduleObligationTriad [AskSetup] [PackageSetup]
+    {precision source window dyadic cofinal tail meet fusion sealRow transport route provenance
+      name scheduleRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailScheduleCarrier precision source window dyadic cofinal tail meet
+        fusion sealRow transport route provenance name bundle pkg →
+      Cont precision window scheduleRead →
+        Cont scheduleRead tail handoffRead →
+          PkgSig bundle handoffRead pkg →
+            UnaryHistory precision ∧
+              UnaryHistory window ∧
+                UnaryHistory scheduleRead ∧
+                  UnaryHistory tail ∧
+                    UnaryHistory handoffRead ∧
+                      Cont precision window scheduleRead ∧
+                        Cont scheduleRead tail handoffRead ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier scheduleRoute handoffRoute handoffPkg
+  rcases carrier with
+    ⟨precisionUnary, _sourceUnary, windowUnary, _dyadicUnary, _cofinalUnary,
+      tailUnary, _meetUnary, _fusionUnary, _sealUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, _precisionRoute, _tailRoute, _fusionRoute,
+      _sealRoute, provenancePkg, _namePkg⟩
+  have scheduleReadUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed precisionUnary windowUnary scheduleRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed scheduleReadUnary tailUnary handoffRoute
+  exact
+    ⟨precisionUnary, windowUnary, scheduleReadUnary, tailUnary, handoffReadUnary,
+      scheduleRoute, handoffRoute, provenancePkg, handoffPkg⟩
 
 end BEDC.Derived.RegularCauchyTailScheduleUp
