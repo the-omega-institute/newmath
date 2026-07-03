@@ -11,6 +11,7 @@ import BedcMathlibBridge.Export.Binomial
 import BedcMathlibBridge.Export.BinomialIdentities
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Lah
+import BedcMathlibBridge.Export.LahNumber
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.FussCatalan
@@ -33,6 +34,7 @@ import BedcMathlibBridge.Export.Raney
 import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
+import BedcMathlibBridge.Export.PolygonalNumberTriangular
 import BedcMathlibBridge.Export.CakeNumber
 import BedcMathlibBridge.Export.OddDoubleFactorial
 import BedcMathlibBridge.Export.Square
