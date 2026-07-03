@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\GrothendieckConstructionUp$}
+\label{ch:concrete-instances-grothendieck-construction-namecert}
+\origin{human}
+
+Following Grothendieck and Mac Lane, the $\GrothendieckConstructionUp$ packet records the category of elements of an indexed category, discrete fibration, or presheaf as finite BEDC NameCert data. It sits after the source category of \autoref{ch:concrete-instances-category-namecert}, the functorial dependency surface of \autoref{ch:concrete-instances-functor-namecert}, the natural-transformation comparison surface of \autoref{ch:concrete-instances-nattrans-namecert}, the presheaf interface of \autoref{ch:concrete-instances-presheaf-namecert}, and the fibration-style lift boundary named by $\FibrationUp$. The packet names only displayed base objects, indexed fibres, arrow compatibility rows, projection data, lift ledgers, transport, replay, provenance, and local naming; it does not introduce a quotient category, selected representatives, or ambient equality of arrows.
+
+\begin{definition}[Grothendieck construction carrier]
+\label{def:grothendieck-construction-carrier}
+A $\GrothendieckConstructionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,F,O,A,P,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the base $\CategoryUp$ row, exposing objects, arrows, identities, composition, and the base classifier;
+\item $F$ is the indexed $\FunctorUp$ or $\PreSheafUp$ row over $B$, with every fibre and restriction map read through the displayed functorial ledger;
+\item $O$ is the object-fibre ledger, listing exactly the pairs $(b,x)$ whose base object $b$ is admitted by $B$ and whose fibre element $x$ is admitted by $F(b)$;
+\item $A$ is the arrow compatibility ledger, listing arrows $(f,\alpha):(b,x)\to(c,y)$ only when $f:b\to c$ is a base arrow and $\alpha$ is the displayed fibre comparison supplied by the indexed row;
+\item $P$ is the projection-functor row from the displayed category of elements back to $B$;
+\item $L$ is the fibration-style lift ledger, recording only the cartesian or restriction lifts already exhibited by $F$ and $A$;
+\item $H$ records componentwise $\hsame$ transports for $B,F,O,A,P,L,Q,N$;
+\item $C$ records displayed $\Cont$ replay for object pairs, compatible arrows, projection, and lift reads;
+\item $Q$ is the $\Pkg$ provenance over $\GrothendieckConstructionUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\PreSheafUp$, $\FibrationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GrothendieckConstructionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient category equality, chosen representatives of fibre elements, ambient equality of arrows, a global fibration equivalence, or a detached category-of-elements object outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Grothendieck construction NameCert obligations]
+\label{thm:grothendieck-construction-namecert-obligations}
+For every accepted $\GrothendieckConstructionUp$ carrier
+$$
+G=(B,F,O,A,P,L,H,C,Q,N),
+$$
+the local $\NameCert_{\GrothendieckConstructionUp}$ surface consists exactly of carrier admission, base category exposure through $B$, indexed functor or presheaf exposure through $F$, object-fibre admission through $O$, arrow compatibility through $A$, projection-functor replay through $P$, fibration-style lift display through $L$, componentwise transport through $H$, displayed continuation through $C$, provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:grothendieck-construction-carrier}. The rows $B,F,O,A$ are the only source rows from which objects and arrows of the displayed category of elements can be read.
+
+The projection and lift rows are still internal to the same packet. Row $P$ forgets only to the base row $B$, while row $L$ records the displayed lift or restriction data already supplied by $F$ and $A$.
+
+Finally read $H,C,Q,N$. These rows transport, replay, source, and name the same finite packet. Since no quotient category equality, selected representative, ambient arrow equality, or detached fibration equivalence appears among the rows, the listed data exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Grothendieck construction category-of-elements route]
+\label{thm:grothendieck-construction-category-of-elements-route}
+Every category-of-elements read of an accepted $\GrothendieckConstructionUp$ packet factors through the displayed route
+$$
+\CategoryUp \longmapsto \FunctorUp\text{ or }\PreSheafUp \longmapsto O,A \longmapsto P,L,H,C,Q,N.
+$$
+The read may be consumed by $\NatTransUp$ comparison or $\FibrationUp$ lift consumers, but it cannot identify arrows by quotient category equality, choose representatives outside the fibre ledger, replace the projection by ambient arrow equality, or claim a global fibration equivalence.
+\end{theorem}
+\begin{proof}
+Start with the base and indexed rows $B$ and $F$. They supply the only admitted source category and the only admitted family or presheaf data for the construction.
+
+Next use the object and arrow rows $O$ and $A$. Objects are exposed as displayed base-fibre pairs, and arrows are exposed as base arrows together with the indexed compatibility row. Thus the host category of elements is read as finite packet data, not as a quotient or selected representative system.
+
+Finally apply $P,L,H,C,Q,N$. The projection row preserves the base endpoint, the lift row preserves only the displayed fibration-style data, and transport, replay, provenance, and local naming keep the same route visible for downstream consumers. Hence the public read is the category-of-elements route and none of the refused ambient equalities or global equivalences follows.
+\end{proof}
+
+\closureat{GrothendieckConstructionUp}{seedStr}
+
+\begin{closurestatus}{\GrothendieckConstructionUp}
+  \constructivestory{A $\GrothendieckConstructionUp$ packet is generated from a base category row, an indexed functor or presheaf row, object-fibre and arrow-compatibility ledgers, a projection-functor row, a fibration-style lift ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:grothendieck-construction-carrier}, \autoref{thm:grothendieck-construction-namecert-obligations}, and \autoref{thm:grothendieck-construction-category-of-elements-route} seed the finite category-of-elements route over CategoryUp, FunctorUp, NatTransUp, PreSheafUp, and FibrationUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient category equality, selected representatives, global fibration equivalence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, object-fibre exposure, arrow compatibility, projection replay, lift display, transport, continuation, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
