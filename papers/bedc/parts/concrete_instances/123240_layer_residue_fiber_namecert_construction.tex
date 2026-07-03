@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LayerResidueFiberUp$}
+\label{ch:concrete-instances-layer-residue-fiber-namecert}
+\origin{ai}
+
+The $\LayerResidueFiberUp$ packet realizes the layer-residue surface of \autoref{sec:layered-extension-theory} as finite NameCert data. It sits at the interface between the residue family of \autoref{def:layered-extension-residue}, the fiber-family discipline of \autoref{def:interface-layer-fiber-family}, the no-point-replacement boundary of \autoref{prin:layered-projection-no-point-replacement}, the Baire prefix surface of \autoref{ch:concrete-instances-bairespace-namecert}, the finite stream naming route of \autoref{ch:concrete-instances-streamname-namecert}, and the local naming discipline of $\NameCert$. The packet records a residue as a fiber-indexed surface rather than as a detached endpoint.
+
+\begin{definition}[LayerResidueFiber carrier]
+\label{def:layer-residue-fiber-carrier}
+A $\LayerResidueFiberUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,Q,R,E,T,Y,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-carrier row whose readouts feed the layered-extension tower.
+\item $Q$ is the readout row for the preceding layer, including the displayed classifier and local equivalence resolution.
+\item $R$ is the residual-witness row, recording finite witnesses for the fiber family $r\mapsto\operatorname{Res}_n(r)$ of \autoref{def:layered-extension-residue}.
+\item $E$ is the compatible-extension row, naming the displayed readback map from the refined layer to the preceding layer.
+\item $T$ is the transport row for moving the residual witness through the readback compatibility equation.
+\item $Y$ is the replay row exposing the finite $\BaireSpaceUp$ prefix and $\StreamNameUp$ window data used by residue consumers.
+\item $A$ is the audit row distinguishing the residue fiber from point-replacement, endpoint selection, or host equality of readouts.
+\item $H$ records componentwise $\hsame$ transport for $S,Q,R,E,T,Y,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a layered-extension consumer through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\LayerResidueFiberUp$, the layered-extension vision, the interface-layer vision, $\BaireSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LayerResidueFiberUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose residue read keeps $S,Q,R,E,T,Y,A,H,C,P,N$ visible. It has no coordinate for a selected endpoint, quotient equality of readouts, host function equality, hidden section choice, or completed extension theorem.
+\end{definition}
+
+\begin{theorem}[LayerResidueFiber NameCert obligations]
+\label{thm:layer-residue-fiber-namecert-obligations}
+For every accepted $\LayerResidueFiberUp$ carrier $L=(S,Q,R,E,T,Y,A,H,C,P,N)$, the local $\NameCert_{\LayerResidueFiberUp}$ surface consists exactly of source-row exposure through $S$, preceding-layer readout through $Q$, residual-fiber witness exposure through $R$, compatible-extension readback through $E$, transport through $T$ and $H$, replay through $Y$ and $C$, point-replacement refusal through $A$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:layer-residue-fiber-carrier}. The source, readout, residual-witness, compatible-extension, transport, replay, audit, provenance, and naming rows are the whole accepted surface.
+
+The residue row is read as a family. Row $R$ exposes witnesses for $r\mapsto\operatorname{Res}_n(r)$, while $E$ records only the compatible readback to the preceding layer. Thus a consumer cannot collapse the residue into a single endpoint before reading the fiber data.
+
+Finally $T,Y,A,H,C,P,N$ preserve the same finite route. The audit row $A$ refuses point replacement, quotient readout equality, host function equality, hidden section choice, and completed extension claims, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[LayerResidueFiber extension handoff]
+\label{thm:layer-residue-fiber-extension-handoff}
+Every compatible layered-extension consumer of an accepted $\LayerResidueFiberUp$ packet must expose the finite route
+$$
+S,Q\longmapsto R\longmapsto E\longmapsto T,Y,A\longmapsto H,C,P,N
+$$
+before any residue-as-fiber claim is public. The route may be consumed by layered-extension, interface-layer, $\BaireSpaceUp$, $\StreamNameUp$, and NameCert-style siblings only as source, readout, residual-witness, compatible-extension, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the source and preceding-layer rows. The source row $S$ and readout row $Q$ fix the layer whose residue is being inspected.
+
+Read the residual witness row $R$ next. It is indexed by the preceding readout value and therefore preserves the fiber-family shape required by the interface-layer discipline.
+
+The compatible-extension row $E$ then supplies only a readback equation to the preceding layer. It does not choose a terminal point of the fiber and does not quotient the refined readout by host equality.
+
+Finally transport, replay, audit, provenance, and local naming through $T,Y,A,H,C,P,N$ keep the handoff finite. The later Lean TasteGate surface must provide explicit $\mathsf{Nontrivial}\ \LayerResidueFiberUp$ and $\FieldFaithful\ \LayerResidueFiberUp$ instances preserving these rows before any checked carrier-alignment theorem can serve as a public TasteGate realization.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LayerResidueFiberUp$ read exposes source, readout, residual-witness, compatible-extension, transport, replay, audit, provenance, and local NameCert rows before a layered-extension residue can be consumed as a fiber surface.}
+
+\independenceWitness{layered-extension, interface-layer, bairespace, streamname, namecert-style: $\LayerResidueFiberUp$ is not bijective to any listed sibling because it jointly carries the residual-witness row, compatible-extension readback, finite Baire and stream replay, point-replacement refusal, transport, provenance, and local naming in one packet.}
+
+\closureat{LayerResidueFiberUp}{seedStr}
+
+\begin{closurestatus}{\LayerResidueFiberUp}
+  \constructivestory{A $\LayerResidueFiberUp$ packet is generated from source, readout, residual-witness, compatible-extension, transport, replay, audit, hsame, Cont, Pkg, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:layer-residue-fiber-carrier}, \autoref{thm:layer-residue-fiber-namecert-obligations}, and \autoref{thm:layer-residue-fiber-extension-handoff} seed the finite residue-as-fiber surface for layered-extension consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected endpoints, quotient equality of readouts, host function equality, hidden section choice, completed extension theorems, Lean verification, or bridge checking for $\LayerResidueFiberUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-witness exposure, compatible-extension readback, point-replacement refusal, transport, replay, provenance, local naming, and TasteGate Nontrivial plus FieldFaithful instances for BEDC.Derived.LayerResidueFiberUp.}
+\end{closurestatus}

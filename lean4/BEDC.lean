@@ -1523,6 +1523,7 @@ import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.ObligationSurface
+import BEDC.Derived.BoundedRegularCauchyUp.RealSealBoundary
 import BEDC.Derived.BoundedRegularCauchyUp.TailWindowInduction
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
@@ -3279,6 +3280,7 @@ import BEDC.Derived.ClosedSubstitutionSealUp.AuditSurface
 import BEDC.Derived.ClosedSubstitutionSealUp.Boundary
 import BEDC.Derived.ClosedSubstitutionSealUp.CompileSafety
 import BEDC.Derived.ClosedSubstitutionSealUp.ObligationRows
+import BEDC.Derived.ClosedSubstitutionSealUp.PrimitiveScope
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermContextSealUp
@@ -5380,6 +5382,7 @@ import BEDC.Derived.DyadicBracketApproximationUp.TasteGate
 import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCantorWindowUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
+import BEDC.Derived.DyadicCauchyCompletionUp
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyDiagonalUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
@@ -10925,6 +10928,7 @@ import BEDC.Derived.RealMetricUp.TriangleWindowStability
 import BEDC.Derived.RealMinMaxUp.FiniteComparisonHandoff
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusArithmeticUp.TasteGate
+import BEDC.Derived.RealModulusComparisonUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
@@ -10968,6 +10972,7 @@ import BEDC.Derived.RealOscillationUp
 import BEDC.Derived.RealOscillationUp.TasteGate
 import BEDC.Derived.RealPlaneUp
 import BEDC.Derived.RealPolynomialUp.EvaluationStability
+import BEDC.Derived.RealPolynomialUp.NameCertObligations
 import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.Carrier
