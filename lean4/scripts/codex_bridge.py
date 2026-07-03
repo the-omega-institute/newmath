@@ -245,7 +245,10 @@ B. nat_value_sequence
   equivalence.
 - The target is a pre-existing mathlib Nat declaration or formula surface such
   as Nat.choose, Nat.factorial, Nat.fib, Nat.centralBinom, Nat.descFactorial,
-  Nat.superFactorial, Nat.pow, or numDerangements.
+  Nat.superFactorial, or numDerangements.
+- A nat_value_sequence mathlib target must be a genuine Mathlib declaration
+  imported from Mathlib, not a Lean core Nat declaration; core Nat facts such
+  as Nat.pow, Nat.mul, Nat.add, and Nat.gcd are rejected by ThinLayerGuard.
 - The bridge must consume at least one existing BEDC theorem, recurrence,
   closed-form theorem, boundary theorem, or existing bridge theorem that itself
   consumes BEDC content. Do not introduce the BEDC source function in the bridge
@@ -334,13 +337,11 @@ NAT_VALUE_TARGETS = frozenset(
         "Nat.choose",
         "Nat.factorial",
         "Nat.fib",
-        "Nat.gcd",
         "Nat.centralBinom",
         "Nat.stirlingFirst",
         "Nat.stirlingSecond",
         "Nat.descFactorial",
         "Nat.superFactorial",
-        "Nat.pow",
         "numDerangements",
     }
 )
