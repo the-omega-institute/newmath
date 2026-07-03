@@ -62,6 +62,7 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
 import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
+import BEDC.Derived.ActiveReadingGateUp.BlockingRowDeterminacy
 import BEDC.Derived.ActiveReadingGateUp.CurrentRetiredDisjointness
 import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
@@ -3403,6 +3404,7 @@ import BEDC.Derived.ClosurePreservationAuditWitnessUp
 import BEDC.Derived.ClosurePreservationAuditWitnessUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
+import BEDC.Derived.ClosureUniversalityQuadrantUp.AxisIndependence
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.ClusterFilterUp.CauchyCompletionHandoff
@@ -4877,6 +4879,7 @@ import BEDC.Derived.DenseEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
+import BEDC.Derived.DenseUniformContinuityExtensionUp
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.CompletionConsumerRoute
 import BEDC.Derived.DenseUniformEmbeddingUp.LedgerNonescape
@@ -9858,6 +9861,7 @@ import BEDC.Derived.ParsevalUp.InnerProductNormScope
 import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.L2EnergyIdentityRoute
 import BEDC.Derived.ParsevalUp.NameCertObligations
+import BEDC.Derived.ParsevalUp.PublicEnergyExport
 import BEDC.Derived.ParsevalUp.RealL2BoundaryRefusal
 import BEDC.Derived.ParsevalUp.RealSealNonescape
 import BEDC.Derived.ParsevalUp.RootCoefficientIntegralBudget
