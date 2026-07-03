@@ -7530,6 +7530,7 @@ import BEDC.Derived.KernelMorphismUp.NonEscape
 import BEDC.Derived.KernelMorphismUp.ScopedConsumerPacket
 import BEDC.Derived.KernelMorphismUp.SourceGraphEdgeReadback
 import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
+import BEDC.Derived.KernelObservationSieveUp.NonEscape
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
@@ -7628,6 +7629,7 @@ import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
+import BEDC.Derived.LargeModelCorpusSupplyUp.ProvenanceBoundary
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
@@ -10201,6 +10203,7 @@ import BEDC.Derived.PrecompactMetricUp.CauchyFilterHandoff
 import BEDC.Derived.PrecompactMetricUp.FilterNetModulusHandoff
 import BEDC.Derived.PrecompactMetricUp.MatureCompletionReflection
 import BEDC.Derived.PrecompactUniformUp.TasteGate
+import BEDC.Derived.PredictiveDescentUp.NameCertObligations
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
