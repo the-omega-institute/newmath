@@ -1,0 +1,224 @@
+\chapter{BEDC--ANT Interpretation Bridge and Tail Closure Equivalence}
+\label{ch:visions-rh-bedc-ant-bridge}
+\origin{ai}
+
+This chapter records a faithful interpretation bridge from the classical
+analytic number theory presentation of the zeta route into the existing BEDC
+prime-window obligation package. It is a bridge and a conditional theorem, not
+an unconditional RH theorem. The remaining obstruction is exactly the
+off-critical infinite Euler-tail closure row: an off-critical principal
+residual may not legally close unless its radial exponent is zero.
+
+\section{Interpretation Map}
+\label{sec:rh-bedc-ant-interpretation-map}
+
+Let
+$$
+I:\mathsf{ANT}\longrightarrow\mathsf{BEDC}
+$$
+denote the interpretation map. It sends classical analytic number theory
+objects to the finite BEDC carriers, ledgers, and obligation rows that the
+route already uses.
+
+\begin{center}
+\begin{tabular}{p{0.30\linewidth}p{0.61\linewidth}}
+\toprule
+\textbf{ANT object} & \textbf{BEDC reading under $I$}\\
+\midrule
+Prime tower &
+Unique-factorization generation tower: finite prime windows, prime membership
+certificates, and the generated arithmetic tower they expose.\\
+\addlinespace
+Ledger &
+Prime valuation ledger together with the Euler-tail ledger that stores what is
+not visible in a finite prime window.\\
+\addlinespace
+Unit &
+Finite Fourier unit phases and Euler probability units; the BEDC readback is a
+finite unitary phase packet rather than a completed analytic Hilbert space.\\
+\addlinespace
+Finite sieve $S_N$ &
+Finite Fourier-invertible layer over $\mathbb F_{p_N}$, with all operations
+visible in a finite window.\\
+\addlinespace
+Quadratic sieve $Q_P(a,b)=a^2+b^2$ &
+Gauss norm modulo $P$ projected to the finite prime-window carrier.\\
+\addlinespace
+$\zeta^{\uparrow}$ &
+Finite Euler layers plus a tail-ledger certified limit interface. The finite
+layer is checked only as a window; the infinite tail remains an obligation.\\
+\addlinespace
+Off-critical zero &
+For $\rho=1/2+r+i\gamma$, the principal residual of $-\zeta'/\zeta$ at
+$\rho$ reads as
+$$
+R_{\rho}(u)=-m_{\rho}e^{u/2}e^{ru}e^{i\gamma u}.
+$$
+Its BEDC image is the prime-window O4 row saying that such an off-critical
+tail residual cannot legally close as zero-compatible defect data.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The last row is the important one. BEDC does not manufacture complex analysis
+inside the finite kernel. It records the tail residual as an obligation and
+passes it through the already isolated prime-window defect interface.
+
+\section{Finite Euler Layers Do Not Cancel the Principal Part}
+\label{sec:rh-bedc-ant-finite-layer-no-cancellation}
+
+\begin{lemma}[Classical finite-layer holomorphy at nontrivial zeros]
+\label{lem:rh-ant-finite-euler-layer-holomorphic}
+Fix a finite prime bound $P_N$ and set
+$$
+D_{\leq P_N}(s)
+=
+\sum_{p\leq P_N}\sum_{k\geq1}\frac{\log p}{p^{ks}}
+=
+\sum_{p\leq P_N}\frac{\log p}{p^s-1}.
+$$
+The poles of $D_{\leq P_N}$ lie on $\Re(s)=0$. Hence, at every nontrivial
+zero $\rho$ with $0<\Re(\rho)<1$, the finite layer is holomorphic and has
+zero principal part:
+$$
+[D_{\leq P_N}]_{\rho}=0.
+$$
+Consequently the principal residual of $-\zeta'/\zeta$ at $\rho$ is carried
+entirely by the tail ledger $\mathsf{TailLedger}_{>P_N}$.
+\end{lemma}
+
+\begin{proof}
+This is a classical analytic statement, not a BEDC finite-kernel theorem. For
+each fixed prime $p$,
+$$
+\sum_{k\geq1}\frac{\log p}{p^{ks}}
+=
+\log p\cdot\frac{p^{-s}}{1-p^{-s}}
+=
+\frac{\log p}{p^s-1}.
+$$
+The denominator vanishes exactly when
+$$
+p^s=1,
+\qquad
+s=\frac{2\pi i n}{\log p}
+\quad(n\in\mathbb Z),
+$$
+so every pole of each finite summand lies on the imaginary axis. A finite sum
+has no additional poles. Therefore $D_{\leq P_N}$ is holomorphic at every
+nontrivial zero in the open critical strip, and its Laurent principal part
+there is zero. The pole of $-\zeta'/\zeta$ at $\rho$ cannot be cancelled by
+the finite Euler layer; it is a tail-ledger residual.
+\end{proof}
+
+The lemma is the exact reason the bridge is honest. The finite layer has no
+local analytic mechanism capable of cancelling the zero's principal part, but
+this observation does not solve the global tail-rigidity problem.
+
+\section{Tail Closure and RH}
+\label{sec:rh-bedc-ant-tail-closure-rh}
+
+\begin{definition}[ANT off-critical tail closure]
+\label{def:rh-ant-no-off-critical-tail-closure}
+The ANT statement
+$$
+\mathsf{NoOffCriticalTailClosure}_{\mathrm{ANT}}
+$$
+says that the infinite Euler tail may legally close a zero-compatible
+principal residual only when the residual has no off-critical radial exponent:
+for $\rho=1/2+r+i\gamma$, legal closure of
+$$
+R_{\rho}(u)=-m_{\rho}e^{u/2}e^{ru}e^{i\gamma u}
+$$
+forces $r=0$.
+\end{definition}
+
+\begin{theorem}[Tail closure is exactly RH strength]
+\label{thm:rh-ant-no-off-critical-tail-closure-equivalence}
+In the ANT reading,
+$$
+\mathsf{NoOffCriticalTailClosure}_{\mathrm{ANT}}
+\Longleftrightarrow
+\mathsf{RH}.
+$$
+\end{theorem}
+
+\begin{proof}
+If RH holds, every nontrivial zero has $r=0$, so there is no off-critical
+tail residual to close. Conversely, if
+$\mathsf{NoOffCriticalTailClosure}_{\mathrm{ANT}}$ holds and an off-critical
+zero existed, the finite Euler layer would be holomorphic at that zero by
+\autoref{lem:rh-ant-finite-euler-layer-holomorphic}; the nonzero principal
+part of $-\zeta'/\zeta$ would therefore have to live in the infinite tail,
+contradicting the no-off-critical-tail closure row. Hence no off-critical
+zero exists.
+\end{proof}
+
+Thus the bridge does not reduce RH to a weaker BEDC kernel fact. It identifies
+the remaining unproved analytic obligation with RH-strength content.
+
+\section{BEDC Conditional Readback}
+\label{sec:rh-bedc-ant-bedc-readback}
+
+Under $I$, the BEDC name for the O4 row is the following alias.
+\leandef{BEDC.Derived.RHRoute.BedcAntBridge.NoOffCriticalTailClosure}
+
+The aliased target is the existing prime-window statement-only obligation
+recorded in \autoref{def:rh-prime-window-defect-zero-incompatibility}. It is
+the row that says a located nontrivial zero cannot coexist with compatible
+finite prime-window defect data. It is not inhabited here.
+\leanstmt{BEDC.Derived.RHRoute.PrimeWindowDefect.PrimeWindowDefectZeroIncompatibility}
+
+The checked BEDC theorem is the conditional handoff:
+\begin{theorem}[BEDC tail closure package implies located ConstructiveRH]
+\label{thm:rh-bedc-ant-conditional-constructive-rh}
+\leanchecked{BEDC.Derived.RHRoute.BedcAntBridge.noOffCriticalTailClosure\_imply\_constructiveRH}
+\leanvariant{BEDC.Derived.RHRoute.PrimeWindowDefect.obligations\_imply\_constructiveRH}
+Given the O4 alias
+$\mathsf{NoOffCriticalTailClosure}$, the existing
+$\mathsf{FiniteWindowGlobalCollapse}$ row, and the bookkeeping O1/O3 rows,
+the BEDC prime-window obligation package implies the located
+$\mathsf{ConstructiveRH}$ predicate.
+\end{theorem}
+
+\begin{proof}
+The Lean proof does not prove O4 and does not create a canonical obligation
+witness. It builds a
+$\mathsf{PrimeWindowRHObligations}$ record from the supplied assumptions and
+then calls the already checked prime-window theorem
+$\mathsf{obligations\_imply\_constructiveRH}$.
+\end{proof}
+
+The status is therefore precise:
+$$
+\mathsf{NoOffCriticalTailClosure}_{\mathrm{ANT}}
+\Longleftrightarrow
+\mathsf{RH},
+\qquad
+\bigl(
+\mathsf{NoOffCriticalTailClosure}_{\mathrm{BEDC}}
+\wedge
+\mathsf{FiniteWindowGlobalCollapse}
+\wedge
+\mathsf{O1}
+\wedge
+\mathsf{O3}
+\bigr)
+\Rightarrow
+\mathsf{ConstructiveRH}.
+$$
+The first line is a classical equivalence statement about the tail residual.
+The second line is a kernel-checked conditional BEDC handoff. Neither line is
+an unconditional RH theorem.
+
+\begin{closurestatus}{BedcAntBridgeUp}
+  \origin{ai}
+  \constructivestory{The chapter supplies a paper-level interpretation map from ANT objects to BEDC prime-window carriers and identifies the off-critical Euler-tail residual with the existing O4 row. The checked Lean content is only the conditional wrapper around the prime-window obligation package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{BEDC--ANT interpretation map is faithful at the listed rows: each BEDC statement has the displayed classical number-theory counterpart, and the O4 alias plus the existing collapse and bookkeeping rows kernel-checks a conditional ConstructiveRH handoff}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.BedcAntBridge.noOffCriticalTailClosure\_imply\_constructiveRH}
+  \bridgestatus{paperBridge}
+  \notclaimed{NoOffCriticalTailClosure itself as the RH-strength analytic row; the infinite Euler-tail principal-residual rigidity forcing legal closure only at r=0; unconditional classical RH; any BEDC-kernel proof of the classical holomorphy statement in \autoref{lem:rh-ant-finite-euler-layer-holomorphic}; global tail-residual rigidity beyond finite-layer holomorphy}
+  \upgradepath{Prove the ANT tail-rigidity row by an infinite Euler-tail global rigidity argument, for example through finite Weil-packet or explicit-formula BoundaryStability data, then replace the O4 statement-only obligation by a checked bridge theorem}
+\end{closurestatus}
