@@ -4,6 +4,7 @@ import BedcMathlibBridge.Boundary.BernoulliAxiomLedger
 import BedcMathlibBridge.Boundary.RiemannZetaAxiomLedger
 import BedcMathlibBridge.Export.IntProbe
 import Mathlib.Algebra.EuclideanDomain.Int
+import Mathlib.Algebra.IsPrimePow
 import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
@@ -171,6 +172,15 @@ noncomputable def auditNatHarmonicNumberBoundary : Nat → Rat :=
 noncomputable def auditArithmeticFunctionCarmichaelBoundary :
     ArithmeticFunction Nat :=
   ArithmeticFunction.Carmichael
+
+/-!
+Audit-only touchpoint for the mathlib prime-power theorem surface at `2 ^ 2`.
+The BEDC perfect-power packet has a quotient-free decision surface for the
+same square, but the host prime-power proof route is measured separately.
+-/
+theorem auditNatPerfectPowerPrimeSquareBoundary :
+    IsPrimePow ((2 : Nat) ^ 2) :=
+  (Nat.Prime.isPrimePow Nat.prime_two).pow (by decide : 2 ≠ 0)
 
 /-!
 Audit-only touchpoint for mathlib's weird-number predicate at the standard
