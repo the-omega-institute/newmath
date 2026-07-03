@@ -12141,6 +12141,7 @@ import BEDC.Derived.ScottTopologyUp.TasteGate
 import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
+import BEDC.Derived.SectionMeaningCertificateUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
 import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
