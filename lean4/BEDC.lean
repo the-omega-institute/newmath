@@ -6250,6 +6250,7 @@ import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
 import BEDC.Derived.FiniteGroupRepresentationUp.NameCertBridge
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
+import BEDC.Derived.FiniteHellySelectionUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.ScopedKernelScope
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.NameCertObligations
@@ -11821,6 +11822,7 @@ import BEDC.Derived.RegularModulusUp.TasteGate
 import BEDC.Derived.RegularOpenSetUp.TasteGate
 import BEDC.Derived.RegularRealCauchySelectorUp
 import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
+import BEDC.Derived.RegularRealFamilyDiagonalUp.TasteGate
 import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
