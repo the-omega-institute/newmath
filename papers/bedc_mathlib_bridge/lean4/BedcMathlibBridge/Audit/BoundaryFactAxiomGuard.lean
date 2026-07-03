@@ -14,6 +14,7 @@ import Mathlib.Combinatorics.Enumerative.Partition.Basic
 import Mathlib.Combinatorics.Enumerative.Schroder
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Fermat
+import Mathlib.NumberTheory.FactorisationProperties
 import Mathlib.NumberTheory.Harmonic.Defs
 import Mathlib.NumberTheory.ArithmeticFunction.Carmichael
 import Mathlib.NumberTheory.LucasLehmer
@@ -166,6 +167,14 @@ noncomputable def auditNatHarmonicNumberBoundary : Nat → Rat :=
 noncomputable def auditArithmeticFunctionCarmichaelBoundary :
     ArithmeticFunction Nat :=
   ArithmeticFunction.Carmichael
+
+/-!
+Audit-only touchpoint for mathlib's weird-number predicate at the standard
+`70` witness. The predicate is stated through `properDivisors` and a
+subset-sum existential over `Finset`, so the host declaration is boundary data.
+-/
+noncomputable def auditNatWeirdSeventyBoundary : Prop :=
+  Nat.Weird 70
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
