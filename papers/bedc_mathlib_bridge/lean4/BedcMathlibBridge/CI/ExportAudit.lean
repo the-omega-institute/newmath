@@ -83,6 +83,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Padovan.padovanExport,
     witnessType :=
       `BedcMathlibBridge.Export.Padovan.PadovanExportWitness },
+  { witness := `BedcMathlibBridge.Export.Perrin.perrinExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Perrin.PerrinExportWitness },
   { witness := `BedcMathlibBridge.Export.Tribonacci.tribonacciExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tribonacci.TribonacciExportWitness },
