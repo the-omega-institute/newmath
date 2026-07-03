@@ -41,6 +41,7 @@ import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
+import BedcMathlibBridge.Constructive.EvenDoubleFactorial
 import BedcMathlibBridge.Constructive.Square
 import BedcMathlibBridge.Constructive.Pronic
 import BedcMathlibBridge.Constructive.CenteredHexagonal

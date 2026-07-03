@@ -41,6 +41,7 @@ import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
 import BedcMathlibBridge.Export.OddDoubleFactorial
+import BedcMathlibBridge.Export.EvenDoubleFactorial
 import BedcMathlibBridge.Export.Square
 import BedcMathlibBridge.Export.Pronic
 import BedcMathlibBridge.Export.CenteredHexagonal

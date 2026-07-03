@@ -144,6 +144,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.OddDoubleFactorial.oddDoubleFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.OddDoubleFactorial.OddDoubleFactorialExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.EvenDoubleFactorial.evenDoubleFactorialExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EvenDoubleFactorial.EvenDoubleFactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.Square.squareExport,
     witnessType :=
       `BedcMathlibBridge.Export.Square.SquareExportWitness },
