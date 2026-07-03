@@ -1,28 +1,15 @@
 #!/usr/bin/env python3
-"""Bridge coverage-gap discovery (TELEMETRY ONLY — NOT a daemon bridge source).
+"""Bridge coverage-gap discovery for BEDC combinatorial Nat carriers.
 
 Lists BEDC combinatorial / number-theoretic Nat-recursion carriers that are
 `def <name> : Nat -> ... -> Nat` shaped.
 
-WARNING — these carriers are Nat-shadow LAUNDERING-shaped, NOT genuine bridge
-candidates. A `Nat -> ... -> Nat` count/sequence carrier bridges to a mathlib
-Nat facade (`Nat.choose` / `Nat.factorial` / `Nat.centralBinom` / ...) only as
-an identity round-trip `natToUnary (natFn (bwordLength a) (bwordLength b))`
-where `bwordLength (natToUnary n) = n` is proven -> the BHist/kernel anchor is
-DEAD and the exported equality is a Nat-vs-Nat identity, not a BEDC-object <->
-mathlib bridge (violates bridge Rule 1). The 4-way adversarial review (codex
-minimal/structural/delete + gpt-pro, 2026-07-03) unanimously ruled this class
-INELIGIBLE for autonomous bridging; `codex_bridge.py` no longer sources
-production candidates from this worklist, and `check_value_anchor.py`
-fail-closes such rows. This module is retained ONLY as read-only human
-telemetry of the Nat-shadow surface. A GENUINE daemon feeder must instead list
-un-bridged STRUCTURAL carriers (structure / inductive with BEDC ops + a
-structure/equivalence/isomorphism theorem, the GaussInt / ZMod / EisInt class);
-when none exist it must emit NO_STRUCTURAL_CARRIER_CANDIDATE and the daemon
-idles (an idle daemon beats a laundering daemon).
+This script reports the coverage tail. A Nat-valued row is only honest as a
+pointwise/readback equality over an existing BEDC.Derived source; it is not a
+carrier equivalence. Consumers that need mathlib target hints can use
+`bridge_nat_sequence_candidates.py`.
 
-It never writes a bridge, never touches MATRIX, and never guesses the mathlib
-target (the BEDC-carrier -> mathlib-object mapping needs domain judgement).
+It never writes a bridge and never touches MATRIX.
 
 Usage:
     python3 scripts/bridge_coverage_gap.py            # human-readable table
@@ -190,11 +177,10 @@ def scan(root: Path):
         )
     worklist.sort(key=lambda d: (-d["priority"], d["carrier"]))
     return {
-        "class": "nat_shadow_ineligible",
-        "daemon_eligible": False,
-        "NO_STRUCTURAL_CARRIER_CANDIDATE": True,
-        "note": "Nat-recursion carriers below are Nat-shadow laundering-shaped; "
-        "telemetry only, NOT daemon bridge candidates (see module docstring).",
+        "class": "nat_sequence_coverage_gap",
+        "structural_candidate": False,
+        "allowed_bridge_kind": "nat_value_sequence",
+        "note": "Nat-valued carriers are eligible only as honest pointwise/readback bridges.",
         "total_bridge_shaped_carriers": total,
         "already_in_matrix": bridged,
         "contested_open_feat_bridge": contested,
