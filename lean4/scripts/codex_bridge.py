@@ -62,17 +62,18 @@ MAX_SWAP_GB = float(os.environ.get("BEDC_BRIDGE_MAX_SWAP_GB", "8.0"))
 FAILED_STATE_PATH = Path("/tmp/.bedc_bridge_failed.json")
 FAIL_COOLDOWN_SECONDS = int(os.environ.get("BEDC_BRIDGE_FAIL_COOLDOWN", str(6 * 3600)))
 
-# Discovery feeder. candidate_filter's autonomous-bridge universe (hardcoded
-# ANCHOR_PATTERNS) has its 0-axiom-able members already bridged, and the
-# remaining eligible carriers need classical axioms, so the bridge round almost
-# always fail-closes. But there IS a large un-bridged tail of combinatorial /
-# number-theoretic carriers that the operator's feat-bridge PR flow bridges by
-# hand. Each cycle we emit that tail (un-contested by any open feat-bridge
-# branch, not yet in MATRIX) as a worklist so the daemon is useful as a
-# discovery feeder even when its own bridge round produces nothing. Read-only;
-# never bridges and never guesses a mathlib target (that stays with the author).
+# Discovery feeder. candidate_filter supplies structural candidates; the Nat
+# sequence feeder supplies existing BEDC.Derived value sequences with conservative
+# mathlib target hints. The policy filter below decides which rows may reach a
+# bridge worker.
 REPO_ROOT = SCRIPT_DIR.parent.parent
-COVERAGE_GAP_SCRIPT = REPO_ROOT / "papers" / "bedc_mathlib_bridge" / "scripts" / "bridge_coverage_gap.py"
+NAT_SEQUENCE_SCRIPT = (
+    REPO_ROOT
+    / "papers"
+    / "bedc_mathlib_bridge"
+    / "scripts"
+    / "bridge_nat_sequence_candidates.py"
+)
 WORKLIST_PATH = Path("/tmp/.bedc_bridge_worklist.json")
 
 
@@ -80,23 +81,24 @@ def emit_coverage_gap() -> None:
     import subprocess
     try:
         out = subprocess.run(
-            [sys.executable, str(COVERAGE_GAP_SCRIPT), "--json"],
+            [sys.executable, str(NAT_SEQUENCE_SCRIPT), "--json"],
             capture_output=True, text=True, cwd=str(REPO_ROOT), timeout=120,
         )
         if out.returncode != 0 or not out.stdout.strip():
-            cf.logger.info(f"[bridge] coverage-gap emit skipped (rc={out.returncode})")
+            cf.logger.info(f"[bridge] nat-sequence emit skipped (rc={out.returncode})")
             return
         data = json.loads(out.stdout)
         WORKLIST_PATH.write_text(out.stdout)
         top = [r["carrier"] for r in data.get("worklist", [])[:8]]
         cf.logger.info(
-            f"[bridge] coverage-gap: {data.get('uncontested_unbridged')} "
-            f"uncontested-unbridged (of {data.get('total_bridge_shaped_carriers')} "
-            f"bridge-shaped, {data.get('contested_open_feat_bridge')} contested); "
+            f"[bridge] nat-sequence: {data.get('eligible_candidates')} eligible "
+            f"(of {data.get('uncontested_unbridged')} uncontested-unbridged, "
+            f"{data.get('total_bridge_shaped_carriers')} bridge-shaped, "
+            f"{data.get('contested_open_feat_bridge')} contested); "
             f"top={top} -> {WORKLIST_PATH}"
         )
     except Exception as e:  # a feeder failure must never break the bridge cycle
-        cf.logger.info(f"[bridge] coverage-gap emit error: {e}")
+        cf.logger.info(f"[bridge] nat-sequence emit error: {e}")
 
 
 def _candidate_decl(candidate: dict) -> str:
@@ -149,10 +151,12 @@ trivial bridge (leave the worktree unchanged):
    define, wrap, alias, rename, or re-derive it inside the bridge project. If no
    suitable pre-existing Mathlib declaration exists for this candidate, leave the
    worktree unchanged.
-2. The mathlib target must live in a Mathlib.* namespace, never in BEDC.*,
-   BedcMathlibBridge.*, or any generated namespace (this is anti-circularity:
-   the bridge interprets BEDC into pre-existing math, it must not become the
-   semantic source).
+2. The mathlib target must be supplied by the pre-existing mathlib/Lean
+   environment, for example Nat.choose, Nat.factorial, Bool, GaussianInt, ZMod,
+   or a named mathlib theorem surface. It must never be BEDC.*,
+   BedcMathlibBridge.*, or any generated namespace (anti-circularity: the bridge
+   interprets BEDC into pre-existing math, it must not become the semantic
+   source).
 3. Provide a canonical readback (or toMathlib and ofMathlib) and prove the
    round-trip (left_inv and right_inv), OR, when the target is not a plain type
    equivalence, an accepted structure-preserving correspondence: the relevant
@@ -223,94 +227,85 @@ def gates_ok() -> tuple[bool, str]:
     return True, f"load={load1:.1f} avail={avail_gb:.1f}GB swap={swap_gb:.1f}GB"
 
 
-STRUCTURAL_BRIDGE_PROMPT_SUFFIX = """
+HONEST_BRIDGE_PROMPT_SUFFIX = """
 
-Structural-carrier bridge (the ONLY bridge kind this daemon may produce).
-The candidate is a genuine BEDC STRUCTURAL carrier: a `structure` / `inductive`
-(or a carrier `Type` with BEDC-defined operations and relations), e.g. the
-GaussInt / ZMod / EisInt / TaggedOptionHistoryCarrier / ListHistoryCarrier /
-SumHistoryCarrier class. Your job is to connect the BEDC OBJECT to a mathlib
-OBJECT, not a Nat value to a Nat function.
+Allowed bridge kinds. The candidate JSON includes bridge_kind; follow it exactly.
 
-HARD anti-laundering rules (a violation must make you leave the worktree
-unchanged rather than ship it):
-- FORBIDDEN: a Nat-value facade. Do NOT write `f n = Nat.<fn> n` /
-  `bwordLength (natToUnary (g (bwordLength ...))) = Nat.<fn>` or any equality
-  whose BEDC side reduces to a plain `Nat -> ... -> Nat` recursion through a
-  `natToUnary` / `bwordLength` identity round-trip. `bwordLength (natToUnary n)
-  = n` is proven, so that round-trip carries no content (a dead anchor).
-- REQUIRED: the bridge is a CARRIER / RELATION / ALGEBRAIC-STRUCTURE
-  correspondence over the BEDC carrier. Concretely, write to/from maps between
-  the BEDC carrier and the mathlib object and show they are mutually inverse (a
-  carrier equivalence), and/or show the BEDC OPERATIONS/RELATIONS (defined in
-  BEDC on that carrier, e.g. GaussAdd/GaussMul, zmodAdd/zmodMul, the tagged
-  constructors) correspond to the mathlib operations. Use BEDC's OWN operations
-  as the bridge source; never pull a mathlib operation back through to/from maps
-  and pass it off as "the BEDC operation" (structure-grafting = laundering).
-- The exported_core row's `correspondence_shape_guess` must be a structural
-  shape (carrier_equiv / rel_equiv / ring_equiv / ...), and `mathlib_decl` must
-  be a mathlib TYPE / STRUCTURE / relation (Option, List, Sum, GaussianInt,
-  ZMod, QuadraticAlgebra, PythagoreanTriple, ...), never a `Nat.*` function.
+A. structural_object
+- The BEDC side is a genuine carrier, relation, algebraic object, or predicate
+  with existing BEDC-defined operations or relations.
+- Connect the BEDC object to a pre-existing mathlib object or relation by
+  to/from maps, round trips, relation equivalence, or operation preservation.
+- Use BEDC's own existing operations and relations as the source. Never pull a
+  mathlib operation back through maps and present it as a BEDC operation.
 
-If you cannot establish a genuine structural correspondence with a pre-existing
-mathlib object under 0 axioms, LEAVE THE WORKTREE UNCHANGED (the daemon records
-a fail-close and rotates). Producing nothing is correct; producing a Nat facade
-is not. Never fabricate a correspondence that is not actually proven.
+B. nat_value_sequence
+- The BEDC side is an existing BEDC.Derived Nat-valued sequence, count, or
+  readback declaration. This is a pointwise/readback equality, not a carrier
+  equivalence.
+- The target is a pre-existing mathlib Nat declaration or formula surface such
+  as Nat.choose, Nat.factorial, Nat.fib, Nat.centralBinom, Nat.descFactorial,
+  Nat.superFactorial, Nat.pow, or numDerangements.
+- The bridge must consume at least one existing BEDC theorem, recurrence,
+  closed-form theorem, boundary theorem, or existing bridge theorem that itself
+  consumes BEDC content. Do not introduce the BEDC source function in the bridge
+  project.
+- The theorem and MATRIX row must honestly say pointwise/readback equality. Do
+  not claim carrier_equiv, ring_equiv, geometry, classification, enumeration,
+  or full API equivalence for a Nat sequence.
+
+Hard reject lines for both kinds:
+- Bare Nat shadow: no existing BEDC.Derived source, or a bridge-side alias of a
+  mathlib Nat function proved equal to itself.
+- Dead anchor: the only BEDC contact is natToUnary around a Nat function of
+  bwordLength inputs, with no BEDC theorem proving the source semantics.
+- Structure grafting: mathlib operations pulled back and relabeled as BEDC
+  operations.
+- Hollow witnesses: rfl-only, x equals x, True, or inverse-lemma bookkeeping
+  without a real correspondence theorem.
+
+Nat value/readback templates:
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/CakeNumber.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/CakeNumber.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Lobb.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Lobb.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Constructive/Raney.lean
+- papers/bedc_mathlib_bridge/lean4/BedcMathlibBridge/Export/Raney.lean
+
+If neither an honest structural_object bridge nor an honest nat_value_sequence
+bridge is possible under the 0-axiom exported_core discipline, leave the
+worktree unchanged.
 """
 
 
 def worklist_candidates() -> list:
     """Build bridge candidates from the coverage-gap worklist.
 
-    This is what makes the daemon actually PRODUCE. Instead of feeding
-    candidate_filter's exhausted anchor-pattern pool (whose 0-axiom-able members
-    are already bridged and whose remainder — Option/Gcd/List/Sum — is classical
-    and always fail-closes), hand the worker the un-contested, un-bridged
-    combinatorial / number carriers (Bell/Catalan/CentralFactorial/...) that the
-    operator's feat-bridge flow bridges successfully. Each candidate carries the
-    carrier namespace + its concrete Nat-recursion decls; the worker finds the
-    pre-existing mathlib counterpart (per the hardened prompt) and writes the
-    exported_core bridge, or fail-closes on the ones needing classical axioms.
-    The worklist already excludes MATRIX-classified and open-feat-bridge carriers
-    (non-racing), so the daemon only claims the genuine long tail.
+    The worklist already excludes MATRIX-classified and open-feat-bridge
+    carriers. Unknown mathlib targets remain in telemetry with eligible=false;
+    the policy filter will keep only rows with conservative target hints and
+    BEDC theorem evidence.
     """
     try:
         data = json.loads(WORKLIST_PATH.read_text())
     except Exception:
         return []
-    # Fail-closed: the coverage-gap worklist is Nat-shadow-laundering-shaped and
-    # marks itself daemon_eligible=False / NO_STRUCTURAL_CARRIER_CANDIDATE=True.
-    # Never hand its rows to run_bridge_round, even if a future caller revives
-    # this entry point (the adversarial challenge flagged the dormant path).
-    if data.get("daemon_eligible") is False or data.get("NO_STRUCTURAL_CARRIER_CANDIDATE"):
-        return []
     cands = []
     for row in data.get("worklist", []):
-        decls = row.get("bridge_decls") or []
-        if not decls:
+        if not isinstance(row, dict):
             continue
-        cands.append(
-            {
-                "bedc_decl": decls[0],
-                "namespace": row.get("namespace"),
-                "bridge_decls": decls,
-                "carrier": row.get("carrier"),
-                "mathlib_target_guess": None,
-                "eligible": True,
-                "source": "coverage-gap",
-                "priority": row.get("priority", 0),
-            }
-        )
+        item = dict(row)
+        decls = item.get("bridge_decls") or []
+        if "bedc_decl" not in item and decls:
+            item["bedc_decl"] = decls[0]
+        item.setdefault("source", "nat-sequence-worklist")
+        item.setdefault("correspondence_shape_guess", "pointwise_eq")
+        cands.append(item)
     cands.sort(key=lambda c: -int(c.get("priority", 0)))
     return cands
 
 
-# Correspondence shapes that describe a genuine BEDC-object <-> mathlib-object
-# bridge (a carrier / relation / algebraic-structure equivalence over a real
-# BEDC carrier). Anything else -- pointwise_eq, bhist_readback, or an unknown
-# shape -- is a Nat-value facade that admits the dead natToUnary/bwordLength
-# round-trip, so it is NOT eligible for autonomous bridging.
-_STRUCTURAL_SHAPES = frozenset(
+STRUCTURAL_SHAPES = frozenset(
     {
         "carrier_equiv",
         "rel_equiv",
@@ -326,71 +321,95 @@ _STRUCTURAL_SHAPES = frozenset(
         "isomorphism",
     }
 )
+NAT_VALUE_SHAPES = frozenset(
+    {
+        "pointwise_eq",
+        "nat_sequence_eq",
+        "readback_eq",
+        "bhist_readback",
+    }
+)
+NAT_VALUE_TARGETS = frozenset(
+    {
+        "Nat.choose",
+        "Nat.factorial",
+        "Nat.fib",
+        "Nat.gcd",
+        "Nat.centralBinom",
+        "Nat.stirlingFirst",
+        "Nat.stirlingSecond",
+        "Nat.descFactorial",
+        "Nat.superFactorial",
+        "Nat.pow",
+        "numDerangements",
+    }
+)
 
 
-def _structural_only(source: list) -> list:
-    """POSITIVE allowlist: accept ONLY genuine structural bridge candidates.
+def _candidate_target(candidate: dict) -> str:
+    return str(candidate.get("mathlib_target_guess") or candidate.get("mathlib_class_guess") or "")
 
-    candidate_filter surfaces a MIX: structural carriers (carrier_equiv over a
-    real BEDC carrier -- TaggedOptionHistoryCarrier / ListHistoryCarrier /
-    SumHistoryCarrier / GaussInt / ZMod class) AND Nat-value-facade candidates
-    (pointwise_eq / bhist_readback to a `Nat.<fn>` target, e.g. NatGcd ->
-    Nat.gcd, natChooseFn -> Nat.choose). The latter admit the dead `natToUnary
-    (NatFn (bwordLength ...))` round-trip and export a Nat-vs-Nat identity, not a
-    BEDC-object <-> mathlib bridge. The adversarial challenge showed a negative
-    drop-list (drop only pointwise_eq -> Nat.*) leaks: candidate_filter's
-    `bhist_readback` role and other non-pointwise shapes slip through. So this is
-    a DEFAULT-DENY allowlist -- a candidate is accepted only when its
-    correspondence shape is affirmatively structural AND its mathlib target is
-    not a `Nat.*` facade. If that empties the pool the daemon idles honestly (an
-    idle daemon beats a laundering one). This is the feeder guard; the trust
-    boundary is the heavy-check anti-laundering gate."""
+
+def _is_structural_candidate(candidate: dict) -> bool:
+    shape = str(candidate.get("correspondence_shape_guess") or "").strip()
+    target = _candidate_target(candidate)
+    return shape in STRUCTURAL_SHAPES and target != "Nat" and not target.startswith("Nat.")
+
+
+def _is_nat_value_candidate(candidate: dict) -> bool:
+    shape = str(candidate.get("correspondence_shape_guess") or "").strip()
+    target = _candidate_target(candidate)
+    decls = [candidate.get("bedc_decl"), *(candidate.get("bridge_decls") or [])]
+    if candidate.get("source") == "nat-sequence-worklist" and candidate.get("eligible") is not True:
+        return False
+    if shape not in NAT_VALUE_SHAPES:
+        return False
+    if target not in NAT_VALUE_TARGETS:
+        return False
+    if not any(str(decl).startswith("BEDC.Derived.") for decl in decls if decl):
+        return False
+    if not (
+        candidate.get("has_recurrence_or_closedform_theorem")
+        or candidate.get("bedc_source_theorem_guess")
+        or candidate.get("bedc_consumed_decl_guess")
+    ):
+        return False
+    return True
+
+
+def _policy_filter(source: list) -> list:
     kept = []
-    for c in source or []:
-        decl = c.get("bedc_decl")
-        shape = str(c.get("correspondence_shape_guess") or "").strip()
-        target = str(c.get("mathlib_target_guess") or c.get("mathlib_class_guess") or "")
-        if shape not in _STRUCTURAL_SHAPES:
-            cf.logger.info(
-                f"[bridge] reject non-structural candidate {decl} "
-                f"(shape={shape or 'none'} -> {target}); structural-only allowlist"
-            )
+    for candidate in source or []:
+        decl = candidate.get("bedc_decl")
+        shape = str(candidate.get("correspondence_shape_guess") or "").strip()
+        target = _candidate_target(candidate)
+        if _is_structural_candidate(candidate):
+            candidate["bridge_kind"] = "structural_object"
+            kept.append(candidate)
             continue
-        if target.startswith("Nat.") or target == "Nat":
-            cf.logger.info(
-                f"[bridge] reject Nat-facade candidate {decl} "
-                f"(shape={shape} -> {target}); structural-only allowlist"
-            )
+        if _is_nat_value_candidate(candidate):
+            candidate["bridge_kind"] = "nat_value_sequence"
+            kept.append(candidate)
             continue
-        kept.append(c)
+        cf.logger.info(
+            f"[bridge] reject candidate {decl} "
+            f"(shape={shape or 'none'} -> {target or 'none'}); policy filter"
+        )
     return kept
 
 
 def run_cycle(dry_run: bool) -> None:
-    # emit_coverage_gap writes the coverage-gap worklist as READ-ONLY TELEMETRY.
-    # It is deliberately NOT a daemon bridge source: its Nat-recursion
-    # combinatorial carriers (binomial / Lah / Catalan / Stirling / polygonal /
-    # ...) can only be bridged as Nat-shadow LAUNDERING -- the BEDC side is
-    # `natToUnary (NatFn (bwordLength a) (bwordLength b))`, an identity
-    # round-trip (`bwordLength (natToUnary n) = n` is proven) wrapping a plain
-    # `Nat -> ... -> Nat` recursion, so the exported equality is a Nat-vs-Nat
-    # identity, NOT a BEDC-object <-> mathlib bridge (violates bridge Rule 1;
-    # the dead-anchor gate check_value_anchor.py fail-closes such rows). The
-    # daemon bridges ONLY genuine structural carriers surfaced by
-    # candidate_filter; when none are eligible it idles honestly rather than
-    # manufacturing laundering.
     emit_coverage_gap()
     ok, why = gates_ok()
     if not ok:
         cf.logger.info(f"[bridge] gate closed ({why}); skip cycle")
         return
-    source = _structural_only(cf._bridge_candidate_filter())
-    candidates = _reorder_candidates(source)
+    source = []
+    source.extend(cf._bridge_candidate_filter())
+    source.extend(worklist_candidates())
+    candidates = _reorder_candidates(_policy_filter(source))
     if not candidates:
-        cf.logger.info(
-            f"[bridge] gate ok ({why}); no eligible structural candidate "
-            f"(Nat-shadow coverage-gap worklist is telemetry-only, not a bridge source)"
-        )
+        cf.logger.info(f"[bridge] gate ok ({why}); no eligible honest bridge candidate")
         return
     picked = _candidate_decl(candidates[0])
     if dry_run:
@@ -407,6 +426,9 @@ def run_cycle(dry_run: bool) -> None:
         cf._bridge_candidate_filter = orig_filter
     cf.logger.info(f"[bridge] round produced={produced} candidate={picked}")
     if not produced:
+        if getattr(cf, "BRIDGE_LAST_DEFERRED", False):
+            cf.logger.info(f"[bridge] {picked} deferred by load gate; no fail-cooldown")
+            return
         _record_failed(picked)
         cf.logger.info(f"[bridge] {picked} entered fail-cooldown ({FAIL_COOLDOWN_SECONDS}s)")
 
@@ -420,7 +442,7 @@ def main() -> None:
 
     # Harden the shared prompt for this process only (does not mutate the file).
     cf.BRIDGE_ROUND_PROMPT_TEMPLATE = (
-        cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX + STRUCTURAL_BRIDGE_PROMPT_SUFFIX
+        cf.BRIDGE_ROUND_PROMPT_TEMPLATE + HARDENED_PROMPT_SUFFIX + HONEST_BRIDGE_PROMPT_SUFFIX
     )
 
     with pid_lock():
