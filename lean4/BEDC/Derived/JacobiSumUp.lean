@@ -1,5 +1,6 @@
 import BEDC.Derived.DirichletCharacterUp
 import BEDC.Derived.GaussSumUp
+import BEDC.Derived.GaussianPrimeUp
 import BEDC.Derived.SumTwoSquaresUp
 
 namespace BEDC.Derived.JacobiSumUp
@@ -268,6 +269,17 @@ theorem squareSumJacobiContact_exports_two_square {p : BHist}
       BEDC.Derived.SumTwoSquaresUp.IsSumTwoSquares (primeInteger prime) := by
   intro contact
   exact contact.prime_as_two_square
+
+theorem squareSumJacobiContact_exports_gaussian_split {p : BHist}
+    (prime : NatPrime p) (R : RelCommRing A r)
+    (scale : IntegerUp -> A) (absValue : A -> A) (sqrtPrime : A)
+    (chi :
+      DirichletCharacter p prime.left (NatPrime_empty_absurd prime)) :
+    SquareSumJacobiContact prime R scale absValue sqrtPrime chi ->
+      BEDC.Derived.GaussianPrimeUp.GaussianSplit (primeInteger prime) := by
+  intro contact
+  exact BEDC.Derived.GaussianPrimeUp.sum_two_squares_splits
+    (squareSumJacobiContact_exports_two_square prime R scale absValue sqrtPrime chi contact)
 
 theorem JacobiSumUp_definition_and_gauss_relation_surface {p : BHist}
     (prime : NatPrime p) (R : RelCommRing A r)
