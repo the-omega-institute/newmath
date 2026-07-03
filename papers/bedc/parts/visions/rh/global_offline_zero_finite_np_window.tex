@@ -8,7 +8,10 @@ zeta residual must be read either in a certified finite prime window or
 in the all-prime tail ledger.  The present chapter supplies the
 compact-window proof package for that row.  Its scope is conditional on
 the displayed explicit-formula and projection certificates; it does not
-turn the RH route into an unqualified global theorem.
+turn the RH route into an unqualified global theorem.  The zeta carrier,
+critical-strip predicate, and non-trivial zero packet rows remain
+theorem-facing inputs supplied by the ambient $\ZetaBasicUp$,
+$\ZetaContUp$, $\CritStripUp$, and $\ZetaZerosUp$ chain.
 
 \section{Radial Test Readout}
 \label{sec:rh-global-window-radial-test-readout}
@@ -289,6 +292,187 @@ By
 the global bridge row is realized, and the supplied source account is
 the finite branch.
 \end{proof}
+
+\section{Compact Window Exhaustion}
+\label{sec:rh-global-window-compact-window-exhaustion}
+
+\begin{definition}[Coefficiented off-line residual row]
+\label{def:rh-coefficiented-offline-residual-row}
+For an off-line zero
+$$
+\rho=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+a coefficiented radial residual row is
+$$
+R_{\rho,c}(u):=c_\rho e^{ru}e^{i\gamma u},
+\qquad
+c_\rho\ne0.
+$$
+The coefficient absorbs multiplicity and the displayed zero-side
+coefficient from the explicit formula.  It is a source row of the zero
+packet only when $c_\rho$ is supplied as nonzero data.
+\end{definition}
+
+\begin{lemma}[Coefficiented radial row has compact test readout]
+\label{lem:rh-coefficiented-radial-row-compact-test-readout}
+Every coefficiented off-line residual row has a compact test row
+$h\in C_c^\infty(I)$ with
+$$
+\langle R_{\rho,c},h\rangle_I\ne0.
+$$
+\end{lemma}
+
+\begin{proof}
+Choose a nonzero nonnegative bump function
+$$
+\eta\in C_c^\infty(I)
+$$
+and set
+$$
+h(u):=\eta(u)e^{-i\gamma u}.
+$$
+Then
+$$
+\langle R_{\rho,c},h\rangle_I
+=
+c_\rho\int_I\eta(u)e^{ru}\,du.
+$$
+The integral is a positive real number, while $c_\rho\ne0$.  Hence the
+pairing is nonzero.
+\end{proof}
+
+\begin{definition}[Compact window source exhaustion]
+\label{def:rh-compact-window-source-exhaustion}
+Let $h\in C_c^\infty([A,B])$ be an admissible compact
+explicit-formula test row.  A compact window source exhaustion for $h$
+consists of the abstract explicit-formula ledger of
+\autoref{def:rh-abstract-explicit-formula-ledger}, the compact
+prime-power address space
+$$
+A_{N,B}:=\{(p,k):p\in\mathcal P_N,\ k\ge1,\ p^k\le e^B\}
+$$
+whenever a certified envelope
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P)
+$$
+covers the base primes occurring below $e^B$, and the correction
+accounts
+$$
+\mathcal A(h)
+$$
+for the main, archimedean, trivial-zero, and pole rows.  The exhaustion
+condition says that a nonzero compact readout is legally accounted for
+only by one of the following rows:
+$$
+\begin{gathered}
+\text{a finite prime-power address in }A_{N,B},\\
+\text{a displayed finite-circle gap row after projection to }
+\mathbb F_P,\\
+\text{a displayed correction row in }\mathcal A(h),\\
+\text{a tail row in }\operatorname{TailPolicy}_{\mathcal P}.
+\end{gathered}
+$$
+If none of these rows is present, the compact window has no legal BEDC
+source account for the readout.
+\end{definition}
+
+\begin{theorem}[Compact window exhaustion leaves no addressless residual]
+\label{thm:rh-compact-window-exhaustion-no-addressless-residual}
+Assume $h\in C_c^\infty([A,B])$ has a compact window source exhaustion.
+If a coefficiented off-line residual row has
+$$
+\langle R_{\rho,c},h\rangle\ne0,
+$$
+then the readout is finite-window represented, correction-ledger
+recorded, finite-gap recorded, or tail-recorded.  If all four accounts
+are absent, the ledger coordinate of the zero packet fails.
+\end{theorem}
+
+\begin{proof}
+The explicit-formula ledger decomposes the compact readout into the
+prime-power side and the displayed correction side.  By
+\autoref{lem:rh-compact-support-prime-side-finite}, the prime side of
+the compact row is supported on
+$$
+S_B=\{p^k:p^k\le e^B\}.
+$$
+If this side is nonzero, the finite support has a certified finite
+envelope by
+\autoref{thm:rh-compact-prime-power-support-certified-np-envelope}, and
+the internal address space $A_{N,B}$ contains every occurring
+prime-power coordinate.  Then
+\autoref{thm:rh-prime-power-residual-has-finite-address-detector}
+detects a nonzero finite address.  If the projected coordinate lands in
+a finite-circle hole rather than an occupied prime point,
+\autoref{thm:rh-gap-hole-address-cannot-close-silently} records the
+gap row or refuses the closed status.
+
+If the finite prime-power side is not the source account for the
+nonzero readout, the explicit-formula identity places the nonzero
+contribution in a displayed correction row or in the source material
+not represented by the compact finite prime-power account.  The former
+is one of the rows in $\mathcal A(h)$; the latter must enter
+$\operatorname{TailPolicy}_{\mathcal P}$ by
+\autoref{thm:rh-all-prime-object-no-unledgered-residual-escape}.
+If none of the finite, gap, correction, or tail accounts is present,
+the readout has no legal source row, which is exactly a failure of the
+ledger coordinate of the zero packet.
+\end{proof}
+
+\begin{theorem}[Contrapositive global finite-window bridge]
+\label{thm:rh-global-finite-window-bridge-contrapositive}
+Let an off-line zeta zero packet carry a coefficiented residual row
+$R_{\rho,c}$, an ontological triple, and a compact window source
+exhaustion for the compact test row supplied by
+\autoref{lem:rh-coefficiented-radial-row-compact-test-readout}.  If
+$R_{\rho,c}$ is absent from every certified finite $(N,P)$ window and
+from every supplied tail, finite-gap, and correction ledger, then the
+ledger coordinate of the ontological triple fails.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{lem:rh-coefficiented-radial-row-compact-test-readout}, choose
+$h\in C_c^\infty([A,B])$ with
+$$
+\langle R_{\rho,c},h\rangle\ne0.
+$$
+Apply
+\autoref{thm:rh-compact-window-exhaustion-no-addressless-residual} to
+this compact row.  Since the hypotheses exclude every finite window
+account and every tail, finite-gap, and correction account, the
+exhaustion theorem leaves only the ledger-failure alternative.  This
+contradicts the assertion that the zero packet carries a valid
+ontological triple.
+\end{proof}
+
+\begin{corollary}[No finite or ledger account nullifies the residual row]
+\label{cor:rh-no-finite-or-ledger-account-nullifies-residual-row}
+Under a valid ontological triple and compact window source exhaustion,
+a residual row absent from all certified finite $(N,P)$ windows and
+from all supplied tail, finite-gap, and correction ledgers cannot be a
+coefficiented off-line residual row.
+\end{corollary}
+
+\begin{proof}
+If it were such a row, then
+\autoref{thm:rh-global-finite-window-bridge-contrapositive} would force
+the ledger coordinate of the ontological triple to fail.  This
+contradicts the assumed validity of the triple.
+\end{proof}
+
+\begin{principle}[Fixed-window discipline for the global bridge]
+\label{prin:rh-fixed-window-discipline-global-bridge}
+The bridge fixes the compact test row before any finite source
+certificate is read.  Thus the support bound $B$, the prime-power
+address set $A_{N,B}$, and the certified pair
+$\mathsf{IndexPrimePair}^{\uparrow}(N,P)$ belong to the same
+observation window.  The argument is a fixed-window ledger exhaustion
+statement, not a claim that an unspecified infinite zeta row has been
+collapsed into one finite modulus.
+\end{principle}
 
 \section{Closed-Packet Consequence}
 \label{sec:rh-global-window-closed-packet-consequence}
