@@ -34,6 +34,7 @@ import BedcMathlibBridge.Constructive.Raney
 import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
+import BedcMathlibBridge.Constructive.PolygonalNumberTriangular
 import BedcMathlibBridge.Constructive.CakeNumber
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
 import BedcMathlibBridge.Constructive.Square

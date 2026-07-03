@@ -31,4 +31,34 @@ theorem ApophaticFiberFarEnd_noninternality
             (ApophaticFiberFarEndUp.mk socket fiber ledger boundary inscription transport route
               provenance name)⟩
 
+theorem ApophaticFiberFarEnd_ledger_boundary_route
+    {socket fiber ledger boundary inscription transport route provenance name socketRead fiberRead
+      boundaryRead localRead : BHist} :
+    Cont socket fiber socketRead ->
+      Cont fiber ledger fiberRead ->
+        Cont ledger boundary boundaryRead ->
+          Cont boundary inscription localRead ->
+            hsame boundaryRead (append ledger boundary) ∧
+              hsame localRead (append boundary inscription) ∧
+                ∃ x : ApophaticFiberFarEndUp,
+                  x =
+                      ApophaticFiberFarEndUp.mk socket fiber ledger boundary inscription transport
+                        route provenance name ∧
+                    apophaticFiberFarEndFromEventFlow
+                        (apophaticFiberFarEndToEventFlow x) =
+                      some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro _socketRoute _fiberRoute boundaryRoute inscriptionRoute
+  constructor
+  · exact boundaryRoute
+  · constructor
+    · exact inscriptionRoute
+    · exact
+        ⟨ApophaticFiberFarEndUp.mk socket fiber ledger boundary inscription transport route
+            provenance name,
+          rfl,
+          ApophaticFiberFarEndTasteGate_single_carrier_alignment.right.left
+            (ApophaticFiberFarEndUp.mk socket fiber ledger boundary inscription transport route
+              provenance name)⟩
+
 end BEDC.Derived.ApophaticFiberFarEndUp

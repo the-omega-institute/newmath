@@ -34,6 +34,7 @@ import BedcMathlibBridge.Export.Raney
 import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
+import BedcMathlibBridge.Export.PolygonalNumberTriangular
 import BedcMathlibBridge.Export.CakeNumber
 import BedcMathlibBridge.Export.OddDoubleFactorial
 import BedcMathlibBridge.Export.Square
