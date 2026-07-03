@@ -74,6 +74,22 @@ The carrier of \autoref{def:finite-metric-projection-carrier} supplies exactly t
 Combine this with \autoref{thm:finite-metric-projection-nearest-row-totality}. The endpoint is obtained only through the finite metric and located-set rows, the displayed distance table, and the dyadic comparison route, so the LocatedSet interface remains a distance interface while $\FiniteMetricProjectionUp$ carries the separate endpoint witness.
 \end{proof}
 
+\begin{theorem}[FiniteMetricProjection Real-completion handoff]
+\label{thm:finite-metric-projection-real-completion-handoff}
+Every Real-completion-facing consumer that reads an accepted $\FiniteMetricProjectionUp$ endpoint must first expose the parent $\MetricUp$ row $M$, the $\LocatedSetUp$ row $L$, the finite distance table $D$, the $\DyadicRatCoreUp$ comparison ledger $Q$, the endpoint evidence row $E$, the $\RealUp$ seal $R$, and the structural rows $H,C,P,N$. The endpoint handoff consumed by completion chapters is therefore the displayed route
+$$
+M,L,D,Q,E,R \longmapsto H,C,P,N,
+$$
+not an ambient completion principle, hidden nearest-point selector, compactness argument, quotient subset equality, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-metric-projection-namecert-obligations}. They require every projection-facing read to expose the metric row, located-set row, finite table, dyadic comparison ledger, endpoint evidence, Real seal, and structural rows.
+
+Use nearest-row totality, \autoref{thm:finite-metric-projection-nearest-row-totality}. It supplies the endpoint row $E$ by finite exhaustion of $D$ through the comparison ledger $Q$, so a completion-facing consumer receives a displayed endpoint rather than a selected minimizer.
+
+Finally apply the LocatedSet route of \autoref{thm:finite-metric-projection-locatedset-route}. It keeps the located-distance interface separate from the endpoint witness while $H,C,P,N$ transport, replay, source, and name the same finite route. The Real-completion handoff is therefore exactly the exposed rows $M,L,D,Q,E,R,H,C,P,N$ and contains no hidden completion or choice coordinate.
+\end{proof}
+
 \begin{closurestatus}{\FiniteMetricProjectionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:finite-metric-projection-carrier}, \autoref{thm:finite-metric-projection-namecert-obligations}, \autoref{thm:finite-metric-projection-nearest-row-totality}, and \autoref{thm:finite-metric-projection-locatedset-route} seed the finite projection route from displayed metric-distance rows to a separate endpoint witness.}
