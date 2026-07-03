@@ -13518,6 +13518,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformCauchyEmbeddingUp.TasteGate
+import BEDC.Derived.UniformCauchyFamilyCompletionUp
 import BEDC.Derived.UniformCauchyFilterUp.CompletionHandoff
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyLimitUp.TasteGate
