@@ -145,6 +145,26 @@ Finally cite the regression surface theorem \autoref{thm:metacic-typedexamples-g
 \end{proof}
 \leanchecked{BEDC.MetaCIC.gallery\_checker\_route\_factorization}
 
+\begin{theorem}[MetaCIC typed-examples gallery checker-audit route]
+\label{thm:metacic-typedexamples-gallery-checker-audit-route}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+a checker-audit consumer may use a represented typed example as evidence only after reading, in order, the selected gallery family row, the $\TypedExampleCoverageMatrixUp$ coverage row of \autoref{ch:concrete-instances-typedexamplecoveragematrix-namecert}, the checker row $K$, the $\BetaStepBoundaryUp$ beta-boundary row of \autoref{ch:concrete-instances-betastepboundary-namecert}, the $\TypedExampleAuditBudgetUp$ regression-budget row of \autoref{ch:concrete-instances-typedexampleauditbudget-namecert}, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row.
+
+The route consumes represented examples only as finite gallery, coverage-matrix, checker, beta-boundary, and regression-budget evidence. It does not export subject reduction, normalization, checker completeness, arbitrary beta closure, or arbitrary example coverage.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. A represented typed example first enters through exactly one displayed gallery family row among $B,N,L,S,E,I,A,R$.
+
+Apply checker-route factorization from \autoref{thm:metacic-typedexamples-gallery-checker-route-factorization}. It sends the selected family row through $K,H,C,P,M$, so the checker row is downstream of the gallery row and cannot stand alone as a global checker theorem.
+
+Now read the coverage-matrix sibling through \autoref{ch:concrete-instances-typedexamplecoveragematrix-namecert}. Its public audit route binds the gallery, checker, beta-boundary, and regression-spend cells to one family row before any checker-audit consumer may cite the example as evidence.
+
+Finally read the beta-boundary and regression-budget siblings through \autoref{ch:concrete-instances-betastepboundary-namecert} and \autoref{ch:concrete-instances-typedexampleauditbudget-namecert}. These rows provide finite boundary and spend evidence only; together with the gallery's structural rows they refuse subject reduction, normalization, checker completeness, arbitrary beta closure, and arbitrary example coverage.
+\end{proof}
+
 \begin{theorem}[MetaCIC typed-examples gallery family-row determinacy]
 \label{thm:metacic-typedexamples-gallery-family-row-determinacy}
 For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
