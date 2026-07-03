@@ -382,18 +382,171 @@ prime circle, or else supplies a tail row beyond that circle, the
 finite address partition leaves no closed-and-missed status.
 \end{principle}
 
+\section{Global Window Bridge}
+\label{sec:rh-global-offline-zero-finite-np-window}
+
+\begin{definition}[GlobalOffLineZeroToFiniteNPWindow]
+\label{def:rh-global-offline-zero-to-finite-np-window}
+The row
+$$
+\mathsf{GlobalOffLineZeroToFiniteNPWindow}
+$$
+is the analytic-to-ledger bridge for an off-line zeta zero.  For every
+off-line zero packet
+$$
+\rho=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+it supplies a nonzero radial residual row $R_\rho\ne0$ and exactly one
+of the following source accounts:
+$$
+\begin{gathered}
+\text{a compact explicit-formula row whose nonzero prime side has
+finite support }S,\\
+\text{a tail row }
+\operatorname{TailRecord}_{\mathrm{zeta}}(\rho,R_\rho)
+\in
+\operatorname{TailPolicy}_{\mathcal P}.
+\end{gathered}
+$$
+In the finite-support case, if
+$$
+S\subseteq\{p^k:p\in\mathcal P,\ k\ge1\},
+$$
+then the bridge also supplies
+$$
+P=\max\{p:p^k\in S\},
+\qquad
+N=\pi(P),
+$$
+and the certified finite prime circle
+$$
+\mathsf{IndexPrimePair}^{\uparrow}(N,P).
+$$
+Thus every base prime occurring in the compact prime-power residual is
+a displayed source point of $\mathcal P_N$.
+\end{definition}
+
+\begin{theorem}[Compact explicit-formula support gives a finite NP window]
+\label{thm:rh-compact-explicit-formula-support-gives-finite-np-window}
+Assume the finite-support alternative of
+\autoref{def:rh-global-offline-zero-to-finite-np-window}.  Then the
+off-line residual has a legal finite-window source account at the
+certified pair $(N,P)$ supplied by that definition.
+\end{theorem}
+
+\begin{proof}
+The compact explicit-formula row has finite prime side by
+\autoref{def:rh-compact-explicit-formula-test-row} and
+\autoref{def:rh-abstract-explicit-formula-ledger}.  Since the prime
+side is nonzero, its finite support $S$ is nonempty.  Each support point
+has the form $p^k$, so the set of base primes
+$$
+\{p:p^k\in S\}
+$$
+is finite and nonempty.  Let $P$ be its maximum and set $N=\pi(P)$.
+Then $P=p_N$, and every base prime in $S$ belongs to
+$$
+\mathcal P_N=\{p_1,\ldots,p_N=P\}.
+$$
+This is precisely the legal finite source condition recorded by
+\autoref{def:rh-finite-prime-universe}.  The corresponding finite
+circle is the certified pair
+$\mathsf{IndexPrimePair}^{\uparrow}(N,P)$, so the residual has a
+finite-window source account at $(N,P)$.
+\end{proof}
+
+\begin{theorem}[Global bridge gives finite or tail residual status]
+\label{thm:rh-global-bridge-gives-finite-or-tail-residual-status}
+Assume $\mathsf{GlobalOffLineZeroToFiniteNPWindow}$ for an off-line zero
+packet $\rho$.  Then $R_\rho\ne0$ is either represented in a legal
+finite $(N,P)$ window or recorded in
+$\operatorname{TailPolicy}_{\mathcal P}$.
+\end{theorem}
+
+\begin{proof}
+Unpack
+\autoref{def:rh-global-offline-zero-to-finite-np-window}.  The bridge
+first supplies $R_\rho\ne0$.  If the compact explicit-formula
+alternative holds, then
+\autoref{thm:rh-compact-explicit-formula-support-gives-finite-np-window}
+places the residual in a certified finite prime circle.  If the compact
+finite-support alternative is not the supplied account, the definition
+supplies the tail row
+$$
+\operatorname{TailRecord}_{\mathrm{zeta}}(\rho,R_\rho)
+\in
+\operatorname{TailPolicy}_{\mathcal P}.
+$$
+These are exactly the finite and tail source statuses.
+\end{proof}
+
+\begin{theorem}[Global window bridge excludes closed missed off-line packets]
+\label{thm:rh-global-window-bridge-excludes-closed-missed-offline-packets}
+Assume $\mathsf{GlobalOffLineZeroToFiniteNPWindow}$.  Let an off-line
+zero packet $\rho$ have an ontological triple and be governed by
+$\mathsf{LedgerClosureRefusal}$.  Then $\rho$ cannot be admitted as a
+closed zero packet whose residual is missed by every supplied finite
+detector and absent from the tail ledger.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-global-bridge-gives-finite-or-tail-residual-status},
+the residual is either finite-window represented or tail-recorded.
+
+In the finite-window case, use the certified $(N,P)$ supplied by
+\autoref{thm:rh-compact-explicit-formula-support-gives-finite-np-window}.
+The finite prime circle and tail policy form the address packet of
+\autoref{def:rh-offline-residual-address-packet}.  Then
+\autoref{thm:rh-offline-zero-ont-triple-cannot-be-closed-and-missed}
+rules out closed status together with missed finite readouts and absent
+finite gap or tail ledger rows.
+
+In the tail case, the tail row is already present in
+$\operatorname{TailPolicy}_{\mathcal P}$.  By
+\autoref{thm:rh-tail-address-cannot-close-silently}, a ledgered tail is
+an append residual row rather than closed invisible data; if the row is
+erased, the ledger coordinate of the ontological triple fails.  This is
+also refused by \autoref{def:rh-ledger-closure-refusal}.  Hence no
+global bridge status permits a closed and missed off-line packet.
+\end{proof}
+
+\begin{corollary}[Global bridge gives the conditional fixed-half readout]
+\label{cor:rh-global-window-bridge-conditional-fixed-half-readout}
+Assume $\mathsf{GlobalOffLineZeroToFiniteNPWindow}$ for every admitted
+off-line zero packet, and assume admitted zeta zero packets carry
+ontological triples and satisfy $\mathsf{LedgerClosureRefusal}$.  Then
+no admitted closed zero packet is off the critical line.
+\end{corollary}
+
+\begin{proof}
+If an admitted closed zero packet were off the critical line, the
+global bridge would supply a nonzero residual with finite-window or
+tail status by
+\autoref{thm:rh-global-bridge-gives-finite-or-tail-residual-status}.
+If a supplied finite detector reads the residual, or if a finite gap or
+tail row records it, then $\mathsf{LedgerClosureRefusal}$ refuses closed
+zero-packet admission.  If no supplied finite detector reads it and no
+finite gap or tail ledger row records it, then
+\autoref{thm:rh-global-window-bridge-excludes-closed-missed-offline-packets}
+refuses the closed packet.  These alternatives exhaust the finite and
+tail statuses supplied by the global bridge.  Therefore an admitted
+closed zero packet cannot be off the critical line.
+\end{proof}
+
 \begin{principle}[Address audit boundary]
 \label{prin:rh-offline-zero-finite-or-tail-address-audit-boundary}
 The finite-or-tail address theorem consumes the nonzero residual row
-$R_\rho\ne0$ as input.  It does not by itself derive that row from
-$r\ne0$.  The separate analytic source target is
+$R_\rho\ne0$ as input.  The analytic source interface is
 $$
-\mathsf{OffLineZeroProducesResidual}:
-\qquad
-r\ne0\Longrightarrow R_\rho\ne0,
+\mathsf{GlobalOffLineZeroToFiniteNPWindow}.
 $$
-to be supplied by the fixed-window spectral packet and the explicit
-formula projection bridge.  Once that source row is supplied, the
-address layer has no legal escape status beyond finite detection and
-tail ledger admission.
+Its first component is the source row
+$r\ne0\Longrightarrow R_\rho\ne0$; its second component places that
+residual in a legal finite $(N,P)$ window or in the all-prime tail
+ledger.  Once those rows are supplied, the address layer has no legal
+escape status beyond finite detection, finite gap accounting, and tail
+ledger admission.
 \end{principle}
