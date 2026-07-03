@@ -522,6 +522,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-03T00:24:30Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_classifier_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_classifier_stability:0d0a2139`). Rationale: The target is not a trivial wrapper: it transports the ObserverHistoryIdentity packet across hsame-related signature, sameness, ledger, and route rows while preserving the classifier-facing comparison surface. Repo grep showed no prior downstream Lean use, so I added a sibling ObserverFilter consumer theorem that invokes this classifier stability result and combines the transported ObserverHistoryIdentity packet with the ObserverFilter selected-subhistory StreamName non-escape surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-03T01:41:35Z: `resolved` `delete_theorem` for `BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier_surface:c74a4800`). Rationale: The target was an unconsumed projection from MetricEmbeddingCarrier, and exact repo search found no Lean or paper references beyond its declaration. The surrounding chapter already carries the meaningful MetricEmbeddingUp obligations through graph-distance control, separated-completion handoff, and kernel scope, so retaining this isolated surface theorem would duplicate weaker content without a downstream consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
