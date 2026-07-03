@@ -48,6 +48,7 @@ import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummabilityUp.TasteGate
 import BEDC.Derived.AbelSummationUp
 import BEDC.Derived.AbelSummationUp.DirichletTestRoute
+import BEDC.Derived.AbelSummationUp.NameCertObligations
 import BEDC.Derived.AbelSummationUp.PartialSumHandoff
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
@@ -962,6 +963,7 @@ import BEDC.Derived.BetaCriticalPairUp.NameCertObligations
 import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
+import BEDC.Derived.BetaStepBoundaryUp.ObstructionTriggerEnumeration
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.BetaSubstitutionDischargeUp
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
@@ -7038,6 +7040,8 @@ import BEDC.Derived.HellySelectionUp.NameCertObligations
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
+import BEDC.Derived.HemiMetricUp
+import BEDC.Derived.HemiMetricUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
@@ -9233,6 +9237,7 @@ import BEDC.Derived.ModulusOfTotalBoundednessUp.TasteGate
 import BEDC.Derived.ModulusOfUniformContinuityUp.TasteGate
 import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
 import BEDC.Derived.MollifierUp.NameCertObligations
+import BEDC.Derived.MollifierUp.RouteObligations
 import BEDC.Derived.MollifierUp.TasteGate
 import BEDC.Derived.MomentProblemUp.FiniteHankelWindow
 import BEDC.Derived.MomentProblemUp.TasteGate
