@@ -5801,6 +5801,7 @@ import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.EventuallyConstantSequenceUp.NameCertObligations
 import BEDC.Derived.EventuallyConstantSequenceUp.TailFilterHandoff
 import BEDC.Derived.EventuallyConstantSequenceUp.TasteGate
+import BEDC.Derived.EventuallyUp
 import BEDC.Derived.ExpLogBisectionUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.ExplanationComplexityInformationUp
@@ -12994,6 +12995,7 @@ import BEDC.Derived.SubstitutionAuditWindowRouteUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.SubstitutionContextAuditUp
 import BEDC.Derived.SubstitutionContextAuditUp.TasteGate
+import BEDC.Derived.SubstitutionGeneratorAuditUp.NameCertObligations
 import BEDC.Derived.SubstitutionGeneratorAuditUp.TasteGate
 import BEDC.Derived.SubstrateTraceInvariantUp.TasteGate
 import BEDC.Derived.SubtypeUp
@@ -13524,6 +13526,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowRefinementExactness
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.UniformCauchyEmbeddingUp.TasteGate
+import BEDC.Derived.UniformCauchyFamilyCompletionUp
 import BEDC.Derived.UniformCauchyFilterUp.CompletionHandoff
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyLimitUp.TasteGate
@@ -13693,6 +13696,7 @@ import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperDarbouxSumUp
 import BEDC.Derived.UpperDarbouxSumUp.TasteGate
+import BEDC.Derived.UpperHemicontinuityUp.CompactValuedHandoff
 import BEDC.Derived.UpperHemicontinuityUp.TasteGate
 import BEDC.Derived.UpperRealEnvelopeUp.TasteGate
 import BEDC.Derived.UpperRealUp
@@ -13779,6 +13783,7 @@ import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
 import BEDC.Derived.WeylGroupUp.TasteGate
+import BEDC.Derived.WhiteheadProductUp.TasteGate
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.NameCertObligations
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff

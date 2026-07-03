@@ -104,6 +104,19 @@ BOUNDARY_TARGET_TERMS = (
     "Quot",
 )
 FORBIDDEN_AXIOMS = {"Classical.choice", "Quot.sound", "propext"}
+NAT_VALUE_SHAPES = {"pointwise_eq", "nat_sequence_eq", "readback_eq", "bhist_readback"}
+REUSABLE_NAT_VALUE_TARGETS = {
+    "Nat.choose",
+    "Nat.factorial",
+    "Nat.fib",
+    "Nat.centralBinom",
+    "Nat.stirlingFirst",
+    "Nat.stirlingSecond",
+    "Nat.descFactorial",
+    "Nat.superFactorial",
+    "Nat.pow",
+    "numDerangements",
+}
 INTERESTING_NAME_TERMS = (
     "bool",
     "bmark",
@@ -607,6 +620,10 @@ def canonical_computable_target(target: str | None) -> bool:
     return target in {"Nat.factorial", "Nat.gcd"}
 
 
+def reusable_target(shape: str | None, target: str | None) -> bool:
+    return bool(shape in NAT_VALUE_SHAPES and target in REUSABLE_NAT_VALUE_TARGETS)
+
+
 def generic_target(target: str | None, cls: str | None, inst: str | None) -> bool:
     values = [value for value in (target, cls, inst) if value]
     return any(any(term in value for term in GENERIC_TARGET_TERMS) for value in values)
@@ -676,6 +693,7 @@ def matrix_exclusion(
     target: str | None,
     cls: str | None,
     inst: str | None,
+    shape: str | None = None,
 ) -> tuple[str | None, list[str]]:
     reasons: list[str] = []
     if decl.full_name in index.used_bedc_decls:
@@ -691,10 +709,10 @@ def matrix_exclusion(
     if target and target in index.boundary_decls:
         reasons.append("matrix:mathlib_decl_measured_boundary")
         return "boundary_or_forbidden_footprint", reasons
-    if pair and pair in index.used_pairs:
+    if pair and pair in index.used_pairs and not reusable_target(shape, target):
         reasons.append("matrix:mathlib_class_instance_already_classified")
         return "matrix_already_classified", reasons
-    if target and target in index.used_mathlib_decls:
+    if target and target in index.used_mathlib_decls and not reusable_target(shape, target):
         reasons.append("matrix:mathlib_decl_already_classified")
         return "matrix_already_classified", reasons
     return None, reasons
@@ -743,7 +761,7 @@ def raw_candidate(
     )
     reasons.extend(score_reasons)
 
-    exclude_reason, matrix_reasons = matrix_exclusion(index, decl, target, cls, inst)
+    exclude_reason, matrix_reasons = matrix_exclusion(index, decl, target, cls, inst, shape)
     reasons.extend(matrix_reasons)
     if exclude_reason is None:
         if target is None:
@@ -781,6 +799,9 @@ def duplicate_filter(candidates: list[dict[str, Any]]) -> None:
     grouped: dict[str, list[dict[str, Any]]] = {}
     for candidate in candidates:
         target = candidate.get("mathlib_target_guess")
+        shape = candidate.get("correspondence_shape_guess")
+        if reusable_target(shape if isinstance(shape, str) else None, target if isinstance(target, str) else None):
+            continue
         if isinstance(target, str) and candidate.get("exclude_reason") not in {
             "matrix_already_classified",
             "generic_mathlib_target",

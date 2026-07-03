@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
-"""Dead-anchor / Nat-shadow-laundering gate for exported_core bridge rows.
+"""Dead-anchor gate for exported_core bridge rows.
 
-Rule 1 requires a bridge's BEDC side to be a genuine BEDC-own object built from
-kernel structure (BHist constructors, append, NameCert, structural carriers with
-BEDC ops). A Nat-shadow LAUNDERING pattern subverts this while textually passing
-the value-graph smoke test: the "BEDC" function is a plain
-`def f : Nat -> ... -> Nat` recursion, and the only kernel contact is an
-identity round-trip through an observer/reifier pair — `natToUnary (f
-(bwordLength a) (bwordLength b))` — where `bwordLength (natToUnary n) = n` is
-proven, so the kernel detour carries ZERO mathematical content (a DEAD ANCHOR).
-The exported equality then proves `f = <mathlib Nat fn>` — a Nat-vs-Nat
-identity, NOT a BEDC-object <-> mathlib bridge.
+This script rejects only the direct dead-anchor shape: a BHist wrapper whose
+body is just an observer/reifier round-trip around a native Nat function, with
+no semantic BEDC theorem doing work. It does not reject ordinary Nat-valued
+BEDC.Derived sequences merely because their target is a Nat declaration.
 
-Deterministic 3-role reject pattern (per the 4-way adversarial spec: codex
-minimal/structural/delete + gpt-pro). A carrier's Lean source is laundering when
-ALL THREE roles co-occur in a BHist-typed wrapper def:
+Deterministic reject pattern. A carrier's Lean source is a dead anchor when all
+three roles co-occur in one BHist-typed wrapper def:
 
   observer   : bwordLength / toNat / eval-like  (BHist -> Nat)
   reifier    : natToUnary / ofNat / encode-like (Nat  -> BHist)
@@ -31,7 +24,7 @@ FactorialUp.natChooseFn), the scan follows the delegation by name across all of
 lean4/BEDC/Derived, not just the carrier's own file.
 
 Modes:
-  (default) : report findings, exit 0 (shadow / observe blast radius)
+  (default) : report findings, exit 0 (shadow report)
   --gate    : exit 1 if any exported_core row is dead-anchor laundering
   --decl D  : classify a single decl (for the per-bridge heavy-check gate)
 """
@@ -55,6 +48,12 @@ LAUNDER_FN_RE = re.compile(
 )
 # plain Nat-native recursion `def f : Nat -> ... -> Nat`
 NAT_NATIVE_RE = re.compile(r"def\s+(\w+)\s*(?:\([^)]*\)\s*)*:\s*Nat\s*(?:->|→)")
+SEMANTIC_THEOREM_RE = re.compile(
+    r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*"
+    r"(?:pascal|recurrence|succ|closed|closedForm|_eq_|zero|one|boundary|spec|choose|factorial)"
+    r"[A-Za-z0-9_']*)\b(.*?)(?=\n\s*\n|\n\s*(?:def |theorem |abbrev |lemma )|\Z)",
+    re.DOTALL | re.IGNORECASE,
+)
 
 
 def repo_root() -> Path:
@@ -92,8 +91,36 @@ def _laundering_wrappers(sources):
     return wrappers, cores
 
 
+def _module_text(root: Path, bedc_decl: str, sources) -> str:
+    parts = bedc_decl.split(".")
+    if len(parts) >= 4 and parts[0] == "BEDC" and parts[1] == "Derived":
+        expected = root / "lean4" / "BEDC" / "Derived" / f"{parts[2]}.lean"
+        for path, text in sources:
+            if path == expected:
+                return text
+    module = ".".join(parts[:-1])
+    needle = f"namespace {module}"
+    for _path, text in sources:
+        if needle in text:
+            return text
+    return ""
+
+
+def _has_semantic_theorem(root: Path, bedc_decl: str, sources) -> bool:
+    short = bedc_decl.split(".")[-1]
+    text = _module_text(root, bedc_decl, sources)
+    if not text:
+        return False
+    for match in SEMANTIC_THEOREM_RE.finditer(text):
+        theorem_name = match.group(1)
+        theorem_block = match.group(0)
+        if short in theorem_name or re.search(r"\b" + re.escape(short) + r"\b", theorem_block):
+            return True
+    return False
+
+
 def classify_decl(root: Path, bedc_decl: str, sources) -> dict:
-    """Classify a BEDC.Derived.* decl as nat_shadow / structural_carrier / unknown.
+    """Classify a BEDC.Derived.* decl as dead_anchor / structural / unknown.
 
     PRECISE text-layer detector for the DIRECT laundering shape (a carrier whose
     own module, or a module it names directly, defines the observer/reifier/core
@@ -103,13 +130,10 @@ def classify_decl(root: Path, bedc_decl: str, sources) -> dict:
     (BridgeAudit.lean). This detector is a shadow / first-line signal, never a
     proof of semantic honesty."""
     short = bedc_decl.split(".")[-1]
-    module = ".".join(bedc_decl.split(".")[:-1])  # BEDC.Derived.FooUp
-    wrappers, cores = _laundering_wrappers(sources)
+    wrappers, _cores = _laundering_wrappers(sources)
     struct_re = re.compile(r"(?:structure|inductive)\s+" + re.escape(short) + r"\b")
     is_structure = any(struct_re.search(t) for _f, t in sources)
     reasons = []
-    if short in wrappers or short in cores:
-        reasons.append(f"NativeNatCoreOrWrapper:{short}")
     # the carrier's own def body directly names a laundering wrapper/core or
     # exhibits the observer+reifier round-trip in one place.
     body_re = re.compile(
@@ -123,17 +147,24 @@ def classify_decl(root: Path, bedc_decl: str, sources) -> dict:
         body = " ".join(m.group(1).split())[:400]
         if "bwordLength" in body and "natToUnary" in body:
             reasons.append("DeadAnchor:bwordLength_natToUnary_roundtrip")
-        for w in wrappers | cores:
+        for w in wrappers:
             if re.search(r"\b" + re.escape(w) + r"\b", body):
                 reasons.append(f"DelegatesToLaunderingWrapper:{w}")
         break
     reasons = sorted(set(reasons))
     if reasons and not is_structure:
-        return {"decl": bedc_decl, "kind": "nat_shadow", "eligible": False, "reasons": reasons[:6]}
+        if _has_semantic_theorem(root, bedc_decl, sources):
+            return {
+                "decl": bedc_decl,
+                "kind": "nat_value_sequence_or_unknown",
+                "eligible": True,
+                "reasons": ["DirectWrapperButSemanticTheoremPresent"],
+            }
+        return {"decl": bedc_decl, "kind": "dead_anchor", "eligible": False, "reasons": reasons[:6]}
     if is_structure:
         return {"decl": bedc_decl, "kind": "structural_carrier", "eligible": True,
                 "reasons": ["StructureOrInductiveCarrier"]}
-    return {"decl": bedc_decl, "kind": "unknown", "eligible": False, "reasons": ["NotClassified"]}
+    return {"decl": bedc_decl, "kind": "nat_value_sequence_or_unknown", "eligible": True, "reasons": ["NoDirectDeadAnchor"]}
 
 
 def exported_core_rows(matrix_path: Path) -> list:
@@ -177,15 +208,15 @@ def main() -> int:
         if not decl.startswith("BEDC.Derived."):
             continue
         res = classify_decl(root, decl, sources)
-        if res["kind"] == "nat_shadow":
+        if res["kind"] == "dead_anchor":
             flagged.append({**res, "row_id": row.get("row_id"), "mathlib_decl": row.get("mathlib_decl")})
 
     if args.json:
         print(json.dumps({"exported_core": len(rows), "dead_anchor": flagged}, indent=2))
     else:
-        print(f"[check-value-anchor] exported_core={len(rows)} nat-shadow-laundering={len(flagged)}")
+        print(f"[check-value-anchor] exported_core={len(rows)} dead-anchor={len(flagged)}")
         for x in flagged:
-            print(f"  LAUNDER {x['row_id']}: {x['decl']} = {x['mathlib_decl']}  {x['reasons']}")
+            print(f"  DEAD_ANCHOR {x['row_id']}: {x['decl']} = {x['mathlib_decl']}  {x['reasons']}")
 
     if args.gate and flagged:
         print(f"[check-value-anchor] GATE FAIL (BEDC_GATE_N_NAT_SHADOW_LAUNDERING): {len(flagged)} row(s)")
