@@ -13571,6 +13571,7 @@ import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank
 import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
+import BEDC.Derived.Visions.PrimeClassifierFiniteCore
 import BEDC.Derived.Visions.PythagoreanRPCertificate
 import BEDC.Derived.Visions.TwistedInvolutionSignature
 import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
