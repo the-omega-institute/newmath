@@ -17,6 +17,7 @@ import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
 import BedcMathlibBridge.Export.EuclidFactorial
+import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
