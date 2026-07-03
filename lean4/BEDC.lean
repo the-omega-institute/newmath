@@ -6785,6 +6785,7 @@ import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
 import BEDC.Derived.GoldenMeanShiftUp.TasteGate
+import BEDC.Derived.GoldenPalindromeBoundaryUp
 import BEDC.Derived.GoursatUp
 import BEDC.Derived.GoursatUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
@@ -7400,6 +7401,7 @@ import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
 import BEDC.Derived.JordanDecompositionBoundedVariationUp
+import BEDC.Derived.JordanDecompositionBoundedVariationUp.TasteGate
 import BEDC.Derived.JordanTotientExtUp
 import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
