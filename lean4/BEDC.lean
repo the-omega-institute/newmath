@@ -1913,6 +1913,7 @@ import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
 import BEDC.Derived.CauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseReflectorUp.TasteGate
+import BEDC.Derived.CauchyCompletionDenseUnitUp
 import BEDC.Derived.CauchyCompletionDensitySourceUp.TasteGate
 import BEDC.Derived.CauchyCompletionEliminatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionEmbeddingReflectionUp.TasteGate
