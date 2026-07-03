@@ -187,4 +187,102 @@ theorem MetricEmbeddingCarrier_public_graph_control_surface [AskSetup] [PackageS
   }
   exact ⟨cert, publicUnary⟩
 
+theorem MetricEmbeddingCarrier_public_object_surface [AskSetup] [PackageSetup]
+    {X Y F D R S H C P N graphRead targetRead controlRead sealRead separatedRead
+      objectRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricEmbeddingCarrier X Y F D R S H C P N ->
+      Cont X F graphRead ->
+        Cont graphRead Y targetRead ->
+          Cont targetRead D controlRead ->
+            Cont controlRead R sealRead ->
+              Cont sealRead S separatedRead ->
+                Cont separatedRead N objectRead ->
+                  PkgSig bundle P pkg ->
+                    PkgSig bundle N pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row objectRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row X ∨ hsame row Y ∨ hsame row F ∨ hsame row D ∨
+                              hsame row R ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨
+                                hsame row P ∨ hsame row N ∨ hsame row objectRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont X F graphRead ∧
+                              Cont graphRead Y targetRead ∧
+                                Cont targetRead D controlRead ∧
+                                  Cont controlRead R sealRead ∧
+                                    Cont sealRead S separatedRead ∧
+                                      Cont separatedRead N objectRead ∧
+                                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                          hsame ∧
+                        UnaryHistory objectRead := by
+  -- BEDC touchpoint anchor: MetricEmbeddingCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier graphRoute targetRoute controlRoute sealRoute separatedRoute objectRoute
+    provenancePkg namePkg
+  obtain ⟨xUnary, yUnary, fUnary, dUnary, rUnary, sUnary, _hUnary, _cUnary,
+    _pUnary, nUnary, _carrierGraphRoute, _carrierSeparatedRoute, _provenanceRoute⟩ :=
+    carrier
+  have graphUnary : UnaryHistory graphRead :=
+    unary_cont_closed xUnary fUnary graphRoute
+  have targetUnary : UnaryHistory targetRead :=
+    unary_cont_closed graphUnary yUnary targetRoute
+  have controlUnary : UnaryHistory controlRead :=
+    unary_cont_closed targetUnary dUnary controlRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed controlUnary rUnary sealRoute
+  have separatedUnary : UnaryHistory separatedRead :=
+    unary_cont_closed sealUnary sUnary separatedRoute
+  have objectUnary : UnaryHistory objectRead :=
+    unary_cont_closed separatedUnary nUnary objectRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row objectRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row Y ∨ hsame row F ∨ hsame row D ∨ hsame row R ∨
+              hsame row S ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row objectRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X F graphRead ∧ Cont graphRead Y targetRead ∧
+              Cont targetRead D controlRead ∧ Cont controlRead R sealRead ∧
+                Cont sealRead S separatedRead ∧ Cont separatedRead N objectRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro objectRead ⟨hsame_refl objectRead, objectUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, graphRoute, targetRoute, controlRoute, sealRoute, separatedRoute,
+          objectRoute, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, objectUnary⟩
+
 end BEDC.Derived.MetricEmbeddingUp
