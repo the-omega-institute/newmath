@@ -13,6 +13,56 @@ cannot also be closed.
 \section{Legal Zeta Zero Packets}
 \label{sec:rh-prime-circle-legal-zero-packets}
 
+\begin{definition}[Licensed zeta zero object]
+\label{def:rh-licensed-zeta-zero-object}
+A licensed zeta zero object is not a bare complex number satisfying
+$\zeta(\rho)=0$.  It is a non-trivial zero packet carried by the same
+NameCert route as the completed zeta object:
+$$
+\NameCert_{\ZetaBasicUp},
+\qquad
+\NameCert_{\ZetaContUp},
+\qquad
+\NameCert_{\CritStripUp},
+\qquad
+\NameCert_{\ZetaZerosUp}.
+$$
+The route exposes, for the zero packet, source, pattern, classifier,
+stability, and ledger coordinates:
+$$
+\begin{gathered}
+\mathsf{SourceSpec},\quad
+\mathsf{PatternSpec},\quad
+\mathsf{ClassifierSpec},\\
+\mathsf{StabilityCert},\quad
+\mathsf{LedgerPolicy}.
+\end{gathered}
+$$
+Limit-shaped or continuation-shaped coordinates are licensed only
+together with the ledger rows that record branch, pole, correction,
+gap, and tail data.
+\end{definition}
+
+\begin{definition}[ZetaZeroObjectsHaveOntTriple]
+\label{def:rh-zeta-zero-objects-have-ont-triple}
+The theorem-facing row
+$$
+\mathsf{ZetaZeroObjectsHaveOntTriple}
+$$
+asserts that every licensed zeta zero object $\rho$ carries an
+ontological triple
+$$
+\operatorname{Ont}(\rho)
+=
+(\mathsf T_\rho,\mathsf U_\rho,\mathsf L_\rho).
+$$
+Here $\mathsf T_\rho$ is the generated history through the zeta
+NameCert route, $\mathsf U_\rho$ is the unit and radial readout
+separating unit phase from scale residuals, and $\mathsf L_\rho$ is the
+ledger policy that assigns every nonzero residual to a finite, gap,
+tail, or displayed correction account.
+\end{definition}
+
 \begin{definition}[Zeta legal zero packet]
 \label{def:rh-zeta-legal-zero-packet}
 A zeta legal zero packet is a completed non-trivial zero packet $\rho$
@@ -31,6 +81,30 @@ tail source bridge of
 \autoref{def:rh-global-offline-zero-to-finite-np-window}.  The third
 row is the closed-packet refusal of \autoref{def:rh-ledger-closure-refusal}.
 \end{definition}
+
+\begin{theorem}[Licensed triple gives a legal zero packet]
+\label{thm:rh-licensed-triple-gives-legal-zero-packet}
+Assume a licensed zeta zero object is carried by
+$\mathsf{ZetaBEDCClosure}$ and satisfies
+$$
+\mathsf{ZetaZeroObjectsHaveOntTriple},
+\qquad
+\mathsf{GlobalOffLineZeroToFiniteNPWindow},
+\qquad
+\mathsf{LedgerClosureRefusal}.
+$$
+Then it is a zeta legal zero packet.
+\end{theorem}
+
+\begin{proof}
+The closure row supplies the generated completed zeta carrier and the
+non-trivial zero packet.  By
+\autoref{def:rh-zeta-zero-objects-have-ont-triple}, the packet carries
+the displayed ontological triple.  The global bridge and closure refusal
+rows are exactly the second and third rows required in
+\autoref{def:rh-zeta-legal-zero-packet}.  Hence all coordinates of a
+zeta legal zero packet are present.
+\end{proof}
 
 \begin{definition}[Closed zeta zero packet]
 \label{def:rh-closed-zeta-zero-packet}
@@ -92,6 +166,30 @@ row is an append ledger row; erasing it would violate $\mathsf L_\rho$.
 Both branches are precisely the alternatives refused by
 \autoref{def:rh-ledger-closure-refusal}.  Therefore $\rho$ cannot be a
 closed packet.
+\end{proof}
+
+\begin{theorem}[Off-line licensed triple cannot be closed]
+\label{thm:rh-offline-licensed-triple-cannot-be-closed}
+Let $\rho$ be a licensed zeta zero object carried by
+$\mathsf{ZetaBEDCClosure}$.  Assume
+$$
+\mathsf{ZetaZeroObjectsHaveOntTriple},
+\qquad
+\mathsf{GlobalOffLineZeroToFiniteNPWindow},
+\qquad
+\mathsf{LedgerClosureRefusal}.
+$$
+If $\rho$ is off the critical line, then $\rho$ cannot be a closed zeta
+zero packet.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-licensed-triple-gives-legal-zero-packet}, the licensed
+object is a zeta legal zero packet.  The off-line hypothesis then
+activates
+\autoref{thm:rh-finite-prime-circle-offline-contradiction}, which
+refuses simultaneous off-line and closed status.
 \end{proof}
 
 \begin{corollary}[Legal closed zeta zeros have fixed-half readout]
@@ -162,6 +260,35 @@ preceding theorem supplies the fixed-half output for each such packet.
 Thus the conditional route inhabits the BEDC RH statement.
 \end{proof}
 
+\begin{corollary}[NameCert triple conditional RH]
+\label{cor:rh-namecert-triple-conditional-rh}
+Assume every admitted non-trivial zero is a licensed zeta zero object
+carried by $\mathsf{ZetaBEDCClosure}$, assume every such object
+satisfies
+$$
+\mathsf{ZetaZeroObjectsHaveOntTriple},
+\qquad
+\mathsf{GlobalOffLineZeroToFiniteNPWindow},
+\qquad
+\mathsf{LedgerClosureRefusal},
+$$
+and assume every admitted non-trivial zero packet is closed.  Then every
+admitted non-trivial zero satisfies
+$$
+\operatorname{Re}(\rho)=\frac12.
+$$
+\end{corollary}
+
+\begin{proof}
+Let $\rho$ be an admitted non-trivial zero.  If $\rho$ were off the
+critical line, then
+\autoref{thm:rh-offline-licensed-triple-cannot-be-closed} would rule out
+closed status.  This contradicts the closed-packet assumption.  Hence
+$\rho$ is not off the critical line, and
+\autoref{thm:rh-li-coordinate-fixed-half-circle} gives the fixed-half
+readout.
+\end{proof}
+
 \begin{principle}[Prime circle contradiction audit boundary]
 \label{prin:rh-prime-circle-contradiction-audit-boundary}
 The contradiction is conditional on the legal-object rows.  It proves
@@ -176,4 +303,19 @@ is impossible.  It does not assert that $\mathsf{ZetaBEDCClosure}$,
 zero-packet closure, or the global window bridge are primitive facts;
 those remain the explicit certificates required before the conditional
 route can be read as a BEDC proof of $\mathsf{RH}$.
+\end{principle}
+
+\begin{principle}[Ontological triple construction target]
+\label{prin:rh-ontological-triple-construction-target}
+The finite contradiction has been reduced to the construction of
+$$
+\mathsf{ZetaZeroObjectsHaveOntTriple}.
+$$
+That row is not a seed assertion about zeros.  It must be constructed
+from the NameCert data for $\ZetaBasicUp$, $\ZetaContUp$,
+$\CritStripUp$, and $\ZetaZerosUp$, together with the ledger witnesses
+for continuation, limits, correction terms, finite prime windows, gaps,
+and tails.  Once that row is supplied, an off-line zero can only be a
+detected residual, a ledger append, or a ledger violation; none of those
+statuses is a closed legal zero packet.
 \end{principle}
