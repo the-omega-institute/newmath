@@ -6292,6 +6292,7 @@ import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHellySelectionUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.ScopedKernelScope
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
+import BEDC.Derived.FiniteIntersectionCompactnessUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.NameCertObligations
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
 import BEDC.Derived.FiniteIntervalChoiceUp.TasteGate
@@ -10838,6 +10839,7 @@ import BEDC.Derived.RealCompletionSelectorSealUp.RouteDeterminacy
 import BEDC.Derived.RealCompletionSelectorSealUp.SelectorBudgetTotality
 import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp.Terminality
+import BEDC.Derived.RealCompletionTailCoconeUp
 import BEDC.Derived.RealCompletionTailLockUp
 import BEDC.Derived.RealCompletionWindowFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionWitnessExtractorUp
