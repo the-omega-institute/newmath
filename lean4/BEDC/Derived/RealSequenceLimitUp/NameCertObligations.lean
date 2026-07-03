@@ -195,4 +195,63 @@ theorem RealSequenceLimitSqueezeHandoff [AskSetup] [PackageSetup]
     ⟨lowerModulusUnary, upperModulusUnary, middleReadUnary, lowerCont, upperCont, middleCont,
       middleNamePkg, middleReadPkg⟩
 
+theorem RealSequenceLimitSqueezeEnvelopeExactness [AskSetup] [PackageSetup]
+    {lowerSeq middleSeq upperSeq limitRow lowerWindow middleWindow upperWindow lowerDyadic
+      middleDyadic upperDyadic lowerClassifier middleClassifier upperClassifier lowerTransport
+      middleTransport upperTransport lowerRoute middleRoute upperRoute lowerProvenance
+      middleProvenance upperProvenance lowerName middleName upperName envelopeWindow
+      lowerEnvelope upperEnvelope middleEnvelope regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSequenceLimitCarrier lowerSeq limitRow lowerWindow lowerDyadic lowerClassifier
+        lowerTransport lowerRoute lowerProvenance lowerName bundle pkg →
+      RealSequenceLimitCarrier middleSeq limitRow middleWindow middleDyadic middleClassifier
+          middleTransport middleRoute middleProvenance middleName bundle pkg →
+        RealSequenceLimitCarrier upperSeq limitRow upperWindow upperDyadic upperClassifier
+            upperTransport upperRoute upperProvenance upperName bundle pkg →
+          UnaryHistory envelopeWindow →
+            Cont lowerClassifier envelopeWindow lowerEnvelope →
+              Cont upperClassifier envelopeWindow upperEnvelope →
+                Cont middleClassifier envelopeWindow middleEnvelope →
+                  Cont middleEnvelope middleRoute regularRead →
+                    Cont regularRead middleName sealRead →
+                      PkgSig bundle sealRead pkg →
+                        UnaryHistory lowerEnvelope ∧ UnaryHistory upperEnvelope ∧
+                          UnaryHistory middleEnvelope ∧ UnaryHistory regularRead ∧
+                            UnaryHistory sealRead ∧
+                              Cont middleEnvelope middleRoute regularRead ∧
+                                Cont regularRead middleName sealRead ∧
+                                  PkgSig bundle middleProvenance pkg ∧
+                                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro lowerCarrier middleCarrier upperCarrier envelopeUnary lowerCont upperCont middleCont
+    regularCont sealCont sealPkg
+  rcases lowerCarrier with
+    ⟨_lowerSeqUnary, _lowerLimitUnary, _lowerWindowUnary, _lowerDyadicUnary,
+      lowerClassifierUnary, _lowerTransportUnary, _lowerRouteUnary, _lowerProvenanceUnary,
+      _lowerNameUnary, _lowerSequenceRoute, _lowerClassifierRoute, _lowerTransportSame,
+      _lowerRouteSame, _lowerProvenancePkg, _lowerNamePkg⟩
+  rcases middleCarrier with
+    ⟨_middleSeqUnary, _middleLimitUnary, _middleWindowUnary, _middleDyadicUnary,
+      middleClassifierUnary, _middleTransportUnary, middleRouteUnary, _middleProvenanceUnary,
+      middleNameUnary, _middleSequenceRoute, _middleClassifierRoute, _middleTransportSame,
+      _middleRouteSame, middleProvenancePkg, _middleNamePkg⟩
+  rcases upperCarrier with
+    ⟨_upperSeqUnary, _upperLimitUnary, _upperWindowUnary, _upperDyadicUnary,
+      upperClassifierUnary, _upperTransportUnary, _upperRouteUnary, _upperProvenanceUnary,
+      _upperNameUnary, _upperSequenceRoute, _upperClassifierRoute, _upperTransportSame,
+      _upperRouteSame, _upperProvenancePkg, _upperNamePkg⟩
+  have lowerEnvelopeUnary : UnaryHistory lowerEnvelope :=
+    unary_cont_closed lowerClassifierUnary envelopeUnary lowerCont
+  have upperEnvelopeUnary : UnaryHistory upperEnvelope :=
+    unary_cont_closed upperClassifierUnary envelopeUnary upperCont
+  have middleEnvelopeUnary : UnaryHistory middleEnvelope :=
+    unary_cont_closed middleClassifierUnary envelopeUnary middleCont
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed middleEnvelopeUnary middleRouteUnary regularCont
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary middleNameUnary sealCont
+  exact
+    ⟨lowerEnvelopeUnary, upperEnvelopeUnary, middleEnvelopeUnary, regularReadUnary,
+      sealReadUnary, regularCont, sealCont, middleProvenancePkg, sealPkg⟩
+
 end BEDC.Derived.RealSequenceLimitUp
