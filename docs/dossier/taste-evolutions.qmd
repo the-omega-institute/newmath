@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-03T21:46:41Z
+> 最后刷新: 2026-07-03T23:01:01Z
 
-**Daemon 状态**: monitor (monitor cycle 281, adjust_since_research 2, round_counter 37221, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 282, adjust_since_research 2, round_counter 37246, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1288 条 finding):
-- isolated_theorem: 916 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1293 条 finding):
+- isolated_theorem: 921 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 73 次
+- TASTE ALERT category=isolated_theorem: 65 次
 - TASTE ALERT category=unauthorized_capstone: 16 次
 - TASTE ALERT category=low_entropy_template: 3 次
 
@@ -555,6 +555,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-03T20:29:22Z: `resolved` `add_downstream_user` for `BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_finite_schedule_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_finite_schedule_nonescape:11317e54`). Rationale: The target is not a trivial wrapper: it builds the finite pointwise/lower-semicontinuous/public SemanticNameCert nonescape surface, but grep showed no prior Lean consumer and the paper marker already points at the later real-seal variant. I added a sibling consumer, BaireOneFunctionCarrier_finite_schedule_oscillation_boundary, in OscillationLocality.lean; it explicitly invokes the flagged theorem and combines its finite-schedule certificate with the existing oscillation schedule boundary, giving the theorem a substantive downstream role in the same BHist row family. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-03T21:46:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObservationTimeOrderUp.ObservationTimeOrderErasureBoundary_gap_route` (flag `isolated_theorem`, finding `isolated_theorem:observationtimeorder:BEDC.Derived.ObservationTimeOrderUp.ObservationTimeOrderErasureBoundary_gap_route:b17979c5`). Rationale: The target is not a disposable wrapper: the paper has a dedicated erasure-boundary claim for ObservationTimeOrder, and the Lean theorem carries the gap-route closure from retained reads into the G boundary row. I added a same-family downstream consumer in NameCertObligations that explicitly uses the target to build a SemanticNameCert for the gapRead row, tying the erasure boundary into hsame, Cont, UnaryHistory, and the chapter obligation row spec. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-03T23:00:22Z: `resolved` `add_downstream_user` for `BEDC.Derived.ObservationTimeOrderUp.observation_time_order_name_cert_obligations_field_package` (flag `isolated_theorem`, finding `isolated_theorem:observationtimeorder:BEDC.Derived.ObservationTimeOrderUp.observation_time_order_name_cert_obligations_field_package:6d4f62ca`). Rationale: The target is not a pure staging wrapper: it lifts the observation-time-order field package from NameCert to SemanticNameCert and preserves the concrete field list, but it had no downstream Lean consumer and no full-name paper marker. I added a sibling consumer in the HistTimeStream dependency module that imports the NameCert obligations, uses the target theorem directly, and combines its field-package SemanticNameCert with the retained-read SemanticNameCert and UnaryHistory result from the existing HistTimeStream dependency. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
