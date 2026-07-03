@@ -1,13 +1,31 @@
+import BEDC.Derived.MollifierUp.TasteGate
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MollifierUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
+
+def MollifierCarrier_dyadic_kernel_normalization_carrier [AskSetup] [PackageSetup]
+    (smooth support normalization convolution replay transport localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: MollifierUp BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  FieldFaithful.fields
+      (MollifierUp.mk smooth support normalization convolution replay transport localName) =
+    [smooth, support, normalization, convolution, replay, transport, localName] ∧
+    UnaryHistory normalization ∧ Cont smooth support normalization ∧
+      Cont support normalization convolution ∧ PkgSig bundle localName pkg
 
 theorem MollifierCarrier_support_normalization_obligation
     {S R N P C H L supportRead : BHist} :
@@ -75,6 +93,49 @@ theorem MollifierCarrier_compact_support_window
   exact
     ⟨supportReadUnary, compactReplayUnary, compactTransportUnary, supportRoute, readRoute,
       replayRoute, transportRoute⟩
+
+theorem MollifierCarrier_real_window_regularity
+    {S R N P C H realRead transportRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory R →
+        UnaryHistory P →
+          UnaryHistory H →
+            Cont S R N →
+              Cont N P C →
+                Cont C H realRead →
+                  Cont realRead H transportRead →
+                    UnaryHistory N ∧ UnaryHistory C ∧ UnaryHistory realRead ∧
+                      UnaryHistory transportRead ∧ Cont S R N ∧ Cont N P C ∧
+                        Cont C H realRead ∧ Cont realRead H transportRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sUnary rUnary pUnary hUnary supportRoute windowRoute realRoute transportRoute
+  have nUnary : UnaryHistory N :=
+    unary_cont_closed sUnary rUnary supportRoute
+  have cUnary : UnaryHistory C :=
+    unary_cont_closed nUnary pUnary windowRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed cUnary hUnary realRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed realUnary hUnary transportRoute
+  exact
+    ⟨nUnary, cUnary, realUnary, transportUnary, supportRoute, windowRoute, realRoute,
+      transportRoute⟩
+
+theorem MollifierCarrier_dyadic_kernel_normalization [AskSetup] [PackageSetup]
+    {smooth support normalization convolution replay transport localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MollifierCarrier_dyadic_kernel_normalization_carrier smooth support normalization
+        convolution replay transport localName bundle pkg →
+      UnaryHistory normalization ∧ Cont smooth support normalization ∧
+        Cont support normalization convolution ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: MollifierUp BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨fieldRows, normalizationUnary, smoothSupportNormalization,
+    supportNormalizationConvolution, localNamePkg⟩ := carrier
+  cases fieldRows
+  exact
+    ⟨normalizationUnary, smoothSupportNormalization, supportNormalizationConvolution,
+      localNamePkg⟩
 
 theorem MollifierCarrier_nonescape_ledger_obligation
     {S R N P C H L replayRead outputRead boundaryRead : BHist} :

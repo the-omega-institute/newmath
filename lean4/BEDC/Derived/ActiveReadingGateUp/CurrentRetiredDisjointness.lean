@@ -10,6 +10,20 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
+
+def ActiveReadingGateCarrier_current_retired_boundary_carrier [AskSetup] [PackageSetup]
+    (target active retired blocking exportRow transport replay provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: ActiveReadingGateUp BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  FieldFaithful.fields
+      (ActiveReadingGateUp.mk target active retired blocking exportRow transport replay
+        provenance localName) =
+    [target, active, retired, blocking, exportRow, transport, replay, provenance,
+      localName] ∧
+    UnaryHistory retired ∧ UnaryHistory active ∧ UnaryHistory exportRow ∧
+      Cont active blocking exportRow ∧ Cont retired transport replay ∧
+        PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
 
 theorem ActiveReadingGateCarrier_current_retired_disjointness [AskSetup] [PackageSetup]
     {target active retired blocking exportRow transport replay provenance nameCert activeExport
@@ -104,5 +118,22 @@ theorem ActiveReadingGateCarrier_current_retired_disjointness [AskSetup] [Packag
           provenancePkg⟩
   }
   exact ⟨rfl, cert, activeExportUnary, retiredAuditUnary, nameCertUnary⟩
+
+theorem ActiveReadingGateCarrier_current_retired_boundary [AskSetup] [PackageSetup]
+    {target active retired blocking exportRow transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ActiveReadingGateCarrier_current_retired_boundary_carrier target active retired blocking
+        exportRow transport replay provenance localName bundle pkg →
+      UnaryHistory retired ∧ UnaryHistory active ∧ UnaryHistory exportRow ∧
+        Cont active blocking exportRow ∧ Cont retired transport replay ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: ActiveReadingGateUp BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨fieldRows, retiredUnary, activeUnary, exportUnary, activeBlockingExport,
+    retiredTransportReplay, provenancePkg, localNamePkg⟩ := carrier
+  cases fieldRows
+  exact
+    ⟨retiredUnary, activeUnary, exportUnary, activeBlockingExport, retiredTransportReplay,
+      provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.ActiveReadingGateUp
