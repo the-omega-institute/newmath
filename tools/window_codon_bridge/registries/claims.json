@@ -1121,6 +1121,19 @@
      "reason": "preflight passed (304 mapped same-protein variants, Nature Suppl Table 1 carrier + GEO GSE309271 readout); significant (rho=0.153, p_order=0.0042, p_label=0.0041, replicate 9/9) but necessity fails: raw total U decoy (0.612) and single-window-U (0.561) beat Z_order (0.153), Kψ decoy_rank=3 not top5%, abundance ratio=1.48>0.5 — U-content coincidence not Window6 transducer"
     }
    ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.dms_edge_hiding_robustness",
+   "statement": "Under an assay-balanced empirical amino-acid replacement-loss matrix built from ProteinGym DMS fitness (217 assays, 696311 single mutants, full 380/380 directed-pair coverage), the standard genetic code is an extreme low-loss code among exact degeneracy-preserving random codes (R_DMS=0.280 vs null min 0.370, p_null=0.0 over N=10000), and e_in statistically mediates lower loss (beta>0, permutation p=2e-4; robust across continuous / transition-transversion / codon-usage sensitivities and assay-clustered bootstrap). This extends and empirically reconfirms Freeland-Hurst-style genetic-code error minimization with an empirical fitness loss matrix rather than chemical-property proxies. Scoped (sshx-reviewed 3/3 real, no fatal defect): statistical mediation, NOT a causal claim; the beyond-e_in residual is an out-of-support extrapolation (standard e_in=67 lies outside the null e_in support 3-27) and is NOT claimed.",
+   "status": "certified",
+   "experiment_id": "dms_edge_hiding_robustness",
+   "history": [
+    {
+     "ts": "2026-07-03T07:36:18+00:00",
+     "status": "certified",
+     "reason": "certified (sshx 3-worker: conf=certified_stands null_exact/L_AB_sound/no-leakage; circ+scope=rescope real, no fatal). Rescoped to non-causal empirical-DMS Freeland-Hurst error minimization + e_in statistical mediation; beyond-e_in residual dropped as out-of-support extrapolation."
+    }
+   ]
   }
  ]
 }
