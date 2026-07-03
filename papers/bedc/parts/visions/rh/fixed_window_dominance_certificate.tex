@@ -319,8 +319,65 @@ turns the finite classifier readout into the corresponding filtered
 prime-distribution curve.
 \end{proof}
 
+\begin{definition}[SpectralPacketCert]
+\label{def:rh-spectral-packet-cert}
+Let
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+\qquad
+r\ne0
+$$
+be an off-critical mirror zero pair, and set
+$$
+\lambda_\pm=\rho_\pm-\frac12.
+$$
+The certificate
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-)
+$$
+asserts that there exist a finite spectral window $\Lambda$, a
+mirror-odd differential classifier $P_\pm$, a compact interval
+$I\subset\mathbb R$, a margin $\delta>0$, and an admissible compact
+explicit-formula test row $h$ such that $\lambda_+,\lambda_-\in\Lambda$,
+$$
+\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)
+$$
+holds, and $h$ is a prime-effective realization of that fixed window
+dominance certificate.
+\end{definition}
+
+\begin{theorem}[Spectral packet certificate gives filtered prime detection]
+\label{thm:rh-spectral-packet-cert-gives-filtered-prime-detection}
+If $\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$ holds for an
+off-critical mirror zero pair, then some finite Dirichlet classifier
+detects the corresponding nonunit residual on a filtered
+prime-distribution curve.
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{def:rh-spectral-packet-cert}.  It supplies a fixed
+window dominance certificate together with a prime-effective
+realization.  Apply
+\autoref{thm:rh-fixed-window-dominance-supplies-filtered-prime-detection}.
+\end{proof}
+
 \section{Zeta Target}
 \label{sec:rh-fixed-window-zeta-target}
+
+\begin{definition}[UniversalSpectralPacketCert]
+\label{def:rh-universal-spectral-packet-cert}
+The row
+$$
+\mathsf{UniversalSpectralPacketCert}
+$$
+asserts that every off-critical mirror pair in the completed zeta
+zero ledger admits its certificate
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-).
+$$
+\end{definition}
 
 \begin{definition}[ZetaFixedWindowDominance]
 \label{def:rh-zeta-fixed-window-dominance}
@@ -328,14 +385,29 @@ The row
 $$
 \mathsf{ZetaFixedWindowDominance}
 $$
-asserts that every off-critical mirror pair in the completed zeta
-zero ledger admits a fixed window dominance certificate
+is the zeta-facing interface exported by
 $$
-\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)
+\mathsf{UniversalSpectralPacketCert}.
 $$
-and a prime-effective compact explicit-formula realization of that
-certificate.
+Unpacked at a single mirror pair, it consists of the finite spectral
+window, mirror-odd classifier, fixed observation interval, positive
+dominance margin, tail inequality, and prime-effective
+explicit-formula row carried by
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$.
 \end{definition}
+
+\begin{theorem}[Universal spectral packets supply fixed-window dominance]
+\label{thm:rh-universal-spectral-packets-supply-fixed-window-dominance}
+If $\mathsf{UniversalSpectralPacketCert}$ holds, then
+$\mathsf{ZetaFixedWindowDominance}$ holds.
+\end{theorem}
+
+\begin{proof}
+This is the interface translation of
+\autoref{def:rh-universal-spectral-packet-cert} through
+\autoref{def:rh-zeta-fixed-window-dominance}: each off-critical mirror
+pair receives the finite packet required by the zeta fixed-window row.
+\end{proof}
 
 \begin{theorem}[ZetaFixedWindowDominance supplies PrimeDistributionCurveCompleteness]
 \label{thm:rh-zeta-fixed-window-dominance-supplies-prime-distribution-completeness}
@@ -351,9 +423,10 @@ $$
 
 \begin{proof}
 Apply \autoref{def:rh-zeta-fixed-window-dominance} to the off-critical
-mirror pair.  The resulting certificate and prime-effective realization
-give filtered prime detection by
-\autoref{thm:rh-fixed-window-dominance-supplies-filtered-prime-detection}.
+mirror pair.  The unpacked
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$ gives filtered prime
+detection by
+\autoref{thm:rh-spectral-packet-cert-gives-filtered-prime-detection}.
 This is precisely the visible filtered curve required by
 \autoref{def:rh-prime-distribution-curve-completeness}.
 \end{proof}
@@ -373,15 +446,82 @@ $\mathsf{PrimeDistributionCurveCompleteness}$ is available.  Apply
 \autoref{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}.
 \end{proof}
 
+\begin{corollary}[Universal spectral packets give the conditional fixed-half readout]
+\label{cor:rh-universal-spectral-packets-conditional-fixed-half-readout}
+Assume $\mathsf{UniversalSpectralPacketCert}$ and the hypotheses of
+\autoref{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}.
+Then every admitted nontrivial zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-universal-spectral-packets-supply-fixed-window-dominance},
+$\mathsf{ZetaFixedWindowDominance}$ holds.  Apply
+\autoref{cor:rh-fixed-window-route-conditional-fixed-half-readout}.
+\end{proof}
+
+\begin{definition}[TailDominance]
+\label{def:rh-tail-dominance}
+For an off-critical mirror pair, the row
+$$
+\mathsf{TailDominance}(\rho_+,\rho_-)
+$$
+asserts that there are a finite spectral window $\Lambda$, its
+mirror-odd classifier $P_\pm$, a compact interval $I$, and a margin
+$\delta>0$ such that
+$$
+\inf_{u\in I}
+\left|
+P_\pm(D)\Psi_\Lambda(u)
+\right|
+\ge\delta
+$$
+and
+$$
+\sup_{u\in I}
+\left|
+P_\pm(D)E_\Lambda(u)
+\right|
+<
+\frac{\delta}{2}.
+$$
+It is the analytic dominance part of
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$, separated from the finite
+Lagrange projector and from the prime-effective explicit-formula
+realization.
+\end{definition}
+
+\begin{theorem}[Tail dominance packages the spectral certificate]
+\label{thm:rh-tail-dominance-packages-spectral-certificate}
+If $\mathsf{TailDominance}(\rho_+,\rho_-)$ holds and the displayed
+dominance row has a prime-effective compact explicit-formula
+realization, then
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-)
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The tail-dominance row supplies the finite spectral window, mirror-odd
+classifier, interval, margin, main-term lower bound, and tail upper
+bound.  These rows are exactly
+$\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)$.  Adding the
+prime-effective compact explicit-formula realization supplies the last
+row required by \autoref{def:rh-spectral-packet-cert}.
+\end{proof}
+
 \begin{principle}[Audit boundary for the fixed-window route]
 \label{prin:rh-fixed-window-route-audit-boundary}
-The proof obligation is concentrated in the construction of
-$\mathsf{ZetaFixedWindowDominance}$.  For each off-critical mirror pair
-one must display the finite spectral window, the mirror-odd polynomial
-classifier, the compact interval, the positive dominance margin, the
-tail bound, and the compact explicit-formula row whose prime side is
-nonzero after the recorded correction rows.  Without those rows, the
-chapter provides only the certificate shape; with those rows, the
-radial scale leg becomes a finite prime-register residual visible to
-the classifier tower.
+The proof obligation is concentrated in
+$$
+\mathsf{UniversalSpectralPacketCert}.
+$$
+For each off-critical mirror pair one must display the finite spectral
+window, the mirror-odd polynomial classifier, the compact interval, the
+positive dominance margin, the tail bound, and the compact
+explicit-formula row whose prime side is nonzero after the recorded
+correction rows.  The finite-window and Lagrange-projector rows are
+already local certificate data; the unresolved analytic core is the
+tail-dominance inequality for the selected zeta spectral packet.
 \end{principle}
