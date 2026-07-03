@@ -11,6 +11,7 @@ import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.BinomialIdentities
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Lah
+import BedcMathlibBridge.Constructive.LahNumber
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.FussCatalan
