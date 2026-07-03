@@ -67,6 +67,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
     witnessType :=
       `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
+  { witness := `BedcMathlibBridge.Export.Rencontres.rencontresNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Rencontres.RencontresNumberExportWitness },
   { witness := `BedcMathlibBridge.Export.DescFactorial.descFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.DescFactorial.DescFactorialExportWitness },
