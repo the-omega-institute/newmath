@@ -1,0 +1,52 @@
+\chapter{The Finite-Window Fibonacci--RH Program}
+\label{ch:concrete-instances-finite-window-fib-rh-program-hub}
+\origin{ai}
+
+The Riemann Hypothesis has several equivalent finite-window formulations: hyperbolicity of the Jensen polynomials of $\xi$, positivity of Li's coefficients, positivity of Weil's explicit-formula quadratic form, and cancellation bounds such as $M(x)=O(x^{1/2+\varepsilon})$ for the Mertens function. This chapter is the organizing summary of a finite, axiom-free program that places Fibonacci and Zeckendorf structure inside these finite-window criteria. It proves no new theorem; it records which finite certificates were built, how each touches a genuine RH criterion, and where the exact-arithmetic frontier honestly ends.
+
+\section{The Certificates}
+\label{sec:fib-rh-program-certificates}
+
+Each certificate below is a finite, $0$-axiom object verified in the Lean development. None is a proof of the Riemann Hypothesis; each is a finite shadow of, or a finite carrier for, a genuine RH-equivalent criterion.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\textbf{Certificate} & \textbf{Finite content} & \textbf{Genuine RH criterion it touches}\\
+\hline
+Fibonacci--P\'olya Jensen kernel & $\operatorname{disc}F_{m,2,n}=4[(\gamma_{n+1}^2-\gamma_n\gamma_{n+2})+(3m-2)\gamma_n^2]$ & the actual $\xi$ Jensen/P\'olya hyperbolicity criterion\\
+Jensen kernel deformation & $\operatorname{disc}F^{(\lambda)}_{m,2,n}$, $\lambda=0$ the exact $\xi$ Jensen window & Jensen stability margin under a Fibonacci P\'olya--Schur kernel\\
+Zeckendorf--M\"obius sieve & $\bigl(\sum_{N<F_{m+2}}\mu(N)\bigr)^2\le F_{m+2}$ & the Mertens bound $M(x)=O(x^{1/2})$ (RH-equivalent)\\
+Fibonacci-cube Ihara zeta & Bass $\det(I-Au+(D-I)u^2)$, $\Gamma_3=(u-1)^2(u+1)^2(u^2+1)^2$ & the graph-theoretic RH / Ramanujan analogy\\
+\end{tabular}
+\end{center}
+
+The first two are the hyperbolicity flavor: the Fibonacci-cube weight polynomial $W_m$ is real-rooted, so $W_m(D)$ is a finite P\'olya--Schur hyperbolicity preserver, and the Griffin--Ono--Rolen--Zagier theorem gives unconditional large-$n$ hyperbolicity of the smoothed windows. The third is the arithmetic flavor: it places M\"obius and squarefree arithmetic inside Fibonacci windows and records a finite Mertens cancellation certificate. The fourth is the graph-zeta flavor: it computes the Ihara zeta of the Fibonacci-cube graphs through the Bass determinant and marks the first non-tree case.
+
+\begin{theorem}[Program summary]
+\label{thm:fib-rh-program-summary}
+The four finite certificates above are verified in Lean as axiom-free, propext-free objects. Together they realize the hyperbolicity, arithmetic, and graph-zeta flavors of the finite-window Fibonacci--RH program on exact integer and polynomial data.
+\end{theorem}
+\leanvariant{BEDC.Derived.FibonacciPolyaJensenKernel.fibonacci\_polya\_jensen\_kernel\_certificate}
+\leanvariant{BEDC.Derived.ZeckendorfMobiusSieve.zeckendorf\_mobius\_sieve\_certificate}
+\leanvariant{BEDC.Derived.FibonacciCubeIharaZeta.fibonacci\_cube\_ihara\_zeta\_certificate}
+
+\section{The Program Boundary}
+\label{sec:fib-rh-program-boundary}
+
+This program is complete as a finite, exact-arithmetic certificate program. The three flavors above exhaust the finite-window RH criteria that reduce to exact integer, polynomial, or $\mathbb Z[\varphi]$ arithmetic: Jensen hyperbolicity through symbolic $\xi$ coefficients, Mertens cancellation through exact M\"obius sums, and the graph zeta through an exact Bass determinant.
+
+The one genuinely distinct criterion not reduced here is Weil's explicit-formula positivity: the finite Galerkin quadratic form of the Weil functional on Fibonacci-windowed test functions. That object is real and central, but its matrix entries are transcendental, involving the Euler--Mascheroni constant, $\log 4\pi$, archimedean integrals, and von Mangoldt evaluations at logarithms of integers. It is therefore not an exact-arithmetic $0$-axiom object; a certificate would require certified interval arithmetic together with a rational positive-semidefinite (Cholesky) certificate, a different and substantially harder formalization. It is recorded here as the honest open direction, not as a completed certificate.
+
+\falsifiablePrediction{A recomputation of any listed finite certificate that contradicts its displayed identity or inequality at the enumerated parameters refutes the corresponding packet and this summary's placement of it.}
+
+\independenceWitness{finite-window-fib-rh-program: these are finite axiom-free shadows and carriers of genuine RH-equivalent criteria (Jensen hyperbolicity, the Mertens bound, and the graph-RH analogy); none is a proof of the Riemann Hypothesis, none evaluates the analytic $\xi$ or its zeros, and the Weil explicit-formula positivity criterion is left as an honest open direction outside the exact-arithmetic scope.}
+
+\begin{closurestatus}{FiniteWindowFibRHProgramHub}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:fib-rh-program-summary} records the four finite axiom-free certificates and \autoref{sec:fib-rh-program-boundary} states the exact-arithmetic boundary; the program is complete as a finite exact-arithmetic certificate program.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FibonacciPolyaJensenKernel.fibonacci\_polya\_jensen\_kernel\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; a finite exact-arithmetic certificate program of shadows/carriers of RH-equivalent criteria; the Weil explicit-formula positivity criterion is an honest open direction requiring certified interval arithmetic, not a completed certificate.}
+  \upgradepath{formalize the Fibonacci-windowed Weil positivity matrix with certified interval-arithmetic entries and a rational Cholesky certificate, or prove a density/fundamentality theorem for a Fibonacci/Zeckendorf restriction of a finite-window RH criterion.}
+\end{closurestatus}
