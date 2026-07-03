@@ -174,6 +174,15 @@ still exhibits a finite-window obstruction.
 
 \begin{principle}[Primorial-square homomorphic delay]
 \label{prin:innovation-input-primorial-square-homomorphic-delay}
+For the anchored real neutral $L=5$ window, define the primitive
+Hermitian defect
+$$
+H_5
+:=
+M_{(1,3),(1,2,4,5)}
+-
+M_{(1,2,4,5),(1,3)}.
+$$
 The reported CRT rows for
 $$
 N_3=(2\cdot3\cdot5)^2=900
@@ -192,6 +201,8 @@ M_{(1,2,4,5),(1,3)}=-\frac{11}{225},
 $$
 so the defect is
 $$
+H_5(N_3)
+=
 \frac1{45}-\left(-\frac{11}{225}\right)
 =
 \frac{16}{225}.
@@ -204,12 +215,16 @@ M_{(1,2,4,5),(1,3)}=-\frac{11}{2205},
 $$
 so the defect is
 $$
+H_5(N_4)
+=
 \frac1{441}-\left(-\frac{11}{2205}\right)
 =
 \frac{16}{2205}.
 $$
 The defect ratio is therefore
 $$
+\frac{H_5(N_4)}{H_5(N_3)}
+=
 \frac{16/2205}{16/225}
 =
 \frac5{49}.
@@ -219,6 +234,32 @@ type; it attenuates the obstruction. The positive-window horizon has
 therefore not crossed $L=5$ in these two reported rows, but the obstruction
 has the form of a stable finite-window defect whose amplitude decreases
 under prime-register enlargement.
+\end{principle}
+
+\begin{principle}[Primitive defect attenuation prediction]
+\label{prin:innovation-input-primitive-defect-attenuation-prediction}
+The $H_5$ comparison should be read as a primitive-obstruction pattern,
+not as an accidental numerical mismatch. If the same CRT defect channel is
+continued to
+$$
+N_5=(2\cdot3\cdot5\cdot7\cdot11)^2,
+$$
+the homomorphic attenuation suggested by
+\autoref{prin:innovation-input-primorial-square-homomorphic-delay}
+predicts a defect scale
+$$
+H_5(N_5)\sim\frac{16}{5445},
+\qquad
+5445=45\cdot11^2.
+$$
+The prediction is not a theorem-level enumeration claim. Its role is to
+turn the finite-window search into a falsifiable asymptotic question:
+whether the same primitive Hermitian defect satisfies
+$$
+H_5(P_k^2)\to0
+$$
+along a compatible primorial-square CRT family, while remaining nonzero at
+each fixed finite prime register.
 \end{principle}
 
 \begin{principle}[Diagonal obstruction persists beside symmetry failure]
@@ -240,9 +281,12 @@ M_{(3,5),(3,5)}
 <0.
 $$
 Thus positive semidefiniteness still fails after ignoring the Hermitian
-asymmetry. The primorial-square evidence supports a two-part reading:
-finite prime registers can weaken high-window defects, but a fixed finite
-register still leaves a concrete finite-window obstruction.
+asymmetry. The $L=5$ obstruction is therefore layered: the Hermitian defect
+blocks reflection symmetry, and negative diagonal entries block
+positive semidefiniteness even after discarding that asymmetry. The
+primorial-square evidence supports a two-part reading: finite prime
+registers can weaken high-window defects, but a fixed finite register
+still leaves a concrete finite-window obstruction.
 \end{principle}
 
 \section{Finite Alphabet Finiteness}
@@ -350,6 +394,35 @@ M_{\mathcal B}(v)\not\succeq0,
 $$
 while every fixed finite window can be made positive at a sufficiently
 large prime-register level.
+\end{conjecture}
+
+\conjectureStatus{open}
+
+\begin{conjecture}[Cofinal-tail RP approximation]
+\label{conj:innovation-input-cofinal-tail-rp-approximation}
+There is a compatible primorial-square CRT family
+$$
+v^{(k)}\in\mathcal Q_{P_k^2}
+$$
+such that every fixed anchored neutral window eventually becomes
+positive-semidefinite along the tail:
+$$
+\forall L\ \exists k_0(L)\ \forall k\ge k_0(L),
+\qquad
+v^{(k)}
+\in
+\bigcap_{\ell=1}^{L}\mathcal R_{P_k^2,\ell,1}^{\mathrm{neu}}.
+$$
+For every fixed finite $k$, however, some finite neutral window still
+obstructs the same row:
+$$
+\forall k\ \exists\mathcal B,
+\qquad
+M_{\mathcal B}(v^{(k)})\not\succeq0.
+$$
+This is the tail-strength form of the limit RP conjecture: complete RP is
+not assigned to any single finite alphabet, but to the cofinal
+prime-register limit.
 \end{conjecture}
 
 \conjectureStatus{open}
