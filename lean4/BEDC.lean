@@ -10341,6 +10341,7 @@ import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
 import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
+import BEDC.Derived.RHRoute.StripArchimedeanBound
 import BEDC.Derived.RHRoute.StripExclusionAssembly
 import BEDC.Derived.RHRoute.StripRationalKit
 import BEDC.Derived.RHRoute.ThreeFourOneSOS
