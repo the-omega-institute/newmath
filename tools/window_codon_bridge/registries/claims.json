@@ -1160,6 +1160,19 @@
      "reason": "bounded/coincidence: all 25 alt codes low-loss under own degeneracy null, but non-independence (only Yeast Mito reassigns >=6 codons vs standard) prevents an independent universality certificate; primary certified fact stays the standard-code result. Verified: each code uses its own degeneracy profile (no circularity)."
     }
    ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.trna_decoding_pressure_hidden_edges",
+   "statement": "Tested whether the standard genetic code concentrates real tRNA near-cognate decoding pressure (E. coli tRNA-seq GSE128812, 50 parsed tRNAs incl. fMet->Met and Ile2->AUA lysidine handling) onto its hidden (synonymous) Hamming-1 edges at fixed e_in=67 -- a code<->tRNA co-adaptation hypothesis one layer below DMS fitness. NO co-adaptation signal: the mixing-INDEPENDENT anticodon-count permutation control is null (permutation_p=0.37; standard H_tRNA=0.221 is if anything LOWER than under shuffled tRNA counts, 0.263), and all 9 tRNA-seq samples show the standard code below the null median (direction all-negative). METHOD CAVEAT (why needs_derivation not refuted): the N_67 microcanonical umbrella MCMC does NOT mix for the sparse tRNA-weighted H_tRNA statistic -- chain-median spread 0.026 at 50k slice hits and WORSENS to 0.050 at 200k (structural, not sample-size; unlike the B_DMS microcanonical which mixed cleanly), so the microcanonical p is unreliable and is NOT the basis of any claim. Bottom line: no evidence that the code's DMS-layer error-minimization extends to preferential routing of decoding pressure onto hidden edges; a clean microcanonical certificate needs a better-mixing sampler for this rough statistic.",
+   "status": "needs_derivation",
+   "experiment_id": "trna_decoding_pressure_hidden_edges",
+   "history": [
+    {
+     "ts": "2026-07-03T09:56:47+00:00",
+     "status": "needs_derivation",
+     "reason": "needs_derivation: N_67 umbrella MCMC does not mix for the sparse H_tRNA statistic (spread 0.026->0.050 as samples grow, structural). But the mixing-independent permutation control is null (real tRNA pressure not more concentrated on hidden edges than shuffled; std H_tRNA 0.221 <= permuted 0.263, all 9 samples direction-negative) => no co-adaptation signal. Honest terminal: no support for the hypothesis; a clean microcanonical test awaits a better sampler."
+    }
+   ]
   }
  ]
 }
