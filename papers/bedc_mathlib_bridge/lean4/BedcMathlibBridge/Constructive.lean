@@ -10,6 +10,7 @@ import BedcMathlibBridge.Constructive.Lucas
 import BedcMathlibBridge.Constructive.Binomial
 import BedcMathlibBridge.Constructive.BinomialIdentities
 import BedcMathlibBridge.Constructive.Factorial
+import BedcMathlibBridge.Constructive.Lah
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.FussCatalan
@@ -18,6 +19,7 @@ import BedcMathlibBridge.Constructive.StirlingSecond
 import BedcMathlibBridge.Constructive.Derangement
 import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
+import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
 import BedcMathlibBridge.Constructive.Delannoy
