@@ -9006,6 +9006,7 @@ import BEDC.Derived.MetricCompletionNaturalityUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionReflectorUp.TasteGate
 import BEDC.Derived.MetricCompletionSeparableCoreUp.TasteGate
+import BEDC.Derived.MetricCompletionSequenceUp
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
@@ -13538,6 +13539,7 @@ import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformLipschitzCompactVisionUp.TasteGate
 import BEDC.Derived.UniformLipschitzFamilyUp.TasteGate
 import BEDC.Derived.UniformModulusCompositionUp.TasteGate
+import BEDC.Derived.UniformModulusLedgerUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
