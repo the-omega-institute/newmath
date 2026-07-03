@@ -174,6 +174,33 @@ instance fullAxisRealRefusalChapterTasteGate : ChapterTasteGate FullAxisRealRefu
     intro x y hxy heq
     exact hxy (fullAxisRealRefusalToEventFlow_injective heq)
 
+instance fullAxisRealRefusalFieldFaithful : FieldFaithful FullAxisRealRefusalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields
+    | FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport route provenance name =>
+        [fullAxis, refusal, cannotClaim, transport, route, provenance, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk fullAxis refusal cannotClaim transport route provenance name =>
+        cases y with
+        | mk fullAxis' refusal' cannotClaim' transport' route' provenance' name' =>
+            injection hfields with hFullAxis hTail0
+            injection hTail0 with hRefusal hTail1
+            injection hTail1 with hCannotClaim hTail2
+            injection hTail2 with hTransport hTail3
+            injection hTail3 with hRoute hTail4
+            injection hTail4 with hProvenance hTail5
+            injection hTail5 with hName _hNil
+            cases hFullAxis
+            cases hRefusal
+            cases hCannotClaim
+            cases hTransport
+            cases hRoute
+            cases hProvenance
+            cases hName
+            rfl
+
 theorem FullAxisRealRefusalTasteGate_single_carrier_alignment :
     (∀ h : BHist, fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist h) = h) ∧
       (∀ x : FullAxisRealRefusalUp,

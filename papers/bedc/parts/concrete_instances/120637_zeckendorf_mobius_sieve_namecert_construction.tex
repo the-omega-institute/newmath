@@ -1,0 +1,68 @@
+\chapter{The Zeckendorf Mobius Sieve Certificate}
+\label{ch:concrete-instances-zeckendorf-mobius-sieve}
+\origin{ai}
+
+This chapter records a finite Mobius and squarefree arithmetic packet over Fibonacci--Zeckendorf windows. Let $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$. For each $0\leq N<F_{m+2}$, the Zeckendorf representation writes $N$ uniquely as a sum of nonadjacent Fibonacci numbers, and $s_Z(N)$ denotes the number of summands in that representation.
+
+\section{Squarefree Zeckendorf-Hamming Polynomials}
+\label{sec:zeckendorf-mobius-squarefree-polynomials}
+
+For each window length $m$, define the squarefree Zeckendorf-Hamming polynomial
+$$
+SQ_m(u)=\sum_{1\leq N<F_{m+2}}\mu(N)^2u^{s_Z(N)}
+$$
+and its signed companion
+$$
+M_m(u)=\sum_{1\leq N<F_{m+2}}\mu(N)u^{s_Z(N)}.
+$$
+The certificate computes these polynomials as finite integer coefficient lists, with coefficient degree equal to Zeckendorf Hamming weight. The Lean carrier uses only finite recursion over natural numbers and integer lists: Fibonacci values, greedy Zeckendorf weights, squarefree testing, the Mobius value, and polynomial accumulation are all closed computations.
+
+The squarefree arithmetic core is the finite sieve identity
+$$
+\mu(n)^2=\sum_{d^2\mid n}\mu(d).
+$$
+Inside the certificate this is checked for $1\leq n\leq 20$ by the same Mobius and divisibility routines used by the window polynomials. The squarefree polynomial is therefore not merely a count of selected examples; it is tied to the classical squarefree sieve in the bounded arithmetic range recorded by the certificate.
+
+\section{Finite Mertens Cancellation}
+\label{sec:zeckendorf-mobius-mertens-cancellation}
+
+The signed companion has evaluation
+$$
+M_m(1)=\sum_{1\leq N<F_{m+2}}\mu(N).
+$$
+The certificate records, for $1\leq m\leq 12$, an explicit nonnegative slack witnessing the finite Mertens-cancellation inequality
+$$
+\left(\sum_{1\leq N<F_{m+2}}\mu(N)\right)^2\leq F_{m+2}.
+$$
+In Lean this bound is carried as a natural-number slack equality
+$$
+|M_m(1)|^2+\operatorname{slack}_m=F_{m+2},
+$$
+which avoids importing any analytic argument or any classical inequality principle. The theorem target also records the concrete polynomial window $m\leq 8$, the squarefree sieve checks through $n=20$, and the representative terminal Mertens slack certificate at $m=12$.
+
+\begin{theorem}[Zeckendorf Mobius sieve certificate]
+\label{thm:zeckendorf-mobius-sieve-certificate}
+The finite Zeckendorf-window packet computes $SQ_m(u)$ and $M_m(u)$ for $1\leq m\leq 8$, checks the squarefree sieve identity $\mu(n)^2=\sum_{d^2\mid n}\mu(d)$ for $1\leq n\leq 20$, and records explicit Mertens-cancellation slack certificates $|M_m(1)|^2+\operatorname{slack}_m=F_{m+2}$ for $1\leq m\leq 12$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfMobiusSieve.zeckendorf\_mobius\_sieve\_certificate}
+
+\section{Honest Scope}
+\label{sec:zeckendorf-mobius-honest-scope}
+
+This is a finite Mobius/squarefree and Mertens-cancellation certificate over Zeckendorf windows. It places classical Mobius arithmetic inside finite Fibonacci windows and mirrors the RH-equivalent Mertens bound $M(x)=O(x^{1/2})$, but it is finite computed evidence, not a proof of that bound for all $x$, not an analytic zeta statement, and not a proof of the Riemann Hypothesis.
+
+The squarefree polynomial is classically adjacent to the squarefree summatory structure behind $1/\zeta(2s)$, and the signed window is adjacent to the Mertens summatory function. The BEDC content here is the finite arithmetic interface: Zeckendorf weight supplies the Fibonacci window coordinate, Mobius values supply the signed arithmetic, the squarefree sieve supplies the bounded divisor check, and the slack equations supply finite cancellation witnesses. No Euler product, analytic continuation, zero-free region, or asymptotic estimate is claimed.
+
+\falsifiablePrediction{A recomputation of the finite Lean carrier that changes the greedy Zeckendorf weights for $6$, $7$, or $12$, the squarefree status of $4$ or $6$, the Mobius values of $4$, $6$, or $30$, the $SQ_m$ and $M_m$ coefficient lists through $m=8$, the squarefree sieve checks through $n=20$, or the Mertens slack certificates through $m=12$, refutes this packet.}
+
+\independenceWitness{riemann-hypothesis, global-mertens-bound, analytic-zeta-claims: this packet is a finite Mobius/squarefree and Mertens-cancellation certificate over Zeckendorf windows only; it does not prove RH, does not prove $M(x)=O(x^{1/2})$ for all $x$, and does not assert an analytic zeta theorem.}
+
+\begin{closurestatus}{ZeckendorfMobiusSieve}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{$SQ_m/M_m$ concrete $m\leq 8$, squarefree sieve $n\leq 20$, Mertens bound $m\leq 12$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ZeckendorfMobiusSieve.zeckendorf\_mobius\_sieve\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH or of the Mertens bound for all $x$; a finite Mobius/squarefree and Mertens-cancellation certificate over Zeckendorf windows only; the analytic zeta connection is heuristic.}
+  \upgradepath{prove the squarefree residue-transfer sieve identity $SQ_m=\sum_d\mu(d)(C_{m,d^2,0}-1)$ universally via the Zeckendorf residue recurrence, and extend the Mertens bound beyond the finite table.}
+\end{closurestatus}

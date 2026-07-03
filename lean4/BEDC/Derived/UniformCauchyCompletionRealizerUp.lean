@@ -26,22 +26,23 @@ def UniformCauchyCompletionRealizerUp [AskSetup] [PackageSetup]
 
 namespace UniformCauchyCompletionRealizerUp
 
-theorem UniformCauchyCompletionRealizerCarrier_modulus_stability [AskSetup] [PackageSetup]
+theorem UniformCauchyCompletionRealizerCarrier_real_seal_handoff [AskSetup] [PackageSetup]
     {source dyadic window readback modulus sealRow transport replay provenance localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     BEDC.Derived.UniformCauchyCompletionRealizerUp source dyadic window readback modulus sealRow
         transport replay provenance localName bundle pkg ->
-      UnaryHistory dyadic ∧ UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory modulus ∧
-        UnaryHistory sealRow ∧ Cont source dyadic window ∧ Cont window readback modulus ∧
-          Cont readback modulus sealRow ∧ PkgSig bundle provenance pkg ∧
-            PkgSig bundle localName pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+      UnaryHistory source ∧ UnaryHistory dyadic ∧ UnaryHistory window ∧
+        UnaryHistory readback ∧ UnaryHistory modulus ∧ UnaryHistory sealRow ∧
+          Cont source dyadic window ∧ Cont window readback modulus ∧
+            Cont readback modulus sealRow ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   intro carrier
-  obtain ⟨_sourceUnary, dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
+  obtain ⟨sourceUnary, dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
     _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, sourceDyadicWindow,
     windowReadbackModulus, readbackModulusSeal, provenancePkg, localNamePkg⟩ := carrier
   exact
-    ⟨dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
+    ⟨sourceUnary, dyadicUnary, windowUnary, readbackUnary, modulusUnary, sealUnary,
       sourceDyadicWindow, windowReadbackModulus, readbackModulusSeal, provenancePkg,
       localNamePkg⟩
 

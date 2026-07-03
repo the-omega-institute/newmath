@@ -1,0 +1,90 @@
+\chapter{Fibonacci-Cube Ihara Zeta}
+\label{ch:concrete-instances-fibonacci-cube-ihara-zeta}
+\origin{ai}
+
+This chapter records a finite Ihara zeta computation for the Fibonacci-cube graphs. For $m\ge 1$, let $\Gamma_m$ be the graph whose vertices are the binary words of length $m$ with no adjacent $1$s, with an edge between two words exactly when their Hamming distance is $1$. Thus $|V(\Gamma_m)|=F_{m+2}$, and the first non-tree case is $\Gamma_3$.
+
+Let $A_m$ be the adjacency matrix of $\Gamma_m$, and let $D_m$ be the diagonal degree matrix. Bass' determinant formula gives the reciprocal Ihara zeta expression
+$$
+Z_{\Gamma_m}(u)^{-1}
+=(1-u^2)^{|E|-|V|}
+\det\!\bigl(I-A_mu+(D_m-I)u^2\bigr).
+$$
+The Lean certificate works at the polynomial determinant layer:
+$$
+\det\!\bigl(I-A_mu+(D_m-I)u^2\bigr).
+$$
+It avoids encoding negative powers of $(1-u^2)$ as rational functions. For $\Gamma_1$ and $\Gamma_2$, the graphs are trees; the determinant is $1-u^2$, and the Bass prefactor cancels it in the reciprocal zeta. For $\Gamma_3$, the exponent $|E|-|V|$ is $0$, so the reciprocal zeta is exactly the determinant.
+
+\section{Finite Bass Determinants}
+\label{sec:fibonacci-cube-ihara-finite-bass-determinants}
+
+The verified vertex orders are the lexicographic no-adjacent-$1$ orders
+$$
+\Gamma_1:\ 0,1,
+$$
+$$
+\Gamma_2:\ 00,01,10,
+$$
+and
+$$
+\Gamma_3:\ 000,001,010,100,101.
+$$
+For these orders, the certificate evaluates the concrete Bass matrices with entries
+$$
+\bigl(I-A_mu+(D_m-I)u^2\bigr)_{ij}
+=\delta_{ij}-A_{ij}u+(\deg(i)-1)\delta_{ij}u^2.
+$$
+The determinant identities are
+$$
+\det\!\bigl(I-A_1u+(D_1-I)u^2\bigr)=1-u^2,
+$$
+$$
+\det\!\bigl(I-A_2u+(D_2-I)u^2\bigr)=1-u^2,
+$$
+and
+$$
+\det\!\bigl(I-A_3u+(D_3-I)u^2\bigr)=1-2u^4+u^8.
+$$
+Equivalently, the first non-tree case factors as
+$$
+1-2u^4+u^8=(u-1)^2(u+1)^2(u^2+1)^2.
+$$
+
+\begin{theorem}[Fibonacci-cube Ihara determinant certificate]
+\label{thm:fibonacci-cube-ihara-zeta-certificate}
+For the Fibonacci-cube graphs $\Gamma_1,\Gamma_2,\Gamma_3$, the polynomial Bass determinants are
+$$
+\det\!\bigl(I-A_1u+(D_1-I)u^2\bigr)=1-u^2,
+$$
+$$
+\det\!\bigl(I-A_2u+(D_2-I)u^2\bigr)=1-u^2,
+$$
+and
+$$
+\det\!\bigl(I-A_3u+(D_3-I)u^2\bigr)=1-2u^4+u^8=(u-1)^2(u+1)^2(u^2+1)^2.
+$$
+For $\Gamma_3$, since $|E|-|V|=0$, this is also $Z_{\Gamma_3}(u)^{-1}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FibonacciCubeIharaZeta.fibonacci\_cube\_ihara\_zeta\_certificate}
+
+\section{Honest Scope}
+\label{sec:fibonacci-cube-ihara-honest-scope}
+
+This packet is a finite Ihara (graph) zeta of the Fibonacci-cube graphs computed by the Bass determinant; it belongs to graph and dynamical zeta theory and to the graph-RH (Ramanujan) analogy, not to the actual Riemann xi or its Jensen criterion, and it is not a proof of the Riemann Hypothesis. The Lean object is a concrete polynomial determinant calculation over integer coefficient lists. It does not encode analytic continuation, the critical strip, the nontrivial zeros of $\zeta(s)$, the Riemann $\xi$ function, or any Jensen-polynomial criterion for RH.
+
+The finite analogy is still mathematically legitimate. Ihara zeta functions attach Euler-product-style zeta data to finite graphs, and their pole geometry is governed by graph spectra. In regular graph families, the Ramanujan condition is commonly expressed as a graph-theoretic RH analogue. The Fibonacci-cube calculation here stays inside that finite graph-zeta world: it verifies the Bass determinant data through $\Gamma_3$ and marks the first non-tree determinant explicitly, while leaving any uniform spectral theorem for all $\Gamma_m$ outside the closed scope.
+
+\falsifiablePrediction{A recomputation of the listed Bass matrices for $\Gamma_1,\Gamma_2,\Gamma_3$ that changes the determinant coefficient lists $[1,0,-1]$, $[1,0,-1]$, or $[1,0,0,0,-2,0,0,0,1]$ refutes this packet.}
+
+\independenceWitness{riemann-hypothesis, riemann-xi-jensen-criterion: this packet is a finite Ihara graph zeta computation for Fibonacci-cube graphs, not a statement about the actual Riemann $\xi$ function, not a Jensen criterion certificate, and not a proof of RH.}
+
+\begin{closurestatus}{FibonacciCubeIharaZeta}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Bass det identity for $\Gamma_1$ through $\Gamma_3$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FibonacciCubeIharaZeta.fibonacci\_cube\_ihara\_zeta\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; a finite Ihara graph zeta of the Fibonacci cube (graph-RH/Ramanujan analogy) only, not the actual Riemann xi.}
+  \upgradepath{extend the Bass determinant to all $\Gamma_m$ and connect the graph-RH (Ramanujan) property to the Fibonacci-cube spectral gap.}
+\end{closurestatus}

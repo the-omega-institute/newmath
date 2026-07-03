@@ -1,0 +1,369 @@
+\chapter{Paley--Wiener Zero Pair Tail Control}
+\label{ch:visions-rh-pw-zero-pair-tail-control}
+\origin{ai}
+
+\autoref{ch:visions-rh-negative-weil-isolator} isolates the first
+analytic row in the negative-Weil route as
+$\mathsf{PWZeroPairTailControl}$.  This chapter resolves the finite
+part of that row and states the precise uniform tail condition needed
+for the infinite zero ledger.  The construction is local at an
+off-critical mirror pair: a mirror-odd bump gives exact values
+$(1,-1)$ on the pair, finite exponential interpolation removes every
+other zero in a bounded window, and a uniform Paley--Wiener tail row
+then converts the finite negative block into a negative zero-side Weil
+readout.
+
+\section{Mirror-Odd Local Isolator}
+\label{sec:rh-pw-zero-pair-mirror-odd-local-isolator}
+
+\begin{definition}[Mirror-odd bump]
+\label{def:rh-mirror-odd-bump}
+Let $r\in\RealUp$ with $r\ne0$.  A mirror-odd bump for $r$ is a
+real-valued function
+$$
+\phi\in C_c^\infty(-A,A)
+$$
+such that
+$$
+\phi(-x)=-\phi(x)
+$$
+and
+$$
+I_r(\phi)
+:=
+\int_{\mathbb R}\phi(x)\sinh(rx)\,dx
+\ne0.
+$$
+\end{definition}
+
+\begin{lemma}[Mirror-odd bumps exist]
+\label{lem:rh-mirror-odd-bumps-exist}
+For every $A>0$ and every $r\ne0$, there is a mirror-odd bump for $r$
+supported in $(-A,A)$.
+\end{lemma}
+
+\begin{proof}
+Choose a nonzero nonnegative bump
+$$
+\psi\in C_c^\infty((0,A)).
+$$
+Set
+$$
+\phi(x):=\psi(x)-\psi(-x).
+$$
+Then $\phi$ is smooth, compactly supported in $(-A,A)$, and odd.  The
+function $\sinh(rx)$ is also odd, so $\phi(x)\sinh(rx)$ is even.  On the
+positive support of $\psi$, its sign is constant and nonzero after
+possibly replacing $\phi$ by $-\phi$.  Hence
+$$
+I_r(\phi)
+=
+2\int_{0}^{A}\psi(x)\sinh(rx)\,dx
+\ne0.
+$$
+\end{proof}
+
+\begin{definition}[Mirror-odd zero-pair row]
+\label{def:rh-mirror-odd-zero-pair-row}
+For an off-critical mirror pair
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+$$
+and a mirror-odd bump $\phi$ for $r$, define
+$$
+f_{\rho_+,\phi}(x)
+:=
+\frac{e^{-i\gamma x}\phi(x)}{I_r(\phi)}.
+$$
+\end{definition}
+
+\begin{theorem}[Mirror-odd row separates the zero pair]
+\label{thm:rh-mirror-odd-row-separates-zero-pair}
+For the row of \autoref{def:rh-mirror-odd-zero-pair-row},
+$$
+\widehat f_{\rho_+,\phi}(\rho_+)=1,
+\qquad
+\widehat f_{\rho_+,\phi}(\rho_-)=-1.
+$$
+\end{theorem}
+
+\begin{proof}
+At $\rho_+$ one has
+$$
+\widehat f_{\rho_+,\phi}(\rho_+)
+=
+\frac1{I_r(\phi)}
+\int_{\mathbb R}\phi(x)e^{rx}\,dx.
+$$
+Since
+$$
+e^{rx}=\cosh(rx)+\sinh(rx),
+$$
+the product $\phi(x)\cosh(rx)$ is odd and has integral zero.  Therefore
+$$
+\int_{\mathbb R}\phi(x)e^{rx}\,dx
+=
+\int_{\mathbb R}\phi(x)\sinh(rx)\,dx
+=
+I_r(\phi),
+$$
+which gives $\widehat f_{\rho_+,\phi}(\rho_+)=1$.
+
+At $\rho_-$ the same cancellation gives
+$$
+\widehat f_{\rho_+,\phi}(\rho_-)
+=
+\frac1{I_r(\phi)}
+\int_{\mathbb R}\phi(x)e^{-rx}\,dx.
+$$
+Using
+$$
+e^{-rx}=\cosh(rx)-\sinh(rx),
+$$
+the odd part again integrates to zero and the remaining term is
+$$
+-I_r(\phi).
+$$
+Hence $\widehat f_{\rho_+,\phi}(\rho_-)=-1$.
+\end{proof}
+
+\begin{corollary}[Mirror-odd row gives a local negative block]
+\label{cor:rh-mirror-odd-row-local-negative-block}
+The selected mirror pair contributes
+$$
+-2
+$$
+to the zero-side mirror quadratic readout of
+\autoref{def:rh-mirror-quadratic-zero-readout}.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-mirror-odd-row-separates-zero-pair}, the two ordered
+mirror terms are
+$$
+1\cdot\overline{-1}+(-1)\cdot\overline{1}
+=
+-2.
+$$
+\end{proof}
+
+\section{Finite Window Cancellation}
+\label{sec:rh-pw-zero-pair-finite-window-cancellation}
+
+\begin{definition}[Centered nontrivial zero window]
+\label{def:rh-centered-zero-window}
+For an off-critical mirror pair at height $\gamma$ and a width
+$T>0$, the centered nontrivial zero window is the finite zero-position
+set
+$$
+\mathcal F_T(\gamma)
+:=
+\{\rho:\ \rho\text{ is nontrivial and }|\operatorname{Im}\rho-\gamma|\le T\},
+$$
+with the completed zeta multiplicity convention.  Its punctured window
+is
+$$
+\mathcal F_T^\circ(\gamma)
+:=
+\mathcal F_T(\gamma)\setminus\{\rho_+,\rho_-\}.
+$$
+\end{definition}
+
+\begin{theorem}[Finite window mirror-negative interpolation]
+\label{thm:rh-finite-window-mirror-negative-interpolation}
+Let $\mathcal F_T(\gamma)$ be a centered nontrivial zero window
+containing the off-critical mirror pair $\rho_+,\rho_-$.  For every
+$A>0$ there is a compact smooth row
+$$
+g_T\in C_c^\infty(-A,A)
+$$
+such that
+$$
+\widehat g_T(\rho_+)=1,
+\qquad
+\widehat g_T(\rho_-)=-1,
+$$
+and
+$$
+\widehat g_T(\rho)=0
+\qquad
+(\rho\in\mathcal F_T^\circ(\gamma)).
+$$
+\end{theorem}
+
+\begin{proof}
+The centered nontrivial zero window is finite because the completed zeta
+nontrivial-zero ledger is discrete in bounded vertical strips.  Apply
+\autoref{cor:rh-finite-zero-readout-interpolation} to this finite set,
+assigning the values $1$ and $-1$ to $\rho_+$ and $\rho_-$ and assigning
+$0$ to every point in the punctured window.
+\end{proof}
+
+\begin{corollary}[Finite window contribution is exactly negative]
+\label{cor:rh-finite-window-contribution-exactly-negative}
+For $g_T$ as in
+\autoref{thm:rh-finite-window-mirror-negative-interpolation}, the
+contribution of $\mathcal F_T(\gamma)$ to $\mathcal W_Z(g_T)$ is
+$$
+-2.
+$$
+\end{corollary}
+
+\begin{proof}
+The mirror pair contributes $-2$ by the same calculation as
+\autoref{cor:rh-mirror-odd-row-local-negative-block}.  Every other zero
+in the centered window has prescribed readout $0$, so the remaining
+finite-window terms vanish.
+\end{proof}
+
+\section{Uniform Tail Row}
+\label{sec:rh-pw-zero-pair-uniform-tail-row}
+
+\begin{definition}[UniformPWInterpolationTailControl]
+\label{def:rh-uniform-pw-interpolation-tail-control}
+The row
+$$
+\mathsf{UniformPWInterpolationTailControl}
+$$
+asserts that for every off-critical mirror pair and every
+$\varepsilon>0$ there are $T>0$, $A>0$, and a compact smooth row
+$g_T\in C_c^\infty(-A,A)$ satisfying the finite window interpolation of
+\autoref{thm:rh-finite-window-mirror-negative-interpolation} and
+$$
+\left|
+\sum_{\rho\notin\mathcal F_T(\gamma)}
+\widehat g_T(\rho)\,
+\overline{\widehat g_T(\iota(\rho))}
+\right|
+<
+\varepsilon.
+$$
+Equivalently, the finite interpolation rows can be chosen with enough
+uniform Paley--Wiener decay to make the complement of the centered
+window arbitrarily small in the zero-side mirror quadratic form.
+\end{definition}
+
+\begin{lemma}[Dyadic zero-tail estimate]
+\label{lem:rh-dyadic-zero-tail-estimate}
+Let $g$ be an admissible compact row whose transform satisfies, in the
+critical strip,
+$$
+|\widehat g(\sigma+it)|
+\le
+C_N(1+|t|)^{-N}
+$$
+for some $N>1$.  If the zero-counting row has the standard dyadic bound
+$$
+\#\{\rho:\ 2^jT<|\operatorname{Im}\rho-\gamma|\le2^{j+1}T\}
+\le
+C\,2^jT\log(2^jT+2)
+$$
+for $T\ge1$, then
+$$
+\sum_{\rho\notin\mathcal F_T(\gamma)}
+|\widehat g(\rho)|\,
+|\widehat g(\iota(\rho))|
+\le
+C'_N C_N^2 T^{1-2N}\log(T+2)
+$$
+for a constant $C'_N$ independent of $T$ and $g$ except through $C_N$.
+\end{lemma}
+
+\begin{proof}
+The involution $\iota(\rho)=1-\overline{\rho}$ preserves the imaginary
+part of $\rho$.  On the dyadic annulus
+$$
+2^jT<|\operatorname{Im}\rho-\gamma|\le2^{j+1}T,
+$$
+both $\widehat g(\rho)$ and $\widehat g(\iota(\rho))$ are bounded by
+the same vertical decay estimate.  The annulus contribution is therefore
+bounded by
+$$
+C\,2^jT\log(2^jT+2)\,
+C_N^2(2^jT)^{-2N}.
+$$
+Summing over $j\ge0$ gives
+$$
+C C_N^2 T^{1-2N}
+\sum_{j\ge0}
+2^{j(1-2N)}\log(2^jT+2).
+$$
+Since $N>1$, the displayed dyadic series is bounded by a constant
+multiple of $\log(T+2)$.  This gives the claimed estimate.
+\end{proof}
+
+\begin{principle}[Uniformity is the analytic load]
+\label{prin:rh-pw-uniformity-is-analytic-load}
+\autoref{lem:rh-dyadic-zero-tail-estimate} shows that rapid vertical
+decay controls the zero tail once the relevant constants are uniform
+along the finite interpolation rows.  The non-formal analytic issue is
+therefore not finite interpolation itself, but the selection of the
+finite interpolation solution with Sobolev or Paley--Wiener constants
+that remain controlled as the centered window expands.
+\end{principle}
+
+\begin{theorem}[Uniform tail row gives PWZeroPairTailControl]
+\label{thm:rh-uniform-tail-row-gives-pw-zero-pair-tail-control}
+If $\mathsf{UniformPWInterpolationTailControl}$ holds, then
+$\mathsf{PWZeroPairTailControl}$ holds.
+\end{theorem}
+
+\begin{proof}
+Apply
+\autoref{def:rh-uniform-pw-interpolation-tail-control} with
+$$
+\varepsilon=\frac12.
+$$
+The resulting row has
+$$
+\widehat g_T(\rho_+)=1,
+\qquad
+\widehat g_T(\rho_-)=-1,
+$$
+and its complement outside the centered window has mirror contribution
+of absolute value less than $1/2$.  The punctured window contributes
+zero by
+\autoref{thm:rh-finite-window-mirror-negative-interpolation}.  Hence the
+same row satisfies the definition of
+$\mathsf{PWZeroPairTailControl}$ in
+\autoref{def:rh-pw-zero-pair-tail-control}.
+\end{proof}
+
+\begin{corollary}[Uniform tail row gives a negative zero-side Weil readout]
+\label{cor:rh-uniform-tail-row-negative-zero-side-weil-readout}
+If $\mathsf{UniformPWInterpolationTailControl}$ holds and an
+off-critical mirror pair exists, then there is an admissible compact row
+$g$ such that
+$$
+\mathcal W_Z(g)<0.
+$$
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:rh-uniform-tail-row-gives-pw-zero-pair-tail-control},
+$\mathsf{PWZeroPairTailControl}$ holds.  Then
+\autoref{thm:rh-tail-controlled-mirror-pair-negative-zero-side-readout}
+gives
+$$
+\mathcal W_Z(g)<-\frac32<0.
+$$
+\end{proof}
+
+\begin{principle}[Zero-side boundary of the negative-Weil route]
+\label{prin:rh-zero-side-boundary-negative-weil-route}
+The zero-side part of the negative-Weil route is reduced to a single
+uniform Paley--Wiener selection problem:
+$$
+\mathsf{UniformPWInterpolationTailControl}
+\Longrightarrow
+\mathsf{PWZeroPairTailControl}
+\Longrightarrow
+\exists g,\ \mathcal W_Z(g)<0.
+$$
+No archimedean, trivial-zero, pole, or prime-side correction row is used
+in this implication.  Those rows enter only in the independent
+$\mathsf{ArchIndependence}$ surface of
+\autoref{def:rh-arch-independence}.
+\end{principle}

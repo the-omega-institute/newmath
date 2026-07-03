@@ -1,0 +1,515 @@
+\chapter{Smooth Prime Classifier Tower}
+\label{ch:visions-rh-smooth-prime-classifier-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fiber-zoom-renormalization-tower}
+supplies analytic prime-shift towers, and
+\autoref{ch:visions-rh-prime-shift-analytic-compatibility} separates
+discrete address streams from smooth holomorphic readouts.  The present
+chapter records the classifier side of the same interface.  A prime
+shift that has become analytic must still remain visible to recursive
+prime classifiers; otherwise a positive-real radial coordinate could be
+mistaken for a harmless phase, carry, or branch effect.  The role of the
+tower below is to make that mistake impossible at the finite classifier
+surface.
+
+\section{Classifier Tower Surface}
+\label{sec:rh-smooth-prime-classifier-tower-surface}
+
+\begin{definition}[SmoothPrimeClassifierTower]
+\label{def:rh-smooth-prime-classifier-tower}
+A smooth prime classifier tower is a prime-fiber tower satisfying
+$\mathsf{PrimeShiftAnalyticCompatibility}$ together with a sequence of
+classifier packets
+$$
+\mathcal C_0,\mathcal C_1,\mathcal C_2,\ldots
+$$
+where
+$$
+\mathcal C_m=(\Pi_m,\partial_m,U_m,\Lambda_m).
+$$
+Here $\Pi_m$ is the displayed prime-atom surface at level $m$,
+$\partial_m$ is the triangle-boundary or obstruction readout, $U_m$ is
+the unit-circle phase resource available at that level, and
+$\Lambda_m$ is the ledger row transporting residuals from level $m$ to
+level $m+1$.  The transition
+$$
+\mathcal C_m\to\mathcal C_{m+1}
+$$
+is admitted only when it is sourced by a displayed obstruction or by a
+displayed refinement of the prime-register carrier.
+\end{definition}
+
+\begin{definition}[Classifier readout of a packet]
+\label{def:rh-smooth-prime-classifier-readout}
+For an admitted PFZ packet $X$, the level-$m$ classifier readout is the
+finite register expression
+$$
+\nu_m(X)=\sum_{\pi\in\Pi_m}v_{\pi}(X)e_{\pi}
+$$
+together with the boundary row
+$$
+\partial_m(X).
+$$
+The packet is level-$m$ triangle-closed exactly when
+$$
+\partial_m(X)=0
+$$
+and every residual exposed by $\nu_m(X)$ is either a unit-circle phase
+row in $U_m$ or a ledgered residual in $\Lambda_m$.
+\end{definition}
+
+\begin{principle}[Classifiers refine only visible residues]
+\label{prin:rh-smooth-prime-classifiers-refine-visible-residues}
+The passage from $\mathcal C_m$ to $\mathcal C_{m+1}$ is not a free
+increase of resolution.  It is licensed by a residue already visible at
+level $m$: a nonzero triangle boundary, a prime-register ambiguity, a
+character residual, a branch ledger row, or a scale row that has failed
+to be a unit phase.  Thus recursive classification remains a ledger
+operation rather than a hidden appeal to an external arithmetic oracle.
+\end{principle}
+
+\section{Finite Classifier Separation}
+\label{sec:rh-smooth-prime-finite-classifier-separation}
+
+\begin{definition}[Finite prime-register residual]
+\label{def:rh-finite-prime-register-residual}
+A finite prime-register residual is a non-identity element $R$ in a
+finite abelian quotient $G_m$ of the level-$m$ prime-register surface.
+It is classifier-visible when some displayed character
+$$
+\chi:G_m\to S^1
+$$
+satisfies
+$$
+\chi(R)\ne1.
+$$
+\end{definition}
+
+\begin{theorem}[Finite character separation]
+\label{thm:rh-finite-character-separation}
+Let $G$ be a finite abelian group.  If $g\ne e$, then there is a
+character
+$$
+\chi:G\to S^1
+$$
+with
+$$
+\chi(g)\ne1.
+$$
+\end{theorem}
+
+\begin{proof}
+Write $G$ as a finite product of cyclic groups.  Since $g\ne e$, at
+least one cyclic coordinate is nonzero.  The standard root-of-unity
+character on that cyclic factor is nontrivial on the chosen coordinate,
+and extending it trivially across the other factors gives the required
+character of $G$.
+\end{proof}
+
+\begin{corollary}[Finite residuals cannot be hidden from classifiers]
+\label{cor:rh-finite-residuals-cannot-hide-from-classifiers}
+Every nonzero finite prime-register residual is detected by a finite
+character classifier.
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:rh-finite-character-separation} to the finite
+abelian quotient carrying the residual.
+\end{proof}
+
+\section{Cofinal Detection}
+\label{sec:rh-smooth-prime-cofinal-detection}
+
+\begin{definition}[Cofinal prime classifier tower]
+\label{def:rh-cofinal-prime-classifier-tower}
+A smooth prime classifier tower is cofinal when its finite quotients form
+a Hausdorff profinite classifier system
+$$
+G=\varprojlim_m G_m
+$$
+and every non-identity residual in $G$ has non-identity image in at least
+one finite quotient $G_m$.
+\end{definition}
+
+\begin{theorem}[Profinite residual separation]
+\label{thm:rh-profinite-residual-separation}
+Let $G=\varprojlim_m G_m$ be a Hausdorff profinite group.  If $g\ne e$ in
+$G$, then there is a finite quotient $G_m$ whose image $g_m$ satisfies
+$$
+g_m\ne e.
+$$
+\end{theorem}
+
+\begin{proof}
+Since $G$ is Hausdorff, there is an open neighbourhood of $e$ not
+containing $g$.  The open normal subgroups form a neighbourhood basis at
+$e$, so some open normal subgroup $N$ excludes $g$.  The quotient $G/N$
+is finite, and the image of $g$ in $G/N$ is not the identity.
+\end{proof}
+
+\begin{definition}[CofinalPrimeClassifierDetectsScale]
+\label{def:rh-cofinal-prime-classifier-detects-scale}
+The obligation
+$$
+\mathsf{CofinalPrimeClassifierDetectsScale}
+$$
+asserts that every nonzero radial-scale residual of an admitted
+zeta-facing PFZ packet is represented as a non-identity residual in the
+cofinal classifier system.  Equivalently, for every centered zero packet
+with
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta},
+$$
+the case $\ell\ne0$ supplies a residual whose image is detected by some
+finite classifier level:
+$$
+\ell\ne0
+\quad\Longrightarrow\quad
+\exists m,\ \partial_m(\ell)\ne0
+\quad\text{or}\quad
+\exists m,\ \chi_m(\ell_m)\ne1.
+$$
+\end{definition}
+
+\begin{theorem}[Cofinal classifiers detect nonzero residuals]
+\label{thm:rh-cofinal-classifiers-detect-nonzero-residuals}
+In a cofinal prime classifier tower, every non-identity residual is
+detected by a finite classifier level.
+\end{theorem}
+
+\begin{proof}
+Let $R$ be a non-identity residual in the profinite classifier system.
+By \autoref{thm:rh-profinite-residual-separation}, its image $R_m$ is
+non-identity in some finite quotient $G_m$.  By
+\autoref{thm:rh-finite-character-separation}, a finite character on
+$G_m$ separates $R_m$ from the identity.  This character is a finite
+classifier readout, so the residual is visible at level $m$.
+\end{proof}
+
+\section{Radial-Scale Refusal}
+\label{sec:rh-smooth-prime-radial-scale-refusal}
+
+\begin{theorem}[Smooth prime classifier tower excludes hidden radial scale]
+\label{thm:rh-smooth-prime-classifier-tower-excludes-hidden-radial-scale}
+Assume a zeta-facing PFZ packet carries the NameCert admission row of
+\autoref{def:rh-zeta-pfz-namecert-admission}, the analytic compatibility
+row of \autoref{def:rh-prime-shift-analytic-compatibility}, and a
+cofinal smooth prime classifier tower satisfying
+\autoref{def:rh-cofinal-prime-classifier-detects-scale}.  Then a
+nonzero radial coordinate cannot be consumed as a legal closed
+unit-phase readout.
+\end{theorem}
+
+\begin{proof}
+Let the centered zero packet have
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}.
+$$
+The analytic compatibility row separates character flow from
+positive-real scale.  Hence $\theta$ may enter the unit-circle phase
+resource, while $\ell\ne0$ is a radial-scale residual.  By
+\autoref{def:rh-cofinal-prime-classifier-detects-scale}, this residual
+has a nonzero finite classifier image.  By
+\autoref{thm:rh-cofinal-classifiers-detect-nonzero-residuals}, some
+finite classifier detects it.  The detected residual is either recorded
+in the ledger, in which case it is not a closed unit-phase readout, or
+it is absent from the ledger, in which case the PFZ NameCert admission
+row is not satisfied.  In neither case can $\ell\ne0$ be consumed as
+legal closed phase.
+\end{proof}
+
+\begin{corollary}[Classifier-tower input for fixed-half readout]
+\label{cor:rh-classifier-tower-input-for-fixed-half-readout}
+Assume the zeta PFZ admission row, the NameCert-level radial refusal,
+prime-shift analytic compatibility, and
+$\mathsf{CofinalPrimeClassifierDetectsScale}$.  Then every admitted
+completed zero packet supplies the classifier-tower input needed by the
+PFZ fixed-half readout route.
+\end{corollary}
+
+\begin{proof}
+The zeta PFZ admission row places the zero packet in the named PFZ
+surface.  NameCert-level radial refusal identifies a nonzero $\ell$ as
+scale data or as an unadmitted residual.  Prime-shift analytic
+compatibility prevents that scale data from being absorbed into the
+character-flow row.  The cofinal classifier obligation then detects any
+remaining nonzero scale residual at a finite classifier level.  This is
+exactly the radial-obstruction input consumed by
+\autoref{thm:rh-pfz-namecert-package-gives-radial-obstruction-input}.
+\end{proof}
+
+\section{Scale Faithfulness Boundary}
+\label{sec:rh-smooth-prime-scale-faithfulness-boundary}
+
+\begin{definition}[Radial classifier footprint]
+\label{def:rh-radial-classifier-footprint}
+Let $X$ be an admitted zeta-facing PFZ packet with centered exponential
+readout
+$$
+\operatorname{ExpRead}(X)=e^{\ell(X)+i\theta(X)}.
+$$
+A radial classifier footprint for $X$ is a map
+$$
+\kappa_X:\ell(X)\longmapsto R_{\infty}(\ell(X))\in G
+$$
+into the profinite classifier system of
+\autoref{def:rh-cofinal-prime-classifier-tower}, together with finite
+images
+$$
+R_m(\ell(X))\in G_m
+$$
+compatible with the transition maps of the tower.  The footprint records
+where the positive-real scale coordinate is read by the prime-register
+classification surface; it is not a phase projection and not a
+Zeckendorf carry.
+\end{definition}
+
+\begin{definition}[ScaleToPrimeClassifierFaithfulness]
+\label{def:rh-scale-to-prime-classifier-faithfulness}
+The obligation
+$$
+\mathsf{ScaleToPrimeClassifierFaithfulness}
+$$
+asserts that every admitted zeta-facing radial classifier footprint is
+faithful on nonzero scale:
+$$
+\ell(X)\ne0
+\quad\Longrightarrow\quad
+R_{\infty}(\ell(X))\ne e_G.
+$$
+It is the arithmetic bridge from a positive-real zero-packet coordinate
+to the cofinal prime-classifier tower.  The profinite detection theorems
+do not create this bridge; they consume it.
+\end{definition}
+
+\begin{theorem}[Scale faithfulness gives finite classifier detection]
+\label{thm:rh-scale-faithfulness-gives-finite-classifier-detection}
+Assume $X$ carries a radial classifier footprint in a cofinal prime
+classifier tower, and assume
+$\mathsf{ScaleToPrimeClassifierFaithfulness}$ for that footprint.  If
+$$
+\ell(X)\ne0,
+$$
+then there are a finite level $m$ and a character
+$$
+\chi_m:G_m\to S^1
+$$
+such that
+$$
+\chi_m(R_m(\ell(X)))\ne1.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-scale-to-prime-classifier-faithfulness},
+$\ell(X)\ne0$ implies
+$$
+R_{\infty}(\ell(X))\ne e_G.
+$$
+The classifier tower is Hausdorff and profinite, so
+\autoref{thm:rh-profinite-residual-separation} gives a finite quotient
+$G_m$ in which
+$$
+R_m(\ell(X))\ne e_{G_m}.
+$$
+Applying \autoref{thm:rh-finite-character-separation} in $G_m$ gives a
+character $\chi_m$ separating this finite image from the identity.
+\end{proof}
+
+\begin{theorem}[Detected radial residual cannot close]
+\label{thm:rh-detected-radial-residual-cannot-close}
+Let $X$ be an admitted PFZ packet.  If some finite classifier detects a
+radial residual,
+$$
+\chi_m(R_m(\ell(X)))\ne1,
+$$
+then $X$ is not a gap-free unit-phase closure.
+\end{theorem}
+
+\begin{proof}
+The displayed inequality is a finite residual row.  If the row is
+entered into the ledger, then the packet still carries scale data and is
+not a unit-phase closure.  If the row is absent from the ledger, then the
+PFZ NameCert admission row is violated, because the radial, phase, gap,
+branch, tail, and tower ledgers of
+\autoref{def:rh-zeta-pfz-namecert-admission} must account for such a
+consumer-facing residual.  Thus the packet cannot be a gap-free
+unit-phase closure.
+\end{proof}
+
+\begin{corollary}[Scale faithfulness supplies cofinal scale detection]
+\label{cor:rh-scale-faithfulness-supplies-cofinal-scale-detection}
+For any admitted zeta-facing PFZ packet carrying a faithful radial
+classifier footprint, the obligation
+$\mathsf{CofinalPrimeClassifierDetectsScale}$ holds for that packet.
+\end{corollary}
+
+\begin{proof}
+Unfold \autoref{def:rh-cofinal-prime-classifier-detects-scale}.  The
+nonzero radial coordinate becomes a non-identity element of the
+profinite classifier system by
+\autoref{def:rh-scale-to-prime-classifier-faithfulness}.  Finite
+detection then follows from
+\autoref{thm:rh-scale-faithfulness-gives-finite-classifier-detection}.
+\end{proof}
+
+\begin{principle}[Arithmetic content of scale faithfulness]
+\label{prin:rh-scale-faithfulness-arithmetic-content}
+The remaining arithmetic content of
+$\mathsf{ScaleToPrimeClassifierFaithfulness}$ is the assertion that a
+nonzero radial zero-packet coordinate is not external to the prime
+surface.  It must be read through Dirichlet log-height rows such as
+$$
+\log n=\sum_p v_p(n)\log p,
+$$
+through explicit-formula scale terms, or through finite
+character/Frobenius classifiers.  A radial coordinate that affects the
+zero packet but has no prime-classifier footprint is outside the PFZ
+admission surface rather than an undetected legal closure.
+\end{principle}
+
+\section{Explicit-Formula Prime Residuals}
+\label{sec:rh-explicit-formula-prime-residuals}
+
+\begin{definition}[Finite prime residual]
+\label{def:rh-finite-prime-residual}
+A finite prime residual is a finite formal sum
+$$
+R=\sum_{j=1}^{N}c_j[q_j],
+$$
+where $c_j\in\ComplexUp$, $q_j\in\NatUp$ with $q_j\ge2$, and the
+$q_j$ are pairwise distinct.  It is nonzero when at least one displayed
+coefficient $c_j$ is nonzero.  The labels $q_j$ may be primes or prime
+powers, matching the prime-power support of the explicit formula.
+\end{definition}
+
+\begin{definition}[Finite Dirichlet classifier readout]
+\label{def:rh-finite-dirichlet-classifier-readout}
+Let $R=\sum_{j=1}^{N}c_j[q_j]$ be a finite prime residual.  For a modulus
+$M$ with $\gcd(q_j,M)=1$ for all $j$, a finite Dirichlet classifier is a
+character
+$$
+\chi:(\mathbb Z/M\mathbb Z)^{\times}\to S^1.
+$$
+Its readout on $R$ is
+$$
+\chi(R):=\sum_{j=1}^{N}c_j\chi(q_j).
+$$
+\end{definition}
+
+\begin{theorem}[Finite Dirichlet classifiers separate finite residuals]
+\label{thm:rh-finite-dirichlet-classifiers-separate-residuals}
+If $R=\sum_{j=1}^{N}c_j[q_j]$ is a nonzero finite prime residual, then
+there are a modulus $M$ and a Dirichlet character $\chi$ modulo $M$ such
+that
+$$
+\chi(R)\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+Choose a prime modulus $M$ that divides none of the finitely many
+integers $q_j$ and none of the nonzero differences $q_i-q_j$.  Then the
+classes of the $q_j$ are pairwise distinct units in
+$$
+G=(\mathbb Z/M\mathbb Z)^{\times}.
+$$
+If every character $\chi:G\to S^1$ had
+$$
+\sum_{j=1}^{N}c_j\chi(q_j)=0,
+$$
+then character orthogonality on the finite abelian group $G$ would imply
+that the coefficient sum on each residue class is zero.  Since the
+classes of the $q_j$ are pairwise distinct, each $c_j$ would be zero,
+contradicting that $R$ is nonzero.  Hence some Dirichlet character has
+nonzero readout on $R$.
+\end{proof}
+
+\begin{definition}[ExplicitFormulaScaleResidual]
+\label{def:rh-explicit-formula-scale-residual}
+The obligation
+$$
+\mathsf{ExplicitFormulaScaleResidual}
+$$
+asserts the following explicit-formula bridge.  If a completed zeta zero
+packet contains an off-critical-line coordinate
+$$
+\rho_0=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+then there is an admissible test row $\varphi$ whose explicit-formula
+readout has nonzero prime side after the archimedean and trivial-zero
+correction rows are accounted for:
+$$
+\operatorname{PrimeSide}(\varphi)\ne0.
+$$
+Equivalently, the zero-side radial residual is not confined to the
+zero ledger; it has a prime-side ledger footprint.
+\end{definition}
+
+\begin{definition}[Finite explicit-formula prime window]
+\label{def:rh-finite-explicit-formula-prime-window}
+For an admissible test row $\varphi$, a finite explicit-formula prime
+window is a finite set $S$ of prime powers together with the residual
+$$
+R_S(\varphi):=\sum_{q\in S}c_q(\varphi)[q],
+$$
+where $c_q(\varphi)$ is the displayed prime-side coefficient attached to
+$q$.  The window is nonzero when $R_S(\varphi)$ is a nonzero finite prime
+residual in the sense of \autoref{def:rh-finite-prime-residual}.
+\end{definition}
+
+\begin{principle}[Nonzero prime side has a finite window]
+\label{prin:rh-nonzero-prime-side-has-finite-window}
+If $\operatorname{PrimeSide}(\varphi)\ne0$ and the prime-side sum is
+read through an absolutely convergent, unconditional, or explicitly
+regularized finite-window ledger, then some finite explicit-formula
+prime window is nonzero.  Otherwise every finite window would have zero
+residual, and the displayed convergence or regularization ledger would
+force the whole prime-side readout to be zero.
+\end{principle}
+
+\begin{theorem}[Explicit-formula residuals give finite classifier detection]
+\label{thm:rh-explicit-formula-residuals-give-finite-classifier-detection}
+Assume $\mathsf{ExplicitFormulaScaleResidual}$ and the finite-window
+ledger of \autoref{prin:rh-nonzero-prime-side-has-finite-window}.  If a
+completed zeta zero packet has $\ell(\rho_0)\ne0$, then there is a finite
+prime residual $R_S(\varphi)$ and a finite Dirichlet classifier $\chi$
+such that
+$$
+\chi(R_S(\varphi))\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-explicit-formula-scale-residual}, the nonzero radial
+coordinate supplies an admissible test row $\varphi$ with
+$$
+\operatorname{PrimeSide}(\varphi)\ne0.
+$$
+The finite-window ledger gives a finite set $S$ for which
+$$
+R_S(\varphi)\ne0.
+$$
+Applying
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals} to this
+finite residual gives a modulus and a Dirichlet character with nonzero
+readout.
+\end{proof}
+
+\begin{corollary}[Explicit formula supplies scale-to-classifier faithfulness]
+\label{cor:rh-explicit-formula-supplies-scale-to-classifier-faithfulness}
+For a zeta-facing PFZ packet satisfying the explicit-formula residual
+obligation and the finite-window ledger, every nonzero radial coordinate
+has a finite prime-classifier footprint.
+\end{corollary}
+
+\begin{proof}
+The finite classifier footprint is the nonzero Dirichlet readout supplied
+by
+\autoref{thm:rh-explicit-formula-residuals-give-finite-classifier-detection}.
+It is finite, prime-side, and classifier-visible.  Therefore the radial
+coordinate is not invisible to the prime classifier tower.
+\end{proof}
