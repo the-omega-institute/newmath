@@ -87,6 +87,7 @@ The beta-chain theorem fixes the one-step and finite-chain rows as closedness-pr
 
 Any downstream use that needs typing, conversion, confluence, normalization, or bridge data must cite a separate packet for that data. The $\MetaCICClosurePreservationUp$ ledger contributes the closedness-preservation side and no additional coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_ledger\_exactness}
 
 \begin{theorem}[MetaCIC ClosurePreservation generator-substitution induction]
 \label{thm:metacic-closure-preservation-generator-substitution-induction}
@@ -101,6 +102,35 @@ For the base chain, use $A$ to read the substitution audit, $C$ to keep the clos
 For a successor chain, append one beta step by reusing the previous finite read and composing it with the beta-substitution row $B$. The carrier records this as closedness preservation under \texttt{ClosedAt}; it does not add a typing or conversion row.
 
 The final consumer boundary is then constrained by \autoref{thm:metacic-closure-preservation-beta-chain-nonescape} and \autoref{thm:metacic-closure-preservation-ledger-exactness}. These theorems keep the exported surface at closedness preservation and force any typing, confluence, normalization, or consistency claim to come from a separate packet.
+\end{proof}
+
+\begin{theorem}[Substitution and beta-chain exposure]
+\label{thm:metacic-closure-preservation-substitution-beta-chain-exposure}
+Every beta-chain preservation consumer of an accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N)
+$$
+must expose the shift row $S$, variable-substitution row $V$, and full-substitution row $U$ through the substitution audit row $A$ and generator-classifier row $G$ before it reads the one-step beta row $B$ or finite beta-chain row $F$. The resulting route exports preservation of \texttt{ClosedAt} only, with no typing preservation, conversion soundness, confluence, normalization, or kernel-consistency row.
+\end{theorem}
+\begin{proof}
+Begin with the shift and substitution classifier handoff,
+\autoref{thm:metacic-closure-preservation-shift-substitution-classifier}. It
+places $S,V,U$ behind the audit row $A$ and the generator-classifier row $G$,
+so no beta-chain consumer can treat the substitution rows as an unrestricted
+calculus.
+
+Next apply beta-chain non-escape,
+\autoref{thm:metacic-closure-preservation-beta-chain-nonescape}. It identifies
+$B$ and $F$ as closedness-preservation rows under \texttt{ClosedAt} and excludes
+typing preservation, confluence, normalization, and consistency from the
+exported beta-chain surface.
+
+Finally use generator-substitution induction,
+\autoref{thm:metacic-closure-preservation-generator-substitution-induction}.
+The induction reads the displayed rows $A,C,G,B,R$ before the finite chain is
+consumed, and it composes only the same closedness-preservation route. Hence
+the combined exposure order is $S,V,U$ through $A,G$ before $B,F$, and the
+public output remains ClosedAt preservation only.
 \end{proof}
 
 \closureat{MetaCICClosurePreservationUp}{seedStr}
