@@ -1,4 +1,4 @@
-import BEDC.Derived.ObservationTimeOrderUp.TasteGate
+import BEDC.Derived.ObservationTimeOrderUp.NameCertObligations
 
 namespace BEDC.Derived.ObservationTimeOrderUp
 
@@ -71,5 +71,49 @@ theorem ObservationTimeOrderHistTimeStreamDependency
         exact ⟨source.right, retainedRoute⟩
     }
   exact ⟨cert, retainedUnary⟩
+
+theorem ObservationTimeOrderHistTimeStream_field_package_consumer
+    {O0 O1 R C G H P N retainedRead : BHist} :
+    UnaryHistory O0 ->
+      UnaryHistory O1 ->
+        Cont O0 O1 retainedRead ->
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨
+                  hsame row G ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+              (fun row : BHist =>
+                hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨
+                  hsame row G ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+              (fun row : BHist =>
+                hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨
+                  hsame row G ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+              hsame ∧
+            SemanticNameCert
+                (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row O0 ∨ hsame row O1 ∨ hsame row R ∨ hsame row C ∨
+                    hsame row G ∨ hsame row H ∨ hsame row P ∨ hsame row N ∨
+                      hsame row retainedRead)
+                (fun row : BHist => UnaryHistory row ∧ Cont O0 O1 retainedRead)
+                hsame ∧
+              UnaryHistory retainedRead := by
+  intro unaryO0 unaryO1 retainedRoute
+  have fieldPackage :=
+    observation_time_order_name_cert_obligations_field_package O0 O1 R C G H P N
+  have retainedPackage :=
+    ObservationTimeOrderHistTimeStreamDependency
+      (O0 := O0)
+      (O1 := O1)
+      (R := R)
+      (C := C)
+      (G := G)
+      (H := H)
+      (P := P)
+      (N := N)
+      (retainedRead := retainedRead)
+      unaryO0
+      unaryO1
+      retainedRoute
+  exact ⟨fieldPackage.left, retainedPackage.left, retainedPackage.right⟩
 
 end BEDC.Derived.ObservationTimeOrderUp
