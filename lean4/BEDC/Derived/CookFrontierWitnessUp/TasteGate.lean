@@ -225,4 +225,25 @@ theorem CookFrontierWitnessTasteGate_single_carrier_alignment :
         exact cookFrontierWitnessToEventFlow_injective heq
       · rfl
 
+theorem CookFrontierWitness_replay_audit_route_determinacy
+    {x y : CookFrontierWitnessUp} {u u' : BHist}
+    (sameFields : cookFrontierWitnessFields x = cookFrontierWitnessFields y)
+    (readX :
+      ∃ F M Y R T A O H C P N : BHist,
+        x = CookFrontierWitnessUp.mk F M Y R T A O H C P N ∧ hsame u F)
+    (readY :
+      ∃ F M Y R T A O H C P N : BHist,
+        y = CookFrontierWitnessUp.mk F M Y R T A O H C P N ∧ hsame u' F) :
+    hsame u u' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  obtain ⟨F, M, Y, R, T, A, O, H, C, P, N, hx, huF⟩ := readX
+  obtain ⟨F', M', Y', R', T', A', O', H', C', P', N', hy, huF'⟩ := readY
+  cases hx
+  cases hy
+  change
+    [F, M, Y, R, T, A, O, H, C, P, N] =
+      [F', M', Y', R', T', A', O', H', C', P', N'] at sameFields
+  injection sameFields with hF _tail
+  exact hsame_trans huF (hsame_trans hF (hsame_symm huF'))
+
 end BEDC.Derived.CookFrontierWitnessUp
