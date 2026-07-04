@@ -121,6 +121,24 @@ For replay steps, apply finite route induction from \autoref{thm:metacic-conflue
 Finally use the sibling-lattice provenance of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice}. The row $L$ keeps the route inside the audit, obstruction, and axis-carry comparison surface, so the replay remains an obstruction-preserving conditional witness and not any refused global confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness local diamond boundary]
+\label{thm:metacic-confluence-audit-witness-local-diamond-boundary}
+Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Any displayed local diamond read from $W$ factors through the route
+$$
+P \longrightarrow S \longrightarrow D \longrightarrow C
+$$
+and keeps the obstruction row $O$ visible. The read may compare the audit-map route, the subject-reduction obstruction route, and the axis-carry confluence sibling route only through the provenance row $L$ and the structural rows $H,R$; it does not discharge substitution compatibility, closed Church--Rosser, quotient equality of reductions, evaluator equality, or unconditional confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-witness-carrier}. A local diamond read can see only the route rows $P,S,D,C$, the obstruction row $O$, the transport row $H$, the replay row $R$, the sibling provenance row $L$, and the local naming row $N$.
+
+Use the conditional boundary theorem \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}. It fixes the route order $P \to S \to D \to C$, so a displayed local diamond cannot be read before the substitution-compatibility boundary $S$ and cannot bypass the conditional handoff $D$.
+
+Apply obstruction preservation from \autoref{thm:metacic-confluence-audit-witness-obstruction-preservation}. The row $O$ remains visible throughout finite replay, so the same packet continues to record the missing substitution and global confluence endpoints.
+
+Finally use the sibling lattice of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice}. The provenance row $L$ is the only comparison surface joining the audit map, the subject-reduction obstruction sibling, and the axis-carry confluence sibling; hence the local diamond read is a boundary witness inside $L,H,R,N$, not a proof of any refused MetaCIC theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit witness obstruction induction]
 \label{thm:metacic-confluence-audit-witness-obstruction-induction}
 Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Induction on any finite replay list displayed by $R$ preserves both the route order
