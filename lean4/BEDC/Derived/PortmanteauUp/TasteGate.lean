@@ -202,4 +202,23 @@ theorem PortmanteauCarrier_namecert_obligations
           · exact cont_intro rfl
           · exact cont_intro rfl
 
+theorem PortmanteauCarrier_continuousmap_forward_link
+    (P D M T B R A E H C Q N probeRead realRead : BHist) :
+    portmanteauRows (PortmanteauUp.mk P D M T B R A E H C Q N) =
+        [P, D, M, T, B, R, A, E, H, C, Q, N] ->
+      Cont B R probeRead ->
+        Cont probeRead E realRead ->
+          hsame probeRead probeRead ∧ hsame realRead realRead ∧
+            Cont B R probeRead ∧ Cont probeRead E realRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PortmanteauUp
+  intro rows boundedContinuousRoute realComparisonRoute
+  have displayedRows :
+      portmanteauRows (PortmanteauUp.mk P D M T B R A E H C Q N) =
+        [P, D, M, T, B, R, A, E, H, C, Q, N] :=
+    rows
+  cases displayedRows
+  exact
+    ⟨hsame_refl probeRead, hsame_refl realRead, boundedContinuousRoute,
+      realComparisonRoute⟩
+
 end BEDC.Derived.PortmanteauUp

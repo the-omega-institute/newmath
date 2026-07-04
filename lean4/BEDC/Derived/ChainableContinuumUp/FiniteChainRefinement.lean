@@ -38,4 +38,26 @@ theorem ChainableContinuumCarrier_finite_chain_refinement [AskSetup] [PackageSet
     unary_cont_closed unaryL unaryM meshRoute
   exact ⟨chainUnary, meshUnary, chainRoute, meshRoute, pkgN, rfl⟩
 
+theorem ChainableContinuumCarrier_nonescape [AskSetup] [PackageSetup]
+    {K C L M T R H P N exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory K ->
+      UnaryHistory C ->
+        UnaryHistory L ->
+          UnaryHistory M ->
+            UnaryHistory T ->
+              UnaryHistory R ->
+                UnaryHistory H ->
+                  PkgSig bundle P pkg ->
+                    PkgSig bundle N pkg ->
+                      Cont L M exported ->
+                        UnaryHistory exported ∧ hsame exported exported ∧
+                          Cont L M exported ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro _unaryK _unaryC unaryL unaryM _unaryT _unaryR _unaryH pkgP pkgN exportedRoute
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed unaryL unaryM exportedRoute
+  exact ⟨exportedUnary, hsame_refl exported, exportedRoute, pkgP, pkgN⟩
+
 end BEDC.Derived.ChainableContinuumUp
