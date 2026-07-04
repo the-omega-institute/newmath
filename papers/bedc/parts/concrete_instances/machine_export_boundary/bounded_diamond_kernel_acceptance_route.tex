@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary forward interface]
+\label{thm:machine-export-boundary-forward-interface}
+Every $\MachineExportBoundaryUp$ export consumed by $\MetaCICBoundedDiamondWindowUp$ first exposes $\MachineInterfaceBoundaryUp$, $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, and $\KernelAcceptanceBoundaryUp$ rows. For an accepted export packet $E=(R,T,A,F,H,C,P,N)$, the bounded-diamond consumer may read the target row only after registry status, machine-interface exposure, audit readback, kernel acceptance, refusal preservation, componentwise transport, displayed replay, provenance, and the local $\NameCert$ row remain visible in the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the kernel-acceptance handoff of \autoref{thm:machine-export-boundary-kernel-acceptance-handoff}. It forces any theorem-bearing machine target through $\KernelAcceptanceBoundaryUp$ before the target row is public.
+
+Use the orphan interface route \autoref{thm:machine-export-boundary-orphan-interface-route}. It keeps $\MachineInterfaceBoundaryUp$, $\RegistryExportSurfaceUp$, and $\MachineReadableAuditInterfaceUp$ visible as the export packet moves toward bounded-diamond consumption.
+
+Finally apply the standard bridge route \autoref{thm:machine-export-boundary-standard-bridge-route}. The bridge-facing consumer reads only the already displayed packet rows, so a $\MetaCICBoundedDiamondWindowUp$ read cannot bypass interface exposure, registry status, audit readback, kernel acceptance, transport, replay, provenance, or local naming.
+\end{proof}
