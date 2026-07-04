@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-04T02:42:30Z
+> 最后刷新: 2026-07-04T04:01:00Z
 
-**Daemon 状态**: monitor (monitor cycle 285, adjust_since_research 2, round_counter 37393, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 286, adjust_since_research 2, round_counter 37427, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1310 条 finding):
-- isolated_theorem: 937 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1318 条 finding):
+- isolated_theorem: 945 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 67 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 57 次
+- TASTE ALERT category=isolated_theorem: 49 次
 - TASTE ALERT category=unauthorized_capstone: 4 次
 - TASTE ALERT category=low_entropy_template: 2 次
 
@@ -563,6 +563,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T01:31:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosedSetUp.TasteGate.ClosedSetCarrier_metric_complement_boundary` (flag `isolated_theorem`, finding `isolated_theorem:closedset:BEDC.Derived.ClosedSetUp.TasteGate.ClosedSetCarrier_metric_complement_boundary:93eae5d0`). Rationale: The target is not a trivial wrapper: it builds the closed-set metric-complement SemanticNameCert and exports the boundary unary/Cont route. Grep showed no downstream Lean user before this change, while the compact-image-closed chapter is an explicit closed-boundary consumer. I added a CompactImageClosedUp theorem that calls the target and carries its closed-boundary certificate into a compact-image boundary handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-04T02:41:59Z: `resolved` `add_downstream_user` for `BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier_sign_variation_scope` (flag `isolated_theorem`, finding `isolated_theorem:sturmrootisolation:BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier_sign_variation_scope:b17979c5`). Rationale: The theorem has meaningful BEDC content: it establishes the scoped P-V-B sign-variation branch route, preserves UnaryHistory through the two Cont edges, carries the branch PkgSig, and proves the V row is present in the SturmRootIsolation event flow. Exact-name repo search found no Lean consumer before this change, while the paper marker is the canonical verification site. I added a sibling downstream theorem in ScopedKernelBinding.lean that uses this scope theorem together with the scoped interval/Real-seal route to bind sign-variation scope into a real-seal consumer surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-04T04:00:33Z: `resolved` `delete_theorem` for `BEDC.Derived.HostDelegationSocketUp.HostDelegationSocket_primitive_scope_binding` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.HostDelegationSocketUp.HostDelegationSocket_primitive_scope_binding:ee3e7c4b`). Rationale: The theorem only repackaged existing HostDelegationSocketCarrier fields plus caller-supplied Cont and PkgSig premises into a conjunction, while the substantive primitive-scope paper claim is already covered by HostDelegationSocketPrimitiveScopeBinding. Repository search found no Lean consumers of this target, and the only removable reference was the paper leanchecked marker, so deleting the isolated theorem removes staging noise without losing BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
