@@ -156,6 +156,18 @@ For the successor step, assume the prefix replay preserves the route order and o
 The sibling lattice of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} keeps each replayed segment inside the audit-map, obstruction, and axis-carry surface. Thus neither a prefix nor a suffix replay can export a hidden substitution lemma, closed Church--Rosser theorem, quotient equality, evaluator equality, or unconditional confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness substitution-boundary factorization]
+\label{thm:metacic-confluence-audit-witness-substitution-boundary-factorization}
+Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Any displayed read of the diamond handoff row $D$ or the closed-star confluence handoff row $C$ factors through the substitution-compatibility boundary $S$ and keeps the obstruction row $O$ visible. Hence no consumer may cite $D$ or $C$ as an unconditional diamond row, an unconditional confluence row, a full closed Church--Rosser theorem, a quotient equality of reductions, or an evaluator equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-witness-carrier}. The displayed route rows occur in the order fixed by \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}, so $D$ is reachable only after $S$, and $C$ is reachable only after $D$.
+
+For finite replay, apply \autoref{thm:metacic-confluence-audit-witness-finite-route-induction}. Each replayed segment remains inside the route ledger $R$ and preserves the route order $P \to S \to D \to C$.
+
+The obstruction row is preserved by \autoref{thm:metacic-confluence-audit-witness-obstruction-preservation}. Finally \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} keeps the read inside the audit, subject-reduction obstruction, and axis-carry comparison surface, so $D$ and $C$ remain conditional handoff rows rather than global confluence endpoints.
+\end{proof}
+
 \closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
