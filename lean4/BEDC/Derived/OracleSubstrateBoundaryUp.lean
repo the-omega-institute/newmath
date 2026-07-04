@@ -123,4 +123,63 @@ theorem OracleSubstrateBoundaryCarrier_external_channel_nonescape
         ⟨S, Q, E, R, L, H, C, P, N, rfl, hsame_refl Q, hsame_refl E,
           hsame_refl R, rfl⟩
 
+theorem OracleSubstrateBoundary_external_channel_nonescape [AskSetup] [PackageSetup]
+    {substrate query external refusal localRow transport replay provenance nameCert queryBoundary
+      refusalRoute publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory substrate ->
+      UnaryHistory query ->
+        UnaryHistory external ->
+          UnaryHistory refusal ->
+            UnaryHistory localRow ->
+              UnaryHistory transport ->
+                UnaryHistory replay ->
+                  Cont substrate query queryBoundary ->
+                    Cont query external refusalRoute ->
+                      Cont refusal replay provenance ->
+                        PkgSig bundle provenance pkg ->
+                          hsame provenance publicRead ->
+                            hsame publicRead nameCert ->
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row publicRead ∧
+                                    UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row substrate ∨ hsame row query ∨
+                                      hsame row external ∨ hsame row refusal ∨
+                                        hsame row localRow ∨ hsame row queryBoundary ∨
+                                          hsame row refusalRoute ∨ hsame row provenance ∨
+                                            hsame row nameCert)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧
+                                      Cont substrate query queryBoundary ∧
+                                        Cont query external refusalRoute ∧
+                                          Cont refusal replay provenance ∧
+                                            PkgSig bundle provenance pkg)
+                                  hsame ∧
+                                UnaryHistory queryBoundary ∧ UnaryHistory refusalRoute ∧
+                                  UnaryHistory publicRead ∧ UnaryHistory nameCert ∧
+                                    hsame provenance nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro substrateUnary queryUnary externalUnary refusalUnary localUnary transportUnary
+    replayUnary substrateQuery queryExternal refusalReplay provenancePkg provenancePublic
+    publicName
+  have obligations :=
+    OracleSubstrateBoundaryCarrier_namecert_obligations (substrate := substrate)
+      (query := query) (external := external) (refusal := refusal)
+      (localRow := localRow) (transport := transport) (replay := replay)
+      (provenance := provenance) (nameCert := nameCert) (queryBoundary := queryBoundary)
+      (refusalRoute := refusalRoute) (publicRead := publicRead) (bundle := bundle)
+      (pkg := pkg) substrateUnary queryUnary externalUnary refusalUnary localUnary
+      transportUnary replayUnary substrateQuery queryExternal refusalReplay provenancePkg
+      provenancePublic publicName
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed refusalUnary replayUnary refusalReplay
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_transport provenanceUnary provenancePublic
+  have provenanceName : hsame provenance nameCert :=
+    hsame_trans provenancePublic publicName
+  exact
+    ⟨obligations.left, obligations.right.left, obligations.right.right.left,
+      publicReadUnary, obligations.right.right.right, provenanceName⟩
+
 end BEDC.Derived.OracleSubstrateBoundaryUp
