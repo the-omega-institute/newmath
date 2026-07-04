@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\KaroubiEnvelopeUp$}
+\label{ch:concrete-instances-karoubi-envelope-namecert}
+\origin{human}
+
+Following Karoubi's idempotent-completion construction and Mac Lane's categorical treatment of retracts, the $\KaroubiEnvelopeUp$ packet records the finite envelope whose objects are displayed idempotents in a source $\CategoryUp$ certificate. It sits beside the base category surface of \autoref{ch:concrete-instances-category-namecert} and the finite splitting packet of \autoref{ch:concrete-instances-idempotent-completion-splitting-namecert}; the BEDC row names the envelope carrier and its split-idempotent handoff without importing a host category of all retracts, quotient morphism equality, or a selected universal completion.
+
+\begin{definition}[Karoubi envelope carrier]
+\label{def:karoubi-envelope-carrier}
+A $\KaroubiEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,M,E,I,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the source $\CategoryUp$ object ledger.
+\item $M$ is the source $\CategoryUp$ morphism ledger.
+\item $E$ is the finite idempotent-object ledger, whose entries are pairs $(X,e)$ with $X$ read from $O$, $e:X\to X$ read from $M$, and a displayed idempotence row $e^2=e$.
+\item $I$ records the envelope identity rows, each displayed as the idempotent $e$ on the object $(X,e)$.
+\item $S$ records the envelope composition rows, where a morphism $(X,e)\to(Y,f)$ is admitted only after the displayed source morphism $u:X\to Y$ satisfies the two-sided compatibility rows $u=fu=ue$.
+\item $R$ is the split-idempotent handoff row consumed by $\IdempotentCompletionSplittingUp$.
+\item $H$ records componentwise $\hsame$ transport for objects, morphisms, idempotents, identities, compatible composites, handoff rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route from source category rows to idempotent objects, compatible morphisms, composition rows, and splitting handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\KaroubiEnvelopeUp$, $\CategoryUp$, $\IdempotentCompletionSplittingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KaroubiEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,M,E,I,S,R,H,C,P,N$. It has no coordinate for host equality of categories, a quotient of compatible morphisms, a global retract category, selected splittings for every idempotent, or a universal property outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Karoubi envelope NameCert obligations]
+\label{thm:karoubi-envelope-namecert-obligations}
+For every accepted $\KaroubiEnvelopeUp$ carrier $K=(O,M,E,I,S,R,H,C,P,N)$, the local $\NameCert_{\KaroubiEnvelopeUp}$ surface consists exactly of carrier admission for the displayed category rows, idempotent-object ledger, envelope identity rows, compatible-morphism and composition rows, split-idempotent handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from host category equality, quotient morphism equality, unlisted retracts, selected splittings, and an ambient universal Karoubi completion theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:karoubi-envelope-carrier}. The source category data are exactly $O$ and $M$, so every object, morphism, identity, and composite used by the envelope must be read from the displayed $\CategoryUp$ certificate.
+
+The idempotent-object obligations are exhausted by $E$. Each entry displays its source object, endomorphism, and finite idempotence witness. The envelope identity row $I$ is the same displayed idempotent on that object, so no host identity proof is added.
+
+The compatible-morphism and composition obligations are exhausted by $S$. A public morphism in the envelope is admitted only with the two compatibility rows $u=fu=ue$, and a composite is replayed through the displayed source-category composition row together with those compatibility witnesses.
+
+Finally $R,H,C,P,N$ name the split-idempotent handoff, transports, replay, provenance, and local certificate. Since the carrier has no coordinate for host category equality, quotient morphism equality, unlisted retracts, selected splittings, or an ambient universal completion theorem, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Karoubi envelope split-idempotent handoff]
+\label{thm:karoubi-envelope-split-idempotent-handoff}
+Every $\IdempotentCompletionSplittingUp$ consumer of an accepted $\KaroubiEnvelopeUp$ packet must pass through the displayed source $\CategoryUp$ rows $O,M$, the idempotent-object ledger $E$, the envelope identity and compatible-composition rows $I,S$, the handoff row $R$, and the structural rows $H,C,P,N$. The handoff supplies the finite retract surface needed by \autoref{ch:concrete-instances-idempotent-completion-splitting-namecert}, but it supplies no host category of all retracts, no quotient morphism equality, no chosen splitting for every idempotent, and no external universal property.
+\end{theorem}
+\begin{proof}
+Start with a consumer that asks for a split-idempotent row. The carrier first exposes the source $\CategoryUp$ object and morphism ledgers $O,M$, then exposes the idempotent-object ledger $E$ whose entries carry both the endomorphism and its finite idempotence witness.
+
+The envelope identity and composition data are read through $I$ and $S$. These rows keep identity and composition inside the displayed source category and the compatibility equations for envelope morphisms, so a downstream splitting consumer receives a finite retract-compatible route rather than an ambient category object.
+
+The handoff row $R$ is the only row named for $\IdempotentCompletionSplittingUp$. Transport, replay, provenance, and local naming are then restricted to $H,C,P,N$. By the non-escape clauses in \autoref{thm:karoubi-envelope-namecert-obligations}, no quotient morphism equality, global retract collection, selected splitting family, host category equality, or external universal property can be projected from the packet.
+\end{proof}
+
+\falsifiablePrediction{A purported $\KaroubiEnvelopeUp$ consumer is refuted if it reads an envelope object, compatible morphism, composite, or split-idempotent handoff without displaying $O,M,E,I,S,R,H,C,P,N$.}
+
+\independenceWitness{category, idempotent-completion-splitting: neither sibling is bijective to $\KaroubiEnvelopeUp$ because this packet jointly carries source category rows, idempotent-object rows, envelope identity rows, compatible-morphism composition rows, split-idempotent handoff rows, transport, replay, provenance, and local naming.}
+
+\closureat{KaroubiEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\KaroubiEnvelopeUp}
+  \constructivestory{A $\KaroubiEnvelopeUp$ packet is generated from source CategoryUp object and morphism rows, finite idempotent-object rows, envelope identity rows, compatible-morphism composition rows, split-idempotent handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:karoubi-envelope-carrier}, \autoref{thm:karoubi-envelope-namecert-obligations}, and \autoref{thm:karoubi-envelope-split-idempotent-handoff} seed the finite Karoubi envelope packet and its splitting handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host category equality, quotient morphism equality, an ambient retract category, selected splittings for every idempotent, a universal property, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, idempotent-object exposure, compatible-morphism exactness, composition replay, split-idempotent handoff, transport, provenance exhaustion, and local NameCert non-escape.}
+\end{closurestatus}
