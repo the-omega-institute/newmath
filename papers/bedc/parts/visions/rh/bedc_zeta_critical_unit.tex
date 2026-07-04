@@ -1,0 +1,545 @@
+\chapter{Zeta BEDC Critical Unit Bridge}
+\label{ch:visions-rh-bedc-zeta-critical-unit}
+\origin{ai}
+
+This chapter records a conditional ZetaBEDC bridge for the critical-line
+route. It is a faithful bridge and a conditional theorem, not an
+unconditional proof of RH. The single named hinge is
+$$
+\mathsf{CriticalUnitSoundness}.
+$$
+This hinge says that a legally closed zeta-zero residual has unit radial
+modulus exactly when its offset from the critical line is zero. In the
+classical reading this is the RH-strength assertion
+$$
+|\widetilde R_{\rho}(u)|=e^{ru}\equiv 1
+\Longleftrightarrow
+r=0.
+$$
+It is named as an obligation only. No resident of
+$\mathsf{CriticalUnitSoundness}$ or of the total
+$\mathsf{ZetaBEDCClosure}$ package is supplied here.
+
+\section{Euler Core}
+\label{sec:rh-zeta-critical-unit-euler-core}
+
+\begin{definition}[Euler core packet]
+\label{def:rh-zeta-critical-unit-euler-core}
+The Euler core packet is the finite prime-window reading of the Euler
+product in a half-plane where the classical product is available:
+$$
+\zeta(s)=\prod_p (1-p^{-s})^{-1},
+\qquad
+\Re(s)>1.
+$$
+At a finite prime bound $P$ the packet records
+$$
+E_P(s):=\prod_{p\leq P}(1-p^{-s})^{-1}
+$$
+and the logarithmic derivative layer
+$$
+-\frac{E_P'(s)}{E_P(s)}
+=
+\sum_{p\leq P}\sum_{k\geq 1}(\log p)p^{-ks}.
+$$
+This finite packet is a BEDC-addressable prime ledger: every displayed
+prime, exponent, and coefficient is a finite row. The infinite Euler
+product and its analytic continuation are not kernel inputs.
+\end{definition}
+
+\begin{principle}[Classical Euler correspondence]
+\label{prin:rh-zeta-critical-unit-classical-euler}
+The identity between the Euler product and $\zeta(s)$ in $\Re(s)>1$ is
+a classical analytic number theory statement. In this chapter it supplies
+the external correspondence row for the finite Euler core. It is not
+proved inside the BEDC Lean kernel.
+\end{principle}
+
+The bridge role of this core is only address discipline. A zero packet
+cannot be moved by a finite Euler layer unless the finite layer carries a
+visible residual row. The global question is therefore pushed to the tail
+ledger and to the residual normalization in
+\autoref{sec:rh-zeta-critical-unit-zero-residual-functor}.
+
+\section{Eta Bridge}
+\label{sec:rh-zeta-critical-unit-eta-bridge}
+
+\begin{definition}[Eta bridge packet]
+\label{def:rh-zeta-critical-unit-eta-bridge}
+The eta bridge uses the alternating Dirichlet series
+$$
+\eta(s)=\sum_{n\geq 1}(-1)^{n-1}n^{-s}
+$$
+and the classical identity
+$$
+\eta(s)=(1-2^{1-s})\zeta(s).
+$$
+In the BEDC bridge this is not a replacement for the Euler core. It is a
+continuation address: finite alternating prefixes, tail ledgers, and the
+factor $1-2^{1-s}$ determine where a zeta-zero claim is being read.
+\end{definition}
+
+\begin{principle}[Classical eta continuation row]
+\label{prin:rh-zeta-critical-unit-eta-classical}
+The analytic continuation of $\eta(s)$ to the half-plane needed for the
+critical strip, and the identity
+$$
+\eta(s)=(1-2^{1-s})\zeta(s),
+$$
+are classical analytic statements. They are recorded here as paper-level
+bridge facts. They are not imported into Lean as complex-analysis
+theorems, and no BEDC kernel theorem depends on their internal proof.
+\end{principle}
+
+The eta bridge fixes the reading of a nontrivial zero packet. A zero
+packet $\rho$ in the strip is admissible only after the pole at $s=1$,
+trivial zeros, the eta factor, and the continuation branch ledger have
+been separated. This keeps the later residual functor from smuggling a
+branch choice into the critical-unit assertion.
+
+\section{Xi Normalization}
+\label{sec:rh-zeta-critical-unit-xi}
+
+\begin{definition}[Xi normalization packet]
+\label{def:rh-zeta-critical-unit-xi}
+The xi packet records the classical completed zeta expression
+$$
+\xi(s)
+=
+\frac{1}{2}s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s)
+$$
+and the symmetry
+$$
+\xi(s)=\xi(1-s).
+$$
+For a nontrivial zero $\rho$, write
+$$
+\rho=\frac12+r+i\gamma.
+$$
+The functional equation pairs $\rho$ with $1-\rho$ and therefore changes
+$r$ to $-r$ while keeping the critical offset as the single radial
+coordinate to be tested.
+\end{definition}
+
+\begin{principle}[Classical xi symmetry row]
+\label{prin:rh-zeta-critical-unit-xi-classical}
+The meromorphic continuation of $\zeta$, the Gamma factor, and the
+functional equation for $\xi$ are classical analytic statements. This
+chapter uses them only as paper-level bridge rows, not as Lean kernel
+proof obligations.
+\end{principle}
+
+The xi packet makes the target coordinate unambiguous. The BEDC
+conditional theorem does not try to locate or enumerate zeros; it only
+uses the already scoped `RatComplex` located-zero predicate and asks
+whether its real part has offset zero from the rational half.
+
+\section{Zero Residual Functor}
+\label{sec:rh-zeta-critical-unit-zero-residual-functor}
+
+\begin{definition}[Principal zero residual]
+\label{def:rh-zeta-critical-unit-principal-residual}
+For a zero $\rho=1/2+r+i\gamma$ of multiplicity $m_{\rho}$, the
+classical logarithmic derivative has local principal part
+$$
+-\frac{\zeta'}{\zeta}(s)
+\sim
+-\frac{m_{\rho}}{s-\rho}.
+$$
+After the logarithmic height readout $x=e^u$, the principal residual
+has the form
+$$
+R_{\rho}(u)=-m_{\rho}e^{u/2}e^{ru}e^{i\gamma u}.
+$$
+The normalized residual divides out the visible base size
+$m_{\rho}e^{u/2}$ and keeps
+$$
+\widetilde R_{\rho}(u)=e^{ru}e^{i\gamma u}.
+$$
+\end{definition}
+
+\begin{principle}[Classical logarithmic-derivative residual row]
+\label{prin:rh-zeta-critical-unit-log-derivative-classical}
+The expansion of $-\zeta'/\zeta$ at a nontrivial zero and its height
+readout are classical analytic number theory statements. BEDC records
+their finite address and residual ledger roles. Lean does not prove the
+Laurent expansion, does not import complex analysis, and does not reason
+about unrestricted complex exponentials.
+\end{principle}
+
+The critical-unit hinge is now visible:
+$$
+|\widetilde R_{\rho}(u)|=e^{ru}.
+$$
+Thus unit modulus for all $u$ is equivalent, in the classical reading,
+to $r=0$. This is precisely why the hinge must remain an obligation. To
+prove it for every legal closed zero packet would be to prove the
+critical-line part of RH in this route.
+
+\section{Finite-Tail Addresses}
+\label{sec:rh-zeta-critical-unit-finite-tail-addresses}
+
+\begin{definition}[Finite-tail address ledger]
+\label{def:rh-zeta-critical-unit-finite-tail-address-ledger}
+For a finite prime bound $P$ the logarithmic derivative splits as
+$$
+-\frac{\zeta'}{\zeta}(s)
+=
+\sum_{p\leq P}\sum_{k\geq 1}(\log p)p^{-ks}
++
+\mathsf{Tail}_{>P}(s),
+$$
+where the second term records every prime address not yet exposed by the
+finite window. The BEDC reading stores the first term as finite prime
+data and the second term as a tail obligation with branch, support, and
+cofinality rows.
+\end{definition}
+
+\begin{lemma}[Classical finite-layer pole separation]
+\label{lem:rh-zeta-critical-unit-finite-layer-pole-separation}
+At a nontrivial zero $\rho$ in the open critical strip, every finite
+Euler logarithmic layer
+$$
+\sum_{p\leq P}\frac{\log p}{p^s-1}
+$$
+is holomorphic at $\rho$. Therefore the principal part of
+$-\zeta'/\zeta$ at $\rho$ lies in the infinite tail ledger.
+\end{lemma}
+
+\begin{proof}
+This is a classical analytic statement. For a fixed prime $p$, the poles
+of
+$$
+\frac{\log p}{p^s-1}
+$$
+occur where $p^s=1$, equivalently at
+$$
+s=\frac{2\pi i n}{\log p}
+\qquad (n\in\mathbb Z).
+$$
+These poles lie on the imaginary axis. A finite sum has no other poles,
+so it is holomorphic at every nontrivial zero in the open critical strip.
+Hence a nonzero principal residual at $\rho$ cannot be cancelled by the
+finite layer; it must be assigned to the infinite tail ledger.
+\end{proof}
+
+This separation is still not a proof of RH. It says only where the
+residual is stored. The obstruction remains the soundness claim that a
+legal BEDC tail closure cannot hide the radial factor $e^{ru}$ unless
+$r=0$.
+
+\section{Boundary Stability}
+\label{sec:rh-zeta-critical-unit-boundary-stability}
+
+\begin{principle}[Classical boundary stability row]
+\label{prin:rh-zeta-critical-unit-boundary-stability}
+Let a contour box avoid zeros and poles on its boundary. Under a
+sufficiently small perturbation of the analytic data, the winding number
+of the boundary image is unchanged:
+$$
+\Delta_{\partial B}\arg f
+=
+\Delta_{\partial B}\arg g.
+$$
+The standard proof uses Rouch\'e-type boundary estimates and the
+argument principle. This row is a classical complex-analysis statement,
+not a BEDC Lean theorem.
+\end{principle}
+
+Boundary stability supplies the paper-level reason that finite rational
+boxes can serve as stable addresses for located zero packets. Once a box
+has a certified no-boundary-zero margin, finite refinements may preserve
+the zero count. The BEDC kernel does not prove the analytic argument
+principle here; it only sees finite carriers and named obligations.
+
+\section{Finite Ledger Lift}
+\label{sec:rh-zeta-critical-unit-finite-ledger-lift}
+
+\begin{definition}[Ledger lift and recurrence pressure]
+\label{def:rh-zeta-critical-unit-ledger-lift}
+The finite ledger lift maps a zero packet, finite prime window, contour
+address, eta continuation address, and xi symmetry address into one
+finite BEDC package. Its visible rows are
+$$
+\begin{gathered}
+\mathsf{EulerCore},\quad
+\mathsf{EtaBridge},\quad
+\mathsf{XiSymmetry},\quad
+\mathsf{ZeroResidual},\\
+\mathsf{TailAddress},\quad
+\mathsf{BoundaryStability},\quad
+\mathsf{FiniteWindowReadback}.
+\end{gathered}
+$$
+The pigeonhole role is only finite recurrence pressure: among finitely
+many windows, classifiers, and branch ledgers, a stable residual pattern
+must be routed through one visible row or through the named tail
+obligation.
+\end{definition}
+
+\begin{principle}[No hidden analytic inhabitant]
+\label{prin:rh-zeta-critical-unit-no-hidden-analytic-inhabitant}
+The finite ledger lift does not construct an analytic object from a
+finite pigeonhole argument. It only prevents the bridge from losing the
+address of the radial residual. If the residual is not visible in a
+finite row, it is recorded in the tail obligation that later becomes
+$\mathsf{CriticalUnitSoundness}$.
+\end{principle}
+
+Thus the finite lift is a bookkeeping theorem in the paper bridge, not a
+replacement for the missing RH-strength analytic rigidity.
+
+\section{Positive Boundary Energy}
+\label{sec:rh-zeta-critical-unit-positive-boundary-energy}
+
+\begin{definition}[Rational radial energy]
+\label{def:rh-zeta-critical-unit-radial-energy}
+\leandef{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.radialEnergy}
+For rational offset $r$ and positive rational interval length $|I|$, the
+finite radial energy is
+$$
+E_I(r)=r^2|I|.
+$$
+In Lean this is the rational expression
+$$
+\mathsf{radialEnergy}(r,\ell)
+=
+r\cdot r\cdot \ell.
+$$
+\end{definition}
+
+\begin{theorem}[Finite rational energy detects zero offset]
+\label{thm:rh-zeta-critical-unit-radial-energy-zero-iff}
+\leanchecked{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.radialEnergy\_zero\_iff}
+If $\ell>0$, then
+$$
+\mathsf{radialEnergy}(r,\ell)=0
+\Longleftrightarrow
+r=0
+$$
+in the rational BEDC equality relation.
+\end{theorem}
+
+\begin{proof}
+This is a finite rational theorem, checked by Lean without complex
+analysis. The proof uses positivity of the length row, multiplicative
+apartness for nonzero rationals, and the fact that a rational square can
+vanish only when its base vanishes. It proves only the arithmetic energy
+step
+$$
+r^2\ell=0\Longleftrightarrow r=0
+\qquad(\ell>0).
+$$
+It does not prove that a legal zeta closure supplies $E_I(r)=0$.
+\end{proof}
+
+\begin{theorem}[Nonzero rational offset gives nonzero energy]
+\label{thm:rh-zeta-critical-unit-radial-energy-nonzero}
+\leanchecked{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.radialEnergy\_not\_zero\_of\_ne}
+If $r$ is apart from zero and $\ell>0$, then
+$$
+\mathsf{radialEnergy}(r,\ell)\neq 0
+$$
+in the rational BEDC equality relation.
+\end{theorem}
+
+\begin{proof}
+The checked proof is the apartness form of the previous finite fact:
+nonzero $r$ gives nonzero $r\cdot r$, positive $\ell$ is apart from zero,
+and multiplicative apartness gives an energy value apart from zero.
+\end{proof}
+
+This is the only part of the bridge where the positive radial energy is
+proved in the Lean kernel. All analytic reasons why a zeta residual would
+force a particular energy value remain outside the finite kernel.
+
+\section{Critical Unit Closure}
+\label{sec:rh-zeta-critical-unit-critical-unit-closure}
+
+\begin{definition}[CriticalUnitSoundness]
+\label{def:rh-zeta-critical-unit-soundness}
+\leanstmt{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.CriticalUnitSoundness}
+The named obligation
+$$
+\mathsf{CriticalUnitSoundness}
+$$
+states that every located nontrivial zeta zero accepted by the legal
+ZetaBEDC closure has zero rational offset:
+$$
+\forall s,\quad
+\mathsf{NontrivialZetaZero}(s)
+\Longrightarrow
+\operatorname{offsetOf}(s)=0.
+$$
+The offset is
+$$
+\operatorname{offsetOf}(s)=\Re(s)-\frac12.
+$$
+\end{definition}
+
+\begin{principle}[Hinge equivalence]
+\label{prin:rh-zeta-critical-unit-hinge-equivalence}
+In the classical residual reading, the obligation is exactly the
+critical-unit assertion
+$$
+|\widetilde R_{\rho}(u)|=e^{ru}\equiv 1
+\Longleftrightarrow
+r=0.
+$$
+For all legal nontrivial zeta-zero packets, this is RH-strength content.
+It is therefore not proved here, not supplied as a structure field value,
+and not approximated by a trivial inhabitant.
+\end{principle}
+
+\begin{definition}[ZetaBEDCClosure]
+\label{def:rh-zeta-critical-unit-closure}
+\leandef{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.ZetaBEDCClosure}
+The Lean structure
+$$
+\mathsf{ZetaBEDCClosure}
+$$
+has the field
+$$
+\mathsf{criticalUnitSoundness}:
+\mathsf{CriticalUnitSoundness}.
+$$
+It is a conditional interface. This chapter never constructs a canonical
+value of this structure.
+\end{definition}
+
+The separation is deliberate: the structure lets Lean verify the final
+conditional handoff while keeping the RH-strength hinge visible and
+undischarged.
+
+\section{Splicing}
+\label{sec:rh-zeta-critical-unit-splicing}
+
+\begin{theorem}[Energy zero reads as zero offset]
+\label{thm:rh-zeta-critical-unit-offset-zero-of-energy-zero}
+\leanchecked{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.offset\_zero\_of\_energy\_zero}
+For a located rational-complex zero packet $s$, if $\ell>0$ and
+$$
+\mathsf{radialEnergy}(\operatorname{offsetOf}(s),\ell)=0,
+$$
+then
+$$
+\operatorname{offsetOf}(s)=0.
+$$
+\end{theorem}
+
+\begin{proof}
+This theorem calls
+\autoref{thm:rh-zeta-critical-unit-radial-energy-zero-iff}. It is a
+finite rational statement. It does not prove that zeta closure gives
+energy zero.
+\end{proof}
+
+\begin{theorem}[ZetaBEDC closure implies located ConstructiveRH]
+\label{thm:rh-zeta-critical-unit-closure-implies-constructive-rh}
+\leanchecked{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.zetaBEDC\_closure\_imply\_constructiveRH}
+Given a value
+$$
+Z:\mathsf{ZetaBEDCClosure},
+$$
+the located rational-complex RH predicate
+$$
+\mathsf{ConstructiveRH}
+$$
+follows.
+\end{theorem}
+
+\begin{proof}
+The checked proof is only a conditional reduction. For a located
+nontrivial zero $s$, the field
+$$
+Z.\mathsf{criticalUnitSoundness}
+$$
+gives
+$$
+\operatorname{offsetOf}(s)=0.
+$$
+Since
+$$
+\operatorname{offsetOf}(s)=\Re(s)-\frac12,
+$$
+the rational subtraction lemma reads this as
+$$
+\Re(s)=\frac12,
+$$
+which is exactly the local \texttt{OnCriticalLine} predicate used by the
+existing \texttt{ConstructiveRH} statement.
+\end{proof}
+
+No proof of $Z:\mathsf{ZetaBEDCClosure}$ is supplied. Therefore this
+theorem does not prove RH. It proves only that the explicitly named
+RH-strength field is sufficient for the located BEDC target.
+
+\section{Completion Status}
+\label{sec:rh-zeta-critical-unit-completion-status}
+
+The bridge has the following completed rows.
+
+\begin{center}
+\begin{tabular}{p{0.28\linewidth}p{0.58\linewidth}}
+\toprule
+\textbf{Row} & \textbf{Status}\\
+\midrule
+Euler core & Classical Euler product correspondence in $\Re(s)>1$; finite BEDC prime-window address.\\
+\addlinespace
+Eta bridge & Classical eta continuation and eta-zeta identity; paper-level bridge row.\\
+\addlinespace
+Xi symmetry & Classical completed zeta and functional-equation symmetry; paper-level bridge row.\\
+\addlinespace
+Residual functor & Classical $-\zeta'/\zeta$ principal residual and normalized radial factor.\\
+\addlinespace
+Finite-tail address & Classical finite-layer pole separation; tail residual assigned to obligation ledger.\\
+\addlinespace
+Boundary stability & Classical Rouch\'e and winding stability row; not a kernel theorem.\\
+\addlinespace
+Finite ledger lift & Paper-level routing of the residual into visible finite rows or the named tail obligation.\\
+\addlinespace
+Positive energy & Finite rational energy $E_I=r^2|I|$ checked in Lean.\\
+\addlinespace
+Critical unit hinge & \texttt{CriticalUnitSoundness}, statement-only and not discharged.\\
+\addlinespace
+Conditional handoff & \texttt{ZetaBEDCClosure -> ConstructiveRH}, checked in Lean.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The phrase "complete bridge" in this chapter means that every row has a
+named role, a classical counterpart, and a precise verification status.
+It does not mean that the RH-strength hinge has been solved.
+
+\section{CriticalUnitSoundness Obligation}
+\label{sec:rh-zeta-critical-unit-obligation}
+
+\begin{principle}[The single undischarged hinge]
+\label{prin:rh-zeta-critical-unit-single-hinge}
+The only hinge left open by this bridge is
+$$
+\mathsf{CriticalUnitSoundness}.
+$$
+It asserts that a legal closed zeta-zero residual cannot carry the
+non-unit radial factor $e^{ru}$ unless $r=0$. Any proof of this row for
+all legal nontrivial zeta-zero packets would have RH strength in the
+classical reading.
+\end{principle}
+
+Candidate routes to the hinge must therefore be treated as RH-strength
+routes. Examples include a solenoid terminal-object theorem forcing every
+visible phase to lie in the unit torus, or an Archimedean small-support
+positivity theorem that refuses hidden radial mass. Until such a theorem
+is actually proved, the hinge remains a named obligation.
+
+\begin{closurestatus}{ZetaBEDCCriticalUnitUp}
+  \origin{ai}
+  \constructivestory{The chapter supplies the paper-level ZetaBEDC bridge from Euler, eta, xi, residual, finite-tail, boundary-stability, and finite-ledger rows to the critical-unit obligation. Lean checks the finite rational energy kernel and the conditional handoff from a ZetaBEDCClosure field to located ConstructiveRH.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{Complete ZetaBEDC bridge: off-critical zeros give nonzero radial energy $E_I=r^2|I|$ in the finite rational kernel; ZetaBEDCClosure containing CriticalUnitSoundness implies ConstructiveRH in Lean; every BEDC statement has the displayed classical number-theory counterpart}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.BedcZetaCriticalUnit.zetaBEDC\_closure\_imply\_constructiveRH}
+  \bridgestatus{paperBridge}
+  \notclaimed{CriticalUnitSoundness itself, meaning legal closure implies unit normalized residual and hence $r=0$, is not proved; no unconditional classical RH is claimed; the classical analytic facts in the Euler, eta, xi, residual, Rouch\'e, and logarithmic-derivative rows are not proved inside the BEDC Lean kernel}
+  \upgradepath{Discharge CriticalUnitSoundness by proving that a legal closed zeta-zero residual cannot carry an $e^{ru}$ radial non-unit factor, for example through a solenoid terminal-object theorem forcing visible phase into $\mathbb T$ or through Archimedean small-support positivity. This step has RH strength.}
+\end{closurestatus}
