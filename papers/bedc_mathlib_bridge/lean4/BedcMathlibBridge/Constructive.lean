@@ -53,6 +53,7 @@ import BedcMathlibBridge.Constructive.LahClosedForm
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
+import BedcMathlibBridge.Constructive.EulerianSecondOrder
 import BedcMathlibBridge.Constructive.OddDoubleFactorial
 import BedcMathlibBridge.Constructive.EvenDoubleFactorial
 import BedcMathlibBridge.Constructive.Square

@@ -183,6 +183,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType :=
       `BedcMathlibBridge.Export.OddDoubleFactorial.OddDoubleFactorialExportWitness },
   { witness :=
+      `BedcMathlibBridge.Export.EulerianSecondOrder.eulerianSecondOrderExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.EulerianSecondOrder.EulerianSecondOrderExportWitness },
+  { witness :=
       `BedcMathlibBridge.Export.EvenDoubleFactorial.evenDoubleFactorialExport,
     witnessType :=
       `BedcMathlibBridge.Export.EvenDoubleFactorial.EvenDoubleFactorialExportWitness },
