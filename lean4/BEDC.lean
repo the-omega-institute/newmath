@@ -8403,6 +8403,8 @@ import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationUp.CandidateScope
 import BEDC.Derived.MetaCICClosurePreservationUp.GeneratorRoute
+import BEDC.Derived.MetaCICClosurePreservationUp.ObligationClosure
+import BEDC.Derived.MetaCICClosurePreservationUp.ScopeRows
 import BEDC.Derived.MetaCICClosurePreservationUp.SubjectReductionBoundary
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionBetaChainExposure
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionWindow
