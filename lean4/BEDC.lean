@@ -2725,6 +2725,7 @@ import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
+import BEDC.Derived.CauchyRealSetoidUp
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
@@ -3728,6 +3729,7 @@ import BEDC.Derived.CompactlySupportedRealFunctionUp
 import BEDC.Derived.CompactnessCompletionRouteUp.TasteGate
 import BEDC.Derived.CompactnessSequentialEquivalenceUp.TasteGate
 import BEDC.Derived.CompactnessUniformContinuityDiameterDecayUp.TasteGate
+import BEDC.Derived.CompactoidUp.FiniteNetAbsorption
 import BEDC.Derived.CompactoidUp.NameCertObligations
 import BEDC.Derived.CompactoidUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
