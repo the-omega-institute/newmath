@@ -1,0 +1,161 @@
+\chapter{Layerwise Prime Cofinality Detection Route}
+\label{ch:visions-rh-layerwise-prime-cofinality}
+\origin{ai}
+
+This chapter separates the finite detection theorem from the exclusion
+obligations in the source-side prime route. The checked theorem says only
+that a finite classifier reading which is not everywhere zero contains a
+visible nonzero row. It does not say that an off-critical zero cannot
+exist. In the residual notation of
+\autoref{ch:visions-rh-bedc-zeta-critical-unit}, detection is the passage
+from a nonzero radial leg to a visible finite classifier readout, while
+exclusion is the statement that the radial leg itself must be zero.
+
+\section{Finite Cofinal Detection}
+\label{sec:rh-layerwise-prime-cofinality-detection}
+
+\begin{definition}[Finite layer reading]
+\label{def:rh-layerwise-prime-cofinality-reading}
+\leandef{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.allZeroList}
+A finite layer reading is a list of rational BEDC readouts. The predicate
+$\mathsf{allZeroList}$ says that every member of the list is structurally
+the displayed rational zero:
+$$
+\mathsf{allZeroList}(L)
+\quad\Longleftrightarrow\quad
+\forall x,\ x\in L \Rightarrow x=0.
+$$
+The list carrier is essential. A statement over functions
+$\mathbb N\to \mathsf{RatNum}$ would require an extensionality bridge to
+turn pointwise equality into function equality; the checked route does
+not use that bridge.
+\end{definition}
+
+\begin{theorem}[Layerwise finite separating]
+\label{thm:rh-layerwise-prime-cofinality-separating}
+\leanchecked{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.cofinal\_separating}
+For every finite rational reading $L$, if $L$ is not everywhere zero,
+then there is a member $x\in L$ with $x\neq 0$.
+\end{theorem}
+
+\begin{proof}
+The proof is by structural induction on $L$. The empty list contradicts
+the hypothesis. For a cons list, the head is inspected by the structural
+decider for the BEDC rational carrier. If the head is zero, the negated
+all-zero hypothesis descends to the tail and the induction hypothesis
+returns a witness there. If the head is not zero, the head itself is the
+witness. No function extensionality, quotient soundness, classical
+complex analysis, or analytic $\zeta$ fact enters this proof.
+\end{proof}
+
+\begin{theorem}[Sequence readout witness]
+\label{thm:rh-layerwise-prime-cofinality-seq}
+\leanchecked{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.cofinal\_separating\_seq}
+If a countable classifier stream $v:\mathbb N\to\mathsf{RatNum}$ has
+some displayed nonzero row $v(m)$, then the stream has a nonzero row.
+\end{theorem}
+
+The sequence theorem is only the witness packaging of an already displayed
+row. The finite theorem above is the nonempty list-search core used to
+read finite prime layers.
+
+\begin{definition}[Canonical nonempty reading]
+\label{def:rh-layerwise-prime-cofinality-canonical-reading}
+\leandef{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.canonicalNonzeroReading}
+\leanchecked{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.canonicalNonzeroReading\_has\_witness}
+The canonical anti-vacuity row is the finite reading $[0,1]$. It is not
+everywhere zero and therefore has a checked nonzero member.
+\end{definition}
+
+\section{Prime Cofinality Is Not Exclusion}
+\label{sec:rh-layerwise-prime-cofinality-not-exclusion}
+
+The tempting slogan ``all primes are finite'' is not a proof principle
+for this route. A finite prime window can refute only the hypothesis that
+the residual has already produced a visible row inside that window. It
+does not refute the existence of an off-critical zero whose residual is
+still hidden in an unobserved tail or in an unimplemented source-side
+realization.
+
+The correct form is cofinal:
+$$
+\forall N\ \text{finite layer } N
+\quad\text{and}\quad
+\text{a cofinal witness eventually exposes a nonzero reading}.
+$$
+This is a detection statement. It says that a nonzero finite reading is
+findable inside the displayed finite carrier. It does not say that every
+zero-relevant radial leg is absent. The latter is the exclusion claim,
+and in this route exclusion is exactly the RH-strength radial assertion
+recorded below.
+
+\section{Deferred Exclusion Obligations}
+\label{sec:rh-layerwise-prime-cofinality-obligations}
+
+\begin{definition}[Zeta BEDC embedding obligation]
+\label{def:rh-layerwise-prime-cofinality-zeta-bedc-embedding}
+\leanstmt{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.ZetaBEDCEmbedding}
+$\mathsf{ZetaBEDCEmbedding}$ names the Hilbert--Polya style
+implementation premise: an off-critical, zero-relevant radial witness is
+realized in the same source-side classifier space as the finite layer
+readings, and the realization captures the radial leg without assuming
+that the radial offset is already zero. The Lean object is an opaque
+uninhabited proposition in this module. It is an obligation, not a
+constructed packet.
+\end{definition}
+
+\begin{definition}[No hidden radial register]
+\label{def:rh-layerwise-prime-cofinality-no-hidden-radial-register}
+\leanstmt{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.NoHiddenRadialRegister}
+$\mathsf{NoHiddenRadialRegister}$ is the named exclusion row. It is the
+same proposition as $\mathsf{CriticalUnitSoundness}$ from
+\autoref{ch:visions-rh-bedc-zeta-critical-unit}: every legally closed
+nontrivial zeta-zero residual has zero critical offset. In classical
+notation this is the claim
+$$
+|\widetilde R_{\rho}(u)|\equiv 1
+\quad\Longleftrightarrow\quad
+r=0.
+$$
+This is the RH-strength part of the route and no resident is supplied.
+\end{definition}
+
+\begin{definition}[Cofinal RH route package]
+\label{def:rh-layerwise-prime-cofinality-route-package}
+\leandef{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.CofinalRHRoute}
+A cofinal route package contains the embedding obligation and the
+no-hidden-radial-register obligation. The embedding field records the
+detection interface; the no-hidden-radial-register field is the exclusion
+hinge. The package has no canonical inhabitant here.
+\end{definition}
+
+\begin{theorem}[Conditional cofinal route to located ConstructiveRH]
+\label{thm:rh-layerwise-prime-cofinality-route-implies-rh}
+\leanchecked{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.cofinalRoute\_imply\_constructiveRH}
+Any inhabited cofinal route package implies the existing located
+rational-complex predicate $\mathsf{ConstructiveRH}$.
+\end{theorem}
+
+\begin{proof}
+The proof consumes the package's no-hidden-radial-register field, reads it
+as $\mathsf{CriticalUnitSoundness}$, and applies the existing checked
+bridge
+$$
+\mathsf{zetaBEDC\_closure\_imply\_constructiveRH}.
+$$
+The embedding field is retained in the package as the named detection
+premise, but it is not an exclusion proof and it is not used to derive
+$r=0$.
+\end{proof}
+
+\begin{closurestatus}{LayerwisePrimeCofinalityUp}
+  \origin{ai}
+  \constructivestory{The packet starts from finite BEDC rational readout lists, exposes the all-zero predicate as a list-membership statement, and proves by list induction that a non-all-zero finite layer contains a displayed nonzero row. The route package then records the separate source-side embedding and no-hidden-radial-register obligations before consuming the already checked critical-unit bridge to the located ConstructiveRH predicate.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Finite layerwise cofinal detection for rational classifier readings, plus a conditional route from explicit embedding and no-hidden-radial-register fields to the located ConstructiveRH predicate}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.LayerwisePrimeCofinality.cofinalRoute\_imply\_constructiveRH}
+  \bridgestatus{none}
+  \notclaimed{ZetaBEDCEmbedding, meaning the Euler construction embeds a residual as a source-side classifier observation capturing the radial leg in a Hilbert--Polya style realization, and NoHiddenRadialRegister, meaning CriticalUnitSoundness or $r=0$, are both unproved; detection is not exclusion, exclusion is the RH-strength hinge; no unconditional RH theorem is claimed}
+  \upgradepath{Discharge ZetaBEDCEmbedding by constructing from Euler and geometric data a compact or unitary realization whose observation captures $|\widetilde R_{\rho}|$ without presupposing $r=0$, with archimedean positivity in the style of Yoshida or Connes--Consani; then discharge NoHiddenRadialRegister through that realization}
+\end{closurestatus}
