@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyShiftNormalizationUp$}
+\label{ch:concrete-instances-fast-cauchy-shift-normalization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy names with explicit moduli, the $\FastCauchyShiftNormalizationUp$ packet records the finite route by which a shifted fast Cauchy schedule is normalized before its StreamName, RegSeqRat, and Real-facing reads are exposed. It sits beside the fast-witness surface of \autoref{ch:concrete-instances-fast-cauchy-witness-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert route for shift normalization, not a quotient stream, a selected limit, countable choice, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[FastCauchyShiftNormalization carrier]
+\label{def:fast-cauchy-shift-normalization-carrier}
+A $\FastCauchyShiftNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,J,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the fast Cauchy source row, read from the same constructive-analysis surface as $\FastCauchyWitnessUp$.
+\item $J$ is the finite shift ledger recording the requested index offset, its domain of use, and the translated precision budget.
+\item $D$ is the normalized $\DyadicRatCoreUp$ tolerance row after the shift ledger has been applied.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the shifted precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W$ and $D$ after the shifted budget is normalized.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $F,J,D,W,R$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, shift ledger, dyadic tolerance, stream window, regular readback, Real seal, provenance, and local name rows.
+\item $C$ stores the displayed $\Cont$ replay from the fast source through the shift ledger, normalized dyadic tolerance, stream window, regular readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyShiftNormalizationUp$, $\FastCauchyWitnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchyShiftNormalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,J,D,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected tails, countable choice, host sequence equality, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FastCauchyShiftNormalization NameCert obligations]
+\label{thm:fast-cauchy-shift-normalization-namecert-obligations}
+For every accepted $\FastCauchyShiftNormalizationUp$ carrier
+$$
+K=(F,J,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FastCauchyShiftNormalizationUp}$ surface consists exactly of carrier admission for $K$, shift-window exactness for $J$ and $W$, dyadic normalization through $D$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$-seal non-escape through $E$, componentwise $\hsame$ transport through $H$, finite $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:fast-cauchy-shift-normalization-carrier}. The source row $F$ supplies the fast Cauchy schedule, while $J$ records the finite shift and the translated precision budget.
+
+Shift-window exactness is read by opening only the $\StreamNameUp$ row $W$ named by $J$. The dyadic tolerance row $D$ is then the unique displayed normalization of that shifted budget inside the $\DyadicRatCoreUp$ ledger, so the handoff to $R$ is a finite $\RegSeqRatUp$ readback rather than a quotient of streams.
+
+The Real-facing endpoint is terminal. A consumer can reach $E$ only after $F,J,D,W,R$ have been displayed and replayed through $C$, with componentwise transport supplied by $H$ and provenance by $P$. Since the packet contains no coordinate for a selected tail, countable-choice selector, host equality, or ambient completion theorem, the $\RealUp$ seal is non-escaping.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FastCauchyShiftNormalizationUp$ Real-facing read factors through a fast Cauchy source row, finite shift ledger, normalized dyadic tolerance row, StreamName window, RegSeqRat readback, terminal RealUp seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{fast-cauchy-witness, dyadicratcore, streamname, regseqrat, real: $\FastCauchyShiftNormalizationUp$ is not bijective to any listed sibling because it jointly carries the shift ledger, normalized dyadic tolerance row, shifted StreamName window, regular readback, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{FastCauchyShiftNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyShiftNormalizationUp}
+  \constructivestory{A $\FastCauchyShiftNormalizationUp$ packet is generated from a fast Cauchy source row, finite shift ledger, normalized DyadicRatCore tolerance row, StreamName finite window, RegSeqRat readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-shift-normalization-carrier} and \autoref{thm:fast-cauchy-shift-normalization-namecert-obligations} seed the finite shift-normalization route from fast Cauchy source data through dyadic normalization and regular readback to a terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected tails, countable choice, host sequence equality, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shift-window exactness, dyadic normalization, RegSeqRat handoff, Real-seal non-escape, transport stability, replay stability, and TasteGate field faithfulness for BEDC.Derived.FastCauchyShiftNormalizationUp.}
+\end{closurestatus}

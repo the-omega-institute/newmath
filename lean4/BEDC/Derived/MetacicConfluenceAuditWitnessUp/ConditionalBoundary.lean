@@ -110,4 +110,42 @@ theorem MetacicConfluenceAuditWitnessNonescape [AskSetup] [PackageSetup]
     ⟨obstructionUnary, obstructionReadUnary, boundaryReadUnary, obstructionRoute,
       boundaryRoute, namePkg, boundaryPkg⟩
 
+theorem MetacicConfluenceAuditWitness_sibling_lattice [AskSetup] [PackageSetup]
+    {parallel substitution diamond confluence obstruction component route ledger name routeRead
+      obstructionRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicConfluenceAuditWitnessCarrier parallel substitution diamond confluence obstruction
+        component route ledger name bundle pkg →
+      Cont parallel substitution routeRead →
+        Cont obstruction component obstructionRead →
+          Cont obstructionRead route boundaryRead →
+            PkgSig bundle name pkg →
+              PkgSig bundle boundaryRead pkg →
+                UnaryHistory routeRead ∧
+                  UnaryHistory obstructionRead ∧
+                    UnaryHistory boundaryRead ∧
+                      Cont parallel substitution routeRead ∧
+                        Cont obstruction component obstructionRead ∧
+                          Cont obstructionRead route boundaryRead ∧
+                            PkgSig bundle name pkg ∧ PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier routeRoute obstructionRoute boundaryRoute namePkg boundaryPkg
+  have parallelUnary : UnaryHistory parallel := carrier.left
+  have substitutionUnary : UnaryHistory substitution := carrier.right.left
+  have obstructionUnary : UnaryHistory obstruction :=
+    carrier.right.right.right.right.left
+  have componentUnary : UnaryHistory component :=
+    carrier.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    carrier.right.right.right.right.right.right.left
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed parallelUnary substitutionUnary routeRoute
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary componentUnary obstructionRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed obstructionReadUnary routeUnary boundaryRoute
+  exact
+    ⟨routeReadUnary, obstructionReadUnary, boundaryReadUnary, routeRoute, obstructionRoute,
+      boundaryRoute, namePkg, boundaryPkg⟩
+
 end BEDC.Derived.MetacicConfluenceAuditWitnessUp

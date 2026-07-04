@@ -57,4 +57,34 @@ theorem CofinalModulusNormalizationSeal_ledger_nonescape
   cases routeName
   rfl
 
+theorem CofinalModulusNormalizationSeal_obligation_row_exactness
+    {A B M W D R E H C P L N sharedRead dyadicRead regularRead sealRead ledgerRead
+      namedRead : BHist} :
+    cofinalModulusNormalizationSealFields
+        (CofinalModulusNormalizationSealUp.mk A B M W D R E H C P L N) =
+      [A, B, M, W, D, R, E, H, C, P, L, N] →
+      Cont A B M →
+        Cont M W sharedRead →
+          Cont sharedRead D dyadicRead →
+            Cont dyadicRead R regularRead →
+              Cont regularRead E sealRead →
+                Cont sealRead L ledgerRead →
+                  Cont ledgerRead N namedRead →
+                    hsame namedRead
+                        (append (append (append (append (append (append (append A B) W) D) R)
+                          E) L) N) ∧
+                      hsame ledgerRead
+                        (append (append (append (append (append (append A B) W) D) R) E)
+                          L) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro _fieldsExact routeAB routeShared routeDyadic routeRegular routeSeal routeLedger routeName
+  cases routeAB
+  cases routeShared
+  cases routeDyadic
+  cases routeRegular
+  cases routeSeal
+  cases routeLedger
+  cases routeName
+  exact ⟨rfl, rfl⟩
+
 end BEDC.Derived.CofinalModulusNormalizationSealUp
