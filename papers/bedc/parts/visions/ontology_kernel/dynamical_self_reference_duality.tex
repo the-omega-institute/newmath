@@ -1,0 +1,211 @@
+\chapter{Dynamical Self-Reference and Time-Frequency Duality}
+\label{ch:visions-ontology-kernel-dynamical-self-reference-duality}
+\origin{ai}
+
+The categorical spine of
+\autoref{ch:visions-ontology-kernel-categorical-generation-spine} and the
+strength ledger of
+\autoref{ch:visions-ontology-kernel-logical-strength-ledger} are static
+readings: they present the kernel as a fixed diagram of adjoints and grade the
+diagram's cost.  A static reading flattens one feature that the kernel cannot
+express as a mere diagram.  When generated data re-enters as input, and when the
+transformation that produces it is itself among the data it acts on, the kernel
+closes a loop, and closing that loop forces a dynamical description with a
+time--frequency duality.  This chapter records why the self-referential closure
+cannot be captured statically, how the duality organizes the arithmetic data,
+and why the resulting picture locates the critical-line question as a spectral
+stability statement.  It proves no new arithmetic fact and it does not claim a
+proof of the Riemann hypothesis; it is a framing that names the type of the
+remaining obligation.
+
+\section{Self-reference is a fixed point}
+\label{sec:ontology-kernel-self-reference-fixed-point}
+
+``Generated data becomes input again'' is the fixed-point phenomenon.  The
+enabling device is the coding that makes a transformation into a datum of the
+same kind it transforms, which is the Godel coding recovered on the arithmetic
+side in \autoref{ch:visions-rh-pzg-phase-readback-log-energy}.
+
+\begin{principle}[One diagonal behind many theorems]
+\label{prin:ontology-kernel-lawvere-diagonal}
+The recursion theorem (every total computable transformation of programs has a
+program fixed point), the diagonal lemma (a sentence provably equivalent to a
+predicate of its own code), and the Lawvere fixed-point theorem (in a cartesian
+closed category a point-surjective map $A\to Y^A$ forces every endomorphism of
+$Y$ to have a fixed point) are one statement in three dresses.  Godel, Tarski,
+Cantor, and Turing are its corollaries.  The common hypothesis is
+internalization: the transformation lives as an object of the same category on
+which it acts, so that a diagonal can feed an object to itself.
+\end{principle}
+
+\begin{principle}[The transform is data]
+\label{prin:ontology-kernel-transform-is-data}
+Self-reference in the kernel is not only that outputs re-enter as inputs; it is
+that the act performing the transformation is coded as one of the generated
+objects.  In categorical terms the required feature is a reflexive object: a
+carrier $D$ carrying a map to its own function space.  This is the precise
+sense in which the kernel's loop cannot be drawn as a finite static diagram of
+distinct sorts --- the map and its arguments share a sort.
+\end{principle}
+
+\section{The static obstruction and its dynamical resolution}
+\label{sec:ontology-kernel-static-obstruction}
+
+Internalization runs into a static barrier, and the barrier is exactly Cantor's
+diagonal.
+
+\begin{theorem}[No full-function-space reflexive object]
+\label{thm:ontology-kernel-no-static-reflexive}
+In the category of sets there is no object $D$ with more than one point admitting
+a surjection $D\to D^{D}$ onto its full function space.  Consequently the
+identity ``the transform is an element of the space it acts on'' cannot hold for
+the full function space.
+\end{theorem}
+
+\begin{proof}
+A point-surjection $D\to Y^{D}$ makes every endomorphism of $Y$ have a fixed
+point by \autoref{prin:ontology-kernel-lawvere-diagonal}.  Take $Y=D$ with any
+fixed-point-free endomorphism, available whenever $D$ has at least two points,
+for instance a transposition of two points extended by the identity has no
+fixed point after composing with a swap on the two-point image; more simply, on
+the two-element Boolean object negation is fixed-point-free.  The contradiction
+shows no such surjection exists.  This is Cantor's diagonal argument stated for
+exponentials.
+\end{proof}
+
+\begin{principle}[Continuity dissolves the obstruction]
+\label{prin:ontology-kernel-continuity-resolves}
+The barrier is removed by not asking for the full function space.  Passing to a
+category of domains with continuous maps admits a reflexive object $D_\infty$
+with $D_\infty\cong[D_\infty\to D_\infty]$, the Scott construction, which models
+the untyped lambda calculus and the self-application it requires.  The
+restriction from all functions to continuous ones is precisely a dynamical
+restriction: it keeps only the maps compatible with a limit-of-approximants
+structure.  Cantor's diagonal is the static obstruction; continuity is the
+dynamical ingredient that closes the self-referential loop.  This is the first
+reason the kernel's self-reference cannot be analyzed statically.
+\end{principle}
+
+\section{Time and frequency on the arithmetic data}
+\label{sec:ontology-kernel-time-frequency}
+
+The second dynamical feature is a duality already visible in the arithmetic
+payload.  Multiplicative structure is the time side; a character reading is the
+frequency side.
+
+\begin{definition}[Multiplicative time and phase frequency]
+\label{def:ontology-kernel-time-frequency}
+The multiplicative datum of $n$ is its prime-exponent record
+$n=\prod_p p^{v_p(n)}$.  The phase reading at frequency $t$ is
+$$
+n^{-it}=\exp\!\Bigl(-it\sum_{p}v_p(n)\log p\Bigr),
+$$
+which turns the multiplicative record into an additive phase.  The map
+$n\mapsto n^{-it}$ is a character of the multiplicative semigroup, and $t$ is
+its frequency.
+\end{definition}
+
+\begin{principle}[Phase reading is the re-entry of generated data]
+\label{prin:ontology-kernel-phase-reentry}
+The phase reading is exactly the act by which a generated arithmetic datum ---
+the prime-exponent record, further coded as in
+\autoref{ch:visions-rh-pzg-phase-readback-log-energy} --- is fed back as a
+frequency-domain input.  Reading $n$ as a phase is the loop of
+\autoref{sec:ontology-kernel-self-reference-fixed-point} carried into the dual
+domain.  The Dirichlet series that assembles these readings over all $n$ is the
+zeta object; its Euler product is the multiplicative-time factorization of the
+same frequency read, recovered in
+\autoref{ch:visions-rh-zeta-euler-tick-algebra}.
+\end{principle}
+
+\begin{principle}[Primes and zeros are a Fourier-dual pair]
+\label{prin:ontology-kernel-explicit-formula-duality}
+The explicit formula pairs a test function evaluated at prime powers on the
+time side with its transform evaluated at the zeta zeros on the frequency side.
+This is not an analogy: it is an equality of distributions in which primes are
+the time-domain pulses and zeros are the frequencies, the arithmetic-spectral
+pairing organized in
+\autoref{ch:visions-rh-explicit-formula-scale-residual-bridge} and
+\autoref{ch:visions-rh-arithmetic-spectral-string-route}.  The kernel's
+finite-window arithmetic sees one side; the dual frequencies are the zeros.
+\end{principle}
+
+\section{Self-duality is self-reference}
+\label{sec:ontology-kernel-self-duality}
+
+The time--frequency transform of the completed zeta object is an involution,
+and its invariance is a self-reference of the transform itself.
+
+\begin{principle}[The functional equation is the transform's fixed symmetry]
+\label{prin:ontology-kernel-functional-equation-selfdual}
+The completed object satisfies $\xi(s)=\xi(1-s)$: it is invariant under the
+frequency reflection $s\mapsto1-s$.  The analytic engine is a self-dual
+transform, the theta identity under inversion, which is Poisson summation ---
+the summation formula that is its own Fourier dual.  Thus the object is fixed by
+its own dual pairing, and the reflection's fixed locus is the critical line
+$\operatorname{Re}(s)=\tfrac12$.  Here the self-referential fixed point of
+\autoref{sec:ontology-kernel-self-reference-fixed-point} and the
+time--frequency involution are the same structure: invariance under one's own
+transform, with the critical line as its fixed set.
+\end{principle}
+
+\section{The critical-line question as spectral stability}
+\label{sec:ontology-kernel-spectral-stability}
+
+Reading the residual at a zero as a signal makes the critical-line condition a
+statement about the stability of a dynamical system.
+
+\begin{definition}[Zero residual signal]
+\label{def:ontology-kernel-zero-residual-signal}
+For a zero written $\rho=\tfrac12+r+i\gamma$, the normalized residual signal in
+the flow parameter $u$ is
+$$
+\widetilde R_\rho(u)=e^{r u}\,e^{i\gamma u},
+$$
+a pure oscillation at frequency $\gamma$ modulated by the envelope $e^{ru}$.
+\end{definition}
+
+\begin{principle}[Critical line equals neutral stability]
+\label{prin:ontology-kernel-critical-line-stability}
+The residual signal is a pure oscillation, of constant modulus, exactly when
+$r=0$.  The critical-line condition is therefore the marginal-stability
+condition on the family of residual signals: no mode grows or decays, every mode
+sits on the neutral axis.  In the spectral realization program this is the
+statement that the frequencies $\gamma$ are the spectrum of a self-adjoint
+generator, whose reality forces $r=0$.  The radial register $r$ is the same
+obstruction organized in
+\autoref{ch:visions-rh-radial-register-obstruction-frontier}; naming it as a
+stability defect does not discharge it.
+\end{principle}
+
+\begin{principle}[The finite-provable instance is dynamical]
+\label{prin:ontology-kernel-function-field-instance}
+The one setting where the analogue of the critical-line condition is a theorem
+--- zeta functions of varieties over finite fields --- is exactly the setting
+where the dynamical-spectral picture is finite and rigorous.  There the zeros
+are eigenvalues of a Frobenius operator, the frequencies of a genuine
+finite-dimensional dynamics, and the modulus law that places them on the
+critical circle is a duality-and-positivity theorem for that operator.  The
+honest reading is directional: where the statement is proved, it is proved as a
+spectral fact about a flow, not as a finite static identity.  Any attack on the
+number-field case that stays purely inside finite static certificates is
+therefore attempting a different type of statement than the one that is known to
+succeed.
+\end{principle}
+
+\section{What this framing does not claim}
+\label{sec:ontology-kernel-dynamical-cannot-claim}
+
+The dynamical reading reframes; it does not resolve.  It does not prove the
+critical-line condition, and it supplies no bound on the radial register $r$
+that the static finite-window certificates did not already supply.  It is
+consistent with, and explains, the recurring outcome that finite static
+detection separates and localizes but does not exclude off-line zeros: exclusion
+is a spectral-stability statement, and a static certificate is the wrong type of
+object to settle it.  The framing gives no new leverage on the obligations of
+\autoref{ch:visions-rh-radial-register-obstruction-frontier} or
+\autoref{ch:visions-rh-local-global-zero-exclusion-target}; it locates them.  Its
+only positive content is a classification of the missing step --- a
+spectral-realization or trace-formula statement about an internalized flow ---
+together with the record that the sole finite-provable instance already has that
+shape.
