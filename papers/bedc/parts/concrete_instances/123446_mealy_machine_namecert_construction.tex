@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\MealyMachineUp$}
+\label{ch:concrete-instances-mealy-machine-namecert}
+\origin{human}
+
+Following Mealy's finite-state transducer tradition, the $\MealyMachineUp$ packet records deterministic output-on-transition behavior as finite BEDC NameCert data. It sits beside the state-output $\MooreMachineUp$ packet of \autoref{ch:concrete-instances-moore-machine-namecert}, the relation-facing $\FiniteStateTransducerUp$ packet of \autoref{ch:concrete-instances-finite-state-transducer-namecert}, the accepted-word surface of $\RegularLanguageUp$ in \autoref{ch:concrete-instances-regularlanguage-namecert}, the right-congruence classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert}, the finite input spine of \autoref{ch:concrete-instances-list-namecert}, and the unary cursor rows of \autoref{ch:concrete-instances-nat-namecert}. The packet names finite transition-output replay; it does not import Moore state readout, nondeterministic relation semantics, language quotient equality, minimization uniqueness, infinite streams, or a host evaluator.
+
+\begin{definition}[Mealy-machine carrier]
+\label{def:mealy-machine-carrier}
+A $\MealyMachineUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,I,O,q_0,\delta,\omega,W,R,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite state row.
+\item $I$ is the finite input-alphabet row.
+\item $O$ is the finite output-alphabet row.
+\item $q_0$ is the initial-state row inside $Q$.
+\item $\delta$ is the deterministic transition row, reading a displayed current state and input symbol into the next displayed state.
+\item $\omega$ is the transition-output readout row, reading the same current-state/input pair, together with the displayed transition endpoint when needed, into an output symbol.
+\item $W$ is the finite input trace as a $\ListUp$ row over $I$.
+\item $R$ is the finite state-run ledger obtained by replaying $W$ from $q_0$ through $\delta$.
+\item $Y$ is the finite output trace obtained by reading each transition step of $R$ through $\omega$; it is not a Moore state-output trace.
+\item $H$ records componentwise $\hsame$ transport for states, alphabets, initial state, transition replay, transition-output readout, traces, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an input-trace request through $q_0,\delta,\omega,W,R,Y$.
+\item $P$ is the $\Pkg$ provenance over $\MealyMachineUp$, $\MooreMachineUp$, $\FiniteStateTransducerUp$, $\RegularLanguageUp$, $\MyhillNerodeUp$, $\ListUp$, $\NatUp$, finite $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MealyMachineUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows, their displayed transports, their continuation replay, package provenance, and local naming. It has no coordinate for state-only output readout, nondeterministic transition relation semantics, language quotient equality, canonical minimization, infinite input streams, or host evaluator soundness.
+\end{definition}
+
+\begin{theorem}[Mealy-machine NameCert obligations]
+\label{thm:mealy-machine-namecert-obligations}
+For every accepted $\MealyMachineUp$ carrier
+$$
+M=(Q,I,O,q_0,\delta,\omega,W,R,Y,H,C,P,N),
+$$
+the local $\NameCert_{\MealyMachineUp}$ surface consists exactly of deterministic state replay from $q_0$ along the finite input trace $W$, transition-output readout through $\omega$, output trace stability through $Y$, comparison with the state-output sibling of \autoref{ch:concrete-instances-moore-machine-namecert}, relation-boundary comparison with \autoref{ch:concrete-instances-finite-state-transducer-namecert}, accepted-word handoff to $\RegularLanguageUp$ and $\MyhillNerodeUp$ through \autoref{ch:concrete-instances-regularlanguage-namecert} and \autoref{ch:concrete-instances-myhill-nerode-namecert}, finite-spine reading through \autoref{ch:concrete-instances-list-namecert}, unary cursor reading through \autoref{ch:concrete-instances-nat-namecert}, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The packet exports finite transition-output behavior only.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mealy-machine-carrier}. The rows expose finite states, input and output alphabets, the initial state, deterministic transition replay, transition-output readout, finite input and output traces, transport, replay, provenance, and local naming.
+
+Deterministic replay is supplied by $\delta$ and $C$. Starting from $q_0$, each displayed input symbol in $W$ determines the next displayed state and appends one row to the finite state-run ledger $R$.
+
+Output stability is supplied by $\omega,Y,H$. The readout $\omega$ is evaluated on each transition step rather than on the destination state alone, so transport preserves transition-output behavior without converting the packet into a Moore-machine row.
+
+Finally route the finite trace through the sibling surfaces. $\FiniteStateTransducerUp$ may read the transition-output boundary as a deterministic finite relation, $\RegularLanguageUp$ and $\MyhillNerodeUp$ may read only the accepted-word and state-classifier handoff rows, and $\ListUp$ and $\NatUp$ supply the finite spine and cursor discipline. None of those sibling reads adds nondeterministic relation semantics, quotient language equality, minimization uniqueness, infinite streams, or host evaluator soundness.
+\end{proof}
+
+\begin{theorem}[Mealy-machine output-transition determinacy]
+\label{thm:mealy-machine-output-transition-determinacy}
+Let $M=(Q,I,O,q_0,\delta,\omega,W,R,Y,H,C,P,N)$ be an accepted $\MealyMachineUp$ carrier. For each displayed cursor position of the finite input trace $W$, the current state read from $R$ and the current input symbol determine both the next state through $\delta$ and the emitted output through $\omega$. Any public consumer that preserves $q_0,\delta,\omega,W,R,Y,H,C,P,N$ therefore reads a unique transition-output row at that cursor, while a consumer that drops $\omega$ or the corresponding transition row cannot recover $Y$ from a Moore-style state-output readout.
+\end{theorem}
+\begin{proof}
+Fix a displayed cursor position in $W$. The replay row $C$ reads the current state from the finite run ledger $R$ and the current input symbol from the $\ListUp$ spine.
+
+Apply the deterministic transition row $\delta$. The current state and input symbol produce one next-state row, so the run ledger has no branch at that cursor.
+
+Now apply the transition-output readout $\omega$ to the same transition step. This produces the unique emitted output row stored in $Y$ at the cursor position, and componentwise transport through $H$ preserves the same read.
+
+If a consumer erases $\omega$ or the displayed transition row, the carrier has no coordinate from which to reconstruct the output trace. A Moore-machine state readout is a sibling comparison, not a replacement for transition-output determinacy in this packet.
+\end{proof}
+
+\closureat{MealyMachineUp}{seedStr}
+
+\begin{closurestatus}{\MealyMachineUp}
+  \constructivestory{A $\MealyMachineUp$ packet is generated from finite state, input alphabet, output alphabet, initial-state, deterministic transition replay, transition-output readout, finite input trace, state-run ledger, output trace, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mealy-machine-carrier}, \autoref{thm:mealy-machine-namecert-obligations}, and \autoref{thm:mealy-machine-output-transition-determinacy} seed the finite transition-output surface over MealyMachineUp, MooreMachineUp, FiniteStateTransducerUp, RegularLanguageUp, MyhillNerodeUp, ListUp, NatUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, Moore state-output equivalence, nondeterministic finite-transducer relation semantics, language quotient equality, canonical minimization, infinite-stream semantics, host evaluator soundness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deterministic transition replay, transition-output determinacy, finite trace stability, sibling handoff rows, transport, replay, provenance, and local naming for BEDC.Derived.MealyMachineUp.}
+\end{closurestatus}

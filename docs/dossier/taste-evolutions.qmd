@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-04T15:41:23Z
+> 最后刷新: 2026-07-04T17:04:24Z
 
-**Daemon 状态**: monitor (monitor cycle 294, adjust_since_research 2, round_counter 37758, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 295, adjust_since_research 2, round_counter 37794, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1333 条 finding):
-- isolated_theorem: 960 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1332 条 finding):
+- isolated_theorem: 959 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 67 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 74 次
+- TASTE ALERT category=isolated_theorem: 75 次
+- TASTE ALERT category=low_entropy_template: 2 次
 - TASTE ALERT category=cycle_exception: 1 次
-- TASTE ALERT category=low_entropy_template: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -583,6 +583,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T14:15:52Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:freewillinscriptioncommitment:BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape:4b26e6fd`). Rationale: The isolated_theorem finding is stale in this worktree: the target still carries meaningful BEDC content, combining the event-flow non-escape fact with a route-level SemanticNameCert boundary, and it is already consumed by the sibling theorem FreeWillInscriptionCommitment_obligation_closure_nonescape_consumer in the same Lean file. The chapter also uses the non-escape theorem as a named part of obligation closure. No edit is needed because the downstream consumer already exists and ties the theorem into carrier, package, UnaryHistory, Cont, and SemanticNameCert structure. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-04T15:40:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAudit_reduction_conversion_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAudit_reduction_conversion_boundary:cbf92137`). Rationale: The target has real BEDC content: it constructs the obstruction-side SemanticNameCert and exposes the reduction, conversion, and obstruction Cont routes from MetaCICBetaAuditCarrier. It was isolated because no Lean sibling consumed it, while the paper only had a marker. I added a substantive sibling consumer that uses this boundary together with the subject-reduction obstruction ledger to connect the reduction/conversion boundary to the O-row event-flow membership surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-04T17:03:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiber_scoped_route` (flag `isolated_theorem`, finding `isolated_theorem:apophaticfixedpointfiber:BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiber_scoped_route:b8d384f1`). Rationale: The theorem has real BEDC content: it builds the scoped SemanticNameCert and unary scoped-read consequences for the ApophaticFixedPointFiber carrier, and the chapter already uses that scoped route as the bridge-facing public surface premise. I added ApophaticFixedPointFiber_scoped_bridge_public_surface as a downstream Lean consumer that explicitly invokes ApophaticFixedPointFiber_scoped_route and combines its scoped certificate with the existing bridge readback certificate, so the target is no longer an isolated staging theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
