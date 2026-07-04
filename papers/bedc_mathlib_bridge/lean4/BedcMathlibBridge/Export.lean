@@ -30,6 +30,7 @@ import BedcMathlibBridge.Export.NatPowSucc
 import BedcMathlibBridge.Export.NatSuccPred
 import BedcMathlibBridge.Export.NatSuccInjective
 import BedcMathlibBridge.Export.ListMapEqMap
+import BedcMathlibBridge.Export.NatMulComm
 import BedcMathlibBridge.Export.ListBindEqFlatMap
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Motzkin
