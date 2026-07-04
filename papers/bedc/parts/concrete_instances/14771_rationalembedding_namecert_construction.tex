@@ -115,10 +115,28 @@ Next use \autoref{thm:rational-embedding-streamname-scope}. This prevents the st
 The carrier definition contains no row for quotient equality, selected limits, trichotomy, host rational equality as an oracle, completeness for arbitrary names, or ambient real equality. Therefore the real-facing consumer cannot escape the finite rational-constant route.
 \end{proof}
 
+\begin{theorem}[RationalEmbedding scoped dependency spine]
+\label{thm:rational-embedding-scoped-dependency-spine}
+Every accepted $\RationalEmbeddingUp$ read that reaches the rational-constant real seal factors through exactly the scoped dependency spine
+$$
+\RatUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RealUp
+$$
+together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\RationalEmbeddingUp}$ rows. The read may inspect the carrier coordinates $q,S,R,D,E,H,C,P,N$ only along this order. It has no alternate path through quotient streams, selected host limits, trichotomy, arbitrary real completeness, host rational equality as an oracle, or ambient $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:rational-embedding-carrier-surface}. The displayed rows already order the rational source, constant schedule, stationary readback, dyadic observation, real seal, transport, replay, provenance, and local naming coordinates.
+
+Apply the constant-sequence route of \autoref{thm:rational-embedding-constant-sequence-route}. It forces the $\RatUp$ row $q$ to be read before the $\StreamNameUp$ schedule $S$, and it forces $S$ to be read before the stationary $\RegSeqRatUp$ row $R$.
+
+Next use stationary readback exactness and the RealUp seal boundary, \autoref{thm:rational-embedding-stationary-readback-exactness} and \autoref{thm:rational-embedding-real-seal-boundary}. These place the $\DyadicRatCoreUp$ row $D$ after the stationary readback and place the $\RealUp$ seal $E$ after the dyadic observation row.
+
+Finally use the StreamName scope and nonescape theorems, \autoref{thm:rational-embedding-streamname-scope} and \autoref{thm:rational-embedding-nonescape}. They keep the stream coordinate constant and keep every real-facing consumer on $q,S,R,D,E,H,C,P,N$, so the only remaining rows are the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates of the same finite packet.
+\end{proof}
+
 \begin{closurestatus}{\RationalEmbeddingUp}
   \constructivestory{A $\RationalEmbeddingUp$ packet is generated from a RatUp source row, constant StreamName schedule, stationary RegSeqRat readback, DyadicRatCore tolerance and observation row, RealUp seal, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:rational-embedding-carrier-surface}, \autoref{thm:rational-embedding-constant-sequence-route}, \autoref{thm:rational-embedding-real-seal-boundary}, \autoref{thm:rational-embedding-stationary-readback-exactness}, \autoref{thm:rational-embedding-namecert-obligations}, \autoref{thm:rational-embedding-streamname-scope}, and \autoref{thm:rational-embedding-nonescape} bind the finite rational-constant embedding route from $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ to $\RealUp$.}
+  \scopeclosed{\autoref{def:rational-embedding-carrier-surface}, \autoref{thm:rational-embedding-constant-sequence-route}, \autoref{thm:rational-embedding-real-seal-boundary}, \autoref{thm:rational-embedding-stationary-readback-exactness}, \autoref{thm:rational-embedding-namecert-obligations}, \autoref{thm:rational-embedding-streamname-scope}, \autoref{thm:rational-embedding-nonescape}, and \autoref{thm:rational-embedding-scoped-dependency-spine} bind the finite rational-constant embedding route from $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ to $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, host rational equality as an oracle, trichotomy, scoped closure, public closure, or a checked Lean certificate.}
