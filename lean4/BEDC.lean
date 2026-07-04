@@ -8037,6 +8037,7 @@ import BEDC.Derived.LocatedOpenUp
 import BEDC.Derived.LocatedOpenUp.ObligationSurface
 import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedOpenUp.WindowStability
+import BEDC.Derived.LocatedOrderIntervalUp.TasteGate
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedReal.GroundedDyadic
