@@ -100,4 +100,39 @@ theorem CompileFrontierWitness_boundary_exactness [AskSetup] [PackageSetup]
   exact
     ⟨boundaryReadUnary, boundaryRoute, exitReadUnary, exitRoute, provenancePkg, namePkg⟩
 
+theorem CompileFrontierWitness_consumer_nonescape [AskSetup] [PackageSetup]
+    {F T S A B H C P N auditRead boundaryRead cellularRead obstructionRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompileFrontierWitnessCarrier F T S A B H C P N bundle pkg ->
+      Cont S A auditRead ->
+        Cont auditRead B boundaryRead ->
+          Cont boundaryRead P cellularRead ->
+            Cont cellularRead N obstructionRead ->
+              Cont obstructionRead C consumerRead ->
+                PkgSig bundle consumerRead pkg ->
+                  UnaryHistory cellularRead ∧ UnaryHistory obstructionRead ∧
+                    UnaryHistory consumerRead ∧ hsame cellularRead (append boundaryRead P) ∧
+                      hsame obstructionRead (append cellularRead N) ∧
+                        hsame consumerRead (append obstructionRead C) ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                            PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: CompileFrontierWitnessCarrier BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier auditRoute boundaryRoute cellularRoute obstructionRoute consumerRoute consumerPkg
+  obtain ⟨_fUnary, _tUnary, sUnary, aUnary, bUnary, _hUnary, cUnary, pUnary,
+    nUnary, provenancePkg, namePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed sUnary aUnary auditRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed auditReadUnary bUnary boundaryRoute
+  have cellularReadUnary : UnaryHistory cellularRead :=
+    unary_cont_closed boundaryReadUnary pUnary cellularRoute
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed cellularReadUnary nUnary obstructionRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed obstructionReadUnary cUnary consumerRoute
+  exact
+    ⟨cellularReadUnary, obstructionReadUnary, consumerReadUnary, cellularRoute,
+      obstructionRoute, consumerRoute, provenancePkg, namePkg, consumerPkg⟩
+
 end BEDC.Derived.CompileFrontierWitnessUp

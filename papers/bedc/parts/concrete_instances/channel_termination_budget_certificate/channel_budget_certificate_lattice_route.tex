@@ -1,0 +1,11 @@
+\begin{theorem}[Channel termination budget certificate lattice route]
+\label{thm:channel-termination-budget-certificate-lattice-route}
+Every accepted $\ChannelTerminationBudgetCertificateUp$ lattice read consumes the channel boundary of \autoref{ch:concrete-instances-channel-termination-boundary-namecert} and the halting boundary of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert} before it exposes the local finish row $F$ or the global-refusal row $G$. Downstream budget-certificate consumers must then route their reads through the local carrier rows $A,L,Z,F,G,R,H,C,P,N$ rather than through a detached finish/refusal pair.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:channel-termination-budget-certificate-carrier}. The rows $A,L,Z$ provide the active alphabet, legal-event inspection, and finite scan budget that make the local channel endpoint visible.
+
+Read the two channel-boundary siblings before exposing $F$ or $G$. The channel termination boundary supplies the event-level delimiter discipline, while the channel termination halting boundary prevents the delimiter read from becoming a certificate-level halting classifier.
+
+The downstream budget-certificate read therefore passes through the local carrier rows. Transport, replay, provenance, and local naming preserve the same route, so no consumer can read the finish/refusal pair without the boundary lattice and the displayed carrier rows.
+\end{proof}
