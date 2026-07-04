@@ -84,6 +84,18 @@ Use the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-b
 Finally apply \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}. The codomain-readback boundary already refuses equality, interchangeability, context reduction, closed subject reduction, and host conversion; the ledger row therefore remains a displayed frontier route rather than an escape hatch to those endpoints.
 \end{proof}
 
+\begin{theorem}[Dependent-codomain inversion boundary readback stability request]
+\label{thm:dependent-codomain-inversion-boundary-readback-stability-request}
+Any consumer requesting stability between the paired codomain readbacks $C_0$ and $C_1$ in an accepted $\DependentCodomainInversionBoundaryUp$ packet must display the syntactic substitution row $S$, the subject-reduction obstruction handoff $R$, the open-frontier ledger $O$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, provenance $P$, and the local $\NameCert_{\DependentCodomainInversionBoundaryUp}$ row $N$ before the request is valid. The packet validates only the request boundary and still exports no equality endpoint, context reduction, closed subject reduction, inhabited discharge bundle, or host conversion principle.
+\end{theorem}
+\begin{proof}
+Apply the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}. It forces any dependent-codomain discharge request to pass through the paired readback rows $C_0,C_1$, syntactic substitution row $S$, obstruction handoff row $R$, and frontier ledger row $O$.
+
+Apply codomain-readback nonescape from \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}. A consumer asking to treat $C_0$ and $C_1$ as stable receives only the displayed request boundary through $S,R,O,H,K,P,N$, not an equality or interchangeability endpoint.
+
+Finally use ledger nonescape from \autoref{thm:dependent-codomain-inversion-boundary-ledger-nonescape}. The open-frontier ledger remains attached to the same transport, replay, provenance, and local naming rows, so the stability request is valid only as a visible frontier request and cannot be read as closed dependent-codomain inversion.
+\end{proof}
+
 \closureat{DependentCodomainInversionBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\DependentCodomainInversionBoundaryUp}
