@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-04T20:33:46Z
+> 最后刷新: 2026-07-04T21:55:02Z
 
-**Daemon 状态**: monitor (monitor cycle 298, adjust_since_research 2, round_counter 37906, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 299, adjust_since_research 2, round_counter 37949, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1339 条 finding):
 - isolated_theorem: 966 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,7 +30,7 @@ date-modified: today
 - low_entropy_template: 67 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 83 次
+- TASTE ALERT category=isolated_theorem: 78 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=low_entropy_template: 1 次
 
@@ -591,6 +591,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T19:23:43Z: `resolved` `delete_theorem` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierTasteGate_single_carrier_alignment:2315072a`). Rationale: The declaration was an unconsumed public conjunction packaging existing local TasteGate facts: BHist decode/encode, EventFlow round-trip, injectivity, empty encoding, field faithfulness, and an explicit nontrivial witness. The surrounding file already uses the underlying private lemmas to build the ChapterTasteGate, BHistCarrier, FieldFaithful, and Nontrivial instances, while later NameCert/handoff theorems do not depend on this public wrapper. Repository search found no downstream Lean use; the only removable paper reference was the carrier-definition leanchecked marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-04T20:33:18Z: `resolved` `add_downstream_user` for `BEDC.Derived.DyadicArchimedeanUp.DyadicArchimedeanCarrier_l10_handoff` (flag `isolated_theorem`, finding `isolated_theorem:dyadicarchimedean:BEDC.Derived.DyadicArchimedeanUp.DyadicArchimedeanCarrier_l10_handoff:b0e1fbfd`). Rationale: The target is not a mere restatement: it packages the L10 route facts from a DyadicArchimedean carrier through Cont, UnaryHistory, and PkgSig. Source grep showed no downstream Lean consumer before this change, while the paper uses the L10 handoff as part of the StreamName transport narrative. I added a sibling theorem, DyadicArchimedeanStreamname_l10_handoff_transport, in StreamnameScaleTransport.lean; it directly calls DyadicArchimedeanCarrier_l10_handoff, transports the L10 row across hsame into a stream read, and closes a consumer Cont route using the carrier's transport row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-04T21:54:28Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_namecert_obligations:99c7f777`). Rationale: The target carries real BEDC content: it constructs a SemanticNameCert and proves the regular, dyadic, real, filter, and universal readback rows are UnaryHistory. It had no Lean downstream consumer beyond the paper marker, so I added BishopCompletionCarrier_namecert_universal_ledger_readback in the existing UniversalFilterReadback sibling. The new theorem uses the target to obtain the NameCert, consumes cert.ledger_sound at universalRead, and exports a ledger witness tied to Cont filterRead U universalRead and PkgSig provenance. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
