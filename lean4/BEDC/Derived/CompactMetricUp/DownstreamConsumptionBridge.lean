@@ -47,4 +47,24 @@ theorem CompactMetricPublicInterface_downstream_consumption_bridge
         complete.right nUnary streamSource
       exact ⟨publicSource, netWitness, limitWitness⟩
 
+theorem CompactMetricUp_StdBridge {X : BHist -> Prop} {eps x y dist : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificateCarrier X x y dist eps bundle s M limit →
+      CompactMetricCertificate X eps bundle s M limit ∧
+        MetricDistanceWitness x y dist ∧
+          CompactMetricPublicExportSource X eps bundle s M limit := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle MetricDistanceWitness CompactMetricCertificateCarrier
+  intro carrier
+  cases carrier with
+  | intro xSource rest =>
+      cases rest with
+      | intro _ySource rest =>
+          cases rest with
+          | intro distanceWitness rest =>
+              cases rest with
+              | intro net complete =>
+                  exact
+                    ⟨⟨net, complete⟩, distanceWitness,
+                      ⟨Exists.intro x xSource, net, complete⟩⟩
+
 end BEDC.Derived.CompactMetricUp
