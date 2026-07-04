@@ -6671,6 +6671,7 @@ import BEDC.Derived.FiniteWindowRegSeqRatRefinementUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
+import BEDC.Derived.Finite_cauchy_density_netUp
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp.TasteGate
@@ -9350,6 +9351,7 @@ import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.MonoidActionUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MonoidUp.StdBridge
+import BEDC.Derived.MonoidUp.TasteGate
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
