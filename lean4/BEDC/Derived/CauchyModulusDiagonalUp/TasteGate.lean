@@ -44,21 +44,54 @@ def cauchyModulusDiagonalToEventFlow : CauchyModulusDiagonalUp → EventFlow :=
 
 def cauchyModulusDiagonalFromEventFlow : EventFlow → Option CauchyModulusDiagonalUp
   -- BEDC touchpoint anchor: BHist BMark
-  | F :: S :: Q :: E :: M :: T :: W :: H :: C :: P :: N :: [] =>
-      some
-        (CauchyModulusDiagonalUp.mk
-          (cauchyModulusDiagonalDecodeBHist F)
-          (cauchyModulusDiagonalDecodeBHist S)
-          (cauchyModulusDiagonalDecodeBHist Q)
-          (cauchyModulusDiagonalDecodeBHist E)
-          (cauchyModulusDiagonalDecodeBHist M)
-          (cauchyModulusDiagonalDecodeBHist T)
-          (cauchyModulusDiagonalDecodeBHist W)
-          (cauchyModulusDiagonalDecodeBHist H)
-          (cauchyModulusDiagonalDecodeBHist C)
-          (cauchyModulusDiagonalDecodeBHist P)
-          (cauchyModulusDiagonalDecodeBHist N))
-  | _ => none
+  | [] => none
+  | F :: rest0 =>
+      match rest0 with
+      | [] => none
+      | S :: rest1 =>
+          match rest1 with
+          | [] => none
+          | Q :: rest2 =>
+              match rest2 with
+              | [] => none
+              | E :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | M :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | T :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | W :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (CauchyModulusDiagonalUp.mk
+                                                      (cauchyModulusDiagonalDecodeBHist F)
+                                                      (cauchyModulusDiagonalDecodeBHist S)
+                                                      (cauchyModulusDiagonalDecodeBHist Q)
+                                                      (cauchyModulusDiagonalDecodeBHist E)
+                                                      (cauchyModulusDiagonalDecodeBHist M)
+                                                      (cauchyModulusDiagonalDecodeBHist T)
+                                                      (cauchyModulusDiagonalDecodeBHist W)
+                                                      (cauchyModulusDiagonalDecodeBHist H)
+                                                      (cauchyModulusDiagonalDecodeBHist C)
+                                                      (cauchyModulusDiagonalDecodeBHist P)
+                                                      (cauchyModulusDiagonalDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem cauchyModulusDiagonal_round_trip :
     ∀ x : CauchyModulusDiagonalUp,
