@@ -107,4 +107,27 @@ theorem SorgenfreyPlaneNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, lineProduct, topologyRectangle, rectangleReplay, pkgRow, namePkg⟩
 
+theorem SorgenfreyPlane_product_topology_link [AskSetup] [PackageSetup]
+    {LX LY Q OX OY B S H C R N productRead separationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SorgenfreyPlaneCarrier LX LY Q OX OY B S H C R N bundle pkg →
+      Cont Q B productRead →
+        Cont productRead S separationRead →
+          UnaryHistory LX ∧ UnaryHistory LY ∧ UnaryHistory Q ∧ UnaryHistory B ∧
+            UnaryHistory S ∧ UnaryHistory productRead ∧ UnaryHistory separationRead ∧
+              Cont LX LY Q ∧ Cont Q B productRead ∧
+                Cont productRead S separationRead ∧ PkgSig bundle R pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier productRoute separationRoute
+  obtain ⟨lxUnary, lyUnary, qUnary, _oxUnary, _oyUnary, bUnary, sUnary, _hUnary,
+    _cUnary, _rUnary, _nUnary, lineProduct, _topologyRectangle, _rectangleReplay,
+    pkgRow, _namePkg⟩ := carrier
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed qUnary bUnary productRoute
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed productUnary sUnary separationRoute
+  exact
+    ⟨lxUnary, lyUnary, qUnary, bUnary, sUnary, productUnary, separationUnary,
+      lineProduct, productRoute, separationRoute, pkgRow⟩
+
 end BEDC.Derived.SorgenfreyPlaneUp
