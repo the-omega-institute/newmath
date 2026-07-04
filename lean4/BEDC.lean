@@ -1316,6 +1316,7 @@ import BEDC.Derived.BornologyUp.ObligationClosureRoute
 import BEDC.Derived.BornologyUp.ScopeKernelGrounding
 import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BornologyUp.UnionStability
+import BEDC.Derived.BorrowedRecursorBoundaryUp.Nonescape
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BorsukUlamAntipodalUp
 import BEDC.Derived.BorsukUlamUp.TasteGate
