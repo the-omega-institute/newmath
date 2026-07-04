@@ -22,7 +22,8 @@ def SorgenfreyPlaneCarrier [AskSetup] [PackageSetup]
   UnaryHistory LX ∧ UnaryHistory LY ∧ UnaryHistory Q ∧ UnaryHistory OX ∧
     UnaryHistory OY ∧ UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory H ∧
       UnaryHistory C ∧ UnaryHistory R ∧ UnaryHistory N ∧ Cont LX LY Q ∧
-        Cont OX OY B ∧ Cont B S C ∧ PkgSig bundle R pkg ∧ PkgSig bundle N pkg
+        Cont OX OY B ∧ Cont B S C ∧ PkgSig bundle R pkg ∧ PkgSig bundle N pkg ∧
+          hsame N S
 
 inductive SorgenfreyPlaneRowSource
     (LX LY Q OX OY B S H C R N : BHist) : BHist -> Prop where
@@ -51,7 +52,8 @@ theorem SorgenfreyPlaneNamecertObligations [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
   intro carrier
   obtain ⟨lxUnary, lyUnary, qUnary, oxUnary, oyUnary, bUnary, sUnary, hUnary, cUnary,
-    rUnary, nUnary, lineProduct, topologyRectangle, rectangleReplay, pkgRow, namePkg⟩ :=
+    rUnary, nUnary, lineProduct, topologyRectangle, rectangleReplay, pkgRow, namePkg,
+    _nameObservable⟩ :=
       carrier
   have cert :
       SemanticNameCert
