@@ -1,12 +1,22 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ConstructiveIVPUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -130,5 +140,28 @@ theorem ConstructiveIVPTasteGate_single_carrier_alignment :
   exact
     ⟨constructiveIVPDecode_encode_bhist, constructiveIVP_round_trip,
       (fun _ _ heq => constructiveIVPToEventFlow_injective heq), rfl⟩
+
+theorem ConstructiveIVPCarrier_bisection_regular_cauchy_route [AskSetup] [PackageSetup]
+    {A M E B R S H C P N realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory E ->
+      UnaryHistory B ->
+        UnaryHistory R ->
+          UnaryHistory S ->
+            PkgSig bundle P pkg ->
+              PkgSig bundle N pkg ->
+                Cont E B R ->
+                  Cont R S realRead ->
+                    UnaryHistory realRead ∧ hsame realRead realRead ∧
+                      Cont E B R ∧ Cont R S realRead ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro unaryE unaryB _unaryR unaryS pkgP pkgN eulerBisectionRoute realRoute
+  have regularCauchyUnary : UnaryHistory R :=
+    unary_cont_closed unaryE unaryB eulerBisectionRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed regularCauchyUnary unaryS realRoute
+  exact
+    ⟨realUnary, hsame_refl realRead, eulerBisectionRoute, realRoute, pkgP, pkgN⟩
 
 end BEDC.Derived.ConstructiveIVPUp
