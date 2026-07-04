@@ -13,3 +13,13 @@ Next read the seed-status register. The register identifies the hub entry as a r
 
 Finally use the seed status closure block. It keeps the seed-facing read on $P,K,J,R,S,C,B,O,H,T,G,N$ and leaves the closurestatus body to the existing closurestatus child. Hence the hub input records only the child-axis route and exports no additional MetaCIC endpoint.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond current seed-status child read]
+\label{thm:metacic-parallel-diamond-frontier-seed-current-status}
+The current seed-status reader for $\MetaCICParallelDiamondFrontierUp$ is the same child packet as \autoref{thm:metacic-parallel-diamond-frontier-seed-status-current-axis}. It exports only the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$, and it exports no residual-substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, kernel consistency, or second closurestatus block.
+\end{theorem}
+\begin{proof}
+Read the current seed-status entry through the existing axis theorem. That theorem identifies the hub-facing seed-status reader with the child packet before any frontier closurestatus can be inspected.
+
+Projecting the same packet gives exactly $P,K,J,R,S,C,B,O,H,T,G,N$. No extra row in the child file carries residual-substitution discharge, subject reduction, global confluence, evaluator equality, quotient equality, normalization, kernel consistency, or an additional closurestatus endpoint, so the current reader has the stated public boundary.
+\end{proof}
