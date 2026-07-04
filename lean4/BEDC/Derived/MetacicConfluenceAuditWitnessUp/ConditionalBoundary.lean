@@ -183,4 +183,52 @@ theorem MetacicConfluenceAuditWitness_finite_route_induction [AskSetup] [Package
     exact foldUnaryClosed route steps routeUnary stepsUnary
   exact ⟨finalUnary, obstructionUnary, routeCont, namePkg⟩
 
+theorem MetacicConfluenceAuditWitness_obstruction_preservation [AskSetup] [PackageSetup]
+    {parallel substitution diamond confluence obstruction component route ledger name routeRead
+      obstructionRead boundaryRead final : BHist}
+    {steps : List BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicConfluenceAuditWitnessCarrier parallel substitution diamond confluence obstruction
+        component route ledger name bundle pkg →
+      Cont parallel substitution routeRead →
+        Cont obstruction component obstructionRead →
+          Cont obstructionRead route boundaryRead →
+            (forall step : BHist, List.Mem step steps -> UnaryHistory step) →
+              final = List.foldl append boundaryRead steps →
+                PkgSig bundle boundaryRead pkg →
+                  UnaryHistory final ∧ UnaryHistory obstruction ∧ UnaryHistory boundaryRead ∧
+                    Cont parallel substitution routeRead ∧
+                      Cont obstruction component obstructionRead ∧
+                        Cont obstructionRead route boundaryRead ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier routeRoute obstructionRoute boundaryRoute stepsUnary finalEq boundaryPkg
+  obtain ⟨_parallelUnary, _substitutionUnary, _diamondUnary, _confluenceUnary,
+    obstructionUnary, componentUnary, routeUnary, _ledgerUnary, _nameUnary,
+    _carrierRoute, _ledgerRoute, _nameRoute, namePkg, _cert⟩ := carrier
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary componentUnary obstructionRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed obstructionReadUnary routeUnary boundaryRoute
+  let rec foldUnaryClosed (current : BHist) :
+      (rows : List BHist) →
+        UnaryHistory current →
+          (forall row : BHist, List.Mem row rows -> UnaryHistory row) →
+            UnaryHistory (List.foldl append current rows)
+    | [], currentUnary, _ => currentUnary
+    | head :: tail, currentUnary, rowsUnary =>
+        have headUnary : UnaryHistory head :=
+          rowsUnary head (List.Mem.head tail)
+        have nextUnary : UnaryHistory (append current head) :=
+          unary_append_closed currentUnary headUnary
+        have tailUnary : forall row : BHist, List.Mem row tail -> UnaryHistory row := by
+          intro row rowMem
+          exact rowsUnary row (List.Mem.tail head rowMem)
+        foldUnaryClosed (append current head) tail nextUnary tailUnary
+  have finalUnary : UnaryHistory final := by
+    cases finalEq
+    exact foldUnaryClosed boundaryRead steps boundaryReadUnary stepsUnary
+  exact
+    ⟨finalUnary, obstructionUnary, boundaryReadUnary, routeRoute, obstructionRoute,
+      boundaryRoute, namePkg, boundaryPkg⟩
+
 end BEDC.Derived.MetacicConfluenceAuditWitnessUp
