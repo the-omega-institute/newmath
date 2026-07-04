@@ -6264,6 +6264,7 @@ import BEDC.Derived.FiniteCandidateDiamondUp
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.Classifier
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
@@ -13179,6 +13180,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThetaIdentitiesUp
+import BEDC.Derived.ThomIsomorphismUp.TasteGate
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
