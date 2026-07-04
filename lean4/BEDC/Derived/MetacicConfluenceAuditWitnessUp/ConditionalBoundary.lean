@@ -271,4 +271,53 @@ theorem MetacicConfluenceAuditWitness_obstruction_induction [AskSetup] [PackageS
     exact foldUnaryClosed obstruction obstructionSteps obstructionUnary obstructionStepsUnary
   exact ⟨finalUnary, obstructionFinalUnary, routeCont, namePkg⟩
 
+theorem MetacicConfluenceAuditWitness_local_diamond_boundary [AskSetup] [PackageSetup]
+    {parallel substitution diamond confluence obstruction component route ledger name routeRead
+      obstructionRead boundaryRead diamondRead confluenceRead final : BHist}
+    {steps : List BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicConfluenceAuditWitnessCarrier parallel substitution diamond confluence obstruction
+        component route ledger name bundle pkg →
+      Cont parallel substitution routeRead →
+        Cont routeRead diamond diamondRead →
+          Cont diamondRead confluence confluenceRead →
+            Cont obstruction component obstructionRead →
+              Cont obstructionRead route boundaryRead →
+                (forall step : BHist, List.Mem step steps -> UnaryHistory step) →
+                  final = List.foldl append boundaryRead steps →
+                    PkgSig bundle confluenceRead pkg →
+                      PkgSig bundle boundaryRead pkg →
+                        UnaryHistory confluenceRead ∧ UnaryHistory final ∧
+                          UnaryHistory obstruction ∧ Cont routeRead diamond diamondRead ∧
+                            Cont diamondRead confluence confluenceRead ∧
+                              Cont obstructionRead route boundaryRead ∧
+                                PkgSig bundle confluenceRead pkg ∧
+                                  PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier routeRoute diamondRoute confluenceRoute obstructionRoute boundaryRoute
+    stepsUnary finalEq confluencePkg boundaryPkg
+  have conditional :=
+    MetacicConfluenceAuditWitnessCarrier_conditional_boundary
+      (parallel := parallel) (substitution := substitution) (diamond := diamond)
+      (confluence := confluence) (obstruction := obstruction) (component := component)
+      (route := route) (ledger := ledger) (name := name) (substRead := routeRead)
+      (diamondRead := diamondRead) (confluenceRead := confluenceRead)
+      (bundle := bundle) (pkg := pkg) carrier routeRoute diamondRoute confluenceRoute
+      confluencePkg
+  obtain ⟨_parallelUnary, _substitutionUnary, _diamondUnary, _confluenceUnary,
+    _routeReadUnary, _diamondReadUnary, confluenceReadUnary, _routeRoute,
+    diamondRouteOut, confluenceRouteOut, confluencePkgOut⟩ := conditional
+  have obstructionReplay :=
+    MetacicConfluenceAuditWitness_obstruction_preservation
+      (parallel := parallel) (substitution := substitution) (diamond := diamond)
+      (confluence := confluence) (obstruction := obstruction) (component := component)
+      (route := route) (ledger := ledger) (name := name) (routeRead := routeRead)
+      (obstructionRead := obstructionRead) (boundaryRead := boundaryRead) (final := final)
+      (steps := steps) (bundle := bundle) (pkg := pkg) carrier routeRoute obstructionRoute
+      boundaryRoute stepsUnary finalEq boundaryPkg
+  obtain ⟨finalUnary, obstructionUnary, _boundaryReadUnary, _routeRouteOut,
+    _obstructionRouteOut, boundaryRouteOut, _namePkg, boundaryPkgOut⟩ := obstructionReplay
+  exact
+    ⟨confluenceReadUnary, finalUnary, obstructionUnary, diamondRouteOut,
+      confluenceRouteOut, boundaryRouteOut, confluencePkgOut, boundaryPkgOut⟩
+
 end BEDC.Derived.MetacicConfluenceAuditWitnessUp
