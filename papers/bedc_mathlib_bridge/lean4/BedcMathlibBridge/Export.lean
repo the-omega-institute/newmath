@@ -18,6 +18,7 @@ import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
 import BedcMathlibBridge.Export.Derangement
+import BedcMathlibBridge.Export.SubfactorialNumber
 import BedcMathlibBridge.Export.Rencontres
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
