@@ -10,6 +10,7 @@ import BedcMathlibBridge.Constructive.Lucas
 import BedcMathlibBridge.Constructive.Leonardo
 import BedcMathlibBridge.Constructive.SylvesterSequence
 import BedcMathlibBridge.Constructive.Binomial
+import BedcMathlibBridge.Constructive.BellTriangle
 import BedcMathlibBridge.Constructive.Factorial
 import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan

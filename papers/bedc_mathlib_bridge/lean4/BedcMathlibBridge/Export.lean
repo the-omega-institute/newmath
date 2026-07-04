@@ -10,6 +10,7 @@ import BedcMathlibBridge.Export.Lucas
 import BedcMathlibBridge.Export.Leonardo
 import BedcMathlibBridge.Export.SylvesterSequence
 import BedcMathlibBridge.Export.Binomial
+import BedcMathlibBridge.Export.BellTriangle
 import BedcMathlibBridge.Export.Factorial
 import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
