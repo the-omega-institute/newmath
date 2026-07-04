@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\AdaptedProcessUp$}
+\label{ch:concrete-instances-adapted-process-namecert}
+\origin{human}
+
+Following Williams, Probability with Martingales, the $\AdaptedProcessUp$ packet names the finite process interface whose value at each displayed time is measurable with respect to the displayed filtration row. It sits between the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the finite filtration window of \autoref{ch:concrete-instances-martingale-filtration-namecert}, the measurable endpoint surface of \autoref{ch:concrete-instances-randomvar-namecert}, and the martingale law of \autoref{ch:concrete-instances-martingale-namecert}. The packet lets martingale certificates consume one adapted-process row instead of repeating filtration measurability at every conditional-expectation face.
+
+\begin{definition}[AdaptedProcess carrier]
+\label{def:adapted-process-carrier}
+An $\AdaptedProcessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(\Omega,F,T,X,V,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ row naming the probability source and event classifier.
+\item $F$ is the consumed $\MartingaleFiltrationUp$ finite window, listing the inspected times and the event rows visible at each time.
+\item $T$ is the finite unary time spine whose displayed entries are read inside $F$.
+\item $X$ is the finite endpoint family $X_t$, one row for each displayed $t\in T$.
+\item $V$ is the $\RandomVarUp$ measurable-value surface for the endpoint rows, including source-event preimage readback and value-endpoint classifier transport.
+\item $M$ is the adaptedness ledger saying that the endpoint $X_t$ is readable through the $t$th filtration entry of $F$ before any martingale or stopping consumer sees it.
+\item $H$ records componentwise $\hsame$ transport for $\Omega,F,T,X,V,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through the probability source, filtration window, endpoint family, measurable-value surface, adaptedness ledger, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\AdaptedProcessUp$, $\ProbSpaceUp$, $\MartingaleFiltrationUp$, $\RandomVarUp$, $\MartingaleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AdaptedProcessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host stochastic process, completed filtration, almost-sure quotient, unbounded time family, optional projection, or ambient measurable-function equality.
+\end{definition}
+
+\begin{theorem}[AdaptedProcess NameCert obligations]
+\label{thm:adapted-process-namecert-obligations}
+For every accepted $\AdaptedProcessUp$ carrier
+$$
+A=(\Omega,F,T,X,V,M,H,C,P,N),
+$$
+the local $\NameCert_{\AdaptedProcessUp}$ surface consists exactly of probability-source exposure, finite filtration-window exposure, finite time-spine exposure, endpoint-family exposure, $\RandomVarUp$ measurable-value exposure through $V$, adaptedness exactness through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every $\MartingaleUp$ consumer of the packet must read $F,V,M$ before it may inspect a conditional-expectation successor face.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:adapted-process-carrier}. The probability, filtration, time, endpoint, measurable-value, and adaptedness rows are displayed components of the finite tuple.
+
+The measurable-value surface is inherited from $\RandomVarUp$. Its preimage and endpoint readback rows are consumed through $V$, so the process value at time $t$ is not a host function value but a carried random-variable endpoint over the displayed probability source.
+
+The adaptedness ledger $M$ then ties each displayed endpoint to the matching filtration entry in $F$. Thus a martingale-facing read receives an endpoint only after the filtration visibility row has already been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier omits completed filtrations, almost-sure quotients, unbounded time families, optional projections, host process equality, and ambient measurable-function equality, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[AdaptedProcess martingale handoff]
+\label{thm:adapted-process-martingale-handoff}
+Every accepted $\AdaptedProcessUp$ packet consumed by a $\MartingaleUp$ row exports only the finite route
+$$
+\ProbSpaceUp,\MartingaleFiltrationUp,\RandomVarUp \longmapsto \AdaptedProcessUp \longmapsto \MartingaleUp .
+$$
+The martingale consumer may read the probability source, filtration window, measurable endpoint rows, adaptedness ledger, transport, replay, provenance, and local naming row, but it may not replace them by a completed filtration, host stochastic process, almost-sure quotient of processes, unbounded time family, or selected optional projection.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $A=(\Omega,F,T,X,V,M,H,C,P,N)$. The rows $\Omega,F,T,X,V,M$ are the only stochastic rows available before the structural rows are read.
+
+Use \autoref{thm:adapted-process-namecert-obligations}. It forces each endpoint read through the $\RandomVarUp$ measurable-value row $V$ and then through the adaptedness row $M$ attached to the displayed filtration window $F$.
+
+The martingale packet of \autoref{ch:concrete-instances-martingale-namecert} can therefore consume the adapted endpoint family without restating filtration measurability at each successor face. The handoff is still finite, because $T$ lists the inspected times and $C$ replays only the displayed route.
+
+The non-export clauses follow from the carrier inventory. None of the omitted host process, completed-filtration, almost-sure quotient, unbounded-time, or optional-projection objects appears in $A$, so no downstream martingale read can extract one from this packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AdaptedProcessUp$ consumer that reaches a $\MartingaleUp$ successor face displays $\ProbSpaceUp$, $\MartingaleFiltrationUp$, $\RandomVarUp$, finite time-spine, endpoint-family, adaptedness, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows first.}
+
+\independenceWitness{probspace, martingale-filtration, randomvar, martingale: none is bijective to $\AdaptedProcessUp$ because this packet jointly carries the probability source, finite filtration window, endpoint family, measurable-value surface, adaptedness ledger, transport, replay, provenance, and local naming row as one finite process interface.}
+
+\closureat{AdaptedProcessUp}{seedStr}
+
+\begin{closurestatus}{\AdaptedProcessUp}
+  \constructivestory{An $\AdaptedProcessUp$ packet is generated from a probability-space row, a finite filtration-window row, a finite time spine, random-variable endpoint rows, measurable-value readback, an adaptedness ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:adapted-process-carrier}, \autoref{thm:adapted-process-namecert-obligations}, and \autoref{thm:adapted-process-martingale-handoff} seed the finite adapted-process interface consumed by martingale certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed filtrations, optional projections, almost-sure quotient equality, host stochastic-process equality, unbounded time families, theorem checking, or bridge checking.}
+  \upgradepath{A formal route can encode the finite carrier and prove adaptedness exactness, measurable-value handoff, martingale consumption, transport, replay, provenance, and local naming for BEDC.Derived.AdaptedProcessUp.}
+\end{closurestatus}
