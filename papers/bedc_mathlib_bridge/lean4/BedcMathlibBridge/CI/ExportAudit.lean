@@ -70,6 +70,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.StirlingSecond.stirlingSecondExport,
     witnessType :=
       `BedcMathlibBridge.Export.StirlingSecond.StirlingSecondExportWitness },
+  { witness := `BedcMathlibBridge.Export.BellStirlingPrefix.bellStirlingPrefixExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BellStirlingPrefix.BellStirlingPrefixExportWitness },
   { witness := `BedcMathlibBridge.Export.TouchardPoly.touchardCoeffExport,
     witnessType :=
       `BedcMathlibBridge.Export.TouchardPoly.TouchardCoeffExportWitness },
