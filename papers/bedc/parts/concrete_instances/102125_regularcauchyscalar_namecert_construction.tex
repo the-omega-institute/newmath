@@ -45,6 +45,7 @@ the local $\NameCert_{\RegularCauchyScalarUp}$ surface consists exactly of the f
 \end{enumerate}
 No scalar-multiplication obligation is stored outside these finite rows, and the surface refuses quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyScalarUp.RegularCauchyScalarCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted carrier. The analytic rows are the source row $X$, scalar row $A$, window schedule $W$, source observations $D$, scaled ledger $F$, and Real seal handoff $E$.
 
@@ -72,6 +73,28 @@ The finite schedule $W$ supplies the observations $D$ before scalar multiplicati
 The Real-facing boundary is downstream of that ledger. The seal handoff $E$ is exposed only after $X,A,W,D,F$, and the rows $H,C,P,N$ preserve the same dependency order for algebraic consumers.
 
 Therefore the scaled regular name is read through the finite BEDC scalar route. The listed refusal data are absent from the carrier, so no consumer can obtain them from this handoff.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScalar finite-window stability]
+\label{thm:regular-cauchy-scalar-window-stability}
+Let
+$$
+S=(X,A,W,D,F,E,H,C,P,N)
+$$
+and
+$$
+S'=(X',A',W',D',F',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyScalarUp$ packets. If their source row, dyadic scalar row, finite window schedule, source observations, scaled ledger, $\RealUp$ seal, componentwise transport, replay, provenance, and local naming rows agree componentwise under $\hsame$, then they expose the same scalar-facing finite-window read. No downstream consumer can read a scaled regular name outside the displayed rows $X,A,W,D,F,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:regular-cauchy-scalar-carrier}. The only rows available to a scalar-facing consumer are the source row, scalar row, window schedule, source observations, scaled ledger, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:regular-cauchy-scalar-namecert-obligations}. Its finite-window handoff and scaled-ledger stability clauses force each accepted read to pass through $X,A,W,D,F$ before the seal and structural rows are visible.
+
+Now use the componentwise $\hsame$ agreement. Since the corresponding rows of $S$ and $S'$ agree, the finite window schedule, source observations, and scaled ledger exposed to the consumer are the same scalar-facing finite-window read.
+
+Finally apply \autoref{thm:regular-cauchy-scalar-real-handoff}. Any Real-facing or algebra-facing request reaches the scaled regular name only after the displayed route $X,A,W,D,F,E,H,C,P,N$, so there is no external coordinate from which a different scaled regular name could be read.
 \end{proof}
 
 \begin{theorem}[RegularCauchyScalar obligation-closure package]
