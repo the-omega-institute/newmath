@@ -12701,6 +12701,7 @@ import BEDC.Derived.SingletonSource
 import BEDC.Derived.SingularHomologyUp.TasteGate
 import BEDC.Derived.SingularValueDecompositionUp.TasteGate
 import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
+import BEDC.Derived.SkorokhodSpaceUp
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SliceCategoryUp.TasteGate
 import BEDC.Derived.SmithNormalFormUp.TasteGate
