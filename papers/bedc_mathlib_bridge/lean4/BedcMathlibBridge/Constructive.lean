@@ -7,6 +7,7 @@ import BedcMathlibBridge.Constructive.Eisenstein
 import BedcMathlibBridge.Constructive.ZMod
 import BedcMathlibBridge.Constructive.Fibonacci
 import BedcMathlibBridge.Constructive.Lucas
+import BedcMathlibBridge.Constructive.FibonacciLucasIdentity
 import BedcMathlibBridge.Constructive.Leonardo
 import BedcMathlibBridge.Constructive.SylvesterSequence
 import BedcMathlibBridge.Constructive.Binomial
