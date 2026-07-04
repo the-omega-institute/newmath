@@ -31,6 +31,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.IntSignMagnitude.IntSignMagnitudeExportWitness },
   { witness := `BedcMathlibBridge.Export.Bool.boolExport,
     witnessType := `BedcMathlibBridge.Export.Bool.BoolExportWitness },
+  { witness := `BedcMathlibBridge.Export.Bool.boolAndOrderExport,
+    witnessType := `BedcMathlibBridge.Export.Bool.BoolAndOrderExportWitness },
   { witness := `BedcMathlibBridge.Export.Gaussian.gaussExport,
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
   { witness := `BedcMathlibBridge.Export.Pythagorean.pythagoreanExport,
