@@ -122,6 +122,7 @@ X \longrightarrow M \longrightarrow T \longrightarrow W \longrightarrow R \longr
 $$
 Any consumer that reaches the $\RegSeqRatUp$ handoff row $R$ or the terminal $\RealUp$ seal row $E$ must use that same order, with no alternate budget route through quotient streams, selected limits, host real equality, countable choice, trichotomy, ambient completeness, or a second shared modulus.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealModulusFusionUp.RealModulusFusionSharedBudgetNormalization}
 \begin{proof}
 Begin with the NameCert obligations of \autoref{thm:real-modulus-fusion-namecert-obligations}. They expose the source modulus rows $X$, the shared modulus row $M$, the tail-meet threshold $T$, the finite window family $W$, the handoff row $R$, the selector route $S$, and the seal row $E$ as rows of one accepted packet.
 
@@ -161,6 +162,20 @@ Use \autoref{thm:real-modulus-fusion-regseq-handoff} and \autoref{thm:real-modul
 Apply \autoref{thm:real-modulus-fusion-shared-budget-normalization} for single-budget uniqueness. The accepted packet has one normalized route from the Cauchy source family through $M,T,W,R,S,E$, so no second shared modulus or alternate budget order is available.
 
 Finally close with \autoref{thm:real-modulus-fusion-nonescape} and \autoref{thm:real-modulus-fusion-real-seal-boundary}. These results keep the export inside the displayed finite rows and bound the terminal seal without adding quotient streams, selected limits, choice, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RealModulusFusion L10 scoped route]
+\label{thm:real-modulus-fusion-l10-scope-route}
+Every accepted $\RealModulusFusionUp$ packet scopes its shared modulus through the L10 Real-and-Completion route before any completion-facing read. Concretely, the packet must expose the $\RealCompletenessUp$ source family, $\RegularCauchyTailMeetUp$ threshold, $\ChoiceFreeLimitScheduleUp$ selector route, $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, $\BHist$ carrier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The scoped route exports no quotient stream, selected limit, countable choice, host real equality, trichotomy, alternate shared modulus, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-fusion-carrier}. Its rows $X,M,T,W,R,S,E,H,C,P,N$ already place the shared modulus between the Real-completeness source family $X$ and the tail-meet, window, handoff, selector, and seal rows.
+
+Apply the NameCert obligations of \autoref{thm:real-modulus-fusion-namecert-obligations}. They bind the source family, shared modulus, $\RegularCauchyTailMeetUp$ threshold, $\StreamNameUp$ scheduling, $\RegSeqRatUp$ handoff, $\ChoiceFreeLimitScheduleUp$ selector, $\RealUp$ seal, transport, replay, provenance, and local name as one finite certificate surface.
+
+Use shared-tail window exhaustion and RegSeq handoff, \autoref{thm:real-modulus-fusion-shared-tail-window-exhaustion} and \autoref{thm:real-modulus-fusion-regseq-handoff}. These force every handoff-facing or seal-facing consumer through $M,T,W$ before $R$ or $E$ can be read.
+
+Finally apply the Real seal boundary, \autoref{thm:real-modulus-fusion-real-seal-boundary}. The terminal read reaches $E$ only through the displayed route $X,M,T,W,R,S,E$ with $H,C,P,N$ preserving the same packet, so the L10 scope contains exactly the listed rows and no excluded completion-facing object.
 \end{proof}
 
 \closureat{RealModulusFusionUp}{seedStr}

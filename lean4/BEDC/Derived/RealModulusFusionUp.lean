@@ -232,4 +232,29 @@ theorem RealModulusFusionNonescape [AskSetup] [PackageSetup]
                                       | inr _sameN =>
                                           exact exposed
 
+theorem RealModulusFusionSharedBudgetNormalization [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N budgetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont M T W ->
+        Cont W R budgetRead ->
+          Cont budgetRead S sealRead ->
+            PkgSig bundle P pkg ->
+              UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧ UnaryHistory R ∧
+                UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory budgetRead ∧
+                  UnaryHistory sealRead ∧ Cont M T W ∧ Cont W R budgetRead ∧
+                    Cont budgetRead S sealRead ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier modulusWindow budgetRoute sealRoute pkgRow
+  obtain ⟨_xUnary, mUnary, tUnary, _wUnary, rUnary, sUnary, eUnary, _hUnary, _cUnary,
+    _nUnary, _sourceModulus, _tailWindow, _handoffSeal, _hContCName, _carrierPkg⟩ :=
+      carrier
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed (unary_cont_closed mUnary tUnary modulusWindow) rUnary budgetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed budgetUnary sUnary sealRoute
+  exact
+    ⟨mUnary, tUnary, unary_cont_closed mUnary tUnary modulusWindow, rUnary, sUnary,
+      eUnary, budgetUnary, sealUnary, modulusWindow, budgetRoute, sealRoute, pkgRow⟩
+
 end BEDC.Derived.RealModulusFusionUp
