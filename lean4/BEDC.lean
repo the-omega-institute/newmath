@@ -5815,6 +5815,7 @@ import BEDC.Derived.EventuallyUp
 import BEDC.Derived.ExpLogBisectionUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.ExplanationComplexityInformationUp
+import BEDC.Derived.ExtFunctorUp.TasteGate
 import BEDC.Derived.ExtendedMetricSpaceUp
 import BEDC.Derived.ExtendedRealLineUp.TasteGate
 import BEDC.Derived.ExtensionByContinuityUp.TasteGate
