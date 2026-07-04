@@ -160,6 +160,43 @@ Next read the exactness and handoff rows. The handoff route of \autoref{def:regu
 
 Finally apply the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedule-scope-binding}. It keeps every accepted obligation inside the same displayed rows and excludes quotient stream equality, selected limits, unbounded diagonal streams, hidden tail selectors, and ambient completeness. The five rows therefore form the promised obligation-closure package.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailScheduleUp.RegularCauchyTailSchedule\_obligation\_closure\_package}
+
+\begin{theorem}[Regular Cauchy tail schedule window readiness]
+\label{thm:regular-cauchy-tail-schedule-window-readiness}
+For every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+each sibling consumer read is available only after the precision request $Q$, regular rational source row $R$, finite window schedule $W$, dyadic tolerance ledger $D$, cofinal index $K$, and tail witness $T$ have been displayed and transported through $H,C,P,N$. Thus the $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, and $\RealUp$ consumers read a window-ready schedule rather than a hidden tail selector, quotient stream equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. The entrance rows for a schedule read are exactly $Q,R,W,D,K,T$, and the sibling consumer rows $M,F,E$ occur only after those displayed coordinates.
+
+Apply schedule exactness from \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}. It forces every cofinal-tail read through the precision request, source row, window schedule, dyadic ledger, cofinal index, and tail witness before any sibling can inspect the result.
+
+Use the handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route}. The route records the same entrance rows in $C$, transports them componentwise through $H$, names their package source through $P$, and binds the local certificate through $N$.
+
+Finally invoke the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedule-scope-binding}. Since the carrier has no hidden tail selector, quotient stream row, or ambient completeness coordinate, the sibling consumers receive only the window-ready displayed schedule.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule obligation exhaustion]
+\label{thm:regular-cauchy-tail-schedule-obligation-exhaustion}
+For every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+carrier admission, classifier stability, schedule exactness, meet-fusion handoff, and ledger non-escape exhaust the obligation surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, and $\RealUp$. No additional obligation row may be read from quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, hidden tail selectors, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation-closure package of \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package}. It already lists the five local obligation rows and binds them to the displayed finite packet $S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)$.
+
+Carrier admission and classifier stability are projections from \autoref{def:regular-cauchy-tail-schedule-carrier} and \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}. They admit exactly the displayed schedule coordinates and transport only those coordinates through $H$.
+
+Schedule exactness and the meet-fusion handoff are supplied by the handoff route, seal-facing route determinacy, and meet-fusion compatibility. Together these rows force each read through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, and the terminal $\RealUp$ handoff in the displayed order.
+
+Ledger non-escape is the remaining obligation row. The scope-binding theorem keeps replay, provenance, and naming inside $C,P,N$, while the carrier contains no coordinate for the excluded analytic or quotient objects. Hence the five rows exhaust the obligation surface.
+\end{proof}
 
 \begin{theorem}[Regular Cauchy tail schedule cofinal-window induction]
 \label{thm:regular-cauchy-tail-schedule-cofinal-window-induction}

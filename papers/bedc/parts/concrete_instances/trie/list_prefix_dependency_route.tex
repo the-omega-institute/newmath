@@ -1,0 +1,15 @@
+\begin{theorem}[Trie List-prefix dependency route]
+\label{thm:trie-list-prefix-dependency-route}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet, and let $U$ be a displayed prefix subledger of $T$ in the sense of \autoref{def:trie-displayed-prefix-subledger}. Every read of the restricted packet
+$$
+T|_U=(k_U,v_U,l_U,b_U,p_U)
+$$
+as a finite prefix row exposes the $\ListUp$ key spine or $\BitVectorUp$ key path, the $\OptionUp$ payload row, the $\BoolUp$ branch tags, the $\NatUp$ depth ledger, and the projected $\Pkg$ provenance before any trie lookup is exported. When a grammar consumer reads the same restricted prefix as terminal-prefix evidence, the consumer enters through \autoref{ch:concrete-instances-contextfreegrammar-namecert} only after those displayed rows and their $\hsame$ and $\Cont$ routes have been projected.
+\end{theorem}
+\begin{proof}
+Project the displayed prefix subledger from \autoref{def:trie-displayed-prefix-subledger}. Its restricted key row $k_U$ is exactly a finite $\BitVectorUp$ path or $\ListUp$ spine, its payload row $v_U$ is the restricted $\OptionUp$ terminal row, its depth row $l_U$ is a projected $\NatUp$ ledger, and its branch row $b_U$ retains only displayed $\BoolUp$ tags.
+
+Apply the restriction carrier theorem \autoref{thm:trie-prefix-subledger-restriction-carrier}. It repacks the projected rows as an accepted $\TrieUp$ packet under the same finite dependency certificates, so a lookup-facing consumer must read the same key, payload, depth, branch, and provenance coordinates.
+
+Finally use provenance exhaustion from \autoref{thm:trie-prefix-subledger-formal-target}. The projected row $p_U$ names only the sibling finite-data certificates, $\hsame$ transport, and $\Cont$ replay. Therefore a $\ContextFreeGrammarUp$ terminal-prefix consumer can inspect the restricted prefix only after the List or BitVector spine, Option payload, Bool branch tags, Nat depth ledger, transport, replay, and package provenance have already been displayed.
+\end{proof}
