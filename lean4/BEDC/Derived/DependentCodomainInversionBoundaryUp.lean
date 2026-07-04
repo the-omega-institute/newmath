@@ -214,4 +214,72 @@ theorem DependentCodomainInversionBoundaryCarrier_ledger_nonescape [AskSetup] [P
   }
   exact ⟨cert, ledgerUnary⟩
 
+theorem DependentCodomainInversionBoundaryCarrier_codomain_readback_nonescape
+    [AskSetup] [PackageSetup]
+    {Pi A a aPrime C0 C1 S R O H K P N substRead obstructionRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.DependentCodomainInversionBoundaryCarrier Pi A a aPrime C0 C1 S R O H K P N
+        bundle pkg →
+      Cont C0 S substRead →
+        Cont substRead R obstructionRead →
+          Cont obstructionRead O frontierRead →
+            PkgSig bundle frontierRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row C0 ∨ hsame row C1 ∨ hsame row S ∨ hsame row R ∨
+                      hsame row O ∨ hsame row frontierRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont C0 S substRead ∧
+                      Cont substRead R obstructionRead ∧ Cont obstructionRead O frontierRead ∧
+                        PkgSig bundle frontierRead pkg)
+                  hsame ∧ UnaryHistory substRead ∧ UnaryHistory obstructionRead ∧
+                    UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: DependentCodomainInversionBoundaryCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier substRoute obstructionRoute frontierRoute frontierPkg
+  obtain ⟨_piUnary, _domainUnary, _argUnary, _argPrimeUnary, c0Unary, _c1Unary,
+    sUnary, rUnary, oUnary, _hUnary, _kUnary, _pUnary, _nUnary, _namePkg⟩ := carrier
+  have substUnary : UnaryHistory substRead :=
+    unary_cont_closed c0Unary sUnary substRoute
+  have obstructionUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed substUnary rUnary obstructionRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed obstructionUnary oUnary frontierRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row C0 ∨ hsame row C1 ∨ hsame row S ∨ hsame row R ∨
+              hsame row O ∨ hsame row frontierRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont C0 S substRead ∧ Cont substRead R obstructionRead ∧
+              Cont obstructionRead O frontierRead ∧ PkgSig bundle frontierRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro frontierRead ⟨hsame_refl frontierRead, frontierUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, substRoute, obstructionRoute, frontierRoute, frontierPkg⟩
+  }
+  exact ⟨cert, substUnary, obstructionUnary, frontierUnary⟩
+
 end BEDC.Derived.DependentCodomainInversionBoundaryUp

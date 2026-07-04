@@ -6087,6 +6087,7 @@ import BEDC.Derived.FaulhaberPolynomialUp
 import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
+import BEDC.Derived.FeketeSubadditiveLemmaUp
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FellTopologyUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
@@ -12330,6 +12331,7 @@ import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceRealReflection
+import BEDC.Derived.SeparatedPseudometricCompletionUp
 import BEDC.Derived.SeparatedPseudometricCompletionUp.NameCertObligations
 import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
