@@ -2725,6 +2725,7 @@ import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
+import BEDC.Derived.CauchyRealSetoidUp
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
@@ -12083,6 +12084,7 @@ import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannSamplerUp.TasteGate
+import BEDC.Derived.RiemannSeriesTheoremUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
 import BEDC.Derived.RiemannStieltjesUp.DarbouxMeshRefinement
