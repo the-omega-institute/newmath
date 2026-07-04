@@ -76,3 +76,4 @@ import BedcMathlibBridge.Export.GenocchiNumber
 import BedcMathlibBridge.Export.Riordan
 import BedcMathlibBridge.Export.NarayanaCow
 import BedcMathlibBridge.Export.ProjectionLedgerCount
+import BedcMathlibBridge.Export.BesselNumber
