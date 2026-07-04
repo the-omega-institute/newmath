@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-04T19:24:21Z
+> 最后刷新: 2026-07-04T20:33:46Z
 
-**Daemon 状态**: monitor (monitor cycle 297, adjust_since_research 2, round_counter 37864, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 298, adjust_since_research 2, round_counter 37906, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1336 条 finding):
-- isolated_theorem: 963 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1339 条 finding):
+- isolated_theorem: 966 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 67 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 82 次
-- TASTE ALERT category=low_entropy_template: 2 次
+- TASTE ALERT category=isolated_theorem: 83 次
 - TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=low_entropy_template: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -589,6 +589,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T18:14:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier_interval_refinement` (flag `isolated_theorem`, finding `isolated_theorem:sturmrootisolation:BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier_interval_refinement:b17979c5`). Rationale: The interval-refinement theorem is not a trivial wrapper: it records the I-D-W-R route, unary closure for interval/refined/readback rows, package handoff at the readback boundary, and membership of the dyadic row in the SturmRootIsolation event flow. The paper already uses this point as part of later certificate-ledger and scoped Real-seal arguments, so the appropriate resolution is a Lean sibling consumer. `SturmRootIsolationCarrier_interval_refinement_real_seal_consumer` now calls the target theorem and combines its dyadic/readback output with the existing scoped interval/Real-seal route through `SemanticNameCert`. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-04T19:23:43Z: `resolved` `delete_theorem` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierTasteGate_single_carrier_alignment:2315072a`). Rationale: The declaration was an unconsumed public conjunction packaging existing local TasteGate facts: BHist decode/encode, EventFlow round-trip, injectivity, empty encoding, field faithfulness, and an explicit nontrivial witness. The surrounding file already uses the underlying private lemmas to build the ChapterTasteGate, BHistCarrier, FieldFaithful, and Nontrivial instances, while later NameCert/handoff theorems do not depend on this public wrapper. Repository search found no downstream Lean use; the only removable paper reference was the carrier-definition leanchecked marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-04T20:33:18Z: `resolved` `add_downstream_user` for `BEDC.Derived.DyadicArchimedeanUp.DyadicArchimedeanCarrier_l10_handoff` (flag `isolated_theorem`, finding `isolated_theorem:dyadicarchimedean:BEDC.Derived.DyadicArchimedeanUp.DyadicArchimedeanCarrier_l10_handoff:b0e1fbfd`). Rationale: The target is not a mere restatement: it packages the L10 route facts from a DyadicArchimedean carrier through Cont, UnaryHistory, and PkgSig. Source grep showed no downstream Lean consumer before this change, while the paper uses the L10 handoff as part of the StreamName transport narrative. I added a sibling theorem, DyadicArchimedeanStreamname_l10_handoff_transport, in StreamnameScaleTransport.lean; it directly calls DyadicArchimedeanCarrier_l10_handoff, transports the L10 row across hsame into a stream read, and closes a consumer Cont route using the carrier's transport row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
