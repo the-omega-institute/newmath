@@ -73,4 +73,52 @@ theorem RegularCauchyTailSchedule_bridge_route [AskSetup] [PackageSetup]
       RegularCauchyTailScheduleTasteGate_single_carrier_alignment.2.1
         (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)⟩
 
+theorem RegularCauchyTailSchedule_tail_route_totality [AskSetup] [PackageSetup]
+    {Q R W D K T M F E H C P N qr rw wd dk kt tm mf fe sealedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailScheduleCarrier Q R W D K T M F E H C P N bundle pkg ->
+      Cont Q R qr ->
+        Cont qr W rw ->
+          Cont rw D wd ->
+            Cont wd K dk ->
+              Cont dk T kt ->
+                Cont kt M tm ->
+                  Cont tm F mf ->
+                    Cont mf E fe ->
+                      PkgSig bundle sealedRead pkg ->
+                        UnaryHistory qr ∧
+                          UnaryHistory rw ∧
+                            UnaryHistory wd ∧
+                              UnaryHistory dk ∧
+                                UnaryHistory kt ∧
+                                  UnaryHistory tm ∧
+                                    UnaryHistory mf ∧
+                                      UnaryHistory fe ∧
+                                        hsame kt (append dk T) ∧
+                                          hsame fe (append mf E) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier routeQR routeRW routeWD routeDK routeKT routeTM routeMF routeFE _sealedPkg
+  obtain ⟨qUnary, rUnary, wUnary, dUnary, kUnary, tUnary, mUnary, fUnary, eUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _carrierQR, _carrierTail, _carrierMeet,
+    _carrierSeal, _provenancePkg, _namePkg⟩ := carrier
+  have qrUnary : UnaryHistory qr :=
+    unary_cont_closed qUnary rUnary routeQR
+  have rwUnary : UnaryHistory rw :=
+    unary_cont_closed qrUnary wUnary routeRW
+  have wdUnary : UnaryHistory wd :=
+    unary_cont_closed rwUnary dUnary routeWD
+  have dkUnary : UnaryHistory dk :=
+    unary_cont_closed wdUnary kUnary routeDK
+  have ktUnary : UnaryHistory kt :=
+    unary_cont_closed dkUnary tUnary routeKT
+  have tmUnary : UnaryHistory tm :=
+    unary_cont_closed ktUnary mUnary routeTM
+  have mfUnary : UnaryHistory mf :=
+    unary_cont_closed tmUnary fUnary routeMF
+  have feUnary : UnaryHistory fe :=
+    unary_cont_closed mfUnary eUnary routeFE
+  exact
+    ⟨qrUnary, rwUnary, wdUnary, dkUnary, ktUnary, tmUnary, mfUnary, feUnary,
+      routeKT, routeFE⟩
+
 end BEDC.Derived.RegularCauchyTailScheduleUp
