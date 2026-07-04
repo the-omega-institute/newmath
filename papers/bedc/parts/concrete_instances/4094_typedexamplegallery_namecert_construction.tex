@@ -176,6 +176,20 @@ Next use the formal-target frontier and normal-form separation, \autoref{thm:typ
 Finally apply the scoped kernel route of \autoref{thm:typed-example-gallery-scoped-kernel-route}. It identifies the same finite rows and sibling provenance as the complete kernel-facing route, so subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the accepted obligation scope.
 \end{proof}
 
+\begin{theorem}[Typed example gallery scoped kernel rows are complete]
+\label{thm:typed-example-gallery-scope-kernel-rows-complete}
+Every accepted public $\TypedExampleGalleryUp$ read is one of the following finite row reads from the carrier $G=(E,T,C,B,R,H,K,P,N)$: entry exposure through $E$, checker visibility through $T$, closedness visibility through $C$, selected beta visibility through $B$, regression-surface visibility through $R$, componentwise transport through $H$, finite replay through $K$, provenance through $P$, or local naming through $N$. No additional MetaCIC theorem endpoint is part of the gallery interface; subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. Its displayed rows are exactly $E,T,C,B,R,H,K,P,N$, so every public read must begin as a projection from one of those coordinates.
+
+Apply the NameCert obligations and the obligation frontier, \autoref{thm:typed-example-gallery-namecert-obligations} and \autoref{thm:typed-example-gallery-obligation-frontier}. They exhaust carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface visibility, transport, replay, provenance, and local naming in the listed row order.
+
+Use checker-row exhaustion from \autoref{thm:typed-example-gallery-checker-row-exhaustion}. It prevents a consumer from reading a checker result outside $T$ or from turning the gallery into arbitrary checker completeness.
+
+Finally apply scope binding from \autoref{thm:typed-example-gallery-scope-binding}. The accepted obligation scope is exactly the finite row surface and sibling provenance already displayed, so no global MetaCIC theorem endpoint can be added to the public gallery interface.
+\end{proof}
+
 \closureat{TypedExampleGalleryUp}{obligationStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}
