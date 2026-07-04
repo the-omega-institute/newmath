@@ -497,4 +497,61 @@ theorem FreeWillInscriptionCommitment_obligation_closure [AskSetup] [PackageSetu
   }
   exact ⟨cert, routeBIG, routeTRH, routeHCN⟩
 
+theorem FreeWillInscriptionCommitment_obligation_closure_nonescape_consumer
+    [AskSetup] [PackageSetup]
+    {B I G T R H C P N eventRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (W : FreeWillInscriptionCommitmentUp) :
+    FreeWillInscriptionCommitmentCarrier B I G T R H C P N bundle pkg →
+      Cont I H eventRead →
+        Cont eventRead C routeRead →
+          (∀ extra : BHist,
+            freeWillInscriptionCommitmentFromEventFlow
+              (List.append (freeWillInscriptionCommitmentToEventFlow W)
+                [freeWillInscriptionCommitmentEncodeBHist extra]) = none) ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row routeRead)
+              (fun row : BHist =>
+                hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+                  hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                    hsame row N ∨ hsame row eventRead ∨ hsame row routeRead)
+              (fun row : BHist =>
+                Cont I H eventRead ∧ Cont eventRead C routeRead ∧ hsame row routeRead)
+              hsame ∧
+              SemanticNameCert (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+                    hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                      hsame row N)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg) hsame ∧
+                Cont B I G ∧ Cont T R H ∧ Cont H C N := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert UnaryHistory
+  intro carrier eventRoute routeContinuation
+  have nonescape := FreeWillInscriptionCommitment_nonescape
+  have appendBlocked :
+      ∀ extra : BHist,
+        freeWillInscriptionCommitmentFromEventFlow
+          (List.append (freeWillInscriptionCommitmentToEventFlow W)
+            [freeWillInscriptionCommitmentEncodeBHist extra]) = none :=
+    nonescape.left W
+  have routeCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row routeRead)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+            hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+              hsame row N ∨ hsame row eventRead ∨ hsame row routeRead)
+        (fun row : BHist =>
+          Cont I H eventRead ∧ Cont eventRead C routeRead ∧ hsame row routeRead)
+        hsame :=
+    nonescape.right (B := B) (I := I) (G := G) (T := T) (R := R) (H := H)
+      (C := C) (P := P) (N := N) eventRoute routeContinuation
+  have closure :=
+    FreeWillInscriptionCommitment_obligation_closure
+      (B := B) (I := I) (G := G) (T := T) (R := R) (H := H) (C := C)
+      (P := P) (N := N) (bundle := bundle) (pkg := pkg) carrier
+  exact
+    ⟨appendBlocked, routeCert, closure.left, closure.right.left, closure.right.right.left,
+      closure.right.right.right⟩
+
 end BEDC.Derived.FreeWillInscriptionCommitmentUp
