@@ -11605,6 +11605,7 @@ import BEDC.Derived.RegularCauchyLocatedModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedOrderUp.NameCertObligations
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
+import BEDC.Derived.RegularCauchyLocatedSplitUp.TasteGate
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMapUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.LatticeAbsorption
@@ -11856,6 +11857,7 @@ import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
 import BEDC.Derived.RegularCauchyTailProductBoundUp
+import BEDC.Derived.RegularCauchyTailScheduleUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
