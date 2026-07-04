@@ -491,4 +491,38 @@ theorem RealZeroCarrier_zero_distance_seal [AskSetup] [PackageSetup]
   }
   exact ⟨cert, ledgerUnary, namedUnary, metricUnary⟩
 
+theorem RealZeroCarrier_constant_window_uniqueness [AskSetup] [PackageSetup]
+    {q S Z0 D R H C P N qAlt SAlt Z0Alt DAlt RAlt HAlt CAlt PAlt NAlt sealRead
+      sealReadAlt : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealZeroCarrier q S Z0 D R H C P N →
+      RealZeroCarrier qAlt SAlt Z0Alt DAlt RAlt HAlt CAlt PAlt NAlt →
+        hsame q qAlt →
+          hsame S SAlt →
+            hsame D DAlt →
+              Cont S D sealRead →
+                Cont SAlt DAlt sealReadAlt →
+                  PkgSig bundle sealRead pkg →
+                    PkgSig bundle sealReadAlt pkg →
+                      hsame sealRead sealReadAlt ∧ UnaryHistory sealRead ∧
+                        UnaryHistory sealReadAlt ∧ PkgSig bundle sealRead pkg ∧
+                          PkgSig bundle sealReadAlt pkg := by
+  -- BEDC touchpoint anchor: RealZeroCarrier BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier carrierAlt sameQ sameS sameD sealRoute sealRouteAlt sealPkg sealPkgAlt
+  obtain ⟨_qUnary, sUnary, _z0Unary, dUnary, _rUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, zeroRoute, _terminalRoute, _sameH, _sameC, _sameP, _sameN,
+    _terminalCert⟩ := carrier
+  obtain ⟨_qUnaryAlt, sUnaryAlt, _z0UnaryAlt, dUnaryAlt, _rUnaryAlt, _hUnaryAlt,
+    _cUnaryAlt, _pUnaryAlt, _nUnaryAlt, zeroRouteAlt, _terminalRouteAlt, _sameHAlt,
+    _sameCAlt, _samePAlt, _sameNAlt, _terminalCertAlt⟩ := carrierAlt
+  have _sameZeroWindow : hsame Z0 Z0Alt :=
+    cont_respects_hsame sameQ sameS zeroRoute zeroRouteAlt
+  have sameSeal : hsame sealRead sealReadAlt :=
+    cont_respects_hsame sameS sameD sealRoute sealRouteAlt
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed sUnary dUnary sealRoute
+  have sealUnary' : UnaryHistory sealReadAlt :=
+    unary_cont_closed sUnaryAlt dUnaryAlt sealRouteAlt
+  exact ⟨sameSeal, sealUnary, sealUnary', sealPkg, sealPkgAlt⟩
+
 end BEDC.Derived.RealZeroUp
