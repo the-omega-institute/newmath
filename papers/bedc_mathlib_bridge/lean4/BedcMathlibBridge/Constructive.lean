@@ -36,6 +36,7 @@ import BedcMathlibBridge.Constructive.Tribonacci
 import BedcMathlibBridge.Constructive.Tetranacci
 import BedcMathlibBridge.Constructive.CullenWoodall
 import BedcMathlibBridge.Constructive.HarshadNumber
+import BedcMathlibBridge.Constructive.KeithNumber
 import BedcMathlibBridge.Constructive.CentralTrinomial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
