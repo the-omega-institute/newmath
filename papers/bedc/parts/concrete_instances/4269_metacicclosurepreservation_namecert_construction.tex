@@ -249,12 +249,28 @@ Finally use \autoref{thm:metacic-closure-preservation-obligation-closure}. Since
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows}
 
+\begin{theorem}[MetaCIC ClosurePreservation scoped kernel route]
+\label{thm:metacic-closure-preservation-scoped-kernel-route}
+Every accepted $\MetaCICClosurePreservationUp$ carrier whose displayed rows pass through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$ has its closure-preservation read confined to the rows
+$$
+S,V,U,B,F,A,C,G,R,H,Q,P,N.
+$$
+The exported route is only the scoped closure-preservation surface named by those rows. It exports no typing preservation, conversion soundness, confluence, normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation-scope theorem \autoref{thm:metacic-closure-preservation-namecert-obligations}. It exposes the shift row $S$, variable-substitution row $V$, full-substitution row $U$, beta-step row $B$, beta-chain row $F$, audit row $A$, seal row $C$, generator row $G$, subject-reduction row $R$, transport row $H$, continuation row $Q$, provenance row $P$, and local naming row $N$ as the whole accepted carrier.
+
+Use \autoref{thm:metacic-closure-preservation-obligation-closure} to bind the closure-preservation read to that finite obligation surface. The candidate-mediated scope theorem \autoref{thm:metacic-closure-preservation-candidate-mediated-scope} then routes the candidate read through the same substitution, beta, generator, and subject-reduction coordinates.
+
+Finally apply \autoref{thm:metacic-closure-preservation-scope-rows}. It identifies the exact dependencies through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$. Since no remaining row carries typing preservation, conversion soundness, confluence, normalization, or kernel consistency, none of those surfaces is exported by the scoped kernel route.
+\end{proof}
+
 \closureat{MetaCICClosurePreservationUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICClosurePreservationUp}
   \constructivestory{A $\MetaCICClosurePreservationUp$ packet is generated from shift, variable-substitution, full-substitution, beta-step, and beta-chain closedness rows, a substitution audit row, a closed-substitution seal, a generator-closure classifier, a subject-reduction consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-obligation-closure}, and \autoref{thm:metacic-closure-preservation-scope-rows} bind the finite ClosurePreservation packet and its dependency surface.}
+  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-obligation-closure}, \autoref{thm:metacic-closure-preservation-scope-rows}, and \autoref{thm:metacic-closure-preservation-scoped-kernel-route} bind the finite ClosurePreservation packet and its dependency surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_obligation\_closure}
   \bridgestatus{none}
