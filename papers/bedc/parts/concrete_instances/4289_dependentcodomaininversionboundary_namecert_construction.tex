@@ -56,12 +56,26 @@ The handoff is therefore finite and explicit. It records the exact point where c
 \end{proof}
 \leanchecked{BEDC.Derived.DependentCodomainInversionBoundaryCarrier\_subject\_reduction\_handoff}
 
+\begin{theorem}[Dependent-codomain inversion boundary codomain-readback nonescape]
+\label{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}
+Every consumer that requests equality or interchangeability of $C_0$ and $C_1$ in an accepted $\DependentCodomainInversionBoundaryUp$ packet must factor through the displayed rows $S,R,O,H,K,P,N$ of \autoref{def:dependent-codomain-inversion-boundary-carrier}. The packet exports only the finite request boundary: syntactic substitution evidence, obstruction handoff, open-frontier ledger exposure, componentwise transport, displayed replay, provenance, and local naming. It exports no codomain equality, context reduction, subject reduction, inhabited discharge bundle, or host conversion principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The two codomain readbacks $C_0$ and $C_1$ are stored as separate displayed coordinates, and the carrier has no row whose constructor identifies them.
+
+Apply the NameCert obligation surface of \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}. Any legal read of the paired codomain rows must keep the substitution row $S$, obstruction handoff row $R$, open-frontier ledger row $O$, transport row $H$, replay row $K$, provenance row $P$, and local name row $N$ visible.
+
+Use the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}. It records exactly where a downstream consumer may ask for dependent-codomain discharge, while keeping the request outside the packet.
+
+The ledger row $O$ closes the nonescape claim. A consumer asking to treat $C_0$ and $C_1$ as equal, interchangeable, context-reduced, or subject-reduced therefore receives only the displayed boundary route $S,R,O,H,K,P,N$, not an equality endpoint.
+\end{proof}
+
 \closureat{DependentCodomainInversionBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\DependentCodomainInversionBoundaryUp}
   \constructivestory{A $\DependentCodomainInversionBoundaryUp$ packet is generated from dependent function-type, domain, argument, codomain-readback, substitution, obstruction, frontier-ledger, transport, replay, provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dependent-codomain-inversion-boundary-carrier}, \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}, and \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff} bind the finite codomain-readback boundary and subject-reduction handoff surface.}
+  \scopeclosed{\autoref{def:dependent-codomain-inversion-boundary-carrier}, \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}, \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}, and \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape} bind the finite codomain-readback boundary, subject-reduction handoff surface, and equality-request nonescape route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
