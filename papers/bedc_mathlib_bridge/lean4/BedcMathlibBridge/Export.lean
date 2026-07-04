@@ -17,6 +17,7 @@ import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.FussCatalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
+import BedcMathlibBridge.Export.BellStirlingPrefix
 import BedcMathlibBridge.Export.TouchardPoly
 import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.DescFactorial
