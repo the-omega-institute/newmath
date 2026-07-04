@@ -58,6 +58,7 @@ import BedcMathlibBridge.Export.CentralFactorial
 import BedcMathlibBridge.Export.WilsonQuotient
 import BedcMathlibBridge.Export.Apery
 import BedcMathlibBridge.Export.EntringerNumber
+import BedcMathlibBridge.Export.TangentNumber
 import BedcMathlibBridge.Export.Riordan
 import BedcMathlibBridge.Export.NarayanaCow
 import BedcMathlibBridge.Export.ProjectionLedgerCount
