@@ -69,6 +69,7 @@ import BEDC.Derived.ActiveReadingGateUp.LedgerNonescape
 import BEDC.Derived.ActiveReadingGateUp.ObligationCarrierWindow
 import BEDC.Derived.ActiveReadingGateUp.ProvenanceStability
 import BEDC.Derived.ActiveReadingGateUp.RegistryConsumerCoverage
+import BEDC.Derived.ActiveReadingGateUp.ScopeGrounding
 import BEDC.Derived.ActiveReadingGateUp.SingleActiveObstruction
 import BEDC.Derived.ActiveReadingGateUp.SingleExportRoute
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
@@ -5259,6 +5260,7 @@ import BEDC.Derived.DimLiftBoundaryUp.CannotClaimRouteExactness
 import BEDC.Derived.DimLiftBoundaryUp.CarrierAdmissionObligation
 import BEDC.Derived.DimLiftBoundaryUp.ClassifierStabilityObligation
 import BEDC.Derived.DimLiftBoundaryUp.DownstreamAcceptanceBoundary
+import BEDC.Derived.DimLiftBoundaryUp.LedgerObligation
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniDerivativeWindowUp.TasteGate
@@ -8398,6 +8400,7 @@ import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
 import BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
 import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
+import BEDC.Derived.MetaCICClosurePreservationUp.CandidateScope
 import BEDC.Derived.MetaCICClosurePreservationUp.GeneratorRoute
 import BEDC.Derived.MetaCICClosurePreservationUp.SubjectReductionBoundary
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionBetaChainExposure
@@ -11697,6 +11700,7 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyNestedIntervalUp
 import BEDC.Derived.RegularCauchyNetUp
+import BEDC.Derived.RegularCauchyNetUp.TasteGate
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyNonzeroUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
