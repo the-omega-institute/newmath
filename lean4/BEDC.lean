@@ -7342,6 +7342,7 @@ import BEDC.Derived.InnerProductUp
 import BEDC.Derived.InnerProductUp.CarrierRow
 import BEDC.Derived.InnerProductUp.PublicExportSurface
 import BEDC.Derived.InnerProductUp.TasteGate
+import BEDC.Derived.InnerProductUp.VecspaceLinearityRow
 import BEDC.Derived.InscribedRouteSelectorUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.NameCertObligations
 import BEDC.Derived.InscribedRouteUp.TasteGate
@@ -11869,6 +11870,7 @@ import BEDC.Derived.RegularCauchyTailScheduleUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
+import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.WindowReadiness
 import BEDC.Derived.RegularCauchyTailSealUp
