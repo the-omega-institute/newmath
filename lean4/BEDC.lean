@@ -1535,6 +1535,7 @@ import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
+import BEDC.Derived.BoundedRiemannConvergenceUp
 import BEDC.Derived.BoundedSearchRefutationUp
 import BEDC.Derived.BoundedSearchRefutationUp.NameCertBoundary
 import BEDC.Derived.BoundedSearchRefutationUp.TasteGate
@@ -10034,6 +10035,7 @@ import BEDC.Derived.PhysicalTruthCertificateUp.TasteGate
 import BEDC.Derived.PhysicsFalsificationSurfaceUp.TasteGate
 import BEDC.Derived.PhysicsProgrammeSynthesisUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
+import BEDC.Derived.PicardCompletionResidualCauchyRealizerUp.TasteGate
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.CauchyModulusSiblingRoute
 import BEDC.Derived.PicardContractionUp.CauchyRateRootUnblockPackage
