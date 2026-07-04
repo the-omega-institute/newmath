@@ -17,6 +17,7 @@ import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
+import BedcMathlibBridge.Export.StirlingCycleColumn
 import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.SubfactorialNumber
 import BedcMathlibBridge.Export.Rencontres
