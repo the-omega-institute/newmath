@@ -207,6 +207,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.SecantNumber.secantNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.SecantNumber.SecantNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.GenocchiNumber.genocchiNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.GenocchiNumber.GenocchiNumberExportWitness },
   { witness := `BedcMathlibBridge.Export.Riordan.riordanExport,
     witnessType := `BedcMathlibBridge.Export.Riordan.RiordanExportWitness },
   { witness := `BedcMathlibBridge.Export.NarayanaCow.narayanaCowExport,
