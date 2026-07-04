@@ -1009,6 +1009,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionIntervalUp
 import BEDC.Derived.BinaryExpansionUp
+import BEDC.Derived.BinaryExpansionUp.MatureTreatment
 import BEDC.Derived.BinaryExpansionUp.TasteGate
 import BEDC.Derived.BinaryQuadFormUp
 import BEDC.Derived.BinaryQuadraticFormUp
@@ -11148,6 +11149,7 @@ import BEDC.Derived.RealUniformStructureUp
 import BEDC.Derived.RealUniformStructureUp.CoverReadHandoff
 import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
+import BEDC.Derived.RealUniformStructureUp.FilterRefinementHandoff
 import BEDC.Derived.RealUniformStructureUp.FiniteIntersectionSubbasis
 import BEDC.Derived.RealUniformStructureUp.LocatedCauchyFilterHandoff
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
@@ -11807,6 +11809,7 @@ import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparatedCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.NameCertObligations
+import BEDC.Derived.RegularCauchySeparationUp.ObligationScope
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
 import BEDC.Derived.RegularCauchySequenceComparisonUp.TasteGate
