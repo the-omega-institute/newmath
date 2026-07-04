@@ -35,6 +35,7 @@ import BedcMathlibBridge.Export.Perrin
 import BedcMathlibBridge.Export.Tribonacci
 import BedcMathlibBridge.Export.Tetranacci
 import BedcMathlibBridge.Export.CullenWoodall
+import BedcMathlibBridge.Export.HarshadNumber
 import BedcMathlibBridge.Export.CentralTrinomial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom

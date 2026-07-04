@@ -131,6 +131,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CullenWoodall.woodallExport,
     witnessType :=
       `BedcMathlibBridge.Export.CullenWoodall.WoodallExportWitness },
+  { witness := `BedcMathlibBridge.Export.HarshadNumber.harshadNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.HarshadNumber.HarshadNumberExportWitness },
   { witness := `BedcMathlibBridge.Export.CentralTrinomial.centralTrinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralTrinomial.CentralTrinomialExportWitness },
