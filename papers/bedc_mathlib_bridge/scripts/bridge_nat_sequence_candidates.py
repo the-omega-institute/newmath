@@ -4,8 +4,8 @@
 The rows here are only for pointwise/readback exported_core bridges: an existing
 BEDC.Derived Nat-valued sequence or count is compared with a pre-existing
 mathlib Nat declaration or formula surface. They are not structural carrier
-bridges, and unknown mathlib targets remain visible as telemetry with
-eligible=false.
+bridges. The feeder surfaces structural Nat-sequence evidence and leaves the
+mathlib target judgement to the worker.
 """
 from __future__ import annotations
 
@@ -18,107 +18,15 @@ from pathlib import Path
 import bridge_coverage_gap
 
 
-TARGET_HINTS: tuple[tuple[tuple[str, ...], str], ...] = (
-    (
-        (
-            "Lobb",
-            "Raney",
-            "Narayana",
-            "Tetrahedral",
-            "Triangular",
-            "CakeNumber",
-            "FussCatalan",
-            "Lah",
-        ),
-        "Nat.choose",
-    ),
-    (("PolygonalNumberTriangular",), "Nat.choose"),
-    (("Catalan",), "Nat.centralBinom"),
-    (("Fibonacci", "Lucas", "Leonardo", "Jacobsthal", "Tribonacci"), "Nat.fib"),
-    (("Factorial", "EuclidFactorial", "Eulerian"), "Nat.factorial"),
-    (("Superfactorial",), "Nat.superFactorial"),
-    (("Derangement",), "numDerangements"),
-    (("StirlingFirst",), "Nat.stirlingFirst"),
-    (("StirlingSecond",), "Nat.stirlingSecond"),
-    (("DescFactorial", "FallingFactorial"), "Nat.descFactorial"),
-)
-
-HARD_TELEMETRY_TERMS = (
-    "Bernoulli",
-    "EulerPoly",
-    "EulerPolynomial",
-    "Bell",
-    "Genocchi",
-    "Tangent",
-    "Secant",
-    "Partition",
-    "Overpartition",
-    "Harmonic",
-    "Hyperharmonic",
-    "Hermite",
-    "Faulhaber",
-)
-
 THEOREM_RE = re.compile(r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)\b")
 DECL_HEADER_RE = re.compile(
     r"(?ms)^\s*(?:abbrev|def)\s+([A-Za-z_][A-Za-z0-9_']*)\b(.*?)(?::=|\n\s*\|)"
 )
 THEOREM_HINT_RE = re.compile(
-    r"(?:recurrence|succ|closed|closedForm|_eq_|zero|one|boundary|spec|pascal|choose|factorial)",
+    r"(?:recurrence|recursion|succ|successor|closed|closedForm|closed_form|"
+    r"closedFormula|closed_formula|formula|_eq_|zero)",
     re.IGNORECASE,
 )
-PRIMARY_DECL_TERMS = (
-    "Number",
-    "Count",
-    "Value",
-    "Term",
-    "Nat",
-    "At",
-    "Fn",
-    "fn",
-)
-HELPER_DECL_TERMS = (
-    "Closed",
-    "Numerator",
-    "Denominator",
-    "Prefix",
-    "Step",
-    "Fuel",
-    "Layer",
-    "Row",
-    "Raw",
-    "raw",
-    "Seq",
-    "Aux",
-    "Acc",
-    "Helper",
-    "List",
-    "Tail",
-    "Drop",
-    "Fold",
-    "Loop",
-)
-NON_NAT_INPUT_TERMS = (
-    "BHist",
-    "List",
-    "Bool",
-    "Int",
-    "IntegerUp",
-    "Prop",
-    "Option",
-    "GoldenPhiPair",
-    "Z",
-)
-
-
-def target_hint(carrier: str, decls: list[str]) -> str | None:
-    haystack = " ".join([carrier, *decls])
-    for terms, target in TARGET_HINTS:
-        if any(term in haystack for term in terms):
-            return target
-    return None
-
-
 def source_theorem_guesses(root: Path, row: dict) -> list[str]:
     file_value = row.get("file")
     namespace = row.get("namespace")
@@ -152,12 +60,71 @@ def _last_top_level_colon(text: str) -> int:
     return found
 
 
+def _split_top_level_arrows(text: str) -> list[str]:
+    clean = text.replace("→", "->")
+    parts: list[str] = []
+    start = 0
+    depth = 0
+    index = 0
+    while index < len(clean):
+        char = clean[index]
+        if char in "([{":
+            depth += 1
+            index += 1
+        elif char in ")]}" and depth > 0:
+            depth -= 1
+            index += 1
+        elif clean.startswith("->", index) and depth == 0:
+            parts.append(clean[start:index].strip())
+            index += 2
+            start = index
+        else:
+            index += 1
+    parts.append(clean[start:].strip())
+    return parts
+
+
+def _nat_atom(text: str) -> bool:
+    item = text.strip()
+    while item.startswith("(") and item.endswith(")"):
+        item = item[1:-1].strip()
+    return item == "Nat"
+
+
+BINDER_RE = re.compile(r"[\(\{\[]([^()\[\]{}]*:[^()\[\]{}]*)[\)\}\]]")
+
+
+def _binder_nat_arity(content: str) -> int | None:
+    colon = _last_top_level_colon(content)
+    if colon < 0:
+        return None
+    names = content[:colon].strip()
+    typ = content[colon + 1 :].strip()
+    if not _nat_atom(typ):
+        return None
+    return max(1, len([part for part in names.split() if part != "_"]))
+
+
 def _pure_nat_type(prefix: str, typ: str) -> bool:
-    if any(term in prefix for term in NON_NAT_INPUT_TERMS):
+    arity = 0
+    spans: list[tuple[int, int]] = []
+    for match in BINDER_RE.finditer(prefix):
+        binder_arity = _binder_nat_arity(match.group(1))
+        if binder_arity is None:
+            return False
+        arity += binder_arity
+        spans.append(match.span())
+    remainder_parts: list[str] = []
+    cursor = 0
+    for start, end in spans:
+        remainder_parts.append(prefix[cursor:start])
+        cursor = end
+    remainder_parts.append(prefix[cursor:])
+    if "".join(remainder_parts).strip():
         return False
-    clean = " ".join(typ.replace("→", "->").split())
-    parts = [part.strip(" ()") for part in clean.split("->")]
-    return bool(parts) and all(part == "Nat" for part in parts)
+    parts = _split_top_level_arrows(typ)
+    arity += max(0, len(parts) - 1)
+    return arity > 0 and bool(parts) and all(_nat_atom(part) for part in parts)
 
 
 def pure_nat_value_decls(root: Path, row: dict) -> list[str]:
@@ -183,23 +150,6 @@ def pure_nat_value_decls(root: Path, row: dict) -> list[str]:
     return decls
 
 
-def hard_telemetry_only(carrier: str) -> bool:
-    return any(term in carrier for term in HARD_TELEMETRY_TERMS)
-
-
-def primary_bedc_decl(decls: list[str]) -> str | None:
-    if not decls:
-        return None
-
-    def rank(decl: str) -> tuple[int, int, int, str]:
-        terminal = decl.rsplit(".", 1)[-1]
-        is_helper = 1 if any(term in terminal for term in HELPER_DECL_TERMS) else 0
-        is_primary = 0 if any(term in terminal for term in PRIMARY_DECL_TERMS) else 1
-        return (is_helper, is_primary, len(terminal), terminal)
-
-    return sorted(decls, key=rank)[0]
-
-
 def build_candidates(root: Path) -> dict:
     base = bridge_coverage_gap.scan(root)
     worklist = []
@@ -207,20 +157,23 @@ def build_candidates(root: Path) -> dict:
         if not isinstance(row, dict):
             continue
         raw_decls = [decl for decl in row.get("bridge_decls", []) if isinstance(decl, str)]
-        value_decls = pure_nat_value_decls(root, row)
+        all_value_decls = pure_nat_value_decls(root, row)
+        value_decls = [decl for decl in raw_decls if decl in set(all_value_decls)]
         decls = value_decls or raw_decls
-        carrier = str(row.get("carrier") or "")
-        target = target_hint(carrier, decls)
-        theorem_guesses = source_theorem_guesses(root, row)
+        theorem_guesses = [
+            theorem
+            for theorem in row.get("bedc_source_theorem_guess", [])
+            if isinstance(theorem, str)
+        ] or source_theorem_guesses(root, row)
         has_theorem = bool(row.get("has_recurrence_or_closedform_theorem") or theorem_guesses)
-        eligible = bool(target and has_theorem and value_decls and not hard_telemetry_only(carrier))
+        eligible = bool(has_theorem and value_decls)
         item = {
             **row,
             "bridge_decls": decls,
-            "bedc_decl": primary_bedc_decl(decls),
-            "mathlib_target_guess": target,
-            "mathlib_class_guess": target,
-            "mathlib_instance_guess": target,
+            "bedc_decl": decls[0] if decls else None,
+            "mathlib_target_guess": None,
+            "mathlib_class_guess": None,
+            "mathlib_instance_guess": None,
             "correspondence_shape_guess": "pointwise_eq",
             "bridge_kind": "nat_value_sequence",
             "has_recurrence_or_closedform_theorem": has_theorem,
@@ -229,14 +182,10 @@ def build_candidates(root: Path) -> dict:
             "eligible": eligible,
             "source": "nat-sequence-worklist",
         }
-        if target is None:
-            item["exclude_reason"] = "no_conservative_mathlib_target_hint"
-        elif not value_decls:
+        if not value_decls:
             item["exclude_reason"] = "no_pure_nat_value_source_decl"
         elif not has_theorem:
             item["exclude_reason"] = "no_bedc_recurrence_or_closedform_theorem"
-        elif hard_telemetry_only(carrier):
-            item["exclude_reason"] = "rat_finset_or_boundary_telemetry_only"
         else:
             item["exclude_reason"] = None
         worklist.append(item)
@@ -254,12 +203,12 @@ def build_candidates(root: Path) -> dict:
         "candidate_kind": "nat_value_sequence",
         "note": (
             "Eligible rows are pointwise/readback Nat-value bridge candidates "
-            "with existing BEDC.Derived sources and conservative mathlib target hints."
+            "with existing BEDC.Derived sources and structural theorem signals; "
+            "the worker must choose or reject the mathlib target."
         ),
         "total_bridge_shaped_carriers": base.get("total_bridge_shaped_carriers", 0),
         "already_in_matrix": base.get("already_in_matrix", 0),
         "contested_open_feat_bridge": base.get("contested_open_feat_bridge", 0),
-        "excluded_by_stem_blacklist": base.get("excluded_by_stem_blacklist", 0),
         "without_recurrence_or_closedform_signal": base.get(
             "without_recurrence_or_closedform_signal", 0
         ),
