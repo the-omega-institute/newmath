@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for Euler's Distinct--Odd Partition Identity}
+\label{ch:concrete-instances-euler-distinct-odd-partition-namecert}
+\origin{human}
+
+Following Euler and Glaisher, the Euler distinct--odd partition packet records a finite BEDC reconstruction of the classical identity
+$$
+\prod_{n\geq 1}(1+q^n)=\prod_{n\geq 1}\frac{1}{1-q^{2n-1}}.
+$$
+Equivalently, the number of partitions of $n$ into distinct positive parts equals the number of partitions of $n$ into odd positive parts. The BEDC carrier does not assert analytic convergence of either infinite product, nor does it close an all-$n$ formal-power-series proof. It records an exact finite reconstruction of Euler's distinct-equals-odd partition identity and Glaisher's bijection as finite NameCert data.
+
+\begin{definition}[Euler--Glaisher finite carrier]
+\label{def:euler-distinct-odd-partition-finite-carrier}
+An Euler--Glaisher finite carrier consists of the following displayed rows:
+\begin{enumerate}
+\item a distinct-partition row, enumerating strict decreasing positive-part lists summing to $n$;
+\item an odd-partition row, enumerating positive odd-part lists summing to $n$;
+\item a count-comparison row verifying the equality of the two finite lists for $1\leq n\leq 12$;
+\item a low-degree $q$-polynomial row for the product $\prod_{n=1}^{12}(1+q^n)$;
+\item a coefficient-window row exposing the coefficients of $q^d$ for $0\leq d\leq 12$;
+\item a Glaisher row sending an odd partition to a distinct partition by binary expansion of the multiplicity of each odd part;
+\item a reverse Glaisher row sending a distinct part $2^a u$ with $u$ odd to $2^a$ copies of $u$;
+\item a local NameCert row tying the finite count table, the generating-function coefficient window, and the displayed bijection witnesses into one named packet.
+\end{enumerate}
+The classifier has no coordinate for infinite products, completed power series, convergence, quotient partition equality, or a host-side all-$n$ partition theorem outside the displayed finite data.
+\end{definition}
+
+\begin{theorem}[Finite Euler distinct--odd count certificate]
+\label{thm:euler-distinct-odd-partition-count-certificate}
+Let $D(n)$ be the finite list of partitions of $n$ into distinct positive parts, represented as strict decreasing lists, and let $O(n)$ be the finite list of partitions of $n$ into odd positive parts. For $1\leq n\leq 12$ the checked count row is
+$$
+1,1,2,2,3,4,5,6,8,10,12,15.
+$$
+Thus $|D(n)|=|O(n)|$ throughout the displayed window. For example, at $n=6$ the distinct side is
+$$
+[6],\ [5,1],\ [4,2],\ [3,2,1],
+$$
+and the odd side is
+$$
+[5,1],\ [3,3],\ [3,1,1,1],\ [1,1,1,1,1,1].
+$$
+\end{theorem}
+\begin{proof}
+The Lean certificate enumerates distinct partitions by bounded recursion over the largest permitted part. It enumerates odd partitions by bounded recursion over the largest odd head allowed at the current step. Each displayed equality is then checked by kernel reduction of the two list lengths.
+\end{proof}
+
+\begin{theorem}[Finite generating-function coefficient certificate]
+\label{thm:euler-distinct-odd-partition-gf-certificate}
+For the finite product
+$$
+P_{12}(q)=\prod_{n=1}^{12}(1+q^n),
+$$
+the coefficient row through degree $12$ is
+$$
+1,1,1,2,2,3,4,5,6,8,10,12,15.
+$$
+For each $0\leq d\leq 12$, this coefficient agrees with the finite distinct-partition count $|D(d)|$.
+\end{theorem}
+\begin{proof}
+The Lean certificate computes $P_{12}(q)$ by finite polynomial multiplication over integer coefficient lists. The coefficient row is compared by Boolean list equality with the displayed table, and each coefficient in the window is separately identified with the corresponding distinct-partition count by reduction.
+\end{proof}
+
+\begin{theorem}[Finite Glaisher bijection witnesses]
+\label{thm:euler-distinct-odd-partition-glaisher-witnesses}
+Glaisher's map from odd partitions to distinct partitions is encoded by carrying equal odd parts in base $2$: if an odd part $u$ has multiplicity $m=\sum_a \epsilon_a2^a$, then every nonzero bit contributes the distinct part $2^a u$. The reverse map writes each distinct part as $2^a u$ with $u$ odd and expands it into $2^a$ copies of $u$.
+
+In the checked finite carrier, the Lean rows include the round-trip witnesses
+$$
+[5,1]\mapsto [5,1]\mapsto [5,1],
+$$
+$$
+[3,3]\mapsto [6]\mapsto [3,3],
+$$
+$$
+[3,1,1,1]\mapsto [3,2,1]\mapsto [3,1,1,1],
+$$
+and
+$$
+[1,1,1,1,1,1]\mapsto [4,2]\mapsto [1,1,1,1,1,1].
+$$
+The same finite rows record preservation of the total sum for representative odd-to-distinct and distinct-to-odd expansions.
+\end{theorem}
+\begin{proof}
+The Lean certificate implements the carry operation as an insertion into a finite distinct list, and implements the reverse operation by repeated halving until an odd kernel is reached. The displayed rows are concrete reductions of these functions. They are explicit finite Glaisher witnesses, not an all-$n$ proof of bijectivity.
+\end{proof}
+
+\begin{theorem}[Euler--Glaisher finite NameCert reconstruction]
+\label{thm:euler-distinct-odd-partition-namecert-reconstruction}
+The Euler--Glaisher packet is a finite NameCert reconstruction of the classical identity: the partition-count side verifies $|D(n)|=|O(n)|$ through $n=12$, the generating-function side verifies the coefficients of $\prod_{n=1}^{12}(1+q^n)$ through degree $12$, and the Glaisher side records concrete binary-carry round-trip witnesses.
+\end{theorem}
+\leanchecked{BEDC.Derived.EulerDistinctOddPartition.euler\_distinct\_odd\_partition\_certificate}
+\begin{proof}
+Combine the finite distinct-partition count row, the finite odd-partition count row, the coefficient-window row for $P_{12}(q)$, and the displayed Glaisher witnesses. The Lean target records these rows as a single conjunction. It is a finite certificate of the displayed reconstruction, not an analytic assertion about infinite products.
+\end{proof}
+
+\falsifiablePrediction{Every accepted Euler--Glaisher finite carrier exposes the distinct-partition enumerator, odd-partition enumerator, count row through $n=12$, coefficient row for $\prod_{n=1}^{12}(1+q^n)$ through degree $12$, Glaisher binary-carry map, reverse odd-kernel expansion, and local NameCert row before exporting an Euler distinct--odd partition conclusion.}
+
+\independenceWitness{distinct partitions, odd partitions, q-series, Glaisher binary carry: this packet is not bijective to a generic polynomial row or a generic partition row because it jointly binds the finite distinct-count table, the finite odd-count table, the truncated Euler product coefficients, and the displayed Glaisher maps.}
+
+\begin{closurestatus}{EulerDistinctOddPartitionUp}
+  \constructivestory{The packet is generated from a distinct-partition enumerator, an odd-partition enumerator, a count-comparison row through $n=12$, a coefficient window for $\prod_{n=1}^{12}(1+q^n)$ through degree $12$, finite Glaisher binary-carry witnesses, reverse odd-kernel expansion witnesses, and a local NameCert row tying the Euler and Glaisher surfaces together.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{distinct-part $=$ odd-part partition counts through $n=12$ + generating-function coefficients + Glaisher bijection witnesses}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.EulerDistinctOddPartition.euler\_distinct\_odd\_partition\_certificate}
+  \bridgestatus{none}
+  \notclaimed{a finite reconstruction of Euler's distinct-equals-odd identity and Glaisher's bijection; counts verified through $n=12$, not an all-$n$ generating-function proof}
+  \upgradepath{extend to the general Glaisher $d$-distinct$=$$d$-fold identity and to further q-series partition bijections}
+\end{closurestatus}

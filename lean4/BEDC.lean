@@ -5701,7 +5701,9 @@ import BEDC.Derived.EulerBooleSummation
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
+import BEDC.Derived.EulerDistinctOddPartition
 import BEDC.Derived.EulerPentagonalNumberTheorem
+import BEDC.Derived.PartitionPentagonalRecurrence
 import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
 import BEDC.Derived.EulerPhiUp
@@ -13579,6 +13581,7 @@ import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VietorisRipsComplexUp.TasteGate
 import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
+import BEDC.Derived.Visions.TannakianFiniteDetector
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
 import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank

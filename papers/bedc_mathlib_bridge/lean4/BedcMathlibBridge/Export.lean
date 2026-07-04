@@ -54,6 +54,7 @@ import BedcMathlibBridge.Export.BallotNumber
 import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.LahClosedForm
 import BedcMathlibBridge.Export.LahSecondColumn
+import BedcMathlibBridge.Export.LahRecurrence
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
@@ -73,6 +74,8 @@ import BedcMathlibBridge.Export.EntringerNumber
 import BedcMathlibBridge.Export.TangentNumber
 import BedcMathlibBridge.Export.SecantNumber
 import BedcMathlibBridge.Export.GenocchiNumber
+import BedcMathlibBridge.Export.AssociatedStirling
 import BedcMathlibBridge.Export.Riordan
 import BedcMathlibBridge.Export.NarayanaCow
 import BedcMathlibBridge.Export.ProjectionLedgerCount
+import BedcMathlibBridge.Export.BesselNumber

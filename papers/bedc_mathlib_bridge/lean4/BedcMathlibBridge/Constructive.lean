@@ -54,6 +54,7 @@ import BedcMathlibBridge.Constructive.BallotNumber
 import BedcMathlibBridge.Constructive.Lah
 import BedcMathlibBridge.Constructive.LahClosedForm
 import BedcMathlibBridge.Constructive.LahSecondColumn
+import BedcMathlibBridge.Constructive.LahRecurrence
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
@@ -73,5 +74,7 @@ import BedcMathlibBridge.Constructive.EntringerNumber
 import BedcMathlibBridge.Constructive.TangentNumber
 import BedcMathlibBridge.Constructive.SecantNumber
 import BedcMathlibBridge.Constructive.GenocchiNumber
+import BedcMathlibBridge.Constructive.AssociatedStirling
 import BedcMathlibBridge.Constructive.Riordan
 import BedcMathlibBridge.Constructive.NarayanaCow
+import BedcMathlibBridge.Constructive.BesselNumber

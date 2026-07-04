@@ -181,6 +181,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.LahSecondColumn.lahSecondColumnExport,
     witnessType :=
       `BedcMathlibBridge.Export.LahSecondColumn.LahSecondColumnExportWitness },
+  { witness := `BedcMathlibBridge.Export.BesselNumber.besselNumberExport,
+      `BedcMathlibBridge.Export.BesselNumber.BesselNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.LahRecurrence.lahRecurrenceExport,
+      `BedcMathlibBridge.Export.LahRecurrence.LahRecurrenceExportWitness },
   { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },
@@ -241,6 +245,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.GenocchiNumber.genocchiNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.GenocchiNumber.GenocchiNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.AssociatedStirling.associatedStirlingExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.AssociatedStirling.AssociatedStirlingExportWitness },
   { witness := `BedcMathlibBridge.Export.Riordan.riordanExport,
     witnessType := `BedcMathlibBridge.Export.Riordan.RiordanExportWitness },
   { witness := `BedcMathlibBridge.Export.NarayanaCow.narayanaCowExport,
