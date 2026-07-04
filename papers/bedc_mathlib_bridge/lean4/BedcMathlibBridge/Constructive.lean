@@ -36,6 +36,7 @@ import BedcMathlibBridge.Constructive.CentralBinom
 import BedcMathlibBridge.Constructive.Delannoy
 import BedcMathlibBridge.Constructive.Pell
 import BedcMathlibBridge.Constructive.PellLucas
+import BedcMathlibBridge.Constructive.SchroederNumber
 import BedcMathlibBridge.Constructive.SternDiatomic
 import BedcMathlibBridge.Constructive.QBinomial
 import BedcMathlibBridge.Constructive.Narayana
