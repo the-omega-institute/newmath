@@ -1,0 +1,75 @@
+\chapter{The Lucas-Cube Disjoint-Pair Silver Certificate}
+\label{ch:concrete-instances-lucas-cube-disjoint-pair-silver}
+\origin{ai}
+
+The Lucas cube $\Lambda_m$ is the set of cyclic binary words $x=(x_0,\ldots,x_{m-1})$ with no adjacent $1$s, including the wraparound adjacency between $x_{m-1}$ and $x_0$. Its vertex count is the Lucas number $L_m$. This chapter records a second finite count on the same golden-mean carrier: the ordered disjoint-pair count
+$$
+D_m=\#\{(x,y)\in\Lambda_m^2:\ x_i y_i=0\ \text{for every }i\}.
+$$
+The disjoint condition removes the local state $(1,1)$, so each coordinate pair has one of the three states $00,01,10$. In the row and column order $00,01,10$, adjacency around the cycle is governed by the transfer matrix
+$$
+M=
+\begin{pmatrix}
+1&1&1\\
+1&0&1\\
+1&1&0
+\end{pmatrix}.
+$$
+The trace of $M^m$ counts closed walks of length $m$ in this three-state automaton, which is exactly the same thing as a cyclic pair of disjoint Lucas-cube words. Thus
+$$
+D_m=\operatorname{tr}(M^m).
+$$
+
+\section{Trace And Silver Spectrum}
+\label{sec:lucas-cube-disjoint-pair-silver-trace}
+
+The characteristic polynomial is
+$$
+\det(tI-M)=(t+1)(t^2-2t-1)=t^3-t^2-3t-1.
+$$
+The eigenvalues are
+$$
+\{-1,\ 1+\sqrt2,\ 1-\sqrt2\}.
+$$
+The two roots $1\pm\sqrt2$ are the silver/Pell spectral pair, with the positive root $\delta=1+\sqrt2$ satisfying $\delta^2=2\delta+1$. Therefore the trace count has the closed form
+$$
+D_m=(-1)^m+(1+\sqrt2)^m+(1-\sqrt2)^m,
+$$
+and Cayley--Hamilton forces the order-three recurrence
+$$
+D_{m+3}=D_{m+2}+3D_{m+1}+D_m.
+$$
+The first ten checked values are
+$$
+D_1,\ldots,D_{10}=1,7,13,35,81,199,477,1155,2785,6727.
+$$
+
+\begin{theorem}[Lucas-cube disjoint-pair silver certificate]
+\label{thm:lucas-cube-disjoint-pair-silver-certificate}
+For the Lucas-cube ordered disjoint-pair count $D_m$, the finite transfer certificate is the equality $D_m=\operatorname{tr}(M^m)$ for the displayed $3\times3$ matrix $M$, the Cayley--Hamilton identity $M^3=M^2+3M+I$, the forced recurrence $D_{m+3}=D_{m+2}+3D_{m+1}+D_m$, and the concrete trace values
+$$
+D_1,\ldots,D_{10}=1,7,13,35,81,199,477,1155,2785,6727.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.LucasCubeDisjointPairSilver.lucas\_cube\_disjoint\_pair\_silver\_certificate}
+
+\section{Honest Scope}
+\label{sec:lucas-cube-disjoint-pair-silver-honest-scope}
+
+This is an exact finite combinatorial-enumeration certificate: the Lucas-cube disjoint-pair count is a transfer-operator trace whose spectrum carries the silver/Pell constant. It proves that a count built on the golden-mean/Fibonacci Lucas cube is controlled by the silver ratio through a $3\times3$ integer transfer operator. In this precise sense the golden world, characterized by $\varphi^2=\varphi+1$, is connected here to the silver world, characterized by $\delta^2=2\delta+1$.
+
+The certificate is not an analytic statement. It does not assert a Riemann-Hypothesis-type zero theorem, it does not transport zeta zeros, and it does not identify the Riemann $\xi$ coefficients with Lucas-cube data. Its content is the exact closed-walk enumeration of disjoint ordered pairs in the cyclic no-adjacent-$1$ language, together with the integer Cayley--Hamilton certificate whose spectral factorization contains $1\pm\sqrt2$.
+
+\falsifiablePrediction{A recomputation of the three-state transfer matrix that changes $M$, the trace values $D_1,\ldots,D_{10}$, the Cayley--Hamilton identity $M^3=M^2+3M+I$, or the recurrence $D_{m+3}=D_{m+2}+3D_{m+1}+D_m$, refutes this packet.}
+
+\independenceWitness{riemann-hypothesis, zeta-zero-transport: this packet is an exact finite combinatorial-enumeration certificate for the Lucas-cube disjoint-pair count only; the silver/Pell spectral link is exact integer linear algebra, not an analytic statement.}
+
+\begin{closurestatus}{LucasCubeDisjointPairSilver}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{$D_m=\operatorname{tr}(M^m)$ concrete + forced recurrence + Cayley--Hamilton silver spectrum}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LucasCubeDisjointPairSilver.lucas\_cube\_disjoint\_pair\_silver\_certificate}
+  \bridgestatus{none}
+  \notclaimed{an exact finite combinatorial-enumeration certificate for the Lucas-cube disjoint-pair count only; the silver/Pell spectral link is exact integer linear algebra, not an analytic statement}
+  \upgradepath{extend the transfer-operator trace certificates to further metallic-constant subshift pair-count families}
+\end{closurestatus}
