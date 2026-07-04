@@ -864,6 +864,7 @@ import BEDC.Derived.BaireMetricUp.UltrametricWindowObligations
 import BEDC.Derived.BaireModulusUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
+import BEDC.Derived.BaireOneFunctionUp.LowerSemicontinuousPublicNonescape
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp.TransportSurface
@@ -3088,6 +3089,7 @@ import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.NameCertObligations
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
+import BEDC.Derived.ChainableContinuumUp.TasteGate
 import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
 import BEDC.Derived.CharacterTableUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
