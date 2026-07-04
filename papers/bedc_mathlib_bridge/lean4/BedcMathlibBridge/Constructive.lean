@@ -53,6 +53,7 @@ import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.BallotNumber
 import BedcMathlibBridge.Constructive.Lah
 import BedcMathlibBridge.Constructive.LahClosedForm
+import BedcMathlibBridge.Constructive.LahSecondColumn
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
