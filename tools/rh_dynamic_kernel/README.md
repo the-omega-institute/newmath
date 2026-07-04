@@ -43,6 +43,8 @@ python3 source_norm_cert.py --matrix-json '[[2,1],[1,2]]' --coeffs-json '[3,-5]'
 python3 source_norm_cert_tests.py
 ```
 
+The Lean consumer `lean4/BEDC/Derived/RHRoute/WeilSourceNormPacket.lean` proves the same finite rule in-kernel: a packet of source square terms with nonnegative weights is nonnegative on every coefficient row, and any Gram quadratic with a `RatEq` readback to that packet inherits nonnegativity.
+
 ## Remaining boundary
 
 The remaining global front-end is to produce these finite Gram entries from the actual source ledger and then prove the cofinal limit:
