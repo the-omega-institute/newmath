@@ -161,4 +161,38 @@ theorem HypothesisTestDecisionCarrier_namecert_obligation_surface
       typeOne.right.right.right,
       ledgerJoint⟩
 
+theorem HypothesisTestDecisionCarrier_finite_risk_boundary
+    {null reject complement budget ledger endpoint alt accept altComplement typeII joint surface :
+      BHist} :
+    ProbSpacePublicEventPacket null budget reject complement budget ->
+      hsame complement BHist.Empty ->
+        ProbSpacePublicEventPacket alt typeII accept altComplement typeII ->
+          hsame altComplement BHist.Empty ->
+            Cont reject budget ledger ->
+              Cont null ledger endpoint ->
+                Cont accept typeII joint ->
+                  Cont ledger joint surface ->
+                    hsame endpoint (append null ledger) ∧ hsame surface (append ledger joint) ∧
+                      UnaryHistory ledger ∧ UnaryHistory joint ∧ UnaryHistory surface := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory ProbSpacePublicEventPacket
+  intro nullPacket complementEmpty altPacket altComplementEmpty rejectBudget nullLedger
+    acceptTypeII ledgerJoint
+  have typeOneLedger :
+      hsame null budget ∧ hsame reject budget ∧ PreorderPrefixLE reject budget ∧
+        UnaryHistory reject ∧ UnaryHistory budget :=
+    HypothesisDecisionCarrier_type_one_error_ledger nullPacket complementEmpty
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed typeOneLedger.right.right.right.left typeOneLedger.right.right.right.right
+      rejectBudget
+  have typeTwoLedger :
+      hsame alt typeII ∧ hsame accept typeII ∧ PreorderPrefixLE accept typeII ∧
+        UnaryHistory joint ∧ hsame joint (append accept typeII) :=
+    HypothesisTestDecisionCarrier_type_two_error_ledger altPacket altComplementEmpty
+      altPacket.left acceptTypeII
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed ledgerUnary typeTwoLedger.right.right.right.left ledgerJoint
+  exact
+    ⟨nullLedger, ledgerJoint, ledgerUnary, typeTwoLedger.right.right.right.left,
+      surfaceUnary⟩
+
 end BEDC.Derived.HypothesisUp
