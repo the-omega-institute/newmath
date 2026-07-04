@@ -2301,6 +2301,7 @@ import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletenessUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
+import BEDC.Derived.CauchyModulusDiagonalUp.TasteGate
 import BEDC.Derived.CauchyModulusEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
