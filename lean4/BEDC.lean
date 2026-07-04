@@ -5990,6 +5990,7 @@ import BEDC.Derived.FibonacciPolyaJensenDeformation
 import BEDC.Derived.FibonacciCubeIharaZeta
 import BEDC.Derived.FibonacciPolyaJensenKernel
 import BEDC.Derived.ZeckendorfMobiusSieve
+import BEDC.Derived.ZeckendorfMobiusSquarefreeSieve
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
 import BEDC.Derived.FibonacciUp
 import BEDC.Derived.FibonacciWordUp
@@ -10379,6 +10380,7 @@ import BEDC.Derived.RHRoute.FarEndUnityNormalization
 import BEDC.Derived.RHRoute.FiniteEulerDirichlet
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
+import BEDC.Derived.RHRoute.FiniteRadialEnergyCertificate
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
 import BEDC.Derived.RHRoute.FiniteVisibilityIncompleteness
 import BEDC.Derived.RHRoute.FiniteWindowFubini
@@ -10464,6 +10466,7 @@ import BEDC.Derived.RHRoute.RecursiveParityTower
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
+import BEDC.Derived.RHRoute.SaturatedCycleGramWitness
 import BEDC.Derived.RHRoute.SolenoidSourceGap
 import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse
