@@ -154,6 +154,50 @@ These theorems identify the exported surface as \texttt{ClosedAt} preservation t
 Therefore $R$ can only hand the ledger to a subject-reduction consumer as a boundary. A public typing-preservation conclusion requires a separate $\SubjectReductionUp$ typing row, and cannot be obtained by rereading the closure-preservation rows as a discharged typing theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC ClosurePreservation substitution-window factorization]
+\label{thm:metacic-closure-preservation-substitution-window}
+Every substitution-window read of an accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N)
+$$
+factors through the $\ClosedSubstitutionSealUp$ row $C$ and the $\SubstitutionAuditMapUp$ row $A$ before the beta-step row $B$ or finite beta-chain row $F$ can be exposed. The window therefore exports only the displayed \texttt{ClosedAt} preservation route and no unrestricted substitution calculus.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. The audit coordinate $A$ is the only displayed substitution-audit row, and the seal coordinate $C$ is the only displayed closed-substitution boundary row.
+
+Use \autoref{thm:metacic-closure-preservation-shift-substitution-classifier} to place $S,V,U$ behind $A$ and $G$. Then use \autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure} to require this audited substitution surface before $B$ or $F$ is read.
+
+The closed-substitution seal $C$ travels in the same carrier and transport rows $H,Q,P,N$. Since the carrier has no row for an unrestricted substitution calculus, the factorized window remains the displayed closedness route.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation generator route]
+\label{thm:metacic-closure-preservation-generator-route}
+Every generator-closure preservation route in an accepted $\MetaCICClosurePreservationUp$ carrier reads through the $\GeneratorClosureUp$ row $G$ and the $\BetaSubstitutionPreservationUp$ provenance named by $P$ before reaching the subject-reduction boundary row $R$. The route cannot present $R$ as an independent typing-preservation discharge.
+\end{theorem}
+\begin{proof}
+Read $G$ from the carrier as the generator classifier for the authorized shift, substitution, beta-step, and beta-chain moves. The provenance row $P$ is the only coordinate that names the $\BetaSubstitutionPreservationUp$ dependency.
+
+Apply \autoref{thm:metacic-closure-preservation-generator-substitution-induction}. It forces a beta-chain preservation consumer to expose $A,C,G,B,R$ before the finite chain is consumed, and it keeps the induction on \texttt{ClosedAt}.
+
+Finally apply \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. That theorem treats $R$ as a consumer boundary only, so the generator route reaches subject reduction without exporting a discharged typing theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation candidate-mediated scope]
+\label{thm:metacic-closure-preservation-candidate-mediated-scope}
+Any candidate-mediated consumer of an accepted $\MetaCICClosurePreservationUp$ carrier remains on the displayed MetaCIC residual, substitution, beta-chain, audit, seal, generator, consumer, transport, replay, provenance, and naming rows
+$$
+S,V,U,B,F,A,C,G,R,H,Q,P,N.
+$$
+It exports no unrestricted confluence, quotient term equality, evaluator equality, kernel consistency, or scope beyond the displayed residual/candidate consumer boundary.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-closure-preservation-ledger-exactness}. It identifies the public ledger of the packet with exactly the displayed rows $S,V,U,B,F,A,C,G,R,H,Q,P,N$.
+
+Next use \autoref{thm:metacic-closure-preservation-beta-chain-nonescape} and \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. These keep beta-chain and subject-reduction consumers on closedness preservation rather than typed conversion, confluence, normalization, or consistency.
+
+A candidate-mediated route therefore has no coordinate from which to export unrestricted confluence, quotient term equality, evaluator equality, or kernel consistency. Its scope is the same displayed residual and candidate-facing consumer boundary carried by the finite packet.
+\end{proof}
+
 \closureat{MetaCICClosurePreservationUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICClosurePreservationUp}
