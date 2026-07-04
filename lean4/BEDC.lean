@@ -6604,6 +6604,7 @@ import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
+import BEDC.Derived.FiniteTriggerFlipGraphUp.TasteGate
 import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVariationLedgerUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
@@ -6813,6 +6814,7 @@ import BEDC.Derived.GapClosureBoundaryUp.TasteGate
 import BEDC.Derived.GapFailureBridgeAuditUp.NameCertObligations
 import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.GapSocketBoundaryUp.TasteGate
+import BEDC.Derived.GateauxDerivativeUp.TasteGate
 import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaugeLebesgueNumberUp.TasteGate
@@ -11847,6 +11849,7 @@ import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
 import BEDC.Derived.RegularCauchyTailProductBoundUp
+import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSealUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -12131,6 +12134,7 @@ import BEDC.Derived.S1Up.StandardBridge
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
+import BEDC.Derived.SAdicSolenoidChargeUp.TasteGate
 import BEDC.Derived.SL2Up
 import BEDC.Derived.SRRouteDependencyAuditUp.TasteGate
 import BEDC.Derived.SafePrimeUp
