@@ -76,3 +76,4 @@ import BedcMathlibBridge.Constructive.GenocchiNumber
 import BedcMathlibBridge.Constructive.AssociatedStirling
 import BedcMathlibBridge.Constructive.Riordan
 import BedcMathlibBridge.Constructive.NarayanaCow
+import BedcMathlibBridge.Constructive.BesselNumber
