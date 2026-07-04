@@ -109,6 +109,57 @@ theorem ApophaticFiberFarEndCarrier_ledger_boundary_route
     }
   · exact publicSameInscription
 
+theorem ApophaticFiberFarEnd_scoped_kernel_route
+    {socket fiber ledger boundary inscription transport route provenance name read : BHist} :
+    Cont socket fiber ledger ->
+      Cont ledger boundary inscription ->
+        Cont inscription route read ->
+          hsame read boundary ->
+            SemanticNameCert
+                (fun row : BHist => hsame row read ∧ hsame row boundary)
+                (fun row : BHist =>
+                  hsame row socket ∨ hsame row fiber ∨ hsame row ledger ∨
+                    hsame row boundary ∨ hsame row inscription ∨ hsame row transport ∨
+                      hsame row route ∨ hsame row provenance ∨ hsame row name)
+                (fun row : BHist =>
+                  (hsame row read ∨ hsame row boundary) ∧
+                    Cont socket fiber ledger ∧ Cont ledger boundary inscription ∧
+                      Cont inscription route read)
+                hsame ∧
+              hsame read boundary := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro socketFiberLedger ledgerBoundaryInscription inscriptionRouteRead readSameBoundary
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro read ⟨hsame_refl read, readSameBoundary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              hsame_trans (hsame_symm sameRows) source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inl source.right)))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨Or.inl source.left, socketFiberLedger, ledgerBoundaryInscription,
+            inscriptionRouteRead⟩
+    }
+  · exact readSameBoundary
+
 theorem ApophaticFiberFarEndCarrier_boundary_bypass_invalid
     {socket fiber ledger boundary bypass : BHist} :
     Cont socket fiber ledger ->
