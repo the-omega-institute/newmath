@@ -351,6 +351,131 @@ theorem TheorySelfClassifierCarrier_namecert_obligations [AskSetup] [PackageSetu
     ⟨gUnary, eUnary, rUnary, pUnary, aUnary, lUnary, readUnary, generatorEqualityRoute,
       recursorPurityRoute, classifierRoute, ledgerRoute, provenancePkg, readPkg⟩
 
+theorem TheorySelfClassifier_obligation_row_exhaustion [AskSetup] [PackageSetup]
+    {G E R P A L H C Q N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TheorySelfClassifierCarrier G E R P A L H C Q N bundle pkg →
+      (forall row : BHist,
+        List.Mem row (theorySelfClassifierFields
+          (TheorySelfClassifierUp.mk G E R P A L H C Q N)) → UnaryHistory row) ∧
+        (forall row : BHist,
+          List.Mem row (theorySelfClassifierFields
+            (TheorySelfClassifierUp.mk G E R P A L H C Q N)) →
+            row = G ∨ row = E ∨ row = R ∨ row = P ∨ row = A ∨ row = L ∨
+              row = H ∨ row = C ∨ row = Q ∨ row = N) ∧
+          Cont G E R ∧ Cont R P A ∧ Cont A L C ∧ PkgSig bundle Q pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨gUnary, eUnary, rUnary, pUnary, aUnary, lUnary, hUnary, cUnary,
+    qUnary, nUnary, generatorEqualityRoute, recursorPurityRoute, classifierRoute,
+    provenancePkg⟩ := carrier
+  constructor
+  · intro row rowMem
+    cases rowMem with
+    | head =>
+        exact gUnary
+    | tail _ rowMem =>
+        cases rowMem with
+        | head =>
+            exact eUnary
+        | tail _ rowMem =>
+            cases rowMem with
+            | head =>
+                exact rUnary
+            | tail _ rowMem =>
+                cases rowMem with
+                | head =>
+                    exact pUnary
+                | tail _ rowMem =>
+                    cases rowMem with
+                    | head =>
+                        exact aUnary
+                    | tail _ rowMem =>
+                        cases rowMem with
+                        | head =>
+                            exact lUnary
+                        | tail _ rowMem =>
+                            cases rowMem with
+                            | head =>
+                                exact hUnary
+                            | tail _ rowMem =>
+                                cases rowMem with
+                                | head =>
+                                    exact cUnary
+                                | tail _ rowMem =>
+                                    cases rowMem with
+                                    | head =>
+                                        exact qUnary
+                                    | tail _ rowMem =>
+                                        cases rowMem with
+                                        | head =>
+                                            exact nUnary
+                                        | tail _ rowMem =>
+                                            cases rowMem
+  · constructor
+    · intro row rowMem
+      cases rowMem with
+      | head =>
+          exact Or.inl rfl
+      | tail _ rowMem =>
+          cases rowMem with
+          | head =>
+              exact Or.inr (Or.inl rfl)
+          | tail _ rowMem =>
+              cases rowMem with
+              | head =>
+                  exact Or.inr (Or.inr (Or.inl rfl))
+              | tail _ rowMem =>
+                  cases rowMem with
+                  | head =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl rfl)))
+                  | tail _ rowMem =>
+                      cases rowMem with
+                      | head =>
+                          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))
+                      | tail _ rowMem =>
+                          cases rowMem with
+                          | head =>
+                              exact Or.inr
+                                (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))
+                          | tail _ rowMem =>
+                              cases rowMem with
+                              | head =>
+                                  exact Or.inr
+                                    (Or.inr
+                                      (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))))
+                              | tail _ rowMem =>
+                                  cases rowMem with
+                                  | head =>
+                                      exact Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))))))
+                                  | tail _ rowMem =>
+                                      cases rowMem with
+                                      | head =>
+                                          exact Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr (Or.inr (Or.inl rfl))))))))
+                                      | tail _ rowMem =>
+                                          cases rowMem with
+                                          | head =>
+                                              exact Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr (Or.inr rfl))))))))
+                                          | tail _ rowMem =>
+                                              cases rowMem
+    · exact
+        ⟨generatorEqualityRoute, recursorPurityRoute, classifierRoute, provenancePkg⟩
+
 def taste_gate : ChapterTasteGate TheorySelfClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   theorySelfClassifierChapterTasteGate
