@@ -1,13 +1,19 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Sig
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NontrivialZeroClassifierUp
 
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Sig
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -390,6 +396,47 @@ theorem NontrivialZeroClassifierCarrier_critical_strip_handoff
     ledger_sound := by
       intro _row source
       exact source
+  }
+
+theorem NontrivialZeroClassifier_trivial_zero_exclusion_ledger [AskSetup]
+    {bundle : ProbeBundle ProbeName} {critical trivial evidence : BHist} :
+    SigRel bundle critical evidence ->
+      hsame trivial BHist.Empty ->
+        SemanticNameCert
+          (fun row : BHist => hsame row evidence ∧ SigRel bundle critical evidence)
+          (fun row : BHist =>
+            hsame row critical ∨ hsame row trivial ∨ hsame row evidence)
+          (fun row : BHist =>
+            SigRel bundle critical evidence ∧ hsame trivial BHist.Empty)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle SigRel SemanticNameCert hsame
+  intro criticalEvidence trivialEmpty
+  have sourceEvidence :
+      (fun row : BHist => hsame row evidence ∧ SigRel bundle critical evidence)
+        evidence := by
+    exact ⟨hsame_refl evidence, criticalEvidence⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro evidence sourceEvidence
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, trivialEmpty⟩
   }
 
 end BEDC.Derived.NontrivialZeroClassifierUp

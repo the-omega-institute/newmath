@@ -205,3 +205,25 @@ Use handoff-route determinacy from \autoref{def:regular-cauchy-tail-schedule-han
 
 Finally transport componentwise by the $\hsame$ rows stored in $H$. The obligation-closure package of \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package} keeps the compatibility inside the displayed schedule packet, so no quotient stream equality, selected completed limit, host real equality, or ambient completeness endpoint is exported.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule bridge route]
+\label{thm:regular-cauchy-tail-schedule-bridge-route}
+Every accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)
+$$
+exports a finite bridge route from the precision request $Q$ through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, and $\RegularCauchyTailFusionUp$ to the $\RealUp$ seal-facing row $E$. The route is read as
+$$
+Q \longmapsto R \longmapsto W \longmapsto D \longmapsto K \longmapsto T \longmapsto M \longmapsto F \longmapsto E.
+$$
+It refuses quotient stream equality, selected limits, hidden tail selectors, host real equality, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}. The precision request $Q$, regular rational source $R$, finite stream window $W$, dyadic ledger $D$, cofinal index $K$, displayed tail witness $T$, shared-tail meet $M$, tail fusion row $F$, and seal-facing row $E$ are the only analytic rows available to a consumer.
+
+Use schedule exactness from \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}. It forces every tail read through $Q,R,W,D,K,T$ before any sibling consumer can inspect the tail. The handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route} then places $M$ and $F$ downstream of the same displayed tail witness before the terminal row $E$ is read.
+
+Apply scope binding, cofinal-window induction, and meet-fusion compatibility. The scope theorem keeps the route inside $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The induction preserves the finite window route to $T$, and the compatibility theorem forces $M$ and $F$ to consume the same entrance surface.
+
+Finally use the obligation-closure package. Since the carrier has no coordinate for quotient stream equality, selected limits, hidden tail selectors, host real equality, or ambient completeness, the displayed bridge route is the only exported seal-facing path.
+\end{proof}
