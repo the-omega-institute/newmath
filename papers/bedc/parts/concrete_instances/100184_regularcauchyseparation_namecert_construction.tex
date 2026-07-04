@@ -125,10 +125,22 @@ Finally read $H,C,P,N$ as preservation rows. They transport, replay, source, and
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, cauchymodulus, real: no listed sibling supplies the whole ten-row packet $K=(L,R,W,D,M,E,H,C,P,N)$, because each sibling contributes only regular-name rows, finite windows, dyadic tolerances, modulus evidence, or a Real seal boundary while this chapter binds the separation route with transport, replay, provenance, and local naming.}
 
+\begin{theorem}[Regular Cauchy separation scoped package]
+\label{thm:regular-cauchy-separation-scoped-package}
+The obligation-scope theorem \autoref{thm:regular-cauchy-separation-obligation-scope} and the Real-seal-scope theorem \autoref{thm:regular-cauchy-separation-real-seal-scope} give the complete scoped L10 route for $\RegularCauchySeparationUp$. Every equality or separation read of an accepted packet is confined to the displayed rows over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$, with transport, replay, provenance, and local naming preserved by $H,C,P,N$; no quotient equality, trichotomy, selected limit, countable choice, or ambient completeness row remains outside that scope.
+\end{theorem}
+\begin{proof}
+The obligation-scope theorem lists the complete carrier and NameCert obligation boundary for the regular-name, stream-window, dyadic-tolerance, modulus, and Real-seal rows. It also states that every equality or separation read passes through the finite route before the Real boundary can be consumed.
+
+The Real-seal-scope theorem then records the consumer-facing boundary of the same route. It requires every Real-facing equality or separation consumer to pass through $L,R,W,D,M$ before $E$, with $H,C,P,N$ preserving the packet.
+
+Together these two scope theorems exhaust the L10 route. The carrier has no remaining coordinate for quotient equality, host equality, trichotomy, selected limits, countable choice, or ambient completeness.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchySeparationUp}
   \constructivestory{A $\RegularCauchySeparationUp$ packet is generated from left and right $\RegSeqRatUp$ rows, a $\StreamNameUp$ finite-window ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyModulusUp$ separation-modulus row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-separation-carrier}, \autoref{thm:regular-cauchy-separation-namecert-obligations}, \autoref{thm:regular-cauchy-separation-modulus-boundary}, \autoref{thm:regular-cauchy-separation-zero-distance-reflection}, and \autoref{thm:regular-cauchy-separation-obligation-scope} bind the certified separation boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-separation-carrier}, \autoref{thm:regular-cauchy-separation-namecert-obligations}, \autoref{thm:regular-cauchy-separation-modulus-boundary}, \autoref{thm:regular-cauchy-separation-zero-distance-reflection}, \autoref{thm:regular-cauchy-separation-obligation-scope}, \autoref{thm:regular-cauchy-separation-real-seal-scope}, and \autoref{thm:regular-cauchy-separation-scoped-package} bind the certified separation boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, host real equality, trichotomy, selected limits, countable choice, ambient Real completeness, Lean verification, or a standard bridge.}
