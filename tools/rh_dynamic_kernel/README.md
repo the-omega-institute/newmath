@@ -1,6 +1,8 @@
-# Dynamic mirror-packet certificate checker
+# Dynamic kernel certificate tools
 
 This directory contains the algebraic and programmatic part of the dynamic RH route.
+
+## Mirror-packet obstruction checker
 
 `mirror_packet_cert.py` verifies a finite certificate:
 
@@ -11,7 +13,7 @@ mirror pair + exact mirror-odd Lagrange filter + certified tail bound
 
 The checker is a consumer of the tail bound and of any eventual prime/Gamma source-positivity certificate. It does not claim to prove RH by finite sampling.
 
-## Demo
+Demo:
 
 ```bash
 python3 mirror_packet_cert.py --r 1/7 --gamma 14 --tail-bound 1
@@ -22,12 +24,31 @@ The output includes exact rational polynomial coefficients for the mirror-odd La
 
 A positive strict margin certifies the signed conclusion under the supplied tail bound.
 
-## Boundary
+## Finite source-norm checker
 
-The remaining front-end is the source-side norm formula
+`source_norm_cert.py` verifies the finite square-norm front-end:
+
+```text
+finite prime/Gamma Gram entries B_ij
+    + B = sum_k w_k v_k v_k^T with w_k >= 0
+    => c^T B c = sum_k w_k (v_k . c)^2 >= 0
+```
+
+It can consume an explicit square-term certificate or construct one by exact rational `LDL^T` elimination when no pivoting is needed.
+
+Demo:
+
+```bash
+python3 source_norm_cert.py --matrix-json '[[2,1],[1,2]]' --coeffs-json '[3,-5]'
+python3 source_norm_cert_tests.py
+```
+
+## Remaining boundary
+
+The remaining global front-end is to produce these finite Gram entries from the actual source ledger and then prove the cofinal limit:
 
 ```text
 P(g*g#) + A(g*g#) = ||Psi_g^{prime,Gamma}||^2 >= 0.
 ```
 
-If that formula is supplied without reading the zero set, the dynamic packet checker supplies the finite contradiction step for any separated mirror pair.
+The tools here remove the finite algebra from the problem. What remains is the genuine source construction: prime-power/von-Mangoldt terms, archimedean Gamma terms, pole corrections, and limit transport must populate the finite Gram matrices without reading the zero set.
