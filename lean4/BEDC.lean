@@ -3724,6 +3724,7 @@ import BEDC.Derived.CompactlySupportedRealFunctionUp
 import BEDC.Derived.CompactnessCompletionRouteUp.TasteGate
 import BEDC.Derived.CompactnessSequentialEquivalenceUp.TasteGate
 import BEDC.Derived.CompactnessUniformContinuityDiameterDecayUp.TasteGate
+import BEDC.Derived.CompactoidUp.NameCertObligations
 import BEDC.Derived.CompactoidUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
@@ -10966,6 +10967,7 @@ import BEDC.Derived.RealModulusComparisonUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
+import BEDC.Derived.RealModulusFusionUp.TasteGate
 import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
 import BEDC.Derived.RealModulusPurityBoundaryUp.DyadicWitnessStability
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
@@ -11880,6 +11882,7 @@ import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
 import BEDC.Derived.RegularCauchyTailProductBoundUp
 import BEDC.Derived.RegularCauchyTailScheduleUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
+import BEDC.Derived.RegularCauchyTailScheduleUp.ConsumerFactorization
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
