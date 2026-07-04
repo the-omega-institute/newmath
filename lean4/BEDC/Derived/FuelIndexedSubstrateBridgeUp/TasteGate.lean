@@ -563,4 +563,25 @@ theorem FuelIndexedSubstrateBridge_step_window_boundary
         · exact hsame_refl window
         · exact hsame_refl readback
 
+theorem FuelIndexedSubstrateBridge_obligation_closure
+    (x : FuelIndexedSubstrateBridgeUp) :
+    ∃ fuel substrate evaluator window readback refusal transport route provenance name : BHist,
+      x =
+          FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback refusal
+            transport route provenance name ∧
+        fuelIndexedSubstrateBridgeFromEventFlow
+            (fuelIndexedSubstrateBridgeToEventFlow x) = some x ∧
+          fuelIndexedSubstrateBridgeToEventFlow x =
+            fuelIndexedSubstrateBridgeToEventFlow
+              (FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback
+                refusal transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk fuel substrate evaluator window readback refusal transport route provenance name =>
+      exact
+        ⟨fuel, substrate, evaluator, window, readback, refusal, transport, route,
+          provenance, name, rfl, fuelIndexedSubstrateBridge_round_trip
+            (FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback
+              refusal transport route provenance name), rfl⟩
+
 end BEDC.Derived.FuelIndexedSubstrateBridgeUp

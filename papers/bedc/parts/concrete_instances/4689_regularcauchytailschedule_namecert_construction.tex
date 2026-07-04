@@ -301,3 +301,21 @@ Use cofinal-window induction, \autoref{thm:regular-cauchy-tail-schedule-cofinal-
 
 Finally apply the bridge route and tail-route totality, \autoref{thm:regular-cauchy-tail-schedule-bridge-route} and \autoref{thm:regular-cauchy-tail-schedule-tail-route-totality}. They place the Real-facing handoff after the displayed RegSeqRat, StreamName, DyadicRatCore, TailMeet, and TailFusion rows. Since the carrier has no coordinate for quotient stream equality, selected limits, hidden tail selectors, host real equality, or ambient completeness, every Real-and-Completion consumer factors through the stated route.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule consumer factorization]
+\label{thm:regular-cauchy-tail-schedule-consumer-factorization}
+Every completion-facing consumer that reads an accepted $\RegularCauchyTailScheduleUp$ packet
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)
+$$
+must first read, in finite order, the precision request $Q$, the $\RegSeqRatUp$ source row $R$, the $\StreamNameUp$ window schedule $W$, the $\DyadicRatCoreUp$ ledger $D$, the cofinal tail index $K$, the displayed tail witness $T$, the $\RegularCauchyTailMeetUp$ row $M$, the $\RegularCauchyTailFusionUp$ row $F$, and the $\RealUp$ seal row $E$ before making any completion-facing conclusion. The transport, replay, provenance, and local naming rows $H,C,P,N$ remain part of the same read, so the consumer factors through the finite tail schedule rather than through quotient stream equality, selected completed limits, hidden tail selectors, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the handoff route of \autoref{def:regular-cauchy-tail-schedule-handoff-route}. It is the finite displayed path from $Q,R,W,D,K,T,M,F$ to the seal-facing row $E$, with the componentwise transport, replay, provenance, and local naming rows kept in $H,C,P,N$.
+
+Apply seal-facing determinacy and scope binding, \autoref{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy} and \autoref{thm:regular-cauchy-tail-schedule-scope-binding}. These results make the terminal $\RealUp$ row a consequence of the displayed entrance rows and keep every obligation inside the named $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Use the Real-completion scope theorem, \autoref{thm:regular-cauchy-tail-schedule-real-completion-scope}. It already places every Real-and-Completion read after the precision request, regular rational source, stream window, dyadic ledger, cofinal index, tail witness, meet row, fusion row, and seal-facing handoff.
+
+Finally apply the obligation-closure package, \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package}. Since the package contains no coordinate for quotient stream equality, selected completed limits, hidden tail selectors, host real equality, or ambient completeness, any completion-facing conclusion has to factor through the finite tail schedule displayed above.
+\end{proof}
