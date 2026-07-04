@@ -3930,6 +3930,7 @@ import BEDC.Derived.ConstructiveContractionModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniTheoremUp.Routes
 import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
+import BEDC.Derived.ConstructiveEpigraphProjectionUp
 import BEDC.Derived.ConstructiveGreenFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp.TasteGate
