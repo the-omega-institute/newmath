@@ -13585,7 +13585,11 @@ import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
 import BEDC.Derived.Visions.PrimeClassifierGeneralDetection
 import BEDC.Derived.Visions.PrimeClassifierFiniteCore
+import BEDC.Derived.Visions.SaturatedCycleLemma
+import BEDC.Derived.Visions.CoboundaryBalancedCharacterization
+import BEDC.Derived.Visions.NonabelianCarryCertificate
 import BEDC.Derived.Visions.PythagoreanRPCertificate
+import BEDC.Derived.Visions.SelfSubstitutionCarryHolonomy
 import BEDC.Derived.Visions.TwistedInvolutionSignature
 import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
 import BEDC.Derived.VitaliCoverUp.TasteGate

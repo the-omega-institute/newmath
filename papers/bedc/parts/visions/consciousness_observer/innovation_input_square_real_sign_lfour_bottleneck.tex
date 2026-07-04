@@ -1,0 +1,304 @@
+\chapter{Innovation Input Square Real-Sign Four-Window Bottleneck}
+\label{ch:visions-innovation-input-square-real-sign-lfour-bottleneck}
+\origin{ai}
+
+\autoref{thm:innovation-input-square-alphabet-real-sign-correlation-boundary}
+gives Q3-compatible real-sign rows for every square alphabet. The
+nine-ary screen in
+\autoref{ch:visions-innovation-input-nine-real-sign-rp-screen} shows that
+the first such square alphabet has no anchored $L=3$ real neutral RP row.
+The larger square alphabets exhibit a sharper phenomenon: real-sign rows
+can pass the anchored $L=3$ RP matrix in substantial numbers, but the
+anchored $L=4$ real neutral matrix remains empty for the computed square
+families.
+
+\section{Twenty-five-ary Real-Sign Locus}
+\label{sec:innovation-input-twentyfive-real-sign-locus}
+
+\begin{definition}[Twenty-five-ary real-sign Q3 row]
+\label{def:innovation-input-twentyfive-real-sign-qthree-row}
+A twenty-five-ary real-sign Q3 row is a word
+$$
+v=(v_0,\ldots,v_{24})\in\{+1,-1\}^{25}
+$$
+satisfying
+$$
+\sum_{a=0}^{24}v_a=5.
+$$
+It determines the real-sign self-substitution sequence
+$$
+u_{25n+a}=v_a u_n.
+$$
+\end{definition}
+
+\begin{proposition}[Twenty-five-ary real-sign count]
+\label{prop:innovation-input-twentyfive-real-sign-count}
+A twenty-five-ary real-sign row is Q3-compatible exactly when it has
+fifteen positive signs and ten negative signs. Hence the search space has
+$$
+\binom{25}{10}=3268760
+$$
+rows.
+\end{proposition}
+
+\begin{proof}
+Let $P$ and $M$ be the numbers of positive and negative entries. Then
+$$
+P+M=25,
+\qquad
+P-M=5.
+$$
+Thus $P=15$ and $M=10$. Conversely, those two cardinalities give the
+required row sum. The number of rows is the choice of the ten negative
+positions.
+\end{proof}
+
+\section{Four-Window Screen}
+\label{sec:innovation-input-square-real-sign-four-window-screen}
+
+\begin{definition}[Anchored real $L=4$ neutral window]
+\label{def:innovation-input-square-real-lfour-window}
+The anchored real $L=4$ neutral window is ordered as
+$$
+\begin{array}{c|c}
+\text{index} & \text{support}\\
+\hline
+0 & \varnothing\\
+1 & (1,2)\\
+2 & (1,3)\\
+3 & (1,4)\\
+4 & (2,3)\\
+5 & (2,4)\\
+6 & (3,4)\\
+7 & (1,2,3,4).
+\end{array}
+$$
+The last support represents the four-body observable
+$$
+F_{1234}=u_{n+1}u_{n+2}u_{n+3}u_{n+4}.
+$$
+\end{definition}
+
+\begin{theorem}[Twenty-five-ary real-sign four-window exclusion]
+\label{thm:innovation-input-twentyfive-real-sign-lfour-exclusion}
+Among the $3268760$ twenty-five-ary real-sign Q3 rows, exactly $2784$
+pass the anchored $L=3$ real neutral RP screen. None passes the anchored
+$L=4$ real neutral RP screen:
+$$
+\#\mathcal R^{\mathbb R,\mathrm{neu}}_{25,3}=2784,
+\qquad
+\#\mathcal R^{\mathbb R,\mathrm{neu}}_{25,4}=0.
+$$
+\end{theorem}
+
+\begin{proof}
+The exact carry evaluator is the same finite parity recursion as
+\autoref{thm:innovation-input-nine-real-carry-recursion}, with $9$
+replaced by $25$. For the $L=4$ window, every reflected support has
+diameter at most $7$, so a single carry branch lands in either the empty
+support or the distance-one support. Thus each matrix entry is an exact
+rational function of the row signs and the distance-one correlation.
+
+The reproducible enumeration is
+\texttt{papers/bedc/experiments/square\_real\_sign\_rp\_screen.py}. It
+enumerates all $\binom{25}{10}$ rows, solves the exact carry values for the
+anchored $L=3$ and $L=4$ real neutral windows, and checks Hermitian
+symmetry together with the displayed principal-minor certificates. The
+script asserts the two counts above.
+\end{proof}
+
+\begin{theorem}[Twenty-five-ary four-window failure split]
+\label{thm:innovation-input-twentyfive-lfour-failure-split}
+Of the $2784$ twenty-five-ary real-sign rows passing anchored $L=3$ real
+neutral RP, the anchored $L=4$ failures split as follows:
+$$
+2612
+\quad
+\text{fail Hermitian symmetry,}
+$$
+and
+$$
+172
+\quad
+\text{are Hermitian but fail positive semidefiniteness.}
+$$
+Consequently
+$$
+L=3\ \text{real neutral RP}
+\not\Rightarrow
+L=4\ \text{real neutral Hermitian symmetry},
+$$
+and therefore also
+$$
+L=3\ \text{real neutral RP}
+\not\Rightarrow
+L=4\ \text{real neutral RP}.
+$$
+\end{theorem}
+
+\begin{proof}
+This is the refined classification produced by the exact enumeration in
+\autoref{thm:innovation-input-twentyfive-real-sign-lfour-exclusion}. A
+non-Hermitian matrix cannot define a reflection-positive real quadratic
+form. On the Hermitian subfamily, the script searches diagonal entries and
+$2\times2$ principal minors for the first negative certificate; the
+certificates in
+\autoref{prop:innovation-input-twentyfive-hermitian-psd-certificates}
+exhaust the $172$ remaining failures.
+\end{proof}
+
+\begin{proposition}[Hermitian positive-semidefinite failure certificates]
+\label{prop:innovation-input-twentyfive-hermitian-psd-certificates}
+For the $172$ twenty-five-ary rows whose anchored $L=4$ matrix is
+Hermitian but not positive semidefinite, the first low-order certificate
+has the following distribution:
+$$
+\begin{array}{c|r}
+\text{certificate} & \text{count}\\
+\hline
+\det(0,3)<0 & 8\\
+\det(0,5)<0 & 20\\
+\det(0,7)<0 & 4\\
+\det(1,3)<0 & 6\\
+\det(1,5)<0 & 4\\
+\det(1,6)<0 & 8\\
+\det(2,3)<0 & 2\\
+\det(3,4)<0 & 4\\
+\det(5,7)<0 & 2\\
+M_{33}<0 & 76\\
+M_{55}<0 & 32\\
+M_{77}<0 & 6
+\end{array}
+$$
+\end{proposition}
+
+\begin{proof}
+The table is the exact certificate counter emitted by
+\texttt{papers/bedc/experiments/square\_real\_sign\_rp\_screen.py}. Each
+listed entry is a necessary condition for positive semidefiniteness of the
+Hermitian anchored $L=4$ matrix.
+\end{proof}
+
+\section{Concrete Witnesses}
+\label{sec:innovation-input-twentyfive-concrete-witnesses}
+
+\begin{proposition}[Strict three-window row with four-body failure]
+\label{prop:innovation-input-twentyfive-strict-lthree-fourbody-failure}
+Let the negative positions be
+$$
+I=\{9,11,12,14,16,18,20,21,22,23\}.
+$$
+Then the row $v_a=-1$ exactly on $I$ is a twenty-five-ary real-sign Q3
+row. Its anchored $L=3$ real neutral RP matrix is
+$$
+M_3
+=
+\begin{pmatrix}
+1&0&13/25&0\\
+0&7/25&0&3/25\\
+13/25&0&9/25&0\\
+0&3/25&0&7/25
+\end{pmatrix}.
+$$
+This matrix is positive definite, with least eigenvalue
+$$
+\lambda_{\min}(M_3)
+=
+\frac{17-\sqrt{233}}{25}
+\approx
+0.0694264991.
+$$
+However, in the anchored $L=4$ real neutral window,
+$$
+\langle\theta F_{1234},F_{1234}\rangle=-\frac1{25}.
+$$
+\end{proposition}
+
+\begin{proof}
+The row has ten negative signs, hence is Q3-compatible by
+\autoref{prop:innovation-input-twentyfive-real-sign-count}. The displayed
+matrix entries are the exact carry values recomputed by
+\texttt{papers/bedc/experiments/square\_real\_sign\_rp\_screen.py}. The
+two nontrivial blocks have spectra
+$$
+\left\{\frac{34\pm2\sqrt{233}}{50}\right\}
+$$
+and
+$$
+\left\{\frac4{25},\frac{10}{25}\right\},
+$$
+so the least eigenvalue is $(17-\sqrt{233})/25>0$. The same exact carry
+evaluation gives the four-body diagonal $-1/25$, which is already a
+negative diagonal certificate for the $L=4$ matrix.
+\end{proof}
+
+\begin{proposition}[Near-Hermitian survivor still fails symmetry]
+\label{prop:innovation-input-twentyfive-near-hermitian-failure}
+Let the negative positions be
+$$
+I=\{0,1,2,3,12,13,17,18,21,22\}.
+$$
+This row passes anchored $L=3$ real neutral RP. In the anchored $L=4$
+matrix,
+$$
+M_{3,5}=-\frac{31}{325},
+\qquad
+M_{5,3}=\frac{41}{325}.
+$$
+Therefore
+$$
+M_{3,5}\ne M_{5,3},
+$$
+with discrepancy
+$$
+M_{5,3}-M_{3,5}=\frac{72}{325}.
+$$
+\end{proposition}
+
+\begin{proof}
+The row has ten negative signs, hence is Q3-compatible. The exact
+enumerator confirms anchored $L=3$ passage and computes the two displayed
+$L=4$ entries. Since Hermitian symmetry already fails, no
+positive-semidefinite RP interpretation is available for this row at
+window length $4$.
+\end{proof}
+
+\section{Square-Family Pattern}
+\label{sec:innovation-input-square-family-pattern}
+
+\begin{theorem}[Computed square real-sign bottleneck]
+\label{thm:innovation-input-square-real-sign-bottleneck}
+For the computed square real-sign Q3 subfamilies, the anchored real
+neutral RP counts are
+$$
+\begin{array}{c|r|r|r}
+N & \text{real-sign Q3 rows} & L=3\ \text{pass} & L=4\ \text{pass}\\
+\hline
+9 & 84 & 0 & 0\\
+16 & 8008 & 7 & 0\\
+25 & 3268760 & 2784 & 0
+\end{array}
+$$
+\end{theorem}
+
+\begin{proof}
+The $N=9$ row is the exact screen of
+\autoref{thm:innovation-input-nine-real-no-lthree-rp-row}. The
+$N=16$ and $N=25$ rows are recomputed by
+\texttt{papers/bedc/experiments/square\_real\_sign\_rp\_screen.py}, using
+the same real-sign carry recursion and the same anchored neutral window
+conventions.
+\end{proof}
+
+\begin{principle}[Local positivity is not stable RP]
+\label{prin:innovation-input-square-real-sign-local-not-stable-rp}
+The square real-sign construction supplies Q3 compatibility and real
+two-point correlations, and for $N=16$ and $N=25$ it also supplies genuine
+anchored $L=3$ reflection-positive examples. The same construction has no
+computed survivor at anchored $L=4$ for $N=9,16,25$. Thus the empirical
+obstruction has moved from the existence of low-window RP to the stability
+of RP across the next neutral window. The four-body observable
+$F_{1234}$ is a distinguished part of that obstruction, because it already
+gives the exact negative diagonal $-1/25$ for the strict twenty-five-ary
+$L=3$ witness above.
+\end{principle}
