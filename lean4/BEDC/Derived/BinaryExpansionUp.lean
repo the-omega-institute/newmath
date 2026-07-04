@@ -501,4 +501,31 @@ theorem BinaryExpansionPacket_endpoint_ambiguity_ledger_boundary [AskSetup] [Pac
   }
   exact ⟨cert, realSealUnary, provenancePkg, conventionPkg⟩
 
+theorem BinaryExpansionPacket_bridge_interface [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont windows approximation bridgeRead →
+        Cont bridgeRead regular realSeal →
+          PkgSig bundle bridgeRead pkg →
+            UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+              UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory bridgeRead ∧
+                Cont windows digits approximation ∧ Cont windows approximation bridgeRead ∧
+                  Cont bridgeRead regular realSeal ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowsApproximationBridge bridgeRegularSeal bridgePkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    windowsDigitsApproximation, _approximationRegularRealSeal, _transportRouteProvenance,
+    provenancePkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed windowsUnary approximationUnary windowsApproximationBridge
+  exact
+    ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary, bridgeUnary,
+      windowsDigitsApproximation, windowsApproximationBridge, bridgeRegularSeal, provenancePkg,
+      bridgePkg⟩
+
 end BEDC.Derived.BinaryExpansionUp
