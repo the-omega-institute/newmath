@@ -10382,6 +10382,7 @@ import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
 import BEDC.Derived.RHRoute.FiniteVisibilityIncompleteness
 import BEDC.Derived.RHRoute.FiniteWindowFubini
+import BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GAGCertificate
 import BEDC.Derived.RHRoute.GenerationInvariantExclusion
