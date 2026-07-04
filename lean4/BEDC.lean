@@ -1098,6 +1098,7 @@ import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalCompositionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp
+import BEDC.Derived.BishopCompletionUp.ObligationClosure
 import BEDC.Derived.BishopCompletionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
 import BEDC.Derived.BishopCutUp
@@ -3744,6 +3745,7 @@ import BEDC.Derived.CompactoidUp.FiniteNetAbsorption
 import BEDC.Derived.CompactoidUp.NameCertObligations
 import BEDC.Derived.CompactoidUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp
+import BEDC.Derived.CompileFrontierWitnessUp.ConsumerNonescape
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.CompilerCompositionTraceUp.Associativity
@@ -11800,6 +11802,7 @@ import BEDC.Derived.RegularCauchyRingUp.TerminalSealDiscipline
 import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
+import BEDC.Derived.RegularCauchyScalarUp.WindowStability
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchyScaleUp.BridgeBoundary
 import BEDC.Derived.RegularCauchyScaleUp.ObligationScopePackage
