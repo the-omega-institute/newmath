@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCommonTailSealUp$}
+\label{ch:concrete-instances-regular-cauchy-common-tail-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyCommonTailSealUp$ packet records the finite common-tail comparison used when two regular Cauchy reads expose the same dyadic tolerance and the same inspected stream window before a Real-facing uniqueness consumer reads the terminal seal. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the uniqueness boundary of \autoref{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only paired rows, shared finite witnesses, seal comparison, transport, replay, provenance, and local naming.
+
+\begin{definition}[Regular Cauchy common-tail seal carrier]
+\label{def:regular-cauchy-common-tail-seal-carrier}
+A $\RegularCauchyCommonTailSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,R,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the paired $\RegSeqRatUp$ source rows whose common tail is being compared.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger used by both source rows.
+\item $W$ is the $\StreamNameUp$ tail window, displayed before any terminal seal comparison is consumed.
+\item $Q$ is the common-tail comparison ledger tying the two regular rational readbacks to the same $D$ and $W$ rows.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $L,R,D,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, tolerance ledger, tail window, comparison ledger, seal row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for each consumer route through $L,R,D,W,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCommonTailSealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyLimitUniquenessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCommonTailSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,D,W,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyCommonTailSealUp}
+
+\begin{theorem}[Regular Cauchy common-tail seal NameCert obligations]
+\label{thm:regular-cauchy-common-tail-seal-namecert-obligations}
+For every accepted $\RegularCauchyCommonTailSealUp$ carrier $S=(L,R,D,W,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCommonTailSealUp}$ surface consists exactly of paired regular-rational source admission, shared dyadic tolerance exposure, finite stream-window exposure, common-tail comparison ledger exactness, terminal Real seal routing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-common-tail-seal-carrier}. The analytic rows are exactly $L,R,D,W,Q,E$, and the structural rows are exactly $H,C,P,N$.
+
+The shared tolerance and window rows are consumed before the common-tail comparison ledger and before the terminal seal. Since every route is transported and replayed through $H,C,P,N$, the local NameCert surface has no remaining coordinate from which quotient stream equality, a selected limit, host real equality, trichotomy, choice, or ambient completeness could be exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy common-tail seal handoff]
+\label{thm:regular-cauchy-common-tail-seal-common-tail-handoff}
+Every accepted $\RegularCauchyCommonTailSealUp$ consumer route reaches $\RegularCauchyLimitUniquenessUp$ only through the displayed chain
+$$
+L,R \to D \to W \to Q \to E \to H,C,P,N .
+$$
+Thus a common-tail comparison is handed to the uniqueness packet as finite dyadic, stream-window, regular-rational, Real-seal, transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+Begin with the paired source rows $L,R$. The carrier admits a terminal comparison only after the shared dyadic tolerance row $D$ and the finite stream window $W$ are visible.
+
+The comparison ledger $Q$ then records that both regular rational readbacks use that same finite tail data. The terminal Real-facing row $E$ is downstream from $Q$, and $H,C,P,N$ preserve the route as transport, replay, provenance, and local naming.
+
+The uniqueness handoff therefore reaches \autoref{thm:regular-cauchy-limit-uniqueness-common-tail-seal} with the same displayed rows and with no hidden equality or selected-limit coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy common-tail seal nonescape]
+\label{thm:regular-cauchy-common-tail-seal-nonescape}
+Every terminal $\RealUp$ seal comparison exported by an accepted $\RegularCauchyCommonTailSealUp$ packet factors through $Q,E,H,C,P,N$ after the paired source rows, shared dyadic tolerance, and finite stream window have been displayed. The packet exports no quotient stream equality, host real equality, selected limit, trichotomy, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier in dependency order. Rows $L,R,D,W$ display the two regular Cauchy reads, the shared dyadic tolerance, and the common finite tail window before any terminal seal can be inspected.
+
+Apply the handoff theorem, \autoref{thm:regular-cauchy-common-tail-seal-common-tail-handoff}. It routes the consumer through the comparison ledger $Q$ and terminal seal row $E$, then through transport, replay, provenance, and local naming.
+
+No other row remains. Since the carrier has no quotient-stream, host-real, selected-limit, trichotomy, choice, or completeness coordinate, the terminal seal comparison cannot escape the listed finite route.
+\end{proof}
+
+\closureat{RegularCauchyCommonTailSealUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCommonTailSealUp}
+  \constructivestory{A $\RegularCauchyCommonTailSealUp$ packet is generated from paired RegSeqRat rows, a shared DyadicRatCore tolerance, a StreamName tail window, a common-tail comparison ledger, a terminal RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-common-tail-seal-carrier}, \autoref{thm:regular-cauchy-common-tail-seal-namecert-obligations}, \autoref{thm:regular-cauchy-common-tail-seal-common-tail-handoff}, and \autoref{thm:regular-cauchy-common-tail-seal-nonescape} seed the finite common-tail seal surface over DyadicRatCore, StreamName, RegSeqRat, RegularCauchyLimitUniqueness, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, trichotomy, countable choice, ambient RealUp completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-tail comparison ledger exactness, Real-seal routing, transport stability, replay stability, provenance, local naming, and nonescape for BEDC.Derived.RegularCauchyCommonTailSealUp.}
+\end{closurestatus}
