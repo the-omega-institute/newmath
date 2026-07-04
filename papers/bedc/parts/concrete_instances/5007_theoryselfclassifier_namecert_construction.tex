@@ -63,6 +63,42 @@ It remains to rule out strict subtuples. If one of $G,E,R,P,A$ is absent, then t
 Therefore an accepted public read through $L$ determines all five visible commitment reads and cannot be reproduced from any strict subtuple of them.
 \end{proof}
 
+\begin{theorem}[Theory self-classifier obligation row exhaustion]
+\label{thm:theory-self-classifier-obligation-row-exhaustion}
+For every accepted $\TheorySelfClassifierUp$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N),
+$$
+the public obligation inventory exposes exactly the rows $G,E,R,P,A,L,H,C,Q,N$. It exposes no hidden parent-theory row, semantic equality row, external recursor row, unrecorded axiom row, or classifier coordinate outside the displayed ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:theory-self-classifier-carrier}. The tuple displays ten rows: closed generators, literal equality, structural recursors, purity, apophatic boundary, classifier ledger, componentwise transport, displayed replay, provenance, and local naming.
+
+Use the NameCert obligations of \autoref{thm:theory-self-classifier-namecert-obligations}. Each obligation is attached to one of those displayed rows, and the ledger row $L$ is the only row that compares the five commitments as a self-theory surface.
+
+The excluded resources would require further coordinates. A parent theory, semantic equality oracle, external recursor supply, hidden axiom supply, or detached classifier would have to be read outside $G,E,R,P,A,L,H,C,Q,N$. Since the carrier has no such coordinate, the displayed rows exhaust the public obligation inventory.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier five-row determinacy]
+\label{thm:theory-self-classifier-five-row-determinacy}
+Let
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+and
+$$
+T'=(G',E',R',P',A',L',H',C',Q',N')
+$$
+be accepted $\TheorySelfClassifierUp$ carriers. Equality of their accepted public self-theory reads is determined by equality of the five commitment rows $G,E,R,P,A$ with $G',E',R',P',A'$ together with equality of the ledger comparisons $L$ and $L'$. No strict subtuple of the five commitment rows determines the same public read.
+\end{theorem}
+\begin{proof}
+Read the public self-theory surface through the ledger row. By \autoref{thm:theory-self-classifier-ledger-row-inversion}, any accepted read through $L$ determines visible reads of $G,E,R,P,A$, and the same holds for $L'$ and $G',E',R',P',A'$.
+
+When the five commitment rows agree and the ledger comparisons agree, the public read has the same closed-generator inventory, literal equality policy, structural recursor exposure, purity boundary, apophatic boundary, and ledger comparison. The remaining rows $H,C,Q,N$ transport, replay, source, and name that same read; they do not supply an additional commitment coordinate.
+
+Conversely, if a strict subtuple omits one of $G,E,R,P,A$, the missing commitment has no alternate source in the carrier. The ledger comparison cannot determine a public self-theory surface without the omitted row, so no strict subtuple determines equality of accepted public reads.
+\end{proof}
+
 \begin{theorem}[Theory self-classifier non-escape]
 \label{thm:theory-self-classifier-nonescape}
 Every public read from an accepted $\TheorySelfClassifierUp$ carrier factors through
