@@ -168,12 +168,27 @@ For finite replay, apply \autoref{thm:metacic-confluence-audit-witness-finite-ro
 The obstruction row is preserved by \autoref{thm:metacic-confluence-audit-witness-obstruction-preservation}. Finally \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} keeps the read inside the audit, subject-reduction obstruction, and axis-carry comparison surface, so $D$ and $C$ remain conditional handoff rows rather than global confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness obligation-closure package]
+\label{thm:metacic-confluence-audit-witness-obligation-closure-package}
+For every accepted $\MetacicConfluenceAuditWitnessUp$ carrier $W=(P,S,D,C,O,H,R,L,N)$, carrier admission, route visibility $P \to S \to D \to C$, obstruction preservation for $O$, finite replay through $R$, sibling provenance through $L$, and local naming through $N$ jointly exhaust the obligation surface for the conditional confluence audit witness. The package exports no hidden substitution compatibility, evaluator equality, quotient reduction equality, or unconditional Church--Rosser endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-witness-carrier}. Its rows are exactly the route rows $P,S,D,C$, obstruction row $O$, transport row $H$, finite replay row $R$, sibling provenance row $L$, and local name row $N$.
+
+Use the conditional-boundary theorem \autoref{thm:metacic-confluence-audit-witness-conditional-boundary} and non-escape theorem \autoref{thm:metacic-confluence-audit-witness-nonescape}. They make route visibility conditional on $S,D,C$ and keep the refused global endpoints inside the obstruction row $O$ rather than outside the packet.
+
+Apply sibling lattice, finite route induction, obstruction preservation, local diamond boundary, and substitution-boundary factorization. These results preserve $O$ under replay through $R$, keep sibling comparison inside $L,H,N$, and force any diamond or confluence handoff through the displayed substitution boundary.
+
+Thus the listed rows are the whole obligation surface. Since the carrier has no coordinate for substitution compatibility, evaluator equality, quotient reduction equality, or full Church--Rosser data, no stronger MetaCIC endpoint is exported.
+\end{proof}
+
 \closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
+\closureat{MetacicConfluenceAuditWitnessUp}{obligationStr}
 
 \begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
   \constructivestory{A $\MetacicConfluenceAuditWitnessUp$ packet is generated from a parallel-step route, substitution-compatibility boundary, conditional parallel-diamond handoff, closed-star confluence handoff, obstruction boundary, componentwise $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-confluence-audit-witness-carrier}, \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}, \autoref{thm:metacic-confluence-audit-witness-nonescape}, \autoref{thm:metacic-confluence-audit-witness-namecert-obligations}, and \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} bind the finite audit-witness packet for the conditional MetaCIC confluence boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-audit-witness-carrier}, \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}, \autoref{thm:metacic-confluence-audit-witness-nonescape}, \autoref{thm:metacic-confluence-audit-witness-namecert-obligations}, \autoref{thm:metacic-confluence-audit-witness-sibling-lattice}, and \autoref{thm:metacic-confluence-audit-witness-obligation-closure-package} bind the finite audit-witness packet for the conditional MetaCIC confluence boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
