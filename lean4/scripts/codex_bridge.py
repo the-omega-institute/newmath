@@ -138,7 +138,17 @@ def _reorder_candidates(candidates: list) -> list:
 
     fresh = [c for c in candidates if not cooling(c)]
     cooling_list = [c for c in candidates if cooling(c)]
-    return fresh + cooling_list
+    # Within fresh, try nat_value_sequence candidates (a BEDC Nat sequence proven
+    # equal to a pre-existing mathlib Nat decl) before structural_object candidates.
+    # The autonomous single-shot+repair worker reliably lands nat_value bridges but
+    # not structural-carrier equivalences (Sum/Option/List history carriers always
+    # fail-close), so leading with structural ones starves production: the daemon
+    # burns every cycle fail-closing on a structural carrier and never reaches the
+    # bridgeable nat_value candidates. Structural candidates still get their turn
+    # after the fresh nat_value ones are exhausted or cooling.
+    fresh_nat = [c for c in fresh if c.get("bridge_kind") == "nat_value_sequence"]
+    fresh_other = [c for c in fresh if c.get("bridge_kind") != "nat_value_sequence"]
+    return fresh_nat + fresh_other + cooling_list
 
 # Hardened worker-prompt contract (adversarial-design consensus: /sshx triplet +
 # gpt-pro). Appended to codex_formalize's BRIDGE_ROUND_PROMPT_TEMPLATE for this
@@ -332,17 +342,26 @@ NAT_VALUE_SHAPES = frozenset(
         "bhist_readback",
     }
 )
-NAT_VALUE_TARGETS = frozenset(
+# Core (mathlib-free) Nat operations. A nat_value bridge whose target is one of
+# these is a mathlib-free arithmetic fact — the bridge project's ThinLayerGuard
+# rejects it ("belongs to BEDC core, not a bridge"), so surfacing such a candidate
+# only wastes a daemon cycle. We deliberately do NOT keep a positive allow-list of
+# acceptable targets: that couples candidate discovery to a brittle hand-maintained
+# list and blocks the AI worker from finding any genuine Mathlib target on its own.
+# The worker discovers a pre-existing Mathlib target; the heavy-check ThinLayerGuard
+# + 0-axiom guard are the authoritative final gate. This is only a cheap up-front
+# reject of the KNOWN mathlib-free targets when a candidate already carries a guess.
+CORE_NAT_TARGETS = frozenset(
     {
-        "Nat.choose",
-        "Nat.factorial",
-        "Nat.fib",
-        "Nat.centralBinom",
-        "Nat.stirlingFirst",
-        "Nat.stirlingSecond",
-        "Nat.descFactorial",
-        "Nat.superFactorial",
-        "numDerangements",
+        "Nat.pow",
+        "Nat.mul",
+        "Nat.add",
+        "Nat.sub",
+        "Nat.div",
+        "Nat.mod",
+        "Nat.gcd",
+        "Nat.succ",
+        "Nat",
     }
 )
 
@@ -365,7 +384,10 @@ def _is_nat_value_candidate(candidate: dict) -> bool:
         return False
     if shape not in NAT_VALUE_SHAPES:
         return False
-    if target not in NAT_VALUE_TARGETS:
+    # Accept a missing/None target — the worker finds a genuine pre-existing Mathlib
+    # target and ThinLayerGuard verifies it is not a mathlib-free core fact. Only
+    # reject a target that is already known to be a core (mathlib-free) op.
+    if target and (target in CORE_NAT_TARGETS or target == "Nat"):
         return False
     if not any(str(decl).startswith("BEDC.Derived.") for decl in decls if decl):
         return False

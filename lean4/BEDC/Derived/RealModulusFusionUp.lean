@@ -292,4 +292,43 @@ theorem RealModulusFusionL10ScopeRoute [AskSetup] [PackageSetup]
       sealUnary, realSealUnary, sourceModulus, modulusWindow, budgetRoute, sealRoute,
         realSealRoute, pkgRow, realSealPkg⟩
 
+theorem RealModulusFusionObligationClosure [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N budgetRead sealRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont M T W ->
+        Cont W R budgetRead ->
+          Cont budgetRead S sealRead ->
+            Cont E N realSeal ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle realSeal pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row X ∨ hsame row M ∨ hsame row T ∨ hsame row W ∨
+                          hsame row R ∨ hsame row S ∨ hsame row E ∨ hsame row H ∨
+                            hsame row C ∨ hsame row P ∨ hsame row N)
+                      (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg)
+                      hsame ∧
+                    UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+                      UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧
+                        UnaryHistory budgetRead ∧ UnaryHistory sealRead ∧
+                          UnaryHistory realSeal ∧ Cont X M T ∧ Cont M T W ∧
+                            Cont W R budgetRead ∧ Cont budgetRead S sealRead ∧
+                              Cont E N realSeal ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier modulusWindow budgetRoute sealRoute realSealRoute pkgRow realSealPkg
+  obtain ⟨cert, _xName, _mName, _tName, _wName, _rName, _sName, _eName⟩ :=
+    RealModulusFusionNamecertObligations carrier
+  obtain ⟨xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, budgetUnary,
+    sealUnary, realSealUnary, sourceModulus, modulusWindowOut, budgetRouteOut,
+      sealRouteOut, realSealRouteOut, pkgRowOut, realSealPkgOut⟩ :=
+        RealModulusFusionL10ScopeRoute carrier modulusWindow budgetRoute sealRoute
+          realSealRoute pkgRow realSealPkg
+  exact
+    ⟨cert, xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary, budgetUnary,
+      sealUnary, realSealUnary, sourceModulus, modulusWindowOut, budgetRouteOut,
+        sealRouteOut, realSealRouteOut, pkgRowOut, realSealPkgOut⟩
+
 end BEDC.Derived.RealModulusFusionUp
