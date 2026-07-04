@@ -2725,7 +2725,6 @@ import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
-import BEDC.Derived.CauchyRealSetoidUp
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
@@ -4981,6 +4980,7 @@ import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
 import BEDC.Derived.DiagonalSequenceUp.TasteGate
 import BEDC.Derived.DiagonalSubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
+import BEDC.Derived.DiagonalTailSelectorUp.StdBridge
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUp.AmbientCompletenessRefusal
 import BEDC.Derived.DiagonallimitcompatibilityUp.AuditHandoff
