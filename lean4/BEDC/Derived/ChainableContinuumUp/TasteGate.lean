@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ChainableContinuumUp
@@ -13,20 +14,20 @@ inductive ChainableContinuumUp : Type where
   | mk (K C L M T R H P N : BHist) : ChainableContinuumUp
   deriving DecidableEq
 
-def chainableContinuumEncodeBHist : BHist -> RawEvent
+def chainableContinuumEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: chainableContinuumEncodeBHist h
   | BHist.e1 h => BMark.b1 :: chainableContinuumEncodeBHist h
 
-def chainableContinuumDecodeBHist : RawEvent -> BHist
+def chainableContinuumDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (chainableContinuumDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (chainableContinuumDecodeBHist tail)
 
 private theorem chainableContinuumDecode_encode_bhist :
-    forall h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h := by
+    ∀ h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,15 +38,15 @@ private theorem chainableContinuumDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def chainableContinuumFields : ChainableContinuumUp -> List BHist
+def chainableContinuumFields : ChainableContinuumUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ChainableContinuumUp.mk K C L M T R H P N => [K, C, L, M, T, R, H, P, N]
 
-def chainableContinuumToEventFlow : ChainableContinuumUp -> EventFlow
+def chainableContinuumToEventFlow : ChainableContinuumUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (chainableContinuumFields x).map chainableContinuumEncodeBHist
 
-def chainableContinuumFromEventFlow : EventFlow -> Option ChainableContinuumUp
+def chainableContinuumFromEventFlow : EventFlow → Option ChainableContinuumUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | K :: rest0 =>
@@ -108,7 +109,7 @@ private theorem chainableContinuum_mk_congr
   rfl
 
 private theorem chainableContinuum_round_trip :
-    forall x : ChainableContinuumUp,
+    ∀ x : ChainableContinuumUp,
       chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -141,7 +142,7 @@ private theorem chainableContinuum_round_trip :
             (chainableContinuumDecode_encode_bhist N))
 
 private theorem chainableContinuumToEventFlow_injective {x y : ChainableContinuumUp} :
-    chainableContinuumToEventFlow x = chainableContinuumToEventFlow y -> x = y := by
+    chainableContinuumToEventFlow x = chainableContinuumToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   cases x with
@@ -225,7 +226,7 @@ private theorem chainableContinuumToEventFlow_injective {x y : ChainableContinuu
           rfl
 
 private theorem chainableContinuum_fields_faithful :
-    forall x y : ChainableContinuumUp, chainableContinuumFields x = chainableContinuumFields y ->
+    ∀ x y : ChainableContinuumUp, chainableContinuumFields x = chainableContinuumFields y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -286,20 +287,23 @@ def taste_gate : ChapterTasteGate ChainableContinuumUp :=
   chainableContinuumChapterTasteGate
 
 theorem ChainableContinuumTasteGate_single_carrier_alignment :
-    (forall h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h) ∧
-      (forall x : ChainableContinuumUp,
-        chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x) ∧
-        (forall x y : ChainableContinuumUp,
-          chainableContinuumToEventFlow x = chainableContinuumToEventFlow y -> x = y) ∧
-          chainableContinuumEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact chainableContinuumDecode_encode_bhist
-  · constructor
-    · exact chainableContinuum_round_trip
-    · constructor
-      · intro x y heq
-        exact chainableContinuumToEventFlow_injective heq
-      · rfl
+    Nonempty (ChapterTasteGate ChainableContinuumUp) ∧
+      Nonempty (FieldFaithful ChainableContinuumUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial ChainableContinuumUp) ∧
+          (∀ h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h) ∧
+            (∀ x : ChainableContinuumUp,
+              chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x) ∧
+              (∀ x y : ChainableContinuumUp,
+                chainableContinuumToEventFlow x = chainableContinuumToEventFlow y → x = y) ∧
+                chainableContinuumEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨chainableContinuumChapterTasteGate⟩,
+      ⟨chainableContinuumFieldFaithful⟩,
+      ⟨chainableContinuumNontrivial⟩,
+      chainableContinuumDecode_encode_bhist,
+      chainableContinuum_round_trip,
+      (fun _ _ heq => chainableContinuumToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ChainableContinuumUp
