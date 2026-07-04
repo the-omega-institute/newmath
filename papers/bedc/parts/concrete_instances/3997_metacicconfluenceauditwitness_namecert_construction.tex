@@ -101,6 +101,24 @@ For the successor step, assume the prefix route preserves the displayed order an
 Use the sibling-lattice provenance row $L$ from \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} to keep the appended step inside the audit-map, obstruction, and axis-carry comparison surface. Since $O$ remains visible and no carrier coordinate discharges substitution compatibility or evaluator equality, the finite induction preserves exactly the conditional route and exports no stronger confluence claim.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness obstruction preservation]
+\label{thm:metacic-confluence-audit-witness-obstruction-preservation}
+Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Every finite replay displayed by $R$ preserves visibility of the obstruction row $O$ alongside the route order
+$$
+P \longrightarrow S \longrightarrow D \longrightarrow C.
+$$
+Thus no consumer of the replayed audit route can turn the conditional witness into full closed Church--Rosser, substitution compatibility, unconditional confluence, quotient equality of reductions, or evaluator equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-witness-carrier}. The obstruction row $O$ is stored beside the route rows $P,S,D,C$ and the structural rows $H,R,L,N$, so any replayed route begins from the same finite packet.
+
+For the initial route, use the conditional boundary theorem \autoref{thm:metacic-confluence-audit-witness-conditional-boundary} and the non-escape theorem \autoref{thm:metacic-confluence-audit-witness-nonescape}. These keep the order $P \to S \to D \to C$ visible and keep $O$ in the carrier rather than outside the audit surface.
+
+For replay steps, apply finite route induction from \autoref{thm:metacic-confluence-audit-witness-finite-route-induction}. The induction transports each displayed step through $H$ and replays it through $R$ without adding a coordinate that could discharge $O$.
+
+Finally use the sibling-lattice provenance of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice}. The row $L$ keeps the route inside the audit, obstruction, and axis-carry comparison surface, so the replay remains an obstruction-preserving conditional witness and not any refused global confluence endpoint.
+\end{proof}
+
 \closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
