@@ -14,28 +14,20 @@ inductive ChainableContinuumUp : Type where
   | mk (K C L M T R H P N : BHist) : ChainableContinuumUp
   deriving DecidableEq
 
-private def ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist :
-    BHist → RawEvent
+def chainableContinuumEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 ::
-      ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 ::
-      ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: chainableContinuumEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: chainableContinuumEncodeBHist h
 
-private def ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist :
-    RawEvent → BHist
+def chainableContinuumDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail =>
-      BHist.e0 (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail =>
-      BHist.e1 (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (chainableContinuumDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (chainableContinuumDecodeBHist tail)
 
-private theorem ChainableContinuumTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
-      ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-        (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist h) = h := by
+private theorem chainableContinuumDecode_encode_bhist :
+    ∀ h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -46,129 +38,272 @@ private theorem ChainableContinuumTasteGate_single_carrier_alignment_decode_enco
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def ChainableContinuumTasteGate_single_carrier_alignment_fields :
-    ChainableContinuumUp → List BHist
+def chainableContinuumFields : ChainableContinuumUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ChainableContinuumUp.mk K C L M T R H P N => [K, C, L, M, T, R, H, P, N]
 
 def chainableContinuumToEventFlow : ChainableContinuumUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (ChainableContinuumTasteGate_single_carrier_alignment_fields x).map
-        ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist
+  | x => (chainableContinuumFields x).map chainableContinuumEncodeBHist
 
-private def ChainableContinuumTasteGate_single_carrier_alignment_eventAt :
-    Nat → EventFlow → RawEvent
+def chainableContinuumFromEventFlow : EventFlow → Option ChainableContinuumUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      ChainableContinuumTasteGate_single_carrier_alignment_eventAt index rest
+  | [] => none
+  | K :: rest0 =>
+      match rest0 with
+      | [] => none
+      | C :: rest1 =>
+          match rest1 with
+          | [] => none
+          | L :: rest2 =>
+              match rest2 with
+              | [] => none
+              | M :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | T :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | H :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | P :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | N :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (ChainableContinuumUp.mk
+                                              (chainableContinuumDecodeBHist K)
+                                              (chainableContinuumDecodeBHist C)
+                                              (chainableContinuumDecodeBHist L)
+                                              (chainableContinuumDecodeBHist M)
+                                              (chainableContinuumDecodeBHist T)
+                                              (chainableContinuumDecodeBHist R)
+                                              (chainableContinuumDecodeBHist H)
+                                              (chainableContinuumDecodeBHist P)
+                                              (chainableContinuumDecodeBHist N))
+                                      | _ :: _ => none
 
-def chainableContinuumFromEventFlow :
-    EventFlow → Option ChainableContinuumUp :=
+private theorem chainableContinuum_mk_congr
+    {K K' C C' L L' M M' T T' R R' H H' P P' N N' : BHist}
+    (hK : K' = K) (hC : C' = C) (hL : L' = L) (hM : M' = M)
+    (hT : T' = T) (hR : R' = R) (hH : H' = H) (hP : P' = P)
+    (hN : N' = N) :
+    ChainableContinuumUp.mk K' C' L' M' T' R' H' P' N' =
+      ChainableContinuumUp.mk K C L M T R H P N := by
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (ChainableContinuumUp.mk
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 0 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 1 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 2 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 3 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 4 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 5 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 6 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 7 ef))
-        (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-          (ChainableContinuumTasteGate_single_carrier_alignment_eventAt 8 ef)))
+  cases hK
+  cases hC
+  cases hL
+  cases hM
+  cases hT
+  cases hR
+  cases hH
+  cases hP
+  cases hN
+  rfl
 
-private theorem ChainableContinuumTasteGate_single_carrier_alignment_round_trip
-    (x : ChainableContinuumUp) :
-    chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x := by
+private theorem chainableContinuum_round_trip :
+    ∀ x : ChainableContinuumUp,
+      chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk K C L M T R H P N =>
       change
         some
           (ChainableContinuumUp.mk
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist K))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist C))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist L))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist M))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist T))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist R))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist H))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist P))
-            (ChainableContinuumTasteGate_single_carrier_alignment_decodeBHist
-              (ChainableContinuumTasteGate_single_carrier_alignment_encodeBHist N))) =
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist K))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist C))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist L))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist M))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist T))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist R))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist H))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist P))
+            (chainableContinuumDecodeBHist (chainableContinuumEncodeBHist N))) =
           some (ChainableContinuumUp.mk K C L M T R H P N)
-      rw [ChainableContinuumTasteGate_single_carrier_alignment_decode_encode K,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode C,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode L,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode M,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode T,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode R,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode H,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode P,
-        ChainableContinuumTasteGate_single_carrier_alignment_decode_encode N]
+      exact
+        congrArg some
+          (chainableContinuum_mk_congr
+            (chainableContinuumDecode_encode_bhist K)
+            (chainableContinuumDecode_encode_bhist C)
+            (chainableContinuumDecode_encode_bhist L)
+            (chainableContinuumDecode_encode_bhist M)
+            (chainableContinuumDecode_encode_bhist T)
+            (chainableContinuumDecode_encode_bhist R)
+            (chainableContinuumDecode_encode_bhist H)
+            (chainableContinuumDecode_encode_bhist P)
+            (chainableContinuumDecode_encode_bhist N))
 
-private theorem ChainableContinuumTasteGate_single_carrier_alignment_injective
-    {x y : ChainableContinuumUp} :
+private theorem chainableContinuumToEventFlow_injective {x y : ChainableContinuumUp} :
     chainableContinuumToEventFlow x = chainableContinuumToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) =
-        chainableContinuumFromEventFlow (chainableContinuumToEventFlow y) :=
-    congrArg chainableContinuumFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (ChainableContinuumTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (ChainableContinuumTasteGate_single_carrier_alignment_round_trip y)))
+  cases x with
+  | mk K C L M T R H P N =>
+      cases y with
+      | mk K' C' L' M' T' R' H' P' N' =>
+          change
+            [chainableContinuumEncodeBHist K, chainableContinuumEncodeBHist C,
+              chainableContinuumEncodeBHist L, chainableContinuumEncodeBHist M,
+              chainableContinuumEncodeBHist T, chainableContinuumEncodeBHist R,
+              chainableContinuumEncodeBHist H, chainableContinuumEncodeBHist P,
+              chainableContinuumEncodeBHist N] =
+                [chainableContinuumEncodeBHist K', chainableContinuumEncodeBHist C',
+                  chainableContinuumEncodeBHist L', chainableContinuumEncodeBHist M',
+                  chainableContinuumEncodeBHist T', chainableContinuumEncodeBHist R',
+                  chainableContinuumEncodeBHist H', chainableContinuumEncodeBHist P',
+                  chainableContinuumEncodeBHist N'] at heq
+          injection heq with hK htail0
+          injection htail0 with hC htail1
+          injection htail1 with hL htail2
+          injection htail2 with hM htail3
+          injection htail3 with hT htail4
+          injection htail4 with hR htail5
+          injection htail5 with hH htail6
+          injection htail6 with hP htail7
+          injection htail7 with hN _hNil
+          have kEq : K = K' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hK
+            rw [chainableContinuumDecode_encode_bhist K,
+              chainableContinuumDecode_encode_bhist K'] at decoded
+            exact decoded
+          have cEq : C = C' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hC
+            rw [chainableContinuumDecode_encode_bhist C,
+              chainableContinuumDecode_encode_bhist C'] at decoded
+            exact decoded
+          have lEq : L = L' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hL
+            rw [chainableContinuumDecode_encode_bhist L,
+              chainableContinuumDecode_encode_bhist L'] at decoded
+            exact decoded
+          have mEq : M = M' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hM
+            rw [chainableContinuumDecode_encode_bhist M,
+              chainableContinuumDecode_encode_bhist M'] at decoded
+            exact decoded
+          have tEq : T = T' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hT
+            rw [chainableContinuumDecode_encode_bhist T,
+              chainableContinuumDecode_encode_bhist T'] at decoded
+            exact decoded
+          have rEq : R = R' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hR
+            rw [chainableContinuumDecode_encode_bhist R,
+              chainableContinuumDecode_encode_bhist R'] at decoded
+            exact decoded
+          have hEq : H = H' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hH
+            rw [chainableContinuumDecode_encode_bhist H,
+              chainableContinuumDecode_encode_bhist H'] at decoded
+            exact decoded
+          have pEq : P = P' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hP
+            rw [chainableContinuumDecode_encode_bhist P,
+              chainableContinuumDecode_encode_bhist P'] at decoded
+            exact decoded
+          have nEq : N = N' := by
+            have decoded := congrArg chainableContinuumDecodeBHist hN
+            rw [chainableContinuumDecode_encode_bhist N,
+              chainableContinuumDecode_encode_bhist N'] at decoded
+            exact decoded
+          cases kEq
+          cases cEq
+          cases lEq
+          cases mEq
+          cases tEq
+          cases rEq
+          cases hEq
+          cases pEq
+          cases nEq
+          rfl
 
-instance ChainableContinuumTasteGate_single_carrier_alignment_bhistCarrier :
-    BHistCarrier ChainableContinuumUp where
+private theorem chainableContinuum_fields_faithful :
+    ∀ x y : ChainableContinuumUp, chainableContinuumFields x = chainableContinuumFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk K C L M T R H P N =>
+      cases y with
+      | mk K' C' L' M' T' R' H' P' N' =>
+          injection hfields with hK htail0
+          injection htail0 with hC htail1
+          injection htail1 with hL htail2
+          injection htail2 with hM htail3
+          injection htail3 with hT htail4
+          injection htail4 with hR htail5
+          injection htail5 with hH htail6
+          injection htail6 with hP htail7
+          injection htail7 with hN _hNil
+          cases hK
+          cases hC
+          cases hL
+          cases hM
+          cases hT
+          cases hR
+          cases hH
+          cases hP
+          cases hN
+          rfl
+
+instance chainableContinuumBHistCarrier : BHistCarrier ChainableContinuumUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := chainableContinuumToEventFlow
   fromEventFlow := chainableContinuumFromEventFlow
 
-instance ChainableContinuumTasteGate_single_carrier_alignment_chapterTasteGate :
-    ChapterTasteGate ChainableContinuumUp where
+instance chainableContinuumChapterTasteGate : ChapterTasteGate ChainableContinuumUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x
-    exact ChainableContinuumTasteGate_single_carrier_alignment_round_trip x
+  round_trip := chainableContinuum_round_trip
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ChainableContinuumTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (chainableContinuumToEventFlow_injective heq)
+
+instance chainableContinuumFieldFaithful : FieldFaithful ChainableContinuumUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := chainableContinuumFields
+  field_faithful := chainableContinuum_fields_faithful
+
+instance chainableContinuumNontrivial : Nontrivial ChainableContinuumUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ChainableContinuumUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ChainableContinuumUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate ChainableContinuumUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  chainableContinuumChapterTasteGate
 
 theorem ChainableContinuumTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate ChainableContinuumUp) ∧
-      Nonempty (BHistCarrier ChainableContinuumUp) ∧
-        (∀ x : ChainableContinuumUp,
-          chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      Nonempty (FieldFaithful ChainableContinuumUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial ChainableContinuumUp) ∧
+          (∀ h : BHist, chainableContinuumDecodeBHist (chainableContinuumEncodeBHist h) = h) ∧
+            (∀ x : ChainableContinuumUp,
+              chainableContinuumFromEventFlow (chainableContinuumToEventFlow x) = some x) ∧
+              (∀ x y : ChainableContinuumUp,
+                chainableContinuumToEventFlow x = chainableContinuumToEventFlow y → x = y) ∧
+                chainableContinuumEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨⟨ChainableContinuumTasteGate_single_carrier_alignment_chapterTasteGate⟩,
-      ⟨ChainableContinuumTasteGate_single_carrier_alignment_bhistCarrier⟩,
-      ChainableContinuumTasteGate_single_carrier_alignment_round_trip⟩
+    ⟨⟨chainableContinuumChapterTasteGate⟩,
+      ⟨chainableContinuumFieldFaithful⟩,
+      ⟨chainableContinuumNontrivial⟩,
+      chainableContinuumDecode_encode_bhist,
+      chainableContinuum_round_trip,
+      (fun _ _ heq => chainableContinuumToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ChainableContinuumUp
