@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMarkovChainUp$}
+\label{ch:concrete-instances-finite-markov-chain-namecert}
+\origin{human}
+
+Following finite-state Markov-chain practice, the $\FiniteMarkovChainUp$
+packet records a stochastic transition system only through displayed finite
+state, transition, matrix, probability, distribution, and real-comparison rows.
+It sits after the sibling transition surface
+\autoref{ch:concrete-instances-markovchain-namecert}, the finite matrix row
+of \autoref{ch:concrete-instances-matrix-namecert}, the probability source of
+\autoref{ch:concrete-instances-probspace-namecert}, the distribution readback
+of \autoref{ch:concrete-instances-distribution-namecert}, and the terminal
+real comparison boundary of \autoref{ch:concrete-instances-real-namecert}. The
+packet names only a finite transition packet; it does not introduce a
+measure-space completion, a selected invariant law, countable choice, or a
+host stochastic process object.
+
+\begin{definition}[FiniteMarkovChain carrier]
+\label{def:finite-markov-chain-carrier}
+A $\FiniteMarkovChainUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,M,P,D,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite state row, exposing the listed states and the finite
+membership classifier used by transition reads.
+\item $T$ is the $\MarkovChainUp$ transition row, recording source state,
+target state, and transition-entry requests as finite observations.
+\item $M$ is the $\MatrixUp$ row whose entries encode the displayed transition
+table over $S$.
+\item $P$ is the $\ProbSpaceUp$ row that supplies the probability surface for
+row-sum and nonnegative-entry reads.
+\item $D$ is the $\DistributionUp$ row used for initial or one-step
+distribution readback over the same finite state row.
+\item $R$ is the $\RealUp$ comparison row for transition entries, row sums,
+and distribution coordinates.
+\item $H$ records componentwise $\hsame$ transport for the state, transition,
+matrix, probability, distribution, real-comparison, continuation, provenance,
+and naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite transition request
+through matrix entry readback, probability admission, distribution readback,
+and real comparison.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteMarkovChainUp$,
+$\MarkovChainUp$, $\MatrixUp$, $\ProbSpaceUp$, $\DistributionUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMarkovChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It
+has no coordinate for a countable state space, a measure completion, a selected
+stationary distribution, a host stochastic process, or ambient $\RealUp$
+completeness.
+\end{definition}
+
+\begin{theorem}[FiniteMarkovChain NameCert obligations]
+\label{thm:finite-markov-chain-namecert-obligations}
+For every accepted $\FiniteMarkovChainUp$ packet
+$K=(S,T,M,P,D,R,H,C,Q,N)$, the local
+$\NameCert_{\FiniteMarkovChainUp}$ surface consists exactly of carrier
+admission, finite-state admission, transition-table matrix readback,
+probability row-sum and nonnegative-entry comparison, distribution handoff,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and local naming. Every transition consumer must read the $\MarkovChainUp$,
+$\MatrixUp$, $\ProbSpaceUp$, $\DistributionUp$, and $\RealUp$ rows displayed in
+the carrier before it can export a finite-step transition packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-markov-chain-carrier}. Its rows
+name the finite state list, transition observations, matrix entries,
+probability surface, distribution readback, real comparisons, transport,
+replay, provenance, and local certificate.
+
+The transition table is finite. A consumer reaches a transition entry only by
+reading $T$ and $M$ over the same state row $S$, then checking the corresponding
+probability and real-comparison rows $P,R$.
+
+The distribution handoff is also finite. The row $D$ reads initial or one-step
+distributions over $S$ after the transition table has been exposed, and $H,C$
+transport and replay the same displayed rows without adding a new state space
+or a selected law.
+
+Finally $Q,N$ package and name the certificate. Since the carrier contains no
+coordinate for countable-state processes, measure completions, selected
+stationary distributions, host stochastic processes, or ambient completeness,
+the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteMarkovChainUp$ transition read exposes a finite state row, a $\MarkovChainUp$ transition row, a $\MatrixUp$ transition table row, a $\ProbSpaceUp$ probability row, a $\DistributionUp$ handoff row, and a $\RealUp$ comparison row before any finite-step consumer can inspect it.}
+
+\independenceWitness{markov-chain, matrix, probspace, distribution, real: the packet is not bijective to any listed sibling because it binds finite state admission, transition-table readback, probability constraints, distribution handoff, transport, replay, provenance, and local NameCert rows as one finite-state transition surface.}
+
+\closureat{FiniteMarkovChainUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMarkovChainUp}
+  \constructivestory{A $\FiniteMarkovChainUp$ packet is generated from a finite state row, MarkovChainUp transition rows, MatrixUp transition-table rows, ProbSpaceUp probability rows, DistributionUp handoff rows, RealUp comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-markov-chain-carrier} and \autoref{thm:finite-markov-chain-namecert-obligations} seed the finite-state transition packet over displayed probability and real-comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable-state Markov processes, measure completions, selected stationary distributions, host stochastic processes, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-state admission, transition-table matrix readback, probability row-sum and nonnegative-entry comparison, distribution handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMarkovChainUp.}
+\end{closurestatus}
