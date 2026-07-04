@@ -8398,6 +8398,7 @@ import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
 import BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
 import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
+import BEDC.Derived.MetaCICClosurePreservationUp.CandidateScope
 import BEDC.Derived.MetaCICClosurePreservationUp.GeneratorRoute
 import BEDC.Derived.MetaCICClosurePreservationUp.SubjectReductionBoundary
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionBetaChainExposure
@@ -11697,6 +11698,7 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyNestedIntervalUp
 import BEDC.Derived.RegularCauchyNetUp
+import BEDC.Derived.RegularCauchyNetUp.TasteGate
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyNonzeroUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
