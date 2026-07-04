@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary interface-registry lattice route]
+\label{thm:machine-export-boundary-interface-registry-lattice-route}
+Every $\MachineExportBoundaryUp$ export read consumes the machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} and the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} before export readback is public. For an accepted packet $E=(R,T,A,F,H,C,P,N)$, the target row $T$ is read through the interface boundary and the registry row $R$ is read through the registry surface before audit readback, refusal preservation, transport, replay, provenance, or local naming can expose the export.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The rows $R$ and $T$ are the registry and interface coordinates of the same accepted packet.
+
+Read $T$ through the sibling interface boundary and $R$ through the registry export surface. The existing dependency routes keep both rows visible before the audit and refusal rows are consumed.
+
+Finally apply $H,C,P,N$. Transport, replay, provenance, and local naming preserve the same interface-registry lattice, so export readback cannot bypass either sibling surface.
+\end{proof}
