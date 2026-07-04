@@ -74,6 +74,22 @@ Next apply regression non-escape from \autoref{thm:typed-example-audit-budget-re
 The downstream publicClosure package is therefore exactly the displayed tuple $G,C,B,Z,R,H,K,P,N$ together with the local NameCert route. Since the carrier has no coordinate for checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend, those claims cannot be exported by the public consumer contract.
 \end{proof}
 
+\begin{theorem}[TypedExampleAuditBudget public interface]
+\label{thm:typed-example-audit-budget-public-interface}
+The public audit-budget interface of an accepted $\TypedExampleAuditBudgetUp$ packet is exactly the finite row package
+$$
+G,C,B,Z,R,H,K,P,N .
+$$
+The rows $G,C,B,Z,R$ expose gallery inventory, checker reads, beta rows, closedness rows, and regression-budget spend boundaries; the rows $H,K,P,N$ expose componentwise transport, continuation replay, provenance, and local naming. This interface is the package forced by the carrier of \autoref{def:typed-example-audit-budget-carrier}, the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations}, regression non-escape of \autoref{thm:typed-example-audit-budget-regression-nonescape}, and the public consumer contract of \autoref{thm:typed-example-audit-budget-public-consumer-contract}. It does not export checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, unbudgeted spend, or any stronger closurestatus.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its displayed coordinates are the rows $G,C,B,Z,R,H,K,P,N$, and no additional public row is present.
+
+Use the NameCert obligations to identify which rows a consumer may inspect. The gallery, checker, beta, closedness, and regression-budget rows must be read together with transport, continuation, provenance, and local naming.
+
+Regression non-escape prevents replacing $R$ with a gallery, seal, or beta-boundary sibling, while the public consumer contract prevents dropping any displayed coordinate from the public package. The resulting interface is therefore exactly the named row package and carries none of the refused endpoints.
+\end{proof}
+
 \falsifiablePrediction{If the regression-budget row is removed from an accepted TypedExampleAuditBudget packet, a downstream checker-audit consumer can no longer distinguish gallery acceptance from regression coverage.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, betastepboundary. The budget packet is not bijective with any sibling because it carries a regression-budget row and a consumer-spend boundary that gallery and seal packets do not expose, while BetaStepBoundary carries reduction-boundary rows rather than typed-example gallery spend rows.}

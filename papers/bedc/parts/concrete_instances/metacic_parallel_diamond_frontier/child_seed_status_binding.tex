@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel diamond child seed status binding]
+\label{thm:metacic-parallel-diamond-child-seed}
+Every hub read of the $\MetaCICParallelDiamondFrontierUp$ child seed status is consumed only after the critical-pair envelope, residual-join locality, retained-premise row, candidate-SN handoff, closurestatus guard, transport, replay, provenance, and local $\NameCert$ rows are visible in the child spine. The seed-status read therefore binds to the displayed frontier packet, not to an isolated hub marker or an unrestricted confluence endpoint.
+\end{theorem}
+\begin{proof}
+Read the critical-pair envelope and residual-join locality children first. They expose the finite overlap and local join rows that any seed-status consumer must keep in scope.
+
+Next consume the retained-premise row and candidate-SN handoff. These rows keep the status read below the retained residual premise and prevent it from being read as a global strong-normalization or unrestricted diamond claim.
+
+Finally use the closurestatus guard together with transport, replay, provenance, and local naming. Those rows route the seed-status read through the displayed child data before the hub can report it, so the binding remains a child-local seed route.
+\end{proof}
