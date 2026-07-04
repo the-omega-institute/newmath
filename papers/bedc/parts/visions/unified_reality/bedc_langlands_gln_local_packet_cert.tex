@@ -1,0 +1,423 @@
+\section{BEDC--Langlands Local Packet Certificate for $GL_n$}
+\label{sec:unified-reality-bedc-langlands-gln-local-packet-cert}
+
+The ramified local state closure of
+\autoref{sec:unified-reality-bedc-langlands-ramified-local-state-closure}
+requires a local packet, a nonzero character distribution, and a ledger
+for conductor, monodromy, local factors, and normalization. For general
+reductive groups this package involves endoscopy and component-group
+bookkeeping. For $GL_n$ over a nonarchimedean local field the packet
+certificate has a cleaner form: the local Langlands packet is a
+singleton, and all remaining ramified data are explicit ledger rows.
+
+\begin{definition}[Local $GL_n$ parameter row]
+\label{def:unified-reality-gln-local-parameter-row}
+Let $F_v$ be a nonarchimedean local field. A local $GL_n$ parameter row
+is an $n$-dimensional Frobenius-semisimple Weil--Deligne representation
+$$
+\phi_v:W'_{F_v}\to GL_n(\mathbb C),
+$$
+equivalently a pair
+$$
+(r_v,N_v)
+$$
+with the usual monodromy compatibility. The parameter set is denoted
+$$
+\Phi_n(F_v).
+$$
+The automorphic local side is
+$$
+\operatorname{Irr}(GL_n(F_v)),
+$$
+the set of irreducible smooth admissible representations.
+\end{definition}
+
+\begin{definition}[$GL_n$ local Langlands certificate]
+\label{def:unified-reality-gln-local-langlands-cert}
+A $GL_n$ local Langlands certificate at $v$ is a classical
+NameCert/PacketCert consisting of a bijection
+$$
+\operatorname{rec}_v:
+\operatorname{Irr}(GL_n(F_v))
+\longrightarrow
+\Phi_n(F_v)
+$$
+with the following ledgered compatibilities:
+\begin{itemize}
+\item spherical representations have Satake parameter equal to the
+semisimple Frobenius class of $\operatorname{rec}_v(\pi_v)$;
+\item Rankin--Selberg local $L$, $\epsilon$, and $\gamma$ factors agree
+with the corresponding tensor-product factors on Weil--Deligne
+parameters;
+\item central characters satisfy
+$$
+\omega_{\pi_v}
+=
+\det(\operatorname{rec}_v(\pi_v))\circ\operatorname{Art}_{F_v};
+$$
+\item contragredients and character twists commute with the
+correspondence;
+\item conductor, depth, inertia type, monodromy $N_v$, additive
+character, Haar measure, and normalization conventions are recorded in
+the local ledger.
+\end{itemize}
+The certificate is used here as a traditional mathematical input. The
+BEDC claim is the closure consequence obtained after this certificate is
+present.
+\end{definition}
+
+\begin{definition}[$GL_n$ local ledger]
+\label{def:unified-reality-gln-local-ledger}
+For a $GL_n$ local parameter $\phi_v$, the local ledger is
+$$
+\Lambda^{GL_n}_{\phi_v}
+:=
+(I_v\text{-type},N_v,\mathfrak f(\phi_v),
+\mathsf{Depth},L_v,\epsilon_v,\gamma_v,
+\mathsf{CentralCharacter},\mathsf{Normalization}).
+$$
+It records every datum that is invisible to the unramified spherical
+Satake detector.
+\end{definition}
+
+\begin{theorem}[$GL_n$ packets are singleton packets]
+\label{thm:unified-reality-gln-packets-singleton}
+Under the $GL_n$ local Langlands certificate, every parameter
+$$
+\phi_v\in\Phi_n(F_v)
+$$
+has a unique corresponding irreducible admissible representation
+$$
+\pi_{\phi_v}
+:=
+\operatorname{rec}_v^{-1}(\phi_v).
+$$
+Therefore its local packet is
+$$
+\Pi_{\phi_v}=\{\pi_{\phi_v}\}.
+$$
+\end{theorem}
+\begin{proof}
+The correspondence $\operatorname{rec}_v$ is a bijection. Thus the
+inverse image of $\phi_v$ exists and has exactly one element. The packet
+attached to $\phi_v$ is consequently the displayed singleton.
+\end{proof}
+
+\begin{theorem}[$GL_n$ local three-properties certificate]
+\label{thm:unified-reality-gln-local-three-properties}
+The local row
+$$
+\mathcal O^{GL_n}_v
+:=
+(\pi_{\phi_v},\phi_v,\Lambda^{GL_n}_{\phi_v})
+$$
+satisfies the BEDC time, unity, and ledger properties.
+\end{theorem}
+\begin{proof}
+Time is supplied on the representation side by Bernstein decomposition,
+parabolic induction, depth filtration, and conductor filtration. On the
+parameter side it is supplied by Frobenius, inertia, and monodromy in
+$$
+\phi_v=(r_v,N_v).
+$$
+
+Unity is supplied by the tempered/unitary part of the local Langlands
+classification. For a general irreducible admissible representation,
+the Langlands classification expresses the row through tempered data
+and real exponent data; the tempered part is the unitary readout, while
+the real exponents are recorded as scale ledger rows.
+
+The ledger property is exactly
+\autoref{def:unified-reality-gln-local-ledger}: conductor, depth,
+monodromy, local factors, central character, and normalization
+conventions are named rather than hidden in the unramified detector.
+\end{proof}
+
+\begin{definition}[$GL_n$ stable local state]
+\label{def:unified-reality-gln-stable-local-state}
+For a $GL_n$ parameter $\phi_v$, define its local stable state by
+$$
+S\Theta_{\phi_v}
+:=
+\Theta_{\pi_{\phi_v}},
+$$
+where $\Theta_{\pi_{\phi_v}}$ is the Harish--Chandra character
+distribution
+$$
+\Theta_{\pi_{\phi_v}}(f_v)
+:=
+\operatorname{tr}\pi_{\phi_v}(f_v),
+\qquad
+f_v\in C_c^\infty(GL_n(F_v)).
+$$
+Because the packet is a singleton, no component-group sum is required.
+\end{definition}
+
+\begin{theorem}[$GL_n$ local state nonzero]
+\label{thm:unified-reality-gln-local-state-nonzero}
+For every $GL_n$ local parameter $\phi_v$, there exists
+$$
+f_v\in C_c^\infty(GL_n(F_v))
+$$
+such that
+$$
+S\Theta_{\phi_v}(f_v)\ne0.
+$$
+\end{theorem}
+\begin{proof}
+The representation $\pi_{\phi_v}$ is smooth and nonzero. Hence some
+nonzero vector is fixed by a compact open subgroup
+$$
+K\subset GL_n(F_v).
+$$
+Let
+$$
+e_K=\frac{1_K}{\operatorname{vol}(K)}
+$$
+be the normalized idempotent in the local Hecke algebra. The operator
+$\pi_{\phi_v}(e_K)$ is the projection onto the finite-dimensional space
+$\pi_{\phi_v}^K$. Since $\pi_{\phi_v}^K\ne0$,
+$$
+\Theta_{\pi_{\phi_v}}(e_K)
+=
+\operatorname{tr}\pi_{\phi_v}(e_K)
+=
+\dim \pi_{\phi_v}^K
+\ne0.
+$$
+By the definition of $S\Theta_{\phi_v}$, the same test function gives
+the required nonzero local state.
+\end{proof}
+
+\begin{definition}[$GL_n$ local test residual]
+\label{def:unified-reality-gln-local-test-residual}
+For a candidate representation $\pi_v$ and a parameter $\phi_v$, define
+the local test residual by
+$$
+D^{GL_n}_{v,f_v}(\pi_v,\phi_v)
+:=
+\Theta_{\pi_v}(f_v)-\Theta_{\pi_{\phi_v}}(f_v).
+$$
+The ramified finite detector is the row
+$$
+(v,\mathfrak b,f_v),
+$$
+where $\mathfrak b$ is a displayed Bernstein or packet window containing
+the candidates under comparison.
+\end{definition}
+
+\begin{theorem}[$GL_n$ character separation]
+\label{thm:unified-reality-gln-character-separation}
+Let
+$$
+\pi_1,\ldots,\pi_M
+$$
+be pairwise non-isomorphic irreducible admissible representations of
+$GL_n(F_v)$ in a displayed finite local window. Then their
+Harish--Chandra character distributions are linearly independent as
+functionals on $C_c^\infty(GL_n(F_v))$. Consequently, for each target
+index $i$ there is a test function
+$$
+f_i^\ast\in C_c^\infty(GL_n(F_v))
+$$
+such that
+$$
+\Theta_{\pi_\ell}(f_i^\ast)=\delta_{\ell i}
+$$
+for all displayed candidates $\pi_\ell$.
+\end{theorem}
+\begin{proof}
+Harish--Chandra character theory gives linear independence of the
+characters of pairwise non-isomorphic irreducible admissible
+representations. For the finite family
+$$
+\Theta_{\pi_1},\ldots,\Theta_{\pi_M},
+$$
+linear independence in the dual space implies that there are test
+functions
+$$
+f_1,\ldots,f_M
+$$
+for which the matrix
+$$
+A_{\ell j}:=\Theta_{\pi_\ell}(f_j)
+$$
+is invertible. Solving
+$$
+\sum_j c_j A_{\ell j}=\delta_{\ell i}
+$$
+and setting
+$$
+f_i^\ast:=\sum_j c_j f_j
+$$
+gives the displayed isolating function.
+\end{proof}
+
+\begin{theorem}[$GL_n$ ramified local no-hidden residual]
+\label{thm:unified-reality-gln-ramified-local-no-hidden-residual}
+Let $(\pi_v,\phi_v)$ be a local $GL_n$ BEDC--Langlands row equipped with
+the local Langlands certificate and the three-properties ledger. If the
+row is closed against unresolved local residuals, then
+$$
+\pi_v\simeq\pi_{\phi_v}.
+$$
+Equivalently,
+$$
+D^{GL_n}_{v,f_v}(\pi_v,\phi_v)=0
+$$
+for every local test function $f_v$.
+\end{theorem}
+\begin{proof}
+Assume $\pi_v\not\simeq\pi_{\phi_v}$. By
+\autoref{thm:unified-reality-gln-character-separation}, there is a
+local test function $f_v$ with
+$$
+\Theta_{\pi_v}(f_v)\ne\Theta_{\pi_{\phi_v}}(f_v).
+$$
+Thus
+$$
+D^{GL_n}_{v,f_v}(\pi_v,\phi_v)\ne0.
+$$
+This is a finite local detector. If the detected residual is entered in
+the ledger, the row is not closed until the residual is discharged. If
+it is not entered in the ledger, the ledger property fails. Both
+alternatives contradict closedness with the three-properties discipline.
+Hence $\pi_v\simeq\pi_{\phi_v}$, and all residuals vanish.
+\end{proof}
+
+\begin{corollary}[$GL_n$ ramified local state closure]
+\label{cor:unified-reality-gln-ramified-local-state-closure}
+For $GL_n(F_v)$, every legal local parameter with a local Langlands
+certificate has a nonzero local state. Every ramified local mismatch is
+detected by a finite local test row $(v,\mathfrak b,f_v)$ or is an
+explicit local ledger row.
+\end{corollary}
+\begin{proof}
+Nonzero state follows from
+\autoref{thm:unified-reality-gln-local-state-nonzero}. Finite detection
+of representation mismatch follows from
+\autoref{thm:unified-reality-gln-ramified-local-no-hidden-residual}.
+The remaining ramified data are exactly the rows listed in
+\autoref{def:unified-reality-gln-local-ledger}.
+\end{proof}
+
+\begin{definition}[$GL_n$ fixed-window parameter state]
+\label{def:unified-reality-gln-fixed-window-parameter-state}
+For a finite local-global window
+$$
+\mathcal W=(S_{\mathrm{unr}},S_{\mathrm{ram}},B),
+$$
+the $GL_n$ parameter state is
+$$
+\Theta_{\phi,\mathcal W}^{GL_n}
+:=
+\left(\bigotimes_{v\in S_{\mathrm{unr}}}
+\Theta_{\phi_v}^{\mathrm{unr}}\right)
+\otimes
+\left(\bigotimes_{v\in S_{\mathrm{ram}}}
+\Theta_{\pi_{\phi_v}}\right)
+\otimes
+\Theta_{\phi,\infty},
+$$
+with archimedean factors present only on the declared scope.
+\end{definition}
+
+\begin{theorem}[$GL_n$ fixed-window parameter nonzero]
+\label{thm:unified-reality-gln-fixed-window-parameter-nonzero}
+Assume every archimedean factor in the declared window has a nonzero
+local state or a ledgered failure. Then every $GL_n$ parameter with
+local Langlands certificates at the displayed nonarchimedean places has
+a fixed-window test function
+$$
+f_{\phi,\mathcal W}
+$$
+such that
+$$
+\Theta_{\phi,\mathcal W}^{GL_n}(f_{\phi,\mathcal W})\ne0.
+$$
+\end{theorem}
+\begin{proof}
+At unramified places, use the Satake projector from
+\autoref{thm:unified-reality-unramified-parameter-state-nonzero} and
+normalize its value to $1$. At ramified nonarchimedean places, use
+\autoref{thm:unified-reality-gln-local-state-nonzero} and rescale the
+chosen local test function so that
+$$
+\Theta_{\pi_{\phi_v}}(f_{\phi_v})=1.
+$$
+Normalize every present archimedean factor in the same way. The tensor
+product of these local functions satisfies
+$$
+\Theta_{\phi,\mathcal W}^{GL_n}(f_{\phi,\mathcal W})
+=
+\prod_v \Theta_{\phi_v}(f_{\phi_v})
+=
+1.
+$$
+\end{proof}
+
+\begin{theorem}[$GL_n$ local-global residual dichotomy]
+\label{thm:unified-reality-gln-local-global-residual-dichotomy}
+Let $(\Pi,\phi)$ be a global $GL_n$ BEDC--Langlands row on a fixed
+window. Any residual is either detected by an unramified
+Hecke--Frobenius detector, detected by a ramified local test row
+$(v,\mathfrak b,f_v)$, or belongs to an archimedean, continuous-spectrum,
+level-escape, conductor, normalization, or automorphic-tail ledger row.
+\end{theorem}
+\begin{proof}
+An unramified mismatch is detected by the finite representation readout
+$(v,r)$ of
+\autoref{thm:unified-reality-unramified-local-no-hidden-residual}. A
+ramified nonarchimedean mismatch is detected by
+\autoref{thm:unified-reality-gln-ramified-local-no-hidden-residual}.
+If no local detector sees the residual, it is not a displayed local
+character or Satake mismatch. It must therefore lie in archimedean
+module data, continuous spectrum, Eisenstein contribution, level or
+conductor escape, normalization, or automorphic tail behavior. These are
+global ledger rows by the trace-window and tail-closure certificates.
+\end{proof}
+
+\begin{theorem}[$GL_n$ BEDC--Langlands conditional closure]
+\label{thm:unified-reality-gln-bedc-langlands-conditional-closure}
+Assume the $GL_n$ local Langlands certificates at all displayed
+nonarchimedean places, the fixed-window parameter state certificate,
+the trace or existence bridge certificate, cofinal automorphic tail
+closure, no-hidden Langlands residual, and closedness. Then every legal
+global $GL_n$ parameter in the declared scope has a global automorphic
+realization whose unramified Hecke--Frobenius readouts match the
+parameter and whose ramified local data are matched by the local
+Langlands ledger.
+\end{theorem}
+\begin{proof}
+The local packet certificate gives singleton ramified packets and
+nonzero local states. Hence
+\autoref{thm:unified-reality-gln-fixed-window-parameter-nonzero}
+supplies a nonzero fixed-window parameter readout. The trace or
+existence bridge transports this readout to a nonzero automorphic
+spectral contribution on the same fixed window. Cofinal automorphic tail
+closure promotes compatible fixed-window realizations to a global
+automorphic row unless a tail ledger row is present; closedness excludes
+an unresolved tail.
+
+If a residual remains, then
+\autoref{thm:unified-reality-gln-local-global-residual-dichotomy} places
+it either in a finite detector or in a ledger row. No-hidden residual
+and closedness exclude unresolved instances of both alternatives.
+\end{proof}
+
+\begin{theorem}[$GL_n$ local certificate boundary]
+\label{thm:unified-reality-gln-local-certificate-boundary}
+The $GL_n$ local packet certificate closes the local ramified BEDC
+module: singleton packet, nonzero local state, finite character
+detection, and local ledger discipline. It does not by itself construct
+the global automorphic realization; that construction is supplied by the
+separate trace or existence bridge.
+\end{theorem}
+\begin{proof}
+All preceding local statements use only the local Langlands certificate,
+Harish--Chandra character separation, admissibility, and the local
+ledger. Global existence requires a mechanism that turns a nonzero
+parameter-side fixed-window state into a spectral automorphic row. That
+mechanism is outside the local certificate and is exactly the role of
+the trace or existence bridge.
+\end{proof}

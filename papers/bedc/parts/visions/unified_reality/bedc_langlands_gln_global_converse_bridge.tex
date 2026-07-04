@@ -1,0 +1,351 @@
+\section{BEDC--Langlands Global Converse Bridge for $GL_n$}
+\label{sec:unified-reality-bedc-langlands-gln-global-converse-bridge}
+
+The local packet certificate of
+\autoref{sec:unified-reality-bedc-langlands-gln-local-packet-cert}
+turns every certified local $GL_n$ parameter into a singleton local
+packet. The global existence problem is not solved by merely tensoring
+these local packets. The restricted tensor product is a legitimate
+adelic candidate only after the global compatibility ledger is present,
+and it becomes automorphic only after an existence bridge is supplied.
+For $GL_n$, the natural bridge is the Rankin--Selberg converse theorem.
+
+\begin{definition}[$GL_n$ global parameter row]
+\label{def:unified-reality-gln-global-parameter-row}
+Let $F$ be a global field. A $GL_n$ global parameter row is a parameter
+$$
+\phi:W'_F\to GL_n(\mathbb C)
+$$
+with local components
+$$
+\phi_v:W'_{F_v}\to GL_n(\mathbb C).
+$$
+At each nonarchimedean place where the local $GL_n$ Langlands
+certificate is in scope, write
+$$
+\pi_{\phi_v}:=\operatorname{rec}_v^{-1}(\phi_v)
+$$
+for the corresponding singleton packet representative.
+\end{definition}
+
+\begin{definition}[Global compatibility certificate]
+\label{def:unified-reality-gln-global-compatibility-cert}
+A global compatibility certificate for $\phi$ consists of the following
+ledgered data:
+\begin{itemize}
+\item $\phi_v$ is unramified for almost all places $v$;
+\item $\pi_{\phi_v}$ is spherical for almost all nonarchimedean places;
+\item the central character row is global and satisfies
+$$
+\omega_{\phi}
+=
+\det(\phi)\circ\operatorname{Art}_F;
+$$
+\item all ramified places, conductor exponents, monodromy rows,
+archimedean types, local $L$-factors, $\epsilon$-factors,
+$\gamma$-factors, and normalization choices enter the global parameter
+ledger
+$$
+\Lambda_{\phi}^{GL_n}
+:=
+(S_{\mathrm{ram}},N_v,\mathfrak f_v,\epsilon_v,\gamma_v,
+\mathsf{ArchType},\mathsf{CentralCharacter},\mathsf{Normalization}).
+$$
+\end{itemize}
+Failure of any row is a global compatibility defect rather than an
+automorphic realization.
+\end{definition}
+
+\begin{definition}[Local tensor product candidate]
+\label{def:unified-reality-gln-local-tensor-product-candidate}
+Under the global compatibility certificate, the local $GL_n$ packets
+define the restricted tensor product candidate
+$$
+\Pi_{\phi}^{\mathrm{loc}}
+:=
+\bigotimes_v'\pi_{\phi_v}.
+$$
+This is an irreducible admissible adelic representation candidate of
+$GL_n(\mathbb A_F)$ on the declared scope. It is not, by definition, an
+automorphic representation.
+\end{definition}
+
+\begin{theorem}[Local tensor candidate readout]
+\label{thm:unified-reality-gln-local-tensor-candidate-readout}
+If $\phi$ has a global compatibility certificate, then
+$\Pi_{\phi}^{\mathrm{loc}}$ is defined as a restricted tensor product.
+For almost all unramified places $v$,
+$$
+s_v(\Pi_{\phi}^{\mathrm{loc}})
+=
+\phi(\operatorname{Frob}_v).
+$$
+\end{theorem}
+\begin{proof}
+Almost all local rows are unramified by the global compatibility
+certificate, so the corresponding representations are spherical and
+carry normalized spherical vectors. The restricted tensor product is
+therefore defined. At an unramified place, the local $GL_n$ Langlands
+certificate is compatible with the Satake parameter, giving the
+displayed equality.
+\end{proof}
+
+\begin{definition}[Rankin--Selberg twist detector]
+\label{def:unified-reality-gln-rankin-selberg-twist-detector}
+Let $1\le m\le n-1$, and let $\tau$ be a cuspidal automorphic
+representation of $GL_m(\mathbb A_F)$ in the admitted detector class.
+The Rankin--Selberg twist detector attached to $(m,\tau)$ reads the
+Euler product
+$$
+L(s,\Pi_{\phi}^{\mathrm{loc}}\times\tau)
+:=
+\prod_v L(s,\pi_{\phi_v}\times\tau_v).
+$$
+When $\tau$ has a parameter row $\phi_{\tau}$, the parameter-side
+expected readout is
+$$
+L(s,\phi\otimes\phi_{\tau}).
+$$
+The analytic residual is the ledger row recording failure of any of the
+following:
+$$
+L(s,\Pi_{\phi}^{\mathrm{loc}}\times\tau)
+=
+L(s,\phi\otimes\phi_{\tau}),
+$$
+meromorphic continuation, the prescribed functional equation,
+boundedness in vertical strips, and local $L/\epsilon/\gamma$ factor
+compatibility.
+\end{definition}
+
+\begin{definition}[Finite twist window]
+\label{def:unified-reality-gln-finite-twist-window}
+For a complexity bound $B$, the finite twist window is
+$$
+\mathcal T_B(n)
+:=
+\{(m,\tau):1\le m\le n-1,\ \kappa(\tau)\le B\},
+$$
+where $\kappa(\tau)$ records conductor, level, ramified type,
+central character, archimedean parameter, and normalization complexity.
+A residual visible for some $(m,\tau)\in\mathcal T_B(n)$ is a finite
+Rankin residual. A residual invisible in every fixed $\mathcal T_B(n)$
+but present along unbounded conductor, level, ramified type, or
+archimedean parameter is a twist tail residual, recorded in
+$$
+\mathsf{TwistTailLedger}
+:=
+(\mathsf{ConductorEscape},\mathsf{ArchimedeanEscape},
+\mathsf{RamificationEscape},\mathsf{NonuniformBoundedness},
+\mathsf{GammaFactorTail}).
+$$
+\end{definition}
+
+\begin{theorem}[Rankin residual dichotomy]
+\label{thm:unified-reality-gln-rankin-residual-dichotomy}
+Let $\Pi_{\phi}^{\mathrm{loc}}$ be a global $GL_n$ local tensor product
+candidate whose local packet and compatibility ledgers are closed. If
+the converse-theorem analytic hypotheses fail, then the failure is
+either a finite Rankin residual in some fixed twist window or a twist
+tail residual.
+\end{theorem}
+\begin{proof}
+The analytic hypotheses are tested by Rankin--Selberg twists
+$(m,\tau)$ with $1\le m\le n-1$. If a hypothesis fails for a twist of
+bounded detector complexity, it is visible in a finite window
+$\mathcal T_B(n)$ and is a finite Rankin residual. If every bounded
+window is clean but failure occurs only along twists with unbounded
+conductor, level, ramified type, archimedean parameter, or
+normalization complexity, then the failure is not a fixed-window datum.
+It is precisely a twist tail residual.
+\end{proof}
+
+\begin{definition}[$GL_n$ converse theorem certificate]
+\label{def:unified-reality-gln-converse-theorem-cert}
+A $GL_n$ converse theorem certificate is a traditional analytic bridge
+which applies to an irreducible admissible generic representation
+candidate $\Pi$ of $GL_n(\mathbb A_F)$ with the declared central
+character and asserts:
+if for all $1\le m\le n-1$ and all admitted cuspidal automorphic
+$\tau$ on $GL_m(\mathbb A_F)$ the Rankin--Selberg twists
+$$
+L(s,\Pi\times\tau)
+$$
+have the required meromorphic continuation, functional equation,
+boundedness in vertical strips, and local factor compatibility, then
+$$
+\Pi
+$$
+is automorphic. Non-generic, residual-spectrum, and boundary cases are
+not hidden inside this certificate; they enter the residual-spectrum
+ledger.
+\end{definition}
+
+\begin{definition}[No hidden Rankin residual]
+\label{def:unified-reality-gln-no-hidden-rankin-residual}
+The no-hidden Rankin residual condition says that every failure of a
+Rankin--Selberg analytic hypothesis is either detected in a fixed twist
+window $\mathcal T_B(n)$ or is recorded in
+$\mathsf{TwistTailLedger}$, and that closed accepted rows carry no
+unresolved entry in either ledger.
+\end{definition}
+
+\begin{theorem}[Converse bridge closure]
+\label{thm:unified-reality-gln-converse-bridge-closure}
+Assume $\phi$ has a global compatibility certificate, the local $GL_n$
+packet certificates are present, $\Pi_{\phi}^{\mathrm{loc}}$ lies in
+the generic scope of the $GL_n$ converse theorem certificate, no finite
+Rankin residual is present, no twist tail residual remains unresolved,
+and the row is closed. Then
+$$
+\Pi_{\phi}^{\mathrm{loc}}
+$$
+is automorphic.
+\end{theorem}
+\begin{proof}
+If $\Pi_{\phi}^{\mathrm{loc}}$ were not automorphic while the converse
+certificate applied, at least one converse-theorem hypothesis would
+fail. By
+\autoref{thm:unified-reality-gln-rankin-residual-dichotomy}, that
+failure is either a finite Rankin residual or a twist tail residual. A
+finite residual contradicts the hypothesis that no finite Rankin
+residual is present. A tail residual contradicts the hypothesis that no
+twist tail residual remains unresolved. Hence all converse-theorem
+analytic hypotheses are closed. The $GL_n$ converse theorem certificate
+therefore gives automorphy of $\Pi_{\phi}^{\mathrm{loc}}$.
+\end{proof}
+
+\begin{theorem}[$GL_n$ global reciprocity from converse bridge]
+\label{thm:unified-reality-gln-global-reciprocity-converse-bridge}
+Assume:
+\begin{itemize}
+\item $\phi$ has a global compatibility certificate;
+\item local $GL_n$ Langlands packet certificates hold at the displayed
+places;
+\item $\Pi_{\phi}^{\mathrm{loc}}$ is in the generic scope of the
+$GL_n$ converse theorem certificate;
+\item all Rankin--Selberg analytic detector residuals are finite-clean
+or discharged in the twist tail ledger;
+\item the no-hidden Langlands residual condition and closedness hold.
+\end{itemize}
+Then there is an automorphic representation
+$$
+\Pi_{\phi}
+$$
+of $GL_n(\mathbb A_F)$ such that, for almost all unramified places $v$,
+$$
+s_v(\Pi_{\phi})=\phi(\operatorname{Frob}_v).
+$$
+Equivalently, for every finite-dimensional representation $r$ of the
+dual group in the certified readout class,
+$$
+\lambda_{v,r}(\Pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+\end{theorem}
+\begin{proof}
+The local packet certificates and the global compatibility certificate
+construct the restricted tensor product
+$$
+\Pi_{\phi}^{\mathrm{loc}}.
+$$
+The Rankin--Selberg detector hypotheses and
+\autoref{thm:unified-reality-gln-converse-bridge-closure} make this
+candidate automorphic. Set
+$$
+\Pi_{\phi}:=\Pi_{\phi}^{\mathrm{loc}}.
+$$
+The almost-everywhere Satake equality follows from
+\autoref{thm:unified-reality-gln-local-tensor-candidate-readout}.
+Applying finite-dimensional representation readouts gives the displayed
+Hecke--Frobenius equality. Any remaining mismatch is a finite
+Hecke--Frobenius detector, a ramified local ledger row, an archimedean
+row, a residual-spectrum row, or an automorphic tail row; no-hidden
+residual and closedness exclude unresolved instances.
+\end{proof}
+
+\begin{theorem}[$GL_N$ functorial transfer through the converse bridge]
+\label{thm:unified-reality-gln-functorial-transfer-converse-bridge}
+Let
+$$
+\eta:{}^LH\to GL_N(\mathbb C)
+$$
+be an $N$-dimensional $L$-group representation and let
+$$
+\phi_H:W'_F\to{}^LH
+$$
+be an $H$-side parameter. Put
+$$
+\phi_{\eta}:=\eta\circ\phi_H.
+$$
+If $\phi_{\eta}$ satisfies the hypotheses of
+\autoref{thm:unified-reality-gln-global-reciprocity-converse-bridge}
+for $GL_N$, then there is an automorphic representation $\Pi_{\eta}$ of
+$GL_N(\mathbb A_F)$ with
+$$
+s_v(\Pi_{\eta})
+=
+\eta(\phi_H(\operatorname{Frob}_v))
+$$
+for almost all certified unramified places $v$.
+\end{theorem}
+\begin{proof}
+The composed parameter $\phi_{\eta}$ is a $GL_N$ parameter row. Applying
+\autoref{thm:unified-reality-gln-global-reciprocity-converse-bridge} to
+$\phi_{\eta}$ gives an automorphic representation $\Pi_{\eta}$ with
+$$
+s_v(\Pi_{\eta})=\phi_{\eta}(\operatorname{Frob}_v).
+$$
+The definition of $\phi_{\eta}$ identifies the right side with
+$\eta(\phi_H(\operatorname{Frob}_v))$.
+\end{proof}
+
+\begin{theorem}[Nonautomorphy is a Rankin residual]
+\label{thm:unified-reality-gln-nonautomorphy-rankin-residual}
+Within the scope of the $GL_n$ converse theorem certificate, a legal
+local tensor product candidate that is not automorphic carries a
+Rankin--Selberg analytic residual.
+\end{theorem}
+\begin{proof}
+The contrapositive form of the converse theorem certificate says that a
+candidate in its scope which is not automorphic must fail at least one
+of the hypotheses: meromorphic continuation, functional equation,
+vertical-strip boundedness, or local factor compatibility for some
+Rankin--Selberg twist. Each failure is exactly a Rankin analytic
+residual.
+\end{proof}
+
+\begin{corollary}[Closed $GL_n$ candidates are automorphic]
+\label{cor:unified-reality-closed-gln-candidates-automorphic}
+In the declared generic scope, a $GL_n$ local tensor product candidate
+with global compatibility, local packet closure, no hidden Rankin
+residual, and closedness cannot be both legal and nonautomorphic.
+\end{corollary}
+\begin{proof}
+If it were nonautomorphic, then
+\autoref{thm:unified-reality-gln-nonautomorphy-rankin-residual} would
+produce a Rankin analytic residual. By
+\autoref{thm:unified-reality-gln-rankin-residual-dichotomy}, that
+residual is finite-visible or a twist tail row. The first alternative
+contradicts finite-clean Rankin closure; the second contradicts
+closedness against unresolved twist tail rows.
+\end{proof}
+
+\begin{theorem}[$GL_n$ converse bridge boundary]
+\label{thm:unified-reality-gln-converse-bridge-boundary}
+The $GL_n$ global converse bridge closes the passage from local packet
+data to automorphic realization only under the stated analytic
+certificate: global compatibility, generic scope, Rankin--Selberg
+twist closure, tail-ledger discipline, and closedness. It does not
+replace the converse theorem, nor does it assert automorphy for
+parameters outside the certificate's scope.
+\end{theorem}
+\begin{proof}
+The construction up to $\Pi_{\phi}^{\mathrm{loc}}$ is local and
+ledgered. The step from a legal adelic candidate to an automorphic
+representation is precisely the converse theorem certificate. Outside
+its hypotheses, the failure is not erased; it is recorded as
+global-compatibility, non-generic, residual-spectrum, analytic, or tail
+ledger data.
+\end{proof}

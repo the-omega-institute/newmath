@@ -1,0 +1,439 @@
+\subsection{Yang--Mills tube geometry certificates}
+\label{subsec:philosophy-yang-mills-tube-geometry-certificates}
+
+The block tube area-law certificate of
+\autoref{def:philosophy-block-tube-area-law-certificate} separates into
+two finite combinatorial geometry rows and one physical weight row. The
+geometry rows are internal to the fixed block lattice: a connected tube
+joining two time-separated Wilson packet supports must contain a
+linearly long plaquette chain, and the number of connected plaquette
+sets of a given area grows at most exponentially. The physical row is
+the area decay of tube weights. Only the physical row carries the
+confinement content; the two geometry rows are finite block-scale
+certificates.
+
+\begin{definition}[Blocked Wilson support]
+\label{def:philosophy-blocked-wilson-support}
+Fix a physical block scale $\ell_{\ast}>0$ and let
+$\mathcal L_{\ell_{\ast}}$ be the corresponding four-dimensional block
+lattice with integer time coordinate $\tau$. A blocked Wilson packet
+$O$ has finite support $\operatorname{supp}(O)$ in the cells and edges
+of this lattice. Its time diameter is
+$$
+d_t(O)=
+\max_{\xi,\eta\in\operatorname{supp}(O)}
+|\tau(\xi)-\tau(\eta)|.
+$$
+The translate $O(T)$ is obtained by shifting the support by $T$ block
+time steps; the corresponding physical time is $t=T\ell_{\ast}$.
+\end{definition}
+
+\begin{definition}[Plaquette tube]
+\label{def:philosophy-plaquette-tube}
+A plaquette tube $\Sigma$ is a finite set of block plaquettes equipped
+with the plaquette adjacency inherited from the fixed lattice. It joins
+$O(0)$ to $O(T)$ when its adjacency graph has a connected component
+meeting a fixed finite neighbourhood of $\operatorname{supp}(O(0))$
+and a fixed finite neighbourhood of $\operatorname{supp}(O(T))$. Its
+area is the plaquette count
+$$
+|\Sigma|=\#\{p:p\in\Sigma\}.
+$$
+In physical units the area is $\ell_{\ast}^{2}|\Sigma|$.
+\end{definition}
+
+\begin{theorem}[Tube area lower bound]
+\label{thm:philosophy-tube-area-lower-bound}
+For each fixed blocked Wilson packet $O$ there are constants
+$c_{\ast}>0$ and $b_O<\infty$ such that every plaquette tube joining
+$O(0)$ to $O(T)$ satisfies
+$$
+|\Sigma|\ge c_{\ast}T-b_O.
+$$
+Equivalently, in physical time $t=T\ell_{\ast}$,
+$$
+|\Sigma|\ge \frac{c_{\ast}}{\ell_{\ast}}t-b_O.
+$$
+\end{theorem}
+\begin{proof}
+Since the tube joins the two packet supports, its adjacency graph
+contains a plaquette chain
+$$
+\Pi_0,\Pi_1,\ldots,\Pi_L
+$$
+from the fixed neighbourhood of $O(0)$ to the fixed neighbourhood of
+$O(T)$. In the fixed block lattice, adjacent plaquettes can change the
+time coordinate by at most a uniform finite constant $D_t$. The two
+packet supports themselves occupy only the time diameter $d_t(O)$,
+together with the fixed neighbourhood thickness. Hence the chain must
+cross at least
+$$
+T-2d_t(O)-B_O
+$$
+units of time distance, where $B_O$ records the fixed neighbourhood
+and support boundary. Therefore
+$$
+L\ge D_t^{-1}T-B'_O.
+$$
+Every plaquette in the chain belongs to $\Sigma$, so
+$$
+|\Sigma|\ge L+1\ge c_{\ast}T-b_O
+$$
+after setting $c_{\ast}=D_t^{-1}$ and absorbing the finite packet
+boundary into $b_O$.
+\end{proof}
+
+\begin{definition}[Tube counting function]
+\label{def:philosophy-tube-counting-function}
+For a fixed blocked packet $O$, let $N_O(n,T)$ be the number of
+connected plaquette tubes of area $n$ that join $O(0)$ to $O(T)$.
+The count is taken inside the fixed block lattice and with the fixed
+plaquette adjacency of \autoref{def:philosophy-plaquette-tube}.
+\end{definition}
+
+\begin{theorem}[Tube entropy bound]
+\label{thm:philosophy-tube-entropy-bound}
+For each fixed blocked Wilson packet $O$ there are constants
+$A_O<\infty$ and $\kappa<\infty$ such that for all $n$ and $T$,
+$$
+N_O(n,T)\le A_Oe^{\kappa n}.
+$$
+\end{theorem}
+\begin{proof}
+The block dimension and plaquette adjacency are fixed, so every
+plaquette has at most $D<\infty$ adjacent plaquettes. A connected tube
+of area $n$ meeting the finite neighbourhood of $O(0)$ can be explored
+by a depth-first traversal of a spanning tree for its adjacency
+component. The starting plaquette has at most $A_O^{(0)}$ choices,
+because the packet support is finite. The traversal has length at most
+$2n$ and each step has at most $D$ choices. Thus the number of such
+connected plaquette sets is bounded by
+$$
+A_O^{(0)}D^{2n}.
+$$
+Taking $A_O=A_O^{(0)}$ and $\kappa=2\log D$ gives the claimed
+exponential entropy bound. The additional requirement that the tube
+also meets $O(T)$ only decreases the count.
+\end{proof}
+
+\begin{definition}[Tube weight area decay]
+\label{def:philosophy-tube-weight-area-decay}
+Tube weight area decay at the fixed block scale is the physical weight
+row asserting that there is a $\sigma>0$ such that every connected
+tube contribution satisfies
+$$
+|w(\Sigma)|\le e^{-\sigma|\Sigma|}.
+$$
+In a strong-coupling polymer expansion this row is supplied by the
+non-trivial plaquette character-expansion parameter. If the effective
+plaquette excitation weight is $\eta<1$, the row has
+$\sigma=|\log\eta|$ after the fixed normalization of the tube weights.
+\end{definition}
+
+\begin{definition}[Strong-coupling character ledger]
+\label{def:philosophy-strong-coupling-character-ledger}
+On a finite block lattice, let the normalized plaquette weight be
+$$
+\widetilde K_{\beta}(g)
+=
+\frac{\exp(\beta\operatorname{Re}\chi_{\mathrm{fund}}(g))}
+{\int_G\exp(\beta\operatorname{Re}\chi_{\mathrm{fund}}(h))\,dh}.
+$$
+Its character ledger is the expansion
+$$
+\widetilde K_{\beta}(g)=
+1+\sum_{\rho\ne\mathbf 1}a_{\rho}(\beta)\chi_{\rho}(g),
+$$
+together with the summability row
+$$
+\eta(\beta)=
+\sum_{\rho\ne\mathbf 1}d_{\rho}|a_{\rho}(\beta)|<\infty.
+$$
+If a finite representation cutoff is used, the cutoff and the omitted
+tail are recorded as part of the same ledger.
+\end{definition}
+
+\begin{lemma}[Strong-coupling small parameter]
+\label{lem:philosophy-strong-coupling-small-parameter}
+For the character ledger of
+\autoref{def:philosophy-strong-coupling-character-ledger}, the
+non-trivial coefficient norm satisfies
+$$
+\eta(\beta)\to0
+$$
+as $\beta\to0$, within the displayed summability or truncation ledger.
+\end{lemma}
+\begin{proof}
+At $\beta=0$ the normalized plaquette weight is the constant function
+$1$, so all non-trivial character coefficients vanish. For each fixed
+irreducible representation, $a_{\rho}(\beta)$ varies analytically with
+$\beta$ and therefore tends to zero. Under a finite representation cutoff
+this proves the claim immediately. Under the complete character expansion,
+the ledger supplies the uniform summability needed to pass the limit through
+the tail. Hence the total non-trivial norm tends to zero.
+\end{proof}
+
+\begin{lemma}[Single plaquette excitation bound]
+\label{lem:philosophy-single-plaquette-excitation-bound}
+For every group element $g\in G$,
+$$
+\left|
+\sum_{\rho\ne\mathbf 1}a_{\rho}(\beta)\chi_{\rho}(g)
+\right|
+\le
+\eta(\beta).
+$$
+\end{lemma}
+\begin{proof}
+Every finite-dimensional representation of the compact group $G$ may be
+unitarized, so its character satisfies $|\chi_{\rho}(g)|\le d_{\rho}$. Thus
+$$
+\left|
+\sum_{\rho\ne\mathbf 1}a_{\rho}(\beta)\chi_{\rho}(g)
+\right|
+\le
+\sum_{\rho\ne\mathbf 1}|a_{\rho}(\beta)|\,|\chi_{\rho}(g)|
+\le
+\sum_{\rho\ne\mathbf 1}d_{\rho}|a_{\rho}(\beta)|
+=\eta(\beta).
+$$
+\end{proof}
+
+\begin{definition}[Local contraction ledger]
+\label{def:philosophy-local-contraction-ledger}
+The local contraction ledger for a fixed block lattice and fixed expansion
+rule records a constant $C_{\mathrm{loc}}<\infty$ bounding all local Haar
+integral contractions, intertwiner multiplicities, orientation choices, and
+nearest-neighbour representation couplings produced by one plaquette step
+of a connected tube. It asserts that the total local contraction factor for
+a tube $\Sigma$ is at most $C_{\mathrm{loc}}^{|\Sigma|}$.
+\end{definition}
+
+\begin{theorem}[Strong-coupling tube weight area decay]
+\label{thm:philosophy-strong-coupling-tube-weight-area-decay}
+Assume the strong-coupling character ledger and the local contraction
+ledger. For every connected tube $\Sigma$,
+$$
+|w(\Sigma)|
+\le
+\left(C_{\mathrm{loc}}\eta(\beta)\right)^{|\Sigma|}.
+$$
+If $C_{\mathrm{loc}}\eta(\beta)<1$, then tube weight area decay holds with
+$$
+\sigma(\beta)=
+-\log\left(C_{\mathrm{loc}}\eta(\beta)\right)>0.
+$$
+\end{theorem}
+\begin{proof}
+A connected tube of area $|\Sigma|$ contains exactly that many non-trivial
+plaquette excitation rows. By
+\autoref{lem:philosophy-single-plaquette-excitation-bound}, each such
+plaquette contributes at most $\eta(\beta)$ in absolute value before local
+edge integrations are accounted for. The local contraction ledger bounds
+all Haar-integration and intertwiner factors by
+$C_{\mathrm{loc}}^{|\Sigma|}$. Hence
+$$
+|w(\Sigma)|
+\le
+C_{\mathrm{loc}}^{|\Sigma|}\eta(\beta)^{|\Sigma|}
+=
+\left(C_{\mathrm{loc}}\eta(\beta)\right)^{|\Sigma|}.
+$$
+When $C_{\mathrm{loc}}\eta(\beta)<1$, this is
+$e^{-\sigma(\beta)|\Sigma|}$ with the stated value of $\sigma(\beta)$.
+\end{proof}
+
+\begin{theorem}[Strong coupling dominates tube entropy]
+\label{thm:philosophy-strong-coupling-dominates-tube-entropy}
+For the entropy constant $\kappa$ of
+\autoref{thm:philosophy-tube-entropy-bound}, there is a strong-coupling
+range in which
+$$
+\sigma(\beta)>\kappa.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{lem:philosophy-strong-coupling-small-parameter},
+$\eta(\beta)\to0$ as $\beta\to0$. Therefore
+$C_{\mathrm{loc}}\eta(\beta)\to0$, and
+$$
+\sigma(\beta)=
+-\log\left(C_{\mathrm{loc}}\eta(\beta)\right)
+\to+\infty.
+$$
+Thus $\sigma(\beta)>\kappa$ holds throughout a sufficiently strong-coupling
+range.
+\end{proof}
+
+\begin{definition}[Strong-coupling tube area-law certificate]
+\label{def:philosophy-strong-coupling-tube-area-law-certificate}
+A strong-coupling tube area-law certificate is the block tube area-law
+certificate whose area row is supplied by
+\autoref{thm:philosophy-tube-area-lower-bound}, whose entropy row is supplied
+by \autoref{thm:philosophy-tube-entropy-bound}, and whose weight row is
+supplied by
+\autoref{thm:philosophy-strong-coupling-tube-weight-area-decay}, with
+$\sigma(\beta)>\kappa$ as in
+\autoref{thm:philosophy-strong-coupling-dominates-tube-entropy}.
+\end{definition}
+
+\begin{theorem}[Strong-coupling block mass-gap surface]
+\label{thm:philosophy-strong-coupling-block-mass-gap-surface}
+At fixed block scale, a strong-coupling tube area-law certificate gives the
+filtered uniform Wilson gap certificate and hence the fixed-sector Hilbert
+gap of \autoref{cor:philosophy-block-tube-area-law-gives-fixed-sector-gap}.
+\end{theorem}
+\begin{proof}
+The strong-coupling tube area-law certificate is a block tube area-law
+certificate by construction. Therefore
+\autoref{thm:philosophy-block-tube-area-law-gives-filtered-wilson-decay}
+gives filtered uniform Wilson decay with exponent
+$$
+m_0=(\sigma(\beta)-\kappa)c_{\ast}>0.
+$$
+The fixed-sector Hilbert gap follows from
+\autoref{cor:philosophy-block-tube-area-law-gives-fixed-sector-gap}. Any
+soft residual escaping fixed packet surfaces is not hidden by this finite
+layer; it is a packet-complexity, infrared, ultraviolet, topological, or
+renormalization tail row for the bridge layer.
+\end{proof}
+
+\begin{definition}[Tube domination defect]
+\label{def:philosophy-tube-domination-defect}
+Fix the entropy exponent $\kappa$ from
+\autoref{thm:philosophy-tube-entropy-bound}. For a proposed decay exponent
+$\sigma>0$, the tube defect of a connected tube is
+$$
+\mathfrak D_{\sigma}(\Sigma)=e^{\sigma|\Sigma|}|w(\Sigma)|.
+$$
+A tube domination defect is present when no exponent $\sigma>\kappa$ admits
+a uniform bound
+$$
+\mathfrak D_{\sigma}(\Sigma)\le C
+$$
+over the fixed block scale, fixed packet class, and fixed tube adjacency
+surface.
+\end{definition}
+
+\begin{definition}[Tube closure certificate]
+\label{def:philosophy-tube-closure-certificate}
+A tube closure certificate at fixed block scale consists of three ledger
+rows. The finite-detection row says that every bounded-complexity tube
+domination defect is detected by a finite Wilson or spin-network packet
+read. The tail-ledger row says that every domination defect escaping all
+bounded tube-complexity surfaces enters the packet-complexity, infrared,
+ultraviolet, topological, or renormalization tail ledger. The closedness row
+says that an accepted closed Yang--Mills bridge packet carries no unresolved
+tube-defect tail ledger as hidden content.
+\end{definition}
+
+\begin{theorem}[Tube defect localization]
+\label{thm:philosophy-tube-defect-localization}
+If tube domination fails at fixed block scale, then the failure has a finite
+or tail address: either some bounded tube-complexity surface carries a finite
+tube defect, or there is a defect sequence whose tube areas escape every
+fixed bound and therefore belongs to the tube tail ledger.
+\end{theorem}
+\begin{proof}
+Failure of domination means that for each $\sigma>\kappa$ and each constant
+$C$ there is a connecting tube with
+$$
+|w(\Sigma)|>Ce^{-\sigma|\Sigma|}.
+$$
+Fix one $\sigma_0>\kappa$. Then there is a sequence $\Sigma_n$ such that
+$$
+e^{\sigma_0|\Sigma_n|}|w(\Sigma_n)|\to\infty.
+$$
+If the areas $|\Sigma_n|$ are bounded along a subsequence, then all those
+tubes lie in one finite tube-complexity surface. Since the packet support,
+block dimension, and plaquette adjacency are fixed, only finitely many
+bounded tube patterns occur up to the displayed finite neighbourhood data.
+Thus a finite tube pattern carries the defect address.
+
+If no bounded-area subsequence exists, then $|\Sigma_n|\to\infty$ along a
+subsequence. The defect has not disappeared; it has left every fixed
+tube-complexity surface. By the tail-ledger discipline, this is precisely a
+tube complexity, infrared, ultraviolet, topological, or renormalization tail
+row. These are the only two possibilities.
+\end{proof}
+
+\begin{theorem}[Tube closure forces block tube area law]
+\label{thm:philosophy-tube-closure-forces-block-area-law}
+At fixed block scale, a Yang--Mills bridge packet with three-properties
+ledger discipline, closedness, and a tube closure certificate cannot have a
+hidden tube domination defect. Hence the block tube area-law weight row holds
+for some $\sigma>\kappa$ on the declared fixed packet surface.
+\end{theorem}
+\begin{proof}
+Assume that no such $\sigma>\kappa$ exists. By
+\autoref{thm:philosophy-tube-defect-localization}, there is either a finite
+tube defect or a tail tube defect. In the finite case, the finite-detection
+row of \autoref{def:philosophy-tube-closure-certificate} makes the defect
+visible to a finite Wilson or spin-network packet read; that read must be
+ledgered, and an unledgered read violates the three-properties discipline.
+In the tail case, the tail-ledger row requires the defect to enter the
+appropriate tail ledger. Carrying that unresolved tail ledger contradicts
+closedness, while omitting it violates ledger discipline. Both cases
+contradict the stated assumptions. Therefore a hidden tube domination defect
+is impossible, and a block tube area-law weight row with $\sigma>\kappa$ is
+forced on the declared fixed surface.
+\end{proof}
+
+\begin{corollary}[Tube closure gives the fixed-block gap route]
+\label{cor:philosophy-tube-closure-fixed-block-gap-route}
+Together with the tube area lower bound, tube entropy bound, Wilson
+completeness, and the Hilbert spectral bridge of
+\autoref{thm:philosophy-filtered-yang-mills-gap-theorem}, a tube closure
+certificate gives the fixed-block Yang--Mills mass-gap route. The continuum
+claim still requires a renormalization certificate preserving this fixed
+block closure and exposing every ultraviolet, infrared, topological,
+complexity, or renormalization residual.
+\end{corollary}
+\begin{proof}
+The tube closure theorem supplies the missing weight row with
+$\sigma>\kappa$. The tube area lower bound and entropy bound then give the
+block tube area-law certificate, and
+\autoref{thm:philosophy-block-tube-area-law-gives-filtered-wilson-decay}
+gives filtered uniform Wilson decay. The Hilbert spectral bridge turns that
+decay into a fixed-sector non-vacuum spectral lower bound, except for
+residuals explicitly recorded in the tail ledger. Passing from this fixed
+block surface to a continuum Clay-level statement is therefore exactly the
+renormalization stability question, not an automatic consequence of the
+finite block proof.
+\end{proof}
+
+\begin{theorem}[Tube geometry and weight give block area law]
+\label{thm:philosophy-tube-geometry-weight-give-block-area-law}
+For a fixed block scale and fixed blocked Wilson packet class, the
+tube area lower bound, tube entropy bound, and tube weight area decay
+with $\sigma>\kappa$ supply the block tube area-law certificate of
+\autoref{def:philosophy-block-tube-area-law-certificate}.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-tube-area-lower-bound} gives the area row
+$|\Sigma|\ge c_{\ast}T-b_O$ for every connecting tube.
+\autoref{thm:philosophy-tube-entropy-bound} gives the entropy row
+$N_O(n,T)\le A_Oe^{\kappa n}$. The tube weight area decay definition
+gives $|w(\Sigma)|\le e^{-\sigma|\Sigma|}$. When $\sigma>\kappa$,
+these are exactly the three fields required by the block tube
+area-law certificate.
+\end{proof}
+
+\begin{corollary}[Finite geometry part of the Yang--Mills gap bridge]
+\label{cor:philosophy-finite-geometry-yang-mills-gap-bridge}
+At fixed block scale, the finite geometry part of the Yang--Mills
+mass-gap bridge is closed by
+\autoref{thm:philosophy-tube-area-lower-bound} and
+\autoref{thm:philosophy-tube-entropy-bound}. The remaining physical
+input is tube weight area decay with decay exponent strictly larger
+than the tube entropy exponent.
+\end{corollary}
+\begin{proof}
+The two geometry theorems depend only on the fixed block lattice,
+finite packet support, and finite plaquette adjacency. They do not use
+continuum limiting, gauge dynamics, or an unbounded packet window.
+Therefore the only non-combinatorial field left in the block tube
+area-law certificate is the physical decay row for tube weights, with
+the strict inequality $\sigma>\kappa$ needed by
+\autoref{thm:philosophy-block-tube-area-law-gives-filtered-wilson-decay}.
+\end{proof}
