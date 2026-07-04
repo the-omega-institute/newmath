@@ -3140,6 +3140,7 @@ import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
+import BEDC.Derived.ChuSpaceUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.NameCertObligations
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.ObligationSurface
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
@@ -5533,6 +5534,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.TasteGate
 import BEDC.Derived.DyadicIntervalCoverUp.UniformModulusBridgeConsumer
 import BEDC.Derived.DyadicIntervalCoverUp.WindowCoverageScope
 import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
+import BEDC.Derived.DyadicIntervalDomainUp.TasteGate
 import BEDC.Derived.DyadicIntervalEnclosureUp
 import BEDC.Derived.DyadicIntervalHalvingUp.TasteGate
 import BEDC.Derived.DyadicIntervalHullUp.TasteGate

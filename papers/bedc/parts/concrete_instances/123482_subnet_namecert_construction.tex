@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\SubnetUp$}
+\label{ch:concrete-instances-subnet-namecert}
+\origin{human}
+
+Following Kelley and Moore--Smith, the $\SubnetUp$ packet records the classical subnet relation as a finite topology-facing NameCert row: a source directed net is read through a target directed set and a displayed monotone cofinal reindexing before convergence or completion consumers inspect any tail. It sits beside the Moore--Smith net carrier of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the directed-set surface of \autoref{ch:concrete-instances-directedset-namecert}, the directed cofinal replay packet of \autoref{ch:concrete-instances-directedsubnet-namecert}, the convergence interface of \autoref{ch:concrete-instances-netconvergence-namecert}, and the Cauchy subnet route of \autoref{ch:concrete-instances-cauchy-subnet-namecert}. The packet names subnet data without selecting a host subnet representative, quotienting nets, invoking countable choice, or importing ambient completeness.
+
+\begin{definition}[Subnet carrier]
+\label{def:subnet-carrier}
+A $\SubnetUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,X,J,\phi,T,V,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source directed-set row.
+\item $X$ is the source directed net row, recording only the finite net values inspected by the packet.
+\item $J$ is the target directed-set row.
+\item $\phi:J\to I$ is the monotone cofinal reindexing row.
+\item $T$ is the tail-readback row, stating that each displayed source tail in $I$ receives a displayed target tail in $J$ whose image under $\phi$ lies inside it.
+\item $V$ is the value-readback row, replaying source net values from $X$ along $\phi$ for the displayed target windows.
+\item $L$ is the convergence-preservation row, recording that any $\NetConvergenceUp$ read of the source net passes through the same reindexed tail route before it is exposed to a target-net consumer.
+\item $H$ records componentwise $\hsame$ transport for the source direction, source net, target direction, reindexing, tail readback, value readback, convergence preservation, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from target-tail requests through $J,\phi,I,X,T,V,L$.
+\item $P$ is the $\Pkg$ provenance over $\SubnetUp$, $\MooreSmithNetUp$, $\DirectedSetUp$, $\DirectedSubnetUp$, $\NetConvergenceUp$, $\CauchySubnetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SubnetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,X,J,\phi,T,V,L,H,C,P,N$. It has no coordinate for a selected host subnet, quotient-net equality, selected limit, countable-choice cofinal selector, open-cover compactness principle, or ambient completion theorem.
+\end{definition}
+
+\begin{theorem}[Subnet NameCert obligations]
+\label{thm:subnet-namecert-obligations}
+For every accepted $\SubnetUp$ carrier $S=(I,X,J,\phi,T,V,L,H,C,P,N)$, the local $\NameCert_{\SubnetUp}$ surface consists exactly of source directed-set admission, source net admission, target directed-set admission, monotone cofinal reindexing, tail-readback coverage, value-readback replay, convergence-preservation routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the finite carrier of \autoref{def:subnet-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source topology data are $I$ and $X$, the target topology data are $J$ and $\phi$, and the tail and value rows $T,V$ record the displayed Moore--Smith replay.
+
+Read cofinality through the target direction. For each source tail named by $I$, the row $T$ supplies a target tail in $J$ whose image under $\phi$ lies inside the source tail. This is the whole subnet coverage row; no hidden cofinal selector is available.
+
+Read values and convergence after the tail route. The value row $V$ replays the source net row $X$ along $\phi$, and the convergence-preservation row $L$ permits a $\NetConvergenceUp$ consumer to inspect only that replayed route.
+
+The structural rows $H,C,P,N$ preserve and name the same finite packet. Since the carrier has no coordinate for quotient nets, selected host subnets, selected limits, countable choice, open-cover compactness, or ambient completion, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Subnet convergence route]
+\label{thm:subnet-convergence-route}
+Every convergence-facing consumer of an accepted $\SubnetUp$ carrier must read the source directed set, source net, target directed set, monotone cofinal reindexing, tail-readback row, and value-readback row before it can consume the convergence-preservation row. The route factors through
+$$
+I,X,J,\phi,T,V \longmapsto L \longmapsto H,C,P,N .
+$$
+Thus $\SubnetUp$ exports a displayed Moore--Smith tail replay, not a selected subnet representative, quotient-net equality, or ambient completion claim.
+\end{theorem}
+\begin{proof}
+Start from $S=(I,X,J,\phi,T,V,L,H,C,P,N)$. The only target-tail access is the row $J$ together with the displayed map $\phi:J\to I$.
+
+Use the NameCert obligations of \autoref{thm:subnet-namecert-obligations}. Tail-readback coverage places every source-tail request behind $T$, and value-readback replay places every target-net value behind $V$.
+
+The convergence-preservation row $L$ is downstream of those rows. A consumer that omits $I,X,J,\phi,T,V$ has not obtained the accepted subnet route, while $H,C,P,N$ only transport, replay, source, and name that same route.
+
+Therefore every convergence-facing read remains inside the displayed finite packet and cannot use quotient nets, selected host subnets, selected limits, countable choice, open-cover compactness, or ambient completion.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SubnetUp$ consumer that reads convergence through a target net without displaying the monotone cofinal row $\phi:J\to I$ and the tail-readback row $T$ refutes the subnet carrier.}
+
+\independenceWitness{moore-smith-net, directedset, directedsubnet, netconvergence, cauchy-subnet: none is bijective to $\SubnetUp$ because MooreSmithNet names source net data, DirectedSet names directed carriers, DirectedSubnet names cofinal replay, NetConvergence names limit-facing reads, and CauchySubnet names completion-facing Cauchy restriction, while this packet jointly binds source net, target direction, monotone cofinal reindexing, tail readback, value replay, convergence preservation, transport, replay, provenance, and local naming.}
+
+\closureat{SubnetUp}{seedStr}
+
+\begin{closurestatus}{\SubnetUp}
+  \constructivestory{A $\SubnetUp$ packet is generated from a source directed-set row, source directed net row, target directed-set row, monotone cofinal reindexing row, tail-readback row, value-readback row, convergence-preservation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subnet-carrier}, \autoref{thm:subnet-namecert-obligations}, and \autoref{thm:subnet-convergence-route} seed the finite Moore--Smith subnet packet for topology, convergence, and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected host subnets, quotient-net equality, selected limits, countable choice, open-cover compactness, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal reindexing, tail-readback coverage, value replay, convergence preservation, transport, replay, provenance, local naming, and TasteGate instances for BEDC.Derived.SubnetUp.}
+\end{closurestatus}
