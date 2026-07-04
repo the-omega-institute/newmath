@@ -17,6 +17,7 @@ import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
+import BedcMathlibBridge.Constructive.StirlingCycleColumn
 import BedcMathlibBridge.Constructive.Derangement
 import BedcMathlibBridge.Constructive.SubfactorialNumber
 import BedcMathlibBridge.Constructive.Rencontres
