@@ -217,12 +217,40 @@ Use \autoref{thm:metacic-closure-preservation-substitution-window} to force ever
 Finally apply \autoref{thm:metacic-closure-preservation-subject-reduction-boundary} and \autoref{thm:metacic-closure-preservation-candidate-mediated-scope}. These keep the consumer on closedness preservation and the displayed residual boundary, so the packet has no coordinate from which to export typing preservation, conversion soundness, unrestricted confluence, normalization, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC ClosurePreservation obligation closure]
+\label{thm:metacic-closure-preservation-obligation-closure}
+For every accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N),
+$$
+the displayed rows $S,V,U,B,F,A,C,G,R,H,Q,P,N$ form the complete obligation-closure surface for the packet. Any public read of closure preservation, substitution audit, closed-substitution sealing, generator closure, beta-chain exposure, subject-reduction consumption, transport, continuation, provenance, or local naming factors through one of these rows, and no additional row is available for typing preservation, conversion soundness, confluence, normalization, closed consistency, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. Its row inventory is exactly $S,V,U,B,F,A,C,G,R,H,Q,P,N$, so every local obligation must be read from that finite packet.
+
+Use \autoref{thm:metacic-closure-preservation-namecert-obligations} and \autoref{thm:metacic-closure-preservation-ledger-exactness}. These identify the NameCert surface and the public ledger with the same displayed rows.
+
+The non-escape boundary follows from \autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, \autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure}, and \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. Those theorems keep the exported content at \texttt{ClosedAt} preservation and require any stronger typing or conversion claim to be supplied by a separate packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation dependency scope rows]
+\label{thm:metacic-closure-preservation-scope-rows}
+The exact dependency scope of an accepted $\MetaCICClosurePreservationUp$ carrier runs through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$. The substitution rows $S,V,U$ pass through the audit row $A$ and seal row $C$, the beta rows $B,F$ pass through the beta-substitution provenance named by $P$, the authorized movement classifier is $G$, and the consumer boundary is $R$.
+\end{theorem}
+\begin{proof}
+Read $A,C,G,R,P$ from the carrier. The audit and seal rows expose the substitution boundary, the generator row records the authorized movement classifier, the provenance row names the beta-substitution dependency, and the subject-reduction row marks the downstream consumer boundary.
+
+Apply \autoref{thm:metacic-closure-preservation-substitution-window} to factor substitution-window reads through $A$ and $C$. Apply \autoref{thm:metacic-closure-preservation-generator-route} to carry generator reads through $G$, the $\BetaSubstitutionPreservationUp$ provenance in $P$, and the boundary row $R$.
+
+Finally use \autoref{thm:metacic-closure-preservation-obligation-closure}. Since the carrier has no other dependency coordinate, these rows are the exact scope through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$.
+\end{proof}
+
 \closureat{MetaCICClosurePreservationUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICClosurePreservationUp}
   \constructivestory{A $\MetaCICClosurePreservationUp$ packet is generated from shift, variable-substitution, full-substitution, beta-step, and beta-chain closedness rows, a substitution audit row, a closed-substitution seal, a generator-closure classifier, a subject-reduction consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-shift-substitution-classifier}, \autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, and \autoref{thm:metacic-closure-preservation-ledger-exactness} bind the finite ClosurePreservation packet and its non-escape boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-obligation-closure}, and \autoref{thm:metacic-closure-preservation-scope-rows} bind the finite ClosurePreservation packet and its dependency surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
