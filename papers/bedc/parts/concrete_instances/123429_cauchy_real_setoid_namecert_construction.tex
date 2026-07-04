@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealSetoidUp$}
+\label{ch:concrete-instances-cauchy-real-setoid-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealSetoidUp$ packet records Bishop-style equality of regular Cauchy real names as a finite NameCert surface. It sits over the regular rational name rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the separation boundary of \autoref{ch:concrete-instances-regularcauchyseparation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names equality as a finite regular-Cauchy comparison route, not as quotient equality of names, host equality of completed reals, real trichotomy, selected representatives, countable choice, or ambient completeness.
+
+\begin{definition}[Cauchy real setoid carrier]
+\label{def:cauchy-real-setoid-carrier}
+A $\CauchyRealSetoidUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,R,W,D,M,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left $\RegSeqRatUp$ regular Cauchy real-name row.
+\item $R$ is the right $\RegSeqRatUp$ regular Cauchy real-name row.
+\item $W$ is the paired $\StreamNameUp$ finite-window ledger for the inspected prefixes of $L$ and $R$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the equality request.
+\item $M$ is the $\CauchyModulusUp$ row that turns the requested tolerance into the finite windows named by $W$.
+\item $Q$ is the $\RegularCauchySeparationUp$ comparison boundary, exposing whether the current finite evidence is equality-facing or separation-facing.
+\item $E$ is the $\RealUp$ seal row reached only after $L,R,W,D,M,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two names, windows, tolerance ledger, modulus row, separation boundary, Real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from any equality read through $L,R,W,D,M,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealSetoidUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegularCauchySeparationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealSetoidUp}$ row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite equality certificate for a displayed pair of regular Cauchy real names. The packet has no coordinate for quotient equality of names, host equality of completed reals, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyRealSetoidUp}
+
+\begin{theorem}[CauchyRealSetoid NameCert obligations]
+\label{thm:cauchy-real-setoid-namecert-obligations}
+For every accepted $\CauchyRealSetoidUp$ carrier $S=(L,R,W,D,M,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyRealSetoidUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ rows; paired finite-window exposure through $\StreamNameUp$; dyadic tolerance exactness through $\DyadicRatCoreUp$; Cauchy-modulus routing through $\CauchyModulusUp$; separation-boundary handoff through $\RegularCauchySeparationUp$; Real seal non-escape through $\RealUp$; componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$. Any equality read must display those rows before the Real-facing seal is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-real-setoid-carrier}. The rows $L,R,W,D,M,Q,E,H,C,P,N$ are the whole accepted packet, so the local certificate cannot introduce a second name source, hidden tolerance ledger, detached modulus, or external equality relation.
+
+The equality-facing route first reads the two regular rational names $L$ and $R$. It then exposes the paired finite windows $W$, the dyadic tolerance ledger $D$, and the modulus row $M$ that binds the requested equality tolerance to those windows.
+
+The comparison boundary is $Q$. It is the only row that can pass from finite regular-Cauchy observations to an equality-facing or separation-facing Real read, and it is downstream of $W,D,M$.
+
+Finally the Real seal $E$ and the structural rows $H,C,P,N$ preserve the same route. Since the carrier has no coordinate for quotient equality, host equality, trichotomy, selected representatives, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyRealSetoid regular quotient boundary]
+\label{thm:cauchy-real-setoid-regular-quotient-boundary}
+Every $\RealUp$ equality read exported by an accepted $\CauchyRealSetoidUp$ packet factors through the finite route
+$$
+\RegSeqRatUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \CauchyModulusUp,\quad \RegularCauchySeparationUp,\quad \RealUp .
+$$
+Thus the packet supplies a regular-Cauchy setoid boundary for Real consumers, not a quotient construction of $\RealUp$, host equality of completed reals, trichotomy, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-real-setoid-namecert-obligations}. They force the equality read to display the two $\RegSeqRatUp$ rows, paired $\StreamNameUp$ windows, dyadic tolerance ledger, and Cauchy-modulus row before any Real-facing seal is available.
+
+Next read the separation boundary $Q$. By construction of the carrier, $Q$ is the only comparison row between the finite regular-Cauchy data and the terminal Real seal; it records the equality-facing boundary without replacing it by quotient equality.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same route. Therefore a downstream Real consumer receives only the displayed setoid boundary, while quotient construction, host equality, trichotomy, selected representatives, countable choice, and ambient completeness remain absent from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyRealSetoidUp$ consumer that reads a $\RealUp$ equality seal while omitting one of the two $\RegSeqRatUp$ names, paired $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\CauchyModulusUp$ row, or the $\RegularCauchySeparationUp$ comparison boundary refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, cauchymodulus, regularcauchyseparation, real: none is bijective to $\CauchyRealSetoidUp$ because this packet binds two regular Cauchy names, paired finite windows, dyadic tolerances, modulus routing, a separation boundary, Real seal, transport, replay, provenance, and local NameCert rows as one equality surface.}
+
+\begin{closurestatus}{\CauchyRealSetoidUp}
+  \constructivestory{A $\CauchyRealSetoidUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy real-name rows, paired $\StreamNameUp$ finite windows, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyModulusUp$ row, a $\RegularCauchySeparationUp$ comparison boundary, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-setoid-carrier}, \autoref{thm:cauchy-real-setoid-namecert-obligations}, and \autoref{thm:cauchy-real-setoid-regular-quotient-boundary} seed the regular-Cauchy equality boundary over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegularCauchySeparationUp$, and $\RealUp$.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CauchyRealSetoidUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient construction of $\RealUp$, host equality of completed reals, trichotomy, selected representatives, countable choice, ambient Real completeness, theorem verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, dyadic tolerance exactness, modulus routing, separation-boundary handoff, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRealSetoidUp.}
+\end{closurestatus}
