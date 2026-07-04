@@ -864,6 +864,7 @@ import BEDC.Derived.BaireMetricUp.UltrametricWindowObligations
 import BEDC.Derived.BaireModulusUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
+import BEDC.Derived.BaireOneFunctionUp.LowerSemicontinuousPublicNonescape
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp.TransportSurface
@@ -3088,6 +3089,7 @@ import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.NameCertObligations
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
+import BEDC.Derived.ChainableContinuumUp.TasteGate
 import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
 import BEDC.Derived.CharacterTableUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
@@ -11851,6 +11853,7 @@ import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
 import BEDC.Derived.RegularCauchyTailProductBoundUp
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
+import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSealUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -13125,6 +13128,7 @@ import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
+import BEDC.Derived.TheorySelfClassifierUp.SiblingIndependence
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
 import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
