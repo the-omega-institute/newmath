@@ -625,6 +625,34 @@ private def b22W : Rat :=
 private def acW : Rat :=
   natRat 496454
 
+private def lambdaW : Rat :=
+  natRat 100000
+
+private def aShiftW : Rat :=
+  natRat 203318
+
+private def b11ShiftW : Rat :=
+  natRat 10182
+
+private def b22ShiftW : Rat :=
+  natRat 406636
+
+private def acShiftW : Rat :=
+  natRat 396454
+
+private def norm3W (x0 x1 x2 : Rat) : Rat :=
+  ratAdd
+    (ratAdd (ratMul x0 x0) (ratMul x1 x1))
+    (ratMul x2 x2)
+
+private def quadCoeff (a b c x0 x1 x2 : Rat) : Rat :=
+  ratAdd
+    (ratAdd
+      (ratMul a (norm3W x0 x1 x2))
+      (ratMul (ratMul twoRat b)
+        (ratAdd (ratMul x0 x1) (ratMul x1 x2))))
+    (ratMul (ratMul twoRat c) (ratMul x0 x2))
+
 /-- The scaled rational Weil quadratic form on the three Fibonacci-hat basis elements. -/
 def quadW (x0 x1 x2 : Rat) : Rat :=
   ratAdd
@@ -633,9 +661,12 @@ def quadW (x0 x1 x2 : Rat) : Rat :=
         (ratAdd
           (ratAdd (ratMul x0 x0) (ratMul x1 x1))
           (ratMul x2 x2)))
-      (ratMul (ratMul twoRat bW)
-        (ratAdd (ratMul x0 x1) (ratMul x1 x2))))
+    (ratMul (ratMul twoRat bW)
+      (ratAdd (ratMul x0 x1) (ratMul x1 x2))))
     (ratMul (ratMul twoRat cW) (ratMul x0 x2))
+
+def shiftedQuadW (x0 x1 x2 : Rat) : Rat :=
+  quadCoeff aShiftW bW cW x0 x1 x2
 
 private def block2W (x0 x1 x2 : Rat) : Rat :=
   ratAdd
@@ -646,6 +677,16 @@ private def block2W (x0 x1 x2 : Rat) : Rat :=
 
 private def block1W (x0 x2 : Rat) : Rat :=
   ratMul acW (ratMul (ratSub x0 x2) (ratSub x0 x2))
+
+private def block2ShiftW (x0 x1 x2 : Rat) : Rat :=
+  ratAdd
+    (ratAdd
+      (ratMul b11ShiftW (ratMul (ratAdd x0 x2) (ratAdd x0 x2)))
+      (ratMul (ratMul twoRat b12W) (ratMul (ratAdd x0 x2) x1)))
+    (ratMul b22ShiftW (ratMul x1 x1))
+
+private def block1ShiftW (x0 x2 : Rat) : Rat :=
+  ratMul acShiftW (ratMul (ratSub x0 x2) (ratSub x0 x2))
 
 private def quadDiagLeftExpr : RExpr :=
   rMul rTwo
@@ -673,6 +714,34 @@ private def quadDiagRightExpr : RExpr :=
 
 private theorem quadDiag_expr_norm :
     rExprNorm quadDiagLeftExpr = rExprNorm quadDiagRightExpr :=
+  rfl
+
+private def quadCoeffExpr (a b c x0 x1 x2 : RExpr) : RExpr :=
+  rAdd
+    (rAdd
+      (rMul a
+        (rAdd
+          (rAdd (rMul x0 x0) (rMul x1 x1))
+          (rMul x2 x2)))
+      (rMul (rMul rTwo b)
+        (rAdd (rMul x0 x1) (rMul x1 x2))))
+    (rMul (rMul rTwo c) (rMul x0 x2))
+
+private def norm3Expr (x0 x1 x2 : RExpr) : RExpr :=
+  rAdd
+    (rAdd (rMul x0 x0) (rMul x1 x1))
+    (rMul x2 x2)
+
+private def quadSplitLeftExpr : RExpr :=
+  quadCoeffExpr (rAdd (rV 0) (rV 1)) (rV 2) (rV 3) (rV 4) (rV 5) (rV 6)
+
+private def quadSplitRightExpr : RExpr :=
+  rAdd
+    (rMul (rV 0) (norm3Expr (rV 4) (rV 5) (rV 6)))
+    (quadCoeffExpr (rV 1) (rV 2) (rV 3) (rV 4) (rV 5) (rV 6))
+
+private theorem quadSplit_expr_norm :
+    rExprNorm quadSplitLeftExpr = rExprNorm quadSplitRightExpr :=
   rfl
 
 private theorem quadW_diagonalization_param
@@ -732,6 +801,48 @@ private theorem quadW_diagonalization_param
         (ratMul (ratAdd a (ratNeg c))
           (ratMul (ratAdd x0 (ratNeg x2)) (ratAdd x0 (ratNeg x2))))) at base
   exact base
+
+private theorem quadCoeff_split_param
+    (lambda a b c x0 x1 x2 : Rat) :
+    RatEq
+      (quadCoeff (ratAdd lambda a) b c x0 x1 x2)
+      (ratAdd
+        (ratMul lambda (norm3W x0 x1 x2))
+        (quadCoeff a b c x0 x1 x2)) := by
+  let vars : Nat -> Rat := fun
+    | 0 => lambda
+    | 1 => a
+    | 2 => b
+    | 3 => c
+    | 4 => x0
+    | 5 => x1
+    | _ => x2
+  have base :
+      RatEq (rExprEval vars quadSplitLeftExpr)
+        (rExprEval vars quadSplitRightExpr) :=
+    rExpr_same_norm vars quadSplitLeftExpr quadSplitRightExpr quadSplit_expr_norm
+  change
+    RatEq
+      (quadCoeff (ratAdd lambda a) b c x0 x1 x2)
+      (ratAdd
+        (ratMul lambda (norm3W x0 x1 x2))
+        (quadCoeff a b c x0 x1 x2)) at base
+  exact base
+
+private theorem quadCoeff_respects
+    {a a' b b' c c' x0 x1 x2 : Rat}
+    (ha : RatEq a a') (hb : RatEq b b') (hc : RatEq c c') :
+    RatEq (quadCoeff a b c x0 x1 x2) (quadCoeff a' b' c' x0 x1 x2) := by
+  unfold quadCoeff
+  exact ratAdd_respects
+    (ratAdd_respects
+      (ratMul_respects ha (RatEq_refl (norm3W x0 x1 x2)))
+      (ratMul_respects
+        (ratMul_respects (RatEq_refl twoRat) hb)
+        (RatEq_refl (ratAdd (ratMul x0 x1) (ratMul x1 x2)))))
+    (ratMul_respects
+      (ratMul_respects (RatEq_refl twoRat) hc)
+      (RatEq_refl (ratMul x0 x2)))
 
 private theorem natRat_as_ratNat (n : Nat) :
     RatEq (natRat n) (ratNat n) := by
@@ -852,6 +963,56 @@ private theorem a_sub_c_eq_ac :
       change RatEq (ratAdd (natRat 303318) (natRat 193136)) (natRat 496454) at raw
       exact raw)
 
+private theorem lambda_plus_aShift_eq_a :
+    RatEq (ratAdd lambdaW aShiftW) aW := by
+  unfold lambdaW aShiftW aW
+  have raw := ratNat_add 100000 203318
+  change RatEq (ratAdd (natRat 100000) (natRat 203318)) (natRat 303318) at raw
+  exact raw
+
+private theorem aShift_plus_c_eq_b11Shift :
+    RatEq (ratAdd aShiftW cW) b11ShiftW := by
+  change RatEq (ratAdd (natRat 203318) (ratNeg (natRat 193136))) (natRat 10182)
+  have subEq : RatEq (ratSub (ratNat 203318) (ratNat 193136)) (ratNat 10182) := by
+    exact ratNat_sub_of_le (a := 203318) (b := 193136)
+      (Nat.le.intro (n := 193136) (m := 203318) (k := 10182) (by rfl))
+  change RatEq (ratSub (ratNat 203318) (ratNat 193136)) (ratNat 10182)
+  exact subEq
+
+private theorem two_aShift_eq_b22Shift :
+    RatEq (ratMul twoRat aShiftW) b22ShiftW := by
+  change RatEq (ratMul (natRat 2) (natRat 203318)) (natRat 406636)
+  have raw := natRat_large_mul 2 203318
+  change RatEq (ratMul (natRat 2) (natRat 203318)) (natRat 406636) at raw
+  exact raw
+
+private theorem aShift_sub_c_eq_acShift :
+    RatEq (ratAdd aShiftW (ratNeg cW)) acShiftW := by
+  change RatEq (ratAdd (natRat 203318) (ratNeg (ratNeg (natRat 193136)))) (natRat 396454)
+  exact RatEq_trans _ _ _
+    (ratAdd_respects (RatEq_refl (natRat 203318))
+      (BEDC.Derived.LocatedReal.ratNeg_neg_local (natRat 193136)))
+    (by
+      have raw := ratNat_add 203318 193136
+      change RatEq (ratAdd (natRat 203318) (natRat 193136)) (natRat 396454) at raw
+      exact raw)
+
+private theorem quadW_split_shifted (x0 x1 x2 : Rat) :
+    RatEq (quadW x0 x1 x2)
+      (ratAdd
+        (ratMul lambdaW (norm3W x0 x1 x2))
+        (shiftedQuadW x0 x1 x2)) := by
+  unfold quadW shiftedQuadW aW bW cW lambdaW aShiftW
+  have split := quadCoeff_split_param
+    (natRat 100000) (natRat 203318)
+    (ratNeg (natRat 12152)) (ratNeg (natRat 193136)) x0 x1 x2
+  exact RatEq_trans _ _ _
+    (quadCoeff_respects
+      (RatEq_symm lambda_plus_aShift_eq_a)
+      (RatEq_refl (ratNeg (natRat 12152)))
+      (RatEq_refl (ratNeg (natRat 193136))))
+    split
+
 /-- Symmetric diagonalization of the concrete Weil matrix. -/
 theorem quadW_diagonalization (x0 x1 x2 : Rat) :
     RatEq (ratMul twoRat (quadW x0 x1 x2))
@@ -872,6 +1033,26 @@ theorem quadW_diagonalization (x0 x1 x2 : Rat) :
       (ratMul_respects a_sub_c_eq_ac
         (RatEq_refl (ratMul (ratSub x0 x2) (ratSub x0 x2)))))
 
+theorem shiftedQuadW_diagonalization (x0 x1 x2 : Rat) :
+    RatEq (ratMul twoRat (shiftedQuadW x0 x1 x2))
+      (ratAdd (block2ShiftW x0 x1 x2) (block1ShiftW x0 x2)) := by
+  unfold shiftedQuadW block2ShiftW block1ShiftW aShiftW bW cW b11ShiftW b12W
+    b22ShiftW acShiftW
+  have base := quadW_diagonalization_param
+    (natRat 203318) (ratNeg (natRat 12152)) (ratNeg (natRat 193136)) x0 x1 x2
+  exact RatEq_trans _ _ _ base
+    (ratAdd_respects
+      (ratAdd_respects
+        (ratAdd_respects
+          (ratMul_respects aShift_plus_c_eq_b11Shift
+            (RatEq_refl (ratMul (ratAdd x0 x2) (ratAdd x0 x2))))
+          (ratMul_respects
+            (ratMul_respects (RatEq_refl twoRat) two_b_eq_b12)
+            (RatEq_refl (ratMul (ratAdd x0 x2) x1))))
+        (ratMul_respects two_aShift_eq_b22Shift (RatEq_refl (ratMul x1 x1))))
+      (ratMul_respects aShift_sub_c_eq_acShift
+        (RatEq_refl (ratMul (ratSub x0 x2) (ratSub x0 x2)))))
+
 theorem b11_nonneg : ratLe ratZero b11W := by
   unfold b11W
   exact natRat_large_nonneg 110182
@@ -883,6 +1064,18 @@ theorem b22_nonneg : ratLe ratZero b22W := by
 theorem ac_nonneg : ratLe ratZero acW := by
   unfold acW
   exact natRat_large_nonneg 496454
+
+theorem b11Shift_nonneg : ratLe ratZero b11ShiftW := by
+  unfold b11ShiftW
+  exact natRat_large_nonneg 10182
+
+theorem b22Shift_nonneg : ratLe ratZero b22ShiftW := by
+  unfold b22ShiftW
+  exact natRat_large_nonneg 406636
+
+theorem acShift_nonneg : ratLe ratZero acShiftW := by
+  unfold acShiftW
+  exact natRat_large_nonneg 396454
 
 theorem det_cond : ratLe (ratMul b12W b12W) (ratMul b11W b22W) := by
   unfold b12W b11W b22W
@@ -905,6 +1098,27 @@ theorem det_cond : ratLe (ratMul b12W b12W) (ratMul b11W b22W) := by
       exact ratNat_le_of_nat_le
         (Nat.le.intro (n := 590684416) (m := 66840367752) (k := 66249683336) (by rfl)))
 
+theorem detShift_cond : ratLe (ratMul b12W b12W) (ratMul b11ShiftW b22ShiftW) := by
+  unfold b12W b11ShiftW b22ShiftW
+  have leftEq : RatEq (ratMul (ratNeg (natRat 24304)) (ratNeg (natRat 24304)))
+      (natRat 590684416) := by
+    exact RatEq_trans _ _ _
+      (ratRing.neg_neg_mul_neg (natRat 24304) (natRat 24304))
+      (by
+        have raw := natRat_large_mul 24304 24304
+        change RatEq (ratMul (natRat 24304) (natRat 24304)) (natRat 590684416) at raw
+        exact raw)
+  have rightEq : RatEq (ratMul (natRat 10182) (natRat 406636))
+      (natRat 4140367752) := by
+    have raw := natRat_large_mul 10182 406636
+    change RatEq (ratMul (natRat 10182) (natRat 406636)) (natRat 4140367752) at raw
+    exact raw
+  exact ratLe_congr leftEq rightEq
+    (by
+      change ratLe (ratNat 590684416) (ratNat 4140367752)
+      exact ratNat_le_of_nat_le
+        (Nat.le.intro (n := 590684416) (m := 4140367752) (k := 3549683336) (by rfl)))
+
 theorem two_quadW_nonneg (x0 x1 x2 : Rat) :
     ratLe ratZero (ratMul twoRat (quadW x0 x1 x2)) := by
   have block2Nonneg : ratLe ratZero (block2W x0 x1 x2) := by
@@ -922,6 +1136,34 @@ theorem two_quadW_nonneg (x0 x1 x2 : Rat) :
 theorem weil_window3_matrix_psd (x0 x1 x2 : Rat) :
     ratLe ratZero (quadW x0 x1 x2) :=
   ratLe_of_mul_pos_left natRat_two_pos (two_quadW_nonneg x0 x1 x2)
+
+theorem two_shiftedQuadW_nonneg (x0 x1 x2 : Rat) :
+    ratLe ratZero (ratMul twoRat (shiftedQuadW x0 x1 x2)) := by
+  have block2Nonneg : ratLe ratZero (block2ShiftW x0 x1 x2) := by
+    unfold block2ShiftW b11ShiftW b12W b22ShiftW twoRat
+    exact psd_2x2 (natRat 10182) (ratNeg (natRat 24304)) (natRat 406636)
+      b11Shift_nonneg b22Shift_nonneg detShift_cond (ratAdd x0 x2) x1
+  have block1Nonneg : ratLe ratZero (block1ShiftW x0 x2) := by
+    unfold block1ShiftW acShiftW
+    exact psd_1x1 (natRat 396454) (ratSub x0 x2) acShift_nonneg
+  exact ratLe_of_RatEq_right
+    (ratAdd_nonneg block2Nonneg block1Nonneg)
+    (RatEq_symm (shiftedQuadW_diagonalization x0 x1 x2))
+
+theorem shiftedQuadW_nonneg (x0 x1 x2 : Rat) :
+    ratLe ratZero (shiftedQuadW x0 x1 x2) :=
+  ratLe_of_mul_pos_left natRat_two_pos (two_shiftedQuadW_nonneg x0 x1 x2)
+
+theorem weil_window3_matrix_lower_bound (x0 x1 x2 : Rat) :
+    ratLe
+      (ratMul lambdaW (norm3W x0 x1 x2))
+      (quadW x0 x1 x2) := by
+  exact ratLe_of_RatEq_right
+    (ratLe_add_nonneg_right
+      (ratMul lambdaW (norm3W x0 x1 x2))
+      (shiftedQuadW x0 x1 x2)
+      (shiftedQuadW_nonneg x0 x1 x2))
+    (RatEq_symm (quadW_split_shifted x0 x1 x2))
 
 private def e0ExprLeft : RExpr :=
   rAdd
@@ -973,9 +1215,13 @@ theorem weil_offdiag_negative :
     ratSub_le_left_of_nonneg (x := ratZero) (y := natRat 193136) hnonneg
   exact ratLe_of_RatEq_left (RatEq_symm (ratZero_add_left (ratNeg (natRat 193136)))) raw
 
-/-- Public bundled certificate: exact PSD, explicit diagonalization, and a negative entry. -/
+/-- Public bundled certificate: exact PSD, eigenvalue lower bound, diagonalization, and a negative entry. -/
 theorem fibonacci_window_weil_matrix_positivity_certificate :
     (∀ x0 x1 x2 : Rat, ratLe ratZero (quadW x0 x1 x2)) ∧
+      (∀ x0 x1 x2 : Rat,
+        ratLe
+          (ratMul lambdaW (norm3W x0 x1 x2))
+          (quadW x0 x1 x2)) ∧
       (∀ x0 x1 x2 : Rat,
         RatEq (ratMul twoRat (quadW x0 x1 x2))
           (ratAdd (block2W x0 x1 x2) (block1W x0 x2))) ∧
@@ -985,12 +1231,18 @@ theorem fibonacci_window_weil_matrix_positivity_certificate :
     exact weil_window3_matrix_psd x0 x1 x2
   · constructor
     · intro x0 x1 x2
-      exact quadW_diagonalization x0 x1 x2
-    · exact weil_offdiag_negative
+      exact weil_window3_matrix_lower_bound x0 x1 x2
+    · constructor
+      · intro x0 x1 x2
+        exact quadW_diagonalization x0 x1 x2
+      · exact weil_offdiag_negative
 
 #print axioms quadW_diagonalization
 #print axioms two_quadW_nonneg
 #print axioms weil_window3_matrix_psd
+#print axioms shiftedQuadW_diagonalization
+#print axioms shiftedQuadW_nonneg
+#print axioms weil_window3_matrix_lower_bound
 #print axioms fibonacci_window_weil_matrix_positivity_certificate
 
 end BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity
