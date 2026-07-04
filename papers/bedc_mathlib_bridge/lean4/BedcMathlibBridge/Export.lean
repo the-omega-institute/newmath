@@ -27,6 +27,7 @@ import BedcMathlibBridge.Export.Hyperfactorial
 import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.NatPowSucc
+import BedcMathlibBridge.Export.NatAddAssoc
 import BedcMathlibBridge.Export.NatSuccPred
 import BedcMathlibBridge.Export.NatSuccInjective
 import BedcMathlibBridge.Export.ListMapEqMap
