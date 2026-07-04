@@ -335,4 +335,76 @@ theorem CatZeroMetricCarrier_comparison_obligations [AskSetup] [PackageSetup]
       ⟨metricUnary, geodesicUnary, comparisonUnary, metricGeodesicVertex,
         alexandrovComparisonDomain⟩
 
+theorem CatZeroMetricCarrier_projection_nonescape [AskSetup] [PackageSetup]
+    {M G V E A Q D L H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CatZeroMetricCarrier M G V E A Q D L H C P N bundle pkg ->
+      Cont Q D L ∧ Cont E L H ∧ Cont H C P ∧ PkgSig bundle P pkg ∧
+        PkgSig bundle N pkg ∧
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row L ∧ CatZeroMetricCarrier M G V E A Q D L H C P N bundle pkg)
+            (fun row : BHist =>
+              hsame row M ∨ hsame row G ∨ hsame row V ∨ hsame row E ∨ hsame row A ∨
+                hsame row Q ∨ hsame row D ∨ hsame row L ∨ hsame row H ∨ hsame row C ∨
+                  hsame row P ∨ hsame row N)
+            (fun _row : BHist => UnaryHistory Q ∧ Cont Q D L ∧ Cont E L H ∧ Cont H C P)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert UnaryHistory
+  intro carrier
+  rcases carrier with
+    ⟨metricUnary, geodesicUnary, comparisonUnary, metricGeodesicVertex,
+      alexandrovComparisonDomain, comparisonDomainHandoff, edgeHandoffTransport,
+      transportContinuationProvenance, provenancePkg, localNamePkg⟩
+  constructor
+  · exact comparisonDomainHandoff
+  · constructor
+    · exact edgeHandoffTransport
+    · constructor
+      · exact transportContinuationProvenance
+      · constructor
+        · exact provenancePkg
+        · constructor
+          · exact localNamePkg
+          · exact {
+              core := {
+                carrier_inhabited :=
+                  Exists.intro L
+                    ⟨hsame_refl L,
+                      ⟨metricUnary, geodesicUnary, comparisonUnary, metricGeodesicVertex,
+                        alexandrovComparisonDomain, comparisonDomainHandoff,
+                        edgeHandoffTransport, transportContinuationProvenance, provenancePkg,
+                        localNamePkg⟩⟩
+                equiv_refl := by
+                  intro row _source
+                  exact hsame_refl row
+                equiv_symm := by
+                  intro _row _other sameRows
+                  exact hsame_symm sameRows
+                equiv_trans := by
+                  intro _row _middle _other sameLeft sameRight
+                  exact hsame_trans sameLeft sameRight
+                carrier_respects_equiv := by
+                  intro _row _other sameRows source
+                  exact
+                    ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+              }
+              pattern_sound := by
+                intro _row source
+                exact
+                  Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inl source.left)))))))
+              ledger_sound := by
+                intro _row _source
+                exact
+                  ⟨comparisonUnary, comparisonDomainHandoff, edgeHandoffTransport,
+                    transportContinuationProvenance⟩
+            }
+
 end BEDC.Derived.CatZeroMetricUp
