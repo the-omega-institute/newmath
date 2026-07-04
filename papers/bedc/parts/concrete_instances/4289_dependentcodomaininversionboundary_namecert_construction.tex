@@ -70,6 +70,20 @@ Use the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-b
 The ledger row $O$ closes the nonescape claim. A consumer asking to treat $C_0$ and $C_1$ as equal, interchangeable, context-reduced, or subject-reduced therefore receives only the displayed boundary route $S,R,O,H,K,P,N$, not an equality endpoint.
 \end{proof}
 
+\begin{theorem}[Dependent-codomain inversion boundary ledger nonescape]
+\label{thm:dependent-codomain-inversion-boundary-ledger-nonescape}
+Any downstream MetaCIC consumer using the open-frontier ledger row $O$ of an accepted $\DependentCodomainInversionBoundaryUp$ packet must keep the syntactic substitution row $S$, subject-reduction obstruction handoff $R$, paired codomain-readback rows $C_0,C_1$, componentwise transport $H$, displayed replay $K$, provenance $P$, and local name $N$ visible before it can request a dependent-codomain discharge. The ledger exports only the finite frontier route and no codomain equality, context reduction, closed subject reduction, inhabited discharge bundle, or host conversion principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dependent-codomain-inversion-boundary-carrier}. The open-frontier ledger row $O$ is stored together with the paired codomain-readback rows $C_0,C_1$, syntactic substitution row $S$, obstruction handoff $R$, transport row $H$, replay row $K$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}. Its ledger-exposure clause keeps $O$ attached to the same finite packet, so a downstream MetaCIC consumer cannot read the frontier ledger without also reading the substitution, obstruction, codomain-readback, transport, replay, provenance, and local naming rows.
+
+Use the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}. It identifies the point where a dependent-codomain discharge may be requested, but it leaves the requested discharge outside the packet.
+
+Finally apply \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}. The codomain-readback boundary already refuses equality, interchangeability, context reduction, closed subject reduction, and host conversion; the ledger row therefore remains a displayed frontier route rather than an escape hatch to those endpoints.
+\end{proof}
+
 \closureat{DependentCodomainInversionBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\DependentCodomainInversionBoundaryUp}
