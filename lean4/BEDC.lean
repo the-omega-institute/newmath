@@ -12761,6 +12761,7 @@ import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SophieGermainPrimeUp
 import BEDC.Derived.SorgenfreyLineUp.TasteGate
+import BEDC.Derived.SorgenfreyPlaneUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpecializationTopologyUp
