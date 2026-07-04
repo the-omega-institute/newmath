@@ -61,5 +61,6 @@ import BedcMathlibBridge.Constructive.WilsonQuotient
 import BedcMathlibBridge.Constructive.Apery
 import BedcMathlibBridge.Constructive.EntringerNumber
 import BedcMathlibBridge.Constructive.TangentNumber
+import BedcMathlibBridge.Constructive.SecantNumber
 import BedcMathlibBridge.Constructive.Riordan
 import BedcMathlibBridge.Constructive.NarayanaCow
