@@ -234,6 +234,7 @@ Use \autoref{thm:metacic-closure-preservation-namecert-obligations} and \autoref
 
 The non-escape boundary follows from \autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, \autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure}, and \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. Those theorems keep the exported content at \texttt{ClosedAt} preservation and require any stronger typing or conversion claim to be supplied by a separate packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_obligation\_closure}
 
 \begin{theorem}[MetaCIC ClosurePreservation dependency scope rows]
 \label{thm:metacic-closure-preservation-scope-rows}
@@ -246,6 +247,7 @@ Apply \autoref{thm:metacic-closure-preservation-substitution-window} to factor s
 
 Finally use \autoref{thm:metacic-closure-preservation-obligation-closure}. Since the carrier has no other dependency coordinate, these rows are the exact scope through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows}
 
 \closureat{MetaCICClosurePreservationUp}{seedStr}
 
@@ -253,9 +255,10 @@ Finally use \autoref{thm:metacic-closure-preservation-obligation-closure}. Since
   \constructivestory{A $\MetaCICClosurePreservationUp$ packet is generated from shift, variable-substitution, full-substitution, beta-step, and beta-chain closedness rows, a substitution audit row, a closed-substitution seal, a generator-closure classifier, a subject-reduction consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-obligation-closure}, and \autoref{thm:metacic-closure-preservation-scope-rows} bind the finite ClosurePreservation packet and its dependency surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_obligation\_closure}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close type preservation, conversion soundness, confluence, normalization, closed consistency, Lean verification, or bridge checking.}
+  \notclaimed{This chapter does not close type preservation, conversion soundness, confluence, normalization, closed consistency, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, shift and substitution classifier handoff, beta-chain non-escape, ledger exactness, provenance, transport, continuation, and local naming for the same finite packet.}
 \end{closurestatus}
