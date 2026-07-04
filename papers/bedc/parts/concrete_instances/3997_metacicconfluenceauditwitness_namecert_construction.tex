@@ -119,6 +119,22 @@ For replay steps, apply finite route induction from \autoref{thm:metacic-conflue
 Finally use the sibling-lattice provenance of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice}. The row $L$ keeps the route inside the audit, obstruction, and axis-carry comparison surface, so the replay remains an obstruction-preserving conditional witness and not any refused global confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit witness obstruction induction]
+\label{thm:metacic-confluence-audit-witness-obstruction-induction}
+Let $W=(P,S,D,C,O,H,R,L,N)$ be an accepted $\MetacicConfluenceAuditWitnessUp$ carrier. Induction on any finite replay list displayed by $R$ preserves both the route order
+$$
+P \longrightarrow S \longrightarrow D \longrightarrow C
+$$
+and the visibility of the obstruction row $O$. Consequently no prefix replay and no suffix replay discharges substitution compatibility, full closed Church--Rosser, quotient reduction equality, evaluator equality, or unconditional confluence.
+\end{theorem}
+\begin{proof}
+For the base route, apply the conditional-boundary theorem \autoref{thm:metacic-confluence-audit-witness-conditional-boundary} to read the order $P \to S \to D \to C$. Apply non-escape from \autoref{thm:metacic-confluence-audit-witness-nonescape} to keep $O$ visible in the same finite packet.
+
+For the successor step, assume the prefix replay preserves the route order and obstruction row. The finite-route induction theorem \autoref{thm:metacic-confluence-audit-witness-finite-route-induction} appends only a displayed route segment through $H$ and $R$, and obstruction preservation from \autoref{thm:metacic-confluence-audit-witness-obstruction-preservation} keeps $O$ visible after the appended segment.
+
+The sibling lattice of \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} keeps each replayed segment inside the audit-map, obstruction, and axis-carry surface. Thus neither a prefix nor a suffix replay can export a hidden substitution lemma, closed Church--Rosser theorem, quotient equality, evaluator equality, or unconditional confluence endpoint.
+\end{proof}
+
 \closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
