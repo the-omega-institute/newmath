@@ -31,4 +31,21 @@ def ReducedProductUp.routeSupported (packet : ReducedProductUp) : Prop :=
     Cont packet.pointwiseFormula packet.agreementClassifier packet.replay ∧
       hsame packet.provenance (append packet.replay packet.localName)
 
+theorem ReducedProductCarrier_namecert_obligations (packet : ReducedProductUp) :
+    ReducedProductUp.routeSupported packet →
+      hsame (ReducedProductUp.visibleRoute packet)
+          (append packet.modelFamily
+            (append packet.filterRow
+              (append packet.pointwiseFormula
+                (append packet.agreementClassifier
+                  (append packet.transport
+                    (append packet.replay
+                      (append packet.provenance packet.localName))))))) ∧
+        Cont packet.pointwiseFormula packet.agreementClassifier packet.replay ∧
+          hsame packet.provenance (append packet.replay packet.localName) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro supported
+  obtain ⟨_transportVisible, replayRoute, provenanceRoute⟩ := supported
+  exact ⟨hsame_refl (ReducedProductUp.visibleRoute packet), replayRoute, provenanceRoute⟩
+
 end BEDC.Derived
