@@ -265,16 +265,16 @@ Use \autoref{thm:metacic-closure-preservation-obligation-closure} to bind the cl
 Finally apply \autoref{thm:metacic-closure-preservation-scope-rows}. It identifies the exact dependencies through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$. Since no remaining row carries typing preservation, conversion soundness, confluence, normalization, or kernel consistency, none of those surfaces is exported by the scoped kernel route.
 \end{proof}
 
-\closureat{MetaCICClosurePreservationUp}{seedStr}
+\closureat{MetaCICClosurePreservationUp}{scopedStr}[BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows]
 
 \begin{closurestatus}{\MetaCICClosurePreservationUp}
   \constructivestory{A $\MetaCICClosurePreservationUp$ packet is generated from shift, variable-substitution, full-substitution, beta-step, and beta-chain closedness rows, a substitution audit row, a closed-substitution seal, a generator-closure classifier, a subject-reduction consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-obligation-closure}, \autoref{thm:metacic-closure-preservation-scope-rows}, and \autoref{thm:metacic-closure-preservation-scoped-kernel-route} bind the finite ClosurePreservation packet and its dependency surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:metacic-closure-preservation-scope-rows} and \autoref{thm:metacic-closure-preservation-scoped-kernel-route} bind the finite ClosurePreservation packet to its substitution-audit, closed-seal, beta-substitution, generator, and subject-reduction scope rows.}
   \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_obligation\_closure}
+  \leantarget{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close type preservation, conversion soundness, confluence, normalization, closed consistency, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, shift and substitution classifier handoff, beta-chain non-escape, ledger exactness, provenance, transport, continuation, and local naming for the same finite packet.}
+  \upgradepath{Public closure requires a public export theorem over the same scoped ClosurePreservation rows.}
 \end{closurestatus}
