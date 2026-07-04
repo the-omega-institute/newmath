@@ -1,5 +1,10 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +12,11 @@ namespace BEDC.Derived.PicardCompletionResidualCauchyRealizerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -259,5 +269,92 @@ theorem PicardCompletionResidualCauchyRealizerTasteGate_single_carrier_alignment
           PicardCompletionResidualCauchyRealizerTasteGate_single_carrier_alignment_toEventFlow_injective
             heq
       · exact ⟨picardCompletionResidualCauchyRealizerChapterTasteGate⟩
+
+theorem PicardCompletionResidualCauchyRealizer_namecert_obligations
+    [AskSetup] [PackageSetup] {X T I D M F R E H C Q N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont X T D →
+      Cont D M F →
+        Cont F R E →
+          PkgSig bundle Q pkg →
+            PkgSig bundle N pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row F ∨ hsame row R ∨ hsame row E)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row T ∨ hsame row I ∨ hsame row D ∨
+                      hsame row M ∨ hsame row F ∨ hsame row R ∨ hsame row E ∨
+                        hsame row H ∨ hsame row C ∨ hsame row Q ∨ hsame row N)
+                  (fun _row : BHist =>
+                    PkgSig bundle Q pkg ∧ PkgSig bundle N pkg ∧ Cont X T D ∧
+                      Cont D M F ∧ Cont F R E)
+                  hsame ∧
+                Cont X T D ∧ Cont D M F ∧ Cont F R E ∧ PkgSig bundle Q pkg ∧
+                  PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro routeResidual routeCompletion routeReadback pkgProvenance namePkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row F ∨ hsame row R ∨ hsame row E)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row T ∨ hsame row I ∨ hsame row D ∨
+              hsame row M ∨ hsame row F ∨ hsame row R ∨ hsame row E ∨
+                hsame row H ∨ hsame row C ∨ hsame row Q ∨ hsame row N)
+          (fun _row : BHist =>
+            PkgSig bundle Q pkg ∧ PkgSig bundle N pkg ∧ Cont X T D ∧
+              Cont D M F ∧ Cont F R E)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro F (Or.inl (hsame_refl F))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        have sameOtherRow : hsame _other _row := hsame_symm sameRows
+        cases source with
+        | inl sameF =>
+            exact Or.inl (hsame_trans sameOtherRow sameF)
+        | inr rest =>
+            cases rest with
+            | inl sameR =>
+                exact Or.inr (Or.inl (hsame_trans sameOtherRow sameR))
+            | inr sameE =>
+                exact Or.inr (Or.inr (hsame_trans sameOtherRow sameE))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameF =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameF)))))
+      | inr rest =>
+          cases rest with
+          | inl sameR =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr (Or.inl sameR))))))
+          | inr sameE =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr (Or.inl sameE)))))))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨pkgProvenance, namePkg, routeResidual, routeCompletion, routeReadback⟩
+  }
+  exact ⟨cert, routeResidual, routeCompletion, routeReadback, pkgProvenance, namePkg⟩
 
 end BEDC.Derived.PicardCompletionResidualCauchyRealizerUp
