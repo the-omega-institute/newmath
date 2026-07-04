@@ -1,0 +1,210 @@
+\chapter{PZG Finite-Window Self-Reference Recurrence}
+\label{ch:visions-rh-pzg-finite-window-self-reference-recurrence}
+\origin{ai}
+
+\autoref{ch:visions-rh-pigeonhole-time-recurrence} records finite phase
+recurrence for a Hist-flow time row.  The present chapter records the
+corresponding PZG register form.  The point is the same boundary in a
+different coordinate system: full PZG coding is faithful, while every finite
+readout window creates fibres, recurrence candidates, and ledger obligations.
+
+\section{Finite PZG Windows}
+\label{sec:rh-pzg-finite-window-self-reference-windows}
+
+\begin{definition}[Finite PZG readout window]
+\label{def:rh-pzg-finite-readout-window}
+A finite PZG readout window is a finite set
+$$
+W\subset_{\mathrm{fin}}\PrimeUp\times\mathbb N.
+$$
+Its visible carrier $B_W$ is the finite set of legal bit patterns on $W$
+compatible with the Zeckendorf no-adjacent condition on each displayed prime
+axis.  The window projection is
+$$
+\pi_W:\mathsf Z_{\mathsf{PZG}}\to B_W,
+$$
+where $\mathsf Z_{\mathsf{PZG}}$ denotes the full finite-support PZG register
+carrier and $\pi_W$ forgets every coordinate outside $W$.
+\end{definition}
+
+\begin{principle}[Global faithfulness, finite fibres]
+\label{prin:rh-pzg-global-faithfulness-finite-fibres}
+The full PZG register is a faithful source code by
+\autoref{thm:rh-prime-zeckendorf-goedel-uniqueness}.  A finite readout
+window is not faithful to the full source.  Equality
+$$
+\pi_W(z)=\pi_W(z')
+$$
+means equality at the displayed resolution, not equality of full PZG
+registers.  Any difference between $z$ and $z'$ is hidden from $W$ and is
+therefore a fibre, refinement, or ledger issue.
+\end{principle}
+
+\begin{theorem}[Every finite PZG window has infinite fibres]
+\label{thm:rh-pzg-finite-window-infinite-fibres}
+Let $W$ be a finite PZG readout window.  Every realizable window position
+$b\in B_W$ has infinitely many full PZG registers above it.
+\end{theorem}
+
+\begin{proof}
+Choose one full register $z$ with $\pi_W(z)=b$.  Since $W$ uses only finitely
+many prime axes and depths, there are infinitely many primes $q$ whose first
+coordinate $(q,1)$ is not in $W$ and whose axis is absent from the displayed
+window.  For each such $q$, form the register obtained from $z$ by activating
+the coordinate $(q,1)$ if it is not already active on that fresh axis, leaving
+all coordinates in $W$ unchanged.  These registers remain legal PZG registers,
+are pairwise distinct, and all project to $b$ under $\pi_W$.
+\end{proof}
+
+\begin{theorem}[Finite-window PZG recurrence]
+\label{thm:rh-pzg-finite-window-recurrence}
+For any infinite PZG trajectory
+$$
+z_0,z_1,z_2,\ldots
+$$
+and any finite PZG readout window $W$, there exist $i<j$ such that
+$$
+\pi_W(z_i)=\pi_W(z_j).
+$$
+\end{theorem}
+
+\begin{proof}
+The projected sequence
+$$
+\pi_W(z_0),\pi_W(z_1),\pi_W(z_2),\ldots
+$$
+takes values in the finite carrier $B_W$.  The pigeonhole principle gives two
+indices $i<j$ with the same projected value.
+\end{proof}
+
+\begin{principle}[Finite return is not global repetition]
+\label{prin:rh-pzg-finite-return-not-global-repetition}
+The equality in \autoref{thm:rh-pzg-finite-window-recurrence} is a finite
+readout recurrence.  It does not assert $z_i=z_j$.  If the full registers
+differ, the difference is a window-hidden source row.  A legal proof route
+must either refine the window until the difference is read or record the
+difference in the residual or tail ledger.
+\end{principle}
+
+\begin{definition}[Window-cycle residual]
+\label{def:rh-pzg-window-cycle-residual}
+Given a finite-window recurrence
+$$
+\pi_W(z_i)=\pi_W(z_j)
+\qquad(i<j),
+$$
+a window-cycle residual is the ledger row
+$$
+\mathsf{CycleRes}_W(i,j)
+:=
+(z_i,z_j,W,\pi_W(z_i)=\pi_W(z_j),\mathsf{status}).
+$$
+Its status is closed only when the full registers classify together in the
+claimed scope.  Otherwise it is refined to a larger window or kept as a tail
+residual.
+\end{definition}
+
+\begin{theorem}[Window recurrence creates a ledger obligation]
+\label{thm:rh-pzg-window-recurrence-ledger-obligation}
+Every finite-window recurrence with unequal full registers creates a
+window-cycle residual unless a larger displayed readout separates the two
+registers.
+\end{theorem}
+
+\begin{proof}
+If $\pi_W(z_i)=\pi_W(z_j)$ but $z_i$ and $z_j$ are not classified together at
+the full claimed scope, then the window equality has hidden the source
+difference.  By
+\autoref{prin:rh-pzg-global-faithfulness-finite-fibres}, that difference is
+not erased by the finite readout.  It must either be exposed by a refinement
+window or recorded by the ledger row of
+\autoref{def:rh-pzg-window-cycle-residual}.
+\end{proof}
+
+\begin{principle}[Zeta readout groups finite-window fibres]
+\label{prin:rh-pzg-zeta-groups-finite-window-fibres}
+On a displayed convergence window, the zeta-facing PZG readout may be grouped
+through any finite PZG readout window:
+$$
+\sum_{z\in\mathsf Z_{\mathsf{PZG}}}e^{-sL(z)}
+=
+\sum_{b\in B_W}
+\sum_{\pi_W(z)=b}e^{-sL(z)}.
+$$
+The outer sum ranges over visible finite positions, while the inner sums range
+over the hidden fibres of those positions.  Pigeonhole recurrence supplies
+finite-window multiple occupancy; the phase weights supply interference; the
+completed carrier supplies the zero ledger.
+\end{principle}
+
+\section{Zero Reads}
+\label{sec:rh-pzg-finite-window-zero-reads}
+
+\begin{definition}[Finite zero read]
+\label{def:rh-pzg-finite-zero-read}
+A finite zero read for a completed zeta-facing packet is a finite data row
+$$
+\mathfrak r=(D,\varepsilon,m,\mathcal P,\mathcal E).
+$$
+Here $D$ is a rationally described located-compact box or disk in the complex
+plane, $\varepsilon$ is a displayed precision or tail tolerance, $m$ is a
+finite zero-count readout, $\mathcal P$ is the finite protocol that justifies
+the readout, and $\mathcal E$ is the error, boundary, branch, source, and tail
+ledger.  A finite zero read is a reading event; it is not the completed zero
+object itself.
+\end{definition}
+
+\begin{theorem}[ZeroRead finite-read theorem]
+\label{thm:rh-pzg-zeroread-finite-read}
+Every auditable zero read factors through a finite zero read.
+\end{theorem}
+
+\begin{proof}
+An auditable zero read must display a region in which the read is made, the
+precision or tolerance at which the read is made, the finite zero count or
+zero-type assertion being read, the finite protocol that justifies the
+assertion, and the ledger for error, boundary, branch, source, and tail data.
+These are exactly the fields of
+\autoref{def:rh-pzg-finite-zero-read}.  Thus the read is a finite data row.
+\end{proof}
+
+\begin{corollary}[Zero reads have PZG addresses]
+\label{cor:rh-pzg-zero-reads-have-pzg-addresses}
+Every finite zero read has a PZG address.
+\end{corollary}
+
+\begin{proof}
+The finite zero read $\mathfrak r$ is a finite data row, hence it has a
+finite syntactic description.  By
+\autoref{thm:rh-pzg-finite-descriptions-unique-addresses}, that description
+has a unique PZG register address.
+\end{proof}
+
+\begin{principle}[Completed zeros are compatible readout closures]
+\label{prin:rh-pzg-completed-zeros-compatible-readout-closures}
+A completed zero is not a single finite zero read.  It is the closed readout
+selected by a compatible system of finite zero reads with shrinking
+localisation, stable zero-count or winding data, analytic-continuation
+transport, and closed source, boundary, tail, and error ledgers.  This is the
+same certificate-tower boundary as
+\autoref{def:rh-zero-certificate-tower}: finite reads supply the stages, while
+the completed zero is the globalized limit readout licensed by the compatible
+tower.
+\end{principle}
+
+\begin{theorem}[Finite zero reads create zero-ledger obligations]
+\label{thm:rh-pzg-finite-zero-reads-create-zero-ledger-obligations}
+If a finite zero read is used as evidence for a completed zero, then its tail,
+boundary, branch, and error fields must be closed by a compatible refinement
+tower or retained in the zero ledger.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-pzg-zeroread-finite-read}, the read supplies only finite
+data.  By
+\autoref{prin:rh-pzg-completed-zeros-compatible-readout-closures}, a
+completed zero requires compatibility through refinement and analytic
+transport, together with closed source, boundary, tail, and error ledgers.
+Any field not closed by such a compatible tower remains outside the completed
+zero readout and must therefore be retained in the zero ledger.
+\end{proof}
