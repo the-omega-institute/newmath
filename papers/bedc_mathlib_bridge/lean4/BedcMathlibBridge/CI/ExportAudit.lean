@@ -62,6 +62,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
     witnessType :=
       `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
+  { witness := `BedcMathlibBridge.Export.Eulerian.eulerianTriangleExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Eulerian.EulerianTriangleExportWitness },
   { witness := `BedcMathlibBridge.Export.Catalan.catalanExport,
     witnessType := `BedcMathlibBridge.Export.Catalan.CatalanExportWitness },
   { witness := `BedcMathlibBridge.Export.StirlingFirst.stirlingFirstExport,
