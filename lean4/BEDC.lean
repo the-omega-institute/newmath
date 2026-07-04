@@ -1009,6 +1009,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionIntervalUp
 import BEDC.Derived.BinaryExpansionUp
+import BEDC.Derived.BinaryExpansionUp.MatureTreatment
 import BEDC.Derived.BinaryExpansionUp.TasteGate
 import BEDC.Derived.BinaryQuadFormUp
 import BEDC.Derived.BinaryQuadraticFormUp
