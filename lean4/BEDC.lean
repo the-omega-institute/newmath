@@ -3040,6 +3040,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.PublicExportPackage
 import BEDC.Derived.CellularTrustSubstrateUp.SiblingScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.StrictObstructionLocality
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.CellularVerbRealignmentUp
 import BEDC.Derived.CellularVerbRealignmentUp.NameCertObligations
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CellularWindowTraceUp.TasteGate
@@ -3740,6 +3741,7 @@ import BEDC.Derived.CompactnessUniformContinuityDiameterDecayUp.TasteGate
 import BEDC.Derived.CompactoidUp.FiniteNetAbsorption
 import BEDC.Derived.CompactoidUp.NameCertObligations
 import BEDC.Derived.CompactoidUp.TasteGate
+import BEDC.Derived.CompileFrontierWitnessUp
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.CompilerCompositionTraceUp.Associativity
