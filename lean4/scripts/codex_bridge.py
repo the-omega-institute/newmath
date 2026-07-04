@@ -342,17 +342,26 @@ NAT_VALUE_SHAPES = frozenset(
         "bhist_readback",
     }
 )
-NAT_VALUE_TARGETS = frozenset(
+# Core (mathlib-free) Nat operations. A nat_value bridge whose target is one of
+# these is a mathlib-free arithmetic fact — the bridge project's ThinLayerGuard
+# rejects it ("belongs to BEDC core, not a bridge"), so surfacing such a candidate
+# only wastes a daemon cycle. We deliberately do NOT keep a positive allow-list of
+# acceptable targets: that couples candidate discovery to a brittle hand-maintained
+# list and blocks the AI worker from finding any genuine Mathlib target on its own.
+# The worker discovers a pre-existing Mathlib target; the heavy-check ThinLayerGuard
+# + 0-axiom guard are the authoritative final gate. This is only a cheap up-front
+# reject of the KNOWN mathlib-free targets when a candidate already carries a guess.
+CORE_NAT_TARGETS = frozenset(
     {
-        "Nat.choose",
-        "Nat.factorial",
-        "Nat.fib",
-        "Nat.centralBinom",
-        "Nat.stirlingFirst",
-        "Nat.stirlingSecond",
-        "Nat.descFactorial",
-        "Nat.superFactorial",
-        "numDerangements",
+        "Nat.pow",
+        "Nat.mul",
+        "Nat.add",
+        "Nat.sub",
+        "Nat.div",
+        "Nat.mod",
+        "Nat.gcd",
+        "Nat.succ",
+        "Nat",
     }
 )
 
@@ -375,7 +384,10 @@ def _is_nat_value_candidate(candidate: dict) -> bool:
         return False
     if shape not in NAT_VALUE_SHAPES:
         return False
-    if target not in NAT_VALUE_TARGETS:
+    # Accept a missing/None target — the worker finds a genuine pre-existing Mathlib
+    # target and ThinLayerGuard verifies it is not a mathlib-free core fact. Only
+    # reject a target that is already known to be a core (mathlib-free) op.
+    if target and (target in CORE_NAT_TARGETS or target == "Nat"):
         return False
     if not any(str(decl).startswith("BEDC.Derived.") for decl in decls if decl):
         return False
