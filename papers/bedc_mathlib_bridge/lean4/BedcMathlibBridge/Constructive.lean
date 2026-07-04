@@ -32,6 +32,7 @@ import BedcMathlibBridge.Constructive.NatSuccInjective
 import BedcMathlibBridge.Constructive.ListMapEqMap
 import BedcMathlibBridge.Constructive.NatMulComm
 import BedcMathlibBridge.Constructive.NatChooseZeroRight
+import BedcMathlibBridge.Constructive.NatChooseSuccSuccPrime
 import BedcMathlibBridge.Constructive.ListBindEqFlatMap
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Motzkin

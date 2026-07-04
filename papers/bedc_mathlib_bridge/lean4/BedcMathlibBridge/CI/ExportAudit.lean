@@ -122,6 +122,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType :=
       `BedcMathlibBridge.Export.NatChooseZeroRight.NatChooseZeroRightExportWitness },
   { witness :=
+      `BedcMathlibBridge.Export.NatChooseSuccSuccPrime.natChooseSuccSuccPrimeExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.NatChooseSuccSuccPrime.NatChooseSuccSuccPrimeExportWitness },
+  { witness :=
       `BedcMathlibBridge.Export.ListBindEqFlatMap.listBindEqFlatMapExport,
     witnessType :=
       `BedcMathlibBridge.Export.ListBindEqFlatMap.ListBindEqFlatMapExportWitness },
