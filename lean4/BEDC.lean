@@ -11456,6 +11456,7 @@ import BEDC.Derived.RegularCauchyCofinalModulusUp
 import BEDC.Derived.RegularCauchyCofinalSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyCommonRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyCommonTailFilterUp.TasteGate
+import BEDC.Derived.RegularCauchyCommonTailSealUp
 import BEDC.Derived.RegularCauchyComparisonModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonNetUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
