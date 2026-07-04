@@ -28,6 +28,7 @@ import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.NatPowSucc
 import BedcMathlibBridge.Constructive.NatSuccPred
+import BedcMathlibBridge.Constructive.NatSuccInjective
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Motzkin
 import BedcMathlibBridge.Constructive.MotzkinPath
