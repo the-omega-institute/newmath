@@ -47,6 +47,7 @@ import BedcMathlibBridge.Export.Raney
 import BedcMathlibBridge.Export.FussCatalan
 import BedcMathlibBridge.Export.TernaryTree
 import BedcMathlibBridge.Export.Lobb
+import BedcMathlibBridge.Export.BallotNumber
 import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.LahClosedForm
 import BedcMathlibBridge.Export.Tetrahedral
