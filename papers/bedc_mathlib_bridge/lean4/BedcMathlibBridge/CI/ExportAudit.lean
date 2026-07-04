@@ -62,6 +62,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
     witnessType :=
       `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
+  { witness := `BedcMathlibBridge.Export.Eulerian.eulerianTriangleExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.Eulerian.EulerianTriangleExportWitness },
   { witness := `BedcMathlibBridge.Export.Catalan.catalanExport,
     witnessType := `BedcMathlibBridge.Export.Catalan.CatalanExportWitness },
   { witness := `BedcMathlibBridge.Export.StirlingFirst.stirlingFirstExport,
@@ -70,9 +73,16 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.StirlingSecond.stirlingSecondExport,
     witnessType :=
       `BedcMathlibBridge.Export.StirlingSecond.StirlingSecondExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.StirlingCycleColumn.stirlingCycleColumnExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.StirlingCycleColumn.StirlingCycleColumnExportWitness },
   { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
     witnessType :=
       `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
+  { witness := `BedcMathlibBridge.Export.SubfactorialNumber.subfactorialNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.SubfactorialNumber.SubfactorialNumberExportWitness },
   { witness := `BedcMathlibBridge.Export.Rencontres.rencontresNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.Rencontres.RencontresNumberExportWitness },
@@ -121,6 +131,12 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.CullenWoodall.woodallExport,
     witnessType :=
       `BedcMathlibBridge.Export.CullenWoodall.WoodallExportWitness },
+  { witness := `BedcMathlibBridge.Export.HarshadNumber.harshadNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.HarshadNumber.HarshadNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.KeithNumber.keithNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.KeithNumber.KeithNumberExportWitness },
   { witness := `BedcMathlibBridge.Export.CentralTrinomial.centralTrinomialExport,
     witnessType :=
       `BedcMathlibBridge.Export.CentralTrinomial.CentralTrinomialExportWitness },
@@ -175,6 +191,12 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.LahClosedForm.lahClosedFormExport,
     witnessType :=
       `BedcMathlibBridge.Export.LahClosedForm.LahClosedFormExportWitness },
+  { witness := `BedcMathlibBridge.Export.BesselNumber.besselNumberExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BesselNumber.BesselNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.LahRecurrence.lahRecurrenceExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.LahRecurrence.LahRecurrenceExportWitness },
   { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },
@@ -235,6 +257,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.GenocchiNumber.genocchiNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.GenocchiNumber.GenocchiNumberExportWitness },
+  { witness := `BedcMathlibBridge.Export.AssociatedStirling.associatedStirlingExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.AssociatedStirling.AssociatedStirlingExportWitness },
   { witness := `BedcMathlibBridge.Export.Riordan.riordanExport,
     witnessType := `BedcMathlibBridge.Export.Riordan.RiordanExportWitness },
   { witness := `BedcMathlibBridge.Export.NarayanaCow.narayanaCowExport,

@@ -17,7 +17,9 @@ import BedcMathlibBridge.Export.Eulerian
 import BedcMathlibBridge.Export.Catalan
 import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
+import BedcMathlibBridge.Export.StirlingCycleColumn
 import BedcMathlibBridge.Export.Derangement
+import BedcMathlibBridge.Export.SubfactorialNumber
 import BedcMathlibBridge.Export.Rencontres
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
@@ -33,6 +35,8 @@ import BedcMathlibBridge.Export.Perrin
 import BedcMathlibBridge.Export.Tribonacci
 import BedcMathlibBridge.Export.Tetranacci
 import BedcMathlibBridge.Export.CullenWoodall
+import BedcMathlibBridge.Export.HarshadNumber
+import BedcMathlibBridge.Export.KeithNumber
 import BedcMathlibBridge.Export.CentralTrinomial
 import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
@@ -52,6 +56,7 @@ import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.BallotNumber
 import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.LahClosedForm
+import BedcMathlibBridge.Export.LahRecurrence
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
@@ -71,6 +76,8 @@ import BedcMathlibBridge.Export.EntringerNumber
 import BedcMathlibBridge.Export.TangentNumber
 import BedcMathlibBridge.Export.SecantNumber
 import BedcMathlibBridge.Export.GenocchiNumber
+import BedcMathlibBridge.Export.AssociatedStirling
 import BedcMathlibBridge.Export.Riordan
 import BedcMathlibBridge.Export.NarayanaCow
 import BedcMathlibBridge.Export.ProjectionLedgerCount
+import BedcMathlibBridge.Export.BesselNumber

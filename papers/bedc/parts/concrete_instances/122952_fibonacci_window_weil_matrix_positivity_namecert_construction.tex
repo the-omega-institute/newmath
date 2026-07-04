@@ -1,0 +1,149 @@
+\chapter{A Concrete Naming Certificate for the Fibonacci-Window Weil Positivity Matrix}
+\label{ch:concrete-instances-fibonacci-window-weil-matrix-positivity-namecert}
+\origin{human}
+
+Following Weil and Bombieri, this packet records a finite positive-semidefiniteness shadow of the Weil explicit-formula criterion. The carrier is the displayed degree-$3$ Fibonacci-hat test window together with a concrete rational approximant of the Weil quadratic form on that window. It is a finite rational matrix certificate, not a global positivity theorem for all test functions.
+
+The matrix is the scaled integer form
+$$
+W=
+\begin{pmatrix}
+303318 & -12152 & -193136\\
+-12152 & 303318 & -12152\\
+-193136 & -12152 & 303318
+\end{pmatrix}.
+$$
+For $x=(x_0,x_1,x_2)$ the represented quadratic form is
+$$
+x^{\mathsf T}Wx
+=303318(x_0^2+x_1^2+x_2^2)
+-24304(x_0x_1+x_1x_2)
+-386272x_0x_2 .
+$$
+The corner entry is genuinely negative, so positivity is not termwise positivity.
+
+\begin{definition}[Fibonacci-window Weil matrix packet]
+\label{def:fibonacci-window-weil-matrix-packet}
+The finite packet consists of the rational matrix $W$, the coordinate row $x_0,x_1,x_2$, the symmetric coordinates
+$$
+u=x_0+x_2,\qquad v=x_0-x_2,\qquad w=x_1,
+$$
+and the two positive-semidefiniteness subcertificates
+$$
+B=
+\begin{pmatrix}
+110182 & -24304\\
+-24304 & 606636
+\end{pmatrix},
+\qquad
+d=496454.
+$$
+The displayed determinant comparison is
+$$
+(-24304)^2=590684416
+\leq 66840367752
+=110182\cdot 606636.
+$$
+The minimum-eigenvalue subcertificate uses the shifted integer matrix $W-100000I$:
+$$
+B_{\mathrm{sh}}=
+\begin{pmatrix}
+10182 & -24304\\
+-24304 & 406636
+\end{pmatrix},
+\qquad
+d_{\mathrm{sh}}=396454,
+$$
+with
+$$
+(-24304)^2=590684416
+\leq 4140367752
+=10182\cdot 406636.
+$$
+\end{definition}
+
+\begin{theorem}[Fibonacci-window Weil matrix positive definiteness]
+\label{thm:fibonacci-window-weil-matrix-psd}
+For all rational $x_0,x_1,x_2$,
+$$
+x^{\mathsf T}Wx\geq 0.
+$$
+More precisely, the exact rational identity
+$$
+\begin{aligned}
+2(x^{\mathsf T}Wx)
+&=(110182)u^2+2(-24304)uw+(606636)w^2\\
+&\quad +(496454)v^2
+\end{aligned}
+$$
+holds for $u=x_0+x_2$, $v=x_0-x_2$, and $w=x_1$. The first line is nonnegative by the $2\times2$ positive-semidefiniteness criterion for $B$, and the second line is nonnegative by the $1\times1$ criterion for $d$.
+
+The same coordinates certify the minimum-eigenvalue lower bound for the scaled integer form:
+$$
+x^{\mathsf T}Wx\geq 100000(x_0^2+x_1^2+x_2^2).
+$$
+Equivalently, the inspected rational Weil matrix $10^{-9}W$ satisfies
+$$
+10^{-9}W\succeq 10^{-4}I.
+$$
+Indeed,
+$$
+\begin{aligned}
+2x^{\mathsf T}(W-100000I)x
+&=(10182)u^2+2(-24304)uw+(406636)w^2\\
+&\quad +(396454)v^2,
+\end{aligned}
+$$
+and the shifted $2\times2$ block and shifted scalar block are nonnegative by the displayed determinant and scalar comparisons.
+\end{theorem}
+\begin{proof}
+The displayed change of variables separates the symmetric and antisymmetric coordinates for the endpoints $x_0$ and $x_2$. Expanding $u^2$, $v^2$, and $uw$ gives
+$$
+\begin{aligned}
+&(110182)(x_0+x_2)^2+2(-24304)(x_0+x_2)x_1+(606636)x_1^2\\
+&\quad +(496454)(x_0-x_2)^2\\
+&=606636(x_0^2+x_1^2+x_2^2)-48608(x_0x_1+x_1x_2)-772544x_0x_2\\
+&=2(x^{\mathsf T}Wx).
+\end{aligned}
+$$
+The diagonal entries $110182$ and $606636$ are nonnegative, and the determinant comparison in \autoref{def:fibonacci-window-weil-matrix-packet} verifies the $2\times2$ block. The scalar coefficient $496454$ is nonnegative. Therefore the right-hand side is a sum of a nonnegative $2\times2$ quadratic block and a nonnegative $1\times1$ block. Since $2>0$, the original quadratic form is nonnegative.
+
+For the lower bound, replace the diagonal coefficient $303318$ by $203318=303318-100000$ and keep the off-diagonal coefficients unchanged. The same expansion gives
+$$
+\begin{aligned}
+&(10182)(x_0+x_2)^2+2(-24304)(x_0+x_2)x_1+(406636)x_1^2\\
+&\quad +(396454)(x_0-x_2)^2\\
+&=406636(x_0^2+x_1^2+x_2^2)-48608(x_0x_1+x_1x_2)-772544x_0x_2\\
+&=2x^{\mathsf T}(W-100000I)x.
+\end{aligned}
+$$
+The shifted diagonal entries $10182$ and $406636$ are nonnegative, the determinant comparison for $B_{\mathrm{sh}}$ verifies the shifted $2\times2$ block, and $396454$ verifies the shifted $1\times1$ block. Hence $x^{\mathsf T}(W-100000I)x\geq0$, which is the displayed lower bound.
+\end{proof}
+
+\leanchecked{BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity.fibonacci\_window\_weil\_matrix\_positivity\_certificate}
+
+\begin{theorem}[Finite Weil-positivity shadow boundary]
+\label{thm:fibonacci-window-weil-shadow-boundary}
+The packet is a finite Weil-positivity shadow: a concrete rational approximant of the degree-$3$ Fibonacci-windowed Weil quadratic form is positive semidefinite despite genuine negative off-diagonal entries, so positivity is a nontrivial cancellation certified by symmetric diagonalization onto the $2\times2$ and $1\times1$ positive-semidefiniteness criteria.
+\end{theorem}
+\begin{proof}
+The rational matrix $W/10^9$ is the inspected approximant to the Weil functional $T(\psi_r*\psi_s^\sharp)$ on the three-dimensional Fibonacci-hat test space. Its entries are computed from the von Mangoldt prime contribution for $n\leq F_5^2=25$ together with the archimedean $\Gamma$-factor logarithmic-derivative density. This construction is non-circular: it does not input zeta zero locations.
+
+The Lean theorem is exact only after the rational entries are fixed. It proves the rational positive-semidefiniteness statement, the eigenvalue lower bound $W\succeq 10^{-4}I$ for the normalized matrix, and the displayed change of variables. The eigenvalue lower bound $W\succeq 10^{-4}I$, together with the external entry-certification error of order $10^{-9}\ll 10^{-4}$, shows the exact degree-$3$ Fibonacci-windowed Weil matrix is positive definite, not merely that the rational approximant is positive semidefinite.
+\end{proof}
+
+\falsifiablePrediction{Recomputing the displayed rational matrix, the determinant comparisons $590684416\leq66840367752$ and $590684416\leq4140367752$, the diagonalization identities for $u=x_0+x_2$, $v=x_0-x_2$, $w=x_1$, the shifted lower-bound identity, or the exact Lean certificate refutes this packet if any listed equality or inequality fails.}
+
+\independenceWitness{fibonacci-window-weil-matrix-positivity: this finite packet is not a global Weil-positivity theorem, not a zeta-zero computation, and not a proof of RH; it is the exact rational PSD and minimum-eigenvalue certificate for one degree-$3$ Fibonacci-hat approximant.}
+
+\closureat{FibonacciWindowWeilMatrixPositivity}{scopedStr}[BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity.fibonacci\_window\_weil\_matrix\_positivity\_certificate]
+
+\begin{closurestatus}{FibonacciWindowWeilMatrixPositivity}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{positive semidefiniteness and the lower bound $10^{-9}W\succeq 10^{-4}I$ for a concrete $3\times3$ rational approximant of the degree-$3$ Fibonacci-windowed Weil quadratic form, via symmetric diagonalization onto the $2\times2$ and $1\times1$ criteria}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity.fibonacci\_window\_weil\_matrix\_positivity\_certificate}
+  \bridgestatus{none}
+  \notclaimed{a finite Weil-positivity shadow on a $3$-dimensional Fibonacci-hat test subspace; not a proof of RH; entry values are external interval numerics, the Lean theorem is exact rational positive semidefiniteness and a minimum-eigenvalue lower bound}
+  \upgradepath{raise the window degree $m$ (minimum eigenvalue shrinks $\sim F_m^{-2}$, needing higher-precision certified rational enclosures) and discharge the WeilPositivityRoute reduction obligations}
+\end{closurestatus}

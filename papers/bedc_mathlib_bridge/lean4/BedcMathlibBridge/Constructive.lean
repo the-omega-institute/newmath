@@ -17,7 +17,9 @@ import BedcMathlibBridge.Constructive.Eulerian
 import BedcMathlibBridge.Constructive.Catalan
 import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
+import BedcMathlibBridge.Constructive.StirlingCycleColumn
 import BedcMathlibBridge.Constructive.Derangement
+import BedcMathlibBridge.Constructive.SubfactorialNumber
 import BedcMathlibBridge.Constructive.Rencontres
 import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
@@ -33,6 +35,8 @@ import BedcMathlibBridge.Constructive.Perrin
 import BedcMathlibBridge.Constructive.Tribonacci
 import BedcMathlibBridge.Constructive.Tetranacci
 import BedcMathlibBridge.Constructive.CullenWoodall
+import BedcMathlibBridge.Constructive.HarshadNumber
+import BedcMathlibBridge.Constructive.KeithNumber
 import BedcMathlibBridge.Constructive.CentralTrinomial
 import BedcMathlibBridge.Constructive.AscFactorial
 import BedcMathlibBridge.Constructive.CentralBinom
@@ -52,6 +56,7 @@ import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.BallotNumber
 import BedcMathlibBridge.Constructive.Lah
 import BedcMathlibBridge.Constructive.LahClosedForm
+import BedcMathlibBridge.Constructive.LahRecurrence
 import BedcMathlibBridge.Constructive.Tetrahedral
 import BedcMathlibBridge.Constructive.Triangular
 import BedcMathlibBridge.Constructive.CakeNumber
@@ -71,5 +76,7 @@ import BedcMathlibBridge.Constructive.EntringerNumber
 import BedcMathlibBridge.Constructive.TangentNumber
 import BedcMathlibBridge.Constructive.SecantNumber
 import BedcMathlibBridge.Constructive.GenocchiNumber
+import BedcMathlibBridge.Constructive.AssociatedStirling
 import BedcMathlibBridge.Constructive.Riordan
 import BedcMathlibBridge.Constructive.NarayanaCow
+import BedcMathlibBridge.Constructive.BesselNumber

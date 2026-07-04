@@ -5701,6 +5701,9 @@ import BEDC.Derived.EulerBooleSummation
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
+import BEDC.Derived.EulerDistinctOddPartition
+import BEDC.Derived.EulerPentagonalNumberTheorem
+import BEDC.Derived.PartitionPentagonalRecurrence
 import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
 import BEDC.Derived.EulerPhiUp
@@ -10379,6 +10382,7 @@ import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FiniteToInfinitePhaseEnergyTower
 import BEDC.Derived.RHRoute.FiniteVisibilityIncompleteness
 import BEDC.Derived.RHRoute.FiniteWindowFubini
+import BEDC.Derived.RHRoute.FibonacciWindowWeilMatrixPositivity
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.GAGCertificate
 import BEDC.Derived.RHRoute.GenerationInvariantExclusion
@@ -13578,6 +13582,7 @@ import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VietorisRipsComplexUp.TasteGate
 import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
+import BEDC.Derived.Visions.TannakianFiniteDetector
 import BEDC.Derived.Visions.BackreactionMetricDegeneracy
 import BEDC.Derived.Visions.EmergentMetricEuclidean
 import BEDC.Derived.Visions.LedgerDriverRank
@@ -13585,7 +13590,11 @@ import BEDC.Derived.Visions.LorentzianReachabilityBoundary
 import BEDC.Derived.Visions.ObservationSectionCoherence
 import BEDC.Derived.Visions.PrimeClassifierGeneralDetection
 import BEDC.Derived.Visions.PrimeClassifierFiniteCore
+import BEDC.Derived.Visions.SaturatedCycleLemma
+import BEDC.Derived.Visions.CoboundaryBalancedCharacterization
+import BEDC.Derived.Visions.NonabelianCarryCertificate
 import BEDC.Derived.Visions.PythagoreanRPCertificate
+import BEDC.Derived.Visions.SelfSubstitutionCarryHolonomy
 import BEDC.Derived.Visions.TwistedInvolutionSignature
 import BEDC.Derived.Visions.TwoDriverMetricNondegeneracy
 import BEDC.Derived.VitaliCoverUp.TasteGate

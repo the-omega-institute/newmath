@@ -1,0 +1,581 @@
+\chapter{Innovation Input RP Solenoid Limit Conjecture}
+\label{ch:visions-innovation-input-rp-solenoid-limit-conjecture}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-finite-window-rp-boundary}
+separates Q3 self-reference from finite-window reflection positivity.
+\autoref{ch:visions-innovation-input-square-real-sign-lfour-bottleneck}
+then shows the square real-sign phenomenon more sharply: larger alphabets
+can create genuine low-window RP, while the next displayed neutral window
+still supplies an obstruction. The OS/Hamiltonian gate of
+\autoref{ch:visions-innovation-input-self-adjoint-hamiltonian-gate} makes
+the consequence rigid: a finite-window obstruction blocks the input
+Hamiltonian source. The solenoid arithmetic row of
+\autoref{ch:visions-innovation-input-solenoid-arithmetic-boundary}
+therefore supplies the natural ambient object for a stronger conjectural
+reading: complete RP belongs to a cofinal prime-register tower, not to a
+single finite substitution alphabet.
+
+\section{Finite-Window Horizon}
+\label{sec:innovation-input-rp-finite-window-horizon}
+
+\begin{definition}[Anchored neutral RP horizon]
+\label{def:innovation-input-anchored-neutral-rp-horizon}
+For a finite alphabet size $N$, define
+$$
+L_{\max}^{\mathrm{neu}}(N)
+:=
+\sup
+\left\{
+L\in\mathbb N:
+\exists v\in\mathcal Q_N,\
+v\in\bigcap_{\ell=1}^{L}\mathcal R_{N,\ell,1}^{\mathrm{neu}}
+\right\}.
+$$
+If the displayed set is empty, set
+$L_{\max}^{\mathrm{neu}}(N)=0$. The parameter $R=1$ fixes the anchored
+window convention used by the finite-window audit. Requiring all
+reflection-centered placements can only lower the horizon.
+\end{definition}
+
+\begin{principle}[Horizon reading]
+\label{prin:innovation-input-rp-horizon-reading}
+The number $L_{\max}^{\mathrm{neu}}(N)$ measures how long a single
+alphabet size can postpone a neutral RP obstruction. It is not a complete
+RP certificate. Complete neutral RP is the stronger assertion
+$$
+\mathcal R_N^{\mathrm{neu}}
+=
+\bigcap_{L,R}\mathcal R_{N,L,R}^{\mathrm{neu}}
+\ne\varnothing,
+$$
+as in
+\autoref{def:innovation-input-neutral-rp-feasibility-class}.
+\end{principle}
+
+\begin{principle}[Finite-layer evidence ledger]
+\label{prin:innovation-input-finite-layer-evidence-ledger}
+The displayed Q3 searches support a monotone-looking but obstruction-rich
+pattern:
+$$
+\begin{array}{c|c|c|c}
+N & \text{locus} & \text{displayed passage} & \text{displayed obstruction}\\
+\hline
+2 & \text{binary row} & \text{none charged} & L=1\ \text{charged}\\
+3 & \text{unit-root row} & \text{two-point real} & \text{neutral determinant}\\
+4 & \text{real-sign square} & L=1\ \text{charged} & \text{neutral window}\\
+5 & \mathcal Q_5 & L=2\ \text{example} & L=3\ \text{empty}\\
+9 & \text{real-sign square} & L=2\ \text{examples} & L=3\ \text{empty}\\
+16 & \text{real-sign square} & L=3\ \text{examples} & L=4\ \text{empty}\\
+25 & \text{real-sign square} & L=3\ \text{strict examples} & L=4\ \text{empty}\\
+36 & \text{reported real-sign square} & L=3\ \text{strict examples} & L=4\ \text{reported failure}\\
+900 & \text{reported CRT square} & L=4\ \text{strict examples} & L=5\ \text{reported failure}\\
+44100 & \text{reported CRT square} & L=4\ \text{strict example} & L=5\ \text{reported failure}\\
+5336100 & \text{reported CRT square} & H_5=0\ \text{targeted} & L=4,L=5\ \text{reported failure}
+\end{array}
+$$
+The rows through $N=25$ are the theorem-level rows cited in
+\autoref{prin:innovation-input-finite-window-rp-audit-table},
+\autoref{cor:innovation-input-pythagorean-ltwo-rp-passage},
+\autoref{thm:innovation-input-even-endpoint-exclusion-closes-pentary},
+\autoref{thm:innovation-input-nine-real-no-lthree-rp-row}, and
+\autoref{thm:innovation-input-square-real-sign-bottleneck}. The rows for
+$N=36$, $N=900$, $N=44100$, and $N=5336100$ are search-ledger rows: they
+motivate the cofinal prime-register formulation but do not carry theorem
+status in this chapter.
+\end{principle}
+
+\begin{principle}[Four-prime CRT witness ledger]
+\label{prin:innovation-input-four-prime-crt-witness-ledger}
+The reported four-prime primorial-square row uses
+$$
+N=(2\cdot3\cdot5\cdot7)^2=44100
+$$
+and the CRT factorization
+$$
+\mathbb Z/44100\mathbb Z
+\cong
+\mathbb Z/4\mathbb Z
+\times
+\mathbb Z/9\mathbb Z
+\times
+\mathbb Z/25\mathbb Z
+\times
+\mathbb Z/49\mathbb Z.
+$$
+It is the product row
+$$
+v(a)
+=
+v_4(a\bmod4)
+v_9(a\bmod9)
+v_{25}(a\bmod25)
+v_{49}(a\bmod49),
+$$
+where the local negative positions are
+$$
+\begin{gathered}
+I_4=\{3\},\\
+I_9=\{1,5,6\},\\
+I_{25}=\{0,1,2,3,4,5,6,9,19,23\},\\
+I_{49}=\{1,2,5,6,9,10,16,17,20,21,24,
+27,30,31,34,35,37,38,39,41,43\}.
+\end{gathered}
+$$
+The local sums are
+$$
+\sum v_4=2,
+\qquad
+\sum v_9=3,
+\qquad
+\sum v_{25}=5,
+\qquad
+\sum v_{49}=7,
+$$
+so the product row satisfies the Q3 sum rule
+$$
+\sum_{a=0}^{44099}v_a
+=
+2\cdot3\cdot5\cdot7
+=
+210
+=
+\sqrt{44100}.
+$$
+The reported anchored real neutral $L=4$ matrix is symmetric and positive
+definite, with
+$$
+\lambda_{\min}(M_4)\approx7.63\times10^{-4}
+$$
+and least diagonal certificate
+$$
+M_{(2,3),(2,3)}=\frac1{1225}>0.
+$$
+The same row fails the anchored real neutral $L=5$ matrix already at the
+symmetry layer:
+$$
+M_{(1,3),(1,2,4,5)}=\frac1{441},
+\qquad
+M_{(1,2,4,5),(1,3)}=-\frac{11}{2205},
+$$
+with discrepancy
+$$
+\frac1{441}-\left(-\frac{11}{2205}\right)
+=
+\frac{16}{2205}.
+$$
+It also has the negative diagonal certificate
+$$
+M_{(3,5),(3,5)}=-\frac1{441}<0.
+$$
+Thus the four-prime CRT row strengthens the horizon pattern: primorial
+structure improves finite-window survival, while a fixed finite register
+still exhibits a finite-window obstruction.
+\end{principle}
+
+\begin{principle}[Primorial-square homomorphic delay]
+\label{prin:innovation-input-primorial-square-homomorphic-delay}
+For the anchored real neutral $L=5$ window, define the primitive
+Hermitian defect
+$$
+H_5
+:=
+M_{(1,3),(1,2,4,5)}
+-
+M_{(1,2,4,5),(1,3)}.
+$$
+The reported CRT rows for
+$$
+N_3=(2\cdot3\cdot5)^2=900
+$$
+and
+$$
+N_4=(2\cdot3\cdot5\cdot7)^2=44100
+$$
+exhibit the same anchored real neutral $L=5$ Hermitian defect shape. In
+both rows the first displayed asymmetry occurs between the support
+$(1,3)$ and the support $(1,2,4,5)$. For $N_3$ the reported values are
+$$
+M_{(1,3),(1,2,4,5)}=\frac1{45},
+\qquad
+M_{(1,2,4,5),(1,3)}=-\frac{11}{225},
+$$
+so the defect is
+$$
+H_5(N_3)
+=
+\frac1{45}-\left(-\frac{11}{225}\right)
+=
+\frac{16}{225}.
+$$
+For $N_4$ the corresponding values are
+$$
+M_{(1,3),(1,2,4,5)}=\frac1{441},
+\qquad
+M_{(1,2,4,5),(1,3)}=-\frac{11}{2205},
+$$
+so the defect is
+$$
+H_5(N_4)
+=
+\frac1{441}-\left(-\frac{11}{2205}\right)
+=
+\frac{16}{2205}.
+$$
+The defect ratio is therefore
+$$
+\frac{H_5(N_4)}{H_5(N_3)}
+=
+\frac{16/2205}{16/225}
+=
+\frac5{49}.
+$$
+Adding the prime-$7$ register does not change the visible obstruction
+type; it attenuates the obstruction. The positive-window horizon has
+therefore not crossed $L=5$ in these two reported rows, but the obstruction
+has the form of a stable finite-window defect whose amplitude decreases
+under prime-register enlargement.
+\end{principle}
+
+\begin{principle}[Five-prime cancellation tradeoff]
+\label{prin:innovation-input-five-prime-cancellation-tradeoff}
+At the five-prime level
+$$
+N_5=(2\cdot3\cdot5\cdot7\cdot11)^2=5336100,
+$$
+the CRT factorization is
+$$
+\mathbb Z/N_5\mathbb Z
+\cong
+\mathbb Z/4\mathbb Z
+\times
+\mathbb Z/9\mathbb Z
+\times
+\mathbb Z/25\mathbb Z
+\times
+\mathbb Z/49\mathbb Z
+\times
+\mathbb Z/121\mathbb Z.
+$$
+The reported product row uses a $121$-component real-sign factor with
+negative positions
+$$
+\begin{gathered}
+I_{121}=\{0,1,2,4,6,7,10,14,17,22,26,27,30,32,33,36,\\
+37,38,39,40,45,49,51,56,58,59,62,63,66,67,68,69,\\
+70,71,73,74,75,77,82,83,84,87,90,95,99,100,\\
+103,104,106,108,109,111,112,114,115\}.
+\end{gathered}
+$$
+Thus $\#(-)=55$, $\#(+)=66$, and
+$$
+\sum v_{121}=11.
+$$
+Together with the local sums $2,3,5,7$, the product row has total sum
+$$
+2\cdot3\cdot5\cdot7\cdot11
+=
+2310
+=
+\sqrt{5336100},
+$$
+so it is Q3-compatible.
+
+For this selected five-prime row, the inherited primitive Hermitian defect
+is cancelled:
+$$
+H_5(N_5)=0.
+$$
+Equivalently, the two reflected correlation blocks agree:
+$$
+\Gamma(0,2,3,4,6,7)
+=
+\Gamma(0,1,3,4,5,7)
+=
+-\frac{5326399}{25885425951}.
+$$
+This shows that the $H_5$ channel is not an immutable finite-level
+obstruction. It can be killed by a suitable prime-$11$ local factor.
+
+The same selected row does not pass the window tests. Its anchored real
+neutral $L=5$ matrix has a larger Hermitian defect at the support pair
+$(1,4)$ and $(1,2,3,5)$:
+$$
+M_{(1,4),(1,2,3,5)}
+=
+-\frac{5324243}{31637742829},
+\qquad
+M_{(1,2,3,5),(1,4)}
+=
+\frac{69333739}{94913228487},
+$$
+with difference
+$$
+-\frac{85306468}{94913228487}
+\approx
+-8.9878\times10^{-4}.
+$$
+The anchored real neutral $L=4$ test is also lost for this row:
+$$
+\max|M_4-M_4^{\mathsf T}|
+\approx
+1.7991\times10^{-4},
+$$
+and
+$$
+\lambda_{\min}\left(\frac{M_4+M_4^{\mathsf T}}2\right)
+\approx
+-3.40\times10^{-4}.
+$$
+Thus adjoining a prime channel can cancel a chosen high-window defect
+while creating lower-window incompatibility.
+\end{principle}
+
+\begin{principle}[Local-factor compatibility problem]
+\label{prob:innovation-input-local-factor-compatibility}
+The primorial-square search is therefore not a one-defect optimization
+problem. It asks for a recursive choice of local real-sign factors
+$$
+v_{4},v_{9},v_{25},v_{49},v_{121},\ldots
+$$
+such that adjoining a prime factor $v_{p^2}$ preserves every previously
+secured anchored neutral window while reducing the next obstruction. In
+schematic form, if the $S$-register row has passed the windows
+$\ell\le L$, the extension to $S\cup\{p\}$ must keep
+$$
+M_{\ell}^{(S\cup\{p\})}
+\succeq0
+\qquad
+\ell\le L
+$$
+and only then use the extra prime channel to suppress a higher-window
+defect. Complete RP is a tower-compatibility problem, not an isolated
+finite-$N$ search.
+\end{principle}
+
+\begin{principle}[Diagonal obstruction persists beside symmetry failure]
+\label{prin:innovation-input-primorial-square-diagonal-persistence}
+The same comparison also shows that the $L=5$ failure is not merely a
+choice of non-Hermitian presentation. The reported $N_3$ row has a
+negative diagonal certificate
+$$
+M_{(1,2,3,5),(1,2,3,5)}
+=
+-\frac{5393}{202275}
+<0,
+$$
+while the reported $N_4$ row has
+$$
+M_{(3,5),(3,5)}
+=
+-\frac1{441}
+<0.
+$$
+Thus positive semidefiniteness still fails after ignoring the Hermitian
+asymmetry. The $L=5$ obstruction is therefore layered: the Hermitian defect
+blocks reflection symmetry, and negative diagonal entries block
+positive semidefiniteness even after discarding that asymmetry. The
+primorial-square evidence supports a two-part reading: finite prime
+registers can weaken high-window defects, but a fixed finite register
+still leaves a concrete finite-window obstruction.
+\end{principle}
+
+\section{Finite Alphabet Finiteness}
+\label{sec:innovation-input-finite-alphabet-finiteness}
+
+\begin{conjecture}[Finite-alphabet RP finiteness]
+\label{conj:innovation-input-finite-alphabet-rp-finiteness}
+For every finite alphabet size $N$, no Q3 self-substitution row over that
+alphabet passes all neutral finite-window RP tests:
+$$
+\forall N<\infty,
+\qquad
+\mathcal R_N^{\mathrm{neu}}=\varnothing.
+$$
+Equivalently, for every fixed finite $N$ and every
+$v\in\mathcal Q_N$, there is a finite neutral RP window
+$\mathcal B$ such that
+$$
+M_{\mathcal B}(v)\not\succeq0.
+$$
+In the anchored-depth language of
+\autoref{def:innovation-input-anchored-neutral-rp-horizon}, this predicts
+$$
+L_{\max}^{\mathrm{neu}}(N)<\infty
+$$
+for every finite $N$.
+\end{conjecture}
+
+\conjectureStatus{open}
+
+\begin{principle}[Finite alphabets delay rather than remove RP failure]
+\label{prin:innovation-input-finite-alphabet-delay-principle}
+Under
+\autoref{conj:innovation-input-finite-alphabet-rp-finiteness}, increasing
+$N$ can raise the finite-window horizon, especially when the prime factor
+structure of $N$ gives more independent carry channels. It cannot turn a
+single finite row into an all-window OS/RP source. The input Hamiltonian
+gate of
+\autoref{thm:innovation-input-complete-rp-necessary-for-os-source-upgrade}
+therefore treats every finite-window negative certificate as a genuine
+source-side exclusion, even when the same row has strong lower-window
+positivity.
+\end{principle}
+
+\section{Prime-Register Approximation}
+\label{sec:innovation-input-prime-register-approximation}
+
+\begin{definition}[Cofinal square prime-register tower]
+\label{def:innovation-input-cofinal-square-prime-register-tower}
+Let $p_k$ be the $k$-th prime and set
+$$
+P_k:=\prod_{p\le p_k}p,
+\qquad
+N_k:=P_k^2.
+$$
+The associated prime sets
+$$
+S_k:=\{p:p\le p_k\}
+$$
+increase cofinally to the set $\mathbb P$ of all primes. The stationary
+finite-register solenoid attached to level $k$ is
+$$
+\Sigma_k
+=
+\varprojlim
+\left(
+\mathbb T
+\xleftarrow{z\mapsto z^{P_k^2}}
+\mathbb T
+\right),
+$$
+with charge group
+$$
+\widehat{\Sigma_k}=\mathbb Z[S_k^{-1}]
+$$
+at finite prime register $S_k$.
+\end{definition}
+
+\begin{conjecture}[Prime-register RP approximation]
+\label{conj:innovation-input-prime-register-rp-approximation}
+For every finite neutral RP window $\mathcal B$, there is a prime level
+$k$ and a Q3 row
+$$
+v^{(k)}\in\mathcal Q_{P_k^2}
+$$
+such that
+$$
+M_{\mathcal B}(v^{(k)})\succeq0.
+$$
+Equivalently, for the anchored-depth audit,
+$$
+\forall L\ \exists k\ \exists v^{(k)}\in\mathcal Q_{P_k^2},
+\qquad
+v^{(k)}
+\in
+\bigcap_{\ell=1}^{L}\mathcal R_{P_k^2,\ell,1}^{\mathrm{neu}}.
+$$
+Together with
+\autoref{conj:innovation-input-finite-alphabet-rp-finiteness}, this says
+that every fixed level remains finite-window vulnerable:
+$$
+\forall k\ \forall v\in\mathcal Q_{P_k^2}\ \exists\mathcal B,
+\qquad
+M_{\mathcal B}(v)\not\succeq0,
+$$
+while every fixed finite window can be made positive at a sufficiently
+large prime-register level.
+\end{conjecture}
+
+\conjectureStatus{open}
+
+\begin{conjecture}[Cofinal-tail RP approximation]
+\label{conj:innovation-input-cofinal-tail-rp-approximation}
+There is a compatible primorial-square CRT family
+$$
+v^{(k)}\in\mathcal Q_{P_k^2}
+$$
+such that every fixed anchored neutral window eventually becomes
+positive-semidefinite along the tail:
+$$
+\forall L\ \exists k_0(L)\ \forall k\ge k_0(L),
+\qquad
+v^{(k)}
+\in
+\bigcap_{\ell=1}^{L}\mathcal R_{P_k^2,\ell,1}^{\mathrm{neu}}.
+$$
+For every fixed finite $k$, however, some finite neutral window still
+obstructs the same row:
+$$
+\forall k\ \exists\mathcal B,
+\qquad
+M_{\mathcal B}(v^{(k)})\not\succeq0.
+$$
+This is the tail-strength form of the limit RP conjecture: complete RP is
+not assigned to any single finite alphabet, but to the cofinal
+prime-register limit.
+\end{conjecture}
+
+\conjectureStatus{open}
+
+\begin{principle}[Solenoid-limit source reading]
+\label{prin:innovation-input-solenoid-limit-source-reading}
+The conjectural source object is not a distinguished finite $N$. It is
+the cofinal prime-register limit
+$$
+S_k\nearrow\mathbb P,
+\qquad
+P_k^2=\left(\prod_{p\le p_k}p\right)^2,
+$$
+and the corresponding full solenoid
+$$
+\Sigma_{\mathbb P}\cong\widehat{\mathbb Q}.
+$$
+Its visible circle projection has hidden fibre
+$$
+K_{\mathbb P}:=\ker(\Sigma_{\mathbb P}\to\mathbb T)
+\cong
+\prod_{p\in\mathbb P}\mathbb Z_p.
+$$
+This is the arithmetic form of the RP limit intuition: finite alphabets
+carry only finitely many branch registers, while the all-prime solenoid
+retains an infinite compatible fibre capable of absorbing arbitrarily deep
+carry, anchor, and boundary constraints.
+\end{principle}
+
+\section{Limit Matrix Problem}
+\label{sec:innovation-input-limit-matrix-problem}
+
+\begin{principle}[Fixed-window limit problem]
+\label{prob:innovation-input-fixed-window-limit-problem}
+For each finite neutral window $\mathcal B$, the prime-register programme
+asks for a selected tower of rows
+$$
+v^{(k)}\in\mathcal Q_{P_k^2}
+$$
+for which the entrywise limit
+$$
+M_{\mathcal B}^{(\infty)}
+:=
+\lim_{k\to\infty}M_{\mathcal B}(v^{(k)})
+$$
+exists and satisfies
+$$
+M_{\mathcal B}^{(\infty)}\succeq0.
+$$
+The stronger compatibility problem asks that these limits agree under
+restriction of windows, so that the family of positive finite-window
+forms defines one OS/RP source form on the solenoid input process.
+\end{principle}
+
+\begin{principle}[Complete RP as a limit property]
+\label{prin:innovation-input-complete-rp-limit-property}
+The finite-window evidence and the solenoid arithmetic row point to the
+same classification. Q3 compatibility is a finite refinement law; local
+RP is a finite-window positivity event; complete RP is a compatible
+all-window positivity structure. The first two can occur at finite
+alphabet size. The third is conjecturally a property of the cofinal
+prime-register limit. Even if the limit source form is obtained, the
+Hilbert--Polya upgrade remains a separate bridge obligation by
+\autoref{prin:innovation-input-two-hp-bridge-obligations}.
+\end{principle}

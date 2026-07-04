@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for Euler's Pentagonal Number Theorem}
+\label{ch:concrete-instances-euler-pentagonal-number-theorem-namecert}
+\origin{human}
+
+Following Euler and Franklin, the Euler pentagonal number theorem packet records a finite BEDC reconstruction of the classical partition-theory identity
+$$
+\prod_{n\geq 1}(1-q^n)=\sum_{k=-\infty}^{\infty}(-1)^k q^{k(3k-1)/2}.
+$$
+The generalized pentagonal numbers are
+$$
+g_k=\frac{k(3k-1)}{2}
+$$
+for $k\in\mathbb{Z}$, and the attached sign is $(-1)^k$. The BEDC carrier does not assert analytic convergence of the infinite product or a completed infinite formal power series. It records an exact finite reconstruction of Euler's pentagonal number theorem and Franklin's sign-reversing involution as finite NameCert data; the generating-function identity is truncated to a finite polynomial coefficient identity.
+
+\begin{definition}[Euler--Franklin finite carrier]
+\label{def:euler-pentagonal-number-theorem-finite-carrier}
+An Euler--Franklin finite carrier consists of the following displayed rows:
+\begin{enumerate}
+\item a low-degree $q$-polynomial row for the product $\prod_{n=1}^{30}(1-q^n)$;
+\item a coefficient window row exposing the coefficients of $q^d$ for $0\leq d\leq 26$;
+\item a generalized pentagonal sign row, computed by the finite searches $d=k(3k-1)/2$ and $d=k(3k+1)/2$ for $0\leq k\leq d$;
+\item a distinct-partition enumerator row for strict decreasing positive parts summing to $n$;
+\item a signed partition-count row computing $\sum_{\lambda\in D(n)}(-1)^{\#\lambda}$ for $0\leq n\leq 12$;
+\item a local NameCert row naming the finite Euler coefficient window and the finite Franklin cancellation count as the same pentagonal-sign packet.
+\end{enumerate}
+The classifier has no coordinate for convergence, infinite products, infinite sums over all integers, quotient power series, or a host-side partition theorem outside the displayed finite data.
+\end{definition}
+
+\begin{theorem}[Finite Euler coefficient certificate]
+\label{thm:euler-pentagonal-number-theorem-finite-euler-certificate}
+For the finite product
+$$
+P_{30}(q)=\prod_{n=1}^{30}(1-q^n),
+$$
+the coefficient row through degree $26$ is
+$$
+1,-1,-1,0,0,1,0,1,0,0,0,0,-1,0,0,-1,0,0,0,0,0,0,1,0,0,0,1.
+$$
+Equivalently, the nonzero entries in this window occur at
+$$
+(0,+1),(1,-1),(2,-1),(5,+1),(7,+1),(12,-1),(15,-1),(22,+1),(26,+1),
+$$
+matching the generalized pentagonal data
+$$
+(0,0,+),(1,1,-),(-1,2,-),(2,5,+),(-2,7,+),(3,12,-),(-3,15,-),(4,22,+),(-4,26,+).
+$$
+\end{theorem}
+\begin{proof}
+The Lean certificate computes the coefficient window by a finite coefficient recurrence for multiplication by $1-q^n$. The resulting row is compared by Boolean list equality with the displayed coefficient table, and the pentagonal-sign row is computed independently by finite search over generalized pentagonal shapes.
+\end{proof}
+
+\begin{theorem}[Finite Franklin signed-count certificate]
+\label{thm:euler-pentagonal-number-theorem-franklin-signed-count}
+Let $D(n)$ be the finite set of partitions of $n$ into distinct positive parts, represented as strict decreasing lists. Then the finite signed count
+$$
+\sum_{\lambda\in D(n)}(-1)^{\#\lambda}
+$$
+agrees with the pentagonal sign for every $0\leq n\leq 12$. In particular the checked rows include
+$$
+n=0:+1,\quad n=1:-1,\quad n=2:-1,\quad n=5:+1,\quad n=7:+1,\quad n=12:-1.
+$$
+\end{theorem}
+\begin{proof}
+The Lean certificate enumerates distinct-part partitions by bounded recursion over the largest permitted part. Each listed partition contributes $+1$ or $-1$ according to the parity of its length. The signed count is then compared by kernel reduction with the same finite pentagonal-sign row used in the coefficient certificate.
+\end{proof}
+
+\begin{theorem}[Euler--Franklin finite NameCert reconstruction]
+\label{thm:euler-pentagonal-number-theorem-namecert-reconstruction}
+The Euler--Franklin packet is a finite NameCert reconstruction of the classical theorem: the Euler side verifies the product $\prod_{n=1}^{30}(1-q^n)$ through degree $26$, while the Franklin side verifies the distinct-partition signed count through $n=12$. Franklin's sign-reversing involution is represented at this scope by its finite cancellation consequence: all non-pentagonal signed rows in the checked range cancel, and only the pentagonal fixed rows remain.
+\end{theorem}
+\leanchecked{BEDC.Derived.EulerPentagonalNumberTheorem.euler\_pentagonal\_number\_theorem\_certificate}
+\begin{proof}
+Combine the finite Euler coefficient table, the independent pentagonal-sign computation, and the Franklin signed-count rows. The Lean target records these rows as a single conjunction. It is a finite certificate of the displayed reconstruction, not an analytic assertion about the infinite product.
+\end{proof}
+
+\falsifiablePrediction{Every accepted Euler--Franklin finite carrier exposes the finite product row, coefficient window through degree $26$, generalized pentagonal sign search, distinct-partition enumeration, signed count through $n=12$, and local NameCert row before exporting an Euler pentagonal-number theorem conclusion.}
+
+\independenceWitness{q-series, distinct partitions, pentagonal sign: this packet is not bijective to a generic polynomial row or a generic partition row because it jointly binds the truncated Euler product, the generalized pentagonal sign search, and the finite Franklin signed cancellation count.}
+
+\begin{closurestatus}{EulerPentagonalNumberTheoremUp}
+  \constructivestory{The packet is generated from a finite coefficient window for $\prod_{n=1}^{30}(1-q^n)$, a bounded generalized-pentagonal sign search, a distinct-partition enumerator, a signed-count row through $n=12$, and a local NameCert row tying the Euler and Franklin surfaces together.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{finite truncation $\prod_{n=1}^{30}(1-q^n)$ coefficient identity through degree 26 + Franklin signed distinct-partition count through $n=12$}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.EulerPentagonalNumberTheorem.euler\_pentagonal\_number\_theorem\_certificate}
+  \bridgestatus{none}
+  \notclaimed{a finite reconstruction of Euler's pentagonal number theorem and Franklin's involution; the generating-function identity is verified as a finite truncated polynomial coefficient identity, not as an infinite product convergence statement}
+  \upgradepath{extend to the Jacobi triple product and the Rogers--Ramanujan identities as further finite q-series NameCert reconstructions}
+\end{closurestatus}
