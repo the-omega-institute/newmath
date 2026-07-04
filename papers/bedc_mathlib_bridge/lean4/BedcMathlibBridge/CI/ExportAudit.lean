@@ -153,6 +153,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.FussCatalan.fussCatalanExport,
     witnessType :=
       `BedcMathlibBridge.Export.FussCatalan.FussCatalanExportWitness },
+  { witness := `BedcMathlibBridge.Export.TernaryTree.ternaryTreeExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.TernaryTree.TernaryTreeExportWitness },
   { witness := `BedcMathlibBridge.Export.Lobb.lobbExport,
     witnessType := `BedcMathlibBridge.Export.Lobb.LobbExportWitness },
   { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
