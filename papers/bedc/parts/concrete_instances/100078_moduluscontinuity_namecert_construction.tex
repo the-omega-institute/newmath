@@ -71,6 +71,24 @@ The remaining rows do not add mathematical primitives. The $\BHist$, $\hsame$, $
 \end{proof}
 \leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityRealCompletion\_handoff}
 
+\begin{theorem}[Modulus-continuity RealEquality handoff]
+\label{thm:modulus-continuity-real-equality-handoff}
+Every equality comparison between target seals reached by accepted $\ModulusContinuityUp$ packets must factor through the $\RealEqualityUp$ public boundary after the displayed carrier route
+$$
+D \to K \to S \to G \to Q \to R .
+$$
+The comparison may use only the dyadic tolerance ledger, modulus row, source window, graph row, regular readback, terminal Real seal, componentwise transport, displayed replay, provenance, and local naming rows supplied by the accepted packets. It exports no host real equality, quotient stream equality, selected limit, detached continuity oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted $\ModulusContinuityUp$ carrier $M=(G,S,K,D,Q,R,H,C,P,N)$. The carrier rows and the NameCert obligations force every target-seal read to pass through $D,K,S,G,Q,R$ before the terminal Real seal can be consumed.
+
+Apply \autoref{thm:modulus-continuity-real-completion-handoff}. A Real or Completion consumer receives only the function-specific tolerance-to-window route displayed by the packet, so the target seal is not accompanied by host equality, quotient-stream equality, a selected limit, a detached continuity oracle, or ambient Real completeness.
+
+Now use the source route and public boundary of $\RealEqualityUp$, especially \autoref{thm:real-equality-regular-cauchy-source-route} and \autoref{thm:real-equality-public-boundary}. An equality comparison of the terminal seals can become public only after the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and structural rows required by $\RealEqualityUp$ have been displayed.
+
+The structural rows $H,C,P,N$ preserve that same finite route. Therefore a target-seal comparison reached through $\ModulusContinuityUp$ factors through $\RealEqualityUp$ as the public equality boundary, and no excluded equality or completeness coordinate is exported.
+\end{proof}
+
 \begin{theorem}[Modulus-continuity Cauchy route]
 \label{thm:modulus-continuity-cauchy-route}
 For every accepted $\ModulusContinuityUp$ carrier
