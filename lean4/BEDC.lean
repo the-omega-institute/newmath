@@ -1003,6 +1003,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.DualPrefixBoundary
 import BEDC.Derived.BinaryEndpointNormalizationUp.RealSealNonescape
 import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
+import BEDC.Derived.BinaryExpansionIntervalUp
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinaryExpansionUp.TasteGate
 import BEDC.Derived.BinaryQuadFormUp
