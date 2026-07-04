@@ -1,0 +1,323 @@
+\section{BEDC--Langlands Parameter State Certificate}
+\label{sec:unified-reality-bedc-langlands-parameter-state-cert}
+
+The trace-window argument needs a nonzero parameter-side readout before
+the stable trace formula can transport that readout to the spectral
+side. On an unramified fixed Hecke window this readout is simply
+evaluation at the Frobenius fingerprint of the parameter. Ramified,
+archimedean, endoscopic, and Arthur data are not inserted into the
+unramified Satake window; they are local parameter-state rows or
+ParameterLedger obligations.
+
+\begin{definition}[Unramified parameter state]
+\label{def:unified-reality-unramified-parameter-state}
+Let
+$$
+\mathcal W=(S,R,B)
+$$
+be a fixed finite unramified Hecke window. The Satake coordinate window
+of \autoref{def:unified-reality-satake-coordinate-window} identifies
+$$
+\mathcal H_{\mathcal W}
+\cong
+\mathbb C\bigl[({}^LG/\!/\mathrm{conj})^S\bigr].
+$$
+For an allowed parameter packet $\phi^{\uparrow}$, write
+$$
+x_{\phi,\mathcal W}
+:=
+\bigl(\phi(\operatorname{Frob}_v)\bigr)_{v\in S}.
+$$
+The unramified parameter state is the evaluation functional
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{unr}}:
+\mathcal H_{\mathcal W}\to\mathbb C
+$$
+defined by
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{unr}}(f)
+:=
+f(x_{\phi,\mathcal W}).
+$$
+\end{definition}
+
+\begin{theorem}[Unramified parameter state nonzero]
+\label{thm:unified-reality-unramified-parameter-state-nonzero}
+Let $f_{\phi,\mathcal W,B}$ be the finite Hecke projector attached to
+$\phi^{\uparrow}$ and $\mathcal W$. Then
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{unr}}(f_{\phi,\mathcal W,B})=1.
+$$
+In particular,
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{unr}}(f_{\phi,\mathcal W,B})\ne0.
+$$
+\end{theorem}
+\begin{proof}
+The finite Hecke projector is represented by the interpolation function
+constructed in
+\autoref{thm:unified-reality-finite-hecke-projector-cert}. It satisfies
+$$
+f_{\phi,\mathcal W,B}(x_{\phi,\mathcal W})=1.
+$$
+The unramified parameter state is evaluation at
+$x_{\phi,\mathcal W}$, so the displayed equality follows.
+\end{proof}
+
+\begin{definition}[Parameter readout completeness]
+\label{def:unified-reality-parameter-readout-completeness}
+The finite-dimensional representation category $\operatorname{Rep}({}^LG)$
+is the readout system for semisimple Langlands parameters: if semisimple
+elements $g$ and $h$ have
+$$
+\operatorname{tr}r(g)=\operatorname{tr}r(h)
+$$
+for every finite-dimensional representation $r$, then $g$ and $h$ define
+the same semisimple conjugacy class. Thus the evaluation functional on a
+finite Satake window is a complete finite readout of the displayed
+Frobenius fingerprint.
+\end{definition}
+
+\begin{definition}[Local parameter state ledger]
+\label{def:unified-reality-local-parameter-state-ledger}
+At a ramified or archimedean place $v$, a local parameter state
+certificate is a local stable functional
+$$
+\Theta_{\phi_v}^{\mathrm{loc}}:
+\mathcal H_v^{\mathrm{loc}}\to\mathbb C
+$$
+whose definition depends only on the local parameter row $\phi_v$ and
+whose ledger records conductor, monodromy, local
+$\epsilon/\gamma$ factors, infinitesimal character, transfer factors,
+normalization, endoscopy, and Arthur $SL_2$ data when present. If such a
+functional is not available on the declared scope, the failure is a
+local parameter ledger row.
+\end{definition}
+
+\begin{definition}[Global ParameterLedger]
+\label{def:unified-reality-global-parameter-ledger}
+For a global parameter packet $\phi^{\uparrow}$, the ParameterLedger is
+the finite and categorical ledger
+$$
+\operatorname{ParameterLedger}(\phi)
+:=
+(S_{\mathrm{ram}},N_v,\epsilon_v,\gamma_v,
+\mathsf{Monodromy},\mathsf{ArthurSL}_2,\mathsf{Endoscopy},
+\mathsf{ArchimedeanType},\mathsf{Normalization}).
+$$
+Here $N_v$ denotes Weil--Deligne monodromy, and every row records the
+source, classifier, local functional, and normalization data needed for
+the parameter state.
+\end{definition}
+
+\begin{definition}[Global parameter state]
+\label{def:unified-reality-global-parameter-state}
+For a finite window with unramified, ramified, and archimedean parts,
+write
+$$
+\mathcal W=(S_{\mathrm{unr}},S_{\mathrm{ram}},R,B).
+$$
+A global parameter state is the tensor functional
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}
+:=
+\left(\bigotimes_{v\in S_{\mathrm{unr}}}
+\Theta_{\phi_v}^{\mathrm{unr}}\right)
+\otimes
+\left(\bigotimes_{v\in S_{\mathrm{ram}}}
+\Theta_{\phi_v}^{\mathrm{loc}}\right)
+\otimes
+\Theta_{\phi,\infty},
+$$
+where $\Theta_{\phi,\infty}$ records the archimedean infinitesimal
+character, tempered or unitary row, and cohomological weight when those
+rows are part of the declared scope.
+\end{definition}
+
+\begin{theorem}[Parameter state certificate]
+\label{thm:unified-reality-parameter-state-cert}
+Assume:
+\begin{itemize}
+\item the unramified finite projector
+$f_{\phi,\mathcal W,B}^{\mathrm{unr}}$ is constructed;
+\item each ramified and archimedean local parameter state used by the
+window is nonzero on its declared local test function, or its failure is
+recorded in $\operatorname{ParameterLedger}(\phi)$;
+\item the test function decomposes as
+$$
+f_{\phi,\mathcal W}
+=
+f_{\phi,\mathcal W,B}^{\mathrm{unr}}
+\otimes
+f_{\phi,S_{\mathrm{ram}}}^{\mathrm{ram}}
+\otimes
+f_{\phi,\infty};
+$$
+\item every present local factor is normalized by
+$$
+\Theta_{\phi_v}^{\mathrm{loc}}(f_{\phi_v})=1,
+$$
+and the archimedean factor is normalized in the same way.
+\end{itemize}
+Then
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})=1.
+$$
+In particular, the parameter-side readout on the fixed window is
+nonzero.
+\end{theorem}
+\begin{proof}
+By the tensor definition,
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})
+=
+\prod_{v\in S_{\mathrm{unr}}}
+\Theta_{\phi_v}^{\mathrm{unr}}(f_{\phi_v})
+\cdot
+\prod_{v\in S_{\mathrm{ram}}}
+\Theta_{\phi_v}^{\mathrm{loc}}(f_{\phi_v})
+\cdot
+\Theta_{\phi,\infty}(f_{\phi,\infty}).
+$$
+The unramified factors are $1$ by
+\autoref{thm:unified-reality-unramified-parameter-state-nonzero}. The
+ramified and archimedean factors are $1$ by the normalization
+hypotheses. Hence the product is $1$.
+\end{proof}
+
+\begin{theorem}[Parameter state defect localization]
+\label{thm:unified-reality-parameter-state-defect-localization}
+Let $\phi^{\uparrow}$ be a declared Langlands parameter packet. If no
+fixed-window test function has nonzero parameter state readout, then one
+of the following is present:
+$$
+\mathsf{UnramifiedFrobeniusFingerprintDefect},\quad
+\mathsf{RamifiedLocalStateDefect},\quad
+\mathsf{ArchimedeanStateDefect},
+$$
+$$
+\mathsf{EndoscopicArthurLedgerDefect},\quad
+\mathsf{UnlicensedParameterObject}.
+$$
+Each listed defect is a ParameterLedger row.
+\end{theorem}
+\begin{proof}
+If the unramified Frobenius fingerprint is defined, the unramified
+evaluation functional gives a nonzero readout on the finite Hecke
+projector by
+\autoref{thm:unified-reality-unramified-parameter-state-nonzero}. Thus
+failure of all fixed-window parameter readouts cannot come from the
+unramified Satake part unless the Frobenius fingerprint itself is not
+licensed. If the unramified row is licensed, the possible failures are
+ramified local state, archimedean state, endoscopic or Arthur
+normalization, or the parameter object's own source and classifier data.
+By the definition of
+\autoref{def:unified-reality-global-parameter-ledger}, these are exactly
+ParameterLedger rows.
+\end{proof}
+
+\begin{theorem}[Parameter state closure]
+\label{thm:unified-reality-parameter-state-closure}
+For a legal BEDC Langlands parameter packet $\phi^{\uparrow}$ and any
+fixed Hecke window $\mathcal W$, either
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})\ne0
+$$
+for the declared parameter projector, or there is a recorded
+ParameterLedger defect.
+\end{theorem}
+\begin{proof}
+If the unramified, ramified, and archimedean local parameter states used
+by the window are present and normalized, then
+\autoref{thm:unified-reality-parameter-state-cert} gives nonzero
+readout. If no such nonzero readout is available, then
+\autoref{thm:unified-reality-parameter-state-defect-localization} places
+the failure in the ParameterLedger. A legal BEDC parameter packet cannot
+have a silent missing state functional outside that ledger.
+\end{proof}
+
+\begin{theorem}[Parameter state and stable trace give window realization]
+\label{thm:unified-reality-parameter-state-stable-trace-window-realization}
+Assume parameter state closure on a fixed Hecke window, no unresolved
+ParameterLedger defect on that window, the stable trace formula
+certificate, and separation of all non-target trace ledger rows. Then
+there is an automorphic packet $\Pi$ with
+$$
+x_{\Pi,\mathcal W}=x_{\phi,\mathcal W}.
+$$
+\end{theorem}
+\begin{proof}
+With no unresolved ParameterLedger defect, parameter state closure gives
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})\ne0.
+$$
+After trace ledger rows are separated, this is a nonzero geometric-side
+readout. The stable trace formula certificate transports it to a
+nonzero spectral-side readout. The finite Hecke projector then forces a
+displayed automorphic packet to match the parameter fingerprint on the
+fixed window.
+\end{proof}
+
+\begin{theorem}[Parameter state trace-tail closure]
+\label{thm:unified-reality-parameter-state-trace-tail-closure}
+Assume ObjectTriple discipline, parameter state closure, stable trace
+formula certificate, finite Hecke projector certificates, cofinal
+automorphic tail closure, no-hidden Langlands residual, and closedness
+against unresolved ledger rows. Then every legal closed parameter packet
+$\phi^{\uparrow}$ with no unresolved ParameterLedger defect has a global
+automorphic realization $\Pi_{\phi}$ satisfying
+$$
+\lambda_{v,r}(\Pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+$$
+on the certified unramified finite detector scope.
+\end{theorem}
+\begin{proof}
+Parameter state closure gives nonzero parameter readout on each fixed
+window. The stable trace formula certificate gives nonzero spectral
+readout, and the finite Hecke projector gives a fixed-window
+automorphic realization. Applying this along a cofinal window tower
+produces a realization sequence. Cofinal automorphic tail closure says
+that the sequence either globalizes or enters the automorphic tail
+ledger. Closedness excludes unresolved tail rows, so a global packet is
+obtained. No-hidden Langlands residual then excludes any remaining
+finite mismatch or ledger residual.
+\end{proof}
+
+\begin{corollary}[Abelian parameter state]
+\label{cor:unified-reality-abelian-parameter-state}
+For $G=GL_1$, the unramified parameter state is the scalar evaluation
+$$
+\Theta_{\phi,v}^{\mathrm{unr}}(f)=f(\phi(\operatorname{Frob}_v)).
+$$
+For the quadratic parameter $\chi_{-4}$ attached to
+$\mathbb Q(i)/\mathbb Q$, this readout detects
+$$
+\chi_{-4}(\operatorname{Frob}_p)=1,
+$$
+equivalently the representation of odd split primes by $a^2+b^2$.
+\end{corollary}
+\begin{proof}
+For $GL_1$, the dual group is $\mathbb C^\times$, so the Satake quotient
+is a one-dimensional character readout. Evaluation at
+$\phi(\operatorname{Frob}_v)$ is therefore the entire unramified
+parameter state. The quadratic splitting equivalence is
+\autoref{thm:unified-reality-gl1-quadratic-splitting-detector}.
+\end{proof}
+
+\begin{theorem}[Parameter state boundary]
+\label{thm:unified-reality-parameter-state-boundary}
+The parameter state certificate closes the nonzero parameter-side
+readout on fixed Hecke windows. It does not construct every ramified
+local stable character, archimedean packet, Arthur packet,
+transfer-factor normalization, or endoscopic local state. When those
+rows are absent, they remain ParameterLedger obligations.
+\end{theorem}
+\begin{proof}
+The unramified part is evaluation at a Frobenius fingerprint and is
+closed by the finite projector construction. Ramified, archimedean,
+Arthur, and endoscopic states require their own local constructions.
+The certificate identifies their absence as ledger data rather than
+allowing a silent zero parameter-side readout.
+\end{proof}

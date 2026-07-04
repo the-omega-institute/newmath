@@ -1,0 +1,358 @@
+\section{BEDC--Langlands Existence Bridge}
+\label{sec:unified-reality-bedc-langlands-existence-bridge}
+
+The closure packet of
+\autoref{sec:unified-reality-bedc-langlands-closure-packet} isolates
+detection and uniqueness: once a paired automorphic--Galois packet is
+present and closed, a Hecke--Frobenius mismatch cannot be hidden. The
+existence side needs a generating bridge. In the analytic form this
+bridge is a trace-formula certificate. In the geometric form it is a
+certified geometric Langlands functor or categorical equivalence.
+
+\begin{definition}[Allowed parameter packet]
+\label{def:unified-reality-allowed-langlands-parameter-packet}
+An allowed Langlands parameter packet is a row
+$$
+\phi^{\uparrow}
+=
+(\phi,\Lambda_{\phi},N_{\phi})
+$$
+where
+$$
+\phi:W_F'\longrightarrow{}^LG
+$$
+is continuous on the declared source, semisimple on the certified
+unramified scope, and locally acceptable on the displayed local rows.
+The ledger $\Lambda_{\phi}$ records ramification, monodromy,
+$\gamma/\epsilon$ factors, Arthur $SL_2$ data when present, and every
+bad-place boundary used by the packet.
+\end{definition}
+
+\begin{definition}[Automorphic realization]
+\label{def:unified-reality-langlands-automorphic-realization}
+Let $\phi^{\uparrow}$ be an allowed parameter packet. An automorphic
+realization of $\phi^{\uparrow}$ is an automorphic object or automorphic
+packet row $\pi$ such that for almost all certified unramified places
+$v$ and every finite-dimensional representation $r:{}^LG\to GL(V_r)$,
+$$
+\lambda_{v,r}(\pi)
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+Equivalently, the Satake parameter of $\pi$ and the Frobenius readout of
+$\phi$ define the same semisimple point in the conjugacy quotient at
+those places.
+\end{definition}
+
+\begin{definition}[Existence residual]
+\label{def:unified-reality-langlands-existence-residual}
+For an allowed parameter packet $\phi^{\uparrow}$, the existence
+residual $E(\phi)$ is the assertion that no automorphic realization of
+$\phi^{\uparrow}$ exists on the declared scope. A closed BEDC
+Langlands existence proof must show that any such residual is detected
+by a finite trace window or is recorded in a ramified, endoscopic,
+continuous-spectrum, boundary, or compactness ledger.
+\end{definition}
+
+\begin{definition}[Parameter projection test function]
+\label{def:unified-reality-parameter-projection-test-function}
+Let $S$ be a finite set of unramified places. A test function
+$f_{\phi,S}$ is a parameter projection test function for
+$\phi^{\uparrow}$ when it belongs to the permitted restricted tensor
+product of local test spaces and its unramified local factors lie in the
+spherical Hecke algebras
+$$
+\mathcal H_v(G,K_v).
+$$
+Under the Satake transform, these factors cut out the finite list of
+semisimple Hecke readouts prescribed by
+$$
+\phi(\operatorname{Frob}_v)
+\qquad
+(v\in S).
+$$
+Thus $\operatorname{tr}\pi(f_{\phi,S})\ne0$ only for automorphic rows
+whose finite Hecke readouts match the parameter on the window $S$,
+except for residual rows explicitly named by the test-function ledger.
+\end{definition}
+
+\begin{definition}[Stable trace formula certificate]
+\label{def:unified-reality-stable-trace-formula-certificate}
+A stable trace formula certificate for $G$ is a ledgered equality
+$$
+I_{\mathrm{spec}}^G(f)=I_{\mathrm{geom}}^G(f)
+$$
+for all admitted test functions $f$, together with decomposition ledgers
+for discrete spectrum, continuous spectrum, endoscopy, ramification,
+orbital integral normalization, multiplicity, boundary terms, and
+transfer factors. The certificate is closed on a scope only when every
+term not intended as the target contribution has either been separated,
+cancelled, or recorded as an open ledger row.
+\end{definition}
+
+\begin{theorem}[Trace formula detects automorphic realization]
+\label{thm:unified-reality-trace-formula-detects-automorphic-realization}
+Let $\phi^{\uparrow}$ be an allowed parameter packet and let
+$f_{\phi,S}$ be a parameter projection test function. Assume:
+\begin{itemize}
+\item $I_{\mathrm{geom}}^G(f_{\phi,S})\ne0$;
+\item all continuous, endoscopic, boundary, ramified, and normalization
+terms not belonging to the target contribution are separated or
+ledgered;
+\item the stable trace formula certificate holds for $f_{\phi,S}$.
+\end{itemize}
+Then there is an automorphic row $\pi$ with
+$$
+\operatorname{tr}\pi(f_{\phi,S})\ne0.
+$$
+\end{theorem}
+\begin{proof}
+The geometric side is nonzero by hypothesis. The trace formula gives
+$$
+I_{\mathrm{spec}}^G(f_{\phi,S})
+=
+I_{\mathrm{geom}}^G(f_{\phi,S})
+\ne0.
+$$
+The spectral side decomposes into discrete automorphic rows, continuous
+spectrum, endoscopic transfers, and the displayed boundary ledgers. All
+non-target residual terms have been separated or ledgered, so a nonzero
+spectral contribution must come from some automorphic row $\pi$ with
+$$
+\operatorname{tr}\pi(f_{\phi,S})\ne0.
+$$
+By the projection property of $f_{\phi,S}$, this row matches the
+parameter on the finite window $S$.
+\end{proof}
+
+\begin{corollary}[Finite-window automorphic realization]
+\label{cor:unified-reality-finite-window-automorphic-realization}
+Under the hypotheses of
+\autoref{thm:unified-reality-trace-formula-detects-automorphic-realization},
+the parameter packet $\phi^{\uparrow}$ has an automorphic realization on
+the finite window $S$.
+\end{corollary}
+\begin{proof}
+The theorem supplies $\pi$ with nonzero trace against the projection
+test function. The definition of
+\autoref{def:unified-reality-parameter-projection-test-function} then
+forces the prescribed Hecke--Frobenius readouts on $S$, outside any
+ledgered residual rows.
+\end{proof}
+
+\begin{definition}[Hecke window tower]
+\label{def:unified-reality-hecke-window-tower}
+A Hecke window tower for $\phi^{\uparrow}$ is an increasing sequence of
+finite unramified sets
+$$
+S_1\subset S_2\subset\cdots
+$$
+whose union is the declared almost-everywhere unramified scope, together
+with parameter projection test functions $f_{\phi,S_n}$ for every
+window. A tower automorphic read is a sequence of automorphic rows
+$(\pi_n)$ such that each $\pi_n$ matches $\phi$ on $S_n$.
+\end{definition}
+
+\begin{definition}[Cofinal trace compactness certificate]
+\label{def:unified-reality-cofinal-trace-compactness-certificate}
+A cofinal trace compactness certificate for a Hecke window tower says
+that every tower automorphic read has one of two outcomes:
+\begin{itemize}
+\item it stabilizes or converges to an automorphic row $\pi_{\phi}$
+whose finite Hecke readouts match $\phi$ on the cofinal unramified
+scope;
+\item its failure to stabilize is recorded in the automorphic tail
+ledger, with continuous-spectrum, endoscopic, boundary, multiplicity,
+or escape-of-mass data displayed.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Trace formula existence certificate]
+\label{thm:unified-reality-trace-formula-existence-certificate}
+Let $\phi^{\uparrow}$ be an allowed parameter packet. Assume:
+\begin{itemize}
+\item a Hecke window tower with projection test functions
+$f_{\phi,S_n}$ is displayed;
+\item each window satisfies the hypotheses of
+\autoref{thm:unified-reality-trace-formula-detects-automorphic-realization};
+\item a cofinal trace compactness certificate is displayed;
+\item closed accepted objects carry no unresolved automorphic tail
+ledger.
+\end{itemize}
+Then $\phi^{\uparrow}$ has an automorphic realization
+$\pi_{\phi}$ on the declared almost-everywhere unramified scope.
+\end{theorem}
+\begin{proof}
+For every $n$,
+\autoref{thm:unified-reality-trace-formula-detects-automorphic-realization}
+supplies an automorphic row $\pi_n$ matching $\phi$ on $S_n$. The
+cofinal compactness certificate says that the tower $(\pi_n)$ either
+stabilizes or converges to an automorphic row $\pi_{\phi}$, or its
+failure enters the automorphic tail ledger. The latter alternative is
+not compatible with closedness when the tail remains unresolved.
+Therefore the closed case yields $\pi_{\phi}$, and cofinality of the
+sets $S_n$ gives the required almost-everywhere matching.
+\end{proof}
+
+\begin{theorem}[BEDC reciprocity existence]
+\label{thm:unified-reality-bedc-reciprocity-existence}
+Let $\phi^{\uparrow}$ be an allowed parameter packet. If the trace
+formula existence certificate holds for $\phi^{\uparrow}$, the
+no-hidden Langlands residual condition holds, and the accepted
+Langlands packet is closed against unresolved residual ledgers, then
+there is a closed automorphic realization $\pi_{\phi}$ satisfying
+$$
+\lambda_{v,r}(\pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+$$
+for almost all unramified $v$ and all finite-dimensional
+representations $r$ on the certified scope.
+\end{theorem}
+\begin{proof}
+The trace formula existence certificate supplies an automorphic row
+$\pi_{\phi}$ matching $\phi$ on cofinal finite windows. If any mismatch
+remains on the certified scope, the no-hidden residual condition of
+\autoref{def:unified-reality-no-hidden-langlands-residual} gives a
+finite Hecke--Frobenius detector or a Langlands ledger residual. A
+finite detector residual must be recorded or else the ledger property is
+violated; if it is recorded but unresolved, closedness fails. The same
+argument applies to ramified, endoscopic, continuous-spectrum, boundary,
+or compactness residuals. Hence the closed packet has no residual
+mismatch, and the displayed equality follows.
+\end{proof}
+
+\begin{definition}[Transfer trace certificate]
+\label{def:unified-reality-transfer-trace-certificate}
+Let
+$$
+\eta:{}^LH\longrightarrow{}^LG
+$$
+be an $L$-group homomorphism. A transfer trace certificate for $\eta$
+assigns to every admitted $H$-side test function $f_H$ an admitted
+$G$-side test function $f_G$ such that the stable orbital integrals and
+spectral target contributions match under $\eta$, while all transfer
+factor, endoscopic, ramified, continuous-spectrum, and boundary residuals
+enter the functorial transfer ledger.
+\end{definition}
+
+\begin{theorem}[Functoriality from transfer trace]
+\label{thm:unified-reality-functoriality-from-transfer-trace}
+Let $(\pi_H,\phi_H)$ be a closed BEDC--Langlands packet for $H$, and let
+$\eta:{}^LH\to{}^LG$ carry a transfer trace certificate. If the
+$G$-side trace formula existence certificate holds for
+$$
+\phi_G:=\eta\circ\phi_H,
+$$
+and the no-hidden Langlands residual condition holds on the target
+scope, then there is a closed $G$-side automorphic row $\pi_G$ with
+$$
+\lambda_{v,r}(\pi_G)
+=
+\operatorname{tr}r(\eta(\phi_H(\operatorname{Frob}_v)))
+$$
+for almost all certified unramified $v$ and all finite-dimensional
+$r:{}^LG\to GL(V_r)$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:unified-reality-bedc-reciprocity-existence} to the
+$G$-side parameter packet $\phi_G=\eta\circ\phi_H$. The transfer trace
+certificate records the trace-formula compatibility and all transfer
+residuals. The existence theorem supplies $\pi_G$, and the
+no-hidden-residual argument removes every unclosed mismatch. Substituting
+$\phi_G=\eta\circ\phi_H$ gives the displayed finite-detector equality.
+\end{proof}
+
+\begin{definition}[Geometric functor certificate]
+\label{def:unified-reality-geometric-functor-certificate}
+For a smooth complete curve $X$ and dual group $\check G$, a geometric
+functor certificate is a functor row
+$$
+\mathsf{GL}_G:
+\operatorname{IndCoh}_{\operatorname{Nilp}}(\operatorname{LocSys}_{\check G})
+\longrightarrow
+\mathcal D\text{-Mod}(\operatorname{Bun}_G)
+$$
+that is an equivalence on the declared scope, or is fully faithful and
+essentially surjective on the target subcategory, and preserves the
+Hecke modification time row, spectral local-system readout, nilpotent
+singular support, stack boundary, Eisenstein and constant-term rows, and
+endoscopic ledger.
+\end{definition}
+
+\begin{theorem}[Geometric functor gives automorphic existence]
+\label{thm:unified-reality-geometric-functor-gives-automorphic-existence}
+If a geometric functor certificate is displayed, then every spectral
+object in its certified source scope has an automorphic image with the
+corresponding Hecke eigensheaf readout, outside the residual ledgers
+named in the certificate.
+\end{theorem}
+\begin{proof}
+Let $\mathcal F_{\phi}$ be a spectral object in the certified source
+scope. The functor row sends it to
+$$
+\mathcal A_{\phi}:=\mathsf{GL}_G(\mathcal F_{\phi})
+$$
+in the automorphic category. Hecke compatibility supplies the stated
+eigensheaf readout. If a mismatch appears, it is visible under a Hecke
+modification detector or belongs to nilpotent singular support, stack
+boundary, Eisenstein, constant-term, or endoscopic ledger data. The
+certificate records those ledgers, and closedness excludes unresolved
+hidden residuals.
+\end{proof}
+
+\begin{theorem}[Langlands existence and closure principle]
+\label{thm:unified-reality-langlands-existence-and-closure-principle}
+On any Langlands scope carrying object-triple, finite-detector,
+Tannakian separation, Chebotarev, ledger, closedness, and either trace
+formula existence or geometric functor certificates, reciprocity holds on
+that scope. If, in addition, transfer trace certificates hold for the
+declared $L$-group homomorphisms, functoriality holds on the
+corresponding target scopes.
+\end{theorem}
+\begin{proof}
+Existence is supplied either by
+\autoref{thm:unified-reality-trace-formula-existence-certificate} and
+\autoref{thm:unified-reality-bedc-reciprocity-existence}, or by
+\autoref{thm:unified-reality-geometric-functor-gives-automorphic-existence}
+on the geometric scope. Detection and uniqueness are then supplied by
+the finite-detector, Tannakian, and Chebotarev rows of
+\autoref{sec:unified-reality-bedc-langlands-closure-packet}. Every
+residual not visible to a finite detector is forced into a ledger, and
+closedness rejects unresolved hidden ledger data. Transfer trace
+certificates apply the same reasoning to functorial parameters
+$\eta\circ\phi_H$.
+\end{proof}
+
+\begin{corollary}[Langlands as generated two-projection closure]
+\label{cor:unified-reality-langlands-generated-two-projection-closure}
+When the existence bridge is certified, the Langlands correspondence on
+the declared scope is the generated two-projection closure of a single
+BEDC packet: the Frobenius projection and the Hecke projection agree on
+all finite detectors, and every remaining obstruction is ledgered.
+\end{corollary}
+\begin{proof}
+The existence bridge generates the missing side of the packet. The
+closure packet excludes finite mismatch and hidden ledger residuals.
+Thus the two projections are not merely compared after the fact; they
+are the two visible faces of one closed generated packet.
+\end{proof}
+
+\begin{theorem}[Existence bridge boundary]
+\label{thm:unified-reality-langlands-existence-bridge-boundary}
+The BEDC--Langlands existence bridge reduces existence to certified
+trace-formula compactness or certified geometric functoriality. It does
+not itself prove the stable trace formula, the fundamental lemma,
+endoscopic classification, local Langlands packets, multiplicity
+formulas, continuous-spectrum decomposition, Shimura or cohomological
+realization, or the geometric Langlands categorical equivalence.
+\end{theorem}
+\begin{proof}
+Each positive theorem in this section names one of those constructions
+as an input certificate. The arguments show that once such a bridge is
+present, any absence or mismatch of the automorphic realization becomes
+a finite trace-window residual or a ledgered tail residual. They do not
+construct the bridge. The listed mathematical constructions therefore
+remain independent certificate obligations.
+\end{proof}

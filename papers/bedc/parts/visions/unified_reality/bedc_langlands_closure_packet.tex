@@ -1,0 +1,349 @@
+\section{BEDC--Langlands Closure Packet}
+\label{sec:unified-reality-bedc-langlands-closure-packet}
+
+The Langlands interface is read here as a unified-reality packet with
+two visible projections: a Galois--Frobenius projection and an
+automorphic--Hecke projection. The section records a conditional closure
+theorem. It proves the detection, uniqueness, and no-hidden-residual
+shape of the packet. It does not assert the existence theorems, trace
+formula comparisons, local classifications, endoscopic transfers,
+geometric equivalences, or functorial lifts required by the full
+Langlands programme.
+
+\begin{definition}[BEDC--Langlands packet]
+\label{def:unified-reality-bedc-langlands-packet}
+Let $F$ be a global field, let $G$ be a connected reductive group, and
+let ${}^LG$ be the associated $L$-group. A BEDC--Langlands packet is a
+certificate row
+$$
+\mathcal O^{\uparrow}
+=
+(\pi,\phi,\Lambda_{\mathcal O},N_{\mathcal O})
+$$
+where $\pi$ is an automorphic-side object for $G(\mathbb A_F)$,
+$$
+\phi:W_F'\longrightarrow{}^LG
+$$
+is a parameter-side object, $\Lambda_{\mathcal O}$ is the ledger for
+ramification, monodromy, endoscopy, continuous spectrum, boundary,
+nilpotent support, and functorial transport, and $N_{\mathcal O}$ is the
+NameCert-style source, pattern, classifier, stability, and ledger
+surface. The packet is a two-projection carrier, not an assertion that
+all existence and transfer problems have been solved.
+\end{definition}
+
+\begin{definition}[Hecke--Frobenius finite detector]
+\label{def:unified-reality-hecke-frobenius-finite-detector}
+For an unramified place $v$ and a finite-dimensional representation
+$$
+r:{}^LG\longrightarrow GL(V_r),
+$$
+the Hecke--Frobenius finite detector $(v,r)$ reads the automorphic side
+by
+$$
+\lambda_{v,r}(\pi):=\operatorname{tr} r(s_v(\pi)),
+$$
+where $s_v(\pi)$ is the Satake parameter, and reads the parameter side by
+$$
+a_{v,r}(\phi):=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+Its mismatch residual is
+$$
+D_{v,r}(\pi,\phi):=\lambda_{v,r}(\pi)-a_{v,r}(\phi).
+$$
+\end{definition}
+
+\begin{definition}[Langlands ledger residual]
+\label{def:unified-reality-langlands-ledger-residual}
+A Langlands ledger residual is a non-finite-detector obstruction carried
+by one of the displayed boundary rows:
+$$
+\mathsf{Ramification},\quad
+\mathsf{Monodromy},\quad
+\gamma/\epsilon\text{-factor},\quad
+\mathsf{Endoscopy},\quad
+\mathsf{ContinuousSpectrum},
+$$
+$$
+\mathsf{ArthurSL}_2,\quad
+\mathsf{Boundary},\quad
+\mathsf{NilpotentSupport},\quad
+\mathsf{SingularSupport}.
+$$
+Such a residual is admissible only as recorded scope data, discharged
+data, or explicitly not-claimed boundary. It is not hidden equality
+between the two projections.
+\end{definition}
+
+\begin{definition}[No-hidden Langlands residual]
+\label{def:unified-reality-no-hidden-langlands-residual}
+A BEDC--Langlands packet satisfies no-hidden Langlands residual when
+every nonzero mismatch between the Galois--Frobenius and
+automorphic--Hecke projections has one of two addresses: either some
+finite detector $(v,r)$ has
+$$
+D_{v,r}(\pi,\phi)\ne0,
+$$
+or the obstruction is recorded in the Langlands ledger of
+\autoref{def:unified-reality-langlands-ledger-residual}.
+\end{definition}
+
+\begin{theorem}[Tannakian finite detectors separate semisimple classes]
+\label{thm:unified-reality-tannakian-detectors-separate-classes}
+Let $g,h\in{}^LG$ be semisimple elements. If
+$$
+\operatorname{tr}r(g)=\operatorname{tr}r(h)
+$$
+for every finite-dimensional representation $r$ of ${}^LG$, then $g$
+and $h$ have the same semisimple conjugacy class.
+\end{theorem}
+\begin{proof}
+Characters of finite-dimensional representations are regular class
+functions and generate the coordinate algebra of the semisimple
+conjugacy quotient
+$$
+{}^LG/\!/\operatorname{conj}.
+$$
+Equality of all character values therefore says that $g$ and $h$ define
+the same point of that quotient. For semisimple elements, the closed
+orbit attached to a quotient point is the semisimple conjugacy class.
+Thus the two semisimple conjugacy classes agree.
+\end{proof}
+
+\begin{theorem}[Chebotarev--Tannakian uniqueness]
+\label{thm:unified-reality-chebotarev-tannakian-uniqueness}
+Let $\phi,\phi':W_F'\to{}^LG$ be semisimple parameter rows. If for almost
+all unramified places $v$ and every finite-dimensional representation
+$r$,
+$$
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+=
+\operatorname{tr}r(\phi'(\operatorname{Frob}_v)),
+$$
+then the semisimplified parameter rows have the same Frobenius readout;
+equivalently, they agree up to the usual semisimple parameter
+classification on the displayed scope.
+\end{theorem}
+\begin{proof}
+For each displayed unramified $v$, the preceding theorem gives equality
+of the semisimple conjugacy classes of
+$$
+\phi(\operatorname{Frob}_v)
+\qquad\text{and}\qquad
+\phi'(\operatorname{Frob}_v).
+$$
+Chebotarev density makes the Frobenius conjugacy classes dense in the
+global Galois source on the unramified scope. Since the parameter rows
+are semisimple and the character readouts agree on this dense
+Frobenius set, the semisimplified parameter readouts agree on the
+declared scope.
+\end{proof}
+
+\begin{theorem}[Closed Langlands packets have no hidden mismatch]
+\label{thm:unified-reality-closed-langlands-packet-no-hidden-mismatch}
+Let $\mathcal O^{\uparrow}=(\pi,\phi,\Lambda_{\mathcal O},N_{\mathcal O})$
+be a BEDC--Langlands packet with three-properties ledger discipline and
+no-hidden Langlands residual. If the packet is closed against unresolved
+Langlands ledger rows, then
+$$
+D_{v,r}(\pi,\phi)=0
+$$
+for every unramified finite detector $(v,r)$ outside the declared bad
+ledger.
+\end{theorem}
+\begin{proof}
+Assume that for some unramified finite detector outside the declared bad
+ledger,
+$$
+D_{v,r}(\pi,\phi)\ne0.
+$$
+Then the detector itself supplies a finite mismatch address. By ledger
+discipline, this mismatch must be recorded as a finite
+Hecke--Frobenius mismatch row. If it is not recorded, the packet violates
+the ledger property. If it is recorded but unresolved, the packet is not
+closed against unresolved Langlands ledger rows. Both alternatives
+contradict the hypotheses. Therefore no such finite mismatch exists.
+\end{proof}
+
+\begin{corollary}[Parameter uniqueness from a closed automorphic packet]
+\label{cor:unified-reality-langlands-parameter-uniqueness}
+If $(\pi,\phi)$ and $(\pi,\phi')$ are closed BEDC--Langlands packets for
+the same automorphic-side row and both satisfy the no-hidden residual
+condition on the same unramified scope, then $\phi$ and $\phi'$ have the
+same semisimplified parameter readout on that scope.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:unified-reality-closed-langlands-packet-no-hidden-mismatch},
+both parameter rows match the same Hecke readouts
+$$
+\lambda_{v,r}(\pi)
+$$
+for almost all unramified $v$ and every finite-dimensional $r$. Hence
+their Frobenius character readouts agree. Apply
+\autoref{thm:unified-reality-chebotarev-tannakian-uniqueness}.
+\end{proof}
+
+\begin{definition}[BEDC reciprocity certificate]
+\label{def:unified-reality-bedc-reciprocity-certificate}
+For a class $\mathcal C$ of automorphic-side rows, a BEDC reciprocity
+certificate assigns to every $\pi\in\mathcal C$ a parameter row
+$$
+\phi_{\pi}:W_F'\to{}^LG
+$$
+such that $(\pi,\phi_{\pi})$ forms a closed BEDC--Langlands packet,
+satisfies no-hidden Langlands residual, and carries all bad-place and
+non-finite residual rows in its ledger.
+\end{definition}
+
+\begin{theorem}[Conditional BEDC reciprocity]
+\label{thm:unified-reality-conditional-bedc-reciprocity}
+If a class $\mathcal C$ carries a BEDC reciprocity certificate, then
+each $\pi\in\mathcal C$ has a unique semisimplified parameter readout
+$\phi_{\pi}^{ss}$ on the certified unramified scope, and
+$$
+\operatorname{tr}r(s_v(\pi))
+=
+\operatorname{tr}r(\phi_{\pi}(\operatorname{Frob}_v))
+$$
+for almost all unramified places $v$ and all finite-dimensional
+representations $r$.
+\end{theorem}
+\begin{proof}
+Existence of the parameter row is part of the reciprocity certificate.
+The equality of finite Hecke and Frobenius readouts follows from
+\autoref{thm:unified-reality-closed-langlands-packet-no-hidden-mismatch}.
+Uniqueness of the semisimplified parameter readout follows from
+\autoref{cor:unified-reality-langlands-parameter-uniqueness}.
+\end{proof}
+
+\begin{definition}[BEDC functoriality certificate]
+\label{def:unified-reality-bedc-functoriality-certificate}
+Let
+$$
+\eta:{}^LH\longrightarrow{}^LG
+$$
+be an $L$-group homomorphism. A BEDC functoriality certificate for
+$\eta$ assigns to each closed packet $(\pi_H,\phi_H)$ a closed packet
+$(\pi_G,\phi_G)$ such that
+$$
+\phi_G=\eta\circ\phi_H
+$$
+on the certified parameter scope, and every transfer, endoscopic,
+ramified, continuous-spectrum, or boundary residual enters the
+functoriality ledger.
+\end{definition}
+
+\begin{theorem}[Conditional BEDC functoriality]
+\label{thm:unified-reality-conditional-bedc-functoriality}
+If $\eta:{}^LH\to{}^LG$ carries a BEDC functoriality certificate, then
+for the associated closed packet $(\pi_G,\phi_G)$ and every unramified
+finite detector $(v,r)$ outside the transfer ledger,
+$$
+\lambda_{v,r}(\pi_G)
+=
+\operatorname{tr}r(\eta(\phi_H(\operatorname{Frob}_v))).
+$$
+\end{theorem}
+\begin{proof}
+The functoriality certificate gives $\phi_G=\eta\circ\phi_H$. Since
+$(\pi_G,\phi_G)$ is closed and satisfies the no-hidden residual
+condition on the certified scope,
+\autoref{thm:unified-reality-closed-langlands-packet-no-hidden-mismatch}
+gives
+$$
+\lambda_{v,r}(\pi_G)
+=
+\operatorname{tr}r(\phi_G(\operatorname{Frob}_v)).
+$$
+Substituting $\phi_G=\eta\circ\phi_H$ gives the displayed equality.
+\end{proof}
+
+\begin{definition}[Geometric Langlands closure certificate]
+\label{def:unified-reality-geometric-langlands-closure-certificate}
+For a smooth complete curve $X$ and dual group $\check G$, a geometric
+Langlands closure certificate is a categorical equivalence row between
+the automorphic category and the spectral local-system category together
+with ledgers for Hecke modification time, spectral local-system readout,
+nilpotent singular support, stack boundary, Eisenstein and constant-term
+rows, and endoscopic residuals.
+\end{definition}
+
+\begin{theorem}[Geometric Langlands closure has no hidden residual]
+\label{thm:unified-reality-geometric-langlands-no-hidden-residual}
+If a geometric Langlands equivalence row carries the closure certificate
+of \autoref{def:unified-reality-geometric-langlands-closure-certificate},
+then a closed geometric Langlands packet has no hidden residual outside
+the displayed Hecke, singular-support, boundary, Eisenstein, and
+endoscopic ledgers.
+\end{theorem}
+\begin{proof}
+A residual visible under Hecke modification is a finite categorical
+detector and must be recorded in the Hecke ledger. A residual not visible
+there must occur in one of the displayed categorical boundary ledgers:
+singular support, stack boundary, Eisenstein or constant term, or
+endoscopy. Omitting the row violates ledger discipline; carrying it
+unresolved violates closedness. Hence no hidden residual remains in a
+closed packet.
+\end{proof}
+
+\begin{theorem}[Quadratic splitting is the abelian seed]
+\label{thm:unified-reality-quadratic-splitting-langlands-seed}
+For an odd prime $p$,
+$$
+p=a^2+b^2
+\quad\Longleftrightarrow\quad
+p\equiv 1\pmod 4
+\quad\Longleftrightarrow\quad
+p\text{ splits in }\mathbb Q(i).
+$$
+Equivalently, the quadratic character $\chi_{-4}$ has
+$\chi_{-4}(p)=1$.
+\end{theorem}
+\begin{proof}
+Fermat's two-square theorem gives the equivalence between representation
+by $a^2+b^2$ and $p\equiv 1\pmod 4$ for odd primes. In the quadratic
+extension $\mathbb Q(i)/\mathbb Q$, a prime $p\ne2$ splits exactly when
+$-1$ is a square modulo $p$, which is equivalent to $p\equiv 1\pmod 4$.
+The same splitting law is recorded by the quadratic character
+$\chi_{-4}$.
+\end{proof}
+
+\begin{corollary}[Langlands as a two-projection closure principle]
+\label{cor:unified-reality-langlands-two-projection-closure-principle}
+On any category where the reciprocity, functoriality, local, ramified,
+continuous-spectrum, endoscopic, and boundary certificates are supplied,
+the Langlands correspondence can be read as the statement that
+Galois--Frobenius and automorphic--Hecke data are two projections of one
+closed three-properties packet.
+\end{corollary}
+\begin{proof}
+The finite detectors match the two projections outside the declared
+ledger by
+\autoref{thm:unified-reality-conditional-bedc-reciprocity} and
+\autoref{thm:unified-reality-conditional-bedc-functoriality}. The
+Tannakian and Chebotarev rows give parameter uniqueness, while the ledger
+rows prevent ramified, endoscopic, continuous, boundary, or categorical
+residuals from being hidden as equality. Therefore the correspondence is
+exactly a closed two-projection packet on the certified scope.
+\end{proof}
+
+\begin{theorem}[Langlands closure boundary]
+\label{thm:unified-reality-langlands-closure-boundary}
+The BEDC--Langlands packet closes uniqueness, finite detection, and
+conditional reciprocity or functoriality after the relevant existence
+certificates have been supplied. It does not close the existence of
+parameters, automorphic transfers, trace formula comparisons, local
+classification, endoscopic classification, continuous-spectrum control,
+Shimura or cohomological constructions, or geometric categorical
+equivalences.
+\end{theorem}
+\begin{proof}
+All positive conclusions above use an explicit existence or transfer
+certificate as input: reciprocity for $\phi_{\pi}$, functoriality for
+$\pi_G$, and categorical equivalence for the geometric packet. The
+closure arguments then exclude hidden mismatch residuals and give
+uniqueness or equality of finite readouts. They never construct those
+certificates. The listed existence and comparison problems therefore
+remain separate certificate obligations.
+\end{proof}

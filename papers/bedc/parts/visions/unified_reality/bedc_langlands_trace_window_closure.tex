@@ -1,0 +1,307 @@
+\section{BEDC--Langlands Trace-Window Closure}
+\label{sec:unified-reality-bedc-langlands-trace-window-closure}
+
+The trace-formula bridge of
+\autoref{sec:unified-reality-bedc-langlands-existence-bridge} can be
+read as a fixed-window contradiction. If an allowed parameter has no
+automorphic realization, then every trace-window projector should have
+zero spectral target contribution. A stable parameter distribution gives
+a nonzero finite readout, and the stable trace formula transports that
+readout to the spectral side. The absence of an automorphic packet must
+therefore become a finite trace-window residual or an automorphic tail
+ledger. The fixed-window projector used below is supplied by
+\autoref{sec:unified-reality-bedc-langlands-finite-hecke-projector-cert}.
+
+\begin{definition}[Finite Hecke window]
+\label{def:unified-reality-finite-hecke-window}
+A finite Hecke window is a tuple
+$$
+\mathcal W=(S,R,\mathcal B)
+$$
+where $S$ is a finite set of places containing the displayed bad places,
+$R=\{r_1,\ldots,r_m\}$ is a finite list of finite-dimensional
+representations of ${}^LG$, and $\mathcal B$ is a finite complexity
+bound for conductor, level, central character, archimedean type, and
+other window data. The admitted automorphic rows in the window form the
+truncated packet
+$$
+\mathsf{Aut}_{G,\mathcal W}(F).
+$$
+\end{definition}
+
+\begin{definition}[Window readout and window residual]
+\label{def:unified-reality-window-readout-residual}
+For $\pi\in\mathsf{Aut}_{G,\mathcal W}(F)$ define
+$$
+\lambda_{\mathcal W}(\pi)
+:=
+\bigl(\lambda_{v,r}(\pi)\bigr)_{v\in S,\ r\in R}.
+$$
+For an allowed parameter packet $\phi^{\uparrow}$ define
+$$
+a_{\mathcal W}(\phi)
+:=
+\bigl(\operatorname{tr}r(\phi(\operatorname{Frob}_v))\bigr)_{v\in S,\ r\in R}.
+$$
+The window residual is
+$$
+D_{\mathcal W}(\pi,\phi)
+:=
+\lambda_{\mathcal W}(\pi)-a_{\mathcal W}(\phi).
+$$
+It is a finite mismatch address inside the fixed window $\mathcal W$.
+\end{definition}
+
+\begin{theorem}[Finite Hecke window separation]
+\label{thm:unified-reality-finite-hecke-window-separation}
+Assume that the truncated packet
+$$
+\mathsf{Aut}_{G,\mathcal W}(F)=\{\pi_1,\ldots,\pi_M\}
+$$
+has pairwise distinct window readouts. Then there is a Hecke test
+function $f_{\phi,\mathcal W}$ such that
+$$
+\operatorname{tr}\pi_i(f_{\phi,\mathcal W})=0
+$$
+whenever $\lambda_{\mathcal W}(\pi_i)\ne a_{\mathcal W}(\phi)$, and
+$$
+\operatorname{tr}\pi_i(f_{\phi,\mathcal W})\ne0
+$$
+whenever $\lambda_{\mathcal W}(\pi_i)=a_{\mathcal W}(\phi)$ and the
+matching summand is not cancelled by a declared ledger row.
+\end{theorem}
+\begin{proof}
+This is the finite-window form of
+\autoref{thm:unified-reality-finite-hecke-projector-cert}. The joint
+Hecke operators of the finite window act on a finite
+truncated packet with finitely many joint eigenvalue rows
+$$
+\lambda_{\mathcal W}(\pi_i).
+$$
+On this finite set, polynomial interpolation gives a function
+$P_{\phi,\mathcal W}$ that is zero on all eigenvalue rows distinct from
+$a_{\mathcal W}(\phi)$ and nonzero on the matching row. The Satake
+identification reads this polynomial as a Hecke test function in the
+window algebra. Applying it to the joint eigenpacket gives the stated
+trace values, with any declared cancellation placed in the test-function
+ledger.
+\end{proof}
+
+\begin{definition}[Parameter stable distribution certificate]
+\label{def:unified-reality-parameter-stable-distribution-certificate}
+A parameter stable distribution certificate for $\phi^{\uparrow}$
+assigns to each finite Hecke window $\mathcal W$ a stable functional
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}:
+\mathcal H_{\mathcal W}\to\mathbb C
+$$
+such that its value on unramified Hecke readout functions depends only
+on $a_{\mathcal W}(\phi)$, and all ramified, endoscopic, continuous,
+boundary, normalization, and transfer-factor terms have ledger rows.
+It is nonzero on a window when there is a test function
+$f_{\phi,\mathcal W}$ with
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})\ne0.
+$$
+\end{definition}
+
+\begin{definition}[Stable trace-window certificate]
+\label{def:unified-reality-stable-trace-window-certificate}
+A stable trace-window certificate for a finite Hecke window records
+$$
+I_{\mathrm{geom}}^{\mathrm{st}}(f)
+=
+I_{\mathrm{spec}}^{\mathrm{st}}(f)
+$$
+for all admitted window test functions $f$, together with the spectral
+decomposition
+$$
+I_{\mathrm{spec}}^{\mathrm{st}}(f)
+=
+\sum_{\Pi}m(\Pi)\Theta_{\Pi}(f)
++I_{\mathrm{cont}}(f)
++I_{\mathrm{endo}}(f)
++I_{\mathrm{bdry}}(f),
+$$
+where every continuous, endoscopic, boundary, ramified, multiplicity, and
+normalization term is either separated from the target packet or
+recorded in the trace ledger.
+\end{definition}
+
+\begin{theorem}[Stable trace detects the target packet]
+\label{thm:unified-reality-stable-trace-detects-target-packet}
+Let $\phi^{\uparrow}$ have a parameter stable distribution certificate.
+Assume there is a finite Hecke window $\mathcal W$ and a projector
+$f_{\phi,\mathcal W}$ such that
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})\ne0.
+$$
+If the stable trace-window certificate holds and all non-target terms are
+separated or ledgered, then some automorphic packet $\Pi$ satisfies
+$$
+\Theta_{\Pi}(f_{\phi,\mathcal W})\ne0.
+$$
+\end{theorem}
+\begin{proof}
+The parameter stable distribution supplies the nonzero geometric or
+parameter-side readout
+$$
+I_{\mathrm{geom}}^{\mathrm{st}}(f_{\phi,\mathcal W})
+=
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W})
+\ne0.
+$$
+The stable trace-window certificate gives the same nonzero value on the
+spectral side. In the spectral decomposition, all non-target residual
+terms have been separated or ledgered. Hence the remaining discrete
+automorphic packet sum is nonzero, so some packet $\Pi$ has nonzero
+stable character on $f_{\phi,\mathcal W}$.
+\end{proof}
+
+\begin{corollary}[Fixed-window automorphic realization]
+\label{cor:unified-reality-fixed-window-automorphic-realization}
+Under the hypotheses of
+\autoref{thm:unified-reality-stable-trace-detects-target-packet}, the
+parameter $\phi^{\uparrow}$ has an automorphic realization on the fixed
+window $\mathcal W$.
+\end{corollary}
+\begin{proof}
+By the theorem, some packet $\Pi$ has
+$$
+\Theta_{\Pi}(f_{\phi,\mathcal W})\ne0.
+$$
+The test function was constructed as a window projector in
+\autoref{thm:unified-reality-finite-hecke-window-separation}. Therefore
+its nonzero value can occur only on packets whose window readout equals
+$a_{\mathcal W}(\phi)$, outside ledgered cancellation rows.
+\end{proof}
+
+\begin{definition}[Cofinal Hecke window tower]
+\label{def:unified-reality-cofinal-hecke-window-tower}
+A cofinal Hecke window tower is an increasing sequence
+$$
+\mathcal W_1\subset\mathcal W_2\subset\cdots
+$$
+whose union contains every certified unramified finite
+Hecke--Frobenius detector. A tower realization of $\phi^{\uparrow}$ is a
+sequence of automorphic packets $\Pi_n$ with
+$$
+\lambda_{\mathcal W_n}(\Pi_n)=a_{\mathcal W_n}(\phi).
+$$
+\end{definition}
+
+\begin{definition}[Automorphic compactness ledger]
+\label{def:unified-reality-automorphic-compactness-ledger}
+The automorphic compactness ledger records every way a cofinal tower
+realization fails to stabilize to a global automorphic packet:
+$$
+\mathsf{LevelEscape},\quad
+\mathsf{ConductorEscape},\quad
+\mathsf{ArchimedeanEscape},\quad
+\mathsf{ContinuousSpectrumEscape},
+$$
+$$
+\mathsf{EndoscopicSwitching},\quad
+\mathsf{BoundaryEscape},\quad
+\mathsf{MultiplicityEscape}.
+$$
+A cofinal automorphic compactness certificate says that every tower
+realization either has a cofinally stable global packet $\Pi_{\phi}$ or
+enters this ledger.
+\end{definition}
+
+\begin{theorem}[Cofinal trace realization]
+\label{thm:unified-reality-cofinal-trace-realization}
+Assume every window of a cofinal Hecke window tower has a fixed-window
+automorphic realization of $\phi^{\uparrow}$. If a cofinal automorphic
+compactness certificate holds and closed accepted objects carry no
+unresolved automorphic compactness ledger, then $\phi^{\uparrow}$ has a
+global automorphic packet $\Pi_{\phi}$ matching all certified unramified
+finite detectors.
+\end{theorem}
+\begin{proof}
+Choose a matching packet $\Pi_n$ for each window $\mathcal W_n$. The
+cofinal compactness certificate says that the sequence either stabilizes
+cofinally to a global packet $\Pi_{\phi}$ or enters the automorphic
+compactness ledger. The ledger alternative is incompatible with a closed
+accepted object if the tail remains unresolved. Thus the closed case
+has a global packet. Since the windows are cofinal among the certified
+unramified finite detectors, $\Pi_{\phi}$ matches $\phi$ on all of them.
+\end{proof}
+
+\begin{theorem}[No missing automorphic realization]
+\label{thm:unified-reality-no-missing-automorphic-realization}
+Let $\phi^{\uparrow}$ be an allowed parameter packet. Suppose it carries
+a parameter stable distribution certificate, finite Hecke window
+projector certificates, stable trace-window certificates on a cofinal
+tower, a cofinal automorphic compactness certificate, no-hidden
+Langlands residual, and closedness against unresolved residual ledgers.
+Then $\phi^{\uparrow}$ has an automorphic realization.
+\end{theorem}
+\begin{proof}
+Assume that no automorphic realization exists. The parameter stable
+distribution certificate gives a fixed window $\mathcal W$ and a test
+function $f_{\phi,\mathcal W}$ with nonzero parameter-side stable
+readout. By
+\autoref{thm:unified-reality-stable-trace-detects-target-packet}, the
+spectral side has a nonzero automorphic packet contribution unless all
+non-target spectral terms absorb the value. Such absorption is exactly a
+continuous-spectrum, endoscopic, ramified, boundary, multiplicity, or
+normalization ledger row. If that row is omitted, ledger discipline is
+violated; if it is carried unresolved, closedness fails.
+
+If a target automorphic packet contribution exists, then
+\autoref{cor:unified-reality-fixed-window-automorphic-realization}
+gives a fixed-window realization. Applying this argument along the
+cofinal tower and then using
+\autoref{thm:unified-reality-cofinal-trace-realization} gives a global
+automorphic realization, contradicting the assumption. Hence the
+assumption is impossible for a closed packet.
+\end{proof}
+
+\begin{theorem}[Functorial existence by trace-window closure]
+\label{thm:unified-reality-functorial-existence-trace-window-closure}
+Let $(\pi_H,\phi_H)$ be a closed packet for $H$, and let
+$$
+\eta:{}^LH\to{}^LG
+$$
+preserve the parameter triple rows. If the target parameter
+$$
+\phi_G:=\eta\circ\phi_H
+$$
+satisfies the hypotheses of
+\autoref{thm:unified-reality-no-missing-automorphic-realization} on the
+$G$-side, then there is a $G$-side automorphic packet $\Pi_G$ with
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\eta(\phi_H(\operatorname{Frob}_v)))
+$$
+on the certified unramified finite detectors.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:unified-reality-no-missing-automorphic-realization} to
+$\phi_G$. This gives a $G$-side automorphic packet matching
+$\phi_G$ on all certified unramified finite detectors. Substituting
+$\phi_G=\eta\circ\phi_H$ yields the displayed equality. Any remaining
+mismatch is handled by the no-hidden residual row exactly as in
+\autoref{thm:unified-reality-bedc-reciprocity-existence}.
+\end{proof}
+
+\begin{theorem}[Trace-window closure boundary]
+\label{thm:unified-reality-trace-window-closure-boundary}
+The trace-window closure argument proves existence only relative to
+parameter stable distributions, fixed-window projectors, stable
+trace-window formulae, and cofinal automorphic compactness. It does not
+construct those certificates.
+\end{theorem}
+\begin{proof}
+Every positive step above consumes one of those certificates: window
+separation consumes finite Hecke semisimplicity and Satake readout;
+nonzero spectral realization consumes parameter stable distributions and
+stable trace-window equality; global realization consumes cofinal
+automorphic compactness. The argument shows that, once those rows are
+present, a missing automorphic realization cannot be hidden in a closed
+packet. It does not replace the traditional construction of the rows.
+\end{proof}
