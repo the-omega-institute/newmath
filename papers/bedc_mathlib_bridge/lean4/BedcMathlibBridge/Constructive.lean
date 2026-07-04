@@ -44,6 +44,7 @@ import BedcMathlibBridge.Constructive.Narayana
 import BedcMathlibBridge.Constructive.QFactorial
 import BedcMathlibBridge.Constructive.Raney
 import BedcMathlibBridge.Constructive.FussCatalan
+import BedcMathlibBridge.Constructive.TernaryTree
 import BedcMathlibBridge.Constructive.Lobb
 import BedcMathlibBridge.Constructive.Lah
 import BedcMathlibBridge.Constructive.LahClosedForm
