@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BinaryExpansionIntervalUp$}
+\label{ch:concrete-instances-binary-expansion-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers and binary approximations, the $\BinaryExpansionIntervalUp$ packet records the finite interval enclosure read from binary prefix windows before a $\RealUp$ or completion-facing consumer treats the prefixes as located real data. It sits between the binary prefix surface of \autoref{ch:concrete-instances-binaryexpansion-namecert}, the endpoint convention of \autoref{ch:concrete-instances-binary-endpoint-uniqueness-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names an interval handoff from lower and upper binary rows to located enclosure data; it does not quotient binary streams, select an infinite expansion, decide trichotomy, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Binary expansion interval carrier]
+\label{def:binary-expansion-interval-carrier}
+A $\BinaryExpansionIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,E,D,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower $\BinaryExpansionUp$ prefix row read through a finite binary window.
+\item $U$ is the upper $\BinaryExpansionUp$ prefix row read through the same finite binary window budget.
+\item $E$ is the $\BinaryEndpointUniquenessUp$ endpoint-normalization row that fixes the terminating and repeating boundary convention for both prefix rows.
+\item $D$ is the $\DyadicRatCoreUp$ enclosure row giving the dyadic lower endpoint, upper endpoint, and displayed containment comparison.
+\item $W$ is the $\StreamNameUp$ window row through which the two prefix rows and dyadic enclosure are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite window and dyadic enclosure data.
+\item $S$ is the $\RealUp$ seal row reached only after the prefix, endpoint-normalization, dyadic enclosure, stream-window, and regular-rational readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,U,E,D,W,R,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for the prefix-window read, endpoint-normalized enclosure read, regular-rational handoff, and real-seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\BinaryExpansionIntervalUp$, $\BinaryExpansionUp$, $\BinaryEndpointUniquenessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BinaryExpansionIntervalUp}$ row.
+\end{enumerate}
+The classifier compares packets only through these rows. It has no coordinate for quotient stream equality, a selected infinite binary expansion, a host real interval, trichotomy, countable choice, or ambient real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.BinaryExpansionIntervalUp}
+
+\begin{theorem}[Binary expansion interval NameCert obligations]
+\label{thm:binary-expansion-interval-namecert-obligations}
+For every accepted $\BinaryExpansionIntervalUp$ packet $I=(L,U,E,D,W,R,S,H,C,P,N)$, the local $\NameCert_{\BinaryExpansionIntervalUp}$ surface consists exactly of lower and upper binary-prefix admission, endpoint-normalization admission, dyadic enclosure exposure, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, $\RealUp$ seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No consumer can demand quotient stream equality, a selected infinite expansion, host real interval equality, trichotomy, choice, or ambient completeness from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:binary-expansion-interval-carrier}. The rows $L,U,E,D,W,R,S,H,C,P,N$ are the whole displayed surface.
+
+Read the mathematical rows first. The lower and upper prefix rows come from $\BinaryExpansionUp$, the row $E$ fixes the endpoint convention, $D$ records the dyadic enclosure, $W$ gives the finite inspection window, $R$ is the regular-rational readback, and $S$ is the terminal real seal.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and locally name the same finite route. Since no excluded object is a coordinate of the carrier or a target of its replay rows, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Binary expansion interval real handoff]
+\label{thm:binary-expansion-interval-real-handoff}
+Every $\RealUp$ or completion-facing read from an accepted $\BinaryExpansionIntervalUp$ packet factors through the finite route
+$$
+\BinaryExpansionUp,\ \BinaryEndpointUniquenessUp
+\longmapsto
+\DyadicRatCoreUp,\ \StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff exports the dyadic enclosure row and the regular-rational readback, not a quotient stream, selected limit, host interval object, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:binary-expansion-interval-namecert-obligations}. It forces every public read to expose the two binary prefix rows, the endpoint-normalization row, the dyadic enclosure, the finite window, the regular-rational readback, and the real seal.
+
+The handoff to $\RealUp$ is therefore downstream of $L,U,E,D,W,R$. A completion-facing consumer can read the seal row $S$ only after the displayed $\RegSeqRatUp$ row has been obtained from the same window and enclosure data.
+
+Transport, replay, provenance, and local naming remain the rows $H,C,P,N$. They do not add quotient streams, selected limits, host interval equality, trichotomy, choice, or an ambient completeness coordinate, so the real handoff is exactly the finite route displayed above.
+\end{proof}
+
+\begin{theorem}[Binary expansion interval endpoint-window stability]
+\label{thm:binary-expansion-interval-endpoint-window-stability}
+If two accepted $\BinaryExpansionIntervalUp$ packets have $\hsame$-transported lower prefix, upper prefix, endpoint-normalization, dyadic enclosure, and $\StreamNameUp$ window rows, then any $\RegSeqRatUp$ readback or $\RealUp$ seal exported by one packet is transported through the corresponding readback or seal row of the other packet. Endpoint-window stability is thus a statement about the displayed rows $L,U,E,D,W,R,S,H,C,P,N$, not about equality of infinite binary streams.
+\end{theorem}
+\begin{proof}
+Use the carrier rows from \autoref{def:binary-expansion-interval-carrier}. The only data that determine the interval enclosure before readback are the lower prefix, upper prefix, endpoint-normalization, dyadic enclosure, and finite window rows.
+
+Apply componentwise transport through $H$ and replay through $C$. Once those five input rows are $\hsame$-transported, the displayed regular-rational readback row and terminal seal row are reached by the corresponding replay route.
+
+The non-exported objects cannot affect stability. The packet has no coordinate for quotient stream equality, selected infinite representatives, host real interval equality, trichotomy, choice, or ambient completeness, so endpoint-window stability is exactly the stability of the finite rows.
+\end{proof}
+
+\closureat{BinaryExpansionIntervalUp}{seedStr}
+
+\begin{closurestatus}{\BinaryExpansionIntervalUp}
+  \constructivestory{A $\BinaryExpansionIntervalUp$ packet is generated from lower and upper BinaryExpansion prefix rows, an endpoint-normalization row, a DyadicRatCore enclosure row, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:binary-expansion-interval-carrier}, \autoref{thm:binary-expansion-interval-namecert-obligations}, \autoref{thm:binary-expansion-interval-real-handoff}, and \autoref{thm:binary-expansion-interval-endpoint-window-stability} seed the finite interval handoff from binary prefix windows to located dyadic enclosure and Real-facing readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient binary-stream equality, selected infinite expansions, host real interval equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean theorem verification, or bridge checking for $\BinaryExpansionIntervalUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-normalization accountability, dyadic enclosure exactness, stream-window readback, regular-rational handoff, real-seal boundary, transport, replay, provenance, and local naming for the same packet rows.}
+\end{closurestatus}
