@@ -9281,8 +9281,10 @@ import BEDC.Derived.ModulusContinuityUp.CompositionAssociativityRoute
 import BEDC.Derived.ModulusContinuityUp.CompositionRoute
 import BEDC.Derived.ModulusContinuityUp.DoubleCompositionRoute
 import BEDC.Derived.ModulusContinuityUp.PublicConsumerSurface
+import BEDC.Derived.ModulusContinuityUp.RealEqualityHandoff
 import BEDC.Derived.ModulusContinuityUp.TasteGate
 import BEDC.Derived.ModulusContinuityUp.UniformCauchyHandoff
+import BEDC.Derived.ModulusContinuityUp.WindowMonotonicity
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
