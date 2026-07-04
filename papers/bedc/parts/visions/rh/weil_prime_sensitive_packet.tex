@@ -1,0 +1,151 @@
+\chapter{Finite Prime-Sensitive Weil Packet Certificate}
+\label{ch:visions-rh-weil-prime-sensitive-packet}
+\origin{ai}
+
+This chapter records a finite anti-vacuity certificate for the Weil route.
+The object is one fixed rational $2\times2$ packet. It is not a uniform
+positivity statement for a support family, a ruler family, or a truncation
+profile family. Its role is narrower: it shows that the checked packet can read a
+displayed prime channel and that the prime contribution is not silently
+erased by the certificate interface.
+
+In the analytic readback, a test scale with
+$\tau\in(\frac12\log2,\frac12\log3)$ isolates the prime-$2$ channel. This
+readback sentence is only a scoping explanation. The checked Lean object
+does not prove that analytic interval and does not use it as a premise.
+
+\section{Certificate Shape}
+\label{sec:rh-weil-prime-sensitive-certificate-shape}
+
+\begin{definition}[Prime-sensitive fixed packet]
+\label{def:rh-weil-prime-sensitive-fixed-packet}
+\leandef{BEDC.Derived.RHRoute.WeilPrimeSensitivePacket.PrimeSensitive2x2Cert}
+A prime-sensitive fixed packet stores rational archimedean entries
+$(a_{11},a_{12},a_{22})$, rational prime entries
+$(p_{11},p_{12},p_{22})$, two rational perturbation weights
+$\theta_-<1<\theta_+$, a positive rational margin $\varepsilon$, and a
+single displayed probe vector $a_0=(a_{01},a_{02})$. The quadratic form is
+the rational expression
+$$
+\begin{aligned}
+Q_{\theta}(c_1,c_2)
+&=
+(a_{11}+\theta p_{11})c_1^2
++2(a_{12}+\theta p_{12})c_1c_2
++(a_{22}+\theta p_{22})c_2^2 .
+\end{aligned}
+$$
+The $\theta$-dependent part is exactly the prime matrix $P_2$; the
+archimedean entries are not varied by $\theta$.
+\end{definition}
+
+\begin{definition}[Prime-source readback]
+\label{def:rh-weil-prime-source-readback}
+The certificate contains the source field
+$$
+\mathsf{prime\_source}:\mathsf{WeilTermSource}(2)
+$$
+and the readback equality
+$$
+\mathsf{prime\_source}
+=
+\mathsf{primePower}(\mathsf{primeTwoPowerIndex}).
+$$
+In Lean this field is discharged by reflexive computation in the canonical
+certificate. The same certificate also carries $p_{11}<0$, so the prime
+matrix is not the zero matrix.
+\end{definition}
+
+\section{Finite Obstruction}
+\label{sec:rh-weil-prime-sensitive-finite-obstruction}
+
+\begin{theorem}[Prime-sensitive sign crossing]
+\label{thm:rh-weil-prime-sensitive-sign-crossing}
+\leanchecked{BEDC.Derived.RHRoute.WeilPrimeSensitivePacket.finite\_weil\_packet\_prime\_sensitive}
+For every prime-sensitive fixed packet $C$, the stored witness gives
+$$
+\theta_-<1<\theta_+,
+\qquad
+0<\varepsilon,
+\qquad
+\varepsilon\le Q_{\theta_-}(a_0),
+\qquad
+Q_{\theta_+}(a_0)\le -\varepsilon .
+$$
+\end{theorem}
+
+\begin{proof}
+The Lean theorem is the field projection from
+$\mathsf{PrimeSensitive2x2Cert}$. The content is in the certificate
+interface: the signs must be stored at the same rational quadratic form
+whose $\theta$ coefficient is the displayed prime matrix.
+\end{proof}
+
+\begin{theorem}[Checked PSD margin consumer]
+\label{thm:rh-weil-prime-sensitive-margin}
+\leanchecked{BEDC.Derived.RHRoute.WeilPrimeSensitivePacket.finite\_weil\_packet\_margin\_psd}
+The same certificate stores a fixed $2\times2$ margin certificate. For all
+rational coefficients $c_1,c_2$, the margin quadratic form is nonnegative.
+\end{theorem}
+
+\begin{proof}
+The Lean proof delegates to the fixed $2\times2$ interval-PSD consumer
+already available for a certified rational packet. This margin is evaluated
+at the unperturbed $\theta=1$ packet after the displayed rational margin
+subtraction.
+\end{proof}
+
+\section{Canonical Inhabitant}
+\label{sec:rh-weil-prime-sensitive-canonical}
+
+\begin{definition}[Canonical finite packet]
+\label{def:rh-weil-prime-sensitive-canonical}
+\leandef{BEDC.Derived.RHRoute.WeilPrimeSensitivePacket.canonicalPrimeSensitiveCert}
+The canonical inhabitant is
+$$
+A_{\infty}=
+\begin{pmatrix}
+3&0\\
+0&1
+\end{pmatrix},
+\qquad
+P_2=
+\begin{pmatrix}
+-2&0\\
+0&0
+\end{pmatrix},
+\qquad
+a_0=(1,0).
+$$
+It sets $\theta_-=0$, $\theta_+=2$, and $\varepsilon=1$. Hence
+$$
+Q_{\theta}(a_0)=3-2\theta,
+$$
+so $Q_0(a_0)=3\ge1$ while $Q_2(a_0)=-1\le-1$. The sign crossing is driven
+by the prime entry $p_{11}=-2$ and by no archimedean variation.
+\end{definition}
+
+At $\theta=1$, the natural packet is
+$$
+A_{\infty}+P_2=
+\begin{pmatrix}
+1&0\\
+0&1
+\end{pmatrix}.
+$$
+Taking the displayed margin matrix to be the same diagonal identity leaves
+the zero difference matrix. The stored fixed-$2\times2$ certificate for that
+difference is therefore the all-zero interval packet, and its PSD consumer
+proves nonnegativity for every rational coefficient pair.
+
+\begin{closurestatus}{WeilPrimeSensitivePacketUp}
+  \origin{ai}
+  \constructivestory{A fixed rational $2\times2$ packet carries archimedean entries, a nonzero prime-$2$ matrix, a reflexive prime-source readback, two rational perturbation parameters straddling $1$, one probe vector, two checked rational sign inequalities, and a fixed interval-PSD margin certificate at $\theta=1$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Single fixed rational $2\times2$ Weil packet: prime-source readback, nonzero prime matrix, prime-driven sign crossing at one probe vector, and checked PSD margin consumer for the stored difference packet}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.WeilPrimeSensitivePacket.finite\_weil\_packet\_prime\_sensitive}
+  \bridgestatus{none}
+  \notclaimed{Boundary stability, off-critical tail closure, uniform Weil positivity over every support family, a prime-channel exhaustion theorem, or any unconditional RH conclusion}
+  \upgradepath{Build an obstruction atlas by increasing the displayed finite support and packet coverage while keeping the uniform exhaustion problem outside this finite certificate}
+\end{closurestatus}

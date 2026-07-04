@@ -1,0 +1,258 @@
+\chapter{Zero-Signature Faithfulness and No-Split-Zero Closure}
+\label{ch:visions-rh-zero-signature-faithfulness}
+\origin{ai}
+
+\autoref{ch:visions-rh-free-zero-generation-initiality} isolates the
+initial RH-free zero carrier, and
+\autoref{ch:visions-rh-route-closure-fixed-statement-separation} separates
+fixed RH statements from route-family closure. The present chapter closes a
+BEDC-internal packet between those layers. It proves that a located
+internal normal defect cannot split under the mirror when all classifier
+readouts remain in the three ontic ledgers and a fourth ledger is forbidden.
+
+The result is not a theorem about classical $\zeta$ zeros. It is a
+conditional no-split theorem for a finite certificate whose data are the
+three-slot ledger, a prime-register routing tower with explicit inverse
+maps, signature faithfulness for accepted located packets, the no-fourth
+ledger condition, and an odd/even mirror lock.
+
+\section{Carrier}
+\label{sec:rh-zero-signature-faithfulness-carrier}
+
+\begin{definition}[Three-ledger readout]
+\label{def:rh-zero-signature-ledger-readout}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.LedgerReadout}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.triadLedgerList}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.InTriadLedger}
+A ledger readout is either one of the three BEDC ontic slots
+$$
+\mathsf{distinction},\quad \mathsf{time},\quad \mathsf{symmetry},
+$$
+or an attempted fourth ledger. The admitted triadic list is exactly
+$$
+[
+\mathsf{triad}(\mathsf{distinction}),
+\mathsf{triad}(\mathsf{time}),
+\mathsf{triad}(\mathsf{symmetry})
+].
+$$
+Lean consumes the displayed list through the inductive predicate
+$\mathsf{InTriadLedger}$, with one constructor for each of the three
+listed readouts. The finite exhaustion lemma says that any readout outside
+this inductive triadic predicate exposes an inhabitant of the
+fourth-ledger type:
+$$
+\neg\mathsf{InTriadLedger}(x)
+\to
+\sum_{f:\mathsf{FourthLedger}}
+x=\mathsf{fourth}(f).
+$$
+\end{definition}
+
+\begin{definition}[Prime-register routing tower]
+\label{def:rh-prime-register-routing-tower}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.RegisterPerm}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.FermatRoutingLayer}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.PrimeRegisterRoutingTower}
+A register permutation is a map with an explicit inverse map, so its
+injectivity is proved by applying the inverse rather than by invoking
+choice. A Fermat routing layer carries a prime label, such a permutation,
+and a positive finite period for every state:
+$$
+\mathsf{period}(x)>0,
+\qquad
+\mathsf{period}(x)\mid p-1,
+\qquad
+\pi^{\mathsf{period}(x)}(x)=x.
+$$
+The layer does not store a theorem-valued Fermat field. Instead the finite
+cycle data are the routing evidence consumed by the BEDC theorem. The
+canonical inhabitant below uses the concrete prime $2$ and calls the
+checked Fermat theorem
+$
+\mathsf{fermatLittle\_nonzero}
+$
+as the arithmetic touchpoint for the displayed period row.
+\end{definition}
+
+\begin{definition}[Located zero-signature packet]
+\label{def:rh-located-zero-signature-packet}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.LocatedDefect}
+A located defect packet consists of an RH-free zero signature, a triadic
+slot, a prime-register state, an internal signed normal readback
+$r:\mathbb Z$, an odd defect witness, and an even defect-energy packet. The
+normal component is a BEDC readback. No complex number, analytic
+continuation, classical zero predicate, or off-line $\zeta$ assertion is a
+field of this packet.
+\end{definition}
+
+\begin{definition}[Signature faithfulness classifier]
+\label{def:rh-signature-faithfulness-classifier}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.SignatureFaithfulness}
+A signature faithfulness classifier supplies an accepted subcarrier, a
+readout into the triadic-or-fourth ledger, and the following faithfulness
+law. If two accepted packets have the same RH-free signature, the same
+triadic slot, the same prime-register state, and both readouts are still in
+the inductive triadic ledger predicate, then their internal normal
+readbacks agree:
+$$
+\begin{aligned}
+&\mathsf{accepted}(z)\times\mathsf{accepted}(w)
+\times z.\sigma=w.\sigma
+\times z.\mathsf{slot}=w.\mathsf{slot}
+\times z.\mathsf{state}=w.\mathsf{state}
+\\
+&\qquad
+\times\ \mathsf{InTriadLedger}(\mathsf{read}(z))
+\times\mathsf{InTriadLedger}(\mathsf{read}(w))
+\to
+z.r=w.r.
+\end{aligned}
+$$
+The accepted predicate is part of the classifier interface. It is the
+honest place where later bridge layers must supply capture and
+classification hypotheses; the BEDC theorem below does not assert that
+every classical $\zeta$ zero is accepted.
+\end{definition}
+
+\begin{definition}[Zero-signature faithfulness certificate]
+\label{def:rh-zero-signature-faithfulness-certificate}
+\leandef{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.ZeroSignatureFaithfulnessCertificate}
+A zero-signature faithfulness certificate packages the following finite
+data:
+$$
+\begin{gathered}
+\mathsf{OnticAxisTriple},\quad
+\mathsf{OrientedTriadicAxisCertificate},\quad
+\mathsf{TriadicClosureLayer},\\
+\mathsf{PrimeRegisterRoutingTower},\quad
+\mathsf{LocatedDefect}_{\mathsf{root}},\quad
+\mathsf{LocatedDefect}_{\mathsf{mirror}},\\
+\mathsf{OddEvenMirrorLock},\quad
+\mathsf{FourthLedger}\to\bot,\quad
+\mathsf{SignatureFaithfulness}.
+\end{gathered}
+$$
+It also records that the root and mirror are accepted by the classifier,
+share the same signature and slot, and have the same terminal routed
+prime-register state. The root readout is required to satisfy the triadic
+ledger predicate.
+\end{definition}
+
+\section{Closure}
+\label{sec:rh-zero-signature-faithfulness-closure}
+
+\begin{theorem}[Mirror split exposes a fourth ledger]
+\label{thm:rh-mirror-split-forces-fourth}
+\leanchecked{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.mirror\_split\_forces\_fourth}
+For every zero-signature faithfulness certificate $c$, if the root normal
+readback is nonzero, then the mirror readout cannot remain inside the
+three-ledger predicate:
+$$
+c.\mathsf{root}.r\ne 0
+\to
+\neg\mathsf{InTriadLedger}
+\bigl(c.\mathsf{classifier.read}(c.\mathsf{mirror})\bigr).
+$$
+\end{theorem}
+
+\begin{proof}
+The shared terminal routed state is pulled back along the explicit inverse
+maps of the prime-register tower, giving equality of source
+prime-register states. If the mirror readout were also triadic, classifier
+faithfulness would force the root and mirror normal readbacks to be equal.
+The odd/even mirror lock then says that a mirror-fixed odd readback is
+zero. This contradicts the assumed nonzero root normal readback.
+\end{proof}
+
+\begin{theorem}[Located internal normal defect is zero]
+\label{thm:rh-located-defect-is-zero}
+\leanchecked{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.located\_defect\_is\_zero}
+For every zero-signature faithfulness certificate $c$, the root internal
+normal readback is zero:
+$$
+c.\mathsf{root}.r=0.
+$$
+\end{theorem}
+
+\begin{proof}
+If $c.\mathsf{root}.r=0$, there is nothing to prove. Otherwise
+\autoref{thm:rh-mirror-split-forces-fourth} says that the mirror readout
+is outside the triadic predicate. The finite ledger exhaustion lemma
+therefore produces a fourth-ledger inhabitant. This contradicts the
+certificate field
+$
+c.\mathsf{noFourth}:\mathsf{FourthLedger}\to\bot
+$
+and hence the nonzero case is impossible.
+\end{proof}
+
+\begin{theorem}[Canonical nonempty witness]
+\label{thm:rh-canonical-zero-signature-faithfulness}
+\leanchecked{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.canonical\_located\_defect\_is\_zero}
+The certificate type is inhabited by a concrete finite witness whose
+fourth-ledger type is empty, whose prime-register state type is the
+singleton type, whose root and mirror located packets have normal readback
+$0$, and whose routing layer is the identity permutation at the concrete
+prime $2$.
+\end{theorem}
+
+\begin{proof}
+The Lean inhabitant uses a singleton state space, a singleton state list,
+the identity register permutation, period $1$, and
+$\mathsf{FourthLedger}:=\mathsf{PEmpty}$. The odd/even mirror lock is
+discharged by the constructive integer case lemma
+$
+r=-r\to r=0
+$.
+The period-divisibility row is instantiated at $2-1=1\cdot 1$ and the
+module calls the already checked
+$
+\mathsf{fermatLittle\_nonzero}
+$
+for the concrete prime $2$ as the Fermat touchpoint. The theorem above is
+then applied to this inhabitant.
+\end{proof}
+
+\section{Boundary}
+\label{sec:rh-zero-signature-faithfulness-boundary}
+
+The theorem has the following exact reading:
+$$
+\begin{aligned}
+&\mathsf{three\ signature\ faithfulness}
+\times
+\mathsf{noFourth}
+\times
+\mathsf{prime\ routing\ injectivity}
+\times
+\mathsf{odd/even\ mirror\ lock}
+\\
+&\qquad\to
+\mathsf{internal\ located\ normal\ readback}=0.
+\end{aligned}
+$$
+It does not assert that classical $\zeta$ zeros have already been captured
+by this signature system, and it does not identify the BEDC internal
+normal readback with the analytic real part of a classical zero.
+
+\leanstmt{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.ActiveCapture}
+\leanstmt{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.BoundaryStability}
+The next bridge obligations are ActiveCapture and BoundaryStability:
+ActiveCapture must show that the relevant classical zero packets are
+accepted by the finite classifier, and BoundaryStability must identify the
+BEDC located readback with the classical boundary value. Only after those
+bridges could the internal no-split theorem be transported toward a
+classical RH statement.
+
+\begin{closurestatus}{ZeroSignatureFaithfulnessNoSplitUp}
+  \origin{ai}
+  \constructivestory{The packet is generated from the three ontic ledger readouts, a no-fourth-ledger exclusion, explicit inverse maps for prime-register routing, finite period rows with a concrete Fermat touchpoint in the canonical inhabitant, accepted root and mirror located packets, classifier faithfulness on accepted triadic readouts, and an odd/even mirror lock.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{BEDC-internal: three-property signature faithfulness plus forbidden fourth ledger plus Fermat routing uniqueness plus odd/even parity implies located internal normal defect equals zero}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RHRoute.ZeroSignatureFaithfulness.located\_defect\_is\_zero}
+  \bridgestatus{none}
+  \notclaimed{Classical $\zeta$ zeros actually carry only these three signatures (ActiveCapture); readback from the BEDC boundary to classical zero location (BoundaryStability); analytic continuation, functional equation, critical-strip zero distribution; nonexistence of off-line $\zeta$ zeros as the classical RH conclusion}
+  \upgradepath{BEDC-to-number-theory bridge: connect classifier faithfulness and noFourth to the classical $\zeta$ located value through ActiveCapture plus BoundaryStability, with BoundaryStability aimed at a finite Weil-packet interval-PSD direction}
+\end{closurestatus}
