@@ -52,6 +52,7 @@ import BedcMathlibBridge.Export.LahClosedForm
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
+import BedcMathlibBridge.Export.EulerianSecondOrder
 import BedcMathlibBridge.Export.OddDoubleFactorial
 import BedcMathlibBridge.Export.EvenDoubleFactorial
 import BedcMathlibBridge.Export.Square
