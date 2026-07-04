@@ -190,6 +190,24 @@ Use checker-row exhaustion from \autoref{thm:typed-example-gallery-checker-row-e
 Finally apply scope binding from \autoref{thm:typed-example-gallery-scope-binding}. The accepted obligation scope is exactly the finite row surface and sibling provenance already displayed, so no global MetaCIC theorem endpoint can be added to the public gallery interface.
 \end{proof}
 
+\begin{theorem}[TypedExampleGalleryUp public interface]
+\label{thm:typedexamplegallery-public-interface}
+Every accepted $\TypedExampleGalleryUp$ packet exposes the gallery-entry row, checker row, closedness row, beta and regression rows, sibling-provenance row, normal-form separation row, and local naming row as one public MetaCIC gallery interface over $\BHist$ and $\NameCert$ data. The interface exports only the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and their displayed sibling routes; it does not export full MetaCIC normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $G=(E,T,C,B,R,H,K,P,N)$ from \autoref{def:typed-example-gallery-carrier}. The gallery-entry row $E$, checker row $T$, closedness row $C$, beta row $B$, regression row $R$, transport row $H$, replay row $K$, provenance row $P$, and local naming row $N$ are the complete public inventory.
+
+Use the checker-row exhaustion and obligation-frontier theorems. They route every exported checker read through $T$, every closedness read through $C$, and every beta or regression read through $B$ and $R$ before structural replay or naming can be consumed.
+
+Use the normal-form separation, scoped-kernel route, and scope-binding theorems next. These identify $P$ as sibling provenance, keep normal-form examples inside the displayed gallery route, and bind the local name through $\NameCert$ rather than through a host evaluator.
+
+Therefore the public interface is exactly the finite row surface over $\BHist$ and $\NameCert$ data. Since none of the projected rows stores global normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency, those endpoints remain outside the accepted gallery interface.
+\end{proof}
+
 \closureat{TypedExampleGalleryUp}{scopedStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}
