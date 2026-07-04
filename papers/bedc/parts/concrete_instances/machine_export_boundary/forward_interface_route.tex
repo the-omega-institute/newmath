@@ -1,0 +1,13 @@
+\begin{theorem}[Machine export boundary forward interface route]
+\label{thm:machine-export-boundary-forward-interface-route}
+Every $\MachineExportBoundaryUp$ export consumed by $\MetaCICBoundedDiamondWindowUp$ first factors through $\MachineInterfaceBoundaryUp$, $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, and $\KernelAcceptanceBoundaryUp$ rows. For an accepted export packet $E=(R,T,A,F,H,C,P,N)$, this route preserves registry status, target row, audit readback, refusal, transport, replay, provenance, and local $\NameCert$ data before bounded-diamond evidence can be read.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:machine-export-boundary-carrier}. The rows $R,T,A,F,H,C,P,N$ are the complete machine export surface available to a downstream consumer.
+
+Read the target row through the machine interface boundary and the registry row through the registry export surface. The machine-readable audit row $A$ and the refusal row $F$ remain visible before any bounded-diamond consumer can treat the export as machine-facing evidence.
+
+Now apply the kernel-acceptance handoff of \autoref{thm:machine-export-boundary-kernel-acceptance-handoff}. It routes theorem-bearing target rows through accepted-declaration and axiom-query refusal boundaries before the target is public.
+
+Finally use the bounded diamond packet route of \autoref{thm:machine-export-boundary-bounded-diamond-packet-route}. It requires $\MetaCICBoundedDiamondWindowUp$ to consume the whole packet, so transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same registry, target, audit, refusal, and kernel-acceptance route.
+\end{proof}
