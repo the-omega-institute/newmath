@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicGeodesicShadowKernelUp$}
+\label{ch:concrete-instances-hyperbolic-geodesic-shadow-kernel-namecert}
+\origin{ai}
+
+The $\HyperbolicGeodesicShadowKernelUp$ packet realizes the geodesic-shadow kernel branch of the hyperbolic phase geometry of observer expansion as finite observer-expansion NameCert data. It binds boundary endpoints, a displayed geodesic segment, visual-shadow windows, metric tolerances, transport, replay, provenance, and local naming into one carrier so that shadow-kernel consumers cannot bypass the geodesic segment row. It sits beside the boundary-shadow route of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the geodesic-flow route of \autoref{ch:concrete-instances-hyperbolic-geodesic-flow-namecert}, the visual-metric route of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the observer-shadow metric of \autoref{ch:concrete-instances-hyperbolic-observer-shadow-metric-namecert}, and the ambient hyperbolic metric of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}.
+
+\begin{definition}[Hyperbolic geodesic-shadow kernel carrier]
+\label{def:hyperbolic-geodesic-shadow-kernel-carrier}
+A $\HyperbolicGeodesicShadowKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,G,S,V,M,E,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary-endpoint row, read through $\HyperbolicBoundaryShadowUp$ and naming the endpoints that determine the shadow request.
+\item $G$ is the geodesic-segment row, read through $\HyperbolicGeodesicFlowUp$ and recording the finite segment window used by the kernel.
+\item $S$ is the visual-shadow row, read through $\HyperbolicVisualMetricUp$ and recording the displayed shadow aperture.
+\item $V$ is the observer-shadow metric row, read through $\HyperbolicObserverShadowMetricUp$ and recording the observer-facing shadow comparison.
+\item $M$ is the $\HyperbolicMetricUp$ tolerance row, recording the finite metric budget consumed by the handoff.
+\item $E$ is the endpoint-compatibility row, refusing a shadow-kernel read whose boundary endpoints and geodesic segment are not displayed together.
+\item $T$ records componentwise $\hsame$ transport for endpoint, segment, visual-shadow, observer-shadow, metric-tolerance, compatibility, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from an observer-expansion query through $B,G,S,V,M,E,T$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicGeodesicShadowKernelUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicGeodesicFlowUp$, $\HyperbolicVisualMetricUp$, $\HyperbolicObserverShadowMetricUp$, $\HyperbolicMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyperbolicGeodesicShadowKernelUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,G,S,V,M,E,T,R,P,N$. It has no coordinate for a segment-free visual shadow, hidden boundary completion, selected geodesic in a host space, global Patterson--Sullivan measure, or unbounded observer horizon. The Lean TasteGate side must provide Nontrivial and FieldFaithful instances for the carrier fields before this packet can be promoted beyond the paper-side seed surface.
+\end{definition}
+
+\begin{theorem}[Hyperbolic geodesic-shadow kernel obligations]
+\label{thm:hyperbolic-geodesic-shadow-kernel-obligations}
+For every accepted $\HyperbolicGeodesicShadowKernelUp$ carrier
+$$
+K=(B,G,S,V,M,E,T,R,P,N),
+$$
+the local $\NameCert_{\HyperbolicGeodesicShadowKernelUp}$ surface consists exactly of boundary-endpoint exposure through $B$, geodesic-segment exposure through $G$, visual-shadow exposure through $S$, observer-shadow metric exposure through $V$, hyperbolic metric tolerance through $M$, endpoint-compatibility refusal through $E$, componentwise transport through $T$, replay through $R$, provenance through $P$, and local naming through $N$. Any accepted geodesic-shadow kernel read must display these rows before handing shadow data to a hyperbolic metric consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-geodesic-shadow-kernel-carrier}. The endpoint, segment, visual-shadow, observer-shadow, metric-tolerance, and compatibility rows are $B,G,S,V,M,E$.
+
+The geodesic segment is a first-class row. It is not reconstructed from the endpoint row or the visual-shadow row, so a consumer cannot erase $G$ while preserving the same packet.
+
+Rows $T,R,P,N$ then transport, replay, source, and name the displayed route. Because no carrier coordinate stores segment-free visual shadows, hidden boundary completion, a selected host geodesic, a global Patterson--Sullivan measure, or an unbounded observer horizon, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hyperbolic geodesic-shadow kernel vision handoff]
+\label{thm:hyperbolic-geodesic-shadow-kernel-vision-handoff}
+Every observer-expansion consumer of an accepted $\HyperbolicGeodesicShadowKernelUp$ packet must read
+$$
+\HyperbolicBoundaryShadowUp,\ \HyperbolicGeodesicFlowUp,\ \HyperbolicVisualMetricUp,\ \HyperbolicObserverShadowMetricUp,\ \HyperbolicMetricUp
+$$
+through $B,G,S,V,M$ before the packet can hand shadow-kernel data to $\HyperbolicMetricUp$. Removing the geodesic-segment row $G$ prevents the handoff, even when endpoint and visual-shadow rows remain visible.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:hyperbolic-geodesic-shadow-kernel-obligations}. They require endpoint, segment, visual-shadow, observer-shadow, metric-tolerance, and compatibility rows in the same finite packet.
+
+The compatibility row $E$ binds $B$ and $G$ before $S,V,M$ are consumed as a kernel. Without the displayed geodesic-segment row, the endpoint row names only boundary data and the visual-shadow row names only a shadow aperture; neither supplies the segment window required by the kernel.
+
+Transport, replay, provenance, and local naming preserve that dependency. Therefore the observer-expansion handoff reaches $\HyperbolicMetricUp$ only through the displayed endpoint-segment-shadow route and not through a segment-free shadow surface.
+\end{proof}
+
+\falsifiablePrediction{Removing the geodesic segment row $G$ from an accepted $\HyperbolicGeodesicShadowKernelUp$ packet prevents the shadow-kernel handoff to $\HyperbolicMetricUp$, even if the boundary endpoint row, visual-shadow row, observer-shadow metric row, metric tolerance row, transport, replay, provenance, and local naming rows remain displayed.}
+
+\independenceWitness{hyperbolic-boundary-shadow, hyperbolic-geodesic-flow, hyperbolic-visual-metric, hyperbolic-observer-shadow-metric: the boundary-shadow packet supplies endpoint shadows without the segment row; the geodesic-flow packet supplies segment motion without the observer-shadow tolerance; the visual-metric packet supplies visual aperture without endpoint-segment compatibility; and the observer-shadow metric supplies observer-facing comparison without the full kernel packet $K=(B,G,S,V,M,E,T,R,P,N)$.}
+
+\closureat{HyperbolicGeodesicShadowKernelUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicGeodesicShadowKernelUp}
+  \constructivestory{A $\HyperbolicGeodesicShadowKernelUp$ packet is generated from boundary-endpoint rows, geodesic-segment rows, visual-shadow rows, observer-shadow metric rows, HyperbolicMetric tolerance rows, endpoint-compatibility refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-geodesic-shadow-kernel-carrier}, \autoref{thm:hyperbolic-geodesic-shadow-kernel-obligations}, and \autoref{thm:hyperbolic-geodesic-shadow-kernel-vision-handoff} seed the finite geodesic-shadow kernel route over endpoint, segment, shadow, observer metric, tolerance, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host geodesic selection, boundary completion, global Patterson--Sullivan measure, segment-free shadow kernels, unbounded observer horizons, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint exposure, geodesic-segment exposure, visual-shadow exposure, observer-shadow metric exposure, hyperbolic metric tolerance, endpoint compatibility, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicGeodesicShadowKernelUp.}
+\end{closurestatus}

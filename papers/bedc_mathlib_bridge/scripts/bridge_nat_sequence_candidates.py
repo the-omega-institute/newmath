@@ -259,6 +259,10 @@ def build_candidates(root: Path) -> dict:
         "total_bridge_shaped_carriers": base.get("total_bridge_shaped_carriers", 0),
         "already_in_matrix": base.get("already_in_matrix", 0),
         "contested_open_feat_bridge": base.get("contested_open_feat_bridge", 0),
+        "excluded_by_stem_blacklist": base.get("excluded_by_stem_blacklist", 0),
+        "without_recurrence_or_closedform_signal": base.get(
+            "without_recurrence_or_closedform_signal", 0
+        ),
         "uncontested_unbridged": base.get("uncontested_unbridged", len(worklist)),
         "eligible_candidates": eligible_count,
         "worklist": worklist,
