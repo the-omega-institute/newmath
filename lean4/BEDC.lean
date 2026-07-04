@@ -5701,6 +5701,7 @@ import BEDC.Derived.EulerBooleSummation
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
+import BEDC.Derived.EulerDistinctOddPartition
 import BEDC.Derived.EulerPentagonalNumberTheorem
 import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
