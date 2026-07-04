@@ -76,7 +76,7 @@ Finally apply the scope-binding theorem \autoref{thm:regular-cauchy-tail-schedul
 \begin{closurestatus}{\RegularCauchyTailScheduleUp}
   \constructivestory{A $\RegularCauchyTailScheduleUp$ packet is generated from a precision request, $\RegSeqRatUp$ source row, finite $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ tolerance ledger, cofinal-index row, displayed tail witness, sibling $\RegularCauchyTailMeetUp$ and $\RegularCauchyTailFusionUp$ consumer rows, $\RealUp$ seal-facing handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-schedule-carrier}, \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-schedule-tail-route-totality} bind the finite precision-to-cofinal-tail schedule used between diagonal selection, shared-threshold meet, tail fusion, and the Real-facing seal route.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-schedule-carrier}, \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-tail-schedule-tail-route-totality}, and \autoref{thm:regular-cauchy-tail-schedule-scoped-closure-certificate} bind the finite precision-to-cofinal-tail schedule used between diagonal selection, shared-threshold meet, tail fusion, and the Real-facing seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
@@ -320,4 +320,18 @@ Apply seal-facing determinacy and scope binding, \autoref{thm:regular-cauchy-tai
 Use the Real-completion scope theorem, \autoref{thm:regular-cauchy-tail-schedule-real-completion-scope}. It already places every Real-and-Completion read after the precision request, regular rational source, stream window, dyadic ledger, cofinal index, tail witness, meet row, fusion row, and seal-facing handoff.
 
 Finally apply the obligation-closure package, \autoref{thm:regular-cauchy-tail-schedule-obligation-closure-package}. Since the package contains no coordinate for quotient stream equality, selected completed limits, hidden tail selectors, host real equality, or ambient completeness, any completion-facing conclusion has to factor through the finite tail schedule displayed above.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail schedule scoped-closure certificate]
+\label{thm:regular-cauchy-tail-schedule-scoped-closure-certificate}
+The carrier of \autoref{def:regular-cauchy-tail-schedule-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}, the scope binding theorem, the obligation-closure package, cofinal-window induction, meet-fusion compatibility, bridge route, tail-route totality, Real-completion scope, and consumer factorization jointly close the scoped finite route for $\RegularCauchyTailScheduleUp$. The closed route ranges over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and it exports no quotient stream equality, selected completed limit, unbounded diagonal stream, hidden tail selector, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations. The carrier displays the packet $S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)$, and the obligations force carrier admission, classifier stability, schedule exactness, sibling-consumer handoff, and ledger non-escape through those same rows.
+
+Apply scope binding and the obligation-closure package. These keep the route inside the named $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates while refusing quotient stream equality, selected completed limits, unbounded diagonal streams, host real equality, and ambient completeness.
+
+Use cofinal-window induction and meet-fusion compatibility. Cofinal-window induction makes the precision-to-tail path finite through $Q,R,W,D,K,T$, and meet-fusion compatibility forces the $\RegularCauchyTailMeetUp$ and $\RegularCauchyTailFusionUp$ consumers to read the same displayed entrance surface.
+
+Finally apply the bridge route, tail-route totality, Real-completion scope, and consumer factorization. These carry the same finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, and the $\RealUp$ seal before any completion-facing consumer may draw a conclusion. Since the route has no coordinate for the excluded analytic objects, the listed theorems form the scoped closure certificate.
 \end{proof}
