@@ -3732,6 +3732,7 @@ import BEDC.Derived.CompactlySupportedRealFunctionUp
 import BEDC.Derived.CompactnessCompletionRouteUp.TasteGate
 import BEDC.Derived.CompactnessSequentialEquivalenceUp.TasteGate
 import BEDC.Derived.CompactnessUniformContinuityDiameterDecayUp.TasteGate
+import BEDC.Derived.CompactoidUp.FiniteNetAbsorption
 import BEDC.Derived.CompactoidUp.NameCertObligations
 import BEDC.Derived.CompactoidUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
