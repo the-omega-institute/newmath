@@ -388,6 +388,7 @@ import BEDC.Derived.AspectChainUp.PublicExport
 import BEDC.Derived.AspectChainUp.TasteGate
 import BEDC.Derived.AssouadDimensionUp.TasteGate
 import BEDC.Derived.AssouadSnowflakeEmbeddingUp
+import BEDC.Derived.AssouadSnowflakeEmbeddingUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
