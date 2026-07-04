@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Bridge coverage-gap discovery for BEDC combinatorial Nat carriers.
+"""Bridge coverage-gap discovery for BEDC Nat-value sequence carriers.
 
-Lists BEDC combinatorial / number-theoretic Nat-recursion carriers that are
-`def <name> : Nat -> ... -> Nat` shaped.
+Lists BEDC.Derived carriers with Nat-valued source functions and local
+recurrence / closed-form theorem signals.
 
 This script reports the coverage tail. A Nat-valued row is only honest as a
 pointwise/readback equality over an existing BEDC.Derived source; it is not a
@@ -20,36 +20,53 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import subprocess
 import sys
 from pathlib import Path
 
-# Combinatorial / number-theoretic carrier keywords. A carrier only enters the
-# worklist if its filename stem contains one of these AND it has a Nat->..->Nat
-# recursion def; the keyword screen keeps out unrelated *Up carriers (analysis,
-# category theory, apophatic refusal packets) whose Nat defs are incidental.
-KEYWORDS = (
-    "bell", "motzkin", "narayana", "tribonacci", "eulerian", "fusscatalan",
-    "catalan", "delannoy", "bernoulli", "stirling", "partition", "lucas",
-    "pell", "lah", "hermite", "fibonacci", "pentagon", "hexagon", "pyramid",
-    "figurate", "schroder", "fermat", "harmonic", "faulhaber", "genocchi",
-    "tangent", "secant", "derangement", "superfactorial", "factorial",
-    "binom", "choose", "fuss", "wolstenholme", "overpartition", "euler",
-    "central", "triangular", "tetrahedral", "square", "cube", "polygonal",
+# Stem blacklist for carriers whose Nat declarations are auxiliary packet,
+# apophatic, or analysis bookkeeping data rather than Nat sequence surfaces.
+EXCLUDED_STEM_TERMS = (
+    "namecert",
+    "refusal",
+    "apophatic",
+    "seal",
+    "askpolicy",
+    "descentcert",
+    "socket",
+    "metric",
+    "space",
+    "uniform",
+    "modulus",
+    "budget",
+    "synchronizer",
+    "baire",
+    "cantor",
+    "hilleyosida",
+    "cauchyseal",
+    "contfrac",
+    "trajectory",
 )
 
-NAT_REC_RE = re.compile(r"def\s+\w+\s*(?:\([^)]*\)\s*)*:\s*Nat\s*(?:->|→)\s*")
-# Same shape but capturing the declaration name, so consumers (the bridge
-# daemon) get the concrete BEDC.Derived.<Carrier>.<fn> to bridge, not just the
-# module. Prefer names ending in a value-word (Number/Count/Value/fn/...) which
-# are almost always the closed sequence a mathlib facade corresponds to.
-NAT_REC_NAME_RE = re.compile(r"def\s+(\w+)\s*(?:\([^)]*\)\s*)*:\s*Nat\s*(?:->|→)")
-# A recurrence / closed-form theorem raises 0-axiom-bridge confidence.
+DECL_HEADER_RE = re.compile(
+    r"(?ms)^\s*def\s+([A-Za-z_][A-Za-z0-9_']*)\b(.*?)(?::=|\n\s*\|)"
+)
+# A recurrence / closed-form theorem raises bridge confidence.
 RECUR_THM_RE = re.compile(
-    r"\b(?:theorem|lemma)\s+\w*(?:recurrence|succ|closed|closedForm|_eq_|zero|one)\b",
+    r"\b(?:theorem|lemma)\s+\w*(?:recurrence|recursion|succ|successor|closed|closedForm|closed_form|closedFormula|closed_formula|formula|_eq_|zero|one|boundary|spec|pascal|choose|factorial)\b",
     re.IGNORECASE,
+)
+NON_NAT_INPUT_TERMS = (
+    "BHist",
+    "List",
+    "Bool",
+    "Int",
+    "IntegerUp",
+    "Prop",
+    "Option",
+    "GoldenPhiPair",
+    "Z",
 )
 
 
@@ -99,20 +116,87 @@ def carrier_bridged(name: str, matrix: str) -> bool:
     return f"BEDC.Derived.{name}." in matrix
 
 
+def carrier_excluded(stem_norm: str) -> bool:
+    return any(term in stem_norm for term in EXCLUDED_STEM_TERMS)
+
+
+def _last_top_level_colon(text: str) -> int:
+    depth = 0
+    found = -1
+    for index, char in enumerate(text):
+        if char in "([{":
+            depth += 1
+        elif char in ")]}" and depth > 0:
+            depth -= 1
+        elif char == ":" and depth == 0:
+            found = index
+    return found
+
+
+def _pure_nat_type(prefix: str, typ: str) -> bool:
+    if any(term in prefix for term in NON_NAT_INPUT_TERMS):
+        return False
+    clean = " ".join(typ.replace("→", "->").split())
+    parts = [part.strip(" ()") for part in clean.split("->")]
+    return bool(parts) and all(part == "Nat" for part in parts)
+
+
+def _pure_nat_value_decl(header: str) -> bool:
+    colon = _last_top_level_colon(header)
+    if colon < 0:
+        return False
+    prefix = header[:colon]
+    typ = header[colon + 1 :]
+    return _pure_nat_type(prefix, typ)
+
+
+def pure_nat_value_decl_names(text: str) -> list[str]:
+    names: list[str] = []
+    for match in DECL_HEADER_RE.finditer(text):
+        if _pure_nat_value_decl(match.group(2)):
+            names.append(match.group(1))
+    return names
+
+
+VALUE_WORDS = ("Number", "Count", "Value", "Term", "fn", "Fn")
+HELPER_WORDS = (
+    "Prefix", "Step", "Fuel", "Layer", "Row", "Raw", "raw", "Seq",
+    "Aux", "Acc", "Helper", "List", "Tail", "Drop", "Fold", "Loop",
+)
+
+
+def order_decl_names(names: list[str]) -> list[str]:
+    seen: set[str] = set()
+    ordered = [n for n in names if not (n in seen or seen.add(n))]
+
+    def rank(n: str) -> tuple[int, int, int, str]:
+        is_helper = 1 if n.endswith(HELPER_WORDS) else 0
+        is_value = 0 if n.endswith(VALUE_WORDS) else 1
+        return (is_helper, is_value, len(n), n)
+
+    return sorted(ordered, key=rank)
+
+
 def scan(root: Path):
     derived = root / "lean4" / "BEDC" / "Derived"
     matrix = (root / "papers" / "bedc_mathlib_bridge" / "MATRIX.md").read_text()
     slugs = open_feat_bridge_slugs(root)
 
-    total = bridged = contested = 0
+    total = bridged = contested = excluded = no_theorem_signal = 0
     worklist = []
     for f in sorted(derived.glob("*Up.lean")):
         name = f.stem  # e.g. NarayanaNumberUp
         stem_norm = re.sub(r"[^a-z0-9]", "", name[:-2].lower())
-        if not any(k in stem_norm for k in KEYWORDS):
+        if carrier_excluded(stem_norm):
+            excluded += 1
             continue
         text = f.read_text()
-        if not NAT_REC_RE.search(text):
+        names = pure_nat_value_decl_names(text)
+        if not names:
+            continue
+        has_recur = bool(RECUR_THM_RE.search(text))
+        if not has_recur:
+            no_theorem_signal += 1
             continue
         total += 1
         if carrier_bridged(name, matrix):
@@ -124,8 +208,7 @@ def scan(root: Path):
             continue
         # priority: a closed-form/recurrence theorem cluster makes a clean
         # 0-axiom bridge far more likely, so rank those first.
-        nat_defs = len(NAT_REC_RE.findall(text))
-        has_recur = bool(RECUR_THM_RE.search(text))
+        nat_defs = len(names)
         priority = (2 if has_recur else 0) + min(nat_defs, 3)
         # Demote carriers whose mathlib counterpart is Rat- or Finset-valued
         # (Bernoulli/Euler polynomials, harmonic numbers, set-partition/Bell
@@ -140,28 +223,7 @@ def scan(root: Path):
         )
         if any(k in name for k in RAT_FINSET_HARD):
             priority -= 5
-        # Concrete bridgeable declarations. Rank value-word-suffixed names first
-        # (Number/Count/Value/Term/fn) — those are the closed forms a mathlib
-        # facade lines up with; a bare helper like `step` rarely bridges.
-        names = NAT_REC_NAME_RE.findall(text)
-        seen: set[str] = set()
-        ordered = [n for n in names if not (n in seen or seen.add(n))]
-        # Rank the PRIMARY closed sequence/count function first, demoting
-        # internal helpers (prefix-sum / fuel-bounded / step / layer / raw
-        # accumulators) that never line up with a mathlib facade. A worker fed a
-        # helper as its anchor either bridges nothing or the wrong thing.
-        value_words = ("Number", "Count", "Value", "Term", "fn", "Fn")
-        helper_words = (
-            "Prefix", "Step", "Fuel", "Layer", "Row", "Raw", "raw", "Seq",
-            "Aux", "Acc", "Helper", "List", "Tail", "Drop", "Fold", "Loop",
-        )
-
-        def rank(n: str) -> tuple[int, int]:
-            is_helper = 1 if n.endswith(helper_words) else 0
-            is_value = 0 if n.endswith(value_words) else 1
-            return (is_helper, is_value)
-
-        ordered.sort(key=rank)
+        ordered = order_decl_names(names)
         namespace = f"BEDC.Derived.{name}"
         bridge_decls = [f"{namespace}.{n}" for n in ordered[:4]]
         worklist.append(
@@ -184,6 +246,8 @@ def scan(root: Path):
         "total_bridge_shaped_carriers": total,
         "already_in_matrix": bridged,
         "contested_open_feat_bridge": contested,
+        "excluded_by_stem_blacklist": excluded,
+        "without_recurrence_or_closedform_signal": no_theorem_signal,
         "uncontested_unbridged": len(worklist),
         "worklist": worklist,
     }
@@ -205,7 +269,7 @@ def main() -> int:
 
     print(
         f"bridge coverage gap: {result['total_bridge_shaped_carriers']} "
-        f"bridge-shaped combinatorial carriers | "
+        f"bridge-shaped Nat-value sequence carriers | "
         f"{result['already_in_matrix']} bridged | "
         f"{result['contested_open_feat_bridge']} contested (open feat-bridge) | "
         f"{result['uncontested_unbridged']} uncontested-unbridged worklist"
