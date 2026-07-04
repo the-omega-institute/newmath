@@ -111,4 +111,16 @@ theorem OracleSubstrateBoundaryCarrier_namecert_obligations [AskSetup] [PackageS
   }
   exact ⟨cert, queryBoundaryUnary, refusalRouteUnary, nameCertUnary⟩
 
+theorem OracleSubstrateBoundaryCarrier_external_channel_nonescape
+    (O : OracleSubstrateBoundaryUp) :
+    ∃ S Q E R L H C P N : BHist,
+      oracleSubstrateBoundaryFields O = [S, Q, E, R, L, H, C, P, N] ∧
+        hsame Q Q ∧ hsame E E ∧ hsame R R ∧ Cont Q E (append Q E) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  cases O with
+  | mk S Q E R L H C P N =>
+      exact
+        ⟨S, Q, E, R, L, H, C, P, N, rfl, hsame_refl Q, hsame_refl E,
+          hsame_refl R, rfl⟩
+
 end BEDC.Derived.OracleSubstrateBoundaryUp
