@@ -7714,6 +7714,7 @@ import BEDC.Derived.LebesgueCoveringDimensionInductionUp
 import BEDC.Derived.LebesgueCoveringDimensionUp.TasteGate
 import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberFiniteCoverUp.TasteGate
+import BEDC.Derived.LebesgueNumberFiniteNetUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LebesgueNumberMeshUp
 import BEDC.Derived.LebesgueStieltjesMeasureUp.TasteGate
@@ -13348,6 +13349,7 @@ import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.RefusalDiscipline
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.TasteGate
+import BEDC.Derived.TwinSubstrateBridgeUp.AuditSeparation
 import BEDC.Derived.TwinSubstrateBridgeUp.CarrierAdmission
 import BEDC.Derived.TwinSubstrateBridgeUp.LedgerExactness
 import BEDC.Derived.TwinSubstrateBridgeUp.NameCertObligations
