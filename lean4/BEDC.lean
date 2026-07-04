@@ -3756,6 +3756,7 @@ import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
 import BEDC.Derived.CompleteMetricContractionPrincipleUp.TasteGate
 import BEDC.Derived.CompleteMetricCriterionUp.TasteGate
+import BEDC.Derived.CompleteMetricLimitUniquenessUp
 import BEDC.Derived.CompleteMetricNestedBallsUp.TasteGate
 import BEDC.Derived.CompleteMetricProductUp
 import BEDC.Derived.CompleteMetricProductUp.TasteGate
@@ -8316,6 +8317,7 @@ import BEDC.Derived.MarkovChainUp.ScopedObligationPackage
 import BEDC.Derived.MarkovChainUp.TransitionKernelRowFactorization
 import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.MarkovKernelUp
+import BEDC.Derived.MarkovKernelUp.TasteGate
 import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
