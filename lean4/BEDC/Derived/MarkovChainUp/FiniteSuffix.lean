@@ -6,6 +6,15 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
+def MarkovChainFiniteSuffixRestriction
+    (source time boundary next law transition provenance ledger suffixTime suffixBoundary
+      suffixNext suffixLaw suffixTransition suffixProvenance suffixLedger : BHist) : Prop :=
+  MarkovChainTransitionPacket source time boundary next law transition provenance ledger ∧
+    UnaryHistory suffixTime ∧ hsame boundary suffixBoundary ∧ hsame next suffixNext ∧
+      hsame law suffixLaw ∧ hsame transition suffixTransition ∧
+        Cont suffixBoundary suffixTransition suffixProvenance ∧
+          Cont suffixProvenance suffixLaw suffixLedger
+
 theorem MarkovChainTransitionPacket_finite_suffix_carrier
     {source time boundary next law transition provenance ledger suffixLedger : BHist} :
     MarkovChainTransitionPacket source time boundary next law transition provenance ledger ->
