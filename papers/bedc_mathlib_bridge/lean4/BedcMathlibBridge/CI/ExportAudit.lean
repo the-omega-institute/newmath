@@ -94,6 +94,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Motzkin.motzkinExport,
     witnessType :=
       `BedcMathlibBridge.Export.Motzkin.MotzkinExportWitness },
+  { witness := `BedcMathlibBridge.Export.MotzkinPath.motzkinPathExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.MotzkinPath.MotzkinPathExportWitness },
   { witness := `BedcMathlibBridge.Export.MotzkinTriangle.motzkinTriangleExport,
     witnessType :=
       `BedcMathlibBridge.Export.MotzkinTriangle.MotzkinTriangleExportWitness },

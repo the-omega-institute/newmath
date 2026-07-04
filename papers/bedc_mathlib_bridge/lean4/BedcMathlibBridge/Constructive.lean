@@ -25,6 +25,7 @@ import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
 import BedcMathlibBridge.Constructive.Jacobsthal
 import BedcMathlibBridge.Constructive.Motzkin
+import BedcMathlibBridge.Constructive.MotzkinPath
 import BedcMathlibBridge.Constructive.MotzkinTriangle
 import BedcMathlibBridge.Constructive.Padovan
 import BedcMathlibBridge.Constructive.Perrin
