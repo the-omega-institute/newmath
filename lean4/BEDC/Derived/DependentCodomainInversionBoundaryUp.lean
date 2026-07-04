@@ -147,6 +147,73 @@ theorem DependentCodomainInversionBoundaryCarrier_namecert_obligations
               exact hsame_trans (hsame_symm same) source
           }
 
+theorem DependentCodomainInversionBoundaryCarrier_ledger_nonescape [AskSetup] [PackageSetup]
+    {Pi A a aPrime C0 C1 S R O H K P N substRead handoffRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.DependentCodomainInversionBoundaryCarrier Pi A a aPrime C0 C1 S R O H K P N
+        bundle pkg ->
+      Cont C0 S substRead ->
+        Cont substRead R handoffRead ->
+          Cont handoffRead O ledgerRead ->
+            PkgSig bundle ledgerRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row R ∨ hsame row O ∨ hsame row H ∨
+                      hsame row K ∨ hsame row P ∨ hsame row N ∨ hsame row ledgerRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont C0 S substRead ∧
+                      Cont substRead R handoffRead ∧ Cont handoffRead O ledgerRead ∧
+                        PkgSig bundle ledgerRead pkg)
+                  hsame ∧ UnaryHistory ledgerRead := by
+  -- BEDC touchpoint anchor: DependentCodomainInversionBoundaryCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier substRoute handoffRoute ledgerRoute ledgerPkg
+  obtain ⟨_piUnary, _domainUnary, _argUnary, _argPrimeUnary, c0Unary, _c1Unary,
+    sUnary, rUnary, oUnary, _hUnary, _kUnary, _pUnary, _nUnary, _namePkg⟩ := carrier
+  have substUnary : UnaryHistory substRead :=
+    unary_cont_closed c0Unary sUnary substRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed substUnary rUnary handoffRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed handoffUnary oUnary ledgerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row O ∨ hsame row H ∨
+              hsame row K ∨ hsame row P ∨ hsame row N ∨ hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont C0 S substRead ∧
+              Cont substRead R handoffRead ∧ Cont handoffRead O ledgerRead ∧
+                PkgSig bundle ledgerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledgerRead ⟨hsame_refl ledgerRead, ledgerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, substRoute, handoffRoute, ledgerRoute, ledgerPkg⟩
+  }
+  exact ⟨cert, ledgerUnary⟩
+
 theorem DependentCodomainInversionBoundaryCarrier_codomain_readback_nonescape
     [AskSetup] [PackageSetup]
     {Pi A a aPrime C0 C1 S R O H K P N substRead obstructionRead frontierRead : BHist}
