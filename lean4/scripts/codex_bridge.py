@@ -138,7 +138,17 @@ def _reorder_candidates(candidates: list) -> list:
 
     fresh = [c for c in candidates if not cooling(c)]
     cooling_list = [c for c in candidates if cooling(c)]
-    return fresh + cooling_list
+    # Within fresh, try nat_value_sequence candidates (a BEDC Nat sequence proven
+    # equal to a pre-existing mathlib Nat decl) before structural_object candidates.
+    # The autonomous single-shot+repair worker reliably lands nat_value bridges but
+    # not structural-carrier equivalences (Sum/Option/List history carriers always
+    # fail-close), so leading with structural ones starves production: the daemon
+    # burns every cycle fail-closing on a structural carrier and never reaches the
+    # bridgeable nat_value candidates. Structural candidates still get their turn
+    # after the fresh nat_value ones are exhausted or cooling.
+    fresh_nat = [c for c in fresh if c.get("bridge_kind") == "nat_value_sequence"]
+    fresh_other = [c for c in fresh if c.get("bridge_kind") != "nat_value_sequence"]
+    return fresh_nat + fresh_other + cooling_list
 
 # Hardened worker-prompt contract (adversarial-design consensus: /sshx triplet +
 # gpt-pro). Appended to codex_formalize's BRIDGE_ROUND_PROMPT_TEMPLATE for this
