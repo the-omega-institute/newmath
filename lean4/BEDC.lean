@@ -3723,6 +3723,7 @@ import BEDC.Derived.CompactlySupportedRealFunctionUp
 import BEDC.Derived.CompactnessCompletionRouteUp.TasteGate
 import BEDC.Derived.CompactnessSequentialEquivalenceUp.TasteGate
 import BEDC.Derived.CompactnessUniformContinuityDiameterDecayUp.TasteGate
+import BEDC.Derived.CompactoidUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.CompilerCompositionTraceUp.Associativity
@@ -8055,6 +8056,7 @@ import BEDC.Derived.LocatedRealComparisonUp.RealSealFactorization
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealCompletionUniversalUp.TasteGate
 import BEDC.Derived.LocatedRealContinuityUp.TasteGate
+import BEDC.Derived.LocatedRealEqualityPrincipleUp
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealFieldUp.TasteGate
 import BEDC.Derived.LocatedRealIntermediateValueUp.TasteGate
@@ -11458,6 +11460,7 @@ import BEDC.Derived.RegularCauchyCofinalModulusUp
 import BEDC.Derived.RegularCauchyCofinalSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyCommonRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyCommonTailFilterUp.TasteGate
+import BEDC.Derived.RegularCauchyCommonTailSealUp
 import BEDC.Derived.RegularCauchyComparisonModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonNetUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
@@ -13154,6 +13157,7 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.SiblingIndependence
