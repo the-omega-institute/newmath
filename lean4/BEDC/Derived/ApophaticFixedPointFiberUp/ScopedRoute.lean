@@ -6,9 +6,42 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+theorem ApophaticFixedPointFiber_public_export_surface
+    (x : ApophaticFixedPointFiberUp) :
+    ∃ digestSocket supplySocket gapFiber farEndBoundary inscription transport continuation
+        provenance nameCert : BHist,
+      apophaticFixedPointFiberFields x =
+          [digestSocket, supplySocket, gapFiber, farEndBoundary, inscription, transport,
+            continuation, provenance, nameCert] ∧
+        apophaticFixedPointFiberToEventFlow x =
+          [[BMark.b0], apophaticFixedPointFiberEncodeBHist digestSocket,
+            [BMark.b1, BMark.b0], apophaticFixedPointFiberEncodeBHist supplySocket,
+            [BMark.b1, BMark.b1, BMark.b0], apophaticFixedPointFiberEncodeBHist gapFiber,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              apophaticFixedPointFiberEncodeBHist farEndBoundary,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              apophaticFixedPointFiberEncodeBHist inscription,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+              apophaticFixedPointFiberEncodeBHist transport,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b0], apophaticFixedPointFiberEncodeBHist continuation,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b0], apophaticFixedPointFiberEncodeBHist provenance,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b1, BMark.b0],
+              apophaticFixedPointFiberEncodeBHist nameCert] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk digestSocket supplySocket gapFiber farEndBoundary inscription transport continuation
+      provenance nameCert =>
+      exact
+        ⟨digestSocket, supplySocket, gapFiber, farEndBoundary, inscription, transport,
+          continuation, provenance, nameCert, rfl, rfl⟩
 
 theorem ApophaticFixedPointFiber_scoped_route [AskSetup] [PackageSetup]
     {digest socket gap boundary inscription transport routes provenance name scopedRead : BHist}
@@ -256,5 +289,76 @@ theorem ApophaticFixedPointFiber_scoped_bridge_public_surface [AskSetup] [Packag
         bridgeSurface.right.right,
         scopedPkg,
         bridgeSurface.right.left⟩
+
+theorem ApophaticFixedPointFiber_mature_boundary [AskSetup] [PackageSetup]
+    {digest socket gap boundary inscription transport routes provenance name publicRead
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticFixedPointFiberCarrier digest socket gap boundary inscription transport routes
+        provenance name bundle pkg →
+      UnaryHistory boundary →
+        Cont inscription transport publicRead →
+          PkgSig bundle publicRead pkg →
+            Cont inscription transport bridgeRead →
+              PkgSig bundle digest pkg →
+                PkgSig bundle socket pkg →
+                  PkgSig bundle gap pkg →
+                    PkgSig bundle boundary pkg →
+                      PkgSig bundle inscription pkg →
+                        PkgSig bundle bridgeRead pkg →
+                          hsame publicRead bridgeRead →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row digest ∨ hsame row socket ∨ hsame row gap ∨
+                                    hsame row boundary ∨ hsame row inscription ∨
+                                      hsame row transport ∨ hsame row routes ∨
+                                        hsame row provenance ∨ hsame row name ∨
+                                          hsame row publicRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧
+                                    ApophaticFixedPointFiberCarrier digest socket gap boundary
+                                      inscription transport routes provenance name bundle pkg ∧
+                                      Cont digest socket gap ∧
+                                        Cont gap boundary inscription ∧
+                                          Cont inscription transport publicRead ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle name pkg ∧
+                                                PkgSig bundle publicRead pkg)
+                                hsame ∧
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row digest ∨ hsame row socket ∨ hsame row gap ∨
+                                      hsame row boundary ∨ hsame row inscription ∨
+                                        hsame row transport ∨ hsame row routes ∨
+                                          hsame row provenance ∨ hsame row name ∨
+                                            hsame row bridgeRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ PkgSig bundle digest pkg ∧
+                                      PkgSig bundle socket pkg ∧ PkgSig bundle gap pkg ∧
+                                        PkgSig bundle boundary pkg ∧
+                                          PkgSig bundle inscription pkg ∧
+                                            PkgSig bundle bridgeRead pkg ∧
+                                              Cont digest socket gap ∧
+                                                Cont gap boundary inscription ∧
+                                                  Cont inscription transport bridgeRead)
+                                  hsame ∧
+                                hsame publicRead bridgeRead ∧ UnaryHistory publicRead ∧
+                                  UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier boundaryUnary publicRoute publicPkg bridgeRoute digestPkg socketPkg gapPkg
+    boundaryPkg inscriptionPkg bridgePkg publicBridge
+  have surface :=
+    ApophaticFixedPointFiber_scoped_bridge_public_surface (digest := digest)
+      (socket := socket) (gap := gap) (boundary := boundary)
+      (inscription := inscription) (transport := transport) (routes := routes)
+      (provenance := provenance) (name := name) (scopedRead := publicRead)
+      (bridgeRead := bridgeRead) (bundle := bundle) (pkg := pkg) carrier boundaryUnary
+      publicRoute publicPkg bridgeRoute digestPkg socketPkg gapPkg boundaryPkg inscriptionPkg
+      bridgePkg
+  exact
+    ⟨surface.left, surface.right.left, publicBridge, surface.right.right.left,
+      surface.right.right.right.left⟩
 
 end BEDC.Derived.ApophaticFixedPointFiberUp
