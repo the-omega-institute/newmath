@@ -35,6 +35,7 @@ import BedcMathlibBridge.Export.AscFactorial
 import BedcMathlibBridge.Export.CentralBinom
 import BedcMathlibBridge.Export.Delannoy
 import BedcMathlibBridge.Export.Pell
+import BedcMathlibBridge.Export.PellLucas
 import BedcMathlibBridge.Export.QBinomial
 import BedcMathlibBridge.Export.Narayana
 import BedcMathlibBridge.Export.QFactorial
