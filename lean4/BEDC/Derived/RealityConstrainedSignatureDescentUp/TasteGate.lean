@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.RealityConstrainedSignatureDescentUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -62,22 +64,65 @@ def realityConstrainedSignatureDescentToEventFlow :
 def realityConstrainedSignatureDescentFromEventFlow :
     EventFlow → Option RealityConstrainedSignatureDescentUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [schedule, endpoint, metric, gap, representation, descent, witness, transport, replay,
-      provenance, name] =>
-      some
-        (RealityConstrainedSignatureDescentUp.mk
-          (realityConstrainedSignatureDescentDecodeBHist schedule)
-          (realityConstrainedSignatureDescentDecodeBHist endpoint)
-          (realityConstrainedSignatureDescentDecodeBHist metric)
-          (realityConstrainedSignatureDescentDecodeBHist gap)
-          (realityConstrainedSignatureDescentDecodeBHist representation)
-          (realityConstrainedSignatureDescentDecodeBHist descent)
-          (realityConstrainedSignatureDescentDecodeBHist witness)
-          (realityConstrainedSignatureDescentDecodeBHist transport)
-          (realityConstrainedSignatureDescentDecodeBHist replay)
-          (realityConstrainedSignatureDescentDecodeBHist provenance)
-          (realityConstrainedSignatureDescentDecodeBHist name))
-  | _ => none
+  | [] => none
+  | schedule :: rest0 =>
+      match rest0 with
+      | [] => none
+      | endpoint :: rest1 =>
+          match rest1 with
+          | [] => none
+          | metric :: rest2 =>
+              match rest2 with
+              | [] => none
+              | gap :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | representation :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | descent :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | witness :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | transport :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | replay :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | provenance :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | name :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (RealityConstrainedSignatureDescentUp.mk
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        schedule)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        endpoint)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        metric)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        gap)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        representation)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        descent)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        witness)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        transport)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        replay)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        provenance)
+                                                      (realityConstrainedSignatureDescentDecodeBHist
+                                                        name))
+                                              | _ :: _ => none
 
 private theorem realityConstrainedSignatureDescent_round_trip :
     ∀ x : RealityConstrainedSignatureDescentUp,
@@ -271,5 +316,18 @@ theorem RealityConstrainedSignatureDescentCarrier_namecert_obligations
           intro _row source
           exact source
       }
+
+theorem RealityConstrainedSignatureDescentCarrier_no_free_operation
+    (R : RealityConstrainedSignatureDescentUp) :
+    ∃ S A M G P O W H C Q N : BHist,
+      R = RealityConstrainedSignatureDescentUp.mk S A M G P O W H C Q N ∧
+        hsame S S ∧ hsame G G ∧ hsame P P ∧ hsame O O ∧ hsame W W ∧
+          Cont S G (append S G) ∧ Cont P O (append P O) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  cases R with
+  | mk S A M G P O W H C Q N =>
+      exact
+        ⟨S, A, M, G, P, O, W, H, C, Q, N, rfl, hsame_refl S, hsame_refl G,
+          hsame_refl P, hsame_refl O, hsame_refl W, rfl, rfl⟩
 
 end BEDC.Derived.RealityConstrainedSignatureDescentUp

@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocalEmpiricalClosureGateUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.LocalEmpiricalClosureGateUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -262,5 +264,119 @@ theorem LocalEmpiricalClosureGateCarrier_nonfinality {S F J O L H C P N : BHist}
       · constructor
         · exact hsame_refl L
         · rfl
+
+theorem LocalEmpiricalClosureGateCarrier_namecert_obligations
+    (G : LocalEmpiricalClosureGateUp) :
+    SemanticNameCert
+      (fun row : BHist =>
+        ∃ S F J O L H C P N : BHist,
+          G = LocalEmpiricalClosureGateUp.mk S F J O L H C P N ∧ hsame row N)
+      (fun row : BHist =>
+        ∃ S F J O L H C P N : BHist,
+          G = LocalEmpiricalClosureGateUp.mk S F J O L H C P N ∧
+            (hsame row S ∨ hsame row F ∨ hsame row J ∨ hsame row O ∨
+              hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N))
+      (fun row : BHist =>
+        ∃ S F J O L H C P N : BHist,
+          G = LocalEmpiricalClosureGateUp.mk S F J O L H C P N ∧ hsame row N ∧
+            Cont J O (append J O))
+      hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert Cont
+  cases G with
+  | mk S F J O L H C P N =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro N ⟨S, F, J, O, L, H, C, P, N, rfl, hsame_refl N⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro row other sameRows source
+            cases source with
+            | intro S' source =>
+                cases source with
+                | intro F' source =>
+                    cases source with
+                    | intro J' source =>
+                        cases source with
+                        | intro O' source =>
+                            cases source with
+                            | intro L' source =>
+                                cases source with
+                                | intro H' source =>
+                                    cases source with
+                                    | intro C' source =>
+                                        cases source with
+                                        | intro P' source =>
+                                            cases source with
+                                            | intro N' source =>
+                                                exact
+                                                  ⟨S', F', J', O', L', H', C', P', N',
+                                                    source.left,
+                                                    hsame_trans (hsame_symm sameRows)
+                                                      source.right⟩
+        }
+        pattern_sound := by
+          intro row source
+          cases source with
+          | intro S' source =>
+              cases source with
+              | intro F' source =>
+                  cases source with
+                  | intro J' source =>
+                      cases source with
+                      | intro O' source =>
+                          cases source with
+                          | intro L' source =>
+                              cases source with
+                              | intro H' source =>
+                                  cases source with
+                                  | intro C' source =>
+                                      cases source with
+                                      | intro P' source =>
+                                          cases source with
+                                          | intro N' source =>
+                                              exact
+                                                ⟨S', F', J', O', L', H', C', P', N',
+                                                  source.left,
+                                                  Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr source.right)))))))⟩
+        ledger_sound := by
+          intro row source
+          cases source with
+          | intro S' source =>
+              cases source with
+              | intro F' source =>
+                  cases source with
+                  | intro J' source =>
+                      cases source with
+                      | intro O' source =>
+                          cases source with
+                          | intro L' source =>
+                              cases source with
+                              | intro H' source =>
+                                  cases source with
+                                  | intro C' source =>
+                                      cases source with
+                                      | intro P' source =>
+                                          cases source with
+                                          | intro N' source =>
+                                              exact
+                                                ⟨S', F', J', O', L', H', C', P', N',
+                                                  source.left, source.right, rfl⟩
+      }
 
 end BEDC.Derived.LocalEmpiricalClosureGateUp
