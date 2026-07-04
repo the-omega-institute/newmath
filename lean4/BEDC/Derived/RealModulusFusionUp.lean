@@ -257,4 +257,39 @@ theorem RealModulusFusionSharedBudgetNormalization [AskSetup] [PackageSetup]
     ⟨mUnary, tUnary, unary_cont_closed mUnary tUnary modulusWindow, rUnary, sUnary,
       eUnary, budgetUnary, sealUnary, modulusWindow, budgetRoute, sealRoute, pkgRow⟩
 
+theorem RealModulusFusionL10ScopeRoute [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N budgetRead sealRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg ->
+      Cont M T W ->
+        Cont W R budgetRead ->
+          Cont budgetRead S sealRead ->
+            Cont E N realSeal ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle realSeal pkg ->
+                  UnaryHistory X ∧ UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory W ∧
+                    UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory E ∧
+                      UnaryHistory budgetRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory realSeal ∧ Cont X M T ∧ Cont M T W ∧
+                          Cont W R budgetRead ∧ Cont budgetRead S sealRead ∧
+                            Cont E N realSeal ∧ PkgSig bundle P pkg ∧
+                              PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier modulusWindow budgetRoute sealRoute realSealRoute pkgRow realSealPkg
+  obtain ⟨xUnary, mUnary, tUnary, _wUnary, rUnary, sUnary, eUnary, _hUnary, _cUnary,
+    nUnary, sourceModulus, _tailWindow, _handoffSeal, _hContCName, _carrierPkg⟩ :=
+      carrier
+  have wBudgetUnary : UnaryHistory W :=
+    unary_cont_closed mUnary tUnary modulusWindow
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed wBudgetUnary rUnary budgetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed budgetUnary sUnary sealRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed eUnary nUnary realSealRoute
+  exact
+    ⟨xUnary, mUnary, tUnary, wBudgetUnary, rUnary, sUnary, eUnary, budgetUnary,
+      sealUnary, realSealUnary, sourceModulus, modulusWindow, budgetRoute, sealRoute,
+        realSealRoute, pkgRow, realSealPkg⟩
+
 end BEDC.Derived.RealModulusFusionUp

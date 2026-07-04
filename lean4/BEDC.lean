@@ -12912,6 +12912,7 @@ import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
 import BEDC.Derived.StreamNameUp.OpenPhaseFiniteWindowExitDeterminacy
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceExitReadback
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceTerminality
+import BEDC.Derived.StreamNameUp.OpenPhaseLeanRouteTotality
 import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.PublicInterface
