@@ -55,4 +55,38 @@ theorem DyadicArchimedeanCarrier_l10_handoff [AskSetup] [PackageSetup]
       scaleReadUnary, comparisonReadUnary, enclosureReadUnary, l10ReadUnary, scaleRoute,
       comparisonRoute, enclosureRoute, l10Route, provenancePkg, l10Pkg⟩
 
+theorem DyadicArchimedeanCarrier_obligation_closure_ledger [AskSetup] [PackageSetup]
+    {D B K S C I H T P N scaleRead compareRead enclosureRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicArchimedeanCarrier D B K S C I H T P N bundle pkg ->
+      Cont D K scaleRead ->
+        Cont scaleRead S compareRead ->
+          Cont compareRead C enclosureRead ->
+            Cont enclosureRead I replayRead ->
+              PkgSig bundle replayRead pkg ->
+                UnaryHistory D ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory S ∧
+                  UnaryHistory C ∧ UnaryHistory I ∧ UnaryHistory scaleRead ∧
+                    UnaryHistory compareRead ∧ UnaryHistory enclosureRead ∧
+                      UnaryHistory replayRead ∧ Cont D K scaleRead ∧
+                        Cont scaleRead S compareRead ∧ Cont compareRead C enclosureRead ∧
+                          Cont enclosureRead I replayRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier scaleRoute compareRoute enclosureRoute replayRoute replayPkg
+  obtain
+    ⟨dUnary, bUnary, kUnary, sUnary, cUnary, iUnary, _hUnary, _tUnary, _nUnary,
+      provenancePkg⟩ := carrier
+  have scaleReadUnary : UnaryHistory scaleRead :=
+    unary_cont_closed dUnary kUnary scaleRoute
+  have compareReadUnary : UnaryHistory compareRead :=
+    unary_cont_closed scaleReadUnary sUnary compareRoute
+  have enclosureReadUnary : UnaryHistory enclosureRead :=
+    unary_cont_closed compareReadUnary cUnary enclosureRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed enclosureReadUnary iUnary replayRoute
+  exact
+    ⟨dUnary, bUnary, kUnary, sUnary, cUnary, iUnary, scaleReadUnary, compareReadUnary,
+      enclosureReadUnary, replayReadUnary, scaleRoute, compareRoute, enclosureRoute,
+      replayRoute, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.DyadicArchimedeanUp
