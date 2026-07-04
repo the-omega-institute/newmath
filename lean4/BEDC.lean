@@ -10476,6 +10476,7 @@ import BEDC.Derived.RHRoute.StripExclusionAssembly
 import BEDC.Derived.RHRoute.StripFirstZerosK29Core
 import BEDC.Derived.RHRoute.StripFirstZerosK29Window
 import BEDC.Derived.RHRoute.MomentSieveExclusion
+import BEDC.Derived.RHRoute.GaussianMomentWindow
 import BEDC.Derived.RHRoute.StripRationalKit
 import BEDC.Derived.RHRoute.ThreeAxisOrbitCollapse
 import BEDC.Derived.RHRoute.ThreeFourOneSOS
