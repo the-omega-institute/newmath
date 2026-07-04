@@ -115,6 +115,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.ListMapEqMap.listMapEqMapExport,
     witnessType :=
       `BedcMathlibBridge.Export.ListMapEqMap.ListMapEqMapExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.ListBindEqFlatMap.listBindEqFlatMapExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.ListBindEqFlatMap.ListBindEqFlatMapExportWitness },
   { witness := `BedcMathlibBridge.Export.Jacobsthal.jacobsthalExport,
     witnessType :=
       `BedcMathlibBridge.Export.Jacobsthal.JacobsthalExportWitness },
