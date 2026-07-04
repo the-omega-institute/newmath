@@ -375,6 +375,33 @@ theorem CompileFrontierWitnessCarrier_namecert_obligations [AskSetup] [PackageSe
   }
   exact ⟨cert, auditReadUnary, boundaryReadUnary⟩
 
+theorem CompileFrontierWitnessCarrier_nonchoice_boundary [AskSetup] [PackageSetup]
+    {F T S A B H C P N auditRead boundaryRead exitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompileFrontierWitnessCarrier F T S A B H C P N bundle pkg ->
+      Cont S A auditRead ->
+        Cont auditRead B boundaryRead ->
+          Cont boundaryRead C exitRead ->
+            PkgSig bundle N pkg ->
+              UnaryHistory S ∧ UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧
+                UnaryHistory auditRead ∧ UnaryHistory boundaryRead ∧
+                  UnaryHistory exitRead ∧ Cont S A auditRead ∧
+                    Cont auditRead B boundaryRead ∧ Cont boundaryRead C exitRead ∧
+                      PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: CompileFrontierWitnessCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier auditRoute boundaryRoute exitRoute namePkg
+  obtain ⟨_fUnary, _tUnary, sUnary, aUnary, bUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _pPkg, _storedNamePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed sUnary aUnary auditRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed auditReadUnary bUnary boundaryRoute
+  have exitReadUnary : UnaryHistory exitRead :=
+    unary_cont_closed boundaryReadUnary cUnary exitRoute
+  exact
+    ⟨sUnary, aUnary, bUnary, cUnary, auditReadUnary, boundaryReadUnary, exitReadUnary,
+      auditRoute, boundaryRoute, exitRoute, namePkg⟩
+
 def taste_gate :
     BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CompileFrontierWitnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
