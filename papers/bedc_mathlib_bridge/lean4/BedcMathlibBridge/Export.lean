@@ -25,6 +25,7 @@ import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Motzkin
+import BedcMathlibBridge.Export.MotzkinPath
 import BedcMathlibBridge.Export.MotzkinTriangle
 import BedcMathlibBridge.Export.Padovan
 import BedcMathlibBridge.Export.Perrin
