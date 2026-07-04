@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CofinalMapUp$}
+\label{ch:concrete-instances-cofinal-map-namecert}
+\origin{human}
+
+Following Moore and Smith on directed nets, the $\CofinalMapUp$ packet records a cofinal map between two displayed directed index systems as finite NameCert data. It sits after the directed-set carrier of \autoref{ch:concrete-instances-directedset-namecert}, the Cauchy-net source of \autoref{ch:concrete-instances-cauchynet-namecert}, the Moore--Smith completion route of \autoref{ch:concrete-instances-moore-smith-completion-namecert}, and the finite readback chain through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite tail-coverage rows by which a target directed system reaches every displayed source tail; it does not choose a subnet, quotient nets, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Cofinal map carrier]
+\label{def:cofinal-map-carrier}
+A $\CofinalMapUp$ carrier is a finite $\BHist$ packet
+$$
+C=(D,E,F,T,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the source directed row, listing the inspected source indices, comparison rows, and upper-bound witnesses.
+\item $E$ is the target directed row, listing the inspected target indices, comparison rows, and upper-bound witnesses.
+\item $F$ is the displayed cofinal map row from target windows to source windows.
+\item $T$ is the eventual-tail witness row, assigning each displayed source tail a target tail whose $F$-image lies above it.
+\item $H$ records componentwise $\hsame$ transport for $D,E,F,T,R,P,N$.
+\item $R$ records displayed $\Cont$ replay from a tail request through the target directed row, the map row, the eventual-tail witness, and the downstream net or completion consumer.
+\item $P$ is the $\Pkg$ provenance over $\CofinalMapUp$, $\DirectedSetUp$, $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,E,F,T,H,R,P,N$. It has no coordinate for a host function space, selected subnet, quotient net equality, countable choice, hidden limit, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Cofinal map NameCert obligations]
+\label{thm:cofinal-map-namecert-obligations}
+For every accepted $\CofinalMapUp$ carrier $C=(D,E,F,T,H,R,P,N)$, the local $\NameCert_{\CofinalMapUp}$ surface consists exactly of carrier admission for the two directed rows, displayed cofinal map row, eventual-tail witness row, componentwise transport, replay, provenance, and local naming. Every downstream $\CauchyNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer receives the cofinal map only through these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-map-carrier}. Carrier admission is the finite inventory $D,E,F,T,H,R,P,N$, so every public read is a projection from one of those rows or a route recorded by $R$.
+
+Read the directed rows first. The source row $D$ and target row $E$ provide the only displayed directed comparison data, and $F$ records the map row between the target and source windows.
+
+The tail row $T$ supplies the cofinality obligation: each displayed source tail is met by a displayed target tail before any downstream net consumer can inspect the map. The structural rows $H,R,P,N$ then transport, replay, source, and name the same finite route.
+
+Since the packet has no coordinate for host functions, selected subnets, quotient net equality, countable choice, hidden limits, or ambient completeness, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cofinal map tail stability]
+\label{thm:cofinal-map-tail-stability}
+Let $C=(D,E,F,T,H,R,P,N)$ be an accepted $\CofinalMapUp$ carrier. If a downstream net or completion consumer asks for a displayed source tail, then the public read must pass through the target tail named by $T$, the map row $F$, and the replay row $R$ before it reaches any $\CauchyNetUp$, $\RegSeqRatUp$, $\StreamNameUp$, or $\RealUp$ endpoint. The read is stable under componentwise $\hsame$ transport and exports no selected cofinal subsequence.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:cofinal-map-namecert-obligations}. It forces every public cofinal-map read through $D,E,F,T,H,R,P,N$.
+
+For a source tail request, project $T$. The witness row identifies a target tail whose displayed $F$-image lies above the requested source tail, and $R$ records the replay of this route for the downstream net or completion consumer.
+
+Transport through $H$ preserves the same source row, target row, map row, tail witness, replay, provenance, and local name. Thus the consumer receives a stable cofinal-tail route rather than a selected subsequence, quotient net equality, host function, or ambient completeness claim.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CofinalMapUp$ consumer must display source directed rows, target directed rows, a cofinal map row, eventual-tail witnesses, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence before reading any net or completion endpoint.}
+
+\independenceWitness{directedset, cauchynet, streamname, regseqrat, real: $\CofinalMapUp$ is not bijective to any listed sibling because it jointly binds two directed rows, a displayed cofinal map, eventual-tail witnesses, transport, replay, provenance, and local naming while refusing selected subnets and quotient net equality.}
+
+\closureat{CofinalMapUp}{seedStr}
+
+\begin{closurestatus}{\CofinalMapUp}
+  \constructivestory{A $\CofinalMapUp$ packet is generated from source directed rows, target directed rows, a displayed cofinal map row, eventual-tail witnesses, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-map-carrier}, \autoref{thm:cofinal-map-namecert-obligations}, and \autoref{thm:cofinal-map-tail-stability} seed the finite cofinal-tail map route for net and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected subnet, quotient net equality, host function extensionality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-row exposure, cofinal-tail coverage, transport stability, replay stability, provenance, and local naming for BEDC.Derived.CofinalMapUp.}
+\end{closurestatus}

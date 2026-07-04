@@ -8392,6 +8392,8 @@ import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
 import BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
 import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
+import BEDC.Derived.MetaCICClosurePreservationUp.SubjectReductionBoundary
+import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionBetaChainExposure
 import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationWitnessUp.TasteGate
 import BEDC.Derived.MetaCICClosureTraceUp
@@ -9282,8 +9284,10 @@ import BEDC.Derived.ModulusContinuityUp.CompositionAssociativityRoute
 import BEDC.Derived.ModulusContinuityUp.CompositionRoute
 import BEDC.Derived.ModulusContinuityUp.DoubleCompositionRoute
 import BEDC.Derived.ModulusContinuityUp.PublicConsumerSurface
+import BEDC.Derived.ModulusContinuityUp.RealEqualityHandoff
 import BEDC.Derived.ModulusContinuityUp.TasteGate
 import BEDC.Derived.ModulusContinuityUp.UniformCauchyHandoff
+import BEDC.Derived.ModulusContinuityUp.WindowMonotonicity
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
@@ -11394,6 +11398,7 @@ import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyAdditionUp.SiblingDependencyRoute
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.UniformModulus
 import BEDC.Derived.RegularCauchyAdditionUp.WindowSumStability
