@@ -28,6 +28,7 @@ import BedcMathlibBridge.Export.EuclidFactorial
 import BedcMathlibBridge.Export.PowTwo
 import BedcMathlibBridge.Export.NatPowSucc
 import BedcMathlibBridge.Export.NatSuccPred
+import BedcMathlibBridge.Export.NatSuccInjective
 import BedcMathlibBridge.Export.Jacobsthal
 import BedcMathlibBridge.Export.Motzkin
 import BedcMathlibBridge.Export.MotzkinPath
