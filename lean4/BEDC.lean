@@ -11378,6 +11378,7 @@ import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
 import BEDC.Derived.RegularCauchyAbsUp
+import BEDC.Derived.RegularCauchyAbsUp.BridgeBoundaryReader
 import BEDC.Derived.RegularCauchyAbsUp.NameCert
 import BEDC.Derived.RegularCauchyAbsUp.NonEscape
 import BEDC.Derived.RegularCauchyAbsUp.ObligationClosure
