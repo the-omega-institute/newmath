@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-04T14:16:36Z
+> 最后刷新: 2026-07-04T15:41:23Z
 
-**Daemon 状态**: monitor (monitor cycle 293, adjust_since_research 2, round_counter 37728, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 294, adjust_since_research 2, round_counter 37758, last_adjust rule_evolution_completed)
 
 **待处理 queue** (1333 条 finding):
 - isolated_theorem: 960 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,7 +30,7 @@ date-modified: today
 - low_entropy_template: 67 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 76 次
+- TASTE ALERT category=isolated_theorem: 74 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=low_entropy_template: 1 次
 
@@ -581,6 +581,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T13:08:34Z: `resolved` `add_downstream_user` for `BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:freewillinscriptioncommitment:BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape:4b26e6fd`). Rationale: The target is not a staging-only wrapper: it carries the event-flow non-escape fact that appending an extra encoded BHist makes decoding fail, plus the route-level SemanticNameCert boundary used by the paper's non-escape theorem. Source grep showed no existing Lean downstream user, while the chapter treats non-escape as part of the obligation closure, so I added FreeWillInscriptionCommitment_obligation_closure_nonescape_consumer to consume the theorem together with the existing carrier obligation closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-04T14:15:52Z: `resolved` `leave_with_rationale` for `BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:freewillinscriptioncommitment:BEDC.Derived.FreeWillInscriptionCommitmentUp.FreeWillInscriptionCommitment_nonescape:4b26e6fd`). Rationale: The isolated_theorem finding is stale in this worktree: the target still carries meaningful BEDC content, combining the event-flow non-escape fact with a route-level SemanticNameCert boundary, and it is already consumed by the sibling theorem FreeWillInscriptionCommitment_obligation_closure_nonescape_consumer in the same Lean file. The chapter also uses the non-escape theorem as a named part of obligation closure. No edit is needed because the downstream consumer already exists and ties the theorem into carrier, package, UnaryHistory, Cont, and SemanticNameCert structure. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
+
+- 2026-07-04T15:40:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAudit_reduction_conversion_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAudit_reduction_conversion_boundary:cbf92137`). Rationale: The target has real BEDC content: it constructs the obstruction-side SemanticNameCert and exposes the reduction, conversion, and obstruction Cont routes from MetaCICBetaAuditCarrier. It was isolated because no Lean sibling consumed it, while the paper only had a marker. I added a substantive sibling consumer that uses this boundary together with the subject-reduction obstruction ledger to connect the reduction/conversion boundary to the O-row event-flow membership surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
