@@ -8395,6 +8395,7 @@ import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
 import BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
 import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
+import BEDC.Derived.MetaCICClosurePreservationUp.GeneratorRoute
 import BEDC.Derived.MetaCICClosurePreservationUp.SubjectReductionBoundary
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionBetaChainExposure
 import BEDC.Derived.MetaCICClosurePreservationUp.SubstitutionWindow
@@ -13151,6 +13152,7 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.SiblingIndependence

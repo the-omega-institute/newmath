@@ -331,4 +331,26 @@ theorem AxisCarryConfluenceCarrier_value_ledger_exhaustion [AskSetup] [PackageSe
   }
   exact ⟨cert, ledgerReadUnary⟩
 
+theorem AxisCarryConfluenceCarrier_obligation [AskSetup] [PackageSetup]
+    {u v w n routeLeft routeRight valueLedger boundary continuation provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisCarryConfluenceCarrier u v w n routeLeft routeRight valueLedger boundary
+        continuation provenance nameRow bundle pkg →
+      UnaryHistory u ∧ UnaryHistory v ∧ UnaryHistory w ∧ UnaryHistory n ∧
+        UnaryHistory routeLeft ∧ UnaryHistory routeRight ∧ UnaryHistory valueLedger ∧
+          UnaryHistory boundary ∧ UnaryHistory continuation ∧
+            UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont u v routeLeft ∧
+              Cont u w routeRight ∧ Cont routeLeft routeRight valueLedger ∧
+                Cont boundary continuation provenance ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig SemanticNameCert
+  intro carrier
+  obtain ⟨nUnary, routeLeftUnary, routeRightUnary, uUnary, vUnary, wUnary,
+    valueLedgerUnary, boundaryUnary, continuationUnary, provenanceUnary, nameRowUnary,
+    leftRoute, rightRoute, ledgerRoute, boundaryRoute, pkgRow, _cert⟩ := carrier
+  exact
+    ⟨uUnary, vUnary, wUnary, nUnary, routeLeftUnary, routeRightUnary, valueLedgerUnary,
+      boundaryUnary, continuationUnary, provenanceUnary, nameRowUnary, leftRoute,
+      rightRoute, ledgerRoute, boundaryRoute, pkgRow⟩
+
 end BEDC.Derived.AxisCarryConfluenceUp
