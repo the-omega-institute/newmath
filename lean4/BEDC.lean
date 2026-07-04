@@ -3090,7 +3090,6 @@ import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.NameCertObligations
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
-import BEDC.Derived.ChainableContinuumUp.FiniteChainRefinement
 import BEDC.Derived.ChainableContinuumUp.TasteGate
 import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
 import BEDC.Derived.CharacterTableUp.TasteGate
@@ -7343,6 +7342,7 @@ import BEDC.Derived.InnerProductUp
 import BEDC.Derived.InnerProductUp.CarrierRow
 import BEDC.Derived.InnerProductUp.PublicExportSurface
 import BEDC.Derived.InnerProductUp.TasteGate
+import BEDC.Derived.InnerProductUp.VecspaceLinearityRow
 import BEDC.Derived.InscribedRouteSelectorUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.NameCertObligations
 import BEDC.Derived.InscribedRouteUp.TasteGate
@@ -9683,7 +9683,6 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
 import BEDC.Derived.OctonionUp
 import BEDC.Derived.OdeComparisonUp.TasteGate
 import BEDC.Derived.OdeUp
-import BEDC.Derived.OgdenLemmaUp.MarkedPositionPumpingRoute
 import BEDC.Derived.OgdenLemmaUp.NameCertObligations
 import BEDC.Derived.OgdenLemmaUp.TasteGate
 import BEDC.Derived.OlivierTheoremUp.TasteGate
@@ -11871,6 +11870,7 @@ import BEDC.Derived.RegularCauchyTailScheduleUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
+import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.WindowReadiness
 import BEDC.Derived.RegularCauchyTailSealUp
@@ -13284,7 +13284,6 @@ import BEDC.Derived.TotallyDisconnectedSpaceUp.TasteGate
 import BEDC.Derived.TotientSummatoryUp
 import BEDC.Derived.TouchardPolyUp
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
-import BEDC.Derived.TowerEquivalenceUp.BridgeBoundary
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
 import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
