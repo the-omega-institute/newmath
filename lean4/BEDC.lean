@@ -6604,6 +6604,7 @@ import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
+import BEDC.Derived.FiniteTriggerFlipGraphUp.TasteGate
 import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVariationLedgerUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
@@ -12133,6 +12134,7 @@ import BEDC.Derived.S1Up.StandardBridge
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
+import BEDC.Derived.SAdicSolenoidChargeUp.TasteGate
 import BEDC.Derived.SL2Up
 import BEDC.Derived.SRRouteDependencyAuditUp.TasteGate
 import BEDC.Derived.SafePrimeUp

@@ -109,6 +109,17 @@ theorem ApophaticFiberFarEndCarrier_ledger_boundary_route
     }
   · exact publicSameInscription
 
+theorem ApophaticFiberFarEndCarrier_boundary_bypass_invalid
+    {socket fiber ledger boundary bypass : BHist} :
+    Cont socket fiber ledger ->
+      Cont ledger boundary bypass ->
+        hsame bypass (BHist.e0 boundary) -> hsame bypass BHist.Empty -> False := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro _socketFiberLedger _ledgerBoundaryBypass bypassBoundary bypassEmpty
+  have boundaryEmpty : hsame (BHist.e0 boundary) BHist.Empty :=
+    hsame_trans (hsame_symm bypassBoundary) bypassEmpty
+  cases boundaryEmpty
+
 theorem ApophaticFiberFarEndCarrier_admission
     {socket fiber ledger boundary inscription transport route provenance name : BHist} :
     Cont socket fiber ledger ->

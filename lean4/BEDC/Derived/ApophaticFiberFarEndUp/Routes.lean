@@ -61,4 +61,13 @@ theorem ApophaticFiberFarEnd_ledger_boundary_route
             (ApophaticFiberFarEndUp.mk socket fiber ledger boundary inscription transport route
               provenance name)⟩
 
+theorem ApophaticFiberFarEnd_boundary_ledger_required
+    {boundary ledger accepted exported : BHist} :
+    Cont boundary ledger exported →
+      Cont boundary accepted exported →
+        hsame ledger accepted := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro ledgerRoute acceptedRoute
+  exact cont_left_cancel ledgerRoute acceptedRoute
+
 end BEDC.Derived.ApophaticFiberFarEndUp
