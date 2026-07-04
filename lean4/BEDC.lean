@@ -388,6 +388,7 @@ import BEDC.Derived.AspectChainUp.PublicExport
 import BEDC.Derived.AspectChainUp.TasteGate
 import BEDC.Derived.AssouadDimensionUp.TasteGate
 import BEDC.Derived.AssouadSnowflakeEmbeddingUp
+import BEDC.Derived.AssouadSnowflakeEmbeddingUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
@@ -2300,7 +2301,6 @@ import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletenessUp.TasteGate
 import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
-import BEDC.Derived.CauchyModulusDiagonalUp.TasteGate
 import BEDC.Derived.CauchyModulusEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
