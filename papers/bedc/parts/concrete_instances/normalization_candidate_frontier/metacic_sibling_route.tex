@@ -1,0 +1,13 @@
+\begin{theorem}[NormalizationCandidateFrontier MetaCIC sibling route]
+\label{thm:normalization-candidate-frontier-metacic-sibling-route}
+Every accepted $\NormalizationCandidateFrontierUp$ read factors through the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and the candidate-normalization confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert} before residual or typed-SN consumers read it. In carrier terms, the closed typed window $T$, candidate evidence $E$, bounded route $B$, projection rows $S,I$, obstruction row $O$, transport $H$, replay $C$, provenance $P$, and local $\NameCert$ row $N$ remain visible while the critical-path sibling exposes dependency pressure and the handoff sibling exposes the candidate-normalization boundary.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:normalization-candidate-frontier-carrier}. The rows $T,E,B,S,I,O,H,C,P,N$ are the displayed frontier inventory, and no positive normalization read is available without the candidate evidence and bounded route.
+
+Use the sibling dependency theorem \autoref{thm:normalization-candidate-frontier-sibling-dependency}. It already sends the candidate-evidence, bounded-route, projection, obstruction, transport, replay, provenance, and naming rows to the MetaCIC normalization route.
+
+Now insert the critical-path sibling and the candidate-normalization confluence handoff before any residual or typed-SN consumer reads the packet. The critical-path packet records the dependency pressure that keeps open MetaCIC obligations visible, while the handoff packet records the candidate-normalization boundary consumed by confluence-facing and normalization-facing routes.
+
+Finally apply the typed SN scope of \autoref{thm:normalization-candidate-frontier-typed-sn-scope}. Typed-SN consumers may read the packet only through the retained rows, so the new sibling route is a dependency factorization rather than a global strong-normalization, confluence, subject-reduction, evaluator-equality, quotient-syntax, or kernel-consistency claim.
+\end{proof}
