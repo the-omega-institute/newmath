@@ -1,11 +1,18 @@
+import BEDC.Derived.ClosedSetUp.TasteGate
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompactImageClosedUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -185,12 +192,115 @@ theorem CompactImageClosedTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
     ⟨⟨compactImageClosedChapterTasteGate⟩,
-      ⟨compactImageClosedFieldFaithful⟩,
-      ⟨compactImageClosedNontrivial⟩,
-      CompactImageClosedTasteGate_single_carrier_alignment_decode,
-      CompactImageClosedTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => CompactImageClosedTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq),
-      rfl⟩
+        ⟨compactImageClosedFieldFaithful⟩,
+        ⟨compactImageClosedNontrivial⟩,
+        CompactImageClosedTasteGate_single_carrier_alignment_decode,
+        CompactImageClosedTasteGate_single_carrier_alignment_round_trip,
+        (fun _ _ heq => CompactImageClosedTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
+        rfl⟩
+
+theorem CompactImageClosed_consumes_closedset_metric_boundary
+    {K F I S C M R H T P N closedTopology closedMetric closedSeparated closedClassifier
+      closedOpen closedBoundaryMetric topologyMetric metricSeparated complementRead closedBoundaryRead
+      compactBoundaryRead : BHist} :
+    Cont closedTopology closedMetric topologyMetric →
+      Cont topologyMetric closedSeparated metricSeparated →
+        Cont closedClassifier closedOpen complementRead →
+          Cont complementRead closedBoundaryMetric closedBoundaryRead →
+            Cont closedBoundaryRead C compactBoundaryRead →
+              UnaryHistory closedTopology →
+                UnaryHistory closedMetric →
+                  UnaryHistory closedSeparated →
+                    UnaryHistory closedClassifier →
+                      UnaryHistory closedOpen →
+                        UnaryHistory closedBoundaryMetric →
+                          UnaryHistory C →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row compactBoundaryRead ∧
+                                  UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row closedBoundaryRead ∨ hsame row C ∨
+                                      hsame row K ∨ hsame row F ∨ hsame row I ∨ hsame row S ∨
+                                        hsame row M ∨ hsame row R ∨ hsame row H ∨ hsame row T ∨
+                                          hsame row P ∨ hsame row N ∨
+                                            hsame row compactBoundaryRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧
+                                    SemanticNameCert
+                                        (fun source : BHist =>
+                                          hsame source closedBoundaryRead ∧ UnaryHistory source)
+                                        (fun source : BHist =>
+                                          hsame source closedBoundaryRead ∧
+                                            Cont complementRead closedBoundaryMetric
+                                              closedBoundaryRead)
+                                        (fun source : BHist =>
+                                          hsame source closedBoundaryRead ∧
+                                            Cont closedTopology closedMetric topologyMetric ∧
+                                              Cont topologyMetric closedSeparated metricSeparated)
+                                        hsame ∧
+                                      Cont closedBoundaryRead C compactBoundaryRead)
+                                hsame ∧
+                              UnaryHistory compactBoundaryRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro topologyMetricRoute metricSeparatedRoute complementRoute closedBoundaryRoute
+    compactBoundaryRoute topologyUnary metricUnary separatedUnary classifierUnary openUnary
+    closedBoundaryMetricUnary compactClosedUnary
+  have closedBoundaryPackage :=
+    BEDC.Derived.ClosedSetUp.TasteGate.ClosedSetCarrier_metric_complement_boundary
+      (H := H) (C := T) (P := P) (N := N)
+      topologyMetricRoute metricSeparatedRoute complementRoute closedBoundaryRoute topologyUnary
+      metricUnary separatedUnary classifierUnary openUnary closedBoundaryMetricUnary
+  have compactBoundaryUnary : UnaryHistory compactBoundaryRead :=
+    unary_cont_closed closedBoundaryPackage.right.left compactClosedUnary compactBoundaryRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row compactBoundaryRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row closedBoundaryRead ∨ hsame row C ∨ hsame row K ∨ hsame row F ∨
+                hsame row I ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row H ∨
+                  hsame row T ∨ hsame row P ∨ hsame row N ∨ hsame row compactBoundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧
+              SemanticNameCert
+                  (fun source : BHist =>
+                    hsame source closedBoundaryRead ∧ UnaryHistory source)
+                  (fun source : BHist =>
+                    hsame source closedBoundaryRead ∧
+                      Cont complementRead closedBoundaryMetric closedBoundaryRead)
+                  (fun source : BHist =>
+                    hsame source closedBoundaryRead ∧
+                      Cont closedTopology closedMetric topologyMetric ∧
+                        Cont topologyMetric closedSeparated metricSeparated)
+                  hsame ∧
+                Cont closedBoundaryRead C compactBoundaryRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro compactBoundaryRead ⟨hsame_refl compactBoundaryRead, compactBoundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))))))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, closedBoundaryPackage.left, compactBoundaryRoute⟩
+  }
+  exact ⟨cert, compactBoundaryUnary⟩
 
 end BEDC.Derived.CompactImageClosedUp
