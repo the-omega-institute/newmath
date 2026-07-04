@@ -52,6 +52,7 @@ import BedcMathlibBridge.Export.Lobb
 import BedcMathlibBridge.Export.BallotNumber
 import BedcMathlibBridge.Export.Lah
 import BedcMathlibBridge.Export.LahClosedForm
+import BedcMathlibBridge.Export.LahRecurrence
 import BedcMathlibBridge.Export.Tetrahedral
 import BedcMathlibBridge.Export.Triangular
 import BedcMathlibBridge.Export.CakeNumber
