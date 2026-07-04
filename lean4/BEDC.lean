@@ -3930,6 +3930,7 @@ import BEDC.Derived.ConstructiveContractionModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniTheoremUp.Routes
 import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
+import BEDC.Derived.ConstructiveEpigraphProjectionUp
 import BEDC.Derived.ConstructiveGreenFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp.TasteGate
@@ -11148,6 +11149,7 @@ import BEDC.Derived.RealUniformStructureUp
 import BEDC.Derived.RealUniformStructureUp.CoverReadHandoff
 import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
+import BEDC.Derived.RealUniformStructureUp.FilterRefinementHandoff
 import BEDC.Derived.RealUniformStructureUp.FiniteIntersectionSubbasis
 import BEDC.Derived.RealUniformStructureUp.LocatedCauchyFilterHandoff
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
@@ -11807,6 +11809,7 @@ import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparatedCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.NameCertObligations
+import BEDC.Derived.RegularCauchySeparationUp.ObligationScope
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
 import BEDC.Derived.RegularCauchySequenceComparisonUp.TasteGate

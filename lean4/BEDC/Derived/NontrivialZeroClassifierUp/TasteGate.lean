@@ -284,43 +284,6 @@ def taste_gate : ChapterTasteGate NontrivialZeroClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   nontrivialZeroClassifierChapterTasteGate
 
-theorem NontrivialZeroClassifierTasteGate_single_carrier_alignment :
-    (∀ h : BHist, nontrivialZeroClassifierDecodeBHist
-        (nontrivialZeroClassifierEncodeBHist h) = h) ∧
-      (∀ x : NontrivialZeroClassifierUp,
-        nontrivialZeroClassifierFromEventFlow (nontrivialZeroClassifierToEventFlow x) =
-          some x) ∧
-        (∀ x y : NontrivialZeroClassifierUp,
-          nontrivialZeroClassifierToEventFlow x = nontrivialZeroClassifierToEventFlow y →
-            x = y) ∧
-          nontrivialZeroClassifierEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : NontrivialZeroClassifierUp,
-              nontrivialZeroClassifierFields x = nontrivialZeroClassifierFields y → x = y) ∧
-              (∃ x y : NontrivialZeroClassifierUp, x ≠ y) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact nontrivialZeroClassifierDecodeEncodeBHist
-  · constructor
-    · intro x
-      exact nontrivialZeroClassifierRoundTrip x
-    · constructor
-      · intro x y heq
-        exact nontrivialZeroClassifierToEventFlow_injective heq
-      · constructor
-        · rfl
-        · constructor
-          · exact nontrivialZeroClassifier_field_faithful
-          · exact
-              ⟨NontrivialZeroClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty,
-                NontrivialZeroClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty,
-                by
-                  intro h
-                  cases h⟩
-
 theorem NontrivialZeroClassifierCarrier_critical_strip_handoff
     {zero strip witness route provenance name : BHist} :
     SemanticNameCert
