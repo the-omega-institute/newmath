@@ -74,6 +74,422 @@ is the register normal form compatible with the triangular square-norm
 row used by the PZG Hilbert readout.
 \end{principle}
 
+\section{Finite Self-Description and Residual Ledgers}
+\label{sec:rh-pzg-finite-self-description-ledgers}
+
+\begin{definition}[PZG finite description row]
+\label{def:rh-pzg-finite-description-row}
+For a certificate-bearing packet $\mathcal C$, a PZG finite description row is
+a displayed triple
+$$
+(d_{\mathcal C},\ulcorner d_{\mathcal C}\urcorner,
+Z_{\mathsf{PZG}}(\ulcorner d_{\mathcal C}\urcorner)).
+$$
+Here $d_{\mathcal C}$ is a finite syntactic description of the source rows,
+generator rows, readout rows, ledger rows, and local $\NameCert{}$ boundary
+of $\mathcal C$; the code $\ulcorner d_{\mathcal C}\urcorner$ is its positive
+integer address; and $Z_{\mathsf{PZG}}(\ulcorner d_{\mathcal C}\urcorner)$ is
+the unique Prime--Zeckendorf--Goedel register of that address.
+\end{definition}
+
+\begin{principle}[Finite self-description is syntactic]
+\label{prin:rh-pzg-finite-self-description-syntactic}
+A PZG finite description row may describe the packet in which it occurs, but
+only as finite syntax.  It records which source, generator, readout, ledger,
+and naming rows are displayed.  It is not the packet itself, not a semantic
+truth predicate for the packet, and not a replacement for any $\NameCert{}$
+field used by downstream consumers.
+\end{principle}
+
+\begin{theorem}[Finite descriptions have unique PZG addresses]
+\label{thm:rh-pzg-finite-descriptions-unique-addresses}
+Every PZG finite description row has a unique register address.
+\end{theorem}
+
+\begin{proof}
+The displayed description $d_{\mathcal C}$ is finite, hence it has a positive
+integer code $\ulcorner d_{\mathcal C}\urcorner$.  The uniqueness theorem
+\autoref{thm:rh-prime-zeckendorf-goedel-uniqueness} assigns to that integer
+one Prime--Zeckendorf--Goedel register and no other.  Therefore the finite
+description row has a unique register address.
+\end{proof}
+
+\begin{definition}[Total PZG identity code]
+\label{def:rh-total-pzg-identity-code}
+For a PZG-facing object $X$, its total PZG identity code is the
+PZG-addressed packet
+$$
+\mathsf{Code}_{\mathcal K}(X)
+:=
+Z_{\mathsf{PZG}}
+\bigl(
+\mathsf{data}(X),\mathsf{rules}(X),\mathsf{ledger}(X)
+\bigr).
+$$
+The row $\mathsf{data}(X)$ records source and generator data.  The row
+$\mathsf{rules}(X)$ records formation, normalization, readout, and
+transport rules.  The row $\mathsf{ledger}(X)$ records residual, tail,
+boundary, completion, and semantic rows not closed by the public readout.
+\end{definition}
+
+\begin{principle}[PZG identity principle]
+\label{prin:rh-pzg-identity-principle}
+For PZG-facing objects $X$ and $Y$, kernel identity is read by the total
+PZG identity code:
+$$
+X\equiv_{\mathcal K}Y
+\quad\Longleftrightarrow\quad
+\mathsf{Code}_{\mathcal K}(X)=\mathsf{Code}_{\mathcal K}(Y).
+$$
+Object identity is therefore not a further external decision once the
+data, rule, and ledger rows have been fixed.  The ledger is part of the
+identity code, not an annotation outside the object.
+\end{principle}
+
+\begin{theorem}[No hidden register under PZG identity]
+\label{thm:rh-no-hidden-register-under-pzg-identity}
+No PZG-facing process can change the licensed behaviour of an object
+while leaving its data, rule, and ledger rows unchanged.
+\end{theorem}
+
+\begin{proof}
+If the data, rule, and ledger rows are unchanged, then
+$$
+\mathsf{Code}_{\mathcal K}(X)
+=
+\mathsf{Code}_{\mathcal K}(Y).
+$$
+By \autoref{prin:rh-pzg-identity-principle}, $X\equiv_{\mathcal K}Y$.
+Any behaviour not determined by the displayed data, rules, and ledger is
+not a licensed row of the object.  Hence a licensed behavioural change
+must appear in one of those rows, and then the total PZG identity code is
+not unchanged.
+\end{proof}
+
+\begin{corollary}[Scale inverse changes identity or ledger]
+\label{cor:rh-scale-inverse-changes-identity-or-ledger}
+For a zeta-facing PZG object, an independent positive-real scale inverse
+for the off-half residual of
+\autoref{def:rh-zeta-instruction-scale-residual} either changes the total
+PZG identity code, appears in the ledger, or is not part of the object.
+\end{corollary}
+
+\begin{proof}
+A positive-real scale inverse that closes an off-half residual changes
+the licensed behaviour of the zeta-facing object.  By
+\autoref{thm:rh-no-hidden-register-under-pzg-identity}, that behavioural
+change must be recorded in data, rules, or ledger.  Recording it in data
+or rules changes $\mathsf{Code}_{\mathcal K}$.  Recording it as residual
+or completion data places it in the ledger.  If none of these rows records
+it, the scale inverse is not a licensed part of the object.
+\end{proof}
+
+\begin{definition}[Finite PZG readout and residual ledger]
+\label{def:rh-pzg-finite-readout-residual-ledger}
+A finite PZG readout for a register row is a classifier that depends on a
+finite set of coordinates $(p,k)$.  A residual ledger for that readout records
+a detected discrepancy together with its source row, detecting readout,
+status, and continuation route.  A residual is closed inside the stated scope
+only when every nonzero finite discrepancy is either detected by a displayed
+finite readout or carried by a displayed ledger row.
+\end{definition}
+
+\begin{theorem}[Closed finite readout has no hidden finite residual]
+\label{thm:rh-pzg-closed-finite-readout-no-hidden-residual}
+Assume a PZG readout scope in which every nonzero finite residual is either
+detected by one of the displayed finite readouts or entered into the displayed
+residual ledger.  If the residual ledger has no open entry, then no nonzero
+finite residual remains hidden inside that scope.
+\end{theorem}
+
+\begin{proof}
+Suppose that a nonzero finite residual remains.  By the coverage assumption,
+it is either detected by a displayed finite readout or entered into the
+residual ledger.  A detected residual must be recorded by the ledger of the
+readout that detected it, so it gives an open ledger entry.  An entered
+residual is already an open ledger entry.  Both alternatives contradict the
+assumption that the residual ledger has no open entry.
+\end{proof}
+
+\begin{definition}[PZG generated-interface profile]
+\label{def:rh-pzg-generated-interface-profile}
+A PZG-facing interface carries the generated-interface profile when it
+displays the following three rows.
+
+The generation row records the history by which the interface is produced:
+source history, event history, register update, and the replay route through
+the relevant $\Cont$ or package provenance rows.
+
+The canonical readout row records the normal form by which the interface is
+publicly read: PZG uniqueness, Zeckendorf normalization, log-energy readout,
+norm-square readout, or unit-phase readout, according to the scope.
+
+The ledger row records every residual not closed by the displayed canonical
+readout: finite discrepancies, hidden solenoid fibres, radial scale defects,
+tail windows, and semantic self-description residues.
+\end{definition}
+
+\begin{theorem}[Generated PZG concepts inherit the profile]
+\label{thm:rh-pzg-generated-concepts-inherit-profile}
+Let $\mathcal C$ be a PZG-facing interface generated by finitely many
+source interfaces and a displayed finite formation rule.  If the source
+interfaces carry the generated-interface profile and the formation rule
+preserves their replay, normal-form, and ledger rows, then $\mathcal C$
+carries the generated-interface profile.
+\end{theorem}
+
+\begin{proof}
+The generation row of $\mathcal C$ is obtained by appending the displayed
+formation rule to the source histories and replaying the associated
+provenance.  Its canonical readout is the normal form specified by the
+formation rule, together with the source normal forms transported through
+that rule.  Its ledger is the union of the transported source ledgers with
+the residual ledger created by the formation rule.  These are precisely the
+three rows of \autoref{def:rh-pzg-generated-interface-profile}.
+\end{proof}
+
+\begin{corollary}[Self-description keeps the profile boundary]
+\label{cor:rh-pzg-self-description-keeps-profile-boundary}
+A PZG finite description row for a packet may inherit generation, canonical
+readout, and ledger rows, but it remains a finite syntactic row.  Any attempt
+to read that row as a complete same-layer semantic decision procedure is a
+residual ledger entry, not a closed PZG readout.
+\end{corollary}
+
+\begin{proof}
+The finite description row is generated by encoding a displayed finite
+description and then applying the unique PZG address row of
+\autoref{thm:rh-pzg-finite-descriptions-unique-addresses}.  Its canonical
+readout is therefore its unique register address.  By
+\autoref{prin:rh-pzg-finite-self-description-syntactic}, the row is not a
+truth predicate or a replacement for $\NameCert{}$ fields.  Any semantic
+decision claim beyond the finite syntax must therefore be recorded by the
+ledger row of
+\autoref{def:rh-pzg-finite-readout-residual-ledger}.
+\end{proof}
+
+\begin{principle}[Self-code is not analytic completion]
+\label{prin:rh-pzg-self-code-not-analytic-completion}
+A PZG finite description row may encode the finite rules that generate PZG
+registers and the finite rules that read them.  This does not identify that
+finite code with the analytic continuation or completed zeta carrier obtained
+from those readout rules.  The valid implication is
+$$
+\mathsf{SelfCode}_{\mathsf{PZG}}
+\Longrightarrow
+\mathsf{Code}(\mathsf{PZG\ readout\ rules}),
+$$
+not
+$$
+\mathsf{SelfCode}_{\mathsf{PZG}}
+\Longrightarrow
+\mathsf{AnalyticCompletion}_{\mathsf{PZG}}.
+$$
+Any claim of analytic completion must therefore display the analytic readout,
+continuation, completion, and pole--zero ledger rows.
+\end{principle}
+
+\begin{definition}[PZG analytic completion certificate]
+\label{def:rh-pzg-analytic-completion-certificate}
+A PZG analytic completion certificate for a PZG-facing packet is a displayed
+tuple
+$$
+(\mathsf{PZG}_{\mathrm{fin}},L,Z_{\mathsf{PZG}},
+\mathsf{Cont}_{\mathrm{an}},\mathsf{Arch}_{\infty},\mathsf{ZeroLedger}).
+$$
+Here $\mathsf{PZG}_{\mathrm{fin}}$ is the finite-register source row, $L$ is
+the log-energy readout, $Z_{\mathsf{PZG}}$ is the right-half-plane Dirichlet
+or partition readout determined by $L$, $\mathsf{Cont}_{\mathrm{an}}$ is the
+analytic continuation row, $\mathsf{Arch}_{\infty}$ is the archimedean
+completion row, and $\mathsf{ZeroLedger}$ records poles, zero packets,
+branch choices, tail defects, and semantic self-reference residues.  The
+certificate presents the analytic completion as a generated readout boundary
+over PZG, not as the finite PZG code itself.
+\end{definition}
+
+\begin{theorem}[Self-readout completion requires a completion certificate]
+\label{thm:rh-pzg-self-readout-completion-requires-certificate}
+A PZG finite description row by itself licenses finite syntactic
+self-description.  It licenses a PZG analytic completion only after a PZG
+analytic completion certificate is displayed.
+\end{theorem}
+
+\begin{proof}
+The finite description row is a finite code by
+\autoref{prin:rh-pzg-finite-self-description-syntactic}.  By
+\autoref{prin:rh-pzg-self-code-not-analytic-completion}, such a code may
+record the rules for PZG generation and PZG readout, but it is not the
+analytic continuation or completed carrier obtained from those rules.  The
+missing analytic data are exactly the continuation, archimedean completion,
+and pole--zero ledger rows listed in
+\autoref{def:rh-pzg-analytic-completion-certificate}.  Therefore analytic
+completion is licensed precisely when those rows are displayed.
+\end{proof}
+
+\begin{definition}[Inverse PZG recovery problem]
+\label{def:rh-pzg-inverse-recovery-problem}
+The inverse PZG recovery problem begins with a zeta-facing completed readout
+and asks which finite source rows are forced by that readout.  A recovery
+certificate consists of:
+the Dirichlet or partition row that displays a discrete length spectrum; the
+Euler local-factor row that separates the spectrum into prime-indexed local
+geometric fibres; the normalization row that converts prime exponents into
+PZG coordinates; the analytic continuation and archimedean completion rows;
+the reflection row when a completed symmetric carrier is claimed; and the
+zero ledger recording global cancellation nodes.  The problem is therefore
+not to assume PZG as an input to $\zeta$, but to recover the least PZG-shaped
+source compatible with the displayed analytic rows.
+\end{definition}
+
+\begin{principle}[Zero data alone do not recover the source]
+\label{prin:rh-pzg-zero-data-not-source-recovery}
+Zero packets of a completed carrier are global cancellation data.  They are
+not finite PZG registers and not prime-local source rows.  Recovering a PZG
+source from a completed zeta-facing object requires the right-half-plane
+Dirichlet or partition readout together with the Euler local-factor row and
+the normalization row.  This is the same boundary as
+\autoref{prin:rh-zero-packets-recovered-carrier-cancellations}: zero packets
+belong to the completed recovered carrier, while PZG belongs to the finite
+source and normal-form side of the certificate.
+\end{principle}
+
+\begin{theorem}[Inverse recovery factors through Euler-normalized source rows]
+\label{thm:rh-pzg-inverse-recovery-factors-through-euler-normalized-source}
+If a zeta-facing completed readout recovers a PZG source, then the recovery
+factors through a displayed Euler local-factor row and a displayed PZG
+normalization row.  Analytic continuation, reflection, or zero data without
+those rows do not determine the PZG source certificate.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-pzg-inverse-recovery-problem}, the finite source is
+recovered from the analytic carrier only after the Dirichlet or partition
+readout is decomposed into Euler local factors.  Those factors supply the
+prime-indexed exponent register.  The PZG source is obtained only after the
+normalization row rewrites each exponent into its Zeckendorf coordinate
+presentation.  Analytic continuation, reflection, and zero data govern the
+completed readout boundary and its cancellation ledger; without the Euler
+local-factor and normalization rows, they do not display the finite
+prime-indexed source from which a PZG certificate can be read.
+\end{proof}
+
+\begin{definition}[Legal visible motion certificate]
+\label{def:rh-pzg-legal-visible-motion-certificate}
+A PZG-facing trajectory has a legal visible motion certificate when it
+displays both a discrete generation row and an implementation row.  The
+discrete generation row is a sequence of generated states whose adjacent
+steps are obtained by an event history, register normalization, finite
+readout, and ledger update.  The implementation row is a visible phase path
+$$
+c:I\to\mathbb T
+$$
+with sampling points $s_t\in I$ such that
+$$
+c(s_t)=\pi(\rho(K_t)),
+$$
+where $\rho(K_t)$ is the displayed solenoid or phase lift of the generated
+state.  The path is continuous, piecewise $C^1$, or $C^1$ according to the
+claimed scope, and every break point, branch change, or hidden-fibre
+transition is recorded by a ledger row.
+\end{definition}
+
+\begin{principle}[Discrete legality is not differentiability]
+\label{prin:rh-pzg-discrete-legality-not-differentiability}
+The generated PZG trajectory is a discrete BEDC object.  Its legality says
+that adjacent states are produced by displayed event, normalization, readout,
+and ledger rows.  It does not by itself assert a continuous or differentiable
+curve in $\mathbb T$ or in a solenoid carrier.  Continuous, piecewise
+$C^1$, or $C^1$ motion is an implementation certificate over the visible
+phase surface.
+\end{principle}
+
+\begin{theorem}[Visible motion has no unledgered jump]
+\label{thm:rh-pzg-visible-motion-no-unledgered-jump}
+If a PZG-facing trajectory carries a legal visible motion certificate, then
+every admitted change is one of the displayed generation steps, a point of
+the visible phase path, a recorded hidden-fibre transition, or a ledgered
+break point.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-pzg-legal-visible-motion-certificate}, adjacent generated
+states are supplied by the discrete generation row.  Between sampled states,
+the visible implementation is the displayed phase path $c:I\to\mathbb T$ on
+the claimed regularity scope.  Hidden-fibre transitions and break points are
+required by the same certificate to be ledger rows.  Thus no remaining change
+is admitted without either generation, visible implementation, or ledger
+evidence.
+\end{proof}
+
+\begin{definition}[Prime-addressed hidden transition]
+\label{def:rh-pzg-prime-addressed-hidden-transition}
+In a legal visible motion certificate, a recorded hidden-fibre transition is
+prime-addressed when its ledger row displays a finite support
+$$
+S\subset_{\mathrm{fin}}\PrimeUp
+$$
+together with component rows
+$$
+k_p\in\mathbb Z_p
+\qquad(p\in S)
+$$
+in the solenoid fibre.  Equivalently, in a PZG readout the transition may be
+addressed by a finite set of register coordinates
+$$
+D\subset_{\mathrm{fin}}\PrimeUp\times\mathbb N
+$$
+and the associated component rows at those coordinates.  A hidden transition
+without such a prime support row is not an admissible hidden motion inside
+the stated certificate; it is a residual ledger entry until a support row or
+tail route is displayed.
+\end{definition}
+
+\begin{definition}[Finite prime-type motion window]
+\label{def:rh-pzg-finite-prime-type-motion-window}
+A finite prime-type motion window consists of a time interval $I$, a finite
+prime support $S\subset_{\mathrm{fin}}\PrimeUp$, a depth bound $L$, and a
+classifier row
+$$
+\tau:S\to
+\{\mathsf{ramified},\mathsf{split},\mathsf{inert}\}.
+$$
+For the Gaussian two-axis readout, the classifier is the usual trichotomy
+$$
+\tau(2)=\mathsf{ramified},
+\qquad
+p\equiv 1\pmod 4\Rightarrow\tau(p)=\mathsf{split},
+\qquad
+p\equiv 3\pmod 4\Rightarrow\tau(p)=\mathsf{inert}.
+$$
+Only transitions whose PZG coordinates lie in $S$ and have depth at most
+$L$ are closed inside the window.  Any component outside this displayed
+support or beyond this depth is recorded by the residual or tail ledger.
+\end{definition}
+
+\begin{theorem}[Prime-addressed motion is locally classified]
+\label{thm:rh-pzg-prime-addressed-motion-locally-classified}
+Let a PZG-facing trajectory carry a legal visible motion certificate.  If
+each recorded hidden-fibre transition is prime-addressed inside a finite
+prime-type motion window, then every hidden transition admitted by the
+certificate decomposes into ramified, split, and inert components relative
+to the displayed classifier.  No out-of-window component is treated as a
+closed hidden motion unless it is entered into the residual or tail ledger.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-pzg-prime-addressed-hidden-transition}, each recorded
+hidden-fibre transition has a finite prime support row, or a finite PZG
+coordinate support row.  By
+\autoref{def:rh-pzg-finite-prime-type-motion-window}, every displayed prime
+in the support is assigned exactly one of the three classifier values
+$\mathsf{ramified}$, $\mathsf{split}$, and $\mathsf{inert}$ inside the
+window.  Therefore the finite support decomposes as the disjoint union of
+its three classifier fibres, and the corresponding component rows decompose
+accordingly.  Components outside the support or beyond the depth bound are
+explicitly outside the closed window, so the same definition requires them
+to be ledgered rather than used as closed hidden motion.
+\end{proof}
+
 \section{Phase Readback}
 \label{sec:rh-pzg-phase-readback}
 

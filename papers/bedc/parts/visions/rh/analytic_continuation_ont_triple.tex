@@ -100,6 +100,86 @@ monodromy, and residual data.  These three rows define
 $\operatorname{Ont}(f_1)$.
 \end{proof}
 
+\section{Conservative Zeta Continuation}
+\label{sec:rh-conservative-zeta-continuation}
+
+\begin{definition}[Conservative zeta continuation certificate]
+\label{def:rh-conservative-zeta-continuation-certificate}
+A conservative zeta continuation certificate is an analytic continuation
+certificate
+$$
+\operatorname{ACCert}(\zeta_0\leadsto\zeta_1)
+$$
+from the right-half-plane PZG zeta source to a continued zeta object,
+together with three transport rows:
+$$
+(\mathsf{PZGSource},\mathsf{UnitPhase},\mathsf{NoScaleRegister}).
+$$
+The row $\mathsf{PZGSource}$ says that the continued object is the same
+germ as the tagged PZG zeta family and its forgetful scalar readout of
+\autoref{def:rh-tagged-pzg-zeta-family} and
+\autoref{def:rh-forgetful-zeta-scalar-readout}.  The row
+$\mathsf{UnitPhase}$ says that the PZG phase readout remains a unit
+phase row under continuation unless a displayed residual ledger records
+otherwise.  The row $\mathsf{NoScaleRegister}$ says that the continuation
+does not supply an independent positive-real scale register capable of
+paying the instruction-scale residual of
+\autoref{def:rh-zeta-instruction-scale-residual}.
+\end{definition}
+
+\begin{principle}[Completion factors are ledger rows]
+\label{prin:rh-completion-factors-are-ledger-rows}
+The archimedean and pole factors in the completed xi execution trace are
+visible completion rows.  They may provide the functional equation,
+reflection, pole cancellation, and archimedean boundary data recorded in
+\autoref{def:rh-completed-xi-execution-trace}; they are not free
+per-prime scale registers inside the original zeta source.  Any use of a
+completion factor as a scale-balancing mechanism must therefore appear
+as a named completion or residual ledger row, not as an unrecorded
+internal cancellation of the PZG source.
+\end{principle}
+
+\begin{theorem}[Conservative continuation forbids scale-register payment]
+\label{thm:rh-conservative-continuation-forbids-scale-register-payment}
+Assume a conservative zeta continuation certificate for the continued
+zeta object.  Then an off-half instruction-scale residual cannot be
+closed by analytic continuation itself.  It must either remain in the
+continuation ledger or be closed by a displayed same-packet zeta ledger
+row.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-conservative-zeta-continuation-certificate}, the
+continued object transports the right-half-plane PZG source and its
+forgetful scalar readout; it does not replace that source by a different
+register system.  The unit-phase row transports the fact that phase
+instructions have modulus $1$.  By
+\autoref{thm:rh-offhalf-scaling-cancellation-not-zeta-instruction}, such
+instructions cannot cancel a nonzero instruction-scale residual.  The
+$\mathsf{NoScaleRegister}$ row forbids analytic continuation from
+supplying an independent positive-real scale register.  Hence any
+off-half scale residual is not paid by the continuation operation itself.
+By the ledger policy in
+\autoref{def:rh-analytic-continuation-certificate}, it must be recorded
+as residual data unless a displayed same-packet zeta ledger row closes it.
+\end{proof}
+
+\begin{corollary}[Conservative single-ledger continuation gives fixed-half]
+\label{cor:rh-conservative-single-ledger-continuation-fixed-half}
+If a continued non-trivial zero packet is accepted through a conservative
+zeta continuation certificate and is closed by the single-ledger zero
+principle, then it has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Conservative continuation forbids scale-register payment by
+\autoref{thm:rh-conservative-continuation-forbids-scale-register-payment}.
+The remaining same-packet closure condition is exactly the hypothesis
+consumed by
+\autoref{thm:rh-single-ledger-zeta-closure-excludes-offhalf-scale}.
+Therefore the zero packet has fixed-half readout.
+\end{proof}
+
 \section{Eta Parity Bridge}
 \label{sec:rh-analytic-continuation-eta-parity-bridge}
 
