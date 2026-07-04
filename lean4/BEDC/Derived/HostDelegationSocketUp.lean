@@ -240,23 +240,6 @@ instance hostDelegationSocketChapterTasteGate : ChapterTasteGate HostDelegationS
     intro x y hxy heq
     exact hxy (hostDelegationSocketToEventFlow_injective heq)
 
-theorem HostDelegationSocketTasteGate_single_carrier_alignment :
-    (∀ h : BHist, hostDelegationSocketDecodeBHist (hostDelegationSocketEncodeBHist h) = h) ∧
-      (∀ x : HostDelegationSocketUp,
-        hostDelegationSocketFromEventFlow (hostDelegationSocketToEventFlow x) = some x) ∧
-        (∀ x y : HostDelegationSocketUp,
-          hostDelegationSocketToEventFlow x = hostDelegationSocketToEventFlow y → x = y) ∧
-          hostDelegationSocketEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact hostDelegationSocket_decode_encode_bhist
-  · constructor
-    · exact hostDelegationSocket_round_trip
-    · constructor
-      · intro x y heq
-        exact hostDelegationSocketToEventFlow_injective heq
-      · rfl
-
 theorem HostDelegationSocket_marker_boundary
     {marker audit kernel target transport continuation provenance ledger name marker' audit'
       kernel' target' transport' continuation' provenance' ledger' name' : BHist} :

@@ -46,6 +46,22 @@ Begin with the dyadic tolerance ledger. The row $D$ is the only coordinate whose
 The regular rational readback $Q$ consumes the same finite window. Hence the terminal seal row $E$ is downstream from the dyadic witness and cannot be read from an independent scale, selected subsequence, quotient stream, or host equality witness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit uniqueness common-tail seal]
+\label{thm:regular-cauchy-limit-uniqueness-common-tail-seal}
+For every accepted $\RegularCauchyLimitUniquenessUp$ carrier $U=(L,R,D,W,Q,E,H,C,P,N)$, if two paired regular Cauchy reads expose the same dyadic witness row $D$ and the same finite stream window $W$, then every terminal $\RealUp$ seal comparison factors through
+$$
+Q,E,H,C,P,N .
+$$
+The exported common-tail comparison contains no quotient stream equality, host real equality, selected limit, trichotomy, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:regular-cauchy-limit-uniqueness-carrier}. The only rows visible after the paired source reads are the shared dyadic witness $D$, the finite stream window $W$, the regular rational readback $Q$, the terminal seal row $E$, and the structural rows $H,C,P,N$.
+
+Apply dyadic witness determinacy, \autoref{thm:regular-cauchy-limit-uniqueness-dyadic-witness-determinacy}. Since both reads expose the same $D$ and $W$, the comparison scale and finite tail window are already fixed before any terminal Real-facing comparison can be consumed.
+
+Apply Real seal nonescape, \autoref{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape}. The terminal comparison therefore enters the $\RealUp$ boundary only through the regular-rational row $Q$, the seal row $E$, and the transport, replay, provenance, and local naming rows $H,C,P,N$. The carrier has no remaining coordinate from which quotient stream equality, host equality, a selected limit, trichotomy, or ambient completeness could be exported.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy limit uniqueness Real seal nonescape]
 \label{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape}
 For every accepted $\RegularCauchyLimitUniquenessUp$ carrier $U=(L,R,D,W,Q,E,H,C,P,N)$, every terminal $\RealUp$ seal comparison factors through the route
@@ -66,7 +82,7 @@ Finally $H,C,P,N$ preserve and name the same packet. Since the carrier has no co
 \begin{closurestatus}{\RegularCauchyLimitUniquenessUp}
   \constructivestory{A $\RegularCauchyLimitUniquenessUp$ packet is generated from paired regular Cauchy source rows, a shared dyadic tolerance ledger, finite StreamName windows, RegSeqRat readbacks, a paired RealUp seal row, componentwise transport, displayed continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-uniqueness-carrier}, \autoref{thm:regular-cauchy-limit-uniqueness-namecert-obligations}, \autoref{thm:regular-cauchy-limit-uniqueness-dyadic-witness-determinacy}, and \autoref{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape} seed the finite-window uniqueness surface for regular Cauchy limit reads over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-uniqueness-carrier}, \autoref{thm:regular-cauchy-limit-uniqueness-namecert-obligations}, \autoref{thm:regular-cauchy-limit-uniqueness-dyadic-witness-determinacy}, \autoref{thm:regular-cauchy-limit-uniqueness-common-tail-seal}, and \autoref{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape} seed the finite-window uniqueness surface for regular Cauchy limit reads over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RegularCauchyLimitUniquenessUp.RegularCauchyLimitUniquenessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
