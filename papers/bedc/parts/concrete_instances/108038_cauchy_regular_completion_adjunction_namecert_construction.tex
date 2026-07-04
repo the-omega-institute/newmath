@@ -43,6 +43,38 @@ The adjunction-facing side is downstream from that route. The functor row $F$ re
 Finally, $H,C,P,N$ preserve componentwise comparison, replay, provenance, and local naming for the displayed rows. Since the carrier contains no quotient-completion, selection, host-completion, hidden-completeness, cofinal-family, or host-equality coordinate, the ledger refusal clauses follow from exhaustion of the tuple.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy completion adjunction readback compatibility]
+\label{thm:regular-cauchy-completion-adjunction-readback-compatibility}
+Every readback-facing consumer of an accepted $\CauchyRegularCompletionAdjunctionUp$ carrier
+$$
+A=(F,R,W,D,L,U,H,C,P,N)
+$$
+must read $R,W,D,L$ in order through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ before it may expose the regular completion adjunction surface. The readback route therefore exports the finite regular-Cauchy name and terminal Real seal only through the displayed rows, not through quotient completion equality, selected representatives, hidden cofinal streams, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-regular-completion-adjunction-carrier}. The row $R$ is the regular rational readback, $W$ is the finite stream-window schedule, $D$ is the dyadic tolerance ledger, and $L$ is the terminal Real seal.
+
+The replay row $C$ orders the readback route from window reads through dyadic tolerances and then into the regular rational row before the Real seal can be consumed. Thus a consumer sees $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ in the displayed row order $R,W,D,L$.
+
+The remaining rows $H,P,N$ only transport, source, and name this same route. Since no carrier coordinate stores quotient completion equality, selected representatives, hidden cofinal streams, or an ambient completeness principle, the readback compatibility claim cannot escape the finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion adjunction universal handoff nonescape]
+\label{thm:regular-cauchy-completion-adjunction-universal-handoff-nonescape}
+For every accepted $\CauchyRegularCompletionAdjunctionUp$ carrier
+$$
+A=(F,R,W,D,L,U,H,C,P,N),
+$$
+the universal-property row $U$ can be consumed only after the functorial source row $F$, regular readback row $R$, finite-window row $W$, dyadic tolerance row $D$, and terminal Real seal row $L$ have been exposed. The handoff cannot export quotient completion equality, selected limits, hidden cofinal streams, host completed metric spaces, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The row $F$ names the completion-facing source packet, while $R,W,D,L$ provide the regular-Cauchy readback and terminal seal needed before a universal-property handoff is visible.
+
+Use the ordering already stated in \autoref{thm:cauchy-regular-completion-adjunction-namecert-obligations}. The adjunction-facing side places $U$ downstream from the same $F,R,W,D,L$ rows, and the structural rows $H,C,P,N$ only transport, replay, source, and name that ordered exposure.
+
+No additional row can supply quotient completion equality, selected limits, a hidden cofinal stream family, a host completed metric space, or ambient Real completeness. Hence any universal-property consumer remains inside the displayed finite handoff.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CauchyRegularCompletionAdjunctionUp$ consumer that exports a completion adjunction while omitting the CauchyCompletionFunctor row, RegSeqRat readback, StreamName windows, DyadicRatCore tolerance ledger, terminal Real seal, CompletionUniversalProperty row, transport, replay, provenance, or local naming row refutes the packet.}
 
 \independenceWitness{cauchycompletionfunctor, regseqrat, streamname, dyadicratcore, real, and completionuniversalproperty: none is bijective to the regular completion adjunction packet because the packet jointly carries functorial source exposure, regular readback, finite-window budget, tolerance ledger, terminal seal, universal-property handoff, transport, replay, provenance, and local NameCert rows.}
@@ -51,8 +83,8 @@ Finally, $H,C,P,N$ preserve componentwise comparison, replay, provenance, and lo
 
 \begin{closurestatus}{\CauchyRegularCompletionAdjunctionUp}
   \constructivestory{A $\CauchyRegularCompletionAdjunctionUp$ packet is generated from a CauchyCompletionFunctor row, a RegSeqRat readback row, StreamName finite windows, a DyadicRatCore tolerance ledger, a terminal RealUp seal, a CompletionUniversalProperty handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-regular-completion-adjunction-carrier} and \autoref{thm:cauchy-regular-completion-adjunction-namecert-obligations} seed the finite regular completion adjunction surface over CauchyCompletionFunctorUp, RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, RealUp, CompletionUniversalPropertyUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-regular-completion-adjunction-carrier}, \autoref{thm:cauchy-regular-completion-adjunction-namecert-obligations}, \autoref{thm:regular-cauchy-completion-adjunction-readback-compatibility}, and \autoref{thm:regular-cauchy-completion-adjunction-universal-handoff-nonescape} bind the finite regular completion adjunction obligations over CauchyCompletionFunctorUp, RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, RealUp, CompletionUniversalPropertyUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, RealUp completeness, quotient completion equality, selected host limits, host completed metric spaces, hidden cofinal streams, or ambient completeness.}
