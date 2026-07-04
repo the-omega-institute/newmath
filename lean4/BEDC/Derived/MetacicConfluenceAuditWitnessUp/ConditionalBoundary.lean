@@ -148,4 +148,39 @@ theorem MetacicConfluenceAuditWitness_sibling_lattice [AskSetup] [PackageSetup]
     ⟨routeReadUnary, obstructionReadUnary, boundaryReadUnary, routeRoute, obstructionRoute,
       boundaryRoute, namePkg, boundaryPkg⟩
 
+theorem MetacicConfluenceAuditWitness_finite_route_induction [AskSetup] [PackageSetup]
+    {parallel substitution diamond confluence obstruction component route ledger name final :
+      BHist}
+    {steps : List BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicConfluenceAuditWitnessCarrier parallel substitution diamond confluence obstruction
+        component route ledger name bundle pkg →
+      (forall step : BHist, List.Mem step steps -> UnaryHistory step) →
+        final = List.foldl append route steps →
+          UnaryHistory final ∧ UnaryHistory obstruction ∧ Cont parallel substitution route ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier stepsUnary finalEq
+  obtain ⟨_parallelUnary, _substitutionUnary, _diamondUnary, _confluenceUnary,
+    obstructionUnary, _componentUnary, routeUnary, _ledgerUnary, _nameUnary,
+    routeCont, _diamondCont, _obstructionCont, namePkg, _cert⟩ := carrier
+  let rec foldUnaryClosed (current : BHist) :
+      (rows : List BHist) →
+        UnaryHistory current →
+          (forall row : BHist, List.Mem row rows -> UnaryHistory row) →
+            UnaryHistory (List.foldl append current rows)
+    | [], currentUnary, _ => currentUnary
+    | head :: tail, currentUnary, rowsUnary =>
+        have headUnary : UnaryHistory head :=
+          rowsUnary head (List.Mem.head tail)
+        have nextUnary : UnaryHistory (append current head) :=
+          unary_append_closed currentUnary headUnary
+        have tailUnary : forall row : BHist, List.Mem row tail -> UnaryHistory row := by
+          intro row rowMem
+          exact rowsUnary row (List.Mem.tail head rowMem)
+        foldUnaryClosed (append current head) tail nextUnary tailUnary
+  have finalUnary : UnaryHistory final := by
+    cases finalEq
+    exact foldUnaryClosed route steps routeUnary stepsUnary
+  exact ⟨finalUnary, obstructionUnary, routeCont, namePkg⟩
+
 end BEDC.Derived.MetacicConfluenceAuditWitnessUp
