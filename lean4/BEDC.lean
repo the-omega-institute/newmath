@@ -1327,6 +1327,7 @@ import BEDC.Derived.BorrowedRecursorBoundaryUp.Nonescape
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BorsukUlamAntipodalUp
 import BEDC.Derived.BorsukUlamUp.TasteGate
+import BEDC.Derived.BoundaryAdmissionDecisionUp
 import BEDC.Derived.BoundaryAdmissionDecisionUp.RouterExhaustion
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
