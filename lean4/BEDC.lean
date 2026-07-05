@@ -5841,6 +5841,7 @@ import BEDC.Derived.EquicontinuousCauchyFamilyUp.CompletionHandoff
 import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousUniformCauchyModulusUp
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
 import BEDC.Derived.ErgodicUp
@@ -6335,6 +6336,7 @@ import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Classifier
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Induction
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.Scope
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SealInductionRoute
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerLedgerInduction
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
@@ -7415,6 +7417,7 @@ import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.ImplicitFunctionTheoremUp
+import BEDC.Derived.ImplicitFunctionTheoremUp.NameCertObligations
 import BEDC.Derived.ImplicitFunctionUp
 import BEDC.Derived.ImplicitFunctionUp.LocalGraphSealHandoff
 import BEDC.Derived.ImplicitFunctionUp.RootEquationCarrier
