@@ -58,6 +58,7 @@ Boundary exactness then prevents a boundary entry from being reclassified as a t
 \label{thm:metacic-identity-comparison-secondary}
 Let $I=(G,E,R,A,B,H,C,P,N)$ be an accepted $\MetaCICIdentityUp$ carrier. Any comparison with classical CIC, audit-map methodology, or GroundCompiler audit evidence may read $I$ only after the five identity rows $G,E,R,A,B$ have already been fixed. Such a comparison can diagnose shared syntax, differing equality principles, differing axiom dependencies, or external sockets, but it cannot define the identity of BEDC.MetaCIC or add a new substrate commitment to $I$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_comparison\_secondary}
 \begin{proof}
 Project the carrier. The identity rows $G,E,R,A,B$ are displayed before the transport, route, package, and naming rows that expose the packet to downstream consumers.
 
@@ -77,6 +78,20 @@ Start with the carrier and NameCert obligations, \autoref{def:metacic-identity-c
 Use boundary non-escape, \autoref{thm:metacic-identity-boundary-nonescape}. A read that asks for conversion equality, quotient equality, extensionality, choice, or a parent-theory relation lands in $B$, because none of those requests is one of the generator or recursor rows exposed by $G,E,R,A$.
 
 Finally apply the comparison-secondary theorem \autoref{thm:metacic-identity-comparison-secondary}. Classical CIC, audit-map methodology, and GroundCompiler evidence may inspect the already fixed rows through $C,P,N$, but they do not define the identity packet and do not add a second recursor source. Hence generator-recursion coverage is exactly the displayed finite route through $G,E,R,A,B,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[MetaCIC identity obligation boundary]
+\label{thm:metacic-identity-obligation-boundary}
+An obligationClosure read of $\MetaCICIdentityUp$ is exactly the displayed route through $G,E,R,A,B,H,C,P,N$. Classical CIC comparison, audit-map methodology, and GroundCompiler evidence may inspect those fixed rows, but they cannot add a generator, equality rule, recursor principle, purity witness, boundary socket, internal theorem row, or parent-theory relation to the identity packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They display the closed-generator inventory, literal AST equality row, structural recursor authorization, strict-purity witness, apophatic boundary socket, transport, replay, provenance, and local naming as the full packet.
+
+Use boundary non-escape. Any request for conversion equality, quotient soundness, propositional extensionality, choice, or a parent-CIC relation lands in $B$ and is not reclassified as an internal identity row.
+
+Use comparison-secondary and generator-recursor coverage. External comparison surfaces may inspect the already fixed rows through $C,P,N$, but inspection does not supply a new generator, equality rule, recursor source, purity witness, boundary socket, or theorem row.
+
+Therefore the obligation boundary is exactly $G,E,R,A,B,H,C,P,N$, with every comparison-facing request remaining outside the identity carrier.
 \end{proof}
 
 \closureat{MetaCICIdentityUp}{seedStr}

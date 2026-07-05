@@ -289,4 +289,36 @@ theorem RecursorAuthorizationNameCertObligations
       descentNamedUnary,
       recursorAuthorizationDecodeEncodeBHist N⟩
 
+theorem RecursorAuthorization_generator_nonescape
+    {I Sigma R M B D H C P N sigRec recMotive branchStep outputRead namedRead : BHist} :
+    UnaryHistory Sigma -> UnaryHistory R -> UnaryHistory M -> UnaryHistory B ->
+      UnaryHistory D -> UnaryHistory N -> Cont Sigma R sigRec ->
+        Cont sigRec M recMotive -> Cont recMotive B branchStep ->
+          Cont branchStep D outputRead -> Cont outputRead N namedRead ->
+            recursorAuthorizationFields (RecursorAuthorizationUp.mk I Sigma R M B D H C P N) =
+                [I, Sigma, R, M, B, D, H, C, P, N] ∧
+              UnaryHistory outputRead ∧ UnaryHistory namedRead ∧
+                hsame namedRead (append outputRead N) ∧
+                  recursorAuthorizationFromEventFlow
+                      (recursorAuthorizationToEventFlow
+                        (RecursorAuthorizationUp.mk I Sigma R M B D H C P N)) =
+                    some (RecursorAuthorizationUp.mk I Sigma R M B D H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory RecursorAuthorizationUp
+  intro signatureUnary recursorUnary motiveUnary branchUnary descentUnary nameUnary sigRoute
+    motiveRoute branchRoute outputRoute namedRoute
+  have sigRecUnary : UnaryHistory sigRec :=
+    unary_cont_closed signatureUnary recursorUnary sigRoute
+  have recMotiveUnary : UnaryHistory recMotive :=
+    unary_cont_closed sigRecUnary motiveUnary motiveRoute
+  have branchStepUnary : UnaryHistory branchStep :=
+    unary_cont_closed recMotiveUnary branchUnary branchRoute
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchStepUnary descentUnary outputRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed outputReadUnary nameUnary namedRoute
+  exact
+    ⟨rfl, outputReadUnary, namedReadUnary, namedRoute,
+      recursorAuthorization_round_trip
+        (RecursorAuthorizationUp.mk I Sigma R M B D H C P N)⟩
+
 end BEDC.Derived.RecursorAuthorizationUp

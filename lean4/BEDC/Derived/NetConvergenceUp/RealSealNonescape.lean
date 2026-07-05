@@ -255,4 +255,88 @@ theorem NetConvergenceCarrier_moore_smith_real_seal_handoff
     ⟨cert, sourceRoute', filterRoute', realRoute', streamRoute, sealRoute, realSame,
       sealSame, sameA, sameF, sameL, fields⟩
 
+theorem NetConvergenceCarrier_moore_smith_real_seal_public_package
+    {D T E A F S R L H C P M sourceRead filterRead realRead streamRead sealRead
+      packageRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D A sourceRead →
+        Cont sourceRead F filterRead →
+          Cont filterRead L realRead →
+            Cont F S streamRead →
+              Cont streamRead R sealRead →
+                Cont sealRead H packageRead →
+                  hsame realRead D →
+                    hsame sealRead L →
+                      hsame packageRead D →
+                        SemanticNameCert
+                            (fun row : BHist =>
+                              hsame row packageRead ∧
+                                NetConvergenceCarrier D T E A F S R L H C P M)
+                            (fun row : BHist =>
+                              Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                                hsame row D)
+                            (fun row : BHist =>
+                              Cont filterRead L realRead ∧ Cont F S streamRead ∧
+                                Cont streamRead R sealRead ∧ Cont sealRead H packageRead ∧
+                                  hsame row D ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+                                    hsame M M)
+                            hsame ∧
+                          Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                            Cont filterRead L realRead ∧ Cont F S streamRead ∧
+                              Cont streamRead R sealRead ∧ Cont sealRead H packageRead ∧
+                                hsame packageRead D ∧ hsame H H ∧ hsame C C ∧
+                                  hsame P P ∧ hsame M M ∧
+                                    netConvergenceFields
+                                        (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                                      [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro carrierRows sourceRoute filterRoute realRoute streamRoute sealRoute packageRoute realSame
+    sealSame packageSame
+  have handoffRows :=
+    NetConvergenceCarrier_moore_smith_real_seal_handoff carrierRows sourceRoute filterRoute
+      realRoute streamRoute sealRoute realSame sealSame
+  obtain ⟨_handoffCert, sourceRoute', filterRoute', realRoute', streamRoute',
+    sealRoute', _realSame, _sealSame, _sameA, _sameF, _sameL, fields⟩ := handoffRows
+  have carrierWitness : NetConvergenceCarrier D T E A F S R L H C P M := carrierRows
+  obtain ⟨_sameD, _sameT, _sameE, _sameA', _sameF', _sameS, _sameR, _sameL',
+    sameH, sameC, sameP, sameM, _fieldsForCarrier⟩ := carrierRows
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row packageRead ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧ hsame row D)
+          (fun row : BHist =>
+            Cont filterRead L realRead ∧ Cont F S streamRead ∧
+              Cont streamRead R sealRead ∧ Cont sealRead H packageRead ∧ hsame row D ∧
+                hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro packageRead ⟨hsame_refl packageRead, carrierWitness⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨sourceRoute', filterRoute', hsame_trans source.left packageSame⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨realRoute', streamRoute', sealRoute', packageRoute,
+          hsame_trans source.left packageSame, sameH, sameC, sameP, sameM⟩
+  }
+  exact
+    ⟨cert, sourceRoute', filterRoute', realRoute', streamRoute', sealRoute', packageRoute,
+      packageSame, sameH, sameC, sameP, sameM, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
