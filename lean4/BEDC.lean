@@ -1794,6 +1794,7 @@ import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
 import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
+import BEDC.Derived.CaratheodoryOdeUp
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CarmichaelLambdaUp
 import BEDC.Derived.CarmichaelNumberUp
@@ -5579,6 +5580,7 @@ import BEDC.Derived.DyadicNestedIntervalSelectorUp.NestedChainDependency
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.TasteGate
+import BEDC.Derived.DyadicNormalFormUp.TasteGate
 import BEDC.Derived.DyadicOrderTopologyUp
 import BEDC.Derived.DyadicPartitionUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp
@@ -9998,6 +10000,7 @@ import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellTowerUp
 import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
+import BEDC.Derived.PentaryOddEndpointUp
 import BEDC.Derived.PerfectNumberUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
@@ -10406,6 +10409,7 @@ import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
 import BEDC.Derived.ProximalMapUp.TasteGate
 import BEDC.Derived.ProximinalSetUp.TasteGate
 import BEDC.Derived.ProximitySpaceUp.TasteGate
+import BEDC.Derived.PrueferSequenceUp.TasteGate
 import BEDC.Derived.PseudoArcUp
 import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.BridgedRoute
@@ -13088,6 +13092,7 @@ import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.FormalTargetPackage
 import BEDC.Derived.SubstitutionAuditMapUp.GeneratorRouteScope
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
+import BEDC.Derived.SubstitutionAuditWindowRouteUp.NameCertObligations
 import BEDC.Derived.SubstitutionAuditWindowRouteUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.SubstitutionContextAuditUp
