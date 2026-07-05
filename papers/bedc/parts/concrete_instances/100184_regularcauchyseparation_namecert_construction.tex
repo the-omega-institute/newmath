@@ -156,6 +156,22 @@ Use the modulus-boundary theorem \autoref{thm:regular-cauchy-separation-modulus-
 Finally apply the obligation-scope theorem \autoref{thm:regular-cauchy-separation-obligation-scope}, the Real-seal-scope theorem \autoref{thm:regular-cauchy-separation-real-seal-scope}, and the scoped package theorem \autoref{thm:regular-cauchy-separation-scoped-package}. Together they exhaust the L10 route and exclude quotient equality, host equality, trichotomy, selected limits, countable choice, and ambient completeness from the public interface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy separation public route closure]
+\label{thm:regular-cauchy-separation-public-route-closure}
+Every $\RealUp$ and $\CompletionUp$ public consumer of an accepted $\RegularCauchySeparationUp$ packet receives exactly the route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$ displayed by \autoref{thm:regular-cauchy-separation-public-interface}. Therefore a public consumer cannot use quotient real equality, trichotomy, selected limits, countable choice, or ambient Real completeness as an alternate public route.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-separation-carrier}. It exposes only the two regular rational rows $L,R$, the window row $W$, the dyadic tolerance row $D$, the modulus row $M$, the Real seal $E$, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. These obligations place carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, Real seal non-escape, provenance, and local naming on those same rows.
+
+Use the modulus boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary} and zero-distance reflection \autoref{thm:regular-cauchy-separation-zero-distance-reflection}. They force separation reads and equality-edge reads through $W,D,M$ before $E$ is consumed.
+
+Read the obligation scope, Real seal scope, scoped package, and public interface in order. The theorems \autoref{thm:regular-cauchy-separation-obligation-scope}, \autoref{thm:regular-cauchy-separation-real-seal-scope}, \autoref{thm:regular-cauchy-separation-scoped-package}, and \autoref{thm:regular-cauchy-separation-public-interface} present the same route to every public consumer.
+
+No extra carrier coordinate remains after $L,R,W,D,M,E,H,C,P,N$. Hence there is no alternate public route through quotient equality, trichotomy, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchySeparationUp}
   \constructivestory{A $\RegularCauchySeparationUp$ packet is generated from left and right $\RegSeqRatUp$ rows, a $\StreamNameUp$ finite-window ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyModulusUp$ separation-modulus row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
