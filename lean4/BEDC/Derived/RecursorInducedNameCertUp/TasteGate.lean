@@ -458,4 +458,75 @@ theorem RecursorInducedNameCertNameCertObligationSurface [AskSetup] [PackageSetu
   }
   exact ⟨cert, namedReadUnary⟩
 
+theorem RecursorInducedNameCert_non_escape_boundary [AskSetup] [PackageSetup]
+    {signature motive branch output audit transport continuation provenance name signatureMotive
+      branchRead outputRead auditRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory signature -> UnaryHistory motive -> UnaryHistory branch ->
+      UnaryHistory output -> UnaryHistory audit -> UnaryHistory name ->
+        Cont signature motive signatureMotive ->
+          Cont signatureMotive branch branchRead ->
+            Cont branchRead output outputRead ->
+              Cont outputRead audit auditRead ->
+                Cont auditRead name namedRead ->
+                  PkgSig bundle provenance pkg ->
+                    SemanticNameCert
+                      (fun row : BHist => hsame row namedRead /\ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row signature \/ hsame row motive \/ hsame row branch \/
+                          hsame row output \/ hsame row audit \/ hsame row transport \/
+                            hsame row continuation \/ hsame row provenance \/
+                              hsame row name \/ hsame row namedRead)
+                      (fun row : BHist =>
+                        hsame row namedRead /\ Cont auditRead name namedRead /\
+                          PkgSig bundle provenance pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro signatureUnary motiveUnary branchUnary outputUnary auditUnary nameUnary signatureRoute
+    branchRoute outputRoute auditRoute namedRoute pkgProvenance
+  have signatureMotiveUnary : UnaryHistory signatureMotive :=
+    unary_cont_closed signatureUnary motiveUnary signatureRoute
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed signatureMotiveUnary branchUnary branchRoute
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchReadUnary outputUnary outputRoute
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed outputReadUnary auditUnary auditRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed auditReadUnary nameUnary namedRoute
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, namedRoute, pkgProvenance⟩
+  }
+
 end BEDC.Derived.RecursorInducedNameCertUp
