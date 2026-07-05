@@ -45,6 +45,24 @@ Since the carrier contains no further coordinate, the listed rows exhaust the lo
 \end{proof}
 \leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifierCarrier\_namecert\_obligations}
 
+\begin{theorem}[Theory self-classifier obligation triple]
+\label{thm:theory-self-classifier-obligation-triple}
+Every accepted $\TheorySelfClassifierUp$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+exposes the boundary, identity, dependency-audit, self-theory, and row-comparison obligations as one finite $\NameCert_{\TheorySelfClassifierUp}$ surface. The obligations are read through the displayed commitment rows $G,E,R,P,A$ and the classifier ledger $L$, with $H,C,Q,N$ supplying transport, replay, provenance, and local naming. No consumer may project any single row, or any strict subtuple of the five commitment rows, as the whole self-theory classifier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The five commitment rows are displayed in the carrier itself: $G$ names the closed-generator boundary, $E$ names literal identity comparison, $R$ names structural recursor exposure, $P$ names dependency audit and purity, and $A$ names the apophatic boundary.
+
+Read the classifier ledger row $L$. Its role is to compare those five rows as one self-theory surface, while $H,C,Q,N$ only transport, replay, source, and name that surface.
+
+If a consumer projects a single row as the classifier, then the remaining commitment rows have no place in the projected packet. If a consumer projects a strict subtuple, the omitted commitment has no alternate coordinate in $T$.
+
+Thus the accepted carrier exposes the five obligation rows and the ledger comparison as one finite NameCert surface, and no proper projection is the whole self-theory classifier.
+\end{proof}
+
 \begin{theorem}[Theory self-classifier ledger row inversion]
 \label{thm:theory-self-classifier-ledger-row-inversion}
 Any accepted public self-theory read through the ledger row $L$ of a $\TheorySelfClassifierUp$ carrier
