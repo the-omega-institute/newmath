@@ -41,14 +41,28 @@ Read the sibling rows through their stated roles. $\TypedGapSocketTaxonomyUp$ cl
 The refusal ledger $R$ rejects every read that asks the boundary packet to supply the missing object. Since no additional coordinate exists beyond $T,E,A,R,H,C,P,N$, the local NameCert obligations are exactly the listed finite rows.
 \end{proof}
 
+\begin{theorem}[Gap-socket boundary scope exhaustion]
+\label{thm:gap-socket-boundary-scope-exhaustion}
+Every accepted $\GapSocketBoundaryUp$ read is scoped exactly over the typed socket row from $\TypedGapSocketTaxonomyUp$, the apophatic socket or far-end row from $\ApophaticSocketUp$ or $\ApophaticFarEndSocketUp$, the $\ExternalityGateUp$ row, the $\ReflectionGapBoundaryUp$ row, the $\CausalCommitmentUp$ row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of $B=(T,E,A,R,H,C,P,N)$. The packet exports no missing witness, host supply, far-end internalization, reflection closure, hidden causal rule, quotient equality, or untyped boundary socket.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gap-socket-boundary-carrier}. The available rows are exactly $T,E,A,R,H,C,P,N$, with $T$ typed by the socket taxonomy, $E$ recording externality, $A$ naming the apophatic far end, and $R$ refusing internalization of the missing supply.
+
+Apply the NameCert obligations of \autoref{thm:gap-socket-boundary-namecert-obligations}. They force every accepted read through typed socket exposure, externality-gate exposure, apophatic far-end exposure, refusal-ledger exposure, componentwise transport, displayed replay, provenance, and local naming.
+
+Read the sibling provenance in $P$. It records the taxonomy, apophatic socket or far-end socket, externality gate, reflection-gap boundary, and causal-commitment rows as sources of the displayed boundary packet; it does not add another carrier coordinate.
+
+Thus the scope is exhausted by $T,E,A,R,H,C,P,N$. Since no additional coordinate remains, the packet cannot export a missing witness, host supply, far-end internalization, reflection closure, hidden causal rule, quotient equality, or untyped boundary socket.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\GapSocketBoundaryUp$ must provide explicit $\mathsf{Nontrivial}\ \GapSocketBoundaryUp$ and $\mathsf{FieldFaithful}\ \GapSocketBoundaryUp$ instances. These instances must preserve the typed socket row, externality gate, apophatic far-end, refusal ledger, componentwise transport, displayed route, package provenance, and local naming row.
 
 \closureat{GapSocketBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\GapSocketBoundaryUp}
   \constructivestory{A $\GapSocketBoundaryUp$ packet is generated from a typed socket row, externality gate, apophatic far-end, refusal ledger, componentwise transport, displayed replay route, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:gap-socket-boundary-carrier} and \autoref{thm:gap-socket-boundary-namecert-obligations} enumerate the carrier rows and local NameCert obligation surface for the finite boundary packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:gap-socket-boundary-carrier}, \autoref{thm:gap-socket-boundary-namecert-obligations}, and \autoref{thm:gap-socket-boundary-scope-exhaustion} scope every accepted boundary read over the displayed typed socket, apophatic far-end, externality, reflection-gap, causal-commitment, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not supply the missing object, host supply, far-end internalization, reflection closure, hidden causal rule, quotient equality, Lean verification, or bridge checking for $\GapSocketBoundaryUp$.}
