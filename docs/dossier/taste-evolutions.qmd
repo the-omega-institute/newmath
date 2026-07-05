@@ -621,6 +621,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-05T15:47:30Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_directed_window_admission` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_directed_window_admission:9c4efedc`). Rationale: The theorem has real BEDC content as the paper's directed-window admission point and is referenced by later paper arguments, but Lean had no downstream consumer. I added a sibling Real-seal bridge theorem that uses it directly to combine directed-window admission with the Real-seal nonescape route under a SemanticNameCert. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-07-05T17:20:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_cauchy_net_limit_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_cauchy_net_limit_handoff:9c4efedc`). Rationale: The target carries real BEDC structure: it binds the CauchyNet source route through the limit handoff while preserving the Real-facing route and carrier fields, but it had no Lean-side consumer. I wrote a sibling public-package theorem that calls this handoff and packages the source, limit, stream, seal, and structural rows into a SemanticNameCert, then mirrored that theorem in the NetConvergence paper chapter. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
