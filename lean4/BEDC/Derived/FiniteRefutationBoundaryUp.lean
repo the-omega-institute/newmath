@@ -101,4 +101,36 @@ theorem FiniteRefutationBoundary_ground_loop_soundness
           (List.Mem.head _)))))))),
       hsame_refl N, hsame_refl P⟩
 
+theorem FiniteRefutationBoundary_vision_concretization [AskSetup] [PackageSetup]
+    {A R D E H C P N botR replay transportedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (packet : FiniteRefutationBoundaryUp) :
+    packet = FiniteRefutationBoundaryUp.mk A R D E H C P N botR →
+      UnaryHistory N →
+        PkgSig bundle P pkg →
+          Cont A R replay →
+            Cont replay H transportedRoute →
+              hsame transportedRoute botR →
+                SemanticNameCert
+                    (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row A ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+                        hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                          hsame row botR)
+                    (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg)
+                    hsame ∧
+                  List.Mem botR (finiteRefutationBoundaryFields packet) ∧
+                    hsame botR (append (append A R) H) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro hpacket nUnary pkgRow refutationReplay transportReplay terminalReadback
+  have obligations :=
+    FiniteRefutationBoundaryNamecertObligations
+      (A := A) (R := R) (D := D) (E := E) (H := H) (C := C) (P := P) (N := N)
+      (botR := botR) (bundle := bundle) (pkg := pkg) nUnary pkgRow
+  have groundLoop :=
+    FiniteRefutationBoundary_ground_loop_soundness
+      (A := A) (R := R) (D := D) (E := E) (H := H) (C := C) (P := P) (N := N)
+      (botR := botR) packet hpacket refutationReplay transportReplay terminalReadback
+  exact ⟨obligations.left, groundLoop.right.left, groundLoop.left⟩
+
 end BEDC.Derived.FiniteRefutationBoundaryUp
