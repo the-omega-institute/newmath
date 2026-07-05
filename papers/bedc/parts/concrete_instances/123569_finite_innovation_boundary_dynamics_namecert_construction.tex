@@ -61,6 +61,24 @@ The reflection boundary is then read through $O$. It records exactly why the fin
 Transport, replay, provenance, and local naming are the structural rows $H,C,P,L$. They preserve the same finite route and add no missing analytic endpoint.
 \end{proof}
 
+\begin{theorem}[Finite innovation boundary dynamics sibling route]
+\label{thm:finite-innovation-boundary-dynamics-sibling-route}
+Every accepted $\FiniteInnovationBoundaryDynamicsUp$ packet consumes the modular-arithmetic boundary of \autoref{ch:concrete-instances-innovation-input-modular-arithmetic-boundary-namecert} and the geometry boundary of \autoref{ch:concrete-instances-innovation-input-geometry-boundary-namecert} before interpreting the numerical congruence row $N$ and the reflection-obstruction row $O$. The sibling boundaries supply modular and geometric boundary data for the finite route
+$$
+G \longmapsto T \longmapsto R \longmapsto N \longmapsto O \longmapsto H \longmapsto C \longmapsto P \longmapsto L,
+$$
+not ambient analytic transfer completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $G,T,R,N,O,H,C,P,L$ from \autoref{def:finite-innovation-boundary-dynamics-carrier}. The rows $G,T,R$ provide the Gauss-map, Mayer-transfer, and real-quadratic regulator data that prepare the numerical and obstruction reads.
+
+Read the sibling boundaries before the numerical row. The modular-arithmetic boundary supplies the finite modular-input data needed to interpret the congruence row $N$, while the geometry boundary supplies the finite geometry-facing input needed to interpret the reflection-obstruction row $O$.
+
+Apply the transfer route of \autoref{thm:finite-innovation-boundary-dynamics-transfer-route}. Once the sibling data have been consumed, $N$ and $O$ remain rows of the same finite packet, and $H,C,P,L$ transport, replay, source, and name that route.
+
+The conclusion is horizontal dependency, not analytic completion. The sibling references provide modular and geometric boundary data only; they do not supply a uniform spectral gap, transfer-operator completeness, hyperbolic boundary completeness, or ambient real completeness.
+\end{proof}
+
 The later Lean \texttt{TasteGate.lean} for this packet must include $\Nontrivial$ and $\FieldFaithful$ instances so the finite carrier is not admitted as a smoke surface.
 
 \leanstmt{BEDC.Derived.FiniteInnovationBoundaryDynamicsUp}

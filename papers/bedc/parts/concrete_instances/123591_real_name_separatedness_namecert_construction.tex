@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RealNameSeparatednessUp$}
+\label{ch:concrete-instances-real-name-separatedness-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style real-number apartness, the $\RealNameSeparatednessUp$ packet records how two regular rational names are read as equal up to a displayed tolerance, or separated at that tolerance, before any host real equality or quotient real relation is available. It sits over the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window rows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names finite evidence for equality and apartness reads; it does not select limits, decide trichotomy, import countable choice, or assume ambient completeness.
+
+\begin{definition}[Real-name separatedness carrier]
+\label{def:real-name-separatedness-carrier}
+A $\RealNameSeparatednessUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,R,W,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left $\RegSeqRatUp$ row naming the first regular rational approximation stream.
+\item $R$ is the right $\RegSeqRatUp$ row naming the second regular rational approximation stream.
+\item $W$ is the $\StreamNameUp$ finite-window ledger recording the left and right observation windows actually inspected by the read.
+\item $T$ is the positive $\DyadicRatCoreUp$ tolerance row, including the dyadic radius and rational comparison ledger used by the read.
+\item $E$ is the pair of $\RealUp$ seal rows reached only after $L,R,W,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two regular names, the finite-window ledger, the tolerance row, the two Real seals, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each equality or separatedness request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\RealNameSeparatednessUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealNameSeparatednessUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows. It has no coordinate for quotient real equality, host real equality, trichotomy, selected limits, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Real-name separatedness NameCert obligations]
+\label{thm:real-name-separatedness-namecert-obligations}
+For every accepted $\RealNameSeparatednessUp$ carrier $S=(L,R,W,T,E,H,C,P,N)$, the local $\NameCert_{\RealNameSeparatednessUp}$ surface consists exactly of carrier admission for $L,R,W,T,E,H,C,P,N$, finite-window exposure through $W$, positive dyadic tolerance exposure through $T$, Real-seal non-escape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $L$ and $R$ are the only regular rational names available to a separatedness consumer, while $W$ and $T$ are the only finite observations and positive tolerance data attached to those names.
+
+Read the Real-facing boundary after the finite evidence. The two seals in $E$ are not independent real values; they are reached only after the displayed regular-name rows, stream windows, and dyadic tolerance ledger have been retained.
+
+The structural rows add no hidden equality principle. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite packet, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real-name separatedness finite-window route]
+\label{thm:real-name-separatedness-finite-window-route}
+Every equality-read or separatedness-read exported by an accepted $\RealNameSeparatednessUp$ packet factors through the finite route
+$$
+(L,R)\longmapsto W\longmapsto T\longmapsto E
+$$
+before any $\RealUp$ seal is consumed. Hence the packet separates real-name equality and apartness reads through displayed finite evidence rather than through quotient real equality, host equality, trichotomy, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-name-separatedness-namecert-obligations}. A consumer first obtains the two regular rational rows $L,R$ and the finite-window ledger $W$; no equality or separatedness read is present before those rows are displayed.
+
+The positive tolerance row $T$ is then read as dyadic rational evidence for the displayed windows. Since $T$ belongs to the carrier, it cannot be replaced by an external real-valued distance or a host comparison oracle.
+
+Finally the two $\RealUp$ seals in $E$ are consumed only downstream of $L,R,W,T$. The support rows $H,C,P,N$ transport, replay, source, and name that route, while the carrier contains no quotient-equality, trichotomy, selected-limit, choice, or completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\RealNameSeparatednessUp$ read that reaches a $\RealUp$ seal without the two $\RegSeqRatUp$ rows, the $\StreamNameUp$ finite-window ledger, the positive $\DyadicRatCoreUp$ tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the packet.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real: no listed sibling supplies the whole packet $S=(L,R,W,T,E,H,C,P,N)$, because each sibling contributes only regular names, finite windows, tolerance rows, or Real seal data while this chapter binds separatedness reads with transport, replay, provenance, and local naming.}
+
+\closureat{RealNameSeparatednessUp}{seedStr}
+
+\begin{closurestatus}{\RealNameSeparatednessUp}
+  \constructivestory{A $\RealNameSeparatednessUp$ packet is generated from two $\RegSeqRatUp$ rows, a $\StreamNameUp$ finite-window ledger, a positive $\DyadicRatCoreUp$ tolerance row, paired $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-name-separatedness-carrier}, \autoref{thm:real-name-separatedness-namecert-obligations}, and \autoref{thm:real-name-separatedness-finite-window-route} seed the finite-window interface for Real-name equality and separatedness reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, host real equality, trichotomy, selected limits, countable choice, ambient completeness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, positive tolerance exactness, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RealNameSeparatednessUp.}
+\end{closurestatus}
